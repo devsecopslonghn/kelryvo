@@ -1,4 +1,4 @@
-# SchemaForge (provisional)
+# schemaForge (SchemaForge, provisional)
 
 SchemaForge is intended to be a free, open-source, self-hosted Database DevOps platform
 for centralized database management, Git-driven schema migrations, approvals, audit and

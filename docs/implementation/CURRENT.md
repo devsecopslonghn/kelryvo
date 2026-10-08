@@ -30,8 +30,10 @@ No product feature is implemented or verified: 213 remain BACKLOG and seven are 
 
 WP0 runtime is blocked: no explicitly authorized disposable Oracle 19c/21c lab profile,
 credential references, attested identities/grants/fault authority or reviewed offline
-driver/parser/JRE dependency closure has been supplied. No Oracle calls, lab changes,
-remote repository creation, push, merge or deployment are authorized by this file.
+driver/parser/JRE dependency closure has been supplied. No Oracle calls, lab changes, remote repository creation or deployment are authorized.
+The owner explicitly authorized synchronization to the existing GitHub repository.
+The foundation is reconciled on `master`, preserving original local commit `e817a4b`
+and remote README commit `b2b2b9c`. See [synchronization policy](github-sync.md).
 
 The next three engineering tasks are:
 
