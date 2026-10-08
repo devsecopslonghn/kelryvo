@@ -19,6 +19,27 @@ const DOMAIN_OWNER = {
   'GitOps and CI/CD': 'devops', 'Observability and Operations': 'devops', 'Additional Features': 'qa',
 };
 const PACKAGE_OWNER = { WP0: 'qa', WP1: 'backend', WP2: 'database', WP3: 'devops', WP4: 'security', WP5: 'database', WP6: 'backend', WP7: 'frontend', WP8: 'devops', WP9: 'qa' };
+const PRODUCT_TASK = {
+  id: 'SF-PRODUCT-T01', package: 'PRODUCT', assigned_agent: 'orchestrator', title: 'Deliver runnable local governance workflow', dependencies: [],
+  feature_ids: ['PRJ-001', 'PRJ-003', 'PRJ-008', 'MIG-008', 'GOV-007', 'GOV-012', 'MIG-010', 'SEC-011'],
+  acceptance_criteria: [
+    'A reproducible local command starts the API, web application, and PostgreSQL-backed metadata store.',
+    'Projects, environments, and connection profiles persist; connection secrets never appear in API responses or logs.',
+    'A Git migration release can be imported, parsed, validated, and displayed with source references.',
+    'The application generates a pending-change plan with approval and rejection transitions and audit history.',
+    'Migration history records NOT_EXECUTED when no authorized database execution occurs; no success is fabricated.',
+  ], test_references: ['SF-PRODUCT-T01-API', 'SF-PRODUCT-T01-WEB', 'SF-PRODUCT-T01-INTEGRATION'],
+};
+const PRODUCT_TASK_02 = {
+  id: 'SF-PRODUCT-T02', package: 'PRODUCT', assigned_agent: 'backend', title: 'Archive projects and reject new work on archived projects', dependencies: ['SF-PRODUCT-T01'],
+  feature_ids: ['PRJ-001'],
+  acceptance_criteria: [
+    'A project can be archived persistently and its archived state is visible in project list and detail responses.',
+    'Archived projects reject new environments, connection profiles, Git releases, and migration plans with a stable conflict response.',
+    'Existing project details, audit events, and migration history remain readable after archival.',
+  ], test_references: ['SF-PRODUCT-T02-API', 'SF-PRODUCT-T02-WEB'],
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02];
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',
   backend: 'Application services, governance workflows, APIs, and durable state contracts',
@@ -90,6 +111,10 @@ export function buildTrackingData() {
     status: 'IN_PROGRESS', assigned_agent: 'orchestrator', evidence: [], blockers: [],
   };
   tasks.unshift(foundation);
+  tasks.push(
+    { ...PRODUCT_TASK, status: 'READY', source_paths: ['docs/implementation/backlog.json'], evidence: [], blockers: [] },
+    { ...PRODUCT_TASK_02, status: 'BACKLOG', source_paths: ['docs/implementation/backlog.json'], evidence: [], blockers: [] },
+  );
   const acceptance = Object.fromEntries(features.map((f) => [f.id, { feature_id: f.id, criteria: f.acceptance_criteria }]));
   const workAcceptance = Object.fromEntries(tasks.map((t) => [t.id, { task_id: t.id, criteria: t.acceptance_criteria, test_references: t.test_references }]));
   const tests = plan.wp0_tests.map((t) => ({
@@ -104,6 +129,7 @@ export function buildTrackingData() {
   }));
   const dependencies = Object.fromEntries(features.map((f) => [f.id, [...f.dependencies]]));
   for (const t of tasks) dependencies[t.id] = [...t.dependencies];
+  for (const task of PRODUCT_TASKS) dependencies[task.id] = [...task.dependencies];
   return { features, tasks, acceptance: { features: acceptance, work: workAcceptance }, tests, dependencies };
 }
 
@@ -112,12 +138,12 @@ export function buildInitialState() {
   const items = [...d.features, ...d.tasks];
   return {
     features: { features: d.features }, tasks: { tasks: d.tasks }, acceptance: { ...d.acceptance, test_cases: d.tests },
-    graph: { nodes: items.map((x) => x.id), edges: d.dependencies },
+    graph: { nodes: items.map((x) => x.id), edges: d.dependencies, scheduling: { PRODUCT: { [PRODUCT_TASK.id]: [], [PRODUCT_TASK_02.id]: [PRODUCT_TASK.id] }, VALIDATION: {} } },
     ownership: {
       agents: Object.fromEntries(Object.entries(OWNER_ROLES).map(([id, responsibilities]) => [id, { responsibilities, path_policy: OWNER_PATH_POLICY[id] }])),
       items: Object.fromEntries(items.map((x) => [x.id, { assigned_agent: x.assigned_agent, ...(x.review_agent ? { review_agent: x.review_agent } : {}), status: x.status }])),
     },
-    evidence: { entries: [] }, milestone: { allowed_packages: ['WP0'], oracle_lab_authorized: false }, tests: { cases: d.tests },
+    evidence: { entries: [] }, milestone: { active_track: 'PRODUCT', tracks: { PRODUCT: { allowed_packages: ['PRODUCT'] }, VALIDATION: { allowed_packages: ['WP0'] } }, oracle_lab_authorized: false }, tests: { cases: d.tests },
   };
 }
 
@@ -134,7 +160,7 @@ function loadState() {
   return state;
 }
 const VALID = new Set(['BACKLOG', 'READY', 'IN_PROGRESS', 'IMPLEMENTED', 'VERIFIED', 'BLOCKED', 'DEFERRED']);
-const PRODUCT_EVIDENCE = new Set(['UNIT', 'STATIC', 'ORACLE_19C', 'ORACLE_21C']);
+const PRODUCT_EVIDENCE = new Set(['UNIT', 'STATIC', 'INTEGRATION', 'ORACLE_19C', 'ORACLE_21C']);
 const OUTCOMES = new Set(['PASS', 'FAIL', 'BLOCKED', 'NOT_RUN']);
 const CELL_RESULTS = new Set(['NOT_RUN', 'NOT_APPLICABLE', 'BLOCKED', 'PASS', 'FAIL']);
 const WP0_PARTIAL_TASKS = new Set(['WP0-T01', 'WP0-T02', 'WP0-T03']);
@@ -160,10 +186,10 @@ export function validateState(s) {
     const ids = items.map((x) => x.id);
     if (new Set(ids).size !== ids.length) errors.push(`${label} contains duplicate IDs`);
     for (const id of expected.keys()) if (!ids.includes(id)) errors.push(`${label} is missing imported ID ${id}`);
-    for (const id of ids) if (!expected.has(id) && !(label === 'tasks' && id === 'SF-P0-FOUNDATION')) errors.push(`${label} has unexpected ID ${id}`);
+    for (const id of ids) if (!expected.has(id) && !(label === 'tasks' && ['SF-P0-FOUNDATION', ...PRODUCT_TASKS.map(t => t.id)].includes(id))) errors.push(`${label} has unexpected ID ${id}`);
   };
   checkIds('features', s.features.features, importedFeatures);
-  checkIds('tasks', s.tasks.tasks, importedTasks);
+  checkIds('tasks', s.tasks.tasks, new Map([...importedTasks, ['SF-P0-FOUNDATION', {}], ...PRODUCT_TASKS.map((t) => [t.id, {}])]));
   checkIds('WP0 cases', s.tests.cases, importedCases);
   const features = new Map(s.features.features.map((x) => [x.id, x]));
   const tasks = new Map(s.tasks.tasks.map((x) => [x.id, x]));
@@ -182,6 +208,7 @@ export function validateState(s) {
     let metadataValid = true;
     const reject = (message) => { errors.push(message); metadataValid = false; };
     if (!PRODUCT_EVIDENCE.has(entry.kind) || !OUTCOMES.has(entry.outcome) || !Array.isArray(entry.criterion_indexes) || !Array.isArray(entry.test_references) || !Array.isArray(entry.case_coverage) || !entry.subject_id || !['HARNESS', 'PRODUCT'].includes(entry.scope)) reject(`evidence ${entry.id} has invalid kind, outcome, subject, scope, or coverage`);
+    if (entry.kind === 'INTEGRATION' && entry.scope !== 'PRODUCT') reject(`evidence ${entry.id} local integration must use PRODUCT scope`);
     if (typeof entry.command !== 'string' || !entry.command.trim() ||
       !(entry.outcome === 'NOT_RUN' ? entry.exit_code === null : Number.isInteger(entry.exit_code) && entry.exit_code >= 0) ||
       (entry.outcome === 'PASS' && entry.exit_code !== 0) || (['FAIL', 'BLOCKED'].includes(entry.outcome) && entry.exit_code === 0)) reject(`evidence ${entry.id} has invalid command or exit status`);
@@ -252,6 +279,36 @@ export function validateState(s) {
     visiting.delete(id); done.add(id);
   }
   for (const id of all.keys()) visit(id);
+  const tracks = s.milestone.tracks ?? {};
+  if (!tracks.PRODUCT || !tracks.VALIDATION || Object.keys(tracks).some(id => !['PRODUCT', 'VALIDATION'].includes(id))) errors.push('milestone must define only PRODUCT and VALIDATION tracks');
+  if (!equal(tracks.PRODUCT?.allowed_packages, ['PRODUCT']) || !equal(tracks.VALIDATION?.allowed_packages, ['WP0'])) errors.push('track package scopes differ from PRODUCT/VALIDATION policy');
+  const schedule = s.graph.scheduling ?? {};
+  if (Object.keys(schedule).some(id => !['PRODUCT', 'VALIDATION'].includes(id))) errors.push('scheduling graph has an unknown track');
+  const expectedProductSchedule = Object.fromEntries(PRODUCT_TASKS.map(task => [task.id, task.dependencies]));
+  if (!equal(schedule.PRODUCT, expectedProductSchedule)) errors.push('PRODUCT scheduling dependencies differ from bounded product task contracts');
+  if (Object.keys(schedule.VALIDATION ?? {}).length) errors.push('VALIDATION cannot override original acceptance dependencies');
+  for (const [trackId, edges] of Object.entries(schedule)) {
+    if (!edges || typeof edges !== 'object' || Array.isArray(edges)) { errors.push(`scheduling graph ${trackId} must be an edge map`); continue; }
+    for (const [id, deps] of Object.entries(edges)) {
+      if (!all.has(id)) errors.push(`scheduling graph ${trackId} has unknown item ${id}`);
+      if (!Array.isArray(deps)) { errors.push(`scheduling graph ${trackId} dependencies for ${id} must be an array`); continue; }
+      if (trackId !== 'PRODUCT' || !PRODUCT_TASKS.some(t => t.id === id)) errors.push(`scheduling graph cannot override acceptance dependencies for ${id}`);
+      for (const dep of deps) if (!all.has(dep)) errors.push(`scheduling graph ${trackId} has unknown dependency ${dep}`);
+    }
+  }
+  for (const trackId of ['PRODUCT', 'VALIDATION']) {
+    const edges = schedule[trackId] ?? {};
+    const scheduleVisiting = new Set(); const scheduleDone = new Set();
+    const scheduleVisit = id => {
+      if (scheduleVisiting.has(id)) { errors.push(`scheduling dependency cycle in ${trackId} includes ${id}`); return; }
+      if (scheduleDone.has(id) || !all.has(id)) return;
+      scheduleVisiting.add(id);
+      for (const dep of (edges[id] ?? all.get(id)?.dependencies ?? [])) scheduleVisit(dep);
+      scheduleVisiting.delete(id); scheduleDone.add(id);
+    };
+    for (const id of all.keys()) scheduleVisit(id);
+  }
+  if (!tracks[s.milestone.active_track]) errors.push('milestone active track is unknown');
   const evidenceRefsFor = (item, label) => {
     if (item.evidence == null) return [];
     if (!Array.isArray(item.evidence)) { errors.push(`${label} evidence references must be an array`); return []; }
@@ -308,7 +365,7 @@ export function validateState(s) {
     if (!owner || owner.status !== item.status || owner.assigned_agent !== item.assigned_agent || owner.review_agent !== item.review_agent) errors.push(`${item.id} ownership/status record is inconsistent`);
     const wp0Owners = { 'WP0-T01': 'devops', 'WP0-T02': 'security', 'WP0-T03': 'database', 'WP0-T04': 'database', 'WP0-T05': 'database', 'WP0-T06': 'database', 'WP0-T07': 'backend', 'WP0-T08': 'database', 'WP0-T09': 'database', 'WP0-T10': 'database', 'WP0-T11': 'security', 'WP0-T12': 'orchestrator' };
     const expectedAgent = features.has(item.id) ? (DOMAIN_OWNER[importedFeatures.get(item.id)?.domain] ?? 'orchestrator') :
-      (item.id === 'SF-P0-FOUNDATION' ? 'orchestrator' : (wp0Owners[item.id] ?? PACKAGE_OWNER[importedTasks.get(item.id)?.package] ?? 'orchestrator'));
+      (item.id === 'SF-P0-FOUNDATION' ? 'orchestrator' : (PRODUCT_TASKS.find(t => t.id === item.id)?.assigned_agent ?? wp0Owners[item.id] ?? PACKAGE_OWNER[importedTasks.get(item.id)?.package] ?? 'orchestrator'));
     if (item.assigned_agent !== expectedAgent) errors.push(`${item.id} ownership role does not match its domain/package`);
     if (item.review_agent !== (item.id === 'WP0-T12' ? 'qa' : undefined)) errors.push(`${item.id} review ownership is inconsistent`);
     const acceptanceRecord = features.has(item.id) ? s.acceptance.features[item.id] : s.acceptance.work[item.id];
@@ -318,7 +375,7 @@ export function validateState(s) {
     if (!graphDeps || JSON.stringify([...graphDeps].sort()) !== JSON.stringify([...(item.dependencies ?? [])].sort())) errors.push(`${item.id} dependency graph is inconsistent`);
   }
   if (s.features.features.length !== 220) errors.push(`expected 220 features, found ${s.features.features.length}`);
-  if (s.tasks.tasks.length !== 65) errors.push(`expected 64 imported tasks plus foundation, found ${s.tasks.tasks.length}`);
+  if (s.tasks.tasks.length !== 67) errors.push(`expected 64 imported tasks plus foundation and two product tasks, found ${s.tasks.tasks.length}`);
   if (s.tests.cases.length !== 63) errors.push(`expected 63 WP0 cases, found ${s.tests.cases.length}`);
   for (const f of s.features.features) {
     const src = importedFeatures.get(f.id);
@@ -339,6 +396,12 @@ export function validateState(s) {
   }
   for (const t of s.tasks.tasks) {
     if (t.id === 'SF-P0-FOUNDATION') continue;
+    const productTask = PRODUCT_TASKS.find(task => task.id === t.id);
+    if (productTask) {
+      for (const key of ['package', 'title', 'dependencies', 'feature_ids', 'acceptance_criteria', 'test_references']) if (!equal(t[key], productTask[key])) errors.push(`${t.id} product task contract ${key} was changed`);
+      if (t.status === 'VERIFIED' && t.evidence?.some((ref) => validEvidence.get(ref.index_id)?.scope !== 'PRODUCT')) errors.push(`${t.id} requires product-scope evidence`);
+      continue;
+    }
     const src = importedTasks.get(t.id);
     if (!src) continue;
     if (!equal(t.dependencies, src.dependencies)) errors.push(`${t.id} source dependencies were changed`);
@@ -377,9 +440,11 @@ function formatStatus(s) {
 }
 export function selectNext(s) {
   const all = [...s.tasks.tasks, ...s.features.features];
-  const allowed = new Set(s.milestone.allowed_packages ?? []);
+  const track = s.milestone.tracks?.[s.milestone.active_track];
+  const allowed = new Set(track?.allowed_packages ?? s.milestone.allowed_packages ?? []);
+  const scheduling = s.graph.scheduling?.[s.milestone.active_track] ?? {};
   return all.filter((x) => (x.status === 'READY' || x.status === 'BACKLOG') && x.package && allowed.has(x.package) &&
-    x.dependencies.every((id) => all.some((d) => d.id === id && d.status === 'VERIFIED')));
+    (scheduling[x.id] ?? x.dependencies).every((id) => all.some((d) => d.id === id && d.status === 'VERIFIED')));
 }
 function main() {
   const [command, arg] = process.argv.slice(2);
@@ -394,17 +459,17 @@ function main() {
     write('features.json', { schema_version: '1.0.0', source: catalogPath, phase_policy: 'For the 95 refined items, phase is the implementation-plan tier; original_phase preserves catalog recommended_release. Other features retain recommended_release.', features: d.features });
     write('backlog.json', { schema_version: '1.0.0', source: planPath, tasks: d.tasks });
     write('acceptance.json', { schema_version: '1.0.0', ...d.acceptance, test_cases: d.tests });
-    write('dependency-graph.json', { schema_version: '1.0.0', nodes: [...d.features, ...d.tasks].map((x) => x.id), edges: d.dependencies });
+    write('dependency-graph.json', { schema_version: '1.0.0', nodes: [...d.features, ...d.tasks].map((x) => x.id), edges: d.dependencies, scheduling: { PRODUCT: { [PRODUCT_TASK.id]: [], [PRODUCT_TASK_02.id]: [PRODUCT_TASK.id] }, VALIDATION: {} } });
     write('ownership.json', { schema_version: '1.0.0', agents: Object.fromEntries(Object.entries(OWNER_ROLES).map(([id, responsibilities]) => [id, { responsibilities, path_policy: OWNER_PATH_POLICY[id] }])), items: Object.fromEntries([...d.features, ...d.tasks].map((x) => [x.id, { assigned_agent: x.assigned_agent, ...(x.review_agent ? { review_agent: x.review_agent } : {}), status: x.status }])) });
     write('evidence-index.json', { schema_version: '1.0.0', note: 'Initialized empty: research sources are not product evidence.', entries: [] });
-    write('milestone.json', { schema_version: '1.0.0', milestone: 'Phase 0 / offline WP0', status: 'IN_PROGRESS', allowed_packages: ['WP0'], oracle_lab_authorized: false, foundation_task: 'SF-P0-FOUNDATION', blockers: ['Oracle lab authorization and attested disposable-target profile are missing.'], evidence: [] });
+    write('milestone.json', { schema_version: '1.0.0', milestone: 'PRODUCT runnable local governance / VALIDATION Oracle acceptance', status: 'IN_PROGRESS', active_track: 'PRODUCT', tracks: { PRODUCT: { allowed_packages: ['PRODUCT'] }, VALIDATION: { allowed_packages: ['WP0'] } }, oracle_lab_authorized: false, foundation_task: 'SF-P0-FOUNDATION', blockers: ['Oracle lab authorization and attested disposable-target profile are missing for VALIDATION only.'], evidence: [] });
     console.log('Initialized product tracking data.'); return;
   }
   const s = loadState();
   if (command === 'validate') {
     const errors = validateState(s);
     if (errors.length) { console.error(errors.map((e) => `ERROR ${e}`).join('\n')); process.exitCode = 1; }
-    else console.log('Tracker data valid: 220 features, 64 imported tasks plus foundation, 63 cases; no product verification claims.');
+    else console.log('Tracker data valid: 220 features, 64 imported tasks plus foundation and two product tasks, 63 cases; no Oracle verification claims.');
   } else if (command === 'status') console.log(JSON.stringify(formatStatus(s), null, 2));
   else if (command === 'next') {
     const eligible = selectNext(s);

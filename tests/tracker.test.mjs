@@ -14,6 +14,16 @@ const persistedState = () => ({
   graph: read('dependency-graph.json'), ownership: read('ownership.json'), evidence: read('evidence-index.json'),
   milestone: read('milestone.json'), tests: { cases: read('acceptance.json').test_cases },
 });
+const productReadyState = () => {
+  const s = persistedState();
+  for (const [id, status] of [['SF-PRODUCT-T01', 'READY'], ['SF-PRODUCT-T02', 'BACKLOG']]) {
+    const task = s.tasks.tasks.find(item => item.id === id);
+    task.status = status;
+    task.evidence = [];
+    s.ownership.items[id].status = status;
+  }
+  return s;
+};
 
 const fullState = buildInitialState;
 
@@ -44,7 +54,7 @@ test('persisted tracker state validates without assuming initial statuses', () =
 test('catalog and plan IDs are retained with original dependency links', () => {
   const s = fullState();
   assert.equal(s.features.features.length, 220);
-  assert.equal(s.tasks.tasks.length, 65); // 64 imported tasks plus SF-P0-FOUNDATION.
+  assert.equal(s.tasks.tasks.length, 67); // 64 imported tasks, foundation, and two product tasks.
   assert.equal(s.tests.cases.length, 63);
   assert.deepEqual(s.features.features.find((f) => f.id === 'DBM-002').dependencies, ['SEC-005', 'SEC-009']);
 });
@@ -64,11 +74,13 @@ test('separate WP0 cells never claim research as runtime PASS', () => {
   assert.deepEqual(s.evidence.entries, []);
 });
 
-test('valid initial state has only the foundation in progress and WP0-T01 ready', () => {
+test('initial state keeps Oracle validation and product delivery tracks distinct', () => {
   const s = fullState();
   assert.equal(validateState(s).length, 0);
   assert.equal(s.tasks.tasks.find((t) => t.id === 'SF-P0-FOUNDATION').status, 'IN_PROGRESS');
   assert.equal(s.tasks.tasks.find((t) => t.id === 'WP0-T01').status, 'READY');
+  assert.equal(s.tasks.tasks.find((t) => t.id === 'SF-PRODUCT-T01').status, 'READY');
+  assert.equal(s.tasks.tasks.find((t) => t.id === 'SF-PRODUCT-T02').status, 'BACKLOG');
   assert.ok(s.tasks.tasks.filter((t) => t.package === 'WP0' && !['WP0-T01', 'SF-P0-FOUNDATION'].includes(t.id)).every((t) => t.status === 'BACKLOG'));
   assert.ok(s.features.features.every((f) => ['BACKLOG', 'DEFERRED'].includes(f.status)));
 });
@@ -267,6 +279,7 @@ test('init refuses to overwrite initialized evidence or tracking state', () => {
 
 test('next respects milestone scope and dependency gates independent of persisted statuses', () => {
   const s = fullState();
+  s.milestone.active_track = 'VALIDATION';
   assert.deepEqual(selectNext(s).map((x) => x.id), ['WP0-T01']);
   s.tasks.tasks.find((x) => x.id === 'WP0-T01').status = 'BLOCKED';
   s.tasks.tasks.find((x) => x.id === 'WP0-T01').blockers = ['Preflight report is incomplete.'];
@@ -276,4 +289,37 @@ test('next respects milestone scope and dependency gates independent of persiste
   s.tasks.tasks.find((x) => x.id === 'WP0-T01').status = 'VERIFIED';
   assert.ok(selectNext(s).some((x) => x.id === 'WP0-T02'));
   assert.ok(selectNext(s).every((x) => x.package === 'WP0'));
+});
+
+test('PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies', () => {
+  const s = productReadyState();
+  const t04 = s.tasks.tasks.find((x) => x.id === 'WP0-T04');
+  assert.equal(t04.status, 'BLOCKED');
+  assert.deepEqual(s.graph.edges['WP1-T01'], ['WP0-T12']);
+  assert.deepEqual(selectNext(s).map((x) => x.id), ['SF-PRODUCT-T01']);
+
+  s.milestone.active_track = 'VALIDATION';
+  assert.deepEqual(selectNext(s), []);
+  const product = s.tasks.tasks.find((x) => x.id === 'SF-PRODUCT-T01');
+  product.status = 'VERIFIED';
+  s.ownership.items[product.id].status = 'VERIFIED';
+  assert.ok(validateState(s).some((e) => e.includes('cannot be VERIFIED without passing indexed product evidence')));
+  assert.equal(s.tests.cases.every((c) => c.results.oracle_19c !== 'PASS' && c.results.oracle_21c !== 'PASS'), true);
+  assert.ok(s.features.features.every((f) => f.status !== 'VERIFIED'));
+});
+
+test('PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides', () => {
+  const s = productReadyState();
+  assert.deepEqual(selectNext(s).map(x => x.id), ['SF-PRODUCT-T01']);
+  const first = s.tasks.tasks.find(x => x.id === 'SF-PRODUCT-T01');
+  first.status = 'VERIFIED'; s.ownership.items[first.id].status = 'VERIFIED';
+  assert.deepEqual(selectNext(s).map(x => x.id), ['SF-PRODUCT-T02']);
+
+  const cycle = productReadyState();
+  cycle.graph.scheduling.PRODUCT['SF-PRODUCT-T01'] = ['SF-PRODUCT-T02'];
+  assert.ok(validateState(cycle).some(e => e.includes('scheduling dependency cycle in PRODUCT')));
+
+  const bypass = productReadyState();
+  bypass.graph.scheduling.VALIDATION['WP1-T01'] = [];
+  assert.ok(validateState(bypass).some(e => e.includes('cannot override acceptance dependencies for WP1-T01')));
 });

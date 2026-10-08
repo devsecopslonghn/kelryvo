@@ -1,0 +1,26 @@
+{
+  "id": "product-t01-20261008T163522Z-87ad39d8-local",
+  "subject_id": "SF-PRODUCT-T01",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check; npm run test:product; npm run test:browser; npm run local:prepare; startup HTTP smoke; parser corpus/integration; dependencies offline",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_references": [
+    "SF-PRODUCT-T01-API",
+    "SF-PRODUCT-T01-WEB",
+    "SF-PRODUCT-T01-INTEGRATION"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/checks.log",
+    "sha256": "82858cf3919d7649ca4ab907d23226f14ebe1d4931a4bc5c39e36330a5289093"
+  }
+}

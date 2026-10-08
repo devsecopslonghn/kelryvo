@@ -84,3 +84,23 @@ must match the indexed hashes. Record metadata must match the index exactly. Pro
 `scope: PRODUCT`; task/case evidence uses `scope: HARNESS`. Oracle cells remain BLOCKED until
 `milestone.json` sets `oracle_lab_authorized` after manifest preflight. Research observations
 cannot count as product evidence. `init` refuses to overwrite existing tracking state.
+
+## Development tracks
+
+Development scheduling is independent from acceptance requirements. `milestone.json` selects an
+active track: PRODUCT admits bounded runnable application work, while VALIDATION admits WP0
+parser/driver/runtime and Oracle acceptance work. `dependency-graph.json` preserves `edges` as
+the immutable catalog/task acceptance dependencies and adds `scheduling` for track-specific
+selection dependencies. The selector uses scheduling edges only to decide what work can start;
+`validateState` continues to require the original item dependencies before any imported feature or
+task can become VERIFIED. An implementation milestone may have its own acceptance and evidence,
+but cannot set a catalog feature VERIFIED or change any WP0 result cell. Oracle 19c/21c cells
+remain BLOCKED until authorized real evidence exists.
+
+`SF-PRODUCT-T01` is the first local-governance vertical slice and references existing project,
+Git, migration, governance, and security feature IDs. `SF-PRODUCT-T02` follows it to implement
+project archival and reject new work on archived projects, with a partial local criterion linked
+to PRJ-001. Both milestone acceptances are tracked under `acceptance.work`; they are not a
+substitute for the catalog acceptance contracts for those IDs. Keep selecting the next bounded
+PRODUCT increment after T02 from the existing catalog; do not infer an Oracle prerequisite for
+independent application behavior.

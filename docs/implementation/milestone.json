@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "milestone": "WP0 Oracle feasibility — offline preparation",
+  "milestone": "PRODUCT runnable local governance / VALIDATION Oracle acceptance",
   "status": "IN_PROGRESS",
   "allowed_packages": [
     "WP0"
@@ -8,7 +8,7 @@
   "oracle_lab_authorized": false,
   "foundation_task": "SF-P0-FOUNDATION",
   "blockers": [
-    "No authorized disposable Oracle 19c/21c lab manifest or scoped credentials/identities/grants/fault authority.",
+    "No authorized disposable Oracle 19c/21c lab manifest or scoped credentials/identities/grants/fault authority. (VALIDATION track only; independent PRODUCT scheduling remains open.)",
     "Full distribution license/source/notice assembly and Git/metadata deployment artifact selections remain pending; product license/name are owner decisions."
   ],
   "evidence": [
@@ -56,36 +56,26 @@
     },
     {
       "index_id": "WP0-T04-MERGED-PR7-t04-thin-supervision-20261008T151430Z-fc1518f5"
+    },
+    {
+      "index_id": "product-t01-20261008T163522Z-87ad39d8-local"
     }
   ],
   "foundation_status": "VERIFIED",
   "foundation_evidence": {
     "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
   },
-  "current_phase": "Phase 1 / offline WP0",
+  "current_phase": "PRODUCT local governance / VALIDATION blocked Oracle acceptance",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
   "product_features_verified": 0,
   "next_actionable_tasks": [
     {
-      "id": "WP0-T04",
-      "owner": "database",
-      "status": "BLOCKED",
-      "action": "Supervised read-only Thin candidate merged with all nine exact-head gates. Supply attested disposable19c/21c lab authority, approved mTLS trust/client wallet, scoped providers/atomic permit wiring, deployed isolation and independent observations before connecting. Remaining fault/rotation acceptance is BLOCKED; no further substantive offline T04 increment identified.",
-      "dependencies": [
-        "WP0-T01",
-        "WP0-T02"
-      ]
-    },
-    {
-      "id": "WP0-T02",
-      "owner": "security",
-      "status": "VERIFIED",
-      "action": "Before a bundled release, close the remaining F31 distribution/source/notice and owner-license decisions; retain this audited candidate increment.",
-      "dependencies": [
-        "WP0-T01"
-      ]
+      "id": "SF-PRODUCT-T02",
+      "owner": "backend",
+      "status": "BACKLOG",
+      "action": "Archive projects without deleting retained releases, plans, audit or history; reject new work."
     }
   ],
   "blocked_inputs_evidence": {
@@ -117,5 +107,19 @@
   "current_increment_pr": 7,
   "current_increment_merge_status": "MERGED",
   "current_increment_reviewed_head": "ef8a2ec4f161abf84631769754d0afd1a924ab50",
-  "current_checkpoint_branch": "development/wp0-supervisor-checkpoint"
+  "current_checkpoint_branch": "development/wp0-supervisor-checkpoint",
+  "active_track": "PRODUCT",
+  "tracks": {
+    "PRODUCT": {
+      "allowed_packages": [
+        "PRODUCT"
+      ]
+    },
+    "VALIDATION": {
+      "allowed_packages": [
+        "WP0"
+      ]
+    }
+  },
+  "product_task_status": "VERIFIED_LOCAL"
 }

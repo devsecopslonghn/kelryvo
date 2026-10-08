@@ -897,6 +897,52 @@
       },
       "path": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/WP0-T04-MERGED-PR7.json",
       "sha256": "af001477e326d13d0bd39950fb47d92615fe2e47b4ffd60618c9426f98cc66a5"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-local",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser; npm run local:prepare; startup HTTP smoke; parser corpus/integration; dependencies offline",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "test_references": [
+        "SF-PRODUCT-T01-API",
+        "SF-PRODUCT-T01-WEB",
+        "SF-PRODUCT-T01-INTEGRATION"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/checks.log",
+        "sha256": "82858cf3919d7649ca4ab907d23226f14ebe1d4931a4bc5c39e36330a5289093"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/local-verification.json",
+      "sha256": "79d28d25b755aeb10e9b04cd883362fc56540071497b885f34f8f5ba395b4aac"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-reviewed-check",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check (after verification state and repaired UI)",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/check-reviewed.log",
+        "sha256": "0125191f51ab7ecc2b8cd2f8e0bc5aee8e0813266b7a5fb8800292645ed3f6b9"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/reviewed-check.json",
+      "sha256": "49cd656b45826c64d897d65226c1d1b2277c605412a301202c2a647ef5c10586"
     }
   ]
 }

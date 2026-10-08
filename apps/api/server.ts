@@ -1,0 +1,32 @@
+import postgres from 'postgres';
+import { createApp, initializeDatabase } from './index.ts';
+import { resolve } from 'node:path';
+import { readFile } from 'node:fs/promises';
+
+export async function startProduct({ databaseUrl, actors, repositories, port = 4317 }: any) {
+  const sql = postgres(databaseUrl, { max: 5, onnotice: () => {} });
+  try {
+    await initializeDatabase(sql);
+    const app = createApp({ sql, actors, repositories });
+    const web = resolve('dist/web');
+    const files = new Map([
+      ['/', ['index.html', 'text/html; charset=utf-8']],
+      ['/app.js', ['app.js', 'text/javascript; charset=utf-8']],
+      ['/app.js.LEGAL.txt', ['app.js.LEGAL.txt', 'text/plain; charset=utf-8']],
+      ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
+      ['/third-party-notices.txt', ['third-party-notices.txt', 'text/plain; charset=utf-8']],
+    ]);
+    for (const [route, [filename, contentType]] of files) {
+      app.get(route, async (_request, reply) => {
+        reply.header('X-Content-Type-Options', 'nosniff');
+        reply.header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
+        reply.header('Cache-Control', 'no-store');
+        reply.type(contentType);
+        return readFile(resolve(web, filename));
+      });
+    }
+    app.addHook('onClose', async () => { await sql.end({ timeout: 5 }); });
+    await app.listen({ host: '127.0.0.1', port });
+    return app;
+  } catch (error) { await sql.end({ timeout: 2 }); throw error; }
+}

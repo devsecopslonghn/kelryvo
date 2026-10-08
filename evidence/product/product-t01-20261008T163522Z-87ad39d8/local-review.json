@@ -1,0 +1,12 @@
+{
+  "scope": "LOCAL_PRODUCT_ONLY",
+  "qa": "Independent real Git/ANTLR + PostgreSQL API tests; independent browser integration and visual review; initial empty-description and actor/project context issues repaired.",
+  "security": "Independent review of startup config symlink/permission repair and Git importer; no remaining concrete blocker reported. API changes reviewed across coordinator/frontend/QA; local named identities do not certify full RBAC.",
+  "limitations": [
+    "Oracle T04 and 124 applicable Oracle cells remain BLOCKED",
+    "Target history NOT_OBSERVED; offline candidate not executable",
+    "All migration history NOT_EXECUTED",
+    "No deployment or distribution approval",
+    "Remote exact-head CI/review/merge pending"
+  ]
+}

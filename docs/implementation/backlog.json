@@ -2041,6 +2041,72 @@
       "assigned_agent": "qa",
       "evidence": [],
       "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T01",
+      "package": "PRODUCT",
+      "title": "Deliver runnable local governance workflow",
+      "dependencies": [],
+      "feature_ids": [
+        "PRJ-001",
+        "PRJ-003",
+        "PRJ-008",
+        "MIG-008",
+        "GOV-007",
+        "GOV-012",
+        "MIG-010",
+        "SEC-011"
+      ],
+      "acceptance_criteria": [
+        "A reproducible local command starts the API, web application, and PostgreSQL-backed metadata store.",
+        "Projects, environments, and connection profiles persist; connection secrets never appear in API responses or logs.",
+        "A Git migration release can be imported, parsed, validated, and displayed with source references.",
+        "The application generates a pending-change plan with approval and rejection transitions and audit history.",
+        "Migration history records NOT_EXECUTED when no authorized database execution occurs; no success is fabricated."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T01-API",
+        "SF-PRODUCT-T01-WEB",
+        "SF-PRODUCT-T01-INTEGRATION"
+      ],
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "status": "VERIFIED",
+      "assigned_agent": "orchestrator",
+      "evidence": [
+        {
+          "index_id": "product-t01-20261008T163522Z-87ad39d8-local"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T02",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Archive projects and reject new work on archived projects",
+      "dependencies": [
+        "SF-PRODUCT-T01"
+      ],
+      "feature_ids": [
+        "PRJ-001"
+      ],
+      "acceptance_criteria": [
+        "A project can be archived persistently and its archived state is visible in project list and detail responses.",
+        "Archived projects reject new environments, connection profiles, Git releases, and migration plans with a stable conflict response.",
+        "Existing project details, audit events, and migration history remain readable after archival."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T02-API",
+        "SF-PRODUCT-T02-WEB"
+      ],
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "status": "BACKLOG",
+      "evidence": [],
+      "blockers": []
     }
   ]
 }

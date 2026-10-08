@@ -22,7 +22,7 @@ export async function checkSource() {
   const errors = [];
   let count = 0;
   for (const path of await ownedFiles()) {
-    if (!/\.(mjs|json|md|toml|yml)$/.test(path)) continue;
+    if (!/\.(mjs|json|md|toml|yml|ts|jsx|html|css)$/.test(path)) continue;
     count += 1;
     const source = await readFile(path, 'utf8');
     const name = relative(root, path);

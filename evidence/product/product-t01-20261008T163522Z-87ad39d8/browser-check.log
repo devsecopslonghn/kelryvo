@@ -1,0 +1,36 @@
+
+> schemaforge-local-development@0.0.0 test:browser
+> npm run build:web && node scripts/test-product.mjs --browser
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# Subtest: browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+not ok 1 - browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+  ---
+  duration_ms: 37356.935133
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge/tests/product-browser.integration.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.fill: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByLabel('Decision reason')[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge/tests/product-browser.integration.mjs:66:46)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 38616.888431

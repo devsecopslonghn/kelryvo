@@ -1,5 +1,40 @@
 # Current engineering state
 
+Owner clarification (2026-10-08): ship a runnable PRODUCT first; Oracle VALIDATION remains
+separate. Development scheduling uses the explicit PRODUCT/VALIDATION overlay. Original
+acceptance dependencies, the 220 feature IDs, T01–T03 verification and every WP0 artifact
+remain unchanged. The owner has no Oracle 19c/21c lab; do not request one as a prerequisite
+to independent product work.
+
+The active local product slice is SF-PRODUCT-T01: Fastify/TypeScript API, React web app,
+PostgreSQL persistent projects/environments and reference-only profiles, immutable local
+Git import, existing ANTLR offline parsing, candidate plans, independent approval/rejection,
+transactional audit and NOT_EXECUTED history. It has no target connector or executor.
+Local auth uses named server-configured bearer identities and loopback serving; it does not
+claim production RBAC, TLS or multi-tenancy. Target history stays NOT_OBSERVED.
+
+Run `npm ci --ignore-scripts --no-audit --no-fund`, `npm run local:prepare`, then `npm run dev`.
+Open http://127.0.0.1:4317 and use the private local tokens documented in
+[local product operation](../development/local-product.md). Track implementation and local
+verification separately from full catalog/Oracle acceptance. Current PR/head/merge are
+resolved from Git/GitHub; never record a self-referential commit hash.
+
+Local T01 acceptance is VERIFIED with real PostgreSQL/Git/parser/browser evidence in
+`evidence/product/product-t01-20261008T163522Z-87ad39d8/`. Initial failures and corrections are retained; remote exact-head CI/merge
+remain to be resolved from Git/GitHub. Full catalog features and Oracle cases are not verified.
+
+SF-PRODUCT-T02 queues project archival and preservation of immutable history after T01.
+Select further bounded product tasks from the existing catalog. T04 and all 124 Oracle
+cells remain BLOCKED; preserve Oracle safety boundaries without blocking API/web work.
+Product license/name and F31 distribution remain unresolved; local delivery is authorized.
+
+The previous master checkpoint was PR #8 at f2b333e. The following WP0 snapshot is retained
+as historical evidence; its scheduling-only API/UI prohibition is superseded by the owner
+clarification and SF-D008. Its Oracle acceptance restrictions remain current.
+
+## Historical WP0 checkpoint
+
+
 Foundation and the bounded WP0-T01, T02 and T03 offline increments are VERIFIED.
 WP0-T04 has offline probe preparation, a read-only Thin candidate and child-process supervision;
 it remains BLOCKED for runtime acceptance.

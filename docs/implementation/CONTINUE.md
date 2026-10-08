@@ -1,33 +1,15 @@
-# Resume SchemaForge
+# Resume SchemaForge PRODUCT delivery
 
-Read AGENTS.md and CURRENT.md. The owner authorizes dependency-ordered implementation,
-verified branches/PRs and ordinary eligible merges. Preserve DB-Research and WP0 gates.
-
-Latest bounded implementation: `development/wp0-thin-supervision` implements
-`createSupervisedThinProbe({startWorker, limits})(request)` and
-`runThinProbeWorker(ports)`. The former owns deadline/protocol/reaping; the latter calls
-the real read-only candidate with child-owned trusted ports. There is no default starter,
-live CLI, authority or provider backend. Twenty-two focused UNIT tests pass using actual
-Node processes, fake positive drivers and a denied real-driver path. Security's initial
-IPC-serialization and unreaped-child ownership findings were repaired with scalar validation
-and a retained reaper that refuses replacement work. PR #7 merged at
-`5ab696918a8bafcbd36a7277e810ec6cde34e2e2`, reviewed head
-`ef8a2ec4f161abf84631769754d0afd1a924ab50`. All nine exact-head gates passed;
-independent QA/security approve, alert lists and blocking threads are empty. The initial
-Sonar fixture-sort failure was fixed without changing thresholds. This checkpoint uses
-`development/wp0-supervisor-checkpoint`; finish its own gates if still open. Current evidence:
-`evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/`.
-Preceding PR #6 master `6aa97d8db47fb3978fa11b0e59c09c1e9ad538b2` has successful master CI.
-Resolve this checkpoint's own head/PR/merge from Git/GitHub rather than a self-referential hash.
-Use `postmerge-checkpoint.json` and the read-only `next-work-boundary.json` in the current
-evidence directory. The audit identified no further substantive offline T04 increment
-without selecting unspecified production authority/provider behavior or simulating acceptance.
+Read AGENTS.md, CURRENT.md and the tracker. The owner authorizes implementation, verified
+branches/PRs and eligible ordinary merges. Start from the latest `origin/master`; inspect
+existing changes/open PRs/exact heads and preserve all WP0 history. PRODUCT delivery is
+independent of Oracle VALIDATION. Do not repeatedly ask for a 19c/21c lab or reinterpret
+BLOCKED Oracle acceptance as a prohibition on API/web/governance development.
 
 ```sh
 cd /home/longhn0710/workspace/schemaforge
 git status --short
 git fetch origin
-git log -5 --oneline
 gh pr list --repo devsecopslonghn/schemaForge --state open
 npm ci --ignore-scripts --no-audit --no-fund
 npm run check
@@ -35,51 +17,47 @@ npm run status
 npm run next
 ```
 
-PR #1 is merged at `42249826d105d44dbf5d6243f9ebe3748612e1c7`; PR #2 is merged at
-`ca232a5a4f4535bb4e6d14954bdba9b5a8ffa9b6` after all nine checks passed. Resolve latest
-master with `git rev-parse origin/master`. PR #3 is merged at
-`87d41da43886306a3a996aa458ced27130de130f` after all nine gates passed; final Sonar scan
-has zero new issues, hotspots and duplication. No implementation PR remains open in
-this snapshot; inspect any checkpoint PR before new work. The checkpoint's own merge SHA is derived from
-Git; literal hashes identify the validated preceding master. Inspect remaining PRs' exact
-head/base, complete CI, security alerts and reviews before merging or resuming edits.
+The current vertical slice is SF-PRODUCT-T01. Read the actual implementation in apps/api,
+apps/web, packages/database and packages/migrations, and [local operation](../development/local-product.md).
+Run `npm run local:prepare` then `npm run dev` for the local PostgreSQL/API/web demonstration.
+`npm run test:product` exercises PostgreSQL/API and actual Git/ANTLR; install the separate
+browser with `npx playwright install chromium`, then `npm run test:browser` for the full flow.
+Private generated metadata credentials and two bearer tokens live only under .cache.
+Never publish them or resolve target credential references. No Oracle connection is needed.
 
-T03 reproduces with `npm run parser:antlr:build`, `npm run parser:antlr:corpus` and
-`npm run parser:antlr:test` once exact external inputs are available. On fresh Linux x64,
-`npm run parser:antlr:prepare` explicitly downloads/checks public inputs; then set
-`SCHEMAFORGE_JAVA_HOME="$PWD/.cache/antlr/temurin"`. Preparation refuses an existing
-extracted JDK destination. Builds never download; the original Flyway corpus retains its
-negative result. Never hide or reclassify a required failing CI check.
+After each milestone: implement, test, independently review, PR, inspect all exact-head
+CI/security/license/quality gates, merge only if eligible, inspect the runnable product,
+then choose another missing catalog feature. Local T01 acceptance is VERIFIED with real PostgreSQL/Git/parser/browser evidence in
+`evidence/product/product-t01-20261008T163522Z-87ad39d8/`. Initial failures and corrections are retained; remote exact-head CI/merge
+remain to be resolved from Git/GitHub. Full catalog features and Oracle cases are not verified.
 
-T04 offline preparation is implemented. `npm run probes:thin:plan` reports missing inputs
-(exit 1). Supply a secret-free profile with `-- --profile PATH` to validate local inputs and
-prepare twelve fixed descriptors. Exit 0 only means offline planning completed; every
-Oracle case remains NOT_RUN/BLOCKED and execution remains unauthorized. The public entry
-runs actual preflight; it accepts no report or raw-byte attestation from a caller.
+SF-PRODUCT-T02 is the next bounded archival
+increment. Add later explicit SF-PRODUCT contracts with product dependencies and evidence;
+keep original catalog acceptance/dependencies exact. Local task verification cannot certify
+full catalog features or Oracle cells. Pending plans are offline candidates with
+NOT_OBSERVED target history. Approval never fabricates successful execution; all migration
+history remains NOT_EXECUTED until real authorized execution is supported and evidenced.
 
-PR #4 merged at `01ff4446e0318d4b7f91a003cf15799ab3b7be11`. This increment implements
-`createReadOnlyThinProbe(ports)(request)` as a read-only Thin candidate. PR #5 merged at
-`de86263e8a8c5faae8af8b18197fe03a7cbf138e` after all nine exact-head gates passed;
-reviewed head is `fe63aebcc911c1b0de89659be253ea0f186ae277`. SonarCloud has zero new
-issues, hotspots and duplication, CodeQL has no new alerts, and both old finding threads
-automatically resolved. Resolve this checkpoint's own PR/head/merge from Git/GitHub.
-It has 21 focused UNIT tests and 93 full tests passing, with
-independent QA/security approval. Evidence is under
-`evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/`.
+T04 and all 124 Oracle cells remain BLOCKED. Production authority/providers, target history,
+worker isolation and real acceptance are VALIDATION work. Product license/name and F31
+packaging decisions remain pending for distribution. Preserve them while progressing local
+product work. Resolve the current milestone's own head/PR/merge from Git/GitHub and inspect
+fresh evidence rather than hardcoding the checkpoint's own hash.
 
-The graph still has no fully unblocked task. Queue emptiness alone does not prevent safe
-offline work inside T04; this candidate is substantive progress, with T04 still BLOCKED.
-There is no CLI, authenticated authority/atomic claim backend or deployed isolated worker.
-Before connecting, require explicit attested disposable 19c/21c lab authority, approved
-PEM client wallet/CA material, scoped versioned refs, independent target/container identity
-and session observations, and trusted fixed-entry supervised wiring with deployment restrictions. The module
-implements a fixed read only; fault/DDL/rotation probes are absent. Session identity matches
-do not pass the Oracle cases or establish T05 canonical identity.
+## Preserved WP0 evidence
 
-Database's next bounded assignment is completing trusted runtime wiring and remaining
-T04 probes with supplied authority inputs; QA/Security independently review. Reassess other
-safe offline work before declaring an impasse. Keep T04 and all 124 Oracle cells BLOCKED
-until real acceptance evidence passes. Do not resolve credentials or connect now.
-Resolve pending owner license/name and F31 packaging decisions before distribution.
-If inputs are still absent, report that precise boundary and preserve this checkpoint;
-do not mark a blocked task VERIFIED or advance API/UI around WP0 dependencies.
+PR #7 implements the supervised read-only Thin candidate (merged at
+5ab696918a8bafcbd36a7277e810ec6cde34e2e2, reviewed head
+ef8a2ec4f161abf84631769754d0afd1a924ab50). PR #8 persisted its checkpoint at
+f2b333e. Historical evidence is under
+`evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/`, including
+`postmerge-checkpoint.json` and `next-work-boundary.json`. That audit bounded further
+T04 offline work under its then-current interfaces; it does not block independent PRODUCT.
+
+T03 retains exact external inputs, immutable grammars, parser corpus and licensed adapter.
+Preparation is `npm run parser:antlr:prepare`; fresh Linux x64 sets
+`SCHEMAFORGE_JAVA_HOME="$PWD/.cache/antlr/temurin"`. Build/corpus/integration never
+silently download or reclassify failed CI. T04 retains its plan, read-only candidate and
+supervisor with no default starter, live CLI or production authority backend. Every
+Oracle acceptance restriction remains in AGENTS.md and the immutable acceptance records.
+See CURRENT.md and the evidence index for prior PRs and exact source/result records.
