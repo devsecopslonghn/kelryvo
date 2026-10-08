@@ -5,7 +5,7 @@ WP0-T04 has offline probe preparation, a read-only Thin candidate and child-proc
 it remains BLOCKED for runtime acceptance.
 The milestone is offline WP0 feasibility; no Oracle execution, API/UI or product feature is verified.
 
-**Current increment:** `development/wp0-thin-supervision` adds actual child-process
+**Latest implementation:** `development/wp0-thin-supervision` adds actual child-process
 supervision around the existing read-only probe. PR #6 checkpoint is merged at
 `6aa97d8db47fb3978fa11b0e59c09c1e9ad538b2`; its three master workflows passed.
 The new supervisor/worker protocol uses child-owned privileged ports, a bounded total
@@ -14,8 +14,13 @@ crashes and timeouts return HOLD with unknown connection/read counts and require
 An unreaped child remains owned by a referenced reaper; replacement probes are refused.
 The same-UID child is not an OS sandbox; native IPC parsing has no transport memory cap.
 The trusted starter has no default implementation or public path/environment selection.
-No authority or provider backend is added. PR #7 is open in draft; exact-head review
-and remote gates must finish before merge. Evidence is under
+No authority or provider backend is added. PR #7 merged at
+`5ab696918a8bafcbd36a7277e810ec6cde34e2e2` after all nine exact-head checks passed;
+reviewed head is `ef8a2ec4f161abf84631769754d0afd1a924ab50`. Independent QA/security
+approve that head; code/secret/dependency alerts and blocking review threads are empty.
+Final SonarCloud has zero new/accepted issues, hotspots and duplication. No implementation
+PR remains open. This postmerge checkpoint uses `development/wp0-supervisor-checkpoint`;
+resolve its own PR/head/merge and current master from Git/GitHub. Evidence is under
 `evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/`.
 
 PR #1 merged at `42249826d105d44dbf5d6243f9ebe3748612e1c7`. PR #2 merged after
@@ -42,7 +47,8 @@ approved that exact head; code/secret/dependency alert lists are empty. No imple
 PR remains open. Resolve the checkpoint's own PR/merge and current master from Git/GitHub;
 literal hashes name the preceding validated implementation master. Earlier read-only evidence is under
 `evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/`.
-The continuation record is `session-checkpoint.json` in that directory.
+That earlier continuation record is `session-checkpoint.json` in that directory; the
+current supervision run uses `postmerge-checkpoint.json`.
 
 T03 uses unchanged licensed grammars-v4 PL/SQL sources at
 `7df52be94698550d219d299d04105c6bafadd9c3`, ANTLR 4.13.2 and reviewed authored callbacks.
@@ -112,7 +118,7 @@ initial formatting failure and review limitations are preserved in the supervisi
 The initial Sonar reliability failure for a UNIT environment sort was fixed by checking
 the exact allowed values directly. Repaired full checks pass 115/115; original gate output
 and source-specific repair hashes are retained without changing any threshold.
-Remote exact-head gates and final committed-head reviews are still pending.
+All nine remote exact-head gates and independent final-head reviews passed before merge.
 
 Thirteen parser unit cells PASS; opaque PL/SQL atomicity `WP0-03-13` unit remains NOT_RUN.
 All **124 applicable Oracle cells remain BLOCKED**. No Oracle connection or actual
@@ -128,8 +134,10 @@ product distribution still needs its owner decision and final source/notice/arti
 Work: four VERIFIED, one BLOCKED, 60 BACKLOG. Features: 213 BACKLOG, seven DEFERRED,
 zero VERIFIED. `npm run next` returns no fully unblocked task.
 
-Next: finish the current supervisor increment's exact-head review and remote gates.
-Supply lab/trust/provider authority and deployed isolation before connecting the candidate, then
+Next: inspect the checkpoint's own PR/master workflow state. The read-only next-work
+audit found no additional substantive offline T04 increment under existing specified
+interfaces. Supply lab/trust/provider authority, deployed isolation and independent
+observations before connecting the candidate, then
 complete the remaining fault/rotation harness and real T04 acceptance. T05 and
 later tasks depend on T04; WP1/API/UI cannot bypass WP0-T12. Follow
 [CONTINUE.md](CONTINUE.md) and the existing graph; do not create a replacement roadmap.

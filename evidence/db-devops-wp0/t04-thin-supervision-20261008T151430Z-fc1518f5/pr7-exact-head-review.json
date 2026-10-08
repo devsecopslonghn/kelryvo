@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-10-08T15:33:29.573591+00:00",
+  "pr": 7,
+  "reviewed_head": "ef8a2ec4f161abf84631769754d0afd1a924ab50",
+  "independent_qa": "APPROVED exact head; quality-repair source/log hashes match;22 focused suite passed earlier,115 fullchecks",
+  "independent_security": "APPROVED exact head; no publication secrets, new dependencies or license edits; privileged-wiring/IPC/reaper limits remain explicit",
+  "required_checks": {
+    "total": 9,
+    "all": "SUCCESS"
+  },
+  "blocking_review_threads": 0,
+  "code_alerts": 0,
+  "secret_alerts": 0,
+  "dependency_alerts": 0,
+  "runtime": "BLOCKED",
+  "oracle_connections": 0,
+  "merge_authority": "Owner-authorized ordinary eligible merge; no force/admin/bypass"
+}

@@ -1,0 +1,34 @@
+{
+  "recorded_at": "2026-10-08T15:29:18.661944+00:00",
+  "scope": "Read-only next-work audit after actual T04 supervision implementation",
+  "current_implementation_pr": 7,
+  "gates_pending": true,
+  "source_review_agent": "database specialist",
+  "substantive_safe_offline_t04_increment_identified": false,
+  "remaining_criteria": {
+    "WP0-01-01": "Actual verified peer/container and distinct principals on both 19c and 21c",
+    "WP0-01-02": "Wrong service/PDB rejection against actual target observations",
+    "WP0-01-03": "Actual authentication/grant denial and sanitized driver behavior",
+    "WP0-01-04": "Real bounded-connect fault evidence and process usability",
+    "WP0-01-05": "Authorized network loss while a call is in flight, with independent observation",
+    "WP0-01-06": "Cross-owner behavior and real credential rotation/version boundary"
+  },
+  "dependency_constraints": [
+    "WP0-T05 requires T04; canonical target/container acceptance cannot be inferred from session labels",
+    "WP0-T07 depends on T03/T05; its harness model is not production authorization",
+    "WP0-T12 depends on T11; WP1/API/UI cannot bypass WP0 acceptance"
+  ],
+  "external_inputs": [
+    "Secret-free attested disposable Oracle 19c/21c lab profile",
+    "Approved client mTLS wallet/trust and scoped identity/credential revisions",
+    "Fault proxy, session-stop and fixture teardown authority",
+    "Trusted fixed-entry worker wiring and deployed OS isolation",
+    "Independent target/session observers and authenticated atomic authorization design"
+  ],
+  "negative_actions": [
+    "No dummy or in-memory authority backend added",
+    "No Oracle case or product status advanced",
+    "No credentials resolved, connection, deployment or infrastructure change performed"
+  ],
+  "goal_boundary": "The full product objective is not achieved. PR gates, merge and checkpoint remain actionable; no goal pause or blocked status is inferred from this audit."
+}
