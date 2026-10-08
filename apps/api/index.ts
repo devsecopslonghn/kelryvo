@@ -500,13 +500,27 @@ export function createApp(options: {
     { preHandler: authenticate },
     async (req: any, reply: any) => {
       if (!uuid(req.params.id)) return fail(reply, 404, "NOT_FOUND");
-      const plan = (
-        await sql`SELECT id,project_id FROM sf_plans WHERE id=${req.params.id}`
-      )[0];
+      let plan: any;
+      try {
+        plan = await sql.begin(async (tx: any) => {
+          const current = (
+            await tx`SELECT id,project_id FROM sf_plans WHERE id=${req.params.id} FOR SHARE`
+          )[0];
+          if (!current) return null;
+          await requireActiveProject(tx, current.project_id);
+          await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${current.project_id},${ORG},${req.actor.id},'EXECUTION_DENIED',${current.id})`;
+          return current;
+        });
+      } catch (error: any) {
+        if (error?.productCode === "PROJECT_ARCHIVED") {
+          return reply.code(409).send({
+            error: "PROJECT_ARCHIVED",
+            execution: "NOT_EXECUTED",
+          });
+        }
+        throw error;
+      }
       if (!plan) return fail(reply, 404, "NOT_FOUND");
-      await sql.begin(async (tx: any) => {
-        await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${plan.project_id},${ORG},${req.actor.id},'EXECUTION_DENIED',${plan.id})`;
-      });
       return reply
         .code(409)
         .send({ error: "EXECUTION_UNAVAILABLE", execution: "NOT_EXECUTED" });

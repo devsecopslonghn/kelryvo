@@ -34,12 +34,23 @@ test('archival keeps immutable records readable and refuses further project work
       assert.equal(response.statusCode, 409);
       assert.equal(response.json().error, 'PROJECT_ARCHIVED');
     }
+    const archivedImport = await request('POST', `${base}/releases`, {
+      repositoryId: 'not-configured', commit: 'HEAD', folder: 'migrations',
+    });
+    assert.equal(archivedImport.statusCode, 409);
+    assert.equal(archivedImport.json().error, 'PROJECT_ARCHIVED');
+    const archivedExecution = await request('POST', `/api/plans/${plan.id}/execution`, {}, approver);
+    assert.equal(archivedExecution.statusCode, 409);
+    assert.deepEqual(archivedExecution.json(), {
+      error: 'PROJECT_ARCHIVED', execution: 'NOT_EXECUTED',
+    });
     const details = (await request('GET', base)).json();
     assert.equal(details.releases.length, 1);
     assert.equal(details.plans[0].status, 'PENDING_APPROVAL');
     assert.equal(details.history.length, 1);
     assert.equal(details.history[0].status, 'NOT_EXECUTED');
     assert.equal(details.audit.filter(e => e.action === 'PROJECT_ARCHIVED').length, 1);
+    assert.equal(details.audit.filter(e => e.action === 'EXECUTION_DENIED').length, 0);
     assert.equal((await request('GET', `/api/releases/${release.id}`)).statusCode, 200);
   } finally { await app.close(); await db.close(); }
 });
