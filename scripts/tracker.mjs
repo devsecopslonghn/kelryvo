@@ -165,6 +165,7 @@ const OUTCOMES = new Set(['PASS', 'FAIL', 'BLOCKED', 'NOT_RUN']);
 const CELL_RESULTS = new Set(['NOT_RUN', 'NOT_APPLICABLE', 'BLOCKED', 'PASS', 'FAIL']);
 const WP0_PARTIAL_TASKS = new Set(['WP0-T01', 'WP0-T02', 'WP0-T03']);
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const compareStrings = (left, right) => left.localeCompare(right, 'en');
 function expectedPhase(feature) { return new Map(plan.features.map((f) => [f.id, f.tier])).get(feature.id) ?? feature.recommended_release; }
 function evidenceRefsFor(item, label, errors) {
   if (item.evidence == null) return [];
@@ -253,12 +254,12 @@ function validateEvidenceCoverage(s, entry, coverage, subjectTask, importedCases
 
 function validEvidenceCoverageShape(s, coverage, subjectTask, reject, entry) {
   const caseId = coverage?.case_id;
-  const testCase = s.tests.cases.find((c) => c.id === caseId);
+  const hasTestCase = s.tests.cases.some((c) => c.id === caseId);
   const full = coverage?.scope === 'FULL_CASE' && coverage.full_case_pass === true;
   const partial = coverage?.scope === 'TASK_INCREMENT' && coverage.full_case_pass === false;
   const taskOwnsCase = subjectTask?.package === 'WP0' && subjectTask.test_references.includes(caseId);
   const hasDescription = typeof coverage?.description === 'string' && coverage.description.trim();
-  if (!taskOwnsCase || !testCase || !Array.isArray(coverage?.cells) || !coverage.cells.length || !hasDescription || (!full && !partial)) {
+  if (!taskOwnsCase || !hasTestCase || !Array.isArray(coverage?.cells) || !coverage.cells.length || !hasDescription || (!full && !partial)) {
     reject(`evidence ${entry.id} has invalid WP0 case coverage`);
     return false;
   }
@@ -269,7 +270,7 @@ function validateEvidenceCoveredCells(entry, coverage, srcCase, reject) {
   const applicable = ['unit', 'oracle_19c', 'oracle_21c'].filter((cell) => srcCase.results[cell] !== 'NOT_APPLICABLE');
   if (coverage.cells.some((cell) => !applicable.includes(cell))) reject(`evidence ${entry.id} case coverage names an inapplicable cell`);
   if (new Set(coverage.cells).size !== coverage.cells.length) reject(`evidence ${entry.id} case coverage repeats a cell`);
-  if (coverage.scope === 'FULL_CASE' && !equal([...coverage.cells].sort(), [...applicable].sort())) reject(`evidence ${entry.id} full-case coverage omits applicable cells`);
+  if (coverage.scope === 'FULL_CASE' && !equal([...coverage.cells].sort(compareStrings), [...applicable].sort(compareStrings))) reject(`evidence ${entry.id} full-case coverage omits applicable cells`);
   if (coverage.scope === 'TASK_INCREMENT' && coverage.cells.some((cell) => cell !== 'unit' || entry.kind !== (srcCase.mode === 'STATIC' ? 'STATIC' : 'UNIT'))) reject(`evidence ${entry.id} task-increment evidence kind does not match its unit subrun`);
 }
 
@@ -475,18 +476,18 @@ function validateOwnershipContracts(s, all, features, tasks, importedFeatures, i
 }
 
 function validateOwnershipCharter(s, errors) {
-  if (!equal(Object.keys(s.ownership.agents ?? {}).sort(), Object.keys(OWNER_ROLES).sort())) errors.push('ownership charter set is incomplete');
+  if (!equal(Object.keys(s.ownership.agents).sort(compareStrings), Object.keys(OWNER_ROLES).sort(compareStrings))) errors.push('ownership charter set is incomplete');
   for (const [agentId, responsibilities] of Object.entries(OWNER_ROLES)) {
-    const role = s.ownership.agents?.[agentId];
+    const role = s.ownership.agents[agentId];
     if (!role || role.responsibilities !== responsibilities || !equal(role.path_policy, OWNER_PATH_POLICY[agentId])) errors.push(`ownership role ${agentId} responsibilities/path policy differ from charter`);
   }
 }
 
 function validateTrackerIndexes(s, all, features, tasks, errors) {
-  if (!equal([...s.graph.nodes].sort(), [...all.keys()].sort())) errors.push('dependency graph node IDs are inconsistent');
-  if (!equal(Object.keys(s.ownership.items).sort(), [...all.keys()].sort())) errors.push('ownership map IDs are inconsistent');
-  if (!equal(Object.keys(s.acceptance.features).sort(), [...features.keys()].sort())) errors.push('feature acceptance IDs are inconsistent');
-  if (!equal(Object.keys(s.acceptance.work).sort(), [...tasks.keys()].sort())) errors.push('work acceptance IDs are inconsistent');
+  if (!equal([...s.graph.nodes].sort(compareStrings), [...all.keys()].sort(compareStrings))) errors.push('dependency graph node IDs are inconsistent');
+  if (!equal(Object.keys(s.ownership.items).sort(compareStrings), [...all.keys()].sort(compareStrings))) errors.push('ownership map IDs are inconsistent');
+  if (!equal(Object.keys(s.acceptance.features).sort(compareStrings), [...features.keys()].sort(compareStrings))) errors.push('feature acceptance IDs are inconsistent');
+  if (!equal(Object.keys(s.acceptance.work).sort(compareStrings), [...tasks.keys()].sort(compareStrings))) errors.push('work acceptance IDs are inconsistent');
 }
 
 function validateOwnershipItem(s, item, features, importedFeatures, importedTasks, errors) {
@@ -514,7 +515,7 @@ function validateItemAcceptanceRecord(s, item, features, errors) {
 function validateItemGraphRecord(s, item, errors) {
   const graphDeps = s.graph.edges[item.id];
   const itemDeps = item.dependencies ?? [];
-  if (!graphDeps || JSON.stringify([...graphDeps].sort()) !== JSON.stringify([...itemDeps].sort())) errors.push(`${item.id} dependency graph is inconsistent`);
+  if (!graphDeps || JSON.stringify([...graphDeps].sort(compareStrings)) !== JSON.stringify([...itemDeps].sort(compareStrings))) errors.push(`${item.id} dependency graph is inconsistent`);
 }
 
 function validateItemCounts(s, errors) {
@@ -545,11 +546,11 @@ function validateFeatureSourceReferences(s, feature, src, errors) {
 function validateFeatureRelations(feature, errors) {
   const expectedTasks = workByFeature.get(feature.id) ?? [];
   if (!equal(feature.related_work_items, expectedTasks.map((task) => task.id))) errors.push(`${feature.id} related work items are incomplete`);
-  const expectedPackages = [...new Set(expectedTasks.map((task) => task.package))].sort();
-  if (!equal([...(feature.related_work_packages ?? [])].sort(), expectedPackages)) errors.push(`${feature.id} related work packages are incomplete`);
+  const expectedPackages = [...new Set(expectedTasks.map((task) => task.package))].sort(compareStrings);
+  if (!equal([...(feature.related_work_packages ?? [])].sort(compareStrings), expectedPackages)) errors.push(`${feature.id} related work packages are incomplete`);
   const refinementId = plan.features.find((item) => item.id === feature.id)?.feature_acceptance_id;
-  const expectedRefs = [...new Set([...expectedTasks.flatMap((task) => task.test_cases), ...(refinementId ? [refinementId] : [])])].sort();
-  if (!equal([...(feature.test_references ?? [])].sort(), expectedRefs)) errors.push(`${feature.id} test references are incomplete`);
+  const expectedRefs = [...new Set([...expectedTasks.flatMap((task) => task.test_cases), ...(refinementId ? [refinementId] : [])])].sort(compareStrings);
+  if (!equal([...(feature.test_references ?? [])].sort(compareStrings), expectedRefs)) errors.push(`${feature.id} test references are incomplete`);
 }
 
 function validateFeaturePaths(feature, errors) {
@@ -599,7 +600,7 @@ function validateCaseContract(s, testCase, importedCases, validEvidence, errors)
 function validateCaseReferences(testCase, src, errors) {
   const acceptance = { expected_result: src.expected_result, evidence_required: src.evidence_required, pass_criteria: src.pass_criteria };
   if (!equal(testCase.source_paths, [planPath]) || !equal(testCase.task_ids, src.task_ids) || testCase.mode !== src.mode || testCase.objective !== src.objective || !equal(testCase.acceptance, acceptance)) errors.push(`${testCase.id} source/task/acceptance references are inconsistent`);
-  if (!equal(Object.keys(testCase.results ?? {}).sort(), ['oracle_19c', 'oracle_21c', 'unit'])) errors.push(`${testCase.id} must have exactly the three separate result cells`);
+  if (!equal(Object.keys(testCase.results ?? {}).sort(compareStrings), ['oracle_19c', 'oracle_21c', 'unit'].sort(compareStrings))) errors.push(`${testCase.id} must have exactly the three separate result cells`);
 }
 
 function validateCaseEvidenceRefs(testCase, evidenceRefs, validEvidence, errors) {
@@ -650,6 +651,7 @@ export function validateState(s) {
   s.acceptance.work ??= {};
   s.ownership ??= { items: {}, agents: {} };
   s.ownership.items ??= {};
+  s.ownership.agents ??= {};
   s.graph ??= { nodes: [], edges: {} };
   s.graph.edges ??= {};
   s.evidence ??= { entries: [] };
@@ -674,7 +676,7 @@ export function validateState(s) {
 }
 
 function formatStatus(s) {
-  const counts = (items) => Object.fromEntries([...new Set(items.map((x) => x.status))].sort().map((status) => [status, items.filter((x) => x.status === status).length]));
+  const counts = (items) => Object.fromEntries([...new Set(items.map((x) => x.status))].sort(compareStrings).map((status) => [status, items.filter((x) => x.status === status).length]));
   return { features: s.features.features.length, feature_status: counts(s.features.features), work_items: s.tasks.tasks.length, work_status: counts(s.tasks.tasks), wp0_cases: s.tests.cases.length, oracle_cells: 'BLOCKED pending authorized lab manifest' };
 }
 export function selectNext(s) {
