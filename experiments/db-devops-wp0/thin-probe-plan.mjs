@@ -1,43 +1,14 @@
 import { preflight } from './preflight.mjs';
 
+// Fixed acceptance data; one constructor preserves identical per-case semantics.
 const CASES = Object.freeze([
-  Object.freeze({
-    id: 'WP0-01-01',
-    mode: 'ORACLE_RUNTIME',
-    objective: 'Thin TCPS on both supported versions',
-    expectedOutcome: 'Thin=true, verified peer/container and separate principals; no Instant Client required',
-  }),
-  Object.freeze({
-    id: 'WP0-01-02',
-    mode: 'ORACLE_RUNTIME',
-    objective: 'Wrong service/PDB',
-    expectedOutcome: 'Reject before bootstrap/migration statements; no identity fallback',
-  }),
-  Object.freeze({
-    id: 'WP0-01-03',
-    mode: 'ORACLE_RUNTIME',
-    objective: 'Authentication and grant denial',
-    expectedOutcome: 'Sanitized errors; no leaked secret, false onboarding or broad-grant fallback',
-  }),
-  Object.freeze({
-    id: 'WP0-01-04',
-    mode: 'ORACLE_RUNTIME',
-    objective: 'Bounded connection timeout',
-    expectedOutcome: 'Bounded error and zero migration statements; existing platform process remains usable',
-  }),
-  Object.freeze({
-    id: 'WP0-01-05',
-    mode: 'ORACLE_RUNTIME',
-    objective: 'Network loss during a call',
-    expectedOutcome: 'AMBIGUOUS/HOLD until observation; no inference of rollback or automatic replay',
-  }),
-  Object.freeze({
-    id: 'WP0-01-06',
-    mode: 'ORACLE_RUNTIME',
-    objective: 'Credential isolation and rotation boundary',
-    expectedOutcome: 'Cross-owner substitution denied; changed credential revision invalidates intent; no mixed-owner pool or secret output',
-  }),
-]);
+  ['WP0-01-01', 'Thin TCPS on both supported versions', 'Thin=true, verified peer/container and separate principals; no Instant Client required'],
+  ['WP0-01-02', 'Wrong service/PDB', 'Reject before bootstrap/migration statements; no identity fallback'],
+  ['WP0-01-03', 'Authentication and grant denial', 'Sanitized errors; no leaked secret, false onboarding or broad-grant fallback'],
+  ['WP0-01-04', 'Bounded connection timeout', 'Bounded error and zero migration statements; existing platform process remains usable'],
+  ['WP0-01-05', 'Network loss during a call', 'AMBIGUOUS/HOLD until observation; no inference of rollback or automatic replay'],
+  ['WP0-01-06', 'Credential isolation and rotation boundary', 'Cross-owner substitution denied; changed credential revision invalidates intent; no mixed-owner pool or secret output'],
+].map(([id, objective, expectedOutcome]) => Object.freeze({ id, mode: 'ORACLE_RUNTIME', objective, expectedOutcome })));
 
 const VERSIONS = Object.freeze(['19c', '21c']);
 const ACCEPTANCE_CASES_SHA256 = 'b077599dbda0db4dd7748e818405d95200d72e2427ead1ce288d013d152e45c4';

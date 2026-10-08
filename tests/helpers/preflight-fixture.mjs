@@ -32,12 +32,13 @@ export async function profileFixture() {
   };
   const noticeBytes = Buffer.from('synthetic fixture notice marker; no rights assertion');
   const notice = await artifact('NOTICE-fixture.txt', noticeBytes);
-  const artifacts = [];
-  for (const kind of kinds) {
+  const artifacts = await kinds.reduce(async (previous, kind) => {
+    const entries = await previous;
     const content = Buffer.from(`synthetic ${kind} input`);
     const data = await artifact(`${kind}.bin`, content);
-    artifacts.push({ kind, path: data.path, sha256: data.sha256, version: '1.0.0', sourceRef: `source://synthetic/${kind}`, noticePath: notice.path, noticeSha256: notice.sha256, maintenanceRef: `attestation://synthetic/${kind}` });
-  }
+    entries.push({ kind, path: data.path, sha256: data.sha256, version: '1.0.0', sourceRef: `source://synthetic/${kind}`, noticePath: notice.path, noticeSha256: notice.sha256, maintenanceRef: `attestation://synthetic/${kind}` });
+    return entries;
+  }, Promise.resolve([]));
   const pgBytes = Buffer.from('synthetic offline postgres image marker');
   const pg = await artifact('postgres.fixture', pgBytes);
   const route19 = { service: 'svc19', containerId: 'cdb19', pdb: 'pdb19', environment: 'DEV', endpoint: 'tcps://oracle19.example.invalid:2484/svc19' };

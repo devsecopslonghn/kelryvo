@@ -1,0 +1,41 @@
+{
+  "scope": "PR3 quality repair after failed duplication gate",
+  "preceding_head": "8bf13b3f0dc72a7d21a64aca4262643289d1717f",
+  "failed_condition": "7.8% new-code duplication; limit3%. Gate/threshold unchanged.",
+  "repair": [
+    "Use one constructor for six fixed scalar case rows.",
+    "Centralize identical public blocked-plan assertions across direct and CLI tests.",
+    "Keep acceptance projection comparison independent of production constructor.",
+    "Keep fixture writes ordered with sequential reduction."
+  ],
+  "verification": {
+    "root_full_check": {
+      "command": "npm run check",
+      "exit_code": 0,
+      "passed": 72,
+      "failed": 0
+    },
+    "final_projection_targeted_tests": {
+      "command": "node --test tests/thin-probe-plan.test.mjs tests/thin-probe-cli.test.mjs",
+      "exit_code": 0,
+      "passed": 8,
+      "failed": 0
+    },
+    "independent_focused_tests": {
+      "passed": 16,
+      "failed": 0
+    }
+  },
+  "independent_qa": "Approved: no weakened case mapping, authority, counters, status or fixture ordering.",
+  "independent_security": "Approved: no security/provenance/runtime-authority change.",
+  "source_hashes": {
+    "experiments/db-devops-wp0/thin-probe-plan.mjs": "006d1c46a4d9f311a39188907275112ba8458363cd8ca5c55466cdf2f9ffdff3",
+    "tests/helpers/thin-probe-assertions.mjs": "c608b67bd3ffc84949201883a26b066f349e7abe5b1583c15ed8a3632266c756",
+    "tests/helpers/preflight-fixture.mjs": "2b41fc4a5d9d4aba329deb58d76d4fe6ab6b2dec833b31917a2e6d89ed198b5d",
+    "tests/thin-probe-plan.test.mjs": "c1071d0fa206151cad96aaa59597dd050886b58949250dced94aff41c4053ddb",
+    "tests/thin-probe-cli.test.mjs": "e297a8cacfecb43b94eed5c382f87797c43cd033153e10374f8a7e4684b75002"
+  },
+  "oracle_cells_blocked": 124,
+  "product_features_verified": 0,
+  "remote_ci": "Await repaired exact-head CI; do not merge until gates pass."
+}

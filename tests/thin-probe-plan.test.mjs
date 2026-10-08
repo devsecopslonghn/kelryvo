@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { prepareThinProbePlan } from '../experiments/db-devops-wp0/thin-probe-plan.mjs';
 import { kinds, profileFixture } from './helpers/preflight-fixture.mjs';
+import { assertBlockedThinPlan } from './helpers/thin-probe-assertions.mjs';
 
 const acceptance = JSON.parse(await readFile(new URL('../docs/implementation/acceptance.json', import.meta.url), 'utf8'));
 const expectedCases = acceptance.test_cases.filter((item) => /^WP0-01-0[1-6]$/.test(item.id));
@@ -27,36 +28,15 @@ test('complete synthetic profile produces 12 frozen NOT_RUN plans without author
     const plan = await prepareThinProbePlan(fixture.profile);
 
     assert.equal(plan.preflightStatus, 'PREFLIGHT_VALID');
-    assert.equal(plan.taskStatus, 'BLOCKED');
     assert.equal(plan.planStatus, 'PLAN_ONLY_RUNTIME_BLOCKED');
     assert.deepEqual(plan.provenance, { acceptanceCasesSha256, preflightSourceSha256 });
-    assert.equal(plan.admission, 'NOT_AUTHORIZED');
-    assert.equal(plan.runtime, 'BLOCKED');
-    assert.equal(plan.runtimeClaims, false);
-    assert.equal(plan.connectionAuthorized, false);
-    assert.equal(plan.executionApproved, false);
-    assert.equal(plan.productionApproved, false);
+    assertBlockedThinPlan(plan);
     assert.deepEqual(
-      [plan.connectionCalls, plan.credentialResolutions, plan.sqlStatements],
-      [0, 0, 0],
+      plan.entries.map(entry => [entry.caseId, entry.oracleVersion, entry.mode, entry.objective, entry.expectedOutcome]),
+      expectedCases.flatMap(item => ['19c', '21c'].map(version => [
+        item.id, version, item.mode, item.objective, item.acceptance.expected_result,
+      ])),
     );
-    assert.equal(plan.entries.length, 12);
-    assert.deepEqual(
-      plan.entries.map(({ caseId, oracleVersion, objective, expectedOutcome, mode, status, cellStatus, executable }) => ({
-        caseId, oracleVersion, objective, expectedOutcome, mode, status, cellStatus, executable,
-      })),
-      expectedCases.flatMap((item) => ['19c', '21c'].map((oracleVersion) => ({
-        caseId: item.id,
-        oracleVersion,
-        objective: item.objective,
-        expectedOutcome: item.acceptance.expected_result,
-        mode: item.mode,
-        status: 'NOT_RUN',
-        cellStatus: 'BLOCKED',
-        executable: false,
-      }))),
-    );
-    assert.ok(plan.entries.every((entry) => entry.cellStatus === 'BLOCKED'));
     assert.equal(Object.isFrozen(plan), true);
     assert.equal(Object.isFrozen(plan.entries), true);
     assert.equal(Object.isFrozen(plan.entries[0]), true);
@@ -73,8 +53,7 @@ test('missing profile uses real preflight and keeps all 12 cells BLOCKED and NOT
   const plan = await prepareThinProbePlan({});
   assert.equal(plan.preflightStatus, 'BLOCKED');
   assert.equal(plan.planStatus, 'BLOCKED_INPUTS');
-  assert.equal(plan.entries.length, 12);
-  assert.ok(plan.entries.every((entry) => entry.status === 'NOT_RUN' && entry.cellStatus === 'BLOCKED' && !entry.executable));
+  assertBlockedThinPlan(plan);
   assert.deepEqual(plan.blockers, ['Required T01 lab and runtime inputs are incomplete.']);
 });
 
@@ -107,9 +86,5 @@ test('caller-supplied preflight-shaped data is just an invalid profile, not an a
 
   assert.equal(plan.preflightStatus, 'REJECTED');
   assert.equal(plan.planStatus, 'BLOCKED_INPUTS');
-  assert.equal(plan.admission, 'NOT_AUTHORIZED');
-  assert.equal(plan.connectionCalls, 0);
-  assert.equal(plan.credentialResolutions, 0);
-  assert.equal(plan.sqlStatements, 0);
-  assert.ok(plan.entries.every((entry) => entry.status === 'NOT_RUN' && !entry.executable));
+  assertBlockedThinPlan(plan);
 });

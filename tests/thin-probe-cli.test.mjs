@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { profileFixture } from './helpers/preflight-fixture.mjs';
+import { assertBlockedThinPlan } from './helpers/thin-probe-assertions.mjs';
 
 test('the offline CLI reports missing authority with twelve blocked unexecuted cases', () => {
   const result = spawnSync(process.execPath, ['scripts/thin-probe-plan.mjs'], { encoding: 'utf8', timeout: 5000 });
@@ -12,11 +13,7 @@ test('the offline CLI reports missing authority with twelve blocked unexecuted c
   assert.equal(result.stderr, '');
   const plan = JSON.parse(result.stdout);
   assert.equal(plan.preflightStatus, 'BLOCKED');
-  assert.equal(plan.entries.length, 12);
-  assert.ok(plan.entries.every(entry => entry.status === 'NOT_RUN' && entry.cellStatus === 'BLOCKED' && !entry.executable));
-  assert.equal(plan.connectionAuthorized, false);
-  assert.equal(plan.executionApproved, false);
-  assert.deepEqual([plan.connectionCalls, plan.credentialResolutions, plan.sqlStatements], [0, 0, 0]);
+  assertBlockedThinPlan(plan);
 });
 
 test('a complete synthetic profile exits successfully for planning while denying runtime', async () => {
@@ -29,11 +26,7 @@ test('a complete synthetic profile exits successfully for planning while denying
     const plan = JSON.parse(result.stdout);
     assert.equal(plan.preflightStatus, 'PREFLIGHT_VALID');
     assert.equal(plan.planStatus, 'PLAN_ONLY_RUNTIME_BLOCKED');
-    assert.equal(plan.admission, 'NOT_AUTHORIZED');
-    assert.equal(plan.connectionAuthorized, false);
-    assert.equal(plan.executionApproved, false);
-    assert.ok(plan.entries.every(entry => entry.cellStatus === 'BLOCKED' && entry.status === 'NOT_RUN'));
-    assert.deepEqual([plan.connectionCalls, plan.credentialResolutions, plan.sqlStatements], [0, 0, 0]);
+    assertBlockedThinPlan(plan);
   } finally {
     await fixture.cleanup();
   }

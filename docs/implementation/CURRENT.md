@@ -12,7 +12,10 @@ checks passed, including SonarCloud and CodeQL. Its reviewed head was
 are retained as append-only evidence. No quality gate was bypassed.
 
 The current increment uses `development/wp0-thin-probe-plan`. Its PR requires fresh
-exact-head CI and final review before merge. Resolve current master and PR state from
+exact-head CI and final review before merge. PR #3's initial SonarCloud run failed
+new-code duplication (7.8% versus3%); repeated case construction and test assertions were
+refactored with unchanged semantics and threshold. Fresh repaired-head gates must pass.
+Resolve current master and PR state from
 Git/GitHub when resuming; checkpoint hashes name the preceding validated master because
 a checkpoint cannot contain its own resulting commit or merge hash.
 
