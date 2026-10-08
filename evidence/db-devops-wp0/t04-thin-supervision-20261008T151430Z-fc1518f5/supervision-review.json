@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "scope": "T04 offline child-process supervision only",
+  "recorded_at": "2026-10-08T15:21:18.659792+00:00",
+  "base_master": "6aa97d8db47fb3978fa11b0e59c09c1e9ad538b2",
+  "sources": [
+    {
+      "path": "experiments/db-devops-wp0/thin-readonly-probe.mjs",
+      "sha256": "becf3fb4123462dc2c68e7fc286823a4c16d169c2b91c89ddc7a0353b37ed87a"
+    },
+    {
+      "path": "experiments/db-devops-wp0/thin-probe-protocol.mjs",
+      "sha256": "7c97270ab3414b893da375a2d702f7e3e0bf91ba1013ed9234f515aa1941efd2"
+    },
+    {
+      "path": "experiments/db-devops-wp0/thin-probe-worker.mjs",
+      "sha256": "7d5fa9a1b7527e6f3b940594694054c070fc9f8d08b17005f168ad3d30254185"
+    },
+    {
+      "path": "experiments/db-devops-wp0/thin-probe-supervisor.mjs",
+      "sha256": "1f9798decb670961c8438e8f44972baddccfe178343dcd13d047e5f26483e1e1"
+    },
+    {
+      "path": "tests/thin-probe-supervisor.test.mjs",
+      "sha256": "49da8792fc072c320c3c2303e956f173a6d06365f77bd24ee3a1a72aa1d3c2a9"
+    },
+    {
+      "path": "tests/helpers/thin-supervisor-worker.mjs",
+      "sha256": "30130c130d16cab6a08c397fa3829ea597a98a37523ddb5b8e25a557c6f08ead"
+    }
+  ],
+  "full_check": {
+    "command": "npm run check",
+    "exit_code": 0,
+    "tests": 115,
+    "pass": 115,
+    "dependency_smoke": "PASS",
+    "log": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/checks-formatted.txt",
+    "sha256": "d1665d6ed162be166e9d77e24027c2395f7da745b604dad7ed54e946a1eae634"
+  },
+  "initial_check": {
+    "exit_code": 1,
+    "cause": "milestone.json JSON formatting; fixed with existing npm run format",
+    "log": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/checks-initial.txt",
+    "sha256": "bf5648b936e8e6152ab4b17febcd38e49b8acbb0e1a571a03218a74076813ae9"
+  },
+  "independent_qa": {
+    "outcome": "PASS",
+    "focused_tests": 22,
+    "findings": [],
+    "additional_observation": "Earlier ad hoc valid-then-duplicate receipt was rejected with HOLD; latest focused suite covers retained unreaped ownership."
+  },
+  "independent_security": {
+    "outcome": "APPROVED_AFTER_REPAIR",
+    "initial_findings": [
+      "Malformed IPC payload was fully serialized before bounds",
+      "Unconfirmed child was detached without retaining reap ownership"
+    ],
+    "repairs": [
+      "Validate exact envelopes and bounded scalar fields before any serialization; native IPC deserialization explicitly not memory bounded",
+      "Retain live child/IPC/streams and referenced KILL reaper until actual exit; refuse replacement probes"
+    ],
+    "focused_suite_complete_report_captured": false,
+    "remaining_code_blockers": []
+  },
+  "oracle": {
+    "connections": 0,
+    "handshakes": 0,
+    "credential_reference_lookups": 0,
+    "task_status": "BLOCKED",
+    "applicable_cells_blocked": 124,
+    "acceptance": "NOT_EVALUATED"
+  },
+  "limits": [
+    "Trusted synchronous startWorker contract is not independently attested by UNIT checks; no default live entry/backend",
+    "Actual child processes use fake positive drivers/providers; default real driver stops at denied admission",
+    "Same-UID process is not OS privilege/filesystem/network isolation; Node IPC parsing has no transport memory cap",
+    "UNCONFIRMED retains background reaping responsibility; application shutdown must not abandon it",
+    "Child exit/kill does not prove session cleanup or canonical target identity",
+    "No full T04 case/criterion, product feature or Oracle runtime is verified"
+  ]
+}

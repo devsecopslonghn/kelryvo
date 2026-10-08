@@ -1,0 +1,16 @@
+{
+  "id": "WP0-T04-SUPERVISION-t04-thin-supervision-20261008T151430Z-fc1518f5",
+  "subject_id": "WP0-T04",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "npm run check",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/checks-formatted.txt",
+    "sha256": "d1665d6ed162be166e9d77e24027c2395f7da745b604dad7ed54e946a1eae634"
+  }
+}

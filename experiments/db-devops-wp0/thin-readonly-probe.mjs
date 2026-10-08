@@ -71,6 +71,8 @@ function immutableRequest(input) {
   });
 }
 
+export { immutableRequest as snapshotThinProbeRequest };
+
 function validHost(host) {
   if (!boundedText(host, 253) || host !== host.toLowerCase() || host.endsWith('.')) return false;
   return host.split('.').length >= 2 && host.split('.').every((label) => DNS_LABEL.test(label));

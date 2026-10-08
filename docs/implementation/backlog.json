@@ -192,6 +192,9 @@
         },
         {
           "index_id": "WP0-T04-PEM-REPAIR-t04-thin-readonly-20261008T143528Z-0b734360"
+        },
+        {
+          "index_id": "WP0-T04-SUPERVISION-t04-thin-supervision-20261008T151430Z-fc1518f5"
         }
       ],
       "blockers": [
@@ -219,10 +222,21 @@
           "Authenticated authority and atomic claim backends",
           "Approved disposable 19c/21c manifests and scoped grants",
           "Approved client wallet/trust and credential providers",
-          "Supervised isolated worker with watchdog and sanitized environment",
+          "Trusted fixed-entry supervised worker deployment with OS isolation and sanitized environment",
           "Independent canonical target/container and session observations"
         ],
         "acceptance_note": "Twenty-one UNIT tests use fake positive connectors and native offline TLS contexts. No complete T04 criterion or Oracle case coverage is claimed; all 124 Oracle cells remain BLOCKED."
+      },
+      "supervision_candidate": {
+        "status": "IMPLEMENTED_UNIT_CHECKED_RUNTIME_BLOCKED",
+        "parent_entry": "createSupervisedThinProbe({startWorker, limits})(request)",
+        "child_entry": "runThinProbeWorker(ports)",
+        "source": "experiments/db-devops-wp0/thin-probe-supervisor.mjs",
+        "evidence_run": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5",
+        "focused_unit_tests": 22,
+        "authority_backends_implemented": false,
+        "live_cli_implemented": false,
+        "acceptance_note": "Actual Node child processes and fake positive drivers/providers verify watchdog/protocol/reaping mechanics only. Unconfirmed workers remain owned and block replacement. All Oracle cells and T04 acceptance stay BLOCKED."
       }
     },
     {

@@ -843,6 +843,24 @@
       },
       "path": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/WP0-T04-MERGED-PR5.json",
       "sha256": "087515393a8c542062dc07f1c0b9a066e4e7cb92aca465410af9ec8798fbcc64"
+    },
+    {
+      "id": "WP0-T04-SUPERVISION-t04-thin-supervision-20261008T151430Z-fc1518f5",
+      "subject_id": "WP0-T04",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/checks-formatted.txt",
+        "sha256": "d1665d6ed162be166e9d77e24027c2395f7da745b604dad7ed54e946a1eae634"
+      },
+      "path": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/WP0-T04-SUPERVISION.json",
+      "sha256": "481c894381c666654eaccbeb397a55be6de0125a8ead7a390c0390cebb9a8b57"
     }
   ]
 }
