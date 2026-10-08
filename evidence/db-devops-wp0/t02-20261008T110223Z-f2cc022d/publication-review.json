@@ -1,0 +1,29 @@
+{
+  "reviewed_at": "2026-10-08T11:08:08.212556+00:00",
+  "scope": "All tracked current-tree bytes and prior foundation/remote history reviewed; public research restricted-source boundary retained",
+  "tracked_files": 169,
+  "findings": [],
+  "reviewed_synthetic_matches": [
+    {
+      "path": "tests/dependency-artifacts.test.mjs",
+      "kind": "uri_userinfo",
+      "line": 110,
+      "disposition": "Explicit synthetic negative fixture; no live credentials"
+    },
+    {
+      "path": "tests/parser-build.test.mjs",
+      "kind": "uri_userinfo",
+      "line": 26,
+      "disposition": "Explicit synthetic negative fixture; no live credentials"
+    },
+    {
+      "path": "tests/preflight.test.mjs",
+      "kind": "uri_userinfo",
+      "line": 87,
+      "disposition": "Explicit synthetic negative fixture; no live credentials"
+    }
+  ],
+  "restricted_source_or_assets": false,
+  "raw_artifacts_tracked": false,
+  "limitation": "Pattern scan and targeted human review; no claim of an exhaustive security audit."
+}

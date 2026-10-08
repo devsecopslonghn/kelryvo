@@ -1,0 +1,92 @@
+{
+  "id": "WP0-T03-CANDIDATE-t02-20261008T110223Z-f2cc022d",
+  "subject_id": "WP0-T03",
+  "kind": "UNIT",
+  "scope": "HARNESS",
+  "outcome": "BLOCKED",
+  "command": "node scripts/parser-corpus.mjs",
+  "exit_code": 1,
+  "criterion_indexes": [],
+  "test_references": [
+    "WP0-03-01",
+    "WP0-03-08",
+    "WP0-03-09",
+    "WP0-03-10",
+    "WP0-03-11",
+    "WP0-03-12",
+    "WP0-03-14"
+  ],
+  "case_coverage": [
+    {
+      "case_id": "WP0-03-01",
+      "scope": "TASK_INCREMENT",
+      "full_case_pass": false,
+      "cells": [
+        "unit"
+      ],
+      "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+    },
+    {
+      "case_id": "WP0-03-08",
+      "scope": "TASK_INCREMENT",
+      "full_case_pass": false,
+      "cells": [
+        "unit"
+      ],
+      "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+    },
+    {
+      "case_id": "WP0-03-09",
+      "scope": "TASK_INCREMENT",
+      "full_case_pass": false,
+      "cells": [
+        "unit"
+      ],
+      "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+    },
+    {
+      "case_id": "WP0-03-10",
+      "scope": "TASK_INCREMENT",
+      "full_case_pass": false,
+      "cells": [
+        "unit"
+      ],
+      "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+    },
+    {
+      "case_id": "WP0-03-11",
+      "scope": "TASK_INCREMENT",
+      "full_case_pass": false,
+      "cells": [
+        "unit"
+      ],
+      "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+    },
+    {
+      "case_id": "WP0-03-12",
+      "scope": "TASK_INCREMENT",
+      "full_case_pass": false,
+      "cells": [
+        "unit"
+      ],
+      "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+    },
+    {
+      "case_id": "WP0-03-14",
+      "scope": "TASK_INCREMENT",
+      "full_case_pass": false,
+      "cells": [
+        "unit"
+      ],
+      "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+    }
+  ],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/parser-corpus.json",
+    "sha256": "d41bd8f0475c540fd328f3affc672cbbe600d91d5a260940f824a937db0c4e07"
+  },
+  "reviewed_at": "2026-10-08T11:05:58.851421+00:00",
+  "candidate_accepted": false,
+  "compatibility_mismatches": 11,
+  "oracle_calls": 0
+}

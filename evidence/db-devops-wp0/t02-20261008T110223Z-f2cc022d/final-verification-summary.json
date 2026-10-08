@@ -1,0 +1,24 @@
+{
+  "reviewed_at": "2026-10-08T11:09:59.766512+00:00",
+  "commands": [
+    {
+      "command": "npm run check",
+      "exit_code": 0,
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/checks-final.log",
+        "sha256": "9cc04079f637aae73ae61792311d8c436277c1e7800657f0828fd44614036dab"
+      }
+    },
+    {
+      "command": "node scripts/parser-build.mjs",
+      "exit_code": 0,
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/parser-build-final.json",
+        "sha256": "9d586590c3b7e62a91da737c7a2f65998f2f3f16ff99820728876d7935c233bf"
+      }
+    }
+  ],
+  "scope": "Final reviewed T02 candidate audit and offline harness only",
+  "cache_verifier_fixed": true,
+  "oracle_calls": 0
+}

@@ -1,0 +1,64 @@
+{
+  "started_at": "t02-20261008T110223Z-f2cc022d",
+  "scope": "WP0-T02 audited candidate and independent offline diagnostics; no Oracle or release approval",
+  "commands": [
+    {
+      "command": "npm run check",
+      "exit_code": 0,
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/checks.log",
+        "sha256": "1080c9974f49d57a4fbd23b3618c692faae510992b3cc804fb64f771cf4bf198"
+      }
+    },
+    {
+      "command": "node scripts/dependency-artifacts.mjs offline-check --smoke experiments/db-devops-wp0/dependencies/smoke.mjs",
+      "exit_code": 0,
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/npm-offline.json",
+        "sha256": "00530fcca123f67f499cc1a3be30aa93b6b969facd5d8715f6d4c3d5fbe0e21b"
+      }
+    },
+    {
+      "command": "node scripts/dependency-artifacts.mjs manifest",
+      "exit_code": 0,
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/npm-manifest.json",
+        "sha256": "2ae6db0910b2d9a5636bb3fa901957d004677bf0d52407d5ce3ae03f1a0b66fa"
+      }
+    },
+    {
+      "command": "npm audit --json",
+      "exit_code": 0,
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/advisories.json",
+        "sha256": "e84f4e1d1c9b3e7dd257be025545bc2f33a94dd11163d64ff8fa3fa99b4079b0"
+      }
+    },
+    {
+      "command": "node scripts/parser-build.mjs",
+      "exit_code": 0,
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/parser-build.json",
+        "sha256": "9d586590c3b7e62a91da737c7a2f65998f2f3f16ff99820728876d7935c233bf"
+      }
+    },
+    {
+      "command": "node scripts/parser-corpus.mjs",
+      "exit_code": 1,
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/parser-corpus.json",
+        "sha256": "d41bd8f0475c540fd328f3affc672cbbe600d91d5a260940f824a937db0c4e07"
+      }
+    },
+    {
+      "command": "node experiments/db-devops-wp0/preflight.mjs",
+      "exit_code": 1,
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/missing-lab.json",
+        "sha256": "d4b68c9acda20f94d301e28859e9d1fba6a724f8199ad33d142ac173d167c1d5"
+      }
+    }
+  ],
+  "expected_compatibility_failures": 11,
+  "oracle_calls": 0
+}

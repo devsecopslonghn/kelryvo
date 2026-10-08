@@ -9,3 +9,11 @@ Credential references are identifiers only. Preflight never opens or resolves th
 The artifact, NOTICE, source and maintenance references are declarations; digest checks establish only that declared local bytes match their hashes. They do not assess license validity, distribution rights, dependency completeness, maintenance quality, Oracle runtime behavior or entitlement. A valid offline profile has `preflight.logic: PASS` while `preflight.runtime` remains `BLOCKED`; it is not WP0 acceptance and does not itself authorize a connection. The full dependency/license audit and runtime evidence remain outstanding.
 
 Run focused tests with `node --test tests/preflight.test.mjs`.
+
+WP0-T02 adds actual pinned dependency imports, clean offline npm installation and a
+driver-free Flyway parser feasibility helper. Use `npm run dependencies:smoke`,
+`npm run dependencies:offline` and the [offline build instructions](../../docs/development/offline-build.md).
+The original F07–F20 corpus has 14 fixture groups and 30 variants with immutable byte
+digests and executable goldens. The bounded parent envelope validates candidate output
+and the `parser:corpus` command exposes 11 compatibility failures. All candidate results
+remain unapproved; no parser or database execution is admitted by these tools.

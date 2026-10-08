@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Offline foundation tooling and WP0 probes; product license undecided",
   "engines": {
-    "node": ">=22.23.3 <23"
+    "node": "22.23.3",
+    "npm": "10.9.9"
   },
   "scripts": {
     "build": "node scripts/check-source.mjs",
@@ -13,10 +14,23 @@
     "format:check": "node scripts/format-json.mjs --check",
     "format": "node scripts/format-json.mjs --write",
     "test": "node --test tests/*.test.mjs",
-    "check": "npm run build && npm run lint && npm run format:check && npm test",
+    "check": "npm run build && npm run lint && npm run format:check && npm test && npm run dependencies:smoke",
     "check:record": "node scripts/record-checks.mjs",
     "status": "node scripts/tracker.mjs status",
     "next": "node scripts/tracker.mjs next",
-    "preflight": "node experiments/db-devops-wp0/preflight.mjs"
-  }
+    "preflight": "node experiments/db-devops-wp0/preflight.mjs",
+    "dependencies:smoke": "node experiments/db-devops-wp0/dependencies/smoke.mjs",
+    "dependencies:manifest": "node scripts/dependency-artifacts.mjs manifest",
+    "dependencies:offline": "node scripts/dependency-artifacts.mjs offline-check --smoke experiments/db-devops-wp0/dependencies/smoke.mjs",
+    "parser:corpus": "node scripts/parser-corpus.mjs",
+    "parser:build:offline": "node scripts/parser-build.mjs"
+  },
+  "dependencies": {
+    "oracledb": "7.0.1",
+    "postgres": "3.4.9"
+  },
+  "devDependencies": {
+    "typescript": "6.0.2"
+  },
+  "packageManager": "npm@10.9.9"
 }

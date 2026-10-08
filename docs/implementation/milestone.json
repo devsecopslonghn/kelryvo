@@ -9,8 +9,8 @@
   "foundation_task": "SF-P0-FOUNDATION",
   "blockers": [
     "No authorized disposable Oracle 19c/21c lab manifest or scoped credentials/identities/grants/fault authority.",
-    "Selected driver/parser/JRE/PostgreSQL artifact pins and complete dependency/license/NOTICE closure remain unaudited.",
-    "Product license selection and public naming clearance remain owner decisions before distribution."
+    "ADR-I03 reopened: Flyway candidate fails 11 required parser corpus checks; no accepted mature parser profile.",
+    "Full distribution license/source/notice assembly and Git/metadata deployment artifact selections remain pending; product license/name are owner decisions."
   ],
   "evidence": [
     {
@@ -18,6 +18,12 @@
     },
     {
       "index_id": "WP0-T01-OFFLINE-20261008T094757Z-c4b97e39"
+    },
+    {
+      "index_id": "WP0-T02-AUDIT-t02-20261008T110223Z-f2cc022d"
+    },
+    {
+      "index_id": "WP0-T03-CANDIDATE-t02-20261008T110223Z-f2cc022d"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -27,36 +33,36 @@
   "current_phase": "Phase 1 / offline WP0",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
-  "wp0_architecture_decision": "NOT_ACCEPTED",
+  "wp0_architecture_decision": "REOPENED_ADR_I03",
   "product_features_verified": 0,
   "next_actionable_tasks": [
     {
-      "id": "WP0-T02",
-      "owner": "security",
-      "action": "Audit and pin actual candidate driver/parser/JRE dependency closure and notices; no Oracle required.",
-      "dependencies": [
-        "WP0-T01"
-      ],
-      "status": "READY"
-    },
-    {
       "id": "WP0-T03",
       "owner": "database",
-      "action": "Implement only an accepted mature parser wrapper and byte-range corpus after dependency audit.",
+      "status": "BLOCKED",
+      "action": "Resolve reopened ADR-I03 with a licensed mature parser that passes the existing comment/SQL*Plus corpus; no custom splitter.",
       "dependencies": [
         "WP0-T02"
-      ],
-      "status": "BACKLOG"
+      ]
     },
     {
       "id": "WP0-T04",
       "owner": "database",
-      "action": "Obtain explicitly authorized disposable profiles and scoped input references, then implement bounded Thin probes.",
+      "status": "BLOCKED",
+      "action": "Supply explicit disposable 19c/21c authorization and strict lab references; then implement/run bounded Thin probes.",
       "dependencies": [
         "WP0-T01",
         "WP0-T02"
-      ],
-      "status": "BLOCKED"
+      ]
+    },
+    {
+      "id": "WP0-T02",
+      "owner": "security",
+      "status": "VERIFIED",
+      "action": "Before a bundled release, close the remaining F31 distribution/source/notice and owner-license decisions; retain this audited candidate increment.",
+      "dependencies": [
+        "WP0-T01"
+      ]
     }
   ],
   "blocked_inputs_evidence": {
@@ -68,9 +74,11 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-08T09:47:57.570551+00:00",
+  "updated_at": "2026-10-08T11:11:45.902398+00:00",
   "final_check_evidence": {
-    "index_id": "SF-INTEGRATION-20261008T094923420Z-e58f558c"
+    "index_id": "WP0-T02-INTEGRATION-t02-20261008T110223Z-f2cc022d"
   },
-  "final_check_manifest": "evidence/foundation/20261008T094923420Z-e58f558c/manifest.json"
+  "final_check_manifest": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/final-verification-summary.json",
+  "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
+  "wp0_t03_status": "BLOCKED_CANDIDATE_COMPATIBILITY"
 }

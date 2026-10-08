@@ -2888,14 +2888,19 @@
       "objective": "Comments and quoted strings",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "FAIL",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
-        "Oracle lab authorization and attested disposable-target profile are missing."
+        "Oracle lab authorization and attested disposable-target profile are missing.",
+        "No accepted mature parser profile: the audited Flyway candidate fails required comments/SQL*Plus compatibility."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-08-CANDIDATE-t02-20261008T110223Z-f2cc022d"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -2981,14 +2986,19 @@
       "objective": "Unsupported SQL*Plus commands",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "FAIL",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
-        "Oracle lab authorization and attested disposable-target profile are missing."
+        "Oracle lab authorization and attested disposable-target profile are missing.",
+        "No accepted mature parser profile: the audited Flyway candidate fails required comments/SQL*Plus compatibility."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-11-CANDIDATE-t02-20261008T110223Z-f2cc022d"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -4104,7 +4114,7 @@
         "oracle_21c": "NOT_APPLICABLE"
       },
       "blockers": [
-        "Driver/parser/JRE/PostgreSQL closure artifacts and license/NOTICE audit have not been supplied or completed."
+        "Full distributable F31 closure is not accepted: independently authored product license is undecided; packaged runtime notices/source availability and complete Git/metadata deployment artifact selection remain outside the reviewed candidate increment."
       ],
       "evidence": [],
       "source_paths": [

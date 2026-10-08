@@ -34,7 +34,7 @@ const manifest = {
   started_at: startedAt,
   finished_at: new Date().toISOString(),
   node: process.version,
-  scope: 'Local foundation and offline WP0 validator only',
+  scope: 'Local foundation and offline WP0 harness checks only',
   command: 'npm run check',
   exit_code: check.status,
   outcome: check.status === 0 ? 'PASS' : 'FAIL',

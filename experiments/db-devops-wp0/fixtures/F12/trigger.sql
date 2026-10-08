@@ -1,0 +1,6 @@
+CREATE OR REPLACE TRIGGER sf_trg BEFORE INSERT ON sf_fixture
+FOR EACH ROW
+BEGIN
+  :NEW.id := 1;
+END;
+/

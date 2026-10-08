@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const excluded = new Set(['.git', 'node_modules', '.cache', 'coverage', 'dist', 'evidence']);
+const excluded = new Set(['.git', 'node_modules', '.cache', 'coverage', 'dist', 'target', 'evidence']);
 
 export async function ownedFiles(directory = root) {
   const files = [];

@@ -1,0 +1,11 @@
+{
+  "outcome": "PASS",
+  "scope": "OFFLINE_CANDIDATE_BUILD_ONLY",
+  "offline": true,
+  "build_count": 2,
+  "helper_sha256": "cfeab7e0db89348aece0f56f896e3acb0024056e531e02637b318a6800650a15",
+  "reviewed_build_artifacts": 90,
+  "execution_approved": false,
+  "production_approved": false,
+  "database_calls": 0
+}

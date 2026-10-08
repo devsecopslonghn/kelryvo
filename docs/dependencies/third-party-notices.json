@@ -1,0 +1,981 @@
+{
+  "schema_version": 1,
+  "register_date": "2026-10-08",
+  "scope": "Exact third-party dependency/runtime evidence for offline WP0 only; no production release or distribution approval.",
+  "product_license": {
+    "status": "PENDING_OWNER_DECISION",
+    "note": "The independently authored product license remains undecided. That does not change the selected third-party permissive grants; product publication and redistribution are separately gated."
+  },
+  "policy": {
+    "required_path_exclusions": [
+      "Oracle JDBC/ojdbc11",
+      "Oracle Instant Client",
+      "SQL*Plus",
+      "Liquibase FSL",
+      "Bytebase code/assets",
+      "commercial Flyway features"
+    ],
+    "unresolved_rights_rule": "Any required dependency whose grant or required notice cannot be evidenced from the exact artifact/source is a blocker; do not silently include it.",
+    "selected_artifact_acceptance": "The selected npm dependencies and parser runtime/build closures have known permissive or public-domain grants with exact artifact/source evidence. Product licensing remains pending owner decision and does not alter this artifact-level acceptance."
+  },
+  "npm_lock": {
+    "lockfile": "package-lock.json",
+    "lockfile_version": 3,
+    "packages": [
+      {
+        "name": "oracledb",
+        "version": "7.0.1",
+        "role": "selected Oracle Thin driver",
+        "license_declared": "(Apache-2.0 OR UPL-1.0)",
+        "resolved": "https://registry.npmjs.org/oracledb/-/oracledb-7.0.1.tgz",
+        "lock_integrity": "sha512-xlM0Ceh6A5stQLAdEfKf3pgCSkbOjQLo2ZPEi3+kXklz+KbZD3fLi/nsTSbQeZZNFBSFDNxdn1Ek3+bxG40M8w==",
+        "observed_integrity": "sha512-xlM0Ceh6A5stQLAdEfKf3pgCSkbOjQLo2ZPEi3+kXklz+KbZD3fLi/nsTSbQeZZNFBSFDNxdn1Ek3+bxG40M8w==",
+        "lock_integrity_matches": true,
+        "observed_sha256": "6584fbbc6b987307d90126a742f992d8e6041976e6eaa9b648f450c4652a34f5",
+        "license_notice_paths_in_exact_npm_archive": [
+          "package/LICENSE.txt",
+          "package/NOTICE.txt"
+        ],
+        "source": {
+          "repository": "https://github.com/oracle/node-oracledb",
+          "version_ref": "v7.0.1"
+        }
+      },
+      {
+        "name": "postgres",
+        "version": "3.4.9",
+        "role": "selected PostgreSQL client",
+        "license_declared": "Unlicense",
+        "resolved": "https://registry.npmjs.org/postgres/-/postgres-3.4.9.tgz",
+        "lock_integrity": "sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==",
+        "observed_integrity": "sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==",
+        "lock_integrity_matches": true,
+        "observed_sha256": "4964056ae6b672361557f738532a20ad29d54cff0b146cb66d67d7155d66761e",
+        "license_notice_paths_in_exact_npm_archive": [],
+        "source": {
+          "repository": "https://github.com/porsager/postgres",
+          "git_head": "e7dfa14519f363229ccc3ead7b1b2f2051937efb",
+          "source_archive_url": "https://codeload.github.com/porsager/postgres/tar.gz/e7dfa14519f363229ccc3ead7b1b2f2051937efb",
+          "source_archive_sha256": "b0972095d0d0451bc2a58b95c1d31147ee94aa089cba6668cfe65f2ca317e655",
+          "source_unlicense_path": "UNLICENSE",
+          "source_unlicense_sha256": "b5065838cbac452dfc855ba6e6e031481ad2c68406f70d21ead9321374653e6c",
+          "upstream_raw_license_url": "https://raw.githubusercontent.com/porsager/postgres/e7dfa14519f363229ccc3ead7b1b2f2051937efb/UNLICENSE",
+          "npm_tarball_does_not_include_license_file": true
+        },
+        "license": "Unlicense",
+        "tarball_sha256": "4964056ae6b672361557f738532a20ad29d54cff0b146cb66d67d7155d66761e",
+        "tarball_integrity": "sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==",
+        "source_unlicense_sha256": "b5065838cbac452dfc855ba6e6e031481ad2c68406f70d21ead9321374653e6c"
+      },
+      {
+        "name": "typescript",
+        "version": "6.0.2",
+        "role": "development/build compiler",
+        "license_declared": "Apache-2.0",
+        "resolved": "https://registry.npmjs.org/typescript/-/typescript-6.0.2.tgz",
+        "lock_integrity": "sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ==",
+        "observed_integrity": "sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ==",
+        "lock_integrity_matches": true,
+        "observed_sha256": "0ae5c188a2f5db22df72fe5e74dcbc122afb52031a86dbac33e78a86db39c65e",
+        "license_notice_paths_in_exact_npm_archive": [
+          "package/LICENSE.txt",
+          "package/ThirdPartyNoticeText.txt"
+        ],
+        "source": {
+          "repository": "https://github.com/microsoft/TypeScript",
+          "git_head": "607a22a90d1a5a1b507ce01bb8cd7ec020f954e7"
+        }
+      }
+    ],
+    "validation": "All selected npm package tarballs were downloaded and their SHA-512 digests match package-lock.json SRI values. Current required npm package closure contains three direct packages and no transitive packages.",
+    "artifact_cache": ".cache/licenses/ (ignored originals; no upstream source is vendored).",
+    "selected_direct_packages": [
+      "oracledb@7.0.1",
+      "postgres@3.4.9",
+      "typescript@6.0.2"
+    ],
+    "selected_package_count": 3,
+    "selected_closure_validation": "All exact npm tarballs/SRI values were checked against package-lock.json; selected closure consists of these three packages."
+  },
+  "parser_runtime": {
+    "helper": "local.schemaforge:flyway-oracle-parser-helper:0.1.0-SNAPSHOT",
+    "helper_artifact_sha256": "cfeab7e0db89348aece0f56f896e3acb0024056e531e02637b318a6800650a15",
+    "source_repository": "https://github.com/flyway/flyway",
+    "source_commit": "a549f5dd1ac80fbe7bc8103dfcd2d556c606c39c",
+    "helper_source_checkout": "/home/longhn0710/workspace/DB-Research/evidence/source/flyway__flyway (read-only external research checkout)",
+    "runtime_closure": [
+      {
+        "coordinate": "org.flywaydb:flyway-database-oracle:13.9.0",
+        "license": "Apache-2.0",
+        "artifact": "https://repo.maven.apache.org/maven2/org/flywaydb/flyway-database-oracle/13.9.0/flyway-database-oracle-13.9.0.jar",
+        "sha256": "4ff1e0bf055165aad8a6561e0aaa7975678c16684c0fc6ec75fb0db9f8c96ad6",
+        "embedded_license_notice": "No META-INF/LICENSE or NOTICE found in this JAR; source root license and matching Flyway Core license retained as evidence.",
+        "license_text_sha256": "6707b7b3ba3220ab64a81a5ab869ffecc3a6a023e9488ea08b897471b069c078"
+      },
+      {
+        "coordinate": "org.flywaydb:flyway-core:13.9.0",
+        "license": "Apache-2.0",
+        "artifact": "https://repo.maven.apache.org/maven2/org/flywaydb/flyway-core/13.9.0/flyway-core-13.9.0.jar",
+        "sha256": "d7ef137f0c02ef18fb85f21370504c737061a446d0387109ee6111ff27e631fe",
+        "embedded_license_notice": "META-INF/LICENSE.txt",
+        "license_text_sha256": "6707b7b3ba3220ab64a81a5ab869ffecc3a6a023e9488ea08b897471b069c078"
+      },
+      {
+        "coordinate": "com.fasterxml.jackson.core:jackson-annotations:2.22",
+        "license": "Apache-2.0",
+        "artifact": "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.22/jackson-annotations-2.22.jar",
+        "sha256": "21ddb598807d3a51a876704eb979d9296e1c6a6f47ab1826ff88c6d6a127a2d0",
+        "embedded_license_notice": "META-INF/LICENSE and META-INF/NOTICE",
+        "license_text_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "notice_text_sha256": "612b14bc77c944ce229cbba0d14919162cfea8ed802cbf06a8e865e032d03201"
+      }
+    ],
+    "runtime_tree_observed": "dependency:tree -Dverbose -Dscope=runtime; three published artifacts listed above; ojdbc11 optional and excluded.",
+    "build_plugins": "The tracked build-plugin register covers 90 declared-plugin closure artifacts with no unknown license rows; the cache lock lists exact consumed JAR/POM hashes and source URLs, including parent/imported BOM POMs. These are build-time inputs and are not in the helper runtime closure.",
+    "license_text_evidence": ".cache/licenses/maven/flyway/evidence/ (exact Flyway source license, Flyway Core embedded license, Jackson license and NOTICE)",
+    "build_closure_register": "maven-build-plugin-closure.json",
+    "offline_artifact_cache_lock": "maven-build-cache-lock.json",
+    "runtime_distribution_notice_evidence": "The exact assembled helper JAR includes META-INF/LICENSE, META-INF/LICENSE.txt, and META-INF/NOTICE. Runtime components and exact hashes are listed in runtime_closure."
+  },
+  "runtimes": [
+    {
+      "name": "Node.js",
+      "version": "22.23.3",
+      "npm_version": "10.9.9",
+      "role": "selected Node application runtime; npm is build/install tooling",
+      "license": "MIT for Node.js project with bundled third-party components carrying their own licenses/notices",
+      "artifact": "https://nodejs.org/download/release/v22.23.3/node-v22.23.3-linux-x64.tar.xz",
+      "observed_sha256": "df450af89261115ef9f9e3830c3eeb2cc9213b63c720b1af623cb5dcbe2e02de",
+      "official_SHASUMS256_match": true,
+      "source": "https://github.com/nodejs/node/tree/v22.23.3",
+      "evidence_cache": ".cache/licenses/runtime/node/ (ignored, exact Node/npm evidence); runtime notice inventory docs/dependencies/node-npm-closure.json",
+      "distribution": "Node.js is the selected host runtime, supplied externally in this WP0 workflow; this project does not bundle the Node archive or npm. npm is build/install tooling. If a later distribution bundles them, use the exact version-matched license/notice inventory and address the seven package instances lacking colocated license text.",
+      "maintenance": "Node 22 release schedule applies; update within maintained security releases.",
+      "bundled_npm_inventory": {
+        "register": "docs/dependencies/node-npm-closure.json",
+        "package_instances": 195,
+        "instances_without_license_text": 7,
+        "instances_without_license_declaration": 0,
+        "status": "CONDITIONAL_IF_BUNDLED",
+        "notes": "All 195 npm package instances declare a license. Seven exact bundled instances lack colocated license text; source evidence is recorded in node-npm-closure.json. This does not block the current project dependency selection because npm is tooling and is not bundled."
+      },
+      "npm_role": "npm is package installation/build tooling and is not invoked by the application runtime",
+      "npm_source": {
+        "repository": "https://github.com/npm/cli",
+        "git_head": "745d8d90b5403110d26ba332ba83d8c5a51f0578",
+        "source_url": "https://github.com/npm/cli/tree/745d8d90b5403110d26ba332ba83d8c5a51f0578",
+        "root_license_path": "LICENSE",
+        "root_license_sha256": "7610d223851f421d315df5e77974f1c68a04b97e02060e5bbbcf13d95e3ca257",
+        "dependencies_path": "DEPENDENCIES.md",
+        "dependencies_sha256": "3f8549ab049eb7258cdd43a301900dfdb64852c828af463a4ae71abf9907be06",
+        "dependencies_json_present_at_exact_commit": false,
+        "root_license_scope": "Root license states npm dependencies retain their respective copyright owners and license terms; it is not treated as a substitute for per-dependency license evidence.",
+        "inventory": "docs/dependencies/node-npm-closure.json"
+      }
+    },
+    {
+      "name": "Eclipse Temurin JDK",
+      "version": "21.0.12.1+1",
+      "platform": "Linux x64 HotSpot",
+      "role": "selected reproducible Java runtime for driver-free parser helper",
+      "license": "GPL-2.0-only WITH Classpath-exception-2.0 for OpenJDK with the separately identified bundled third-party notices/licenses in the exact archive legal directory",
+      "artifact": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz",
+      "observed_sha256": "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94",
+      "official_checksum_asset": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz.sha256.txt",
+      "official_checksum_matches": true,
+      "source_repository": "https://github.com/adoptium/jdk21u",
+      "source_commit": "1c417fbfc2f70ab03a565b0af0a5a3c6f5e15ad6",
+      "build_source_repository": "https://github.com/adoptium/temurin-build",
+      "build_source_commit": "e6ba7dec3d07654074559310376a3ae89da5f4ac",
+      "evidence_cache": ".cache/licenses/runtime/temurin/legal/ (38 exact legal files; SHA-256 manifest adjacent)",
+      "distribution": "Selected as an externally installed build/runtime prerequisite in this WP0 workflow; the project does not bundle this JDK. For any later JDK redistribution, preserve all version-matched legal files and follow the GPL-2.0 Classpath Exception terms, including applicable source availability.",
+      "maintenance": "Use maintained Temurin 21 security releases; re-pin and re-audit each update.",
+      "legal_file_count": 38,
+      "legal_file_sha256_manifest": ".cache/licenses/runtime/temurin-legal-sha256.txt",
+      "source_url": "https://github.com/adoptium/jdk21u/tree/1c417fbfc2f70ab03a565b0af0a5a3c6f5e15ad6",
+      "build_source_url": "https://github.com/adoptium/temurin-build/tree/e6ba7dec3d07654074559310376a3ae89da5f4ac",
+      "legal_files": [
+        {
+          "path": "java.xml/xerces.md",
+          "sha256": "4a6bf6b367193ee68681cb2d9fed30ffc5d62dd2d477bd62e0271707d71b3244"
+        },
+        {
+          "path": "java.xml/jcup.md",
+          "sha256": "8d5dcfdf50455a3c34c753a98f21e953248af200415a9084e3f102cb6c43b8bf"
+        },
+        {
+          "path": "java.xml/bcel.md",
+          "sha256": "cd578186ad93de46cca29ec8ace2b11f9da751987f3f140e6095c528596cc8c1"
+        },
+        {
+          "path": "java.xml/xalan.md",
+          "sha256": "c27eb875da4be683d4d7422be986e5e30f636ede31958ff1d39f9cd6109e7a00"
+        },
+        {
+          "path": "java.xml/dom.md",
+          "sha256": "6686e8877667584a3a7c07344baadca1a03e29f677162d87c3c0811e990d1148"
+        },
+        {
+          "path": "jdk.internal.le/jline.md",
+          "sha256": "a6fb63a226b77b03cbd7559cce6cdc3e1ea8563af960b1dce2330c8e1dce1abf"
+        },
+        {
+          "path": "jdk.localedata/thaidict.md",
+          "sha256": "c326144a2351c9608fa708b5d7d3c5a3da03e82b66479b128e9db4969539824a"
+        },
+        {
+          "path": "java.xml.crypto/santuario.md",
+          "sha256": "d08690d25f660f145c73365d260ed522cd0aace8a0e1396706551b7a1ae8c9a3"
+        },
+        {
+          "path": "jdk.dynalink/dynalink.md",
+          "sha256": "17312591cabee3ef6c34ed8897d92e4e361ba9cea41ec00dcd61a322a8fc2cdb"
+        },
+        {
+          "path": "jdk.internal.opt/jopt-simple.md",
+          "sha256": "99bc67f93cf57d6d20e6047731c93fbb267d70fbdd4115d119e0f85c6efe5c05"
+        },
+        {
+          "path": "java.desktop/jpeg.md",
+          "sha256": "c1dfb9719a71ad9f861f8728550542d681e25c8ef40e6393606e6e2a0c1d653a"
+        },
+        {
+          "path": "java.desktop/colorimaging.md",
+          "sha256": "04d61e3e8e71dd452ebe52008af5378d9f6640d14578aeb515dc5375973b0189"
+        },
+        {
+          "path": "java.desktop/harfbuzz.md",
+          "sha256": "5ec7cba7f8e7fc3a089213140aab6fa1b3bd5bf8a91bf8bddb3b8d315fc5f7d0"
+        },
+        {
+          "path": "java.desktop/mesa3d.md",
+          "sha256": "63f4e6f75caebbccb95d903fb43e46ac7111b3624d0a34f146b276d7d9e7b152"
+        },
+        {
+          "path": "java.desktop/freetype.md",
+          "sha256": "553e804baecb7de7129d77c7259a6b70037d1893f1c600b41b35201695fb7758"
+        },
+        {
+          "path": "java.desktop/giflib.md",
+          "sha256": "206aab89ec75968e48a6a1ed6df7d8b9bfb7aea12cbe4c9345d93e5d97460a25"
+        },
+        {
+          "path": "java.desktop/libpng.md",
+          "sha256": "f73afb394792f3aeecd959e89487603677a430e56b44eba596d8b572accfd540"
+        },
+        {
+          "path": "java.desktop/lcms.md",
+          "sha256": "843f9f6fa9c3f8109fcf4d5fe74caf7f2ae8e9bcd92238e4aff2d428c932b24b"
+        },
+        {
+          "path": "java.desktop/xwd.md",
+          "sha256": "1d4ffa93c87f35084b02a7aa90a21084b4019db4fe1003c2e5ce775b4a384f59"
+        },
+        {
+          "path": "java.desktop/pipewire.md",
+          "sha256": "56a8fb1652c70ac204d13bb52ca4d678162e7d21a97d10209c2a633de8082de0"
+        },
+        {
+          "path": "jdk.javadoc/jqueryUI.md",
+          "sha256": "7854d2d568992ae25ff65867bd9021d655f70670142f0796b29a3b0621f19530"
+        },
+        {
+          "path": "jdk.javadoc/jquery.md",
+          "sha256": "b68f454c2bd58959c862d94bf0f16c3f78a2d537388ca060d354344db80ee695"
+        },
+        {
+          "path": "java.base/aes.md",
+          "sha256": "45c6d4da48325edfbff3dcf71c704e504c057904435ed23c6d57046d551eb69d"
+        },
+        {
+          "path": "java.base/unicode.md",
+          "sha256": "6f72f10d166b2c2e8a395e03e734c5afc852b59aeca73ced124f6b9c96268d53"
+        },
+        {
+          "path": "java.base/cldr.md",
+          "sha256": "19515e14a240e022640e95b61b5095127fa9690755950b4a2b0a02e783e08163"
+        },
+        {
+          "path": "java.base/siphash.md",
+          "sha256": "5a792b5a74ad2a5f3d6a7ad8b7a841116e58a772c18bc6e392320a365b222c76"
+        },
+        {
+          "path": "java.base/ASSEMBLY_EXCEPTION",
+          "sha256": "75292f03bf23d3db7c985aecc191029b93883200721ed23ed34a2e601463df33"
+        },
+        {
+          "path": "java.base/public_suffix.md",
+          "sha256": "861de1e4992a7d28f1de25c73cd50d26a94779ebd749c0643fecfa56442c3429"
+        },
+        {
+          "path": "java.base/LICENSE",
+          "sha256": "4b9abebc4338048a7c2dc184e9f800deb349366bdf28eb23c2677a77b4c87726"
+        },
+        {
+          "path": "java.base/icu.md",
+          "sha256": "1bf28459c6e0af9f3429f4f8becd1668d6544055f8df240277456bc4b3d8a752"
+        },
+        {
+          "path": "java.base/c-libutl.md",
+          "sha256": "bef40679922d6fdfb7e4ddb223ad6722300f6054ba737bbf6188d60fcec517f9"
+        },
+        {
+          "path": "java.base/asm.md",
+          "sha256": "683be15695bd248272d60f5b7fbe5e126a935ea6bf231a624a9aa164733e1d1d"
+        },
+        {
+          "path": "java.base/zlib.md",
+          "sha256": "c9c70c36a1f0325e8788771906202d42ba6ab4205caca44ec0f665707e83226b"
+        },
+        {
+          "path": "java.base/ADDITIONAL_LICENSE_INFO",
+          "sha256": "a69bce275ba7a3570af6579cb0f55682cd75fedfcd49e0e8e9022270c447c916"
+        },
+        {
+          "path": "java.base/gcc.md",
+          "sha256": "589e34f142cdf7d1430daa573e61c2e3dd0330c9eb5a2c00d4a98b3a4450810b"
+        },
+        {
+          "path": "java.smartcardio/pcsclite.md",
+          "sha256": "b39ce363c281ed36e937f9e6c03311d7dbf0b20d3614dde084130c2a10909692"
+        },
+        {
+          "path": "jdk.crypto.cryptoki/pkcs11cryptotoken.md",
+          "sha256": "1f36ff1342a581142c858f90064e20633d43529ac82adb85345bd902a14e18b2"
+        },
+        {
+          "path": "jdk.crypto.cryptoki/pkcs11wrapper.md",
+          "sha256": "371974b1fca3744a3892c7ee1fcc593b8b4281fc218f4cafd2f709e9df5fd81d"
+        }
+      ],
+      "source": "https://github.com/adoptium/jdk21u/tree/1c417fbfc2f70ab03a565b0af0a5a3c6f5e15ad6",
+      "license_summary": "GPL-2.0 with Classpath Exception for OpenJDK plus component-specific licenses/notices in the exact Temurin legal directory."
+    },
+    {
+      "name": "Apache Maven",
+      "version": "3.9.16",
+      "role": "build-only tool; not helper runtime dependency and not selected for product bundling",
+      "license": "Apache-2.0 plus bundled dependency licenses",
+      "artifact": "https://dlcdn.apache.org/maven/maven-3/3.9.16/binaries/apache-maven-3.9.16-bin.tar.gz",
+      "observed_sha512": "831a8591fe20c8243b1dbe7d71e3244f31d1665b0804b2e825e38cbbe5ce0cafb8338851f90780735568773e0a6cd07bbec107cda0b896b008b861075358b6f6",
+      "official_checksum_matches": true,
+      "evidence_cache": ".cache/licenses/runtime/maven/extracted/{LICENSE,NOTICE,lib/*.license} (24 bundled dependency license files)",
+      "maintenance": "Apache Maven 3.9.16 release and exact distribution pinned for reproducible build tooling; review Maven release advisories for build environment updates.",
+      "legal_file_sha256_manifest": ".cache/licenses/runtime/maven-legal-sha256.txt",
+      "source_archive": "https://dlcdn.apache.org/maven/maven-3/3.9.16/source/apache-maven-3.9.16-src.tar.gz",
+      "source_archive_sha512": "a1498f762615c2f536aebe4b8823045590815b8704423254a98bd28f243115d8bd3483c653254c489b979286b593170153567c89004a8b1f6c41c8794c1dbd94",
+      "runtime_dependency_inventory": "docs/dependencies/maven-runtime-closure.json",
+      "distribution_jars": 51,
+      "distribution_jars_with_unknown_license": 0,
+      "source_support": "Apache Maven official 3.9.16 release source/binary archives and versioned dependency reference",
+      "build_plugin_closure": "docs/dependencies/maven-build-plugin-closure.json",
+      "build_plugin_closure_artifact_count": 90,
+      "build_plugin_closure_unknown_license_count": 0,
+      "license_text_hashes": [
+        {
+          "path": "lib/aopalliance-1.0.jar",
+          "sha256": "0addec670fedcd3f113c5c8091d783280d23f75e3acb841b61a9cdb079376a08"
+        },
+        {
+          "path": "lib/aopalliance.license",
+          "sha256": "f6960be1b71d602352d7d9de76a564f54f3dab550b23fa5674049f842116ca55"
+        },
+        {
+          "path": "lib/asm-9.9.1.jar",
+          "sha256": "6f3828a215c920059a5efa2fb55c233d6c54ec5cadca99ce1b1bdd10077c7ddd"
+        },
+        {
+          "path": "lib/asm.license",
+          "sha256": "8c920015a749851edea93f71116d45dcd6beefa6069b6baf526c0adcaf26979c"
+        },
+        {
+          "path": "lib/commons-cli-1.11.0.jar",
+          "sha256": "8f7f8605d68e15bf32db61ec94eac6fdafc51b1bdbe1e0e0802b57d23f387792"
+        },
+        {
+          "path": "lib/commons-cli.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/commons-codec-1.21.0.jar",
+          "sha256": "4da851cb6abfb98bfe9eb77c5e5fc47f5414fa28b94e21b7fd9a646705dc167f"
+        },
+        {
+          "path": "lib/commons-codec.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/error_prone_annotations-2.41.0.jar",
+          "sha256": "a56e782b5b50811ac204073a355a21d915a2107fce13ec711331ad036f660fcc"
+        },
+        {
+          "path": "lib/error_prone_annotations.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/failureaccess-1.0.3.jar",
+          "sha256": "cbfc3906b19b8f55dd7cfd6dfe0aa4532e834250d7f080bd8d211a3e246b59cb"
+        },
+        {
+          "path": "lib/failureaccess.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/gson-2.13.2.jar",
+          "sha256": "dd0ce1b55a3ed2080cb70f9c655850cda86c206862310009dcb5e5c95265a5e0"
+        },
+        {
+          "path": "lib/gson.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/guava-33.6.0-jre.jar",
+          "sha256": "dc573e1fca4fd5454f4a5fd3d7da2df03002876a4175bafc14a95980dd7713b3"
+        },
+        {
+          "path": "lib/guava.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/guice-5.1.0-classes.jar",
+          "sha256": "142ad4475e19524d2fe3ac995b3f7cbc962fc726f2edb9dbdccc61feab9b2bf9"
+        },
+        {
+          "path": "lib/guice.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/httpclient-4.5.14.jar",
+          "sha256": "c8bc7e1c51a6d4ce72f40d2ebbabf1c4b68bfe76e732104b04381b493478e9d6"
+        },
+        {
+          "path": "lib/httpclient.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/httpcore-4.4.16.jar",
+          "sha256": "6c9b3dd142a09dc468e23ad39aad6f75a0f2b85125104469f026e52a474e464f"
+        },
+        {
+          "path": "lib/httpcore.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/jansi-2.4.3.jar",
+          "sha256": "ec168cf31c4c3849348dfff7a04e90170615f7784f1255ee6747b98a854c04c5"
+        },
+        {
+          "path": "lib/jansi.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/javax.annotation-api-1.3.2.jar",
+          "sha256": "e04ba5195bcd555dc95650f7cc614d151e4bcd52d29a10b8aa2197f3ab89ab9b"
+        },
+        {
+          "path": "lib/javax.annotation-api.license",
+          "sha256": "1b087ad282cb3cd0a11e4e160318eab4ff0995aae7d22e6ac0d30367e196c6e3"
+        },
+        {
+          "path": "lib/javax.inject-1.jar",
+          "sha256": "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff"
+        },
+        {
+          "path": "lib/javax.inject.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/jcl-over-slf4j-1.7.36.jar",
+          "sha256": "ab57ca8fd223772c17365d121f59e94ecbf0ae59d08c03a3cb5b81071c019195"
+        },
+        {
+          "path": "lib/jcl-over-slf4j.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/jspecify-1.0.0.jar",
+          "sha256": "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab"
+        },
+        {
+          "path": "lib/jspecify.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/maven-artifact-3.9.16.jar",
+          "sha256": "54cc1c1ef932e3d4a903352111b42b4d3c3ed8e7a1d0de73b625309d9c3ad3e8"
+        },
+        {
+          "path": "lib/maven-builder-support-3.9.16.jar",
+          "sha256": "02972384eae3495801565fd27abb84cfd75a8e6d2cbb1ae0c556752ebc2b1cde"
+        },
+        {
+          "path": "lib/maven-compat-3.9.16.jar",
+          "sha256": "69ea74479f87457d29bfdecf11e1470ad95300b06be16f4c8ddcf5bd3627f4dc"
+        },
+        {
+          "path": "lib/maven-core-3.9.16.jar",
+          "sha256": "5d45c72e3dbfab8b68d15ad4f12777b7d9b5fe4d4adc99c3bd51fb9641fab009"
+        },
+        {
+          "path": "lib/maven-embedder-3.9.16.jar",
+          "sha256": "a99aaac6ecb1b98d0f3b3ba18c16a122fc503412222055639a3eb4cbe458313b"
+        },
+        {
+          "path": "lib/maven-model-3.9.16.jar",
+          "sha256": "f59d86a507c241bf17bbf050050d1b8b9c0d34d5010a7e2386c3cab7c83b93de"
+        },
+        {
+          "path": "lib/maven-model-builder-3.9.16.jar",
+          "sha256": "002be86d1f53b36f559a0786034a17598d71087f1935f205a1f9e51d4dd124b3"
+        },
+        {
+          "path": "lib/maven-plugin-api-3.9.16.jar",
+          "sha256": "37cb5e483e23327cf4ba18f920b45e000d20eec0428a086a5c1bd6bbdecf088c"
+        },
+        {
+          "path": "lib/maven-repository-metadata-3.9.16.jar",
+          "sha256": "bc3dd413b89a16b695f35a5d0496b58ea2787c30b7b6062c130d24d6d764720f"
+        },
+        {
+          "path": "lib/maven-resolver-api-1.9.27.jar",
+          "sha256": "a895d222283666a7320ddc76615e2e93a41fabd93ce9a6bf9ddee39272bb87b4"
+        },
+        {
+          "path": "lib/maven-resolver-connector-basic-1.9.27.jar",
+          "sha256": "3bd98e3a426f9adcae39e3786db229e2be77e08a743ecd9be15c5ed77be3a625"
+        },
+        {
+          "path": "lib/maven-resolver-impl-1.9.27.jar",
+          "sha256": "295d48ea2a8bb3aef51888967f105fb6251997d111f13c32d28919fd9b1c951e"
+        },
+        {
+          "path": "lib/maven-resolver-named-locks-1.9.27.jar",
+          "sha256": "b39ecd4da98fdac5068e6f5d16910a71f4e4d48e95e17d107f6603e18f2b3fdf"
+        },
+        {
+          "path": "lib/maven-resolver-provider-3.9.16.jar",
+          "sha256": "72a2d6aad3708e2c708b659b292ae9587a4d170ec88f48466290318730221118"
+        },
+        {
+          "path": "lib/maven-resolver-spi-1.9.27.jar",
+          "sha256": "1cab02f45bc58d5f4d8e084eaf032f13ea1a5fc9021d8bd74f8360ebb6593e5a"
+        },
+        {
+          "path": "lib/maven-resolver-transport-file-1.9.27.jar",
+          "sha256": "3988261bd31e2e79eda802b3971992fce44756b0029557a05c7b871d3c3ddef7"
+        },
+        {
+          "path": "lib/maven-resolver-transport-http-1.9.27.jar",
+          "sha256": "723f3d9d717a693d0aac589e266b995f76e9c63edd48ecc8a0cf9e86a77e459c"
+        },
+        {
+          "path": "lib/maven-resolver-transport-wagon-1.9.27.jar",
+          "sha256": "ddf1c8744f7ef50d8ab78526611b690ab1da0e9ad8d99f72d9dbe1b259aa9a8b"
+        },
+        {
+          "path": "lib/maven-resolver-util-1.9.27.jar",
+          "sha256": "74a12548f0d6aad13c728666288c1e81201c24bd05bb4e4ec8c1558517b379a7"
+        },
+        {
+          "path": "lib/maven-settings-3.9.16.jar",
+          "sha256": "322ae5b23f4b7b6ce7896bd33a793143dbbbbcc16c4475e2d7eebbd8f755da92"
+        },
+        {
+          "path": "lib/maven-settings-builder-3.9.16.jar",
+          "sha256": "226f1cbb0b4d414eff773fb151a8977837c98073e14d5963794e6cf464e6adbb"
+        },
+        {
+          "path": "lib/maven-shared-utils-3.4.2.jar",
+          "sha256": "b613357e1bad4dfc1dead801691c9460f9585fe7c6b466bc25186212d7d18487"
+        },
+        {
+          "path": "lib/maven-slf4j-provider-3.9.16.jar",
+          "sha256": "a435cb0fdfc9c906bdc1ef72f043f59fef23dfd0db5beb5dd1e17a0a07f99d52"
+        },
+        {
+          "path": "lib/org.eclipse.sisu.inject-1.0.0.jar",
+          "sha256": "3ab8d7bfe68f3b6ec95c1a0a47e628edbc9d76e90634cb0a0ba121fbb11b8e42"
+        },
+        {
+          "path": "lib/org.eclipse.sisu.inject.license",
+          "sha256": "209fe24bf55677bbf81c2b0481c1403201fab57b3b4c609971eba4ec8162b99c"
+        },
+        {
+          "path": "lib/org.eclipse.sisu.plexus-1.0.0.jar",
+          "sha256": "865b5300034fc08c790215d7d97f141914c932191bef9338a7dcef589f7536e9"
+        },
+        {
+          "path": "lib/org.eclipse.sisu.plexus.license",
+          "sha256": "209fe24bf55677bbf81c2b0481c1403201fab57b3b4c609971eba4ec8162b99c"
+        },
+        {
+          "path": "lib/plexus-cipher-2.0.jar",
+          "sha256": "9a7f1b5c5a9effd61eadfd8731452a2f76a8e79111fac391ef75ea801bea203a"
+        },
+        {
+          "path": "lib/plexus-cipher.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/plexus-component-annotations-2.2.0.jar",
+          "sha256": "50edb93c73786e62822b4fe1336e22880fdf147191373cf5c911370e16748fcf"
+        },
+        {
+          "path": "lib/plexus-component-annotations.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/plexus-interpolation-1.29.jar",
+          "sha256": "088d444dbcedfb384630d8686697ece3c401d6f33c8f8b3aa7259ea1c6996878"
+        },
+        {
+          "path": "lib/plexus-interpolation.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/plexus-sec-dispatcher-2.0.jar",
+          "sha256": "873139960c4c780176dda580b003a2c4bf82188bdce5bb99234e224ef7acfceb"
+        },
+        {
+          "path": "lib/plexus-sec-dispatcher.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/plexus-utils-3.6.1.jar",
+          "sha256": "05a63effd67e2d6b9d610cc82e2bd7473289d34802e57a529b28110f28af5679"
+        },
+        {
+          "path": "lib/plexus-utils.license",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "lib/slf4j-api-1.7.36.jar",
+          "sha256": "d3ef575e3e4979678dc01bf1dcce51021493b4d11fb7f1be8ad982877c16a1c0"
+        },
+        {
+          "path": "lib/slf4j-api.license",
+          "sha256": "6fbe2eaf44b193b8a40eed9208f52848572224ad8d7672dd09418aa174847e73"
+        },
+        {
+          "path": "lib/wagon-file-3.5.3.jar",
+          "sha256": "afc9216fa97b78dad227b4a8d4d67b9897bf113a57f80598d62993841113e103"
+        },
+        {
+          "path": "lib/wagon-http-3.5.3.jar",
+          "sha256": "d2b6e48c9fcbe579e1858c622d14464011ff265fa6e28e794004a6882154a509"
+        },
+        {
+          "path": "lib/wagon-http-shared-3.5.3.jar",
+          "sha256": "8e7da766f55164fde8779aaaa125832506c2848cab4876b5305138873e28037f"
+        },
+        {
+          "path": "lib/wagon-provider-api-3.5.3.jar",
+          "sha256": "5e72000338945ed3e96f8e4f578d1d0672e1af7e19c0e9014197ae5b31af3ef4"
+        }
+      ],
+      "license_text_hash_count": 75,
+      "distribution": "Build-only tool input; the project does not bundle Maven."
+    }
+  ],
+  "findings_and_blockers": [
+    {
+      "id": "T02-B2",
+      "status": "CONDITIONAL_IF_BUNDLED",
+      "finding": "The current workflow uses Node.js 22.23.3 externally and does not bundle Node or npm. npm is installation/build tooling. Its 195-package inventory has license declarations for all entries; seven exact bundled package instances lack colocated license text. Exact npm source evidence and this distinction are recorded in node-npm-closure.json. This is a future bundled-runtime notice item, not an unresolved grant for the current selected application dependencies."
+    },
+    {
+      "id": "T02-B3",
+      "status": "CONDITIONAL_IF_BUNDLED",
+      "finding": "Temurin JDK 21.0.12.1+1 Linux x64 is selected as an externally installed build/runtime prerequisite and is not bundled by this project. Exact archive checksum, full source commit, and hashes of all 38 legal files are recorded. If a later distribution includes the JDK, preserve those legal files and meet GPL-2.0 with Classpath Exception requirements, including applicable source availability."
+    },
+    {
+      "id": "T02-B4",
+      "status": "EVIDENCED",
+      "finding": "The exact assembled helper JAR contains META-INF/LICENSE, META-INF/LICENSE.txt, and META-INF/NOTICE. Each of the three runtime artifacts has an evidenced Apache-2.0 grant and the corresponding embedded/source license material; checksums and evidence are recorded in parser_runtime.runtime_closure."
+    },
+    {
+      "id": "T02-B5",
+      "status": "OWNER_DECISION",
+      "finding": "The independent product license remains PENDING_OWNER_DECISION, as recorded in docs/product/license-and-naming.md. No conclusion about the product license is made here."
+    }
+  ],
+  "historical_candidate_evaluations": [
+    {
+      "candidate": "pg@8.23.1",
+      "status": "NOT_SELECTED",
+      "reason": "Replaced by postgres@3.4.9 after auditing its exact source UNLICENSE grant and confirming zero npm dependencies. Preserve the full exact npm tarball/lock audit below for traceability only; this candidate is not in the selected package-lock or required runtime.",
+      "historical_package_closure": [
+        {
+          "name": "oracledb",
+          "version": "7.0.1",
+          "role": "selected direct driver",
+          "license_declared": "(Apache-2.0 OR UPL-1.0)",
+          "npm_tarball": "https://registry.npmjs.org/oracledb/-/oracledb-7.0.1.tgz",
+          "lock_integrity": "sha512-xlM0Ceh6A5stQLAdEfKf3pgCSkbOjQLo2ZPEi3+kXklz+KbZD3fLi/nsTSbQeZZNFBSFDNxdn1Ek3+bxG40M8w==",
+          "observed_sha256": "6584fbbc6b987307d90126a742f992d8e6041976e6eaa9b648f450c4652a34f5",
+          "artifact_license_notice_paths": [
+            "package/LICENSE.txt",
+            "package/NOTICE.txt"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "source": {
+            "repository": "https://github.com/oracle/node-oracledb",
+            "version_ref": "v7.0.1"
+          },
+          "selected": false
+        },
+        {
+          "name": "pg",
+          "version": "8.23.1",
+          "role": "selected direct driver",
+          "license_declared": "MIT",
+          "npm_tarball": "https://registry.npmjs.org/pg/-/pg-8.23.1.tgz",
+          "lock_integrity": "sha512-aL96AHANtWjPLDOLqnhx+ngp9+UK7ETEU8VJrDCGvsSSi/mGLcWYsS6Herg7lmaBJe4uwrfqsa7gTEFaSizDoQ==",
+          "observed_sha256": "0d7999c755c25f7c02fbd96196291148eda737bb91e78e4031b9ebe5ef7d7de7",
+          "artifact_license_notice_paths": [
+            "package/LICENSE"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "source": {
+            "repository": "https://github.com/brianc/node-postgres",
+            "git_head": "0980cefebe0ae461da8883703be049fe13ca96cf"
+          },
+          "selected": false
+        },
+        {
+          "name": "pg-cloudflare",
+          "version": "1.4.1",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "MIT",
+          "npm_tarball": "https://registry.npmjs.org/pg-cloudflare/-/pg-cloudflare-1.4.1.tgz",
+          "lock_integrity": "sha512-6PQbsFWZcp9EmJEwy5cGQ2La+AMWpP46lgbb8X+U/XsHIUweYDNCpeuKck5RxL2MdVFi7krbbEi5nX4Zh7JhrQ==",
+          "observed_sha256": "7a3b140775e885d245bcd0c08f60cc5d726449a4dfabda6a31537b7411ef38cc",
+          "artifact_license_notice_paths": [
+            "package/LICENSE"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "selected": false
+        },
+        {
+          "name": "pg-connection-string",
+          "version": "2.14.1",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "MIT",
+          "npm_tarball": "https://registry.npmjs.org/pg-connection-string/-/pg-connection-string-2.14.1.tgz",
+          "lock_integrity": "sha512-qR3kGNPBLpCNtz0evbKA0Y/MRFXwSSdT+pTJvYp/bXTcReZbvX1kzF0IyTc1QnxqF7AZbOeBhNL8R5mYQZV/MA==",
+          "observed_sha256": "22f69d9711c971d8b66eb78474073ba7f47f27bb69a4347c13cb8ab7c75dfaff",
+          "artifact_license_notice_paths": [
+            "package/LICENSE"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "selected": false
+        },
+        {
+          "name": "pg-int8",
+          "version": "1.0.1",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "ISC",
+          "npm_tarball": "https://registry.npmjs.org/pg-int8/-/pg-int8-1.0.1.tgz",
+          "lock_integrity": "sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==",
+          "observed_sha256": "f010d48974a96814e841edbb6fc6096385574610714d2a50e99811170c365e92",
+          "artifact_license_notice_paths": [
+            "package/LICENSE"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "selected": false
+        },
+        {
+          "name": "pg-pool",
+          "version": "3.14.0",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "MIT",
+          "npm_tarball": "https://registry.npmjs.org/pg-pool/-/pg-pool-3.14.0.tgz",
+          "lock_integrity": "sha512-gKtPkFdQPU3DksooVLi9LsjZxrsBUZIpa+7aVx+LV5pNh0KzP4Zleud2po+ConrxbuXGBJ6Hfer6hdgpIBpBaw==",
+          "observed_sha256": "0b0b8729c09d5eaa059313c9c3d11efc8907441386bbf86ccc57e1298c6ce71a",
+          "artifact_license_notice_paths": [
+            "package/LICENSE"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "selected": false
+        },
+        {
+          "name": "pg-protocol",
+          "version": "1.16.1",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "MIT",
+          "npm_tarball": "https://registry.npmjs.org/pg-protocol/-/pg-protocol-1.16.1.tgz",
+          "lock_integrity": "sha512-p9VOFMiHB/ZbJATetbg+99PxssTVSQRnyuPSQ67mN1+1KBOjZaZ83ZQzltnxPhJwSsC3nwVjJ10DVJlerbFzLg==",
+          "observed_sha256": "e1315b9dc839a029109e3a521c1dd1d9c7265722fdbc50d27ff5f7274f70732f",
+          "artifact_license_notice_paths": [
+            "package/LICENSE"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "selected": false
+        },
+        {
+          "name": "pg-types",
+          "version": "2.2.0",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "MIT",
+          "npm_tarball": "https://registry.npmjs.org/pg-types/-/pg-types-2.2.0.tgz",
+          "lock_integrity": "sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==",
+          "observed_sha256": "c4804fd058140c32f8fda78883ad45dee3eaa4fd9e9127b6eb659fefe51981bd",
+          "artifact_license_notice_paths": [],
+          "license_text_gap": true,
+          "tarball_integrity_matches_lock": true,
+          "source": {
+            "repository": "https://github.com/brianc/node-pg-types",
+            "git_head": "d9d9dfb87eb50914043cbc178c301b7dd3b0c50d",
+            "license_file_path_at_exact_source_commit": null,
+            "source_archive_url": "https://codeload.github.com/brianc/node-pg-types/tar.gz/d9d9dfb87eb50914043cbc178c301b7dd3b0c50d",
+            "source_archive_sha256": "33442809b16ee7af5b298d5b5e34927c0cb90384f947272c94665a1adfdbf502",
+            "license_notice_file_in_exact_source": false,
+            "source_evidence_cache": ".cache/licenses/npm/source-archives/pg-types-d9d9dfb87eb50914043cbc178c301b7dd3b0c50d.tar.gz"
+          },
+          "selected": false
+        },
+        {
+          "name": "pgpass",
+          "version": "1.0.5",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "MIT",
+          "npm_tarball": "https://registry.npmjs.org/pgpass/-/pgpass-1.0.5.tgz",
+          "lock_integrity": "sha512-FdW9r/jQZhSeohs1Z3sI1yxFQNFvMcnmfuj4WBMUTxOrAyLMaTcE1aAMBiTlbMNaXvBCQuVi0R7hd8udDSP7ug==",
+          "observed_sha256": "ff794c956186430afd600b5bc4500f3f0faf34b62be6ff98494f4c7f4a6d8597",
+          "artifact_license_notice_paths": [],
+          "license_text_gap": true,
+          "tarball_integrity_matches_lock": true,
+          "source": {
+            "repository": "https://github.com/hoegaarden/pgpass",
+            "git_head": "4230ed5e417ba6044ea7eb80b7c33db9ec301398",
+            "license_file_path_at_exact_source_commit": null,
+            "source_archive_url": "https://codeload.github.com/hoegaarden/pgpass/tar.gz/4230ed5e417ba6044ea7eb80b7c33db9ec301398",
+            "source_archive_sha256": "2ef4ad06db6d310e018762ff68d5564338f798453e8900e501866e19a5759d9c",
+            "license_notice_file_in_exact_source": false,
+            "source_evidence_cache": ".cache/licenses/npm/source-archives/pgpass-4230ed5e417ba6044ea7eb80b7c33db9ec301398.tar.gz"
+          },
+          "selected": false
+        },
+        {
+          "name": "postgres-array",
+          "version": "2.0.0",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "MIT",
+          "npm_tarball": "https://registry.npmjs.org/postgres-array/-/postgres-array-2.0.0.tgz",
+          "lock_integrity": "sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==",
+          "observed_sha256": "dbf1035c777631d4b0a4b5c035b1f6247dd923db6b2ea115b93b1eabb172b3a0",
+          "artifact_license_notice_paths": [
+            "package/license"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "selected": false
+        },
+        {
+          "name": "postgres-bytea",
+          "version": "1.0.1",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "MIT",
+          "npm_tarball": "https://registry.npmjs.org/postgres-bytea/-/postgres-bytea-1.0.1.tgz",
+          "lock_integrity": "sha512-5+5HqXnsZPE65IJZSMkZtURARZelel2oXUEO8rH83VS/hxH5vv1uHquPg5wZs8yMAfdv971IU+kcPUczi7NVBQ==",
+          "observed_sha256": "0395e34ecb9945b0003132af6e11463ec7ec8f17fb5cbdbccc5a822bd6807d96",
+          "artifact_license_notice_paths": [
+            "package/license"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "selected": false
+        },
+        {
+          "name": "postgres-date",
+          "version": "1.0.7",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "MIT",
+          "npm_tarball": "https://registry.npmjs.org/postgres-date/-/postgres-date-1.0.7.tgz",
+          "lock_integrity": "sha512-suDmjLVQg78nMK2UZ454hAG+OAW+HQPZ6n++TNDUX+L0+uUlLywnoxJKDou51Zm+zTCjrCl0Nq6J9C5hP9vK/Q==",
+          "observed_sha256": "a67a8d90e7b8f64041a6f425b102b27a3e86d5854ace7e9414a890912f3adb59",
+          "artifact_license_notice_paths": [
+            "package/license"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "selected": false
+        },
+        {
+          "name": "postgres-interval",
+          "version": "1.2.0",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "MIT",
+          "npm_tarball": "https://registry.npmjs.org/postgres-interval/-/postgres-interval-1.2.0.tgz",
+          "lock_integrity": "sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==",
+          "observed_sha256": "e67563626b30aa7d22caf930e38529bb137476146a11eaaa0bb1e07c0a2413b1",
+          "artifact_license_notice_paths": [
+            "package/license"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "selected": false
+        },
+        {
+          "name": "split2",
+          "version": "4.2.0",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "ISC",
+          "npm_tarball": "https://registry.npmjs.org/split2/-/split2-4.2.0.tgz",
+          "lock_integrity": "sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg==",
+          "observed_sha256": "e0061e7f042fc5ff6dcda8afb66619757d92ab1ff514a28a5904f2ebde27bf54",
+          "artifact_license_notice_paths": [
+            "package/LICENSE"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "selected": false
+        },
+        {
+          "name": "typescript",
+          "version": "6.0.2",
+          "role": "development/build compiler",
+          "license_declared": "Apache-2.0",
+          "npm_tarball": "https://registry.npmjs.org/typescript/-/typescript-6.0.2.tgz",
+          "lock_integrity": "sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ==",
+          "observed_sha256": "0ae5c188a2f5db22df72fe5e74dcbc122afb52031a86dbac33e78a86db39c65e",
+          "artifact_license_notice_paths": [
+            "package/LICENSE.txt"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "source": {
+            "repository": "https://github.com/microsoft/TypeScript",
+            "git_head": "607a22a90d1a5a1b507ce01bb8cd7ec020f954e7"
+          },
+          "selected": false
+        },
+        {
+          "name": "xtend",
+          "version": "4.0.2",
+          "role": "transitive pg runtime dependency",
+          "license_declared": "MIT",
+          "npm_tarball": "https://registry.npmjs.org/xtend/-/xtend-4.0.2.tgz",
+          "lock_integrity": "sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==",
+          "observed_sha256": "bd22a01d43c799be7bb53dfa9e775b132045e39525e51efb977528a00041ba48",
+          "artifact_license_notice_paths": [
+            "package/LICENSE"
+          ],
+          "license_text_gap": false,
+          "tarball_integrity_matches_lock": true,
+          "selected": false
+        }
+      ],
+      "remaining_notice_gaps": [
+        "pg-types@2.2.0 and pgpass@1.0.5 exact npm tarballs declare MIT but omit license text; exact source commits have no LICENSE/COPYING/NOTICE. These do not apply to the selected package closure."
+      ]
+    }
+  ]
+}

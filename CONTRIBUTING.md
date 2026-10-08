@@ -1,8 +1,10 @@
 # Contributing locally
 
 Use Node 22.23.3, matching `.nvmrc`, npm, and Python 3.11+ for the standard-library TOML
-configuration check. Tests try `python3.11`, then `python3`. Foundation tooling has no
-third-party packages.
+configuration check. Tests try `python3.11`, then `python3`. WP0 pins npm 10.9.9,
+TypeScript 6.0.2, node-oracledb 7.0.1 Thin and Postgres.js 3.4.9. See the
+[actual dependency register](docs/dependencies/LICENSE-EVIDENCE.md) and
+[offline checks](docs/development/offline-build.md).
 
 ```sh
 npm ci --ignore-scripts --no-audit --no-fund
@@ -10,6 +12,7 @@ npm run check
 npm run status
 npm run next
 npm run check:record
+npm run dependencies:offline
 ```
 
 `build` checks authored JavaScript syntax and text/JSON validity; this repository does not
@@ -44,7 +47,8 @@ the imported snapshot to satisfy whitespace style checks.
 
 CI runs the same offline commands using SHA-pinned checkout/setup-node actions and
 read-only repository permissions. Installing CI tooling is distinct from mirroring and
-certifying all future runtime dependencies. No remote CI run occurred in this local session.
+certifying all future runtime dependencies. Remote CI results must be checked separately
+from local observations.
 
 The proposed Apache-2.0 license and public product name await owner decisions. Do not copy
 restricted Bytebase code or assets. Consult the imported compliance requirements before

@@ -1,3 +1,4 @@
 * text=auto eol=lf
 docs/inputs/db-research/** -text
 evidence/** -text
+experiments/db-devops-wp0/fixtures/** -text

@@ -1,0 +1,3022 @@
+{
+  "schema_version": 1,
+  "source": "Node.js v22.23.3 official Linux x64 binary archive; bundled npm package closure",
+  "npm_version": "10.9.9",
+  "archive_sha256": "df450af89261115ef9f9e3830c3eeb2cc9213b63c720b1af623cb5dcbe2e02de",
+  "node_license_file": ".cache/licenses/runtime/node/LICENSE",
+  "inventory_count": 195,
+  "packages": [
+    {
+      "name": "@isaacs/cliui",
+      "version": "8.0.2",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@isaacs/cliui/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@isaacs/cliui/LICENSE.txt",
+          "sha256": "2dc0465729366c3a7890dfa9e972a1ba7048a26c02116fb8b419a6a1ac110149"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@isaacs/fs-minipass",
+      "version": "4.0.1",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@isaacs/fs-minipass/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@isaacs/fs-minipass/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@isaacs/string-locale-compare",
+      "version": "1.1.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@isaacs/string-locale-compare/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@isaacs/string-locale-compare/LICENSE",
+          "sha256": "05dc4d785ac3a488676d3ed10e901b75ad89dafcc63f8e66610fd4a39cc5c7e8"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/agent",
+      "version": "3.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/agent/package.json",
+      "license_notice_files": [],
+      "license_text_missing": true,
+      "license_declaration_missing": false,
+      "upstream_source": {
+        "repository": "https://github.com/npm/agent",
+        "commit": "94f346d882458ac9481d015c55057d15f5899bf1",
+        "archive_url": "https://codeload.github.com/npm/agent/tar.gz/94f346d882458ac9481d015c55057d15f5899bf1",
+        "archive_sha256": "2c4ce645c8c8f8e0762b319984ad7b863ad9d7d0c6c74af8eaab2ef1e52b4fc3",
+        "registry_package_integrity": "sha512-S79NdEgDQd/NGCay6TCoVzXSj74skRZIKJcpJjC5lOq34SZzyI6MqtiiWoiVWoVrTcGjNeC4ipbh1VIHlpfF5Q==",
+        "package_metadata_license": "ISC",
+        "author_metadata": "GitHub Inc.",
+        "source_license_file_present": false,
+        "source_license_file": null,
+        "source_license_file_sha256": null,
+        "source_package_manifest_path": "package.json",
+        "source_package_manifest_sha256": null
+      },
+      "canonical_spdx_text": {
+        "url": "https://spdx.org/licenses/ISC.txt",
+        "sha256": "f2ff9e66e9a9acdbffbcbf2ae4ff184d923325ce1a98d20ac64f3dd450263f3a",
+        "source": ".cache/licenses/runtime/node-npm-source/spdx-licenses/ (exact standard license text, recorded separately from upstream source evidence)"
+      },
+      "upstream_notice_gap": "The exact package archive and source commit contain no license text file. The package manifest declares the SPDX license; publisher author metadata is recorded. Do not represent the canonical SPDX text as an upstream-supplied notice.",
+      "upstream_source_evidence": {
+        "repository": "https://github.com/npm/agent",
+        "commit": "94f346d882458ac9481d015c55057d15f5899bf1",
+        "source_archive_url": "https://codeload.github.com/npm/agent/tar.gz/94f346d882458ac9481d015c55057d15f5899bf1",
+        "source_archive_sha256": "2c4ce645c8c8f8e0762b319984ad7b863ad9d7d0c6c74af8eaab2ef1e52b4fc3",
+        "exact_package_version": "3.0.0",
+        "package_license_declaration": "ISC",
+        "author_field": "GitHub Inc.",
+        "source_license_file_present": false,
+        "source_license_file": null,
+        "source_license_file_sha256": null,
+        "canonical_spdx_text": {
+          "url": "https://spdx.org/licenses/ISC.txt",
+          "sha256": "f2ff9e66e9a9acdbffbcbf2ae4ff184d923325ce1a98d20ac64f3dd450263f3a",
+          "note": "Canonical standard terms for the exact package-declared SPDX identifier; not a license file supplied by this upstream source."
+        }
+      },
+      "license_rights_unknown": false,
+      "bundle_notice_status": "source package metadata declares this SPDX license but source and npm package omit a license text file"
+    },
+    {
+      "name": "@npmcli/arborist",
+      "version": "8.0.5",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/arborist/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/arborist/LICENSE.md",
+          "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+        },
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/arborist/bin/license.js",
+          "sha256": "3c7c2b07a2591835cb6c60687a23e425540565d9ccb65fef17478c6073bf6841"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/config",
+      "version": "9.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/config/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/config/LICENSE",
+          "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/fs",
+      "version": "4.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/fs/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/fs/LICENSE.md",
+          "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+        },
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/fs/lib/cp/LICENSE",
+          "sha256": "1e76029602ae9b21cc4e612db2496d92febed882ba13ba745f8b3309e85f9d39"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/git",
+      "version": "6.0.3",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/git/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/git/LICENSE",
+          "sha256": "565acf764f4583abe4cf4b02128f01b5d4d1b4c62c253e92df7ed6a8a8ad406b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/installed-package-contents",
+      "version": "3.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/installed-package-contents/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/installed-package-contents/LICENSE",
+          "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/map-workspaces",
+      "version": "4.0.2",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/map-workspaces/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/map-workspaces/LICENSE.md",
+          "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/metavuln-calculator",
+      "version": "8.0.1",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/metavuln-calculator/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/metavuln-calculator/LICENSE",
+          "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/name-from-folder",
+      "version": "3.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/name-from-folder/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/name-from-folder/LICENSE",
+          "sha256": "802fae69bfe8fcb201f15b6a12505580028158679c3ed3254df5ea8f0912aed4"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/node-gyp",
+      "version": "4.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/node-gyp/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/node-gyp/LICENSE",
+          "sha256": "8da13c785af46eb3d0bf2ce4c34bdf191b8c57bf43e410e9359d5b5eab5f4b0f"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/package-json",
+      "version": "6.2.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/package-json/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/package-json/LICENSE",
+          "sha256": "65675229fc81818c9490a1942f361f7ef31cd525bef9111e62a6c84e9bd4769d"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/promise-spawn",
+      "version": "8.0.3",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/promise-spawn/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/promise-spawn/LICENSE",
+          "sha256": "565acf764f4583abe4cf4b02128f01b5d4d1b4c62c253e92df7ed6a8a8ad406b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/query",
+      "version": "4.0.1",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/query/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/query/LICENSE",
+          "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/redact",
+      "version": "3.2.2",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/redact/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/redact/LICENSE",
+          "sha256": "d0b7cddf14a2005e05b397a950b9f69e1de412b8c6749e5b5d70610fb119e9ee"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@npmcli/run-script",
+      "version": "9.1.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/run-script/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/run-script/LICENSE",
+          "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@pkgjs/parseargs",
+      "version": "0.11.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/@pkgjs/parseargs/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@pkgjs/parseargs/LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@sigstore/bundle",
+      "version": "3.1.0",
+      "license": "Apache-2.0",
+      "package_json": "lib/node_modules/npm/node_modules/@sigstore/bundle/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@sigstore/bundle/LICENSE",
+          "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@sigstore/core",
+      "version": "2.0.0",
+      "license": "Apache-2.0",
+      "package_json": "lib/node_modules/npm/node_modules/@sigstore/core/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@sigstore/core/LICENSE",
+          "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@sigstore/protobuf-specs",
+      "version": "0.4.3",
+      "license": "Apache-2.0",
+      "package_json": "lib/node_modules/npm/node_modules/@sigstore/protobuf-specs/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@sigstore/protobuf-specs/LICENSE",
+          "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@sigstore/sign",
+      "version": "3.1.0",
+      "license": "Apache-2.0",
+      "package_json": "lib/node_modules/npm/node_modules/@sigstore/sign/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@sigstore/sign/LICENSE",
+          "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@sigstore/tuf",
+      "version": "3.1.1",
+      "license": "Apache-2.0",
+      "package_json": "lib/node_modules/npm/node_modules/@sigstore/tuf/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@sigstore/tuf/LICENSE",
+          "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@sigstore/verify",
+      "version": "2.1.1",
+      "license": "Apache-2.0",
+      "package_json": "lib/node_modules/npm/node_modules/@sigstore/verify/package.json",
+      "license_notice_files": [],
+      "license_text_missing": true,
+      "license_declaration_missing": false,
+      "upstream_source": {
+        "repository": "https://github.com/sigstore/sigstore-js",
+        "commit": "b5af5ac566fd569b3585fd5133acee2eb2083dba",
+        "archive_url": "https://codeload.github.com/sigstore/sigstore-js/tar.gz/b5af5ac566fd569b3585fd5133acee2eb2083dba",
+        "archive_sha256": "be44867adc6ab6b32320b632402e22cc5a0756baef7a04030a584436614d7bc4",
+        "registry_package_integrity": "sha512-hVJD77oT67aowHxwT4+M6PGOp+E2LtLdTK3+FC0lBO9T7sYwItDMXZ7Z07IDCvR1M717a4axbIWckrW67KMP/w==",
+        "package_metadata_license": "Apache-2.0",
+        "author_metadata": "bdehamer@github.com",
+        "source_license_file_present": true,
+        "source_license_file": "LICENSE",
+        "source_license_file_sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0",
+        "source_package_manifest_path": "packages/verify/package.json",
+        "source_package_manifest_sha256": "68d7387e84118be7099407749b057035dd631ba354ede2e945548fd2cf762b53"
+      },
+      "upstream_license_text_cache": ".cache/licenses/runtime/node-npm-source/extracted/sigstore-js-b5af5ac566fd569b3585fd5133acee2eb2083dba/LICENSE",
+      "upstream_source_evidence": {
+        "repository": "https://github.com/sigstore/sigstore-js",
+        "commit": "b5af5ac566fd569b3585fd5133acee2eb2083dba",
+        "source_archive_url": "https://codeload.github.com/sigstore/sigstore-js/tar.gz/b5af5ac566fd569b3585fd5133acee2eb2083dba",
+        "source_archive_sha256": "be44867adc6ab6b32320b632402e22cc5a0756baef7a04030a584436614d7bc4",
+        "exact_package_version": "2.1.1",
+        "package_license_declaration": "Apache-2.0",
+        "author_field": "bdehamer@github.com",
+        "source_license_file_present": true,
+        "source_license_file": "LICENSE",
+        "source_license_file_sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0",
+        "manifest_path": "packages/verify/package.json",
+        "manifest_sha256": "68d7387e84118be7099407749b057035dd631ba354ede2e945548fd2cf762b53"
+      },
+      "license_rights_unknown": false,
+      "bundle_notice_status": "license text available in exact upstream source, omitted from Node-bundled copy"
+    },
+    {
+      "name": "@tufjs/canonical-json",
+      "version": "2.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/@tufjs/canonical-json/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@tufjs/canonical-json/LICENSE",
+          "sha256": "564bcb001d6e131452a8e9fba0f0ccc59e8b881f84ce3e46e319a5a33e191e10"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "@tufjs/models",
+      "version": "3.0.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/tuf-js/node_modules/@tufjs/models/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/tuf-js/node_modules/@tufjs/models/LICENSE",
+          "sha256": "564bcb001d6e131452a8e9fba0f0ccc59e8b881f84ce3e46e319a5a33e191e10"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "abbrev",
+      "version": "3.0.1",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/abbrev/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/abbrev/LICENSE",
+          "sha256": "9e0d5c7989f7e9f07d7c4b158aceff270f235eb7464ace41c5e7b200834a43e0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "agent-base",
+      "version": "7.1.4",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/agent-base/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/agent-base/LICENSE",
+          "sha256": "8d8c55319c7729d57be811c747452636688d54f19701ee0752b6b15ad3771d9a"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "ansi-regex",
+      "version": "5.0.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/ansi-regex/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/ansi-regex/license",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "ansi-regex",
+      "version": "6.2.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/@isaacs/cliui/node_modules/ansi-regex/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@isaacs/cliui/node_modules/ansi-regex/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "ansi-regex",
+      "version": "6.2.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/wrap-ansi/node_modules/ansi-regex/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/wrap-ansi/node_modules/ansi-regex/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "ansi-styles",
+      "version": "4.3.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/wrap-ansi-cjs/node_modules/ansi-styles/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/wrap-ansi-cjs/node_modules/ansi-styles/license",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "ansi-styles",
+      "version": "6.2.3",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/ansi-styles/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/ansi-styles/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "aproba",
+      "version": "2.1.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/aproba/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/aproba/LICENSE",
+          "sha256": "0cef05dfff8b6aa7f35596984f5709f0d17c2582924a751efa471a76de7cdc11"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "archy",
+      "version": "1.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/archy/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/archy/LICENSE",
+          "sha256": "435a6722c786b0a56fbe7387028f1d9d3f3a2d0fb615bb8fee118727c3f59b7b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "balanced-match",
+      "version": "1.0.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/balanced-match/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/balanced-match/LICENSE.md",
+          "sha256": "a1bd5deadb6a06dd74efa852c1b8b23f63b67f2214fbe9c8bd591da51da69268"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "bin-links",
+      "version": "5.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/bin-links/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/bin-links/LICENSE",
+          "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "binary-extensions",
+      "version": "2.3.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/binary-extensions/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/binary-extensions/license",
+          "sha256": "96f0820026bd6dadc4af99c6dba7111d2e0190c092c376a746c13863e151d072"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "brace-expansion",
+      "version": "2.0.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/brace-expansion/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/brace-expansion/LICENSE",
+          "sha256": "68f12f6e2c33688699249c01d8f9623c534da20aa71989c57b061b7bc1676d14"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "cacache",
+      "version": "19.0.1",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/cacache/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/cacache/LICENSE.md",
+          "sha256": "720836c9bdad386485a492ab41fe08007ecf85ca278ddd8f9333494dcac4949d"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "chalk",
+      "version": "5.6.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/chalk/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/chalk/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "chownr",
+      "version": "3.0.0",
+      "license": "BlueOak-1.0.0",
+      "package_json": "lib/node_modules/npm/node_modules/chownr/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/chownr/LICENSE.md",
+          "sha256": "a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "ci-info",
+      "version": "4.4.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/ci-info/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/ci-info/LICENSE",
+          "sha256": "f58943cb354fb2707fea2f7b26b04e6014ddb56835cdfd414c9d2c6c59165b64"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "cidr-regex",
+      "version": "4.1.3",
+      "license": "BSD-2-Clause",
+      "package_json": "lib/node_modules/npm/node_modules/cidr-regex/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/cidr-regex/LICENSE",
+          "sha256": "23e60503dc06abf04b9e535e17797b4e0f9224e6c5abf9207317d5a67c88c743"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "cli-columns",
+      "version": "4.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/cli-columns/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/cli-columns/license",
+          "sha256": "b4c8d681302b783f22b980a224da87e6074a2517b11f53219dc392f23c5a2a46"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "cmd-shim",
+      "version": "7.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/cmd-shim/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/cmd-shim/LICENSE",
+          "sha256": "ec361617c0473d39347b020eaa6dceedaebab43879fa1cd8b8f0f97a8e80a475"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "color-convert",
+      "version": "2.0.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/color-convert/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/color-convert/LICENSE",
+          "sha256": "693866fc419c6f61c8570438ec00659d156ec2b4d4a4d04091711f5f11a365d4"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "color-name",
+      "version": "1.1.4",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/color-name/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/color-name/LICENSE",
+          "sha256": "c064f7a3e353bc1bc977f3c897941c75ef763f44f41677e0a15370ca0853d6e2"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "common-ancestor-path",
+      "version": "1.0.1",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/common-ancestor-path/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/common-ancestor-path/LICENSE",
+          "sha256": "05dc4d785ac3a488676d3ed10e901b75ad89dafcc63f8e66610fd4a39cc5c7e8"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "cross-spawn",
+      "version": "7.0.6",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/cross-spawn/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/cross-spawn/LICENSE",
+          "sha256": "aaa78451b6fecd1b9c4594c796c133c0e90cad100372ff8bc6de615e9ef9adf1"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "cssesc",
+      "version": "3.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/cssesc/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/cssesc/LICENSE-MIT.txt",
+          "sha256": "483acb265f182907d1caf6cff9c16c96f31325ed23792832cc5d8b12d5f88c8a"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "debug",
+      "version": "4.4.3",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/debug/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/debug/LICENSE",
+          "sha256": "3a61c6c96caf5c1d9b623fb9b04c822b783dfcb78aa7e49c76a3f643e6ed7f95"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "diff",
+      "version": "5.2.2",
+      "license": "BSD-3-Clause",
+      "package_json": "lib/node_modules/npm/node_modules/diff/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/diff/LICENSE",
+          "sha256": "eda81a415869e67809f6a9f3fd6056062cb83a462118e07eec5e92b2e0c40ce9"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "eastasianwidth",
+      "version": "0.2.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/eastasianwidth/package.json",
+      "license_notice_files": [],
+      "license_text_missing": true,
+      "license_declaration_missing": false,
+      "upstream_source": {
+        "repository": "https://github.com/komagata/eastasianwidth",
+        "commit": "b89f04d44dc786885615e94cd6e2ba1ef7866fa4",
+        "archive_url": "https://codeload.github.com/komagata/eastasianwidth/tar.gz/b89f04d44dc786885615e94cd6e2ba1ef7866fa4",
+        "archive_sha256": "6a0dbff2dbb2411bfc265746f532b4fe0e58e6818b57de5419d704b03e519ff1",
+        "registry_package_integrity": "sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==",
+        "package_metadata_license": "MIT",
+        "author_metadata": "Masaki Komagata",
+        "source_license_file_present": false,
+        "source_license_file": null,
+        "source_license_file_sha256": null,
+        "source_package_manifest_path": "package.json",
+        "source_package_manifest_sha256": null
+      },
+      "canonical_spdx_text": {
+        "url": "https://spdx.org/licenses/MIT.txt",
+        "sha256": "c3b1b78bc8bd3ea13aa4bc9778442d16560270afa235006d816e5e88cef24db4",
+        "source": ".cache/licenses/runtime/node-npm-source/spdx-licenses/ (exact standard license text, recorded separately from upstream source evidence)"
+      },
+      "upstream_notice_gap": "The exact package archive and source commit contain no license text file. The package manifest declares the SPDX license; publisher author metadata is recorded. Do not represent the canonical SPDX text as an upstream-supplied notice.",
+      "upstream_source_evidence": {
+        "repository": "https://github.com/komagata/eastasianwidth",
+        "commit": "b89f04d44dc786885615e94cd6e2ba1ef7866fa4",
+        "source_archive_url": "https://codeload.github.com/komagata/eastasianwidth/tar.gz/b89f04d44dc786885615e94cd6e2ba1ef7866fa4",
+        "source_archive_sha256": "6a0dbff2dbb2411bfc265746f532b4fe0e58e6818b57de5419d704b03e519ff1",
+        "exact_package_version": "0.2.0",
+        "package_license_declaration": "MIT",
+        "author_field": "Masaki Komagata",
+        "source_license_file_present": false,
+        "source_license_file": null,
+        "source_license_file_sha256": null,
+        "canonical_spdx_text": {
+          "url": "https://spdx.org/licenses/MIT.txt",
+          "sha256": "c3b1b78bc8bd3ea13aa4bc9778442d16560270afa235006d816e5e88cef24db4",
+          "note": "Canonical standard terms for the exact package-declared SPDX identifier; not a license file supplied by this upstream source."
+        }
+      },
+      "license_rights_unknown": false,
+      "bundle_notice_status": "source package metadata declares this SPDX license but source and npm package omit a license text file"
+    },
+    {
+      "name": "emoji-regex",
+      "version": "8.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/emoji-regex/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/emoji-regex/LICENSE-MIT.txt",
+          "sha256": "483acb265f182907d1caf6cff9c16c96f31325ed23792832cc5d8b12d5f88c8a"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "emoji-regex",
+      "version": "9.2.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/@isaacs/cliui/node_modules/emoji-regex/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@isaacs/cliui/node_modules/emoji-regex/LICENSE-MIT.txt",
+          "sha256": "483acb265f182907d1caf6cff9c16c96f31325ed23792832cc5d8b12d5f88c8a"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "emoji-regex",
+      "version": "9.2.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/wrap-ansi/node_modules/emoji-regex/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/wrap-ansi/node_modules/emoji-regex/LICENSE-MIT.txt",
+          "sha256": "483acb265f182907d1caf6cff9c16c96f31325ed23792832cc5d8b12d5f88c8a"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "encoding",
+      "version": "0.1.13",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/encoding/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/encoding/LICENSE",
+          "sha256": "2453d3b90aa23715eec80b25fcda1bebf71052ad41a6694d58a9aa867d103c81"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "env-paths",
+      "version": "2.2.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/env-paths/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/env-paths/license",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "err-code",
+      "version": "2.0.3",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/err-code/package.json",
+      "license_notice_files": [],
+      "license_text_missing": true,
+      "license_declaration_missing": false,
+      "upstream_source": {
+        "repository": "https://github.com/IndigoUnited/js-err-code",
+        "commit": "92511d41a6a926c94c9d11493404867b1e92a77a",
+        "archive_url": "https://codeload.github.com/IndigoUnited/js-err-code/tar.gz/92511d41a6a926c94c9d11493404867b1e92a77a",
+        "archive_sha256": "be37b86e0e29f3bd3d32b41e28ca9e83e246fc4c983c94ebce34d61e1ff65f82",
+        "registry_package_integrity": "sha512-2bmlRpNKBxT/CRmPOlyISQpNj+qSeYvcym/uT0Jx2bMOlKLtSy1ZmLuVxSEKKyor/N5yhvp/ZiG1oE3DEYMSFA==",
+        "package_metadata_license": "MIT",
+        "author_metadata": "IndigoUnited <hello@indigounited.com>",
+        "source_license_file_present": false,
+        "source_license_file": null,
+        "source_license_file_sha256": null,
+        "source_package_manifest_path": "package.json",
+        "source_package_manifest_sha256": null
+      },
+      "canonical_spdx_text": {
+        "url": "https://spdx.org/licenses/MIT.txt",
+        "sha256": "c3b1b78bc8bd3ea13aa4bc9778442d16560270afa235006d816e5e88cef24db4",
+        "source": ".cache/licenses/runtime/node-npm-source/spdx-licenses/ (exact standard license text, recorded separately from upstream source evidence)"
+      },
+      "upstream_notice_gap": "The exact package archive and source commit contain no license text file. The package manifest declares the SPDX license; publisher author metadata is recorded. Do not represent the canonical SPDX text as an upstream-supplied notice.",
+      "upstream_source_evidence": {
+        "repository": "https://github.com/IndigoUnited/js-err-code",
+        "commit": "92511d41a6a926c94c9d11493404867b1e92a77a",
+        "source_archive_url": "https://codeload.github.com/IndigoUnited/js-err-code/tar.gz/92511d41a6a926c94c9d11493404867b1e92a77a",
+        "source_archive_sha256": "be37b86e0e29f3bd3d32b41e28ca9e83e246fc4c983c94ebce34d61e1ff65f82",
+        "exact_package_version": "2.0.3",
+        "package_license_declaration": "MIT",
+        "author_field": "IndigoUnited <hello@indigounited.com>",
+        "source_license_file_present": false,
+        "source_license_file": null,
+        "source_license_file_sha256": null,
+        "canonical_spdx_text": {
+          "url": "https://spdx.org/licenses/MIT.txt",
+          "sha256": "c3b1b78bc8bd3ea13aa4bc9778442d16560270afa235006d816e5e88cef24db4",
+          "note": "Canonical standard terms for the exact package-declared SPDX identifier; not a license file supplied by this upstream source."
+        }
+      },
+      "license_rights_unknown": false,
+      "bundle_notice_status": "source package metadata declares this SPDX license but source and npm package omit a license text file"
+    },
+    {
+      "name": "exponential-backoff",
+      "version": "3.1.3",
+      "license": "Apache-2.0",
+      "package_json": "lib/node_modules/npm/node_modules/exponential-backoff/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/exponential-backoff/LICENSE",
+          "sha256": "f5afc95c69e116ea6b1755f91a8763f53eadb78b4f1582a08d2d18586a03a117"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "fastest-levenshtein",
+      "version": "1.0.16",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/fastest-levenshtein/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/fastest-levenshtein/LICENSE.md",
+          "sha256": "b8baf91be313643f3e87a01da77704b68e12795184a62e51e537a5a43c2932f3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "fdir",
+      "version": "6.5.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/fdir/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/fdir/LICENSE",
+          "sha256": "9a39f2aadab11a3697edd668ff2d8ad885b649737b7ab4d3bf12b34e5ada0c86"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "foreground-child",
+      "version": "3.3.1",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/foreground-child/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/foreground-child/LICENSE",
+          "sha256": "93f5d82a8d59442fe3275383453a255fef761647fb28265644010ba799806148"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "fs-minipass",
+      "version": "3.0.3",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/fs-minipass/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/fs-minipass/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "glob",
+      "version": "10.5.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/glob/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/glob/LICENSE",
+          "sha256": "cdbc258d13806538e727964c2436a8806e6e2496ccd616224aace6f7bf98dbc1"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "graceful-fs",
+      "version": "4.2.11",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/graceful-fs/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/graceful-fs/LICENSE",
+          "sha256": "f65c5d9f22a317b2a10803bd1868461ce6499c2ed7217bc80c0cc772a748789c"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "hosted-git-info",
+      "version": "8.1.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/hosted-git-info/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/hosted-git-info/LICENSE",
+          "sha256": "c1476ec53119cd4c8370f91f5152ac76312a29b4fae2d49b5e0e0970fe0fa5ee"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "http-cache-semantics",
+      "version": "4.2.0",
+      "license": "BSD-2-Clause",
+      "package_json": "lib/node_modules/npm/node_modules/http-cache-semantics/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/http-cache-semantics/LICENSE",
+          "sha256": "ab868ad5a2ef5068560d9cd3b2180ec63c140bb4c5cae1ba779d300a0ac74fa3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "http-proxy-agent",
+      "version": "7.0.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/http-proxy-agent/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/http-proxy-agent/LICENSE",
+          "sha256": "71368fd0f5b4129191e9afcd1e1ef2dc89a9090d3e4d80bbab92dafd032b3bef"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "https-proxy-agent",
+      "version": "7.0.6",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/https-proxy-agent/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/https-proxy-agent/LICENSE",
+          "sha256": "8d8c55319c7729d57be811c747452636688d54f19701ee0752b6b15ad3771d9a"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "iconv-lite",
+      "version": "0.6.3",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/iconv-lite/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/iconv-lite/LICENSE",
+          "sha256": "ac779f7314c74f232ef847ea86e714abe25cf6eeb5cc97b69451b74e2af6492d"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "ignore-walk",
+      "version": "7.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/ignore-walk/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/ignore-walk/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "imurmurhash",
+      "version": "0.1.4",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/imurmurhash/package.json",
+      "license_notice_files": [],
+      "license_text_missing": true,
+      "license_declaration_missing": false,
+      "upstream_source": {
+        "repository": "https://github.com/jensyt/imurmurhash-js",
+        "commit": "9f40361c7e2835a9b7b8eaa1cbab2a9f94ee22a2",
+        "archive_url": "https://codeload.github.com/jensyt/imurmurhash-js/tar.gz/9f40361c7e2835a9b7b8eaa1cbab2a9f94ee22a2",
+        "archive_sha256": "078c96d2309b19baff1f50417b97c53a623ed0163f15c0f658e1a32fab543492",
+        "registry_package_integrity": "sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==",
+        "package_metadata_license": "MIT",
+        "author_metadata": "Jens Taylor",
+        "source_license_file_present": true,
+        "source_license_file": "LICENSE",
+        "source_license_file_sha256": "fa0943ddcaa857d901a9eb92254d89876297ecdfbc884d294a927df08ebcbbe8",
+        "source_package_manifest_path": "package.json",
+        "source_package_manifest_sha256": null
+      },
+      "upstream_license_text_cache": ".cache/licenses/runtime/node-npm-source/extracted/imurmurhash-js-9f40361c7e2835a9b7b8eaa1cbab2a9f94ee22a2/LICENSE",
+      "upstream_source_evidence": {
+        "repository": "https://github.com/jensyt/imurmurhash-js",
+        "commit": "9f40361c7e2835a9b7b8eaa1cbab2a9f94ee22a2",
+        "source_archive_url": "https://codeload.github.com/jensyt/imurmurhash-js/tar.gz/9f40361c7e2835a9b7b8eaa1cbab2a9f94ee22a2",
+        "source_archive_sha256": "078c96d2309b19baff1f50417b97c53a623ed0163f15c0f658e1a32fab543492",
+        "exact_package_version": "0.1.4",
+        "package_license_declaration": "MIT",
+        "author_field": "Jens Taylor",
+        "source_license_file_present": true,
+        "source_license_file": "LICENSE",
+        "source_license_file_sha256": "fa0943ddcaa857d901a9eb92254d89876297ecdfbc884d294a927df08ebcbbe8"
+      },
+      "license_rights_unknown": false,
+      "bundle_notice_status": "license text available in exact upstream source, omitted from Node-bundled copy"
+    },
+    {
+      "name": "ini",
+      "version": "5.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/ini/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/ini/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "init-package-json",
+      "version": "7.0.2",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/init-package-json/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/init-package-json/LICENSE.md",
+          "sha256": "7f75bb21103e77b7acfcf88a6ad0286741a18b5d13c4326160346e8cf7e356ad"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "ip-address",
+      "version": "10.1.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/ip-address/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/ip-address/LICENSE",
+          "sha256": "f8d791359a50cbcac82c29cb7b0b1b889b28be76fdd35b8ee33f0f7c8704702a"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "ip-regex",
+      "version": "5.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/ip-regex/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/ip-regex/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "is-cidr",
+      "version": "5.1.1",
+      "license": "BSD-2-Clause",
+      "package_json": "lib/node_modules/npm/node_modules/is-cidr/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/is-cidr/LICENSE",
+          "sha256": "23e60503dc06abf04b9e535e17797b4e0f9224e6c5abf9207317d5a67c88c743"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "is-fullwidth-code-point",
+      "version": "3.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/is-fullwidth-code-point/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/is-fullwidth-code-point/license",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "isexe",
+      "version": "2.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/isexe/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/isexe/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "isexe",
+      "version": "3.1.5",
+      "license": "BlueOak-1.0.0",
+      "package_json": "lib/node_modules/npm/node_modules/which/node_modules/isexe/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/which/node_modules/isexe/LICENSE.md",
+          "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "jackspeak",
+      "version": "3.4.3",
+      "license": "BlueOak-1.0.0",
+      "package_json": "lib/node_modules/npm/node_modules/jackspeak/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/jackspeak/LICENSE.md",
+          "sha256": "2c7c5d22ed5a8ee968c64757710979afcd77438c48b4a265b94e615babd8a901"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "json-parse-even-better-errors",
+      "version": "4.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/json-parse-even-better-errors/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/json-parse-even-better-errors/LICENSE.md",
+          "sha256": "50627796eb4236cd05674e71d090e594447995225b7d94cd59e57c25fa3a0217"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "json-stringify-nice",
+      "version": "1.1.4",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/json-stringify-nice/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/json-stringify-nice/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "jsonparse",
+      "version": "1.3.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/jsonparse/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/jsonparse/LICENSE",
+          "sha256": "ed251dc3a48522399fffe95fe04d94fbcadcd9edd0e7689f3b71cf73403a6138"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "just-diff",
+      "version": "6.0.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/just-diff/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/just-diff/LICENSE",
+          "sha256": "ebb30d70f7ebd918f223ce6ed7621fa4cef3ec2d59d6707c23868b01def28ce2"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "just-diff-apply",
+      "version": "5.5.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/just-diff-apply/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/just-diff-apply/LICENSE",
+          "sha256": "ebb30d70f7ebd918f223ce6ed7621fa4cef3ec2d59d6707c23868b01def28ce2"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "libnpmaccess",
+      "version": "9.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/libnpmaccess/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/libnpmaccess/LICENSE",
+          "sha256": "77d72758faff2d3a086b1c77f66f4dcfa63a1ee1a9bab5df4ab3c2e8f3eb646d"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "libnpmdiff",
+      "version": "7.0.5",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/libnpmdiff/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/libnpmdiff/LICENSE",
+          "sha256": "7967f87257c7d5f0ef29012d472a8b99a0fb1c5202b6d861a2c81671329a2ee4"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "libnpmexec",
+      "version": "9.0.5",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/libnpmexec/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/libnpmexec/LICENSE",
+          "sha256": "7967f87257c7d5f0ef29012d472a8b99a0fb1c5202b6d861a2c81671329a2ee4"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "libnpmfund",
+      "version": "6.0.5",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/libnpmfund/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/libnpmfund/LICENSE",
+          "sha256": "9dd1bc5666fd1e32f086518046532e993f5307749327aff37cecf98355f2b9a0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "libnpmhook",
+      "version": "11.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/libnpmhook/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/libnpmhook/LICENSE.md",
+          "sha256": "720836c9bdad386485a492ab41fe08007ecf85ca278ddd8f9333494dcac4949d"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "libnpmorg",
+      "version": "7.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/libnpmorg/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/libnpmorg/LICENSE",
+          "sha256": "77d72758faff2d3a086b1c77f66f4dcfa63a1ee1a9bab5df4ab3c2e8f3eb646d"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "libnpmpack",
+      "version": "8.0.5",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/libnpmpack/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/libnpmpack/LICENSE",
+          "sha256": "77d72758faff2d3a086b1c77f66f4dcfa63a1ee1a9bab5df4ab3c2e8f3eb646d"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "libnpmpublish",
+      "version": "10.0.2",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/libnpmpublish/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/libnpmpublish/LICENSE",
+          "sha256": "77d72758faff2d3a086b1c77f66f4dcfa63a1ee1a9bab5df4ab3c2e8f3eb646d"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "libnpmsearch",
+      "version": "8.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/libnpmsearch/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/libnpmsearch/LICENSE",
+          "sha256": "77d72758faff2d3a086b1c77f66f4dcfa63a1ee1a9bab5df4ab3c2e8f3eb646d"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "libnpmteam",
+      "version": "7.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/libnpmteam/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/libnpmteam/LICENSE",
+          "sha256": "77d72758faff2d3a086b1c77f66f4dcfa63a1ee1a9bab5df4ab3c2e8f3eb646d"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "libnpmversion",
+      "version": "7.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/libnpmversion/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/libnpmversion/LICENSE",
+          "sha256": "05dc4d785ac3a488676d3ed10e901b75ad89dafcc63f8e66610fd4a39cc5c7e8"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "lru-cache",
+      "version": "10.4.3",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/lru-cache/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/lru-cache/LICENSE",
+          "sha256": "451ec07eeb9c4e1b86de9abdaa426462a8be48f887ec7421cf0bbb9c769555ab"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "make-fetch-happen",
+      "version": "14.0.3",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/make-fetch-happen/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/make-fetch-happen/LICENSE",
+          "sha256": "a806e21000ee60cfd64a6f1416f29c7552b4834701974e86c0156f99c0cdd806"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "minimatch",
+      "version": "9.0.9",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/minimatch/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minimatch/LICENSE",
+          "sha256": "d11323827fa4edeaafc437cc5b91b6971b335f0127efeeb42bf5122fe8657e8f"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "minipass",
+      "version": "3.3.6",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/minipass-flush/node_modules/minipass/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minipass-flush/node_modules/minipass/LICENSE",
+          "sha256": "a5a110eb524bf3217958e405b5e3411277e915a2f5902c330348877000337e53"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "minipass",
+      "version": "3.3.6",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/minipass-pipeline/node_modules/minipass/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minipass-pipeline/node_modules/minipass/LICENSE",
+          "sha256": "a5a110eb524bf3217958e405b5e3411277e915a2f5902c330348877000337e53"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "minipass",
+      "version": "3.3.6",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/minipass-sized/node_modules/minipass/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minipass-sized/node_modules/minipass/LICENSE",
+          "sha256": "a5a110eb524bf3217958e405b5e3411277e915a2f5902c330348877000337e53"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "minipass",
+      "version": "7.1.3",
+      "license": "BlueOak-1.0.0",
+      "package_json": "lib/node_modules/npm/node_modules/minipass/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minipass/LICENSE.md",
+          "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "minipass-collect",
+      "version": "2.0.1",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/minipass-collect/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minipass-collect/LICENSE",
+          "sha256": "b630651f34d0e0284ea940601bbe0a58f306ad7e9819e351d9dfab812f8d0f38"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "minipass-fetch",
+      "version": "4.0.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/minipass-fetch/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minipass-fetch/LICENSE",
+          "sha256": "1dedee6f84f5875ce4dc398d4d767274eb952a43cfd510a6ada856b2ed347472"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "minipass-flush",
+      "version": "1.0.5",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/minipass-flush/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minipass-flush/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "minipass-pipeline",
+      "version": "1.2.4",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/minipass-pipeline/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minipass-pipeline/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "minipass-sized",
+      "version": "1.0.3",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/minipass-sized/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minipass-sized/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "minizlib",
+      "version": "3.1.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/minizlib/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minizlib/LICENSE",
+          "sha256": "df05697a04b8997c79d423930534e59cc18828f6e22d0c8c2d62fcbea1c4f50b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "ms",
+      "version": "2.1.3",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/ms/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/ms/license.md",
+          "sha256": "1662fae9b5314d11cf51284e2dcd1f006a354f7343f08712a730fcff9a359801"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "mute-stream",
+      "version": "2.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/mute-stream/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/mute-stream/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "negotiator",
+      "version": "1.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/negotiator/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/negotiator/LICENSE",
+          "sha256": "553d4d20029a24e315b428a1a54a9e109eaa340f2e958a4f50a92362c2c4070b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "node-gyp",
+      "version": "11.5.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/node-gyp/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/node-gyp/LICENSE",
+          "sha256": "662a1b0115251cfb29c6aed0f221f8847bc49c6365d1c53a62c9f4bccc2489c3"
+        },
+        {
+          "path": "lib/node_modules/npm/node_modules/node-gyp/gyp/LICENSE",
+          "sha256": "ca90abb6ed71de0774461ef9f928de33e748b617aeb79f9e52415cf08d69230e"
+        },
+        {
+          "path": "lib/node_modules/npm/node_modules/node-gyp/gyp/pylib/packaging/LICENSE",
+          "sha256": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48"
+        },
+        {
+          "path": "lib/node_modules/npm/node_modules/node-gyp/gyp/pylib/packaging/LICENSE.APACHE",
+          "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+        },
+        {
+          "path": "lib/node_modules/npm/node_modules/node-gyp/gyp/pylib/packaging/LICENSE.BSD",
+          "sha256": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "nopt",
+      "version": "8.1.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/nopt/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/nopt/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "normalize-package-data",
+      "version": "7.0.1",
+      "license": "BSD-2-Clause",
+      "package_json": "lib/node_modules/npm/node_modules/normalize-package-data/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/normalize-package-data/LICENSE",
+          "sha256": "a5f6f572f26172e1289f2f769cd93acf63ae90dcbb71a9f4953ced871ab38544"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "npm-audit-report",
+      "version": "6.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/npm-audit-report/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/npm-audit-report/LICENSE",
+          "sha256": "720836c9bdad386485a492ab41fe08007ecf85ca278ddd8f9333494dcac4949d"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "npm-bundled",
+      "version": "4.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/npm-bundled/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/npm-bundled/LICENSE",
+          "sha256": "ec361617c0473d39347b020eaa6dceedaebab43879fa1cd8b8f0f97a8e80a475"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "npm-install-checks",
+      "version": "7.1.2",
+      "license": "BSD-2-Clause",
+      "package_json": "lib/node_modules/npm/node_modules/npm-install-checks/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/npm-install-checks/LICENSE",
+          "sha256": "f674630c4d3e668dabac6d955fb5f74c75b4a63a707ac93a8833b74bdc57221e"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "npm-normalize-package-bin",
+      "version": "4.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/npm-normalize-package-bin/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/npm-normalize-package-bin/LICENSE",
+          "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "npm-package-arg",
+      "version": "12.0.2",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/npm-package-arg/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/npm-package-arg/LICENSE",
+          "sha256": "898c2bcff663681498ad1ca8235d45b6e70b10cdf1f869a5b5e69f6e46efedd3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "npm-packlist",
+      "version": "9.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/npm-packlist/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/npm-packlist/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "npm-pick-manifest",
+      "version": "10.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/npm-pick-manifest/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/npm-pick-manifest/LICENSE.md",
+          "sha256": "720836c9bdad386485a492ab41fe08007ecf85ca278ddd8f9333494dcac4949d"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "npm-profile",
+      "version": "11.0.1",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/npm-profile/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/npm-profile/LICENSE.md",
+          "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "npm-registry-fetch",
+      "version": "18.0.2",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/npm-registry-fetch/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/npm-registry-fetch/LICENSE.md",
+          "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "npm-user-validate",
+      "version": "3.0.0",
+      "license": "BSD-2-Clause",
+      "package_json": "lib/node_modules/npm/node_modules/npm-user-validate/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/npm-user-validate/LICENSE",
+          "sha256": "8b8404b77ea2a20e045fbad73de1661091a852bfe1f4997e0b646c688f3d18e4"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "p-map",
+      "version": "7.0.4",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/p-map/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/p-map/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "package-json-from-dist",
+      "version": "1.0.1",
+      "license": "BlueOak-1.0.0",
+      "package_json": "lib/node_modules/npm/node_modules/package-json-from-dist/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/package-json-from-dist/LICENSE.md",
+          "sha256": "a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "pacote",
+      "version": "19.0.2",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/pacote/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/pacote/LICENSE",
+          "sha256": "36ec394cd0f976603cfec687c19175a703c1c0d9db717a76915391e756522c8e"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "pacote",
+      "version": "20.0.1",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/@npmcli/metavuln-calculator/node_modules/pacote/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@npmcli/metavuln-calculator/node_modules/pacote/LICENSE",
+          "sha256": "36ec394cd0f976603cfec687c19175a703c1c0d9db717a76915391e756522c8e"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "parse-conflict-json",
+      "version": "4.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/parse-conflict-json/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/parse-conflict-json/LICENSE.md",
+          "sha256": "27d998b503b18cdb16c49e93da04069a99ba8a1d7e18d67146de8e242f9a6d21"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "path-key",
+      "version": "3.1.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/path-key/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/path-key/license",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "path-scurry",
+      "version": "1.11.1",
+      "license": "BlueOak-1.0.0",
+      "package_json": "lib/node_modules/npm/node_modules/path-scurry/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/path-scurry/LICENSE.md",
+          "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "picomatch",
+      "version": "4.0.3",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/picomatch/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/picomatch/LICENSE",
+          "sha256": "d0cd141b0c322fded5dfad1d4645bb2fedfc05b7321fe1009469638190d59ef9"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "postcss-selector-parser",
+      "version": "7.1.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/postcss-selector-parser/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/postcss-selector-parser/LICENSE-MIT",
+          "sha256": "2998094b38f7ace25f141fb36f334d8338f65a1812978d618b1161f4d77ae10e"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "proc-log",
+      "version": "5.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/proc-log/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/proc-log/LICENSE",
+          "sha256": "dc32a0dee275e0a9aeffbc974dbf4899a30dcdc2e5ffa8934aecb69261065864"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "proggy",
+      "version": "3.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/proggy/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/proggy/LICENSE",
+          "sha256": "dc32a0dee275e0a9aeffbc974dbf4899a30dcdc2e5ffa8934aecb69261065864"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "promise-all-reject-late",
+      "version": "1.0.1",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/promise-all-reject-late/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/promise-all-reject-late/LICENSE",
+          "sha256": "05dc4d785ac3a488676d3ed10e901b75ad89dafcc63f8e66610fd4a39cc5c7e8"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "promise-call-limit",
+      "version": "3.0.2",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/promise-call-limit/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/promise-call-limit/LICENSE",
+          "sha256": "05dc4d785ac3a488676d3ed10e901b75ad89dafcc63f8e66610fd4a39cc5c7e8"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "promise-retry",
+      "version": "2.0.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/promise-retry/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/promise-retry/LICENSE",
+          "sha256": "b1344bd78ebcbf8a359225ec444d038a653c6a5f9ecf405a50d4a5c11fbf27d1"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "promzard",
+      "version": "2.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/promzard/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/promzard/LICENSE",
+          "sha256": "05dc4d785ac3a488676d3ed10e901b75ad89dafcc63f8e66610fd4a39cc5c7e8"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "qrcode-terminal",
+      "version": "0.12.0",
+      "license": [
+        {
+          "type": "Apache 2.0"
+        }
+      ],
+      "package_json": "lib/node_modules/npm/node_modules/qrcode-terminal/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/qrcode-terminal/LICENSE",
+          "sha256": "b3c7a2fadb2515b8106eae58439a4b9c0581a4eaa88d6a265701f8d4dd7dadb8"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "read",
+      "version": "4.1.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/read/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/read/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "read-cmd-shim",
+      "version": "5.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/read-cmd-shim/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/read-cmd-shim/LICENSE",
+          "sha256": "0cef05dfff8b6aa7f35596984f5709f0d17c2582924a751efa471a76de7cdc11"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "read-package-json-fast",
+      "version": "4.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/read-package-json-fast/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/read-package-json-fast/LICENSE",
+          "sha256": "ec361617c0473d39347b020eaa6dceedaebab43879fa1cd8b8f0f97a8e80a475"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "retry",
+      "version": "0.12.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/retry/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/retry/License",
+          "sha256": "01ad164273e8e095abc9dbd1c21e194594a671af7d528cb43ee7b4c903ba7da3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "safer-buffer",
+      "version": "2.1.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/safer-buffer/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/safer-buffer/LICENSE",
+          "sha256": "4bc935e71be198c67ddf3c2b5fddb195f6edc182bfc155a96a6db61b44b494b9"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "semver",
+      "version": "7.7.4",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/semver/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/semver/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "shebang-command",
+      "version": "2.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/shebang-command/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/shebang-command/license",
+          "sha256": "69dee148a2cc470554dfa7142e830662062394d0fe67cddd379aba90dc60d6b3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "shebang-regex",
+      "version": "3.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/shebang-regex/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/shebang-regex/license",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "signal-exit",
+      "version": "4.1.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/signal-exit/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/signal-exit/LICENSE.txt",
+          "sha256": "b173e19b9a78df305577ace0e52ef45a4bcc915ea28b47b256dc3b68dcb1f7e7"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "sigstore",
+      "version": "3.1.0",
+      "license": "Apache-2.0",
+      "package_json": "lib/node_modules/npm/node_modules/sigstore/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/sigstore/LICENSE",
+          "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "smart-buffer",
+      "version": "4.2.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/smart-buffer/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/smart-buffer/LICENSE",
+          "sha256": "c46e2c333e1c9e6fcfd130cf91b8e54bf67b60fabbc04996f7e199b990353ff3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "socks",
+      "version": "2.8.7",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/socks/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/socks/LICENSE",
+          "sha256": "4f4f28866154c8d758241a64296e8790d45d7d912ff7b029930778c06d8f2a72"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "socks-proxy-agent",
+      "version": "8.0.5",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/socks-proxy-agent/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/socks-proxy-agent/LICENSE",
+          "sha256": "8d8c55319c7729d57be811c747452636688d54f19701ee0752b6b15ad3771d9a"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "spdx-correct",
+      "version": "3.2.0",
+      "license": "Apache-2.0",
+      "package_json": "lib/node_modules/npm/node_modules/spdx-correct/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/spdx-correct/LICENSE",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "spdx-exceptions",
+      "version": "2.5.0",
+      "license": "CC-BY-3.0",
+      "package_json": "lib/node_modules/npm/node_modules/spdx-exceptions/package.json",
+      "license_notice_files": [],
+      "license_text_missing": true,
+      "license_declaration_missing": false,
+      "upstream_source": {
+        "repository": "https://github.com/kemitchell/spdx-exceptions.json",
+        "commit": "3aa64bec339abc6a3eca00c3436aaa7e154b8799",
+        "archive_url": "https://codeload.github.com/kemitchell/spdx-exceptions.json/tar.gz/3aa64bec339abc6a3eca00c3436aaa7e154b8799",
+        "archive_sha256": "b3b3099026441e9c3895a85f34092c63154a55aadf1b70faf3cb14f53e5d0227",
+        "registry_package_integrity": "sha512-PiU42r+xO4UbUS1buo3LPJkjlO7430Xn5SVAhdpzzsPHsjbYVflnnFdATgabnLude+Cqu25p6N+g2lw/PFsa4w==",
+        "package_metadata_license": "CC-BY-3.0",
+        "author_metadata": "The Linux Foundation; contributor Kyle E. Mitchell",
+        "source_license_file_present": false,
+        "source_license_file": null,
+        "source_license_file_sha256": null,
+        "source_package_manifest_path": "package.json",
+        "source_package_manifest_sha256": null
+      },
+      "canonical_spdx_text": {
+        "url": "https://spdx.org/licenses/CC-BY-3.0.txt",
+        "sha256": "82f2786b89e92a21b2871840184750c3e1b9f028a4cd475cb21b154bd557d3ee",
+        "source": ".cache/licenses/runtime/node-npm-source/spdx-licenses/ (exact standard license text, recorded separately from upstream source evidence)"
+      },
+      "upstream_notice_gap": "The exact package archive and source commit contain no license text file. The package manifest declares the SPDX license; publisher author metadata is recorded. Do not represent the canonical SPDX text as an upstream-supplied notice.",
+      "upstream_source_evidence": {
+        "repository": "https://github.com/kemitchell/spdx-exceptions.json",
+        "commit": "3aa64bec339abc6a3eca00c3436aaa7e154b8799",
+        "source_archive_url": "https://codeload.github.com/kemitchell/spdx-exceptions.json/tar.gz/3aa64bec339abc6a3eca00c3436aaa7e154b8799",
+        "source_archive_sha256": "b3b3099026441e9c3895a85f34092c63154a55aadf1b70faf3cb14f53e5d0227",
+        "exact_package_version": "2.5.0",
+        "package_license_declaration": "CC-BY-3.0",
+        "author_field": "The Linux Foundation; contributor Kyle E. Mitchell",
+        "source_license_file_present": false,
+        "source_license_file": null,
+        "source_license_file_sha256": null,
+        "canonical_spdx_text": {
+          "url": "https://spdx.org/licenses/CC-BY-3.0.txt",
+          "sha256": "82f2786b89e92a21b2871840184750c3e1b9f028a4cd475cb21b154bd557d3ee",
+          "note": "Canonical standard terms for the exact package-declared SPDX identifier; not a license file supplied by this upstream source."
+        }
+      },
+      "license_rights_unknown": false,
+      "bundle_notice_status": "source package metadata declares this SPDX license but source and npm package omit a license text file"
+    },
+    {
+      "name": "spdx-expression-parse",
+      "version": "3.0.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/spdx-correct/node_modules/spdx-expression-parse/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/spdx-correct/node_modules/spdx-expression-parse/LICENSE",
+          "sha256": "7edb57f7065309027de249642341292a5b21410d5773cc55bba73ff9cf01060e"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "spdx-expression-parse",
+      "version": "3.0.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/validate-npm-package-license/node_modules/spdx-expression-parse/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/validate-npm-package-license/node_modules/spdx-expression-parse/LICENSE",
+          "sha256": "7edb57f7065309027de249642341292a5b21410d5773cc55bba73ff9cf01060e"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "spdx-expression-parse",
+      "version": "4.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/spdx-expression-parse/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/spdx-expression-parse/LICENSE",
+          "sha256": "7edb57f7065309027de249642341292a5b21410d5773cc55bba73ff9cf01060e"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "spdx-license-ids",
+      "version": "3.0.23",
+      "license": "CC0-1.0",
+      "package_json": "lib/node_modules/npm/node_modules/spdx-license-ids/package.json",
+      "license_notice_files": [],
+      "license_text_missing": true,
+      "license_declaration_missing": false,
+      "upstream_source": {
+        "repository": "https://github.com/jslicense/spdx-license-ids",
+        "commit": "a2a975daf48bbc2afdc8e7c304405b44c656fd53",
+        "archive_url": "https://codeload.github.com/jslicense/spdx-license-ids/tar.gz/a2a975daf48bbc2afdc8e7c304405b44c656fd53",
+        "archive_sha256": "497e2f3abeef8f2a909cf1102059c249513830bc15468f788210b6c24fbd9e1a",
+        "registry_package_integrity": "sha512-CWLcCCH7VLu13TgOH+r8p1O/Znwhqv/dbb6lqWy67G+pT1kHmeD/+V36AVb/vq8QMIQwVShJ6Ssl5FPh0fuSdw==",
+        "package_metadata_license": "CC0-1.0",
+        "author_metadata": "Shinnosuke Watanabe",
+        "source_license_file_present": false,
+        "source_license_file": null,
+        "source_license_file_sha256": null,
+        "source_package_manifest_path": "package.json",
+        "source_package_manifest_sha256": null
+      },
+      "canonical_spdx_text": {
+        "url": "https://spdx.org/licenses/CC0-1.0.txt",
+        "sha256": "e0456cbab4f7b5e7203e678faff37eadbdfef02e822db3b7a52a1dd9d3dc514a",
+        "source": ".cache/licenses/runtime/node-npm-source/spdx-licenses/ (exact standard license text, recorded separately from upstream source evidence)"
+      },
+      "upstream_notice_gap": "The exact package archive and source commit contain no license text file. The package manifest declares the SPDX license; publisher author metadata is recorded. Do not represent the canonical SPDX text as an upstream-supplied notice.",
+      "upstream_source_evidence": {
+        "repository": "https://github.com/jslicense/spdx-license-ids",
+        "commit": "a2a975daf48bbc2afdc8e7c304405b44c656fd53",
+        "source_archive_url": "https://codeload.github.com/jslicense/spdx-license-ids/tar.gz/a2a975daf48bbc2afdc8e7c304405b44c656fd53",
+        "source_archive_sha256": "497e2f3abeef8f2a909cf1102059c249513830bc15468f788210b6c24fbd9e1a",
+        "exact_package_version": "3.0.23",
+        "package_license_declaration": "CC0-1.0",
+        "author_field": "Shinnosuke Watanabe",
+        "source_license_file_present": false,
+        "source_license_file": null,
+        "source_license_file_sha256": null,
+        "canonical_spdx_text": {
+          "url": "https://spdx.org/licenses/CC0-1.0.txt",
+          "sha256": "e0456cbab4f7b5e7203e678faff37eadbdfef02e822db3b7a52a1dd9d3dc514a",
+          "note": "Canonical standard terms for the exact package-declared SPDX identifier; not a license file supplied by this upstream source."
+        }
+      },
+      "license_rights_unknown": false,
+      "bundle_notice_status": "source package metadata declares this SPDX license but source and npm package omit a license text file"
+    },
+    {
+      "name": "ssri",
+      "version": "12.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/ssri/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/ssri/LICENSE.md",
+          "sha256": "3749709146345fa15546aaba4e3ab1b3b92a4d930077b5bc32d90815cb63afaf"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "string-width",
+      "version": "4.2.3",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/string-width/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/string-width/license",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "string-width",
+      "version": "4.2.3",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/string-width-cjs/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/string-width-cjs/license",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "string-width",
+      "version": "5.1.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/@isaacs/cliui/node_modules/string-width/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@isaacs/cliui/node_modules/string-width/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "string-width",
+      "version": "5.1.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/wrap-ansi/node_modules/string-width/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/wrap-ansi/node_modules/string-width/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "strip-ansi",
+      "version": "6.0.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/strip-ansi/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/strip-ansi/license",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "strip-ansi",
+      "version": "6.0.1",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/strip-ansi-cjs/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/strip-ansi-cjs/license",
+          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "strip-ansi",
+      "version": "7.2.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/@isaacs/cliui/node_modules/strip-ansi/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/@isaacs/cliui/node_modules/strip-ansi/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "strip-ansi",
+      "version": "7.2.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/wrap-ansi/node_modules/strip-ansi/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/wrap-ansi/node_modules/strip-ansi/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "supports-color",
+      "version": "9.4.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/supports-color/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/supports-color/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "tar",
+      "version": "7.5.22",
+      "license": "BlueOak-1.0.0",
+      "package_json": "lib/node_modules/npm/node_modules/tar/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/tar/LICENSE.md",
+          "sha256": "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "text-table",
+      "version": "0.2.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/text-table/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/text-table/LICENSE",
+          "sha256": "435a6722c786b0a56fbe7387028f1d9d3f3a2d0fb615bb8fee118727c3f59b7b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "tiny-relative-date",
+      "version": "1.3.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/tiny-relative-date/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/tiny-relative-date/LICENSE.md",
+          "sha256": "b219efd4921cb32913a471269807d931b4973190d48269bedcfda6205c526100"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "tinyglobby",
+      "version": "0.2.15",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/tinyglobby/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/tinyglobby/LICENSE",
+          "sha256": "22c68811e174cbbfb3813d4135918df4f540959c14d872e601d9abe83d3cde8f"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "treeverse",
+      "version": "3.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/treeverse/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/treeverse/LICENSE",
+          "sha256": "ec361617c0473d39347b020eaa6dceedaebab43879fa1cd8b8f0f97a8e80a475"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "tuf-js",
+      "version": "3.1.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/tuf-js/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/tuf-js/LICENSE",
+          "sha256": "564bcb001d6e131452a8e9fba0f0ccc59e8b881f84ce3e46e319a5a33e191e10"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "unique-filename",
+      "version": "4.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/unique-filename/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/unique-filename/LICENSE",
+          "sha256": "11734bf6e540e2c021413451205315e5053932de9df9e81279cf2acad6f135ed"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "unique-slug",
+      "version": "5.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/unique-slug/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/unique-slug/LICENSE",
+          "sha256": "8e8b31dd3582eb47f1b28bd6f009b54cd926adb9431e8424db7c2eae7c4af437"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "util-deprecate",
+      "version": "1.0.2",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/util-deprecate/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/util-deprecate/LICENSE",
+          "sha256": "0154425673db15cdfa80ecba2c9b1f1a867f7197a006764712849bfc3a93cbb7"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "validate-npm-package-license",
+      "version": "3.0.4",
+      "license": "Apache-2.0",
+      "package_json": "lib/node_modules/npm/node_modules/validate-npm-package-license/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/validate-npm-package-license/LICENSE",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "validate-npm-package-name",
+      "version": "6.0.2",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/validate-npm-package-name/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/validate-npm-package-name/LICENSE",
+          "sha256": "f3e1645267f7dd77ee6545283cc1766e5883e8fb3b5088fe2cfb995defbb3dde"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "walk-up-path",
+      "version": "3.0.1",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/walk-up-path/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/walk-up-path/LICENSE",
+          "sha256": "05dc4d785ac3a488676d3ed10e901b75ad89dafcc63f8e66610fd4a39cc5c7e8"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "which",
+      "version": "2.0.2",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/cross-spawn/node_modules/which/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/cross-spawn/node_modules/which/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "which",
+      "version": "5.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/which/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/which/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "wrap-ansi",
+      "version": "7.0.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/wrap-ansi-cjs/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/wrap-ansi-cjs/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "wrap-ansi",
+      "version": "8.1.0",
+      "license": "MIT",
+      "package_json": "lib/node_modules/npm/node_modules/wrap-ansi/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/wrap-ansi/license",
+          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "write-file-atomic",
+      "version": "6.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/write-file-atomic/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/write-file-atomic/LICENSE.md",
+          "sha256": "ff75aaa5aaf56005eeea7723b287f9df3dd45b33b310a7eb347d3ab28ea26593"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "yallist",
+      "version": "4.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/minipass-flush/node_modules/yallist/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minipass-flush/node_modules/yallist/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "yallist",
+      "version": "4.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/minipass-pipeline/node_modules/yallist/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minipass-pipeline/node_modules/yallist/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "yallist",
+      "version": "4.0.0",
+      "license": "ISC",
+      "package_json": "lib/node_modules/npm/node_modules/minipass-sized/node_modules/yallist/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/minipass-sized/node_modules/yallist/LICENSE",
+          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    },
+    {
+      "name": "yallist",
+      "version": "5.0.0",
+      "license": "BlueOak-1.0.0",
+      "package_json": "lib/node_modules/npm/node_modules/yallist/package.json",
+      "license_notice_files": [
+        {
+          "path": "lib/node_modules/npm/node_modules/yallist/LICENSE.md",
+          "sha256": "a49c9ba464796f65b59fca3f1e6ca40912df1e859f575383223f7ec6c5baae09"
+        }
+      ],
+      "license_text_missing": false,
+      "license_declaration_missing": false
+    }
+  ],
+  "npm_source_evidence": {
+    "package_version": "10.9.9",
+    "repository": "https://github.com/npm/cli",
+    "git_head": "745d8d90b5403110d26ba332ba83d8c5a51f0578",
+    "root_license_url": "https://github.com/npm/cli/blob/745d8d90b5403110d26ba332ba83d8c5a51f0578/LICENSE",
+    "root_license_sha256": "7610d223851f421d315df5e77974f1c68a04b97e02060e5bbbcf13d95e3ca257",
+    "dependencies_url": "https://github.com/npm/cli/blob/745d8d90b5403110d26ba332ba83d8c5a51f0578/DEPENDENCIES.md",
+    "dependencies_sha256": "3f8549ab049eb7258cdd43a301900dfdb64852c828af463a4ae71abf9907be06",
+    "dependencies_json_exists": false,
+    "root_license_note": "The exact npm root LICENSE states bundled dependencies retain their respective copyright owners and licenses. The exact DEPENDENCIES.md is a graph, not a versioned license-text register."
+  },
+  "source_archive_audit": {
+    "sourceArchives": 7,
+    "license_text_present_in_exact_source": 2,
+    "license_text_absent_in_exact_source": 5,
+    "unresolved_rights": 0,
+    "conditional_bundle_notice_gap": 5
+  },
+  "source_evidence": {
+    "npm": {
+      "version": "10.9.9",
+      "repository": "https://github.com/npm/cli",
+      "commit": "745d8d90b5403110d26ba332ba83d8c5a51f0578",
+      "dependencies_json_in_exact_commit": false,
+      "root_license_scope": "The npm application root license expressly notes dependency licenses remain their respective owners/licenses."
+    },
+    "source_archive_license_audit": {
+      "matched_source_commits": 7,
+      "upstream_license_file_found": 2,
+      "upstream_license_file_absent_but_exact_package_license_metadata_and_author_available": 5,
+      "unknown_declared_licenses": 0,
+      "unresolved_attribution_if_rebundled": 5
+    }
+  }
+}
