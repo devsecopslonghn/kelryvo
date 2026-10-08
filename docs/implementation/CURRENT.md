@@ -8,7 +8,8 @@ The foundation was safely reconciled and synchronized to GitHub `origin/master` 
 `7dd5a3a902281d3850d1d23ab76cb460bb72bbab`, preserving original foundation `e817a4b`
 and independent remote README `b2b2b9c`. Development uses
 `development/wp0-dependency-closure` for review; ordinary verified pushes are authorized.
-See [synchronization policy](github-sync.md). Do not force-push or automatically merge.
+See [synchronization policy](github-sync.md). Eligible automatic merges are now explicitly
+authorized after independent review and passing exact-head quality gates; never bypass checks.
 
 T02 implements actual artifact pins, checksums, lockfiles, source/license/NOTICE records,
 cache-only npm installation and reproducible driver-free Java builds. The selected inputs
@@ -47,7 +48,10 @@ source preservation and candidate failures are retained in
 `evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/`. Native specialists contributed
 Database packaging, Security artifact/license registers, DevOps offline installation,
 Backend envelope/corpus and independent QA. The orchestrator reviewed and integrated them.
-All 51 final local tests, source/lint/JSON checks and clean offline npm installation pass.
+All 51 tests from the original T02 run passed. Fresh PR review passes **53** local tests,
+source/lint/JSON checks and clean offline npm installation. The parent now rejects uncovered
+non-whitespace source bytes, with independent QA follow-up approval. Review evidence is in
+`evidence/db-devops-wp0/pr1-review-20261008T123632Z-97ca436e/`. Exact-head CI must pass again before PR #1 merges.
 Two final offline Java builds reproduce the expected helper hash. All 43 immutable inputs
 and DB-Research's pre-existing Git status are preserved.
 

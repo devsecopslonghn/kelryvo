@@ -42,3 +42,10 @@ Command: `mvn -q -DskipTests clean package` in the helper directory, followed by
 This establishes that the actual released parser can run in a small driver-free JVM package and can support byte ranges when its returned statement plus delimiter is a contiguous source slice. It also demonstrates real boundaries requiring policy and fixture coverage: comments and any parser normalization that breaks exact source correspondence must yield STOP, and SQL*Plus-only commands can pass through as statements. The internal parser API exposes a statement start character offset but no exclusive end offset or explicit SQL*Plus rejection result. The prototype derives an end only when its exact-slice check succeeds. Do not weaken this guard with custom tokenization or a fallback splitter. T03 must establish a reviewed mature-parser boundary for these required cases or remain blocked/reopen ADR-I03; this smoke does not prove compatibility.
 
 Before selecting the helper for WP0-T03, finish the artifact/license/NOTICE and JRE distribution audit, agree the failure contract with the parent envelope, and exercise all required positive and negative parser fixtures. No Oracle 19c/21c behavior is established here.
+
+PR review additionally requires complete source coverage at the parent boundary. Only ASCII
+whitespace bytes (space and bytes 0x09 through 0x0d) may precede, separate or follow returned
+ranges. Any other uncovered byte causes `uncovered_source_bytes`, including a zero-statement
+response for executable or comment-only input. Comments must be included in parser-produced
+source ranges; the parent does not tokenize comments or SQL. This conservative boundary fixes
+omission acceptance without changing the documented comment/SQL*Plus candidate failures.

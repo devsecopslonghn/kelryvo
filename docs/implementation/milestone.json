@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "milestone": "WP0 Oracle feasibility — offline preparation",
+  "milestone": "WP0 Oracle feasibility \u2014 offline preparation",
   "status": "IN_PROGRESS",
   "allowed_packages": [
     "WP0"
@@ -24,6 +24,9 @@
     },
     {
       "index_id": "WP0-T03-CANDIDATE-t02-20261008T110223Z-f2cc022d"
+    },
+    {
+      "index_id": "WP0-T02-REVIEW-pr1-review-20261008T123632Z-97ca436e"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -74,11 +77,11 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-08T11:11:45.902398+00:00",
+  "updated_at": "2026-10-08T12:37:00Z",
   "final_check_evidence": {
-    "index_id": "WP0-T02-INTEGRATION-t02-20261008T110223Z-f2cc022d"
+    "index_id": "WP0-T02-REVIEW-pr1-review-20261008T123632Z-97ca436e"
   },
-  "final_check_manifest": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/final-verification-summary.json",
+  "final_check_manifest": "evidence/db-devops-wp0/pr1-review-20261008T123632Z-97ca436e/review-summary.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "BLOCKED_CANDIDATE_COMPATIBILITY"
 }

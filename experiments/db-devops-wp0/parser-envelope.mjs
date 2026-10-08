@@ -16,6 +16,9 @@ const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 const fail = code => ({ ok: false, code });
 const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const exactKeys = (obj, keys) => isRecord(obj) && Object.keys(obj).sort().join(',') === [...keys].sort().join(',');
+// Only generic ASCII text whitespace can be outside a parser-provided range.
+// Never infer comments, directives or SQL here; any other uncovered byte stops.
+const isWhitespace = bytes => bytes.every(byte => byte === 0x20 || (byte >= 0x09 && byte <= 0x0d));
 export function classifySpawnFailure(error) {
   if (error?.code === 'ETIMEDOUT') return 'helper_timeout';
   if (error?.code === 'ENOBUFS') return 'helper_output_limit';
@@ -57,6 +60,7 @@ export function validateResponse(rawValue, exitCode, stdoutValue, stderrValue = 
         || typeof statement.execution_sql !== 'string' || statement.execution_sql.length === 0
         || statement.delimiter_disposition !== 'source_delimiter_in_range'
         || !/^[a-f0-9]{64}$/.test(statement.execution_sha256)) return fail('invalid_statement_shape');
+    if (!isWhitespace(raw.subarray(previousEnd, statement.start_byte))) return fail('uncovered_source_bytes');
     const execution = Buffer.from(statement.execution_sql, 'utf8');
     if (execution.toString('utf8') !== statement.execution_sql) return fail('invalid_execution_encoding');
     const source = raw.subarray(statement.start_byte, statement.end_byte);
@@ -66,6 +70,7 @@ export function validateResponse(rawValue, exitCode, stdoutValue, stderrValue = 
     if (sha256(execution) !== statement.execution_sha256) return fail('execution_hash_mismatch');
     previousEnd = statement.end_byte;
   }
+  if (!isWhitespace(raw.subarray(previousEnd))) return fail('uncovered_source_bytes');
   return { ok: true, kind: 'PARSE', profile: PROFILE, statementCount: response.statements.length,
     statements: response.statements.map(({ start_byte, end_byte, execution_sha256 }) => ({ startByte: start_byte, endByte: end_byte,
       sourceSha256: sha256(raw.subarray(start_byte, end_byte)), executionSha256: execution_sha256 })) };

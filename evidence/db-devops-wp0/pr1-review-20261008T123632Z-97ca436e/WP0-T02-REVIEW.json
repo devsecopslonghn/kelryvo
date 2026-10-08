@@ -1,0 +1,30 @@
+{
+  "id": "WP0-T02-REVIEW-pr1-review-20261008T123632Z-97ca436e",
+  "subject_id": "WP0-T02",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "npm run check && npm run dependencies:offline",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0
+  ],
+  "test_references": [
+    "WP0-10-01"
+  ],
+  "case_coverage": [
+    {
+      "case_id": "WP0-10-01",
+      "scope": "TASK_INCREMENT",
+      "full_case_pass": false,
+      "cells": [
+        "unit"
+      ],
+      "description": "Fresh independent T02 review, omission fix and local regression; no distribution or Oracle case acceptance."
+    }
+  ],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/pr1-review-20261008T123632Z-97ca436e/checks.log",
+    "sha256": "bddfecb1a8229425ba81cd23cc0e1612c54717db48ece1b2886a08790adafb1f"
+  }
+}

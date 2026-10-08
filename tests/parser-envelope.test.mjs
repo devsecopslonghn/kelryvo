@@ -73,3 +73,44 @@ test('STOP requires the exact safe protocol and the full input digest', () => {
   unknown.stop.code = 'SQL_SECRET_CANARY';
   assert.equal(validateResponse(source, 2, JSON.stringify(unknown)).code, 'invalid_stop_protocol');
 });
+
+test('rejects omitted SQL in empty, leading, middle and trailing statement coverage', () => {
+  const omitted = JSON.parse(success());
+  omitted.statements = [];
+  assert.equal(validateResponse(source, 0, JSON.stringify(omitted)).code, 'uncovered_source_bytes');
+  for (const position of ['leading', 'middle', 'trailing']) {
+    const separator = Buffer.from('DELETE FROM private_rows;\n');
+    const raw = position === 'leading' ? Buffer.concat([separator, source])
+      : position === 'middle' ? Buffer.concat([source, separator, source]) : Buffer.concat([source, separator]);
+    const parsed = JSON.parse(success());
+    parsed.raw_sha256 = sha(raw);
+    const shift = position === 'leading' ? separator.length : 0;
+    parsed.statements[0].start_byte += shift;
+    parsed.statements[0].end_byte += shift;
+    if (position === 'middle') parsed.statements.push({ ...parsed.statements[0],
+      start_byte: source.length + separator.length, end_byte: raw.length });
+    assert.equal(validateResponse(raw, 0, JSON.stringify(parsed)).code, 'uncovered_source_bytes', position);
+  }
+});
+
+test('accepts whitespace gaps and range-contained UTF-8 comments, rejects uncovered comments', () => {
+  const sqlWithComment = '-- café\r\nSELECT 1 FROM dual';
+  const execution = Buffer.from(sqlWithComment);
+  const statementSource = Buffer.concat([execution, Buffer.from(';')]);
+  const gap = Buffer.from(' \t\r\n');
+  const raw = Buffer.concat([gap, statementSource, gap, source, gap]);
+  const parsed = JSON.parse(success());
+  parsed.raw_sha256 = sha(raw);
+  parsed.statements = [{ start_byte: gap.length, end_byte: gap.length + statementSource.length,
+    execution_sql: sqlWithComment, execution_sha256: sha(execution), delimiter_disposition: 'source_delimiter_in_range' },
+  { ...parsed.statements[0], start_byte: gap.length * 2 + statementSource.length, end_byte: raw.length - gap.length }];
+  assert.equal(validateResponse(raw, 0, JSON.stringify(parsed)).ok, true);
+
+  const empty = JSON.parse(success());
+  empty.raw_sha256 = sha(gap);
+  empty.statements = [];
+  assert.equal(validateResponse(gap, 0, JSON.stringify(empty)).ok, true);
+  const commentOnly = Buffer.from('-- comment outside ranges\n');
+  empty.raw_sha256 = sha(commentOnly);
+  assert.equal(validateResponse(commentOnly, 0, JSON.stringify(empty)).code, 'uncovered_source_bytes');
+});
