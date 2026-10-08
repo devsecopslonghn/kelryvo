@@ -39,7 +39,7 @@ runs actual preflight; it accepts no report or raw-byte attestation from a calle
 
 PR #4 merged at `01ff4446e0318d4b7f91a003cf15799ab3b7be11`. This increment implements
 `createReadOnlyThinProbe(ports)(request)` as a read-only Thin candidate; resolve its PR/head
-and merge from Git/GitHub. It has 20 focused UNIT tests and 92 full tests passing, with
+and merge from Git/GitHub. It has 21 focused UNIT tests and 93 full tests passing, with
 independent QA/security approval. Evidence is under
 `evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/`.
 

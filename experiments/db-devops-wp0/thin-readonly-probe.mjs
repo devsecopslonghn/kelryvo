@@ -9,9 +9,8 @@ const CASES = new Set(['WP0-01-01', 'WP0-01-02']);
 const HASH = /^[a-f0-9]{64}$/;
 const NAME = /^[A-Z][A-Z0-9_$#]{0,29}$/;
 const DNS_LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
-const CERT_BLOCK = /-----BEGIN CERTIFICATE-----[\s\S]*?-----END CERTIFICATE-----/g;
-const CERT_ONLY = /^(?:\s*-----BEGIN CERTIFICATE-----[\s\S]*?-----END CERTIFICATE-----\s*)+$/;
-const WALLET_BLOCK = /^\s*-----BEGIN (CERTIFICATE|PRIVATE KEY|ENCRYPTED PRIVATE KEY)-----[\s\S]*?-----END \1-----/;
+const PEM_TYPES = Object.freeze(['CERTIFICATE', 'PRIVATE KEY', 'ENCRYPTED PRIVATE KEY']);
+const PEM_WHITESPACE = new Set([' ', '\t', '\r', '\n']);
 const IDENTITY_SQL = "SELECT SYS_CONTEXT('USERENV', 'SESSION_USER'), SYS_CONTEXT('USERENV', 'SERVICE_NAME'), SYS_CONTEXT('USERENV', 'CON_NAME'), SYS_CONTEXT('USERENV', 'CON_ID'), SYS_CONTEXT('USERENV', 'DB_UNIQUE_NAME') FROM SYS.DUAL";
 
 const RESULT = Object.freeze({
@@ -203,10 +202,9 @@ function hashMatches(text, expected, maximum) {
   return createHash('sha256').update(text, 'utf8').digest('hex') === expected;
 }
 
-function certificateRecords(pem) {
+function certificateRecords(blocks) {
   try {
-    const blocks = pem.match(CERT_BLOCK) ?? [];
-    return blocks.map((block) => new X509Certificate(block));
+    return blocks.map(({ text }) => new X509Certificate(text));
   } catch {
     return [];
   }
@@ -214,12 +212,19 @@ function certificateRecords(pem) {
 
 function pemBlocks(pem) {
   const blocks = [];
-  let remaining = pem;
-  while (remaining.trim()) {
-    const match = WALLET_BLOCK.exec(remaining);
-    if (!match) return null;
-    blocks.push(Object.freeze({ type: match[1], text: match[0].trim() }));
-    remaining = remaining.slice(match[0].length);
+  let cursor = 0;
+  while (cursor < pem.length) {
+    while (PEM_WHITESPACE.has(pem[cursor])) cursor += 1;
+    if (cursor === pem.length) break;
+    const type = PEM_TYPES.find(value => pem.startsWith(`-----BEGIN ${value}-----`, cursor));
+    if (!type || blocks.length === 32) return null;
+    const header = `-----BEGIN ${type}-----`;
+    const footer = `-----END ${type}-----`;
+    const end = pem.indexOf(footer, cursor + header.length);
+    if (end < 0) return null;
+    const next = end + footer.length;
+    blocks.push(Object.freeze({ type, text: pem.slice(cursor, next) }));
+    cursor = next;
   }
   return blocks;
 }
@@ -235,7 +240,7 @@ function compareFingerprints(left, right) {
   return 0;
 }
 
-function walletHasSupportedKey(walletPem, caPem, password) {
+function walletHasSupportedKey(walletPem, caCerts, password) {
   if (typeof password !== 'string' || password.length > 4096 || password.includes('\0')) return false;
   const blocks = pemBlocks(walletPem);
   if (!blocks) return false;
@@ -244,8 +249,7 @@ function walletHasSupportedKey(walletPem, caPem, password) {
   if (keyBlocks.length !== 1 || certBlocks.length === 0
       || blocks.length !== keyBlocks.length + certBlocks.length) return false;
 
-  const walletCerts = certificateRecords(certBlocks.map(({ text }) => text).join('\n'));
-  const caCerts = certificateRecords(caPem);
+  const walletCerts = certificateRecords(certBlocks);
   if (walletCerts.length !== certBlocks.length || caCerts.length === 0) return false;
   const walletCas = walletCerts.filter((certificate) => certificate.ca);
   const clientCerts = walletCerts.filter((certificate) => !certificate.ca);
@@ -268,12 +272,13 @@ function snapshotTrust(result, grant) {
   try {
     if (!exactKeys(result, ['pem', 'caPem', 'walletPassword'])) return null;
     const { pem, caPem, walletPassword } = result;
-    if (typeof caPem !== 'string' || !CERT_ONLY.test(caPem)
-        || !hashMatches(caPem, grant.trust.sha256, 65536)
+    if (!hashMatches(caPem, grant.trust.sha256, 65536)
         || typeof pem !== 'string' || !hashMatches(pem, grant.trust.walletSha256, 131072)) return null;
-    const caCerts = certificateRecords(caPem);
+    const caBlocks = pemBlocks(caPem);
+    if (!caBlocks || caBlocks.some(({ type }) => type !== 'CERTIFICATE')) return null;
+    const caCerts = certificateRecords(caBlocks);
     if (caCerts.length === 0 || caCerts.some((certificate) => !certificate.ca)
-        || !walletHasSupportedKey(pem, caPem, walletPassword)) return null;
+        || !walletHasSupportedKey(pem, caCerts, walletPassword)) return null;
     return Object.freeze({ pem, walletPassword });
   } catch {
     return null;

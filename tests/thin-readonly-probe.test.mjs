@@ -393,3 +393,19 @@ test('exact patch version and read failure count remain distinct from Oracle acc
   assert.equal(fixture.state.closes, 1);
   assertNoSecret(result);
 });
+
+test('malformed repeated PEM markers and oversized trust cannot backtrack or reach providers', async () => {
+  for (const caPem of [
+    '-----BEGIN CERTIFICATE-----' + '-----END CERTIFICATE----------BEGIN CERTIFICATE-----'.repeat(1000),
+    '-----BEGIN CERTIFICATE----------END CERTIFICATE-----'.repeat(1000),
+    '-----BEGIN CERTIFICATE-----' + ' '.repeat(70_000),
+  ]) {
+    const fixture = probeFixture();
+    fixture.grant.trust.sha256 = createHash('sha256').update(caPem).digest('hex');
+    fixture.ports.resolveTrust = async () => ({ pem: UNIT_PEM, caPem, walletPassword: '' });
+    const result = await createReadOnlyThinProbe(fixture.ports)(fixture.request);
+    assert.equal(fixture.state.credentials.length, 0);
+    assertNoConnection(fixture);
+    assertNoSecret(result);
+  }
+});

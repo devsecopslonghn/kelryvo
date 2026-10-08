@@ -189,6 +189,9 @@
         },
         {
           "index_id": "WP0-T04-READONLY-t04-thin-readonly-20261008T143528Z-0b734360"
+        },
+        {
+          "index_id": "WP0-T04-PEM-REPAIR-t04-thin-readonly-20261008T143528Z-0b734360"
         }
       ],
       "blockers": [
@@ -219,7 +222,7 @@
           "Supervised isolated worker with watchdog and sanitized environment",
           "Independent canonical target/container and session observations"
         ],
-        "acceptance_note": "Twenty UNIT tests use fake positive connectors and native offline TLS contexts. No complete T04 criterion or Oracle case coverage is claimed; all 124 Oracle cells remain BLOCKED."
+        "acceptance_note": "Twenty-one UNIT tests use fake positive connectors and native offline TLS contexts. No complete T04 criterion or Oracle case coverage is claimed; all 124 Oracle cells remain BLOCKED."
       }
     },
     {

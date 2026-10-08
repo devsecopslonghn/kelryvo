@@ -65,7 +65,7 @@ stale authority or unsafe debugger/TLS environment. Read/cleanup errors remain H
 there is no migration SQL, pooling, fallback or retry. Every result keeps acceptance
 NOT_EVALUATED/runtime BLOCKED. Identity labels do not establish canonical container identity.
 
-Twenty new UNIT tests use fake positive connectors, actual offline TLS contexts and
+Twenty-one new UNIT tests use fake positive connectors, actual offline TLS contexts and
 ephemeral test keys removed from private temporary directories. The real default-driver
 test stops at denied admission. No Oracle connection or handshake was performed.
 Independent QA/security approve this bounded candidate. Live wiring still requires an
@@ -79,9 +79,11 @@ security approves the input/provenance/redaction boundary. T04 evidence and PR2 
 records are under `evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/`.
 These new records claim no full T04 criterion or Oracle case coverage.
 
-**Current local evidence:** 92 tests and dependency smoke pass. Independent focused
-QA/security each pass 20/20. T04 read-only source hashes, raw checks, review corrections
-and limitations are recorded in the current evidence run. No full T04 criterion or case
+**Current local evidence:** 93 tests and dependency smoke pass. Independent focused
+QA/security each pass 21/21. T04 read-only source hashes, raw checks, review corrections
+and limitations are recorded in the current evidence run. Initial CodeQL/Sonar failures
+for a PEM backtracking regex and fixed UNIT canary are preserved; bounded literal PEM
+marker scanning and a generated per-process canary replace them. No full T04 criterion or case
 coverage was added; existing parser unit cells and all Oracle cells retain their statuses.
 
 Thirteen parser unit cells PASS; opaque PL/SQL atomicity `WP0-03-13` unit remains NOT_RUN.

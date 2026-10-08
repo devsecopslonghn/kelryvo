@@ -1,11 +1,11 @@
-import { createHash } from 'node:crypto';
+import { createHash, randomBytes } from 'node:crypto';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 export const UNIT_NOW = Date.parse('2026-10-08T14:30:00Z');
-export const UNIT_PASSWORD = 'UNIT-ONLY-THIN-CREDENTIAL-CANARY-86';
+export const UNIT_PASSWORD = randomBytes(24).toString('hex');
 function temporaryUnitWallet() {
   const directory = mkdtempSync(join(tmpdir(), 'schemaforge-unit-wallet-'));
   const file = name => join(directory, name);

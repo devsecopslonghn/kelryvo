@@ -1,0 +1,16 @@
+{
+  "id": "WP0-T04-PEM-REPAIR-t04-thin-readonly-20261008T143528Z-0b734360",
+  "subject_id": "WP0-T04",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "npm run check",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/pem-final-checks.txt",
+    "sha256": "a160204737a32e6cff98fe4e56f7facea8f21155568e10334ae8081dd4d81fd0"
+  }
+}

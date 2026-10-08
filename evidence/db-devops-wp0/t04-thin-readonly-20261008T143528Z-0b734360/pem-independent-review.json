@@ -1,0 +1,8 @@
+{
+  "qa": "APPROVED repaired source: 21 focused tests PASS; size caps before literal scanner, max32blocks and native X509/TLS/key-order checks preserved.",
+  "security": "APPROVED repaired source: 21 focused tests PASS; vulnerable regex removed, dynamic canary, sanitized no-Oracle boundary preserved. No suppression or reclassification.",
+  "scope": "Working repaired source before a fresh commit; all exact-head remote checks still required.",
+  "runtime": "BLOCKED",
+  "actual_oracle_connections": 0,
+  "full_task_acceptance": "NOT_EVALUATED"
+}
