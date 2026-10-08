@@ -10,7 +10,7 @@ the real read-only candidate with child-owned trusted ports. There is no default
 live CLI, authority or provider backend. Twenty-two focused UNIT tests pass using actual
 Node processes, fake positive drivers and a denied real-driver path. Security's initial
 IPC-serialization and unreaped-child ownership findings were repaired with scalar validation
-and a retained reaper that refuses replacement work. Complete independent exact-head review
+and a retained reaper that refuses replacement work. PR #7 is open in draft. Complete independent exact-head review
 and required remote checks before ordinary merge; never bypass them. Current evidence:
 `evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/`.
 Preceding PR #6 master `6aa97d8db47fb3978fa11b0e59c09c1e9ad538b2` has successful master CI.

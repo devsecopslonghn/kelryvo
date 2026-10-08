@@ -14,8 +14,8 @@ crashes and timeouts return HOLD with unknown connection/read counts and require
 An unreaped child remains owned by a referenced reaper; replacement probes are refused.
 The same-UID child is not an OS sandbox; native IPC parsing has no transport memory cap.
 The trusted starter has no default implementation or public path/environment selection.
-No authority or provider backend is added. Exact-head review and remote gates for this
-increment must finish before merge. Evidence is under
+No authority or provider backend is added. PR #7 is open in draft; exact-head review
+and remote gates must finish before merge. Evidence is under
 `evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/`.
 
 PR #1 merged at `42249826d105d44dbf5d6243f9ebe3748612e1c7`. PR #2 merged after
