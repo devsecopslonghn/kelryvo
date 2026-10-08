@@ -38,8 +38,12 @@ Oracle case remains NOT_RUN/BLOCKED and execution remains unauthorized. The publ
 runs actual preflight; it accepts no report or raw-byte attestation from a caller.
 
 PR #4 merged at `01ff4446e0318d4b7f91a003cf15799ab3b7be11`. This increment implements
-`createReadOnlyThinProbe(ports)(request)` as a read-only Thin candidate; resolve its PR/head
-and merge from Git/GitHub. It has 21 focused UNIT tests and 93 full tests passing, with
+`createReadOnlyThinProbe(ports)(request)` as a read-only Thin candidate. PR #5 merged at
+`de86263e8a8c5faae8af8b18197fe03a7cbf138e` after all nine exact-head gates passed;
+reviewed head is `fe63aebcc911c1b0de89659be253ea0f186ae277`. SonarCloud has zero new
+issues, hotspots and duplication, CodeQL has no new alerts, and both old finding threads
+automatically resolved. Resolve this checkpoint's own PR/head/merge from Git/GitHub.
+It has 21 focused UNIT tests and 93 full tests passing, with
 independent QA/security approval. Evidence is under
 `evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/`.
 

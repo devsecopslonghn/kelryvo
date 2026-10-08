@@ -20,10 +20,16 @@ and new-code duplication. No implementation PR remains open at this checkpoint.
 
 PR #4 checkpoint merged at `01ff4446e0318d4b7f91a003cf15799ab3b7be11`; its three master
 workflows completed successfully. The current increment uses
-`development/wp0-thin-readonly-probe`. Resolve its own PR/merge and current master from
-Git/GitHub when resuming. Literal hashes name the preceding validated master because an
-increment cannot contain its own resulting hash. Current evidence is under
+`development/wp0-thin-checkpoint`. PR #5 merged at
+`de86263e8a8c5faae8af8b18197fe03a7cbf138e` after all nine exact-head gates passed;
+its reviewed head is `fe63aebcc911c1b0de89659be253ea0f186ae277`. Final SonarCloud has
+zero new/accepted issues, hotspots and duplication; CodeQL has no new alerts. The two
+initial CodeQL review threads automatically resolved after repair. Independent QA/security
+approved that exact head; code/secret/dependency alert lists are empty. No implementation
+PR remains open. Resolve the checkpoint's own PR/merge and current master from Git/GitHub;
+literal hashes name the preceding validated implementation master. Current evidence is under
 `evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/`.
+The continuation record is `session-checkpoint.json` in that directory.
 
 T03 uses unchanged licensed grammars-v4 PL/SQL sources at
 `7df52be94698550d219d299d04105c6bafadd9c3`, ANTLR 4.13.2 and reviewed authored callbacks.
@@ -99,7 +105,7 @@ product distribution still needs its owner decision and final source/notice/arti
 Work: four VERIFIED, one BLOCKED, 60 BACKLOG. Features: 213 BACKLOG, seven DEFERRED,
 zero VERIFIED. `npm run next` returns no fully unblocked task.
 
-Next: inspect this increment's PR and finish its exact-head gates if necessary. Supply the
+Next: inspect any checkpoint PR and finish its exact-head gates if necessary. Supply the
 lab/trust/provider authority and supervision inputs before connecting the candidate, then
 complete the remaining fault/rotation harness and real T04 acceptance. T05 and
 later tasks depend on T04; WP1/API/UI cannot bypass WP0-T12. Follow
