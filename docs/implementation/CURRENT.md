@@ -109,6 +109,9 @@ coverage was added; existing parser unit cells and all Oracle cells retain their
 22/22 supervisor tests. Security approves after both concrete findings were repaired,
 without claiming a completed independent test capture. Source hashes, raw full checks,
 initial formatting failure and review limitations are preserved in the supervision run.
+The initial Sonar reliability failure for a UNIT environment sort was fixed by checking
+the exact allowed values directly. Repaired full checks pass 115/115; original gate output
+and source-specific repair hashes are retained without changing any threshold.
 Remote exact-head gates and final committed-head reviews are still pending.
 
 Thirteen parser unit cells PASS; opaque PL/SQL atomicity `WP0-03-13` unit remains NOT_RUN.

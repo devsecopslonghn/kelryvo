@@ -1,0 +1,50 @@
+{
+  "recorded_at": "2026-10-08T15:27:47.780077+00:00",
+  "scope": "T04 supervisor Sonar repair only",
+  "source_head_before_repair": "d1522e6d83f8080d0b4d05fcf280648f9922d645",
+  "initial_gate": "FAIL",
+  "initial_check": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/initial-sonar-check.json",
+  "initial_annotations": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/initial-sonar-annotations.json",
+  "initial_issue": "UNIT environment fixture used Array.sort without a comparator",
+  "repair": "Compare exact environment key count and expected PATH/LANG/TZ values directly; no production code changes",
+  "command": "npm run check",
+  "exit_code": 0,
+  "tests": 115,
+  "pass": 115,
+  "dependency_smoke": "PASS",
+  "log": {
+    "path": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/quality-final-checks.txt",
+    "sha256": "23c1bf5b76150b23a26ccb17455a72eedf6be9d823d4858ecabb858e18426ee0"
+  },
+  "sources": [
+    {
+      "path": "experiments/db-devops-wp0/thin-readonly-probe.mjs",
+      "sha256": "becf3fb4123462dc2c68e7fc286823a4c16d169c2b91c89ddc7a0353b37ed87a"
+    },
+    {
+      "path": "experiments/db-devops-wp0/thin-probe-protocol.mjs",
+      "sha256": "7c97270ab3414b893da375a2d702f7e3e0bf91ba1013ed9234f515aa1941efd2"
+    },
+    {
+      "path": "experiments/db-devops-wp0/thin-probe-worker.mjs",
+      "sha256": "7d5fa9a1b7527e6f3b940594694054c070fc9f8d08b17005f168ad3d30254185"
+    },
+    {
+      "path": "experiments/db-devops-wp0/thin-probe-supervisor.mjs",
+      "sha256": "1f9798decb670961c8438e8f44972baddccfe178343dcd13d047e5f26483e1e1"
+    },
+    {
+      "path": "tests/thin-probe-supervisor.test.mjs",
+      "sha256": "49da8792fc072c320c3c2303e956f173a6d06365f77bd24ee3a1a72aa1d3c2a9"
+    },
+    {
+      "path": "tests/helpers/thin-supervisor-worker.mjs",
+      "sha256": "8b712af1fa427d86d41f56369575c6e89af82a76f7cfbd9e6390d6abd7e3048d"
+    }
+  ],
+  "runtime": "BLOCKED",
+  "oracle_connections": 0,
+  "credential_reference_lookups": 0,
+  "quality_gate_bypass": false,
+  "full_case_coverage_claimed": false
+}

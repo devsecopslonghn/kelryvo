@@ -35,8 +35,9 @@ if (Object.hasOwn(phases, mode)) {
 } else if (mode === 'denied') {
   runThinProbeWorker({ ...fixture.ports, driver: undefined, admit: async () => undefined });
 } else if (mode === 'environment') {
-  const safe = Object.keys(process.env).sort().join(',') === 'LANG,PATH,TZ'
-    && process.execArgv.length === 0;
+  const expectedEnvironment = { PATH: '/usr/bin:/bin', LANG: 'C', TZ: 'UTC' };
+  const safe = Object.keys(process.env).length === 3 && process.execArgv.length === 0
+    && Object.entries(expectedEnvironment).every(([key, value]) => process.env[key] === value);
   runThinProbeWorker({ ...fixture.ports, admit: async () => {
     if (!safe) throw new Error('unit_environment_rejected');
     return fixture.grant;

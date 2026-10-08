@@ -50,6 +50,9 @@
     },
     {
       "index_id": "WP0-T04-SUPERVISION-t04-thin-supervision-20261008T151430Z-fc1518f5"
+    },
+    {
+      "index_id": "WP0-T04-SUPERVISION-QUALITY-t04-thin-supervision-20261008T151430Z-fc1518f5"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -91,11 +94,11 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-08T15:23:19.201186+00:00",
+  "updated_at": "2026-10-08T15:27:47.782755+00:00",
   "final_check_evidence": {
-    "index_id": "WP0-T04-SUPERVISION-t04-thin-supervision-20261008T151430Z-fc1518f5"
+    "index_id": "WP0-T04-SUPERVISION-QUALITY-t04-thin-supervision-20261008T151430Z-fc1518f5"
   },
-  "final_check_manifest": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/supervision-review.json",
+  "final_check_manifest": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/quality-repair-review.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
