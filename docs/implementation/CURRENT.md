@@ -1,9 +1,22 @@
 # Current engineering state
 
 Foundation and the bounded WP0-T01, T02 and T03 offline increments are VERIFIED.
-WP0-T04 has working offline probe preparation and a UNIT-checked read-only Thin candidate;
+WP0-T04 has offline probe preparation, a read-only Thin candidate and child-process supervision;
 it remains BLOCKED for runtime acceptance.
 The milestone is offline WP0 feasibility; no Oracle execution, API/UI or product feature is verified.
+
+**Current increment:** `development/wp0-thin-supervision` adds actual child-process
+supervision around the existing read-only probe. PR #6 checkpoint is merged at
+`6aa97d8db47fb3978fa11b0e59c09c1e9ad538b2`; its three master workflows passed.
+The new supervisor/worker protocol uses child-owned privileged ports, a bounded total
+deadline, strict result validation, TERM/KILL and confirmed reaping. Malformed output,
+crashes and timeouts return HOLD with unknown connection/read counts and required cleanup.
+An unreaped child remains owned by a referenced reaper; replacement probes are refused.
+The same-UID child is not an OS sandbox; native IPC parsing has no transport memory cap.
+The trusted starter has no default implementation or public path/environment selection.
+No authority or provider backend is added. PR #7 is open in draft; exact-head review
+and remote gates must finish before merge. Evidence is under
+`evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/`.
 
 PR #1 merged at `42249826d105d44dbf5d6243f9ebe3748612e1c7`. PR #2 merged after
 independent QA/security review, empty code/secret/dependency alerts and all nine exact-head
@@ -19,7 +32,7 @@ failure was fixed without changing the threshold; the final scan has zero issues
 and new-code duplication. No implementation PR remains open at this checkpoint.
 
 PR #4 checkpoint merged at `01ff4446e0318d4b7f91a003cf15799ab3b7be11`; its three master
-workflows completed successfully. The current increment uses
+workflows completed successfully. That checkpoint used
 `development/wp0-thin-checkpoint`. PR #5 merged at
 `de86263e8a8c5faae8af8b18197fe03a7cbf138e` after all nine exact-head gates passed;
 its reviewed head is `fe63aebcc911c1b0de89659be253ea0f186ae277`. Final SonarCloud has
@@ -27,7 +40,7 @@ zero new/accepted issues, hotspots and duplication; CodeQL has no new alerts. Th
 initial CodeQL review threads automatically resolved after repair. Independent QA/security
 approved that exact head; code/secret/dependency alert lists are empty. No implementation
 PR remains open. Resolve the checkpoint's own PR/merge and current master from Git/GitHub;
-literal hashes name the preceding validated implementation master. Current evidence is under
+literal hashes name the preceding validated implementation master. Earlier read-only evidence is under
 `evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/`.
 The continuation record is `session-checkpoint.json` in that directory.
 
@@ -76,8 +89,8 @@ ephemeral test keys removed from private temporary directories. The real default
 test stops at denied admission. No Oracle connection or handshake was performed.
 Independent QA/security approve this bounded candidate. Live wiring still requires an
 authenticated authority/atomic claim backend, approved client wallet and trust providers,
-authorized labs, independent observations and a supervised isolated worker. Driver phase
-and round-trip timeouts do not supply a total provider/call/cleanup watchdog.
+authorized labs, independent observations and deployed worker isolation. Driver phase and
+round-trip timeouts alone do not supply the new supervisor's total provider/call/cleanup watchdog.
 
 **Earlier local evidence:** 72 tests and dependency smoke pass. Independent QA passes
 16 focused T01/T04/CLI tests plus ad hoc malformed UTF-8 and argument checks; independent
@@ -85,16 +98,26 @@ security approves the input/provenance/redaction boundary. T04 evidence and PR2 
 records are under `evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/`.
 These new records claim no full T04 criterion or Oracle case coverage.
 
-**Current local evidence:** 93 tests and dependency smoke pass. Independent focused
+**Earlier read-only evidence:** 93 tests and dependency smoke pass. Independent focused
 QA/security each pass 21/21. T04 read-only source hashes, raw checks, review corrections
-and limitations are recorded in the current evidence run. Initial CodeQL/Sonar failures
+and limitations are recorded in its read-only evidence run. Initial CodeQL/Sonar failures
 for a PEM backtracking regex and fixed UNIT canary are preserved; bounded literal PEM
 marker scanning and a generated per-process canary replace them. No full T04 criterion or case
 coverage was added; existing parser unit cells and all Oracle cells retain their statuses.
 
+**Current local evidence:** 115 tests and dependency smoke pass; independent QA passes
+22/22 supervisor tests. Security approves after both concrete findings were repaired,
+without claiming a completed independent test capture. Source hashes, raw full checks,
+initial formatting failure and review limitations are preserved in the supervision run.
+The initial Sonar reliability failure for a UNIT environment sort was fixed by checking
+the exact allowed values directly. Repaired full checks pass 115/115; original gate output
+and source-specific repair hashes are retained without changing any threshold.
+Remote exact-head gates and final committed-head reviews are still pending.
+
 Thirteen parser unit cells PASS; opaque PL/SQL atomicity `WP0-03-13` unit remains NOT_RUN.
-All **124 applicable Oracle cells remain BLOCKED**. No connection, credential resolution,
-deployment or infrastructure change occurred. No actual authorized disposable 19c/21c
+All **124 applicable Oracle cells remain BLOCKED**. No Oracle connection or actual
+credential-reference resolution occurred; positive UNIT paths use fake providers only.
+No deployment or infrastructure change occurred. No actual authorized disposable 19c/21c
 manifest was supplied. Runtime probes also require scoped identities/grants/fault/teardown
 permission and approved trust material with peer/target verification. CA digest and
 identity labels alone do not establish this behavior. An example or hostname is not authority.
@@ -105,8 +128,8 @@ product distribution still needs its owner decision and final source/notice/arti
 Work: four VERIFIED, one BLOCKED, 60 BACKLOG. Features: 213 BACKLOG, seven DEFERRED,
 zero VERIFIED. `npm run next` returns no fully unblocked task.
 
-Next: inspect any checkpoint PR and finish its exact-head gates if necessary. Supply the
-lab/trust/provider authority and supervision inputs before connecting the candidate, then
+Next: finish the current supervisor increment's exact-head review and remote gates.
+Supply lab/trust/provider authority and deployed isolation before connecting the candidate, then
 complete the remaining fault/rotation harness and real T04 acceptance. T05 and
 later tasks depend on T04; WP1/API/UI cannot bypass WP0-T12. Follow
 [CONTINUE.md](CONTINUE.md) and the existing graph; do not create a replacement roadmap.

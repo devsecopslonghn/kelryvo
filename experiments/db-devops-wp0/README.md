@@ -83,3 +83,47 @@ Native TLS-context checks are offline code evidence, with no TLS handshake or Or
 Relevant primary references: [driver 7.0.1 API](https://node-oracledb.readthedocs.io/en/v7.0.1/api_manual/oracledb.html),
 [connection properties](https://node-oracledb.readthedocs.io/en/v7.0.1/api_manual/connection.html),
 and [Oracle SYS_CONTEXT](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/SYS_CONTEXT.html).
+
+## T04 child-process supervision
+
+`createSupervisedThinProbe({startWorker, limits})(request)` in `thin-probe-supervisor.mjs`
+supervises one child running the existing read-only candidate. `runThinProbeWorker(ports)`
+in `thin-probe-worker.mjs` implements the one-shot child protocol with child-owned provider
+ports. The supervisor accepts the same five scalar request fields; requests cannot select
+an entrypoint, environment, limits, credentials or SQL. There is no default starter or
+live CLI. Trusted runtime wiring must synchronously fork one fixed reviewed Node entry,
+obey the supplied immutable spawn options, return immediately without throwing after spawn,
+and spawn no descendants. The library cannot attest that privileged factory contract.
+Its fixed UNIT fixture demonstrates the contract using actual Node child processes and
+fake ports; it supplies no production authority or provider backend.
+
+The supplied spawn options use an explicit three-variable environment, empty `execArgv`,
+JSON IPC, ignored stdin and piped stdout/stderr. The parent sends one bounded scalar request
+after READY, discards output bytes with a combined 4 KiB cap, and accepts one strict terminal
+result only after successful child exit. Exact envelope/scalar fields and lengths are
+validated without serializing malformed payloads; accepted messages are below 2 KiB.
+This is not a transport or OS memory limit on Node IPC deserialization. The default whole-operation
+deadline is 60 seconds, followed by 250 ms TERM grace and a 1-second reap window after KILL.
+Privileged wiring can only lower the operation bound or select other bounded constructor
+limits; probe requests cannot change them. Providers, connect, read, close and child exit
+share that deadline. A synchronous starter blocking the parent event loop violates its
+trusted contract and cannot be bounded by a Node timer.
+
+Timeout, crash, protocol violation, excess output or an uncertain channel returns sanitized
+HOLD with cleanup REQUIRED and unknown connection/read counts (`null`). It never retries.
+Exit confirmation yields `childTermination: REAPED`; if termination remains unconfirmed
+after the finite reap window, the result says UNCONFIRMED. The module retains the live
+child/IPC handles and a referenced SIGKILL reaper until actual exit; it never detaches an
+unreaped child. The same supervisor refuses new probes while active or unreaped. Runtime
+shutdown must wait for reaping or establish independent external process ownership.
+Neither outcome proves that an
+Oracle session ended. Independent session inventory and cleanup remain mandatory. Even a
+successful result remains runtime BLOCKED/acceptance NOT_EVALUATED. Process separation is
+hang/crash containment; the same-UID child is not an OS privilege, filesystem or network
+sandbox. Deployment restrictions, authenticated atomic permit/provider wiring and authorized
+Oracle labs remain external prerequisites. Fault/DDL/rotation acceptance remains absent.
+
+Run `node --test tests/thin-probe-supervisor.test.mjs`. Tests use the fixed fixture entry
+and actual child exit/SIGTERM/SIGKILL observations, with fake positive drivers and ephemeral
+offline UNIT wallets. No Oracle connection, handshake or credential-reference lookup occurs.
+The primary process semantics are documented in [Node child_process](https://nodejs.org/docs/latest-v22.x/api/child_process.html).

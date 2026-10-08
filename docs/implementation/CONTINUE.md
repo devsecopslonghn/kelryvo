@@ -3,6 +3,19 @@
 Read AGENTS.md and CURRENT.md. The owner authorizes dependency-ordered implementation,
 verified branches/PRs and ordinary eligible merges. Preserve DB-Research and WP0 gates.
 
+Current bounded increment: `development/wp0-thin-supervision` implements
+`createSupervisedThinProbe({startWorker, limits})(request)` and
+`runThinProbeWorker(ports)`. The former owns deadline/protocol/reaping; the latter calls
+the real read-only candidate with child-owned trusted ports. There is no default starter,
+live CLI, authority or provider backend. Twenty-two focused UNIT tests pass using actual
+Node processes, fake positive drivers and a denied real-driver path. Security's initial
+IPC-serialization and unreaped-child ownership findings were repaired with scalar validation
+and a retained reaper that refuses replacement work. PR #7 is open in draft. Complete independent exact-head review
+and required remote checks before ordinary merge; never bypass them. Current evidence:
+`evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/`.
+Preceding PR #6 master `6aa97d8db47fb3978fa11b0e59c09c1e9ad538b2` has successful master CI.
+Resolve this increment's own head/PR/merge from Git/GitHub rather than a self-referential hash.
+
 ```sh
 cd /home/longhn0710/workspace/schemaforge
 git status --short
@@ -49,14 +62,14 @@ independent QA/security approval. Evidence is under
 
 The graph still has no fully unblocked task. Queue emptiness alone does not prevent safe
 offline work inside T04; this candidate is substantive progress, with T04 still BLOCKED.
-There is no CLI, authenticated authority/atomic claim backend or supervised live worker.
+There is no CLI, authenticated authority/atomic claim backend or deployed isolated worker.
 Before connecting, require explicit attested disposable 19c/21c lab authority, approved
 PEM client wallet/CA material, scoped versioned refs, independent target/container identity
-and session observations, and supervised provider/call/cleanup timeout handling. The module
+and session observations, and trusted fixed-entry supervised wiring with deployment restrictions. The module
 implements a fixed read only; fault/DDL/rotation probes are absent. Session identity matches
 do not pass the Oracle cases or establish T05 canonical identity.
 
-Database's next bounded assignment is completing supervised runtime wiring and remaining
+Database's next bounded assignment is completing trusted runtime wiring and remaining
 T04 probes with supplied authority inputs; QA/Security independently review. Reassess other
 safe offline work before declaring an impasse. Keep T04 and all 124 Oracle cells BLOCKED
 until real acceptance evidence passes. Do not resolve credentials or connect now.
