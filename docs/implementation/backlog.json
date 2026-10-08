@@ -186,6 +186,12 @@
         },
         {
           "index_id": "WP0-T04-INPUTS-t04-offline-plan-20261008T134759Z-2e424822"
+        },
+        {
+          "index_id": "WP0-T04-READONLY-t04-thin-readonly-20261008T143528Z-0b734360"
+        },
+        {
+          "index_id": "WP0-T04-PEM-REPAIR-t04-thin-readonly-20261008T143528Z-0b734360"
         }
       ],
       "blockers": [
@@ -197,6 +203,26 @@
         "command": "npm run probes:thin:plan -- [--profile PATH]",
         "evidence_run": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822",
         "acceptance_note": "Runtime acceptance and all124Oraclecells remainBLOCKED; offline planning has no criterion coverage or connection authority."
+      },
+      "read_only_candidate": {
+        "status": "IMPLEMENTED_UNIT_CHECKED_RUNTIME_BLOCKED",
+        "entry": "createReadOnlyThinProbe(ports)(request)",
+        "source": "experiments/db-devops-wp0/thin-readonly-probe.mjs",
+        "evidence_run": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360",
+        "covered_code": [
+          "Bound admission and atomic one-use claim port contract",
+          "Scoped credential revision and approved mTLS wallet validation",
+          "One strict Thin TCPS connection and fixed read-only session identity query",
+          "Sanitized rejection, no fallback/retry, close/HOLD handling"
+        ],
+        "missing_runtime_wiring": [
+          "Authenticated authority and atomic claim backends",
+          "Approved disposable 19c/21c manifests and scoped grants",
+          "Approved client wallet/trust and credential providers",
+          "Supervised isolated worker with watchdog and sanitized environment",
+          "Independent canonical target/container and session observations"
+        ],
+        "acceptance_note": "Twenty-one UNIT tests use fake positive connectors and native offline TLS contexts. No complete T04 criterion or Oracle case coverage is claimed; all 124 Oracle cells remain BLOCKED."
       }
     },
     {

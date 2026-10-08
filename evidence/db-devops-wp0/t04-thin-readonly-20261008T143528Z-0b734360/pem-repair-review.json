@@ -1,0 +1,28 @@
+{
+  "recorded_at": "2026-10-08T14:45:39.058267+00:00",
+  "scope": "Required CodeQL/Sonar repair for the bounded WP0-T04 read-only candidate",
+  "previous_head": "7cb071bdbce6387101691dd49ea90786245caf54",
+  "initial_codeql": "FAIL: two high inefficient-regex findings; preserved initial annotations.",
+  "initial_sonar": "FAIL: exponential PEM regex; fixed UNIT canary warning. Both preserved.",
+  "repair": "Removed PEM regexes; fixed-header/footer scanning over size-capped strings and at most32blocks. Native X509/TLS checking preserved. UNIT canary generated per process.",
+  "checks": {
+    "command": "npm run check",
+    "exit_code": 0,
+    "tests_passed": 93,
+    "tests_failed": 0,
+    "dependency_smoke": "PASS"
+  },
+  "focused_tests": 21,
+  "source_hashes": {
+    "experiments/db-devops-wp0/thin-readonly-probe.mjs": "a79298de338b78ebb7f38253b54fd7b2babc0cc711c142263b45bc32b513ce84",
+    "tests/helpers/thin-readonly-fixture.mjs": "709d12ba2184fc3606822dea9158607f2f2aa325befad7ae33417d556b753a7a",
+    "tests/thin-readonly-probe.test.mjs": "65622de55fa13a0af996e36cb3637eaee52184bc1f4138b5caf05a9065ed88fd"
+  },
+  "independent_review": "Required repaired-source QA/security assessment is being completed before publication; final exact head/gates resolve from GitHub.",
+  "status": "T04 BLOCKED; all124OraclecellsBLOCKED; no acceptance criterion/case coverage or product feature verification.",
+  "actual_oracle_connections": 0,
+  "actual_credential_or_trust_reference_resolutions": 0,
+  "actual_migration_calls": 0,
+  "quality_gate_changes": 0,
+  "suppressions_or_dismissals": 0
+}

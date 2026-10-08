@@ -1,7 +1,8 @@
 # Current engineering state
 
 Foundation and the bounded WP0-T01, T02 and T03 offline increments are VERIFIED.
-WP0-T04 has working offline probe preparation and remains BLOCKED for runtime acceptance.
+WP0-T04 has working offline probe preparation and a UNIT-checked read-only Thin candidate;
+it remains BLOCKED for runtime acceptance.
 The milestone is offline WP0 feasibility; no Oracle execution, API/UI or product feature is verified.
 
 PR #1 merged at `42249826d105d44dbf5d6243f9ebe3748612e1c7`. PR #2 merged after
@@ -17,10 +18,12 @@ checkpoint is `87d41da43886306a3a996aa458ced27130de130f`. Its initial SonarCloud
 failure was fixed without changing the threshold; the final scan has zero issues, hotspots
 and new-code duplication. No implementation PR remains open at this checkpoint.
 
-This documentation/evidence checkpoint uses `development/wp0-checkpoint`. Resolve its
-own PR/merge and current master from Git/GitHub when resuming. Literal hashes name the
-preceding validated master because a checkpoint cannot contain its own resulting hash.
-The final session record is `evidence/db-devops-wp0/checkpoint-20261008T140408Z-c7c0416a/session-checkpoint.json`.
+PR #4 checkpoint merged at `01ff4446e0318d4b7f91a003cf15799ab3b7be11`; its three master
+workflows completed successfully. The current increment uses
+`development/wp0-thin-readonly-probe`. Resolve its own PR/merge and current master from
+Git/GitHub when resuming. Literal hashes name the preceding validated master because an
+increment cannot contain its own resulting hash. Current evidence is under
+`evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/`.
 
 T03 uses unchanged licensed grammars-v4 PL/SQL sources at
 `7df52be94698550d219d299d04105c6bafadd9c3`, ANTLR 4.13.2 and reviewed authored callbacks.
@@ -50,13 +53,38 @@ at 1 MiB and emits fixed errors. Run `npm run probes:thin:plan -- [--profile PAT
 Exit 0 means a plan was prepared from valid offline inputs; it grants no runtime authority.
 Exit 1 means missing prerequisites; exit 2 means rejected inputs or a command error.
 Every descriptor remains NOT_RUN/BLOCKED and non-executable, with false authority flags.
-This component is preparation for the future runner; it does not implement Thin execution.
+This component remains plan-only; it does not invoke the separate Thin candidate.
 
-**Current local evidence:** 72 tests and dependency smoke pass. Independent QA passes
+**T04 read-only candidate:** `createReadOnlyThinProbe(ports)(request)` implements one
+strict TCPS connection, one fixed session-identity SELECT and close. It requires trusted
+admission, atomic single-use dispatch claim and scoped credential/trust provider ports;
+none of these privileged backends or a runnable CLI are supplied. It snapshots bound
+grants, pins exact server version and credential revision, checks the approved mTLS
+wallet/CA hashes against native TLS context construction, and stops on identity mismatch,
+stale authority or unsafe debugger/TLS environment. Read/cleanup errors remain HOLD;
+there is no migration SQL, pooling, fallback or retry. Every result keeps acceptance
+NOT_EVALUATED/runtime BLOCKED. Identity labels do not establish canonical container identity.
+
+Twenty-one new UNIT tests use fake positive connectors, actual offline TLS contexts and
+ephemeral test keys removed from private temporary directories. The real default-driver
+test stops at denied admission. No Oracle connection or handshake was performed.
+Independent QA/security approve this bounded candidate. Live wiring still requires an
+authenticated authority/atomic claim backend, approved client wallet and trust providers,
+authorized labs, independent observations and a supervised isolated worker. Driver phase
+and round-trip timeouts do not supply a total provider/call/cleanup watchdog.
+
+**Earlier local evidence:** 72 tests and dependency smoke pass. Independent QA passes
 16 focused T01/T04/CLI tests plus ad hoc malformed UTF-8 and argument checks; independent
 security approves the input/provenance/redaction boundary. T04 evidence and PR2 merge
 records are under `evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/`.
 These new records claim no full T04 criterion or Oracle case coverage.
+
+**Current local evidence:** 93 tests and dependency smoke pass. Independent focused
+QA/security each pass 21/21. T04 read-only source hashes, raw checks, review corrections
+and limitations are recorded in the current evidence run. Initial CodeQL/Sonar failures
+for a PEM backtracking regex and fixed UNIT canary are preserved; bounded literal PEM
+marker scanning and a generated per-process canary replace them. No full T04 criterion or case
+coverage was added; existing parser unit cells and all Oracle cells retain their statuses.
 
 Thirteen parser unit cells PASS; opaque PL/SQL atomicity `WP0-03-13` unit remains NOT_RUN.
 All **124 applicable Oracle cells remain BLOCKED**. No connection, credential resolution,
@@ -71,7 +99,8 @@ product distribution still needs its owner decision and final source/notice/arti
 Work: four VERIFIED, one BLOCKED, 60 BACKLOG. Features: 213 BACKLOG, seven DEFERRED,
 zero VERIFIED. `npm run next` returns no fully unblocked task.
 
-Next: inspect any outstanding checkpoint PR and finish its gates if necessary. Actual
-T04 runner work resumes with the required lab/trust inputs. T05 and
+Next: inspect this increment's PR and finish its exact-head gates if necessary. Supply the
+lab/trust/provider authority and supervision inputs before connecting the candidate, then
+complete the remaining fault/rotation harness and real T04 acceptance. T05 and
 later tasks depend on T04; WP1/API/UI cannot bypass WP0-T12. Follow
 [CONTINUE.md](CONTINUE.md) and the existing graph; do not create a replacement roadmap.

@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: candidate uses one strict TCPS connection, one fixed read and closes without accepting a case
+ok 1 - candidate uses one strict TCPS connection, one fixed read and closes without accepting a case
+  ---
+  duration_ms: 10.835725
+  type: 'test'
+  ...
+# Subtest: 21c has a separately matched version; wrong service/PDB controls never trigger another route
+ok 2 - 21c has a separately matched version; wrong service/PDB controls never trigger another route
+  ---
+  duration_ms: 3.89259
+  type: 'test'
+  ...
+# Subtest: preflight/report booleans, write/fault cases and extra SQL cannot admit a probe
+ok 3 - preflight/report booleans, write/fault cases and extra SQL cannot admit a probe
+  ---
+  duration_ms: 0.9675
+  type: 'test'
+  ...
+# Subtest: denied or throwing authority never resolves credentials or calls the driver
+ok 4 - denied or throwing authority never resolves credentials or calls the driver
+  ---
+  duration_ms: 1.265689
+  type: 'test'
+  ...
+# Subtest: expired, overlong, unbound and descriptor-injected grants are rejected before providers
+ok 5 - expired, overlong, unbound and descriptor-injected grants are rejected before providers
+  ---
+  duration_ms: 2.141009
+  type: 'test'
+  ...
+# Subtest: changed trust bytes and secret scope or revision cannot open a connection
+ok 6 - changed trust bytes and secret scope or revision cannot open a connection
+  ---
+  duration_ms: 4.994506
+  type: 'test'
+  ...
+# Subtest: invalid CA material with a matching digest is rejected without consulting the driver
+ok 7 - invalid CA material with a matching digest is rejected without consulting the driver
+  ---
+  duration_ms: 0.562845
+  type: 'test'
+  ...
+# Subtest: re-admission rejects revocation, scope revision and expiry after resolving providers
+ok 8 - re-admission rejects revocation, scope revision and expiry after resolving providers
+  ---
+  duration_ms: 6.463133
+  type: 'test'
+  ...
+# Subtest: authority and request snapshots resist mutation during asynchronous credential lookup
+ok 9 - authority and request snapshots resist mutation during asynchronous credential lookup
+  ---
+  duration_ms: 2.347581
+  type: 'test'
+  ...
+# Subtest: a wrong principal, container fact, version or malformed result always closes with no fallback
+ok 10 - a wrong principal, container fact, version or malformed result always closes with no fallback
+  ---
+  duration_ms: 9.231584
+  type: 'test'
+  ...
+# Subtest: connect/read/close errors are sanitized; read or uncertain cleanup requires HOLD without retry
+ok 11 - connect/read/close errors are sanitized; read or uncertain cleanup requires HOLD without retry
+  ---
+  duration_ms: 5.410241
+  type: 'test'
+  ...
+# Subtest: wallet produces the actual native TLS context while CA-only material fails closed
+ok 12 - wallet produces the actual native TLS context while CA-only material fails closed
+  ---
+  duration_ms: 2.310746
+  type: 'test'
+  ...
+# Subtest: approved encrypted client wallet supports its scoped password without publishing it
+ok 13 - approved encrypted client wallet supports its scoped password without publishing it
+  ---
+  duration_ms: 6.728638
+  type: 'test'
+  ...
+# Subtest: atomic claim is required, cannot reuse a consumed permit and never retries a denied claim
+ok 14 - atomic claim is required, cannot reuse a consumed permit and never retries a denied claim
+  ---
+  duration_ms: 4.220194
+  type: 'test'
+  ...
+# Subtest: the real pinned default driver can only reach denied admission, without credential resolution
+ok 15 - the real pinned default driver can only reach denied admission, without credential resolution
+  ---
+  duration_ms: 0.366142
+  type: 'test'
+  ...
+# Subtest: driver mode changes and throwing provider objects fail closed without leaking errors
+ok 16 - driver mode changes and throwing provider objects fail closed without leaking errors
+  ---
+  duration_ms: 1.901324
+  type: 'test'
+  ...
+# Subtest: wallet ordering is checked against the native driver TLS context, including CA-first rejection
+ok 17 - wallet ordering is checked against the native driver TLS context, including CA-first rejection
+  ---
+  duration_ms: 2.324787
+  type: 'test'
+  ...
+# Subtest: debugger or disabled TLS environment rejects both early admission and late dispatch
+ok 18 - debugger or disabled TLS environment rejects both early admission and late dispatch
+  ---
+  duration_ms: 3.051832
+  type: 'test'
+  ...
+# Subtest: dispatch rejects wrong receipts, expired claims and late driver mode changes
+ok 19 - dispatch rejects wrong receipts, expired claims and late driver mode changes
+  ---
+  duration_ms: 7.134153
+  type: 'test'
+  ...
+# Subtest: exact patch version and read failure count remain distinct from Oracle acceptance
+ok 20 - exact patch version and read failure count remain distinct from Oracle acceptance
+  ---
+  duration_ms: 1.598523
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 350.300392

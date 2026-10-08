@@ -1,0 +1,16 @@
+{
+  "id": "WP0-T04-READONLY-t04-thin-readonly-20261008T143528Z-0b734360",
+  "subject_id": "WP0-T04",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "npm run check",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/final-checks.txt",
+    "sha256": "293bb31bb888a0cff7734312ac49ed4ced3564fb094a536b45788f4d73c3238b"
+  }
+}

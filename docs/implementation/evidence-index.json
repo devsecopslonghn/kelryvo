@@ -789,6 +789,42 @@
       },
       "path": "evidence/db-devops-wp0/checkpoint-20261008T140408Z-c7c0416a/WP0-T04-MERGE.json",
       "sha256": "52fb02e4c520b145a52d14e01e058324345af44d18aa710e53b2edfa30869ca5"
+    },
+    {
+      "id": "WP0-T04-READONLY-t04-thin-readonly-20261008T143528Z-0b734360",
+      "subject_id": "WP0-T04",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/final-checks.txt",
+        "sha256": "293bb31bb888a0cff7734312ac49ed4ced3564fb094a536b45788f4d73c3238b"
+      },
+      "path": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/WP0-T04-READONLY.json",
+      "sha256": "506942642989100e859b3869f9159feeadb755902ff4ffe6e0e5a92411f3f2bc"
+    },
+    {
+      "id": "WP0-T04-PEM-REPAIR-t04-thin-readonly-20261008T143528Z-0b734360",
+      "subject_id": "WP0-T04",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/pem-final-checks.txt",
+        "sha256": "a160204737a32e6cff98fe4e56f7facea8f21155568e10334ae8081dd4d81fd0"
+      },
+      "path": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/WP0-T04-PEM-REPAIR.json",
+      "sha256": "4d218729f8249954c1ad8d90d6c37376ddef8becd113cd1ec06590aa64c7d18a"
     }
   ]
 }
