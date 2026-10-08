@@ -378,7 +378,23 @@ async function listFiles(directory, predicate) {
     else if (entry.isFile() && predicate(entry.name)) files.push(file);
   }
   const nested = await Promise.all(directories.map((child) => listFiles(child, predicate)));
-  return [...files, ...nested.flat()].sort((left, right) => (left < right ? -1 : left > right ? 1 : 0));
+  return [...files, ...nested.flat()].sort(comparePaths);
+}
+
+function comparePaths(left, right) {
+  if (left < right) return -1;
+  return Number(left > right);
+}
+
+function validateJarEntry(name, notices) {
+  if (!name || notices.has(name) || name === 'META-INF/MANIFEST.MF' || name === 'META-INF/') return;
+  if (['org/antlr/', 'org/stringtemplate/', 'com/ibm/icu/'].some(prefix => name.startsWith(prefix))) {
+    throw new Error('runtime_or_tool_embedded');
+  }
+  const localPackage = 'local/schemaforge/antlrparser/';
+  if (name.endsWith('/') && localPackage.startsWith(name)) return;
+  if (!name.startsWith(localPackage)) throw new Error('unexpected_jar_entry');
+  if (!name.endsWith('/') && !name.endsWith('.class')) throw new Error('unexpected_jar_resource');
 }
 
 async function assertJarContents(jarCommand, jarPath, cwd, env) {
@@ -388,16 +404,7 @@ async function assertJarContents(jarCommand, jarPath, cwd, env) {
     'notices/Apache-2.0.txt',
     'notices/NOTICE.txt',
   ]);
-  for (const name of contents) {
-    if (!name) continue;
-    if (notices.has(name) || name === 'META-INF/MANIFEST.MF' || name === 'META-INF/') continue;
-    if (name.startsWith('org/antlr/') || name.startsWith('org/stringtemplate/') || name.startsWith('com/ibm/icu/')) {
-      throw new Error('runtime_or_tool_embedded');
-    }
-    if (name.endsWith('/') && 'local/schemaforge/antlrparser/'.startsWith(name)) continue;
-    if (!name.startsWith('local/schemaforge/antlrparser/')) throw new Error('unexpected_jar_entry');
-    if (!name.endsWith('/') && !name.endsWith('.class')) throw new Error('unexpected_jar_resource');
-  }
+  for (const name of contents) validateJarEntry(name, notices);
   for (const notice of notices) {
     if (!contents.includes(notice)) throw new Error('jar_notice_missing');
   }

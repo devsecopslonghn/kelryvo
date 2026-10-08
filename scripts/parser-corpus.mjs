@@ -63,8 +63,8 @@ async function observeVariant(group, variant) {
   if (isAntlr && (releaseFiles.length !== variant.files.length || release.outcome !== expectedOutcome)) {
     blockers.push(`${group.fixture_id}/${variant.id}:release_prevalidation_mismatch`);
   }
-  const observed = fileObservations.some(file => file.status === 'STOP') ? 'STOP'
-    : fileObservations.some(file => file.status === 'PARSE') ? 'PARSE' : 'INCOMPLETE';
+  let observed = fileObservations.some(file => file.status === 'PARSE') ? 'PARSE' : 'INCOMPLETE';
+  if (fileObservations.some(file => file.status === 'STOP')) observed = 'STOP';
   return { blockers, observation: { fixtureId: group.fixture_id, caseId: group.case_id, variantId: variant.id,
     expected: variant.expected, observed, files: fileObservations, wholeVariantPrevalidation: release.outcome,
     allFilesParsed: release.all_files_parsed, executionApproved: release.execution_approved } };
