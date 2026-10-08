@@ -1,0 +1,27 @@
+{
+  "observed_at": "2026-10-08T09:46:47.267514+00:00",
+  "source_repository": "/home/longhn0710/workspace/DB-Research",
+  "source_status_matches_import": true,
+  "all_43_source_input_hashes_match": true,
+  "changed_input_paths": [],
+  "source_status": [
+    " M README.md",
+    " M demo/README.md",
+    " M demo/customer-profile/docs/operator-guide.md",
+    " M evaluation/README.md",
+    " M evaluation/github-odc-migration-demo.md",
+    " M scripts/db_demo/collect_evidence.py",
+    " M scripts/db_demo/generate_report.py",
+    " M scripts/db_demo/odc_client.py",
+    " M scripts/db_demo/tests/test_demo.py",
+    " M scripts/db_demo/verify_oracle.py",
+    "?? evaluation/archery-database-management-runtime.md",
+    "?? evaluation/github-odc-migration-demo-final.md",
+    "?? evidence/archery-runtime-20261008/",
+    "?? evidence/github-odc-runtime-demo-20261008/",
+    "?? poc/archery-k8s/",
+    "?? product-research/"
+  ],
+  "oracle_calls": 0,
+  "external_mutations": []
+}

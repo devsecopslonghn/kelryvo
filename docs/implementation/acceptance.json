@@ -1,0 +1,4250 @@
+{
+  "schema_version": "1.0.0",
+  "features": {
+    "DBM-001": {
+      "feature_id": "DBM-001",
+      "criteria": [
+        "Register two services without embedding passwords in API output.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-002": {
+      "feature_id": "DBM-002",
+      "criteria": [
+        "Reject Oracle-specific parameters on a PostgreSQL endpoint.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-003": {
+      "feature_id": "DBM-003",
+      "criteria": [
+        "A discovery identity cannot be selected as a writer without an explicit reviewed binding.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-004": {
+      "feature_id": "DBM-004",
+      "criteria": [
+        "Repeating discovery creates no duplicate schemas and preserves manual assignment.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-005": {
+      "feature_id": "DBM-005",
+      "criteria": [
+        "An incomplete dictionary read is displayed as incomplete and never deletes resources.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-006": {
+      "feature_id": "DBM-006",
+      "criteria": [
+        "A user sees metadata only for granted project schemas with freshness timestamps.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-007": {
+      "feature_id": "DBM-007",
+      "criteria": [
+        "Two schemas through one service can belong to different projects without duplicate endpoint metadata.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-008": {
+      "feature_id": "DBM-008",
+      "criteria": [
+        "Label changes cannot silently alter an approved target set.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-009": {
+      "feature_id": "DBM-009",
+      "criteria": [
+        "A PROD container cannot be made DEV by editing a schema label.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-010": {
+      "feature_id": "DBM-010",
+      "criteria": [
+        "Transfer denies during execution and invalidates queued plans with old assignment revisions.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-011": {
+      "feature_id": "DBM-011",
+      "criteria": [
+        "A saved group expands to explicit endpoint IDs and cannot grant access.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-012": {
+      "feature_id": "DBM-012",
+      "criteria": [
+        "Adding a database after approval does not add it to an existing plan.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-013": {
+      "feature_id": "DBM-013",
+      "criteria": [
+        "Cross-project schemas require explicit permission and never join silently.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-014": {
+      "feature_id": "DBM-014",
+      "criteria": [
+        "A successful ping with wrong PDB identity fails onboarding.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-015": {
+      "feature_id": "DBM-015",
+      "criteria": [
+        "Old credentials stop being used after pool drain; plaintext is absent from logs.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-016": {
+      "feature_id": "DBM-016",
+      "criteria": [
+        "An untrusted certificate blocks execution and produces a redacted diagnostic.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-017": {
+      "feature_id": "DBM-017",
+      "criteria": [
+        "Retired targets retain audit/history and reject new deployment plans.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-018": {
+      "feature_id": "DBM-018",
+      "criteria": [
+        "A timeout changes observed health without marking migrations failed or rolled back.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-019": {
+      "feature_id": "DBM-019",
+      "criteria": [
+        "Two aliases to one PDB/owner resolve to the same target mutex.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-020": {
+      "feature_id": "DBM-020",
+      "criteria": [
+        "Zero ALL_ERRORS rows without required visibility cannot satisfy validity checks.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-021": {
+      "feature_id": "DBM-021",
+      "criteria": [
+        "New application owner is discoverable; SYS/SYSTEM are not deployable targets.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-022": {
+      "feature_id": "DBM-022",
+      "criteria": [
+        "Registering 500 schemas on 50 services does not create 500 physical inventory endpoints.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-023": {
+      "feature_id": "DBM-023",
+      "criteria": [
+        "A changed container generation invalidates an otherwise approved plan.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-024": {
+      "feature_id": "DBM-024",
+      "criteria": [
+        "A diagram has snapshot timestamp and excludes unauthorized schema names.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-025": {
+      "feature_id": "DBM-025",
+      "criteria": [
+        "Entering maintenance blocks every UI/API/scheduler deployment path.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "DBM-026": {
+      "feature_id": "DBM-026",
+      "criteria": [
+        "Discovery and retirement never issue CREATE or DROP USER/PDB.",
+        "No implementation of this rejected behavior is included in the core product."
+      ]
+    },
+    "DBM-027": {
+      "feature_id": "DBM-027",
+      "criteria": [
+        "Arbitrary requester-supplied tunnel hosts are rejected.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-001": {
+      "feature_id": "PRJ-001",
+      "criteria": [
+        "Archived projects cannot admit new jobs and keep historical evidence readable.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-002": {
+      "feature_id": "PRJ-002",
+      "criteria": [
+        "One service shows two isolated project estates according to assignments.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-003": {
+      "feature_id": "PRJ-003",
+      "criteria": [
+        "Removing a member immediately denies new actions on project resources.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-004": {
+      "feature_id": "PRJ-004",
+      "criteria": [
+        "Developer cannot approve own intent or execute a PROD job without deployer permission.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-005": {
+      "feature_id": "PRJ-005",
+      "criteria": [
+        "A project override cannot weaken mandatory production separation.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-006": {
+      "feature_id": "PRJ-006",
+      "criteria": [
+        "Changing execution settings invalidates existing intent revisions.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-007": {
+      "feature_id": "PRJ-007",
+      "criteria": [
+        "Project templates cannot allow author or last editor self-approval.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-008": {
+      "feature_id": "PRJ-008",
+      "criteria": [
+        "An unrelated repository/folder cannot ingest into the project.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-009": {
+      "feature_id": "PRJ-009",
+      "criteria": [
+        "A stale deployment configuration requires replanning.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-010": {
+      "feature_id": "PRJ-010",
+      "criteria": [
+        "Audit-only access cannot export secrets or deploy into another project.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-011": {
+      "feature_id": "PRJ-011",
+      "criteria": [
+        "Guessing another project's resource UUID returns no SQL or metadata.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-012": {
+      "feature_id": "PRJ-012",
+      "criteria": [
+        "An administrator transfer preserves approved history and rechecks future approver eligibility.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-013": {
+      "feature_id": "PRJ-013",
+      "criteria": [
+        "Assignment never grants a project visibility before an authorized decision.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-014": {
+      "feature_id": "PRJ-014",
+      "criteria": [
+        "Unknown execution outcomes remain visible until recovery is resolved.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "PRJ-015": {
+      "feature_id": "PRJ-015",
+      "criteria": [
+        "Import uses secret placeholders and cannot import forged approvals.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-001": {
+      "feature_id": "MIG-001",
+      "criteria": [
+        "V001 creates a table and one matching target history entry.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-002": {
+      "feature_id": "MIG-002",
+      "criteria": [
+        "A successful data version is skipped on replay and has observer evidence.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-003": {
+      "feature_id": "MIG-003",
+      "criteria": [
+        "Generated bytes become an immutable approved artifact before execution.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-004": {
+      "feature_id": "MIG-004",
+      "criteria": [
+        "V001 and V1 together fail before planning due to duplicate canonical version.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-005": {
+      "feature_id": "MIG-005",
+      "criteria": [
+        "V2 executes before V10 regardless of directory listing order.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-006": {
+      "feature_id": "MIG-006",
+      "criteria": [
+        "Moving a branch after ingestion cannot change the release artifact.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-007": {
+      "feature_id": "MIG-007",
+      "criteria": [
+        "One folder submission yields all five sample versions with path/hash metadata.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-008": {
+      "feature_id": "MIG-008",
+      "criteria": [
+        "Two different folder/settings manifests at one commit produce distinguishable release identities.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-009": {
+      "feature_id": "MIG-009",
+      "criteria": [
+        "A symlink or unsupported SQL*Plus command yields a file/line error and no target effects.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-010": {
+      "feature_id": "MIG-010",
+      "criteria": [
+        "Schema A with two versions plans three files while schema B with one plans four.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-011": {
+      "feature_id": "MIG-011",
+      "criteria": [
+        "A central UNKNOWN attempt blocks even when local history shows the version pending.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-012": {
+      "feature_id": "MIG-012",
+      "criteria": [
+        "Query history cannot appear as proof that a migration version was applied.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-013": {
+      "feature_id": "MIG-013",
+      "criteria": [
+        "One changed byte in an applied file blocks both planning and dispatch.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-014": {
+      "feature_id": "MIG-014",
+      "criteria": [
+        "A manually added column produces a scoped drift finding rather than rewriting history.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-015": {
+      "feature_id": "MIG-015",
+      "criteria": [
+        "Baseline has separate state, snapshot, versions/hashes and independent approval.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-016": {
+      "feature_id": "MIG-016",
+      "criteria": [
+        "Changed repeatable content requires a fresh plan and checksum; unchanged content is skipped.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-017": {
+      "feature_id": "MIG-017",
+      "criteria": [
+        "A CREATE followed by failing ALTER cannot be blindly replayed.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-018": {
+      "feature_id": "MIG-018",
+      "criteria": [
+        "Same key/body returns same job; same key/different targets returns conflict.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-019": {
+      "feature_id": "MIG-019",
+      "criteria": [
+        "Two workers through different aliases never execute statements concurrently.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-020": {
+      "feature_id": "MIG-020",
+      "criteria": [
+        "Network loss cannot cause automatic retry of a PL/SQL or DDL file.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-021": {
+      "feature_id": "MIG-021",
+      "criteria": [
+        "PROD API dispatch is denied while UAT is pending, failed, invalid or unknown.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-022": {
+      "feature_id": "MIG-022",
+      "criteria": [
+        "Failure on one target halts undispatched targets without mislabeling completed ones.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-023": {
+      "feature_id": "MIG-023",
+      "criteria": [
+        "A correction cannot bypass an unresolved lower-version HOLD.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-024": {
+      "feature_id": "MIG-024",
+      "criteria": [
+        "UI describes committed partial effects and never promises transaction rollback for DDL.",
+        "No implementation of this rejected behavior is included in the core product."
+      ]
+    },
+    "MIG-025": {
+      "feature_id": "MIG-025",
+      "criteria": [
+        "Target history survives central outage and distinguishes baseline from executed application.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-026": {
+      "feature_id": "MIG-026",
+      "criteria": [
+        "Local success with missing central completion restores evidence without replaying SQL.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-027": {
+      "feature_id": "MIG-027",
+      "criteria": [
+        "A failing statement is locatable in the retained original file.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-028": {
+      "feature_id": "MIG-028",
+      "criteria": [
+        "A concurrent completed deployment requires a new plan/approval even if pending files shrink.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-029": {
+      "feature_id": "MIG-029",
+      "criteria": [
+        "Replanning an applied five-file release yields zero effects and a no-op receipt.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-030": {
+      "feature_id": "MIG-030",
+      "criteria": [
+        "Adding V002 below deployed V003 blocks without explicit exception policy.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-031": {
+      "feature_id": "MIG-031",
+      "criteria": [
+        "A failed mandatory postcondition prevents VERIFIED_SUCCESS and promotion.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-032": {
+      "feature_id": "MIG-032",
+      "criteria": [
+        "Renaming a folder cannot cause deployed versions to execute again.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-033": {
+      "feature_id": "MIG-033",
+      "criteria": [
+        "A diff never executes directly and warns about unsupported Oracle object kinds.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "MIG-034": {
+      "feature_id": "MIG-034",
+      "criteria": [
+        "A rewound Oracle ledger cannot silently make old data migrations pending.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-001": {
+      "feature_id": "GOV-001",
+      "criteria": [
+        "Request links requester, release, target set and intent digest.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-002": {
+      "feature_id": "GOV-002",
+      "criteria": [
+        "Author and last editor approvals are denied through UI and direct API.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-003": {
+      "feature_id": "GOV-003",
+      "criteria": [
+        "Stage two cannot approve before stage one satisfies its required quorum.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-004": {
+      "feature_id": "GOV-004",
+      "criteria": [
+        "Candidate membership is recorded and eligibility is rechecked at decision time.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-005": {
+      "feature_id": "GOV-005",
+      "criteria": [
+        "A DEV template cannot satisfy a PROD intent.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-006": {
+      "feature_id": "GOV-006",
+      "criteria": [
+        "Requester cannot bypass deployer permission using CI, scheduler or SQL console.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-007": {
+      "feature_id": "GOV-007",
+      "criteria": [
+        "Changing only the target still makes that editor ineligible to approve.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases.",
+        "Two successive substantive editors both remain ineligible after a third actor changes only request metadata."
+      ]
+    },
+    "GOV-008": {
+      "feature_id": "GOV-008",
+      "criteria": [
+        "Deleting a template does not erase historical decisions.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-009": {
+      "feature_id": "GOV-009",
+      "criteria": [
+        "Expired approval fails admission even if the UI remains open.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-010": {
+      "feature_id": "GOV-010",
+      "criteria": [
+        "Resubmitting edited SQL cannot reuse an old approval.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-011": {
+      "feature_id": "GOV-011",
+      "criteria": [
+        "A revoked queued deployment cannot start; committed effects remain recorded.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-012": {
+      "feature_id": "GOV-012",
+      "criteria": [
+        "A changed schema or statement hash rejects old approval at dispatch.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-013": {
+      "feature_id": "GOV-013",
+      "criteria": [
+        "Replacing a file in storage fails hash verification before any SQL.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-014": {
+      "feature_id": "GOV-014",
+      "criteria": [
+        "A delayed queued job cannot start outside its approved window.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-015": {
+      "feature_id": "GOV-015",
+      "criteria": [
+        "A schedule does not retain authority after approver grant revocation.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-016": {
+      "feature_id": "GOV-016",
+      "criteria": [
+        "Break-glass cannot replace artifact checks, mutexes or recovery holds.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-017": {
+      "feature_id": "GOV-017",
+      "criteria": [
+        "A PROD hotfix cannot silently diverge the future UAT promotion artifact.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-018": {
+      "feature_id": "GOV-018",
+      "criteria": [
+        "An approver without deployer permission cannot dispatch SQL.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-019": {
+      "feature_id": "GOV-019",
+      "criteria": [
+        "Unknown PL/SQL effects yield elevated/manual review rather than low-risk auto-approval.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-020": {
+      "feature_id": "GOV-020",
+      "criteria": [
+        "Attachments cannot change executable content or expose another project's SQL.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-021": {
+      "feature_id": "GOV-021",
+      "criteria": [
+        "Delegated approver cannot approve an intent they authored.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-022": {
+      "feature_id": "GOV-022",
+      "criteria": [
+        "Manual continue API cannot skip a failed predecessor.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-023": {
+      "feature_id": "GOV-023",
+      "criteria": [
+        "Auditor can reconstruct all approval revisions after project transfer.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-024": {
+      "feature_id": "GOV-024",
+      "criteria": [
+        "Cancellation during DDL yields UNKNOWN or observed partial state, never implied rollback.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GOV-025": {
+      "feature_id": "GOV-025",
+      "criteria": [
+        "Tightening PROD policy blocks an old plan until reviewed under the new revision.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-001": {
+      "feature_id": "SQL-001",
+      "criteria": [
+        "Editor write operations cannot bypass managed schema migration controls.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-002": {
+      "feature_id": "SQL-002",
+      "criteria": [
+        "Quoted text and PL/SQL bodies display without modifying retained bytes.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-003": {
+      "feature_id": "SQL-003",
+      "criteria": [
+        "Autocomplete does not reveal another project's object names.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-004": {
+      "feature_id": "SQL-004",
+      "criteria": [
+        "Hidden routine text cannot be fetched through a guessed object URL.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-005": {
+      "feature_id": "SQL-005",
+      "criteria": [
+        "A read-only editor principal cannot execute UPDATE or hidden PL/SQL writes.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-006": {
+      "feature_id": "SQL-006",
+      "criteria": [
+        "Query history is clearly separate from versioned migration history.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-007": {
+      "feature_id": "SQL-007",
+      "criteria": [
+        "Query permission without export permission cannot download result files.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-008": {
+      "feature_id": "SQL-008",
+      "criteria": [
+        "A blocking rule finding prevents dispatch on every API path.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-009": {
+      "feature_id": "SQL-009",
+      "criteria": [
+        "Reformatting cannot conceal a changed SQL hash after approval.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-010": {
+      "feature_id": "SQL-010",
+      "criteria": [
+        "DROP TABLE requires explicit risk acknowledgement; dynamic SQL is not certified safe.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-011": {
+      "feature_id": "SQL-011",
+      "criteria": [
+        "Denied columns remain inaccessible through query and export routes.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-012": {
+      "feature_id": "SQL-012",
+      "criteria": [
+        "Granting query access cannot authorize release execution.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-013": {
+      "feature_id": "SQL-013",
+      "criteria": [
+        "A read-only label on a writer credential is rejected.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-014": {
+      "feature_id": "SQL-014",
+      "criteria": [
+        "EXPLAIN does not count as execution validation or proof of safe resource use.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-015": {
+      "feature_id": "SQL-015",
+      "criteria": [
+        "Preview digest matches the worker's parsed statement digest.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-016": {
+      "feature_id": "SQL-016",
+      "criteria": [
+        "All required PL/SQL fixtures preserve body boundaries and result semantics on 19c/21c.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-017": {
+      "feature_id": "SQL-017",
+      "criteria": [
+        "No slash delimiter is sent as SQL and q-quoted semicolons do not split statements.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-018": {
+      "feature_id": "SQL-018",
+      "criteria": [
+        "VALID specification with INVALID body prevents VERIFIED_SUCCESS.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-019": {
+      "feature_id": "SQL-019",
+      "criteria": [
+        "Missing object or inaccessible compiler diagnostics blocks final success.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-020": {
+      "feature_id": "SQL-020",
+      "criteria": [
+        "A PL/SQL compiler ERROR is shown even if driver execution returned success.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-021": {
+      "feature_id": "SQL-021",
+      "criteria": [
+        "SET, HOST and unapproved includes fail before execution under MVP profile.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-022": {
+      "feature_id": "SQL-022",
+      "criteria": [
+        "A saved script cannot grant its creator's database access to another user.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-023": {
+      "feature_id": "SQL-023",
+      "criteria": [
+        "Generated query remains subject to the same permissions and result limits.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-024": {
+      "feature_id": "SQL-024",
+      "criteria": [
+        "One denied target cannot expose data through a merged result grid.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SQL-025": {
+      "feature_id": "SQL-025",
+      "criteria": [
+        "New invalid dependent view blocks promotion; dynamic dependency limits are explicit.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-001": {
+      "feature_id": "SEC-001",
+      "criteria": [
+        "Unauthenticated endpoints disclose no SQL or catalog resources.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-002": {
+      "feature_id": "SEC-002",
+      "criteria": [
+        "Removing an LDAP group grant denies subsequent authorized actions.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-003": {
+      "feature_id": "SEC-003",
+      "criteria": [
+        "Tokens with wrong issuer or audience are rejected.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-004": {
+      "feature_id": "SEC-004",
+      "criteria": [
+        "Offline core operation never requires a social account.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-005": {
+      "feature_id": "SEC-005",
+      "criteria": [
+        "Direct API calls have the same authorization result as UI actions.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-006": {
+      "feature_id": "SEC-006",
+      "criteria": [
+        "Guessable IDs never bypass object authorization.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-007": {
+      "feature_id": "SEC-007",
+      "criteria": [
+        "Grant on one schema cannot authorize another schema through the shared endpoint.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-008": {
+      "feature_id": "SEC-008",
+      "criteria": [
+        "Missing, invalid or expired approval denies worker dispatch.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-009": {
+      "feature_id": "SEC-009",
+      "criteria": [
+        "API cannot read PROD writer secrets while a scoped worker can fetch its admitted target secret.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-010": {
+      "feature_id": "SEC-010",
+      "criteria": [
+        "Known-secret scan finds no credentials in exported research/deployment evidence.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-011": {
+      "feature_id": "SEC-011",
+      "criteria": [
+        "Audit reconstructs WHO/WHAT/WHERE/WHEN/HOW/RESULT for a completed and failed attempt.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-012": {
+      "feature_id": "SEC-012",
+      "criteria": [
+        "Deleting an activity notification cannot delete an approval or audit event.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-013": {
+      "feature_id": "SEC-013",
+      "criteria": [
+        "An exported bundle can match each executed file to its approved bytes and target.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-014": {
+      "feature_id": "SEC-014",
+      "criteria": [
+        "A developer denied dispatch cannot execute equivalent SQL through the editor.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-015": {
+      "feature_id": "SEC-015",
+      "criteria": [
+        "A revoked CI key cannot ingest or dispatch further requests.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-016": {
+      "feature_id": "SEC-016",
+      "criteria": [
+        "CI service identity cannot satisfy an independent human approval.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-017": {
+      "feature_id": "SEC-017",
+      "criteria": [
+        "Requester-supplied URLs or DNS redirects cannot reach metadata or secret endpoints.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-018": {
+      "feature_id": "SEC-018",
+      "criteria": [
+        "Session cookies/tokens never transit plaintext outside the trusted pod boundary.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-019": {
+      "feature_id": "SEC-019",
+      "criteria": [
+        "Logged-out or revoked sessions cannot approve queued work.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-020": {
+      "feature_id": "SEC-020",
+      "criteria": [
+        "A report identifies retention gaps and links to underlying immutable evidence.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-021": {
+      "feature_id": "SEC-021",
+      "criteria": [
+        "Custom roles cannot disable separation or expose secrets through wildcard permissions.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-022": {
+      "feature_id": "SEC-022",
+      "criteria": [
+        "Group removal is effective at approval and dispatch rechecks.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-023": {
+      "feature_id": "SEC-023",
+      "criteria": [
+        "An unenrolled privileged principal cannot approve PROD changes.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-024": {
+      "feature_id": "SEC-024",
+      "criteria": [
+        "Deprovisioning revokes project grants and active session authority.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-025": {
+      "feature_id": "SEC-025",
+      "criteria": [
+        "Query after expiry is denied even when connection pooling keeps a session open.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-026": {
+      "feature_id": "SEC-026",
+      "criteria": [
+        "Raw results cannot bypass masking through export or alternate query API.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-027": {
+      "feature_id": "SEC-027",
+      "criteria": [
+        "Wrong repository/environment claims fail authorization.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "SEC-028": {
+      "feature_id": "SEC-028",
+      "criteria": [
+        "Deleting central events creates a detectable export continuity gap.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-001": {
+      "feature_id": "GIT-001",
+      "criteria": [
+        "A GitLab token needs read-only repository scope and cannot approve deployments.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-002": {
+      "feature_id": "GIT-002",
+      "criteria": [
+        "Equivalent files produce the same raw hashes through both providers.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-003": {
+      "feature_id": "GIT-003",
+      "criteria": [
+        "A repository test verifies the allowed project/folder and redacts authentication failures.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-004": {
+      "feature_id": "GIT-004",
+      "criteria": [
+        "A tag moved after ingestion does not mutate release bytes.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-005": {
+      "feature_id": "GIT-005",
+      "criteria": [
+        "An untrusted MR job cannot retrieve PROD credentials or dispatch SQL.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-006": {
+      "feature_id": "GIT-006",
+      "criteria": [
+        "A release at a short ambiguous SHA is rejected until resolved fully.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-007": {
+      "feature_id": "GIT-007",
+      "criteria": [
+        "Approved deployment still validates stored bytes when Git is temporarily offline.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-008": {
+      "feature_id": "GIT-008",
+      "criteria": [
+        "Duplicate CI triggers create one release/request for the same key and body.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-009": {
+      "feature_id": "GIT-009",
+      "criteria": [
+        "Invalid or replayed signatures cannot generate deployment admissions.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-010": {
+      "feature_id": "GIT-010",
+      "criteria": [
+        "CI can ingest/poll while its credential cannot issue a human approval.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-011": {
+      "feature_id": "GIT-011",
+      "criteria": [
+        "CI environment labels cannot spoof successful UAT evidence.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-012": {
+      "feature_id": "GIT-012",
+      "criteria": [
+        "Jenkins input alone is never accepted as a platform approval decision.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-013": {
+      "feature_id": "GIT-013",
+      "criteria": [
+        "Repeated or out-of-order callbacks cannot overwrite a terminal newer state.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-014": {
+      "feature_id": "GIT-014",
+      "criteria": [
+        "A pipeline green result without platform verification cannot promote PROD.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-015": {
+      "feature_id": "GIT-015",
+      "criteria": [
+        "A new branch head is shown as undeployed, never applied automatically.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-016": {
+      "feature_id": "GIT-016",
+      "criteria": [
+        "Changing repository/folder/runner image invalidates relevant approved intent.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-017": {
+      "feature_id": "GIT-017",
+      "criteria": [
+        "Imported policy cannot weaken mandatory organization controls.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-018": {
+      "feature_id": "GIT-018",
+      "criteria": [
+        "End-to-end lab workflow functions with external internet egress disabled.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "GIT-019": {
+      "feature_id": "GIT-019",
+      "criteria": [
+        "Provider addition does not change approval or ledger semantics.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-001": {
+      "feature_id": "OPS-001",
+      "criteria": [
+        "API restart retains queued jobs without creating duplicate SQL attempts.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-002": {
+      "feature_id": "OPS-002",
+      "criteria": [
+        "Worker accepts only admitted jobs and cannot execute arbitrary submitted DSNs.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-003": {
+      "feature_id": "OPS-003",
+      "criteria": [
+        "500 schemas do not open 500 idle writer connections at startup.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-004": {
+      "feature_id": "OPS-004",
+      "criteria": [
+        "Retry policy cannot transparently rerun a target statement after uncertain failure.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-005": {
+      "feature_id": "OPS-005",
+      "criteria": [
+        "Driver success with failed validity is never displayed as deployed success.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-006": {
+      "feature_id": "OPS-006",
+      "criteria": [
+        "Auditor finds the failing statement without exposing secrets or query result rows.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-007": {
+      "feature_id": "OPS-007",
+      "criteria": [
+        "Notifications link authorized resources and do not leak SQL to unauthorized members.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-008": {
+      "feature_id": "OPS-008",
+      "criteria": [
+        "SMTP outage cannot prevent recorded success or cause SQL replay.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-009": {
+      "feature_id": "OPS-009",
+      "criteria": [
+        "Webhook failure creates delivery retry only, not a new deployment.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-010": {
+      "feature_id": "OPS-010",
+      "criteria": [
+        "Metrics omit SQL, usernames and unbounded schema/file labels.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-011": {
+      "feature_id": "OPS-011",
+      "criteria": [
+        "Oracle outage cannot trigger a liveness restart loop of the control plane.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-012": {
+      "feature_id": "OPS-012",
+      "criteria": [
+        "Restore never dispatches queued jobs until target history agreement is re-established.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-013": {
+      "feature_id": "OPS-013",
+      "criteria": [
+        "Paused old worker and new worker cannot overlap target SQL after lease expiry.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-014": {
+      "feature_id": "OPS-014",
+      "criteria": [
+        "A pooled connection cannot leak owner/session state into another project.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-015": {
+      "feature_id": "OPS-015",
+      "criteria": [
+        "Partial rollout totals reconcile with individual target outcomes.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-016": {
+      "feature_id": "OPS-016",
+      "criteria": [
+        "A connection storm yields bounded queueing instead of target exhaustion.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-017": {
+      "feature_id": "OPS-017",
+      "criteria": [
+        "Killing a worker after target commit cannot replay a completed migration automatically.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-018": {
+      "feature_id": "OPS-018",
+      "criteria": [
+        "Deleting a worker pod preserves SQL hashes, decisions and compiler evidence.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-019": {
+      "feature_id": "OPS-019",
+      "criteria": [
+        "SIGTERM during DDL cannot produce a fabricated rolled-back success/failure.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-020": {
+      "feature_id": "OPS-020",
+      "criteria": [
+        "A trace links an attempt to its admission but contains no secret values.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-021": {
+      "feature_id": "OPS-021",
+      "criteria": [
+        "Stale lease resolution requires session evidence before replacement SQL.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-022": {
+      "feature_id": "OPS-022",
+      "criteria": [
+        "A disposable OpenShift lab deploys without privileged SCC or external egress.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-023": {
+      "feature_id": "OPS-023",
+      "criteria": [
+        "An offline install can verify every required artifact hash and license record.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-024": {
+      "feature_id": "OPS-024",
+      "criteria": [
+        "No AWR/ASH or Diagnostics Pack query runs without explicit entitlement/configuration.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-025": {
+      "feature_id": "OPS-025",
+      "criteria": [
+        "Unknown outcomes remain assigned/open until an auditable terminal resolution.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-026": {
+      "feature_id": "OPS-026",
+      "criteria": [
+        "Under that lab scale, one-schema serialization holds and inventory p95 meets agreed budget.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "OPS-027": {
+      "feature_id": "OPS-027",
+      "criteria": [
+        "A worker with unsupported ledger version fails closed before SQL.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-001": {
+      "feature_id": "EXT-001",
+      "criteria": [
+        "A package compiling only under unintended ANY privilege fails the approved privilege profile.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-002": {
+      "feature_id": "EXT-002",
+      "criteria": [
+        "A dependent target cannot run before its required verified predecessor.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-003": {
+      "feature_id": "EXT-003",
+      "criteria": [
+        "Edition identity is included in intent and tested independently before use.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-004": {
+      "feature_id": "EXT-004",
+      "criteria": [
+        "A generic online label never bypasses actual Oracle support/entitlement checks.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-005": {
+      "feature_id": "EXT-005",
+      "criteria": [
+        "Changing verification SQL invalidates the approval digest.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-006": {
+      "feature_id": "EXT-006",
+      "criteria": [
+        "Failed prerequisite blocks before SQL and is recorded without fabricated application.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-007": {
+      "feature_id": "EXT-007",
+      "criteria": [
+        "Unknown dependencies are visible and cannot be interpreted as no impact.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-008": {
+      "feature_id": "EXT-008",
+      "criteria": [
+        "A destructive plan lacks admission until explicit reviewer acknowledgement is recorded.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-009": {
+      "feature_id": "EXT-009",
+      "criteria": [
+        "English works offline and a second locale does not alter API/resource identifiers.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-010": {
+      "feature_id": "EXT-010",
+      "criteria": [
+        "A DONE/INVALID case displays verification failure and blocks promotion.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-011": {
+      "feature_id": "EXT-011",
+      "criteria": [
+        "Removing AI configuration does not remove core approval or runtime correctness.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-012": {
+      "feature_id": "EXT-012",
+      "criteria": [
+        "Model output cannot authorize SQL replay or waive unknown target state.",
+        "No implementation of this rejected behavior is included in the core product."
+      ]
+    },
+    "EXT-013": {
+      "feature_id": "EXT-013",
+      "criteria": [
+        "An agent receives no broader visibility than its authenticated principal.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-014": {
+      "feature_id": "EXT-014",
+      "criteria": [
+        "No MCP tool can skip approval/admission/verification.",
+        "No implementation of this rejected behavior is included in the core product."
+      ]
+    },
+    "EXT-015": {
+      "feature_id": "EXT-015",
+      "criteria": [
+        "Provider readbacks never return secrets or overwrite historical evidence.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-016": {
+      "feature_id": "EXT-016",
+      "criteria": [
+        "Feature is never advertised as general Oracle DDL rollback.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    "EXT-017": {
+      "feature_id": "EXT-017",
+      "criteria": [
+        "MVP contains no ad hoc bulk import route bypassing review.",
+        "No implementation of this rejected behavior is included in the core product."
+      ]
+    },
+    "EXT-018": {
+      "feature_id": "EXT-018",
+      "criteria": [
+        "Asset/license review finds no copied vendor branding or proprietary components.",
+        "No implementation of this rejected behavior is included in the core product."
+      ]
+    },
+    "EXT-019": {
+      "feature_id": "EXT-019",
+      "criteria": [
+        "51st endpoint and 21st user are accepted subject only to actual capacity/authorization.",
+        "No implementation of this rejected behavior is included in the core product."
+      ]
+    },
+    "EXT-020": {
+      "feature_id": "EXT-020",
+      "criteria": [
+        "An adapter cannot override core approval, target identity or recovery state.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    }
+  },
+  "work": {
+    "SF-P0-FOUNDATION": {
+      "task_id": "SF-P0-FOUNDATION",
+      "criteria": [
+        "Separate local Git repository exists without remote creation; DB-Research inputs and pre-existing status are preserved.",
+        "All required design, roadmap, contract, backlog, acceptance, evidence-reference and license inputs retain exact-byte provenance.",
+        "All 220 stable feature IDs, 64 original tasks and 63 case contracts retain traceability and distinct product implementation states.",
+        "Six specialist TOML definitions parse, inherit model/provider settings, and document actual native delegation and permission limits.",
+        "Dependency, ownership, acceptance coverage, evidence hashes, result-cell and current-phase guards pass positive and negative regression tests.",
+        "Source build checks, lint, JSON formatting and all available offline tests pass using documented commands.",
+        "Initial CI uses pinned tools and read-only repository permissions; no deployment or publishing actions exist.",
+        "Decision log, milestone, evidence index, current session state and next bounded tasks are persisted.",
+        "Product license and name remain explicitly provisional; no restricted source, assets or Oracle execution is introduced."
+      ],
+      "test_references": [
+        "tests/provenance.test.mjs",
+        "tests/agents.test.mjs",
+        "tests/tracker.test.mjs",
+        "tests/preflight.test.mjs"
+      ]
+    },
+    "WP0-T01": {
+      "task_id": "WP0-T01",
+      "criteria": [
+        "A reproducible preflight report names every required input and exact missing prerequisite; existing POCs remain protected."
+      ],
+      "test_references": [
+        "WP0-10-01"
+      ]
+    },
+    "WP0-T02": {
+      "task_id": "WP0-T02",
+      "criteria": [
+        "An auditable candidate lock/notice register and parser isolation feasibility decision exist; unknown required rights block build selection."
+      ],
+      "test_references": [
+        "WP0-10-01"
+      ]
+    },
+    "WP0-T03": {
+      "task_id": "WP0-T03",
+      "criteria": [
+        "Approved parser profile passes every pure parser case and emits reproducible original/source-derived execution bytes; unsupported boundary produces a STOP report."
+      ],
+      "test_references": [
+        "WP0-03-01",
+        "WP0-03-08",
+        "WP0-03-09",
+        "WP0-03-10",
+        "WP0-03-11",
+        "WP0-03-12",
+        "WP0-03-14"
+      ]
+    },
+    "WP0-T04": {
+      "task_id": "WP0-T04",
+      "criteria": [
+        "Connectivity/grant/timeout/secret observations for both 19c and 21c are recorded separately; missing lab inputs stop dependent runtime probes."
+      ],
+      "test_references": [
+        "WP0-01-01",
+        "WP0-01-02",
+        "WP0-01-03",
+        "WP0-01-04",
+        "WP0-01-05",
+        "WP0-01-06"
+      ]
+    },
+    "WP0-T05": {
+      "task_id": "WP0-T05",
+      "criteria": [
+        "Canonical target/visibility findings are reproducible and fail closed on unknown mapping or insufficient grants."
+      ],
+      "test_references": [
+        "WP0-02-01",
+        "WP0-02-02",
+        "WP0-02-03",
+        "WP0-02-04",
+        "WP0-02-05"
+      ]
+    },
+    "WP0-T06": {
+      "task_id": "WP0-T06",
+      "criteria": [
+        "Actual target grants/lock ownership/DDL commits and receipt barriers are observable; bootstrap cannot touch a non-fixture target."
+      ],
+      "test_references": [
+        "WP0-06-01",
+        "WP0-06-03",
+        "WP0-06-04",
+        "WP0-06-05"
+      ]
+    },
+    "WP0-T07": {
+      "task_id": "WP0-T07",
+      "criteria": [
+        "Pre-checkpoint mutation, actor, expiry/revocation and stale-history negatives reject before migration calls; post-checkpoint revocation retains in-flight effects and blocks later permits. This is a harness model, not certified platform authorization."
+      ],
+      "test_references": [
+        "WP0-08-01",
+        "WP0-08-02",
+        "WP0-08-03",
+        "WP0-08-04",
+        "WP0-08-05",
+        "WP0-08-06",
+        "WP0-08-07",
+        "WP0-08-08"
+      ]
+    },
+    "WP0-T08": {
+      "task_id": "WP0-T08",
+      "criteria": [
+        "Each required parser/runtime fixture has independent 19c/21c evidence; driver return success cannot hide invalid or unobserved objects."
+      ],
+      "test_references": [
+        "WP0-03-01",
+        "WP0-03-02",
+        "WP0-03-03",
+        "WP0-03-04",
+        "WP0-03-05",
+        "WP0-03-06",
+        "WP0-03-07",
+        "WP0-03-08",
+        "WP0-03-09",
+        "WP0-03-10",
+        "WP0-03-11",
+        "WP0-03-12",
+        "WP0-03-13",
+        "WP0-03-14",
+        "WP0-05-01",
+        "WP0-05-02",
+        "WP0-05-03",
+        "WP0-05-04"
+      ]
+    },
+    "WP0-T09": {
+      "task_id": "WP0-T09",
+      "criteria": [
+        "Observed execution counts are A=2/B=4 then both zero; no fake receipt seeding or changed-checksum repair."
+      ],
+      "test_references": [
+        "WP0-04-01",
+        "WP0-04-02",
+        "WP0-04-03",
+        "WP0-04-04"
+      ]
+    },
+    "WP0-T10": {
+      "task_id": "WP0-T10",
+      "criteria": [
+        "All mandatory fault cases retain actual observations and block unproven replay; logical rewind is never reported as an actual Oracle restore."
+      ],
+      "test_references": [
+        "WP0-06-01",
+        "WP0-06-02",
+        "WP0-06-03",
+        "WP0-06-04",
+        "WP0-06-05",
+        "WP0-07-01",
+        "WP0-07-02",
+        "WP0-07-03",
+        "WP0-07-04",
+        "WP0-07-05",
+        "WP0-07-06",
+        "WP0-07-07",
+        "WP0-07-08",
+        "WP0-09-01",
+        "WP0-09-02",
+        "WP0-09-03",
+        "WP0-09-04"
+      ]
+    },
+    "WP0-T11": {
+      "task_id": "WP0-T11",
+      "criteria": [
+        "All security/license/offline cells pass with evidence or remain explicitly BLOCKED; mandatory dependency rights and secrecy are hard gates."
+      ],
+      "test_references": [
+        "WP0-10-01",
+        "WP0-10-02",
+        "WP0-10-03",
+        "WP0-10-04",
+        "WP0-10-05"
+      ]
+    },
+    "WP0-T12": {
+      "task_id": "WP0-T12",
+      "criteria": [
+        "A signed/reviewed decision says GO only when every mandatory applicable cell passes; otherwise CONDITIONAL GO for further probes or NO-GO with exact blockers."
+      ],
+      "test_references": [
+        "WP0-10-05"
+      ]
+    },
+    "WP1-T01": {
+      "task_id": "WP1-T01",
+      "criteria": [
+        "Approved workspace builds its empty API/worker/domain packages and contract fixtures; no production deployment."
+      ],
+      "test_references": [
+        "WP0-10-01"
+      ]
+    },
+    "WP1-T02": {
+      "task_id": "WP1-T02",
+      "criteria": [
+        "Cross-org FK and invalid archive negatives fail transactionally; seeded fixture organizations/projects/environments remain isolated."
+      ],
+      "test_references": [
+        "AC-PRJ-001"
+      ]
+    },
+    "WP1-T03": {
+      "task_id": "WP1-T03",
+      "criteria": [
+        "Denied and successful actions retain authenticated actor/resource/time/intent; altered blobs are rejected and worker deletion loses no evidence."
+      ],
+      "test_references": [
+        "AC-SEC-011",
+        "WP0-10-05"
+      ]
+    },
+    "WP1-T04": {
+      "task_id": "WP1-T04",
+      "criteria": [
+        "Cross-language canonical hashes agree; RETURNED/INVALID and UNKNOWN receipt examples never become VERIFIED_SUCCESS."
+      ],
+      "test_references": [
+        "AC-OPS-005",
+        "WP0-08-07"
+      ]
+    },
+    "WP1-T05": {
+      "task_id": "WP1-T05",
+      "criteria": [
+        "Supported metadata upgrades preserve immutable identities and audit/artifacts; incompatible versions fail readiness before claims."
+      ],
+      "test_references": [
+        "AC-OPS-012",
+        "AC-OPS-023"
+      ]
+    },
+    "WP2-T01": {
+      "task_id": "WP2-T01",
+      "criteria": [
+        "Wrong PDB/trust/scope, user-supplied DSNs and API writer-secret reads fail before migrations."
+      ],
+      "test_references": [
+        "AC-DBM-001",
+        "AC-DBM-003",
+        "AC-DBM-014",
+        "AC-DBM-016",
+        "AC-SEC-009",
+        "AC-SEC-017",
+        "WP0-01-01",
+        "WP0-10-03"
+      ]
+    },
+    "WP2-T02": {
+      "task_id": "WP2-T02",
+      "criteria": [
+        "Same alias target shares mutex identity; other PDB/owner differs; schema labels cannot downgrade an environment."
+      ],
+      "test_references": [
+        "AC-DBM-009",
+        "AC-DBM-019",
+        "WP0-02-04"
+      ]
+    },
+    "WP2-T03": {
+      "task_id": "WP2-T03",
+      "criteria": [
+        "Repeated discovery yields two stable application owners; invisible diagnostics do not become VALID or authorize writes."
+      ],
+      "test_references": [
+        "AC-DBM-004",
+        "AC-DBM-020",
+        "AC-DBM-021",
+        "WP0-02-01",
+        "WP0-02-03"
+      ]
+    },
+    "WP2-T04": {
+      "task_id": "WP2-T04",
+      "criteria": [
+        "A metadata fixture with 500 schema references retains shared endpoint rows without duplicate credentials; runtime two-project isolation passes."
+      ],
+      "test_references": [
+        "AC-DBM-007",
+        "AC-DBM-022",
+        "WP0-08-05"
+      ]
+    },
+    "WP2-T05": {
+      "task_id": "WP2-T05",
+      "criteria": [
+        "Old-generation intent is unusable even when names/DBID match; quarantine is durable and auditable."
+      ],
+      "test_references": [
+        "AC-DBM-023",
+        "WP0-02-05"
+      ]
+    },
+    "WP2-T06": {
+      "task_id": "WP2-T06",
+      "criteria": [
+        "Core inventory supports representative estate management without alias duplication, unauthorized count disclosure or stale-plan execution."
+      ],
+      "test_references": [
+        "AC-DBM-004",
+        "AC-DBM-022",
+        "AC-DBM-023"
+      ]
+    },
+    "WP2-T07": {
+      "task_id": "WP2-T07",
+      "criteria": [
+        "Grouped estate data is correctly authorized and read-only; no duplicate physical resource model."
+      ],
+      "test_references": [
+        "AC-PRJ-002"
+      ]
+    },
+    "WP3-T01": {
+      "task_id": "WP3-T01",
+      "criteria": [
+        "Only the bound repository/folder can ingest; read failures are sanitized and configuration changes invalidate relevant intents."
+      ],
+      "test_references": [
+        "AC-PRJ-008",
+        "AC-GIT-003",
+        "AC-GIT-016"
+      ]
+    },
+    "WP3-T02": {
+      "task_id": "WP3-T02",
+      "criteria": [
+        "A branch move cannot alter retained bytes; ambiguous short IDs fail and unsupported object formats fail explicitly."
+      ],
+      "test_references": [
+        "AC-MIG-006",
+        "AC-GIT-006",
+        "WP0-08-01"
+      ]
+    },
+    "WP3-T03": {
+      "task_id": "WP3-T03",
+      "criteria": [
+        "All five fixture migrations ingest together; V001/V1 duplicate fails and V2 precedes V10 with reproducible raw hashes."
+      ],
+      "test_references": [
+        "AC-MIG-004",
+        "AC-MIG-005",
+        "AC-MIG-007",
+        "WP0-04-04"
+      ]
+    },
+    "WP3-T04": {
+      "task_id": "WP3-T04",
+      "criteria": [
+        "A malformed later file blocks the entire release before effects; manifest identity changes with execution-affecting content and works while Git is offline."
+      ],
+      "test_references": [
+        "AC-MIG-008",
+        "AC-MIG-009",
+        "AC-SQL-017",
+        "AC-GIT-007",
+        "WP0-03-14"
+      ]
+    },
+    "WP3-T05": {
+      "task_id": "WP3-T05",
+      "criteria": [
+        "A=1..3/B=1 yields pending 2/4; changed V002 and unobserved history block; zero-pending intent remains reviewable."
+      ],
+      "test_references": [
+        "AC-MIG-010",
+        "AC-MIG-013",
+        "WP0-04-01",
+        "WP0-04-03"
+      ]
+    },
+    "WP3-T06": {
+      "task_id": "WP3-T06",
+      "criteria": [
+        "Core planning keeps identical source semantics across providers and stages and does not re-run baseline/adopted versions."
+      ],
+      "test_references": [
+        "AC-MIG-010",
+        "AC-MIG-013",
+        "AC-MIG-015",
+        "AC-MIG-021"
+      ]
+    },
+    "WP4-T01": {
+      "task_id": "WP4-T01",
+      "criteria": [
+        "Unauthenticated/forged/revoked actors cannot read resources or approve; no caller-supplied actor ID becomes trusted."
+      ],
+      "test_references": [
+        "AC-SEC-001",
+        "WP0-08-08"
+      ]
+    },
+    "WP4-T02": {
+      "task_id": "WP4-T02",
+      "criteria": [
+        "Direct API, CLI and guessed cross-project IDs fail consistently; revocation denies new actions and requester cannot gain execution permission."
+      ],
+      "test_references": [
+        "AC-PRJ-003",
+        "AC-PRJ-004",
+        "AC-PRJ-011",
+        "AC-SEC-005",
+        "AC-SEC-006",
+        "AC-GOV-006"
+      ]
+    },
+    "WP4-T03": {
+      "task_id": "WP4-T03",
+      "criteria": [
+        "Exact SQL/target/options/history are previewable; all mutation/self-approval/expiry negatives deny and decisions remain auditable."
+      ],
+      "test_references": [
+        "AC-GOV-001",
+        "AC-GOV-002",
+        "AC-GOV-007",
+        "AC-GOV-009",
+        "AC-GOV-012",
+        "AC-GOV-013",
+        "AC-GOV-023",
+        "AC-EXT-008",
+        "WP0-08-08"
+      ]
+    },
+    "WP4-T04": {
+      "task_id": "WP4-T04",
+      "criteria": [
+        "Same body/key returns same job; conflicts and revocations block; approver role alone cannot dispatch and worker receives no caller-supplied SQL.",
+        "Current-authority mutation and permit commit have an explicit serialized order; revocation never promises an already-permitted Oracle call is recalled."
+      ],
+      "test_references": [
+        "AC-MIG-018",
+        "AC-GOV-011",
+        "AC-GOV-018",
+        "AC-SEC-008",
+        "AC-SEC-014",
+        "WP0-06-02"
+      ]
+    },
+    "WP4-T05": {
+      "task_id": "WP4-T05",
+      "criteria": [
+        "Logout, credential/session expiry and removal deny further approval/admission without waiting for a UI refresh."
+      ],
+      "test_references": [
+        "AC-SEC-019"
+      ]
+    },
+    "WP4-T06": {
+      "task_id": "WP4-T06",
+      "criteria": [
+        "Guided resubmission cannot reuse old decisions or erase contributors; history remains immutable."
+      ],
+      "test_references": [
+        "AC-GOV-010"
+      ]
+    },
+    "WP5-T01": {
+      "task_id": "WP5-T01",
+      "criteria": [
+        "Bootstrap refuses populated unmanaged or wrong-generation targets; local receipt uniqueness is independent of central history.",
+        "Observer history reads succeed only within authorized target scope; missing grants block planning, and the API cannot resolve owner/bootstrap credentials."
+      ],
+      "test_references": [
+        "AC-MIG-025",
+        "WP0-04-01",
+        "WP0-10-03"
+      ]
+    },
+    "WP5-T02": {
+      "task_id": "WP5-T02",
+      "criteria": [
+        "Alias/session contention, DDL commit and paused-lease probes show no concurrent target writes."
+      ],
+      "test_references": [
+        "AC-MIG-019",
+        "WP0-06-01",
+        "WP0-06-03",
+        "WP0-06-04"
+      ]
+    },
+    "WP5-T03": {
+      "task_id": "WP5-T03",
+      "criteria": [
+        "Duplicate delivery cannot duplicate SQL; changed snapshot invalidates approval; zero-pending run retains audit and zero-call proof.",
+        "Pre-checkpoint revocation denies SQL; post-checkpoint revocation stops future permits and truthfully retains in-flight/unknown effects."
+      ],
+      "test_references": [
+        "AC-OPS-001",
+        "AC-OPS-002",
+        "AC-MIG-028",
+        "AC-MIG-029",
+        "WP0-04-02",
+        "WP0-08-08"
+      ]
+    },
+    "WP5-T04": {
+      "task_id": "WP5-T04",
+      "criteria": [
+        "Schema/data effects match approved bytes; failures preserve last acknowledged calls and four outcome axes; target receipt cannot precede required file validation."
+      ],
+      "test_references": [
+        "AC-MIG-001",
+        "AC-MIG-002",
+        "AC-MIG-027",
+        "AC-SQL-016",
+        "AC-OPS-006",
+        "WP0-07-04",
+        "WP0-07-05"
+      ]
+    },
+    "WP5-T05": {
+      "task_id": "WP5-T05",
+      "criteria": [
+        "Valid specification/invalid body, missing object and failed postcheck never become VERIFIED_SUCCESS; successful receipts/effects remain truthful."
+      ],
+      "test_references": [
+        "AC-MIG-031",
+        "AC-SQL-018",
+        "AC-SQL-019",
+        "WP0-05-01",
+        "WP0-05-03",
+        "WP0-05-04"
+      ]
+    },
+    "WP5-T06": {
+      "task_id": "WP5-T06",
+      "criteria": [
+        "500 schema metadata entries do not open 500 idle writer sessions; configuration cannot bypass target serialization."
+      ],
+      "test_references": [
+        "AC-OPS-003"
+      ]
+    },
+    "WP6-T01": {
+      "task_id": "WP6-T01",
+      "criteria": [
+        "No ledger absence proves no effect; unknown admission prevents replay and missing authorization is never fabricated."
+      ],
+      "test_references": [
+        "AC-MIG-011",
+        "AC-MIG-026",
+        "WP0-09-01",
+        "WP0-09-02"
+      ]
+    },
+    "WP6-T02": {
+      "task_id": "WP6-T02",
+      "criteria": [
+        "Crash, SIGTERM and lease expiry leave honest unresolved state; read-only incident inspection works with protected evidence."
+      ],
+      "test_references": [
+        "AC-MIG-017",
+        "AC-OPS-019",
+        "AC-OPS-025",
+        "WP0-07-02",
+        "WP0-07-07",
+        "WP0-07-08"
+      ]
+    },
+    "WP6-T03": {
+      "task_id": "WP6-T03",
+      "criteria": [
+        "No automatic or operator reset-to-pending exists; unknown DDL and forged recovery approval cannot run."
+      ],
+      "test_references": [
+        "AC-MIG-020",
+        "WP0-09-04"
+      ]
+    },
+    "WP6-T04": {
+      "task_id": "WP6-T04",
+      "criteria": [
+        "No ordinary APPLIED fabrication or checksum editing; lower unknown version blocks correction until authorized resolution; baseline/adoption retain different provenance."
+      ],
+      "test_references": [
+        "AC-MIG-015",
+        "AC-MIG-023",
+        "WP0-09-04"
+      ]
+    },
+    "WP6-T05": {
+      "task_id": "WP6-T05",
+      "criteria": [
+        "Both-direction actual restore exercises prove no automatic queued replay; logical rewind tests alone cannot close this production gate."
+      ],
+      "test_references": [
+        "AC-MIG-034",
+        "AC-OPS-012",
+        "WP0-09-03"
+      ]
+    },
+    "WP7-T01": {
+      "task_id": "WP7-T01",
+      "criteria": [
+        "CLI/API expose the same authorized plan and statement digest; approved actor cannot be supplied as an unauthenticated flag."
+      ],
+      "test_references": [
+        "AC-SQL-015",
+        "WP0-08-02"
+      ]
+    },
+    "WP7-T02": {
+      "task_id": "WP7-T02",
+      "criteria": [
+        "A user can reconstruct a completed, invalid and ambiguous run from persisted facts; driver success never hides compiler errors."
+      ],
+      "test_references": [
+        "AC-MIG-012",
+        "AC-SQL-020",
+        "WP0-10-05"
+      ]
+    },
+    "WP7-T03": {
+      "task_id": "WP7-T03",
+      "criteria": [
+        "Every WS feature acceptance and sixteen-outcome checklist passes on both versions; harness results do not substitute for this integrated regression."
+      ],
+      "test_references": [
+        "WS-01",
+        "WS-02",
+        "WS-03",
+        "WS-04",
+        "WS-05",
+        "WS-06",
+        "WS-07",
+        "WS-08",
+        "WS-09",
+        "WS-10",
+        "WS-11",
+        "WS-12",
+        "WS-13",
+        "WS-14",
+        "WS-15",
+        "WS-16"
+      ]
+    },
+    "WP7-T04": {
+      "task_id": "WP7-T04",
+      "criteria": [
+        "Presentation does not alter approval/admission semantics and omitted views do not block safe core operation."
+      ],
+      "test_references": [
+        "AC-PRJ-002",
+        "AC-GOV-010",
+        "AC-EXT-010"
+      ]
+    },
+    "WP7-T05": {
+      "task_id": "WP7-T05",
+      "criteria": [
+        "Every applicable Core action and negative cross-project/missing-approval/restore-hold path passes on actual modules."
+      ],
+      "test_references": [
+        "AC-MIG-015",
+        "AC-MIG-021",
+        "AC-MIG-023",
+        "AC-MIG-034",
+        "AC-GOV-022",
+        "AC-SEC-018",
+        "AC-SEC-019"
+      ]
+    },
+    "WP8-T01": {
+      "task_id": "WP8-T01",
+      "criteria": [
+        "Actual GitLab version/API compatibility and branch-move/outage negatives pass; a CI caller cannot approve or obtain writer secrets."
+      ],
+      "test_references": [
+        "AC-GIT-001"
+      ]
+    },
+    "WP8-T02": {
+      "task_id": "WP8-T02",
+      "criteria": [
+        "Missing/failed/invalid/unknown UAT blocks PROD admission; no execution against actual production during implementation acceptance."
+      ],
+      "test_references": [
+        "AC-MIG-021",
+        "AC-GOV-022"
+      ]
+    },
+    "WP8-T03": {
+      "task_id": "WP8-T03",
+      "criteria": [
+        "No privileged SCC/external egress needed; API cannot read writer secrets; dependency outage changes readiness without liveness restart loops."
+      ],
+      "test_references": [
+        "AC-SEC-018",
+        "AC-OPS-011",
+        "AC-OPS-022"
+      ]
+    },
+    "WP8-T04": {
+      "task_id": "WP8-T04",
+      "criteria": [
+        "Every shipped dependency has provenance/rights/hash; air-gapped install/update succeeds without proprietary required components."
+      ],
+      "test_references": [
+        "AC-GIT-018",
+        "AC-OPS-023",
+        "WP0-10-01",
+        "WP0-10-04"
+      ]
+    },
+    "WP8-T05": {
+      "task_id": "WP8-T05",
+      "criteria": [
+        "Authorized recipients can independently validate exported evidence with a reviewed OSS offline tool; no proprietary service dependency."
+      ],
+      "test_references": [
+        "AC-SEC-013"
+      ]
+    },
+    "WP8-T06": {
+      "task_id": "WP8-T06",
+      "criteria": [
+        "Another developer can reproduce the bounded WS process topology and input checks from a fresh checkout."
+      ],
+      "test_references": [
+        "WS-01",
+        "WS-10",
+        "WS-13"
+      ]
+    },
+    "WP9-T01": {
+      "task_id": "WP9-T01",
+      "criteria": [
+        "All negative permission/secret/transport tests pass and exact remaining risks have explicit operating owners."
+      ],
+      "test_references": [
+        "AC-SEC-010",
+        "WP0-10-02",
+        "WP0-10-03"
+      ]
+    },
+    "WP9-T02": {
+      "task_id": "WP9-T02",
+      "criteria": [
+        "Required SQL hashes/decisions/compiler/recovery evidence survives pods, retention operations and restored metadata; no secret backup leakage."
+      ],
+      "test_references": [
+        "AC-OPS-018",
+        "WP0-10-05"
+      ]
+    },
+    "WP9-T03": {
+      "task_id": "WP9-T03",
+      "criteria": [
+        "Documented required capacity and agreed p95/session budgets pass with actual target workload evidence; synthetic metadata alone cannot certify estate execution scale."
+      ],
+      "test_references": [
+        "AC-OPS-026"
+      ]
+    },
+    "WP9-T04": {
+      "task_id": "WP9-T04",
+      "criteria": [
+        "Recipient can match approved bytes to recorded execution/target; modified or missing evidence fails verification and cross-project export is denied."
+      ],
+      "test_references": [
+        "AC-SEC-013"
+      ]
+    },
+    "WP9-T05": {
+      "task_id": "WP9-T05",
+      "criteria": [
+        "Production readiness is supported by actual integrated evidence, not research or WP0 alone; explicit deployment authorization remains separate."
+      ],
+      "test_references": [
+        "WP0-10-05"
+      ]
+    },
+    "WP9-T06": {
+      "task_id": "WP9-T06",
+      "criteria": [
+        "All sixteen outcomes and applicable WS invariants have actual module evidence; only named DEV capabilities are accepted."
+      ],
+      "test_references": [
+        "WS-09",
+        "WS-13",
+        "WS-15",
+        "WS-16"
+      ]
+    }
+  },
+  "test_cases": [
+    {
+      "id": "WP0-01-01",
+      "area": "WP0-01",
+      "objective": "Thin TCPS on both supported versions",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T04"
+      ],
+      "acceptance": {
+        "expected_result": "Thin=true, verified peer/container and separate principals; no Instant Client required",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-01-02",
+      "area": "WP0-01",
+      "objective": "Wrong service/PDB",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T04"
+      ],
+      "acceptance": {
+        "expected_result": "Reject before bootstrap/migration statements; no identity fallback",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-01-03",
+      "area": "WP0-01",
+      "objective": "Authentication and grant denial",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T04"
+      ],
+      "acceptance": {
+        "expected_result": "Sanitized errors; no leaked secret, false onboarding or broad-grant fallback",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-01-04",
+      "area": "WP0-01",
+      "objective": "Bounded connection timeout",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T04"
+      ],
+      "acceptance": {
+        "expected_result": "Bounded error and zero migration statements; existing platform process remains usable",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-01-05",
+      "area": "WP0-01",
+      "objective": "Network loss during a call",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T04"
+      ],
+      "acceptance": {
+        "expected_result": "AMBIGUOUS/HOLD until observation; no inference of rollback or automatic replay",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-01-06",
+      "area": "WP0-01",
+      "objective": "Credential isolation and rotation boundary",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T04"
+      ],
+      "acceptance": {
+        "expected_result": "Cross-owner substitution denied; changed credential revision invalidates intent; no mixed-owner pool or secret output",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-02-01",
+      "area": "WP0-02",
+      "objective": "Discover two application owners",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T05"
+      ],
+      "acceptance": {
+        "expected_result": "Stable A/B identities, no duplicates, environment DEV on both; maintained owners excluded",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-02-02",
+      "area": "WP0-02",
+      "objective": "Visibility is not authorization",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T05"
+      ],
+      "acceptance": {
+        "expected_result": "C remains non-executable; discovery principal cannot become writer",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-02-03",
+      "area": "WP0-02",
+      "objective": "Dictionary visibility negative",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T05"
+      ],
+      "acceptance": {
+        "expected_result": "Restricted/unknown visibility blocks success; empty rows do not mean VALID",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-02-04",
+      "area": "WP0-02",
+      "objective": "Canonical identity across aliases",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T05"
+      ],
+      "acceptance": {
+        "expected_result": "Aliases share target generation/lock key; other PDB has a different target; CON_ID/name alone are insufficient",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-02-05",
+      "area": "WP0-02",
+      "objective": "Clone/drop-recreate generation",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T05"
+      ],
+      "acceptance": {
+        "expected_result": "Quarantine old intent/history association; no automatic adoption of a copied schema identity table",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-01",
+      "area": "WP0-03",
+      "objective": "Ordinary Oracle DDL",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T03",
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "Exactly four intended statements; expected table/column/index/view exist and view is VALID",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-02",
+      "area": "WP0-03",
+      "objective": "Procedure body boundaries",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "One CREATE routine statement; valid object; internal/terminal semicolons preserved",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-03",
+      "area": "WP0-03",
+      "objective": "Function body boundaries",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "One CREATE function statement and expected returned value",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-04",
+      "area": "WP0-03",
+      "objective": "Package specification",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "One intact specification, expected owner/name/type and VALID status",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-05",
+      "area": "WP0-03",
+      "objective": "Package body",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "Body is one intact statement; PACKAGE and PACKAGE BODY checked independently",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-06",
+      "area": "WP0-03",
+      "objective": "Trigger",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "Trigger boundary intact, expected effect exactly once in successful run and VALID object",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-07",
+      "area": "WP0-03",
+      "objective": "Anonymous block",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "One block sent; required terminal semicolon retained; observed effect agrees with receipt",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-08",
+      "area": "WP0-03",
+      "objective": "Comments and quoted strings",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T03",
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "No spurious split, alteration or skipped statement; source byte mapping round-trips",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-09",
+      "area": "WP0-03",
+      "objective": "Slash delimiter versus SQL content",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T03",
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "Standalone delimiter never sent to Oracle; division and quoted/comment slashes preserved",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-10",
+      "area": "WP0-03",
+      "objective": "Malformed blocks and quotations",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T03",
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "Explicit file/range parse failure, zero migration calls; no catch-and-continue",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-11",
+      "area": "WP0-03",
+      "objective": "Unsupported SQL*Plus commands",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T03",
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "Commands rejected with location; comments allowed; no include, shell or secondary login",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-12",
+      "area": "WP0-03",
+      "objective": "UTF-8 byte fidelity",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T03",
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "Raw checksums remain byte-sensitive; approved statement stream is deterministic; rejected input has no effects",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-13",
+      "area": "WP0-03",
+      "objective": "Opaque PL/SQL transaction classification",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "No DML-only atomicity assertion; committed effects and separate receipt windows recorded",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-03-14",
+      "area": "WP0-03",
+      "objective": "Whole release parse failure before execution",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T03",
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "No first-file effect when a later file cannot be parsed; validation completes before approval/admission",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-04-01",
+      "area": "WP0-04",
+      "objective": "Divergent histories",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T09"
+      ],
+      "acceptance": {
+        "expected_result": "A pending V004/V005; B pending V002-V005; respective execution counts 2 and 4; no fabricated APPLIED seed rows",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-04-02",
+      "area": "WP0-04",
+      "objective": "Zero-pending rerun",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T09"
+      ],
+      "acceptance": {
+        "expected_result": "NOOP with zero migration statements and checked ledger/audit evidence",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-04-03",
+      "area": "WP0-04",
+      "objective": "Modified applied V002",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T09"
+      ],
+      "acceptance": {
+        "expected_result": "Both paths reject; no SQL replay or checksum repair; stored original receipt unchanged",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-04-04",
+      "area": "WP0-04",
+      "objective": "Naming/order/history mismatch",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T09"
+      ],
+      "acceptance": {
+        "expected_result": "V2 precedes V10; collision rejected; inconsistent/missing history blocks plans",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-05-01",
+      "area": "WP0-05",
+      "objective": "Valid specification, invalid package body",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "FAILED validity/HOLD, no verified result or ordinary APPLIED success for failing file; PACKAGE BODY failure distinct from spec",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-05-02",
+      "area": "WP0-05",
+      "objective": "Invalid procedure/function/view",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "Each actually created INVALID expected object blocks success; driver exception alone is not the oracle",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-05-03",
+      "area": "WP0-05",
+      "objective": "Wrong owner or missing expected object",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "No success from unrelated empty USER_ERRORS or missing object; owner/type visibility is demonstrated",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-05-04",
+      "area": "WP0-05",
+      "objective": "Semantic postcheck failure",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T08"
+      ],
+      "acceptance": {
+        "expected_result": "No VERIFIED_SUCCESS/promotion; committed effects/history are retained truthfully and incident remains open",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-06-01",
+      "area": "WP0-06",
+      "objective": "Two workers, one target",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T06",
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "Exactly one executing session per target; second waits/rechecks; changed history invalidates its old approved plan",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-06-02",
+      "area": "WP0-06",
+      "objective": "Duplicate requests and idempotency",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "Same job for identical request, conflict for changed body; one admitted attempt and no duplicate effect",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-06-03",
+      "area": "WP0-06",
+      "objective": "Alias/RAC contention",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T06",
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "One canonical lock and non-overlapping execution; single-instance results do not certify RAC",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-06-04",
+      "area": "WP0-06",
+      "objective": "DDL-persistent lock and lease expiry",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T06",
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "Target lock remains held, expired lease creates HOLD and does not fence/replay active SQL",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-06-05",
+      "area": "WP0-06",
+      "objective": "Crash while holding lock",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T06",
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "No replacement SQL while old session may execute; release proved by target/session observation, never wall-clock expiry alone",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-07-01",
+      "area": "WP0-07",
+      "objective": "Failure before target execution",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "NOT_STARTED/known no effect; a new admitted attempt may run only with current authorization",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-07-02",
+      "area": "WP0-07",
+      "objective": "Failure after first committed DDL",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "FAILED with partial commit knowledge, AMBIGUOUS where evidence is insufficient; HOLD and no blind replay",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-07-03",
+      "area": "WP0-07",
+      "objective": "Failure between files",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "First file stays APPLIED; unstarted later file distinct; original approved history snapshot cannot be reused after change",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-07-04",
+      "area": "WP0-07",
+      "objective": "Commit before target success receipt",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "Effects with missing receipt yield AMBIGUOUS/NEEDS_RECONCILIATION; no assumption that pending means safe",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-07-05",
+      "area": "WP0-07",
+      "objective": "Target receipt before central completion",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "Reconstruct central completion without SQL replay; missing retained authorization keeps HOLD",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-07-06",
+      "area": "WP0-07",
+      "objective": "Response loss during statement/commit",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "AMBIGUOUS until observed; acknowledgment absence is not rollback; no automatic reexecution",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-07-07",
+      "area": "WP0-07",
+      "objective": "Worker restart and SIGTERM",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "No new claims during drain; old RUNNING becomes unresolved HOLD if unobserved; restart never fabricates terminal result",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-07-08",
+      "area": "WP0-07",
+      "objective": "Duplicate retry of ambiguous attempt",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "All SQL replay paths denied; incident remains open until independently authorized resolution",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-08-01",
+      "area": "WP0-08",
+      "objective": "Git commit mutation",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T07"
+      ],
+      "acceptance": {
+        "expected_result": "Digest mismatch rejects; a valid original control intent is tested separately",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-08-02",
+      "area": "WP0-08",
+      "objective": "SQL content mutation",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T07"
+      ],
+      "acceptance": {
+        "expected_result": "Reject both artifact read and dispatch before SQL; no normalization hides change",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-08-03",
+      "area": "WP0-08",
+      "objective": "Checksum mutation",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T07"
+      ],
+      "acceptance": {
+        "expected_result": "Reject mismatch and preserve original signed intent/decision",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-08-04",
+      "area": "WP0-08",
+      "objective": "Service/route mutation",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T07"
+      ],
+      "acceptance": {
+        "expected_result": "Route binding is part of intent; changed route denied and needs a new plan",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-08-05",
+      "area": "WP0-08",
+      "objective": "Schema mutation",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T07"
+      ],
+      "acceptance": {
+        "expected_result": "Reject substitution; no cross-project SQL or secret access",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-08-06",
+      "area": "WP0-08",
+      "objective": "Execution order mutation",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T07"
+      ],
+      "acceptance": {
+        "expected_result": "Reject ordered digest mismatch; no dispatch",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-08-07",
+      "area": "WP0-08",
+      "objective": "Release manifest mutation",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T07"
+      ],
+      "acceptance": {
+        "expected_result": "All changed deployment intent rejected; cosmetic unbound request comments cannot alter SQL/targets",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-08-08",
+      "area": "WP0-08",
+      "objective": "Actor, expiry, revocation and history races",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T07"
+      ],
+      "acceptance": {
+        "expected_result": "Pre-checkpoint authority changes deny the call with audit and zero migration SQL. Post-checkpoint revocation treats the permitted call as in flight, stops later permits and retains actual/unknown effects without rollback or automatic replay. Legitimate independent exact approval succeeds; stale generations are rejected.",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime",
+          "Serialized authority/permit revisions and commit order; barrier IDs; before/after revocation observations and independent Oracle effect checks."
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-09-01",
+      "area": "WP0-09",
+      "objective": "Local/central/hybrid gap comparison",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "Record strengths/failures honestly; central-only pending never proves absence of effects; hybrid recommendation remains conditional on observed behavior",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-09-02",
+      "area": "WP0-09",
+      "objective": "Local success missing central authorization",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "NEEDS_RECONCILIATION/HOLD; target receipt cannot manufacture human approval",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-09-03",
+      "area": "WP0-09",
+      "objective": "Logical history rewind in both directions",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "Detected disagreement/restore declaration forces HOLD; label logical fault injection, not RMAN/PDB restore validation",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-09-04",
+      "area": "WP0-09",
+      "objective": "Approved recovery classification",
+      "mode": "ORACLE_RUNTIME",
+      "results": {
+        "unit": "NOT_APPLICABLE",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T10"
+      ],
+      "acceptance": {
+        "expected_result": "Retry only proven safe; ADOPTED_AFTER_VERIFICATION remains a separate provenance state; never fabricate APPLIED or edit checksum",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-10-01",
+      "area": "WP0-10",
+      "objective": "Dependency/license closure",
+      "mode": "STATIC",
+      "results": {
+        "unit": "BLOCKED",
+        "oracle_19c": "NOT_APPLICABLE",
+        "oracle_21c": "NOT_APPLICABLE"
+      },
+      "blockers": [
+        "Driver/parser/JRE/PostgreSQL closure artifacts and license/NOTICE audit have not been supplied or completed."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T01",
+        "WP0-T02",
+        "WP0-T11"
+      ],
+      "acceptance": {
+        "expected_result": "Required components have acceptable OSS rights; no proprietary Bytebase/JDBC/Instant Client/FSL dependency; UNKNOWN rights block selection",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-10-02",
+      "area": "WP0-10",
+      "objective": "Secret leakage canary",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T11"
+      ],
+      "acceptance": {
+        "expected_result": "No secret canary in persisted outputs/arguments; SQL fixtures contain no secret literals; credential references only",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-10-03",
+      "area": "WP0-10",
+      "objective": "Least privilege and API/worker separation",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T11"
+      ],
+      "acceptance": {
+        "expected_result": "Unauthorized DDL, cross-owner/DSN dispatch and API writer-secret reads are denied. The worker resolves only the admitted profile/target credential; a separately granted observer can read scoped history without write grants, while missing observer grants block a plan. No ANY/SYSDBA defaults.",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-10-04",
+      "area": "WP0-10",
+      "objective": "Offline build/runtime feasibility",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T11"
+      ],
+      "acceptance": {
+        "expected_result": "No external download/SaaS at build/runtime; missing artifact is BLOCKED, never fetched silently",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    },
+    {
+      "id": "WP0-10-05",
+      "area": "WP0-10",
+      "objective": "Audit and evidence completeness",
+      "mode": "UNIT_AND_ORACLE",
+      "results": {
+        "unit": "NOT_RUN",
+        "oracle_19c": "BLOCKED",
+        "oracle_21c": "BLOCKED"
+      },
+      "blockers": [
+        "Oracle lab authorization and attested disposable-target profile are missing."
+      ],
+      "evidence": [],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "task_ids": [
+        "WP0-T11",
+        "WP0-T12"
+      ],
+      "acceptance": {
+        "expected_result": "Actor/intent/target/file/attempt/diagnostics/recovery facts survive; hashes verify; simulated and Oracle evidence remain distinct",
+        "evidence_required": [
+          "Pinned harness/dependency/build/fixture digests and environment profile",
+          "Timestamped per-case raw sanitized observations, call counts, state transitions and independent checks",
+          "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
+        ],
+        "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
+      }
+    }
+  ]
+}

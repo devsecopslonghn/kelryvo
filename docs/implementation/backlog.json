@@ -1,0 +1,1972 @@
+{
+  "schema_version": "1.0.0",
+  "source": "docs/inputs/db-research/product-research/implementation/implementation-plan.json",
+  "tasks": [
+    {
+      "id": "SF-P0-FOUNDATION",
+      "package": "WP0",
+      "title": "Establish isolated product repository, traceable requirements, specialist workflow and reproducible local tooling",
+      "dependencies": [],
+      "feature_ids": [],
+      "acceptance_criteria": [
+        "Separate local Git repository exists without remote creation; DB-Research inputs and pre-existing status are preserved.",
+        "All required design, roadmap, contract, backlog, acceptance, evidence-reference and license inputs retain exact-byte provenance.",
+        "All 220 stable feature IDs, 64 original tasks and 63 case contracts retain traceability and distinct product implementation states.",
+        "Six specialist TOML definitions parse, inherit model/provider settings, and document actual native delegation and permission limits.",
+        "Dependency, ownership, acceptance coverage, evidence hashes, result-cell and current-phase guards pass positive and negative regression tests.",
+        "Source build checks, lint, JSON formatting and all available offline tests pass using documented commands.",
+        "Initial CI uses pinned tools and read-only repository permissions; no deployment or publishing actions exist.",
+        "Decision log, milestone, evidence index, current session state and next bounded tasks are persisted.",
+        "Product license and name remain explicitly provisional; no restricted source, assets or Oracle execution is introduced."
+      ],
+      "test_references": [
+        "tests/provenance.test.mjs",
+        "tests/agents.test.mjs",
+        "tests/tracker.test.mjs",
+        "tests/preflight.test.mjs"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/feature-catalog.json",
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "VERIFIED",
+      "assigned_agent": "orchestrator",
+      "evidence": [
+        {
+          "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
+        },
+        {
+          "index_id": "SF-INTEGRATION-20261008T094923420Z-e58f558c"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "WP0-T01",
+      "package": "WP0",
+      "title": "Preflight isolated harness workspace and lab input manifest",
+      "dependencies": [],
+      "feature_ids": [
+        "DBM-019",
+        "SQL-017",
+        "MIG-019",
+        "SEC-009",
+        "OPS-023"
+      ],
+      "acceptance_criteria": [
+        "A reproducible preflight report names every required input and exact missing prerequisite; existing POCs remain protected."
+      ],
+      "test_references": [
+        "WP0-10-01"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "VERIFIED",
+      "assigned_agent": "devops",
+      "evidence": [
+        {
+          "index_id": "WP0-T01-OFFLINE-20261008T094757Z-c4b97e39"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Offline task increment only; shared WP0-10-01 dependency/license case not accepted."
+    },
+    {
+      "id": "WP0-T02",
+      "package": "WP0",
+      "title": "Audit and pin the candidate driver/parser dependency closure",
+      "dependencies": [
+        "WP0-T01"
+      ],
+      "feature_ids": [
+        "SQL-017",
+        "DBM-016",
+        "OPS-023"
+      ],
+      "acceptance_criteria": [
+        "An auditable candidate lock/notice register and parser isolation feasibility decision exist; unknown required rights block build selection."
+      ],
+      "test_references": [
+        "WP0-10-01"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "READY",
+      "assigned_agent": "security",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP0-T03",
+      "package": "WP0",
+      "title": "Build mature parser helper and byte-range corpus",
+      "dependencies": [
+        "WP0-T02"
+      ],
+      "feature_ids": [
+        "SQL-016",
+        "SQL-017",
+        "MIG-009"
+      ],
+      "acceptance_criteria": [
+        "Approved parser profile passes every pure parser case and emits reproducible original/source-derived execution bytes; unsupported boundary produces a STOP report."
+      ],
+      "test_references": [
+        "WP0-03-01",
+        "WP0-03-08",
+        "WP0-03-09",
+        "WP0-03-10",
+        "WP0-03-11",
+        "WP0-03-12",
+        "WP0-03-14"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP0-T04",
+      "package": "WP0",
+      "title": "Implement Thin connectivity and fault-proxy probes",
+      "dependencies": [
+        "WP0-T01",
+        "WP0-T02"
+      ],
+      "feature_ids": [
+        "DBM-001",
+        "DBM-003",
+        "DBM-014",
+        "DBM-016",
+        "DBM-020",
+        "SEC-009"
+      ],
+      "acceptance_criteria": [
+        "Connectivity/grant/timeout/secret observations for both 19c and 21c are recorded separately; missing lab inputs stop dependent runtime probes."
+      ],
+      "test_references": [
+        "WP0-01-01",
+        "WP0-01-02",
+        "WP0-01-03",
+        "WP0-01-04",
+        "WP0-01-05",
+        "WP0-01-06"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BLOCKED",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": [
+        "No explicitly authorized disposable 19c/21c lab profile or scoped credential/identity/grant/fault references supplied.",
+        "WP0-T02 candidate dependency audit has not completed."
+      ]
+    },
+    {
+      "id": "WP0-T05",
+      "package": "WP0",
+      "title": "Probe discovery, alias identity and visibility",
+      "dependencies": [
+        "WP0-T04"
+      ],
+      "feature_ids": [
+        "DBM-004",
+        "DBM-007",
+        "DBM-019",
+        "DBM-020",
+        "DBM-021",
+        "DBM-023"
+      ],
+      "acceptance_criteria": [
+        "Canonical target/visibility findings are reproducible and fail closed on unknown mapping or insufficient grants."
+      ],
+      "test_references": [
+        "WP0-02-01",
+        "WP0-02-02",
+        "WP0-02-03",
+        "WP0-02-04",
+        "WP0-02-05"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP0-T06",
+      "package": "WP0",
+      "title": "Bootstrap disposable target ledgers and DDL-safe mutex",
+      "dependencies": [
+        "WP0-T05"
+      ],
+      "feature_ids": [
+        "MIG-019",
+        "MIG-025",
+        "DBM-023"
+      ],
+      "acceptance_criteria": [
+        "Actual target grants/lock ownership/DDL commits and receipt barriers are observable; bootstrap cannot touch a non-fixture target."
+      ],
+      "test_references": [
+        "WP0-06-01",
+        "WP0-06-03",
+        "WP0-06-04",
+        "WP0-06-05"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP0-T07",
+      "package": "WP0",
+      "title": "Implement immutable plan/approval harness model",
+      "dependencies": [
+        "WP0-T03",
+        "WP0-T05"
+      ],
+      "feature_ids": [
+        "MIG-008",
+        "MIG-028",
+        "GOV-007",
+        "GOV-012",
+        "GOV-013",
+        "SEC-005"
+      ],
+      "acceptance_criteria": [
+        "Pre-checkpoint mutation, actor, expiry/revocation and stale-history negatives reject before migration calls; post-checkpoint revocation retains in-flight effects and blocks later permits. This is a harness model, not certified platform authorization."
+      ],
+      "test_references": [
+        "WP0-08-01",
+        "WP0-08-02",
+        "WP0-08-03",
+        "WP0-08-04",
+        "WP0-08-05",
+        "WP0-08-06",
+        "WP0-08-07",
+        "WP0-08-08"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "backend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP0-T08",
+      "package": "WP0",
+      "title": "Execute Oracle corpus and verify object outcomes",
+      "dependencies": [
+        "WP0-T03",
+        "WP0-T04",
+        "WP0-T06",
+        "WP0-T07"
+      ],
+      "feature_ids": [
+        "SQL-016",
+        "SQL-018",
+        "SQL-019",
+        "SQL-020",
+        "MIG-027",
+        "MIG-031"
+      ],
+      "acceptance_criteria": [
+        "Each required parser/runtime fixture has independent 19c/21c evidence; driver return success cannot hide invalid or unobserved objects."
+      ],
+      "test_references": [
+        "WP0-03-01",
+        "WP0-03-02",
+        "WP0-03-03",
+        "WP0-03-04",
+        "WP0-03-05",
+        "WP0-03-06",
+        "WP0-03-07",
+        "WP0-03-08",
+        "WP0-03-09",
+        "WP0-03-10",
+        "WP0-03-11",
+        "WP0-03-12",
+        "WP0-03-13",
+        "WP0-03-14",
+        "WP0-05-01",
+        "WP0-05-02",
+        "WP0-05-03",
+        "WP0-05-04"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP0-T09",
+      "package": "WP0",
+      "title": "Demonstrate divergent-history planning and zero-effect rerun",
+      "dependencies": [
+        "WP0-T08"
+      ],
+      "feature_ids": [
+        "MIG-004",
+        "MIG-005",
+        "MIG-010",
+        "MIG-013",
+        "MIG-025",
+        "MIG-029"
+      ],
+      "acceptance_criteria": [
+        "Observed execution counts are A=2/B=4 then both zero; no fake receipt seeding or changed-checksum repair."
+      ],
+      "test_references": [
+        "WP0-04-01",
+        "WP0-04-02",
+        "WP0-04-03",
+        "WP0-04-04"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP0-T10",
+      "package": "WP0",
+      "title": "Inject concurrency/crash/ledger-reconciliation faults",
+      "dependencies": [
+        "WP0-T06",
+        "WP0-T07",
+        "WP0-T08",
+        "WP0-T09"
+      ],
+      "feature_ids": [
+        "MIG-017",
+        "MIG-019",
+        "MIG-020",
+        "MIG-026",
+        "MIG-034",
+        "OPS-001",
+        "OPS-005",
+        "OPS-019",
+        "OPS-025"
+      ],
+      "acceptance_criteria": [
+        "All mandatory fault cases retain actual observations and block unproven replay; logical rewind is never reported as an actual Oracle restore."
+      ],
+      "test_references": [
+        "WP0-06-01",
+        "WP0-06-02",
+        "WP0-06-03",
+        "WP0-06-04",
+        "WP0-06-05",
+        "WP0-07-01",
+        "WP0-07-02",
+        "WP0-07-03",
+        "WP0-07-04",
+        "WP0-07-05",
+        "WP0-07-06",
+        "WP0-07-07",
+        "WP0-07-08",
+        "WP0-09-01",
+        "WP0-09-02",
+        "WP0-09-03",
+        "WP0-09-04"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP0-T11",
+      "package": "WP0",
+      "title": "Validate least privilege, secret redaction and offline evidence",
+      "dependencies": [
+        "WP0-T02",
+        "WP0-T09",
+        "WP0-T10"
+      ],
+      "feature_ids": [
+        "SEC-010",
+        "SEC-011",
+        "SEC-013",
+        "SEC-014",
+        "SEC-017",
+        "GIT-018",
+        "OPS-023"
+      ],
+      "acceptance_criteria": [
+        "All security/license/offline cells pass with evidence or remain explicitly BLOCKED; mandatory dependency rights and secrecy are hard gates."
+      ],
+      "test_references": [
+        "WP0-10-01",
+        "WP0-10-02",
+        "WP0-10-03",
+        "WP0-10-04",
+        "WP0-10-05"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "security",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP0-T12",
+      "package": "WP0",
+      "title": "Review all WP0 gates and record the architecture decision",
+      "dependencies": [
+        "WP0-T11"
+      ],
+      "feature_ids": [
+        "SQL-017",
+        "DBM-016",
+        "MIG-019",
+        "MIG-026",
+        "SQL-019",
+        "SEC-008",
+        "OPS-023"
+      ],
+      "acceptance_criteria": [
+        "A signed/reviewed decision says GO only when every mandatory applicable cell passes; otherwise CONDITIONAL GO for further probes or NO-GO with exact blockers."
+      ],
+      "test_references": [
+        "WP0-10-05"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "orchestrator",
+      "evidence": [],
+      "blockers": [],
+      "review_agent": "qa"
+    },
+    {
+      "id": "WP1-T01",
+      "package": "WP1",
+      "title": "Create approved independent platform workspace and contract fixtures",
+      "dependencies": [
+        "WP0-T12"
+      ],
+      "feature_ids": [],
+      "acceptance_criteria": [
+        "Approved workspace builds its empty API/worker/domain packages and contract fixtures; no production deployment."
+      ],
+      "test_references": [
+        "WP0-10-01"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "backend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP1-T02",
+      "package": "WP1",
+      "title": "Implement organization/project/environment and immutable identity metadata",
+      "dependencies": [
+        "WP1-T01"
+      ],
+      "feature_ids": [
+        "PRJ-001"
+      ],
+      "acceptance_criteria": [
+        "Cross-org FK and invalid archive negatives fail transactionally; seeded fixture organizations/projects/environments remain isolated."
+      ],
+      "test_references": [
+        "AC-PRJ-001"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "backend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP1-T03",
+      "package": "WP1",
+      "title": "Implement durable audit and content-addressed artifact primitives",
+      "dependencies": [
+        "WP1-T02"
+      ],
+      "feature_ids": [
+        "SEC-011"
+      ],
+      "acceptance_criteria": [
+        "Denied and successful actions retain authenticated actor/resource/time/intent; altered blobs are rejected and worker deletion loses no evidence."
+      ],
+      "test_references": [
+        "AC-SEC-011",
+        "WP0-10-05"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "backend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP1-T04",
+      "package": "WP1",
+      "title": "Implement canonical intent and outcome state transitions",
+      "dependencies": [
+        "WP1-T03"
+      ],
+      "feature_ids": [
+        "OPS-005"
+      ],
+      "acceptance_criteria": [
+        "Cross-language canonical hashes agree; RETURNED/INVALID and UNKNOWN receipt examples never become VERIFIED_SUCCESS."
+      ],
+      "test_references": [
+        "AC-OPS-005",
+        "WP0-08-07"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "backend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP1-T05",
+      "package": "WP1",
+      "title": "Harden metadata constraints and supported upgrade compatibility",
+      "dependencies": [
+        "WP9-T06"
+      ],
+      "feature_ids": [
+        "PRJ-001",
+        "SEC-011",
+        "OPS-012",
+        "OPS-023"
+      ],
+      "acceptance_criteria": [
+        "Supported metadata upgrades preserve immutable identities and audit/artifacts; incompatible versions fail readiness before claims."
+      ],
+      "test_references": [
+        "AC-OPS-012",
+        "AC-OPS-023"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "backend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP2-T01",
+      "package": "WP2",
+      "title": "Implement protected connection profiles and credential references",
+      "dependencies": [
+        "WP1-T04",
+        "WP4-T02"
+      ],
+      "feature_ids": [
+        "DBM-001",
+        "DBM-003",
+        "DBM-014",
+        "DBM-016",
+        "SEC-009",
+        "SEC-017"
+      ],
+      "acceptance_criteria": [
+        "Wrong PDB/trust/scope, user-supplied DSNs and API writer-secret reads fail before migrations."
+      ],
+      "test_references": [
+        "AC-DBM-001",
+        "AC-DBM-003",
+        "AC-DBM-014",
+        "AC-DBM-016",
+        "AC-SEC-009",
+        "AC-SEC-017",
+        "WP0-01-01",
+        "WP0-10-03"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP2-T02",
+      "package": "WP2",
+      "title": "Implement canonical container/schema/route identities",
+      "dependencies": [
+        "WP2-T01"
+      ],
+      "feature_ids": [
+        "DBM-009",
+        "DBM-019"
+      ],
+      "acceptance_criteria": [
+        "Same alias target shares mutex identity; other PDB/owner differs; schema labels cannot downgrade an environment."
+      ],
+      "test_references": [
+        "AC-DBM-009",
+        "AC-DBM-019",
+        "WP0-02-04"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP2-T03",
+      "package": "WP2",
+      "title": "Implement shallow discovery and visibility reports",
+      "dependencies": [
+        "WP2-T02"
+      ],
+      "feature_ids": [
+        "DBM-004",
+        "DBM-020",
+        "DBM-021"
+      ],
+      "acceptance_criteria": [
+        "Repeated discovery yields two stable application owners; invisible diagnostics do not become VALID or authorize writes."
+      ],
+      "test_references": [
+        "AC-DBM-004",
+        "AC-DBM-020",
+        "AC-DBM-021",
+        "WP0-02-01",
+        "WP0-02-03"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP2-T04",
+      "package": "WP2",
+      "title": "Implement active schema assignments and shared endpoint references",
+      "dependencies": [
+        "WP2-T03"
+      ],
+      "feature_ids": [
+        "DBM-007",
+        "DBM-022"
+      ],
+      "acceptance_criteria": [
+        "A metadata fixture with 500 schema references retains shared endpoint rows without duplicate credentials; runtime two-project isolation passes."
+      ],
+      "test_references": [
+        "AC-DBM-007",
+        "AC-DBM-022",
+        "WP0-08-05"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP2-T05",
+      "package": "WP2",
+      "title": "Implement topology generation quarantine",
+      "dependencies": [
+        "WP2-T04"
+      ],
+      "feature_ids": [
+        "DBM-023"
+      ],
+      "acceptance_criteria": [
+        "Old-generation intent is unusable even when names/DBID match; quarantine is durable and auditable."
+      ],
+      "test_references": [
+        "AC-DBM-023",
+        "WP0-02-05"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP2-T06",
+      "package": "WP2",
+      "title": "Complete estate inventory/admin pagination and revision controls",
+      "dependencies": [
+        "WP9-T06"
+      ],
+      "feature_ids": [
+        "DBM-004",
+        "DBM-007",
+        "DBM-022",
+        "DBM-023"
+      ],
+      "acceptance_criteria": [
+        "Core inventory supports representative estate management without alias duplication, unauthorized count disclosure or stale-plan execution."
+      ],
+      "test_references": [
+        "AC-DBM-004",
+        "AC-DBM-022",
+        "AC-DBM-023"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP2-T07",
+      "package": "WP2",
+      "title": "Expose grouped estate projection data",
+      "dependencies": [
+        "WP9-T05"
+      ],
+      "feature_ids": [
+        "PRJ-002"
+      ],
+      "acceptance_criteria": [
+        "Grouped estate data is correctly authorized and read-only; no duplicate physical resource model."
+      ],
+      "test_references": [
+        "AC-PRJ-002"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP3-T01",
+      "package": "WP3",
+      "title": "Implement protected local Git repository/folder bindings",
+      "dependencies": [
+        "WP1-T04",
+        "WP4-T02"
+      ],
+      "feature_ids": [
+        "PRJ-008",
+        "GIT-003",
+        "GIT-016"
+      ],
+      "acceptance_criteria": [
+        "Only the bound repository/folder can ingest; read failures are sanitized and configuration changes invalidate relevant intents."
+      ],
+      "test_references": [
+        "AC-PRJ-008",
+        "AC-GIT-003",
+        "AC-GIT-016"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "devops",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP3-T02",
+      "package": "WP3",
+      "title": "Resolve full immutable Git object provenance",
+      "dependencies": [
+        "WP3-T01"
+      ],
+      "feature_ids": [
+        "MIG-006",
+        "GIT-006"
+      ],
+      "acceptance_criteria": [
+        "A branch move cannot alter retained bytes; ambiguous short IDs fail and unsupported object formats fail explicitly."
+      ],
+      "test_references": [
+        "AC-MIG-006",
+        "AC-GIT-006",
+        "WP0-08-01"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "devops",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP3-T03",
+      "package": "WP3",
+      "title": "Implement folder discovery and deterministic numeric versions",
+      "dependencies": [
+        "WP3-T02"
+      ],
+      "feature_ids": [
+        "MIG-004",
+        "MIG-005",
+        "MIG-007"
+      ],
+      "acceptance_criteria": [
+        "All five fixture migrations ingest together; V001/V1 duplicate fails and V2 precedes V10 with reproducible raw hashes."
+      ],
+      "test_references": [
+        "AC-MIG-004",
+        "AC-MIG-005",
+        "AC-MIG-007",
+        "WP0-04-04"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "devops",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP3-T04",
+      "package": "WP3",
+      "title": "Freeze parsed release manifest and retained execution bytes",
+      "dependencies": [
+        "WP3-T03",
+        "WP1-T03"
+      ],
+      "feature_ids": [
+        "MIG-008",
+        "MIG-009",
+        "SQL-017",
+        "GIT-007"
+      ],
+      "acceptance_criteria": [
+        "A malformed later file blocks the entire release before effects; manifest identity changes with execution-affecting content and works while Git is offline."
+      ],
+      "test_references": [
+        "AC-MIG-008",
+        "AC-MIG-009",
+        "AC-SQL-017",
+        "AC-GIT-007",
+        "WP0-03-14"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "devops",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP3-T05",
+      "package": "WP3",
+      "title": "Implement per-target history snapshots and pending planning",
+      "dependencies": [
+        "WP3-T04",
+        "WP5-T01",
+        "WP2-T05"
+      ],
+      "feature_ids": [
+        "MIG-010",
+        "MIG-013"
+      ],
+      "acceptance_criteria": [
+        "A=1..3/B=1 yields pending 2/4; changed V002 and unobserved history block; zero-pending intent remains reviewable."
+      ],
+      "test_references": [
+        "AC-MIG-010",
+        "AC-MIG-013",
+        "WP0-04-01",
+        "WP0-04-03"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "devops",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP3-T06",
+      "package": "WP3",
+      "title": "Run Core planning/provider/baseline/promotion conformance",
+      "dependencies": [
+        "WP8-T01",
+        "WP8-T02",
+        "WP6-T05",
+        "WP9-T06"
+      ],
+      "feature_ids": [
+        "MIG-010",
+        "MIG-013",
+        "MIG-015",
+        "MIG-021",
+        "GIT-001"
+      ],
+      "acceptance_criteria": [
+        "Core planning keeps identical source semantics across providers and stages and does not re-run baseline/adopted versions."
+      ],
+      "test_references": [
+        "AC-MIG-010",
+        "AC-MIG-013",
+        "AC-MIG-015",
+        "AC-MIG-021"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "devops",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP4-T01",
+      "package": "WP4",
+      "title": "Implement minimal named local CLI identities",
+      "dependencies": [
+        "WP1-T04"
+      ],
+      "feature_ids": [
+        "SEC-001"
+      ],
+      "acceptance_criteria": [
+        "Unauthenticated/forged/revoked actors cannot read resources or approve; no caller-supplied actor ID becomes trusted."
+      ],
+      "test_references": [
+        "AC-SEC-001",
+        "WP0-08-08"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "security",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP4-T02",
+      "package": "WP4",
+      "title": "Implement membership and fixed resource authorization",
+      "dependencies": [
+        "WP4-T01"
+      ],
+      "feature_ids": [
+        "PRJ-003",
+        "PRJ-004",
+        "PRJ-011",
+        "GOV-006",
+        "SEC-005",
+        "SEC-006"
+      ],
+      "acceptance_criteria": [
+        "Direct API, CLI and guessed cross-project IDs fail consistently; revocation denies new actions and requester cannot gain execution permission."
+      ],
+      "test_references": [
+        "AC-PRJ-003",
+        "AC-PRJ-004",
+        "AC-PRJ-011",
+        "AC-SEC-005",
+        "AC-SEC-006",
+        "AC-GOV-006"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "security",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP4-T03",
+      "package": "WP4",
+      "title": "Implement frozen requests and independent approval",
+      "dependencies": [
+        "WP3-T05",
+        "WP4-T02"
+      ],
+      "feature_ids": [
+        "GOV-001",
+        "GOV-002",
+        "GOV-007",
+        "GOV-009",
+        "GOV-012",
+        "GOV-013",
+        "GOV-023",
+        "EXT-008"
+      ],
+      "acceptance_criteria": [
+        "Exact SQL/target/options/history are previewable; all mutation/self-approval/expiry negatives deny and decisions remain auditable."
+      ],
+      "test_references": [
+        "AC-GOV-001",
+        "AC-GOV-002",
+        "AC-GOV-007",
+        "AC-GOV-009",
+        "AC-GOV-012",
+        "AC-GOV-013",
+        "AC-GOV-023",
+        "AC-EXT-008",
+        "WP0-08-08"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "security",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP4-T04",
+      "package": "WP4",
+      "title": "Implement idempotent authorization and durable dispatch admission",
+      "dependencies": [
+        "WP4-T03"
+      ],
+      "feature_ids": [
+        "MIG-018",
+        "GOV-011",
+        "GOV-018",
+        "SEC-008",
+        "SEC-014"
+      ],
+      "acceptance_criteria": [
+        "Same body/key returns same job; conflicts and revocations block; approver role alone cannot dispatch and worker receives no caller-supplied SQL.",
+        "Current-authority mutation and permit commit have an explicit serialized order; revocation never promises an already-permitted Oracle call is recalled."
+      ],
+      "test_references": [
+        "AC-MIG-018",
+        "AC-GOV-011",
+        "AC-GOV-018",
+        "AC-SEC-008",
+        "AC-SEC-014",
+        "WP0-06-02"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "security",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP4-T05",
+      "package": "WP4",
+      "title": "Complete local identity/session lifecycle for multiple users",
+      "dependencies": [
+        "WP4-T04",
+        "WP9-T06"
+      ],
+      "feature_ids": [
+        "SEC-019"
+      ],
+      "acceptance_criteria": [
+        "Logout, credential/session expiry and removal deny further approval/admission without waiting for a UI refresh."
+      ],
+      "test_references": [
+        "AC-SEC-019"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "security",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP4-T06",
+      "package": "WP4",
+      "title": "Implement guided resubmission lineage metadata",
+      "dependencies": [
+        "WP9-T05"
+      ],
+      "feature_ids": [
+        "GOV-010"
+      ],
+      "acceptance_criteria": [
+        "Guided resubmission cannot reuse old decisions or erase contributors; history remains immutable."
+      ],
+      "test_references": [
+        "AC-GOV-010"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "security",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP5-T01",
+      "package": "WP5",
+      "title": "Implement authorized target identity/history bootstrap and reader",
+      "dependencies": [
+        "WP2-T05",
+        "WP1-T04"
+      ],
+      "feature_ids": [
+        "MIG-025"
+      ],
+      "acceptance_criteria": [
+        "Bootstrap refuses populated unmanaged or wrong-generation targets; local receipt uniqueness is independent of central history.",
+        "Observer history reads succeed only within authorized target scope; missing grants block planning, and the API cannot resolve owner/bootstrap credentials."
+      ],
+      "test_references": [
+        "AC-MIG-025",
+        "WP0-04-01",
+        "WP0-10-03"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP5-T02",
+      "package": "WP5",
+      "title": "Implement same-session DDL-safe target mutex",
+      "dependencies": [
+        "WP5-T01"
+      ],
+      "feature_ids": [
+        "MIG-019"
+      ],
+      "acceptance_criteria": [
+        "Alias/session contention, DDL commit and paused-lease probes show no concurrent target writes."
+      ],
+      "test_references": [
+        "AC-MIG-019",
+        "WP0-06-01",
+        "WP0-06-03",
+        "WP0-06-04"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP5-T03",
+      "package": "WP5",
+      "title": "Implement job claims and locked dispatch revalidation",
+      "dependencies": [
+        "WP5-T02",
+        "WP4-T04",
+        "WP3-T05"
+      ],
+      "feature_ids": [
+        "MIG-028",
+        "MIG-029",
+        "OPS-001",
+        "OPS-002"
+      ],
+      "acceptance_criteria": [
+        "Duplicate delivery cannot duplicate SQL; changed snapshot invalidates approval; zero-pending run retains audit and zero-call proof.",
+        "Pre-checkpoint revocation denies SQL; post-checkpoint revocation stops future permits and truthfully retains in-flight/unknown effects."
+      ],
+      "test_references": [
+        "AC-OPS-001",
+        "AC-OPS-002",
+        "AC-MIG-028",
+        "AC-MIG-029",
+        "WP0-04-02",
+        "WP0-08-08"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP5-T04",
+      "package": "WP5",
+      "title": "Implement ordered execution and truthful target receipts",
+      "dependencies": [
+        "WP5-T03"
+      ],
+      "feature_ids": [
+        "MIG-001",
+        "MIG-002",
+        "MIG-027",
+        "SQL-016",
+        "OPS-006"
+      ],
+      "acceptance_criteria": [
+        "Schema/data effects match approved bytes; failures preserve last acknowledged calls and four outcome axes; target receipt cannot precede required file validation."
+      ],
+      "test_references": [
+        "AC-MIG-001",
+        "AC-MIG-002",
+        "AC-MIG-027",
+        "AC-SQL-016",
+        "AC-OPS-006",
+        "WP0-07-04",
+        "WP0-07-05"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP5-T05",
+      "package": "WP5",
+      "title": "Implement owner/type validity and independent postchecks",
+      "dependencies": [
+        "WP5-T04"
+      ],
+      "feature_ids": [
+        "MIG-031",
+        "SQL-018",
+        "SQL-019"
+      ],
+      "acceptance_criteria": [
+        "Valid specification/invalid body, missing object and failed postcheck never become VERIFIED_SUCCESS; successful receipts/effects remain truthful."
+      ],
+      "test_references": [
+        "AC-MIG-031",
+        "AC-SQL-018",
+        "AC-SQL-019",
+        "WP0-05-01",
+        "WP0-05-03",
+        "WP0-05-04"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP5-T06",
+      "package": "WP5",
+      "title": "Implement configurable bounded estate execution budgets",
+      "dependencies": [
+        "WP5-T05",
+        "WP9-T06"
+      ],
+      "feature_ids": [
+        "OPS-003"
+      ],
+      "acceptance_criteria": [
+        "500 schema metadata entries do not open 500 idle writer sessions; configuration cannot bypass target serialization."
+      ],
+      "test_references": [
+        "AC-OPS-003"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "database",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP6-T01",
+      "package": "WP6",
+      "title": "Implement central/target reconciliation decision table",
+      "dependencies": [
+        "WP5-T05",
+        "WP1-T03"
+      ],
+      "feature_ids": [
+        "MIG-011",
+        "MIG-026"
+      ],
+      "acceptance_criteria": [
+        "No ledger absence proves no effect; unknown admission prevents replay and missing authorization is never fabricated."
+      ],
+      "test_references": [
+        "AC-MIG-011",
+        "AC-MIG-026",
+        "WP0-09-01",
+        "WP0-09-02"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "backend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP6-T02",
+      "package": "WP6",
+      "title": "Implement recovery incidents and safe worker drain/restart",
+      "dependencies": [
+        "WP6-T01"
+      ],
+      "feature_ids": [
+        "MIG-017",
+        "OPS-019",
+        "OPS-025"
+      ],
+      "acceptance_criteria": [
+        "Crash, SIGTERM and lease expiry leave honest unresolved state; read-only incident inspection works with protected evidence."
+      ],
+      "test_references": [
+        "AC-MIG-017",
+        "AC-OPS-019",
+        "AC-OPS-025",
+        "WP0-07-02",
+        "WP0-07-07",
+        "WP0-07-08"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "backend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP6-T03",
+      "package": "WP6",
+      "title": "Implement narrow independently approved recovery admission",
+      "dependencies": [
+        "WP6-T02",
+        "WP4-T04"
+      ],
+      "feature_ids": [
+        "MIG-020"
+      ],
+      "acceptance_criteria": [
+        "No automatic or operator reset-to-pending exists; unknown DDL and forged recovery approval cannot run."
+      ],
+      "test_references": [
+        "AC-MIG-020",
+        "WP0-09-04"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "backend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP6-T04",
+      "package": "WP6",
+      "title": "Implement explicit baseline and fix-forward/adoption provenance",
+      "dependencies": [
+        "WP6-T03",
+        "WP9-T06"
+      ],
+      "feature_ids": [
+        "MIG-015",
+        "MIG-023"
+      ],
+      "acceptance_criteria": [
+        "No ordinary APPLIED fabrication or checksum editing; lower unknown version blocks correction until authorized resolution; baseline/adoption retain different provenance."
+      ],
+      "test_references": [
+        "AC-MIG-015",
+        "AC-MIG-023",
+        "WP0-09-04"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "backend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP6-T05",
+      "package": "WP6",
+      "title": "Implement generation-fenced backup/restore reconciliation",
+      "dependencies": [
+        "WP6-T04",
+        "WP8-T03",
+        "WP9-T06"
+      ],
+      "feature_ids": [
+        "MIG-034",
+        "OPS-012"
+      ],
+      "acceptance_criteria": [
+        "Both-direction actual restore exercises prove no automatic queued replay; logical rewind tests alone cannot close this production gate."
+      ],
+      "test_references": [
+        "AC-MIG-034",
+        "AC-OPS-012",
+        "WP0-09-03"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "backend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP7-T01",
+      "package": "WP7",
+      "title": "Expose minimal loopback API and deterministic CLI plan preview",
+      "dependencies": [
+        "WP4-T03",
+        "WP2-T04"
+      ],
+      "feature_ids": [
+        "SQL-015"
+      ],
+      "acceptance_criteria": [
+        "CLI/API expose the same authorized plan and statement digest; approved actor cannot be supplied as an unauthenticated flag."
+      ],
+      "test_references": [
+        "AC-SQL-015",
+        "WP0-08-02"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "frontend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP7-T02",
+      "package": "WP7",
+      "title": "Expose dispatch/history/compiler/incident/evidence inspection",
+      "dependencies": [
+        "WP7-T01",
+        "WP6-T03"
+      ],
+      "feature_ids": [
+        "MIG-012",
+        "SQL-020"
+      ],
+      "acceptance_criteria": [
+        "A user can reconstruct a completed, invalid and ambiguous run from persisted facts; driver success never hides compiler errors."
+      ],
+      "test_references": [
+        "AC-MIG-012",
+        "AC-SQL-020",
+        "WP0-10-05"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "frontend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP7-T03",
+      "package": "WP7",
+      "title": "Verify all sixteen WS outcomes against actual integrated modules",
+      "dependencies": [
+        "WP7-T02",
+        "WP8-T06"
+      ],
+      "feature_ids": [],
+      "acceptance_criteria": [
+        "Every WS feature acceptance and sixteen-outcome checklist passes on both versions; harness results do not substitute for this integrated regression."
+      ],
+      "test_references": [
+        "WS-01",
+        "WS-02",
+        "WS-03",
+        "WS-04",
+        "WS-05",
+        "WS-06",
+        "WS-07",
+        "WS-08",
+        "WS-09",
+        "WS-10",
+        "WS-11",
+        "WS-12",
+        "WS-13",
+        "WS-14",
+        "WS-15",
+        "WS-16"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "frontend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP7-T04",
+      "package": "WP7",
+      "title": "Add grouped estate, guided resubmission and outcome views",
+      "dependencies": [
+        "WP9-T05",
+        "WP2-T07",
+        "WP4-T06"
+      ],
+      "feature_ids": [
+        "PRJ-002",
+        "GOV-010",
+        "EXT-010"
+      ],
+      "acceptance_criteria": [
+        "Presentation does not alter approval/admission semantics and omitted views do not block safe core operation."
+      ],
+      "test_references": [
+        "AC-PRJ-002",
+        "AC-GOV-010",
+        "AC-EXT-010"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "frontend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP7-T05",
+      "package": "WP7",
+      "title": "Integrate Core administrative and operating API contracts",
+      "dependencies": [
+        "WP8-T02",
+        "WP6-T05",
+        "WP4-T05",
+        "WP3-T06",
+        "WP2-T06",
+        "WP9-T06"
+      ],
+      "feature_ids": [
+        "MIG-015",
+        "MIG-021",
+        "MIG-023",
+        "MIG-034",
+        "GOV-022",
+        "SEC-018",
+        "SEC-019"
+      ],
+      "acceptance_criteria": [
+        "Every applicable Core action and negative cross-project/missing-approval/restore-hold path passes on actual modules."
+      ],
+      "test_references": [
+        "AC-MIG-015",
+        "AC-MIG-021",
+        "AC-MIG-023",
+        "AC-MIG-034",
+        "AC-GOV-022",
+        "AC-SEC-018",
+        "AC-SEC-019"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "frontend",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP8-T01",
+      "package": "WP8",
+      "title": "Integrate self-hosted GitLab immutable provider",
+      "dependencies": [
+        "WP9-T06",
+        "WP3-T04"
+      ],
+      "feature_ids": [
+        "GIT-001"
+      ],
+      "acceptance_criteria": [
+        "Actual GitLab version/API compatibility and branch-move/outage negatives pass; a CI caller cannot approve or obtain writer secrets."
+      ],
+      "test_references": [
+        "AC-GIT-001"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "devops",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP8-T02",
+      "package": "WP8",
+      "title": "Implement verified DEV/SIT/UAT/PROD promotion",
+      "dependencies": [
+        "WP9-T06",
+        "WP6-T04"
+      ],
+      "feature_ids": [
+        "MIG-021",
+        "GOV-022"
+      ],
+      "acceptance_criteria": [
+        "Missing/failed/invalid/unknown UAT blocks PROD admission; no execution against actual production during implementation acceptance."
+      ],
+      "test_references": [
+        "AC-MIG-021",
+        "AC-GOV-022"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "devops",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP8-T03",
+      "package": "WP8",
+      "title": "Package restricted Kubernetes/OpenShift/API TLS deployments",
+      "dependencies": [
+        "WP9-T06",
+        "WP4-T05",
+        "WP5-T06"
+      ],
+      "feature_ids": [
+        "SEC-018",
+        "OPS-011",
+        "OPS-022"
+      ],
+      "acceptance_criteria": [
+        "No privileged SCC/external egress needed; API cannot read writer secrets; dependency outage changes readiness without liveness restart loops."
+      ],
+      "test_references": [
+        "AC-SEC-018",
+        "AC-OPS-011",
+        "AC-OPS-022"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "devops",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP8-T04",
+      "package": "WP8",
+      "title": "Produce reviewed offline mirror/install/update bundle",
+      "dependencies": [
+        "WP8-T01",
+        "WP8-T03",
+        "WP0-T02",
+        "WP1-T05",
+        "WP9-T06"
+      ],
+      "feature_ids": [
+        "GIT-018",
+        "OPS-023"
+      ],
+      "acceptance_criteria": [
+        "Every shipped dependency has provenance/rights/hash; air-gapped install/update succeeds without proprietary required components."
+      ],
+      "test_references": [
+        "AC-GIT-018",
+        "AC-OPS-023",
+        "WP0-10-01",
+        "WP0-10-04"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "devops",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP8-T05",
+      "package": "WP8",
+      "title": "Package standalone offline evidence verification",
+      "dependencies": [
+        "WP9-T04"
+      ],
+      "feature_ids": [
+        "SEC-013",
+        "OPS-023"
+      ],
+      "acceptance_criteria": [
+        "Authorized recipients can independently validate exported evidence with a reviewed OSS offline tool; no proprietary service dependency."
+      ],
+      "test_references": [
+        "AC-SEC-013"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "devops",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP8-T06",
+      "package": "WP8",
+      "title": "Provide reproducible local WS process bootstrap",
+      "dependencies": [
+        "WP7-T02",
+        "WP0-T02"
+      ],
+      "feature_ids": [
+        "GIT-007",
+        "OPS-002"
+      ],
+      "acceptance_criteria": [
+        "Another developer can reproduce the bounded WS process topology and input checks from a fresh checkout."
+      ],
+      "test_references": [
+        "WS-01",
+        "WS-10",
+        "WS-13"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "devops",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP9-T01",
+      "package": "WP9",
+      "title": "Verify secrets-at-rest, egress and identity threat boundaries",
+      "dependencies": [
+        "WP8-T03",
+        "WP9-T06"
+      ],
+      "feature_ids": [
+        "SEC-010"
+      ],
+      "acceptance_criteria": [
+        "All negative permission/secret/transport tests pass and exact remaining risks have explicit operating owners."
+      ],
+      "test_references": [
+        "AC-SEC-010",
+        "WP0-10-02",
+        "WP0-10-03"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "qa",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP9-T02",
+      "package": "WP9",
+      "title": "Implement supported evidence retention and operational runbooks",
+      "dependencies": [
+        "WP6-T05",
+        "WP8-T04",
+        "WP9-T01",
+        "WP9-T06"
+      ],
+      "feature_ids": [
+        "OPS-018"
+      ],
+      "acceptance_criteria": [
+        "Required SQL hashes/decisions/compiler/recovery evidence survives pods, retention operations and restored metadata; no secret backup leakage."
+      ],
+      "test_references": [
+        "AC-OPS-018",
+        "WP0-10-05"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "qa",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP9-T03",
+      "package": "WP9",
+      "title": "Run 50-service/500-schema/20-user capacity and safety acceptance",
+      "dependencies": [
+        "WP9-T02",
+        "WP5-T06",
+        "WP9-T06"
+      ],
+      "feature_ids": [
+        "OPS-026"
+      ],
+      "acceptance_criteria": [
+        "Documented required capacity and agreed p95/session budgets pass with actual target workload evidence; synthetic metadata alone cannot certify estate execution scale."
+      ],
+      "test_references": [
+        "AC-OPS-026"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "qa",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP9-T04",
+      "package": "WP9",
+      "title": "Implement portable joined deployment evidence export",
+      "dependencies": [
+        "WP9-T05"
+      ],
+      "feature_ids": [
+        "SEC-013"
+      ],
+      "acceptance_criteria": [
+        "Recipient can match approved bytes to recorded execution/target; modified or missing evidence fails verification and cross-project export is denied."
+      ],
+      "test_references": [
+        "AC-SEC-013"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "qa",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP9-T05",
+      "package": "WP9",
+      "title": "Review operating gates and publish local production-readiness decision",
+      "dependencies": [
+        "WP8-T02",
+        "WP9-T03",
+        "WP7-T05",
+        "WP9-T06"
+      ],
+      "feature_ids": [],
+      "acceptance_criteria": [
+        "Production readiness is supported by actual integrated evidence, not research or WP0 alone; explicit deployment authorization remains separate."
+      ],
+      "test_references": [
+        "WP0-10-05"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "qa",
+      "evidence": [],
+      "blockers": []
+    },
+    {
+      "id": "WP9-T06",
+      "package": "WP9",
+      "title": "Review integrated WS security and evidence exit",
+      "dependencies": [
+        "WP7-T03",
+        "WP8-T06"
+      ],
+      "feature_ids": [
+        "SEC-005",
+        "SEC-009",
+        "SEC-011",
+        "SEC-014",
+        "SEC-017",
+        "OPS-005"
+      ],
+      "acceptance_criteria": [
+        "All sixteen outcomes and applicable WS invariants have actual module evidence; only named DEV capabilities are accepted."
+      ],
+      "test_references": [
+        "WS-09",
+        "WS-13",
+        "WS-15",
+        "WS-16"
+      ],
+      "source_paths": [
+        "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
+      ],
+      "status": "BACKLOG",
+      "assigned_agent": "qa",
+      "evidence": [],
+      "blockers": []
+    }
+  ]
+}

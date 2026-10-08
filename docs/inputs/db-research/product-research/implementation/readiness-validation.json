@@ -1,0 +1,70 @@
+{
+  "checked_at": "2026-10-08T09:11:52.407338+00:00",
+  "status": "PASS",
+  "scope": "Planning artifact verification only; no WP0, Oracle or platform execution.",
+  "checks": {
+    "required_planning_deliverables": 9,
+    "original_features_preserved": 220,
+    "refined_feature_counts": {
+      "WS": 74,
+      "MVP-Extended": 4,
+      "MVP-Core": 17
+    },
+    "implementation_tasks": 64,
+    "wp0_tasks": 12,
+    "feature_dag_nodes": 95,
+    "task_dag_nodes": 64,
+    "stage_gates_and_essential_edges": "PASS",
+    "wp0_test_cases": 63,
+    "wp0_area_counts": {
+      "WP0-01": 6,
+      "WP0-02": 5,
+      "WP0-03": 14,
+      "WP0-04": 4,
+      "WP0-05": 4,
+      "WP0-06": 5,
+      "WP0-07": 8,
+      "WP0-08": 8,
+      "WP0-09": 4,
+      "WP0-10": 5
+    },
+    "test_mode_counts": {
+      "ORACLE_RUNTIME": 35,
+      "UNIT_AND_ORACLE": 27,
+      "STATIC": 1
+    },
+    "oracle_result_cells_not_run": 124,
+    "unit_static_result_cells_not_run": 28,
+    "effort_arithmetic": {
+      "ws_engineer_weeks": [
+        30.0,
+        46
+      ],
+      "core_additional_engineer_weeks": [
+        40,
+        60
+      ],
+      "extended_additional_engineer_weeks": [
+        12,
+        20
+      ]
+    },
+    "wp0_engineer_day_total": [
+      30,
+      50
+    ],
+    "original_research_files_byte_preserved": 28,
+    "unrelated_tracked_changes_preserved": 10,
+    "markdown_json_traceability": "PASS",
+    "local_links_anchors": 1504,
+    "markdown_tables": 15,
+    "diagrams_structure": "PRESENT_NOT_RENDERED",
+    "new_artifact_diff_whitespace": "PASS"
+  },
+  "errors": [],
+  "limitations": [
+    "Every WP0 test remains NOT_RUN; artifact PASS is not runtime PASS.",
+    "No production/security/license certification or capacity benchmark.",
+    "Mermaid presence/structure checked; rendering not tested."
+  ]
+}

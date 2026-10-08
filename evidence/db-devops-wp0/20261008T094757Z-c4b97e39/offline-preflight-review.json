@@ -1,0 +1,47 @@
+{
+  "id": "WP0-T01-OFFLINE-20261008T094757Z-c4b97e39",
+  "subject_id": "WP0-T01",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "npm run check",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0
+  ],
+  "test_references": [
+    "WP0-10-01"
+  ],
+  "case_coverage": [
+    {
+      "case_id": "WP0-10-01",
+      "scope": "TASK_INCREMENT",
+      "full_case_pass": false,
+      "cells": [
+        "unit"
+      ],
+      "description": "Offline preflight implementation, secret-free manifest validation and exact missing-input report only; driver/parser/JRE rights and full dependency closure are not accepted."
+    }
+  ],
+  "raw_output": {
+    "path": "evidence/foundation/20261008T094530364Z-87710c95/checks.log",
+    "sha256": "0f036a2542129e005d748c3d3605b9bceecaddaa24ac463237289b49e6a2c842"
+  },
+  "reviewed_by": "orchestrator",
+  "actual_preflight_report": {
+    "path": "evidence/db-devops-wp0/20261008T094757Z-c4b97e39/preflight-output.json",
+    "sha256": "dc46bdc901ca046fbccdb4f4005d745052346a20460689248f680600ed1915c3"
+  },
+  "blocked_inputs_record": {
+    "path": "evidence/db-devops-wp0/20261008T094757Z-c4b97e39/blocked-inputs-record.json",
+    "sha256": "d83d1a88961bc46970345a1909adcad9cf2d44deab3d5b03cbd1fc86c8028c3a"
+  },
+  "observations": [
+    "Eight preflight regression tests passed as part of the 30-test integrated suite.",
+    "Actual empty-input command listed every currently missing required field and returned BLOCKED; no credentials, database or network calls."
+  ],
+  "limitations": [
+    "WP0-T01 task-increment verification certifies the offline preflight deliverable only.",
+    "WP0-10-01 full dependency/license case stays BLOCKED; no aggregate WP0 or product feature verification."
+  ]
+}

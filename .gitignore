@@ -1,0 +1,16 @@
+node_modules/
+.cache/
+coverage/
+dist/
+*.log
+!evidence/**/checks.log
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+wallet/
+lab-profile.local.json
+experiments/db-devops-wp0/offline-inputs/

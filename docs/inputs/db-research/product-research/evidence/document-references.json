@@ -1,0 +1,182 @@
+[
+  {
+    "id": "BB-PRICING",
+    "product": "Bytebase",
+    "level": "DOC_VERIFIED",
+    "url": "https://www.bytebase.com/pricing/",
+    "accessed_at": "2026-10-08",
+    "summary": "Current page has 20-user/10-instance Community quota and separate approval, identity, audit and HA edition boundaries. Use page/plan gates together; no Enterprise runtime acceptance was performed.",
+    "claim": "Current page has 20-user/10-instance Community quota and separate approval, identity, audit and HA edition boundaries. Use page/plan gates together; no Enterprise runtime acceptance was performed.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "BB-APPROVAL-DOC",
+    "product": "Bytebase",
+    "level": "DOC_VERIFIED",
+    "url": "https://docs.bytebase.com/change-database/approval",
+    "accessed_at": "2026-10-08",
+    "summary": "Documentation describes custom approval policy configuration. Presence of documentation is not proof of Community entitlement or runtime enforcement.",
+    "claim": "Documentation describes custom approval policy configuration. Presence of documentation is not proof of Community entitlement or runtime enforcement.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "BB-HA-DOC",
+    "product": "Bytebase",
+    "level": "DOC_VERIFIED",
+    "url": "https://docs.bytebase.com/changelog/bytebase-3-17-0",
+    "accessed_at": "2026-10-08",
+    "summary": "Documentation index advertises high availability since 3.17.0; current deployment behavior needs an exact licensed-build test.",
+    "claim": "Documentation index advertises high availability since 3.17.0; current deployment behavior needs an exact licensed-build test.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "FW-ORACLE-DOC",
+    "product": "Flyway",
+    "level": "DOC_VERIFIED",
+    "url": "https://documentation.red-gate.com/flyway/reference/database-driver-reference/oracle-database",
+    "accessed_at": "2026-10-08",
+    "summary": "Oracle SQL/PLSQL and slash delimiters are documented. SQL*Plus command emulation is Teams; open-source Java Oracle artifact and JDBC driver are separate components.",
+    "claim": "Oracle SQL/PLSQL and slash delimiters are documented. SQL*Plus command emulation is Teams; open-source Java Oracle artifact and JDBC driver are separate components.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "ORACLE-COMMIT",
+    "product": "Oracle",
+    "level": "DOC_VERIFIED",
+    "url": "https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/COMMIT.html",
+    "accessed_at": "2026-10-08",
+    "summary": "Oracle commits before syntactically valid DDL and after successful DDL. Failure/response loss may leave committed effects; release-wide atomicity is not assumed.",
+    "claim": "Oracle commits before syntactically valid DDL and after successful DDL. Failure/response loss may leave committed effects; release-wide atomicity is not assumed.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "ORACLE-ERRORS",
+    "product": "Oracle",
+    "level": "DOC_VERIFIED",
+    "url": "https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/USER_ERRORS.html",
+    "accessed_at": "2026-10-08",
+    "summary": "USER_ERRORS reports compiler errors on objects owned by the current user. Changing CURRENT_SCHEMA does not make it another owner.",
+    "claim": "USER_ERRORS reports compiler errors on objects owned by the current user. Changing CURRENT_SCHEMA does not make it another owner.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "ORACLE-LOCK",
+    "product": "Oracle",
+    "level": "DOC_VERIFIED",
+    "url": "https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_LOCK.html",
+    "accessed_at": "2026-10-08",
+    "summary": "Session locks with release_on_commit false survive commits; session termination releases them. ALLOCATE_UNIQUE commits; autonomous allocation avoids committing caller work. A restricted cover package is recommended.",
+    "claim": "Session locks with release_on_commit false survive commits; session termination releases them. ALLOCATE_UNIQUE commits; autonomous allocation avoids committing caller work. A restricted cover package is recommended.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "NODE-THIN-DOC",
+    "product": "node-oracledb",
+    "level": "DOC_VERIFIED",
+    "url": "https://node-oracledb.readthedocs.io/en/latest/user_guide/introduction.html",
+    "accessed_at": "2026-10-08",
+    "summary": "Thin driver connects directly without Oracle Client libraries and handles SQL/PLSQL and pools. Documentation is broader than the exact new-platform test matrix.",
+    "claim": "Thin driver connects directly without Oracle Client libraries and handles SQL/PLSQL and pools. Documentation is broader than the exact new-platform test matrix.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "NODE-MODES-DOC",
+    "product": "node-oracledb",
+    "level": "DOC_VERIFIED",
+    "url": "https://node-oracledb.readthedocs.io/en/latest/user_guide/appendix_a.html",
+    "accessed_at": "2026-10-08",
+    "summary": "Thin supports Oracle 12.1+, TLS, proxy connections and homogeneous pools. Native Network Encryption/Kerberos/external authentication/AC require careful mode review and are not default Thin assumptions.",
+    "claim": "Thin supports Oracle 12.1+, TLS, proxy connections and homogeneous pools. Native Network Encryption/Kerberos/external authentication/AC require careful mode review and are not default Thin assumptions.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "ORACLE-JDBC-DOC",
+    "product": "Oracle",
+    "level": "DOC_VERIFIED",
+    "url": "https://www.oracle.com/database/technologies/faq-jdbc.html",
+    "accessed_at": "2026-10-08",
+    "summary": "Oracle JDBC Thin needs no Instant Client but is distributed under separate Oracle terms, not the open-source extensions license. Exact JAR/version and companion terms must be reviewed.",
+    "claim": "Oracle JDBC Thin needs no Instant Client but is distributed under separate Oracle terms, not the open-source extensions license. Exact JAR/version and companion terms must be reviewed.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "ATLAS-DOC",
+    "product": "Atlas",
+    "level": "DOC_VERIFIED",
+    "url": "https://www.atlasgo.io/features",
+    "accessed_at": "2026-10-08",
+    "summary": "Oracle driver is Pro; Apache public core does not grant access to that driver.",
+    "claim": "Oracle driver is Pro; Apache public core does not grant access to that driver.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "LIQUIBASE-LICENSE-DOC",
+    "product": "Liquibase",
+    "level": "DOC_VERIFIED",
+    "url": "https://www.liquibase.com/blog/liquibase-community-for-the-future-fsl",
+    "accessed_at": "2026-10-08",
+    "summary": "Community transitioned to FSL; inspect exact version. Pinned 4.33 source rights differ from 5.x and from mixed binary distributions.",
+    "claim": "Community transitioned to FSL; inspect exact version. Pinned 4.33 source rights differ from 5.x and from mixed binary distributions.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "GITLAB-APPROVAL",
+    "product": "GitLab",
+    "level": "DOC_VERIFIED",
+    "url": "https://docs.gitlab.com/ci/environments/deployment_approvals/",
+    "accessed_at": "2026-10-08",
+    "summary": "Deployment approvals have Premium/Ultimate boundaries. New platform approval remains authoritative, allowing GitLab Free as source provider.",
+    "claim": "Deployment approvals have Premium/Ultimate boundaries. New platform approval remains authoritative, allowing GitLab Free as source provider.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "JENKINS-INPUT",
+    "product": "Jenkins",
+    "level": "DOC_VERIFIED",
+    "url": "https://www.jenkins.io/doc/pipeline/steps/pipeline-input-step/",
+    "accessed_at": "2026-10-08",
+    "summary": "Pipeline input supports submitter restrictions but administrator behavior and executable pipeline permissions need consideration; platform approval cannot be inferred from build color.",
+    "claim": "Pipeline input supports submitter restrictions but administrator behavior and executable pipeline permissions need consideration; platform approval cannot be inferred from build color.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "TECH-FASTIFY",
+    "product": "Fastify",
+    "level": "DOC_VERIFIED",
+    "url": "https://fastify.dev/docs/latest/",
+    "accessed_at": "2026-10-08",
+    "summary": "Candidate maintained HTTP framework. Framework adoption and exact dependency closure require an implementation-time pin.",
+    "claim": "Candidate maintained HTTP framework. Framework adoption and exact dependency closure require an implementation-time pin.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "TECH-POSTGRES",
+    "product": "PostgreSQL",
+    "level": "DOC_VERIFIED",
+    "url": "https://www.postgresql.org/docs/current/sql-select.html",
+    "accessed_at": "2026-10-08",
+    "summary": "SKIP LOCKED supports queue consumers; PostgreSQL transaction/admission does not atomically commit Oracle DDL.",
+    "claim": "SKIP LOCKED supports queue consumers; PostgreSQL transaction/admission does not atomically commit Oracle DDL.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "TECH-OTEL",
+    "product": "OpenTelemetry",
+    "level": "DOC_VERIFIED",
+    "url": "https://opentelemetry.io/docs/",
+    "accessed_at": "2026-10-08",
+    "summary": "Candidate interoperable tracing/metrics instrumentation; payload redaction and offline collector configuration are new platform responsibilities.",
+    "claim": "Candidate interoperable tracing/metrics instrumentation; payload redaction and offline collector configuration are new platform responsibilities.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  },
+  {
+    "id": "TECH-SPDX",
+    "product": "SPDX",
+    "level": "DOC_VERIFIED",
+    "url": "https://spdx.dev/use/specifications/",
+    "accessed_at": "2026-10-08",
+    "summary": "Candidate SBOM interchange standard; SBOM existence does not establish acceptable licenses or vulnerability status.",
+    "claim": "Candidate SBOM interchange standard; SBOM existence does not establish acceptable licenses or vulnerability status.",
+    "version_scope": "Live documentation; not a fixed deployed build."
+  }
+]

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "decisions": [
+    {
+      "id": "SF-D001",
+      "status": "ACCEPTED_FOR_PHASE0",
+      "decision": "Separate local product repository; immutable hashed research inputs; no upstream source or asset reuse.",
+      "references": [
+        "docs/inputs/provenance.json",
+        "AGENTS.md"
+      ]
+    },
+    {
+      "id": "SF-D002",
+      "status": "ACCEPTED_FOR_PHASE0",
+      "decision": "Use Node 22 standard-library foundation tooling, built-in tests and JSON tracking without selecting a product execution engine.",
+      "references": [
+        "package.json",
+        "docs/architecture/boundaries.md"
+      ]
+    },
+    {
+      "id": "SF-D003",
+      "status": "PENDING_OWNER_DECISION",
+      "decision": "Apache-2.0 is proposed; no product license grant or public naming clearance is approved.",
+      "references": [
+        "LICENSE",
+        "docs/product/license-and-naming.md"
+      ]
+    },
+    {
+      "id": "SF-D004",
+      "status": "NEEDS_WP0_EVIDENCE",
+      "decision": "Preserve modular governance and restricted worker boundary. Parser, driver, locks, ledger and recovery require actual WP0 acceptance.",
+      "references": [
+        "docs/inputs/db-research/product-research/implementation/ARCHITECTURE-DECISIONS.md"
+      ]
+    }
+  ]
+}

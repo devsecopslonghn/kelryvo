@@ -1,0 +1,79 @@
+[
+  {
+    "repo": "bablsoft/accessflow",
+    "sha": "55c209a4d9e4ba09a6c089f90e68a8b16b3f2133",
+    "directory": "evidence/source/bablsoft__accessflow",
+    "actual_sha": "55c209a4d9e4ba09a6c089f90e68a8b16b3f2133",
+    "version": "55c209a"
+  },
+  {
+    "repo": "bytebase/bytebase",
+    "sha": "80524fc54601bcc5545575e02f83b23ee6bb0a70",
+    "directory": "evidence/source/bytebase__bytebase",
+    "actual_sha": "80524fc54601bcc5545575e02f83b23ee6bb0a70",
+    "version": "80524fc"
+  },
+  {
+    "repo": "sqitchers/sqitch",
+    "sha": "b08e5c8a773ee4ab5ea4ab7cf6f7a16c55d6994e",
+    "directory": "evidence/source/sqitchers__sqitch",
+    "actual_sha": "b08e5c8a773ee4ab5ea4ab7cf6f7a16c55d6994e",
+    "version": "b08e5c8"
+  },
+  {
+    "repo": "flyway/flyway",
+    "sha": "a549f5dd1ac80fbe7bc8103dfcd2d556c606c39c",
+    "directory": "evidence/source/flyway__flyway",
+    "actual_sha": "a549f5dd1ac80fbe7bc8103dfcd2d556c606c39c",
+    "version": "flyway-13.9.0"
+  },
+  {
+    "repo": "liquibase/liquibase",
+    "sha": "3ed5c81625671e91b4423ba4503fe68ce947d1ff",
+    "directory": "evidence/source/liquibase__liquibase",
+    "actual_sha": "3ed5c81625671e91b4423ba4503fe68ce947d1ff",
+    "version": "nightly"
+  },
+  {
+    "repo": "ariga/atlas",
+    "sha": "1317a57674f3795de395f535a258c088d7f767bf",
+    "directory": "evidence/source/ariga__atlas",
+    "actual_sha": "1317a57674f3795de395f535a258c088d7f767bf",
+    "version": "1317a57"
+  },
+  {
+    "repo": "hhyo/Archery",
+    "sha": "ccc7134f48d0e261f9e3ffa0d445dcec48adb790",
+    "directory": "evidence/source/hhyo__Archery",
+    "actual_sha": "ccc7134f48d0e261f9e3ffa0d445dcec48adb790",
+    "version": "ccc7134"
+  },
+  {
+    "repo": "liquibase/liquibase",
+    "sha": "75773ed9b45b0a5adf3c42872d2e5494da669427",
+    "directory": "evidence/source/liquibase__liquibase__v4.33.0",
+    "actual_sha": "75773ed9b45b0a5adf3c42872d2e5494da669427",
+    "version": "v4.33.0"
+  },
+  {
+    "repo": "dbeaver/cloudbeaver",
+    "sha": "74123b3a36340282a6ab117dfa1733d69c32fe75",
+    "directory": "evidence/additional-source/cloudbeaver",
+    "actual_sha": "74123b3a36340282a6ab117dfa1733d69c32fe75",
+    "version": "25.3.2-586-g74123b3a3"
+  },
+  {
+    "repo": "oceanbase/odc",
+    "sha": "d517c0f27971642fb0cd7565fd61ab2309875ec3",
+    "directory": "evidence/product-model/sources/oceanbase__odc",
+    "actual_sha": "d517c0f27971642fb0cd7565fd61ab2309875ec3",
+    "version": "d517c0f"
+  },
+  {
+    "repo": "oceanbase/odc-client",
+    "sha": "273fa3c4cc7d87f942ade231ce9220b98fa595e2",
+    "directory": "evidence/product-model/sources/oceanbase__odc-client",
+    "actual_sha": "273fa3c4cc7d87f942ade231ce9220b98fa595e2",
+    "version": "4.3.0-561-g273fa3c4"
+  }
+]

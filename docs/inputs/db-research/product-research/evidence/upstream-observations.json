@@ -1,0 +1,51 @@
+[
+  {
+    "repo": "bytebase/bytebase",
+    "observed_at": "2026-10-08",
+    "sha": "16b89d9b49741c65623970038859d0d6397c8fe5",
+    "commit_date": "2026-10-08T03:36:30Z",
+    "url": "https://github.com/bytebase/bytebase/commit/16b89d9b49741c65623970038859d0d6397c8fe5"
+  },
+  {
+    "repo": "oceanbase/odc",
+    "observed_at": "2026-10-08",
+    "sha": "d517c0f27971642fb0cd7565fd61ab2309875ec3",
+    "commit_date": "2025-06-19T10:19:02Z",
+    "url": "https://github.com/oceanbase/odc/commit/d517c0f27971642fb0cd7565fd61ab2309875ec3"
+  },
+  {
+    "repo": "hhyo/Archery",
+    "observed_at": "2026-10-08",
+    "sha": "ccc7134f48d0e261f9e3ffa0d445dcec48adb790",
+    "commit_date": "2026-09-04T08:46:35Z",
+    "url": "https://github.com/hhyo/Archery/commit/ccc7134f48d0e261f9e3ffa0d445dcec48adb790"
+  },
+  {
+    "repo": "flyway/flyway",
+    "observed_at": "2026-10-08",
+    "sha": "a549f5dd1ac80fbe7bc8103dfcd2d556c606c39c",
+    "commit_date": "2026-10-01T12:14:02Z",
+    "url": "https://github.com/flyway/flyway/commit/a549f5dd1ac80fbe7bc8103dfcd2d556c606c39c"
+  },
+  {
+    "repo": "liquibase/liquibase",
+    "observed_at": "2026-10-08",
+    "sha": "893a20a519cae987c152d84637f70c9cf5b70067",
+    "commit_date": "2026-10-06T15:58:30Z",
+    "url": "https://github.com/liquibase/liquibase/commit/893a20a519cae987c152d84637f70c9cf5b70067"
+  },
+  {
+    "repo": "dbgate/dbgate",
+    "observed_at": "2026-10-08",
+    "sha": "d7c62fd89385543af59eb5ecdea3526a3f26ba70",
+    "commit_date": "2026-10-07T11:58:48Z",
+    "url": "https://github.com/dbgate/dbgate/commit/d7c62fd89385543af59eb5ecdea3526a3f26ba70"
+  },
+  {
+    "repo": "bablsoft/accessflow",
+    "observed_at": "2026-10-08",
+    "sha": "c8bb247637df76ce36e52f47b45899823409495e",
+    "commit_date": "2026-10-06T12:17:45Z",
+    "url": "https://github.com/bablsoft/accessflow/commit/c8bb247637df76ce36e52f47b45899823409495e"
+  }
+]

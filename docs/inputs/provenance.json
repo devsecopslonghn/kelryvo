@@ -1,0 +1,329 @@
+{
+  "schema_version": 1,
+  "imported_at": "2026-10-08T09:21:42.581676+00:00",
+  "source_repository": "/home/longhn0710/workspace/DB-Research",
+  "source_head": "44b3ee7413204bdbddd587b1d5f220180eef3904",
+  "source_branch": "research/independent-db-devops-20261008",
+  "source_status": [
+    " M README.md",
+    " M demo/README.md",
+    " M demo/customer-profile/docs/operator-guide.md",
+    " M evaluation/README.md",
+    " M evaluation/github-odc-migration-demo.md",
+    " M scripts/db_demo/collect_evidence.py",
+    " M scripts/db_demo/generate_report.py",
+    " M scripts/db_demo/odc_client.py",
+    " M scripts/db_demo/tests/test_demo.py",
+    " M scripts/db_demo/verify_oracle.py",
+    "?? evaluation/archery-database-management-runtime.md",
+    "?? evaluation/github-odc-migration-demo-final.md",
+    "?? evidence/archery-runtime-20261008/",
+    "?? evidence/github-odc-runtime-demo-20261008/",
+    "?? poc/archery-k8s/",
+    "?? product-research/"
+  ],
+  "warning": "Includes uncommitted user-supplied design inputs; source HEAD alone does not identify imported content. Per-file hashes identify exact bytes. No runtime evidence or license approval is inferred.",
+  "files": [
+    {
+      "source_path": "product-research/BYTEBASE-FEATURE-BASELINE.md",
+      "imported_path": "docs/inputs/db-research/product-research/BYTEBASE-FEATURE-BASELINE.md",
+      "sha256": "26415f1a1638196f5eb30b30debdcaaceb77a8347dcf09f7bc71383db328384b",
+      "bytes": 14649,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/CROSS-PRODUCT-FEATURES.md",
+      "imported_path": "docs/inputs/db-research/product-research/CROSS-PRODUCT-FEATURES.md",
+      "sha256": "8ee33ddcf2650b7529bf5bc5471f3d15f7cd161117968b53e115174e1c8555e4",
+      "bytes": 9906,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/DATABASE-RESOURCE-MODEL.md",
+      "imported_path": "docs/inputs/db-research/product-research/DATABASE-RESOURCE-MODEL.md",
+      "sha256": "9f81de4e3981028167c27bd789189710e14aa322c30512e9843f0db59e817fd4",
+      "bytes": 10646,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/FEATURE-CATALOG.md",
+      "imported_path": "docs/inputs/db-research/product-research/FEATURE-CATALOG.md",
+      "sha256": "8c12664ec19b43689141fbdc0d4f1fb51a5e248fd8afea79762028d8aa9e48f7",
+      "bytes": 429117,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/GAP-ANALYSIS.md",
+      "imported_path": "docs/inputs/db-research/product-research/GAP-ANALYSIS.md",
+      "sha256": "75dff05b78ddaadd905166971b6d01e1234637b71bfd16d4853d3e924ae9e464",
+      "bytes": 8720,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/LICENSE-COMPLIANCE.md",
+      "imported_path": "docs/inputs/db-research/product-research/LICENSE-COMPLIANCE.md",
+      "sha256": "7e07c90d8d7d2f865792f50adf9e7accaafd89927f138ac04d5d129d69234f69",
+      "bytes": 9035,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/MIGRATION-RUNTIME-ARCHITECTURE.md",
+      "imported_path": "docs/inputs/db-research/product-research/MIGRATION-RUNTIME-ARCHITECTURE.md",
+      "sha256": "e6990f029e38fd73469c4ef42a57cc0820a271d10a89b6a9b505b4d0e3cf88a1",
+      "bytes": 26708,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/PRODUCT-ROADMAP.md",
+      "imported_path": "docs/inputs/db-research/product-research/PRODUCT-ROADMAP.md",
+      "sha256": "0538ab175da9f390cefcf04048258117ef3eb9256411546fe60f3703dea602f9",
+      "bytes": 33478,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/README.md",
+      "imported_path": "docs/inputs/db-research/product-research/README.md",
+      "sha256": "998a8ef90eb3fb7c9bce0144a2f5d46fb85e34bcbe63efad451dbba78381239b",
+      "bytes": 11213,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/RISK-REGISTER.md",
+      "imported_path": "docs/inputs/db-research/product-research/RISK-REGISTER.md",
+      "sha256": "89cb4b591d511b9c338bfede47c960a5a7d16161dbf46c4f69dd83e7ff15e118",
+      "bytes": 6304,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/TECHNOLOGY-DECISIONS.md",
+      "imported_path": "docs/inputs/db-research/product-research/TECHNOLOGY-DECISIONS.md",
+      "sha256": "c1d03acb32799af1ec55d8f8bd5024a012f222215f530f51cc3e771783549716",
+      "bytes": 14737,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/UI-UX-FEATURE-MAP.md",
+      "imported_path": "docs/inputs/db-research/product-research/UI-UX-FEATURE-MAP.md",
+      "sha256": "e810e161d3336bce3df5130891354619a78951de90468bc03f9e8abe5ded8070",
+      "bytes": 20197,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/feature-catalog.json",
+      "imported_path": "docs/inputs/db-research/product-research/feature-catalog.json",
+      "sha256": "5ffacb343a4cbea75f48537bd5e3bd45d4a6fae7fe0b5965e07fffbb83dcc3ba",
+      "bytes": 558046,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/feature-catalog.schema.json",
+      "imported_path": "docs/inputs/db-research/product-research/feature-catalog.schema.json",
+      "sha256": "f1d649e690ced83a73796bbf9f9c80fa39f0f183a3ca2ddd16ff140a5974b24b",
+      "bytes": 6035,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/ARCHITECTURE-DECISIONS.md",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/ARCHITECTURE-DECISIONS.md",
+      "sha256": "9438a9d6a83c57ad03d1f158340c86593862b42a82c93b538a33168a98ac26f1",
+      "bytes": 14345,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/DATA-CONTRACTS.md",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md",
+      "sha256": "9594e4094a207e5e7ac1520aa0059080dab609e2d0f45bb6ae7f9fe2111e6344",
+      "bytes": 30156,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/IMPLEMENTATION-BACKLOG.md",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/IMPLEMENTATION-BACKLOG.md",
+      "sha256": "539414fee30ebc08b25ad3cc041dcaa9d3fd910cd8afb4551fe9e32bed79070b",
+      "bytes": 101769,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/IMPLEMENTATION-READINESS.md",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/IMPLEMENTATION-READINESS.md",
+      "sha256": "f02bff519d869a2226e9860d15bf68d90a14470855230e38072cc5a10b858639",
+      "bytes": 8036,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/MVP-REFINEMENT.md",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/MVP-REFINEMENT.md",
+      "sha256": "8caa85321a64ec645088594e09d2e46f0744cf40c2d93de607b843c462295102",
+      "bytes": 200714,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/NEXT-CODEX-PROMPT.md",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/NEXT-CODEX-PROMPT.md",
+      "sha256": "6a4424113dcb8f8d8dc5ab9b4cf060924a42c4e33019155f0b7af98514f9f91a",
+      "bytes": 9008,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/READINESS-REVIEW.md",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/READINESS-REVIEW.md",
+      "sha256": "3f3d9a638f61243df26cf034e69d39b6db39bf7fc5cd212f290ee4d43871c477",
+      "bytes": 13055,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/README.md",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/README.md",
+      "sha256": "b7d503410c6fd1bc0152b661847bdb2ed9809d2edd1fdc66d5a8eb353c5907ee",
+      "bytes": 4037,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/WP0-ACCEPTANCE-MATRIX.md",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/WP0-ACCEPTANCE-MATRIX.md",
+      "sha256": "53dca1ed878e065cab2d0de9e4f00605ed95cdb399923a935ac940a6490e0587",
+      "bytes": 12989,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/WP0-TEST-PLAN.md",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/WP0-TEST-PLAN.md",
+      "sha256": "47b634da4a219edc189215949786ec073f9f4c694278d945c8ebe1a3f12b4c56",
+      "bytes": 106846,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/historical-readiness-checks.json",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/historical-readiness-checks.json",
+      "sha256": "5ed93b009689b3b629ebc319eb7a448e3bf117699ebb6f6b6041663d47157940",
+      "bytes": 1869,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/implementation-plan.json",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/implementation-plan.json",
+      "sha256": "8798bab649ea4e8f4495630b65e4da2d46a58adad0d722dbd8a4169c95cfd96f",
+      "bytes": 324445,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/readiness-validation.json",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/readiness-validation.json",
+      "sha256": "d7691630031e5593c80b2922ea46fee21440c4f67c55f5e388f1a952087a7b74",
+      "bytes": 1811,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/implementation/research-readiness-checks.json",
+      "imported_path": "docs/inputs/db-research/product-research/implementation/research-readiness-checks.json",
+      "sha256": "a510988a572526a0cfac57585783b910b34c3567ace1c87a6aa74ce1e329c572",
+      "bytes": 1764,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/bytebase-surface-inventory.json",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/bytebase-surface-inventory.json",
+      "sha256": "c4b83064b76b2d3e082673f96f007b70454f3b373159ae80926af40e04e4aecd",
+      "bytes": 61131,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/catalog-summary.json",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/catalog-summary.json",
+      "sha256": "50cf18959f94369b300ca41d03b1bbd0c80332d5bf9add3864f324befd49669a",
+      "bytes": 690,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/current-source-review.json",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/current-source-review.json",
+      "sha256": "48f78fbfd016d0604522ddd518561db3d2d5e53dd6b0f57872be68da953c8a2c",
+      "bytes": 5458,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/document-references.json",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/document-references.json",
+      "sha256": "9ec38017f29b44002e211f6743917bb0c5df9024bfd498f4c1b51c7bb27c77ce",
+      "bytes": 10909,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/feature-evidence.md",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/feature-evidence.md",
+      "sha256": "7aa4aee2fc0f3dec3ade1172d1d100d6d020808c3f1cc5390b0a628f809aaeb4",
+      "bytes": 166299,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/historical-check-results.json",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/historical-check-results.json",
+      "sha256": "5ed93b009689b3b629ebc319eb7a448e3bf117699ebb6f6b6041663d47157940",
+      "bytes": 1869,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/pre-existing-changes.json",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/pre-existing-changes.json",
+      "sha256": "db75a8e398739c054e69d89c92a2962a33d9c3e6ba73da2af9b68c2dfde19eb3",
+      "bytes": 1307,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/research-limitations.md",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/research-limitations.md",
+      "sha256": "5b40ec25cc9fb779f2baf166efda24daa9f689f7bd9f66dcc2be5100147ec324",
+      "bytes": 8818,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/snapshot-register.json",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/snapshot-register.json",
+      "sha256": "a7005211f0f54e7ccaf62642409f2bd745025e2bbf2158e0d047939b206606d7",
+      "bytes": 2687,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/source-manifest.md",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/source-manifest.md",
+      "sha256": "2c8c221255cfbb3e4ce660baaaf51b0828d9c310fab8c9e21497b1e811e2bf77",
+      "bytes": 15080,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/source-references.json",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/source-references.json",
+      "sha256": "461b8fcd39ecb3a6bb4b8218e20288dc359a48db3b1b993f154ee13b99c70563",
+      "bytes": 129956,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/upstream-observations.json",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/upstream-observations.json",
+      "sha256": "3feff36f8cfaeba3695e7f33cdef5fbf72f8dd383a1f23fe7fb258b1253107fb",
+      "bytes": 1874,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-research/evidence/validation-results.json",
+      "imported_path": "docs/inputs/db-research/product-research/evidence/validation-results.json",
+      "sha256": "bcd67e7a9f57fe7f81ba9a616753b231907ba61c699e81be3cdb1404498b6cfd",
+      "bytes": 1681,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "LICENSE-AUDIT.md",
+      "imported_path": "docs/inputs/db-research/LICENSE-AUDIT.md",
+      "sha256": "90cdd93cbe5e17d042faaa29bc77a55f432dc272f053f3ba6896b36c055a2ad6",
+      "bytes": 11554,
+      "classification": "DESIGN_INPUT_ONLY"
+    },
+    {
+      "source_path": "product-model-constraint.md",
+      "imported_path": "docs/inputs/db-research/product-model-constraint.md",
+      "sha256": "67e06cd2c1e572f40788626572455e955b072e7f7d447261ed747e27a439f38d",
+      "bytes": 7928,
+      "classification": "DESIGN_INPUT_ONLY"
+    }
+  ]
+}

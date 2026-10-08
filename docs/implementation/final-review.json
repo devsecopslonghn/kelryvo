@@ -1,0 +1,28 @@
+{
+  "reviewed_at": "2026-10-08T09:53:17.460461+00:00",
+  "scope": "Separate SchemaForge repository foundation and offline WP0-T01 only",
+  "authored_diff_whitespace": "PASS",
+  "immutable_import_diff_exception": "Original CRLF in product-model-constraint.md preserved. Imported byte-hash and staged Git blob checks pass; imported docs excluded from authored style checks.",
+  "db_research_git_status_preserved": true,
+  "all_43_source_hashes_preserved": true,
+  "all_43_staged_import_blobs_match_provenance": true,
+  "restricted_code_or_assets_imported": false,
+  "product_features_verified": 0,
+  "oracle_calls": 0,
+  "remote_actions": [],
+  "final_checks_manifest": "evidence/foundation/20261008T094923420Z-e58f558c/manifest.json",
+  "tests": {
+    "passed": 30,
+    "failed": 0,
+    "skipped": 0
+  },
+  "reviewed_areas": [
+    "Native specialist definitions and actual bounded delegations",
+    "All owned scripts and test changes",
+    "Tracker source, acceptance, evidence and scope guards",
+    "Preflight authorization, route, secret redaction and file containment",
+    "CI read-only permission and pinned source tool actions",
+    "Imported immutable inputs and preserved licensing restrictions",
+    "All final task/status/evidence/milestone state"
+  ]
+}

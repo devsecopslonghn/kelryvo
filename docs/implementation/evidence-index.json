@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0.0",
+  "note": "Actual local run records and sanitized raw output. Task-increment verification is separate from aggregate WP0 and product acceptance.",
+  "entries": [
+    {
+      "id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95",
+      "subject_id": "SF-P0-FOUNDATION",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "test_references": [
+        "tests/provenance.test.mjs",
+        "tests/agents.test.mjs",
+        "tests/tracker.test.mjs",
+        "tests/preflight.test.mjs"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/foundation/20261008T094530364Z-87710c95/checks.log",
+        "sha256": "0f036a2542129e005d748c3d3605b9bceecaddaa24ac463237289b49e6a2c842"
+      },
+      "path": "evidence/foundation/20261008T094530364Z-87710c95/foundation-review.json",
+      "sha256": "458a5e78e8ad565f6c79bdd1ba466b35115798e297042f959aeeea9262932fed"
+    },
+    {
+      "id": "WP0-T01-INPUTS-20261008T094757Z-c4b97e39",
+      "subject_id": "WP0-T01",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "BLOCKED",
+      "command": "node experiments/db-devops-wp0/preflight.mjs --output evidence/db-devops-wp0/20261008T094757Z-c4b97e39",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/20261008T094757Z-c4b97e39/preflight-output.json",
+        "sha256": "dc46bdc901ca046fbccdb4f4005d745052346a20460689248f680600ed1915c3"
+      },
+      "path": "evidence/db-devops-wp0/20261008T094757Z-c4b97e39/blocked-inputs-record.json",
+      "sha256": "d83d1a88961bc46970345a1909adcad9cf2d44deab3d5b03cbd1fc86c8028c3a"
+    },
+    {
+      "id": "WP0-T01-OFFLINE-20261008T094757Z-c4b97e39",
+      "subject_id": "WP0-T01",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0
+      ],
+      "test_references": [
+        "WP0-10-01"
+      ],
+      "case_coverage": [
+        {
+          "case_id": "WP0-10-01",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Offline preflight implementation, secret-free manifest validation and exact missing-input report only; driver/parser/JRE rights and full dependency closure are not accepted."
+        }
+      ],
+      "raw_output": {
+        "path": "evidence/foundation/20261008T094530364Z-87710c95/checks.log",
+        "sha256": "0f036a2542129e005d748c3d3605b9bceecaddaa24ac463237289b49e6a2c842"
+      },
+      "path": "evidence/db-devops-wp0/20261008T094757Z-c4b97e39/offline-preflight-review.json",
+      "sha256": "5d3def7d4417f197476342bf13d3e86e1c30a450be70028af46eef930a78c6d5"
+    },
+    {
+      "id": "SF-INTEGRATION-20261008T094856486Z-3f66d414",
+      "subject_id": "SF-P0-FOUNDATION",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "FAIL",
+      "command": "npm run check",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/foundation/20261008T094856486Z-3f66d414/checks.log",
+        "sha256": "b8f20a5738a1c5a05451d1f51a41591dda9184c918c2c7eb02d13eca7abe8c84"
+      },
+      "path": "evidence/foundation/20261008T094856486Z-3f66d414/integration-record.json",
+      "sha256": "67ecefad5eeacb16ae755fcea847a1639f71bcce23d8decb6ad1f023b9bcb28b"
+    },
+    {
+      "id": "SF-INTEGRATION-20261008T094923420Z-e58f558c",
+      "subject_id": "SF-P0-FOUNDATION",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "test_references": [
+        "tests/provenance.test.mjs",
+        "tests/agents.test.mjs",
+        "tests/tracker.test.mjs",
+        "tests/preflight.test.mjs"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/foundation/20261008T094923420Z-e58f558c/checks.log",
+        "sha256": "597e3ca3fd45eff29a4058887a51697346948fd145217626d3f7294cf99c3f5d"
+      },
+      "path": "evidence/foundation/20261008T094923420Z-e58f558c/integration-record.json",
+      "sha256": "89570b192125998e52ff7a409a8a086909aed42731175b41de2da8d2bc7f0bc3"
+    }
+  ]
+}

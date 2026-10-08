@@ -1,0 +1,23 @@
+{
+  "id": "SF-INTEGRATION-20261008T094856486Z-3f66d414",
+  "subject_id": "SF-P0-FOUNDATION",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "FAIL",
+  "command": "npm run check",
+  "exit_code": 1,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/foundation/20261008T094856486Z-3f66d414/checks.log",
+    "sha256": "b8f20a5738a1c5a05451d1f51a41591dda9184c918c2c7eb02d13eca7abe8c84"
+  },
+  "recorded_at": "2026-10-08T09:50:13.575302+00:00",
+  "reviewed_by": "orchestrator",
+  "manifest": {
+    "path": "evidence/foundation/20261008T094856486Z-3f66d414/manifest.json",
+    "sha256": "5b6e5034cad5687c6e0f4274d95eac26a6cee24acb20b0389b35fc5668316fa1"
+  },
+  "detail": "Milestone JSON contained escaped Unicode differing from canonical formatter. Formatting corrected; this failed run remains immutable."
+}

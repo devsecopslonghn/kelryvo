@@ -1,0 +1,214 @@
+
+> schemaforge-local-development@0.0.0 check
+> npm run build && npm run lint && npm run format:check && npm test
+
+
+> schemaforge-local-development@0.0.0 build
+> node scripts/check-source.mjs
+
+Source checks passed for 41 authored files.
+
+> schemaforge-local-development@0.0.0 lint
+> node scripts/check-source.mjs && node scripts/tracker.mjs validate
+
+Source checks passed for 41 authored files.
+Tracker data valid: 220 features, 64 imported tasks plus foundation, 63 cases; no product verification claims.
+
+> schemaforge-local-development@0.0.0 format:check
+> node scripts/format-json.mjs --check
+
+Authored JSON formatting passed; imported inputs and evidence excluded.
+
+> schemaforge-local-development@0.0.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: native specialist TOML parses with standard-library TOML and keeps parent settings
+ok 1 - native specialist TOML parses with standard-library TOML and keeps parent settings
+  ---
+  duration_ms: 61.454881
+  type: 'test'
+  ...
+# Subtest: empty manifest reports exact missing prerequisites as BLOCKED
+ok 2 - empty manifest reports exact missing prerequisites as BLOCKED
+  ---
+  duration_ms: 12.037469
+  type: 'test'
+  ...
+# Subtest: example manifest is rejected and receives no profile hash
+ok 3 - example manifest is rejected and receives no profile hash
+  ---
+  duration_ms: 2.929039
+  type: 'test'
+  ...
+# Subtest: complete synthetic manifest validates local fixture bytes without runtime authority
+ok 4 - complete synthetic manifest validates local fixture bytes without runtime authority
+  ---
+  duration_ms: 23.339554
+  type: 'test'
+  ...
+# Subtest: malformed nested values, exact versions, duplicate refs, scope and authorization reject or block safely
+ok 5 - malformed nested values, exact versions, duplicate refs, scope and authorization reject or block safely
+  ---
+  duration_ms: 23.489001
+  type: 'test'
+  ...
+# Subtest: unknown secret fields and TCPS userinfo are rejected without echoing canaries
+ok 6 - unknown secret fields and TCPS userinfo are rejected without echoing canaries
+  ---
+  duration_ms: 5.138971
+  type: 'test'
+  ...
+# Subtest: malformed declared hashes, versions and nested unknown fields never leak canaries
+ok 7 - malformed declared hashes, versions and nested unknown fields never leak canaries
+  ---
+  duration_ms: 13.961007
+  type: 'test'
+  ...
+# Subtest: artifact digest, symlink and protected-path checks stay within approved offline directory
+ok 8 - artifact digest, symlink and protected-path checks stay within approved offline directory
+  ---
+  duration_ms: 31.169619
+  type: 'test'
+  ...
+# Subtest: CLI rejects missing/duplicate arguments, sanitizes errors, and appends two reports without overwrite
+ok 9 - CLI rejects missing/duplicate arguments, sanitizes errors, and appends two reports without overwrite
+  ---
+  duration_ms: 490.538038
+  type: 'test'
+  ...
+# Subtest: every imported design input retains its exact source digest and classification
+ok 10 - every imported design input retains its exact source digest and classification
+  ---
+  duration_ms: 32.988717
+  type: 'test'
+  ...
+# Subtest: the original catalog, work packages and matrix keep all stable identifiers
+ok 11 - the original catalog, work packages and matrix keep all stable identifiers
+  ---
+  duration_ms: 7.899446
+  type: 'test'
+  ...
+# Subtest: persisted tracker state validates without assuming initial statuses
+ok 12 - persisted tracker state validates without assuming initial statuses
+  ---
+  duration_ms: 31.847798
+  type: 'test'
+  ...
+# Subtest: catalog and plan IDs are retained with original dependency links
+ok 13 - catalog and plan IDs are retained with original dependency links
+  ---
+  duration_ms: 5.674882
+  type: 'test'
+  ...
+# Subtest: separate WP0 cells never claim research as runtime PASS
+ok 14 - separate WP0 cells never claim research as runtime PASS
+  ---
+  duration_ms: 92.74962
+  type: 'test'
+  ...
+# Subtest: valid initial state has only the foundation in progress and WP0-T01 ready
+ok 15 - valid initial state has only the foundation in progress and WP0-T01 ready
+  ---
+  duration_ms: 10.021408
+  type: 'test'
+  ...
+# Subtest: unknown and cyclic dependencies are rejected
+ok 16 - unknown and cyclic dependencies are rejected
+  ---
+  duration_ms: 18.212398
+  type: 'test'
+  ...
+# Subtest: verification requires acceptance, evidence, and verified dependencies
+ok 17 - verification requires acceptance, evidence, and verified dependencies
+  ---
+  duration_ms: 21.012966
+  type: 'test'
+  ...
+# Subtest: BLOCKED and DEFERRED states require concrete reasons
+ok 18 - BLOCKED and DEFERRED states require concrete reasons
+  ---
+  duration_ms: 20.889777
+  type: 'test'
+  ...
+# Subtest: unit BLOCKED requires an offline blocker independent of Oracle lab status
+ok 19 - unit BLOCKED requires an offline blocker independent of Oracle lab status
+  ---
+  duration_ms: 16.293575
+  type: 'test'
+  ...
+# Subtest: Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+ok 20 - Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+  ---
+  duration_ms: 12.980253
+  type: 'test'
+  ...
+# Subtest: malformed evidence metadata returns validation errors without throwing
+ok 21 - malformed evidence metadata returns validation errors without throwing
+  ---
+  duration_ms: 26.979423
+  type: 'test'
+  ...
+# Subtest: research evidence cannot certify product status
+ok 22 - research evidence cannot certify product status
+  ---
+  duration_ms: 9.309091
+  type: 'test'
+  ...
+# Subtest: PASS cells need evidence
+ok 23 - PASS cells need evidence
+  ---
+  duration_ms: 10.189927
+  type: 'test'
+  ...
+# Subtest: ownership and dependency graph remain synchronized with work records
+ok 24 - ownership and dependency graph remain synchronized with work records
+  ---
+  duration_ms: 21.299011
+  type: 'test'
+  ...
+# Subtest: duplicate, missing, and unexpected imported IDs are rejected
+ok 25 - duplicate, missing, and unexpected imported IDs are rejected
+  ---
+  duration_ms: 26.151252
+  type: 'test'
+  ...
+# Subtest: source dependencies, acceptance, references, and result enums cannot drift
+ok 26 - source dependencies, acceptance, references, and result enums cannot drift
+  ---
+  duration_ms: 9.938924
+  type: 'test'
+  ...
+# Subtest: hashed indexed evidence covers every acceptance and test reference before verification
+ok 27 - hashed indexed evidence covers every acceptance and test reference before verification
+  ---
+  duration_ms: 106.850531
+  type: 'test'
+  ...
+# Subtest: product feature verification needs product-scope evidence and verified implementation tasks
+ok 28 - product feature verification needs product-scope evidence and verified implementation tasks
+  ---
+  duration_ms: 23.142684
+  type: 'test'
+  ...
+# Subtest: init refuses to overwrite initialized evidence or tracking state
+ok 29 - init refuses to overwrite initialized evidence or tracking state
+  ---
+  duration_ms: 78.490238
+  type: 'test'
+  ...
+# Subtest: next respects milestone scope and dependency gates independent of persisted statuses
+ok 30 - next respects milestone scope and dependency gates independent of persisted statuses
+  ---
+  duration_ms: 3.620414
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 865.024268

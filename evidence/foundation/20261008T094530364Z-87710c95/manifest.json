@@ -1,0 +1,248 @@
+{
+  "schema_version": 1,
+  "id": "SF-CHECK-20261008T094530364Z-87710c95",
+  "kind": "STATIC",
+  "started_at": "2026-10-08T09:45:30.364Z",
+  "finished_at": "2026-10-08T09:45:33.051Z",
+  "node": "v22.23.3",
+  "scope": "Local foundation and offline WP0 validator only",
+  "command": "npm run check",
+  "exit_code": 0,
+  "outcome": "PASS",
+  "log": {
+    "path": "evidence/foundation/20261008T094530364Z-87710c95/checks.log",
+    "sha256": "0f036a2542129e005d748c3d3605b9bceecaddaa24ac463237289b49e6a2c842"
+  },
+  "sources": [
+    {
+      "path": ".codex/agents/backend.toml",
+      "sha256": "67f758db264074c7ee03de59697edf457a31216ce6c7a39ce6772a5632e92eac",
+      "bytes": 1255
+    },
+    {
+      "path": ".codex/agents/database.toml",
+      "sha256": "b486cb586823a5c767ae50faa27cb033401c8e8bf97437cfab5bcb3ed021d657",
+      "bytes": 1227
+    },
+    {
+      "path": ".codex/agents/devops.toml",
+      "sha256": "3b7d08a1733d7ec58529448398fdb60ae8540f478d23667c82b3655faebb00a0",
+      "bytes": 1010
+    },
+    {
+      "path": ".codex/agents/frontend.toml",
+      "sha256": "402f742728332f438537d2934a2e2053e1c12b42b19a29ac0af758220d7c2048",
+      "bytes": 1089
+    },
+    {
+      "path": ".codex/agents/qa.toml",
+      "sha256": "a473b0928d41efe8c40c671ecf68d2047e724756d2f7208b06c2793ed9e6f59c",
+      "bytes": 1036
+    },
+    {
+      "path": ".codex/agents/security.toml",
+      "sha256": "f7ecc93b35fd38c1916018bc69358c0f5ec021d8955d6c47aa3ea507d4af8c78",
+      "bytes": 1087
+    },
+    {
+      "path": ".codex/config.toml",
+      "sha256": "707815b5c5d7957526793f63653270db48915cba58fd98cf049163c1ac8c41e8",
+      "bytes": 134
+    },
+    {
+      "path": ".editorconfig",
+      "sha256": "7351a91da0d67bc43e6bf65bdafa6e18ae7a45d5c458927d72bf2f543fdbffb2",
+      "bytes": 198
+    },
+    {
+      "path": ".github/workflows/check.yml",
+      "sha256": "d3393a58c759402c44d0a74af56041f38fd29c91352a6641aa4c21749afe40d1",
+      "bytes": 639
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "677418856592a6ffdf8c7db093388986003e502c0f16cb3098dba2c806930526",
+      "bytes": 191
+    },
+    {
+      "path": ".nvmrc",
+      "sha256": "6d07ac247e81cd42c2c20abf8dfe504413d6b2422e4aba9b2c975a776f155921",
+      "bytes": 8
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "85296b6dfffbbcb769882ac597b789cd85a3043171680500960babd3913cd487",
+      "bytes": 3263
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "sha256": "710c26ec4b209904e5e7f1df9af9c5452fa4379c52b770261fb4cc5f3f521f8f",
+      "bytes": 2730
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "70594054138e1bef32b2dab3c131bcfe3d867af2b5afc42d88301ece0b0ff6b3",
+      "bytes": 558
+    },
+    {
+      "path": "README.md",
+      "sha256": "80c8256a61443e099be3e8dd1b72391bf86b0d70d34ff09c4ee2f422bd2143f5",
+      "bytes": 2901
+    },
+    {
+      "path": "docs/architecture/boundaries.md",
+      "sha256": "becdb339ad4df5e6b386abc8805e29bbf940f23e1ebaf7448ab5219e73abc7c1",
+      "bytes": 1819
+    },
+    {
+      "path": "docs/decisions/log.json",
+      "sha256": "e6cb9748af27fd2c32cf8903a34c8a70d30d20033445dc0f386ba91650e0004a",
+      "bytes": 1289
+    },
+    {
+      "path": "docs/implementation/CURRENT.md",
+      "sha256": "2ac492abca25ee7ab0214b33e0f482fdf759140096f5210f7eacb6e2ab7853a0",
+      "bytes": 1527
+    },
+    {
+      "path": "docs/implementation/acceptance.json",
+      "sha256": "25602816dfbe9acaa4e458c6557cd772f5cb2212e6b4f99b94c169677f23c0fa",
+      "bytes": 165030
+    },
+    {
+      "path": "docs/implementation/agents.md",
+      "sha256": "4fef6a6e9f4391e170d80c78971d5bc81de16eefd0ce720c5374cf526a203178",
+      "bytes": 3977
+    },
+    {
+      "path": "docs/implementation/backlog.json",
+      "sha256": "b322b36d96d61da3bf0a669dc19d8d7b85db1cb4761fc701a6deac38a17ec897",
+      "bytes": 55167
+    },
+    {
+      "path": "docs/implementation/delegations.json",
+      "sha256": "dc2c6f6f635f3e843cd80717ef51b3304a76592a654aeed5e287769419155d2d",
+      "bytes": 3041
+    },
+    {
+      "path": "docs/implementation/dependency-graph.json",
+      "sha256": "cb3dfddcd686fb2932ab6c2db794616075cbfd65f0a49607dd5f112cb783fce8",
+      "bytes": 19526
+    },
+    {
+      "path": "docs/implementation/evidence-index.json",
+      "sha256": "1b1325635c02a42b8ccb637e6986f92b99b442f5b06eca3faa39edc87656fffb",
+      "bytes": 124
+    },
+    {
+      "path": "docs/implementation/features.json",
+      "sha256": "cac6c511358a83d445ecc724a459c80c0f0ac27c1e225dca7565adf19c7ebb65",
+      "bytes": 304644
+    },
+    {
+      "path": "docs/implementation/milestone.json",
+      "sha256": "7ddc355929d103c292096c2bb3bfdabe4b0d8f9e6737a57fbd84ad8ed687524e",
+      "bytes": 335
+    },
+    {
+      "path": "docs/implementation/ownership.json",
+      "sha256": "62ac8b5f533b8ef3b98001132d796ba5155f14d544207a540a82ee13833592bb",
+      "bytes": 25820
+    },
+    {
+      "path": "docs/implementation/runtime-validation.json",
+      "sha256": "59381f3d70546a0da149300c13a4554ac5dad9563faf01ca87b08c4f84491929",
+      "bytes": 3272
+    },
+    {
+      "path": "docs/implementation/tracking.md",
+      "sha256": "fc0da5f0b07d5d669eb6e678237d5479dbd42f6ca8f9988e480a24c078507a7e",
+      "bytes": 4399
+    },
+    {
+      "path": "docs/inputs/README.md",
+      "sha256": "af61ffc1812a843712e649fe8c4c3f613161a2ed0c85fb4e235526b86ddc829e",
+      "bytes": 1890
+    },
+    {
+      "path": "docs/inputs/provenance.json",
+      "sha256": "8ee97ebfc0389642415b6f9d29bcd846b9c794fc6f3ceeccae12971c5b89fcb9",
+      "bytes": 15421
+    },
+    {
+      "path": "docs/product/license-and-naming.md",
+      "sha256": "289b0732995f634d9d74adcc16c0af204fd060a7e9a3513616a184fdfca85c3b",
+      "bytes": 1495
+    },
+    {
+      "path": "experiments/db-devops-wp0/README.md",
+      "sha256": "006db92a8e64fd0b6fedd306945152ee30b6c55c2b46f20c7a8be496a4e2e254",
+      "bytes": 3253
+    },
+    {
+      "path": "experiments/db-devops-wp0/lab-profile.example.json",
+      "sha256": "c0fafb4159dc6bd852d16e5ba57f2f3f684e5248b679f935373aa26f2e457e2b",
+      "bytes": 4287
+    },
+    {
+      "path": "experiments/db-devops-wp0/preflight.mjs",
+      "sha256": "6a518768f0c521d8cbca9e796ed3b505a1b2497c74c4d44b741e2caa4cf8b44e",
+      "bytes": 29751
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "508a48dbf7df4a2483071ea9f9a87ce30f505a04d75d1597b66d73d8f4b38634",
+      "bytes": 281
+    },
+    {
+      "path": "package.json",
+      "sha256": "484771c723f26954575d4bf113513b0566d8ce1bd63ffb7cd316076e368989ea",
+      "bytes": 844
+    },
+    {
+      "path": "scripts/check-source.mjs",
+      "sha256": "04ec62fa79de0f3e451c70b10a41ee2fde93251bb84fda833436e793cf7bd7b0",
+      "bytes": 2055
+    },
+    {
+      "path": "scripts/format-json.mjs",
+      "sha256": "f0f8fb10e0be0642c32895bbf87fe30d1c3a0e812ad2a38bb31f866d29ef4718",
+      "bytes": 1070
+    },
+    {
+      "path": "scripts/record-checks.mjs",
+      "sha256": "6ff61bd29a2beff8caa495fdc20854e643b975c016c6e8d9530855cc9744e11a",
+      "bytes": 2369
+    },
+    {
+      "path": "scripts/tracker.mjs",
+      "sha256": "1f6a29d715256b1c274113547ea90ca0edfd7e41e003628465e3d95525083af7",
+      "bytes": 34238
+    },
+    {
+      "path": "tests/agents.test.mjs",
+      "sha256": "d5c45ddcda2e969b49da83b503883de9194cce6ffe31951b666ada6a52c3d1a6",
+      "bytes": 1688
+    },
+    {
+      "path": "tests/preflight.test.mjs",
+      "sha256": "209e926f29ad7624758a69e2ce521e5f7b4699e5ffcdc86836831146029f9d11",
+      "bytes": 15489
+    },
+    {
+      "path": "tests/provenance.test.mjs",
+      "sha256": "842806b4ef35a5bc3ab81181f5ee7ace80ad3b32803ba5e69b9270d8bf0fd195",
+      "bytes": 2211
+    },
+    {
+      "path": "tests/tracker.test.mjs",
+      "sha256": "ea4cc6f5128f5978744310455d7806fdc47bb0c122bff2cb45668bb2ad66f64a",
+      "bytes": 18618
+    }
+  ],
+  "limitations": [
+    "No Oracle connection, dependency-license closure, model turn, remote CI or deployment was performed.",
+    "Source validation is not a deployable product build; synthetic validator tests do not certify Oracle behavior.",
+    "Tracking state may advance after this snapshot; immutable run files must not be rewritten."
+  ]
+}

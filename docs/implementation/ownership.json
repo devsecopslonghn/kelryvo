@@ -1,0 +1,1200 @@
+{
+  "schema_version": "1.0.0",
+  "agents": {
+    "database": {
+      "responsibilities": "Oracle data model, database behavior, migration execution, and database contracts",
+      "path_policy": [
+        "apps/worker/**",
+        "packages/**",
+        "experiments/**"
+      ]
+    },
+    "backend": {
+      "responsibilities": "Application services, governance workflows, APIs, and durable state contracts",
+      "path_policy": [
+        "apps/api/**",
+        "packages/**"
+      ]
+    },
+    "frontend": {
+      "responsibilities": "User-facing workflows, accessible views, and client integration",
+      "path_policy": [
+        "apps/web/**",
+        "packages/**"
+      ]
+    },
+    "security": {
+      "responsibilities": "Identity, authorization, secret handling, threat boundaries, and security evidence",
+      "path_policy": [
+        "apps/api/**",
+        "apps/worker/**",
+        "packages/**"
+      ]
+    },
+    "qa": {
+      "responsibilities": "Acceptance traceability, test design, evidence quality, and release gates",
+      "path_policy": [
+        "tests/**",
+        "experiments/**",
+        "docs/implementation/**"
+      ]
+    },
+    "devops": {
+      "responsibilities": "Build, Git/provider integration, operations, packaging, and deployment contracts",
+      "path_policy": [
+        "scripts/**",
+        "experiments/**",
+        ".github/**"
+      ]
+    },
+    "orchestrator": {
+      "responsibilities": "Cross-domain integration, shared contracts, and milestone coordination",
+      "path_policy": [
+        "docs/implementation/**"
+      ]
+    }
+  },
+  "items": {
+    "DBM-001": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-002": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-003": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-004": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-005": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-006": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-007": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-008": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-009": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-010": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-011": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-012": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-013": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-014": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-015": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-016": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-017": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-018": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-019": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-020": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-021": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-022": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-023": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-024": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-025": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "DBM-026": {
+      "assigned_agent": "database",
+      "status": "DEFERRED"
+    },
+    "DBM-027": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "PRJ-001": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-002": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-003": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-004": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-005": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-006": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-007": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-008": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-009": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-010": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-011": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-012": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-013": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-014": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "PRJ-015": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "MIG-001": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-002": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-003": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-004": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-005": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-006": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-007": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-008": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-009": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-010": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-011": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-012": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-013": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-014": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-015": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-016": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-017": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-018": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-019": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-020": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-021": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-022": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-023": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-024": {
+      "assigned_agent": "database",
+      "status": "DEFERRED"
+    },
+    "MIG-025": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-026": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-027": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-028": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-029": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-030": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-031": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-032": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-033": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "MIG-034": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "GOV-001": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-002": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-003": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-004": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-005": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-006": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-007": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-008": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-009": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-010": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-011": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-012": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-013": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-014": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-015": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-016": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-017": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-018": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-019": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-020": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-021": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-022": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-023": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-024": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "GOV-025": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-001": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-002": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-003": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-004": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-005": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-006": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-007": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-008": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-009": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-010": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-011": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-012": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-013": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-014": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-015": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-016": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-017": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-018": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-019": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-020": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-021": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-022": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-023": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-024": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SQL-025": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "SEC-001": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-002": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-003": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-004": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-005": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-006": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-007": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-008": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-009": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-010": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-011": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-012": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-013": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-014": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-015": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-016": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-017": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-018": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-019": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-020": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-021": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-022": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-023": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-024": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-025": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-026": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-027": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "SEC-028": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "GIT-001": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-002": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-003": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-004": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-005": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-006": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-007": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-008": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-009": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-010": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-011": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-012": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-013": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-014": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-015": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-016": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-017": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-018": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "GIT-019": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-001": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-002": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-003": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-004": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-005": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-006": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-007": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-008": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-009": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-010": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-011": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-012": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-013": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-014": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-015": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-016": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-017": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-018": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-019": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-020": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-021": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-022": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-023": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-024": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-025": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-026": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "OPS-027": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "EXT-001": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-002": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-003": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-004": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-005": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-006": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-007": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-008": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-009": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-010": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-011": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-012": {
+      "assigned_agent": "qa",
+      "status": "DEFERRED"
+    },
+    "EXT-013": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-014": {
+      "assigned_agent": "qa",
+      "status": "DEFERRED"
+    },
+    "EXT-015": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-016": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "EXT-017": {
+      "assigned_agent": "qa",
+      "status": "DEFERRED"
+    },
+    "EXT-018": {
+      "assigned_agent": "qa",
+      "status": "DEFERRED"
+    },
+    "EXT-019": {
+      "assigned_agent": "qa",
+      "status": "DEFERRED"
+    },
+    "EXT-020": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "SF-P0-FOUNDATION": {
+      "assigned_agent": "orchestrator",
+      "status": "VERIFIED"
+    },
+    "WP0-T01": {
+      "assigned_agent": "devops",
+      "status": "VERIFIED"
+    },
+    "WP0-T02": {
+      "assigned_agent": "security",
+      "status": "READY"
+    },
+    "WP0-T03": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP0-T04": {
+      "assigned_agent": "database",
+      "status": "BLOCKED"
+    },
+    "WP0-T05": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP0-T06": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP0-T07": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "WP0-T08": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP0-T09": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP0-T10": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP0-T11": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "WP0-T12": {
+      "assigned_agent": "orchestrator",
+      "status": "BACKLOG",
+      "review_agent": "qa"
+    },
+    "WP1-T01": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "WP1-T02": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "WP1-T03": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "WP1-T04": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "WP1-T05": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "WP2-T01": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP2-T02": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP2-T03": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP2-T04": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP2-T05": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP2-T06": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP2-T07": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP3-T01": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "WP3-T02": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "WP3-T03": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "WP3-T04": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "WP3-T05": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "WP3-T06": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "WP4-T01": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "WP4-T02": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "WP4-T03": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "WP4-T04": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "WP4-T05": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "WP4-T06": {
+      "assigned_agent": "security",
+      "status": "BACKLOG"
+    },
+    "WP5-T01": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP5-T02": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP5-T03": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP5-T04": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP5-T05": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP5-T06": {
+      "assigned_agent": "database",
+      "status": "BACKLOG"
+    },
+    "WP6-T01": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "WP6-T02": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "WP6-T03": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "WP6-T04": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "WP6-T05": {
+      "assigned_agent": "backend",
+      "status": "BACKLOG"
+    },
+    "WP7-T01": {
+      "assigned_agent": "frontend",
+      "status": "BACKLOG"
+    },
+    "WP7-T02": {
+      "assigned_agent": "frontend",
+      "status": "BACKLOG"
+    },
+    "WP7-T03": {
+      "assigned_agent": "frontend",
+      "status": "BACKLOG"
+    },
+    "WP7-T04": {
+      "assigned_agent": "frontend",
+      "status": "BACKLOG"
+    },
+    "WP7-T05": {
+      "assigned_agent": "frontend",
+      "status": "BACKLOG"
+    },
+    "WP8-T01": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "WP8-T02": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "WP8-T03": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "WP8-T04": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "WP8-T05": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "WP8-T06": {
+      "assigned_agent": "devops",
+      "status": "BACKLOG"
+    },
+    "WP9-T01": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "WP9-T02": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "WP9-T03": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "WP9-T04": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "WP9-T05": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    },
+    "WP9-T06": {
+      "assigned_agent": "qa",
+      "status": "BACKLOG"
+    }
+  }
+}

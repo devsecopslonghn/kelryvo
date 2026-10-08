@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "milestone": "WP0 Oracle feasibility — offline preparation",
+  "status": "IN_PROGRESS",
+  "allowed_packages": [
+    "WP0"
+  ],
+  "oracle_lab_authorized": false,
+  "foundation_task": "SF-P0-FOUNDATION",
+  "blockers": [
+    "No authorized disposable Oracle 19c/21c lab manifest or scoped credentials/identities/grants/fault authority.",
+    "Selected driver/parser/JRE/PostgreSQL artifact pins and complete dependency/license/NOTICE closure remain unaudited.",
+    "Product license selection and public naming clearance remain owner decisions before distribution."
+  ],
+  "evidence": [
+    {
+      "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
+    },
+    {
+      "index_id": "WP0-T01-OFFLINE-20261008T094757Z-c4b97e39"
+    }
+  ],
+  "foundation_status": "VERIFIED",
+  "foundation_evidence": {
+    "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
+  },
+  "current_phase": "Phase 1 / offline WP0",
+  "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
+  "wp0_acceptance": "BLOCKED",
+  "wp0_architecture_decision": "NOT_ACCEPTED",
+  "product_features_verified": 0,
+  "next_actionable_tasks": [
+    {
+      "id": "WP0-T02",
+      "owner": "security",
+      "action": "Audit and pin actual candidate driver/parser/JRE dependency closure and notices; no Oracle required.",
+      "dependencies": [
+        "WP0-T01"
+      ],
+      "status": "READY"
+    },
+    {
+      "id": "WP0-T03",
+      "owner": "database",
+      "action": "Implement only an accepted mature parser wrapper and byte-range corpus after dependency audit.",
+      "dependencies": [
+        "WP0-T02"
+      ],
+      "status": "BACKLOG"
+    },
+    {
+      "id": "WP0-T04",
+      "owner": "database",
+      "action": "Obtain explicitly authorized disposable profiles and scoped input references, then implement bounded Thin probes.",
+      "dependencies": [
+        "WP0-T01",
+        "WP0-T02"
+      ],
+      "status": "BLOCKED"
+    }
+  ],
+  "blocked_inputs_evidence": {
+    "index_id": "WP0-T01-INPUTS-20261008T094757Z-c4b97e39"
+  },
+  "resume_commands": [
+    "npm ci --ignore-scripts --no-audit --no-fund",
+    "npm run check",
+    "npm run status",
+    "npm run next"
+  ],
+  "updated_at": "2026-10-08T09:47:57.570551+00:00",
+  "final_check_evidence": {
+    "index_id": "SF-INTEGRATION-20261008T094923420Z-e58f558c"
+  },
+  "final_check_manifest": "evidence/foundation/20261008T094923420Z-e58f558c/manifest.json"
+}

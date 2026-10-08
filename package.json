@@ -1,0 +1,22 @@
+{
+  "name": "schemaforge-local-development",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline foundation tooling and WP0 probes; product license undecided",
+  "engines": {
+    "node": ">=22.23.3 <23"
+  },
+  "scripts": {
+    "build": "node scripts/check-source.mjs",
+    "lint": "node scripts/check-source.mjs && node scripts/tracker.mjs validate",
+    "format:check": "node scripts/format-json.mjs --check",
+    "format": "node scripts/format-json.mjs --write",
+    "test": "node --test tests/*.test.mjs",
+    "check": "npm run build && npm run lint && npm run format:check && npm test",
+    "check:record": "node scripts/record-checks.mjs",
+    "status": "node scripts/tracker.mjs status",
+    "next": "node scripts/tracker.mjs next",
+    "preflight": "node experiments/db-devops-wp0/preflight.mjs"
+  }
+}

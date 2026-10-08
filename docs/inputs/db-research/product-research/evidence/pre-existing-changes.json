@@ -1,0 +1,17 @@
+{
+  "branch_before": "feature/github-odc-migration-demo",
+  "base_commit": "44b3ee7413204bdbddd587b1d5f220180eef3904",
+  "tracked_file_hashes": {
+    "README.md": "8ccbc8443d3ab70f8d512b31b744ceb3eea153ec478c2f0d2c5d2cf2da747849",
+    "demo/README.md": "d408ebc39f5657ba02c6384be1de106b9fe5eb6e8baae9e14b76f6bce691135e",
+    "demo/customer-profile/docs/operator-guide.md": "a0598ed08e40c16aadf6ac12215c20371c5c2045ad63dd19bf16918a40c28d75",
+    "evaluation/README.md": "9aa2685db21040c2b7d65b329d4f4074cad073385ccd2e615721fa4079f2d4d8",
+    "evaluation/github-odc-migration-demo.md": "80992a2ed2fb761ac298b115d5c6b4a9506c67597f1dce8424e8e516cd685492",
+    "scripts/db_demo/collect_evidence.py": "99125612fea2baad816b0a83297441c49923e61d3e1adfcf87323d0a11327fc8",
+    "scripts/db_demo/generate_report.py": "def06ba6df4b1eb6aae488421930821cbabd52a4a5a3dca04aa63e4882b1c55a",
+    "scripts/db_demo/odc_client.py": "196fb7823770f6e8c596a03091ee15a642a335d7e99ffb6439944f9f9db40c5a",
+    "scripts/db_demo/tests/test_demo.py": "5be66874d0d666d12adaf6b7b535f42e3b7889cf678ca2d1f1f021b1c5bcf8ef",
+    "scripts/db_demo/verify_oracle.py": "027ba054550d2f65fb427cfe40d73440ed2996b4cd03ce8042bd76905601d86c"
+  },
+  "note": "Pre-existing untracked evaluation/evidence/poc work is preserved; no deployment was touched."
+}

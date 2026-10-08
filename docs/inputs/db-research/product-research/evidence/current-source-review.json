@@ -1,0 +1,167 @@
+[
+  {
+    "repo": "bytebase/bytebase",
+    "sha": "16b89d9b49741c65623970038859d0d6397c8fe5",
+    "file": "LICENSE",
+    "sha256": "cabda19dfa84124f47c423da96e65b4860ac28fe443663cda21a3a84a09b762e",
+    "same_as_frozen": true,
+    "lines": 25
+  },
+  {
+    "repo": "bytebase/bytebase",
+    "sha": "16b89d9b49741c65623970038859d0d6397c8fe5",
+    "file": "LICENSE.enterprise",
+    "sha256": "24ff745fd7be9f66ba03952a41e5714fbe1ea45224557802e4794f6e1ce06af5",
+    "same_as_frozen": true,
+    "lines": 39
+  },
+  {
+    "repo": "bytebase/bytebase",
+    "sha": "16b89d9b49741c65623970038859d0d6397c8fe5",
+    "file": "backend/enterprise/plan.yaml",
+    "sha256": "643e788c6cac459f4c8f9e9588b37f4892ea05c4ddd1307a2fc6931a1885f5e9",
+    "same_as_frozen": true,
+    "lines": 171
+  },
+  {
+    "repo": "bytebase/bytebase",
+    "sha": "16b89d9b49741c65623970038859d0d6397c8fe5",
+    "file": "backend/runner/taskrun/database_migrate_executor.go",
+    "sha256": "a15c3ef10a3e9bea3ed2690670d169e7614824fc5fced86858be155aa8a8e031",
+    "same_as_frozen": true,
+    "lines": 1050
+  },
+  {
+    "repo": "bytebase/bytebase",
+    "sha": "16b89d9b49741c65623970038859d0d6397c8fe5",
+    "file": "proto/v1/v1/release_service.proto",
+    "sha256": "4826c8b03c1368e45b1d21bbaa0d434fa9ef44812b200ac490e4cdecd2ff5361",
+    "same_as_frozen": true,
+    "lines": 362
+  },
+  {
+    "repo": "bytebase/bytebase",
+    "sha": "16b89d9b49741c65623970038859d0d6397c8fe5",
+    "file": "proto/v1/v1/instance_service.proto",
+    "sha256": "ecb8604d3da82497149c3bd1f81a94cf6ba3c8c55ae53c9866dcc381744ba3d9",
+    "same_as_frozen": true,
+    "lines": 1001
+  },
+  {
+    "repo": "bytebase/bytebase",
+    "sha": "16b89d9b49741c65623970038859d0d6397c8fe5",
+    "file": "proto/v1/v1/database_service.proto",
+    "sha256": "38f6e7c556e1332e7a375391ce7a12b09706570d9b69a30826f43e6e3560f6df",
+    "same_as_frozen": true,
+    "lines": 1524
+  },
+  {
+    "repo": "bytebase/bytebase",
+    "sha": "16b89d9b49741c65623970038859d0d6397c8fe5",
+    "file": "backend/plugin/db/oracle/oracle.go",
+    "sha256": "f9be79a80101c3eebfd732b094c438a21f82686be18b69f5a0f7e7762097a22a",
+    "same_as_frozen": true,
+    "lines": 316
+  },
+  {
+    "repo": "bablsoft/accessflow",
+    "sha": "c8bb247637df76ce36e52f47b45899823409495e",
+    "file": "ci-templates/examples/generic-curl-deployment.md",
+    "sha256": "1f4c9b51691959a49857cdefb329821b406552ba711d5ae47583ed963e29df09",
+    "lines": 129
+  },
+  {
+    "repo": "dbgate/dbgate",
+    "sha": "d7c62fd89385543af59eb5ecdea3526a3f26ba70",
+    "file": "LICENSE",
+    "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "lines": 674
+  },
+  {
+    "repo": "dbgate/dbgate",
+    "sha": "d7c62fd89385543af59eb5ecdea3526a3f26ba70",
+    "file": "README.md",
+    "sha256": "f6c0ce2244a1ea1971528a76880bd352b625a476b92077564a02ccb6afcdab1e",
+    "lines": 212
+  },
+  {
+    "repo": "dbgate/dbgate",
+    "sha": "d7c62fd89385543af59eb5ecdea3526a3f26ba70",
+    "file": "package.json",
+    "sha256": "fbcee868c6d2ad16df1bc96125fd89ad80fe70693803f6db25ffc80ca9f6e22a",
+    "lines": 93
+  },
+  {
+    "repo": "liquibase/liquibase",
+    "sha": "893a20a519cae987c152d84637f70c9cf5b70067",
+    "file": "LICENSE.txt",
+    "sha256": "06a5644579563750de2a41006d75d2fe40149e22f90aea9d5fe919095f43a508",
+    "lines": 66
+  },
+  {
+    "repo": "dbgate/dbgate",
+    "sha": "d7c62fd89385543af59eb5ecdea3526a3f26ba70",
+    "file": "plugins/dbgate-plugin-oracle/package.json",
+    "sha256": "cc360e7a1544f035833a9407ab462934ee7b7d274e0aa1d55e224af24b695a6f",
+    "lines": 45
+  },
+  {
+    "repo": "dbgate/dbgate",
+    "sha": "d7c62fd89385543af59eb5ecdea3526a3f26ba70",
+    "file": "plugins/dbgate-plugin-oracle/LICENSE",
+    "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "lines": 674
+  },
+  {
+    "repo": "dbgate/dbgate",
+    "sha": "d7c62fd89385543af59eb5ecdea3526a3f26ba70",
+    "file": "plugins/dbgate-plugin-oracle/src/backend/driver.js",
+    "sha256": "95d8db78cf84c72bd5ed542378dfb6e17da11c731586b874de68fd6bbb95fafb",
+    "lines": 390
+  },
+  {
+    "repo": "sijms/go-ora",
+    "sha": "62f8a42fe821414cec8fcacb1b877dfef836f798",
+    "file": "LICENSE",
+    "sha256": "86b6a31a08af7288285c3f242fd257d8d985587182c6af3796cb421daa0b8339",
+    "lines": 21
+  },
+  {
+    "repo": "sijms/go-ora",
+    "sha": "62f8a42fe821414cec8fcacb1b877dfef836f798",
+    "file": "README.md",
+    "sha256": "4a93544954ef3bd69e052d2aa433cd7cda24bcd4ea2f28311b25b806d4299870",
+    "lines": 477
+  },
+  {
+    "repo": "sijms/go-ora",
+    "sha": "62f8a42fe821414cec8fcacb1b877dfef836f798",
+    "file": "v2/go.mod",
+    "sha256": "a6fda3930e77618e0584a89bcce3bd5b71695d7a1669e83fd16a4291a858a61d",
+    "lines": 4
+  },
+  {
+    "repo": "oracle/node-oracledb",
+    "sha": "80c54f80ded26fe3013244c275a2cfce38439d69",
+    "file": "LICENSE.txt",
+    "sha256": "43d6761493f537b481d7a8e8247a803c979f32265f3e597d7d5ee64bcd710423",
+    "lines": 229,
+    "version": "v7.0.1"
+  },
+  {
+    "repo": "oracle/node-oracledb",
+    "sha": "80c54f80ded26fe3013244c275a2cfce38439d69",
+    "file": "package.json",
+    "sha256": "37265e1e960b39090707c0a2f294e2633afd7ecf72fb37815c54d9e8ead0eee8",
+    "lines": 56,
+    "version": "v7.0.1"
+  },
+  {
+    "repo": "oracle/node-oracledb",
+    "sha": "80c54f80ded26fe3013244c275a2cfce38439d69",
+    "file": "lib/thin/connection.js",
+    "sha256": "df61c6c3d44cf570be9eea95bcdaddb134d33c56bb765257b5016625de325567",
+    "lines": 1912,
+    "version": "v7.0.1"
+  }
+]

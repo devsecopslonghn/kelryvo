@@ -1,0 +1,54 @@
+{
+  "id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95",
+  "subject_id": "SF-P0-FOUNDATION",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "npm run check",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "test_references": [
+    "tests/provenance.test.mjs",
+    "tests/agents.test.mjs",
+    "tests/tracker.test.mjs",
+    "tests/preflight.test.mjs"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/foundation/20261008T094530364Z-87710c95/checks.log",
+    "sha256": "0f036a2542129e005d748c3d3605b9bceecaddaa24ac463237289b49e6a2c842"
+  },
+  "reviewed_by": "orchestrator",
+  "recorded_at": "2026-10-08T09:46:47.271076+00:00",
+  "observations": [
+    "30 offline tests passed; build/source, tracker lint and JSON format checks passed.",
+    "Six native TOML definitions validated using Python standard library.",
+    "SHA-pinned read-only CI reviewed; no remote CI execution claimed.",
+    "Imported authored research only; no upstream source/assets copied. License and name decisions remain pending."
+  ],
+  "additional_artifacts": [
+    {
+      "path": "evidence/foundation/20261008T094530364Z-87710c95/manifest.json",
+      "sha256": "9f780ff17980a67a377cb1e6076bde95f8f6a6648d79148294719675a3479140"
+    },
+    {
+      "path": "evidence/foundation/20261008T094530364Z-87710c95/source-preservation.json",
+      "sha256": "c58229554302a966d471439f6be4f197cdf7c890adfd835dec727d50529a69d8"
+    }
+  ],
+  "limitations": [
+    "No Oracle connection, dependency-license closure, model turn, remote CI or deployment was performed.",
+    "Source validation is not a deployable product build; synthetic validator tests do not certify Oracle behavior.",
+    "Tracking state may advance after this snapshot; immutable run files must not be rewritten."
+  ]
+}

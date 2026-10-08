@@ -1,0 +1,229 @@
+{
+  "schemaVersion": "1.0.0",
+  "example": true,
+  "oracle": {
+    "19c": {
+      "exactVersion": "19.22.0.0.0",
+      "route": {
+        "service": "",
+        "containerId": "",
+        "pdb": "",
+        "environment": "DEV",
+        "endpoint": "tcps://"
+      },
+      "tcps": {
+        "caSha256": "",
+        "serverIdentity": ""
+      }
+    },
+    "21c": {
+      "exactVersion": "21.3.0.0.0",
+      "route": {
+        "service": "",
+        "containerId": "",
+        "pdb": "",
+        "environment": "DEV",
+        "endpoint": "tcps://"
+      },
+      "tcps": {
+        "caSha256": "",
+        "serverIdentity": ""
+      }
+    }
+  },
+  "authorization": {
+    "disposable": false,
+    "labOwner": "",
+    "targets": [],
+    "schemaFootprint": [],
+    "actions": [],
+    "negativeProbeTargets": []
+  },
+  "entitlement": {
+    "oracle19": {
+      "attested": false,
+      "evidenceRef": ""
+    },
+    "oracle21": {
+      "attested": false,
+      "evidenceRef": ""
+    },
+    "labPermission": {
+      "attested": false,
+      "evidenceRef": ""
+    }
+  },
+  "fixtures": {
+    "sha256": "",
+    "schemas": {
+      "A": {
+        "owner": "",
+        "prefix": "",
+        "project": "project-a",
+        "targets": {
+          "19c": {
+            "containerId": "",
+            "pdb": "",
+            "environment": "DEV",
+            "service": ""
+          },
+          "21c": {
+            "containerId": "",
+            "pdb": "",
+            "environment": "DEV",
+            "service": ""
+          }
+        }
+      },
+      "B": {
+        "owner": "",
+        "prefix": "",
+        "project": "project-b",
+        "targets": {
+          "19c": {
+            "containerId": "",
+            "pdb": "",
+            "environment": "DEV",
+            "service": ""
+          },
+          "21c": {
+            "containerId": "",
+            "pdb": "",
+            "environment": "DEV",
+            "service": ""
+          }
+        }
+      },
+      "C": {
+        "owner": "",
+        "prefix": "",
+        "project": "negative-cross-pdb",
+        "targets": {
+          "19c": {
+            "containerId": "",
+            "pdb": "",
+            "environment": "DEV",
+            "service": ""
+          },
+          "21c": {
+            "containerId": "",
+            "pdb": "",
+            "environment": "DEV",
+            "service": ""
+          }
+        }
+      }
+    }
+  },
+  "credentials": {
+    "discovery": {
+      "ref": ""
+    },
+    "ownerA": {
+      "ref": ""
+    },
+    "ownerB": {
+      "ref": ""
+    },
+    "observer": {
+      "ref": ""
+    },
+    "bootstrap": {
+      "ref": ""
+    }
+  },
+  "grants": {
+    "discovery": [],
+    "ownerA": [],
+    "ownerB": [],
+    "observer": [],
+    "bootstrap": [],
+    "dbmsLock": {
+      "authorized": false,
+      "scope": ""
+    }
+  },
+  "faults": {
+    "proxy": {
+      "authorized": false,
+      "owner": "",
+      "actions": []
+    },
+    "sessionStop": {
+      "authorized": false,
+      "owner": "",
+      "actions": []
+    }
+  },
+  "postgresql": {
+    "metadataFixture": {
+      "image": "",
+      "version": "",
+      "path": "",
+      "sha256": "",
+      "offline": false
+    }
+  },
+  "aliases": [
+    {
+      "name": "19c-a",
+      "version": "19c",
+      "service": "",
+      "endpoint": "",
+      "serverIdentity": "",
+      "caSha256": "",
+      "expectedContainerId": "",
+      "expectedPdb": ""
+    },
+    {
+      "name": "19c-b",
+      "version": "19c",
+      "service": "",
+      "endpoint": "",
+      "serverIdentity": "",
+      "caSha256": "",
+      "expectedContainerId": "",
+      "expectedPdb": ""
+    },
+    {
+      "name": "21c-a",
+      "version": "21c",
+      "service": "",
+      "endpoint": "",
+      "serverIdentity": "",
+      "caSha256": "",
+      "expectedContainerId": "",
+      "expectedPdb": ""
+    },
+    {
+      "name": "21c-b",
+      "version": "21c",
+      "service": "",
+      "endpoint": "",
+      "serverIdentity": "",
+      "caSha256": "",
+      "expectedContainerId": "",
+      "expectedPdb": ""
+    }
+  ],
+  "artifacts": [],
+  "harness": {
+    "sha256": ""
+  },
+  "build": {
+    "sha256": ""
+  },
+  "toolchain": {
+    "node": "",
+    "npm": ""
+  },
+  "teardown": {
+    "owner": "",
+    "authorized": false,
+    "actions": [],
+    "schemaKeys": [
+      "A",
+      "B"
+    ]
+  }
+}

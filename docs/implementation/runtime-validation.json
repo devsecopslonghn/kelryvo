@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "checked_at_local_date": "2026-10-08",
+  "recorded_at_utc": "2026-10-08T09:30:15Z",
+  "scope": "Codex specialist configuration only; no model turn, Oracle connection, or external write",
+  "codex_cli": {
+    "version_command": "codex --version",
+    "version_output": "codex-cli 0.161.0",
+    "feature_command": "codex features list (cwd: /home/longhn0710/workspace/schemaforge)",
+    "features": {
+      "multi_agent": {
+        "stage": "stable",
+        "effective": true
+      },
+      "multi_agent_v2": {
+        "stage": "stable",
+        "effective": false
+      }
+    },
+    "strict_config_cli_probe": {
+      "command": "codex exec --strict-config --help",
+      "result": "PASS",
+      "detail": "CLI accepted --strict-config and displayed exec help without starting a model turn. This help-only probe does not load or validate the project config."
+    },
+    "strict_config_project_load_probe": {
+      "command": "codex --cd /home/longhn0710/workspace/schemaforge --strict-config features list",
+      "result": "NOT_SUPPORTED_BY_COMMAND",
+      "detail": "This CLI rejects --strict-config for the features subcommand. No replacement no-turn CLI command was found that both loads project config in strict mode and avoids a model turn."
+    }
+  },
+  "native_role_activation": {
+    "result": "NOT_RUNTIME_TESTED",
+    "detail": "Official Codex documentation describes project-scoped TOML custom agents and the agents.enabled setting, but does not state that multi_agent_v2 must be enabled. The project sets agents.enabled=true. Since multi_agent_v2 is currently false and no no-turn discovery command is available, the project does not enable this feature speculatively and does not claim runtime role discovery was tested."
+  },
+  "local_validation": {
+    "method": "yq TOML-to-JSON parse plus Python structural checks for native agent-file required fields, permitted role inventory, sandbox choices, and no model/provider/reasoning overrides",
+    "result": "PASS",
+    "files_checked": [
+      ".codex/config.toml",
+      ".codex/agents/database.toml",
+      ".codex/agents/backend.toml",
+      ".codex/agents/frontend.toml",
+      ".codex/agents/security.toml",
+      ".codex/agents/qa.toml",
+      ".codex/agents/devops.toml"
+    ],
+    "limitations": [
+      "Structural checks confirm valid TOML and documented field shape, not Codex's internal runtime parsing of each agent role.",
+      "The CLI's strict-config check was not run against these files because the available no-model command does not load project configuration.",
+      "Role instructions are workflow constraints, not access controls for unrestricted harness tools.",
+      "No Oracle behavior or product runtime behavior was tested."
+    ]
+  },
+  "repository_check": {
+    "command": "npm run check",
+    "result": "BLOCKED",
+    "detail": "The package script invokes scripts/check-source.mjs, which is absent from the current checkout at validation time; the check stopped before lint, formatting, or tests. No files were changed to work around this unrelated incomplete scaffold."
+  },
+  "official_documentation": [
+    "https://learn.chatgpt.com/docs/agent-configuration/subagents",
+    "https://learn.chatgpt.com/docs/config-file/config-reference"
+  ]
+}

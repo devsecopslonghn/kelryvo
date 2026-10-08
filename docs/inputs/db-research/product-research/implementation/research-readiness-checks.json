@@ -1,0 +1,50 @@
+{
+  "checked_at": "2026-10-08T09:11:56.760595+00:00",
+  "status": "PASS",
+  "scope": "Research artifact verification; no platform implementation or database execution.",
+  "checks": {
+    "required_deliverables": 16,
+    "json_files_parsed": 16,
+    "schema_keyword_validation": "PASS",
+    "full_json_schema_validation": "PASS",
+    "json_schema_validator_version": "4.25.1",
+    "features": 220,
+    "domain_counts": {
+      "Database Management": 27,
+      "Project Management": 15,
+      "Migration Management": 34,
+      "Change Governance": 25,
+      "SQL and Review": 25,
+      "Security and Governance": 28,
+      "GitOps and CI/CD": 19,
+      "Observability and Operations": 27,
+      "Additional Features": 20
+    },
+    "phase_counts": {
+      "MVP": 95,
+      "V2": 41,
+      "V1": 77,
+      "REJECTED": 7
+    },
+    "dependency_graph_and_phase_closure": 220,
+    "markdown_records_and_roadmap_allocations": 220,
+    "local_source_hashes_and_ranges": 173,
+    "remote_source_registers_and_ranges": 8,
+    "selected_snapshot_commits": 11,
+    "selected_upstream_files_refetched": "NOT_RUN",
+    "local_links_and_anchors": 2482,
+    "markdown_tables": 49,
+    "mermaid_blocks": 19,
+    "required_sequence_diagrams": 10,
+    "pre_existing_tracked_contents_preserved": 10,
+    "new_file_diff_whitespace_checks": 43
+  },
+  "errors": [],
+  "limitations": [
+    "Artifact verification only: no platform, Oracle or UI runtime tests.",
+    "Document links are checked locally; live website contents are not frozen.",
+    "Mermaid block types/counts are checked; diagrams are not rendered by this script.",
+    "No license certification, future dependency SBOM or security audit.",
+    "Current upstream source registers checked without repeat retrieval."
+  ]
+}

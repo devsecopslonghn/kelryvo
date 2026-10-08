@@ -1,0 +1,38 @@
+{
+  "id": "SF-INTEGRATION-20261008T094923420Z-e58f558c",
+  "subject_id": "SF-P0-FOUNDATION",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "npm run check",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "test_references": [
+    "tests/provenance.test.mjs",
+    "tests/agents.test.mjs",
+    "tests/tracker.test.mjs",
+    "tests/preflight.test.mjs"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/foundation/20261008T094923420Z-e58f558c/checks.log",
+    "sha256": "597e3ca3fd45eff29a4058887a51697346948fd145217626d3f7294cf99c3f5d"
+  },
+  "recorded_at": "2026-10-08T09:50:13.575733+00:00",
+  "reviewed_by": "orchestrator",
+  "manifest": {
+    "path": "evidence/foundation/20261008T094923420Z-e58f558c/manifest.json",
+    "sha256": "87d76d9748ebb7844a0e8069e20ea35473ca8d6d597e9d312cacf22072ddfa1f"
+  },
+  "detail": "Integrated persisted state passes all 30 tests and source/lint/format checks."
+}

@@ -1,0 +1,34 @@
+{
+  "total": 220,
+  "domains": {
+    "Database Management": 27,
+    "Project Management": 15,
+    "Migration Management": 34,
+    "Change Governance": 25,
+    "SQL and Review": 25,
+    "Security and Governance": 28,
+    "GitOps and CI/CD": 19,
+    "Observability and Operations": 27,
+    "Additional Features": 20
+  },
+  "releases": {
+    "MVP": 95,
+    "V2": 41,
+    "V1": 77,
+    "REJECTED": 7
+  },
+  "classifications": {
+    "BASELINE": 112,
+    "OPTIONAL": 24,
+    "ENHANCEMENT": 45,
+    "DIFFERENTIATOR": 32,
+    "REJECTED": 7
+  },
+  "bytebase_findings": {
+    "SOURCE_VERIFIED": 103,
+    "UNKNOWN": 30,
+    "PARTIAL": 83,
+    "NOT_FOUND_IN_REVIEW": 4
+  },
+  "additional_useful": 77
+}

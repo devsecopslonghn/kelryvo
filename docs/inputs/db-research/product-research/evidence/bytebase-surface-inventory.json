@@ -1,0 +1,2533 @@
+{
+  "repo": "bytebase/bytebase",
+  "sha": "80524fc54601bcc5545575e02f83b23ee6bb0a70",
+  "scope": "Static symbol/route/feature/model surface discovery; not an execution or entitlement verdict.",
+  "api_methods": [
+    {
+      "file": "proto/v1/v1/access_grant_service.proto",
+      "line": 18,
+      "symbol": "GetAccessGrant"
+    },
+    {
+      "file": "proto/v1/v1/access_grant_service.proto",
+      "line": 28,
+      "symbol": "ListAccessGrants"
+    },
+    {
+      "file": "proto/v1/v1/access_grant_service.proto",
+      "line": 38,
+      "symbol": "CreateAccessGrant"
+    },
+    {
+      "file": "proto/v1/v1/access_grant_service.proto",
+      "line": 52,
+      "symbol": "ActivateAccessGrant"
+    },
+    {
+      "file": "proto/v1/v1/access_grant_service.proto",
+      "line": 66,
+      "symbol": "RevokeAccessGrant"
+    },
+    {
+      "file": "proto/v1/v1/access_grant_service.proto",
+      "line": 80,
+      "symbol": "SearchMyAccessGrants"
+    },
+    {
+      "file": "proto/v1/v1/actuator_service.proto",
+      "line": 20,
+      "symbol": "GetActuatorInfo"
+    },
+    {
+      "file": "proto/v1/v1/ai_service.proto",
+      "line": 14,
+      "symbol": "Chat"
+    },
+    {
+      "file": "proto/v1/v1/audit_log_service.proto",
+      "line": 22,
+      "symbol": "SearchAuditLogs"
+    },
+    {
+      "file": "proto/v1/v1/audit_log_service.proto",
+      "line": 40,
+      "symbol": "ExportAuditLogs"
+    },
+    {
+      "file": "proto/v1/v1/auth_service.proto",
+      "line": 23,
+      "symbol": "GetAuthenticationInfo"
+    },
+    {
+      "file": "proto/v1/v1/auth_service.proto",
+      "line": 39,
+      "symbol": "Login"
+    },
+    {
+      "file": "proto/v1/v1/auth_service.proto",
+      "line": 52,
+      "symbol": "Logout"
+    },
+    {
+      "file": "proto/v1/v1/auth_service.proto",
+      "line": 66,
+      "symbol": "ExchangeToken"
+    },
+    {
+      "file": "proto/v1/v1/auth_service.proto",
+      "line": 81,
+      "symbol": "Signup"
+    },
+    {
+      "file": "proto/v1/v1/auth_service.proto",
+      "line": 94,
+      "symbol": "Refresh"
+    },
+    {
+      "file": "proto/v1/v1/auth_service.proto",
+      "line": 106,
+      "symbol": "SwitchWorkspace"
+    },
+    {
+      "file": "proto/v1/v1/auth_service.proto",
+      "line": 121,
+      "symbol": "RequestPasswordReset"
+    },
+    {
+      "file": "proto/v1/v1/auth_service.proto",
+      "line": 134,
+      "symbol": "ResetPassword"
+    },
+    {
+      "file": "proto/v1/v1/auth_service.proto",
+      "line": 150,
+      "symbol": "SendEmailLoginCode"
+    },
+    {
+      "file": "proto/v1/v1/cel_service.proto",
+      "line": 15,
+      "symbol": "BatchParse"
+    },
+    {
+      "file": "proto/v1/v1/cel_service.proto",
+      "line": 25,
+      "symbol": "BatchDeparse"
+    },
+    {
+      "file": "proto/v1/v1/changelog_service.proto",
+      "line": 18,
+      "symbol": "ListChangelogs"
+    },
+    {
+      "file": "proto/v1/v1/changelog_service.proto",
+      "line": 31,
+      "symbol": "GetChangelog"
+    },
+    {
+      "file": "proto/v1/v1/database_catalog_service.proto",
+      "line": 17,
+      "symbol": "GetDatabaseCatalog"
+    },
+    {
+      "file": "proto/v1/v1/database_catalog_service.proto",
+      "line": 30,
+      "symbol": "UpdateDatabaseCatalog"
+    },
+    {
+      "file": "proto/v1/v1/database_group_service.proto",
+      "line": 21,
+      "symbol": "ListDatabaseGroups"
+    },
+    {
+      "file": "proto/v1/v1/database_group_service.proto",
+      "line": 31,
+      "symbol": "GetDatabaseGroup"
+    },
+    {
+      "file": "proto/v1/v1/database_group_service.proto",
+      "line": 41,
+      "symbol": "CreateDatabaseGroup"
+    },
+    {
+      "file": "proto/v1/v1/database_group_service.proto",
+      "line": 56,
+      "symbol": "UpdateDatabaseGroup"
+    },
+    {
+      "file": "proto/v1/v1/database_group_service.proto",
+      "line": 70,
+      "symbol": "DeleteDatabaseGroup"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 21,
+      "symbol": "GetDatabase"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 36,
+      "symbol": "BatchGetDatabases"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 49,
+      "symbol": "ListDatabases"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 66,
+      "symbol": "UpdateDatabase"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 84,
+      "symbol": "BatchUpdateDatabases"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 101,
+      "symbol": "SyncDatabase"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 117,
+      "symbol": "BatchSyncDatabases"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 133,
+      "symbol": "GetDatabaseMetadata"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 145,
+      "symbol": "GetDatabaseSchema"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 157,
+      "symbol": "GetDatabaseSDLSchema"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 169,
+      "symbol": "DiffSchema"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 197,
+      "symbol": "DiffMetadata"
+    },
+    {
+      "file": "proto/v1/v1/database_service.proto",
+      "line": 213,
+      "symbol": "GetSchemaString"
+    },
+    {
+      "file": "proto/v1/v1/group_service.proto",
+      "line": 21,
+      "symbol": "GetGroup"
+    },
+    {
+      "file": "proto/v1/v1/group_service.proto",
+      "line": 35,
+      "symbol": "BatchGetGroups"
+    },
+    {
+      "file": "proto/v1/v1/group_service.proto",
+      "line": 45,
+      "symbol": "ListGroups"
+    },
+    {
+      "file": "proto/v1/v1/group_service.proto",
+      "line": 56,
+      "symbol": "CreateGroup"
+    },
+    {
+      "file": "proto/v1/v1/group_service.proto",
+      "line": 72,
+      "symbol": "UpdateGroup"
+    },
+    {
+      "file": "proto/v1/v1/group_service.proto",
+      "line": 87,
+      "symbol": "DeleteGroup"
+    },
+    {
+      "file": "proto/v1/v1/idp_service.proto",
+      "line": 20,
+      "symbol": "GetIdentityProvider"
+    },
+    {
+      "file": "proto/v1/v1/idp_service.proto",
+      "line": 38,
+      "symbol": "ListIdentityProviders"
+    },
+    {
+      "file": "proto/v1/v1/idp_service.proto",
+      "line": 52,
+      "symbol": "CreateIdentityProvider"
+    },
+    {
+      "file": "proto/v1/v1/idp_service.proto",
+      "line": 68,
+      "symbol": "UpdateIdentityProvider"
+    },
+    {
+      "file": "proto/v1/v1/idp_service.proto",
+      "line": 83,
+      "symbol": "DeleteIdentityProvider"
+    },
+    {
+      "file": "proto/v1/v1/idp_service.proto",
+      "line": 95,
+      "symbol": "TestIdentityProvider"
+    },
+    {
+      "file": "proto/v1/v1/instance_role_service.proto",
+      "line": 17,
+      "symbol": "ListInstanceRoles"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 24,
+      "symbol": "GetInstance"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 37,
+      "symbol": "ListInstances"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 50,
+      "symbol": "CreateInstance"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 69,
+      "symbol": "PrepareSampleProjectInstance"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 84,
+      "symbol": "UpdateInstance"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 105,
+      "symbol": "DeleteInstance"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 122,
+      "symbol": "UndeleteInstance"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 140,
+      "symbol": "SyncInstance"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 156,
+      "symbol": "ListInstanceDatabase"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 173,
+      "symbol": "BatchSyncInstances"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 189,
+      "symbol": "BatchUpdateInstances"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 207,
+      "symbol": "AddDataSource"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 225,
+      "symbol": "RemoveDataSource"
+    },
+    {
+      "file": "proto/v1/v1/instance_service.proto",
+      "line": 243,
+      "symbol": "UpdateDataSource"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 25,
+      "symbol": "GetIssue"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 35,
+      "symbol": "CreateIssue"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 65,
+      "symbol": "ListIssues"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 75,
+      "symbol": "SearchIssues"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 87,
+      "symbol": "UpdateIssue"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 107,
+      "symbol": "ListIssueComments"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 117,
+      "symbol": "CreateIssueComment"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 131,
+      "symbol": "UpdateIssueComment"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 145,
+      "symbol": "BatchUpdateIssuesStatus"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 158,
+      "symbol": "ApproveIssue"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 171,
+      "symbol": "RejectIssue"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 184,
+      "symbol": "RequestIssue"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 217,
+      "symbol": "RetryIssueApproval"
+    },
+    {
+      "file": "proto/v1/v1/issue_service.proto",
+      "line": 236,
+      "symbol": "RunReview"
+    },
+    {
+      "file": "proto/v1/v1/org_policy_service.proto",
+      "line": 21,
+      "symbol": "GetPolicy"
+    },
+    {
+      "file": "proto/v1/v1/org_policy_service.proto",
+      "line": 37,
+      "symbol": "ListPolicies"
+    },
+    {
+      "file": "proto/v1/v1/org_policy_service.proto",
+      "line": 53,
+      "symbol": "CreatePolicy"
+    },
+    {
+      "file": "proto/v1/v1/org_policy_service.proto",
+      "line": 77,
+      "symbol": "UpdatePolicy"
+    },
+    {
+      "file": "proto/v1/v1/org_policy_service.proto",
+      "line": 101,
+      "symbol": "DeletePolicy"
+    },
+    {
+      "file": "proto/v1/v1/plan_service.proto",
+      "line": 23,
+      "symbol": "GetPlan"
+    },
+    {
+      "file": "proto/v1/v1/plan_service.proto",
+      "line": 33,
+      "symbol": "ListPlans"
+    },
+    {
+      "file": "proto/v1/v1/plan_service.proto",
+      "line": 43,
+      "symbol": "CreatePlan"
+    },
+    {
+      "file": "proto/v1/v1/plan_service.proto",
+      "line": 62,
+      "symbol": "UpdatePlan"
+    },
+    {
+      "file": "proto/v1/v1/plan_service.proto",
+      "line": 76,
+      "symbol": "GetPlanCheckRun"
+    },
+    {
+      "file": "proto/v1/v1/plan_service.proto",
+      "line": 86,
+      "symbol": "RunPlanChecks"
+    },
+    {
+      "file": "proto/v1/v1/plan_service.proto",
+      "line": 100,
+      "symbol": "CancelPlanCheckRun"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 24,
+      "symbol": "GetProject"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 36,
+      "symbol": "BatchGetProjects"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 45,
+      "symbol": "ListProjects"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 55,
+      "symbol": "SearchProjects"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 68,
+      "symbol": "CreateProject"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 83,
+      "symbol": "UpdateProject"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 98,
+      "symbol": "DeleteProject"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 110,
+      "symbol": "UndeleteProject"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 124,
+      "symbol": "BatchDeleteProjects"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 138,
+      "symbol": "GetIamPolicy"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 148,
+      "symbol": "SetIamPolicy"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 162,
+      "symbol": "AddWebhook"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 176,
+      "symbol": "UpdateWebhook"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 191,
+      "symbol": "RemoveWebhook"
+    },
+    {
+      "file": "proto/v1/v1/project_service.proto",
+      "line": 205,
+      "symbol": "TestWebhook"
+    },
+    {
+      "file": "proto/v1/v1/query_history_service.proto",
+      "line": 19,
+      "symbol": "SearchQueryHistories"
+    },
+    {
+      "file": "proto/v1/v1/query_history_service.proto",
+      "line": 32,
+      "symbol": "ListQueryHistories"
+    },
+    {
+      "file": "proto/v1/v1/query_history_service.proto",
+      "line": 43,
+      "symbol": "GetQueryHistory"
+    },
+    {
+      "file": "proto/v1/v1/release_service.proto",
+      "line": 22,
+      "symbol": "GetRelease"
+    },
+    {
+      "file": "proto/v1/v1/release_service.proto",
+      "line": 32,
+      "symbol": "ListReleases"
+    },
+    {
+      "file": "proto/v1/v1/release_service.proto",
+      "line": 42,
+      "symbol": "CreateRelease"
+    },
+    {
+      "file": "proto/v1/v1/release_service.proto",
+      "line": 57,
+      "symbol": "UpdateRelease"
+    },
+    {
+      "file": "proto/v1/v1/release_service.proto",
+      "line": 71,
+      "symbol": "DeleteRelease"
+    },
+    {
+      "file": "proto/v1/v1/release_service.proto",
+      "line": 82,
+      "symbol": "UndeleteRelease"
+    },
+    {
+      "file": "proto/v1/v1/release_service.proto",
+      "line": 92,
+      "symbol": "CheckRelease"
+    },
+    {
+      "file": "proto/v1/v1/release_service.proto",
+      "line": 104,
+      "symbol": "ListReleaseCategories"
+    },
+    {
+      "file": "proto/v1/v1/review_config_service.proto",
+      "line": 21,
+      "symbol": "CreateReviewConfig"
+    },
+    {
+      "file": "proto/v1/v1/review_config_service.proto",
+      "line": 36,
+      "symbol": "ListReviewConfigs"
+    },
+    {
+      "file": "proto/v1/v1/review_config_service.proto",
+      "line": 46,
+      "symbol": "GetReviewConfig"
+    },
+    {
+      "file": "proto/v1/v1/review_config_service.proto",
+      "line": 57,
+      "symbol": "UpdateReviewConfig"
+    },
+    {
+      "file": "proto/v1/v1/review_config_service.proto",
+      "line": 72,
+      "symbol": "DeleteReviewConfig"
+    },
+    {
+      "file": "proto/v1/v1/revision_service.proto",
+      "line": 19,
+      "symbol": "ListRevisions"
+    },
+    {
+      "file": "proto/v1/v1/revision_service.proto",
+      "line": 32,
+      "symbol": "GetRevision"
+    },
+    {
+      "file": "proto/v1/v1/revision_service.proto",
+      "line": 45,
+      "symbol": "BatchCreateRevisions"
+    },
+    {
+      "file": "proto/v1/v1/revision_service.proto",
+      "line": 62,
+      "symbol": "DeleteRevision"
+    },
+    {
+      "file": "proto/v1/v1/role_service.proto",
+      "line": 20,
+      "symbol": "ListRoles"
+    },
+    {
+      "file": "proto/v1/v1/role_service.proto",
+      "line": 30,
+      "symbol": "GetRole"
+    },
+    {
+      "file": "proto/v1/v1/role_service.proto",
+      "line": 41,
+      "symbol": "CreateRole"
+    },
+    {
+      "file": "proto/v1/v1/role_service.proto",
+      "line": 56,
+      "symbol": "UpdateRole"
+    },
+    {
+      "file": "proto/v1/v1/role_service.proto",
+      "line": 71,
+      "symbol": "DeleteRole"
+    },
+    {
+      "file": "proto/v1/v1/rollout_service.proto",
+      "line": 20,
+      "symbol": "GetRollout"
+    },
+    {
+      "file": "proto/v1/v1/rollout_service.proto",
+      "line": 30,
+      "symbol": "ListRollouts"
+    },
+    {
+      "file": "proto/v1/v1/rollout_service.proto",
+      "line": 40,
+      "symbol": "CreateRollout"
+    },
+    {
+      "file": "proto/v1/v1/rollout_service.proto",
+      "line": 94,
+      "symbol": "ListTaskRuns"
+    },
+    {
+      "file": "proto/v1/v1/rollout_service.proto",
+      "line": 104,
+      "symbol": "GetTaskRun"
+    },
+    {
+      "file": "proto/v1/v1/rollout_service.proto",
+      "line": 114,
+      "symbol": "GetTaskRunLog"
+    },
+    {
+      "file": "proto/v1/v1/rollout_service.proto",
+      "line": 124,
+      "symbol": "GetTaskRunSession"
+    },
+    {
+      "file": "proto/v1/v1/rollout_service.proto",
+      "line": 135,
+      "symbol": "BatchRunTasks"
+    },
+    {
+      "file": "proto/v1/v1/rollout_service.proto",
+      "line": 154,
+      "symbol": "BatchSkipTasks"
+    },
+    {
+      "file": "proto/v1/v1/rollout_service.proto",
+      "line": 170,
+      "symbol": "BatchCancelTaskRuns"
+    },
+    {
+      "file": "proto/v1/v1/rollout_service.proto",
+      "line": 183,
+      "symbol": "PreviewTaskRunRollback"
+    },
+    {
+      "file": "proto/v1/v1/saved_query_service.proto",
+      "line": 33,
+      "symbol": "CreateSavedQuery"
+    },
+    {
+      "file": "proto/v1/v1/saved_query_service.proto",
+      "line": 48,
+      "symbol": "GetSavedQuery"
+    },
+    {
+      "file": "proto/v1/v1/saved_query_service.proto",
+      "line": 61,
+      "symbol": "ListSavedQueries"
+    },
+    {
+      "file": "proto/v1/v1/saved_query_service.proto",
+      "line": 73,
+      "symbol": "SearchSavedQueries"
+    },
+    {
+      "file": "proto/v1/v1/saved_query_service.proto",
+      "line": 86,
+      "symbol": "SearchSavedQueryFolders"
+    },
+    {
+      "file": "proto/v1/v1/saved_query_service.proto",
+      "line": 99,
+      "symbol": "UpdateSavedQuery"
+    },
+    {
+      "file": "proto/v1/v1/saved_query_service.proto",
+      "line": 116,
+      "symbol": "UpdateSavedQueryStar"
+    },
+    {
+      "file": "proto/v1/v1/saved_query_service.proto",
+      "line": 132,
+      "symbol": "MoveMySavedQueries"
+    },
+    {
+      "file": "proto/v1/v1/saved_query_service.proto",
+      "line": 147,
+      "symbol": "DeleteSavedQuery"
+    },
+    {
+      "file": "proto/v1/v1/saved_query_service.proto",
+      "line": 158,
+      "symbol": "GetSavedQueryPolicy"
+    },
+    {
+      "file": "proto/v1/v1/saved_query_service.proto",
+      "line": 170,
+      "symbol": "SetSavedQueryPolicy"
+    },
+    {
+      "file": "proto/v1/v1/service_account_service.proto",
+      "line": 23,
+      "symbol": "CreateServiceAccount"
+    },
+    {
+      "file": "proto/v1/v1/service_account_service.proto",
+      "line": 42,
+      "symbol": "GetServiceAccount"
+    },
+    {
+      "file": "proto/v1/v1/service_account_service.proto",
+      "line": 54,
+      "symbol": "ListServiceAccounts"
+    },
+    {
+      "file": "proto/v1/v1/service_account_service.proto",
+      "line": 68,
+      "symbol": "UpdateServiceAccount"
+    },
+    {
+      "file": "proto/v1/v1/service_account_service.proto",
+      "line": 83,
+      "symbol": "DeleteServiceAccount"
+    },
+    {
+      "file": "proto/v1/v1/service_account_service.proto",
+      "line": 95,
+      "symbol": "UndeleteServiceAccount"
+    },
+    {
+      "file": "proto/v1/v1/setting_service.proto",
+      "line": 23,
+      "symbol": "ListSettings"
+    },
+    {
+      "file": "proto/v1/v1/setting_service.proto",
+      "line": 34,
+      "symbol": "GetSetting"
+    },
+    {
+      "file": "proto/v1/v1/setting_service.proto",
+      "line": 45,
+      "symbol": "UpdateSetting"
+    },
+    {
+      "file": "proto/v1/v1/setting_service.proto",
+      "line": 59,
+      "symbol": "TestEmailSetting"
+    },
+    {
+      "file": "proto/v1/v1/sheet_service.proto",
+      "line": 17,
+      "symbol": "CreateSheet"
+    },
+    {
+      "file": "proto/v1/v1/sheet_service.proto",
+      "line": 31,
+      "symbol": "BatchCreateSheets"
+    },
+    {
+      "file": "proto/v1/v1/sheet_service.proto",
+      "line": 44,
+      "symbol": "GetSheet"
+    },
+    {
+      "file": "proto/v1/v1/sql_service.proto",
+      "line": 21,
+      "symbol": "Query"
+    },
+    {
+      "file": "proto/v1/v1/sql_service.proto",
+      "line": 45,
+      "symbol": "AdminExecute"
+    },
+    {
+      "file": "proto/v1/v1/sql_service.proto",
+      "line": 59,
+      "symbol": "SearchQueryHistories"
+    },
+    {
+      "file": "proto/v1/v1/sql_service.proto",
+      "line": 69,
+      "symbol": "ListQueryHistories"
+    },
+    {
+      "file": "proto/v1/v1/sql_service.proto",
+      "line": 81,
+      "symbol": "GetQueryHistory"
+    },
+    {
+      "file": "proto/v1/v1/sql_service.proto",
+      "line": 89,
+      "symbol": "Export"
+    },
+    {
+      "file": "proto/v1/v1/subscription_service.proto",
+      "line": 18,
+      "symbol": "GetSubscription"
+    },
+    {
+      "file": "proto/v1/v1/subscription_service.proto",
+      "line": 26,
+      "symbol": "ExportVCSProviderUsers"
+    },
+    {
+      "file": "proto/v1/v1/subscription_service.proto",
+      "line": 36,
+      "symbol": "UploadLicense"
+    },
+    {
+      "file": "proto/v1/v1/subscription_service.proto",
+      "line": 49,
+      "symbol": "StartTrial"
+    },
+    {
+      "file": "proto/v1/v1/subscription_service.proto",
+      "line": 63,
+      "symbol": "CreatePurchase"
+    },
+    {
+      "file": "proto/v1/v1/subscription_service.proto",
+      "line": 77,
+      "symbol": "UpdatePurchase"
+    },
+    {
+      "file": "proto/v1/v1/subscription_service.proto",
+      "line": 90,
+      "symbol": "CancelPurchase"
+    },
+    {
+      "file": "proto/v1/v1/subscription_service.proto",
+      "line": 103,
+      "symbol": "GetPaymentInfo"
+    },
+    {
+      "file": "proto/v1/v1/subscription_service.proto",
+      "line": 112,
+      "symbol": "VerifyCheckoutSession"
+    },
+    {
+      "file": "proto/v1/v1/subscription_service.proto",
+      "line": 121,
+      "symbol": "ListPurchasePlans"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 23,
+      "symbol": "GetUser"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 37,
+      "symbol": "BatchGetUsers"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 47,
+      "symbol": "GetCurrentUser"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 57,
+      "symbol": "ListUsers"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 69,
+      "symbol": "CreateUser"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 85,
+      "symbol": "UpdateUser"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 99,
+      "symbol": "DeleteUser"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 110,
+      "symbol": "UndeleteUser"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 123,
+      "symbol": "UpdateEmail"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 141,
+      "symbol": "RequestReauthCode"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 158,
+      "symbol": "ChangePassword"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 174,
+      "symbol": "StartMFAEnrollment"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 194,
+      "symbol": "EnableMFA"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 211,
+      "symbol": "DisableMFA"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 227,
+      "symbol": "RegenerateRecoveryCodes"
+    },
+    {
+      "file": "proto/v1/v1/user_service.proto",
+      "line": 243,
+      "symbol": "ConfirmRecoveryCodes"
+    },
+    {
+      "file": "proto/v1/v1/workload_identity_service.proto",
+      "line": 23,
+      "symbol": "CreateWorkloadIdentity"
+    },
+    {
+      "file": "proto/v1/v1/workload_identity_service.proto",
+      "line": 42,
+      "symbol": "GetWorkloadIdentity"
+    },
+    {
+      "file": "proto/v1/v1/workload_identity_service.proto",
+      "line": 54,
+      "symbol": "ListWorkloadIdentities"
+    },
+    {
+      "file": "proto/v1/v1/workload_identity_service.proto",
+      "line": 68,
+      "symbol": "UpdateWorkloadIdentity"
+    },
+    {
+      "file": "proto/v1/v1/workload_identity_service.proto",
+      "line": 83,
+      "symbol": "DeleteWorkloadIdentity"
+    },
+    {
+      "file": "proto/v1/v1/workload_identity_service.proto",
+      "line": 95,
+      "symbol": "UndeleteWorkloadIdentity"
+    },
+    {
+      "file": "proto/v1/v1/workspace_service.proto",
+      "line": 23,
+      "symbol": "GetWorkspace"
+    },
+    {
+      "file": "proto/v1/v1/workspace_service.proto",
+      "line": 30,
+      "symbol": "ListWorkspaces"
+    },
+    {
+      "file": "proto/v1/v1/workspace_service.proto",
+      "line": 37,
+      "symbol": "UpdateWorkspace"
+    },
+    {
+      "file": "proto/v1/v1/workspace_service.proto",
+      "line": 51,
+      "symbol": "GetIamPolicy"
+    },
+    {
+      "file": "proto/v1/v1/workspace_service.proto",
+      "line": 62,
+      "symbol": "DeleteWorkspace"
+    },
+    {
+      "file": "proto/v1/v1/workspace_service.proto",
+      "line": 74,
+      "symbol": "LeaveWorkspace"
+    },
+    {
+      "file": "proto/v1/v1/workspace_service.proto",
+      "line": 87,
+      "symbol": "SetIamPolicy"
+    },
+    {
+      "file": "proto/v1/v1/workspace_service.proto",
+      "line": 104,
+      "symbol": "RotateDirectorySyncToken"
+    }
+  ],
+  "frontend_routes": [
+    {
+      "file": "frontend/src/app/router/routes/auth.tsx",
+      "line": 21,
+      "route": "/oauth2/consent"
+    },
+    {
+      "file": "frontend/src/app/router/routes/auth.tsx",
+      "line": 29,
+      "route": "/auth"
+    },
+    {
+      "file": "frontend/src/app/router/routes/auth.tsx",
+      "line": 45,
+      "route": "signin"
+    },
+    {
+      "file": "frontend/src/app/router/routes/auth.tsx",
+      "line": 53,
+      "route": "signup"
+    },
+    {
+      "file": "frontend/src/app/router/routes/auth.tsx",
+      "line": 61,
+      "route": "password-forgot"
+    },
+    {
+      "file": "frontend/src/app/router/routes/auth.tsx",
+      "line": 69,
+      "route": "password-reset"
+    },
+    {
+      "file": "frontend/src/app/router/routes/auth.tsx",
+      "line": 77,
+      "route": "mfa"
+    },
+    {
+      "file": "frontend/src/app/router/routes/auth.tsx",
+      "line": 85,
+      "route": "setup"
+    },
+    {
+      "file": "frontend/src/app/router/routes/auth.tsx",
+      "line": 96,
+      "route": "/oauth/callback"
+    },
+    {
+      "file": "frontend/src/app/router/routes/auth.tsx",
+      "line": 104,
+      "route": "/oidc/callback"
+    },
+    {
+      "file": "frontend/src/app/router/routes/auth.tsx",
+      "line": 112,
+      "route": "/2fa/setup"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 112,
+      "route": "landing"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 120,
+      "route": "projects"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 128,
+      "route": "instances"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 139,
+      "route": "databases"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 150,
+      "route": "environments"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 163,
+      "route": "403"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 171,
+      "route": "404"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 180,
+      "route": "sql-review"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 203,
+      "route": "new"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 216,
+      "route": ":sqlReviewPolicySlug"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 236,
+      "route": "idps"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 254,
+      "route": ":idpId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 265,
+      "route": ""
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 269,
+      "route": "risk-assessment"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 277,
+      "route": "custom-approval"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 288,
+      "route": "global-masking"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 301,
+      "route": "semantic-types"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 312,
+      "route": "data-classification"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 323,
+      "route": "audit-log"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 334,
+      "route": "users"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 345,
+      "route": "service-accounts"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 358,
+      "route": "workload-identities"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 371,
+      "route": "members"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 384,
+      "route": "groups"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 395,
+      "route": "roles"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 409,
+      "route": "integration"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 413,
+      "route": "im"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 424,
+      "route": "mcp"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 441,
+      "route": "account"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 449,
+      "route": "account/two-factor"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 460,
+      "route": "setting"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 465,
+      "route": "general"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 479,
+      "route": "subscription"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 498,
+      "route": "environments/:environmentName"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 513,
+      "route": "instances/new"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 524,
+      "route": "instances/:instanceId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 539,
+      "route": "databases/:databaseName"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 567,
+      "route": "projects/:projectId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 581,
+      "route": "instances/new"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 592,
+      "route": "instances"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 603,
+      "route": "instances/:instanceId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 614,
+      "route": "databases"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 625,
+      "route": "access-grants"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 633,
+      "route": "masking-exemption"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 650,
+      "route": "create"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 669,
+      "route": "database-groups"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 685,
+      "route": "create"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 699,
+      "route": ":databaseGroupName"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 715,
+      "route": "issues"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 726,
+      "route": "plans"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 740,
+      "route": "sync-schema"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 757,
+      "route": "audit-logs"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 768,
+      "route": "webhooks"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 779,
+      "route": "new"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 792,
+      "route": ":webhookResourceId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 802,
+      "route": "members"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 815,
+      "route": "service-accounts"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 828,
+      "route": "workload-identities"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 845,
+      "route": "sql-review"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 858,
+      "route": "settings"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 866,
+      "route": "instances/:instanceId/databases/:databaseName"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 877,
+      "route": "instances/:instanceId/databases/:databaseName/changelogs/:changelogId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 891,
+      "route": "instances/:instanceId/databases/:databaseName/revisions/:revisionId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 902,
+      "route": "releases"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 916,
+      "route": ":releaseId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 929,
+      "route": "gitops"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 946,
+      "route": "plans/:planId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 965,
+      "route": "specs"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 969,
+      "route": "specs/:specId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 973,
+      "route": "rollout"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 977,
+      "route": "rollout/stages/:stageId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 981,
+      "route": "rollout/stages/:stageId/tasks/:taskId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 991,
+      "route": "issues/:issueId"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 1010,
+      "route": "/"
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 1014,
+      "route": ""
+    },
+    {
+      "file": "frontend/src/app/router/routes/dashboard.tsx",
+      "line": 1036,
+      "route": "issues"
+    },
+    {
+      "file": "frontend/src/app/router/routes/sqlEditor.tsx",
+      "line": 35,
+      "route": "/sql-editor"
+    },
+    {
+      "file": "frontend/src/app/router/routes/sqlEditor.tsx",
+      "line": 60,
+      "route": "projects/:project"
+    },
+    {
+      "file": "frontend/src/app/router/routes/sqlEditor.tsx",
+      "line": 65,
+      "route": "projects/:project/instances/:instance/databases/:database"
+    },
+    {
+      "file": "frontend/src/app/router/routes/sqlEditor.tsx",
+      "line": 70,
+      "route": "projects/:project/instances/:instance"
+    },
+    {
+      "file": "frontend/src/app/router/routes/sqlEditor.tsx",
+      "line": 75,
+      "route": "projects/:project/savedQueries/:savedQuery"
+    },
+    {
+      "file": "frontend/src/app/router/routes/sqlEditor.tsx",
+      "line": 80,
+      "route": "projects/:project/queryHistories/:queryHistory"
+    }
+  ],
+  "metadata_tables": [
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 7,
+      "table": "server_config"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 12,
+      "table": "workspace"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 22,
+      "table": "sample_instance_setup"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 35,
+      "table": "subscription"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 43,
+      "table": "vcs_provider_user"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 58,
+      "table": "principal"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 82,
+      "table": "setting"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 96,
+      "table": "role"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 110,
+      "table": "policy"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 139,
+      "table": "idp"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 152,
+      "table": "user_group"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 166,
+      "table": "review_config"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 176,
+      "table": "audit_log"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 197,
+      "table": "project"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 211,
+      "table": "service_account"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 227,
+      "table": "workload_identity"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 244,
+      "table": "project_webhook"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 260,
+      "table": "sheet_blob"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 272,
+      "table": "sheet_blob_ref"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 283,
+      "table": "plan"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 304,
+      "table": "plan_check_run"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 324,
+      "table": "plan_webhook_delivery"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 335,
+      "table": "issue"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 361,
+      "table": "issue_comment"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 394,
+      "table": "review_run"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 428,
+      "table": "saved_query"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 471,
+      "table": "saved_query_star"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 479,
+      "table": "db_group"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 491,
+      "table": "release"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 509,
+      "table": "access_grant"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 524,
+      "table": "query_history"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 549,
+      "table": "instance"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 567,
+      "table": "db"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 581,
+      "table": "db_schema"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 593,
+      "table": "revision"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 610,
+      "table": "sync_history"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 624,
+      "table": "changelog"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 640,
+      "table": "instance_change_history"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 654,
+      "table": "task"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 672,
+      "table": "task_run"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 704,
+      "table": "replica_heartbeat"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 711,
+      "table": "task_run_log"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 726,
+      "table": "oauth2_client"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 737,
+      "table": "oauth2_authorization_code"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 750,
+      "table": "oauth2_refresh_token"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 780,
+      "table": "web_refresh_token"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 791,
+      "table": "email_verification_code"
+    },
+    {
+      "file": "backend/migrator/migration/LATEST.sql",
+      "line": 805,
+      "table": "login_attempt"
+    }
+  ],
+  "edition_features": [
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 7,
+      "symbol": "FEATURE_DATABASE_CHANGE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 8,
+      "symbol": "FEATURE_GIT_BASED_SCHEMA_VERSION_CONTROL"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 9,
+      "symbol": "FEATURE_DECLARATIVE_SCHEMA_MIGRATION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 10,
+      "symbol": "FEATURE_COMPARE_AND_SYNC_SCHEMA"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 11,
+      "symbol": "FEATURE_ONLINE_SCHEMA_CHANGE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 12,
+      "symbol": "FEATURE_PRE_DEPLOYMENT_SQL_REVIEW"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 13,
+      "symbol": "FEATURE_AUTOMATIC_BACKUP_BEFORE_DATA_CHANGES"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 14,
+      "symbol": "FEATURE_ONE_CLICK_DATA_ROLLBACK"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 15,
+      "symbol": "FEATURE_MULTI_DATABASE_BATCH_CHANGES"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 16,
+      "symbol": "FEATURE_PROGRESSIVE_ENVIRONMENT_DEPLOYMENT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 17,
+      "symbol": "FEATURE_SCHEDULED_ROLLOUT_TIME"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 18,
+      "symbol": "FEATURE_DATABASE_CHANGELOG"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 19,
+      "symbol": "FEATURE_ROLLOUT_POLICY"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 21,
+      "symbol": "FEATURE_WEB_BASED_SQL_EDITOR"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 22,
+      "symbol": "FEATURE_SQL_EDITOR_ADMIN_MODE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 23,
+      "symbol": "FEATURE_NATURAL_LANGUAGE_TO_SQL"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 24,
+      "symbol": "FEATURE_AI_QUERY_EXPLANATION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 25,
+      "symbol": "FEATURE_AI_QUERY_SUGGESTIONS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 26,
+      "symbol": "FEATURE_AUTO_COMPLETE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 27,
+      "symbol": "FEATURE_SCHEMA_DIAGRAM"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 28,
+      "symbol": "FEATURE_SCHEMA_EDITOR"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 29,
+      "symbol": "FEATURE_DATA_EXPORT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 30,
+      "symbol": "FEATURE_QUERY_HISTORY"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 31,
+      "symbol": "FEATURE_SAVED_AND_SHARED_SQL_SCRIPTS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 33,
+      "symbol": "FEATURE_IAM"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 34,
+      "symbol": "FEATURE_INSTANCE_SSL_CONNECTION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 35,
+      "symbol": "FEATURE_INSTANCE_CONNECTION_OVER_SSH_TUNNEL"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 36,
+      "symbol": "FEATURE_INSTANCE_CONNECTION_IAM_AUTHENTICATION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 37,
+      "symbol": "FEATURE_CUSTOM_INSTANCE_SYNC_TIME"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 38,
+      "symbol": "FEATURE_CUSTOM_INSTANCE_CONNECTION_LIMIT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 40,
+      "symbol": "FEATURE_ENVIRONMENT_MANAGEMENT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 41,
+      "symbol": "FEATURE_IM_NOTIFICATIONS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 42,
+      "symbol": "FEATURE_TERRAFORM_PROVIDER"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 43,
+      "symbol": "FEATURE_COMMUNITY_SUPPORT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 49,
+      "symbol": "FEATURE_DATABASE_CHANGE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 50,
+      "symbol": "FEATURE_GIT_BASED_SCHEMA_VERSION_CONTROL"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 51,
+      "symbol": "FEATURE_DECLARATIVE_SCHEMA_MIGRATION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 52,
+      "symbol": "FEATURE_COMPARE_AND_SYNC_SCHEMA"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 53,
+      "symbol": "FEATURE_ONLINE_SCHEMA_CHANGE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 54,
+      "symbol": "FEATURE_PRE_DEPLOYMENT_SQL_REVIEW"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 55,
+      "symbol": "FEATURE_AUTOMATIC_BACKUP_BEFORE_DATA_CHANGES"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 56,
+      "symbol": "FEATURE_ONE_CLICK_DATA_ROLLBACK"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 57,
+      "symbol": "FEATURE_MULTI_DATABASE_BATCH_CHANGES"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 58,
+      "symbol": "FEATURE_PROGRESSIVE_ENVIRONMENT_DEPLOYMENT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 59,
+      "symbol": "FEATURE_SCHEDULED_ROLLOUT_TIME"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 60,
+      "symbol": "FEATURE_DATABASE_CHANGELOG"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 61,
+      "symbol": "FEATURE_ROLLOUT_POLICY"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 63,
+      "symbol": "FEATURE_WEB_BASED_SQL_EDITOR"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 64,
+      "symbol": "FEATURE_SQL_EDITOR_ADMIN_MODE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 65,
+      "symbol": "FEATURE_NATURAL_LANGUAGE_TO_SQL"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 66,
+      "symbol": "FEATURE_AI_QUERY_EXPLANATION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 67,
+      "symbol": "FEATURE_AI_QUERY_SUGGESTIONS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 68,
+      "symbol": "FEATURE_AUTO_COMPLETE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 69,
+      "symbol": "FEATURE_SCHEMA_DIAGRAM"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 70,
+      "symbol": "FEATURE_SCHEMA_EDITOR"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 71,
+      "symbol": "FEATURE_DATA_EXPORT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 72,
+      "symbol": "FEATURE_QUERY_HISTORY"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 73,
+      "symbol": "FEATURE_SAVED_AND_SHARED_SQL_SCRIPTS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 74,
+      "symbol": "FEATURE_BATCH_QUERY"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 75,
+      "symbol": "FEATURE_INSTANCE_READ_ONLY_CONNECTION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 76,
+      "symbol": "FEATURE_QUERY_POLICY"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 78,
+      "symbol": "FEATURE_IAM"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 79,
+      "symbol": "FEATURE_INSTANCE_SSL_CONNECTION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 80,
+      "symbol": "FEATURE_INSTANCE_CONNECTION_OVER_SSH_TUNNEL"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 81,
+      "symbol": "FEATURE_INSTANCE_CONNECTION_IAM_AUTHENTICATION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 82,
+      "symbol": "FEATURE_CUSTOM_INSTANCE_SYNC_TIME"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 83,
+      "symbol": "FEATURE_CUSTOM_INSTANCE_CONNECTION_LIMIT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 84,
+      "symbol": "FEATURE_GOOGLE_AND_GITHUB_SSO"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 85,
+      "symbol": "FEATURE_USER_GROUPS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 86,
+      "symbol": "FEATURE_DISALLOW_SELF_SERVICE_SIGNUP"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 87,
+      "symbol": "FEATURE_AUDIT_LOG"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 89,
+      "symbol": "FEATURE_ENVIRONMENT_MANAGEMENT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 90,
+      "symbol": "FEATURE_IM_NOTIFICATIONS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 91,
+      "symbol": "FEATURE_TERRAFORM_PROVIDER"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 92,
+      "symbol": "FEATURE_DATABASE_GROUPS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 93,
+      "symbol": "FEATURE_EMAIL_SUPPORT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 99,
+      "symbol": "FEATURE_DATABASE_CHANGE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 100,
+      "symbol": "FEATURE_GIT_BASED_SCHEMA_VERSION_CONTROL"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 101,
+      "symbol": "FEATURE_DECLARATIVE_SCHEMA_MIGRATION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 102,
+      "symbol": "FEATURE_COMPARE_AND_SYNC_SCHEMA"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 103,
+      "symbol": "FEATURE_ONLINE_SCHEMA_CHANGE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 104,
+      "symbol": "FEATURE_PRE_DEPLOYMENT_SQL_REVIEW"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 105,
+      "symbol": "FEATURE_AUTOMATIC_BACKUP_BEFORE_DATA_CHANGES"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 106,
+      "symbol": "FEATURE_ONE_CLICK_DATA_ROLLBACK"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 107,
+      "symbol": "FEATURE_MULTI_DATABASE_BATCH_CHANGES"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 108,
+      "symbol": "FEATURE_PROGRESSIVE_ENVIRONMENT_DEPLOYMENT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 109,
+      "symbol": "FEATURE_SCHEDULED_ROLLOUT_TIME"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 110,
+      "symbol": "FEATURE_DATABASE_CHANGELOG"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 111,
+      "symbol": "FEATURE_ROLLOUT_POLICY"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 113,
+      "symbol": "FEATURE_WEB_BASED_SQL_EDITOR"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 114,
+      "symbol": "FEATURE_SQL_EDITOR_ADMIN_MODE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 115,
+      "symbol": "FEATURE_NATURAL_LANGUAGE_TO_SQL"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 116,
+      "symbol": "FEATURE_AI_QUERY_EXPLANATION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 117,
+      "symbol": "FEATURE_AI_QUERY_SUGGESTIONS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 118,
+      "symbol": "FEATURE_AUTO_COMPLETE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 119,
+      "symbol": "FEATURE_SCHEMA_DIAGRAM"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 120,
+      "symbol": "FEATURE_SCHEMA_EDITOR"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 121,
+      "symbol": "FEATURE_DATA_EXPORT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 122,
+      "symbol": "FEATURE_QUERY_HISTORY"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 123,
+      "symbol": "FEATURE_SAVED_AND_SHARED_SQL_SCRIPTS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 124,
+      "symbol": "FEATURE_BATCH_QUERY"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 125,
+      "symbol": "FEATURE_INSTANCE_READ_ONLY_CONNECTION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 126,
+      "symbol": "FEATURE_QUERY_POLICY"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 127,
+      "symbol": "FEATURE_RESTRICT_COPYING_DATA"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 129,
+      "symbol": "FEATURE_IAM"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 130,
+      "symbol": "FEATURE_INSTANCE_SSL_CONNECTION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 131,
+      "symbol": "FEATURE_INSTANCE_CONNECTION_OVER_SSH_TUNNEL"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 132,
+      "symbol": "FEATURE_INSTANCE_CONNECTION_IAM_AUTHENTICATION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 133,
+      "symbol": "FEATURE_CUSTOM_INSTANCE_SYNC_TIME"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 134,
+      "symbol": "FEATURE_CUSTOM_INSTANCE_CONNECTION_LIMIT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 135,
+      "symbol": "FEATURE_GOOGLE_AND_GITHUB_SSO"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 136,
+      "symbol": "FEATURE_USER_GROUPS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 137,
+      "symbol": "FEATURE_DISALLOW_SELF_SERVICE_SIGNUP"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 138,
+      "symbol": "FEATURE_RISK_ASSESSMENT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 139,
+      "symbol": "FEATURE_APPROVAL_WORKFLOW"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 140,
+      "symbol": "FEATURE_AUDIT_LOG"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 141,
+      "symbol": "FEATURE_ENTERPRISE_SSO"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 142,
+      "symbol": "FEATURE_TWO_FA"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 143,
+      "symbol": "FEATURE_PASSWORD_RESTRICTIONS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 144,
+      "symbol": "FEATURE_CUSTOM_ROLES"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 145,
+      "symbol": "FEATURE_REQUEST_ROLE_WORKFLOW"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 146,
+      "symbol": "FEATURE_JIT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 147,
+      "symbol": "FEATURE_DATA_MASKING"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 148,
+      "symbol": "FEATURE_DATA_CLASSIFICATION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 149,
+      "symbol": "FEATURE_SCIM"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 150,
+      "symbol": "FEATURE_DIRECTORY_SYNC"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 151,
+      "symbol": "FEATURE_TOKEN_DURATION_CONTROL"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 152,
+      "symbol": "FEATURE_DISALLOW_PASSWORD_SIGNIN"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 153,
+      "symbol": "FEATURE_EXTERNAL_SECRET_MANAGER"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 154,
+      "symbol": "FEATURE_USER_EMAIL_DOMAIN_RESTRICTION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 156,
+      "symbol": "FEATURE_ENVIRONMENT_MANAGEMENT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 157,
+      "symbol": "FEATURE_IM_NOTIFICATIONS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 158,
+      "symbol": "FEATURE_TERRAFORM_PROVIDER"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 159,
+      "symbol": "FEATURE_DATABASE_GROUPS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 160,
+      "symbol": "FEATURE_ENVIRONMENT_TIERS"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 161,
+      "symbol": "FEATURE_DASHBOARD_ANNOUNCEMENT"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 162,
+      "symbol": "FEATURE_API_INTEGRATION_GUIDANCE"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 163,
+      "symbol": "FEATURE_CUSTOM_LOGO"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 164,
+      "symbol": "FEATURE_WATERMARK"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 165,
+      "symbol": "FEATURE_ROADMAP_PRIORITIZATION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 166,
+      "symbol": "FEATURE_CUSTOM_MSA"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 167,
+      "symbol": "FEATURE_DEDICATED_SUPPORT_WITH_SLA"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 169,
+      "symbol": "FEATURE_DATA_MASKING"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 170,
+      "symbol": "FEATURE_INSTANCE_READ_ONLY_CONNECTION"
+    },
+    {
+      "file": "backend/enterprise/plan.yaml",
+      "line": 171,
+      "symbol": "FEATURE_EXTERNAL_SECRET_MANAGER"
+    }
+  ]
+}
