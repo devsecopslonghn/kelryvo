@@ -717,6 +717,24 @@
       },
       "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-T03-INTEGRATION-CORRECTED.json",
       "sha256": "5685bf2ae5badc3c26337ae47201847b954f97f28b98e87575b7d7898ce09364"
+    },
+    {
+      "id": "WP0-T03-QUALITY-pr2-quality-20261008T133102Z-1646ac2e",
+      "subject_id": "WP0-T03",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/checks.txt",
+        "sha256": "cf5d65c0efbb1bcb34903ab228073f9c7f5a333dc8c377818b68030e1635ae81"
+      },
+      "path": "evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/WP0-T03-QUALITY.json",
+      "sha256": "1e7dc4621a81999569661e0cd32ef3ac82ade05304eee3da80e3b38dbaed39f1"
     }
   ]
 }

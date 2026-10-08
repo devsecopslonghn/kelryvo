@@ -16,11 +16,10 @@ async function checkedArtifact(relativePath, expectedHash) {
   const file = path.resolve(ROOT, relativePath);
   const relative = path.relative(ROOT, file);
   if (!relative || relative === '..' || relative.startsWith(`..${path.sep}`)) throw new Error('invalid_artifact');
-  let cursor = ROOT;
-  for (const part of relative.split(path.sep)) {
-    cursor = path.join(cursor, part);
-    if ((await lstat(cursor)).isSymbolicLink()) throw new Error('artifact_symlink');
-  }
+  const parts = relative.split(path.sep);
+  const parents = parts.map((_, index) => path.join(ROOT, ...parts.slice(0, index + 1)));
+  const stats = await Promise.all(parents.map(parent => lstat(parent)));
+  if (stats.some(stat => stat.isSymbolicLink())) throw new Error('artifact_symlink');
   if (!(await lstat(file)).isFile() || sha256(await readFile(file)) !== expectedHash) throw new Error('artifact_digest_mismatch');
   return file;
 }

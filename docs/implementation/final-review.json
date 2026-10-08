@@ -12,7 +12,7 @@
   "oracle_calls": 0,
   "latest_validated_master_before_this_increment": "42249826d105d44dbf5d6243f9ebe3748612e1c7",
   "tests": {
-    "passed": 63,
+    "passed": 64,
     "failed": 0,
     "skipped": 0
   },
@@ -36,5 +36,7 @@
     "No Oracle grants/lock/crash-safe/runtime or API/UI acceptance.",
     "Exact-head remote CI/security/reviews must pass before merge."
   ],
-  "metadata_correction": "Initial integration record named harness files instead of permitted task case references; rejected by tracker and excluded from index. Raw checks remain intact. Corrected record claims general check scope only."
+  "metadata_correction": "Initial integration record named harness files instead of permitted task case references; rejected by tracker and excluded from index. Raw checks remain intact. Corrected record claims general check scope only.",
+  "quality_repair_evidence": "evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/independent-final-review.json",
+  "remote_ci": "Initial PR2 SonarCloud failed; repair head must pass fresh CI before merge."
 }

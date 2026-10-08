@@ -8,33 +8,33 @@ const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const parse = text => runAntlrCandidate(Buffer.from(text));
 
 test('SQLPlus commands stop at every release position, ordinary SQL comments survive', async () => {
-  for (const text of ['REM hi\nSELECT 1 FROM dual;\n', 'SELECT 1 FROM dual;\nREM hi\r\n',
+  await Promise.all(['REM hi\nSELECT 1 FROM dual;\n', 'SELECT 1 FROM dual;\nREM hi\r\n',
     'REM hi', 'SELECT 1 FROM dual; REM hi\n', 'PROMPT hi\nSELECT 1 FROM dual;\n',
-    'SELECT 1 FROM dual;\nHOST dangerous\n']) {
+    'SELECT 1 FROM dual;\nHOST dangerous\n'].map(async text => {
     const result = await parse(text);
     assert.equal(result.ok, true);
     assert.equal(result.kind, 'STOP');
     assert.equal(result.statementCount, 0);
     assert.equal(Object.hasOwn(result, 'statements'), false);
-  }
-  for (const prefix of ['-- REM hi\n', '/* REM hi */\n', '-- first\n/* second */\n']) {
+  }));
+  await Promise.all(['-- REM hi\n', '/* REM hi */\n', '-- first\n/* second */\n'].map(async prefix => {
     const text = `${prefix}SELECT 1 FROM dual;`;
     const result = await parse(text);
     assert.equal(result.kind, 'PARSE');
     assert.equal(result.statements[0].startByte, 0);
     assert.equal(result.statements[0].sourceSha256, sha(Buffer.from(text)));
-  }
+  }));
 });
 
 test('source mapping preserves supplementary Unicode and literal LF/CRLF slash delimiters', async () => {
-  for (const newline of ['\n', '\r\n']) {
+  await Promise.all(['\n', '\r\n'].map(async newline => {
     const execution = `-- café 😀${newline}BEGIN DBMS_OUTPUT.PUT_LINE('😀 / ;'); END;`;
     const text = `${execution}${newline}/`;
     const result = await parse(text);
     assert.equal(result.kind, 'PARSE');
     assert.deepEqual(result.statements, [{ startByte: 0, endByte: Buffer.byteLength(text),
       sourceSha256: sha(Buffer.from(text)), executionSha256: sha(Buffer.from(execution)) }]);
-  }
+  }));
   const first = 'SELECT \'😀\' FROM dual;';
   const second = 'SELECT "😀" FROM dual;';
   const result = await parse(`${first}\r\n${second}`);

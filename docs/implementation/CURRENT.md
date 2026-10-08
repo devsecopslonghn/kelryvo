@@ -7,8 +7,9 @@ WP0 feasibility. No Oracle runtime, execution architecture, API/UI or product fe
 PR #1 merged on 2026-10-08 after independent QA/security review and successful exact-head
 foundation/CodeQL checks. Its reviewed head is `0e5b2e93dcce33bdae5f57afbc50fb538e6b86fe`;
 local and remote master were synchronized at `42249826d105d44dbf5d6243f9ebe3748612e1c7`.
-The current engineering branch is `development/wp0-antlr-parser`; its new PR must pass
-CI and final exact-head checks before merging. Eligible ordinary merges are authorized;
+The current engineering branch is `development/wp0-antlr-parser`; PR #2 is open at https://github.com/devsecopslonghn/schemaForge/pull/2.
+Its initial foundation/parser/CodeQL checks passed, but SonarCloud failed. The repaired
+head must pass fresh exact-head CI/security/review checks before merging. Eligible ordinary merges are authorized;
 see [synchronization policy](github-sync.md). Resolve the latest master SHA from Git refs
 when resuming; a checkpoint cannot contain its own resulting commit hash.
 
@@ -27,7 +28,7 @@ Unicode remain literal bytes. The parent enforces source coverage, digests, prot
 Whole-release prevalidation snapshots every file and checks all hashes before parsing;
 a later failure returns an unapproved STOP with no partial execution plan.
 
-**Actual local evidence:** 63 local tests and dependency smoke pass. Independent QA passes
+**Actual local evidence:** 64 local tests and dependency smoke pass. Independent QA passes
 31/31 fixture files across 14 groups/30 variants plus four real-helper integration tests.
 Two isolated offline builds, including the explicitly prepared CI JDK, reproduce helper
 SHA-256 `a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38`.
@@ -35,6 +36,9 @@ The helper JAR contains local/generated classes and notices; runtime, generator 
 remain separate. Authored source drift stops before compilation; unpinned builds preserve
 the installed reviewed artifact. Evidence is append-only under
 `evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/`.
+The subsequent quality repair preserves the exact helper digest and adds full download-pin
+prevalidation plus safe dependent filesystem ordering. Its append-only record is
+`evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/`; remote repair checks remain pending.
 
 Thirteen parser unit cells PASS; opaque PL/SQL atomicity `WP0-03-13` unit remains NOT_RUN.
 All **124 applicable Oracle cells remain BLOCKED**. These unit outcomes do not verify

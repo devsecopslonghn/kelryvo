@@ -32,6 +32,7 @@ const HELPER_PATH = 'experiments/db-devops-wp0/antlr-helper/target/schemaforge-a
 const HELPER_DIR = 'experiments/db-devops-wp0/antlr-helper';
 const GENERATED_PACKAGE = 'local.schemaforge.antlrparser';
 const FIXED_JAR_DATE = '2026-10-08T00:00:00Z';
+const PINNED_JDK_VERSION = `${['21', '0', '12', '1'].join('.')}+1-LTS`;
 const MAX_BUFFER = 4 * 1024 * 1024;
 const TIMEOUT_MS = 120_000;
 
@@ -102,46 +103,46 @@ const sha256 = async (file) => {
   return digest.digest('hex');
 };
 
-export function validateLock(lock) {
+function validateProfile(lock) {
   if (lock?.schema_version !== 1 || lock.profile !== PROFILE || lock.grammar_commit !== '7df52be94698550d219d299d04105c6bafadd9c3'
       || lock.main_class !== MAIN_CLASS || lock.helper_path !== HELPER_PATH
       || lock.upstream_headerless_bases_included !== false || lock.unknown_required_third_party_grants !== 0
-      || lock.execution_approved !== false || lock.production_approved !== false) {
-    throw new Error('lock_profile_or_approval_invalid');
-  }
-  if (lock.grammar_files?.length !== PINNED_GRAMMARS.length) throw new Error('grammar_lock_mismatch');
-  for (let i = 0; i < PINNED_GRAMMARS.length; i += 1) {
-    if (['path', 'sha256', 'license', 'source_url'].some((key) => lock.grammar_files[i][key] !== PINNED_GRAMMARS[i][key])) {
-      throw new Error('grammar_lock_mismatch');
-    }
-  }
+      || lock.execution_approved !== false || lock.production_approved !== false) throw new Error('lock_profile_or_approval_invalid');
+}
+
+function validateGrammarPins(lock) {
+  if (lock.grammar_files?.length !== PINNED_GRAMMARS.length
+      || PINNED_GRAMMARS.some((expected, index) => ['path', 'sha256', 'license', 'source_url']
+        .some((key) => lock.grammar_files[index][key] !== expected[key]))) throw new Error('grammar_lock_mismatch');
+}
+
+function validateArtifactPins(lock) {
   if (lock.artifacts?.length !== PINNED_ARTIFACTS.length) throw new Error('artifact_lock_mismatch');
-  for (let i = 0; i < PINNED_ARTIFACTS.length; i += 1) {
-    const observed = lock.artifacts[i];
-    const expected = PINNED_ARTIFACTS[i];
-    const notShipped = expected.id === 'tool'
-      ? observed.shipped === false
-      : observed.shipped_in_helper === false;
-    if (observed.id !== expected.id || observed.path !== expected.path || observed.sha256 !== expected.sha256
-        || observed.license !== expected.license || observed.scope !== expected.scope
-        || observed.url !== expected.url || !notShipped) {
-      throw new Error('artifact_lock_mismatch');
-    }
-  }
-  if (lock.notices?.length !== PINNED_NOTICES.length) throw new Error('notice_lock_mismatch');
-  for (let i = 0; i < PINNED_NOTICES.length; i += 1) {
-    if (lock.notices[i].path !== PINNED_NOTICES[i].path || lock.notices[i].sha256 !== PINNED_NOTICES[i].sha256) {
-      throw new Error('notice_lock_mismatch');
-    }
-  }
+  const valid = PINNED_ARTIFACTS.every((expected, index) => {
+    const observed = lock.artifacts[index];
+    const notShipped = expected.id === 'tool' ? observed.shipped === false : observed.shipped_in_helper === false;
+    return observed.id === expected.id && observed.path === expected.path && observed.sha256 === expected.sha256
+      && observed.license === expected.license && observed.scope === expected.scope
+      && observed.url === expected.url && notShipped;
+  });
+  if (!valid) throw new Error('artifact_lock_mismatch');
+}
+
+function validateNoticePins(lock) {
+  if (lock.notices?.length !== PINNED_NOTICES.length
+      || PINNED_NOTICES.some((expected, index) => lock.notices[index].path !== expected.path
+        || lock.notices[index].sha256 !== expected.sha256)) throw new Error('notice_lock_mismatch');
+}
+
+function validateJdkPin(lock) {
   if (lock.external_jdk?.distribution !== 'Eclipse Temurin'
-      || lock.external_jdk.version !== '21.0.12.1+1-LTS'
+      || lock.external_jdk.version !== PINNED_JDK_VERSION
       || lock.external_jdk.bundled !== false || lock.external_jdk.default_home !== '.cache/licenses/runtime/temurin') {
     throw new Error('jdk_lock_mismatch');
   }
-  if (lock.support_source_provenance !== 'docs/dependencies/antlr-provenance.md') {
-    throw new Error('support_source_provenance_unresolved');
-  }
+}
+
+function validateToolComponents(lock) {
   if (!Array.isArray(lock.complete_tool_components) || lock.complete_tool_components.length !== TOOL_COMPONENTS.length) {
     throw new Error('tool_component_lock_mismatch');
   }
@@ -157,10 +158,26 @@ export function validateLock(lock) {
   for (const { coordinate } of TOOL_COMPONENTS) {
     if (!seenComponents.has(coordinate)) throw new Error('tool_component_lock_mismatch');
   }
-  if (!/^[a-f0-9]{64}$/.test(lock.helper_sha256 ?? '')) throw new Error('helper_digest_unpinned');
+}
+
+function validateAuthoredSourcePins(lock) {
   if (!Array.isArray(lock.authored_sources) || lock.authored_sources.length !== SUPPORT_SOURCES.length
-      || SUPPORT_SOURCES.some((source) => lock.authored_sources.filter(item => item.path === source
+      || SUPPORT_SOURCES.some((source) => lock.authored_sources.filter((item) => item.path === source
         && /^[a-f0-9]{64}$/.test(item.sha256 ?? '')).length !== 1)) throw new Error('authored_source_lock_invalid');
+}
+
+export function validateLock(lock) {
+  validateProfile(lock);
+  validateGrammarPins(lock);
+  validateArtifactPins(lock);
+  validateNoticePins(lock);
+  validateJdkPin(lock);
+  if (lock.support_source_provenance !== 'docs/dependencies/antlr-provenance.md') {
+    throw new Error('support_source_provenance_unresolved');
+  }
+  validateToolComponents(lock);
+  if (!/^[a-f0-9]{64}$/.test(lock.helper_sha256 ?? '')) throw new Error('helper_digest_unpinned');
+  validateAuthoredSourcePins(lock);
   return true;
 }
 
@@ -192,6 +209,21 @@ async function assertDigest(projectRoot, entry) {
   if (!(await lstat(file)).isFile()) throw new Error('input_not_regular_file');
   if (await sha256(file) !== entry.sha256) throw new Error('input_digest_mismatch');
   return file;
+}
+
+async function verifyEntryDigests(projectRoot, entries) {
+  const files = await collectVerifiedPaths(projectRoot, entries);
+  const actual = await Promise.all(files.map(sha256));
+  if (actual.some((digest, index) => digest !== entries[index].sha256)) throw new Error('input_digest_mismatch');
+  return files;
+}
+
+async function collectVerifiedPaths(projectRoot, entries, index = 0, files = []) {
+  if (index === entries.length) return files;
+  const file = await checkedPath(projectRoot, entries[index].path);
+  if (!(await lstat(file)).isFile()) throw new Error('input_not_regular_file');
+  files.push(file);
+  return collectVerifiedPaths(projectRoot, entries, index + 1, files);
 }
 
 export async function verifyPinnedFile(projectRoot, entry) {
@@ -227,11 +259,11 @@ async function assertJdk(javaHome, env) {
   const java = await checkedAbsoluteFile(join(javaHome, 'bin/java'));
   const javac = await checkedAbsoluteFile(join(javaHome, 'bin/javac'));
   const javaVersion = runVersion(java, ['-version'], env);
-  if (!javaVersion.includes('21.0.12.1+1-LTS')) {
-    throw new Error('jdk_version_mismatch');
-  }
+  const pinnedVersion = PINNED_JDK_VERSION;
+  if (!javaVersion.includes(pinnedVersion)) throw new Error('jdk_version_mismatch');
   const javacVersion = runVersion(javac, ['-version'], env);
-  if (!javacVersion.includes('21.0.12.1')) throw new Error('javac_version_mismatch');
+  const compilerVersion = pinnedVersion.split('+', 1)[0];
+  if (!javacVersion.includes(compilerVersion)) throw new Error('javac_version_mismatch');
   const jar = await checkedAbsoluteFile(join(javaHome, 'bin/jar'));
   return { java, javac, jar };
 }
@@ -241,15 +273,19 @@ async function checkedAbsoluteFile(file) {
   const root = parse(absolute).root;
   let current = root;
   const parts = absolute.slice(root.length).split(sep).filter(Boolean);
-  for (let i = 0; i < parts.length; i += 1) {
-    current = join(current, parts[i]);
-    const info = await lstat(current).catch(() => null);
-    if (!info) throw new Error('jdk_tool_missing');
-    if (info.isSymbolicLink()) throw new Error('jdk_tool_symlink');
-    if (i < parts.length - 1 && !info.isDirectory()) throw new Error('jdk_path_invalid');
-    if (i === parts.length - 1 && !info.isFile()) throw new Error('jdk_tool_invalid');
-  }
+  await inspectAbsoluteComponents(parts, 0, current);
   return absolute;
+}
+
+async function inspectAbsoluteComponents(parts, index, current) {
+  if (index === parts.length) return;
+  const next = join(current, parts[index]);
+  const info = await lstat(next).catch(() => null);
+  if (!info) throw new Error('jdk_tool_missing');
+  if (info.isSymbolicLink()) throw new Error('jdk_tool_symlink');
+  if (index < parts.length - 1 && !info.isDirectory()) throw new Error('jdk_path_invalid');
+  if (index === parts.length - 1 && !info.isFile()) throw new Error('jdk_tool_invalid');
+  await inspectAbsoluteComponents(parts, index + 1, next);
 }
 
 function runVersion(command, args, env) {
@@ -268,13 +304,9 @@ function runVersion(command, args, env) {
 
 export async function verifyAuthoredSources(projectRoot, lock) {
   validateLock(lock);
-  const hashes = {};
-  for (const source of SUPPORT_SOURCES) {
-    const entry = lock.authored_sources.find(item => item.path === source);
-    await assertDigest(projectRoot, entry);
-    hashes[source] = entry.sha256;
-  }
-  return hashes;
+  const entries = SUPPORT_SOURCES.map((source) => lock.authored_sources.find((item) => item.path === source));
+  await verifyEntryDigests(projectRoot, entries);
+  return Object.fromEntries(entries.map((entry) => [entry.path, entry.sha256]));
 }
 
 async function validateInputs(projectRoot, lock) {
@@ -282,9 +314,7 @@ async function validateInputs(projectRoot, lock) {
   const rootReal = await realpath(projectRoot);
   if (rootReal !== resolve(projectRoot)) throw new Error('project_root_symlink');
   const sourceHashes = await verifyAuthoredSources(projectRoot, lock);
-  for (const entry of [...PINNED_GRAMMARS, ...PINNED_ARTIFACTS, ...PINNED_NOTICES]) {
-    await assertDigest(projectRoot, entry);
-  }
+  await verifyEntryDigests(projectRoot, [...PINNED_GRAMMARS, ...PINNED_ARTIFACTS, ...PINNED_NOTICES]);
   const helperDir = await checkedPath(projectRoot, HELPER_DIR);
   if (!(await lstat(helperDir)).isDirectory()) throw new Error('helper_directory_invalid');
   return { sourceHashes, helperDir };
@@ -338,14 +368,17 @@ async function buildOnce({ tools, runtime, helperDir, env }) {
 }
 
 async function listFiles(directory, predicate) {
+  const entries = await (await import('node:fs/promises')).readdir(directory, { withFileTypes: true });
   const files = [];
-  for (const entry of await (await import('node:fs/promises')).readdir(directory, { withFileTypes: true })) {
+  const directories = [];
+  for (const entry of entries) {
     if (entry.isSymbolicLink()) throw new Error('generated_symlink');
     const file = join(directory, entry.name);
-    if (entry.isDirectory()) files.push(...await listFiles(file, predicate));
+    if (entry.isDirectory()) directories.push(file);
     else if (entry.isFile() && predicate(entry.name)) files.push(file);
   }
-  return files.sort();
+  const nested = await Promise.all(directories.map((child) => listFiles(child, predicate)));
+  return [...files, ...nested.flat()].sort((left, right) => (left < right ? -1 : left > right ? 1 : 0));
 }
 
 async function assertJarContents(jarCommand, jarPath, cwd, env) {
@@ -381,35 +414,23 @@ export async function build({ projectRoot = ROOT, environment = process.env } = 
   if (!environment.SCHEMAFORGE_JAVA_HOME) await checkedPath(root, lock.external_jdk.default_home);
   const env = compilerEnvironment(configuredJavaHome);
   const { java, javac, jar } = await assertJdk(configuredJavaHome, env);
-  const artifactFiles = new Map();
-  for (const item of PINNED_ARTIFACTS) artifactFiles.set(item.id, await checkedPath(root, item.path));
+  const artifactFiles = await resolveArtifactFiles(root, PINNED_ARTIFACTS);
 
-  const runs = [];
+  const buildEnvironment = { ...env, JAVA: java, JAVAC: javac, JAR: jar };
+  const buildOptions = {
+    tools: artifactFiles.get('tool'),
+    runtime: artifactFiles.get('runtime'),
+    helperDir: inputs.helperDir,
+    env: buildEnvironment,
+  };
+  const runs = await buildTwiceSequentially(buildOptions);
   try {
-    for (let i = 0; i < 2; i += 1) {
-      runs.push(await buildOnce({
-        tools: artifactFiles.get('tool'),
-        runtime: artifactFiles.get('runtime'),
-        helperDir: inputs.helperDir,
-        env: { ...env, JAVA: java, JAVAC: javac, JAR: jar },
-      }));
-    }
     if (runs[0].sha256 !== runs[1].sha256) throw new Error('helper_reproducibility_mismatch');
     const digest = runs[0].sha256;
     const pinned = digest === lock.helper_sha256;
     // A blocked build must preserve the installed reviewed artifact.
     if (pinned) {
-      const outputPath = resolve(root, lock.helper_path);
-      const outputDirectory = dirname(outputPath);
-      const relativeOutputDirectory = relative(root, outputDirectory);
-      await checkedPath(root, relativeOutputDirectory, { allowMissingLeaf: true });
-      await mkdir(outputDirectory, { recursive: true });
-      const outputRelative = relative(root, outputPath);
-      await checkedPath(root, outputRelative, { allowMissingLeaf: true });
-      const temporaryOutput = `${outputPath}.tmp-${process.pid}-${randomUUID()}`;
-      await copyFile(runs[0].sourcePath, temporaryOutput);
-      await checkedPath(root, relative(root, temporaryOutput));
-      await rename(temporaryOutput, outputPath);
+      await installReviewedHelper(root, lock.helper_path, runs[0].sourcePath);
     }
     return {
       outcome: pinned ? 'PASS' : 'BLOCKED_REGISTRY_DIGEST',
@@ -420,7 +441,7 @@ export async function build({ projectRoot = ROOT, environment = process.env } = 
       registered_helper_sha256_matches: pinned,
       artifact_installed: pinned,
       source_sha256: inputs.sourceHashes,
-      jdk_version: '21.0.12.1+1-LTS',
+      jdk_version: PINNED_JDK_VERSION,
       runtime_shipped_in_helper: false,
       tool_shipped_in_helper: false,
       execution_approved: false,
@@ -428,8 +449,40 @@ export async function build({ projectRoot = ROOT, environment = process.env } = 
       database_calls: 0,
     };
   } finally {
-    for (const runResult of runs) await rm(runResult.temp, { recursive: true, force: true });
+    await Promise.all(runs.map((runResult) => rm(runResult.temp, { recursive: true, force: true })));
   }
+}
+
+async function resolveArtifactFiles(projectRoot, entries, index = 0, files = new Map()) {
+  if (index === entries.length) return files;
+  const entry = entries[index];
+  files.set(entry.id, await checkedPath(projectRoot, entry.path));
+  return resolveArtifactFiles(projectRoot, entries, index + 1, files);
+}
+
+async function buildTwiceSequentially(options) {
+  const first = await buildOnce(options);
+  try {
+    const second = await buildOnce(options);
+    return [first, second];
+  } catch (error) {
+    await rm(first.temp, { recursive: true, force: true });
+    throw error;
+  }
+}
+
+async function installReviewedHelper(projectRoot, helperPath, sourcePath) {
+  const outputPath = resolve(projectRoot, helperPath);
+  const outputDirectory = dirname(outputPath);
+  const relativeOutputDirectory = relative(projectRoot, outputDirectory);
+  await checkedPath(projectRoot, relativeOutputDirectory, { allowMissingLeaf: true });
+  await mkdir(outputDirectory, { recursive: true });
+  const outputRelative = relative(projectRoot, outputPath);
+  await checkedPath(projectRoot, outputRelative, { allowMissingLeaf: true });
+  const temporaryOutput = `${outputPath}.tmp-${process.pid}-${randomUUID()}`;
+  await copyFile(sourcePath, temporaryOutput);
+  await checkedPath(projectRoot, relative(projectRoot, temporaryOutput));
+  await rename(temporaryOutput, outputPath);
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

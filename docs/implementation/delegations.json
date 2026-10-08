@@ -143,6 +143,36 @@
       "owned_paths": [],
       "review": "Read-only. Excluded headerless bases; reviewed distinct support rewrite and licensed derivations. Exact source/runtime/tool/notices accepted for offlineT03, not product distribution.",
       "provider_override": false
+    },
+    {
+      "task_name": "/root/builder_quality_fix",
+      "responsibilities": [
+        "PR2 SonarCloud buildscript repair"
+      ],
+      "owned_paths": [
+        "scripts/antlr-build.mjs",
+        "tests/antlr-build.test.mjs"
+      ],
+      "review": "Root inspected diff; independent QA/security approved; reproducible two-build digest unchanged.",
+      "provider_override": false
+    },
+    {
+      "task_name": "/root/qa_quality_review",
+      "responsibilities": [
+        "Independent PR2 repair invariants/corpus/integration checks"
+      ],
+      "owned_paths": [],
+      "review": "64unit/31corpus/4real-helper tests pass; no runtime claims.",
+      "provider_override": false
+    },
+    {
+      "task_name": "/root/security_quality_review",
+      "responsibilities": [
+        "Independent PR2 repair security/provenance assessment"
+      ],
+      "owned_paths": [],
+      "review": "Cache mkdir race fixed; fixed tar path/env; sequential filesystem/build dependencies retained. Exact offline repair scope approved.",
+      "provider_override": false
     }
   ],
   "external_actions": [

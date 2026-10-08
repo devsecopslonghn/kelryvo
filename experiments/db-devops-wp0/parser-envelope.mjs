@@ -26,6 +26,57 @@ export function classifySpawnFailure(error) {
   return 'helper_launch_failed';
 }
 
+function validHeader(response, raw, profile) {
+  return isRecord(response) && response.schema_version === 1 && response.scope === 'OFFLINE_CANDIDATE_ONLY'
+    && response.production_approved === false && response.execution_approved === false
+    && response.raw_sha256 === sha256(raw) && response.parser_profile === profile;
+}
+
+function validateStop(response, profile) {
+  if (!exactKeys(response, ['schema_version', 'scope', 'production_approved', 'execution_approved', 'raw_sha256', 'parser_profile', 'stop'])
+      || !exactKeys(response.stop, ['code', 'line']) || typeof response.stop.code !== 'string'
+      || !/^[a-z0-9_]{1,80}$/.test(response.stop.code) || !Number.isSafeInteger(response.stop.line)
+      || response.stop.line < 0 || response.raw_sha256 === null) return fail('invalid_stop_protocol');
+  return { ok: true, kind: 'STOP', profile, statementCount: 0 };
+}
+
+function validStatementShape(statement, previousEnd, rawLength) {
+  return exactKeys(statement, ['start_byte', 'end_byte', 'execution_sql', 'execution_sha256', 'delimiter_disposition'])
+    && Number.isSafeInteger(statement.start_byte) && Number.isSafeInteger(statement.end_byte)
+    && statement.start_byte >= previousEnd && statement.end_byte > statement.start_byte && statement.end_byte <= rawLength
+    && typeof statement.execution_sql === 'string' && statement.execution_sql.length > 0
+    && statement.delimiter_disposition === 'source_delimiter_in_range' && /^[a-f0-9]{64}$/.test(statement.execution_sha256);
+}
+
+function validateStatementBytes(raw, statement, previousEnd, profile) {
+  if (!validStatementShape(statement, previousEnd, raw.length)) return fail('invalid_statement_shape');
+  if (!isWhitespace(raw.subarray(previousEnd, statement.start_byte))) return fail('uncovered_source_bytes');
+  const execution = Buffer.from(statement.execution_sql, 'utf8');
+  if (execution.toString('utf8') !== statement.execution_sql) return fail('invalid_execution_encoding');
+  const source = raw.subarray(statement.start_byte, statement.end_byte);
+  if (!source.subarray(0, execution.length).equals(execution)) return fail('execution_not_source_prefix');
+  const delimiter = source.subarray(execution.length);
+  const allowed = profile === ANTLR_PROFILE ? [';', '\n/', '\r\n/'] : [';', '\n/'];
+  if (!allowed.some(value => delimiter.equals(Buffer.from(value)))) return fail('unrecognized_source_delimiter');
+  if (sha256(execution) !== statement.execution_sha256) return fail('execution_hash_mismatch');
+  return { ok: true };
+}
+
+function validateParse(raw, response, exitCode, profile) {
+  if (exitCode !== 0 || !exactKeys(response, ['schema_version', 'scope', 'production_approved', 'execution_approved', 'raw_sha256', 'parser_profile', 'statements'])
+      || !Array.isArray(response.statements)) return fail('invalid_parse_protocol');
+  let previousEnd = 0;
+  for (const statement of response.statements) {
+    const result = validateStatementBytes(raw, statement, previousEnd, profile);
+    if (!result.ok) return result;
+    previousEnd = statement.end_byte;
+  }
+  if (!isWhitespace(raw.subarray(previousEnd))) return fail('uncovered_source_bytes');
+  return { ok: true, kind: 'PARSE', profile, statementCount: response.statements.length,
+    statements: response.statements.map(({ start_byte, end_byte, execution_sha256 }) => ({ startByte: start_byte, endByte: end_byte,
+      sourceSha256: sha256(raw.subarray(start_byte, end_byte)), executionSha256: execution_sha256 })) };
+}
+
 /** Validate only the helper's byte-preserving protocol; this grants no authority. */
 export function validateResponse(rawValue, exitCode, stdoutValue, stderrValue = Buffer.alloc(0), profile = PROFILE) {
   if (profile !== PROFILE && profile !== ANTLR_PROFILE) return fail('unknown_parser_profile');
@@ -37,46 +88,10 @@ export function validateResponse(rawValue, exitCode, stdoutValue, stderrValue = 
   if (stderr.length > MAX_STDERR_BYTES) return fail('stderr_limit');
   if (stderr.length !== 0) return fail('unexpected_stderr');
   let response;
-  try {
-    response = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(stdout));
-  } catch { return fail('invalid_protocol_json'); }
-  if (!isRecord(response) || response.schema_version !== 1 || response.scope !== 'OFFLINE_CANDIDATE_ONLY'
-      || response.production_approved !== false || response.execution_approved !== false
-      || response.raw_sha256 !== sha256(raw) || response.parser_profile !== profile) return fail('protocol_header');
-
-  if (exitCode === 2) {
-    if (!exactKeys(response, ['schema_version', 'scope', 'production_approved', 'execution_approved', 'raw_sha256', 'parser_profile', 'stop'])
-        || !exactKeys(response.stop, ['code', 'line']) || typeof response.stop.code !== 'string'
-        || !/^[a-z0-9_]{1,80}$/.test(response.stop.code) || !Number.isSafeInteger(response.stop.line)
-        || response.stop.line < 0 || response.raw_sha256 === null) return fail('invalid_stop_protocol');
-    return { ok: true, kind: 'STOP', profile, statementCount: 0 };
-  }
-  if (exitCode !== 0 || !exactKeys(response, ['schema_version', 'scope', 'production_approved', 'execution_approved', 'raw_sha256', 'parser_profile', 'statements'])
-      || !Array.isArray(response.statements)) return fail('invalid_parse_protocol');
-
-  let previousEnd = 0;
-  for (const statement of response.statements) {
-    if (!exactKeys(statement, ['start_byte', 'end_byte', 'execution_sql', 'execution_sha256', 'delimiter_disposition'])
-        || !Number.isSafeInteger(statement.start_byte) || !Number.isSafeInteger(statement.end_byte)
-        || statement.start_byte < previousEnd || statement.end_byte <= statement.start_byte || statement.end_byte > raw.length
-        || typeof statement.execution_sql !== 'string' || statement.execution_sql.length === 0
-        || statement.delimiter_disposition !== 'source_delimiter_in_range'
-        || !/^[a-f0-9]{64}$/.test(statement.execution_sha256)) return fail('invalid_statement_shape');
-    if (!isWhitespace(raw.subarray(previousEnd, statement.start_byte))) return fail('uncovered_source_bytes');
-    const execution = Buffer.from(statement.execution_sql, 'utf8');
-    if (execution.toString('utf8') !== statement.execution_sql) return fail('invalid_execution_encoding');
-    const source = raw.subarray(statement.start_byte, statement.end_byte);
-    if (!source.subarray(0, execution.length).equals(execution)) return fail('execution_not_source_prefix');
-    const delimiter = source.subarray(execution.length);
-    if (!(delimiter.equals(Buffer.from(';')) || delimiter.equals(Buffer.from('\n/'))
-        || (profile === ANTLR_PROFILE && delimiter.equals(Buffer.from('\r\n/'))))) return fail('unrecognized_source_delimiter');
-    if (sha256(execution) !== statement.execution_sha256) return fail('execution_hash_mismatch');
-    previousEnd = statement.end_byte;
-  }
-  if (!isWhitespace(raw.subarray(previousEnd))) return fail('uncovered_source_bytes');
-  return { ok: true, kind: 'PARSE', profile, statementCount: response.statements.length,
-    statements: response.statements.map(({ start_byte, end_byte, execution_sha256 }) => ({ startByte: start_byte, endByte: end_byte,
-      sourceSha256: sha256(raw.subarray(start_byte, end_byte)), executionSha256: execution_sha256 })) };
+  try { response = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(stdout)); }
+  catch { return fail('invalid_protocol_json'); }
+  if (!validHeader(response, raw, profile)) return fail('protocol_header');
+  return exitCode === 2 ? validateStop(response, profile) : validateParse(raw, response, exitCode, profile);
 }
 
 /** Invoke the pinned local helper with bounded resources. Never returns stdout/stderr contents. */

@@ -39,6 +39,18 @@ test('ANTLR lock rejects unreviewed parser, tool and distribution rights', () =>
   const missingAuthoredPin = structuredClone(lock);
   missingAuthoredPin.authored_sources.pop();
   assert.throws(() => validateLock(missingAuthoredPin), /authored_source_lock_invalid/);
+
+  const changedJdk = structuredClone(lock);
+  changedJdk.external_jdk.version = '21.0.12.1+2-LTS';
+  assert.throws(() => validateLock(changedJdk), /jdk_lock_mismatch/);
+
+  const changedNotice = structuredClone(lock);
+  changedNotice.notices[0].sha256 = '0'.repeat(64);
+  assert.throws(() => validateLock(changedNotice), /notice_lock_mismatch/);
+
+  const approvedExecution = structuredClone(lock);
+  approvedExecution.execution_approved = true;
+  assert.throws(() => validateLock(approvedExecution), /lock_profile_or_approval_invalid/);
 });
 
 test('stale authored-source hashes reject before building or replacing an installed helper', async () => {

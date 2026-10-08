@@ -17,7 +17,8 @@ npm run next
 ```
 
 Inspect outstanding PR head/base/required checks/security/reviews before resuming edits or
-merging. PR #1 is MERGED at `42249826d105d44dbf5d6243f9ebe3748612e1c7`; derive the latest
+merging. PR #2 is open; its first SonarCloud run failed. Repair work is tested locally,
+but fresh exact-head CI must pass before merge. Do not bypass the gate. PR #1 is MERGED at `42249826d105d44dbf5d6243f9ebe3748612e1c7`; derive the latest
 master SHA from `git rev-parse origin/master` and remote PR state. Checkpoint hashes name
 the validated preceding master; the checkpoint's own commit/merge is resolved from Git.
 

@@ -1,0 +1,42 @@
+{
+  "scope": "Final independent review of stable PR2 quality repair",
+  "qa_agent": "/root/qa_quality_review",
+  "security_agent": "/root/security_quality_review",
+  "qa_outcome": "PASS",
+  "security_outcome": "APPROVED",
+  "unit_tests": {
+    "passed": 64,
+    "failed": 0
+  },
+  "corpus": {
+    "files": 31,
+    "variants": 30,
+    "groups": 14,
+    "all_goldens_match": true,
+    "blockers": [],
+    "late_invalid_release": "STOP_WITHOUT_PARTIAL_APPROVAL"
+  },
+  "integration_tests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "helper_sha256": "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38",
+  "raw_outputs": [
+    {
+      "path": "evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/qa-checks.txt",
+      "sha256": "85810a3ce84d6bdc1bd16e065ac25ec287fc710be992e4784e3c868ac7d38546"
+    },
+    {
+      "path": "evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/qa-corpus.txt",
+      "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+    },
+    {
+      "path": "evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/qa-integration.txt",
+      "sha256": "655186f16702275196b79ed436e0834c361d55ede002cc0e0fe0144e6469bf40"
+    }
+  ],
+  "review_note": "JSON.parse duplicate-key last-value behavior unchanged; exact pinned local helper emits fixed unique keys. No execution/production authority is granted by any helper protocol. Future external/untrusted protocol ingestion would require its own stricter review.",
+  "remote_ci": "Await fresh exact-head run before merge.",
+  "oracle_calls": 0,
+  "product_features_verified": 0
+}

@@ -13,20 +13,25 @@ if (process.argv.slice(2).join(' ') !== '--download') {
   process.exit(2);
 }
 
-async function download(url, target, digest) {
-  if (!/^[a-f0-9]{64}$/.test(digest)) throw new Error('invalid_digest');
-  // Check each parent before creating the next directory; never follow a cache symlink.
-  let cursor = root;
+async function ensureArtifactPath(target) {
   const parts = path.relative(root, target).split(path.sep);
-  for (const [index, part] of parts.entries()) {
-    cursor = path.join(cursor, part);
+  // Parent creation depends on the checked preceding parent: preserve sequential order.
+  await parts.reduce(async (previous, part, index) => {
+    const parent = await previous;
+    const cursor = path.join(parent, part);
     const stat = await lstat(cursor).catch(() => null);
     if (stat?.isSymbolicLink()) throw new Error('artifact_symlink');
     if (index < parts.length - 1) {
       if (stat && !stat.isDirectory()) throw new Error('artifact_parent_invalid');
       if (!stat) await mkdir(cursor);
     }
-  }
+    return cursor;
+  }, Promise.resolve(root));
+}
+
+async function download(url, target, digest) {
+  if (!/^[a-f0-9]{64}$/.test(digest)) throw new Error('invalid_digest');
+  await ensureArtifactPath(target);
   const temporary = `${target}.${randomUUID()}.download`;
   try {
     const response = await fetch(url, { signal: AbortSignal.timeout(180000) });
@@ -47,24 +52,33 @@ async function download(url, target, digest) {
 
 try {
   const registry = JSON.parse(await readFile(path.join(root, 'docs/dependencies/antlr-parser-lock.json')));
-  for (const [id, filename] of [['tool', 'antlr4-4.13.2-complete.jar'], ['runtime', 'antlr4-runtime-4.13.2.jar']]) {
+  const artifacts = [['tool', 'antlr4-4.13.2-complete.jar'], ['runtime', 'antlr4-runtime-4.13.2.jar']].map(([id, filename]) => {
     const artifact = registry.artifacts.find(item => item.id === id);
     const expectedUrl = `https://repo.maven.apache.org/maven2/org/antlr/${id === 'tool' ? 'antlr4' : 'antlr4-runtime'}/4.13.2/${filename}`;
     if (artifact.url !== expectedUrl || artifact.path !== `.cache/antlr/${filename}`) throw new Error('invalid_artifact_origin');
-    await download(expectedUrl, path.join(root, artifact.path), artifact.sha256);
-  }
+    if (!/^[a-f0-9]{64}$/.test(artifact.sha256)) throw new Error('invalid_digest');
+    return { url: expectedUrl, target: path.join(root, artifact.path), digest: artifact.sha256 };
+  });
   const existing = JSON.parse(await readFile(path.join(root, 'docs/dependencies/third-party-notices.json')));
   const jdk = existing.runtimes.find(item => item.name === 'Eclipse Temurin JDK');
   const expectedJdk = 'https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz';
   if (jdk.artifact !== expectedJdk) throw new Error('invalid_jdk_origin');
+  if (!/^[a-f0-9]{64}$/.test(jdk.observed_sha256)) throw new Error('invalid_digest');
   const archive = path.join(root, '.cache/antlr/temurin.tar.gz');
-  await download(expectedJdk, archive, jdk.observed_sha256);
   const destination = path.join(root, '.cache/antlr/temurin');
   const prior = await lstat(destination).catch(() => null);
   if (prior) throw new Error('jdk_destination_exists');
+  // All origins/digests are validated first. Downloads share parent directories,
+  // so retain sequential path validation/creation and artifact installation.
+  const downloads = [...artifacts, { url: expectedJdk, target: archive, digest: jdk.observed_sha256 }];
+  await downloads.reduce(async (previous, artifact) => {
+    await previous;
+    await download(artifact.url, artifact.target, artifact.digest);
+  }, Promise.resolve());
   await mkdir(destination);
-  const extract = spawnSync('tar', ['-xzf', archive, '--strip-components=1', '-C', destination], {
+  const extract = spawnSync('/usr/bin/tar', ['-xzf', archive, '--strip-components=1', '-C', destination], {
     timeout: 60000, maxBuffer: 64 * 1024, encoding: 'utf8',
+    env: { PATH: '/usr/bin:/bin', LANG: 'C', TZ: 'UTC' },
   });
   if (extract.error || extract.status !== 0) throw new Error('jdk_extraction_failed');
   console.log('Pinned public ANTLR/JDK inputs prepared; use SCHEMAFORGE_JAVA_HOME=.cache/antlr/temurin.');
