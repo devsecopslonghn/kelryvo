@@ -664,7 +664,7 @@ export function validateState(s) {
   const features = new Map(s.features.features.map((x) => [x.id, x]));
   const tasks = new Map(s.tasks.tasks.map((x) => [x.id, x]));
   const all = new Map([...features, ...tasks]);
-  if (!s.acceptance || !s.acceptance.features || !s.acceptance.work) errors.push('acceptance contracts are missing');
+  if (!s.acceptance?.features || !s.acceptance?.work) errors.push('acceptance contracts are missing');
   const validEvidence = validateEvidence(s, importedCases, errors);
   validateGraphAndScheduling(s, all, errors);
   validateItemEvidenceAndStatus(s, all, features, tasks, validEvidence, errors);

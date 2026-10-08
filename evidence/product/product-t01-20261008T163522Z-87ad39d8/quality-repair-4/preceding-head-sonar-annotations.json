@@ -1,0 +1,14 @@
+[
+  {
+    "path": "scripts/tracker.mjs",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/63a8118e2d7af729bafd53fc40ce2ac3408044c2/scripts/tracker.mjs",
+    "start_line": 667,
+    "start_column": null,
+    "end_line": 667,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Prefer using an optional chain expression instead, as it's more concise and easier to read.",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEcfz_-7-uP4aiYeWTR&open=AaEcfz_-7-uP4aiYeWTR&pullRequest=9",
+    "raw_details": null
+  }
+]
