@@ -1,0 +1,12 @@
+parser	Run npm run parser:antlr:prepare	﻿2026-10-08T14:07:13.4028892Z ##[group]Run npm run parser:antlr:prepare
+parser	Run npm run parser:antlr:prepare	2026-10-08T14:07:13.4029371Z ^[[36;1mnpm run parser:antlr:prepare^[[0m
+parser	Run npm run parser:antlr:prepare	2026-10-08T14:07:13.4609788Z shell: /usr/bin/bash -e {0}
+parser	Run npm run parser:antlr:prepare	2026-10-08T14:07:13.4610133Z env:
+parser	Run npm run parser:antlr:prepare	2026-10-08T14:07:13.4610499Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+parser	Run npm run parser:antlr:prepare	2026-10-08T14:07:13.4610922Z ##[endgroup]
+parser	Run npm run parser:antlr:prepare	2026-10-08T14:07:13.6898703Z 
+parser	Run npm run parser:antlr:prepare	2026-10-08T14:07:13.9424491Z artifact_download_failed
+parser	Run npm run parser:antlr:prepare	2026-10-08T14:07:13.9425293Z > schemaforge-local-development@0.0.0 parser:antlr:prepare
+parser	Run npm run parser:antlr:prepare	2026-10-08T14:07:13.9425709Z > node scripts/antlr-prepare.mjs --download
+parser	Run npm run parser:antlr:prepare	2026-10-08T14:07:13.9425896Z 
+parser	Run npm run parser:antlr:prepare	2026-10-08T14:07:13.9608142Z ##[error]Process completed with exit code 1.

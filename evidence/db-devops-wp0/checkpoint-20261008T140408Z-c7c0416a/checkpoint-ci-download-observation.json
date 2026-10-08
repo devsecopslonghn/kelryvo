@@ -1,0 +1,12 @@
+{
+  "scope": "Checkpoint CI transient artifact preparation failure retained without reclassification",
+  "pr": 4,
+  "head": "57091bda5ad3306cd19a291cfa99736e424d0edc",
+  "failed_run": 37789835634,
+  "failed_step": "Run npm run parser:antlr:prepare",
+  "observed_error": "artifact_download_failed",
+  "limit_of_observation": "Preparation reported unsuccessful public artifact download; failed before helper compilation/corpus tests. Raw log has no HTTP status or artifact ID, so the exact external cause is not claimed.",
+  "authorized_followup": "gh run rerun 37789835634 --repo devsecopslonghn/schemaForge --failed",
+  "retry_state_at_recording": "Requested; outcome not yet assumed.",
+  "quality_gate": "All checks for the final checkpoint head must actually pass before merge. No threshold, pin or failing-check classification changed."
+}
