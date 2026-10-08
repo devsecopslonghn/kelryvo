@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "source_hashes": {
+    "packages/database/index.ts": "250e04901d997bc305b1e32403bbe03ba2649da64e1574f1911e59b9953c7ee1",
+    "tests/helpers/product-db.mjs": "dd4c7272ef2f6f34111d0695e36e4c7f3819dd8d6c1430aeb5d89de53056d5b2",
+    "tests/product-database.test.mjs": "0ba7a6f3e3405d5444af22c39c7bcea0ffe10da7a55e09a46f9f8b084b246f8c",
+    "scripts/test-product.mjs": "ea96e81f0af6288b28c8b1646f896dc8b94652af8a60529695390d25fc10808b"
+  }
+}
