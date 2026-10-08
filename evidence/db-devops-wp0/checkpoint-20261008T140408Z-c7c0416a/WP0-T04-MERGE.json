@@ -1,0 +1,16 @@
+{
+  "id": "WP0-T04-MERGE-checkpoint-20261008T140408Z-c7c0416a",
+  "subject_id": "WP0-T04",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "gh pr view 3 --repo devsecopslonghn/schemaForge --json number,state,headRefOid,mergeCommit,mergedAt,url",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/checkpoint-20261008T140408Z-c7c0416a/pr3-merged.json",
+    "sha256": "802d3a86aabb75ab0437516f84f5afd2bf0a3172230ec721403d8d13a21a3fa7"
+  }
+}

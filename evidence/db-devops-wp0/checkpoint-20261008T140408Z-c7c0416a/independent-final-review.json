@@ -1,0 +1,25 @@
+{
+  "scope": "Independent final checkpoint review; source code unchanged",
+  "qa": "Approved documentation/tracker/hash consistency. T04 stays BLOCKED; empty criterion/case coverage cannot advance runtime acceptance.",
+  "security": "Approved truthful runtime/license boundaries and publication content. No credentials, raw SQL, token/userinfo data or other sensitive input found.",
+  "root_check": {
+    "command": "npm run check",
+    "exit_code": 0,
+    "passed": 72,
+    "failed": 0
+  },
+  "lab_scan": {
+    "command": "rg --files --hidden --no-ignore experiments/db-devops-wp0 -g '*lab*profile*.json' -g '!target/**'",
+    "result": [
+      "experiments/db-devops-wp0/lab-profile.example.json"
+    ],
+    "note": "No real profile found in the nominated experiment paths and no new lab authority supplied. This scan does not infer authority from any filename."
+  },
+  "remaining_blockers": [
+    "Actual attested disposable Oracle 19c/21c manifest, scoped refs/permissions and approved trust material.",
+    "Owner product license/name and full F31 distribution closure."
+  ],
+  "queue": [],
+  "oracle_calls": 0,
+  "product_features_verified": 0
+}
