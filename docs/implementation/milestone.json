@@ -44,6 +44,9 @@
     },
     {
       "index_id": "WP0-T04-PEM-REPAIR-t04-thin-readonly-20261008T143528Z-0b734360"
+    },
+    {
+      "index_id": "WP0-T04-MERGED-PR5-t04-thin-readonly-20261008T143528Z-0b734360"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -85,7 +88,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-08T14:45:39.057921+00:00",
+  "updated_at": "2026-10-08T14:51:01.690658+00:00",
   "final_check_evidence": {
     "index_id": "WP0-T04-PEM-REPAIR-t04-thin-readonly-20261008T143528Z-0b734360"
   },
@@ -93,9 +96,9 @@
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_READ_ONLY_THIN_CANDIDATE",
-  "latest_validated_master_before_this_increment": "01ff4446e0318d4b7f91a003cf15799ab3b7be11",
-  "last_merged_implementation_pr": 3,
-  "checkpoint_evidence": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/pem-repair-review.json",
+  "latest_validated_master_before_this_increment": "de86263e8a8c5faae8af8b18197fe03a7cbf138e",
+  "last_merged_implementation_pr": 5,
+  "checkpoint_evidence": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/session-checkpoint.json",
   "implementation_prs_pending": [],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
@@ -103,5 +106,7 @@
     "reason": "This continuation made substantive offline T04 code progress; Oracle authority/backend/watchdog and runtime acceptance remain missing. Reassess independent work before a future blocked audit; queue emptiness alone is not proof of an impasse."
   },
   "current_increment_pr": 5,
-  "current_increment_merge_status": "Resolve from Git/GitHub; this PR does not embed its own resulting merge SHA."
+  "current_increment_merge_status": "MERGED",
+  "current_increment_reviewed_head": "fe63aebcc911c1b0de89659be253ea0f186ae277",
+  "current_checkpoint_branch": "development/wp0-thin-checkpoint"
 }

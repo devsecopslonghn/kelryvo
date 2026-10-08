@@ -1,0 +1,16 @@
+{
+  "id": "WP0-T04-MERGED-PR5-t04-thin-readonly-20261008T143528Z-0b734360",
+  "subject_id": "WP0-T04",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "gh pr view 5 --repo devsecopslonghn/schemaForge --json number,state,headRefOid,mergeCommit,mergedAt,url,statusCheckRollup,reviews,comments",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/pr5-merged.json",
+    "sha256": "dcbae51033fa6436e0dd4ccf623c2372d37757536d153b51c3fd499f907d1918"
+  }
+}
