@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: empty manifest reports exact missing prerequisites as BLOCKED
+ok 1 - empty manifest reports exact missing prerequisites as BLOCKED
+  ---
+  duration_ms: 11.18721
+  type: 'test'
+  ...
+# Subtest: example manifest is rejected and receives no profile hash
+ok 2 - example manifest is rejected and receives no profile hash
+  ---
+  duration_ms: 3.110588
+  type: 'test'
+  ...
+# Subtest: complete synthetic manifest validates local fixture bytes without runtime authority
+ok 3 - complete synthetic manifest validates local fixture bytes without runtime authority
+  ---
+  duration_ms: 23.92349
+  type: 'test'
+  ...
+# Subtest: malformed nested values, exact versions, duplicate refs, scope and authorization reject or block safely
+ok 4 - malformed nested values, exact versions, duplicate refs, scope and authorization reject or block safely
+  ---
+  duration_ms: 23.873161
+  type: 'test'
+  ...
+# Subtest: unknown secret fields and TCPS userinfo are rejected without echoing canaries
+ok 5 - unknown secret fields and TCPS userinfo are rejected without echoing canaries
+  ---
+  duration_ms: 5.086012
+  type: 'test'
+  ...
+# Subtest: malformed declared hashes, versions and nested unknown fields never leak canaries
+ok 6 - malformed declared hashes, versions and nested unknown fields never leak canaries
+  ---
+  duration_ms: 13.10278
+  type: 'test'
+  ...
+# Subtest: artifact digest, symlink and protected-path checks stay within approved offline directory
+ok 7 - artifact digest, symlink and protected-path checks stay within approved offline directory
+  ---
+  duration_ms: 28.409384
+  type: 'test'
+  ...
+# Subtest: CLI rejects missing/duplicate arguments, sanitizes errors, and appends two reports without overwrite
+ok 8 - CLI rejects missing/duplicate arguments, sanitizes errors, and appends two reports without overwrite
+  ---
+  duration_ms: 478.467963
+  type: 'test'
+  ...
+# Subtest: the offline CLI reports missing authority with twelve blocked unexecuted cases
+ok 9 - the offline CLI reports missing authority with twelve blocked unexecuted cases
+  ---
+  duration_ms: 67.23633
+  type: 'test'
+  ...
+# Subtest: a complete synthetic profile exits successfully for planning while denying runtime
+ok 10 - a complete synthetic profile exits successfully for planning while denying runtime
+  ---
+  duration_ms: 99.811974
+  type: 'test'
+  ...
+# Subtest: malformed and oversized profile files produce fixed errors without leaking input
+ok 11 - malformed and oversized profile files produce fixed errors without leaking input
+  ---
+  duration_ms: 126.821536
+  type: 'test'
+  ...
+# Subtest: pinned case projection matches the six existing T04 acceptance cases
+ok 12 - pinned case projection matches the six existing T04 acceptance cases
+  ---
+  duration_ms: 2.139562
+  type: 'test'
+  ...
+# Subtest: complete synthetic profile produces 12 frozen NOT_RUN plans without authority
+ok 13 - complete synthetic profile produces 12 frozen NOT_RUN plans without authority
+  ---
+  duration_ms: 32.464873
+  type: 'test'
+  ...
+# Subtest: missing profile uses real preflight and keeps all 12 cells BLOCKED and NOT_RUN
+ok 14 - missing profile uses real preflight and keeps all 12 cells BLOCKED and NOT_RUN
+  ---
+  duration_ms: 1.760739
+  type: 'test'
+  ...
+# Subtest: example and malformed secret-bearing profiles are rejected without echoing supplied data
+ok 15 - example and malformed secret-bearing profiles are rejected without echoing supplied data
+  ---
+  duration_ms: 4.20725
+  type: 'test'
+  ...
+# Subtest: caller-supplied preflight-shaped data is just an invalid profile, not an admission token
+ok 16 - caller-supplied preflight-shaped data is just an invalid profile, not an admission token
+  ---
+  duration_ms: 1.914245
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 679.878892

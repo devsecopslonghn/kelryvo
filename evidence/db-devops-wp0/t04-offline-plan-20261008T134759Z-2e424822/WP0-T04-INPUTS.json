@@ -1,0 +1,16 @@
+{
+  "id": "WP0-T04-INPUTS-t04-offline-plan-20261008T134759Z-2e424822",
+  "subject_id": "WP0-T04",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "BLOCKED",
+  "command": "node scripts/thin-probe-plan.mjs",
+  "exit_code": 1,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/default-plan.json",
+    "sha256": "2de870d8f35e3fd0514b3a780454016b411f7ac6e834aa51a19f6aa78c331cb6"
+  }
+}

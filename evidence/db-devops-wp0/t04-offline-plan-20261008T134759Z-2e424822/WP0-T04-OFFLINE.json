@@ -1,0 +1,16 @@
+{
+  "id": "WP0-T04-OFFLINE-t04-offline-plan-20261008T134759Z-2e424822",
+  "subject_id": "WP0-T04",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "npm run check",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/checks.txt",
+    "sha256": "119f43a359527c41957df0dbee6e36bf1b1d86a312122f390f650149b0e7976b"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "reviewed_at": "2026-10-08T13:10:07.855757+00:00",
-  "scope": "Reviewed offline WP0-T03 licensed mature parser, byte adapter, release prevalidation and reproducible build",
+  "scope": "Merged offlineT03; reviewedT04offlineprobe-preparation and boundedCLI",
   "authored_diff_whitespace": "PASS",
   "db_research_git_status_preserved": true,
   "all_43_source_hashes_preserved": true,
@@ -10,9 +10,9 @@
   "artifact_archives_or_binary_helpers_tracked": false,
   "product_features_verified": 0,
   "oracle_calls": 0,
-  "latest_validated_master_before_this_increment": "42249826d105d44dbf5d6243f9ebe3748612e1c7",
+  "latest_validated_master_before_this_increment": "ca232a5a4f4535bb4e6d14954bdba9b5a8ffa9b6",
   "tests": {
-    "passed": 64,
+    "passed": 72,
     "failed": 0,
     "skipped": 0
   },
@@ -38,5 +38,6 @@
   ],
   "metadata_correction": "Initial integration record named harness files instead of permitted task case references; rejected by tracker and excluded from index. Raw checks remain intact. Corrected record claims general check scope only.",
   "quality_repair_evidence": "evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/independent-final-review.json",
-  "remote_ci": "Initial PR2 SonarCloud failed; repair head must pass fresh CI before merge."
+  "remote_ci": "PR2mergedafterall9checksPASS; T04incrementrequiresfreshPRexactheadchecks beforemerge.",
+  "wp0_t04_offline_evidence": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/integrated-final-review.json"
 }

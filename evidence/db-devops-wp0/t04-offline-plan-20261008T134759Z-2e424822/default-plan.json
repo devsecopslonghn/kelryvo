@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "WP0-T04",
+  "taskStatus": "BLOCKED",
+  "provenance": {
+    "acceptanceCasesSha256": "b077599dbda0db4dd7748e818405d95200d72e2427ead1ce288d013d152e45c4",
+    "preflightSourceSha256": "6a518768f0c521d8cbca9e796ed3b505a1b2497c74c4d44b741e2caa4cf8b44e"
+  },
+  "preflightStatus": "BLOCKED",
+  "planStatus": "BLOCKED_INPUTS",
+  "admission": "NOT_AUTHORIZED",
+  "runtime": "BLOCKED",
+  "runtimeClaims": false,
+  "connectionAuthorized": false,
+  "executionApproved": false,
+  "productionApproved": false,
+  "connectionCalls": 0,
+  "credentialResolutions": 0,
+  "sqlStatements": 0,
+  "blockers": [
+    "Required T01 lab and runtime inputs are incomplete."
+  ],
+  "entries": [
+    {
+      "caseId": "WP0-01-01",
+      "oracleVersion": "19c",
+      "objective": "Thin TCPS on both supported versions",
+      "mode": "ORACLE_RUNTIME",
+      "expectedOutcome": "Thin=true, verified peer/container and separate principals; no Instant Client required",
+      "status": "NOT_RUN",
+      "cellStatus": "BLOCKED",
+      "executable": false
+    },
+    {
+      "caseId": "WP0-01-01",
+      "oracleVersion": "21c",
+      "objective": "Thin TCPS on both supported versions",
+      "mode": "ORACLE_RUNTIME",
+      "expectedOutcome": "Thin=true, verified peer/container and separate principals; no Instant Client required",
+      "status": "NOT_RUN",
+      "cellStatus": "BLOCKED",
+      "executable": false
+    },
+    {
+      "caseId": "WP0-01-02",
+      "oracleVersion": "19c",
+      "objective": "Wrong service/PDB",
+      "mode": "ORACLE_RUNTIME",
+      "expectedOutcome": "Reject before bootstrap/migration statements; no identity fallback",
+      "status": "NOT_RUN",
+      "cellStatus": "BLOCKED",
+      "executable": false
+    },
+    {
+      "caseId": "WP0-01-02",
+      "oracleVersion": "21c",
+      "objective": "Wrong service/PDB",
+      "mode": "ORACLE_RUNTIME",
+      "expectedOutcome": "Reject before bootstrap/migration statements; no identity fallback",
+      "status": "NOT_RUN",
+      "cellStatus": "BLOCKED",
+      "executable": false
+    },
+    {
+      "caseId": "WP0-01-03",
+      "oracleVersion": "19c",
+      "objective": "Authentication and grant denial",
+      "mode": "ORACLE_RUNTIME",
+      "expectedOutcome": "Sanitized errors; no leaked secret, false onboarding or broad-grant fallback",
+      "status": "NOT_RUN",
+      "cellStatus": "BLOCKED",
+      "executable": false
+    },
+    {
+      "caseId": "WP0-01-03",
+      "oracleVersion": "21c",
+      "objective": "Authentication and grant denial",
+      "mode": "ORACLE_RUNTIME",
+      "expectedOutcome": "Sanitized errors; no leaked secret, false onboarding or broad-grant fallback",
+      "status": "NOT_RUN",
+      "cellStatus": "BLOCKED",
+      "executable": false
+    },
+    {
+      "caseId": "WP0-01-04",
+      "oracleVersion": "19c",
+      "objective": "Bounded connection timeout",
+      "mode": "ORACLE_RUNTIME",
+      "expectedOutcome": "Bounded error and zero migration statements; existing platform process remains usable",
+      "status": "NOT_RUN",
+      "cellStatus": "BLOCKED",
+      "executable": false
+    },
+    {
+      "caseId": "WP0-01-04",
+      "oracleVersion": "21c",
+      "objective": "Bounded connection timeout",
+      "mode": "ORACLE_RUNTIME",
+      "expectedOutcome": "Bounded error and zero migration statements; existing platform process remains usable",
+      "status": "NOT_RUN",
+      "cellStatus": "BLOCKED",
+      "executable": false
+    },
+    {
+      "caseId": "WP0-01-05",
+      "oracleVersion": "19c",
+      "objective": "Network loss during a call",
+      "mode": "ORACLE_RUNTIME",
+      "expectedOutcome": "AMBIGUOUS/HOLD until observation; no inference of rollback or automatic replay",
+      "status": "NOT_RUN",
+      "cellStatus": "BLOCKED",
+      "executable": false
+    },
+    {
+      "caseId": "WP0-01-05",
+      "oracleVersion": "21c",
+      "objective": "Network loss during a call",
+      "mode": "ORACLE_RUNTIME",
+      "expectedOutcome": "AMBIGUOUS/HOLD until observation; no inference of rollback or automatic replay",
+      "status": "NOT_RUN",
+      "cellStatus": "BLOCKED",
+      "executable": false
+    },
+    {
+      "caseId": "WP0-01-06",
+      "oracleVersion": "19c",
+      "objective": "Credential isolation and rotation boundary",
+      "mode": "ORACLE_RUNTIME",
+      "expectedOutcome": "Cross-owner substitution denied; changed credential revision invalidates intent; no mixed-owner pool or secret output",
+      "status": "NOT_RUN",
+      "cellStatus": "BLOCKED",
+      "executable": false
+    },
+    {
+      "caseId": "WP0-01-06",
+      "oracleVersion": "21c",
+      "objective": "Credential isolation and rotation boundary",
+      "mode": "ORACLE_RUNTIME",
+      "expectedOutcome": "Cross-owner substitution denied; changed credential revision invalidates intent; no mixed-owner pool or secret output",
+      "status": "NOT_RUN",
+      "cellStatus": "BLOCKED",
+      "executable": false
+    }
+  ]
+}

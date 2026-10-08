@@ -27,7 +27,8 @@
     "parser:antlr:prepare": "node scripts/antlr-prepare.mjs --download",
     "parser:antlr:build": "node scripts/antlr-build.mjs",
     "parser:antlr:corpus": "node scripts/parser-corpus.mjs --antlr",
-    "parser:antlr:test": "node --test tests/antlr.integration.mjs"
+    "parser:antlr:test": "node --test tests/antlr.integration.mjs",
+    "probes:thin:plan": "node scripts/thin-probe-plan.mjs"
   },
   "dependencies": {
     "oracledb": "7.0.1",
