@@ -46,6 +46,7 @@ export async function initializeDatabase(sql: any): Promise<void> {
       path text NOT NULL, sha256 text NOT NULL, status text NOT NULL CHECK(status='NOT_EXECUTED'), created_at timestamptz NOT NULL DEFAULT now(),
       FOREIGN KEY(plan_id,project_id) REFERENCES sf_plans(id,project_id)
     );
+    ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS archived_at timestamptz;
     CREATE INDEX IF NOT EXISTS sf_audit_project_time ON sf_audit(project_id,created_at DESC);
     CREATE INDEX IF NOT EXISTS sf_history_project_time ON sf_history(project_id,created_at DESC);
   `);
