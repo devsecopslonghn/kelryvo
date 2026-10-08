@@ -1,0 +1,5 @@
+{
+  "scripts/local-repositories.mjs": "3711aec8725e212604136e67da2afbfb0d1902b2d6ef4d84437c443b283d19bf",
+  "tests/product-repositories.test.mjs": "8ad2ab6e30f43becfdeb7fd5bb732fec3214fd2030ab321b71d79ce5038ae7d2",
+  "docs/development/local-product.md": "76f2168dba00893e3cfc438e424b413ac63a721b765c8740c895fe5bdc9ac26b"
+}

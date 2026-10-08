@@ -1137,6 +1137,60 @@
       },
       "path": "evidence/product/product-t03-20261008T173420Z-local/record.json",
       "sha256": "197513b388610cf998e0c19ecceb6425cf5f1d482e0d2a82689b03d9e4e39b86"
+    },
+    {
+      "id": "product-t03-cli-quality-repair1-remote-failure",
+      "subject_id": "SF-PRODUCT-T03",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "FAIL",
+      "command": "python3 -c: inspect recorded exact-head GitHub Sonar check; exit 1 unless completed with success",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t03-20261008T173420Z-local/quality-repair1/sonar-eligibility.log",
+        "sha256": "c1e7e4fb9a68c67900ab845245f38f882359343d28ce7265d2eea3548e410f35"
+      },
+      "path": "evidence/product/product-t03-20261008T173420Z-local/quality-repair1/remote-failure-record.json",
+      "sha256": "8efeb5dfd9c980d2496e6bd925fa466087e3706c3c367073db44fff24e761a07"
+    },
+    {
+      "id": "product-t03-cli-quality-repair1-hardening",
+      "subject_id": "SF-PRODUCT-T03",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "node --test tests/product-repositories.test.mjs; npm run lint; npm run format:check",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t03-20261008T173420Z-local/quality-repair1/checks.log",
+        "sha256": "ae48a7dc00b3c0765d36ec500d62177ca8f1619eaf85e4203575a6427fde37c2"
+      },
+      "path": "evidence/product/product-t03-20261008T173420Z-local/quality-repair1/hardening-record.json",
+      "sha256": "0db75a88b661fd2b1d3a1e1c1848d2b209b7d1c0c8ed6cc7c1602a1ae3a168ce"
+    },
+    {
+      "id": "product-t02-20261008T172809Z-quality-repair-2",
+      "subject_id": "SF-PRODUCT-T02",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser using fresh disposable PostgreSQL databases, including concurrent schema initialization and failed-initialization child-exit coverage",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t02-20261008T172809Z-local-retry1/quality-repair-2/checks.log",
+        "sha256": "28a1f6c8f335bf38404fe4b281ff978b5b66767b67daaa8d262b63051c9d16e7"
+      },
+      "path": "evidence/product/product-t02-20261008T172809Z-local-retry1/quality-repair-2/record.json",
+      "sha256": "bc1e26f64a6e4e1b398a5de6ab291caba7939b574b0654be47d439b56000c9b0"
     }
   ]
 }

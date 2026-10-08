@@ -24,7 +24,11 @@ function fail(code) {
   throw new LocalRepositoryError(code);
 }
 
-function readOnlyGit(repositoryPath, args) {
+function readOnlyGit(repositoryPath, operation) {
+  let args;
+  if (operation === 'is-worktree') args = ['rev-parse', '--is-inside-work-tree'];
+  else if (operation === 'show-root') args = ['rev-parse', '--show-toplevel'];
+  else fail('INVALID_GIT_REPOSITORY');
   const result = spawnSync('/usr/bin/git', [
     '--no-optional-locks', '-c', 'core.hooksPath=/dev/null',
     '-c', 'core.fsmonitor=false', '-C', repositoryPath, ...args,
@@ -59,26 +63,28 @@ export function parseLocalRepositoryArguments(args) {
 
 async function resolveLocalRepository(requestedPath) {
   if (typeof requestedPath !== 'string' || requestedPath.length === 0
-      || requestedPath.length > 4096 || requestedPath.startsWith('-')
+      || requestedPath.length > 4096 || /[\u0000-\u001f\u007f]/.test(requestedPath)
+      || requestedPath.includes('\\')
       || /^[a-z][a-z0-9+.-]*:\/\//i.test(requestedPath)
-      || requestedPath.includes('\0')) {
+      || requestedPath.split(path.sep).some(part => part === '..' || part.startsWith('-'))) {
     fail('INVALID_REPOSITORY_PATH');
   }
 
+  const lexicalPath = path.resolve(requestedPath);
+  if (lexicalPath.length > 4096) fail('INVALID_REPOSITORY_PATH');
   let repositoryPath;
   try {
-    repositoryPath = await realpath(requestedPath);
-    if (!(await stat(repositoryPath)).isDirectory()) fail('INVALID_GIT_REPOSITORY');
+    repositoryPath = await realpath(lexicalPath);
+    if (repositoryPath.length > 4096 || !(await stat(repositoryPath)).isDirectory())
+      fail('INVALID_GIT_REPOSITORY');
   } catch {
     fail('INVALID_GIT_REPOSITORY');
   }
 
-  const isWorktree = readOnlyGit(repositoryPath, ['rev-parse', '--is-inside-work-tree']);
+  const isWorktree = readOnlyGit(repositoryPath, 'is-worktree');
   if (isWorktree !== 'true') fail('INVALID_GIT_REPOSITORY');
-  const topLevel = readOnlyGit(repositoryPath, ['rev-parse', '--show-toplevel']);
-  let canonicalTop;
-  try { canonicalTop = await realpath(topLevel); } catch { fail('INVALID_GIT_REPOSITORY'); }
-  if (canonicalTop !== repositoryPath) fail('INVALID_GIT_REPOSITORY');
+  const topLevel = readOnlyGit(repositoryPath, 'show-root');
+  if (topLevel !== repositoryPath) fail('INVALID_GIT_REPOSITORY');
   return repositoryPath;
 }
 

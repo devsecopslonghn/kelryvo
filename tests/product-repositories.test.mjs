@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
-import { access, mkdtemp, mkdir, rm, symlink, writeFile } from 'node:fs/promises';
+import { access, mkdtemp, mkdir, realpath, rm, symlink, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -64,12 +64,18 @@ test('configured repositories are canonical local Git worktrees with display-onl
     ]);
     assert.equal(repositories[0].path, first);
     assert.equal(JSON.stringify(repositories.map(({ id, name }) => ({ id, name }))).includes(first), false);
+    const relativeRepository = await resolveLocalRepositories(['.']);
+    assert.equal(relativeRepository[0].path, await realpath(process.cwd()));
     assert.equal(git(first, ['status', '--porcelain']), '');
 
     await assert.rejects(resolveLocalRepositories([first, linked]), { code: 'DUPLICATE_REPOSITORY' });
     await assert.rejects(resolveLocalRepositories([path.join(temporary, 'not-a-repo')]), { code: 'INVALID_GIT_REPOSITORY' });
     await assert.rejects(resolveLocalRepositories(['https://example.invalid/repo.git']), { code: 'INVALID_REPOSITORY_PATH' });
     await assert.rejects(resolveLocalRepositories(['--upload-pack=evil']), { code: 'INVALID_REPOSITORY_PATH' });
+    await assert.rejects(resolveLocalRepositories(['../outside']), { code: 'INVALID_REPOSITORY_PATH' });
+    await assert.rejects(resolveLocalRepositories([`${temporary}/../outside`]), { code: 'INVALID_REPOSITORY_PATH' });
+    await assert.rejects(resolveLocalRepositories([`${first}\n`]), { code: 'INVALID_REPOSITORY_PATH' });
+    await assert.rejects(resolveLocalRepositories([path.join(temporary, '--upload-pack=evil')]), { code: 'INVALID_REPOSITORY_PATH' });
   } finally {
     await rm(temporary, { recursive: true, force: true });
   }
