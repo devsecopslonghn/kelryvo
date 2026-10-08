@@ -37,11 +37,25 @@ prepare twelve fixed descriptors. Exit 0 only means offline planning completed; 
 Oracle case remains NOT_RUN/BLOCKED and execution remains unauthorized. The public entry
 runs actual preflight; it accepts no report or raw-byte attestation from a caller.
 
-No fully unblocked engineering task remains in the graph until runtime inputs arrive.
-Database's next bounded assignment is the actual Thin/TCPS/fault runner after explicit
-attested disposable 19c/21c lab authority, scoped refs, trust material and observation
-permission exist. QA/Security independently review. Keep T04 and all 124 Oracle cells
-BLOCKED until real acceptance evidence passes. Do not resolve credentials or connect now.
+PR #4 merged at `01ff4446e0318d4b7f91a003cf15799ab3b7be11`. This increment implements
+`createReadOnlyThinProbe(ports)(request)` as a read-only Thin candidate; resolve its PR/head
+and merge from Git/GitHub. It has 20 focused UNIT tests and 92 full tests passing, with
+independent QA/security approval. Evidence is under
+`evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/`.
+
+The graph still has no fully unblocked task. Queue emptiness alone does not prevent safe
+offline work inside T04; this candidate is substantive progress, with T04 still BLOCKED.
+There is no CLI, authenticated authority/atomic claim backend or supervised live worker.
+Before connecting, require explicit attested disposable 19c/21c lab authority, approved
+PEM client wallet/CA material, scoped versioned refs, independent target/container identity
+and session observations, and supervised provider/call/cleanup timeout handling. The module
+implements a fixed read only; fault/DDL/rotation probes are absent. Session identity matches
+do not pass the Oracle cases or establish T05 canonical identity.
+
+Database's next bounded assignment is completing supervised runtime wiring and remaining
+T04 probes with supplied authority inputs; QA/Security independently review. Reassess other
+safe offline work before declaring an impasse. Keep T04 and all 124 Oracle cells BLOCKED
+until real acceptance evidence passes. Do not resolve credentials or connect now.
 Resolve pending owner license/name and F31 packaging decisions before distribution.
 If inputs are still absent, report that precise boundary and preserve this checkpoint;
 do not mark a blocked task VERIFIED or advance API/UI around WP0 dependencies.

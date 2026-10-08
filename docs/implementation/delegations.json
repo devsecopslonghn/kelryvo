@@ -188,6 +188,35 @@
       "isolation": "Detached /tmp/schemaforge-wp0-t04-plan at ee841e8; root reviewed/copiedexactfinaldiffonto newbranch afterPR2merge.",
       "review": "IndependentQA/security corrections integrated;13focusedtests andsourcechecksPASS; rootCLI adds3tests; finalindependent16focusedPASS androot72fullPASS.",
       "provider_override": false
+    },
+    {
+      "task_name": "/root/builder_quality_fix",
+      "responsibilities": [
+        "WP0-T04 read-only Thin candidate after source/API assessment"
+      ],
+      "owned_paths": [
+        "experiments/db-devops-wp0/thin-readonly-probe.mjs"
+      ],
+      "review": "Root owns contract, tests/docs/evidence integration. Independent QA/security pass 20 focused tests; root 92 full tests pass. TLS wallet construction, exact version/CON_ID, atomic claim, environment guards, error/close semantics corrected without runtime claims.",
+      "provider_override": false
+    },
+    {
+      "task_name": "/root/qa_quality_review",
+      "responsibilities": [
+        "Independent final WP0-T04 read-only candidate QA"
+      ],
+      "owned_paths": [],
+      "review": "Read-only: 20/20 focused tests, actual public driver API and SYS_CONTEXT source checks, no blocking finding; fake positive calls remain UNIT-only.",
+      "provider_override": false
+    },
+    {
+      "task_name": "/root/security_quality_review",
+      "responsibilities": [
+        "Independent final WP0-T04 read-only candidate security/license review"
+      ],
+      "owned_paths": [],
+      "review": "Read-only: 20/20 focused tests; bounded offline candidate approved after one-use claim, native wallet/TLS and debugger environment fixes. No new dependency, copied source, backend or Oracle authority.",
+      "provider_override": false
     }
   ],
   "external_actions": [
@@ -198,5 +227,5 @@
     "PR3 ordinary head-matched merge after all nine checks SUCCESS and clean alerts/reviews; master synchronized at 87d41da43886306a3a996aa458ced27130de130f."
   ],
   "continuation": "Assignments end with this session. Future sessions select bounded tasks from persisted milestone and evidence; no indefinite background activity is implied.",
-  "integration_result": "WP0-T03 offline parser increment verified after independent review. Four verified work items, one runtime-blocked item;124Oraclecellsblocked;zeroverifiedproductfeatures."
+  "integration_result": "WP0-T04 now has an implemented UNIT-checked read-only Thin candidate. Four verified work items, one runtime-blocked item, 124 Oracle cells blocked and zero verified product features remain unchanged."
 }

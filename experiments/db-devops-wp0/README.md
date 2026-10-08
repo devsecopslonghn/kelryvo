@@ -33,3 +33,53 @@ Run focused checks with
 `node --test tests/preflight.test.mjs tests/thin-probe-plan.test.mjs tests/thin-probe-cli.test.mjs`.
 Synthetic fixture tests exercise local artifact validation only. Authoritative T04 runtime
 acceptance and all 124 applicable Oracle cells remain BLOCKED.
+
+## T04 read-only Thin candidate
+
+`thin-readonly-probe.mjs` exports `createReadOnlyThinProbe(ports)`, returning an async
+probe for `WP0-01-01`/`WP0-01-02`. It has no CLI, authority backend or deployed wiring.
+The real default driver is the existing pinned node-oracledb 7.0.1. Unit tests inject a
+fake driver; the default-driver test stops at denied admission before any connection.
+
+Trusted restricted-worker ports are required: `admit`, `claimDispatch`,
+`resolveCredentials` and `resolveTrust`. `admit` must authenticate explicit disposable-lab
+authority, completed T01 inputs, approved profile/build/fixture hashes and the exact
+run/case/version/role/intent. It returns the bound permit, expiry, TCPS route, trust hashes,
+credential reference/revision/principal, expected session facts/exact server version and
+finite phase timeouts. A preflight result or caller boolean cannot supply these ports.
+The module snapshots the grant, checks credential revision, rechecks admission, then
+requires a bound dispatch receipt from `claimDispatch`. That port must atomically consume
+a single-use permit with current authority checks, serialize consumption against revocation,
+and refuse reuse across workers/restarts. These privileged backends are **not implemented**;
+the unit fixture's in-memory claim models the contract only.
+
+This candidate supports an explicitly approved PEM mTLS wallet. `resolveTrust` returns
+`{pem, caPem, walletPassword}`: exact wallet and CA bytes must match their separate permit
+hashes. The CA bundle contains CA certificates only; the wallet contains matching approved
+CAs, a client certificate and one PKCS#8 key. The module validates the same native TLS
+context used by the pinned driver. CA-only `walletContent` fails closed. There is no
+SYSTEM trust, file/environment credential fallback or automatic wallet generation.
+Wallet/password material stays inside the restricted worker and never enters results.
+
+The probe permits one standalone TCPS connection and one fixed `SYS_CONTEXT` SELECT,
+checks Thin mode, exact database version, principal, service, PDB, CON_ID and DB_UNIQUE_NAME,
+then closes. It exposes no connection or supplied SQL, uses strict peer matching, disables
+retry and external authentication, and rejects debugger/disabled-TLS environment settings.
+Identity mismatch rejects the probe; read errors or failed close return HOLD, with explicit
+cleanup requirements. Results always say `acceptance: NOT_EVALUATED`. Session labels do
+not establish canonical container identity or pass either Oracle acceptance case.
+
+Before live wiring, require authorized 19c/21c manifests, approved client wallets and trust,
+scoped credential/provider grants, independent target/container observations, authenticated
+atomic permit backends, and a supervised isolated worker with a sanitized environment.
+Driver connection timeouts bound connection phases and `callTimeout` bounds each round trip;
+they do not bound providers, all calls or cleanup. A process watchdog and independent session
+inventory/cleanup remain required. Fault injection, DDL and rotation probes remain absent.
+
+Run `node --test tests/thin-readonly-probe.test.mjs` with Node 22.23.3 and
+`/usr/bin/openssl` available. Tests create ephemeral UNIT-only certificates/keys in a private
+temporary directory and remove the files in `finally`; no wallet or private key is tracked.
+Native TLS-context checks are offline code evidence, with no TLS handshake or Oracle call.
+Relevant primary references: [driver 7.0.1 API](https://node-oracledb.readthedocs.io/en/v7.0.1/api_manual/oracledb.html),
+[connection properties](https://node-oracledb.readthedocs.io/en/v7.0.1/api_manual/connection.html),
+and [Oracle SYS_CONTEXT](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/SYS_CONTEXT.html).

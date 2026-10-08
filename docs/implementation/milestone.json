@@ -38,6 +38,9 @@
     },
     {
       "index_id": "WP0-T04-MERGE-checkpoint-20261008T140408Z-c7c0416a"
+    },
+    {
+      "index_id": "WP0-T04-READONLY-t04-thin-readonly-20261008T143528Z-0b734360"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -54,7 +57,7 @@
       "id": "WP0-T04",
       "owner": "database",
       "status": "BLOCKED",
-      "action": "Supply attested disposable Oracle 19c/21c lab authority, approved trust material and scoped refs. Offline probe preparation is implemented; actual Thin/fault runner and acceptance remain blocked.",
+      "action": "Read-only Thin candidate is implemented and UNIT checked. Supply explicit disposable lab, approved mTLS wallet/trust, scoped refs and trusted authority/atomic claim wiring before any connection; add supervision and independent observations. T04 acceptance remains BLOCKED.",
       "dependencies": [
         "WP0-T01",
         "WP0-T02"
@@ -79,21 +82,21 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-08T14:04:08.767363+00:00",
+  "updated_at": "2026-10-08T14:37:42.009523+00:00",
   "final_check_evidence": {
-    "index_id": "WP0-T04-OFFLINE-t04-offline-plan-20261008T134759Z-2e424822"
+    "index_id": "WP0-T04-READONLY-t04-thin-readonly-20261008T143528Z-0b734360"
   },
-  "final_check_manifest": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/review-summary.json",
+  "final_check_manifest": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/review-summary.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
-  "wp0_t04_status": "BLOCKED_RUNTIME_WITH_OFFLINE_PROBE_PREPARATION",
-  "latest_validated_master_before_this_increment": "87d41da43886306a3a996aa458ced27130de130f",
+  "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_READ_ONLY_THIN_CANDIDATE",
+  "latest_validated_master_before_this_increment": "01ff4446e0318d4b7f91a003cf15799ab3b7be11",
   "last_merged_implementation_pr": 3,
-  "checkpoint_evidence": "evidence/db-devops-wp0/checkpoint-20261008T140408Z-c7c0416a/session-checkpoint.json",
+  "checkpoint_evidence": "evidence/db-devops-wp0/t04-thin-readonly-20261008T143528Z-0b734360/review-summary.json",
   "implementation_prs_pending": [],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
-    "consecutive_goal_turns_at_final_impasse": 1,
-    "reason": "No fully unblocked graph task after verified offline increments; actual Oracle authority/trust inputs and product distribution decisions remain absent. Do not mark the entire goal complete. A future goal continuation must reassess whether inputs changed."
+    "consecutive_goal_turns_at_final_impasse": 0,
+    "reason": "This continuation made substantive offline T04 code progress; Oracle authority/backend/watchdog and runtime acceptance remain missing. Reassess independent work before a future blocked audit; queue emptiness alone is not proof of an impasse."
   }
 }
