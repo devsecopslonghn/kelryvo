@@ -72,10 +72,10 @@
   "product_features_verified": 0,
   "next_actionable_tasks": [
     {
-      "id": "SF-PRODUCT-T02",
+      "id": "SF-PRODUCT-T04",
       "owner": "backend",
-      "status": "BACKLOG",
-      "action": "Archive projects without deleting retained releases, plans, audit or history; reject new work."
+      "status": "IN_PROGRESS",
+      "action": "Persist and enforce project Git source binding; run actual PostgreSQL and browser acceptance."
     }
   ],
   "blocked_inputs_evidence": {
@@ -98,16 +98,20 @@
   "latest_validated_master_before_this_increment": "5ab696918a8bafcbd36a7277e810ec6cde34e2e2",
   "last_merged_implementation_pr": 7,
   "checkpoint_evidence": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/postmerge-checkpoint.json",
-  "implementation_prs_pending": [],
+  "implementation_prs_pending": [
+    9,
+    10,
+    11
+  ],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
-    "reason": "This turn implemented actual offline T04 child-process supervision and repaired independent review findings. Oracle authority/backend/deployed isolation and real acceptance remain missing; reassess safe independent work before a future impasse audit."
+    "reason": "Independent PRODUCT delivery continues while Oracle VALIDATION remains blocked and remote quality gates are unresolved."
   },
   "current_increment_pr": 7,
-  "current_increment_merge_status": "MERGED",
+  "current_increment_merge_status": "UNMERGED_PRODUCT",
   "current_increment_reviewed_head": "ef8a2ec4f161abf84631769754d0afd1a924ab50",
-  "current_checkpoint_branch": "development/wp0-supervisor-checkpoint",
+  "current_checkpoint_branch": "development/product-source-binding",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -121,5 +125,14 @@
       ]
     }
   },
-  "product_task_status": "VERIFIED_LOCAL"
+  "product_task_status": "T01_T02_T03_VERIFIED_LOCAL_T04_IN_PROGRESS",
+  "historical_wp0_checkpoint": {
+    "current_increment_pr": 7,
+    "current_increment_merge_status": "MERGED",
+    "current_increment_reviewed_head": "ef8a2ec4f161abf84631769754d0afd1a924ab50",
+    "current_checkpoint_branch": "development/wp0-supervisor-checkpoint",
+    "last_merged_implementation_pr": 7,
+    "checkpoint_evidence": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/postmerge-checkpoint.json",
+    "updated_at": "2026-10-08T15:34:28.273958+00:00"
+  }
 }

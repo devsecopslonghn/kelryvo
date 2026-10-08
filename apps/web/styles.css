@@ -594,6 +594,65 @@ textarea::placeholder {
 .archive-notice span {
   color: #745619;
 }
+.source-binding-panel {
+  margin-bottom: 16px;
+}
+.source-binding-current {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid #dce7f3;
+  border-radius: 6px;
+  background: #f5f8fc;
+  color: #34465c;
+  font-size: 10px;
+}
+.source-binding-current strong {
+  color: #26394e;
+}
+.source-binding-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 14px;
+}
+.source-binding-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #44566b;
+  font-size: 10px;
+  font-weight: 600;
+}
+.source-binding-form select,
+.source-binding-form input {
+  width: 100%;
+}
+.source-binding-form small {
+  color: #637184;
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+.source-binding-actions {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  gap: 12px;
+}
+.bound-source-value {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  padding: 0 10px;
+  border: 1px solid #dce2e9;
+  border-radius: 5px;
+  background: #f7f9fb;
+  color: #34465c;
+  font-size: 10px;
+  font-weight: 500;
+}
 .archive-form {
   display: flex;
   flex-direction: column;
@@ -1354,12 +1413,14 @@ td code {
     padding: 16px;
   }
   .profile-form,
-  .release-form {
+  .release-form,
+  .source-binding-form {
     grid-template-columns: 1fr;
   }
   .profile-form .full-width,
   .profile-form button,
-  .form-actions {
+  .form-actions,
+  .source-binding-actions {
     grid-column: auto;
   }
   .form-actions {

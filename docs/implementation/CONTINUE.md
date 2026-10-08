@@ -1,8 +1,10 @@
 # Resume SchemaForge PRODUCT delivery
 
 Read AGENTS.md, CURRENT.md and the tracker. The owner authorizes implementation, verified
-branches/PRs and eligible ordinary merges. Start from the latest `origin/master`; inspect
-existing changes/open PRs/exact heads and preserve all WP0 history. PRODUCT delivery is
+branches/PRs and eligible ordinary merges. Inspect the latest `origin/master`, existing
+changes and open PR exact heads first. Resume the unmerged PRODUCT branch lineage when it
+contains newer reviewed work; do not discard it or restart from the old WP0-only master.
+Start independent new milestones from the latest eligible parent and preserve all WP0 history. PRODUCT delivery is
 independent of Oracle VALIDATION. Do not repeatedly ask for a 19c/21c lab or reinterpret
 BLOCKED Oracle acceptance as a prohibition on API/web/governance development.
 
@@ -17,7 +19,8 @@ npm run status
 npm run next
 ```
 
-The current vertical slice is SF-PRODUCT-T01. Read the actual implementation in apps/api,
+The runnable vertical slice began with SF-PRODUCT-T01 and includes locally verified
+T02 archival and T03 operator-owned Git imports. Read the actual implementation in apps/api,
 apps/web, packages/database and packages/migrations, and [local operation](../development/local-product.md).
 Run `npm run local:prepare` then `npm run dev` for the local PostgreSQL/API/web demonstration.
 `npm run test:product` exercises PostgreSQL/API and actual Git/ANTLR; install the separate
@@ -44,7 +47,7 @@ full catalog features or Oracle cells. Pending plans are offline candidates with
 NOT_OBSERVED target history. Approval never fabricates successful execution; all migration
 history remains NOT_EXECUTED until real authorized execution is supported and evidenced.
 
-T04 and all 124 Oracle cells remain BLOCKED. Production authority/providers, target history,
+WP0-T04 and all 124 Oracle cells remain BLOCKED. Production authority/providers, target history,
 worker isolation and real acceptance are VALIDATION work. Product license/name and F31
 packaging decisions remain pending for distribution. Preserve them while progressing local
 product work. Resolve the current milestone's own head/PR/merge from Git/GitHub and inspect
@@ -63,6 +66,19 @@ run separately), 14 product/startup/Git/API cases and both browser workflows. Ev
 `evidence/product/product-t03-20261008T173420Z-local/`. No provider credentials or
 Oracle execution are introduced. All three local PRODUCT milestones have implementation
 and local acceptance evidence; remote merge eligibility remains separate.
+
+The active next increment is SF-PRODUCT-T04 in `development/product-source-binding`
+(`/home/longhn0710/workspace/schemaforge-product-binding`): project repository/folder
+binding with pre-import enforcement. Implementation is in progress; do not certify it
+before actual API/browser evidence. PRs #9, #10 and #11 contain the prior PRODUCT
+lineage and must merge in that order only after each exact head is eligible. The local
+`development/product-delivery-checkpoint` checkout in the primary directory holds the
+runnable prototype; resolve its current commit and open PRs from Git/GitHub.
+
+A PR #10 push CI run exposed concurrent schema initialization (PostgreSQL catalog
+duplicate type) and a connection-pool leak on setup failure; it reached the workflow
+time limit. Preserve the failed run and repair it without extending the timeout. A
+passing parallel run does not erase this failure.
 
 ## Preserved WP0 evidence
 

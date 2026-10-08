@@ -6,7 +6,7 @@ acceptance dependencies, the 220 feature IDs, T01–T03 verification and every W
 remain unchanged. The owner has no Oracle 19c/21c lab; do not request one as a prerequisite
 to independent product work.
 
-The active local product slice is SF-PRODUCT-T01: Fastify/TypeScript API, React web app,
+The runnable local product slice began with SF-PRODUCT-T01: Fastify/TypeScript API, React web app,
 PostgreSQL persistent projects/environments and reference-only profiles, immutable local
 Git import, existing ANTLR offline parsing, candidate plans, independent approval/rejection,
 transactional audit and NOT_EXECUTED history. It has no target connector or executor.
@@ -29,7 +29,7 @@ unmerged until Sonar passes; preserve this failure separately from local accepta
 SF-PRODUCT-T02 implements project archival with preserved releases/audit/history and
 transactional rejection of stale writes. SF-PRODUCT-T03 follows with operator-supplied
 local Git repositories, using the existing importer rather than a new provider backend.
-Select further bounded product tasks from the existing catalog. T04 and all 124 Oracle
+Select further bounded product tasks from the existing catalog. WP0-T04 and all 124 Oracle
 cells remain BLOCKED; preserve Oracle safety boundaries without blocking API/web work.
 Product license/name and F31 distribution remain unresolved; local delivery is authorized.
 
@@ -46,6 +46,14 @@ run separately), 14 product/startup/Git/API cases and both browser workflows. Ev
 `evidence/product/product-t03-20261008T173420Z-local/`. No provider credentials or
 Oracle execution are introduced. All three local PRODUCT milestones have implementation
 and local acceptance evidence; remote merge eligibility remains separate.
+
+SF-PRODUCT-T04 source binding is IN_PROGRESS in `development/product-source-binding`.
+PRs #9/#10/#11 remain unmerged; inspect current exact heads and gates. The primary
+checkout uses `development/product-delivery-checkpoint` for the runnable local prototype,
+which currently includes T01–T03. Master remains the WP0 checkpoint until eligible merges.
+One PR #10 product push run hit a concurrent schema-creation race and leaked its failed
+setup pool; a separate same-head product run passed. Repair and retest the actual failure
+without weakening the required check. Sonar failure remains a separate gate.
 
 The previous master checkpoint was PR #8 at f2b333e. The following WP0 snapshot is retained
 as historical evidence; its scheduling-only API/UI prohibition is superseded by the owner

@@ -38,6 +38,7 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     const { project } = await api('POST', '/api/projects', actors[0].token, { name: projectName });
     const base = `/api/projects/${project.id}`;
     const { environment } = await api('POST', `${base}/environments`, actors[0].token, { name: 'Development' });
+    await api('PUT', `${base}/source`, actors[0].token, { repositoryId: 'demo', folder: 'migrations' });
     await api('POST', `${base}/profiles`, actors[0].token, {
       name: 'Archive reference', environmentId: environment.id, engine: 'oracle',
       host: 'oracle.example.invalid', port: 1521, service: 'DEV', username: 'APP',
@@ -70,6 +71,8 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     assert.equal(await page.getByLabel('Profile name', { exact: true }).isDisabled(), true);
 
     await page.getByRole('button', { name: /Releases/ }).click();
+    assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
+    assert.equal(await page.getByRole('button', { name: 'Update source binding', exact: true }).isDisabled(), true);
     await page.locator(`.saved-release-row[data-release-id="${release.id}"]`).getByRole('button', { name: 'Inspect files', exact: true }).click();
     await page.getByText('Preview SQL · migrations/V001__create_widget.sql', { exact: true }).waitFor();
     await page.getByText('Preview SQL · migrations/V001__create_widget.sql', { exact: true }).click();
@@ -88,6 +91,10 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     await page.getByLabel('Sign out').waitFor();
     await page.getByRole('button', { name: /Projects/ }).click();
     await page.locator('.project-row').filter({ hasText: projectName }).click();
+    await page.getByRole('button', { name: /Releases/ }).click();
+    assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
+    assert.equal(await page.getByRole('button', { name: 'Update source binding', exact: true }).count(), 0);
+    assert.equal(await page.getByRole('button', { name: 'Import and validate', exact: true }).isDisabled(), true);
     await page.getByRole('button', { name: /Plans & review/ }).click();
     await page.locator('.plan-summary').waitFor();
     assert.equal(await page.getByLabel('Decision reason').isDisabled(), true);
@@ -101,7 +108,10 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     url = `http://127.0.0.1:${app.server.address().port}`;
     const persisted = await api('GET', base, actors[0].token);
     assert.ok(persisted.project.archivedAt);
+    assert.equal(persisted.project.sourceBinding.repositoryId, 'demo');
+    assert.equal(persisted.project.sourceBinding.folder, 'migrations');
     assert.equal(persisted.audit.filter((item) => item.action === 'PROJECT_ARCHIVED').length, 1);
+    assert.equal(persisted.audit.filter((item) => item.action === 'SOURCE_BINDING_UPDATED').length, 1);
     assert.ok(persisted.history.every((item) => item.status === 'NOT_EXECUTED'));
     assert.equal(persisted.plans.find((item) => item.id === plan.id).status, 'PENDING_APPROVAL');
     console.log('Browser archive workflow and archived project records remained readable after API restart.');

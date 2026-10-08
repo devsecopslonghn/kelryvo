@@ -10,12 +10,19 @@ test('archival keeps immutable records readable and refuses further project work
   const db = await openProductDatabase();
   const developer = { id: `archiver-${randomUUID()}`, name: 'Developer', role: 'developer', token: randomBytes(32).toString('hex') };
   const approver = { id: `reviewer-${randomUUID()}`, name: 'Approver', role: 'approver', token: randomBytes(32).toString('hex') };
-  const app = createApp({ sql: db.sql, actors: [developer, approver], repositories: [] });
+  const repositoryPath = '/private/local/repository/path';
+  const app = createApp({ sql: db.sql, actors: [developer, approver], repositories: [
+    { id: 'local-source', name: 'Product migrations', path: repositoryPath },
+  ] });
   const request = (method, url, payload, actor = developer) => app.inject({ method, url,
     headers: { authorization: `Bearer ${actor.token}` }, payload });
   try {
     const project = (await request('POST', '/api/projects', { name: `Archive ${randomUUID()}` })).json().project;
     const base = `/api/projects/${project.id}`;
+    const binding = await request('PUT', `${base}/source`, { repositoryId: 'local-source', folder: 'migrations' });
+    assert.equal(binding.statusCode, 200);
+    assert.equal(binding.json().project.sourceBinding.repositoryId, 'local-source');
+    assert.equal(binding.body.includes(repositoryPath), false);
     const environment = (await request('POST', `${base}/environments`, { name: 'Development' })).json().environment;
     const profileInput = { name: 'Reference', environmentId: environment.id, engine: 'oracle', host: 'oracle.example.invalid',
       port: 1521, service: 'DEV', username: 'APP', credentialRef: 'vault://local/dev/app' };
@@ -39,6 +46,9 @@ test('archival keeps immutable records readable and refuses further project work
     });
     assert.equal(archivedImport.statusCode, 409);
     assert.equal(archivedImport.json().error, 'PROJECT_ARCHIVED');
+    const archivedBinding = await request('PUT', `${base}/source`, { repositoryId: 'local-source', folder: 'later' });
+    assert.equal(archivedBinding.statusCode, 409);
+    assert.equal(archivedBinding.json().error, 'PROJECT_ARCHIVED');
     const archivedExecution = await request('POST', `/api/plans/${plan.id}/execution`, {}, approver);
     assert.equal(archivedExecution.statusCode, 409);
     assert.deepEqual(archivedExecution.json(), {
@@ -50,6 +60,9 @@ test('archival keeps immutable records readable and refuses further project work
     assert.equal(details.history.length, 1);
     assert.equal(details.history[0].status, 'NOT_EXECUTED');
     assert.equal(details.audit.filter(e => e.action === 'PROJECT_ARCHIVED').length, 1);
+    assert.equal(details.audit.filter(e => e.action === 'SOURCE_BINDING_UPDATED').length, 1);
+    assert.deepEqual(details.project.sourceBinding.repositoryId, 'local-source');
+    assert.equal(JSON.stringify(details).includes(repositoryPath), false);
     assert.equal(details.audit.filter(e => e.action === 'EXECUTION_DENIED').length, 0);
     assert.equal((await request('GET', `/api/releases/${release.id}`)).statusCode, 200);
   } finally { await app.close(); await db.close(); }

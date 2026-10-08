@@ -49,7 +49,33 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
     await page.getByRole('button', { name: 'Save profile', exact: true }).click();
     await page.locator('.profile-row').filter({ hasText: 'Oracle reference' }).waitFor();
     await page.getByRole('button', { name: /Releases/ }).click();
-    await page.getByLabel('Repository', { exact: true }).selectOption('demo');
+    await page.getByLabel('Source repository').selectOption('demo');
+    await page.getByLabel('Source migration folder').fill('../outside');
+    assert.equal(await page.getByRole('button', { name: 'Save source binding', exact: true }).isDisabled(), true);
+    await page.getByLabel('Source migration folder').fill('migrations');
+    await page.getByRole('button', { name: 'Save source binding', exact: true }).click();
+    await page.locator('.source-binding-current').filter({ hasText: 'Local migration demo · migrations' }).waitFor();
+    assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
+    assert.equal(await page.locator('.bound-source-value').first().innerText(), 'Local migration demo');
+    assert.equal(await page.locator('.bound-source-value').last().innerText(), 'migrations');
+    await page.getByLabel('Source migration folder').fill('pending');
+    assert.equal(await page.getByRole('button', { name: 'Import and validate', exact: true }).isDisabled(), true);
+    await page.getByLabel('Source migration folder').fill('migrations');
+    assert.equal(await page.getByRole('button', { name: 'Import and validate', exact: true }).isDisabled(), false);
+
+    const otherName = `Unbound project ${randomUUID().slice(0, 8)}`;
+    await page.getByRole('button', { name: /Projects/ }).click();
+    await page.getByLabel('New project name').fill(otherName);
+    await page.getByRole('button', { name: 'Create project', exact: true }).click();
+    await page.getByRole('heading', { name: otherName, exact: true }).waitFor();
+    await page.getByRole('button', { name: /Releases/ }).click();
+    assert.equal(await page.getByRole('button', { name: 'Import and validate', exact: true }).isDisabled(), true);
+    assert.equal((await page.locator('.form-actions').innerText()).includes('Save a project source binding before importing.'), true);
+    await page.getByRole('button', { name: /Projects/ }).click();
+    await page.locator('.project-row').filter({ hasText: name }).click();
+    await page.getByRole('heading', { name, exact: true }).waitFor();
+    await page.getByRole('button', { name: /Releases/ }).click();
+    assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
     await page.getByRole('button', { name: 'Import and validate', exact: true }).click();
     await page.locator('.release-result').waitFor({ timeout: 30_000 });
     assert.equal(await page.locator('.release-result tbody tr').count(), 2);
@@ -66,12 +92,16 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
     await page.getByRole('button', { name: /Projects/ }).click();
     await page.locator('.project-row').filter({ hasText: name }).click();
     await page.getByRole('heading', { name, exact: true }).waitFor();
+    await page.getByRole('button', { name: /Releases/ }).click();
+    assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
+    assert.equal(await page.getByRole('button', { name: 'Update source binding', exact: true }).count(), 0);
     await page.getByRole('button', { name: /Plans & review/ }).click();
     await page.getByLabel('Decision reason').fill('Reviewed exact local candidate. No execution authority.');
     await page.getByRole('button', { name: 'Approve plan', exact: true }).click();
     await page.locator('.plan-summary').filter({ hasText: 'APPROVED' }).waitFor();
     await page.getByRole('button', { name: /Audit & history/ }).click();
     await page.locator('.timeline-row').filter({ hasText: 'PLAN_APPROVED' }).waitFor();
+    await page.locator('.timeline-row').filter({ hasText: 'SOURCE_BINDING_UPDATED' }).waitFor();
     assert.equal(await page.locator('.history-row').count(), 2);
     assert.ok((await page.locator('.history-list').innerText()).includes('NOT_EXECUTED'));
     assert.equal(await page.evaluate(() => localStorage.length + sessionStorage.length), 0);
@@ -104,6 +134,53 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
     assert.ok(persisted.plans.some(p => p.status === 'REJECTED'));
     assert.ok(persisted.history.every(h => h.status === 'NOT_EXECUTED'));
     assert.ok(persisted.audit.some(a => a.action === 'EXECUTION_DENIED'));
+    assert.equal(persisted.project.sourceBinding.repositoryId, 'demo');
+    assert.equal(persisted.project.sourceBinding.folder, 'migrations');
+    assert.equal(JSON.stringify(persisted.project.sourceBinding).includes('path'), false);
+    await page.goto(restarted);
+    await signin(actors[0].token);
+    await page.getByRole('button', { name: /Projects/ }).click();
+    await page.locator('.project-row').filter({ hasText: name }).click();
+    await page.getByRole('button', { name: /Releases/ }).click();
+    assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
+    await page.getByRole('button', { name: /Projects/ }).click();
+    await page.locator('.project-row').filter({ hasText: otherName }).click();
+    await page.getByRole('button', { name: /Releases/ }).click();
+    const otherProject = (await (await fetch(`${restarted}/api/projects`, { headers })).json()).projects.find(item => item.name === otherName);
+    let releaseDelayedResponse;
+    let markSourceResponseReady;
+    let markSourceResponseDelivered;
+    const sourceResponseReady = new Promise(resolve => { markSourceResponseReady = resolve; });
+    const sourceResponseDelivered = new Promise(resolve => { markSourceResponseDelivered = resolve; });
+    const delayedResponse = new Promise(resolve => { releaseDelayedResponse = resolve; });
+    // Delay delivery only after route.fetch completes the real write; this proves stale UI isolation, not backend write cancellation.
+    await page.route(`**/api/projects/${otherProject.id}/source`, async route => {
+      const response = await route.fetch();
+      markSourceResponseReady();
+      await delayedResponse;
+      await route.fulfill({ response });
+      markSourceResponseDelivered();
+    });
+    await page.getByLabel('Source repository').selectOption('demo');
+    await page.getByLabel('Source migration folder').fill('migrations');
+    await page.getByRole('button', { name: 'Save source binding', exact: true }).click();
+    try {
+      await sourceResponseReady;
+      await page.getByLabel('Sign out').click();
+      await signin(actors[1].token);
+      await page.getByRole('button', { name: /Projects/ }).click();
+      await page.locator('.project-row').filter({ hasText: name }).click();
+      await page.getByRole('button', { name: /Releases/ }).click();
+      assert.match(await page.locator('.role-pill').innerText(), /approver/i);
+      assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
+    } finally {
+      releaseDelayedResponse();
+    }
+    await sourceResponseDelivered;
+    await page.getByRole('button', { name: /Projects/ }).click();
+    await page.getByRole('heading', { name, exact: true }).waitFor();
+    assert.equal(await page.locator('.banner.success').filter({ hasText: 'Project source binding saved.' }).count(), 0);
+    assert.deepEqual(errors, []);
     console.log('Real browser workflow and PostgreSQL restart persistence passed; Oracle untouched.');
   } catch (error) {
     if (page) {

@@ -20,8 +20,9 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
 2. Create a project and a Development environment. Add an Oracle connection profile with
    host `oracle.example.invalid`, service `DEV`, username `APP`, port 1521 and credential
    reference `vault://local/dev/app`. This records configuration without resolving secrets.
-3. Open Releases, select the project and **Local migration demo**, retain ref `HEAD` and
-   folder `migrations`, then import. The server resolves a full commit and retains exact
+3. Open Releases, select the project and save its source binding to **Local migration demo**
+   and folder `migrations`. Retain ref `HEAD`, then import. Imports use the saved binding;
+   unbound projects and repository/folder mismatches are rejected before Git/parser work. The server resolves a full commit and retains exact
    UTF-8 bytes, SHA-256 hashes, canonical numeric versions and ANTLR validation observations.
    Open the SQL previews. Syntax-invalid releases remain visible and cannot produce plans.
 4. Select the profile and prepare an offline candidate. Review ordered files/hashes and
@@ -68,8 +69,11 @@ Projects contain environments and reference-only connection profiles. Composite 
 and scoped lookups reject cross-project references. The metadata database password is solely
 for PostgreSQL; the API has no application writer secret, Oracle provider or executor.
 Local repository bindings are configured server-side by startup options. The first startup
-supplies the demo binding; remote clone/provider credentials and arbitrary request paths
-are not exposed.
+supplies the registered demo repository; projects remain unbound until a developer saves
+a repository/folder binding. The web displays only names, IDs and folders. Rebinding affects
+new imports; retained releases keep their immutable commit and source bytes. Imports recheck
+the current binding under a project lock after parsing, so a concurrent rebind cannot save
+a stale release. Remote clone/provider credentials and arbitrary request paths are not exposed.
 The importer reads Git objects without checkout/hooks, bounds ref/path/file/byte counts,
 rejects symlinks/submodules and equivalent duplicate numeric versions, and validates the
 whole release before planning. Source SQL is visible only after local authentication.
@@ -82,6 +86,7 @@ All other API reads/writes require a bearer token:
 | `GET /api/session`, `/api/repositories`, `/api/projects` | Authenticated identity, allowlisted binding names and projects |
 | `POST /api/projects` | Create project (`name`, optional `description`) |
 | `GET /api/projects/:id` | Project, environments, profiles, releases, plans, audit, history |
+| `PUT /api/projects/:id/source` | Developer persists registered `repositoryId`, relative `folder`; changes are audited |
 | `POST /api/projects/:id/archive` | Developer archives with `reason`; preserves all records |
 | `POST /api/projects/:id/environments` | Create environment (`name`) |
 | `POST /api/projects/:id/profiles` | Store `name`, `environmentId`, `engine=oracle`, `host`, `port`, `service`, `username`, `credentialRef` |
