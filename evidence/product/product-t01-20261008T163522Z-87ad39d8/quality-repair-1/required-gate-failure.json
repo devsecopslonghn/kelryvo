@@ -1,0 +1,6 @@
+{
+  "failed_head": "f0a28c3fc166830914289f83da4ea29e875ba76a",
+  "CodeQL": "One high missing rate limiting filesystem route: fixed by preloading assets before HTTP serving; request handler performs no filesystem read.",
+  "Sonar": "Retained exact annotations; source refactors remove excessive complexity/nested ternaries/no-await handlers, fixed contrast/fonts and explicit buttons, fixed trusted tool paths and pinned browser CLI. No exclusions, thresholds or checks changed.",
+  "status": "Repaired local checks pass; remote exact-head reanalysis pending"
+}

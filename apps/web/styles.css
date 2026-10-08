@@ -70,10 +70,10 @@ button:disabled {
   height: 28px;
   display: grid;
   place-items: center;
-  background: #3979e1;
+  background: #245fb8;
   color: #fff;
   border-radius: 8px;
-  font-family: Manrope;
+  font-family: Manrope, sans-serif;
   font-size: 16px;
   box-shadow: 0 5px 13px #102644;
 }
@@ -321,8 +321,8 @@ button:disabled {
   place-items: center;
   border-radius: 8px;
   background: #e8f0fc;
-  color: #3971ca;
-  font-family: Manrope;
+  color: #24599e;
+  font-family: Manrope, sans-serif;
   font-size: 12px;
   font-weight: 700;
 }
@@ -406,7 +406,7 @@ textarea::placeholder {
   height: 30px;
   border-radius: 8px;
   background: #eef4fc;
-  color: #5080c9;
+  color: #365f9a;
   display: grid;
   place-items: center;
   font-size: 16px;
@@ -516,7 +516,7 @@ textarea::placeholder {
   text-transform: uppercase;
   letter-spacing: .45px;
   background: #eef7f3;
-  color: #40846a;
+  color: #28664f;
   border-radius: 4px;
   padding: 4px 5px;
 }
@@ -634,10 +634,10 @@ textarea::placeholder {
   max-width: 800px;
 }
 .step-badge {
-  font-family: "DM Mono";
+  font-family: "DM Mono", monospace;
   font-size: 9px;
   background: #eff5ff;
-  color: #4a7dc7;
+  color: #315c98;
   padding: 6px 8px;
   border-radius: 4px;
 }
@@ -685,19 +685,19 @@ textarea::placeholder {
 }
 .status-pill.good {
   background: #e9f7f0;
-  color: #378660;
+  color: #286c4f;
 }
 .status-pill.warn {
   background: #fff4df;
-  color: #ae7c22;
+  color: #805500;
 }
 .status-pill.pending {
   background: #edf3fd;
-  color: #537cc0;
+  color: #345b96;
 }
 .status-pill.bad {
   background: #fdeeed;
-  color: #b65c54;
+  color: #98423b;
 }
 .status-pill.neutral {
   background: #f0f2f5;
@@ -717,7 +717,7 @@ table {
 }
 th {
   background: #f8fafc;
-  color: #8995a2;
+  color: #5e6a79;
   font-size: 8px;
   letter-spacing: .55px;
   text-transform: uppercase;
@@ -814,11 +814,11 @@ td code {
   color: #6e8095;
 }
 .notice-card b {
-  font-family: "DM Mono";
+  font-family: "DM Mono", monospace;
   font-size: 9px;
 }
 .scope-tag {
-  font-family: "DM Mono";
+  font-family: "DM Mono", monospace;
   font-size: 8px;
   color: #677d98;
   background: #fff;

@@ -24,23 +24,27 @@ export async function checkSource() {
   for (const path of await ownedFiles()) {
     if (!/\.(mjs|json|md|toml|yml|ts|jsx|html|css)$/.test(path)) continue;
     count += 1;
-    const source = await readFile(path, 'utf8');
-    const name = relative(root, path);
-    if (!source.endsWith('\n')) errors.push(`${name}: missing final newline`);
-    if (source.includes('\r')) errors.push(`${name}: use LF line endings`);
-    if (source.split('\n').some(line => /[\t ]+$/.test(line))) {
-      errors.push(`${name}: trailing whitespace`);
-    }
-    if (path.endsWith('.json')) {
-      try { JSON.parse(source); } catch { errors.push(`${name}: invalid JSON`); }
-    }
-    if (path.endsWith('.mjs')) {
-      const check = spawnSync(process.execPath, ['--check', path], { encoding: 'utf8' });
-      if (check.status !== 0) errors.push(`${name}: JavaScript syntax check failed`);
-    }
+    errors.push(...await checkFile(path));
   }
   if (errors.length) throw new Error(errors.join('\n'));
   return count;
+}
+
+async function checkFile(path) {
+  const errors = [];
+  const source = await readFile(path, 'utf8');
+  const name = relative(root, path);
+  if (!source.endsWith('\n')) errors.push(`${name}: missing final newline`);
+  if (source.includes('\r')) errors.push(`${name}: use LF line endings`);
+  if (source.split('\n').some(line => /[\t ]+$/.test(line))) errors.push(`${name}: trailing whitespace`);
+  if (path.endsWith('.json')) {
+    try { JSON.parse(source); } catch { errors.push(`${name}: invalid JSON`); }
+  }
+  if (path.endsWith('.mjs')) {
+    const check = spawnSync(process.execPath, ['--check', path], { encoding: 'utf8' });
+    if (check.status !== 0) errors.push(`${name}: JavaScript syntax check failed`);
+  }
+  return errors;
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {

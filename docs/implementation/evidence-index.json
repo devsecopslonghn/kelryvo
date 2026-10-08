@@ -943,6 +943,24 @@
       },
       "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/reviewed-check.json",
       "sha256": "49cd656b45826c64d897d65226c1d1b2277c605412a301202c2a647ef5c10586"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-quality-repair-1",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser after source repair of required CodeQL/Sonar findings",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-1/checks.log",
+        "sha256": "3fd9d940561df23c2324cbfa21b466efc903fa604f368025de3be70fa5e179e6"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-1/record.json",
+      "sha256": "95dfac4059e6e45127da48c24457e9f28408f32cfa6bc747e49a4b41d593fe5f"
     }
   ]
 }

@@ -16,13 +16,15 @@ export async function startProduct({ databaseUrl, actors, repositories, port = 4
       ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
       ['/third-party-notices.txt', ['third-party-notices.txt', 'text/plain; charset=utf-8']],
     ]);
-    for (const [route, [filename, contentType]] of files) {
-      app.get(route, async (_request, reply) => {
+    const assets = await Promise.all([...files].map(async ([route, [filename, contentType]]) =>
+      ({ route, contentType, bytes: await readFile(resolve(web, filename)) })));
+    for (const { route, contentType, bytes } of assets) {
+      app.get(route, (_request, reply) => {
         reply.header('X-Content-Type-Options', 'nosniff');
         reply.header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
         reply.header('Cache-Control', 'no-store');
         reply.type(contentType);
-        return readFile(resolve(web, filename));
+        return bytes;
       });
     }
     app.addHook('onClose', async () => { await sql.end({ timeout: 5 }); });

@@ -126,10 +126,10 @@ export function createApp(options: {
       });
     }
   });
-  app.get("/api/session", { preHandler: authenticate }, async (req: any) => ({
+  app.get("/api/session", { preHandler: authenticate }, (req: any) => ({
     actor: { id: req.actor.id, name: req.actor.name, role: req.actor.role },
   }));
-  app.get("/api/repositories", { preHandler: authenticate }, async () => ({
+  app.get("/api/repositories", { preHandler: authenticate }, () => ({
     repositories: repositories.map(({ id, name }) => ({ id, name })),
   }));
   app.get("/api/projects", { preHandler: authenticate }, async () => ({

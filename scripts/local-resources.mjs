@@ -19,7 +19,7 @@ async function assertManagedPath(file) {
   }
 }
 function command(program, args, env = process.env) {
-  const result = spawnSync(program, args, { env, encoding: 'utf8', timeout: 60_000 });
+  const result = spawnSync(`/usr/bin/${program}`, args, { env: { ...env, PATH: '/usr/bin:/bin' }, encoding: 'utf8', timeout: 60_000 });
   if (result.error || result.status !== 0) throw new Error(`${program} failed; inspect the local tool and port availability.`);
   return result.stdout.trim();
 }
@@ -56,7 +56,7 @@ export function localDatabaseUrl(config) {
 
 export async function startLocalPostgres(config) {
   const name = 'schemaforge-local-product-postgres';
-  const probe = spawnSync('docker', ['container', 'inspect', '--format', '{{ index .Config.Labels "local.schemaforge.product" }}', name], { encoding: 'utf8' });
+  const probe = spawnSync('/usr/bin/docker', ['container', 'inspect', '--format', '{{ index .Config.Labels "local.schemaforge.product" }}', name], { encoding: 'utf8' });
   if (probe.status === 0) {
     if (probe.stdout.trim() !== localDirectory) throw new Error('Existing container is not owned by this checkout.');
     command('docker', ['start', name]);
@@ -70,12 +70,17 @@ export async function startLocalPostgres(config) {
   }
   const sql = postgres(localDatabaseUrl(config), { max: 1, connect_timeout: 2, onnotice: () => {} });
   try {
-    for (let attempt = 0; attempt < 30; attempt++) {
-      try { await sql`SELECT 1`; return; }
-      catch { await new Promise(resolve => setTimeout(resolve, 500)); }
-    }
-    throw new Error('Local PostgreSQL did not become ready.');
+    await waitForPostgres(sql, 30);
   } finally { await sql.end({ timeout: 2 }); }
+}
+
+async function waitForPostgres(sql, remaining) {
+  try { await sql`SELECT 1`; }
+  catch {
+    if (remaining <= 1) throw new Error('Local PostgreSQL did not become ready.');
+    await new Promise(resolve => setTimeout(resolve, 500));
+    await waitForPostgres(sql, remaining - 1);
+  }
 }
 
 export async function prepareDemoRepository() {

@@ -39,7 +39,7 @@ jobs:
       - run: npm run parser:antlr:build
       - run: npm run build
       - run: npm run test:product
-      - run: npx playwright install --with-deps chromium
+      - run: node node_modules/playwright/cli.js install --with-deps chromium
       - run: npm run test:browser
 
       # Only disposable metadata PostgreSQL and local Git/parser; no Oracle or deployment.

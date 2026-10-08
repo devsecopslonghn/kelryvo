@@ -1,0 +1,16 @@
+{
+  "id": "product-t01-20261008T163522Z-87ad39d8-quality-repair-1",
+  "subject_id": "SF-PRODUCT-T01",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check; npm run test:product; npm run test:browser after source repair of required CodeQL/Sonar findings",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-1/checks.log",
+    "sha256": "3fd9d940561df23c2324cbfa21b466efc903fa604f368025de3be70fa5e179e6"
+  }
+}
