@@ -1112,6 +1112,24 @@
       },
       "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-5/after.json",
       "sha256": "20d2d3f3bb4aaa6a8b97e68fb4f086c99ee5e28990d2459db05fe2826fe04862"
+    },
+    {
+      "id": "product-t02-20261008T172809Z-quality-repair-2",
+      "subject_id": "SF-PRODUCT-T02",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser using fresh disposable PostgreSQL databases, including concurrent schema initialization and failed-initialization child-exit coverage",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t02-20261008T172809Z-local-retry1/quality-repair-2/checks.log",
+        "sha256": "28a1f6c8f335bf38404fe4b281ff978b5b66767b67daaa8d262b63051c9d16e7"
+      },
+      "path": "evidence/product/product-t02-20261008T172809Z-local-retry1/quality-repair-2/record.json",
+      "sha256": "bc1e26f64a6e4e1b398a5de6ab291caba7939b574b0654be47d439b56000c9b0"
     }
   ]
 }
