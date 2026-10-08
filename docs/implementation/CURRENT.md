@@ -112,8 +112,9 @@ initial formatting failure and review limitations are preserved in the supervisi
 Remote exact-head gates and final committed-head reviews are still pending.
 
 Thirteen parser unit cells PASS; opaque PL/SQL atomicity `WP0-03-13` unit remains NOT_RUN.
-All **124 applicable Oracle cells remain BLOCKED**. No connection, credential resolution,
-deployment or infrastructure change occurred. No actual authorized disposable 19c/21c
+All **124 applicable Oracle cells remain BLOCKED**. No Oracle connection or actual
+credential-reference resolution occurred; positive UNIT paths use fake providers only.
+No deployment or infrastructure change occurred. No actual authorized disposable 19c/21c
 manifest was supplied. Runtime probes also require scoped identities/grants/fault/teardown
 permission and approved trust material with peer/target verification. CA digest and
 identity labels alone do not establish this behavior. An example or hostname is not authority.
