@@ -133,16 +133,20 @@
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
-      "status": "BLOCKED",
+      "status": "VERIFIED",
       "assigned_agent": "database",
       "evidence": [
+        {
+          "index_id": "WP0-T03-t03-antlr-20261008T130643Z-98b033db"
+        }
+      ],
+      "blockers": [],
+      "historical_evidence": [
         {
           "index_id": "WP0-T03-CANDIDATE-t02-20261008T110223Z-f2cc022d"
         }
       ],
-      "blockers": [
-        "ADR-I03 reopened: required comment fixtures stop and nine SQL*Plus command fixtures are accepted by Flyway 13.9.0. No mature-parser profile is accepted; custom grammar/splitter remains prohibited."
-      ]
+      "verification_scope": "Accepted offline parser/byte-range task increment only; Oracle G2, WP0-T08, distribution and product features are not verified."
     },
     {
       "id": "WP0-T04",

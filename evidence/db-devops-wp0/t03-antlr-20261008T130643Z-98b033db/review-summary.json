@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "run_id": "t03-antlr-20261008T130643Z-98b033db",
+  "base_master_sha": "42249826d105d44dbf5d6243f9ebe3748612e1c7",
+  "task": "WP0-T03",
+  "verification_scope": "Offline task increment, no full Oracle case or product acceptance",
+  "fixture_groups": 14,
+  "fixture_variants": 30,
+  "fixture_files": 31,
+  "fixture_goldens_passed": 31,
+  "integration_tests_passed": 4,
+  "local_tests_passed": 63,
+  "helper_sha256": "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38",
+  "oracle_calls": 0,
+  "applicable_oracle_cells_blocked": 124,
+  "product_features_verified": 0,
+  "historical_flyway_candidate_mismatches": 11,
+  "independent_reviews": {
+    "database": "Mature parser feasibility and bounded reproducible direct packaging implementation",
+    "qa": "31/31 exactgoldens and4/4 realhelper regressions; final authored-source/digest-install fix pending follow-up",
+    "security": "Approve exact licensed grammar/notice/component closure and support rewrite; product distribution and owner license remain pending"
+  },
+  "limitations": [
+    "Opaque PL/SQL atomicity case WP0-03-13 unit remains NOT_RUN; parsing alone proves no transaction classification.",
+    "CI and exact pushed-head gates must pass before automatic merge."
+  ]
+}

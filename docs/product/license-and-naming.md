@@ -3,7 +3,9 @@
 The proposed independently authored product license is Apache-2.0, following the imported
 research recommendation. Selection and approval remain **PENDING_OWNER_DECISION**.
 The root LICENSE is a status notice; package metadata is private and grants no OSI license.
-No third-party code or UI assets have been imported into the product implementation.
+The offline parser now vendors two explicitly Apache-2.0 grammar files and carries their
+notices; no restricted vendor code or UI assets are imported. Its BSD runtime and external
+build inputs have separate versioned grants. This does not close final product distribution.
 
 Bytebase serves only as a functional reference. Its restricted enterprise/enablement code,
 branding and assets must not be copied. Current Liquibase FSL and proprietary Oracle

@@ -77,3 +77,30 @@ SQL*Plus commands, comments, PL/SQL, byte-sensitive LF/CRLF and a later malforme
 file. It currently exits **1**, recording 11 compatibility mismatches. Its output includes
 fixture digests and denies execution approval for every variant. Successful individual
 goldens do not approve this profile. See [parser findings](../architecture/parser-feasibility.md).
+
+## Reviewed ANTLR offline parser
+
+The driver-free successor uses pinned, unchanged licensed grammar sources, ANTLR4 4.13.2,
+Temurin 21.0.12.1+1, and direct Java tools. No extra Maven/plugin dependencies are introduced.
+For a fresh Linux x64 checkout, explicit public build-input preparation is:
+
+```sh
+npm run parser:antlr:prepare
+export SCHEMAFORGE_JAVA_HOME="$PWD/.cache/antlr/temurin"
+npm run parser:antlr:build
+npm run parser:antlr:corpus
+npm run parser:antlr:test
+```
+
+Preparation downloads only fixed official URLs, verifies hashes before installation and
+refuses symlink parents or an existing extracted JDK destination. Reuse an existing verified
+external JDK via SCHEMAFORGE_JAVA_HOME. Builds use only cached tool/runtime bytes, verify
+source/license/notice pins and exact JDK version, and compare two independent fixed-date JARs.
+Changed source hashes or missing caches stop before build; digest mismatch preserves the
+installed pinned helper. Runtime and generator are separate, and JDK is never bundled.
+
+The ANTLR corpus exits 0 with 31 exact goldens; four integration tests exercise additional
+REM, CRLF slash, supplementary Unicode, numeric/join and late-release failure boundaries.
+Only sanitized hashes/ranges/counts are retained. Direct Java helper stdout carries SQL;
+use the bounded parent, which returns only digests and generic outcomes. Oracle connectivity,
+object validity and crash-safe effects remain untested and blocked.

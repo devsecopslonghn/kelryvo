@@ -1,71 +1,65 @@
 # Current engineering state
 
-Phase 0, WP0-T01 offline preflight and **WP0-T02 candidate audit increment are VERIFIED**.
-The current milestone is WP0 offline feasibility. There is no accepted execution architecture,
-Oracle runtime acceptance, deployable product or verified product feature.
+Foundation, WP0-T01 offline preflight, WP0-T02 candidate dependency audit and
+**WP0-T03 offline parser increment are VERIFIED**. The current milestone remains offline
+WP0 feasibility. No Oracle runtime, execution architecture, API/UI or product feature is verified.
 
-The foundation was safely reconciled and synchronized to GitHub `origin/master` at
-`7dd5a3a902281d3850d1d23ab76cb460bb72bbab`, preserving original foundation `e817a4b`
-and independent remote README `b2b2b9c`. Development uses
-`development/wp0-dependency-closure` for review; ordinary verified pushes are authorized.
-See [synchronization policy](github-sync.md). Eligible automatic merges are now explicitly
-authorized after independent review and passing exact-head quality gates; never bypass checks.
+PR #1 merged on 2026-10-08 after independent QA/security review and successful exact-head
+foundation/CodeQL checks. Its reviewed head is `0e5b2e93dcce33bdae5f57afbc50fb538e6b86fe`;
+local and remote master were synchronized at `42249826d105d44dbf5d6243f9ebe3748612e1c7`.
+The current engineering branch is `development/wp0-antlr-parser`; PR #2 is open at https://github.com/devsecopslonghn/schemaForge/pull/2.
+Its initial foundation/parser/CodeQL checks passed, but SonarCloud failed. The repaired
+head must pass fresh exact-head CI/security/review checks before merging. Eligible ordinary merges are authorized;
+see [synchronization policy](github-sync.md). Resolve the latest master SHA from Git refs
+when resuming; a checkpoint cannot contain its own resulting commit hash.
 
-T02 implements actual artifact pins, checksums, lockfiles, source/license/NOTICE records,
-cache-only npm installation and reproducible driver-free Java builds. The selected inputs
-are Node 22.23.3/npm 10.9.9, TypeScript 6.0.2, node-oracledb 7.0.1 **Thin**, Postgres.js 3.4.9,
-Flyway 13.9.0, Temurin 21.0.12.1+1 and Maven 3.9.16. The npm closure has three packages;
-90 Maven build dependencies and 277 cached JAR/POM files have exact checksum evidence.
-Required selected Maven grants have zero unknown entries. `pg` was evaluated and rejected
-because two source/package license texts were missing; it is historical, unselected evidence.
-No mandatory Oracle JDBC, Instant Client, FSL, commercial Flyway or Bytebase code is included.
-See [license evidence](../dependencies/LICENSE-EVIDENCE.md).
+T03 replaces the failing Flyway profile for offline evaluation with the unchanged licensed
+PL/SQL grammars-v4 sources at `7df52be94698550d219d299d04105c6bafadd9c3`, ANTLR 4.13.2 and
+reviewed project-authored support callbacks. No custom grammar/splitter or headerless
+upstream Java support class is included. Source provenance, exact tool/runtime/notice pins
+and prior-source-exposure limits are in [provenance](../dependencies/antlr-provenance.md)
+and [lock](../dependencies/antlr-parser-lock.json).
 
-T02 verification covers its candidate register/isolation decision, **not full distributable
-F31 or product approval**. The product license and public naming remain owner decisions;
-future bundled runtimes must preserve versioned notices and applicable source availability.
-Complete Git/metadata deployment artifact selection remains outside this candidate increment.
-`WP0-10-01` therefore remains BLOCKED.
+The bounded helper uses parser contexts and hidden comment tokens to derive exact UTF-8
+source/execution byte ranges. It rejects SQL*Plus commands (including REM), malformed
+input, missing delimiters and uncovered non-whitespace bytes; LF/CRLF and supplementary
+Unicode remain literal bytes. The parent enforces source coverage, digests, protocol,
+5-second timeout, 256 MiB heap, 1 MiB stack and output limits without logging SQL.
+Whole-release prevalidation snapshots every file and checks all hashes before parsing;
+a later failure returns an unapproved STOP with no partial execution plan.
 
-**WP0-T03 is BLOCKED; ADR-I03 is reopened.** The real driver-free helper builds offline with
-identical SHA-256 `cfeab7e0db89348aece0f56f896e3acb0024056e531e02637b318a6800650a15`,
-but the original F07–F20 corpus (14 groups, 30 variants) exposes 11 compatibility mismatches:
-two required comment cases stop, and nine SQL*Plus directives are accepted. Unit cells
-`WP0-03-08` and `WP0-03-11` are FAIL for this candidate. The bounded envelope checks byte
-ranges, hashes, output/time limits and protocol authority fields. Every candidate/whole-release
-result denies execution approval. No custom Oracle grammar or fallback splitter was added.
-See [parser findings](../architecture/parser-feasibility.md).
+**Actual local evidence:** 64 local tests and dependency smoke pass. Independent QA passes
+31/31 fixture files across 14 groups/30 variants plus four real-helper integration tests.
+Two isolated offline builds, including the explicitly prepared CI JDK, reproduce helper
+SHA-256 `a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38`.
+The helper JAR contains local/generated classes and notices; runtime, generator and JDK
+remain separate. Authored source drift stops before compilation; unpinned builds preserve
+the installed reviewed artifact. Evidence is append-only under
+`evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/`.
+The subsequent quality repair preserves the exact helper digest and adds full download-pin
+prevalidation plus safe dependent filesystem ordering. Its append-only record is
+`evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/`; remote repair checks remain pending.
 
-**WP0-T04 remains BLOCKED** by missing explicit disposable 19c/21c authority and scoped
-profile/TCPS/identity/credential/grant/fault/teardown references. No database connection,
-credential resolution, infrastructure change or cleanup occurred. All 124 applicable Oracle
-cells remain BLOCKED. There are no aggregate WP0 PASS cases or product verification claims.
-Work status: three VERIFIED, two BLOCKED, 60 BACKLOG (64 imported tasks plus foundation).
-Feature status: 213 BACKLOG and seven DEFERRED.
+Thirteen parser unit cells PASS; opaque PL/SQL atomicity `WP0-03-13` unit remains NOT_RUN.
+All **124 applicable Oracle cells remain BLOCKED**. These unit outcomes do not verify
+objects, effects, grants, atomicity, locks, recovery or any complete Oracle case. No database
+connection, credential resolution, deployment or infrastructure change occurred.
+The original Flyway corpus still exits 1 with its 11 historical mismatches; the new ANTLR
+command exits 0. Original evidence and the 43 immutable inputs are preserved.
 
-Actual commands, full sanitized outputs, advisory result (zero current npm advisories),
-source preservation and candidate failures are retained in
-`evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/`. Native specialists contributed
-Database packaging, Security artifact/license registers, DevOps offline installation,
-Backend envelope/corpus and independent QA. The orchestrator reviewed and integrated them.
-All 51 tests from the original T02 run passed. Fresh PR review passes **53** local tests,
-source/lint/JSON checks and clean offline npm installation. The parent now rejects uncovered
-non-whitespace source bytes, with independent QA follow-up approval. Review evidence is in
-`evidence/db-devops-wp0/pr1-review-20261008T123632Z-97ca436e/`. Exact-head CI must pass again before PR #1 merges.
-Two final offline Java builds reproduce the expected helper hash. All 43 immutable inputs
-and DB-Research's pre-existing Git status are preserved.
+WP0-T04 remains BLOCKED: no explicit disposable 19c/21c lab manifest was found. A real
+Thin runner also needs scoped identities/credentials/grants/fault/teardown authority,
+approved trust material and peer-verification behavior. CA digest/identity labels alone
+are insufficient. Missing authority never becomes permission from a hostname or example.
 
-Next actions:
+Product license/name and full F31 distribution closure remain pending. Apache-2.0 is
+proposed; final bundled source/notices and Git/metadata artifacts still need closure.
+The candidate's Apache grammar/BSD runtime grants permit this reviewed offline boundary,
+not general product distribution approval. Work counts: four VERIFIED, one BLOCKED,
+60 BACKLOG. Features: 213 BACKLOG, seven DEFERRED, zero VERIFIED.
 
-1. **WP0-T03:** evaluate a licensed mature-parser alternative against the existing corpus
-   and close reopened ADR-I03 before implementing an accepted adapter.
-2. **WP0-T04:** supply explicit disposable 19c/21c authorization and strict lab references;
-   then implement and verify bounded Thin connectivity/fault probes.
-3. **WP0-T02/F31 follow-up:** choose the product license and packaging model, complete
-   bundled-runtime notices/source availability and remaining Git/metadata artifact pins.
-
-Resume with `npm ci --ignore-scripts --no-audit --no-fund`, `npm run check`,
-`npm run dependencies:offline`, `npm run status` and `npm run next`.
-See [offline build commands](../development/offline-build.md) for Java prerequisites;
-`npm run parser:corpus` currently exits 1 with the recorded incompatibilities. The graph
-has no currently unblocked remaining WP0 task. WP1/UI/deployment remain outside scope.
+Next: finish current PR quality gates and merge; assess the bounded offline T04
+probe-plan/observation slice without advancing runtime cells. Then continue the existing
+graph only when dependencies are VERIFIED. WP0-T05 and every later task require T04;
+WP1/API/UI cannot bypass WP0-T12. Supply the lab/trust inputs to unlock actual probes.
+See [exact continuation instructions](CONTINUE.md).

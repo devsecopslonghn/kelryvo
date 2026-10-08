@@ -1,0 +1,35 @@
+{
+  "scope": "Last three Sonar annotations after74eebf0 passed gate",
+  "preceding_head": "74eebf0259530d1f1ec167cedd3c89bd654317ba",
+  "remote_preceding_head_checks": "All9SUCCESS",
+  "repair": [
+    "Extract locale-independent comparator.",
+    "Extract unchanged Jar entry validation to lower complexity.",
+    "RetainSTOPpriority with separate observed-status if."
+  ],
+  "root_commands": [
+    {
+      "command": "npm run parser:antlr:build",
+      "exit_code": 0,
+      "result": "Two builds match reviewed digest."
+    },
+    {
+      "command": "npm run parser:antlr:corpus",
+      "exit_code": 0,
+      "result": "31goldens/no blockers/late-invalid release STOP."
+    },
+    {
+      "command": "npm run check",
+      "exit_code": 0,
+      "result": "64 tests passed."
+    }
+  ],
+  "independent_qa": "Approved two-file semantic-preserving final diff by inspection; no duplicated heavy commands.",
+  "independent_security": "Approved final comparator/JAR checks/STOP semantics.",
+  "source_hashes": {
+    "scripts/antlr-build.mjs": "b72c11fcf4aaf1ed6013db5a8412130cc4b5798083ce01793f9b9965c71f978a",
+    "scripts/parser-corpus.mjs": "38526bf461ac96224da987ae90176e6e1c14a99279cb9cd9071071c7e3f425ce"
+  },
+  "merge_gate": "Await fresh exact-head CI after last repair commit.",
+  "oracle_calls": 0
+}

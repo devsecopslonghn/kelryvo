@@ -9,7 +9,6 @@
   "foundation_task": "SF-P0-FOUNDATION",
   "blockers": [
     "No authorized disposable Oracle 19c/21c lab manifest or scoped credentials/identities/grants/fault authority.",
-    "ADR-I03 reopened: Flyway candidate fails 11 required parser corpus checks; no accepted mature parser profile.",
     "Full distribution license/source/notice assembly and Git/metadata deployment artifact selections remain pending; product license/name are owner decisions."
   ],
   "evidence": [
@@ -27,6 +26,9 @@
     },
     {
       "index_id": "WP0-T02-REVIEW-pr1-review-20261008T123632Z-97ca436e"
+    },
+    {
+      "index_id": "WP0-T03-t03-antlr-20261008T130643Z-98b033db"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -36,18 +38,9 @@
   "current_phase": "Phase 1 / offline WP0",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
-  "wp0_architecture_decision": "REOPENED_ADR_I03",
+  "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
   "product_features_verified": 0,
   "next_actionable_tasks": [
-    {
-      "id": "WP0-T03",
-      "owner": "database",
-      "status": "BLOCKED",
-      "action": "Resolve reopened ADR-I03 with a licensed mature parser that passes the existing comment/SQL*Plus corpus; no custom splitter.",
-      "dependencies": [
-        "WP0-T02"
-      ]
-    },
     {
       "id": "WP0-T04",
       "owner": "database",
@@ -77,11 +70,11 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-08T12:37:00Z",
+  "updated_at": "2026-10-08T13:06:43.797430+00:00",
   "final_check_evidence": {
-    "index_id": "WP0-T02-REVIEW-pr1-review-20261008T123632Z-97ca436e"
+    "index_id": "WP0-T03-INTEGRATION-t03-antlr-20261008T130643Z-98b033db-CORRECTED"
   },
-  "final_check_manifest": "evidence/db-devops-wp0/pr1-review-20261008T123632Z-97ca436e/review-summary.json",
+  "final_check_manifest": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/integration-review.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
-  "wp0_t03_status": "BLOCKED_CANDIDATE_COMPATIBILITY"
+  "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT"
 }

@@ -1,0 +1,50 @@
+{
+  "baseRefOid": "7dd5a3a902281d3850d1d23ab76cb460bb72bbab",
+  "headRefOid": "0e5b2e93dcce33bdae5f57afbc50fb538e6b86fe",
+  "isDraft": false,
+  "mergeStateStatus": "CLEAN",
+  "mergeable": "MERGEABLE",
+  "reviewDecision": "",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-08T12:39:17Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37778296472/job/113314667442",
+      "name": "Analyze (javascript-typescript)",
+      "startedAt": "2026-10-08T12:38:22Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-08T12:38:45Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37778300492/job/113314675238",
+      "name": "foundation",
+      "startedAt": "2026-10-08T12:38:23Z",
+      "status": "COMPLETED",
+      "workflowName": "Offline foundation checks"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-08T12:38:39Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37778294491/job/113314655322",
+      "name": "foundation",
+      "startedAt": "2026-10-08T12:38:20Z",
+      "status": "COMPLETED",
+      "workflowName": "Offline foundation checks"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-08T12:39:11Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/runs/113314993599",
+      "name": "CodeQL",
+      "startedAt": "2026-10-08T12:39:08Z",
+      "status": "COMPLETED",
+      "workflowName": ""
+    }
+  ]
+}

@@ -53,6 +53,17 @@
         "docs/architecture/parser-feasibility.md",
         "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/parser-corpus.json"
       ]
+    },
+    {
+      "id": "SF-D007",
+      "status": "ACCEPTED_FOR_OFFLINE_WP0_T03_ONLY",
+      "decision": "Select unchanged Apache-2.0 PL/SQL grammars-v4 7df52be9 with ANTLR4.13.2 BSD runtime, reviewed project-authored hook rewrites, lossless parser-context/token byte adapter and complete-release prevalidation. Exact31file corpus and4realhelper regressions pass. External generator/JDK and separate runtime; no headerless upstream bases, custom grammar/splitter, runtime execution or product-distribution approval. This supersedes the rejected Flyway profile for offline T03 only; runtime ADR-I03/G2 requires both Oracle versions.",
+      "references": [
+        "docs/dependencies/antlr-provenance.md",
+        "docs/dependencies/antlr-parser-lock.json",
+        "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/integration.txt"
+      ]
     }
   ]
 }

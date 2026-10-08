@@ -1,0 +1,16 @@
+{
+  "id": "WP0-T03-QUALITY-pr2-quality-20261008T133102Z-1646ac2e",
+  "subject_id": "WP0-T03",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "npm run check",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/checks.txt",
+    "sha256": "cf5d65c0efbb1bcb34903ab228073f9c7f5a333dc8c377818b68030e1635ae81"
+  }
+}

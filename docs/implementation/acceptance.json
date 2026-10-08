@@ -2677,14 +2677,18 @@
       "objective": "Ordinary Oracle DDL",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
         "Oracle lab authorization and attested disposable-target profile are missing."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-01-t03-antlr-20261008T130643Z-98b033db"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -2700,7 +2704,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-03-02",
@@ -2708,14 +2713,18 @@
       "objective": "Procedure body boundaries",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
         "Oracle lab authorization and attested disposable-target profile are missing."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-02-t03-antlr-20261008T130643Z-98b033db"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -2730,7 +2739,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-03-03",
@@ -2738,14 +2748,18 @@
       "objective": "Function body boundaries",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
         "Oracle lab authorization and attested disposable-target profile are missing."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-03-t03-antlr-20261008T130643Z-98b033db"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -2760,7 +2774,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-03-04",
@@ -2768,14 +2783,18 @@
       "objective": "Package specification",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
         "Oracle lab authorization and attested disposable-target profile are missing."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-04-t03-antlr-20261008T130643Z-98b033db"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -2790,7 +2809,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-03-05",
@@ -2798,14 +2818,18 @@
       "objective": "Package body",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
         "Oracle lab authorization and attested disposable-target profile are missing."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-05-t03-antlr-20261008T130643Z-98b033db"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -2820,7 +2844,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-03-06",
@@ -2828,14 +2853,18 @@
       "objective": "Trigger",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
         "Oracle lab authorization and attested disposable-target profile are missing."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-06-t03-antlr-20261008T130643Z-98b033db"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -2850,7 +2879,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-03-07",
@@ -2858,14 +2888,18 @@
       "objective": "Anonymous block",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
         "Oracle lab authorization and attested disposable-target profile are missing."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-07-t03-antlr-20261008T130643Z-98b033db"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -2880,7 +2914,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-03-08",
@@ -2888,17 +2923,19 @@
       "objective": "Comments and quoted strings",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "FAIL",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
-        "Oracle lab authorization and attested disposable-target profile are missing.",
-        "No accepted mature parser profile: the audited Flyway candidate fails required comments/SQL*Plus compatibility."
+        "Oracle lab authorization and attested disposable-target profile are missing."
       ],
       "evidence": [
         {
           "index_id": "WP0-03-08-CANDIDATE-t02-20261008T110223Z-f2cc022d"
+        },
+        {
+          "index_id": "WP0-03-08-t03-antlr-20261008T130643Z-98b033db"
         }
       ],
       "source_paths": [
@@ -2916,7 +2953,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-03-09",
@@ -2924,14 +2962,18 @@
       "objective": "Slash delimiter versus SQL content",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
         "Oracle lab authorization and attested disposable-target profile are missing."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-09-t03-antlr-20261008T130643Z-98b033db"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -2947,7 +2989,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-03-10",
@@ -2955,14 +2998,18 @@
       "objective": "Malformed blocks and quotations",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
         "Oracle lab authorization and attested disposable-target profile are missing."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-10-t03-antlr-20261008T130643Z-98b033db"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -2978,7 +3025,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-03-11",
@@ -2986,17 +3034,19 @@
       "objective": "Unsupported SQL*Plus commands",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "FAIL",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
-        "Oracle lab authorization and attested disposable-target profile are missing.",
-        "No accepted mature parser profile: the audited Flyway candidate fails required comments/SQL*Plus compatibility."
+        "Oracle lab authorization and attested disposable-target profile are missing."
       ],
       "evidence": [
         {
           "index_id": "WP0-03-11-CANDIDATE-t02-20261008T110223Z-f2cc022d"
+        },
+        {
+          "index_id": "WP0-03-11-t03-antlr-20261008T130643Z-98b033db"
         }
       ],
       "source_paths": [
@@ -3014,7 +3064,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-03-12",
@@ -3022,14 +3073,18 @@
       "objective": "UTF-8 byte fidelity",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
         "Oracle lab authorization and attested disposable-target profile are missing."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-12-t03-antlr-20261008T130643Z-98b033db"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -3045,7 +3100,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-03-13",
@@ -3083,14 +3139,18 @@
       "objective": "Whole release parse failure before execution",
       "mode": "UNIT_AND_ORACLE",
       "results": {
-        "unit": "NOT_RUN",
+        "unit": "PASS",
         "oracle_19c": "BLOCKED",
         "oracle_21c": "BLOCKED"
       },
       "blockers": [
         "Oracle lab authorization and attested disposable-target profile are missing."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-03-14-t03-antlr-20261008T130643Z-98b033db"
+        }
+      ],
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
@@ -3106,7 +3166,8 @@
           "Separate unit, 19c and 21c result cells where applicable; no source or simulation upgraded to runtime"
         ],
         "pass_criteria": "All named subruns meet the expected result with required reproducible evidence; applicable 19c and 21c cells both PASS."
-      }
+      },
+      "unit_verification_scope": "Pure parser/source-byte/STOP assertions only. Applicable Oracle object/zero-effect/atomicity acceptance remains BLOCKED."
     },
     {
       "id": "WP0-04-01",

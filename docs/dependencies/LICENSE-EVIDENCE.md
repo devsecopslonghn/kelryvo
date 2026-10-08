@@ -39,3 +39,14 @@ The seven declared Maven plugins resolve to 90 closure artifacts. All have check
 | Apache Maven | 3.9.16 binary archive SHA-512 `831a8591fe20c8243b1dbe7d71e3244f31d1665b0804b2e825e38cbbe5ce0cafb8338851f90780735568773e0a6cd07bbec107cda0b896b008b861075358b6f6`; source archive SHA-512 `a1498f762615c2f536aebe4b8823045590815b8704423254a98bd28f243115d8bd3483c653254c489b979286b593170153567c89004a8b1f6c41c8794c1dbd94`. Official versioned dependency metadata identifies all 51 distribution JAR licenses; zero unknown components. The register includes each legal-file hash. | Build-only tool, externally installed and not bundled. See [maven-runtime-closure.json](maven-runtime-closure.json). |
 
 No Oracle JDBC driver, Instant Client, SQL*Plus, Liquibase FSL, or Bytebase artifact is in the required dependency closure. Product license selection remains the owner’s independent decision; this audit does not infer or select it.
+
+## ANTLR successor
+
+The reviewed offline T03 boundary adds unchanged Apache-2.0 PL/SQL grammar sources and
+separately pinned BSD-3-Clause ANTLR4 runtime. The complete generator is external/build-only;
+its included BSD components and declared-but-absent ICU4J are recorded distinctly in
+[lock](antlr-parser-lock.json). External JDK is the already audited Temurin artifact.
+The helper includes notice/license texts and excludes runtime/tool classes. Upstream Java
+support files without explicit grants are excluded; [provenance](antlr-provenance.md)
+discloses the independent rewrite and prior source exposure. Product license and final
+packaging/source obligations remain pending; this is no general legal clearance.

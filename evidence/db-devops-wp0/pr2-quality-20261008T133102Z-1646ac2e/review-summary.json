@@ -1,0 +1,38 @@
+{
+  "recorded_at": "2026-10-08T13:31:02.493912+00:00",
+  "scope": "WP0-T03 offline parser PR2 quality repair",
+  "reviewed_preceding_master": "42249826d105d44dbf5d6243f9ebe3748612e1c7",
+  "original_pr_head": "ee841e849012b73f3f1baa79bcd499da81e52c3d",
+  "original_sonar_check_id": 113331184847,
+  "original_sonar_outcome": "FAIL",
+  "initial_annotations": 22,
+  "repair": [
+    "Split lock/protocol/build functions without weakening pins or fail-closed response checks.",
+    "Retain sequential dependent filesystem/build/download operations; overlap independent I/O only.",
+    "Use locale-independent sorting.",
+    "Use absolute tar executable and fixed environment.",
+    "Validate every artifact/JDK origin and digest before downloads; reject later invalid pin before cache creation."
+  ],
+  "root_npm_check": {
+    "command": "npm run check",
+    "exit_code": 0,
+    "tests_passed": 64,
+    "tests_failed": 0
+  },
+  "builder_double_build": {
+    "command": "npm run parser:antlr:build",
+    "exit_code": 0,
+    "build_count": 2,
+    "helper_sha256": "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38",
+    "registered_digest_matches": true,
+    "raw_output": "Tool response only; no filesystem log retained. This summary is the agent observation, not a substituted raw build log."
+  },
+  "independent_security": "Approved final repair scope. Cache mkdir race fixed; both launch paths use spawnSync. Sequential corpus variants also bound working set. No scope-critical issue remains.",
+  "independent_qa": "Pending final command results.",
+  "remote_ci": "Pending repair commit and new exact-head checks; do not merge.",
+  "oracle_calls": 0,
+  "oracle_cells_blocked": 124,
+  "product_features_verified": 0,
+  "production_approved": false,
+  "execution_approved": false
+}

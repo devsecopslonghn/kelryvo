@@ -347,6 +347,394 @@
       },
       "path": "evidence/db-devops-wp0/pr1-review-20261008T123632Z-97ca436e/WP0-T02-REVIEW.json",
       "sha256": "1e831de6d73a816bfc4a7967fab4902602a97d55304e4b740308763985918ab0"
+    },
+    {
+      "id": "WP0-T03-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-T03",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr && node --test tests/antlr.integration.mjs",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0
+      ],
+      "test_references": [
+        "WP0-03-01",
+        "WP0-03-08",
+        "WP0-03-09",
+        "WP0-03-10",
+        "WP0-03-11",
+        "WP0-03-12",
+        "WP0-03-14"
+      ],
+      "case_coverage": [
+        {
+          "case_id": "WP0-03-01",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Approved offline mature grammar profile: exact parser/range/STOP protocol corpus; whole-release immutable prevalidation; no object validity, atomicity or Oracle runtime acceptance."
+        },
+        {
+          "case_id": "WP0-03-08",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Approved offline mature grammar profile: exact parser/range/STOP protocol corpus; whole-release immutable prevalidation; no object validity, atomicity or Oracle runtime acceptance."
+        },
+        {
+          "case_id": "WP0-03-09",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Approved offline mature grammar profile: exact parser/range/STOP protocol corpus; whole-release immutable prevalidation; no object validity, atomicity or Oracle runtime acceptance."
+        },
+        {
+          "case_id": "WP0-03-10",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Approved offline mature grammar profile: exact parser/range/STOP protocol corpus; whole-release immutable prevalidation; no object validity, atomicity or Oracle runtime acceptance."
+        },
+        {
+          "case_id": "WP0-03-11",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Approved offline mature grammar profile: exact parser/range/STOP protocol corpus; whole-release immutable prevalidation; no object validity, atomicity or Oracle runtime acceptance."
+        },
+        {
+          "case_id": "WP0-03-12",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Approved offline mature grammar profile: exact parser/range/STOP protocol corpus; whole-release immutable prevalidation; no object validity, atomicity or Oracle runtime acceptance."
+        },
+        {
+          "case_id": "WP0-03-14",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Approved offline mature grammar profile: exact parser/range/STOP protocol corpus; whole-release immutable prevalidation; no object validity, atomicity or Oracle runtime acceptance."
+        }
+      ],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-T03.json",
+      "sha256": "12bcf9b853bec834e3d68dd5cb4606b802a31f86581d3291d6083932e331e200"
+    },
+    {
+      "id": "WP0-03-01-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-01",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-01"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-01.json",
+      "sha256": "01f3ffeb7613c79b600597ad25b27bf5d5d7a1cd5e1a77ac7161c510e10c3dc3"
+    },
+    {
+      "id": "WP0-03-02-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-02",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-02"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-02.json",
+      "sha256": "6bbbac4e2ae6a10fc2a45c7e8db79db29abec3479c2eaf62d207307e77d845c8"
+    },
+    {
+      "id": "WP0-03-03-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-03",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-03"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-03.json",
+      "sha256": "8adae5dcbc5ec89b17fb10a8d305eea7b79c682a00425b8d8454671a20e88945"
+    },
+    {
+      "id": "WP0-03-04-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-04",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-04"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-04.json",
+      "sha256": "716d57226b1bb657fbb43486988276ca6fb8989f452304a7c9c2f7b4186a5157"
+    },
+    {
+      "id": "WP0-03-05-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-05",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-05"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-05.json",
+      "sha256": "e421f6c51494d745756f5ad4cab0f2a671f5c967f5c2c2aa7e8e77096cd5eaf8"
+    },
+    {
+      "id": "WP0-03-06-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-06",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-06"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-06.json",
+      "sha256": "17621be32f40b37f7386ed4be39b7190e510d27ff06d8545184782713169c35c"
+    },
+    {
+      "id": "WP0-03-07-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-07",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-07"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-07.json",
+      "sha256": "a89a7021058384d6a0d0d402d4f79431fc489ca34f86ac2e4944bccfc5fe1d70"
+    },
+    {
+      "id": "WP0-03-08-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-08",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-08"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-08.json",
+      "sha256": "ea06e66f58141e7d114689d4fdbcbe4c51a30ca3386fce8133c888f37bc0dd0e"
+    },
+    {
+      "id": "WP0-03-09-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-09",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-09"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-09.json",
+      "sha256": "3d5e0ff786a7680741e9380ca039445108c84f7ca331f7beeb7b6f233b4a4c20"
+    },
+    {
+      "id": "WP0-03-10-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-10",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-10"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-10.json",
+      "sha256": "585dae04189978b69c7aac7c2d1e8fefd1b0a7b3d1ae645d008807f970e55eea"
+    },
+    {
+      "id": "WP0-03-11-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-11",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-11"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-11.json",
+      "sha256": "cdd8ffa1fc65385db63136dd5e6c6f886c8aef5dfff783ac0b7fd0a50a9cbc98"
+    },
+    {
+      "id": "WP0-03-12-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-12",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-12"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-12.json",
+      "sha256": "f08a07eb262e0482050537bd75581acb48cb13c1e2f585460cfe2bcf23313f98"
+    },
+    {
+      "id": "WP0-03-14-t03-antlr-20261008T130643Z-98b033db",
+      "subject_id": "WP0-03-14",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "node scripts/parser-corpus.mjs --antlr",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-14"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+        "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-03-14.json",
+      "sha256": "d59f0d7195d6c8bbd4004b60cb49c7c4c2a4dd4c08d0db9f5518f2cd5c3403d8"
+    },
+    {
+      "id": "WP0-T03-INTEGRATION-t03-antlr-20261008T130643Z-98b033db-CORRECTED",
+      "subject_id": "WP0-T03",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/checks-final.log",
+        "sha256": "595a3c9c9db4afa759a08cf0fc357da9a3239fb78d44b3659172b4abe555ad62"
+      },
+      "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-T03-INTEGRATION-CORRECTED.json",
+      "sha256": "5685bf2ae5badc3c26337ae47201847b954f97f28b98e87575b7d7898ce09364"
+    },
+    {
+      "id": "WP0-T03-QUALITY-pr2-quality-20261008T133102Z-1646ac2e",
+      "subject_id": "WP0-T03",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/checks.txt",
+        "sha256": "cf5d65c0efbb1bcb34903ab228073f9c7f5a333dc8c377818b68030e1635ae81"
+      },
+      "path": "evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/WP0-T03-QUALITY.json",
+      "sha256": "1e7dc4621a81999569661e0cd32ef3ac82ade05304eee3da80e3b38dbaed39f1"
     }
   ]
 }

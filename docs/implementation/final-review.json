@@ -1,50 +1,42 @@
 {
-  "reviewed_at": "2026-10-08T11:11:45.902398+00:00",
-  "scope": "WP0-T02 audited candidate plus independent offline corpus/envelope, reviewed native contributions",
+  "reviewed_at": "2026-10-08T13:10:07.855757+00:00",
+  "scope": "Reviewed offline WP0-T03 licensed mature parser, byte adapter, release prevalidation and reproducible build",
   "authored_diff_whitespace": "PASS",
-  "immutable_input_and_fixture_exception": "Original imported CRLF and authored byte-sensitive BOM/CRLF/invalid UTF8 fixtures preserved with -text attributes.",
   "db_research_git_status_preserved": true,
   "all_43_source_hashes_preserved": true,
   "restricted_code_or_assets_imported": false,
+  "licensed_upstream_grammar_imported": true,
+  "headerless_upstream_support_classes_imported": false,
   "artifact_archives_or_binary_helpers_tracked": false,
   "product_features_verified": 0,
   "oracle_calls": 0,
-  "remote_actions": [
-    {
-      "action": "preserving unrelated-history reconciliation and ordinary master push",
-      "sha": "7dd5a3a902281d3850d1d23ab76cb460bb72bbab",
-      "verified": true
-    }
-  ],
-  "foundation_remote_ci": [
-    {
-      "workflow": "Offline foundation checks",
-      "outcome": "PASS",
-      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37764656983"
-    },
-    {
-      "workflow": "CodeQL",
-      "outcome": "PASS",
-      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37764666704"
-    }
-  ],
-  "final_checks_manifest": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/final-verification-summary.json",
+  "latest_validated_master_before_this_increment": "42249826d105d44dbf5d6243f9ebe3748612e1c7",
   "tests": {
-    "passed": 51,
+    "passed": 64,
     "failed": 0,
     "skipped": 0
   },
-  "candidate_compatibility_mismatches": 11,
-  "task_increment": "WP0-T02 VERIFIED, T03/T04 BLOCKED; no product or aggregate WP0 acceptance",
-  "reviewed_areas": [
-    "Exact artifact/source/notices; selected and historical npm closures",
-    "Three runtime Maven dependencies and 90 build closure dependencies",
-    "277-file checksum cache lock including parent/import POMs",
-    "Java 2MiB UTF8/BOM, generic failure, candidate-only boundary",
-    "Offline clean npm cache import/TypeScript positive-negative compile",
-    "Bounded subprocess/byte hashes/ranges/whole-release unapproved gate",
-    "Public diff/secret scan and immutable original input preservation",
-    "QA fixes: selected cache propagation, no symlink directories created outside evidence, unified Maven artifact verifier",
-    "Tracker task/case/feature scopes and dependency gates"
-  ]
+  "parser_fixture_files": {
+    "passed": 31,
+    "failed": 0
+  },
+  "real_helper_integration_tests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "reproducible_clean_builds": 2,
+  "final_checks_manifest": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/WP0-T03-INTEGRATION-CORRECTED.json",
+  "independent_qa": "Approve bounded offline T03 after omission/REM/CRLF/source-lock/install corrections. Known candidate/runtime/production boundaries remain.",
+  "independent_security": "Approve exact licensed grammar/BSD/runtime/build/notices boundary and rewritten grammar callbacks; no scope-critical blocker, no general distribution clearance.",
+  "task_increment": "WP0-T03 VERIFIED_OFFLINE_ONLY; WP0-T04 and all124applicableOraclecells BLOCKED",
+  "historical_flyway_candidate_mismatches": 11,
+  "remaining_limits": [
+    "WP0-03-13 opaque atomicity unit not implemented.",
+    "Product license/name and full F31 packaging/source/notice/Git/metadata closure pending.",
+    "No Oracle grants/lock/crash-safe/runtime or API/UI acceptance.",
+    "Exact-head remote CI/security/reviews must pass before merge."
+  ],
+  "metadata_correction": "Initial integration record named harness files instead of permitted task case references; rejected by tracker and excluded from index. Raw checks remain intact. Corrected record claims general check scope only.",
+  "quality_repair_evidence": "evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/independent-final-review.json",
+  "remote_ci": "Initial PR2 SonarCloud failed; repair head must pass fresh CI before merge."
 }

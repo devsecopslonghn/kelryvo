@@ -1,0 +1,16 @@
+SchemaForge offline ANTLR parser candidate
+
+PL/SQL grammar sources: antlr/grammars-v4 commit 7df52be94698550d219d299d04105c6bafadd9c3.
+Copyright (c) 2009-2011 Alexandre Porcelli.
+Copyright (c) 2015-2019 Ivan Kochurkin (Positive Technologies).
+Copyright (c) 2017-2018 Mark Adams.
+Grammar source headers are preserved unchanged. See Apache-2.0.txt.
+
+Generated parser/lexer code derives from those grammar sources and ANTLR 4.13.2 templates.
+ANTLR runtime: Copyright (c) 2012-2022 The ANTLR Project.
+See ANTLR-BSD-3-Clause.txt for copyright, conditions and disclaimer.
+
+Support base classes and source-range adapter are project code; no upstream headerless
+Java support class is included. The complete generator tool and JDK are external build
+inputs and are not contained in the helper or a product runtime bundle.
+This notice is a candidate record; final product distribution remains separately gated.

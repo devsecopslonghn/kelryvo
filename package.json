@@ -23,7 +23,11 @@
     "dependencies:manifest": "node scripts/dependency-artifacts.mjs manifest",
     "dependencies:offline": "node scripts/dependency-artifacts.mjs offline-check --smoke experiments/db-devops-wp0/dependencies/smoke.mjs",
     "parser:corpus": "node scripts/parser-corpus.mjs",
-    "parser:build:offline": "node scripts/parser-build.mjs"
+    "parser:build:offline": "node scripts/parser-build.mjs",
+    "parser:antlr:prepare": "node scripts/antlr-prepare.mjs --download",
+    "parser:antlr:build": "node scripts/antlr-build.mjs",
+    "parser:antlr:corpus": "node scripts/parser-corpus.mjs --antlr",
+    "parser:antlr:test": "node --test tests/antlr.integration.mjs"
   },
   "dependencies": {
     "oracledb": "7.0.1",

@@ -1,6 +1,6 @@
 # Flyway Oracle parser isolation feasibility
 
-**Status: feasible for an offline isolated Java helper; distribution approval and the complete parser contract remain gated.** This is WP0-T02 evidence only. It does not accept WP0-T03 or certify Oracle behavior.
+**Historical Flyway candidate: rejected for parser compatibility.** The packaging evidence below remains WP0-T02 only. The reviewed ANTLR successor passes offline WP0-T03; neither profile establishes Oracle runtime or distribution acceptance.
 
 The prototype under `experiments/db-devops-wp0/parser-helper/` constructs Flyway's internal `OracleParser` directly and reads SQL bytes from stdin. It has no database connection path. Its response carries `schema_version: 1`, `scope: OFFLINE_CANDIDATE_ONLY`, and false production/execution approval fields; STOP exits with status 2. Input is capped at 2 MiB and malformed UTF-8 and UTF-8 BOM are rejected generically. The source checkout was clean at Flyway commit `a549f5dd1ac80fbe7bc8103dfcd2d556c606c39c`; the helper was rebuilt and run with the published Maven Central artifacts, rather than source-built jars.
 
@@ -49,3 +49,30 @@ ranges. Any other uncovered byte causes `uncovered_source_bytes`, including a ze
 response for executable or comment-only input. Comments must be included in parser-produced
 source ranges; the parent does not tokenize comments or SQL. This conservative boundary fixes
 omission acceptance without changing the documented comment/SQL*Plus candidate failures.
+
+## Reviewed ANTLR successor, 8 October 2026
+
+The unchanged Apache-2.0 PL/SQL grammar sources at grammars-v4 `7df52be9` and ANTLR
+4.13.2 BSD runtime pass all 31 immutable F07–F20 fixture files and four additional
+real-helper regressions. Reviewed project-authored callbacks derive from licensed grammar
+contracts; headerless upstream Java bases are excluded, with prior exposure explicitly
+recorded in [source provenance](../dependencies/antlr-provenance.md).
+
+Parser contexts and hidden ordinary comment tokens provide exact source ranges; the adapter
+maps ANTLR codepoint indices to UTF-8 bytes without normalization. SQL*Plus tree nodes and
+REM tokens stop the whole file. Full-release prevalidation snapshots and hashes every file
+before parsing and never returns a partial approved plan. Every result denies execution
+and production authority. The original Flyway results above are retained unchanged.
+
+Direct offline ANTLR generation, javac and fixed-date JAR assembly reproduce
+`a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38`; the helper contains
+classes plus Apache/BSD attribution, with generator, runtime and JDK external/separate.
+Exact pins are in [lock](../dependencies/antlr-parser-lock.json). Source drift rejects before
+compile; an unpinned build cannot overwrite the reviewed helper. The bounded parent applies
+5s/256MiB/1MiB-stack limits and never logs helper SQL.
+
+This accepts the offline parser task increment only. The grammar advertises a broad language
+profile and can have unsupported/ambiguous boundaries: unrecognized input stops. Thirteen
+pure parser unit cells pass; opaque PL/SQL atomicity classification is not inferred from
+parsing. All applicable 19c/21c object/zero-effect/runtime cells remain BLOCKED, so G2 and
+runtime ADR-I03 acceptance remain open. Product distribution and owner licensing remain gated.

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { classifySpawnFailure, PROFILE, validateResponse, MAX_INPUT_BYTES, MAX_STDOUT_BYTES, isWithin } from '../experiments/db-devops-wp0/parser-envelope.mjs';
+import { classifySpawnFailure, PROFILE, ANTLR_PROFILE, validateResponse, MAX_INPUT_BYTES, MAX_STDOUT_BYTES, isWithin } from '../experiments/db-devops-wp0/parser-envelope.mjs';
 
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const source = Buffer.from('SELECT 1 FROM dual;');
@@ -113,4 +113,17 @@ test('accepts whitespace gaps and range-contained UTF-8 comments, rejects uncove
   const commentOnly = Buffer.from('-- comment outside ranges\n');
   empty.raw_sha256 = sha(commentOnly);
   assert.equal(validateResponse(commentOnly, 0, JSON.stringify(empty)).code, 'uncovered_source_bytes');
+});
+
+test('ANTLR protocol preserves CRLF slash delimiters without allowing unknown profiles', () => {
+  const execution = Buffer.from('BEGIN NULL; END;');
+  const raw = Buffer.concat([execution, Buffer.from('\r\n/')]);
+  const parsed = JSON.parse(success());
+  parsed.parser_profile = ANTLR_PROFILE;
+  parsed.raw_sha256 = sha(raw);
+  parsed.statements = [{ start_byte: 0, end_byte: raw.length, execution_sql: execution.toString('utf8'),
+    execution_sha256: sha(execution), delimiter_disposition: 'source_delimiter_in_range' }];
+  assert.equal(validateResponse(raw, 0, JSON.stringify(parsed), Buffer.alloc(0), ANTLR_PROFILE).ok, true);
+  assert.equal(validateResponse(raw, 0, JSON.stringify(parsed)).code, 'protocol_header');
+  assert.equal(validateResponse(raw, 0, JSON.stringify(parsed), Buffer.alloc(0), 'invented').code, 'unknown_parser_profile');
 });

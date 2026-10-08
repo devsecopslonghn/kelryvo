@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "status": "REVIEWED_OFFLINE_CANDIDATE_ONLY",
+  "profile": "antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2",
+  "grammar_commit": "7df52be94698550d219d299d04105c6bafadd9c3",
+  "grammar_files": [
+    {
+      "path": "experiments/db-devops-wp0/antlr-helper/grammar/PlSqlLexer.g4",
+      "sha256": "fd82384ba3ba2f5a7b070a977cd77a05c01fefbfb52938d35dfaf472a2e6e59e",
+      "license": "Apache-2.0",
+      "source_url": "https://raw.githubusercontent.com/antlr/grammars-v4/7df52be94698550d219d299d04105c6bafadd9c3/sql/plsql/PlSqlLexer.g4"
+    },
+    {
+      "path": "experiments/db-devops-wp0/antlr-helper/grammar/PlSqlParser.g4",
+      "sha256": "90c6cb500fec711ad7e1d3aa793638686f265e4ce1e02632e1eabd6fded502e3",
+      "license": "Apache-2.0",
+      "source_url": "https://raw.githubusercontent.com/antlr/grammars-v4/7df52be94698550d219d299d04105c6bafadd9c3/sql/plsql/PlSqlParser.g4"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "tool",
+      "path": ".cache/antlr/antlr4-4.13.2-complete.jar",
+      "url": "https://repo.maven.apache.org/maven2/org/antlr/antlr4/4.13.2/antlr4-4.13.2-complete.jar",
+      "sha256": "eae2dfa119a64327444672aff63e9ec35a20180dc5b8090b7a6ab85125df4d76",
+      "license": "BSD-3-Clause",
+      "scope": "EXTERNAL_BUILD_ONLY",
+      "shipped": false
+    },
+    {
+      "id": "runtime",
+      "path": ".cache/antlr/antlr4-runtime-4.13.2.jar",
+      "url": "https://repo.maven.apache.org/maven2/org/antlr/antlr4-runtime/4.13.2/antlr4-runtime-4.13.2.jar",
+      "sha256": "dd3e8a13a2d669bf84fb8d834de35ce4875f27157698d206241ec8488aadcaf7",
+      "license": "BSD-3-Clause",
+      "scope": "HELPER_RUNTIME",
+      "shipped_in_helper": false
+    }
+  ],
+  "notices": [
+    {
+      "path": "experiments/db-devops-wp0/antlr-helper/notices/ANTLR-BSD-3-Clause.txt",
+      "sha256": "3db1fb3ee79a4b4f9918fc4d0f6133bf18a3cf787f126cd22f8aa9b862281c0c"
+    },
+    {
+      "path": "experiments/db-devops-wp0/antlr-helper/notices/Apache-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "experiments/db-devops-wp0/antlr-helper/notices/NOTICE.txt",
+      "sha256": "9984aa4adef5fcf9ba0050baad431dfecbe8e4630a68d03c51dcfa66cb833f47"
+    }
+  ],
+  "support_source_provenance": "docs/dependencies/antlr-provenance.md",
+  "upstream_headerless_bases_included": false,
+  "external_jdk": {
+    "version": "21.0.12.1+1-LTS",
+    "distribution": "Eclipse Temurin",
+    "bundled": false,
+    "default_home": ".cache/licenses/runtime/temurin"
+  },
+  "main_class": "local.schemaforge.antlrparser.Main",
+  "helper_path": "experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar",
+  "helper_sha256": "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38",
+  "unknown_required_third_party_grants": 0,
+  "complete_tool_components": [
+    {
+      "coordinate": "org.antlr:antlr4-runtime:4.13.2",
+      "component_artifact_sha256": "dd3e8a13a2d669bf84fb8d834de35ce4875f27157698d206241ec8488aadcaf7",
+      "license": "BSD-3-Clause",
+      "license_source": "https://github.com/antlr/antlr4/blob/4.13.2/LICENSE.txt",
+      "packed_in_tool": true,
+      "product_shipped": false
+    },
+    {
+      "coordinate": "org.antlr:antlr-runtime:3.5.3",
+      "component_artifact_sha256": "68bf9f5a33dfcb34033495c587e6236bef4e37aa6612919f5b1e843b90669fb9",
+      "license": "BSD-3-Clause",
+      "license_source": "https://github.com/antlr/antlr3/blob/3.5.3/tool/LICENSE.txt",
+      "packed_in_tool": true,
+      "product_shipped": false
+    },
+    {
+      "coordinate": "org.antlr:ST4:4.3.4",
+      "component_artifact_sha256": "f927ac384c46d749f8b5ec68972a53aed21e00313509299616edb73bfa15ff33",
+      "license": "BSD-3-Clause",
+      "license_source": "https://github.com/antlr/stringtemplate4/blob/ST4-4.3.4/LICENSE.txt",
+      "packed_in_tool": true,
+      "product_shipped": false
+    },
+    {
+      "coordinate": "org.abego.treelayout:org.abego.treelayout.core:1.0.3",
+      "component_artifact_sha256": "fa5e31395c39c2e7d46aca0f81f72060931607b2fa41bd36038eb2cb6fb93326",
+      "license": "BSD-3-Clause",
+      "license_source": "https://github.com/abego/treelayout/blob/v1.0.3/org.abego.treelayout/src/LICENSE.TXT",
+      "packed_in_tool": true,
+      "product_shipped": false
+    },
+    {
+      "coordinate": "com.ibm.icu:icu4j:72.1",
+      "component_artifact_sha256": "3df572b240a68d13b5cd778ad2393e885d26411434cd8f098ac5987ea2e64ce3",
+      "license": "Unicode-3.0",
+      "license_source": "https://github.com/unicode-org/icu/blob/release-72-1/icu4j/main/shared/licenses/LICENSE",
+      "packed_in_tool": false,
+      "product_shipped": false
+    }
+  ],
+  "execution_approved": false,
+  "production_approved": false,
+  "authored_sources": [
+    {
+      "path": "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/Main.java",
+      "sha256": "7528676c77213259824f71505686aeadbc6136a0f5625b19b722a15cb306da11"
+    },
+    {
+      "path": "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/PlSqlLexerBase.java",
+      "sha256": "a806d6ed05d269efc3aca4fe9debf2bab4d1c74767cfa1ff6b227db175732156"
+    },
+    {
+      "path": "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/PlSqlParserBase.java",
+      "sha256": "235ca59b19294b9b8fac72621cbbeff1291b56f5e927367df54ba2a641990931"
+    }
+  ]
+}
