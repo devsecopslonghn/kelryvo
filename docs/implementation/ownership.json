@@ -949,7 +949,7 @@
     },
     "WP0-T03": {
       "assigned_agent": "database",
-      "status": "BLOCKED"
+      "status": "VERIFIED"
     },
     "WP0-T04": {
       "assigned_agent": "database",

@@ -1,0 +1,16 @@
+{
+  "id": "WP0-T03-INTEGRATION-t03-antlr-20261008T130643Z-98b033db-CORRECTED",
+  "subject_id": "WP0-T03",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "npm run check",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/checks-final.log",
+    "sha256": "595a3c9c9db4afa759a08cf0fc357da9a3239fb78d44b3659172b4abe555ad62"
+  }
+}

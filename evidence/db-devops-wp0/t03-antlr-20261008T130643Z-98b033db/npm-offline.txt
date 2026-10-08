@@ -1,0 +1,127 @@
+
+> schemaforge-local-development@0.0.0 dependencies:offline
+> node scripts/dependency-artifacts.mjs offline-check --smoke experiments/db-devops-wp0/dependencies/smoke.mjs
+
+{
+  "artifactManifest": {
+    "inputs": {
+      "lockfileVersion": 3,
+      "packageJsonSha256": "b0a4aa56d394534345e539f87fe2ddf5e9bb73b2f815bd4fca68a3a965efb317",
+      "packageLockSha256": "5a072976406cbccfa0d3097eac37415e67180f6a677f8e25a81fd36bf7054f4f"
+    },
+    "kind": "schemaforge.npm-installed-closure",
+    "optionalOmittedCount": 0,
+    "packageCount": 3,
+    "packages": [
+      {
+        "installed": true,
+        "licenseReview": "REQUIRES_INDEPENDENT_REVIEW",
+        "lock": {
+          "integrity": "sha512-xlM0Ceh6A5stQLAdEfKf3pgCSkbOjQLo2ZPEi3+kXklz+KbZD3fLi/nsTSbQeZZNFBSFDNxdn1Ek3+bxG40M8w==",
+          "sourceHost": "registry.npmjs.org"
+        },
+        "lockPath": "node_modules/oracledb",
+        "measured": {
+          "licenseDeclaration": "(Apache-2.0 OR UPL-1.0)",
+          "licenseFiles": [
+            {
+              "bytes": 12571,
+              "path": "LICENSE.txt",
+              "sha256": "43d6761493f537b481d7a8e8247a803c979f32265f3e597d7d5ee64bcd710423"
+            },
+            {
+              "bytes": 56,
+              "path": "NOTICE.txt",
+              "sha256": "6d17f37b504203803aa35dcffd9ea7921b08d75103c83c8b22003d6d613e7ac8"
+            },
+            {
+              "bytes": 2487,
+              "path": "THIRD_PARTY_LICENSES.txt",
+              "sha256": "182aef20d8d596753bc406705b53d1543828ed74202ec5aeea7f6eb1af55951a"
+            }
+          ],
+          "packageJsonSha256": "21bed25532143276084c89786be691a228009e5bdd7fa1e3b8e76d0415ad3be6",
+          "packageTreeSha256": "ed4d527112f5f43b64181f35302709b4a12ffb18ffd707f20c2356e340eb1d4d"
+        },
+        "name": "oracledb",
+        "optional": false,
+        "tarball": {
+          "bytes": 1176045,
+          "lockIntegrityVerified": true,
+          "sha256": "6584fbbc6b987307d90126a742f992d8e6041976e6eaa9b648f450c4652a34f5"
+        },
+        "version": "7.0.1"
+      },
+      {
+        "installed": true,
+        "licenseReview": "REQUIRES_INDEPENDENT_REVIEW",
+        "lock": {
+          "integrity": "sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==",
+          "sourceHost": "registry.npmjs.org"
+        },
+        "lockPath": "node_modules/postgres",
+        "measured": {
+          "licenseDeclaration": "Unlicense",
+          "licenseFiles": [],
+          "packageJsonSha256": "944d492614959389a5739ef2893bc1830fb773ff042159d9b331d43b2f6792e9",
+          "packageTreeSha256": "673723dbc6f1ddb5f1eecdff49993db90c27961feacea198d2b8019116670939"
+        },
+        "name": "postgres",
+        "optional": false,
+        "tarball": {
+          "bytes": 47571,
+          "lockIntegrityVerified": true,
+          "sha256": "4964056ae6b672361557f738532a20ad29d54cff0b146cb66d67d7155d66761e"
+        },
+        "version": "3.4.9"
+      },
+      {
+        "installed": true,
+        "licenseReview": "REQUIRES_INDEPENDENT_REVIEW",
+        "lock": {
+          "integrity": "sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ==",
+          "sourceHost": "registry.npmjs.org"
+        },
+        "lockPath": "node_modules/typescript",
+        "measured": {
+          "licenseDeclaration": "Apache-2.0",
+          "licenseFiles": [
+            {
+              "bytes": 9197,
+              "path": "LICENSE.txt",
+              "sha256": "a7d00bfd54525bc694b6e32f64c7ebcf5e6b7ae3657be5cc12767bce74654a47"
+            }
+          ],
+          "packageJsonSha256": "bb6ee7e709ae60426e30b8d393df4d939ee61407794b4f053ce6338d6eaa8c63",
+          "packageTreeSha256": "c2cfe7087e1e7e637239a9bd44a6b76cd985b0feb81cb1fb75e357d0a7b8942e"
+        },
+        "name": "typescript",
+        "optional": false,
+        "tarball": {
+          "bytes": 4515770,
+          "lockIntegrityVerified": true,
+          "sha256": "0ae5c188a2f5db22df72fe5e74dcbc122afb52031a86dbac33e78a86db39c65e"
+        },
+        "version": "6.0.2"
+      }
+    ],
+    "root": {
+      "name": "schemaforge-local-development",
+      "version": "0.0.0"
+    },
+    "schemaVersion": "1.0.0",
+    "toolchain": {
+      "architecture": "x64",
+      "node": "v22.23.3",
+      "npm": "10.9.9",
+      "platform": "linux"
+    }
+  },
+  "command": "npm ci --offline --ignore-scripts --no-audit --no-fund --cache /home/longhn0710/.npm",
+  "schemaVersion": "1.0.0",
+  "smokeExitCode": 0,
+  "smokeOutputTail": "{\n  \"outcome\": \"PASS\",\n  \"oracle_driver\": \"7.0.1\",\n  \"thin\": true,\n  \"postgres_client_import\": \"PASS\",\n  \"compiler\": \"6.0.2\",\n  \"compiler_positive\": \"PASS\",\n  \"compiler_negative\": \"PASS\",\n  \"database_calls\": 0,\n  \"scope\": \"OFFLINE_DEPENDENCY_SMOKE_ONLY\"\n}",
+  "smokeScript": "experiments/db-devops-wp0/dependencies/smoke.mjs",
+  "stage": "offline-install-and-smoke",
+  "status": "PASS"
+}

@@ -5,7 +5,7 @@ for centralized database management, Git-driven schema migrations, approvals, au
 reliable execution. Oracle-first, multi-database-ready is the product goal.
 
 The repository implements the engineering foundation and offline WP0 dependency,
-preflight and candidate-parser experiments. It does not yet register services or execute
+preflight and candidate-parser experiments, including an exact-byte ANTLR adapter. It does not yet register services or execute
 migrations. Apache-2.0 is proposed;
 the license remains undecided. See [license and naming status](docs/product/license-and-naming.md).
 
@@ -42,7 +42,8 @@ The build command currently validates source; it does not build an application b
 Future application/package/deployment directories are created when they contain an accepted
 implementation. [Architecture boundaries](docs/architecture/boundaries.md) records their
 intended locations. DB-Research stays the source of original research; this repository is
-the source of product implementation. No upstream source or UI asset was imported.
+the source of product implementation. Only the pinned Apache-2.0 PL/SQL grammar sources are vendored; restricted vendor code,
+branding and UI assets are excluded.
 
 ## Continue development
 
@@ -50,7 +51,7 @@ Read [current state](docs/implementation/CURRENT.md), [tracking rules](docs/impl
 and [agent configuration](docs/implementation/agents.md), then select the next unblocked
 bounded task. Phase 0 precedes WP0 acceptance; all 63 Oracle feasibility cases remain
 separate from product features. Walking Skeleton/API/UI/deployment work is gated by WP0
-and is outside this session's scope.
+and cannot start before those dependency gates pass.
 
 The [WP0 preflight](experiments/db-devops-wp0/README.md) reports missing lab inputs without
 connecting to a database. Disposable 19c and 21c targets require explicit authorization,

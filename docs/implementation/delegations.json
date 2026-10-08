@@ -110,12 +110,46 @@
       ],
       "review": "Sequential bounded roles with no overlapping concurrent edits. Orchestrator reviewed, fixed custom-cache propagation/report path mutation order and refined digest/approval reports; agent added actual nonempty offline-cache/tamper/symlink regression coverage.",
       "provider_override": false
+    },
+    {
+      "task_name": "/root/parser_alternatives",
+      "responsibilities": [
+        "WP0-T03 mature grammar feasibility in temporary workspace",
+        "Direct offline reproducible packaging"
+      ],
+      "owned_paths": [
+        "scripts/antlr-build.mjs",
+        "tests/antlr-build.test.mjs"
+      ],
+      "review": "Orchestrator reviewed all source, independently rewrote support callbacks, fixed hash/install guard; independent QA/security approved exact final scope.",
+      "provider_override": false
+    },
+    {
+      "task_name": "/root/pr1_qa_review",
+      "responsibilities": [
+        "Independent PR1 scope/code review",
+        "T03 exact corpus/integration/source-lock/release review"
+      ],
+      "owned_paths": [],
+      "review": "Read-only. Initial omission, REM, CRLF and builder source/install findings corrected. Independent31/31goldens and4/4realhelper tests pass.",
+      "provider_override": false
+    },
+    {
+      "task_name": "/root/security_license_review",
+      "responsibilities": [
+        "PR1 security/license/publication",
+        "T03 source grant/provenance/build closure/security review"
+      ],
+      "owned_paths": [],
+      "review": "Read-only. Excluded headerless bases; reviewed distinct support rewrite and licensed derivations. Exact source/runtime/tool/notices accepted for offlineT03, not product distribution.",
+      "provider_override": false
     }
   ],
   "external_actions": [
     "Authorized origin configuration/fetch and two-history reconciliation",
-    "Verified ordinary foundation push to origin/master; feature milestone uses review branch"
+    "Verified ordinary foundation push to origin/master; feature milestone uses review branch",
+    "PR1 marked ready and ordinary head-matched merge after passing CI/reviews; master synchronized at42249826d105d44dbf5d6243f9ebe3748612e1c7."
   ],
   "continuation": "Assignments end with this session. Future sessions select bounded tasks from persisted milestone and evidence; no indefinite background activity is implied.",
-  "integration_result": "T02 actual candidate audit implemented; driver-free build proven, exact artifacts/notices retained. T03 remains blocked by 11 candidate corpus failures; zero Oracle calls or product verification. All delegated ownership ended before orchestrator final edits."
+  "integration_result": "WP0-T03 offline parser increment verified after independent review. Four verified work items, one runtime-blocked item;124Oraclecellsblocked;zeroverifiedproductfeatures."
 }

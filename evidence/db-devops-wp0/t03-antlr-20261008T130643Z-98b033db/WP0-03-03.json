@@ -1,0 +1,18 @@
+{
+  "id": "WP0-03-03-t03-antlr-20261008T130643Z-98b033db",
+  "subject_id": "WP0-03-03",
+  "kind": "UNIT",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "node scripts/parser-corpus.mjs --antlr",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [
+    "WP0-03-03"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
+    "sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+  }
+}
