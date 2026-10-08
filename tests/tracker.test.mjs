@@ -142,6 +142,15 @@ test('malformed evidence metadata returns validation errors without throwing', (
   assert.doesNotThrow(() => validateState(s));
   assert.ok(validateState(s).some((e) => e.includes('bad-evidence has invalid command or exit status')));
   assert.ok(validateState(s).some((e) => e.includes('evidence references must be an array')));
+  withEvidenceFixture((dir) => {
+    const cells = fullState();
+    addEvidence(cells, dir, { id: 'malformed-coverage-cells', kind: 'STATIC', outcome: 'PASS',
+      subject_id: 'WP0-T04', scope: 'HARNESS', command: 'tracker metadata fixture', exit_code: 0,
+      criterion_indexes: [0], test_references: [], case_coverage: [{ case_id: 'WP0-01-01',
+        scope: 'FULL_CASE', full_case_pass: true, cells: [7, null], description: 'Invalid cell types must be rejected.' }] });
+    assert.doesNotThrow(() => validateState(cells));
+    assert.ok(validateState(cells).some((e) => e.includes('inapplicable cell')));
+  });
 });
 
 test('research evidence cannot certify product status', () => {

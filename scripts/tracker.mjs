@@ -165,7 +165,7 @@ const OUTCOMES = new Set(['PASS', 'FAIL', 'BLOCKED', 'NOT_RUN']);
 const CELL_RESULTS = new Set(['NOT_RUN', 'NOT_APPLICABLE', 'BLOCKED', 'PASS', 'FAIL']);
 const WP0_PARTIAL_TASKS = new Set(['WP0-T01', 'WP0-T02', 'WP0-T03']);
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-const compareStrings = (left, right) => left.localeCompare(right, 'en');
+const compareStrings = (left, right) => String(left).localeCompare(String(right), 'en');
 function expectedPhase(feature) { return new Map(plan.features.map((f) => [f.id, f.tier])).get(feature.id) ?? feature.recommended_release; }
 function evidenceRefsFor(item, label, errors) {
   if (item.evidence == null) return [];
