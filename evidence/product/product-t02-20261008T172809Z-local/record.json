@@ -1,0 +1,16 @@
+{
+  "id": "product-t02-20261008T172809Z-local-missing-jdk",
+  "subject_id": "SF-PRODUCT-T02",
+  "kind": "UNIT",
+  "scope": "PRODUCT",
+  "outcome": "FAIL",
+  "command": "npm run check in new worktree without SCHEMAFORGE_JAVA_HOME; importer mandatory cases reported UNAVAILABLE",
+  "exit_code": 1,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t02-20261008T172809Z-local/checks.log",
+    "sha256": "cfc86ecfbc4d5a61e25b60407b4d5e88b45ad0e3c696ce6ae4697d4d1926475f"
+  }
+}

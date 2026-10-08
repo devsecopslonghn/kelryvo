@@ -2104,8 +2104,12 @@
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
-      "status": "IMPLEMENTED",
-      "evidence": [],
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "index_id": "product-t02-20261008T172809Z-local-verified"
+        }
+      ],
       "blockers": []
     },
     {

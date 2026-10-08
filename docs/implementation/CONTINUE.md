@@ -50,6 +50,12 @@ packaging decisions remain pending for distribution. Preserve them while progres
 product work. Resolve the current milestone's own head/PR/merge from Git/GitHub and inspect
 fresh evidence rather than hardcoding the checkpoint's own hash.
 
+T02 local acceptance is VERIFIED with 127 standard tests passing (three dedicated-DB
+cases skip there), 10 PostgreSQL/API/importer cases passing, and both real browser
+workflows passing. Evidence and the initial missing-JDK failure are preserved under
+`evidence/product/product-t02-20261008T172809Z-local*`. This does not certify PR merge
+readiness or catalog/Oracle acceptance. T03 remains the next PRODUCT task.
+
 ## Preserved WP0 evidence
 
 PR #7 implements the supervised read-only Thin candidate (merged at

@@ -1015,6 +1015,49 @@
       },
       "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-4/record.json",
       "sha256": "fb7d60a4b5a42de6fa6cde7639e1bbdd2108cb6f745a94653db62de9a34b71ef"
+    },
+    {
+      "id": "product-t02-20261008T172809Z-local-missing-jdk",
+      "subject_id": "SF-PRODUCT-T02",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "FAIL",
+      "command": "npm run check in new worktree without SCHEMAFORGE_JAVA_HOME; importer mandatory cases reported UNAVAILABLE",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t02-20261008T172809Z-local/checks.log",
+        "sha256": "cfc86ecfbc4d5a61e25b60407b4d5e88b45ad0e3c696ce6ae4697d4d1926475f"
+      },
+      "path": "evidence/product/product-t02-20261008T172809Z-local/record.json",
+      "sha256": "1900fe91f53f60d1729a1298e74882b71431428570e6bcaee68566d89927e9d2"
+    },
+    {
+      "id": "product-t02-20261008T172809Z-local-verified",
+      "subject_id": "SF-PRODUCT-T02",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser with reviewed pinned JDK and dedicated PostgreSQL test database",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T02-API",
+        "SF-PRODUCT-T02-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t02-20261008T172809Z-local-retry1/checks.log",
+        "sha256": "2bafddad947e5e8d1d8adc2c0c0d07aeccc7386d67bae08765d923a43a7d8a69"
+      },
+      "path": "evidence/product/product-t02-20261008T172809Z-local-retry1/record.json",
+      "sha256": "4c240262eb05bc8d85c612fcf8da330acce8174b3f28096521fba4441a061a48"
     }
   ]
 }

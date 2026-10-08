@@ -33,6 +33,12 @@ Select further bounded product tasks from the existing catalog. T04 and all 124 
 cells remain BLOCKED; preserve Oracle safety boundaries without blocking API/web work.
 Product license/name and F31 distribution remain unresolved; local delivery is authorized.
 
+T02 local acceptance is VERIFIED with 127 standard tests passing (three dedicated-DB
+cases skip there), 10 PostgreSQL/API/importer cases passing, and both real browser
+workflows passing. Evidence and the initial missing-JDK failure are preserved under
+`evidence/product/product-t02-20261008T172809Z-local*`. This does not certify PR merge
+readiness or catalog/Oracle acceptance. T03 remains the next PRODUCT task.
+
 The previous master checkpoint was PR #8 at f2b333e. The following WP0 snapshot is retained
 as historical evidence; its scheduling-only API/UI prohibition is superseded by the owner
 clarification and SF-D008. Its Oracle acceptance restrictions remain current.

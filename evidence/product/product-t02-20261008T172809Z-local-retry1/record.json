@@ -1,0 +1,23 @@
+{
+  "id": "product-t02-20261008T172809Z-local-verified",
+  "subject_id": "SF-PRODUCT-T02",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check; npm run test:product; npm run test:browser with reviewed pinned JDK and dedicated PostgreSQL test database",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T02-API",
+    "SF-PRODUCT-T02-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t02-20261008T172809Z-local-retry1/checks.log",
+    "sha256": "2bafddad947e5e8d1d8adc2c0c0d07aeccc7386d67bae08765d923a43a7d8a69"
+  }
+}
