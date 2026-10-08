@@ -1,0 +1,63 @@
+{
+  "id": "WP0-T02-AUDIT-t02-20261008T110223Z-f2cc022d",
+  "subject_id": "WP0-T02",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "npm run check; npm run dependencies:offline; npm run parser:build:offline; npm audit --json",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0
+  ],
+  "test_references": [
+    "WP0-10-01"
+  ],
+  "case_coverage": [
+    {
+      "case_id": "WP0-10-01",
+      "scope": "TASK_INCREMENT",
+      "full_case_pass": false,
+      "cells": [
+        "unit"
+      ],
+      "description": "Exact three-package npm closure, runtime/archive/source/notices evidence, 90 Maven build dependencies and 277-file cache lock; driver-free reproducible helper packaging tested. Candidate audit/isolation decision only; full distributable F31/product license and remaining Git/metadata deployment selections are not approved."
+    }
+  ],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/verification-summary.json",
+    "sha256": "21fa4b23db2c385e1dad3e3379c07a02780e37f0eb3f222ce2edd4f656ae980b"
+  },
+  "reviewed_at": "2026-10-08T11:05:58.851421+00:00",
+  "license_registers": [
+    {
+      "path": "docs/dependencies/LICENSE-EVIDENCE.md",
+      "sha256": "ab9b32b33e90180877b0428860a4c6e961db849dfa9193af90b8f530f0007c27"
+    },
+    {
+      "path": "docs/dependencies/maven-build-cache-lock.json",
+      "sha256": "7d5082a925d1a4c3ed818c0841b2fd773277dbd609b7260d1a9381b389de3e2a"
+    },
+    {
+      "path": "docs/dependencies/maven-build-plugin-closure.json",
+      "sha256": "a019fc0c5018e4a833cac87eb18a8a7a6b2da57525ffa447c6a1ff021ef92704"
+    },
+    {
+      "path": "docs/dependencies/maven-runtime-closure.json",
+      "sha256": "576ad9719ea605714c6fbf304886c938f52ed1351b905adbc0a29d08c95aa517"
+    },
+    {
+      "path": "docs/dependencies/node-npm-closure.json",
+      "sha256": "10a1fba46f1b10dd2088001ebc372f7a6f4e4f56550145a034e1c8399842a271"
+    },
+    {
+      "path": "docs/dependencies/third-party-notices.json",
+      "sha256": "493bba545da68b50abc7a69c8368d769bbd3a535ec0e5cad1a3c85c0de5534d3"
+    }
+  ],
+  "findings": [
+    "Mandatory selected npm and Maven grants identified; no proprietary JDBC/Instant Client/FSL/Bytebase path.",
+    "Flyway isolation is feasible; required parser compatibility fails, so ADR-I03 reopens.",
+    "Product license and public naming remain owner decisions; bundled runtime/source-offer packaging is outside this verified audit increment."
+  ],
+  "oracle_calls": 0
+}

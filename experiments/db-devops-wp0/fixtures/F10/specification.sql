@@ -1,0 +1,4 @@
+CREATE OR REPLACE PACKAGE sf_pkg AS
+  PROCEDURE run;
+END sf_pkg;
+/

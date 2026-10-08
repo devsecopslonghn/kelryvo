@@ -1,0 +1,424 @@
+{
+  "schema_version": 1,
+  "maven_version": "3.9.16",
+  "source": "Exact official Apache Maven 3.9.16 binary distribution; Apache Maven 3.9.16 official dependency reference https://maven.apache.org/ref/3.9.16/apache-maven/dependencies.html",
+  "archive_sha512": "831a8591fe20c8243b1dbe7d71e3244f31d1665b0804b2e825e38cbbe5ce0cafb8338851f90780735568773e0a6cd07bbec107cda0b896b008b861075358b6f6",
+  "distribution_lib_jar_count": 51,
+  "unmatched_distribution_jars": [],
+  "license_file_count": 24,
+  "components": [
+    {
+      "coordinate": "aopalliance:aopalliance:1.0",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "aopalliance-1.0.jar",
+      "sha256": "0addec670fedcd3f113c5c8091d783280d23f75e3acb841b61a9cdb079376a08",
+      "license_file": "aopalliance.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.ow2.asm:asm:9.9.1",
+      "license_from_official_maven_dependency_reference": "BSD-3-Clause",
+      "distribution_jar": "asm-9.9.1.jar",
+      "sha256": "6f3828a215c920059a5efa2fb55c233d6c54ec5cadca99ce1b1bdd10077c7ddd",
+      "license_file": "asm.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "commons-cli:commons-cli:1.11.0",
+      "license_from_official_maven_dependency_reference": "Apache-2.0",
+      "distribution_jar": "commons-cli-1.11.0.jar",
+      "sha256": "8f7f8605d68e15bf32db61ec94eac6fdafc51b1bdbe1e0e0802b57d23f387792",
+      "license_file": "commons-cli.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "commons-codec:commons-codec:1.21.0",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "commons-codec-1.21.0.jar",
+      "sha256": "4da851cb6abfb98bfe9eb77c5e5fc47f5414fa28b94e21b7fd9a646705dc167f",
+      "license_file": "commons-codec.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "com.google.errorprone:error_prone_annotations:2.41.0",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "error_prone_annotations-2.41.0.jar",
+      "sha256": "a56e782b5b50811ac204073a355a21d915a2107fce13ec711331ad036f660fcc",
+      "license_file": "error_prone_annotations.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "com.google.guava:failureaccess:1.0.3",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "failureaccess-1.0.3.jar",
+      "sha256": "cbfc3906b19b8f55dd7cfd6dfe0aa4532e834250d7f080bd8d211a3e246b59cb",
+      "license_file": "failureaccess.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "com.google.code.gson:gson:2.13.2",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "gson-2.13.2.jar",
+      "sha256": "dd0ce1b55a3ed2080cb70f9c655850cda86c206862310009dcb5e5c95265a5e0",
+      "license_file": "gson.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "com.google.guava:guava:33.6.0-jre",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "guava-33.6.0-jre.jar",
+      "sha256": "dc573e1fca4fd5454f4a5fd3d7da2df03002876a4175bafc14a95980dd7713b3",
+      "license_file": "guava.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "com.google.inject:guice:5.1.0",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "guice-5.1.0-classes.jar",
+      "sha256": "142ad4475e19524d2fe3ac995b3f7cbc962fc726f2edb9dbdccc61feab9b2bf9",
+      "license_file": "guice.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.httpcomponents:httpclient:4.5.14",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "httpclient-4.5.14.jar",
+      "sha256": "c8bc7e1c51a6d4ce72f40d2ebbabf1c4b68bfe76e732104b04381b493478e9d6",
+      "license_file": "httpclient.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.httpcomponents:httpcore:4.4.16",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "httpcore-4.4.16.jar",
+      "sha256": "6c9b3dd142a09dc468e23ad39aad6f75a0f2b85125104469f026e52a474e464f",
+      "license_file": "httpcore.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.fusesource.jansi:jansi:2.4.3",
+      "license_from_official_maven_dependency_reference": "Apache License, Version 2.0",
+      "distribution_jar": "jansi-2.4.3.jar",
+      "sha256": "ec168cf31c4c3849348dfff7a04e90170615f7784f1255ee6747b98a854c04c5",
+      "license_file": "jansi.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "javax.annotation:javax.annotation-api:1.3.2",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "javax.annotation-api-1.3.2.jar",
+      "sha256": "e04ba5195bcd555dc95650f7cc614d151e4bcd52d29a10b8aa2197f3ab89ab9b",
+      "license_file": "javax.annotation-api.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "javax.inject:javax.inject:1",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "javax.inject-1.jar",
+      "sha256": "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff",
+      "license_file": "javax.inject.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.slf4j:jcl-over-slf4j:1.7.36",
+      "license_from_official_maven_dependency_reference": "Apache License, Version 2.0",
+      "distribution_jar": "jcl-over-slf4j-1.7.36.jar",
+      "sha256": "ab57ca8fd223772c17365d121f59e94ecbf0ae59d08c03a3cb5b81071c019195",
+      "license_file": "jcl-over-slf4j.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.jspecify:jspecify:1.0.0",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "jspecify-1.0.0.jar",
+      "sha256": "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab",
+      "license_file": "jspecify.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-artifact:3.9.16",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-artifact-3.9.16.jar",
+      "sha256": "54cc1c1ef932e3d4a903352111b42b4d3c3ed8e7a1d0de73b625309d9c3ad3e8",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-builder-support:3.9.16",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-builder-support-3.9.16.jar",
+      "sha256": "02972384eae3495801565fd27abb84cfd75a8e6d2cbb1ae0c556752ebc2b1cde",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-compat:3.9.16",
+      "license_from_official_maven_dependency_reference": "Apache-2.0",
+      "distribution_jar": "maven-compat-3.9.16.jar",
+      "sha256": "69ea74479f87457d29bfdecf11e1470ad95300b06be16f4c8ddcf5bd3627f4dc",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-core:3.9.16",
+      "license_from_official_maven_dependency_reference": "Apache-2.0",
+      "distribution_jar": "maven-core-3.9.16.jar",
+      "sha256": "5d45c72e3dbfab8b68d15ad4f12777b7d9b5fe4d4adc99c3bd51fb9641fab009",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-embedder:3.9.16",
+      "license_from_official_maven_dependency_reference": "Apache-2.0",
+      "distribution_jar": "maven-embedder-3.9.16.jar",
+      "sha256": "a99aaac6ecb1b98d0f3b3ba18c16a122fc503412222055639a3eb4cbe458313b",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-model:3.9.16",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-model-3.9.16.jar",
+      "sha256": "f59d86a507c241bf17bbf050050d1b8b9c0d34d5010a7e2386c3cab7c83b93de",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-model-builder:3.9.16",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-model-builder-3.9.16.jar",
+      "sha256": "002be86d1f53b36f559a0786034a17598d71087f1935f205a1f9e51d4dd124b3",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-plugin-api:3.9.16",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-plugin-api-3.9.16.jar",
+      "sha256": "37cb5e483e23327cf4ba18f920b45e000d20eec0428a086a5c1bd6bbdecf088c",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-repository-metadata:3.9.16",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-repository-metadata-3.9.16.jar",
+      "sha256": "bc3dd413b89a16b695f35a5d0496b58ea2787c30b7b6062c130d24d6d764720f",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.resolver:maven-resolver-api:1.9.27",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-resolver-api-1.9.27.jar",
+      "sha256": "a895d222283666a7320ddc76615e2e93a41fabd93ce9a6bf9ddee39272bb87b4",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.resolver:maven-resolver-connector-basic:1.9.27",
+      "license_from_official_maven_dependency_reference": "Apache-2.0",
+      "distribution_jar": "maven-resolver-connector-basic-1.9.27.jar",
+      "sha256": "3bd98e3a426f9adcae39e3786db229e2be77e08a743ecd9be15c5ed77be3a625",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.resolver:maven-resolver-impl:1.9.27",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-resolver-impl-1.9.27.jar",
+      "sha256": "295d48ea2a8bb3aef51888967f105fb6251997d111f13c32d28919fd9b1c951e",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.resolver:maven-resolver-named-locks:1.9.27",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-resolver-named-locks-1.9.27.jar",
+      "sha256": "b39ecd4da98fdac5068e6f5d16910a71f4e4d48e95e17d107f6603e18f2b3fdf",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-resolver-provider:3.9.16",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-resolver-provider-3.9.16.jar",
+      "sha256": "72a2d6aad3708e2c708b659b292ae9587a4d170ec88f48466290318730221118",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.resolver:maven-resolver-spi:1.9.27",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-resolver-spi-1.9.27.jar",
+      "sha256": "1cab02f45bc58d5f4d8e084eaf032f13ea1a5fc9021d8bd74f8360ebb6593e5a",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.resolver:maven-resolver-transport-file:1.9.27",
+      "license_from_official_maven_dependency_reference": "Apache-2.0",
+      "distribution_jar": "maven-resolver-transport-file-1.9.27.jar",
+      "sha256": "3988261bd31e2e79eda802b3971992fce44756b0029557a05c7b871d3c3ddef7",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.resolver:maven-resolver-transport-http:1.9.27",
+      "license_from_official_maven_dependency_reference": "Apache-2.0",
+      "distribution_jar": "maven-resolver-transport-http-1.9.27.jar",
+      "sha256": "723f3d9d717a693d0aac589e266b995f76e9c63edd48ecc8a0cf9e86a77e459c",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.resolver:maven-resolver-transport-wagon:1.9.27",
+      "license_from_official_maven_dependency_reference": "Apache-2.0",
+      "distribution_jar": "maven-resolver-transport-wagon-1.9.27.jar",
+      "sha256": "ddf1c8744f7ef50d8ab78526611b690ab1da0e9ad8d99f72d9dbe1b259aa9a8b",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.resolver:maven-resolver-util:1.9.27",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-resolver-util-1.9.27.jar",
+      "sha256": "74a12548f0d6aad13c728666288c1e81201c24bd05bb4e4ec8c1558517b379a7",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-settings:3.9.16",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-settings-3.9.16.jar",
+      "sha256": "322ae5b23f4b7b6ce7896bd33a793143dbbbbcc16c4475e2d7eebbd8f755da92",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-settings-builder:3.9.16",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-settings-builder-3.9.16.jar",
+      "sha256": "226f1cbb0b4d414eff773fb151a8977837c98073e14d5963794e6cf464e6adbb",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.shared:maven-shared-utils:3.4.2",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "maven-shared-utils-3.4.2.jar",
+      "sha256": "b613357e1bad4dfc1dead801691c9460f9585fe7c6b466bc25186212d7d18487",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven:maven-slf4j-provider:3.9.16",
+      "license_from_official_maven_dependency_reference": "Apache-2.0",
+      "distribution_jar": "maven-slf4j-provider-3.9.16.jar",
+      "sha256": "a435cb0fdfc9c906bdc1ef72f043f59fef23dfd0db5beb5dd1e17a0a07f99d52",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.eclipse.sisu:org.eclipse.sisu.inject:1.0.0",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "org.eclipse.sisu.inject-1.0.0.jar",
+      "sha256": "3ab8d7bfe68f3b6ec95c1a0a47e628edbc9d76e90634cb0a0ba121fbb11b8e42",
+      "license_file": "org.eclipse.sisu.inject.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.eclipse.sisu:org.eclipse.sisu.plexus:1.0.0",
+      "license_from_official_maven_dependency_reference": "Eclipse Public License, Version 2.0",
+      "distribution_jar": "org.eclipse.sisu.plexus-1.0.0.jar",
+      "sha256": "865b5300034fc08c790215d7d97f141914c932191bef9338a7dcef589f7536e9",
+      "license_file": "org.eclipse.sisu.plexus.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.codehaus.plexus:plexus-cipher:2.0",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "plexus-cipher-2.0.jar",
+      "sha256": "9a7f1b5c5a9effd61eadfd8731452a2f76a8e79111fac391ef75ea801bea203a",
+      "license_file": "plexus-cipher.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.codehaus.plexus:plexus-component-annotations:2.2.0",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "plexus-component-annotations-2.2.0.jar",
+      "sha256": "50edb93c73786e62822b4fe1336e22880fdf147191373cf5c911370e16748fcf",
+      "license_file": "plexus-component-annotations.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.codehaus.plexus:plexus-interpolation:1.29",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "plexus-interpolation-1.29.jar",
+      "sha256": "088d444dbcedfb384630d8686697ece3c401d6f33c8f8b3aa7259ea1c6996878",
+      "license_file": "plexus-interpolation.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.codehaus.plexus:plexus-sec-dispatcher:2.0",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "plexus-sec-dispatcher-2.0.jar",
+      "sha256": "873139960c4c780176dda580b003a2c4bf82188bdce5bb99234e224ef7acfceb",
+      "license_file": "plexus-sec-dispatcher.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.codehaus.plexus:plexus-utils:3.6.1",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "plexus-utils-3.6.1.jar",
+      "sha256": "05a63effd67e2d6b9d610cc82e2bd7473289d34802e57a529b28110f28af5679",
+      "license_file": "plexus-utils.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.slf4j:slf4j-api:1.7.36",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "slf4j-api-1.7.36.jar",
+      "sha256": "d3ef575e3e4979678dc01bf1dcce51021493b4d11fb7f1be8ad982877c16a1c0",
+      "license_file": "slf4j-api.license",
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.wagon:wagon-file:3.5.3",
+      "license_from_official_maven_dependency_reference": "Apache License, Version 2.0",
+      "distribution_jar": "wagon-file-3.5.3.jar",
+      "sha256": "afc9216fa97b78dad227b4a8d4d67b9897bf113a57f80598d62993841113e103",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.wagon:wagon-http:3.5.3",
+      "license_from_official_maven_dependency_reference": "Apache License, Version 2.0",
+      "distribution_jar": "wagon-http-3.5.3.jar",
+      "sha256": "d2b6e48c9fcbe579e1858c622d14464011ff265fa6e28e794004a6882154a509",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.wagon:wagon-http-shared:3.5.3",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "wagon-http-shared-3.5.3.jar",
+      "sha256": "8e7da766f55164fde8779aaaa125832506c2848cab4876b5305138873e28037f",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    },
+    {
+      "coordinate": "org.apache.maven.wagon:wagon-provider-api:3.5.3",
+      "license_from_official_maven_dependency_reference": "jar",
+      "distribution_jar": "wagon-provider-api-3.5.3.jar",
+      "sha256": "5e72000338945ed3e96f8e4f578d1d0672e1af7e19c0e9014197ae5b31af3ef4",
+      "license_file": null,
+      "status": "DOCUMENTED"
+    }
+  ],
+  "source_archive": "https://dlcdn.apache.org/maven/maven-3/3.9.16/source/apache-maven-3.9.16-src.tar.gz",
+  "source_archive_sha512": "a1498f762615c2f536aebe4b8823045590815b8704423254a98bd28f243115d8bd3483c653254c489b979286b593170153567c89004a8b1f6c41c8794c1dbd94",
+  "distribution_archive_source": "https://dlcdn.apache.org/maven/maven-3/3.9.16/binaries/apache-maven-3.9.16-bin.tar.gz",
+  "observed_unknown_license_components": 0,
+  "license_text_hash_manifest": ".cache/licenses/runtime/maven-legal-sha256.txt"
+}

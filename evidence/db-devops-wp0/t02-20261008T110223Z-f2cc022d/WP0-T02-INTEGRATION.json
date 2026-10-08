@@ -1,0 +1,27 @@
+{
+  "id": "WP0-T02-INTEGRATION-t02-20261008T110223Z-f2cc022d",
+  "subject_id": "WP0-T02",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "npm run check; node scripts/parser-build.mjs",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/final-verification-summary.json",
+    "sha256": "5ab646e461ec1730587366bbe47c2f915242fa846b5b9380cf8c94a335b5dc1d"
+  },
+  "tests": {
+    "tests": 51,
+    "pass": 51,
+    "fail": 0,
+    "skipped": 0
+  },
+  "oracle_calls": 0,
+  "limitations": [
+    "Candidate-only proof; parser compatibility remains failed and runtime blocked.",
+    "Tracking/docs records may be updated after a run; append-only files are preserved."
+  ]
+}

@@ -1,28 +1,50 @@
 {
-  "reviewed_at": "2026-10-08T09:53:17.460461+00:00",
-  "scope": "Separate SchemaForge repository foundation and offline WP0-T01 only",
+  "reviewed_at": "2026-10-08T11:11:45.902398+00:00",
+  "scope": "WP0-T02 audited candidate plus independent offline corpus/envelope, reviewed native contributions",
   "authored_diff_whitespace": "PASS",
-  "immutable_import_diff_exception": "Original CRLF in product-model-constraint.md preserved. Imported byte-hash and staged Git blob checks pass; imported docs excluded from authored style checks.",
+  "immutable_input_and_fixture_exception": "Original imported CRLF and authored byte-sensitive BOM/CRLF/invalid UTF8 fixtures preserved with -text attributes.",
   "db_research_git_status_preserved": true,
   "all_43_source_hashes_preserved": true,
-  "all_43_staged_import_blobs_match_provenance": true,
   "restricted_code_or_assets_imported": false,
+  "artifact_archives_or_binary_helpers_tracked": false,
   "product_features_verified": 0,
   "oracle_calls": 0,
-  "remote_actions": [],
-  "final_checks_manifest": "evidence/foundation/20261008T094923420Z-e58f558c/manifest.json",
+  "remote_actions": [
+    {
+      "action": "preserving unrelated-history reconciliation and ordinary master push",
+      "sha": "7dd5a3a902281d3850d1d23ab76cb460bb72bbab",
+      "verified": true
+    }
+  ],
+  "foundation_remote_ci": [
+    {
+      "workflow": "Offline foundation checks",
+      "outcome": "PASS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37764656983"
+    },
+    {
+      "workflow": "CodeQL",
+      "outcome": "PASS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37764666704"
+    }
+  ],
+  "final_checks_manifest": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/final-verification-summary.json",
   "tests": {
-    "passed": 30,
+    "passed": 51,
     "failed": 0,
     "skipped": 0
   },
+  "candidate_compatibility_mismatches": 11,
+  "task_increment": "WP0-T02 VERIFIED, T03/T04 BLOCKED; no product or aggregate WP0 acceptance",
   "reviewed_areas": [
-    "Native specialist definitions and actual bounded delegations",
-    "All owned scripts and test changes",
-    "Tracker source, acceptance, evidence and scope guards",
-    "Preflight authorization, route, secret redaction and file containment",
-    "CI read-only permission and pinned source tool actions",
-    "Imported immutable inputs and preserved licensing restrictions",
-    "All final task/status/evidence/milestone state"
+    "Exact artifact/source/notices; selected and historical npm closures",
+    "Three runtime Maven dependencies and 90 build closure dependencies",
+    "277-file checksum cache lock including parent/import POMs",
+    "Java 2MiB UTF8/BOM, generic failure, candidate-only boundary",
+    "Offline clean npm cache import/TypeScript positive-negative compile",
+    "Bounded subprocess/byte hashes/ranges/whole-release unapproved gate",
+    "Public diff/secret scan and immutable original input preservation",
+    "QA fixes: selected cache propagation, no symlink directories created outside evidence, unified Maven artifact verifier",
+    "Tracker task/case/feature scopes and dependency gates"
   ]
 }

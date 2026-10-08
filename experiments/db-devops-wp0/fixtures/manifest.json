@@ -1,0 +1,664 @@
+{
+  "schema_version": 1,
+  "scope": "OFFLINE_PARSER_CORPUS_ONLY",
+  "authoring": "Original SchemaForge synthetic fixtures. Goldens express required behavior, not candidate observations. No fixture may be executed against a database without separate authorization.",
+  "groups": [
+    {
+      "fixture_id": "F07",
+      "case_id": "WP0-03-01",
+      "variants": [
+        {
+          "id": "ddl",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F07/ddl.sql",
+              "sha256": "075da3aca3a04064deb600c603d615d1223c89ab388f4f14378ca656dafd0681",
+              "bytes": 186,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 36,
+                  "source_sha256": "5b99edbebf6a711039edb5f2ffdc4db45dc3aaf5a157fef08f0f6ca48e1eb820",
+                  "execution_base64": "Q1JFQVRFIFRBQkxFIHNmX2ZpeHR1cmUgKGlkIE5VTUJFUik=",
+                  "execution_sha256": "b6a16d4064c95c57364218a3394a8d55596f1ce8b5301fdb473eb3b405c3f9bb"
+                },
+                {
+                  "start_byte": 37,
+                  "end_byte": 83,
+                  "source_sha256": "cd86a3fa3ebee6b244fd285ab9550532b2a0c7d108865def7c2d3a3cbac93125",
+                  "execution_base64": "QUxURVIgVEFCTEUgc2ZfZml4dHVyZSBBREQgbGFiZWwgVkFSQ0hBUjIoNDAp",
+                  "execution_sha256": "7e46bff6c0adebec6526eafcf8a85c812e9c476491b443d513ed0a513ffb6f55"
+                },
+                {
+                  "start_byte": 84,
+                  "end_byte": 130,
+                  "source_sha256": "1a895f89cbbaa3b8437fc3c383756774d8a16c293b2eed01f810cfb91628227d",
+                  "execution_base64": "Q1JFQVRFIElOREVYIHNmX2ZpeHR1cmVfaWR4IE9OIHNmX2ZpeHR1cmUoaWQp",
+                  "execution_sha256": "eddf0e5365c6457ba47d1509cc5924277cc5bf6eb87cd03fdfdcc771754a6f26"
+                },
+                {
+                  "start_byte": 131,
+                  "end_byte": 185,
+                  "source_sha256": "78ad817170492bb2bd0bb2108700d179fd8026dca339e494a4bd00b9b4e9a581",
+                  "execution_base64": "Q1JFQVRFIFZJRVcgc2ZfZml4dHVyZV92IEFTIFNFTEVDVCBpZCBGUk9NIHNmX2ZpeHR1cmU=",
+                  "execution_sha256": "a52c6f5ba584db9328c5ece73cf1833d67799695c11284fba0b533a406e700f8"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F08",
+      "case_id": "WP0-03-02",
+      "variants": [
+        {
+          "id": "procedure",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F08/procedure.sql",
+              "sha256": "14add23d9754d35b89641c4816c902688f4ba479fb581be05968feecd8a2a16f",
+              "bytes": 57,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 56,
+                  "source_sha256": "f41b3008c90d41829840936a000fcd21173f4298714abf1aa5c6cfce7d76ebe4",
+                  "execution_base64": "Q1JFQVRFIE9SIFJFUExBQ0UgUFJPQ0VEVVJFIHNmX3AgQVMKQkVHSU4KICBOVUxMOwpFTkQ7",
+                  "execution_sha256": "6ddfae37a622366ccd14623f43e4add360d4f0c5197020c03a13d2908c4c0589"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F09",
+      "case_id": "WP0-03-03",
+      "variants": [
+        {
+          "id": "function",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F09/function.sql",
+              "sha256": "e6c787730fca0920b7384b2fe972ffdbf8e080de1de880e4f5ec9a563d1db2d5",
+              "bytes": 74,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 73,
+                  "source_sha256": "edd214a98fb2ba28f8c4697836b581046454a72406d621e6871aaf68883c0c53",
+                  "execution_base64": "Q1JFQVRFIE9SIFJFUExBQ0UgRlVOQ1RJT04gc2ZfZiBSRVRVUk4gTlVNQkVSIEFTCkJFR0lOCiAgUkVUVVJOIDc7CkVORDs=",
+                  "execution_sha256": "600b2847292fff177da60808ebf655e9d13717be67c1dd94ab850323dd0ae77a"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F10",
+      "case_id": "WP0-03-04",
+      "variants": [
+        {
+          "id": "specification",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F10/specification.sql",
+              "sha256": "3ebd2d84df8ce30f00bc93c036822ab94d51167198365182e390d1a734f8341e",
+              "bytes": 67,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 66,
+                  "source_sha256": "449f302b92c9b2eb3e1e586853cde3ae293a10121dffd2f2258099483b34637b",
+                  "execution_base64": "Q1JFQVRFIE9SIFJFUExBQ0UgUEFDS0FHRSBzZl9wa2cgQVMKICBQUk9DRURVUkUgcnVuOwpFTkQgc2ZfcGtnOw==",
+                  "execution_sha256": "40d7d81360bd3c907ccc93b967cf9daf85ecd83a280c3705aca5307745e127d3"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F11",
+      "case_id": "WP0-03-05",
+      "variants": [
+        {
+          "id": "body",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F11/body.sql",
+              "sha256": "345c8262970ae2fb7c8427937575c481695fe499db0ba1703f2487e36111ce52",
+              "bytes": 91,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 90,
+                  "source_sha256": "a503b7635eb6311c3379722bcefb6dae43d6fa11db8dddcb181bbc3d8c38752e",
+                  "execution_base64": "Q1JFQVRFIE9SIFJFUExBQ0UgUEFDS0FHRSBCT0RZIHNmX3BrZyBBUwogIFBST0NFRFVSRSBydW4gQVMgQkVHSU4gTlVMTDsgRU5EOwpFTkQgc2ZfcGtnOw==",
+                  "execution_sha256": "a97c4a6ce4ab6804c81482d83ee35fba47a6e9d7d423349fd953aa546786fe23"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F12",
+      "case_id": "WP0-03-06",
+      "variants": [
+        {
+          "id": "trigger",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F12/trigger.sql",
+              "sha256": "dc2134e8408abe706471dbdd9eb9cfde547d3a43868ac05f6df94a15f3ffa3f8",
+              "bytes": 103,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 102,
+                  "source_sha256": "b47cb524d1b24afeeeebed421708605aa894a14f17b8b66afc2c55e83ae2a772",
+                  "execution_base64": "Q1JFQVRFIE9SIFJFUExBQ0UgVFJJR0dFUiBzZl90cmcgQkVGT1JFIElOU0VSVCBPTiBzZl9maXh0dXJlCkZPUiBFQUNIIFJPVwpCRUdJTgogIDpORVcuaWQgOj0gMTsKRU5EOw==",
+                  "execution_sha256": "5143c2a64733c686f52a3808be8a2f9a9e1dbd0a4493b7b86b9723c7c03c2107"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F13",
+      "case_id": "WP0-03-07",
+      "variants": [
+        {
+          "id": "anonymous",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F13/block.sql",
+              "sha256": "e298eaa86d533430e2b322bb3e6c3d85bc9fec00a61d89957dbd3068de162305",
+              "bytes": 52,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 51,
+                  "source_sha256": "7841dc21077619d662c1a0dc2973c70d6c171b38bff4edf48c5c271a9bedefc7",
+                  "execution_base64": "REVDTEFSRQogIG4gTlVNQkVSIDo9IDE7CkJFR0lOCiAgbiA6PSBuICsgMTsKRU5EOw==",
+                  "execution_sha256": "bff7f585f911800d2b1d490f187e5ad83c87b335cfc6232f78234b785616e0c2"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F14",
+      "case_id": "WP0-03-08",
+      "variants": [
+        {
+          "id": "quoting",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F14/quoting.sql",
+              "sha256": "917f7c2a78fdc231ed6c9fff568378fce0283e3c894abb59b29efe58ca784b9a",
+              "bytes": 146,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 50,
+                  "source_sha256": "484fb418c629075b95e8544cecf8ccdfc9a1d08b45fb57b9da86a4b0072fa023",
+                  "execution_base64": "SU5TRVJUIElOVE8gc2ZfZml4dHVyZShsYWJlbCkgVkFMVUVTICgnaXQnJ3M7IC8nKQ==",
+                  "execution_sha256": "4a7552a4bc459bdbf6c49b95ce714af0c5be958804b5f0f7d9f620617af4bd66"
+                },
+                {
+                  "start_byte": 51,
+                  "end_byte": 104,
+                  "source_sha256": "3d768f31707c7efce49a78839968dbea4ad5bd83392d57884479067f1892883f",
+                  "execution_base64": "SU5TRVJUIElOVE8gc2ZfZml4dHVyZShsYWJlbCkgVkFMVUVTIChxJ1thOyAvICcnYl0nKQ==",
+                  "execution_sha256": "85f2e9caa46cfc615d0d2525d83b399c8deb3d83e4aaca35a403808f9f8455b8"
+                },
+                {
+                  "start_byte": 105,
+                  "end_byte": 145,
+                  "source_sha256": "607b324e7d799e9849202e9b5b04ef15c35925f1b371e37638b57abbbe208fe9",
+                  "execution_base64": "U0VMRUNUICJzZW1pO2NvbG9uIiBGUk9NICJxdW90ZWQvdGFibGUi",
+                  "execution_sha256": "7cd96f637b0afe5b6dc80176db9c8c67735edcea844041f37b01762669cdf629"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "comment",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F14/comments.sql",
+              "sha256": "15704a631acc449895258029ac162b77d1073108dc0a24ee24b1628c0e663a6f",
+              "bytes": 87,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 86,
+                  "source_sha256": "a6d7a697a1727aeb18d3dd98caf65c131feb8d810f7c336bee84a25496415c8f",
+                  "execution_base64": "LS0gc2VtaWNvbG9uIDsgYW5kIHNsYXNoIC8gYXJlIGNvbW1lbnRzCkNSRUFURSBUQUJMRSBzZl9jb21tZW50IChpZCBOVU1CRVIgLyogOyAvICovKQ==",
+                  "execution_sha256": "5d089058ba3dd3cff92279fbce1a2848c05865220504c1dfc3d778eb60b00d14"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F15",
+      "case_id": "WP0-03-09",
+      "variants": [
+        {
+          "id": "slash",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F15/slash.sql",
+              "sha256": "d03abb991db74e2ed6cb8d2026ece35a6b51b699d6ccdb2005854113ac609e39",
+              "bytes": 94,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 23,
+                  "source_sha256": "364ff5d5ff06eef9e9018f84a48e895c3a4111b85c9c7df6e97108936d4d5e32",
+                  "execution_base64": "U0VMRUNUIDggLyAyIEZST00gZHVhbA==",
+                  "execution_sha256": "b552282ec05c15110d38b4d86782d5d426ceeb61089bea571d69d9dff7b3fd3e"
+                },
+                {
+                  "start_byte": 24,
+                  "end_byte": 54,
+                  "source_sha256": "e05da13afc315db0bd222eda9adcd32767210c064ba86171b84f9adf7890942b",
+                  "execution_base64": "U0VMRUNUICcvJyBBUyBzbGFzaCBGUk9NIGR1YWw=",
+                  "execution_sha256": "5f45cbcb747106c3d44e36d971b53e7acf11e88b0cabb2ba17f5fca5ad5d4fed"
+                },
+                {
+                  "start_byte": 55,
+                  "end_byte": 93,
+                  "source_sha256": "45bb8a414011357c18babd1bec780ee6407552827da752edf4a0e1715c8ec024",
+                  "execution_base64": "QkVHSU4KICBOVUxMOyAtLSAvIGlzIGEgY29tbWVudApFTkQ7",
+                  "execution_sha256": "2e38861e6c79bc0c11a017340b57dd8a9c90eba727daa262dee6d6eac428617f"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F16",
+      "case_id": "WP0-03-10",
+      "variants": [
+        {
+          "id": "unclosed-quote",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F16/quote.sql",
+              "sha256": "6727e30105074f063250e37faad4a9834e9eeffeb36d95c7b62419af74107cdf",
+              "bytes": 22,
+              "statements": []
+            }
+          ]
+        },
+        {
+          "id": "incomplete-block",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F16/block.sql",
+              "sha256": "bdd6387d14d3d24f0b230f74e4fbb65d28caaafa559a6b36bd42789bd8b93983",
+              "bytes": 12,
+              "statements": []
+            }
+          ]
+        },
+        {
+          "id": "delimiter-boundary",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F16/delimiter.sql",
+              "sha256": "71d44149c39e770edf25255ae559bf14d4fb2972511f41c13fe35c4a67f6b03f",
+              "bytes": 14,
+              "statements": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F17",
+      "case_id": "WP0-03-11",
+      "variants": [
+        {
+          "id": "directive-0",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F17/directive-0.sql",
+              "sha256": "49a30d94b56487469e4045713032bbf0fb08fe04de6c2b4389dc892b5c71cb42",
+              "bytes": 16,
+              "statements": []
+            }
+          ]
+        },
+        {
+          "id": "directive-1",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F17/directive-1.sql",
+              "sha256": "f6e66eedcb37fe8f1bfd4843c4f9e47298ba09702b824b8ccbab7944fa36687e",
+              "bytes": 14,
+              "statements": []
+            }
+          ]
+        },
+        {
+          "id": "directive-2",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F17/directive-2.sql",
+              "sha256": "9f8f6c2bf623462c5f388de931153ddb5d625906981bd4394659eeaac4739535",
+              "bytes": 12,
+              "statements": []
+            }
+          ]
+        },
+        {
+          "id": "directive-3",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F17/directive-3.sql",
+              "sha256": "2e195505f8ee2762ff2c37ab6380bd71ef93d0e571ba316d49a5766041d57668",
+              "bytes": 13,
+              "statements": []
+            }
+          ]
+        },
+        {
+          "id": "directive-4",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F17/directive-4.sql",
+              "sha256": "51b53cdd997a37911fa84aa877573c9efcdbd3533a84cda03fd28bc82d632314",
+              "bytes": 19,
+              "statements": []
+            }
+          ]
+        },
+        {
+          "id": "directive-5",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F17/directive-5.sql",
+              "sha256": "db288adfeaf1d68bb6163417e0b981286b8c00bc8c4048bfda5c6a069bb5515a",
+              "bytes": 19,
+              "statements": []
+            }
+          ]
+        },
+        {
+          "id": "directive-6",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F17/directive-6.sql",
+              "sha256": "4d46a43b9ae67b37375f7ce85a0648d647001e86ce8856bc8633a479fdb9087a",
+              "bytes": 17,
+              "statements": []
+            }
+          ]
+        },
+        {
+          "id": "directive-7",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F17/directive-7.sql",
+              "sha256": "a3ce7df9eed72700028820faf8aafea6fb972e3599463812adc1f89e47a65ab3",
+              "bytes": 24,
+              "statements": []
+            }
+          ]
+        },
+        {
+          "id": "directive-8",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F17/directive-8.sql",
+              "sha256": "38af9fe8f4a590a11df9537579dcd0a2fe3b5fb7820f32915b740b68774bf920",
+              "bytes": 6,
+              "statements": []
+            }
+          ]
+        },
+        {
+          "id": "directive-comment-control",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F17/comment-control.sql",
+              "sha256": "53d9a41982cf3bf97cb4645e46f10bce7eaf84bc46c69efab0758ac7341fa4c4",
+              "bytes": 86,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 85,
+                  "source_sha256": "88b7000f69d182ac1f1dcfa5562006a9b56cbe42d0bc8b52f8956981802c9f56",
+                  "execution_base64": "LS0gU0VUIERFRklORSBPRkY7IEhPU1QgZWNobyBmaXh0dXJlOyBAb3RoZXIuc3FsCkNSRUFURSBUQUJMRSBzZl9jb250cm9sIChpZCBOVU1CRVIp",
+                  "execution_sha256": "f6fff57c5c473051b7551655f717f49fd60e28edcb18cce06b532325db0dcf78"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F18",
+      "case_id": "WP0-03-12",
+      "variants": [
+        {
+          "id": "utf8-lf",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F18/utf8-lf.sql",
+              "sha256": "f92ce1a47573200584789b61402bea2efbb7fe9eeb1c53a9f19f86ec9332a4b1",
+              "bytes": 46,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 45,
+                  "source_sha256": "5f03ae0af35597096760f8ef63abc57d8da4c36bc4af4314ca88fa35052c965d",
+                  "execution_base64": "Q1JFQVRFIFRBQkxFIGNhZsOpICjDqXRpcXVldHRlIFZBUkNIQVIyKDQwKSk=",
+                  "execution_sha256": "bfd7aa17ec185b50271f3e712bef3b0623ea63c4cf6132e05b4219dd9e120602"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "utf8-crlf",
+          "expected": "PARSE",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F18/utf8-crlf.sql",
+              "sha256": "fa171a30f087a2f59ad23389c9ddc7706251dad353984c8ce32dd731fa4dd59a",
+              "bytes": 47,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 45,
+                  "source_sha256": "5f03ae0af35597096760f8ef63abc57d8da4c36bc4af4314ca88fa35052c965d",
+                  "execution_base64": "Q1JFQVRFIFRBQkxFIGNhZsOpICjDqXRpcXVldHRlIFZBUkNIQVIyKDQwKSk=",
+                  "execution_sha256": "bfd7aa17ec185b50271f3e712bef3b0623ea63c4cf6132e05b4219dd9e120602"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "bom",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F18/bom.sql",
+              "sha256": "2ca95e424f1d8e544b58ee0adcb0cf20ded3171d3b6bcd743e69ce2ccc853b3f",
+              "bytes": 49,
+              "statements": []
+            }
+          ]
+        },
+        {
+          "id": "invalid-utf8",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F18/invalid.bin",
+              "sha256": "9623247673cfbc2b08c644f87cae039445863a5da7f9483a0e318b7df5b9931c",
+              "bytes": 28,
+              "statements": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F19",
+      "case_id": "WP0-03-13",
+      "variants": [
+        {
+          "id": "explicit-commit",
+          "expected": "PARSE",
+          "non_atomic": true,
+          "files": [
+            {
+              "path": "F19/commit.sql",
+              "sha256": "0f5bb381283e7e143b8198493f98de5851fe3ea1a669102a78773d822a1116d1",
+              "bytes": 65,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 64,
+                  "source_sha256": "12ae43cbc511ad48097d5317356f3da44dde424b5f7893a60e303a021ae31f0f",
+                  "execution_base64": "QkVHSU4KICBJTlNFUlQgSU5UTyBzZl9maXh0dXJlKGlkKSBWQUxVRVMgKDE5KTsKICBDT01NSVQ7CkVORDs=",
+                  "execution_sha256": "c1ab15e605c3014b7ee93fb16c2c1063cd43615f54ca1d7871ee82f6b9ead583"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "autonomous",
+          "expected": "PARSE",
+          "non_atomic": true,
+          "files": [
+            {
+              "path": "F19/autonomous.sql",
+              "sha256": "fb0c67100f72b40d96cf54fa353c66239500e4c4c23c95d55b9f9788eddd7e4d",
+              "bytes": 106,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 105,
+                  "source_sha256": "15da55b2136e660c03c882f365502939e0f4e9535f18ea044c156460a8fdca73",
+                  "execution_base64": "REVDTEFSRQogIFBSQUdNQSBBVVRPTk9NT1VTX1RSQU5TQUNUSU9OOwpCRUdJTgogIElOU0VSVCBJTlRPIHNmX2ZpeHR1cmUoaWQpIFZBTFVFUyAoMjApOwogIENPTU1JVDsKRU5EOw==",
+                  "execution_sha256": "aabe5be0e4268a8ab8a9d0265afd52e8b034f4e461c8cc6fda921c4fdeda7e39"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "fixture_id": "F20",
+      "case_id": "WP0-03-14",
+      "variants": [
+        {
+          "id": "late-invalid",
+          "expected": "STOP",
+          "non_atomic": false,
+          "files": [
+            {
+              "path": "F20/V001__valid.sql",
+              "sha256": "763dc098bcda84c7bad748e4c398df8a07f8306601cea2cdda722f1f96232aaa",
+              "bytes": 35,
+              "statements": [
+                {
+                  "start_byte": 0,
+                  "end_byte": 34,
+                  "source_sha256": "e341ab5387f9d391bcf3309217928c303b0ee2b4d22a29ccf91d337cdaf32c8b",
+                  "execution_base64": "Q1JFQVRFIFRBQkxFIHNmX2ZpcnN0IChpZCBOVU1CRVIp",
+                  "execution_sha256": "fe2a7467fef2fddd812a881be7cccbea4f8468f5c8d12555c8162ddfb9d4fd65"
+                }
+              ]
+            },
+            {
+              "path": "F20/V002__invalid.sql",
+              "sha256": "bdd6387d14d3d24f0b230f74e4fbb65d28caaafa559a6b36bd42789bd8b93983",
+              "bytes": 12,
+              "statements": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

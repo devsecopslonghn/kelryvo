@@ -66,9 +66,56 @@
       ],
       "review": "Orchestrator and read-only QA inspected the changes. Authority, structure, redaction, path containment and reproducibility findings were returned for correction.",
       "provider_override": false
+    },
+    {
+      "task_name": "/root/database_parser",
+      "responsibilities": [
+        "WP0-T02 Database parser packaging and mature-parser feasibility",
+        "Independent QA of DevOps and orchestrator build changes"
+      ],
+      "owned_paths": [
+        "experiments/db-devops-wp0/parser-helper/**",
+        "docs/architecture/parser-feasibility.md"
+      ],
+      "review": "Orchestrator inspected Java/POM, required resource/encoding/approval/redaction guards and deterministic timestamps. Independent QA found custom-cache, regression and Maven verifier path gaps; all corrected. Helper self-review is not independent QA acceptance.",
+      "provider_override": false
+    },
+    {
+      "task_name": "/root/security_closure",
+      "responsibilities": [
+        "Exact npm/runtime/Maven licenses and source evidence",
+        "Historical rejected PostgreSQL candidate notices",
+        "90-component Maven plugin audit and 277-file cache lock"
+      ],
+      "owned_paths": [
+        "docs/dependencies/**"
+      ],
+      "review": "Orchestrator checked actual selected lock membership and artifact hashes, licenses, source commitments and notice inventories. Stale initial client/helper observations were regenerated after selection changed. Zero unknown selected Maven grants; distribution conditions remain explicit.",
+      "provider_override": false
+    },
+    {
+      "task_name": "/root/runtime_security",
+      "responsibilities": [
+        "WP0-T02 DevOps artifact manifests and cache-only install",
+        "Backend bounded candidate envelope and corpus runner",
+        "QA regression fixes after independent review"
+      ],
+      "owned_paths": [
+        "scripts/dependency-artifacts.mjs",
+        "tests/dependency-artifacts.test.mjs",
+        "docs/development/offline-build.md",
+        "experiments/db-devops-wp0/parser-envelope.mjs",
+        "scripts/parser-corpus.mjs",
+        "tests/parser-envelope.test.mjs"
+      ],
+      "review": "Sequential bounded roles with no overlapping concurrent edits. Orchestrator reviewed, fixed custom-cache propagation/report path mutation order and refined digest/approval reports; agent added actual nonempty offline-cache/tamper/symlink regression coverage.",
+      "provider_override": false
     }
   ],
-  "external_actions": [],
+  "external_actions": [
+    "Authorized origin configuration/fetch and two-history reconciliation",
+    "Verified ordinary foundation push to origin/master; feature milestone uses review branch"
+  ],
   "continuation": "Assignments end with this session. Future sessions select bounded tasks from persisted milestone and evidence; no indefinite background activity is implied.",
-  "integration_result": "All delegated changes reviewed and integrated by orchestrator. Final preflight fixes isolate C to read-only probes, bind service/peer/CA/version mappings, suppress rejected-profile fingerprints and contain artifact/report paths. Tracker has source/evidence/phase guards and explicit partial-versus-full WP0 coverage. Final 30-test suite passes; no product/Oracle verification is inferred."
+  "integration_result": "T02 actual candidate audit implemented; driver-free build proven, exact artifacts/notices retained. T03 remains blocked by 11 candidate corpus failures; zero Oracle calls or product verification. All delegated ownership ended before orchestrator final edits."
 }

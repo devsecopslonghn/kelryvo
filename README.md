@@ -4,8 +4,9 @@ SchemaForge is intended to be a free, open-source, self-hosted Database DevOps p
 for centralized database management, Git-driven schema migrations, approvals, audit and
 reliable execution. Oracle-first, multi-database-ready is the product goal.
 
-The repository currently implements the local engineering foundation and an offline WP0
-preflight. It does not yet register services or execute migrations. Apache-2.0 is proposed;
+The repository implements the engineering foundation and offline WP0 dependency,
+preflight and candidate-parser experiments. It does not yet register services or execute
+migrations. Apache-2.0 is proposed;
 the license remains undecided. See [license and naming status](docs/product/license-and-naming.md).
 
 ## Development
@@ -19,8 +20,9 @@ npm run status
 npm run next
 ```
 
-No database credentials or network are needed for the checks. They verify authored source,
-JSON formatting, immutable input digests, tracker invariants and offline preflight behavior.
+After dependency installation, no database credentials or network are needed for checks.
+They verify authored source, JSON formatting, immutable input digests, tracker invariants,
+offline preflight, dependency imports/compiler behavior and candidate protocol contracts.
 The build command currently validates source; it does not build an application binary.
 [CONTRIBUTING.md](CONTRIBUTING.md) documents conventions and CI limits.
 

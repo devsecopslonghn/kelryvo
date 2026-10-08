@@ -5,10 +5,11 @@ this file, and the bounded task's inputs before editing. Preserve unrelated work
 
 ## Current scope and source of truth
 
-- This session covers Phase 0 and offline WP0 only. Do not start WP1, API/portal delivery,
-  deployment, remote creation, or Oracle connections without an explicit request.
-  The owner authorized safe synchronization to the existing `origin` on 2026-10-08;
-  follow `docs/implementation/github-sync.md` for verified commits and ordinary pushes.
+- The owner authorized autonomous dependency-ordered development and eligible PR merges
+  into the existing `origin/master` on 2026-10-08. Follow
+  `docs/implementation/github-sync.md`; do not bypass required checks or safety gates.
+  WP1/API/portal work still depends on WP0 acceptance. Deployment, infrastructure changes
+  and Oracle connections require their own explicit authority.
 - `docs/inputs/db-research/` is an immutable design snapshot, not implementation evidence.
   `docs/inputs/provenance.json` identifies exact bytes, source HEAD and uncommitted inputs.
 - Product state lives in `docs/implementation/`. Use the tracker CLI and validated dependencies

@@ -135,6 +135,218 @@
       },
       "path": "evidence/foundation/20261008T094923420Z-e58f558c/integration-record.json",
       "sha256": "89570b192125998e52ff7a409a8a086909aed42731175b41de2da8d2bc7f0bc3"
+    },
+    {
+      "id": "WP0-T02-AUDIT-t02-20261008T110223Z-f2cc022d",
+      "subject_id": "WP0-T02",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check; npm run dependencies:offline; npm run parser:build:offline; npm audit --json",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0
+      ],
+      "test_references": [
+        "WP0-10-01"
+      ],
+      "case_coverage": [
+        {
+          "case_id": "WP0-10-01",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Exact three-package npm closure, runtime/archive/source/notices evidence, 90 Maven build dependencies and 277-file cache lock; driver-free reproducible helper packaging tested. Candidate audit/isolation decision only; full distributable F31/product license and remaining Git/metadata deployment selections are not approved."
+        }
+      ],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/verification-summary.json",
+        "sha256": "21fa4b23db2c385e1dad3e3379c07a02780e37f0eb3f222ce2edd4f656ae980b"
+      },
+      "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/WP0-T02-AUDIT.json",
+      "sha256": "b0cef52694c141c35b735b125756b354263bc624974c635cdd20ac5974819198"
+    },
+    {
+      "id": "WP0-T03-CANDIDATE-t02-20261008T110223Z-f2cc022d",
+      "subject_id": "WP0-T03",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "BLOCKED",
+      "command": "node scripts/parser-corpus.mjs",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-01",
+        "WP0-03-08",
+        "WP0-03-09",
+        "WP0-03-10",
+        "WP0-03-11",
+        "WP0-03-12",
+        "WP0-03-14"
+      ],
+      "case_coverage": [
+        {
+          "case_id": "WP0-03-01",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+        },
+        {
+          "case_id": "WP0-03-08",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+        },
+        {
+          "case_id": "WP0-03-09",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+        },
+        {
+          "case_id": "WP0-03-10",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+        },
+        {
+          "case_id": "WP0-03-11",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+        },
+        {
+          "case_id": "WP0-03-12",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+        },
+        {
+          "case_id": "WP0-03-14",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Actual offline candidate corpus probe; profile remains unapproved because required SQL*Plus and comment cases fail. No accepted parser adapter or runtime proof."
+        }
+      ],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/parser-corpus.json",
+        "sha256": "d41bd8f0475c540fd328f3affc672cbbe600d91d5a260940f824a937db0c4e07"
+      },
+      "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/WP0-T03-CANDIDATE.json",
+      "sha256": "d0d6e73a140d10e61853ed691179a704fca1608088c3b009ba44afc6d11c3bb5"
+    },
+    {
+      "id": "WP0-03-08-CANDIDATE-t02-20261008T110223Z-f2cc022d",
+      "subject_id": "WP0-03-08",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "FAIL",
+      "command": "node scripts/parser-corpus.mjs",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-08"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/parser-corpus.json",
+        "sha256": "d41bd8f0475c540fd328f3affc672cbbe600d91d5a260940f824a937db0c4e07"
+      },
+      "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/WP0-03-08-CANDIDATE.json",
+      "sha256": "ab1097b7ae766b622e3dc205b22f6c175c37e75579080ba743b840d47e0f006f"
+    },
+    {
+      "id": "WP0-03-11-CANDIDATE-t02-20261008T110223Z-f2cc022d",
+      "subject_id": "WP0-03-11",
+      "kind": "UNIT",
+      "scope": "HARNESS",
+      "outcome": "FAIL",
+      "command": "node scripts/parser-corpus.mjs",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [
+        "WP0-03-11"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/parser-corpus.json",
+        "sha256": "d41bd8f0475c540fd328f3affc672cbbe600d91d5a260940f824a937db0c4e07"
+      },
+      "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/WP0-03-11-CANDIDATE.json",
+      "sha256": "5b2fcc714e13416da0774162151f799782efad3ae089b563a2c86334662f24f7"
+    },
+    {
+      "id": "WP0-T02-INTEGRATION-t02-20261008T110223Z-f2cc022d",
+      "subject_id": "WP0-T02",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check; node scripts/parser-build.mjs",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/final-verification-summary.json",
+        "sha256": "5ab646e461ec1730587366bbe47c2f915242fa846b5b9380cf8c94a335b5dc1d"
+      },
+      "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/WP0-T02-INTEGRATION.json",
+      "sha256": "eba4ff8b751a7331a8e158ad431aeadbd34bc4a43b6a5ab76bda5734713cb067"
+    },
+    {
+      "id": "WP0-T02-REVIEW-pr1-review-20261008T123632Z-97ca436e",
+      "subject_id": "WP0-T02",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check && npm run dependencies:offline",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0
+      ],
+      "test_references": [
+        "WP0-10-01"
+      ],
+      "case_coverage": [
+        {
+          "case_id": "WP0-10-01",
+          "scope": "TASK_INCREMENT",
+          "full_case_pass": false,
+          "cells": [
+            "unit"
+          ],
+          "description": "Fresh independent T02 review, omission fix and local regression; no distribution or Oracle case acceptance."
+        }
+      ],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/pr1-review-20261008T123632Z-97ca436e/checks.log",
+        "sha256": "bddfecb1a8229425ba81cd23cc0e1612c54717db48ece1b2886a08790adafb1f"
+      },
+      "path": "evidence/db-devops-wp0/pr1-review-20261008T123632Z-97ca436e/WP0-T02-REVIEW.json",
+      "sha256": "1e831de6d73a816bfc4a7967fab4902602a97d55304e4b740308763985918ab0"
     }
   ]
 }

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "run_id": "pr1-review-20261008T123632Z-97ca436e",
+  "reviewed_original_head": "2295428295e41fac1f671ed004b18471904177db",
+  "base_sha": "7dd5a3a902281d3850d1d23ab76cb460bb72bbab",
+  "checks": [
+    {
+      "command": "npm run check",
+      "exit_code": 0,
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/pr1-review-20261008T123632Z-97ca436e/checks.log",
+        "sha256": "bddfecb1a8229425ba81cd23cc0e1612c54717db48ece1b2886a08790adafb1f"
+      }
+    },
+    {
+      "command": "npm run dependencies:offline",
+      "exit_code": 0,
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/pr1-review-20261008T123632Z-97ca436e/npm-offline.json",
+        "sha256": "f859a008b3dbb1b883410295445fe7dd3e4031198c9f84b3cd4e33c64efaae26"
+      }
+    },
+    {
+      "command": "npm run parser:corpus",
+      "exit_code": 1,
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/pr1-review-20261008T123632Z-97ca436e/parser-corpus.log",
+        "sha256": "7f33211b5e13f6d51b51c35c672b6e0ce2a9b0754f763c6d44f72d14589bf3fc"
+      }
+    }
+  ],
+  "tests_passed": 53,
+  "independent_review": {
+    "qa": "Initial omission finding fixed; follow-up approves conservative ASCII whitespace coverage, all parser negative findings retained.",
+    "security": "No scope-critical license/security/publication issue; owner license and distribution notices remain pending."
+  },
+  "oracle_calls": 0,
+  "known_parser_profile_accepted": false,
+  "oracle_runtime_status": "BLOCKED",
+  "required_remote_checks": "Must recheck final pushed SHA before merge."
+}

@@ -1,0 +1,20 @@
+{
+  "id": "WP0-03-08-CANDIDATE-t02-20261008T110223Z-f2cc022d",
+  "subject_id": "WP0-03-08",
+  "kind": "UNIT",
+  "scope": "HARNESS",
+  "outcome": "FAIL",
+  "command": "node scripts/parser-corpus.mjs",
+  "exit_code": 1,
+  "criterion_indexes": [],
+  "test_references": [
+    "WP0-03-08"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/parser-corpus.json",
+    "sha256": "d41bd8f0475c540fd328f3affc672cbbe600d91d5a260940f824a937db0c4e07"
+  },
+  "candidate_profile": "Flyway 13.9.0 unapproved",
+  "limitation": "Candidate failure only; no database calls or aggregate acceptance."
+}

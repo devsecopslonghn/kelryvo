@@ -35,6 +35,24 @@
       "references": [
         "docs/inputs/db-research/product-research/implementation/ARCHITECTURE-DECISIONS.md"
       ]
+    },
+    {
+      "id": "SF-D005",
+      "status": "ACCEPTED_FOR_OFFLINE_WP0_CANDIDATE_AUDIT",
+      "decision": "Pin Node22.23.3/npm10.9.9, TypeScript6.0.2, node-oracledb7.0.1 Thin, Postgres.js3.4.9; evaluate Flyway13.9.0 on Temurin21.0.12.1+1/Maven3.9.16. Exact source/artifact/license evidence exists; no proprietary driver requirement or product/distribution approval.",
+      "references": [
+        "docs/dependencies/LICENSE-EVIDENCE.md",
+        "docs/development/offline-build.md"
+      ]
+    },
+    {
+      "id": "SF-D006",
+      "status": "REOPENED_ADR_I03",
+      "decision": "Driver-free Flyway packaging works, but corpus has 11 comment/SQL*Plus compatibility failures. Reject this profile for execution; T03 remains blocked until a licensed mature parser satisfies all required goldens. No custom tokenizer/grammar/splitter fallback.",
+      "references": [
+        "docs/architecture/parser-feasibility.md",
+        "evidence/db-devops-wp0/t02-20261008T110223Z-f2cc022d/parser-corpus.json"
+      ]
     }
   ]
 }

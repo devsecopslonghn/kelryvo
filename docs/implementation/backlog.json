@@ -93,10 +93,18 @@
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
-      "status": "READY",
+      "status": "VERIFIED",
       "assigned_agent": "security",
-      "evidence": [],
-      "blockers": []
+      "evidence": [
+        {
+          "index_id": "WP0-T02-AUDIT-t02-20261008T110223Z-f2cc022d"
+        },
+        {
+          "index_id": "WP0-T02-REVIEW-pr1-review-20261008T123632Z-97ca436e"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Audited candidate dependency/register and driver-free isolation task increment; no product/distribution/accepted parser approval."
     },
     {
       "id": "WP0-T03",
@@ -125,10 +133,16 @@
       "source_paths": [
         "docs/inputs/db-research/product-research/implementation/implementation-plan.json"
       ],
-      "status": "BACKLOG",
+      "status": "BLOCKED",
       "assigned_agent": "database",
-      "evidence": [],
-      "blockers": []
+      "evidence": [
+        {
+          "index_id": "WP0-T03-CANDIDATE-t02-20261008T110223Z-f2cc022d"
+        }
+      ],
+      "blockers": [
+        "ADR-I03 reopened: required comment fixtures stop and nine SQL*Plus command fixtures are accepted by Flyway 13.9.0. No mature-parser profile is accepted; custom grammar/splitter remains prohibited."
+      ]
     },
     {
       "id": "WP0-T04",
@@ -164,8 +178,7 @@
       "assigned_agent": "database",
       "evidence": [],
       "blockers": [
-        "No explicitly authorized disposable 19c/21c lab profile or scoped credential/identity/grant/fault references supplied.",
-        "WP0-T02 candidate dependency audit has not completed."
+        "No explicitly authorized disposable Oracle 19c/21c profile, TCPS identities, scoped credential/grant/fault references or teardown authority supplied. Offline Thin import is not connectivity evidence."
       ]
     },
     {

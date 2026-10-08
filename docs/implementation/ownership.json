@@ -945,11 +945,11 @@
     },
     "WP0-T02": {
       "assigned_agent": "security",
-      "status": "READY"
+      "status": "VERIFIED"
     },
     "WP0-T03": {
       "assigned_agent": "database",
-      "status": "BACKLOG"
+      "status": "BLOCKED"
     },
     "WP0-T04": {
       "assigned_agent": "database",

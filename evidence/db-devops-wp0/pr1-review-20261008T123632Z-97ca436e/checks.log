@@ -1,0 +1,367 @@
+
+> schemaforge-local-development@0.0.0 check
+> npm run build && npm run lint && npm run format:check && npm test && npm run dependencies:smoke
+
+
+> schemaforge-local-development@0.0.0 build
+> node scripts/check-source.mjs
+
+Source checks passed for 61 authored files.
+
+> schemaforge-local-development@0.0.0 lint
+> node scripts/check-source.mjs && node scripts/tracker.mjs validate
+
+Source checks passed for 61 authored files.
+Tracker data valid: 220 features, 64 imported tasks plus foundation, 63 cases; no product verification claims.
+
+> schemaforge-local-development@0.0.0 format:check
+> node scripts/format-json.mjs --check
+
+Authored JSON formatting passed; imported inputs and evidence excluded.
+
+> schemaforge-local-development@0.0.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: native specialist TOML parses with standard-library TOML and keeps parent settings
+ok 1 - native specialist TOML parses with standard-library TOML and keeps parent settings
+  ---
+  duration_ms: 66.839
+  type: 'test'
+  ...
+# Subtest: manifest measures lock-matched npm cache tarball, installed bytes, and license files reproducibly
+ok 2 - manifest measures lock-matched npm cache tarball, installed bytes, and license files reproducibly
+  ---
+  duration_ms: 467.318246
+  type: 'test'
+  ...
+# Subtest: manifest verification rejects tampered installed files, lock identities, and undeclared packages
+ok 3 - manifest verification rejects tampered installed files, lock identities, and undeclared packages
+  ---
+  duration_ms: 285.162046
+  type: 'test'
+  ...
+# Subtest: lock credential URLs and identity mutations are rejected without echoing credentials
+ok 4 - lock credential URLs and identity mutations are rejected without echoing credentials
+  ---
+  duration_ms: 9.797133
+  type: 'test'
+  ...
+# Subtest: cached tarball bytes are rechecked against lock SRI on every measurement
+ok 5 - cached tarball bytes are rechecked against lock SRI on every measurement
+  ---
+  duration_ms: 128.689363
+  type: 'test'
+  ...
+# Subtest: installed dependency symlinks and smoke-script symlinks fail closed
+ok 6 - installed dependency symlinks and smoke-script symlinks fail closed
+  ---
+  duration_ms: 8.835083
+  type: 'test'
+  ...
+# Subtest: cache miss fails closed and offline install does not fall back to a registry
+ok 7 - cache miss fails closed and offline install does not fall back to a registry
+  ---
+  duration_ms: 384.640607
+  type: 'test'
+  ...
+# Subtest: offline install runs a smoke import from an isolated staging directory
+ok 8 - offline install runs a smoke import from an isolated staging directory
+  ---
+  duration_ms: 539.992379
+  type: 'test'
+  ...
+# Subtest: offline install and post-install manifest use the supplied nonempty cache only
+ok 9 - offline install and post-install manifest use the supplied nonempty cache only
+  ---
+  duration_ms: 960.028324
+  type: 'test'
+  ...
+# Subtest: append-only reports reject an evidence symlink before creating any external directory
+ok 10 - append-only reports reject an evidence symlink before creating any external directory
+  ---
+  duration_ms: 5.951559
+  type: 'test'
+  ...
+# Subtest: offline Maven cache rejects artifact mutation, symlinks and credentialed origins
+ok 11 - offline Maven cache rejects artifact mutation, symlinks and credentialed origins
+  ---
+  duration_ms: 29.116532
+  type: 'test'
+  ...
+# Subtest: cache-lock and runtime URL entries enforce the same origin and symlink boundaries
+ok 12 - cache-lock and runtime URL entries enforce the same origin and symlink boundaries
+  ---
+  duration_ms: 5.450618
+  type: 'test'
+  ...
+# Subtest: validates candidate output as exact bounded source bytes and remains unapproved
+ok 13 - validates candidate output as exact bounded source bytes and remains unapproved
+  ---
+  duration_ms: 2.738731
+  type: 'test'
+  ...
+# Subtest: rejects tampered digests, ranges, overlaps, and SQL not at the source prefix
+ok 14 - rejects tampered digests, ranges, overlaps, and SQL not at the source prefix
+  ---
+  duration_ms: 1.234978
+  type: 'test'
+  ...
+# Subtest: rejects profile approval, unexpected stderr, malformed JSON, and extra protocol fields
+ok 15 - rejects profile approval, unexpected stderr, malformed JSON, and extra protocol fields
+  ---
+  duration_ms: 1.63104
+  type: 'test'
+  ...
+# Subtest: bounds input/output and maps subprocess timeout and overflow to sanitized outcomes
+ok 16 - bounds input/output and maps subprocess timeout and overflow to sanitized outcomes
+  ---
+  duration_ms: 4.955775
+  type: 'test'
+  ...
+# Subtest: fixture containment rejects parent paths while allowing paths beneath a fixtures root
+ok 17 - fixture containment rejects parent paths while allowing paths beneath a fixtures root
+  ---
+  duration_ms: 0.327173
+  type: 'test'
+  ...
+# Subtest: STOP requires the exact safe protocol and the full input digest
+ok 18 - STOP requires the exact safe protocol and the full input digest
+  ---
+  duration_ms: 0.724062
+  type: 'test'
+  ...
+# Subtest: rejects omitted SQL in empty, leading, middle and trailing statement coverage
+ok 19 - rejects omitted SQL in empty, leading, middle and trailing statement coverage
+  ---
+  duration_ms: 1.061783
+  type: 'test'
+  ...
+# Subtest: accepts whitespace gaps and range-contained UTF-8 comments, rejects uncovered comments
+ok 20 - accepts whitespace gaps and range-contained UTF-8 comments, rejects uncovered comments
+  ---
+  duration_ms: 2.184283
+  type: 'test'
+  ...
+# Subtest: original corpus covers F07–F20 and all fourteen parser cases
+ok 21 - original corpus covers F07–F20 and all fourteen parser cases
+  ---
+  duration_ms: 3.097619
+  type: 'test'
+  ...
+# Subtest: every fixture digest and executable golden matches exact original byte ranges
+ok 22 - every fixture digest and executable golden matches exact original byte ranges
+  ---
+  duration_ms: 27.93168
+  type: 'test'
+  ...
+# Subtest: encoding corpus distinguishes LF, CRLF, BOM and invalid bytes
+ok 23 - encoding corpus distinguishes LF, CRLF, BOM and invalid bytes
+  ---
+  duration_ms: 3.668318
+  type: 'test'
+  ...
+# Subtest: late malformed release and non-atomic fixtures retain their required contracts
+ok 24 - late malformed release and non-atomic fixtures retain their required contracts
+  ---
+  duration_ms: 0.54704
+  type: 'test'
+  ...
+# Subtest: empty manifest reports exact missing prerequisites as BLOCKED
+ok 25 - empty manifest reports exact missing prerequisites as BLOCKED
+  ---
+  duration_ms: 12.448415
+  type: 'test'
+  ...
+# Subtest: example manifest is rejected and receives no profile hash
+ok 26 - example manifest is rejected and receives no profile hash
+  ---
+  duration_ms: 3.058417
+  type: 'test'
+  ...
+# Subtest: complete synthetic manifest validates local fixture bytes without runtime authority
+ok 27 - complete synthetic manifest validates local fixture bytes without runtime authority
+  ---
+  duration_ms: 28.465861
+  type: 'test'
+  ...
+# Subtest: malformed nested values, exact versions, duplicate refs, scope and authorization reject or block safely
+ok 28 - malformed nested values, exact versions, duplicate refs, scope and authorization reject or block safely
+  ---
+  duration_ms: 31.131749
+  type: 'test'
+  ...
+# Subtest: unknown secret fields and TCPS userinfo are rejected without echoing canaries
+ok 29 - unknown secret fields and TCPS userinfo are rejected without echoing canaries
+  ---
+  duration_ms: 4.99856
+  type: 'test'
+  ...
+# Subtest: malformed declared hashes, versions and nested unknown fields never leak canaries
+ok 30 - malformed declared hashes, versions and nested unknown fields never leak canaries
+  ---
+  duration_ms: 14.974975
+  type: 'test'
+  ...
+# Subtest: artifact digest, symlink and protected-path checks stay within approved offline directory
+ok 31 - artifact digest, symlink and protected-path checks stay within approved offline directory
+  ---
+  duration_ms: 30.454195
+  type: 'test'
+  ...
+# Subtest: CLI rejects missing/duplicate arguments, sanitizes errors, and appends two reports without overwrite
+ok 32 - CLI rejects missing/duplicate arguments, sanitizes errors, and appends two reports without overwrite
+  ---
+  duration_ms: 523.876543
+  type: 'test'
+  ...
+# Subtest: every imported design input retains its exact source digest and classification
+ok 33 - every imported design input retains its exact source digest and classification
+  ---
+  duration_ms: 43.237855
+  type: 'test'
+  ...
+# Subtest: the original catalog, work packages and matrix keep all stable identifiers
+ok 34 - the original catalog, work packages and matrix keep all stable identifiers
+  ---
+  duration_ms: 7.39976
+  type: 'test'
+  ...
+# Subtest: persisted tracker state validates without assuming initial statuses
+ok 35 - persisted tracker state validates without assuming initial statuses
+  ---
+  duration_ms: 36.357553
+  type: 'test'
+  ...
+# Subtest: catalog and plan IDs are retained with original dependency links
+ok 36 - catalog and plan IDs are retained with original dependency links
+  ---
+  duration_ms: 7.1391
+  type: 'test'
+  ...
+# Subtest: separate WP0 cells never claim research as runtime PASS
+ok 37 - separate WP0 cells never claim research as runtime PASS
+  ---
+  duration_ms: 101.257714
+  type: 'test'
+  ...
+# Subtest: valid initial state has only the foundation in progress and WP0-T01 ready
+ok 38 - valid initial state has only the foundation in progress and WP0-T01 ready
+  ---
+  duration_ms: 12.218293
+  type: 'test'
+  ...
+# Subtest: unknown and cyclic dependencies are rejected
+ok 39 - unknown and cyclic dependencies are rejected
+  ---
+  duration_ms: 23.781473
+  type: 'test'
+  ...
+# Subtest: verification requires acceptance, evidence, and verified dependencies
+ok 40 - verification requires acceptance, evidence, and verified dependencies
+  ---
+  duration_ms: 16.903002
+  type: 'test'
+  ...
+# Subtest: BLOCKED and DEFERRED states require concrete reasons
+ok 41 - BLOCKED and DEFERRED states require concrete reasons
+  ---
+  duration_ms: 15.321647
+  type: 'test'
+  ...
+# Subtest: unit BLOCKED requires an offline blocker independent of Oracle lab status
+ok 42 - unit BLOCKED requires an offline blocker independent of Oracle lab status
+  ---
+  duration_ms: 17.603408
+  type: 'test'
+  ...
+# Subtest: Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+ok 43 - Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+  ---
+  duration_ms: 11.394094
+  type: 'test'
+  ...
+# Subtest: malformed evidence metadata returns validation errors without throwing
+ok 44 - malformed evidence metadata returns validation errors without throwing
+  ---
+  duration_ms: 34.997617
+  type: 'test'
+  ...
+# Subtest: research evidence cannot certify product status
+ok 45 - research evidence cannot certify product status
+  ---
+  duration_ms: 15.17961
+  type: 'test'
+  ...
+# Subtest: PASS cells need evidence
+ok 46 - PASS cells need evidence
+  ---
+  duration_ms: 15.546331
+  type: 'test'
+  ...
+# Subtest: ownership and dependency graph remain synchronized with work records
+ok 47 - ownership and dependency graph remain synchronized with work records
+  ---
+  duration_ms: 21.232066
+  type: 'test'
+  ...
+# Subtest: duplicate, missing, and unexpected imported IDs are rejected
+ok 48 - duplicate, missing, and unexpected imported IDs are rejected
+  ---
+  duration_ms: 32.409809
+  type: 'test'
+  ...
+# Subtest: source dependencies, acceptance, references, and result enums cannot drift
+ok 49 - source dependencies, acceptance, references, and result enums cannot drift
+  ---
+  duration_ms: 10.196026
+  type: 'test'
+  ...
+# Subtest: hashed indexed evidence covers every acceptance and test reference before verification
+ok 50 - hashed indexed evidence covers every acceptance and test reference before verification
+  ---
+  duration_ms: 111.424923
+  type: 'test'
+  ...
+# Subtest: product feature verification needs product-scope evidence and verified implementation tasks
+ok 51 - product feature verification needs product-scope evidence and verified implementation tasks
+  ---
+  duration_ms: 22.400771
+  type: 'test'
+  ...
+# Subtest: init refuses to overwrite initialized evidence or tracking state
+ok 52 - init refuses to overwrite initialized evidence or tracking state
+  ---
+  duration_ms: 73.304126
+  type: 'test'
+  ...
+# Subtest: next respects milestone scope and dependency gates independent of persisted statuses
+ok 53 - next respects milestone scope and dependency gates independent of persisted statuses
+  ---
+  duration_ms: 3.185656
+  type: 'test'
+  ...
+1..53
+# tests 53
+# suites 0
+# pass 53
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2901.153363
+
+> schemaforge-local-development@0.0.0 dependencies:smoke
+> node experiments/db-devops-wp0/dependencies/smoke.mjs
+
+{
+  "outcome": "PASS",
+  "oracle_driver": "7.0.1",
+  "thin": true,
+  "postgres_client_import": "PASS",
+  "compiler": "6.0.2",
+  "compiler_positive": "PASS",
+  "compiler_negative": "PASS",
+  "database_calls": 0,
+  "scope": "OFFLINE_DEPENDENCY_SMOKE_ONLY"
+}

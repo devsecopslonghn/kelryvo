@@ -1,0 +1,1 @@
+SPOOL fixture.txt;
