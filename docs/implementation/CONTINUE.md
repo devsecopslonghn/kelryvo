@@ -17,7 +17,10 @@ npm run next
 
 PR #1 is merged at `42249826d105d44dbf5d6243f9ebe3748612e1c7`; PR #2 is merged at
 `ca232a5a4f4535bb4e6d14954bdba9b5a8ffa9b6` after all nine checks passed. Resolve latest
-master with `git rev-parse origin/master`. The checkpoint's own merge SHA is derived from
+master with `git rev-parse origin/master`. PR #3 is merged at
+`87d41da43886306a3a996aa458ced27130de130f` after all nine gates passed; final Sonar scan
+has zero new issues, hotspots and duplication. No implementation PR remains open in
+this snapshot; inspect any checkpoint PR before new work. The checkpoint's own merge SHA is derived from
 Git; literal hashes identify the validated preceding master. Inspect remaining PRs' exact
 head/base, complete CI, security alerts and reviews before merging or resuming edits.
 

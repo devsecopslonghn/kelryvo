@@ -1,0 +1,53 @@
+{
+  "recorded_at": "2026-10-08T14:04:08.764906+00:00",
+  "last_implementation_pr": {
+    "headRefOid": "4299b4d0ce770d0d961a39046ec997bb05cc1446",
+    "mergeCommit": {
+      "oid": "87d41da43886306a3a996aa458ced27130de130f"
+    },
+    "mergedAt": "2026-10-08T14:02:35Z",
+    "number": 3,
+    "state": "MERGED",
+    "url": "https://github.com/devsecopslonghn/schemaForge/pull/3"
+  },
+  "validated_master_before_this_checkpoint": "87d41da43886306a3a996aa458ced27130de130f",
+  "premerge_gates": "All nine exact-head checks SUCCESS; PR mergeable/up to date; independent QA/security approved; all open code/secret/dependency alerts and reviews/comments empty. Ordinary matched-head merge, no bypass.",
+  "last_sonar": {
+    "outcome": "PASS",
+    "new_issues": 0,
+    "security_hotspots": 0,
+    "new_code_duplication_percent": 0
+  },
+  "tasks": {
+    "VERIFIED": [
+      "SF-P0-FOUNDATION",
+      "WP0-T01",
+      "WP0-T02",
+      "WP0-T03"
+    ],
+    "BLOCKED": [
+      "WP0-T04"
+    ],
+    "BACKLOG": 60
+  },
+  "offline_t04_component": "Reusable actual-preflight-backed probe preparation and bounded CLI implemented; no runtime runner or full T04 criterion verified.",
+  "feature_status": {
+    "BACKLOG": 213,
+    "DEFERRED": 7,
+    "VERIFIED": 0
+  },
+  "unit_tests_passed": 72,
+  "independent_t04_focused_tests_passed": 16,
+  "t03_corpus_files_passed": 31,
+  "t03_real_helper_tests_passed": 4,
+  "oracle_cells_blocked": 124,
+  "next_fully_unblocked_tasks": [],
+  "blocking_inputs": [
+    "Explicit secret-free attested disposable Oracle 19c/21c lab manifest with scoped identities/grants/fault/teardown permission and approved trust material.",
+    "Owner product-license/name decision and final F31 distribution/source/notice/artifact closure."
+  ],
+  "oracle_calls": 0,
+  "credential_resolutions": 0,
+  "infrastructure_changes": 0,
+  "checkpoint_note": "This record identifies the last validated implementation merge. Resolve the checkpoint own commit/merge and current open PRs from Git/GitHub."
+}

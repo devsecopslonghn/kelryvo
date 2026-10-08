@@ -11,13 +11,16 @@ checks passed, including SonarCloud and CodeQL. Its reviewed head was
 `ca232a5a4f4535bb4e6d14954bdba9b5a8ffa9b6`. Initial Sonar failure and subsequent repairs
 are retained as append-only evidence. No quality gate was bypassed.
 
-The current increment uses `development/wp0-thin-probe-plan`. Its PR requires fresh
-exact-head CI and final review before merge. PR #3's initial SonarCloud run failed
-new-code duplication (7.8% versus3%); repeated case construction and test assertions were
-refactored with unchanged semantics and threshold. Fresh repaired-head gates must pass.
-Resolve current master and PR state from
-Git/GitHub when resuming; checkpoint hashes name the preceding validated master because
-a checkpoint cannot contain its own resulting commit or merge hash.
+PR #3 merged after independent review and all nine exact-head checks passed. Its reviewed
+head is `4299b4d0ce770d0d961a39046ec997bb05cc1446`; synchronized master before this
+checkpoint is `87d41da43886306a3a996aa458ced27130de130f`. Its initial SonarCloud duplication
+failure was fixed without changing the threshold; the final scan has zero issues, hotspots
+and new-code duplication. No implementation PR remains open at this checkpoint.
+
+This documentation/evidence checkpoint uses `development/wp0-checkpoint`. Resolve its
+own PR/merge and current master from Git/GitHub when resuming. Literal hashes name the
+preceding validated master because a checkpoint cannot contain its own resulting hash.
+The final session record is `evidence/db-devops-wp0/checkpoint-20261008T140408Z-c7c0416a/session-checkpoint.json`.
 
 T03 uses unchanged licensed grammars-v4 PL/SQL sources at
 `7df52be94698550d219d299d04105c6bafadd9c3`, ANTLR 4.13.2 and reviewed authored callbacks.
@@ -68,7 +71,7 @@ product distribution still needs its owner decision and final source/notice/arti
 Work: four VERIFIED, one BLOCKED, 60 BACKLOG. Features: 213 BACKLOG, seven DEFERRED,
 zero VERIFIED. `npm run next` returns no fully unblocked task.
 
-Next: finish this increment's remote gates and merge if eligible, then persist the final
-checkpoint. Actual T04 runner work resumes with the required lab/trust inputs. T05 and
+Next: inspect any outstanding checkpoint PR and finish its gates if necessary. Actual
+T04 runner work resumes with the required lab/trust inputs. T05 and
 later tasks depend on T04; WP1/API/UI cannot bypass WP0-T12. Follow
 [CONTINUE.md](CONTINUE.md) and the existing graph; do not create a replacement roadmap.

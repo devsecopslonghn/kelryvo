@@ -771,6 +771,24 @@
       },
       "path": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/WP0-T04-INPUTS.json",
       "sha256": "8467b21ca60503df55d9ff8bd16088001715f212fa60a0a63fa00a4a7b2dab23"
+    },
+    {
+      "id": "WP0-T04-MERGE-checkpoint-20261008T140408Z-c7c0416a",
+      "subject_id": "WP0-T04",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "gh pr view 3 --repo devsecopslonghn/schemaForge --json number,state,headRefOid,mergeCommit,mergedAt,url",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/checkpoint-20261008T140408Z-c7c0416a/pr3-merged.json",
+        "sha256": "802d3a86aabb75ab0437516f84f5afd2bf0a3172230ec721403d8d13a21a3fa7"
+      },
+      "path": "evidence/db-devops-wp0/checkpoint-20261008T140408Z-c7c0416a/WP0-T04-MERGE.json",
+      "sha256": "52fb02e4c520b145a52d14e01e058324345af44d18aa710e53b2edfa30869ca5"
     }
   ]
 }
