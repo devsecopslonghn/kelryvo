@@ -28,11 +28,17 @@ Never publish them or resolve target credential references. No Oracle connection
 After each milestone: implement, test, independently review, PR, inspect all exact-head
 CI/security/license/quality gates, merge only if eligible, inspect the runnable product,
 then choose another missing catalog feature. Local T01 acceptance is VERIFIED with real PostgreSQL/Git/parser/browser evidence in
-`evidence/product/product-t01-20261008T163522Z-87ad39d8/`. Initial failures and corrections are retained; remote exact-head CI/merge
-remain to be resolved from Git/GitHub. Full catalog features and Oracle cases are not verified.
+`evidence/product/product-t01-20261008T163522Z-87ad39d8/`. Initial failures and corrections are retained. PR #9 currently has ten passing checks
+and a cancelled Sonar analysis with zero source annotations. Public Sonar task/component
+APIs and GitHub suite rerequest returned 404. Inspect the real scanner error or a fresh
+passing analysis before merging; never treat cancellation as success. Full catalog features and Oracle cases are not verified.
 
-SF-PRODUCT-T02 is the next bounded archival
-increment. Add later explicit SF-PRODUCT contracts with product dependencies and evidence;
+SF-PRODUCT-T02 is the archival increment in `development/product-archive`
+(`/home/longhn0710/workspace/schemaforge-product-archive`); it keeps all records readable
+and rejects new/stale writes under PostgreSQL locks. SF-PRODUCT-T03 implements operator
+local Git bindings in `development/product-local-repositories`
+(`/home/longhn0710/workspace/schemaforge-product-repositories`). Complete each branch
+against the current parent, run its actual tests and inspect its own exact-head gates. Add later explicit SF-PRODUCT contracts with product dependencies and evidence;
 keep original catalog acceptance/dependencies exact. Local task verification cannot certify
 full catalog features or Oracle cells. Pending plans are offline candidates with
 NOT_OBSERVED target history. Approval never fabricates successful execution; all migration

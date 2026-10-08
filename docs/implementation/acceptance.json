@@ -2365,6 +2365,18 @@
         "SF-PRODUCT-T02-API",
         "SF-PRODUCT-T02-WEB"
       ]
+    },
+    "SF-PRODUCT-T03": {
+      "task_id": "SF-PRODUCT-T03",
+      "criteria": [
+        "The reproducible development CLI uses Node's native parseArgs for one to eight repeatable --repository PATH options, registers existing local Git directories, and displays only repository IDs and names.",
+        "Invalid flags, URLs, and non-repository paths are rejected before PostgreSQL or Docker startup with fixed errors that do not disclose supplied paths.",
+        "Registration never clones, fetches, or resolves provider credentials; custom releases use the existing parser with an immutable resolved commit, database execution remains NOT_EXECUTED, and no Oracle behavior is claimed."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T03-UNIT",
+        "SF-PRODUCT-T03-API"
+      ]
     }
   },
   "test_cases": [

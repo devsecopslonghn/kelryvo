@@ -1,7 +1,7 @@
 # Product tracking
 
 The tracking records preserve all 220 feature IDs from the immutable research catalog and
-all 64 imported tasks plus `SF-P0-FOUNDATION`. Catalog dependencies and acceptance criteria
+all 64 imported tasks plus `SF-P0-FOUNDATION` and the bounded PRODUCT tasks. Catalog dependencies and acceptance criteria
 remain exact. The 95 refined features use their implementation-plan tier as `phase` and retain
 the catalog release in `original_phase`. Seven rejected catalog features start as `DEFERRED`
 with a source-based reason; other features start as `BACKLOG`.
@@ -31,8 +31,9 @@ node scripts/tracker.mjs graph
 node scripts/tracker.mjs graph dot
 ```
 
-`next` selects READY or BACKLOG work inside `milestone.json`'s allowed packages whose
-dependencies are VERIFIED. Initialization limits selection to WP0. Verification requires
+`next` selects READY or BACKLOG work inside `milestone.json`'s active track and allowed
+packages whose scheduling dependencies are VERIFIED. Initialization starts on PRODUCT;
+switch to VALIDATION to select WP0 work. Verification requires
 every acceptance criterion index and named test reference to have passing evidence. A WP0
 task also requires explicit case coverage for each referenced case. WP0-T01 through WP0-T03
 may record a task increment with `scope: TASK_INCREMENT`, `full_case_pass: false`, the actual
@@ -80,8 +81,9 @@ JSON record under `evidence/` and includes a hashed raw output:
 
 The JSON record repeats every field except its own `path` and `sha256`. Both files must resolve
 inside the repository `evidence/` directory, with symlink escapes rejected, and their bytes
-must match the indexed hashes. Record metadata must match the index exactly. Product feature evidence uses
-`scope: PRODUCT`; task/case evidence uses `scope: HARNESS`. Oracle cells remain BLOCKED until
+must match the indexed hashes. Record metadata must match the index exactly. Product feature
+and bounded PRODUCT task evidence uses `scope: PRODUCT`; WP0 task/case evidence uses
+`scope: HARNESS`. Oracle cells remain BLOCKED until
 `milestone.json` sets `oracle_lab_authorized` after manifest preflight. Research observations
 cannot count as product evidence. `init` refuses to overwrite existing tracking state.
 
@@ -100,7 +102,10 @@ remain BLOCKED until authorized real evidence exists.
 `SF-PRODUCT-T01` is the first local-governance vertical slice and references existing project,
 Git, migration, governance, and security feature IDs. `SF-PRODUCT-T02` follows it to implement
 project archival and reject new work on archived projects, with a partial local criterion linked
-to PRJ-001. Both milestone acceptances are tracked under `acceptance.work`; they are not a
-substitute for the catalog acceptance contracts for those IDs. Keep selecting the next bounded
-PRODUCT increment after T02 from the existing catalog; do not infer an Oracle prerequisite for
-independent application behavior.
+to PRJ-001. `SF-PRODUCT-T03` follows T02 to register operator-supplied local Git repositories
+through the reproducible development CLI and import custom releases through the existing
+immutable-commit parser path. T03 records GIT-018, GIT-003, and MIG-006 as partial local links;
+it does not verify those catalog features. These milestone acceptances are tracked under
+`acceptance.work`; they are not substitutes for the catalog acceptance contracts for those IDs.
+Keep selecting the next bounded PRODUCT increment from the existing catalog; do not infer an
+Oracle prerequisite for independent application behavior.

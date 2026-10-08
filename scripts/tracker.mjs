@@ -39,7 +39,17 @@ const PRODUCT_TASK_02 = {
     'Existing project details, audit events, and migration history remain readable after archival.',
   ], test_references: ['SF-PRODUCT-T02-API', 'SF-PRODUCT-T02-WEB'],
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02];
+const PRODUCT_TASK_03 = {
+  id: 'SF-PRODUCT-T03', package: 'PRODUCT', assigned_agent: 'devops', title: 'Register local Git repositories for migration imports', dependencies: ['SF-PRODUCT-T02'],
+  feature_ids: ['GIT-018', 'GIT-003', 'MIG-006'],
+  acceptance_criteria: [
+    "The reproducible development CLI uses Node's native parseArgs for one to eight repeatable --repository PATH options, registers existing local Git directories, and displays only repository IDs and names.",
+    'Invalid flags, URLs, and non-repository paths are rejected before PostgreSQL or Docker startup with fixed errors that do not disclose supplied paths.',
+    'Registration never clones, fetches, or resolves provider credentials; custom releases use the existing parser with an immutable resolved commit, database execution remains NOT_EXECUTED, and no Oracle behavior is claimed.',
+  ], test_references: ['SF-PRODUCT-T03-UNIT', 'SF-PRODUCT-T03-API'],
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03];
+const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',
   backend: 'Application services, governance workflows, APIs, and durable state contracts',
@@ -111,10 +121,7 @@ export function buildTrackingData() {
     status: 'IN_PROGRESS', assigned_agent: 'orchestrator', evidence: [], blockers: [],
   };
   tasks.unshift(foundation);
-  tasks.push(
-    { ...PRODUCT_TASK, status: 'READY', source_paths: ['docs/implementation/backlog.json'], evidence: [], blockers: [] },
-    { ...PRODUCT_TASK_02, status: 'BACKLOG', source_paths: ['docs/implementation/backlog.json'], evidence: [], blockers: [] },
-  );
+  tasks.push(...PRODUCT_TASKS.map((task) => ({ ...task, status: task.id === PRODUCT_TASK.id ? 'READY' : 'BACKLOG', source_paths: ['docs/implementation/backlog.json'], evidence: [], blockers: [] })));
   const acceptance = Object.fromEntries(features.map((f) => [f.id, { feature_id: f.id, criteria: f.acceptance_criteria }]));
   const workAcceptance = Object.fromEntries(tasks.map((t) => [t.id, { task_id: t.id, criteria: t.acceptance_criteria, test_references: t.test_references }]));
   const tests = plan.wp0_tests.map((t) => ({
@@ -138,7 +145,7 @@ export function buildInitialState() {
   const items = [...d.features, ...d.tasks];
   return {
     features: { features: d.features }, tasks: { tasks: d.tasks }, acceptance: { ...d.acceptance, test_cases: d.tests },
-    graph: { nodes: items.map((x) => x.id), edges: d.dependencies, scheduling: { PRODUCT: { [PRODUCT_TASK.id]: [], [PRODUCT_TASK_02.id]: [PRODUCT_TASK.id] }, VALIDATION: {} } },
+    graph: { nodes: items.map((x) => x.id), edges: d.dependencies, scheduling: { PRODUCT: PRODUCT_SCHEDULE, VALIDATION: {} } },
     ownership: {
       agents: Object.fromEntries(Object.entries(OWNER_ROLES).map(([id, responsibilities]) => [id, { responsibilities, path_policy: OWNER_PATH_POLICY[id] }])),
       items: Object.fromEntries(items.map((x) => [x.id, { assigned_agent: x.assigned_agent, ...(x.review_agent ? { review_agent: x.review_agent } : {}), status: x.status }])),
@@ -520,7 +527,8 @@ function validateItemGraphRecord(s, item, errors) {
 
 function validateItemCounts(s, errors) {
   if (s.features.features.length !== 220) errors.push(`expected 220 features, found ${s.features.features.length}`);
-  if (s.tasks.tasks.length !== 67) errors.push(`expected 64 imported tasks plus foundation and two product tasks, found ${s.tasks.tasks.length}`);
+  const expectedTaskCount = plan.tasks.length + 1 + PRODUCT_TASKS.length;
+  if (s.tasks.tasks.length !== expectedTaskCount) errors.push(`expected ${plan.tasks.length} imported tasks plus foundation and ${PRODUCT_TASKS.length} product tasks, found ${s.tasks.tasks.length}`);
   if (s.tests.cases.length !== 63) errors.push(`expected 63 WP0 cases, found ${s.tests.cases.length}`);
 }
 
@@ -698,7 +706,7 @@ function initializeTracking() {
   write('features.json', { schema_version: '1.0.0', source: catalogPath, phase_policy: 'For the 95 refined items, phase is the implementation-plan tier; original_phase preserves catalog recommended_release. Other features retain recommended_release.', features: d.features });
   write('backlog.json', { schema_version: '1.0.0', source: planPath, tasks: d.tasks });
   write('acceptance.json', { schema_version: '1.0.0', ...d.acceptance, test_cases: d.tests });
-  write('dependency-graph.json', { schema_version: '1.0.0', nodes: [...d.features, ...d.tasks].map((x) => x.id), edges: d.dependencies, scheduling: { PRODUCT: { [PRODUCT_TASK.id]: [], [PRODUCT_TASK_02.id]: [PRODUCT_TASK.id] }, VALIDATION: {} } });
+  write('dependency-graph.json', { schema_version: '1.0.0', nodes: [...d.features, ...d.tasks].map((x) => x.id), edges: d.dependencies, scheduling: { PRODUCT: PRODUCT_SCHEDULE, VALIDATION: {} } });
   write('ownership.json', { schema_version: '1.0.0', agents: Object.fromEntries(Object.entries(OWNER_ROLES).map(([id, responsibilities]) => [id, { responsibilities, path_policy: OWNER_PATH_POLICY[id] }])), items: Object.fromEntries([...d.features, ...d.tasks].map((x) => [x.id, { assigned_agent: x.assigned_agent, ...(x.review_agent ? { review_agent: x.review_agent } : {}), status: x.status }])) });
   write('evidence-index.json', { schema_version: '1.0.0', note: 'Initialized empty: research sources are not product evidence.', entries: [] });
   write('milestone.json', { schema_version: '1.0.0', milestone: 'PRODUCT runnable local governance / VALIDATION Oracle acceptance', status: 'IN_PROGRESS', active_track: 'PRODUCT', tracks: { PRODUCT: { allowed_packages: ['PRODUCT'] }, VALIDATION: { allowed_packages: ['WP0'] } }, oracle_lab_authorized: false, foundation_task: 'SF-P0-FOUNDATION', blockers: ['Oracle lab authorization and attested disposable-target profile are missing for VALIDATION only.'], evidence: [] });
@@ -707,7 +715,7 @@ function initializeTracking() {
 function runValidation(s) {
   const errors = validateState(s);
   if (errors.length) { console.error(errors.map((e) => `ERROR ${e}`).join('\n')); process.exitCode = 1; }
-  else console.log('Tracker data valid: 220 features, 64 imported tasks plus foundation and two product tasks, 63 cases; no Oracle verification claims.');
+  else console.log(`Tracker data valid: 220 features, ${plan.tasks.length} imported tasks plus foundation and ${PRODUCT_TASKS.length} product tasks, 63 cases; no Oracle verification claims.`);
 }
 function printNext(s) {
   const eligible = selectNext(s);
