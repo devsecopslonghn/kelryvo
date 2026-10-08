@@ -1076,6 +1076,42 @@
       },
       "path": "evidence/product/product-t02-20261008T172809Z-local-retry1/quality-repair-1/record.json",
       "sha256": "00c3f6741984720435127cf5585f4753fb57416d07b4c25d3163e1f3383688d3"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-invalid-cells-before",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "FAIL",
+      "command": "node --test tests/tracker.test.mjs with malformed full-case coverage cells before safe comparator repair",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-5/before.log",
+        "sha256": "3159c71cbd82bfdcb4529e514130a419b7abacb0bef5afba2f8c99bc8f09b950"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-5/before.json",
+      "sha256": "422d11c56950d0fc93f684e03c11400d9d0fea9e3ed61c5094381a1ad995f8ec"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-invalid-cells-after",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "node --test tests/tracker.test.mjs with malformed full-case coverage cells after safe comparator repair",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-5/after.log",
+        "sha256": "1ef526341fb462ee5f1be91e6cf4745c2299f050efecbd94dd0a535ba0232911"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-5/after.json",
+      "sha256": "20d2d3f3bb4aaa6a8b97e68fb4f086c99ee5e28990d2459db05fe2826fe04862"
     }
   ]
 }

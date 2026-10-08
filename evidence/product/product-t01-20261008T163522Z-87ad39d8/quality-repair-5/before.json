@@ -1,0 +1,16 @@
+{
+  "id": "product-t01-20261008T163522Z-87ad39d8-invalid-cells-before",
+  "subject_id": "SF-PRODUCT-T01",
+  "kind": "UNIT",
+  "scope": "PRODUCT",
+  "outcome": "FAIL",
+  "command": "node --test tests/tracker.test.mjs with malformed full-case coverage cells before safe comparator repair",
+  "exit_code": 1,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-5/before.log",
+    "sha256": "3159c71cbd82bfdcb4529e514130a419b7abacb0bef5afba2f8c99bc8f09b950"
+  }
+}
