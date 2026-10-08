@@ -1,0 +1,16 @@
+{
+  "id": "product-t01-20261008T163522Z-87ad39d8-quality-repair-2",
+  "subject_id": "SF-PRODUCT-T01",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check; npm run test:product; npm run test:browser after tracker/source quality and local-only Docker repairs",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-2/checks.log",
+    "sha256": "6a5b61758a9969384a9c3a71bda6cc3384d188a7684a8fede8e16df28a2456ef"
+  }
+}

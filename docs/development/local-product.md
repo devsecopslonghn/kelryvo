@@ -10,7 +10,9 @@ acceptance dependencies remain intact. SF-PRODUCT tasks verify bounded local beh
 From the repository root, run `npm ci --ignore-scripts --no-audit --no-fund`,
 `npm run local:prepare`, then `npm run dev`. Preparation downloads exact pinned public
 parser/JDK artifacts and the pinned PostgreSQL 17.10 image. It does not download Oracle.
-Linux x64, Node 22.23.3, Docker and Git are required. Docker must be reachable by your user;
+Linux x64, Node 22.23.3, Docker and Git are required. Docker's local Unix socket
+`/var/run/docker.sock` must be reachable by your user; the tools force this endpoint,
+ignore remote Docker environment/context selection, and do not change saved contexts.
 ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the API/web server.
 
 1. Open `http://127.0.0.1:4317`. Read the private local
@@ -34,7 +36,7 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
 
 Ctrl-C stops the API and closes its database pool. The local PostgreSQL container remains
 available and keeps its named Docker volume `schemaforge-local-product-data`. To stop it
-without removing data, use `docker stop schemaforge-local-product-postgres`.
+without removing data, use `docker --host unix:///var/run/docker.sock stop schemaforge-local-product-postgres`.
 Subsequent startup restarts that owned container. Do not remove the volume to restart.
 Private config must be retained alongside this volume; credentials are not printed to logs.
 
@@ -82,7 +84,7 @@ claim is included. Archive/edit/resubmit and broader catalog workflows are incre
 `npm run check` checks source/types/web build, all standard unit/regression tests, tracking,
 immutable provenance and existing dependency smoke. `npm run test:product` uses a separate
 local PostgreSQL test database (or `SCHEMAFORGE_TEST_DATABASE_URL` on a dedicated service),
-actual temporary Git objects and the pinned parser. `npx playwright install chromium`, then
+actual temporary Git objects and the pinned parser. `node node_modules/playwright/cli.js install chromium`, then
 `npm run test:browser` exercises the real browser/API/parser/PostgreSQL flow, approvals,
 rejection, execution denial and restart persistence. Browser downloads are separate test tools.
 

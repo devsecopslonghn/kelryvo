@@ -1,7 +1,7 @@
 import { spawnSync } from 'node:child_process';
 import { access } from 'node:fs/promises';
 import path from 'node:path';
-import { PG_IMAGE } from './local-resources.mjs';
+import { PG_IMAGE, requireLocalDocker } from './local-resources.mjs';
 
 const run = args => {
   const result = spawnSync(args[0], args.slice(1), { stdio: 'inherit', env: process.env });
@@ -16,7 +16,7 @@ try {
     process.env.SCHEMAFORGE_JAVA_HOME ??= path.resolve('.cache/antlr/temurin');
   }
   run(['npm', 'run', 'parser:antlr:build']);
-  run(['docker', 'pull', PG_IMAGE]);
+  requireLocalDocker(['pull', PG_IMAGE], { stdio: 'inherit' });
   console.log('Local PostgreSQL image and pinned ANTLR parser are ready.');
 } catch {
   console.error('Preparation failed. Existing parser destinations are preserved; see the command output.');

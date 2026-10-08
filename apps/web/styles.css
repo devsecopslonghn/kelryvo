@@ -489,7 +489,7 @@ textarea::placeholder {
   height: 25px;
   border-radius: 7px;
   background: #fff1e7;
-  color: #be7840;
+  color: #915324;
   display: grid;
   place-items: center;
   font-size: 15px;
@@ -605,7 +605,7 @@ textarea::placeholder {
   place-items: center;
   border-radius: 50%;
   background: #f0f5fc;
-  color: #5a8ad8;
+  color: #315a93;
   font-size: 19px;
   margin-bottom: 2px;
 }
@@ -701,7 +701,7 @@ textarea::placeholder {
 }
 .status-pill.neutral {
   background: #f0f2f5;
-  color: #6c7988;
+  color: #526171;
 }
 .file-table-wrap {
   width: 100%;
@@ -797,7 +797,7 @@ td code {
   place-items: center;
   border-radius: 50%;
   background: #d9e9fd;
-  color: #3c74c3;
+  color: #255890;
   font-weight: 700;
   font-size: 12px;
 }
@@ -820,7 +820,7 @@ td code {
 .scope-tag {
   font-family: "DM Mono", monospace;
   font-size: 8px;
-  color: #677d98;
+  color: #53657b;
   background: #fff;
   padding: 6px 7px;
   border-radius: 4px;
@@ -1039,7 +1039,7 @@ td code {
 .banner.warning {
   border: 1px solid #f2e2c3;
   background: #fff9ed;
-  color: #9a742f;
+  color: #745619;
 }
 .banner-close {
   position: absolute;
@@ -1152,14 +1152,14 @@ td code {
   padding: 20px;
   box-shadow: 0 25px 80px rgba(3, 14, 27, .3);
   font-size: 10px;
-  color: #6f7d8e;
+  color: #566371;
 }
 .art-card .status-dot {
   margin-right: 6px;
 }
 .art-card strong {
   display: block;
-  font-family: Manrope;
+  font-family: Manrope, sans-serif;
   font-size: 17px;
   line-height: 1.4;
   color: #243b56;

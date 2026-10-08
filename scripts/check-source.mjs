@@ -20,14 +20,10 @@ export async function ownedFiles(directory = root) {
 
 export async function checkSource() {
   const errors = [];
-  let count = 0;
-  for (const path of await ownedFiles()) {
-    if (!/\.(mjs|json|md|toml|yml|ts|jsx|html|css)$/.test(path)) continue;
-    count += 1;
-    errors.push(...await checkFile(path));
-  }
+  const paths = (await ownedFiles()).filter(path => /\.(mjs|json|md|toml|yml|ts|jsx|html|css)$/.test(path));
+  for (const fileErrors of await Promise.all(paths.map(checkFile))) errors.push(...fileErrors);
   if (errors.length) throw new Error(errors.join('\n'));
-  return count;
+  return paths.length;
 }
 
 async function checkFile(path) {
@@ -36,7 +32,7 @@ async function checkFile(path) {
   const name = relative(root, path);
   if (!source.endsWith('\n')) errors.push(`${name}: missing final newline`);
   if (source.includes('\r')) errors.push(`${name}: use LF line endings`);
-  if (source.split('\n').some(line => /[\t ]+$/.test(line))) errors.push(`${name}: trailing whitespace`);
+  if (source.split('\n').some(line => line.endsWith(' ') || line.endsWith('\t'))) errors.push(`${name}: trailing whitespace`);
   if (path.endsWith('.json')) {
     try { JSON.parse(source); } catch { errors.push(`${name}: invalid JSON`); }
   }

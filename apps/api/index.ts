@@ -1,6 +1,5 @@
 import Fastify from "fastify";
 import { timingSafeEqual } from "node:crypto";
-import { initializeDatabase } from "../../packages/database/index.ts";
 
 const ORG = "00000000-0000-4000-8000-000000000001";
 const fail = (reply: any, status: number, error: string) =>
@@ -61,7 +60,7 @@ export function createApp(options: {
   if (new Set(actors.map((a) => a.token)).size !== actors.length)
     throw new Error("Duplicate local actor token");
   const app = Fastify({ logger: false, bodyLimit: 1024 * 1024 });
-  const authenticate = async (req: any, reply: any) => {
+  const authenticate = (req: any, reply: any): Promise<void> => {
     const auth = req.headers.authorization;
     const token =
       typeof auth === "string" && auth.startsWith("Bearer ")
@@ -76,7 +75,7 @@ export function createApp(options: {
     }
     if (!actor) {
       fail(reply, 401, "UNAUTHENTICATED");
-      return;
+      return Promise.resolve();
     }
     const origin = req.headers.origin;
     if (origin) {
@@ -89,10 +88,11 @@ export function createApp(options: {
       }
       if (!same) {
         fail(reply, 403, "ORIGIN_REJECTED");
-        return;
+        return Promise.resolve();
       }
     }
     req.actor = actor;
+    return Promise.resolve();
   };
   const project = async (id: string) =>
     (
@@ -419,8 +419,14 @@ export function createApp(options: {
         const rows =
           await tx`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items) VALUES(${p.id},${ORG},${r.id},${profile.id},${req.actor.id},${tx.json(items)}) RETURNING *`;
         const plan = rows[0];
-        for (const item of items)
-          await tx`INSERT INTO sf_history(project_id,plan_id,version,path,sha256,status) VALUES(${p.id},${plan.id},${item.version},${item.path},${item.sha256},'NOT_EXECUTED')`;
+        await tx`INSERT INTO sf_history ${tx(items.map((item) => ({
+          project_id: p.id,
+          plan_id: plan.id,
+          version: item.version,
+          path: item.path,
+          sha256: item.sha256,
+          status: "NOT_EXECUTED",
+        })))}`;
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${p.id},${ORG},${req.actor.id},'PLAN_CREATED',${plan.id})`;
         return plan;
       });
@@ -508,4 +514,3 @@ function mapPlan(r: any) {
     planningScope: r.planning_scope,
   };
 }
-export { initializeDatabase };

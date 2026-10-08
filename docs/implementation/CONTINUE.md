@@ -21,7 +21,7 @@ The current vertical slice is SF-PRODUCT-T01. Read the actual implementation in 
 apps/web, packages/database and packages/migrations, and [local operation](../development/local-product.md).
 Run `npm run local:prepare` then `npm run dev` for the local PostgreSQL/API/web demonstration.
 `npm run test:product` exercises PostgreSQL/API and actual Git/ANTLR; install the separate
-browser with `npx playwright install chromium`, then `npm run test:browser` for the full flow.
+browser with `node node_modules/playwright/cli.js install chromium`, then `npm run test:browser` for the full flow.
 Private generated metadata credentials and two bearer tokens live only under .cache.
 Never publish them or resolve target credential references. No Oracle connection is needed.
 

@@ -3,7 +3,10 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, rm, chmod, stat, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, createHash } from 'node:crypto';
+import { existsSync } from 'node:fs';
+import { createServer } from 'node:net';
+import { spawn } from 'node:child_process';
 
 const moduleUrl = new URL('../scripts/local-resources.mjs', import.meta.url);
 async function isolated(check) {
@@ -46,3 +49,42 @@ test('local startup refuses symlinked directories/configs without chmod or readi
     assert.equal((await stat(externalFile)).mode & 0o777, 0o644);
   });
 });
+
+test('real Docker CLI ignores remote environment and saved context for read-only local commands',
+  { skip: !existsSync('/usr/bin/docker') && 'Local Docker CLI is unavailable.' }, async () => {
+    const directory = await mkdtemp(path.join(tmpdir(), 'schemaforge-docker-context-'));
+    let remoteConnections = 0;
+    const trap = createServer(socket => { remoteConnections += 1; socket.destroy(); });
+    await new Promise(resolve => trap.listen(0, '127.0.0.1', resolve));
+    const remote = `tcp://127.0.0.1:${trap.address().port}`;
+    try {
+      const contextName = 'schemaforge-remote-test';
+      const contextId = createHash('sha256').update(contextName).digest('hex');
+      const metadata = path.join(directory, 'contexts/meta', contextId);
+      await mkdir(metadata, { recursive: true });
+      await writeFile(path.join(metadata, 'meta.json'), JSON.stringify({ Name: contextName,
+        Metadata: {}, Endpoints: { docker: { Host: remote, SkipTLSVerify: true } } }));
+      await writeFile(path.join(directory, 'config.json'), JSON.stringify({ currentContext: contextName }));
+      const cleanEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('DOCKER_')));
+      for (const extra of [{}, { DOCKER_HOST: remote, DOCKER_CONTEXT: contextName,
+        DOCKER_TLS_VERIFY: '1', DOCKER_CERT_PATH: '/missing', DOCKER_API_VERSION: '0.01' }]) {
+        const source = `import { localDocker } from ${JSON.stringify(moduleUrl.href)};
+          const result = localDocker(['version', '--format', '{{.Server.Version}}']);
+          console.log(JSON.stringify({status: result.status, stdout: result.stdout, stderr: result.stderr}));`;
+        const child = spawn(process.execPath, ['--input-type=module', '-e', source], {
+          env: { ...cleanEnv, ...extra, DOCKER_CONFIG: directory }, stdio: ['ignore', 'pipe', 'pipe'],
+        });
+        let output = '';
+        child.stdout.on('data', bytes => { output += bytes; });
+        const exit = await new Promise(resolve => child.once('exit', resolve));
+        assert.equal(exit, 0);
+        const result = JSON.parse(output);
+        // Foundation CI may lack a daemon. A failure must still identify the local socket.
+        if (result.status !== 0) assert.match(result.stderr, /unix:\/\/\/var\/run\/docker\.sock/);
+        assert.equal(remoteConnections, 0, 'Remote Docker endpoint must receive no connection.');
+      }
+    } finally {
+      await new Promise(resolve => trap.close(resolve));
+      await rm(directory, { recursive: true, force: true });
+    }
+  });

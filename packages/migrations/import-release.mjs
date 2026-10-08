@@ -12,9 +12,9 @@ export class ImportError extends Error {
 const stop = code => { throw new ImportError(code); };
 
 function git(repository, args, maxBuffer = 4 * 1024 * 1024) {
-  const result = spawnSync('git', ['--no-optional-locks', '-c', 'core.hooksPath=/dev/null',
+  const result = spawnSync('/usr/bin/git', ['--no-optional-locks', '-c', 'core.hooksPath=/dev/null',
     '-c', 'core.fsmonitor=false', '-C', repository, ...args], {
-    env: { PATH: process.env.PATH ?? '', LANG: 'C.UTF-8', GIT_CONFIG_NOSYSTEM: '1',
+    env: { PATH: '/usr/bin:/bin', LANG: 'C.UTF-8', GIT_CONFIG_NOSYSTEM: '1',
       GIT_CONFIG_GLOBAL: '/dev/null', GIT_TERMINAL_PROMPT: '0', GIT_NO_REPLACE_OBJECTS: '1' },
     timeout: 10_000, maxBuffer, windowsHide: true,
   });
@@ -132,6 +132,7 @@ function observedFile(file, observations, validationStatus) {
   let status = 'NOT_VALIDATED';
   if (observation) status = validationStatus;
   if (observation?.status === 'PARSE') status = 'VALID';
-  const { raw: _raw, ...snapshot } = file;
+  const { path, version, sha256, bytes, content } = file;
+  const snapshot = { path, version, sha256, bytes, content };
   return { ...snapshot, statementCount: observation?.statement_count ?? null, validationStatus: status };
 }

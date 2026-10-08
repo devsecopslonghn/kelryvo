@@ -1,5 +1,6 @@
 import postgres from 'postgres';
-import { createApp, initializeDatabase } from './index.ts';
+import { createApp } from './index.ts';
+import { initializeDatabase } from '../../packages/database/index.ts';
 import { resolve } from 'node:path';
 import { readFile } from 'node:fs/promises';
 

@@ -12,16 +12,38 @@ async function assertManagedPath(file) {
   const relative = path.relative(process.cwd(), file);
   if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) throw new Error('Invalid local resource path.');
   let current = process.cwd();
+  const components = [];
   for (const part of relative.split(path.sep)) {
     current = path.join(current, part);
-    try { if ((await lstat(current)).isSymbolicLink()) throw new Error('Local resource symlinks are not allowed.'); }
-    catch (error) { if (error.code !== 'ENOENT') throw error; }
+    components.push(current);
   }
+  await Promise.all(components.map(assertNoSymlink));
+}
+async function assertNoSymlink(file) {
+  try { if ((await lstat(file)).isSymbolicLink()) throw new Error('Local resource symlinks are not allowed.'); }
+  catch (error) { if (error.code !== 'ENOENT') throw error; }
 }
 function command(program, args, env = process.env) {
   const result = spawnSync(`/usr/bin/${program}`, args, { env: { ...env, PATH: '/usr/bin:/bin' }, encoding: 'utf8', timeout: 60_000 });
   if (result.error || result.status !== 0) throw new Error(`${program} failed; inspect the local tool and port availability.`);
   return result.stdout.trim();
+}
+
+/** All metadata containers belong to the local Linux daemon, regardless of the
+ * caller's Docker environment or saved current context. Never mutate contexts.
+ */
+export function localDocker(args, { env = process.env, stdio } = {}) {
+  const localEnv = Object.fromEntries(Object.entries(env)
+    .filter(([key]) => !key.startsWith('DOCKER_') || key === 'DOCKER_CONFIG'));
+  return spawnSync('/usr/bin/docker', ['--host', 'unix:///var/run/docker.sock', ...args], {
+    env: { ...localEnv, PATH: '/usr/bin:/bin' }, stdio, encoding: 'utf8', timeout: 60_000,
+  });
+}
+
+export function requireLocalDocker(args, options) {
+  const result = localDocker(args, options);
+  if (result.error || result.status !== 0) throw new Error('Local Docker command failed; check /var/run/docker.sock and local port availability.');
+  return result.stdout?.trim();
 }
 
 export async function localConfiguration() {
@@ -56,17 +78,17 @@ export function localDatabaseUrl(config) {
 
 export async function startLocalPostgres(config) {
   const name = 'schemaforge-local-product-postgres';
-  const probe = spawnSync('/usr/bin/docker', ['container', 'inspect', '--format', '{{ index .Config.Labels "local.schemaforge.product" }}', name], { encoding: 'utf8' });
+  const probe = localDocker(['container', 'inspect', '--format', '{{ index .Config.Labels "local.schemaforge.product" }}', name]);
   if (probe.status === 0) {
     if (probe.stdout.trim() !== localDirectory) throw new Error('Existing container is not owned by this checkout.');
-    command('docker', ['start', name]);
+    requireLocalDocker(['start', name]);
   } else {
-    command('docker', ['run', '--detach', '--name', name,
+    requireLocalDocker(['run', '--detach', '--name', name,
       '--label', `local.schemaforge.product=${localDirectory}`, '--restart=no',
       '--publish', '127.0.0.1:55432:5432', '--env', 'POSTGRES_PASSWORD',
       '--env', 'POSTGRES_USER=schemaforge', '--env', 'POSTGRES_DB=schemaforge',
       '--volume', 'schemaforge-local-product-data:/var/lib/postgresql/data', PG_IMAGE],
-    { ...process.env, POSTGRES_PASSWORD: config.databasePassword });
+    { env: { ...process.env, POSTGRES_PASSWORD: config.databasePassword } });
   }
   const sql = postgres(localDatabaseUrl(config), { max: 1, connect_timeout: 2, onnotice: () => {} });
   try {
