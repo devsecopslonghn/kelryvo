@@ -1206,6 +1206,10 @@
     },
     "SF-PRODUCT-T03": {
       "assigned_agent": "devops",
+      "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T04": {
+      "assigned_agent": "backend",
       "status": "BACKLOG"
     }
   }

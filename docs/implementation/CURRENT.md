@@ -37,7 +37,15 @@ T02 local acceptance is VERIFIED with 127 standard tests passing (three dedicate
 cases skip there), 10 PostgreSQL/API/importer cases passing, and both real browser
 workflows passing. Evidence and the initial missing-JDK failure are preserved under
 `evidence/product/product-t02-20261008T172809Z-local*`. This does not certify PR merge
-readiness or catalog/Oracle acceptance. T03 remains the next PRODUCT task.
+readiness or catalog/Oracle acceptance. After T03, select the next bounded missing PRODUCT behavior from the catalog.
+
+T03 local acceptance is VERIFIED: operator-owned local Git startup options validate
+before any database/container setup, expose IDs/names only, and reuse immutable Git
+import/ANTLR parsing. Verification passed 130 standard tests (four dedicated-DB cases
+run separately), 14 product/startup/Git/API cases and both browser workflows. Evidence:
+`evidence/product/product-t03-20261008T173420Z-local/`. No provider credentials or
+Oracle execution are introduced. All three local PRODUCT milestones have implementation
+and local acceptance evidence; remote merge eligibility remains separate.
 
 The previous master checkpoint was PR #8 at f2b333e. The following WP0 snapshot is retained
 as historical evidence; its scheduling-only API/UI prohibition is superseded by the owner

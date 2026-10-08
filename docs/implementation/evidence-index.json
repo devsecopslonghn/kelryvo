@@ -1112,6 +1112,31 @@
       },
       "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-5/after.json",
       "sha256": "20d2d3f3bb4aaa6a8b97e68fb4f086c99ee5e28990d2459db05fe2826fe04862"
+    },
+    {
+      "id": "product-t03-20261008T173420Z-local-verified",
+      "subject_id": "SF-PRODUCT-T03",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser including real custom Git/API/parser immutability and startup-before-Docker rejection cases",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T03-UNIT",
+        "SF-PRODUCT-T03-API"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t03-20261008T173420Z-local/checks.log",
+        "sha256": "1d54241d50d711024dcea3ec8a682286954e53b54a8b5078ef377a26e9d15847"
+      },
+      "path": "evidence/product/product-t03-20261008T173420Z-local/record.json",
+      "sha256": "197513b388610cf998e0c19ecceb6425cf5f1d482e0d2a82689b03d9e4e39b86"
     }
   ]
 }

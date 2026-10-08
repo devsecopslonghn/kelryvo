@@ -107,5 +107,9 @@ through the reproducible development CLI and import custom releases through the 
 immutable-commit parser path. T03 records GIT-018, GIT-003, and MIG-006 as partial local links;
 it does not verify those catalog features. These milestone acceptances are tracked under
 `acceptance.work`; they are not substitutes for the catalog acceptance contracts for those IDs.
-Keep selecting the next bounded PRODUCT increment from the existing catalog; do not infer an
-Oracle prerequisite for independent application behavior.
+`SF-PRODUCT-T04` follows T03 to bind an allowlisted repository ID and migration folder to a
+project, reject unbound or mismatched imports before Git/parser work, and reject source changes
+after archival while retaining existing history with execution marked `NOT_EXECUTED`. Its PRJ-008
+and GIT-003 links are partial local criteria, not full catalog verification. Keep selecting the next
+bounded PRODUCT increment from the existing catalog; do not infer an Oracle prerequisite for
+independent application behavior.

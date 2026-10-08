@@ -2137,6 +2137,38 @@
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "index_id": "product-t03-20261008T173420Z-local-verified"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T04",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Bind a registered Git repository and migration folder to projects",
+      "dependencies": [
+        "SF-PRODUCT-T03"
+      ],
+      "feature_ids": [
+        "PRJ-008",
+        "GIT-003"
+      ],
+      "acceptance_criteria": [
+        "A project can persist and display its source binding using an allowlisted repository ID and migration folder; API and web views never expose repository paths or credentials.",
+        "Imports reject an unbound project or repository/folder mismatch before Git or parser work begins.",
+        "Archived projects reject source-binding changes while existing releases, plans, audit history, and migration history remain readable with execution state NOT_EXECUTED."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T04-API",
+        "SF-PRODUCT-T04-WEB"
+      ],
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
       "status": "BACKLOG",
       "evidence": [],
       "blockers": []

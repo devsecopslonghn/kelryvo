@@ -2377,6 +2377,18 @@
         "SF-PRODUCT-T03-UNIT",
         "SF-PRODUCT-T03-API"
       ]
+    },
+    "SF-PRODUCT-T04": {
+      "task_id": "SF-PRODUCT-T04",
+      "criteria": [
+        "A project can persist and display its source binding using an allowlisted repository ID and migration folder; API and web views never expose repository paths or credentials.",
+        "Imports reject an unbound project or repository/folder mismatch before Git or parser work begins.",
+        "Archived projects reject source-binding changes while existing releases, plans, audit history, and migration history remain readable with execution state NOT_EXECUTED."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T04-API",
+        "SF-PRODUCT-T04-WEB"
+      ]
     }
   },
   "test_cases": [

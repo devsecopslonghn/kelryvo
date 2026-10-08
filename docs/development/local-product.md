@@ -44,6 +44,18 @@ without removing data, use `docker --host unix:///var/run/docker.sock stop schem
 Subsequent startup restarts that owned container. Do not remove the volume to restart.
 Private config must be retained alongside this volume; credentials are not printed to logs.
 
+To import your own migrations, pass an existing local Git worktree root:
+`npm run dev -- --repository /absolute/path/to/your/repository`. Repeat `--repository PATH`
+for up to eight roots. The server validates these paths before local database startup and
+adds their names to the Releases repository selector alongside the demo. Choose the desired
+ref and migration folder there. Relative paths resolve from the repository root; symlinks
+resolve to their canonical target, and duplicate roots are rejected. URLs, non-repositories,
+subdirectories inside a worktree and unsupported options fail with a fixed startup error.
+The command does not clone, fetch or authenticate to a provider. The operator authorizes
+only local reads of the supplied repositories. API responses expose binding IDs/names;
+paths and Git diagnostics stay out of responses/logs. Reordering startup options changes
+the local binding IDs; retained releases still preserve their original commit, files and hashes.
+
 ## Interfaces and trust boundary
 
 The API is a single-organization local service with server-configured named developer and
@@ -55,8 +67,9 @@ This local authentication does not certify multi-tenant RBAC, production session
 Projects contain environments and reference-only connection profiles. Composite foreign keys
 and scoped lookups reject cross-project references. The metadata database password is solely
 for PostgreSQL; the API has no application writer secret, Oracle provider or executor.
-Local repository bindings are configured server-side. The first startup supplies the demo
-binding; remote clone/provider credentials and arbitrary request paths are not exposed.
+Local repository bindings are configured server-side by startup options. The first startup
+supplies the demo binding; remote clone/provider credentials and arbitrary request paths
+are not exposed.
 The importer reads Git objects without checkout/hooks, bounds ref/path/file/byte counts,
 rejects symlinks/submodules and equivalent duplicate numeric versions, and validates the
 whole release before planning. Source SQL is visible only after local authentication.
