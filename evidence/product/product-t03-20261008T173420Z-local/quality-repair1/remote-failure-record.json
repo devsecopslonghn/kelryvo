@@ -1,0 +1,16 @@
+{
+  "id": "product-t03-cli-quality-repair1-remote-failure",
+  "subject_id": "SF-PRODUCT-T03",
+  "kind": "STATIC",
+  "scope": "PRODUCT",
+  "outcome": "FAIL",
+  "command": "python3 -c: inspect recorded exact-head GitHub Sonar check; exit 1 unless completed with success",
+  "exit_code": 1,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t03-20261008T173420Z-local/quality-repair1/sonar-eligibility.log",
+    "sha256": "c1e7e4fb9a68c67900ab845245f38f882359343d28ce7265d2eea3548e410f35"
+  }
+}

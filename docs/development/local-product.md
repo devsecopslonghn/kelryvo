@@ -49,7 +49,9 @@ To import your own migrations, pass an existing local Git worktree root:
 for up to eight roots. The server validates these paths before local database startup and
 adds their names to the Releases repository selector alongside the demo. Choose the desired
 ref and migration folder there. Relative paths resolve from the repository root; symlinks
-resolve to their canonical target, and duplicate roots are rejected. URLs, non-repositories,
+resolve to their canonical target, and duplicate supplied roots are rejected. Traversal (`..`),
+control characters, backslashes and option-like path components are rejected; use a direct
+absolute root when a repository is outside the current directory. URLs, non-repositories,
 subdirectories inside a worktree and unsupported options fail with a fixed startup error.
 The command does not clone, fetch or authenticate to a provider. The operator authorizes
 only local reads of the supplied repositories. API responses expose binding IDs/names;

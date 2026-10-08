@@ -1,0 +1,13 @@
+CodeQL	pass	3s	https://github.com/devsecopslonghn/schemaForge/runs/113594990465	
+SonarCloud Code Analysis	fail	42s	https://sonarcloud.io/dashboard?id=devsecopslonghn_schemaForge&pullRequest=11	
+Analyze (actions)	pass	39s	https://github.com/devsecopslonghn/schemaForge/actions/runs/37860508462/job/113594838550	
+Analyze (java-kotlin)	pass	1m0s	https://github.com/devsecopslonghn/schemaForge/actions/runs/37860508462/job/113594838603	
+Analyze (javascript-typescript)	pass	1m13s	https://github.com/devsecopslonghn/schemaForge/actions/runs/37860508462/job/113594838751	
+foundation	pass	51s	https://github.com/devsecopslonghn/schemaForge/actions/runs/37860510912/job/113594841179	
+parser	pass	1m14s	https://github.com/devsecopslonghn/schemaForge/actions/runs/37860510944/job/113594841640	
+product	pass	1m56s	https://github.com/devsecopslonghn/schemaForge/actions/runs/37860510911/job/113594841236	
+product	fail	15m17s	https://github.com/devsecopslonghn/schemaForge/actions/runs/37819086993/job/113455162154	
+foundation	pass	1m3s	https://github.com/devsecopslonghn/schemaForge/actions/runs/37819087005/job/113455161716	
+parser	pass	2m44s	https://github.com/devsecopslonghn/schemaForge/actions/runs/37819087180/job/113455163978	
+
+EXIT: 0

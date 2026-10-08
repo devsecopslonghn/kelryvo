@@ -1,0 +1,26 @@
+[
+  {
+    "path": "scripts/local-repositories.mjs",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/c307f3d1bce67742dec9cab886533fa4f64ade28/scripts/local-repositories.mjs",
+    "start_line": 28,
+    "start_column": null,
+    "end_line": 28,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "Command Argument Injection via faulty LLM-supplied CLI arguments",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEd4kTuqGtALy3xyKNp&open=AaEd4kTuqGtALy3xyKNp&pullRequest=11",
+    "raw_details": null
+  },
+  {
+    "path": "scripts/local-repositories.mjs",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/c307f3d1bce67742dec9cab886533fa4f64ade28/scripts/local-repositories.mjs",
+    "start_line": 71,
+    "start_column": null,
+    "end_line": 71,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "Path Traversal via faulty LLM-supplied CLI arguments",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEd4kTuqGtALy3xyKNq&open=AaEd4kTuqGtALy3xyKNq&pullRequest=11",
+    "raw_details": null
+  }
+]
