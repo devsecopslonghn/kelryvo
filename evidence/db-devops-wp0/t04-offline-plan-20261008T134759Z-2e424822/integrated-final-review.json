@@ -1,0 +1,29 @@
+{
+  "scope": "Final integrated T04 offline preparation with strengthened CLI input bounds",
+  "root_full_check": {
+    "command": "npm run check",
+    "exit_code": 0,
+    "tests_passed": 72,
+    "tests_failed": 0
+  },
+  "independent_focused_tests": {
+    "passed": 16,
+    "failed": 0,
+    "raw_output": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/independent-focused-tests.txt"
+  },
+  "independent_cli_checks": "Invalid UTF-8, directory, FIFO, unknown/duplicate/missing/flag-like arguments all reject with exit 2, no stdout and fixed error. FIFO did not hang. These are additional ad hoc checks, not added automated test counts.",
+  "independent_security": "Approved final regular-file/initial size check, stream byte cap and five-second abort, with generic errors and unchanged authority boundary.",
+  "source_hashes": {
+    "experiments/db-devops-wp0/thin-probe-plan.mjs": "d98c33c96812629c48a5516b5449d86402d672f4ca7c46252cc4b15aa2a70dfc",
+    "scripts/thin-probe-plan.mjs": "b0851409f0011bba5638a94327557cba0f703b2baca1ae2de7d5dee6e1336db2",
+    "tests/helpers/preflight-fixture.mjs": "d2e8e98efca7a29bba99d30e5af61fca2a281da71dbae1e3b1a09b9a427a85eb",
+    "tests/preflight.test.mjs": "7b4a2e08e58c56a5425aa5710ffa2d0d18e518ee8f892f87e8f0f4bab634affd",
+    "tests/thin-probe-plan.test.mjs": "013f43d71a8322500315f3d3ffad530d5ff54bc8bced807c988fae5131c6117c",
+    "tests/thin-probe-cli.test.mjs": "fd443428abac7f95f3bfb472b430a7f9a6d1669b6e9a0ceb805214d1f4b09150"
+  },
+  "task_status": "WP0-T04 BLOCKED; only reusable offline preparation is implemented.",
+  "oracle_cells_blocked": 124,
+  "product_features_verified": 0,
+  "remote_ci": "Await exact-head PR checks before merge.",
+  "database_calls": 0
+}

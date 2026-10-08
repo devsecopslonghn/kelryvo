@@ -180,10 +180,24 @@
       ],
       "status": "BLOCKED",
       "assigned_agent": "database",
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "WP0-T04-OFFLINE-t04-offline-plan-20261008T134759Z-2e424822"
+        },
+        {
+          "index_id": "WP0-T04-INPUTS-t04-offline-plan-20261008T134759Z-2e424822"
+        }
+      ],
       "blockers": [
         "No explicitly authorized disposable Oracle 19c/21c profile, TCPS identities, scoped credential/grant/fault references or teardown authority supplied. Offline Thin import is not connectivity evidence."
-      ]
+      ],
+      "offline_increment": {
+        "status": "IMPLEMENTED_OFFLINE_PREPARATION_ONLY",
+        "entry": "prepareThinProbePlan(profile)",
+        "command": "npm run probes:thin:plan -- [--profile PATH]",
+        "evidence_run": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822",
+        "acceptance_note": "Runtime acceptance and all124Oraclecells remainBLOCKED; offline planning has no criterion coverage or connection authority."
+      }
     },
     {
       "id": "WP0-T05",

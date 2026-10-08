@@ -1,0 +1,51 @@
+[
+  {
+    "name": "strict_utf8",
+    "status": 2,
+    "signal": null,
+    "stdout": "",
+    "stderr": "thin_probe_plan_input_or_contract_invalid"
+  },
+  {
+    "name": "directory",
+    "status": 2,
+    "signal": null,
+    "stdout": "",
+    "stderr": "thin_probe_plan_input_or_contract_invalid"
+  },
+  {
+    "name": "fifo",
+    "status": 2,
+    "signal": null,
+    "stdout": "",
+    "stderr": "thin_probe_plan_input_or_contract_invalid"
+  },
+  {
+    "name": "unknown_flag",
+    "status": 2,
+    "signal": null,
+    "stdout": "",
+    "stderr": "thin_probe_plan_input_or_contract_invalid"
+  },
+  {
+    "name": "duplicate_profile",
+    "status": 2,
+    "signal": null,
+    "stdout": "",
+    "stderr": "thin_probe_plan_input_or_contract_invalid"
+  },
+  {
+    "name": "missing_profile_value",
+    "status": 2,
+    "signal": null,
+    "stdout": "",
+    "stderr": "thin_probe_plan_input_or_contract_invalid"
+  },
+  {
+    "name": "flag_as_profile_path",
+    "status": 2,
+    "signal": null,
+    "stdout": "",
+    "stderr": "thin_probe_plan_input_or_contract_invalid"
+  }
+]

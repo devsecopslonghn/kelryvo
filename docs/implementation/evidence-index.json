@@ -735,6 +735,42 @@
       },
       "path": "evidence/db-devops-wp0/pr2-quality-20261008T133102Z-1646ac2e/WP0-T03-QUALITY.json",
       "sha256": "1e7dc4621a81999569661e0cd32ef3ac82ade05304eee3da80e3b38dbaed39f1"
+    },
+    {
+      "id": "WP0-T04-OFFLINE-t04-offline-plan-20261008T134759Z-2e424822",
+      "subject_id": "WP0-T04",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "npm run check",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/checks.txt",
+        "sha256": "119f43a359527c41957df0dbee6e36bf1b1d86a312122f390f650149b0e7976b"
+      },
+      "path": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/WP0-T04-OFFLINE.json",
+      "sha256": "c5e54b201c55e911d9f3d6dcc98d1ed55694f22b9cadeaa0b99710b7b63227ca"
+    },
+    {
+      "id": "WP0-T04-INPUTS-t04-offline-plan-20261008T134759Z-2e424822",
+      "subject_id": "WP0-T04",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "BLOCKED",
+      "command": "node scripts/thin-probe-plan.mjs",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/default-plan.json",
+        "sha256": "2de870d8f35e3fd0514b3a780454016b411f7ac6e834aa51a19f6aa78c331cb6"
+      },
+      "path": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/WP0-T04-INPUTS.json",
+      "sha256": "8467b21ca60503df55d9ff8bd16088001715f212fa60a0a63fa00a4a7b2dab23"
     }
   ]
 }

@@ -17,3 +17,19 @@ The original F07–F20 corpus has 14 fixture groups and 30 variants with immutab
 digests and executable goldens. The bounded parent envelope validates candidate output
 and the `parser:corpus` command exposes 11 compatibility failures. All candidate results
 remain unapproved; no parser or database execution is admitted by these tools.
+
+## T04 offline Thin probe preparation
+
+`npm run probes:thin:plan -- [--profile PATH]` runs the existing offline preflight and
+prepares the six T04 cases across Oracle 19c and 21c. It reads at most 1 MiB of UTF-8 JSON.
+Exit 0 means valid offline inputs produced a plan; 1 means missing prerequisites; 2 means
+rejected input or a command error. All twelve entries remain NOT_RUN/BLOCKED and
+non-executable even on exit 0. No Oracle runner, trust-chain verification, credential
+resolution or network call is included. The output omits endpoints, refs and submitted
+blocker text; errors use a fixed message. The reusable entry is
+`prepareThinProbePlan(profile)` in `thin-probe-plan.mjs`, which calls actual preflight.
+
+Run focused checks with
+`node --test tests/preflight.test.mjs tests/thin-probe-plan.test.mjs tests/thin-probe-cli.test.mjs`.
+Synthetic fixture tests exercise local artifact validation only. Authoritative T04 runtime
+acceptance and all 124 applicable Oracle cells remain BLOCKED.

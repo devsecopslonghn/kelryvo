@@ -29,6 +29,12 @@
     },
     {
       "index_id": "WP0-T03-t03-antlr-20261008T130643Z-98b033db"
+    },
+    {
+      "index_id": "WP0-T04-OFFLINE-t04-offline-plan-20261008T134759Z-2e424822"
+    },
+    {
+      "index_id": "WP0-T04-INPUTS-t04-offline-plan-20261008T134759Z-2e424822"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -45,7 +51,7 @@
       "id": "WP0-T04",
       "owner": "database",
       "status": "BLOCKED",
-      "action": "Supply explicit disposable 19c/21c authorization and strict lab references; then implement/run bounded Thin probes.",
+      "action": "Supply attested disposable19c/21c lab/trust/scopedrefs. Offlineprobe-preparation CLI is implemented; actual Thin/fault runner and runtime acceptance remain blocked.",
       "dependencies": [
         "WP0-T01",
         "WP0-T02"
@@ -70,11 +76,13 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-08T13:06:43.797430+00:00",
+  "updated_at": "2026-10-08T13:47:59.496412+00:00",
   "final_check_evidence": {
-    "index_id": "WP0-T03-INTEGRATION-t03-antlr-20261008T130643Z-98b033db-CORRECTED"
+    "index_id": "WP0-T04-OFFLINE-t04-offline-plan-20261008T134759Z-2e424822"
   },
-  "final_check_manifest": "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/integration-review.json",
+  "final_check_manifest": "evidence/db-devops-wp0/t04-offline-plan-20261008T134759Z-2e424822/review-summary.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
-  "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT"
+  "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
+  "wp0_t04_status": "BLOCKED_RUNTIME_WITH_OFFLINE_PROBE_PREPARATION",
+  "latest_validated_master_before_this_increment": "ca232a5a4f4535bb4e6d14954bdba9b5a8ffa9b6"
 }
