@@ -33,6 +33,10 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    rejection as a separate decision.
 6. Inspect Audit & history. Each proposed migration records `NOT_EXECUTED`; no applied
    receipt exists. Stop/restart the API to confirm PostgreSQL retains these records.
+7. As the developer, return to Projects and archive a completed project with a reason.
+   The timestamp and archived state persist. Existing releases (including SQL previews),
+   plans, audit and history remain readable; creation and review controls become disabled.
+   Repeated archive requests retain the original timestamp and create no duplicate event.
 
 Ctrl-C stops the API and closes its database pool. The local PostgreSQL container remains
 available and keeps its named Docker volume `schemaforge-local-product-data`. To stop it
@@ -65,6 +69,7 @@ All other API reads/writes require a bearer token:
 | `GET /api/session`, `/api/repositories`, `/api/projects` | Authenticated identity, allowlisted binding names and projects |
 | `POST /api/projects` | Create project (`name`, optional `description`) |
 | `GET /api/projects/:id` | Project, environments, profiles, releases, plans, audit, history |
+| `POST /api/projects/:id/archive` | Developer archives with `reason`; preserves all records |
 | `POST /api/projects/:id/environments` | Create environment (`name`) |
 | `POST /api/projects/:id/profiles` | Store `name`, `environmentId`, `engine=oracle`, `host`, `port`, `service`, `username`, `credentialRef` |
 | `POST /api/projects/:id/releases` | Import `repositoryId`, `commit`, `folder` |
@@ -77,7 +82,10 @@ Writes and their audit/history events share PostgreSQL transactions. Approved it
 immutable through the API; terminal decisions cannot be overwritten. Metadata administrators
 remain outside this protection. No simulated execution, automatic retry, target ledger,
 runtime authority, Oracle connections, Kubernetes deployment or production compatibility
-claim is included. Archive/edit/resubmit and broader catalog workflows are incremental work.
+claim is included. Archival retains records and transactionally rejects further project
+writes with HTTP 409 `PROJECT_ARCHIVED`, including in-flight writes that were waiting
+on the project lock. No restore or deletion endpoint is provided. Edit/resubmit and broader
+catalog workflows are incremental work.
 
 ## Verification
 
@@ -86,7 +94,8 @@ immutable provenance and existing dependency smoke. `npm run test:product` uses 
 local PostgreSQL test database (or `SCHEMAFORGE_TEST_DATABASE_URL` on a dedicated service),
 actual temporary Git objects and the pinned parser. `node node_modules/playwright/cli.js install chromium`, then
 `npm run test:browser` exercises the real browser/API/parser/PostgreSQL flow, approvals,
-rejection, execution denial and restart persistence. Browser downloads are separate test tools.
+rejection, execution denial, archival and restart persistence. PostgreSQL integration also
+tests the archive-versus-write lock race. Browser downloads are separate test tools.
 
 The PRODUCT CI job supplies disposable PostgreSQL, prepares the exact helper and runs these
 tests with no skips allowed for required product prerequisites. The existing WP0 regression,

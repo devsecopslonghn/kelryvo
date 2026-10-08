@@ -59,6 +59,7 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     await page.getByLabel('Local access token').fill(actors[0].token);
     await page.getByRole('button', { name: 'Continue', exact: true }).click();
     await page.getByLabel('Sign out').waitFor();
+    await page.getByRole('button', { name: /Projects/ }).click();
     await page.locator('.project-row').filter({ hasText: projectName }).click();
 
     await page.getByLabel('Archive reason').fill('Archived after local governance review.');
@@ -85,6 +86,8 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     await page.getByLabel('Local access token').fill(actors[1].token);
     await page.getByRole('button', { name: 'Continue', exact: true }).click();
     await page.getByLabel('Sign out').waitFor();
+    await page.getByRole('button', { name: /Projects/ }).click();
+    await page.locator('.project-row').filter({ hasText: projectName }).click();
     await page.getByRole('button', { name: /Plans & review/ }).click();
     await page.locator('.plan-summary').waitFor();
     assert.equal(await page.getByLabel('Decision reason').isDisabled(), true);

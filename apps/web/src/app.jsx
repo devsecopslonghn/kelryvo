@@ -71,6 +71,16 @@ function App() {
   const [decisionReason, setDecisionReason] = useState('');
   const [archiveReason, setArchiveReason] = useState('');
   const refreshSequence = useRef(0);
+  const activeProjectId = useRef(projectId);
+
+  const selectProject = (nextId) => {
+    activeProjectId.current = nextId;
+    refreshSequence.current += 1;
+    setProjectId(nextId);
+    setRelease(null);
+    setSelectedPlan('');
+    setDecisionReason('');
+  };
 
   const refresh = useCallback(async (activeToken, selectedId = projectId) => {
     if (!activeToken) return;
@@ -85,6 +95,7 @@ function App() {
       const rows = projectResult.projects || [];
       setProjects(rows);
       const nextId = rows.some((item) => item.id === selectedId) ? selectedId : rows[0]?.id || '';
+      activeProjectId.current = nextId;
       setProjectId(nextId);
       if (nextId) {
         const result = await json(`/api/projects/${encodeURIComponent(nextId)}`, activeToken);
@@ -115,7 +126,8 @@ function App() {
   const isApprover = /approv/i.test(actor?.role || '');
   const canArchive = actor?.role === 'developer';
   const selectedProject = projects.find((item) => item.id === projectId);
-  const isArchived = selectedProject ? Boolean(selectedProject.archivedAt) : Boolean(detail?.project?.archivedAt);
+  const archivedAt = selectedProject?.archivedAt || detail?.project?.archivedAt || null;
+  const isArchived = Boolean(archivedAt);
 
   const mutate = async (action, success) => {
     setBusy(true); setError(''); setNotice('');
@@ -131,7 +143,7 @@ function App() {
       if (projectForm.description.trim()) payload.description = projectForm.description.trim();
       const result = await json('/api/projects', token, { method: 'POST', body: JSON.stringify(payload) });
       setProjectForm({ name: '', description: '' });
-      if (result.project?.id) { setProjectId(result.project.id); setRelease(null); setSelectedPlan(''); return result.project.id; }
+      if (result.project?.id) { selectProject(result.project.id); return result.project.id; }
     }, 'Project created.');
   };
   const createEnvironment = (event) => {
@@ -190,16 +202,19 @@ function App() {
   };
 
   const inspectRelease = async (releaseId) => {
+    const sequence = refreshSequence.current;
+    const inspectedProjectId = projectId;
     setBusy(true); setError(''); setNotice('');
     try {
       const result = await json(`/api/releases/${encodeURIComponent(releaseId)}`, token);
+      if (sequence !== refreshSequence.current || activeProjectId.current !== inspectedProjectId) return;
       setRelease(result.release || result);
       setNotice('Release files loaded for read-only inspection.');
-    } catch (e) { setError(explain(e)); }
-    finally { setBusy(false); }
+    } catch (e) { if (sequence === refreshSequence.current && activeProjectId.current === inspectedProjectId) setError(explain(e)); }
+    finally { if (sequence === refreshSequence.current && activeProjectId.current === inspectedProjectId) setBusy(false); }
   };
 
-  const model = { actor, projects, projectId, setProjectId, setRelease, setSelectedPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, isApprover, setTab, decisionReason, decide, fmt, canArchive, isArchived, archiveReason, setArchiveReason, archiveProject, inspectRelease };
+  const model = { actor, projects, projectId, selectProject, setRelease, setSelectedPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, isApprover, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -226,7 +241,7 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => setTab('release')}><span>◫</span> Releases</button>
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => setTab('records')}><span>≡</span> Audit &amp; history</button>
-      <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { refreshSequence.current += 1; setActor(null); setToken(''); setDetail(null); setProjects([]); setRepositories([]); setRelease(null); setSelectedPlan(''); setDecisionReason(''); setError(''); setNotice(''); }}>↗</button></div>
+      <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { refreshSequence.current += 1; activeProjectId.current = ''; setActor(null); setToken(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setDecisionReason(''); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
       <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { void refresh(token); }} disabled={busy}>↻</button></div></header>
@@ -243,16 +258,16 @@ function App() {
 }
 
 function WorkspaceScreen({ model }) {
-  const { projects, projectId, setProjectId, setRelease, setSelectedPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, isArchived, canArchive, archiveReason, setArchiveReason, archiveProject, fmt } = model;
+  const { projects, projectId, selectProject, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, isArchived, archivedAt, canArchive, archiveReason, setArchiveReason, archiveProject, fmt } = model;
   return <>
           <div className="page-heading"><div><p className="eyebrow">PRODUCT WORKSPACE</p><h1>Your projects</h1><p className="muted">Organize environments and connection references before preparing a migration review.</p></div><div className="heading-mark">01 <span> / 04</span></div></div>
           <div className="workspace-grid">
             <section className="panel project-panel"><div className="panel-heading"><div><h2>Project space</h2><p>Choose a project to see its delivery context.</p></div><span className="count-pill">{projects.length} total</span></div>
-              {projects.length ? <div className="project-list">{projects.map((p) => <button type="button" key={p.id} className={`project-row ${projectId === p.id ? 'selected' : ''}`} onClick={() => { setProjectId(p.id); setRelease(null); setSelectedPlan(''); setDecisionReason(''); }}><span className="project-icon">{p.name.slice(0, 1).toUpperCase()}</span><span className="project-copy"><strong>{p.name}</strong><small>{p.description || 'No description provided'}</small></span>{p.archivedAt && <span className="status-pill neutral">ARCHIVED</span>}<span className="row-arrow">›</span></button>)}</div> : <div className="empty-state"><span className="empty-icon">＋</span><strong>No projects yet</strong><span>Create a project to start organizing database changes.</span></div>}
+              {projects.length ? <div className="project-list">{projects.map((p) => <button type="button" key={p.id} className={`project-row ${projectId === p.id ? 'selected' : ''}`} onClick={() => selectProject(p.id)}><span className="project-icon">{p.name.slice(0, 1).toUpperCase()}</span><span className="project-copy"><strong>{p.name}</strong><small>{p.description || 'No description provided'}</small></span>{p.archivedAt && <span className="status-pill neutral">ARCHIVED</span>}<span className="row-arrow">›</span></button>)}</div> : <div className="empty-state"><span className="empty-icon">＋</span><strong>No projects yet</strong><span>Create a project to start organizing database changes.</span></div>}
               <form className="inline-form project-create" onSubmit={createProject}><label className="sr-only" htmlFor="project-name">New project name</label><input id="project-name" placeholder="New project name" value={projectForm.name} onChange={(e) => setProjectForm({ ...projectForm, name: e.target.value })} required/><button type="submit" className="secondary" disabled={busy}>Create project</button><label className="sr-only" htmlFor="project-description">Project description</label><input id="project-description" className="wide-input" placeholder="Description (optional)" value={projectForm.description} onChange={(e) => setProjectForm({ ...projectForm, description: e.target.value })}/></form>
             </section>
             <section className="panel context-panel"><div className="panel-heading"><div><h2>{detail?.project?.name || 'Project context'} {detail?.project?.archivedAt && <span className="status-pill neutral">ARCHIVED</span>}</h2><p>Configuration for the selected project.</p></div><span className="context-icon">⌘</span></div>
-              {isArchived && <div className="archive-notice" role="status"><strong>Project archived</strong><span>Archived {fmt(detail.project.archivedAt)}. New changes are disabled; existing releases, plans, and records remain readable.</span></div>}
+              {isArchived && <div className="archive-notice" role="status"><strong>Project archived</strong><span>Archived {fmt(archivedAt)}. New changes are disabled; existing releases, plans, and records remain readable.</span></div>}
               {!detail ? <div className="empty-state compact">Select or create a project to continue.</div> : <>
                 <div className="section-title"><span>01</span><strong>Environments</strong></div>
                 <div className="chip-list">{(detail.environments || []).map((env) => <span className="data-chip" key={env.id}><i/> {env.name}</span>)}{!detail.environments?.length && <span className="subtle">No environments configured</span>}</div>
@@ -270,13 +285,13 @@ function WorkspaceScreen({ model }) {
 
 
 function ReleaseScreen({ model }) {
-  const { projectId, setProjectId, setRelease, setSelectedPlan, setDecisionReason, projects, releaseForm, setReleaseForm, repositories, busy, importRelease, release, detail, makePlan, isArchived, inspectRelease, fmt } = model;
+  const { projectId, selectProject, projects, releaseForm, setReleaseForm, repositories, busy, importRelease, release, detail, makePlan, isArchived, inspectRelease, fmt } = model;
   return <>
           <div className="page-heading"><div><p className="eyebrow">MIGRATION INTAKE</p><h1>Import a release</h1><p className="muted">Select an allowlisted Git repository and an immutable commit to inspect migration files.</p></div><div className="heading-mark">02 <span> / 04</span></div></div>
           {isArchived && <div className="archive-notice" role="status"><strong>Archived project</strong><span>Existing release details can still be reviewed. Importing new releases is disabled.</span></div>}
           <section className="panel saved-releases"><div className="panel-heading"><div><h2>Existing releases</h2><p>Open an imported release to review migration files and SQL.</p></div><span className="count-pill">{detail?.releases?.length || 0} releases</span></div>{detail?.releases?.length ? <div className="saved-release-list">{detail.releases.map((item) => <div className="saved-release-row" data-release-id={item.id} key={item.id}><span><strong>{item.commit?.slice(0, 12)} · {item.folder}</strong><small>Imported {fmt(item.createdAt)} · {item.validationStatus}</small></span><button type="button" className="secondary" onClick={() => { void inspectRelease(item.id); }} disabled={busy}>Inspect files</button></div>)}</div> : <p className="subtle">No releases imported for this project yet.</p>}</section>
           <section className="panel intake-panel"><div className="panel-heading"><div><h2>Repository source</h2><p>Repository paths stay on the server. The browser sends only the repository ID.</p></div><span className="step-badge">GIT</span></div>
-            <form className="release-form" onSubmit={importRelease}><label>Project<select aria-label="Release project" value={projectId} onChange={(e) => { setProjectId(e.target.value); setRelease(null); setSelectedPlan(''); setDecisionReason(''); }} required><option value="">Choose project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}{p.archivedAt ? ' · ARCHIVED' : ''}</option>)}</select></label><label>Allowlisted repository<select aria-label="Repository" value={releaseForm.repositoryId} onChange={(e) => setReleaseForm({ ...releaseForm, repositoryId: e.target.value })} required disabled={busy || isArchived}><option value="">Choose repository</option>{repositories.map((repo) => <option key={repo.id} value={repo.id}>{repo.name}</option>)}</select></label><label>Commit or ref<input aria-label="Git commit or ref" value={releaseForm.commit} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value })} placeholder="40 character commit SHA" required disabled={busy || isArchived}/><small>Use a commit SHA for a reproducible release.</small></label><label>Migration folder<input aria-label="Migration folder" value={releaseForm.folder} onChange={(e) => setReleaseForm({ ...releaseForm, folder: e.target.value })} required disabled={busy || isArchived}/><small>Example: db/migrations</small></label><div className="form-actions"><button type="submit" className="primary" disabled={busy || isArchived || !projects.length || !repositories.length}>{busy ? 'Importing…' : 'Import and validate'}</button><span className="subtle">Files are parsed before a plan can be created.</span></div></form>
+            <form className="release-form" onSubmit={importRelease}><label>Project<select aria-label="Release project" value={projectId} onChange={(e) => selectProject(e.target.value)} required disabled={busy}><option value="">Choose project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}{p.archivedAt ? ' · ARCHIVED' : ''}</option>)}</select></label><label>Allowlisted repository<select aria-label="Repository" value={releaseForm.repositoryId} onChange={(e) => setReleaseForm({ ...releaseForm, repositoryId: e.target.value })} required disabled={busy || isArchived}><option value="">Choose repository</option>{repositories.map((repo) => <option key={repo.id} value={repo.id}>{repo.name}</option>)}</select></label><label>Commit or ref<input aria-label="Git commit or ref" value={releaseForm.commit} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value })} placeholder="40 character commit SHA" required disabled={busy || isArchived}/><small>Use a commit SHA for a reproducible release.</small></label><label>Migration folder<input aria-label="Migration folder" value={releaseForm.folder} onChange={(e) => setReleaseForm({ ...releaseForm, folder: e.target.value })} required disabled={busy || isArchived}/><small>Example: db/migrations</small></label><div className="form-actions"><button type="submit" className="primary" disabled={busy || isArchived || !projects.length || !repositories.length}>{busy ? 'Importing…' : 'Import and validate'}</button><span className="subtle">Files are parsed before a plan can be created.</span></div></form>
           </section>
           {release && <section className="panel release-result"><div className="panel-heading"><div><p className="eyebrow">IMPORTED RELEASE</p><h2>{release.commit?.slice(0, 12)} <span className="muted">· {release.folder}</span></h2></div><span className={`status-pill ${importStatusClass(release.validationStatus)}`}>{release.validationStatus}</span></div>{release.validationCode && <p className="banner warning">{release.validationCode}</p>}<div className="file-table-wrap"><table><thead><tr><th>Migration file</th><th>Version</th><th>Statements</th><th>Bytes</th><th>Validation</th></tr></thead><tbody>{(release.files || []).map((file) => <tr key={file.path}><td><code>{file.path}</code></td><td>{file.version || '—'}</td><td>{file.statementCount ?? '—'}</td><td>{file.bytes ?? '—'}</td><td><span className={`status-pill ${importStatusClass(file.validationStatus)}`}>{file.validationStatus}</span></td></tr>)}</tbody></table>{!release.files?.length && <div className="empty-inline">No migration files were returned for this release.</div>}</div>{(release.files || []).map((file) => <details className="sql-preview" key={`${file.path}-sql`}><summary>Preview SQL · {file.path}</summary><pre>{file.content || 'Source content unavailable.'}</pre></details>)}{(release.validationStatus === 'VALID') && <form className="plan-form" onSubmit={makePlan}><label>Target connection profile<select name="profileId" aria-label="Target connection profile" required disabled={busy || isArchived}><option value="">Choose profile</option>{(detail?.profiles || []).map((profile) => <option key={profile.id} value={profile.id}>{profile.name} · {profile.host}/{profile.service}</option>)}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.profiles?.length}>Prepare offline plan</button><span className="offline-note">This creates a review candidate. It does not connect to Oracle.</span></form>}</section>}
 
