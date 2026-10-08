@@ -879,6 +879,24 @@
       },
       "path": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/WP0-T04-SUPERVISION-QUALITY.json",
       "sha256": "90ca3e5786b84ef30293df3a7d82f6c9091d32e08fa828e7417cb9e7ccc57765"
+    },
+    {
+      "id": "WP0-T04-MERGED-PR7-t04-thin-supervision-20261008T151430Z-fc1518f5",
+      "subject_id": "WP0-T04",
+      "kind": "STATIC",
+      "scope": "HARNESS",
+      "outcome": "PASS",
+      "command": "gh pr view 7 --json state,headRefOid,mergeCommit,mergedAt",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/pr7-merged.json",
+        "sha256": "91dbc7428c0de69895be62803bef68c66f4e71937cad6b01026592b7145ce29d"
+      },
+      "path": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/WP0-T04-MERGED-PR7.json",
+      "sha256": "af001477e326d13d0bd39950fb47d92615fe2e47b4ffd60618c9426f98cc66a5"
     }
   ]
 }

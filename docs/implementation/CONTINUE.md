@@ -3,18 +3,25 @@
 Read AGENTS.md and CURRENT.md. The owner authorizes dependency-ordered implementation,
 verified branches/PRs and ordinary eligible merges. Preserve DB-Research and WP0 gates.
 
-Current bounded increment: `development/wp0-thin-supervision` implements
+Latest bounded implementation: `development/wp0-thin-supervision` implements
 `createSupervisedThinProbe({startWorker, limits})(request)` and
 `runThinProbeWorker(ports)`. The former owns deadline/protocol/reaping; the latter calls
 the real read-only candidate with child-owned trusted ports. There is no default starter,
 live CLI, authority or provider backend. Twenty-two focused UNIT tests pass using actual
 Node processes, fake positive drivers and a denied real-driver path. Security's initial
 IPC-serialization and unreaped-child ownership findings were repaired with scalar validation
-and a retained reaper that refuses replacement work. PR #7 is open in draft. Complete independent exact-head review
-and required remote checks before ordinary merge; never bypass them. Current evidence:
+and a retained reaper that refuses replacement work. PR #7 merged at
+`5ab696918a8bafcbd36a7277e810ec6cde34e2e2`, reviewed head
+`ef8a2ec4f161abf84631769754d0afd1a924ab50`. All nine exact-head gates passed;
+independent QA/security approve, alert lists and blocking threads are empty. The initial
+Sonar fixture-sort failure was fixed without changing thresholds. This checkpoint uses
+`development/wp0-supervisor-checkpoint`; finish its own gates if still open. Current evidence:
 `evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/`.
 Preceding PR #6 master `6aa97d8db47fb3978fa11b0e59c09c1e9ad538b2` has successful master CI.
-Resolve this increment's own head/PR/merge from Git/GitHub rather than a self-referential hash.
+Resolve this checkpoint's own head/PR/merge from Git/GitHub rather than a self-referential hash.
+Use `postmerge-checkpoint.json` and the read-only `next-work-boundary.json` in the current
+evidence directory. The audit identified no further substantive offline T04 increment
+without selecting unspecified production authority/provider behavior or simulating acceptance.
 
 ```sh
 cd /home/longhn0710/workspace/schemaforge

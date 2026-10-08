@@ -1,0 +1,16 @@
+{
+  "id": "WP0-T04-MERGED-PR7-t04-thin-supervision-20261008T151430Z-fc1518f5",
+  "subject_id": "WP0-T04",
+  "kind": "STATIC",
+  "scope": "HARNESS",
+  "outcome": "PASS",
+  "command": "gh pr view 7 --json state,headRefOid,mergeCommit,mergedAt",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/pr7-merged.json",
+    "sha256": "91dbc7428c0de69895be62803bef68c66f4e71937cad6b01026592b7145ce29d"
+  }
+}

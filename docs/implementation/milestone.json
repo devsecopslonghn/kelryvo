@@ -53,6 +53,9 @@
     },
     {
       "index_id": "WP0-T04-SUPERVISION-QUALITY-t04-thin-supervision-20261008T151430Z-fc1518f5"
+    },
+    {
+      "index_id": "WP0-T04-MERGED-PR7-t04-thin-supervision-20261008T151430Z-fc1518f5"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -69,7 +72,7 @@
       "id": "WP0-T04",
       "owner": "database",
       "status": "BLOCKED",
-      "action": "Read-only Thin candidate and child-process supervision are UNIT implemented. Finish exact-head review/gates; supply explicit disposable lab, approved mTLS wallet/trust, scoped refs, authenticated authority/atomic claim and fixed-entry deployed isolation before any connection. Independent session observations and T04 fault/rotation runtime acceptance remain BLOCKED.",
+      "action": "Supervised read-only Thin candidate merged with all nine exact-head gates. Supply attested disposable19c/21c lab authority, approved mTLS trust/client wallet, scoped providers/atomic permit wiring, deployed isolation and independent observations before connecting. Remaining fault/rotation acceptance is BLOCKED; no further substantive offline T04 increment identified.",
       "dependencies": [
         "WP0-T01",
         "WP0-T02"
@@ -94,7 +97,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-08T15:27:47.782755+00:00",
+  "updated_at": "2026-10-08T15:34:28.273958+00:00",
   "final_check_evidence": {
     "index_id": "WP0-T04-SUPERVISION-QUALITY-t04-thin-supervision-20261008T151430Z-fc1518f5"
   },
@@ -102,19 +105,17 @@
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
-  "latest_validated_master_before_this_increment": "6aa97d8db47fb3978fa11b0e59c09c1e9ad538b2",
-  "last_merged_implementation_pr": 5,
-  "checkpoint_evidence": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/session-checkpoint.json",
-  "implementation_prs_pending": [
-    7
-  ],
+  "latest_validated_master_before_this_increment": "5ab696918a8bafcbd36a7277e810ec6cde34e2e2",
+  "last_merged_implementation_pr": 7,
+  "checkpoint_evidence": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/postmerge-checkpoint.json",
+  "implementation_prs_pending": [],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
     "reason": "This turn implemented actual offline T04 child-process supervision and repaired independent review findings. Oracle authority/backend/deployed isolation and real acceptance remain missing; reassess safe independent work before a future impasse audit."
   },
   "current_increment_pr": 7,
-  "current_increment_merge_status": "OPEN_DRAFT",
-  "current_increment_reviewed_head": null,
-  "current_checkpoint_branch": "development/wp0-thin-supervision"
+  "current_increment_merge_status": "MERGED",
+  "current_increment_reviewed_head": "ef8a2ec4f161abf84631769754d0afd1a924ab50",
+  "current_checkpoint_branch": "development/wp0-supervisor-checkpoint"
 }
