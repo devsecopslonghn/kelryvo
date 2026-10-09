@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+not ok 1 - review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+  ---
+  duration_ms: 4139.043196
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-protected-source-binding-browser.integration.mjs:14:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    current denial must not be suppressed as stale
+    + actual - expected
+    
+    + [
+    +   'This plan has no verifiable current source-binding generation. Prepare a fresh plan from the current bound repository and folder before approval.×'
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: 'This plan has no verifiable current source-binding generation. Prepare a fresh plan from the current bound repository and folder before approval.×'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-protected-source-binding-browser.integration.mjs:132:12)
+    runNextTicks (node:internal/process/task_queues:64:5)
+    process.processImmediate (node:internal/timers:452:9)
+    process.callbackTrampoline (node:internal/async_hooks:130:17)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4824.281365

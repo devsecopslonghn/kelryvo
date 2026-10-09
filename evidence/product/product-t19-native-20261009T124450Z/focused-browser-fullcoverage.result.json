@@ -1,0 +1,9 @@
+{
+  "label": "focused-browser-fullcoverage",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs",
+  "started_at_utc": "2026-10-09T13:12:34.459772Z",
+  "completed_at_utc": "2026-10-09T13:13:10.197774Z",
+  "exit_code": 1,
+  "raw_sha256": "825bc091b4e7603ff84e205d0ed641d6a6d4b1f140e1274ec2c89bde6a292579",
+  "raw_bytes": 1033
+}

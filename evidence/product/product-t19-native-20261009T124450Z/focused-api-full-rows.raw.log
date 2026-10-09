@@ -1,0 +1,435 @@
+TAP version 13
+# Subtest: source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+not ok 1 - source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+  ---
+  duration_ms: 15911.532855
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-protected-source-binding.test.mjs:83:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    ... Skipped lines
+    
+      [
+        {
+          audit: [
+            {
+              action: 'PLAN_CREATED',
+    ...
+              release_id: '0b4b963b-5eb6-4b43-8eea-fc607d7d5247',
+    +         source_binding_generation: null,
+              status: 'APPROVED'
+            }
+          ],
+          release: [
+            {
+    ...
+              release_id: '34d7c15f-f34a-488f-8a55-e7f3ce4f733b',
+    +         source_binding_generation: null,
+              status: 'REJECTED'
+            }
+          ],
+          release: [
+            {
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0:
+      plan:
+        0:
+          id: '6e504175-4a59-4c9f-805b-bbcd298028a6'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          release_id: '0b4b963b-5eb6-4b43-8eea-fc607d7d5247'
+          profile_id: '9cea3675-c241-4f8e-a416-210ef9223acf'
+          author_id: 't19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0'
+          status: 'APPROVED'
+          decision: 'APPROVE'
+          decision_reason: 'Matching protected generation.'
+          decided_by: 't19-api-approver-f53a7c88-548f-48a8-b98b-fe5584b741b1'
+          created_at: 2026-10-09T12:50:02.214Z
+          decided_at: 2026-10-09T12:50:02.230Z
+          items:
+            0:
+              path: 'migrations/V001__create_widget.sql'
+              sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+              status: 'NOT_EXECUTED'
+              version: '1'
+          execution: 'NOT_EXECUTED'
+          history_status: 'NOT_OBSERVED'
+          planning_scope: 'OFFLINE_CANDIDATE'
+          offline_intent_envelope: '[1,"00000000-0000-4000-8000-000000000001","99d09cca-8ed0-4184-81bb-38642551a345","t19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0","0b4b963b-5eb6-4b43-8eea-fc607d7d5247","394ac63906b7146cddf1844e5bc08ec89c0964df","sha1","migrations","antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2","0a3302b6b392b12db1f3106f3fc95260c1745332052d76b9edbf17385d2ed033","9cea3675-c241-4f8e-a416-210ef9223acf","Offline target","f6216ed0-c2b2-4cbd-9a0e-d2ff687ef756","Local","oracle","localhost",1521,"DEV","APP","vault://local/app",[["migrations/V001__create_widget.sql","1","b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901"]]]'
+          offline_intent_digest: 'ce31d8e876aedcd124ab633dfc71340c5cf591b700756478050f49b43fa49638'
+          decided_by_name: 'Independent approver'
+      release:
+        0:
+          id: '0b4b963b-5eb6-4b43-8eea-fc607d7d5247'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          repository_id: 't19-api-repo'
+          commit_id: '394ac63906b7146cddf1844e5bc08ec89c0964df'
+          object_format: 'sha1'
+          folder: 'migrations'
+          manifest_digest: '0a3302b6b392b12db1f3106f3fc95260c1745332052d76b9edbf17385d2ed033'
+          validation_status: 'VALID'
+          validation_code: 'PARSED_OFFLINE'
+          parser_profile: 'antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2'
+          files:
+            0:
+              path: 'migrations/V001__create_widget.sql'
+              bytes: 45
+              sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+              content: |-
+                CREATE TABLE widget (id NUMBER PRIMARY KEY);
+                
+              version: '1'
+              statementCount: 1
+              validationStatus: 'VALID'
+          created_at: 2026-10-09T12:50:02.205Z
+      comments:
+        0:
+          id: '39e475dc-67b5-4bb2-9092-74f0f65ac0c1'
+          position: '2'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          plan_id: '6e504175-4a59-4c9f-805b-bbcd298028a6'
+          author_id: 't19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0'
+          author_name: 'Source developer'
+          body: 'Comment on approved plan.'
+          created_at: 2026-10-09T12:50:15.187Z
+      history:
+        0:
+          id: 'eee76ed0-b172-4ab1-8546-ccca34f53535'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          plan_id: '6e504175-4a59-4c9f-805b-bbcd298028a6'
+          version: '1'
+          path: 'migrations/V001__create_widget.sql'
+          sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+          status: 'NOT_EXECUTED'
+          created_at: 2026-10-09T12:50:02.214Z
+      audit:
+        0:
+          id: 'af342c14-6343-4c4e-8403-30c542a83185'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          actor_id: 't19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0'
+          action: 'PLAN_CREATED'
+          resource_id: '6e504175-4a59-4c9f-805b-bbcd298028a6'
+          facts:
+          created_at: 2026-10-09T12:50:02.214Z
+        1:
+          id: '574be0a6-a302-4342-af69-ba5455e429cf'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          actor_id: 't19-api-approver-f53a7c88-548f-48a8-b98b-fe5584b741b1'
+          action: 'PLAN_APPROVED'
+          resource_id: '6e504175-4a59-4c9f-805b-bbcd298028a6'
+          facts:
+            reason: 'Matching protected generation.'
+          created_at: 2026-10-09T12:50:02.230Z
+    1:
+      plan:
+        0:
+          id: '03e76561-ac0c-4560-ae30-97e67062c47d'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          release_id: '34d7c15f-f34a-488f-8a55-e7f3ce4f733b'
+          profile_id: '9cea3675-c241-4f8e-a416-210ef9223acf'
+          author_id: 't19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0'
+          status: 'REJECTED'
+          decision: 'REJECT'
+          decision_reason: 'Authorized rejection remains available.'
+          decided_by: 't19-api-approver-f53a7c88-548f-48a8-b98b-fe5584b741b1'
+          created_at: 2026-10-09T12:50:04.816Z
+          decided_at: 2026-10-09T12:50:04.865Z
+          items:
+            0:
+              path: 'migrations/V001__create_widget.sql'
+              sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+              status: 'NOT_EXECUTED'
+              version: '1'
+          execution: 'NOT_EXECUTED'
+          history_status: 'NOT_OBSERVED'
+          planning_scope: 'OFFLINE_CANDIDATE'
+          offline_intent_envelope: '[1,"00000000-0000-4000-8000-000000000001","99d09cca-8ed0-4184-81bb-38642551a345","t19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0","34d7c15f-f34a-488f-8a55-e7f3ce4f733b","394ac63906b7146cddf1844e5bc08ec89c0964df","sha1","migrations","antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2","0a3302b6b392b12db1f3106f3fc95260c1745332052d76b9edbf17385d2ed033","9cea3675-c241-4f8e-a416-210ef9223acf","Offline target","f6216ed0-c2b2-4cbd-9a0e-d2ff687ef756","Local","oracle","localhost",1521,"DEV","APP","vault://local/app",[["migrations/V001__create_widget.sql","1","b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901"]]]'
+          offline_intent_digest: 'ff62183188ffc0a064845e8e9afcec4c252e8e9b607b1069d850ae3c50e6ab06'
+          decided_by_name: 'Independent approver'
+      release:
+        0:
+          id: '34d7c15f-f34a-488f-8a55-e7f3ce4f733b'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          repository_id: 't19-api-repo'
+          commit_id: '394ac63906b7146cddf1844e5bc08ec89c0964df'
+          object_format: 'sha1'
+          folder: 'migrations'
+          manifest_digest: '0a3302b6b392b12db1f3106f3fc95260c1745332052d76b9edbf17385d2ed033'
+          validation_status: 'VALID'
+          validation_code: 'PARSED_OFFLINE'
+          parser_profile: 'antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2'
+          files:
+            0:
+              path: 'migrations/V001__create_widget.sql'
+              bytes: 45
+              sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+              content: |-
+                CREATE TABLE widget (id NUMBER PRIMARY KEY);
+                
+              version: '1'
+              statementCount: 1
+              validationStatus: 'VALID'
+          created_at: 2026-10-09T12:50:04.810Z
+      comments:
+        0:
+          id: '3c0db0ce-2a0e-4d19-bdfe-bbeb0b7843d6'
+          position: '3'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          plan_id: '03e76561-ac0c-4560-ae30-97e67062c47d'
+          author_id: 't19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0'
+          author_name: 'Source developer'
+          body: 'Comment on rejected plan.'
+          created_at: 2026-10-09T12:50:15.189Z
+      history:
+        0:
+          id: '2751881c-71be-46b5-9d1f-698c3e1582fd'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          plan_id: '03e76561-ac0c-4560-ae30-97e67062c47d'
+          version: '1'
+          path: 'migrations/V001__create_widget.sql'
+          sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+          status: 'NOT_EXECUTED'
+          created_at: 2026-10-09T12:50:04.816Z
+      audit:
+        0:
+          id: '0a030942-82e7-448c-bd59-ab4f2b0b45b9'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          actor_id: 't19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0'
+          action: 'PLAN_CREATED'
+          resource_id: '03e76561-ac0c-4560-ae30-97e67062c47d'
+          facts:
+          created_at: 2026-10-09T12:50:04.816Z
+        1:
+          id: 'c80e56d6-827a-441c-9a23-e9d3352dc427'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          actor_id: 't19-api-approver-f53a7c88-548f-48a8-b98b-fe5584b741b1'
+          action: 'PLAN_REJECTED'
+          resource_id: '03e76561-ac0c-4560-ae30-97e67062c47d'
+          facts:
+            reason: 'Authorized rejection remains available.'
+          created_at: 2026-10-09T12:50:04.865Z
+  actual:
+    0:
+      plan:
+        0:
+          id: '6e504175-4a59-4c9f-805b-bbcd298028a6'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          release_id: '0b4b963b-5eb6-4b43-8eea-fc607d7d5247'
+          profile_id: '9cea3675-c241-4f8e-a416-210ef9223acf'
+          author_id: 't19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0'
+          status: 'APPROVED'
+          decision: 'APPROVE'
+          decision_reason: 'Matching protected generation.'
+          decided_by: 't19-api-approver-f53a7c88-548f-48a8-b98b-fe5584b741b1'
+          created_at: 2026-10-09T12:50:02.214Z
+          decided_at: 2026-10-09T12:50:02.230Z
+          items:
+            0:
+              path: 'migrations/V001__create_widget.sql'
+              sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+              status: 'NOT_EXECUTED'
+              version: '1'
+          execution: 'NOT_EXECUTED'
+          history_status: 'NOT_OBSERVED'
+          planning_scope: 'OFFLINE_CANDIDATE'
+          offline_intent_envelope: '[1,"00000000-0000-4000-8000-000000000001","99d09cca-8ed0-4184-81bb-38642551a345","t19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0","0b4b963b-5eb6-4b43-8eea-fc607d7d5247","394ac63906b7146cddf1844e5bc08ec89c0964df","sha1","migrations","antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2","0a3302b6b392b12db1f3106f3fc95260c1745332052d76b9edbf17385d2ed033","9cea3675-c241-4f8e-a416-210ef9223acf","Offline target","f6216ed0-c2b2-4cbd-9a0e-d2ff687ef756","Local","oracle","localhost",1521,"DEV","APP","vault://local/app",[["migrations/V001__create_widget.sql","1","b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901"]]]'
+          offline_intent_digest: 'ce31d8e876aedcd124ab633dfc71340c5cf591b700756478050f49b43fa49638'
+          decided_by_name: 'Independent approver'
+          source_binding_generation: ~
+      release:
+        0:
+          id: '0b4b963b-5eb6-4b43-8eea-fc607d7d5247'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          repository_id: 't19-api-repo'
+          commit_id: '394ac63906b7146cddf1844e5bc08ec89c0964df'
+          object_format: 'sha1'
+          folder: 'migrations'
+          manifest_digest: '0a3302b6b392b12db1f3106f3fc95260c1745332052d76b9edbf17385d2ed033'
+          validation_status: 'VALID'
+          validation_code: 'PARSED_OFFLINE'
+          parser_profile: 'antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2'
+          files:
+            0:
+              path: 'migrations/V001__create_widget.sql'
+              bytes: 45
+              sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+              content: |-
+                CREATE TABLE widget (id NUMBER PRIMARY KEY);
+                
+              version: '1'
+              statementCount: 1
+              validationStatus: 'VALID'
+          created_at: 2026-10-09T12:50:02.205Z
+      comments:
+        0:
+          id: '39e475dc-67b5-4bb2-9092-74f0f65ac0c1'
+          position: '2'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          plan_id: '6e504175-4a59-4c9f-805b-bbcd298028a6'
+          author_id: 't19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0'
+          author_name: 'Source developer'
+          body: 'Comment on approved plan.'
+          created_at: 2026-10-09T12:50:15.187Z
+      history:
+        0:
+          id: 'eee76ed0-b172-4ab1-8546-ccca34f53535'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          plan_id: '6e504175-4a59-4c9f-805b-bbcd298028a6'
+          version: '1'
+          path: 'migrations/V001__create_widget.sql'
+          sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+          status: 'NOT_EXECUTED'
+          created_at: 2026-10-09T12:50:02.214Z
+      audit:
+        0:
+          id: 'af342c14-6343-4c4e-8403-30c542a83185'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          actor_id: 't19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0'
+          action: 'PLAN_CREATED'
+          resource_id: '6e504175-4a59-4c9f-805b-bbcd298028a6'
+          facts:
+          created_at: 2026-10-09T12:50:02.214Z
+        1:
+          id: '574be0a6-a302-4342-af69-ba5455e429cf'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          actor_id: 't19-api-approver-f53a7c88-548f-48a8-b98b-fe5584b741b1'
+          action: 'PLAN_APPROVED'
+          resource_id: '6e504175-4a59-4c9f-805b-bbcd298028a6'
+          facts:
+            reason: 'Matching protected generation.'
+          created_at: 2026-10-09T12:50:02.230Z
+    1:
+      plan:
+        0:
+          id: '03e76561-ac0c-4560-ae30-97e67062c47d'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          release_id: '34d7c15f-f34a-488f-8a55-e7f3ce4f733b'
+          profile_id: '9cea3675-c241-4f8e-a416-210ef9223acf'
+          author_id: 't19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0'
+          status: 'REJECTED'
+          decision: 'REJECT'
+          decision_reason: 'Authorized rejection remains available.'
+          decided_by: 't19-api-approver-f53a7c88-548f-48a8-b98b-fe5584b741b1'
+          created_at: 2026-10-09T12:50:04.816Z
+          decided_at: 2026-10-09T12:50:04.865Z
+          items:
+            0:
+              path: 'migrations/V001__create_widget.sql'
+              sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+              status: 'NOT_EXECUTED'
+              version: '1'
+          execution: 'NOT_EXECUTED'
+          history_status: 'NOT_OBSERVED'
+          planning_scope: 'OFFLINE_CANDIDATE'
+          offline_intent_envelope: '[1,"00000000-0000-4000-8000-000000000001","99d09cca-8ed0-4184-81bb-38642551a345","t19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0","34d7c15f-f34a-488f-8a55-e7f3ce4f733b","394ac63906b7146cddf1844e5bc08ec89c0964df","sha1","migrations","antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2","0a3302b6b392b12db1f3106f3fc95260c1745332052d76b9edbf17385d2ed033","9cea3675-c241-4f8e-a416-210ef9223acf","Offline target","f6216ed0-c2b2-4cbd-9a0e-d2ff687ef756","Local","oracle","localhost",1521,"DEV","APP","vault://local/app",[["migrations/V001__create_widget.sql","1","b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901"]]]'
+          offline_intent_digest: 'ff62183188ffc0a064845e8e9afcec4c252e8e9b607b1069d850ae3c50e6ab06'
+          decided_by_name: 'Independent approver'
+          source_binding_generation: ~
+      release:
+        0:
+          id: '34d7c15f-f34a-488f-8a55-e7f3ce4f733b'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          repository_id: 't19-api-repo'
+          commit_id: '394ac63906b7146cddf1844e5bc08ec89c0964df'
+          object_format: 'sha1'
+          folder: 'migrations'
+          manifest_digest: '0a3302b6b392b12db1f3106f3fc95260c1745332052d76b9edbf17385d2ed033'
+          validation_status: 'VALID'
+          validation_code: 'PARSED_OFFLINE'
+          parser_profile: 'antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2'
+          files:
+            0:
+              path: 'migrations/V001__create_widget.sql'
+              bytes: 45
+              sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+              content: |-
+                CREATE TABLE widget (id NUMBER PRIMARY KEY);
+                
+              version: '1'
+              statementCount: 1
+              validationStatus: 'VALID'
+          created_at: 2026-10-09T12:50:04.810Z
+      comments:
+        0:
+          id: '3c0db0ce-2a0e-4d19-bdfe-bbeb0b7843d6'
+          position: '3'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          plan_id: '03e76561-ac0c-4560-ae30-97e67062c47d'
+          author_id: 't19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0'
+          author_name: 'Source developer'
+          body: 'Comment on rejected plan.'
+          created_at: 2026-10-09T12:50:15.189Z
+      history:
+        0:
+          id: '2751881c-71be-46b5-9d1f-698c3e1582fd'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          plan_id: '03e76561-ac0c-4560-ae30-97e67062c47d'
+          version: '1'
+          path: 'migrations/V001__create_widget.sql'
+          sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+          status: 'NOT_EXECUTED'
+          created_at: 2026-10-09T12:50:04.816Z
+      audit:
+        0:
+          id: '0a030942-82e7-448c-bd59-ab4f2b0b45b9'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          actor_id: 't19-api-developer-df364946-4aa5-4242-b2ce-547a20d9ebb0'
+          action: 'PLAN_CREATED'
+          resource_id: '03e76561-ac0c-4560-ae30-97e67062c47d'
+          facts:
+          created_at: 2026-10-09T12:50:04.816Z
+        1:
+          id: 'c80e56d6-827a-441c-9a23-e9d3352dc427'
+          project_id: '99d09cca-8ed0-4184-81bb-38642551a345'
+          organization_id: '00000000-0000-4000-8000-000000000001'
+          actor_id: 't19-api-approver-f53a7c88-548f-48a8-b98b-fe5584b741b1'
+          action: 'PLAN_REJECTED'
+          resource_id: '03e76561-ac0c-4560-ae30-97e67062c47d'
+          facts:
+            reason: 'Authorized rejection remains available.'
+          created_at: 2026-10-09T12:50:04.865Z
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-protected-source-binding.test.mjs:183:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: binding updates serialize with approval and plan creation under project locks
+ok 2 - binding updates serialize with approval and plan creation under project locks
+  ---
+  duration_ms: 5372.224251
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 21503.273546

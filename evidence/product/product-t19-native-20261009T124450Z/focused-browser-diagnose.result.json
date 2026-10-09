@@ -1,0 +1,9 @@
+{
+  "label": "focused-browser-diagnose",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs",
+  "started_at_utc": "2026-10-09T12:56:47.513945Z",
+  "completed_at_utc": "2026-10-09T12:57:22.387574Z",
+  "exit_code": 1,
+  "raw_sha256": "ff92de0460626b1f334febcce7c468f4a2ce92881f1e562f57b10dce92a492e4",
+  "raw_bytes": 1040
+}

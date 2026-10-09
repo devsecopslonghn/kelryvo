@@ -1,0 +1,34 @@
+TAP version 13
+# Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+ok 1 - audit action filters preserve project scope, server order, archived reads and read-only records
+  ---
+  duration_ms: 1848.381867
+  type: 'test'
+  ...
+# Subtest: decision records render the stored attribution safely and stay plan-specific
+ok 2 - decision records render the stored attribution safely and stay plan-specific
+  ---
+  duration_ms: 1831.423268
+  type: 'test'
+  ...
+# Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+ok 3 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+  ---
+  duration_ms: 15923.33103
+  type: 'test'
+  ...
+# Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+ok 4 - status filters preserve scoped ordered plans, drafts, history and archived reads
+  ---
+  duration_ms: 2943.761848
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 25330.221531

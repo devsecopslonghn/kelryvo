@@ -1,0 +1,17 @@
+TAP version 13
+# Subtest: review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+not ok 1 - review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+  ---
+  duration_ms: 7550.017696
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-protected-source-binding-browser.integration.mjs:14:1'
+  failureType: 'testCodeFailure'
+  error: 'releaseDecision is not defined'
+  code: 'ERR_TEST_FAILURE'
+  name: 'ReferenceError'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-protected-source-binding-browser.integration.mjs:189:5)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...

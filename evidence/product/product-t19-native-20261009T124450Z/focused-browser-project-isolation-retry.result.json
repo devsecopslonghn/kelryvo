@@ -1,0 +1,9 @@
+{
+  "label": "focused-browser-project-isolation-retry",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs",
+  "started_at_utc": "2026-10-09T13:15:23.388101Z",
+  "completed_at_utc": "2026-10-09T13:15:32.390376Z",
+  "exit_code": 1,
+  "raw_sha256": "d69e0fb78ac7ff4067a36bb707d0d12ec8cd02c44de2c0676ec6d99aa35486e3",
+  "raw_bytes": 1115
+}

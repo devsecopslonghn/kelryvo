@@ -1,0 +1,11 @@
+{
+  "command": "set -e; node scripts/format-json.mjs --write; node scripts/tracker.mjs validate; node --test tests/tracker.test.mjs; npm run format:check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T12:38:19.113529+00:00",
+  "ended_at_utc": "2026-10-09T12:38:20.366097+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding/evidence/product/product-t19-root-20261009T123628Z/04-registration-quality-complete.log",
+    "sha256": "9cc42da3f0d2257493db1b73489db7810ce787ecd11af3b164aa9febcfdd0a18"
+  }
+}

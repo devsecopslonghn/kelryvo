@@ -1,0 +1,9 @@
+{
+  "label": "focused-api-retry",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding.test.mjs",
+  "started_at_utc": "2026-10-09T12:45:48.131688Z",
+  "completed_at_utc": "2026-10-09T12:46:07.220911Z",
+  "exit_code": 1,
+  "raw_sha256": "fe47cad994c086d9610c260925e0f6da798d34cbbbc21c1b74c90a814048d3c1",
+  "raw_bytes": 1443
+}

@@ -1,0 +1,5 @@
+{
+  "command": "set -e -o pipefail; gh api --paginate \"repos/devsecopslonghn/schemaForge/secret-scanning/alerts?state=open&per_page=100\" --jq \"map({number,state,html_url})\" | jq -s \"add // []\"; gh api --paginate \"repos/devsecopslonghn/schemaForge/code-scanning/alerts?state=open&per_page=100\" --jq \"map({number,state,html_url})\" | jq -s \"add // []\"; gh run list --repo devsecopslonghn/schemaForge --commit 38665228fb844311390c9a064d9e1c02dc88145a --limit 100 --json databaseId,workflowName,headSha,event,status,conclusion,url",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T12:40:25.789398+00:00"
+}

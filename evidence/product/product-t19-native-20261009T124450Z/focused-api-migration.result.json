@@ -1,0 +1,9 @@
+{
+  "label": "focused-api-migration",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding.test.mjs",
+  "started_at_utc": "2026-10-09T12:50:39.949559Z",
+  "completed_at_utc": "2026-10-09T12:51:04.350193Z",
+  "exit_code": 1,
+  "raw_sha256": "f10a430378a527c7d2b11b16f40a58331d2a4de870d1a9f1fdfe80bb156e46fe",
+  "raw_bytes": 1501
+}

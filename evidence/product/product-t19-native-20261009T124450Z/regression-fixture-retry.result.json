@@ -1,0 +1,9 @@
+{
+  "label": "regression-fixture-retry",
+  "command": "node --test --test-concurrency=1 tests/product-api.test.mjs tests/product-archive.test.mjs tests/product-comments.test.mjs tests/product-decision-record.test.mjs tests/product-plan-intent.test.mjs tests/product-plan-resubmission.test.mjs tests/product-release-integrity.test.mjs tests/product-review-audit.test.mjs",
+  "started_at_utc": "2026-10-09T13:22:02.148724Z",
+  "completed_at_utc": "2026-10-09T13:22:34.492559Z",
+  "exit_code": 0,
+  "raw_sha256": "c6eb1e0bfddaacb4a960dbb07d3efe6d12a3f6537bdea864768a0e70e443e72e",
+  "raw_bytes": 2298
+}

@@ -1,0 +1,5 @@
+{
+  "command": "npm ci --ignore-scripts --no-audit --no-fund",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T12:36:28.220435+00:00"
+}

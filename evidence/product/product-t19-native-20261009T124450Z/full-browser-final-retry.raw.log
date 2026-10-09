@@ -1,0 +1,135 @@
+
+> schemaforge-local-development@0.0.0 test:browser
+> npm run build:web && node scripts/test-product.mjs --browser
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# Subtest: browser shows fixed approval integrity feedback and preserves pending plan for rejection
+ok 1 - browser shows fixed approval integrity feedback and preserves pending plan for rejection
+  ---
+  duration_ms: 6321.255473
+  type: 'test'
+  ...
+# Browser archive workflow and archived project records remained readable after API restart.
+# Subtest: browser archives a project and keeps its releases, plan, audit, and history readable
+ok 2 - browser archives a project and keeps its releases, plan, audit, and history readable
+  ---
+  duration_ms: 6933.305315
+  type: 'test'
+  ...
+# Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+ok 3 - audit action filters preserve project scope, server order, archived reads and read-only records
+  ---
+  duration_ms: 1911.914703
+  type: 'test'
+  ...
+# Real browser workflow and PostgreSQL restart persistence passed; Oracle untouched.
+# Subtest: browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+ok 4 - browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+  ---
+  duration_ms: 8704.801197
+  type: 'test'
+  ...
+# browser phase: application and browser started
+# browser phase: project, import, and approval workflow completed
+# browser phase: duplicate pending plan created
+# browser phase: rejection and execution-denial workflow completed
+# browser phase: original browser closed before API restart
+# browser phase: original API closed
+# browser phase: API restarted and PostgreSQL state verified
+# browser phase: developer signed in and selected unbound project
+# browser phase: source PUT reached delayed-response handler after server write
+# browser phase: approver signed in and original project reselected
+# browser phase: delayed-response route cleanup completed
+# browser phase: stale success was ignored and workflow finished
+# Subtest: plan comments remain scoped, readable, and persistent across API restart
+ok 5 - plan comments remain scoped, readable, and persistent across API restart
+  ---
+  duration_ms: 14385.134638
+  type: 'test'
+  ...
+# Subtest: decision records render the stored attribution safely and stay plan-specific
+ok 6 - decision records render the stored attribution safely and stay plan-specific
+  ---
+  duration_ms: 1886.109222
+  type: 'test'
+  ...
+# Subtest: release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+ok 7 - release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+  ---
+  duration_ms: 3921.741131
+  type: 'test'
+  ...
+# Subtest: browser shows frozen intent facts and keeps changed current configuration separate
+ok 8 - browser shows frozen intent facts and keeps changed current configuration separate
+  ---
+  duration_ms: 6996.613149
+  type: 'test'
+  ...
+# Subtest: browser shows retained plan requester facts and blocks author decisions
+ok 9 - browser shows retained plan requester facts and blocks author decisions
+  ---
+  duration_ms: 9308.859341
+  type: 'test'
+  ...
+# Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+ok 10 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+  ---
+  duration_ms: 15850.714182
+  type: 'test'
+  ...
+# Subtest: plan source inspection stays bound to retained releases and is read only
+ok 11 - plan source inspection stays bound to retained releases and is read only
+  ---
+  duration_ms: 26621.078143
+  type: 'test'
+  ...
+# Subtest: plan review shows only its matching current project profile and environment
+ok 12 - plan review shows only its matching current project profile and environment
+  ---
+  duration_ms: 12928.210958
+  type: 'test'
+  ...
+# Subtest: review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+ok 13 - review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+  ---
+  duration_ms: 8238.187281
+  type: 'test'
+  ...
+# Subtest: browser gives fixed feedback when a retained release fails integrity verification
+ok 14 - browser gives fixed feedback when a retained release fails integrity verification
+  ---
+  duration_ms: 6256.543087
+  type: 'test'
+  ...
+# Subtest: release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+ok 15 - release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+  ---
+  duration_ms: 6502.464417
+  type: 'test'
+  ...
+# Subtest: browser displays a server-audited decision denial to the authenticated project actor
+ok 16 - browser displays a server-audited decision denial to the authenticated project actor
+  ---
+  duration_ms: 6086.336908
+  type: 'test'
+  ...
+# Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+ok 17 - status filters preserve scoped ordered plans, drafts, history and archived reads
+  ---
+  duration_ms: 2916.311438
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 157392.639225

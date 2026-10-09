@@ -1,0 +1,1 @@
+{"record": "evidence/product/product-t19-root-20261009T123628Z/integration-record.json", "sha256": "ddf5c060f05699e1b370fb08a3831ef8a6b145d00085de45f9380e4222fbcff4", "verified_source_files": 21, "verified_capture_artifacts": 155, "final_counts": {"full-check-final-two-cpu": 149, "full-product-final": 28, "full-browser-final-retry": 17, "focused-api-after-noop": 3}}

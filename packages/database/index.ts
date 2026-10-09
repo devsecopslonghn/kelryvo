@@ -11,6 +11,7 @@ export async function initializeDatabase(sql: any): Promise<void> {
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
       name text NOT NULL, description text,
       source_repository_id text, source_folder text, source_updated_at timestamptz,
+      source_binding_generation bigint NOT NULL DEFAULT 1,
       created_at timestamptz NOT NULL DEFAULT now(), UNIQUE(id,organization_id)
     );
     CREATE TABLE IF NOT EXISTS sf_environments (
@@ -67,9 +68,11 @@ export async function initializeDatabase(sql: any): Promise<void> {
     ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_repository_id text;
     ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_folder text;
     ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_updated_at timestamptz;
+    ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_binding_generation bigint NOT NULL DEFAULT 1;
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS decided_by_name text;
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS offline_intent_envelope text;
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS offline_intent_digest text;
+    ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS source_binding_generation bigint;
     DO $$ BEGIN
       IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_projects'::regclass AND conname='sf_projects_source_binding_complete') THEN
         ALTER TABLE sf_projects ADD CONSTRAINT sf_projects_source_binding_complete

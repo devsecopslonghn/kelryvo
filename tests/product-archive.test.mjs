@@ -35,7 +35,7 @@ test('archival keeps immutable records readable and refuses further project work
     const manifestDigest = createHash('sha256').update(JSON.stringify({ format:1, commit:'a'.repeat(40), objectFormat:'sha1',
       folder:'migrations', parserProfile:'fixture-parser-profile', files:files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) })).digest('hex');
     const release = (await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)
-      VALUES(${project.id},'00000000-0000-4000-8000-000000000001','fixture',${'a'.repeat(40)},'sha1','migrations',${manifestDigest},'VALID','fixture-parser-profile',${db.sql.json(files)}) RETURNING id`)[0];
+      VALUES(${project.id},'00000000-0000-4000-8000-000000000001','local-source',${'a'.repeat(40)},'sha1','migrations',${manifestDigest},'VALID','fixture-parser-profile',${db.sql.json(files)}) RETURNING id`)[0];
     const planInput = { releaseId: release.id, profileId: profile.id };
     const plan = (await request('POST', `${base}/plans`, planInput)).json().plan;
     assert.equal((await request('POST', `${base}/archive`, { reason: 'read only' }, approver)).statusCode, 403);

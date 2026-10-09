@@ -1,0 +1,9 @@
+{
+  "label": "focused-browser-selectfix",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs",
+  "started_at_utc": "2026-10-09T13:00:10.906338Z",
+  "completed_at_utc": "2026-10-09T13:00:45.813764Z",
+  "exit_code": 1,
+  "raw_sha256": "a86d79359e85593fcd745bfe53c15621d0e5211c08ed6af86648cc06a0f236b0",
+  "raw_bytes": 1040
+}

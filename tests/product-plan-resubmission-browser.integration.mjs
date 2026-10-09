@@ -141,7 +141,9 @@ test('browser prepares a fresh plan from a new commit after rejection and fails 
     assert.equal(await page.locator('.plan-source-result').count(), 0, 'late source response is discarded after navigation');
     await page.getByRole('button', { name: /Releases/ }).click();
     assert.equal(await page.locator('[data-inspected-release-id]').count(), 0, 'previous inspected release is cleared');
-    assert.match(await page.locator('.intake-guidance').innerText(), /commit changed SQL.*new immutable release/i);
+    const intakeGuidance = await page.locator('.intake-guidance').innerText();
+    assert.match(intakeGuidance, /If the SQL changed, commit those edits first/i);
+    assert.match(intakeGuidance, /Existing releases and plans remain unchanged/i);
     assert.deepEqual(await stateSnapshot(), beforeAction);
     page.off('request', onRequest);
 

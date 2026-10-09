@@ -20,6 +20,7 @@ test('authenticated denied decisions append fixed audit facts while preserving p
     headers: { authorization: `Bearer ${actor.token}` }, payload });
   const project = (await request('POST', '/api/projects', { name: `Audit ${randomUUID()}` })).json().project;
   const base = `/api/projects/${project.id}`;
+  await db.sql`UPDATE sf_projects SET source_repository_id='fixture',source_folder='migrations',source_updated_at=now() WHERE id=${project.id}`;
   const env = (await request('POST', `${base}/environments`, { name: 'Development' })).json().environment;
   const profile = (await request('POST', `${base}/profiles`, { name: 'Reference', environmentId: env.id,
     engine: 'oracle', host: 'oracle.example.invalid', port: 1521, service: 'DEV', username: 'APP',

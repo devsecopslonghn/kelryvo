@@ -1,0 +1,9 @@
+{
+  "label": "focused-browser-bounded-route",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs",
+  "started_at_utc": "2026-10-09T13:11:00.318308Z",
+  "completed_at_utc": "2026-10-09T13:11:08.731449Z",
+  "exit_code": 0,
+  "raw_sha256": "419d661926d26c230b0587a47868ebb0de616821f5ae86a074b7e2f061d3babb",
+  "raw_bytes": 404
+}

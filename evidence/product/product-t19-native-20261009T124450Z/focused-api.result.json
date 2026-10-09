@@ -1,0 +1,9 @@
+{
+  "label": "focused-api",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding.test.mjs",
+  "started_at_utc": "2026-10-09T12:45:00.522366Z",
+  "completed_at_utc": "2026-10-09T12:45:29.832670Z",
+  "exit_code": 1,
+  "raw_sha256": "476d84f7b116f45ebbeb605d49f480d5f3030ab1e69f3868ca60bc5561d4facb",
+  "raw_bytes": 2439
+}

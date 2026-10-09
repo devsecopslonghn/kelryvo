@@ -1,0 +1,5 @@
+{
+  "command": "set -e; node scripts/format-json.mjs --write; node scripts/tracker.mjs validate; node --test tests/tracker.test.mjs; npm run format:check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T12:37:42.286374+00:00"
+}

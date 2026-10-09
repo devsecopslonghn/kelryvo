@@ -1,0 +1,9 @@
+{
+  "label": "full-product-final",
+  "command": "npm run test:product",
+  "started_at_utc": "2026-10-09T13:26:24.682080Z",
+  "completed_at_utc": "2026-10-09T13:28:09.494035Z",
+  "exit_code": 0,
+  "raw_sha256": "8b7b7f1ad262e82928f79160520e8b1903e1176e8b692987ce22efcaf7ca2bf4",
+  "raw_bytes": 7160
+}

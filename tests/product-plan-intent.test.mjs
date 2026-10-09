@@ -149,7 +149,7 @@ test('plan intent persists across API restart and damaged or legacy intent block
       const before = await snapshots();
       const rejectedApproval = await request('POST', `/api/plans/${plan.id}/decision`, { decision: 'APPROVE', reason: `Check ${label}` }, actors[1]);
       assert.equal(rejectedApproval.statusCode, 409, label);
-      assert.equal(rejectedApproval.json().error, 'PLAN_APPROVAL_INTEGRITY_FAILED', label);
+      assert.equal(rejectedApproval.json().error, label === 'source folder' ? 'FRESH_PLAN_REQUIRED' : 'PLAN_APPROVAL_INTEGRITY_FAILED', label);
       assert.deepEqual(await snapshots(), before, `${label} fails before all plan/comment/history/audit writes`);
       await restore();
     }

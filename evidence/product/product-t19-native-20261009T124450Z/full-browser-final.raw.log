@@ -1,0 +1,193 @@
+
+> schemaforge-local-development@0.0.0 test:browser
+> npm run build:web && node scripts/test-product.mjs --browser
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# Subtest: browser shows fixed approval integrity feedback and preserves pending plan for rejection
+ok 1 - browser shows fixed approval integrity feedback and preserves pending plan for rejection
+  ---
+  duration_ms: 6274.346671
+  type: 'test'
+  ...
+# Browser archive workflow and archived project records remained readable after API restart.
+# Subtest: browser archives a project and keeps its releases, plan, audit, and history readable
+ok 2 - browser archives a project and keeps its releases, plan, audit, and history readable
+  ---
+  duration_ms: 6832.717902
+  type: 'test'
+  ...
+# Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+not ok 3 - audit action filters preserve project scope, server order, archived reads and read-only records
+  ---
+  duration_ms: 307.134745
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-audit-action-filters-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading 'id')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-audit-action-filters-browser.integration.mjs:47:82)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Real browser workflow and PostgreSQL restart persistence passed; Oracle untouched.
+# Subtest: browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+ok 4 - browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+  ---
+  duration_ms: 8680.530155
+  type: 'test'
+  ...
+# browser phase: application and browser started
+# browser phase: project, import, and approval workflow completed
+# browser phase: duplicate pending plan created
+# browser phase: rejection and execution-denial workflow completed
+# browser phase: original browser closed before API restart
+# browser phase: original API closed
+# browser phase: API restarted and PostgreSQL state verified
+# browser phase: developer signed in and selected unbound project
+# browser phase: source PUT reached delayed-response handler after server write
+# browser phase: approver signed in and original project reselected
+# browser phase: delayed-response route cleanup completed
+# browser phase: stale success was ignored and workflow finished
+# Subtest: plan comments remain scoped, readable, and persistent across API restart
+ok 5 - plan comments remain scoped, readable, and persistent across API restart
+  ---
+  duration_ms: 14448.167711
+  type: 'test'
+  ...
+# Subtest: decision records render the stored attribution safely and stay plan-specific
+not ok 6 - decision records render the stored attribution safely and stay plan-specific
+  ---
+  duration_ms: 285.649306
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-decision-record-browser.integration.mjs:11:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    409 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 409
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-decision-record-browser.integration.mjs:59:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+ok 7 - release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+  ---
+  duration_ms: 3927.402237
+  type: 'test'
+  ...
+# Subtest: browser shows frozen intent facts and keeps changed current configuration separate
+ok 8 - browser shows frozen intent facts and keeps changed current configuration separate
+  ---
+  duration_ms: 6888.729816
+  type: 'test'
+  ...
+# Subtest: browser shows retained plan requester facts and blocks author decisions
+ok 9 - browser shows retained plan requester facts and blocks author decisions
+  ---
+  duration_ms: 9142.978972
+  type: 'test'
+  ...
+# Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+not ok 10 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+  ---
+  duration_ms: 9205.85139
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-plan-resubmission-browser.integration.mjs:14:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /commit changed SQL.*new immutable release/i. Input:
+    
+    'Import a commit from the current bound repository and folder to prepare a fresh plan. If the SQL changed, commit those edits first; a source-binding refresh alone does not require SQL edits. Existing releases and plans remain unchanged.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'Import a commit from the current bound repository and folder to prepare a fresh plan. If the SQL changed, commit those edits first; a source-binding refresh alone does not require SQL edits. Existing releases and plans remain unchanged.'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-plan-resubmission-browser.integration.mjs:144:12)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: plan source inspection stays bound to retained releases and is read only
+ok 11 - plan source inspection stays bound to retained releases and is read only
+  ---
+  duration_ms: 26860.714887
+  type: 'test'
+  ...
+# Subtest: plan review shows only its matching current project profile and environment
+ok 12 - plan review shows only its matching current project profile and environment
+  ---
+  duration_ms: 13120.646696
+  type: 'test'
+  ...
+# Subtest: review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+ok 13 - review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+  ---
+  duration_ms: 8199.480613
+  type: 'test'
+  ...
+# Subtest: browser gives fixed feedback when a retained release fails integrity verification
+ok 14 - browser gives fixed feedback when a retained release fails integrity verification
+  ---
+  duration_ms: 6131.040823
+  type: 'test'
+  ...
+# Subtest: release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+ok 15 - release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+  ---
+  duration_ms: 6514.04084
+  type: 'test'
+  ...
+# Subtest: browser displays a server-audited decision denial to the authenticated project actor
+ok 16 - browser displays a server-audited decision denial to the authenticated project actor
+  ---
+  duration_ms: 6042.890936
+  type: 'test'
+  ...
+# Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+not ok 17 - status filters preserve scoped ordered plans, drafts, history and archived reads
+  ---
+  duration_ms: 269.755287
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-status-filters-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: 'POST /api/projects/86b2bf86-6447-4b08-b566-83c3b6174294/plans returned 409'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (file:///home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-status-filters-browser.integration.mjs:28:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Object.plan (file:///home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-status-filters-browser.integration.mjs:45:33)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-status-filters-browser.integration.mjs:49:21)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 13
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 144854.74337

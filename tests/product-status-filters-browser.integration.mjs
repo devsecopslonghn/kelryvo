@@ -30,6 +30,7 @@ test('status filters preserve scoped ordered plans, drafts, history and archived
     };
     const seedProject = async (name) => {
       const { project } = await api('POST', '/api/projects', actors[0], { name });
+      await database.sql`UPDATE sf_projects SET source_repository_id='fixture',source_folder='migrations',source_updated_at=now() WHERE id=${project.id}`;
       const content = 'CREATE TABLE t (id NUMBER);';
       const bytes = Buffer.from(content);
       const sha256 = createHash('sha256').update(bytes).digest('hex');

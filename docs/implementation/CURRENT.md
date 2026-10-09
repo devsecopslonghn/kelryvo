@@ -1,3 +1,38 @@
+## T19 locally verified; exact-head publication review pending — 2026-10-09
+
+SF-PRODUCT-T19 captures server-owned protected repository/folder generations and checks
+them under project/source locks before approval. Actual binding changes advance the epoch;
+no-op saves retain it. Missing, stale, corrupt or mismatched evidence requires a fresh plan.
+Legacy plans remain readable and rejectable; historical generation is never inferred/backfilled.
+Pending recovery reuses T18 intake without requiring SQL edits and preserves original records.
+
+Final checks: 149 standard, 28 PostgreSQL product, 17 browser, focused API 3 and root
+tracker 21; zero failures/skips. Root source, format and build checks pass.
+Evidence: `evidence/product/product-t19-root-20261009T123628Z/integration-record.json`. Earlier failed captures remain immutable, including
+stale browser bundles, selector/fixture errors and gated-route timeout. Connection-pool
+reopen verifies PostgreSQL persistence; no PostgreSQL daemon restart is claimed.
+Independent exact-head QA/security, publication scan and CI remain required.
+
+Next priority after eligible T19 merge: bounded local hashed, expiring/revocable credentials
+(SEC-001), followed by explicit project-membership authority. No implementation claimed yet.
+Shared checkout/Hygiene scope untouched; no separate Hygiene PR visible. Sonar unavailable,
+never PASS. Oracle VALIDATION remains independently BLOCKED; full catalog acceptance separate.
+
+## T19 active; owner compatibility decision approved — 2026-10-09
+
+The owner requires fresh plans for pending plans without verifiable source-binding
+generation evidence. Binding protection is approved; never infer or backfill historical
+plan generations. T19 is IN_PROGRESS in the isolated protected-source-binding worktree,
+branch `development/product-protected-source-binding`, based on verified master
+`38665228fb844311390c9a064d9e1c02dc88145a` and the preserved T18 merge checkpoint.
+Implement server-owned current binding generation, locked new-plan capture and locked
+approval comparison, fail-closed legacy/corrupt/stale feedback, retained rejection/history,
+and T18 fresh-plan recovery. Cover real Git/PostgreSQL/browser races and persistence.
+Root owns acceptance/tracker/integration; a fresh coupled native context owns source.
+No T19 verification or merge claimed yet. Next feature selection follows real catalog
+and current capability gaps after T19; Oracle lab availability does not block PRODUCT.
+Shared checkout and Hygiene scope untouched; Sonar unavailable, never PASS.
+
 ## T18 merged and master verified; next compatibility decision pending — 2026-10-09
 
 T18 merged through [PR #30](https://github.com/devsecopslonghn/schemaForge/pull/30)

@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t19-root-integrate.py /tmp/schemaforge-t19-root-integrate-args.json",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T13:36:49.880749+00:00",
+  "ended_at_utc": "2026-10-09T13:36:49.951472+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding/evidence/product/product-t19-root-20261009T123628Z/07-root-integration-verification.log",
+    "sha256": "de71023667c1832e97a127a8b7d8bd0b59a7b718dd6735d3f58009b9278ac36a"
+  }
+}

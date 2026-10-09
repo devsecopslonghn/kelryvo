@@ -1,0 +1,1 @@
+node --test --test-concurrency=1 tests/product-audit-action-filters-browser.integration.mjs tests/product-decision-record-browser.integration.mjs tests/product-plan-resubmission-browser.integration.mjs tests/product-status-filters-browser.integration.mjs
