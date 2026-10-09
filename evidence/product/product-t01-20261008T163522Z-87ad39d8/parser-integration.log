@@ -1,0 +1,38 @@
+
+> schemaforge-local-development@0.0.0 parser:antlr:test
+> node --test tests/antlr.integration.mjs
+
+TAP version 13
+# Subtest: SQLPlus commands stop at every release position, ordinary SQL comments survive
+ok 1 - SQLPlus commands stop at every release position, ordinary SQL comments survive
+  ---
+  duration_ms: 28253.249186
+  type: 'test'
+  ...
+# Subtest: source mapping preserves supplementary Unicode and literal LF/CRLF slash delimiters
+ok 2 - source mapping preserves supplementary Unicode and literal LF/CRLF slash delimiters
+  ---
+  duration_ms: 9822.6363
+  type: 'test'
+  ...
+# Subtest: licensed grammar callbacks handle numeric functions and join prefixes
+ok 3 - licensed grammar callbacks handle numeric functions and join prefixes
+  ---
+  duration_ms: 7184.733464
+  type: 'test'
+  ...
+# Subtest: real helper rejects a late release file before returning any complete release
+ok 4 - real helper rejects a late release file before returning any complete release
+  ---
+  duration_ms: 5957.885495
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 51308.269893

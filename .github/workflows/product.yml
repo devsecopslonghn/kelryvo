@@ -1,0 +1,45 @@
+name: Local PRODUCT acceptance
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  product:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f
+        env:
+          POSTGRES_DB: schemaforge_test
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+      SCHEMAFORGE_JAVA_HOME: ${{ github.workspace }}/.cache/antlr/temurin
+      SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run parser:antlr:prepare
+      - run: npm run parser:antlr:build
+      - run: npm run build
+      - run: npm run test:product
+      - run: node node_modules/playwright/cli.js install --with-deps chromium
+      - run: npm run test:browser
+
+      # Only disposable metadata PostgreSQL and local Git/parser; no Oracle or deployment.

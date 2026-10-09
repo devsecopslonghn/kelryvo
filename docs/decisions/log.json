@@ -64,6 +64,17 @@
         "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/parser-corpus.json",
         "evidence/db-devops-wp0/t03-antlr-20261008T130643Z-98b033db/integration.txt"
       ]
+    },
+    {
+      "id": "SF-D008",
+      "status": "ACCEPTED_FOR_PRODUCT_DEVELOPMENT",
+      "decision": "Development scheduling uses independent PRODUCT and VALIDATION tracks. Oracle runtime and acceptance remain VALIDATION gates; original catalog and imported work acceptance dependencies are immutable and enforced for verification.",
+      "references": [
+        "AGENTS.md",
+        "docs/implementation/dependency-graph.json",
+        "docs/implementation/milestone.json",
+        "docs/implementation/tracking.md"
+      ]
     }
   ]
 }

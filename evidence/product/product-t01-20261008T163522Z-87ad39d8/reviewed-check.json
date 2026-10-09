@@ -1,0 +1,16 @@
+{
+  "id": "product-t01-20261008T163522Z-87ad39d8-reviewed-check",
+  "subject_id": "SF-PRODUCT-T01",
+  "kind": "STATIC",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check (after verification state and repaired UI)",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/check-reviewed.log",
+    "sha256": "0125191f51ab7ecc2b8cd2f8e0bc5aee8e0813266b7a5fb8800292645ed3f6b9"
+  }
+}

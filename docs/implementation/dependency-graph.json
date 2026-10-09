@@ -285,7 +285,9 @@
     "WP9-T03",
     "WP9-T04",
     "WP9-T05",
-    "WP9-T06"
+    "WP9-T06",
+    "SF-PRODUCT-T01",
+    "SF-PRODUCT-T02"
   ],
   "edges": {
     "DBM-001": [],
@@ -1359,6 +1361,19 @@
     "WP9-T06": [
       "WP7-T03",
       "WP8-T06"
+    ],
+    "SF-PRODUCT-T01": [],
+    "SF-PRODUCT-T02": [
+      "SF-PRODUCT-T01"
     ]
+  },
+  "scheduling": {
+    "PRODUCT": {
+      "SF-PRODUCT-T01": [],
+      "SF-PRODUCT-T02": [
+        "SF-PRODUCT-T01"
+      ]
+    },
+    "VALIDATION": {}
   }
 }

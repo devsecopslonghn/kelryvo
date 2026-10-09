@@ -2338,6 +2338,33 @@
         "WS-15",
         "WS-16"
       ]
+    },
+    "SF-PRODUCT-T01": {
+      "task_id": "SF-PRODUCT-T01",
+      "criteria": [
+        "A reproducible local command starts the API, web application, and PostgreSQL-backed metadata store.",
+        "Projects, environments, and connection profiles persist; connection secrets never appear in API responses or logs.",
+        "A Git migration release can be imported, parsed, validated, and displayed with source references.",
+        "The application generates a pending-change plan with approval and rejection transitions and audit history.",
+        "Migration history records NOT_EXECUTED when no authorized database execution occurs; no success is fabricated."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T01-API",
+        "SF-PRODUCT-T01-WEB",
+        "SF-PRODUCT-T01-INTEGRATION"
+      ]
+    },
+    "SF-PRODUCT-T02": {
+      "task_id": "SF-PRODUCT-T02",
+      "criteria": [
+        "A project can be archived persistently and its archived state is visible in project list and detail responses.",
+        "Archived projects reject new environments, connection profiles, Git releases, and migration plans with a stable conflict response.",
+        "Existing project details, audit events, and migration history remain readable after archival."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T02-API",
+        "SF-PRODUCT-T02-WEB"
+      ]
     }
   },
   "test_cases": [

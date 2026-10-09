@@ -3,18 +3,18 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Offline foundation tooling and WP0 probes; product license undecided",
+  "description": "Local SchemaForge governance product and preserved Oracle validation harness; product license undecided",
   "engines": {
     "node": "22.23.3",
     "npm": "10.9.9"
   },
   "scripts": {
-    "build": "node scripts/check-source.mjs",
+    "build": "node scripts/check-source.mjs && npm run typecheck && npm run build:web",
     "lint": "node scripts/check-source.mjs && node scripts/tracker.mjs validate",
     "format:check": "node scripts/format-json.mjs --check",
     "format": "node scripts/format-json.mjs --write",
     "test": "node --test tests/*.test.mjs",
-    "check": "npm run build && npm run lint && npm run format:check && npm test && npm run dependencies:smoke",
+    "check": "npm run build && npm run lint && npm run format:check && npm test && npm run dependencies:smoke && npm run dependencies:product",
     "check:record": "node scripts/record-checks.mjs",
     "status": "node scripts/tracker.mjs status",
     "next": "node scripts/tracker.mjs next",
@@ -28,13 +28,26 @@
     "parser:antlr:build": "node scripts/antlr-build.mjs",
     "parser:antlr:corpus": "node scripts/parser-corpus.mjs --antlr",
     "parser:antlr:test": "node --test tests/antlr.integration.mjs",
-    "probes:thin:plan": "node scripts/thin-probe-plan.mjs"
+    "probes:thin:plan": "node scripts/thin-probe-plan.mjs",
+    "typecheck": "tsc --noEmit",
+    "build:web": "node scripts/build-web.mjs",
+    "local:prepare": "node scripts/local-prepare.mjs",
+    "dev": "npm run build:web && node scripts/local-dev.mjs",
+    "test:product": "node scripts/test-product.mjs",
+    "test:browser": "npm run build:web && node scripts/test-product.mjs --browser",
+    "dependencies:product": "node scripts/product-dependencies.mjs"
   },
   "dependencies": {
+    "fastify": "5.12.5",
     "oracledb": "7.0.1",
-    "postgres": "3.4.9"
+    "postgres": "3.4.9",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   },
   "devDependencies": {
+    "@types/node": "22.20.5",
+    "esbuild": "0.28.2",
+    "playwright": "1.64.0",
     "typescript": "6.0.2"
   },
   "packageManager": "npm@10.9.9"

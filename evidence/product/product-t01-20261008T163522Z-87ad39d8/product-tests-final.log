@@ -1,0 +1,62 @@
+
+> schemaforge-local-development@0.0.0 test:product
+> node scripts/test-product.mjs
+
+TAP version 13
+# Subtest: product API persists a governed offline plan and never claims execution
+ok 1 - product API persists a governed offline plan and never claims execution
+  ---
+  duration_ms: 6689.346988
+  type: 'test'
+  ...
+# Subtest: local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+ok 2 - local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+  ---
+  duration_ms: 9705.664511
+  type: 'test'
+  ...
+# Subtest: resolved commits remain immutable after the source branch moves
+ok 3 - resolved commits remain immutable after the source branch moves
+  ---
+  duration_ms: 6267.32546
+  type: 'test'
+  ...
+# Subtest: leading-zero aliases and equivalent dotted versions are rejected as duplicates
+ok 4 - leading-zero aliases and equivalent dotted versions are rejected as duplicates
+  ---
+  duration_ms: 112.780044
+  type: 'test'
+  ...
+# Subtest: malformed refs and migration-folder traversal are rejected before Git lookup
+ok 5 - malformed refs and migration-folder traversal are rejected before Git lookup
+  ---
+  duration_ms: 52.848092
+  type: 'test'
+  ...
+# Subtest: symlinked migration entries and Git submodules are rejected
+ok 6 - symlinked migration entries and Git submodules are rejected
+  ---
+  duration_ms: 215.711769
+  type: 'test'
+  ...
+# Subtest: invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+ok 7 - invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+  ---
+  duration_ms: 6138.106891
+  type: 'test'
+  ...
+# Subtest: the installed ANTLR helper parses actual imported SQL without a fake positive driver
+ok 8 - the installed ANTLR helper parses actual imported SQL without a fake positive driver
+  ---
+  duration_ms: 3190.112016
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 25778.562354

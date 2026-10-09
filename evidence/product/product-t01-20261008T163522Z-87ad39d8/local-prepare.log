@@ -1,0 +1,33 @@
+
+> schemaforge-local-development@0.0.0 local:prepare
+> node scripts/local-prepare.mjs
+
+
+> schemaforge-local-development@0.0.0 parser:antlr:build
+> node scripts/antlr-build.mjs
+
+{
+  "outcome": "PASS",
+  "scope": "OFFLINE_CANDIDATE_BUILD_ONLY",
+  "offline": true,
+  "build_count": 2,
+  "helper_sha256": "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38",
+  "registered_helper_sha256_matches": true,
+  "artifact_installed": true,
+  "source_sha256": {
+    "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/Main.java": "7528676c77213259824f71505686aeadbc6136a0f5625b19b722a15cb306da11",
+    "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/PlSqlLexerBase.java": "a806d6ed05d269efc3aca4fe9debf2bab4d1c74767cfa1ff6b227db175732156",
+    "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/PlSqlParserBase.java": "235ca59b19294b9b8fac72621cbbeff1291b56f5e927367df54ba2a641990931"
+  },
+  "jdk_version": "21.0.12.1+1-LTS",
+  "runtime_shipped_in_helper": false,
+  "tool_shipped_in_helper": false,
+  "execution_approved": false,
+  "production_approved": false,
+  "database_calls": 0
+}
+docker.io/library/postgres@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f: Pulling from library/postgres
+Digest: sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f
+Status: Image is up to date for postgres@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f
+docker.io/library/postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f
+Local PostgreSQL image and pinned ANTLR parser are ready.

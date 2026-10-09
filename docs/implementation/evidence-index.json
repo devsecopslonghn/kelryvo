@@ -897,6 +897,160 @@
       },
       "path": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/WP0-T04-MERGED-PR7.json",
       "sha256": "af001477e326d13d0bd39950fb47d92615fe2e47b4ffd60618c9426f98cc66a5"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-local",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser; npm run local:prepare; startup HTTP smoke; parser corpus/integration; dependencies offline",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "test_references": [
+        "SF-PRODUCT-T01-API",
+        "SF-PRODUCT-T01-WEB",
+        "SF-PRODUCT-T01-INTEGRATION"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/checks.log",
+        "sha256": "82858cf3919d7649ca4ab907d23226f14ebe1d4931a4bc5c39e36330a5289093"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/local-verification.json",
+      "sha256": "79d28d25b755aeb10e9b04cd883362fc56540071497b885f34f8f5ba395b4aac"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-reviewed-check",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check (after verification state and repaired UI)",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/check-reviewed.log",
+        "sha256": "0125191f51ab7ecc2b8cd2f8e0bc5aee8e0813266b7a5fb8800292645ed3f6b9"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/reviewed-check.json",
+      "sha256": "49cd656b45826c64d897d65226c1d1b2277c605412a301202c2a647ef5c10586"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-quality-repair-1",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser after source repair of required CodeQL/Sonar findings",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-1/checks.log",
+        "sha256": "3fd9d940561df23c2324cbfa21b466efc903fa604f368025de3be70fa5e179e6"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-1/record.json",
+      "sha256": "95dfac4059e6e45127da48c24457e9f28408f32cfa6bc747e49a4b41d593fe5f"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-quality-repair-2",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser after tracker/source quality and local-only Docker repairs",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-2/checks.log",
+        "sha256": "6a5b61758a9969384a9c3a71bda6cc3384d188a7684a8fede8e16df28a2456ef"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-2/record.json",
+      "sha256": "799d06db82a983b3e7040ef3917954fc0ddebfb4da99176983d77c8da1aab897"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-quality-repair-3",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "node --test tests/tracker.test.mjs; npm run lint; npm run format:check after explicit string comparator repair",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-3/checks.log",
+        "sha256": "d94c9623857c6b1d4844facd3aab636d69a503cfef2079011c5d10cf304116e9"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-3/record.json",
+      "sha256": "cae264e587c3cfc81b7aed37d07880f991ecaaec1308d72b36c1616b4cd450fa"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-quality-repair-4",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "node --test tests/tracker.test.mjs after optional chain repair; npm run lint also passed",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-4/checks.log",
+        "sha256": "20affdf7bf6589975ff7062f58e883aecfc497a03bd25cd115557d0c718d2b0f"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-4/record.json",
+      "sha256": "fb7d60a4b5a42de6fa6cde7639e1bbdd2108cb6f745a94653db62de9a34b71ef"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-invalid-cells-before",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "FAIL",
+      "command": "node --test tests/tracker.test.mjs with malformed full-case coverage cells before safe comparator repair",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-5/before.log",
+        "sha256": "3159c71cbd82bfdcb4529e514130a419b7abacb0bef5afba2f8c99bc8f09b950"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-5/before.json",
+      "sha256": "422d11c56950d0fc93f684e03c11400d9d0fea9e3ed61c5094381a1ad995f8ec"
+    },
+    {
+      "id": "product-t01-20261008T163522Z-87ad39d8-invalid-cells-after",
+      "subject_id": "SF-PRODUCT-T01",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "node --test tests/tracker.test.mjs with malformed full-case coverage cells after safe comparator repair",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-5/after.log",
+        "sha256": "1ef526341fb462ee5f1be91e6cf4745c2299f050efecbd94dd0a535ba0232911"
+      },
+      "path": "evidence/product/product-t01-20261008T163522Z-87ad39d8/quality-repair-5/after.json",
+      "sha256": "20d2d3f3bb4aaa6a8b97e68fb4f086c99ee5e28990d2459db05fe2826fe04862"
     }
   ]
 }
