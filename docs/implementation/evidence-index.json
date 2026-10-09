@@ -1819,6 +1819,31 @@
       },
       "path": "evidence/product/product-t11-merge-20261009T052125Z/record.json",
       "sha256": "c7215366e32c236a72a84b3db5b7546e86541e00e8fa332d55fe782205c5e9f0"
+    },
+    {
+      "id": "product-t12-retained-integrity-local-verified",
+      "subject_id": "SF-PRODUCT-T12",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run check; npm run test:product; npm run test:browser; root exact-file/log hash verification",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T12-API",
+        "SF-PRODUCT-T12-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t12-retained-integrity-20261009T053221Z/root-verification-summary.txt",
+        "sha256": "32f067fc9d2f3fb7edc2fd15dded51c6f0c6397af713e392d88a9316754bc33f"
+      },
+      "path": "evidence/product/product-t12-retained-integrity-20261009T053221Z/record.json",
+      "sha256": "5cfa77a7207f3e7028bb8e7a9801dcad25108a03b384096b4208929c42932800"
     }
   ]
 }

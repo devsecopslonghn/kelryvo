@@ -1,6 +1,7 @@
 import { spawn } from 'node:child_process';
 import postgres from 'postgres';
 import { localConfiguration, localDatabaseUrl, startLocalPostgres } from './local-resources.mjs';
+import { prepareDemoRepository } from './local-resources.mjs';
 
 let url = process.env.SCHEMAFORGE_TEST_DATABASE_URL;
 if (!url) {
@@ -13,10 +14,12 @@ if (!url) {
   } finally { await admin.end({ timeout: 2 }); }
   url = localDatabaseUrl(config).replace(/\/schemaforge$/, '/schemaforge_tests');
 }
+// Warm this worktree's disposable Git fixture before Node starts parallel test files.
+const demoRepositoryPath = await prepareDemoRepository();
 const args = process.argv.includes('--browser')
-  ? ['--test', 'tests/product-browser.integration.mjs', 'tests/product-archive-browser.integration.mjs', 'tests/product-review-audit-browser.integration.mjs', 'tests/product-comments-browser.integration.mjs', 'tests/product-decision-record-browser.integration.mjs', 'tests/product-status-filters-browser.integration.mjs', 'tests/product-audit-action-filters-browser.integration.mjs', 'tests/product-git-ref-selection-browser.integration.mjs', 'tests/product-release-provenance-browser.integration.mjs']
-  : ['--test', 'tests/product-api.test.mjs', 'tests/product-import.test.mjs', 'tests/product-archive.test.mjs', 'tests/product-repositories.test.mjs', 'tests/product-database.test.mjs', 'tests/product-source-binding.test.mjs', 'tests/product-review-audit.test.mjs', 'tests/product-comments.test.mjs', 'tests/product-decision-record.test.mjs'];
+  ? ['--test', '--test-concurrency=1', 'tests/product-browser.integration.mjs', 'tests/product-archive-browser.integration.mjs', 'tests/product-review-audit-browser.integration.mjs', 'tests/product-comments-browser.integration.mjs', 'tests/product-decision-record-browser.integration.mjs', 'tests/product-status-filters-browser.integration.mjs', 'tests/product-audit-action-filters-browser.integration.mjs', 'tests/product-git-ref-selection-browser.integration.mjs', 'tests/product-release-provenance-browser.integration.mjs', 'tests/product-release-integrity-browser.integration.mjs']
+  : ['--test', '--test-concurrency=1', 'tests/product-api.test.mjs', 'tests/product-import.test.mjs', 'tests/product-archive.test.mjs', 'tests/product-repositories.test.mjs', 'tests/product-database.test.mjs', 'tests/product-source-binding.test.mjs', 'tests/product-review-audit.test.mjs', 'tests/product-comments.test.mjs', 'tests/product-decision-record.test.mjs', 'tests/product-release-integrity.test.mjs'];
 const child = spawn(process.execPath, args, { stdio: 'inherit', env: {
-  ...process.env, SCHEMAFORGE_TEST_DATABASE_URL: url, SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: '1',
+  ...process.env, SCHEMAFORGE_TEST_DATABASE_URL: url, SCHEMAFORGE_DEMO_REPOSITORY_PATH: demoRepositoryPath, SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: '1',
 } });
 child.once('exit', code => { process.exitCode = code ?? 1; });

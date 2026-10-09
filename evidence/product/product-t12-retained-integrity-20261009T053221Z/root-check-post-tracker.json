@@ -1,0 +1,13 @@
+{
+  "command": "npm run check with provided isolated PostgreSQL and pinned Temurin environment after T13 registration",
+  "exit_code": 0,
+  "pass": 142,
+  "fail": 0,
+  "skipped": 0,
+  "raw_output": {
+    "path": "evidence/product/product-t12-retained-integrity-20261009T053221Z/root-check-post-tracker.txt",
+    "sha256": "7eb83ddc6930036da595511807e7c884274cb1e6a50fccb6d6e5713a1e4cefe2"
+  },
+  "tracker_tasks": 13,
+  "runtime_source_changed_since_agent_final": false
+}

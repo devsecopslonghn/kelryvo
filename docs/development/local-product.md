@@ -29,7 +29,11 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
     object format, folder, manifest digest, parser profile and import time. These facts and stored SQL
     remain available when Git is unavailable and for archived projects; a current registered name may
     supplement the retained repository ID. Syntax-invalid releases remain visible and cannot produce plans.
-4. Select the profile and prepare an offline candidate. Review ordered files/hashes and
+4. Select the profile and prepare an offline candidate. Before creating it, the API checks
+   each retained UTF-8 file's byte length and SHA-256 and rebuilds the format-1 manifest digest.
+   A mismatch or malformed retained snapshot returns a fixed integrity error without creating
+   plan, history or audit records. This check uses the stored release only and works when Git
+   is unavailable. Review ordered files/hashes and
    `NOT_OBSERVED` target history. No target history was read, so this is not a reconciled
    execution plan and does not claim that all files are pending on a real database.
 5. Sign out, sign in with `approverToken`, and open Plans & review. Record a reason and

@@ -1,5 +1,31 @@
 # Resume SchemaForge PRODUCT delivery
 
+## T12 locally verified; exact-head review pending — 2026-10-09
+
+T11 merged through PR #23 at `a81f8b7a2e66b2693e1775386fa1624dab3749c9`;
+ten PR checks and four master workflows passed. T12 is implemented in the isolated
+`development/product-release-integrity` worktree based on that master and root checkpoint
+`4b660a6a148b9308ee6a11ddb98e59305b3ea7ed`. It verifies retained UTF-8 bytes/hashes,
+metadata and the format-1 manifest under scoped project/release row locks before creating
+plan/history/audit records. Fixed integrity failures cause no writes and have fixed UI feedback.
+
+Local checks: 142 standard, 22 PostgreSQL product, 10 browser, all passed with zero skips.
+Root verified all eleven source hashes and three final-log hashes. Evidence:
+`evidence/product/product-t12-retained-integrity-20261009T053221Z/record.json`.
+Four seeded fixtures now contain valid format-1 release data; original assertions remain.
+Test files run serially with a prepared disposable Git fixture; parser limits are unchanged.
+Available partial/pre-final raw logs are retained; other early failure captures are missing,
+not reconstructed. Four deliberate Markdown hard-break lines in the original record are retained.
+Exact-head native QA/security, publication CI and merge remain pending. Resolve PR/head/merge
+and post-merge workflows via Git/GitHub before resuming; do not assume this local task merged.
+
+SF-PRODUCT-T13 is READY: inspect the selected plan’s linked retained source from review,
+reusing stored release API and provenance/SQL view with project/session/plan stale-response guards.
+It is registration only; no T13 implementation or verification evidence is attached.
+Hygiene original-report comparison remains COMPLETE (five total classified benign historical
+matches); no hygiene branch/PR is visible. Shared checkout remains untouched. Sonar unavailable,
+never PASS; Oracle VALIDATION separately BLOCKED. No full catalog or database tamper-proof claim.
+
 ## T11 merged and master verified; T12 active — 2026-10-09
 
 T11 merged through [PR #23](https://github.com/devsecopslonghn/schemaForge/pull/23) at

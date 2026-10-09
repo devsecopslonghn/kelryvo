@@ -191,7 +191,28 @@ const PRODUCT_TASK_12 = {
     "SF-PRODUCT-T12-WEB"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12];
+const PRODUCT_TASK_13 = {
+  "id": "SF-PRODUCT-T13",
+  "package": "PRODUCT",
+  "assigned_agent": "frontend",
+  "title": "Inspect a plan\u2019s retained source from review",
+  "dependencies": [
+    "SF-PRODUCT-T12"
+  ],
+  "feature_ids": [
+    "GOV-002",
+    "GIT-006"
+  ],
+  "acceptance_criteria": [
+    "Authenticated project plan review offers read-only inspection of the selected plan\u2019s linked retained release through the existing release API and provenance/SQL view. The plan release ID and scoped release metadata bind the displayed source; missing or mismatched source references show a fixed failure instead of another release.",
+    "Pending and terminal plans, archived projects and unavailable repository registrations retain inspection access. Project, session and selected-plan changes invalidate delayed inspection results; viewing source does not change decisions, comments, plans, audit or migration history, and introduces no Git reads, schema, authorization or worker changes.",
+    "Real Git/PostgreSQL/parser/browser regressions compare two distinct plans and releases against persisted commit/file facts, cover stale responses and project isolation, and verify read-only snapshots. This is a bounded review navigation/display increment; it does not certify post-approval byte revalidation, full GOV-002/GIT-006 or Oracle execution."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T13-WEB"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

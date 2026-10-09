@@ -1,0 +1,77 @@
+{
+  "id": "product-t12-retained-integrity-local-verified",
+  "subject_id": "SF-PRODUCT-T12",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run check; npm run test:product; npm run test:browser; root exact-file/log hash verification",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T12-API",
+    "SF-PRODUCT-T12-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t12-retained-integrity-20261009T053221Z/root-verification-summary.txt",
+    "sha256": "32f067fc9d2f3fb7edc2fd15dded51c6f0c6397af713e392d88a9316754bc33f"
+  },
+  "checked_at": "2026-10-09T05:40:21.229687Z",
+  "baseline_master": "a81f8b7a2e66b2693e1775386fa1624dab3749c9",
+  "local_checkpoint": "4b660a6a148b9308ee6a11ddb98e59305b3ea7ed",
+  "counts": {
+    "standard": {
+      "pass": 142,
+      "fail": 0,
+      "skipped": 0
+    },
+    "product": {
+      "pass": 22,
+      "fail": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "pass": 10,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "sources": {
+    "apps/api/index.ts": "91bae252e75dbc8c11fccb04ea8360460c0955e9ed55ab1acc97e0612952d97f",
+    "apps/web/src/app.jsx": "4193359c82b6920bab70b07409ceff954b0f77631c058cf3d6656839b394e567",
+    "docs/development/local-product.md": "8c51289e01eb0040ca03385bac6d3c0fac04999fb13b8dd89da713dc0371e525",
+    "packages/migrations/verify-retained-release.mjs": "d1e71f19eb993dc0087084c1b7514ab09df0e2e5c51693755bd0e44362b4f700",
+    "scripts/test-product.mjs": "57971269dd60115c97eb998b55d4278452768284c7c9acf801557c5a0f78d789",
+    "tests/product-archive.test.mjs": "0639aab4de337133e5002e8cd9240847bf953adbea3adc1d94b512057f903265",
+    "tests/product-audit-action-filters-browser.integration.mjs": "6772758aa8e9ca46e596d16c550e7046ae09bf925aad4367a9e1701638c02bfe",
+    "tests/product-release-integrity-browser.integration.mjs": "74842c469c98d49be5a085af13b47d3fbd320c09d63395c949c44a2063617c30",
+    "tests/product-release-integrity.test.mjs": "67e471cda8616eee875f8db4d40766b9e87a03ce14fb96d11bac4b6d78afba8c",
+    "tests/product-review-audit.test.mjs": "1c3c1e0c36090775a25eb1123d9f32624ff4bd12943a0b4e4c4d14d50b58220c",
+    "tests/product-status-filters-browser.integration.mjs": "34a1dc7c82875d09a3951cc9f1f3e997480016339513c541f33c347675ba34d1"
+  },
+  "captured_outputs": {
+    "npm-check-final.txt": "45c0bfbbdc9acf340af740c11a7c418f72f68611afa3b3fc100e16d5b829454c",
+    "product-final.txt": "23cc97556343b44d324ef0bf471681399cfa53ba35b40d9fc7194051a480cbb7",
+    "browser-final.txt": "f1e1c34235251c20823aa12ac47669c68626e1eb69172f3bb3d3e5d84e4b0618",
+    "npm-check.log": "7994e6d9cdffdf933efd63f7c206d8bd0f21cc291830359cab378adf6c897996",
+    "npm-check-with-product-env.log": "c44a594b5a9a552e08e151e13fcdf4bfe8ea7bbb80bf01f27e317232adc01653",
+    "record.md": "377552e874b50b297dc03c80aaf96d5007535aa60a73ade6b4e732b990747c54"
+  },
+  "verification": [
+    "Scoped project then release locks hold retained snapshot through plan/history/audit persistence; no Git or parser read during verification.",
+    "Real Git/parser/isolated PostgreSQL cases cover independently corrupted content, length, checksum, manifest and malformed version, exact no-write snapshots, anonymous/foreign references, archive, registry removal, and exact blocker PID concurrent update.",
+    "Browser shows fixed integrity feedback and complete no-write snapshots; all four legacy fixture changes preserve existing assertions.",
+    "The driver prepares its own demo fixture before serial parser/browser tests, without changing parser limits or semantics."
+  ],
+  "limitations": [
+    "Exact-head independent review/CI/publication pending.",
+    "Only retainedUTF8; no original arbitrary raw-byte/BOM retention, database tamper-proofing, worker execution, fullGIT007 or Oracle acceptance.",
+    "Original record states early raw output was not persistently captured. Root supplement retains available partial first check and pre-final environment check logs; no other missing early raw transcript reconstructed.",
+    "Four intentional Markdown hard-break whitespace lines in immutable record.md retained; authored runtime/metadata diff check passes.",
+    "Sonar unavailable neverPASS; Oracle124applicablecellsBLOCKED."
+  ]
+}

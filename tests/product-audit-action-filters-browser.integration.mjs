@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { randomBytes, randomUUID } from 'node:crypto';
+import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
@@ -29,9 +29,15 @@ test('audit action filters preserve project scope, server order, archived reads 
     };
     const createProject = async (name) => (await api('POST', '/api/projects', actors[0], { name })).body.project;
     const first = await createProject(`Audit events ${randomUUID()}`);
-    const files = [{ path: 'V001__audit_filter.sql', version: '1', sha256: 'c'.repeat(64), bytes: 24, content: 'CREATE TABLE t (id NUMBER);', validationStatus: 'VALID' }];
-    const release = (await database.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,files)
-      VALUES(${first.id},${ORG},'fixture',${'a'.repeat(40)},'sha1','migrations',${'b'.repeat(64)},'VALID',${database.sql.json(files)}) RETURNING id`)[0];
+    const content = 'CREATE TABLE t (id NUMBER);';
+    const bytes = Buffer.from(content);
+    const sha256 = createHash('sha256').update(bytes).digest('hex');
+    const files = [{ path: 'migrations/V001__audit_filter.sql', version: '1', sha256, bytes: bytes.length, content, statementCount: null, validationStatus: 'VALID' }];
+    const parserProfile = 'fixture-parser-profile';
+    const manifestDigest = createHash('sha256').update(JSON.stringify({ format:1, commit:'a'.repeat(40), objectFormat:'sha1', folder:'migrations', parserProfile,
+      files:files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) })).digest('hex');
+    const release = (await database.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)
+      VALUES(${first.id},${ORG},'fixture',${'a'.repeat(40)},'sha1','migrations',${manifestDigest},'VALID',${parserProfile},${database.sql.json(files)}) RETURNING id`)[0];
     const environment = (await database.sql`INSERT INTO sf_environments(project_id,organization_id,name) VALUES(${first.id},${ORG},'Audit filter environment') RETURNING id`)[0];
     const profile = (await database.sql`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref)
       VALUES(${first.id},${ORG},${environment.id},'Audit filter profile','oracle','oracle.example.invalid',1521,'DEV','APP','vault://test') RETURNING id`)[0];

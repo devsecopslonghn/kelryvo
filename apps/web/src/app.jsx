@@ -29,6 +29,7 @@ const errorCopy = {
   INVALID_REFERENCE: 'The selected project, repository, or profile is no longer available.',
   INVALID_INPUT: 'Some fields need attention. Check the values and try again.',
   RELEASE_NOT_VALID: 'This release did not pass validation, so it cannot be planned.',
+  RELEASE_INTEGRITY_FAILED: 'This stored release failed its integrity check. Import it again before preparing a plan.',
   RELEASE_NOT_PLANNABLE: 'This release has no migration files with complete version and checksum data.',
   RELEASE_IMPORT_FAILED: 'The repository or commit could not be imported. Confirm the selected source and try again.',
   SOURCE_NOT_BOUND: 'Bind a repository and migration folder to this project before importing.',

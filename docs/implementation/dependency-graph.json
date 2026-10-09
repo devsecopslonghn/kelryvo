@@ -297,7 +297,8 @@
     "SF-PRODUCT-T09",
     "SF-PRODUCT-T10",
     "SF-PRODUCT-T11",
-    "SF-PRODUCT-T12"
+    "SF-PRODUCT-T12",
+    "SF-PRODUCT-T13"
   ],
   "edges": {
     "DBM-001": [],
@@ -1405,6 +1406,9 @@
     ],
     "SF-PRODUCT-T12": [
       "SF-PRODUCT-T11"
+    ],
+    "SF-PRODUCT-T13": [
+      "SF-PRODUCT-T12"
     ]
   },
   "scheduling": {
@@ -1442,6 +1446,9 @@
       ],
       "SF-PRODUCT-T12": [
         "SF-PRODUCT-T11"
+      ],
+      "SF-PRODUCT-T13": [
+        "SF-PRODUCT-T12"
       ]
     },
     "VALIDATION": {}
