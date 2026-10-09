@@ -189,10 +189,10 @@
   "product_features_verified": 0,
   "next_actionable_tasks": [
     {
-      "id": "SF-PRODUCT-T20",
-      "owner": "orchestrator",
-      "status": "VERIFIED",
-      "action": "Freeze exact-head independent QA/security and publication gates before eligible PR merge; then implement approved operator membership/bootstrap policy"
+      "id": "SF-PRODUCT-T21",
+      "owner": "backend",
+      "status": "IN_PROGRESS",
+      "action": "Explicit operator membership/bootstrap/recovery; T20 master workflows must pass before publication"
     }
   ],
   "blocked_inputs_evidence": {
@@ -204,7 +204,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-09T15:07:15.652065+00:00",
+  "updated_at": "2026-10-09T15:27:03.729118+00:00",
   "final_check_evidence": {
     "index_id": "product-t20-local-credential-lifecycle-local-verified"
   },
@@ -213,7 +213,7 @@
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
   "latest_validated_master_before_this_increment": "7bb4af0184031112ea9f185991f37c97ec0604fa",
-  "last_merged_implementation_pr": 31,
+  "last_merged_implementation_pr": 32,
   "checkpoint_evidence": "evidence/product/product-t19-merge-20261009T141539Z/record.json",
   "implementation_prs_pending": [],
   "next_fully_unblocked_tasks": [],
@@ -222,8 +222,8 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "T20_VERIFIED_LOCAL_EXACT_HEAD_PUBLICATION_PENDING",
-  "current_checkpoint_branch": "development/product-local-credential-lifecycle",
+  "current_increment_merge_status": "T20_MERGED_MASTER_WORKFLOWS_PENDING_T21_IN_PROGRESS",
+  "current_checkpoint_branch": "development/product-project-membership",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -237,7 +237,7 @@
       ]
     }
   },
-  "product_task_status": "T01_THROUGH_T19_MERGED_T20_VERIFIED_LOCAL",
+  "product_task_status": "T01_THROUGH_T20_MERGED_T21_IN_PROGRESS",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",
@@ -325,10 +325,11 @@
     "goal_design_choice_alone_blocks": false
   },
   "next_project_membership_policy": {
-    "status": "OWNER_APPROVED_IMPLEMENTATION_PENDING",
+    "status": "OWNER_APPROVED_T21_IN_PROGRESS",
     "decision_id": "SF-D012",
     "authority": "LOCAL_OS_OPERATOR_ONLY_EXISTING_FIXED_ROLE_ACTORS",
     "compatibility": "EXPLICIT_GRANTS_ALL_PROJECTS_BOOTSTRAP_AND_RECOVERY_BEFORE_DENY_BY_DEFAULT",
     "historical_inference_or_backfill": false
-  }
+  },
+  "latest_merged_master_before_this_increment": "c5130e3277e0955285ea3ff428019369cb46578c"
 }

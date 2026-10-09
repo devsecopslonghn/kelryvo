@@ -54,7 +54,7 @@ test('persisted tracker state validates without assuming initial statuses', () =
 test('catalog and plan IDs are retained with original dependency links', () => {
   const s = fullState();
   assert.equal(s.features.features.length, 220);
-  assert.equal(s.tasks.tasks.length, 85); // 64 imported tasks, foundation, and twenty product tasks.
+  assert.equal(s.tasks.tasks.length, 86); // 64 imported tasks, foundation, and twenty-one product tasks.
   assert.equal(s.tests.cases.length, 63);
   assert.deepEqual(s.features.features.find((f) => f.id === 'DBM-002').dependencies, ['SEC-005', 'SEC-009']);
 });

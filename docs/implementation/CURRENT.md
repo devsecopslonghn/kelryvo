@@ -1,3 +1,30 @@
+## T21 active; T20 merged, master workflow verification running — 2026-10-09
+
+T20 merged through PR #32 at `c5130e3277e0955285ea3ff428019369cb46578c`, reviewed
+head `d90403ed9c19586f21e00358e4b723f06af3ef8b`. Exact-head independent QA/security/license
+and all11 reported PR checks passed; local standard151/product29/browser18 and QAfocused2
+passed with zero skips. Exact-master workflows are running and have not yet been called PASS.
+Publication188files exit1/70 and historyexit1/106 are classified finding-bearing scans, not
+clean PASS. Eight earlier source-digest metadata records per scan lack uncommitted bytes;
+that limit remains explicit. No actual credential observed/rotation indicated.
+
+SF-PRODUCT-T21 is IN_PROGRESS at `/home/longhn0710/workspace/schemaforge-product-project-membership`,
+branch `development/product-project-membership`, based on the merged master above. Owner
+SF-D012 approves local OS operator alone and explicit grants for every project. Safe default
+SF-D013: authenticated legacy read-only bootstrap, deny every project mutation until explicit
+coverage and atomic one-way operator activation; enforced reads/writes require current grants.
+New creators get a receipt and no implicit membership. Preserve original history and fixed
+roles; no audit-derived grants/admin/Oracle. Root owns contracts/tracking/integration; fresh
+coupled native context owns API/schema/operator/UI and real regressions/operating docs.
+Registration is not implementation or verification. Finish T20 master gates before T21 publication.
+Evidence: `evidence/product/product-t21-root-20261009T152610Z/registration-and-priority.json`.
+
+Standing owner autonomy policy is persisted in AGENTS.md, SF-D010, milestone and continuation:
+choose safest ordinary documented defaults, implement/test/review/eligible merge and continue.
+Shared original checkout remains untouched; Hygiene branch/PR absent and integration pending.
+Sonar unavailable, never PASS; Oracle VALIDATION independently BLOCKED. Next candidate after
+T21 is parser-derived offline statement preview; not registered/implemented/full catalog accepted.
+
 ## T20 locally verified; owner autonomy and membership approved — 2026-10-09
 
 T20 persists hashed trusted local credentials with database-clock24-hour expiry and
