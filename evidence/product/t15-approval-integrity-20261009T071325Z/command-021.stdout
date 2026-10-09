@@ -1,0 +1,13 @@
+ apps/api/index.ts                                  | 59 +++++++++++++++++++++-
+ apps/web/src/app.jsx                               |  1 +
+ docs/development/local-product.md                  |  6 ++-
+ docs/implementation/CONTINUE.md                    | 19 +++++++
+ docs/implementation/CURRENT.md                     | 19 +++++++
+ docs/implementation/backlog.json                   |  2 +-
+ docs/implementation/milestone.json                 |  8 +--
+ docs/implementation/ownership.json                 |  2 +-
+ scripts/test-product.mjs                           |  4 +-
+ tests/product-comments.test.mjs                    | 16 ++++--
+ ...product-decision-record-browser.integration.mjs | 14 +++--
+ tests/product-decision-record.test.mjs             | 16 ++++--
+ 12 files changed, 142 insertions(+), 24 deletions(-)

@@ -1971,6 +1971,31 @@
       },
       "path": "evidence/product/product-t14-merge-20261009T070619Z/record.json",
       "sha256": "f2816d2db24293ab0697ed1a04a45c1dd65a8226e2d0661e736995ec9cd86f75"
+    },
+    {
+      "id": "product-t15-approval-integrity-local-verified",
+      "subject_id": "SF-PRODUCT-T15",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser; focused approval API/browser regressions",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T15-API",
+        "SF-PRODUCT-T15-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-018.stdout",
+        "sha256": "92d22c1bb343f429b9bdc3194c4bbf11b498254ec9c0e72c3c9d59a7d98bc2b7"
+      },
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/integration-record.json",
+      "sha256": "e6a191908e2a7e4b8a4340ac9cf4a4ea457ed4ca8865793d5159019b82809a17"
     }
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "scanner": "Gitleaks8.30.1 official checksum-verified binary",
+  "scan": {
+    "exit_code": 0,
+    "files": 131,
+    "findings": 0,
+    "metadata": []
+  },
+  "scope": "Initial changed files versus origin/master copied into private0700directory, redacted0600report; final exact-head full publication scan delegated. Last new safe clarification/this scan summary reviewed and included in final scan.",
+  "original_report": "four findings metadata matches independent prior provenance; complete history last five benign; rerun exact head required."
+}

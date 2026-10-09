@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { randomBytes, randomUUID } from 'node:crypto';
+import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 
@@ -23,20 +23,26 @@ test('terminal plan decisions retain reviewer snapshots and historical ID fallba
     });
     const project = (await request('POST', '/api/projects', { name: `Decision record ${randomUUID()}` })).json().project;
     const seedPlan = async () => {
-      const release = (await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,files)
-        VALUES(${project.id},${ORG},'fixture',${'a'.repeat(40)},'sha1','migrations',${'b'.repeat(64)},'VALID','[]'::jsonb) RETURNING id`)[0];
+      const content = 'CREATE TABLE T (ID NUMBER);';
+      const sha256 = createHash('sha256').update(content).digest('hex');
+      const files = [{ path:'migrations/V1__fixture.sql', version:'1', sha256, bytes:Buffer.byteLength(content), statementCount:1, validationStatus:'VALID', content }];
+      const manifest = { format:1, commit:'a'.repeat(40), objectFormat:'sha1', folder:'migrations', parserProfile:'fixture-parser-profile',
+        files:files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) };
+      const manifestDigest = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
+      const release = (await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)
+        VALUES(${project.id},${ORG},'fixture',${'a'.repeat(40)},'sha1','migrations',${manifestDigest},'VALID','fixture-parser-profile',${db.sql.json(files)}) RETURNING id`)[0];
       const env = (await db.sql`INSERT INTO sf_environments(project_id,organization_id,name) VALUES(${project.id},${ORG},'Decision test') RETURNING id`)[0];
       const profile = (await db.sql`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref)
         VALUES(${project.id},${ORG},${env.id},'Test profile','oracle','localhost',1521,'DEV','APP','vault://test') RETURNING id`)[0];
       return (await db.sql`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items)
-        VALUES(${project.id},${ORG},${release.id},${profile.id},${actors[0].id},${db.sql.json([{ path:'V1__fixture.sql', status:'NOT_EXECUTED' }])}) RETURNING id`)[0].id;
+        VALUES(${project.id},${ORG},${release.id},${profile.id},${actors[0].id},${db.sql.json([{ path:'migrations/V1__fixture.sql', version:'1', sha256, status:'NOT_EXECUTED' }])}) RETURNING id`)[0].id;
     };
     const approvedId = await seedPlan();
     const rejectedId = await seedPlan();
     const legacyId = await seedPlan();
     await db.sql`UPDATE sf_plans SET status='APPROVED',decision='APPROVE',decision_reason='historical decision',decided_by='legacy-reviewer-17',decided_at='2026-01-02T03:04:05Z' WHERE id=${legacyId}`;
     await db.sql`INSERT INTO sf_history(project_id,plan_id,version,path,sha256,status)
-      SELECT project_id,id,'1','V1__fixture.sql',${'c'.repeat(64)},'NOT_EXECUTED' FROM sf_plans WHERE id=${approvedId}`;
+      SELECT project_id,id,'1','migrations/V1__fixture.sql',${createHash('sha256').update('CREATE TABLE T (ID NUMBER);').digest('hex')},'NOT_EXECUTED' FROM sf_plans WHERE id=${approvedId}`;
     const originalItems = (await db.sql`SELECT items FROM sf_plans WHERE id=${approvedId}`)[0].items;
     const originalHistory = await db.sql`SELECT * FROM sf_history WHERE plan_id=${approvedId}`;
     const pending = (await request('GET', `/api/projects/${project.id}`)).json().plans.find((plan) => plan.id === rejectedId);

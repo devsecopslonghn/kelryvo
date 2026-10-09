@@ -1,0 +1,33 @@
+TAP version 13
+# Subtest: approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+not ok 1 - approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+  ---
+  duration_ms: 5613.323854
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-approval-integrity/tests/product-approval-integrity.test.mjs:14:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    409 !== 404
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 404
+  actual: 409
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-approval-integrity/tests/product-approval-integrity.test.mjs:102:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5832.348777

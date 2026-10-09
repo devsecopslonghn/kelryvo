@@ -1,0 +1,48 @@
+TAP version 13
+# Subtest: browser shows fixed approval integrity feedback and preserves pending plan for rejection
+not ok 1 - browser shows fixed approval integrity feedback and preserves pending plan for rejection
+  ---
+  duration_ms: 202.583995
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-approval-integrity/tests/product-approval-integrity-browser.integration.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/home/longhn0710/workspace/schemaforge-product-approval-integrity/dist/web/index.html'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1252:14)
+    async file:///home/longhn0710/workspace/schemaforge-product-approval-integrity/apps/api/server.ts:21:37
+    async Promise.all (index 0)
+    async startProduct (file:///home/longhn0710/workspace/schemaforge-product-approval-integrity/apps/api/server.ts:20:20)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-approval-integrity/tests/product-approval-integrity-browser.integration.mjs:20:11)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: decision records render the stored attribution safely and stay plan-specific
+not ok 2 - decision records render the stored attribution safely and stay plan-specific
+  ---
+  duration_ms: 198.331872
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-approval-integrity/tests/product-decision-record-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/home/longhn0710/workspace/schemaforge-product-approval-integrity/dist/web/index.html'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1252:14)
+    async file:///home/longhn0710/workspace/schemaforge-product-approval-integrity/apps/api/server.ts:21:37
+    async Promise.all (index 0)
+    async startProduct (file:///home/longhn0710/workspace/schemaforge-product-approval-integrity/apps/api/server.ts:20:20)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-approval-integrity/tests/product-decision-record-browser.integration.mjs:23:11)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1764.228737

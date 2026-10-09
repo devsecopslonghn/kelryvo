@@ -2516,6 +2516,17 @@
         "SF-PRODUCT-T15-API",
         "SF-PRODUCT-T15-WEB"
       ]
+    },
+    "SF-PRODUCT-T16": {
+      "task_id": "SF-PRODUCT-T16",
+      "criteria": [
+        "Selected plan review displays the retained author ID and server creation time from existing scoped plan data as plain text, with a valid time element and fixed unavailable feedback for malformed facts. Do not invent a requester name or substitute the current actor; pending, terminal and archived plans retain read access.",
+        "For pending plans, a signed-in approver whose ID equals the retained author ID sees fixed independent-reviewer feedback and disabled approve/reject controls; missing or malformed author IDs also fail closed. Independent approvers retain existing decision controls, developers retain existing role feedback, and pending comments remain available. Project, plan and session changes clear stale requester/eligibility state. The existing API remains the authoritative self-decision denial and audit boundary; no API, schema or authorization changes are introduced.",
+        "Real Git/PostgreSQL/parser/browser regressions compare retained requester/time facts for developer- and approver-authored plans, verify literal rendering, independent reviewer decisions, terminal/archive/project/session behavior, and no decision request or plan/comment/history/audit writes from viewing or blocked controls. Direct self-decision requests still return the existing audited denial. This bounded display/feedback increment does not implement editor exclusions, immutable intent revisions, full GOV-001/GOV-007 or Oracle behavior."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T16-WEB"
+      ]
     }
   },
   "test_cases": [

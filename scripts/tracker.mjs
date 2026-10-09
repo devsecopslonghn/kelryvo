@@ -240,7 +240,28 @@ const PRODUCT_TASK_15 = {
   ],
   "test_references": ["SF-PRODUCT-T15-API", "SF-PRODUCT-T15-WEB"]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15];
+const PRODUCT_TASK_16 = {
+  "id": "SF-PRODUCT-T16",
+  "package": "PRODUCT",
+  "assigned_agent": "frontend",
+  "title": "Show retained requester facts and independent reviewer eligibility",
+  "dependencies": [
+    "SF-PRODUCT-T15"
+  ],
+  "feature_ids": [
+    "GOV-001",
+    "GOV-007"
+  ],
+  "acceptance_criteria": [
+    "Selected plan review displays the retained author ID and server creation time from existing scoped plan data as plain text, with a valid time element and fixed unavailable feedback for malformed facts. Do not invent a requester name or substitute the current actor; pending, terminal and archived plans retain read access.",
+    "For pending plans, a signed-in approver whose ID equals the retained author ID sees fixed independent-reviewer feedback and disabled approve/reject controls; missing or malformed author IDs also fail closed. Independent approvers retain existing decision controls, developers retain existing role feedback, and pending comments remain available. Project, plan and session changes clear stale requester/eligibility state. The existing API remains the authoritative self-decision denial and audit boundary; no API, schema or authorization changes are introduced.",
+    "Real Git/PostgreSQL/parser/browser regressions compare retained requester/time facts for developer- and approver-authored plans, verify literal rendering, independent reviewer decisions, terminal/archive/project/session behavior, and no decision request or plan/comment/history/audit writes from viewing or blocked controls. Direct self-decision requests still return the existing audited denial. This bounded display/feedback increment does not implement editor exclusions, immutable intent revisions, full GOV-001/GOV-007 or Oracle behavior."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T16-WEB"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

@@ -1,0 +1,1 @@
+git status --short --branch; git diff --check; git diff --stat; find evidence/product/t15-approval-integrity-20261009T071325Z -maxdepth 1 -type f -printf "%f\n" | sort

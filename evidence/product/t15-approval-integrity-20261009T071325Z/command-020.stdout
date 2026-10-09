@@ -1,0 +1,17 @@
+## development/product-approval-integrity...origin/master [ahead 1]
+ M apps/api/index.ts
+ M apps/web/src/app.jsx
+ M docs/development/local-product.md
+ M docs/implementation/CONTINUE.md
+ M docs/implementation/CURRENT.md
+ M docs/implementation/backlog.json
+ M docs/implementation/milestone.json
+ M docs/implementation/ownership.json
+ M scripts/test-product.mjs
+ M tests/product-comments.test.mjs
+ M tests/product-decision-record-browser.integration.mjs
+ M tests/product-decision-record.test.mjs
+?? evidence/product/t15-approval-integrity-20261009T071325Z/
+?? tests/product-approval-integrity-browser.integration.mjs
+?? tests/product-approval-integrity.test.mjs
+docs/development/local-product.md:208: new blank line at EOF.

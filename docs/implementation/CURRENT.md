@@ -1,4 +1,44 @@
+## T15 verified locally; exact-head review and publication pending — 2026-10-09
+
+SF-PRODUCT-T15 checks the scoped retained VALID release and ordered plan file facts before
+an independent approver records a decision. Fixed `PLAN_APPROVAL_INTEGRITY_FAILED` leaves
+plan/comment/history/audit snapshots unchanged; authorized rejection and audited denials remain.
+Local checks: 143 standard, 23 PostgreSQL product, 13 browser, focused API/browser one each,
+zero skips. Root verified nine source hashes and 90 native raw hashes. Evidence and limitations:
+`evidence/product/t15-approval-integrity-20261009T071325Z/integration-record.json`.
+Earlier failures remain; initial generated record was overwritten and is unavailable, explicitly
+recorded without reconstruction. Request filenames do not identify actual executions.
+Native exact-head QA/security, full publication/history scan, updated base/branch inspection,
+remote CI and normal merge remain required. Sonar unavailable, never PASS.
+
+Next bounded task SF-PRODUCT-T16 is READY: retained requester/time facts and independent
+reviewer eligibility feedback using existing scoped data/API. No editor-exclusion/fullcatalog
+acceptance, schema, execution or Oracle claims. Implement only after T15 publication gates.
+PRODUCT remains isolated at `/home/longhn0710/workspace/schemaforge-product-approval-integrity`,
+branch `development/product-approval-integrity`; shared master checkout untouched.
+Git Hygiene branch/PR remains unavailable; original four and fifth digest findings independently
+classified benign with exact provenance. Do not merge Hygiene without eligible separate review.
+
 # Current engineering state
+
+## T15 active in its isolated worktree — 2026-10-09
+
+SF-PRODUCT-T15 is IN_PROGRESS in
+`/home/longhn0710/workspace/schemaforge-product-approval-integrity`, branch
+`development/product-approval-integrity`, checkpoint
+`76826e92216ac7ddda16b66448d4ce29d8521776` on verified master
+`436851ed74b878d04b67c941eb05a41bba82312b`. Fresh native feature context owns
+approval integrity API/helper, browser feedback, regression tests/driver and operating docs;
+root owns shared tracking, independent review and publication. No T15 verification yet.
+Only authorized APPROVE rechecks the scoped retained VALID release and locked plan file
+facts before writes under the existing transaction lock order. Preserve authorized rejection
+of damaged candidates and all existing archived/role/self/terminal denials and audit.
+Cover corrupt/malformed/oversized data, exact-lock concurrent changes, no-Git valid approval,
+fixed UI feedback and complete no-write snapshots. No schema, credentials, target connection,
+worker, Oracle, execution-time revalidation or database tamper-proof claim.
+Shared checkout remains clean and untouched; no open PR/Hygiene branch visible.
+Sonar unavailable, never PASS; Oracle VALIDATION separately BLOCKED.
+
 
 ## T14 merged and master verified; T15 ready — 2026-10-09
 

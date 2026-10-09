@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { randomBytes, randomUUID } from 'node:crypto';
+import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 
@@ -27,17 +27,23 @@ test('plan review comments are scoped, validated, durable, ordered, and serializ
     const project = await createProject('Comments');
     const otherProject = await createProject('Other scope');
     const seedPlan = async (projectId, organizationId = ORG) => {
-      const release = (await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,files)
-        VALUES(${projectId},${organizationId},'fixture',${'a'.repeat(40)},'sha1','migrations',${'b'.repeat(64)},'VALID',${db.sql.json([{ path:'V1__fixture.sql', version:'1', sha256:'c'.repeat(64), bytes:12, statementCount:1, validationStatus:'VALID', content:'CREATE TABLE T (ID NUMBER);' }])}) RETURNING id`)[0];
+      const content = 'CREATE TABLE T (ID NUMBER);';
+      const sha256 = createHash('sha256').update(content).digest('hex');
+      const files = [{ path:'migrations/V1__fixture.sql', version:'1', sha256, bytes:Buffer.byteLength(content), statementCount:1, validationStatus:'VALID', content }];
+      const manifest = { format:1, commit:'a'.repeat(40), objectFormat:'sha1', folder:'migrations', parserProfile:'fixture-parser-profile',
+        files:files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) };
+      const manifestDigest = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
+      const release = (await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)
+        VALUES(${projectId},${organizationId},'fixture',${'a'.repeat(40)},'sha1','migrations',${manifestDigest},'VALID','fixture-parser-profile',${db.sql.json(files)}) RETURNING id`)[0];
       const profile = (await db.sql`INSERT INTO sf_environments(project_id,organization_id,name) VALUES(${projectId},${organizationId},'Comment test') RETURNING id`)[0];
       const p = (await db.sql`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref)
         VALUES(${projectId},${organizationId},${profile.id},'Comment profile','oracle','localhost',1521,'DEV','APP','vault://test') RETURNING id`)[0];
       return (await db.sql`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items)
-        VALUES(${projectId},${organizationId},${release.id},${p.id},${actors[0].id},${db.sql.json([{ path:'V1__fixture.sql', version:'1', sha256:'c'.repeat(64), status:'NOT_EXECUTED' }])}) RETURNING id`)[0].id;
+        VALUES(${projectId},${organizationId},${release.id},${p.id},${actors[0].id},${db.sql.json([{ path:'migrations/V1__fixture.sql', version:'1', sha256, status:'NOT_EXECUTED' }])}) RETURNING id`)[0].id;
     };
     const planId = await seedPlan(project.id);
     await db.sql`INSERT INTO sf_history(project_id,plan_id,version,path,sha256,status)
-      VALUES(${project.id},${planId},'1','V1__fixture.sql',${'c'.repeat(64)},'NOT_EXECUTED')`;
+      VALUES(${project.id},${planId},'1','migrations/V1__fixture.sql',${createHash('sha256').update('CREATE TABLE T (ID NUMBER);').digest('hex')},'NOT_EXECUTED')`;
     const path = `/api/projects/${project.id}/plans/${planId}/comments`;
     const savedPlan = (await db.sql`SELECT * FROM sf_plans WHERE id=${planId}`)[0];
     const savedRelease = (await db.sql`SELECT * FROM sf_releases WHERE id=${savedPlan.release_id}`)[0];

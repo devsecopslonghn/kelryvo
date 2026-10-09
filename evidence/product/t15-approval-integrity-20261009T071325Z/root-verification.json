@@ -1,0 +1,25 @@
+{
+  "recorded_at_utc": "2026-10-09T07:36:06.004809+00:00",
+  "command": "node --test tests/tracker.test.mjs; npm run format; npm run format:check; node scripts/check-source.mjs; node scripts/tracker.mjs validate; git diff --check",
+  "exit_code": 0,
+  "result": "Tracker21/21zero skips;format/source133/validate/diff passed. Initial root format:check exit1 preserved in tool output (no raw capture), then existing formatter fixed authored acceptance/backlog ordering; no runtime edits.",
+  "raw_outputs": [
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/root-tracker.stdout",
+      "sha256": "dd139824831f399d5021e5130415aedd5fa972606a8d45b3a0cc834666a8b725"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/root-tracker.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/root-tracker-final.stdout",
+      "sha256": "b4efcab66638b1125ff8d92a4f60347a42ead453821b24c326feb5ad04bb5a0c"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/root-tracker-final.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "native_sources_unchanged": true
+}
