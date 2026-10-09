@@ -33,7 +33,9 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    each retained UTF-8 file's byte length and SHA-256 and rebuilds the format-1 manifest digest.
    A mismatch or malformed retained snapshot returns a fixed integrity error without creating
    plan, history or audit records. This check uses the stored release only and works when Git
-   is unavailable. Review ordered files/hashes and
+   is unavailable. Verification bounds encoded file size and retained metadata before allocations;
+   canonical decimal versions preserve arbitrary-precision ordering without numeric conversion.
+   Review ordered files/hashes and
    `NOT_OBSERVED` target history. No target history was read, so this is not a reconciled
    execution plan and does not claim that all files are pending on a real database.
 5. Sign out, sign in with `approverToken`, and open Plans & review. Record a reason and

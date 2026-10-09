@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
+import { MAX_INPUT_BYTES } from '../experiments/db-devops-wp0/parser-envelope.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const parserAvailable = existsSync(path.join(root, 'experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar'));
@@ -49,6 +50,8 @@ test('offline planning rejects corrupted retained releases without writes and us
       (files) => { files[0].sha256 = '0'.repeat(64); },
       (_files, row) => { row.manifest_digest = '0'.repeat(64); },
       (files) => { files[0].version = null; },
+      (files) => { files[0].content = 'x'.repeat(MAX_INPUT_BYTES + 1); },
+      (files) => { files[0].version = '9'.repeat(MAX_INPUT_BYTES + 1); },
     ];
     for (const mutate of mutations) {
       const changed = structuredClone(original);

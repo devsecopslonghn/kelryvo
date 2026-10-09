@@ -2454,6 +2454,9 @@
       "evidence": [
         {
           "index_id": "product-t12-retained-integrity-local-verified"
+        },
+        {
+          "index_id": "product-t12-resource-bounds-local-verified"
         }
       ],
       "blockers": [],

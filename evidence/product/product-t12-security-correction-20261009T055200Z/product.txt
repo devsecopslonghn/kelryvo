@@ -1,0 +1,146 @@
+
+> schemaforge-local-development@0.0.0 test:product
+> node scripts/test-product.mjs
+
+TAP version 13
+# Subtest: product API persists a governed offline plan and never claims execution
+ok 1 - product API persists a governed offline plan and never claims execution
+  ---
+  duration_ms: 5565.448802
+  type: 'test'
+  ...
+# Subtest: archival keeps immutable records readable and refuses further project work
+ok 2 - archival keeps immutable records readable and refuses further project work
+  ---
+  duration_ms: 292.033433
+  type: 'test'
+  ...
+# Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+ok 3 - an in-flight metadata write rechecks archival after acquiring the project lock
+  ---
+  duration_ms: 158.396042
+  type: 'test'
+  ...
+# Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+ok 4 - plan review comments are scoped, validated, durable, ordered, and serialized
+  ---
+  duration_ms: 485.395309
+  type: 'test'
+  ...
+# Subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+ok 5 - concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+  ---
+  duration_ms: 301.455324
+  type: 'test'
+  ...
+# Subtest: terminal plan decisions retain reviewer snapshots and historical ID fallback
+ok 6 - terminal plan decisions retain reviewer snapshots and historical ID fallback
+  ---
+  duration_ms: 297.60154
+  type: 'test'
+  ...
+# Subtest: local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+ok 7 - local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+  ---
+  duration_ms: 7765.796562
+  type: 'test'
+  ...
+# Subtest: resolved commits remain immutable after the source branch moves
+ok 8 - resolved commits remain immutable after the source branch moves
+  ---
+  duration_ms: 5192.395989
+  type: 'test'
+  ...
+# Subtest: leading-zero aliases and equivalent dotted versions are rejected as duplicates
+ok 9 - leading-zero aliases and equivalent dotted versions are rejected as duplicates
+  ---
+  duration_ms: 104.370694
+  type: 'test'
+  ...
+# Subtest: malformed refs and migration-folder traversal are rejected before Git lookup
+ok 10 - malformed refs and migration-folder traversal are rejected before Git lookup
+  ---
+  duration_ms: 37.235056
+  type: 'test'
+  ...
+# Subtest: symlinked migration entries and Git submodules are rejected
+ok 11 - symlinked migration entries and Git submodules are rejected
+  ---
+  duration_ms: 186.361253
+  type: 'test'
+  ...
+# Subtest: invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+ok 12 - invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+  ---
+  duration_ms: 5188.842054
+  type: 'test'
+  ...
+# Subtest: the installed ANTLR helper parses actual imported SQL without a fake positive driver
+ok 13 - the installed ANTLR helper parses actual imported SQL without a fake positive driver
+  ---
+  duration_ms: 2652.256336
+  type: 'test'
+  ...
+# Subtest: offline planning rejects corrupted retained releases without writes and uses locked current state
+ok 14 - offline planning rejects corrupted retained releases without writes and uses locked current state
+  ---
+  duration_ms: 5780.867038
+  type: 'test'
+  ...
+# Subtest: startup arguments accept repeated local repositories and reject unknown or excess options
+ok 15 - startup arguments accept repeated local repositories and reject unknown or excess options
+  ---
+  duration_ms: 3.521546
+  type: 'test'
+  ...
+# Subtest: configured repositories are canonical local Git worktrees with display-only public descriptors
+ok 16 - configured repositories are canonical local Git worktrees with display-only public descriptors
+  ---
+  duration_ms: 96.443647
+  type: 'test'
+  ...
+# Subtest: invalid startup options fail before creating local configuration or reaching Docker
+ok 17 - invalid startup options fail before creating local configuration or reaching Docker
+  ---
+  duration_ms: 138.409262
+  type: 'test'
+  ...
+# Subtest: a configured custom Git repository is visible without its path and imports through the product API
+ok 18 - a configured custom Git repository is visible without its path and imports through the product API
+  ---
+  duration_ms: 2841.476362
+  type: 'test'
+  ...
+# Subtest: project-bound Git refs list safely and imports retain immutable branch and tag commits
+ok 19 - project-bound Git refs list safely and imports retain immutable branch and tag commits
+  ---
+  duration_ms: 8207.67215
+  type: 'test'
+  ...
+# Subtest: authenticated denied decisions append fixed audit facts while preserving plan and history
+ok 20 - authenticated denied decisions append fixed audit facts while preserving plan and history
+  ---
+  duration_ms: 360.893983
+  type: 'test'
+  ...
+# Subtest: source bindings persist, authorize changes, constrain imports before Git, and remain private
+ok 21 - source bindings persist, authorize changes, constrain imports before Git, and remain private
+  ---
+  duration_ms: 247.391358
+  type: 'test'
+  ...
+# Subtest: source binding is rechecked under a project lock before an imported release can commit
+ok 22 - source binding is rechecked under a project lock before an imported release can commit
+  ---
+  duration_ms: 5442.041787
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 53103.766239

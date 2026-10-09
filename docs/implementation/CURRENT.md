@@ -1,5 +1,19 @@
 # Current engineering state
 
+## T12 security correction verified locally; new review required — 2026-10-09
+
+Security blocked initial head `7d979c3db3c06c05529852bd9073ac1471c5f181` because malformed
+stored content and version tokens could consume excessive resources. Nothing was pushed.
+Root now bounds content/metadata before allocation, checks encoded length and total bytes,
+and replaces BigInt conversion with canonical decimal-string ordering. PostgreSQL oversized
+content/version negatives leave plan/history/audit snapshots unchanged; real Git Unicode
+and arbitrary-precision imported versions remain accepted. Correction checks passed:
+142 standard, 22 product, 10 browser, zero failures/skips. The added real-Git assertion was
+exercised by the final product run after the standard run; source/log hashes are captured in
+`evidence/product/product-t12-security-correction-20261009T055200Z/record.json`.
+Original records remain immutable. Corrected-head QA/security, CI and publication are pending;
+previous QA approval does not authorize this corrected head. T13 remains READY, registration only.
+
 ## T12 locally verified; exact-head review pending — 2026-10-09
 
 T11 merged through PR #23 at `a81f8b7a2e66b2693e1775386fa1624dab3749c9`;

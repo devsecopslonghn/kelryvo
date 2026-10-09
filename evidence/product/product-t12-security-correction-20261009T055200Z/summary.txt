@@ -1,0 +1,5 @@
+Security blocked initialhead7d979c3 for pre-allocation content length and BigInt resource bounds.
+Root bounded content/metadata and replaced BigInt with decimal string normalization/order.
+Standard142/product22/browser10, failures0/skips0. Standard ran after helper/API-negative fix; added imported Unicode/large-version assertion subsequently exercised by finalproduct22.
+Previous records/logs remain immutable; this correction supersedes affected source hashes, not historical results.
+Exact corrected-head independent QA/security and publication are pending.
