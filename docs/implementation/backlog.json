@@ -2623,6 +2623,9 @@
       "evidence": [
         {
           "index_id": "product-t17-offline-intent-local-verified"
+        },
+        {
+          "index_id": "product-t17-bounded-intent-local-verified"
         }
       ],
       "blockers": []

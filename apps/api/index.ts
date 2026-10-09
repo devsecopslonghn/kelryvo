@@ -501,8 +501,15 @@ export function createApp(options: {
         const p = (await tx`SELECT id,archived_at FROM sf_projects WHERE id=${req.params.id}
           AND organization_id=${ORG} FOR SHARE`)[0];
         if (!p) return { error: "NOT_FOUND" };
-        const r = (await tx`SELECT * FROM sf_releases WHERE id=${b.releaseId} AND project_id=${p.id}
-          AND organization_id=${ORG} FOR SHARE`)[0];
+        // Inspect only scalar bounds while holding the scoped release lock. A damaged
+        // JSONB payload must not be copied into Node before its shape and size pass.
+        const releaseBounds = (await tx`SELECT id,validation_status,jsonb_typeof(files) AS files_type,
+          CASE WHEN jsonb_typeof(files) = 'array' THEN jsonb_array_length(files) ELSE NULL END AS file_count,
+          octet_length(files::text) AS files_bytes, (object_format IN ('sha1','sha256')) AS format_valid,
+          (object_format = 'sha1') AS format_sha1, char_length(commit_id) AS commit_chars,
+          char_length(folder) AS folder_chars, char_length(parser_profile) AS parser_profile_chars,
+          char_length(manifest_digest) AS manifest_chars FROM sf_releases WHERE id=${b.releaseId}
+          AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
         const profile = (await tx`SELECT id,project_id,organization_id,environment_id,
           CASE WHEN char_length(name) BETWEEN 1 AND 200 THEN name END AS name,
           CASE WHEN char_length(engine) BETWEEN 1 AND 20 THEN engine END AS engine,
@@ -515,8 +522,18 @@ export function createApp(options: {
         const environment = profile && (await tx`SELECT id,project_id,organization_id,
           CASE WHEN char_length(name) BETWEEN 1 AND 200 THEN name END AS name FROM sf_environments WHERE id=${profile.environment_id}
           AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
-        if (!r || !profile) return { error: "INVALID_REFERENCE" };
-        if (r.validation_status !== "VALID") return { error: "RELEASE_NOT_VALID" };
+        if (!releaseBounds || !profile) return { error: "INVALID_REFERENCE" };
+        if (releaseBounds.validation_status !== "VALID") return { error: "RELEASE_NOT_VALID" };
+        const maxRetainedJsonBytes = 6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024;
+        if (releaseBounds.files_type !== "array" || !Number.isInteger(releaseBounds.file_count)
+            || releaseBounds.file_count < 1 || releaseBounds.file_count > MAX_RELEASE_FILES
+            || releaseBounds.files_bytes > maxRetainedJsonBytes || !releaseBounds.format_valid
+            || releaseBounds.commit_chars !== (releaseBounds.format_sha1 ? 40 : 64)
+            || !Number.isInteger(releaseBounds.folder_chars) || releaseBounds.folder_chars < 1 || releaseBounds.folder_chars > 200
+            || !Number.isInteger(releaseBounds.parser_profile_chars) || releaseBounds.parser_profile_chars < 1 || releaseBounds.parser_profile_chars > MAX_INPUT_BYTES
+            || releaseBounds.manifest_chars !== 64) return { error: "RELEASE_INTEGRITY_FAILED" };
+        const r = (await tx`SELECT id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files
+          FROM sf_releases WHERE id=${releaseBounds.id} AND project_id=${p.id} AND organization_id=${ORG}`)[0];
         if (!verifyRetainedRelease(r)) return { error: "RELEASE_INTEGRITY_FAILED" };
         const files = r.files as any[];
         const items = files.map((f) => ({ path: f.path, version: f.version, sha256: f.sha256, status: "NOT_EXECUTED" }));

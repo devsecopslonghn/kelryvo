@@ -1,0 +1,11 @@
+{
+  "command": "gh pr list --state open --json number,title,headRefName,headRefOid,baseRefName,isDraft,url",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T09:48:17.234362+00:00",
+  "ended_at_utc": "2026-10-09T09:48:18.036018+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "evidence/product/product-t17-security-correction-20261009T093814Z/04-corrected-open-prs.log",
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+  }
+}

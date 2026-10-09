@@ -38,7 +38,7 @@ test('plan intent persists across API restart and damaged or legacy intent block
     const afterRestart = (await request('GET', base)).json().plans.find((item) => item.id === plan.id);
     assert.equal(afterRestart.offlineIntent.digest, retained.offline_intent_digest);
     const snapshots = async () => ({ projects: await database.sql`SELECT * FROM sf_projects ORDER BY id`,
-      releases: await database.sql`SELECT * FROM sf_releases ORDER BY id`, profiles: await database.sql`SELECT * FROM sf_profiles ORDER BY id`,
+      releases: await database.sql`SELECT id,project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,validation_code,parser_profile,encode(sha256(convert_to(files::text,'UTF8')),'hex') AS files_sha256,created_at FROM sf_releases ORDER BY id`, profiles: await database.sql`SELECT * FROM sf_profiles ORDER BY id`,
       environments: await database.sql`SELECT * FROM sf_environments ORDER BY id`, plans: await database.sql`SELECT * FROM sf_plans ORDER BY id`,
       comments: await database.sql`SELECT * FROM sf_plan_comments ORDER BY id`,
       history: await database.sql`SELECT * FROM sf_history ORDER BY id`, audit: await database.sql`SELECT * FROM sf_audit ORDER BY id` });
@@ -65,6 +65,21 @@ test('plan intent persists across API restart and damaged or legacy intent block
     assert.equal(invalidReference.json().error, 'INVALID_REFERENCE');
     assert.deepEqual(await snapshots(), beforeInvalidConfig);
     await database.sql`UPDATE sf_profiles SET credential_ref='vault://private/intentionally-literal' WHERE id=${profile.id}`;
+    const originalFiles = (await database.sql`SELECT files FROM sf_releases WHERE id=${release.id}`)[0].files;
+    const releaseBoundCases = [
+      ['non-array release files', () => database.sql`UPDATE sf_releases SET files='{}'::jsonb WHERE id=${release.id}`],
+      ['too many release files', () => database.sql`UPDATE sf_releases SET files=(SELECT jsonb_agg(jsonb_build_object('id','migration-'||n,'version','1','sha256',repeat('a',64),'raw','YQ==')) FROM generate_series(1,129) n) WHERE id=${release.id}`],
+      ['oversized release JSON', () => database.sql`UPDATE sf_releases SET files=jsonb_build_array(repeat('x',125960200)) WHERE id=${release.id}`],
+    ];
+    for (const [label, mutate] of releaseBoundCases) {
+      await mutate();
+      const before = await snapshots();
+      const rejected = await request('POST', `${base}/plans`, { releaseId: release.id, profileId: profile.id });
+      assert.equal(rejected.statusCode, 409, label);
+      assert.equal(rejected.json().error, 'RELEASE_INTEGRITY_FAILED', label);
+      assert.deepEqual(await snapshots(), before, `${label} is rejected before plan/history/audit writes`);
+      await database.sql`UPDATE sf_releases SET files=${database.sql.json(originalFiles)} WHERE id=${release.id}`;
+    }
     let releaseLock;
     let signalLock;
     const locked = new Promise((resolve) => { releaseLock = resolve; });

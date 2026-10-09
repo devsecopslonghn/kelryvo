@@ -80,7 +80,7 @@ test('offline planning rejects corrupted retained releases without writes and us
       while (Date.now() < deadline) {
         const rows = await db.sql`SELECT a.pid FROM pg_stat_activity a
           WHERE a.datname=current_database() AND a.wait_event_type='Lock'
-            AND a.query LIKE '%SELECT * FROM sf_releases%'
+            AND a.query LIKE '%FROM sf_releases%FOR SHARE%'
             AND ${blockerPid} = ANY(pg_blocking_pids(a.pid))`;
         if (rows.length) { waiting = true; break; }
         await new Promise((resolve) => setTimeout(resolve, 10));

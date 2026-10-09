@@ -1,0 +1,24 @@
+{
+  "recorded_at_utc": "2026-10-09T09:38:14.299977+00:00",
+  "task": "SF-PRODUCT-T17",
+  "reviewed_head": "e6432c93d6f08ae31856aac159b77833594fc1cd",
+  "base": "fe3744d7f04369538a72f85426cba0fe35ab6db3",
+  "publication_status": "LOCAL_UNPUSHED",
+  "qa_verdict": "APPROVED_EXACT_ORIGINAL_HEAD",
+  "security_verdict": "BLOCKED",
+  "blocker": "Creation loads sf_releases.files via SELECT * before SQL shape/count/octet-length and metadata bounds. Add scoped locked preflight and load only verified bounded fields afterward; retain fixed no-write feedback.",
+  "independent_scans": {
+    "changed_paths": 221,
+    "publication_exit_code": 1,
+    "publication_findings": 30,
+    "classification": "Exact T17-completion.json lines128-157; each independently verified computed SHA256 of captured focused API artifacts. No actual credential.",
+    "all_refs_history_exit_code": 1,
+    "history_findings": 35,
+    "history_classification": "Thirty same T17 artifact hashes plus five prior exact-provenance UUID/source hashes/synthetic malformed UNIT PEM/T10 log digest."
+  },
+  "no_actual_credentials_observed": true,
+  "rotation_indicated": false,
+  "scanner_allowlist_added": false,
+  "history_rewritten": false,
+  "required_action": "Correct source, append new evidence, run final regressions, commit ordinary follow-up, repeat exact-head independent QA/security before push."
+}

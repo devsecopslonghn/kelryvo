@@ -1,3 +1,31 @@
+## T17 bounds correction locally verified; fresh review pending — 2026-10-09
+
+Creation now checks scoped retained release type/count/uncompressed JSON bytes and
+metadata bounds in PostgreSQL under FOR SHARE before loading file payloads. Corrective
+changes are limited to API and two regression files; the original unpushed rejected
+head/evidence remain in history. The updated race probe still checks the exact blocking
+transaction, and source snapshots use SQL SHA256 without loading oversized files.
+
+Frozen corrected results: standard145, PostgreSQL24, browser15, focused2; zero failures
+or skips. Root verified 13 current source and 40 corrective capture hashes, completion
+ordering and immutable original record. See `evidence/product/product-t17-security-correction-20261009T093814Z/corrected-integration-record.json`. Fresh exact-head QA/security,
+publication scan and CI are required before a normal merge. T18 is READY registration
+only. No Hygiene branch/PR is visible; shared checkout, scanner settings and public
+history remain unchanged. Sonar unavailable, never PASS; Oracle VALIDATION separate.
+
+## T17 creation-bounds correction active — 2026-10-09
+
+Independent QA approved local `e6432c93d6f08ae31856aac159b77833594fc1cd`;
+Security blocked it because creation materialized retained release files before SQL
+size/shape bounds. That commit is unpushed. T17 is IN_PROGRESS for a scoped locked
+preflight and corrective no-write tests; fresh exact-head review and CI are required.
+T18 returns to BACKLOG until the corrected T17 increment is verified. Earlier local
+passing evidence remains immutable and does not establish security approval.
+Independent publication scan returned exit 1 with 30 computed capture-hash findings;
+all-refs history returned exit 1 with those plus the five prior classified benign matches.
+No actual credential was observed. No scanner or history changes were made.
+See `evidence/product/product-t17-security-correction-20261009T093814Z/blocked-review.json`. Shared checkout and Git Hygiene scope remain untouched.
+
 ## T17 locally verified; publication review pending — 2026-10-09
 
 SF-PRODUCT-T17 is locally VERIFIED in the isolated offline-plan-intent worktree,
