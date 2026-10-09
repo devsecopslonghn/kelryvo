@@ -2240,6 +2240,35 @@
       },
       "path": "evidence/product/product-t19-merge-20261009T141539Z/record.json",
       "sha256": "96236905b8291de6e16d1214a6ce0c8a9e23cf9f6b27a3e78726e9a94ccc18e8"
+    },
+    {
+      "id": "product-t20-local-credential-lifecycle-local-verified",
+      "subject_id": "SF-PRODUCT-T20",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen standard151/PostgreSQL29/Chromium18 suites; root verifies all13 owned sources and raw-capture hashes, credential lifecycle, recovery and session boundaries",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T20-API",
+        "SF-PRODUCT-T20-WEB",
+        "SF-PRODUCT-T20-OPERATOR"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t20-native-20261009T143323Z/final-browser.log",
+        "sha256": "2d7742181dae03103e67a8eb6a4714e81d03c96db7523c59e8ba37dce4d6a9d8"
+      },
+      "path": "evidence/product/product-t20-root-20261009T142027Z/corrected-integration-record.json",
+      "sha256": "59ad7e0a3fe67ce8cf74de3ce12ee42b916fe7188b7026cff327c99fcbdaac17"
     }
   ]
 }

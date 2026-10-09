@@ -1,0 +1,5 @@
+command=SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin taskset -c 0,1 npm run check
+started=2026-10-09T14:41:49Z
+ended=2026-10-09T14:44:36Z
+exit=0
+log_sha256=f9c98fe63dd3afdc3c57a14fbdd43a50909a398f0c8248894d32f383cca7fac9

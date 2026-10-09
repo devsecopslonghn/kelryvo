@@ -1,0 +1,11 @@
+{
+  "command": "set -e; node scripts/tracker.mjs validate; node scripts/format-json.mjs --check; node --test tests/tracker.test.mjs; git diff --check -- AGENTS.md docs/decisions/log.json docs/implementation scripts/tracker.mjs tests/tracker.test.mjs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T14:40:00.773271+00:00",
+  "ended_at_utc": "2026-10-09T14:40:01.831594+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/08-owner-policy-quality.log",
+    "sha256": "de77dbd4e773fbbc13eb9109e82b01c47350518773da8d9aa406ae184814793d"
+  }
+}

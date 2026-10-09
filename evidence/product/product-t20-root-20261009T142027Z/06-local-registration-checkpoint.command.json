@@ -1,0 +1,5 @@
+{
+  "command": "set -e; git add -- docs/implementation/CURRENT.md docs/implementation/CONTINUE.md docs/implementation/acceptance.json docs/implementation/backlog.json docs/implementation/dependency-graph.json docs/implementation/evidence-index.json docs/implementation/milestone.json docs/implementation/ownership.json scripts/tracker.mjs tests/tracker.test.mjs; git add -f -- evidence/product/product-t19-merge-20261009T141539Z evidence/product/product-t20-root-20261009T142027Z; git diff --cached --check -- docs/implementation scripts/tracker.mjs tests/tracker.test.mjs; git commit -m \"docs(product): preserve T19 merge and register local credential lifecycle\"",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T14:24:15.997052+00:00"
+}

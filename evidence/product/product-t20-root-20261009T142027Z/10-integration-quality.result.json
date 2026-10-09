@@ -1,0 +1,11 @@
+{
+  "command": "set -e; node scripts/check-source.mjs; node scripts/tracker.mjs validate; node --test tests/tracker.test.mjs; npm run format:check; git diff --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:07:27.268989+00:00",
+  "ended_at_utc": "2026-10-09T15:07:30.610685+00:00",
+  "exit_code": 1,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/10-integration-quality.log",
+    "sha256": "cee92e07928bdd89a0c095a31b02612e56786add73d9cbc92952b3ed82e48bf7"
+  }
+}

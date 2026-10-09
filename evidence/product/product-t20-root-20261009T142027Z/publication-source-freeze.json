@@ -1,0 +1,57 @@
+{
+  "owned_native_sources": [
+    "apps/api/index.ts",
+    "apps/web/src/app.jsx",
+    "docs/development/local-product.md",
+    "package.json",
+    "packages/database/index.ts",
+    "packages/database/local-credentials.ts",
+    "scripts/local-resources.mjs",
+    "scripts/local-credential-operator.mjs",
+    "scripts/test-product.mjs",
+    "tests/helpers/product-db.mjs",
+    "tests/product-local.test.mjs",
+    "tests/product-credential-lifecycle.test.mjs",
+    "tests/product-credential-browser.integration.mjs"
+  ],
+  "owned_root_files": [
+    "AGENTS.md",
+    "docs/decisions/log.json",
+    "docs/implementation/CURRENT.md",
+    "docs/implementation/CONTINUE.md",
+    "docs/implementation/backlog.json",
+    "docs/implementation/ownership.json",
+    "docs/implementation/evidence-index.json",
+    "docs/implementation/milestone.json"
+  ],
+  "owned_evidence_dirs": [
+    "evidence/product/product-t20-native-20261009T143323Z",
+    "evidence/product/product-t20-root-20261009T142027Z"
+  ],
+  "unchanged_frozen_native_source_count": 13,
+  "changed_and_untracked_ownership_verified": true,
+  "root_final_quality": "12-final-integration-quality.result.json",
+  "source_sha256": {
+    "apps/api/index.ts": "81d64d9e6894319d42caa1f1b126671464937b3c3a7a0e6739d79d020618f7d3",
+    "apps/web/src/app.jsx": "fd6654d08a3c94863cb81b347d5354507a21feec034b789a78bd795af18660c8",
+    "docs/development/local-product.md": "9ae5aa5b61c33911beedc714bd60fd8130c92d6c1541502c9522a2a8253a862c",
+    "package.json": "5e217f9552f03c5d3c9d20f390a7450d73be0e11b9f50e46625d30ded03fbd0f",
+    "packages/database/index.ts": "5a29fa0afab4099c765b2dea5bbcc6e0f84c762a889973e87ca219ba5733832b",
+    "packages/database/local-credentials.ts": "df69cdf36815ea541a14abc6f41f8613cc823c43f667c7dadf5115f2a78772a8",
+    "scripts/local-resources.mjs": "f22aa2824794c037343f31f51d3345f482068bf777c957e1ba746b43c45f0039",
+    "scripts/local-credential-operator.mjs": "9abb8f8c790820f597ad89c8cbc9af974671839905f78ba017c0f68209979430",
+    "scripts/test-product.mjs": "b0e8df1833ba29f652ce70ed733bb98d4423bfd37150cad19ee6c2696d799153",
+    "tests/helpers/product-db.mjs": "d39a81f5d7b0225e0dae4ec07a3c2086d0bec10b74bd2da5afbee072e2db0e1c",
+    "tests/product-local.test.mjs": "eed71528fe062787e3eac0396ccf717c5a9168df45c182a7e3df6eaa018f6a5c",
+    "tests/product-credential-lifecycle.test.mjs": "fbdcea31e76895dc7efa9f4f5ac511da37464adfa4a8c1fa85e7564b09125769",
+    "tests/product-credential-browser.integration.mjs": "3c6b8f531796b27294658998fa6116066bb7b6f1728267ab631ef091cdc317ba",
+    "AGENTS.md": "28342e4865f34edaed53dd4812517f1f072a8d52c73cb4ea7689e42a30d2fb40",
+    "docs/decisions/log.json": "4b18b7aa709d86ce19d28112b327dbd4ff63adbad7d53e11a0b712b4f160ddc3",
+    "docs/implementation/CURRENT.md": "ef19fc7f4dc9d0341b43562e1bd83167332bce90122c482051e3af1ae11f5ed2",
+    "docs/implementation/CONTINUE.md": "c739a5be66c5c260b89dd4cf38d8fadf2a3a5754f3dfd627d170b2eb65e1fa0a",
+    "docs/implementation/backlog.json": "1477505cac16248ef6c04635a81928d5ef50d1717517513e665d29208b184ffd",
+    "docs/implementation/ownership.json": "bfd9113bc6eb6e9b71cbf702d1487f1f29566a3f1696d2d02cd34bf841e18f49",
+    "docs/implementation/evidence-index.json": "36f474bf56b2b21d6dda3058efb8b13a0b993567666967cb6cc6b9f86523495d",
+    "docs/implementation/milestone.json": "f0dd9fcf6a1bb29f1dbd770795acce94803f767e54399d087033b4db9f32f088"
+  }
+}

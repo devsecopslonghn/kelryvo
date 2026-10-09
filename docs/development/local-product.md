@@ -146,6 +146,36 @@ by the browser, and mapped to identities on the server. Caller actor IDs and une
 properties are rejected. Origin checks, fixed error codes and a same-origin CSP apply.
 This local authentication does not certify multi-tenant RBAC, production sessions or TLS.
 
+Local identities are persisted in PostgreSQL with a SHA-256 bearer digest and a fixed
+24-hour expiry measured from database issuance time. Startup seeds an identity and its
+first credential once; restarting with an old config cannot extend expiry, reactivate a
+revoked token or change its fixed role/organization. A changed display name is current
+profile data; names already captured on decisions remain historical snapshots. A revoked
+credential blocks requests admitted after revocation; it does not cancel an operation that
+already passed authentication.
+
+Rotate or revoke only an existing local identity with the trusted OS operator. It accepts
+an explicit private config path and reads `SCHEMAFORGE_LOCAL_DATABASE_URL` from the process
+environment so the database URL is not placed in command arguments. For example,
+`npm run local:credentials -- rotate developer /absolute/private/config.json` writes the
+new random credential into that mode-0600 config without printing it. The config directory
+must be private (0700). `revoke` disables that identity's saved token in PostgreSQL while
+keeping the private config shape valid; that value remains denied, and a later `rotate`
+writes a new one. `recover /absolute/private/config.json` completes an interrupted DB/config replacement; local
+startup fails closed while its private journal is pending. The journal and staged config
+are private, bounded files protected by a persistent mode-0600 Linux `flock` lock and
+same-filesystem rename. The local operator requires `/usr/bin/flock` from util-linux.
+If a process dies after staging but before its journal is durable, `recover` verifies that
+the staged file changes exactly one local token, preserves the other identity and database
+password, and that the candidate digest was never inserted. It then discards only that
+uncommitted stage. Ambiguous or malformed states remain fail-closed for manual review.
+PostgreSQL and filesystem updates are not one atomic transaction. An operator must not
+delete or edit an interrupted journal by hand; retry `recover` and inspect the fixed error
+if state is corrupt. The command accepts only the documented exact arguments and rejects
+unknown options before reading the config or connecting to PostgreSQL. Testing uses disposable
+credentials and databases only; it closes and reopens a PostgreSQL client pool but does not
+restart the API daemon or prove behavior across an operating-system UID boundary.
+
 Projects contain environments and reference-only connection profiles. Composite foreign keys
 and scoped lookups reject cross-project references. The metadata database password is solely
 for PostgreSQL; the API has no application writer secret, Oracle provider or executor.

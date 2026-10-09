@@ -1,0 +1,95 @@
+{
+  "recorded_at_utc": "2026-10-09T15:07:15.652065+00:00",
+  "task": "SF-PRODUCT-T20",
+  "state": "VERIFIED_LOCAL_PUBLICATION_PENDING",
+  "base_master": "7bb4af0184031112ea9f185991f37c97ec0604fa",
+  "working_tree_isolated": true,
+  "shared_original_unchanged": true,
+  "native_completion": {
+    "path": "evidence/product/product-t20-native-20261009T143323Z/t20-native-result.json",
+    "sha256": "f5b8312a2638866bc0df824f6e94f57bd706b74428f15173b98e1145d194bb77"
+  },
+  "verified_source_hashes": {
+    "apps/api/index.ts": "81d64d9e6894319d42caa1f1b126671464937b3c3a7a0e6739d79d020618f7d3",
+    "apps/web/src/app.jsx": "fd6654d08a3c94863cb81b347d5354507a21feec034b789a78bd795af18660c8",
+    "docs/development/local-product.md": "9ae5aa5b61c33911beedc714bd60fd8130c92d6c1541502c9522a2a8253a862c",
+    "package.json": "5e217f9552f03c5d3c9d20f390a7450d73be0e11b9f50e46625d30ded03fbd0f",
+    "packages/database/index.ts": "5a29fa0afab4099c765b2dea5bbcc6e0f84c762a889973e87ca219ba5733832b",
+    "packages/database/local-credentials.ts": "df69cdf36815ea541a14abc6f41f8613cc823c43f667c7dadf5115f2a78772a8",
+    "scripts/local-resources.mjs": "f22aa2824794c037343f31f51d3345f482068bf777c957e1ba746b43c45f0039",
+    "scripts/local-credential-operator.mjs": "9abb8f8c790820f597ad89c8cbc9af974671839905f78ba017c0f68209979430",
+    "scripts/test-product.mjs": "b0e8df1833ba29f652ce70ed733bb98d4423bfd37150cad19ee6c2696d799153",
+    "tests/helpers/product-db.mjs": "d39a81f5d7b0225e0dae4ec07a3c2086d0bec10b74bd2da5afbee072e2db0e1c",
+    "tests/product-local.test.mjs": "eed71528fe062787e3eac0396ccf717c5a9168df45c182a7e3df6eaa018f6a5c",
+    "tests/product-credential-lifecycle.test.mjs": "fbdcea31e76895dc7efa9f4f5ac511da37464adfa4a8c1fa85e7564b09125769",
+    "tests/product-credential-browser.integration.mjs": "3c6b8f531796b27294658998fa6116066bb7b6f1728267ab631ef091cdc317ba"
+  },
+  "checks": {
+    "standard": {
+      "tests": 151,
+      "pass": 151,
+      "fail": 0,
+      "skipped": 0
+    },
+    "product": {
+      "tests": 29,
+      "pass": 29,
+      "fail": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "tests": 18,
+      "pass": 18,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "test_references": [
+    "SF-PRODUCT-T20-API",
+    "SF-PRODUCT-T20-WEB",
+    "SF-PRODUCT-T20-OPERATOR"
+  ],
+  "root_verification": "Verified all13 current sources, every native raw-log byte/hash and final stable start/completion source sets. Reviewed owned API/database/UI/operator and fixture diffs. Root source/tracker/format/scoped diff checks separately captured.",
+  "compatibility": "Existing principals seed once; no expiry/revocation resurrection; role/org immutable; historic authorship/decisions unchanged. 401 clears current browser session; delayed old epoch cannot clear new one. Operator private journal recovers stage/commit/rename interruptions without pretending DB/file atomicity.",
+  "owner_policy": [
+    "SF-D010",
+    "SF-D011",
+    "SF-D012"
+  ],
+  "next_product": "Explicit local operator membership/bootstrap/recovery, approved policy; registration/implementation follows eligible T20 merge.",
+  "limitations": [
+    "Seven early .meta files omit command; their command was not reconstructed.",
+    "Pre-final full-check logs and three focused failures are retained; npm-check-frozen.json exited 0 while source hashes changed during the run and is not a final verification.",
+    "final-check.json exited 1 with two pre-correction fixture failures caused by read-only sql getter; corrected helper regression and final checks pass.",
+    "The captured captures directory includes early failures and incomplete build-web-final.log; all raw logs are retained as-is.",
+    "Tests closed/reopened the isolated PostgreSQL client pool; they did not restart the API daemon or test a different operating-system UID.",
+    "API instance and PostgreSQL pool reopened; no PostgreSQL daemon restart.",
+    "Early native failures and missing command metadata retained without reconstruction; seven omitted exact commands remain unknown.",
+    "Initial root metadata inspection assumed wrong JSON completion field and failed read-only with KeyError; corrected using actual sourceHashesAtCompletion. No file mutation or PASS inferred from failed inspection.",
+    "Strict umask below0600 may leave unusable newly-created lifecycle lock; current operator fails closed. Standard local0700/0600 setup tested, unusual umask not certified.",
+    "Independent exact-head QA/security, publication/history scan, remote CI and ordinary merge remain pending.",
+    "Sonar unavailable under unchanged owner quota exception; never PASS. Oracle VALIDATION separately BLOCKED; no runtime target/execution/full catalog acceptance."
+  ],
+  "id": "product-t20-local-credential-lifecycle-local-verified",
+  "subject_id": "SF-PRODUCT-T20",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen standard151/PostgreSQL29/Chromium18 suites; root verifies all13 owned sources and raw-capture hashes, credential lifecycle, recovery and session boundaries",
+  "exit_code": 0,
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t20-native-20261009T143323Z/final-browser.log",
+    "sha256": "2d7742181dae03103e67a8eb6a4714e81d03c96db7523c59e8ba37dce4d6a9d8"
+  },
+  "initial_record_preserved": "integration-record.json",
+  "root_registration_correction": "Initial integration record omitted required matching index metadata and mirrored ownership status; tracker correctly failed before test or format runs. Original record and failed capture retained, corrected here without product source changes."
+}

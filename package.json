@@ -32,6 +32,7 @@
     "typecheck": "tsc --noEmit",
     "build:web": "node scripts/build-web.mjs",
     "local:prepare": "node scripts/local-prepare.mjs",
+    "local:credentials": "node scripts/local-credential-operator.mjs",
     "dev": "npm run build:web && node scripts/local-dev.mjs",
     "test:product": "node scripts/test-product.mjs",
     "test:browser": "npm run build:web && node scripts/test-product.mjs --browser",

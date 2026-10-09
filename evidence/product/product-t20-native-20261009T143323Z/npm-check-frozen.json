@@ -1,0 +1,41 @@
+{
+  "command": "taskset -c 0,1 npm run check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "environment": {
+    "SCHEMAFORGE_TEST_DATABASE_URL": "postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+    "SCHEMAFORGE_JAVA_HOME": "/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin"
+  },
+  "startedUtc": "2026-10-09T14:47:13.969Z",
+  "endedUtc": "2026-10-09T14:50:00.034Z",
+  "exitCode": 0,
+  "signal": null,
+  "rawLog": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle/evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.log",
+  "rawLogBytes": 36264,
+  "rawLogSha256": "b51f29d2f2995f45ed70113ee9f5531be3872e05bcb0ba5a8a9feeb8f127408a",
+  "sourceHashesAtStart": {
+    "apps/api/index.ts": "81d64d9e6894319d42caa1f1b126671464937b3c3a7a0e6739d79d020618f7d3",
+    "apps/web/src/app.jsx": "fd6654d08a3c94863cb81b347d5354507a21feec034b789a78bd795af18660c8",
+    "docs/development/local-product.md": "137d3baad8cb3173b5b1003059ceded2cbe298083f1c307a90f5b4f6380c4d91",
+    "package.json": "5e217f9552f03c5d3c9d20f390a7450d73be0e11b9f50e46625d30ded03fbd0f",
+    "packages/database/index.ts": "5a29fa0afab4099c765b2dea5bbcc6e0f84c762a889973e87ca219ba5733832b",
+    "packages/database/local-credentials.ts": "df69cdf36815ea541a14abc6f41f8613cc823c43f667c7dadf5115f2a78772a8",
+    "scripts/local-resources.mjs": "9cf00a330db464f3ae2944ce26f02e201a2361a2e9d44557eb3cba0648f4ac68",
+    "scripts/local-credential-operator.mjs": "0bf025af81038623a583dd985ea2e3bcf12780fa05ed1d478986a360d6330aba",
+    "scripts/test-product.mjs": "b0e8df1833ba29f652ce70ed733bb98d4423bfd37150cad19ee6c2696d799153",
+    "tests/product-credential-lifecycle.test.mjs": "afc9cc6296d55f9daf2053f720a13aedab101637ea137dfded58307c722fdb7a",
+    "tests/product-credential-browser.integration.mjs": "3c6b8f531796b27294658998fa6116066bb7b6f1728267ab631ef091cdc317ba"
+  },
+  "sourceHashesAtCompletion": {
+    "apps/api/index.ts": "81d64d9e6894319d42caa1f1b126671464937b3c3a7a0e6739d79d020618f7d3",
+    "apps/web/src/app.jsx": "fd6654d08a3c94863cb81b347d5354507a21feec034b789a78bd795af18660c8",
+    "docs/development/local-product.md": "137d3baad8cb3173b5b1003059ceded2cbe298083f1c307a90f5b4f6380c4d91",
+    "package.json": "5e217f9552f03c5d3c9d20f390a7450d73be0e11b9f50e46625d30ded03fbd0f",
+    "packages/database/index.ts": "5a29fa0afab4099c765b2dea5bbcc6e0f84c762a889973e87ca219ba5733832b",
+    "packages/database/local-credentials.ts": "df69cdf36815ea541a14abc6f41f8613cc823c43f667c7dadf5115f2a78772a8",
+    "scripts/local-resources.mjs": "9cf00a330db464f3ae2944ce26f02e201a2361a2e9d44557eb3cba0648f4ac68",
+    "scripts/local-credential-operator.mjs": "903df359c1c243bd5320ed56e3780260f28eb271140c5d51fe260c307784658d",
+    "scripts/test-product.mjs": "b0e8df1833ba29f652ce70ed733bb98d4423bfd37150cad19ee6c2696d799153",
+    "tests/product-credential-lifecycle.test.mjs": "36d9564b155336bfd353cd80cbb979684fe81630f45f3cae2d888775a3ffb89d",
+    "tests/product-credential-browser.integration.mjs": "3c6b8f531796b27294658998fa6116066bb7b6f1728267ab631ef091cdc317ba"
+  }
+}

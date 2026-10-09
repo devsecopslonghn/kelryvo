@@ -89,6 +89,39 @@
         "package.json",
         "docs/dependencies/product-closure.json"
       ]
+    },
+    {
+      "id": "SF-D010",
+      "status": "ACCEPTED_OWNER_STANDING_AUTONOMY_POLICY",
+      "accepted_at_utc": "2026-10-09T14:38:44.839833+00:00",
+      "decision": "Independently choose ordinary product, architecture, implementation, compatibility and migration defaults using existing requirements, security principles and engineering judgment. Select the safest reasonable default, document it, implement/test/verify and continue through eligible PR/merge. For existing data prefer explicit authorization, backward-compatible reads where safe, preserved history and documented recovery. Escalate only external credentials/permissions, financial cost, irreversible real user data loss, license/business-model changes or unresolved material security/legal risk. A safe documented default prevents a design choice alone from blocking the whole goal.",
+      "references": [
+        "AGENTS.md",
+        "docs/implementation/CONTINUE.md",
+        "docs/implementation/milestone.json"
+      ]
+    },
+    {
+      "id": "SF-D011",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T20_IMPLEMENTATION_DEFAULT",
+      "accepted_at_utc": "2026-10-09T14:38:44.839833+00:00",
+      "decision": "Use server-computed SHA256 digests of trusted high-entropy local bearer credentials with database-clock fixed 24-hour expiry, persisted revocation and insert-only credential seeding. Keep existing stable identities/fixed roles and immutable historical decision names. Only the trusted local OS operator rotates/revokes credentials through private files and explicit crash recovery; no application administrator or membership grant is introduced by T20. Auth applies to subsequent request admission, not cancellation of previously admitted operations. Preserve the authorized loopback UI; this is partial SEC-001, not full original WP4/Oracle acceptance.",
+      "references": [
+        "docs/implementation/backlog.json",
+        "docs/development/local-product.md"
+      ]
+    },
+    {
+      "id": "SF-D012",
+      "status": "ACCEPTED_OWNER_PRODUCT_MEMBERSHIP_POLICY_IMPLEMENTATION_PENDING",
+      "accepted_at_utc": "2026-10-09T14:38:44.839833+00:00",
+      "decision": "Trusted local OS operator alone may explicitly grant/revoke project access for existing fixed developer/approver actors. Require explicit grants for all projects; establish safe operator bootstrap and recovery before enforcing deny-by-default. Do not infer owners or backfill memberships from historical audit records. Preserve project data, comments, plans, decisions, history and audits. No application administrator or Oracle execution authority is conferred. Implement after T20; registration, enforcement and verification are not yet claimed.",
+      "references": [
+        "AGENTS.md",
+        "docs/implementation/CONTINUE.md",
+        "docs/inputs/db-research/product-research/DATABASE-RESOURCE-MODEL.md",
+        "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md"
+      ]
     }
   ]
 }

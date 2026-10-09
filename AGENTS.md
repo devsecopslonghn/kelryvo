@@ -37,6 +37,29 @@ this file, and the bounded task's inputs before editing. Preserve unrelated work
 
 ## Work and evidence
 
+### Standing owner decision policy — 2026-10-09
+
+- Independently make ordinary product, architecture, implementation, compatibility and
+  migration decisions using existing requirements, security principles and engineering
+  judgment. Select the safest reasonable default, document the decision in
+  `docs/decisions/log.json`, implement it, test it, and continue autonomously. Do not
+  repeatedly ask the owner to choose between implementation options.
+- For existing-data migrations, prefer explicit authorization, backward-compatible read
+  access where safe, preservation of historical records and documented recovery procedures.
+- Escalate only when a decision requires external credentials or permissions, incurs
+  financial cost, risks irreversible loss of real user data, changes the product's
+  license/business model, or involves an unresolved material security/legal risk.
+- Otherwise decide, document, implement, verify, open a PR, merge when eligible, and
+  continue to the next task. Do not mark the entire goal BLOCKED merely because a design
+  choice is unresolved and a safe documented default exists. Existing CI, security and
+  review gates, the Sonar availability exception, and Oracle authority boundaries remain.
+- Project membership: the trusted local OS operator alone may explicitly grant or revoke
+  project access for existing actors, preserving their fixed developer/approver roles.
+  Require explicit grants for every project. Implement safe local-operator bootstrap and
+  recovery before enforcing deny-by-default membership. Never infer or backfill memberships
+  from audit history; preserve existing project data and audit records. This does not add
+  an application administrator or authorize Oracle execution.
+
 - Implement bounded increments with meaningful positive/negative tests. Run `npm run check`.
 - Record actual commands, hashes, outcomes and limitations under append-only evidence runs.
   UNIT/STATIC observations never certify Oracle 19c/21c behavior. Missing evidence stays explicit.

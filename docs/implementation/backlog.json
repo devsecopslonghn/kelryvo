@@ -2728,11 +2728,15 @@
         "SF-PRODUCT-T20-WEB",
         "SF-PRODUCT-T20-OPERATOR"
       ],
-      "status": "IN_PROGRESS",
+      "status": "VERIFIED",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "product-t20-local-credential-lifecycle-local-verified"
+        }
+      ],
       "blockers": []
     }
   ]

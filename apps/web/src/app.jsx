@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
+let browserSessionEpoch = 0;
+const unauthorizedSubscribers = new Set();
 const json = async (url, token, options = {}) => {
+  const requestEpoch = browserSessionEpoch;
   const response = await fetch(url, {
     ...options,
     headers: {
@@ -11,6 +14,8 @@ const json = async (url, token, options = {}) => {
     },
   });
   const body = response.status === 204 ? {} : await response.json().catch(() => ({}));
+  if (response.status === 401 && token && requestEpoch === browserSessionEpoch)
+    for (const subscriber of unauthorizedSubscribers) subscriber(requestEpoch);
   if (!response.ok) throw new Error(body.error || `HTTP_${response.status}`);
   return body;
 };
@@ -106,6 +111,8 @@ function RetainedReleaseContent({ source, repositories, fmt }) {
 function App() {
   const [tokenInput, setTokenInput] = useState('');
   const [token, setToken] = useState('');
+  const tokenRef = useRef(token);
+  tokenRef.current = token;
   const [actor, setActor] = useState(null);
   const [repositories, setRepositories] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -139,6 +146,23 @@ function App() {
   const previousReleaseBinding = useRef({ projectId: '', repositoryId: '', folder: '' });
   const planSourceSequence = useRef(0);
   const activeSelectedPlanId = useRef('');
+
+  useEffect(() => {
+    const expire = (requestEpoch) => {
+      if (requestEpoch !== browserSessionEpoch || !tokenRef.current) return;
+      browserSessionEpoch += 1;
+      sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1;
+      activeProjectId.current = ''; activeSelectedPlanId.current = '';
+      setActor(null); setToken(''); setTokenInput(''); setProjects([]); setRepositories([]); setProjectId(''); setDetail(null);
+      setRelease(null); setSelectedPlan(''); setPlanSource(null); setFreshPlanRequired(null); setPlanStatus('ALL'); setAuditAction('ALL');
+      setDecisionReason(''); setCommentBody(''); setSourceForm({ repositoryId: '', folder: 'migrations' });
+      setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setGitRefs({ branches: [], tags: [] });
+      setGitRefsLoading(false); setGitRefsError(''); setBusy(false); setNotice('');
+      setError('Your session expired. Sign in again.');
+    };
+    unauthorizedSubscribers.add(expire);
+    return () => unauthorizedSubscribers.delete(expire);
+  }, []);
 
   const selectPlan = (id) => {
     planSourceSequence.current += 1;
@@ -196,7 +220,7 @@ function App() {
   }, [projectId]);
 
   const connect = async (event) => {
-    event.preventDefault(); setBusy(true); setError(''); setNotice('');
+    event.preventDefault(); browserSessionEpoch += 1; setBusy(true); setError(''); setNotice('');
     try {
       const session = await json('/api/session', tokenInput.trim());
       const who = session.actor || session;
@@ -532,7 +556,7 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => setTab('release')}><span>◫</span> Releases</button>
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => setTab('records')}><span>≡</span> Audit &amp; history</button>
-    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; setActor(null); setToken(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setCommentBody(''); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
+    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setCommentBody(''); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
       <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { void refresh(token); }} disabled={busy}>↻</button></div></header>
