@@ -1,0 +1,23 @@
+{
+  "locations": {
+    "product-t16-requester-20261009T083240Z/02-requester-browser.log": [
+      11,
+      13
+    ],
+    "product-t16-requester-20261009T083306Z/01-requester-browser.log": [
+      11,
+      13
+    ],
+    "product-t16-requester-20261009T083402Z/01-requester-browser.log": [
+      13
+    ],
+    "product-t16-requester-20261009T083505Z/01-requester-browser.log": [
+      11,
+      13
+    ],
+    "product-t16-requester-20261009T083540Z/02-full-browser.log": [
+      53
+    ]
+  },
+  "scope": "Eight exact whitespace-only lines emitted by Node TAP in immutable failed raw captures. Authored changes pass; rawbytes/hashes preserved. No scanner or threshold changes."
+}

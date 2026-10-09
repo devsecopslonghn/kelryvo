@@ -1,0 +1,29 @@
+{
+  "task": "SF-PRODUCT-T16",
+  "recorded_at_utc": "2026-10-09T08:44:00Z",
+  "scope": "local PRODUCT verification only; no Oracle claim",
+  "sources": [
+    { "path": "apps/web/src/app.jsx", "sha256": "ba0b12b991f540b6724b0c124ac9817b72afde0b30d730101aff34e2d70330b4" },
+    { "path": "tests/product-plan-requester-browser.integration.mjs", "sha256": "be9a921cc928eb1eae0bfc09288d1eddc160871b1d4efde483a33d9b4f6c20c1" },
+    { "path": "scripts/test-product.mjs", "sha256": "a0583cc7be99cb2777a6adb84fbf7bd966ddbdc75aa18bd2e488dd6117d9d8b6" },
+    { "path": "docs/development/local-product.md", "sha256": "c1fe8221827e753b56cad82f0f0659c8bb08792e938f88d227d9e12433f69392" },
+    { "path": "scripts/tracker.mjs", "sha256": "454c8cfd9469f02865692b02661a6bd0e39ac351ec7b1c534d1b9979bd53b186", "note": "shared tracker source at final validation; root added T17 registration during this task" }
+  ],
+  "commands": [
+    { "id": "T16-CHECK-01", "command_file": "COMMAND-01.txt", "started_at": "2026-10-09T08:38:46Z", "ended_at": "2026-10-09T08:39:05Z", "exit_code": 0, "outcome": "PASS", "raw_output": { "path": "01-focused-existing-and-requester.log", "sha256": "8a1902c08436c11965a58b4bef34886f5f43ddb04f44552b0f0900a96adda56b" } },
+    { "id": "T16-CHECK-02", "command_file": "COMMAND-02.txt", "started_at": "2026-10-09T08:39:17Z", "ended_at": "2026-10-09T08:41:21Z", "exit_code": 0, "outcome": "PASS", "summary": "14 browser integrations passed; zero skipped", "raw_output": { "path": "02-full-browser.log", "sha256": "37f62de3662d1917f7394181c7791227c38e9f728e2d703004bef86ff90e41cd" } },
+    { "id": "T16-CHECK-03", "command_file": "COMMAND-03.txt", "started_at": "2026-10-09T08:41:27Z", "ended_at": "2026-10-09T08:42:26Z", "exit_code": 0, "outcome": "PASS", "summary": "23 product integration tests passed; zero skipped", "raw_output": { "path": "03-full-product.log", "sha256": "c065cc6b36cfd83d6e96c1f1363a027571f2dbf6b768dcd64b82fc53158ed13d" } },
+    { "id": "T16-CHECK-04", "command_file": "COMMAND-04.txt", "started_at": "2026-10-09T08:42:36Z", "ended_at": "2026-10-09T08:43:22Z", "exit_code": 0, "outcome": "PASS_WITH_SKIPS", "summary": "143 total; 130 pass, 13 database integration skips; retained as a separate observation", "raw_output": { "path": "04-npm-check.log", "sha256": "e85b996a485b515c2689a5107de9d56a7bb23de80d739487dfb61b76dbf18fb2" } },
+    { "id": "T16-CHECK-05", "command_file": "COMMAND-05.txt", "started_at": "2026-10-09T08:43:38Z", "ended_at": "2026-10-09T08:43:39Z", "exit_code": 0, "outcome": "PASS", "summary": "tracker valid after root T17 registration", "raw_output": { "path": "05-tracker-validate.log", "sha256": "bcad6b0f944779f861df35bd5667dccef46b80dda746892b2bace381175940d5" } },
+    { "id": "T16-CHECK-06", "command_file": "COMMAND-06.txt", "started_at": "2026-10-09T08:44:05Z", "ended_at": "2026-10-09T08:44:53Z", "exit_code": 0, "outcome": "PASS", "summary": "143 tests passed; zero failures and zero skips; database URL and pinned Java runtime configured", "raw_output": { "path": "06-npm-check-with-db.log", "sha256": "3d7dff0b9ea1cbe8be8ca64fc71e2055b1e683e08b31b313d45777fa8a205774" } }
+  ],
+  "preserved_attempt_logs": [
+    { "path": "../product-t16-requester-20261009T083240Z/01-build-web.log", "sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4", "outcome": "PASS" },
+    { "path": "../product-t16-requester-20261009T083240Z/02-requester-browser.log", "sha256": "85669f38119c85e921ec79f4881b95fab3b7bca79b29e70d38bb453756c2d927", "outcome": "FAIL", "reason": "parser Java home was unset; release was not VALID" },
+    { "path": "../product-t16-requester-20261009T083306Z/01-requester-browser.log", "sha256": "62a7fa0fa8f32b446e000ea25a87a14a4eea5c38d2ab04700fae212f574a0350", "outcome": "FAIL", "reason": "parser Java home was unset; release was not VALID" },
+    { "path": "../product-t16-requester-20261009T083402Z/01-requester-browser.log", "sha256": "14ec3701645ab83bf23538fade72f0f260998f95d3a4dc14ddfe3d876584755a", "outcome": "FAIL", "reason": "page reload cleared in-memory session and signed-in wait timed out" },
+    { "path": "../product-t16-requester-20261009T083505Z/01-requester-browser.log", "sha256": "379db574af9ea7b1defe2623ece67417a42d23923b4541367effbd451c9eaa19", "outcome": "FAIL", "reason": "post-sign-in selected first project; test expected empty-project state" },
+    { "path": "../product-t16-requester-20261009T083540Z/01-requester-browser.log", "sha256": "430b73cc66625fa27d4a2a041dc45f45866c41cff47188cd975695beda4ebf1e", "outcome": "PASS", "summary": "focused T16 browser case passed after project/session assertion correction" },
+    { "path": "../product-t16-requester-20261009T083540Z/02-full-browser.log", "sha256": "572a4af8b532a2affedb4c524f4e3c535e05f1a247aee205f98ed81f2ae84381", "outcome": "FAIL", "reason": "draft omitted createProfile from React model; restored before final focused and full browser runs" }
+  ]
+}

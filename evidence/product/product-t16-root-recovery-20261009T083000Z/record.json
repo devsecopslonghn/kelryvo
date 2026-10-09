@@ -1,0 +1,11 @@
+{
+  "subject_id": "SF-PRODUCT-T16",
+  "kind": "RECOVERY_OBSERVATION",
+  "recorded_at_utc": "2026-10-09T08:31:49.008268+00:00",
+  "prior_run_id": "product-t16-20261009T000000Z-requester",
+  "prior_process_handle": 59268,
+  "prior_observation": "Native context reported check started2026-10-09T07:58:21Z, then live waiting in product-api standard test. No terminal result captured.",
+  "authoritative_recovery": "write_stdin returned Unknown process id59268; ps showed no testNodeprocess; native agent absent from liveagenttree; prior evidence directory has0files. Draftsourcepreserved.",
+  "outcome": "UNVERIFIED prior check, not PASS; no reconstructed logs or hashes. Fresh native context assigned to finish existingT16 with new append-only captures.",
+  "ownership": "Rootdocsimplementationonly; freshnativeappsweb/testdriver/newbrowser/operatingdoc. Sharedmastercheckout clean0346300untouched;remoteorigin/masterf8be2a7;noopenPRorHygienebranchvisible."
+}

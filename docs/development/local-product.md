@@ -39,7 +39,12 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    `NOT_OBSERVED` target history. No target history was read, so this is not a reconciled
    execution plan and does not claim that all files are pending on a real database.
 5. Sign out, sign in with `approverToken`, and open Plans & review. Record a reason and
-   approve or reject. Decisions are serialized, terminal and independent of the author.
+   approve or reject. Each selected plan shows its retained author ID as text and its server
+   creation timestamp. An approver who authored a pending plan sees fixed independent-review
+   feedback and disabled decision controls; a missing or malformed author ID keeps decisions
+   disabled and asks the reviewer to refresh the project to retrieve retained facts. Developers
+   see the existing awaiting-approver feedback. Pending comments remain available in these
+   states. Decisions are serialized, terminal and independent of the author.
    Authenticated requests denied for role, self-approval or an existing terminal decision
    append a `PLAN_DECISION_DENIED` audit event containing only the fixed denial code,
    server-resolved actor and plan resource. The audit timeline renders the denial reason.
@@ -193,6 +198,11 @@ rejection, execution denial, archival and restart persistence. PostgreSQL integr
 tests comment validation/scope, concurrent comments, decision/archive races and audit rollback.
 Browser comments acceptance covers both roles, literal HTML rendered as text, timeline order,
 plan isolation, historical read-only states and persistence after the server/pool restart.
+The plan requester browser case checks retained author IDs and valid creation times for
+developer- and approver-authored plans, unavailable feedback for malformed facts, disabled
+self-review controls with no decision request or record mutation, independent approval and
+rejection, and read access to terminal plans in archived projects. The API self-decision check
+continues to verify its audited `SELF_APPROVAL_DENIED` response.
 Browser downloads are separate test tools.
 
 The PRODUCT CI job supplies disposable PostgreSQL, prepares the exact helper and runs these

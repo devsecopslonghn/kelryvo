@@ -261,7 +261,31 @@ const PRODUCT_TASK_16 = {
     "SF-PRODUCT-T16-WEB"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16];
+const PRODUCT_TASK_17 = {
+  "id": "SF-PRODUCT-T17",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Freeze and verify the offline plan intent reviewed for approval",
+  "dependencies": [
+    "SF-PRODUCT-T16"
+  ],
+  "feature_ids": [
+    "GOV-001",
+    "GOV-012",
+    "GOV-013"
+  ],
+  "acceptance_criteria": [
+    "Creating an offline plan retains a versioned, bounded, server-built intent envelope and SHA-256 digest in the same transaction as the plan/history/audit. Specify an unambiguous format-1 serialization binding organization/project/requester, the verified release ID/commit/object format/folder/parser profile/manifest digest, the ordered path/version/SHA256 plan items, and the scoped profile/environment configuration including opaque credential reference. Lock and validate configured profile/environment facts while capturing them; reject missing or malformed references before writes. No caller-provided envelope, identity or digest is trusted and no secret is resolved or stored.",
+    "Independent approval verifies the retained envelope and digest under the existing scoped transaction locks and requires agreement with the plan requester/release/profile IDs, retained source provenance and ordered item facts before any decision/history/audit writes. Missing legacy envelopes, malformed data, digest mismatch or changed bound plan facts fail with fixed integrity feedback; do not silently reconstruct or backfill historical intent. Preserve authorized rejection, authorization/self/archive/terminal audited denials and registry-free retained-source approval. Existing plans remain inspectable. A new configured profile or changed configuration does not alter an already retained envelope; a new plan captures new intent.",
+    "Review displays the selected plan's retained offline intent digest and captured target/environment facts, clearly distinguished from current configured metadata and runtime-observed identity, without exposing credential references. Real Git/PostgreSQL/parser/API/browser and focused serialization tests cover distinct intents, restart persistence, scoped and malformed references, source/item/identity/envelope/digest corruption, concurrent configuration capture, legacy no-envelope behavior, literal display and complete no-write snapshots. Preserve project/session/selection guards. This bounded offline intent contract does not certify Oracle target identity/history, execution-time revalidation, authenticated editor provenance, approval expiry, full GOV-001/GOV-012/GOV-013 or a tamper-proof database."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T17-UNIT",
+    "SF-PRODUCT-T17-API",
+    "SF-PRODUCT-T17-WEB"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

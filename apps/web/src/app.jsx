@@ -50,6 +50,13 @@ const fmt = (date) => date ? new Date(date).toLocaleString() : '—';
 const pageTitles = { workspace: 'Projects', release: 'Release intake', review: 'Plan review', records: 'Audit & history' };
 const decisionClass = (status) => ({ APPROVED: 'good', REJECTED: 'bad' }[status] || 'pending');
 const planMarkerClass = (status) => ({ APPROVED: 'green', REJECTED: 'red' }[status] || '');
+const retainedAuthorId = (plan) => typeof plan?.authorId === 'string' && plan.authorId.trim().length > 0
+  ? plan.authorId : null;
+const retainedPlanTime = (value) => {
+  if (typeof value !== 'string') return null;
+  const timestamp = new Date(value);
+  return Number.isFinite(timestamp.getTime()) && timestamp.toISOString() === value ? value : null;
+};
 const importStatusClass = (status) => status === 'VALID' ? 'good' : 'warn';
 function auditActorLabel(item, actor) {
   if (item.actorName) return item.actorName;
@@ -210,13 +217,18 @@ function App() {
     setCommentBody('');
     setDecisionReason('');
   };
+  const projectLoaded = detail?.project?.id === projectId;
   const isApprover = /approv/i.test(actor?.role || '');
+  const planAuthorId = retainedAuthorId(plan);
+  const planCreatedAt = retainedPlanTime(plan?.createdAt);
+  const authorFactsAvailable = Boolean(projectLoaded && planAuthorId);
+  const isPlanAuthor = Boolean(authorFactsAvailable && actor?.id === planAuthorId);
+  const canReviewPlan = Boolean(isApprover && authorFactsAvailable && !isPlanAuthor);
   const canArchive = actor?.role === 'developer';
   const canBindSource = actor?.role === 'developer';
   const selectedProject = projects.find((item) => item.id === projectId);
   const archivedAt = selectedProject?.archivedAt || detail?.project?.archivedAt || null;
   const isArchived = Boolean(archivedAt);
-  const projectLoaded = detail?.project?.id === projectId;
   const projectAudit = projectLoaded ? detail.audit || [] : [];
   const auditActions = useMemo(() => [...new Set(projectAudit.map((item) => item.action).filter(Boolean))], [projectAudit]);
   const filteredAudit = auditAction === 'ALL' ? projectAudit : projectAudit.filter((item) => item.action === auditAction);
@@ -429,7 +441,7 @@ function App() {
     }
   };
 
-  const model = { actor, projects, projectId, selectProject, setRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment, gitRefs, gitRefsLoading, gitRefsError };
+  const model = { actor, projects, projectId, selectProject, setRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment, gitRefs, gitRefsLoading, gitRefsError };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -556,7 +568,7 @@ function ReleaseScreen({ model }) {
 
 
 function ReviewScreen({ model }) {
-  const { plans, detail, plan, planStatus, filterPlans, isApprover, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, addComment, planSource, inspectPlanSource, repositories, projectLoaded } = model;
+  const { plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, addComment, planSource, inspectPlanSource, repositories, projectLoaded } = model;
   const scopedProfiles = projectLoaded && Array.isArray(detail?.profiles) ? detail.profiles : [];
   const scopedEnvironments = projectLoaded && Array.isArray(detail?.environments) ? detail.environments : [];
   const targetProfile = typeof plan?.profileId === 'string'
@@ -576,6 +588,10 @@ function ReviewScreen({ model }) {
             {!plans.length ? <div className="empty-state"><span className="empty-icon">◇</span><strong>{planStatus === 'ALL' ? 'No plans to review' : 'No plans match this status'}</strong>{planStatus === 'ALL' ? <><span>Import a valid release and prepare an offline candidate plan first.</span><button type="button" className="text-button" onClick={() => setTab('release')}>Go to release intake →</button></> : <span>Choose another status or All to see other plans.</span>}</div> : <>
               <div className="plan-selector">{plans.map((item) => { const sourceRelease = (detail.releases || []).find((candidate) => candidate.id === item.releaseId); return <button type="button" data-plan-id={item.id} key={item.id} onClick={() => setSelectedPlan(item.id)} className={`plan-option ${(plan?.id === item.id) ? 'selected' : ''}`}><span className={`status-dot ${planMarkerClass(item.status)}`}/><span><strong>{sourceRelease?.commit?.slice(0, 12) || `Plan ${item.id.slice(0, 8)}`}</strong><small>{fmt(item.createdAt || item.created_at)}</small></span><span className={`status-pill ${decisionClass(item.status)}`}>{item.status?.replaceAll('_', ' ')}</span></button>; })}</div>
               {plan && <><div className="plan-summary"><div><span className="data-label">PLAN ID</span><code>{plan.id}</code></div><div><span className="data-label">DECISION</span><span className={`status-pill ${decisionClass(plan.status)}`}>{plan.status?.replaceAll('_', ' ')}</span></div><div><span className="data-label">TARGET HISTORY</span><strong>{plan.historyStatus || 'NOT_OBSERVED'}</strong></div><div><span className="data-label">EXECUTION</span><strong className="not-executed">{plan.execution || 'NOT_EXECUTED'}</strong></div></div>
+                <section className="panel requester-facts" aria-label="Plan requester"><div className="panel-heading"><div><h3>Plan requester</h3><p>Retained plan author and server creation time.</p></div></div><dl>
+                  <div><dt>Author ID</dt><dd>{authorFactsAvailable ? <code>{planAuthorId}</code> : <span>Unavailable</span>}</dd></div>
+                  <div><dt>Created</dt><dd>{planCreatedAt ? <time dateTime={planCreatedAt}>{fmt(planCreatedAt)}</time> : <span>Unavailable</span>}</dd></div>
+                </dl></section>
                 <section className="panel configured-target" aria-label="Configured target" data-plan-target-id={plan.id}>
                   <div className="panel-heading"><div><h3>Configured target</h3><p>Current configured metadata · not a plan snapshot or runtime observed identity.</p></div></div>
                   {!targetAvailable ? <><dl className="target-facts"><div><dt>Profile ID</dt><dd><code>{typeof plan.profileId === 'string' ? plan.profileId : '—'}</code></dd></div><div><dt>Environment ID</dt><dd><code>{typeof targetProfile?.environmentId === 'string' ? targetProfile.environmentId : '—'}</code></dd></div></dl><p className="banner error">Configured profile or environment is unavailable for this plan.</p></>
@@ -591,7 +607,9 @@ function ReviewScreen({ model }) {
                   </div>}
                 </section>
                 {['APPROVED', 'REJECTED'].includes(plan.status) && <section className="decision-record" aria-label="Decision record"><h3>Decision record</h3><p><strong>{plan.decidedByName || plan.decidedBy}</strong>{plan.decidedByName && <code>{plan.decidedBy}</code>}</p><time dateTime={plan.decidedAt}>{fmt(plan.decidedAt)}</time><p className="decision-record-reason">{plan.decisionReason}</p></section>}
-                {isApprover && plan.status === 'PENDING_APPROVAL' && <div className="decision-box"><label htmlFor="decision-reason">Decision reason</label><textarea id="decision-reason" value={decisionReason} onChange={(e) => setDecisionReason(e.target.value)} placeholder="Record why this candidate is approved or rejected" required disabled={isArchived}/><div><button type="button" className="danger-button" onClick={() => decide('REJECT')} disabled={busy || isArchived || !decisionReason.trim()}>Reject plan</button><button type="button" className="primary" onClick={() => decide('APPROVE')} disabled={busy || isArchived || !decisionReason.trim()}>Approve plan</button></div><small>Approval records governance only. It does not authorize or perform execution in this product.</small></div>}
+                {isApprover && plan.status === 'PENDING_APPROVAL' && <div className="decision-box"><label htmlFor="decision-reason">Decision reason</label><textarea id="decision-reason" value={decisionReason} onChange={(e) => setDecisionReason(e.target.value)} placeholder="Record why this candidate is approved or rejected" required disabled={isArchived}/><div><button type="button" className="danger-button" onClick={() => decide('REJECT')} disabled={busy || isArchived || !canReviewPlan || !decisionReason.trim()}>Reject plan</button><button type="button" className="primary" onClick={() => decide('APPROVE')} disabled={busy || isArchived || !canReviewPlan || !decisionReason.trim()}>Approve plan</button></div>
+                  {isPlanAuthor ? <p className="banner warning">You authored this plan. Another approver must review it independently.</p> : !authorFactsAvailable ? <p className="banner warning">Requester information is unavailable. Refresh the project to retrieve retained plan facts.</p> : null}
+                  <small>Approval records governance only. It does not authorize or perform execution in this product.</small></div>}
                 {!isApprover && plan.status === 'PENDING_APPROVAL' && <p className="banner warning">Awaiting an approver. Your current role can prepare plans but cannot decide them.</p>}
                 <section className="comments-section" aria-label="Plan comments">
                   <h3>Review comments</h3>

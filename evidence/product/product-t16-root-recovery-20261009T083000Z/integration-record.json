@@ -1,0 +1,306 @@
+{
+  "id": "product-t16-requester-local-verified",
+  "subject_id": "SF-PRODUCT-T16",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check with pinnedJava+PostgreSQL; npm run test:product; npm run test:browser; focusedexistingworkflow+requester browser; root tracker21",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T16-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t16-requester-20261009T083842Z/02-full-browser.log",
+    "sha256": "37f62de3662d1917f7394181c7791227c38e9f728e2d703004bef86ff90e41cd"
+  },
+  "implementation_record": {
+    "path": "evidence/product/product-t16-requester-20261009T083842Z/T16-run-record.json",
+    "sha256": "99830fa0d0c75498b41293c474408aa30f29e4b1bad28b56679cc3b7a95633ef"
+  },
+  "recorded_at_utc": "2026-10-09T08:47:07.607204+00:00",
+  "hashes_verified": {
+    "sources": 5,
+    "native_raw_logs": 13
+  },
+  "complete_capture_hashes": [
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083240Z/01-build-web.log",
+      "sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083240Z/02-requester-browser.log",
+      "sha256": "85669f38119c85e921ec79f4881b95fab3b7bca79b29e70d38bb453756c2d927"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083240Z/COMMAND-01.txt",
+      "sha256": "235b884e5cd34a277f8dc0ff5a340e19a1318ed1b93f646fd95a1f20691fcb1a"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083240Z/COMMAND-02.txt",
+      "sha256": "59331a3bcfcad6ea0dd62faf8203763d2672ee825ccf25aed59e65649ff80b41"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083240Z/END-01.txt",
+      "sha256": "f5cf77a277a8af45e51ca002b04fe09cff77b2f48e7b20de77f173d95894d84a"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083240Z/END-02.txt",
+      "sha256": "28f3af97b1d06006ff997ad31a9904003af8a36daeb5a27b3e7ed070c9016855"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083240Z/EXIT-01.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083240Z/EXIT-02.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083240Z/START-01.txt",
+      "sha256": "d7f80597ef04b758e91456c3d052c9d4475bdcc30be503e10321e39fe4bb51e8"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083240Z/START-02.txt",
+      "sha256": "e89d91d312096abf016ee5521f4747a7154c70a79bc679e1e390a4500934b6ef"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083306Z/01-requester-browser.log",
+      "sha256": "62a7fa0fa8f32b446e000ea25a87a14a4eea5c38d2ab04700fae212f574a0350"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083306Z/COMMAND-01.txt",
+      "sha256": "59331a3bcfcad6ea0dd62faf8203763d2672ee825ccf25aed59e65649ff80b41"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083306Z/END-01.txt",
+      "sha256": "426d4e484f8429ab27d696b36ec13b0a5b067665dfe2688b5ccd1e862db0c352"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083306Z/EXIT-01.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083306Z/START-01.txt",
+      "sha256": "a450b5a0eb28915009a575098e2635e6aea0be5ebc27ad7f3ab619d4def7ad53"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083402Z/01-requester-browser.log",
+      "sha256": "14ec3701645ab83bf23538fade72f0f260998f95d3a4dc14ddfe3d876584755a"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083402Z/COMMAND-01.txt",
+      "sha256": "cd7576e38065d3e256a5e90c65dd231895e15726f93a134a389405ad53d8f82e"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083402Z/END-01.txt",
+      "sha256": "bb4edb35ab9c7afc28d6f746bd44248d9faf4a668630c5da3e930052937d3adf"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083402Z/EXIT-01.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083402Z/START-01.txt",
+      "sha256": "adef9b954d4c5cf82e83ba664b8165293a145dcea5f77f522b98433fe4c2a9fc"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083505Z/01-requester-browser.log",
+      "sha256": "379db574af9ea7b1defe2623ece67417a42d23923b4541367effbd451c9eaa19"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083505Z/COMMAND-01.txt",
+      "sha256": "cd7576e38065d3e256a5e90c65dd231895e15726f93a134a389405ad53d8f82e"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083505Z/END-01.txt",
+      "sha256": "37a6884c41aa3929aca1d6360222e775578681252ae25562407463a12576f419"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083505Z/EXIT-01.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083505Z/START-01.txt",
+      "sha256": "7ab24c700d11695d38c688b68d145a61d9a46f79bd649fd21aaf37350f4beb7e"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083540Z/01-requester-browser.log",
+      "sha256": "430b73cc66625fa27d4a2a041dc45f45866c41cff47188cd975695beda4ebf1e"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083540Z/02-full-browser.log",
+      "sha256": "572a4af8b532a2affedb4c524f4e3c535e05f1a247aee205f98ed81f2ae84381"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083540Z/COMMAND-01.txt",
+      "sha256": "cd7576e38065d3e256a5e90c65dd231895e15726f93a134a389405ad53d8f82e"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083540Z/COMMAND-02.txt",
+      "sha256": "fa968ecfd5989d3dad21ea833edc8a707fe16d0c086e959020befe9f65a7e75e"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083540Z/END-01.txt",
+      "sha256": "433ad6d2feacd8f6d936edeab1406ca351514eb9f89acb9c72a164ce9cf18ece"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083540Z/END-02.txt",
+      "sha256": "1b5b106cf9d558857549f619942f69200a4da9b5a20b323749f9971d6d2b7bc7"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083540Z/EXIT-01.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083540Z/EXIT-02.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083540Z/START-01.txt",
+      "sha256": "16fb359a2d29cf0cddb511f29a765acd9b57340e860b64c7bdc9a6d990bf7d40"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083540Z/START-02.txt",
+      "sha256": "78eb00868da54b72e768e9845685dee3d0a624a1f7e16b4898776c3e36cb4ece"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/01-focused-existing-and-requester.log",
+      "sha256": "8a1902c08436c11965a58b4bef34886f5f43ddb04f44552b0f0900a96adda56b"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/02-full-browser.log",
+      "sha256": "37f62de3662d1917f7394181c7791227c38e9f728e2d703004bef86ff90e41cd"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/03-full-product.log",
+      "sha256": "c065cc6b36cfd83d6e96c1f1363a027571f2dbf6b768dcd64b82fc53158ed13d"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/04-npm-check.log",
+      "sha256": "e85b996a485b515c2689a5107de9d56a7bb23de80d739487dfb61b76dbf18fb2"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/05-tracker-validate.log",
+      "sha256": "bcad6b0f944779f861df35bd5667dccef46b80dda746892b2bace381175940d5"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/06-npm-check-with-db.log",
+      "sha256": "3d7dff0b9ea1cbe8be8ca64fc71e2055b1e683e08b31b313d45777fa8a205774"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/COMMAND-01.txt",
+      "sha256": "9bfbb0047628893de175f72619e653c0547c58174a5aea2356d34dc33e042e1b"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/COMMAND-02.txt",
+      "sha256": "fa968ecfd5989d3dad21ea833edc8a707fe16d0c086e959020befe9f65a7e75e"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/COMMAND-03.txt",
+      "sha256": "ce33cf92cd74af5f0b3444870920e776b9994d052ca0d646133a240c21f1ddc4"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/COMMAND-04.txt",
+      "sha256": "ca1251111ddf30e2b02bed4e07cba94e6cca61dc32423709d8dc1d592efac6b5"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/COMMAND-05.txt",
+      "sha256": "e55987b37c86976df46cf2712dfacd01515d24376aac0ecad571b29fce564902"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/COMMAND-06.txt",
+      "sha256": "0d03ea086392bb9293aa9a0c20286b97d1ba967f7dcb5e11d280fa89da809745"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/END-01.txt",
+      "sha256": "697186df3268346ccb370e89da3a9794321f8b40da29a2c0d828ce10b20143ef"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/END-02.txt",
+      "sha256": "f42ff349f23e453bc40e3835c7b8ed1270d84a8d9da289abe614bc1a7015b110"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/END-03.txt",
+      "sha256": "0ec09c5984bc981dd1a5eb04fb6a2e8e34b53f76f69f44b0c27c073357f8aa10"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/END-04.txt",
+      "sha256": "f868b1f888e8a4d38ac50ad89f9320856a83f9026ac8d09e956e2a7f672ffcf0"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/END-05.txt",
+      "sha256": "6b5ccf893dae77da378a3173fd13b71cd9eb659b5de5e06ea1e4424a0ae9e2e1"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/END-06.txt",
+      "sha256": "a5b719263a63a007c7dca482cbae6346f84aaf366fcace63c0d57131189e34b6"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/EXIT-01.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/EXIT-02.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/EXIT-03.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/EXIT-04.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/EXIT-05.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/EXIT-06.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/START-01.txt",
+      "sha256": "681c9719d9673870b965acf314d861ff410a22573b32cd72b830900a4720ac7d"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/START-02.txt",
+      "sha256": "5d1d44a1c6c85eec2a22eff11c74aea3730ba163f351bf8feb020ece5b1ec572"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/START-03.txt",
+      "sha256": "92ed3b1acbc4bb6eca4d561774d5cbf9537879d59a25cb7522cad326bd7c974d"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/START-04.txt",
+      "sha256": "2008dbc07ace43dc9ba08060a7a17a805b080449cf955f821cec44beaef130bf"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/START-05.txt",
+      "sha256": "0884877fb1623f1d7ea8d0534b0f4dfa28626bf45be5f15af8b60cda38b7733b"
+    },
+    {
+      "path": "evidence/product/product-t16-requester-20261009T083842Z/START-06.txt",
+      "sha256": "34fff3a667c11e88f60b3772190c96ad8cdb00f4c121c3530e465da1aa5d107e"
+    }
+  ],
+  "root_tracker": {
+    "path": "evidence/product/product-t16-root-recovery-20261009T083000Z/root-tracker.stdout",
+    "sha256": "d9a3eb14c5a8a24e431b545256f644eda8549a3fc8e0f51517dcf6710bc5956b",
+    "result": "21/21zero skips; format/source134/tracker validation and authored diff passed."
+  },
+  "verification": "Final143standard23PG14browserfocused2 zeroskips; source remains unchanged since final checks; root reviewed exactdiff. ExactheadnativeQA/security/remoteCI/merge pending. T17registeredBACKLOG only; nofullcatalog/Oracle acceptance.",
+  "limitations": [
+    "Original native59268 check handle vanished, no testNodeprocess or finalcapture; empty product-t16-20261009T000000Z-requester folder. Previousrun remains UNVERIFIED without reconstructed evidence.",
+    "Native final recorded_at_utc08:44:00Z precedes command06end08:44:53Z; treat it as inaccurate summary metadata, not final-generation time attestation. Root independently read actual commandSTART/END/EXIT files and final raw bytes after completion; all metadata bytes retained and separately hashed.",
+    "Failed retries retained: parser Java unset twice, page reload losing in-memory session, incorrect expectation of no selectedproject aftersignin, droppedcreateProfile modelproperty causingexistingbrowserfailure. Sourcefixed and focusedexisting+requester2/full14browserpassed. No assertion or timeout weakened.",
+    "Intermediatecheck130pass/13DBskips retained separately; finalconfiguredcheck143passzero skips. Opaque runfolderidentifiers do notattestUTCtimes.",
+    "UI feedback only, existing API authorization/selfdenial audit unchanged; no lasteditor restrictions/frozenintent/Oracle behavior certified."
+  ]
+}
