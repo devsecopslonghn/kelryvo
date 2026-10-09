@@ -1,0 +1,28 @@
+{
+  "command": "npm run check",
+  "exit_code": 0,
+  "scope": "Docs/evidence checkpoint against unchanged merged product source",
+  "tests": 138,
+  "passed": 138,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    "build/typecheck/web",
+    "source lint",
+    "tracker validation",
+    "JSON format",
+    "unit/API/PostgreSQL/import tests",
+    "dependency smoke",
+    "85-package OSS grant closure"
+  ],
+  "environment": "CI=true; pre-existing dedicated local PostgreSQL test database; copied digest-checked parser/runtime artifacts and existing pinned JDK; no Oracle connection",
+  "raw_output": {
+    "path": "evidence/product/product-merge-20261009T010502Z-owner-quota/local-check.log",
+    "sha256": "dc45e0cb5bbb09b99f169a4ef05f4ec794fac3bd257e1c013fc97b82d4541c4f"
+  },
+  "targeted_checks": {
+    "tracker_agents_provenance": "24/24 PASS",
+    "diff_check": "PASS"
+  },
+  "browser_note": "No browser code changed; prior integrated 3/3 and source-master PRODUCT CI passed. Fresh exact-head checkpoint CI remains required."
+}

@@ -8,6 +8,12 @@ this file, and the bounded task's inputs before editing. Preserve unrelated work
 - The owner authorized autonomous dependency-ordered development and eligible PR merges
   into the existing `origin/master` on 2026-10-08. Follow
   `docs/implementation/github-sync.md`; do not bypass required checks or safety gates.
+  On 2026-10-09 the owner confirmed exhausted SonarCloud free LOC quota and explicitly
+  authorized the PRODUCT merge batch despite unavailable scans. While that same quota
+  outage persists, record Sonar as unavailable/cancelled, never PASS; verified PRODUCT
+  merges may proceed with all other CI, independent review, security and license gates.
+  Preserve old annotations; this exception does not dismiss concrete findings, change
+  thresholds, disable analysis or authorize branch-protection/admin bypasses.
   The owner clarified on 2026-10-08 that runnable PRODUCT delivery proceeds independently
   of Oracle VALIDATION. WP0 remains an execution/compatibility acceptance gate, not a
   development scheduling gate for API/web/governance work. Local PostgreSQL test containers

@@ -1,0 +1,5 @@
+Native observation of initial commands (raw stream was not saved separately):
+npm run lint: PASS; npm run format:check: FAIL (exit 1)
+JSON formatting differs: docs/implementation/milestone.json
+Correction: repository JSON formatting; no source/test/threshold changes.
+Repaired npm run check: PASS; actual full output is retained in local-check.log.

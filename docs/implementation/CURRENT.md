@@ -1,5 +1,44 @@
 # Current engineering state
 
+## Current merged PRODUCT checkpoint — 2026-10-09
+
+PRODUCT PRs #9–#13 merged ordinarily into `master` in dependency order. The resulting
+product master is `60ef83466376100424e7103057c1cf5fbb2b9095`; its source tree matches
+the independently reviewed T05 head `ac8779cb57eee31dbac3169be016bad925d08e18`.
+All ten non-Sonar checks passed on each exact PR head. PRODUCT, parser, WP0 and CodeQL
+master workflows also passed. No implementation PR in this batch remains open.
+
+The owner confirmed exhausted SonarCloud free LOC quota and explicitly authorized these
+merges. Sonar remains CANCELLED/not reported, not PASS. Preserve its historical CLI
+annotations and prior failures; no scanner thresholds, branch protection or security
+findings were waived or changed. Follow the availability exception in AGENTS.md and
+github-sync.md while the same outage persists; restore normal Sonar gating when available.
+Merge/security evidence is indexed under
+`evidence/product/product-merge-20261009T010502Z-owner-quota/`.
+
+SF-PRODUCT-T01–T05 are VERIFIED_LOCAL: a runnable PostgreSQL/API/web product with
+projects, environments, reference-only profiles, immutable Git/parser imports, source
+binding, candidate plans, approval/rejection, archival and review-denial audit.
+Integrated verification passed 138/138 standard, 18/18 product and 3/3 browser tests,
+zero skips. The persisted demo survived restart; approval never executes migrations.
+All migration history remains NOT_EXECUTED and target history NOT_OBSERVED.
+
+Run `npm run local:prepare` then `npm run dev`; open http://127.0.0.1:4317.
+See [local operation](../development/local-product.md) for private local tokens and
+fresh-checkout preparation. The dev process was stopped after verification.
+Resolve this checkpoint's own head/PR/merge from Git/GitHub; the literal master above
+identifies the validated preceding product merge, not a self-referential checkpoint hash.
+
+Next: SF-PRODUCT-T06 (BACKLOG), bounded persistent plain-text comments on pending
+plan reviews. Independent PRODUCT delivery continues from latest master. WP0-T04 and
+all 124 Oracle cells remain BLOCKED; original feature acceptance is unchanged.
+Product license/name and F31 distribution decisions remain pending.
+
+## Historical delivery snapshots — superseded by the checkpoint above
+
+The following entries preserve prior observations. Their open-PR, pre-merge master and
+Sonar scheduling statements describe earlier snapshots, not current instructions.
+
 Owner clarification (2026-10-08): ship a runnable PRODUCT first; Oracle VALIDATION remains
 separate. Development scheduling uses the explicit PRODUCT/VALIDATION overlay. Original
 acceptance dependencies, the 220 feature IDs, T01–T03 verification and every WP0 artifact
@@ -209,7 +248,7 @@ complete the remaining fault/rotation harness and real T04 acceptance. T05 and
 later tasks depend on T04; WP1/API/UI cannot bypass WP0-T12. Follow
 [CONTINUE.md](CONTINUE.md) and the existing graph; do not create a replacement roadmap.
 
-## Current PRODUCT delivery (continued)
+## Historical PRODUCT delivery (continued)
 
 SF-PRODUCT-T04 local acceptance passed 137/137 standard checks, 17/17 mandatory
 product cases and both browser workflows with zero skips. Evidence: `evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1`.

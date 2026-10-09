@@ -21,6 +21,12 @@ the exact head, run relevant tests, inspect dependencies/licenses and scan publi
 for secrets. Check remote required CI, CodeQL/security findings, unresolved blocking reviews,
 mergeability and whether the base is current before marking a draft ready or merging.
 All required checks must pass; never suppress or reclassify a required failing check.
+The owner's 2026-10-09 Sonar availability exception applies while the confirmed free LOC
+quota outage prevents scanning: retain CANCELLED/missing results as unavailable, require
+all other CI and independent security/QA review, and use ordinary merges. A passing Sonar
+result is not claimed. Preserve concrete annotations and resolve actionable findings;
+do not change scanner thresholds, disable analysis or bypass branch protection. Resume
+normal Sonar gating when scans are available.
 Documented negative research/candidate evidence can coexist with a verified bounded task;
 it does not establish product or Oracle acceptance. Prefer merge commits to preserve
 reviewed source SHAs; squash is also authorized for a coherent increment. Recheck the head
