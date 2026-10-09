@@ -331,14 +331,14 @@ function WorkspaceScreen({ model }) {
 
 
 function SourceBindingPanel({ model }) {
-  const { projectId, projectLoaded, sourceBinding, boundRepository, sourceForm, setSourceForm,
+  const { projectLoaded, sourceBinding, boundRepository, sourceForm, setSourceForm,
     repositories, busy, canBindSource, isArchived, saveSourceBinding } = model;
   const validFolder = /^[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_-]+)*$/.test(sourceForm.folder);
   const changed = sourceForm.repositoryId !== (sourceBinding?.repositoryId || '')
     || sourceForm.folder !== (sourceBinding?.folder || 'migrations');
   return <section className="panel source-binding-panel">
     <div className="panel-heading"><div><h2>Project source binding</h2><p>Choose a registered repository and migration folder. Local paths stay on the server.</p></div><span className="step-badge">SOURCE</span></div>
-    {!projectLoaded && <p className="subtle" role="status">Loading the selected project source…</p>}
+    {!projectLoaded && <output className="subtle">Loading the selected project source…</output>}
     {projectLoaded && sourceBinding && <p className="source-binding-current" aria-label="Current source binding"><strong>Bound source</strong><span>{boundRepository?.name || 'Registered repository unavailable'} · {sourceBinding.folder}</span></p>}
     {projectLoaded && !sourceBinding && <output className="source-binding-current"><strong>No source bound</strong><span>A developer must bind a repository and folder before release import.</span></output>}
     {projectLoaded && canBindSource && <form className="source-binding-form" onSubmit={saveSourceBinding}>
@@ -347,23 +347,36 @@ function SourceBindingPanel({ model }) {
         {repositories.map((repository) => <option key={repository.id} value={repository.id}>{repository.name}</option>)}
       </select></label>
       <label>Migration folder<input aria-label="Source migration folder" value={sourceForm.folder} onChange={(event) => setSourceForm({ ...sourceForm, folder: event.target.value })} maxLength={200} pattern="[A-Za-z0-9_-]+(/[A-Za-z0-9_-]+)*" title="Use slash-separated folder names with letters, numbers, underscores, or hyphens." required disabled={busy || isArchived}/><small>Use slash-separated folder names, for example <code>migrations</code>.</small></label>
-      <div className="source-binding-actions"><button type="submit" className="secondary" disabled={busy || isArchived || !repositories.length || !sourceForm.repositoryId || !validFolder || !changed}>{busy ? 'Saving…' : sourceBinding ? 'Update source binding' : 'Save source binding'}</button>{isArchived && <span className="subtle">Archived projects cannot change their source.</span>}</div>
+      <div className="source-binding-actions"><button type="submit" className="secondary" disabled={busy || isArchived || !repositories.length || !sourceForm.repositoryId || !validFolder || !changed}>{sourceBindingButtonLabel(busy, sourceBinding)}</button>{isArchived && <span className="subtle">Archived projects cannot change their source.</span>}</div>
     </form>}
     {projectLoaded && !canBindSource && !sourceBinding && <p className="subtle">Ask a developer to bind a source for this project.</p>}
   </section>;
 }
 
+function sourceBindingButtonLabel(busy, sourceBinding) {
+  if (busy) return 'Saving…';
+  if (sourceBinding) return 'Update source binding';
+  return 'Save source binding';
+}
+
 function ReleaseScreen({ model }) {
-  const { projectId, selectProject, projects, releaseForm, setReleaseForm, repositories, busy, importRelease, release, detail, makePlan, isArchived, inspectRelease, fmt, sourceBinding, boundRepository, projectLoaded, sourceForm } = model;
+  const { projectId, selectProject, projects, releaseForm, setReleaseForm, busy, importRelease, release, detail, makePlan, isArchived, inspectRelease, fmt, sourceBinding, boundRepository, projectLoaded, sourceForm } = model;
   const bindingDraftMatches = Boolean(sourceBinding && boundRepository
     && sourceForm.repositoryId === sourceBinding.repositoryId && sourceForm.folder === sourceBinding.folder);
+  let boundRepositoryLabel = 'Loading project source…';
+  if (projectLoaded && boundRepository) boundRepositoryLabel = boundRepository.name;
+  else if (projectLoaded && sourceBinding) boundRepositoryLabel = 'Registered repository unavailable';
+  else if (projectLoaded) boundRepositoryLabel = 'No source bound';
+  let importHint = 'Save a project source binding before importing.';
+  if (sourceBinding && !bindingDraftMatches) importHint = 'Save the changed source binding before importing.';
+  else if (sourceBinding) importHint = 'Release import uses the saved repository and folder.';
   return <>
           <div className="page-heading"><div><p className="eyebrow">MIGRATION INTAKE</p><h1>Import a release</h1><p className="muted">Select an allowlisted Git repository and an immutable commit to inspect migration files.</p></div><div className="heading-mark">02 <span> / 04</span></div></div>
           {isArchived && <output className="archive-notice"><strong>Archived project</strong><span>Existing release details can still be reviewed. Importing new releases is disabled.</span></output>}
           <SourceBindingPanel model={model} />
           <section className="panel saved-releases"><div className="panel-heading"><div><h2>Existing releases</h2><p>Open an imported release to review migration files and SQL.</p></div><span className="count-pill">{detail?.releases?.length || 0} releases</span></div>{detail?.releases?.length ? <div className="saved-release-list">{detail.releases.map((item) => <div className="saved-release-row" data-release-id={item.id} key={item.id}><span><strong>{item.commit?.slice(0, 12)} · {item.folder}</strong><small>Imported {fmt(item.createdAt)} · {item.validationStatus}</small></span><button type="button" className="secondary" onClick={() => { void inspectRelease(item.id); }} disabled={busy}>Inspect files</button></div>)}</div> : <p className="subtle">No releases imported for this project yet.</p>}</section>
           <section className="panel intake-panel"><div className="panel-heading"><div><h2>Repository source</h2><p>Repository paths stay on the server. The browser sends only the repository ID.</p></div><span className="step-badge">GIT</span></div>
-            <form className="release-form" onSubmit={importRelease}><label>Project<select aria-label="Release project" value={projectId} onChange={(e) => selectProject(e.target.value)} required disabled={busy}><option value="">Choose project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}{p.archivedAt ? ' · ARCHIVED' : ''}</option>)}</select></label><label>Bound repository<output aria-label="Bound repository" className="bound-source-value">{projectLoaded ? boundRepository?.name || (sourceBinding ? 'Registered repository unavailable' : 'No source bound') : 'Loading project source…'}</output></label><label>Commit or ref<input aria-label="Git commit or ref" value={releaseForm.commit} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value })} placeholder="40 character commit SHA" required disabled={busy || isArchived || !bindingDraftMatches}/><small>Use a commit SHA for a reproducible release.</small></label><label>Bound migration folder<output aria-label="Bound migration folder" className="bound-source-value">{projectLoaded ? sourceBinding?.folder || 'No source bound' : 'Loading project source…'}</output></label><div className="form-actions"><button type="submit" className="primary" disabled={busy || isArchived || !projects.length || !bindingDraftMatches}>{busy ? 'Importing…' : 'Import and validate'}</button><span className="subtle">{!sourceBinding ? 'Save a project source binding before importing.' : !bindingDraftMatches ? 'Save the changed source binding before importing.' : 'Release import uses the saved repository and folder.'} Files are parsed before a plan can be created.</span></div></form>
+            <form className="release-form" onSubmit={importRelease}><label>Project<select aria-label="Release project" value={projectId} onChange={(e) => selectProject(e.target.value)} required disabled={busy}><option value="">Choose project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}{p.archivedAt ? ' · ARCHIVED' : ''}</option>)}</select></label><label>Bound repository<output aria-label="Bound repository" className="bound-source-value">{boundRepositoryLabel}</output></label><label>Commit or ref<input aria-label="Git commit or ref" value={releaseForm.commit} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value })} placeholder="40 character commit SHA" required disabled={busy || isArchived || !bindingDraftMatches}/><small>Use a commit SHA for a reproducible release.</small></label><label>Bound migration folder<output aria-label="Bound migration folder" className="bound-source-value">{projectLoaded ? sourceBinding?.folder || 'No source bound' : 'Loading project source…'}</output></label><div className="form-actions"><button type="submit" className="primary" disabled={busy || isArchived || !projects.length || !bindingDraftMatches}>{busy ? 'Importing…' : 'Import and validate'}</button><span className="subtle">{importHint} Files are parsed before a plan can be created.</span></div></form>
           </section>
           {release && <section className="panel release-result"><div className="panel-heading"><div><p className="eyebrow">IMPORTED RELEASE</p><h2>{release.commit?.slice(0, 12)} <span className="muted">· {release.folder}</span></h2></div><span className={`status-pill ${importStatusClass(release.validationStatus)}`}>{release.validationStatus}</span></div>{release.validationCode && <p className="banner warning">{release.validationCode}</p>}<div className="file-table-wrap"><table><thead><tr><th>Migration file</th><th>Version</th><th>Statements</th><th>Bytes</th><th>Validation</th></tr></thead><tbody>{(release.files || []).map((file) => <tr key={file.path}><td><code>{file.path}</code></td><td>{file.version || '—'}</td><td>{file.statementCount ?? '—'}</td><td>{file.bytes ?? '—'}</td><td><span className={`status-pill ${importStatusClass(file.validationStatus)}`}>{file.validationStatus}</span></td></tr>)}</tbody></table>{!release.files?.length && <div className="empty-inline">No migration files were returned for this release.</div>}</div>{(release.files || []).map((file) => <details className="sql-preview" key={`${file.path}-sql`}><summary>Preview SQL · {file.path}</summary><pre>{file.content || 'Source content unavailable.'}</pre></details>)}{(release.validationStatus === 'VALID') && <form className="plan-form" onSubmit={makePlan}><label>Target connection profile<select name="profileId" aria-label="Target connection profile" required disabled={busy || isArchived}><option value="">Choose profile</option>{(detail?.profiles || []).map((profile) => <option key={profile.id} value={profile.id}>{profile.name} · {profile.host}/{profile.service}</option>)}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.profiles?.length}>Prepare offline plan</button><span className="offline-note">This creates a review candidate. It does not connect to Oracle.</span></form>}</section>}
 

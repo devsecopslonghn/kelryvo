@@ -1,0 +1,122 @@
+[
+  {
+    "path": "apps/web/src/app.jsx",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/4c9259e426ec197e4ad527173147fc20562df69b/apps/web/src/app.jsx",
+    "start_line": 357,
+    "start_column": null,
+    "end_line": 357,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Remove this useless assignment to variable \"repositories\".",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEd-QX3FbhuQy-6kZJB&open=AaEd-QX3FbhuQy-6kZJB&pullRequest=12",
+    "raw_details": null
+  },
+  {
+    "path": "apps/web/src/app.jsx",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/4c9259e426ec197e4ad527173147fc20562df69b/apps/web/src/app.jsx",
+    "start_line": 334,
+    "start_column": null,
+    "end_line": 334,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Remove the declaration of the unused 'projectId' variable.",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEd-QX3FbhuQy-6kZI8&open=AaEd-QX3FbhuQy-6kZI8&pullRequest=12",
+    "raw_details": null
+  },
+  {
+    "path": "apps/web/src/app.jsx",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/4c9259e426ec197e4ad527173147fc20562df69b/apps/web/src/app.jsx",
+    "start_line": 366,
+    "start_column": null,
+    "end_line": 366,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Extract this nested ternary operation into an independent statement.",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEd-QX3FbhuQy-6kZJC&open=AaEd-QX3FbhuQy-6kZJC&pullRequest=12",
+    "raw_details": null
+  },
+  {
+    "path": "apps/web/src/app.jsx",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/4c9259e426ec197e4ad527173147fc20562df69b/apps/web/src/app.jsx",
+    "start_line": 334,
+    "start_column": null,
+    "end_line": 334,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Remove this useless assignment to variable \"projectId\".",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEd-QX3FbhuQy-6kZI9&open=AaEd-QX3FbhuQy-6kZI9&pullRequest=12",
+    "raw_details": null
+  },
+  {
+    "path": "apps/web/src/app.jsx",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/4c9259e426ec197e4ad527173147fc20562df69b/apps/web/src/app.jsx",
+    "start_line": 366,
+    "start_column": null,
+    "end_line": 366,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Extract this nested ternary operation into an independent statement.",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEd-QX3FbhuQy-6kZJD&open=AaEd-QX3FbhuQy-6kZJD&pullRequest=12",
+    "raw_details": null
+  },
+  {
+    "path": "apps/web/src/app.jsx",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/4c9259e426ec197e4ad527173147fc20562df69b/apps/web/src/app.jsx",
+    "start_line": 350,
+    "start_column": null,
+    "end_line": 350,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Extract this nested ternary operation into an independent statement.",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEd-QX3FbhuQy-6kZI_&open=AaEd-QX3FbhuQy-6kZI_&pullRequest=12",
+    "raw_details": null
+  },
+  {
+    "path": "apps/web/src/app.jsx",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/4c9259e426ec197e4ad527173147fc20562df69b/apps/web/src/app.jsx",
+    "start_line": 341,
+    "start_column": null,
+    "end_line": 341,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Use <output> instead of the \"status\" role to ensure accessibility across all devices.",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEd-QX3FbhuQy-6kZI-&open=AaEd-QX3FbhuQy-6kZI-&pullRequest=12",
+    "raw_details": null
+  },
+  {
+    "path": "scripts/local-repositories.mjs",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/4c9259e426ec197e4ad527173147fc20562df69b/scripts/local-repositories.mjs",
+    "start_line": 32,
+    "start_column": null,
+    "end_line": 32,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "Command Argument Injection via faulty LLM-supplied CLI arguments",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEd-QVmFbhuQy-6kZI7&open=AaEd-QVmFbhuQy-6kZI7&pullRequest=12",
+    "raw_details": null
+  },
+  {
+    "path": "apps/web/src/app.jsx",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/4c9259e426ec197e4ad527173147fc20562df69b/apps/web/src/app.jsx",
+    "start_line": 357,
+    "start_column": null,
+    "end_line": 357,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Remove the declaration of the unused 'repositories' variable.",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEd-QX3FbhuQy-6kZJA&open=AaEd-QX3FbhuQy-6kZJA&pullRequest=12",
+    "raw_details": null
+  },
+  {
+    "path": "scripts/local-repositories.mjs",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/4c9259e426ec197e4ad527173147fc20562df69b/scripts/local-repositories.mjs",
+    "start_line": 78,
+    "start_column": null,
+    "end_line": 78,
+    "end_column": null,
+    "annotation_level": "failure",
+    "title": "Path Traversal via faulty LLM-supplied CLI arguments",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEd-QVmFbhuQy-6kZI6&open=AaEd-QVmFbhuQy-6kZI6&pullRequest=12",
+    "raw_details": null
+  }
+]

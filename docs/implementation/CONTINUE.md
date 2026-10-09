@@ -67,9 +67,9 @@ run separately), 14 product/startup/Git/API cases and both browser workflows. Ev
 Oracle execution are introduced. All three local PRODUCT milestones have implementation
 and local acceptance evidence; remote merge eligibility remains separate.
 
-The active next increment is SF-PRODUCT-T04 in `development/product-source-binding`
+The latest completed local increment is SF-PRODUCT-T04 in `development/product-source-binding`
 (`/home/longhn0710/workspace/schemaforge-product-binding`): project repository/folder
-binding with pre-import enforcement. Local acceptance is VERIFIED with real API/browser evidence. PRs #9, #10 and #11 contain the prior PRODUCT
+binding with pre-import enforcement. Local acceptance is VERIFIED with real API/browser evidence. PRs #9, #10, #11 and #12 contain the PRODUCT
 lineage and must merge in that order only after each exact head is eligible. The local
 `development/product-delivery-checkpoint` checkout in the primary directory holds the
 runnable prototype; resolve its current commit and open PRs from Git/GitHub.
@@ -109,3 +109,11 @@ data until teardown. The UI explicitly refreshes when the selected project is cl
 and ignores stale mutation responses after sign-out. Original Oracle/catalog acceptance
 is unchanged. Next queued PRODUCT task is SF-PRODUCT-T05 (GOV-023/SEC-011): authenticated
 review-denial audit. Complete its bounded implementation/tests without waiting for Oracle.
+
+PR #12 contains T04 source binding. Sonar UI warnings were repaired with the same two
+passing browser workflows; two inherited CLI security annotations remain unresolved.
+Inspect current check details and all exact-head gates; do not waive, mark false-positive
+or merge around them. The primary checkout includes the tested PRODUCT lineage and
+persisted demo `SchemaForge demo 2026-10-09 00:03 UTC`; private tokens remain under .cache.
+The latest local demo survived an actual API restart and contains approved/rejected plans
+and four NOT_EXECUTED history rows. See the indexed primary-live-demo evidence.

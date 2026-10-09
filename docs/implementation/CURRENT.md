@@ -48,7 +48,7 @@ Oracle execution are introduced. All three local PRODUCT milestones have impleme
 and local acceptance evidence; remote merge eligibility remains separate.
 
 SF-PRODUCT-T04 source binding is VERIFIED locally in `development/product-source-binding`.
-PRs #9/#10/#11 remain unmerged; inspect current exact heads and gates. The primary
+PRs #9/#10/#11/#12 remain unmerged; inspect current exact heads and gates. The primary
 checkout uses `development/product-delivery-checkpoint` for the runnable local prototype,
 which is advanced to the reviewed runnable PRODUCT lineage. Master remains the WP0 checkpoint until eligible merges.
 One PR #10 product push run hit a concurrent schema-creation race and leaked its failed
@@ -215,3 +215,9 @@ data until teardown. The UI explicitly refreshes when the selected project is cl
 and ignores stale mutation responses after sign-out. Original Oracle/catalog acceptance
 is unchanged. Next queued PRODUCT task is SF-PRODUCT-T05 (GOV-023/SEC-011): authenticated
 review-denial audit. Complete its bounded implementation/tests without waiting for Oracle.
+
+PR #12 is open for T04 source binding. Its initial UI quality warnings were repaired
+without changing behavior, tests or thresholds; the two inherited CLI security annotations
+still require a real passing analysis or concrete diagnostics. The primary product checkout
+includes the reviewed local lineage and a persisted `SchemaForge demo 2026-10-09 00:03 UTC`.
+The actual API demo and restart proof are indexed under product-t04-primary-live-demo.

@@ -90,7 +90,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-09T00:02:05.915031+00:00",
+  "updated_at": "2026-10-09T00:07:33.284407+00:00",
   "final_check_evidence": {
     "index_id": "product-t04-source-binding-local-verified"
   },
@@ -98,13 +98,14 @@
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
-  "latest_validated_master_before_this_increment": "5ab696918a8bafcbd36a7277e810ec6cde34e2e2",
+  "latest_validated_master_before_this_increment": "f2b333e30cfe564b416661c693bec78b30004c33",
   "last_merged_implementation_pr": 7,
   "checkpoint_evidence": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/record.json",
   "implementation_prs_pending": [
     9,
     10,
-    11
+    11,
+    12
   ],
   "next_fully_unblocked_tasks": [
     "SF-PRODUCT-T05"
@@ -113,7 +114,7 @@
     "consecutive_goal_turns_at_final_impasse": 0,
     "reason": "Independent PRODUCT delivery continues while Oracle VALIDATION remains blocked and remote quality gates are unresolved."
   },
-  "current_increment_pr": null,
+  "current_increment_pr": 12,
   "current_increment_merge_status": "UNMERGED_PRODUCT",
   "current_increment_reviewed_head": null,
   "current_checkpoint_branch": "development/product-source-binding",
@@ -139,5 +140,8 @@
     "last_merged_implementation_pr": 7,
     "checkpoint_evidence": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/postmerge-checkpoint.json",
     "updated_at": "2026-10-08T15:34:28.273958+00:00"
+  },
+  "primary_demo_evidence": {
+    "index_id": "product-t04-primary-live-demo"
   }
 }

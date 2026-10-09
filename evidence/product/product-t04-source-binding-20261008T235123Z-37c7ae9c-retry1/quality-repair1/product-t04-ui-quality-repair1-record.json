@@ -1,0 +1,16 @@
+{
+  "id": "product-t04-ui-quality-repair1",
+  "subject_id": "SF-PRODUCT-T04",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run test:browser; npm run lint; npm run format:check after UI-only Sonar repairs",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/quality-repair1/checks.log",
+    "sha256": "06fb37d8574f4237e822a6260ee43caf4d943b2f83a3b918bdbe7800896ed53d"
+  }
+}
