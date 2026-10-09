@@ -57,7 +57,29 @@ const PRODUCT_TASK_04 = {
     'Archived projects reject source-binding changes while existing releases, plans, audit history, and migration history remain readable with execution state NOT_EXECUTED.',
   ], test_references: ['SF-PRODUCT-T04-API', 'SF-PRODUCT-T04-WEB'],
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04];
+const PRODUCT_TASK_05 = {
+  "id": "SF-PRODUCT-T05",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Audit authenticated review denials without changing migration plans",
+  "dependencies": [
+    "SF-PRODUCT-T04"
+  ],
+  "feature_ids": [
+    "GOV-023",
+    "SEC-011"
+  ],
+  "acceptance_criteria": [
+    "Authenticated plan-decision rejections for role, author, and terminal-state conflicts record a fixed denial reason and server actor/resource metadata without changing the plan or migration history.",
+    "Malformed and unauthenticated requests cannot persist arbitrary request data; archived projects reject review requests without appending new project audit events.",
+    "The web audit view displays denied decisions; existing approval/rejection transitions remain terminal and all migration execution states remain NOT_EXECUTED."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T05-API",
+    "SF-PRODUCT-T05-WEB"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

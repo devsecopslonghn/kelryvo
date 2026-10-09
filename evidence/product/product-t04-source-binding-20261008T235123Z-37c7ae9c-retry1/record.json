@@ -1,0 +1,23 @@
+{
+  "id": "product-t04-source-binding-local-verified",
+  "subject_id": "SF-PRODUCT-T04",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check; npm run test:product; npm run build:web; npm run lint; npm run format:check; npm run test:browser (actual isolated PostgreSQL/Git/ANTLR/browser workflows, no skipped required cases)",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T04-API",
+    "SF-PRODUCT-T04-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/checks.log",
+    "sha256": "08beeeb63634b96b53125d939d1d99a14c237a4728d274cea7515b57df9b3eb6"
+  }
+}

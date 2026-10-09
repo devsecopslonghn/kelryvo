@@ -6,7 +6,7 @@ acceptance dependencies, the 220 feature IDs, T01–T03 verification and every W
 remain unchanged. The owner has no Oracle 19c/21c lab; do not request one as a prerequisite
 to independent product work.
 
-The active local product slice is SF-PRODUCT-T01: Fastify/TypeScript API, React web app,
+The runnable local product slice began with SF-PRODUCT-T01: Fastify/TypeScript API, React web app,
 PostgreSQL persistent projects/environments and reference-only profiles, immutable local
 Git import, existing ANTLR offline parsing, candidate plans, independent approval/rejection,
 transactional audit and NOT_EXECUTED history. It has no target connector or executor.
@@ -29,7 +29,7 @@ unmerged until Sonar passes; preserve this failure separately from local accepta
 SF-PRODUCT-T02 implements project archival with preserved releases/audit/history and
 transactional rejection of stale writes. SF-PRODUCT-T03 follows with operator-supplied
 local Git repositories, using the existing importer rather than a new provider backend.
-Select further bounded product tasks from the existing catalog. T04 and all 124 Oracle
+Select further bounded product tasks from the existing catalog. WP0-T04 and all 124 Oracle
 cells remain BLOCKED; preserve Oracle safety boundaries without blocking API/web work.
 Product license/name and F31 distribution remain unresolved; local delivery is authorized.
 
@@ -46,6 +46,17 @@ run separately), 14 product/startup/Git/API cases and both browser workflows. Ev
 `evidence/product/product-t03-20261008T173420Z-local/`. No provider credentials or
 Oracle execution are introduced. All three local PRODUCT milestones have implementation
 and local acceptance evidence; remote merge eligibility remains separate.
+
+SF-PRODUCT-T04 source binding is VERIFIED locally in `development/product-source-binding`.
+PRs #9/#10/#11/#12 remain unmerged; inspect current exact heads and gates. The primary
+checkout uses `development/product-delivery-checkpoint` for the runnable local prototype,
+which is advanced to the reviewed runnable PRODUCT lineage. Master remains the WP0 checkpoint until eligible merges.
+One PR #10 product push run hit a concurrent schema-creation race and leaked its failed
+setup pool. Advisory locking and failed-pool cleanup repair it; the fresh concurrent
+initialization regression, 131 standard tests, 11 product cases and both browser flows
+pass, as do the repaired exact-head push/PR product jobs. Preserve the cancelled original
+run and quality-repair-2 evidence. Sonar remains cancelled; PR #11 retains CLI path/argument
+annotations after defensive hardening, so no remote issue-resolution claim is made.
 
 The previous master checkpoint was PR #8 at f2b333e. The following WP0 snapshot is retained
 as historical evidence; its scheduling-only API/UI prohibition is superseded by the owner
@@ -195,3 +206,27 @@ observations before connecting the candidate, then
 complete the remaining fault/rotation harness and real T04 acceptance. T05 and
 later tasks depend on T04; WP1/API/UI cannot bypass WP0-T12. Follow
 [CONTINUE.md](CONTINUE.md) and the existing graph; do not create a replacement roadmap.
+
+SF-PRODUCT-T04 local acceptance passed 137/137 standard checks, 17/17 mandatory
+product cases and both browser workflows with zero skips. Evidence: `evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1`.
+The initial integrated lock-observation failure is retained in the preceding run. Test
+workflows now own separate temporary PostgreSQL databases; each restart retains its own
+data until teardown. The UI explicitly refreshes when the selected project is clicked again
+and ignores stale mutation responses after sign-out. Original Oracle/catalog acceptance
+is unchanged. Next queued PRODUCT task is SF-PRODUCT-T05 (GOV-023/SEC-011): authenticated
+review-denial audit. Complete its bounded implementation/tests without waiting for Oracle.
+
+PR #12 is open for T04 source binding. Its initial UI quality warnings were repaired
+without changing behavior, tests or thresholds; the two inherited CLI security annotations
+still require a real passing analysis or concrete diagnostics. The primary product checkout
+includes the reviewed local lineage and a persisted `SchemaForge demo 2026-10-09 00:03 UTC`.
+The actual API demo and restart proof are indexed under product-t04-primary-live-demo.
+
+PR #12 head 796b4cd had a cancelled push product run after its main browser case
+timed out at 120 seconds; the original CI log is preserved in quality-repair-2. The
+CI-only stall was not reproduced locally. Test-only abort cleanup, bounded route fetch
+and phase diagnostics now pass both browser flows with CI=true; an intentional stalled
+throwaway fixture exits with its expected timeout and drops its owned database. Original
+120-second test and 15-minute workflow thresholds/assertions remain unchanged. This
+local repair is not a confirmed root-cause fix or remote quality-gate pass: inspect the
+fresh exact-head CI before merging.

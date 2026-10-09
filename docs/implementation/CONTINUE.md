@@ -1,8 +1,10 @@
 # Resume SchemaForge PRODUCT delivery
 
 Read AGENTS.md, CURRENT.md and the tracker. The owner authorizes implementation, verified
-branches/PRs and eligible ordinary merges. Start from the latest `origin/master`; inspect
-existing changes/open PRs/exact heads and preserve all WP0 history. PRODUCT delivery is
+branches/PRs and eligible ordinary merges. Inspect the latest `origin/master`, existing
+changes and open PR exact heads first. Resume the unmerged PRODUCT branch lineage when it
+contains newer reviewed work; do not discard it or restart from the old WP0-only master.
+Start independent new milestones from the latest eligible parent and preserve all WP0 history. PRODUCT delivery is
 independent of Oracle VALIDATION. Do not repeatedly ask for a 19c/21c lab or reinterpret
 BLOCKED Oracle acceptance as a prohibition on API/web/governance development.
 
@@ -17,7 +19,8 @@ npm run status
 npm run next
 ```
 
-The current vertical slice is SF-PRODUCT-T01. Read the actual implementation in apps/api,
+The runnable vertical slice began with SF-PRODUCT-T01 and includes locally verified
+T02 archival and T03 operator-owned Git imports. Read the actual implementation in apps/api,
 apps/web, packages/database and packages/migrations, and [local operation](../development/local-product.md).
 Run `npm run local:prepare` then `npm run dev` for the local PostgreSQL/API/web demonstration.
 `npm run test:product` exercises PostgreSQL/API and actual Git/ANTLR; install the separate
@@ -44,7 +47,7 @@ full catalog features or Oracle cells. Pending plans are offline candidates with
 NOT_OBSERVED target history. Approval never fabricates successful execution; all migration
 history remains NOT_EXECUTED until real authorized execution is supported and evidenced.
 
-T04 and all 124 Oracle cells remain BLOCKED. Production authority/providers, target history,
+WP0-T04 and all 124 Oracle cells remain BLOCKED. Production authority/providers, target history,
 worker isolation and real acceptance are VALIDATION work. Product license/name and F31
 packaging decisions remain pending for distribution. Preserve them while progressing local
 product work. Resolve the current milestone's own head/PR/merge from Git/GitHub and inspect
@@ -64,6 +67,22 @@ run separately), 14 product/startup/Git/API cases and both browser workflows. Ev
 Oracle execution are introduced. All three local PRODUCT milestones have implementation
 and local acceptance evidence; remote merge eligibility remains separate.
 
+The latest completed local increment is SF-PRODUCT-T04 in `development/product-source-binding`
+(`/home/longhn0710/workspace/schemaforge-product-binding`): project repository/folder
+binding with pre-import enforcement. Local acceptance is VERIFIED with real API/browser evidence. PRs #9, #10, #11 and #12 contain the PRODUCT
+lineage and must merge in that order only after each exact head is eligible. The local
+`development/product-delivery-checkpoint` checkout in the primary directory holds the
+runnable prototype; resolve its current commit and open PRs from Git/GitHub.
+
+A PR #10 push CI run exposed concurrent schema initialization (PostgreSQL catalog
+duplicate type) and a connection-pool leak on setup failure; it reached the workflow
+time limit. The advisory-lock/pool-cleanup repair is implemented in PR #10 and carried
+into PR #11, with 131 standard tests, 11 product cases and both browser workflows
+passing. Fresh exact-head push/PR product CI also passes. Preserve the original failure
+and `product-t02-20261008T172809Z-local-retry1/quality-repair-2/` evidence.
+PR #11 Sonar still reports CLI argument/path findings after defensive hardening; do not
+claim them resolved without the real passing analysis or richer rule diagnostics.
+
 ## Preserved WP0 evidence
 
 PR #7 implements the supervised read-only Thin candidate (merged at
@@ -81,3 +100,29 @@ silently download or reclassify failed CI. T04 retains its plan, read-only candi
 supervisor with no default starter, live CLI or production authority backend. Every
 Oracle acceptance restriction remains in AGENTS.md and the immutable acceptance records.
 See CURRENT.md and the evidence index for prior PRs and exact source/result records.
+
+SF-PRODUCT-T04 local acceptance passed 137/137 standard checks, 17/17 mandatory
+product cases and both browser workflows with zero skips. Evidence: `evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1`.
+The initial integrated lock-observation failure is retained in the preceding run. Test
+workflows now own separate temporary PostgreSQL databases; each restart retains its own
+data until teardown. The UI explicitly refreshes when the selected project is clicked again
+and ignores stale mutation responses after sign-out. Original Oracle/catalog acceptance
+is unchanged. Next queued PRODUCT task is SF-PRODUCT-T05 (GOV-023/SEC-011): authenticated
+review-denial audit. Complete its bounded implementation/tests without waiting for Oracle.
+
+PR #12 contains T04 source binding. Sonar UI warnings were repaired with the same two
+passing browser workflows; two inherited CLI security annotations remain unresolved.
+Inspect current check details and all exact-head gates; do not waive, mark false-positive
+or merge around them. The primary checkout includes the tested PRODUCT lineage and
+persisted demo `SchemaForge demo 2026-10-09 00:03 UTC`; private tokens remain under .cache.
+The latest local demo survived an actual API restart and contains approved/rejected plans
+and four NOT_EXECUTED history rows. See the indexed primary-live-demo evidence.
+
+PR #12 head 796b4cd had a cancelled push product run after its main browser case
+timed out at 120 seconds; the original CI log is preserved in quality-repair-2. The
+CI-only stall was not reproduced locally. Test-only abort cleanup, bounded route fetch
+and phase diagnostics now pass both browser flows with CI=true; an intentional stalled
+throwaway fixture exits with its expected timeout and drops its owned database. Original
+120-second test and 15-minute workflow thresholds/assertions remain unchanged. This
+local repair is not a confirmed root-cause fix or remote quality-gate pass: inspect the
+fresh exact-head CI before merging.

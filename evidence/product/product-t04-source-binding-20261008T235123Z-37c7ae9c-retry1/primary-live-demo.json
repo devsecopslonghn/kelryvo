@@ -1,0 +1,34 @@
+{
+  "projectId": "3f97d6b2-d968-44c3-9ce4-2b55e5b2624e",
+  "name": "SchemaForge demo 2026-10-09 00:03 UTC",
+  "health": {
+    "status": "ok",
+    "execution": "NOT_EXECUTED",
+    "oracleValidation": "BLOCKED"
+  },
+  "sourceBinding": {
+    "repositoryId": "demo",
+    "folder": "migrations",
+    "updatedAt": "2026-10-09T00:03:32.556Z"
+  },
+  "releaseValidation": "VALID",
+  "releaseCommit": "9dcf131de1aec4960c87aff0e49aa2369ad4795c",
+  "planStates": [
+    "APPROVED",
+    "REJECTED"
+  ],
+  "historyCount": 4,
+  "allHistoryNotExecuted": true,
+  "auditActions": [
+    "ENVIRONMENT_CREATED",
+    "EXECUTION_DENIED",
+    "PLAN_APPROVED",
+    "PLAN_CREATED",
+    "PLAN_REJECTED",
+    "PROFILE_CREATED",
+    "PROJECT_CREATED",
+    "RELEASE_IMPORTED",
+    "SOURCE_BINDING_UPDATED"
+  ],
+  "apiRestartPersistenceVerified": true
+}

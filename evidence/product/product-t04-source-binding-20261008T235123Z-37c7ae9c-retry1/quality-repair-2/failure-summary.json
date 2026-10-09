@@ -1,0 +1,12 @@
+{
+  "head": "796b4cd058af63dbcc4d9d8ad58820588bb3dd81",
+  "run_id": 37863148337,
+  "workflow_conclusion": "cancelled",
+  "product_cases": "17/17 PASS",
+  "browser_archive": "PASS",
+  "browser_main": "FAIL testTimeoutFailure after 120000ms",
+  "browser_child_exit_code": "NOT_OBSERVED; runner cancelled the still-running job after its unchanged 15-minute timeout",
+  "original_browser_sha256": "481d7a8d50e39b8c2063cc72a64153c8e608d2cbb2a42027332325699c0099cd",
+  "raw_ci_log_sha256": "5cc05edea81edd2d73cfadf1649b5d6cfd58cd6cef04fadd5c28ab0d0fecd7c9",
+  "gate": "BLOCKED; cancellation is not success"
+}

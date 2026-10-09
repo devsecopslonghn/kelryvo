@@ -5,7 +5,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createApp } from "../apps/api/index.ts";
-import { openProductDatabase } from "./helpers/product-db.mjs";
+import { openIsolatedProductDatabase } from "./helpers/product-db.mjs";
 import { prepareDemoRepository } from "../scripts/local-resources.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -20,7 +20,7 @@ test(
   "product API persists a governed offline plan and never claims execution",
   { skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL || !parserAvailable },
   async () => {
-    const db = await openProductDatabase();
+    const db = await openIsolatedProductDatabase();
     const actors = [
       {
         id: `developer-${randomUUID()}`,
@@ -36,12 +36,15 @@ test(
       },
     ];
     const repositoryPath = await prepareDemoRepository();
+    const inaccessibleRepositoryPath = "/private/should-not-be-opened";
+    const appRepositories = [
+      { id: "demo", name: "Demo repository", path: repositoryPath },
+      { id: "closed-source", name: "Closed source", path: inaccessibleRepositoryPath },
+    ];
     let app = createApp({
       sql: db.sql,
       actors,
-      repositories: [
-        { id: "demo", name: "Demo repository", path: repositoryPath },
-      ],
+      repositories: appRepositories,
     });
     assert.throws(
       () =>
@@ -99,6 +102,48 @@ test(
       );
       assert.equal(projectResponse.statusCode, 201);
       const project = projectResponse.json().project;
+      assert.equal(project.sourceBinding, null);
+      const unboundImport = await request(
+        "POST",
+        `/api/projects/${project.id}/releases`,
+        actors[0].token,
+        { repositoryId: "closed-source", commit: "HEAD", folder: "migrations" },
+      );
+      assert.equal(unboundImport.statusCode, 409);
+      assert.equal(unboundImport.json().error, "SOURCE_NOT_BOUND");
+      const bindingRequest = await request(
+        "PUT",
+        `/api/projects/${project.id}/source`,
+        actors[0].token,
+        { repositoryId: "demo", folder: "migrations" },
+      );
+      assert.equal(bindingRequest.statusCode, 200);
+      assert.deepEqual(
+        Object.keys(bindingRequest.json().project.sourceBinding).sort(),
+        ["folder", "repositoryId", "updatedAt"],
+      );
+      assert.equal(bindingRequest.json().project.sourceBinding.repositoryId, "demo");
+      assert.equal(bindingRequest.json().project.sourceBinding.folder, "migrations");
+      const approverBinding = await request(
+        "PUT", `/api/projects/${project.id}/source`, actors[1].token,
+        { repositoryId: "demo", folder: "migrations" },
+      );
+      assert.equal(approverBinding.statusCode, 403);
+      assert.equal(approverBinding.json().error, "DEVELOPER_REQUIRED");
+      const bindingAudit = (await request(
+        "GET", `/api/projects/${project.id}`, actors[0].token,
+      )).json();
+      assert.equal(bindingAudit.audit.filter((event) => event.action === "SOURCE_BINDING_UPDATED").length, 1);
+      assert.equal(JSON.stringify(bindingAudit).includes(repositoryPath), false);
+      assert.equal(JSON.stringify(bindingAudit).includes(inaccessibleRepositoryPath), false);
+      const mismatchImport = await request(
+        "POST",
+        `/api/projects/${project.id}/releases`,
+        actors[0].token,
+        { repositoryId: "closed-source", commit: "HEAD", folder: "migrations" },
+      );
+      assert.equal(mismatchImport.statusCode, 409);
+      assert.equal(mismatchImport.json().error, "SOURCE_BINDING_MISMATCH");
       const env = (
         await request(
           "POST",
@@ -305,9 +350,7 @@ test(
       app = createApp({
         sql: db.sql,
         actors,
-        repositories: [
-          { id: "demo", name: "Demo repository", path: repositoryPath },
-        ],
+        repositories: appRepositories,
       });
       const afterRestart = await request(
         "GET",
@@ -317,6 +360,8 @@ test(
       assert.equal(afterRestart.statusCode, 200);
       assert.equal(afterRestart.json().releases.length, 2);
       assert.equal(afterRestart.json().plans.length, 2);
+      assert.equal(afterRestart.json().project.sourceBinding.repositoryId, "demo");
+      assert.equal(afterRestart.json().project.sourceBinding.folder, "migrations");
     } finally {
       await app.close();
       await db.close();

@@ -9,7 +9,9 @@ export async function initializeDatabase(sql: any): Promise<void> {
     INSERT INTO sf_organizations (id,name) VALUES ('00000000-0000-4000-8000-000000000001','Local organization') ON CONFLICT (id) DO NOTHING;
     CREATE TABLE IF NOT EXISTS sf_projects (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
-      name text NOT NULL, description text, created_at timestamptz NOT NULL DEFAULT now(), UNIQUE(id,organization_id)
+      name text NOT NULL, description text,
+      source_repository_id text, source_folder text, source_updated_at timestamptz,
+      created_at timestamptz NOT NULL DEFAULT now(), UNIQUE(id,organization_id)
     );
     CREATE TABLE IF NOT EXISTS sf_environments (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), project_id uuid NOT NULL, organization_id uuid NOT NULL,
@@ -51,6 +53,16 @@ export async function initializeDatabase(sql: any): Promise<void> {
       FOREIGN KEY(plan_id,project_id) REFERENCES sf_plans(id,project_id)
     );
     ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS archived_at timestamptz;
+    ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_repository_id text;
+    ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_folder text;
+    ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_updated_at timestamptz;
+    DO $$ BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_projects'::regclass AND conname='sf_projects_source_binding_complete') THEN
+        ALTER TABLE sf_projects ADD CONSTRAINT sf_projects_source_binding_complete
+          CHECK ((source_repository_id IS NULL AND source_folder IS NULL AND source_updated_at IS NULL)
+            OR (source_repository_id IS NOT NULL AND source_folder IS NOT NULL AND source_updated_at IS NOT NULL));
+      END IF;
+    END $$;
     CREATE INDEX IF NOT EXISTS sf_audit_project_time ON sf_audit(project_id,created_at DESC);
     CREATE INDEX IF NOT EXISTS sf_history_project_time ON sf_history(project_id,created_at DESC);
     `);

@@ -1,0 +1,16 @@
+{
+  "id": "product-t04-primary-live-demo",
+  "subject_id": "SF-PRODUCT-T04",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "python3: authenticated primary API Git/parser/approval/rejection/execution-denial demo; verify persisted records after API restart",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/primary-live-demo.json",
+    "sha256": "31115396c8040441946a2ba8bcb4ecee176c3cc0ab1f762597ef56314fd1e888"
+  }
+}

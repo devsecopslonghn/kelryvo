@@ -1191,6 +1191,105 @@
       },
       "path": "evidence/product/product-t02-20261008T172809Z-local-retry1/quality-repair-2/record.json",
       "sha256": "bc1e26f64a6e4e1b398a5de6ab291caba7939b574b0654be47d439b56000c9b0"
+    },
+    {
+      "id": "product-t04-source-binding-initial-integrated-failure",
+      "subject_id": "SF-PRODUCT-T04",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "FAIL",
+      "command": "npm run check with dedicated PostgreSQL prerequisites; source-binding exact lock observation failed in concurrent full suite",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c/checks.log",
+        "sha256": "e6076151f6789c54111328be16ea1a064f0f4df60f6f5f964757c3e9e00ec441"
+      },
+      "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c/record.json",
+      "sha256": "0dc9a32ca3e1095a466f758c7631e9a13b1b8ea7de8db852859eec45428721bd"
+    },
+    {
+      "id": "product-t04-source-binding-local-verified",
+      "subject_id": "SF-PRODUCT-T04",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run build:web; npm run lint; npm run format:check; npm run test:browser (actual isolated PostgreSQL/Git/ANTLR/browser workflows, no skipped required cases)",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T04-API",
+        "SF-PRODUCT-T04-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/checks.log",
+        "sha256": "08beeeb63634b96b53125d939d1d99a14c237a4728d274cea7515b57df9b3eb6"
+      },
+      "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/record.json",
+      "sha256": "37dff6b88b5ecb79aba78032bb2c83072d67b31f8d3d11d94b488ed68f190514"
+    },
+    {
+      "id": "product-t04-ui-quality-repair1",
+      "subject_id": "SF-PRODUCT-T04",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run test:browser; npm run lint; npm run format:check after UI-only Sonar repairs",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/quality-repair1/checks.log",
+        "sha256": "06fb37d8574f4237e822a6260ee43caf4d943b2f83a3b918bdbe7800896ed53d"
+      },
+      "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/quality-repair1/product-t04-ui-quality-repair1-record.json",
+      "sha256": "7896951b110ae34e62c47942a7f3717b039eaf8f6655745f0d903f5d95a4108d"
+    },
+    {
+      "id": "product-t04-primary-live-demo",
+      "subject_id": "SF-PRODUCT-T04",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "python3: authenticated primary API Git/parser/approval/rejection/execution-denial demo; verify persisted records after API restart",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/primary-live-demo.json",
+        "sha256": "31115396c8040441946a2ba8bcb4ecee176c3cc0ab1f762597ef56314fd1e888"
+      },
+      "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/product-t04-primary-live-demo-record.json",
+      "sha256": "b09bafccd2a99ee4599f5e448ea1962a9f8d242278bdfe8cb8e7da6750471e85"
+    },
+    {
+      "id": "product-t04-browser-timeout-cleanup-local",
+      "subject_id": "SF-PRODUCT-T04",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "CI=true npm run test:browser; generated intentional-timeout cleanup proof checks numeric child exit1 and dropped owned database (test timeout/CI thresholds unchanged)",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "SF-PRODUCT-T04-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/quality-repair-2/browser-ci-local.log",
+        "sha256": "64e8bb2762044df5b4e690188968d0b4ae1992555dc44746b9ef2fd557fbc57e"
+      },
+      "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/quality-repair-2/record.json",
+      "sha256": "863fed42bba7aba3b94b10d2ab4922cdba83d80b9edfa38efb2e4aa5fc5a7fc0"
     }
   ]
 }

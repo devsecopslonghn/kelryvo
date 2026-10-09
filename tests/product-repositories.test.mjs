@@ -7,7 +7,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createApp } from '../apps/api/index.ts';
-import { openProductDatabase } from './helpers/product-db.mjs';
+import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { parseLocalRepositoryArguments, resolveLocalRepositories } from '../scripts/local-repositories.mjs';
 
 function git(cwd, args) {
@@ -115,7 +115,7 @@ test('a configured custom Git repository is visible without its path and imports
       const privateRepositoryPath = await createRepository(temporary, 'custom-secret-directory');
       const [repository] = await resolveLocalRepositories([privateRepositoryPath]);
       const token = `custom-repository-test-${randomUUID()}-${randomUUID()}`;
-      db = await openProductDatabase();
+      db = await openIsolatedProductDatabase();
       app = createApp({
         sql: db.sql,
         actors: [{ id: `custom-dev-${randomUUID()}`, name: 'Developer', role: 'developer', token }],
@@ -131,6 +131,11 @@ test('a configured custom Git repository is visible without its path and imports
 
       const projectResult = await request('POST', '/api/projects', { name: `Custom repo ${randomUUID()}` });
       assert.equal(projectResult.statusCode, 201);
+      const binding = await request('PUT', `/api/projects/${projectResult.json().project.id}/source`, {
+        repositoryId: repository.id,
+        folder: 'migrations',
+      });
+      assert.equal(binding.statusCode, 200);
       const imported = await request('POST', `/api/projects/${projectResult.json().project.id}/releases`, {
         repositoryId: repository.id,
         commit: 'HEAD',

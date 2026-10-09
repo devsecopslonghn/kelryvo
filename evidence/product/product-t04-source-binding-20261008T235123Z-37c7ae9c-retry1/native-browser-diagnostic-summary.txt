@@ -1,0 +1,10 @@
+Sanitized isolation diagnostic for the pre-fix browser selection failure
+
+Archive workflow used isolated PostgreSQL database sf_product_test_8c58dd9e5b3f4446abb18225c568a9d3 and API origin http://127.0.0.1:42701.
+Expected and API-listed project: 1b807f51-9b36-4851-9763-16fcad521b93 / Archive browser cbe24767.
+Displayed actor and role: Archive developer / DEVELOPER.
+Visible headings immediately after clicking the already-selected project: Your projects; Project space; Project context.
+Disabled buttons: none.
+Failure: tests/product-archive-browser.integration.mjs timed out waiting for heading "Archive browser cbe24767" at line 82. The project detail remained empty because selecting the already-selected ID cleared detail but did not trigger the projectId-dependent refresh effect.
+
+After the UI fix, build:web passed and npm run test:browser passed 2/2 using isolated databases. Archive workflow: ~7.7 seconds; full source-binding/approval/rejection/restart workflow: ~9.4 seconds. Oracle was not contacted.

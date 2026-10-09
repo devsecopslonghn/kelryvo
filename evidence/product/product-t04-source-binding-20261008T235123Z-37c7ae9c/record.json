@@ -1,0 +1,16 @@
+{
+  "id": "product-t04-source-binding-initial-integrated-failure",
+  "subject_id": "SF-PRODUCT-T04",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "FAIL",
+  "command": "npm run check with dedicated PostgreSQL prerequisites; source-binding exact lock observation failed in concurrent full suite",
+  "exit_code": 1,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c/checks.log",
+    "sha256": "e6076151f6789c54111328be16ea1a064f0f4df60f6f5f964757c3e9e00ec441"
+  }
+}

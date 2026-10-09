@@ -1,0 +1,18 @@
+{
+  "id": "product-t04-browser-timeout-cleanup-local",
+  "subject_id": "SF-PRODUCT-T04",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "CI=true npm run test:browser; generated intentional-timeout cleanup proof checks numeric child exit1 and dropped owned database (test timeout/CI thresholds unchanged)",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [
+    "SF-PRODUCT-T04-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/quality-repair-2/browser-ci-local.log",
+    "sha256": "64e8bb2762044df5b4e690188968d0b4ae1992555dc44746b9ef2fd557fbc57e"
+  }
+}

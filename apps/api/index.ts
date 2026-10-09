@@ -26,6 +26,9 @@ const validUsername = (v: unknown) =>
 const validCredentialRef = (v: unknown) =>
   typeof v === "string" &&
   /^(?:vault|secret):\/\/[A-Za-z0-9._/-]{1,500}$/.test(v);
+const validMigrationFolder = (v: unknown) =>
+  typeof v === "string" && v.length <= 200 &&
+  /^[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_-]+)*$/.test(v);
 
 export type ProductActor = {
   id: string;
@@ -96,7 +99,7 @@ export function createApp(options: {
   };
   const project = async (id: string) =>
     (
-      await sql`SELECT id,name,description,created_at,archived_at FROM sf_projects WHERE id=${id} AND organization_id=${ORG}`
+      await sql`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at FROM sf_projects WHERE id=${id} AND organization_id=${ORG}`
     )[0];
   const mappedProject = (p: any) => ({
     id: p.id,
@@ -104,6 +107,9 @@ export function createApp(options: {
     description: p.description,
     archivedAt: p.archived_at,
     createdAt: p.created_at,
+    sourceBinding: p.source_repository_id && p.source_folder && p.source_updated_at
+      ? { repositoryId: p.source_repository_id, folder: p.source_folder, updatedAt: p.source_updated_at }
+      : null,
   });
   const mappedSimple = (r: any) => ({
     id: r.id,
@@ -140,7 +146,7 @@ export function createApp(options: {
   }));
   app.get("/api/projects", { preHandler: authenticate }, async () => ({
     projects: (
-      await sql`SELECT id,name,description,created_at,archived_at FROM sf_projects WHERE organization_id=${ORG} ORDER BY created_at,id`
+      await sql`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at FROM sf_projects WHERE organization_id=${ORG} ORDER BY created_at,id`
     ).map(mappedProject),
   }));
   app.post(
@@ -156,7 +162,7 @@ export function createApp(options: {
         return fail(reply, 400, "INVALID_REQUEST");
       const p = await sql.begin(async (tx: any) => {
         const created = (
-          await tx`INSERT INTO sf_projects(organization_id,name,description) VALUES(${ORG},${b.name.trim()},${b.description ?? null}) RETURNING id,name,description,created_at`
+          await tx`INSERT INTO sf_projects(organization_id,name,description) VALUES(${ORG},${b.name.trim()},${b.description ?? null}) RETURNING id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at`
         )[0];
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${created.id},${ORG},${req.actor.id},'PROJECT_CREATED',${created.id})`;
         return created;
@@ -241,6 +247,32 @@ export function createApp(options: {
     });
     if (!result) return fail(reply, 404, 'NOT_FOUND');
     return { project: mappedProject(result) };
+  });
+  app.put('/api/projects/:id/source', { preHandler: authenticate }, async (req: any, reply: any) => {
+    const b = req.body;
+    if (!uuid(req.params.id) || !object(b, ['repositoryId', 'folder'])
+        || !text(b.repositoryId) || !validMigrationFolder(b.folder)) {
+      return fail(reply, 400, 'INVALID_REQUEST');
+    }
+    if (req.actor.role !== 'developer') return fail(reply, 403, 'DEVELOPER_REQUIRED');
+
+    const result = await sql.begin(async (tx: any) => {
+      const current = (await tx`SELECT * FROM sf_projects WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`)[0];
+      if (!current) return { error: 'NOT_FOUND' };
+      if (current.archived_at) return { error: 'PROJECT_ARCHIVED' };
+      const repository = repositories.find((candidate) => candidate.id === b.repositoryId);
+      if (!repository) return { error: 'INVALID_REFERENCE' };
+
+      const updated = (await tx`UPDATE sf_projects SET source_repository_id=${repository.id},source_folder=${b.folder},source_updated_at=now()
+        WHERE id=${current.id} RETURNING id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at`)[0];
+      await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
+        VALUES(${current.id},${ORG},${req.actor.id},'SOURCE_BINDING_UPDATED',${current.id},${tx.json({ repositoryId: repository.id, folder: b.folder })})`;
+      return { project: updated };
+    });
+    if (result.error === 'NOT_FOUND') return fail(reply, 404, 'NOT_FOUND');
+    if (result.error === 'PROJECT_ARCHIVED') return fail(reply, 409, 'PROJECT_ARCHIVED');
+    if (result.error === 'INVALID_REFERENCE') return fail(reply, 400, 'INVALID_REFERENCE');
+    return { project: mappedProject(result.project) };
   });
   app.post(
     "/api/projects/:id/environments",
@@ -328,12 +360,15 @@ export function createApp(options: {
         !object(b, ["repositoryId", "commit", "folder"]) ||
         !text(b.repositoryId) ||
         !text(b.commit, 128) ||
-        !text(b.folder, 500)
+        !validMigrationFolder(b.folder)
       )
         return fail(reply, 400, "INVALID_REQUEST");
       const p = await project(req.params.id);
       if (!p) return fail(reply, 404, "NOT_FOUND");
       if (p.archived_at) return fail(reply, 409, "PROJECT_ARCHIVED");
+      if (!p.source_repository_id) return fail(reply, 409, 'SOURCE_NOT_BOUND');
+      if (p.source_repository_id !== b.repositoryId || p.source_folder !== b.folder)
+        return fail(reply, 409, 'SOURCE_BINDING_MISMATCH');
       const repo = repositories.find((r) => r.id === b.repositoryId);
       if (!repo) return fail(reply, 400, "INVALID_REFERENCE");
       let release: any;
@@ -359,24 +394,31 @@ export function createApp(options: {
         content: file.content,
       }));
       const r = await sql.begin(async (tx: any) => {
-        await requireActiveProject(tx, p.id);
+        const current = (await tx`SELECT archived_at,source_repository_id,source_folder FROM sf_projects
+          WHERE id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
+        if (!current || current.archived_at) return { error: 'PROJECT_ARCHIVED' };
+        if (current.source_repository_id !== repo.id || current.source_folder !== release.folder)
+          return { error: 'SOURCE_BINDING_MISMATCH' };
         const imported = (
           await tx`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,validation_code,parser_profile,files) VALUES(${p.id},${ORG},${repo.id},${release.commit},${release.objectFormat},${release.folder},${release.manifestDigest},${release.validationStatus},${release.validationCode},${release.parserProfile},${tx.json(files)}) RETURNING id,repository_id,commit_id,folder,manifest_digest,validation_status,validation_code,parser_profile,created_at`
         )[0];
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${p.id},${ORG},${req.actor.id},'RELEASE_IMPORTED',${imported.id},${tx.json({ validationStatus: imported.validation_status })})`;
-        return imported;
+        return { imported };
       });
+      if (r.error === 'PROJECT_ARCHIVED') return fail(reply, 409, 'PROJECT_ARCHIVED');
+      if (r.error === 'SOURCE_BINDING_MISMATCH') return fail(reply, 409, 'SOURCE_BINDING_MISMATCH');
+      const imported = r.imported;
       return reply.code(201).send({
         release: {
-          id: r.id,
-          repositoryId: r.repository_id,
-          commit: r.commit_id,
-          folder: r.folder,
-          manifestDigest: r.manifest_digest,
-          validationStatus: r.validation_status,
-          validationCode: r.validation_code,
-          parserProfile: r.parser_profile,
-          createdAt: r.created_at,
+          id: imported.id,
+          repositoryId: imported.repository_id,
+          commit: imported.commit_id,
+          folder: imported.folder,
+          manifestDigest: imported.manifest_digest,
+          validationStatus: imported.validation_status,
+          validationCode: imported.validation_code,
+          parserProfile: imported.parser_profile,
+          createdAt: imported.created_at,
         },
       });
     },
