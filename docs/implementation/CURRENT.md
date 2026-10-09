@@ -7,8 +7,8 @@ T08 plan-status filters merged through PR #19 at
 through PR #20 at `d970375e15706d4718a2e30f8b6754f17f4e7418`. The T10 isolated
 worktree started from merged master checkpoint `534c6e4024b7642bb7ece17447367d873335edc3`;
 root reports PR #21's four master workflows passed. T10 is implemented and VERIFIED locally,
-with exact-head review/publication pending. No commit, push, PR or merge was made from this
-worktree.
+with exact-head review/publication pending. A local implementation commit is ready for independent review; publication remains pending.
+Resolve this increment’s PR/head/merge and post-merge workflows from Git/GitHub before resuming.
 
 PRODUCT T01–T10 are VERIFIED_LOCAL. T10 adds authenticated, project-bound local branch and
 commit-resolving tag choices for release intake, capped at 200 refs with fixed fail-closed
@@ -22,7 +22,9 @@ Git Hygiene integration remains pending. Root reports the reproduced history mat
 benign synthetic/test values, with original-report comparison still open. Keep the required
 source, lockfiles and immutable evidence; do not broadly allowlist findings or rewrite public
 history. Any hygiene change still requires provenance classification, security review and
-passing CI.
+passing CI. T10’s publication scan also matched one recorded API-test raw-output digest;
+root verified it against exact bytes without printing the match. Independent review remains
+required. Sanitized metadata is in `evidence/product/product-t10-root-review-20261009T045700Z/publication-classification.json`.
 
 The next bounded PRODUCT task is **SF-PRODUCT-T11 — Inspect retained release provenance**,
 registered READY. `npm run next` selects T11. Display stored full commit/repository ID/object
