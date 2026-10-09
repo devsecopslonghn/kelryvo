@@ -1,0 +1,5 @@
+{
+  "command": "python3 /tmp/schemaforge-t20-merge-gate.py 32",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:24:45.671990+00:00"
+}

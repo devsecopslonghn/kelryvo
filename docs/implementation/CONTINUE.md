@@ -100,6 +100,29 @@ Shared original checkout remains untouched; Hygiene branch/PR absent and integra
 Sonar unavailable, never PASS; Oracle VALIDATION independently BLOCKED. Next candidate after
 T21 is parser-derived offline statement preview; not registered/implemented/full catalog accepted.
 
+## T20 master browser regression repair locally verified; publication pending — 2026-10-09
+
+T20 PR #32 merged at `c5130e3277e0955285ea3ff428019369cb46578c` after exact-head
+QA/security and all11 PR checks passed. Original master PRODUCT run37951569624 failed
+one existing T19 browser assertion (2 plans vs3); parser/WP0/CodeQL passed. The failed
+raw bytes remain immutable, and original master PRODUCT is never reported PASS.
+
+A test-only controlled gate holds the exact plan POST while review navigation proceeds,
+proves PostgreSQL still has2 plans, then waits for POST201/id, project refresh200 and
+rendered created-plan state before the original3-plan assertion. All original assertions,
+timeouts and product/parser source remain. Focused1 and fullbrowser18 passed with zero
+skips; root verified source/raw hashes. Original CI lacks HTTP timing capture, so this
+proves a possible race without certifying that it caused the original observed failure.
+Evidence: `evidence/product/product-t20-browser-sync-root-20261009T154120Z/integration-record.json`.
+Exact-head QA/security, publication scan, new PR/CI/ordinary merge and corrective master
+workflow verification remain pending. Do not claim master recovery yet.
+
+T21 explicit local operator membership/bootstrap implementation continues independently
+in its own isolated worktree; publication waits for verified corrective master and its own
+regressions/reviews. Owner standing autonomy SF-D010 and explicit operator-only all-project
+membership SF-D012 remain accepted. Shared original/Hygiene untouched; no Hygiene PR visible.
+Sonar unavailable neverPASS; Oracle VALIDATION independently BLOCKED.
+
 ## T20 locally verified; owner autonomy and membership approved — 2026-10-09
 
 T20 persists hashed trusted local credentials with database-clock24-hour expiry and

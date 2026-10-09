@@ -1,0 +1,11 @@
+{
+  "command": "gh pr view 32 --repo devsecopslonghn/schemaForge --json number,url,state,mergedAt,mergeCommit,headRefOid,baseRefOid,statusCheckRollup,isDraft",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:25:05.642023+00:00",
+  "ended_at_utc": "2026-10-09T15:25:06.458977+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/28-merged-pr-proof.log",
+    "sha256": "f9c60a474e5c99fb91812e06027f3a3f0dba84bdfcb82af7d12a1c0f2695551d"
+  }
+}

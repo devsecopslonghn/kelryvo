@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-browser-sync-integrate.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T15:43:06.932089+00:00",
+  "ended_at_utc": "2026-10-09T15:43:06.998694+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-browser-sync-root-20261009T154120Z/01-integrate-native-and-original-failure.log",
+    "sha256": "0b9fc7f820bcfe32c99b407d3a6b364d54ceeb53c9e5787f43263ea0b0a1a5d3"
+  }
+}

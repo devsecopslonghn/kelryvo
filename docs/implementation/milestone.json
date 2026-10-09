@@ -330,8 +330,6 @@
     "compatibility": "EXPLICIT_GRANTS_ALL_PROJECTS_BOOTSTRAP_AND_RECOVERY_BEFORE_DENY_BY_DEFAULT",
     "historical_inference_or_backfill": false
   },
-  "latest_merged_master_before_this_increment": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
-  "publication_gate": "T21_UPDATED_BASE_EXACT_HEAD_QA_SECURITY_SCANS_CI_ORDINARY_MERGE",
   "master_product_regression": {
     "head": "c5130e3277e0955285ea3ff428019369cb46578c",
     "run": 37951569624,
@@ -340,5 +338,7 @@
     "corrective_pr": 33,
     "corrective_head": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
     "corrective_workflow_outcome": "PASS_ORIGINAL_FAIL_PRESERVED"
-  }
+  },
+  "publication_gate": "T21_UPDATED_BASE_EXACT_HEAD_QA_SECURITY_SCANS_CI_ORDINARY_MERGE",
+  "latest_merged_master_before_this_increment": "5ef2568e1904636ae7bec7aeb2188cbf71279414"
 }

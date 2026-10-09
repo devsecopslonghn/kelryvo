@@ -2738,6 +2738,9 @@
         },
         {
           "index_id": "product-t20-merge-and-corrective-master-verified"
+        },
+        {
+          "index_id": "product-t20-master-browser-sync-local-verified"
         }
       ],
       "blockers": []
