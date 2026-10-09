@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { randomBytes, randomUUID } from 'node:crypto';
+import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 
@@ -24,8 +24,15 @@ test('authenticated denied decisions append fixed audit facts while preserving p
   const profile = (await request('POST', `${base}/profiles`, { name: 'Reference', environmentId: env.id,
     engine: 'oracle', host: 'oracle.example.invalid', port: 1521, service: 'DEV', username: 'APP',
     credentialRef: 'vault://local/dev/app' })).json().profile;
-  const release = (await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,files)
-    VALUES(${project.id},'00000000-0000-4000-8000-000000000001','fixture',${'a'.repeat(40)},'sha1','migrations',${'b'.repeat(64)},'VALID',${db.sql.json([{ path:'V1__fixture.sql', version:'1', sha256:'c'.repeat(64) }])}) RETURNING id`)[0];
+  const content = 'CREATE TABLE fixture (id NUMBER);\n';
+  const bytes = Buffer.from(content);
+  const sha256 = createHash('sha256').update(bytes).digest('hex');
+  const files = [{ path:'migrations/V1__fixture.sql', version:'1', sha256, bytes:bytes.length,
+    content, statementCount:1, validationStatus:'VALID' }];
+  const manifestDigest = createHash('sha256').update(JSON.stringify({ format:1, commit:'a'.repeat(40), objectFormat:'sha1',
+    folder:'migrations', parserProfile:'fixture-parser-profile', files:files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) })).digest('hex');
+  const release = (await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)
+    VALUES(${project.id},'00000000-0000-4000-8000-000000000001','fixture',${'a'.repeat(40)},'sha1','migrations',${manifestDigest},'VALID','fixture-parser-profile',${db.sql.json(files)}) RETURNING id`)[0];
   const newPlan = async (actor = actors[0]) => (await request('POST', `${base}/plans`,
     { releaseId: release.id, profileId: profile.id }, actor)).json().plan;
   const denied = async (plan, actor, expectedStatus, code) => {

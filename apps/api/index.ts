@@ -486,28 +486,23 @@ export function createApp(options: {
         !uuid(b.profileId)
       )
         return fail(reply, 400, "INVALID_REQUEST");
-      const p = await project(req.params.id);
-      if (!p) return fail(reply, 404, "NOT_FOUND");
-      const r = (
-        await sql`SELECT * FROM sf_releases WHERE id=${b.releaseId} AND project_id=${p.id}`
-      )[0];
-      const profile = (
-        await sql`SELECT id FROM sf_profiles WHERE id=${b.profileId} AND project_id=${p.id}`
-      )[0];
-      if (!r || !profile) return fail(reply, 400, "INVALID_REFERENCE");
-      if (r.validation_status !== "VALID")
-        return fail(reply, 409, "RELEASE_NOT_VALID");
-      const files = r.files as any[];
-      const items = files.map((f) => ({
-        path: f.path,
-        version: f.version,
-        sha256: f.sha256,
-        status: "NOT_EXECUTED",
-      }));
-      if (!items.length || items.some((f) => !f.version || !f.sha256))
-        return fail(reply, 409, "RELEASE_NOT_PLANNABLE");
-      const result = await sql.begin(async (tx: any) => {
-        await requireActiveProject(tx, p.id);
+      const { verifyRetainedRelease } = await import("../../packages/migrations/verify-retained-release.mjs");
+      const outcome = await sql.begin(async (tx: any) => {
+        // Keep the lock order consistent: project first, then the scoped release.
+        const p = (await tx`SELECT id,archived_at FROM sf_projects WHERE id=${req.params.id}
+          AND organization_id=${ORG} FOR SHARE`)[0];
+        if (!p) return { error: "NOT_FOUND" };
+        const r = (await tx`SELECT * FROM sf_releases WHERE id=${b.releaseId} AND project_id=${p.id}
+          AND organization_id=${ORG} FOR SHARE`)[0];
+        const profile = (await tx`SELECT id FROM sf_profiles WHERE id=${b.profileId} AND project_id=${p.id}
+          AND organization_id=${ORG}`)[0];
+        if (!r || !profile) return { error: "INVALID_REFERENCE" };
+        if (r.validation_status !== "VALID") return { error: "RELEASE_NOT_VALID" };
+        if (!verifyRetainedRelease(r)) return { error: "RELEASE_INTEGRITY_FAILED" };
+        const files = r.files as any[];
+        const items = files.map((f) => ({ path: f.path, version: f.version, sha256: f.sha256, status: "NOT_EXECUTED" }));
+        if (!items.length || items.some((f) => !f.version || !f.sha256)) return { error: "RELEASE_NOT_PLANNABLE" };
+        if (p.archived_at) return { error: "PROJECT_ARCHIVED" };
         const rows =
           await tx`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items) VALUES(${p.id},${ORG},${r.id},${profile.id},${req.actor.id},${tx.json(items)}) RETURNING *`;
         const plan = rows[0];
@@ -520,9 +515,15 @@ export function createApp(options: {
           status: "NOT_EXECUTED",
         })))}`;
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${p.id},${ORG},${req.actor.id},'PLAN_CREATED',${plan.id})`;
-        return plan;
+        return { plan };
       });
-      return reply.code(201).send({ plan: mapPlan(result) });
+      if (outcome.error === "NOT_FOUND") return fail(reply, 404, "NOT_FOUND");
+      if (outcome.error === "PROJECT_ARCHIVED") return fail(reply, 409, "PROJECT_ARCHIVED");
+      if (outcome.error === "INVALID_REFERENCE") return fail(reply, 400, "INVALID_REFERENCE");
+      if (outcome.error === "RELEASE_NOT_VALID") return fail(reply, 409, "RELEASE_NOT_VALID");
+      if (outcome.error === "RELEASE_INTEGRITY_FAILED") return fail(reply, 409, "RELEASE_INTEGRITY_FAILED");
+      if (outcome.error === "RELEASE_NOT_PLANNABLE") return fail(reply, 409, "RELEASE_NOT_PLANNABLE");
+      return reply.code(201).send({ plan: mapPlan(outcome.plan) });
     },
   );
   app.get('/api/projects/:projectId/plans/:id/comments', { preHandler: authenticate }, async (req: any, reply: any) => {

@@ -1,0 +1,75 @@
+{
+  "id": "product-t12-resource-bounds-local-verified",
+  "subject_id": "SF-PRODUCT-T12",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check; npm run test:product; npm run test:browser with isolatedPG/pinnedJava after malformed-input resource fix",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T12-API",
+    "SF-PRODUCT-T12-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t12-security-correction-20261009T055200Z/summary.txt",
+    "sha256": "81a1ae45933277897ab68740450dd8427ec2877f77c22e5b7cb06e62fc43959f"
+  },
+  "checked_at": "2026-10-09T05:52:47.857417Z",
+  "initial_reviewed_head": "7d979c3db3c06c05529852bd9073ac1471c5f181",
+  "initial_security_review": "BLOCKED on resource bounds; no publication occurred",
+  "correction": [
+    "Reject oversized content and mismatched encoded byte length before Buffer allocation; check aggregate declared bytes before allocation.",
+    "Bound path/profile text, version-to-path length and aggregate manifest metadata before normalization/hash; no BigInt conversions remain.",
+    "Canonical decimal strings preserve arbitrary-precision numeric order using component length then lexical comparison.",
+    "RealPG oversized content/version mutations return fixed integrity failure with complete no-write snapshots; realGit imported Unicode and versions beyond Number precision are accepted."
+  ],
+  "counts": {
+    "standard": {
+      "pass": 142,
+      "fail": 0,
+      "skipped": 0
+    },
+    "product": {
+      "pass": 22,
+      "fail": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "pass": 10,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "sources": {
+    "apps/api/index.ts": "91bae252e75dbc8c11fccb04ea8360460c0955e9ed55ab1acc97e0612952d97f",
+    "apps/web/src/app.jsx": "4193359c82b6920bab70b07409ceff954b0f77631c058cf3d6656839b394e567",
+    "docs/development/local-product.md": "99ce46c31f3363fa45d1b0ae6442e0af8c4540295726d5afeef8843661e88fbf",
+    "packages/migrations/verify-retained-release.mjs": "6a47452c1e795d0eff098adf6143da34669b55200e90734ea68d04e44c9acb31",
+    "scripts/test-product.mjs": "57971269dd60115c97eb998b55d4278452768284c7c9acf801557c5a0f78d789",
+    "tests/product-archive.test.mjs": "0639aab4de337133e5002e8cd9240847bf953adbea3adc1d94b512057f903265",
+    "tests/product-audit-action-filters-browser.integration.mjs": "6772758aa8e9ca46e596d16c550e7046ae09bf925aad4367a9e1701638c02bfe",
+    "tests/product-release-integrity-browser.integration.mjs": "74842c469c98d49be5a085af13b47d3fbd320c09d63395c949c44a2063617c30",
+    "tests/product-release-integrity.test.mjs": "e3f93439b9ab39be121d057e53961f74f233c4976e9627f11cbc4d9f2fe35a64",
+    "tests/product-review-audit.test.mjs": "1c3c1e0c36090775a25eb1123d9f32624ff4bd12943a0b4e4c4d14d50b58220c",
+    "tests/product-status-filters-browser.integration.mjs": "34a1dc7c82875d09a3951cc9f1f3e997480016339513c541f33c347675ba34d1",
+    "tests/product-import.test.mjs": "ffa5efdf648694539272744bbee0cf5a815ea512c2e273a3adb54a2d5dfbde30"
+  },
+  "captured_outputs": {
+    "npm-check.txt": "2f72387517d7ba3024b4d78a25f8bcbe9057781d3734ae90acb1b0160a0d2351",
+    "product.txt": "b9a921ee68fb12115ba8d59dff714a0f039167c717a67949012886e4ddedb555",
+    "browser.txt": "ecc2c6776b53e1de60113251848b72b4088eb368db1152ca315936799c30f82e"
+  },
+  "limitations": [
+    "Exact corrected-head independent review/publication pending; old QA approval is not applied to correctedhead.",
+    "Standard ran after core fix; subsequent imported-file testassertion is covered by final product suite. Operatingdocs changed only resource-bound description.",
+    "Retained UTF8 only; no originalraw/BOM/tamperproof/fullcatalog/Oracle/worker claim.",
+    "Prior initial missing failure rawlogs and four intentional immutableMarkdownhardbreaks remain disclosed; no evidence rewritten.",
+    "Sonar unavailable neverPASS; Oracle VALIDATION separatelyBLOCKED."
+  ]
+}

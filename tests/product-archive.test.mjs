@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { randomBytes, randomUUID } from 'node:crypto';
+import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 
@@ -27,8 +27,15 @@ test('archival keeps immutable records readable and refuses further project work
     const profileInput = { name: 'Reference', environmentId: environment.id, engine: 'oracle', host: 'oracle.example.invalid',
       port: 1521, service: 'DEV', username: 'APP', credentialRef: 'vault://local/dev/app' };
     const profile = (await request('POST', `${base}/profiles`, profileInput)).json().profile;
-    const release = (await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,files)
-      VALUES(${project.id},'00000000-0000-4000-8000-000000000001','fixture',${'a'.repeat(40)},'sha1','migrations',${'b'.repeat(64)},'VALID',${db.sql.json([{ path:'V1__fixture.sql', version:'1', sha256:'c'.repeat(64) }])}) RETURNING id`)[0];
+    const content = 'CREATE TABLE fixture (id NUMBER);\n';
+    const bytes = Buffer.from(content);
+    const sha256 = createHash('sha256').update(bytes).digest('hex');
+    const files = [{ path:'migrations/V1__fixture.sql', version:'1', sha256, bytes:bytes.length,
+      content, statementCount:1, validationStatus:'VALID' }];
+    const manifestDigest = createHash('sha256').update(JSON.stringify({ format:1, commit:'a'.repeat(40), objectFormat:'sha1',
+      folder:'migrations', parserProfile:'fixture-parser-profile', files:files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) })).digest('hex');
+    const release = (await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)
+      VALUES(${project.id},'00000000-0000-4000-8000-000000000001','fixture',${'a'.repeat(40)},'sha1','migrations',${manifestDigest},'VALID','fixture-parser-profile',${db.sql.json(files)}) RETURNING id`)[0];
     const planInput = { releaseId: release.id, profileId: profile.id };
     const plan = (await request('POST', `${base}/plans`, planInput)).json().plan;
     assert.equal((await request('POST', `${base}/archive`, { reason: 'read only' }, approver)).statusCode, 403);

@@ -1,5 +1,71 @@
 # Current engineering state
 
+## T12 security correction verified locally; new review required — 2026-10-09
+
+Security blocked initial head `7d979c3db3c06c05529852bd9073ac1471c5f181` because malformed
+stored content and version tokens could consume excessive resources. Nothing was pushed.
+Root now bounds content/metadata before allocation, checks encoded length and total bytes,
+and replaces BigInt conversion with canonical decimal-string ordering. PostgreSQL oversized
+content/version negatives leave plan/history/audit snapshots unchanged; real Git Unicode
+and arbitrary-precision imported versions remain accepted. Correction checks passed:
+142 standard, 22 product, 10 browser, zero failures/skips. The added real-Git assertion was
+exercised by the final product run after the standard run; source/log hashes are captured in
+`evidence/product/product-t12-security-correction-20261009T055200Z/record.json`.
+Original records remain immutable. Corrected-head QA/security, CI and publication are pending;
+previous QA approval does not authorize this corrected head. T13 remains READY, registration only.
+
+## T12 locally verified; exact-head review pending — 2026-10-09
+
+T11 merged through PR #23 at `a81f8b7a2e66b2693e1775386fa1624dab3749c9`;
+ten PR checks and four master workflows passed. T12 is implemented in the isolated
+`development/product-release-integrity` worktree based on that master and root checkpoint
+`4b660a6a148b9308ee6a11ddb98e59305b3ea7ed`. It verifies retained UTF-8 bytes/hashes,
+metadata and the format-1 manifest under scoped project/release row locks before creating
+plan/history/audit records. Fixed integrity failures cause no writes and have fixed UI feedback.
+
+Local checks: 142 standard, 22 PostgreSQL product, 10 browser, all passed with zero skips.
+Root verified all eleven source hashes and three final-log hashes. Evidence:
+`evidence/product/product-t12-retained-integrity-20261009T053221Z/record.json`.
+Four seeded fixtures now contain valid format-1 release data; original assertions remain.
+Test files run serially with a prepared disposable Git fixture; parser limits are unchanged.
+Available partial/pre-final raw logs are retained; other early failure captures are missing,
+not reconstructed. Four deliberate Markdown hard-break lines in the original record are retained.
+Exact-head native QA/security, publication CI and merge remain pending. Resolve PR/head/merge
+and post-merge workflows via Git/GitHub before resuming; do not assume this local task merged.
+
+SF-PRODUCT-T13 is READY: inspect the selected plan’s linked retained source from review,
+reusing stored release API and provenance/SQL view with project/session/plan stale-response guards.
+It is registration only; no T13 implementation or verification evidence is attached.
+Hygiene original-report comparison remains COMPLETE (five total classified benign historical
+matches); no hygiene branch/PR is visible. Shared checkout remains untouched. Sonar unavailable,
+never PASS; Oracle VALIDATION separately BLOCKED. No full catalog or database tamper-proof claim.
+
+## T11 merged and master verified; T12 active — 2026-10-09
+
+T11 merged through [PR #23](https://github.com/devsecopslonghn/schemaForge/pull/23) at
+`a81f8b7a2e66b2693e1775386fa1624dab3749c9`, reviewed head
+`461242efa1cc39bf0167540418d21055420ef46c`. Ten required PR checks and all four
+post-merge master workflows passed. Independent QA and security approved that exact head;
+141 standard, 21 PostgreSQL product and 9 browser tests passed with zero skips. The root
+focused browser rerun and appended source-hash correction are preserved. Merge evidence:
+`evidence/product/product-t11-merge-20261009T052125Z/record.json`.
+
+SF-PRODUCT-T12 is IN_PROGRESS in isolated worktree
+`/home/longhn0710/workspace/schemaforge-product-release-integrity`, branch
+`development/product-release-integrity`, based on that merged master. Verify retained UTF-8
+content/length/hashes and the existing format-1 manifest under scoped project/release locks
+before plan writes. Cover malformed/corrupt data, concurrent mutation, repository unavailability,
+auth/scoping/archive and fixed browser error feedback. T12 has no verification evidence yet.
+Root owns tracking/publication; the implementation agent owns API/helper/tests/operating docs.
+
+The original four-finding redacted hygiene report exactly matches independently classified
+provenance: project UUID, two source hashes, and synthetic malformed UNIT PEM fixture.
+The later fifth match is a verified T10 evidence-log hash. No actual credential observed;
+no rotation indicated. All 39 T11 publication files scanned with zero findings. No hygiene
+branch/PR is visible, so its integration is pending. Preserve shared checkout, required source,
+locks, licenses and immutable evidence; never rewrite public history or broadly allowlist.
+Sonar remains unavailable, never PASS; Oracle VALIDATION remains separately BLOCKED.
+
 ## T10 merged; T11 locally verified, root review pending — 2026-10-09
 
 T10 merged through [PR #22](https://github.com/devsecopslonghn/schemaForge/pull/22) at

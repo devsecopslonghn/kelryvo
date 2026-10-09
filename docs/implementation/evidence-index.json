@@ -1801,6 +1801,74 @@
       },
       "path": "evidence/product/product-t11-release-provenance-20261009T050150Z/tracker-finalization.json",
       "sha256": "5608b2fa3796801c09ddd46065c8adfab5891d388f6ba34c1fe9b8d6a0387dc5"
+    },
+    {
+      "id": "product-t11-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T11",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "gh pr checks 23; gh pr view 23; gh run list --commit a81f8b7a2e66b2693e1775386fa1624dab3749c9; GitHub alert snapshots; independent native exact-head QA/security review",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t11-merge-20261009T052125Z/master-workflows.json",
+        "sha256": "742562a0283d37a8942fca625491c8065f690973af83ca61d06e880edf798373"
+      },
+      "path": "evidence/product/product-t11-merge-20261009T052125Z/record.json",
+      "sha256": "c7215366e32c236a72a84b3db5b7546e86541e00e8fa332d55fe782205c5e9f0"
+    },
+    {
+      "id": "product-t12-retained-integrity-local-verified",
+      "subject_id": "SF-PRODUCT-T12",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run check; npm run test:product; npm run test:browser; root exact-file/log hash verification",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T12-API",
+        "SF-PRODUCT-T12-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t12-retained-integrity-20261009T053221Z/root-verification-summary.txt",
+        "sha256": "32f067fc9d2f3fb7edc2fd15dded51c6f0c6397af713e392d88a9316754bc33f"
+      },
+      "path": "evidence/product/product-t12-retained-integrity-20261009T053221Z/record.json",
+      "sha256": "5cfa77a7207f3e7028bb8e7a9801dcad25108a03b384096b4208929c42932800"
+    },
+    {
+      "id": "product-t12-resource-bounds-local-verified",
+      "subject_id": "SF-PRODUCT-T12",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser with isolatedPG/pinnedJava after malformed-input resource fix",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T12-API",
+        "SF-PRODUCT-T12-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t12-security-correction-20261009T055200Z/summary.txt",
+        "sha256": "81a1ae45933277897ab68740450dd8427ec2877f77c22e5b7cb06e62fc43959f"
+      },
+      "path": "evidence/product/product-t12-security-correction-20261009T055200Z/record.json",
+      "sha256": "5c469f7b1d29410401f5ab39951d766b3e96c350098c2b9cc8dae875cf521de9"
     }
   ]
 }

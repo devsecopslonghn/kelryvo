@@ -1,0 +1,16 @@
+{
+  "task": "SF-PRODUCT-T12",
+  "tracker_checks": {
+    "pass": 21,
+    "skipped": 0,
+    "raw_output": "evidence/product/product-t12-retained-integrity-20261009T053221Z/root-tracker-final.txt",
+    "sha256": "d0d56fc7dab2a2319c3bb92ba66c641623bc8c16322f4508df1dd42da0574663"
+  },
+  "next_task": {
+    "id": "SF-PRODUCT-T13",
+    "status": "READY",
+    "implemented": false
+  },
+  "runtime_source_unchanged_from_record": true,
+  "format_and_validation": "PASS"
+}

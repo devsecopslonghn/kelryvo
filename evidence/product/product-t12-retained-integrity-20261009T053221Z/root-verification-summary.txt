@@ -1,0 +1,5 @@
+Root verified all eleven source hashes and three captured final log hashes against record.md.
+Standard142/142, product22/22, browser10/10; failures0, skips0.
+Partial initial npm-check.log and pre-final npm-check-with-product-env.log exist and are retained separately; other early failures lack raw capture.
+The original record.md has four intentional Markdown hard-break lines, retained unchanged. Runtime/source whitespace checks pass.
+T12 local PRODUCT scope only. Exact-head reviews and remote publication pending. Sonar unavailable, Oracle blocked.

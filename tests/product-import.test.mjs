@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { verifyRetainedRelease } from '../packages/migrations/verify-retained-release.mjs';
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdtempSync, mkdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -59,6 +60,9 @@ test('local Git release imports in arbitrary-precision numeric order and preserv
     assert.equal(result.validationStatus, 'VALID');
     assert.equal(result.commit, pinned);
     assert.deepEqual(result.files.map(file => file.version), ['2', '10', huge]);
+    assert.equal(verifyRetainedRelease({ commit_id: result.commit, object_format: result.objectFormat,
+      folder: result.folder, parser_profile: result.parserProfile, manifest_digest: result.manifestDigest,
+      files: result.files }), true, 'the retained checker accepts imported Unicode and arbitrary-precision versions');
     const unicode = result.files[0];
     assert.equal(unicode.content, first.toString('utf8'));
     assert.deepEqual(Buffer.from(unicode.content, 'utf8'), first);
