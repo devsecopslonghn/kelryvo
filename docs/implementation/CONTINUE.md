@@ -1,5 +1,40 @@
 # Resume SchemaForge PRODUCT delivery
 
+## T14 merged and master verified; T15 ready — 2026-10-09
+
+T14 merged through [PR #26](https://github.com/devsecopslonghn/schemaForge/pull/26) at
+`436851ed74b878d04b67c941eb05a41bba82312b`, reviewed head
+`7a691ad511a139ee9e02809ba4056f95e245523c`. Ten PR checks and all four
+master workflows passed with native independent QA/security approval on that exact head.
+Local results: 142 standard, 22 PostgreSQL product, 12 browser, 21 tracker and one focused
+browser case, zero skips. Review displays exact matched scoped configured profile/environment,
+omits credential references and proves complete no-write snapshots. Root verified all five
+source/fourteen raw-log hashes. Failed fixture captures remain preserved; the existing
+Workspace malformed-fixture crash is explicitly not fixed. Two TAP whitespace-only failure
+lines remain recorded exceptions. Merge evidence:
+`evidence/product/product-t14-merge-20261009T070619Z/record.json`.
+
+Next SF-PRODUCT-T15 is READY, registration only: verify retained source integrity before
+an authorized independent offline approval, using the existing bounded UTF-8/format-1 verifier
+and ordered plan file facts under scoped release locking. Reject integrity failures before
+writes, preserve rejection and existing audited authorization/terminal denials. Fresh worktree:
+`/home/longhn0710/workspace/schemaforge-product-approval-integrity`, branch
+`development/product-approval-integrity`, based on verified master above. Read AGENTS and
+exact acceptance; use one fresh coupled feature context. No Git/parser rerun, schema,
+credential resolution, target connection, worker, execution-time attestation or Oracle scope.
+T15 is not implemented/verified. This local checkpoint accompanies the next eligible PR.
+
+T08–T14 merged via PRs #19/#20/#22/#23/#24/#25/#26; PR #21 recorded delivery state.
+Working-tree conflict eliminated with dedicated PRODUCT worktrees; original shared checkout
+remains clean and untouched at `0346300471a889ae8fd33b022b890034be08d301`.
+Hygiene original four report findings are proven UUID/two source hashes/synthetic malformed
+UNIT PEM marker; fifth history match is a verified T10 evidence-log hash. Exact classification
+crosscheck complete. Independent T14 publication scan47files0findings; no actual credential
+observed, no rotation indicated. No separate Hygiene branch/PR is visible, integration pending.
+No history rewrite, broad allowlist or scanner weakening. Sonar unavailable, never PASS;
+Oracle VALIDATION separately BLOCKED and original catalog acceptance remains unchanged.
+
+
 ## T14 locally verified; exact-head publication review pending — 2026-10-09
 
 Review now displays the selected plan's exact matching configured profile/environment from

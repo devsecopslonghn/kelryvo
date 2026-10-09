@@ -1,0 +1,98 @@
+{
+  "id": "product-t14-merge-master-verified",
+  "subject_id": "SF-PRODUCT-T14",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "gh pr checks 26; gh pr view 26; gh run list --commit 436851ed74b878d04b67c941eb05a41bba82312b; sanitized GitHub alerts; independent native exact-head QA/security review",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t14-merge-20261009T070619Z/master-workflows.json",
+    "sha256": "97665fcde6e41d8ecc773c6506492422a6c4b9e178d6311cbcaa540939fc2e30"
+  },
+  "pr": 26,
+  "reviewed_head": "7a691ad511a139ee9e02809ba4056f95e245523c",
+  "base_before_merge": "a0d1fd1616bdf43126bc8481c5aae820d0736d30",
+  "merge_commit": "436851ed74b878d04b67c941eb05a41bba82312b",
+  "merged_at": "2026-10-09T07:06:19Z",
+  "pr_checks_passed": 10,
+  "master_workflows_passed": 4,
+  "normal_merge": true,
+  "force_push": false,
+  "admin_bypass": false,
+  "independent_reviews": {
+    "qa": "APPROVED /root/t14_qa exact reviewed_head; full47files; 5source14log hashes and txtmanifests verified;142standard22product12browser0skips/roottracker21",
+    "security": "APPROVED /root/t14_security exact reviewed_head; publication47files0; reachablehistory5 established benign UUID/source hashes/synthetic malformed UNIT PEM/raw log digest; no credential or rotation indicated"
+  },
+  "local_checks": {
+    "standard": 142,
+    "product": 22,
+    "browser": 12,
+    "root_tracker": 21,
+    "focused_browser": 1,
+    "skips": 0
+  },
+  "evidence_limits": "Focused failure raws retained. Two TAP whitespace-only lines specifically excepted, authoredchangesclean. Existing Workspace malformed-fixture crash not fixed or claimed fixed; final regression uses/restores malformed data inside Review. Run folder opaque ID not timestamp attestation.",
+  "hygiene_integration": "PENDING separate branch/PR unavailable; original four report findings exactly crosschecked and classified; fifth T10 evidence digest independently verified",
+  "shared_checkout": "Clean original master0346300471a889ae8fd33b022b890034be08d301 untouched",
+  "sonar": "UNAVAILABLE under unchanged owner quota exception, never PASS",
+  "oracle": "VALIDATION BLOCKED; no target connection/worker/deployment; no fullcatalog or frozen target attestation claim",
+  "next_product_task": "SF-PRODUCT-T15 READY, registration only",
+  "safe_snapshot_hashes": [
+    {
+      "path": "code-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dependabot-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "master-workflows.json",
+      "sha256": "97665fcde6e41d8ecc773c6506492422a6c4b9e178d6311cbcaa540939fc2e30"
+    },
+    {
+      "path": "merged-pr.json",
+      "sha256": "f3efea6d503cd065fe7c9433149196beb9f3cb1cb0f2cbbf55b067c3fbb12476"
+    },
+    {
+      "path": "postmerge-code-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "postmerge-dependabot-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "postmerge-secret-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "premerge-checks.json",
+      "sha256": "30f22f61d9d5d2f85bee39a5480defa006f9b5a09fa14ef3e352635c19e4a0d0"
+    },
+    {
+      "path": "premerge-pr.json",
+      "sha256": "c59f4f700d347149802b544131c9bf814192d60c5d4d2103e836388338f028ef"
+    },
+    {
+      "path": "secret-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    }
+  ],
+  "continuation_checkpoint_checks": {
+    "tracker_tests": {
+      "path": "evidence/product/product-t14-merge-20261009T070619Z/checkpoint-tracker.log",
+      "sha256": "402b2ec3a03f88b75d25009294a974116c2a94a51b6597a4a12f7ebb7ff77a81",
+      "outcome": "PASS21/21zero skips"
+    },
+    "tracker_validate": "PASS",
+    "next": "SF-PRODUCT-T15 READY",
+    "authored_json": "PASS",
+    "source": "PASS131 authored files",
+    "diff_check": "PASS; preceding raw-evidence exceptions unchanged"
+  }
+}

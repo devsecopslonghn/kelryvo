@@ -1953,6 +1953,24 @@
       },
       "path": "evidence/product/product-t14-local-20261009T134200Z/root-record.json",
       "sha256": "e29c017d98510f54b33473e67059ce470fbd32e7bfcd7c9dd9b8aaba4ac3bd0a"
+    },
+    {
+      "id": "product-t14-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T14",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "gh pr checks 26; gh pr view 26; gh run list --commit 436851ed74b878d04b67c941eb05a41bba82312b; sanitized GitHub alerts; independent native exact-head QA/security review",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t14-merge-20261009T070619Z/master-workflows.json",
+        "sha256": "97665fcde6e41d8ecc773c6506492422a6c4b9e178d6311cbcaa540939fc2e30"
+      },
+      "path": "evidence/product/product-t14-merge-20261009T070619Z/record.json",
+      "sha256": "f2816d2db24293ab0697ed1a04a45c1dd65a8226e2d0661e736995ec9cd86f75"
     }
   ]
 }
