@@ -1,0 +1,150 @@
+
+added 60 packages in 1s
+{"verified_copied_test_artifacts": [["experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar", "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38"], [".cache/antlr/antlr4-runtime-4.13.2.jar", "dd3e8a13a2d669bf84fb8d834de35ce4875f27157698d206241ec8488aadcaf7"]], "java": "/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin", "private_configuration_copied": false}
+TAP version 13
+# Subtest: persisted tracker state validates without assuming initial statuses
+ok 1 - persisted tracker state validates without assuming initial statuses
+  ---
+  duration_ms: 79.238449
+  type: 'test'
+  ...
+# Subtest: catalog and plan IDs are retained with original dependency links
+ok 2 - catalog and plan IDs are retained with original dependency links
+  ---
+  duration_ms: 4.110638
+  type: 'test'
+  ...
+# Subtest: separate WP0 cells never claim research as runtime PASS
+ok 3 - separate WP0 cells never claim research as runtime PASS
+  ---
+  duration_ms: 89.014924
+  type: 'test'
+  ...
+# Subtest: initial state keeps Oracle validation and product delivery tracks distinct
+ok 4 - initial state keeps Oracle validation and product delivery tracks distinct
+  ---
+  duration_ms: 17.083597
+  type: 'test'
+  ...
+# Subtest: unknown and cyclic dependencies are rejected
+ok 5 - unknown and cyclic dependencies are rejected
+  ---
+  duration_ms: 24.503442
+  type: 'test'
+  ...
+# Subtest: verification requires acceptance, evidence, and verified dependencies
+ok 6 - verification requires acceptance, evidence, and verified dependencies
+  ---
+  duration_ms: 18.993482
+  type: 'test'
+  ...
+# Subtest: BLOCKED and DEFERRED states require concrete reasons
+ok 7 - BLOCKED and DEFERRED states require concrete reasons
+  ---
+  duration_ms: 17.517228
+  type: 'test'
+  ...
+# Subtest: unit BLOCKED requires an offline blocker independent of Oracle lab status
+ok 8 - unit BLOCKED requires an offline blocker independent of Oracle lab status
+  ---
+  duration_ms: 18.242755
+  type: 'test'
+  ...
+# Subtest: Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+ok 9 - Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+  ---
+  duration_ms: 12.928819
+  type: 'test'
+  ...
+# Subtest: malformed evidence metadata returns validation errors without throwing
+ok 10 - malformed evidence metadata returns validation errors without throwing
+  ---
+  duration_ms: 46.117709
+  type: 'test'
+  ...
+# Subtest: research evidence cannot certify product status
+ok 11 - research evidence cannot certify product status
+  ---
+  duration_ms: 11.388579
+  type: 'test'
+  ...
+# Subtest: PASS cells need evidence
+ok 12 - PASS cells need evidence
+  ---
+  duration_ms: 9.963052
+  type: 'test'
+  ...
+# Subtest: ownership and dependency graph remain synchronized with work records
+ok 13 - ownership and dependency graph remain synchronized with work records
+  ---
+  duration_ms: 19.239372
+  type: 'test'
+  ...
+# Subtest: duplicate, missing, and unexpected imported IDs are rejected
+ok 14 - duplicate, missing, and unexpected imported IDs are rejected
+  ---
+  duration_ms: 26.205142
+  type: 'test'
+  ...
+# Subtest: source dependencies, acceptance, references, and result enums cannot drift
+ok 15 - source dependencies, acceptance, references, and result enums cannot drift
+  ---
+  duration_ms: 9.011529
+  type: 'test'
+  ...
+# Subtest: hashed indexed evidence covers every acceptance and test reference before verification
+ok 16 - hashed indexed evidence covers every acceptance and test reference before verification
+  ---
+  duration_ms: 98.479679
+  type: 'test'
+  ...
+# Subtest: product feature verification needs product-scope evidence and verified implementation tasks
+ok 17 - product feature verification needs product-scope evidence and verified implementation tasks
+  ---
+  duration_ms: 17.708947
+  type: 'test'
+  ...
+# Subtest: init refuses to overwrite initialized evidence or tracking state
+ok 18 - init refuses to overwrite initialized evidence or tracking state
+  ---
+  duration_ms: 68.305755
+  type: 'test'
+  ...
+# Subtest: next respects milestone scope and dependency gates independent of persisted statuses
+ok 19 - next respects milestone scope and dependency gates independent of persisted statuses
+  ---
+  duration_ms: 2.876622
+  type: 'test'
+  ...
+# Subtest: PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+ok 20 - PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+  ---
+  duration_ms: 47.398037
+  type: 'test'
+  ...
+# Subtest: PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+ok 21 - PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+  ---
+  duration_ms: 86.942009
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 836.481266
+
+> schemaforge-local-development@0.0.0 format:check
+> node scripts/format-json.mjs --check
+
+Authored JSON formatting passed; imported inputs and evidence excluded.
+
+> schemaforge-local-development@0.0.0 lint
+> node scripts/check-source.mjs && node scripts/tracker.mjs validate
+
+Source checks passed for 157 authored files.
+Tracker data valid: 220 features, 64 imported tasks plus foundation and 24 product tasks, 63 cases; no Oracle verification claims.

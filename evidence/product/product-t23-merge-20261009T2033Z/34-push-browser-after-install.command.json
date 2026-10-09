@@ -1,0 +1,5 @@
+{
+  "command": "gh run view 37984932479 --repo devsecopslonghn/schemaForge --json status,conclusion,jobs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:19:58.373827+00:00"
+}

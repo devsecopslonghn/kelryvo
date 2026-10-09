@@ -1,0 +1,11 @@
+{
+  "command": "python - <<'PY'\nimport subprocess,json\nsha=subprocess.check_output([\"git\",\"ls-remote\",\"origin\",\"refs/heads/development/product-discussion-evidence\"],text=True).split()[0];assert sha==\"dab29a357e3e29d65b7db23255dbae56abf3f00f\";print(json.dumps({\"remote_head\":sha,\"reviewed_head_matches\":True}))\nPY",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:08:34.948679+00:00",
+  "ended_at_utc": "2026-10-09T20:08:35.898497+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/31-verify-remote-head.log",
+    "sha256": "5f2b6a74587d71b27559b1427b68fdd6a9314204e18013ed74e74e0ac659d156"
+  }
+}

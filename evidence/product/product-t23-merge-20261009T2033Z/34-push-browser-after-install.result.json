@@ -1,0 +1,11 @@
+{
+  "command": "gh run view 37984932479 --repo devsecopslonghn/schemaForge --json status,conclusion,jobs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:19:58.373827+00:00",
+  "ended_at_utc": "2026-10-09T20:19:59.871797+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/34-push-browser-after-install.log",
+    "sha256": "5defed4a3ab4a388a7f7c7e1cc234ad4157d91b7447313c5b06edd4bf37aeac4"
+  }
+}

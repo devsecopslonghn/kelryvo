@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t23-master-state.py --require-pass",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:31:48.273595+00:00",
+  "ended_at_utc": "2026-10-09T20:31:49.480272+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/41-final-exact-master-workflows.log",
+    "sha256": "238a456918f7e5b3b9e71d208e9e090d4d2a4cb3ab3790757d2829b05ead1cb4"
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "head": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+  "classified_at_utc": "2026-10-09T20:02:09.217243+00:00",
+  "publication": {
+    "files": 324,
+    "scanner_exit_code": 1,
+    "findings": 4,
+    "clean_PASS": false
+  },
+  "history": {
+    "scanner_exit_code": 1,
+    "findings": 117,
+    "prior116_exact_tuple_multiset_preserved": true,
+    "new_findings": 1,
+    "clean_PASS": false
+  },
+  "classification": [
+    {
+      "scope": "publication",
+      "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+      "path": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+      "lines": [
+        416,
+        416
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "7c7cd5df8062e265ed9985a6389a3e87c455c6c5",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    },
+    {
+      "scope": "publication",
+      "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/snapshot-sha256.json",
+      "lines": [
+        159,
+        159
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "7989f01d113c2d80db170b4cfb84bbd3e397301863e69afd6ba85683b6b47097",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "7c7cd5df8062e265ed9985a6389a3e87c455c6c5",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    },
+    {
+      "scope": "publication",
+      "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+      "path": "docs/implementation/CONTINUE.md",
+      "lines": [
+        370,
+        370
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "4f52a0dc98b0847dfb9890c2fd36e96f00f0597a4756920d1706784081876c48",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+    },
+    {
+      "scope": "publication",
+      "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+      "path": "docs/implementation/CURRENT.md",
+      "lines": [
+        370,
+        370
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "3c524b4c4f26ff49b6a344a4db4c6bdf597a48c556c521e85dbfe23356fd948c",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+    },
+    {
+      "scope": "new_history",
+      "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/snapshot-sha256.json",
+      "lines": [
+        159,
+        159
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "7989f01d113c2d80db170b4cfb84bbd3e397301863e69afd6ba85683b6b47097",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "7c7cd5df8062e265ed9985a6389a3e87c455c6c5",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    }
+  ],
+  "actual_credentials_observed": false,
+  "rotation_indicated": false,
+  "no_scanner_or_history_changes": true,
+  "limitations": [
+    "Prior116 independent classifications and8 historical unavailable source-byte limits remain; no fabricated recomputation. Earlier mutable T23 UI bytes were unavailable and remain a limit.",
+    "Fresh corrected-head independent review remains required. Finding-bearing scans are not clean PASS; Sonar unavailable never PASS; Oracle independent BLOCKED."
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "command": "set -e\ngit fetch origin\npython - <<'PY'\nimport subprocess,json\nfrom pathlib import Path\ndef run(a,cwd=Path.cwd()):return subprocess.check_output(a,cwd=cwd,text=True)\npr=json.loads(run([\"gh\",\"pr\",\"view\",\"36\",\"--repo\",\"devsecopslonghn/schemaForge\",\"--json\",\"number,url,state,headRefOid,mergeCommit,mergedAt,statusCheckRollup\"]))\nassert pr[\"state\"]==\"MERGED\" and pr[\"headRefOid\"]==\"dab29a357e3e29d65b7db23255dbae56abf3f00f\"\nmaster=run([\"git\",\"rev-parse\",\"origin/master\"]).strip();assert master==pr[\"mergeCommit\"][\"oid\"]\ntree=run([\"git\",\"rev-parse\",master+\"^{tree}\"]).strip();assert tree==\"ccc3058db4b34c4db51085b74818587f1cd1d82d\"\nassert run([\"git\",\"status\",\"--porcelain\"])==\"\"\nshared=Path(\"/home/longhn0710/workspace/schemaforge\");assert run([\"git\",\"status\",\"--porcelain\"],shared)==\"\" and run([\"git\",\"rev-parse\",\"HEAD\"],shared).strip()==\"0346300471a889ae8fd33b022b890034be08d301\"\nprint(json.dumps({\"pr\":pr,\"merged_master\":master,\"reviewed_tree_equals_master\":True,\"master_tree\":tree,\"shared_untouched\":True},indent=2))\nPY",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:24:13.641973+00:00",
+  "ended_at_utc": "2026-10-09T20:24:16.210584+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/39-resolve-merged-master.log",
+    "sha256": "6f87e2f0fc7e4cb99044f70583506361ba99fa2f990d441524c2397f3c6d45b2"
+  }
+}

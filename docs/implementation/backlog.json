@@ -2866,6 +2866,9 @@
         },
         {
           "index_id": "product-t23-corrected-comment-evidence-local-verified"
+        },
+        {
+          "index_id": "product-t23-merge-master-verified"
         }
       ],
       "blockers": []
@@ -2897,7 +2900,7 @@
         "SF-PRODUCT-T24-WEB",
         "SF-PRODUCT-T24-PERSISTENCE"
       ],
-      "status": "READY",
+      "status": "IN_PROGRESS",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],

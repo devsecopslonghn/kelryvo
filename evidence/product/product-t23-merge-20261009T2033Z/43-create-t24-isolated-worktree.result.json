@@ -1,0 +1,11 @@
+{
+  "command": "python - <<'PY'\nfrom pathlib import Path\nimport subprocess,json\nr=Path.cwd();p=Path(\"/home/longhn0710/workspace/schemaforge-product-audit-pages\");branch=\"development/product-audit-pages\";master=\"0fd6980db49c9546ab0a04fe07321a348eee2d65\"\ndef run(a,cwd=r):return subprocess.check_output(a,cwd=cwd,text=True)\nassert run([\"git\",\"status\",\"--porcelain\"])==\"\" and run([\"git\",\"rev-parse\",\"origin/master\"]).strip()==master\nassert run([\"git\",\"remote\",\"get-url\",\"origin\"]).strip()==\"https://github.com/devsecopslonghn/schemaForge.git\"\nassert not p.exists() and not p.is_symlink()\nassert subprocess.run([\"git\",\"show-ref\",\"--verify\",\"--quiet\",\"refs/heads/\"+branch],cwd=r).returncode==1\nbefore=run([\"git\",\"worktree\",\"list\",\"--porcelain\"])\nsubprocess.run([\"git\",\"worktree\",\"add\",\"-b\",branch,str(p),\"origin/master\"],cwd=r,check=True)\nassert run([\"git\",\"rev-parse\",\"HEAD\"],p).strip()==master and run([\"git\",\"status\",\"--porcelain\"],p)==\"\"\nprint(json.dumps({\"new_worktree\":str(p),\"branch\":branch,\"base\":master,\"clean_new_worktree\":True,\"prior_worktrees\":before,\"remote_verified\":True},indent=2))\nPY",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:32:32.286109+00:00",
+  "ended_at_utc": "2026-10-09T20:32:32.779683+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/43-create-t24-isolated-worktree.log",
+    "sha256": "d59e8d1f05b0a0d13fc9acf8fa17354f816878f233f32ba418c53da0f88fe6b9"
+  }
+}
