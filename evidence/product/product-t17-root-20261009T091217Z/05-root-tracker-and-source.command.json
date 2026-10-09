@@ -1,0 +1,5 @@
+{
+  "command": "set -e; npm run format:check; node scripts/tracker.mjs validate; node --test tests/tracker.test.mjs; node scripts/check-source.mjs; git diff --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T09:29:19.151425+00:00"
+}

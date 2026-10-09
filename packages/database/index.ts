@@ -38,6 +38,8 @@ export async function initializeDatabase(sql: any): Promise<void> {
       decision text, decision_reason text, decided_by text, created_at timestamptz NOT NULL DEFAULT now(), decided_at timestamptz,
       items jsonb NOT NULL, execution text NOT NULL DEFAULT 'NOT_EXECUTED', history_status text NOT NULL DEFAULT 'NOT_OBSERVED',
       planning_scope text NOT NULL DEFAULT 'OFFLINE_CANDIDATE',
+      offline_intent_envelope text,
+      offline_intent_digest text CHECK (offline_intent_digest IS NULL OR offline_intent_digest ~ '^[a-f0-9]{64}$'),
       FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
       FOREIGN KEY(release_id,project_id) REFERENCES sf_releases(id,project_id),
       FOREIGN KEY(profile_id,project_id) REFERENCES sf_profiles(id,project_id), UNIQUE(id,project_id)
@@ -66,6 +68,8 @@ export async function initializeDatabase(sql: any): Promise<void> {
     ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_folder text;
     ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_updated_at timestamptz;
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS decided_by_name text;
+    ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS offline_intent_envelope text;
+    ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS offline_intent_digest text;
     DO $$ BEGIN
       IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_projects'::regclass AND conname='sf_projects_source_binding_complete') THEN
         ALTER TABLE sf_projects ADD CONSTRAINT sf_projects_source_binding_complete

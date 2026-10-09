@@ -1,0 +1,153 @@
+
+> schemaforge-local-development@0.0.0 test:browser
+> npm run build:web && node scripts/test-product.mjs --browser
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# Subtest: browser shows fixed approval integrity feedback and preserves pending plan for rejection
+ok 1 - browser shows fixed approval integrity feedback and preserves pending plan for rejection
+  ---
+  duration_ms: 6319.421854
+  type: 'test'
+  ...
+# Browser archive workflow and archived project records remained readable after API restart.
+# Subtest: browser archives a project and keeps its releases, plan, audit, and history readable
+ok 2 - browser archives a project and keeps its releases, plan, audit, and history readable
+  ---
+  duration_ms: 6898.122094
+  type: 'test'
+  ...
+# Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+ok 3 - audit action filters preserve project scope, server order, archived reads and read-only records
+  ---
+  duration_ms: 1903.881087
+  type: 'test'
+  ...
+# Real browser workflow and PostgreSQL restart persistence passed; Oracle untouched.
+# Subtest: browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+ok 4 - browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+  ---
+  duration_ms: 8736.61778
+  type: 'test'
+  ...
+# browser phase: application and browser started
+# browser phase: project, import, and approval workflow completed
+# browser phase: duplicate pending plan created
+# browser phase: rejection and execution-denial workflow completed
+# browser phase: original browser closed before API restart
+# browser phase: original API closed
+# browser phase: API restarted and PostgreSQL state verified
+# browser phase: developer signed in and selected unbound project
+# browser phase: source PUT reached delayed-response handler after server write
+# browser phase: approver signed in and original project reselected
+# browser phase: delayed-response route cleanup completed
+# browser phase: stale success was ignored and workflow finished
+# Subtest: plan comments remain scoped, readable, and persistent across API restart
+ok 5 - plan comments remain scoped, readable, and persistent across API restart
+  ---
+  duration_ms: 14358.185717
+  type: 'test'
+  ...
+# Subtest: decision records render the stored attribution safely and stay plan-specific
+not ok 6 - decision records render the stored attribution safely and stay plan-specific
+  ---
+  duration_ms: 280.290588
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-offline-plan-intent/tests/product-decision-record-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    409 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 409
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-offline-plan-intent/tests/product-decision-record-browser.integration.mjs:48:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+ok 7 - release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+  ---
+  duration_ms: 3911.575099
+  type: 'test'
+  ...
+# Subtest: browser shows frozen intent facts and keeps changed current configuration separate
+ok 8 - browser shows frozen intent facts and keeps changed current configuration separate
+  ---
+  duration_ms: 6850.75982
+  type: 'test'
+  ...
+# Subtest: browser shows retained plan requester facts and blocks author decisions
+ok 9 - browser shows retained plan requester facts and blocks author decisions
+  ---
+  duration_ms: 9301.146409
+  type: 'test'
+  ...
+# Subtest: plan source inspection stays bound to retained releases and is read only
+ok 10 - plan source inspection stays bound to retained releases and is read only
+  ---
+  duration_ms: 26824.676361
+  type: 'test'
+  ...
+# Subtest: plan review shows only its matching current project profile and environment
+not ok 11 - plan review shows only its matching current project profile and environment
+  ---
+  duration_ms: 11547.633995
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-offline-plan-intent/tests/product-plan-target-browser.integration.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.innerText: Error: strict mode violation: locator('.configured-target') resolved to 2 elements:
+        1) <section class="panel configured-target" aria-label="Retained offline intent" data-intent-plan-id="2028d778-37bc-4cd2-a848-d5a0b001d79f">…</section> aka getByRole('region', { name: 'Retained offline intent' })
+        2) <section aria-label="Configured target" class="panel configured-target" data-plan-target-id="2028d778-37bc-4cd2-a848-d5a0b001d79f">…</section> aka getByRole('region', { name: 'Configured target' })
+    
+    Call log:
+    [2m  - waiting for locator('.configured-target')[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-offline-plan-intent/tests/product-plan-target-browser.integration.mjs:124:33)
+  ...
+# Subtest: browser gives fixed feedback when a retained release fails integrity verification
+ok 12 - browser gives fixed feedback when a retained release fails integrity verification
+  ---
+  duration_ms: 6192.967844
+  type: 'test'
+  ...
+# Subtest: release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+ok 13 - release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+  ---
+  duration_ms: 6571.474819
+  type: 'test'
+  ...
+# Subtest: browser displays a server-audited decision denial to the authenticated project actor
+ok 14 - browser displays a server-audited decision denial to the authenticated project actor
+  ---
+  duration_ms: 6175.156309
+  type: 'test'
+  ...
+# Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+ok 15 - status filters preserve scoped ordered plans, drafts, history and archived reads
+  ---
+  duration_ms: 3058.555058
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 13
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 129307.80205

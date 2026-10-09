@@ -1,0 +1,5 @@
+{
+  "command": "gh pr list --state open --json number,title,headRefName,headRefOid,baseRefName,isDraft,url",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T09:29:54.297065+00:00"
+}

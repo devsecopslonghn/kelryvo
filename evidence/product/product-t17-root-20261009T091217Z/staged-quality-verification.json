@@ -1,0 +1,88 @@
+{
+  "default_staged_diff_exit_code": 2,
+  "accepted_exact_raw_tap_whitespace_warnings": [
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/browser-suite.log",
+      "line": 64,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/browser-suite.log",
+      "line": 66,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/browser-suite.log",
+      "line": 113,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/browser-suite.log",
+      "line": 116,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/focused-api-2.log",
+      "line": 17,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/focused-api-2.log",
+      "line": 19,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/focused-api-retry.log",
+      "line": 17,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/focused-api-retry.log",
+      "line": 19,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 332,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 334,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 361,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 363,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 384,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 386,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 469,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 474,
+      "diagnostic": "trailing whitespace."
+    }
+  ],
+  "source_and_all_remaining_paths_exit_code": 0,
+  "broad_whitespace_config_changed": false,
+  "raw_bytes_unchanged": true
+}

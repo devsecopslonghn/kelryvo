@@ -1,0 +1,1 @@
+SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run build:web

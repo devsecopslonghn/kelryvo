@@ -1,0 +1,11 @@
+{
+  "command": "git diff --cached --check origin/master",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T09:31:22.635844+00:00",
+  "ended_at_utc": "2026-10-09T09:31:22.657429+00:00",
+  "exit_code": 2,
+  "raw_output": {
+    "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+    "sha256": "f8b398bca883d323bbbf687c5b164acbf0da4601b101380405cedbc3413237eb"
+  }
+}

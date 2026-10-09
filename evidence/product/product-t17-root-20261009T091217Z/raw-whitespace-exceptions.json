@@ -1,0 +1,45 @@
+{
+  "scope": "Only exact whitespace-only lines in immutable raw TAP captures. No source changes or broad whitespace configuration exceptions.",
+  "files": [
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/browser-suite.log",
+      "sha256": "33125d1d19fe3518f1ef930ff4954bed24555566c926ec790660a7650bcfe2f2",
+      "exact_whitespace_only_lines": [
+        64,
+        66,
+        113,
+        116
+      ]
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/focused-api-2.log",
+      "sha256": "03585d66b5a8a3af4cf1962a95651d3a6d324f9d512b62a73dd0404c8bf35587",
+      "exact_whitespace_only_lines": [
+        17,
+        19
+      ]
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/focused-api-retry.log",
+      "sha256": "ceec78f0cc4ca877fadbb179802d7b4c2e50bf3c9653cbded7468a1767fd3902",
+      "exact_whitespace_only_lines": [
+        17,
+        19
+      ]
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "sha256": "b61cba643e40eddaad10e64ef745580f47cc40d112e3647722f985ef320bd2a9",
+      "exact_whitespace_only_lines": [
+        332,
+        334,
+        361,
+        363,
+        384,
+        386,
+        469,
+        474
+      ]
+    }
+  ]
+}

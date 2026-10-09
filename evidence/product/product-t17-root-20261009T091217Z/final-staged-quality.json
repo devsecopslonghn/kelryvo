@@ -1,0 +1,171 @@
+{
+  "command": "git diff --cached --check origin/master; validate every warning against exact immutable raw line allowances; git diff on all remaining paths",
+  "started_at_utc": "2026-10-09T09:32:22.428634+00:00",
+  "ended_at_utc": "2026-10-09T09:32:22.468358+00:00",
+  "default_exit_code": 2,
+  "accepted_exact_raw_warnings": [
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/browser-suite.log",
+      "line": 64,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/browser-suite.log",
+      "line": 66,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/browser-suite.log",
+      "line": 113,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/browser-suite.log",
+      "line": 116,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/focused-api-2.log",
+      "line": 17,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/focused-api-2.log",
+      "line": 19,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/focused-api-retry.log",
+      "line": 17,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/focused-api-retry.log",
+      "line": 19,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 332,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 334,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 361,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 363,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 384,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 386,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 469,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-20261009T090639Z/npm-check.log",
+      "line": 474,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 2,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 4,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 6,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 8,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 10,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 12,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 14,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 16,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 18,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 20,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 22,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 24,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 26,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 28,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 30,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/10-staged-diff-default.log",
+      "line": 32,
+      "diagnostic": "trailing whitespace."
+    }
+  ],
+  "all_remaining_paths_exit_code": 0,
+  "source_bytes_changed": false,
+  "broad_whitespace_config_changed": false
+}

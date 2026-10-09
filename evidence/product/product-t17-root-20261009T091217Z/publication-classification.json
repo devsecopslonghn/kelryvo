@@ -1,0 +1,285 @@
+{
+  "classified_at_utc": "2026-10-09T09:33:45.395954+00:00",
+  "scan_record": "evidence/product/product-t17-root-20261009T091217Z/staged-publication-scan.json",
+  "scan_record_sha256": "02c8c9d357f641a8670b72a9b2c231090a1499d926b27ba8e1752608005b4996",
+  "scanner_exit_code": 1,
+  "findings": [
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 128,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-2.command.txt",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "2658918e3a018a9005651ee6d834877d535b4bcdb59ada1b6d5bdae6ad2e0c70"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 129,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-2.end.utc",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "33463d6a4ce2c3dcb8326a375ba1f7d246a3b768fd0c91ecfb68b18b556fcc65"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 130,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-2.exit",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 131,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-2.log",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "03585d66b5a8a3af4cf1962a95651d3a6d324f9d512b62a73dd0404c8bf35587"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 132,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-2.start.utc",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "d8e28f34cfd55d0f038c0e46efcd74a4b58f5435fd24700b091642b0d8648ef4"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 133,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-3.command.txt",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "2658918e3a018a9005651ee6d834877d535b4bcdb59ada1b6d5bdae6ad2e0c70"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 134,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-3.end.utc",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "319682ac6f8c778c2bd4cb286c45cf2d512d4bb744b4baab41c4382b190d5ec0"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 135,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-3.exit",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 136,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-3.log",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "3558aac21ca3b0fe671a548a4f14813c596778a8ddbc9f6f48672a9ace9047d1"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 137,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-3.start.utc",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "84cd966a1aa214c2f601bcff573530cdcef8f384cb4ee369bb2bb17f37f08596"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 138,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-5.command.txt",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "f08138bac27e521ab3c1d0d70b7184536f70239206d58e22c7c91e5dfb935bd7"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 139,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-5.end.utc",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "bfd915c311e4ea302aa68dbab340c649c0cb1ad29bd183420d293853086af682"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 140,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-5.exit",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 141,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-5.log",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "e03ae2704eed2b4b5e70c3b09975ae790d30449023dfa2975f7cd8ef51f2d132"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 142,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-5.start.utc",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "91e439f2b87d3480f2cb3d1828e9eca8f7133775298616d1be2ec5d718626e7f"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 143,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-final.command.txt",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "9dc473407e3eaf02b889682fd2b62a20abec9f6ea908ef2568d51f2ee907fd19"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 144,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-final.end.utc",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "92a47ef5e7dae2fe91eb19354a9fdf8938900a5ef0ea010656793ff431982b1a"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 145,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-final.exit",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 146,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-final.log",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "1c90373a76d508f99c950cd9c8c9631f69bb57512f439f55e2feb4015b6a2d0c"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 147,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-final.start.utc",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "c540a1d4a1c2feae2aedc97cd1a59dbf4af2e1d3458989aae5050224d7ded7a0"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 148,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-retry.command.txt",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "2658918e3a018a9005651ee6d834877d535b4bcdb59ada1b6d5bdae6ad2e0c70"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 149,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-retry.end.utc",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "de93e4cd7dd206a95bcf613b7d4e08c19bfe96bf6f7a6e3af8a8c59f8c93b6e6"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 150,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-retry.exit",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 151,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-retry.log",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "ceec78f0cc4ca877fadbb179802d7b4c2e50bf3c9653cbded7468a1767fd3902"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 152,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api-retry.start.utc",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "51d295425235cda5b35214d6c6f5f54407d8888bbc93792814704b1465d98a30"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 153,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api.command.txt",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "2658918e3a018a9005651ee6d834877d535b4bcdb59ada1b6d5bdae6ad2e0c70"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 154,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api.end.utc",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "4980cc79cfb1c266595483d3a9b3c3214c8fa0585a039215929c4a1ae2b52ebe"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 155,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api.exit",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 156,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api.log",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "be6f6df42a8bab13164c3367647960bb91a945105890969ec6e51b3e47596842"
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "line": 157,
+      "artifact_path": "evidence/product/product-t17-20261009T090639Z/focused-api.start.utc",
+      "classification": "Computed SHA256 of immutable captured verification artifact, not a credential",
+      "independent_digest_matches": true,
+      "content_digest_sha256": "c676bcb9926ed05fc3a737070fd42d7b1f4c736bb295fff37cd21d09c9112e90"
+    }
+  ],
+  "classification_count": 30,
+  "native_completion_sha256": "97469b191b04518c37b7d5c5390f27933b2f821c39f455700d687e71ee1aebb4",
+  "actual_credentials_observed": false,
+  "rotation_indicated": false,
+  "allowlist_added": false,
+  "public_history_rewritten": false,
+  "status": "ROOT_CLASSIFIED_AWAITING_INDEPENDENT_EXACT_HEAD_SECURITY"
+}

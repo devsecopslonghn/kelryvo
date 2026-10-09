@@ -1,0 +1,17 @@
+SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --input-type=module <<'EOFJS'
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { importGitRelease } from './packages/migrations/import-release.mjs';
+const dir = mkdtempSync(path.join(tmpdir(), 'sf-t17-parser-'));
+try {
+  const git = (...args) => execFileSync('git', ['-C', dir, ...args], { stdio: 'ignore', env: { ...process.env, GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null' } });
+  git('init', '--quiet'); git('config', 'user.name', 'Synthetic T17'); git('config', 'user.email', 'synthetic@invalid');
+  mkdirSync(path.join(dir, 'migrations'), { recursive: true });
+  writeFileSync(path.join(dir, 'migrations/V1__sample.sql'), '-- café 😀\nCREATE TABLE sample_t17 (id NUMBER);\n');
+  git('add', '--all'); git('commit', '--quiet', '-m', 'synthetic parser case');
+  const r = await importGitRelease({ repositoryPath: dir, commit: 'HEAD', folder: 'migrations' });
+  console.log(JSON.stringify({ validationStatus: r.validationStatus, validationCode: r.validationCode, files: r.files.map(({ path, validationStatus, statementCount }) => ({ path, validationStatus, statementCount })) }));
+} finally { rmSync(dir, { recursive: true, force: true }); }
+EOFJS

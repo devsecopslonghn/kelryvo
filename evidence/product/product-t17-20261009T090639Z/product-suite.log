@@ -1,0 +1,158 @@
+
+> schemaforge-local-development@0.0.0 test:product
+> node scripts/test-product.mjs
+
+TAP version 13
+# Subtest: product API persists a governed offline plan and never claims execution
+ok 1 - product API persists a governed offline plan and never claims execution
+  ---
+  duration_ms: 5497.854534
+  type: 'test'
+  ...
+# Subtest: approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+ok 2 - approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+  ---
+  duration_ms: 5800.266555
+  type: 'test'
+  ...
+# Subtest: archival keeps immutable records readable and refuses further project work
+ok 3 - archival keeps immutable records readable and refuses further project work
+  ---
+  duration_ms: 297.349765
+  type: 'test'
+  ...
+# Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+ok 4 - an in-flight metadata write rechecks archival after acquiring the project lock
+  ---
+  duration_ms: 156.978706
+  type: 'test'
+  ...
+# Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+ok 5 - plan review comments are scoped, validated, durable, ordered, and serialized
+  ---
+  duration_ms: 483.045651
+  type: 'test'
+  ...
+# Subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+ok 6 - concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+  ---
+  duration_ms: 295.769778
+  type: 'test'
+  ...
+# Subtest: terminal plan decisions retain reviewer snapshots and historical ID fallback
+ok 7 - terminal plan decisions retain reviewer snapshots and historical ID fallback
+  ---
+  duration_ms: 312.35556
+  type: 'test'
+  ...
+# Subtest: local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+ok 8 - local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+  ---
+  duration_ms: 7861.499029
+  type: 'test'
+  ...
+# Subtest: resolved commits remain immutable after the source branch moves
+ok 9 - resolved commits remain immutable after the source branch moves
+  ---
+  duration_ms: 5304.730291
+  type: 'test'
+  ...
+# Subtest: leading-zero aliases and equivalent dotted versions are rejected as duplicates
+ok 10 - leading-zero aliases and equivalent dotted versions are rejected as duplicates
+  ---
+  duration_ms: 105.640235
+  type: 'test'
+  ...
+# Subtest: malformed refs and migration-folder traversal are rejected before Git lookup
+ok 11 - malformed refs and migration-folder traversal are rejected before Git lookup
+  ---
+  duration_ms: 41.321705
+  type: 'test'
+  ...
+# Subtest: symlinked migration entries and Git submodules are rejected
+ok 12 - symlinked migration entries and Git submodules are rejected
+  ---
+  duration_ms: 165.432584
+  type: 'test'
+  ...
+# Subtest: invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+ok 13 - invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+  ---
+  duration_ms: 5249.665936
+  type: 'test'
+  ...
+# Subtest: the installed ANTLR helper parses actual imported SQL without a fake positive driver
+ok 14 - the installed ANTLR helper parses actual imported SQL without a fake positive driver
+  ---
+  duration_ms: 2640.355303
+  type: 'test'
+  ...
+# Subtest: plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+ok 15 - plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+  ---
+  duration_ms: 5825.250586
+  type: 'test'
+  ...
+# Subtest: offline planning rejects corrupted retained releases without writes and uses locked current state
+ok 16 - offline planning rejects corrupted retained releases without writes and uses locked current state
+  ---
+  duration_ms: 5759.659541
+  type: 'test'
+  ...
+# Subtest: startup arguments accept repeated local repositories and reject unknown or excess options
+ok 17 - startup arguments accept repeated local repositories and reject unknown or excess options
+  ---
+  duration_ms: 3.613097
+  type: 'test'
+  ...
+# Subtest: configured repositories are canonical local Git worktrees with display-only public descriptors
+ok 18 - configured repositories are canonical local Git worktrees with display-only public descriptors
+  ---
+  duration_ms: 84.403798
+  type: 'test'
+  ...
+# Subtest: invalid startup options fail before creating local configuration or reaching Docker
+ok 19 - invalid startup options fail before creating local configuration or reaching Docker
+  ---
+  duration_ms: 133.582033
+  type: 'test'
+  ...
+# Subtest: a configured custom Git repository is visible without its path and imports through the product API
+ok 20 - a configured custom Git repository is visible without its path and imports through the product API
+  ---
+  duration_ms: 2814.742702
+  type: 'test'
+  ...
+# Subtest: project-bound Git refs list safely and imports retain immutable branch and tag commits
+ok 21 - project-bound Git refs list safely and imports retain immutable branch and tag commits
+  ---
+  duration_ms: 8056.051035
+  type: 'test'
+  ...
+# Subtest: authenticated denied decisions append fixed audit facts while preserving plan and history
+ok 22 - authenticated denied decisions append fixed audit facts while preserving plan and history
+  ---
+  duration_ms: 391.742435
+  type: 'test'
+  ...
+# Subtest: source bindings persist, authorize changes, constrain imports before Git, and remain private
+ok 23 - source bindings persist, authorize changes, constrain imports before Git, and remain private
+  ---
+  duration_ms: 243.03832
+  type: 'test'
+  ...
+# Subtest: source binding is rechecked under a project lock before an imported release can commit
+ok 24 - source binding is rechecked under a project lock before an imported release can commit
+  ---
+  duration_ms: 5325.289364
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 65067.003948

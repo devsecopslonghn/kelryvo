@@ -2056,6 +2056,32 @@
       },
       "path": "evidence/product/product-t16-merge-20261009T085528Z/record.json",
       "sha256": "fef79a5329e7a9e6aae41a0009cb54f8994866cefdcce94641053eff3aa57d2f"
+    },
+    {
+      "id": "product-t17-offline-intent-local-verified",
+      "subject_id": "SF-PRODUCT-T17",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check with PostgreSQL and pinned Java; npm run test:product; npm run test:browser; focused encoder/API fixtures; isolated parser/import suite",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T17-UNIT",
+        "SF-PRODUCT-T17-API",
+        "SF-PRODUCT-T17-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t17-20261009T090639Z/browser-suite-final.log",
+        "sha256": "a98857815236bfeb44038c6553879d33e56c08c761397ca78b830ff1f0866cf6"
+      },
+      "path": "evidence/product/product-t17-root-20261009T091217Z/integration-record.json",
+      "sha256": "6fb56d98672475ff737aa448df1637f18f678bb8b609e6d96fbdb5132b14a078"
     }
   ]
 }

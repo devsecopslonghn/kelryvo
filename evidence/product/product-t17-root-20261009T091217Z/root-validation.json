@@ -1,0 +1,45 @@
+{
+  "verified_at_utc": "2026-10-09T09:30:44.133320+00:00",
+  "master": "fe3744d7f04369538a72f85426cba0fe35ab6db3",
+  "shared_checkout_modified": false,
+  "hygiene_branch_or_pr_visible": false,
+  "source_ownership_files": [
+    "apps/api/index.ts",
+    "apps/web/src/app.jsx",
+    "docs/development/local-product.md",
+    "docs/implementation/CONTINUE.md",
+    "docs/implementation/CURRENT.md",
+    "docs/implementation/acceptance.json",
+    "docs/implementation/backlog.json",
+    "docs/implementation/dependency-graph.json",
+    "docs/implementation/evidence-index.json",
+    "docs/implementation/milestone.json",
+    "docs/implementation/ownership.json",
+    "packages/database/index.ts",
+    "packages/migrations/offline-plan-intent.mjs",
+    "scripts/test-product.mjs",
+    "scripts/tracker.mjs",
+    "tests/offline-plan-intent.test.mjs",
+    "tests/product-comments.test.mjs",
+    "tests/product-decision-record-browser.integration.mjs",
+    "tests/product-decision-record.test.mjs",
+    "tests/product-plan-intent-browser.integration.mjs",
+    "tests/product-plan-intent.test.mjs",
+    "tests/tracker.test.mjs"
+  ],
+  "native_source_hashes_match": 12,
+  "native_capture_hashes_match": 130,
+  "root_checks": {
+    "command": "set -e; npm run format:check; node scripts/tracker.mjs validate; node --test tests/tracker.test.mjs; node scripts/check-source.mjs; git diff --check",
+    "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+    "started_at_utc": "2026-10-09T09:29:19.151425+00:00",
+    "ended_at_utc": "2026-10-09T09:29:23.205619+00:00",
+    "exit_code": 0,
+    "raw_output": {
+      "path": "evidence/product/product-t17-root-20261009T091217Z/05-root-tracker-and-source.log",
+      "sha256": "9a98955f5a366abf4a334be474f72205af93c2e300486965ba70298927916ef6"
+    }
+  },
+  "root_validation_result": "Tracker21 zero skips; format, validation, source and unstaged diff passed. Staged-source and whitespace checks follow.",
+  "evidence_integrity_limitations": "Native missing captures remain explicit; root first integration script assumed a nonexistent milestone tasks key and stopped after writing record/index/task status. Root completed the actual milestone schema without changing the immutable integration record; final tracker/source validation passed. The interactive script error was not captured separately and is not reconstructed."
+}

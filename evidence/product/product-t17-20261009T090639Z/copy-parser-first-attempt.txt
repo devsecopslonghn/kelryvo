@@ -1,0 +1,1 @@
+First copy evidence wrapper attempt failed before command metadata/log capture because the date-generated run directory had not yet been created. Exact failures appeared in the interactive tool output. No metadata, exit or log capture is reconstructed; a fresh recorded copy attempt follows.

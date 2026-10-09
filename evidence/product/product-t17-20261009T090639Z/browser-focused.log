@@ -1,0 +1,29 @@
+TAP version 13
+# Subtest: browser shows frozen intent facts and keeps changed current configuration separate
+not ok 1 - browser shows frozen intent facts and keeps changed current configuration separate
+  ---
+  duration_ms: 207.628378
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-offline-plan-intent/tests/product-plan-intent-browser.integration.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/home/longhn0710/workspace/schemaforge-product-offline-plan-intent/dist/web/index.html'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1252:14)
+    async file:///home/longhn0710/workspace/schemaforge-product-offline-plan-intent/apps/api/server.ts:21:37
+    async Promise.all (index 0)
+    async startProduct (file:///home/longhn0710/workspace/schemaforge-product-offline-plan-intent/apps/api/server.ts:20:20)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-offline-plan-intent/tests/product-plan-intent-browser.integration.mjs:20:11)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 897.18418

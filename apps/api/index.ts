@@ -3,6 +3,7 @@ import { timingSafeEqual } from "node:crypto";
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from "../../experiments/db-devops-wp0/parser-release.mjs";
 import { MAX_INPUT_BYTES, MAX_STDOUT_BYTES } from "../../experiments/db-devops-wp0/parser-envelope.mjs";
 import { verifyRetainedRelease } from "../../packages/migrations/verify-retained-release.mjs";
+import { encodeOfflinePlanIntent, verifyOfflinePlanIntent } from "../../packages/migrations/offline-plan-intent.mjs";
 
 const ORG = "00000000-0000-4000-8000-000000000001";
 const fail = (reply: any, status: number, error: string) =>
@@ -207,7 +208,12 @@ export function createApp(options: {
           sql`SELECT id,name,created_at FROM sf_environments WHERE project_id=${p.id} ORDER BY created_at`,
           sql`SELECT id,name,environment_id,engine,host,port,service,username,credential_ref,created_at FROM sf_profiles WHERE project_id=${p.id} ORDER BY created_at`,
           sql`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,validation_code,parser_profile,created_at FROM sf_releases WHERE project_id=${p.id} ORDER BY created_at DESC`,
-          sql`SELECT id,release_id,profile_id,author_id,status,decision,decision_reason,decided_by,decided_by_name,created_at,decided_at,items,execution,history_status,planning_scope FROM sf_plans WHERE project_id=${p.id} ORDER BY created_at DESC`,
+          sql`SELECT id,organization_id,project_id,release_id,profile_id,author_id,status,decision,decision_reason,decided_by,decided_by_name,created_at,decided_at,
+            CASE WHEN jsonb_typeof(items) = 'array' THEN CASE WHEN jsonb_array_length(items) BETWEEN 1 AND ${MAX_RELEASE_FILES}
+              AND octet_length(items::text) <= ${MAX_STDOUT_BYTES} THEN items END END AS items, execution,history_status,planning_scope,
+            CASE WHEN octet_length(offline_intent_envelope) <= ${MAX_STDOUT_BYTES} THEN offline_intent_envelope ELSE NULL END AS offline_intent_envelope,
+            CASE WHEN char_length(offline_intent_digest) = 64 THEN offline_intent_digest ELSE NULL END AS offline_intent_digest
+            FROM sf_plans WHERE project_id=${p.id} ORDER BY created_at DESC`,
           sql`SELECT id,actor_id,action,resource_id,facts,created_at FROM sf_audit WHERE project_id=${p.id} ORDER BY created_at DESC LIMIT 100`,
           sql`SELECT id,plan_id,version,path,sha256,status,created_at FROM sf_history WHERE project_id=${p.id} ORDER BY created_at DESC`,
           sql`SELECT id,project_id,plan_id,author_id,author_name,body,created_at FROM sf_plan_comments
@@ -497,17 +503,35 @@ export function createApp(options: {
         if (!p) return { error: "NOT_FOUND" };
         const r = (await tx`SELECT * FROM sf_releases WHERE id=${b.releaseId} AND project_id=${p.id}
           AND organization_id=${ORG} FOR SHARE`)[0];
-        const profile = (await tx`SELECT id FROM sf_profiles WHERE id=${b.profileId} AND project_id=${p.id}
-          AND organization_id=${ORG}`)[0];
+        const profile = (await tx`SELECT id,project_id,organization_id,environment_id,
+          CASE WHEN char_length(name) BETWEEN 1 AND 200 THEN name END AS name,
+          CASE WHEN char_length(engine) BETWEEN 1 AND 20 THEN engine END AS engine,
+          CASE WHEN char_length(host) BETWEEN 1 AND 255 THEN host END AS host,port,
+          CASE WHEN char_length(service) BETWEEN 1 AND 128 THEN service END AS service,
+          CASE WHEN char_length(username) BETWEEN 1 AND 128 THEN username END AS username,
+          CASE WHEN char_length(credential_ref) BETWEEN 1 AND 512 THEN credential_ref END AS credential_ref
+          FROM sf_profiles WHERE id=${b.profileId} AND project_id=${p.id}
+          AND organization_id=${ORG} FOR SHARE`)[0];
+        const environment = profile && (await tx`SELECT id,project_id,organization_id,
+          CASE WHEN char_length(name) BETWEEN 1 AND 200 THEN name END AS name FROM sf_environments WHERE id=${profile.environment_id}
+          AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
         if (!r || !profile) return { error: "INVALID_REFERENCE" };
         if (r.validation_status !== "VALID") return { error: "RELEASE_NOT_VALID" };
         if (!verifyRetainedRelease(r)) return { error: "RELEASE_INTEGRITY_FAILED" };
         const files = r.files as any[];
         const items = files.map((f) => ({ path: f.path, version: f.version, sha256: f.sha256, status: "NOT_EXECUTED" }));
         if (!items.length || items.some((f) => !f.version || !f.sha256)) return { error: "RELEASE_NOT_PLANNABLE" };
+        const offlineIntent = environment && encodeOfflinePlanIntent({ organizationId: ORG, projectId: p.id,
+          requesterId: req.actor.id, releaseId: r.id, commit: r.commit_id, objectFormat: r.object_format,
+          folder: r.folder, parserProfile: r.parser_profile, manifestDigest: r.manifest_digest,
+          profileId: profile.id, profileName: profile.name, environmentId: environment.id,
+          environmentName: environment.name, engine: profile.engine, host: profile.host, port: profile.port,
+          service: profile.service, username: profile.username, credentialRef: profile.credential_ref,
+          items: items.map(({ path, version, sha256 }) => ({ path, version, sha256 })) });
+        if (!offlineIntent) return { error: "INVALID_REFERENCE" };
         if (p.archived_at) return { error: "PROJECT_ARCHIVED" };
-        const rows =
-          await tx`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items) VALUES(${p.id},${ORG},${r.id},${profile.id},${req.actor.id},${tx.json(items)}) RETURNING *`;
+        const rows = await tx`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items,offline_intent_envelope,offline_intent_digest)
+          VALUES(${p.id},${ORG},${r.id},${profile.id},${req.actor.id},${tx.json(items)},${offlineIntent.envelope},${offlineIntent.digest}) RETURNING *`;
         const plan = rows[0];
         await tx`INSERT INTO sf_history ${tx(items.map((item) => ({
           project_id: p.id,
@@ -572,7 +596,9 @@ export function createApp(options: {
         return fail(reply, 400, "INVALID_REQUEST");
       const result = await sql.begin(async (tx: any) => {
         const p = (
-          await tx`SELECT id,project_id,release_id,author_id,status FROM sf_plans
+          await tx`SELECT id,project_id,organization_id,release_id,profile_id,author_id,status,
+            CASE WHEN octet_length(offline_intent_envelope) <= ${MAX_STDOUT_BYTES} THEN offline_intent_envelope ELSE NULL END AS offline_intent_envelope,
+            CASE WHEN char_length(offline_intent_digest) = 64 THEN offline_intent_digest ELSE NULL END AS offline_intent_digest FROM sf_plans
             WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`
         )[0];
         if (!p) return null;
@@ -637,9 +663,21 @@ export function createApp(options: {
                 || item.path !== file.path || item.version !== file.version || item.sha256 !== file.sha256)
               return "PLAN_APPROVAL_INTEGRITY_FAILED";
           }
+          const boundIntent = verifyOfflinePlanIntent(p.offline_intent_envelope, p.offline_intent_digest, {
+            organizationId: ORG, projectId: p.project_id, requesterId: p.author_id, releaseId: p.release_id,
+            profileId: p.profile_id, commit: release.commit_id, objectFormat: release.object_format,
+            folder: release.folder, parserProfile: release.parser_profile, manifestDigest: release.manifest_digest,
+            items: files.map((file: any) => ({ path: file.path, version: file.version, sha256: file.sha256 })),
+          });
+          if (!boundIntent || !Array.isArray(items) || items.length !== files.length) return "PLAN_APPROVAL_INTEGRITY_FAILED";
         }
-        const rows =
-          await tx`UPDATE sf_plans SET status=${b.decision === "APPROVE" ? "APPROVED" : "REJECTED"},decision=${b.decision},decision_reason=${b.reason},decided_by=${req.actor.id},decided_by_name=${req.actor.name},decided_at=now() WHERE id=${p.id} RETURNING *`;
+        const rows = await tx`UPDATE sf_plans SET status=${b.decision === "APPROVE" ? "APPROVED" : "REJECTED"},decision=${b.decision},decision_reason=${b.reason},decided_by=${req.actor.id},decided_by_name=${req.actor.name},decided_at=now()
+          WHERE id=${p.id} RETURNING id,organization_id,project_id,release_id,profile_id,author_id,status,decision,decision_reason,decided_by,decided_by_name,created_at,decided_at,
+          CASE WHEN jsonb_typeof(items) = 'array' THEN CASE WHEN jsonb_array_length(items) BETWEEN 1 AND ${MAX_RELEASE_FILES}
+            AND octet_length(items::text) <= ${MAX_STDOUT_BYTES} THEN items END END AS items,
+          execution,history_status,planning_scope,
+          CASE WHEN octet_length(offline_intent_envelope) <= ${MAX_STDOUT_BYTES} THEN offline_intent_envelope END AS offline_intent_envelope,
+          CASE WHEN char_length(offline_intent_digest) = 64 THEN offline_intent_digest END AS offline_intent_digest`;
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${p.project_id},${ORG},${req.actor.id},${b.decision === "APPROVE" ? "PLAN_APPROVED" : "PLAN_REJECTED"},${p.id},${tx.json({ reason: b.reason })})`;
         return rows[0];
       });
@@ -705,6 +743,18 @@ function mapComment(r: any) {
   };
 }
 function mapPlan(r: any) {
+  const planItems = Array.isArray(r.items) && r.items.length > 0 && r.items.length <= MAX_RELEASE_FILES
+    && r.items.every((item: any) => item && typeof item === 'object' && !Array.isArray(item)
+      && Object.keys(item).length === 4 && ['path', 'version', 'sha256', 'status'].every((key) => key in item)
+      && typeof item.path === 'string' && item.path.length <= MAX_INPUT_BYTES
+      && typeof item.version === 'string' && item.version.length <= MAX_INPUT_BYTES
+      && typeof item.sha256 === 'string' && /^[a-f0-9]{64}$/.test(item.sha256)
+      && item.status === 'NOT_EXECUTED') ? r.items : [];
+  const offlineIntent = verifyOfflinePlanIntent(r.offline_intent_envelope, r.offline_intent_digest, {
+    organizationId: r.organization_id, projectId: r.project_id, requesterId: r.author_id,
+    releaseId: r.release_id, profileId: r.profile_id,
+    items: planItems.map((item: any) => ({ path: item.path, version: item.version, sha256: item.sha256 })),
+  });
   return {
     id: r.id,
     releaseId: r.release_id,
@@ -717,9 +767,16 @@ function mapPlan(r: any) {
     decidedByName: r.decided_by_name,
     createdAt: r.created_at,
     decidedAt: r.decided_at,
-    items: r.items,
+    items: planItems,
     execution: r.execution,
     historyStatus: r.history_status,
     planningScope: r.planning_scope,
+    offlineIntent: offlineIntent ? {
+      format: offlineIntent.format, digest: offlineIntent.digest,
+      profileId: offlineIntent.profileId, profileName: offlineIntent.profileName,
+      environmentId: offlineIntent.environmentId, environmentName: offlineIntent.environmentName,
+      engine: offlineIntent.engine, host: offlineIntent.host, port: offlineIntent.port,
+      service: offlineIntent.service, username: offlineIntent.username,
+    } : null,
   };
 }

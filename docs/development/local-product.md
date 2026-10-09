@@ -84,6 +84,21 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    or environment displays a fixed unavailable message and the retained reference IDs; it
    never falls back to another profile. Credential references and secrets are not displayed
    or resolved. This read-only view does not connect to a database.
+   Each new plan also stores a format-1 offline intent envelope and SHA-256 digest in the
+   plan transaction. Format 1 is a UTF-8 JSON array in this fixed order: version `1`,
+   organization ID, project ID, authenticated requester ID, release ID, full commit,
+   object format, folder, parser profile, manifest digest, profile ID and name, environment
+   ID and name, engine, host, port, service, username, opaque credential reference, then
+   ordered `[path, version, sha256]` item arrays. The digest hashes the exact UTF-8 array
+   bytes; this is a task-specific encoding, not a general canonical JSON implementation.
+   Review displays only the digest and captured non-secret target/environment facts. The
+   retained credential reference is never returned in the offline-intent view or rendered.
+   Approval rechecks the envelope digest and its requester, scope, release provenance and
+   ordered items while holding the existing transaction locks. Missing, malformed or
+   changed intent fails closed without decision, history or audit writes; legacy plans stay
+   inspectable but cannot be approved. Reconfiguring a target affects new plans only.
+   These local checks do not observe Oracle identity/history, revalidate at execution, or
+   establish tamper resistance against a database administrator.
 6. Inspect Audit & history. Audit action filters list only actions present in the selected
    project's recent events; All actions is the default and preserves server ordering.
    Project changes and sign-out restore that default. Archived project events remain

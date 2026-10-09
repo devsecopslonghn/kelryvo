@@ -1,0 +1,11 @@
+{
+  "command": "git -C /home/longhn0710/workspace/schemaforge status --short --branch",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T09:12:29.550939+00:00",
+  "ended_at_utc": "2026-10-09T09:12:29.559982+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "evidence/product/product-t17-root-20261009T091217Z/03-shared-checkout-status.log",
+    "sha256": "a444f7ef9635e08a28988053fd6892b49f0af075ddc98d559bdd1421bb982c7b"
+  }
+}
