@@ -1392,6 +1392,24 @@
       },
       "path": "evidence/product/product-merge-20261009T010502Z-owner-quota/quality-repair-1/record.json",
       "sha256": "278e9db8c217239041ae0846cc0d435251698ba782ebc5114662fa970d4e2cde"
+    },
+    {
+      "id": "product-owner-selected-shield-license",
+      "subject_id": "SF-P0-FOUNDATION",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Verify official Shield license bytes, preserved third-party grants, npm run check and local startup/persisted-state reads; no catalog or Oracle acceptance claimed",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-shield-license-20261009T021701Z/commands.json",
+        "sha256": "e0e23cfd10e488f6b97fde0f31d5c03683961faf7b63be1866849d44a139e08f"
+      },
+      "path": "evidence/product/product-shield-license-20261009T021701Z/record.json",
+      "sha256": "39c8e1393deae09f81e3ff89d66427c4944f3790c1b9db783299ffb1ce1b3aeb"
     }
   ]
 }

@@ -1,0 +1,12 @@
+Required Notice: SchemaForge (https://github.com/devsecopslonghn/schemaForge)
+
+Independently authored SchemaForge software and current project documentation are
+licensed under the unmodified PolyForm Shield License 1.0.0 in LICENSE.
+
+Third-party dependencies, vendored grammar files and external runtime/build tools
+retain their own licenses, copyrights and notices. Immutable imported research
+inputs retain their recorded provenance and existing rights. The product license
+does not replace or restrict those independent third-party grants.
+
+See docs/product/license-and-naming.md, docs/dependencies/product-NOTICES.txt and
+the original parser/dependency notices for scope and attribution.

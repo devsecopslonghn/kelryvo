@@ -1,0 +1,16 @@
+{
+  "id": "product-owner-selected-shield-license",
+  "subject_id": "SF-P0-FOUNDATION",
+  "kind": "STATIC",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Verify official Shield license bytes, preserved third-party grants, npm run check and local startup/persisted-state reads; no catalog or Oracle acceptance claimed",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-shield-license-20261009T021701Z/commands.json",
+    "sha256": "e0e23cfd10e488f6b97fde0f31d5c03683961faf7b63be1866849d44a139e08f"
+  }
+}

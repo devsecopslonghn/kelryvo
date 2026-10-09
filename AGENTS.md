@@ -43,7 +43,12 @@ this file, and the bounded task's inputs before editing. Preserve unrelated work
 - States: BACKLOG -> READY -> IN_PROGRESS -> IMPLEMENTED -> VERIFIED; also BLOCKED and
   DEFERRED. Verification needs complete acceptance evidence; a stub is not implementation.
 - Imported research and candidate license observations do not approve distribution.
-  Apache-2.0 is proposed; the product license remains undecided.
+  The owner selected unmodified PolyForm Shield 1.0.0 on 2026-10-09 for independently
+  authored SchemaForge code/documentation. Describe the product as source-available,
+  free for internal use; do not claim OSI open source or a blanket commercial-use ban.
+  Competing products/services are restricted, including free competitors; noncompeting
+  consulting/support is not categorically prohibited. Preserve LICENSE, NOTICE and all
+  independent third-party grants. Naming and F31 packaging/distribution remain pending.
 - At each session boundary update CURRENT.md, CONTINUE.md, milestone state and evidence index.
   Keep implementation, local product verification and Oracle acceptance separate. The owner
   has no 19c/21c lab: do not repeatedly request one or stop independent PRODUCT delivery.

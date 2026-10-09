@@ -1,5 +1,29 @@
 # Current engineering state
 
+## Owner-selected license — 2026-10-09
+
+The owner selected unmodified PolyForm Shield 1.0.0 for independently authored
+software/current documentation. LICENSE contains the official text; NOTICE scopes the
+grant and preserves third-party licenses and immutable imported research provenance.
+Free internal use is permitted; competing products/services are restricted by Shield.
+Noncompeting paid installation, consulting and support are not categorically prohibited.
+Describe SchemaForge as source-available. This replaces the initial Apache-2.0 proposal
+and closes only the owner product-license selection; public naming and F31 packaging,
+source/notice assembly and distribution acceptance remain pending.
+
+PR #14 merged at `16260b9710c9c7d23e64149772b048505aa60c3b` after all ten non-Sonar
+exact-head checks passed. All four workflows on that master also passed. This license
+increment starts from that validated master; resolve its own head/PR/merge from Git/GitHub.
+The product remains T01–T05 VERIFIED_LOCAL; next is T06 (BACKLOG). WP0-T04 and all
+124 Oracle cells remain BLOCKED; migration execution remains NOT_EXECUTED.
+
+License/static and startup evidence:
+`evidence/product/product-shield-license-20261009T021701Z/`.
+Fresh local `npm run check` passed 138/138, zero skips. `npm run dev` served API health
+and web assets with HTTP 200; read-only authenticated checks found the persisted demo's
+two approved/rejected plans, four NOT_EXECUTED history rows and review-denial audit.
+The owned dev process was stopped after verification; metadata PostgreSQL remains running.
+
 ## Current merged PRODUCT checkpoint — 2026-10-09
 
 PRODUCT PRs #9–#13 merged ordinarily into `master` in dependency order. The resulting
@@ -41,7 +65,8 @@ identifies the validated preceding product merge, not a self-referential checkpo
 Next: SF-PRODUCT-T06 (BACKLOG), bounded persistent plain-text comments on pending
 plan reviews. Independent PRODUCT delivery continues from latest master. WP0-T04 and
 all 124 Oracle cells remain BLOCKED; original feature acceptance is unchanged.
-Product license/name and F31 distribution decisions remain pending.
+Product naming and F31 distribution decisions remain pending; the license selection
+above supersedes this snapshot's earlier pending-license statements.
 
 ## Historical delivery snapshots — superseded by the checkpoint above
 

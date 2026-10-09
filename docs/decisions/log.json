@@ -21,12 +21,14 @@
     },
     {
       "id": "SF-D003",
-      "status": "PENDING_OWNER_DECISION",
+      "status": "LICENSE_SUPERSEDED_NAME_PENDING",
       "decision": "Apache-2.0 is proposed; no product license grant or public naming clearance is approved.",
       "references": [
         "LICENSE",
         "docs/product/license-and-naming.md"
-      ]
+      ],
+      "license_superseded_by": "SF-D009",
+      "remaining_owner_decision": "Public product naming clearance"
     },
     {
       "id": "SF-D004",
@@ -74,6 +76,18 @@
         "docs/implementation/dependency-graph.json",
         "docs/implementation/milestone.json",
         "docs/implementation/tracking.md"
+      ]
+    },
+    {
+      "id": "SF-D009",
+      "status": "ACCEPTED_PRODUCT_LICENSE",
+      "decision": "Owner selected unmodified PolyForm Shield 1.0.0 for independently authored software/current documentation. Free internal use; competing products/services restricted; noncompeting paid support not categorically prohibited. Third-party grants and immutable research provenance retained; naming and F31 distribution closure remain pending.",
+      "references": [
+        "LICENSE",
+        "NOTICE",
+        "docs/product/license-and-naming.md",
+        "package.json",
+        "docs/dependencies/product-closure.json"
       ]
     }
   ]

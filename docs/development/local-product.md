@@ -128,8 +128,9 @@ tests the archive-versus-write lock race. Browser downloads are separate test to
 The PRODUCT CI job supplies disposable PostgreSQL, prepares the exact helper and runs these
 tests with no skips allowed for required product prerequisites. The existing WP0 regression,
 parser corpus, security, license and quality gates remain in force. Required failures are
-repaired in source without changing thresholds. Product license/name and F31 distribution
-decisions remain pending; this is local development, not a packaged production distribution.
+repaired in source without changing thresholds. Independently authored code/documentation
+uses PolyForm Shield 1.0.0; product naming and F31 packaging/distribution remain pending.
+This is local development, not a packaged production distribution.
 
 Fastify request handling follows its [official reference](https://fastify.dev/docs/latest/Reference/Validation-and-Serialization/);
 the web bundle uses [React createRoot](https://react.dev/reference/react-dom/client/createRoot).

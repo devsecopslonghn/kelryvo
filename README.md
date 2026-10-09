@@ -1,6 +1,6 @@
 # schemaForge (SchemaForge, provisional)
 
-SchemaForge is intended to be a free, open-source, self-hosted Database DevOps platform
+SchemaForge is a source-available, self-hosted Database DevOps platform, free for internal use,
 for centralized database management, Git-driven schema migrations, approvals, audit and
 reliable execution. Oracle-first, multi-database-ready is the product goal.
 
@@ -9,8 +9,12 @@ React web app and persistent PostgreSQL metadata. Manage projects/environments a
 credential-reference profiles, import local Git releases, validate SQL with the existing
 ANTLR parser, prepare offline candidate plans, approve/reject independently, and inspect
 audit and migration history. Migration execution remains `NOT_EXECUTED`.
-The engineering foundation and all WP0 experiments/evidence remain preserved. Apache-2.0 is proposed;
-the license remains undecided. See [license and naming status](docs/product/license-and-naming.md).
+The engineering foundation and all WP0 experiments/evidence remain preserved.
+Independently authored code is licensed under [PolyForm Shield 1.0.0](LICENSE): internal
+use is permitted; using it to provide competing products/services is restricted by the
+license. Noncompeting paid consulting/support is not categorically prohibited.
+Third-party components retain their own grants and notices. See
+[license scope and provisional naming](docs/product/license-and-naming.md).
 
 ## Development
 
