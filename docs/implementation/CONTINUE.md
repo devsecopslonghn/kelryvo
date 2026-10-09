@@ -1,3 +1,18 @@
+## T21 verified locally; next bounded T22 registered — 2026-10-09
+
+T21 has frozen standard154/product32/browser19 passing results with zero skips. Verified
+master5ef2568 is safely merged into its isolated branch; all40 native source hashes and
+PR33 controlled browser gate remain exact. Fresh exact-head QA/security, publication/history
+classification, required CI and ordinary merge remain pending. Original failures remain.
+
+Next SF-PRODUCT-T22 READY registers parser-derived offline statement preview under partial
+SQL-015/GOV-013. Use bounded scoped retained UTF-8 bytes and the pinned helper to show exact
+ordered statement source ranges and source/execution digest facts in release/plan review.
+No historical backfill, regex splitter, worker or Oracle acceptance. SF-D014 records this safe
+compatibility/priority default under the owner's standing autonomy policy. Registration alone
+is not implementation. Start source in a fresh context after T21 merge/master gates.
+Shared checkout/Hygiene untouched; Sonar unavailable never PASS; Oracle VALIDATION separate.
+
 ## T21 membership locally verified; exact-head review pending — 2026-10-09
 
 T21 adds explicit local OS operator grants with one-way BOOTSTRAP_REQUIRED -> ENFORCED.

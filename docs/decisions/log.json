@@ -132,6 +132,18 @@
         "docs/implementation/backlog.json",
         "docs/development/local-product.md"
       ]
+    },
+    {
+      "id": "SF-D014",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T22_OFFLINE_PREVIEW_DEFAULT",
+      "accepted_at_utc": "2026-10-09T16:58:26.045292+00:00",
+      "decision": "Prioritize useful approval review of parser-derived exact statement source ranges and validated execution digests after explicit membership. Recompute scoped authorized retained UTF-8 bytes with the existing pinned ANTLR helper after SQL resource bounds and retained integrity checks; preserve historical manifests/intents/plans and fixed membership/read-only/stale-response guards. No historical backfill, regex splitting, worker/execution/Oracle or full SQL015/GOV013 acceptance. Ordinary safe compatibility choice under standing SF-D010 policy.",
+      "references": [
+        "docs/implementation/backlog.json",
+        "experiments/db-devops-wp0/antlr-envelope.mjs",
+        "experiments/db-devops-wp0/parser-envelope.mjs",
+        "packages/migrations/import-release.mjs"
+      ]
     }
   ]
 }

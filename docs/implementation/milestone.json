@@ -193,7 +193,14 @@
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
   "product_features_verified": 0,
-  "next_actionable_tasks": [],
+  "next_actionable_tasks": [
+    {
+      "id": "SF-PRODUCT-T22",
+      "owner": "backend",
+      "status": "READY",
+      "action": "Parser-derived offline statement review after T21 eligible merge and exact-master verification; no Oracle/worker authority"
+    }
+  ],
   "blocked_inputs_evidence": {
     "index_id": "WP0-T01-INPUTS-20261008T094757Z-c4b97e39"
   },
@@ -203,7 +210,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-09T16:54:36.916314+00:00",
+  "updated_at": "2026-10-09T16:58:26.045292+00:00",
   "final_check_evidence": {
     "index_id": "product-t20-local-credential-lifecycle-local-verified"
   },

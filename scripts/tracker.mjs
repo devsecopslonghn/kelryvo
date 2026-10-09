@@ -382,7 +382,36 @@ const PRODUCT_TASK_21 = {
   ]
 };
 
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21];
+const PRODUCT_TASK_22 = {
+  "id": "SF-PRODUCT-T22",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Inspect parser-derived statement previews in offline release review",
+  "dependencies": [
+    "SF-PRODUCT-T21",
+    "SF-PRODUCT-T17",
+    "SF-PRODUCT-T19"
+  ],
+  "feature_ids": [
+    "SQL-015",
+    "GOV-013"
+  ],
+  "acceptance_criteria": [
+    "Provide an authenticated project-scoped read-only statement preview for a retained release/file using current explicit membership and fixed roles. Preserve archived authorized reads and fixed indistinguishable resource denials. Scope and SQL size/shape bounds must be checked before materializing payloads; verify retained UTF-8 source/hash/manifest and pinned parser profile before parsing. No Git re-read, credential resolution or target connection.",
+    "Reuse the pinned bounded ANTLR helper and its validated byte protocol. Return ordered source byte ranges, exact UTF-8 slices, source and normalized execution SHA256 facts, parser profile and delimiter disposition with explicit offline labels. Validate full coverage, ordered ranges, bytes and digests. Do not split by regex, invent unsupported parser output or claim the preview grants execution authority.",
+    "Fail closed with fixed unavailable feedback for malformed, oversized, mismatched, unsupported, corrupt or parser-unavailable data. Produce no successful partial preview and no writes to projects, releases, plans, retained intents, decisions, comments, source generations, history or audit. Preserve existing whole-file source inspection and authorized rejection.",
+    "React release/plan source review supports statement preview for the exact selected retained source. Show ordered literal SQL and byte/digest facts, distinguish source bytes from normalized execution facts and retained offline intent from runtime target verification. Project, plan, release, file, session and current credential changes discard delayed responses. Revoked project access clears retained source and drafts under T21 guards.",
+    "Real isolated Git/PostgreSQL/pinned-parser/API/browser regressions cover PL/SQL blocks, comments, quoted semicolons, multiple statements and non-ASCII UTF-8 byte offsets; corrupt/malformed/oversized/unavailable data, foreign/missing/revoked membership, archive/read persistence and controlled stale responses. Compare complete retained-row snapshots for no writes and retain existing product/parser/browser regressions with no skipped required cases.",
+    "This bounded offline SQL-015/GOV-013 preview does not alter original catalog acceptance, format-1 manifests or historical plans/intents. Recompute from authorized retained UTF-8 bytes without backfilling history. No approved worker digest binding, Oracle execution, runtime identity/history verification, remote CLI authority or full WP7 acceptance claim. Document this safe compatibility default and remaining delivery gaps."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T22-API",
+    "SF-PRODUCT-T22-WEB",
+    "SF-PRODUCT-T22-PARSER"
+  ]
+};
+
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',
