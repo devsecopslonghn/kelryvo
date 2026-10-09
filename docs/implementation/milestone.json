@@ -237,7 +237,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-09T22:09:24.779929+00:00",
+  "updated_at": "2026-10-09T22:17:55.752751+00:00",
   "final_check_evidence": {
     "index_id": "product-t24-audit-pages-local-verified"
   },
@@ -257,7 +257,7 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "T24_DRAFT_PR37_REQUIRED_GITHUB_SECURITY_INFRASTRUCTURE_UNAVAILABLE",
+  "current_increment_merge_status": "T24_DRAFT37_SIX_AVAILABLE_CI_PASS_REQUIRED_SECURITY_UNAVAILABLE",
   "current_checkpoint_branch": "development/product-continuation-t24",
   "active_track": "PRODUCT",
   "tracks": {
@@ -388,5 +388,6 @@
     "draft_publication": "PERMITTED_BY_EXISTING_OWNER_AUTHORIZATION_AND_NATIVE_SECURITY_ADDENDUM",
     "ready_or_merge": "INELIGIBLE_NO_BYPASS",
     "sonar_exception_scope": "SONAR_UNAVAILABILITY_ONLY_NO_EXPANSION"
-  }
+  },
+  "latest_draft_ci_evidence": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/record.json"
 }

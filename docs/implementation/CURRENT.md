@@ -1,3 +1,18 @@
+## T24 all available CI passed; draft37 security gate remains unavailable — 2026-10-09 UTC
+
+All six push/PR PRODUCT/parser/foundation runs passed on reviewed `704ef82f3bf183707b40e8194f3b1f0a15e29a89`.
+PR37 remains OPEN/DRAFT, unmerged. No new-head CodeQL run exists; code-scanning alerts403,
+secret-scanning alerts404disabled and branch-protection403 remain UNAVAILABLE, never PASS.
+Required security restoration is outside ordinary product decisions (external access/cost/
+visibility); owner question remains pending. No extra quota/security exception is inferred.
+Master remains verified T23 `0fd6980db49c9546ab0a04fe07321a348eee2d65`; no T24 postmerge claim.
+Append evidence: `evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/record.json`.
+
+T24 native160/35/21/focused4 and independent27+4 passed; missing native completion and all
+prior failures remain explicit. T25 READY is registration only, retained-source comparison
+after eligible T24 merge/master verification. Goal stays active at first external outage;
+Oracle independent BLOCKED; Sonar unavailable never PASS. Shared original/hygiene untouched.
+
 ## T24 draft PR37 reviewed; required GitHub security unavailable — 2026-10-09 UTC
 
 T24 is locally verified and published only as draft [PR #37](https://github.com/devsecopslonghn/schemaForge/pull/37),

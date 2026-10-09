@@ -1,0 +1,11 @@
+{
+  "command": "cd /home/longhn0710/workspace/schemaforge-product-continuation-t24 && node --test tests/tracker.test.mjs && npm run lint && npm run format:check && git diff --check -- . \":(exclude)evidence/\"",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+  "started_at_utc": "2026-10-09T22:09:33.017479+00:00",
+  "ended_at_utc": "2026-10-09T22:09:38.098408+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/29-continuation-tracker-doc-checks.log",
+    "sha256": "6c610df305b403e8f81326a24109a6ec677ca8d7138e6ebb074e330f686ec552"
+  }
+}
