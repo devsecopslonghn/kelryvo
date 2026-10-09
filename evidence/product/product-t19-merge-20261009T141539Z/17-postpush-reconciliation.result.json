@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t19-reconcile.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T14:08:51.319367+00:00",
+  "ended_at_utc": "2026-10-09T14:08:53.139451+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t19-publication-20261009T133805Z/17-postpush-reconciliation.log",
+    "sha256": "f9a93328ae2a987ad850232ba4b56bceb3825f5e5ed71e0a4c5382c713f49e61"
+  }
+}

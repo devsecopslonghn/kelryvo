@@ -1,0 +1,5 @@
+{
+  "command": "gh pr ready 31 --repo devsecopslonghn/schemaForge",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T14:15:11.744215+00:00"
+}

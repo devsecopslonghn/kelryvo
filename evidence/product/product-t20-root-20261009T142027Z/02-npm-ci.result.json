@@ -1,0 +1,11 @@
+{
+  "command": "npm ci --ignore-scripts --no-audit --no-fund",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T14:22:23.091846+00:00",
+  "ended_at_utc": "2026-10-09T14:22:24.471765+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle/evidence/product/product-t20-root-20261009T142027Z/02-npm-ci.log",
+    "sha256": "e15eb40d172664f3645584896d79eab5bb0186a0e09cd3d9d7f254f9384eece6"
+  }
+}

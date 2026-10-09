@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t20-parser-setup.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T14:22:39.996346+00:00",
+  "ended_at_utc": "2026-10-09T14:22:40.064697+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle/evidence/product/product-t20-root-20261009T142027Z/03-parser-artifact-setup.log",
+    "sha256": "ed66a2212c5fbce8ecbea7e565c46adb79b43e1ff6dc07bff15ece7743e5128d"
+  }
+}

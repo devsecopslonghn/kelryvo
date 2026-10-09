@@ -2222,6 +2222,24 @@
       },
       "path": "evidence/product/product-t19-root-20261009T123628Z/integration-record.json",
       "sha256": "ddf5c060f05699e1b370fb08a3831ef8a6b145d00085de45f9380e4222fbcff4"
+    },
+    {
+      "id": "product-t19-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T19",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head independent QA/security; classified finding-bearing publication/history scans; all11 PR checks; ordinary match-head merge; four exact-master workflow families and security/branch reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t19-merge-20261009T141539Z/master-workflows.json",
+        "sha256": "d64f63974787e0828c076d8e98c7833b32cc2256bfc0fa869b4026878f91b679"
+      },
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/record.json",
+      "sha256": "96236905b8291de6e16d1214a6ce0c8a9e23cf9f6b27a3e78726e9a94ccc18e8"
     }
   ]
 }

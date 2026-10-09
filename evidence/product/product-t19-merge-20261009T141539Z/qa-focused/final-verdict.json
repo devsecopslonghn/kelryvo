@@ -1,0 +1,125 @@
+{
+  "reviewer": "native QA specialist (read-only)",
+  "decision": "APPROVED",
+  "reviewed_at_utc": "2026-10-09T13:42:52.685061+00:00",
+  "repository": "https://github.com/devsecopslonghn/schemaForge",
+  "base": "38665228fb844311390c9a064d9e1c02dc88145a",
+  "head": "87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+  "tree": "c794797fe6ae395270a91b58a689e25a28cd7ac8",
+  "clean_worktree": true,
+  "criteria": [
+    {
+      "criterion": 1,
+      "result": "PASS",
+      "finding": "Project source generation is a positive canonical PostgreSQL bigint rendered as decimal text; real changes increment, no-op saves retain it, changes at int64 ceiling fail before protected mutation, and requests reject client-supplied generation fields."
+    },
+    {
+      "criterion": 2,
+      "result": "PASS",
+      "finding": "Plan creation holds project and scoped release locks, validates current retained source match and captures current server generation in a separate nullable plan field; format-1 intent digest inputs remain unchanged."
+    },
+    {
+      "criterion": 3,
+      "result": "PASS",
+      "finding": "APPROVE holds plan, project, scoped release locks; checks plan/current generations and retained source match before writes. Two real PostgreSQL blocking tests serialize concurrent binding update with approval and creation. Fixed denial is no-write; existing archive/role/terminal/self precedence and denial audits are preserved."
+    },
+    {
+      "criterion": 4,
+      "result": "PASS",
+      "finding": "Idempotent legacy-schema initialization creates only a current project generation and leaves plan generation NULL. Full plan/release/comment/history/audit snapshots survive initialization and PostgreSQL/API pool restart; old plans remain readable and rejectable while approval requires fresh plan."
+    },
+    {
+      "criterion": 5,
+      "result": "PASS",
+      "finding": "Review UI disables known stale/missing/corrupt approvals, keeps rejection available, handles authoritative stale-server denial without leaking to changed plan selection, and reuses T18 read-only fresh-plan navigation. Real browser test verifies no write on navigation, clears drafts/inspected source and All filter, creates distinct current-generation release/plan, approves independently and preserves predecessor snapshot."
+    },
+    {
+      "criterion": 6,
+      "result": "PASS",
+      "finding": "Frozen regressions use real temporary Git, PostgreSQL, parser/API and Chromium. Focused API 3/3 and browser 1/1 independently rerun; full standard/product/browser reported 149/28/17 with zero failures/skips. Existing cross-project/organization, role/session, archive and T18 workflows are included by preserved suite regressions."
+    }
+  ],
+  "focused_independent_checks": [
+    {
+      "label": "api",
+      "command": "node --test --test-concurrency=1 tests/product-protected-source-binding.test.mjs",
+      "started_at_utc": "2026-10-09T13:41:43.939903+00:00",
+      "completed_at_utc": "2026-10-09T13:42:11.366779+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/schemaforge-t19-qa-review/api.raw.log",
+      "raw_bytes": 939,
+      "raw_sha256": "bd2f823e016448c5e7041c0eb7caaf962d434f81b4d3c35273b5e06951d72206",
+      "summary": [
+        "# tests 3",
+        "# suites 0",
+        "# pass 3",
+        "# fail 0",
+        "# cancelled 0",
+        "# skipped 0",
+        "# todo 0",
+        "# duration_ms 27380.956359"
+      ]
+    },
+    {
+      "label": "browser",
+      "command": "node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs",
+      "started_at_utc": "2026-10-09T13:42:11.367086+00:00",
+      "completed_at_utc": "2026-10-09T13:42:20.249855+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/schemaforge-t19-qa-review/browser.raw.log",
+      "raw_bytes": 404,
+      "raw_sha256": "7bf4e3dc75322e28504fdd8bbe68035e1cecdeb3cbd699e8d902df68550af21d",
+      "summary": [
+        "# tests 1",
+        "# suites 0",
+        "# pass 1",
+        "# fail 0",
+        "# cancelled 0",
+        "# skipped 0",
+        "# todo 0",
+        "# duration_ms 8828.401535"
+      ]
+    }
+  ],
+  "full_suite_reviewed": {
+    "standard": "149 TAP tests, pass; zero failures/skips",
+    "product": "28/28, pass; zero failures/skips",
+    "browser": "17/17, pass; zero failures/skips",
+    "evidence_dir": "evidence/product/product-t19-native-20261009T124450Z/",
+    "raw_sha256": {
+      "standard": "1bb27eaf01b6e2242033bc32a07b76b6be805fe22c428c2630d3c265c7c638e5",
+      "product": "8b7b7f1ad262e82928f79160520e8b1903e1176e8b692987ce22efcaf7ca2bf4",
+      "browser": "0e41cbefde6bb527f4ccd120c1388dff095a305552433f9018e0471bf07e3a15"
+    }
+  },
+  "verified_integration_source_sha256": {
+    "apps/api/index.ts": "30de5c8860e90a18654951df9e5c55d39844bfbceadaf2cdfdddf36ae7397ca9",
+    "apps/web/src/app.jsx": "43ff2aa46d5b92649f104856d0c464be6771f95e69eabb691821c3bf2a85efed",
+    "packages/database/index.ts": "6698000ddb399a4d79d382a649d86bdd8bbfa966a214905b42f5cd7b788a6761",
+    "scripts/test-product.mjs": "7f5b41280bb5f19eb94f5cc65223f3c6b311c816b779309dc0030cd178cf7411",
+    "docs/development/local-product.md": "8ff1738b3a830f6bb28db5cef3a78639c463ec15bbe00c854fa79c28dad51e18",
+    "tests/product-protected-source-binding.test.mjs": "4100627486d6e4ea74d8eea12a5fde22650eb576762d0d7ef114351765ef1bbd",
+    "tests/product-protected-source-binding-browser.integration.mjs": "e692ad012962c9a8db0212a0ebfb44d9f7d1e4a52000388245fd5078f7226b0e",
+    "tests/product-api.test.mjs": "6bd61c2c19941998d3d269169c6eac5a9930768851b1293deae1e218362be282",
+    "tests/product-archive.test.mjs": "9ed55dec50c86690dc8a25a42630bd0ed45a1e6b5051ff8f1a7d84dbe9d784fb",
+    "tests/product-audit-action-filters-browser.integration.mjs": "9b1d3db120ab5ecc5765779d320d7adf8da35fc71b308ec988eed9e0de2154c8",
+    "tests/product-comments.test.mjs": "df66deac26d1aebdd02902fa289e171c299d9e00ef24c2ba925f5f39ae9f4fe7",
+    "tests/product-decision-record-browser.integration.mjs": "78d0615cd5c17bc7cfb29cbe04d14c701a95bf666778f36030848ef4176c167b",
+    "tests/product-decision-record.test.mjs": "56392916ed665a0e8ec103400d35c47be7de2d248d5a3be956fb40c01148f620",
+    "tests/product-plan-intent.test.mjs": "6fb5a7ea4868e40bf3ac885d5c802aa9ea5c28dbfd3da969ea43132d560ddecd",
+    "tests/product-plan-resubmission-browser.integration.mjs": "548f4f15875cb9771cdad0b0251d2b4a10749190e4470ed0b8d9deb67fd7c6b4",
+    "tests/product-plan-resubmission.test.mjs": "2f7f505a0ec240d48715aecfac4fa7bc53431195a2deeda87f6e6244c9e6f246",
+    "tests/product-release-integrity.test.mjs": "44f27dc570ec1bf1a04dd07551460ddb62db490e904865760ecdf6be494d92c5",
+    "tests/product-review-audit.test.mjs": "ffd6213e1cd9a85a1a3a5cd6857198ff07739c3ab118c732f1080b81cd0e942e",
+    "tests/product-status-filters-browser.integration.mjs": "7f8b76402b18d202130d4e4d2ca52245977031d87ad42c344476307d9ac6f558",
+    "scripts/tracker.mjs": "ba278c6eaa0456af64ab58564d255e28b07574d5ecb98905b5b7b61756e9821c",
+    "tests/tracker.test.mjs": "d49b1d6b0f2eb00ac327911c60da5d46932259bb243f18ad43032511e0f09c6c"
+  },
+  "limits": [
+    "The generation is an application/database epoch and does not claim protection against privileged database tampering.",
+    "A bigint column cannot store malformed nonnumeric text; missing, zero, negative, noncanonical API input, mismatched and stale evidence are rejected.",
+    "No runner/worker execution-time invalidation, runtime target verification, Oracle execution or full-catalog acceptance is claimed. Sonar remains unavailable and is not PASS."
+  ],
+  "pre_freeze_correction": "A browser plan-selection ReferenceError was discovered during evolving-source review and fixed before this frozen commit; focused and full browser checks now pass.",
+  "prior_failures": "Earlier native failed attempts remain captured in the immutable native evidence directory; they are not counted as final passing runs."
+}

@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t19-merge-gate.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T14:15:00.848837+00:00",
+  "ended_at_utc": "2026-10-09T14:15:07.163788+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t19-publication-20261009T133805Z/20-final-merge-gate.log",
+    "sha256": "e36b9a7670abf380249f7946a34fdecd412a28188c1f452ccc77ac597ab70a35"
+  }
+}

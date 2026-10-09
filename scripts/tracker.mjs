@@ -330,7 +330,32 @@ const PRODUCT_TASK_19 = {
     "SF-PRODUCT-T19-WEB"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19];
+const PRODUCT_TASK_20 = {
+  "id": "SF-PRODUCT-T20",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Persist expiring and revocable local credentials",
+  "dependencies": [
+    "SF-PRODUCT-T19"
+  ],
+  "feature_ids": [
+    "SEC-001"
+  ],
+  "acceptance_criteria": [
+    "Persist stable trusted local actor IDs and fixed developer/approver roles, display names, and only server-computed SHA256 bearer digests with issued/expiry/revoked timestamps in PostgreSQL. Initial trusted startup credential seeding is insert-only and binds each principal to its configured organization and fixed role; repeated startup never extends expiry, restores revoked/expired credentials or changes identity/role from stale config. Trusted startup may refresh the current display name while retained decision-name snapshots remain immutable. Preserve input validation and reject duplicate identities/digests and inconsistent role/organization metadata. No caller actor ID is trusted and no application signup/admin/membership privilege is introduced.",
+    "Authenticate every existing protected API request against its persisted server-owned principal and nonrevoked credential with database-clock fixed24-hour expiry from issuance. Forged, expired, revoked and unknown credentials receive fixed generic401 before product writes; roles continue to derive from trusted persisted identity. Reopening API/connection pools preserves expiration and revocation without resurrection. Revocation applies to subsequent request admission; do not claim cancellation of operations already admitted or cross-transaction global authorization atomicity.",
+    "Provide a trusted local OS operator CLI for revoke and rotation of the existing fixed local developer/approver identities. Generate256-bit random replacement tokens, atomically revoke prior active credentials and insert one replacement digest/expiry in a database transaction without changing actor IDs/roles or historical authorship. Failed, duplicate or concurrent operations cannot reactivate old credentials. Operate only on explicit local private config and owned local metadata; do not resolve target references or mutate actual user credentials during testing.",
+    "Protect lifecycle private files with mode0700 directory/mode0600 config, journal and staged file, bounded validation, symlink refusal and exclusive lifecycle lock. Rotation records crash-recoverable stages, commits database replacement then finishes same-filesystem atomic config replacement, with explicit recover/retry handling and fail-closed unknown/corrupt states. Startup must never overwrite or silently resurrect credentials from an interrupted/stale config. Test interruption before/after database commit and before/after file replacement and serialize concurrent operations. Do not claim database/filesystem atomicity. Never print raw tokens, hashes, database URLs/passwords or private journal content in normal command output/errors/audit/evidence.",
+    "A401 for the currently active browser session clears actor/token, loaded project/plan/release/source and unsent comment/decision drafts, with clear fixed sign-in-again feedback. Delayed401 responses associated with an old session cannot clear a newly authenticated session. Failed initial sign-in gives generic feedback; current loopback sign-in and fresh-plan/review workflows remain usable with rotated credentials and existing project/role guards.",
+    "Use real isolated local PostgreSQL/Git/parser/API/Chromium regressions for authentic/forged/expired/revoked/rotated tokens, no expiry extension or restart resurrection, duplicate/config/role/client-identity negatives, safe private-file modes/symlinks/locks, rotation interruption recovery and secret-free output, session/project/role isolation and existing immutable plans/source/generation/history/comments/decisions/audit. Run standard, full product/browser and source/type/build/tracker/license checks. This is a bounded partialSEC-001 local PRODUCT increment, not full original WP4-T01 browser-disabled CLI acceptance, membership/RBAC/TLS/OIDC/remote authority, Oracle execution/runtime target verification, deployment or database tamper-proofing."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T20-API",
+    "SF-PRODUCT-T20-WEB",
+    "SF-PRODUCT-T20-OPERATOR"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

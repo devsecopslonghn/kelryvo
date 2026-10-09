@@ -1,3 +1,31 @@
+## T19 merged and master verified; T20 active — 2026-10-09
+
+T19 merged through [PR #31](https://github.com/devsecopslonghn/schemaForge/pull/31)
+at `7bb4af0184031112ea9f185991f37c97ec0604fa`, reviewed head
+`87e4942ef42e2557e67cfc757595c5e6f1d993c9`. Independent native QA/security approved;
+all eleven reported PR checks and four exact-master workflow families passed. Final local
+results: standard149, PostgreSQL28, browser17; independent focused API3/browser1, zero skips.
+Protected binding generations are captured under locks and checked before approval. Legacy
+pending plans remain readable/rejectable and require fresh T18 intake; no historical backfill.
+Evidence: `evidence/product/product-t19-merge-20261009T141539Z/record.json`. Failed local
+attempts and classifier correction remain candid and immutable. Persistence covers API/pool
+reopen, not a PostgreSQL daemon restart.
+
+Publication321 paths returned exit1/one exact computed test-source hash; independent history
+exit1/36 retains classified artifact/hash/UUID and synthetic UNIT fixture findings. No actual
+credential observed or rotation indicated. These scans are not clean PASS. Hygiene branch/PR
+remains absent; shared original checkout is clean at master0346300 and untouched. Sonar quota
+scan unavailable, never PASS. Oracle VALIDATION and full catalog acceptance remain separate.
+
+SF-PRODUCT-T20 is IN_PROGRESS in the isolated local-credential-lifecycle worktree, branch
+`development/product-local-credential-lifecycle`, based on verified master above. Prioritized
+partial SEC-001: persist hashed local credentials, fixed24-hour database expiry/revocation,
+trusted local OS operator rotation with interrupted-write recovery, and guarded browser401
+sign-out. Keep stable actors/roles and retained history; no membership/admin inference or
+Oracle/runtime authority. Registration is not implementation or verification. Root owns
+contracts/tracking/integration; one fresh coupled native feature context owns source/tests/docs.
+Next project-membership authority remains a separate decision; no legacy membership backfill.
+
 ## T19 locally verified; exact-head publication review pending — 2026-10-09
 
 SF-PRODUCT-T19 captures server-owned protected repository/folder generations and checks

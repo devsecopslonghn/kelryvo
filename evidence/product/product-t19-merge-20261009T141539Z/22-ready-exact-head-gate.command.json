@@ -1,0 +1,5 @@
+{
+  "command": "python3 /tmp/schemaforge-t19-merge-gate.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T14:15:24.069650+00:00"
+}

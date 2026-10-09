@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t19-master-state.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T14:16:18.249499+00:00",
+  "ended_at_utc": "2026-10-09T14:16:19.412907+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t19-publication-20261009T133805Z/25-master-initial.log",
+    "sha256": "7ba17e1b1b63ce592e6256e9a72378a19d83a25eba58c6152dfba0c100432c06"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t19-safe-alerts.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T14:20:09.133301+00:00",
+  "ended_at_utc": "2026-10-09T14:20:11.565222+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t19-publication-20261009T133805Z/27-postmerge-alerts.log",
+    "sha256": "88e1a1b5adf223d29a449abd96f4eff0a52ebc7b5ee2d8d6043b4f5df11d8012"
+  }
+}

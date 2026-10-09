@@ -1,0 +1,414 @@
+{
+  "id": "product-t19-merge-master-verified",
+  "subject_id": "SF-PRODUCT-T19",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact-head independent QA/security; classified finding-bearing publication/history scans; all11 PR checks; ordinary match-head merge; four exact-master workflow families and security/branch reconciliation",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t19-merge-20261009T141539Z/master-workflows.json",
+    "sha256": "d64f63974787e0828c076d8e98c7833b32cc2256bfc0fa869b4026878f91b679"
+  },
+  "pr": 31,
+  "reviewed_head": "87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+  "merge_commit": "7bb4af0184031112ea9f185991f37c97ec0604fa",
+  "merged_at": "2026-10-09T14:15:39Z",
+  "recorded_at_utc": "2026-10-09T14:22:04.510920+00:00",
+  "native_reviews": {
+    "head": "87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+    "base": "38665228fb844311390c9a064d9e1c02dc88145a",
+    "qa": {
+      "verdict": "APPROVED",
+      "path": "native-qa-verdict.json",
+      "sha256": "8265d6201e0162000b2c95649a1765050bd3680cb72bbe3cfefe3274c0fcddd5"
+    },
+    "security": {
+      "verdict": "APPROVED",
+      "path": "native-security-verdict.json",
+      "sha256": "cb194685c8a0eb9695d34c4b78b43f84365e0cc7a6d1ba9a2cd0eab049c01454"
+    },
+    "prepublish_at_utc": "2026-10-09T13:45:39.711540+00:00",
+    "changed_file_ownership_checked": true,
+    "changed_paths": 321,
+    "open_prs_before_publish": [],
+    "remote_branches_before_publish": [
+      "origin 38665228fb844311390c9a064d9e1c02dc88145a",
+      "origin/development/product-approval-integrity e186072de9f0811e3c6868039b701da05dc2b677",
+      "origin/development/product-archive be799cf724b0d95e78e47cf5de871f37e4279cf7",
+      "origin/development/product-audit-action-filters 5be1428ef6ab810a28e5de97af65c45969d90dad",
+      "origin/development/product-decision-record a5598a9b592c66de648fa2a621c6208edb6bc9be",
+      "origin/development/product-delivery-state 011358e1a6d4ffb99cfd50062100761a32b86350",
+      "origin/development/product-governance-slice b3601c1ada7271673627775e72fdb26c20fe065a",
+      "origin/development/product-local-git-refs 2a97b5551a99446aef46a034ac8532d70bafd4e0",
+      "origin/development/product-local-repositories 0d61063c7c1f3d1a20b5b886d46393d8467b602b",
+      "origin/development/product-merge-checkpoint 3ec1d16f43581a368804403f63e968971c434166",
+      "origin/development/product-offline-plan-intent 5e08361d85955754e81f10617063546429eec7da",
+      "origin/development/product-plan-comments a40b3fed6e5d86157aa19b5b6f47ec0352af0ca7",
+      "origin/development/product-plan-resubmission 5db4779714fd18138c93c458c5965a7e91741c52",
+      "origin/development/product-plan-source-inspection 132b613ddb54dbaed62a9e3261d7b23633808cdb",
+      "origin/development/product-plan-status-filters 58e5deb41e5d001474cf6bc46917ef7f3dab0c7b",
+      "origin/development/product-plan-target-review 7a691ad511a139ee9e02809ba4056f95e245523c",
+      "origin/development/product-release-integrity 406c9d309ee6aa32eb73b5ecd920feafa2e2bc3e",
+      "origin/development/product-release-provenance 461242efa1cc39bf0167540418d21055420ef46c",
+      "origin/development/product-requester-review 7615280f0358743205ed26493e4bde7ce55b8f0b",
+      "origin/development/product-review-audit ac8779cb57eee31dbac3169be016bad925d08e18",
+      "origin/development/product-shield-license d56b92f422f2de110bb29050cef50a130219f326",
+      "origin/development/product-source-binding e7f91876ffaa03fb04e06d8ac25c8b553a69cddc",
+      "origin/development/product-t07-checkpoint e93a397829bac4805b4f8b540ccf1c98f76abc43",
+      "origin/development/wp0-antlr-parser 97432efde71ed16ad47d3995731625334000d059",
+      "origin/development/wp0-checkpoint 978f873d5f297d235422667a2af20470298dd061",
+      "origin/development/wp0-dependency-closure 0e5b2e93dcce33bdae5f57afbc50fb538e6b86fe",
+      "origin/development/wp0-supervisor-checkpoint 1ca471ee687b2d046c950ea254860c9d11030ae4",
+      "origin/development/wp0-thin-checkpoint e167f2f98086f3268a93b18819f610c928f31fc0",
+      "origin/development/wp0-thin-probe-plan 4299b4d0ce770d0d961a39046ec997bb05cc1446",
+      "origin/development/wp0-thin-readonly-probe fe63aebcc911c1b0de89659be253ea0f186ae277",
+      "origin/development/wp0-thin-supervision ef8a2ec4f161abf84631769754d0afd1a924ab50",
+      "origin/master 38665228fb844311390c9a064d9e1c02dc88145a"
+    ],
+    "sonar": {
+      "status": "UNAVAILABLE_OWNER_QUOTA_EXCEPTION",
+      "scan_passed": false
+    }
+  },
+  "snapshot_hashes": [
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/09-staged-quality.command.json",
+      "sha256": "1e000bc255be4ad12db46c5483f68d3ba7ecfcd1dbe21170e6a4098d23f2e4d6"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/09-staged-quality.log",
+      "sha256": "153480d3e22e36a01684d4011f21aa4b2ba1206e5671fb6715e22919b2d74c82"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/09-staged-quality.result.json",
+      "sha256": "7bee57e76a8948c55e81512b127674e7176cd7166e975ee05c2ec0efa58966d3"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/10-staged-publication-scan.command.json",
+      "sha256": "c5148df46d823737c12ff48916b27fa0559bd7991e87aae3eb2f5db07df112a8"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/10-staged-publication-scan.log",
+      "sha256": "f44fdd63ea597eb327721bceebf52756aef99f35b5e30e6b455ea06b84f74412"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/10-staged-publication-scan.result.json",
+      "sha256": "1189163e974744dd03daddd12d8adb1433116e824076b95583b99644f6ed0391"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/11-precommit-reconciliation.command.json",
+      "sha256": "2f9565b1eb65586645cda14f34223bb859edd8715d3c632145d735f7d4cee26e"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/11-precommit-reconciliation.log",
+      "sha256": "f28e2cdf4fd7994e160fb6c70f227c92d4c16814d99aa9c981d8717041acbc9d"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/11-precommit-reconciliation.result.json",
+      "sha256": "c935edf1f8eb86ad54ecf19008e588859b7cde36e9b1dc0936375e4b813cfd72"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/12-commit-verified-t19.command.json",
+      "sha256": "c134c13b470ea5a209e8ae075517d309c3231f239ef9ab2f0b61c680a8a71e37"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/12-commit-verified-t19.log",
+      "sha256": "ea14b9365a4c5d82c294982cd6efb12401e9abcd36c40f514853339dabe39678"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/12-commit-verified-t19.result.json",
+      "sha256": "ac814e580535d4a576f3cc4bf2404485d17a5bf90ab1288bb9b72b13acf3b8a3"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/13-publication-classification-corrected.command.json",
+      "sha256": "759769472e412f5518f0214aa83380d954ba0886402c1f0aa2ccf8124d7cb570"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/13-publication-classification-corrected.log",
+      "sha256": "d27c586aeb3b5d52e1e59f9b7737344ac74870cac39cc6de961d3bac91bff7a4"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/13-publication-classification-corrected.result.json",
+      "sha256": "9731a95d6bbbbf4247f6c319bc324fb29791162801af2cfea05f8352f7638879"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/14-independent-review-remote-alerts.command.json",
+      "sha256": "996c37228bc116958486681d5600d64699f4fde8315496a791c611441555e2e1"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/14-independent-review-remote-alerts.log",
+      "sha256": "c16669dac59bedf7ac397488c1acf9dcb5c743a91f40343a2cc80e02d82b9cb3"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/14-independent-review-remote-alerts.result.json",
+      "sha256": "fc0d921d2d00f4b867a4934d54a17aebc4ce71a51983b35450c63ef515e35893"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/15-prepublish-verdicts-and-ownership.command.json",
+      "sha256": "d78f0e7476e764d7cb089ea82d9f6475bb38117be62e70590d29a0a9840e906d"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/15-prepublish-verdicts-and-ownership.log",
+      "sha256": "f1431b674cb15615e403435ec3406685025d3c52b27432e70cc9e7b6c29701c6"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/15-prepublish-verdicts-and-ownership.result.json",
+      "sha256": "59dc63bfd9f0ff76d6f938e87c516ddcd20515e1b04d6fea8fe94caab0adb302"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/16-push.command.json",
+      "sha256": "dbec7df7d016799c702311f5191d130f5ffa1a149b8102533dbd36747f245179"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/16-push.log",
+      "sha256": "b0f59a0ed3e5150ac211e2aa9e6898a307ae57319a3851c44f091299441bd19d"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/16-push.result.json",
+      "sha256": "24d346465e35e49aa59864e3ac921f97db13dc657cc724c50e08ceaa5ca459c2"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/17-postpush-reconciliation.command.json",
+      "sha256": "43be8a04298a826460c3b537ef9f4e3d663e1884948923a7d3d8eac7e7990559"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/17-postpush-reconciliation.log",
+      "sha256": "f9a93328ae2a987ad850232ba4b56bceb3825f5e5ed71e0a4c5382c713f49e61"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/17-postpush-reconciliation.result.json",
+      "sha256": "ace9c7fa4f6cdfe4dc072b4f6730065fe9fb7b1bd55ce25689180ea8af6c317e"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/18-create-pr.command.json",
+      "sha256": "7ccd183448452db4f453e705f4373df766718926cf1006c7a1c03fb6baf62aaa"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/18-create-pr.log",
+      "sha256": "969815b601a8962e764da95fab5e35ae0b6752d76f5e5c29210ccc3401762ab8"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/18-create-pr.result.json",
+      "sha256": "258d42e6e2bef06d3b975a02d788e9fd167ffc6ca1cb93f09c7ec095c9e9fb33"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/19-ci-snapshot.command.json",
+      "sha256": "30a247c102b137df1d0c2b1561a9512179bf8ef4e8d56f9ca745374e2bedc9a9"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/19-ci-snapshot.log",
+      "sha256": "bb19ac646717422fece3c96d4b86b739c45711424b2a37299415250436dc6c04"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/19-ci-snapshot.result.json",
+      "sha256": "62ee31c68185c41502749625567c4ef131aaa8005df571768bcc8bbeff8637a8"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/20-final-merge-gate.command.json",
+      "sha256": "f4dc7a974760583785926c2a6648dd99e608b4f7d248cb8de001355774bd17fd"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/20-final-merge-gate.log",
+      "sha256": "e36b9a7670abf380249f7946a34fdecd412a28188c1f452ccc77ac597ab70a35"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/20-final-merge-gate.result.json",
+      "sha256": "6b427cee8c52ecc6343ec7deea73c2fc6a8aeca02760ba2e3a6744c9ac8bea7a"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/21-ready-pr.command.json",
+      "sha256": "7842d8257ae1cd902ef50cd57cc05331068024c2665326cfa818ea94b3738001"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/21-ready-pr.log",
+      "sha256": "24eeba5189f6852344f0dd68d3e8c73e23e132def0f667406eacb912a070e41f"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/21-ready-pr.result.json",
+      "sha256": "87178d068ecce36140da7e735a099c013b586f53a5b68c4084f7c8c50cf6402b"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/22-ready-exact-head-gate.command.json",
+      "sha256": "9c11450d86889e802aab8536a2cdf0267b090b653f3870bf25a2b69dedabdce5"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/22-ready-exact-head-gate.log",
+      "sha256": "471ccfd4bc1bf157d2d8d2db74016858a71222323ef3680993c87c9949959388"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/22-ready-exact-head-gate.result.json",
+      "sha256": "80e4f689fa86a42ec9ff2f20e418ebc70149ac05ec92e1436d6c8fb2699c6063"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/23-merge-pr.command.json",
+      "sha256": "288bdd65e948c8737413476fed128be46f42898b64709d607eb4d360f425c3d4"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/23-merge-pr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/23-merge-pr.result.json",
+      "sha256": "dde1e1c0fe54923c2175ab78a9e41c8c80ff1bd2cce261db1093c15d8d777682"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/24-merged-pr-proof.command.json",
+      "sha256": "1d0611002cd3cfa5dd737a9da470c144fae49d044f27712bb5625c2e5f2ffe8c"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/24-merged-pr-proof.log",
+      "sha256": "561d142db96b11910898a228996e98d488bb4f2c18d9254bd66bd56963d637c9"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/24-merged-pr-proof.result.json",
+      "sha256": "d1484e06b507c09f70a511be668cda724aa2d62eadd5b52e818dc37ab151e3b7"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/25-master-initial.command.json",
+      "sha256": "887958be2200bd0491f7c4d1ec3ae5733bfbe30b0f14795322607999cc674238"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/25-master-initial.log",
+      "sha256": "7ba17e1b1b63ce592e6256e9a72378a19d83a25eba58c6152dfba0c100432c06"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/25-master-initial.result.json",
+      "sha256": "fe8ae04ea336b062cebc360169ff58949ede269c3b1911458eb53db06eb9ac65"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/26-master-final-pass.command.json",
+      "sha256": "383018f37910489d5478ae3dc05d589543ce2dea13db991e0fd83bec96f6ca8c"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/26-master-final-pass.log",
+      "sha256": "d64f63974787e0828c076d8e98c7833b32cc2256bfc0fa869b4026878f91b679"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/26-master-final-pass.result.json",
+      "sha256": "c7fffb3fa3f142f8d3af19f5f1733d23e05fc4887203bd4d7a9cac23dd9df48b"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/27-postmerge-alerts.command.json",
+      "sha256": "e874887ff9bccca763fed9a8188fd3d21a2c06c9d402bc1c3cedf5d32d4e8fcf"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/27-postmerge-alerts.log",
+      "sha256": "88e1a1b5adf223d29a449abd96f4eff0a52ebc7b5ee2d8d6043b4f5df11d8012"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/27-postmerge-alerts.result.json",
+      "sha256": "7dcea5b56e77ffec24edbc7e91d9e0a0192110f814be51d5ef27e12483edeb8b"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/28-postmerge-reconciliation.command.json",
+      "sha256": "a1c755bfb95a4a18e68a59711b6fcbc7ab6248436dc02ce783f77632f30bdac0"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/28-postmerge-reconciliation.log",
+      "sha256": "b6c56c076568aad2faf519ca10c6748f0e7f7fee47e665c06674e7257bdac51c"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/28-postmerge-reconciliation.result.json",
+      "sha256": "8b71126e0c7b5a68ec3c270238abe55a30e9df4338c2254a12d2fde8b21cafb9"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/29-create-t20-worktree.command.json",
+      "sha256": "5fc607ebeecd0bac3e3eb203efcc249977da4534f96033a3f796107ea3afb2ca"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/29-create-t20-worktree.log",
+      "sha256": "093c6e4b9a712e63e54d135af5df1bd1a9825e3a710123e6f7d12c9fa9d995e5"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/29-create-t20-worktree.result.json",
+      "sha256": "311c57d90d8053800f2b6efe8698ac5dd674a8bd83b5e8d5ab293b98e230ef0a"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/final-staged-quality.json",
+      "sha256": "d62cf55c67dff31aae3d992c235a614f25875094175a176da50cfafdcc8a143f"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/master-workflows.json",
+      "sha256": "d64f63974787e0828c076d8e98c7833b32cc2256bfc0fa869b4026878f91b679"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/native-qa-verdict.json",
+      "sha256": "8265d6201e0162000b2c95649a1765050bd3680cb72bbe3cfefe3274c0fcddd5"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/native-reviews.json",
+      "sha256": "b9a7bbb056fde005f8def410d36a7db5accfead16c6f11ee84579a2453ce4cd0"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/native-security-verdict.json",
+      "sha256": "cb194685c8a0eb9695d34c4b78b43f84365e0cc7a6d1ba9a2cd0eab049c01454"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/pr-body.md",
+      "sha256": "bf6d375a270e5936170300e84982619da0663d0e346c47ff175de0e855699df5"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/publication-classification.json",
+      "sha256": "1c263b550e461d2f27887f801e77b41100e7c174a81091d10d9e7ccab301d801"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/qa-focused/api.raw.log",
+      "sha256": "bd2f823e016448c5e7041c0eb7caaf962d434f81b4d3c35273b5e06951d72206"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/qa-focused/browser.raw.log",
+      "sha256": "7bf4e3dc75322e28504fdd8bbe68035e1cecdeb3cbd699e8d902df68550af21d"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/qa-focused/final-verdict.json",
+      "sha256": "8265d6201e0162000b2c95649a1765050bd3680cb72bbe3cfefe3274c0fcddd5"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/qa-focused/focused-results.json",
+      "sha256": "47f8a630e4ba5fd6fb3a59d77da42ef56023d31333bde36d37d34044e3e58bd3"
+    },
+    {
+      "path": "evidence/product/product-t19-merge-20261009T141539Z/staged-publication-final.json",
+      "sha256": "feed310cf43ce9d1ff67e0fb582a0b3abeff10a6b9472cfb5a58c50d1f9f7b54"
+    }
+  ],
+  "local_final_counts": {
+    "standard": 149,
+    "postgresql_product": 28,
+    "browser": 17,
+    "independent_focused_api": 3,
+    "independent_focused_browser": 1,
+    "skips": 0
+  },
+  "publication_scan": {
+    "paths": 321,
+    "exit_code": 1,
+    "findings": 1,
+    "classification": "Exact computed tests/product-api.test.mjs source SHA256 independently verified; finding-bearing, not clean PASS"
+  },
+  "history_scan": {
+    "exit_code": 1,
+    "findings": 36,
+    "classification": "35 prior exact-provenance UUID/source/artifact hashes and synthetic UNIT fixture plus one T19 computed test-source SHA256; no actual credential observed"
+  },
+  "hygiene_integration": {
+    "branch_or_pr_visible": false,
+    "status": "PENDING_SEPARATE_ELIGIBLE_PR",
+    "shared_checkout_untouched": true
+  },
+  "sonar": {
+    "status": "UNAVAILABLE_OWNER_QUOTA_EXCEPTION",
+    "scan_passed": false
+  },
+  "oracle_validation": "BLOCKED_SEPARATE_NO_RUNTIME_CLAIM",
+  "limitations": [
+    "Earlier failed local captures remain immutable; final results alone are passing.",
+    "Persistence uses API and PostgreSQL connection-pool reopen, not daemon restart.",
+    "Initial source-hash classifier assertion failed before writing classification; authorized ordinary local commit followed because shell lacked set-e. Corrected exact-tree classification and independent security review completed before push/merge.",
+    "Read-only combined fetch+JSON log extraction initially failed and was corrected by selecting the JSON object; no repository mutation or missing merge result."
+  ]
+}

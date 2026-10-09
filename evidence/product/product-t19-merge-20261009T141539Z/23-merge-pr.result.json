@@ -1,0 +1,11 @@
+{
+  "command": "gh pr merge 31 --repo devsecopslonghn/schemaForge --merge --match-head-commit 87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T14:15:36.473310+00:00",
+  "ended_at_utc": "2026-10-09T14:15:41.370983+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t19-publication-20261009T133805Z/23-merge-pr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

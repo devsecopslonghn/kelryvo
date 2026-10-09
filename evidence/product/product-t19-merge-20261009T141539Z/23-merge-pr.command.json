@@ -1,0 +1,5 @@
+{
+  "command": "gh pr merge 31 --repo devsecopslonghn/schemaForge --merge --match-head-commit 87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T14:15:36.473310+00:00"
+}
