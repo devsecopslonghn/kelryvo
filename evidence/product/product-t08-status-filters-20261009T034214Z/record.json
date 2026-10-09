@@ -1,0 +1,65 @@
+{
+  "id": "product-t08-status-filters-local-verified",
+  "subject_id": "SF-PRODUCT-T08",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check (PostgreSQL enabled); npm run test:product (isolated retry); npm run test:browser",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T08-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t08-status-filters-20261009T034214Z/checks-final.log",
+    "sha256": "47f4dbaa9bf49b031d67a91a21a009fe80222ecddb6e77b0982fdfbbccc0feba"
+  },
+  "baseline_master": "0346300471a889ae8fd33b022b890034be08d301",
+  "branch": "development/product-plan-status-filters",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-status-filters",
+  "counts": {
+    "standard": {
+      "pass": 140,
+      "fail": 0,
+      "skipped": 0
+    },
+    "product": {
+      "pass": 20,
+      "fail": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "pass": 6,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "initial_failures": {
+    "browser-initial-fail.txt": "Parser helper Java environment missing and initial new API fixture assertion expected 200 instead of 201; retained failure, corrected environment and fixture assertion.",
+    "targeted-initial-fail.txt": "Exact success text locator did not match the banner containing dismiss text; replaced by decision response assertion and status region locator.",
+    "product-initial-fail.txt": "Custom repository parser import observed INVALID while suites ran concurrently; isolated full retry passed. Exact contention cause unconfirmed; no product thresholds or parser code changed."
+  },
+  "verification": [
+    "Real PostgreSQL plans created using current API, with real pending/approved/rejected decisions and comments.",
+    "Ordered filtered plan IDs match API order, no other-project plan appears, empty filtered results expose no selected plan.",
+    "Developer and approver workflows, filter/project/sign-out draft/default resets, approval while Pending filter is active, persisted comments and terminal records.",
+    "Archive filtering remains readable; exact API snapshots unchanged by read-only filtering; all history NOT_EXECUTED and target history NOT_OBSERVED."
+  ],
+  "limitations": [
+    "No full GOV-021 inbox assignment/delegation/notification acceptance.",
+    "Oracle VALIDATION remains blocked; no Oracle connection or execution.",
+    "Sonar unavailable under unchanged owner quota exception, never PASS.",
+    "Historical four Gitleaks findings remain under separate incomplete hygiene review; no hygiene PR/report available at this snapshot."
+  ],
+  "sources": {
+    "apps/web/src/app.jsx": "4e12c45f6885e273d68cdc4c3bbf01937da29b1b6a0e98aae8dbbdd9d887c19f",
+    "tests/product-status-filters-browser.integration.mjs": "6a7482b0abde85dc8d953016d148a063cab0e24f0f5ebaa5b296ffe3a859a19a",
+    "scripts/test-product.mjs": "83b31b69160442f4be50920797ba8809263772e5d4067339b027ab928c6a0290",
+    "docs/development/local-product.md": "d322446d860f179c095d4956a380ce6933bab1568bd77c8f098d80c137d445ff"
+  }
+}

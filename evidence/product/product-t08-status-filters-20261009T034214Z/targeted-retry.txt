@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+ok 1 - status filters preserve scoped ordered plans, drafts, history and archived reads
+  ---
+  duration_ms: 3103.787435
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3804.304386

@@ -1,0 +1,197 @@
+
+> schemaforge-local-development@0.0.0 test:browser
+> npm run build:web && node scripts/test-product.mjs --browser
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# Subtest: browser archives a project and keeps its releases, plan, audit, and history readable
+not ok 1 - browser archives a project and keeps its releases, plan, audit, and history readable
+  ---
+  duration_ms: 785.205572
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-archive-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: 'POST /api/projects/5b548f5c-808c-40a3-a4c2-f25b226c0905/plans returned 409: RELEASE_NOT_VALID'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (file:///home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-archive-browser.integration.mjs:38:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-archive-browser.integration.mjs:57:22)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# S
+# SchemaForge
+# WORKSPACE
+# ▦
+# Projects
+# ◫
+# Releases
+# ◇
+# Plans & review
+# ≡
+# Audit & history
+# B
+# Browser developer
+# Developer
+# ↗
+# Workspace/Release intake
+# DEVELOPER
+# ↻
+# Repository release imported and validated.
+# ×
+# MIGRATION INTAKE
+# Import a release
+# Select an allowlisted Git repository and an immutable commit to inspect migration files.
+# 02 / 04
+# Project source binding
+# Choose a registered repository and migration folder. Local paths stay on the server.
+# SOURCE
+# Bound source
+# Local migration demo · migrations
+# Registered repository
+# Choose registered repository
+# Local migration demo
+# Migration folder
+# Use slash-separated folder names, for example migrations.
+# Update source binding
+# Existing releases
+# Open an imported release to review migration files and SQL.
+# 1 RELEASES
+# 2a97c60507f5 · migrations
+# Imported 10/9/2026, 10:41:47 AM · UNAVAILABLE
+# Inspect files
+# Repository source
+# Repository paths stay on the server. The browser sends only the repository ID.
+# GIT
+# Project
+# Choose project
+# Browser demo dcff96a5
+# Unbound project e260fdc6
+# Bound repository
+# Local migration demo
+# Commit or ref
+# Use a commit SHA for a reproducible release.
+# Bound migration folder
+# migrations
+# Import and validate
+# Release import uses the saved repository and folder. Files are parsed before a plan can be created.
+# IMPORTED RELEASE
+# 2a97c60507f5 · migrations
+# UNAVAILABLE
+# helper_launch_failed
+# MIGRATION FILE\\tVERSION\\tSTATEMENTS\\tBYTES\\tVALIDATION
+# migrations/V001__create_widget.sql\\t1\\t—\\t65\\tUNAVAILABLE
+# migrations/V002__add_description.sql\\t2\\t—\\t52\\tNOT_VALIDATED
+# Preview SQL · migrations/V001__create_widget.sql
+# CREATE TABLE widget (id NUMBER PRIMARY KEY, name VARCHAR2(100));
+# Preview SQL · migrations/V002__add_description.sql
+# SchemaForge · Governance workspace
+# Local time · 10:41 AM
+# Subtest: browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+not ok 2 - browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+  ---
+  duration_ms: 32114.0402
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.selectOption: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByLabel('Target connection profile')[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-browser.integration.mjs:133:56)
+  ...
+# browser phase: application and browser started
+# Subtest: plan comments remain scoped, readable, and persistent across API restart
+not ok 3 - plan comments remain scoped, readable, and persistent across API restart
+  ---
+  duration_ms: 1357.498749
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-comments-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading 'id')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    selectPlan (file:///home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-comments-browser.integration.mjs:78:32)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-comments-browser.integration.mjs:96:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: decision records render the stored attribution safely and stay plan-specific
+ok 4 - decision records render the stored attribution safely and stay plan-specific
+  ---
+  duration_ms: 2200.430677
+  type: 'test'
+  ...
+# Subtest: browser displays a server-audited decision denial to the authenticated project actor
+not ok 5 - browser displays a server-audited decision denial to the authenticated project actor
+  ---
+  duration_ms: 800.08914
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-review-audit-browser.integration.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'UNAVAILABLE'
+    - 'VALID'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'VALID'
+  actual: 'UNAVAILABLE'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-review-audit-browser.integration.mjs:41:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+not ok 6 - status filters preserve scoped ordered plans, drafts, history and archived reads
+  ---
+  duration_ms: 787.183413
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-status-filters-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    201 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 201
+  operator: 'strictEqual'
+  stack: |-
+    api (file:///home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-status-filters-browser.integration.mjs:28:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async seedProject (file:///home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-status-filters-browser.integration.mjs:32:27)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-status-filters-browser.integration.mjs:42:19)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 1
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 33308.425423

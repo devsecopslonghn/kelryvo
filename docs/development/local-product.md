@@ -45,6 +45,10 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    reviewer name and ID, decision time and plain-text reason. The reviewer name is captured
    with the decision, so later identity configuration changes do not alter attribution;
    older decisions without a stored name display their retained actor ID.
+   Use Plan status to filter All (the default), Pending approval, Approved or Rejected.
+   Filters preserve project ordering and historical read access for archived projects.
+   Changing the filter clears unsent comment and decision drafts; an empty result offers
+   another status or All. Selecting a project or signing out restores the All default.
 6. Inspect Audit & history. Each proposed migration records `NOT_EXECUTED`; no applied
    receipt exists. Stop/restart the API to confirm PostgreSQL retains these records.
 7. As the developer, return to Projects and archive a completed project with a reason.

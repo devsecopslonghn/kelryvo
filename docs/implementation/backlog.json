@@ -2318,7 +2318,38 @@
       "test_references": [
         "SF-PRODUCT-T08-WEB"
       ],
-      "status": "READY",
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t08-status-filters-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Bounded local project plan-status filters, real PostgreSQL/API/browser evidence; no full GOV-021 or Oracle acceptance."
+    },
+    {
+      "id": "SF-PRODUCT-T09",
+      "package": "PRODUCT",
+      "assigned_agent": "frontend",
+      "title": "Filter recent project audit events by action",
+      "dependencies": [
+        "SF-PRODUCT-T08"
+      ],
+      "feature_ids": [
+        "SEC-011"
+      ],
+      "acceptance_criteria": [
+        "Authenticated project audit timelines offer All actions by default and filters for the actions present in the existing scoped recent audit data, preserving server ordering and showing a clear empty state.",
+        "Changing projects or signing out resets the audit filter; filtering cannot expose events from another project and archived projects retain filtered historical read access.",
+        "Filtering is read only: audit facts, actors, timestamps, decisions, comments, plan bytes and migration history remain unchanged. Full audit search, pagination, retention policy, tamper evidence and Oracle acceptance are excluded."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T09-WEB"
+      ],
+      "status": "BACKLOG",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],

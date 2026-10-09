@@ -109,7 +109,27 @@ const PRODUCT_TASK_08 = {
     'Archived projects retain filtered historical read access; approval/rejection, comments, plan bytes and execution/history behavior remain unchanged. Assignment, delegation, notifications and full catalog inbox acceptance are excluded.',
   ], test_references: ['SF-PRODUCT-T08-WEB'],
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08];
+const PRODUCT_TASK_09 = {
+  "id": "SF-PRODUCT-T09",
+  "package": "PRODUCT",
+  "assigned_agent": "frontend",
+  "title": "Filter recent project audit events by action",
+  "dependencies": [
+    "SF-PRODUCT-T08"
+  ],
+  "feature_ids": [
+    "SEC-011"
+  ],
+  "acceptance_criteria": [
+    "Authenticated project audit timelines offer All actions by default and filters for the actions present in the existing scoped recent audit data, preserving server ordering and showing a clear empty state.",
+    "Changing projects or signing out resets the audit filter; filtering cannot expose events from another project and archived projects retain filtered historical read access.",
+    "Filtering is read only: audit facts, actors, timestamps, decisions, comments, plan bytes and migration history remain unchanged. Full audit search, pagination, retention policy, tamper evidence and Oracle acceptance are excluded."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T09-WEB"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

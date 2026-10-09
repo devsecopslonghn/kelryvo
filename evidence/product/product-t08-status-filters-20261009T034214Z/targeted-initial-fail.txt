@@ -1,0 +1,27 @@
+TAP version 13
+# Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+not ok 1 - status filters preserve scoped ordered plans, drafts, history and archived reads
+  ---
+  duration_ms: 32211.537016
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-status-filters-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByText('Plan approved. Execution remains NOT_EXECUTED.', { exact: true }) to be visible[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-status-filters/tests/product-status-filters-browser.integration.mjs:123:93)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 33286.676942

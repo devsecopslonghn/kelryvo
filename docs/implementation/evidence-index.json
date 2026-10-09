@@ -1532,6 +1532,54 @@
       },
       "path": "evidence/product/product-t07-merge-20261009T031557Z/checkpoint/record.json",
       "sha256": "8ea02383e7337c98270605a53d3f226f9a55c836407a020d0a8f0adfd67ae100"
+    },
+    {
+      "id": "product-t08-status-filters-local-verified",
+      "subject_id": "SF-PRODUCT-T08",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check (PostgreSQL enabled); npm run test:product (isolated retry); npm run test:browser",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T08-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t08-status-filters-20261009T034214Z/checks-final.log",
+        "sha256": "47f4dbaa9bf49b031d67a91a21a009fe80222ecddb6e77b0982fdfbbccc0feba"
+      },
+      "path": "evidence/product/product-t08-status-filters-20261009T034214Z/record.json",
+      "sha256": "b29dfc82b57f21ae39aff30479ffe7023f86f0c86eeb95aaf83305450478238b"
+    },
+    {
+      "id": "product-t08-final-tracker-and-drafts-verified",
+      "subject_id": "SF-PRODUCT-T08",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "node --test tests/product-status-filters-browser.integration.mjs; npm run check (PostgreSQL enabled, final tracking state)",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T08-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t08-status-filters-20261009T034214Z/tracker-final.txt",
+        "sha256": "5e06b4366615b8dc66cece98b0f21e2003c9130bb490a3538bd2dd614e3d782c"
+      },
+      "path": "evidence/product/product-t08-status-filters-20261009T034214Z/final-verification.json",
+      "sha256": "c8109eff7c4688e64f406f7cffded3c9a073b5060be21e3a98503752365e49d7"
     }
   ]
 }
