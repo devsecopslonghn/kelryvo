@@ -1096,6 +1096,47 @@ td code {
   font-size: 10px;
   font-weight: 700;
 }
+.comments-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e8edf3;
+}
+.comment-timeline {
+  list-style: none;
+  padding: 0;
+}
+.comment-row {
+  padding: 12px 0;
+  border-bottom: 1px solid #eff2f5;
+}
+.comment-row > div,
+.comment-form > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+.comment-row time,
+.comment-form small {
+  color: #67768a;
+  font-size: 11px;
+}
+.comment-row p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.comment-form label {
+  display: block;
+  margin: 12px 0 7px;
+  font-weight: 700;
+}
+.comment-form textarea {
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+  margin-bottom: 9px;
+}
 .danger-button:hover {
   background: #fff8f7;
 }

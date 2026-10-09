@@ -1,0 +1,145 @@
+
+> schemaforge-local-development@0.0.0 test:product
+> node scripts/test-product.mjs
+
+TAP version 13
+# Subtest: product API persists a governed offline plan and never claims execution
+ok 1 - product API persists a governed offline plan and never claims execution
+  ---
+  duration_ms: 7764.109379
+  type: 'test'
+  ...
+# Subtest: archival keeps immutable records readable and refuses further project work
+ok 2 - archival keeps immutable records readable and refuses further project work
+  ---
+  duration_ms: 823.680801
+  type: 'test'
+  ...
+# Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+ok 3 - an in-flight metadata write rechecks archival after acquiring the project lock
+  ---
+  duration_ms: 409.776296
+  type: 'test'
+  ...
+# Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+not ok 4 - plan review comments are scoped, validated, durable, ordered, and serialized
+  ---
+  duration_ms: 840.299467
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge/tests/product-comments.test.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    13 !== 11
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 11
+  actual: 13
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge/tests/product-comments.test.mjs:185:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+ok 5 - concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+  ---
+  duration_ms: 948.295035
+  type: 'test'
+  ...
+# Subtest: local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+ok 6 - local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+  ---
+  duration_ms: 10603.303744
+  type: 'test'
+  ...
+# Subtest: resolved commits remain immutable after the source branch moves
+ok 7 - resolved commits remain immutable after the source branch moves
+  ---
+  duration_ms: 5787.756587
+  type: 'test'
+  ...
+# Subtest: leading-zero aliases and equivalent dotted versions are rejected as duplicates
+ok 8 - leading-zero aliases and equivalent dotted versions are rejected as duplicates
+  ---
+  duration_ms: 117.021863
+  type: 'test'
+  ...
+# Subtest: malformed refs and migration-folder traversal are rejected before Git lookup
+ok 9 - malformed refs and migration-folder traversal are rejected before Git lookup
+  ---
+  duration_ms: 41.842341
+  type: 'test'
+  ...
+# Subtest: symlinked migration entries and Git submodules are rejected
+ok 10 - symlinked migration entries and Git submodules are rejected
+  ---
+  duration_ms: 167.837918
+  type: 'test'
+  ...
+# Subtest: invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+ok 11 - invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+  ---
+  duration_ms: 5213.918765
+  type: 'test'
+  ...
+# Subtest: the installed ANTLR helper parses actual imported SQL without a fake positive driver
+ok 12 - the installed ANTLR helper parses actual imported SQL without a fake positive driver
+  ---
+  duration_ms: 2615.462183
+  type: 'test'
+  ...
+# Subtest: startup arguments accept repeated local repositories and reject unknown or excess options
+ok 13 - startup arguments accept repeated local repositories and reject unknown or excess options
+  ---
+  duration_ms: 7.86919
+  type: 'test'
+  ...
+# Subtest: configured repositories are canonical local Git worktrees with display-only public descriptors
+ok 14 - configured repositories are canonical local Git worktrees with display-only public descriptors
+  ---
+  duration_ms: 156.483078
+  type: 'test'
+  ...
+# Subtest: invalid startup options fail before creating local configuration or reaching Docker
+ok 15 - invalid startup options fail before creating local configuration or reaching Docker
+  ---
+  duration_ms: 255.771996
+  type: 'test'
+  ...
+# Subtest: a configured custom Git repository is visible without its path and imports through the product API
+ok 16 - a configured custom Git repository is visible without its path and imports through the product API
+  ---
+  duration_ms: 4177.285829
+  type: 'test'
+  ...
+# Subtest: authenticated denied decisions append fixed audit facts while preserving plan and history
+ok 17 - authenticated denied decisions append fixed audit facts while preserving plan and history
+  ---
+  duration_ms: 853.973856
+  type: 'test'
+  ...
+# Subtest: source bindings persist, authorize changes, constrain imports before Git, and remain private
+ok 18 - source bindings persist, authorize changes, constrain imports before Git, and remain private
+  ---
+  duration_ms: 836.764987
+  type: 'test'
+  ...
+# Subtest: source binding is rechecked under a project lock before an imported release can commit
+ok 19 - source binding is rechecked under a project lock before an imported release can commit
+  ---
+  duration_ms: 7455.908155
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 18
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24684.234008

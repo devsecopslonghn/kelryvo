@@ -1428,6 +1428,31 @@
       },
       "path": "evidence/product/product-shield-license-20261009T021701Z/quality-repair-1/record.json",
       "sha256": "47564c8998c48a30a8aa172bf67924bd0cfc08c7d6e9878688c22fa382accc67"
+    },
+    {
+      "id": "product-t06-comments-local-verified",
+      "subject_id": "SF-PRODUCT-T06",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check (isolated PostgreSQL enabled); npm run test:product; npm run test:browser; npm run parser:antlr:test; npm run parser:antlr:corpus",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T06-API",
+        "SF-PRODUCT-T06-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t06-comments-20261009T023621Z/checks-final.log",
+        "sha256": "de76f4b81b277fe92e49cf2766af0a63a3477319380d5d45af5bec6187a03ea8"
+      },
+      "path": "evidence/product/product-t06-comments-20261009T023621Z/record.json",
+      "sha256": "ece3edd0d4df6fe6e1d25e88a99f61c5ec2d7eba3f5932e19eb377ac85b8d6d8"
     }
   ]
 }

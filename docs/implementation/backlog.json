@@ -2233,12 +2233,24 @@
         "SF-PRODUCT-T06-API",
         "SF-PRODUCT-T06-WEB"
       ],
-      "status": "BACKLOG",
+      "status": "VERIFIED",
       "source_paths": [
-        "docs/implementation/backlog.json"
+        "apps/api/index.ts",
+        "packages/database/index.ts",
+        "apps/web/src/app.jsx",
+        "apps/web/styles.css",
+        "tests/product-comments.test.mjs",
+        "tests/product-comments-browser.integration.mjs",
+        "scripts/test-product.mjs",
+        "docs/development/local-product.md"
       ],
-      "evidence": [],
-      "blockers": []
+      "evidence": [
+        {
+          "index_id": "product-t06-comments-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Bounded PostgreSQL-backed plain-text pending-plan review comments with API/concurrency/browser/restart evidence; no full catalog or Oracle acceptance."
     }
   ]
 }

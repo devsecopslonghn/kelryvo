@@ -1,0 +1,59 @@
+{
+  "id": "product-t06-comments-local-verified",
+  "subject_id": "SF-PRODUCT-T06",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check (isolated PostgreSQL enabled); npm run test:product; npm run test:browser; npm run parser:antlr:test; npm run parser:antlr:corpus",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T06-API",
+    "SF-PRODUCT-T06-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t06-comments-20261009T023621Z/checks-final.log",
+    "sha256": "de76f4b81b277fe92e49cf2766af0a63a3477319380d5d45af5bec6187a03ea8"
+  },
+  "recorded_at": "2026-10-09T02:41:39.097450+00:00",
+  "base_commit": "3522000b02941f6004f6d1ef3f7c13ff83aafd07",
+  "tests": {
+    "standard": {
+      "passed": 139,
+      "failed": 0,
+      "skipped": 0
+    },
+    "product": {
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    },
+    "real_parser_helper": {
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "source_hashes": "evidence/product/product-t06-comments-20261009T023621Z/source-hashes.json",
+  "initial_observations": [
+    "First npm run check without database URL passed with nine dedicated PostgreSQL cases skipped; final run enabled PostgreSQL and passed all 139 with zero skips.",
+    "Expanded API race coverage initially expected the original plan count for the whole project; corrected to compare the scoped plan timeline, preserving the failed raw run."
+  ],
+  "limitations": [
+    "Single-organization local developer/approver identity model; no full production RBAC.",
+    "No attachments, notifications, rich text, target database calls or execution.",
+    "Oracle runtime acceptance remains BLOCKED; offline parser regressions do not certify Oracle behavior.",
+    "Sonar quota exception preserved unchanged; Sonar is unavailable, never PASS."
+  ],
+  "independent_review": "Read-only native security specialist found no concrete blocker; exact committed-head review and CI remain required before merge."
+}

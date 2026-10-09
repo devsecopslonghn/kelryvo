@@ -47,6 +47,15 @@ export async function initializeDatabase(sql: any): Promise<void> {
       actor_id text NOT NULL, action text NOT NULL, resource_id uuid, facts jsonb NOT NULL DEFAULT '{}'::jsonb,
       created_at timestamptz NOT NULL DEFAULT now(), FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id)
     );
+    CREATE TABLE IF NOT EXISTS sf_plan_comments (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), position bigint GENERATED ALWAYS AS IDENTITY UNIQUE,
+      project_id uuid NOT NULL, organization_id uuid NOT NULL, plan_id uuid NOT NULL,
+      author_id text NOT NULL, author_name text NOT NULL,
+      body text NOT NULL CHECK (length(btrim(body)) BETWEEN 1 AND 4000 AND octet_length(body) <= 16000),
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
+      FOREIGN KEY(plan_id,project_id) REFERENCES sf_plans(id,project_id)
+    );
     CREATE TABLE IF NOT EXISTS sf_history (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), project_id uuid NOT NULL, plan_id uuid NOT NULL, version text NOT NULL,
       path text NOT NULL, sha256 text NOT NULL, status text NOT NULL CHECK(status='NOT_EXECUTED'), created_at timestamptz NOT NULL DEFAULT now(),
@@ -65,6 +74,8 @@ export async function initializeDatabase(sql: any): Promise<void> {
     END $$;
     CREATE INDEX IF NOT EXISTS sf_audit_project_time ON sf_audit(project_id,created_at DESC);
     CREATE INDEX IF NOT EXISTS sf_history_project_time ON sf_history(project_id,created_at DESC);
+    CREATE INDEX IF NOT EXISTS sf_comments_project_position ON sf_plan_comments(project_id,position);
+    CREATE INDEX IF NOT EXISTS sf_comments_plan_position ON sf_plan_comments(plan_id,position);
     `);
   });
 }

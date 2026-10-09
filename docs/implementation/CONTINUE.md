@@ -1,5 +1,29 @@
 # Resume SchemaForge PRODUCT delivery
 
+## SF-PRODUCT-T06 — persistent plan comments verified locally (2026-10-09)
+
+T06 adds authenticated developer/approver plain-text comments to pending plans, ordered
+server author/time history and atomic audit references. Scoped reads retain comments after
+terminal decisions and archival; invalid/oversized/unauthorized/stale writes are rejected.
+Migration bytes, plan content and decision behavior remain intact; execution is NOT_EXECUTED.
+
+Local checks: 139/139 standard, 19/19 PostgreSQL/product, 4/4 browser, 4/4 real helper
+integration, zero skips; offline parser corpus passed. Browser acceptance includes both
+roles, literal HTML rendered as text, plan isolation, archive/terminal read-only states and
+server/database-pool restart persistence. Evidence: `evidence/product/product-t06-comments-20261009T023621Z/record.json`.
+
+Branch: `development/product-plan-comments`, based on latest verified master
+`3522000b02941f6004f6d1ef3f7c13ff83aafd07` (PR #15). T06 PR/CI/merge are pending at
+this evidence snapshot; resolve exact current heads and gates from GitHub. After eligible
+merge, verify all master workflows, fast-forward local master, inspect the running app and
+register the next independently buildable missing PRODUCT catalog workflow.
+
+The Sonar quota exception in AGENTS.md/github-sync.md is unchanged: unavailable is never
+PASS and all other gates still apply. PolyForm Shield 1.0.0 remains selected; Oracle
+runtime acceptance and all 124 applicable Oracle cells remain BLOCKED independently.
+
+## Earlier checkpoints — superseded where T06 updates state
+
 Read AGENTS.md, CURRENT.md and the tracker. The owner authorizes implementation,
 verified branches/PRs and eligible ordinary merges. PRODUCT delivery is independent of
 Oracle VALIDATION. Start new bounded increments from latest `origin/master`; inspect
