@@ -1,0 +1,30 @@
+{
+  "id": "product-t06-merge-master-verified",
+  "subject_id": "SF-PRODUCT-T06",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact-head gh PR/check/security/review inspection; ordinary gh pr merge #16; gh run list verifies four successful master workflows; git fetch/switch/merge --ff-only; npm run dev and authenticated browser/API inspection",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t06-merge-20261009T024610Z/master-workflows.json",
+    "sha256": "ac71e59551911abe3aaaaff7f735c45cf48ab7db511c79848fd285ce9980f6f7"
+  },
+  "recorded_at": "2026-10-09T02:52:11.972170+00:00",
+  "pr": 16,
+  "reviewed_head": "a40b3fed6e5d86157aa19b5b6f47ec0352af0ca7",
+  "merge_commit": "b5c0392feda043b26138fd591acb5be5b166fe74",
+  "premerge_audit": "evidence/product/product-t06-merge-20261009T024610Z/premerge.json",
+  "merged": "evidence/product/product-t06-merge-20261009T024610Z/merged.json",
+  "running_app_inspection": "evidence/product/product-t06-merge-20261009T024610Z/live-app-inspection.json",
+  "next_increment": "SF-PRODUCT-T07: GOV-023 partial retained decision provenance; selected from observed plan-review gap.",
+  "sonar": "UNAVAILABLE_OWNER_REPORTED_LOC_QUOTA; no PASS claim; exception unchanged",
+  "limitations": [
+    "Oracle runtime acceptance remains BLOCKED.",
+    "Full catalog features, production RBAC, F31 distribution/naming acceptance unclaimed.",
+    "Local app stopped after inspection; PostgreSQL named volume retained."
+  ]
+}

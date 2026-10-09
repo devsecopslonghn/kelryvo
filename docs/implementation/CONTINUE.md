@@ -1,5 +1,44 @@
 # Resume SchemaForge PRODUCT delivery
 
+## T07 local verification completed — 2026-10-09
+
+SF-PRODUCT-T07 now displays retained terminal decision reviewer/name/ID, timestamp and
+plain-text reason. New decisions snapshot the server-configured reviewer name; historical
+NULL names use the stored actor ID. The existing approval/rejection/audit/comment and
+execution behavior remains intact. Local verification passed 140/140 standard, 20/20
+PostgreSQL/product and 5/5 real browser workflows, zero skips. The interrupted browser
+run is retained without PASS; a fresh retry completed, and its test-owned database was
+cleaned after identity/session checks. Evidence: `evidence/product/product-t07-decision-record-20261009T025416Z/record.json`.
+
+T07 is VERIFIED_LOCAL on `development/product-decision-record`, based on merged and
+master-workflow-verified T06 `b5c0392feda043b26138fd591acb5be5b166fe74`. T07 PR,
+exact-head reviews, CI and merge remain pending at this snapshot; resolve from GitHub.
+After eligible merge, verify master workflows and synchronize local master. Oracle
+acceptance stays BLOCKED and the Sonar quota exception is unchanged.
+
+## Earlier snapshots — superseded by T07 verification above
+
+## T06 merged; T07 decision provenance in progress — 2026-10-09
+
+PR #16 merged at `b5c0392feda043b26138fd591acb5be5b166fe74` after ten successful
+non-Sonar checks and independent native QA/security approval at exact head
+`a40b3fed6e5d86157aa19b5b6f47ec0352af0ca7`. All four master workflows passed
+(PRODUCT, parser, WP0, CodeQL), and local master was synchronized. Merge evidence:
+`evidence/product/product-t06-merge-20261009T024610Z/record.json`. Sonar remains unavailable under the unchanged owner quota exception.
+
+The merged app was started and inspected with authenticated API/browser access: no
+browser errors, PostgreSQL healthy, execution NOT_EXECUTED. Its terminal plan review
+shows status but omits stored reviewer/time/reason detail. SF-PRODUCT-T07 now implements
+that bounded provenance view under GOV-023, capturing reviewer name snapshots for new
+decisions and retaining actor-ID fallback for historical records. Branch:
+`development/product-decision-record`, based on the verified T06 merge above.
+
+T07 does not certify full catalog decision audit/project transfer or Oracle runtime.
+PRODUCT T01–T06 are VERIFIED_LOCAL; Oracle acceptance remains BLOCKED independently.
+The inspected app was stopped; its PostgreSQL volume and private configuration remain.
+
+## Earlier task snapshots — superseded by the merge state above
+
 ## SF-PRODUCT-T06 — persistent plan comments verified locally (2026-10-09)
 
 T06 adds authenticated developer/approver plain-text comments to pending plans, ordered

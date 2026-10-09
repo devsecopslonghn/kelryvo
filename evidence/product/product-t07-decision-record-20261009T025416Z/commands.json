@@ -1,0 +1,12 @@
+[
+  {
+    "command": "npm run check",
+    "exit_code": 0,
+    "log": "evidence/product/product-t07-decision-record-20261009T025416Z/standard-verified/checks.log"
+  },
+  {
+    "command": "npm run test:product",
+    "exit_code": 0,
+    "log": "evidence/product/product-t07-decision-record-20261009T025416Z/product/checks.log"
+  }
+]

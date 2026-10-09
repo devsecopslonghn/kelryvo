@@ -1087,6 +1087,18 @@ td code {
   font-size: 9px;
   margin-top: 9px;
 }
+.decision-record {
+  margin-top: 16px;
+  padding: 15px;
+  border: 1px solid #e8edf3;
+  border-radius: 7px;
+  background: #fbfcfe;
+}
+.decision-record h3 { margin: 0 0 10px; }
+.decision-record p { margin: 8px 0; }
+.decision-record code { margin-left: 8px; color: #67768a; }
+.decision-record time { color: #67768a; font-size: 11px; }
+.decision-record-reason { white-space: pre-wrap; overflow-wrap: anywhere; }
 .danger-button {
   border: 1px solid #f0d1ce;
   border-radius: 6px;

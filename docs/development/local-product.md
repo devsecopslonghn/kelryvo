@@ -41,6 +41,10 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    retains plain text, the server-resolved author name and timestamp in submission order.
    Comments remain readable after approval, rejection or project archival; those states
    close the comment composer. Switching plans or projects clears an unsent comment.
+   Approved and rejected plans also show a read-only Decision record with the server-stored
+   reviewer name and ID, decision time and plain-text reason. The reviewer name is captured
+   with the decision, so later identity configuration changes do not alter attribution;
+   older decisions without a stored name display their retained actor ID.
 6. Inspect Audit & history. Each proposed migration records `NOT_EXECUTED`; no applied
    receipt exists. Stop/restart the API to confirm PostgreSQL retains these records.
 7. As the developer, return to Projects and archive a completed project with a reason.

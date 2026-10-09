@@ -1,0 +1,167 @@
+{
+  "recorded_at": "2026-10-09T02:45:41.664085+00:00",
+  "pr": {
+    "baseRefName": "master",
+    "baseRefOid": "3522000b02941f6004f6d1ef3f7c13ff83aafd07",
+    "headRefOid": "a40b3fed6e5d86157aa19b5b6f47ec0352af0ca7",
+    "isDraft": false,
+    "mergeable": "MERGEABLE",
+    "number": 16,
+    "reviewDecision": "",
+    "state": "OPEN",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T02:43:18Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37875853535/job/113644166430",
+        "name": "Analyze (actions)",
+        "startedAt": "2026-10-09T02:42:43Z",
+        "status": "COMPLETED",
+        "workflowName": "CodeQL"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T02:44:11Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37875856124/job/113644171459",
+        "name": "product",
+        "startedAt": "2026-10-09T02:42:44Z",
+        "status": "COMPLETED",
+        "workflowName": "Local PRODUCT acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T02:44:07Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37875804584/job/113644005869",
+        "name": "product",
+        "startedAt": "2026-10-09T02:42:04Z",
+        "status": "COMPLETED",
+        "workflowName": "Local PRODUCT acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T02:43:58Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37875856194/job/113644172068",
+        "name": "parser",
+        "startedAt": "2026-10-09T02:42:44Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline ANTLR parser acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T02:44:41Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37875804585/job/113644005960",
+        "name": "parser",
+        "startedAt": "2026-10-09T02:42:03Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline ANTLR parser acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T02:43:54Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37875856217/job/113644172179",
+        "name": "foundation",
+        "startedAt": "2026-10-09T02:42:45Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline WP0 checks"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T02:42:58Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37875804566/job/113644005905",
+        "name": "foundation",
+        "startedAt": "2026-10-09T02:42:04Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline WP0 checks"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T02:43:44Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37875853535/job/113644166276",
+        "name": "Analyze (java-kotlin)",
+        "startedAt": "2026-10-09T02:42:43Z",
+        "status": "COMPLETED",
+        "workflowName": "CodeQL"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T02:43:51Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37875853535/job/113644166565",
+        "name": "Analyze (javascript-typescript)",
+        "startedAt": "2026-10-09T02:42:43Z",
+        "status": "COMPLETED",
+        "workflowName": "CodeQL"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T02:43:12Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/runs/113644284227",
+        "name": "CodeQL",
+        "startedAt": "2026-10-09T02:43:10Z",
+        "status": "COMPLETED",
+        "workflowName": ""
+      }
+    ],
+    "url": "https://github.com/devsecopslonghn/schemaForge/pull/16"
+  },
+  "security": {
+    "code-scanning": [],
+    "secret-scanning": [],
+    "dependabot": []
+  },
+  "review": {
+    "reviewDecision": null,
+    "reviewThreads": {
+      "nodes": [],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  "predicted_tree": "116930d7628cd37420c053bcf8418305f68ca4fc",
+  "native_independent_review": {
+    "recorded_at": "2026-10-09T02:44:26.872043+00:00",
+    "head": "a40b3fed6e5d86157aa19b5b6f47ec0352af0ca7",
+    "base": "3522000b02941f6004f6d1ef3f7c13ff83aafd07",
+    "native_security": {
+      "agent": "/root/t06_security_review",
+      "outcome": "APPROVE",
+      "concrete_blockers": [],
+      "source_hash_manifest_matches": true
+    },
+    "native_qa": {
+      "agent": "/root/t06_final_qa",
+      "outcome": "APPROVE",
+      "concrete_blockers": [],
+      "restart_database_pool_verified": true,
+      "source_hash_manifest_matches": true
+    },
+    "limits": [
+      "Single configured organization/local developer and approver identities; no production RBAC.",
+      "Comment reads have no pagination in this bounded task.",
+      "Oracle acceptance remains BLOCKED; Sonar quota exception records unavailable, never PASS."
+    ],
+    "raw_evidence_whitespace": "Two lines in preserved initial failed assertion output; authored source/docs diff is clean."
+  },
+  "sonar": {
+    "status": "UNAVAILABLE_OWNER_REPORTED_LOC_QUOTA",
+    "scan_passed": false,
+    "suites": [
+      {
+        "id": 102620738401,
+        "status": "queued",
+        "conclusion": null
+      }
+    ]
+  },
+  "merge_mode": "ordinary merge commit; no bypass"
+}

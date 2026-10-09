@@ -89,7 +89,17 @@ const PRODUCT_TASK_06 = {
     'Comments cannot attach files or change migration bytes, plan decisions or history; execution remains NOT_EXECUTED and no full catalog or Oracle acceptance is claimed.',
   ], test_references: ['SF-PRODUCT-T06-API', 'SF-PRODUCT-T06-WEB'],
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06];
+const PRODUCT_TASK_07 = {
+  id: 'SF-PRODUCT-T07', package: 'PRODUCT', assigned_agent: 'backend',
+  title: 'Display retained plan decision provenance in review', dependencies: ['SF-PRODUCT-T06'],
+  feature_ids: ['GOV-023'],
+  acceptance_criteria: [
+    'Authenticated plan reviews display terminal decision reason, server timestamp and reviewer identity; new decisions snapshot the configured reviewer name, while historical records retain their stored actor ID fallback.',
+    'Approval and rejection records remain scoped, readable after archival and application restart, and render arbitrary reason text safely without changing decision transitions, plan content, comments or migration history.',
+    'Unauthorized reads and invalid or spoofed decision writes remain denied; this bounded provenance view does not certify project transfer, full catalog audit or Oracle execution.',
+  ], test_references: ['SF-PRODUCT-T07-API', 'SF-PRODUCT-T07-WEB'],
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

@@ -2247,10 +2247,51 @@
       "evidence": [
         {
           "index_id": "product-t06-comments-local-verified"
+        },
+        {
+          "index_id": "product-t06-merge-master-verified"
         }
       ],
       "blockers": [],
       "verification_scope": "Bounded PostgreSQL-backed plain-text pending-plan review comments with API/concurrency/browser/restart evidence; no full catalog or Oracle acceptance."
+    },
+    {
+      "id": "SF-PRODUCT-T07",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Display retained plan decision provenance in review",
+      "dependencies": [
+        "SF-PRODUCT-T06"
+      ],
+      "feature_ids": [
+        "GOV-023"
+      ],
+      "acceptance_criteria": [
+        "Authenticated plan reviews display terminal decision reason, server timestamp and reviewer identity; new decisions snapshot the configured reviewer name, while historical records retain their stored actor ID fallback.",
+        "Approval and rejection records remain scoped, readable after archival and application restart, and render arbitrary reason text safely without changing decision transitions, plan content, comments or migration history.",
+        "Unauthorized reads and invalid or spoofed decision writes remain denied; this bounded provenance view does not certify project transfer, full catalog audit or Oracle execution."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T07-API",
+        "SF-PRODUCT-T07-WEB"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "apps/api/index.ts",
+        "packages/database/index.ts",
+        "apps/web/src/app.jsx",
+        "apps/web/styles.css",
+        "tests/product-decision-record.test.mjs",
+        "tests/product-decision-record-browser.integration.mjs",
+        "docs/development/local-product.md"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t07-decision-record-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Bounded local terminal decision provenance with reviewer snapshots/legacy ID fallback and PostgreSQL/API/browser/restart evidence; no full catalog/Oracle acceptance."
     }
   ]
 }

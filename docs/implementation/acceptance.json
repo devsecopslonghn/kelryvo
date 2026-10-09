@@ -2413,6 +2413,18 @@
         "SF-PRODUCT-T06-API",
         "SF-PRODUCT-T06-WEB"
       ]
+    },
+    "SF-PRODUCT-T07": {
+      "task_id": "SF-PRODUCT-T07",
+      "criteria": [
+        "Authenticated plan reviews display terminal decision reason, server timestamp and reviewer identity; new decisions snapshot the configured reviewer name, while historical records retain their stored actor ID fallback.",
+        "Approval and rejection records remain scoped, readable after archival and application restart, and render arbitrary reason text safely without changing decision transitions, plan content, comments or migration history.",
+        "Unauthorized reads and invalid or spoofed decision writes remain denied; this bounded provenance view does not certify project transfer, full catalog audit or Oracle execution."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T07-API",
+        "SF-PRODUCT-T07-WEB"
+      ]
     }
   },
   "test_cases": [

@@ -1219,6 +1219,10 @@
     "SF-PRODUCT-T06": {
       "assigned_agent": "backend",
       "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T07": {
+      "assigned_agent": "backend",
+      "status": "VERIFIED"
     }
   }
 }

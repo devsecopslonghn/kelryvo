@@ -186,7 +186,7 @@ export function createApp(options: {
           sql`SELECT id,name,created_at FROM sf_environments WHERE project_id=${p.id} ORDER BY created_at`,
           sql`SELECT id,name,environment_id,engine,host,port,service,username,credential_ref,created_at FROM sf_profiles WHERE project_id=${p.id} ORDER BY created_at`,
           sql`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,validation_code,parser_profile,created_at FROM sf_releases WHERE project_id=${p.id} ORDER BY created_at DESC`,
-          sql`SELECT id,release_id,profile_id,author_id,status,decision,decision_reason,decided_by,created_at,decided_at,items,execution,history_status,planning_scope FROM sf_plans WHERE project_id=${p.id} ORDER BY created_at DESC`,
+          sql`SELECT id,release_id,profile_id,author_id,status,decision,decision_reason,decided_by,decided_by_name,created_at,decided_at,items,execution,history_status,planning_scope FROM sf_plans WHERE project_id=${p.id} ORDER BY created_at DESC`,
           sql`SELECT id,actor_id,action,resource_id,facts,created_at FROM sf_audit WHERE project_id=${p.id} ORDER BY created_at DESC LIMIT 100`,
           sql`SELECT id,plan_id,version,path,sha256,status,created_at FROM sf_history WHERE project_id=${p.id} ORDER BY created_at DESC`,
           sql`SELECT id,project_id,plan_id,author_id,author_name,body,created_at FROM sf_plan_comments
@@ -564,7 +564,7 @@ export function createApp(options: {
           return denialReason;
         }
         const rows =
-          await tx`UPDATE sf_plans SET status=${b.decision === "APPROVE" ? "APPROVED" : "REJECTED"},decision=${b.decision},decision_reason=${b.reason},decided_by=${req.actor.id},decided_at=now() WHERE id=${p.id} RETURNING *`;
+          await tx`UPDATE sf_plans SET status=${b.decision === "APPROVE" ? "APPROVED" : "REJECTED"},decision=${b.decision},decision_reason=${b.reason},decided_by=${req.actor.id},decided_by_name=${req.actor.name},decided_at=now() WHERE id=${p.id} RETURNING *`;
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${p.project_id},${ORG},${req.actor.id},${b.decision === "APPROVE" ? "PLAN_APPROVED" : "PLAN_REJECTED"},${p.id},${tx.json({ reason: b.reason })})`;
         return rows[0];
       });
@@ -638,6 +638,7 @@ function mapPlan(r: any) {
     decision: r.decision,
     decisionReason: r.decision_reason,
     decidedBy: r.decided_by,
+    decidedByName: r.decided_by_name,
     createdAt: r.created_at,
     decidedAt: r.decided_at,
     items: r.items,

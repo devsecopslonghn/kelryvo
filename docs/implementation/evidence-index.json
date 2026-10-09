@@ -1453,6 +1453,49 @@
       },
       "path": "evidence/product/product-t06-comments-20261009T023621Z/record.json",
       "sha256": "ece3edd0d4df6fe6e1d25e88a99f61c5ec2d7eba3f5932e19eb377ac85b8d6d8"
+    },
+    {
+      "id": "product-t06-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T06",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head gh PR/check/security/review inspection; ordinary gh pr merge #16; gh run list verifies four successful master workflows; git fetch/switch/merge --ff-only; npm run dev and authenticated browser/API inspection",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t06-merge-20261009T024610Z/master-workflows.json",
+        "sha256": "ac71e59551911abe3aaaaff7f735c45cf48ab7db511c79848fd285ce9980f6f7"
+      },
+      "path": "evidence/product/product-t06-merge-20261009T024610Z/record.json",
+      "sha256": "917f328d92422b52ac103eb929ae3e17c461b85f3c6db5e26236ab2ace417a9d"
+    },
+    {
+      "id": "product-t07-decision-record-local-verified",
+      "subject_id": "SF-PRODUCT-T07",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check (PostgreSQL enabled); npm run test:product; npm run test:browser (browser retry completed after session interruption)",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T07-API",
+        "SF-PRODUCT-T07-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t07-decision-record-20261009T025416Z/checks-final.log",
+        "sha256": "820ce923db3c83852848dbc98f8daca8d00bc6b220739cdf20b3bbba58ce41ff"
+      },
+      "path": "evidence/product/product-t07-decision-record-20261009T025416Z/record.json",
+      "sha256": "e0043afd6a71629027435d334800bf28adf6a025265f81b7b25d18e77604c8c6"
     }
   ]
 }

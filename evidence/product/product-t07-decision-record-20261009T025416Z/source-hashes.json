@@ -1,0 +1,12 @@
+{
+  "apps/api/index.ts": "6df2f05cfd29b29e7806fe80f40414978ebb00ab6571cdc4d9161ff603fde076",
+  "packages/database/index.ts": "5c945fe27e1e5f02d2a5a560b850a81c1df04ad72995faeff2cff9bb507a5ec1",
+  "apps/web/src/app.jsx": "2fc5ffcd8f3ed94002bc0cda84226e0efb6b5fc61f73d3475727af0825f26730",
+  "apps/web/styles.css": "b64e07446ad14953a504e4a3f33198f51ed004c3a0f900945e5649f05b39c88f",
+  "scripts/test-product.mjs": "d4e8b6948e475f4f63b589db82a259a120566b04e66f5dfc8bea43aebc4efb62",
+  "scripts/tracker.mjs": "bdd6726fdbadbc479d4220e8337b266f52ae5ff9ba64c42aaa530218e5b77ff4",
+  "tests/tracker.test.mjs": "cc52aea0fcfeead0eb4aea649dcf15cb33a56a7ae59f65a709cf697612f93755",
+  "tests/product-decision-record.test.mjs": "75917718cd8bf22f9474bc00b0913e2e3cc65f979925fb4bd9977ada5cba1e5d",
+  "tests/product-decision-record-browser.integration.mjs": "a34962f11689e86eea8ed91b050fe91ec554b1a0b91f5e8307e5b518ab6e6a84",
+  "docs/development/local-product.md": "642a0e2fee15e82beafda7e22814fbb2b5f6519d32980ceb3f2d85e04262276d"
+}

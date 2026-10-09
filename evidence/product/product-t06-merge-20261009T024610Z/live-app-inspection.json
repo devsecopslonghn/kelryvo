@@ -1,0 +1,16 @@
+{
+  "application": "http://127.0.0.1:4317",
+  "projectCount": 1,
+  "plans": 2,
+  "terminalPlans": 2,
+  "comments": 0,
+  "health": {
+    "status": "ok",
+    "execution": "NOT_EXECUTED",
+    "oracleValidation": "BLOCKED"
+  },
+  "browserErrors": [],
+  "reviewHasCommentsSection": 1,
+  "reviewShowsDecisionReason": false,
+  "observedGap": "Plan review retains reviewer ID, time and reason in API but displays only terminal status; historical decision detail is absent."
+}
