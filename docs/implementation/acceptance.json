@@ -2493,6 +2493,17 @@
       "test_references": [
         "SF-PRODUCT-T13-WEB"
       ]
+    },
+    "SF-PRODUCT-T14": {
+      "task_id": "SF-PRODUCT-T14",
+      "criteria": [
+        "Authenticated project review displays the selected plan's profile ID and its matching configured profile/environment from existing scoped project data: profile and environment names/IDs, engine, host, port, service and username. Label these as current configured metadata, not an immutable plan snapshot or runtime-observed identity; never render or resolve credential references or secrets.",
+        "Pending and terminal plans and archived projects retain read access. Missing or mismatched profile/environment references show fixed unavailable feedback and retained IDs rather than another profile. Selected-plan, project and session changes cannot retain another target's details. This view makes no writes or connections and introduces no API, schema, authorization, Git or worker changes.",
+        "Real PostgreSQL/Git/parser/browser regressions compare two profiles and plans against persisted scoped configuration, cover missing/foreign references, selection and session/project changes, literal text rendering and credential-reference omission, and prove complete plan/comment/history/audit snapshots unchanged. This bounded display increment does not certify full DBM-003/GOV-002, frozen target attestation or Oracle behavior."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T14-WEB"
+      ]
     }
   },
   "test_cases": [

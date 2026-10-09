@@ -1,0 +1,68 @@
+{
+  "id": "product-t13-source-inspection-local-verified",
+  "subject_id": "SF-PRODUCT-T13",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check; npm run test:product; npm run test:browser; focused plan-source browser regression",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T13-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t13-source-inspection-20261009/test-browser.log",
+    "sha256": "3af80ce37f6ada06d5c5b29b25a0bc74c2e88ab02d1868330fdd1ccf89a4a69c"
+  },
+  "implementation_record": {
+    "path": "evidence/product/product-t13-source-inspection-20261009/record.json",
+    "sha256": "14002a3a1f1f03f0a667683ac7baebe99259e2232b5a4e071954c904e2e735a5"
+  },
+  "root_validation_initial": {
+    "path": "evidence/product/product-t13-source-inspection-20261009/root-tracker.log",
+    "sha256": "4024e69d0899d4925df1ee45a51f50bd67c4d1eebc3608a4ba35aa2b3a763812",
+    "outcome": "FAIL: initial index omitted its matching wrapper metadata; corrected with this append-only wrapper. No implementation change."
+  },
+  "scope_limits": [
+    "T14 registration only, no implementation",
+    "No full catalog or Oracle acceptance",
+    "Sonar unavailable, never PASS",
+    "Missing first two focused failure captures remain disclosed in implementation record"
+  ],
+  "root_tracker_retry": {
+    "path": "evidence/product/product-t13-source-inspection-20261009/root-tracker-retry.log",
+    "sha256": "45ce1eec7c5b67d65d1003042f3fb5e70cb8297641504740850b72288b4c3e03",
+    "outcome": "PASS 21/21, zero skips; T14 registration and T13 index validated"
+  },
+  "publication_scan": {
+    "tool": "official checksum-verified Gitleaks 8.30.1",
+    "changed_files": 33,
+    "exit_code": 0,
+    "findings": 0,
+    "scope": "Exact staged publication content including prior merge checkpoint; private redacted report"
+  },
+  "whitespace_exception": {
+    "scope": "Seven whitespace-only lines emitted by Node TAP in three immutable failure logs",
+    "locations": {
+      "root-tracker.log": [
+        12,
+        25
+      ],
+      "targeted-attempt-03.log": [
+        11,
+        13,
+        15
+      ],
+      "targeted-attempt-04.log": [
+        11,
+        13
+      ]
+    },
+    "policy": "Preserved raw bytes and hashes; all other staged changes must pass git diff --check. No scanner or threshold changes."
+  }
+}

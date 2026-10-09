@@ -1,5 +1,84 @@
 # Current engineering state
 
+## T13 locally verified; exact-head publication review pending — 2026-10-09
+
+Plan review now inspects its linked retained source through the existing authenticated
+release endpoint and shared provenance/file/SQL renderer. Release ID, scoped metadata and
+plan file facts must match; unavailable/malformed/mismatched responses use fixed feedback.
+Plan/project/session changes discard delayed results. Archived and terminal plans and
+removed repository registrations remain readable; full snapshots prove no writes.
+
+Isolated worktree `/home/longhn0710/workspace/schemaforge-product-plan-source-inspection`,
+branch `development/product-plan-source-inspection`, base checkpoint
+`1883e0b47a96a5fe20732b49802da1073a2a284c` on merged master
+`bc00d1547625279ebd0d45f0b08027ef8d458bff`. Local checks passed 142 standard,
+22 PostgreSQL product, 11 browser and one focused browser case, zero skips. Root verified
+all five implementation hashes and all captured log hashes. Evidence:
+`evidence/product/product-t13-source-inspection-20261009/record.json`.
+Attempts 03/04 remain as failed raw logs; first two raw captures are missing and are not
+reconstructed. Exact-head QA/security, PR/CI and merge remain pending at this snapshot;
+resolve current PR/head/merge and master workflows from Git/GitHub before continuing.
+
+Next SF-PRODUCT-T14 is READY, registration only: display the selected plan's matching
+configured target profile/environment from existing scoped project data. Label current
+configuration, omit credential references, preserve read-only/archive/session boundaries;
+no target attestation, API/schema/runtime or Oracle claim. T14 is not implemented.
+Shared checkout remains clean and untouched. Hygiene provenance classification is complete
+but no separate hygiene branch/PR is visible. Sonar unavailable, never PASS; Oracle
+VALIDATION separately BLOCKED. No full catalog or post-approval byte-revalidation claim.
+
+
+## T13 active in its isolated worktree — 2026-10-09
+
+SF-PRODUCT-T13 is IN_PROGRESS in
+`/home/longhn0710/workspace/schemaforge-product-plan-source-inspection`, branch
+`development/product-plan-source-inspection`, local checkpoint
+`1883e0b47a96a5fe20732b49802da1073a2a284c` based on master
+`bc00d1547625279ebd0d45f0b08027ef8d458bff`. The implementation context owns UI,
+minimal shared styling, browser test/driver and operating docs; root owns tracking,
+review, integration and publication. No T13 verification evidence exists yet.
+
+Reuse authenticated stored-release reads and provenance/SQL rendering. Bind inspection to
+selected project/plan/release; reject missing or mismatched references and late responses
+following plan/project/session changes. Cover two distinct retained releases and full no-write
+snapshots with actual Git/PostgreSQL/parser/browser regressions. No API/schema/authorization,
+Git re-read or worker change; no post-approval byte revalidation or full catalog/Oracle claim.
+
+T12's ten PR checks and four master workflows remain verified. The original shared checkout
+is clean and untouched. Fetch found no hygiene branch or open PR; original report classification
+remains complete. Keep PRODUCT delivery independent of that pending integration.
+Sonar remains unavailable, never PASS; Oracle VALIDATION remains separately BLOCKED.
+
+## T12 merged and master verified; T13 ready — 2026-10-09
+
+T12 merged through [PR #24](https://github.com/devsecopslonghn/schemaForge/pull/24) at
+`bc00d1547625279ebd0d45f0b08027ef8d458bff`, reviewed head
+`406c9d309ee6aa32eb73b5ecd920feafa2e2bc3e`. Ten required PR checks and all four
+post-merge master workflows passed. Independent native QA/security approved that exact head
+including the resource-bound correction; the initial security block was resolved before any push.
+Local results: 142 standard, 22 PostgreSQL product, 10 browser, 21 tracker, all zero skips.
+T12 verifies retained UTF-8 content/hash/manifest under scoped row locks before writes and
+rejects malformed/oversized data with fixed errors and unchanged audit/history/plan snapshots.
+Merge evidence: `evidence/product/product-t12-merge-20261009T055818Z/record.json`.
+
+Next: SF-PRODUCT-T13 READY, registration only, inspect a plan's linked retained source SQL
+from review using the existing stored-release API/provenance view. Fresh worktree:
+`/home/longhn0710/workspace/schemaforge-product-plan-source-inspection`, branch
+`development/product-plan-source-inspection`, based on that master. Read AGENTS and exact
+T13 criteria; use one fresh bounded implementation context, preserve project/session/selected-plan
+stale-response guards, archive and repository-unavailable reads, and no-write snapshots.
+This checkpoint is local and will accompany the next eligible PRODUCT PR. No T13 code is implemented.
+
+T08/T09/T10/T11/T12 merged via PRs #19/#20/#22/#23/#24; PR #21 registered delivery state.
+The original four hygiene findings are proven project UUID/source hashes/synthetic malformed
+UNIT PEM; the fifth is a verified T10 evidence-log hash. Original report crosscheck COMPLETE.
+No actual credential observed, no rotation indicated. T12 publication49files0findings;
+full history stillfiveclassifiedmatches. A separate hygiene branch/PR remains unavailable;
+never integrate uncommitted cross-session work or rewrite public history. Shared checkout
+remains clean and untouched at `0346300471a889ae8fd33b022b890034be08d301`.
+Sonar remains unavailable, never PASS; all124applicable Oracle VALIDATION cells stay BLOCKED.
+RetainedUTF8 verification does not certify raw/BOM retention, database tamper-proofing or fullcatalog.
+
 ## T12 security correction verified locally; new review required — 2026-10-09
 
 Security blocked initial head `7d979c3db3c06c05529852bd9073ac1471c5f181` because malformed
