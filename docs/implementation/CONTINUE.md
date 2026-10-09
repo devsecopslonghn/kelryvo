@@ -1,3 +1,15 @@
+## T18 assertion cleanup verified; fresh exact-head review pending — 2026-10-09
+
+The ignored unary plus between two sign-out browser assertions is now removed; both
+assertions remain. Earlier handoff removal claim was inaccurate; original evidence is
+preserved and the correction is append-only. Four other owned source files are unchanged.
+Prior full results remain standard146 (two-CPU affinity), PostgreSQL25, browser16.
+Current post-cleanup focused real Git/PostgreSQL/browser passed 1/1 without skips.
+Correction and source hashes: `evidence/product/product-t18-cleanup-20261009T121030Z/record.json`.
+Fresh exact-head QA/security and CI are required before eligible publication/merge.
+T19 compatibility decision and Hygiene branch/PR remain pending; Sonar unavailable,
+never PASS; Oracle VALIDATION remains separate.
+
 ## T18 locally verified; exact-head publication review pending — 2026-10-09
 
 T18 is locally VERIFIED in the isolated plan-resubmission worktree on verified master

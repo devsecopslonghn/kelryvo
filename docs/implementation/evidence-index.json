@@ -2151,6 +2151,31 @@
       },
       "path": "evidence/product/product-t18-root-20261009T104426Z/integration-record.json",
       "sha256": "5d932cc17c97b027d4422baba6fb5f428749cdb22c6e21f04ca812fa3d679f01"
+    },
+    {
+      "id": "product-t18-resubmission-cleanup-verified",
+      "subject_id": "SF-PRODUCT-T18",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Focused real Git/PostgreSQL/API/browser after removal of ignored unary plus; prior semantically equivalent full regression proof retained",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T18-API",
+        "SF-PRODUCT-T18-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t18-cleanup-20261009T121030Z/30-browser-assertion-cleanup.log",
+        "sha256": "3269c8aabc4a387d1e814da91211d3c7f944cbc0b2316f82571a580be8544062"
+      },
+      "path": "evidence/product/product-t18-cleanup-20261009T121030Z/record.json",
+      "sha256": "db79e8e263e59ac67fca1d78d1a245541d69446d718ca661534de19a6500d8c4"
     }
   ]
 }

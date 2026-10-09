@@ -208,7 +208,8 @@ test('browser prepares a fresh plan from a new commit after rejection and fails 
     assert.equal(await page.getByRole('button', { name: 'Prepare new plan' }).count(), 0, 'missing registered repository fails closed');
     await page.unroute(`${url}/api/repositories`);
     await page.getByLabel('Sign out').click();
-    assert.equal(await page.getByRole('button', { name: 'Prepare new plan' }).count(), 0);+    assert.doesNotMatch(await page.locator('body').innerText(), new RegExp(predecessor.id));
+    assert.equal(await page.getByRole('button', { name: 'Prepare new plan' }).count(), 0);
+    assert.doesNotMatch(await page.locator('body').innerText(), new RegExp(predecessor.id));
     await signIn(actors[0]);
     await selectProject(archivedProject.name);
     await page.getByRole('button', { name: /Plans & review/ }).click();

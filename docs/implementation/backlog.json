@@ -2660,6 +2660,9 @@
       "evidence": [
         {
           "index_id": "product-t18-resubmission-local-verified"
+        },
+        {
+          "index_id": "product-t18-resubmission-cleanup-verified"
         }
       ],
       "blockers": []
