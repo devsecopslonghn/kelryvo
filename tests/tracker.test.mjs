@@ -16,7 +16,7 @@ const persistedState = () => ({
 });
 const productReadyState = () => {
   const s = persistedState();
-  for (const [id, status] of [['SF-PRODUCT-T01', 'READY'], ['SF-PRODUCT-T02', 'BACKLOG'], ['SF-PRODUCT-T03', 'BACKLOG'], ['SF-PRODUCT-T04', 'BACKLOG'], ['SF-PRODUCT-T05', 'BACKLOG']]) {
+  for (const [id, status] of [['SF-PRODUCT-T01', 'READY'], ['SF-PRODUCT-T02', 'BACKLOG'], ['SF-PRODUCT-T03', 'BACKLOG'], ['SF-PRODUCT-T04', 'BACKLOG'], ['SF-PRODUCT-T05', 'BACKLOG'], ['SF-PRODUCT-T06', 'BACKLOG']]) {
     const task = s.tasks.tasks.find(item => item.id === id);
     task.status = status;
     task.evidence = [];
@@ -54,7 +54,7 @@ test('persisted tracker state validates without assuming initial statuses', () =
 test('catalog and plan IDs are retained with original dependency links', () => {
   const s = fullState();
   assert.equal(s.features.features.length, 220);
-  assert.equal(s.tasks.tasks.length, 70); // 64 imported tasks, foundation, and five product tasks.
+  assert.equal(s.tasks.tasks.length, 71); // 64 imported tasks, foundation, and six product tasks.
   assert.equal(s.tests.cases.length, 63);
   assert.deepEqual(s.features.features.find((f) => f.id === 'DBM-002').dependencies, ['SEC-005', 'SEC-009']);
 });
@@ -97,6 +97,12 @@ test('initial state keeps Oracle validation and product delivery tracks distinct
   assert.deepEqual(t04.feature_ids, ['PRJ-008', 'GIT-003']);
   assert.deepEqual(t04.test_references, ['SF-PRODUCT-T04-API', 'SF-PRODUCT-T04-WEB']);
   assert.deepEqual(s.acceptance.work[t04.id].criteria, t04.acceptance_criteria);
+  const t06 = s.tasks.tasks.find((t) => t.id === 'SF-PRODUCT-T06');
+  assert.equal(t06.status, 'BACKLOG');
+  assert.deepEqual(t06.dependencies, ['SF-PRODUCT-T05']);
+  assert.deepEqual(t06.feature_ids, ['GOV-020']);
+  assert.deepEqual(s.graph.scheduling.PRODUCT[t06.id], t06.dependencies);
+  assert.deepEqual(s.acceptance.work[t06.id].criteria, t06.acceptance_criteria);
   assert.ok(s.tasks.tasks.filter((t) => t.package === 'WP0' && !['WP0-T01', 'SF-P0-FOUNDATION'].includes(t.id)).every((t) => t.status === 'BACKLOG'));
   assert.ok(s.features.features.every((f) => ['BACKLOG', 'DEFERRED'].includes(f.status)));
 });

@@ -1,0 +1,17 @@
+{
+  "results": [
+    {
+      "command": "npm run check",
+      "exit_code": 0
+    },
+    {
+      "command": "npm run test:product",
+      "exit_code": 0
+    },
+    {
+      "command": "npm run test:browser",
+      "exit_code": 0
+    }
+  ],
+  "recorded_at": "2026-10-09T00:19:46.364254+00:00"
+}

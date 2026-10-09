@@ -512,18 +512,20 @@ export function createApp(options: {
         !text(b.reason, 2000)
       )
         return fail(reply, 400, "INVALID_REQUEST");
-      if (req.actor.role !== "approver")
-        return fail(reply, 403, "APPROVER_REQUIRED");
       const result = await sql.begin(async (tx: any) => {
         const p = (
-          await tx`SELECT * FROM sf_plans WHERE id=${req.params.id} FOR UPDATE`
+          await tx`SELECT * FROM sf_plans WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`
         )[0];
         if (!p) return null;
         await requireActiveProject(tx, p.project_id);
-        if (p.status !== "PENDING_APPROVAL") return "decided";
-        if (p.author_id === req.actor.id) {
-          await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${p.project_id},${ORG},${req.actor.id},'PLAN_SELF_APPROVAL_DENIED',${p.id})`;
-          return "self";
+        let denialReason: string | undefined;
+        if (req.actor.role !== 'approver') denialReason = 'APPROVER_REQUIRED';
+        else if (p.status !== 'PENDING_APPROVAL') denialReason = 'DECISION_ALREADY_RECORDED';
+        else if (p.author_id === req.actor.id) denialReason = 'SELF_APPROVAL_DENIED';
+        if (denialReason) {
+          await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
+            VALUES(${p.project_id},${ORG},${req.actor.id},'PLAN_DECISION_DENIED',${p.id},${tx.json({ denialReason })})`;
+          return denialReason;
         }
         const rows =
           await tx`UPDATE sf_plans SET status=${b.decision === "APPROVE" ? "APPROVED" : "REJECTED"},decision=${b.decision},decision_reason=${b.reason},decided_by=${req.actor.id},decided_at=now() WHERE id=${p.id} RETURNING *`;
@@ -531,9 +533,9 @@ export function createApp(options: {
         return rows[0];
       });
       if (!result) return fail(reply, 404, "NOT_FOUND");
-      if (result === "self") return fail(reply, 403, "SELF_APPROVAL_DENIED");
-      if (result === "decided")
-        return fail(reply, 409, "DECISION_ALREADY_RECORDED");
+      if (result === 'APPROVER_REQUIRED') return fail(reply, 403, 'APPROVER_REQUIRED');
+      if (result === 'SELF_APPROVAL_DENIED') return fail(reply, 403, 'SELF_APPROVAL_DENIED');
+      if (result === 'DECISION_ALREADY_RECORDED') return fail(reply, 409, 'DECISION_ALREADY_RECORDED');
       return { plan: mapPlan(result) };
     },
   );

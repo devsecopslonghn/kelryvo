@@ -2204,7 +2204,39 @@
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "index_id": "product-t05-review-audit-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Bounded local authenticated decision-denial audit with persistent PostgreSQL and real browser evidence; no full catalog or Oracle acceptance."
+    },
+    {
+      "id": "SF-PRODUCT-T06",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Add persistent comments to pending plan reviews",
+      "dependencies": [
+        "SF-PRODUCT-T05"
+      ],
+      "feature_ids": [
+        "GOV-020"
+      ],
+      "acceptance_criteria": [
+        "Authenticated local developers and approvers can append bounded plain-text comments to pending plans; the server supplies actor/time and binds each comment to its organization, project and plan.",
+        "The review UI displays the persisted thread; malformed, missing-plan, terminal-plan and archived-project writes are denied, while existing comments remain readable.",
+        "Comments cannot attach files or change migration bytes, plan decisions or history; execution remains NOT_EXECUTED and no full catalog or Oracle acceptance is claimed."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T06-API",
+        "SF-PRODUCT-T06-WEB"
+      ],
       "status": "BACKLOG",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
       "evidence": [],
       "blockers": []
     }

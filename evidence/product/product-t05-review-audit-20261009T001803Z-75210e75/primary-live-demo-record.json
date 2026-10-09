@@ -1,0 +1,18 @@
+{
+  "id": "product-t05-primary-live-demo",
+  "subject_id": "SF-PRODUCT-T05",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run dev in the primary checkout; authenticated urllib API role-denial check verifies durable plans/history are unchanged and fixed audit facts persist; server stopped after verification",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [
+    "SF-PRODUCT-T05-API"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t05-review-audit-20261009T001803Z-75210e75/primary-live-demo.json",
+    "sha256": "aef923415a98a3ea5c27e92bdd8ab6807777376f38df208ff4a70c9cb98b749a"
+  }
+}

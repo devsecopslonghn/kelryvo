@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-10-09T00:22:35.658726+00:00",
+  "source_head": "d4b1369d37f7a48a354d7b3d94c9a9782a263830",
+  "project_name": "SchemaForge demo 2026-10-09 00:03 UTC",
+  "startup_http_health": 200,
+  "denial_http_status": 403,
+  "audit_action": "PLAN_DECISION_DENIED",
+  "audit_facts": {
+    "denialReason": "APPROVER_REQUIRED"
+  },
+  "plan_and_history_unchanged": true,
+  "history_status": "NOT_EXECUTED",
+  "oracle_connected": false,
+  "target_credentials_resolved": false
+}

@@ -79,7 +79,17 @@ const PRODUCT_TASK_05 = {
     "SF-PRODUCT-T05-WEB"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05];
+const PRODUCT_TASK_06 = {
+  id: 'SF-PRODUCT-T06', package: 'PRODUCT', assigned_agent: 'backend',
+  title: 'Add persistent comments to pending plan reviews', dependencies: ['SF-PRODUCT-T05'],
+  feature_ids: ['GOV-020'],
+  acceptance_criteria: [
+    'Authenticated local developers and approvers can append bounded plain-text comments to pending plans; the server supplies actor/time and binds each comment to its organization, project and plan.',
+    'The review UI displays the persisted thread; malformed, missing-plan, terminal-plan and archived-project writes are denied, while existing comments remain readable.',
+    'Comments cannot attach files or change migration bytes, plan decisions or history; execution remains NOT_EXECUTED and no full catalog or Oracle acceptance is claimed.',
+  ], test_references: ['SF-PRODUCT-T06-API', 'SF-PRODUCT-T06-WEB'],
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

@@ -1,0 +1,29 @@
+{
+  "parent_head": "796b4cd058af63dbcc4d9d8ad58820588bb3dd81",
+  "source_sha256": {
+    "apps/api/index.ts": "5cc5f2a745dc3633082b323d627c6c8ab8dee0a01834889306d79b0a3d72f0b6",
+    "apps/web/src/app.jsx": "4d01745c1927c486e3cdae2321ee3af2f700372f937af8de49de5648b66a0d67",
+    "tests/product-review-audit.test.mjs": "d47e658e9ea3025b486443e2f83b520c8f9efad12925f527d87624977da271e1",
+    "tests/product-review-audit-browser.integration.mjs": "edb4e4cf024175f4a7686b4996815ad13070b45e5ffface4d21ed182d32bf87e",
+    "scripts/test-product.mjs": "3f6ce10e99c61bfe6d2a8b001875f9e6cfe97e4f164c4e0226f264b7bb768ae7",
+    "scripts/tracker.mjs": "84d186ce71a946b8fee6eefbb13611ae5f25708971d75f5b2229bc2631f9ba46",
+    "tests/tracker.test.mjs": "bbf60045ce9423c86fc0976e675c5492a55da5d9dc172bf347ecc830a84a2323",
+    "docs/development/local-product.md": "ffced8cc64b3e2598751cbe004e336eaedf749d98ee9d2bbe3946bf9054fdfec"
+  },
+  "oracle_execution": "NOT_EXECUTED",
+  "oracle_acceptance": "BLOCKED",
+  "scope": "Bounded local review-denial audit, not full GOV-023/SEC-011 acceptance",
+  "early_agent_trials": [
+    {
+      "outcome": "FAIL",
+      "reason": "Test assertion expected four fixture history rows after creating five plans; corrected assertion",
+      "raw_output_retained": false
+    },
+    {
+      "outcome": "FAIL",
+      "reason": "Browser release reported UNAVAILABLE before the pinned runtime jar was copied into the fresh worktree; resolved with existing pinned artifacts",
+      "raw_output_retained": false
+    }
+  ],
+  "early_trial_evidence_limit": "These are native implementer observations, not preserved raw test logs; do not use them as verification evidence."
+}

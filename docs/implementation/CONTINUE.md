@@ -67,7 +67,7 @@ run separately), 14 product/startup/Git/API cases and both browser workflows. Ev
 Oracle execution are introduced. All three local PRODUCT milestones have implementation
 and local acceptance evidence; remote merge eligibility remains separate.
 
-The latest completed local increment is SF-PRODUCT-T04 in `development/product-source-binding`
+The preceding completed local increment is SF-PRODUCT-T04 in `development/product-source-binding`
 (`/home/longhn0710/workspace/schemaforge-product-binding`): project repository/folder
 binding with pre-import enforcement. Local acceptance is VERIFIED with real API/browser evidence. PRs #9, #10, #11 and #12 contain the PRODUCT
 lineage and must merge in that order only after each exact head is eligible. The local
@@ -107,8 +107,8 @@ The initial integrated lock-observation failure is retained in the preceding run
 workflows now own separate temporary PostgreSQL databases; each restart retains its own
 data until teardown. The UI explicitly refreshes when the selected project is clicked again
 and ignores stale mutation responses after sign-out. Original Oracle/catalog acceptance
-is unchanged. Next queued PRODUCT task is SF-PRODUCT-T05 (GOV-023/SEC-011): authenticated
-review-denial audit. Complete its bounded implementation/tests without waiting for Oracle.
+is unchanged. SF-PRODUCT-T05 authenticated review-denial audit (GOV-023/SEC-011) is now locally
+verified; resume from its newer lineage described below.
 
 PR #12 contains T04 source binding. Sonar UI warnings were repaired with the same two
 passing browser workflows; two inherited CLI security annotations remain unresolved.
@@ -118,6 +118,29 @@ persisted demo `SchemaForge demo 2026-10-09 00:03 UTC`; private tokens remain un
 The latest local demo survived an actual API restart and contains approved/rejected plans
 and four NOT_EXECUTED history rows. See the indexed primary-live-demo evidence.
 
+Latest local increment: SF-PRODUCT-T05 is VERIFIED in `development/product-review-audit`
+(`/home/longhn0710/workspace/schemaforge-product-review-audit`). Its API commits fixed
+review-denial audits while leaving the plan/history intact, and the browser displays them.
+Real verification passed 138/138 standard tests, 18/18 mandatory product cases and 3/3
+browser workflows with zero skips. Evidence: `evidence/product/product-t05-review-audit-20261009T001803Z-75210e75/`.
+Do not infer a remote merge from local verification: resolve this branch's own PR/head,
+inspect all required exact-head checks and the existing predecessor PRs #9–#12, and merge
+only when eligible. Preserve the cancelled Sonar checks and unresolved CLI annotations;
+never suppress them. Resume the latest tested PRODUCT lineage in the primary checkpoint.
+`npm run next` selects SF-PRODUCT-T06 (GOV-020): add bounded persistent plain-text comments
+to pending plan reviews with server actor/time, immutable plan bytes and NOT_EXECUTED
+history. T06 is BACKLOG and has no implementation or acceptance evidence yet. Use existing
+local organization/auth boundaries, reject terminal/archived writes and preserve threads
+for reads. Do not add attachment uploads or claim full GOV-020/project RBAC acceptance.
+Oracle VALIDATION and all 124 applicable cells remain BLOCKED.
+
+PR #13 is open for the T05 review-denial increment; current exact head/CI/merge remain
+derived from Git/GitHub. PRs #9–#13 are unmerged. The primary runnable checkout was
+started and its persisted demo produced an authenticated role denial with fixed audit
+facts while every plan/history row stayed unchanged. The dev process was stopped after
+verification; run `npm run dev` to open it again. PostgreSQL metadata remains persistent.
+
+
 PR #12 head 796b4cd had a cancelled push product run after its main browser case
 timed out at 120 seconds; the original CI log is preserved in quality-repair-2. The
 CI-only stall was not reproduced locally. Test-only abort cleanup, bounded route fetch
@@ -126,3 +149,10 @@ throwaway fixture exits with its expected timeout and drops its owned database. 
 120-second test and 15-minute workflow thresholds/assertions remain unchanged. This
 local repair is not a confirmed root-cause fix or remote quality-gate pass: inspect the
 fresh exact-head CI before merging.
+
+The T04 browser cleanup parent was merged ordinarily into T05, preserving all evidence
+records. Integrated verification with CI=true passed 138/138 standard tests, 18/18 product
+cases and 3/3 browser workflows, zero skips, in T05 quality-repair-1. Fresh T04 exact-head
+product jobs pass; the original timeout remains preserved and its root cause unconfirmed.
+Inspect Sonar and every fresh exact-head gate before any merge; predecessor Sonar
+cancellations still prevent an eligible product merge. Next remains SF-PRODUCT-T06.
