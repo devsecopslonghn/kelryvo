@@ -5,6 +5,7 @@ import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('browser shows frozen intent facts and keeps changed current configuration separate', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 180_000,
@@ -16,16 +17,27 @@ test('browser shows frozen intent facts and keeps changed current configuration 
   const database = await openIsolatedProductDatabase();
   let app;
   let browser;
+  let membership;
   try {
     app = await startProduct({ databaseUrl: database.databaseUrl, actors,
       repositories: [{ id: 'intent-browser-demo', name: 'Intent demo', path: await prepareDemoRepository() }], port: 0 });
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     const url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, route, body, actor = actors[0]) => {
       const response = await fetch(`${url}${route}`, { method, headers: { authorization: `Bearer ${actor.token}`,
         ...(body ? { 'content-type': 'application/json' } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
       return { response, result: await response.json() };
     };
-    const project = (await api('POST', '/api/projects', { name: `Intent browser ${randomUUID()}` })).result.project;
+    const createProject = async name => {
+      const { project } = await membership.createProjectWithExplicitMembers({
+        create: async () => { const { response, result } = await api('POST', '/api/projects', { name }); return { statusCode: response.status, json: () => result }; },
+        read: async id => { const { response, result } = await api('GET', `/api/projects/${id}`); return { statusCode: response.status, json: () => result }; },
+        memberIds: actors.map(actor => actor.id),
+      });
+      return project;
+    };
+    const project = await createProject(`Intent browser ${randomUUID()}`);
     const base = `/api/projects/${project.id}`;
     const environment = (await api('POST', `${base}/environments`, { name: 'Retained <Development>' })).result.environment;
     const profile = (await api('POST', `${base}/profiles`, { name: 'Retained <img src=x onerror=window.__intent=1>', environmentId: environment.id,
@@ -39,7 +51,7 @@ test('browser shows frozen intent facts and keeps changed current configuration 
       credentialRef: 'secret://private/browser-second' })).result.profile;
     const secondPlan = (await api('POST', `${base}/plans`, { releaseId: release.id, profileId: secondProfile.id })).result.plan;
     assert.notEqual(plan.offlineIntent.digest, secondPlan.offlineIntent.digest);
-    const otherProject = (await api('POST', '/api/projects', { name: `Other intent browser ${randomUUID()}` })).result.project;
+    const otherProject = await createProject(`Other intent browser ${randomUUID()}`);
     await database.sql`UPDATE sf_profiles SET name='Current changed target',host='current.example.invalid',username='CURRENT' WHERE id=${profile.id}`;
     browser = await chromium.launch();
     const page = await browser.newPage();
@@ -110,6 +122,7 @@ test('browser shows frozen intent facts and keeps changed current configuration 
   } finally {
     if (browser) await browser.close();
     if (app) await app.close();
+    await membership?.close();
     await database.close();
   }
 });

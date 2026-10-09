@@ -9,6 +9,7 @@ import { spawnSync } from 'node:child_process';
 import { startProduct } from '../apps/api/server.ts';
 import { resolveLocalRepositories } from '../scripts/local-repositories.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const git = (cwd, args) => {
   const result = spawnSync('/usr/bin/git', ['-c', 'core.hooksPath=/dev/null', '-c', 'user.name=SchemaForge test', '-c', 'user.email=test@schemaforge.invalid', '-C', cwd, ...args], {
@@ -47,11 +48,14 @@ test('release intake selects scoped Git refs, preserves manual HEAD, and ignores
   let app;
   let browser;
   let delayedRoute;
+  let membership;
   try {
     const repoAPath = await makeRepository(temporary, 'repo-a-private', 'branch-alpha');
     const repoBPath = await makeRepository(temporary, 'repo-b-private', 'branch-beta');
     const repositories = await resolveLocalRepositories([repoAPath, repoBPath]);
     app = await startProduct({ databaseUrl: database.databaseUrl, actors, repositories, port: 0 });
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     const url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, route, body) => {
       const response = await fetch(`${url}${route}`, { method, headers: {
@@ -60,8 +64,14 @@ test('release intake selects scoped Git refs, preserves manual HEAD, and ignores
       assert.ok(response.ok, `${method} ${route}: ${response.status}`);
       return response.json();
     };
-    const projectA = (await api('POST', '/api/projects', { name: `Alpha ${randomUUID()}` })).project;
-    const projectB = (await api('POST', '/api/projects', { name: `Beta ${randomUUID()}` })).project;
+    const createProject = async name => {
+      const receipt = (await api('POST', '/api/projects', { name })).project;
+      await membership.grant(receipt.id, actors[0].id);
+      assert.equal((await api('GET', `/api/projects/${receipt.id}`)).project.id, receipt.id);
+      return receipt;
+    };
+    const projectA = await createProject(`Alpha ${randomUUID()}`);
+    const projectB = await createProject(`Beta ${randomUUID()}`);
     await api('PUT', `/api/projects/${projectA.id}/source`, { repositoryId: repositories[0].id, folder: 'migrations' });
     await api('PUT', `/api/projects/${projectB.id}/source`, { repositoryId: repositories[1].id, folder: 'migrations' });
 
@@ -143,6 +153,6 @@ test('release intake selects scoped Git refs, preserves manual HEAD, and ignores
     assert.deepEqual(pageErrors, []);
   } finally {
     try { await delayedRoute?.abort(); } catch { /* it may already have completed */ }
-    try { await browser?.close(); } finally { try { await app?.close(); } finally { await database.close(); await rm(temporary, { recursive: true, force: true }); } }
+    try { await browser?.close(); } finally { try { await app?.close(); } finally { try { await membership?.close(); } finally { await database.close(); await rm(temporary, { recursive: true, force: true }); } } }
   }
 });

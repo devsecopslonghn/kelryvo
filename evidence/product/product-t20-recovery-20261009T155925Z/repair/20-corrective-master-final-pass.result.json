@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-browser-sync-master-state.py --require-pass",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T16:08:54.512244+00:00",
+  "ended_at_utc": "2026-10-09T16:08:55.825409+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-browser-sync-root-20261009T154120Z/20-corrective-master-final-pass.log",
+    "sha256": "15fea18ceefc0b5380b6cf2e5b867c0086c5b007d3e383a5832fa7d5f86672c4"
+  }
+}

@@ -9,6 +9,7 @@ import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('plan source inspection stays bound to retained releases and is read only', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 180_000,
@@ -24,6 +25,7 @@ test('plan source inspection stays bound to retained releases and is read only',
   let app;
   let browser;
   let repositoryMoved = false;
+  let membership;
   try {
     await cp(await prepareDemoRepository(), repositoryPath, { recursive: true });
     const git = (args) => {
@@ -42,6 +44,8 @@ test('plan source inspection stays bound to retained releases and is read only',
     const options = { databaseUrl: database.databaseUrl, actors,
       repositories: [{ id: 'plan-source-repo', name: 'Plan source repository', path: repositoryPath }], port: 0 };
     app = await startProduct(options);
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     let url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, route, token = actors[0].token, body) => {
       const response = await fetch(`${url}${route}`, { method, headers: {
@@ -50,8 +54,12 @@ test('plan source inspection stays bound to retained releases and is read only',
       return { response, result: response.status === 204 ? {} : await response.json() };
     };
     const createProjectContext = async (name, commits) => {
-      const { result: created } = await api('POST', '/api/projects', actors[0].token, { name });
-      const project = created.project;
+      const created = await api('POST', '/api/projects', actors[0].token, { name });
+      const receipt = created.result.project;
+      for (const actor of actors) await membership.grant(receipt.id, actor.id);
+      const projectRead = await api('GET', `/api/projects/${receipt.id}`, actors[0].token);
+      assert.equal(projectRead.response.status, 200);
+      const project = projectRead.result.project;
       const base = `/api/projects/${project.id}`;
       const { result: envResult } = await api('POST', `${base}/environments`, actors[0].token, { name: 'Development' });
       const { result: profileResult } = await api('POST', `${base}/profiles`, actors[0].token, {
@@ -221,9 +229,37 @@ test('plan source inspection stays bound to retained releases and is read only',
       status: 404, contentType: 'application/json', body: JSON.stringify({ error: 'NOT_FOUND' }),
     }));
     await inspect();
-    await page.getByText(fixedFailure, { exact: true }).waitFor();
+    await page.getByText(fixedFailure, { exact: true }).waitFor().catch(async () => {
+      assert.fail(`Missing-release feedback did not render. Source panel: ${await sourcePanel.innerText()}`);
+    });
     assert.equal(await page.getByText(fixedFailure, { exact: true }).count(), 1);
     await page.unroute(`**/api/releases/${primary.releases[0].id}`);
+
+    // A newer plan selection while membership is being revalidated must not be
+    // overwritten by the older missing-release response.
+    let signalRecheckStarted;
+    const recheckStarted = new Promise((resolve) => { signalRecheckStarted = resolve; });
+    let releaseRecheck;
+    const recheckGate = new Promise((resolve) => { releaseRecheck = resolve; });
+    await page.route(`**/api/releases/${primary.releases[0].id}`, (route) => route.fulfill({
+      status: 404, contentType: 'application/json', body: JSON.stringify({ error: 'NOT_FOUND' }),
+    }));
+    await page.route(`**/api/projects/${primary.project.id}`, async (route) => {
+      signalRecheckStarted();
+      await recheckGate;
+      await route.continue();
+    });
+    await selectPlan(primary.plans[0].id);
+    await inspect();
+    await recheckStarted;
+    await selectPlan(primary.plans[1].id);
+    releaseRecheck();
+    await page.waitForTimeout(100);
+    assert.equal(await page.locator(`.plan-option[data-plan-id="${primary.plans[1].id}"]`).getAttribute('class').then(value => value.includes('selected')), true);
+    assert.equal(await page.getByText(fixedFailure, { exact: true }).count(), 0,
+      'an older missing-release response must not restore feedback over a newer plan selection');
+    await page.unroute(`**/api/releases/${primary.releases[0].id}`);
+    await page.unroute(`**/api/projects/${primary.project.id}`);
 
     // Switching projects while a response is pending invalidates the old project result.
     pending = new Promise((resolve) => { pendingResolve = resolve; });
@@ -285,6 +321,7 @@ test('plan source inspection stays bound to retained releases and is read only',
   } finally {
     if (browser) await browser.close();
     if (app) await app.close();
+    await membership?.close();
     await database.close();
     if (repositoryMoved) await rename(unavailablePath, repositoryPath);
     await rm(temporary, { recursive: true, force: true });

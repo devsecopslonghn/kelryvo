@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const parserAvailable = existsSync(path.join(root, 'experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar'));
@@ -21,10 +22,16 @@ test('approval verifies locked retained release and ordered plan facts before wr
   ];
   const repo = await prepareDemoRepository();
   let app = createApp({ sql: db.sql, actors, repositories: [{ id: 'demo', name: 'Demo', path: repo }] });
+  const membership = await createMembershipOperatorFixture(db.databaseUrl);
+  await membership.activateEmptyFixture(app);
   const request = (method, url, payload, actor = actors[0]) => app.inject({ method, url,
     headers: { authorization: `Bearer ${actor.token}` }, payload });
   try {
-    const project = (await request('POST', '/api/projects', { name: `Approval integrity ${randomUUID()}` })).json().project;
+    const { project } = await membership.createProjectWithExplicitMembers({
+      create: () => request('POST', '/api/projects', { name: `Approval integrity ${randomUUID()}` }),
+      read: id => request('GET', `/api/projects/${id}`),
+      memberIds: [actors[0].id, actors[1].id],
+    });
     const base = `/api/projects/${project.id}`;
     const env = (await request('POST', `${base}/environments`, { name: 'Local' })).json().environment;
     const profile = (await request('POST', `${base}/profiles`, { name: 'Oracle', environmentId: env.id, engine: 'oracle', host: 'localhost', port: 1521, service: 'FREEPDB1', username: 'APP', credentialRef: 'vault://local/app' })).json().profile;
@@ -157,6 +164,7 @@ test('approval verifies locked retained release and ordered plan facts before wr
     assert.equal((await db.sql`SELECT count(*)::int AS n FROM sf_audit WHERE resource_id=${damagedPlan.id} AND action='PLAN_REJECTED'`)[0].n, 1);
   } finally {
     await app.close();
+    await membership.close();
     await db.close();
   }
 });

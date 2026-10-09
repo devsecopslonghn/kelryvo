@@ -1,0 +1,11 @@
+{
+  "command": "git push -u origin development/product-local-credential-lifecycle",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:18:04.360552+00:00",
+  "ended_at_utc": "2026-10-09T15:18:07.297843+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/20-ordinary-push.log",
+    "sha256": "9909e75f926bda546f20db2f7c42e8b53279f4e5b12da0a47e32fa65925ee89b"
+  }
+}

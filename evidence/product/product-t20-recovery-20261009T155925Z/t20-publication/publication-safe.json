@@ -1,0 +1,703 @@
+{
+  "scope": "publication",
+  "head": "d90403ed9c19586f21e00358e4b723f06af3ef8b",
+  "base": "7bb4af0184031112ea9f185991f37c97ec0604fa",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "dir",
+    "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-t20-publication-20261009T151000Z/publication-private-report.json"
+  ],
+  "started_at_utc": "2026-10-09T15:10:16.075875+00:00",
+  "ended_at_utc": "2026-10-09T15:10:16.856405+00:00",
+  "scanner_exit_code": 1,
+  "finding_count": 70,
+  "paths": [
+    "AGENTS.md",
+    "apps/api/index.ts",
+    "apps/web/src/app.jsx",
+    "docs/decisions/log.json",
+    "docs/development/local-product.md",
+    "docs/implementation/CONTINUE.md",
+    "docs/implementation/CURRENT.md",
+    "docs/implementation/acceptance.json",
+    "docs/implementation/backlog.json",
+    "docs/implementation/dependency-graph.json",
+    "docs/implementation/evidence-index.json",
+    "docs/implementation/milestone.json",
+    "docs/implementation/ownership.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/09-staged-quality.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/09-staged-quality.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/09-staged-quality.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/10-staged-publication-scan.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/10-staged-publication-scan.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/10-staged-publication-scan.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/11-precommit-reconciliation.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/11-precommit-reconciliation.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/11-precommit-reconciliation.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/12-commit-verified-t19.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/12-commit-verified-t19.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/12-commit-verified-t19.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/13-publication-classification-corrected.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/13-publication-classification-corrected.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/13-publication-classification-corrected.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/14-independent-review-remote-alerts.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/14-independent-review-remote-alerts.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/14-independent-review-remote-alerts.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/15-prepublish-verdicts-and-ownership.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/15-prepublish-verdicts-and-ownership.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/15-prepublish-verdicts-and-ownership.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/16-push.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/16-push.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/16-push.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/17-postpush-reconciliation.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/17-postpush-reconciliation.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/17-postpush-reconciliation.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/18-create-pr.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/18-create-pr.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/18-create-pr.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/19-ci-snapshot.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/19-ci-snapshot.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/19-ci-snapshot.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/20-final-merge-gate.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/20-final-merge-gate.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/20-final-merge-gate.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/21-ready-pr.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/21-ready-pr.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/21-ready-pr.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/22-ready-exact-head-gate.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/22-ready-exact-head-gate.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/22-ready-exact-head-gate.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/23-merge-pr.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/23-merge-pr.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/23-merge-pr.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/24-merged-pr-proof.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/24-merged-pr-proof.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/24-merged-pr-proof.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/25-master-initial.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/25-master-initial.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/25-master-initial.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/26-master-final-pass.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/26-master-final-pass.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/26-master-final-pass.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/27-postmerge-alerts.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/27-postmerge-alerts.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/27-postmerge-alerts.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/28-postmerge-reconciliation.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/28-postmerge-reconciliation.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/28-postmerge-reconciliation.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/29-create-t20-worktree.command.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/29-create-t20-worktree.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/29-create-t20-worktree.result.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/final-staged-quality.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/master-workflows.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/native-qa-verdict.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/native-reviews.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/native-security-verdict.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/pr-body.md",
+    "evidence/product/product-t19-merge-20261009T141539Z/publication-classification.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/qa-focused/api.raw.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/qa-focused/browser.raw.log",
+    "evidence/product/product-t19-merge-20261009T141539Z/qa-focused/final-verdict.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/qa-focused/focused-results.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/record.json",
+    "evidence/product/product-t19-merge-20261009T141539Z/staged-publication-final.json",
+    "evidence/product/product-t20-native-20261009T143323Z/build-web-final.log",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-api-operator-flock.log",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-api-operator-flock.meta",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-api-operator-flock2.log",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-api-operator-flock2.meta",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-api-operator.log",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-api-operator.meta",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-browser-final.log",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-browser-final.meta",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.log",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.log",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-final.log",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-final.meta",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-final2.log",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-final2.meta",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-orphan-owner-lock-final.log",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-orphan-owner-lock-final.meta",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-orphan-owner-lock.log",
+    "evidence/product/product-t20-native-20261009T143323Z/credential-orphan-owner-lock.meta",
+    "evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+    "evidence/product/product-t20-native-20261009T143323Z/final-browser.log",
+    "evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+    "evidence/product/product-t20-native-20261009T143323Z/final-check.log",
+    "evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+    "evidence/product/product-t20-native-20261009T143323Z/final-check2.log",
+    "evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+    "evidence/product/product-t20-native-20261009T143323Z/final-product.log",
+    "evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+    "evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.log",
+    "evidence/product/product-t20-native-20261009T143323Z/npm-check-final.log",
+    "evidence/product/product-t20-native-20261009T143323Z/npm-check-final.meta",
+    "evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+    "evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.log",
+    "evidence/product/product-t20-native-20261009T143323Z/npm-check-local-services.log",
+    "evidence/product/product-t20-native-20261009T143323Z/npm-check-local-services.meta",
+    "evidence/product/product-t20-native-20261009T143323Z/npm-check.log",
+    "evidence/product/product-t20-native-20261009T143323Z/npm-check.meta",
+    "evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+    "evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.log",
+    "evidence/product/product-t20-native-20261009T143323Z/t20-native-result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/01-registration-and-t19-merge-proof.command.json",
+    "evidence/product/product-t20-root-20261009T142027Z/01-registration-and-t19-merge-proof.log",
+    "evidence/product/product-t20-root-20261009T142027Z/01-registration-and-t19-merge-proof.result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/02-npm-ci.command.json",
+    "evidence/product/product-t20-root-20261009T142027Z/02-npm-ci.log",
+    "evidence/product/product-t20-root-20261009T142027Z/02-npm-ci.result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/03-parser-artifact-setup.command.json",
+    "evidence/product/product-t20-root-20261009T142027Z/03-parser-artifact-setup.log",
+    "evidence/product/product-t20-root-20261009T142027Z/03-parser-artifact-setup.result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/04-registration-quality.command.json",
+    "evidence/product/product-t20-root-20261009T142027Z/04-registration-quality.log",
+    "evidence/product/product-t20-root-20261009T142027Z/04-registration-quality.result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/05-registration-format-correction.command.json",
+    "evidence/product/product-t20-root-20261009T142027Z/05-registration-format-correction.log",
+    "evidence/product/product-t20-root-20261009T142027Z/05-registration-format-correction.result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/06-local-registration-checkpoint.command.json",
+    "evidence/product/product-t20-root-20261009T142027Z/06-local-registration-checkpoint.log",
+    "evidence/product/product-t20-root-20261009T142027Z/06-local-registration-checkpoint.result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/07-owner-standing-policy.command.json",
+    "evidence/product/product-t20-root-20261009T142027Z/07-owner-standing-policy.log",
+    "evidence/product/product-t20-root-20261009T142027Z/07-owner-standing-policy.result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/08-owner-policy-quality.command.json",
+    "evidence/product/product-t20-root-20261009T142027Z/08-owner-policy-quality.log",
+    "evidence/product/product-t20-root-20261009T142027Z/08-owner-policy-quality.result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/09-owned-diff-and-source-review.command.json",
+    "evidence/product/product-t20-root-20261009T142027Z/09-owned-diff-and-source-review.log",
+    "evidence/product/product-t20-root-20261009T142027Z/09-owned-diff-and-source-review.result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/10-integration-quality.command.json",
+    "evidence/product/product-t20-root-20261009T142027Z/10-integration-quality.log",
+    "evidence/product/product-t20-root-20261009T142027Z/10-integration-quality.result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/11-corrected-integration-quality.command.json",
+    "evidence/product/product-t20-root-20261009T142027Z/11-corrected-integration-quality.log",
+    "evidence/product/product-t20-root-20261009T142027Z/11-corrected-integration-quality.result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/12-final-integration-quality.command.json",
+    "evidence/product/product-t20-root-20261009T142027Z/12-final-integration-quality.log",
+    "evidence/product/product-t20-root-20261009T142027Z/12-final-integration-quality.result.json",
+    "evidence/product/product-t20-root-20261009T142027Z/contract-and-priority.json",
+    "evidence/product/product-t20-root-20261009T142027Z/corrected-integration-record.json",
+    "evidence/product/product-t20-root-20261009T142027Z/integration-record.json",
+    "evidence/product/product-t20-root-20261009T142027Z/membership-policy-question.json",
+    "evidence/product/product-t20-root-20261009T142027Z/owner-standing-policy-and-membership.json",
+    "evidence/product/product-t20-root-20261009T142027Z/publication-source-freeze.json",
+    "evidence/product/product-t20-root-20261009T142027Z/raw-whitespace-exceptions.json",
+    "evidence/product/product-t20-root-20261009T142027Z/registration-clarification.json",
+    "evidence/product/product-t20-root-20261009T142027Z/root-registration-correction.json",
+    "package.json",
+    "packages/database/index.ts",
+    "packages/database/local-credentials.ts",
+    "scripts/local-credential-operator.mjs",
+    "scripts/local-resources.mjs",
+    "scripts/test-product.mjs",
+    "scripts/tracker.mjs",
+    "tests/helpers/product-db.mjs",
+    "tests/product-credential-browser.integration.mjs",
+    "tests/product-credential-lifecycle.test.mjs",
+    "tests/product-local.test.mjs",
+    "tests/tracker.test.mjs"
+  ],
+  "finding_metadata": [
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+      "StartLine": 27,
+      "EndLine": 27,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+      "StartLine": 27,
+      "EndLine": 27,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+      "StartLine": 27,
+      "EndLine": 27,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+      "StartLine": 27,
+      "EndLine": 27,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+      "StartLine": 27,
+      "EndLine": 27,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+      "StartLine": 27,
+      "EndLine": 27,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+      "StartLine": 26,
+      "EndLine": 26,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+      "StartLine": 35,
+      "EndLine": 35,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+      "StartLine": 37,
+      "EndLine": 37,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+      "StartLine": 40,
+      "EndLine": 40,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t19-merge-20261009T141539Z/qa-focused/final-verdict.json",
+      "StartLine": 103,
+      "EndLine": 103,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t19-merge-20261009T141539Z/native-qa-verdict.json",
+      "StartLine": 103,
+      "EndLine": 103,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+      "StartLine": 25,
+      "EndLine": 25,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+      "StartLine": 34,
+      "EndLine": 34,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+      "StartLine": 25,
+      "EndLine": 25,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+      "StartLine": 34,
+      "EndLine": 34,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/t20-native-result.json",
+      "StartLine": 11,
+      "EndLine": 11,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/t20-native-result.json",
+      "StartLine": 13,
+      "EndLine": 13,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-native-20261009T143323Z/t20-native-result.json",
+      "StartLine": 17,
+      "EndLine": 17,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-root-20261009T142027Z/corrected-integration-record.json",
+      "StartLine": 18,
+      "EndLine": 18,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-root-20261009T142027Z/corrected-integration-record.json",
+      "StartLine": 20,
+      "EndLine": 20,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-root-20261009T142027Z/corrected-integration-record.json",
+      "StartLine": 24,
+      "EndLine": 24,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-root-20261009T142027Z/publication-source-freeze.json",
+      "StartLine": 40,
+      "EndLine": 40,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-root-20261009T142027Z/publication-source-freeze.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-root-20261009T142027Z/publication-source-freeze.json",
+      "StartLine": 46,
+      "EndLine": 46,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-root-20261009T142027Z/integration-record.json",
+      "StartLine": 18,
+      "EndLine": 18,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-root-20261009T142027Z/integration-record.json",
+      "StartLine": 20,
+      "EndLine": 20,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/evidence/product/product-t20-root-20261009T142027Z/integration-record.json",
+      "StartLine": 24,
+      "EndLine": 24,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/docs/implementation/CONTINUE.md",
+      "StartLine": 65,
+      "EndLine": 65,
+      "Commit": ""
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "/tmp/schemaforge-t20-publication-20261009T151000Z/snapshot/docs/implementation/CURRENT.md",
+      "StartLine": 65,
+      "EndLine": 65,
+      "Commit": ""
+    }
+  ],
+  "private_report_sha256": "c45e9bac1d88c2707be7a7dcc7a0b5218c3be3c76a36ba9d390402cbe52dc5a3",
+  "actual_credentials_printed": false,
+  "clean_scan_pass": false
+}

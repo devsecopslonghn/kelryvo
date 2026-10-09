@@ -6,6 +6,7 @@ import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('browser archives a project and keeps its releases, plan, audit, and history readable', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
@@ -19,6 +20,7 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
   assert.ok(database, 'SCHEMAFORGE_TEST_DATABASE_URL is required for this browser workflow');
   let app;
   let browser;
+  let membership;
   try {
     const options = {
       databaseUrl: database.databaseUrl,
@@ -27,6 +29,8 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
       port: 0,
     };
     app = await startProduct(options);
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     let url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, path, token, body) => {
       const response = await fetch(`${url}${path}`, {
@@ -39,7 +43,9 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
       return result;
     };
     const projectName = `Archive browser ${randomUUID().slice(0, 8)}`;
-    const { project } = await api('POST', '/api/projects', actors[0].token, { name: projectName });
+    const receipt = (await api('POST', '/api/projects', actors[0].token, { name: projectName })).project;
+    for (const actor of actors) await membership.grant(receipt.id, actor.id);
+    const { project } = await api('GET', `/api/projects/${receipt.id}`, actors[0].token);
     const base = `/api/projects/${project.id}`;
     const { environment } = await api('POST', `${base}/environments`, actors[0].token, { name: 'Development' });
     await api('PUT', `${base}/source`, actors[0].token, { repositoryId: 'demo', folder: 'migrations' });
@@ -127,7 +133,7 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     try { await browser?.close(); }
     finally {
       try { await app?.close(); }
-      finally { await database.close(); }
+      finally { try { await membership?.close(); } finally { await database.close(); } }
     }
   }
 });

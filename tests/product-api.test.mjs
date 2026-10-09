@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { createApp } from "../apps/api/index.ts";
 import { openIsolatedProductDatabase } from "./helpers/product-db.mjs";
 import { prepareDemoRepository } from "../scripts/local-resources.mjs";
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const parserAvailable = existsSync(
@@ -46,6 +47,14 @@ test(
       actors,
       repositories: appRepositories,
     });
+    const membership = await createMembershipOperatorFixture(db.databaseUrl);
+    await membership.activateEmptyFixture(app);
+    const createProjectWithExplicitMembers = async (token, name, memberIds) =>
+      membership.createProjectWithExplicitMembers({
+        create: () => request('POST', '/api/projects', token, { name }),
+        read: id => request('GET', `/api/projects/${id}`, token),
+        memberIds,
+      });
     assert.throws(
       () =>
         createApp({
@@ -94,14 +103,7 @@ test(
         actorId: "attacker",
       });
       assert.equal(created.statusCode, 400);
-      const projectResponse = await request(
-        "POST",
-        "/api/projects",
-        actors[0].token,
-        { name: `Product test ${randomUUID()}` },
-      );
-      assert.equal(projectResponse.statusCode, 201);
-      const project = projectResponse.json().project;
+      const { project } = await createProjectWithExplicitMembers(actors[0].token, `Product test ${randomUUID()}`, [actors[0].id, actors[1].id]);
       assert.equal(project.sourceBinding, null);
       const unboundImport = await request(
         "POST",
@@ -288,11 +290,7 @@ test(
       );
       assert.equal(invalidPlan.statusCode, 409);
       assert.equal(invalidPlan.json().error, "RELEASE_NOT_VALID");
-      const otherProject = (
-        await request("POST", "/api/projects", actors[0].token, {
-          name: `Cross project ${randomUUID()}`,
-        })
-      ).json().project;
+      const { project: otherProject } = await createProjectWithExplicitMembers(actors[0].token, `Cross project ${randomUUID()}`, [actors[0].id, actors[1].id]);
       const crossProjectPlan = await request(
         "POST",
         `/api/projects/${otherProject.id}/plans`,
@@ -364,6 +362,7 @@ test(
       assert.equal(afterRestart.json().project.sourceBinding.folder, "migrations");
     } finally {
       await app.close();
+      await membership.close();
       await db.close();
     }
   },

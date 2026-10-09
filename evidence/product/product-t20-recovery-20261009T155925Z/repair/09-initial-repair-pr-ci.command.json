@@ -1,0 +1,5 @@
+{
+  "command": "gh pr view 33 --repo devsecopslonghn/schemaForge --json number,url,state,headRefOid,baseRefOid,isDraft,mergeable,mergeStateStatus,statusCheckRollup,reviewDecision",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T15:49:45.961508+00:00"
+}

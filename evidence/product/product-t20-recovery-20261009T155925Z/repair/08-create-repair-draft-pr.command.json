@@ -1,0 +1,5 @@
+{
+  "command": "set -e; test \"$(git ls-remote origin refs/heads/development/product-master-browser-synchronization | cut -f1)\" = 301f4c802680a2ed795f45b742be9761f66667fe; gh pr create --repo devsecopslonghn/schemaForge --base master --head development/product-master-browser-synchronization --draft --title \"Synchronize browser plan creation before database snapshots\" --body-file /tmp/schemaforge-browser-sync-publication-20261009T154430Z/pr-body.md",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T15:48:01.552311+00:00"
+}

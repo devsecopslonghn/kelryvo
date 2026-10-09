@@ -1,0 +1,14 @@
+product	Run npm run parser:antlr:prepare	﻿2026-10-09T15:59:54.3458667Z ##[group]Run npm run parser:antlr:prepare
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.3459041Z ^[[36;1mnpm run parser:antlr:prepare^[[0m
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.3524300Z shell: /usr/bin/bash -e {0}
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.3524566Z env:
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.3524933Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.3525538Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.3526413Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.3526694Z ##[endgroup]
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.4774947Z 
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.4776349Z > schemaforge-local-development@0.0.0 parser:antlr:prepare
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.4778192Z > node scripts/antlr-prepare.mjs --download
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.4778615Z 
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.9232014Z artifact_download_failed
+product	Run npm run parser:antlr:prepare	2026-10-09T15:59:54.9355026Z ##[error]Process completed with exit code 1.

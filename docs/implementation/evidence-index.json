@@ -2269,6 +2269,53 @@
       },
       "path": "evidence/product/product-t20-root-20261009T142027Z/corrected-integration-record.json",
       "sha256": "59ad7e0a3fe67ce8cf74de3ce12ee42b916fe7188b7026cff327c99fcbdaac17"
+    },
+    {
+      "id": "product-t20-merge-and-corrective-master-verified",
+      "subject_id": "SF-PRODUCT-T20",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head reviews and all11 PR checks on PR32 and test-only PR33; ordinary merges; retain original master PRODUCT failure; verify four corrective exact-master workflow families",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/repair/20-corrective-master-final-pass.log",
+        "sha256": "15fea18ceefc0b5380b6cf2e5b867c0086c5b007d3e383a5832fa7d5f86672c4"
+      },
+      "path": "evidence/product/product-t20-recovery-20261009T155925Z/record.json",
+      "sha256": "2948ae54752b71871c24e3c4a9d37e468c9c0116576f4592a627013df88b19f2"
+    },
+    {
+      "id": "product-t21-project-membership-local-verified",
+      "subject_id": "SF-PRODUCT-T21",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Native frozen standard154, PostgreSQL/product32 and browser19; root independent source/raw hash, ownership and six-criterion mapping verification",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T21-API",
+        "SF-PRODUCT-T21-WEB",
+        "SF-PRODUCT-T21-OPERATOR"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t21-implementation-20261009T1643Z/standard-check-final.log",
+        "sha256": "2243b6fc01ce5800cc692ccae397b8e961efa24fb9ef7c196baa69f872572852"
+      },
+      "path": "evidence/product/product-t21-root-20261009T152610Z/integration-record.json",
+      "sha256": "0a99572a341f980ec0602128b7a186684ed397e79e43d7e357f9ace42427a6d6"
     }
   ]
 }

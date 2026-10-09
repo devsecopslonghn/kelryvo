@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-browser-sync-prepare-publish.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T15:47:27.259687+00:00",
+  "ended_at_utc": "2026-10-09T15:47:31.499240+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-browser-sync-root-20261009T154120Z/06-prepublish-exact-head-gate.log",
+    "sha256": "8a8fe4e7bb643bd983c7b2dfa3d72ad464685dc319b55bf193183387c385556a"
+  }
+}

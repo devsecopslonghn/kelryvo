@@ -1,0 +1,11 @@
+{
+  "command": "set -e; node scripts/check-source.mjs; git diff --check -- AGENTS.md apps/api/index.ts apps/web/src/app.jsx docs/decisions/log.json docs/development/local-product.md docs/implementation package.json packages/database scripts/local-resources.mjs scripts/local-credential-operator.mjs scripts/test-product.mjs tests/helpers/product-db.mjs tests/product-credential-lifecycle.test.mjs tests/product-credential-browser.integration.mjs tests/product-local.test.mjs; git diff --stat",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T14:59:36.991676+00:00",
+  "ended_at_utc": "2026-10-09T14:59:40.268605+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/09-owned-diff-and-source-review.log",
+    "sha256": "cc4e354fed0d75388bb09858a9440750c0693534cb37dd728ee519fae9e617a7"
+  }
+}

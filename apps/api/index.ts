@@ -4,6 +4,7 @@ import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from "../../experiments/db-devop
 import { MAX_INPUT_BYTES, MAX_STDOUT_BYTES } from "../../experiments/db-devops-wp0/parser-envelope.mjs";
 import { verifyRetainedRelease } from "../../packages/migrations/verify-retained-release.mjs";
 import { encodeOfflinePlanIntent, verifyOfflinePlanIntent } from "../../packages/migrations/offline-plan-intent.mjs";
+import { actorHasProjectGrant, projectAccessMode } from "../../packages/database/project-membership.ts";
 
 const ORG = "00000000-0000-4000-8000-000000000001";
 const MAX_BINDING_GENERATION = "9223372036854775807";
@@ -109,6 +110,30 @@ export function createApp(options: {
       }
     }
     req.actor = actor;
+    const requestPath = req.url.split('?')[0];
+    const projectScoped = (requestPath === '/api/projects' && req.method !== 'GET') || requestPath.startsWith('/api/projects/') || requestPath.startsWith('/api/releases/')
+      || requestPath.startsWith('/api/plans/');
+    const accessMode = await projectAccessMode(sql);
+    if (projectScoped && req.method !== 'GET' && accessMode === 'BOOTSTRAP_REQUIRED') {
+      fail(reply, 409, 'MEMBERSHIP_BOOTSTRAP_REQUIRED');
+      return;
+    }
+    if (projectScoped && requestPath !== '/api/projects' && accessMode === 'ENFORCED') {
+      if ((requestPath.startsWith('/api/releases/') || requestPath.startsWith('/api/plans/')) && !uuid(req.params?.id)) {
+        fail(reply, 404, 'NOT_FOUND');
+        return;
+      }
+      let projectId = req.params?.projectId ?? req.params?.id;
+      if (requestPath.startsWith('/api/releases/')) {
+        projectId = (await sql`SELECT project_id FROM sf_releases WHERE id=${req.params?.id} AND organization_id=${ORG}`)[0]?.project_id;
+      } else if (requestPath.startsWith('/api/plans/')) {
+        projectId = (await sql`SELECT project_id FROM sf_plans WHERE id=${req.params?.id} AND organization_id=${ORG}`)[0]?.project_id;
+      }
+      if (!uuid(projectId) || !(await actorHasProjectGrant(sql, actor.id, projectId))) {
+        fail(reply, 404, 'NOT_FOUND');
+        return;
+      }
+    }
     });
   };
   const project = async (id: string) =>
@@ -152,8 +177,9 @@ export function createApp(options: {
       });
     }
   });
-  app.get("/api/session", { preHandler: authenticate }, (req: any) => ({
+  app.get("/api/session", { preHandler: authenticate }, async (req: any) => ({
     actor: { id: req.actor.id, name: req.actor.name, role: req.actor.role },
+    accessMode: await projectAccessMode(sql),
   }));
   app.get("/api/repositories", { preHandler: authenticate }, () => ({
     repositories: repositories.map(({ id, name }) => ({ id, name })),
@@ -176,11 +202,15 @@ export function createApp(options: {
       return fail(reply, 503, "GIT_REF_READ_FAILED");
     }
   });
-  app.get("/api/projects", { preHandler: authenticate }, async () => ({
-    projects: (
-      await sql`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at,source_binding_generation::text AS source_binding_generation FROM sf_projects WHERE organization_id=${ORG} ORDER BY created_at,id`
-    ).map(mappedProject),
-  }));
+  app.get("/api/projects", { preHandler: authenticate }, async (req: any) => {
+    const mode = await projectAccessMode(sql);
+    const rows = mode === 'ENFORCED'
+      ? await sql`SELECT p.id,p.name,p.description,p.created_at,p.archived_at,p.source_repository_id,p.source_folder,p.source_updated_at,p.source_binding_generation::text AS source_binding_generation
+          FROM sf_projects p JOIN sf_project_grants g ON g.project_id=p.id AND g.organization_id=p.organization_id AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL
+          WHERE p.organization_id=${ORG} ORDER BY p.created_at,p.id`
+      : await sql`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at,source_binding_generation::text AS source_binding_generation FROM sf_projects WHERE organization_id=${ORG} ORDER BY created_at,id`;
+    return { accessMode: mode, projects: rows.map(mappedProject) };
+  });
   app.post(
     "/api/projects",
     { preHandler: authenticate },
@@ -193,13 +223,15 @@ export function createApp(options: {
       )
         return fail(reply, 400, "INVALID_REQUEST");
       const p = await sql.begin(async (tx: any) => {
+        const mode = (await tx`SELECT mode FROM sf_project_access_mode WHERE organization_id=${ORG} FOR SHARE`)[0]?.mode;
+        if (mode !== 'ENFORCED') throw Object.assign(new Error('MEMBERSHIP_BOOTSTRAP_REQUIRED'), { productCode: 'MEMBERSHIP_BOOTSTRAP_REQUIRED' });
         const created = (
           await tx`INSERT INTO sf_projects(organization_id,name,description) VALUES(${ORG},${b.name.trim()},${b.description ?? null}) RETURNING id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at,source_binding_generation::text AS source_binding_generation`
         )[0];
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${created.id},${ORG},${req.actor.id},'PROJECT_CREATED',${created.id})`;
         return created;
       });
-      return reply.code(201).send({ project: mappedProject(p) });
+      return reply.code(201).send({ project: { id: p.id, createdAt: p.created_at } });
     },
   );
   app.get(

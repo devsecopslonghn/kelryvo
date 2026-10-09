@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t20-merge-gate.py 32",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:24:45.671990+00:00",
+  "ended_at_utc": "2026-10-09T15:24:51.413107+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/26-ready-exact-head-gate.log",
+    "sha256": "1febef8d7947f2f1a782eafbdad5045b1b3f7106cd253bf35d462f6089ca4208"
+  }
+}

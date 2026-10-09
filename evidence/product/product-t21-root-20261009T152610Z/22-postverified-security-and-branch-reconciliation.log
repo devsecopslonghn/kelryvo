@@ -1,0 +1,108 @@
+{
+  "at_utc": "2026-10-09T16:17:39.893621+00:00",
+  "master": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+  "workflows": {
+    "at_utc": "2026-10-09T16:17:37.026186+00:00",
+    "master": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+    "workflow_families": {
+      "Local PRODUCT acceptance": [
+        {
+          "conclusion": "success",
+          "createdAt": "2026-10-09T15:59:27Z",
+          "databaseId": 37955800444,
+          "event": "push",
+          "headSha": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+          "status": "completed",
+          "updatedAt": "2026-10-09T16:08:09Z",
+          "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37955800444",
+          "workflowName": "Local PRODUCT acceptance"
+        }
+      ],
+      "Offline ANTLR parser acceptance": [
+        {
+          "conclusion": "success",
+          "createdAt": "2026-10-09T15:59:27Z",
+          "databaseId": 37955800484,
+          "event": "push",
+          "headSha": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+          "status": "completed",
+          "updatedAt": "2026-10-09T16:01:45Z",
+          "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37955800484",
+          "workflowName": "Offline ANTLR parser acceptance"
+        }
+      ],
+      "Offline WP0 checks": [
+        {
+          "conclusion": "success",
+          "createdAt": "2026-10-09T15:59:27Z",
+          "databaseId": 37955800424,
+          "event": "push",
+          "headSha": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+          "status": "completed",
+          "updatedAt": "2026-10-09T16:00:30Z",
+          "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37955800424",
+          "workflowName": "Offline WP0 checks"
+        }
+      ],
+      "CodeQL": [
+        {
+          "conclusion": "success",
+          "createdAt": "2026-10-09T15:59:27Z",
+          "databaseId": 37955800077,
+          "event": "dynamic",
+          "headSha": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+          "status": "completed",
+          "updatedAt": "2026-10-09T16:01:11Z",
+          "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37955800077",
+          "workflowName": "CodeQL"
+        }
+      ]
+    },
+    "all_exact_master_required_families_passed": true
+  },
+  "alerts": {
+    "code-scanning": [],
+    "dependabot": [],
+    "secret-scanning": []
+  },
+  "open_prs": [],
+  "branches": [
+    "origin 5ef2568e1904636ae7bec7aeb2188cbf71279414",
+    "origin/development/product-approval-integrity e186072de9f0811e3c6868039b701da05dc2b677",
+    "origin/development/product-archive be799cf724b0d95e78e47cf5de871f37e4279cf7",
+    "origin/development/product-audit-action-filters 5be1428ef6ab810a28e5de97af65c45969d90dad",
+    "origin/development/product-decision-record a5598a9b592c66de648fa2a621c6208edb6bc9be",
+    "origin/development/product-delivery-state 011358e1a6d4ffb99cfd50062100761a32b86350",
+    "origin/development/product-governance-slice b3601c1ada7271673627775e72fdb26c20fe065a",
+    "origin/development/product-local-credential-lifecycle d90403ed9c19586f21e00358e4b723f06af3ef8b",
+    "origin/development/product-local-git-refs 2a97b5551a99446aef46a034ac8532d70bafd4e0",
+    "origin/development/product-local-repositories 0d61063c7c1f3d1a20b5b886d46393d8467b602b",
+    "origin/development/product-master-browser-synchronization 301f4c802680a2ed795f45b742be9761f66667fe",
+    "origin/development/product-merge-checkpoint 3ec1d16f43581a368804403f63e968971c434166",
+    "origin/development/product-offline-plan-intent 5e08361d85955754e81f10617063546429eec7da",
+    "origin/development/product-plan-comments a40b3fed6e5d86157aa19b5b6f47ec0352af0ca7",
+    "origin/development/product-plan-resubmission 5db4779714fd18138c93c458c5965a7e91741c52",
+    "origin/development/product-plan-source-inspection 132b613ddb54dbaed62a9e3261d7b23633808cdb",
+    "origin/development/product-plan-status-filters 58e5deb41e5d001474cf6bc46917ef7f3dab0c7b",
+    "origin/development/product-plan-target-review 7a691ad511a139ee9e02809ba4056f95e245523c",
+    "origin/development/product-protected-source-binding 87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+    "origin/development/product-release-integrity 406c9d309ee6aa32eb73b5ecd920feafa2e2bc3e",
+    "origin/development/product-release-provenance 461242efa1cc39bf0167540418d21055420ef46c",
+    "origin/development/product-requester-review 7615280f0358743205ed26493e4bde7ce55b8f0b",
+    "origin/development/product-review-audit ac8779cb57eee31dbac3169be016bad925d08e18",
+    "origin/development/product-shield-license d56b92f422f2de110bb29050cef50a130219f326",
+    "origin/development/product-source-binding e7f91876ffaa03fb04e06d8ac25c8b553a69cddc",
+    "origin/development/product-t07-checkpoint e93a397829bac4805b4f8b540ccf1c98f76abc43",
+    "origin/development/wp0-antlr-parser 97432efde71ed16ad47d3995731625334000d059",
+    "origin/development/wp0-checkpoint 978f873d5f297d235422667a2af20470298dd061",
+    "origin/development/wp0-dependency-closure 0e5b2e93dcce33bdae5f57afbc50fb538e6b86fe",
+    "origin/development/wp0-supervisor-checkpoint 1ca471ee687b2d046c950ea254860c9d11030ae4",
+    "origin/development/wp0-thin-checkpoint e167f2f98086f3268a93b18819f610c928f31fc0",
+    "origin/development/wp0-thin-probe-plan 4299b4d0ce770d0d961a39046ec997bb05cc1446",
+    "origin/development/wp0-thin-readonly-probe fe63aebcc911c1b0de89659be253ea0f186ae277",
+    "origin/development/wp0-thin-supervision ef8a2ec4f161abf84631769754d0afd1a924ab50",
+    "origin/master 5ef2568e1904636ae7bec7aeb2188cbf71279414"
+  ],
+  "hygiene_branches": [],
+  "shared_original_unchanged": true
+}

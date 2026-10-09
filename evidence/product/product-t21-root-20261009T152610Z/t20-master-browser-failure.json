@@ -1,0 +1,21 @@
+{
+  "at_utc": "2026-10-09T15:37:05.083780+00:00",
+  "T20": "MERGED_PR32_EXACTHEAD_QA_SECURITY_ALL11PRCHECKS_PASS",
+  "master": "c5130e3277e0955285ea3ff428019369cb46578c",
+  "master_workflows": {
+    "PRODUCT": "FAIL_RUN37951569624",
+    "parser": "PASS",
+    "WP0": "PASS",
+    "CodeQL": "PASS"
+  },
+  "failed_case": "review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session",
+  "location": "tests/product-protected-source-binding-browser.integration.mjs:205",
+  "actual_plan_count": 2,
+  "expected_plan_count": 3,
+  "raw_sha256": "6d1b1cf20d5da4468faecee680a90c11a03ff6bd7658f39722362c1a45605264",
+  "observed_test_order": "Click asynchronous Prepare offline plan, click review navigation, query PostgreSQL without waiting exact create response/refresh.",
+  "race_hypothesis": "Controlled-gate proof and correction active in separate master-browser-synchronization worktree; CI exact response timing not captured and no conclusive claim yet.",
+  "T21": "LOCAL_IMPLEMENTATION_CONTINUES_PUBLICATION_GATED",
+  "goal_blocked": false,
+  "source_test_thresholds_or_assertions_weakened": false
+}

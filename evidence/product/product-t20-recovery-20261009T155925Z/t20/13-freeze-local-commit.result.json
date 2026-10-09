@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t20-commit.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:09:01.503603+00:00",
+  "ended_at_utc": "2026-10-09T15:09:01.641115+00:00",
+  "exit_code": 1,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/13-freeze-local-commit.log",
+    "sha256": "793b26d8f1a7285ff3a2cf06e0ce0dff9e88077e82f4f601955768ff4acc1860"
+  }
+}

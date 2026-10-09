@@ -1,0 +1,11 @@
+{
+  "command": "gh pr view 33 --repo devsecopslonghn/schemaForge --json number,url,state,headRefOid,baseRefOid,isDraft,mergeable,mergeStateStatus,statusCheckRollup,reviewDecision",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T15:49:45.961508+00:00",
+  "ended_at_utc": "2026-10-09T15:49:47.224034+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-browser-sync-root-20261009T154120Z/09-initial-repair-pr-ci.log",
+    "sha256": "67d5825cefefcd2aa43b882ac03fab9b8d97b3df9363ccf984ed968f115512ff"
+  }
+}

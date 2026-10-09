@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('authenticated denied decisions append fixed audit facts while preserving plan and history', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 30000,
@@ -14,11 +15,18 @@ test('authenticated denied decisions append fixed audit facts while preserving p
     { id: `approver2-${randomUUID()}`, name: 'Second approver', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
   let app;
+  let membership;
   try {
   app = createApp({ sql: db.sql, actors, repositories: [] });
+  membership = await createMembershipOperatorFixture(db.databaseUrl);
+  await membership.activateEmptyFixture(app);
   const request = (method, url, payload, actor = actors[0]) => app.inject({ method, url,
     headers: { authorization: `Bearer ${actor.token}` }, payload });
-  const project = (await request('POST', '/api/projects', { name: `Audit ${randomUUID()}` })).json().project;
+  const { project } = await membership.createProjectWithExplicitMembers({
+    create: () => request('POST', '/api/projects', { name: `Audit ${randomUUID()}` }),
+    read: id => request('GET', `/api/projects/${id}`),
+    memberIds: [actors[0].id, actors[1].id, actors[2].id],
+  });
   const base = `/api/projects/${project.id}`;
   await db.sql`UPDATE sf_projects SET source_repository_id='fixture',source_folder='migrations',source_updated_at=now() WHERE id=${project.id}`;
   const env = (await request('POST', `${base}/environments`, { name: 'Development' })).json().environment;
@@ -117,6 +125,6 @@ test('authenticated denied decisions append fixed audit facts while preserving p
     assert.equal(detail.audit.filter(event => event.action === 'PLAN_DECISION_DENIED').length, 4);
   } finally {
     try { await app?.close(); }
-    finally { await db.close(); }
+    finally { try { await membership?.close(); } finally { await db.close(); } }
   }
 });

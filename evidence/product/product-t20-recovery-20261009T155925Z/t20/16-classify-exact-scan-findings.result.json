@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t20-classify.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:11:40.695061+00:00",
+  "ended_at_utc": "2026-10-09T15:11:47.897561+00:00",
+  "exit_code": 1,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/16-classify-exact-scan-findings.log",
+    "sha256": "3f50c9076aeec6f7d9c703ad871d0a78e01867299836ef2d3d207c884040b540"
+  }
+}

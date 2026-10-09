@@ -116,6 +116,7 @@ function App() {
   const [actor, setActor] = useState(null);
   const [repositories, setRepositories] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [accessMode, setAccessMode] = useState('BOOTSTRAP_REQUIRED');
   const [projectId, setProjectId] = useState('');
   const [detail, setDetail] = useState(null);
   const [release, setRelease] = useState(null);
@@ -146,6 +147,18 @@ function App() {
   const previousReleaseBinding = useRef({ projectId: '', repositoryId: '', folder: '' });
   const planSourceSequence = useRef(0);
   const activeSelectedPlanId = useRef('');
+
+  const clearProjectState = () => {
+    activeProjectId.current = '';
+    activeSelectedPlanId.current = '';
+    planSourceSequence.current += 1;
+    setProjectId(''); setDetail(null); setRelease(null); setSelectedPlan('');
+    setPlanSource(null); setFreshPlanRequired(null); setPlanStatus('ALL'); setAuditAction('ALL');
+    setDecisionReason(''); setCommentBody(''); setSourceForm({ repositoryId: '', folder: 'migrations' });
+    setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' });
+    setEnvironmentName(''); setProfileForm({ name: '', environmentId: '', engine: 'oracle', host: 'oracle.example.invalid', port: '1521', service: 'DEV', username: 'APP', credentialRef: 'vault://local/app' });
+    setArchiveReason(''); setGitRefs({ branches: [], tags: [] }); setGitRefsError(''); setGitRefsLoading(false);
+  };
 
   useEffect(() => {
     const expire = (requestEpoch) => {
@@ -205,17 +218,27 @@ function App() {
       ]);
       if (sequence !== refreshSequence.current) return;
       setRepositories(repoResult.repositories || []);
+      setAccessMode(projectResult.accessMode || 'BOOTSTRAP_REQUIRED');
       const rows = projectResult.projects || [];
       setProjects(rows);
       const nextId = rows.some((item) => item.id === selectedId) ? selectedId : rows[0]?.id || '';
+      if (nextId !== selectedId) clearProjectState();
       activeProjectId.current = nextId;
       setProjectId(nextId);
       if (nextId) {
         const result = await json(`/api/projects/${encodeURIComponent(nextId)}`, activeToken);
         if (sequence !== refreshSequence.current) return;
         setDetail(result);
-      } else setDetail(null);
-    } catch (e) { if (sequence === refreshSequence.current) setError(explain(e)); }
+        return { selectedId: nextId, detail: result };
+      }
+      setDetail(null);
+      return { selectedId: '', detail: null };
+    } catch (e) { if (sequence === refreshSequence.current) {
+      if (e?.message === 'NOT_FOUND') {
+        clearProjectState();
+      }
+      setError(explain(e));
+    } }
     finally { if (sequence === refreshSequence.current) setBusy(false); }
   }, [projectId]);
 
@@ -342,12 +365,18 @@ function App() {
     setGitRefsLoading(true);
     json(`/api/projects/${encodeURIComponent(projectId)}/git-refs`, token)
       .then((refs) => { if (current) setGitRefs({ branches: refs.branches || [], tags: refs.tags || [] }); })
-      .catch((error) => { if (current) setGitRefsError(error.message || 'GIT_REF_READ_FAILED'); })
+      .catch((error) => {
+        if (!current) return;
+        if (error?.message === 'NOT_FOUND' && activeProjectId.current === projectId) {
+          clearProjectState(); void refresh(token, projectId);
+        } else setGitRefsError(error.message || 'GIT_REF_READ_FAILED');
+      })
       .finally(() => { if (current) setGitRefsLoading(false); });
     return () => { current = false; };
-  }, [token, projectId, projectLoaded, sourceBinding?.repositoryId, sourceBinding?.folder]);
+  }, [token, projectId, projectLoaded, sourceBinding?.repositoryId, sourceBinding?.folder, refresh]);
 
   const mutate = async (action, success, onSuccess = () => {}, onError = () => {}, isCurrentOperation = () => true) => {
+    if (accessMode === 'BOOTSTRAP_REQUIRED') { setError('MEMBERSHIP_BOOTSTRAP_REQUIRED'); return; }
     const epoch = sessionEpoch.current;
     const activeToken = token;
     const activeSelection = projectId;
@@ -359,7 +388,12 @@ function App() {
       onSuccess(outcome);
       setNotice(success);
       await refresh(activeToken, outcome?.nextProjectId || activeSelection);
-    } catch (e) { if (isCurrentSession() && isCurrentOperation()) { setError(explain(e)); onError(e); } }
+    } catch (e) {
+      if (isCurrentSession() && isCurrentOperation()) {
+        if (e?.message === 'NOT_FOUND') { clearProjectState(); await refresh(activeToken, activeSelection); }
+        if (isCurrentSession() && isCurrentOperation()) { setError(explain(e)); onError(e); }
+      }
+    }
     finally { if (isCurrentSession()) setBusy(false); }
   };
 
@@ -369,10 +403,9 @@ function App() {
       const payload = { name: projectForm.name };
       if (projectForm.description.trim()) payload.description = projectForm.description.trim();
       const result = await json('/api/projects', token, { method: 'POST', body: JSON.stringify(payload) });
-      return { project: result.project, nextProjectId: result.project?.id };
-    }, 'Project created.', (outcome) => {
+      return { receipt: result.project };
+    }, 'Project created. Ask the local OS operator to grant access before opening it.', (outcome) => {
       setProjectForm({ name: '', description: '' });
-      if (outcome?.project?.id) selectProject(outcome.project.id);
     });
   };
   const createEnvironment = (event) => {
@@ -474,7 +507,12 @@ function App() {
       if (sequence !== refreshSequence.current || activeProjectId.current !== inspectedProjectId) return;
       setRelease(result.release || result);
       setNotice('Release files loaded for read-only inspection.');
-    } catch (e) { if (sequence === refreshSequence.current && activeProjectId.current === inspectedProjectId) setError(explain(e)); }
+    } catch (e) {
+      if (sequence === refreshSequence.current && activeProjectId.current === inspectedProjectId) {
+        if (e?.message === 'NOT_FOUND') { clearProjectState(); await refresh(token, inspectedProjectId); }
+        else setError(explain(e));
+      }
+    }
     finally { if (sequence === refreshSequence.current && activeProjectId.current === inspectedProjectId) setBusy(false); }
   };
 
@@ -524,12 +562,37 @@ function App() {
         return;
       }
       setPlanSource({ planId: inspectedPlan, source });
-    } catch {
-      if (isCurrent()) setPlanSource({ planId: inspectedPlan, error: 'PLAN_SOURCE_UNAVAILABLE' });
+    } catch (error) {
+      if (isCurrent()) {
+        if (error?.message === 'NOT_FOUND') {
+          planSourceSequence.current += 1;
+          const recoverySequence = planSourceSequence.current;
+          setRelease(null); setPlanSource(null);
+          const recoveryIsCurrent = () => planSourceSequence.current === recoverySequence
+            && activeProjectId.current === inspectedProject
+            && activeSelectedPlanId.current === inspectedPlan
+            && sessionEpoch.current === inspectedSession
+            && tokenRef.current === inspectedToken;
+          try {
+            const current = await json(`/api/projects/${encodeURIComponent(inspectedProject)}`, inspectedToken);
+            if (!recoveryIsCurrent()) return;
+            if (current.project?.id !== inspectedProject || !current.plans?.some(item => item.id === inspectedPlan)) {
+              throw new Error('NOT_FOUND');
+            }
+            setDetail(current);
+            setPlanSource({ planId: inspectedPlan, error: 'PLAN_SOURCE_UNAVAILABLE' });
+          } catch {
+            if (!recoveryIsCurrent()) return;
+            clearProjectState();
+            await refresh(inspectedToken, inspectedProject);
+          }
+        }
+        else setPlanSource({ planId: inspectedPlan, error: 'PLAN_SOURCE_UNAVAILABLE' });
+      }
     }
   };
 
-  const model = { actor, projects, projectId, selectProject, setRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan };
+  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -561,6 +624,7 @@ function App() {
     <main className="main-area">
       <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { void refresh(token); }} disabled={busy}>↻</button></div></header>
       {(error || notice) && <div className={`banner ${error ? 'error' : 'success'}`} role={error ? 'alert' : 'status'}>{error || notice}<button type="button" className="banner-close" onClick={() => { setError(''); setNotice(''); }} aria-label="Dismiss message">×</button></div>}
+      {accessMode === 'BOOTSTRAP_REQUIRED' && <div className="banner warning" role="status">Bootstrap required · project access is read-only until the local OS operator grants access and activates membership.</div>}
       <div className="content">
         {tab === 'workspace' && <WorkspaceScreen model={model} />}
         {tab === 'release' && <ReleaseScreen model={model} />}
@@ -573,24 +637,24 @@ function App() {
 }
 
 function WorkspaceScreen({ model }) {
-  const { projects, projectId, selectProject, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, isArchived, archivedAt, canArchive, archiveReason, setArchiveReason, archiveProject, fmt } = model;
+  const { accessMode, projects, projectId, selectProject, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, isArchived, archivedAt, canArchive, archiveReason, setArchiveReason, archiveProject, fmt } = model;
   return <>
           <div className="page-heading"><div><p className="eyebrow">PRODUCT WORKSPACE</p><h1>Your projects</h1><p className="muted">Organize environments and connection references before preparing a migration review.</p></div><div className="heading-mark">01 <span> / 04</span></div></div>
           <div className="workspace-grid">
             <section className="panel project-panel"><div className="panel-heading"><div><h2>Project space</h2><p>Choose a project to see its delivery context.</p></div><span className="count-pill">{projects.length} total</span></div>
-              {projects.length ? <div className="project-list">{projects.map((p) => <button type="button" key={p.id} className={`project-row ${projectId === p.id ? 'selected' : ''}`} onClick={() => selectProject(p.id)} disabled={busy}><span className="project-icon">{p.name.slice(0, 1).toUpperCase()}</span><span className="project-copy"><strong>{p.name}</strong><small>{p.description || 'No description provided'}</small></span>{p.archivedAt && <span className="status-pill neutral">ARCHIVED</span>}<span className="row-arrow">›</span></button>)}</div> : <div className="empty-state"><span className="empty-icon">＋</span><strong>No projects yet</strong><span>Create a project to start organizing database changes.</span></div>}
-              <form className="inline-form project-create" onSubmit={createProject}><label className="sr-only" htmlFor="project-name">New project name</label><input id="project-name" placeholder="New project name" value={projectForm.name} onChange={(e) => setProjectForm({ ...projectForm, name: e.target.value })} required/><button type="submit" className="secondary" disabled={busy}>Create project</button><label className="sr-only" htmlFor="project-description">Project description</label><input id="project-description" className="wide-input" placeholder="Description (optional)" value={projectForm.description} onChange={(e) => setProjectForm({ ...projectForm, description: e.target.value })}/></form>
+              {projects.length ? <div className="project-list">{projects.map((p) => <button type="button" key={p.id} className={`project-row ${projectId === p.id ? 'selected' : ''}`} onClick={() => selectProject(p.id)} disabled={busy}><span className="project-icon">{p.name.slice(0, 1).toUpperCase()}</span><span className="project-copy"><strong>{p.name}</strong><small>{p.description || 'No description provided'}</small></span>{p.archivedAt && <span className="status-pill neutral">ARCHIVED</span>}<span className="row-arrow">›</span></button>)}</div> : <div className="empty-state"><span className="empty-icon">＋</span><strong>{accessMode === 'ENFORCED' ? 'No assigned projects' : 'No projects yet'}</strong><span>{accessMode === 'ENFORCED' ? 'Ask the local OS operator for an explicit project grant.' : 'Create a project to start organizing database changes.'}</span></div>}
+              <form className="inline-form project-create" onSubmit={createProject}><label className="sr-only" htmlFor="project-name">New project name</label><input id="project-name" placeholder="New project name" value={projectForm.name} onChange={(e) => setProjectForm({ ...projectForm, name: e.target.value })} required disabled={accessMode === 'BOOTSTRAP_REQUIRED'}/><button type="submit" className="secondary" disabled={busy || accessMode === 'BOOTSTRAP_REQUIRED'}>Create project</button><label className="sr-only" htmlFor="project-description">Description (optional)</label><input id="project-description" className="wide-input" placeholder="Description (optional)" value={projectForm.description} onChange={(e) => setProjectForm({ ...projectForm, description: e.target.value })} disabled={accessMode === 'BOOTSTRAP_REQUIRED'}/></form>
             </section>
             <section className="panel context-panel"><div className="panel-heading"><div><h2>{detail?.project?.name || 'Project context'} {detail?.project?.archivedAt && <span className="status-pill neutral">ARCHIVED</span>}</h2><p>Configuration for the selected project.</p></div><span className="context-icon">⌘</span></div>
               {isArchived && <output className="archive-notice"><strong>Project archived</strong><span>Archived {fmt(archivedAt)}. New changes are disabled; existing releases, plans, and records remain readable.</span></output>}
               {!detail ? <div className="empty-state compact">Select or create a project to continue.</div> : <>
                 <div className="section-title"><span>01</span><strong>Environments</strong></div>
                 <div className="chip-list">{(detail.environments || []).map((env) => <span className="data-chip" key={env.id}><i/> {env.name}</span>)}{!detail.environments?.length && <span className="subtle">No environments configured</span>}</div>
-                <form className="inline-form" onSubmit={createEnvironment}><label className="sr-only" htmlFor="environment-name">Environment name</label><input id="environment-name" placeholder="e.g. Development" value={environmentName} onChange={(e) => setEnvironmentName(e.target.value)} required disabled={busy || isArchived}/><button type="submit" className="text-button" disabled={busy || isArchived}>＋ Add</button></form>
+                <form className="inline-form" inert={accessMode === 'BOOTSTRAP_REQUIRED'} onSubmit={createEnvironment}><label className="sr-only" htmlFor="environment-name">Environment name</label><input id="environment-name" placeholder="e.g. Development" value={environmentName} onChange={(e) => setEnvironmentName(e.target.value)} required disabled={busy || isArchived}/><button type="submit" className="text-button" disabled={busy || isArchived}>＋ Add</button></form>
                 <div className="section-title section-spaced"><span>02</span><strong>Connection profiles</strong><small>{(detail.profiles || []).length} profiles</small></div>
                 <div className="profile-list">{(detail.profiles || []).map((profile) => <div className="profile-row" key={profile.id}><span className="profile-icon">◎</span><span><strong>{profile.name}</strong><small>{profile.host}:{profile.port}/{profile.service} · {profile.username}</small></span><span className="ref-badge">ref only</span></div>)}{!detail.profiles?.length && <p className="subtle">No connection profiles yet.</p>}</div>
-                <details className="form-disclosure"><summary>{isArchived ? 'Connection profile form unavailable' : 'Add Oracle profile'}</summary><form className="profile-form" onSubmit={createProfile}><fieldset className="profile-fields" disabled={busy || isArchived}><label>Name<input aria-label="Profile name" value={profileForm.name} onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })} required/></label><label>Environment<select aria-label="Profile environment" value={profileForm.environmentId} onChange={(e) => setProfileForm({ ...profileForm, environmentId: e.target.value })} required><option value="">Choose environment</option>{(detail.environments || []).map((env) => <option key={env.id} value={env.id}>{env.name}</option>)}</select></label><label>Host<input aria-label="Database host" value={profileForm.host} onChange={(e) => setProfileForm({ ...profileForm, host: e.target.value })} required/></label><label>Port<input aria-label="Database port" type="number" value={profileForm.port} onChange={(e) => setProfileForm({ ...profileForm, port: e.target.value })} required/></label><label>Service<input aria-label="Oracle service" value={profileForm.service} onChange={(e) => setProfileForm({ ...profileForm, service: e.target.value })} required/></label><label>Username<input aria-label="Database username" value={profileForm.username} onChange={(e) => setProfileForm({ ...profileForm, username: e.target.value })} required/></label><label className="full-width">Credential reference<input aria-label="Credential reference" placeholder="vault://team/reference" value={profileForm.credentialRef} onChange={(e) => setProfileForm({ ...profileForm, credentialRef: e.target.value })} required/><small>Enter a reference only. Password fields are never sent or stored here.</small></label></fieldset><button type="submit" className="primary" disabled={busy || isArchived}>Save profile</button></form></details>
-                {canArchive && !isArchived && <form className="archive-form" onSubmit={archiveProject}><label htmlFor="archive-reason">Archive project</label><p>Archiving preserves records but prevents new environments, profiles, releases, plans, and decisions.</p><textarea id="archive-reason" aria-label="Archive reason" value={archiveReason} onChange={(event) => setArchiveReason(event.target.value)} placeholder="Reason for archiving this project" required/><button type="submit" className="danger-button" disabled={busy || !archiveReason.trim()}>Archive project</button></form>}
+                <details className="form-disclosure"><summary>{isArchived ? 'Connection profile form unavailable' : 'Add Oracle profile'}</summary><form className="profile-form" inert={accessMode === 'BOOTSTRAP_REQUIRED'} onSubmit={createProfile}><fieldset className="profile-fields" disabled={busy || isArchived}><label>Name<input aria-label="Profile name" value={profileForm.name} onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })} required/></label><label>Environment<select aria-label="Profile environment" value={profileForm.environmentId} onChange={(e) => setProfileForm({ ...profileForm, environmentId: e.target.value })} required><option value="">Choose environment</option>{(detail.environments || []).map((env) => <option key={env.id} value={env.id}>{env.name}</option>)}</select></label><label>Host<input aria-label="Database host" value={profileForm.host} onChange={(e) => setProfileForm({ ...profileForm, host: e.target.value })} required/></label><label>Port<input aria-label="Database port" type="number" value={profileForm.port} onChange={(e) => setProfileForm({ ...profileForm, port: e.target.value })} required/></label><label>Service<input aria-label="Oracle service" value={profileForm.service} onChange={(e) => setProfileForm({ ...profileForm, service: e.target.value })} required/></label><label>Username<input aria-label="Database username" value={profileForm.username} onChange={(e) => setProfileForm({ ...profileForm, username: e.target.value })} required/></label><label className="full-width">Credential reference<input aria-label="Credential reference" placeholder="vault://team/reference" value={profileForm.credentialRef} onChange={(e) => setProfileForm({ ...profileForm, credentialRef: e.target.value })} required/><small>Enter a reference only. Password fields are never sent or stored here.</small></label></fieldset><button type="submit" className="primary" disabled={busy || isArchived}>Save profile</button></form></details>
+                {canArchive && !isArchived && <form className="archive-form" inert={accessMode === 'BOOTSTRAP_REQUIRED'} onSubmit={archiveProject}><label htmlFor="archive-reason">Archive project</label><p>Archiving preserves records but prevents new environments, profiles, releases, plans, and decisions.</p><textarea id="archive-reason" aria-label="Archive reason" value={archiveReason} onChange={(event) => setArchiveReason(event.target.value)} placeholder="Reason for archiving this project" required/><button type="submit" className="danger-button" disabled={busy || !archiveReason.trim()}>Archive project</button></form>}
               </>}
             </section>
           </div>
@@ -601,7 +665,7 @@ function WorkspaceScreen({ model }) {
 
 function SourceBindingPanel({ model }) {
   const { projectLoaded, sourceBinding, boundRepository, sourceForm, setSourceForm,
-    repositories, busy, canBindSource, isArchived, saveSourceBinding } = model;
+    repositories, busy, canBindSource, isArchived, readOnlyBootstrap, saveSourceBinding } = model;
   const validFolder = /^[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_-]+)*$/.test(sourceForm.folder);
   const changed = sourceForm.repositoryId !== (sourceBinding?.repositoryId || '')
     || sourceForm.folder !== (sourceBinding?.folder || 'migrations');
@@ -610,7 +674,7 @@ function SourceBindingPanel({ model }) {
     {!projectLoaded && <output className="subtle">Loading the selected project source…</output>}
     {projectLoaded && sourceBinding && <p className="source-binding-current" aria-label="Current source binding"><strong>Bound source</strong><span>{boundRepository?.name || 'Registered repository unavailable'} · {sourceBinding.folder}</span></p>}
     {projectLoaded && !sourceBinding && <output className="source-binding-current"><strong>No source bound</strong><span>A developer must bind a repository and folder before release import.</span></output>}
-    {projectLoaded && canBindSource && <form className="source-binding-form" onSubmit={saveSourceBinding}>
+    {projectLoaded && canBindSource && <form inert={readOnlyBootstrap} className="source-binding-form" onSubmit={saveSourceBinding}>
       <label>Registered repository<select aria-label="Source repository" value={sourceForm.repositoryId} onChange={(event) => setSourceForm({ ...sourceForm, repositoryId: event.target.value })} required disabled={busy || isArchived || !repositories.length}>
         <option value="">{repositories.length ? 'Choose registered repository' : 'No repositories registered'}</option>
         {repositories.map((repository) => <option key={repository.id} value={repository.id}>{repository.name}</option>)}
@@ -629,7 +693,7 @@ function sourceBindingButtonLabel(busy, sourceBinding) {
 }
 
 function ReleaseScreen({ model }) {
-  const { projectId, selectProject, projects, repositories, releaseForm, setReleaseForm, busy, importRelease, release, detail, makePlan, isArchived, inspectRelease, fmt, sourceBinding, boundRepository, projectLoaded, sourceForm, gitRefs, gitRefsLoading, gitRefsError } = model;
+  const { readOnlyBootstrap, projectId, selectProject, projects, repositories, releaseForm, setReleaseForm, busy, importRelease, release, detail, makePlan, isArchived, inspectRelease, fmt, sourceBinding, boundRepository, projectLoaded, sourceForm, gitRefs, gitRefsLoading, gitRefsError } = model;
   const bindingDraftMatches = Boolean(sourceBinding && boundRepository
     && sourceForm.repositoryId === sourceBinding.repositoryId && sourceForm.folder === sourceBinding.folder);
   const scopedRelease = projectLoaded && release
@@ -647,17 +711,17 @@ function ReleaseScreen({ model }) {
           <SourceBindingPanel model={model} />
           <section className="panel saved-releases"><div className="panel-heading"><div><h2>Existing releases</h2><p>Open an imported release to review migration files and SQL.</p></div><span className="count-pill">{detail?.releases?.length || 0} releases</span></div>{detail?.releases?.length ? <div className="saved-release-list">{detail.releases.map((item) => <div className="saved-release-row" data-release-id={item.id} key={item.id}><span><strong>{item.commit?.slice(0, 12)} · {item.folder}</strong><small>Imported {fmt(item.createdAt)} · {item.validationStatus}</small></span><button type="button" className="secondary" onClick={() => { void inspectRelease(item.id); }} disabled={busy}>Inspect files</button></div>)}</div> : <p className="subtle">No releases imported for this project yet.</p>}</section>
           <section className="panel intake-panel"><div className="panel-heading"><div><h2>Repository source</h2><p>Repository paths stay on the server. The browser sends only the repository ID.</p></div><span className="step-badge">GIT</span></div>
-            <form className="release-form" onSubmit={importRelease}><label>Project<select aria-label="Release project" value={projectId} onChange={(e) => selectProject(e.target.value)} required disabled={busy}><option value="">Choose project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}{p.archivedAt ? ' · ARCHIVED' : ''}</option>)}</select></label><label>Bound repository<output aria-label="Bound repository" className="bound-source-value">{boundRepositoryLabel}</output></label><label>Branch or tag<select aria-label="Git branch or tag" value={releaseForm.commit.startsWith('refs/') ? releaseForm.commit : ''} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value || 'HEAD' })} disabled={busy || isArchived || !bindingDraftMatches || gitRefsLoading || !!gitRefsError}><option value="">Use HEAD or enter a ref below</option><optgroup label="Branches">{gitRefs.branches.map((item) => <option key={item.ref} value={item.ref}>Branch · {item.name}</option>)}</optgroup><optgroup label="Tags">{gitRefs.tags.map((item) => <option key={item.ref} value={item.ref}>Tag · {item.name}</option>)}</optgroup></select><small>{gitRefsLoading ? 'Loading refs from the saved project repository…' : gitRefsError ? explain(new Error(gitRefsError)) : 'Choose a local branch or commit-resolving tag, or keep using HEAD/manual commit.'}</small></label><label>Commit or ref<input aria-label="Git commit or ref" value={releaseForm.commit} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value })} placeholder="40 character commit SHA" required disabled={busy || isArchived || !bindingDraftMatches}/><small>Selected refs are resolved to a full immutable commit during import.</small></label><label>Bound migration folder<output aria-label="Bound migration folder" className="bound-source-value">{projectLoaded ? sourceBinding?.folder || 'No source bound' : 'Loading project source…'}</output></label><div className="form-actions"><button type="submit" className="primary" disabled={busy || isArchived || !projects.length || !bindingDraftMatches}>{busy ? 'Importing…' : 'Import and validate'}</button><span className="subtle">{importHint} Files are parsed before a plan can be created.</span></div></form>
+            <form className="release-form" inert={readOnlyBootstrap} onSubmit={importRelease}><label>Project<select aria-label="Release project" value={projectId} onChange={(e) => selectProject(e.target.value)} required disabled={busy}><option value="">Choose project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}{p.archivedAt ? ' · ARCHIVED' : ''}</option>)}</select></label><label>Bound repository<output aria-label="Bound repository" className="bound-source-value">{boundRepositoryLabel}</output></label><label>Branch or tag<select aria-label="Git branch or tag" value={releaseForm.commit.startsWith('refs/') ? releaseForm.commit : ''} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value || 'HEAD' })} disabled={busy || isArchived || !bindingDraftMatches || gitRefsLoading || !!gitRefsError}><option value="">Use HEAD or enter a ref below</option><optgroup label="Branches">{gitRefs.branches.map((item) => <option key={item.ref} value={item.ref}>Branch · {item.name}</option>)}</optgroup><optgroup label="Tags">{gitRefs.tags.map((item) => <option key={item.ref} value={item.ref}>Tag · {item.name}</option>)}</optgroup></select><small>{gitRefsLoading ? 'Loading refs from the saved project repository…' : gitRefsError ? explain(new Error(gitRefsError)) : 'Choose a local branch or commit-resolving tag, or keep using HEAD/manual commit.'}</small></label><label>Commit or ref<input aria-label="Git commit or ref" value={releaseForm.commit} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value })} placeholder="40 character commit SHA" required disabled={busy || isArchived || !bindingDraftMatches}/><small>Selected refs are resolved to a full immutable commit during import.</small></label><label>Bound migration folder<output aria-label="Bound migration folder" className="bound-source-value">{projectLoaded ? sourceBinding?.folder || 'No source bound' : 'Loading project source…'}</output></label><div className="form-actions"><button type="submit" className="primary" disabled={busy || isArchived || !projects.length || !bindingDraftMatches}>{busy ? 'Importing…' : 'Import and validate'}</button><span className="subtle">{importHint} Files are parsed before a plan can be created.</span></div></form>
           </section>
           {projectLoaded && <p className="intake-guidance">Import a commit from the current bound repository and folder to prepare a fresh plan. If the SQL changed, commit those edits first; a source-binding refresh alone does not require SQL edits. Existing releases and plans remain unchanged.</p>}
-          {scopedRelease && <section className="panel release-result" data-inspected-release-id={scopedRelease.id}><div className="panel-heading"><div><p className="eyebrow">IMPORTED RELEASE</p><h2>{scopedRelease.commit?.slice(0, 12)} <span className="muted">· {scopedRelease.folder}</span></h2></div><span className={`status-pill ${importStatusClass(scopedRelease.validationStatus)}`}>{scopedRelease.validationStatus}</span></div>{scopedRelease.validationCode && <p className="banner warning">{scopedRelease.validationCode}</p>}<RetainedReleaseContent source={scopedRelease} repositories={repositories} fmt={fmt}/>{(scopedRelease.validationStatus === 'VALID') && <form className="plan-form" onSubmit={makePlan}><label>Target connection profile<select name="profileId" aria-label="Target connection profile" required disabled={busy || isArchived}><option value="">Choose profile</option>{(detail?.profiles || []).map((profile) => <option key={profile.id} value={profile.id}>{profile.name} · {profile.host}/{profile.service}</option>)}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.profiles?.length}>Prepare offline plan</button><span className="offline-note">This creates a review candidate. It does not connect to Oracle.</span></form>}</section>}
+          {scopedRelease && <section className="panel release-result" data-inspected-release-id={scopedRelease.id}><div className="panel-heading"><div><p className="eyebrow">IMPORTED RELEASE</p><h2>{scopedRelease.commit?.slice(0, 12)} <span className="muted">· {scopedRelease.folder}</span></h2></div><span className={`status-pill ${importStatusClass(scopedRelease.validationStatus)}`}>{scopedRelease.validationStatus}</span></div>{scopedRelease.validationCode && <p className="banner warning">{scopedRelease.validationCode}</p>}<RetainedReleaseContent source={scopedRelease} repositories={repositories} fmt={fmt}/>{(scopedRelease.validationStatus === 'VALID') && <form className="plan-form" inert={readOnlyBootstrap} onSubmit={makePlan}><label>Target connection profile<select name="profileId" aria-label="Target connection profile" required disabled={busy || isArchived}><option value="">Choose profile</option>{(detail?.profiles || []).map((profile) => <option key={profile.id} value={profile.id}>{profile.name} · {profile.host}/{profile.service}</option>)}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.profiles?.length}>Prepare offline plan</button><span className="offline-note">This creates a review candidate. It does not connect to Oracle.</span></form>}</section>}
 
   </>;
 }
 
 
 function ReviewScreen({ model }) {
-  const { plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan } = model;
+  const { readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan } = model;
   const scopedProfiles = projectLoaded && Array.isArray(detail?.profiles) ? detail.profiles : [];
   const scopedEnvironments = projectLoaded && Array.isArray(detail?.environments) ? detail.environments : [];
   const targetProfile = typeof plan?.profileId === 'string'
@@ -709,10 +773,10 @@ function ReviewScreen({ model }) {
                     <RetainedReleaseContent source={planSource.source} repositories={repositories} fmt={fmt}/>
                   </div>}
                 </section>
-                {['APPROVED', 'REJECTED'].includes(plan.status) && <section className="decision-record" aria-label="Decision record"><h3>Decision record</h3><p><strong>{plan.decidedByName || plan.decidedBy}</strong>{plan.decidedByName && <code>{plan.decidedBy}</code>}</p><time dateTime={plan.decidedAt}>{fmt(plan.decidedAt)}</time><p className="decision-record-reason">{plan.decisionReason}</p>{plan.status === 'REJECTED' && canPrepareNewPlan && <div className="prepare-new-plan"><p>Changed SQL must be committed and imported as a new immutable release. The rejected plan and its review record remain unchanged.</p><button type="button" className="primary" onClick={prepareNewPlan} disabled={busy}>Prepare new plan</button></div>}{plan.status === 'REJECTED' && !isArchived && projectLoaded && !model.sourceBinding && <p className="banner warning">Bind a repository and migration folder before preparing a new plan.</p>}</section>}
+                {['APPROVED', 'REJECTED'].includes(plan.status) && <section className="decision-record" aria-label="Decision record"><h3>Decision record</h3><p><strong>{plan.decidedByName || plan.decidedBy}</strong>{plan.decidedByName && <code>{plan.decidedBy}</code>}</p><time dateTime={plan.decidedAt}>{fmt(plan.decidedAt)}</time><p className="decision-record-reason">{plan.decisionReason}</p>{plan.status === 'REJECTED' && canPrepareNewPlan && <div className="prepare-new-plan"><p>Changed SQL must be committed and imported as a new immutable release. The rejected plan and its review record remain unchanged.</p><button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare new plan</button></div>}{plan.status === 'REJECTED' && !isArchived && projectLoaded && !model.sourceBinding && <p className="banner warning">Bind a repository and migration folder before preparing a new plan.</p>}</section>}
                 <section className="panel source-generation" aria-label="Protected source generation"><h3>Protected source configuration</h3><p>Current project binding generation: <code>{validBindingGeneration(detail.project.sourceBinding?.generation) ? detail.project.sourceBinding.generation : 'Unavailable'}</code></p><p>Captured by this plan: <code>{validBindingGeneration(plan.sourceBindingGeneration) ? plan.sourceBindingGeneration : 'Unavailable'}</code></p></section>
-                {plan.status === 'PENDING_APPROVAL' && selectedNeedsFreshPlan && <div className="prepare-new-plan" role="region" aria-label="Fresh plan required"><p className="banner warning">This pending plan has no verifiable generation for the current protected repository and migration folder. Prepare a fresh plan before approval. You can import the current bound commit without editing SQL; the original plan and review history remain unchanged.</p>{canPrepareNewPlan && <button type="button" className="primary" onClick={prepareNewPlan} disabled={busy}>Prepare fresh plan</button>}</div>}
-                {isApprover && plan.status === 'PENDING_APPROVAL' && <div className="decision-box"><label htmlFor="decision-reason">Decision reason</label><textarea id="decision-reason" value={decisionReason} onChange={(e) => setDecisionReason(e.target.value)} placeholder="Record why this candidate is approved or rejected" required disabled={isArchived}/><div><button type="button" className="danger-button" onClick={() => decide('REJECT')} disabled={busy || isArchived || !canReviewPlan || !decisionReason.trim()}>Reject plan</button><button type="button" className="primary" onClick={() => decide('APPROVE')} disabled={busy || isArchived || !canReviewPlan || selectedNeedsFreshPlan || !decisionReason.trim()}>Approve plan</button></div>
+                {plan.status === 'PENDING_APPROVAL' && selectedNeedsFreshPlan && <div className="prepare-new-plan" role="region" aria-label="Fresh plan required"><p className="banner warning">This pending plan has no verifiable generation for the current protected repository and migration folder. Prepare a fresh plan before approval. You can import the current bound commit without editing SQL; the original plan and review history remain unchanged.</p>{canPrepareNewPlan && <button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare fresh plan</button>}</div>}
+                {isApprover && plan.status === 'PENDING_APPROVAL' && <div className="decision-box" inert={readOnlyBootstrap}><label htmlFor="decision-reason">Decision reason</label><textarea id="decision-reason" value={decisionReason} onChange={(e) => setDecisionReason(e.target.value)} placeholder="Record why this candidate is approved or rejected" required disabled={isArchived}/><div><button type="button" className="danger-button" onClick={() => decide('REJECT')} disabled={busy || isArchived || !canReviewPlan || !decisionReason.trim()}>Reject plan</button><button type="button" className="primary" onClick={() => decide('APPROVE')} disabled={busy || isArchived || !canReviewPlan || selectedNeedsFreshPlan || !decisionReason.trim()}>Approve plan</button></div>
                   {isPlanAuthor ? <p className="banner warning">You authored this plan. Another approver must review it independently.</p> : !authorFactsAvailable ? <p className="banner warning">Requester information is unavailable. Refresh the project to retrieve retained plan facts.</p> : null}
                   <small>Approval records governance only. It does not authorize or perform execution in this product.</small></div>}
                 {!isApprover && plan.status === 'PENDING_APPROVAL' && <p className="banner warning">Awaiting an approver. Your current role can prepare plans but cannot decide them.</p>}
@@ -720,7 +784,7 @@ function ReviewScreen({ model }) {
                   <h3>Review comments</h3>
                   <ol className="comment-timeline">{(detail.comments || []).filter((comment) => comment.planId === plan.id).map((comment) => <li className="comment-row" key={comment.id}><div><strong>{comment.authorName}</strong><time dateTime={comment.createdAt}>{fmt(comment.createdAt)}</time></div><p>{comment.body}</p></li>)}</ol>
                   {!(detail.comments || []).some((comment) => comment.planId === plan.id) && <p className="muted">No comments yet.</p>}
-                  {!isArchived && plan.status === 'PENDING_APPROVAL' ? <form className="comment-form" onSubmit={addComment}><label htmlFor="plan-comment">Comment</label><textarea id="plan-comment" value={commentBody} onChange={(event) => setCommentBody(event.target.value)} maxLength={4000} placeholder="Add a plain-text review comment" required disabled={busy}/><div><small>Plain text · up to 4,000 characters</small><button type="submit" className="primary" disabled={busy || !commentBody.trim()}>Add comment</button></div></form> : <p className="muted">Comments are read only {isArchived ? 'because this project is archived.' : 'after a plan decision.'}</p>}
+                  {!isArchived && plan.status === 'PENDING_APPROVAL' ? <form className="comment-form" inert={readOnlyBootstrap} onSubmit={addComment}><label htmlFor="plan-comment">Comment</label><textarea id="plan-comment" value={commentBody} onChange={(event) => setCommentBody(event.target.value)} maxLength={4000} placeholder="Add a plain-text review comment" required disabled={busy}/><div><small>Plain text · up to 4,000 characters</small><button type="submit" className="primary" disabled={busy || !commentBody.trim()}>Add comment</button></div></form> : <p className="muted">Comments are read only {isArchived ? 'because this project is archived.' : 'after a plan decision.'}</p>}
                 </section>
               </>}
             </>}

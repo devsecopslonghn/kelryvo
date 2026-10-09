@@ -1,0 +1,5 @@
+{
+  "command": "set -e; git rev-parse origin/master HEAD; git status --porcelain; gh pr list --repo devsecopslonghn/schemaForge --state open --json number,title,headRefName,headRefOid; git branch -r; git -C /home/longhn0710/workspace/schemaforge status --porcelain; git -C /home/longhn0710/workspace/schemaforge rev-parse HEAD; gh api repos/devsecopslonghn/schemaForge/code-scanning/alerts?state=open; gh api repos/devsecopslonghn/schemaForge/dependabot/alerts?state=open; gh api repos/devsecopslonghn/schemaForge/secret-scanning/alerts?state=open",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:11:50.744633+00:00"
+}

@@ -1,0 +1,11 @@
+{
+  "command": "gh run rerun 37955800444 --repo devsecopslonghn/schemaForge --failed",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T16:02:18.028277+00:00",
+  "ended_at_utc": "2026-10-09T16:02:19.978270+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-browser-sync-root-20261009T154120Z/18-retry-artifact-download-failed-workflow.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t20-prepare-publish.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:17:36.532016+00:00",
+  "ended_at_utc": "2026-10-09T15:17:40.683969+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/19-prepublish-verdict-ownership-gate.log",
+    "sha256": "6fd399f5889d084b3e8694594df3f50025aa22017e196aaf8f8f949c8838b19a"
+  }
+}

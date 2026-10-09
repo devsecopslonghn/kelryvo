@@ -1,3 +1,78 @@
+## T21 membership locally verified; exact-head review pending — 2026-10-09
+
+T21 adds explicit local OS operator grants with one-way BOOTSTRAP_REQUIRED -> ENFORCED.
+Authenticated legacy reads remain during bootstrap; all project writes wait for activation.
+Activation checks usable explicit coverage under credential/mode/project/actor locks. Enforced
+project resources require current grants and fixed roles; creation returns a receipt and no
+creator grant. Recovery works independently of revoked API tokens. Historical records remain.
+Revoked selected-project access clears SQL, plan/source state and drafts; delayed revalidation
+cannot restore an older plan. Revocation applies at admission, without cancellation claims.
+
+Frozen local results: standard154, real PostgreSQL/Git/product32, Chromium browser19, zero
+failures/skips. Root verified40 source hashes and every retained native raw capture. Earlier
+failures, missing focused captures and pre-final browser metadata correction remain candid.
+Persistence covers API instance/connection-pool reopen, not a PostgreSQL daemon restart.
+Evidence: `evidence/product/product-t21-root-20261009T152610Z/integration-record.json`.
+Updated-master reconciliation and fresh exact-head QA/security/scans/CI/merge remain required.
+Partial local PRJ-003/SEC-005 only; original catalog and Oracle acceptance unchanged.
+
+Verified preceding master is5ef2568 (PR33). Original T20 master PRODUCT failure and corrective
+pre-test download failure remain preserved; four corrective master workflow families passed.
+Shared checkout remains untouched; no Hygiene branch/PR visible. Sonar unavailable never PASS;
+Oracle VALIDATION separately BLOCKED. Next bounded candidate is parser-derived offline
+statement preview, pending task registration after integration; no implementation claim.
+
+## T20 merged; corrective PR33 master verified; T21 active — 2026-10-09
+
+T20 credential lifecycle merged through PR #32 at `c5130e3277e0955285ea3ff428019369cb46578c`,
+reviewed head `d90403ed9c19586f21e00358e4b723f06af3ef8b`. Independent QA/security approved and
+all11 PR checks passed. Original master PRODUCT run37951569624 failed one existing
+browser assertion; this result remains FAIL. Parser/WP0/CodeQL passed on that original head.
+
+Test-only [PR #33](https://github.com/devsecopslonghn/schemaForge/pull/33) merged at
+`5ef2568e1904636ae7bec7aeb2188cbf71279414`, reviewed head `301f4c802680a2ed795f45b742be9761f66667fe`. Fresh independent
+QA/security, all11 PR checks and all four corrective exact-master workflow families passed.
+The controlled browser gate awaits actual creation and refreshed rendered state, retaining
+all original assertions/timeouts. It proves a possible race; original CI HTTP timing is
+unavailable and exact historical causality is not claimed. Local T20 standard151/product29/
+browser18 and independent2; repair focused1/browser18 and independent1; zero skips.
+Corrective PRODUCT first attempt failed before tests at pinned artifact download; the
+unchanged retry passed. Its original failed bytes remain immutable and are never PASS.
+Evidence: `evidence/product/product-t20-recovery-20261009T155925Z/record.json`.
+
+T20 publication188files exit1/70, repair49files exit1/2 and allrefs exit1/106 remain
+independently classified finding-bearing scans, not clean PASS. Eight pre-final source
+digest bytes remain unavailable; provenance was inspected without recomputation claims.
+No actual credential observed or rotation indicated. Earlier failures remain immutable.
+Sonar unavailable, never PASS; Oracle VALIDATION separately BLOCKED. Shared original checkout
+is clean/untouched at master0346300; no Hygiene branch/PR visible, integration remains pending.
+
+T21 explicit local OS operator membership/bootstrap is IN_PROGRESS in its isolated worktree.
+All projects require explicit grants with no owner/audit backfill. Safe bootstrap preserves
+authenticated legacy reads while denying mutations until operator activation; enforced
+project access requires current grants and fixed roles. New projects receive no creator grant.
+Complete frozen regressions, safely integrate this verified master, then obtain independent
+exact-head reviews and CI. Standing autonomy SF-D010 and owner membership SF-D012 remain.
+
+## T20 master browser regression failed; isolated correction active — 2026-10-09
+
+T20 PR #32 merged at `c5130e3277e0955285ea3ff428019369cb46578c` after exact-head
+QA/security and all11 PR checks passed. Its master PRODUCT run37951569624 failed one
+existing T19 browser assertion: plan count2 vs3 at line205 after an asynchronous creation
+click. Parser/WP0/CodeQL master families passed. Do not report all-master PASS.
+Raw failure/metadata: `evidence/product/product-t21-root-20261009T152610Z/t20-master-browser-failure.json`.
+A separate isolated `development/product-master-browser-synchronization` worktree is proving
+and correcting the test wait with an actual request gate; original failure and assertions
+remain intact. CI exact response timing is unavailable, so the suspected race is not yet
+claimed conclusively. No product/parser logic or timing threshold change is authorized.
+
+T21 local membership implementation continues independently in its dedicated worktree.
+Publication waits for verified corrective master and its own full regression/review gates.
+This is an active regression repair, not an Oracle or design-choice BLOCKED goal.
+Owner standing autonomy and operator-only explicit membership/bootstrap policy remain
+accepted; shared checkout/Hygiene scope untouched, Sonar unavailable never PASS,
+Oracle VALIDATION separately BLOCKED.
+
 ## T21 active; T20 merged, master workflow verification running — 2026-10-09
 
 T20 merged through PR #32 at `c5130e3277e0955285ea3ff428019369cb46578c`, reviewed

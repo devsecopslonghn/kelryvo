@@ -1,0 +1,59 @@
+{
+  "at_utc": "2026-10-09T16:08:55.817632+00:00",
+  "master": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+  "workflow_families": {
+    "Local PRODUCT acceptance": [
+      {
+        "conclusion": "success",
+        "createdAt": "2026-10-09T15:59:27Z",
+        "databaseId": 37955800444,
+        "event": "push",
+        "headSha": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+        "status": "completed",
+        "updatedAt": "2026-10-09T16:08:09Z",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37955800444",
+        "workflowName": "Local PRODUCT acceptance"
+      }
+    ],
+    "Offline ANTLR parser acceptance": [
+      {
+        "conclusion": "success",
+        "createdAt": "2026-10-09T15:59:27Z",
+        "databaseId": 37955800484,
+        "event": "push",
+        "headSha": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+        "status": "completed",
+        "updatedAt": "2026-10-09T16:01:45Z",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37955800484",
+        "workflowName": "Offline ANTLR parser acceptance"
+      }
+    ],
+    "Offline WP0 checks": [
+      {
+        "conclusion": "success",
+        "createdAt": "2026-10-09T15:59:27Z",
+        "databaseId": 37955800424,
+        "event": "push",
+        "headSha": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+        "status": "completed",
+        "updatedAt": "2026-10-09T16:00:30Z",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37955800424",
+        "workflowName": "Offline WP0 checks"
+      }
+    ],
+    "CodeQL": [
+      {
+        "conclusion": "success",
+        "createdAt": "2026-10-09T15:59:27Z",
+        "databaseId": 37955800077,
+        "event": "dynamic",
+        "headSha": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+        "status": "completed",
+        "updatedAt": "2026-10-09T16:01:11Z",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37955800077",
+        "workflowName": "CodeQL"
+      }
+    ]
+  },
+  "all_exact_master_required_families_passed": true
+}

@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-browser-sync-merge-gate.py 33",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T15:59:03.432671+00:00",
+  "ended_at_utc": "2026-10-09T15:59:09.447659+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-browser-sync-root-20261009T154120Z/12-final-ready-gate.log",
+    "sha256": "62e33357b47e27dcd2b9b6e314b5ea4a30a4101620511e0668eb5b60ef3048b3"
+  }
+}

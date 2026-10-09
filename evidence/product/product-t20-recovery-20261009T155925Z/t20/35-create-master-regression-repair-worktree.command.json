@@ -1,0 +1,5 @@
+{
+  "command": "set -e; git fetch origin; test \"$(git rev-parse origin/master)\" = c5130e3277e0955285ea3ff428019369cb46578c; git worktree add -b development/product-master-browser-synchronization /home/longhn0710/workspace/schemaforge-product-master-browser-synchronization origin/master",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:35:14.572339+00:00"
+}

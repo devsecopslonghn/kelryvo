@@ -5,23 +5,29 @@ import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('browser gives fixed feedback when a retained release fails integrity verification', { skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000 }, async () => {
   const database = await openIsolatedProductDatabase();
   const actors = [{ id: `release-integrity-${randomUUID()}`, name: 'Release integrity reviewer', role: 'developer', token: randomBytes(32).toString('hex') }];
   let app;
   let browser;
+  let membership;
   try {
     const repositoryPath = process.env.SCHEMAFORGE_DEMO_REPOSITORY_PATH || await prepareDemoRepository();
     app = await startProduct({ databaseUrl: database.databaseUrl, actors,
       repositories: [{ id: 'demo', name: 'Local migration demo', path: repositoryPath }], port: 0 });
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     const url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, route, body) => {
       const response = await fetch(`${url}${route}`, { method, headers: { authorization: `Bearer ${actors[0].token}`,
         ...(body ? { 'content-type': 'application/json' } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
       return { response, result: await response.json() };
     };
-    const project = (await api('POST', '/api/projects', { name: `Integrity UI ${randomUUID()}` })).result.project;
+    const receipt = (await api('POST', '/api/projects', { name: `Integrity UI ${randomUUID()}` })).result.project;
+    await membership.grant(receipt.id, actors[0].id);
+    const project = (await api('GET', `/api/projects/${receipt.id}`)).result.project;
     const environment = (await api('POST', `/api/projects/${project.id}/environments`, { name: 'Development' })).result.environment;
     const profile = (await api('POST', `/api/projects/${project.id}/profiles`, { name: 'Oracle reference', environmentId: environment.id,
       engine: 'oracle', host: 'oracle.example.invalid', port: 1521, service: 'DEV', username: 'APP', credentialRef: 'vault://local/dev/app' })).result.profile;
@@ -62,6 +68,7 @@ test('browser gives fixed feedback when a retained release fails integrity verif
   } finally {
     await browser?.close();
     await app?.close();
+    await membership?.close();
     await database.close();
   }
 });

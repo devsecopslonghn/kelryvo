@@ -1,0 +1,18 @@
+{
+  "at_utc": "2026-10-09T15:47:31.491488+00:00",
+  "head": "301f4c802680a2ed795f45b742be9761f66667fe",
+  "base": "c5130e3277e0955285ea3ff428019369cb46578c",
+  "qa": "APPROVED",
+  "security": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS",
+  "verdict_hashes": {
+    "native-qa-verdict.json": "6ab812c32cb1cf8a0ffb30bcb54c026346275876004f190a7db190bc86684c98",
+    "native-security-verdict.json": "657e2be3439e7bb942f948218fed1bc1f664211fc15d98980f850040ca3f5b58"
+  },
+  "ownership_paths": 49,
+  "open_prs": [],
+  "hygiene_branches": [],
+  "shared_unchanged": true,
+  "alerts": [],
+  "original_master_PRODUCT": "FAIL_RETAINED",
+  "sonar": "UNAVAILABLE_NEVER_PASS"
+}

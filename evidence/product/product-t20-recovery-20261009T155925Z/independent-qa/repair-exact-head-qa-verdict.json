@@ -1,0 +1,41 @@
+{
+  "recordedAtUtc": "2026-10-09T15:45:01.902306+00:00",
+  "task": "T20 exact-master browser synchronization repair",
+  "review": "independent exact-head QA",
+  "outcome": "PASS",
+  "commit": "301f4c802680a2ed795f45b742be9761f66667fe",
+  "tree": "94e7cf4ff2021adf9816877b3a3de749d7e89c1c",
+  "base": "c5130e3277e0955285ea3ff428019369cb46578c",
+  "sourcePath": "tests/product-protected-source-binding-browser.integration.mjs",
+  "sourceSha256": "deb8c7429c1518e9a8cd28661508b259b06ebba35ff23d3e11acd69dc329b69e",
+  "workingTreeUnchanged": true,
+  "sourceHashesStable": true,
+  "focusedRealGitPostgresBrowserCheck": {
+    "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 --test-name-pattern=review recovers a stale pending plan through T18 intake tests/product-protected-source-binding-browser.integration.mjs",
+    "exitCode": 0,
+    "tests": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "startedUtc": "2026-10-09T15:44:24.680327+00:00",
+    "endedUtc": "2026-10-09T15:44:33.803649+00:00",
+    "rawLog": "focused-browser.raw.log",
+    "rawLogSha256": "079359ff10b548735626f0555171e1e2146fd8d6d940446c5a43fed687e8f534"
+  },
+  "evidenceReview": {
+    "nativeRunRecord": "evidence/product/product-t20-master-browser-sync-20261009T150000Z/run-record.json",
+    "allNativeRunRawHashesVerified": true,
+    "originalMasterRunId": "37951569624",
+    "originalMasterOutcome": "FAIL retained; expected three plans, observed two",
+    "originalMasterRawLogSha256": "6d1b1cf20d5da4468faecee680a90c11a03ff6bd7658f39722362c1a45605264",
+    "originalMasterRawLogHashVerified": true,
+    "originalAssertionsRemoved": 0,
+    "testOnlySourceChange": true
+  },
+  "causality": "The controlled request gate demonstrates the test can query PostgreSQL before the plan POST completes. The original CI failure has no HTTP timing capture, so this does not prove that race caused that particular CI failure; the original CI result remains FAIL.",
+  "blockers": [],
+  "limitations": [
+    "Local focused and native browser runs do not rewrite the historical exact-master CI result.",
+    "Oracle VALIDATION remains separately BLOCKED; Sonar availability is a separate publication condition."
+  ]
+}

@@ -4,6 +4,7 @@ import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const ORG = '00000000-0000-4000-8000-000000000001';
 
@@ -18,8 +19,11 @@ test('status filters preserve scoped ordered plans, drafts, history and archived
   const database = await openIsolatedProductDatabase();
   let app;
   let browser;
+  let membership;
   try {
     app = await startProduct({ databaseUrl: database.databaseUrl, actors, repositories: [], port: 0 });
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     const url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, path, actor, body) => {
       const response = await fetch(`${url}${path}`, { method, headers: {
@@ -29,7 +33,9 @@ test('status filters preserve scoped ordered plans, drafts, history and archived
       return response.json();
     };
     const seedProject = async (name) => {
-      const { project } = await api('POST', '/api/projects', actors[0], { name });
+      const receipt = (await api('POST', '/api/projects', actors[0], { name })).project;
+      for (const actor of actors) await membership.grant(receipt.id, actor.id);
+      const { project } = await api('GET', `/api/projects/${receipt.id}`, actors[0]);
       await database.sql`UPDATE sf_projects SET source_repository_id='fixture',source_folder='migrations',source_updated_at=now() WHERE id=${project.id}`;
       const content = 'CREATE TABLE t (id NUMBER);';
       const bytes = Buffer.from(content);
@@ -161,6 +167,6 @@ test('status filters preserve scoped ordered plans, drafts, history and archived
     assert.ok(archived.plans.every((item) => item.execution === 'NOT_EXECUTED' && item.historyStatus === 'NOT_OBSERVED'));
     assert.deepEqual(errors, []);
   } finally {
-    try { await browser?.close(); } finally { try { await app?.close(); } finally { await database.close(); } }
+    try { await browser?.close(); } finally { try { await app?.close(); } finally { try { await membership?.close(); } finally { await database.close(); } } }
   }
 });
