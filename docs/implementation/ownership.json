@@ -1234,6 +1234,10 @@
     },
     "SF-PRODUCT-T10": {
       "assigned_agent": "backend",
+      "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T11": {
+      "assigned_agent": "frontend",
       "status": "READY"
     }
   }

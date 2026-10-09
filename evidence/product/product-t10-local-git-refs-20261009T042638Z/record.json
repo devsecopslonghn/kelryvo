@@ -1,0 +1,89 @@
+{
+  "id": "product-t10-local-git-refs-local-verified",
+  "subject_id": "SF-PRODUCT-T10",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "node --test --test-name-pattern='project-bound Git refs' tests/product-repositories.test.mjs; node --test tests/product-git-ref-selection-browser.integration.mjs; npm run test:product; npm run test:browser; npm run check",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T10-API",
+    "SF-PRODUCT-T10-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t10-local-git-refs-20261009T042638Z/verification-summary.txt",
+    "sha256": "c55618d5ddf84ec1a2a1de34ded6fd487229fb8679538a57811ee00213e18372"
+  },
+  "baseline_master": "534c6e4024b7642bb7ece17447367d873335edc3",
+  "branch": "development/product-local-git-refs",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-git-refs",
+  "counts": {
+    "standard": {
+      "pass": 141,
+      "fail": 0,
+      "skipped": 0
+    },
+    "product": {
+      "pass": 21,
+      "fail": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "pass": 8,
+      "fail": 0,
+      "skipped": 0
+    },
+    "focused_api": {
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0
+    },
+    "focused_browser": {
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "initial_failures": {
+    "record": "evidence/product/product-t10-local-git-refs-20261009T042638Z/initial-failures.txt",
+    "first_product_attempt": "evidence/product/product-t10-local-git-refs-20261009T042638Z/product-integration-final.log",
+    "browser_attempts": [
+      "evidence/product/product-t10-local-git-refs-20261009T042638Z/browser-focused-pass.log",
+      "evidence/product/product-t10-local-git-refs-20261009T042638Z/browser-focused-pass2.log",
+      "evidence/product/product-t10-local-git-refs-20261009T042638Z/browser-focused-pass3.log",
+      "evidence/product/product-t10-local-git-refs-20261009T042638Z/browser-focused-pass4.log"
+    ]
+  },
+  "verification": [
+    "Authenticated project route derives repository identity from saved source binding and registered allowlist; no filesystem paths or provider credentials are returned.",
+    "Local branches and recursively commit-resolving tags are sorted, limited to 200 with fail-closed over-limit behavior, and preserve full refs to disambiguate branch/tag collisions.",
+    "Git/PostgreSQL/parser tests cover exact full commit and retained bytes after branch and tag movement, missing/unbound/unavailable sources, malicious/noncommit refs, project scope, archive reads and denied imports.",
+    "Browser tests cover scoped options, delayed stale response after project switching, source rebind clearing to HEAD, manual HEAD compatibility, selected tag import and SQL preview.",
+    "No schema, history, execution or Oracle VALIDATION behavior changed."
+  ],
+  "limitations": [
+    "Local PRODUCT implementation evidence only; this does not certify full GIT-004/provider/Oracle acceptance.",
+    "T10 exact-head review and publication are pending with root; this worktree has no commit, push or PR.",
+    "The next retained-release-provenance increment awaits root registration; tracker next is empty."
+  ],
+  "sources": {
+    "apps/api/index.ts": "d7653df9494eb719dbb887cc0093e67d1065a0916b40db608442f783dbabdda2",
+    "apps/web/src/app.jsx": "782036be1220c64c2b89e65fc6d8fee27175c2bb193eb212b09a9b94918a56bc",
+    "packages/migrations/list-git-refs.mjs": "2341aec071c58833f31ac986d980369c9248b6bbd2045aa6dd5af350694b630f",
+    "tests/product-repositories.test.mjs": "b3338531c5ef5eed72a1324c27f4603beee2e2344967cdb2a04a07eb6f286e3e",
+    "tests/product-git-ref-selection-browser.integration.mjs": "bf025b175c99537f2ab73f76ae5320a4f96207c6c7863848d005831cb2bff34f",
+    "scripts/test-product.mjs": "133b054091f8d20add1a4542288eeeec6d5a659b42b0a6eb495df76ddfca8dcc",
+    "docs/development/local-product.md": "feae793aafdba313ecb2e78f5efe955a9dcb1664f1eee039dbdd006f1b713195",
+    "docs/implementation/backlog.json": "da615aa01db7a375eeac80bad692011d7b0c798ad82c400b53e5d1dea4601766",
+    "docs/implementation/ownership.json": "59bf32821c0d5ae005651e9e682c8b03e4822ff87dd7aaa7ec9f4914ec6810ed",
+    "docs/implementation/milestone.json": "ced593e697d17a4985beeb0ec18ca59c3bdefa5e51de6a59737fcbf6d529ab6a",
+    "docs/implementation/CURRENT.md": "f071a08e5955c307e67201c6cc774582041377943d21626da8bcd76f1427f417",
+    "docs/implementation/CONTINUE.md": "d6e59cfcd350b659a3903e2329873951f2073679dc6b29cdc661cde475844893"
+  }
+}

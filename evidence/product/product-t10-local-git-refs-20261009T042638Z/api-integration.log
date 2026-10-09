@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: startup arguments accept repeated local repositories and reject unknown or excess options
+ok 1 - startup arguments accept repeated local repositories and reject unknown or excess options
+  ---
+  duration_ms: 3.344194
+  type: 'test'
+  ...
+# Subtest: configured repositories are canonical local Git worktrees with display-only public descriptors
+ok 2 - configured repositories are canonical local Git worktrees with display-only public descriptors
+  ---
+  duration_ms: 81.697931
+  type: 'test'
+  ...
+# Subtest: invalid startup options fail before creating local configuration or reaching Docker
+ok 3 - invalid startup options fail before creating local configuration or reaching Docker
+  ---
+  duration_ms: 138.990912
+  type: 'test'
+  ...
+# Subtest: a configured custom Git repository is visible without its path and imports through the product API
+ok 4 - a configured custom Git repository is visible without its path and imports through the product API
+  ---
+  duration_ms: 2848.395432
+  type: 'test'
+  ...
+# Subtest: project-bound Git refs list safely and imports retain immutable branch and tag commits
+ok 5 - project-bound Git refs list safely and imports retain immutable branch and tag commits
+  ---
+  duration_ms: 8168.829489
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 11451.528246

@@ -1,0 +1,81 @@
+
+> schemaforge-local-development@0.0.0 test:browser
+> npm run build:web && node scripts/test-product.mjs --browser
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# Browser archive workflow and archived project records remained readable after API restart.
+# Subtest: browser archives a project and keeps its releases, plan, audit, and history readable
+ok 1 - browser archives a project and keeps its releases, plan, audit, and history readable
+  ---
+  duration_ms: 9452.18027
+  type: 'test'
+  ...
+# Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+ok 2 - audit action filters preserve project scope, server order, archived reads and read-only records
+  ---
+  duration_ms: 3326.467771
+  type: 'test'
+  ...
+# Real browser workflow and PostgreSQL restart persistence passed; Oracle untouched.
+# Subtest: browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+ok 3 - browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+  ---
+  duration_ms: 11183.248837
+  type: 'test'
+  ...
+# browser phase: application and browser started
+# browser phase: project, import, and approval workflow completed
+# browser phase: duplicate pending plan created
+# browser phase: rejection and execution-denial workflow completed
+# browser phase: original browser closed before API restart
+# browser phase: original API closed
+# browser phase: API restarted and PostgreSQL state verified
+# browser phase: developer signed in and selected unbound project
+# browser phase: source PUT reached delayed-response handler after server write
+# browser phase: approver signed in and original project reselected
+# browser phase: delayed-response route cleanup completed
+# browser phase: stale success was ignored and workflow finished
+# Subtest: plan comments remain scoped, readable, and persistent across API restart
+ok 4 - plan comments remain scoped, readable, and persistent across API restart
+  ---
+  duration_ms: 17220.362952
+  type: 'test'
+  ...
+# Subtest: decision records render the stored attribution safely and stay plan-specific
+ok 5 - decision records render the stored attribution safely and stay plan-specific
+  ---
+  duration_ms: 3222.72225
+  type: 'test'
+  ...
+# Subtest: release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+ok 6 - release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+  ---
+  duration_ms: 5600.9509
+  type: 'test'
+  ...
+# Subtest: browser displays a server-audited decision denial to the authenticated project actor
+ok 7 - browser displays a server-audited decision denial to the authenticated project actor
+  ---
+  duration_ms: 8352.847486
+  type: 'test'
+  ...
+# Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+ok 8 - status filters preserve scoped ordered plans, drafts, history and archived reads
+  ---
+  duration_ms: 3993.791929
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 18476.376542

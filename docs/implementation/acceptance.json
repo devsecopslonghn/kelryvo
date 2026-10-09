@@ -2459,6 +2459,17 @@
         "SF-PRODUCT-T10-API",
         "SF-PRODUCT-T10-WEB"
       ]
+    },
+    "SF-PRODUCT-T11": {
+      "task_id": "SF-PRODUCT-T11",
+      "criteria": [
+        "Authenticated release inspection displays the stored full immutable commit, repository ID, object format, migration folder, manifest digest, parser profile and import timestamp using the existing API. A current registered repository name may supplement the durable ID; local paths and provider credentials remain private.",
+        "Provenance and exact retained SQL remain readable after source ref movement or repository unavailability and for archived projects. Inspection uses stored release facts without new Git reads, mutations, schema changes or worker execution; stale inspection responses cannot expose a previously selected project release.",
+        "Real Git/PostgreSQL/parser/API/browser regressions compare rendered provenance with persisted release values, verify authenticated scoped reads and archived access, and preserve audit/history and execution state. This is a partial GIT-006 display increment; repository ID remains a separate stored field and full catalog or Oracle acceptance is not claimed."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T11-WEB"
+      ]
     }
   },
   "test_cases": [

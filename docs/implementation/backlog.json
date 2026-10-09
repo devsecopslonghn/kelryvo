@@ -2384,6 +2384,37 @@
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "index_id": "product-t10-local-git-refs-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Authenticated bounded local branches and commit-resolving tags for the saved project repository; real Git/PostgreSQL/parser/browser evidence, partial GIT-004 only, no Oracle acceptance."
+    },
+    {
+      "id": "SF-PRODUCT-T11",
+      "package": "PRODUCT",
+      "assigned_agent": "frontend",
+      "title": "Inspect retained release provenance",
+      "dependencies": [
+        "SF-PRODUCT-T10"
+      ],
+      "feature_ids": [
+        "GIT-006"
+      ],
+      "acceptance_criteria": [
+        "Authenticated release inspection displays the stored full immutable commit, repository ID, object format, migration folder, manifest digest, parser profile and import timestamp using the existing API. A current registered repository name may supplement the durable ID; local paths and provider credentials remain private.",
+        "Provenance and exact retained SQL remain readable after source ref movement or repository unavailability and for archived projects. Inspection uses stored release facts without new Git reads, mutations, schema changes or worker execution; stale inspection responses cannot expose a previously selected project release.",
+        "Real Git/PostgreSQL/parser/API/browser regressions compare rendered provenance with persisted release values, verify authenticated scoped reads and archived access, and preserve audit/history and execution state. This is a partial GIT-006 display increment; repository ID remains a separate stored field and full catalog or Oracle acceptance is not claimed."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T11-WEB"
+      ],
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
       "status": "READY",
       "evidence": [],
       "blockers": []
