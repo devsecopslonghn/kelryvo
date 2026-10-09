@@ -815,6 +815,43 @@ textarea::placeholder {
 .release-result .panel-heading h2 {
   margin: 0;
 }
+.release-provenance {
+  margin: 18px 0 22px;
+  padding: 16px;
+  border: 1px solid #e1e7ef;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+.release-provenance h3 {
+  margin: 0 0 12px;
+  color: #26354a;
+  font-size: 13px;
+}
+.release-provenance dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 20px;
+  margin: 0;
+}
+.release-provenance dl > div {
+  min-width: 0;
+}
+.release-provenance dt {
+  margin-bottom: 4px;
+  color: #66758a;
+  font-size: 11px;
+  font-weight: 650;
+}
+.release-provenance dd {
+  margin: 0;
+  color: #26354a;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.release-provenance code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
 .release-result h2 .muted {
   font-size: 11px;
   font-weight: 400;

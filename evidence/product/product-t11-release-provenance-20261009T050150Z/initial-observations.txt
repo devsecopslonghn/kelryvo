@@ -1,0 +1,9 @@
+Initial observations retained separately; later successful runs are recorded in distinct raw logs.
+
+1. Command: SCHEMAFORGE_JAVA_HOME=<pinned Temurin> SCHEMAFORGE_TEST_DATABASE_URL=<owned local PostgreSQL> node --test tests/product-release-provenance-browser.integration.mjs
+   Outcome: failed before app startup because dist/web/index.html had not yet been built (ENOENT). Remediation: run npm run build:web, then repeat.
+2. Command: SCHEMAFORGE_JAVA_HOME=<pinned Temurin> SCHEMAFORGE_TEST_DATABASE_URL=<owned local PostgreSQL> node --test tests/product-release-provenance-browser.integration.mjs
+   Outcome: browser and provenance assertions passed; final audit-state assertion incorrectly expected no audit row after explicitly archiving. Remediation: expect exactly the archive audit row, then repeat.
+3. Focused rerun after that assertion correction passed. A later expanded rerun including delayed stale-response coverage also passed. Exact successful raw outputs are captured separately.
+
+These were local setup/assertion failures, not passing evidence. No raw log was overwritten.

@@ -1,0 +1,65 @@
+{
+  "id": "product-t11-release-provenance-local-verified",
+  "subject_id": "SF-PRODUCT-T11",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check; npm run test:product; npm run test:browser; node --test tests/product-release-provenance-browser.integration.mjs",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T11-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t11-release-provenance-20261009T050150Z/verification-summary.txt",
+    "sha256": "70490d7fc0b55b84cb6e2112f2f7f55a61ec510bdf58acb9fe6cf60ad79775c7"
+  },
+  "baseline_master": "cba109f4a4ccd043ab142744b03874d8b695122b",
+  "branch": "development/product-release-provenance",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-release-provenance",
+  "counts": {
+    "standard": {
+      "pass": 141,
+      "fail": 0,
+      "skipped": 0
+    },
+    "product": {
+      "pass": 21,
+      "fail": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "pass": 9,
+      "fail": 0,
+      "skipped": 0
+    },
+    "focused_browser": {
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "initial_observations": "evidence/product/product-t11-release-provenance-20261009T050150Z/initial-observations.txt",
+  "verification": [
+    "Release provenance is rendered from the current project scoped release list and existing authenticated API fields; full stored commit and separate durable repository ID are visible without local paths or credentials.",
+    "API and browser facts match persisted PostgreSQL fields, including exact import timestamp; exact SQL stays readable after moving the registered repository directory, archiving the project, restarting the API and removing its repository registry entry.",
+    "Authenticated/unauthenticated and unknown-ID outcomes, archived read-only state, unchanged persisted audit/history/plans/releases, and delayed stale inspection after sign-out/project fallback are verified.",
+    "Partial GIT-006 display evidence only. No schema, API, worker, execution, or Oracle behavior changed; full catalog and Oracle acceptance are not claimed."
+  ],
+  "limitations": [
+    "Local PRODUCT verification only; exact-head QA/security review and publication remain with root.",
+    "Oracle VALIDATION remains BLOCKED and Sonar remains unavailable; neither is reported PASS.",
+    "No T12 task was registered."
+  ],
+  "sources": {
+    "apps/web/src/app.jsx": "bf5586f98118e4ef56b5bdf507fdfd945e44d16d62dca28810ebc4e04239002b",
+    "apps/web/styles.css": "338f8a3647841712955395e79715a6e2b111f7cd96cdfc53ff4b1531feb88b87",
+    "scripts/test-product.mjs": "8cfe49598834b443e532046929d15f1336a4f12a3457234a559b9bf3d363e01e",
+    "tests/product-release-provenance-browser.integration.mjs": "9c70842bdd190e00dacda26880ce4b963442e4d556b91b0dc9da5bbfc1c35ae"
+  }
+}

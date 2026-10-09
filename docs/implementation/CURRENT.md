@@ -1,5 +1,35 @@
 # Current engineering state
 
+## T10 merged; T11 locally verified, root review pending — 2026-10-09
+
+T10 merged through [PR #22](https://github.com/devsecopslonghn/schemaForge/pull/22) at
+`ed10fd1ba7913942cc50748473c32046f6353d20`; its four post-merge master workflows passed.
+T11 implements read-only stored release provenance using the existing API. It displays the full
+commit and separate repository ID, object format, folder, manifest digest, parser profile and exact
+import time. Retained SQL remains readable after Git becomes unavailable and the project is archived.
+The view is restricted to the currently loaded project's releases, and delayed responses after a
+project/session change stay hidden.
+
+Local verification in `/home/longhn0710/workspace/schemaforge-product-release-provenance`, branch
+`development/product-release-provenance`, based on checkpoint `cba109f4a4ccd043ab142744b03874d8b695122b`:
+`npm run check` 141/141, `npm run test:product` 21/21 and `npm run test:browser` 9/9, all zero
+skips. The focused T11 browser regression passed 1/1. Evidence is indexed as
+`product-t11-release-provenance-local-verified` at
+`evidence/product/product-t11-release-provenance-20261009T050150Z/record.json`. T11 is a partial
+GIT-006 display increment; this makes no full-catalog or Oracle claim. Root owns exact-head review/publication; resolve this increment’s PR/head/merge and
+post-merge workflows through Git/GitHub before resuming. **SF-PRODUCT-T12 — Verify retained
+release integrity before offline planning** is registered READY; `npm run next` selects T12.
+Recompute retained UTF-8 content checksums and the existing manifest before persistence under
+scoped row locks. No Git/Oracle reads, schema change, or full raw-byte retention claim.
+
+The original hygiene report crosscheck is COMPLETE: root and native Security verified all four
+redacted original metadata matches against the independent classification; no actual credential or
+rotation was indicated. A separate hygiene branch/PR remains pending. Safe metadata is preserved in
+`evidence/product/product-t11-release-provenance-20261009T050150Z/hygiene-original-report-crosscheck-safe.json`.
+
+Sonar remains unavailable under the unchanged quota exception, never PASS. All 124 applicable
+Oracle VALIDATION cells remain BLOCKED; PRODUCT verification is separate.
+
 ## T08–T10 locally delivered; T10 root review pending — 2026-10-09
 
 T08 plan-status filters merged through PR #19 at

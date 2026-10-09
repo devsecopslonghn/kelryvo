@@ -170,7 +170,28 @@ const PRODUCT_TASK_11 = {
     "SF-PRODUCT-T11-WEB"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11];
+const PRODUCT_TASK_12 = {
+  "id": "SF-PRODUCT-T12",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Verify retained release integrity before offline planning",
+  "dependencies": [
+    "SF-PRODUCT-T11"
+  ],
+  "feature_ids": [
+    "GIT-007"
+  ],
+  "acceptance_criteria": [
+    "Authenticated offline plan creation verifies the retained UTF-8 file content, byte lengths and SHA-256 values, and reconstructs the existing format-1 manifest digest for the scoped VALID release before creating a plan. Malformed or mismatched retained data returns a fixed integrity error without plan, history or audit writes; existing validation and authorization errors remain intact.",
+    "The scoped release read and integrity checks run under a transaction and consistent project/release row locks before persistence, so concurrent stored-release changes cannot leave a checked stale snapshot. Valid retained releases remain plannable when the original repository is unavailable, and archived projects and foreign project references retain their existing boundaries. No Git read, parser replacement, schema change, credential resolution, worker execution or Oracle connection is introduced.",
+    "Real Git/PostgreSQL/parser/API/browser regressions cover unchanged retained releases, independent content/length/hash/manifest corruption, malformed metadata, concurrent mutation and fixed UI error feedback, with unchanged plan/history/audit snapshots on failure. This verifies the retained UTF-8 representation only: original arbitrary raw-byte or BOM retention, database tamper-proofing and full GIT-007/Oracle acceptance are excluded."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T12-API",
+    "SF-PRODUCT-T12-WEB"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

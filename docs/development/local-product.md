@@ -25,7 +25,10 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    or enter a manual ref, then import. Imports use the saved binding;
    unbound projects and repository/folder mismatches are rejected before Git/parser work. The server resolves a full commit and retains exact
    UTF-8 bytes, SHA-256 hashes, canonical numeric versions and ANTLR validation observations.
-   Open the SQL previews. Syntax-invalid releases remain visible and cannot produce plans.
+   Open the SQL previews. Release inspection also shows the full stored commit, durable repository ID,
+    object format, folder, manifest digest, parser profile and import time. These facts and stored SQL
+    remain available when Git is unavailable and for archived projects; a current registered name may
+    supplement the retained repository ID. Syntax-invalid releases remain visible and cannot produce plans.
 4. Select the profile and prepare an offline candidate. Review ordered files/hashes and
    `NOT_OBSERVED` target history. No target history was read, so this is not a reconciled
    execution plan and does not claim that all files are pending on a real database.
