@@ -133,3 +133,9 @@ history. T06 is BACKLOG and has no implementation or acceptance evidence yet. Us
 local organization/auth boundaries, reject terminal/archived writes and preserve threads
 for reads. Do not add attachment uploads or claim full GOV-020/project RBAC acceptance.
 Oracle VALIDATION and all 124 applicable cells remain BLOCKED.
+
+PR #13 is open for the T05 review-denial increment; current exact head/CI/merge remain
+derived from Git/GitHub. PRs #9–#13 are unmerged. The primary runnable checkout was
+started and its persisted demo produced an authenticated role denial with fixed audit
+facts while every plan/history row stayed unchanged. The dev process was stopped after
+verification; run `npm run dev` to open it again. PostgreSQL metadata remains persistent.

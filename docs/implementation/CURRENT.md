@@ -241,3 +241,9 @@ unmerged. The primary checkout advances to the verified local lineage independen
 remote merge eligibility. Next PRODUCT task is SF-PRODUCT-T06: persistent plain-text
 comments on pending plan reviews (GOV-020 partial increment); it is BACKLOG, unimplemented,
 and cannot certify full catalog acceptance. All 124 Oracle cells remain BLOCKED.
+
+PR #13 is open for the T05 review-denial increment; current exact head/CI/merge remain
+derived from Git/GitHub. PRs #9–#13 are unmerged. The primary runnable checkout was
+started and its persisted demo produced an authenticated role denial with fixed audit
+facts while every plan/history row stayed unchanged. The dev process was stopped after
+verification; run `npm run dev` to open it again. PostgreSQL metadata remains persistent.
