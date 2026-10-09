@@ -250,6 +250,7 @@ function App() {
   const sessionEpoch = useRef(0);
   const previousAuditProjectId = useRef(projectId);
   const previousReleaseBinding = useRef({ projectId: '', repositoryId: '', folder: '' });
+  const currentSourceContext = useRef(null);
   const planSourceSequence = useRef(0);
   const statementPreviewSequence = useRef(0);
   const activeSelectedPlanId = useRef('');
@@ -259,9 +260,28 @@ function App() {
     setRelease(value);
   };
 
+  const rememberSourceContext = (selectedProjectId, project) => {
+    const binding = project?.sourceBinding;
+    const next = {
+      projectId: selectedProjectId,
+      signature: JSON.stringify([selectedProjectId, binding?.repositoryId || '', binding?.folder || '',
+        binding?.generation ?? '', binding?.updatedAt || '']),
+    };
+    const previous = currentSourceContext.current;
+    if (previous?.projectId === selectedProjectId && previous.signature !== next.signature) invalidateSourceEvidence();
+    currentSourceContext.current = next;
+  };
+
+  const invalidateSourceEvidence = () => {
+    statementPreviewSequence.current += 1;
+    setStatementPreview(null);
+    setCommentEvidence([]);
+  };
+
   const clearProjectState = () => {
     activeProjectId.current = '';
     activeSelectedPlanId.current = '';
+    currentSourceContext.current = null;
     planSourceSequence.current += 1;
     statementPreviewSequence.current += 1; setStatementPreview(null);
     setProjectId(''); setDetail(null); selectRelease(null); setSelectedPlan('');
@@ -279,6 +299,7 @@ function App() {
       sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1;
       statementPreviewSequence.current += 1; setStatementPreview(null);
       activeProjectId.current = ''; activeSelectedPlanId.current = '';
+      currentSourceContext.current = null;
       setActor(null); setToken(''); setTokenInput(''); setProjects([]); setRepositories([]); setProjectId(''); setDetail(null);
       selectRelease(null); setSelectedPlan(''); setPlanSource(null); setFreshPlanRequired(null); setPlanStatus('ALL'); setAuditAction('ALL');
       setDecisionReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' });
@@ -302,6 +323,7 @@ function App() {
 
   const selectProject = (nextId) => {
     const alreadySelected = nextId === projectId;
+    if (!alreadySelected) currentSourceContext.current = null;
     activeProjectId.current = nextId;
     planSourceSequence.current += 1;
     statementPreviewSequence.current += 1; setStatementPreview(null);
@@ -345,6 +367,7 @@ function App() {
       if (nextId) {
         const result = await json(`/api/projects/${encodeURIComponent(nextId)}`, activeToken);
         if (sequence !== refreshSequence.current) return;
+        rememberSourceContext(nextId, result.project);
         setDetail(result);
         return { selectedId: nextId, detail: result };
       }
@@ -545,11 +568,17 @@ function App() {
   const saveSourceBinding = (event) => {
     event.preventDefault();
     if (!projectId || !canBindSource || isArchived || !sourceForm.repositoryId || !sourceForm.folder.trim()) return;
-    void mutate(async () => {
-      await json(`/api/projects/${encodeURIComponent(projectId)}/source`, token, {
+    const savingProjectId = projectId;
+    const savingToken = token;
+    void mutate(async (isCurrentSession) => {
+      const result = await json(`/api/projects/${encodeURIComponent(savingProjectId)}/source`, savingToken, {
         method: 'PUT', body: JSON.stringify({ repositoryId: sourceForm.repositoryId, folder: sourceForm.folder.trim() }),
       });
-    }, 'Project source binding saved.');
+      return isCurrentSession() ? result : null;
+    }, 'Project source binding saved.', (result) => {
+      if (result?.project?.id === savingProjectId) rememberSourceContext(savingProjectId, result.project);
+    }, () => {}, () => activeProjectId.current === savingProjectId
+      && projectId === savingProjectId && tokenRef.current === savingToken);
   };
   const importRelease = (event) => {
     event.preventDefault(); if (!projectId || !sourceBinding || isArchived) return;
@@ -727,6 +756,7 @@ function App() {
             if (current.project?.id !== inspectedProject || !current.plans?.some(item => item.id === inspectedPlan)) {
               throw new Error('NOT_FOUND');
             }
+            rememberSourceContext(inspectedProject, current.project);
             setDetail(current);
             setPlanSource({ planId: inspectedPlan, error: 'PLAN_SOURCE_UNAVAILABLE' });
           } catch {
@@ -789,6 +819,7 @@ function App() {
             const projectStillAuthorized = current.project?.id === inspectedProject
               && (!inspectedPlan || current.plans?.some(item => item.id === inspectedPlan));
             if (!projectStillAuthorized) throw new Error('NOT_FOUND');
+            rememberSourceContext(inspectedProject, current.project);
             setDetail(current);
             if (inspectedPlan) setPlanSource({ planId: inspectedPlan, error: 'PLAN_SOURCE_UNAVAILABLE' });
             else setStatementPreview({ releaseId, filePath, planId: '', error: 'STATEMENT_PREVIEW_UNAVAILABLE' });
@@ -850,7 +881,7 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => setTab('release')}><span>◫</span> Releases</button>
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => setTab('records')}><span>≡</span> Audit &amp; history</button>
-    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
+    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
       <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { void refresh(token); }} disabled={busy}>↻</button></div></header>

@@ -1,0 +1,5 @@
+{
+  "command": "python /tmp/schemaforge-t23-scanner.py precommit /tmp/schemaforge-t23-corrected-precommit-20261009T2000Z",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:00:07.707775+00:00"
+}

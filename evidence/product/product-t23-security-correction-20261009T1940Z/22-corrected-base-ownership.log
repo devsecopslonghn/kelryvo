@@ -1,0 +1,3 @@
+Traceback (most recent call last):
+  File "<stdin>", line 7, in <module>
+AssertionError: ['apps/web/src/app.jsx', 'docs/implementation/CONTINUE.md', 'docs/implementation/CURRENT.md', 'docs/implementation/backlog.json', 'docs/implementation/evidence-index.json', 'docs/implementation/milestone.json', 'tests/product-comments-browser.integration.mjs']

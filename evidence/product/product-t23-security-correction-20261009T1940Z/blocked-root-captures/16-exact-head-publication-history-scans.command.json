@@ -1,0 +1,5 @@
+{
+  "command": "python3 /tmp/schemaforge-t23-scanner.py publication /tmp/schemaforge-t23-publication-20261009T1933Z",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:32:48.605270+00:00"
+}

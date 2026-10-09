@@ -1,0 +1,72 @@
+{
+  "classified_at_utc": "2026-10-09T19:34:17.181803+00:00",
+  "head": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+  "publication": {
+    "files": 259,
+    "scanner_exit_code": 1,
+    "findings": 3,
+    "clean_PASS": false
+  },
+  "all_refs_history": {
+    "scanner_exit_code": 1,
+    "findings": 116,
+    "prior_exact_tuple_multiset_preserved": 115,
+    "new_exact_provenance_findings": 1,
+    "clean_PASS": false
+  },
+  "classification": [
+    {
+      "scope": "publication",
+      "commit": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+      "path": "docs/implementation/CONTINUE.md",
+      "line": 343,
+      "rule": "generic-api-key",
+      "exact_git_blob_sha256": "113c5f80278fdac3cfac90c18da63e0f90d4be3596d4b618a21271ce03257a02",
+      "matched_value_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+    },
+    {
+      "scope": "publication",
+      "commit": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+      "path": "docs/implementation/CURRENT.md",
+      "line": 343,
+      "rule": "generic-api-key",
+      "exact_git_blob_sha256": "66163a8763829ab69f619c2dac730716ec98254b8d6aa2dc0adaad11aa4c1191",
+      "matched_value_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+    },
+    {
+      "scope": "publication",
+      "commit": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+      "path": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+      "line": 416,
+      "rule": "generic-api-key",
+      "exact_git_blob_sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9",
+      "matched_value_not_printed": true,
+      "classification": "BENIGN_RECOMPUTED_IMMUTABLE_ARTIFACT_SHA256",
+      "verified_artifact": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+      "artifact_bytes_available_in_same_commit": true
+    },
+    {
+      "scope": "new_history",
+      "commit": "7c7cd5df8062e265ed9985a6389a3e87c455c6c5",
+      "path": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+      "line": 416,
+      "rule": "generic-api-key",
+      "exact_git_blob_sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9",
+      "matched_value_not_printed": true,
+      "classification": "BENIGN_RECOMPUTED_IMMUTABLE_ARTIFACT_SHA256",
+      "verified_artifact": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+      "artifact_bytes_available_in_same_commit": true
+    }
+  ],
+  "actual_credentials_observed": false,
+  "rotation_indicated": false,
+  "history_or_scanner_changes": false,
+  "limitations": [
+    "Prior independent115 classifications retain8 inherited earlier uncommitted source-byte availability limits; no recomputation or final-attestation claim for missing bytes.",
+    "T23 early mutable UI snapshot earlier bytes unavailable; early review was not exact-head approval. This metadata generated no new official finding.",
+    "Native14 raw captures preserve original errors and5 early browser missing command/time/exit metadata. No reconstruction or clean-scan PASS.",
+    "Fresh exact-head independent QA/security/license and CI remain required. Sonar unavailable never PASS; Oracle VALIDATION independent BLOCKED."
+  ]
+}

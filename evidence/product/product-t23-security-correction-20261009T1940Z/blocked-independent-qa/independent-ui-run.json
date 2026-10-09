@@ -1,0 +1,9 @@
+{
+  "command": "env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node /tmp/sf-product-t23-exactqa-20261009T193431Z-31897017/stale-intent-ui.mjs",
+  "started_at_utc": "2026-10-09T19:38:25.776225+00:00",
+  "ended_at_utc": "2026-10-09T19:38:45.022243+00:00",
+  "exit_code": 0,
+  "raw_path": "/tmp/sf-product-t23-exactqa-20261009T193431Z-31897017/independent-ui.raw.log",
+  "raw_sha256": "be441386c4733faa5965437409ec4e954ebb7286a3b2dd5a94d94eb4d3e0f4a9",
+  "raw_bytes": 802
+}

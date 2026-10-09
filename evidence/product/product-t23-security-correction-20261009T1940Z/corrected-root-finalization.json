@@ -1,0 +1,22 @@
+{
+  "recorded_at_utc": "2026-10-09T20:01:01.824876+00:00",
+  "source_files": 12,
+  "frozen_source_unchanged": true,
+  "root_tracker_tests": 21,
+  "root_lint_format_scoped_diff": "PASS",
+  "initial_precommit": {
+    "files": 300,
+    "scanner_exit_code": 1,
+    "findings": 4,
+    "exact_provenance_classified": true,
+    "clean_PASS": false,
+    "actual_credentials_observed": false
+  },
+  "root_preparation_limits": [
+    "Initial external script generation had nested quotation SyntaxError; integration capture19 consequently failed because no script existed. No repository bytes were modified by either failure. Corrected script integration20 passed.",
+    "Ownership capture22 expected ownership.json to differ, but restored VERIFIED status equals old HEAD; corrected exact seven-file diff assertion23 passed. Original failure preserved.",
+    "Initial native standard attempt failed on root Unicode serialization; canonical formatting corrected and final standard158 passed."
+  ],
+  "immutable_raw_whitespace": [],
+  "publication": "FRESH_EXACT_HEAD_QA_SECURITY_FULL_SCANS_CI_REQUIRED"
+}

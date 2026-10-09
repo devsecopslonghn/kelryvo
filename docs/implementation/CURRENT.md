@@ -1,3 +1,30 @@
+## T23 source-context correction verified locally — 2026-10-09 UTC
+
+Binding context refresh and successful source-save now compare repository/folder/generation
+and invalidate selected statement references plus delayed previews, preserving plain comment
+drafts. Real browser coverage includes generation-only refresh, held preview delivery, actual
+binding PUT and populated predecessor comment/plan/audit comparisons. Project-level binding
+audit is allowed. Initial unpushed head3df3bef was independently blocked; original passing
+results, blocked reviews and the root-caused format failure remain immutable.
+
+Corrected frozen results: standard158, real PostgreSQL/Git/parser product34, browser20,
+focused2, zero failures/skips. Root verified12 source and7 corrective capture hashes.
+Evidence: `evidence/product/product-t23-security-correction-20261009T1940Z/corrected-integration-record.json`.
+Fresh exact-head QA/security/license, complete publication/history classification and CI remain
+required before normal merge. T24 READY is registration only. Sonar unavailable never PASS;
+Oracle VALIDATION separate BLOCKED; shared checkout and Git Hygiene scope untouched.
+
+## T23 source-context cleanup correction — 2026-10-09 UTC
+
+Independent security blocked unpushed head `3df3bef0471b8a4ee41d013b8f192d9c44a85f8c`:
+source-binding changes leave unsent statement references selected. The server rejects stale
+references without writes, but the registered UI draft-clear criterion is unmet. Prior passing
+standard158/product34/browser19 and independent focused/recovery checks remain immutable;
+they do not authorize publication. A narrow UI/browser correction is active, preserving plain
+comment drafts and historical records. Fresh corrected-head reviews, scans and CI are required.
+Evidence: `evidence/product/product-t23-security-correction-20261009T1940Z/blocked-review.json`.
+T24 remains registration only. Sonar unavailable never PASS; Oracle VALIDATION separate.
+
 ## Next bounded T24 registered after T23 local verification — 2026-10-09 UTC
 
 T24 READY adds scoped keyset pagination through retained project audit events beyond the

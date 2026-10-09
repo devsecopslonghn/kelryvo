@@ -1,0 +1,20 @@
+[
+  {
+    "path": "/tmp/schemaforge-t23-correction-focused-browser-final-20261010.log",
+    "sha256": "f6945b2541e90b832edd8f3a6006ce04dac99683d70dc98cbd35925a0f3f9737",
+    "tests": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "all12_start_end_current_source_hashes_match": true
+  },
+  {
+    "path": "/tmp/schemaforge-t23-correction-product-20261010.log",
+    "sha256": "9483b95f5631618444bc63010320ab05cad63f60533607130df111d0fee1e9e7",
+    "tests": 34,
+    "passed": 34,
+    "failed": 0,
+    "skipped": 0,
+    "all12_start_end_current_source_hashes_match": true
+  }
+]

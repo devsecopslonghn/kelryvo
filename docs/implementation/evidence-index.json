@@ -2503,6 +2503,35 @@
       },
       "path": "evidence/product/product-t23-root-20261009T1845Z/integration-record.json",
       "sha256": "cffa526451abf83dbe354a69ba6201a6401f03f1b0ba34856318228a68faaec0"
+    },
+    {
+      "id": "product-t23-corrected-comment-evidence-local-verified",
+      "subject_id": "SF-PRODUCT-T23",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Corrected frozen standard158, real PostgreSQL/Git/pinned-parser product34, browser20 and focused2; root exact source/capture verification and diff review",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T23-API",
+        "SF-PRODUCT-T23-WEB",
+        "SF-PRODUCT-T23-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/schemaforge-t23-correction-browser-20261010.log",
+        "sha256": "1d72ba4da1a7e54bd5a7613f87c2d8029cf625f33d6e322cae92bfd08283072d"
+      },
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/corrected-integration-record.json",
+      "sha256": "2b67855166b5c2b1a3697ff156f01dec68730b5d0fdce7af29f9070a5217472e"
     }
   ]
 }

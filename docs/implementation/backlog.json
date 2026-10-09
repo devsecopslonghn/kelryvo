@@ -2863,6 +2863,9 @@
       "evidence": [
         {
           "index_id": "product-t23-comment-evidence-local-verified"
+        },
+        {
+          "index_id": "product-t23-corrected-comment-evidence-local-verified"
         }
       ],
       "blockers": []

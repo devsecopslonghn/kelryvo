@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t23-correction-integrate.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:59:08.808086+00:00",
+  "ended_at_utc": "2026-10-09T19:59:08.868411+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/20-integrate-corrected-regressions.log",
+    "sha256": "6c7b512f588eee1d9230f096bcdce3d8690090ac90c27a51768cfe50b10e5a87"
+  }
+}

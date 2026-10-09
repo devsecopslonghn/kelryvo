@@ -1,0 +1,201 @@
+{
+  "id": "product-t23-corrected-comment-evidence-local-verified",
+  "subject_id": "SF-PRODUCT-T23",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Corrected frozen standard158, real PostgreSQL/Git/pinned-parser product34, browser20 and focused2; root exact source/capture verification and diff review",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "test_references": [
+    "SF-PRODUCT-T23-API",
+    "SF-PRODUCT-T23-WEB",
+    "SF-PRODUCT-T23-PERSISTENCE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/schemaforge-t23-correction-browser-20261010.log",
+    "sha256": "1d72ba4da1a7e54bd5a7613f87c2d8029cf625f33d6e322cae92bfd08283072d"
+  },
+  "native_record": {
+    "path": "evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/run-record.json",
+    "sha256": "0a45083d7d4de75bdd8a7b18d4bc284124503c17abd33a8e2b52adb3f497d332"
+  },
+  "recorded_at_utc": "2026-10-09T19:59:08.850500+00:00",
+  "source_manifest": [
+    {
+      "path": "apps/api/index.ts",
+      "sha256": "8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f"
+    },
+    {
+      "path": "packages/database/index.ts",
+      "sha256": "a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d"
+    },
+    {
+      "path": "apps/web/src/app.jsx",
+      "sha256": "3f20763ffb1e6708803649eb48b0ba414d5e109928c8e372f88a9933ddeb55bf"
+    },
+    {
+      "path": "apps/web/styles.css",
+      "sha256": "66626be83c537f0662836213cd47975fc9e3ddf01ef88b6cbb38aa46d7dd86c2"
+    },
+    {
+      "path": "packages/migrations/comment-evidence.mjs",
+      "sha256": "e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70"
+    },
+    {
+      "path": "tests/product-comment-evidence-unit.test.mjs",
+      "sha256": "04a8740588e8a6a9175eb2b3ff70daf2fa1787367c0a3dfb14edc2a1ae8062a2"
+    },
+    {
+      "path": "tests/product-comments.test.mjs",
+      "sha256": "63a4354f6cab052e63d7ee6858db47a070bff4fbc34ada95efa280e9679f9724"
+    },
+    {
+      "path": "tests/product-comments-browser.integration.mjs",
+      "sha256": "d6804c3b75875c67e8b500caaa2bf6cb438c66f19fbe50875b03c3219b729a43"
+    },
+    {
+      "path": "tests/product-statement-preview.test.mjs",
+      "sha256": "cf3acc68dc1ebc3ffe671d2f25dd655a880b748623384a5deec4a4964437c4f4"
+    },
+    {
+      "path": "tests/product-protected-source-binding-browser.integration.mjs",
+      "sha256": "648136621398bd3a638488c149bc3a87fa73b80f403f0b8e7f9d49c778214d21"
+    },
+    {
+      "path": "scripts/test-product.mjs",
+      "sha256": "53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b"
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256": "3ace3e15793f6a76b2be9696596e297c0fee6abd6b83d04502fd0610e5e8f500"
+    }
+  ],
+  "raw_artifacts": [
+    {
+      "path": "/tmp/schemaforge-t23-correction-focused-browser-20261010.log",
+      "sha256": "f3f87ddfce321c5ccc93ec2621a29ac201307efd7e807bdfc9454ba74fdd74ae",
+      "bytes": 3905
+    },
+    {
+      "path": "/tmp/schemaforge-t23-correction-focused-browser-20261010-r2.log",
+      "sha256": "8845ecfad9b22feef4e994b30e7b4df946105b7253eb880d7f2f1cca58bdd9f4",
+      "bytes": 3929
+    },
+    {
+      "path": "/tmp/schemaforge-t23-correction-focused-browser-final-20261010.log",
+      "sha256": "f6945b2541e90b832edd8f3a6006ce04dac99683d70dc98cbd35925a0f3f9737",
+      "bytes": 3929
+    },
+    {
+      "path": "/tmp/schemaforge-t23-correction-standard-20261010.log",
+      "sha256": "cba15f1668d71bbefb989914954f6c8c87f54020272d059640eb56cf682e4421",
+      "bytes": 3721
+    },
+    {
+      "path": "/tmp/schemaforge-t23-correction-product-20261010.log",
+      "sha256": "9483b95f5631618444bc63010320ab05cad63f60533607130df111d0fee1e9e7",
+      "bytes": 12551
+    },
+    {
+      "path": "/tmp/schemaforge-t23-correction-browser-20261010.log",
+      "sha256": "1d72ba4da1a7e54bd5a7613f87c2d8029cf625f33d6e322cae92bfd08283072d",
+      "bytes": 10483
+    },
+    {
+      "path": "/tmp/schemaforge-t23-correction-standard-final-20261010.log",
+      "sha256": "d4fee4c54f818bd4725c704daba470ed762669dda27242a2ddc4f20afee7af52",
+      "bytes": 42200
+    }
+  ],
+  "final_runs": {
+    "focused_browser": {
+      "path": "/tmp/schemaforge-t23-correction-focused-browser-final-20261010.log",
+      "sha256": "f6945b2541e90b832edd8f3a6006ce04dac99683d70dc98cbd35925a0f3f9737",
+      "bytes": 3929,
+      "description": "final focused browser after populated predecessor and deterministic response completion",
+      "utc_start": "2026-10-09T19:45:47Z",
+      "utc_end": "2026-10-09T19:46:33Z",
+      "raw_exit": 0,
+      "tap": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "skipped": 0
+      },
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run build:web && env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-comments-browser.integration.mjs"
+    },
+    "standard": {
+      "path": "/tmp/schemaforge-t23-correction-standard-final-20261010.log",
+      "sha256": "d4fee4c54f818bd4725c704daba470ed762669dda27242a2ddc4f20afee7af52",
+      "bytes": 42200,
+      "description": "final standard check",
+      "utc_start": "2026-10-09T19:53:46Z",
+      "utc_end": "2026-10-09T19:57:15Z",
+      "raw_exit": 0,
+      "tap": {
+        "tests": 158,
+        "pass": 158,
+        "fail": 0,
+        "skipped": 0
+      },
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run check"
+    },
+    "product": {
+      "path": "/tmp/schemaforge-t23-correction-product-20261010.log",
+      "sha256": "9483b95f5631618444bc63010320ab05cad63f60533607130df111d0fee1e9e7",
+      "bytes": 12551,
+      "description": "final product suite",
+      "utc_start": "2026-10-09T19:47:03Z",
+      "utc_end": "2026-10-09T19:49:39Z",
+      "raw_exit": 0,
+      "tap": {
+        "tests": 34,
+        "pass": 34,
+        "fail": 0,
+        "skipped": 0
+      },
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run test:product"
+    },
+    "browser": {
+      "path": "/tmp/schemaforge-t23-correction-browser-20261010.log",
+      "sha256": "1d72ba4da1a7e54bd5a7613f87c2d8029cf625f33d6e322cae92bfd08283072d",
+      "bytes": 10483,
+      "description": "final browser suite",
+      "utc_start": "2026-10-09T19:49:45Z",
+      "utc_end": "2026-10-09T19:53:41Z",
+      "raw_exit": 0,
+      "tap": {
+        "tests": 20,
+        "pass": 20,
+        "fail": 0,
+        "skipped": 0
+      },
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run test:browser"
+    }
+  },
+  "behavior_coverage": [
+    "Generation-only change observed by workspace refresh clears selected reference while preserving ordinary unsent comment text.",
+    "A delayed statement preview response completes after refresh and is discarded; browser rendering settles across two animation frames before asserting absence.",
+    "Actual authorized source binding PUT changes the folder and clears selected reference while preserving ordinary comment text.",
+    "A populated predecessor body-only comment plus its rows, plan row, and predecessor plan-scoped audit rows are compared unchanged after generation-only refresh and binding update. Project-level SOURCE_BINDING_UPDATED audit event is allowed and is not asserted absent.",
+    "Stale project/session mutation responses remain guarded; explicit same-release file selection behavior is preserved."
+  ],
+  "review_history": "Initial exact head3df3bef was independently blocked before publication; immutable blocked QA/security/capture evidence remains. Registered source-context draft criterion corrected by narrow UI plus real browser regression. Fresh exact-head reviews and CI required.",
+  "limitations": [
+    "First full standard attempt exited 1 because root-owned docs/implementation/backlog.json was temporarily not canonical at format:check; root corrected it without changing the 12-source manifest, then final standard run passed.",
+    "No credentials or private config included.",
+    "The record contains no claims about project-level audit remaining unchanged; the real source-binding update may append its authorized project event.",
+    "Earlier native failed and missing captures remain in original records; no reconstruction, parser contention diagnosis or actual PG daemon restart claimed.",
+    "Protected project source binding PUT may append its own authorized project audit event. Populated predecessor plan/comment/plan audit rows remain unchanged.",
+    "No Oracle/runtime/worker authority. Sonar unavailable never PASS; history scans finding-bearing, independent classification required."
+  ]
+}

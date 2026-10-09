@@ -1,0 +1,59 @@
+UTC_START 2026-10-09T19:46:39Z
+COMMAND env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run check
+SOURCE_START
+8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f  apps/api/index.ts
+a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d  packages/database/index.ts
+3f20763ffb1e6708803649eb48b0ba414d5e109928c8e372f88a9933ddeb55bf  apps/web/src/app.jsx
+66626be83c537f0662836213cd47975fc9e3ddf01ef88b6cbb38aa46d7dd86c2  apps/web/styles.css
+e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70  packages/migrations/comment-evidence.mjs
+04a8740588e8a6a9175eb2b3ff70daf2fa1787367c0a3dfb14edc2a1ae8062a2  tests/product-comment-evidence-unit.test.mjs
+63a4354f6cab052e63d7ee6858db47a070bff4fbc34ada95efa280e9679f9724  tests/product-comments.test.mjs
+d6804c3b75875c67e8b500caaa2bf6cb438c66f19fbe50875b03c3219b729a43  tests/product-comments-browser.integration.mjs
+cf3acc68dc1ebc3ffe671d2f25dd655a880b748623384a5deec4a4964437c4f4  tests/product-statement-preview.test.mjs
+648136621398bd3a638488c149bc3a87fa73b80f403f0b8e7f9d49c778214d21  tests/product-protected-source-binding-browser.integration.mjs
+53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b  scripts/test-product.mjs
+3ace3e15793f6a76b2be9696596e297c0fee6abd6b83d04502fd0610e5e8f500  docs/development/local-product.md
+
+> schemaforge-local-development@0.0.0 check
+> npm run build && npm run lint && npm run format:check && npm test && npm run dependencies:smoke && npm run dependencies:product
+
+
+> schemaforge-local-development@0.0.0 build
+> node scripts/check-source.mjs && npm run typecheck && npm run build:web
+
+Source checks passed for 157 authored files.
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+
+> schemaforge-local-development@0.0.0 lint
+> node scripts/check-source.mjs && node scripts/tracker.mjs validate
+
+Source checks passed for 157 authored files.
+Tracker data valid: 220 features, 64 imported tasks plus foundation and 24 product tasks, 63 cases; no Oracle verification claims.
+
+> schemaforge-local-development@0.0.0 format:check
+> node scripts/format-json.mjs --check
+
+JSON formatting differs: docs/implementation/backlog.json
+RAW_EXIT 1
+UTC_END 2026-10-09T19:46:50Z
+SOURCE_END
+8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f  apps/api/index.ts
+a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d  packages/database/index.ts
+3f20763ffb1e6708803649eb48b0ba414d5e109928c8e372f88a9933ddeb55bf  apps/web/src/app.jsx
+66626be83c537f0662836213cd47975fc9e3ddf01ef88b6cbb38aa46d7dd86c2  apps/web/styles.css
+e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70  packages/migrations/comment-evidence.mjs
+04a8740588e8a6a9175eb2b3ff70daf2fa1787367c0a3dfb14edc2a1ae8062a2  tests/product-comment-evidence-unit.test.mjs
+63a4354f6cab052e63d7ee6858db47a070bff4fbc34ada95efa280e9679f9724  tests/product-comments.test.mjs
+d6804c3b75875c67e8b500caaa2bf6cb438c66f19fbe50875b03c3219b729a43  tests/product-comments-browser.integration.mjs
+cf3acc68dc1ebc3ffe671d2f25dd655a880b748623384a5deec4a4964437c4f4  tests/product-statement-preview.test.mjs
+648136621398bd3a638488c149bc3a87fa73b80f403f0b8e7f9d49c778214d21  tests/product-protected-source-binding-browser.integration.mjs
+53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b  scripts/test-product.mjs
+3ace3e15793f6a76b2be9696596e297c0fee6abd6b83d04502fd0610e5e8f500  docs/development/local-product.md
