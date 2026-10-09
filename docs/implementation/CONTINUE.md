@@ -1,5 +1,38 @@
 # Resume SchemaForge PRODUCT delivery
 
+## T13 merged and master verified; T14 ready — 2026-10-09
+
+T13 merged through [PR #25](https://github.com/devsecopslonghn/schemaForge/pull/25) at
+`a0d1fd1616bdf43126bc8481c5aae820d0736d30`, reviewed head
+`132b613ddb54dbaed62a9e3261d7b23633808cdb`. Ten PR checks and all four
+master workflows passed, with native independent QA/security approval on that exact head.
+Local checks: 142 standard, 22 PostgreSQL product, 11 browser, 21 root tracker and one
+focused browser case, zero skips. Plan review inspects its matched retained release/SQL
+through the existing API, discards stale responses and proves unchanged complete snapshots.
+Merge evidence: `evidence/product/product-t13-merge-20261009T062735Z/record.json`.
+The failed raw captures and specific TAP whitespace exceptions remain preserved/disclosed.
+
+Next: SF-PRODUCT-T14 READY, registration only, show the selected plan's matching configured
+profile/environment in review from existing scoped project data. Fresh isolated worktree:
+`/home/longhn0710/workspace/schemaforge-product-plan-target-review`, branch
+`development/product-plan-target-review`, based on the verified master above. Read AGENTS
+and exact acceptance; use a fresh bounded feature context. Label current configuration,
+omit credential references, preserve selected-plan/project/session/archive and no-write
+boundaries. No API/schema/runtime identity attestation or Oracle change is authorized.
+T14 is not implemented or verified. This checkpoint will accompany the next eligible PR.
+
+T08–T13 merged via PRs #19/#20/#22/#23/#24/#25; PR #21 recorded delivery state.
+Working-tree conflict is eliminated by dedicated PRODUCT worktrees; shared original remains
+clean and untouched at `0346300471a889ae8fd33b022b890034be08d301`.
+Hygiene original report classification COMPLETE: project UUID, two source hashes and
+synthetic malformed UNIT PEM marker; fifth match is the verified T10 evidence-log hash.
+Independent T13 publication scan: all 33 changed files, zero findings. No actual credential
+observed, no rotation indicated. No separate Hygiene branch/PR is visible, so integration
+remains pending. Preserve source, locks, licenses, grammar/evidence; no history rewrite.
+Sonar unavailable under unchanged quota exception, never PASS; Oracle VALIDATION remains
+separately BLOCKED. Bounded PRODUCT results do not certify full catalog acceptance.
+
+
 ## T13 locally verified; exact-head publication review pending — 2026-10-09
 
 Plan review now inspects its linked retained source through the existing authenticated

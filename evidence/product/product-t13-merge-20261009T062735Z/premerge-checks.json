@@ -1,0 +1,62 @@
+[
+  {
+    "bucket": "pass",
+    "link": "https://github.com/devsecopslonghn/schemaForge/runs/113698602009",
+    "name": "CodeQL",
+    "state": "SUCCESS"
+  },
+  {
+    "bucket": "pass",
+    "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37893182779/job/113698478866",
+    "name": "product",
+    "state": "SUCCESS"
+  },
+  {
+    "bucket": "pass",
+    "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37893180927/job/113698478140",
+    "name": "Analyze (java-kotlin)",
+    "state": "SUCCESS"
+  },
+  {
+    "bucket": "pass",
+    "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37893180927/job/113698478323",
+    "name": "Analyze (javascript-typescript)",
+    "state": "SUCCESS"
+  },
+  {
+    "bucket": "pass",
+    "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37893180927/job/113698478299",
+    "name": "Analyze (actions)",
+    "state": "SUCCESS"
+  },
+  {
+    "bucket": "pass",
+    "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37893182731/job/113698478396",
+    "name": "parser",
+    "state": "SUCCESS"
+  },
+  {
+    "bucket": "pass",
+    "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37893182751/job/113698478451",
+    "name": "foundation",
+    "state": "SUCCESS"
+  },
+  {
+    "bucket": "pass",
+    "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37893178679/job/113698465851",
+    "name": "parser",
+    "state": "SUCCESS"
+  },
+  {
+    "bucket": "pass",
+    "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37893178638/job/113698465774",
+    "name": "foundation",
+    "state": "SUCCESS"
+  },
+  {
+    "bucket": "pass",
+    "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37893178655/job/113698465726",
+    "name": "product",
+    "state": "SUCCESS"
+  }
+]
