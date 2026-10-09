@@ -1,0 +1,16 @@
+{
+  "id": "product-merge-checkpoint-browser-lifecycle-local",
+  "subject_id": "SF-PRODUCT-T05",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "CI=true npm run check; CI=true npm run test:browser after closing Chromium before graceful API restart",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-merge-20261009T010502Z-owner-quota/quality-repair-1/commands.json",
+    "sha256": "b4947595a0215177808c452d18bba2a99029bd25176a1af5808b1a87f65ea6cc"
+  }
+}

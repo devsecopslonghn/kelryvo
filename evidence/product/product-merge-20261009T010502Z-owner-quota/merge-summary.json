@@ -1,0 +1,63 @@
+{
+  "recorded_at": "2026-10-09T01:09:27.249429+00:00",
+  "master_after_product_batch": "60ef83466376100424e7103057c1cf5fbb2b9095",
+  "merges": [
+    {
+      "pr": 9,
+      "reviewed_head": "b3601c1ada7271673627775e72fdb26c20fe065a",
+      "merge_commit": "565c8fad999b6831ff390197f2ac03377e6ab33f",
+      "merge_tree_matches_reviewed_head": true,
+      "non_sonar_checks": "10/10 SUCCESS",
+      "sonar": "CANCELLED"
+    },
+    {
+      "pr": 10,
+      "reviewed_head": "be799cf724b0d95e78e47cf5de871f37e4279cf7",
+      "merge_commit": "1663351d3c3927a7aa671b51474ecae544253415",
+      "merge_tree_matches_reviewed_head": true,
+      "non_sonar_checks": "10/10 SUCCESS",
+      "sonar": "CANCELLED"
+    },
+    {
+      "pr": 11,
+      "reviewed_head": "0d61063c7c1f3d1a20b5b886d46393d8467b602b",
+      "merge_commit": "f108dfc4d638fec4161c340766689aa8893ffa45",
+      "merge_tree_matches_reviewed_head": true,
+      "non_sonar_checks": "10/10 SUCCESS",
+      "sonar": "CANCELLED"
+    },
+    {
+      "pr": 12,
+      "reviewed_head": "e7f91876ffaa03fb04e06d8ac25c8b553a69cddc",
+      "merge_commit": "635125c07dc2df109b2ece8c6e4a77ebac42511e",
+      "merge_tree_matches_reviewed_head": true,
+      "non_sonar_checks": "10/10 SUCCESS",
+      "sonar": "NOT_REPORTED"
+    },
+    {
+      "pr": 13,
+      "reviewed_head": "ac8779cb57eee31dbac3169be016bad925d08e18",
+      "merge_commit": "60ef83466376100424e7103057c1cf5fbb2b9095",
+      "merge_tree_matches_reviewed_head": true,
+      "non_sonar_checks": "10/10 SUCCESS",
+      "sonar": "NOT_REPORTED"
+    }
+  ],
+  "security_open_alerts": {
+    "code-scanning": [],
+    "secret-scanning": [],
+    "dependabot": []
+  },
+  "sonar_waiver_source": "Owner confirmed exhausted free LOC quota and explicitly instructed this merge batch",
+  "sonar_pass_claim": false,
+  "merge_mode": "ordinary merge commits; no admin override, ruleset/protection changes, force push or threshold changes",
+  "initial_guard_stop": "After PR9, cached PR baseRefOid lagged the authoritative master ref; the batch stopped before PR10, then rechecked the authoritative ref and predicted tree and resumed. No failing CI check was waived beyond owner-authorized Sonar unavailability.",
+  "oracle_acceptance": "BLOCKED",
+  "catalog_acceptance": "unchanged",
+  "next_product_task": "SF-PRODUCT-T06",
+  "postmerge_master_ci": {
+    "path": "evidence/product/product-merge-20261009T010502Z-owner-quota/postmerge-ci.json",
+    "sha256": "a6a67657c67addaafca4183dd0607a03d10989bce9d0dd8a0b399171cc00d980",
+    "all_four_workflows": "SUCCESS"
+  }
+}

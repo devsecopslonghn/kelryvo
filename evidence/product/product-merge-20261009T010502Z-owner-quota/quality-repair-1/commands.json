@@ -1,0 +1,59 @@
+{
+  "recorded_at": "2026-10-09T01:24:36.769082+00:00",
+  "original_failure": {
+    "run": 37868864164,
+    "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37868864164",
+    "reviewed_head": "d08669264130370a51d1da80a0202fdb04a19043",
+    "outcome": "FAIL",
+    "main_browser_case": "120000ms timeout; cancellation counted and process exited 1",
+    "other_browser_cases": "2 PASS",
+    "parallel_pr_product_run": {
+      "run": 37868881201,
+      "outcome": "PASS"
+    },
+    "raw_output": {
+      "path": "evidence/product/product-merge-20261009T010502Z-owner-quota/quality-repair-1/original-ci-failure.log.gz",
+      "sha256": "296d80174d172caed5ac4b46bfccf04630d573564be4f9afaf7d30646e88206c",
+      "encoding": "gzip; original CI bytes retained exactly",
+      "uncompressed_sha256": "c796aa25bf1eb6eb574e2239b0aa5bc4648cb00ee672ca9c154dcfbf5b68956f"
+    }
+  },
+  "native_socket_observation": {
+    "scope": "Standalone pinned Fastify app, unused loopback TCP connection, no database",
+    "raw_capture": "Not retained separately; native tool observation only, not acceptance evidence",
+    "result": "app.close still pending after 250ms; destroying client socket allowed close to resolve"
+  },
+  "repair": "Test-only close original Chromium before graceful API shutdown; launch fresh browser for post-restart UI checks against same PostgreSQL database; add precise phase diagnostics",
+  "original_ci_root_cause": "NOT_CONFIRMED",
+  "unchanged": [
+    "production source",
+    "workflow/test timeout thresholds",
+    "all existing browser assertions",
+    "original Oracle/catalog acceptance"
+  ],
+  "commands": [
+    {
+      "command": "CI=true npm run check",
+      "exit_code": 0,
+      "passed": 138,
+      "failed": 0,
+      "skipped": 0,
+      "raw_output": {
+        "path": "evidence/product/product-merge-20261009T010502Z-owner-quota/quality-repair-1/check.log",
+        "sha256": "7184f762f5e75caaf2d9dfc7d58f48d6f7d134b0f796c276794dd8b27c7a3101"
+      }
+    },
+    {
+      "command": "CI=true npm run test:browser",
+      "exit_code": 0,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "raw_output": {
+        "path": "evidence/product/product-merge-20261009T010502Z-owner-quota/quality-repair-1/browser.log",
+        "sha256": "03fd045c26cfe0fe64e3ebdcfb0400d263c3aba51fe2656082b8c2fd1a4f9f55"
+      }
+    }
+  ],
+  "authority": "Existing dedicated local PostgreSQL and pinned parser/JDK; no Oracle connection or credential-reference resolution"
+}

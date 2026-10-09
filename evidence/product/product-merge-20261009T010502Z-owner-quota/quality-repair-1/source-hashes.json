@@ -1,0 +1,28 @@
+{
+  "files": [
+    {
+      "path": "tests/product-browser.integration.mjs",
+      "sha256": "3c37643aa33cd0567bbfa69e79c6a540f8da5d7975954b82b540da90bde1025f"
+    },
+    {
+      "path": "tests/product-archive-browser.integration.mjs",
+      "sha256": "2e4f4a5075fa7ff9a81a1267b86071bf240416fdcd76a864b9764dfe7fa81e96"
+    },
+    {
+      "path": "apps/api/index.ts",
+      "sha256": "5cc5f2a745dc3633082b323d627c6c8ab8dee0a01834889306d79b0a3d72f0b6"
+    },
+    {
+      "path": "apps/api/server.ts",
+      "sha256": "2275703276491f9beb19e9b9808135942f383afe4419de7d241a43950b476f05"
+    },
+    {
+      "path": "apps/web/src/app.jsx",
+      "sha256": "4d01745c1927c486e3cdae2321ee3af2f700372f937af8de49de5648b66a0d67"
+    },
+    {
+      "path": "packages/database/index.ts",
+      "sha256": "a32e49b40652be36a82973e26a801fbd65ece3c515f42c8b8dcdc065e5d4fdc2"
+    }
+  ]
+}

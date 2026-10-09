@@ -1356,6 +1356,42 @@
       },
       "path": "evidence/product/product-t05-review-audit-20261009T001803Z-75210e75/quality-repair-1/record.json",
       "sha256": "b8224682ff42fcedf83a6a0f366728e79786704fd6145e01e600403e3b73b505"
+    },
+    {
+      "id": "product-t01-t05-owner-authorized-merge-batch",
+      "subject_id": "SF-PRODUCT-T05",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head CI/security/review/tree inspection followed by ordinary gh pr merge #9 through #13 under the owner-confirmed Sonar quota exception",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-merge-20261009T010502Z-owner-quota/merge-summary.json",
+        "sha256": "fe70790973ced3894493925278c0c28029494b9066e4b36e9b269e40439659ab"
+      },
+      "path": "evidence/product/product-merge-20261009T010502Z-owner-quota/record.json",
+      "sha256": "3cbb099906451f4d4930a021f65f149adcbfa51ba96816a4a849b3507f617e86"
+    },
+    {
+      "id": "product-merge-checkpoint-browser-lifecycle-local",
+      "subject_id": "SF-PRODUCT-T05",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "CI=true npm run check; CI=true npm run test:browser after closing Chromium before graceful API restart",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-merge-20261009T010502Z-owner-quota/quality-repair-1/commands.json",
+        "sha256": "b4947595a0215177808c452d18bba2a99029bd25176a1af5808b1a87f65ea6cc"
+      },
+      "path": "evidence/product/product-merge-20261009T010502Z-owner-quota/quality-repair-1/record.json",
+      "sha256": "278e9db8c217239041ae0846cc0d435251698ba782ebc5114662fa970d4e2cde"
     }
   ]
 }

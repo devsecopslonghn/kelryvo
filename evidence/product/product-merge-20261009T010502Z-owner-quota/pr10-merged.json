@@ -1,0 +1,11 @@
+{
+  "headRefOid": "be799cf724b0d95e78e47cf5de871f37e4279cf7",
+  "mergeCommit": {
+    "oid": "1663351d3c3927a7aa671b51474ecae544253415"
+  },
+  "mergedAt": "2026-10-09T01:07:03Z",
+  "number": 10,
+  "state": "MERGED",
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/10",
+  "merge_tree": "f0eb74861c99b6575ac77a3d77dda8ea924edefc"
+}

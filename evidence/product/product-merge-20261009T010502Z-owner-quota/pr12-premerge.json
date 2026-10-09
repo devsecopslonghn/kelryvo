@@ -1,0 +1,114 @@
+{
+  "baseRefName": "master",
+  "baseRefOid": "f2b333e30cfe564b416661c693bec78b30004c33",
+  "headRefOid": "e7f91876ffaa03fb04e06d8ac25c8b553a69cddc",
+  "isDraft": false,
+  "mergeable": "UNKNOWN",
+  "number": 12,
+  "state": "OPEN",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-09T00:31:28Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37865153775/job/113610004338",
+      "name": "Analyze (actions)",
+      "startedAt": "2026-10-09T00:30:47Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-09T00:32:43Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37865158538/job/113610014768",
+      "name": "product",
+      "startedAt": "2026-10-09T00:30:49Z",
+      "status": "COMPLETED",
+      "workflowName": "Local PRODUCT acceptance"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-09T00:32:33Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37865152895/job/113609996456",
+      "name": "product",
+      "startedAt": "2026-10-09T00:30:44Z",
+      "status": "COMPLETED",
+      "workflowName": "Local PRODUCT acceptance"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-09T00:33:01Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37865158554/job/113610014709",
+      "name": "parser",
+      "startedAt": "2026-10-09T00:30:49Z",
+      "status": "COMPLETED",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-09T00:33:21Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37865152861/job/113609996439",
+      "name": "parser",
+      "startedAt": "2026-10-09T00:30:45Z",
+      "status": "COMPLETED",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-09T00:31:50Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37865158546/job/113610014717",
+      "name": "foundation",
+      "startedAt": "2026-10-09T00:30:49Z",
+      "status": "COMPLETED",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-09T00:31:40Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37865152835/job/113609996023",
+      "name": "foundation",
+      "startedAt": "2026-10-09T00:30:44Z",
+      "status": "COMPLETED",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-09T00:32:02Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37865153775/job/113610004518",
+      "name": "Analyze (java-kotlin)",
+      "startedAt": "2026-10-09T00:30:47Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-09T00:31:57Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37865153775/job/113610004517",
+      "name": "Analyze (javascript-typescript)",
+      "startedAt": "2026-10-09T00:30:47Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-09T00:31:20Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/runs/113610153780",
+      "name": "CodeQL",
+      "startedAt": "2026-10-09T00:31:17Z",
+      "status": "COMPLETED",
+      "workflowName": ""
+    }
+  ],
+  "checked_authoritative_base": "f108dfc4d638fec4161c340766689aa8893ffa45",
+  "verified_merge_tree": "53bff78bfcf60b3fe690ed4988d4f340cc0b8073",
+  "review_threads": []
+}
