@@ -98,6 +98,15 @@
     },
     {
       "index_id": "product-t09-audit-action-filters-local-verified"
+    },
+    {
+      "index_id": "product-t08-merge-master-verified"
+    },
+    {
+      "index_id": "product-t09-merge-master-verified"
+    },
+    {
+      "index_id": "product-delivery-t10-registration-checkpoint-verified"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -109,7 +118,14 @@
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
   "product_features_verified": 0,
-  "next_actionable_tasks": [],
+  "next_actionable_tasks": [
+    {
+      "id": "SF-PRODUCT-T10",
+      "owner": "backend",
+      "status": "READY",
+      "action": "Select local Git branches and tags for immutable release imports"
+    }
+  ],
   "blocked_inputs_evidence": {
     "index_id": "WP0-T01-INPUTS-20261008T094757Z-c4b97e39"
   },
@@ -119,27 +135,27 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-09T04:04:49Z",
+  "updated_at": "2026-10-09T04:14:25.414506+00:00",
   "final_check_evidence": {
-    "index_id": "product-t09-audit-action-filters-local-verified"
+    "index_id": "product-delivery-t10-registration-checkpoint-verified"
   },
-  "final_check_manifest": "evidence/product/product-t09-audit-action-filters-20261009T040052Z/record.json",
+  "final_check_manifest": "evidence/product/product-delivery-checkpoint-20261009T041100Z/record.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
-  "latest_validated_master_before_this_increment": "577124f1b15058000fa89e5a17074992435efcd9",
-  "last_merged_implementation_pr": 19,
-  "checkpoint_evidence": "evidence/product/product-t09-audit-action-filters-20261009T040052Z/record.json",
-  "implementation_prs_pending": [
-    "SF-PRODUCT-T09"
+  "latest_validated_master_before_this_increment": "d970375e15706d4718a2e30f8b6754f17f4e7418",
+  "last_merged_implementation_pr": 20,
+  "checkpoint_evidence": "evidence/product/product-t09-merge-20261009T040900Z/record.json",
+  "implementation_prs_pending": [],
+  "next_fully_unblocked_tasks": [
+    "SF-PRODUCT-T10"
   ],
-  "next_fully_unblocked_tasks": [],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
-    "reason": "PRODUCT T01–T05 merged with passing non-Sonar CI and owner-authorized Sonar availability exception; independent PRODUCT delivery continues, Oracle VALIDATION remains blocked."
+    "reason": "T08/T09 delivered independently; T10 READY. Hygiene PR and original report crosscheck pending; Oracle acceptance remains separate."
   },
-  "current_increment_merge_status": "T09_VERIFIED_LOCAL_AWAITING_ROOT_REVIEW",
-  "current_checkpoint_branch": "development/product-audit-action-filters",
+  "current_increment_merge_status": "T08_T09_MERGED_MASTER_VERIFIED_DELIVERY_CHECKPOINT_PENDING",
+  "current_checkpoint_branch": "development/product-delivery-state",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -187,9 +203,16 @@
     }
   },
   "git_hygiene": {
-    "status": "PENDING_BRANCH_PR_AND_EXACT_FINDING_REPORT",
+    "status": "PENDING_OTHER_SESSION_BRANCH_PR_AND_ORIGINAL_REPORT_CROSSCHECK",
+    "independent_history_scan": "Gitleaks 8.30.1 official checksum verified; four findings classified at exact provenance: one project UUID, two verified source SHA256 hashes, one malformed synthetic UNIT test PEM marker. No actual credential observed.",
+    "finding_metadata": "evidence/product/product-t08-merge-20261009T035130Z/gitleaks-provenance.json",
+    "original_verbal_grouping_differs": true,
+    "rotation_indicated_by_independent_scan": false,
     "shared_checkout_modified": false,
     "history_rewritten": false,
-    "historical_gitleaks_findings": "Incomplete classification; synthetic runtime-generated key markers observed, two API-key-pattern evidence hits lack provenance."
-  }
+    "broad_allowlist_added": false
+  },
+  "current_increment_pr": 20,
+  "current_increment_reviewed_head": "5be1428ef6ab810a28e5de97af65c45969d90dad",
+  "current_increment_merge_commit": "d970375e15706d4718a2e30f8b6754f17f4e7418"
 }

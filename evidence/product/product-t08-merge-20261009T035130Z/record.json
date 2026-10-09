@@ -1,0 +1,53 @@
+{
+  "id": "product-t08-merge-master-verified",
+  "subject_id": "SF-PRODUCT-T08",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact-head PR/check/security/license/native QA review; ordinary gh pr merge #19 --merge --match-head-commit; verify four master workflows; independent redacted Gitleaks full-history provenance classification",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t08-merge-20261009T035130Z/master-workflows.json",
+    "sha256": "df4d759f5565a9172606008149ada99570a769c6fb940c665ecfd2ea8495717f"
+  },
+  "reviewed_head": "58e5deb41e5d001474cf6bc46917ef7f3dab0c7b",
+  "master_merge": "577124f1b15058000fa89e5a17074992435efcd9",
+  "pr": 19,
+  "native_reviews": {
+    "qa": "APPROVED exact58e5deb, all T08 criteria and final drafts/tracker checks; no blockers.",
+    "security_license": "APPROVED exact58e5deb; all26 changed tracked paths scanned; no credential patterns, API/query/license/third-party sources unchanged."
+  },
+  "ci": {
+    "passing_checks": 10,
+    "master_workflows": 4,
+    "sonar": "UNAVAILABLE_OWNER_CONFIRMED_QUOTA_NOT_PASS"
+  },
+  "hygiene": {
+    "pr_visible": false,
+    "findings_classified": 4,
+    "classification": "One project UUID, two verified SHA256 source integrity hashes, one malformed synthetic test PEM marker; no real credentials found, no rotation indicated.",
+    "provenance_path": "evidence/product/product-t08-merge-20261009T035130Z/gitleaks-provenance.json",
+    "provenance_sha256": "3b9b539feceaa3d3408ef02d4c5a079ca938be478ef038f09d131d0895766d97",
+    "hygiene_integration": "PENDING_OTHER_SESSION_BRANCH_PR",
+    "history_rewritten": false,
+    "broad_allowlist_added": false
+  },
+  "ownership": {
+    "shared_checkout_modified": false,
+    "product_worktree_isolated": true,
+    "accidental_cross_session_files": false
+  },
+  "publication_review_notes": [
+    "Immutable raw initial-failure test logs retain trailing whitespace; authored diff whitespace check excluding evidence passes.",
+    "No scanner thresholds, branch protection or required failing check bypassed.",
+    "GitHub code, secret and Dependabot alerts empty at snapshot; not a substitute for historical provenance classification."
+  ],
+  "limitations": [
+    "Oracle VALIDATION BLOCKED independently; no Oracle execution or deployment.",
+    "Sonar unavailable, never PASS.",
+    "No hygiene PR existed to review or merge at this snapshot."
+  ]
+}

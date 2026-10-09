@@ -1231,6 +1231,10 @@
     "SF-PRODUCT-T09": {
       "assigned_agent": "frontend",
       "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T10": {
+      "assigned_agent": "backend",
+      "status": "READY"
     }
   }
 }

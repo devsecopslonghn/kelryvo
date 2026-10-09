@@ -1,5 +1,51 @@
 # Resume SchemaForge PRODUCT delivery
 
+## T08/T09 merged and verified; next PRODUCT task T10 READY — 2026-10-09
+
+T08 plan-status filters merged through PR #19 at
+`577124f1b15058000fa89e5a17074992435efcd9`; T09 recent audit-action filters merged
+through PR #20 at `d970375e15706d4718a2e30f8b6754f17f4e7418`. Each exact head had
+ten passing non-Sonar checks and independent QA/security/license approval. All four
+master workflows passed on each implementation merge. Dedicated PRODUCT worktrees
+eliminated working-tree conflicts; the shared checkout remains untouched on its original
+`0346300471a889ae8fd33b022b890034be08d301` master for the concurrent hygiene session.
+
+PRODUCT T01–T09 are VERIFIED_LOCAL. T08 tested actual pending/approved/rejected plans,
+ordered project-scoped subsets, drafts, retained comments/decisions and archived reads.
+T09 preserves audit facts/order/history and resets filters on explicit/automatic project
+changes, sign-out and recent-action eviction. Final checks: 140/140 standard, 20/20
+PostgreSQL/product and 7/7 browser workflows, zero skips. Initial observations are separate
+from PASS; see the immutable evidence runs and indexed post-merge records.
+
+Git Hygiene integration is pending: no branch/PR was visible. Official checksum-verified
+Gitleaks 8.30.1 independently reproduced four history matches with exact provenance: one
+project UUID, two hashes verified against their exact source blob, and one malformed
+synthetic UNIT PEM fixture. No actual credential was observed or rotation indicated. The
+independent scan groups them differently from the earlier verbal summary; compare the
+other session’s original redacted report before closing its audit. Never print values,
+broadly allowlist findings or rewrite public history. Any hygiene PR still requires source/
+lockfile/immutable-evidence preservation, independent security review and passing CI.
+Provenance: `evidence/product/product-t08-merge-20261009T035130Z/gitleaks-provenance.json`.
+
+`npm run next` selects **SF-PRODUCT-T10 — Select local Git branches and tags for immutable
+release imports** (READY, backend, GIT-004 partial). Start a fresh isolated worktree from
+latest `origin/master`; read its tracker acceptance. List only bounded safe refs from the
+project-bound registered local repository, preserve HEAD/manual refs, and reuse existing
+immutable import/parser behavior. No provider authentication/clone, arbitrary caller paths,
+worker execution or Oracle connection. T10 is registered only; implementation is outstanding.
+
+Continuation worktree: `/home/longhn0710/workspace/schemaforge-product-status-filters`,
+branch `development/product-delivery-state`. Check Git/GitHub before resuming and leave
+the shared checkout alone while hygiene owns it. Do not run fresh-worktree local dev setup
+against another checkout’s owned demo container. PRODUCT tests used a separately owned
+loopback PostgreSQL container `schemaforge-product-t08-tests` and isolated test databases.
+The existing demo metadata/config were not modified. This checkpoint’s own PR/head/merge
+and workflows must be resolved from Git/GitHub; the master SHA above identifies its
+verified preceding implementation and is not a self-reference.
+
+Sonar remains unavailable under the unchanged owner quota exception, never PASS.
+Oracle VALIDATION and all 124 applicable cells remain BLOCKED independently.
+
 ## SF-PRODUCT-T09 verified locally; root review pending — 2026-10-09
 
 T08 merged through PR #19 at 577124f1b15058000fa89e5a17074992435efcd9; root reports all four post-merge workflows passed. T09 adds read-only All/action filters to the existing recent project audit timeline. Action choices come only from the selected project's scoped recent audit rows; server ordering and immutable audit data remain intact. The selected action resets on explicit project changes, sign-out, disappearance from the recent-action list, and automatic project fallback. Archived project reads remain available.

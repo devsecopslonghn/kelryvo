@@ -1,0 +1,24 @@
+{
+  "id": "product-delivery-t10-registration-checkpoint-verified",
+  "subject_id": "SF-PRODUCT-T09",
+  "kind": "STATIC",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check (PostgreSQL enabled); tracker validate/next; authored diff review; register bounded T10 contract without claiming implementation",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-delivery-checkpoint-20261009T041100Z/checks.log",
+    "sha256": "34f9f6f9954ef2ee4d600dbb5e32d1196f09e156cd4281cd73c738b9369b22c7"
+  },
+  "baseline_master": "d970375e15706d4718a2e30f8b6754f17f4e7418",
+  "standard_pass": 140,
+  "skipped": 0,
+  "next_product_task": "SF-PRODUCT-T10",
+  "next_product_status": "READY_UNIMPLEMENTED",
+  "t10_feature": "GIT-004 bounded local branch/tag choices, full immutable import reuse; no provider clone/auth or Oracle execution",
+  "hygiene": "Independent Gitleaks four matches classified benign at exact provenance; hygiene PR and original report crosscheck pending.",
+  "shared_checkout": "Untouched original master0346300, no stage/stash/reset/switch/commit of external session work."
+}
