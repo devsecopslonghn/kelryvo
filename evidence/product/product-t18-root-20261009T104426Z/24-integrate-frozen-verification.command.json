@@ -1,0 +1,5 @@
+{
+  "command": "python3 /tmp/schemaforge-t18-integrate.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T11:55:02.960057+00:00"
+}

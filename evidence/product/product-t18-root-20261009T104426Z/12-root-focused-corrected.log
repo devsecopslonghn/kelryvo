@@ -1,0 +1,35 @@
+TAP version 13
+# Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+not ok 1 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+  ---
+  duration_ms: 14733.39514
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-plan-resubmission/tests/product-plan-resubmission-browser.integration.mjs:14:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.fill: Error: strict mode violation: getByLabel('Comment') resolved to 2 elements:
+        1) <section class="comments-section" aria-label="Plan comments">…</section> aka getByRole('region', { name: 'Plan comments' })
+        2) <textarea required="" maxlength="4000" id="plan-comment" placeholder="Add a plain-text review comment"></textarea> aka getByRole('textbox', { name: 'Comment' })
+    
+    Call log:
+    [2m  - waiting for getByLabel('Comment')[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-plan-resubmission/tests/product-plan-resubmission-browser.integration.mjs:170:38)
+  ...
+# Subtest: rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+ok 2 - rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+  ---
+  duration_ms: 8288.976305
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 23929.595959

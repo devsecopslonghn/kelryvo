@@ -1,0 +1,5 @@
+{
+  "command": "set -e; SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --input-type=module - <<\"JS\"\nimport {prepareDemoRepository} from \"./scripts/local-resources.mjs\";\nimport {importGitRelease} from \"./packages/migrations/import-release.mjs\";\nconst r=await importGitRelease({repositoryPath:await prepareDemoRepository(),commit:\"HEAD\",folder:\"migrations\"});\nconsole.log(JSON.stringify({validationStatus:r.validationStatus,validationCode:r.validationCode,files:r.files.map(f=>({path:f.path,validationStatus:f.validationStatus,statementCount:f.statementCount}))}));\nif(r.validationStatus!==\"VALID\")process.exitCode=1;\nJS\nSCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --test --test-concurrency=1 tests/product-api.test.mjs tests/product-approval-integrity.test.mjs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T11:42:35.155555+00:00"
+}

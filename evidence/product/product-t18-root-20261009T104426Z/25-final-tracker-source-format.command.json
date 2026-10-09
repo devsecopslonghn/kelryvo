@@ -1,0 +1,5 @@
+{
+  "command": "set -e; node --test tests/tracker.test.mjs; node scripts/tracker.mjs validate; node scripts/check-source.mjs; node scripts/format-json.mjs --check; git diff --check -- apps/web/src/app.jsx scripts/test-product.mjs docs/development/local-product.md docs/implementation tests/product-plan-resubmission.test.mjs tests/product-plan-resubmission-browser.integration.mjs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T11:55:33.118998+00:00"
+}

@@ -1,0 +1,20 @@
+{
+  "recorded_at_utc": "2026-10-09T11:37:30.160842+00:00",
+  "handoff": "Native product_t18 terminated with workspace-credit error; no active capture/test process matched on authoritative inspection. Root resumes owned T18 source and verification.",
+  "native_completion_record": "MISSING; no final native full-check/product/browser attestation exists and none reconstructed",
+  "native_evidence": "evidence/product/product-t18-20261009T104548Z",
+  "root_changes": [
+    "Remove stray unary-plus token left in browser test",
+    "Add a real predecessor review comment and full immutable original-row checks after fresh independent decision",
+    "Assert selected approved action absent and predecessor rejected action available"
+  ],
+  "source_hashes": {
+    "apps/web/src/app.jsx": "bc78e490057586a5d77371bf6bb5ea7270da9290c7189cd67ee69e36342cb0d0",
+    "scripts/test-product.mjs": "a767b040f62d88edf3fd7f5d5f7b67e7f62b8a5ffb2d0410c7c7df8878324998",
+    "docs/development/local-product.md": "fea13d390207336b38cf755260419e100af6478775f7e3bfdc94041b26de5355",
+    "tests/product-plan-resubmission.test.mjs": "d92e67322cf5b51aaa6e5a6b6546ae05423e3e7e6ecc4fe071cc095e7159343a",
+    "tests/product-plan-resubmission-browser.integration.mjs": "5bb4efb5385fc8301733cd2b31a3f6518feb4ff49ead20efa78d29ae6e5e90ce"
+  },
+  "publication_gate": "Independent exact-head QA/security still required; credit failure is not approval",
+  "scope": "No provider change/refill/push/merge/deployment/Oracle/history rewrite."
+}

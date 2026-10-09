@@ -1,0 +1,5 @@
+{
+  "command": "set -e; PRODUCT_TEST_CPUS=$(python3 -c \"import os; print(\\\",\\\".join(map(str,sorted(os.sched_getaffinity(0))[:2])))\"); taskset --cpu-list \"$PRODUCT_TEST_CPUS\" node -e \"console.log(JSON.stringify({availableParallelism:require(\\\"node:os\\\").availableParallelism()}))\"; SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin taskset --cpu-list \"$PRODUCT_TEST_CPUS\" npm run check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T11:43:52.228430+00:00"
+}

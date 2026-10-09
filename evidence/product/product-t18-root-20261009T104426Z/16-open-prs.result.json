@@ -1,0 +1,11 @@
+{
+  "command": "gh pr list --state open --limit 100 --json number,title,headRefName,headRefOid,baseRefName,isDraft",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T11:41:05.396648+00:00",
+  "ended_at_utc": "2026-10-09T11:41:06.205366+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission/evidence/product/product-t18-root-20261009T104426Z/16-open-prs.log",
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+  }
+}

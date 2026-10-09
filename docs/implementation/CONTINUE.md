@@ -1,3 +1,53 @@
+## T18 locally verified; exact-head publication review pending — 2026-10-09
+
+T18 is locally VERIFIED in the isolated plan-resubmission worktree on verified master
+`a5e8b9f45385be3bfcfefdfcb1ca9278fb71d0d0`. Prepare new plan navigates from a
+rejected plan to its bound intake, clears inspected source and drafts, and restores All.
+Changed SQL in a new Git commit creates a distinct release, plan and retained intent;
+independent review preserves predecessor source/comments/decisions/history/audit rows.
+No API writes occur on navigation; project/plan/session/archive/unbound guards remain.
+
+Final results: standard146 with two-CPU affinity, PostgreSQL25, browser16, focused2,
+roottracker21; zero failures or skips. Root source/format/scoped diff checks pass.
+Evidence: `evidence/product/product-t18-root-20261009T104426Z/integration-record.json`. Native final completion is missing after a
+workspace-credit error; root resumed the five owned files and completed verification.
+Initial standard144/146 parser assertions remain unexplained; isolated diagnostic and
+controlled full run pass without parser logic/threshold changes. Failed raw attempts
+and overlapping native attempts remain immutable and explicitly limited.
+
+Independent exact-head QA/security, final publication scan and CI remain required
+before push/PR/merge. T19 is an unregistered GIT016 candidate, pending the owner's
+existing-plan compatibility decision; no historical source generation is reconstructed.
+Hygiene PR/branch remains absent; shared checkout/history/scanners untouched.
+Sonar unavailable, never PASS; Oracle VALIDATION and full catalog acceptance separate.
+
+## T18 root continuation after native credit failure — 2026-10-09
+
+The fresh feature agent terminated with a workspace-credit error after focused API/browser
+attempts; no final native completion or full regression proof exists. Root inspected
+current owned files and confirmed no matching live test/capture process, then continued
+local verification. All captured failures remain intact. Browser verification now includes
+real predecessor comments and immutable original-row comparisons after a fresh independent
+decision. T18 remains IN_PROGRESS; no publication or review approval claimed.
+Exact-head independent QA/security and CI remain mandatory. No provider change or
+credit spending outside the existing authorized native workflow. T19 protected-source
+compatibility decision is pending; existing-plan generations cannot be reconstructed.
+
+## T18 active in isolated worktree — 2026-10-09
+
+SF-PRODUCT-T18 is IN_PROGRESS on `development/product-plan-resubmission`, worktree
+`/home/longhn0710/workspace/schemaforge-product-plan-resubmission`, checkpoint `68d0037ec037f2dcc9d243d45aaefec4a7b34316` based on verified
+master `a5e8b9f45385be3bfcfefdfcb1ca9278fb71d0d0` (PR29). Completion checks:
+read-only rejected-plan navigation with binding/project/session/archive guards; changed
+SQL imported from a new commit yields a distinct intent-bound plan and new independent
+decision while preserving predecessor records; real API/browser and existing regressions.
+Fresh coupled native feature context owns UI, tests, driver and local docs; root owns
+contracts/tracker/integration and independent publication gates. Existing authenticated
+intake authorization is preserved for both roles. No SQL editor, durable lineage, policy
+redesign or Oracle execution. No implementation/verification claimed yet.
+Shared checkout and Hygiene scope remain untouched; no Hygiene branch/PR visible.
+Sonar unavailable, never PASS; Oracle VALIDATION separate.
+
 ## T17 merged and master verified; T18 ready — 2026-10-09
 
 T17 merged through [PR #29](https://github.com/devsecopslonghn/schemaForge/pull/29)

@@ -1,0 +1,111 @@
+TAP version 13
+# Subtest: rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+not ok 1 - rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+  ---
+  duration_ms: 8210.819381
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-plan-resubmission/tests/product-plan-resubmission.test.mjs:13:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    ... Skipped lines
+    
+    + [
+    - Result(3) [
+        {
+    +     action: 'PLAN_DECISION_DENIED',
+    +     actor_id: 'resubmit-approver-83e26001-995c-4bb6-84b8-1fc4779f5e08',
+    +     created_at: 2026-10-09T10:46:59.234Z,
+    +     facts: '{"denialReason": "DECISION_ALREADY_RECORDED"}',
+    +     id: '15443f0b-ec78-458b-91e9-b5710162f17d',
+    +     project_id: '47b419d6-859c-4249-8e52-f80c161fcdc8',
+    +     resource_id: '3cf17a2d-8f83-48a8-80ec-2dac36199f33'
+    +   },
+    +   {
+          action: 'PLAN_REJECTED',
+          actor_id: 'resubmit-approver-83e26001-995c-4bb6-84b8-1fc4779f5e08',
+          created_at: 2026-10-09T10:46:53.958Z,
+          facts: '{"reason": "The migration needs a new committed revision."}',
+          id: '1dbb3240-be20-483c-b0b6-dc0be1475e7e',
+    ...
+        },
+    -   {
+    -     action: 'PLAN_COMMENT_ADDED',
+    -     actor_id: 'resubmit-dev-3062cf6c-4be6-4398-9063-aab2cbd47c5d',
+    -     created_at: 2026-10-09T10:46:53.952Z,
+    -     facts: '{"commentId": "2ed75fda-d5e5-4a87-81a0-949a6bddbe3a"}',
+    -     id: 'fe06719b-3cb1-4d2e-af70-77724e73a229',
+    -     project_id: '47b419d6-859c-4249-8e52-f80c161fcdc8',
+    -     resource_id: '3cf17a2d-8f83-48a8-80ec-2dac36199f33'
+    -   }
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0:
+      id: '1dbb3240-be20-483c-b0b6-dc0be1475e7e'
+      project_id: '47b419d6-859c-4249-8e52-f80c161fcdc8'
+      actor_id: 'resubmit-approver-83e26001-995c-4bb6-84b8-1fc4779f5e08'
+      action: 'PLAN_REJECTED'
+      resource_id: '3cf17a2d-8f83-48a8-80ec-2dac36199f33'
+      facts: '{"reason": "The migration needs a new committed revision."}'
+      created_at: 2026-10-09T10:46:53.958Z
+    1:
+      id: '33655571-20cd-4203-a2af-7c547ec5005c'
+      project_id: '47b419d6-859c-4249-8e52-f80c161fcdc8'
+      actor_id: 'resubmit-dev-3062cf6c-4be6-4398-9063-aab2cbd47c5d'
+      action: 'PLAN_CREATED'
+      resource_id: '3cf17a2d-8f83-48a8-80ec-2dac36199f33'
+      facts: '{}'
+      created_at: 2026-10-09T10:46:53.937Z
+    2:
+      id: 'fe06719b-3cb1-4d2e-af70-77724e73a229'
+      project_id: '47b419d6-859c-4249-8e52-f80c161fcdc8'
+      actor_id: 'resubmit-dev-3062cf6c-4be6-4398-9063-aab2cbd47c5d'
+      action: 'PLAN_COMMENT_ADDED'
+      resource_id: '3cf17a2d-8f83-48a8-80ec-2dac36199f33'
+      facts: '{"commentId": "2ed75fda-d5e5-4a87-81a0-949a6bddbe3a"}'
+      created_at: 2026-10-09T10:46:53.952Z
+  actual:
+    0:
+      id: '15443f0b-ec78-458b-91e9-b5710162f17d'
+      project_id: '47b419d6-859c-4249-8e52-f80c161fcdc8'
+      actor_id: 'resubmit-approver-83e26001-995c-4bb6-84b8-1fc4779f5e08'
+      action: 'PLAN_DECISION_DENIED'
+      resource_id: '3cf17a2d-8f83-48a8-80ec-2dac36199f33'
+      facts: '{"denialReason": "DECISION_ALREADY_RECORDED"}'
+      created_at: 2026-10-09T10:46:59.234Z
+    1:
+      id: '1dbb3240-be20-483c-b0b6-dc0be1475e7e'
+      project_id: '47b419d6-859c-4249-8e52-f80c161fcdc8'
+      actor_id: 'resubmit-approver-83e26001-995c-4bb6-84b8-1fc4779f5e08'
+      action: 'PLAN_REJECTED'
+      resource_id: '3cf17a2d-8f83-48a8-80ec-2dac36199f33'
+      facts: '{"reason": "The migration needs a new committed revision."}'
+      created_at: 2026-10-09T10:46:53.958Z
+    2:
+      id: '33655571-20cd-4203-a2af-7c547ec5005c'
+      project_id: '47b419d6-859c-4249-8e52-f80c161fcdc8'
+      actor_id: 'resubmit-dev-3062cf6c-4be6-4398-9063-aab2cbd47c5d'
+      action: 'PLAN_CREATED'
+      resource_id: '3cf17a2d-8f83-48a8-80ec-2dac36199f33'
+      facts: '{}'
+      created_at: 2026-10-09T10:46:53.937Z
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-plan-resubmission/tests/product-plan-resubmission.test.mjs:107:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8430.161406

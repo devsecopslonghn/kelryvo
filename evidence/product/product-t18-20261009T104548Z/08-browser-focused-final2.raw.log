@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+ok 1 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+  ---
+  duration_ms: 15592.16471
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16287.086889

@@ -1,0 +1,11 @@
+{
+  "command": "set -e; node --test tests/tracker.test.mjs; node scripts/tracker.mjs validate; node scripts/check-source.mjs; node scripts/format-json.mjs --check; git diff --check -- apps/web/src/app.jsx scripts/test-product.mjs docs/development/local-product.md docs/implementation tests/product-plan-resubmission.test.mjs tests/product-plan-resubmission-browser.integration.mjs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T11:51:09.257850+00:00",
+  "ended_at_utc": "2026-10-09T11:51:13.371027+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission/evidence/product/product-t18-root-20261009T104426Z/23-root-tracker-source-format.log",
+    "sha256": "96a7a0d8843d18661d78ad91ddfb8a955068af8b65a1d59e720d2fc51a8fd8d4"
+  }
+}

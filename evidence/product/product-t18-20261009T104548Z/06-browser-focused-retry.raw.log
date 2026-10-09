@@ -1,0 +1,27 @@
+TAP version 13
+# Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+not ok 1 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+  ---
+  duration_ms: 36415.415833
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-plan-resubmission/tests/product-plan-resubmission-browser.integration.mjs:14:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.inputValue: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByLabel('Plan status')[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-plan-resubmission/tests/product-plan-resubmission-browser.integration.mjs:100:55)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 37458.057908

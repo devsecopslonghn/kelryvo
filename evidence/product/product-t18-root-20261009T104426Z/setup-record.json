@@ -1,0 +1,13 @@
+{
+  "recorded_at_utc": "2026-10-09T10:44:26.099617+00:00",
+  "scope": "T18 setup and T17 merge checkpoint only; T18 IN_PROGRESS, no acceptance/implementation claim",
+  "t17_master": "a5e8b9f45385be3bfcfefdfcb1ca9278fb71d0d0",
+  "local_checkpoint": "68d0037ec037f2dcc9d243d45aaefec4a7b34316",
+  "setup": "npmci completed; only pinned ignored helper/runtime jars copied with exact hashes; no credential or broad cache copies",
+  "root_fixes": [
+    "Canonical JSON formatting repair after captured first check failure",
+    "Mirrored ownership status updated after captured tracker failure"
+  ],
+  "capture_paths": "First private setup metadata retains original private paths; every same-named tracked copy hash verified. Future captures written directly here.",
+  "limitations": "Default staged diff exit2 six exact immutable raw GH usage/Git remote whitespace lines, separately classified in T17 merge evidence; no broad exceptions; original first interactive failure lacked separate capture and is candid there. No external deployment/Oracle/provider/historyrewrite."
+}

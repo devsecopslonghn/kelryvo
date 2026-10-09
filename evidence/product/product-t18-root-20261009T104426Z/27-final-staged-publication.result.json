@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t18-scan-final.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T11:58:40.967104+00:00",
+  "ended_at_utc": "2026-10-09T11:58:42.822000+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission/evidence/product/product-t18-root-20261009T104426Z/27-final-staged-publication.log",
+    "sha256": "38da03d868fa2444dbf55e55b55671901177a82d652d12ae70ce80c00a21b06a"
+  }
+}

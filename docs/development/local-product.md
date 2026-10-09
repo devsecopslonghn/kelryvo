@@ -99,6 +99,14 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    inspectable but cannot be approved. Reconfiguring a target affects new plans only.
    These local checks do not observe Oracle identity/history, revalidate at execution, or
    establish tamper resistance against a database administrator.
+   A selected rejected plan in an active project with a registered bound source also offers
+   **Prepare new plan**. This is read-only navigation into that project's release intake:
+   it clears the inspected release and unsent review drafts and restores the All plan filter.
+   Commit changed SQL and import that new commit as an immutable release before preparing
+   another candidate. The existing release, rejection, comments, decision and history remain
+   intact. The new candidate receives its own retained intent digest and requires an
+   independent decision. Archived, unbound and stale project selections do not offer the
+   action; the existing authenticated release-import and plan APIs remain the write boundary.
 6. Inspect Audit & history. Audit action filters list only actions present in the selected
    project's recent events; All actions is the default and preserves server ordering.
    Project changes and sign-out restore that default. Archived project events remain
@@ -218,6 +226,13 @@ developer- and approver-authored plans, unavailable feedback for malformed facts
 self-review controls with no decision request or record mutation, independent approval and
 rejection, and read access to terminal plans in archived projects. The API self-decision check
 continues to verify its audited `SELF_APPROVAL_DENIED` response.
+The plan-resubmission API and browser cases commit changed SQL in task-owned temporary Git
+repositories, import a distinct immutable release, create a fresh plan and retain the
+rejected predecessor. They verify the fresh intent digest and independent decision, preserve
+the predecessor's source, comments, decision, history and prior audit records, reject scoped
+cross-project/self/terminal requests, and confirm that navigation itself issues no API write.
+The browser case also checks the cleared inspection state, All filter, intake guidance, and
+archived/unbound action visibility.
 Browser downloads are separate test tools.
 
 The PRODUCT CI job supplies disposable PostgreSQL, prepares the exact helper and runs these
