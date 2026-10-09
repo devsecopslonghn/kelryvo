@@ -70,6 +70,27 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    retains plain text, the server-resolved author name and timestamp in submission order.
    Comments remain readable after approval, rejection or project archival; those states
    close the comment composer. Switching plans or projects clears an unsent comment.
+   From the exact retained plan-source statement preview, select up to eight statements to
+   attach as supplemental evidence to a plain-text comment. Each submitted tuple contains
+   only a retained file path (at most 4096 UTF-8 bytes), source byte range, source digest
+   and normalized execution digest; the serialized tuple array and persisted facts are each
+   capped at 48 KiB. The API resolves release, file, parser profile and retained format-1
+   intent digest from the locked plan and release, recomputes the pinned preview once per
+   distinct file, and saves references with the comment and audit event in one transaction.
+   Reference and audit metadata store no SQL text, arbitrary title, URL, upload or credential
+   reference. Existing plain-text comment bodies can still contain SQL as ordinary text.
+   Format 1 does not contain statement digests: these are supplemental facts recomputed from
+   retained UTF-8 bytes and do not grant execution authority. Legacy comments read with an
+   empty reference list and remain unchanged. Body-only comments remain usable on pending
+   legacy plans even when the retained intent or binding generation is unavailable; adding
+   references requires a current protected binding and intact eligible plan, otherwise
+   refresh or prepare a fresh plan and submit again. Invalid or stale attachments write no
+   comment or audit record. Explicit selections can span files of the same verified immutable
+   plan release; changing the preview file discards late previews while preserving those
+   selections. Project, plan, release, session or invalidated source changes clear unsent references;
+   reopening a saved reference requests the exact scoped retained-source preview and checks
+   its saved range and digests. This local workflow does not connect to Oracle or change
+   executable migration bytes, historical intents, decisions or history.
    Approved and rejected plans also show a read-only Decision record with the server-stored
    reviewer name and ID, decision time and plain-text reason. The reviewer name is captured
    with the decision, so later identity configuration changes do not alter attribution;

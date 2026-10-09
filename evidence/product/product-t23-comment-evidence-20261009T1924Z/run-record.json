@@ -1,0 +1,638 @@
+{
+  "record_id": "SF-PRODUCT-T23-NATIVE-EVIDENCE",
+  "captured_at_utc": "2026-10-09T19:24:21Z",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "branch": "development/product-discussion-evidence",
+  "base_head": "fe1d3a84381e5080d591ca1a43a7a9b9928f93ee",
+  "scope": "Append-only preservation of native T23 run evidence; no source/test/guide edits or reruns.",
+  "final_frozen_source_manifest": [
+    {
+      "path": "apps/api/index.ts",
+      "sha256_frozen": "8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f",
+      "same_in_all_final_runs": true
+    },
+    {
+      "path": "packages/database/index.ts",
+      "sha256_frozen": "a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d",
+      "same_in_all_final_runs": true
+    },
+    {
+      "path": "apps/web/src/app.jsx",
+      "sha256_frozen": "eda54019caed963284e223f8c8723d2b76d7c64fb113466aa82ef8e7ffa76dcc",
+      "same_in_all_final_runs": true
+    },
+    {
+      "path": "apps/web/styles.css",
+      "sha256_frozen": "66626be83c537f0662836213cd47975fc9e3ddf01ef88b6cbb38aa46d7dd86c2",
+      "same_in_all_final_runs": true
+    },
+    {
+      "path": "packages/migrations/comment-evidence.mjs",
+      "sha256_frozen": "e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70",
+      "same_in_all_final_runs": true
+    },
+    {
+      "path": "tests/product-comment-evidence-unit.test.mjs",
+      "sha256_frozen": "04a8740588e8a6a9175eb2b3ff70daf2fa1787367c0a3dfb14edc2a1ae8062a2",
+      "same_in_all_final_runs": true
+    },
+    {
+      "path": "tests/product-comments.test.mjs",
+      "sha256_frozen": "63a4354f6cab052e63d7ee6858db47a070bff4fbc34ada95efa280e9679f9724",
+      "same_in_all_final_runs": true
+    },
+    {
+      "path": "tests/product-comments-browser.integration.mjs",
+      "sha256_frozen": "54ab10e0c609dbe37d6133ea4d154c4479a1effaae86ea075b5822e7f038041a",
+      "same_in_all_final_runs": true
+    },
+    {
+      "path": "tests/product-statement-preview.test.mjs",
+      "sha256_frozen": "cf3acc68dc1ebc3ffe671d2f25dd655a880b748623384a5deec4a4964437c4f4",
+      "same_in_all_final_runs": true
+    },
+    {
+      "path": "tests/product-protected-source-binding-browser.integration.mjs",
+      "sha256_frozen": "648136621398bd3a638488c149bc3a87fa73b80f403f0b8e7f9d49c778214d21",
+      "same_in_all_final_runs": true
+    },
+    {
+      "path": "scripts/test-product.mjs",
+      "sha256_frozen": "53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b",
+      "same_in_all_final_runs": true
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256_frozen": "43ac8a6f9a1497aa21109f679d9c181bfe463895f008091a477e31301fc6f6f4",
+      "same_in_all_final_runs": true
+    }
+  ],
+  "final_runs": {
+    "product": {
+      "artifact": "raw/schemaforge-t23-product-final-20261010.log",
+      "sha256": "8a2c9d2dc432c12a47375c94951f59e56b6146c9810aef9ef4fd7a44fa7a1277",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run test:product",
+      "utc_start": "2026-10-09T19:14:18Z",
+      "actual_exit": 0,
+      "tap": {
+        "tests": 34,
+        "pass": 34,
+        "fail": 0,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:16:55Z"
+    },
+    "standard": {
+      "artifact": "raw/schemaforge-t23-standard-final-controlled-20261010.log",
+      "sha256": "5aa165d73014a3ad45ff7606405e2768c1e636b8dc875634e0916bd33817ee34",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run check",
+      "utc_start": "2026-10-09T19:17:03Z",
+      "actual_exit": 0,
+      "tap": {
+        "tests": 158,
+        "pass": 158,
+        "fail": 0,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:20:32Z"
+    },
+    "browser": {
+      "artifact": "raw/schemaforge-t23-browser-final-controlled-20261010.log",
+      "sha256": "641747d8917a970971b6447867707596c90ca9e85af7d51dc943a19260cbc64e",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run test:browser",
+      "utc_start": "2026-10-09T19:20:40Z",
+      "actual_exit": 0,
+      "tap": {
+        "tests": 19,
+        "pass": 19,
+        "fail": 0,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:24:21Z"
+    }
+  },
+  "all_available_focused_and_full_raw_logs": [
+    {
+      "artifact": "raw/schemaforge-t23-browser-focused.log",
+      "original_source": "/tmp/schemaforge-t23-browser-focused.log",
+      "sha256": "4284cc779deb9968bcddfdba2dfbeb8e0771030a057265eea02cc37731b408c1",
+      "bytes": 1030,
+      "byte_identical_to_original": true,
+      "classification": "failed focused browser attempt",
+      "diagnosis": "Preview parsed statements was not available by click timeout.",
+      "command": null,
+      "utc_start": null,
+      "actual_exit": null,
+      "tap": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "skipped": 0
+      },
+      "utc_end": null,
+      "metadata_missing_from_raw": [
+        "command",
+        "utc_start",
+        "actual_exit",
+        "utc_end"
+      ],
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 18,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "artifact": "raw/schemaforge-t23-browser-focused-retry1.log",
+      "original_source": "/tmp/schemaforge-t23-browser-focused-retry1.log",
+      "sha256": "e0b60df847feccb8903706d10df56645088a42f8d6cad5d59d44e060c73ac98b",
+      "bytes": 1030,
+      "byte_identical_to_original": true,
+      "classification": "failed focused browser retry 1",
+      "diagnosis": "Same preview-button click timeout.",
+      "command": null,
+      "utc_start": null,
+      "actual_exit": null,
+      "tap": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "skipped": 0
+      },
+      "utc_end": null,
+      "metadata_missing_from_raw": [
+        "command",
+        "utc_start",
+        "actual_exit",
+        "utc_end"
+      ],
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 18,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "artifact": "raw/schemaforge-t23-browser-focused-retry2.log",
+      "original_source": "/tmp/schemaforge-t23-browser-focused-retry2.log",
+      "sha256": "33ec63a72fa8c6b3e604595eafe1e9f1958b9857b6172b491edae80ab5d289a4",
+      "bytes": 1371,
+      "byte_identical_to_original": true,
+      "classification": "failed focused browser retry 2",
+      "diagnosis": "Timeline author assertion included the new evidence display element.",
+      "command": null,
+      "utc_start": null,
+      "actual_exit": null,
+      "tap": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "skipped": 0
+      },
+      "utc_end": null,
+      "metadata_missing_from_raw": [
+        "command",
+        "utc_start",
+        "actual_exit",
+        "utc_end"
+      ],
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 17,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 23,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "artifact": "raw/schemaforge-t23-browser-focused-retry3.log",
+      "original_source": "/tmp/schemaforge-t23-browser-focused-retry3.log",
+      "sha256": "a412f3b06e54a16014987375b687e40b447880a53d9398a1ad01994ef6e423cf",
+      "bytes": 1407,
+      "byte_identical_to_original": true,
+      "classification": "failed focused browser retry 3",
+      "diagnosis": "Adjusted author locator had the wrong nested scope.",
+      "command": null,
+      "utc_start": null,
+      "actual_exit": null,
+      "tap": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "skipped": 0
+      },
+      "utc_end": null,
+      "metadata_missing_from_raw": [
+        "command",
+        "utc_start",
+        "actual_exit",
+        "utc_end"
+      ],
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 17,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 23,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "artifact": "raw/schemaforge-t23-browser-focused-retry4.log",
+      "original_source": "/tmp/schemaforge-t23-browser-focused-retry4.log",
+      "sha256": "370575e2396101c2362cabb2e29159b7f1bd414d376abc0cc3fac4008cd228e0",
+      "bytes": 1038,
+      "byte_identical_to_original": true,
+      "classification": "failed focused browser retry 4",
+      "diagnosis": "Saved-reference reopen did not expose the preview because details remained collapsed; fixed before controlled run.",
+      "command": null,
+      "utc_start": null,
+      "actual_exit": null,
+      "tap": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "skipped": 0
+      },
+      "utc_end": null,
+      "metadata_missing_from_raw": [
+        "command",
+        "utc_start",
+        "actual_exit",
+        "utc_end"
+      ],
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 18,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "artifact": "raw/schemaforge-t23-focused-final-20261010.log",
+      "original_source": "/tmp/schemaforge-t23-focused-final-20261010.log",
+      "sha256": "9ea8a21b38f860bcb76116d0da176b382e2aeca0f6afb97c2aa34313ed128175",
+      "bytes": 4964,
+      "byte_identical_to_original": true,
+      "classification": "failed focused API/parser capture",
+      "diagnosis": "TAP 4 pass/1 fail, syntax typo in added test.",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-comment-evidence-unit.test.mjs tests/product-comments.test.mjs tests/product-statement-preview.test.mjs tests/product-statement-preview-parser.integration.mjs",
+      "utc_start": "2026-10-09T19:05:36Z",
+      "actual_exit": 1,
+      "tap": {
+        "tests": 5,
+        "pass": 4,
+        "fail": 1,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:06:11Z",
+      "metadata_missing_from_raw": [],
+      "trailing_whitespace_exceptions": []
+    },
+    {
+      "artifact": "raw/schemaforge-t23-focused-final-retry1-20261010.log",
+      "original_source": "/tmp/schemaforge-t23-focused-final-retry1-20261010.log",
+      "sha256": "225f2a123ee03ddab1b4b70db8b3dd519cdbba7721c7ecab7cc807982407c256",
+      "bytes": 4575,
+      "byte_identical_to_original": true,
+      "classification": "failed focused API/parser retry",
+      "diagnosis": "TAP 4 pass/1 fail; malformed digest types returned strict-shape 400 while test expected 422.",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-comment-evidence-unit.test.mjs tests/product-comments.test.mjs tests/product-statement-preview.test.mjs tests/product-statement-preview-parser.integration.mjs",
+      "utc_start": "2026-10-09T19:06:26Z",
+      "actual_exit": 1,
+      "tap": {
+        "tests": 5,
+        "pass": 4,
+        "fail": 1,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:07:02Z",
+      "metadata_missing_from_raw": [],
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 40,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 42,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "artifact": "raw/schemaforge-t23-comments-final-20261010.log",
+      "original_source": "/tmp/schemaforge-t23-comments-final-20261010.log",
+      "sha256": "5145638e5a0c79bc80ab637392e98ccdd3f33222ef914953e2c1dac6a28066fd",
+      "bytes": 1759,
+      "byte_identical_to_original": true,
+      "classification": "focused comments API pass",
+      "diagnosis": "Focused comments API/PostgreSQL test passed, including migration and race coverage.",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-comments.test.mjs",
+      "utc_start": "2026-10-09T19:07:24Z",
+      "actual_exit": 0,
+      "tap": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:07:26Z",
+      "metadata_missing_from_raw": [],
+      "trailing_whitespace_exceptions": []
+    },
+    {
+      "artifact": "raw/schemaforge-t23-browser-final-20261010.log",
+      "original_source": "/tmp/schemaforge-t23-browser-final-20261010.log",
+      "sha256": "514304fae991730b295e696f50841d542078e445d8eb88854ef091d728787ff7",
+      "bytes": 11517,
+      "byte_identical_to_original": true,
+      "classification": "failed full browser suite",
+      "diagnosis": "TAP 17 pass/2 fail; project change cleared source preview before a new test selection; T19 message assertion expected generation-only copy.",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 npm run test:browser",
+      "utc_start": "2026-10-09T19:07:53Z",
+      "actual_exit": 1,
+      "tap": {
+        "tests": 19,
+        "pass": 17,
+        "fail": 2,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:11:39Z",
+      "metadata_missing_from_raw": [],
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 98,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 216,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 218,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "artifact": "raw/schemaforge-t23-standard-final-20261010.log",
+      "original_source": "/tmp/schemaforge-t23-standard-final-20261010.log",
+      "sha256": "2c2479a429b79de72085dc3082ffe6d4761068fd788352a086ad919287a55759",
+      "bytes": 43191,
+      "byte_identical_to_original": true,
+      "classification": "failed standard check, required env omitted",
+      "diagnosis": "TAP 132 pass/3 fail/23 skipped; Java helper env omitted, parser/import returned UNAVAILABLE.",
+      "command": "npm run check",
+      "utc_start": "2026-10-09T19:12:15Z",
+      "actual_exit": 1,
+      "tap": {
+        "tests": 158,
+        "pass": 132,
+        "fail": 3,
+        "skipped": 23
+      },
+      "utc_end": "2026-10-09T19:13:01Z",
+      "metadata_missing_from_raw": [],
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 383,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 386,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 433,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 436,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 459,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 462,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "artifact": "raw/schemaforge-t23-standard-final-retry1-20261010.log",
+      "original_source": "/tmp/schemaforge-t23-standard-final-retry1-20261010.log",
+      "sha256": "1c3923b7adc7c75e94d113bb2ccaf79462d72d387dedf41864757758f70225c7",
+      "bytes": 47862,
+      "byte_identical_to_original": true,
+      "classification": "failed standard check, no CPU affinity",
+      "diagnosis": "TAP 150 pass/8 fail/0 skip; product cases returned INVALID or RELEASE_NOT_VALID. Parser/resource contention is an unverified hypothesis.",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 npm run check",
+      "utc_start": "2026-10-09T19:13:13Z",
+      "actual_exit": 1,
+      "tap": {
+        "tests": 158,
+        "pass": 150,
+        "fail": 8,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:14:04Z",
+      "metadata_missing_from_raw": [],
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 325,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 327,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 351,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 353,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 437,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 439,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 546,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 548,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 573,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 575,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 600,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 602,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 648,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 653,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 696,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 698,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "artifact": "raw/schemaforge-t23-product-final-20261010.log",
+      "original_source": "/tmp/schemaforge-t23-product-final-20261010.log",
+      "sha256": "8a2c9d2dc432c12a47375c94951f59e56b6146c9810aef9ef4fd7a44fa7a1277",
+      "bytes": 12530,
+      "byte_identical_to_original": true,
+      "classification": "controlled final product suite pass",
+      "diagnosis": "34 pass, 0 fail, 0 skip.",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run test:product",
+      "utc_start": "2026-10-09T19:14:18Z",
+      "actual_exit": 0,
+      "tap": {
+        "tests": 34,
+        "pass": 34,
+        "fail": 0,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:16:55Z",
+      "metadata_missing_from_raw": [],
+      "trailing_whitespace_exceptions": []
+    },
+    {
+      "artifact": "raw/schemaforge-t23-standard-final-controlled-20261010.log",
+      "original_source": "/tmp/schemaforge-t23-standard-final-controlled-20261010.log",
+      "sha256": "5aa165d73014a3ad45ff7606405e2768c1e636b8dc875634e0916bd33817ee34",
+      "bytes": 42169,
+      "byte_identical_to_original": true,
+      "classification": "controlled final standard check pass",
+      "diagnosis": "158 pass, 0 fail, 0 skip; build/lint/format/dependencies passed.",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run check",
+      "utc_start": "2026-10-09T19:17:03Z",
+      "actual_exit": 0,
+      "tap": {
+        "tests": 158,
+        "pass": 158,
+        "fail": 0,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:20:32Z",
+      "metadata_missing_from_raw": [],
+      "trailing_whitespace_exceptions": []
+    },
+    {
+      "artifact": "raw/schemaforge-t23-browser-final-controlled-20261010.log",
+      "original_source": "/tmp/schemaforge-t23-browser-final-controlled-20261010.log",
+      "sha256": "641747d8917a970971b6447867707596c90ca9e85af7d51dc943a19260cbc64e",
+      "bytes": 10159,
+      "byte_identical_to_original": true,
+      "classification": "controlled final browser suite pass",
+      "diagnosis": "19 pass, 0 fail, 0 skip.",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run test:browser",
+      "utc_start": "2026-10-09T19:20:40Z",
+      "actual_exit": 0,
+      "tap": {
+        "tests": 19,
+        "pass": 19,
+        "fail": 0,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:24:21Z",
+      "metadata_missing_from_raw": [],
+      "trailing_whitespace_exceptions": []
+    }
+  ],
+  "missing_captures": [
+    {
+      "run": "An earlier correct-env focused comments + statement-preview + parser invocation before the retained focused captures",
+      "limitation": "Process was later observed complete, but tool session stdout/TAP/exit were lost. Exact UTC boundaries, command, exit, counts and source hashes are unavailable and are not reconstructed."
+    },
+    {
+      "run": "Five early focused browser invocations represented by raw browser-focused logs",
+      "limitation": "Raw TAP is preserved, but raw logs do not contain exact command, UTC start/end, actual process exit, or source manifest; these fields remain null."
+    }
+  ],
+  "implementation_refinements": [
+    "Digest types are checked before regex in API and saved-reference UI; array/object/number negatives are tested.",
+    "Safe limits: at most 8 compact refs; file paths <=4096 UTF-8 bytes; aggregate compact request/resolved-facts budget <=48 KiB; no client SQL/title/URL/credential facts.",
+    "SF-D018: explicit refs may span multiple files within the same verified immutable release; switching preview file preserves explicit selections while stale preview responses are discarded; plan/project/release/session/source-context invalidation clears drafts.",
+    "T19 existing browser expectation was semantically aligned with retained source/binding/intent recovery text only; generation assertions and recovery behavior remain.",
+    "No Oracle, target runtime, provider, worker, deployment, production, or external infrastructure action occurred.",
+    "Documentation follow-up owned by root after handoff: clarify guide phrasing so no-SQL guarantee applies to reference/audit metadata while existing plain comment bodies may contain text; tested guide hash is the frozen manifest hash above, and subsequent docs-only hash delta should be recorded."
+  ],
+  "persistence_and_race_scope": {
+    "legacy_migration": "Real PostgreSQL integration seeded populated comments/audit, removed only evidence_refs to model legacy schema, initialized additive schema/API, and verified historical body/author/time/position/audit unchanged with empty evidenceRefs.",
+    "restart": "API was closed/restarted against the same PostgreSQL database and comment/ref reads were verified. No PostgreSQL daemon restart is claimed.",
+    "race": "Held attachment transaction through parser gate; obtained its backend PID; observed pg_blocking_pids for waiting decision include that PID; release allowed attachment commit before decision.",
+    "database_scope": "Only isolated local test DB postgres://postgres@127.0.0.1:32768/schemaforge_tests."
+  },
+  "acceptance_criterion_mapping": [
+    {
+      "criterion": 1,
+      "coverage": "Optional capped refs on pending comments, existing role/membership/privacy rules, plaintext/history compatibility, no upload/SQL/URL/credential tuple fields.",
+      "evidence": "Strict unit/API shape validation including digest array/object/number negatives; body-only works with malformed retained items; populated legacy rows preserve body/author/time/order/audit and expose []; foreign/revoked/archive/terminal paths covered."
+    },
+    {
+      "criterion": 2,
+      "coverage": "Existing plan/project/source lock order; valid format-1 intent/digest, current binding generation, plan file facts and scoped release; scalar bounds before payload; T22 parser once per path and exact ranges/digests; no historic backfill.",
+      "evidence": "API comments tests cover state validation, stale/malformed intent/items/generation and exact tuple matches; pinned parser actual integration runs in product suite; server resolves release/file/profile/intent facts."
+    },
+    {
+      "criterion": 3,
+      "coverage": "Atomic comment/ref/audit with no plan/source/intent/decision/generation/history mutation; exact attachment-vs-decision serialization.",
+      "evidence": "Invalid requests compare full populated plan/project/release/history/comment/audit snapshots; real PostgreSQL race records actual attachment backend PID and confirms pg_blocking_pids(waiter) includes it; populated legacy-schema migration tested."
+    },
+    {
+      "criterion": 4,
+      "coverage": "Exact T22 preview selection, saved facts, scoped reopen, and draft/result invalidation by changed context/session/credential.",
+      "evidence": "Chromium flow saves/renders/reopens, including fresh UI reload without Inspect; unsent selection clears on signout and plan switch; same-release explicit multi-file refs persist across current-file preview switch; project/release/session changes invalidate context."
+    },
+    {
+      "criterion": 5,
+      "coverage": "Real Git/PostgreSQL/pinned parser/API/Chromium regression with no required skips.",
+      "evidence": "Final standard 158/158, product 34/34, browser 19/19; all 0 skipped. All earlier failures copied and remain classified as failures."
+    },
+    {
+      "criterion": 6,
+      "coverage": "Bounded supplemental read-only evidence; do not change original 220 acceptance, Oracle/runtime/worker/execution scope; document safe defaults/recovery.",
+      "evidence": "Local guide records max 8, path <=4096 UTF-8 bytes, aggregate <=48 KiB and server resolution; format-1 does not contain statement hashes; no Oracle/worker/target runtime changes."
+    }
+  ],
+  "raw_copy_integrity": "All raw artifacts are byte-identical to originals. Trailing whitespace byte positions, if present, are listed per artifact and were not normalized.",
+  "publication_status": "Root owns tracker/ADR integration, final review, commit and publication."
+}

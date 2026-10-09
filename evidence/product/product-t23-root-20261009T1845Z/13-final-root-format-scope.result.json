@@ -1,0 +1,11 @@
+{
+  "command": "set -e; npm run lint; npm run format:check; git diff --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:31:32.200832+00:00",
+  "ended_at_utc": "2026-10-09T19:31:36.241412+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/13-final-root-format-scope.log",
+    "sha256": "e1f9864f6a90b6b8f43e19d71695b588f4ff48acb95b6aba5958aeb0b913ac9b"
+  }
+}

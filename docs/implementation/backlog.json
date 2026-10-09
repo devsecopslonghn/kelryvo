@@ -2847,7 +2847,7 @@
         "Extend existing pending-plan plain-text comments with optional capped structured statement references resolved from the same scoped retained release. Accept at most eight references with strictly bounded fields; fixed developer/approver roles and current explicit project membership remain authoritative. Preserve body-only comments, terminal/archive reads and fixed indistinguishable resource denials. No arbitrary upload, SQL payload, external URL or credential reference.",
         "Validate references before writes under the existing plan/project/source lock order: require a valid retained format-1 intent and digest, matching current protected binding generation, plan file facts and scoped retained release manifest. Apply database scalar size/shape bounds before payload loading and reuse T22 pinned-parser verification once per distinct file. Require exact source byte range and source/execution SHA facts; derive release/file/profile/intent facts server-side. Legacy or stale plans remain readable and body-only comment behavior remains unchanged; references require a fresh eligible plan rather than inferred or backfilled intent/generation.",
         "Persist a comment and validated supplemental reference facts atomically with existing comment audit; evidence cannot change plan items, source, intent envelope/digest, decisions, generations or execution/history. Store no SQL in reference/audit records and no arbitrary client title. Existing comments expose an empty reference list without rewriting their historical body/author/time/audit facts. Attachments cannot be edited/deleted or added after a terminal decision. A concurrent decision either follows the committed comment or causes attachment to fail without writes.",
-        "React pending-plan review can select statements from the exact verified T22 plan-source preview and attach compact descriptors to a comment. Saved references display exact path/range/digests and retained intent digest as supplemental evidence; do not claim format 1 contains statement digests. Reopening resolves the exact tuple through the authenticated scoped preview API. Plan/project/release/file/session/current credential changes discard drafts and delayed results; revoked access clears source and drafts under existing T21 guards.",
+        "React pending-plan review can select statements from the exact verified T22 plan-source preview and attach compact descriptors to a comment. Saved references display exact path/range/digests and retained intent digest as supplemental evidence; do not claim format 1 contains statement digests. Reopening resolves the exact tuple through the authenticated scoped preview API. Plan/project/release/session/current credential or invalidated source-context changes discard drafts and delayed results. Switching the displayed preview file discards late preview responses while explicit selected descriptors may span files of the same verified immutable plan release; the server revalidates all references on submission. Revoked access clears source and drafts under existing T21 guards.",
         "Real isolated Git/PostgreSQL/pinned-parser/API/Chromium tests prove valid multi-reference persistence after API/connection-pool reopen, legacy body-only compatibility, malformed/oversized/unknown fields, wrong release/path/range/digests/intent/source generation, foreign/revoked membership, archived/terminal history, and an exact-lock attachment-versus-decision race. Compare populated complete immutable-row snapshots and failed comment/audit snapshots. Retain standard, product, parser and browser regressions without skipped required cases.",
         "This bounded partial GOV-020 increment attaches supplemental read-only review evidence to existing format-1 intent; it does not alter original 220-feature acceptance, re-encode historical intent, bind statement execution authority, add arbitrary file storage, worker/dispatch, target connection or Oracle runtime verification. Document safe compatibility defaults and recovery; keep Oracle VALIDATION independently BLOCKED and Sonar unavailable never PASS."
       ],
@@ -2856,7 +2856,45 @@
         "SF-PRODUCT-T23-WEB",
         "SF-PRODUCT-T23-PERSISTENCE"
       ],
-      "status": "IN_PROGRESS",
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t23-comment-evidence-local-verified"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T24",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Page through retained project audit events",
+      "dependencies": [
+        "SF-PRODUCT-T23",
+        "SF-PRODUCT-T21",
+        "SF-PRODUCT-T09",
+        "SF-PRODUCT-T05"
+      ],
+      "feature_ids": [
+        "SEC-011"
+      ],
+      "acceptance_criteria": [
+        "Add an authenticated project-scoped read-only audit page endpoint while preserving the existing project-detail recent-100 contract. Fixed developer/approver roles and current explicit membership remain authoritative on every page; missing/foreign/revoked projects retain fixed indistinguishable denials. Authorized archived reads remain available.",
+        "Return bounded fixed-size pages in stable descending PostgreSQL (created_at,id) order using exclusive keyset pagination and limit-plus-one. Preserve exact PostgreSQL timestamp microsecond precision in cursor facts; do not round through JavaScript Date. Support a strictly bounded exact-action filter with server-owned scoped historical action choices, including actions absent from the recent 100. An additive scoped ordering index is allowed; no counter cache or historical record rewrite.",
+        "Cursors have strict bounded canonical version/project/action/time/id fields and represent only untrusted query positions, never access authority. Reject malformed, oversized, unknown-field, cross-project or filter-mismatched cursors with fixed feedback before unsafe query processing. Parameterize all SQL and recheck current authorization; no external token signing service or credentials are required.",
+        "React Records starts from the latest project audit page, offers Load older, appends stable deduplicated results and resets the cursor on project/filter/session/current credential/refresh changes. Discard delayed responses from prior contexts. Membership revocation clears prior scoped records under existing T21 recovery. Historical action filters work beyond the initial recent window; preserve immutable event labels/facts and existing offline history semantics.",
+        "Real isolated PostgreSQL/API/Chromium tests with more than 100 populated events and tied microsecond timestamps prove concatenated pages equal the exact descending server ordering without duplicates/skips; older-only action filtering, empty/final pages, malformed/oversized/cross-project/action-mismatch cursors, membership revoke between pages, archived reads, API recreation/persistence and controlled delayed responses. Compare complete retained source/plan/intent/comment/history/audit rows for no writes; keep standard/product/parser/browser regressions without skipped required cases.",
+        "This is partial SEC-011 retrieval only: original event-coverage, search, retention, export, tamper evidence and Oracle/runtime acceptance remain unchanged and unverified. No new audit actions, assignment/delegation, deployment, worker dispatch, target/credential access or execution authority. Document safe reversible cursor/migration defaults under standing autonomy; preserve Sonar unavailable never PASS and independent Oracle VALIDATION BLOCKED."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T24-API",
+        "SF-PRODUCT-T24-WEB",
+        "SF-PRODUCT-T24-PERSISTENCE"
+      ],
+      "status": "READY",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],

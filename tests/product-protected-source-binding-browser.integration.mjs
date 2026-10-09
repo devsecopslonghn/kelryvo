@@ -156,7 +156,7 @@ test('review recovers a stale pending plan through T18 intake and keeps guidance
     assert.equal(selectedDecision.status(), 409);
     assert.equal((await selectedDecision.json()).error, 'FRESH_PLAN_REQUIRED');
     await page.getByRole('alert').waitFor();
-    assert.match((await page.getByRole('alert').allTextContents())[0] || '', /no verifiable current source-binding generation/i);
+    assert.match((await page.getByRole('alert').allTextContents())[0] || '', /retained source, binding or intent facts are unavailable or stale/i);
     assert.equal(await page.getByRole('region', { name: 'Fresh plan required' }).count(), 1, 'current denial must expose scoped recovery');
     await page.getByRole('region', { name: 'Fresh plan required' }).getByText(/without editing SQL/i).waitFor();
     assert.equal(await page.getByRole('button', { name: 'Approve plan' }).isDisabled(), true);

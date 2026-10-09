@@ -165,6 +165,40 @@
         "packages/migrations/statement-preview.mjs",
         "packages/migrations/offline-plan-intent.mjs"
       ]
+    },
+    {
+      "id": "SF-D017",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T23_REFERENCE_LIMITS",
+      "accepted_at_utc": "2026-10-09T18:52:17.019886+00:00",
+      "decision": "T23 accepts at most eight strict statement descriptors, each with a retained relative file path bounded to 4096 UTF-8 bytes and the complete descriptor list bounded to 48 KiB. A 160-byte path limit would reject valid existing configured folder prefixes (up to 200 characters), so use the compatible bounded limit. Independently bound resolved stored facts before persistence; derive release, parser profile, retained source-file hash and intent digest server-side. Preserve exact existing body-only audit facts when no references are submitted. Ordinary reversible compatibility and resource limits under SF-D010; no source, historical intent or generation backfill.",
+      "references": [
+        "packages/migrations/comment-evidence.mjs",
+        "docs/development/local-product.md",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D018",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T23_MULTI_FILE_REFERENCE_DRAFT",
+      "accepted_at_utc": "2026-10-09T18:56:03.602723+00:00",
+      "decision": "Explicit T23 descriptor selections may span files of one verified immutable selected-plan release. Switching only the displayed preview file discards late preview results while preserving those explicit selections. Plan/project/release/session/token or invalidated source-context changes clear selections. Server revalidates every descriptor against fresh generation, retained intent and pinned source before persistence. This clarifies the bounded T23 draft criterion without changing original GOV-020 or 220-feature requirements; no SQL is retained in descriptors and no execution authority is added. Ordinary safe product decision under SF-D010.",
+      "references": [
+        "docs/implementation/backlog.json",
+        "apps/web/src/app.jsx",
+        "docs/development/local-product.md"
+      ]
+    },
+    {
+      "id": "SF-D019",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T24_AUDIT_PAGINATION_DEFAULT",
+      "accepted_at_utc": "2026-10-09T19:28:53.822390+00:00",
+      "decision": "Prioritize authenticated project audit keyset pagination after T23: actual current API and UI hide events older than the recent 100. Preserve the recent-window project-detail contract, add bounded descending (created_at,id) pages with exact PostgreSQL microsecond cursor facts and old-action filtering. Treat strict project/filter-bound cursors as untrusted positions, recheck current membership on every page and preserve archived reads. Add only an ordering index; no historical rewrite, search/retention/export/tamper-proof or Oracle claims. Higher coherent Database DevOps value than a summary dashboard of already reachable review state. Ordinary safe reversible priority/compatibility decision under SF-D010; original 220-feature dependencies/acceptance unchanged.",
+      "references": [
+        "docs/implementation/backlog.json",
+        "docs/inputs/db-research/product-research/feature-catalog.json",
+        "apps/api/index.ts",
+        "apps/web/src/app.jsx"
+      ]
     }
   ]
 }

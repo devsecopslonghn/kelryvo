@@ -105,12 +105,28 @@ test('plan comments remain scoped, readable, and persistent across API restart',
 
     const comments = page.getByRole('region', { name: 'Plan comments' });
     await comments.waitFor();
+    const sourcePanel = page.getByRole('region', { name: 'Plan source inspection' });
+    await sourcePanel.getByRole('button', { name: 'Inspect source', exact: true }).click();
+    await sourcePanel.locator('.sql-preview').first().waitFor();
+    await sourcePanel.locator('.sql-preview summary').first().click();
+    await sourcePanel.getByRole('button', { name: 'Preview parsed statements' }).first().click();
+    const statementResult = sourcePanel.getByRole('region', { name: 'Offline statement preview' });
+    await statementResult.getByRole('button', { name: 'Attach to comment', exact: true }).first().waitFor();
+    await statementResult.getByRole('button', { name: 'Attach to comment', exact: true }).first().click();
+    await comments.getByText(/1 statement reference selected/).waitFor();
     const composer = comments.getByLabel('Comment');
     await composer.fill(htmlText);
     await comments.getByRole('button', { name: 'Add comment', exact: true }).click();
     await waitNotice(page, 'Comment added.');
     await comments.locator('.comment-row').filter({ hasText: 'Comment developer' }).getByText(htmlText, { exact: true }).waitFor();
+    const savedReference = comments.locator('.comment-evidence');
+    await savedReference.getByText('Supplemental retained statement evidence', { exact: true }).waitFor();
+    await savedReference.getByText(/Retained intent SHA-256/).waitFor();
+    await savedReference.getByRole('button', { name: 'Reopen referenced statement', exact: true }).click();
+    await statementResult.locator('.statement-preview-item').first().waitFor();
     assert.equal(await page.evaluate(() => window.__commentXss), undefined);
+    await statementResult.getByRole('button', { name: 'Attach to comment', exact: true }).first().click();
+    await comments.getByText(/1 statement reference selected/).waitFor();
     await composer.fill('draft cleared at sign out');
 
     await page.getByLabel('Sign out').click();
@@ -122,6 +138,7 @@ test('plan comments remain scoped, readable, and persistent across API restart',
     await page.getByRole('button', { name: /Plans & review/ }).click();
     await selectPlan(page, approvedPlan);
     const reviewComments = page.getByRole('region', { name: 'Plan comments' });
+    assert.equal(await reviewComments.getByText(/statement reference selected/).count(), 0);
     const secondBody = 'Approver follow-up after checking the proposed migration.';
     assert.equal(await reviewComments.getByLabel('Comment').inputValue(), '');
     await reviewComments.getByLabel('Comment').fill(secondBody);
@@ -130,7 +147,7 @@ test('plan comments remain scoped, readable, and persistent across API restart',
     const timeline = reviewComments.locator('.comment-row');
     await timeline.filter({ hasText: 'Comment approver' }).getByText(secondBody, { exact: true }).waitFor();
     assert.equal(await timeline.count(), 2);
-    assert.deepEqual(await timeline.locator('strong').allTextContents(), ['Comment developer', 'Comment approver']);
+    assert.deepEqual(await timeline.locator(':scope > div > strong').allTextContents(), ['Comment developer', 'Comment approver']);
     assert.equal(await timeline.locator('time').count(), 2);
 
     // A project change also clears the unsent comment body.
@@ -143,11 +160,19 @@ test('plan comments remain scoped, readable, and persistent across API restart',
     await page.getByRole('button', { name: /Plans & review/ }).click();
     await selectPlan(page, approvedPlan);
     assert.equal(await page.getByRole('region', { name: 'Plan comments' }).getByLabel('Comment').inputValue(), '');
+    await sourcePanel.getByRole('button', { name: 'Inspect source', exact: true }).click();
+    await sourcePanel.locator('.sql-preview').first().waitFor();
+    await sourcePanel.locator('.sql-preview summary').first().click();
+    await sourcePanel.getByRole('button', { name: 'Preview parsed statements' }).first().click();
+    await statementResult.getByRole('button', { name: 'Attach to comment', exact: true }).first().waitFor();
 
     // Switching plans must discard an unsent draft and show only that plan's history.
     await reviewComments.getByLabel('Comment').fill('unsent draft must not leak');
+    await statementResult.getByRole('button', { name: 'Attach to comment', exact: true }).first().click();
+    await reviewComments.getByText(/1 statement reference selected/).waitFor();
     await selectPlan(page, rejectedPlan);
     assert.equal(await page.getByRole('region', { name: 'Plan comments' }).getByLabel('Comment').inputValue(), '');
+    assert.equal(await page.getByRole('region', { name: 'Plan comments' }).getByText(/statement reference selected/).count(), 0);
     assert.equal(await page.locator('.comment-row').count(), 0);
 
     await page.getByLabel('Decision reason').fill('Rejected pending changes.');
@@ -238,6 +263,8 @@ test('plan comments remain scoped, readable, and persistent across API restart',
     const restartedTimeline = page.getByRole('region', { name: 'Plan comments' });
     await restartedTimeline.locator('.comment-row').filter({ hasText: 'Comment developer' }).waitFor();
     await restartedTimeline.locator('.comment-row').filter({ hasText: 'Comment approver' }).waitFor();
+    await restartedTimeline.getByRole('button', { name: 'Reopen referenced statement', exact: true }).first().click();
+    await page.getByRole('region', { name: 'Plan source inspection' }).getByRole('region', { name: 'Offline statement preview' }).waitFor();
     assert.deepEqual(errors, []);
   } finally {
     try { await browser?.close(); }

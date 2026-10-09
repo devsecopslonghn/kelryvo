@@ -1,0 +1,11 @@
+{
+  "command": "set -e; node --test tests/tracker.test.mjs; npm run lint; npm run format:check; git diff --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:29:37.444305+00:00",
+  "ended_at_utc": "2026-10-09T19:29:42.353159+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/11-correct-root-tracking-format.log",
+    "sha256": "351c2d5132c150ee3b9592be0c2d09b4e856e4a2d599efe287d4573074200e5b"
+  }
+}

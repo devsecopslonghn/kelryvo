@@ -1,0 +1,89 @@
+UTC_START 2026-10-09T19:05:36Z
+COMMAND env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-comment-evidence-unit.test.mjs tests/product-comments.test.mjs tests/product-statement-preview.test.mjs tests/product-statement-preview-parser.integration.mjs
+8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f  apps/api/index.ts
+da82ac414872976d35b9f52870fbfa7ffe402dcf9717a23663c1a4be61406553  apps/web/src/app.jsx
+66626be83c537f0662836213cd47975fc9e3ddf01ef88b6cbb38aa46d7dd86c2  apps/web/styles.css
+a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d  packages/database/index.ts
+e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70  packages/migrations/comment-evidence.mjs
+79b5dd9b527ca196ff009d4afb843882a3dc8b5daf1d48c654cb3eda34f32bd5  tests/product-comment-evidence-unit.test.mjs
+f01dced421b48974e5b2199dc779fb24cd8110dcce7df873d27ed5171c309876  tests/product-comments.test.mjs
+bc7a364f19fc56f010921f29451a678d068957d0c05faa87638ad5d1370f5b2f  tests/product-comments-browser.integration.mjs
+cf3acc68dc1ebc3ffe671d2f25dd655a880b748623384a5deec4a4964437c4f4  tests/product-statement-preview.test.mjs
+43ac8a6f9a1497aa21109f679d9c181bfe463895f008091a477e31301fc6f6f4  docs/development/local-product.md
+TAP version 13
+# Subtest: comment evidence accepts only bounded compact exact statement tuples
+ok 1 - comment evidence accepts only bounded compact exact statement tuples
+  ---
+  duration_ms: 2.531715
+  type: 'test'
+  ...
+# Subtest: comment evidence resolution stores server facts only after exact preview tuple match
+ok 2 - comment evidence resolution stores server facts only after exact preview tuple match
+  ---
+  duration_ms: 0.934245
+  type: 'test'
+  ...
+# file:///home/longhn0710/workspace/schemaforge-product-discussion-evidence/tests/product-comments.test.mjs:241
+#       { ...evidenceRef, sourceSha256: ['a'.repeat(64) }, { ...evidenceRef, executionSha256: { value: 'b'.repeat(64) } },
+#                                                       ^
+# SyntaxError: Unexpected token '}'
+#     at compileSourceTextModule (node:internal/modules/esm/utils:346:16)
+#     at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:110:18)
+#     at \#translate (node:internal/modules/esm/loader:559:20)
+#     at afterLoad (node:internal/modules/esm/loader:612:29)
+#     at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:617:12)
+#     at \#createModuleJob (node:internal/modules/esm/loader:640:36)
+#     at \#getJobFromResolveResult (node:internal/modules/esm/loader:353:34)
+#     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:321:41)
+#     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:680:25)
+# Node.js v22.23.3
+# Subtest: tests/product-comments.test.mjs
+not ok 2 - tests/product-comments.test.mjs
+  ---
+  duration_ms: 45.354612
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-discussion-evidence/tests/product-comments.test.mjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 1
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+ok 4 - pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+  ---
+  duration_ms: 2896.305392
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: statement preview is scoped, bounded, archived-readable and read only
+ok 5 - statement preview is scoped, bounded, archived-readable and read only
+  ---
+  duration_ms: 31904.084533
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 4
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 35192.438572
+RAW_EXIT 1
+UTC_END 2026-10-09T19:06:11Z
+8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f  apps/api/index.ts
+da82ac414872976d35b9f52870fbfa7ffe402dcf9717a23663c1a4be61406553  apps/web/src/app.jsx
+66626be83c537f0662836213cd47975fc9e3ddf01ef88b6cbb38aa46d7dd86c2  apps/web/styles.css
+a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d  packages/database/index.ts
+e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70  packages/migrations/comment-evidence.mjs
+79b5dd9b527ca196ff009d4afb843882a3dc8b5daf1d48c654cb3eda34f32bd5  tests/product-comment-evidence-unit.test.mjs
+f01dced421b48974e5b2199dc779fb24cd8110dcce7df873d27ed5171c309876  tests/product-comments.test.mjs
+bc7a364f19fc56f010921f29451a678d068957d0c05faa87638ad5d1370f5b2f  tests/product-comments-browser.integration.mjs
+cf3acc68dc1ebc3ffe671d2f25dd655a880b748623384a5deec4a4964437c4f4  tests/product-statement-preview.test.mjs
+43ac8a6f9a1497aa21109f679d9c181bfe463895f008091a477e31301fc6f6f4  docs/development/local-product.md

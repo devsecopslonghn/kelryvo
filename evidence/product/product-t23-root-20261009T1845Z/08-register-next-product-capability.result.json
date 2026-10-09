@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t23-register-next.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:28:53.790534+00:00",
+  "ended_at_utc": "2026-10-09T19:28:53.845863+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/08-register-next-product-capability.log",
+    "sha256": "46594681aa424e900fe477ecc5959081f6dd4c0906f79ff0dd797aa66bbab8b8"
+  }
+}

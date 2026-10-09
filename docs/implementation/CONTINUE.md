@@ -1,3 +1,31 @@
+## Next bounded T24 registered after T23 local verification — 2026-10-09 UTC
+
+T24 READY adds scoped keyset pagination through retained project audit events beyond the
+existing recent-100 window, including old-only actions. Preserve current membership, stable
+PostgreSQL microsecond ordering, archived reads and no-write boundaries; cursors grant no
+authority. SF-D019 records the safe reversible default under standing autonomy. Registration
+is not implementation; start in a fresh coupled context only after T23 eligible merge and
+exact-master verification. Original full SEC-011 search/retention/tamper/export and Oracle
+acceptance remain unchanged. Sonar unavailable never PASS; shared checkout/Hygiene untouched.
+
+## T23 locally verified; exact-head publication gates pending — 2026-10-09 UTC
+
+T23 stores bounded supplemental server-resolved statement references with pending-plan
+comments and audit atomically under plan/project/release locks. Fresh generation, retained
+format1 intent/source/file facts and pinned preview must match. Plain comments retain their
+legacy behavior/audit, historical records remain intact, and saved references reopen safely.
+
+Final controlled results: standard158, PostgreSQL/Git/parser product34, browser19, zero
+failures/skips. Root verified12 tested source hashes and14 immutable native captures. A
+separate guide-only correction accurately distinguishes reference/audit metadata from ordinary
+comment text; tested guide bytes and old/new hashes are retained. Earlier missing captures,
+failed fixtures/wording, no-env check and unexplained unconstrained8 failures remain candid.
+Evidence: `evidence/product/product-t23-root-20261009T1845Z/integration-record.json`.
+Fresh exact-head QA/security/license, full publication/history classification, CI and normal
+merge remain pending. Sonar unavailable never PASS; Oracle VALIDATION separate BLOCKED.
+Shared original checkout is untouched0346300; no Hygiene branch/PR visible, integrationpending.
+No arbitrary upload, historical intent/generation rewrite, worker or Oracle operation.
+
 ## T22 merged and master verified; T23 active — 2026-10-09 UTC
 
 T22 merged through [PR #35](https://github.com/devsecopslonghn/schemaForge/pull/35) at

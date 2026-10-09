@@ -1,0 +1,5 @@
+{
+  "command": "set -e; node scripts/tracker.mjs validate; node scripts/format-json.mjs --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T18:56:03.645552+00:00"
+}

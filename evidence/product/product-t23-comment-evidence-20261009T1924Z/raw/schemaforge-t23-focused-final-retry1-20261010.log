@@ -1,0 +1,91 @@
+UTC_START 2026-10-09T19:06:26Z
+COMMAND env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-comment-evidence-unit.test.mjs tests/product-comments.test.mjs tests/product-statement-preview.test.mjs tests/product-statement-preview-parser.integration.mjs
+8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f  apps/api/index.ts
+da82ac414872976d35b9f52870fbfa7ffe402dcf9717a23663c1a4be61406553  apps/web/src/app.jsx
+66626be83c537f0662836213cd47975fc9e3ddf01ef88b6cbb38aa46d7dd86c2  apps/web/styles.css
+a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d  packages/database/index.ts
+e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70  packages/migrations/comment-evidence.mjs
+79b5dd9b527ca196ff009d4afb843882a3dc8b5daf1d48c654cb3eda34f32bd5  tests/product-comment-evidence-unit.test.mjs
+cfee00622ab22a2920821e5239e430b3f7047133ed1218c1ca420066056b483c  tests/product-comments.test.mjs
+bc7a364f19fc56f010921f29451a678d068957d0c05faa87638ad5d1370f5b2f  tests/product-comments-browser.integration.mjs
+cf3acc68dc1ebc3ffe671d2f25dd655a880b748623384a5deec4a4964437c4f4  tests/product-statement-preview.test.mjs
+43ac8a6f9a1497aa21109f679d9c181bfe463895f008091a477e31301fc6f6f4  docs/development/local-product.md
+TAP version 13
+# Subtest: comment evidence accepts only bounded compact exact statement tuples
+ok 1 - comment evidence accepts only bounded compact exact statement tuples
+  ---
+  duration_ms: 2.804632
+  type: 'test'
+  ...
+# Subtest: comment evidence resolution stores server facts only after exact preview tuple match
+ok 2 - comment evidence resolution stores server facts only after exact preview tuple match
+  ---
+  duration_ms: 0.998446
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+not ok 3 - plan review comments are scoped, validated, durable, ordered, and serialized
+  ---
+  duration_ms: 773.507377
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-discussion-evidence/tests/product-comments.test.mjs:13:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    {"error":"INVALID_REQUEST"}
+    
+    400 !== 422
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 422
+  actual: 400
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-discussion-evidence/tests/product-comments.test.mjs:244:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+ok 4 - pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+  ---
+  duration_ms: 2905.308081
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: statement preview is scoped, bounded, archived-readable and read only
+ok 5 - statement preview is scoped, bounded, archived-readable and read only
+  ---
+  duration_ms: 32020.338363
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 4
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 36265.261692
+RAW_EXIT 1
+UTC_END 2026-10-09T19:07:02Z
+8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f  apps/api/index.ts
+da82ac414872976d35b9f52870fbfa7ffe402dcf9717a23663c1a4be61406553  apps/web/src/app.jsx
+66626be83c537f0662836213cd47975fc9e3ddf01ef88b6cbb38aa46d7dd86c2  apps/web/styles.css
+a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d  packages/database/index.ts
+e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70  packages/migrations/comment-evidence.mjs
+79b5dd9b527ca196ff009d4afb843882a3dc8b5daf1d48c654cb3eda34f32bd5  tests/product-comment-evidence-unit.test.mjs
+cfee00622ab22a2920821e5239e430b3f7047133ed1218c1ca420066056b483c  tests/product-comments.test.mjs
+bc7a364f19fc56f010921f29451a678d068957d0c05faa87638ad5d1370f5b2f  tests/product-comments-browser.integration.mjs
+cf3acc68dc1ebc3ffe671d2f25dd655a880b748623384a5deec4a4964437c4f4  tests/product-statement-preview.test.mjs
+43ac8a6f9a1497aa21109f679d9c181bfe463895f008091a477e31301fc6f6f4  docs/development/local-product.md

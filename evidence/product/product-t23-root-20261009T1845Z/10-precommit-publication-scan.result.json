@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t23-scanner.py precommit /tmp/schemaforge-t23-precommit-20261009T1929Z",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:29:11.777180+00:00",
+  "ended_at_utc": "2026-10-09T19:29:12.743072+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/10-precommit-publication-scan.log",
+    "sha256": "9bbcdd4796d09414efc4619857557234f1aee62e835805f413301e741f55bc9c"
+  }
+}

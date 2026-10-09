@@ -4,6 +4,7 @@ import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from "../../experiments/db-devop
 import { ANTLR_PROFILE, MAX_INPUT_BYTES, MAX_STDOUT_BYTES } from "../../experiments/db-devops-wp0/parser-envelope.mjs";
 import { verifyRetainedRelease } from "../../packages/migrations/verify-retained-release.mjs";
 import { previewRetainedStatements } from "../../packages/migrations/statement-preview.mjs";
+import { resolveCommentEvidence, validateCommentEvidenceInput } from "../../packages/migrations/comment-evidence.mjs";
 import { encodeOfflinePlanIntent, verifyOfflinePlanIntent } from "../../packages/migrations/offline-plan-intent.mjs";
 import { actorHasProjectGrant, projectAccessMode } from "../../packages/database/project-membership.ts";
 
@@ -258,7 +259,9 @@ export function createApp(options: {
             FROM sf_plans WHERE project_id=${p.id} ORDER BY created_at DESC`,
           sql`SELECT id,actor_id,action,resource_id,facts,created_at FROM sf_audit WHERE project_id=${p.id} ORDER BY created_at DESC LIMIT 100`,
           sql`SELECT id,plan_id,version,path,sha256,status,created_at FROM sf_history WHERE project_id=${p.id} ORDER BY created_at DESC`,
-          sql`SELECT id,project_id,plan_id,author_id,author_name,body,created_at FROM sf_plan_comments
+          sql`SELECT id,project_id,plan_id,author_id,author_name,body,
+            CASE WHEN jsonb_typeof(evidence_refs)='array' THEN CASE WHEN jsonb_array_length(evidence_refs)<=8
+              AND octet_length(evidence_refs::text)<=49152 THEN evidence_refs ELSE '[]'::jsonb END ELSE '[]'::jsonb END AS evidence_refs,created_at FROM sf_plan_comments
             WHERE project_id=${p.id} AND organization_id=${ORG} ORDER BY position`,
         ]);
       return {
@@ -684,27 +687,102 @@ export function createApp(options: {
     const plan = (await sql`SELECT id FROM sf_plans WHERE id=${req.params.id}
       AND project_id=${req.params.projectId} AND organization_id=${ORG}`)[0];
     if (!plan) return fail(reply, 404, 'NOT_FOUND');
-    const comments = await sql`SELECT id,project_id,plan_id,author_id,author_name,body,created_at FROM sf_plan_comments
+    const comments = await sql`SELECT id,project_id,plan_id,author_id,author_name,body,
+      CASE WHEN jsonb_typeof(evidence_refs)='array' THEN CASE WHEN jsonb_array_length(evidence_refs)<=8
+        AND octet_length(evidence_refs::text)<=49152 THEN evidence_refs ELSE '[]'::jsonb END ELSE '[]'::jsonb END AS evidence_refs,created_at FROM sf_plan_comments
       WHERE plan_id=${plan.id} AND project_id=${req.params.projectId} AND organization_id=${ORG} ORDER BY position`;
     return { comments: comments.map(mapComment) };
   });
   app.post('/api/projects/:projectId/plans/:id/comments', { preHandler: authenticate }, async (req: any, reply: any) => {
+    const b = req.body;
     if (!uuid(req.params.projectId) || !uuid(req.params.id)
-      || !object(req.body, ['body']) || !validComment(req.body.body)) return fail(reply, 400, 'INVALID_REQUEST');
+      || !object(b, ['body', 'evidenceRefs']) || !validComment(b?.body)
+      || (b.evidenceRefs !== undefined && !validateCommentEvidenceInput(b.evidenceRefs))) return fail(reply, 400, 'INVALID_REQUEST');
+    const evidenceInput = b.evidenceRefs ?? [];
     const result = await sql.begin(async (tx: any) => {
       // Match decision lock order so a comment cannot race a terminal transition.
-      const plan = (await tx`SELECT id,project_id,status FROM sf_plans WHERE id=${req.params.id}
+      const plan = (await tx`SELECT id,project_id,organization_id,release_id,profile_id,author_id,status,
+        source_binding_generation::text AS source_binding_generation
+        FROM sf_plans WHERE id=${req.params.id}
         AND project_id=${req.params.projectId} AND organization_id=${ORG} FOR UPDATE`)[0];
       if (!plan) return null;
-      await requireActiveProject(tx, plan.project_id);
+      const p = (await tx`SELECT id,archived_at,
+        CASE WHEN char_length(source_repository_id) BETWEEN 1 AND 200 THEN source_repository_id END AS source_repository_id,
+        CASE WHEN char_length(source_folder) BETWEEN 1 AND 200 THEN source_folder END AS source_folder,
+        source_binding_generation::text AS source_binding_generation FROM sf_projects
+        WHERE id=${plan.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
+      if (!p || p.archived_at) return { error: 'PROJECT_ARCHIVED' };
       if (plan.status !== 'PENDING_APPROVAL') return { error: 'PLAN_NOT_PENDING' };
-      const comment = (await tx`INSERT INTO sf_plan_comments(project_id,organization_id,plan_id,author_id,author_name,body)
-        VALUES(${plan.project_id},${ORG},${plan.id},${req.actor.id},${req.actor.name},${req.body.body}) RETURNING *`)[0];
+      let evidenceRefs: any[] = [];
+      if (evidenceInput.length) {
+        const planEvidence = (await tx`SELECT
+          CASE WHEN jsonb_typeof(items)='array' THEN CASE WHEN jsonb_array_length(items) BETWEEN 1 AND ${MAX_RELEASE_FILES}
+            AND octet_length(items::text)<=${MAX_STDOUT_BYTES} THEN items END END AS items,
+          CASE WHEN octet_length(offline_intent_envelope)<=${MAX_STDOUT_BYTES} THEN offline_intent_envelope END AS offline_intent_envelope,
+          CASE WHEN char_length(offline_intent_digest)=64 THEN offline_intent_digest END AS offline_intent_digest
+          FROM sf_plans WHERE id=${plan.id} AND project_id=${p.id} AND organization_id=${ORG}`)[0];
+        if (!p.source_repository_id || !validMigrationFolder(p.source_folder)
+            || !canonicalBindingGeneration(p.source_binding_generation)
+            || !canonicalBindingGeneration(plan.source_binding_generation)
+            || plan.source_binding_generation !== p.source_binding_generation || !Array.isArray(planEvidence?.items))
+          return { error: 'FRESH_PLAN_REQUIRED' };
+        const bounds = (await tx`SELECT id,validation_status,jsonb_typeof(files) AS files_type,
+          CASE WHEN jsonb_typeof(files)='array' THEN jsonb_array_length(files) ELSE NULL END AS file_count,
+          octet_length(files::text) AS files_bytes,(object_format IN ('sha1','sha256')) AS format_valid,
+          (object_format='sha1') AS format_sha1,char_length(commit_id) AS commit_chars,
+          char_length(folder) AS folder_chars,char_length(parser_profile) AS parser_profile_chars,
+          char_length(manifest_digest) AS manifest_chars,
+          (repository_id=${p.source_repository_id} AND folder=${p.source_folder}) AS source_matches
+          FROM sf_releases WHERE id=${plan.release_id} AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
+        const maxRetainedJsonBytes = 6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024;
+        if (!bounds || bounds.validation_status !== 'VALID' || bounds.files_type !== 'array'
+            || !Number.isInteger(bounds.file_count) || bounds.file_count < 1 || bounds.file_count > MAX_RELEASE_FILES
+            || !Number.isInteger(bounds.files_bytes) || bounds.files_bytes > maxRetainedJsonBytes
+            || !bounds.format_valid || bounds.commit_chars !== (bounds.format_sha1 ? 40 : 64)
+            || !Number.isInteger(bounds.folder_chars) || bounds.folder_chars < 1 || bounds.folder_chars > 200
+            || bounds.parser_profile_chars !== ANTLR_PROFILE.length || bounds.manifest_chars !== 64)
+          return { error: 'COMMENT_EVIDENCE_UNAVAILABLE' };
+        if (!bounds.source_matches) return { error: 'FRESH_PLAN_REQUIRED' };
+        const profile = (await tx`SELECT id FROM sf_profiles WHERE id=${plan.profile_id}
+          AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
+        if (!profile) return { error: 'FRESH_PLAN_REQUIRED' };
+        const release = (await tx`SELECT id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files
+          FROM sf_releases WHERE id=${bounds.id} AND project_id=${p.id} AND organization_id=${ORG}`)[0];
+        if (!release || !verifyRetainedRelease(release)) return { error: 'COMMENT_EVIDENCE_UNAVAILABLE' };
+        const planItems = planEvidence.items;
+        if (planItems.length !== release.files.length || planItems.some((item: any, index: number) => {
+          const file = release.files[index];
+          return !item || typeof item !== 'object' || Array.isArray(item)
+            || Object.keys(item).length !== 4 || !['path','version','sha256','status'].every(key => key in item)
+            || item.path !== file.path || item.version !== file.version || item.sha256 !== file.sha256 || item.status !== 'NOT_EXECUTED';
+        })) return { error: 'FRESH_PLAN_REQUIRED' };
+        const intent = verifyOfflinePlanIntent(planEvidence.offline_intent_envelope, planEvidence.offline_intent_digest, {
+          organizationId: ORG, projectId: p.id, requesterId: plan.author_id, releaseId: release.id,
+          profileId: plan.profile_id, commit: release.commit_id, objectFormat: release.object_format,
+          folder: release.folder, parserProfile: release.parser_profile, manifestDigest: release.manifest_digest,
+          items: release.files.map((file: any) => ({ path: file.path, version: file.version, sha256: file.sha256 })),
+        });
+        if (!intent || intent.digest !== planEvidence.offline_intent_digest) return { error: 'FRESH_PLAN_REQUIRED' };
+        const previews = new Map();
+        for (const filePath of new Set(evidenceInput.map((ref: any) => ref.filePath))) {
+          previews.set(filePath, await previewRetainedStatements(release, filePath, statementParser));
+        }
+        const resolved = resolveCommentEvidence(evidenceInput, release, intent.digest, previews);
+        if (!resolved || Buffer.byteLength(JSON.stringify(resolved), 'utf8') > 48 * 1024)
+          return { error: 'COMMENT_EVIDENCE_UNAVAILABLE' };
+        evidenceRefs = resolved;
+      }
+      const comment = (await tx`INSERT INTO sf_plan_comments(project_id,organization_id,plan_id,author_id,author_name,body,evidence_refs)
+        VALUES(${plan.project_id},${ORG},${plan.id},${req.actor.id},${req.actor.name},${b.body},${tx.json(evidenceRefs)}) RETURNING *`)[0];
       await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
-        VALUES(${plan.project_id},${ORG},${req.actor.id},'PLAN_COMMENT_ADDED',${plan.id},${tx.json({ commentId: comment.id })})`;
+        VALUES(${plan.project_id},${ORG},${req.actor.id},'PLAN_COMMENT_ADDED',${plan.id},${tx.json(evidenceRefs.length
+          ? { commentId: comment.id, evidenceRefCount: evidenceRefs.length } : { commentId: comment.id })})`;
       return { comment };
     });
     if (!result) return fail(reply, 404, 'NOT_FOUND');
+    if (result.error === 'FRESH_PLAN_REQUIRED') return fail(reply, 409, result.error);
+    if (result.error === 'COMMENT_EVIDENCE_UNAVAILABLE') return fail(reply, 422, result.error);
+    if (result.error === 'PROJECT_ARCHIVED') return fail(reply, 409, result.error);
     if (result.error) return fail(reply, 409, result.error);
     return reply.code(201).send({ comment: mapComment(result.comment) });
   });
@@ -880,6 +958,7 @@ function mapComment(r: any) {
     authorId: r.author_id,
     authorName: r.author_name,
     body: r.body,
+    evidenceRefs: Array.isArray(r.evidence_refs) && r.evidence_refs.length <= 8 ? r.evidence_refs : [],
     createdAt: r.created_at,
   };
 }

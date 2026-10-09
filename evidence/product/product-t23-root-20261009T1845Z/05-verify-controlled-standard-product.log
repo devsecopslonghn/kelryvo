@@ -1,0 +1,45 @@
+{
+  "verified_at_utc": "2026-10-09T19:21:00.781322+00:00",
+  "source_sha256": {
+    "apps/api/index.ts": "8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f",
+    "packages/database/index.ts": "a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d",
+    "apps/web/src/app.jsx": "eda54019caed963284e223f8c8723d2b76d7c64fb113466aa82ef8e7ffa76dcc",
+    "apps/web/styles.css": "66626be83c537f0662836213cd47975fc9e3ddf01ef88b6cbb38aa46d7dd86c2",
+    "packages/migrations/comment-evidence.mjs": "e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70",
+    "tests/product-comment-evidence-unit.test.mjs": "04a8740588e8a6a9175eb2b3ff70daf2fa1787367c0a3dfb14edc2a1ae8062a2",
+    "tests/product-comments.test.mjs": "63a4354f6cab052e63d7ee6858db47a070bff4fbc34ada95efa280e9679f9724",
+    "tests/product-comments-browser.integration.mjs": "54ab10e0c609dbe37d6133ea4d154c4479a1effaae86ea075b5822e7f038041a",
+    "tests/product-statement-preview.test.mjs": "cf3acc68dc1ebc3ffe671d2f25dd655a880b748623384a5deec4a4964437c4f4",
+    "tests/product-protected-source-binding-browser.integration.mjs": "648136621398bd3a638488c149bc3a87fa73b80f403f0b8e7f9d49c778214d21",
+    "scripts/test-product.mjs": "53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b",
+    "docs/development/local-product.md": "43ac8a6f9a1497aa21109f679d9c181bfe463895f008091a477e31301fc6f6f4"
+  },
+  "source_files": 12,
+  "source_current_start_end_all_runs_identical": true,
+  "runs": [
+    {
+      "suite": "check",
+      "passed": 158,
+      "failed": 0,
+      "skipped": 0,
+      "actual_exit_code": 0,
+      "raw_path": "/tmp/schemaforge-t23-standard-final-controlled-20261010.log",
+      "raw_sha256": "5aa165d73014a3ad45ff7606405e2768c1e636b8dc875634e0916bd33817ee34",
+      "utc_start": "2026-10-09T19:17:03Z",
+      "utc_end": "2026-10-09T19:20:32Z",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run check"
+    },
+    {
+      "suite": "product",
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0,
+      "actual_exit_code": 0,
+      "raw_path": "/tmp/schemaforge-t23-product-final-20261010.log",
+      "raw_sha256": "8a2c9d2dc432c12a47375c94951f59e56b6146c9810aef9ef4fd7a44fa7a1277",
+      "utc_start": "2026-10-09T19:14:18Z",
+      "utc_end": "2026-10-09T19:16:55Z",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run test:product"
+    }
+  ]
+}
