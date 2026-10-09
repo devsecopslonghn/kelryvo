@@ -1,0 +1,20 @@
+SF-PRODUCT-T09 — Filter recent project audit events by action
+Base commit: 577124f1b15058000fa89e5a17074992435efcd9
+Scope: PRODUCT local verification only. No API/database contract changes; no Oracle connection or acceptance claim.
+
+Commands and outcomes:
+PASS — SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run parser:antlr:build — 2 reproducible builds; installed helper matches registered SHA-256 a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38; database_calls=0.
+PASS — SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --test tests/product-audit-action-filters-browser.integration.mjs — 1/1, zero skips.
+PASS — same environment, npm run test:product — 20/20, zero skips.
+PASS — same environment, npm run test:browser — 7/7, zero skips.
+PASS — same environment, npm run check — source checks, TypeScript, web build, tracker validation (220 features, 64 imported tasks plus foundation and 9 product tasks), authored JSON format, 140/140 standard tests, dependency smoke and 85-package product license closure; zero skips.
+
+T09 browser evidence uses real PostgreSQL/API project creation, plan creation, comment, denied decision, approval and archive events. It compares All and action-filtered audit IDs to server-returned order, verifies project-specific action choices and project/sign-out resets, reads filtered archived records, tests empty timelines, confirms reset when a selected recent action disappears after refresh, and deep-compares persisted project snapshots around filtering. All test rows and their intentional deletion exist only in the helper-created isolated test database.
+
+SHA-256:
+feb14400554134fd54b9789c5a2e2ffffb9f16d3807b1093f7d008a7f9da4a76  parser-build.log
+53992fc4cd286d67c8969bd483b9a3c19c341932d738074e8e4ae483d5912b3e  t09-browser-focused.log
+745ba8d7b014a77ecc304a035de8eaf5efafd7a51a02834642588fe257452a3d  product-integration.log
+b1be6345baaa7664b3ec327c0926774c2897e793cf12cce8c041393526d36208  browser-regressions.log
+b63ed194111c8c45c4630f7074a714ffa534e559df879977adf9fea0ef015363  checks-final.log
+35eb8bc93f8143dd4143d52c7b54befe8889b834ffea5132d9d58693f50fa7e9  verification-notes.txt

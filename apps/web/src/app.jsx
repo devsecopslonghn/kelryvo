@@ -76,6 +76,7 @@ function App() {
   const [release, setRelease] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState('');
   const [planStatus, setPlanStatus] = useState('ALL');
+  const [auditAction, setAuditAction] = useState('ALL');
   const [tab, setTab] = useState('workspace');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -91,6 +92,7 @@ function App() {
   const refreshSequence = useRef(0);
   const activeProjectId = useRef(projectId);
   const sessionEpoch = useRef(0);
+  const previousAuditProjectId = useRef(projectId);
 
   const selectProject = (nextId) => {
     const alreadySelected = nextId === projectId;
@@ -101,6 +103,7 @@ function App() {
     setRelease(null);
     setSelectedPlan('');
     setPlanStatus('ALL');
+    setAuditAction('ALL');
     setDecisionReason('');
     setCommentBody('');
     setSourceForm({ repositoryId: '', folder: 'migrations' });
@@ -171,6 +174,19 @@ function App() {
   const archivedAt = selectedProject?.archivedAt || detail?.project?.archivedAt || null;
   const isArchived = Boolean(archivedAt);
   const projectLoaded = detail?.project?.id === projectId;
+  const projectAudit = projectLoaded ? detail.audit || [] : [];
+  const auditActions = useMemo(() => [...new Set(projectAudit.map((item) => item.action).filter(Boolean))], [projectAudit]);
+  const filteredAudit = auditAction === 'ALL' ? projectAudit : projectAudit.filter((item) => item.action === auditAction);
+  useEffect(() => {
+    if (previousAuditProjectId.current !== projectId) {
+      previousAuditProjectId.current = projectId;
+      setAuditAction('ALL');
+    }
+  }, [projectId]);
+
+  useEffect(() => {
+    if (projectLoaded && auditAction !== 'ALL' && !auditActions.includes(auditAction)) setAuditAction('ALL');
+  }, [projectLoaded, auditAction, auditActions]);
   const sourceBinding = projectLoaded ? detail.project.sourceBinding || null : null;
   const boundRepository = repositories.find((item) => item.id === sourceBinding?.repositoryId);
 
@@ -295,7 +311,7 @@ function App() {
     finally { if (sequence === refreshSequence.current && activeProjectId.current === inspectedProjectId) setBusy(false); }
   };
 
-  const model = { actor, projects, projectId, selectProject, setRelease, setSelectedPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, isApprover, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment };
+  const model = { actor, projects, projectId, selectProject, setRelease, setSelectedPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -322,7 +338,7 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => setTab('release')}><span>◫</span> Releases</button>
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => setTab('records')}><span>≡</span> Audit &amp; history</button>
-      <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { sessionEpoch.current += 1; refreshSequence.current += 1; activeProjectId.current = ''; setActor(null); setToken(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setDecisionReason(''); setCommentBody(''); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
+      <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { sessionEpoch.current += 1; refreshSequence.current += 1; activeProjectId.current = ''; setActor(null); setToken(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setCommentBody(''); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
       <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { void refresh(token); }} disabled={busy}>↻</button></div></header>
@@ -447,10 +463,10 @@ function ReviewScreen({ model }) {
 
 
 function RecordsScreen({ model }) {
-  const { detail, actor, fmt, isArchived } = model;
+  const { detail, actor, fmt, isArchived, auditAction, setAuditAction, auditActions, filteredAudit, busy, projectLoaded } = model;
   return <>
           <div className="page-heading"><div><p className="eyebrow">TRACEABILITY</p><h1>Audit &amp; history {isArchived && <span className="status-pill neutral">ARCHIVED</span>}</h1><p className="muted">See governance events alongside the recorded migration outcomes.</p></div><div className="heading-mark">04 <span> / 04</span></div></div>
-          <div className="records-grid"><section className="panel"><div className="panel-heading"><div><h2>Audit events</h2><p>Actions recorded for this project.</p></div><span className="count-pill">{detail?.audit?.length || 0} events</span></div><div className="timeline">{(detail?.audit || []).map((item) => <div className="timeline-row" key={item.id}><span className="timeline-dot"/><div><strong>{item.action || item.event || 'Project event'}</strong><p>{auditDescription(item)}</p><small>{auditActorLabel(item, actor)} · {fmt(item.createdAt || item.created_at)}</small></div></div>)}{!detail?.audit?.length && <div className="empty-state compact"><strong>No audit events yet</strong><span>Project changes and review decisions will appear here.</span></div>}</div></section><section className="panel"><div className="panel-heading"><div><h2>Migration history</h2><p>Recorded migration states; these are not evidence of database application.</p></div><span className="count-pill">{detail?.history?.length || 0} records</span></div><div className="history-list">{(detail?.history || []).map((item) => <div className="history-row" key={item.id}><div><strong>{item.path || item.version || 'Migration event'}</strong><small>{fmt(item.executedAt || item.createdAt)}</small></div><span className={`status-pill ${item.status === 'SUCCEEDED' ? 'good' : 'neutral'}`}>{item.status || 'NOT_OBSERVED'}</span></div>)}{!detail?.history?.length && <div className="empty-state compact"><strong>No migration records yet</strong><span>Candidate plans add NOT_EXECUTED records; they do not imply database application.</span></div>}</div></section></div>
+          <div className="records-grid"><section className="panel"><div className="panel-heading"><div><h2>Audit events</h2><p>Actions recorded for this project.</p></div><span className="count-pill">{filteredAudit.length} of {detail?.audit?.length || 0} events</span></div><label>Audit action<select aria-label="Audit action" value={auditAction} onChange={(event) => setAuditAction(event.target.value)} disabled={busy || !projectLoaded}><option value="ALL">All actions</option>{auditActions.map((action) => <option key={action} value={action}>{action}</option>)}</select></label><div className="timeline">{filteredAudit.map((item) => <div className="timeline-row" data-audit-id={item.id} key={item.id}><span className="timeline-dot"/><div><strong>{item.action || item.event || 'Project event'}</strong><p>{auditDescription(item)}</p><small>{auditActorLabel(item, actor)} · {fmt(item.createdAt || item.created_at)}</small></div></div>)}{!filteredAudit.length && <div className="empty-state compact"><strong>{auditAction === 'ALL' ? 'No audit events yet' : 'No audit events match this action'}</strong><span>{auditAction === 'ALL' ? 'Project changes and review decisions will appear here.' : 'Choose another action or All actions to see other events.'}</span></div>}</div></section><section className="panel"><div className="panel-heading"><div><h2>Migration history</h2><p>Recorded migration states; these are not evidence of database application.</p></div><span className="count-pill">{detail?.history?.length || 0} records</span></div><div className="history-list">{(detail?.history || []).map((item) => <div className="history-row" key={item.id}><div><strong>{item.path || item.version || 'Migration event'}</strong><small>{fmt(item.executedAt || item.createdAt)}</small></div><span className={`status-pill ${item.status === 'SUCCEEDED' ? 'good' : 'neutral'}`}>{item.status || 'NOT_OBSERVED'}</span></div>)}{!detail?.history?.length && <div className="empty-state compact"><strong>No migration records yet</strong><span>Candidate plans add NOT_EXECUTED records; they do not imply database application.</span></div>}</div></section></div>
           <p className="history-footnote"><span className="status-dot"/> Unknown target history stays unknown until a trusted runtime observes it.</p>
 
   </>;

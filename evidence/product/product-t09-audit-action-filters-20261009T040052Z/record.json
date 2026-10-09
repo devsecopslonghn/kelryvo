@@ -1,0 +1,73 @@
+{
+  "id": "product-t09-audit-action-filters-local-verified",
+  "subject_id": "SF-PRODUCT-T09",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run parser:antlr:build; node --test tests/product-audit-action-filters-browser.integration.mjs; npm run test:product; npm run test:browser; npm run check",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T09-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t09-audit-action-filters-20261009T040052Z/verification-summary.txt",
+    "sha256": "a4749ec19645c40505e52894530ff381012d52df616f3c454748f9ca4aaf8608"
+  },
+  "baseline_master": "577124f1b15058000fa89e5a17074992435efcd9",
+  "branch": "development/product-audit-action-filters",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-audit-filters",
+  "counts": {
+    "standard": {
+      "pass": 140,
+      "fail": 0,
+      "skipped": 0
+    },
+    "product": {
+      "pass": 20,
+      "fail": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0
+    },
+    "focused_t09": {
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "initial_failures": {
+    "initial-environment.txt": "Fresh worktree initially lacked npm dependencies and the parser helper; npm ci and a reproducible pinned-helper build resolved both without changing source contracts.",
+    "initial-browser-render.txt": "First filter render exposed a missing RecordsScreen busy prop; corrected and verified through focused/full browser tests and npm run check.",
+    "reset-review.txt": "Security review identified stale recent-action and automatic project-fallback reset cases; both are covered by final isolated browser tests."
+  },
+  "verification": [
+    "Action choices come from current scoped recent project audit data; All is default and filtering preserves API order.",
+    "Authenticated API/browser fixtures cover create, comment, denied decision, approval, archive, project isolation, empty audit, archive reads, explicit/automatic project changes, sign-out reset and refresh after action eviction.",
+    "Full API snapshots remain unchanged across filter operations; plans, comments, audit facts, decisions and NOT_EXECUTED migration history remain intact."
+  ],
+  "limitations": [
+    "Partial local UI behavior under SEC-011 only; full audit search, pagination, retention policy and tamper evidence remain out of scope.",
+    "No Oracle connection or acceptance; PRODUCT evidence does not change VALIDATION state.",
+    "The branch is VERIFIED_LOCAL only; root owns commit/review/publication and post-merge checkpoint."
+  ],
+  "sources": {
+    "apps/web/src/app.jsx": "a40454fd63636cbc83e53caa7f55b6fbd3c62d0dd0d99c9db3cf012613058808",
+    "tests/product-audit-action-filters-browser.integration.mjs": "a067f71d695e5feb25263f033daab1f69901fccb251c03a8f9a987996ad111ba",
+    "scripts/test-product.mjs": "cb28dea0af1fbb5515abc33c7ece58670fc4fd004f07e9d6b25a96f59eb784b0",
+    "docs/development/local-product.md": "62ddfee524da8195eeb62e7a610835e899252e707304e429f7f16e05be5b11da",
+    "docs/implementation/backlog.json": "b5f16bbb3dedcd72e33a66ac821fe6f4206adbad801c81f832d769d5ccdffbc0",
+    "docs/implementation/ownership.json": "d7e8d90b286da71ed698c4a1244654ceb8e7ab3632e4f9f5ab51470ef3389d87",
+    "docs/implementation/milestone.json": "5a794ea37244c945a07538cf4f6296fd32e8dca1cd1266d2602e36f3999469aa",
+    "docs/implementation/CURRENT.md": "a51ed76a67eaa3233762eed2f81d328103268c80f9737cc487fcb360da38e7eb",
+    "docs/implementation/CONTINUE.md": "e24cfe942693a083c00d8f2efcc13e3b986a2000fcc3583b880ecaa0823f84af"
+  }
+}
