@@ -9,6 +9,7 @@ import postgres from 'postgres';
 import { createApp } from '../apps/api/index.ts';
 import { initializeDatabase } from '../packages/database/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const git = (directory, ...args) => execFileSync('git', ['-C', directory, ...args], { encoding: 'utf8' }).trim();
 const actorsFor = (prefix) => [
@@ -33,10 +34,15 @@ async function fixture(prefix) {
     { id: `${prefix}-other`, name: 'Other test repository', path: repositoryPath },
   ];
   let app = createApp({ sql: database.sql, actors, repositories });
+  const membership = await createMembershipOperatorFixture(database.databaseUrl);
+  await membership.activateEmptyFixture(app);
   let replacementSql;
   const request = (method, url, payload, actor = actors[0]) => app.inject({ method, url,
     headers: { authorization: `Bearer ${actor.token}` }, payload });
-  const project = (await request('POST', '/api/projects', { name: `${prefix} ${randomUUID()}` })).json().project;
+  const { project } = await membership.createProjectWithExplicitMembers({
+    create: () => request('POST', '/api/projects', { name: `${prefix} ${randomUUID()}` }),
+    read: id => request('GET', `/api/projects/${id}`), memberIds: actors.map(actor => actor.id),
+  });
   const base = `/api/projects/${project.id}`;
   const environment = (await request('POST', `${base}/environments`, { name: 'Local' })).json().environment;
   const profile = (await request('POST', `${base}/profiles`, { name: 'Offline target', environmentId: environment.id,
@@ -54,7 +60,7 @@ async function fixture(prefix) {
   };
   const close = async () => {
     try { await app?.close(); }
-    finally { try { await replacementSql?.end({ timeout: 2 }); } finally { try { await database.close(); } finally { await rm(repositoryPath, { recursive: true, force: true }); } } }
+    finally { try { await replacementSql?.end({ timeout: 2 }); } finally { try { await membership.close(); } finally { try { await database.close(); } finally { await rm(repositoryPath, { recursive: true, force: true }); } } } }
   };
   const restartApp = async (registry = repositories) => {
     await app.close();

@@ -6,6 +6,7 @@ import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
@@ -19,6 +20,7 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
   assert.ok(database, 'SCHEMAFORGE_TEST_DATABASE_URL is required for this browser workflow');
   let app;
   let browser;
+  let membership;
   let page;
   let closingApp;
   let appClosePromise;
@@ -47,7 +49,7 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
         try { await browser?.close(); }
         finally {
           try { await closeApp(); }
-          finally { await database.close(); }
+          finally { try { await membership?.close(); } finally { await database.close(); } }
         }
       })();
     }
@@ -66,6 +68,8 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
     const options = { databaseUrl: database.databaseUrl, actors,
       repositories: [{ id: 'demo', name: 'Local migration demo', path: await prepareDemoRepository() }], port: 0 };
     app = await startProduct(options);
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     const url = `http://127.0.0.1:${app.server.address().port}`;
     browser = await chromium.launch();
     const context = await browser.newContext({ viewport: { width: 1440, height: 1100 } });
@@ -81,8 +85,14 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
     };
     await signin(actors[0].token);
     const name = `Browser demo ${randomUUID().slice(0, 8)}`;
+    const createResponse = page.waitForResponse(response => response.url().endsWith('/api/projects') && response.request().method() === 'POST');
     await page.getByLabel('New project name').fill(name);
     await page.getByRole('button', { name: 'Create project', exact: true }).click();
+    const createdProject = (await (await createResponse).json()).project;
+    for (const actor of actors) await membership.grant(createdProject.id, actor.id);
+    await page.getByLabel('Refresh workspace').click();
+    await page.getByRole('button', { name: /Projects/ }).click();
+    await page.locator('.project-row').filter({ hasText: name }).click();
     await page.getByRole('heading', { name, exact: true }).waitFor();
     await page.getByLabel('Environment name').fill('Development');
     await page.getByRole('button', { name: '＋ Add', exact: true }).click();
@@ -113,8 +123,14 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
 
     const otherName = `Unbound project ${randomUUID().slice(0, 8)}`;
     await page.getByRole('button', { name: /Projects/ }).click();
+    const otherCreateResponse = page.waitForResponse(response => response.url().endsWith('/api/projects') && response.request().method() === 'POST');
     await page.getByLabel('New project name').fill(otherName);
     await page.getByRole('button', { name: 'Create project', exact: true }).click();
+    const otherReceipt = (await (await otherCreateResponse).json()).project;
+    for (const actor of actors) await membership.grant(otherReceipt.id, actor.id);
+    await page.getByLabel('Refresh workspace').click();
+    await page.getByRole('button', { name: /Projects/ }).click();
+    await page.locator('.project-row').filter({ hasText: otherName }).click();
     await page.getByRole('heading', { name: otherName, exact: true }).waitFor();
     await page.getByRole('button', { name: /Releases/ }).click();
     assert.equal(await page.getByRole('button', { name: 'Import and validate', exact: true }).isDisabled(), true);

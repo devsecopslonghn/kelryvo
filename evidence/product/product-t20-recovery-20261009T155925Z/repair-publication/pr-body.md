@@ -1,0 +1,9 @@
+The existing source-generation recovery browser test queried PostgreSQL immediately after starting an asynchronous plan-creation mutation. T20's original master PRODUCT run observed two plans where the test expected three.
+
+The fixture now holds the exact plan POST to demonstrate the database remains at two during the in-flight request. After release it requires the 201 response and returned plan ID, successful project refresh and visible created plan before taking the original three-plan snapshot. All original assertions and timeouts remain; only the browser test changes. No product, parser, auth or dependency behavior changes.
+
+Validation: focused real Git/PostgreSQL/parser/Chromium1 and full browser18 passed, zero skips; root build/type/source/tracker21/format/scoped diff passed. Independent exact-head QA repeated the focused case. Independent exact-head security/license review approved the preserved scan classifications. Original CI failure remains immutable FAIL; its exact HTTP timing was not captured, so the controlled gate proves a possible race without asserting historical causality. The timestamp-shaped native folder is an opaque identifier with actual UTC command times recorded.
+
+Official Gitleaks publication49 paths returned exit1/2 previously classified product-description prose matches; all-ref history exit1/106 exactly matches the independently classified T20 baseline. These are finding-bearing scans, not clean PASS. Earlier source-digest metadata limitations remain explicit. No actual credential observed, no rotation indicated, no scanner or history changes. Sonar unavailable under the existing owner quota exception, never PASS; Oracle VALIDATION separately BLOCKED.
+
+T21 explicit operator membership/bootstrap work proceeds in its isolated worktree and will incorporate verified corrective master before publication.

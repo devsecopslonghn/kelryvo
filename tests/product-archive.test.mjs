@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('archival keeps immutable records readable and refuses further project work', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
@@ -14,10 +15,17 @@ test('archival keeps immutable records readable and refuses further project work
   const app = createApp({ sql: db.sql, actors: [developer, approver], repositories: [
     { id: 'local-source', name: 'Product migrations', path: repositoryPath },
   ] });
+  const membership = await createMembershipOperatorFixture(db.databaseUrl);
+  await membership.activateEmptyFixture(app);
   const request = (method, url, payload, actor = developer) => app.inject({ method, url,
     headers: { authorization: `Bearer ${actor.token}` }, payload });
+  const createProject = name => membership.createProjectWithExplicitMembers({
+    create: () => request('POST', '/api/projects', { name }),
+    read: id => request('GET', `/api/projects/${id}`),
+    memberIds: [developer.id, approver.id],
+  });
   try {
-    const project = (await request('POST', '/api/projects', { name: `Archive ${randomUUID()}` })).json().project;
+    const { project } = await createProject(`Archive ${randomUUID()}`);
     const base = `/api/projects/${project.id}`;
     const binding = await request('PUT', `${base}/source`, { repositoryId: 'local-source', folder: 'migrations' });
     assert.equal(binding.statusCode, 200);
@@ -72,7 +80,7 @@ test('archival keeps immutable records readable and refuses further project work
     assert.equal(JSON.stringify(details).includes(repositoryPath), false);
     assert.equal(details.audit.filter(e => e.action === 'EXECUTION_DENIED').length, 0);
     assert.equal((await request('GET', `/api/releases/${release.id}`)).statusCode, 200);
-  } finally { await app.close(); await db.close(); }
+  } finally { await app.close(); await membership.close(); await db.close(); }
 });
 
 test('an in-flight metadata write rechecks archival after acquiring the project lock', {
@@ -81,10 +89,16 @@ test('an in-flight metadata write rechecks archival after acquiring the project 
   const db = await openIsolatedProductDatabase();
   const actor = { id: 'race-developer', name: 'Developer', role: 'developer', token: randomBytes(32).toString('hex') };
   const app = createApp({ sql: db.sql, actors: [actor], repositories: [] });
+  const membership = await createMembershipOperatorFixture(db.databaseUrl);
+  await membership.activateEmptyFixture(app);
   const headers = { authorization: `Bearer ${actor.token}` };
   let pending;
   try {
-    const project = (await app.inject({ method:'POST', url:'/api/projects', headers, payload:{ name:`Race ${randomUUID()}` } })).json().project;
+    const { project } = await membership.createProjectWithExplicitMembers({
+      create: () => app.inject({ method:'POST', url:'/api/projects', headers, payload:{ name:`Race ${randomUUID()}` } }),
+      read: id => app.inject({ method:'GET', url:`/api/projects/${id}`, headers }),
+      memberIds: [actor.id],
+    });
     await db.sql.begin(async tx => {
       await tx`SELECT id FROM sf_projects WHERE id=${project.id} FOR UPDATE`;
       const [{ pid }] = await tx`SELECT pg_backend_pid() AS pid`;
@@ -102,5 +116,5 @@ test('an in-flight metadata write rechecks archival after acquiring the project 
     assert.equal(response.statusCode, 409);
     assert.equal(response.json().error, 'PROJECT_ARCHIVED');
     assert.equal((await db.sql`SELECT id FROM sf_environments WHERE project_id=${project.id}`).length, 0);
-  } finally { await app.close(); await db.close(); }
+  } finally { await app.close(); await membership.close(); await db.close(); }
 });

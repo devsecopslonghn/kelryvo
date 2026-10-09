@@ -1,0 +1,93 @@
+{
+  "recorded_at_utc": "2026-10-09T16:59:05.200982+00:00",
+  "source_files": 40,
+  "native_source_hashes_unchanged_after_master_reconciliation_and_registration": true,
+  "root_tracker_tests": 21,
+  "root_format_lint_scoped_diff": "PASS",
+  "next_product_task": "SF-PRODUCT-T22_READY_REGISTRATION_ONLY",
+  "local_scan_precommit": "exit1/11 classified exact artifact references/recomputed hashes and two description prose; not cleanPASS",
+  "classifier_corrections": "First two precommit classification attempts stopped before staging because masked Secret placeholder was incorrectly treated as unredacted token. Third inspected exact finding lines and recomputed artifact digests; original failures retained, no scanner changes. An external helper inspection used an incorrect publication key; no repo mutation.",
+  "immutable_raw_whitespace": [
+    {
+      "path": "evidence/product/product-t20-recovery-20261009T155925Z/t20/13-freeze-local-commit.log",
+      "sha256": "793b26d8f1a7285ff3a2cf06e0ce0dff9e88077e82f4f601955768ff4acc1860",
+      "immutable_trailing_whitespace_lines": [
+        2,
+        4,
+        6,
+        8,
+        10,
+        12
+      ]
+    },
+    {
+      "path": "evidence/product/product-t20-recovery-20261009T155925Z/t20/20-ordinary-push.log",
+      "sha256": "9909e75f926bda546f20db2f7c42e8b53279f4e5b12da0a47e32fa65925ee89b",
+      "immutable_trailing_whitespace_lines": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "path": "evidence/product/product-t20-recovery-20261009T155925Z/t20/34-master-product-failed-raw.log",
+      "sha256": "6d1b1cf20d5da4468faecee680a90c11a03ff6bd7658f39722362c1a45605264",
+      "immutable_trailing_whitespace_lines": [
+        9,
+        12,
+        13,
+        16,
+        120,
+        122
+      ]
+    },
+    {
+      "path": "evidence/product/product-t20-recovery-20261009T155925Z/repair/07-ordinary-repair-push.log",
+      "sha256": "6c7e2a983f315542ccfe90336273b5bf2acde7bae081caff4122736807693fdf",
+      "immutable_trailing_whitespace_lines": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "path": "evidence/product/product-t20-recovery-20261009T155925Z/repair/17-corrective-master-product-failed-raw.log",
+      "sha256": "f84395a6fe008c435f5032b7555ab84b7d80e0ae14d68eddd09b2f11d0a056dd",
+      "immutable_trailing_whitespace_lines": [
+        9,
+        12
+      ]
+    },
+    {
+      "path": "evidence/product/product-t21-root-20261009T152610Z/34-master-product-failed-raw.log",
+      "sha256": "6d1b1cf20d5da4468faecee680a90c11a03ff6bd7658f39722362c1a45605264",
+      "immutable_trailing_whitespace_lines": [
+        9,
+        12,
+        13,
+        16,
+        120,
+        122
+      ]
+    },
+    {
+      "path": "evidence/product/product-t21-implementation-20261009T1643Z/schemaforge-t21-browser-final2.log",
+      "sha256": "885fe1e2aa7820195191fd9c6dace44635c84c3bb6706b860174fda22cce4654",
+      "immutable_trailing_whitespace_lines": [
+        169
+      ]
+    },
+    {
+      "path": "evidence/product/product-t21-implementation-20261009T1643Z/schemaforge-t21-browser-run.log",
+      "sha256": "a75eff886e61df875b22797e287d3666ab7249bed8b42607e00a59a0ef08edcf",
+      "immutable_trailing_whitespace_lines": [
+        99,
+        102
+      ]
+    }
+  ],
+  "source_docs_whitespace": "PASS; only exact listed immutable raw bytes exempted, no scanner exception",
+  "publication": "EXACT_HEAD_NATIVE_QA_SECURITY_FULL_SCANS_CI_PENDING"
+}

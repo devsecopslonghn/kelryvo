@@ -1,0 +1,167 @@
+product	Run npm run test:browser	﻿2026-10-09T15:28:12.6723343Z ##[group]Run npm run test:browser
+product	Run npm run test:browser	2026-10-09T15:28:12.6723603Z ^[[36;1mnpm run test:browser^[[0m
+product	Run npm run test:browser	2026-10-09T15:28:12.6779402Z shell: /usr/bin/bash -e {0}
+product	Run npm run test:browser	2026-10-09T15:28:12.6779606Z env:
+product	Run npm run test:browser	2026-10-09T15:28:12.6779901Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run npm run test:browser	2026-10-09T15:28:12.6780359Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run npm run test:browser	2026-10-09T15:28:12.6780701Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run npm run test:browser	2026-10-09T15:28:12.6780908Z ##[endgroup]
+product	Run npm run test:browser	2026-10-09T15:28:12.7559753Z 
+product	Run npm run test:browser	2026-10-09T15:28:12.7562795Z > schemaforge-local-development@0.0.0 test:browser
+product	Run npm run test:browser	2026-10-09T15:28:12.7563677Z > npm run build:web && node scripts/test-product.mjs --browser
+product	Run npm run test:browser	2026-10-09T15:28:12.7564135Z 
+product	Run npm run test:browser	2026-10-09T15:28:12.8309735Z 
+product	Run npm run test:browser	2026-10-09T15:28:12.8310390Z > schemaforge-local-development@0.0.0 build:web
+product	Run npm run test:browser	2026-10-09T15:28:12.8310741Z > node scripts/build-web.mjs
+product	Run npm run test:browser	2026-10-09T15:28:12.8310882Z 
+product	Run npm run test:browser	2026-10-09T15:28:12.9119737Z Web application built in dist/web.
+product	Run npm run test:browser	2026-10-09T15:28:12.9928504Z TAP version 13
+product	Run npm run test:browser	2026-10-09T15:28:19.4915508Z # Subtest: browser shows fixed approval integrity feedback and preserves pending plan for rejection
+product	Run npm run test:browser	2026-10-09T15:28:19.4918946Z ok 1 - browser shows fixed approval integrity feedback and preserves pending plan for rejection
+product	Run npm run test:browser	2026-10-09T15:28:19.4919697Z   ---
+product	Run npm run test:browser	2026-10-09T15:28:19.4919982Z   duration_ms: 6053.896136
+product	Run npm run test:browser	2026-10-09T15:28:19.4920296Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:28:19.4920660Z   ...
+product	Run npm run test:browser	2026-10-09T15:28:25.7567314Z # Browser archive workflow and archived project records remained readable after API restart.
+product	Run npm run test:browser	2026-10-09T15:28:25.7807650Z # Subtest: browser archives a project and keeps its releases, plan, audit, and history readable
+product	Run npm run test:browser	2026-10-09T15:28:25.7811611Z ok 2 - browser archives a project and keeps its releases, plan, audit, and history readable
+product	Run npm run test:browser	2026-10-09T15:28:25.7812194Z   ---
+product	Run npm run test:browser	2026-10-09T15:28:25.7812446Z   duration_ms: 5838.836477
+product	Run npm run test:browser	2026-10-09T15:28:25.7812733Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:28:25.7812961Z   ...
+product	Run npm run test:browser	2026-10-09T15:28:27.9379259Z # Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+product	Run npm run test:browser	2026-10-09T15:28:27.9380478Z ok 3 - audit action filters preserve project scope, server order, archived reads and read-only records
+product	Run npm run test:browser	2026-10-09T15:28:27.9381103Z   ---
+product	Run npm run test:browser	2026-10-09T15:28:27.9381367Z   duration_ms: 1709.153728
+product	Run npm run test:browser	2026-10-09T15:28:27.9381662Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:28:27.9381904Z   ...
+product	Run npm run test:browser	2026-10-09T15:28:35.6784763Z # Real browser workflow and PostgreSQL restart persistence passed; Oracle untouched.
+product	Run npm run test:browser	2026-10-09T15:28:35.7241057Z # Subtest: browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+product	Run npm run test:browser	2026-10-09T15:28:35.7242586Z ok 4 - browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+product	Run npm run test:browser	2026-10-09T15:28:35.7243424Z   ---
+product	Run npm run test:browser	2026-10-09T15:28:35.7243806Z   duration_ms: 7341.773623
+product	Run npm run test:browser	2026-10-09T15:28:35.7244217Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:28:35.7244574Z   ...
+product	Run npm run test:browser	2026-10-09T15:28:35.7245075Z # browser phase: application and browser started
+product	Run npm run test:browser	2026-10-09T15:28:35.7245808Z # browser phase: project, import, and approval workflow completed
+product	Run npm run test:browser	2026-10-09T15:28:35.7246519Z # browser phase: duplicate pending plan created
+product	Run npm run test:browser	2026-10-09T15:28:35.7254931Z # browser phase: rejection and execution-denial workflow completed
+product	Run npm run test:browser	2026-10-09T15:28:35.7255676Z # browser phase: original browser closed before API restart
+product	Run npm run test:browser	2026-10-09T15:28:35.7256213Z # browser phase: original API closed
+product	Run npm run test:browser	2026-10-09T15:28:35.7256955Z # browser phase: API restarted and PostgreSQL state verified
+product	Run npm run test:browser	2026-10-09T15:28:35.7257628Z # browser phase: developer signed in and selected unbound project
+product	Run npm run test:browser	2026-10-09T15:28:35.7258329Z # browser phase: source PUT reached delayed-response handler after server write
+product	Run npm run test:browser	2026-10-09T15:28:35.7259049Z # browser phase: approver signed in and original project reselected
+product	Run npm run test:browser	2026-10-09T15:28:35.7259635Z # browser phase: delayed-response route cleanup completed
+product	Run npm run test:browser	2026-10-09T15:28:35.7260176Z # browser phase: stale success was ignored and workflow finished
+product	Run npm run test:browser	2026-10-09T15:28:48.6610384Z # Subtest: plan comments remain scoped, readable, and persistent across API restart
+product	Run npm run test:browser	2026-10-09T15:28:48.6611218Z ok 5 - plan comments remain scoped, readable, and persistent across API restart
+product	Run npm run test:browser	2026-10-09T15:28:48.6611629Z   ---
+product	Run npm run test:browser	2026-10-09T15:28:48.6611881Z   duration_ms: 12475.801079
+product	Run npm run test:browser	2026-10-09T15:28:48.6612221Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:28:48.6612499Z   ...
+product	Run npm run test:browser	2026-10-09T15:28:49.9320203Z # Subtest: browser clears a revoked session and ignores a delayed 401 from an earlier session epoch
+product	Run npm run test:browser	2026-10-09T15:28:49.9321668Z ok 6 - browser clears a revoked session and ignores a delayed 401 from an earlier session epoch
+product	Run npm run test:browser	2026-10-09T15:28:49.9322271Z   ---
+product	Run npm run test:browser	2026-10-09T15:28:49.9322587Z   duration_ms: 829.18103
+product	Run npm run test:browser	2026-10-09T15:28:49.9322921Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:28:49.9323145Z   ...
+product	Run npm run test:browser	2026-10-09T15:28:52.0247461Z # Subtest: decision records render the stored attribution safely and stay plan-specific
+product	Run npm run test:browser	2026-10-09T15:28:52.0248384Z ok 7 - decision records render the stored attribution safely and stay plan-specific
+product	Run npm run test:browser	2026-10-09T15:28:52.0249080Z   ---
+product	Run npm run test:browser	2026-10-09T15:28:52.0249305Z   duration_ms: 1653.691305
+product	Run npm run test:browser	2026-10-09T15:28:52.0249562Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:28:52.0249770Z   ...
+product	Run npm run test:browser	2026-10-09T15:28:56.2810523Z # Subtest: release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+product	Run npm run test:browser	2026-10-09T15:28:56.2811568Z ok 8 - release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+product	Run npm run test:browser	2026-10-09T15:28:56.2812083Z   ---
+product	Run npm run test:browser	2026-10-09T15:28:56.2812407Z   duration_ms: 3797.143683
+product	Run npm run test:browser	2026-10-09T15:28:56.2812739Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:28:56.2812986Z   ...
+product	Run npm run test:browser	2026-10-09T15:29:03.0196583Z # Subtest: browser shows frozen intent facts and keeps changed current configuration separate
+product	Run npm run test:browser	2026-10-09T15:29:03.0198010Z ok 9 - browser shows frozen intent facts and keeps changed current configuration separate
+product	Run npm run test:browser	2026-10-09T15:29:03.0198737Z   ---
+product	Run npm run test:browser	2026-10-09T15:29:03.0199115Z   duration_ms: 6280.713453
+product	Run npm run test:browser	2026-10-09T15:29:03.0199530Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:29:03.0199869Z   ...
+product	Run npm run test:browser	2026-10-09T15:29:11.3336991Z # Subtest: browser shows retained plan requester facts and blocks author decisions
+product	Run npm run test:browser	2026-10-09T15:29:11.3337963Z ok 10 - browser shows retained plan requester facts and blocks author decisions
+product	Run npm run test:browser	2026-10-09T15:29:11.3338634Z   ---
+product	Run npm run test:browser	2026-10-09T15:29:11.3338981Z   duration_ms: 7867.056364
+product	Run npm run test:browser	2026-10-09T15:29:11.3339362Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:29:11.3339753Z   ...
+product	Run npm run test:browser	2026-10-09T15:29:25.4007181Z # Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+product	Run npm run test:browser	2026-10-09T15:29:25.4008413Z ok 11 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+product	Run npm run test:browser	2026-10-09T15:29:25.4008989Z   ---
+product	Run npm run test:browser	2026-10-09T15:29:25.4009173Z   duration_ms: 13610.634106
+product	Run npm run test:browser	2026-10-09T15:29:25.4009370Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:29:25.4009608Z   ...
+product	Run npm run test:browser	2026-10-09T15:29:48.8648698Z # Subtest: plan source inspection stays bound to retained releases and is read only
+product	Run npm run test:browser	2026-10-09T15:29:48.8650702Z ok 12 - plan source inspection stays bound to retained releases and is read only
+product	Run npm run test:browser	2026-10-09T15:29:48.8651701Z   ---
+product	Run npm run test:browser	2026-10-09T15:29:48.8652297Z   duration_ms: 23013.252741
+product	Run npm run test:browser	2026-10-09T15:29:48.8652842Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:29:48.8653112Z   ...
+product	Run npm run test:browser	2026-10-09T15:30:00.3646099Z # Subtest: plan review shows only its matching current project profile and environment
+product	Run npm run test:browser	2026-10-09T15:30:00.3647455Z ok 13 - plan review shows only its matching current project profile and environment
+product	Run npm run test:browser	2026-10-09T15:30:00.3648037Z   ---
+product	Run npm run test:browser	2026-10-09T15:30:00.3648371Z   duration_ms: 11051.395831
+product	Run npm run test:browser	2026-10-09T15:30:00.3648721Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:30:00.3649005Z   ...
+product	Run npm run test:browser	2026-10-09T15:30:07.6228209Z # Subtest: review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+product	Run npm run test:browser	2026-10-09T15:30:07.6229824Z not ok 14 - review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+product	Run npm run test:browser	2026-10-09T15:30:07.6230618Z   ---
+product	Run npm run test:browser	2026-10-09T15:30:07.6230918Z   duration_ms: 6786.876429
+product	Run npm run test:browser	2026-10-09T15:30:07.6231592Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:30:07.6232509Z   location: '/home/runner/work/schemaForge/schemaForge/tests/product-protected-source-binding-browser.integration.mjs:14:1'
+product	Run npm run test:browser	2026-10-09T15:30:07.6233097Z   failureType: 'testCodeFailure'
+product	Run npm run test:browser	2026-10-09T15:30:07.6233323Z   error: |-
+product	Run npm run test:browser	2026-10-09T15:30:07.6233536Z     Expected values to be strictly equal:
+product	Run npm run test:browser	2026-10-09T15:30:07.6233793Z     
+product	Run npm run test:browser	2026-10-09T15:30:07.6233951Z     2 !== 3
+product	Run npm run test:browser	2026-10-09T15:30:07.6234103Z     
+product	Run npm run test:browser	2026-10-09T15:30:07.6234262Z   code: 'ERR_ASSERTION'
+product	Run npm run test:browser	2026-10-09T15:30:07.6236988Z   name: 'AssertionError'
+product	Run npm run test:browser	2026-10-09T15:30:07.6237538Z   expected: 3
+product	Run npm run test:browser	2026-10-09T15:30:07.6237791Z   actual: 2
+product	Run npm run test:browser	2026-10-09T15:30:07.6238040Z   operator: 'strictEqual'
+product	Run npm run test:browser	2026-10-09T15:30:07.6238321Z   stack: |-
+product	Run npm run test:browser	2026-10-09T15:30:07.6238925Z     TestContext.<anonymous> (file:///home/runner/work/schemaForge/schemaForge/tests/product-protected-source-binding-browser.integration.mjs:205:12)
+product	Run npm run test:browser	2026-10-09T15:30:07.6239642Z     process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+product	Run npm run test:browser	2026-10-09T15:30:07.6240053Z     async Test.run (node:internal/test_runner/test:1054:7)
+product	Run npm run test:browser	2026-10-09T15:30:07.6240433Z     async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+product	Run npm run test:browser	2026-10-09T15:30:07.6240734Z   ...
+product	Run npm run test:browser	2026-10-09T15:30:13.3445903Z # Subtest: browser gives fixed feedback when a retained release fails integrity verification
+product	Run npm run test:browser	2026-10-09T15:30:13.3447251Z ok 15 - browser gives fixed feedback when a retained release fails integrity verification
+product	Run npm run test:browser	2026-10-09T15:30:13.3447942Z   ---
+product	Run npm run test:browser	2026-10-09T15:30:13.3448295Z   duration_ms: 5260.883243
+product	Run npm run test:browser	2026-10-09T15:30:13.3448662Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:30:13.3448964Z   ...
+product	Run npm run test:browser	2026-10-09T15:30:19.2724118Z # Subtest: release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+product	Run npm run test:browser	2026-10-09T15:30:19.2725246Z ok 16 - release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+product	Run npm run test:browser	2026-10-09T15:30:19.2725762Z   ---
+product	Run npm run test:browser	2026-10-09T15:30:19.2726109Z   duration_ms: 5476.265524
+product	Run npm run test:browser	2026-10-09T15:30:19.2726461Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:30:19.2727013Z   ...
+product	Run npm run test:browser	2026-10-09T15:30:24.7811136Z # Subtest: browser displays a server-audited decision denial to the authenticated project actor
+product	Run npm run test:browser	2026-10-09T15:30:24.7812097Z ok 17 - browser displays a server-audited decision denial to the authenticated project actor
+product	Run npm run test:browser	2026-10-09T15:30:24.7812539Z   ---
+product	Run npm run test:browser	2026-10-09T15:30:24.7812829Z   duration_ms: 5066.661238
+product	Run npm run test:browser	2026-10-09T15:30:24.7813198Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:30:24.7813841Z   ...
+product	Run npm run test:browser	2026-10-09T15:30:28.0080514Z # Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+product	Run npm run test:browser	2026-10-09T15:30:28.0081528Z ok 18 - status filters preserve scoped ordered plans, drafts, history and archived reads
+product	Run npm run test:browser	2026-10-09T15:30:28.0082095Z   ---
+product	Run npm run test:browser	2026-10-09T15:30:28.0082366Z   duration_ms: 2767.596903
+product	Run npm run test:browser	2026-10-09T15:30:28.0082658Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T15:30:28.0082905Z   ...
+product	Run npm run test:browser	2026-10-09T15:30:28.0280296Z 1..18
+product	Run npm run test:browser	2026-10-09T15:30:28.0281288Z # tests 18
+product	Run npm run test:browser	2026-10-09T15:30:28.0281574Z # suites 0
+product	Run npm run test:browser	2026-10-09T15:30:28.0281811Z # pass 17
+product	Run npm run test:browser	2026-10-09T15:30:28.0282040Z # fail 1
+product	Run npm run test:browser	2026-10-09T15:30:28.0282268Z # cancelled 0
+product	Run npm run test:browser	2026-10-09T15:30:28.0282534Z # skipped 0
+product	Run npm run test:browser	2026-10-09T15:30:28.0282769Z # todo 0
+product	Run npm run test:browser	2026-10-09T15:30:28.0283045Z # duration_ms 135048.416419
+product	Run npm run test:browser	2026-10-09T15:30:28.0433537Z ##[error]Process completed with exit code 1.

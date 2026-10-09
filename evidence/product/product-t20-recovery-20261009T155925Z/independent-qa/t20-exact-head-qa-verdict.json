@@ -1,0 +1,44 @@
+{
+  "recordedAtUtc": "2026-10-09T15:10:34.016691+00:00",
+  "task": "SF-PRODUCT-T20",
+  "review": "independent exact-head QA",
+  "outcome": "PASS",
+  "commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b",
+  "tree": "7fef8b5bc57e5a97b949cf253668aad40fef9ea2",
+  "baseMaster": "7bb4af0184031112ea9f185991f37c97ec0604fa",
+  "workingTreeUnchanged": true,
+  "sourceFilesStable": true,
+  "sourceHashCount": 13,
+  "focusedCheck": {
+    "command": "node --test tests/product-credential-lifecycle.test.mjs tests/product-credential-browser.integration.mjs",
+    "exitCode": 0,
+    "tests": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "startedUtc": "2026-10-09T15:09:52.601624+00:00",
+    "endedUtc": "2026-10-09T15:09:54.313719+00:00",
+    "rawLog": "focused-api-browser.raw.log",
+    "rawLogSha256": "cc0cb339471ddedb16ef8a02be6b22800379b9a3ea045437070376da14699f1f"
+  },
+  "coverage": [
+    "real isolated PostgreSQL authentication/persisted expiry and revocation",
+    "trusted operator rotate/revoke and SIGKILL recovery stages",
+    "concurrent lifecycle operations and generic secret-free CLI error",
+    "Chromium current-session 401 clearing",
+    "delayed prior-epoch 401 cannot clear new actor session"
+  ],
+  "evidenceReview": {
+    "nativeCompletion": "evidence/product/product-t20-native-20261009T143323Z/t20-native-result.json",
+    "rootCorrectedIntegration": "evidence/product/product-t20-root-20261009T142027Z/corrected-integration-record.json",
+    "initialRegistrationFailures": "Preserved; subsequent format correction and corrected final integration quality passed.",
+    "originalTapWhitespaceLines": "Six exact whitespace-only lines are documented in raw-whitespace-exceptions.json; original 1003-line log unchanged and hash matches the recorded value."
+  },
+  "limitations": [
+    "PostgreSQL client pool/API instance reopen covered; PostgreSQL daemon restart and alternate OS UID behavior are not claimed.",
+    "Oracle VALIDATION remains BLOCKED separately.",
+    "Sonar scan unavailable and is not PASS.",
+    "Publication/history scan, remote CI, and merge remain outside this QA verdict."
+  ],
+  "blockers": []
+}

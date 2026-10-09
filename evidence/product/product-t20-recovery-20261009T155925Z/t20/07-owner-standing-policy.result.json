@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t20-standing-policy.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T14:38:44.798651+00:00",
+  "ended_at_utc": "2026-10-09T14:38:44.848868+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/07-owner-standing-policy.log",
+    "sha256": "c058802553804745c178faefa3f3ff12b28b70323e7d220dd919ae58812b5ed6"
+  }
+}

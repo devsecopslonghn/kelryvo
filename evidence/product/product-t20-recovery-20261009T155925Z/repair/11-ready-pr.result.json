@@ -1,0 +1,11 @@
+{
+  "command": "gh pr ready 33 --repo devsecopslonghn/schemaForge",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T15:58:53.530722+00:00",
+  "ended_at_utc": "2026-10-09T15:58:55.120592+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-browser-sync-root-20261009T154120Z/11-ready-pr.log",
+    "sha256": "a8e2e17caab630533cadbe5ef988ff24b6a5fb2b4f16f85865eae4b5a42123cc"
+  }
+}

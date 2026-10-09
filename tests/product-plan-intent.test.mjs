@@ -4,6 +4,7 @@ import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('plan intent persists across API restart and damaged or legacy intent blocks approval without writes', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 180_000,
@@ -14,10 +15,16 @@ test('plan intent persists across API restart and damaged or legacy intent block
     { id: `intent-approver-${randomUUID()}`, name: 'Intent approver', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
   let app = createApp({ sql: database.sql, actors, repositories: [{ id: 'intent-demo', name: 'Demo', path: await prepareDemoRepository() }] });
+  const membership = await createMembershipOperatorFixture(database.databaseUrl);
+  await membership.activateEmptyFixture(app);
   const request = (method, url, payload, actor = actors[0]) => app.inject({ method, url,
     headers: { authorization: `Bearer ${actor.token}` }, payload });
   try {
-    const project = (await request('POST', '/api/projects', { name: `Plan intent ${randomUUID()}` })).json().project;
+    const { project } = await membership.createProjectWithExplicitMembers({
+      create: () => request('POST', '/api/projects', { name: `Plan intent ${randomUUID()}` }),
+      read: id => request('GET', `/api/projects/${id}`),
+      memberIds: [actors[0].id, actors[1].id],
+    });
     const base = `/api/projects/${project.id}`;
     const env = (await request('POST', `${base}/environments`, { name: 'Offline <Local>' })).json().environment;
     const profile = (await request('POST', `${base}/profiles`, { name: 'Offline target', environmentId: env.id,
@@ -42,7 +49,11 @@ test('plan intent persists across API restart and damaged or legacy intent block
       environments: await database.sql`SELECT * FROM sf_environments ORDER BY id`, plans: await database.sql`SELECT * FROM sf_plans ORDER BY id`,
       comments: await database.sql`SELECT * FROM sf_plan_comments ORDER BY id`,
       history: await database.sql`SELECT * FROM sf_history ORDER BY id`, audit: await database.sql`SELECT * FROM sf_audit ORDER BY id` });
-    const otherProject = (await request('POST', '/api/projects', { name: `Other intent scope ${randomUUID()}` })).json().project;
+    const { project: otherProject } = await membership.createProjectWithExplicitMembers({
+      create: () => request('POST', '/api/projects', { name: `Other intent scope ${randomUUID()}` }),
+      read: id => request('GET', `/api/projects/${id}`),
+      memberIds: [actors[0].id, actors[1].id],
+    });
     const otherEnv = (await request('POST', `/api/projects/${otherProject.id}/environments`, { name: 'Foreign' })).json().environment;
     const foreignProfile = (await request('POST', `/api/projects/${otherProject.id}/profiles`, { name: 'Foreign target',
       environmentId: otherEnv.id, engine: 'oracle', host: 'foreign.example.invalid', port: 1521,
@@ -178,6 +189,7 @@ test('plan intent persists across API restart and damaged or legacy intent block
     assert.deepEqual(await snapshots(), legacyBefore);
   } finally {
     await app.close();
+    await membership.close();
     await database.close();
   }
 });

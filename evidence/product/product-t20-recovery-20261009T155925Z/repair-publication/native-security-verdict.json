@@ -1,0 +1,56 @@
+{
+  "reviewed_at_utc": "2026-10-09T15:46:22Z",
+  "verdict": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS",
+  "subject": "SF-PRODUCT-T20 browser synchronization regression repair",
+  "head": "301f4c802680a2ed795f45b742be9761f66667fe",
+  "tree": "94e7cf4ff2021adf9816877b3a3de749d7e89c1c",
+  "base": "c5130e3277e0955285ea3ff428019369cb46578c",
+  "worktree_clean": true,
+  "review_scope": "Read-only exact-head security and license review of the bounded browser test synchronization change and official scan classifications.",
+  "source_review": {
+    "blocking_findings": 0,
+    "changed_product_code_or_runtime_behavior": false,
+    "browser_test": "Exact plan POST interception gate; checks database remains unchanged while review navigation completes; releases the exact response; waits for successful 201 response and returned plan ID, scoped project refresh, and rendered plan before existing database assertions.",
+    "existing_assertions_and_timeouts_preserved": true,
+    "new_dependency_or_third_party_code": false,
+    "license_notice_or_grant_change": false
+  },
+  "official_scans": {
+    "scanner": "Gitleaks 8.30.1",
+    "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+    "publication": {
+      "paths": 49,
+      "findings": 2,
+      "exit_code": 1,
+      "clean_scan_PASS": false,
+      "classification": "Both exact current docs lines are product progress prose, contain no 64-hex value, and are not credentials.",
+      "current_blob_sha256_checks": [
+        "079c708a4c9190928c585a64c9946de6b532e085e0533bd35d3b2b96d34b6d7b",
+        "4a016f1a8f648ea4057bd7649e2ea7850f82d913aa6c72a37273138b6d646f2f"
+      ],
+      "private_report_sha256": "401cac8c96f4153b6f8e0e1712be1c88fbb834901ff4c4de85c303cdb0cff1f1"
+    },
+    "all_ref_history": {
+      "findings": 106,
+      "exit_code": 1,
+      "clean_scan_PASS": false,
+      "classification": "The 106 finding tuples exactly match the independently reviewed T20 baseline; zero findings added or removed.",
+      "private_report_sha256": "35b20bdaf958f653cf3c93a6326624526587e9fee1dc39660218669dc74fab53"
+    },
+    "safe_classification_sha256": "12cb751a18988ad2ba2711944837429277aee72119abbdd05e322c121db3f0b0",
+    "report_hashes_match_safe_summaries": true,
+    "actual_credentials_observed_or_printed": false,
+    "scanner_allowlist_or_history_changes": false
+  },
+  "inherited_T20_limitations": [
+    "Eight earlier source-digest metadata findings per scan retain the T20 limitation: their earlier uncommitted source bytes are unavailable, so they were not recomputed or treated as final-source attestations.",
+    "The original T20 master PRODUCT run failed (run 37951569624); the controlled gate demonstrates a possible synchronization race but does not prove the exact CI timing cause.",
+    "Sonar was unavailable and is not PASS. Oracle validation remains separate and no Oracle behavior is claimed."
+  ],
+  "related_T20_security_verdict_sha256": "576c0ead1bddb2f0e2633a34176ba94c6d78d7ddf7a9895c3c448522c1d66273",
+  "verification_context": {
+    "independent_QA_focused_exact_head": "PASS, 1/1 as reported by root",
+    "native_full_browser": "PASS, 18/18 with zero skips as reported by root",
+    "no_tests_or_scans_rerun_by_this_reviewer": true
+  }
+}

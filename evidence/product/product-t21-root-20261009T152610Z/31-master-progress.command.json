@@ -1,0 +1,5 @@
+{
+  "command": "python3 /tmp/schemaforge-t20-master-state.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:28:25.663759+00:00"
+}

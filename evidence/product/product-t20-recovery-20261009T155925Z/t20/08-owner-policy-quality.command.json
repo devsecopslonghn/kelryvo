@@ -1,0 +1,5 @@
+{
+  "command": "set -e; node scripts/tracker.mjs validate; node scripts/format-json.mjs --check; node --test tests/tracker.test.mjs; git diff --check -- AGENTS.md docs/decisions/log.json docs/implementation scripts/tracker.mjs tests/tracker.test.mjs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T14:40:00.773271+00:00"
+}

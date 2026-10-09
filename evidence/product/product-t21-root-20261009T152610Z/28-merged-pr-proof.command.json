@@ -1,0 +1,5 @@
+{
+  "command": "gh pr view 32 --repo devsecopslonghn/schemaForge --json number,url,state,mergedAt,mergeCommit,headRefOid,baseRefOid,statusCheckRollup,isDraft",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:25:05.642023+00:00"
+}

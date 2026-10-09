@@ -1,0 +1,40 @@
+{
+  "at_utc": "2026-10-09T15:45:51.055342+00:00",
+  "head": "301f4c802680a2ed795f45b742be9761f66667fe",
+  "tree": "94e7cf4ff2021adf9816877b3a3de749d7e89c1c",
+  "publication": {
+    "files": 49,
+    "exit_code": 1,
+    "findings": 2,
+    "clean_PASS": false,
+    "classification": [
+      {
+        "path": "docs/implementation/CONTINUE.md",
+        "rule": "generic-api-key",
+        "line": 88,
+        "classification": "BENIGN_PRODUCT_DESCRIPTION_PROSE",
+        "exact_blob_sha256": "079c708a4c9190928c585a64c9946de6b532e085e0533bd35d3b2b96d34b6d7b",
+        "matched_value_printed": false
+      },
+      {
+        "path": "docs/implementation/CURRENT.md",
+        "rule": "generic-api-key",
+        "line": 88,
+        "classification": "BENIGN_PRODUCT_DESCRIPTION_PROSE",
+        "exact_blob_sha256": "4a016f1a8f648ea4057bd7649e2ea7850f82d913aa6c72a37273138b6d646f2f",
+        "matched_value_printed": false
+      }
+    ]
+  },
+  "allrefs_history": {
+    "exit_code": 1,
+    "findings": 106,
+    "clean_PASS": false,
+    "exact_tuple_match_to_independently_classified_T20_baseline": true,
+    "baseline_security_verdict_sha256": "576c0ead1bddb2f0e2633a34176ba94c6d78d7ddf7a9895c3c448522c1d66273",
+    "preserved_limit": "Eight baseline recorded pre-final source digests have unavailable earlier uncommitted bytes; their metadata provenance was independently inspected, not recomputed or final attestations."
+  },
+  "actual_credentials_observed": false,
+  "rotation_indicated": false,
+  "scanner_allowlist_or_history_changes": false
+}

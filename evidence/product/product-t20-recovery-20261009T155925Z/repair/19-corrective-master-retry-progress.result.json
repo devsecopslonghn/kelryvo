@@ -1,0 +1,11 @@
+{
+  "command": "gh run view 37955800444 --repo devsecopslonghn/schemaForge --json status,conclusion,attempt,jobs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T16:05:21.165846+00:00",
+  "ended_at_utc": "2026-10-09T16:05:22.919864+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-browser-sync-root-20261009T154120Z/19-corrective-master-retry-progress.log",
+    "sha256": "6a6fe62363dc4e27adecc61642260abd9a75a606f2d630190d187b6b62729a8a"
+  }
+}

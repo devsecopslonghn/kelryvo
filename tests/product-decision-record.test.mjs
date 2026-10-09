@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 import { encodeOfflinePlanIntent } from '../packages/migrations/offline-plan-intent.mjs';
 
 const ORG = '00000000-0000-4000-8000-000000000001';
@@ -17,12 +18,17 @@ test('terminal plan decisions retain reviewer snapshots and historical ID fallba
     { id: `record-approver-${randomUUID()}`, name: 'Approver at decision time', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
   let app;
+  const membership = await createMembershipOperatorFixture(db.databaseUrl);
   try {
     app = createApp({ sql: db.sql, actors, repositories: [] });
+    await membership.activateEmptyFixture(app);
     const request = (method, url, payload, actor = actors[0]) => app.inject({
       method, url, payload, headers: { authorization: `Bearer ${actor.token}` },
     });
-    const project = (await request('POST', '/api/projects', { name: `Decision record ${randomUUID()}` })).json().project;
+    const { project } = await membership.createProjectWithExplicitMembers({
+      create: () => request('POST', '/api/projects', { name: `Decision record ${randomUUID()}` }),
+      read: id => request('GET', `/api/projects/${id}`), memberIds: actors.map(actor => actor.id),
+    });
     await db.sql`UPDATE sf_projects SET source_repository_id='fixture',source_folder='migrations',source_updated_at=now() WHERE id=${project.id}`;
     const seedPlan = async () => {
       const content = 'CREATE TABLE T (ID NUMBER);';
@@ -92,6 +98,6 @@ test('terminal plan decisions retain reviewer snapshots and historical ID fallba
     assert.equal(afterRestart.find((plan) => plan.id === rejectedId).decidedByName, actors[1].name);
     assert.equal(afterRestart.find((plan) => plan.id === legacyId).decidedByName, null);
   } finally {
-    try { await app?.close(); } finally { await db.close(); }
+    try { await app?.close(); } finally { try { await membership.close(); } finally { await db.close(); } }
   }
 });

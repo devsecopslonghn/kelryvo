@@ -1,0 +1,11 @@
+{
+  "command": "set -e; git fetch origin; test \"$(git rev-parse origin/master)\" = c5130e3277e0955285ea3ff428019369cb46578c; git worktree add -b development/product-master-browser-synchronization /home/longhn0710/workspace/schemaforge-product-master-browser-synchronization origin/master",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:35:14.572339+00:00",
+  "ended_at_utc": "2026-10-09T15:35:15.743316+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/35-create-master-regression-repair-worktree.log",
+    "sha256": "b35d40b089cbc6dcd01a64ab4235b16d4fd69c3e7fe5c52820bbd04a20141fd4"
+  }
+}

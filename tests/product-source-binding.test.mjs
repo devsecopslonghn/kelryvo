@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const parserAvailable = existsSync(path.join(root, 'experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar'));
@@ -30,13 +31,17 @@ test('source bindings persist, authorize changes, constrain imports before Git, 
     { id: 'invalid-source-path', name: 'Invalid source path', path: hiddenPath },
   ];
   const app = createApp({ sql: db.sql, actors: [developer, approver], repositories });
+  const membership = await createMembershipOperatorFixture(db.databaseUrl);
+  await membership.activateEmptyFixture(app);
   const request = (method, url, payload, identity = developer) => app.inject({ method, url, payload,
     headers: { authorization: `Bearer ${identity.token}` } });
 
   try {
-    const created = await request('POST', '/api/projects', { name: `Binding ${randomUUID()}` });
-    assert.equal(created.statusCode, 201);
-    const project = created.json().project;
+    const { project } = await membership.createProjectWithExplicitMembers({
+      create: () => request('POST', '/api/projects', { name: `Binding ${randomUUID()}` }),
+      read: id => request('GET', `/api/projects/${id}`),
+      memberIds: [developer.id, approver.id],
+    });
     const base = `/api/projects/${project.id}`;
     assert.equal(project.sourceBinding, null);
 
@@ -93,6 +98,7 @@ test('source bindings persist, authorize changes, constrain imports before Git, 
     assert.equal(JSON.stringify(details.json()).includes(hiddenPath), false);
   } finally {
     await app.close();
+    await membership.close();
     await db.close();
   }
 });
@@ -107,12 +113,16 @@ test('source binding is rechecked under a project lock before an imported releas
   const app = createApp({ sql: db.sql, actors: [developer], repositories: [
     { id: 'registered-source', name: 'Local source', path: repositoryPath },
   ] });
+  const membership = await createMembershipOperatorFixture(db.databaseUrl);
+  await membership.activateEmptyFixture(app);
   const headers = { authorization: `Bearer ${developer.token}` };
   let pendingImport;
   try {
-    const created = await app.inject({ method: 'POST', url: '/api/projects', headers,
-      payload: { name: `Binding race ${randomUUID()}` } });
-    const project = created.json().project;
+    const { project } = await membership.createProjectWithExplicitMembers({
+      create: () => app.inject({ method: 'POST', url: '/api/projects', headers, payload: { name: `Binding race ${randomUUID()}` } }),
+      read: id => app.inject({ method: 'GET', url: `/api/projects/${id}`, headers }),
+      memberIds: [developer.id],
+    });
     const base = `/api/projects/${project.id}`;
     const bound = await app.inject({ method: 'PUT', url: `${base}/source`, headers,
       payload: { repositoryId: 'registered-source', folder: 'migrations' } });
@@ -145,6 +155,7 @@ test('source binding is rechecked under a project lock before an imported releas
   } finally {
     if (pendingImport) await pendingImport;
     await app.close();
+    await membership.close();
     await db.close();
   }
 });

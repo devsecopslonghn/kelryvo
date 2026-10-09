@@ -1,0 +1,106 @@
+{
+  "task": "SF-PRODUCT-T21 local project membership lifecycle",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-project-membership",
+  "branch": "development/product-project-membership",
+  "base": "ccb39d05045ae51f24726dcd5e366074d9a03442",
+  "sourceManifest": "source.sha256",
+  "sourceManifestEntries": 40,
+  "testEnvironment": {
+    "postgres": "127.0.0.1:32768/schemaforge_tests; suites create isolated sf_product_test_* databases",
+    "javaHome": "/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+    "cpuAffinity": "taskset -c 0,1",
+    "secrets": "No configured local credentials or credentialed URLs included in this record."
+  },
+  "finalCaptures": [
+    {
+      "name": "product-final4",
+      "commandFile": "product-final4.command.json",
+      "resultFile": "product-final4.result.json",
+      "rawOutput": "product-final4.log",
+      "startedAt": "2026-10-09T16:44:16.965532699Z",
+      "endedAt": "2026-10-09T16:46:14.997464196Z",
+      "exitCode": 0,
+      "rawSha256": "ad0f2f77f9c61609d0bab83a266edd9ea9298197452a978b50cb2e43aeb156d2",
+      "tests": { "passed": 32, "failed": 0, "skipped": 0 },
+      "sourceScope": "API, database, operator, API fixture and product runner sources in source.sha256; these files were unchanged by the later frontend-only plan-source guard."
+    },
+    {
+      "name": "browser-final5",
+      "commandFile": "browser-final5.command.json",
+      "resultFile": "browser-final5.result.json",
+      "rawOutput": "browser-final5.log",
+      "startedAt": "2026-10-09T16:46:20.411835686Z",
+      "endedAt": "2026-10-09T16:49:21.151374731Z",
+      "exitCode": 0,
+      "rawSha256": "282b65897e4e2933e7adff55dce9b341c9b6102d2ba6ef2f873f6787c102dee2",
+      "tests": { "passed": 19, "failed": 0, "skipped": 0 },
+      "includes": "Latest source-operation generation guard and delayed follow-up project GET browser regression."
+    },
+    {
+      "name": "standard-check-final",
+      "commandFile": "standard-check-final.command.json",
+      "resultFile": "standard-check-final.result.json",
+      "rawOutput": "standard-check-final.log",
+      "startedAt": "2026-10-09T16:49:28.592792374Z",
+      "endedAt": "2026-10-09T16:52:21.892668593Z",
+      "exitCode": 0,
+      "rawSha256": "2243b6fc01ce5800cc692ccae397b8e961efa24fb9ef7c196baa69f872572852",
+      "checks": ["build source check", "TypeScript typecheck", "web build", "lint/tracker validation", "format check", "npm test: 154 passed, 0 failed, 0 skipped", "offline dependency smoke", "product dependency closure"]
+    }
+  ],
+  "acceptanceMapping": [
+    {
+      "criterion": 1,
+      "evidence": "Legacy fixture populates project source metadata, environment/profile, release files and manifest, offline intent, approval decision, comment, history and product audit before dropping only the three empty membership tables in its isolated database. initializeDatabase recreates them; complete protected snapshots match and grant count remains zero before bootstrap and after activation. Bootstrap permits project reads and denies writes."
+    },
+    {
+      "criterion": 2,
+      "evidence": "Node-spawned local operator CLI covers status, activate, idempotent grant/revoke, generic secret-free errors, private config password binding, symlink/oversize config rejection, invalid/nonexistent and foreign project/actor attempts, and grant/revoke recovery after every API credential is revoked. Fixed actor roles and retained operator audit are checked."
+    },
+    {
+      "criterion": 3,
+      "evidence": "Activation serializes with the actual shared operator action core against controlled project-revoke and T20 credential-lifecycle advisory locks. It refuses coverage after grant revoke or credential revoke, leaves mode/audit unchanged on failure, and only changes to ENFORCED after usable coverage. Lock order is credential advisory, mode, sorted projects, sorted actors, ordered credentials."
+    },
+    {
+      "criterion": 4,
+      "evidence": "Scoped list and resource tests exercise disjoint grants, hidden/unknown/foreign/malformed IDs, release/plan/comment/decision paths, fixed 404 equality, and unchanged protected snapshots after denied requests and revoke. Existing product fixtures use explicit operator grant/activation helpers."
+    },
+    {
+      "criterion": 5,
+      "evidence": "ENFORCED project creation returns only ID and createdAt. UI displays the local operator grant requirement, does not auto-load the receipt, and project access begins only after an explicit grant and refresh."
+    },
+    {
+      "criterion": 6,
+      "evidence": "Browser checks bootstrap controls are read-only, mutation/read 404 clears loaded SQL, source drafts and protected panels after revocation, and revoking the last grant clears the workspace. Plan-source 404 recovery revalidates project access and is guarded against newer plan selection, session, project, and request generation."
+    }
+  ],
+  "documentedLimits": [
+    "Bootstrap mode allows authenticated same-organization project reads while all project writes are denied.",
+    "Revocation denies later admissions; an operation admitted before a committed revoke may finish.",
+    "Credential usability is checked against PostgreSQL time during activation; a credential can expire after activation and is still checked at request admission.",
+    "All exercised database creation, fixture rows, and credential revocations belong to isolated test databases. No actual local credentials/configuration or membership records were operated on."
+  ],
+  "supersededCaptures": [
+    {
+      "rawOutput": "schemaforge-t21-browser-run.log",
+      "rawSha256": "a75eff886e61df875b22797e287d3666ab7249bed8b42607e00a59a0ef08edcf",
+      "result": "16 passed, 3 failed; early fixture migration run, retained unchanged."
+    },
+    {
+      "rawOutput": "schemaforge-t21-browser-final2.log",
+      "rawSha256": "885fe1e2aa7820195191fd9c6dace44635c84c3bb6706b860174fda22cce4654",
+      "result": "18 passed, 1 failed; exposed missing-release fixed-feedback regression, retained unchanged."
+    },
+    {
+      "rawOutput": "schemaforge-t21-browser-final4.log",
+      "rawSha256": "115de35c0d594e24f50c56629c33ca7eaf0c6e993d4adce9eed0a9f1c57d70b6",
+      "result": "19 passed; predates explicit source-operation generation check added after review."
+    },
+    {
+      "rawOutput": "schemaforge-t21-membership-focus.log",
+      "rawSha256": "3b8c04be6e9d7a13dbe9d933f9a6ab9031221943d05e96f33dbb4cc69213af5b",
+      "result": "An early controlled-lock attempt failed with a duplicate/unowned async revocation; fixed and superseded by product-final4 and standard-check-final."
+    }
+  ],
+  "captureLimitations": "Additional short focused failures were emitted directly by tool invocations and were not separately redirected to immutable raw files. The available full raw browser failures and the early membership failure are preserved above; final captures include exact UTC start/end, cwd, command, exit and raw-byte SHA-256."
+}

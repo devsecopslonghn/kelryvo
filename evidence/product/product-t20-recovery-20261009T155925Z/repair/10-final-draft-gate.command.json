@@ -1,0 +1,5 @@
+{
+  "command": "python /tmp/schemaforge-browser-sync-merge-gate.py 33",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T15:58:43.454074+00:00"
+}

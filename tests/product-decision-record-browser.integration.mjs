@@ -4,6 +4,7 @@ import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 import { encodeOfflinePlanIntent } from '../packages/migrations/offline-plan-intent.mjs';
 
 const ORG = '00000000-0000-4000-8000-000000000001';
@@ -19,15 +20,22 @@ test('decision records render the stored attribution safely and stay plan-specif
   const database = await openIsolatedProductDatabase();
   let app;
   let browser;
+  let membership;
   try {
     let options = { databaseUrl:database.databaseUrl, actors, repositories:[], port:0 };
     app = await startProduct(options);
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     const url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, path, token, body) => {
       const response = await fetch(`${url}${path}`, { method, headers:{ authorization:`Bearer ${token}`, ...(body ? { 'content-type':'application/json' } : {}) }, ...(body ? { body:JSON.stringify(body) } : {}) });
       return { response, result:await response.json() };
     };
-    const { result: { project } } = await api('POST','/api/projects',actors[0].token,{ name:`Decision UI ${randomUUID()}` });
+    const { receipt: project } = await membership.createProjectWithExplicitMembers({
+      create: async () => { const { response, result } = await api('POST','/api/projects',actors[0].token,{ name:`Decision UI ${randomUUID()}` }); return { statusCode:response.status, json:() => result }; },
+      read: async id => { const { response, result } = await api('GET',`/api/projects/${id}`,actors[0].token); return { statusCode:response.status, json:() => result }; },
+      memberIds: actors.map(actor => actor.id),
+    });
     await database.sql`UPDATE sf_projects SET source_repository_id='fixture',source_folder='migrations',source_updated_at=now() WHERE id=${project.id}`;
     const content = 'CREATE TABLE T (ID NUMBER);';
     const sha256 = createHash('sha256').update(content).digest('hex');
@@ -130,6 +138,6 @@ test('decision records render the stored attribution safely and stay plan-specif
     await restartedRecord.getByText(hostileReason,{ exact:true }).waitFor();
     assert.equal(await restartedPage.evaluate(() => window.__decisionXss),undefined);
   } finally {
-    try { await browser?.close(); } finally { try { await app?.close(); } finally { await database.close(); } }
+    try { await browser?.close(); } finally { try { await app?.close(); } finally { try { await membership?.close(); } finally { await database.close(); } } }
   }
 });

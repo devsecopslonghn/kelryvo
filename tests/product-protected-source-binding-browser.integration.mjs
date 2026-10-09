@@ -8,6 +8,7 @@ import { randomBytes, randomUUID } from 'node:crypto';
 import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const git = (directory, ...args) => execFileSync('git', ['-C', directory, ...args], { encoding: 'utf8' }).trim();
 
@@ -25,6 +26,7 @@ test('review recovers a stale pending plan through T18 intake and keeps guidance
   let browser;
   let releaseDecision;
   let releasePlan;
+  let membership;
   try {
     await mkdir(path.join(repositoryPath, 'migrations'));
     await writeFile(path.join(repositoryPath, 'migrations/V001__create_widget.sql'), 'CREATE TABLE widget (id NUMBER PRIMARY KEY);\n');
@@ -35,6 +37,8 @@ test('review recovers a stale pending plan through T18 intake and keeps guidance
     const commit = git(repositoryPath, 'rev-parse', 'HEAD');
     app = await startProduct({ databaseUrl: database.databaseUrl, actors,
       repositories: [{ id: 't19-browser-repo', name: 'T19 temporary repository', path: repositoryPath }], port: 0 });
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     const url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, route, actor = actors[0], payload) => {
       const response = await fetch(`${url}${route}`, { method, headers: { authorization: `Bearer ${actor.token}`,
@@ -42,8 +46,15 @@ test('review recovers a stale pending plan through T18 intake and keeps guidance
       ...(payload !== undefined ? { body: JSON.stringify(payload) } : {}) });
       return { response, body: await response.json() };
     };
-    const project = (await api('POST', '/api/projects', actors[0], { name: `T19 browser ${randomUUID()}` })).body.project;
-    const otherProject = (await api('POST', '/api/projects', actors[0], { name: `T19 separate ${randomUUID()}` })).body.project;
+    const createProject = async name => {
+      const receipt = (await api('POST', '/api/projects', actors[0], { name })).body.project;
+      for (const actor of actors) await membership.grant(receipt.id, actor.id);
+      const read = await api('GET', `/api/projects/${receipt.id}`, actors[0]);
+      assert.equal(read.response.status, 200);
+      return read.body.project;
+    };
+    const project = await createProject(`T19 browser ${randomUUID()}`);
+    const otherProject = await createProject(`T19 separate ${randomUUID()}`);
     const base = `/api/projects/${project.id}`;
     const environment = (await api('POST', `${base}/environments`, actors[0], { name: 'Local' })).body.environment;
     const profile = (await api('POST', `${base}/profiles`, actors[0], { name: 'Offline target', environmentId: environment.id,
@@ -272,6 +283,6 @@ test('review recovers a stale pending plan through T18 intake and keeps guidance
     releaseDecision?.();
     releasePlan?.();
     try { await browser?.close(); }
-    finally { try { await app?.close(); } finally { try { await database.close(); } finally { await rm(repositoryPath, { recursive: true, force: true }); } } }
+    finally { try { await app?.close(); } finally { try { await membership?.close(); } finally { try { await database.close(); } finally { await rm(repositoryPath, { recursive: true, force: true }); } } } }
   }
 });

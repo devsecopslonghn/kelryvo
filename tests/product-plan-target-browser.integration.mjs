@@ -5,6 +5,7 @@ import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('plan review shows only its matching current project profile and environment', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
@@ -17,9 +18,12 @@ test('plan review shows only its matching current project profile and environmen
   const database = await openIsolatedProductDatabase();
   let app;
   let browser;
+  let membership;
   try {
     app = await startProduct({ databaseUrl: database.databaseUrl, actors,
       repositories: [{ id: 'target-demo', name: 'Target migration demo', path: await prepareDemoRepository() }], port: 0 });
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     let url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, route, token = actors[0].token, body) => {
       const response = await fetch(`${url}${route}`, { method, headers: {
@@ -30,7 +34,11 @@ test('plan review shows only its matching current project profile and environmen
     const createContext = async (name, marker) => {
       const created = await api('POST', '/api/projects', actors[0].token, { name });
       assert.equal(created.response.status, 201);
-      const project = created.result.project;
+      const receipt = created.result.project;
+      for (const actor of actors) await membership.grant(receipt.id, actor.id);
+      const projectRead = await api('GET', `/api/projects/${receipt.id}`, actors[0].token);
+      assert.equal(projectRead.response.status, 200);
+      const project = projectRead.result.project;
       const base = `/api/projects/${project.id}`;
       const environment = async (label) => (await api('POST', `${base}/environments`, actors[0].token, { name: label })).result.environment;
       const primaryEnvironment = await environment(`${marker} <Development>`);
@@ -280,6 +288,7 @@ test('plan review shows only its matching current project profile and environmen
   } finally {
     if (browser) await browser.close();
     if (app) await app.close();
+    await membership?.close();
     await database.close();
   }
 });

@@ -1,0 +1,233 @@
+
+> schemaforge-local-development@0.0.0 test:browser
+> npm run build:web && node scripts/test-product.mjs --browser
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: browser shows fixed approval integrity feedback and preserves pending plan for rejection
+ok 1 - browser shows fixed approval integrity feedback and preserves pending plan for rejection
+  ---
+  duration_ms: 6925.383073
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Browser archive workflow and archived project records remained readable after API restart.
+# Subtest: browser archives a project and keeps its releases, plan, audit, and history readable
+ok 2 - browser archives a project and keeps its releases, plan, audit, and history readable
+  ---
+  duration_ms: 7400.02941
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+ok 3 - audit action filters preserve project scope, server order, archived reads and read-only records
+  ---
+  duration_ms: 2419.10581
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Real browser workflow and PostgreSQL restart persistence passed; Oracle untouched.
+# Subtest: browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+ok 4 - browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+  ---
+  duration_ms: 10022.296675
+  type: 'test'
+  ...
+# browser phase: application and browser started
+# browser phase: project, import, and approval workflow completed
+# browser phase: duplicate pending plan created
+# browser phase: rejection and execution-denial workflow completed
+# browser phase: original browser closed before API restart
+# browser phase: original API closed
+# browser phase: API restarted and PostgreSQL state verified
+# browser phase: developer signed in and selected unbound project
+# browser phase: source PUT reached delayed-response handler after server write
+# browser phase: approver signed in and original project reselected
+# browser phase: delayed-response route cleanup completed
+# browser phase: stale success was ignored and workflow finished
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: plan comments remain scoped, readable, and persistent across API restart
+ok 5 - plan comments remain scoped, readable, and persistent across API restart
+  ---
+  duration_ms: 15606.498023
+  type: 'test'
+  ...
+# Subtest: browser clears a revoked session and ignores a delayed 401 from an earlier session epoch
+ok 6 - browser clears a revoked session and ignores a delayed 401 from an earlier session epoch
+  ---
+  duration_ms: 1042.859373
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: decision records render the stored attribution safely and stay plan-specific
+ok 7 - decision records render the stored attribution safely and stay plan-specific
+  ---
+  duration_ms: 2290.596717
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+ok 8 - release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+  ---
+  duration_ms: 4572.151144
+  type: 'test'
+  ...
+# grant complete
+# ENFORCED
+# grant complete
+# revoke complete
+# revoke complete
+# Subtest: browser keeps bootstrap read-only, shows creation receipt without loading it, and clears revoked selection
+ok 9 - browser keeps bootstrap read-only, shows creation receipt without loading it, and clears revoked selection
+  ---
+  duration_ms: 4582.643327
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser shows frozen intent facts and keeps changed current configuration separate
+ok 10 - browser shows frozen intent facts and keeps changed current configuration separate
+  ---
+  duration_ms: 7616.339189
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser shows retained plan requester facts and blocks author decisions
+ok 11 - browser shows retained plan requester facts and blocks author decisions
+  ---
+  duration_ms: 10293.994906
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+ok 12 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+  ---
+  duration_ms: 17064.558282
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: plan source inspection stays bound to retained releases and is read only
+ok 13 - plan source inspection stays bound to retained releases and is read only
+  ---
+  duration_ms: 28926.539535
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: plan review shows only its matching current project profile and environment
+ok 14 - plan review shows only its matching current project profile and environment
+  ---
+  duration_ms: 14159.38259
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+ok 15 - review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+  ---
+  duration_ms: 9064.074853
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: browser gives fixed feedback when a retained release fails integrity verification
+ok 16 - browser gives fixed feedback when a retained release fails integrity verification
+  ---
+  duration_ms: 6640.061523
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+ok 17 - release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+  ---
+  duration_ms: 7115.129485
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: browser displays a server-audited decision denial to the authenticated project actor
+ok 18 - browser displays a server-audited decision denial to the authenticated project actor
+  ---
+  duration_ms: 6763.764175
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+ok 19 - status filters preserve scoped ordered plans, drafts, history and archived reads
+  ---
+  duration_ms: 3525.719045
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 180128.167907

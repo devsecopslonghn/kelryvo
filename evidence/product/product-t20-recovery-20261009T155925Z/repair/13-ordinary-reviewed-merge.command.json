@@ -1,0 +1,5 @@
+{
+  "command": "gh pr merge 33 --repo devsecopslonghn/schemaForge --merge --match-head-commit 301f4c802680a2ed795f45b742be9761f66667fe",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T15:59:22.483325+00:00"
+}

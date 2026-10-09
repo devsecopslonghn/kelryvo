@@ -1,0 +1,5 @@
+{
+  "command": "gh run view 37955800444 --repo devsecopslonghn/schemaForge --log-failed",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T16:02:03.304701+00:00"
+}

@@ -122,6 +122,28 @@
         "docs/inputs/db-research/product-research/DATABASE-RESOURCE-MODEL.md",
         "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md"
       ]
+    },
+    {
+      "id": "SF-D013",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T21_BOOTSTRAP_DEFAULT",
+      "accepted_at_utc": "2026-10-09T15:27:03.729118+00:00",
+      "decision": "Apply owner SF-D012 through authenticated legacy read-only bootstrap with every project mutation denied before writes/audit, explicit local OS operator grants, atomic one-way enforcement after every existing project has usable explicit membership, no creator/audit inference or historical rewrite. Once enforced all project resources require current membership and fixed role; creation returns a pending-grant receipt only. Operator remains independent of expired/revoked API credentials for recovery. Revocation applies to subsequent request admission, consistent with T20; already-admitted operations may finish. Full original WP4/Oracle/remoteIAM excluded.",
+      "references": [
+        "docs/implementation/backlog.json",
+        "docs/development/local-product.md"
+      ]
+    },
+    {
+      "id": "SF-D014",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T22_OFFLINE_PREVIEW_DEFAULT",
+      "accepted_at_utc": "2026-10-09T16:58:26.045292+00:00",
+      "decision": "Prioritize useful approval review of parser-derived exact statement source ranges and validated execution digests after explicit membership. Recompute scoped authorized retained UTF-8 bytes with the existing pinned ANTLR helper after SQL resource bounds and retained integrity checks; preserve historical manifests/intents/plans and fixed membership/read-only/stale-response guards. No historical backfill, regex splitting, worker/execution/Oracle or full SQL015/GOV013 acceptance. Ordinary safe compatibility choice under standing SF-D010 policy.",
+      "references": [
+        "docs/implementation/backlog.json",
+        "experiments/db-devops-wp0/antlr-envelope.mjs",
+        "experiments/db-devops-wp0/parser-envelope.mjs",
+        "packages/migrations/import-release.mjs"
+      ]
     }
   ]
 }

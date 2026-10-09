@@ -1,0 +1,19 @@
+{
+  "master": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+  "recorded_at_utc": "2026-10-09T16:17:39.893621+00:00",
+  "four_corrective_master_families": "PASS",
+  "original_T20_master_PRODUCT": "FAIL_RETAINED",
+  "first_corrective_PRODUCT_attempt": "FAIL_BEFORE_TESTS_RETRY2_PASS",
+  "alerts": {
+    "code-scanning": [],
+    "dependabot": [],
+    "secret-scanning": []
+  },
+  "hygiene_branch_or_pr_visible": false,
+  "shared_original_unchanged": true,
+  "capture_sha256": {
+    "22-postverified-security-and-branch-reconciliation.command.json": "d07da83e82f0f46ccc081901efb48b08520130da853a59feb4a6ea0253a911da",
+    "22-postverified-security-and-branch-reconciliation.log": "59745574965d4c4f3f290eb6c48e1f5dfbc36a7ed531cdf9f7b41da0ea68ec7b",
+    "22-postverified-security-and-branch-reconciliation.result.json": "71d4820bc3d2988081ddf7c52e931f650e143affdcdcb6b4e10064c7a90f421b"
+  }
+}

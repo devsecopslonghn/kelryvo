@@ -1,0 +1,11 @@
+{
+  "command": "set -e; python3 - <<'PY'\nimport pathlib,subprocess,shutil,hashlib\nr=pathlib.Path.cwd();live=pathlib.Path(\"/tmp/schemaforge-browser-sync-root-20261009T154120Z\");e=r/\"evidence/product/product-t20-browser-sync-root-20261009T154120Z\";dirs=[\"evidence/product/product-t20-master-browser-sync-20261009T150000Z\",str(e.relative_to(r))];files=[\"tests/product-protected-source-binding-browser.integration.mjs\"]+[\"docs/implementation/\"+n for n in [\"CURRENT.md\",\"CONTINUE.md\",\"backlog.json\",\"milestone.json\",\"evidence-index.json\"]]\nassert hashlib.sha256((r/files[0]).read_bytes()).hexdigest()==\"deb8c7429c1518e9a8cd28661508b259b06ebba35ff23d3e11acd69dc329b69e\"\nfor f in live.iterdir():\n if f.name.startswith((\"01-\",\"02-\")):shutil.copy2(f,e/f.name)\nchanged=subprocess.check_output([\"git\",\"diff\",\"--name-only\",\"HEAD\"],text=True).splitlines();untracked=subprocess.check_output([\"git\",\"ls-files\",\"--others\",\"--exclude-standard\"],text=True).splitlines();assert all(f in files or any(f.startswith(d+\"/\") for d in dirs) for f in changed+untracked)\nsubprocess.run([\"git\",\"add\",\"--\"]+files,check=True);subprocess.run([\"git\",\"add\",\"-f\",\"--\"]+dirs,check=True)\nPY\n git diff --cached --check -- . \":(exclude)evidence/product/product-t20-browser-sync-root-20261009T154120Z/34-master-product-failed-raw.log\"; git commit -m \"test: await exact plan creation and review refresh before snapshots\"; git rev-parse HEAD HEAD^{tree}; git status --porcelain",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T15:44:02.793640+00:00",
+  "ended_at_utc": "2026-10-09T15:44:02.936251+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-browser-sync-root-20261009T154120Z/03-freeze-reviewed-repair-commit.log",
+    "sha256": "e764e04fa0ecd3e015500396712f755d7b412e86db2b3510bc3102f273bcd73e"
+  }
+}

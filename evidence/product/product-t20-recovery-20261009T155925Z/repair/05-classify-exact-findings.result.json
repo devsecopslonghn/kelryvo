@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-browser-sync-classify.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T15:45:51.000982+00:00",
+  "ended_at_utc": "2026-10-09T15:45:51.067666+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-browser-sync-root-20261009T154120Z/05-classify-exact-findings.log",
+    "sha256": "39a4e406004eaf791041a04df6b4484098cd26a5d60565e4ad95daa5c5f9cf96"
+  }
+}

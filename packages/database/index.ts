@@ -12,6 +12,7 @@ export async function initializeDatabase(sql: any): Promise<void> {
       role text NOT NULL CHECK(role IN ('developer','approver')), display_name text NOT NULL,
       created_at timestamptz NOT NULL DEFAULT clock_timestamp()
     );
+    CREATE UNIQUE INDEX IF NOT EXISTS sf_local_actors_org_identity ON sf_local_actors(id,organization_id);
     CREATE TABLE IF NOT EXISTS sf_local_credentials (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), actor_id text NOT NULL REFERENCES sf_local_actors(id),
       token_sha256 text NOT NULL UNIQUE CHECK(token_sha256 ~ '^[a-f0-9]{64}$'),
@@ -25,6 +26,34 @@ export async function initializeDatabase(sql: any): Promise<void> {
       source_repository_id text, source_folder text, source_updated_at timestamptz,
       source_binding_generation bigint NOT NULL DEFAULT 1,
       created_at timestamptz NOT NULL DEFAULT now(), UNIQUE(id,organization_id)
+    );
+    CREATE TABLE IF NOT EXISTS sf_project_access_mode (
+      organization_id uuid PRIMARY KEY REFERENCES sf_organizations(id),
+      mode text NOT NULL CHECK (mode IN ('BOOTSTRAP_REQUIRED','ENFORCED')),
+      activated_at timestamptz, activated_by_os_uid integer,
+      CHECK ((mode='BOOTSTRAP_REQUIRED' AND activated_at IS NULL AND activated_by_os_uid IS NULL)
+        OR (mode='ENFORCED' AND activated_at IS NOT NULL AND activated_by_os_uid IS NOT NULL))
+    );
+    INSERT INTO sf_project_access_mode(organization_id,mode) VALUES
+      ('00000000-0000-4000-8000-000000000001','BOOTSTRAP_REQUIRED') ON CONFLICT DO NOTHING;
+    CREATE TABLE IF NOT EXISTS sf_project_grants (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
+      project_id uuid NOT NULL, actor_id text NOT NULL,
+      granted_at timestamptz NOT NULL DEFAULT clock_timestamp(), revoked_at timestamptz,
+      grant_os_uid integer NOT NULL, revoke_os_uid integer,
+      CHECK ((revoked_at IS NULL AND revoke_os_uid IS NULL) OR (revoked_at IS NOT NULL AND revoke_os_uid IS NOT NULL)),
+      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
+      FOREIGN KEY(actor_id,organization_id) REFERENCES sf_local_actors(id,organization_id)
+    );
+    CREATE UNIQUE INDEX IF NOT EXISTS sf_project_grants_active ON sf_project_grants(project_id,actor_id) WHERE revoked_at IS NULL;
+    CREATE TABLE IF NOT EXISTS sf_project_operator_audit (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
+      project_id uuid, actor_id text,
+      action text NOT NULL CHECK(action IN ('GRANT','REVOKE','ACTIVATE')),
+      operator_os_uid integer NOT NULL, facts jsonb NOT NULL DEFAULT '{}'::jsonb,
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
+      FOREIGN KEY(actor_id,organization_id) REFERENCES sf_local_actors(id,organization_id)
     );
     CREATE TABLE IF NOT EXISTS sf_environments (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), project_id uuid NOT NULL, organization_id uuid NOT NULL,

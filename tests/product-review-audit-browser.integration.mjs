@@ -5,6 +5,7 @@ import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('browser displays a server-audited decision denial to the authenticated project actor', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 60000,
@@ -16,15 +17,20 @@ test('browser displays a server-audited decision denial to the authenticated pro
   const database = await openIsolatedProductDatabase();
   let app;
   let browser;
+  let membership;
   try {
     const repositoryPath = await prepareDemoRepository();
     app = await startProduct({ databaseUrl: database.databaseUrl, actors,
       repositories: [{ id:'demo', name:'Local migration demo', path:repositoryPath }], port: 0 });
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     const url = `http://127.0.0.1:${app.server.address().port}`;
     const headers = { authorization: `Bearer ${actors[0].token}`, 'content-type': 'application/json' };
     const projectResponse = await fetch(`${url}/api/projects`, { method:'POST', headers,
       body: JSON.stringify({ name:`Denied review ${randomUUID()}` }) });
-    const project = (await projectResponse.json()).project;
+    const receipt = (await projectResponse.json()).project;
+    for (const actor of actors) await membership.grant(receipt.id, actor.id);
+    const project = (await (await fetch(`${url}/api/projects/${receipt.id}`, { headers })).json()).project;
     const base = `/api/projects/${project.id}`;
     const environment = (await (await fetch(`${url}${base}/environments`, { method:'POST', headers,
       body: JSON.stringify({ name:'Development' }) })).json()).environment;
@@ -71,6 +77,6 @@ test('browser displays a server-audited decision denial to the authenticated pro
     assert.deepEqual(errors, []);
   } finally {
     try { await browser?.close(); }
-    finally { try { await app?.close(); } finally { await database.close(); } }
+    finally { try { await app?.close(); } finally { try { await membership?.close(); } finally { await database.close(); } } }
   }
 });

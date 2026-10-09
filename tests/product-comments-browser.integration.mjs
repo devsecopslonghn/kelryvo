@@ -6,6 +6,7 @@ import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('plan comments remain scoped, readable, and persistent across API restart', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
@@ -18,6 +19,7 @@ test('plan comments remain scoped, readable, and persistent across API restart',
   const database = await openIsolatedProductDatabase();
   let app;
   let browser;
+  let membership;
   try {
     const options = {
       databaseUrl: database.databaseUrl,
@@ -26,6 +28,8 @@ test('plan comments remain scoped, readable, and persistent across API restart',
       port: 0,
     };
     app = await startProduct(options);
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     let url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, path, token, body) => {
       const response = await fetch(`${url}${path}`, {
@@ -39,7 +43,11 @@ test('plan comments remain scoped, readable, and persistent across API restart',
     const createProject = async (name) => {
       const created = await api('POST', '/api/projects', actors[0].token, { name });
       assert.equal(created.response.status, 201);
-      const project = created.result.project;
+      const receipt = created.result.project;
+      for (const actor of actors) await membership.grant(receipt.id, actor.id);
+      const authorizedRead = await api('GET', `/api/projects/${receipt.id}`, actors[0].token);
+      assert.equal(authorizedRead.response.status, 200);
+      const project = authorizedRead.result.project;
       const base = `/api/projects/${project.id}`;
       const { result: { environment } } = await api('POST', `${base}/environments`, actors[0].token, { name: 'Development' });
       await api('PUT', `${base}/source`, actors[0].token, { repositoryId: 'demo', folder: 'migrations' });
@@ -128,10 +136,10 @@ test('plan comments remain scoped, readable, and persistent across API restart',
     // A project change also clears the unsent comment body.
     await reviewComments.getByLabel('Comment').fill('draft cleared at project change');
     await page.getByRole('button', { name: /Projects/ }).click();
-    await page.locator('.project-row').filter({ hasText: other.project.name }).click();
+    await page.locator('.project-row').filter({ has: page.getByText(other.project.name, { exact: true }) }).click();
     await page.getByRole('button', { name: /Plans & review/ }).click();
     await page.getByRole('button', { name: /Projects/ }).click();
-    await page.locator('.project-row').filter({ hasText: projectName }).click();
+    await page.locator('.project-row').filter({ has: page.getByText(projectName, { exact: true }) }).click();
     await page.getByRole('button', { name: /Plans & review/ }).click();
     await selectPlan(page, approvedPlan);
     assert.equal(await page.getByRole('region', { name: 'Plan comments' }).getByLabel('Comment').inputValue(), '');
@@ -233,6 +241,6 @@ test('plan comments remain scoped, readable, and persistent across API restart',
     assert.deepEqual(errors, []);
   } finally {
     try { await browser?.close(); }
-    finally { try { await app?.close(); } finally { await database.close(); } }
+    finally { try { await app?.close(); } finally { try { await membership?.close(); } finally { await database.close(); } } }
   }
 });

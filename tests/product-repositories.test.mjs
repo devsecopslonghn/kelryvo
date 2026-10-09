@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { parseLocalRepositoryArguments, resolveLocalRepositories } from '../scripts/local-repositories.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 function git(cwd, args) {
   const result = spawnSync('/usr/bin/git', ['-c', 'core.hooksPath=/dev/null', '-c', 'user.name=SchemaForge test', '-c', 'user.email=test@schemaforge.invalid', '-C', cwd, ...args], {
@@ -111,16 +112,20 @@ test('a configured custom Git repository is visible without its path and imports
     const temporary = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-custom-repository-'));
     let db;
     let app;
+    let membership;
     try {
       const privateRepositoryPath = await createRepository(temporary, 'custom-secret-directory');
       const [repository] = await resolveLocalRepositories([privateRepositoryPath]);
       const token = `custom-repository-test-${randomUUID()}-${randomUUID()}`;
+      const actor = { id: `custom-dev-${randomUUID()}`, name: 'Developer', role: 'developer', token };
       db = await openIsolatedProductDatabase();
       app = createApp({
         sql: db.sql,
-        actors: [{ id: `custom-dev-${randomUUID()}`, name: 'Developer', role: 'developer', token }],
+        actors: [actor],
         repositories: [repository],
       });
+      membership = await createMembershipOperatorFixture(db.databaseUrl);
+      await membership.activateEmptyFixture(app);
 
       const request = (method, url, payload) => app.inject({
         method, url, payload, headers: { authorization: `Bearer ${token}` },
@@ -130,14 +135,16 @@ test('a configured custom Git repository is visible without its path and imports
       assert.deepEqual(listed.json().repositories, [{ id: repository.id, name: repository.name }]);
       assert.equal(listed.body.includes(privateRepositoryPath), false);
 
-      const projectResult = await request('POST', '/api/projects', { name: `Custom repo ${randomUUID()}` });
-      assert.equal(projectResult.statusCode, 201);
-      const binding = await request('PUT', `/api/projects/${projectResult.json().project.id}/source`, {
+      const { project } = await membership.createProjectWithExplicitMembers({
+        create: () => request('POST', '/api/projects', { name: `Custom repo ${randomUUID()}` }),
+        read: id => request('GET', `/api/projects/${id}`), memberIds: [actor.id],
+      });
+      const binding = await request('PUT', `/api/projects/${project.id}/source`, {
         repositoryId: repository.id,
         folder: 'migrations',
       });
       assert.equal(binding.statusCode, 200);
-      const imported = await request('POST', `/api/projects/${projectResult.json().project.id}/releases`, {
+      const imported = await request('POST', `/api/projects/${project.id}/releases`, {
         repositoryId: repository.id,
         commit: 'HEAD',
         folder: 'migrations',
@@ -163,6 +170,7 @@ test('a configured custom Git repository is visible without its path and imports
       assert.deepEqual(retainedAfter.files, retainedBefore.files);
     } finally {
       await app?.close();
+      await membership?.close();
       await db?.close();
       await rm(temporary, { recursive: true, force: true });
     }
@@ -175,6 +183,7 @@ test('project-bound Git refs list safely and imports retain immutable branch and
   const temporary = await mkdtemp(path.join(os.tmpdir(), 'schemaforge-git-refs-'));
   let db;
   let app;
+    let membership;
   try {
     const repositoryPath = await createRepository(temporary, 'private-refs-repository');
     const original = git(repositoryPath, ['rev-parse', 'HEAD']);
@@ -194,21 +203,27 @@ test('project-bound Git refs list safely and imports retain immutable branch and
     const actor = { id: `refs-dev-${randomUUID()}`, name: 'Refs developer', role: 'developer', token: randomUUID() + randomUUID() };
     db = await openIsolatedProductDatabase();
     app = createApp({ sql: db.sql, actors: [actor], repositories: [repository, unavailableRepository] });
+    membership = await createMembershipOperatorFixture(db.databaseUrl);
+    await membership.activateEmptyFixture(app);
     const request = (method, url, payload, authenticated = true) => app.inject({
       method, url, payload, headers: authenticated ? { authorization: `Bearer ${actor.token}` } : {},
     });
-    const created = await request('POST', '/api/projects', { name: `Refs ${randomUUID()}` });
-    const projectId = created.json().project.id;
+    const makeProject = async name => (await membership.createProjectWithExplicitMembers({
+      create: () => request('POST', '/api/projects', { name }),
+      read: id => request('GET', `/api/projects/${id}`), memberIds: [actor.id],
+    })).project;
+    const created = await makeProject(`Refs ${randomUUID()}`);
+    const projectId = created.id;
     assert.equal((await request('GET', `/api/projects/${projectId}/git-refs`, undefined, false)).statusCode, 401);
     assert.equal((await request('GET', `/api/projects/${randomUUID()}/git-refs`)).statusCode, 404);
     assert.equal((await request('GET', `/api/projects/${projectId}/git-refs`)).json().error, 'SOURCE_NOT_BOUND');
-    const unavailableProject = await request('POST', '/api/projects', { name: `Unavailable ${randomUUID()}` });
-    await request('PUT', `/api/projects/${unavailableProject.json().project.id}/source`, { repositoryId: unavailableRepository.id, folder: 'migrations' });
-    const unavailable = await request('GET', `/api/projects/${unavailableProject.json().project.id}/git-refs`);
+    const unavailableProject = await makeProject(`Unavailable ${randomUUID()}`);
+    await request('PUT', `/api/projects/${unavailableProject.id}/source`, { repositoryId: unavailableRepository.id, folder: 'migrations' });
+    const unavailable = await request('GET', `/api/projects/${unavailableProject.id}/git-refs`);
     assert.equal(unavailable.statusCode, 503);
     assert.deepEqual(unavailable.json(), { error: 'REPOSITORY_UNAVAILABLE' });
-    const other = await request('POST', '/api/projects', { name: `Unbound ${randomUUID()}` });
-    assert.equal((await request('GET', `/api/projects/${other.json().project.id}/git-refs`)).json().error, 'SOURCE_NOT_BOUND');
+    const other = await makeProject(`Unbound ${randomUUID()}`);
+    assert.equal((await request('GET', `/api/projects/${other.id}/git-refs`)).json().error, 'SOURCE_NOT_BOUND');
     assert.equal((await request('PUT', `/api/projects/${projectId}/source`, { repositoryId: repository.id, folder: 'migrations' })).statusCode, 200);
 
     const listed = await request('GET', `/api/projects/${projectId}/git-refs`);
@@ -231,7 +246,7 @@ test('project-bound Git refs list safely and imports retain immutable branch and
     const branchRelease = await importRef('refs/heads/release/qa');
     const tagRelease = await importRef('refs/tags/v1.1.0');
     const nestedTagRelease = await importRef('refs/tags/v1.2.0');
-    assert.equal((await request('POST', `/api/projects/${other.json().project.id}/releases`, { repositoryId: repository.id, commit: 'refs/heads/main', folder: 'migrations' })).json().error, 'SOURCE_NOT_BOUND');
+    assert.equal((await request('POST', `/api/projects/${other.id}/releases`, { repositoryId: repository.id, commit: 'refs/heads/main', folder: 'migrations' })).json().error, 'SOURCE_NOT_BOUND');
     assert.equal((await request('POST', `/api/projects/${projectId}/releases`, { repositoryId: 'not-registered', commit: 'refs/heads/main', folder: 'migrations' })).json().error, 'SOURCE_BINDING_MISMATCH');
     assert.equal((await request('POST', `/api/projects/${projectId}/releases`, { repositoryId: repository.id, commit: '--upload-pack=evil', folder: 'migrations' })).json().error, 'RELEASE_IMPORT_FAILED');
     assert.equal((await request('POST', `/api/projects/${projectId}/releases`, { repositoryId: repository.id, commit: 'refs/tags/blob-fixture', folder: 'migrations' })).json().error, 'RELEASE_IMPORT_FAILED');
@@ -262,6 +277,7 @@ test('project-bound Git refs list safely and imports retain immutable branch and
     assert.deepEqual(tooMany.json(), { error: 'GIT_REF_LIMIT' }, 'over-cap response is fixed and never truncated');
   } finally {
     await app?.close();
+    await membership?.close();
     await db?.close();
     await rm(temporary, { recursive: true, force: true });
   }

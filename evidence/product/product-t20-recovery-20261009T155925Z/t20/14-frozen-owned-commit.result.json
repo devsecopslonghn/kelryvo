@@ -1,0 +1,11 @@
+{
+  "command": "set -e; python3 - <<'PY'\nimport json,pathlib,subprocess,hashlib\nr=pathlib.Path.cwd();p=r/\"evidence/product/product-t20-root-20261009T142027Z/raw-whitespace-exceptions.json\";f=r/\"evidence/product/product-t20-native-20261009T143323Z/npm-check.log\";lines=[357,360,407,410,433,436];content=f.read_text().splitlines();assert all(content[n-1].strip()==\"\" and content[n-1] for n in lines);p.write_text(json.dumps({\"raw_log\":str(f.relative_to(r)),\"sha256\":hashlib.sha256(f.read_bytes()).hexdigest(),\"whitespace_only_original_failure_lines\":lines,\"preserved_immutable\":True,\"scope\":\"Six original TAP failure diagnostic whitespace lines retained; full cached diff check failed before commit. Source/docs/scoped evidence check excludes only this exact immutable raw file, not security scanning.\"},indent=2)+\"\\n\");subprocess.run([\"git\",\"add\",\"--\",str(p.relative_to(r))],check=True)\nPY\n git diff --cached --check -- . \":(exclude)evidence/product/product-t20-native-20261009T143323Z/npm-check.log\"; git commit -m \"feat: persist local credential expiry revocation and operator recovery\"; git rev-parse HEAD HEAD^{tree}; git status --porcelain",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:09:20.876780+00:00",
+  "ended_at_utc": "2026-10-09T15:09:20.987337+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/14-frozen-owned-commit.log",
+    "sha256": "c4c3f034f5b7d4bc7c704061285f725bc1e2d2e443f3a790e9c420ed263d3af7"
+  }
+}

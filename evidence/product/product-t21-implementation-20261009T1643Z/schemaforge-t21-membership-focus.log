@@ -1,0 +1,32 @@
+TAP version 13
+# Subtest: explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+ok 1 - explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+  ---
+  duration_ms: 1782.872363
+  type: 'test'
+  ...
+# grant complete
+# Subtest: activation serializes with in-flight revocation and bootstrap creation stays denied
+not ok 2 - activation serializes with in-flight revocation and bootstrap creation stays denied
+  ---
+  duration_ms: 5498.241702
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-project-membership/tests/product-membership.test.mjs:172:1'
+  failureType: 'uncaughtException'
+  error: "Cannot read properties of null (reading 'write')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    Immediate.nextWrite (file:///home/longhn0710/workspace/schemaforge-product-project-membership/node_modules/postgres/src/connection.js:255:22)
+    process.processImmediate (node:internal/timers:484:21)
+  ...
+# Error: Test "activation serializes with in-flight revocation and bootstrap creation stays denied" at tests/product-membership.test.mjs:172:1 generated asynchronous activity after the test ended. This activity created the error "Error: write CONNECTION_CLOSED 127.0.0.1:32768" and would have caused the test to fail, but instead triggered an unhandledRejection event.
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9495.580719

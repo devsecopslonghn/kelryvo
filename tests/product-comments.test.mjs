@@ -4,6 +4,7 @@ import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { encodeOfflinePlanIntent } from '../packages/migrations/offline-plan-intent.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const ORG = '00000000-0000-4000-8000-000000000001';
 
@@ -17,14 +18,21 @@ test('plan review comments are scoped, validated, durable, ordered, and serializ
     { id: `comment-approver-${randomUUID()}`, name: 'Approver Reviewer', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
   let app;
+  let membership;
   try {
     app = createApp({ sql: db.sql, actors, repositories: [] });
+    membership = await createMembershipOperatorFixture(db.databaseUrl);
+    await membership.activateEmptyFixture(app);
     assert.throws(() => createApp({ sql: db.sql, actors: [{ ...actors[0], role: 'viewer' }], repositories: [] }), /Invalid local actor configuration/);
     const request = (method, url, payload, actor = actors[0], headers = {}) => app.inject({
       method, url, payload,
       headers: { authorization: `Bearer ${actor.token}`, ...headers },
     });
-    const createProject = async (name) => (await request('POST', '/api/projects', { name: `${name} ${randomUUID()}` })).json().project;
+    const createProject = async (name) => (await membership.createProjectWithExplicitMembers({
+      create: () => request('POST', '/api/projects', { name: `${name} ${randomUUID()}` }),
+      read: id => request('GET', `/api/projects/${id}`),
+      memberIds: [actors[0].id, actors[1].id],
+    })).project;
     const project = await createProject('Comments');
     const otherProject = await createProject('Other scope');
     const seedPlan = async (projectId, organizationId = ORG) => {
@@ -230,6 +238,6 @@ test('plan review comments are scoped, validated, durable, ordered, and serializ
     assert.equal(beforeDecisionRace, 0);
     assert.equal(noDeniedAudit, 0);
   } finally {
-    try { await app?.close(); } finally { await db.close(); }
+    try { await app?.close(); } finally { try { await membership?.close(); } finally { await db.close(); } }
   }
 });

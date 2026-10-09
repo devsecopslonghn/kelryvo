@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t20-scans.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:10:15.196679+00:00",
+  "ended_at_utc": "2026-10-09T15:10:18.236756+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/15-publication-history-scans.log",
+    "sha256": "8e3764cd7b1e2641756ac44c82f2b6c7b11ebdb05813f2af9a94c0fb49e82ddf"
+  }
+}

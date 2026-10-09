@@ -5,6 +5,7 @@ import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('browser shows fixed approval integrity feedback and preserves pending plan for rejection', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 90000,
@@ -16,16 +17,21 @@ test('browser shows fixed approval integrity feedback and preserves pending plan
   const database = await openIsolatedProductDatabase();
   let app;
   let browser;
+  let membership;
   try {
     app = await startProduct({ databaseUrl: database.databaseUrl, actors,
       repositories: [{ id:'demo', name:'Demo', path:await prepareDemoRepository() }], port:0 });
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     const url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, route, actor = actors[0], body) => {
       const response = await fetch(`${url}${route}`, { method, headers:{ authorization:`Bearer ${actor.token}`,
         ...(body ? { 'content-type':'application/json' } : {}) }, ...(body ? { body:JSON.stringify(body) } : {}) });
       return { response, body:await response.json() };
     };
-    const project = (await api('POST','/api/projects',actors[0],{ name:`Approval browser ${randomUUID()}` })).body.project;
+    const receipt = (await api('POST','/api/projects',actors[0],{ name:`Approval browser ${randomUUID()}` })).body.project;
+    for (const actor of actors) await membership.grant(receipt.id, actor.id);
+    const project = (await api('GET',`/api/projects/${receipt.id}`,actors[0])).body.project;
     const base = `/api/projects/${project.id}`;
     const env = (await api('POST',`${base}/environments`,actors[0],{ name:'Local' })).body.environment;
     const profile = (await api('POST',`${base}/profiles`,actors[0],{ name:'Oracle',environmentId:env.id,engine:'oracle',host:'localhost',port:1521,service:'FREEPDB1',username:'APP',credentialRef:'vault://local/app' })).body.profile;
@@ -63,6 +69,6 @@ test('browser shows fixed approval integrity feedback and preserves pending plan
     assert.deepEqual(pageErrors,[]);
   } finally {
     try { await browser?.close(); }
-    finally { try { await app?.close(); } finally { await database.close(); } }
+    finally { try { await app?.close(); } finally { try { await membership?.close(); } finally { await database.close(); } } }
   }
 });

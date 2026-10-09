@@ -16,11 +16,21 @@ ignore remote Docker environment/context selection, and do not change saved cont
 ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the API/web server.
 
 1. Open `http://127.0.0.1:4317`. Read the private local
-   `.cache/local-product/config.json` and sign in with `developerToken`.
-2. Create a project and a Development environment. Add an Oracle connection profile with
+   `.cache/local-product/config.json` and sign in with `developerToken`. New and upgraded
+   metadata databases start read-only in `BOOTSTRAP_REQUIRED`; review existing projects in
+   the UI and inspect their IDs and grant coverage with the local operator's `status` command.
+2. Before project writes, explicitly grant every existing project to at least one intended
+   local actor, then activate membership. On an empty database, explicitly activate without
+   grants. For example, use `grant PROJECT_UUID local-developer CONFIG` for each covered
+   project, then `activate CONFIG`. The configured fixed actors are `local-developer` and
+   `local-approver`; no project creator or audit author is granted automatically.
+3. Create a project; it returns a creation receipt only. Find its ID with `status`, grant the
+   intended existing actors (for example, both fixed actors), then select **Refresh workspace**
+   in the UI and open the assigned project. Only then create a Development environment and
+   add an Oracle connection profile with
    host `oracle.example.invalid`, service `DEV`, username `APP`, port 1521 and credential
    reference `vault://local/dev/app`. This records configuration without resolving secrets.
-3. Open Releases, select the project and save its source binding to **Local migration demo**
+4. Open Releases, select the project and save its source binding to **Local migration demo**
    and folder `migrations`. Retain ref `HEAD`, select a listed branch or commit-resolving tag,
    or enter a manual ref, then import. Imports use the saved binding;
    unbound projects and repository/folder mismatches are rejected before Git/parser work. The server resolves a full commit and retains exact
@@ -29,7 +39,7 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
     object format, folder, manifest digest, parser profile and import time. These facts and stored SQL
     remain available when Git is unavailable and for archived projects; a current registered name may
     supplement the retained repository ID. Syntax-invalid releases remain visible and cannot produce plans.
-4. Select the profile and prepare an offline candidate. Before creating it, the API checks
+5. Select the profile and prepare an offline candidate. Before creating it, the API checks
    each retained UTF-8 file's byte length and SHA-256 and rebuilds the format-1 manifest digest.
    A mismatch or malformed retained snapshot returns a fixed integrity error without creating
    plan, history or audit records. This check uses the stored release only and works when Git
@@ -154,6 +164,38 @@ profile data; names already captured on decisions remain historical snapshots. A
 credential blocks requests admitted after revocation; it does not cancel an operation that
 already passed authentication.
 
+Project membership starts in `BOOTSTRAP_REQUIRED`, including when the metadata database is
+upgraded. Existing projects and their retained records remain unchanged; no membership is
+inferred from project creation or audit history. Authenticated actors can read legacy project
+data during bootstrap, while all project writes return `MEMBERSHIP_BOOTSTRAP_REQUIRED` before
+writing project, audit, source, release, plan, comment, or history rows. The web displays this
+read-only state.
+
+The local OS operator manages explicit grants independently of API bearer credentials using
+`npm run local:membership -- <action> ... /absolute/private/config.json`. Supported forms are
+`status CONFIG`, `grant PROJECT_UUID ACTOR_ID CONFIG`, `revoke PROJECT_UUID ACTOR_ID CONFIG`,
+and `activate CONFIG`. The config must be the existing local 0700-directory/0600-file config;
+the database URL comes from `SCHEMAFORGE_LOCAL_DATABASE_URL`, must target the loopback local
+metadata database, contain no query overrides, and carry that config's database password.
+`status` reports project and existing actor identifiers/names, fixed roles, explicit assigned
+project IDs, coverage readiness and usable grant counts without printing tokens or SQL. Grant
+and revoke accept only a persisted local `developer` or `approver`
+actor and an existing local project. They preserve fixed roles and retain revoked grant periods
+plus operator UID audit facts. Repeating a grant or revoke is idempotent.
+
+Grant each existing project to at least one actor with a current local credential, then run
+`activate CONFIG`. Activation serializes with credential issuance/revocation, locks the access
+mode, projects, actors and credentials in stable order, then checks full coverage immediately
+before changing mode. It records the local OS UID and is one-way. Usability is evaluated against
+the PostgreSQL clock; expiry can occur after activation and is still enforced at admission. An empty metadata database may be explicitly
+activated. A failed coverage check leaves bootstrap mode unchanged. Recovery remains available
+through the same CLI after all grants or API credentials are revoked; access mode is never reset
+by startup. In `ENFORCED`, lists and project resources are limited to current explicit grants;
+revoked or guessed IDs return the same `NOT_FOUND`. Project creation returns only an ID receipt
+and does not grant the creator access. Run `grant` before opening that project. A request already
+admitted before a committed revoke may finish; later admissions are denied. Grant/mode state
+persists across API instance and PostgreSQL connection-pool reopen.
+
 Rotate or revoke only an existing local identity with the trusted OS operator. It accepts
 an explicit private config path and reads `SCHEMAFORGE_LOCAL_DATABASE_URL` from the process
 environment so the database URL is not placed in command arguments. For example,
@@ -199,8 +241,8 @@ All other API reads/writes require a bearer token:
 
 | Endpoint | Behavior |
 | --- | --- |
-| `GET /api/session`, `/api/repositories`, `/api/projects` | Authenticated identity, allowlisted binding names and projects |
-| `POST /api/projects` | Create project (`name`, optional `description`) |
+| `GET /api/session`, `/api/repositories`, `/api/projects` | Authenticated identity, allowlisted binding names and bootstrap/enforced project visibility |
+| `POST /api/projects` | During bootstrap, fixed denial; when enforced, create project (`name`, optional `description`) and return a receipt without an implicit grant |
 | `GET /api/projects/:id` | Project, environments, profiles, releases, plans, audit, history |
 | `GET /api/projects/:id/git-refs` | Authenticated local branches and commit-resolving tags from the project's saved registered repository |
 | `PUT /api/projects/:id/source` | Developer persists registered `repositoryId`, relative `folder`; changes are audited |

@@ -1,0 +1,5 @@
+{
+  "command": "python3 /tmp/schemaforge-t20-classify.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:11:40.695061+00:00"
+}

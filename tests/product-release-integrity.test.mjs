@@ -8,6 +8,7 @@ import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { MAX_INPUT_BYTES } from '../experiments/db-devops-wp0/parser-envelope.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const parserAvailable = existsSync(path.join(root, 'experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar'));
@@ -19,10 +20,17 @@ test('offline planning rejects corrupted retained releases without writes and us
   const temporaryRepo = process.env.SCHEMAFORGE_DEMO_REPOSITORY_PATH || await prepareDemoRepository();
   const actors = [{ id: `integrity-${randomUUID()}`, name: 'Integrity tester', role: 'developer', token: randomBytes(32).toString('hex') }];
   let app = createApp({ sql: db.sql, actors, repositories: [{ id: 'demo', name: 'Demo', path: temporaryRepo }] });
+  const membership = await createMembershipOperatorFixture(db.databaseUrl);
+  await membership.activateEmptyFixture(app);
   const request = (method, url, payload, token = actors[0].token) => app.inject({ method, url,
     headers: token ? { authorization: `Bearer ${token}` } : {}, payload });
   try {
-    const project = (await request('POST', '/api/projects', { name: `Integrity ${randomUUID()}` })).json().project;
+    const createProject = name => membership.createProjectWithExplicitMembers({
+      create: () => request('POST', '/api/projects', { name }),
+      read: id => request('GET', `/api/projects/${id}`),
+      memberIds: [actors[0].id],
+    });
+    const { project } = await createProject(`Integrity ${randomUUID()}`);
     const env = (await request('POST', `/api/projects/${project.id}/environments`, { name: 'Local' })).json().environment;
     const profile = (await request('POST', `/api/projects/${project.id}/profiles`, { name: 'Oracle', environmentId: env.id,
       engine: 'oracle', host: 'localhost', port: 1521, service: 'FREEPDB1', username: 'APP', credentialRef: 'vault://local/app' })).json().profile;
@@ -37,7 +45,7 @@ test('offline planning rejects corrupted retained releases without writes and us
       audit: await db.sql`SELECT * FROM sf_audit WHERE project_id=${project.id} ORDER BY created_at,id`,
     });
     assert.equal((await request('POST', planUrl, { releaseId, profileId: profile.id }, null)).statusCode, 401);
-    const foreign = (await request('POST', '/api/projects', { name: `Foreign ${randomUUID()}` })).json().project;
+    const { project: foreign } = await createProject(`Foreign ${randomUUID()}`);
     await db.sql`UPDATE sf_projects SET source_repository_id='demo',source_folder='migrations',source_updated_at=now() WHERE id=${foreign.id}`;
     const foreignEnv = (await request('POST', `/api/projects/${foreign.id}/environments`, { name: 'Local' })).json().environment;
     const foreignProfile = (await request('POST', `/api/projects/${foreign.id}/profiles`, { name: 'Oracle', environmentId: foreignEnv.id,
@@ -119,6 +127,7 @@ test('offline planning rejects corrupted retained releases without writes and us
     assert.equal(sha(Buffer.from(original.files[0].content, 'utf8')), original.files[0].sha256);
   } finally {
     await app.close();
+    await membership.close();
     await db.close();
   }
 });

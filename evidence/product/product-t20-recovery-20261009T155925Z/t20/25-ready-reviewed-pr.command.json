@@ -1,0 +1,5 @@
+{
+  "command": "gh pr ready 32 --repo devsecopslonghn/schemaForge",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:24:40.564342+00:00"
+}

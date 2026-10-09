@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t20-master-state.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:28:25.663759+00:00",
+  "ended_at_utc": "2026-10-09T15:28:26.982319+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/31-master-progress.log",
+    "sha256": "f6e3df8ded92d733968eb1ec2b66b9cddf1a927060f6453e647b974293b8517b"
+  }
+}

@@ -8,6 +8,7 @@ import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
@@ -23,10 +24,13 @@ test('release inspection shows persisted provenance and retained SQL after Git b
   let app;
   let browser;
   let repoMoved = false;
+  let membership;
   try {
     await cp(await prepareDemoRepository(), repoPath, { recursive: true });
     app = await startProduct({ databaseUrl: database.databaseUrl, actors,
       repositories: [{ id: 'retained-source-id', name: 'Private migration repository', path: repoPath }], port: 0 });
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     let url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, route, token, body) => {
       const response = await fetch(`${url}${route}`, { method, headers: {
@@ -35,10 +39,15 @@ test('release inspection shows persisted provenance and retained SQL after Git b
       const result = response.status === 204 ? {} : await response.json();
       return { response, result };
     };
-    const { result: decoyResult } = await api('POST', '/api/projects', actors[0].token, { name: `Earlier empty project ${randomUUID()}` });
-    const decoy = decoyResult.project;
-    const { result: projectResult } = await api('POST', '/api/projects', actors[0].token, { name: `Retained release ${randomUUID()}` });
-    const project = projectResult.project;
+    const createProject = async name => {
+      const receipt = (await api('POST', '/api/projects', actors[0].token, { name })).result.project;
+      await membership.grant(receipt.id, actors[0].id);
+      const read = await api('GET', `/api/projects/${receipt.id}`, actors[0].token);
+      assert.equal(read.response.status, 200);
+      return read.result.project;
+    };
+    const decoy = await createProject(`Earlier empty project ${randomUUID()}`);
+    const project = await createProject(`Retained release ${randomUUID()}`);
     const base = `/api/projects/${project.id}`;
     await api('PUT', `${base}/source`, actors[0].token, { repositoryId: 'retained-source-id', folder: 'migrations' });
     const { response: importResponse, result: importResult } = await api('POST', `${base}/releases`, actors[0].token, {
@@ -153,6 +162,7 @@ test('release inspection shows persisted provenance and retained SQL after Git b
   } finally {
     if (browser) await browser.close();
     if (app) await app.close();
+    await membership?.close();
     await database.close();
     if (repoMoved) await rename(unavailablePath, repoPath);
     await rm(temporary, { recursive: true, force: true });

@@ -1,0 +1,11 @@
+{
+  "command": "python3 - <<'PY'\nimport pathlib,hashlib,shutil\nold=pathlib.Path(\"/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle\");new=pathlib.Path.cwd()\nfor name,expected in [(\"experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar\",\"a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38\"),(\".cache/antlr/antlr4-runtime-4.13.2.jar\",\"dd3e8a13a2d669bf84fb8d834de35ce4875f27157698d206241ec8488aadcaf7\")]:\n f=old/name;assert hashlib.sha256(f.read_bytes()).hexdigest()==expected;t=new/name;t.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(f,t);assert hashlib.sha256(t.read_bytes()).hexdigest()==expected\nprint(\"Verified pinned ignored parser artifacts copied for local tests; no download/private config copy.\")\nPY",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-project-membership",
+  "started_at_utc": "2026-10-09T15:27:20.073934+00:00",
+  "ended_at_utc": "2026-10-09T15:27:20.142631+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t21-root-live-20261009T152610Z/05-pinned-parser-test-setup.log",
+    "sha256": "8a3df9f9b0b6b540a6da2584690c6a45af7d48e214b0e28ab6cba29e2b9f0647"
+  }
+}

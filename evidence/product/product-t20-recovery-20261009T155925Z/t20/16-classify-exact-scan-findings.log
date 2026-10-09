@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/schemaforge-t20-classify.py", line 28, in <module>
+    refs=re.findall(r'(?<![a-f0-9])[a-f0-9]{40}(?![a-f0-9])',line);assert len(refs)==1 and refs[0]=='87e4942ef42e2557e67cfc757595c5e6f1d993c9',(f,item['StartLine']);assert subprocess.check_output(['git','cat-file','-t',refs[0]],cwd=r,text=True).strip()=='commit';out.update({'classification':'BENIGN_VERIFIED_GIT_COMMIT_ID','evidence':'Reviewed T19 implementation commit, reachable and preserved; exact continuation source line.'})
+AssertionError: ('docs/implementation/CONTINUE.md', 65)

@@ -4,6 +4,7 @@ import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const ORG = '00000000-0000-4000-8000-000000000001';
 
@@ -18,8 +19,11 @@ test('audit action filters preserve project scope, server order, archived reads 
   const database = await openIsolatedProductDatabase();
   let app;
   let browser;
+  let membership;
   try {
     app = await startProduct({ databaseUrl: database.databaseUrl, actors, repositories: [], port: 0 });
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
     const url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, path, actor, body) => {
       const response = await fetch(`${url}${path}`, { method, headers: {
@@ -27,7 +31,13 @@ test('audit action filters preserve project scope, server order, archived reads 
       }, ...(body ? { body: JSON.stringify(body) } : {}) });
       return { response, body: await response.json() };
     };
-    const createProject = async (name) => (await api('POST', '/api/projects', actors[0], { name })).body.project;
+    const createProject = async (name) => {
+      const receipt = (await api('POST', '/api/projects', actors[0], { name })).body.project;
+      for (const actor of actors) await membership.grant(receipt.id, actor.id);
+      const read = await api('GET', `/api/projects/${receipt.id}`, actors[0]);
+      assert.equal(read.response.status, 200);
+      return read.body.project;
+    };
     const first = await createProject(`Audit events ${randomUUID()}`);
     await database.sql`UPDATE sf_projects SET source_repository_id='fixture',source_folder='migrations',source_updated_at=now() WHERE id=${first.id}`;
     const content = 'CREATE TABLE t (id NUMBER);';
@@ -148,8 +158,7 @@ test('audit action filters preserve project scope, server order, archived reads 
     await selectProject(evictedProject);
     await chooseAction('PROJECT_CREATED');
     assert.deepEqual(await visibleIds(), evictedBefore.audit.map((item) => item.id));
-    await database.sql`DELETE FROM sf_audit WHERE project_id=${evictedProject.id}`;
-    await database.sql`DELETE FROM sf_projects WHERE id=${evictedProject.id}`;
+    await membership.revoke(evictedProject.id, actors[0].id);
     await page.getByLabel('Refresh workspace').click();
     await page.waitForFunction(() => {
       const filter = document.querySelector('select[aria-label="Audit action"]');
@@ -169,6 +178,6 @@ test('audit action filters preserve project scope, server order, archived reads 
     assert.deepEqual(await read(first, actors[1]), firstBefore, 'filtered reads remain stable for an authenticated approver');
     assert.deepEqual(errors, []);
   } finally {
-    try { await browser?.close(); } finally { try { await app?.close(); } finally { await database.close(); } }
+    try { await browser?.close(); } finally { try { await app?.close(); } finally { try { await membership?.close(); } finally { await database.close(); } } }
   }
 });

@@ -7,6 +7,7 @@ import path from 'node:path';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 const git = (directory, ...args) => execFileSync('git', ['-C', directory, ...args], { encoding: 'utf8' }).trim();
 
@@ -21,6 +22,7 @@ test('rejected plan remains immutable when changed SQL is imported as a fresh in
   ];
   const repositoryPath = await mkdtemp(path.join(tmpdir(), 'schemaforge-t18-git-'));
   let app;
+  const membership = await createMembershipOperatorFixture(database.databaseUrl);
   try {
     await mkdir(path.join(repositoryPath, 'migrations'));
     await writeFile(path.join(repositoryPath, 'migrations/V001__create_widget.sql'), 'CREATE TABLE widget (id NUMBER PRIMARY KEY, name VARCHAR2(100));\n');
@@ -30,9 +32,13 @@ test('rejected plan remains immutable when changed SQL is imported as a fresh in
       '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgSign=false', 'commit', '-m', 'Initial migration');
     const firstCommit = git(repositoryPath, 'rev-parse', 'HEAD');
     app = createApp({ sql: database.sql, actors, repositories: [{ id: 't18-owned-repo', name: 'T18 temporary repository', path: repositoryPath }] });
+    await membership.activateEmptyFixture(app);
     const request = (method, url, payload, actor = actors[0]) => app.inject({ method, url,
       headers: { authorization: `Bearer ${actor.token}` }, payload });
-    const project = (await request('POST', '/api/projects', { name: `T18 ${randomUUID()}` })).json().project;
+    const { project } = await membership.createProjectWithExplicitMembers({
+      create: () => request('POST', '/api/projects', { name: `T18 ${randomUUID()}` }),
+      read: id => request('GET', `/api/projects/${id}`), memberIds: actors.map(actor => actor.id),
+    });
     const base = `/api/projects/${project.id}`;
     const environment = (await request('POST', `${base}/environments`, { name: 'Local' })).json().environment;
     const profile = (await request('POST', `${base}/profiles`, { name: 'Offline target', environmentId: environment.id,
@@ -84,7 +90,10 @@ test('rejected plan remains immutable when changed SQL is imported as a fresh in
     assert.equal(selfDecision.statusCode, 403);
     assert.equal(selfDecision.json().error, 'SELF_APPROVAL_DENIED');
     const beforeForeign = await database.sql`SELECT * FROM sf_plans ORDER BY id`;
-    const foreignProject = (await request('POST', '/api/projects', { name: `T18 foreign ${randomUUID()}` })).json().project;
+    const { project: foreignProject } = await membership.createProjectWithExplicitMembers({
+      create: () => request('POST', '/api/projects', { name: `T18 foreign ${randomUUID()}` }),
+      read: id => request('GET', `/api/projects/${id}`), memberIds: actors.map(actor => actor.id),
+    });
     await database.sql`UPDATE sf_projects SET source_repository_id='t18-browser-repo',source_folder='migrations',source_updated_at=now() WHERE id=${foreignProject.id}`;
     const foreignRelease = await request('POST', `/api/projects/${foreignProject.id}/plans`, { releaseId: freshRelease.id, profileId: profile.id });
     assert.equal(foreignRelease.statusCode, 400);
@@ -115,6 +124,6 @@ test('rejected plan remains immutable when changed SQL is imported as a fresh in
     assert.ok(freshHistory.every((item) => item.status === 'NOT_EXECUTED'));
   } finally {
     try { await app?.close(); }
-    finally { try { await database.close(); } finally { await rm(repositoryPath, { recursive: true, force: true }); } }
+    finally { try { await membership.close(); } finally { try { await database.close(); } finally { await rm(repositoryPath, { recursive: true, force: true }); } } }
   }
 });

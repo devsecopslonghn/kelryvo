@@ -355,7 +355,63 @@ const PRODUCT_TASK_20 = {
     "SF-PRODUCT-T20-OPERATOR"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20];
+const PRODUCT_TASK_21 = {
+  "id": "SF-PRODUCT-T21",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Enforce explicit local project membership with safe bootstrap and recovery",
+  "dependencies": [
+    "SF-PRODUCT-T20"
+  ],
+  "feature_ids": [
+    "PRJ-003",
+    "SEC-005"
+  ],
+  "acceptance_criteria": [
+    "Add explicit persisted project grants for existing fixed-role local actors and a durable local-organization access mode BOOTSTRAP_REQUIRED -> ENFORCED. Preserve all existing projects, releases, plans, source generations, comments, retained intents/decisions, history and audits. Do not infer owners/members from creation/audit facts or backfill grants; membership cannot create actors, change roles or grant physical endpoint/worker administration.",
+    "Provide a trusted local OS operator CLI for safe project/actor identification, explicit grant/revoke, bootstrap readiness and one-way activation, independent of API bearer validity. Validate owned bounded private configuration and fixed local organization, project and actor identities; never expose credentials or source SQL. Grant/revoke operations are transactional, idempotent and preserve auditable operator authority/facts without fabricating an application administrator. Recovery remains available after all project grants or login credentials are revoked; never auto-grant a creator or undo enforcement.",
+    "Before activation, authenticated same-organization legacy reads may remain available under the existing fixed-role boundary, with clear bootstrap status. Deny every project-affecting API mutation (including project creation) with fixed bootstrap-required feedback before protected writes/audit. Require every existing project to have at least one explicit usable local grant before atomic activation; hold consistent access-mode/project/actor locks so concurrent project-set/grant changes cannot bypass coverage. Fresh empty metadata may activate through explicit operator action. No automatic membership or history rewrite occurs.",
+    "After ENFORCED, scope all project lists/details, refs, source/archive, environments/profiles, release import/read, plan creation/read/decision, comments, audit/history by current server-resolved membership and unchanged global role. Missing/revoked/foreign/guessed project resource IDs return indistinguishable fixed denial without disclosing existence/data. Keep identity-wide session and safe repository metadata authenticated; no filesystem paths or SQL disclosure across denied resources. New project creation returns only a creation receipt and requires explicit operator grant before project access; creator gains no implicit access or administrative privilege.",
+    "Check current persisted grants and credentials at each new request admission, preserving role/self/terminal/archive behavior for authorized members and consistent transaction lock order with operator changes. After revoke commits, subsequent admissions deny; already admitted operations may finish, with this limit explicit and no cancellation claim. API/PostgreSQL connection-pool reopen preserves mode/grants/revocation; archived historical data remains readable for current members. Failed/unauthorized operations do not mutate protected project/grant/history/source records; established authorized denial audit behavior remains.",
+    "React shows bootstrap/read-only and safe empty/denied-access states. Creation never auto-loads a project without an explicit grant. Revoked selected-project access clears project/plan/release/source/drafts, and delayed project/session responses cannot repopulate them. Real isolated PostgreSQL/Git/parser/API/Chromium tests cover migration preservation with zero implicit grants, bootstrap/recovery/activation races, foreign/direct/guessed IDs, both roles, token expiry/revocation, grant revocation/new admissions, archive history, persistence and full existing regressions with explicit operator test-fixture grants rather than production bypasses. This is partial local PRJ-003/SEC-005, not full original WP4 worker/RBAC/organization transfer, remote IAM or Oracle execution/runtime target acceptance."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T21-API",
+    "SF-PRODUCT-T21-WEB",
+    "SF-PRODUCT-T21-OPERATOR"
+  ]
+};
+
+const PRODUCT_TASK_22 = {
+  "id": "SF-PRODUCT-T22",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Inspect parser-derived statement previews in offline release review",
+  "dependencies": [
+    "SF-PRODUCT-T21",
+    "SF-PRODUCT-T17",
+    "SF-PRODUCT-T19"
+  ],
+  "feature_ids": [
+    "SQL-015",
+    "GOV-013"
+  ],
+  "acceptance_criteria": [
+    "Provide an authenticated project-scoped read-only statement preview for a retained release/file using current explicit membership and fixed roles. Preserve archived authorized reads and fixed indistinguishable resource denials. Scope and SQL size/shape bounds must be checked before materializing payloads; verify retained UTF-8 source/hash/manifest and pinned parser profile before parsing. No Git re-read, credential resolution or target connection.",
+    "Reuse the pinned bounded ANTLR helper and its validated byte protocol. Return ordered source byte ranges, exact UTF-8 slices, source and normalized execution SHA256 facts, parser profile and delimiter disposition with explicit offline labels. Validate full coverage, ordered ranges, bytes and digests. Do not split by regex, invent unsupported parser output or claim the preview grants execution authority.",
+    "Fail closed with fixed unavailable feedback for malformed, oversized, mismatched, unsupported, corrupt or parser-unavailable data. Produce no successful partial preview and no writes to projects, releases, plans, retained intents, decisions, comments, source generations, history or audit. Preserve existing whole-file source inspection and authorized rejection.",
+    "React release/plan source review supports statement preview for the exact selected retained source. Show ordered literal SQL and byte/digest facts, distinguish source bytes from normalized execution facts and retained offline intent from runtime target verification. Project, plan, release, file, session and current credential changes discard delayed responses. Revoked project access clears retained source and drafts under T21 guards.",
+    "Real isolated Git/PostgreSQL/pinned-parser/API/browser regressions cover PL/SQL blocks, comments, quoted semicolons, multiple statements and non-ASCII UTF-8 byte offsets; corrupt/malformed/oversized/unavailable data, foreign/missing/revoked membership, archive/read persistence and controlled stale responses. Compare complete retained-row snapshots for no writes and retain existing product/parser/browser regressions with no skipped required cases.",
+    "This bounded offline SQL-015/GOV-013 preview does not alter original catalog acceptance, format-1 manifests or historical plans/intents. Recompute from authorized retained UTF-8 bytes without backfilling history. No approved worker digest binding, Oracle execution, runtime identity/history verification, remote CLI authority or full WP7 acceptance claim. Document this safe compatibility default and remaining delivery gaps."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T22-API",
+    "SF-PRODUCT-T22-WEB",
+    "SF-PRODUCT-T22-PARSER"
+  ]
+};
+
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

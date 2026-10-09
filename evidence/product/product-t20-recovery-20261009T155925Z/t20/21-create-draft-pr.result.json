@@ -1,0 +1,11 @@
+{
+  "command": "set -e; test \"$(git ls-remote origin refs/heads/development/product-local-credential-lifecycle | cut -f1)\" = d90403ed9c19586f21e00358e4b723f06af3ef8b; gh pr create --repo devsecopslonghn/schemaForge --base master --head development/product-local-credential-lifecycle --draft --title \"Persist local credential expiry, revocation and operator recovery\" --body-file /tmp/schemaforge-t20-publication-20261009T151000Z/pr-body.md",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:18:13.927887+00:00",
+  "ended_at_utc": "2026-10-09T15:18:18.478605+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/21-create-draft-pr.log",
+    "sha256": "8755a6d168d4bd6f843b48eea4c3d4265d12cc3ed7827a39f48e56b0593cb523"
+  }
+}

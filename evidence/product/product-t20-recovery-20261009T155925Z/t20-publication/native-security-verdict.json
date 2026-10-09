@@ -1,0 +1,82 @@
+{
+  "reviewed_at_utc": "2026-10-09T15:16:37Z",
+  "verdict": "APPROVED_WITH_EXPLICIT_SCAN_CLASSIFICATION_LIMITATION",
+  "subject": "SF-PRODUCT-T20 bounded local credential lifecycle",
+  "head": "d90403ed9c19586f21e00358e4b723f06af3ef8b",
+  "tree": "7fef8b5bc57e5a97b949cf253668aad40fef9ea2",
+  "base": "7bb4af0184031112ea9f185991f37c97ec0604fa",
+  "worktree_clean": true,
+  "review_scope": "Exact frozen source security and license review; official publication and all-ref history finding classifications independently cross-checked without displaying secret matches.",
+  "security_review": {
+    "blocking_findings": 0,
+    "actor_organization_role_and_database_admission_checks": "PASS",
+    "insert_only_database_clock_fixed_24h_expiry_and_revocation": "PASS",
+    "operator_lock_private_file_journal_crash_recovery_and_generic_errors": "PASS",
+    "browser_401_epoch_guard_and_no_token_dom_event": "PASS",
+    "startup_private_config_bounded_exact_key_validation": "PASS",
+    "previous_review_findings": "All addressed in frozen source"
+  },
+  "license_review": {
+    "blocking_findings": 0,
+    "new_third_party_dependencies_or_source": false,
+    "third_party_grant_or_notice_regression": false,
+    "util_linux_flock_requirement_documented": true
+  },
+  "source_proof": {
+    "source_freeze_entries": 21,
+    "source_freeze_hashes_matching_exact_head": 21,
+    "owned_native_sources": 13,
+    "independent_review_worktree_clean": true
+  },
+  "official_scans": {
+    "scanner": "Gitleaks 8.30.1",
+    "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+    "publication": {
+      "paths": 188,
+      "findings": 70,
+      "exit_code": 1,
+      "clean_scan_PASS": false,
+      "independently_checked_classifications": {
+        "recomputed_exact_artifact_hash": 60,
+        "recorded_pre_final_source_digest_metadata": 8,
+        "product_description_prose": 2
+      },
+      "private_report_sha256": "c45e9bac1d88c2707be7a7dcc7a0b5218c3be3c76a36ba9d390402cbe52dc5a3"
+    },
+    "all_ref_history": {
+      "findings": 106,
+      "exit_code": 1,
+      "clean_scan_PASS": false,
+      "independently_checked_classifications": {
+        "recomputed_exact_artifact_hash": 60,
+        "recorded_pre_final_source_digest_metadata": 8,
+        "product_description_prose": 2,
+        "previous_exact_T19_provenance_matches": 36
+      },
+      "private_report_sha256": "9e6d40098a809bfe2b91a82929aa13b4a78e5ec32cfc0a93aa6dbae26fd5a47d"
+    },
+    "classification_sha256": "9da3e15f2fe9c12739a19f4ad2542582c3614bbac676a616cc44b1ea99e0bb61",
+    "safe_publication_summary_sha256": "d51eef16d4243ce12200eb5c8811ac6ad2c7821852c210094e6b832bf24ed7aa",
+    "safe_history_summary_sha256": "92bc1b31b62fa8444e12f028115178081ec3299776ef29e8925b6a9761c80ba9",
+    "actual_credentials_observed_or_printed": false,
+    "rotation_indicated": false,
+    "allowlist_scanner_configuration_or_history_rewrite": false
+  },
+  "classification_limitations": [
+    "Eight findings per scan are recorded source-digest metadata keyed to scripts/local-credential-operator.mjs or tests/product-credential-lifecycle.test.mjs. The exact metadata keys, line locations, and containing committed artifact hashes were verified. The earlier uncommitted source bytes are unavailable, so these source digests were not recomputed and are not represented as final-source attestations.",
+    "Both official scans are finding-bearing with exit code 1. Their classified benign findings are not reported as clean scanner PASS."
+  ],
+  "related_T19_baseline": {
+    "recorded_verdict": "APPROVED",
+    "head": "87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+    "merge_commit": "7bb4af0184031112ea9f185991f37c97ec0604fa",
+    "history_findings": 36,
+    "T20_baseline_matches_T19_private_report_metadata_exactly": true,
+    "T19_verdict_sha256": "cb194685c8a0eb9695d34c4b78b43f84365e0cc7a6d1ba9a2cd0eab049c01454",
+    "T19_record_sha256": "96236905b8291de6e16d1214a6ce0c8a9e23cf9f6b27a3e78726e9a94ccc18e8"
+  },
+  "verification_scope_limits": [
+    "No new tests or scans were run during this read-only review.",
+    "No Sonar PASS or Oracle behavior, deployment, or execution claim is made."
+  ]
+}

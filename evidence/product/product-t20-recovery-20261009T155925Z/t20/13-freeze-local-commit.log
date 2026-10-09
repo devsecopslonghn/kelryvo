@@ -1,0 +1,18 @@
+evidence/product/product-t20-native-20261009T143323Z/npm-check.log:357: trailing whitespace.
++    
+evidence/product/product-t20-native-20261009T143323Z/npm-check.log:360: trailing whitespace.
++    
+evidence/product/product-t20-native-20261009T143323Z/npm-check.log:407: trailing whitespace.
++    
+evidence/product/product-t20-native-20261009T143323Z/npm-check.log:410: trailing whitespace.
++    
+evidence/product/product-t20-native-20261009T143323Z/npm-check.log:433: trailing whitespace.
++    
+evidence/product/product-t20-native-20261009T143323Z/npm-check.log:436: trailing whitespace.
++    
+Traceback (most recent call last):
+  File "/tmp/schemaforge-t20-commit.py", line 11, in <module>
+    subprocess.run(['git','diff','--cached','--check'],cwd=r,check=True)
+  File "/usr/lib64/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'diff', '--cached', '--check']' returned non-zero exit status 2.
