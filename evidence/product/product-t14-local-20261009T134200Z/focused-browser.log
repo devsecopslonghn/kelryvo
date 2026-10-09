@@ -1,0 +1,30 @@
+TAP version 13
+# Subtest: plan review shows only its matching current project profile and environment
+not ok 1 - plan review shows only its matching current project profile and environment
+  ---
+  duration_ms: 225.23235
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-plan-target-review/tests/product-plan-target-browser.integration.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/home/longhn0710/workspace/schemaforge-product-plan-target-review/dist/web/index.html'"
+  code: 'ENOENT'
+  stack: |-
+    async open (node:internal/fs/promises:639:25)
+    async readFile (node:internal/fs/promises:1252:14)
+    async file:///home/longhn0710/workspace/schemaforge-product-plan-target-review/apps/api/server.ts:21:37
+    async Promise.all (index 0)
+    async startProduct (file:///home/longhn0710/workspace/schemaforge-product-plan-target-review/apps/api/server.ts:20:20)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-plan-target-review/tests/product-plan-target-browser.integration.mjs:21:11)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 917.496581
+exit=1

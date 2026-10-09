@@ -1,5 +1,50 @@
 # Current engineering state
 
+## T14 locally verified; exact-head publication review pending — 2026-10-09
+
+Review now displays the selected plan's exact matching configured profile/environment from
+existing loaded project data, labels current configuration, and omits credential references.
+Missing/foreign/malformed target data uses fixed unavailable feedback with retained IDs.
+Archive/terminal reads, escaped text and project/session changes retain existing boundaries.
+No API/schema/auth/Git/worker or target connection was added.
+
+Local results: 142 standard, 22 PostgreSQL product, 12 browser, and one focused browser
+case passed with zero skips. Root verified five implementation and fourteen raw-log hashes.
+Evidence: `evidence/product/product-t14-local-20261009T134200Z/root-record.json`.
+Failed focused attempts are preserved. The deliberately malformed fixture first reached
+Workspace and caused its existing renderer to fail; this unrelated behavior is not claimed
+fixed. Final regression injects/restores that fixture while Review is active. Evidence folder
+name is an opaque run ID, not an attested UTC start timestamp.
+
+Worktree `/home/longhn0710/workspace/schemaforge-product-plan-target-review`, branch
+`development/product-plan-target-review`, base checkpoint
+`d0d3d323da6e4afa1d1ac6e0cc8740e1003cee5b` on master
+`a0d1fd1616bdf43126bc8481c5aae820d0736d30`. Exact-head QA/security, PR/CI,
+merge and master verification remain pending; resolve from Git/GitHub before resuming.
+Next SF-PRODUCT-T15 is READY, registration only: reuse bounded retained-source verification
+inside authorized approval, match plan items, lock the scoped release, reject integrity
+failures before writes, and preserve rejection plus audited authorization/terminal denials.
+No execution-time/target attestation, schema, credentials, worker or Oracle scope.
+Shared checkout remains untouched; no Hygiene branch/PR is visible. Sonar unavailable,
+never PASS; Oracle VALIDATION separately BLOCKED. No full catalog acceptance claim.
+
+
+## T14 active in its isolated worktree — 2026-10-09
+
+SF-PRODUCT-T14 is IN_PROGRESS in
+`/home/longhn0710/workspace/schemaforge-product-plan-target-review`, branch
+`development/product-plan-target-review`, checkpoint
+`d0d3d323da6e4afa1d1ac6e0cc8740e1003cee5b` on verified merged master
+`a0d1fd1616bdf43126bc8481c5aae820d0736d30`. A fresh native feature context owns
+UI/browser regression/driver/operating docs; root owns tracking, review and publication.
+Display the selected plan's exact configured profile and environment from existing scoped
+data, explicitly current configuration. Omit credential references and preserve missing,
+foreign, archive, terminal, plan/project/session and complete no-write boundaries.
+T14 has no verification evidence yet. No API/schema/runtime or Oracle change.
+Shared checkout remains clean and untouched; no open PR or Hygiene branch is visible.
+Sonar remains unavailable, never PASS; Oracle VALIDATION remains separately BLOCKED.
+
+
 ## T13 merged and master verified; T14 ready — 2026-10-09
 
 T13 merged through [PR #25](https://github.com/devsecopslonghn/schemaForge/pull/25) at

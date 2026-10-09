@@ -1,0 +1,84 @@
+{
+  "task_id": "SF-PRODUCT-T14",
+  "run_id": "product-t14-local-20261009T134200Z",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-plan-target-review",
+  "branch": "development/product-plan-target-review",
+  "base_master": "a0d1fd1616bdf43126bc8481c5aae820d0736d30",
+  "commands": [
+    {
+      "command": "npm ci --ignore-scripts --no-audit --no-fund",
+      "result": "PASS"
+    },
+    {
+      "command": "npm run build:web",
+      "result": "PASS"
+    },
+    {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --test tests/product-plan-target-browser.integration.mjs",
+      "result": "PASS: 1/1, zero skips (retry5)"
+    },
+    {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run check",
+      "result": "PASS: standard 142/142, zero skips; build, lint, format, parser/dependency smoke and product license closure passed"
+    },
+    {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run test:product",
+      "result": "PASS: 22/22, zero skips"
+    },
+    {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run test:browser",
+      "result": "PASS: 12/12, zero skips, including T14 browser regression"
+    }
+  ],
+  "failed_attempts": [
+    {
+      "log": "focused-browser.log",
+      "outcome": "FAIL before app startup: dist/web/index.html absent because the test was run before build:web; build-web then passed."
+    },
+    {
+      "log": "focused-browser-retry2.log",
+      "outcome": "FAIL: malformed object host was loaded while the Projects screen rendered that field directly; preserved as an initial fixture-scope failure."
+    },
+    {
+      "log": "focused-browser-retry3.log",
+      "outcome": "FAIL: timed out waiting for project refresh after the malformed object response; preserved."
+    },
+    {
+      "log": "focused-browser-retry4.log",
+      "outcome": "FAIL: malformed profile detail remained loaded when switching back to Projects; valid project detail is refreshed before switching in retry5."
+    },
+    {
+      "log": null,
+      "outcome": "One build-and-test shell command failed at output redirection to /evidence/... (path absent); no test process started."
+    }
+  ],
+  "skips": 0,
+  "limitations": [
+    "Local PostgreSQL, actual local Git and the pinned parser were used; no target connection or credential resolution occurred.",
+    "This bounded UI increment does not certify full DBM-003/GOV-002, frozen target attestation, Oracle behavior or the full catalog.",
+    "SonarCloud/exact-head publication, independent QA/security and tracker registration are owned by root and are not claimed here."
+  ],
+  "source_sha256": {
+    "apps/web/src/app.jsx": "0a2e5c9d5372b938d974d7b3661d034629a2c02d9deef5c4544ff45abb999ded",
+    "apps/web/styles.css": "0dd56b87f6866e72ca0eedb06ab11112c4ed69652e28478bf8b1c4db87943b0c",
+    "scripts/test-product.mjs": "1efd266c00d40ebbb54697de8dc0e060c2359f14f39939c74787e1d0cb8bdd22",
+    "tests/product-plan-target-browser.integration.mjs": "0cd8e756f6437bfc072b621a3bdc159f4698fab656f56b89dcd63fe5ebaad639",
+    "docs/development/local-product.md": "2cd9e67aaa0b41ac0759fa5ba1b9aa43b87fc29715cafb16dfe96b971231d3ab"
+  },
+  "log_sha256": {
+    "build-web-final.log": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4",
+    "build-web-retry4.log": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4",
+    "build-web-retry5.log": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4",
+    "build-web.log": "6cb2e0cea47c9c5fd4bf5b0ee79e0df90831bd0909f45ce591c93af0b5b6ac9c",
+    "focused-browser-retry1.log": "ee845e1008d49996462aa7852a7096db6ab068625cc07e27cbba565f9f3858f4",
+    "focused-browser-retry2.log": "f98261e9e7b3912258c31ba9e3915172479c95cafe03eb39f3b40b4521347382",
+    "focused-browser-retry3.log": "5562b92ccf1d187472651d2990c1784b0659686e0f3e1321fbcf5bd07c60d702",
+    "focused-browser-retry4.log": "05531532255af29f492c31e171b0fec52e7ac443d551bad81093e490f071d4ac",
+    "focused-browser-retry5.log": "65e3a6f9c8558c928f303175a06ad65f97f211ec0669d1b953f13294d635ff6a",
+    "focused-browser.log": "cfc4e86ab2bbf51569e997c2dc902e75660aedc0cc0c0993f8edc0a03dad8554",
+    "npm-check.log": "2b049acb3c2a006a287aa60417a367880af73d51f16bd210a483d34634377f3d",
+    "npm-ci.log": "0d525eef4871d80562e5a555b802200e98069a3bbb7afb29e20ff0c6c9a6aabb",
+    "test-browser.log": "60a934d32e01611ac758bca6fa38de9e883889929181e4a062987a068331d8b9",
+    "test-product.log": "7f03fb936618f1d63aa2b8914c958789945425f781975852b86ae19b8c003142"
+  }
+}
