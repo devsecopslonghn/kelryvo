@@ -1,0 +1,5 @@
+{
+  "command": "python3 - <<\"PY\"\nimport json,subprocess,datetime\nfrom pathlib import Path\nroot=Path.cwd();paths=subprocess.check_output([\"git\",\"diff\",\"--name-only\",\"a5e8b9f45385be3bfcfefdfcb1ca9278fb71d0d0\",\"5db4779714fd18138c93c458c5965a7e91741c52\"],text=True).splitlines();print(json.dumps([p for p in paths if not p.startswith(\"evidence/product/\")]))\nPY",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:19:24.924659+00:00"
+}

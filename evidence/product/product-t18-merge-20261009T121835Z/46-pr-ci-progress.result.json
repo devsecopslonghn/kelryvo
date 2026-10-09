@@ -1,0 +1,11 @@
+{
+  "command": "gh pr view 30 --repo devsecopslonghn/schemaForge --json headRefOid,baseRefOid,mergeable,mergeStateStatus,statusCheckRollup",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:15:40.299281+00:00",
+  "ended_at_utc": "2026-10-09T12:15:41.275806+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t18-publication-20261009T120100Z/46-pr-ci-progress.log",
+    "sha256": "8c8a17fbd38cfce39f348c41a3df999eb09907d25c582a2480c971683499e8c0"
+  }
+}

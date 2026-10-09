@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t18-pr-gate.py premerge-pr.log 51-premerge-threads.log merge-gate.json",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:18:32.934904+00:00",
+  "ended_at_utc": "2026-10-09T12:18:32.991813+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t18-publication-20261009T120100Z/54-merge-gate.log",
+    "sha256": "3ae70e55a63b0eaae0607293178877394d556da5b9e7da8b314ba17255a45251"
+  }
+}

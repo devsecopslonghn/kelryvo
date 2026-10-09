@@ -1,0 +1,5 @@
+{
+  "command": "gh pr view 30 --repo devsecopslonghn/schemaForge --json number,url,state,headRefOid,baseRefOid,mergeCommit,mergedAt,statusCheckRollup",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:18:36.885849+00:00"
+}

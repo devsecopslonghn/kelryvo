@@ -1,0 +1,213 @@
+{
+  "checked_at_utc": "2026-10-09T12:11:00.835689+00:00",
+  "scope": "Exact staged changed files relative current origin/master",
+  "default_diff_check_exit_code": 2,
+  "exact_raw_line_allowance_count": 24,
+  "diagnostics": [
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/01-secret-alerts-before-publication.log",
+      "line": 22,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/01-secret-alerts-before-publication.log",
+      "line": 22,
+      "diagnostic": "new blank line at EOF.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/02-code-alerts-before-publication.log",
+      "line": 22,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/02-code-alerts-before-publication.log",
+      "line": 22,
+      "diagnostic": "new blank line at EOF.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.log",
+      "line": 1,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "prior_reviewed_Git_remote_output"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.log",
+      "line": 2,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "prior_reviewed_Git_remote_output"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.log",
+      "line": 3,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "prior_reviewed_Git_remote_output"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.log",
+      "line": 4,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "prior_reviewed_Git_remote_output"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/01-api-focused.raw.log",
+      "line": 12,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/01-api-focused.raw.log",
+      "line": 15,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/02-api-focused-retry.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/02-api-focused-retry.raw.log",
+      "line": 43,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/05-browser-focused.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/06-browser-focused-final.raw.log",
+      "line": 11,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/06-browser-focused-final.raw.log",
+      "line": 34,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/06-browser-focused-final.raw.log",
+      "line": 40,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/06-browser-focused-final.raw.log",
+      "line": 42,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/06-browser-focused-retry.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-root-20261009T104426Z/11-root-focused-after-handoff.log",
+      "line": 12,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-root-20261009T104426Z/11-root-focused-after-handoff.log",
+      "line": 20,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-root-20261009T104426Z/12-root-focused-corrected.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-root-20261009T104426Z/12-root-focused-corrected.log",
+      "line": 16,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-root-20261009T104426Z/14-standard-frozen-final.log",
+      "line": 308,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-root-20261009T104426Z/14-standard-frozen-final.log",
+      "line": 310,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-root-20261009T104426Z/14-standard-frozen-final.log",
+      "line": 331,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t18-root-20261009T104426Z/14-standard-frozen-final.log",
+      "line": 333,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    }
+  ],
+  "verified_raw_hashes": [
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/01-secret-alerts-before-publication.log",
+      "sha256": "7bdf927ad941f23f9ddd4b3c6102ad2f6f50faa93c4341fd7e589c219a7c6b13"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/02-code-alerts-before-publication.log",
+      "sha256": "7bdf927ad941f23f9ddd4b3c6102ad2f6f50faa93c4341fd7e589c219a7c6b13"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.log",
+      "sha256": "0a7071874bacec47d372b6a43ca15d6d793110e6e2eb958a1074a9237cc0954a"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/01-api-focused.raw.log",
+      "sha256": "5fc60aab4ded95f8a923895d49c05c0a97afc95bdb271a74c9d940e856c1099c"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/02-api-focused-retry.raw.log",
+      "sha256": "b7589b41aea1befb87851711f7849a5ff1a03bd9f9ad08b5b6f447fe1eef145c"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/05-browser-focused.raw.log",
+      "sha256": "7075ce508477d269a9e725208eda3d9c9f7be967f5959da250bd130ff1299216"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/06-browser-focused-final.raw.log",
+      "sha256": "9abbde6d90d960c9dc358a4e82ee881f54ed178ad0887c1a97f372a9c55730d2"
+    },
+    {
+      "path": "evidence/product/product-t18-20261009T104548Z/06-browser-focused-retry.raw.log",
+      "sha256": "5e713861e48fedf9828f0ec2cfe7b078a873477bd2e996e0e42f23be6e3404a8"
+    },
+    {
+      "path": "evidence/product/product-t18-root-20261009T104426Z/11-root-focused-after-handoff.log",
+      "sha256": "17a5f6f67c39651f0951c91c87ef612cd2ba956b1ac4b2d5f115ea002c4597ba"
+    },
+    {
+      "path": "evidence/product/product-t18-root-20261009T104426Z/12-root-focused-corrected.log",
+      "sha256": "9013bdfac5e2568d656936438f1b0d287448a41be934b00bb9d2639c5b5653e1"
+    },
+    {
+      "path": "evidence/product/product-t18-root-20261009T104426Z/14-standard-frozen-final.log",
+      "sha256": "9f0a9c5071e9939f6aa73019273a277bbb1ede51550464a84d8dabfc74827ca3"
+    }
+  ],
+  "all_other_paths_diff_check_exit_code": 0,
+  "broad_configuration_or_source_exceptions": false,
+  "notes": "Whole raw capture hashes verify every exact allowance. No content normalization or Git whitespace configuration changes. All remaining staged source/docs/artifacts pass default diff check."
+}

@@ -1,0 +1,11 @@
+{
+  "command": "set -e; git -C /home/longhn0710/workspace/schemaforge status --short; git -C /home/longhn0710/workspace/schemaforge branch --show-current; git -C /home/longhn0710/workspace/schemaforge rev-parse HEAD; git -C /home/longhn0710/workspace/schemaforge remote -v; test -z \"$(git -C /home/longhn0710/workspace/schemaforge status --porcelain)\"; test \"$(git -C /home/longhn0710/workspace/schemaforge rev-parse HEAD)\" = 0346300471a889ae8fd33b022b890034be08d301",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:22:28.568874+00:00",
+  "ended_at_utc": "2026-10-09T12:22:28.592130+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t18-publication-20261009T120100Z/64-shared-checkout-attestation.log",
+    "sha256": "9701028ba9fc4629c9347f3b86509d3ceea9b11671b8fa10a54c6dc3c0bed54f"
+  }
+}

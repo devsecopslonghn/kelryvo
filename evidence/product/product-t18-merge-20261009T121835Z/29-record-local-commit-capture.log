@@ -1,0 +1,5 @@
+[development/product-plan-resubmission 6d248c1] Preserve local T18 commit capture
+ 3 files changed, 136 insertions(+)
+ create mode 100644 evidence/product/product-t18-root-20261009T104426Z/28-commit-local-t18.command.json
+ create mode 100644 evidence/product/product-t18-root-20261009T104426Z/28-commit-local-t18.log
+ create mode 100644 evidence/product/product-t18-root-20261009T104426Z/28-commit-local-t18.result.json

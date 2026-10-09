@@ -1,0 +1,5 @@
+{
+  "command": "gh pr merge 30 --repo devsecopslonghn/schemaForge --merge --match-head-commit 5db4779714fd18138c93c458c5965a7e91741c52",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:18:33.035677+00:00"
+}

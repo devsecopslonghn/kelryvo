@@ -1,0 +1,14 @@
+{
+  "recorded_at_utc": "2026-10-09T12:18:30.171579+00:00",
+  "head": "5db4779714fd18138c93c458c5965a7e91741c52",
+  "base": "a5e8b9f45385be3bfcfefdfcb1ca9278fb71d0d0",
+  "all_reported_checks_success": true,
+  "check_count": 11,
+  "unresolved_threads": 0,
+  "native_qa": "APPROVED",
+  "native_security": "APPROVED",
+  "sonar": {
+    "status": "UNAVAILABLE_OWNER_QUOTA_EXCEPTION",
+    "scan_passed": false
+  }
+}

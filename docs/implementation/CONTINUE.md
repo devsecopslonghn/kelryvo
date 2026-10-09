@@ -1,3 +1,26 @@
+## T18 merged and master verified; next compatibility decision pending — 2026-10-09
+
+T18 merged through [PR #30](https://github.com/devsecopslonghn/schemaForge/pull/30)
+at `38665228fb844311390c9a064d9e1c02dc88145a`, reviewed head `5db4779714fd18138c93c458c5965a7e91741c52`.
+Independent QA/security approved; all reported PR checks and four exact-master workflow
+families passed. Local full results: controlled standard146, PostgreSQL25, browser16;
+final assertion-only cleanup focused browser1/1. Earlier unconstrained parser failures,
+missing native completion and handoff correction remain candid and immutable.
+Evidence: `evidence/product/product-t18-merge-20261009T121835Z/record.json`.
+
+Publication227 files: zero findings. Separate history exit1/35 retains classified artifact
+hash/UUID and synthetic UNIT fixture findings; no actual credential observed or rotation
+indicated. Sonar quota scan unavailable, never PASS. Oracle VALIDATION remains separate.
+Original shared checkout is untouched at master0346300; PRODUCT used isolated worktrees.
+No Hygiene branch/PR is visible; integration remains pending without blocking T18.
+
+Next bounded candidate: T19 partial GIT-016 protected source configuration. Existing
+plans lack captured binding generations; the owner must choose whether existing pending
+plans require fresh planning or defer this feature. The earlier async question remains
+unanswered; T19 is unregistered and unimplemented. No compatibility decision inferred.
+Continuation branch `development/product-continuation-t18` preserves merge proof locally.
+No public history rewrite, force-push, scanner allowlist, deployment or Oracle operation.
+
 ## T18 assertion cleanup verified; fresh exact-head review pending — 2026-10-09
 
 The ignored unary plus between two sign-out browser assertions is now removed; both

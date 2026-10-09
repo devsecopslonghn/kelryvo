@@ -1,0 +1,11 @@
+{
+  "command": "gh run list --repo devsecopslonghn/schemaForge --commit 38665228fb844311390c9a064d9e1c02dc88145a --limit 100 --json databaseId,workflowName,headSha,event,status,conclusion,url",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:18:50.772880+00:00",
+  "ended_at_utc": "2026-10-09T12:18:51.916780+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t18-publication-20261009T120100Z/57-master-workflows-progress.log",
+    "sha256": "9e79ffabe3d71499d66c8bd2b71a4fba9879c0aec1f2d95c26372e7b43a27310"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "command": "set -e; git fetch origin; git branch -a -vv; gh pr list --repo devsecopslonghn/schemaForge --state open --json number,title,headRefName,headRefOid,baseRefName,url,isDraft; git status --short",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:18:25.925565+00:00"
+}

@@ -1,0 +1,30 @@
+{
+  "recorded_at_utc": "2026-10-09T12:12:15.951708+00:00",
+  "head": "5db4779714fd18138c93c458c5965a7e91741c52",
+  "base": "a5e8b9f45385be3bfcfefdfcb1ca9278fb71d0d0",
+  "qa": {
+    "agent": "/root/t17_qa",
+    "verdict": "APPROVED",
+    "source_hashes_verified": 5,
+    "cleanup_capture_hashes_verified": 3,
+    "current_focused_browser": 1,
+    "prior_full_counts": [
+      146,
+      25,
+      16
+    ],
+    "limitations": "Prior full source snapshot equivalent; initial unconstrained two failures unresolved, native completion missing, raw whitespace exact allowances."
+  },
+  "security": {
+    "agent": "/root/t17_security",
+    "verdict": "APPROVED",
+    "publication_paths": 227,
+    "publication_exit_code": 0,
+    "publication_findings": 0,
+    "history_exit_code": 1,
+    "history_findings": 35,
+    "history_classification": "30 T17 artifact hashes plus five previously classified T01/T04/T10 evidence UUID/hash and synthetic UNIT fixture findings; no new matches or actual credentials",
+    "private_report_directory": "/tmp/t18-cleanup-independent-3uqgr7at",
+    "limitation": "Harmless duplicate sign-out assertion retained."
+  }
+}

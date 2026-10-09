@@ -1,0 +1,5 @@
+{
+  "command": "gh api graphql -F owner=devsecopslonghn -F repo=schemaForge -F number=30 -f query=\"query(\\$owner:String!,\\$repo:String!,\\$number:Int!){repository(owner:\\$owner,name:\\$repo){pullRequest(number:\\$number){reviewThreads(first:100){nodes{isResolved,isOutdated}pageInfo{hasNextPage,endCursor}}}}}\"",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:18:29.180523+00:00"
+}

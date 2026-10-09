@@ -1,0 +1,11 @@
+{
+  "command": "git branch -a -vv",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:11:36.387552+00:00",
+  "ended_at_utc": "2026-10-09T12:11:36.401714+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t18-publication-20261009T120100Z/37-prepublication-branches.log",
+    "sha256": "b31ae51ed4d3a2fc4adc39a266970c633e3509c62b5729cb03f4afeb13c9f573"
+  }
+}
