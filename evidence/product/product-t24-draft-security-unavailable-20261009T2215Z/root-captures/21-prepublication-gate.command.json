@@ -1,0 +1,5 @@
+{
+  "command": "python3 /tmp/schemaforge-t24-prepublish.py /tmp/schemaforge-t24-independent-finalqa-20261009T220500Z/final-verdict.json /tmp/schemaforge-t24-final-security-license-verdict-20261009T2210Z.json",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+  "started_at_utc": "2026-10-09T22:06:27.781566+00:00"
+}

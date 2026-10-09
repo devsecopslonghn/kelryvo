@@ -1,0 +1,55 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+ok 1 - audit action filters preserve project scope, server order, archived reads and read-only records
+  ---
+  duration_ms: 3051.593277
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: Records pages retained audit history, resets contexts, and clears delayed or revoked results
+ok 2 - Records pages retained audit history, resets contexts, and clears delayed or revoked results
+  ---
+  duration_ms: 2501.991109
+  type: 'test'
+  ...
+# Subtest: browser clears a revoked session and ignores a delayed 401 from an earlier session epoch
+ok 3 - browser clears a revoked session and ignores a delayed 401 from an earlier session epoch
+  ---
+  duration_ms: 919.959992
+  type: 'test'
+  ...
+# grant complete
+# ENFORCED
+# grant complete
+# revoke complete
+# revoke complete
+# Subtest: browser keeps bootstrap read-only, shows creation receipt without loading it, and clears revoked selection
+ok 4 - browser keeps bootstrap read-only, shows creation receipt without loading it, and clears revoked selection
+  ---
+  duration_ms: 1648.868769
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10939.178441

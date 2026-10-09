@@ -1,0 +1,5 @@
+{
+  "command": "gh pr create --repo devsecopslonghn/schemaForge --base master --head development/product-audit-pages --draft --title \"feat(product): page retained audit events with scoped cursors\" --body-file /tmp/schemaforge-t24-final-pr-body.md",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+  "started_at_utc": "2026-10-09T22:07:50.488877+00:00"
+}

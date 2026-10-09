@@ -1,0 +1,184 @@
+{
+  "head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+  "classified_at_utc": "2026-10-09T22:05:02.433722+00:00",
+  "publication": {
+    "paths": 237,
+    "scanner_exit_code": 1,
+    "findings": 5,
+    "clean_PASS": false
+  },
+  "history": {
+    "scanner_exit_code": 1,
+    "findings": 120,
+    "prior117_exact_tuple_multiset_preserved": true,
+    "new_findings": 3,
+    "clean_PASS": false
+  },
+  "classification": [
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-root-20261009T2204Z/root-prior-captures/03-classify-and-freeze-checkpoint.result.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        2,
+        2
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "d7fb9d7f195d46606c26a772f01f13a92768b6073e6006b91d7489cd7d8c5a0f",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_PROSE_IN_IMMUTABLE_CAPTURE_COMMAND",
+      "verified_provenance": [
+        {
+          "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/03-classify-and-freeze-checkpoint.result.json",
+          "exact_bytes_recomputed": true
+        }
+      ],
+      "reason": "The previously verified exact SEC001 product-description prose is a literal assertion in the captured classification script; no credential assignment occurs."
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-root-20261009T2204Z/root-prior-captures/03-classify-and-freeze-checkpoint.command.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        2,
+        2
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "a195f741a6d33d5999cba7196e330b51d378afb66d6e4aecf3d63058ed860eff",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_PROSE_IN_IMMUTABLE_CAPTURE_COMMAND",
+      "verified_provenance": [
+        {
+          "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/03-classify-and-freeze-checkpoint.command.json",
+          "exact_bytes_recomputed": true
+        }
+      ],
+      "reason": "The previously verified exact SEC001 product-description prose is a literal assertion in the captured classification script; no credential assignment occurs."
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t23-merge-20261009T2033Z/snapshot-sha256.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        159,
+        159
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "84a22c7aa48573fafcf2d1a1f40e34e6e418af07d58e4fa0f36186a0bd647963",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    },
+    {
+      "scope": "publication",
+      "path": "docs/implementation/CONTINUE.md",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        446,
+        446
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "328b4e7462330cc39ec8774f0684dc465802657c2011f953c9dcefe09ce9b6c0",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+    },
+    {
+      "scope": "publication",
+      "path": "docs/implementation/CURRENT.md",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        446,
+        446
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "4323d4d882cfb176f8787ed4ea950fa0b5d186fa80751b1d6f0f92a1074e0ef1",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+    },
+    {
+      "scope": "new_history",
+      "path": "evidence/product/product-t24-root-20261009T2204Z/root-prior-captures/03-classify-and-freeze-checkpoint.command.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        2,
+        2
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "a195f741a6d33d5999cba7196e330b51d378afb66d6e4aecf3d63058ed860eff",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_PROSE_IN_IMMUTABLE_CAPTURE_COMMAND",
+      "verified_provenance": [
+        {
+          "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/03-classify-and-freeze-checkpoint.command.json",
+          "exact_bytes_recomputed": true
+        }
+      ],
+      "reason": "The previously verified exact SEC001 product-description prose is a literal assertion in the captured classification script; no credential assignment occurs."
+    },
+    {
+      "scope": "new_history",
+      "path": "evidence/product/product-t24-root-20261009T2204Z/root-prior-captures/03-classify-and-freeze-checkpoint.result.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        2,
+        2
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "d7fb9d7f195d46606c26a772f01f13a92768b6073e6006b91d7489cd7d8c5a0f",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_PROSE_IN_IMMUTABLE_CAPTURE_COMMAND",
+      "verified_provenance": [
+        {
+          "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/03-classify-and-freeze-checkpoint.result.json",
+          "exact_bytes_recomputed": true
+        }
+      ],
+      "reason": "The previously verified exact SEC001 product-description prose is a literal assertion in the captured classification script; no credential assignment occurs."
+    },
+    {
+      "scope": "new_history",
+      "path": "evidence/product/product-t23-merge-20261009T2033Z/snapshot-sha256.json",
+      "commit": "b1d307767784a4195d38817fad845911ba88163c",
+      "lines": [
+        159,
+        159
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "84a22c7aa48573fafcf2d1a1f40e34e6e418af07d58e4fa0f36186a0bd647963",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "commit": "b1d307767784a4195d38817fad845911ba88163c",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    }
+  ],
+  "actual_credentials_observed": false,
+  "rotation_indicated": false,
+  "no_scanner_or_history_changes": true,
+  "limitations": [
+    "Prior117 exact classifications and eight earlier unavailable source-byte limits remain unchanged.",
+    "Earlier mutable T23 UI bytes remain unavailable; no reconstruction is claimed.",
+    "Fresh independent exact-head review remains required; finding-bearing scans are not clean PASS.",
+    "Sonar unavailable never PASS; Oracle VALIDATION separate BLOCKED."
+  ]
+}

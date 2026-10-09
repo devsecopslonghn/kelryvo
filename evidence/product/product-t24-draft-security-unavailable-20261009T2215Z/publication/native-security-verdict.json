@@ -1,0 +1,81 @@
+{
+  "verdict": "APPROVED",
+  "scope": "Read-only security and license review of the committed T24 audit-pagination change. Approval applies to this review only; it does not certify Oracle behavior or authorize publication, push, or merge.",
+  "head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+  "tree": "d31aba5368d77678786bdd867440a2c8418092c1",
+  "base": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "worktree": "Clean at review.",
+  "findings": [],
+  "reviewed_files": [
+    "apps/api/index.ts",
+    "apps/web/src/app.jsx",
+    "packages/audit/cursor.mjs",
+    "packages/database/index.ts",
+    "docs/decisions/log.json",
+    "docs/implementation/acceptance.json",
+    "docs/implementation/backlog.json",
+    "docs/implementation/dependency-graph.json",
+    "docs/implementation/evidence-index.json",
+    "docs/implementation/milestone.json",
+    "docs/implementation/ownership.json",
+    "LICENSE",
+    "NOTICE",
+    "package.json",
+    "docs/product/license-and-naming.md",
+    "docs/dependencies/product-NOTICES.txt"
+  ],
+  "security_review": {
+    "verdict": "APPROVED",
+    "findings": [],
+    "observations": [
+      "The audit route uses the existing authenticated project-scoped pre-handler. In enforced membership mode, each request checks the actor’s current grant and fixed role before the handler runs.",
+      "Cursors are bounded, canonical, project/action-bound query positions; they do not grant access. SQL values are parameterized, pages are capped at 50 plus one, and ordering uses PostgreSQL timestamp and UUID keys.",
+      "The existing recent-100 detail response remains intact. Audit paging adds no write path or new audit action.",
+      "The UI clears page state on context changes and discards responses from prior request contexts."
+    ],
+    "scan_provenance": {
+      "scanner": "Gitleaks 8.30.1",
+      "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+      "head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "base": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+      "publication": {
+        "paths": 237,
+        "exit_code": 1,
+        "findings": 5,
+        "classification_sha256": "299e1d938ee34a09841688c55409595dc7deed48814c74fb2e2cfb4aace91664",
+        "classification": "Two exact product-description prose findings, two matching prose occurrences in immutable capture material, and one verified digest of an existing T22 PostgreSQL log."
+      },
+      "all_refs_history": {
+        "exit_code": 1,
+        "findings": 120,
+        "classification": "Prior 117 exact finding tuples preserved; three new occurrences classified as two immutable capture-command prose matches and one verified artifact/source digest."
+      },
+      "independent_checks": [
+        "Verified all 237 snapshot hashes against committed blob bytes and confirmed the snapshot path set equals the base-to-head changed path set.",
+        "Verified the recorded Gitleaks version and binary checksum.",
+        "No actual credential was observed; finding-bearing scans are not clean PASS results."
+      ],
+      "limitations": [
+        "Eight earlier source-byte limits and unavailable mutable T23 UI bytes remain unresolved; no reconstruction is claimed.",
+        "The classification record retains the prior findings and does not convert either scan to PASS."
+      ]
+    }
+  },
+  "license_review": {
+    "verdict": "APPROVED",
+    "findings": [],
+    "result": "No license or third-party notice issue identified in the reviewed change.",
+    "checks": [
+      "LICENSE, NOTICE, package.json, docs/product/license-and-naming.md, and docs/dependencies/product-NOTICES.txt are unchanged from base.",
+      "No dependency or bundled asset was added by this diff.",
+      "The existing PolyForm Shield 1.0.0 grant and separate third-party notices remain in place."
+    ],
+    "limits": [
+      "This does not clear product naming or F31 packaging/distribution."
+    ]
+  },
+  "other_gates": {
+    "Sonar": "Unavailable; not PASS.",
+    "Oracle_validation": "Separate and BLOCKED."
+  }
+}

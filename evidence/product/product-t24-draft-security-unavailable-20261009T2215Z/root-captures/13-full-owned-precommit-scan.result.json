@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t24-scanner.py precommit /tmp/schemaforge-t24-full-precommit-20261009T2205Z && python3 /tmp/schemaforge-t24-classify.py /tmp/schemaforge-t24-full-precommit-20261009T2205Z b1d307767784a4195d38817fad845911ba88163c",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+  "started_at_utc": "2026-10-09T22:03:00.014278+00:00",
+  "ended_at_utc": "2026-10-09T22:03:01.138171+00:00",
+  "exit_code": 1,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/13-full-owned-precommit-scan.log",
+    "sha256": "bc89ae2a03600589bb141d8410607948d6385df43000b0e2781a29c778cbb77c"
+  }
+}

@@ -2590,6 +2590,28 @@
       },
       "path": "evidence/product/product-t24-root-20261009T2204Z/integration-record.json",
       "sha256": "3ed424813f36b3e08773148daf38f52c423b835cb64cd955a5c1a0b6e8138a7a"
+    },
+    {
+      "id": "product-t24-draft-required-security-unavailable",
+      "subject_id": "SF-PRODUCT-T24",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "BLOCKED",
+      "command": "Exact-head QA/security/license approval, publication/history provenance classification and draft-only PR creation; required GitHub security/protection infrastructure unavailable",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [
+        "SF-PRODUCT-T24-API",
+        "SF-PRODUCT-T24-WEB",
+        "SF-PRODUCT-T24-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/root-captures/21-prepublication-gate.log",
+        "sha256": "e07acd62ef215dff86098167aa751f21a8b05a96372ddfbdb45dcff3af480bb0"
+      },
+      "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/record.json",
+      "sha256": "93dae0d86ba97e9d7f463e5f9498c3e0cd560d1d7a570611bdbc5533a0ec8cd7"
     }
   ]
 }

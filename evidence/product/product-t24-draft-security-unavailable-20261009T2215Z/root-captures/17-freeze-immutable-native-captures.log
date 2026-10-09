@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/schemaforge-t24-freeze.py", line 33, in <module>
+    assert re.match(r'^evidence/product/product-t24-root-20261009T2204Z/native/[^/]+\.(raw\.log|command):\d+: trailing whitespace\.$', line), line
+AssertionError: evidence/product/product-t24-root-20261009T2204Z/root-tracker-correction/09-integrate-recovered-t24.log:14: trailing whitespace.
