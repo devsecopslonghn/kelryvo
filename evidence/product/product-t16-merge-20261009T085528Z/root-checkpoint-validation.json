@@ -1,0 +1,15 @@
+{
+  "command": "npm run format; npm run format:check; node scripts/tracker.mjs validate; node --test tests/tracker.test.mjs; node scripts/check-source.mjs; git diff --check",
+  "exit_code": 0,
+  "result": "21tracker tests zero skips; source134/format/validate/diff passed",
+  "raw_outputs": [
+    {
+      "path": "evidence/product/product-t16-merge-20261009T085528Z/root-tracker.stdout",
+      "sha256": "953b41c17b56834fd2a431a33305b75f2b36ec8e29e7c2803069efa9b483a838"
+    },
+    {
+      "path": "evidence/product/product-t16-merge-20261009T085528Z/root-tracker.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

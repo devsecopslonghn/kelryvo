@@ -2038,6 +2038,24 @@
       },
       "path": "evidence/product/product-t16-root-recovery-20261009T083000Z/integration-record.json",
       "sha256": "9ddac0e171152f4bfddd080cb6b1a6cb5981d0293b0b65bd8ba54588fdbe18b6"
+    },
+    {
+      "id": "product-t16-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T16",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head nativeQA/security;107changedpublicationfiles0findings;11PRchecks;normalmatch-headmerge;4exact-masterworkflows;filteredsecurityalerts andbranch/PR/shared-status reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t16-merge-20261009T085528Z/master-workflows.json",
+        "sha256": "60c270824f419933a1d637d5eb2e3842239ca88e85af2707119cee7171904451"
+      },
+      "path": "evidence/product/product-t16-merge-20261009T085528Z/record.json",
+      "sha256": "fef79a5329e7a9e6aae41a0009cb54f8994866cefdcce94641053eff3aa57d2f"
     }
   ]
 }

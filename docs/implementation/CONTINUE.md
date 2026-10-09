@@ -1,3 +1,29 @@
+## T16 merged and master verified; T17 ready — 2026-10-09
+
+T16 merged through [PR #28](https://github.com/devsecopslonghn/schemaForge/pull/28)
+at `fe3744d7f04369538a72f85426cba0fe35ab6db3`, reviewed head
+`7615280f0358743205ed26493e4bde7ce55b8f0b`. Native QA/security approved,
+all eleven PR checks and all four exact-master workflows passed. Local checks:
+143standard,23PostgreSQLproduct,14browser,focusedexisting+requester2,roottracker21,
+zero skips. UI retains requester/time facts and disables self/malformed-requester controls;
+API self-decision audit remains authoritative. Publication107files0findings;
+history same five independently classified benign, historyscannerexit1 notclean.
+Evidence: `evidence/product/product-t16-merge-20261009T085528Z/record.json`.
+Lostfirstcheck UNVERIFIED/no reconstructedlogs; stale native summarytime disclosed;
+correctedprofile-handler regression and allfailedraws retained.
+
+Next SF-PRODUCT-T17 READY: freeze and verify server-built bounded offline intent envelope
+and digest; capture scoped requester/source/ordereditems/configuredprofile/environment
+in the plan transaction and show retained offlinefacts separately from currentconfiguration.
+Fresh worktree `/home/longhn0710/workspace/schemaforge-product-offline-plan-intent`,
+branch `development/product-offline-plan-intent`, based on verified master above.
+Use fresh coupled feature context; root owns contracts/tracking/integration and reviews.
+Do not silently backfill legacy intent or certify runtime target/history/editor exclusions,
+execution-time validation, fullcatalog, Oracle or tamper-proof database.
+Shared checkout clean at0346300471a889ae8fd33b022b890034be08d301 untouched.
+No open PR/Hygiene branch visible; original report metadata/provenance unchanged.
+Sonar unavailable neverPASS; Oracle VALIDATION separately blocked.
+
 ## T16 verified locally; exact-head reviews/publication pending — 2026-10-09
 
 T16 requester/time display and independent-reviewer feedback passed final143standard,
