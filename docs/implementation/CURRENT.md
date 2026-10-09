@@ -247,3 +247,13 @@ derived from Git/GitHub. PRs #9–#13 are unmerged. The primary runnable checkou
 started and its persisted demo produced an authenticated role denial with fixed audit
 facts while every plan/history row stayed unchanged. The dev process was stopped after
 verification; run `npm run dev` to open it again. PostgreSQL metadata remains persistent.
+
+
+PR #12 head 796b4cd had a cancelled push product run after its main browser case
+timed out at 120 seconds; the original CI log is preserved in quality-repair-2. The
+CI-only stall was not reproduced locally. Test-only abort cleanup, bounded route fetch
+and phase diagnostics now pass both browser flows with CI=true; an intentional stalled
+throwaway fixture exits with its expected timeout and drops its owned database. Original
+120-second test and 15-minute workflow thresholds/assertions remain unchanged. This
+local repair is not a confirmed root-cause fix or remote quality-gate pass: inspect the
+fresh exact-head CI before merging.

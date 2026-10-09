@@ -1,0 +1,12 @@
+{
+  "parent": "796b4cd058af63dbcc4d9d8ad58820588bb3dd81",
+  "source_sha256": "3e2581e3c977e70712b1fa35b633aafb457ffb1a4993e095b7dc2520c286db2d",
+  "local_ci_env_browser": "2/2 PASS, zero skipped",
+  "negative_cleanup_proof": "Intentionally stalled throwaway test after the real source PUT completed; fixture-only 15s deadline produced numeric exit1 in about16s, no kill/outer timeout, and its owned PostgreSQL database was dropped. Root independently confirmed database absence.",
+  "negative_fixture_sha256": "3bce51b67fc02bad5552797f6bbe9352b4d8579d6c94d4b7c1c736e6f25f1060",
+  "tracked_test_timeout_ms": 120000,
+  "workflow_timeout_minutes": 15,
+  "assertions": "unchanged",
+  "original_ci_timeout_root_cause": "NOT_REPRODUCED; no confirmed root-cause repair or remote-gate pass is claimed",
+  "remaining_gate": "fresh exact-head CI and Sonar required"
+}
