@@ -1,0 +1,884 @@
+product	Set up job	﻿2026-10-09T00:07:43.8245451Z Current runner version: '2.337.0'
+product	Set up job	2026-10-09T00:07:43.8270516Z ##[group]Runner Image Provisioner
+product	Set up job	2026-10-09T00:07:43.8271349Z Hosted Compute Agent
+product	Set up job	2026-10-09T00:07:43.8271864Z Version: 20261002.596
+product	Set up job	2026-10-09T00:07:43.8272364Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+product	Set up job	2026-10-09T00:07:43.8273064Z Build Date: 2026-10-02T22:28:27Z
+product	Set up job	2026-10-09T00:07:43.8273645Z Worker ID: {39a6fe38-3576-4840-8a81-635cfdcde978}
+product	Set up job	2026-10-09T00:07:43.8274643Z Region: westus3
+product	Set up job	2026-10-09T00:07:43.8275101Z Cloud: Azure
+product	Set up job	2026-10-09T00:07:43.8275531Z ##[endgroup]
+product	Set up job	2026-10-09T00:07:43.8276848Z ##[group]Operating System
+product	Set up job	2026-10-09T00:07:43.8277372Z Ubuntu
+product	Set up job	2026-10-09T00:07:43.8277842Z 24.04.5
+product	Set up job	2026-10-09T00:07:43.8278460Z LTS
+product	Set up job	2026-10-09T00:07:43.8278887Z ##[endgroup]
+product	Set up job	2026-10-09T00:07:43.8279381Z ##[group]Runner Image
+product	Set up job	2026-10-09T00:07:43.8280011Z Image: ubuntu-24.04
+product	Set up job	2026-10-09T00:07:43.8280540Z Version: 20261004.327.1
+product	Set up job	2026-10-09T00:07:43.8281418Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+product	Set up job	2026-10-09T00:07:43.8282849Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+product	Set up job	2026-10-09T00:07:43.8283622Z ##[endgroup]
+product	Set up job	2026-10-09T00:07:43.8284590Z ##[group]GITHUB_TOKEN Permissions
+product	Set up job	2026-10-09T00:07:43.8286226Z Contents: read
+product	Set up job	2026-10-09T00:07:43.8286784Z Metadata: read
+product	Set up job	2026-10-09T00:07:43.8287291Z ##[endgroup]
+product	Set up job	2026-10-09T00:07:43.8289243Z Secret source: Actions
+product	Set up job	2026-10-09T00:07:43.8290089Z Cache mode: write
+product	Set up job	2026-10-09T00:07:43.8290717Z Prepare workflow directory
+product	Set up job	2026-10-09T00:07:43.8817124Z Prepare all required actions
+product	Set up job	2026-10-09T00:07:43.8860986Z Getting action download info
+product	Set up job	2026-10-09T00:07:44.1706056Z Download action repository 'actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+product	Set up job	2026-10-09T00:07:44.2569337Z Download action repository 'actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+product	Set up job	2026-10-09T00:07:44.7335732Z Complete job name: product
+product	Initialize containers	﻿2026-10-09T00:07:44.7725999Z ##[group]Checking docker version
+product	Initialize containers	2026-10-09T00:07:44.7736564Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+product	Initialize containers	2026-10-09T00:07:44.9305311Z '1.48'
+product	Initialize containers	2026-10-09T00:07:44.9319293Z Docker daemon API version: '1.48'
+product	Initialize containers	2026-10-09T00:07:44.9319938Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+product	Initialize containers	2026-10-09T00:07:44.9468790Z '1.48'
+product	Initialize containers	2026-10-09T00:07:44.9479582Z Docker client API version: '1.48'
+product	Initialize containers	2026-10-09T00:07:44.9484687Z ##[endgroup]
+product	Initialize containers	2026-10-09T00:07:44.9486647Z ##[group]Clean up resources from previous jobs
+product	Initialize containers	2026-10-09T00:07:44.9491092Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=fecabd"
+product	Initialize containers	2026-10-09T00:07:44.9617463Z ##[command]/usr/bin/docker network prune --force --filter "label=fecabd"
+product	Initialize containers	2026-10-09T00:07:44.9731266Z ##[endgroup]
+product	Initialize containers	2026-10-09T00:07:44.9731759Z ##[group]Create local container network
+product	Initialize containers	2026-10-09T00:07:44.9740337Z ##[command]/usr/bin/docker network create --label fecabd github_network_b87593daaa51426b9d050c3daa1649e3
+product	Initialize containers	2026-10-09T00:07:45.1251730Z 458ca30ac6b46b5754cce595bff5051b714bbbee068c218e9d55a3012684655b
+product	Initialize containers	2026-10-09T00:07:45.1267081Z ##[endgroup]
+product	Initialize containers	2026-10-09T00:07:45.1288955Z ##[group]Starting postgres service container
+product	Initialize containers	2026-10-09T00:07:45.1305877Z ##[command]/usr/bin/docker pull postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f
+product	Initialize containers	2026-10-09T00:07:46.0573631Z docker.io/library/postgres@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f: Pulling from library/postgres
+product	Initialize containers	2026-10-09T00:07:46.4779241Z 039e6f9f9752: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4779946Z 212b461a6168: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4780332Z e4fe44320f3d: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4780716Z e4025008f490: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4781130Z 53d05639bc77: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4781521Z 797f0918a00d: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4781925Z 58b647883582: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4782313Z b7e60635068c: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4782981Z c52b9a2e160a: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4783238Z bc574a763d9e: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4783510Z 74571172a687: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4783740Z 3c32b6758a70: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4784009Z 00b92b3471f0: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4784269Z 27a102a226b8: Pulling fs layer
+product	Initialize containers	2026-10-09T00:07:46.4784550Z 53d05639bc77: Waiting
+product	Initialize containers	2026-10-09T00:07:46.4784782Z b7e60635068c: Waiting
+product	Initialize containers	2026-10-09T00:07:46.4785004Z 797f0918a00d: Waiting
+product	Initialize containers	2026-10-09T00:07:46.4785219Z c52b9a2e160a: Waiting
+product	Initialize containers	2026-10-09T00:07:46.4785434Z 58b647883582: Waiting
+product	Initialize containers	2026-10-09T00:07:46.4785653Z bc574a763d9e: Waiting
+product	Initialize containers	2026-10-09T00:07:46.4785882Z 74571172a687: Waiting
+product	Initialize containers	2026-10-09T00:07:46.4786101Z 3c32b6758a70: Waiting
+product	Initialize containers	2026-10-09T00:07:46.4786681Z 00b92b3471f0: Waiting
+product	Initialize containers	2026-10-09T00:07:46.4786998Z 27a102a226b8: Waiting
+product	Initialize containers	2026-10-09T00:07:46.4787344Z e4025008f490: Waiting
+product	Initialize containers	2026-10-09T00:07:46.6544757Z 212b461a6168: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:46.6545380Z 212b461a6168: Download complete
+product	Initialize containers	2026-10-09T00:07:46.6775483Z e4fe44320f3d: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:46.6776144Z e4fe44320f3d: Download complete
+product	Initialize containers	2026-10-09T00:07:46.7219362Z 039e6f9f9752: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:46.7220228Z 039e6f9f9752: Download complete
+product	Initialize containers	2026-10-09T00:07:46.8398794Z e4025008f490: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:46.8399638Z e4025008f490: Download complete
+product	Initialize containers	2026-10-09T00:07:46.8704413Z 53d05639bc77: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:46.8707390Z 53d05639bc77: Download complete
+product	Initialize containers	2026-10-09T00:07:46.9122602Z 797f0918a00d: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:46.9135007Z 797f0918a00d: Download complete
+product	Initialize containers	2026-10-09T00:07:47.0223185Z 58b647883582: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:47.0224480Z 58b647883582: Download complete
+product	Initialize containers	2026-10-09T00:07:47.0510480Z b7e60635068c: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:47.0512144Z b7e60635068c: Download complete
+product	Initialize containers	2026-10-09T00:07:47.2011305Z bc574a763d9e: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:47.2013357Z bc574a763d9e: Download complete
+product	Initialize containers	2026-10-09T00:07:47.2323781Z 74571172a687: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:47.2333742Z 74571172a687: Download complete
+product	Initialize containers	2026-10-09T00:07:47.3694384Z 3c32b6758a70: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:47.3695053Z 3c32b6758a70: Download complete
+product	Initialize containers	2026-10-09T00:07:47.3959051Z c52b9a2e160a: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:47.3959902Z c52b9a2e160a: Download complete
+product	Initialize containers	2026-10-09T00:07:47.4112278Z 00b92b3471f0: Download complete
+product	Initialize containers	2026-10-09T00:07:47.5514988Z 27a102a226b8: Verifying Checksum
+product	Initialize containers	2026-10-09T00:07:47.5515438Z 27a102a226b8: Download complete
+product	Initialize containers	2026-10-09T00:07:47.6598844Z 039e6f9f9752: Pull complete
+product	Initialize containers	2026-10-09T00:07:54.2066465Z 212b461a6168: Pull complete
+product	Initialize containers	2026-10-09T00:07:54.3808752Z e4fe44320f3d: Pull complete
+product	Initialize containers	2026-10-09T00:07:54.4303930Z e4025008f490: Pull complete
+product	Initialize containers	2026-10-09T00:07:54.9434992Z 53d05639bc77: Pull complete
+product	Initialize containers	2026-10-09T00:07:55.0199423Z 797f0918a00d: Pull complete
+product	Initialize containers	2026-10-09T00:07:55.0276506Z 58b647883582: Pull complete
+product	Initialize containers	2026-10-09T00:07:55.0364528Z b7e60635068c: Pull complete
+product	Initialize containers	2026-10-09T00:07:58.5756221Z c52b9a2e160a: Pull complete
+product	Initialize containers	2026-10-09T00:07:58.6051990Z bc574a763d9e: Pull complete
+product	Initialize containers	2026-10-09T00:07:58.6109829Z 74571172a687: Pull complete
+product	Initialize containers	2026-10-09T00:07:58.6218556Z 3c32b6758a70: Pull complete
+product	Initialize containers	2026-10-09T00:07:58.6290589Z 00b92b3471f0: Pull complete
+product	Initialize containers	2026-10-09T00:07:58.6356140Z 27a102a226b8: Pull complete
+product	Initialize containers	2026-10-09T00:07:58.6384719Z Digest: sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f
+product	Initialize containers	2026-10-09T00:07:58.6393214Z Status: Downloaded newer image for postgres@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f
+product	Initialize containers	2026-10-09T00:07:58.6400470Z docker.io/library/postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f
+product	Initialize containers	2026-10-09T00:07:58.6453751Z ##[command]/usr/bin/docker create --name e47d69253a264812954da8821f65f11b_postgres1710bookwormsha2569b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f_a74e73 --label fecabd --network github_network_b87593daaa51426b9d050c3daa1649e3 --network-alias postgres -p 5432:5432 --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10 -e "POSTGRES_DB=schemaforge_test" -e "POSTGRES_HOST_AUTH_METHOD=trust" -e GITHUB_ACTIONS=true -e CI=true postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f
+product	Initialize containers	2026-10-09T00:07:58.6658375Z 309f33197f3e9937796e615e650838a25f1f9d75fdb3514f8f99a1be6b62573f
+product	Initialize containers	2026-10-09T00:07:58.6679760Z ##[command]/usr/bin/docker start 309f33197f3e9937796e615e650838a25f1f9d75fdb3514f8f99a1be6b62573f
+product	Initialize containers	2026-10-09T00:07:58.8652328Z 309f33197f3e9937796e615e650838a25f1f9d75fdb3514f8f99a1be6b62573f
+product	Initialize containers	2026-10-09T00:07:58.8671567Z ##[command]/usr/bin/docker ps --all --filter id=309f33197f3e9937796e615e650838a25f1f9d75fdb3514f8f99a1be6b62573f --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+product	Initialize containers	2026-10-09T00:07:58.8799565Z 309f33197f3e9937796e615e650838a25f1f9d75fdb3514f8f99a1be6b62573f Up Less than a second (health: starting)
+product	Initialize containers	2026-10-09T00:07:58.8820639Z ##[command]/usr/bin/docker port 309f33197f3e9937796e615e650838a25f1f9d75fdb3514f8f99a1be6b62573f
+product	Initialize containers	2026-10-09T00:07:58.8953182Z 5432/tcp -> 0.0.0.0:5432
+product	Initialize containers	2026-10-09T00:07:58.8953925Z 5432/tcp -> [::]:5432
+product	Initialize containers	2026-10-09T00:07:58.8996142Z ##[endgroup]
+product	Initialize containers	2026-10-09T00:07:58.9003794Z ##[group]Waiting for all services to be ready
+product	Initialize containers	2026-10-09T00:07:58.9015545Z ##[command]/usr/bin/docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" 309f33197f3e9937796e615e650838a25f1f9d75fdb3514f8f99a1be6b62573f
+product	Initialize containers	2026-10-09T00:07:58.9147318Z starting
+product	Initialize containers	2026-10-09T00:07:58.9165970Z postgres service is starting, waiting 2 seconds before checking again.
+product	Initialize containers	2026-10-09T00:08:00.9165449Z ##[command]/usr/bin/docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" 309f33197f3e9937796e615e650838a25f1f9d75fdb3514f8f99a1be6b62573f
+product	Initialize containers	2026-10-09T00:08:00.9277101Z starting
+product	Initialize containers	2026-10-09T00:08:00.9290274Z postgres service is starting, waiting 4 seconds before checking again.
+product	Initialize containers	2026-10-09T00:08:05.0371738Z ##[command]/usr/bin/docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" 309f33197f3e9937796e615e650838a25f1f9d75fdb3514f8f99a1be6b62573f
+product	Initialize containers	2026-10-09T00:08:05.0481015Z healthy
+product	Initialize containers	2026-10-09T00:08:05.0495414Z postgres service is healthy.
+product	Initialize containers	2026-10-09T00:08:05.0495983Z ##[endgroup]
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	﻿2026-10-09T00:08:05.0783684Z ##[group]Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0784199Z with:
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0784390Z   persist-credentials: false
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0784618Z   repository: devsecopslonghn/schemaForge
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0787081Z   token: ***
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0787257Z   ssh-strict: true
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0787426Z   ssh-user: git
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0787587Z   clean: true
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0787764Z   sparse-checkout-cone-mode: true
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0788242Z   fetch-depth: 1
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0788413Z   fetch-tags: false
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0788588Z   show-progress: true
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0788758Z   lfs: false
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0788909Z   submodules: false
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0789088Z   set-safe-directory: true
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0789458Z env:
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0789751Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0790198Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0790604Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.0790814Z ##[endgroup]
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.1610340Z Syncing repository: devsecopslonghn/schemaForge
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.1611658Z ##[group]Getting Git version info
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.1611979Z Working directory is '/home/runner/work/schemaForge/schemaForge'
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.1612470Z [command]/usr/bin/git version
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.1686940Z git version 2.55.0
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.1717272Z ##[endgroup]
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.1723095Z Temporarily overriding HOME='/home/runner/work/_temp/24882431-fd95-4961-9401-7f60dae89e4e' before making global git config changes
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.1724057Z Adding repository directory to the temporary git global config as a safe directory
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.1729533Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/schemaForge/schemaForge
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.1782789Z Deleting the contents of '/home/runner/work/schemaForge/schemaForge'
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.1787169Z ##[group]Initializing the repository
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.1791257Z [command]/usr/bin/git init /home/runner/work/schemaForge/schemaForge
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2026722Z hint: Using 'master' as the name for the initial branch. This default branch name
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2027623Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2030894Z hint: to use in all of your new repositories, which will suppress this warning,
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2032550Z hint: call:
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2032940Z hint:
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2033368Z hint: 	git config --global init.defaultBranch <name>
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2033786Z hint:
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2034156Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2034835Z hint: 'development'. The just-created branch can be renamed via this command:
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2035363Z hint:
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2035613Z hint: 	git branch -m <name>
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2035902Z hint:
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2036333Z hint: Disable this message with "git config set advice.defaultBranchName false"
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2037080Z Initialized empty Git repository in /home/runner/work/schemaForge/schemaForge/.git/
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2041080Z [command]/usr/bin/git remote add origin https://github.com/devsecopslonghn/schemaForge
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2118945Z ##[endgroup]
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2128790Z ##[group]Disabling automatic garbage collection
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2158713Z [command]/usr/bin/git config --local gc.auto 0
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2160059Z ##[endgroup]
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2160561Z ##[group]Setting up auth
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2161095Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2185415Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2508083Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2541263Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2739102Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2777787Z ##[endgroup]
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2778701Z ##[group]Fetching the repository
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:05.2786263Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +796b4cd058af63dbcc4d9d8ad58820588bb3dd81:refs/remotes/origin/development/product-source-binding
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.2534800Z From https://github.com/devsecopslonghn/schemaForge
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.2535842Z  * [new ref]         796b4cd058af63dbcc4d9d8ad58820588bb3dd81 -> origin/development/product-source-binding
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.2539512Z ##[endgroup]
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.2540179Z ##[group]Determining the checkout info
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.2542311Z ##[endgroup]
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.2548446Z [command]/usr/bin/git sparse-checkout disable
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.2599383Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.2629113Z ##[group]Checking out the ref
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.2649109Z [command]/usr/bin/git checkout --progress --force -B development/product-source-binding refs/remotes/origin/development/product-source-binding
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.2983716Z Switched to a new branch 'development/product-source-binding'
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.2988079Z branch 'development/product-source-binding' set up to track 'origin/development/product-source-binding'.
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.2995070Z ##[endgroup]
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.3042094Z [command]/usr/bin/git log -1 --format=%H
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.3076383Z 796b4cd058af63dbcc4d9d8ad58820588bb3dd81
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.3094256Z ##[group]Removing auth
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.3094828Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.3124715Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.3318688Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.3345102Z http.https://github.com/.extraheader
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.3351602Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.3385927Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+product	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:08:06.3576602Z ##[endgroup]
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	﻿2026-10-09T00:08:06.3790669Z ##[group]Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.3790993Z with:
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.3791161Z   node-version-file: .nvmrc
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.3791355Z   always-auth: false
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.3791530Z   check-latest: false
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.3793765Z   token: ***
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.3793928Z env:
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.3794204Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.3794647Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.3794983Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.3795194Z ##[endgroup]
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.4920691Z Node version file is not JSON file
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.4921718Z Resolved .nvmrc as 22.23.3
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.4939514Z Found in cache @ /opt/hostedtoolcache/node/22.23.3/x64
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.4943217Z (node:2540) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.4943993Z (Use `node --trace-deprecation ...` to show where the warning was created)
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.4945470Z ##[group]Environment details
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.8121640Z node: v22.23.3
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.8121917Z npm: 10.9.9
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.8122135Z yarn: 1.22.22
+product	Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020	2026-10-09T00:08:06.8122748Z ##[endgroup]
+product	Run npm ci --ignore-scripts --no-audit --no-fund	﻿2026-10-09T00:08:06.8257120Z ##[group]Run npm ci --ignore-scripts --no-audit --no-fund
+product	Run npm ci --ignore-scripts --no-audit --no-fund	2026-10-09T00:08:06.8257545Z ^[[36;1mnpm ci --ignore-scripts --no-audit --no-fund^[[0m
+product	Run npm ci --ignore-scripts --no-audit --no-fund	2026-10-09T00:08:06.8440610Z shell: /usr/bin/bash -e {0}
+product	Run npm ci --ignore-scripts --no-audit --no-fund	2026-10-09T00:08:06.8440892Z env:
+product	Run npm ci --ignore-scripts --no-audit --no-fund	2026-10-09T00:08:06.8441212Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run npm ci --ignore-scripts --no-audit --no-fund	2026-10-09T00:08:06.8441679Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run npm ci --ignore-scripts --no-audit --no-fund	2026-10-09T00:08:06.8442043Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run npm ci --ignore-scripts --no-audit --no-fund	2026-10-09T00:08:06.8442265Z ##[endgroup]
+product	Run npm ci --ignore-scripts --no-audit --no-fund	2026-10-09T00:08:08.5966933Z 
+product	Run npm ci --ignore-scripts --no-audit --no-fund	2026-10-09T00:08:08.5972200Z added 60 packages in 2s
+product	Run npm run parser:antlr:prepare	﻿2026-10-09T00:08:08.6340875Z ##[group]Run npm run parser:antlr:prepare
+product	Run npm run parser:antlr:prepare	2026-10-09T00:08:08.6341179Z ^[[36;1mnpm run parser:antlr:prepare^[[0m
+product	Run npm run parser:antlr:prepare	2026-10-09T00:08:08.6399959Z shell: /usr/bin/bash -e {0}
+product	Run npm run parser:antlr:prepare	2026-10-09T00:08:08.6400345Z env:
+product	Run npm run parser:antlr:prepare	2026-10-09T00:08:08.6400653Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run npm run parser:antlr:prepare	2026-10-09T00:08:08.6401109Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run npm run parser:antlr:prepare	2026-10-09T00:08:08.6401455Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run npm run parser:antlr:prepare	2026-10-09T00:08:08.6401672Z ##[endgroup]
+product	Run npm run parser:antlr:prepare	2026-10-09T00:08:08.7235973Z 
+product	Run npm run parser:antlr:prepare	2026-10-09T00:08:08.7236772Z > schemaforge-local-development@0.0.0 parser:antlr:prepare
+product	Run npm run parser:antlr:prepare	2026-10-09T00:08:08.7237281Z > node scripts/antlr-prepare.mjs --download
+product	Run npm run parser:antlr:prepare	2026-10-09T00:08:08.7237465Z 
+product	Run npm run parser:antlr:prepare	2026-10-09T00:08:11.9316447Z Pinned public ANTLR/JDK inputs prepared; use SCHEMAFORGE_JAVA_HOME=.cache/antlr/temurin.
+product	Run npm run parser:antlr:build	﻿2026-10-09T00:08:11.9518812Z ##[group]Run npm run parser:antlr:build
+product	Run npm run parser:antlr:build	2026-10-09T00:08:11.9519099Z ^[[36;1mnpm run parser:antlr:build^[[0m
+product	Run npm run parser:antlr:build	2026-10-09T00:08:11.9576092Z shell: /usr/bin/bash -e {0}
+product	Run npm run parser:antlr:build	2026-10-09T00:08:11.9576329Z env:
+product	Run npm run parser:antlr:build	2026-10-09T00:08:11.9576631Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run npm run parser:antlr:build	2026-10-09T00:08:11.9577084Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run npm run parser:antlr:build	2026-10-09T00:08:11.9577421Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run npm run parser:antlr:build	2026-10-09T00:08:11.9577634Z ##[endgroup]
+product	Run npm run parser:antlr:build	2026-10-09T00:08:12.0388721Z 
+product	Run npm run parser:antlr:build	2026-10-09T00:08:12.0389585Z > schemaforge-local-development@0.0.0 parser:antlr:build
+product	Run npm run parser:antlr:build	2026-10-09T00:08:12.0389999Z > node scripts/antlr-build.mjs
+product	Run npm run parser:antlr:build	2026-10-09T00:08:12.0390151Z 
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5386862Z {
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5387334Z   "outcome": "PASS",
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5387719Z   "scope": "OFFLINE_CANDIDATE_BUILD_ONLY",
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5388605Z   "offline": true,
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5388874Z   "build_count": 2,
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5389370Z   "helper_sha256": "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38",
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5390045Z   "registered_helper_sha256_matches": true,
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5390390Z   "artifact_installed": true,
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5390704Z   "source_sha256": {
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5391481Z     "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/Main.java": "7528676c77213259824f71505686aeadbc6136a0f5625b19b722a15cb306da11",
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5393072Z     "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/PlSqlLexerBase.java": "a806d6ed05d269efc3aca4fe9debf2bab4d1c74767cfa1ff6b227db175732156",
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5394904Z     "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/PlSqlParserBase.java": "235ca59b19294b9b8fac72621cbbeff1291b56f5e927367df54ba2a641990931"
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5395963Z   },
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5396288Z   "jdk_version": "21.0.12.1+1-LTS",
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5396747Z   "runtime_shipped_in_helper": false,
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5397165Z   "tool_shipped_in_helper": false,
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5397589Z   "execution_approved": false,
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5398929Z   "production_approved": false,
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5399312Z   "database_calls": 0
+product	Run npm run parser:antlr:build	2026-10-09T00:08:31.5399587Z }
+product	Run npm run build	﻿2026-10-09T00:08:31.5542772Z ##[group]Run npm run build
+product	Run npm run build	2026-10-09T00:08:31.5543031Z ^[[36;1mnpm run build^[[0m
+product	Run npm run build	2026-10-09T00:08:31.5599834Z shell: /usr/bin/bash -e {0}
+product	Run npm run build	2026-10-09T00:08:31.5600049Z env:
+product	Run npm run build	2026-10-09T00:08:31.5600348Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run npm run build	2026-10-09T00:08:31.5600803Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run npm run build	2026-10-09T00:08:31.5601142Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run npm run build	2026-10-09T00:08:31.5601350Z ##[endgroup]
+product	Run npm run build	2026-10-09T00:08:31.6448709Z 
+product	Run npm run build	2026-10-09T00:08:31.6449417Z > schemaforge-local-development@0.0.0 build
+product	Run npm run build	2026-10-09T00:08:31.6450228Z > node scripts/check-source.mjs && npm run typecheck && npm run build:web
+product	Run npm run build	2026-10-09T00:08:31.6450630Z 
+product	Run npm run build	2026-10-09T00:08:32.9399019Z Source checks passed for 115 authored files.
+product	Run npm run build	2026-10-09T00:08:33.0212772Z 
+product	Run npm run build	2026-10-09T00:08:33.0213622Z > schemaforge-local-development@0.0.0 typecheck
+product	Run npm run build	2026-10-09T00:08:33.0214124Z > tsc --noEmit
+product	Run npm run build	2026-10-09T00:08:33.0214285Z 
+product	Run npm run build	2026-10-09T00:08:34.6722669Z 
+product	Run npm run build	2026-10-09T00:08:34.6723687Z > schemaforge-local-development@0.0.0 build:web
+product	Run npm run build	2026-10-09T00:08:34.6724819Z > node scripts/build-web.mjs
+product	Run npm run build	2026-10-09T00:08:34.6725304Z 
+product	Run npm run build	2026-10-09T00:08:34.7679014Z Web application built in dist/web.
+product	Run npm run test:product	﻿2026-10-09T00:08:34.7864212Z ##[group]Run npm run test:product
+product	Run npm run test:product	2026-10-09T00:08:34.7864625Z ^[[36;1mnpm run test:product^[[0m
+product	Run npm run test:product	2026-10-09T00:08:34.7941913Z shell: /usr/bin/bash -e {0}
+product	Run npm run test:product	2026-10-09T00:08:34.7942256Z env:
+product	Run npm run test:product	2026-10-09T00:08:34.7942722Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run npm run test:product	2026-10-09T00:08:34.7943488Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run npm run test:product	2026-10-09T00:08:34.7944302Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run npm run test:product	2026-10-09T00:08:34.7944649Z ##[endgroup]
+product	Run npm run test:product	2026-10-09T00:08:34.8853387Z 
+product	Run npm run test:product	2026-10-09T00:08:34.8854378Z > schemaforge-local-development@0.0.0 test:product
+product	Run npm run test:product	2026-10-09T00:08:34.8855338Z > node scripts/test-product.mjs
+product	Run npm run test:product	2026-10-09T00:08:34.8855764Z 
+product	Run npm run test:product	2026-10-09T00:08:34.9704911Z TAP version 13
+product	Run npm run test:product	2026-10-09T00:08:42.1374114Z # Subtest: product API persists a governed offline plan and never claims execution
+product	Run npm run test:product	2026-10-09T00:08:42.1399066Z ok 1 - product API persists a governed offline plan and never claims execution
+product	Run npm run test:product	2026-10-09T00:08:42.1420109Z   ---
+product	Run npm run test:product	2026-10-09T00:08:42.1458462Z   duration_ms: 6882.65182
+product	Run npm run test:product	2026-10-09T00:08:42.1480006Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:42.1488530Z   ...
+product	Run npm run test:product	2026-10-09T00:08:42.1511440Z # Subtest: archival keeps immutable records readable and refuses further project work
+product	Run npm run test:product	2026-10-09T00:08:42.1528987Z ok 2 - archival keeps immutable records readable and refuses further project work
+product	Run npm run test:product	2026-10-09T00:08:42.1548550Z   ---
+product	Run npm run test:product	2026-10-09T00:08:42.1578548Z   duration_ms: 624.016648
+product	Run npm run test:product	2026-10-09T00:08:42.1579198Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:42.1608680Z   ...
+product	Run npm run test:product	2026-10-09T00:08:42.1609560Z # Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+product	Run npm run test:product	2026-10-09T00:08:42.1610648Z ok 3 - an in-flight metadata write rechecks archival after acquiring the project lock
+product	Run npm run test:product	2026-10-09T00:08:42.1611347Z   ---
+product	Run npm run test:product	2026-10-09T00:08:42.1611745Z   duration_ms: 193.525651
+product	Run npm run test:product	2026-10-09T00:08:42.1612200Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:42.1612594Z   ...
+product	Run npm run test:product	2026-10-09T00:08:42.1613593Z # Subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+product	Run npm run test:product	2026-10-09T00:08:42.1614814Z ok 4 - concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+product	Run npm run test:product	2026-10-09T00:08:42.1615572Z   ---
+product	Run npm run test:product	2026-10-09T00:08:42.1615966Z   duration_ms: 699.427443
+product	Run npm run test:product	2026-10-09T00:08:42.1616394Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:42.1616771Z   ...
+product	Run npm run test:product	2026-10-09T00:08:44.7090410Z # Subtest: local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+product	Run npm run test:product	2026-10-09T00:08:44.7092160Z ok 5 - local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+product	Run npm run test:product	2026-10-09T00:08:44.7093126Z   ---
+product	Run npm run test:product	2026-10-09T00:08:44.7108725Z   duration_ms: 8739.925535
+product	Run npm run test:product	2026-10-09T00:08:44.7109498Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:44.7109918Z   ...
+product	Run npm run test:product	2026-10-09T00:08:49.2970122Z # Subtest: resolved commits remain immutable after the source branch moves
+product	Run npm run test:product	2026-10-09T00:08:49.2971710Z ok 6 - resolved commits remain immutable after the source branch moves
+product	Run npm run test:product	2026-10-09T00:08:49.2972356Z   ---
+product	Run npm run test:product	2026-10-09T00:08:49.2972723Z   duration_ms: 4590.173595
+product	Run npm run test:product	2026-10-09T00:08:49.2973071Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:49.2973374Z   ...
+product	Run npm run test:product	2026-10-09T00:08:49.3658699Z # Subtest: leading-zero aliases and equivalent dotted versions are rejected as duplicates
+product	Run npm run test:product	2026-10-09T00:08:49.3659998Z ok 7 - leading-zero aliases and equivalent dotted versions are rejected as duplicates
+product	Run npm run test:product	2026-10-09T00:08:49.3660747Z   ---
+product	Run npm run test:product	2026-10-09T00:08:49.3661223Z   duration_ms: 71.130212
+product	Run npm run test:product	2026-10-09T00:08:49.3661507Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:49.3661689Z   ...
+product	Run npm run test:product	2026-10-09T00:08:49.3913404Z # Subtest: malformed refs and migration-folder traversal are rejected before Git lookup
+product	Run npm run test:product	2026-10-09T00:08:49.3914362Z ok 8 - malformed refs and migration-folder traversal are rejected before Git lookup
+product	Run npm run test:product	2026-10-09T00:08:49.3914965Z   ---
+product	Run npm run test:product	2026-10-09T00:08:49.3917121Z   duration_ms: 24.979011
+product	Run npm run test:product	2026-10-09T00:08:49.3917494Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:49.3917762Z   ...
+product	Run npm run test:product	2026-10-09T00:08:49.5093234Z # Subtest: symlinked migration entries and Git submodules are rejected
+product	Run npm run test:product	2026-10-09T00:08:49.5094761Z ok 9 - symlinked migration entries and Git submodules are rejected
+product	Run npm run test:product	2026-10-09T00:08:49.5095216Z   ---
+product	Run npm run test:product	2026-10-09T00:08:49.5095474Z   duration_ms: 106.69687
+product	Run npm run test:product	2026-10-09T00:08:49.5095756Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:49.5095988Z   ...
+product	Run npm run test:product	2026-10-09T00:08:53.9424804Z # Subtest: invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+product	Run npm run test:product	2026-10-09T00:08:53.9426713Z ok 10 - invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+product	Run npm run test:product	2026-10-09T00:08:53.9427374Z   ---
+product	Run npm run test:product	2026-10-09T00:08:53.9427722Z   duration_ms: 4371.78169
+product	Run npm run test:product	2026-10-09T00:08:56.1353118Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:56.1353490Z   ...
+product	Run npm run test:product	2026-10-09T00:08:56.1354168Z # Subtest: the installed ANTLR helper parses actual imported SQL without a fake positive driver
+product	Run npm run test:product	2026-10-09T00:08:56.1355526Z ok 11 - the installed ANTLR helper parses actual imported SQL without a fake positive driver
+product	Run npm run test:product	2026-10-09T00:08:56.1356393Z   ---
+product	Run npm run test:product	2026-10-09T00:08:56.1356682Z   duration_ms: 2284.248026
+product	Run npm run test:product	2026-10-09T00:08:56.1356904Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:56.1357082Z   ...
+product	Run npm run test:product	2026-10-09T00:08:56.1431750Z # Subtest: startup arguments accept repeated local repositories and reject unknown or excess options
+product	Run npm run test:product	2026-10-09T00:08:56.1432581Z ok 12 - startup arguments accept repeated local repositories and reject unknown or excess options
+product	Run npm run test:product	2026-10-09T00:08:56.1433164Z   ---
+product	Run npm run test:product	2026-10-09T00:08:56.1433365Z   duration_ms: 2.758217
+product	Run npm run test:product	2026-10-09T00:08:56.1433557Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:56.1433824Z   ...
+product	Run npm run test:product	2026-10-09T00:08:56.1434421Z # Subtest: configured repositories are canonical local Git worktrees with display-only public descriptors
+product	Run npm run test:product	2026-10-09T00:08:56.1435219Z ok 13 - configured repositories are canonical local Git worktrees with display-only public descriptors
+product	Run npm run test:product	2026-10-09T00:08:56.1435792Z   ---
+product	Run npm run test:product	2026-10-09T00:08:56.1435985Z   duration_ms: 108.177949
+product	Run npm run test:product	2026-10-09T00:08:56.1436188Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:56.1436348Z   ...
+product	Run npm run test:product	2026-10-09T00:08:56.1436840Z # Subtest: invalid startup options fail before creating local configuration or reaching Docker
+product	Run npm run test:product	2026-10-09T00:08:56.1437667Z ok 14 - invalid startup options fail before creating local configuration or reaching Docker
+product	Run npm run test:product	2026-10-09T00:08:56.1438239Z   ---
+product	Run npm run test:product	2026-10-09T00:08:56.1438413Z   duration_ms: 189.378167
+product	Run npm run test:product	2026-10-09T00:08:56.1438699Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:56.1438946Z   ...
+product	Run npm run test:product	2026-10-09T00:08:56.1439479Z # Subtest: a configured custom Git repository is visible without its path and imports through the product API
+product	Run npm run test:product	2026-10-09T00:08:56.1440359Z ok 15 - a configured custom Git repository is visible without its path and imports through the product API
+product	Run npm run test:product	2026-10-09T00:08:56.1440862Z   ---
+product	Run npm run test:product	2026-10-09T00:08:56.1441062Z   duration_ms: 3792.660709
+product	Run npm run test:product	2026-10-09T00:08:56.1441310Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:56.1441534Z   ...
+product	Run npm run test:product	2026-10-09T00:08:56.1442065Z # Subtest: source bindings persist, authorize changes, constrain imports before Git, and remain private
+product	Run npm run test:product	2026-10-09T00:08:56.1442781Z ok 16 - source bindings persist, authorize changes, constrain imports before Git, and remain private
+product	Run npm run test:product	2026-10-09T00:08:56.1443151Z   ---
+product	Run npm run test:product	2026-10-09T00:08:56.1443316Z   duration_ms: 241.240314
+product	Run npm run test:product	2026-10-09T00:08:56.1443502Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:56.1443673Z   ...
+product	Run npm run test:product	2026-10-09T00:08:56.1444066Z # Subtest: source binding is rechecked under a project lock before an imported release can commit
+product	Run npm run test:product	2026-10-09T00:08:56.1444663Z ok 17 - source binding is rechecked under a project lock before an imported release can commit
+product	Run npm run test:product	2026-10-09T00:08:56.1445004Z   ---
+product	Run npm run test:product	2026-10-09T00:08:56.1445171Z   duration_ms: 5206.562823
+product	Run npm run test:product	2026-10-09T00:08:56.1445364Z   type: 'test'
+product	Run npm run test:product	2026-10-09T00:08:56.1445518Z   ...
+product	Run npm run test:product	2026-10-09T00:08:56.1445684Z 1..17
+product	Run npm run test:product	2026-10-09T00:08:56.1445846Z # tests 17
+product	Run npm run test:product	2026-10-09T00:08:56.1446004Z # suites 0
+product	Run npm run test:product	2026-10-09T00:08:56.1446157Z # pass 17
+product	Run npm run test:product	2026-10-09T00:08:56.1446306Z # fail 0
+product	Run npm run test:product	2026-10-09T00:08:56.1446460Z # cancelled 0
+product	Run npm run test:product	2026-10-09T00:08:56.1446623Z # skipped 0
+product	Run npm run test:product	2026-10-09T00:08:56.1446787Z # todo 0
+product	Run npm run test:product	2026-10-09T00:08:56.1446964Z # duration_ms 21190.497548
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	﻿2026-10-09T00:08:56.1607406Z ##[group]Run node node_modules/playwright/cli.js install --with-deps chromium
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.1608026Z ^[[36;1mnode node_modules/playwright/cli.js install --with-deps chromium^[[0m
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.1664403Z shell: /usr/bin/bash -e {0}
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.1664646Z env:
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.1664957Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.1665605Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.1665961Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.1666186Z ##[endgroup]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.5727282Z Installing dependencies...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.5826392Z Switching to root user to install dependencies...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.6580158Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.6815690Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.6927802Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.6929727Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.7009678Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.7040660Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.7470390Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [474 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.7647335Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [531 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.7721460Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main all Packages [640 B]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.7746279Z Get:10 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.3 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.8505304Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1375 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.8573278Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [306 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.8580033Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1702 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.8660784Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.8678923Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1761 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.8762595Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [401 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.8783426Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [55.0 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.8789014Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.3 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.9461953Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1116 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.9518233Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [228 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:56.9966629Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1220 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:57.0031475Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [245 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:57.0045502Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1632 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:57.0111399Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [376 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:08:57.0128452Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [11.6 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:04.5051473Z Fetched 12.2 MB in 1s (11.5 MB/s)
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.2864010Z Reading package lists...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.3069494Z Reading package lists...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.5265277Z Building dependency tree...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.5271511Z Reading state information...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7288645Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7289284Z libasound2t64 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7290166Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7290528Z libatk-bridge2.0-0t64 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7290873Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7291187Z libatk1.0-0t64 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7291667Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7291986Z libatspi2.0-0t64 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7292298Z libcairo2 is already the newest version (1.18.0-3build1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7292592Z libcairo2 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7292916Z libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7293406Z libcups2t64 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7293914Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7294318Z libdbus-1-3 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7294646Z libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7294954Z libdrm2 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7295262Z libgbm1 is already the newest version (25.2.8-0ubuntu0.24.04.4).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7295561Z libgbm1 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7295868Z libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.9).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7296195Z libglib2.0-0t64 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7296519Z libnspr4 is already the newest version (2:4.35-1.1build1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7296817Z libnspr4 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7297114Z libnss3 is already the newest version (2:3.98-1ubuntu0.2).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7297396Z libnss3 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7297706Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7298141Z libpango-1.0-0 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7298443Z libx11-6 is already the newest version (2:1.8.7-1build1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7298735Z libx11-6 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7299028Z libxcb1 is already the newest version (1.15-1ubuntu2).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7299307Z libxcb1 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7299624Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7299949Z libxcomposite1 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7300319Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7300629Z libxdamage1 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7300938Z libxext6 is already the newest version (2:1.3.4-1build2).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7301230Z libxext6 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7301534Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7301834Z libxfixes3 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7302151Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7302464Z libxkbcommon0 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7302786Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7303078Z libxrandr2 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7303380Z xvfb is already the newest version (2:21.1.12-1ubuntu1.8).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7303795Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7304222Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7304553Z libfontconfig1 set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7304871Z fonts-liberation is already the newest version (1:2.1.5-3).
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7305179Z fonts-liberation set to manually installed.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7305491Z The following additional packages will be installed:
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7305776Z   xfonts-encodings xfonts-utils
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7306015Z Recommended packages:
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7306249Z   fonts-ipafont-mincho fonts-tlwg-loma
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7495414Z The following NEW packages will be installed:
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7496488Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7503931Z   fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7504425Z   xfonts-utils
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7508508Z The following packages will be upgraded:
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7512667Z   libfreetype6
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7670539Z 1 upgraded, 9 newly installed, 0 to remove and 22 not upgraded.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7671156Z Need to get 21.5 MB of archives.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7671691Z After this operation, 79.5 MB of additional disk space will be used.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.7672309Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.8468619Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:05.9939368Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:06.1721076Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:06.2354702Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:06.3588388Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:06.5749335Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libfreetype6 amd64 2.13.2+dfsg-1ubuntu0.2 [403 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:06.6451118Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:06.7245226Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:06.7890597Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:06.8556932Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.0898588Z Fetched 21.5 MB in 1s (19.5 MB/s)
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1092709Z Selecting previously unselected package fonts-ipafont-gothic.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1360491Z (Reading database ... 
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1360931Z (Reading database ... 5%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1361284Z (Reading database ... 10%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1361634Z (Reading database ... 15%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1361931Z (Reading database ... 20%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1362126Z (Reading database ... 25%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1362313Z (Reading database ... 30%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1362509Z (Reading database ... 35%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1362702Z (Reading database ... 40%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1362938Z (Reading database ... 45%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1363222Z (Reading database ... 50%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.1397039Z (Reading database ... 55%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.2179551Z (Reading database ... 60%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.4246388Z (Reading database ... 65%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.6134912Z (Reading database ... 70%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.8157119Z (Reading database ... 75%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:07.9159246Z (Reading database ... 80%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.0373030Z (Reading database ... 85%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.1637779Z (Reading database ... 90%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.2836468Z (Reading database ... 95%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.2836921Z (Reading database ... 100%
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.2837468Z (Reading database ... 203191 files and directories currently installed.)
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.2880095Z Preparing to unpack .../0-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.2956629Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.5214426Z Selecting previously unselected package fonts-freefont-ttf.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.5326676Z Preparing to unpack .../1-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.5332741Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.6415029Z Selecting previously unselected package fonts-tlwg-loma-otf.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.6525739Z Preparing to unpack .../2-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.6532445Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.6713770Z Selecting previously unselected package fonts-unifont.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.6823448Z Preparing to unpack .../3-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.6829557Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.8930127Z Selecting previously unselected package fonts-wqy-zenhei.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.9042232Z Preparing to unpack .../4-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:08.9132414Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.3774757Z Preparing to unpack .../5-libfreetype6_2.13.2+dfsg-1ubuntu0.2_amd64.deb ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.3799704Z Unpacking libfreetype6:amd64 (2.13.2+dfsg-1ubuntu0.2) over (2.13.2+dfsg-1ubuntu0.1) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.4017369Z Selecting previously unselected package xfonts-encodings.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.4132004Z Preparing to unpack .../6-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.4232687Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.4463975Z Selecting previously unselected package xfonts-utils.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.4577788Z Preparing to unpack .../7-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.4583499Z Unpacking xfonts-utils (1:7.7+6build3) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.4879417Z Selecting previously unselected package xfonts-cyrillic.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.4991677Z Preparing to unpack .../8-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.4997846Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.5716492Z Selecting previously unselected package xfonts-scalable.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.5833125Z Preparing to unpack .../9-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.5840297Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.6671099Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.6769145Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.6782038Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.6794515Z Setting up libfreetype6:amd64 (2.13.2+dfsg-1ubuntu0.2) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.6806662Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.6818549Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.6873987Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.6886449Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.6900917Z Setting up xfonts-utils (1:7.7+6build3) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.6934285Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.7173339Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.7407247Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:09.9849258Z Processing triggers for man-db (2.12.0-4build2) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.0181789Z Not building database; man-db/auto-update is not 'true'.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.0243784Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.6691613Z 
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.6692348Z Running kernel seems to be up-to-date.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.6692681Z 
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.6692829Z Restarting services...
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.6764014Z  systemctl restart php8.3-fpm.service
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.8067566Z 
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.8073946Z No containers need to be restarted.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.8074262Z 
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.8074493Z No user sessions are running outdated binaries.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.8074773Z 
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:10.8075120Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:11.8976469Z Downloading Chrome for Testing 156.0.8078.4 (playwright chromium v1248) from https://cdn.playwright.dev/builds/cft/156.0.8078.4/linux64/chrome-linux64.zip
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:12.2681333Z |                                                                                |   0% of 191.1 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:12.4095402Z |■■■■■■■■                                                                        |  10% of 191.1 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:12.4982823Z |■■■■■■■■■■■■■■■■                                                                |  20% of 191.1 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:12.5890603Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 191.1 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:12.6819627Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 191.1 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:12.7496882Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 191.1 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:12.8366579Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 191.1 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:12.9542678Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 191.1 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:13.0496851Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 191.1 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:13.1334436Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 191.1 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:13.1975003Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 191.1 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.2980091Z Chrome for Testing 156.0.8078.4 (playwright chromium v1248) downloaded to /home/runner/.cache/ms-playwright/chromium-1248
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.2983003Z Downloading FFmpeg (playwright ffmpeg v1013) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1013/ffmpeg-linux.zip
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.6133958Z |                                                                                |   0% of 2.2 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.6360859Z |■■■■■■■■                                                                        |  10% of 2.2 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.6458489Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.2 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.6525187Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.2 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.6575716Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.2 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.6624270Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.2 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.6656668Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.2 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.6695445Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.2 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.6714317Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.2 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.6766084Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.2 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.6774127Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.2 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.7219625Z FFmpeg (playwright ffmpeg v1013) downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1013
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:15.7221683Z Downloading Chrome Headless Shell 156.0.8078.4 (playwright chromium-headless-shell v1248) from https://cdn.playwright.dev/builds/cft/156.0.8078.4/linux64/chrome-headless-shell-linux64.zip
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:16.0663935Z |                                                                                |   0% of 120 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:16.1490967Z |■■■■■■■■                                                                        |  10% of 120 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:16.1880047Z |■■■■■■■■■■■■■■■■                                                                |  20% of 120 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:16.2310157Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 120 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:16.2666221Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 120 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:16.2981467Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 120 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:16.3347385Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 120 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:16.3686448Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 120 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:16.3991249Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 120 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:16.4290204Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 120 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:16.4619496Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 120 MiB
+product	Run node node_modules/playwright/cli.js install --with-deps chromium	2026-10-09T00:09:17.9628283Z Chrome Headless Shell 156.0.8078.4 (playwright chromium-headless-shell v1248) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1248
+product	Run npm run test:browser	﻿2026-10-09T00:09:17.9788226Z ##[group]Run npm run test:browser
+product	Run npm run test:browser	2026-10-09T00:09:17.9788517Z ^[[36;1mnpm run test:browser^[[0m
+product	Run npm run test:browser	2026-10-09T00:09:17.9844279Z shell: /usr/bin/bash -e {0}
+product	Run npm run test:browser	2026-10-09T00:09:17.9844504Z env:
+product	Run npm run test:browser	2026-10-09T00:09:17.9844800Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run npm run test:browser	2026-10-09T00:09:17.9845255Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run npm run test:browser	2026-10-09T00:09:17.9845595Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run npm run test:browser	2026-10-09T00:09:17.9845848Z ##[endgroup]
+product	Run npm run test:browser	2026-10-09T00:09:18.0676765Z 
+product	Run npm run test:browser	2026-10-09T00:09:18.0677500Z > schemaforge-local-development@0.0.0 test:browser
+product	Run npm run test:browser	2026-10-09T00:09:18.0678177Z > npm run build:web && node scripts/test-product.mjs --browser
+product	Run npm run test:browser	2026-10-09T00:09:18.0678400Z 
+product	Run npm run test:browser	2026-10-09T00:09:18.1481107Z 
+product	Run npm run test:browser	2026-10-09T00:09:18.1481841Z > schemaforge-local-development@0.0.0 build:web
+product	Run npm run test:browser	2026-10-09T00:09:18.1482355Z > node scripts/build-web.mjs
+product	Run npm run test:browser	2026-10-09T00:09:18.1482570Z 
+product	Run npm run test:browser	2026-10-09T00:09:18.2308807Z Web application built in dist/web.
+product	Run npm run test:browser	2026-10-09T00:09:18.3159251Z TAP version 13
+product	Run npm run test:browser	2026-10-09T00:09:25.4645984Z # Browser archive workflow and archived project records remained readable after API restart.
+product	Run npm run test:browser	2026-10-09T00:09:25.6472375Z # Subtest: browser archives a project and keeps its releases, plan, audit, and history readable
+product	Run npm run test:browser	2026-10-09T00:09:25.6477655Z ok 1 - browser archives a project and keeps its releases, plan, audit, and history readable
+product	Run npm run test:browser	2026-10-09T00:09:25.6478556Z   ---
+product	Run npm run test:browser	2026-10-09T00:09:25.6479513Z   duration_ms: 6729.979049
+product	Run npm run test:browser	2026-10-09T00:09:25.6479894Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T00:09:25.6480216Z   ...
+product	Run npm run test:browser	2026-10-09T00:11:18.9406765Z # Subtest: browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+product	Run npm run test:browser	2026-10-09T00:11:18.9408961Z not ok 2 - browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+product	Run npm run test:browser	2026-10-09T00:11:18.9409582Z   ---
+product	Run npm run test:browser	2026-10-09T00:11:18.9409752Z   duration_ms: 120043.434617
+product	Run npm run test:browser	2026-10-09T00:11:18.9409954Z   type: 'test'
+product	Run npm run test:browser	2026-10-09T00:11:18.9410369Z   location: '/home/runner/work/schemaForge/schemaForge/tests/product-browser.integration.mjs:10:1'
+product	Run npm run test:browser	2026-10-09T00:11:18.9410787Z   failureType: 'testTimeoutFailure'
+product	Run npm run test:browser	2026-10-09T00:11:18.9411052Z   error: 'test timed out after 120000ms'
+product	Run npm run test:browser	2026-10-09T00:11:18.9411281Z   code: 'ERR_TEST_FAILURE'
+product	Run npm run test:browser	2026-10-09T00:11:18.9411508Z   ...
+product	Run npm run test:browser	2026-10-09T00:22:55.7948883Z ##[error]The operation was canceled.
+product	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	﻿2026-10-09T00:22:55.8035607Z Post job cleanup.
+product	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:22:55.8725814Z [command]/usr/bin/git version
+product	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:22:55.8761021Z git version 2.55.0
+product	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:22:55.8790751Z Temporarily overriding HOME='/home/runner/work/_temp/a6d3e66f-232a-4b21-9968-dee8d849aff8' before making global git config changes
+product	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:22:55.8791951Z Adding repository directory to the temporary git global config as a safe directory
+product	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:22:55.8795359Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/schemaForge/schemaForge
+product	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:22:55.8829036Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+product	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:22:55.8858285Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+product	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:22:55.9067626Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+product	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-09T00:22:55.9100888Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+product	Stop containers	﻿2026-10-09T00:22:55.9433328Z Print service container logs: e47d69253a264812954da8821f65f11b_postgres1710bookwormsha2569b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f_a74e73
+product	Stop containers	2026-10-09T00:22:55.9439955Z ##[command]/usr/bin/docker logs --details 309f33197f3e9937796e615e650838a25f1f9d75fdb3514f8f99a1be6b62573f
+product	Stop containers	2026-10-09T00:22:55.9565522Z  ********************************************************************************
+product	Stop containers	2026-10-09T00:22:55.9565987Z  The files belonging to this database system will be owned by user "postgres".
+product	Stop containers	2026-10-09T00:22:55.9566670Z  WARNING: POSTGRES_HOST_AUTH_METHOD has been set to "trust". This will allow
+product	Stop containers	2026-10-09T00:22:55.9567128Z  This user must also own the server process.
+product	Stop containers	2026-10-09T00:22:55.9567629Z           anyone with access to the Postgres port to access your database without
+product	Stop containers	2026-10-09T00:22:55.9568590Z           a password, even if POSTGRES_PASSWORD is set. See PostgreSQL
+product	Stop containers	2026-10-09T00:22:55.9570984Z           documentation about "trust":
+product	Stop containers	2026-10-09T00:22:55.9571464Z           https://www.postgresql.org/docs/current/auth-trust.html
+product	Stop containers	2026-10-09T00:22:55.9571913Z           In Docker's default configuration, this is effectively any other
+product	Stop containers	2026-10-09T00:22:55.9572202Z           container on the same system.
+product	Stop containers	2026-10-09T00:22:55.9572397Z  
+product	Stop containers	2026-10-09T00:22:55.9572616Z           It is not recommended to use POSTGRES_HOST_AUTH_METHOD=trust. Replace
+product	Stop containers	2026-10-09T00:22:55.9572977Z           it with "-e POSTGRES_PASSWORD=password" instead to set a password in
+product	Stop containers	2026-10-09T00:22:55.9573264Z           "docker run".
+product	Stop containers	2026-10-09T00:22:55.9573469Z  ********************************************************************************
+product	Stop containers	2026-10-09T00:22:55.9573790Z  initdb: warning: enabling "trust" authentication for local connections
+product	Stop containers	2026-10-09T00:22:55.9574650Z  initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+product	Stop containers	2026-10-09T00:22:55.9575757Z  2026-10-09 00:08:00.036 UTC [1] LOG:  starting PostgreSQL 17.10 (Debian 17.10-1.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit
+product	Stop containers	2026-10-09T00:22:55.9576313Z  2026-10-09 00:08:00.036 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+product	Stop containers	2026-10-09T00:22:55.9576663Z  2026-10-09 00:08:00.036 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+product	Stop containers	2026-10-09T00:22:55.9577041Z  2026-10-09 00:08:00.037 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+product	Stop containers	2026-10-09T00:22:55.9577457Z  2026-10-09 00:08:00.039 UTC [65] LOG:  database system was shut down at 2026-10-09 00:08:00 UTC
+product	Stop containers	2026-10-09T00:22:55.9577834Z  2026-10-09 00:08:00.043 UTC [1] LOG:  database system is ready to accept connections
+product	Stop containers	2026-10-09T00:22:55.9578553Z  2026-10-09 00:08:35.618 UTC [141] ERROR:  invalid input syntax for type integer: "00000000-0000-4000-8000-000000000001" at character 144
+product	Stop containers	2026-10-09T00:22:55.9578979Z  2026-10-09 00:08:35.618 UTC [141] STATEMENT:  
+product	Stop containers	2026-10-09T00:22:55.9579317Z  	    CREATE TABLE IF NOT EXISTS sf_organizations (id uuid PRIMARY KEY, name text NOT NULL);
+product	Stop containers	2026-10-09T00:22:55.9579867Z  	    INSERT INTO sf_organizations (id,name) VALUES ('00000000-0000-4000-8000-000000000001','Local organization') ON CONFLICT (id) DO NOTHING;
+product	Stop containers	2026-10-09T00:22:55.9580316Z  	    CREATE TABLE IF NOT EXISTS sf_projects (
+product	Stop containers	2026-10-09T00:22:55.9580699Z  	      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
+product	Stop containers	2026-10-09T00:22:55.9581088Z  	      name text NOT NULL, description text,
+product	Stop containers	2026-10-09T00:22:55.9581394Z  	      source_repository_id text, source_folder text, source_updated_at timestamptz,
+product	Stop containers	2026-10-09T00:22:55.9581814Z  	      created_at timestamptz NOT NULL DEFAULT now(), UNIQUE(id,organization_id)
+product	Stop containers	2026-10-09T00:22:55.9582121Z  	    );
+product	Stop containers	2026-10-09T00:22:55.9582297Z  	    CREATE TABLE IF NOT EXISTS sf_environments (
+product	Stop containers	2026-10-09T00:22:55.9582686Z  	      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), project_id uuid NOT NULL, organization_id uuid NOT NULL,
+product	Stop containers	2026-10-09T00:22:55.9583166Z  	      name text NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), UNIQUE(id,project_id),
+product	Stop containers	2026-10-09T00:22:55.9583928Z  	      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id)
+product	Stop containers	2026-10-09T00:22:55.9584368Z  	    );
+product	Stop containers	2026-10-09T00:22:55.9584587Z  	    CREATE TABLE IF NOT EXISTS sf_profiles (
+product	Stop containers	2026-10-09T00:22:55.9585166Z  	      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), project_id uuid NOT NULL, organization_id uuid NOT NULL, environment_id uuid NOT NULL,
+product	Stop containers	2026-10-09T00:22:55.9585611Z  
+product	Stop containers	2026-10-09T00:22:55.9585834Z  The database cluster will be initialized with locale "en_US.utf8".
+product	Stop containers	2026-10-09T00:22:55.9586168Z  The default database encoding has accordingly been set to "UTF8".
+product	Stop containers	2026-10-09T00:22:55.9586488Z  The default text search configuration will be set to "english".
+product	Stop containers	2026-10-09T00:22:55.9586754Z  
+product	Stop containers	2026-10-09T00:22:55.9586905Z  Data page checksums are disabled.
+product	Stop containers	2026-10-09T00:22:55.9587092Z  
+product	Stop containers	2026-10-09T00:22:55.9587317Z  fixing permissions on existing directory /var/lib/postgresql/data ... ok
+product	Stop containers	2026-10-09T00:22:55.9587617Z  creating subdirectories ... ok
+product	Stop containers	2026-10-09T00:22:55.9588037Z  selecting dynamic shared memory implementation ... posix
+product	Stop containers	2026-10-09T00:22:55.9588332Z  selecting default "max_connections" ... 100
+product	Stop containers	2026-10-09T00:22:55.9588579Z  selecting default "shared_buffers" ... 128MB
+product	Stop containers	2026-10-09T00:22:55.9588805Z  selecting default time zone ... Etc/UTC
+product	Stop containers	2026-10-09T00:22:55.9589020Z  creating configuration files ... ok
+product	Stop containers	2026-10-09T00:22:55.9589235Z  running bootstrap script ... ok
+product	Stop containers	2026-10-09T00:22:55.9589468Z  performing post-bootstrap initialization ... ok
+product	Stop containers	2026-10-09T00:22:55.9589708Z  syncing data to disk ... ok
+product	Stop containers	2026-10-09T00:22:55.9589883Z  
+product	Stop containers	2026-10-09T00:22:55.9590017Z  
+product	Stop containers	2026-10-09T00:22:55.9590193Z  Success. You can now start the database server using:
+product	Stop containers	2026-10-09T00:22:55.9590572Z  
+product	Stop containers	2026-10-09T00:22:55.9590763Z      pg_ctl -D /var/lib/postgresql/data -l logfile start
+product	Stop containers	2026-10-09T00:22:55.9590993Z  
+product	Stop containers	2026-10-09T00:22:55.9591572Z  waiting for server to start....2026-10-09 00:07:59.739 UTC [49] LOG:  starting PostgreSQL 17.10 (Debian 17.10-1.pgdg12+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit
+product	Stop containers	2026-10-09T00:22:55.9592258Z  2026-10-09 00:07:59.740 UTC [49] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+product	Stop containers	2026-10-09T00:22:55.9592686Z  2026-10-09 00:07:59.742 UTC [52] LOG:  database system was shut down at 2026-10-09 00:07:59 UTC
+product	Stop containers	2026-10-09T00:22:55.9593071Z  2026-10-09 00:07:59.745 UTC [49] LOG:  database system is ready to accept connections
+product	Stop containers	2026-10-09T00:22:55.9593350Z   done
+product	Stop containers	2026-10-09T00:22:55.9593495Z  server started
+product	Stop containers	2026-10-09T00:22:55.9593652Z  CREATE DATABASE
+product	Stop containers	2026-10-09T00:22:55.9593806Z  
+product	Stop containers	2026-10-09T00:22:55.9593943Z  
+product	Stop containers	2026-10-09T00:22:55.9594191Z  /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+product	Stop containers	2026-10-09T00:22:55.9594499Z  
+product	Stop containers	2026-10-09T00:22:55.9594767Z  waiting for server to shut down...2026-10-09 00:07:59.917 UTC [49] LOG:  received fast shutdown request
+product	Stop containers	2026-10-09T00:22:55.9595156Z  .2026-10-09 00:07:59.918 UTC [49] LOG:  aborting any active transactions
+product	Stop containers	2026-10-09T00:22:55.9595590Z  2026-10-09 00:07:59.919 UTC [49] LOG:  background worker "logical replication launcher" (PID 55) exited with exit code 1
+product	Stop containers	2026-10-09T00:22:55.9595985Z  2026-10-09 00:07:59.920 UTC [50] LOG:  shutting down
+product	Stop containers	2026-10-09T00:22:55.9596279Z  2026-10-09 00:07:59.921 UTC [50] LOG:  checkpoint starting: shutdown immediate
+product	Stop containers	2026-10-09T00:22:55.9597072Z  2026-10-09 00:08:00.006 UTC [50] LOG:  checkpoint complete: wrote 921 buffers (5.6%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.075 s, sync=0.010 s, total=0.086 s; sync files=301, longest=0.009 s, average=0.001 s; distance=4238 kB, estimate=4238 kB; lsn=0/1908908, redo lsn=0/1908908
+product	Stop containers	2026-10-09T00:22:55.9597968Z  2026-10-09 00:08:00.012 UTC [49] LOG:  database system is shut down
+product	Stop containers	2026-10-09T00:22:55.9598302Z   done
+product	Stop containers	2026-10-09T00:22:55.9598455Z  server stopped
+product	Stop containers	2026-10-09T00:22:55.9598612Z  
+product	Stop containers	2026-10-09T00:22:55.9598801Z  PostgreSQL init process complete; ready for start up.
+product	Stop containers	2026-10-09T00:22:55.9599178Z  
+product	Stop containers	2026-10-09T00:22:55.9599581Z  	      name text NOT NULL, engine text NOT NULL CHECK(engine='oracle'), host text NOT NULL, port integer NOT NULL CHECK(port BETWEEN 1 AND 65535),
+product	Stop containers	2026-10-09T00:22:55.9600214Z  	      service text NOT NULL, username text NOT NULL, credential_ref text NOT NULL, created_at timestamptz NOT NULL DEFAULT now(),
+product	Stop containers	2026-10-09T00:22:55.9600730Z  	      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
+product	Stop containers	2026-10-09T00:22:55.9601208Z  	      FOREIGN KEY(environment_id,project_id) REFERENCES sf_environments(id,project_id), UNIQUE(id,project_id)
+product	Stop containers	2026-10-09T00:22:55.9601562Z  	    );
+product	Stop containers	2026-10-09T00:22:55.9601731Z  	    CREATE TABLE IF NOT EXISTS sf_releases (
+product	Stop containers	2026-10-09T00:22:55.9602098Z  	      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), project_id uuid NOT NULL, organization_id uuid NOT NULL,
+product	Stop containers	2026-10-09T00:22:55.9602606Z  	      repository_id text NOT NULL, commit_id text NOT NULL, object_format text NOT NULL, folder text NOT NULL,
+product	Stop containers	2026-10-09T00:22:55.9603121Z  	      manifest_digest text NOT NULL, validation_status text NOT NULL, validation_code text, parser_profile text,
+product	Stop containers	2026-10-09T00:22:55.9603556Z  	      files jsonb NOT NULL, created_at timestamptz NOT NULL DEFAULT now(),
+product	Stop containers	2026-10-09T00:22:55.9603994Z  	      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id), UNIQUE(id,project_id)
+product	Stop containers	2026-10-09T00:22:55.9604352Z  	    );
+product	Stop containers	2026-10-09T00:22:55.9604516Z  	    CREATE TABLE IF NOT EXISTS sf_plans (
+product	Stop containers	2026-10-09T00:22:55.9604873Z  	      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), project_id uuid NOT NULL, organization_id uuid NOT NULL,
+product	Stop containers	2026-10-09T00:22:55.9605421Z  	      release_id uuid NOT NULL, profile_id uuid NOT NULL, author_id text NOT NULL, status text NOT NULL DEFAULT 'PENDING_APPROVAL',
+product	Stop containers	2026-10-09T00:22:55.9606129Z  	      decision text, decision_reason text, decided_by text, created_at timestamptz NOT NULL DEFAULT now(), decided_at timestamptz,
+product	Stop containers	2026-10-09T00:22:55.9606733Z  	      items jsonb NOT NULL, execution text NOT NULL DEFAULT 'NOT_EXECUTED', history_status text NOT NULL DEFAULT 'NOT_OBSERVED',
+product	Stop containers	2026-10-09T00:22:55.9607188Z  	      planning_scope text NOT NULL DEFAULT 'OFFLINE_CANDIDATE',
+product	Stop containers	2026-10-09T00:22:55.9607553Z  	      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
+product	Stop containers	2026-10-09T00:22:55.9608092Z  	      FOREIGN KEY(release_id,project_id) REFERENCES sf_releases(id,project_id),
+product	Stop containers	2026-10-09T00:22:55.9608520Z  	      FOREIGN KEY(profile_id,project_id) REFERENCES sf_profiles(id,project_id), UNIQUE(id,project_id)
+product	Stop containers	2026-10-09T00:22:55.9608872Z  	    );
+product	Stop containers	2026-10-09T00:22:55.9609054Z  	    CREATE TABLE IF NOT EXISTS sf_audit (
+product	Stop containers	2026-10-09T00:22:55.9609419Z  	      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), project_id uuid NOT NULL, organization_id uuid NOT NULL,
+product	Stop containers	2026-10-09T00:22:55.9609922Z  	      actor_id text NOT NULL, action text NOT NULL, resource_id uuid, facts jsonb NOT NULL DEFAULT '{}'::jsonb,
+product	Stop containers	2026-10-09T00:22:55.9610484Z  	      created_at timestamptz NOT NULL DEFAULT now(), FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id)
+product	Stop containers	2026-10-09T00:22:55.9610898Z  	    );
+product	Stop containers	2026-10-09T00:22:55.9611059Z  	    CREATE TABLE IF NOT EXISTS sf_history (
+product	Stop containers	2026-10-09T00:22:55.9611451Z  	      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), project_id uuid NOT NULL, plan_id uuid NOT NULL, version text NOT NULL,
+product	Stop containers	2026-10-09T00:22:55.9612087Z  	      path text NOT NULL, sha256 text NOT NULL, status text NOT NULL CHECK(status='NOT_EXECUTED'), created_at timestamptz NOT NULL DEFAULT now(),
+product	Stop containers	2026-10-09T00:22:55.9612852Z  	      FOREIGN KEY(plan_id,project_id) REFERENCES sf_plans(id,project_id)
+product	Stop containers	2026-10-09T00:22:55.9613282Z  	    );
+product	Stop containers	2026-10-09T00:22:55.9613689Z  	    ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS archived_at timestamptz;
+product	Stop containers	2026-10-09T00:22:55.9614156Z  	    ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_repository_id text;
+product	Stop containers	2026-10-09T00:22:55.9662036Z  	    ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_folder text;
+product	Stop containers	2026-10-09T00:22:55.9663035Z  	    ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_updated_at timestamptz;
+product	Stop containers	2026-10-09T00:22:55.9663484Z  	    DO $$ BEGIN
+product	Stop containers	2026-10-09T00:22:55.9664079Z  	      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_projects'::regclass AND conname='sf_projects_source_binding_complete') THEN
+product	Stop containers	2026-10-09T00:22:55.9664890Z  	        ALTER TABLE sf_projects ADD CONSTRAINT sf_projects_source_binding_complete
+product	Stop containers	2026-10-09T00:22:55.9665476Z  	          CHECK ((source_repository_id IS NULL AND source_folder IS NULL AND source_updated_at IS NULL)
+product	Stop containers	2026-10-09T00:22:55.9666161Z  	            OR (source_repository_id IS NOT NULL AND source_folder IS NOT NULL AND source_updated_at IS NOT NULL));
+product	Stop containers	2026-10-09T00:22:55.9666686Z  	      END IF;
+product	Stop containers	2026-10-09T00:22:55.9666905Z  	    END $$;
+product	Stop containers	2026-10-09T00:22:55.9667334Z  	    CREATE INDEX IF NOT EXISTS sf_audit_project_time ON sf_audit(project_id,created_at DESC);
+product	Stop containers	2026-10-09T00:22:55.9668234Z  	    CREATE INDEX IF NOT EXISTS sf_history_project_time ON sf_history(project_id,created_at DESC);
+product	Stop containers	2026-10-09T00:22:55.9668778Z  	    
+product	Stop containers	2026-10-09T00:22:55.9669137Z  2026-10-09 00:08:35.684 UTC [63] LOG:  checkpoint starting: immediate force wait
+product	Stop containers	2026-10-09T00:22:55.9670501Z  2026-10-09 00:08:35.805 UTC [63] LOG:  checkpoint complete: wrote 959 buffers (5.9%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.076 s, sync=0.043 s, total=0.122 s; sync files=340, longest=0.031 s, average=0.001 s; distance=13402 kB, estimate=13402 kB; lsn=0/2624050, redo lsn=0/261F3C8
+product	Stop containers	2026-10-09T00:22:55.9671710Z  2026-10-09 00:08:35.806 UTC [63] LOG:  checkpoint starting: immediate force wait
+product	Stop containers	2026-10-09T00:22:55.9672513Z  2026-10-09 00:08:35.808 UTC [63] LOG:  checkpoint complete: wrote 22 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.002 s, total=0.003 s; sync files=15, longest=0.001 s, average=0.001 s; distance=19 kB, estimate=12064 kB; lsn=0/2624128, redo lsn=0/26240C8
+product	Stop containers	2026-10-09T00:22:55.9673569Z  2026-10-09 00:08:36.009 UTC [63] LOG:  checkpoint starting: immediate force wait
+product	Stop containers	2026-10-09T00:22:55.9674360Z  2026-10-09 00:08:36.012 UTC [63] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.004 s; sync files=4, longest=0.001 s, average=0.001 s; distance=4460 kB, estimate=11303 kB; lsn=0/2A7F288, redo lsn=0/2A7F230
+product	Stop containers	2026-10-09T00:22:55.9675122Z  2026-10-09 00:08:40.332 UTC [63] LOG:  checkpoint starting: immediate force wait
+product	Stop containers	2026-10-09T00:22:55.9675864Z  2026-10-09 00:08:40.334 UTC [63] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=4, longest=0.001 s, average=0.001 s; distance=4462 kB, estimate=10619 kB; lsn=0/2EDAC00, redo lsn=0/2EDABA8
+product	Stop containers	2026-10-09T00:22:55.9676622Z  2026-10-09 00:08:40.833 UTC [63] LOG:  checkpoint starting: immediate force wait
+product	Stop containers	2026-10-09T00:22:55.9677360Z  2026-10-09 00:08:40.835 UTC [63] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=4, longest=0.001 s, average=0.001 s; distance=4461 kB, estimate=10003 kB; lsn=0/3336120, redo lsn=0/33360C8
+product	Stop containers	2026-10-09T00:22:55.9678493Z  2026-10-09 00:08:41.913 UTC [147] ERROR:  insert or update on table "sf_profiles" violates foreign key constraint "sf_profiles_environment_id_project_id_fkey"
+product	Stop containers	2026-10-09T00:22:55.9679326Z  2026-10-09 00:08:41.913 UTC [147] DETAIL:  Key (environment_id, project_id)=(944dc43c-4d2c-4e83-b811-cbd114905a7f, 1443f0ae-7588-4936-80cb-f40d9aced0e5) is not present in table "sf_environments".
+product	Stop containers	2026-10-09T00:22:55.9680495Z  2026-10-09 00:08:41.913 UTC [147] STATEMENT:  INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING id,name,environment_id,engine,host,port,service,username,credential_ref,created_at
+product	Stop containers	2026-10-09T00:22:55.9681377Z  2026-10-09 00:08:41.960 UTC [63] LOG:  checkpoint starting: immediate force wait
+product	Stop containers	2026-10-09T00:22:55.9682267Z  2026-10-09 00:08:42.077 UTC [63] LOG:  checkpoint complete: wrote 950 buffers (5.8%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.079 s, sync=0.035 s, total=0.118 s; sync files=339, longest=0.030 s, average=0.001 s; distance=4473 kB, estimate=9450 kB; lsn=0/3794760, redo lsn=0/3794700
+product	Stop containers	2026-10-09T00:22:55.9683068Z  2026-10-09 00:08:46.009 UTC [63] LOG:  checkpoint starting: immediate force wait
+product	Stop containers	2026-10-09T00:22:55.9683844Z  2026-10-09 00:08:46.012 UTC [63] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=2, longest=0.001 s, average=0.001 s; distance=17 kB, estimate=8507 kB; lsn=0/3798E60, redo lsn=0/3798E08
+product	Stop containers	2026-10-09T00:22:55.9684597Z  2026-10-09 00:09:25.534 UTC [63] LOG:  checkpoint starting: immediate force wait
+product	Stop containers	2026-10-09T00:22:55.9685354Z  2026-10-09 00:09:25.633 UTC [63] LOG:  checkpoint complete: wrote 960 buffers (5.9%); 0 WAL file(s) added, 0 removed, 1 recycled; write=0.071 s, sync=0.025 s, total=0.099 s; sync files=339, longest=0.008 s, average=0.001 s; distance=8929 kB, estimate=8929 kB; lsn=0/4052238, redo lsn=0/40514A0
+product	Stop containers	2026-10-09T00:22:55.9686112Z  2026-10-09 00:14:25.734 UTC [63] LOG:  checkpoint starting: time
+product	Stop containers	2026-10-09T00:22:55.9686844Z  2026-10-09 00:14:32.289 UTC [63] LOG:  checkpoint complete: wrote 65 buffers (0.4%); 0 WAL file(s) added, 0 removed, 0 recycled; write=6.452 s, sync=0.075 s, total=6.556 s; sync files=25, longest=0.075 s, average=0.003 s; distance=279 kB, estimate=8064 kB; lsn=0/40973E0, redo lsn=0/4097350
+product	Stop containers	2026-10-09T00:22:55.9691861Z Stop and remove container: e47d69253a264812954da8821f65f11b_postgres1710bookwormsha2569b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f_a74e73
+product	Stop containers	2026-10-09T00:22:55.9696728Z ##[command]/usr/bin/docker rm --force 309f33197f3e9937796e615e650838a25f1f9d75fdb3514f8f99a1be6b62573f
+product	Stop containers	2026-10-09T00:22:56.1123014Z 309f33197f3e9937796e615e650838a25f1f9d75fdb3514f8f99a1be6b62573f
+product	Stop containers	2026-10-09T00:22:56.1150333Z Remove container network: github_network_b87593daaa51426b9d050c3daa1649e3
+product	Stop containers	2026-10-09T00:22:56.1155041Z ##[command]/usr/bin/docker network rm github_network_b87593daaa51426b9d050c3daa1649e3
+product	Stop containers	2026-10-09T00:22:56.1978612Z github_network_b87593daaa51426b9d050c3daa1649e3
+product	Complete job	﻿2026-10-09T00:22:56.2070082Z Cleaning up orphan processes
+product	Complete job	2026-10-09T00:22:56.2298214Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683, actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

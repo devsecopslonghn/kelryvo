@@ -221,3 +221,12 @@ without changing behavior, tests or thresholds; the two inherited CLI security a
 still require a real passing analysis or concrete diagnostics. The primary product checkout
 includes the reviewed local lineage and a persisted `SchemaForge demo 2026-10-09 00:03 UTC`.
 The actual API demo and restart proof are indexed under product-t04-primary-live-demo.
+
+PR #12 head 796b4cd had a cancelled push product run after its main browser case
+timed out at 120 seconds; the original CI log is preserved in quality-repair-2. The
+CI-only stall was not reproduced locally. Test-only abort cleanup, bounded route fetch
+and phase diagnostics now pass both browser flows with CI=true; an intentional stalled
+throwaway fixture exits with its expected timeout and drops its owned database. Original
+120-second test and 15-minute workflow thresholds/assertions remain unchanged. This
+local repair is not a confirmed root-cause fix or remote quality-gate pass: inspect the
+fresh exact-head CI before merging.
