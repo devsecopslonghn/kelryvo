@@ -48,7 +48,16 @@ const PRODUCT_TASK_03 = {
     'Registration never clones, fetches, or resolves provider credentials; custom releases use the existing parser with an immutable resolved commit, database execution remains NOT_EXECUTED, and no Oracle behavior is claimed.',
   ], test_references: ['SF-PRODUCT-T03-UNIT', 'SF-PRODUCT-T03-API'],
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03];
+const PRODUCT_TASK_04 = {
+  id: 'SF-PRODUCT-T04', package: 'PRODUCT', assigned_agent: 'backend', title: 'Bind a registered Git repository and migration folder to projects', dependencies: ['SF-PRODUCT-T03'],
+  feature_ids: ['PRJ-008', 'GIT-003'],
+  acceptance_criteria: [
+    'A project can persist and display its source binding using an allowlisted repository ID and migration folder; API and web views never expose repository paths or credentials.',
+    'Imports reject an unbound project or repository/folder mismatch before Git or parser work begins.',
+    'Archived projects reject source-binding changes while existing releases, plans, audit history, and migration history remain readable with execution state NOT_EXECUTED.',
+  ], test_references: ['SF-PRODUCT-T04-API', 'SF-PRODUCT-T04-WEB'],
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

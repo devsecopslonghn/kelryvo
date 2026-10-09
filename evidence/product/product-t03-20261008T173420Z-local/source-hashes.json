@@ -1,0 +1,210 @@
+[
+  {
+    "path": "apps/api/index.ts",
+    "sha256": "11c8d7d3efec98855d8b8ccb87d4a740841a3ee052804c9ca8892371f6d93e59"
+  },
+  {
+    "path": "apps/api/server.ts",
+    "sha256": "2275703276491f9beb19e9b9808135942f383afe4419de7d241a43950b476f05"
+  },
+  {
+    "path": "apps/web/index.html",
+    "sha256": "e57ba72492af171f7cb0a0aca62665fed0fcf683e0e243a404851616abfd3956"
+  },
+  {
+    "path": "apps/web/src/app.jsx",
+    "sha256": "13cbe2f8f49984377415c16bc43d45982864f72fb9f1af418714383b4e6cbc0b"
+  },
+  {
+    "path": "apps/web/styles.css",
+    "sha256": "e32ad37a2dfd01032b0cbdc9b5c4de1b1f2c1efcf2eb981df10ce5204a91c28d"
+  },
+  {
+    "path": "packages/database/index.ts",
+    "sha256": "68c485767760a9a393fbf15e469e776e8abece2edf1a6186403b144256225a44"
+  },
+  {
+    "path": "packages/migrations/import-release.mjs",
+    "sha256": "6f7a63fd302779fb62f751c9c26610fbc1f607802c933708521e19f48816b8ca"
+  },
+  {
+    "path": "scripts/antlr-build.mjs",
+    "sha256": "b72c11fcf4aaf1ed6013db5a8412130cc4b5798083ce01793f9b9965c71f978a"
+  },
+  {
+    "path": "scripts/antlr-prepare.mjs",
+    "sha256": "b03f0eccabf81e9a41f16076335424be39b44faeb25423ba5c1aeaa8b5686c5a"
+  },
+  {
+    "path": "scripts/build-web.mjs",
+    "sha256": "55ed9904561c8ad0f92c8e23f5a53bb35f27a9fbdd7dedb41080f8f214fb06ae"
+  },
+  {
+    "path": "scripts/check-source.mjs",
+    "sha256": "44c1dfc7ea7eeed6b27593a6717c5954780fbaa4a2ed235759b20fcd334e8753"
+  },
+  {
+    "path": "scripts/dependency-artifacts.mjs",
+    "sha256": "ad01db0cf4fe84fbdf116dec446df8c39dfec6370b3974d237b98cad4b44cbf8"
+  },
+  {
+    "path": "scripts/format-json.mjs",
+    "sha256": "f0f8fb10e0be0642c32895bbf87fe30d1c3a0e812ad2a38bb31f866d29ef4718"
+  },
+  {
+    "path": "scripts/local-dev.mjs",
+    "sha256": "79304a1a66f76cb67493d23e5399952b4e6e27164028753a2e61732f86993242"
+  },
+  {
+    "path": "scripts/local-prepare.mjs",
+    "sha256": "e6e74a0039502d9c68fbee752a93d5d9f78c500eb1f9a86fc08e92399b21b9db"
+  },
+  {
+    "path": "scripts/local-repositories.mjs",
+    "sha256": "bc2e3713745b870333efab501859d92e376c247a536bfc9132f338caf0146b9d"
+  },
+  {
+    "path": "scripts/local-resources.mjs",
+    "sha256": "3b0c8a00a4c34aa002f6ebe6e5707603beb49deb3e33cc5f30cb2c89579fe4e8"
+  },
+  {
+    "path": "scripts/parser-build.mjs",
+    "sha256": "c45aeaea29098be1236f7fdaed1bc2c23679b7889158d480dca7128de2759953"
+  },
+  {
+    "path": "scripts/parser-corpus.mjs",
+    "sha256": "38526bf461ac96224da987ae90176e6e1c14a99279cb9cd9071071c7e3f425ce"
+  },
+  {
+    "path": "scripts/product-dependencies.mjs",
+    "sha256": "f8db611a9b1a2ee9ffd1f6f402e304b24438faf15a486549baf7947e7a719041"
+  },
+  {
+    "path": "scripts/record-checks.mjs",
+    "sha256": "6dd2425f4be55dd61ccb3e5e6e4677570862e44d28690360a83f91c47e9fcde3"
+  },
+  {
+    "path": "scripts/test-product.mjs",
+    "sha256": "33248a5b6a77d25c330020e84b1c6e733733a39b6f34cb2f5b3a7b04fcb99939"
+  },
+  {
+    "path": "scripts/thin-probe-plan.mjs",
+    "sha256": "b0851409f0011bba5638a94327557cba0f703b2baca1ae2de7d5dee6e1336db2"
+  },
+  {
+    "path": "scripts/tracker.mjs",
+    "sha256": "c5d1ffd71e065c28f1efca202e95593f125908bf2fdb26f7cf95edb271108a5e"
+  },
+  {
+    "path": "tests/agents.test.mjs",
+    "sha256": "d5c45ddcda2e969b49da83b503883de9194cce6ffe31951b666ada6a52c3d1a6"
+  },
+  {
+    "path": "tests/antlr-build.test.mjs",
+    "sha256": "93502ea5393ec6292bae36f7df14b8c08218cd77a3a1ee280a8c010857401bd4"
+  },
+  {
+    "path": "tests/antlr-prepare.test.mjs",
+    "sha256": "986c759a17bdabd01819f0917b76025bcf190529669cf101b830b50645077732"
+  },
+  {
+    "path": "tests/antlr.integration.mjs",
+    "sha256": "78953c528125807f996aedcb60fc15f03ee8f58a2d6fed2fce00c69f1e9f9531"
+  },
+  {
+    "path": "tests/dependency-artifacts.test.mjs",
+    "sha256": "4c20969d8ef7fe19025a164d6ca15affbd84bfcf0838e45053e7f12f3616b35c"
+  },
+  {
+    "path": "tests/helpers/preflight-fixture.mjs",
+    "sha256": "2b41fc4a5d9d4aba329deb58d76d4fe6ab6b2dec833b31917a2e6d89ed198b5d"
+  },
+  {
+    "path": "tests/helpers/product-db.mjs",
+    "sha256": "e30bd8a1bd20849385a5ab677f00e66c5b1f0ba157e01db452076e06e8f25cce"
+  },
+  {
+    "path": "tests/helpers/thin-probe-assertions.mjs",
+    "sha256": "c608b67bd3ffc84949201883a26b066f349e7abe5b1583c15ed8a3632266c756"
+  },
+  {
+    "path": "tests/helpers/thin-readonly-fixture.mjs",
+    "sha256": "709d12ba2184fc3606822dea9158607f2f2aa325befad7ae33417d556b753a7a"
+  },
+  {
+    "path": "tests/helpers/thin-supervisor-worker.mjs",
+    "sha256": "8b712af1fa427d86d41f56369575c6e89af82a76f7cfbd9e6390d6abd7e3048d"
+  },
+  {
+    "path": "tests/parser-build.test.mjs",
+    "sha256": "4113f559211b1bdfdea3d5794bf56e0b88a2e2e525cdd044c25d89ca7b09478e"
+  },
+  {
+    "path": "tests/parser-envelope.test.mjs",
+    "sha256": "c7b338bad501e505702c01729a9848d4d8539dd829a2069c1ba31d62184b90ae"
+  },
+  {
+    "path": "tests/parser-fixtures.test.mjs",
+    "sha256": "fffc6db0d56906701a85a4afa7935bc1cdf3f228c86da4157b7e7e285f7a070b"
+  },
+  {
+    "path": "tests/parser-release.test.mjs",
+    "sha256": "119c0482a84e962fbdd6363802a758ef84ff408ea954f8fdb45199e6c0c4d736"
+  },
+  {
+    "path": "tests/preflight.test.mjs",
+    "sha256": "7b4a2e08e58c56a5425aa5710ffa2d0d18e518ee8f892f87e8f0f4bab634affd"
+  },
+  {
+    "path": "tests/product-api.test.mjs",
+    "sha256": "93b5a0cb8e6393ba17f2b7998fd103d07b36bfda5afe09ed724b9a539db1dd97"
+  },
+  {
+    "path": "tests/product-archive-browser.integration.mjs",
+    "sha256": "0a0050ccc8c950fc36dd456f752e443c2c15d76da019d39f2a5d2669ae034b0f"
+  },
+  {
+    "path": "tests/product-archive.test.mjs",
+    "sha256": "e80f9f822e6becbec2cd4dfbca2b4328bfcf512f4fcd86f4a489875b0d1110bb"
+  },
+  {
+    "path": "tests/product-browser.integration.mjs",
+    "sha256": "ef7cd61e3ede8a141e82f971c79010da12138db65c85a954180a4e6547781ffb"
+  },
+  {
+    "path": "tests/product-import.test.mjs",
+    "sha256": "fb0fd641de5ae1f9ecda9058d5459d5099dc346e6db975daa45f76eda8071b55"
+  },
+  {
+    "path": "tests/product-local.test.mjs",
+    "sha256": "f171e74b9558044a96ea3952753b18c26be715c90ac985c8f2a6c07f15c1b91a"
+  },
+  {
+    "path": "tests/product-repositories.test.mjs",
+    "sha256": "894af830c473d9e0b3f29888f84fbd92f1b1a04bcd74f20360fcfbec514d1770"
+  },
+  {
+    "path": "tests/provenance.test.mjs",
+    "sha256": "842806b4ef35a5bc3ab81181f5ee7ace80ad3b32803ba5e69b9270d8bf0fd195"
+  },
+  {
+    "path": "tests/thin-probe-cli.test.mjs",
+    "sha256": "e297a8cacfecb43b94eed5c382f87797c43cd033153e10374f8a7e4684b75002"
+  },
+  {
+    "path": "tests/thin-probe-plan.test.mjs",
+    "sha256": "c1071d0fa206151cad96aaa59597dd050886b58949250dced94aff41c4053ddb"
+  },
+  {
+    "path": "tests/thin-probe-supervisor.test.mjs",
+    "sha256": "49da8792fc072c320c3c2303e956f173a6d06365f77bd24ee3a1a72aa1d3c2a9"
+  },
+  {
+    "path": "tests/thin-readonly-probe.test.mjs",
+    "sha256": "65622de55fa13a0af996e36cb3637eaee52184bc1f4138b5caf05a9065ed88fd"
+  },
+  {
+    "path": "tests/tracker.test.mjs",
+    "sha256": "6b219c6ebdc20cf9715bc8b5465b00e1fd0f7a7bd4f33b75b77b0b2d7fb39234"
+  }
+]

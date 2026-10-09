@@ -288,7 +288,8 @@
     "WP9-T06",
     "SF-PRODUCT-T01",
     "SF-PRODUCT-T02",
-    "SF-PRODUCT-T03"
+    "SF-PRODUCT-T03",
+    "SF-PRODUCT-T04"
   ],
   "edges": {
     "DBM-001": [],
@@ -1369,6 +1370,9 @@
     ],
     "SF-PRODUCT-T03": [
       "SF-PRODUCT-T02"
+    ],
+    "SF-PRODUCT-T04": [
+      "SF-PRODUCT-T03"
     ]
   },
   "scheduling": {
@@ -1379,6 +1383,9 @@
       ],
       "SF-PRODUCT-T03": [
         "SF-PRODUCT-T02"
+      ],
+      "SF-PRODUCT-T04": [
+        "SF-PRODUCT-T03"
       ]
     },
     "VALIDATION": {}

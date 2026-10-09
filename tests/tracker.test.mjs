@@ -16,7 +16,7 @@ const persistedState = () => ({
 });
 const productReadyState = () => {
   const s = persistedState();
-  for (const [id, status] of [['SF-PRODUCT-T01', 'READY'], ['SF-PRODUCT-T02', 'BACKLOG'], ['SF-PRODUCT-T03', 'BACKLOG']]) {
+  for (const [id, status] of [['SF-PRODUCT-T01', 'READY'], ['SF-PRODUCT-T02', 'BACKLOG'], ['SF-PRODUCT-T03', 'BACKLOG'], ['SF-PRODUCT-T04', 'BACKLOG']]) {
     const task = s.tasks.tasks.find(item => item.id === id);
     task.status = status;
     task.evidence = [];
@@ -54,7 +54,7 @@ test('persisted tracker state validates without assuming initial statuses', () =
 test('catalog and plan IDs are retained with original dependency links', () => {
   const s = fullState();
   assert.equal(s.features.features.length, 220);
-  assert.equal(s.tasks.tasks.length, 68); // 64 imported tasks, foundation, and three product tasks.
+  assert.equal(s.tasks.tasks.length, 69); // 64 imported tasks, foundation, and four product tasks.
   assert.equal(s.tests.cases.length, 63);
   assert.deepEqual(s.features.features.find((f) => f.id === 'DBM-002').dependencies, ['SEC-005', 'SEC-009']);
 });
@@ -82,13 +82,21 @@ test('initial state keeps Oracle validation and product delivery tracks distinct
   assert.equal(s.tasks.tasks.find((t) => t.id === 'SF-PRODUCT-T01').status, 'READY');
   assert.equal(s.tasks.tasks.find((t) => t.id === 'SF-PRODUCT-T02').status, 'BACKLOG');
   assert.equal(s.tasks.tasks.find((t) => t.id === 'SF-PRODUCT-T03').status, 'BACKLOG');
+  assert.equal(s.tasks.tasks.find((t) => t.id === 'SF-PRODUCT-T04').status, 'BACKLOG');
   assert.deepEqual(s.graph.edges['SF-PRODUCT-T03'], ['SF-PRODUCT-T02']);
+  assert.deepEqual(s.graph.edges['SF-PRODUCT-T04'], ['SF-PRODUCT-T03']);
   const t03 = s.tasks.tasks.find((t) => t.id === 'SF-PRODUCT-T03');
   assert.equal(t03.package, 'PRODUCT');
   assert.equal(t03.assigned_agent, 'devops');
   assert.deepEqual(t03.feature_ids, ['GIT-018', 'GIT-003', 'MIG-006']);
   assert.deepEqual(t03.test_references, ['SF-PRODUCT-T03-UNIT', 'SF-PRODUCT-T03-API']);
   assert.deepEqual(s.acceptance.work[t03.id].criteria, t03.acceptance_criteria);
+  const t04 = s.tasks.tasks.find((t) => t.id === 'SF-PRODUCT-T04');
+  assert.equal(t04.package, 'PRODUCT');
+  assert.equal(t04.assigned_agent, 'backend');
+  assert.deepEqual(t04.feature_ids, ['PRJ-008', 'GIT-003']);
+  assert.deepEqual(t04.test_references, ['SF-PRODUCT-T04-API', 'SF-PRODUCT-T04-WEB']);
+  assert.deepEqual(s.acceptance.work[t04.id].criteria, t04.acceptance_criteria);
   assert.ok(s.tasks.tasks.filter((t) => t.package === 'WP0' && !['WP0-T01', 'SF-P0-FOUNDATION'].includes(t.id)).every((t) => t.status === 'BACKLOG'));
   assert.ok(s.features.features.every((f) => ['BACKLOG', 'DEFERRED'].includes(f.status)));
 });
@@ -334,6 +342,9 @@ test('PRODUCT track has a gated next task and rejects scheduling cycles or WP0 a
   const second = s.tasks.tasks.find(x => x.id === 'SF-PRODUCT-T02');
   second.status = 'VERIFIED'; s.ownership.items[second.id].status = 'VERIFIED';
   assert.deepEqual(selectNext(s).map(x => x.id), ['SF-PRODUCT-T03']);
+  const third = s.tasks.tasks.find(x => x.id === 'SF-PRODUCT-T03');
+  third.status = 'VERIFIED'; s.ownership.items[third.id].status = 'VERIFIED';
+  assert.deepEqual(selectNext(s).map(x => x.id), ['SF-PRODUCT-T04']);
 
   const cycle = productReadyState();
   cycle.graph.scheduling.PRODUCT['SF-PRODUCT-T01'] = ['SF-PRODUCT-T02'];
