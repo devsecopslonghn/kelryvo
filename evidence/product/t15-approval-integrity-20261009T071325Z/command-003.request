@@ -1,0 +1,1 @@
+SCHEMAFORGE_JAVA_HOME=... SCHEMAFORGE_TEST_DATABASE_URL=... node --test API and affected existing fixtures

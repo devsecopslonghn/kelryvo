@@ -1,0 +1,445 @@
+{
+  "id": "product-t15-approval-integrity-local-verified",
+  "subject_id": "SF-PRODUCT-T15",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check; npm run test:product; npm run test:browser; focused approval API/browser regressions",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T15-API",
+    "SF-PRODUCT-T15-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-018.stdout",
+    "sha256": "92d22c1bb343f429b9bdc3194c4bbf11b498254ec9c0e72c3c9d59a7d98bc2b7"
+  },
+  "implementation_record": {
+    "path": "evidence/product/t15-approval-integrity-20261009T071325Z/root-record.json",
+    "sha256": "f7cb308a58551c49a0ceaacab59732e8800aaacf329551183b5c4d4f9c53718a"
+  },
+  "source_hashes_verified": 9,
+  "native_record_raw_hashes_verified": 90,
+  "final_captures": [
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-012.json",
+      "sha256": "3389ad3209adcf9320feeff532e2a68a43e2dea7337990c5e0e3e9dd2acdb308",
+      "exit_code": 0
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-013.json",
+      "sha256": "3b062787af606f0ddae7cf063c583a705a2eec9cfd030404610b5485a4539032",
+      "exit_code": 0
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-014.json",
+      "sha256": "841d50294758e497ae37371cb48bb6a861dd060920781f3919f626c5f55a7be9",
+      "exit_code": 0
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-017.json",
+      "sha256": "08b15356645f91107b4c8d43ff49317a9c260aeb6bed9fe623b750125f2478a8",
+      "exit_code": 0
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-018.json",
+      "sha256": "e8571146d641e34c652a8389ef1052a1e4ec2c051996806b558ef9301168c5e5",
+      "exit_code": 0
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-019.json",
+      "sha256": "787b979f9494f76ced841b43fe8ccccac3e54ffebff79cb06ffe9193dcaa417d",
+      "exit_code": 0
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-021.json",
+      "sha256": "c67fcf454c7ef69ad01365834e81412fe187f6553eea38d1ad38c514704c9916",
+      "exit_code": 0
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-023.json",
+      "sha256": "5dade3722f8d8e8f5ba0cef646cef5a6a8a1e9ac68b7e8df312abd74c77fb75a",
+      "exit_code": 0
+    }
+  ],
+  "additional_complete_capture_hashes": [
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-000.request",
+      "sha256": "a54c18f84ddf6a789c66d530d72cf21f4da4df445064e9afc3cc3b07868814f4"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-001.json",
+      "sha256": "d526af82f697b928d5c95e0fdfccddef7d8de71ef923716b44e85a564fcfec7b"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-001.request",
+      "sha256": "d927dab54cd6882dae681dcc484cd3b58c30e7d39767687b793f9f81e820899d"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-001.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-001.stdout",
+      "sha256": "1010f0709b42b469f7cfdd926124f7a4e1243d88d478c4af5f9967601088fb72"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-002.json",
+      "sha256": "aeb531eed640de943b257126bb23e15e7026539a63c19af1ae29d4d9959e6948"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-002.request",
+      "sha256": "aa02b6e274e51d48346837578e4cd76a2044f6612a37891baff991850b4f2035"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-002.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-002.stdout",
+      "sha256": "959a69560f6d6f43baa3135e4f2a1a53a107c7b70aa50b8a7898f74cd7a3a245"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-003.json",
+      "sha256": "590a65c71b8217b1bddb483cd9bfe987a8950b0d2f8b631972848dcf2f5b2e49"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-003.request",
+      "sha256": "29f45b178c563fb7ac6729da9717d693136e9dfd0c66a5ad674842d658db4f39"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-003.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-003.stdout",
+      "sha256": "798cb481d24a6919950ec3b92f1b9122a5dec5dab42c4ac06d49225d82f0ffff"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-004.json",
+      "sha256": "dc4b3b38554adbd27ff75f243a9d419d81c90540fa5fc2810b1b3d55d57b8170"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-004.request",
+      "sha256": "139412227b0aa109312aa989c8e4b41bd3607683275447990a2733a268f0faa0"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-004.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-004.stdout",
+      "sha256": "b7b26e79ab3e35c81e2ad4f569826297e3753f15ccaaa3e3ce8fcb355f1490d6"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-005.json",
+      "sha256": "1c4f92dc58de882736278cb863de10eb8f54382f5b920a999f23c7ad0a6286b5"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-005.request",
+      "sha256": "0fffbbaaf2e4d2717033d0be4afa74881909de6da4ef02a1f98225f598905d42"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-005.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-005.stdout",
+      "sha256": "562054fcc8841fbd328995b85920b0052f9787da80f966d36c756c77f6227d99"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-006.json",
+      "sha256": "eecd5f158069714b764faf988e0e859e3d949175023d878ae12e4ee6e9460f41"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-006.request",
+      "sha256": "06903fd69ed1e9a8e3361ae9036c2b25516a3cd8fcfc9b25d5c8025d4fa9a7a2"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-006.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-006.stdout",
+      "sha256": "ef68c462eb70adeeda2ee1842efca6c5a7980965d7c15b4829e1ffcaba3d08f4"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-007.json",
+      "sha256": "09a24c7ae8206df04918d1da0e82f0f03704203a1a48b8846af8068548c76d0e"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-007.request",
+      "sha256": "7dc0f4f8512ab96dc10e97ff6b9dda71c242af753a86927c47bd74d218a255c2"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-007.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-007.stdout",
+      "sha256": "6061e3e59b9d605d3c29f38d3e34580fbf3eb256c5f05b044bffe18e5357ae9a"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-008.json",
+      "sha256": "e09ba060ab1ebba8e2279eee8f4abcf384c5c3586b203530f526f02ebae5d6c6"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-008.request",
+      "sha256": "dde87b7b8512fd3e862cfcd4a149a42a4ee7a003e275fa0ec75fe9cb3b3e60b0"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-008.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-008.stdout",
+      "sha256": "166c765a36a68c0e0b129328de972c4e56f0da9fedf5d7c35f7d9cdd1cdd05d7"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-009.json",
+      "sha256": "8f89dd5494f710f2cef154e4aab410aa5288d20075c89e6fdf207c43ac7358c5"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-009.request",
+      "sha256": "3c74ef740c026eebf6887e0ff5a6a718d8b453b1dc5d2c9f5564a26635a88961"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-009.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-009.stdout",
+      "sha256": "c4068e20816e54518dfffa50f0646881f8c4eb6e2e5d843dd890a891c1fe0219"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-010.json",
+      "sha256": "43d0186944822d3e692cecf2b1b26a2239f3c946bf2e9a762638ee5581e0754b"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-010.request",
+      "sha256": "c482a61e4cad898332d9cd3c46da07e39c22c2c0d67bf74aa0182df9955656bf"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-010.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-010.stdout",
+      "sha256": "897b012c471403c053e1641fab1701e1c141acb1c344b612554fe5d71af978aa"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-011.json",
+      "sha256": "9d4d90b621a648d022d38ea9863b85128bf440192d7cab4c8dc85df5f7919ff5"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-011.request",
+      "sha256": "c482a61e4cad898332d9cd3c46da07e39c22c2c0d67bf74aa0182df9955656bf"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-011.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-011.stdout",
+      "sha256": "f921d3a9213ec224c6d9828832cedddf26c0542fb4a9abaee69b0e819fc567bb"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-012.json",
+      "sha256": "3389ad3209adcf9320feeff532e2a68a43e2dea7337990c5e0e3e9dd2acdb308"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-012.request",
+      "sha256": "b5d89ae2cb2f4c362a92a87d32c1a30667d53d75e9ebd38cbfea61799d0ee248"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-012.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-012.stdout",
+      "sha256": "02501cea1624a15ab4cc3311be54260221d2a5873b5b1d9f5974c879edb46d58"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-013.json",
+      "sha256": "3b062787af606f0ddae7cf063c583a705a2eec9cfd030404610b5485a4539032"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-013.request",
+      "sha256": "71f333b6f41a39054757c8dca73c3c7398f5c8c36db6fde904d2f1866c9e145e"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-013.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-013.stdout",
+      "sha256": "9041039de84d1f13e20a788fca8486916dfe0dcd0075ae89a566cd72cad8dfdf"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-014.json",
+      "sha256": "841d50294758e497ae37371cb48bb6a861dd060920781f3919f626c5f55a7be9"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-014.request",
+      "sha256": "a8d487a3e6d98d58812d4a7e2c700be874007d5000d5a5a6700dfbbf034e9044"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-014.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-014.stdout",
+      "sha256": "3f7a31bbb1727011670b60ac3e1f6ebdfb4c1be0ae7758f886058706b31e2590"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-015.json",
+      "sha256": "8e8678e53f22426eee536793dbe8b93c86042e22607b48beb8ff78d038ba23fa"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-015.request",
+      "sha256": "fa8a251d81c2e4598b5b06f1a56a8f0c4c8732ac1aa0c16d8d2f15914e44952d"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-015.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-015.stdout",
+      "sha256": "ee04153cd4e5caeedb2b2e4462f6fc05fece410bc4e0bfc02f568fa97b2e969d"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-016.json",
+      "sha256": "e3eee474424325ea96e322caa1af2d128545e8d798697a9fed36ba9fece97423"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-016.request",
+      "sha256": "eb748ca0345c11b55dfac11e0526dff11dfe2dfed4532b8d8b0c7811829770eb"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-016.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-016.stdout",
+      "sha256": "e3890e485dddf2ec9bfb28b0f09f18a65804c9b1f8168e34f636ab7684e6ed2a"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-017.json",
+      "sha256": "08b15356645f91107b4c8d43ff49317a9c260aeb6bed9fe623b750125f2478a8"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-017.request",
+      "sha256": "1533443a74443fdb15facc37bfa0b0608c2b8bee8bfa344765b17abfed6d22fd"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-017.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-017.stdout",
+      "sha256": "8649f7fa2df47edf7ff5c22a697c2e804a73868dc86e39e5cc11a8e8cf7e4f60"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-018.json",
+      "sha256": "e8571146d641e34c652a8389ef1052a1e4ec2c051996806b558ef9301168c5e5"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-018.request",
+      "sha256": "98f0b8a40aa03a08cbc634ae9f9aca341f61f2431d2199f95725f42e4f59ec38"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-018.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-018.stdout",
+      "sha256": "92d22c1bb343f429b9bdc3194c4bbf11b498254ec9c0e72c3c9d59a7d98bc2b7"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-019.json",
+      "sha256": "787b979f9494f76ced841b43fe8ccccac3e54ffebff79cb06ffe9193dcaa417d"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-019.request",
+      "sha256": "011cbbfbdb2f2d23fdfcad131d1ed2a7c8901d6131a2dfdf17a8bab47ff1ed1e"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-019.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-019.stdout",
+      "sha256": "e4290455bbdde2d6f1f44b9a5b7a487e0c69c176100b6ba48a4f97dd7d4c6934"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-020.json",
+      "sha256": "adbbb7fc51c99e6f3da57c63ee7e9b6c223f91c3c34d5f650629592f7fab6308"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-020.request",
+      "sha256": "e561b06b41ab689451e43ea35b3288190963665745651cff1dd7edfc3ed50ca3"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-020.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-020.stdout",
+      "sha256": "271412ec6024b6db183f7400193cf3c38a919d765109b3b6ff8b4cc8dc68450b"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-021.json",
+      "sha256": "c67fcf454c7ef69ad01365834e81412fe187f6553eea38d1ad38c514704c9916"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-021.request",
+      "sha256": "4447c314920e88a44df6063e3c02b5a15f16ea460dbbc96033230469c033249f"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-021.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-021.stdout",
+      "sha256": "9d6e6c4b0251c11b3b7e8ff83a1764d0f9b70cbdba816e3c7d18b90d9512e580"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-022.json",
+      "sha256": "26c042f63fc43770cc78760fd70fc5fe6488da25e9aceec8ba6f8d6ef12956e9"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-022.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-022.stdout",
+      "sha256": "6881a7e6b82175c5272545d3d2c40463415ee9642dbcb5a6f9f1656b167e1086"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-023.json",
+      "sha256": "5dade3722f8d8e8f5ba0cef646cef5a6a8a1e9ac68b7e8df312abd74c77fb75a"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-023.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/t15-approval-integrity-20261009T071325Z/command-023.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification": "Root reviewed all nine assigned source paths and checked exact current source/raw bytes. Captures012 focusedAPI1,013 standard143,014 product23,017 focusedbrowser1,018 browser13 all zero skips. Native exact-head reviews, remote CI and merge pending.",
+  "evidence_limits": [
+    "command000.request is unexecuted prestart intent only. Request filenames are not authoritative command IDs; actual JSON command metadata identifies executions.",
+    "All failed execution captures retained:002/003 parser unavailable setup;006 missing web build;009 impossible composite FK fixture;010 wrong audit selection;011 foreign plan expectation;015 whitespace-sensitive browser assertion;016 missing literal period. Corrected final captures passed.",
+    "Native write-record.py used write_text and ran twice (022/023), overwriting its first root-record.json; original record bytes not retained. Current record and all existing raw captures are frozen at root review; no claim of a fully append-only record-generation history or reconstruction.",
+    "013 check precedes the final browser assertion/operating-doc edits and root tracker registration; final browser018 covers the final browser source, while root separately checks tracker, formatting and source. No new API runtime edit after final checks is accepted without rerun.",
+    "Approval verifies retained UTF-8 source only; no general database denial-of-service protection, tamper-proof database, frozen target, parser rerun, execution-time revalidation or Oracle acceptance claimed."
+  ]
+}

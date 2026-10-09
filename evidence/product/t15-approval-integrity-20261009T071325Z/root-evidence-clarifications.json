@@ -1,0 +1,32 @@
+{
+  "native_clarification": "First generated root-record captured partial self stdout; agent changed record generator to silent and reran, overwriting first record; original bytes unavailable. Preserved current record and all raw outputs. API/API-test edits complete before013 check; later edits browser assertion and operating documentation only.",
+  "whitespace_exception": {
+    "locations": {
+      "command-002.stdout": [
+        12,
+        15
+      ],
+      "command-003.stdout": [
+        12,
+        15
+      ],
+      "command-010.stdout": [
+        12,
+        17
+      ],
+      "command-011.stdout": [
+        11,
+        13
+      ],
+      "command-015.stdout": [
+        21,
+        25
+      ],
+      "command-016.stdout": [
+        20,
+        23
+      ]
+    },
+    "policy": "12 exact whitespace-only Node TAP failure-output lines preserved unchanged; all authored diff passes; no scanner or threshold changes."
+  }
+}

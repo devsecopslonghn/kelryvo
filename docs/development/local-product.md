@@ -44,7 +44,11 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    append a `PLAN_DECISION_DENIED` audit event containing only the fixed denial code,
    server-resolved actor and plan resource. The audit timeline renders the denial reason.
    Malformed, unauthenticated and nonexistent-plan requests add no event; archived projects
-   reject decisions without appending one.
+   reject decisions without appending one. Before approval, the API verifies the linked scoped
+   `VALID` release under lock using the retained UTF-8 content and format-1 digest checks, then
+   compares ordered path, version and SHA-256 facts with bounded plan items. Integrity failures
+   return `PLAN_APPROVAL_INTEGRITY_FAILED` before decision/history/audit writes; authorized
+   rejection remains available when source is damaged.
    Approval does not grant execution authority. Prepare another candidate to demonstrate
    rejection as a separate decision.
    Developers and approvers can add review comments while a plan is pending. The timeline

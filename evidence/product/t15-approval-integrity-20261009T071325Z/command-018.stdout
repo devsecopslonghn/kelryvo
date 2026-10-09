@@ -1,0 +1,111 @@
+
+> schemaforge-local-development@0.0.0 test:browser
+> npm run build:web && node scripts/test-product.mjs --browser
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# Subtest: browser shows fixed approval integrity feedback and preserves pending plan for rejection
+ok 1 - browser shows fixed approval integrity feedback and preserves pending plan for rejection
+  ---
+  duration_ms: 6275.465948
+  type: 'test'
+  ...
+# Browser archive workflow and archived project records remained readable after API restart.
+# Subtest: browser archives a project and keeps its releases, plan, audit, and history readable
+ok 2 - browser archives a project and keeps its releases, plan, audit, and history readable
+  ---
+  duration_ms: 6830.724721
+  type: 'test'
+  ...
+# Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+ok 3 - audit action filters preserve project scope, server order, archived reads and read-only records
+  ---
+  duration_ms: 1824.80404
+  type: 'test'
+  ...
+# Real browser workflow and PostgreSQL restart persistence passed; Oracle untouched.
+# Subtest: browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+ok 4 - browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+  ---
+  duration_ms: 8614.453409
+  type: 'test'
+  ...
+# browser phase: application and browser started
+# browser phase: project, import, and approval workflow completed
+# browser phase: duplicate pending plan created
+# browser phase: rejection and execution-denial workflow completed
+# browser phase: original browser closed before API restart
+# browser phase: original API closed
+# browser phase: API restarted and PostgreSQL state verified
+# browser phase: developer signed in and selected unbound project
+# browser phase: source PUT reached delayed-response handler after server write
+# browser phase: approver signed in and original project reselected
+# browser phase: delayed-response route cleanup completed
+# browser phase: stale success was ignored and workflow finished
+# Subtest: plan comments remain scoped, readable, and persistent across API restart
+ok 5 - plan comments remain scoped, readable, and persistent across API restart
+  ---
+  duration_ms: 14226.247451
+  type: 'test'
+  ...
+# Subtest: decision records render the stored attribution safely and stay plan-specific
+ok 6 - decision records render the stored attribution safely and stay plan-specific
+  ---
+  duration_ms: 1875.624482
+  type: 'test'
+  ...
+# Subtest: release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+ok 7 - release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+  ---
+  duration_ms: 3931.112419
+  type: 'test'
+  ...
+# Subtest: plan source inspection stays bound to retained releases and is read only
+ok 8 - plan source inspection stays bound to retained releases and is read only
+  ---
+  duration_ms: 26654.378358
+  type: 'test'
+  ...
+# Subtest: plan review shows only its matching current project profile and environment
+ok 9 - plan review shows only its matching current project profile and environment
+  ---
+  duration_ms: 12835.404645
+  type: 'test'
+  ...
+# Subtest: browser gives fixed feedback when a retained release fails integrity verification
+ok 10 - browser gives fixed feedback when a retained release fails integrity verification
+  ---
+  duration_ms: 6122.50397
+  type: 'test'
+  ...
+# Subtest: release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+ok 11 - release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+  ---
+  duration_ms: 6451.447973
+  type: 'test'
+  ...
+# Subtest: browser displays a server-audited decision denial to the authenticated project actor
+ok 12 - browser displays a server-audited decision denial to the authenticated project actor
+  ---
+  duration_ms: 6103.424383
+  type: 'test'
+  ...
+# Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+ok 13 - status filters preserve scoped ordered plans, drafts, history and archived reads
+  ---
+  duration_ms: 3002.754823
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 113648.233196

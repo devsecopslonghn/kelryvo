@@ -1,0 +1,5 @@
+{
+  "command": "export SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin; export SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests; node --test --test-concurrency=1 tests/product-approval-integrity.test.mjs",
+  "started_utc": "2026-10-09T07:21:09.851758+00:00",
+  "exit_code": 0
+}

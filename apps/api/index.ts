@@ -1,5 +1,8 @@
 import Fastify from "fastify";
 import { timingSafeEqual } from "node:crypto";
+import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from "../../experiments/db-devops-wp0/parser-release.mjs";
+import { MAX_INPUT_BYTES, MAX_STDOUT_BYTES } from "../../experiments/db-devops-wp0/parser-envelope.mjs";
+import { verifyRetainedRelease } from "../../packages/migrations/verify-retained-release.mjs";
 
 const ORG = "00000000-0000-4000-8000-000000000001";
 const fail = (reply: any, status: number, error: string) =>
@@ -569,7 +572,8 @@ export function createApp(options: {
         return fail(reply, 400, "INVALID_REQUEST");
       const result = await sql.begin(async (tx: any) => {
         const p = (
-          await tx`SELECT * FROM sf_plans WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`
+          await tx`SELECT id,project_id,release_id,author_id,status FROM sf_plans
+            WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`
         )[0];
         if (!p) return null;
         await requireActiveProject(tx, p.project_id);
@@ -582,6 +586,58 @@ export function createApp(options: {
             VALUES(${p.project_id},${ORG},${req.actor.id},'PLAN_DECISION_DENIED',${p.id},${tx.json({ denialReason })})`;
           return denialReason;
         }
+        if (b.decision === "APPROVE") {
+          // Keep the established plan -> project -> release lock order. Check JSONB
+          // shape and size in PostgreSQL before materializing potentially damaged items.
+          const releaseBounds = (await tx`SELECT id,validation_status,jsonb_typeof(files) AS files_type,
+              CASE WHEN jsonb_typeof(files) = 'array' THEN jsonb_array_length(files) ELSE NULL END AS file_count,
+              octet_length(files::text) AS files_bytes, (object_format IN ('sha1','sha256')) AS format_valid, (object_format = 'sha1') AS format_sha1,
+              char_length(commit_id) AS commit_chars, char_length(folder) AS folder_chars,
+              char_length(parser_profile) AS parser_profile_chars, char_length(manifest_digest) AS manifest_chars
+            FROM sf_releases WHERE id=${p.release_id}
+              AND project_id=${p.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
+          const maxRetainedJsonBytes = 6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024;
+          if (!releaseBounds || releaseBounds.validation_status !== "VALID" || releaseBounds.files_type !== "array"
+              || !Number.isInteger(releaseBounds.file_count) || releaseBounds.file_count < 1
+              || releaseBounds.file_count > MAX_RELEASE_FILES || releaseBounds.files_bytes > maxRetainedJsonBytes
+              || !releaseBounds.format_valid
+              || releaseBounds.commit_chars !== (releaseBounds.format_sha1 ? 40 : 64)
+              || !Number.isInteger(releaseBounds.folder_chars) || releaseBounds.folder_chars < 1 || releaseBounds.folder_chars > 200
+              || !Number.isInteger(releaseBounds.parser_profile_chars) || releaseBounds.parser_profile_chars < 1 || releaseBounds.parser_profile_chars > MAX_INPUT_BYTES
+              || releaseBounds.manifest_chars !== 64)
+            return "PLAN_APPROVAL_INTEGRITY_FAILED";
+          // Payload bounds above run while the scoped row remains locked; fetch only
+          // the verifier inputs after the bounds pass, never repository/audit metadata.
+          const release = (await tx`SELECT commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files
+            FROM sf_releases WHERE id=${releaseBounds.id} AND project_id=${p.project_id} AND organization_id=${ORG}`)[0];
+          if (!release || !verifyRetainedRelease(release)) return "PLAN_APPROVAL_INTEGRITY_FAILED";
+          const itemBounds = (await tx`SELECT jsonb_typeof(items) AS item_type,
+              CASE WHEN jsonb_typeof(items) = 'array' THEN jsonb_array_length(items) ELSE NULL END AS item_count,
+              octet_length(items::text) AS item_bytes FROM sf_plans WHERE id=${p.id}`)[0];
+          if (!itemBounds || itemBounds.item_type !== "array" || !Number.isInteger(itemBounds.item_count)
+              || itemBounds.item_count < 1 || itemBounds.item_count > MAX_RELEASE_FILES
+              || itemBounds.item_bytes > MAX_STDOUT_BYTES)
+            return "PLAN_APPROVAL_INTEGRITY_FAILED";
+          const items = (await tx`SELECT items FROM sf_plans WHERE id=${p.id}`)[0]?.items;
+          const files = release.files as any[];
+          if (!Array.isArray(items) || items.length !== files.length || items.length !== itemBounds.item_count)
+            return "PLAN_APPROVAL_INTEGRITY_FAILED";
+          for (let index = 0; index < files.length; index++) {
+            const item = items[index];
+            const file = files[index];
+            if (!item || typeof item !== "object" || Array.isArray(item))
+              return "PLAN_APPROVAL_INTEGRITY_FAILED";
+            const itemKeys = Object.keys(item);
+            if (itemKeys.length !== 4 || itemKeys.some((key: string) =>
+                key !== "path" && key !== "version" && key !== "sha256" && key !== "status")
+                || typeof item.path !== "string" || item.path.length > MAX_INPUT_BYTES
+                || typeof item.version !== "string" || item.version.length > MAX_INPUT_BYTES
+                || typeof item.sha256 !== "string" || item.sha256.length !== 64
+                || item.status !== "NOT_EXECUTED"
+                || item.path !== file.path || item.version !== file.version || item.sha256 !== file.sha256)
+              return "PLAN_APPROVAL_INTEGRITY_FAILED";
+          }
+        }
         const rows =
           await tx`UPDATE sf_plans SET status=${b.decision === "APPROVE" ? "APPROVED" : "REJECTED"},decision=${b.decision},decision_reason=${b.reason},decided_by=${req.actor.id},decided_by_name=${req.actor.name},decided_at=now() WHERE id=${p.id} RETURNING *`;
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${p.project_id},${ORG},${req.actor.id},${b.decision === "APPROVE" ? "PLAN_APPROVED" : "PLAN_REJECTED"},${p.id},${tx.json({ reason: b.reason })})`;
@@ -591,6 +647,7 @@ export function createApp(options: {
       if (result === 'APPROVER_REQUIRED') return fail(reply, 403, 'APPROVER_REQUIRED');
       if (result === 'SELF_APPROVAL_DENIED') return fail(reply, 403, 'SELF_APPROVAL_DENIED');
       if (result === 'DECISION_ALREADY_RECORDED') return fail(reply, 409, 'DECISION_ALREADY_RECORDED');
+      if (result === 'PLAN_APPROVAL_INTEGRITY_FAILED') return fail(reply, 409, 'PLAN_APPROVAL_INTEGRITY_FAILED');
       return { plan: mapPlan(result) };
     },
   );

@@ -137,6 +137,12 @@
     },
     {
       "index_id": "product-t14-configured-target-local-verified"
+    },
+    {
+      "index_id": "product-t14-merge-master-verified"
+    },
+    {
+      "index_id": "product-t15-approval-integrity-local-verified"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -150,10 +156,10 @@
   "product_features_verified": 0,
   "next_actionable_tasks": [
     {
-      "id": "SF-PRODUCT-T15",
-      "owner": "backend",
+      "id": "SF-PRODUCT-T16",
+      "owner": "frontend",
       "status": "READY",
-      "action": "Verify retained source integrity before approving an offline plan"
+      "action": "Show retained requester facts and independent reviewer eligibility"
     }
   ],
   "blocked_inputs_evidence": {
@@ -167,28 +173,26 @@
   ],
   "updated_at": "2026-10-09",
   "final_check_evidence": {
-    "index_id": "product-t12-resource-bounds-local-verified"
+    "index_id": "product-t15-approval-integrity-local-verified"
   },
-  "final_check_manifest": "evidence/product/product-t12-security-correction-20261009T055200Z/record.json",
+  "final_check_manifest": "evidence/product/t15-approval-integrity-20261009T071325Z/integration-record.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
-  "latest_validated_master_before_this_increment": "a0d1fd1616bdf43126bc8481c5aae820d0736d30",
-  "last_merged_implementation_pr": 25,
-  "checkpoint_evidence": "evidence/product/product-t13-merge-20261009T062735Z/record.json",
-  "implementation_prs_pending": [
-    "SF-PRODUCT-T14 exact-head review/PR/CI/merge"
-  ],
+  "latest_validated_master_before_this_increment": "436851ed74b878d04b67c941eb05a41bba82312b",
+  "last_merged_implementation_pr": 26,
+  "checkpoint_evidence": "evidence/product/product-t14-merge-20261009T070619Z/record.json",
+  "implementation_prs_pending": [],
   "next_fully_unblocked_tasks": [
-    "SF-PRODUCT-T15"
+    "SF-PRODUCT-T16"
   ],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
-    "previous_goal_turn": "Revalidated worktree/head/origin/openPR state after interruption; T14 native implementation now active. Prior completed turn mergedT13 and verifiedmaster.",
-    "reason": "T14 locally verified; exact-head publication gates pending; independentT15registered. Hygiene branch/PR unavailable."
+    "previous_goal_turn": "PROGRESS: T14 merged and master verified; T15 fresh native implementation now active.",
+    "reason": "Independent PRODUCT work actionable; Hygiene branch/PR remains unavailable."
   },
-  "current_increment_merge_status": "T14_VERIFIED_LOCAL_EXACT_HEAD_REVIEW_PENDING",
-  "current_checkpoint_branch": "development/product-plan-target-review",
+  "current_increment_merge_status": "T15_VERIFIED_LOCAL_PENDING_EXACT_HEAD_REVIEW_CI",
+  "current_checkpoint_branch": "development/product-approval-integrity",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -202,7 +206,7 @@
       ]
     }
   },
-  "product_task_status": "T01_T02_T03_T04_T05_T06_T07_T08_T09_T10_T11_T12_T13_T14_VERIFIED_LOCAL",
+  "product_task_status": "T01_T02_T03_T04_T05_T06_T07_T08_T09_T10_T11_T12_T13_T14_T15_VERIFIED_LOCAL",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",
@@ -255,16 +259,16 @@
     "original_report_crosscheck_evidence": "evidence/product/product-t11-release-provenance-20261009T050150Z/hygiene-original-report-crosscheck-safe.json",
     "original_report_crosscheck_sha256": "8af028caca267e84fa4dbad7693458672a405acc2785f6c62b281748517dd52e",
     "hygiene_branch_or_pr_visible": false,
-    "latest_master_redacted_scan": "Five classified benign history matches independently verified at exactT13head; no actual credential observed.",
+    "latest_master_redacted_scan": "Five classified benign history matches independently verified at exactT14head; no actual credential observed.",
     "original_report_metadata_matches_independent_classification": true,
     "latest_publication_scan": {
-      "head": "132b613ddb54dbaed62a9e3261d7b23633808cdb",
-      "files": 33,
+      "head": "7a691ad511a139ee9e02809ba4056f95e245523c",
+      "files": 47,
       "findings": 0,
       "native_security": "APPROVED"
     }
   },
-  "current_increment_pr": null,
-  "current_increment_reviewed_head": null,
-  "current_increment_merge_commit": null
+  "current_increment_pr": 26,
+  "current_increment_reviewed_head": "7a691ad511a139ee9e02809ba4056f95e245523c",
+  "current_increment_merge_commit": "436851ed74b878d04b67c941eb05a41bba82312b"
 }

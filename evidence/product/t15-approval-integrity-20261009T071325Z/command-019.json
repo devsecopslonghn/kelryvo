@@ -1,0 +1,5 @@
+{
+  "command": "npm run format:check && node scripts/check-source.mjs",
+  "started_utc": "2026-10-09T07:28:21.393819+00:00",
+  "exit_code": 0
+}
