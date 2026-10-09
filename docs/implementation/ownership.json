@@ -1290,7 +1290,11 @@
     },
     "SF-PRODUCT-T24": {
       "assigned_agent": "backend",
-      "status": "IN_PROGRESS"
+      "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T25": {
+      "assigned_agent": "backend",
+      "status": "READY"
     }
   }
 }

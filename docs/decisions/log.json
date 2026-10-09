@@ -199,6 +199,45 @@
         "apps/api/index.ts",
         "apps/web/src/app.jsx"
       ]
+    },
+    {
+      "id": "SF-D020",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T24_CURSOR_CONTRACT",
+      "accepted_at_utc": "2026-10-09T20:47:24.454546+00:00",
+      "decision": "T24 adds GET /api/projects/:id/audit with a fixed page size of 50, historical project-owned exact-action choices, hasMore and nextCursor. Preserve the existing project-detail recent-100 view. Encode an untrusted exclusive query position as canonical unpadded base64url JSON with exact ordered fields {v,p,a,t,i}: version 1, project ID, action or null, exact six-digit UTC PostgreSQL timestamp and event ID. Bound and strictly validate encoding, fields, calendar/time, IDs and project/filter agreement; cursors grant no authority and current explicit membership is checked on every request. Use PostgreSQL (created_at,id) DESC and limit-plus-one, never round cursor timestamps through JavaScript Date. The only schema change is an additive scoped ordering index; existing records and audit actions remain intact. Context changes clear previously displayed page rows and cursors and discard delayed responses; users may refresh from the latest page after failure. Paging is a read view over retained events, not a frozen multi-request snapshot: newly inserted newer events appear on refresh, with no counter or retention/tamper assertion. Authorized archived reads remain available. Ordinary reversible default under SF-D010 and SF-D019; no target, Oracle or external credential authority.",
+      "references": [
+        "packages/audit/cursor.mjs",
+        "apps/api/index.ts",
+        "apps/web/src/app.jsx",
+        "docs/implementation/backlog.json",
+        "docs/development/local-product.md"
+      ]
+    },
+    {
+      "id": "SF-D021",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T24_EXISTING_ACTION_ORDER_COMPATIBILITY",
+      "accepted_at_utc": "2026-10-09T21:04:32.155575+00:00",
+      "decision": "The first frozen T24 browser suite exposed an actual T09 compatibility regression: alphabetical historical action choices changed the established newest-occurrence order. Preserve existing action-choice behavior across the full retained project audit set by selecting each action’s newest (created_at,id) occurrence and ordering those occurrences descending, including actions older than the recent100. Retain all original T09 assertions, immutable failure capture and timestamp/ID tie semantics; correct only the new implementation and its new expected historical-action results, then rerun the complete frozen standard/product/browser suites. This is a bounded compatibility repair under SF-D010/SF-D019/SF-D020, not a redesign or original acceptance change. No audit records, thresholds, parser logic, security gates or Oracle authority change.",
+      "references": [
+        "tests/product-audit-action-filters-browser.integration.mjs",
+        "tests/product-audit-pages.test.mjs",
+        "apps/api/index.ts",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D022",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T25_RETAINED_SOURCE_COMPARISON_PRIORITY",
+      "accepted_at_utc": "2026-10-09T22:01:52.575680+00:00",
+      "decision": "After T24, prioritize a read-only comparison of two retained Git migration-release sources. The existing220 catalog and actual importer/verifier/UI expose complete immutable release identities but only one retained release at a time; pairwise source review improves release preparation without target credentials. Require current same-project membership, compatible retained repository/folder/parser-profile and bounded manifest revalidation under consistent scoped read locks before loading payloads. Align by canonical arbitrary-precision migration version and retain both paths/content/hash facts: a same-version rename is a changed source fact; self comparison is a valid unchanged source view. Preserve authorized archived and repository-unavailable reads, all historical source/intent/generation/review records and no-write semantics. Failures are retryable scoped reads; never infer a deployed baseline, raw-byte history, schema snapshots or Oracle facts. This supports MIG-008/MIG-009 as a bounded extension without altering original acceptance or dependencies; MIG-013 applied checksum enforcement, MIG-014/MIG-033 drift/schema comparison and GIT-015 deployed provenance remain unverified. Audit search is a later alternative; observed schema work still requires authorized evidence. Ordinary safe reversible priority and compatibility default under SF-D010, assessed independently by a read-only native context. Registration is not implementation: fresh coupled work starts after T24 eligible merge and exact-master verification.",
+      "references": [
+        "docs/inputs/db-research/product-research/feature-catalog.json",
+        "packages/migrations/verify-retained-release.mjs",
+        "packages/migrations/import-release.mjs",
+        "apps/api/index.ts",
+        "apps/web/src/app.jsx",
+        "docs/implementation/backlog.json"
+      ]
     }
   ]
 }

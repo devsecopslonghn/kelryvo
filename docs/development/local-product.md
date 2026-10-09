@@ -278,6 +278,7 @@ All other API reads/writes require a bearer token:
 | `GET /api/session`, `/api/repositories`, `/api/projects` | Authenticated identity, allowlisted binding names and bootstrap/enforced project visibility |
 | `POST /api/projects` | During bootstrap, fixed denial; when enforced, create project (`name`, optional `description`) and return a receipt without an implicit grant |
 | `GET /api/projects/:id` | Project, environments, profiles, releases, plans, audit, history |
+| `GET /api/projects/:id/audit` | Read-only project audit page (`50` events) with optional exact `action` and opaque bounded `cursor`; current membership is checked on every request |
 | `GET /api/projects/:id/git-refs` | Authenticated local branches and commit-resolving tags from the project's saved registered repository |
 | `PUT /api/projects/:id/source` | Developer persists registered `repositoryId`, relative `folder`; changes are audited |
 | `POST /api/projects/:id/archive` | Developer archives with `reason`; preserves all records |

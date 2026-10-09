@@ -222,11 +222,17 @@ function App() {
   const [accessMode, setAccessMode] = useState('BOOTSTRAP_REQUIRED');
   const [projectId, setProjectId] = useState('');
   const [detail, setDetail] = useState(null);
+  const projectLoaded = detail?.project?.id === projectId;
   const [release, setRelease] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState('');
   const [planSource, setPlanSource] = useState(null);
   const [planStatus, setPlanStatus] = useState('ALL');
   const [auditAction, setAuditAction] = useState('ALL');
+  const [auditPage, setAuditPage] = useState(null);
+  const [auditLoading, setAuditLoading] = useState(false);
+  const [auditPageError, setAuditPageError] = useState('');
+  const [auditRefreshKey, setAuditRefreshKey] = useState(0);
+  const auditPageRef = useRef(null);
   const [tab, setTab] = useState('workspace');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -253,6 +259,8 @@ function App() {
   const currentSourceContext = useRef(null);
   const planSourceSequence = useRef(0);
   const statementPreviewSequence = useRef(0);
+  const auditSequence = useRef(0);
+  const auditContextRef = useRef('');
   const activeSelectedPlanId = useRef('');
   const activeSelectedReleaseId = useRef('');
   const selectRelease = value => {
@@ -279,6 +287,7 @@ function App() {
   };
 
   const clearProjectState = () => {
+    auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
     activeProjectId.current = '';
     activeSelectedPlanId.current = '';
     currentSourceContext.current = null;
@@ -296,6 +305,7 @@ function App() {
     const expire = (requestEpoch) => {
       if (requestEpoch !== browserSessionEpoch || !tokenRef.current) return;
       browserSessionEpoch += 1;
+      auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
       sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1;
       statementPreviewSequence.current += 1; setStatementPreview(null);
       activeProjectId.current = ''; activeSelectedPlanId.current = '';
@@ -322,6 +332,7 @@ function App() {
   };
 
   const selectProject = (nextId) => {
+    auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
     const alreadySelected = nextId === projectId;
     if (!alreadySelected) currentSourceContext.current = null;
     activeProjectId.current = nextId;
@@ -349,6 +360,8 @@ function App() {
 
   const refresh = useCallback(async (activeToken, selectedId = projectId) => {
     if (!activeToken) return;
+    auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
+    setAuditRefreshKey((value) => value + 1);
     const sequence = ++refreshSequence.current;
     setBusy(true); setError('');
     try {
@@ -397,6 +410,56 @@ function App() {
 
   useEffect(() => { if (token && projectId) void refresh(token, projectId); }, [token, projectId]);
 
+  const loadAuditPage = useCallback(async (append = false) => {
+    if (!token || !projectLoaded || !projectId) return;
+    const requestedProject = projectId;
+    const requestedToken = token;
+    const requestedSessionEpoch = sessionEpoch.current;
+    const requestedAction = auditAction === 'ALL' ? null : auditAction;
+    const context = `${requestedProject}\0${requestedAction || ''}\0${requestedToken}\0${sessionEpoch.current}\0${auditRefreshKey}`;
+    const sequence = ++auditSequence.current;
+    auditContextRef.current = context;
+    const cursor = append && auditPageRef.current?.nextCursor ? auditPageRef.current.nextCursor : null;
+    if (append && !cursor) return;
+    setAuditLoading(true); setAuditPageError('');
+    try {
+      const params = new URLSearchParams();
+      if (requestedAction) params.set('action', requestedAction);
+      if (cursor) params.set('cursor', cursor);
+      const page = await json(`/api/projects/${encodeURIComponent(requestedProject)}/audit${params.size ? `?${params}` : ''}`, requestedToken);
+      if (sequence !== auditSequence.current || auditContextRef.current !== context
+          || activeProjectId.current !== requestedProject || tokenRef.current !== requestedToken
+          || sessionEpoch.current !== requestedSessionEpoch) return;
+      const current = auditPageRef.current;
+      const next = !append || !current ? page : { ...page,
+        events: [...current.events, ...page.events.filter((event) => !current.events.some((old) => old.id === event.id))] };
+      auditPageRef.current = next; setAuditPage(next);
+    } catch (e) {
+      if (sequence !== auditSequence.current || auditContextRef.current !== context) return;
+      if (e?.message === 'NOT_FOUND' && activeProjectId.current === requestedProject
+          && tokenRef.current === requestedToken && sessionEpoch.current === requestedSessionEpoch) {
+        clearProjectState();
+        await refresh(requestedToken, '');
+      } else setAuditPageError(explain(e));
+    } finally {
+      if (sequence === auditSequence.current && auditContextRef.current === context) setAuditLoading(false);
+    }
+  }, [token, projectLoaded, projectId, auditAction, auditRefreshKey]);
+
+  const changeAuditAction = (action) => {
+    auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null;
+    setAuditPage(null); setAuditPageError(''); setAuditAction(action);
+  };
+  const reloadAudit = () => {
+    auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null;
+    setAuditPage(null); setAuditPageError(''); setAuditRefreshKey((value) => value + 1);
+  };
+
+  useEffect(() => {
+    if (projectLoaded && token) void loadAuditPage(false);
+    else { auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); }
+  }, [projectLoaded, projectId, token, auditAction, auditRefreshKey, loadAuditPage]);
+
   useEffect(() => {
     if (!projectId || detail?.project?.id !== projectId) return;
     const binding = detail.project.sourceBinding;
@@ -422,7 +485,6 @@ function App() {
     setCommentEvidence([]);
     setDecisionReason('');
   };
-  const projectLoaded = detail?.project?.id === projectId;
   const isApprover = /approv/i.test(actor?.role || '');
   const planAuthorId = retainedAuthorId(plan);
   const planCreatedAt = retainedPlanTime(plan?.createdAt);
@@ -434,9 +496,8 @@ function App() {
   const selectedProject = projects.find((item) => item.id === projectId);
   const archivedAt = selectedProject?.archivedAt || detail?.project?.archivedAt || null;
   const isArchived = Boolean(archivedAt);
-  const projectAudit = projectLoaded ? detail.audit || [] : [];
-  const auditActions = useMemo(() => [...new Set(projectAudit.map((item) => item.action).filter(Boolean))], [projectAudit]);
-  const filteredAudit = auditAction === 'ALL' ? projectAudit : projectAudit.filter((item) => item.action === auditAction);
+  const auditActions = auditPage?.actions || [];
+  const filteredAudit = auditPage?.events || [];
   useEffect(() => {
     if (previousAuditProjectId.current !== projectId) {
       previousAuditProjectId.current = projectId;
@@ -445,8 +506,8 @@ function App() {
   }, [projectId]);
 
   useEffect(() => {
-    if (projectLoaded && auditAction !== 'ALL' && !auditActions.includes(auditAction)) setAuditAction('ALL');
-  }, [projectLoaded, auditAction, auditActions]);
+    if (projectLoaded && auditPage && auditAction !== 'ALL' && !auditActions.includes(auditAction)) setAuditAction('ALL');
+  }, [projectLoaded, auditAction, auditActions, auditPage]);
   const sourceBinding = projectLoaded ? detail.project.sourceBinding || null : null;
   const boundRepository = repositories.find((item) => item.id === sourceBinding?.repositoryId);
   const selectedNeedsFreshPlan = Boolean(plan?.status === 'PENDING_APPROVAL' && (freshPlanRequired?.projectId === projectId
@@ -854,7 +915,7 @@ function App() {
     await requestStatementPreview(reference.releaseId, reference.filePath, planId, reference, source);
   };
 
-  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan };
+  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -1058,10 +1119,10 @@ function ReviewScreen({ model }) {
 
 
 function RecordsScreen({ model }) {
-  const { detail, actor, fmt, isArchived, auditAction, setAuditAction, auditActions, filteredAudit, busy, projectLoaded } = model;
+  const { detail, actor, fmt, isArchived, auditAction, setAuditAction, auditActions, filteredAudit, busy, projectLoaded, auditPage, auditLoading, auditPageError, loadOlderAudit, reloadAudit } = model;
   return <>
           <div className="page-heading"><div><p className="eyebrow">TRACEABILITY</p><h1>Audit &amp; history {isArchived && <span className="status-pill neutral">ARCHIVED</span>}</h1><p className="muted">See governance events alongside the recorded migration outcomes.</p></div><div className="heading-mark">04 <span> / 04</span></div></div>
-          <div className="records-grid"><section className="panel"><div className="panel-heading"><div><h2>Audit events</h2><p>Actions recorded for this project.</p></div><span className="count-pill">{filteredAudit.length} of {detail?.audit?.length || 0} events</span></div><label>Audit action<select aria-label="Audit action" value={auditAction} onChange={(event) => setAuditAction(event.target.value)} disabled={busy || !projectLoaded}><option value="ALL">All actions</option>{auditActions.map((action) => <option key={action} value={action}>{action}</option>)}</select></label><div className="timeline">{filteredAudit.map((item) => <div className="timeline-row" data-audit-id={item.id} key={item.id}><span className="timeline-dot"/><div><strong>{item.action || item.event || 'Project event'}</strong><p>{auditDescription(item)}</p><small>{auditActorLabel(item, actor)} · {fmt(item.createdAt || item.created_at)}</small></div></div>)}{!filteredAudit.length && <div className="empty-state compact"><strong>{auditAction === 'ALL' ? 'No audit events yet' : 'No audit events match this action'}</strong><span>{auditAction === 'ALL' ? 'Project changes and review decisions will appear here.' : 'Choose another action or All actions to see other events.'}</span></div>}</div></section><section className="panel"><div className="panel-heading"><div><h2>Migration history</h2><p>Recorded migration states; these are not evidence of database application.</p></div><span className="count-pill">{detail?.history?.length || 0} records</span></div><div className="history-list">{(detail?.history || []).map((item) => <div className="history-row" key={item.id}><div><strong>{item.path || item.version || 'Migration event'}</strong><small>{fmt(item.executedAt || item.createdAt)}</small></div><span className={`status-pill ${item.status === 'SUCCEEDED' ? 'good' : 'neutral'}`}>{item.status || 'NOT_OBSERVED'}</span></div>)}{!detail?.history?.length && <div className="empty-state compact"><strong>No migration records yet</strong><span>Candidate plans add NOT_EXECUTED records; they do not imply database application.</span></div>}</div></section></div>
+          <div className="records-grid"><section className="panel"><div className="panel-heading"><div><h2>Audit events</h2><p>Actions recorded for this project.</p></div><span className="count-pill">{filteredAudit.length}{auditPage?.hasMore ? '+' : ''} events loaded</span></div><label>Audit action<select aria-label="Audit action" value={auditAction} onChange={(event) => setAuditAction(event.target.value)} disabled={busy || !projectLoaded}><option value="ALL">All actions</option>{auditActions.map((action) => <option key={action} value={action}>{action}</option>)}</select></label><div className="timeline">{filteredAudit.map((item) => <div className="timeline-row" data-audit-id={item.id} key={item.id}><span className="timeline-dot"/><div><strong>{item.action || item.event || 'Project event'}</strong><p>{auditDescription(item)}</p><small>{auditActorLabel(item, actor)} · {fmt(item.createdAt || item.created_at)}</small></div></div>)}{!filteredAudit.length && !auditLoading && <div className="empty-state compact"><strong>{auditAction === 'ALL' ? 'No audit events yet' : 'No audit events match this action'}</strong><span>{auditAction === 'ALL' ? 'Project changes and review decisions will appear here.' : 'Choose another action or All actions to see other events.'}</span></div>}</div>{auditPageError && <p role="alert" className="error-copy">{auditPageError}</p>}<div className="records-actions"><button type="button" className="secondary" disabled={!projectLoaded} onClick={reloadAudit}>Refresh audit</button>{auditPage?.hasMore && <button type="button" className="secondary" disabled={auditLoading || busy} onClick={loadOlderAudit}>{auditLoading ? 'Loading…' : 'Load older'}</button>}</div></section><section className="panel"><div className="panel-heading"><div><h2>Migration history</h2><p>Recorded migration states; these are not evidence of database application.</p></div><span className="count-pill">{detail?.history?.length || 0} records</span></div><div className="history-list">{(detail?.history || []).map((item) => <div className="history-row" key={item.id}><div><strong>{item.path || item.version || 'Migration event'}</strong><small>{fmt(item.executedAt || item.createdAt)}</small></div><span className={`status-pill ${item.status === 'SUCCEEDED' ? 'good' : 'neutral'}`}>{item.status || 'NOT_OBSERVED'}</span></div>)}{!detail?.history?.length && <div className="empty-state compact"><strong>No migration records yet</strong><span>Candidate plans add NOT_EXECUTED records; they do not imply database application.</span></div>}</div></section></div>
           <p className="history-footnote"><span className="status-dot"/> Unknown target history stays unknown until a trusted runtime observes it.</p>
 
   </>;

@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t24-current-reconciliation.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+  "started_at_utc": "2026-10-09T20:56:44.491219+00:00",
+  "ended_at_utc": "2026-10-09T20:56:48.630698+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/06-current-remote-hygiene-reconciliation.log",
+    "sha256": "1ee6689853a66fc59214fb1d4c9be135f0e24c367e7141dcbbdd71eeb59a7bc7"
+  }
+}

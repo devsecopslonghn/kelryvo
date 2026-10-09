@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: audit cursors accept only canonical bounded project and filter positions
+ok 1 - audit cursors accept only canonical bounded project and filter positions
+  ---
+  duration_ms: 3.034316
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: Records pages retained audit history, resets contexts, and clears delayed or revoked results
+not ok 2 - Records pages retained audit history, resets contexts, and clears delayed or revoked results
+  ---
+  duration_ms: 32453.84883
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-audit-pages/tests/product-audit-pages-browser.integration.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: 'page.waitForFunction: Timeout 30000ms exceeded.'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-audit-pages/tests/product-audit-pages-browser.integration.mjs:192:16)
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+ok 3 - scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+  ---
+  duration_ms: 760.264351
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 2
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 34309.961757

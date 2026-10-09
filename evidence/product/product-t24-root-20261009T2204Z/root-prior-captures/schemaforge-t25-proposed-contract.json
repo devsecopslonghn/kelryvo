@@ -1,0 +1,21 @@
+{
+  "status": "PROPOSED_ONLY_NOT_REGISTERED_NOT_IMPLEMENTED",
+  "task_id": "SF-PRODUCT-T25",
+  "title": "Compare retained migration release sources",
+  "feature_ids": ["MIG-008", "MIG-009"],
+  "dependencies": ["SF-PRODUCT-T24", "SF-PRODUCT-T12", "SF-PRODUCT-T11", "SF-PRODUCT-T21"],
+  "acceptance_criteria": [
+    "Add authenticated same-project read-only comparison of two selected retained migration releases. Reuse fixed roles and current explicit project membership; missing, foreign or revoked resources retain indistinguishable denials. Authorized archived reads and repository-unavailable retained reads remain available. Existing release and plan APIs remain compatible; comparison confers no planning, approval or execution authority.",
+    "Under consistent scoped project/release read locks, apply PostgreSQL scalar size/shape/metadata preflight to both releases before loading file payloads. Require VALID retained releases, bounded verified UTF-8 content and reproduced format-1 manifests using existing verification. Require matching retained repository ID, folder and parser profile for a comparable pair. Reject malformed, oversized, corrupt or incompatible references with fixed feedback and no writes; never infer or backfill old generations, intent, raw bytes or applied history.",
+    "Align files by existing canonical arbitrary-precision migration version and produce deterministic ordered ADDED, REMOVED, CHANGED and UNCHANGED source facts, including both paths and retained SHA256/byte metadata. A path/name change at the same version is CHANGED even when content is equal. Detect exact content changes and preserve literal source bytes; do not convert versions through JavaScript Number or infer deployment/schema/target drift. Comparing a release with itself is a valid unchanged source view.",
+    "React release review lets both fixed roles explicitly select base and candidate retained releases, see both immutable commit/manifest identities and ordered comparison facts, and inspect retained SQL with existing escaped rendering. Label the result as source comparison only. Project/pair/session/current credential/refresh changes discard results and delayed responses; revoked access clears scoped records using current recovery. Failed comparisons leave existing records intact and can be retried with fresh scoped reads.",
+    "Real temporary Git commits, isolated PostgreSQL/API and Chromium prove added, removed, one-byte content edit, same-version rename and unchanged files; deterministic arbitrary-precision ordering; self comparison; invalid duplicate-version imports; corrupt/malformed/oversized/incompatible or cross-project pairs; unauthorized/revoked reads, archived history, removed repository registration, controlled delayed pair/project/session responses and API/connection-pool recreation persistence. Compare complete populated retained source/plan/intent/comment/decision/history/audit snapshots for no writes and preserve all standard/product/parser/browser regressions without skipped required cases.",
+    "This is a bounded retained-source review extension supporting MIG-008/MIG-009, not full original catalog acceptance, MIG-013 applied checksum enforcement, MIG-014/MIG-033 schema drift/comparison, or GIT-015 deployed provenance. Preserve original 220-feature requirements and separate Oracle VALIDATION BLOCKED. No target connection, credentials, parser rerun for comparisons, Git reread, external source, schema snapshot fabrication, history rewrite, worker/dispatch or deployment. Document safe compatibility/recovery defaults and preserve Sonar unavailable never PASS."
+  ],
+  "test_references": ["SF-PRODUCT-T25-API", "SF-PRODUCT-T25-WEB", "SF-PRODUCT-T25-PERSISTENCE"],
+  "notes": [
+    "Root external preparation only. Register in owned tracker/contracts only after T24 local verification milestone.",
+    "Start implementation in a fresh isolated latest verified origin/master worktree after T24 eligible merge and exact-master verification.",
+    "No original acceptance feature state changes or implementation claims."
+  ]
+}

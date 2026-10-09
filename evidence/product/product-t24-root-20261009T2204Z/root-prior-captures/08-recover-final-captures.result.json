@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t24-recover-record.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+  "started_at_utc": "2026-10-09T22:01:43.264896+00:00",
+  "ended_at_utc": "2026-10-09T22:01:43.319323+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/08-recover-final-captures.log",
+    "sha256": "a26c932db0beb5be548d0c78e0a2fecd34c8a52b17cd1697b23dbccc49ed0936"
+  }
+}

@@ -7,6 +7,7 @@ import { previewRetainedStatements } from "../../packages/migrations/statement-p
 import { resolveCommentEvidence, validateCommentEvidenceInput } from "../../packages/migrations/comment-evidence.mjs";
 import { encodeOfflinePlanIntent, verifyOfflinePlanIntent } from "../../packages/migrations/offline-plan-intent.mjs";
 import { actorHasProjectGrant, projectAccessMode } from "../../packages/database/project-membership.ts";
+import { AUDIT_PAGE_SIZE, decodeAuditCursor, encodeAuditCursor } from "../../packages/audit/cursor.mjs";
 
 const ORG = "00000000-0000-4000-8000-000000000001";
 const MAX_BINDING_GENERATION = "9223372036854775807";
@@ -313,6 +314,55 @@ export function createApp(options: {
       };
     },
   );
+  app.get('/api/projects/:id/audit', { preHandler: authenticate }, async (req: any, reply: any) => {
+    if (!uuid(req.params.id)) return fail(reply, 404, 'NOT_FOUND');
+    const requestedProjectId = req.params.id.toLowerCase();
+    const query = req.query || {};
+    if (!object(query, ['action', 'cursor'])
+        || (query.action !== undefined && (typeof query.action !== 'string' || !/^[A-Z][A-Z0-9_]{0,63}$/.test(query.action)))
+        || (query.cursor !== undefined && typeof query.cursor !== 'string')) return fail(reply, 400, 'INVALID_AUDIT_QUERY');
+    const action = query.action ?? null;
+    const cursor = query.cursor === undefined ? null : decodeAuditCursor(query.cursor, requestedProjectId, action);
+    if (query.cursor !== undefined && !cursor) return fail(reply, 400, 'INVALID_AUDIT_CURSOR');
+    const p = await project(requestedProjectId);
+    if (!p) return fail(reply, 404, 'NOT_FOUND');
+    const actions = await sql`SELECT action FROM (
+      SELECT DISTINCT ON (action) action,created_at,id FROM sf_audit WHERE project_id=${p.id}
+      ORDER BY action,created_at DESC,id DESC
+    ) latest ORDER BY created_at DESC,id DESC`;
+    const rows = action
+      ? cursor
+        ? await sql`SELECT id,actor_id,action,resource_id,facts,
+            to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_time
+            FROM sf_audit WHERE project_id=${p.id} AND action=${action}
+            AND (created_at,id) < (${cursor.createdAt}::timestamptz,${cursor.id}::uuid)
+            ORDER BY created_at DESC,id DESC LIMIT ${AUDIT_PAGE_SIZE + 1}`
+        : await sql`SELECT id,actor_id,action,resource_id,facts,
+            to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_time
+            FROM sf_audit WHERE project_id=${p.id} AND action=${action}
+            ORDER BY created_at DESC,id DESC LIMIT ${AUDIT_PAGE_SIZE + 1}`
+      : cursor
+        ? await sql`SELECT id,actor_id,action,resource_id,facts,
+            to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_time
+            FROM sf_audit WHERE project_id=${p.id}
+            AND (created_at,id) < (${cursor.createdAt}::timestamptz,${cursor.id}::uuid)
+            ORDER BY created_at DESC,id DESC LIMIT ${AUDIT_PAGE_SIZE + 1}`
+        : await sql`SELECT id,actor_id,action,resource_id,facts,
+            to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_time
+            FROM sf_audit WHERE project_id=${p.id}
+            ORDER BY created_at DESC,id DESC LIMIT ${AUDIT_PAGE_SIZE + 1}`;
+    const hasMore = rows.length > AUDIT_PAGE_SIZE;
+    const page = rows.slice(0, AUDIT_PAGE_SIZE);
+    const last = page.at(-1);
+    return {
+      events: page.map((r: any) => ({ id: r.id, actorId: r.actor_id, action: r.action,
+        resourceId: r.resource_id, facts: r.facts, createdAt: r.cursor_time })),
+      actions: actions.map((r: any) => r.action),
+      nextCursor: hasMore && last ? encodeAuditCursor({ projectId: p.id, action,
+        createdAt: last.cursor_time, id: last.id }) : null,
+      hasMore,
+    };
+  });
   app.post('/api/projects/:id/archive', { preHandler: authenticate }, async (req: any, reply: any) => {
     if (!uuid(req.params.id) || !object(req.body, ['reason']) || !text(req.body.reason, 2000)) return fail(reply, 400, 'INVALID_REQUEST');
     if (req.actor.role !== 'developer') return fail(reply, 403, 'DEVELOPER_REQUIRED');

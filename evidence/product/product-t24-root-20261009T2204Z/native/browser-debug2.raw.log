@@ -1,0 +1,693 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: Records pages retained audit history, resets contexts, and clears delayed or revoked results
+not ok 1 - Records pages retained audit history, resets contexts, and clears delayed or revoked results
+  ---
+  duration_ms: 8381.586232
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-audit-pages/tests/product-audit-pages-browser.integration.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Audit append did not grow from 150; rendered 123; page: S
+    SchemaForge
+    WORKSPACE
+    ▦
+    Projects
+    ◫
+    Releases
+    ◇
+    Plans & review
+    ≡
+    Audit & history
+    A
+    Audit pages developer
+    Developer
+    ↗
+    Workspace/Audit & history
+    DEVELOPER
+    ↻
+    
+    TRACEABILITY
+    
+    Audit & history ARCHIVED
+    
+    See governance events alongside the recorded migration outcomes.
+    
+    04 / 04
+    Audit events
+    
+    Actions recorded for this project.
+    
+    123 EVENTS LOADED
+    Audit action
+    All actions
+    BROWSER_OLD_ONLY
+    BROWSER_PAGE_EVENT
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:40 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:40 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:40 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:39 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:39 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:39 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:38 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:38 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:38 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:37 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:37 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:37 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:36 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:36 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:36 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:35 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:35 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:35 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:34 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:34 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:34 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:33 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:33 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:33 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:32 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:32 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:32 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:31 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:31 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:31 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:30 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:30 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:30 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:29 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:29 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:29 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:28 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:28 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:28 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:27 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:27 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:27 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:26 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:26 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:26 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:25 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:25 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:25 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:24 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:24 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:24 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:23 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:23 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:23 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:22 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:22 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:22 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:21 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:21 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:21 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:20 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:20 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:20 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:19 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:19 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:19 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:18 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:18 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:18 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:17 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:17 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:17 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:16 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:16 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:16 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:15 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:15 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:15 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:14 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:14 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:14 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:13 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:13 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:13 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:12 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:12 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:12 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:11 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:11 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:11 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:10 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:10 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:10 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:09 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:09 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:09 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:08 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:08 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:08 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:07 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:07 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:07 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:06 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:06 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:06 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:05 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:05 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:05 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:04 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:04 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:04 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:03 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:03 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:03 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:02 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:02 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:02 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:01 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:01 AM
+    BROWSER_PAGE_EVENT
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:01 AM
+    BROWSER_OLD_ONLY
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:00 AM
+    BROWSER_OLD_ONLY
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:00 AM
+    BROWSER_OLD_ONLY
+    
+    Governance record
+    
+    Audit pages developer · 4/1/2025, 7:00:00 AM
+    Refresh audit
+    Migration history
+    
+    Recorded migration states; these are not evidence of database application.
+    
+    1 RECORDS
+    migrations/V001__retained.sql
+    10/10/2026, 3:50:03 AM
+    NOT_EXECUTED
+    
+    Unknown target history stays unknown until a trusted runtime observes it.
+    
+    SchemaForge · Governance workspace
+    Local time · 03:50 AM
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-audit-pages/tests/product-audit-pages-browser.integration.mjs:124:29)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9144.263427

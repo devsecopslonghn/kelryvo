@@ -1,3 +1,52 @@
+## T24 root tracker registration correction verified — 2026-10-09 UTC
+
+T25 registration required a static tracker contract and task-count fixture update; initial
+root checks failed and remain immutable. Corrected root tracker21/21, lint, format and scoped
+diff pass. All10 native source hashes remain frozen; native160/35/21/4 results retain their
+tested scope. Final native completion remains missing; intact sidecar/source evidence is
+verified explicitly. Correction: `evidence/product/product-t24-root-20261009T2204Z/root-tracker-correction/record.json`.
+Exact-head independent review/scans/CI/merge remain pending; Sonar unavailable never PASS;
+Oracle separate BLOCKED. T25 is registration only, original220 acceptance unchanged.
+
+## T25 retained-source comparison registered after T24 local verification — 2026-10-09 UTC
+
+T25 READY registers a bounded read-only review extension supporting MIG-008/MIG-009:
+compare two retained immutable releases in the same project/repository/folder/parser profile,
+verify bounded manifests before payloads and show deterministic version/path/content changes.
+Preserve membership, archived/repository-unavailable reads, no-write snapshots and stale
+response guards. Never infer deployment, applied checksums, schema drift or Oracle evidence.
+SF-D022 records the safe autonomous priority and recovery defaults. Original220 feature
+acceptance/dependencies remain unchanged. Registration is not implementation; start fresh
+coupled work only after T24 eligible merge and exact-master verification. Sonar unavailable
+never PASS; Oracle VALIDATION independent BLOCKED; shared checkout/Hygiene untouched.
+
+## T24 locally verified; exact-head publication pending — 2026-10-09 UTC
+
+Authenticated audit pages preserve the recent100 project API and use fixed50 exclusive
+PostgreSQL microsecond/time-ID ordering with historical exact-action choices. Strict bounded
+canonical cursors grant no authority. Year0000 is rejected before database casts. Current
+membership, archived reads, project/filter/refresh/session/credential invalidation and revoked
+project recovery preserve retained source, review and audit facts. Paging is a live retained
+read; refresh shows newer events, without snapshot/retention/tamper claims.
+
+Frozen corrected results: standard160, PostgreSQL/Git/pinned-parser product35, browser21, zero
+failures/skips. Root verified ten native source hashes and every copied available capture.
+First frozen browser20/21 failed on action order; corrected API preserves T09 newest-occurrence
+order and original assertions/thresholds with asynchronous readiness waits. Earlier missing-Java
+failures and interactive/missing captures remain candid and immutable. Final native completion
+is absent after continuation; root verified intact contemporaneous sidecars and equal corrected
+before/after manifests without reconstructing missing native completion.
+Evidence: `evidence/product/product-t24-root-20261009T2204Z/integration-record.json`.
+Exact-head QA/security/license, full publication/history classification, required CI and
+eligible ordinary merge remain pending. No native publication or exact-head approval claimed.
+
+Next candidate is retained Git release source comparison from the existing220 catalog and
+actual importer/verifier/UI, with no deployed/schema/Oracle inference. Registration is separate
+from implementation; fresh next work begins only after this eligible merge/master verification.
+Shared original checkout remains clean/untouched0346300; Hygiene branch/PR absent at last
+reconciliation, integrationpending separately. Sonar unavailable never PASS; Oracle VALIDATION
+independent BLOCKED. No history rewrite, scanner weakening, target access or deployment.
+
 ## T23 merged and master verified; T24 active — 2026-10-09 UTC
 
 T23 merged through [PR #36](https://github.com/devsecopslonghn/schemaForge/pull/36) at
