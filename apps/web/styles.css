@@ -809,6 +809,18 @@ textarea::placeholder {
 .release-result {
   margin-top: 18px;
 }
+
+.plan-source-panel {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+}
+
+.plan-source-result {
+  margin-top: 1rem;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+}
 .release-result .panel-heading {
   align-items: center;
 }

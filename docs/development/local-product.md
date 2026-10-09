@@ -59,6 +59,16 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    Filters preserve project ordering and historical read access for archived projects.
    Changing the filter clears unsent comment and decision drafts; an empty result offers
    another status or All. Selecting a project or signing out restores the All default.
+   In Plans & review, use **Inspect source** to open the selected plan's linked retained
+   release. The review shows the release ID, full commit, stored repository ID, current
+   repository name when registered, object format, migration folder, manifest digest,
+   parser profile, import time, file facts and retained SQL. The release ID, scoped project
+   summary and plan file checksums must agree before the source is shown. Missing or
+   mismatched references use a fixed failure message. Inspection remains available for
+   pending and terminal plans, archived projects and removed repository registrations.
+   It reads the retained release through the authenticated release endpoint; it does not
+   change plan, decision, comment, audit or migration history state. The displayed snapshot
+   does not revalidate source bytes after approval.
 6. Inspect Audit & history. Audit action filters list only actions present in the selected
    project's recent events; All actions is the default and preserves server ordering.
    Project changes and sign-out restore that default. Archived project events remain

@@ -35,6 +35,7 @@ const errorCopy = {
   SOURCE_NOT_BOUND: 'Bind a repository and migration folder to this project before importing.',
   SOURCE_BINDING_MISMATCH: 'The requested source differs from the project binding. Save the source binding and try again.',
   REPOSITORY_UNAVAILABLE: 'The selected repository cannot be read right now.',
+  PLAN_SOURCE_UNAVAILABLE: 'The linked source is unavailable or does not match this plan. Refresh the project and try again.',
   GIT_REF_LIMIT: 'This repository has too many refs to list safely. Contact an administrator.',
   GIT_REF_READ_FAILED: 'Repository refs could not be read. Try again later.',
   VALIDATION_UNAVAILABLE: 'The migration parser is unavailable. This release cannot be planned.',
@@ -68,6 +69,26 @@ function auditDescription(item) {
   return item.facts?.reason || item.summary || item.reason || 'Governance record';
 }
 
+function RetainedReleaseContent({ source, repositories, fmt }) {
+  return <>
+    <section className="release-provenance" aria-label="Stored release provenance"><h3>Stored provenance</h3><dl>
+      <div><dt>Release ID</dt><dd><code>{source.id || '—'}</code></dd></div>
+      <div><dt>Immutable commit</dt><dd><code>{source.commit || '—'}</code></dd></div>
+      <div><dt>Repository ID</dt><dd><code>{source.repositoryId || '—'}</code></dd></div>
+      <div><dt>Registered repository</dt><dd>{repositories.find((item) => item.id === source.repositoryId)?.name || 'Unavailable'}</dd></div>
+      <div><dt>Git object format</dt><dd>{source.objectFormat || '—'}</dd></div>
+      <div><dt>Migration folder</dt><dd><code>{source.folder || '—'}</code></dd></div>
+      <div><dt>Manifest digest</dt><dd><code>{source.manifestDigest || '—'}</code></dd></div>
+      <div><dt>Parser profile</dt><dd><code>{source.parserProfile || '—'}</code></dd></div>
+      <div><dt>Imported</dt><dd><time dateTime={source.createdAt || undefined}>{fmt(source.createdAt)}</time></dd></div>
+    </dl></section>
+    <div className="file-table-wrap"><table><thead><tr><th>Migration file</th><th>Version</th><th>Statements</th><th>Bytes</th><th>SHA-256</th><th>Validation</th></tr></thead><tbody>
+      {(source.files || []).map((file) => <tr key={file.path}><td><code>{file.path}</code></td><td>{file.version || '—'}</td><td>{file.statementCount ?? '—'}</td><td>{file.bytes ?? '—'}</td><td><code className="checksum">{file.sha256 || '—'}</code></td><td><span className={`status-pill ${importStatusClass(file.validationStatus)}`}>{file.validationStatus || '—'}</span></td></tr>)}
+    </tbody></table>{!source.files?.length && <div className="empty-inline">No migration files were returned for this release.</div>}</div>
+    {(source.files || []).map((file) => <details className="sql-preview" key={`${file.path}-sql`}><summary>Preview SQL · {file.path}</summary><pre>{file.content || 'Source content unavailable.'}</pre></details>)}
+  </>;
+}
+
 function App() {
   const [tokenInput, setTokenInput] = useState('');
   const [token, setToken] = useState('');
@@ -78,6 +99,7 @@ function App() {
   const [detail, setDetail] = useState(null);
   const [release, setRelease] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState('');
+  const [planSource, setPlanSource] = useState(null);
   const [planStatus, setPlanStatus] = useState('ALL');
   const [auditAction, setAuditAction] = useState('ALL');
   const [tab, setTab] = useState('workspace');
@@ -100,10 +122,20 @@ function App() {
   const sessionEpoch = useRef(0);
   const previousAuditProjectId = useRef(projectId);
   const previousReleaseBinding = useRef({ projectId: '', repositoryId: '', folder: '' });
+  const planSourceSequence = useRef(0);
+  const activeSelectedPlanId = useRef('');
+
+  const selectPlan = (id) => {
+    planSourceSequence.current += 1;
+    setPlanSource(null);
+    setSelectedPlan(id);
+  };
 
   const selectProject = (nextId) => {
     const alreadySelected = nextId === projectId;
     activeProjectId.current = nextId;
+    planSourceSequence.current += 1;
+    setPlanSource(null);
     refreshSequence.current += 1;
     setProjectId(nextId);
     setDetail(null);
@@ -167,8 +199,11 @@ function App() {
   const projectPlans = detail?.project?.id === projectId ? detail.plans || [] : [];
   const plans = useMemo(() => projectPlans.filter((item) => planStatus === 'ALL' || item.status === planStatus), [projectPlans, planStatus]);
   const plan = useMemo(() => plans.find((item) => item.id === selectedPlan) || plans[0] || null, [plans, selectedPlan]);
+  activeSelectedPlanId.current = plan?.id || '';
   useEffect(() => { setCommentBody(''); setDecisionReason(''); }, [plan?.id]);
   const filterPlans = (status) => {
+    planSourceSequence.current += 1;
+    setPlanSource(null);
     setPlanStatus(status);
     setSelectedPlan('');
     setCommentBody('');
@@ -342,7 +377,58 @@ function App() {
     finally { if (sequence === refreshSequence.current && activeProjectId.current === inspectedProjectId) setBusy(false); }
   };
 
-  const model = { actor, projects, projectId, selectProject, setRelease, setSelectedPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment, gitRefs, gitRefsLoading, gitRefsError };
+  const inspectPlanSource = async () => {
+    if (!projectLoaded || !plan?.id || !plan.releaseId) {
+      setPlanSource({ planId: plan?.id || '', error: 'PLAN_SOURCE_UNAVAILABLE' });
+      return;
+    }
+    const sequence = ++planSourceSequence.current;
+    const inspectedProject = projectId;
+    const inspectedPlan = plan.id;
+    const inspectedReleaseId = plan.releaseId;
+    const inspectedToken = token;
+    const inspectedSession = sessionEpoch.current;
+    const isCurrent = () => sequence === planSourceSequence.current
+      && activeProjectId.current === inspectedProject
+      && activeSelectedPlanId.current === inspectedPlan
+      && sessionEpoch.current === inspectedSession;
+    setPlanSource({ planId: inspectedPlan, loading: true });
+    setError('');
+    try {
+      const result = await json(`/api/releases/${encodeURIComponent(inspectedReleaseId)}`, inspectedToken);
+      if (!isCurrent()) return;
+      const source = result.release || result;
+      const summary = (detail.releases || []).find((item) => item.id === inspectedReleaseId);
+      const sourceFiles = source.files;
+      const planItems = plan.items;
+      const filesAreWellFormed = Array.isArray(sourceFiles) && sourceFiles.length > 0
+        && sourceFiles.every((file) => file && typeof file.path === 'string' && file.path.length > 0
+          && typeof file.version === 'string' && typeof file.content === 'string'
+          && Number.isSafeInteger(file.bytes) && file.bytes >= 0
+          && Number.isSafeInteger(file.statementCount) && file.statementCount >= 0
+          && typeof file.validationStatus === 'string' && /^[a-f0-9]{64}$/.test(file.sha256 || ''));
+      const planItemsAreWellFormed = Array.isArray(planItems) && planItems.length > 0
+        && planItems.every((item) => item && typeof item.path === 'string' && typeof item.version === 'string'
+          && /^[a-f0-9]{64}$/.test(item.sha256 || ''));
+      const metadataMatches = source.id === inspectedReleaseId && Boolean(summary)
+        && ['repositoryId', 'commit', 'objectFormat', 'folder', 'manifestDigest', 'validationStatus', 'parserProfile']
+          .every((field) => source[field] === summary[field])
+        && Number.isFinite(Date.parse(source.createdAt)) && Number.isFinite(Date.parse(summary.createdAt))
+        && new Date(source.createdAt).toISOString() === new Date(summary.createdAt).toISOString();
+      const sourceItems = filesAreWellFormed ? sourceFiles.map((file) => ({ path: file.path, version: file.version, sha256: file.sha256 })) : [];
+      const planFileFacts = planItemsAreWellFormed ? planItems.map((item) => ({ path: item.path, version: item.version, sha256: item.sha256 })) : [];
+      if (!metadataMatches || !filesAreWellFormed || !planItemsAreWellFormed
+          || JSON.stringify(sourceItems) !== JSON.stringify(planFileFacts)) {
+        setPlanSource({ planId: inspectedPlan, error: 'PLAN_SOURCE_UNAVAILABLE' });
+        return;
+      }
+      setPlanSource({ planId: inspectedPlan, source });
+    } catch {
+      if (isCurrent()) setPlanSource({ planId: inspectedPlan, error: 'PLAN_SOURCE_UNAVAILABLE' });
+    }
+  };
+
+  const model = { actor, projects, projectId, selectProject, setRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment, gitRefs, gitRefsLoading, gitRefsError };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -369,7 +455,7 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => setTab('release')}><span>◫</span> Releases</button>
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => setTab('records')}><span>≡</span> Audit &amp; history</button>
-      <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { sessionEpoch.current += 1; refreshSequence.current += 1; activeProjectId.current = ''; setActor(null); setToken(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setCommentBody(''); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
+      <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; setPlanSource(null); activeProjectId.current = ''; setActor(null); setToken(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setCommentBody(''); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
       <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { void refresh(token); }} disabled={busy}>↻</button></div></header>
@@ -462,22 +548,30 @@ function ReleaseScreen({ model }) {
           <section className="panel intake-panel"><div className="panel-heading"><div><h2>Repository source</h2><p>Repository paths stay on the server. The browser sends only the repository ID.</p></div><span className="step-badge">GIT</span></div>
             <form className="release-form" onSubmit={importRelease}><label>Project<select aria-label="Release project" value={projectId} onChange={(e) => selectProject(e.target.value)} required disabled={busy}><option value="">Choose project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}{p.archivedAt ? ' · ARCHIVED' : ''}</option>)}</select></label><label>Bound repository<output aria-label="Bound repository" className="bound-source-value">{boundRepositoryLabel}</output></label><label>Branch or tag<select aria-label="Git branch or tag" value={releaseForm.commit.startsWith('refs/') ? releaseForm.commit : ''} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value || 'HEAD' })} disabled={busy || isArchived || !bindingDraftMatches || gitRefsLoading || !!gitRefsError}><option value="">Use HEAD or enter a ref below</option><optgroup label="Branches">{gitRefs.branches.map((item) => <option key={item.ref} value={item.ref}>Branch · {item.name}</option>)}</optgroup><optgroup label="Tags">{gitRefs.tags.map((item) => <option key={item.ref} value={item.ref}>Tag · {item.name}</option>)}</optgroup></select><small>{gitRefsLoading ? 'Loading refs from the saved project repository…' : gitRefsError ? explain(new Error(gitRefsError)) : 'Choose a local branch or commit-resolving tag, or keep using HEAD/manual commit.'}</small></label><label>Commit or ref<input aria-label="Git commit or ref" value={releaseForm.commit} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value })} placeholder="40 character commit SHA" required disabled={busy || isArchived || !bindingDraftMatches}/><small>Selected refs are resolved to a full immutable commit during import.</small></label><label>Bound migration folder<output aria-label="Bound migration folder" className="bound-source-value">{projectLoaded ? sourceBinding?.folder || 'No source bound' : 'Loading project source…'}</output></label><div className="form-actions"><button type="submit" className="primary" disabled={busy || isArchived || !projects.length || !bindingDraftMatches}>{busy ? 'Importing…' : 'Import and validate'}</button><span className="subtle">{importHint} Files are parsed before a plan can be created.</span></div></form>
           </section>
-          {scopedRelease && <section className="panel release-result" data-inspected-release-id={scopedRelease.id}><div className="panel-heading"><div><p className="eyebrow">IMPORTED RELEASE</p><h2>{scopedRelease.commit?.slice(0, 12)} <span className="muted">· {scopedRelease.folder}</span></h2></div><span className={`status-pill ${importStatusClass(scopedRelease.validationStatus)}`}>{scopedRelease.validationStatus}</span></div>{scopedRelease.validationCode && <p className="banner warning">{scopedRelease.validationCode}</p>}<section className="release-provenance" aria-label="Stored release provenance"><h3>Stored provenance</h3><dl><div><dt>Immutable commit</dt><dd><code>{scopedRelease.commit || '—'}</code></dd></div><div><dt>Repository ID</dt><dd><code>{scopedRelease.repositoryId || '—'}</code></dd></div><div><dt>Registered repository</dt><dd>{repositories.find((item) => item.id === scopedRelease.repositoryId)?.name || 'Unavailable'}</dd></div><div><dt>Git object format</dt><dd>{scopedRelease.objectFormat || '—'}</dd></div><div><dt>Migration folder</dt><dd><code>{scopedRelease.folder || '—'}</code></dd></div><div><dt>Manifest digest</dt><dd><code>{scopedRelease.manifestDigest || '—'}</code></dd></div><div><dt>Parser profile</dt><dd><code>{scopedRelease.parserProfile || '—'}</code></dd></div><div><dt>Imported</dt><dd><time dateTime={scopedRelease.createdAt || undefined}>{fmt(scopedRelease.createdAt)}</time></dd></div></dl></section><div className="file-table-wrap"><table><thead><tr><th>Migration file</th><th>Version</th><th>Statements</th><th>Bytes</th><th>Validation</th></tr></thead><tbody>{(scopedRelease.files || []).map((file) => <tr key={file.path}><td><code>{file.path}</code></td><td>{file.version || '—'}</td><td>{file.statementCount ?? '—'}</td><td>{file.bytes ?? '—'}</td><td><span className={`status-pill ${importStatusClass(file.validationStatus)}`}>{file.validationStatus}</span></td></tr>)}</tbody></table>{!scopedRelease.files?.length && <div className="empty-inline">No migration files were returned for this release.</div>}</div>{(scopedRelease.files || []).map((file) => <details className="sql-preview" key={`${file.path}-sql`}><summary>Preview SQL · {file.path}</summary><pre>{file.content || 'Source content unavailable.'}</pre></details>)}{(scopedRelease.validationStatus === 'VALID') && <form className="plan-form" onSubmit={makePlan}><label>Target connection profile<select name="profileId" aria-label="Target connection profile" required disabled={busy || isArchived}><option value="">Choose profile</option>{(detail?.profiles || []).map((profile) => <option key={profile.id} value={profile.id}>{profile.name} · {profile.host}/{profile.service}</option>)}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.profiles?.length}>Prepare offline plan</button><span className="offline-note">This creates a review candidate. It does not connect to Oracle.</span></form>}</section>}
+          {scopedRelease && <section className="panel release-result" data-inspected-release-id={scopedRelease.id}><div className="panel-heading"><div><p className="eyebrow">IMPORTED RELEASE</p><h2>{scopedRelease.commit?.slice(0, 12)} <span className="muted">· {scopedRelease.folder}</span></h2></div><span className={`status-pill ${importStatusClass(scopedRelease.validationStatus)}`}>{scopedRelease.validationStatus}</span></div>{scopedRelease.validationCode && <p className="banner warning">{scopedRelease.validationCode}</p>}<RetainedReleaseContent source={scopedRelease} repositories={repositories} fmt={fmt}/>{(scopedRelease.validationStatus === 'VALID') && <form className="plan-form" onSubmit={makePlan}><label>Target connection profile<select name="profileId" aria-label="Target connection profile" required disabled={busy || isArchived}><option value="">Choose profile</option>{(detail?.profiles || []).map((profile) => <option key={profile.id} value={profile.id}>{profile.name} · {profile.host}/{profile.service}</option>)}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.profiles?.length}>Prepare offline plan</button><span className="offline-note">This creates a review candidate. It does not connect to Oracle.</span></form>}</section>}
 
   </>;
 }
 
 
 function ReviewScreen({ model }) {
-  const { plans, detail, plan, planStatus, filterPlans, isApprover, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, addComment } = model;
+  const { plans, detail, plan, planStatus, filterPlans, isApprover, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, addComment, planSource, inspectPlanSource, repositories } = model;
   return <>
           <div className="page-heading"><div><p className="eyebrow">GOVERNANCE</p><h1>Plans &amp; review</h1><p className="muted">Review the exact migration candidate and record an independent decision.</p></div><div className="heading-mark">03 <span> / 04</span></div></div>
           <section className="notice-card"><span className="notice-icon">i</span><div><strong>{isArchived ? 'Archived project · read only' : 'Offline candidate only'}</strong><p>Target history has not been observed. Database execution is unavailable and remains <b>NOT_EXECUTED</b>. {isArchived && 'Review decisions are disabled for archived projects.'}</p></div><span className="scope-tag">{plan?.planningScope || 'OFFLINE_CANDIDATE'}</span></section>
           <section className="panel plan-panel"><div className="panel-heading"><div><h2>Candidate plans</h2><p>Plans preserve source checksums and explicit execution status.</p></div><span className="count-pill">{plans.length} plans</span></div>
             <label>Plan status<select aria-label="Plan status" value={planStatus} onChange={(event) => filterPlans(event.target.value)} disabled={busy}><option value="ALL">All</option><option value="PENDING_APPROVAL">Pending approval</option><option value="APPROVED">Approved</option><option value="REJECTED">Rejected</option></select></label>
             {!plans.length ? <div className="empty-state"><span className="empty-icon">◇</span><strong>{planStatus === 'ALL' ? 'No plans to review' : 'No plans match this status'}</strong>{planStatus === 'ALL' ? <><span>Import a valid release and prepare an offline candidate plan first.</span><button type="button" className="text-button" onClick={() => setTab('release')}>Go to release intake →</button></> : <span>Choose another status or All to see other plans.</span>}</div> : <>
-              <div className="plan-selector">{plans.map((item) => { const sourceRelease = (detail.releases || []).find((candidate) => candidate.id === item.releaseId); return <button type="button" key={item.id} onClick={() => setSelectedPlan(item.id)} className={`plan-option ${(plan?.id === item.id) ? 'selected' : ''}`}><span className={`status-dot ${planMarkerClass(item.status)}`}/><span><strong>{sourceRelease?.commit?.slice(0, 12) || `Plan ${item.id.slice(0, 8)}`}</strong><small>{fmt(item.createdAt || item.created_at)}</small></span><span className={`status-pill ${decisionClass(item.status)}`}>{item.status?.replaceAll('_', ' ')}</span></button>; })}</div>
+              <div className="plan-selector">{plans.map((item) => { const sourceRelease = (detail.releases || []).find((candidate) => candidate.id === item.releaseId); return <button type="button" data-plan-id={item.id} key={item.id} onClick={() => setSelectedPlan(item.id)} className={`plan-option ${(plan?.id === item.id) ? 'selected' : ''}`}><span className={`status-dot ${planMarkerClass(item.status)}`}/><span><strong>{sourceRelease?.commit?.slice(0, 12) || `Plan ${item.id.slice(0, 8)}`}</strong><small>{fmt(item.createdAt || item.created_at)}</small></span><span className={`status-pill ${decisionClass(item.status)}`}>{item.status?.replaceAll('_', ' ')}</span></button>; })}</div>
               {plan && <><div className="plan-summary"><div><span className="data-label">PLAN ID</span><code>{plan.id}</code></div><div><span className="data-label">DECISION</span><span className={`status-pill ${decisionClass(plan.status)}`}>{plan.status?.replaceAll('_', ' ')}</span></div><div><span className="data-label">TARGET HISTORY</span><strong>{plan.historyStatus || 'NOT_OBSERVED'}</strong></div><div><span className="data-label">EXECUTION</span><strong className="not-executed">{plan.execution || 'NOT_EXECUTED'}</strong></div></div><div className="file-table-wrap"><table><thead><tr><th>Migration</th><th>Version</th><th>SHA-256</th><th>State</th></tr></thead><tbody>{(plan.items || []).map((item) => <tr key={item.path}><td><code>{item.path}</code></td><td>{item.version || '—'}</td><td><code className="checksum">{item.sha256}</code></td><td><span className="status-pill neutral">{item.status || 'NOT_EXECUTED'}</span></td></tr>)}</tbody></table></div>
+                <section className="panel plan-source-panel" aria-label="Plan source inspection" data-plan-source-id={planSource?.planId === plan.id ? plan.id : ''}>
+                  <div className="panel-heading"><div><h3>Retained source</h3><p>Inspect the retained files linked to this plan. This is a read only view.</p></div><button type="button" className="secondary" onClick={() => { void inspectPlanSource(); }} disabled={!plan.releaseId || planSource?.loading}>{planSource?.loading ? 'Loading source…' : 'Inspect source'}</button></div>
+                  {!plan.releaseId && <p className="banner error">The linked source is unavailable or does not match this plan. Refresh the project and try again.</p>}
+                  {planSource?.planId === plan.id && planSource.error && <p className="banner error">The linked source is unavailable or does not match this plan. Refresh the project and try again.</p>}
+                  {planSource?.planId === plan.id && planSource.source && <div className="release-result plan-source-result" data-inspected-release-id={planSource.source.id}>
+                    <RetainedReleaseContent source={planSource.source} repositories={repositories} fmt={fmt}/>
+                  </div>}
+                </section>
                 {['APPROVED', 'REJECTED'].includes(plan.status) && <section className="decision-record" aria-label="Decision record"><h3>Decision record</h3><p><strong>{plan.decidedByName || plan.decidedBy}</strong>{plan.decidedByName && <code>{plan.decidedBy}</code>}</p><time dateTime={plan.decidedAt}>{fmt(plan.decidedAt)}</time><p className="decision-record-reason">{plan.decisionReason}</p></section>}
                 {isApprover && plan.status === 'PENDING_APPROVAL' && <div className="decision-box"><label htmlFor="decision-reason">Decision reason</label><textarea id="decision-reason" value={decisionReason} onChange={(e) => setDecisionReason(e.target.value)} placeholder="Record why this candidate is approved or rejected" required disabled={isArchived}/><div><button type="button" className="danger-button" onClick={() => decide('REJECT')} disabled={busy || isArchived || !decisionReason.trim()}>Reject plan</button><button type="button" className="primary" onClick={() => decide('APPROVE')} disabled={busy || isArchived || !decisionReason.trim()}>Approve plan</button></div><small>Approval records governance only. It does not authorize or perform execution in this product.</small></div>}
                 {!isApprover && plan.status === 'PENDING_APPROVAL' && <p className="banner warning">Awaiting an approver. Your current role can prepare plans but cannot decide them.</p>}

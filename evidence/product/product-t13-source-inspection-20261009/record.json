@@ -1,0 +1,79 @@
+{
+  "task_id": "SF-PRODUCT-T13",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-plan-source-inspection",
+  "branch": "development/product-plan-source-inspection",
+  "base_head": "1883e0b47a96a5fe20732b49802da1073a2a284c",
+  "scope": "Selected-plan read-only retained source inspection through the existing authenticated release endpoint.",
+  "commands": [
+    {
+      "command": "npm ci --ignore-scripts --no-audit --no-fund",
+      "outcome": "PASS"
+    },
+    {
+      "command": "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run build:web && npm run typecheck",
+      "outcome": "PASS"
+    },
+    {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --test --test-concurrency=1 tests/product-plan-source-browser.integration.mjs",
+      "outcome": "PASS, 1 test, 0 skipped",
+      "raw_log": "evidence/product/product-t13-source-inspection-20261009/targeted-attempt-05.log",
+      "raw_log_sha256": "fa1e3bfd6d2087d60ea45398be9e50bd3dcc12b84bccd96d081369b79b940b48"
+    },
+    {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run test:product",
+      "outcome": "PASS, 22 tests, 0 skipped",
+      "raw_log": "evidence/product/product-t13-source-inspection-20261009/test-product.log",
+      "raw_log_sha256": "6daee0c5479b4f619415f719cfd8cfc0b1af58fb2050471e623d6e450a12fa0d"
+    },
+    {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run test:browser",
+      "outcome": "PASS, 11 browser tests, 0 skipped",
+      "raw_log": "evidence/product/product-t13-source-inspection-20261009/test-browser.log",
+      "raw_log_sha256": "3af80ce37f6ada06d5c5b29b25a0bc74c2e88ab02d1868330fdd1ccf89a4a69c"
+    },
+    {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run check",
+      "outcome": "PASS, 142 tests, 0 skipped; dependency smoke PASS; 85 pinned product packages and zero unknown required grants",
+      "raw_log": "evidence/product/product-t13-source-inspection-20261009/check.log",
+      "raw_log_sha256": "bf1c38d1d38e67ccb7ea0b98bbe6dbac922a62579a167be68f909041c5efc468"
+    },
+    {
+      "command": "git diff --check",
+      "outcome": "PASS"
+    }
+  ],
+  "source_sha256": {
+    "apps/web/src/app.jsx": "b9ddc24413cdd4bc11980f18a898aebc581f9e6c4e453c1ef605d0d240a5ad90",
+    "apps/web/styles.css": "f2c714d3c30b9f41d544e1c74005542d8ad9bd34ce7d0db97e591196981536d3",
+    "scripts/test-product.mjs": "f76c1cbd023f7e6391d11bfce820a39fc3d44f022c6ae0801f9b7ff978bdcc39",
+    "tests/product-plan-source-browser.integration.mjs": "1b9b99be5e498366c9dee0cecbd71953ddab08f250edac80c60d487fb19bcf85",
+    "docs/development/local-product.md": "006313e9f83ea09e7148690f650b01d1bd14f6ecdb5cf16e4926bd7c9e66d7d6"
+  },
+  "parser_artifacts": {
+    "runtime_path": ".cache/antlr/antlr4-runtime-4.13.2.jar",
+    "runtime_sha256": "dd3e8a13a2d669bf84fb8d834de35ce4875f27157698d206241ec8488aadcaf7",
+    "helper_path": "experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar",
+    "helper_sha256": "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38",
+    "java_home": "/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+    "reuse_source": "/home/longhn0710/workspace/schemaforge-product-release-integrity"
+  },
+  "retained_failed_runs": [
+    {
+      "raw_log": "evidence/product/product-t13-source-inspection-20261009/targeted-attempt-03.log",
+      "raw_log_sha256": "62bb160c545d69113908d14606f83bc20dffb20e10da34da1351ccea24e1141f",
+      "result": "FAIL; browser served the previous built bundle with the earlier failure wording."
+    },
+    {
+      "raw_log": "evidence/product/product-t13-source-inspection-20261009/targeted-attempt-04.log",
+      "raw_log_sha256": "91d424e038ffdb0a8fe28adcc41e6ed457342f899bb7632f4a3d64f3e8d34865",
+      "result": "FAIL; negative response assertion ran before the asynchronous fixed feedback appeared. Test now awaits the response."
+    }
+  ],
+  "capture_limitations": [
+    "The first two focused attempts failed before persistent raw log capture was configured; their raw output was not retained and has not been reconstructed."
+  ],
+  "scope_limits": [
+    "No API, schema, worker, Git integration, authorization, or post-approval byte-revalidation changes.",
+    "Local PostgreSQL/parser/browser observations only; no Oracle runtime claim."
+  ]
+}
