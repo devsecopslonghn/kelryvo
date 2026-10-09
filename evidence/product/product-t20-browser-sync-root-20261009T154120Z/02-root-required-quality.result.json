@@ -1,0 +1,11 @@
+{
+  "command": "set -e; npm run build; node scripts/tracker.mjs validate; node --test tests/tracker.test.mjs; npm run format:check; git diff --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "started_at_utc": "2026-10-09T15:43:21.208764+00:00",
+  "ended_at_utc": "2026-10-09T15:43:28.208233+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-browser-sync-root-20261009T154120Z/02-root-required-quality.log",
+    "sha256": "e0857c49a152d696b6a83a8eef1aa89479fa160f765748e05adc9c6558d991d6"
+  }
+}
