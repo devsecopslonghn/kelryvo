@@ -1,0 +1,10 @@
+{
+  "head": "759bc521cb1d74d849370ee3678d5ae986385466",
+  "source_sha256": {
+    "apps/api/index.ts": "5cc5f2a745dc3633082b323d627c6c8ab8dee0a01834889306d79b0a3d72f0b6",
+    "apps/web/src/app.jsx": "4d01745c1927c486e3cdae2321ee3af2f700372f937af8de49de5648b66a0d67",
+    "tests/product-browser.integration.mjs": "3e2581e3c977e70712b1fa35b633aafb457ffb1a4993e095b7dc2520c286db2d",
+    "tests/product-review-audit.test.mjs": "d47e658e9ea3025b486443e2f83b520c8f9efad12925f527d87624977da271e1",
+    "tests/product-review-audit-browser.integration.mjs": "edb4e4cf024175f4a7686b4996815ad13070b45e5ffface4d21ed182d32bf87e"
+  }
+}

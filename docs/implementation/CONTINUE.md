@@ -149,3 +149,10 @@ throwaway fixture exits with its expected timeout and drops its owned database. 
 120-second test and 15-minute workflow thresholds/assertions remain unchanged. This
 local repair is not a confirmed root-cause fix or remote quality-gate pass: inspect the
 fresh exact-head CI before merging.
+
+The T04 browser cleanup parent was merged ordinarily into T05, preserving all evidence
+records. Integrated verification with CI=true passed 138/138 standard tests, 18/18 product
+cases and 3/3 browser workflows, zero skips, in T05 quality-repair-1. Fresh T04 exact-head
+product jobs pass; the original timeout remains preserved and its root cause unconfirmed.
+Inspect Sonar and every fresh exact-head gate before any merge; predecessor Sonar
+cancellations still prevent an eligible product merge. Next remains SF-PRODUCT-T06.

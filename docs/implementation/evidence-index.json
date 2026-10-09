@@ -1335,6 +1335,27 @@
       },
       "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/quality-repair-2/record.json",
       "sha256": "863fed42bba7aba3b94b10d2ab4922cdba83d80b9edfa38efb2e4aa5fc5a7fc0"
+    },
+    {
+      "id": "product-t05-integrated-browser-cleanup-local",
+      "subject_id": "SF-PRODUCT-T05",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "CI=true npm run check; CI=true npm run test:product; CI=true npm run test:browser after ordinary merge of the parent browser lifecycle repair",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "SF-PRODUCT-T05-API",
+        "SF-PRODUCT-T05-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t05-review-audit-20261009T001803Z-75210e75/quality-repair-1/checks.log",
+        "sha256": "0def0974de486b72cd4bc6571aa8f31268d1e5deb426991e3ab70cc7bce400ba"
+      },
+      "path": "evidence/product/product-t05-review-audit-20261009T001803Z-75210e75/quality-repair-1/record.json",
+      "sha256": "b8224682ff42fcedf83a6a0f366728e79786704fd6145e01e600403e3b73b505"
     }
   ]
 }
