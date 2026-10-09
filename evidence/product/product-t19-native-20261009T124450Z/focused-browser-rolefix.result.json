@@ -1,0 +1,9 @@
+{
+  "label": "focused-browser-rolefix",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs",
+  "started_at_utc": "2026-10-09T12:58:53.061221Z",
+  "completed_at_utc": "2026-10-09T12:59:27.883249Z",
+  "exit_code": 1,
+  "raw_sha256": "eb946e0dd77287547209a844429921d168a0215ca958d0abbbcc3d80b04a2cd8",
+  "raw_bytes": 1039
+}

@@ -1,0 +1,64 @@
++ development/product-approval-integrity                    e186072 (/home/longhn0710/workspace/schemaforge-product-approval-integrity) [origin/development/product-approval-integrity] Verify retained source and plan facts before approval
++ development/product-archive                               be799cf (/home/longhn0710/workspace/schemaforge-product-archive) Serialize PostgreSQL schema initialization and close failed setup pools
++ development/product-audit-action-filters                  5be1428 (/home/longhn0710/workspace/schemaforge-product-audit-filters) [origin/development/product-audit-action-filters] feat(product): filter recent project audit events by action
+  development/product-decision-record                       a5598a9 [origin/development/product-decision-record] feat: show retained plan decision provenance
+  development/product-delivery-checkpoint                   ac8779c Record integrated product checks after browser lifecycle repair
++ development/product-delivery-state                        534c6e4 (/home/longhn0710/workspace/schemaforge-product-status-filters) [origin/development/product-delivery-state: ahead 1] Merge pull request #21 from devsecopslonghn/development/product-delivery-state
+  development/product-governance-slice                      b3601c1 [origin/development/product-governance-slice] Reject invalid coverage cells without throwing during comparison
++ development/product-local-git-refs                        ed10fd1 (/home/longhn0710/workspace/schemaforge-product-git-refs) [origin/development/product-local-git-refs: ahead 1] Merge pull request #22 from devsecopslonghn/development/product-local-git-refs
++ development/product-local-repositories                    0d61063 (/home/longhn0710/workspace/schemaforge-product-repositories) Merge branch 'development/product-archive' into development/product-local-repositories
++ development/product-merge-checkpoint                      3ec1d16 (/home/longhn0710/workspace/schemaforge-product-merge-checkpoint) [origin/development/product-merge-checkpoint] test: close browser clients before graceful API restart
++ development/product-offline-plan-intent                   5e08361 (/home/longhn0710/workspace/schemaforge-product-offline-plan-intent) [origin/development/product-offline-plan-intent] Bound retained release loading before offline plan creation
+  development/product-plan-comments                         a40b3fe [origin/development/product-plan-comments] feat: persist scoped plan review comments
+* development/product-plan-resubmission                     5db4779 [origin/master: ahead 4] test(product): clarify resubmission browser assertions and evidence
++ development/product-plan-source-inspection                132b613 (/home/longhn0710/workspace/schemaforge-product-plan-source-inspection) [origin/development/product-plan-source-inspection] feat(product): inspect retained plan source in review
+  development/product-plan-status-filters                   58e5deb [origin/development/product-plan-status-filters] feat(product): filter project plan reviews by decision status
++ development/product-plan-target-review                    7a691ad (/home/longhn0710/workspace/schemaforge-product-plan-target-review) [origin/development/product-plan-target-review] docs(product): retain T14 checksum manifests
++ development/product-release-integrity                     bc00d15 (/home/longhn0710/workspace/schemaforge-product-release-integrity) [origin/development/product-release-integrity: ahead 1] Merge pull request #24 from devsecopslonghn/development/product-release-integrity
++ development/product-release-provenance                    a81f8b7 (/home/longhn0710/workspace/schemaforge-product-release-provenance) [origin/development/product-release-provenance: ahead 1] Merge pull request #23 from devsecopslonghn/development/product-release-provenance
++ development/product-requester-review                      7615280 (/home/longhn0710/workspace/schemaforge-product-requester-review) [origin/development/product-requester-review] Show retained plan requester and independent review eligibility
++ development/product-review-audit                          ac8779c (/home/longhn0710/workspace/schemaforge-product-review-audit) [origin/development/product-review-audit] Record integrated product checks after browser lifecycle repair
+  development/product-shield-license                        d56b92f [origin/development/product-shield-license] docs: align current product notice header with selected license
++ development/product-source-binding                        e7f9187 (/home/longhn0710/workspace/schemaforge-product-binding) Bound browser timeout cleanup and retain cancelled CI evidence
+  development/product-t07-checkpoint                        e93a397 [origin/development/product-t07-checkpoint] docs: checkpoint verified product reviews and next status filters
+  development/wp0-antlr-parser                              97432ef [origin/development/wp0-antlr-parser] Complete parser packaging and corpus quality refactoring
+  development/wp0-checkpoint                                978f873 [origin/development/wp0-checkpoint] Retain the checkpoint artifact download failure and retry boundary
+  development/wp0-dependency-closure                        0e5b2e9 [origin/development/wp0-dependency-closure] Normalize checkpoint JSON and retain negative corpus output
+  development/wp0-supervisor-checkpoint                     1ca471e [origin/development/wp0-supervisor-checkpoint] Persist PR7 merge gates and remaining Oracle boundary
+  development/wp0-thin-checkpoint                           e167f2f [origin/development/wp0-thin-checkpoint] docs(wp0): preserve Thin candidate merge and continuation evidence
+  development/wp0-thin-probe-plan                           4299b4d [origin/development/wp0-thin-probe-plan] Deduplicate Thin probe definitions and preserve shared safety assertions
+  development/wp0-thin-readonly-probe                       fe63aeb [origin/development/wp0-thin-readonly-probe] fix(wp0): bound PEM parsing without regex backtracking
+  development/wp0-thin-supervision                          ef8a2ec [origin/development/wp0-thin-supervision] Fix Sonar reliability issue in UNIT worker environment check
+  main                                                      e817a4b Initialize SchemaForge foundation and offline WP0 preflight
++ master                                                    0346300 (/home/longhn0710/workspace/schemaforge) [origin/master: behind 33] Merge pull request #18 from devsecopslonghn/development/product-t07-checkpoint
+  remotes/origin/HEAD                                       -> origin/master
+  remotes/origin/development/product-approval-integrity     e186072 Verify retained source and plan facts before approval
+  remotes/origin/development/product-archive                be799cf Serialize PostgreSQL schema initialization and close failed setup pools
+  remotes/origin/development/product-audit-action-filters   5be1428 feat(product): filter recent project audit events by action
+  remotes/origin/development/product-decision-record        a5598a9 feat: show retained plan decision provenance
+  remotes/origin/development/product-delivery-state         011358e chore(product): reconcile verified delivery and register local Git ref task
+  remotes/origin/development/product-governance-slice       b3601c1 Reject invalid coverage cells without throwing during comparison
+  remotes/origin/development/product-local-git-refs         2a97b55 docs(product): classify verification digest and reconcile T10 review state
+  remotes/origin/development/product-local-repositories     0d61063 Merge branch 'development/product-archive' into development/product-local-repositories
+  remotes/origin/development/product-merge-checkpoint       3ec1d16 test: close browser clients before graceful API restart
+  remotes/origin/development/product-offline-plan-intent    5e08361 Bound retained release loading before offline plan creation
+  remotes/origin/development/product-plan-comments          a40b3fe feat: persist scoped plan review comments
+  remotes/origin/development/product-plan-source-inspection 132b613 feat(product): inspect retained plan source in review
+  remotes/origin/development/product-plan-status-filters    58e5deb feat(product): filter project plan reviews by decision status
+  remotes/origin/development/product-plan-target-review     7a691ad docs(product): retain T14 checksum manifests
+  remotes/origin/development/product-release-integrity      406c9d3 fix(product): bound malformed retained release verification
+  remotes/origin/development/product-release-provenance     461242e feat(product): inspect retained release provenance
+  remotes/origin/development/product-requester-review       7615280 Show retained plan requester and independent review eligibility
+  remotes/origin/development/product-review-audit           ac8779c Record integrated product checks after browser lifecycle repair
+  remotes/origin/development/product-shield-license         d56b92f docs: align current product notice header with selected license
+  remotes/origin/development/product-source-binding         e7f9187 Bound browser timeout cleanup and retain cancelled CI evidence
+  remotes/origin/development/product-t07-checkpoint         e93a397 docs: checkpoint verified product reviews and next status filters
+  remotes/origin/development/wp0-antlr-parser               97432ef Complete parser packaging and corpus quality refactoring
+  remotes/origin/development/wp0-checkpoint                 978f873 Retain the checkpoint artifact download failure and retry boundary
+  remotes/origin/development/wp0-dependency-closure         0e5b2e9 Normalize checkpoint JSON and retain negative corpus output
+  remotes/origin/development/wp0-supervisor-checkpoint      1ca471e Persist PR7 merge gates and remaining Oracle boundary
+  remotes/origin/development/wp0-thin-checkpoint            e167f2f docs(wp0): preserve Thin candidate merge and continuation evidence
+  remotes/origin/development/wp0-thin-probe-plan            4299b4d Deduplicate Thin probe definitions and preserve shared safety assertions
+  remotes/origin/development/wp0-thin-readonly-probe        fe63aeb fix(wp0): bound PEM parsing without regex backtracking
+  remotes/origin/development/wp0-thin-supervision           ef8a2ec Fix Sonar reliability issue in UNIT worker environment check
+  remotes/origin/master                                     a5e8b9f Merge pull request #29 from devsecopslonghn/development/product-offline-plan-intent

@@ -28,6 +28,7 @@ test('plan review comments are scoped, validated, durable, ordered, and serializ
     const project = await createProject('Comments');
     const otherProject = await createProject('Other scope');
     const seedPlan = async (projectId, organizationId = ORG) => {
+      await db.sql`UPDATE sf_projects SET source_repository_id='fixture',source_folder='migrations',source_updated_at=now() WHERE id=${projectId}`;
       const content = 'CREATE TABLE T (ID NUMBER);';
       const sha256 = createHash('sha256').update(content).digest('hex');
       const files = [{ path:'migrations/V1__fixture.sql', version:'1', sha256, bytes:Buffer.byteLength(content), statementCount:1, validationStatus:'VALID', content }];
@@ -46,8 +47,9 @@ test('plan review comments are scoped, validated, durable, ordered, and serializ
         engine:p.engine, host:p.host, port:p.port, service:p.service, username:p.username, credentialRef:p.credential_ref,
         items:items.map(({ path, version, sha256 }) => ({ path, version, sha256 })) });
       assert.ok(intent);
-      return (await db.sql`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items,offline_intent_envelope,offline_intent_digest)
-        VALUES(${projectId},${organizationId},${release.id},${p.id},${actors[0].id},${db.sql.json(items)},${intent.envelope},${intent.digest}) RETURNING id`)[0].id;
+      return (await db.sql`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items,offline_intent_envelope,offline_intent_digest,source_binding_generation)
+        VALUES(${projectId},${organizationId},${release.id},${p.id},${actors[0].id},${db.sql.json(items)},${intent.envelope},${intent.digest},
+          (SELECT source_binding_generation FROM sf_projects WHERE id=${projectId})) RETURNING id`)[0].id;
     };
     const planId = await seedPlan(project.id);
     await db.sql`INSERT INTO sf_history(project_id,plan_id,version,path,sha256,status)

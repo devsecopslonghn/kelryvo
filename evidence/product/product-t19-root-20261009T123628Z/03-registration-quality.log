@@ -1,0 +1,9 @@
+Authored JSON formatting passed; imported inputs and evidence excluded.
+ERROR tasks has unexpected ID SF-PRODUCT-T19
+ERROR dependency graph node IDs are inconsistent
+ERROR work acceptance IDs are inconsistent
+ERROR SF-PRODUCT-T19 ownership role does not match its domain/package
+ERROR SF-PRODUCT-T19 acceptance record differs from its work item
+ERROR SF-PRODUCT-T19 acceptance test references differ from its work item
+ERROR SF-PRODUCT-T19 dependency graph is inconsistent
+ERROR expected 64 imported tasks plus foundation and 18 product tasks, found 84

@@ -1,0 +1,11 @@
+{
+  "command": "set -e; git fetch origin; git branch -a -vv; gh pr list --repo devsecopslonghn/schemaForge --state open --json number,title,headRefName,headRefOid,baseRefName,url,isDraft; git status --short",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:18:25.925565+00:00",
+  "ended_at_utc": "2026-10-09T12:18:27.610073+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t18-publication-20261009T120100Z/49-premerge-reconcile.log",
+    "sha256": "99713127f6e3a820342ee1c0c53e81c8852e3dff6a16c7f2df355b5c73baf7c5"
+  }
+}

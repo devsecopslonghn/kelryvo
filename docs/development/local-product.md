@@ -233,6 +233,17 @@ the predecessor's source, comments, decision, history and prior audit records, r
 cross-project/self/terminal requests, and confirm that navigation itself issues no API write.
 The browser case also checks the cleared inspection state, All filter, intake guidance, and
 archived/unbound action visibility.
+
+Protected source-binding generations are server-owned positive decimal strings. Saving the
+same repository and migration folder leaves the generation unchanged; changing either value
+advances it. Plans capture the current generation when created, and approval checks that value
+and the retained release source under database locks. A pending legacy plan with no captured
+generation, or one whose source binding has changed, remains readable and rejectable but cannot
+be approved. Use **Prepare fresh plan** to return to the existing release intake and create a
+new candidate against the current binding; unchanged SQL can be imported from the bound commit.
+This compatibility check protects review against source-binding changes and does not verify an
+Oracle runtime target or execute migrations.
+
 Browser downloads are separate test tools.
 
 The PRODUCT CI job supplies disposable PostgreSQL, prepares the exact helper and runs these

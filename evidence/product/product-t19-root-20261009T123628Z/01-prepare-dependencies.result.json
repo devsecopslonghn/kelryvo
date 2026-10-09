@@ -1,0 +1,11 @@
+{
+  "command": "npm ci --ignore-scripts --no-audit --no-fund",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T12:36:28.220435+00:00",
+  "ended_at_utc": "2026-10-09T12:36:29.533252+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding/evidence/product/product-t19-root-20261009T123628Z/01-prepare-dependencies.log",
+    "sha256": "e15eb40d172664f3645584896d79eab5bb0186a0e09cd3d9d7f254f9384eece6"
+  }
+}

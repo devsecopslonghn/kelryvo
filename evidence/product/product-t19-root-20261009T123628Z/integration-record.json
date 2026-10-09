@@ -1,0 +1,798 @@
+{
+  "id": "product-t19-protected-source-binding-local-verified",
+  "subject_id": "SF-PRODUCT-T19",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Native frozen standard, real PostgreSQL/Git/product and Chromium browser regressions; root source, full-row preservation, locking, compatibility and capture-hash review",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "test_references": [
+    "SF-PRODUCT-T19-API",
+    "SF-PRODUCT-T19-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final-retry.raw.log",
+    "sha256": "0e41cbefde6bb527f4ccd120c1388dff095a305552433f9018e0471bf07e3a15"
+  },
+  "recorded_at_utc": "2026-10-09T13:36:49.934517+00:00",
+  "source_file_sha256": {
+    "apps/api/index.ts": "30de5c8860e90a18654951df9e5c55d39844bfbceadaf2cdfdddf36ae7397ca9",
+    "apps/web/src/app.jsx": "43ff2aa46d5b92649f104856d0c464be6771f95e69eabb691821c3bf2a85efed",
+    "packages/database/index.ts": "6698000ddb399a4d79d382a649d86bdd8bbfa966a214905b42f5cd7b788a6761",
+    "scripts/test-product.mjs": "7f5b41280bb5f19eb94f5cc65223f3c6b311c816b779309dc0030cd178cf7411",
+    "docs/development/local-product.md": "8ff1738b3a830f6bb28db5cef3a78639c463ec15bbe00c854fa79c28dad51e18",
+    "tests/product-protected-source-binding.test.mjs": "4100627486d6e4ea74d8eea12a5fde22650eb576762d0d7ef114351765ef1bbd",
+    "tests/product-protected-source-binding-browser.integration.mjs": "e692ad012962c9a8db0212a0ebfb44d9f7d1e4a52000388245fd5078f7226b0e",
+    "tests/product-api.test.mjs": "6bd61c2c19941998d3d269169c6eac5a9930768851b1293deae1e218362be282",
+    "tests/product-archive.test.mjs": "9ed55dec50c86690dc8a25a42630bd0ed45a1e6b5051ff8f1a7d84dbe9d784fb",
+    "tests/product-audit-action-filters-browser.integration.mjs": "9b1d3db120ab5ecc5765779d320d7adf8da35fc71b308ec988eed9e0de2154c8",
+    "tests/product-comments.test.mjs": "df66deac26d1aebdd02902fa289e171c299d9e00ef24c2ba925f5f39ae9f4fe7",
+    "tests/product-decision-record-browser.integration.mjs": "78d0615cd5c17bc7cfb29cbe04d14c701a95bf666778f36030848ef4176c167b",
+    "tests/product-decision-record.test.mjs": "56392916ed665a0e8ec103400d35c47be7de2d248d5a3be956fb40c01148f620",
+    "tests/product-plan-intent.test.mjs": "6fb5a7ea4868e40bf3ac885d5c802aa9ea5c28dbfd3da969ea43132d560ddecd",
+    "tests/product-plan-resubmission-browser.integration.mjs": "548f4f15875cb9771cdad0b0251d2b4a10749190e4470ed0b8d9deb67fd7c6b4",
+    "tests/product-plan-resubmission.test.mjs": "2f7f505a0ec240d48715aecfac4fa7bc53431195a2deeda87f6e6244c9e6f246",
+    "tests/product-release-integrity.test.mjs": "44f27dc570ec1bf1a04dd07551460ddb62db490e904865760ecdf6be494d92c5",
+    "tests/product-review-audit.test.mjs": "ffd6213e1cd9a85a1a3a5cd6857198ff07739c3ab118c732f1080b81cd0e942e",
+    "tests/product-status-filters-browser.integration.mjs": "7f8b76402b18d202130d4e4d2ca52245977031d87ad42c344476307d9ac6f558",
+    "scripts/tracker.mjs": "ba278c6eaa0456af64ab58564d255e28b07574d5ecb98905b5b7b61756e9821c",
+    "tests/tracker.test.mjs": "d49b1d6b0f2eb00ac327911c60da5d46932259bb243f18ad43032511e0f09c6c"
+  },
+  "captured_artifacts": [
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/01-prepare-dependencies.result.json",
+      "sha256": "f3800ea04aaca8468abfb4b479a7fd9ef8c5c4c93b74437ffbfabdb3cc3cfcf2"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/01-prepare-dependencies.log",
+      "sha256": "e15eb40d172664f3645584896d79eab5bb0186a0e09cd3d9d7f254f9384eece6"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/01-prepare-dependencies.command.json",
+      "sha256": "7c7794cde0b4df8f6f901de5cac87bf0ea694e02151d6970376a1ea1cfeb5c26"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/02-pinned-parser-inputs.result.json",
+      "sha256": "4a9f065c82c7ebf5e9553e55889b4e777f1fb012b4edc78560b3d9cfab3af915"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/02-pinned-parser-inputs.log",
+      "sha256": "36bcdd61f683a0079f5d3360fff5ede282a1de173b64576ae7ac33ce3b8d9ddb"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/02-pinned-parser-inputs.command.json",
+      "sha256": "39b90c2e7e8003eedc18be7c83d5ea095f28a4b28cbdd83476cadc295c72905e"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/03-registration-quality.result.json",
+      "sha256": "0367266b267b2aa451d16e5018f4f6cdd2c2db61ba5985f1b89c33a279181acb"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/03-registration-quality.log",
+      "sha256": "5cd094a9b0a34741d4e9425c0444b04174c1aeb8688f2fb14b0b46685d9fb343"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/03-registration-quality.command.json",
+      "sha256": "cdebbceb90111f09f98380281035a5b28f4b8341d865f46ae96a33ae5a155400"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/04-registration-quality-complete.result.json",
+      "sha256": "3729cdc18cf4e09aa63fe404941fdcc9e1facf27c0c44528020e56329cbb8e17"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/04-registration-quality-complete.log",
+      "sha256": "9cc42da3f0d2257493db1b73489db7810ce787ecd11af3b164aa9febcfdd0a18"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/04-registration-quality-complete.command.json",
+      "sha256": "4b5973d80246d11e8184dac4141350826c069a851266034567fff4849e7ddd7a"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/05-current-master-security-status.result.json",
+      "sha256": "2aa1e74879af1cec48f922befe2e767013e3684758fbb8dc2fbad613e96167d3"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/05-current-master-security-status.log",
+      "sha256": "35b5135fa1f29fd4f2ef10f44090eed8c1930f079cd33401f557b50f504019f0"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/05-current-master-security-status.command.json",
+      "sha256": "551cab1619284cee4cca93f9d3d3e1a9cbc30869ff51a1a1193854ae59120664"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/06-live-branch-reconciliation.result.json",
+      "sha256": "493defaf887b00a9b06b2c90e8d4faba12a4fe355261c8a79b571c598ff38390"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/06-live-branch-reconciliation.log",
+      "sha256": "8c1f41866956d97c82b256a1942c9a3d2a55b75a1f889ec6c81b2da4a4f2ab98"
+    },
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/06-live-branch-reconciliation.command.json",
+      "sha256": "3fb4bc301dd2dba5045de779a9e48fd353b7412cd6da4de6f871ce6d7ba44c45"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/browser-fixture-adaptations.result.json",
+      "sha256": "747a6311351e02a5bf5a37f107831b8cac93364683957bee795981c64b5466a2"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/browser-fixture-adaptations.raw.log",
+      "sha256": "12070aae152f1748843be45c9e33b4d2bbfc013488c91b76d391ad63f67e843b"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/browser-fixture-adaptations.command.txt",
+      "sha256": "653f558ba1b0814f7124dc918782a8f8dd7fea8e1aafbea90bf04b5725f7731d"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/build-final.result.json",
+      "sha256": "376026064ee579c7e2bcc65eec38c5907b8a4759fa306afcfdbb6f2349e234d2"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/build-final.raw.log",
+      "sha256": "41aace0c7608e75f76c0549c5221e348cc97762a446f69a08e26bfbf25f8c97a"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/build-final.command.txt",
+      "sha256": "dae58de3ddfde95b066b259e24d83e50d15aedeafb58b0b20d7b26dd324ef0ef"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-after-noop.result.json",
+      "sha256": "cf8bf9ec201326890e29f96a852958ae87a75807f5a1142488090dcd70d3e3a2"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-after-noop.raw.log",
+      "sha256": "989bcbaf124b92584bd09fc3d39fce3675f52ddc29386ffd3caeefb0668100cc"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-after-noop.command.txt",
+      "sha256": "252f9b1b3a3d6ac7fdcf31ee095890950509499cad7e8a5cf14b196adc33c9fa"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-all.result.json",
+      "sha256": "513302a2d06ccb023ecd2232523c11eb8453b7fc61228f152a822fedc878a171"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-all.raw.log",
+      "sha256": "7c260e43114d23c26b5a565a1ff1a19b506dd39018355eae0b10ebe0a1a7abcc"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-all.command.txt",
+      "sha256": "252f9b1b3a3d6ac7fdcf31ee095890950509499cad7e8a5cf14b196adc33c9fa"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-coverage.result.json",
+      "sha256": "69b6597e23e309796a9a66863b386742d69a06ba8bed866798e84b95626235ba"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-coverage.raw.log",
+      "sha256": "79449aaac07f45e50edf0b856a9294e1f61d9cd1894041e0690334ec0f497ecf"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-coverage.command.txt",
+      "sha256": "252f9b1b3a3d6ac7fdcf31ee095890950509499cad7e8a5cf14b196adc33c9fa"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-final.result.json",
+      "sha256": "023ca07e5a1c77ccbeb1e0cf19167666e9c6297188212ae405b94970572d7bda"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-final.raw.log",
+      "sha256": "2c5e21df84184f655db6aec9bd89e090a9b923b940c11a229f5f7995558509a0"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-final.command.txt",
+      "sha256": "252f9b1b3a3d6ac7fdcf31ee095890950509499cad7e8a5cf14b196adc33c9fa"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-final2.result.json",
+      "sha256": "c9db0a3776769cb47dab60bf805e99cc136113cb8e51994501516d27096ebdb1"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-final2.raw.log",
+      "sha256": "185a1f6041dda08a5e66411c35eb164e6b5c541b2283559d2dd7da123a50de05"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-final2.command.txt",
+      "sha256": "252f9b1b3a3d6ac7fdcf31ee095890950509499cad7e8a5cf14b196adc33c9fa"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-final3.result.json",
+      "sha256": "101ad73664f16a021a3c836df11e9cbd37c0342ab1aef0af975663480cb18c97"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-final3.raw.log",
+      "sha256": "07c0e30a641c06c6be52766e62dfe98d04b089dc641d56de2ea2e313bd4dbacc"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-final3.command.txt",
+      "sha256": "252f9b1b3a3d6ac7fdcf31ee095890950509499cad7e8a5cf14b196adc33c9fa"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-full-rows.result.json",
+      "sha256": "0b6a31fafd8e9717ea5b68fee42eb9150caf397615752567956d09c10f0c4aae"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-full-rows.raw.log",
+      "sha256": "4edbffaf5bcf7ed0a70f12ee922fb230af1c1f94435d51b1197660cf5d75eb6c"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-full-rows.command.txt",
+      "sha256": "252f9b1b3a3d6ac7fdcf31ee095890950509499cad7e8a5cf14b196adc33c9fa"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-migration.result.json",
+      "sha256": "30a75d3d70bf922e6572135a6d5365c1b2be2eba392b9ed185621e94354eeb63"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-migration.raw.log",
+      "sha256": "f10a430378a527c7d2b11b16f40a58331d2a4de870d1a9f1fdfe80bb156e46fe"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-migration.command.txt",
+      "sha256": "252f9b1b3a3d6ac7fdcf31ee095890950509499cad7e8a5cf14b196adc33c9fa"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-retry.result.json",
+      "sha256": "eade339945dcb7c3bf36dc5be4bc26fc28536e7c785eb72ec4298c61cea8ffcd"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-retry.raw.log",
+      "sha256": "fe47cad994c086d9610c260925e0f6da798d34cbbbc21c1b74c90a814048d3c1"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-retry.command.txt",
+      "sha256": "252f9b1b3a3d6ac7fdcf31ee095890950509499cad7e8a5cf14b196adc33c9fa"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api.result.json",
+      "sha256": "b4034e17598e672e6cf1befa1ba2b637a1d627c6211ec58b06d047f22a38af02"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api.raw.log",
+      "sha256": "476d84f7b116f45ebbeb605d49f480d5f3030ab1e69f3868ca60bc5561d4facb"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api.command.txt",
+      "sha256": "252f9b1b3a3d6ac7fdcf31ee095890950509499cad7e8a5cf14b196adc33c9fa"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-async-final.result.json",
+      "sha256": "484c59d6e33f01137123715d05622e72023029027067f2dab5c2776d99b1527b"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-async-final.raw.log",
+      "sha256": "e4df72c945b906a712047afbb65bdf332dd04b65f5ec43263d11bbc847972c09"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-async-final.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-bounded-route.result.json",
+      "sha256": "6d959776007322f83ae166508bd400db23c82489bdf317ec99402bfb8422a132"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-bounded-route.raw.log",
+      "sha256": "419d661926d26c230b0587a47868ebb0de616821f5ae86a074b7e2f061d3babb"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-bounded-route.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-coverage-final.result.json",
+      "sha256": "33009bb2035e39876d60a0d0b4d0867013335cafd1645fbbb74cef2f1a0ea64f"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-coverage-final.raw.log",
+      "sha256": "8a3059770a8dffdeb23c68b6b82d58ad0836d86001fcb893f2e2edbd1cea50af"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-coverage-final.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-coverage-retry.result.json",
+      "sha256": "cadf39935249acd699cb631eb94dc1bb988674123bd2837d3c598b81f626143a"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-coverage-retry.raw.log",
+      "sha256": "c0c4e7cdfbead0ebcaa77a60b550dea2112ebcf2d0129246a06abcf97dbe08c7"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-coverage-retry.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-debug-current.result.json",
+      "sha256": "be114bcbe5a42116fb5adccc7a29f2b34634f236bb7348cf3ac52a388848e4b4"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-debug-current.raw.log",
+      "sha256": "ef004dc32e10d1c9359d8f048299815f65e58376be0d815441bed4c75c428a03"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-debug-current.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-debug2.result.json",
+      "sha256": "1c3fae2033143f6a484c51216382f17e9c7097ebb6318f599adc79fcca5a965c"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-debug2.raw.log",
+      "sha256": "32bb5fdf94a61f858f4cde7eee7cead5e7495ac8c3b68b47b2ad525c94e2b4f6"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-debug2.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-diagnose.result.json",
+      "sha256": "636ab364cce6639d98f7cca0449b734c34358253a8aa6675fad33b5d46d1f070"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-diagnose.raw.log",
+      "sha256": "ff92de0460626b1f334febcce7c468f4a2ce92881f1e562f57b10dce92a492e4"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-diagnose.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-feedback.result.json",
+      "sha256": "eedf88971b6495ef0c70e9c7627d3123ba8fd779030aaed083ec0a6fe06108eb"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-feedback.raw.log",
+      "sha256": "6d83d8e9c8c03371047b780884fb0ea83f1bffbde0a4d639eeede564f3e8f664"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-feedback.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-final.result.json",
+      "sha256": "f1248f708365b98eb20a6639861b913eca7d480197db007c2daa68193721017c"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-final.raw.log",
+      "sha256": "16441c040e00792878b2343828b528bedf300b67f0dc27f0e66bb0504a35a7e0"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-final.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-final2.result.json",
+      "sha256": "31ff33f7ec3e682ace430bd50e6a2f1146ce72fe07377a2faa47c7ffcac44983"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-final2.raw.log",
+      "sha256": "9f2de54c1cc5d076fd318183546c785339710808695420f9a8833c5237f22b51"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-final2.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-fresh-build.result.json",
+      "sha256": "3a86da16b66676b00c08b0aef2eb5769511d40ffbcf767b3d52eb7272d7ff440"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-fresh-build.raw.log",
+      "sha256": "e0dc7aaf81bb6928285feea1b6785fc7c1d077bf611a4567d6000309aa9cca9a"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-fresh-build.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-fullcoverage.result.json",
+      "sha256": "fe5d966c63e3753ddf89889fed4afd689f57a2b643d895ef5ff9404de0a347b9"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-fullcoverage.raw.log",
+      "sha256": "825bc091b4e7603ff84e205d0ed641d6a6d4b1f140e1274ec2c89bde6a292579"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-fullcoverage.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation-retry.result.json",
+      "sha256": "bcb422dcae90e63aa963510cf181414738c9afe21f768fc69a1a41306b43b229"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation-retry.raw.log",
+      "sha256": "d69e0fb78ac7ff4067a36bb707d0d12ec8cd02c44de2c0676ec6d99aa35486e3"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation-retry.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation.result.json",
+      "sha256": "f619bbb8175b3786dc292f0ac73e68d73c21f4c05d40f8e850aa424ee6c0768e"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation.raw.log",
+      "sha256": "0bda538340cd7afdf10e840edabc0bfdf6762837001f6174c1c2ed0be1e0f834"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-retry.result.json",
+      "sha256": "97477763b18c1f4357dda9bf6c3ba78f5da71075b3810a3447619822d23d0690"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-retry.raw.log",
+      "sha256": "190d6350c90d68f7f33d60d27047f2effea89f30924c2df3327b8efb130d3671"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-retry.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-rolefix.result.json",
+      "sha256": "5c3e0aab41cca99a8ef0c1b9bf6c9c4e0b96175af924cdadde21d13abac8a5b9"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-rolefix.raw.log",
+      "sha256": "eb946e0dd77287547209a844429921d168a0215ca958d0abbbcc3d80b04a2cd8"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-rolefix.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-selectfix.result.json",
+      "sha256": "4ad1f1393be8aaffb340799f55fefaa6dc21b9de08461b309116c492da10134d"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-selectfix.raw.log",
+      "sha256": "a86d79359e85593fcd745bfe53c15621d0e5211c08ed6af86648cc06a0f236b0"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-selectfix.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-selectorfix.result.json",
+      "sha256": "bd4ea6b1e24ef7f1087222aca7be3cb32363eaa364caab98287f2965d365bf79"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-selectorfix.raw.log",
+      "sha256": "4cb93c5cdb386b4c405e0f93f12b50ec8ba16e5c3a501533c5643721999ea599"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-selectorfix.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser.result.json",
+      "sha256": "1fad47917fe49bd6765cd1bf373b1163f3b851f1ca1129a09553078f7154c96a"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser.raw.log",
+      "sha256": "3770bea77324e7f162ec4df3f61baffa3c71899a55495072c1b0073f643ecc68"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser.command.txt",
+      "sha256": "cbb4e4de9f50f2fdffac2523f5c686357aad128324189b7cf2d440bf04c4b261"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final-retry.result.json",
+      "sha256": "35988ec69ed4439b69b60a1bb3808f79ec4ea57429b185448a37b7b38dff26db"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final-retry.raw.log",
+      "sha256": "0e41cbefde6bb527f4ccd120c1388dff095a305552433f9018e0471bf07e3a15"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final-retry.command.txt",
+      "sha256": "1a6b22751e6ea60a82089c5cf6f44efe38eb14c93dd7825ca05d5b33cbdf2be7"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final.result.json",
+      "sha256": "212d75e660d7e0b32f1667e804b72e54c17f615c53570ae2fb2965da0eacaac7"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final.raw.log",
+      "sha256": "c3e39b9804647a10ff45f296762a617d2d94eb1180be59045c09d43ca2b3a63f"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final.command.txt",
+      "sha256": "1a6b22751e6ea60a82089c5cf6f44efe38eb14c93dd7825ca05d5b33cbdf2be7"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-final-two-cpu.result.json",
+      "sha256": "299833de6d035c4194d36937456c4db6a3b774d7a03eb4021b6a778304b1434e"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-final-two-cpu.raw.log",
+      "sha256": "1bb27eaf01b6e2242033bc32a07b76b6be805fe22c428c2630d3c265c7c638e5"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-final-two-cpu.command.txt",
+      "sha256": "dc3174b1cb0489990de2ec57555251997fc265de50e7a3917958f777dfaa406d"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.result.json",
+      "sha256": "a7d36e5a6fe9b2f7a70bb72ed8d99349f84ef55e7da878c7fbe1e87da8963316"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "sha256": "d0b89d66e7ff893f57db823803616086eb383c370f9c64e489e99db8fe201f6b"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.command.txt",
+      "sha256": "dc3174b1cb0489990de2ec57555251997fc265de50e7a3917958f777dfaa406d"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-product-final.result.json",
+      "sha256": "2dae772a8d46906e075469f6d6a44c0593d1e3d797d747f4ba1cf93276101fe0"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-product-final.raw.log",
+      "sha256": "8b7b7f1ad262e82928f79160520e8b1903e1176e8b692987ce22efcaf7ca2bf4"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-product-final.command.txt",
+      "sha256": "47d843a89a519b6df196f4e50cdb6b1893f8d5497d94b4cf96ecb82a71127c5d"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-async-final.result.json",
+      "sha256": "49b9f6a2ddc71c9b7259c2379dfe42c4ecb6c200edc79afd78500a91e1c3df40"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-async-final.raw.log",
+      "sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-async-final.command.txt",
+      "sha256": "235b884e5cd34a277f8dc0ff5a340e19a1318ed1b93f646fd95a1f20691fcb1a"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-coverage-retry.result.json",
+      "sha256": "daa33ddf71a0453a7784b9cb6550ecf4ae1cd21ae14a681a23884c6c58e46bae"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-coverage-retry.raw.log",
+      "sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-coverage-retry.command.txt",
+      "sha256": "235b884e5cd34a277f8dc0ff5a340e19a1318ed1b93f646fd95a1f20691fcb1a"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-current.result.json",
+      "sha256": "8fe9e6ec0ce095818ce6aa9df2bec84c2db5d3e36511289d57948213634cf657"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-current.raw.log",
+      "sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-current.command.txt",
+      "sha256": "235b884e5cd34a277f8dc0ff5a340e19a1318ed1b93f646fd95a1f20691fcb1a"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-debug.result.json",
+      "sha256": "ad9f24039f178260a805ac777855d43f7a3766ee2ea030e4cc15ca841e94ffb5"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-debug.raw.log",
+      "sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-debug.command.txt",
+      "sha256": "235b884e5cd34a277f8dc0ff5a340e19a1318ed1b93f646fd95a1f20691fcb1a"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-fullcoverage.result.json",
+      "sha256": "798fc4eabd0085a309bb7c31e2e21aaf4205b64951bd78cbf6b0d1cf6b71890e"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-fullcoverage.raw.log",
+      "sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-fullcoverage.command.txt",
+      "sha256": "235b884e5cd34a277f8dc0ff5a340e19a1318ed1b93f646fd95a1f20691fcb1a"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-project-isolation.result.json",
+      "sha256": "2ab8fe3ba74252065d234281ce3e749995ec118b7362d5be3a03c943530ce46b"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-project-isolation.raw.log",
+      "sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-project-isolation.command.txt",
+      "sha256": "235b884e5cd34a277f8dc0ff5a340e19a1318ed1b93f646fd95a1f20691fcb1a"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-selectorfix.result.json",
+      "sha256": "8acbf2a620b41314119435d99bccb8735fde72577e0f2f7d7baeaa4bd1d09d45"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-selectorfix.raw.log",
+      "sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/rebuild-browser-selectorfix.command.txt",
+      "sha256": "235b884e5cd34a277f8dc0ff5a340e19a1318ed1b93f646fd95a1f20691fcb1a"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/regression-fixture-adaptations.result.json",
+      "sha256": "27cfb436e7c248314d9abece5db5c80cbb56fc3818448382fda9d77bfe4960ea"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/regression-fixture-adaptations.raw.log",
+      "sha256": "ea886f9f93192151510e5dac4fbb1271689892d48441902f06865ef9064e8adb"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/regression-fixture-adaptations.command.txt",
+      "sha256": "0eaac71721cb9087ddd515878b79f1c24f03d0a3b71d0b5fec845dbea46beecc"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/regression-fixture-retry.result.json",
+      "sha256": "bb20d0ef11a38c79e07e241b386e4efa63f24a8eb13b1cd15f6a8d63db061fa1"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/regression-fixture-retry.raw.log",
+      "sha256": "c6eb1e0bfddaacb4a960dbb07d3efe6d12a3f6537bdea864768a0e70e443e72e"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/regression-fixture-retry.command.txt",
+      "sha256": "0eaac71721cb9087ddd515878b79f1c24f03d0a3b71d0b5fec845dbea46beecc"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/completion-record.json",
+      "sha256": "72a424c11738e2792fb01350a1d34638495243fba70ecfcb40a50a69b15ada9d"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/completion-record-correction.json",
+      "sha256": "978981ec0362e3c655795a69b2059c1d07cec4241750f1cdc527bae232e12484"
+    }
+  ],
+  "final_counts": {
+    "full-check-final-two-cpu": 149,
+    "full-product-final": 28,
+    "full-browser-final-retry": 17,
+    "focused-api-after-noop": 3
+  },
+  "failed_attempts_preserved": [
+    {
+      "path": "evidence/product/product-t19-root-20261009T123628Z/03-registration-quality.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-all.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-coverage.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-full-rows.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-migration.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-retry.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-coverage-retry.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-debug-current.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-debug2.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-diagnose.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-feedback.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-final.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-final2.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-fresh-build.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-fullcoverage.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation-retry.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-retry.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-rolefix.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-selectfix.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-selectorfix.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.result.json",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/regression-fixture-adaptations.result.json",
+      "exit_code": 1
+    }
+  ],
+  "scope_limits": "Partial GIT-016 local protected repository/folder generations; no historical plan backfill, runtime target verification, execution, Oracle, full catalog acceptance or database-operator tamper-proofing. Schema initializes current project epoch only; legacy plan NULL generation requires recreation for approval. API restart and PostgreSQL connection-pool reopen verify persisted metadata; no daemon/container restart claimed.",
+  "candid_limitations": [
+    "All failed capture attempts remain immutable: initial fixture/race-observer/migration snapshot errors, stale browser bundles, selector scope error, deferred-route cleanup errors, unrefreshed/project-tab fixture locator errors, and earlier full standard/browser runs requiring synthetic fixture or current-copy adaptations. Final full runs passed without parser/timeout relaxations.",
+    "Standard/product source and test files were frozen before their final passing runs; subsequent browser-only synthetic fixture/copy-assertion adaptations were checked by focused and full browser reruns.",
+    "Native original field nested_assertions_reported149 names the TAP test count inaccurately; its append-only correction preserves original bytes and states149tests, not asserted count.",
+    "Current source configuration initializes a new server-owned epoch for existing projects only; old pending plan generations remain NULL. No inferred history, plan backfill or current-generation reconstruction for historical plans.",
+    "Exact-head independent QA/security, complete publication/history classification, remoteCI and ordinary eligible merge remain pending. Sonar unavailable neverPASS; Oracle VALIDATION remains separatelyBLOCKED."
+  ],
+  "independent_review_and_ci": "Required on exact committed head before publication/merge; not yet approved",
+  "sonar": {
+    "status": "UNAVAILABLE_OWNER_QUOTA_EXCEPTION",
+    "scan_passed": false
+  },
+  "hygiene": "No separate Hygiene branch/PR visible; original shared checkout, public history and scanner configuration untouched."
+}

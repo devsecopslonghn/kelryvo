@@ -1,0 +1,9 @@
+{
+  "label": "focused-browser-final2",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs",
+  "started_at_utc": "2026-10-09T12:55:52.437729Z",
+  "completed_at_utc": "2026-10-09T12:56:27.324051Z",
+  "exit_code": 1,
+  "raw_sha256": "9f2de54c1cc5d076fd318183546c785339710808695420f9a8833c5237f22b51",
+  "raw_bytes": 1040
+}

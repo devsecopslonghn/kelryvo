@@ -1,0 +1,9 @@
+{
+  "label": "focused-browser-async-final",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs",
+  "started_at_utc": "2026-10-09T13:23:20.754505Z",
+  "completed_at_utc": "2026-10-09T13:23:29.647534Z",
+  "exit_code": 0,
+  "raw_sha256": "e4df72c945b906a712047afbb65bdf332dd04b65f5ec43263d11bbc847972c09",
+  "raw_bytes": 404
+}

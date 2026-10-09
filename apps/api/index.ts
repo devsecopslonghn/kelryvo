@@ -6,6 +6,10 @@ import { verifyRetainedRelease } from "../../packages/migrations/verify-retained
 import { encodeOfflinePlanIntent, verifyOfflinePlanIntent } from "../../packages/migrations/offline-plan-intent.mjs";
 
 const ORG = "00000000-0000-4000-8000-000000000001";
+const MAX_BINDING_GENERATION = "9223372036854775807";
+const canonicalBindingGeneration = (value: unknown) => typeof value === "string"
+  && /^[1-9][0-9]{0,18}$/.test(value)
+  && (value.length < MAX_BINDING_GENERATION.length || value <= MAX_BINDING_GENERATION);
 const fail = (reply: any, status: number, error: string) =>
   reply.code(status).send({ error });
 const uuid = (value: unknown) =>
@@ -107,7 +111,7 @@ export function createApp(options: {
   };
   const project = async (id: string) =>
     (
-      await sql`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at FROM sf_projects WHERE id=${id} AND organization_id=${ORG}`
+      await sql`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at,source_binding_generation::text AS source_binding_generation FROM sf_projects WHERE id=${id} AND organization_id=${ORG}`
     )[0];
   const mappedProject = (p: any) => ({
     id: p.id,
@@ -116,7 +120,7 @@ export function createApp(options: {
     archivedAt: p.archived_at,
     createdAt: p.created_at,
     sourceBinding: p.source_repository_id && p.source_folder && p.source_updated_at
-      ? { repositoryId: p.source_repository_id, folder: p.source_folder, updatedAt: p.source_updated_at }
+      ? { repositoryId: p.source_repository_id, folder: p.source_folder, updatedAt: p.source_updated_at, generation: p.source_binding_generation }
       : null,
   });
   const mappedSimple = (r: any) => ({
@@ -172,7 +176,7 @@ export function createApp(options: {
   });
   app.get("/api/projects", { preHandler: authenticate }, async () => ({
     projects: (
-      await sql`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at FROM sf_projects WHERE organization_id=${ORG} ORDER BY created_at,id`
+      await sql`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at,source_binding_generation::text AS source_binding_generation FROM sf_projects WHERE organization_id=${ORG} ORDER BY created_at,id`
     ).map(mappedProject),
   }));
   app.post(
@@ -188,7 +192,7 @@ export function createApp(options: {
         return fail(reply, 400, "INVALID_REQUEST");
       const p = await sql.begin(async (tx: any) => {
         const created = (
-          await tx`INSERT INTO sf_projects(organization_id,name,description) VALUES(${ORG},${b.name.trim()},${b.description ?? null}) RETURNING id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at`
+          await tx`INSERT INTO sf_projects(organization_id,name,description) VALUES(${ORG},${b.name.trim()},${b.description ?? null}) RETURNING id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at,source_binding_generation::text AS source_binding_generation`
         )[0];
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${created.id},${ORG},${req.actor.id},'PROJECT_CREATED',${created.id})`;
         return created;
@@ -212,7 +216,8 @@ export function createApp(options: {
             CASE WHEN jsonb_typeof(items) = 'array' THEN CASE WHEN jsonb_array_length(items) BETWEEN 1 AND ${MAX_RELEASE_FILES}
               AND octet_length(items::text) <= ${MAX_STDOUT_BYTES} THEN items END END AS items, execution,history_status,planning_scope,
             CASE WHEN octet_length(offline_intent_envelope) <= ${MAX_STDOUT_BYTES} THEN offline_intent_envelope ELSE NULL END AS offline_intent_envelope,
-            CASE WHEN char_length(offline_intent_digest) = 64 THEN offline_intent_digest ELSE NULL END AS offline_intent_digest
+            CASE WHEN char_length(offline_intent_digest) = 64 THEN offline_intent_digest ELSE NULL END AS offline_intent_digest,
+            source_binding_generation::text AS source_binding_generation
             FROM sf_plans WHERE project_id=${p.id} ORDER BY created_at DESC`,
           sql`SELECT id,actor_id,action,resource_id,facts,created_at FROM sf_audit WHERE project_id=${p.id} ORDER BY created_at DESC LIMIT 100`,
           sql`SELECT id,plan_id,version,path,sha256,status,created_at FROM sf_history WHERE project_id=${p.id} ORDER BY created_at DESC`,
@@ -291,14 +296,21 @@ export function createApp(options: {
     if (req.actor.role !== 'developer') return fail(reply, 403, 'DEVELOPER_REQUIRED');
 
     const result = await sql.begin(async (tx: any) => {
-      const current = (await tx`SELECT * FROM sf_projects WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`)[0];
+      const current = (await tx`SELECT id,archived_at,
+        CASE WHEN char_length(source_repository_id) BETWEEN 1 AND 200 THEN source_repository_id END AS source_repository_id,
+        CASE WHEN char_length(source_folder) BETWEEN 1 AND 200 THEN source_folder END AS source_folder,
+        source_binding_generation::text AS current_generation FROM sf_projects WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`)[0];
       if (!current) return { error: 'NOT_FOUND' };
       if (current.archived_at) return { error: 'PROJECT_ARCHIVED' };
       const repository = repositories.find((candidate) => candidate.id === b.repositoryId);
       if (!repository) return { error: 'INVALID_REFERENCE' };
-
-      const updated = (await tx`UPDATE sf_projects SET source_repository_id=${repository.id},source_folder=${b.folder},source_updated_at=now()
-        WHERE id=${current.id} RETURNING id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at`)[0];
+      if (!canonicalBindingGeneration(current.current_generation)) return { error: 'SOURCE_BINDING_GENERATION_INVALID' };
+      const changed = current.source_repository_id !== repository.id || current.source_folder !== b.folder;
+      if (changed && current.current_generation === MAX_BINDING_GENERATION) return { error: 'SOURCE_BINDING_GENERATION_EXHAUSTED' };
+      const updated = changed
+        ? (await tx`UPDATE sf_projects SET source_repository_id=${repository.id},source_folder=${b.folder},source_updated_at=now(),source_binding_generation=source_binding_generation+1
+            WHERE id=${current.id} RETURNING id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at,source_binding_generation::text AS source_binding_generation`)[0]
+        : (await tx`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at,source_binding_generation::text AS source_binding_generation FROM sf_projects WHERE id=${current.id}`)[0];
       await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
         VALUES(${current.id},${ORG},${req.actor.id},'SOURCE_BINDING_UPDATED',${current.id},${tx.json({ repositoryId: repository.id, folder: b.folder })})`;
       return { project: updated };
@@ -306,6 +318,8 @@ export function createApp(options: {
     if (result.error === 'NOT_FOUND') return fail(reply, 404, 'NOT_FOUND');
     if (result.error === 'PROJECT_ARCHIVED') return fail(reply, 409, 'PROJECT_ARCHIVED');
     if (result.error === 'INVALID_REFERENCE') return fail(reply, 400, 'INVALID_REFERENCE');
+    if (result.error === 'SOURCE_BINDING_GENERATION_INVALID') return fail(reply, 409, 'SOURCE_BINDING_GENERATION_INVALID');
+    if (result.error === 'SOURCE_BINDING_GENERATION_EXHAUSTED') return fail(reply, 409, 'SOURCE_BINDING_GENERATION_EXHAUSTED');
     return { project: mappedProject(result.project) };
   });
   app.post(
@@ -498,9 +512,13 @@ export function createApp(options: {
       const { verifyRetainedRelease } = await import("../../packages/migrations/verify-retained-release.mjs");
       const outcome = await sql.begin(async (tx: any) => {
         // Keep the lock order consistent: project first, then the scoped release.
-        const p = (await tx`SELECT id,archived_at FROM sf_projects WHERE id=${req.params.id}
+        const p = (await tx`SELECT id,archived_at,
+          CASE WHEN char_length(source_repository_id) BETWEEN 1 AND 200 THEN source_repository_id END AS source_repository_id,
+          CASE WHEN char_length(source_folder) BETWEEN 1 AND 200 THEN source_folder END AS source_folder,
+          source_binding_generation::text AS source_binding_generation FROM sf_projects WHERE id=${req.params.id}
           AND organization_id=${ORG} FOR SHARE`)[0];
         if (!p) return { error: "NOT_FOUND" };
+        if (p.archived_at) return { error: "PROJECT_ARCHIVED" };
         // Inspect only scalar bounds while holding the scoped release lock. A damaged
         // JSONB payload must not be copied into Node before its shape and size pass.
         const releaseBounds = (await tx`SELECT id,validation_status,jsonb_typeof(files) AS files_type,
@@ -508,7 +526,8 @@ export function createApp(options: {
           octet_length(files::text) AS files_bytes, (object_format IN ('sha1','sha256')) AS format_valid,
           (object_format = 'sha1') AS format_sha1, char_length(commit_id) AS commit_chars,
           char_length(folder) AS folder_chars, char_length(parser_profile) AS parser_profile_chars,
-          char_length(manifest_digest) AS manifest_chars FROM sf_releases WHERE id=${b.releaseId}
+          char_length(manifest_digest) AS manifest_chars,
+          (repository_id=${p.source_repository_id} AND folder=${p.source_folder}) AS source_matches FROM sf_releases WHERE id=${b.releaseId}
           AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
         const profile = (await tx`SELECT id,project_id,organization_id,environment_id,
           CASE WHEN char_length(name) BETWEEN 1 AND 200 THEN name END AS name,
@@ -523,6 +542,10 @@ export function createApp(options: {
           CASE WHEN char_length(name) BETWEEN 1 AND 200 THEN name END AS name FROM sf_environments WHERE id=${profile.environment_id}
           AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
         if (!releaseBounds || !profile) return { error: "INVALID_REFERENCE" };
+        if (!p.source_repository_id || !validMigrationFolder(p.source_folder)
+            || !canonicalBindingGeneration(p.source_binding_generation)) return { error: "SOURCE_BINDING_INVALID" };
+        if (!releaseBounds.source_matches)
+          return { error: "SOURCE_BINDING_MISMATCH" };
         if (releaseBounds.validation_status !== "VALID") return { error: "RELEASE_NOT_VALID" };
         const maxRetainedJsonBytes = 6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024;
         if (releaseBounds.files_type !== "array" || !Number.isInteger(releaseBounds.file_count)
@@ -547,8 +570,8 @@ export function createApp(options: {
           items: items.map(({ path, version, sha256 }) => ({ path, version, sha256 })) });
         if (!offlineIntent) return { error: "INVALID_REFERENCE" };
         if (p.archived_at) return { error: "PROJECT_ARCHIVED" };
-        const rows = await tx`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items,offline_intent_envelope,offline_intent_digest)
-          VALUES(${p.id},${ORG},${r.id},${profile.id},${req.actor.id},${tx.json(items)},${offlineIntent.envelope},${offlineIntent.digest}) RETURNING *`;
+        const rows = await tx`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items,offline_intent_envelope,offline_intent_digest,source_binding_generation)
+          VALUES(${p.id},${ORG},${r.id},${profile.id},${req.actor.id},${tx.json(items)},${offlineIntent.envelope},${offlineIntent.digest},${p.source_binding_generation}::bigint) RETURNING *,source_binding_generation::text AS source_binding_generation`;
         const plan = rows[0];
         await tx`INSERT INTO sf_history ${tx(items.map((item) => ({
           project_id: p.id,
@@ -567,6 +590,8 @@ export function createApp(options: {
       if (outcome.error === "RELEASE_NOT_VALID") return fail(reply, 409, "RELEASE_NOT_VALID");
       if (outcome.error === "RELEASE_INTEGRITY_FAILED") return fail(reply, 409, "RELEASE_INTEGRITY_FAILED");
       if (outcome.error === "RELEASE_NOT_PLANNABLE") return fail(reply, 409, "RELEASE_NOT_PLANNABLE");
+      if (outcome.error === "SOURCE_BINDING_INVALID") return fail(reply, 409, "SOURCE_BINDING_INVALID");
+      if (outcome.error === "SOURCE_BINDING_MISMATCH") return fail(reply, 409, "SOURCE_BINDING_MISMATCH");
       return reply.code(201).send({ plan: mapPlan(outcome.plan) });
     },
   );
@@ -615,11 +640,18 @@ export function createApp(options: {
         const p = (
           await tx`SELECT id,project_id,organization_id,release_id,profile_id,author_id,status,
             CASE WHEN octet_length(offline_intent_envelope) <= ${MAX_STDOUT_BYTES} THEN offline_intent_envelope ELSE NULL END AS offline_intent_envelope,
-            CASE WHEN char_length(offline_intent_digest) = 64 THEN offline_intent_digest ELSE NULL END AS offline_intent_digest FROM sf_plans
+            CASE WHEN char_length(offline_intent_digest) = 64 THEN offline_intent_digest ELSE NULL END AS offline_intent_digest,
+            source_binding_generation::text AS source_binding_generation FROM sf_plans
             WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`
         )[0];
         if (!p) return null;
-        await requireActiveProject(tx, p.project_id);
+        const currentProject = (await tx`SELECT archived_at,
+          CASE WHEN char_length(source_repository_id) BETWEEN 1 AND 200 THEN source_repository_id END AS source_repository_id,
+          CASE WHEN char_length(source_folder) BETWEEN 1 AND 200 THEN source_folder END AS source_folder,
+          source_binding_generation::text AS source_binding_generation
+          FROM sf_projects WHERE id=${p.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
+        if (!currentProject || currentProject.archived_at)
+          throw Object.assign(new Error('PROJECT_ARCHIVED'), { productCode: 'PROJECT_ARCHIVED' });
         let denialReason: string | undefined;
         if (req.actor.role !== 'approver') denialReason = 'APPROVER_REQUIRED';
         else if (p.status !== 'PENDING_APPROVAL') denialReason = 'DECISION_ALREADY_RECORDED';
@@ -630,13 +662,18 @@ export function createApp(options: {
           return denialReason;
         }
         if (b.decision === "APPROVE") {
+          if (!currentProject || !currentProject.source_repository_id || !validMigrationFolder(currentProject.source_folder)
+              || !canonicalBindingGeneration(currentProject.source_binding_generation)
+              || !canonicalBindingGeneration(p.source_binding_generation)
+              || p.source_binding_generation !== currentProject.source_binding_generation) return "FRESH_PLAN_REQUIRED";
           // Keep the established plan -> project -> release lock order. Check JSONB
           // shape and size in PostgreSQL before materializing potentially damaged items.
           const releaseBounds = (await tx`SELECT id,validation_status,jsonb_typeof(files) AS files_type,
               CASE WHEN jsonb_typeof(files) = 'array' THEN jsonb_array_length(files) ELSE NULL END AS file_count,
               octet_length(files::text) AS files_bytes, (object_format IN ('sha1','sha256')) AS format_valid, (object_format = 'sha1') AS format_sha1,
               char_length(commit_id) AS commit_chars, char_length(folder) AS folder_chars,
-              char_length(parser_profile) AS parser_profile_chars, char_length(manifest_digest) AS manifest_chars
+              char_length(parser_profile) AS parser_profile_chars, char_length(manifest_digest) AS manifest_chars,
+              (repository_id=${currentProject?.source_repository_id ?? ''} AND folder=${currentProject?.source_folder ?? ''}) AS source_matches
             FROM sf_releases WHERE id=${p.release_id}
               AND project_id=${p.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
           const maxRetainedJsonBytes = 6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024;
@@ -653,6 +690,8 @@ export function createApp(options: {
           // the verifier inputs after the bounds pass, never repository/audit metadata.
           const release = (await tx`SELECT commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files
             FROM sf_releases WHERE id=${releaseBounds.id} AND project_id=${p.project_id} AND organization_id=${ORG}`)[0];
+          if (!releaseBounds.source_matches)
+            return "FRESH_PLAN_REQUIRED";
           if (!release || !verifyRetainedRelease(release)) return "PLAN_APPROVAL_INTEGRITY_FAILED";
           const itemBounds = (await tx`SELECT jsonb_typeof(items) AS item_type,
               CASE WHEN jsonb_typeof(items) = 'array' THEN jsonb_array_length(items) ELSE NULL END AS item_count,
@@ -692,7 +731,7 @@ export function createApp(options: {
           WHERE id=${p.id} RETURNING id,organization_id,project_id,release_id,profile_id,author_id,status,decision,decision_reason,decided_by,decided_by_name,created_at,decided_at,
           CASE WHEN jsonb_typeof(items) = 'array' THEN CASE WHEN jsonb_array_length(items) BETWEEN 1 AND ${MAX_RELEASE_FILES}
             AND octet_length(items::text) <= ${MAX_STDOUT_BYTES} THEN items END END AS items,
-          execution,history_status,planning_scope,
+          execution,history_status,planning_scope,source_binding_generation::text AS source_binding_generation,
           CASE WHEN octet_length(offline_intent_envelope) <= ${MAX_STDOUT_BYTES} THEN offline_intent_envelope END AS offline_intent_envelope,
           CASE WHEN char_length(offline_intent_digest) = 64 THEN offline_intent_digest END AS offline_intent_digest`;
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${p.project_id},${ORG},${req.actor.id},${b.decision === "APPROVE" ? "PLAN_APPROVED" : "PLAN_REJECTED"},${p.id},${tx.json({ reason: b.reason })})`;
@@ -703,6 +742,7 @@ export function createApp(options: {
       if (result === 'SELF_APPROVAL_DENIED') return fail(reply, 403, 'SELF_APPROVAL_DENIED');
       if (result === 'DECISION_ALREADY_RECORDED') return fail(reply, 409, 'DECISION_ALREADY_RECORDED');
       if (result === 'PLAN_APPROVAL_INTEGRITY_FAILED') return fail(reply, 409, 'PLAN_APPROVAL_INTEGRITY_FAILED');
+      if (result === 'FRESH_PLAN_REQUIRED') return fail(reply, 409, 'FRESH_PLAN_REQUIRED');
       return { plan: mapPlan(result) };
     },
   );
@@ -776,6 +816,7 @@ function mapPlan(r: any) {
     id: r.id,
     releaseId: r.release_id,
     profileId: r.profile_id,
+    sourceBindingGeneration: r.source_binding_generation ?? null,
     authorId: r.author_id,
     status: r.status,
     decision: r.decision,

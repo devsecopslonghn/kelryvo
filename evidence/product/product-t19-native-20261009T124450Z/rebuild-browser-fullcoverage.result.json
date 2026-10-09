@@ -1,0 +1,9 @@
+{
+  "label": "rebuild-browser-fullcoverage",
+  "command": "npm run build:web",
+  "started_at_utc": "2026-10-09T13:12:31.661201Z",
+  "completed_at_utc": "2026-10-09T13:12:31.934882Z",
+  "exit_code": 0,
+  "raw_sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4",
+  "raw_bytes": 114
+}

@@ -1,0 +1,5 @@
+{
+  "command": "gh pr list --repo devsecopslonghn/schemaForge --state open --json number,title,headRefName,headRefOid,baseRefName,url,isDraft",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:11:36.445859+00:00"
+}

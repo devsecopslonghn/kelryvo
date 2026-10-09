@@ -1,0 +1,9 @@
+{
+  "label": "browser-fixture-adaptations",
+  "command": "node --test --test-concurrency=1 tests/product-audit-action-filters-browser.integration.mjs tests/product-decision-record-browser.integration.mjs tests/product-plan-resubmission-browser.integration.mjs tests/product-status-filters-browser.integration.mjs",
+  "started_at_utc": "2026-10-09T13:31:15.080510Z",
+  "completed_at_utc": "2026-10-09T13:31:40.463500Z",
+  "exit_code": 0,
+  "raw_sha256": "12070aae152f1748843be45c9e33b4d2bbfc013488c91b76d391ad63f67e843b",
+  "raw_bytes": 1113
+}

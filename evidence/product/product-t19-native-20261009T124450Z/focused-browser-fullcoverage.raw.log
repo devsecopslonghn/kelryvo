@@ -1,0 +1,27 @@
+TAP version 13
+# Subtest: review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+not ok 1 - review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+  ---
+  duration_ms: 34675.550656
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-protected-source-binding-browser.integration.mjs:14:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.click: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.project-row').filter({ hasText: 'T19 separate 9280bae1-2441-4e19-bb58-dfba2743c700' })[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-protected-source-binding-browser.integration.mjs:157:79)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 35693.183518

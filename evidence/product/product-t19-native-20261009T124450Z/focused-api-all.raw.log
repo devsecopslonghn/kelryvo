@@ -1,0 +1,244 @@
+TAP version 13
+# Subtest: source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+ok 1 - source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+  ---
+  duration_ms: 18765.766627
+  type: 'test'
+  ...
+# Subtest: binding updates serialize with approval and plan creation under project locks
+ok 2 - binding updates serialize with approval and plan creation under project locks
+  ---
+  duration_ms: 5379.730284
+  type: 'test'
+  ...
+# Subtest: legacy project schema initializes only current tracking and never backfills historical plans
+not ok 3 - legacy project schema initializes only current tracking and never backfills historical plans
+  ---
+  duration_ms: 2864.725839
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-protected-source-binding.test.mjs:305:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    ... Skipped lines
+    
+      {
+        audit: [
+          {
+            action: 'PLAN_CREATED',
+            actor_id: 't19-schema-upgrade-developer-6850a18d-2afd-482c-ae56-73ed924c8582',
+    ...
+            release_id: '2b0e653f-63d4-4535-8717-2e642b215c48',
+    +       source_binding_generation: null,
+            status: 'PENDING_APPROVAL'
+          }
+        ],
+        release: [
+          {
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    plan:
+      0:
+        id: '4b63d861-f68c-458c-8eed-2fa840d0a7d4'
+        project_id: 'ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec'
+        organization_id: '00000000-0000-4000-8000-000000000001'
+        release_id: '2b0e653f-63d4-4535-8717-2e642b215c48'
+        profile_id: '8988e8ec-fee7-4810-ad10-1adeba89c8e2'
+        author_id: 't19-schema-upgrade-developer-6850a18d-2afd-482c-ae56-73ed924c8582'
+        status: 'PENDING_APPROVAL'
+        decision: ~
+        decision_reason: ~
+        decided_by: ~
+        created_at: 2026-10-09T12:53:30.638Z
+        decided_at: ~
+        items:
+          0:
+            path: 'migrations/V001__create_widget.sql'
+            sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+            status: 'NOT_EXECUTED'
+            version: '1'
+        execution: 'NOT_EXECUTED'
+        history_status: 'NOT_OBSERVED'
+        planning_scope: 'OFFLINE_CANDIDATE'
+        offline_intent_envelope: '[1,"00000000-0000-4000-8000-000000000001","ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec","t19-schema-upgrade-developer-6850a18d-2afd-482c-ae56-73ed924c8582","2b0e653f-63d4-4535-8717-2e642b215c48","d0a2186c1854816841166f3d3fc1eaeae52c050c","sha1","migrations","antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2","65aeb5399a0b5b9f7a0c4f109badeaf4e1e941f0aa16f37637adf0cc854f9d2d","8988e8ec-fee7-4810-ad10-1adeba89c8e2","Offline target","cdaca5fd-d406-4221-98f6-d50086cfad67","Local","oracle","localhost",1521,"DEV","APP","vault://local/app",[["migrations/V001__create_widget.sql","1","b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901"]]]'
+        offline_intent_digest: '67c2e69cac94c34ecc1d571079dd92ff04b094a2e808d9604ee104db963f6e0c'
+        decided_by_name: ~
+    release:
+      0:
+        id: '2b0e653f-63d4-4535-8717-2e642b215c48'
+        project_id: 'ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec'
+        organization_id: '00000000-0000-4000-8000-000000000001'
+        repository_id: 't19-schema-upgrade-repo'
+        commit_id: 'd0a2186c1854816841166f3d3fc1eaeae52c050c'
+        object_format: 'sha1'
+        folder: 'migrations'
+        manifest_digest: '65aeb5399a0b5b9f7a0c4f109badeaf4e1e941f0aa16f37637adf0cc854f9d2d'
+        validation_status: 'VALID'
+        validation_code: 'PARSED_OFFLINE'
+        parser_profile: 'antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2'
+        files:
+          0:
+            path: 'migrations/V001__create_widget.sql'
+            bytes: 45
+            sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+            content: |-
+              CREATE TABLE widget (id NUMBER PRIMARY KEY);
+              
+            version: '1'
+            statementCount: 1
+            validationStatus: 'VALID'
+        created_at: 2026-10-09T12:53:30.630Z
+    comments:
+      0:
+        id: 'dfa59525-a11b-41de-aada-83ef22d7eff6'
+        position: '1'
+        project_id: 'ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec'
+        organization_id: '00000000-0000-4000-8000-000000000001'
+        plan_id: '4b63d861-f68c-458c-8eed-2fa840d0a7d4'
+        author_id: 't19-schema-upgrade-developer-6850a18d-2afd-482c-ae56-73ed924c8582'
+        author_name: 'Source developer'
+        body: 'Legacy row survives schema upgrade.'
+        created_at: 2026-10-09T12:53:30.650Z
+    history:
+      0:
+        id: '027de47c-08c3-4434-aef0-6354dde89820'
+        project_id: 'ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec'
+        plan_id: '4b63d861-f68c-458c-8eed-2fa840d0a7d4'
+        version: '1'
+        path: 'migrations/V001__create_widget.sql'
+        sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+        status: 'NOT_EXECUTED'
+        created_at: 2026-10-09T12:53:30.638Z
+    audit:
+      0:
+        id: 'd38822bd-dd5b-40de-bfaf-fadb270144f0'
+        project_id: 'ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec'
+        organization_id: '00000000-0000-4000-8000-000000000001'
+        actor_id: 't19-schema-upgrade-developer-6850a18d-2afd-482c-ae56-73ed924c8582'
+        action: 'PLAN_CREATED'
+        resource_id: '4b63d861-f68c-458c-8eed-2fa840d0a7d4'
+        facts:
+        created_at: 2026-10-09T12:53:30.638Z
+      1:
+        id: 'c3386a5e-59f5-43d6-8228-774a3038fc90'
+        project_id: 'ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec'
+        organization_id: '00000000-0000-4000-8000-000000000001'
+        actor_id: 't19-schema-upgrade-developer-6850a18d-2afd-482c-ae56-73ed924c8582'
+        action: 'PLAN_COMMENT_ADDED'
+        resource_id: '4b63d861-f68c-458c-8eed-2fa840d0a7d4'
+        facts:
+          commentId: 'dfa59525-a11b-41de-aada-83ef22d7eff6'
+        created_at: 2026-10-09T12:53:30.648Z
+  actual:
+    plan:
+      0:
+        id: '4b63d861-f68c-458c-8eed-2fa840d0a7d4'
+        project_id: 'ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec'
+        organization_id: '00000000-0000-4000-8000-000000000001'
+        release_id: '2b0e653f-63d4-4535-8717-2e642b215c48'
+        profile_id: '8988e8ec-fee7-4810-ad10-1adeba89c8e2'
+        author_id: 't19-schema-upgrade-developer-6850a18d-2afd-482c-ae56-73ed924c8582'
+        status: 'PENDING_APPROVAL'
+        decision: ~
+        decision_reason: ~
+        decided_by: ~
+        created_at: 2026-10-09T12:53:30.638Z
+        decided_at: ~
+        items:
+          0:
+            path: 'migrations/V001__create_widget.sql'
+            sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+            status: 'NOT_EXECUTED'
+            version: '1'
+        execution: 'NOT_EXECUTED'
+        history_status: 'NOT_OBSERVED'
+        planning_scope: 'OFFLINE_CANDIDATE'
+        offline_intent_envelope: '[1,"00000000-0000-4000-8000-000000000001","ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec","t19-schema-upgrade-developer-6850a18d-2afd-482c-ae56-73ed924c8582","2b0e653f-63d4-4535-8717-2e642b215c48","d0a2186c1854816841166f3d3fc1eaeae52c050c","sha1","migrations","antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2","65aeb5399a0b5b9f7a0c4f109badeaf4e1e941f0aa16f37637adf0cc854f9d2d","8988e8ec-fee7-4810-ad10-1adeba89c8e2","Offline target","cdaca5fd-d406-4221-98f6-d50086cfad67","Local","oracle","localhost",1521,"DEV","APP","vault://local/app",[["migrations/V001__create_widget.sql","1","b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901"]]]'
+        offline_intent_digest: '67c2e69cac94c34ecc1d571079dd92ff04b094a2e808d9604ee104db963f6e0c'
+        decided_by_name: ~
+        source_binding_generation: ~
+    release:
+      0:
+        id: '2b0e653f-63d4-4535-8717-2e642b215c48'
+        project_id: 'ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec'
+        organization_id: '00000000-0000-4000-8000-000000000001'
+        repository_id: 't19-schema-upgrade-repo'
+        commit_id: 'd0a2186c1854816841166f3d3fc1eaeae52c050c'
+        object_format: 'sha1'
+        folder: 'migrations'
+        manifest_digest: '65aeb5399a0b5b9f7a0c4f109badeaf4e1e941f0aa16f37637adf0cc854f9d2d'
+        validation_status: 'VALID'
+        validation_code: 'PARSED_OFFLINE'
+        parser_profile: 'antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2'
+        files:
+          0:
+            path: 'migrations/V001__create_widget.sql'
+            bytes: 45
+            sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+            content: |-
+              CREATE TABLE widget (id NUMBER PRIMARY KEY);
+              
+            version: '1'
+            statementCount: 1
+            validationStatus: 'VALID'
+        created_at: 2026-10-09T12:53:30.630Z
+    comments:
+      0:
+        id: 'dfa59525-a11b-41de-aada-83ef22d7eff6'
+        position: '1'
+        project_id: 'ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec'
+        organization_id: '00000000-0000-4000-8000-000000000001'
+        plan_id: '4b63d861-f68c-458c-8eed-2fa840d0a7d4'
+        author_id: 't19-schema-upgrade-developer-6850a18d-2afd-482c-ae56-73ed924c8582'
+        author_name: 'Source developer'
+        body: 'Legacy row survives schema upgrade.'
+        created_at: 2026-10-09T12:53:30.650Z
+    history:
+      0:
+        id: '027de47c-08c3-4434-aef0-6354dde89820'
+        project_id: 'ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec'
+        plan_id: '4b63d861-f68c-458c-8eed-2fa840d0a7d4'
+        version: '1'
+        path: 'migrations/V001__create_widget.sql'
+        sha256: 'b57d9adc460a60f08ad43ec52905f397861234bca20288841ebbf61f3b574901'
+        status: 'NOT_EXECUTED'
+        created_at: 2026-10-09T12:53:30.638Z
+    audit:
+      0:
+        id: 'd38822bd-dd5b-40de-bfaf-fadb270144f0'
+        project_id: 'ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec'
+        organization_id: '00000000-0000-4000-8000-000000000001'
+        actor_id: 't19-schema-upgrade-developer-6850a18d-2afd-482c-ae56-73ed924c8582'
+        action: 'PLAN_CREATED'
+        resource_id: '4b63d861-f68c-458c-8eed-2fa840d0a7d4'
+        facts:
+        created_at: 2026-10-09T12:53:30.638Z
+      1:
+        id: 'c3386a5e-59f5-43d6-8228-774a3038fc90'
+        project_id: 'ed17a6a4-ecc3-4e7a-9e40-3428024ca0ec'
+        organization_id: '00000000-0000-4000-8000-000000000001'
+        actor_id: 't19-schema-upgrade-developer-6850a18d-2afd-482c-ae56-73ed924c8582'
+        action: 'PLAN_COMMENT_ADDED'
+        resource_id: '4b63d861-f68c-458c-8eed-2fa840d0a7d4'
+        facts:
+          commentId: 'dfa59525-a11b-41de-aada-83ef22d7eff6'
+        created_at: 2026-10-09T12:53:30.648Z
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-protected-source-binding.test.mjs:334:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 2
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 27239.480607

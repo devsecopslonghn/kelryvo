@@ -23,6 +23,7 @@ test('terminal plan decisions retain reviewer snapshots and historical ID fallba
       method, url, payload, headers: { authorization: `Bearer ${actor.token}` },
     });
     const project = (await request('POST', '/api/projects', { name: `Decision record ${randomUUID()}` })).json().project;
+    await db.sql`UPDATE sf_projects SET source_repository_id='fixture',source_folder='migrations',source_updated_at=now() WHERE id=${project.id}`;
     const seedPlan = async () => {
       const content = 'CREATE TABLE T (ID NUMBER);';
       const sha256 = createHash('sha256').update(content).digest('hex');
@@ -43,8 +44,9 @@ test('terminal plan decisions retain reviewer snapshots and historical ID fallba
         port:profile.port, service:profile.service, username:profile.username, credentialRef:profile.credential_ref,
         items:items.map(({ path, version, sha256 }) => ({ path, version, sha256 })) });
       assert.ok(intent);
-      return (await db.sql`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items,offline_intent_envelope,offline_intent_digest)
-        VALUES(${project.id},${ORG},${release.id},${profile.id},${actors[0].id},${db.sql.json(items)},${intent.envelope},${intent.digest}) RETURNING id`)[0].id;
+      return (await db.sql`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items,offline_intent_envelope,offline_intent_digest,source_binding_generation)
+        VALUES(${project.id},${ORG},${release.id},${profile.id},${actors[0].id},${db.sql.json(items)},${intent.envelope},${intent.digest},
+          (SELECT source_binding_generation FROM sf_projects WHERE id=${project.id})) RETURNING id`)[0].id;
     };
     const approvedId = await seedPlan();
     const rejectedId = await seedPlan();

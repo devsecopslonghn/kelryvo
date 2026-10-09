@@ -1,0 +1,14 @@
+TAP version 13
+# Subtest: review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+not ok 1 - review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+  ---
+  duration_ms: 33511.908057
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-protected-source-binding-browser.integration.mjs:14:1'
+  failureType: 'unhandledRejection'
+  error: 'page.waitForResponse: Timeout 30000ms exceeded while waiting for event "response"'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-protected-source-binding/tests/product-protected-source-binding-browser.integration.mjs:109:34)
+  ...

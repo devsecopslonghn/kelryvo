@@ -1,0 +1,9 @@
+{
+  "label": "full-check-final-two-cpu",
+  "command": "taskset -c 0,1 npm run check",
+  "started_at_utc": "2026-10-09T13:23:33.045813Z",
+  "completed_at_utc": "2026-10-09T13:26:16.887111Z",
+  "exit_code": 0,
+  "raw_sha256": "1bb27eaf01b6e2242033bc32a07b76b6be805fe22c428c2630d3c265c7c638e5",
+  "raw_bytes": 36038
+}

@@ -1,0 +1,5 @@
+{
+  "command": "gh pr create --repo devsecopslonghn/schemaForge --base master --head development/product-plan-resubmission --draft --title \"feat(product): prepare a fresh plan after rejection\" --body-file /tmp/schemaforge-t18-publication-20261009T120100Z/pr-body.md",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:12:19.877069+00:00"
+}

@@ -1,0 +1,9 @@
+{
+  "label": "regression-fixture-adaptations",
+  "command": "node --test --test-concurrency=1 tests/product-api.test.mjs tests/product-archive.test.mjs tests/product-comments.test.mjs tests/product-decision-record.test.mjs tests/product-plan-intent.test.mjs tests/product-plan-resubmission.test.mjs tests/product-release-integrity.test.mjs tests/product-review-audit.test.mjs",
+  "started_at_utc": "2026-10-09T13:21:11.734853Z",
+  "completed_at_utc": "2026-10-09T13:21:44.036332Z",
+  "exit_code": 1,
+  "raw_sha256": "ea886f9f93192151510e5dac4fbb1271689892d48441902f06865ef9064e8adb",
+  "raw_bytes": 3113
+}

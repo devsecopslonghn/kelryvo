@@ -1,0 +1,23 @@
+{
+  "recorded_at_utc": "2026-10-09T13:38:05.206383+00:00",
+  "integration_record_sha256": "ddf5c060f05699e1b370fb08a3831ef8a6b145d00085de45f9380e4222fbcff4",
+  "native_source_files_verified": 19,
+  "root_source_files_verified": 2,
+  "native_completed_captures_verified": 45,
+  "root_tracker_tests": 21,
+  "build_source_type_format_and_tracker_passed": true,
+  "root_check_capture": {
+    "path": "evidence/product/product-t19-root-20261009T123628Z/08-root-tracker-source-format.result.json",
+    "sha256": "b7b6adaed30975b5ba28a36d8fd855ba586772f1fb84a3b3d8bbc8993090142e"
+  },
+  "criterion_review": {
+    "0": "Current-only epoch migration and authenticated actual-change counter/no-op/exhaustion; no client-supplied generation.",
+    "1": "Project/release scoped locks and bounded scalar source match; authoritative separate plan generation preserves T17 envelope format.",
+    "2": "Plan\u2192project\u2192source locking; generation and source comparison; two deterministic real PG blocking races; preserve denial precedence/audits.",
+    "3": "Full legacy/approved/rejected/comment/history/audit rows compared across idempotent initialization and API/pool reopening; authorized rejection remains.",
+    "4": "Fresh intake UI with local/stale-response guidance, guarded selection/project/session, no-write navigation and immutable predecessor recovery; archive no action.",
+    "5": "Real temporary Git/PG/parser/API/Chromium positives/negatives and final149/28/17 regressions; all failures retained. No Oracle/runtime acceptance."
+  },
+  "final_independent_review_status": "PENDING_EXACT_COMMIT",
+  "source_and_parser_thresholds_unchanged": true
+}

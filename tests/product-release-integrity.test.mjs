@@ -38,6 +38,7 @@ test('offline planning rejects corrupted retained releases without writes and us
     });
     assert.equal((await request('POST', planUrl, { releaseId, profileId: profile.id }, null)).statusCode, 401);
     const foreign = (await request('POST', '/api/projects', { name: `Foreign ${randomUUID()}` })).json().project;
+    await db.sql`UPDATE sf_projects SET source_repository_id='demo',source_folder='migrations',source_updated_at=now() WHERE id=${foreign.id}`;
     const foreignEnv = (await request('POST', `/api/projects/${foreign.id}/environments`, { name: 'Local' })).json().environment;
     const foreignProfile = (await request('POST', `/api/projects/${foreign.id}/profiles`, { name: 'Oracle', environmentId: foreignEnv.id,
       engine: 'oracle', host: 'localhost', port: 1521, service: 'FREEPDB1', username: 'APP', credentialRef: 'vault://local/app' })).json().profile;

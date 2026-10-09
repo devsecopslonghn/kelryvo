@@ -1,0 +1,5 @@
+{
+  "command": "set -e -o pipefail; gh api --paginate \"repos/devsecopslonghn/schemaForge/secret-scanning/alerts?state=open&per_page=100\" --jq \"map({number,state,html_url})\" | jq -s \"add // []\"; gh api --paginate \"repos/devsecopslonghn/schemaForge/code-scanning/alerts?state=open&per_page=100\" --jq \"map({number,state,html_url})\" | jq -s \"add // []\"",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:18:27.653570+00:00"
+}

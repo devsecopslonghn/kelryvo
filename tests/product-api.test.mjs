@@ -120,7 +120,7 @@ test(
       assert.equal(bindingRequest.statusCode, 200);
       assert.deepEqual(
         Object.keys(bindingRequest.json().project.sourceBinding).sort(),
-        ["folder", "repositoryId", "updatedAt"],
+        ["folder", "generation", "repositoryId", "updatedAt"],
       );
       assert.equal(bindingRequest.json().project.sourceBinding.repositoryId, "demo");
       assert.equal(bindingRequest.json().project.sourceBinding.folder, "migrations");
@@ -275,7 +275,7 @@ test(
       assert.equal(selfDecision.json().error, "SELF_APPROVAL_DENIED");
       const invalidRelease = (
         await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)
-        VALUES(${project.id},'00000000-0000-4000-8000-000000000001','fixture','deadbeef','sha1','migrations','invalid-fixture','INVALID','test-parser',${db.sql.json([{ path: "V9__invalid.sql", version: "9", sha256: "b".repeat(64), bytes: 1, statementCount: null, validationStatus: "INVALID", content: "BEGIN NULL;" }])}) RETURNING id`
+        VALUES(${project.id},'00000000-0000-4000-8000-000000000001','demo','deadbeef','sha1','migrations','invalid-fixture','INVALID','test-parser',${db.sql.json([{ path: "V9__invalid.sql", version: "9", sha256: "b".repeat(64), bytes: 1, statementCount: null, validationStatus: "INVALID", content: "BEGIN NULL;" }])}) RETURNING id`
       )[0];
       const invalidPlan = await request(
         "POST",

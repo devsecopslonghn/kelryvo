@@ -1,0 +1,5 @@
+{
+  "command": "gh pr ready 30 --repo devsecopslonghn/schemaForge",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:18:30.221029+00:00"
+}

@@ -1,0 +1,5 @@
+{
+  "command": "python3 /tmp/schemaforge-t18-pr-gate.py 48-pr-ci-progress.log 51-premerge-threads.log ready-gate.json",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:18:30.120863+00:00"
+}

@@ -2663,6 +2663,43 @@
         },
         {
           "index_id": "product-t18-resubmission-cleanup-verified"
+        },
+        {
+          "index_id": "product-t18-merge-master-verified"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T19",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Protect source binding generations during offline plan approval",
+      "dependencies": [
+        "SF-PRODUCT-T18"
+      ],
+      "feature_ids": [
+        "GIT-016"
+      ],
+      "acceptance_criteria": [
+        "Protect the current project repository/folder binding with a server-owned monotonic generation. Increment on actual repository/folder changes, retain generation on no-op saves, and never accept client-supplied generations. Idempotent schema initialization establishes current configuration tracking only; leave every historical plan generation missing rather than inferring/backfilling it. Preserve existing binding authorization, archive, scoping and audit behavior.",
+        "Under the existing project/source locks, new plan creation validates its retained release repository/folder against the current binding and captures the authoritative positive canonical binding generation. Keep T17 format-1 intent/digest immutable and separate. Reject missing/corrupt current configuration and mismatched release references before any plan/history/audit creation; preserve immutable release/source data and existing authorization.",
+        "Before authorized independent APPROVE, compare the retained plan generation and source facts with current protected project configuration inside the existing plan -> project -> scoped source lock transaction. Missing, stale, malformed, corrupt or mismatched evidence fails closed with fixed fresh-plan-required feedback and no protected plan/comment/history/source mutation. Preserve existing role/self/terminal/archive denial precedence and established audit behavior. Binding changes away and back remain stale, no-op changes remain approvable, and locked concurrent updates cannot race approval.",
+        "Historical pending plans without verifiable generation remain readable and eligible for existing authorized rejection, but cannot be approved until recreated. Do not rewrite old plans, comments, decision/history/audit rows or reconstruct historical generations. Approved/rejected/archived history stays readable. API/database restart persists captured generations and immutable predecessor records.",
+        "The scoped React review UI explains why a fresh plan is needed, disables approval for known missing/stale/malformed binding evidence while preserving rejection, and reuses T18 Prepare new plan navigation for affected pending plans. Clear inspected source and drafts, restore All, perform no API write on navigation, and fail closed after project/plan/session/archive/unbound changes. Server denial remains authoritative for stale client views; fresh bound intake yields a distinct newly capturable plan without reusing the old decision.",
+        "Real local Git/PostgreSQL/parser/API/browser regressions cover matching generations, changed and away/back bindings, no-op save, legacy/corrupt generations, concurrent binding update/approval and plan creation, immutable predecessor snapshots, rejected/archive reads, foreign project/organization and role/session boundaries, T18 recovery, and API/PostgreSQL persistence. Run existing build/type/source/tracker/license, standard, product and browser suites. This bounded GIT-016 increment does not claim execution-time invalidation, runner image/worker policy, runtime target or Oracle verification, full catalog acceptance, deployment or historical backfill."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T19-API",
+        "SF-PRODUCT-T19-WEB"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t19-protected-source-binding-local-verified"
         }
       ],
       "blockers": []

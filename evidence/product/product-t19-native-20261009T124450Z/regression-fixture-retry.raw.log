@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: product API persists a governed offline plan and never claims execution
+ok 1 - product API persists a governed offline plan and never claims execution
+  ---
+  duration_ms: 5576.445308
+  type: 'test'
+  ...
+# Subtest: archival keeps immutable records readable and refuses further project work
+ok 2 - archival keeps immutable records readable and refuses further project work
+  ---
+  duration_ms: 292.288082
+  type: 'test'
+  ...
+# Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+ok 3 - an in-flight metadata write rechecks archival after acquiring the project lock
+  ---
+  duration_ms: 154.30454
+  type: 'test'
+  ...
+# Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+ok 4 - plan review comments are scoped, validated, durable, ordered, and serialized
+  ---
+  duration_ms: 507.529067
+  type: 'test'
+  ...
+# Subtest: terminal plan decisions retain reviewer snapshots and historical ID fallback
+ok 5 - terminal plan decisions retain reviewer snapshots and historical ID fallback
+  ---
+  duration_ms: 304.488753
+  type: 'test'
+  ...
+# Subtest: plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+ok 6 - plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+  ---
+  duration_ms: 9410.627583
+  type: 'test'
+  ...
+# Subtest: rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+ok 7 - rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+  ---
+  duration_ms: 8161.199021
+  type: 'test'
+  ...
+# Subtest: offline planning rejects corrupted retained releases without writes and uses locked current state
+ok 8 - offline planning rejects corrupted retained releases without writes and uses locked current state
+  ---
+  duration_ms: 5859.459418
+  type: 'test'
+  ...
+# Subtest: authenticated denied decisions append fixed audit facts while preserving plan and history
+ok 9 - authenticated denied decisions append fixed audit facts while preserving plan and history
+  ---
+  duration_ms: 388.34783
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 32293.636856

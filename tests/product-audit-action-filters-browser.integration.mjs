@@ -29,6 +29,7 @@ test('audit action filters preserve project scope, server order, archived reads 
     };
     const createProject = async (name) => (await api('POST', '/api/projects', actors[0], { name })).body.project;
     const first = await createProject(`Audit events ${randomUUID()}`);
+    await database.sql`UPDATE sf_projects SET source_repository_id='fixture',source_folder='migrations',source_updated_at=now() WHERE id=${first.id}`;
     const content = 'CREATE TABLE t (id NUMBER);';
     const bytes = Buffer.from(content);
     const sha256 = createHash('sha256').update(bytes).digest('hex');

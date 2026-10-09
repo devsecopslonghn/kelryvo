@@ -1,0 +1,9 @@
+{
+  "label": "focused-api-after-noop",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding.test.mjs",
+  "started_at_utc": "2026-10-09T13:16:07.276742Z",
+  "completed_at_utc": "2026-10-09T13:16:34.561135Z",
+  "exit_code": 0,
+  "raw_sha256": "989bcbaf124b92584bd09fc3d39fce3675f52ddc29386ffd3caeefb0668100cc",
+  "raw_bytes": 940
+}

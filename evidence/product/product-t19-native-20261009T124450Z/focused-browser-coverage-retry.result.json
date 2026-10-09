@@ -1,0 +1,9 @@
+{
+  "label": "focused-browser-coverage-retry",
+  "command": "node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs",
+  "started_at_utc": "2026-10-09T13:13:40.304103Z",
+  "completed_at_utc": "2026-10-09T13:14:16.137609Z",
+  "exit_code": 1,
+  "raw_sha256": "c0c4e7cdfbead0ebcaa77a60b550dea2112ebcf2d0129246a06abcf97dbe08c7",
+  "raw_bytes": 1032
+}

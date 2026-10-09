@@ -1,0 +1,12 @@
+{
+  "record_path": "evidence/product/product-t19-native-20261009T124450Z/completion-record.json",
+  "record_sha256": "72a424c11738e2792fb01350a1d34638495243fba70ecfcb40a50a69b15ada9d",
+  "captured_at_utc": "2026-10-09T13:35:32.210747Z",
+  "correction": {
+    "path": "checks.full_standard.nested_assertions_reported",
+    "meaning": "The value 149 is the final TAP # tests total, not a count of nested assertions.",
+    "corrected_field": "checks.full_standard.total_tap_tests",
+    "value": 149
+  },
+  "original_record_preserved": true
+}

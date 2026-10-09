@@ -85,6 +85,7 @@ test('rejected plan remains immutable when changed SQL is imported as a fresh in
     assert.equal(selfDecision.json().error, 'SELF_APPROVAL_DENIED');
     const beforeForeign = await database.sql`SELECT * FROM sf_plans ORDER BY id`;
     const foreignProject = (await request('POST', '/api/projects', { name: `T18 foreign ${randomUUID()}` })).json().project;
+    await database.sql`UPDATE sf_projects SET source_repository_id='t18-browser-repo',source_folder='migrations',source_updated_at=now() WHERE id=${foreignProject.id}`;
     const foreignRelease = await request('POST', `/api/projects/${foreignProject.id}/plans`, { releaseId: freshRelease.id, profileId: profile.id });
     assert.equal(foreignRelease.statusCode, 400);
     assert.equal(foreignRelease.json().error, 'INVALID_REFERENCE');

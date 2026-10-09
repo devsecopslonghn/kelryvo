@@ -1,0 +1,15 @@
+Authored JSON formatting passed; imported inputs and evidence excluded.
+Source checks passed for 140 authored files.
+Tracker data valid: 220 features, 64 imported tasks plus foundation and 18 product tasks, 63 cases; no Oracle verification claims.
+
+> schemaforge-local-development@0.0.0 format:check
+> node scripts/format-json.mjs --check
+
+Authored JSON formatting passed; imported inputs and evidence excluded.
+ docs/implementation/CONTINUE.md                    | 12 +++++++++++
+ docs/implementation/CURRENT.md                     | 12 +++++++++++
+ docs/implementation/backlog.json                   |  3 +++
+ docs/implementation/evidence-index.json            | 25 ++++++++++++++++++++++
+ docs/implementation/milestone.json                 |  9 +++++---
+ ...oduct-plan-resubmission-browser.integration.mjs |  3 ++-
+ 6 files changed, 60 insertions(+), 4 deletions(-)

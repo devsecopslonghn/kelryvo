@@ -1,0 +1,9 @@
+{
+  "label": "full-browser-final-retry",
+  "command": "npm run test:browser",
+  "started_at_utc": "2026-10-09T13:31:51.827954Z",
+  "completed_at_utc": "2026-10-09T13:34:29.751809Z",
+  "exit_code": 0,
+  "raw_sha256": "0e41cbefde6bb527f4ccd120c1388dff095a305552433f9018e0471bf07e3a15",
+  "raw_bytes": 5486
+}

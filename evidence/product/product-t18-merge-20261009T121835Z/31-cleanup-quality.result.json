@@ -1,0 +1,11 @@
+{
+  "command": "set -e; node --check tests/product-plan-resubmission-browser.integration.mjs; node scripts/check-source.mjs; node scripts/tracker.mjs validate; node --test tests/tracker.test.mjs; npm run format:check; git diff --check; git diff --stat",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:10:37.039099+00:00",
+  "ended_at_utc": "2026-10-09T12:10:41.225391+00:00",
+  "exit_code": 1,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t18-publication-20261009T120100Z/31-cleanup-quality.log",
+    "sha256": "c9ee8ef8286c745a5f9b1c6f9c597788e5d1740549ba17593bd4e69f78dd2693"
+  }
+}

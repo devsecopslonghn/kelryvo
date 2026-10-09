@@ -1,0 +1,11 @@
+{
+  "command": "gh pr ready 30 --repo devsecopslonghn/schemaForge",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:18:30.221029+00:00",
+  "ended_at_utc": "2026-10-09T12:18:31.817680+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t18-publication-20261009T120100Z/53-ready.log",
+    "sha256": "640403896a673d4ad689fd2875079d23dd3e22891a1dbbab6fb5c8fa74842ef4"
+  }
+}

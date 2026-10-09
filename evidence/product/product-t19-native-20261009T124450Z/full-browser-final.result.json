@@ -1,0 +1,9 @@
+{
+  "label": "full-browser-final",
+  "command": "npm run test:browser",
+  "started_at_utc": "2026-10-09T13:28:17.919776Z",
+  "completed_at_utc": "2026-10-09T13:30:43.306018Z",
+  "exit_code": 1,
+  "raw_sha256": "c3e39b9804647a10ff45f296762a617d2d94eb1180be59045c09d43ca2b3a63f",
+  "raw_bytes": 9230
+}

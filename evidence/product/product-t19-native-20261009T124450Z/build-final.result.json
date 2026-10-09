@@ -1,0 +1,9 @@
+{
+  "label": "build-final",
+  "command": "npm run build",
+  "started_at_utc": "2026-10-09T12:52:55.036583Z",
+  "completed_at_utc": "2026-10-09T12:53:00.657577Z",
+  "exit_code": 0,
+  "raw_sha256": "41aace0c7608e75f76c0549c5221e348cc97762a446f69a08e26bfbf25f8c97a",
+  "raw_bytes": 344
+}
