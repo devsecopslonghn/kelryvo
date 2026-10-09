@@ -1,0 +1,32 @@
+{
+  "recorded_at_utc": "2026-10-09T10:40:52.108599+00:00",
+  "attempts": [
+    {
+      "command": "set -e; node --test tests/tracker.test.mjs; node scripts/tracker.mjs validate; node scripts/check-source.mjs; node scripts/format-json.mjs --check; git diff --check",
+      "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+      "started_at_utc": "2026-10-09T10:39:55.865252+00:00",
+      "ended_at_utc": "2026-10-09T10:39:59.774551+00:00",
+      "exit_code": 1,
+      "raw_output": {
+        "path": "/tmp/schemaforge-t18-setup-20261009T103537Z/04-checkpoint-local-checks.log",
+        "sha256": "32e3511afa3d999c75d83470fd7c35fbf46ce6e4fd277ff5eda238baa73619fc"
+      },
+      "tracked_raw_path": "evidence/product/product-t17-merge-20261009T103440Z/04-checkpoint-local-checks.log"
+    },
+    {
+      "command": "set -e; node --test tests/tracker.test.mjs; node scripts/tracker.mjs validate; node scripts/check-source.mjs; node scripts/format-json.mjs --check; git diff --check",
+      "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+      "started_at_utc": "2026-10-09T10:40:17.812297+00:00",
+      "ended_at_utc": "2026-10-09T10:40:21.757681+00:00",
+      "exit_code": 0,
+      "raw_output": {
+        "path": "/tmp/schemaforge-t18-setup-20261009T103537Z/05-checkpoint-checks-corrected.log",
+        "sha256": "c2e2819068cb05ce333c138ef68876d1e694161a5fdda9c23d458583ed2b3fee"
+      },
+      "tracked_raw_path": "evidence/product/product-t17-merge-20261009T103440Z/05-checkpoint-checks-corrected.log"
+    }
+  ],
+  "final_checks": "tracker21 zero skips; tracker data/source138/format/diff all pass",
+  "first_failure": "Python writer escaped Unicode in backlog JSON; restored repository canonical formatting; unrelated T13 text preserved",
+  "scope": "T17 merge proof and T18 ready registration, no implementation changes"
+}

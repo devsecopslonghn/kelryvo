@@ -1,0 +1,11 @@
+{
+  "command": "gh run list --commit a5e8b9f45385be3bfcfefdfcb1ca9278fb71d0d0 --limit 50 --json databaseId,workflowName,status,conclusion,headSha,event,url,createdAt,updatedAt",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:35:38.871450+00:00",
+  "ended_at_utc": "2026-10-09T10:35:40.132696+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t17-publication-20261009T094137Z/master-workflows-initial.log",
+    "sha256": "60325933b87567df43e4d161601686c462a03f23050235734252c67b9b73491f"
+  }
+}

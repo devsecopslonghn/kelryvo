@@ -1,0 +1,11 @@
+{
+  "command": "gh api graphql -f query=\"query { repository(owner: \\\"devsecopslonghn\\\", name: \\\"schemaForge\\\") { pullRequest(number: 29) { headRefOid reviewThreads(first: 100) { totalCount pageInfo { hasNextPage } nodes { isResolved isOutdated } } } } }\"",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:29:49.925348+00:00",
+  "ended_at_utc": "2026-10-09T10:29:50.738211+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t17-publication-20261009T094137Z/10-review-threads.log",
+    "sha256": "4f82c8986b1e02eb90d61f5f9524906c9f987f171cfbb8cb7c2f15b476095952"
+  }
+}

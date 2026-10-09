@@ -1,0 +1,11 @@
+{
+  "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --test tests/product-plan-resubmission-browser.integration.mjs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T12:05:00.405626+00:00",
+  "ended_at_utc": "2026-10-09T12:05:17.018464+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t18-publication-20261009T120100Z/30-browser-assertion-cleanup.log",
+    "sha256": "3269c8aabc4a387d1e814da91211d3c7f944cbc0b2316f82571a580be8544062"
+  }
+}

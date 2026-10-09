@@ -1,0 +1,11 @@
+{
+  "command": "set -e; node --test tests/tracker.test.mjs; node scripts/tracker.mjs validate; node scripts/check-source.mjs; node scripts/format-json.mjs --check; git diff --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-plan-resubmission",
+  "started_at_utc": "2026-10-09T10:39:55.865252+00:00",
+  "ended_at_utc": "2026-10-09T10:39:59.774551+00:00",
+  "exit_code": 1,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t18-setup-20261009T103537Z/04-checkpoint-local-checks.log",
+    "sha256": "32e3511afa3d999c75d83470fd7c35fbf46ce6e4fd277ff5eda238baa73619fc"
+  }
+}

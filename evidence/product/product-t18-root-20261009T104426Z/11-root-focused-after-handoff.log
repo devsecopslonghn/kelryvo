@@ -1,0 +1,66 @@
+TAP version 13
+# Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+not ok 1 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+  ---
+  duration_ms: 15242.609642
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-plan-resubmission/tests/product-plan-resubmission-browser.integration.mjs:14:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    releases: every predecessor row is immutable after new intake and independent review
+    + actual - expected
+    
+    + [
+    - Result(1) [
+        {
+          commit_id: '600e2b45325dc4bc433ce46671341d3311585752',
+          files: '[{"path": "migrations/V001__create_widget.sql", "bytes": 65, "sha256": "5abaeadd7b6afd3a04b6c9dad1121909f1822ac01e0d27547938d2ef1a5f28d9", "content": "CREATE TABLE widget (id NUMBER PRIMARY KEY, name VARCHAR2(100));\\n", "version": "1", "statementCount": 1, "validationStatus": "VALID"}]',
+          folder: 'migrations',
+          id: '9bdebbea-6165-4311-8685-29f80a28354b',
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0:
+      id: '9bdebbea-6165-4311-8685-29f80a28354b'
+      project_id: 'bb0f1096-98b6-44ec-8b51-85d0f6b3b00b'
+      repository_id: 't18-browser-repo'
+      commit_id: '600e2b45325dc4bc433ce46671341d3311585752'
+      folder: 'migrations'
+      manifest_digest: '96fc8a3dfa2f993e32fbf5344ddbf0c7cd545b9d481f89b5473720a863890493'
+      validation_status: 'VALID'
+      parser_profile: 'antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2'
+      files: '[{"path": "migrations/V001__create_widget.sql", "bytes": 65, "sha256": "5abaeadd7b6afd3a04b6c9dad1121909f1822ac01e0d27547938d2ef1a5f28d9", "content": "CREATE TABLE widget (id NUMBER PRIMARY KEY, name VARCHAR2(100));\\n", "version": "1", "statementCount": 1, "validationStatus": "VALID"}]'
+  actual:
+    0:
+      id: '9bdebbea-6165-4311-8685-29f80a28354b'
+      project_id: 'bb0f1096-98b6-44ec-8b51-85d0f6b3b00b'
+      repository_id: 't18-browser-repo'
+      commit_id: '600e2b45325dc4bc433ce46671341d3311585752'
+      folder: 'migrations'
+      manifest_digest: '96fc8a3dfa2f993e32fbf5344ddbf0c7cd545b9d481f89b5473720a863890493'
+      validation_status: 'VALID'
+      parser_profile: 'antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2'
+      files: '[{"path": "migrations/V001__create_widget.sql", "bytes": 65, "sha256": "5abaeadd7b6afd3a04b6c9dad1121909f1822ac01e0d27547938d2ef1a5f28d9", "content": "CREATE TABLE widget (id NUMBER PRIMARY KEY, name VARCHAR2(100));\\n", "version": "1", "statementCount": 1, "validationStatus": "VALID"}]'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-plan-resubmission/tests/product-plan-resubmission-browser.integration.mjs:185:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+ok 2 - rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+  ---
+  duration_ms: 8222.893711
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24402.666787

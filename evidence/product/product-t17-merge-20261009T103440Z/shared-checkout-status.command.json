@@ -1,0 +1,5 @@
+{
+  "command": "git -C /home/longhn0710/workspace/schemaforge status --porcelain=v1; git -C /home/longhn0710/workspace/schemaforge rev-parse HEAD; git -C /home/longhn0710/workspace/schemaforge branch --show-current",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:36:13.506678+00:00"
+}

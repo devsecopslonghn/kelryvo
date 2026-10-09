@@ -1,0 +1,11 @@
+{
+  "command": "gh pr view 29 --json number,url,state,headRefOid,mergeCommit,mergedAt",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:34:47.776768+00:00",
+  "ended_at_utc": "2026-10-09T10:34:48.525987+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t17-publication-20261009T094137Z/merged-pr.log",
+    "sha256": "7c3f494b4130fe12236d2f2cd44d0a5f545d98dabc65ad50d09a47c9c6675410"
+  }
+}

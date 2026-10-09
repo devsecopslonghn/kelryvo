@@ -1,0 +1,22 @@
+{
+  "label": "api-focused-retry",
+  "command": [
+    "node",
+    "--test",
+    "--test-concurrency=1",
+    "tests/product-plan-resubmission.test.mjs"
+  ],
+  "startedUtc": "2026-10-09T10:46:50Z",
+  "endedUtc": "2026-10-09T10:46:59Z",
+  "exitCode": 1,
+  "sourceSnapshotSha256": "83ce2faf31d8b87bf91dba2416ae815de0f4c54b5d320915d1853c0c5e3c04e3",
+  "sourceFileSha256": {
+    "apps/web/src/app.jsx": "bc78e490057586a5d77371bf6bb5ea7270da9290c7189cd67ee69e36342cb0d0",
+    "scripts/test-product.mjs": "a767b040f62d88edf3fd7f5d5f7b67e7f62b8a5ffb2d0410c7c7df8878324998",
+    "docs/development/local-product.md": "fea13d390207336b38cf755260419e100af6478775f7e3bfdc94041b26de5355",
+    "tests/product-plan-resubmission.test.mjs": "91a1e276821766c7fc8b389956c95100ddb2b2f3c921dcd5b9c98d19ee498531",
+    "tests/product-plan-resubmission-browser.integration.mjs": "c8e40df97293b06fbf08455688bee3604bab2d81a6d383455b0418662713163c"
+  },
+  "rawOutputSha256": "b7589b41aea1befb87851711f7849a5ff1a03bd9f9ad08b5b6f447fe1eef145c",
+  "rawOutputPath": "02-api-focused-retry.raw.log"
+}

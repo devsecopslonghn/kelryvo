@@ -208,6 +208,7 @@ function App() {
   const plans = useMemo(() => projectPlans.filter((item) => planStatus === 'ALL' || item.status === planStatus), [projectPlans, planStatus]);
   const plan = useMemo(() => plans.find((item) => item.id === selectedPlan) || plans[0] || null, [plans, selectedPlan]);
   activeSelectedPlanId.current = plan?.id || '';
+  const actionSessionEpoch = sessionEpoch.current;
   useEffect(() => { setCommentBody(''); setDecisionReason(''); }, [plan?.id]);
   const filterPlans = (status) => {
     planSourceSequence.current += 1;
@@ -244,6 +245,32 @@ function App() {
   }, [projectLoaded, auditAction, auditActions]);
   const sourceBinding = projectLoaded ? detail.project.sourceBinding || null : null;
   const boundRepository = repositories.find((item) => item.id === sourceBinding?.repositoryId);
+  const canPrepareNewPlan = Boolean(actor && projectLoaded && !isArchived && sourceBinding
+    && boundRepository && plan?.status === 'REJECTED');
+  const prepareNewPlan = () => {
+    const requestedProject = projectId;
+    const requestedPlan = plan?.id;
+    const requestedToken = token;
+    if (!canPrepareNewPlan || !requestedProject || !requestedPlan || !requestedToken
+        || activeProjectId.current !== requestedProject
+        || activeSelectedPlanId.current !== requestedPlan
+        || detail?.project?.id !== requestedProject
+        || !detail?.project?.sourceBinding?.repositoryId
+        || !repositories.some((repository) => repository.id === detail.project.sourceBinding.repositoryId)
+        || Boolean(detail.project.archivedAt)
+        || sessionEpoch.current !== actionSessionEpoch) return;
+    planSourceSequence.current += 1;
+    setRelease(null);
+    setPlanSource(null);
+    setPlanStatus('ALL');
+    setSelectedPlan('');
+    setDecisionReason('');
+    setCommentBody('');
+    setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: detail.project.sourceBinding.folder || 'migrations' });
+    setTab('release');
+    setError('');
+    setNotice('Prepare a new plan from changed SQL: commit the changes, then import that commit as a new immutable release.');
+  };
   useEffect(() => {
     const next = { projectId: projectLoaded ? projectId : '', repositoryId: sourceBinding?.repositoryId || '', folder: sourceBinding?.folder || '' };
     const previous = previousReleaseBinding.current;
@@ -441,7 +468,7 @@ function App() {
     }
   };
 
-  const model = { actor, projects, projectId, selectProject, setRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment, gitRefs, gitRefsLoading, gitRefsError };
+  const model = { actor, projects, projectId, selectProject, setRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -561,6 +588,7 @@ function ReleaseScreen({ model }) {
           <section className="panel intake-panel"><div className="panel-heading"><div><h2>Repository source</h2><p>Repository paths stay on the server. The browser sends only the repository ID.</p></div><span className="step-badge">GIT</span></div>
             <form className="release-form" onSubmit={importRelease}><label>Project<select aria-label="Release project" value={projectId} onChange={(e) => selectProject(e.target.value)} required disabled={busy}><option value="">Choose project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}{p.archivedAt ? ' · ARCHIVED' : ''}</option>)}</select></label><label>Bound repository<output aria-label="Bound repository" className="bound-source-value">{boundRepositoryLabel}</output></label><label>Branch or tag<select aria-label="Git branch or tag" value={releaseForm.commit.startsWith('refs/') ? releaseForm.commit : ''} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value || 'HEAD' })} disabled={busy || isArchived || !bindingDraftMatches || gitRefsLoading || !!gitRefsError}><option value="">Use HEAD or enter a ref below</option><optgroup label="Branches">{gitRefs.branches.map((item) => <option key={item.ref} value={item.ref}>Branch · {item.name}</option>)}</optgroup><optgroup label="Tags">{gitRefs.tags.map((item) => <option key={item.ref} value={item.ref}>Tag · {item.name}</option>)}</optgroup></select><small>{gitRefsLoading ? 'Loading refs from the saved project repository…' : gitRefsError ? explain(new Error(gitRefsError)) : 'Choose a local branch or commit-resolving tag, or keep using HEAD/manual commit.'}</small></label><label>Commit or ref<input aria-label="Git commit or ref" value={releaseForm.commit} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value })} placeholder="40 character commit SHA" required disabled={busy || isArchived || !bindingDraftMatches}/><small>Selected refs are resolved to a full immutable commit during import.</small></label><label>Bound migration folder<output aria-label="Bound migration folder" className="bound-source-value">{projectLoaded ? sourceBinding?.folder || 'No source bound' : 'Loading project source…'}</output></label><div className="form-actions"><button type="submit" className="primary" disabled={busy || isArchived || !projects.length || !bindingDraftMatches}>{busy ? 'Importing…' : 'Import and validate'}</button><span className="subtle">{importHint} Files are parsed before a plan can be created.</span></div></form>
           </section>
+          {projectLoaded && <p className="intake-guidance">To prepare a new plan after rejection, commit changed SQL and import that commit as a new immutable release. Existing releases and plans remain unchanged.</p>}
           {scopedRelease && <section className="panel release-result" data-inspected-release-id={scopedRelease.id}><div className="panel-heading"><div><p className="eyebrow">IMPORTED RELEASE</p><h2>{scopedRelease.commit?.slice(0, 12)} <span className="muted">· {scopedRelease.folder}</span></h2></div><span className={`status-pill ${importStatusClass(scopedRelease.validationStatus)}`}>{scopedRelease.validationStatus}</span></div>{scopedRelease.validationCode && <p className="banner warning">{scopedRelease.validationCode}</p>}<RetainedReleaseContent source={scopedRelease} repositories={repositories} fmt={fmt}/>{(scopedRelease.validationStatus === 'VALID') && <form className="plan-form" onSubmit={makePlan}><label>Target connection profile<select name="profileId" aria-label="Target connection profile" required disabled={busy || isArchived}><option value="">Choose profile</option>{(detail?.profiles || []).map((profile) => <option key={profile.id} value={profile.id}>{profile.name} · {profile.host}/{profile.service}</option>)}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.profiles?.length}>Prepare offline plan</button><span className="offline-note">This creates a review candidate. It does not connect to Oracle.</span></form>}</section>}
 
   </>;
@@ -568,7 +596,7 @@ function ReleaseScreen({ model }) {
 
 
 function ReviewScreen({ model }) {
-  const { plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, addComment, planSource, inspectPlanSource, repositories, projectLoaded } = model;
+  const { plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan } = model;
   const scopedProfiles = projectLoaded && Array.isArray(detail?.profiles) ? detail.profiles : [];
   const scopedEnvironments = projectLoaded && Array.isArray(detail?.environments) ? detail.environments : [];
   const targetProfile = typeof plan?.profileId === 'string'
@@ -620,7 +648,7 @@ function ReviewScreen({ model }) {
                     <RetainedReleaseContent source={planSource.source} repositories={repositories} fmt={fmt}/>
                   </div>}
                 </section>
-                {['APPROVED', 'REJECTED'].includes(plan.status) && <section className="decision-record" aria-label="Decision record"><h3>Decision record</h3><p><strong>{plan.decidedByName || plan.decidedBy}</strong>{plan.decidedByName && <code>{plan.decidedBy}</code>}</p><time dateTime={plan.decidedAt}>{fmt(plan.decidedAt)}</time><p className="decision-record-reason">{plan.decisionReason}</p></section>}
+                {['APPROVED', 'REJECTED'].includes(plan.status) && <section className="decision-record" aria-label="Decision record"><h3>Decision record</h3><p><strong>{plan.decidedByName || plan.decidedBy}</strong>{plan.decidedByName && <code>{plan.decidedBy}</code>}</p><time dateTime={plan.decidedAt}>{fmt(plan.decidedAt)}</time><p className="decision-record-reason">{plan.decisionReason}</p>{plan.status === 'REJECTED' && canPrepareNewPlan && <div className="prepare-new-plan"><p>Changed SQL must be committed and imported as a new immutable release. The rejected plan and its review record remain unchanged.</p><button type="button" className="primary" onClick={prepareNewPlan} disabled={busy}>Prepare new plan</button></div>}{plan.status === 'REJECTED' && !isArchived && projectLoaded && !model.sourceBinding && <p className="banner warning">Bind a repository and migration folder before preparing a new plan.</p>}</section>}
                 {isApprover && plan.status === 'PENDING_APPROVAL' && <div className="decision-box"><label htmlFor="decision-reason">Decision reason</label><textarea id="decision-reason" value={decisionReason} onChange={(e) => setDecisionReason(e.target.value)} placeholder="Record why this candidate is approved or rejected" required disabled={isArchived}/><div><button type="button" className="danger-button" onClick={() => decide('REJECT')} disabled={busy || isArchived || !canReviewPlan || !decisionReason.trim()}>Reject plan</button><button type="button" className="primary" onClick={() => decide('APPROVE')} disabled={busy || isArchived || !canReviewPlan || !decisionReason.trim()}>Approve plan</button></div>
                   {isPlanAuthor ? <p className="banner warning">You authored this plan. Another approver must review it independently.</p> : !authorFactsAvailable ? <p className="banner warning">Requester information is unavailable. Refresh the project to retrieve retained plan facts.</p> : null}
                   <small>Approval records governance only. It does not authorize or perform execution in this product.</small></div>}

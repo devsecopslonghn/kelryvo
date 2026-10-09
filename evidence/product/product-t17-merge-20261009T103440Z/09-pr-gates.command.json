@@ -1,0 +1,5 @@
+{
+  "command": "gh pr view development/product-offline-plan-intent --json number,url,headRefOid,baseRefOid,isDraft,mergeable,mergeStateStatus,reviewDecision,statusCheckRollup",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:29:30.851583+00:00"
+}

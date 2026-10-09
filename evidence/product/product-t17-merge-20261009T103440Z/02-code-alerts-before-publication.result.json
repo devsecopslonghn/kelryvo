@@ -1,0 +1,11 @@
+{
+  "command": "gh api --paginate --slurp repos/devsecopslonghn/schemaForge/code-scanning/alerts?state=open\\&per_page=100 --jq \"flatten | map({number,state,html_url})\"",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:23:58.293229+00:00",
+  "ended_at_utc": "2026-10-09T10:23:58.339893+00:00",
+  "exit_code": 1,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t17-publication-20261009T094137Z/02-code-alerts-before-publication.log",
+    "sha256": "7bdf927ad941f23f9ddd4b3c6102ad2f6f50faa93c4341fd7e589c219a7c6b13"
+  }
+}

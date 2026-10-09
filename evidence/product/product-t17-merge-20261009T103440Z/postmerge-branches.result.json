@@ -1,0 +1,11 @@
+{
+  "command": "git for-each-ref --format=\"%(refname) %(objectname)\" refs/heads refs/remotes",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:35:38.878664+00:00",
+  "ended_at_utc": "2026-10-09T10:35:38.886371+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t17-publication-20261009T094137Z/postmerge-branches.log",
+    "sha256": "dee94a083523e3e14061c35df3b92e501c44d034ada4d99988c863258c04644c"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "command": "gh pr view 29 --json number,url,state,headRefOid,mergeCommit,mergedAt",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:34:47.776768+00:00"
+}

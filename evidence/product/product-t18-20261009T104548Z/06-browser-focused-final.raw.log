@@ -1,0 +1,75 @@
+TAP version 13
+# Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+not ok 1 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+  ---
+  duration_ms: 9202.082216
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-plan-resubmission/tests/product-plan-resubmission-browser.integration.mjs:14:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /commit changed SQL.*new immutable release/i. Input:
+    
+    'Repository source\n' +
+      '\n' +
+      'Repository paths stay on the server. The browser sends only the repository ID.\n' +
+      '\n' +
+      'GIT\n' +
+      'Project\n' +
+      'Choose project\n' +
+      'T18 browser 676c6850-5319-460e-acce-bf50ac55e8b5\n' +
+      'T18 unbound 4ee9eb4b-4969-4c03-bdc1-cd700013a5fb\n' +
+      'T18 archived 03026b5f-e134-4189-95ad-41b5500cc444 · ARCHIVED\n' +
+      'Bound repository\n' +
+      'T18 browser repository\n' +
+      'Branch or tag\n' +
+      'Use HEAD or enter a ref below\n' +
+      'Branch · main\n' +
+      'Choose a local branch or commit-resolving tag, or keep using HEAD/manual commit.\n' +
+      'Commit or ref\n' +
+      'Selected refs are resolved to a full immutable commit during import.\n' +
+      'Bound migration folder\n' +
+      'migrations\n' +
+      'Import and validate\n' +
+      'Release import uses the saved repository and folder. Files are parsed before a plan can be created.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    Repository source
+    
+    Repository paths stay on the server. The browser sends only the repository ID.
+    
+    GIT
+    Project
+    Choose project
+    T18 browser 676c6850-5319-460e-acce-bf50ac55e8b5
+    T18 unbound 4ee9eb4b-4969-4c03-bdc1-cd700013a5fb
+    T18 archived 03026b5f-e134-4189-95ad-41b5500cc444 · ARCHIVED
+    Bound repository
+    T18 browser repository
+    Branch or tag
+    Use HEAD or enter a ref below
+    Branch · main
+    Choose a local branch or commit-resolving tag, or keep using HEAD/manual commit.
+    Commit or ref
+    Selected refs are resolved to a full immutable commit during import.
+    Bound migration folder
+    migrations
+    Import and validate
+    Release import uses the saved repository and folder. Files are parsed before a plan can be created.
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-plan-resubmission/tests/product-plan-resubmission-browser.integration.mjs:113:12)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9914.177472

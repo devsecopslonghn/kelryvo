@@ -1,0 +1,5 @@
+{
+  "command": "gh run list --commit a5e8b9f45385be3bfcfefdfcb1ca9278fb71d0d0 --limit 50 --json databaseId,workflowName,status,conclusion,headSha,event,url,createdAt,updatedAt",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:35:38.871450+00:00"
+}

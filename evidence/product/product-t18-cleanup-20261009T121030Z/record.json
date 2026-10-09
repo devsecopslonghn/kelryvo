@@ -1,0 +1,59 @@
+{
+  "subject_id": "SF-PRODUCT-T18",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T18-API",
+    "SF-PRODUCT-T18-WEB"
+  ],
+  "case_coverage": [],
+  "id": "product-t18-resubmission-cleanup-verified",
+  "command": "Focused real Git/PostgreSQL/API/browser after removal of ignored unary plus; prior semantically equivalent full regression proof retained",
+  "recorded_at_utc": "2026-10-09T12:10:30.019466+00:00",
+  "raw_output": {
+    "path": "evidence/product/product-t18-cleanup-20261009T121030Z/30-browser-assertion-cleanup.log",
+    "sha256": "3269c8aabc4a387d1e814da91211d3c7f944cbc0b2316f82571a580be8544062"
+  },
+  "source_file_sha256": {
+    "apps/web/src/app.jsx": "bc78e490057586a5d77371bf6bb5ea7270da9290c7189cd67ee69e36342cb0d0",
+    "scripts/test-product.mjs": "a767b040f62d88edf3fd7f5d5f7b67e7f62b8a5ffb2d0410c7c7df8878324998",
+    "docs/development/local-product.md": "fea13d390207336b38cf755260419e100af6478775f7e3bfdc94041b26de5355",
+    "tests/product-plan-resubmission.test.mjs": "d92e67322cf5b51aaa6e5a6b6546ae05423e3e7e6ecc4fe071cc095e7159343a",
+    "tests/product-plan-resubmission-browser.integration.mjs": "e557d59b913b72ee0d817f40bcdad7562b29350b0e79cf6d0bdb8c30897d3dca"
+  },
+  "captured_artifacts": [
+    {
+      "path": "evidence/product/product-t18-cleanup-20261009T121030Z/30-browser-assertion-cleanup.command.json",
+      "sha256": "185a2a91d6b84fb7e3d90e5c489cb947cd57f1c8a53b64dfd39a1c0812850d6b"
+    },
+    {
+      "path": "evidence/product/product-t18-cleanup-20261009T121030Z/30-browser-assertion-cleanup.log",
+      "sha256": "3269c8aabc4a387d1e814da91211d3c7f944cbc0b2316f82571a580be8544062"
+    },
+    {
+      "path": "evidence/product/product-t18-cleanup-20261009T121030Z/30-browser-assertion-cleanup.result.json",
+      "sha256": "d64f545e6aa58c8725353cba455c321cee71a76b6e356978fe874ad75e4a385f"
+    }
+  ],
+  "prior_full_regression": {
+    "path": "evidence/product/product-t18-root-20261009T104426Z/integration-record.json",
+    "sha256": "5d932cc17c97b027d4422baba6fb5f428749cdb22c6e21f04ca812fa3d679f01",
+    "standard": 146,
+    "postgresql": 25,
+    "browser": 16,
+    "source_relationship": "Four owned files byte-identical. Browser diff only removes ignored unary plus and inserts a newline; both awaited assertions retained. Full suites were run before this cleanup; current focused browser passed 1/1 with no skip."
+  },
+  "correction": "Earlier native-handoff.json claimed unary plus removal; the attempted replacement did not match actual ;+ text. Exact-head QA observed it still present at 6d248c16b0a06983a448382a554a1673f44a5e7a. It is now removed. Original evidence remains unchanged.",
+  "prior_review_head": "6d248c16b0a06983a448382a554a1673f44a5e7a",
+  "limitations": [
+    "Default unconstrained prior check failed 2 parser-backed assertions; cause unresolved. Controlled full check passed without parser changes.",
+    "Fresh exact-head independent review and CI required. Sonar unavailable, never PASS. Oracle VALIDATION separate."
+  ]
+}

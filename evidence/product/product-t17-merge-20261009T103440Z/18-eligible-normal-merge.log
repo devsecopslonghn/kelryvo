@@ -1,0 +1,2 @@
+✓ Pull request devsecopslonghn/schemaForge#29 is marked as "ready for review"
+{"head": "5e08361d85955754e81f10617063546429eec7da", "base": "fe3744d7f04369538a72f85426cba0fe35ab6db3", "all_reported_checks_success": 11, "native_qa_security": "APPROVED", "clean_owned_worktree": true, "merge_tree_matches_reviewed_head": true, "unresolved_review_threads": 0, "sonar": "UNAVAILABLE_OWNER_QUOTA_EXCEPTION_NOT_PASS"}

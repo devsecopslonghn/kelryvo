@@ -1,0 +1,389 @@
+{
+  "id": "product-t17-merge-master-verified",
+  "subject_id": "SF-PRODUCT-T17",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact-head independent QA/security; classified publication/history scans; all reported PR checks; normal match-head merge; four exact-master workflow families; scoped security/branch/ownership reconciliation",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t17-merge-20261009T103440Z/master-workflows.json",
+    "sha256": "ea7137ba92a9e19ad6fdb30e4d651dbb4cda505e631b22eca6c792f24f331b9a"
+  },
+  "pr": 29,
+  "reviewed_head": "5e08361d85955754e81f10617063546429eec7da",
+  "merge_commit": "a5e8b9f45385be3bfcfefdfcb1ca9278fb71d0d0",
+  "merged_at": "2026-10-09T10:34:40Z",
+  "recorded_at_utc": "2026-10-09T10:39:47.593217+00:00",
+  "native_reviews": {
+    "recorded_at_utc": "2026-10-09T10:25:20.022058+00:00",
+    "head": "5e08361d85955754e81f10617063546429eec7da",
+    "base": "fe3744d7f04369538a72f85426cba0fe35ab6db3",
+    "qa": {
+      "agent": "/root/t17_qa",
+      "verdict": "APPROVED",
+      "source_hashes_verified": 13,
+      "corrective_capture_hashes_verified": 40
+    },
+    "security": {
+      "agent": "/root/t17_security",
+      "verdict": "APPROVED",
+      "publication_files": 284,
+      "publication_scan_exit_code": 1,
+      "publication_findings": 30,
+      "publication_classification": "Every exact original T17 completion line128-157 is a recomputed immutable verification artifact SHA256; no corrective findings or actual credential observed.",
+      "all_refs_history_exit_code": 1,
+      "all_refs_history_findings": 35,
+      "history_classification": "Same30 capture hashes plus5 previously classified exact-provenance UUID/sourceSHA256/synthetic malformed UNIT PEM/T10 rawdigest."
+    },
+    "original_review": {
+      "head": "e6432c93d6f08ae31856aac159b77833594fc1cd",
+      "verdict": "SECURITY_BLOCKED_UNPUSHED_AT_REVIEW",
+      "fixed_by": "5e08361d85955754e81f10617063546429eec7da",
+      "evidence": "evidence/product/product-t17-security-correction-20261009T093814Z/blocked-review.json"
+    },
+    "sonar": {
+      "status": "UNAVAILABLE_OWNER_QUOTA_EXCEPTION",
+      "scan_passed": false
+    },
+    "limitations": "Original lost interactive captures/unexplained parser failures remain candid. First corrective check144/145 stale SQL observer retained; final145/24/15 zero skips. No Oracle or full catalog acceptance."
+  },
+  "snapshot_hashes": [
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/01-secret-alerts-before-publication.command.json",
+      "sha256": "2fdb5a89e3d122e6a3d49620cbb3c4a4ae3751fadac5a1411f492743ca714826"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/01-secret-alerts-before-publication.log",
+      "sha256": "7bdf927ad941f23f9ddd4b3c6102ad2f6f50faa93c4341fd7e589c219a7c6b13"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/01-secret-alerts-before-publication.result.json",
+      "sha256": "2ad935354499d64b2b9879db5060f7b6f592f6dcfed081a6b25ab9586f354211"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/02-code-alerts-before-publication.command.json",
+      "sha256": "5b761f7f1abbe280fc5fe40959f519e090a007b1e432476873c4d717dce38cd8"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/02-code-alerts-before-publication.log",
+      "sha256": "7bdf927ad941f23f9ddd4b3c6102ad2f6f50faa93c4341fd7e589c219a7c6b13"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/02-code-alerts-before-publication.result.json",
+      "sha256": "9cf89e9cfc5c6c307a24ac68ed784a9bbae00adb06801517adde8b19b462cf9d"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/03-secret-alerts-safe-retry.command.json",
+      "sha256": "24091be7720ae898c79b355a3703cef5dd742ed7c1e5a7271fcbff6fd1e89fce"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/03-secret-alerts-safe-retry.log",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/03-secret-alerts-safe-retry.result.json",
+      "sha256": "b75cc8e13c773d5614638d3d92880674a83647aafb19b3efad7bf5c3a9c68ce0"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/04-code-alerts-safe-retry.command.json",
+      "sha256": "2697dbb8980bea1dd962dab8db00e8ed538e6232f603001e0cc99c5815febec0"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/04-code-alerts-safe-retry.log",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/04-code-alerts-safe-retry.result.json",
+      "sha256": "328038fcf95224bc29f5efe93b34bc407f3e2c06c5e6d8433db3f30ca53e59ab"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/05-prepublish-all-branches.command.json",
+      "sha256": "43668177829d95fefa4421a1e952653d094905bfea031ed0db3f7fba3bba24c8"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/05-prepublish-all-branches.log",
+      "sha256": "a8d75c792b6b0749e4c8cf5f3a6f20e3d3fdb4f22d381fecb00227a21827968b"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/05-prepublish-all-branches.result.json",
+      "sha256": "79c854d1be4f9db6a4fa7fa69bfb381872e1feb2bdf45defbaf25d206242dcd5"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/06-prepublish-open-prs.command.json",
+      "sha256": "14350016021f3b30534484f3ad22db3ab9bc97d94f3ea03330b5e9039b95af19"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/06-prepublish-open-prs.log",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/06-prepublish-open-prs.result.json",
+      "sha256": "c9b057263d794e6040e853b4170ff2e8a035cd13fd1ec7accd0313152fb25407"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.command.json",
+      "sha256": "df0dbc8e362eacef55d0dd9fcc81f836f39a5313adbdb29d20e2940aa6d3426e"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.log",
+      "sha256": "0a7071874bacec47d372b6a43ca15d6d793110e6e2eb958a1074a9237cc0954a"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.result.json",
+      "sha256": "720a0dfb701d8b8c30ca9a0859fcacbbdd2cbd5b8bae4ec04e17e544edec0607"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/08-create-draft-pr.command.json",
+      "sha256": "a5dd6783ac1039885fab398f7d1d7bd198c788739231b2d350ff7bf465689e41"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/08-create-draft-pr.log",
+      "sha256": "b5061ec8893d4ea1350ff4999a0522acfd9b460ba836fc0758968ab6131ba99d"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/08-create-draft-pr.result.json",
+      "sha256": "8eaf70448936d2c9895ef5ef5ee83d05c90d3099ec3965ba992c5d25130fba60"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/09-pr-gates.command.json",
+      "sha256": "8554a826a7dec6719bc1c4fbd90547b87d33e63c61cae1c29643b0729e357854"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/09-pr-gates.log",
+      "sha256": "f1240799b01bd731f47c621b0b137ad1f9f7b85eeaa0373bf35051788b5a202e"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/09-pr-gates.result.json",
+      "sha256": "e9fba9a8c768736c858e23cebb7cf3d8cfb75a5cba87473703c244d018699a36"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/10-review-threads.command.json",
+      "sha256": "0494864e3fa4d2670874014252f121215181962869ad9a5ac66dc48753351603"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/10-review-threads.log",
+      "sha256": "4f82c8986b1e02eb90d61f5f9524906c9f987f171cfbb8cb7c2f15b476095952"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/10-review-threads.result.json",
+      "sha256": "0c71696385e0203cca3bb68dbaa343066d4cc2a3ac1d4ba33c57e20a58add92e"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/11-current-pr-gates.command.json",
+      "sha256": "f6c8576ffb25f5efcda7bb84ba28e22f0710bb0bd08efe10a2e8512a72a53600"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/11-current-pr-gates.log",
+      "sha256": "f36f224cb81cb0494a84e5ce54a1ba02189099a6ab510c75273f3b70ff67ec84"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/11-current-pr-gates.result.json",
+      "sha256": "d886889bd36bc39b278c7bcbdef732008c2487b6e5e0570b423cd10a1534d376"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/12-premerge-fetch.command.json",
+      "sha256": "3196d7f00a3cb8c847879713d8a1e0593222caf43e94a578fc379864242cb9d6"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/12-premerge-fetch.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/12-premerge-fetch.result.json",
+      "sha256": "242332fd5502b731dcc6d68efcb18fa0dce9739c0597e107f0fa96a602dfaa18"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/13-premerge-prs.command.json",
+      "sha256": "3759946bcb73eb4141183193538a8e1e668eef70db78d5d4e75995ba38114bcb"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/13-premerge-prs.log",
+      "sha256": "47771b325a04db0206b682f8753ba6ee52a2e8dba411e1d66a20d6b33e717626"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/13-premerge-prs.result.json",
+      "sha256": "6bf4338fde5fe3fb71d4226a53e21d4fce29c0179b59ffb7cb77538b0241dc0b"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/14-premerge-secret-alerts.command.json",
+      "sha256": "f2da19b8f66f4ed99f8bb423c1517147e50515b9f8733a611cdda743950866a3"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/14-premerge-secret-alerts.log",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/14-premerge-secret-alerts.result.json",
+      "sha256": "ecac684cfcefc249441a9687851ef6e4a8ea57f1e61c1ccf1c9cec06e9d1ee10"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/15-premerge-code-alerts.command.json",
+      "sha256": "deb34d39f970f65bb3803339eb126e6eb7c2de2e644a7a7facd4e38fdb8f7f3c"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/15-premerge-code-alerts.log",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/15-premerge-code-alerts.result.json",
+      "sha256": "943b0d4473ef6bf2e0f3a67c82a70b17a5d2fccb61c372ca10bad1a871a62fd8"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/16-premerge-branches.command.json",
+      "sha256": "04e679fb63de05c1211806c09fe5c222ea58156d3781761a6dbf41ebb1109c73"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/16-premerge-branches.log",
+      "sha256": "8825ed3026c466e9ffcfccfdebace0d2bf3da83ed52119d7f2826612bde9c47f"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/16-premerge-branches.result.json",
+      "sha256": "d708cf8470cafab1a728beaec5d764404396d4d1d436c33635e73fc16ba53507"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/17-pr-before-ready.command.json",
+      "sha256": "e9b9969671a8afbb486f5aac436ae3bad79153c9082c1e801c0e84e9e04cd2db"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/17-pr-before-ready.log",
+      "sha256": "50b3256dd73bf792ae14dab378b5491e4058fa8cbfa33ec358bba027234c0d18"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/17-pr-before-ready.result.json",
+      "sha256": "818694b2e197587a2b5141060f1e1da4d332dfa3d27d5540963075eee315ac3e"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/18-eligible-normal-merge.command.json",
+      "sha256": "0c550ae764d19d7a5ade7755749dbb68b5cd395b28fde26ffe82e4548a0230ed"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/18-eligible-normal-merge.log",
+      "sha256": "dbcd72f7bef47801936201f79d0e86686d75ead31bde2e370c3dcfecaef07c15"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/18-eligible-normal-merge.result.json",
+      "sha256": "db7138443d2251f5a098674db801a1ce9fcad183785ad10fb9a89f78c9243da6"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/master-workflows-final.command.json",
+      "sha256": "68fec8acf9999ae5d43ddb5791f6a7a13b69d3ef5ed42979f89ae1c77da998df"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/master-workflows-final.log",
+      "sha256": "e2dd28bc5d2ed1eca0f1fbae74be41938e81bd27fa179c5265aeddfcb60efc18"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/master-workflows-final.result.json",
+      "sha256": "01ce416a7e10856c35168c2942315d7a44be5084de9c39100ec9b802437821fb"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/master-workflows-initial.command.json",
+      "sha256": "a98d09ff353ec895cd1a4580d930233a957f4c32c3bf4fd190e817853ca1e0bd"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/master-workflows-initial.log",
+      "sha256": "60325933b87567df43e4d161601686c462a03f23050235734252c67b9b73491f"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/master-workflows-initial.result.json",
+      "sha256": "809c4b4d538e48103bf449a22a8285ddaaabea4854f25100e2a5b35250573a27"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/master-workflows.json",
+      "sha256": "ea7137ba92a9e19ad6fdb30e4d651dbb4cda505e631b22eca6c792f24f331b9a"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/merged-pr.command.json",
+      "sha256": "d5aebd08ca31c2ef65e44a9df5b1e9880879744202256772c8c3491de975870e"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/merged-pr.log",
+      "sha256": "7c3f494b4130fe12236d2f2cd44d0a5f545d98dabc65ad50d09a47c9c6675410"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/merged-pr.result.json",
+      "sha256": "eb4f5327fdc124592962fb852f5e6de44ccc215dc99419be94836f4e5c51a75f"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/native-reviews.json",
+      "sha256": "f8b72368b139208ddb36137acec3aa7cc0582ad8057ef8530d70f086da6874b8"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-branches.command.json",
+      "sha256": "433d284ae846e3efbb44a85e6bdab1d6a408953e0c61707c2d20e169e7bd2f71"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-branches.log",
+      "sha256": "dee94a083523e3e14061c35df3b92e501c44d034ada4d99988c863258c04644c"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-branches.result.json",
+      "sha256": "fcf9c8715157ad7ad80f56716c42efc3eed9acbcc31703b4710b5d151f82ba48"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-code-alerts.command.json",
+      "sha256": "d66e42de1c1e43c6eebb8a22b7850fb96d37dba9540e87c14b4f7c46487c02e5"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-code-alerts.log",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-code-alerts.result.json",
+      "sha256": "b39e7bc31e9e59d2ad3887cde1afd4b2a696fdf4ecd953a915cd864507455278"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-fetch.command.json",
+      "sha256": "15d69168909c677f077fee8c7e1e1627d6b72cadca37398db8b8bea743dec81f"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-fetch.log",
+      "sha256": "1e88cc573555e8e511ee91e38b4f907faaa6de0e7d838ada7f7fc3e81a240958"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-fetch.result.json",
+      "sha256": "c59bf5e1beeea96a6193d2bb94bd5251048aadbf403a02ccf96c2ac8dd40f0b3"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-prs.command.json",
+      "sha256": "790895c203ce08348daa06b7d39c5f33987795738b98cc3a9b75bfcf2cf80db2"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-prs.log",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-prs.result.json",
+      "sha256": "1e19fe0c4c59d8a2f4a9b02b543dbc63fe4fadf2746cfe1f933068c48190d49a"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-secret-alerts.command.json",
+      "sha256": "115b7541daf928690001fb5ee9ca994eee24b6ce747b2bebb84f8ba50d38ac22"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-secret-alerts.log",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/postmerge-secret-alerts.result.json",
+      "sha256": "1f5e14803ba5f380adfa4a051462aaf9146fa6dee19b574b81b4877c24a365c2"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/shared-checkout-status.command.json",
+      "sha256": "fd899d7155df89d24ed304c3182b275912c47fbb45fbeca7efa65844da1165bc"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/shared-checkout-status.log",
+      "sha256": "bbd38315f4a8d4b1a127b360ef210d915754a0ea9800e4ef7586d6a9b2872822"
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/shared-checkout-status.result.json",
+      "sha256": "06820f136447ac056141da290c81acd34dd5f3ead03667fbfd109ba87d29e59d"
+    }
+  ],
+  "scope_limits": "T17 bounded offline intent and approval integrity only. Finding-bearing publication exit1/30 and all-refs history exit1/35 separately classified; not clean scans. Earlier failed/missing captures remain candid. Copied capture metadata retains original private capture paths; each same-named tracked raw is independently hash-verified here. Sonar unavailable under existing owner quota exception, never PASS. No Hygiene PR/branch observed, public history/scanners/shared checkout unchanged. No Oracle/full-catalog/tamperproof acceptance."
+}

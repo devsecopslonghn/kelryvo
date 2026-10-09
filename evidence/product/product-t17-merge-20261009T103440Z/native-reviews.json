@@ -1,0 +1,33 @@
+{
+  "recorded_at_utc": "2026-10-09T10:25:20.022058+00:00",
+  "head": "5e08361d85955754e81f10617063546429eec7da",
+  "base": "fe3744d7f04369538a72f85426cba0fe35ab6db3",
+  "qa": {
+    "agent": "/root/t17_qa",
+    "verdict": "APPROVED",
+    "source_hashes_verified": 13,
+    "corrective_capture_hashes_verified": 40
+  },
+  "security": {
+    "agent": "/root/t17_security",
+    "verdict": "APPROVED",
+    "publication_files": 284,
+    "publication_scan_exit_code": 1,
+    "publication_findings": 30,
+    "publication_classification": "Every exact original T17 completion line128-157 is a recomputed immutable verification artifact SHA256; no corrective findings or actual credential observed.",
+    "all_refs_history_exit_code": 1,
+    "all_refs_history_findings": 35,
+    "history_classification": "Same30 capture hashes plus5 previously classified exact-provenance UUID/sourceSHA256/synthetic malformed UNIT PEM/T10 rawdigest."
+  },
+  "original_review": {
+    "head": "e6432c93d6f08ae31856aac159b77833594fc1cd",
+    "verdict": "SECURITY_BLOCKED_UNPUSHED_AT_REVIEW",
+    "fixed_by": "5e08361d85955754e81f10617063546429eec7da",
+    "evidence": "evidence/product/product-t17-security-correction-20261009T093814Z/blocked-review.json"
+  },
+  "sonar": {
+    "status": "UNAVAILABLE_OWNER_QUOTA_EXCEPTION",
+    "scan_passed": false
+  },
+  "limitations": "Original lost interactive captures/unexplained parser failures remain candid. First corrective check144/145 stale SQL observer retained; final145/24/15 zero skips. No Oracle or full catalog acceptance."
+}

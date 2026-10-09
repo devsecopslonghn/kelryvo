@@ -1,0 +1,22 @@
+{
+  "label": "browser-focused-final",
+  "command": [
+    "node",
+    "--test",
+    "--test-concurrency=1",
+    "tests/product-plan-resubmission-browser.integration.mjs"
+  ],
+  "startedUtc": "2026-10-09T10:48:40Z",
+  "endedUtc": "2026-10-09T10:48:50Z",
+  "exitCode": 1,
+  "sourceSnapshotSha256": "f7230e953be616831980bef9dc9485d693ba51d74aa4c8978d9ef7197b30eedc",
+  "sourceFileSha256": {
+    "apps/web/src/app.jsx": "bc78e490057586a5d77371bf6bb5ea7270da9290c7189cd67ee69e36342cb0d0",
+    "scripts/test-product.mjs": "a767b040f62d88edf3fd7f5d5f7b67e7f62b8a5ffb2d0410c7c7df8878324998",
+    "docs/development/local-product.md": "fea13d390207336b38cf755260419e100af6478775f7e3bfdc94041b26de5355",
+    "tests/product-plan-resubmission.test.mjs": "d92e67322cf5b51aaa6e5a6b6546ae05423e3e7e6ecc4fe071cc095e7159343a",
+    "tests/product-plan-resubmission-browser.integration.mjs": "654a1af56f7646e37168b71b8085a0b654c548eaffddae980e0d1394f7b91e02"
+  },
+  "rawOutputSha256": "9abbde6d90d960c9dc358a4e82ee881f54ed178ad0887c1a97f372a9c55730d2",
+  "rawOutputPath": "06-browser-focused-final.raw.log"
+}

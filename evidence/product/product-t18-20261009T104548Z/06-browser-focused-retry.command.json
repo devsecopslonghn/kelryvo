@@ -1,0 +1,8 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "--test-concurrency=1",
+    "tests/product-plan-resubmission-browser.integration.mjs"
+  ]
+}

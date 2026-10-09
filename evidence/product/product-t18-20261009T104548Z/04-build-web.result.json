@@ -1,0 +1,21 @@
+{
+  "label": "build-web",
+  "command": [
+    "npm",
+    "run",
+    "build:web"
+  ],
+  "startedUtc": "2026-10-09T10:47:27Z",
+  "endedUtc": "2026-10-09T10:47:27Z",
+  "exitCode": 0,
+  "sourceSnapshotSha256": "2b098928390d73ee54ed0ee1dbe587cd8e2a33e169908b940eb873de83ad5da0",
+  "sourceFileSha256": {
+    "apps/web/src/app.jsx": "bc78e490057586a5d77371bf6bb5ea7270da9290c7189cd67ee69e36342cb0d0",
+    "scripts/test-product.mjs": "a767b040f62d88edf3fd7f5d5f7b67e7f62b8a5ffb2d0410c7c7df8878324998",
+    "docs/development/local-product.md": "fea13d390207336b38cf755260419e100af6478775f7e3bfdc94041b26de5355",
+    "tests/product-plan-resubmission.test.mjs": "d92e67322cf5b51aaa6e5a6b6546ae05423e3e7e6ecc4fe071cc095e7159343a",
+    "tests/product-plan-resubmission-browser.integration.mjs": "c8e40df97293b06fbf08455688bee3604bab2d81a6d383455b0418662713163c"
+  },
+  "rawOutputSha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4",
+  "rawOutputPath": "04-build-web.raw.log"
+}
