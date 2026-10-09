@@ -1869,6 +1869,24 @@
       },
       "path": "evidence/product/product-t12-security-correction-20261009T055200Z/record.json",
       "sha256": "5c469f7b1d29410401f5ab39951d766b3e96c350098c2b9cc8dae875cf521de9"
+    },
+    {
+      "id": "product-t12-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T12",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "gh pr checks 24; gh pr view 24; gh run list --commit bc00d1547625279ebd0d45f0b08027ef8d458bff; sanitized GitHub alert metadata; independent native exact-head QA/security review",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t12-merge-20261009T055818Z/master-workflows.json",
+        "sha256": "d46dd0c24e6b05b6d895cdcfbda06f2f0093068efb6f71fe66af027f56e9823c"
+      },
+      "path": "evidence/product/product-t12-merge-20261009T055818Z/record.json",
+      "sha256": "94d6bfdf2b39aa7a5514d58358d2287036e7c9061afcc30270b29562d9d8e136"
     }
   ]
 }

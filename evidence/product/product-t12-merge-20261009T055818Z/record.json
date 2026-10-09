@@ -1,0 +1,71 @@
+{
+  "id": "product-t12-merge-master-verified",
+  "subject_id": "SF-PRODUCT-T12",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "gh pr checks 24; gh pr view 24; gh run list --commit bc00d1547625279ebd0d45f0b08027ef8d458bff; sanitized GitHub alert metadata; independent native exact-head QA/security review",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t12-merge-20261009T055818Z/master-workflows.json",
+    "sha256": "d46dd0c24e6b05b6d895cdcfbda06f2f0093068efb6f71fe66af027f56e9823c"
+  },
+  "checked_at": "2026-10-09T06:03:04.727355Z",
+  "pr": 24,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/24",
+  "reviewed_head": "406c9d309ee6aa32eb73b5ecd920feafa2e2bc3e",
+  "master": "bc00d1547625279ebd0d45f0b08027ef8d458bff",
+  "merge_time": "2026-10-09T05:58:18Z",
+  "pr_checks": {
+    "pass": 10,
+    "unavailable_sonar_not_counted": true
+  },
+  "master_workflows": {
+    "pass": 4
+  },
+  "independent_reviews": {
+    "qa": "APPROVED exact406c9d3; all12source/3correctionloghashes independently verified; scope and cases reviewed",
+    "security_license": "APPROVED exact406c9d3; 49publicationfiles0findings; same5classified historical findings; initial7d97 resource blocker fixed before anypush"
+  },
+  "local_checks": {
+    "standard": 142,
+    "product": 22,
+    "browser": 10,
+    "tracker": 21,
+    "skipped": 0
+  },
+  "gitleaks": {
+    "publication_files": 49,
+    "publication_findings": 0,
+    "history_pattern_matches": 5,
+    "classified_benign": 5,
+    "real_credentials_observed": 0,
+    "original_hygiene_report_crosscheck": "COMPLETE_EXACT_MATCH_TO_INDEPENDENT_METADATA",
+    "raw_matches_printed": false,
+    "allowlist_changed": false,
+    "history_rewritten": false
+  },
+  "hygiene_integration": "PENDING no separate branch/PR visible; original report provenance complete",
+  "shared_checkout": {
+    "path": "/home/longhn0710/workspace/schemaforge",
+    "head": "0346300471a889ae8fd33b022b890034be08d301",
+    "modified": false
+  },
+  "next_task": {
+    "id": "SF-PRODUCT-T13",
+    "status": "READY",
+    "implemented": false,
+    "worktree": "/home/longhn0710/workspace/schemaforge-product-plan-source-inspection",
+    "branch": "development/product-plan-source-inspection"
+  },
+  "limitations": [
+    "Sonar unavailable under unchanged quota exception, never PASS.",
+    "Oracle VALIDATION124applicablecellsBLOCKED; bounded retainedUTF8/product only.",
+    "No originalraw/BOM/tamperproof/fullcatalog/worker claim.",
+    "Missing earlyraw failures explicitly disclosed; availablepartial/pre-final captures retained. Four intentionalMarkdownhardbreaks in immutableoriginalrecord kept.",
+    "Checkpoint is local and will accompany nexteligible PRODUCTPR; T13 registrationonly."
+  ]
+}
