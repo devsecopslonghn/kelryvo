@@ -1,0 +1,29 @@
+{
+  "id": "product-t07-merge-master-verified",
+  "subject_id": "SF-PRODUCT-T07",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact-head gh checks/security/review inspection; ordinary gh pr merge #17; verify four master workflows; synchronize local master with git merge --ff-only; npm run dev and authenticated browser/API inspection",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t07-merge-20261009T031557Z/master-workflows.json",
+    "sha256": "442eea2b680c44ff6e4106e2a7dba42d4d973bf1e93cd4df6861c3a5373609b9"
+  },
+  "recorded_at": "2026-10-09T03:19:35.509044+00:00",
+  "pr": 17,
+  "reviewed_head": "a5598a9b592c66de648fa2a621c6208edb6bc9be",
+  "merge_commit": "dd943508f8fabd5449f8bf05b22449be92a305fc",
+  "premerge_audit": "evidence/product/product-t07-merge-20261009T031557Z/premerge.json",
+  "merged": "evidence/product/product-t07-merge-20261009T031557Z/merged.json",
+  "running_app_inspection": "evidence/product/product-t07-merge-20261009T031557Z/live-app-inspection.json",
+  "next_product_task": "SF-PRODUCT-T08: project plan review status filters, READY with bounded GOV-021 partial acceptance.",
+  "sonar": "UNAVAILABLE_OWNER_REPORTED_LOC_QUOTA; never PASS; unchanged exception",
+  "limitations": [
+    "Full catalog/project transfer/RBAC acceptance unclaimed; Oracle BLOCKED.",
+    "The inspected app was stopped gracefully; PostgreSQL metadata and private config retained."
+  ]
+}

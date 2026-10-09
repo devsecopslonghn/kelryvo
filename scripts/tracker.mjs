@@ -99,7 +99,17 @@ const PRODUCT_TASK_07 = {
     'Unauthorized reads and invalid or spoofed decision writes remain denied; this bounded provenance view does not certify project transfer, full catalog audit or Oracle execution.',
   ], test_references: ['SF-PRODUCT-T07-API', 'SF-PRODUCT-T07-WEB'],
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07];
+const PRODUCT_TASK_08 = {
+  id: 'SF-PRODUCT-T08', package: 'PRODUCT', assigned_agent: 'frontend',
+  title: 'Filter project plan reviews by decision status', dependencies: ['SF-PRODUCT-T07'],
+  feature_ids: ['GOV-021'],
+  acceptance_criteria: [
+    'Authenticated project plan reviews offer All, Pending approval, Approved and Rejected filters with a clear empty state, using the existing scoped project data and preserving the current All default.',
+    'Changing a filter cannot display a plan outside the selected project or retain another plan\'s unsent comment draft; selected plans still expose their persisted comments and terminal decision records.',
+    'Archived projects retain filtered historical read access; approval/rejection, comments, plan bytes and execution/history behavior remain unchanged. Assignment, delegation, notifications and full catalog inbox acceptance are excluded.',
+  ], test_references: ['SF-PRODUCT-T08-WEB'],
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

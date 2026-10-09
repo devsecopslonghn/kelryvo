@@ -16,7 +16,7 @@ const persistedState = () => ({
 });
 const productReadyState = () => {
   const s = persistedState();
-  for (const [id, status] of [['SF-PRODUCT-T01', 'READY'], ['SF-PRODUCT-T02', 'BACKLOG'], ['SF-PRODUCT-T03', 'BACKLOG'], ['SF-PRODUCT-T04', 'BACKLOG'], ['SF-PRODUCT-T05', 'BACKLOG'], ['SF-PRODUCT-T06', 'BACKLOG'], ['SF-PRODUCT-T07', 'BACKLOG']]) {
+  for (const [id, status] of [['SF-PRODUCT-T01', 'READY'], ['SF-PRODUCT-T02', 'BACKLOG'], ['SF-PRODUCT-T03', 'BACKLOG'], ['SF-PRODUCT-T04', 'BACKLOG'], ['SF-PRODUCT-T05', 'BACKLOG'], ['SF-PRODUCT-T06', 'BACKLOG'], ['SF-PRODUCT-T07', 'BACKLOG'], ['SF-PRODUCT-T08', 'BACKLOG']]) {
     const task = s.tasks.tasks.find(item => item.id === id);
     task.status = status;
     task.evidence = [];
@@ -54,7 +54,7 @@ test('persisted tracker state validates without assuming initial statuses', () =
 test('catalog and plan IDs are retained with original dependency links', () => {
   const s = fullState();
   assert.equal(s.features.features.length, 220);
-  assert.equal(s.tasks.tasks.length, 72); // 64 imported tasks, foundation, and seven product tasks.
+  assert.equal(s.tasks.tasks.length, 73); // 64 imported tasks, foundation, and eight product tasks.
   assert.equal(s.tests.cases.length, 63);
   assert.deepEqual(s.features.features.find((f) => f.id === 'DBM-002').dependencies, ['SEC-005', 'SEC-009']);
 });
@@ -109,6 +109,12 @@ test('initial state keeps Oracle validation and product delivery tracks distinct
   assert.deepEqual(t07.feature_ids, ['GOV-023']);
   assert.deepEqual(s.graph.scheduling.PRODUCT[t07.id], t07.dependencies);
   assert.deepEqual(s.acceptance.work[t07.id].criteria, t07.acceptance_criteria);
+  const t08 = s.tasks.tasks.find((t) => t.id === 'SF-PRODUCT-T08');
+  assert.equal(t08.status, 'BACKLOG');
+  assert.deepEqual(t08.dependencies, ['SF-PRODUCT-T07']);
+  assert.deepEqual(t08.feature_ids, ['GOV-021']);
+  assert.deepEqual(s.graph.scheduling.PRODUCT[t08.id], t08.dependencies);
+  assert.deepEqual(s.acceptance.work[t08.id].criteria, t08.acceptance_criteria);
   assert.ok(s.tasks.tasks.filter((t) => t.package === 'WP0' && !['WP0-T01', 'SF-P0-FOUNDATION'].includes(t.id)).every((t) => t.status === 'BACKLOG'));
   assert.ok(s.features.features.every((f) => ['BACKLOG', 'DEFERRED'].includes(f.status)));
 });

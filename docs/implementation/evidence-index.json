@@ -1496,6 +1496,42 @@
       },
       "path": "evidence/product/product-t07-decision-record-20261009T025416Z/record.json",
       "sha256": "e0043afd6a71629027435d334800bf28adf6a025265f81b7b25d18e77604c8c6"
+    },
+    {
+      "id": "product-t07-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T07",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head gh checks/security/review inspection; ordinary gh pr merge #17; verify four master workflows; synchronize local master with git merge --ff-only; npm run dev and authenticated browser/API inspection",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t07-merge-20261009T031557Z/master-workflows.json",
+        "sha256": "442eea2b680c44ff6e4106e2a7dba42d4d973bf1e93cd4df6861c3a5373609b9"
+      },
+      "path": "evidence/product/product-t07-merge-20261009T031557Z/record.json",
+      "sha256": "95eb483e5a050985f41b5522001b95191954dd9fd8111e177775830f54295bbc"
+    },
+    {
+      "id": "product-t07-checkpoint-registration-verified",
+      "subject_id": "SF-PRODUCT-T07",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check with PostgreSQL enabled; npm run next selects READY SF-PRODUCT-T08; inspect authored diff",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t07-merge-20261009T031557Z/checkpoint/checks.log",
+        "sha256": "ee5cff7674a8d92476b6276e8aad285c7418b009b66e1f764c4168def4f02a64"
+      },
+      "path": "evidence/product/product-t07-merge-20261009T031557Z/checkpoint/record.json",
+      "sha256": "8ea02383e7337c98270605a53d3f226f9a55c836407a020d0a8f0adfd67ae100"
     }
   ]
 }

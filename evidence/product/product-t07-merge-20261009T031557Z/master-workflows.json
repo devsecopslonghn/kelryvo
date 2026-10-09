@@ -1,0 +1,40 @@
+{
+  "recorded_at": "2026-10-09T03:17:49.327616+00:00",
+  "merge_commit": "dd943508f8fabd5449f8bf05b22449be92a305fc",
+  "workflows": [
+    {
+      "conclusion": "success",
+      "databaseId": 37878364689,
+      "headSha": "dd943508f8fabd5449f8bf05b22449be92a305fc",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37878364689",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37878363960,
+      "headSha": "dd943508f8fabd5449f8bf05b22449be92a305fc",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37878363960",
+      "workflowName": "CodeQL"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37878364632,
+      "headSha": "dd943508f8fabd5449f8bf05b22449be92a305fc",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37878364632",
+      "workflowName": "Local PRODUCT acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37878364614,
+      "headSha": "dd943508f8fabd5449f8bf05b22449be92a305fc",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37878364614",
+      "workflowName": "Offline ANTLR parser acceptance"
+    }
+  ],
+  "local_master": "dd943508f8fabd5449f8bf05b22449be92a305fc",
+  "origin_master": "dd943508f8fabd5449f8bf05b22449be92a305fc"
+}

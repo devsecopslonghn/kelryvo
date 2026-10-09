@@ -1,0 +1,11 @@
+{
+  "scripts/tracker.mjs": "b023ba45832ed797cac01b312ac003af990eb4bda87493074a9cd642fed848bb",
+  "tests/tracker.test.mjs": "1d8fced365ce7f7c4bc622015903045f3b97b4c1b13c6355280e2cee6ff46daf",
+  "docs/implementation/CURRENT.md": "557db69393ff1b0cf8a2cf527fa8fd71c633c4e91120a803139d3a0ab2c9cc8a",
+  "docs/implementation/CONTINUE.md": "b84564e049cd9cfd8ee0f755612ab7aea48176a87ca6d483113c710e9a64edd0",
+  "docs/implementation/backlog.json": "a94136864c024f853ea94d40eb805ad630c279d917a741ace80dacafb33a7855",
+  "docs/implementation/acceptance.json": "7d06798a43fcde18aaa130abc5a1caf4b6cabf8758ebe7787df306c7da53d346",
+  "docs/implementation/dependency-graph.json": "52f5134b9704e0901f59ec3d5e34172111830b1b11c45b09d5f1eb83c3559d27",
+  "docs/implementation/ownership.json": "a6a146124e74546056b162f76d6c07a4f7dc3fd321c11289be244ed345981792",
+  "docs/implementation/milestone.json": "c1c37af63f813bc966d11afa58efd6bc66007bbfe5f8646b5ed1dc8b02286c20"
+}

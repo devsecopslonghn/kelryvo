@@ -1,5 +1,40 @@
 # Current engineering state
 
+## T06/T07 merged; next PRODUCT task T08 READY — 2026-10-09
+
+T06 persistent plan comments merged through PR #16 at
+`b5c0392feda043b26138fd591acb5be5b166fe74`. T07 retained decision provenance merged
+through PR #17 at `dd943508f8fabd5449f8bf05b22449be92a305fc`. Both exact PR heads
+had ten passing non-Sonar checks and independent native review. All four master
+workflows passed on each implementation merge, and local master was synchronized.
+
+PRODUCT T01–T07 are VERIFIED_LOCAL. Final implementation verification: 140/140
+standard, 20/20 PostgreSQL/product and 5/5 browser workflows, zero skips. T06 also ran
+4/4 real parser-helper tests and the offline parser corpus; master parser/WP0 regressions
+passed on both merges. Interrupted/initial test observations remain separate from PASS.
+
+The merged local app was inspected again: reviewer ID fallback, stored decision reason
+and server timestamp match retained API facts, comments remain readable, no browser
+errors, PostgreSQL healthy, execution NOT_EXECUTED. It was stopped gracefully, retaining
+the local PostgreSQL volume and private config. Restart using `npm run dev`.
+Merge/app evidence: `evidence/product/product-t07-merge-20261009T031557Z/record.json`. This checkpoint's
+own PR/head/merge and post-merge checks must be resolved from Git/GitHub; the literal
+master above identifies the verified preceding implementation, not a self-reference.
+
+`npm run next` selects **SF-PRODUCT-T08 — filter project plan reviews by decision status**
+(READY, frontend, bounded GOV-021 partial). Implement All/Pending approval/Approved/Rejected
+filters in a fresh task context using current scoped project data. Retain the All default,
+clear another plan's unsent comment draft on selection changes, and preserve comments,
+decision records and archived read access. Assignment, delegation, notifications and full
+catalog inbox acceptance are excluded. Acceptance/test references are registered in the
+tracker; T08 implementation remains outstanding. No unresolved defect was found in T06/T07.
+
+The owner-selected PolyForm Shield 1.0.0 license and unchanged Sonar quota exception
+remain in force; Sonar is unavailable, never PASS. Oracle acceptance and all 124 applicable
+Oracle cells remain BLOCKED independently. Public naming/F31 distribution remain pending.
+
+## Earlier checkpoints — superseded by the merged T06/T07 state above
+
 ## T07 local verification completed — 2026-10-09
 
 SF-PRODUCT-T07 now displays retained terminal decision reviewer/name/ID, timestamp and

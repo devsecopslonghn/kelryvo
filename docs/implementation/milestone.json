@@ -86,6 +86,12 @@
     },
     {
       "index_id": "product-t07-decision-record-local-verified"
+    },
+    {
+      "index_id": "product-t07-merge-master-verified"
+    },
+    {
+      "index_id": "product-t07-checkpoint-registration-verified"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -97,7 +103,14 @@
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
   "product_features_verified": 0,
-  "next_actionable_tasks": [],
+  "next_actionable_tasks": [
+    {
+      "id": "SF-PRODUCT-T08",
+      "owner": "frontend",
+      "status": "READY",
+      "action": "Filter project plan reviews by decision status"
+    }
+  ],
   "blocked_inputs_evidence": {
     "index_id": "WP0-T01-INPUTS-20261008T094757Z-c4b97e39"
   },
@@ -107,27 +120,29 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-09T03:10:23.894922+00:00",
+  "updated_at": "2026-10-09T03:19:35.509044+00:00",
   "final_check_evidence": {
-    "index_id": "product-t07-decision-record-local-verified"
+    "index_id": "product-t07-checkpoint-registration-verified"
   },
-  "final_check_manifest": "evidence/product/product-t07-decision-record-20261009T025416Z/source-hashes.json",
+  "final_check_manifest": "evidence/product/product-t07-merge-20261009T031557Z/checkpoint/source-hashes.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
-  "latest_validated_master_before_this_increment": "b5c0392feda043b26138fd591acb5be5b166fe74",
-  "last_merged_implementation_pr": 16,
-  "checkpoint_evidence": "evidence/product/product-t07-decision-record-20261009T025416Z/record.json",
+  "latest_validated_master_before_this_increment": "dd943508f8fabd5449f8bf05b22449be92a305fc",
+  "last_merged_implementation_pr": 17,
+  "checkpoint_evidence": "evidence/product/product-t07-merge-20261009T031557Z/record.json",
   "implementation_prs_pending": [],
-  "next_fully_unblocked_tasks": [],
+  "next_fully_unblocked_tasks": [
+    "SF-PRODUCT-T08"
+  ],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
     "reason": "PRODUCT T01–T05 merged with passing non-Sonar CI and owner-authorized Sonar availability exception; independent PRODUCT delivery continues, Oracle VALIDATION remains blocked."
   },
-  "current_increment_pr": 16,
-  "current_increment_merge_status": "T07_LOCAL_VERIFIED_PENDING_PR",
-  "current_increment_reviewed_head": "a40b3fed6e5d86157aa19b5b6f47ec0352af0ca7",
-  "current_checkpoint_branch": "development/product-decision-record",
+  "current_increment_pr": 17,
+  "current_increment_merge_status": "T07_MERGED_MASTER_VERIFIED_CHECKPOINT_PENDING",
+  "current_increment_reviewed_head": "a5598a9b592c66de648fa2a621c6208edb6bc9be",
+  "current_checkpoint_branch": "development/product-t07-checkpoint",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -152,9 +167,9 @@
     "updated_at": "2026-10-08T15:34:28.273958+00:00"
   },
   "primary_demo_evidence": {
-    "index_id": "product-t06-merge-master-verified"
+    "index_id": "product-t07-merge-master-verified"
   },
-  "current_increment_merge_commit": "b5c0392feda043b26138fd591acb5be5b166fe74",
+  "current_increment_merge_commit": "dd943508f8fabd5449f8bf05b22449be92a305fc",
   "sonar_availability": {
     "status": "UNAVAILABLE_OWNER_REPORTED_LOC_QUOTA",
     "owner_authorized_merge": true,
