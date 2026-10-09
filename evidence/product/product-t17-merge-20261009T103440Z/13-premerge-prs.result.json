@@ -1,0 +1,11 @@
+{
+  "command": "gh pr list --state open --limit 100 --json number,title,headRefName,headRefOid,baseRefName,isDraft",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:30:59.249933+00:00",
+  "ended_at_utc": "2026-10-09T10:31:00.043838+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t17-publication-20261009T094137Z/13-premerge-prs.log",
+    "sha256": "47771b325a04db0206b682f8753ba6ee52a2e8dba411e1d66a20d6b33e717626"
+  }
+}

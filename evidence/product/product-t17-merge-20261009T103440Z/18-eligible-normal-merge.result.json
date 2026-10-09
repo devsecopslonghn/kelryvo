@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t17-eligible-merge.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:34:33.782885+00:00",
+  "ended_at_utc": "2026-10-09T10:34:41.883448+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t17-publication-20261009T094137Z/18-eligible-normal-merge.log",
+    "sha256": "dbcd72f7bef47801936201f79d0e86686d75ead31bde2e370c3dcfecaef07c15"
+  }
+}

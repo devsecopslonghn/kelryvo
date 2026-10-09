@@ -1,3 +1,30 @@
+## T17 merged and master verified; T18 ready — 2026-10-09
+
+T17 merged through [PR #29](https://github.com/devsecopslonghn/schemaForge/pull/29)
+at `a5e8b9f45385be3bfcfefdfcb1ca9278fb71d0d0`, reviewed head `5e08361d85955754e81f10617063546429eec7da`.
+Independent QA/security approved the corrected bounded creation/approval intent implementation.
+All reported PR checks and all four exact-master workflow families passed. Final local
+checks: standard145, PostgreSQL24, browser15, focused2; zero failures or skips.
+Evidence: `evidence/product/product-t17-merge-20261009T103440Z/record.json`. Earlier failures and missing captures remain candid and immutable.
+
+Publication284files returned exit1/30 computed artifact-hash matches; all-refs history
+exit1/35 includes the five previous exact-provenance benign findings. These finding-bearing
+scans were independently classified and are not clean-scan PASS. No actual credential
+observed or rotation indicated. Sonar unavailable under existing owner quota exception,
+never PASS. Oracle VALIDATION and full catalog acceptance remain separate.
+
+Next SF-PRODUCT-T18 READY: prepare fresh offline plan after rejection through the
+existing bound release intake and API. Commit changed SQL, import a new immutable release,
+create a distinct intent-bound plan and obtain a new independent decision. Preserve the
+predecessor records; no SQL editor or durable predecessor relationship. Fresh worktree
+`/home/longhn0710/workspace/schemaforge-product-plan-resubmission`, branch `development/product-plan-resubmission`, based on verified master above.
+Root owns contracts/tracking/integration; fresh coupled native feature context owns
+UI, regressions, test driver and local operating docs.
+
+Shared checkout remains clean at original master0346300 and untouched. No Hygiene
+branch/PR is visible, so Hygiene integration remains pending without blocking PRODUCT.
+No public history rewrite, scanner exceptions or required tracked-source removals.
+
 ## T17 bounds correction locally verified; fresh review pending — 2026-10-09
 
 Creation now checks scoped retained release type/count/uncompressed JSON bytes and

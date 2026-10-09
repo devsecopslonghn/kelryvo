@@ -1,0 +1,5 @@
+{
+  "command": "gh api graphql -f query=\"query { repository(owner: \\\"devsecopslonghn\\\", name: \\\"schemaForge\\\") { pullRequest(number: 29) { headRefOid reviewThreads(first: 100) { totalCount pageInfo { hasNextPage } nodes { isResolved isOutdated } } } } }\"",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:29:49.925348+00:00"
+}

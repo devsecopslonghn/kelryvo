@@ -158,6 +158,9 @@
     },
     {
       "index_id": "product-t17-bounded-intent-local-verified"
+    },
+    {
+      "index_id": "product-t17-merge-master-verified"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -186,7 +189,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-09",
+  "updated_at": "2026-10-09T10:39:47.604753+00:00",
   "final_check_evidence": {
     "index_id": "product-t17-bounded-intent-local-verified"
   },
@@ -194,20 +197,20 @@
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
-  "latest_validated_master_before_this_increment": "fe3744d7f04369538a72f85426cba0fe35ab6db3",
-  "last_merged_implementation_pr": 28,
-  "checkpoint_evidence": "evidence/product/product-t16-merge-20261009T085528Z/record.json",
+  "latest_validated_master_before_this_increment": "a5e8b9f45385be3bfcfefdfcb1ca9278fb71d0d0",
+  "last_merged_implementation_pr": 29,
+  "checkpoint_evidence": "evidence/product/product-t17-merge-20261009T103440Z/record.json",
   "implementation_prs_pending": [],
   "next_fully_unblocked_tasks": [
     "SF-PRODUCT-T18"
   ],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
-    "previous_goal_turn": "PROGRESS: accepted creation-bounds blocker corrected; final regressions pass; fresh exact-head review pending.",
+    "previous_goal_turn": "PROGRESS: corrected T17 independently approved, normally merged and exact-master workflows verified; fresh T18 isolated worktree ready.",
     "reason": "Independent PRODUCT actionable; Hygiene branch/PR unavailable."
   },
-  "current_increment_merge_status": "T17_BOUNDS_CORRECTED_VERIFIED_LOCAL_AWAITING_FRESH_EXACT_HEAD_REVIEW",
-  "current_checkpoint_branch": "development/product-offline-plan-intent",
+  "current_increment_merge_status": "T17_MERGED_MASTER_VERIFIED_T18_READY",
+  "current_checkpoint_branch": "development/product-plan-resubmission",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -221,7 +224,7 @@
       ]
     }
   },
-  "product_task_status": "T01_T02_T03_T04_T05_T06_T07_T08_T09_T10_T11_T12_T13_T14_T15_T16_T17_VERIFIED_LOCAL",
+  "product_task_status": "T01_T02_T03_T04_T05_T06_T07_T08_T09_T10_T11_T12_T13_T14_T15_T16_T17_VERIFIED_LOCAL_MERGED",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",
@@ -274,16 +277,18 @@
     "original_report_crosscheck_evidence": "evidence/product/product-t11-release-provenance-20261009T050150Z/hygiene-original-report-crosscheck-safe.json",
     "original_report_crosscheck_sha256": "8af028caca267e84fa4dbad7693458672a405acc2785f6c62b281748517dd52e",
     "hygiene_branch_or_pr_visible": false,
-    "latest_master_redacted_scan": "Five benign reachable-history findings classified at exact T16 head; separate T17 scan/review pending.",
+    "latest_master_redacted_scan": "Reviewed T17 all-refs Gitleaks exit1/35:30 independently recomputed artifact hashes plus five previous exact-provenance benign findings; not a clean scan.",
     "original_report_metadata_matches_independent_classification": true,
     "latest_publication_scan": {
-      "head": "7615280f0358743205ed26493e4bde7ce55b8f0b",
-      "files": 107,
-      "findings": 0,
+      "head": "5e08361d85955754e81f10617063546429eec7da",
+      "files": 284,
+      "findings": 30,
+      "exit_code": 1,
+      "classification": "Every exact original T17 completion line128-157 independently recomputed immutable verification artifact SHA256; no actual credential observed.",
       "native_security": "APPROVED"
     }
   },
-  "current_increment_pr": 28,
-  "current_increment_reviewed_head": "e6432c93d6f08ae31856aac159b77833594fc1cd",
-  "current_increment_merge_commit": "fe3744d7f04369538a72f85426cba0fe35ab6db3"
+  "current_increment_pr": 29,
+  "current_increment_reviewed_head": "5e08361d85955754e81f10617063546429eec7da",
+  "current_increment_merge_commit": "a5e8b9f45385be3bfcfefdfcb1ca9278fb71d0d0"
 }

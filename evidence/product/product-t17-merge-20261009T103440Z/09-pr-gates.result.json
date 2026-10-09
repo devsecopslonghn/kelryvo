@@ -1,0 +1,11 @@
+{
+  "command": "gh pr view development/product-offline-plan-intent --json number,url,headRefOid,baseRefOid,isDraft,mergeable,mergeStateStatus,reviewDecision,statusCheckRollup",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:29:30.851583+00:00",
+  "ended_at_utc": "2026-10-09T10:29:32.019074+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t17-publication-20261009T094137Z/09-pr-gates.log",
+    "sha256": "f1240799b01bd731f47c621b0b137ad1f9f7b85eeaa0373bf35051788b5a202e"
+  }
+}

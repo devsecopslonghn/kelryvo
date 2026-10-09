@@ -1,0 +1,86 @@
+{
+  "recorded_at_utc": "2026-10-09T10:41:30.112397+00:00",
+  "default_staged_diff_exit_code": 2,
+  "exact_raw_line_count": 6,
+  "diagnostics": [
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/01-secret-alerts-before-publication.log",
+      "line": 22,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/01-secret-alerts-before-publication.log",
+      "line": 22,
+      "diagnostic": "new blank line at EOF."
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/02-code-alerts-before-publication.log",
+      "line": 22,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/02-code-alerts-before-publication.log",
+      "line": 22,
+      "diagnostic": "new blank line at EOF."
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.log",
+      "line": 1,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.log",
+      "line": 2,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.log",
+      "line": 3,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.log",
+      "line": 4,
+      "diagnostic": "trailing whitespace."
+    }
+  ],
+  "immutable_raw_hashes": [
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/01-secret-alerts-before-publication.log",
+      "sha256": "7bdf927ad941f23f9ddd4b3c6102ad2f6f50faa93c4341fd7e589c219a7c6b13",
+      "exact_raw_line_allowances": [
+        22
+      ]
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/02-code-alerts-before-publication.log",
+      "sha256": "7bdf927ad941f23f9ddd4b3c6102ad2f6f50faa93c4341fd7e589c219a7c6b13",
+      "exact_raw_line_allowances": [
+        22
+      ]
+    },
+    {
+      "path": "evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.log",
+      "sha256": "0a7071874bacec47d372b6a43ca15d6d793110e6e2eb958a1074a9237cc0954a",
+      "exact_raw_line_allowances": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  ],
+  "all_other_paths_diff_check_exit_code": 0,
+  "all_other_paths_command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check",
+    "--",
+    ".",
+    ":!evidence/product/product-t17-merge-20261009T103440Z/01-secret-alerts-before-publication.log",
+    ":!evidence/product/product-t17-merge-20261009T103440Z/02-code-alerts-before-publication.log",
+    ":!evidence/product/product-t17-merge-20261009T103440Z/07-push-reviewed-branch.log"
+  ],
+  "scope": "Only six exact immutable captured gh usage/Git remote output lines; no source/config broad exception. Initial interactive staged diff invocation exited2 and prevented scanner invocation, separately uncaptured; this current replay is actual captured verification, not a reconstruction."
+}

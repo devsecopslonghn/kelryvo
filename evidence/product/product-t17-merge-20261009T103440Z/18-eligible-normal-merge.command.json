@@ -1,0 +1,5 @@
+{
+  "command": "python3 /tmp/schemaforge-t17-eligible-merge.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:34:33.782885+00:00"
+}

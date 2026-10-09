@@ -1,0 +1,11 @@
+{
+  "command": "git fetch origin",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:34:48.599061+00:00",
+  "ended_at_utc": "2026-10-09T10:34:50.298835+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t17-publication-20261009T094137Z/postmerge-fetch.log",
+    "sha256": "1e88cc573555e8e511ee91e38b4f907faaa6de0e7d838ada7f7fc3e81a240958"
+  }
+}

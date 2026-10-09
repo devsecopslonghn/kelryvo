@@ -1,0 +1,5 @@
+{
+  "command": "git for-each-ref --format=\"%(refname) %(objectname)\" refs/heads refs/remotes",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:35:38.878664+00:00"
+}

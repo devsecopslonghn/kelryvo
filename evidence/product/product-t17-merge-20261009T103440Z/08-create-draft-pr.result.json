@@ -1,0 +1,11 @@
+{
+  "command": "gh pr create --draft --base master --head development/product-offline-plan-intent --title \"Retain and verify offline plan intent before approval\" --body-file /tmp/schemaforge-t17-pr-body.md",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T10:29:18.552176+00:00",
+  "ended_at_utc": "2026-10-09T10:29:22.152102+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t17-publication-20261009T094137Z/08-create-draft-pr.log",
+    "sha256": "b5061ec8893d4ea1350ff4999a0522acfd9b460ba836fc0758968ab6131ba99d"
+  }
+}
