@@ -1242,7 +1242,7 @@
     },
     "SF-PRODUCT-T12": {
       "assigned_agent": "backend",
-      "status": "READY"
+      "status": "IN_PROGRESS"
     }
   }
 }

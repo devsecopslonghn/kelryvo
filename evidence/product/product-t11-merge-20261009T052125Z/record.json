@@ -1,0 +1,70 @@
+{
+  "id": "product-t11-merge-master-verified",
+  "subject_id": "SF-PRODUCT-T11",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "gh pr checks 23; gh pr view 23; gh run list --commit a81f8b7a2e66b2693e1775386fa1624dab3749c9; GitHub alert snapshots; independent native exact-head QA/security review",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t11-merge-20261009T052125Z/master-workflows.json",
+    "sha256": "742562a0283d37a8942fca625491c8065f690973af83ca61d06e880edf798373"
+  },
+  "checked_at": "2026-10-09T05:25:12.112195Z",
+  "pr": 23,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/23",
+  "reviewed_head": "461242efa1cc39bf0167540418d21055420ef46c",
+  "master": "a81f8b7a2e66b2693e1775386fa1624dab3749c9",
+  "merge_time": "2026-10-09T05:21:25Z",
+  "pr_checks": {
+    "pass": 10,
+    "unavailable_sonar_not_counted": true
+  },
+  "master_workflows": {
+    "pass": 4
+  },
+  "independent_reviews": {
+    "qa": "APPROVED exact461242e; four source hashes including appended browser correction independently verified; recorded suites checked",
+    "security_license": "APPROVED exact461242e; all39 publicationfiles scan0; fullhistory58commits5 classified benign; licenses/locks unchanged"
+  },
+  "local_checks": {
+    "standard": 141,
+    "product": 21,
+    "browser": 9,
+    "focused_root_browser": 1,
+    "tracker": 21,
+    "skipped": 0
+  },
+  "gitleaks": {
+    "history_pattern_matches": 5,
+    "changed_publication_files": 39,
+    "publication_findings": 0,
+    "classified_benign": 5,
+    "real_credentials_observed": 0,
+    "original_hygiene_report_crosscheck": "COMPLETE_EXACT_MATCH_TO_INDEPENDENT_METADATA",
+    "raw_matches_printed": false,
+    "allowlist_changed": false,
+    "history_rewritten": false,
+    "provenance": "evidence/product/product-t11-release-provenance-20261009T050150Z/hygiene-original-report-crosscheck-safe.json"
+  },
+  "hygiene_integration": "PENDING no separate branch/PR visible; original report crosscheck complete",
+  "shared_checkout": {
+    "path": "/home/longhn0710/workspace/schemaforge",
+    "head": "0346300471a889ae8fd33b022b890034be08d301",
+    "modified": false
+  },
+  "next_task": {
+    "id": "SF-PRODUCT-T12",
+    "status": "IN_PROGRESS",
+    "implemented": false
+  },
+  "limitations": [
+    "Sonar unavailable under owner quota exception, never PASS.",
+    "Oracle VALIDATION124applicable cellsBLOCKED; local PRODUCT only.",
+    "This root checkpoint will accompany next eligible PRODUCT PR; T12 implementation is separate and not verified by this record.",
+    "Original T11 sourcehash transcription/baseline naming corrected in append-only root review; initial failed raw captures missing and not claimed."
+  ]
+}

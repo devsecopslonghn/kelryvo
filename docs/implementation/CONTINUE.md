@@ -1,5 +1,31 @@
 # Resume SchemaForge PRODUCT delivery
 
+## T11 merged and master verified; T12 active — 2026-10-09
+
+T11 merged through [PR #23](https://github.com/devsecopslonghn/schemaForge/pull/23) at
+`a81f8b7a2e66b2693e1775386fa1624dab3749c9`, reviewed head
+`461242efa1cc39bf0167540418d21055420ef46c`. Ten required PR checks and all four
+post-merge master workflows passed. Independent QA and security approved that exact head;
+141 standard, 21 PostgreSQL product and 9 browser tests passed with zero skips. The root
+focused browser rerun and appended source-hash correction are preserved. Merge evidence:
+`evidence/product/product-t11-merge-20261009T052125Z/record.json`.
+
+SF-PRODUCT-T12 is IN_PROGRESS in isolated worktree
+`/home/longhn0710/workspace/schemaforge-product-release-integrity`, branch
+`development/product-release-integrity`, based on that merged master. Verify retained UTF-8
+content/length/hashes and the existing format-1 manifest under scoped project/release locks
+before plan writes. Cover malformed/corrupt data, concurrent mutation, repository unavailability,
+auth/scoping/archive and fixed browser error feedback. T12 has no verification evidence yet.
+Root owns tracking/publication; the implementation agent owns API/helper/tests/operating docs.
+
+The original four-finding redacted hygiene report exactly matches independently classified
+provenance: project UUID, two source hashes, and synthetic malformed UNIT PEM fixture.
+The later fifth match is a verified T10 evidence-log hash. No actual credential observed;
+no rotation indicated. All 39 T11 publication files scanned with zero findings. No hygiene
+branch/PR is visible, so its integration is pending. Preserve shared checkout, required source,
+locks, licenses and immutable evidence; never rewrite public history or broadly allowlist.
+Sonar remains unavailable, never PASS; Oracle VALIDATION remains separately BLOCKED.
+
 ## T10 merged; T11 locally verified, root review pending — 2026-10-09
 
 T10 merged through [PR #22](https://github.com/devsecopslonghn/schemaForge/pull/22) at
