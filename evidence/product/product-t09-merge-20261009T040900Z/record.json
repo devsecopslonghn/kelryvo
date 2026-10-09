@@ -1,0 +1,41 @@
+{
+  "id": "product-t09-merge-master-verified",
+  "subject_id": "SF-PRODUCT-T09",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact-head checks/native QA/security/license review and redacted scanner; ordinary gh pr merge #20 --merge --match-head-commit; verify four successful master workflows; fast-forward dedicated PRODUCT checkpoint worktree",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t09-merge-20261009T040900Z/master-workflows.json",
+    "sha256": "92a8d4b33287ef62d7a58b0c42fc64590107b1a6296506ff018e1555a773075b"
+  },
+  "pr": 20,
+  "reviewed_head": "5be1428ef6ab810a28e5de97af65c45969d90dad",
+  "master_merge": "d970375e15706d4718a2e30f8b6754f17f4e7418",
+  "passing_checks": 10,
+  "master_workflows": 4,
+  "native_reviews": {
+    "qa": "APPROVED exact head, final nine source hashes verified; real scoped API/browser order, reset/fallback/archive/empty/read-only snapshots; no blockers.",
+    "security_license": "APPROVED exact head; project-scoped escaped UI, no API/query/schema/auth/worker/license/third-party changes. Full redacted Gitleaks history scan found only the same four classified matches, zero new findings. All raw run directories including ignored logs scanned by root: zero findings/errors."
+  },
+  "verification_counts": {
+    "standard_pass": 140,
+    "product_pass": 20,
+    "browser_pass": 7,
+    "focused_browser_pass": 1,
+    "skipped": 0
+  },
+  "evidence_notes": [
+    "Initial T09 failures are preserved as described observations in verification-notes.txt. The .txt keys in the historical record initial_failures object label observations; they are not pointers to captured raw files. Passing run logs and their hashes are preserved and verified.",
+    "Immutable earlier evidence is retained; no history rewrite, broad allowlist or actual credentials published."
+  ],
+  "limits": [
+    "Sonar unavailable under unchanged owner quota exception, never PASS.",
+    "Oracle VALIDATION remains BLOCKED; no Oracle execution or deployment.",
+    "No Git Hygiene branch/PR visible; original report crosscheck and any future hygiene changes need separate PR review."
+  ]
+}

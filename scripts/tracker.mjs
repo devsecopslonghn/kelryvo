@@ -129,7 +129,28 @@ const PRODUCT_TASK_09 = {
     "SF-PRODUCT-T09-WEB"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09];
+const PRODUCT_TASK_10 = {
+  "id": "SF-PRODUCT-T10",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Select local Git branches and tags for immutable release imports",
+  "dependencies": [
+    "SF-PRODUCT-T09"
+  ],
+  "feature_ids": [
+    "GIT-004"
+  ],
+  "acceptance_criteria": [
+    "Authenticated active project release intake lists bounded, deterministically ordered branches and commit-resolving tags from the project-bound registered local Git repository, without exposing local paths or provider credentials; the existing HEAD/manual immutable-ref workflow remains available.",
+    "The API derives repository identity from the scoped project source binding and existing server allowlist, rejects missing/invalid bindings and unavailable repositories with fixed errors, and uses argument-safe Git reads with bounded output; no clone, provider authentication, hooks, checkout or arbitrary caller filesystem paths are introduced.",
+    "Selecting a branch or tag reuses the existing importer to resolve and retain a full immutable commit and exact source bytes. Real Git/PostgreSQL/parser/browser tests verify branch/tag selection, moved-ref retention, project isolation, negative refs/bindings and archived read-only behavior; execution/history and Oracle VALIDATION remain unchanged."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T10-API",
+    "SF-PRODUCT-T10-WEB"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

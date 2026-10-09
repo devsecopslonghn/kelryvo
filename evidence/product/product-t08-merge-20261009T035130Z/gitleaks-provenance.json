@@ -1,0 +1,53 @@
+{
+  "scanner": "gitleaks 8.30.1",
+  "scan_tip": "577124f1b15058000fa89e5a17074992435efcd9",
+  "redacted_report_sha256": "9aced811c7a98d61c50bddee739d512152c49d0e7a51a5fe5e0c95608299ba42",
+  "findings": [
+    {
+      "RuleID": "generic-api-key",
+      "Commit": "4c9259e426ec197e4ad527173147fc20562df69b",
+      "File": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/native-browser-diagnostic-summary.txt",
+      "StartLine": 4,
+      "EndLine": 4,
+      "Fingerprint": "4c9259e426ec197e4ad527173147fc20562df69b:evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/native-browser-diagnostic-summary.txt:generic-api-key:4",
+      "has_api_project_uuid": true,
+      "classification": "PROJECT_UUID_IDENTIFIER"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "Commit": "f0a28c3fc166830914289f83da4ea29e875ba76a",
+      "File": "evidence/product/product-t01-20261008T163522Z-87ad39d8/reviewed-source-hashes.json",
+      "StartLine": 40,
+      "EndLine": 40,
+      "Fingerprint": "f0a28c3fc166830914289f83da4ea29e875ba76a:evidence/product/product-t01-20261008T163522Z-87ad39d8/reviewed-source-hashes.json:generic-api-key:40",
+      "source_hash_verified": true,
+      "classification": "SHA256_SOURCE_INTEGRITY_HASH"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "Commit": "f0a28c3fc166830914289f83da4ea29e875ba76a",
+      "File": "evidence/product/product-t01-20261008T163522Z-87ad39d8/source-hashes.json",
+      "StartLine": 40,
+      "EndLine": 40,
+      "Fingerprint": "f0a28c3fc166830914289f83da4ea29e875ba76a:evidence/product/product-t01-20261008T163522Z-87ad39d8/source-hashes.json:generic-api-key:40",
+      "source_hash_verified": true,
+      "classification": "SHA256_SOURCE_INTEGRITY_HASH"
+    },
+    {
+      "RuleID": "private-key",
+      "Commit": "7cb071bdbce6387101691dd49ea90786245caf54",
+      "File": "tests/thin-readonly-probe.test.mjs",
+      "StartLine": 143,
+      "EndLine": 264,
+      "Fingerprint": "7cb071bdbce6387101691dd49ea90786245caf54:tests/thin-readonly-probe.test.mjs:private-key:143",
+      "is_test_source": true,
+      "unit_password_marker": true,
+      "pem_begin_count": 3,
+      "tracked_key_files": 0,
+      "classification": "SYNTHETIC_MALFORMED_TEST_PEM_MARKER"
+    }
+  ],
+  "raw_matching_bytes_published": false,
+  "rotation_required_by_observed_findings": false,
+  "limits": "Independent reproduction found three generic-api-key findings and one private-key finding. Earlier verbal summary grouped them differently; use exact metadata. No hygiene PR visible, no allowlist or history rewrite performed."
+}

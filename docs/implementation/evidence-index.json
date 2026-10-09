@@ -1644,6 +1644,60 @@
       ],
       "path": "evidence/product/product-t09-audit-action-filters-20261009T040052Z/record.json",
       "sha256": "5e465b197d719d00fb5dd7fb0d8b6e036a51bd27b81662e3239530a8f5987b48"
+    },
+    {
+      "id": "product-t08-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T08",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head PR/check/security/license/native QA review; ordinary gh pr merge #19 --merge --match-head-commit; verify four master workflows; independent redacted Gitleaks full-history provenance classification",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t08-merge-20261009T035130Z/master-workflows.json",
+        "sha256": "df4d759f5565a9172606008149ada99570a769c6fb940c665ecfd2ea8495717f"
+      },
+      "path": "evidence/product/product-t08-merge-20261009T035130Z/record.json",
+      "sha256": "08a408eb67bac0539db829e08fdb7b6ff2190845701aae5e1a19e6dce8550604"
+    },
+    {
+      "id": "product-t09-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T09",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head checks/native QA/security/license review and redacted scanner; ordinary gh pr merge #20 --merge --match-head-commit; verify four successful master workflows; fast-forward dedicated PRODUCT checkpoint worktree",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t09-merge-20261009T040900Z/master-workflows.json",
+        "sha256": "92a8d4b33287ef62d7a58b0c42fc64590107b1a6296506ff018e1555a773075b"
+      },
+      "path": "evidence/product/product-t09-merge-20261009T040900Z/record.json",
+      "sha256": "f4cd0b9f80a52b005a4b188d8e98c063eef002a3120549c1695b2ff4ae6ab143"
+    },
+    {
+      "id": "product-delivery-t10-registration-checkpoint-verified",
+      "subject_id": "SF-PRODUCT-T09",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check (PostgreSQL enabled); tracker validate/next; authored diff review; register bounded T10 contract without claiming implementation",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-delivery-checkpoint-20261009T041100Z/checks.log",
+        "sha256": "34f9f6f9954ef2ee4d600dbb5e32d1196f09e156cd4281cd73c738b9369b22c7"
+      },
+      "path": "evidence/product/product-delivery-checkpoint-20261009T041100Z/record.json",
+      "sha256": "a03ebd971051cd91eba1c38bbef9662070c1f11991f008a48dbc13521e600952"
     }
   ]
 }
