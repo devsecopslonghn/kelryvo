@@ -37,6 +37,10 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    reject decisions without appending one.
    Approval does not grant execution authority. Prepare another candidate to demonstrate
    rejection as a separate decision.
+   Developers and approvers can add review comments while a plan is pending. The timeline
+   retains plain text, the server-resolved author name and timestamp in submission order.
+   Comments remain readable after approval, rejection or project archival; those states
+   close the comment composer. Switching plans or projects clears an unsent comment.
 6. Inspect Audit & history. Each proposed migration records `NOT_EXECUTED`; no applied
    receipt exists. Stop/restart the API to confirm PostgreSQL retains these records.
 7. As the developer, return to Projects and archive a completed project with a reason.
@@ -100,6 +104,8 @@ All other API reads/writes require a bearer token:
 | `POST /api/projects/:id/releases` | Import `repositoryId`, `commit`, `folder` |
 | `GET /api/releases/:id` | Retained source, hashes and parser observations |
 | `POST /api/projects/:id/plans` | Freeze candidate from `releaseId`, `profileId` |
+| `GET /api/projects/:projectId/plans/:id/comments` | Authenticated, ordered historical comment timeline within the project/plan scope |
+| `POST /api/projects/:projectId/plans/:id/comments` | Append plain-text `body` to a pending plan in an active project; developer or approver |
 | `POST /api/plans/:id/decision` | Independent `APPROVE`/`REJECT` with `reason` |
 | `POST /api/plans/:id/execution` | Audit denial; HTTP 409 `EXECUTION_UNAVAILABLE`, `NOT_EXECUTED` |
 
@@ -112,6 +118,19 @@ writes with HTTP 409 `PROJECT_ARCHIVED`, including in-flight writes that were wa
 on the project lock. No restore or deletion endpoint is provided. Edit/resubmit and broader
 catalog workflows are incremental work.
 
+Comments are append-only through the API and never modify migration bytes, plans, decisions
+or migration history. Only `body` is accepted: nonblank valid Unicode, up to 4,000 UTF-16
+code units, with tabs and newlines permitted; other control characters are rejected.
+Actor IDs, author names, timestamps, attachments and other extra properties are rejected.
+The server snapshots the authenticated author's name and supplies the timestamp. PostgreSQL
+assigns the timeline sequence; plan locks serialize comments with review decisions, and the
+project lock rechecks archival before persistence. A comment and its `PLAN_COMMENT_ADDED`
+audit event commit together; audit facts contain only `commentId`. Invalid, unauthenticated,
+out-of-scope, terminal or archived writes add neither. Terminal plans return HTTP 409
+`PLAN_NOT_PENDING`; archived projects return HTTP 409 `PROJECT_ARCHIVED`. Project detail
+includes its ordered `comments` array. Local identities share the configured organization;
+this adds no production membership or RBAC policy.
+
 ## Verification
 
 `npm run check` checks source/types/web build, all standard unit/regression tests, tracking,
@@ -123,7 +142,10 @@ keeps concurrent schema initialization from interfering with row-lock and restar
 actual temporary Git objects and the pinned parser. `node node_modules/playwright/cli.js install chromium`, then
 `npm run test:browser` exercises the real browser/API/parser/PostgreSQL flow, approvals,
 rejection, execution denial, archival and restart persistence. PostgreSQL integration also
-tests the archive-versus-write lock race. Browser downloads are separate test tools.
+tests comment validation/scope, concurrent comments, decision/archive races and audit rollback.
+Browser comments acceptance covers both roles, literal HTML rendered as text, timeline order,
+plan isolation, historical read-only states and persistence after the server/pool restart.
+Browser downloads are separate test tools.
 
 The PRODUCT CI job supplies disposable PostgreSQL, prepares the exact helper and runs these
 tests with no skips allowed for required product prerequisites. The existing WP0 regression,

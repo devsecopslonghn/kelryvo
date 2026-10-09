@@ -1,0 +1,10 @@
+{
+  "apps/api/index.ts": "d02edbd8f7713681b7876c6c3106c463daf2a20c730dcf966a0a526e6c3c5c57",
+  "packages/database/index.ts": "1d0586c7e7d2826280c3b44766acf29abee158d4d43506e9d7333368f5e11ffd",
+  "apps/web/src/app.jsx": "852625ec2f4b4880b2487ae61cc89ac4fcc548dd33a4e02379bf2101223eaf4a",
+  "apps/web/styles.css": "096e732c2751c1783dca9f5fc9a06fd623cc0df38326d91e215c71d1b6a5535b",
+  "scripts/test-product.mjs": "2801be393783a0af8594678fa06c86104de95c773bbade81fc1d9cb88bb7694a",
+  "tests/product-comments.test.mjs": "021aa71c25b85b1e7067dd589d14c0fce4890a61e6de728cab7061e63f1d977b",
+  "tests/product-comments-browser.integration.mjs": "a429c65e7ffbdcee93601252e27efd2b4f77e65adcd5a38176c327718e4a02ef",
+  "docs/development/local-product.md": "46d86315513d7c6094729b8f5495514be4ddc6ecf68e0571ff565bb840ce70a8"
+}

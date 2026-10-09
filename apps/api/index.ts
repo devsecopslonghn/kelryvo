@@ -16,6 +16,10 @@ const object = (value: unknown, keys: string[]) =>
   Object.keys(value as object).every((k) => keys.includes(k));
 const text = (v: unknown, max = 200) =>
   typeof v === "string" && v.trim().length > 0 && v.length <= max;
+const validComment = (v: unknown) =>
+  text(v, 4000) && typeof v === "string" &&
+  !/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(v) &&
+  Buffer.from(v, "utf8").toString("utf8") === v;
 const validHost = (v: unknown) =>
   typeof v === "string" &&
   /^(?:[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?|\[[0-9A-Fa-f:]+\])$/.test(v);
@@ -177,7 +181,7 @@ export function createApp(options: {
       if (!uuid(req.params.id)) return fail(reply, 404, "NOT_FOUND");
       const p = await project(req.params.id);
       if (!p) return fail(reply, 404, "NOT_FOUND");
-      const [environments, profiles, releases, plans, audits, history] =
+      const [environments, profiles, releases, plans, audits, history, comments] =
         await Promise.all([
           sql`SELECT id,name,created_at FROM sf_environments WHERE project_id=${p.id} ORDER BY created_at`,
           sql`SELECT id,name,environment_id,engine,host,port,service,username,credential_ref,created_at FROM sf_profiles WHERE project_id=${p.id} ORDER BY created_at`,
@@ -185,6 +189,8 @@ export function createApp(options: {
           sql`SELECT id,release_id,profile_id,author_id,status,decision,decision_reason,decided_by,created_at,decided_at,items,execution,history_status,planning_scope FROM sf_plans WHERE project_id=${p.id} ORDER BY created_at DESC`,
           sql`SELECT id,actor_id,action,resource_id,facts,created_at FROM sf_audit WHERE project_id=${p.id} ORDER BY created_at DESC LIMIT 100`,
           sql`SELECT id,plan_id,version,path,sha256,status,created_at FROM sf_history WHERE project_id=${p.id} ORDER BY created_at DESC`,
+          sql`SELECT id,project_id,plan_id,author_id,author_name,body,created_at FROM sf_plan_comments
+            WHERE project_id=${p.id} AND organization_id=${ORG} ORDER BY position`,
         ]);
       return {
         project: mappedProject(p),
@@ -214,6 +220,7 @@ export function createApp(options: {
           createdAt: r.created_at,
         })),
         plans: plans.map(mapPlan),
+        comments: comments.map(mapComment),
         audit: audits.map((r: any) => ({
           id: r.id,
           actorId: r.actor_id,
@@ -500,6 +507,35 @@ export function createApp(options: {
       return reply.code(201).send({ plan: mapPlan(result) });
     },
   );
+  app.get('/api/projects/:projectId/plans/:id/comments', { preHandler: authenticate }, async (req: any, reply: any) => {
+    if (!uuid(req.params.projectId) || !uuid(req.params.id)) return fail(reply, 404, 'NOT_FOUND');
+    const plan = (await sql`SELECT id FROM sf_plans WHERE id=${req.params.id}
+      AND project_id=${req.params.projectId} AND organization_id=${ORG}`)[0];
+    if (!plan) return fail(reply, 404, 'NOT_FOUND');
+    const comments = await sql`SELECT id,project_id,plan_id,author_id,author_name,body,created_at FROM sf_plan_comments
+      WHERE plan_id=${plan.id} AND project_id=${req.params.projectId} AND organization_id=${ORG} ORDER BY position`;
+    return { comments: comments.map(mapComment) };
+  });
+  app.post('/api/projects/:projectId/plans/:id/comments', { preHandler: authenticate }, async (req: any, reply: any) => {
+    if (!uuid(req.params.projectId) || !uuid(req.params.id)
+      || !object(req.body, ['body']) || !validComment(req.body.body)) return fail(reply, 400, 'INVALID_REQUEST');
+    const result = await sql.begin(async (tx: any) => {
+      // Match decision lock order so a comment cannot race a terminal transition.
+      const plan = (await tx`SELECT id,project_id,status FROM sf_plans WHERE id=${req.params.id}
+        AND project_id=${req.params.projectId} AND organization_id=${ORG} FOR UPDATE`)[0];
+      if (!plan) return null;
+      await requireActiveProject(tx, plan.project_id);
+      if (plan.status !== 'PENDING_APPROVAL') return { error: 'PLAN_NOT_PENDING' };
+      const comment = (await tx`INSERT INTO sf_plan_comments(project_id,organization_id,plan_id,author_id,author_name,body)
+        VALUES(${plan.project_id},${ORG},${plan.id},${req.actor.id},${req.actor.name},${req.body.body}) RETURNING *`)[0];
+      await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
+        VALUES(${plan.project_id},${ORG},${req.actor.id},'PLAN_COMMENT_ADDED',${plan.id},${tx.json({ commentId: comment.id })})`;
+      return { comment };
+    });
+    if (!result) return fail(reply, 404, 'NOT_FOUND');
+    if (result.error) return fail(reply, 409, result.error);
+    return reply.code(201).send({ comment: mapComment(result.comment) });
+  });
   app.post(
     "/api/plans/:id/decision",
     { preHandler: authenticate },
@@ -580,6 +616,17 @@ export function createApp(options: {
     return fail(reply, 500, "INTERNAL_ERROR");
   });
   return app;
+}
+function mapComment(r: any) {
+  return {
+    id: r.id,
+    projectId: r.project_id,
+    planId: r.plan_id,
+    authorId: r.author_id,
+    authorName: r.author_name,
+    body: r.body,
+    createdAt: r.created_at,
+  };
 }
 function mapPlan(r: any) {
   return {
