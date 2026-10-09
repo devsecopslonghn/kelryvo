@@ -1,0 +1,11 @@
+SF-PRODUCT-T09 verification run
+Base: 577124f1b15058000fa89e5a17074992435efcd9 (origin/master after T08 merge)
+Scope: local PostgreSQL/API/browser only; Oracle untouched.
+
+Initial attempts, retained as observations:
+- `npm run build:web` exited 1 before dependency installation: esbuild was absent in this fresh worktree. `npm ci --ignore-scripts --no-audit --no-fund` then installed the lockfile dependencies; build:web passed.
+- The first `SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests npm run test:product` exited 1 because the local ANTLR helper was not installed. Four parser-import/repository cases observed VALIDATION_UNAVAILABLE / UNAVAILABLE; this did not involve T09. The pinned helper was rebuilt from the existing approved inputs and matched its registered SHA-256; the rerun passed 20/20.
+- The first T09 browser rerun exposed a React `busy is not defined` render error after the filter was disabled during refresh. RecordsScreen now receives the state, and the focused and full browser reruns pass.
+- The stale-action refresh case models recent-action eviction by removing one synthetic action row only inside the isolated test database. The UI resets the selected action to All after refresh; subsequent reads match the post-eviction test fixture. The test also compares full API snapshots before and after UI filtering.
+
+Passing commands are recorded in parser-build.log, t09-browser-focused.log, product-integration.log, browser-regressions.log, and checks-final.log. The evidence record points to their checksums through verification-summary.txt.

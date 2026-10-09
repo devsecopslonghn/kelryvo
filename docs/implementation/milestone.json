@@ -95,6 +95,9 @@
     },
     {
       "index_id": "product-t08-status-filters-local-verified"
+    },
+    {
+      "index_id": "product-t09-audit-action-filters-local-verified"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -106,14 +109,7 @@
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
   "product_features_verified": 0,
-  "next_actionable_tasks": [
-    {
-      "id": "SF-PRODUCT-T09",
-      "owner": "frontend",
-      "status": "BACKLOG",
-      "action": "Filter recent project audit events by action"
-    }
-  ],
+  "next_actionable_tasks": [],
   "blocked_inputs_evidence": {
     "index_id": "WP0-T01-INPUTS-20261008T094757Z-c4b97e39"
   },
@@ -123,27 +119,27 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-09T03:45:41.276921+00:00",
+  "updated_at": "2026-10-09T04:04:49Z",
   "final_check_evidence": {
-    "index_id": "product-t08-status-filters-local-verified"
+    "index_id": "product-t09-audit-action-filters-local-verified"
   },
-  "final_check_manifest": "evidence/product/product-t08-status-filters-20261009T034214Z/record.json",
+  "final_check_manifest": "evidence/product/product-t09-audit-action-filters-20261009T040052Z/record.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
-  "latest_validated_master_before_this_increment": "0346300471a889ae8fd33b022b890034be08d301",
-  "last_merged_implementation_pr": 17,
-  "checkpoint_evidence": "evidence/product/product-t08-status-filters-20261009T034214Z/record.json",
-  "implementation_prs_pending": [],
-  "next_fully_unblocked_tasks": [
+  "latest_validated_master_before_this_increment": "577124f1b15058000fa89e5a17074992435efcd9",
+  "last_merged_implementation_pr": 19,
+  "checkpoint_evidence": "evidence/product/product-t09-audit-action-filters-20261009T040052Z/record.json",
+  "implementation_prs_pending": [
     "SF-PRODUCT-T09"
   ],
+  "next_fully_unblocked_tasks": [],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
     "reason": "PRODUCT T01–T05 merged with passing non-Sonar CI and owner-authorized Sonar availability exception; independent PRODUCT delivery continues, Oracle VALIDATION remains blocked."
   },
-  "current_increment_merge_status": "T08_VERIFIED_LOCAL_PR_PENDING",
-  "current_checkpoint_branch": "development/product-plan-status-filters",
+  "current_increment_merge_status": "T09_VERIFIED_LOCAL_AWAITING_ROOT_REVIEW",
+  "current_checkpoint_branch": "development/product-audit-action-filters",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -157,7 +153,7 @@
       ]
     }
   },
-  "product_task_status": "T01_T02_T03_T04_T05_T06_T07_T08_VERIFIED_LOCAL",
+  "product_task_status": "T01_T02_T03_T04_T05_T06_T07_T08_T09_VERIFIED_LOCAL",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",

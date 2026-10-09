@@ -1,0 +1,18 @@
+SF-PRODUCT-T09 final local verification run
+Base commit: 577124f1b15058000fa89e5a17074992435efcd9 (origin/master after T08 PR #19)
+Scope: local PostgreSQL/API/browser only. Oracle untouched. No API or database contract changes.
+
+Initial attempts retained from the implementation run:
+- Fresh-worktree `npm run build:web` first exited 1 because esbuild was absent. `npm ci --ignore-scripts --no-audit --no-fund` installed pinned dependencies; subsequent builds passed.
+- Initial full product integration test first exited 1 because the ANTLR helper was not installed in this worktree. Four existing parser/import cases observed UNAVAILABLE. The helper was rebuilt twice from the pinned ANTLR inputs with the approved JDK and matched the registered helper hash; final product integration passes 20/20.
+- A first filter render attempt exposed `busy is not defined`; RecordsScreen now receives busy/projectLoaded and the focused, full browser, and npm check reruns pass.
+- Security review identified two filter reset edges. The selected action resets when refresh removes it from the current recent-event actions; it also resets on every project ID change, including automatic fallback after the selected project disappears. Both cases use only isolated fixture database state.
+
+Final commands and outcomes:
+PASS — `SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run parser:antlr:build` — two reproducible builds; helper SHA-256 a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4d8bc995351f38; database_calls=0.
+PASS — `SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --test tests/product-audit-action-filters-browser.integration.mjs` — 1/1, zero skips.
+PASS — same environment, `npm run test:product` — 20/20, zero skips.
+PASS — same environment, `npm run test:browser` — 7/7, zero skips.
+PASS — same environment, `npm run check` — source/type/build/lint/tracker/format checks, 140/140 standard tests, dependency smoke, and 85-package product license closure; zero skips.
+
+The T09 browser test creates actual scoped PostgreSQL/API project, plan, comment, denied-decision, approval and archive events. It checks dynamic action options, All/default ordering, filtered subsets, another project’s isolation, empty timelines, archived read access, explicit and automatic project-change reset, sign-out reset, and unchanged full API snapshots around filtering. Fixture deletions model recent-action eviction and automatic fallback only in helper-created isolated test databases.

@@ -1,0 +1,12 @@
+SF-PRODUCT-T09 — Filter recent project audit events by action
+Base: 577124f1b15058000fa89e5a17074992435efcd9
+Criterion coverage: indexes 0–2; `SF-PRODUCT-T09-WEB`.
+
+Final commands / outcomes / raw output hashes:
+PASS — `npm run parser:antlr:build` (pinned JDK path recorded in verification-notes.txt) — 2 reproducible builds; helper matches registry; SHA-256 log feb14400554134fd54b9789c5a2e2ffffb9f16d3807b1093f7d008a7f9da4a76 at `evidence/product/product-t09-audit-action-filters-20261009T035700Z/parser-build.log`.
+PASS — focused T09 browser test, 1/1 / 0 skips — SHA-256 f7ac36f49763081b1e51b27fe0f5f5db0bdbe4a1ed6d0fca77a01c493045e3a0 at `t09-browser-focused.log`.
+PASS — `npm run test:product`, 20/20 / 0 skips — SHA-256 f201f1fa9a8c4a5a604ab69622be9234badaf358960a6b146fcaef15c9a06200 at `product-integration.log`.
+PASS — `npm run test:browser`, 7/7 / 0 skips — SHA-256 53887323974e5cb0d58ff7081fde8fe4e2f6e6284cfefc80ace333a358d7c75a at `browser-regressions.log`.
+PASS — `npm run check`, 140/140 standard tests / 0 skips and all build, tracker, format, dependency checks pass — SHA-256 bd3db64838583cc540467c08aff6e7fe8433194af746e34623de99acbbb883d6 at `checks-final.log`.
+
+Earlier first-attempt failures and their corrections are documented in `verification-notes.txt`; successful final reruns above are separate observations. Oracle behavior, full SEC-011 search/retention/tamper evidence, Sonar scan, and any deployment are outside this local task.

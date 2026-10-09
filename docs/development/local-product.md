@@ -49,8 +49,12 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    Filters preserve project ordering and historical read access for archived projects.
    Changing the filter clears unsent comment and decision drafts; an empty result offers
    another status or All. Selecting a project or signing out restores the All default.
-6. Inspect Audit & history. Each proposed migration records `NOT_EXECUTED`; no applied
-   receipt exists. Stop/restart the API to confirm PostgreSQL retains these records.
+6. Inspect Audit & history. Audit action filters list only actions present in the selected
+   project's recent events; All actions is the default and preserves server ordering.
+   Project changes and sign-out restore that default. Archived project events remain
+   readable, and an empty timeline explains that no events are available. Each proposed
+   migration records `NOT_EXECUTED`; no applied receipt exists. Stop/restart the API to
+   confirm PostgreSQL retains these records.
 7. As the developer, return to Projects and archive a completed project with a reason.
    The timestamp and archived state persist. Existing releases (including SQL previews),
    plans, audit and history remain readable; creation and review controls become disabled.

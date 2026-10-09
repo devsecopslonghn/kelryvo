@@ -2349,12 +2349,17 @@
       "test_references": [
         "SF-PRODUCT-T09-WEB"
       ],
-      "status": "BACKLOG",
+      "status": "VERIFIED",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
-      "evidence": [],
-      "blockers": []
+      "evidence": [
+        {
+          "index_id": "product-t09-audit-action-filters-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Read-only filters over recent scoped project audit actions with local PostgreSQL/API/browser evidence; partial SEC-011 only, no Oracle acceptance."
     }
   ]
 }
