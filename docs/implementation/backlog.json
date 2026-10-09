@@ -2288,10 +2288,42 @@
       "evidence": [
         {
           "index_id": "product-t07-decision-record-local-verified"
+        },
+        {
+          "index_id": "product-t07-merge-master-verified"
+        },
+        {
+          "index_id": "product-t07-checkpoint-registration-verified"
         }
       ],
       "blockers": [],
       "verification_scope": "Bounded local terminal decision provenance with reviewer snapshots/legacy ID fallback and PostgreSQL/API/browser/restart evidence; no full catalog/Oracle acceptance."
+    },
+    {
+      "id": "SF-PRODUCT-T08",
+      "package": "PRODUCT",
+      "assigned_agent": "frontend",
+      "title": "Filter project plan reviews by decision status",
+      "dependencies": [
+        "SF-PRODUCT-T07"
+      ],
+      "feature_ids": [
+        "GOV-021"
+      ],
+      "acceptance_criteria": [
+        "Authenticated project plan reviews offer All, Pending approval, Approved and Rejected filters with a clear empty state, using the existing scoped project data and preserving the current All default.",
+        "Changing a filter cannot display a plan outside the selected project or retain another plan's unsent comment draft; selected plans still expose their persisted comments and terminal decision records.",
+        "Archived projects retain filtered historical read access; approval/rejection, comments, plan bytes and execution/history behavior remain unchanged. Assignment, delegation, notifications and full catalog inbox acceptance are excluded."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T08-WEB"
+      ],
+      "status": "READY",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [],
+      "blockers": []
     }
   ]
 }

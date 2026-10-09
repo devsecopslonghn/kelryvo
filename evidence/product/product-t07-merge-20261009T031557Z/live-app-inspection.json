@@ -1,0 +1,17 @@
+{
+  "application": "http://127.0.0.1:4317",
+  "health": {
+    "status": "ok",
+    "execution": "NOT_EXECUTED",
+    "oracleValidation": "BLOCKED"
+  },
+  "decisionRecordVisible": true,
+  "storedReasonVisible": true,
+  "storedReviewerVisible": true,
+  "legacyIdFallback": true,
+  "serverTimeMatches": true,
+  "commentsSectionVisible": true,
+  "statusFiltersVisible": false,
+  "browserErrors": [],
+  "nextProductTask": "SF-PRODUCT-T08: project plan review status filters (READY; implementation remains outstanding)."
+}

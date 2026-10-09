@@ -1,0 +1,23 @@
+{
+  "id": "product-t07-checkpoint-registration-verified",
+  "subject_id": "SF-PRODUCT-T07",
+  "kind": "STATIC",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check with PostgreSQL enabled; npm run next selects READY SF-PRODUCT-T08; inspect authored diff",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t07-merge-20261009T031557Z/checkpoint/checks.log",
+    "sha256": "ee5cff7674a8d92476b6276e8aad285c7418b009b66e1f764c4168def4f02a64"
+  },
+  "recorded_at": "2026-10-09T03:19:35.509393+00:00",
+  "standard_tests": {
+    "passed": 140,
+    "failed": 0,
+    "skipped": 0
+  },
+  "scope_description": "Record verified T06/T07 merge state and register bounded status-filter next task; T08 is not implemented or verified."
+}
