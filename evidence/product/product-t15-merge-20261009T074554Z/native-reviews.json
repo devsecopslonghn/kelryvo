@@ -1,0 +1,25 @@
+{
+  "head": "e186072de9f0811e3c6868039b701da05dc2b677",
+  "base": "436851ed74b878d04b67c941eb05a41bba82312b",
+  "qa": {
+    "agent": "/root/t15_qa",
+    "verdict": "APPROVED",
+    "source_hashes_verified": 9,
+    "raw_hashes_verified": 90,
+    "tracker": "PASS",
+    "suites_rerun": false,
+    "limitations": "Initial summary overwritten/unrecoverable; all failed raw captures preserved; final check013 API complete, later browser/doc edits covered by browser018 and root checks."
+  },
+  "security": {
+    "agent": "/root/t15_security",
+    "verdict": "APPROVED",
+    "changed_publication_files": 133,
+    "changed_publication_findings": 0,
+    "history_findings": 5,
+    "classification": "Same exact historical3genericUUID/blobhash +syntheticmalformedPEM +T10rawhash; known T08/T10/T11 provenance, no credential indicated.",
+    "corrected_review": "Initial invalid invocation misattributed historical5 to changedtree. Explicit133path gitarchive and gitleaksdir clean rerun corrected it; earlier statement retained in native transcript, not relied upon.",
+    "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+  },
+  "sonar": "UNAVAILABLE, neverPASS; owner existing quotaexception unchanged",
+  "recorded_at_utc": "2026-10-09T07:40:55.495959+00:00"
+}

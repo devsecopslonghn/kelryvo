@@ -1,0 +1,10 @@
+{
+  "head": "e186072de9f0811e3c6868039b701da05dc2b677",
+  "base": "436851ed74b878d04b67c941eb05a41bba82312b",
+  "command_mode": "gitleaks dir explicit git archive of all changed paths",
+  "paths": 133,
+  "archived_files": 133,
+  "exit_code": 0,
+  "findings": 0,
+  "safe_metadata": []
+}

@@ -1,3 +1,60 @@
+## T16 verified locally; exact-head reviews/publication pending — 2026-10-09
+
+T16 requester/time display and independent-reviewer feedback passed final143standard,
+23PostgreSQLproduct,14browser,focusedexisting+requester2 androottracker21, zero skips.
+Root reviewed finaldiff and verified5source/13native raw hashes plus completecapturemanifest.
+Evidence: `evidence/product/product-t16-root-recovery-20261009T083000Z/integration-record.json`.
+Earlier droppedcreateProfile regression corrected; allfailedattempts retained. Original vanished
+check has no raw/finalresult and remainsunverified. Native summary timestamp predates final
+checkend; documented as inaccurate metadata, not reconstructed; actual commandcaptures retained.
+Existing API remains self-decision denial/audit authority; noAPI/schema/auth/Oraclechanges.
+Native exact-head QA/security/fullpublication+historyscan/remoteCI/normalmerge stillrequired.
+
+Next bounded T17 READY registers the existing offline plan intent contract: serverbuilt
+versionedenvelope/digest retaining scoped requester/source/ordereditems/configuredtarget;
+verify beforeapproval and display retainedofflinefacts separatelyfromcurrent/runtimeidentity.
+No T17implementation or fullcatalog/Oracleacceptance claimed. Start afterT16publicationgates.
+Sharedcheckout untouched;HygienePR/branch unavailable. Sonar unavailable neverPASS.
+
+## T16 active in its isolated worktree — 2026-10-09
+
+SF-PRODUCT-T16 is IN_PROGRESS at
+`/home/longhn0710/workspace/schemaforge-product-requester-review`, branch
+`development/product-requester-review`, local checkpoint
+`a58dcc3315b0c034bcad73855d5720bd1785bea0` on verified master
+`f8be2a7c1c3c3bff10e90570bf4210c5ed0df264`. A fresh native frontend context owns
+requester/time display, independent-reviewer feedback, browser regression/driver and operating docs;
+root owns tracking, integration and publication. No T16 verification claimed yet.
+Use existing authorId/createdAt contract; keep API authoritative self-decision denial/audit,
+comments, existing archive/terminal/role behavior and project/plan/session guards.
+Do not introduce names, last-editor exclusions, API/schema/auth changes or execution/Oracle claims.
+Shared checkout remains clean/untouched; no open Hygiene PR/branch visible.
+Sonar unavailable never PASS; Oracle VALIDATION separately blocked.
+
+## T15 merged and master verified; T16 ready — 2026-10-09
+
+T15 merged through [PR #27](https://github.com/devsecopslonghn/schemaForge/pull/27)
+at `f8be2a7c1c3c3bff10e90570bf4210c5ed0df264`, exact reviewed head
+`e186072de9f0811e3c6868039b701da05dc2b677`. Native QA/security approved;
+all ten PR checks and five exact-master runs across four workflow families passed.
+Local results: 143 standard, 23 PostgreSQL product, 13 browser, 21 tracker,
+one focused API and browser each, zero skips. Approval rechecks bounded scoped retained
+UTF-8 source and exact ordered plan facts before writes; rejection and audited denials remain.
+Evidence: `evidence/product/product-t15-merge-20261009T074554Z/record.json`.
+Publication133files zero findings; full history same five independently classified benign.
+The initial invalid security scan count was corrected by an explicit changed-file archive;
+initial overwritten native summary bytes remain unavailable, raw logs retained and limits explicit.
+
+Next task SF-PRODUCT-T16 READY: show retained requester/time facts and independent reviewer
+eligibility using the existing API. Fresh worktree
+`/home/longhn0710/workspace/schemaforge-product-requester-review`, branch
+`development/product-requester-review`, based on verified master above.
+Use fresh bounded feature context; root owns tracking/integration, assigned context owns UI/tests/docs.
+Shared checkout remains clean at `0346300471a889ae8fd33b022b890034be08d301`, untouched.
+No open PR or Hygiene branch visible; integrate only independently eligible separate changes.
+Sonar quota exception unchanged, unavailable never PASS. Original catalog and Oracle
+VALIDATION remain separate; no deployment, history rewrite or credential rotation indicated.
+
 ## T15 verified locally; exact-head review and publication pending — 2026-10-09
 
 SF-PRODUCT-T15 checks the scoped retained VALID release and ordered plan file facts before

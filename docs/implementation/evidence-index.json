@@ -1996,6 +1996,48 @@
       },
       "path": "evidence/product/t15-approval-integrity-20261009T071325Z/integration-record.json",
       "sha256": "e6a191908e2a7e4b8a4340ac9cf4a4ea457ed4ca8865793d5159019b82809a17"
+    },
+    {
+      "id": "product-t15-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T15",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head native QA/security; all133changedpath Gitleaks;10PRchecks;normalmatch-headmerge;5exact-masterruns in4workflowfamilies;filteredsecurityalerts;branch/PR/shared-status reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t15-merge-20261009T074554Z/master-workflows.json",
+        "sha256": "88ab4a2e6d87678eafcf0af6eb64bda63fb4aefe15d555f027f23e9d1cfb4aeb"
+      },
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/record.json",
+      "sha256": "e8403455d346b56661b2dfdc5b491072c889dd38356548957643a97861699056"
+    },
+    {
+      "id": "product-t16-requester-local-verified",
+      "subject_id": "SF-PRODUCT-T16",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check with pinnedJava+PostgreSQL; npm run test:product; npm run test:browser; focusedexistingworkflow+requester browser; root tracker21",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T16-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t16-requester-20261009T083842Z/02-full-browser.log",
+        "sha256": "37f62de3662d1917f7394181c7791227c38e9f728e2d703004bef86ff90e41cd"
+      },
+      "path": "evidence/product/product-t16-root-recovery-20261009T083000Z/integration-record.json",
+      "sha256": "9ddac0e171152f4bfddd080cb6b1a6cb5981d0293b0b65bd8ba54588fdbe18b6"
     }
   ]
 }
