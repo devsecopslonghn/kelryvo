@@ -1,0 +1,24 @@
+SF-PRODUCT-T11 — Inspect retained release provenance
+Local verification outcome: PASS, VERIFIED_LOCAL only
+Base checkpoint: cba109f4a4ccd043ab142744b03874d8b695122b (branch development/product-release-provenance)
+
+Acceptance evidence:
+- Authenticated inspection renders the full immutable commit, durable repository ID, current repository name when registered, object format, migration folder, manifest digest, parser profile, and exact import timestamp through existing release/project APIs.
+- Rendered/API facts were compared field-for-field with the persisted PostgreSQL row. Exact retained migration SQL remained available after the source directory was moved, project archived, API restarted, and repository registry emptied. No schema/API changes or Git reads were added.
+- Browser coverage verifies unauthenticated 401 and unknown release 404, archived read-only access, durable ID with unavailable repository name, no path disclosure, full audit/history/plan/release snapshots unchanged by inspection, and a delayed response after signing in to a different (earlier empty) project cannot display the previous project's release.
+- Repository ID remains a separate stored/displayed field. This is a partial GIT-006 increment; no full-catalog or Oracle acceptance is claimed. Oracle remains BLOCKED, Sonar remains unavailable, and no worker/execution was invoked.
+
+Final sequential commands (all exit 0, zero skips):
+1. SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests npm run check — 141/141 tests; dependencies smoke PASS; product license closure 85 pinned packages, zero unknown required grants.
+2. SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests npm run test:product — 21/21.
+3. SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests npm run test:browser — 9/9.
+4. SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests node --test tests/product-release-provenance-browser.integration.mjs — 1/1.
+
+Raw-output SHA256:
+- npm-check-final.log: ab1a8bc25297e13614562250599897b0469310c65a27b8ad99559054a2b5b5f8
+- test-product-final.log: cc2fa2af5fcd40d108e338f56d36327b0e0c712abb45e344e209d4b6773a7744
+- test-browser-final.log: 1b668b5850e9849534d22a810a28980439e4743def44652c9160480f77c7dca4
+- focused-browser-final.log: fd46739cb29ad63d5f31c5c88efc15dafd790efce98bf9221426360cd96b87ae
+- initial-observations.txt (separate non-pass setup/assertion observations): 389e18fee9b80564dbdb5f9946e6f78cf49037c4955cd656b2f22aa3b1c59ace
+
+Unmodified inputs: package lockfiles and license/source lockfiles. Local-only ignored parser/database setup is not part of the source diff.

@@ -1,29 +1,33 @@
 # Current engineering state
 
-## T10 merged and master verified; T11 READY — 2026-10-09
+## T10 merged; T11 locally verified, root review pending — 2026-10-09
 
-T10 local branch/tag selection merged through [PR #22](https://github.com/devsecopslonghn/schemaForge/pull/22)
-at `ed10fd1ba7913942cc50748473c32046f6353d20`, from independently reviewed head
-`2a97b5551a99446aef46a034ac8532d70bafd4e0`. All ten non-Sonar PR checks and all four
-post-merge master workflows passed. Local verification was 141/141 standard, 21/21 PRODUCT,
-8/8 browser regressions, zero skips; independent focused API/browser reruns each passed1/1.
-Immutable merge/review snapshots are indexed at `evidence/product/product-t10-merge-20261009T045151Z/record.json`.
+T10 merged through [PR #22](https://github.com/devsecopslonghn/schemaForge/pull/22) at
+`ed10fd1ba7913942cc50748473c32046f6353d20`; its four post-merge master workflows passed.
+T11 implements read-only stored release provenance using the existing API. It displays the full
+commit and separate repository ID, object format, folder, manifest digest, parser profile and exact
+import time. Retained SQL remains readable after Git becomes unavailable and the project is archived.
+The view is restricted to the currently loaded project's releases, and delayed responses after a
+project/session change stay hidden.
 
-`npm run next` selects **SF-PRODUCT-T11 — Inspect retained release provenance**, READY and
-unimplemented. Fresh worktree `/home/longhn0710/workspace/schemaforge-product-release-provenance`,
-branch `development/product-release-provenance`, starts from merged master `ed10fd1`.
-This local metadata checkpoint records T10 only and will accompany the next eligible PRODUCT PR.
-Read the exact T11 tracker acceptance; reuse stored API fields and preserve scope, stale-response
-guards and archived reads. No new Git reads/schema/worker/Oracle claims are required.
+Local verification in `/home/longhn0710/workspace/schemaforge-product-release-provenance`, branch
+`development/product-release-provenance`, based on checkpoint `cba109f4a4ccd043ab142744b03874d8b695122b`:
+`npm run check` 141/141, `npm run test:product` 21/21 and `npm run test:browser` 9/9, all zero
+skips. The focused T11 browser regression passed 1/1. Evidence is indexed as
+`product-t11-release-provenance-local-verified` at
+`evidence/product/product-t11-release-provenance-20261009T050150Z/record.json`. T11 is a partial
+GIT-006 display increment; this makes no full-catalog or Oracle claim. Root owns exact-head review/publication; resolve this increment’s PR/head/merge and
+post-merge workflows through Git/GitHub before resuming. **SF-PRODUCT-T12 — Verify retained
+release integrity before offline planning** is registered READY; `npm run next` selects T12.
+Recompute retained UTF-8 content checksums and the existing manifest before persistence under
+scoped row locks. No Git/Oracle reads, schema change, or full raw-byte retention claim.
 
-Hygiene integration is still pending: no separate branch/PR/original report was visible.
-The independent redacted history scan has five classified benign matches: the original project UUID,
-two source hashes and synthetic PEM fixture, plus T10’s exact raw-log SHA256. Both root and security
-verified the new digest against exact bytes without printing it. Original-report comparison remains
-open; no real credential was observed, no rotation indicated, no allowlist or history rewrite.
-The shared checkout stays clean and untouched at `0346300471a889ae8fd33b022b890034be08d301`.
+The original hygiene report crosscheck is COMPLETE: root and native Security verified all four
+redacted original metadata matches against the independent classification; no actual credential or
+rotation was indicated. A separate hygiene branch/PR remains pending. Safe metadata is preserved in
+`evidence/product/product-t11-release-provenance-20261009T050150Z/hygiene-original-report-crosscheck-safe.json`.
 
-Sonar remains unavailable under the unchanged quota exception, never PASS. All124 applicable
+Sonar remains unavailable under the unchanged quota exception, never PASS. All 124 applicable
 Oracle VALIDATION cells remain BLOCKED; PRODUCT verification is separate.
 
 ## T08–T10 locally delivered; T10 root review pending — 2026-10-09

@@ -1759,6 +1759,48 @@
       },
       "path": "evidence/product/product-t10-merge-20261009T045151Z/record.json",
       "sha256": "1ecb8c154739e6bb4078b31dc98493a044c033fe110ef7684d6ab8ee8fa18b4d"
+    },
+    {
+      "id": "product-t11-release-provenance-local-verified",
+      "subject_id": "SF-PRODUCT-T11",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser; node --test tests/product-release-provenance-browser.integration.mjs",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T11-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t11-release-provenance-20261009T050150Z/verification-summary.txt",
+        "sha256": "70490d7fc0b55b84cb6e2112f2f7f55a61ec510bdf58acb9fe6cf60ad79775c7"
+      },
+      "path": "evidence/product/product-t11-release-provenance-20261009T050150Z/record.json",
+      "sha256": "675cee1ca61fafe6e909331508fb6bce70a64b77a3643d967f89a5e099165672"
+    },
+    {
+      "id": "product-t11-tracker-finalization-20261009T050150Z",
+      "subject_id": "SF-PRODUCT-T11",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests npm run check; node scripts/tracker.mjs validate; node scripts/tracker.mjs next",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t11-release-provenance-20261009T050150Z/tracker-finalization.txt",
+        "sha256": "a411896eb55b5bee7081905e0cf6fc4ce2cbbedf823092916fbbbdeea3087964"
+      },
+      "path": "evidence/product/product-t11-release-provenance-20261009T050150Z/tracker-finalization.json",
+      "sha256": "5608b2fa3796801c09ddd46065c8adfab5891d388f6ba34c1fe9b8d6a0387dc5"
     }
   ]
 }

@@ -1,0 +1,67 @@
+{
+  "checked_at": "2026-10-09T05:13:48.783Z",
+  "subject_id": "SF-PRODUCT-T11",
+  "baseline_master": "ed10fd1ba7913942cc50748473c32046f6353d20",
+  "local_checkout_baseline": "cba109f4a4ccd043ab142744b03874d8b695122b",
+  "runtime_source_hashes": {
+    "apps/web/src/app.jsx": "bf5586f98118e4ef56b5bdf507fdfd945e44d16d62dca28810ebc4e04239002b",
+    "apps/web/styles.css": "338f8a3647841712955395e79715a6e2b111f7cd96cdfc53ff4b1531feb88b87",
+    "scripts/test-product.mjs": "8cfe49598834b443e532046929d15f1336a4f12a3457234a559b9bf3d363e01e",
+    "tests/product-release-provenance-browser.integration.mjs": "9c70842bdd190e00dacda26880ce4b963442e4d556b91b0dc9bda5bbfc1c35ae"
+  },
+  "source_hash_correction": {
+    "path": "tests/product-release-provenance-browser.integration.mjs",
+    "original_record_hash_length": 63,
+    "corrected_sha256": "9c70842bdd190e00dacda26880ce4b963442e4d556b91b0dc9bda5bbfc1c35ae",
+    "root_focused_test_passed": true,
+    "root_focused_tests": 1,
+    "skipped": 0,
+    "raw_output": {
+      "path": "evidence/product/product-t11-root-review-20261009T051247Z/focused-browser-root.log",
+      "sha256": "ff3eece3a0248f58c25a77fdf41a8d0d3f1db4f600a15a1b8abd63a59e719ee7"
+    }
+  },
+  "successful_raw_logs": [
+    {
+      "path": "evidence/product/product-t11-release-provenance-20261009T050150Z/npm-check-final.log",
+      "sha256": "ab1a8bc25297e13614562250599897b0469310c65a27b8ad99559054a2b5b5f8"
+    },
+    {
+      "path": "evidence/product/product-t11-release-provenance-20261009T050150Z/npm-check-post-tracker.log",
+      "sha256": "5547527f1cf99a3370b6f14508a5dabb52eda179545a6767411d118050b40110"
+    },
+    {
+      "path": "evidence/product/product-t11-release-provenance-20261009T050150Z/test-product-final.log",
+      "sha256": "cc2fa2af5fcd40d108e338f56d36327b0e0c712abb45e344e209d4b6773a7744"
+    },
+    {
+      "path": "evidence/product/product-t11-release-provenance-20261009T050150Z/test-browser-final.log",
+      "sha256": "1b668b5850e9849534d22a810a28980439e4743def44652c9160480f77c7dca4"
+    },
+    {
+      "path": "evidence/product/product-t11-release-provenance-20261009T050150Z/focused-browser-final.log",
+      "sha256": "fd46739cb29ad63d5f31c5c88efc15dafd790efce98bf9221426360cd96b87ae"
+    }
+  ],
+  "tracking_checks": {
+    "path": "evidence/product/product-t11-root-review-20261009T051247Z/tracker-checks.log",
+    "sha256": "36a5763c4397c9e217dfe7c122211ed5fe10b57d1c6ef063081766fa32928dbe",
+    "outcome": "PASS",
+    "tests": 21,
+    "skipped": 0
+  },
+  "next_task": {
+    "id": "SF-PRODUCT-T12",
+    "status": "READY",
+    "implemented": false,
+    "evidence_attached": false
+  },
+  "notes": [
+    "T11 record baseline_master names local metadata checkpointcba109f; actual origin/master base ised10fd1. This supplement clarifies without altering immutable record.",
+    "Original browsertest hash was a63-character transcription error. The other3sourcehashes match. Root hashed currentfile and reran focusedbrowser1/1, zero skips beforepublication.",
+    "Root registeredT12, updated operatingdocs and reconciledmetadata afterT11finalization; runtime sourcecode unchanged from passing141standard/21integration/9browser runs.",
+    "Original hygiene report metadata matches all4independent classifications; original verbal2API/duplicatefixture grouping still differs from actualreport3generic/1private rule groups. Bothfacts preserved.",
+    "Initial T11 setup/assertion failures are narrative observations; successful raw logs are present. Missing initialfailedraw output is not claimedpresent.",
+    "Sonar unavailable neverPASS; all124applicable OraclecellsBLOCKED. T12 registrationonly; scope retainedUTF8 integrity, no fullGIT007/rawbyte/tamperproof claim."
+  ]
+}

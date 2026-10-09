@@ -1,0 +1,36 @@
+{
+  "finding_count": 4,
+  "all_secret_fields_redacted": true,
+  "original_report_matches_independent_metadata": true,
+  "original_report_sha256": "3f0b0bd65dedb03c53b6abe0caf8843e18233173d5958a238af184c86e4127c5",
+  "findings": [
+    {
+      "RuleID": "generic-api-key",
+      "Commit": "4c9259e426ec197e4ad527173147fc20562df69b",
+      "File": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/native-browser-diagnostic-summary.txt",
+      "StartLine": 4,
+      "EndLine": 4
+    },
+    {
+      "RuleID": "generic-api-key",
+      "Commit": "f0a28c3fc166830914289f83da4ea29e875ba76a",
+      "File": "evidence/product/product-t01-20261008T163522Z-87ad39d8/source-hashes.json",
+      "StartLine": 40,
+      "EndLine": 40
+    },
+    {
+      "RuleID": "generic-api-key",
+      "Commit": "f0a28c3fc166830914289f83da4ea29e875ba76a",
+      "File": "evidence/product/product-t01-20261008T163522Z-87ad39d8/reviewed-source-hashes.json",
+      "StartLine": 40,
+      "EndLine": 40
+    },
+    {
+      "RuleID": "private-key",
+      "Commit": "7cb071bdbce6387101691dd49ea90786245caf54",
+      "File": "tests/thin-readonly-probe.test.mjs",
+      "StartLine": 143,
+      "EndLine": 264
+    }
+  ]
+}
