@@ -2038,6 +2038,76 @@
       },
       "path": "evidence/product/product-t16-root-recovery-20261009T083000Z/integration-record.json",
       "sha256": "9ddac0e171152f4bfddd080cb6b1a6cb5981d0293b0b65bd8ba54588fdbe18b6"
+    },
+    {
+      "id": "product-t16-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T16",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head nativeQA/security;107changedpublicationfiles0findings;11PRchecks;normalmatch-headmerge;4exact-masterworkflows;filteredsecurityalerts andbranch/PR/shared-status reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t16-merge-20261009T085528Z/master-workflows.json",
+        "sha256": "60c270824f419933a1d637d5eb2e3842239ca88e85af2707119cee7171904451"
+      },
+      "path": "evidence/product/product-t16-merge-20261009T085528Z/record.json",
+      "sha256": "fef79a5329e7a9e6aae41a0009cb54f8994866cefdcce94641053eff3aa57d2f"
+    },
+    {
+      "id": "product-t17-offline-intent-local-verified",
+      "subject_id": "SF-PRODUCT-T17",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check with PostgreSQL and pinned Java; npm run test:product; npm run test:browser; focused encoder/API fixtures; isolated parser/import suite",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T17-UNIT",
+        "SF-PRODUCT-T17-API",
+        "SF-PRODUCT-T17-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t17-20261009T090639Z/browser-suite-final.log",
+        "sha256": "a98857815236bfeb44038c6553879d33e56c08c761397ca78b830ff1f0866cf6"
+      },
+      "path": "evidence/product/product-t17-root-20261009T091217Z/integration-record.json",
+      "sha256": "6fb56d98672475ff737aa448df1637f18f678bb8b609e6d96fbdb5132b14a078"
+    },
+    {
+      "id": "product-t17-bounded-intent-local-verified",
+      "subject_id": "SF-PRODUCT-T17",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Corrected frozen source: npm run check with PostgreSQL+pinned Java; npm run test:product; npm run test:browser; focused intent and release-lock PostgreSQL checks",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T17-UNIT",
+        "SF-PRODUCT-T17-API",
+        "SF-PRODUCT-T17-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t17-bounded-release-20261009T093818Z/product-final.log",
+        "sha256": "17cbdb0ec310d5db899a94ccbca5eeaedad1055da94bb7d5b741b8468932ab4e"
+      },
+      "path": "evidence/product/product-t17-security-correction-20261009T093814Z/corrected-integration-record.json",
+      "sha256": "6336ccff5646aeb959e46c28beceb3c77dd3eb47f0a1e90745421c269f24e8f5"
     }
   ]
 }

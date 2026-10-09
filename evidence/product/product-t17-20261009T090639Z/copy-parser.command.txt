@@ -1,0 +1,1 @@
+cp /home/longhn0710/workspace/schemaforge-product-approval-integrity/experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar

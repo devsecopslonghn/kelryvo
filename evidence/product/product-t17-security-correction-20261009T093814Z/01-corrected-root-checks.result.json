@@ -1,0 +1,11 @@
+{
+  "command": "set -e; npm run format:check; node scripts/tracker.mjs validate; node --test tests/tracker.test.mjs; node scripts/check-source.mjs; git diff --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T09:47:45.059197+00:00",
+  "ended_at_utc": "2026-10-09T09:47:49.123898+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "evidence/product/product-t17-security-correction-20261009T093814Z/01-corrected-root-checks.log",
+    "sha256": "8862165994d6a502ec237fa0948abe678d084891682c08e486ebfa81eb37330e"
+  }
+}

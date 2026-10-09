@@ -2586,6 +2586,9 @@
       "evidence": [
         {
           "index_id": "product-t16-requester-local-verified"
+        },
+        {
+          "index_id": "product-t16-merge-master-verified"
         }
       ],
       "blockers": []
@@ -2612,6 +2615,40 @@
         "SF-PRODUCT-T17-UNIT",
         "SF-PRODUCT-T17-API",
         "SF-PRODUCT-T17-WEB"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t17-offline-intent-local-verified"
+        },
+        {
+          "index_id": "product-t17-bounded-intent-local-verified"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T18",
+      "package": "PRODUCT",
+      "assigned_agent": "frontend",
+      "title": "Prepare a fresh offline plan after rejection",
+      "dependencies": [
+        "SF-PRODUCT-T17"
+      ],
+      "feature_ids": [
+        "GOV-010"
+      ],
+      "acceptance_criteria": [
+        "For a selected rejected plan in an active, loaded project, users who can perform existing release intake have a clear Prepare new plan action leading to that project's bound release intake. The action clears the previously inspected release and unsent review drafts, restores the All plan filter, and explains that changed SQL must be committed and imported as a new immutable release. It performs no API write by itself; unavailable bindings, archives and stale project/session selections fail closed.",
+        "Reuse the existing scoped release import and plan-creation API and retained T17 intent. Changed SQL is imported from a new commit and produces a distinct release, plan ID and intent digest requiring a new independent decision. The predecessor's rejection, source bytes, comments, decision provenance and existing history/audit rows remain unchanged. No old decision can approve the fresh plan; preserve role/self/terminal/archive denials and execution/history state.",
+        "Real Git/PostgreSQL/parser/API/browser regressions reject a plan, commit changed SQL, follow the intake path, create and independently review a fresh plan, and verify immutable predecessor records, fresh pending state and scoped negative requests. Cover project/plan/session changes and archived/unbound action behavior. This bounded GOV-010 increment adds no SQL editor, plan mutation, durable predecessor/supersedes relationship, policy/expiry enforcement, full catalog acceptance or Oracle execution."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T18-API",
+        "SF-PRODUCT-T18-WEB"
       ],
       "status": "READY",
       "source_paths": [

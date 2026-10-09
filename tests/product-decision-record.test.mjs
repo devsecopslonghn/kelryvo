@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { encodeOfflinePlanIntent } from '../packages/migrations/offline-plan-intent.mjs';
 
 const ORG = '00000000-0000-4000-8000-000000000001';
 
@@ -31,11 +32,19 @@ test('terminal plan decisions retain reviewer snapshots and historical ID fallba
       const manifestDigest = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
       const release = (await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)
         VALUES(${project.id},${ORG},'fixture',${'a'.repeat(40)},'sha1','migrations',${manifestDigest},'VALID','fixture-parser-profile',${db.sql.json(files)}) RETURNING id`)[0];
-      const env = (await db.sql`INSERT INTO sf_environments(project_id,organization_id,name) VALUES(${project.id},${ORG},'Decision test') RETURNING id`)[0];
+      const env = (await db.sql`INSERT INTO sf_environments(project_id,organization_id,name) VALUES(${project.id},${ORG},'Decision test') RETURNING id,name`)[0];
       const profile = (await db.sql`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref)
-        VALUES(${project.id},${ORG},${env.id},'Test profile','oracle','localhost',1521,'DEV','APP','vault://test') RETURNING id`)[0];
-      return (await db.sql`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items)
-        VALUES(${project.id},${ORG},${release.id},${profile.id},${actors[0].id},${db.sql.json([{ path:'migrations/V1__fixture.sql', version:'1', sha256, status:'NOT_EXECUTED' }])}) RETURNING id`)[0].id;
+        VALUES(${project.id},${ORG},${env.id},'Test profile','oracle','localhost',1521,'DEV','APP','vault://test') RETURNING *`)[0];
+      const items = [{ path:'migrations/V1__fixture.sql', version:'1', sha256, status:'NOT_EXECUTED' }];
+      const intent = encodeOfflinePlanIntent({ organizationId:ORG, projectId:project.id, requesterId:actors[0].id,
+        releaseId:release.id, commit:'a'.repeat(40), objectFormat:'sha1', folder:'migrations',
+        parserProfile:'fixture-parser-profile', manifestDigest, profileId:profile.id, profileName:profile.name,
+        environmentId:env.id, environmentName:env.name, engine:profile.engine, host:profile.host,
+        port:profile.port, service:profile.service, username:profile.username, credentialRef:profile.credential_ref,
+        items:items.map(({ path, version, sha256 }) => ({ path, version, sha256 })) });
+      assert.ok(intent);
+      return (await db.sql`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items,offline_intent_envelope,offline_intent_digest)
+        VALUES(${project.id},${ORG},${release.id},${profile.id},${actors[0].id},${db.sql.json(items)},${intent.envelope},${intent.digest}) RETURNING id`)[0].id;
     };
     const approvedId = await seedPlan();
     const rejectedId = await seedPlan();

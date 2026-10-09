@@ -1,0 +1,13 @@
+{
+  "scope": "Exact immutable corrective raw TAP whitespace-only lines; no broad source/configuration exception.",
+  "files": [
+    {
+      "path": "evidence/product/product-t17-bounded-release-20261009T093818Z/check.log",
+      "sha256": "7d193d07c72bee9a7476af60538c1f36e90735a54658a0fb9b6878bf21375a8c",
+      "exact_whitespace_only_lines": [
+        416,
+        418
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "head": "7615280f0358743205ed26493e4bde7ce55b8f0b",
+  "base": "f8be2a7c1c3c3bff10e90570bf4210c5ed0df264",
+  "recorded_at_utc": "2026-10-09T08:50:16.581436+00:00",
+  "qa": {
+    "agent": "/root/t16_qa",
+    "verdict": "APPROVED",
+    "scope": "Exact diff/source hashes/criteria/meaningful browser and PG coverage; no rerun."
+  },
+  "security": {
+    "agent": "/root/t16_security",
+    "verdict": "APPROVED",
+    "publication_files": 107,
+    "publication_findings": 0,
+    "history_findings": 5,
+    "history_exit_code": 1,
+    "classification": "Same four original findings (UUID/two sourcehashes/syntheticmalformedPEM) plus fifthT10rawdigest; exactT08/T10/T11 provenance, no new finding."
+  },
+  "sonar": "UNAVAILABLE, neverPASS; owner quota exception unchanged",
+  "limitations": "Lost initial run remainsunverified; handwrittennative timestamp stale notfinalizationattestation;failedraws preserved andeightTAPwhitespaceonly exceptions. T17registrationREADYonly;noAPI/schema/auth/Oraclechanges."
+}

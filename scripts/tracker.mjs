@@ -285,7 +285,28 @@ const PRODUCT_TASK_17 = {
     "SF-PRODUCT-T17-WEB"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17];
+const PRODUCT_TASK_18 = {
+  "id": "SF-PRODUCT-T18",
+  "package": "PRODUCT",
+  "assigned_agent": "frontend",
+  "title": "Prepare a fresh offline plan after rejection",
+  "dependencies": [
+    "SF-PRODUCT-T17"
+  ],
+  "feature_ids": [
+    "GOV-010"
+  ],
+  "acceptance_criteria": [
+    "For a selected rejected plan in an active, loaded project, users who can perform existing release intake have a clear Prepare new plan action leading to that project's bound release intake. The action clears the previously inspected release and unsent review drafts, restores the All plan filter, and explains that changed SQL must be committed and imported as a new immutable release. It performs no API write by itself; unavailable bindings, archives and stale project/session selections fail closed.",
+    "Reuse the existing scoped release import and plan-creation API and retained T17 intent. Changed SQL is imported from a new commit and produces a distinct release, plan ID and intent digest requiring a new independent decision. The predecessor's rejection, source bytes, comments, decision provenance and existing history/audit rows remain unchanged. No old decision can approve the fresh plan; preserve role/self/terminal/archive denials and execution/history state.",
+    "Real Git/PostgreSQL/parser/API/browser regressions reject a plan, commit changed SQL, follow the intake path, create and independently review a fresh plan, and verify immutable predecessor records, fresh pending state and scoped negative requests. Cover project/plan/session changes and archived/unbound action behavior. This bounded GOV-010 increment adds no SQL editor, plan mutation, durable predecessor/supersedes relationship, policy/expiry enforcement, full catalog acceptance or Oracle execution."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T18-API",
+    "SF-PRODUCT-T18-WEB"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

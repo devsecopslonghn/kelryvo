@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: format 1 is stable, binds ordered content and validates bounded facts
+ok 1 - format 1 is stable, binds ordered content and validates bounded facts
+  ---
+  duration_ms: 7.414725
+  type: 'test'
+  ...
+# Subtest: plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+ok 2 - plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+  ---
+  duration_ms: 5541.613093
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5839.696456

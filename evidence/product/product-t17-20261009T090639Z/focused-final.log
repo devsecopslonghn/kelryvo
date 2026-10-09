@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: format 1 is stable, binds ordered content and validates bounded facts
+ok 1 - format 1 is stable, binds ordered content and validates bounded facts
+  ---
+  duration_ms: 8.32518
+  type: 'test'
+  ...
+# Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+ok 2 - plan review comments are scoped, validated, durable, ordered, and serialized
+  ---
+  duration_ms: 480.71835
+  type: 'test'
+  ...
+# Subtest: terminal plan decisions retain reviewer snapshots and historical ID fallback
+ok 3 - terminal plan decisions retain reviewer snapshots and historical ID fallback
+  ---
+  duration_ms: 314.317197
+  type: 'test'
+  ...
+# Subtest: browser shows frozen intent facts and keeps changed current configuration separate
+ok 4 - browser shows frozen intent facts and keeps changed current configuration separate
+  ---
+  duration_ms: 6571.168983
+  type: 'test'
+  ...
+# Subtest: plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+ok 5 - plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+  ---
+  duration_ms: 5987.350094
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 14748.905882

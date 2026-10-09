@@ -1,0 +1,11 @@
+{
+  "command": "git for-each-ref --format=\"%(refname:short) %(objectname)\" refs/heads refs/remotes/origin",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T09:48:17.185949+00:00",
+  "ended_at_utc": "2026-10-09T09:48:17.192706+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "evidence/product/product-t17-security-correction-20261009T093814Z/03-corrected-active-branches.log",
+    "sha256": "0029eb72e7534a91f7a46812a82106bf3b6f5da39e21803f58c96851ff86d4e9"
+  }
+}

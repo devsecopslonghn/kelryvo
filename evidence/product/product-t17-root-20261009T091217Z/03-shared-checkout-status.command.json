@@ -1,0 +1,5 @@
+{
+  "command": "git -C /home/longhn0710/workspace/schemaforge status --short --branch",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T09:12:29.550939+00:00"
+}

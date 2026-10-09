@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+ok 1 - plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+  ---
+  duration_ms: 10254.079711
+  type: 'test'
+  ...
+# Subtest: offline planning rejects corrupted retained releases without writes and uses locked current state
+ok 2 - offline planning rejects corrupted retained releases without writes and uses locked current state
+  ---
+  duration_ms: 6304.948211
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10474.552005

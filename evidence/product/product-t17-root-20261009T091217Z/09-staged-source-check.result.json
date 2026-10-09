@@ -1,0 +1,11 @@
+{
+  "command": "node scripts/check-source.mjs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T09:31:22.635894+00:00",
+  "ended_at_utc": "2026-10-09T09:31:25.582488+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "evidence/product/product-t17-root-20261009T091217Z/09-staged-source-check.log",
+    "sha256": "495b55d44e743c12a0c1ac8e55db29c7e78728607e3d207a7d8cae0c6ada5e08"
+  }
+}

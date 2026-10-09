@@ -1,0 +1,1 @@
+This dependency-install setup record is superseded for T17 check evidence: its directory timestamp was typed rather than generated from system UTC. Preserve as a raw attempt record; verification runs use a new date-generated directory. npm ci exit/log remain preserved.

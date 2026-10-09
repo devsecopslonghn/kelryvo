@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t17-scan-staged.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T09:32:22.517109+00:00",
+  "ended_at_utc": "2026-10-09T09:32:24.283443+00:00",
+  "exit_code": 1,
+  "raw_output": {
+    "path": "evidence/product/product-t17-root-20261009T091217Z/11-staged-publication-scan.log",
+    "sha256": "b2310a35aab7ce260ba10cc303a12de58bdd7f8d84da8ae123aea3764c129614"
+  }
+}

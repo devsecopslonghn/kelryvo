@@ -1,3 +1,97 @@
+## T17 bounds correction locally verified; fresh review pending — 2026-10-09
+
+Creation now checks scoped retained release type/count/uncompressed JSON bytes and
+metadata bounds in PostgreSQL under FOR SHARE before loading file payloads. Corrective
+changes are limited to API and two regression files; the original unpushed rejected
+head/evidence remain in history. The updated race probe still checks the exact blocking
+transaction, and source snapshots use SQL SHA256 without loading oversized files.
+
+Frozen corrected results: standard145, PostgreSQL24, browser15, focused2; zero failures
+or skips. Root verified 13 current source and 40 corrective capture hashes, completion
+ordering and immutable original record. See `evidence/product/product-t17-security-correction-20261009T093814Z/corrected-integration-record.json`. Fresh exact-head QA/security,
+publication scan and CI are required before a normal merge. T18 is READY registration
+only. No Hygiene branch/PR is visible; shared checkout, scanner settings and public
+history remain unchanged. Sonar unavailable, never PASS; Oracle VALIDATION separate.
+
+## T17 creation-bounds correction active — 2026-10-09
+
+Independent QA approved local `e6432c93d6f08ae31856aac159b77833594fc1cd`;
+Security blocked it because creation materialized retained release files before SQL
+size/shape bounds. That commit is unpushed. T17 is IN_PROGRESS for a scoped locked
+preflight and corrective no-write tests; fresh exact-head review and CI are required.
+T18 returns to BACKLOG until the corrected T17 increment is verified. Earlier local
+passing evidence remains immutable and does not establish security approval.
+Independent publication scan returned exit 1 with 30 computed capture-hash findings;
+all-refs history returned exit 1 with those plus the five prior classified benign matches.
+No actual credential was observed. No scanner or history changes were made.
+See `evidence/product/product-t17-security-correction-20261009T093814Z/blocked-review.json`. Shared checkout and Git Hygiene scope remain untouched.
+
+## T17 locally verified; publication review pending — 2026-10-09
+
+SF-PRODUCT-T17 is locally VERIFIED in the isolated offline-plan-intent worktree,
+branch `development/product-offline-plan-intent`, based on verified master
+`fe3744d7f04369538a72f85426cba0fe35ab6db3`. New plans atomically retain a bounded,
+server-built format-1 intent envelope and digest. Approval checks its retained scope,
+requester, source and ordered items under transaction locks. Legacy/corrupt intent
+fails closed; inspection and authorized rejection remain available. Review distinguishes
+captured offline target facts from current configuration without displaying references.
+
+Final checks: standard 145, PostgreSQL 24, browser 15, focused 4 and isolated parser 7;
+all pass with zero skips. Root verified all 12 source and 130 native capture hashes.
+See `evidence/product/product-t17-root-20261009T091217Z/integration-record.json` and the native T17 completion record it hashes. Recorded failures and
+missing interactive captures remain explicit; early parser failures were not diagnosed.
+Exact-head independent QA/security, CI and a normal eligible merge remain pending.
+
+Next T18 READY is a bounded GOV-010 intake path from a rejected plan to a fresh plan
+for newly committed/imported SQL. Preserve old records; no SQL editor or durable lineage
+is included. Registration alone is not implementation or full catalog acceptance.
+Shared checkout remains untouched. No Hygiene branch/PR is visible; classified historical
+matches remain separate from publication scans. Sonar is unavailable, never PASS.
+Oracle VALIDATION remains separate and blocked by missing authorized lab evidence.
+
+## T17 active in its isolated worktree — 2026-10-09
+
+SF-PRODUCT-T17 is IN_PROGRESS at
+`/home/longhn0710/workspace/schemaforge-product-offline-plan-intent`, branch
+`development/product-offline-plan-intent`, local checkpoint
+`2f76097a62003713d43d50a1b6fe2e7c261436fe` on verified master
+`fe3744d7f04369538a72f85426cba0fe35ab6db3`. Fresh native coupled feature context
+owns API/schema/versioned intent helper, review display and regressions/operating docs;
+root owns accepted contracts, tracking, integration and independent review/publication.
+Capture a bounded server-built envelope in plan transaction; verify exact retained digest and
+bound facts before approval. Preserve T15 byte integrity, rejection and audited denials.
+Never fabricate historical intent or resolve credentials; existing legacy plans remain readable.
+Display retained offline configuration without claiming runtime target/history attestation,
+editor provenance, execution authority, full catalog or Oracle verification.
+Shared checkout remains clean and untouched; no Hygiene PR/branch visible.
+Sonar unavailable, never PASS; Oracle VALIDATION separately blocked.
+
+## T16 merged and master verified; T17 ready — 2026-10-09
+
+T16 merged through [PR #28](https://github.com/devsecopslonghn/schemaForge/pull/28)
+at `fe3744d7f04369538a72f85426cba0fe35ab6db3`, reviewed head
+`7615280f0358743205ed26493e4bde7ce55b8f0b`. Native QA/security approved,
+all eleven PR checks and all four exact-master workflows passed. Local checks:
+143standard,23PostgreSQLproduct,14browser,focusedexisting+requester2,roottracker21,
+zero skips. UI retains requester/time facts and disables self/malformed-requester controls;
+API self-decision audit remains authoritative. Publication107files0findings;
+history same five independently classified benign, historyscannerexit1 notclean.
+Evidence: `evidence/product/product-t16-merge-20261009T085528Z/record.json`.
+Lostfirstcheck UNVERIFIED/no reconstructedlogs; stale native summarytime disclosed;
+correctedprofile-handler regression and allfailedraws retained.
+
+Next SF-PRODUCT-T17 READY: freeze and verify server-built bounded offline intent envelope
+and digest; capture scoped requester/source/ordereditems/configuredprofile/environment
+in the plan transaction and show retained offlinefacts separately from currentconfiguration.
+Fresh worktree `/home/longhn0710/workspace/schemaforge-product-offline-plan-intent`,
+branch `development/product-offline-plan-intent`, based on verified master above.
+Use fresh coupled feature context; root owns contracts/tracking/integration and reviews.
+Do not silently backfill legacy intent or certify runtime target/history/editor exclusions,
+execution-time validation, fullcatalog, Oracle or tamper-proof database.
+Shared checkout clean at0346300471a889ae8fd33b022b890034be08d301 untouched.
+No open PR/Hygiene branch visible; original report metadata/provenance unchanged.
+Sonar unavailable neverPASS; Oracle VALIDATION separately blocked.
+
 ## T16 verified locally; exact-head reviews/publication pending — 2026-10-09
 
 T16 requester/time display and independent-reviewer feedback passed final143standard,

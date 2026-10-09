@@ -580,6 +580,14 @@ function ReviewScreen({ model }) {
     && Number.isSafeInteger(targetProfile.port)
     && typeof targetProfile.environmentId === 'string'
     && typeof targetEnvironment.id === 'string' && typeof targetEnvironment.name === 'string');
+  const intent = plan?.offlineIntent;
+  const retainedIntentAvailable = Boolean(intent && intent.format === 1
+    && typeof intent.digest === 'string' && /^[a-f0-9]{64}$/.test(intent.digest)
+    && intent.profileId === plan.profileId && typeof intent.profileName === 'string'
+    && typeof intent.environmentId === 'string' && typeof intent.environmentName === 'string'
+    && typeof intent.engine === 'string' && typeof intent.host === 'string'
+    && Number.isSafeInteger(intent.port) && typeof intent.service === 'string'
+    && typeof intent.username === 'string');
   return <>
           <div className="page-heading"><div><p className="eyebrow">GOVERNANCE</p><h1>Plans &amp; review</h1><p className="muted">Review the exact migration candidate and record an independent decision.</p></div><div className="heading-mark">03 <span> / 04</span></div></div>
           <section className="notice-card"><span className="notice-icon">i</span><div><strong>{isArchived ? 'Archived project · read only' : 'Offline candidate only'}</strong><p>Target history has not been observed. Database execution is unavailable and remains <b>NOT_EXECUTED</b>. {isArchived && 'Review decisions are disabled for archived projects.'}</p></div><span className="scope-tag">{plan?.planningScope || 'OFFLINE_CANDIDATE'}</span></section>
@@ -592,6 +600,12 @@ function ReviewScreen({ model }) {
                   <div><dt>Author ID</dt><dd>{authorFactsAvailable ? <code>{planAuthorId}</code> : <span>Unavailable</span>}</dd></div>
                   <div><dt>Created</dt><dd>{planCreatedAt ? <time dateTime={planCreatedAt}>{fmt(planCreatedAt)}</time> : <span>Unavailable</span>}</dd></div>
                 </dl></section>
+                <section className="panel retained-intent" aria-label="Retained offline intent" data-intent-plan-id={plan.id}>
+                  <div className="panel-heading"><div><h3>Retained offline intent</h3><p>Captured when this plan was created · offline configuration, not current settings or runtime-observed identity.</p></div></div>
+                  {!retainedIntentAvailable
+                    ? <p className="banner error">Retained offline intent is unavailable for this plan.</p>
+                    : <dl className="target-facts"><div><dt>Intent SHA-256</dt><dd><code>{plan.offlineIntent.digest}</code></dd></div><div><dt>Profile ID</dt><dd><code>{plan.offlineIntent.profileId}</code></dd></div><div><dt>Profile name</dt><dd>{plan.offlineIntent.profileName}</dd></div><div><dt>Environment ID</dt><dd><code>{plan.offlineIntent.environmentId}</code></dd></div><div><dt>Environment name</dt><dd>{plan.offlineIntent.environmentName}</dd></div><div><dt>Engine</dt><dd>{plan.offlineIntent.engine}</dd></div><div><dt>Host</dt><dd>{plan.offlineIntent.host}</dd></div><div><dt>Port</dt><dd>{plan.offlineIntent.port}</dd></div><div><dt>Service</dt><dd>{plan.offlineIntent.service}</dd></div><div><dt>Username</dt><dd>{plan.offlineIntent.username}</dd></div></dl>}
+                </section>
                 <section className="panel configured-target" aria-label="Configured target" data-plan-target-id={plan.id}>
                   <div className="panel-heading"><div><h3>Configured target</h3><p>Current configured metadata · not a plan snapshot or runtime observed identity.</p></div></div>
                   {!targetAvailable ? <><dl className="target-facts"><div><dt>Profile ID</dt><dd><code>{typeof plan.profileId === 'string' ? plan.profileId : '—'}</code></dd></div><div><dt>Environment ID</dt><dd><code>{typeof targetProfile?.environmentId === 'string' ? targetProfile.environmentId : '—'}</code></dd></div></dl><p className="banner error">Configured profile or environment is unavailable for this plan.</p></>

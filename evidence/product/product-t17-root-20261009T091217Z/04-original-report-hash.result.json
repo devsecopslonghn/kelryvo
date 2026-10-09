@@ -1,0 +1,11 @@
+{
+  "command": "sha256sum /tmp/schemaforge-git-hygiene-gitleaks.json",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-offline-plan-intent",
+  "started_at_utc": "2026-10-09T09:15:47.689413+00:00",
+  "ended_at_utc": "2026-10-09T09:15:47.693865+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "evidence/product/product-t17-root-20261009T091217Z/04-original-report-hash.log",
+    "sha256": "04be96f986e8f922be008a15bb56c2a09d26c76ae8b4969768f15fba867e9f82"
+  }
+}
