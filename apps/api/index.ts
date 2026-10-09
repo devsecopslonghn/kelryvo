@@ -1,5 +1,5 @@
 import Fastify from "fastify";
-import { timingSafeEqual } from "node:crypto";
+import { authenticateLocalToken, seedLocalActors, tokenDigest } from "../../packages/database/local-credentials.ts";
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from "../../experiments/db-devops-wp0/parser-release.mjs";
 import { MAX_INPUT_BYTES, MAX_STDOUT_BYTES } from "../../experiments/db-devops-wp0/parser-envelope.mjs";
 import { verifyRetainedRelease } from "../../packages/migrations/verify-retained-release.mjs";
@@ -47,6 +47,7 @@ export type ProductActor = {
   name: string;
   role: "developer" | "approver";
   token: string;
+  organizationId?: string;
 };
 export type ProductRepository = { id: string; name: string; path: string };
 export function createApp(options: {
@@ -56,6 +57,7 @@ export function createApp(options: {
   webDirectory?: string;
 }) {
   const { sql, actors, repositories } = options;
+  let seedPromise: Promise<void> | undefined;
   if (
     !Array.isArray(actors) ||
     actors.length === 0 ||
@@ -72,26 +74,26 @@ export function createApp(options: {
     throw new Error("Invalid local actor configuration");
   if (new Set(actors.map((a) => a.id)).size !== actors.length)
     throw new Error("Duplicate local actor identity");
-  if (new Set(actors.map((a) => a.token)).size !== actors.length)
+  if (actors.some((actor) => actor.organizationId !== undefined && actor.organizationId !== '00000000-0000-4000-8000-000000000001'))
+    throw new Error("Invalid local actor configuration");
+  if (new Set(actors.map((a) => tokenDigest(a.token))).size !== actors.length)
     throw new Error("Duplicate local actor token");
   const app = Fastify({ logger: false, bodyLimit: 1024 * 1024 });
+  const seed = () => seedPromise ??= seedLocalActors(sql, actors);
+  app.addHook('onReady', async () => { await seed(); });
   const authenticate = (req: any, reply: any): Promise<void> => {
     const auth = req.headers.authorization;
     const token =
       typeof auth === "string" && auth.startsWith("Bearer ")
         ? auth.slice(7)
         : "";
-    let actor: ProductActor | undefined;
-    for (const candidate of actors) {
-      const a = Buffer.from(token),
-        b = Buffer.from(candidate.token);
-      const equal = a.length === b.length && timingSafeEqual(a, b);
-      if (equal) actor = candidate;
-    }
-    if (!actor) {
+    if (token.length < 32 || token.length > 4096) {
       fail(reply, 401, "UNAUTHENTICATED");
       return Promise.resolve();
     }
+    return seed().then(async () => {
+    const actor = await authenticateLocalToken(sql, token);
+    if (!actor) { fail(reply, 401, "UNAUTHENTICATED"); return; }
     const origin = req.headers.origin;
     if (origin) {
       let same = false;
@@ -103,11 +105,11 @@ export function createApp(options: {
       }
       if (!same) {
         fail(reply, 403, "ORIGIN_REJECTED");
-        return Promise.resolve();
+        return;
       }
     }
     req.actor = actor;
-    return Promise.resolve();
+    });
   };
   const project = async (id: string) =>
     (

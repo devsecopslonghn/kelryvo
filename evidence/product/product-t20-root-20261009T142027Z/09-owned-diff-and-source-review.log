@@ -1,0 +1,16 @@
+Source checks passed for 146 authored files.
+ AGENTS.md                          | 23 +++++++++++++++++++++++
+ apps/api/index.ts                  | 26 ++++++++++++++------------
+ apps/web/src/app.jsx               | 28 ++++++++++++++++++++++++++--
+ docs/decisions/log.json            | 33 +++++++++++++++++++++++++++++++++
+ docs/development/local-product.md  | 30 ++++++++++++++++++++++++++++++
+ docs/implementation/CONTINUE.md    | 20 ++++++++++++++++++++
+ docs/implementation/CURRENT.md     | 20 ++++++++++++++++++++
+ docs/implementation/milestone.json | 24 +++++++++++++++++++++++-
+ package.json                       |  1 +
+ packages/database/index.ts         | 12 ++++++++++++
+ scripts/local-resources.mjs        | 16 ++++++++++++++--
+ scripts/test-product.mjs           |  4 ++--
+ tests/helpers/product-db.mjs       | 11 ++++++++++-
+ tests/product-local.test.mjs       | 30 ++++++++++++++++++++++++++++--
+ 14 files changed, 256 insertions(+), 22 deletions(-)

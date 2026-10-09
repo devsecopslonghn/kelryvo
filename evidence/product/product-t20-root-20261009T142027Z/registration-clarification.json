@@ -1,0 +1,4 @@
+{
+  "at_utc": "2026-10-09T14:22:24.332450+00:00",
+  "clarification": "Registration capture source_changed:false refers only to product feature implementation. Root tracker helper and tracker test were updated for the new acceptance task; docs and append-only evidence also changed. No T20 API/database/UI/operator implementation exists yet."
+}

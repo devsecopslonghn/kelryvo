@@ -7,6 +7,18 @@ export async function initializeDatabase(sql: any): Promise<void> {
     await tx.unsafe(`
     CREATE TABLE IF NOT EXISTS sf_organizations (id uuid PRIMARY KEY, name text NOT NULL);
     INSERT INTO sf_organizations (id,name) VALUES ('00000000-0000-4000-8000-000000000001','Local organization') ON CONFLICT (id) DO NOTHING;
+    CREATE TABLE IF NOT EXISTS sf_local_actors (
+      id text PRIMARY KEY, organization_id uuid NOT NULL REFERENCES sf_organizations(id),
+      role text NOT NULL CHECK(role IN ('developer','approver')), display_name text NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp()
+    );
+    CREATE TABLE IF NOT EXISTS sf_local_credentials (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), actor_id text NOT NULL REFERENCES sf_local_actors(id),
+      token_sha256 text NOT NULL UNIQUE CHECK(token_sha256 ~ '^[a-f0-9]{64}$'),
+      issued_at timestamptz NOT NULL, expires_at timestamptz NOT NULL, revoked_at timestamptz,
+      CHECK(expires_at = issued_at + interval '24 hours')
+    );
+    CREATE INDEX IF NOT EXISTS sf_local_credentials_actor_active ON sf_local_credentials(actor_id) WHERE revoked_at IS NULL;
     CREATE TABLE IF NOT EXISTS sf_projects (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
       name text NOT NULL, description text,

@@ -1,0 +1,14 @@
+{
+  "raw_log": "evidence/product/product-t20-native-20261009T143323Z/npm-check.log",
+  "sha256": "f745c38d3e13c7a6f21ddeab692a595f9e42babca9118514222e6ba04100e9ac",
+  "whitespace_only_original_failure_lines": [
+    357,
+    360,
+    407,
+    410,
+    433,
+    436
+  ],
+  "preserved_immutable": true,
+  "scope": "Six original TAP failure diagnostic whitespace lines retained; full cached diff check failed before commit. Source/docs/scoped evidence check excludes only this exact immutable raw file, not security scanning."
+}

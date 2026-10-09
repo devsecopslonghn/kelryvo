@@ -1,0 +1,5 @@
+command=taskset -c 0,1 npm run check
+started=2026-10-09T14:35:44Z
+ended=2026-10-09T14:36:37Z
+exit=1
+log_sha256=f745c38d3e13c7a6f21ddeab692a595f9e42babca9118514222e6ba04100e9ac

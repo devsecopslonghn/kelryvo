@@ -16,7 +16,7 @@ const persistedState = () => ({
 });
 const productReadyState = () => {
   const s = persistedState();
-  for (const [id, status] of [['SF-PRODUCT-T01', 'READY'], ['SF-PRODUCT-T02', 'BACKLOG'], ['SF-PRODUCT-T03', 'BACKLOG'], ['SF-PRODUCT-T04', 'BACKLOG'], ['SF-PRODUCT-T05', 'BACKLOG'], ['SF-PRODUCT-T06', 'BACKLOG'], ['SF-PRODUCT-T07', 'BACKLOG'], ['SF-PRODUCT-T08', 'BACKLOG'], ['SF-PRODUCT-T09', 'BACKLOG'], ['SF-PRODUCT-T10', 'BACKLOG'], ['SF-PRODUCT-T11', 'BACKLOG'], ['SF-PRODUCT-T12', 'BACKLOG'], ['SF-PRODUCT-T13', 'BACKLOG'], ['SF-PRODUCT-T14', 'BACKLOG'], ['SF-PRODUCT-T15', 'BACKLOG'], ['SF-PRODUCT-T16', 'BACKLOG'], ['SF-PRODUCT-T17', 'BACKLOG'], ['SF-PRODUCT-T18', 'BACKLOG'], ['SF-PRODUCT-T19', 'BACKLOG']]) {
+  for (const [id, status] of [['SF-PRODUCT-T01', 'READY'], ['SF-PRODUCT-T02', 'BACKLOG'], ['SF-PRODUCT-T03', 'BACKLOG'], ['SF-PRODUCT-T04', 'BACKLOG'], ['SF-PRODUCT-T05', 'BACKLOG'], ['SF-PRODUCT-T06', 'BACKLOG'], ['SF-PRODUCT-T07', 'BACKLOG'], ['SF-PRODUCT-T08', 'BACKLOG'], ['SF-PRODUCT-T09', 'BACKLOG'], ['SF-PRODUCT-T10', 'BACKLOG'], ['SF-PRODUCT-T11', 'BACKLOG'], ['SF-PRODUCT-T12', 'BACKLOG'], ['SF-PRODUCT-T13', 'BACKLOG'], ['SF-PRODUCT-T14', 'BACKLOG'], ['SF-PRODUCT-T15', 'BACKLOG'], ['SF-PRODUCT-T16', 'BACKLOG'], ['SF-PRODUCT-T17', 'BACKLOG'], ['SF-PRODUCT-T18', 'BACKLOG'], ['SF-PRODUCT-T19', 'BACKLOG'], ['SF-PRODUCT-T20', 'BACKLOG']]) {
     const task = s.tasks.tasks.find(item => item.id === id);
     task.status = status;
     task.evidence = [];
@@ -54,7 +54,7 @@ test('persisted tracker state validates without assuming initial statuses', () =
 test('catalog and plan IDs are retained with original dependency links', () => {
   const s = fullState();
   assert.equal(s.features.features.length, 220);
-  assert.equal(s.tasks.tasks.length, 84); // 64 imported tasks, foundation, and nineteen product tasks.
+  assert.equal(s.tasks.tasks.length, 85); // 64 imported tasks, foundation, and twenty product tasks.
   assert.equal(s.tests.cases.length, 63);
   assert.deepEqual(s.features.features.find((f) => f.id === 'DBM-002').dependencies, ['SEC-005', 'SEC-009']);
 });

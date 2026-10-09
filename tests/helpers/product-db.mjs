@@ -57,9 +57,17 @@ export async function openIsolatedProductDatabase() {
     await initializeDatabase(sql);
 
     let closed = false;
-    return {
+    const result = {
       sql,
       databaseUrl: url,
+      reopen: async () => {
+        if (closed) throw new Error("test_database_closed");
+        await sql.end({ timeout: 2 });
+        sql = postgres(url, { max: 4, onnotice: () => {} });
+        result.sql = sql;
+        await initializeDatabase(sql);
+        return sql;
+      },
       close: async () => {
         if (closed) return;
         closed = true;
@@ -67,6 +75,7 @@ export async function openIsolatedProductDatabase() {
         finally { await dropOwnedDatabase(baseUrl, name); }
       },
     };
+    return result;
   } catch (error) {
     try {
       if (sql) await sql.end({ timeout: 2 });

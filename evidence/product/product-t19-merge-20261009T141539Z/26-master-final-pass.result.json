@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t19-master-state.py --require-pass",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T14:20:04.129817+00:00",
+  "ended_at_utc": "2026-10-09T14:20:05.369773+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t19-publication-20261009T133805Z/26-master-final-pass.log",
+    "sha256": "d64f63974787e0828c076d8e98c7833b32cc2256bfc0fa869b4026878f91b679"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "command": "npm ci --ignore-scripts --no-audit --no-fund",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T14:22:23.091846+00:00"
+}

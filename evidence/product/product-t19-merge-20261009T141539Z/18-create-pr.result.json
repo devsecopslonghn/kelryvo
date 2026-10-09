@@ -1,0 +1,11 @@
+{
+  "command": "gh pr create --repo devsecopslonghn/schemaForge --base master --head development/product-protected-source-binding --draft --title \"Protect source binding generations before plan approval\" --body-file /tmp/schemaforge-t19-publication-20261009T133805Z/pr-body.md",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T14:08:58.774309+00:00",
+  "ended_at_utc": "2026-10-09T14:09:02.081424+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t19-publication-20261009T133805Z/18-create-pr.log",
+    "sha256": "969815b601a8962e764da95fab5e35ae0b6752d76f5e5c29210ccc3401762ab8"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "command": "set -e; node --input-type=module -e 'import fs from \"node:fs\"; for (const p of [\"docs/implementation/acceptance.json\",\"docs/implementation/backlog.json\"]) fs.writeFileSync(p, JSON.stringify(JSON.parse(fs.readFileSync(p,\"utf8\")),null,2)+\"\\n\");'; node scripts/tracker.mjs validate; node scripts/format-json.mjs --check; node --test tests/tracker.test.mjs; git diff --check -- docs/implementation scripts/tracker.mjs tests/tracker.test.mjs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T14:23:23.701384+00:00"
+}

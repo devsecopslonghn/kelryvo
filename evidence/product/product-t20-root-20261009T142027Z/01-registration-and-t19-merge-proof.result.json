@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t20-register.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T14:22:04.355682+00:00",
+  "ended_at_utc": "2026-10-09T14:22:04.538106+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle/evidence/product/product-t20-root-20261009T142027Z/01-registration-and-t19-merge-proof.log",
+    "sha256": "61d2103ed4134bd192e1c4f02445aecd22c64f933615ed0b69f59db8c5814dc9"
+  }
+}

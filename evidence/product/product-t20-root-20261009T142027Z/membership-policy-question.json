@@ -1,0 +1,17 @@
+{
+  "at_utc": "2026-10-09T14:32:11.375404+00:00",
+  "next_candidate": "PRJ-003/SEC-005 explicit project membership",
+  "status": "OWNER_POLICY_DECISION_PENDING_NOT_REGISTERED_NOT_IMPLEMENTED",
+  "questions": [
+    "May trusted local OS operator explicitly grant/revoke project access to existing fixed-role actors without application administration?",
+    "Require explicit grants for all projects, without inferring/backfilling historical memberships?"
+  ],
+  "source_sha256": {
+    "docs/inputs/db-research/product-research/feature-catalog.json": "5ffacb343a4cbea75f48537bd5e3bd45d4a6fae7fe0b5965e07fffbb83dcc3ba",
+    "docs/inputs/db-research/product-research/DATABASE-RESOURCE-MODEL.md": "9f81de4e3981028167c27bd789189710e14aa322c30512e9843f0db59e817fd4",
+    "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md": "9594e4094a207e5e7ac1520aa0059080dab609e2d0f45bb6ae7f9fe2111e6344"
+  },
+  "independent_read_only_audit": "Native next_product_after_t20 identified undefined identity/project administrator grant authority and legacy-project compatibility",
+  "t20_status": "IN_PROGRESS_CONTINUES_INDEPENDENTLY",
+  "oracle_validation": "BLOCKED_SEPARATE_NOT_PRODUCT_SCHEDULING_BLOCKER"
+}

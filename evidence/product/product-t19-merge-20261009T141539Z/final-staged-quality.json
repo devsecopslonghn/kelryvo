@@ -1,0 +1,437 @@
+{
+  "checked_at_utc": "2026-10-09T13:38:05.680716+00:00",
+  "scope": "Exact staged changed files relative current origin/master",
+  "default_diff_check_exit_code": 2,
+  "exact_raw_line_allowance_count": 56,
+  "diagnostics": [
+    {
+      "path": "evidence/product/product-t18-merge-20261009T121835Z/40-push-reviewed-head.log",
+      "line": 1,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "prior_reviewed_Git_remote_output"
+    },
+    {
+      "path": "evidence/product/product-t18-merge-20261009T121835Z/40-push-reviewed-head.log",
+      "line": 2,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "prior_reviewed_Git_remote_output"
+    },
+    {
+      "path": "evidence/product/product-t18-merge-20261009T121835Z/40-push-reviewed-head.log",
+      "line": 3,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "prior_reviewed_Git_remote_output"
+    },
+    {
+      "path": "evidence/product/product-t18-merge-20261009T121835Z/40-push-reviewed-head.log",
+      "line": 4,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "prior_reviewed_Git_remote_output"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-all.raw.log",
+      "line": 25,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-all.raw.log",
+      "line": 39,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-all.raw.log",
+      "line": 89,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-all.raw.log",
+      "line": 183,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-coverage.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-coverage.raw.log",
+      "line": 35,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-full-rows.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-full-rows.raw.log",
+      "line": 35,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-full-rows.raw.log",
+      "line": 86,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-full-rows.raw.log",
+      "line": 179,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-full-rows.raw.log",
+      "line": 274,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-full-rows.raw.log",
+      "line": 368,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-migration.raw.log",
+      "line": 12,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-migration.raw.log",
+      "line": 15,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-retry.raw.log",
+      "line": 11,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-retry.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-coverage-retry.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-debug2.raw.log",
+      "line": 12,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-debug2.raw.log",
+      "line": 17,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-diagnose.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-feedback.raw.log",
+      "line": 11,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-feedback.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-final.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-final2.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-fullcoverage.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation-retry.raw.log",
+      "line": 11,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation-retry.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-retry.raw.log",
+      "line": 12,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-retry.raw.log",
+      "line": 24,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-rolefix.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-selectfix.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser.raw.log",
+      "line": 11,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser.raw.log",
+      "line": 13,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final.raw.log",
+      "line": 74,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final.raw.log",
+      "line": 76,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final.raw.log",
+      "line": 115,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final.raw.log",
+      "line": 117,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "line": 309,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "line": 316,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "line": 372,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "line": 374,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "line": 401,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "line": 403,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "line": 485,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "line": 488,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "line": 509,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "line": 511,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "line": 551,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "line": 556,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/regression-fixture-adaptations.raw.log",
+      "line": 12,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/regression-fixture-adaptations.raw.log",
+      "line": 15,
+      "diagnostic": "trailing whitespace.",
+      "content_class": "whitespace_only_immutable_capture"
+    }
+  ],
+  "verified_raw_hashes": [
+    {
+      "path": "evidence/product/product-t18-merge-20261009T121835Z/40-push-reviewed-head.log",
+      "sha256": "b936575f857fa78e836daaf37c3d179d9f661ed42c982c721c8c422286b343f6"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-all.raw.log",
+      "sha256": "7c260e43114d23c26b5a565a1ff1a19b506dd39018355eae0b10ebe0a1a7abcc"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-coverage.raw.log",
+      "sha256": "79449aaac07f45e50edf0b856a9294e1f61d9cd1894041e0690334ec0f497ecf"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-full-rows.raw.log",
+      "sha256": "4edbffaf5bcf7ed0a70f12ee922fb230af1c1f94435d51b1197660cf5d75eb6c"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-migration.raw.log",
+      "sha256": "f10a430378a527c7d2b11b16f40a58331d2a4de870d1a9f1fdfe80bb156e46fe"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-api-retry.raw.log",
+      "sha256": "fe47cad994c086d9610c260925e0f6da798d34cbbbc21c1b74c90a814048d3c1"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-coverage-retry.raw.log",
+      "sha256": "c0c4e7cdfbead0ebcaa77a60b550dea2112ebcf2d0129246a06abcf97dbe08c7"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-debug2.raw.log",
+      "sha256": "32bb5fdf94a61f858f4cde7eee7cead5e7495ac8c3b68b47b2ad525c94e2b4f6"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-diagnose.raw.log",
+      "sha256": "ff92de0460626b1f334febcce7c468f4a2ce92881f1e562f57b10dce92a492e4"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-feedback.raw.log",
+      "sha256": "6d83d8e9c8c03371047b780884fb0ea83f1bffbde0a4d639eeede564f3e8f664"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-final.raw.log",
+      "sha256": "16441c040e00792878b2343828b528bedf300b67f0dc27f0e66bb0504a35a7e0"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-final2.raw.log",
+      "sha256": "9f2de54c1cc5d076fd318183546c785339710808695420f9a8833c5237f22b51"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-fullcoverage.raw.log",
+      "sha256": "825bc091b4e7603ff84e205d0ed641d6a6d4b1f140e1274ec2c89bde6a292579"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation-retry.raw.log",
+      "sha256": "d69e0fb78ac7ff4067a36bb707d0d12ec8cd02c44de2c0676ec6d99aa35486e3"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-project-isolation.raw.log",
+      "sha256": "0bda538340cd7afdf10e840edabc0bfdf6762837001f6174c1c2ed0be1e0f834"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-retry.raw.log",
+      "sha256": "190d6350c90d68f7f33d60d27047f2effea89f30924c2df3327b8efb130d3671"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-rolefix.raw.log",
+      "sha256": "eb946e0dd77287547209a844429921d168a0215ca958d0abbbcc3d80b04a2cd8"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser-selectfix.raw.log",
+      "sha256": "a86d79359e85593fcd745bfe53c15621d0e5211c08ed6af86648cc06a0f236b0"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/focused-browser.raw.log",
+      "sha256": "3770bea77324e7f162ec4df3f61baffa3c71899a55495072c1b0073f643ecc68"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-browser-final.raw.log",
+      "sha256": "c3e39b9804647a10ff45f296762a617d2d94eb1180be59045c09d43ca2b3a63f"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/full-check-two-cpu.raw.log",
+      "sha256": "d0b89d66e7ff893f57db823803616086eb383c370f9c64e489e99db8fe201f6b"
+    },
+    {
+      "path": "evidence/product/product-t19-native-20261009T124450Z/regression-fixture-adaptations.raw.log",
+      "sha256": "ea886f9f93192151510e5dac4fbb1271689892d48441902f06865ef9064e8adb"
+    }
+  ],
+  "all_other_paths_diff_check_exit_code": 0,
+  "broad_configuration_or_source_exceptions": false,
+  "notes": "Whole raw capture hashes verify every exact allowance. No content normalization or Git whitespace configuration changes. All remaining staged source/docs/artifacts pass default diff check."
+}

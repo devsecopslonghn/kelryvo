@@ -1,0 +1,16 @@
+Source checks passed for 146 authored files.
+ERROR evidence product-t20-local-credential-lifecycle-local-verified record does not match its index metadata
+ERROR SF-PRODUCT-T20 cannot be VERIFIED without passing indexed product evidence
+ERROR SF-PRODUCT-T20 references missing or invalid evidence index product-t20-local-credential-lifecycle-local-verified
+ERROR SF-PRODUCT-T20 verification evidence does not cover acceptance criterion 0
+ERROR SF-PRODUCT-T20 verification evidence does not cover acceptance criterion 1
+ERROR SF-PRODUCT-T20 verification evidence does not cover acceptance criterion 2
+ERROR SF-PRODUCT-T20 verification evidence does not cover acceptance criterion 3
+ERROR SF-PRODUCT-T20 verification evidence does not cover acceptance criterion 4
+ERROR SF-PRODUCT-T20 verification evidence does not cover acceptance criterion 5
+ERROR SF-PRODUCT-T20 verification evidence does not cover test reference SF-PRODUCT-T20-API
+ERROR SF-PRODUCT-T20 verification evidence does not cover test reference SF-PRODUCT-T20-WEB
+ERROR SF-PRODUCT-T20 verification evidence does not cover test reference SF-PRODUCT-T20-OPERATOR
+ERROR SF-PRODUCT-T20 references missing or invalid evidence index product-t20-local-credential-lifecycle-local-verified
+ERROR SF-PRODUCT-T20 ownership/status record is inconsistent
+ERROR SF-PRODUCT-T20 requires product-scope evidence

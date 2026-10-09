@@ -1,0 +1,26 @@
+{
+  "classified_at_utc": "2026-10-09T13:39:48.371961+00:00",
+  "head": "87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+  "tree": "c794797fe6ae395270a91b58a689e25a28cd7ac8",
+  "scanner_exit_code": 1,
+  "publication_file_count": 321,
+  "finding_count": 1,
+  "finding_bearing_scan_not_clean_PASS": true,
+  "findings": [
+    {
+      "rule": "generic-api-key",
+      "path": "evidence/product/product-t19-root-20261009T123628Z/integration-record.json",
+      "start_line": 35,
+      "end_line": 35,
+      "classification": "BENIGN_COMPUTED_TEST_SOURCE_SHA256",
+      "provenance": "source_file_sha256 tests/product-api.test.mjs equals SHA256 of exact committed test source blob",
+      "independently_recomputed_by_root": true,
+      "matched_value_printed": false
+    }
+  ],
+  "actual_credentials_observed": false,
+  "rotation_indicated": false,
+  "allowlist_or_scanner_configuration_changed": false,
+  "independent_security_verdict": "PENDING_EXACT_HEAD",
+  "candid_correction": "Initial manual classification assertion assumed apps/api/index.ts; exact scanner line35 is tests/product-api.test.mjs. Assertion failed before a classification/verdict was written. Local ordinary commit occurred; publication remains pending independent review."
+}

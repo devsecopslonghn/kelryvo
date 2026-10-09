@@ -1,0 +1,97 @@
+{
+  "verdict": "APPROVED",
+  "head": "87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+  "tree": "c794797fe6ae395270a91b58a689e25a28cd7ac8",
+  "base": "38665228fb844311390c9a064d9e1c02dc88145a",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "worktree_clean": true,
+  "review_scope": "All 321 committed changed paths; T19 API/database/web and T18 carried proof; source-binding acceptance criteria; security and licensing review.",
+  "scanner": {
+    "name": "Gitleaks",
+    "version": "8.30.1",
+    "binary_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+    "changed_paths": 321,
+    "changed_scan_exit": 1,
+    "changed_scan_findings": 1,
+    "changed_finding": {
+      "rule": "generic-api-key",
+      "path": "evidence/product/product-t19-root-20261009T123628Z/integration-record.json",
+      "line": 35,
+      "classification": "Computed SHA256 of exact committed tests/product-api.test.mjs source; independently recomputed source digest is present at the finding line. No match or secret value printed."
+    },
+    "reachable_history_scan_scope": "all refs",
+    "history_scan_exit": 1,
+    "history_findings": 36,
+    "history_classifications": [
+      {
+        "rule": "generic-api-key",
+        "group": "T01 source-hash evidence",
+        "count": 2,
+        "classification": "Prior provenance cross-check"
+      },
+      {
+        "rule": "generic-api-key",
+        "group": "T04 browser diagnostic evidence",
+        "count": 1,
+        "classification": "Prior provenance cross-check"
+      },
+      {
+        "rule": "generic-api-key",
+        "group": "T10 captured artifact digest",
+        "count": 1,
+        "classification": "Prior provenance cross-check"
+      },
+      {
+        "rule": "generic-api-key",
+        "group": "T17 immutable completion capture hashes",
+        "count": 30,
+        "classification": "All exact artifact digest checks recomputed true"
+      },
+      {
+        "rule": "generic-api-key",
+        "group": "T19 exact committed product-api test source digest",
+        "count": 1,
+        "classification": "Exact source digest verified"
+      },
+      {
+        "rule": "private-key",
+        "group": "Malformed synthetic UNIT fixture",
+        "count": 1,
+        "classification": "Previously classified test fixture"
+      }
+    ],
+    "prior_original_report_sha256": "3f0b0bd65dedb03c53b6abe0caf8843e18233173d5958a238af184c86e4127c5",
+    "actual_credentials_observed": false,
+    "rotation_indicated": false,
+    "finding_bearing_scans_reported_as_clean": false,
+    "private_report_directory": "/tmp/t19-final-independent-r8ldpdkd"
+  },
+  "security_review": {
+    "server_owned_positive_canonical_bigint_generation": "PASS",
+    "client_generation_spoof_rejected": "PASS",
+    "initial_config_generation_and_no_historical_plan_backfill": "PASS",
+    "no_op_retains_generation_and_actual_change_increments_with_ceiling_guard": "PASS",
+    "plan_creation_scoped_release_source_match_and_generation_capture_before_writes": "PASS",
+    "approval_plan_project_release_lock_order_and_TOCTOU_guard": "PASS",
+    "bounded_source_metadata_and_SQL_payload_preflight": "PASS",
+    "legacy_reads_and_authorized_rejection_preserved_legacy_approval_fails_closed": "PASS",
+    "unauthorized_self_terminal_archive_precedence_and_denial_audit": "PASS",
+    "stale_generation_approval_no_write_feedback_and_fresh_plan_recovery": "PASS",
+    "UI_plan_selection_uses_guarded_model_callback": "PASS",
+    "credential_resolution_or_oracle_interaction_added": false,
+    "actionable_blockers": []
+  },
+  "license_review": {
+    "LICENSE_NOTICE_dependency_locks_pinned_parser_grammar_immutable_inputs_modified": false,
+    "third_party_license_or_attribution_regression_found": false
+  },
+  "verification_context": {
+    "root_reported_standard": 149,
+    "postgresql": 28,
+    "browser": 17,
+    "skips": 0,
+    "sonar": "Unavailable due to quota; not PASS",
+    "oracle_runtime_or_execution_claimed": false,
+    "scope_note": "Security/license approval only; does not certify Oracle behavior, deployment, execution-time invalidation, tamper-proof storage, or full catalog acceptance."
+  }
+}

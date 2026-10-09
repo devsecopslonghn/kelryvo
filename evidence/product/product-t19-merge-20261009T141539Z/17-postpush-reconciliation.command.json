@@ -1,0 +1,5 @@
+{
+  "command": "python3 /tmp/schemaforge-t19-reconcile.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T14:08:51.319367+00:00"
+}

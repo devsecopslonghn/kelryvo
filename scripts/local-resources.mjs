@@ -50,16 +50,28 @@ export async function localConfiguration() {
   await assertManagedPath(localDirectory);
   await mkdir(localDirectory, { recursive: true, mode: 0o700 });
   await assertManagedPath(localDirectory);
+  const directoryStat = await lstat(localDirectory);
+  if (!directoryStat.isDirectory() || directoryStat.uid !== (process.geteuid?.() ?? process.getuid())) throw new Error('Local configuration has invalid ownership.');
   await chmod(localDirectory, 0o700);
   const file = path.join(localDirectory, 'config.json');
+  for (const pending of [`${file}.lifecycle-journal`, `${file}.lifecycle-staged`]) {
+    try {
+      await lstat(pending);
+      throw new Error('Local credentials require operator recovery.');
+    } catch (error) { if (error.code !== 'ENOENT') throw new Error('Local credentials require operator recovery.'); }
+  }
   await assertManagedPath(file);
   try {
     const handle = await open(file, constants.O_RDONLY | constants.O_NOFOLLOW);
     try {
-      if (!(await handle.stat()).isFile()) throw new Error('Invalid local configuration file.');
+      const stat = await handle.stat();
+      if (!stat.isFile() || stat.uid !== (process.geteuid?.() ?? process.getuid()) || stat.nlink !== 1) throw new Error('Invalid local configuration file.');
+      if (stat.size > 16 * 1024) throw new Error('Invalid local configuration file.');
       await handle.chmod(0o600);
       const config = JSON.parse(await handle.readFile('utf8'));
-      if (['databasePassword', 'developerToken', 'approverToken'].some(key => !/^[a-f0-9]{64}$/.test(config[key] ?? ''))
+      if (!config || typeof config !== 'object' || Array.isArray(config)
+          || Object.keys(config).sort().join(',') !== 'approverToken,databasePassword,developerToken'
+          || ['databasePassword', 'developerToken', 'approverToken'].some(key => !/^[a-f0-9]{64}$/.test(config[key] ?? ''))
           || config.developerToken === config.approverToken) throw new Error('Invalid local configuration.');
       return config;
     } finally { await handle.close(); }

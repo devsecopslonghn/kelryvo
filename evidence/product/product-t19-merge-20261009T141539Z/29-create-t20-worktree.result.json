@@ -1,0 +1,11 @@
+{
+  "command": "git worktree add -b development/product-local-credential-lifecycle /home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle 7bb4af0184031112ea9f185991f37c97ec0604fa",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T14:20:27.036245+00:00",
+  "ended_at_utc": "2026-10-09T14:20:27.243916+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t19-publication-20261009T133805Z/29-create-t20-worktree.log",
+    "sha256": "093c6e4b9a712e63e54d135af5df1bd1a9825e3a710123e6f7d12c9fa9d995e5"
+  }
+}

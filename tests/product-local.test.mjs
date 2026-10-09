@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, rm, chmod, stat, symlink, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, rm, chmod, stat, symlink, writeFile, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { randomUUID, createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { createServer } from 'node:net';
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 
 const moduleUrl = new URL('../scripts/local-resources.mjs', import.meta.url);
 async function isolated(check) {
@@ -29,6 +29,32 @@ test('local generated credentials stay private and existing permissions are repa
     assert.deepEqual(await localConfiguration(), config);
     assert.equal((await stat(file)).mode & 0o777, 0o600);
     assert.equal((await stat(localDirectory)).mode & 0o777, 0o700);
+  });
+});
+
+test('local startup rejects oversized and extra-field credential configs without output or mutation', async () => {
+  await isolated(async (directory, { localDirectory }) => {
+    await mkdir(localDirectory, { recursive: true, mode: 0o700 });
+    const file = path.join(localDirectory, 'config.json');
+    const moduleHref = moduleUrl.href;
+    const startup = () => spawnSync(process.execPath, ['--input-type=module', '-e',
+      `import {localConfiguration} from ${JSON.stringify(moduleHref)}; try { await localConfiguration(); } catch { process.stderr.write('Local configuration cannot be read.\\n'); process.exitCode=1; }`],
+    { cwd: directory, encoding: 'utf8', timeout: 10_000, maxBuffer: 4096 });
+    const valid = { databasePassword: 'a'.repeat(64), developerToken: 'b'.repeat(64), approverToken: 'c'.repeat(64) };
+    const invalidConfigs = [
+      JSON.stringify(valid) + ' '.repeat(16 * 1024),
+      JSON.stringify({ ...valid, unexpected: 'd'.repeat(64) }),
+    ];
+    for (const contents of invalidConfigs) {
+      await writeFile(file, contents, { mode: 0o600 });
+      const before = await readFile(file);
+      const child = startup();
+      assert.equal(child.error, undefined);
+      assert.equal(child.status, 1);
+      assert.equal(child.stdout, '');
+      assert.equal(child.stderr, 'Local configuration cannot be read.\n');
+      assert.ok((await readFile(file)).equals(before), 'rejected private configuration remains byte-identical');
+    }
   });
 });
 

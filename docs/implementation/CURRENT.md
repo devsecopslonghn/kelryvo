@@ -1,3 +1,74 @@
+## T20 locally verified; owner autonomy and membership approved — 2026-10-09
+
+T20 persists hashed trusted local credentials with database-clock24-hour expiry and
+revocation. Startup does not restore expired/revoked credentials or change stable identity/role;
+local OS operator rotate/revoke/recover uses bounded private files, kernel flock and durable
+journal stages. Current-session401 clears loaded state/drafts; old-session responses are guarded.
+Historical plans/comments/decisions/audit and T19 generation checks remain preserved.
+
+Final frozen checks: standard151, real PostgreSQL/Git/product29, Chromium browser18;
+zero failures/skips. Root verified all13 source hashes and every native raw log. Earlier failures,
+pre-final source drift and seven missing exact-command fields remain candid and immutable.
+Evidence: `evidence/product/product-t20-root-20261009T142027Z/corrected-integration-record.json`.
+Persistence covers API instance/connection-pool reopen, not a PostgreSQL daemon restart.
+Exact-head independent QA/security, publication scans, PR/CI and normal merge are pending.
+
+Owner standing policy SF-D010 authorizes ordinary safe documented engineering/migration
+choices without repeated option prompts. SF-D012 approves explicit local OS operator grants
+for all projects, with bootstrap/recovery before enforcement and no historical inference.
+This supersedes prior membership-decision prompts; the next bounded membership task follows
+eligible T20 merge. No application administrator or Oracle authority is introduced.
+Shared original checkout and Hygiene scope remain untouched; no Hygiene PR visible.
+Sonar unavailable, never PASS; Oracle VALIDATION independently BLOCKED.
+
+## Standing owner policy and project membership approved — 2026-10-09
+
+Make ordinary product, architecture, implementation, compatibility and migration decisions
+independently using existing requirements, security principles and engineering judgment.
+Choose the safest reasonable default, record it in `docs/decisions/log.json`, implement,
+test, independently review, publish and merge when eligible, then continue. Do not repeatedly
+ask the owner to choose implementation options or mark PRODUCT BLOCKED where a safe documented
+default exists. Escalate only external credentials/permissions, financial cost, irreversible
+real-user-data loss, license/business-model changes or unresolved material security/legal risk.
+Preserve historical records, prefer explicit authorization and backward-compatible reads where
+safe, and document migration recovery. Existing CI/security gates remain; Sonar unavailable
+never PASS and Oracle VALIDATION separate. This supersedes earlier routine decision prompts.
+
+The owner approved local OS operator alone for explicit project grants/revocations to existing
+fixed-role actors and explicit grants for all projects. Implement safe bootstrap/recovery before
+deny-by-default enforcement. Never infer or backfill membership/ownership from audit history;
+preserve existing project and audit data. No application administrator is introduced. Next
+membership task follows verified T20; policy acceptance is not implementation or verification.
+Decisions: SF-D010/SF-D011/SF-D012 in `docs/decisions/log.json`.
+
+## T19 merged and master verified; T20 active — 2026-10-09
+
+T19 merged through [PR #31](https://github.com/devsecopslonghn/schemaForge/pull/31)
+at `7bb4af0184031112ea9f185991f37c97ec0604fa`, reviewed head
+`87e4942ef42e2557e67cfc757595c5e6f1d993c9`. Independent native QA/security approved;
+all eleven reported PR checks and four exact-master workflow families passed. Final local
+results: standard149, PostgreSQL28, browser17; independent focused API3/browser1, zero skips.
+Protected binding generations are captured under locks and checked before approval. Legacy
+pending plans remain readable/rejectable and require fresh T18 intake; no historical backfill.
+Evidence: `evidence/product/product-t19-merge-20261009T141539Z/record.json`. Failed local
+attempts and classifier correction remain candid and immutable. Persistence covers API/pool
+reopen, not a PostgreSQL daemon restart.
+
+Publication321 paths returned exit1/one exact computed test-source hash; independent history
+exit1/36 retains classified artifact/hash/UUID and synthetic UNIT fixture findings. No actual
+credential observed or rotation indicated. These scans are not clean PASS. Hygiene branch/PR
+remains absent; shared original checkout is clean at master0346300 and untouched. Sonar quota
+scan unavailable, never PASS. Oracle VALIDATION and full catalog acceptance remain separate.
+
+SF-PRODUCT-T20 is IN_PROGRESS in the isolated local-credential-lifecycle worktree, branch
+`development/product-local-credential-lifecycle`, based on verified master above. Prioritized
+partial SEC-001: persist hashed local credentials, fixed24-hour database expiry/revocation,
+trusted local OS operator rotation with interrupted-write recovery, and guarded browser401
+sign-out. Keep stable actors/roles and retained history; no membership/admin inference or
+Oracle/runtime authority. Registration is not implementation or verification. Root owns
+contracts/tracking/integration; one fresh coupled native feature context owns source/tests/docs.
+Next project-membership authority remains a separate decision; no legacy membership backfill.
+
 ## T19 locally verified; exact-head publication review pending — 2026-10-09
 
 SF-PRODUCT-T19 captures server-owned protected repository/folder generations and checks

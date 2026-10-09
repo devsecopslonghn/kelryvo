@@ -1,0 +1,252 @@
+{
+  "gate_at_utc": "2026-10-09T14:15:30.361877+00:00",
+  "head": "87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+  "base": "38665228fb844311390c9a064d9e1c02dc88145a",
+  "pr": {
+    "baseRefOid": "38665228fb844311390c9a064d9e1c02dc88145a",
+    "headRefOid": "87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+    "isDraft": false,
+    "mergeStateStatus": "CLEAN",
+    "mergeable": "MERGEABLE",
+    "number": 31,
+    "reviewDecision": "",
+    "state": "OPEN",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T14:09:49Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37942036206/job/113858603416",
+        "name": "Analyze (actions)",
+        "startedAt": "2026-10-09T14:09:06Z",
+        "status": "COMPLETED",
+        "workflowName": "CodeQL"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T14:14:42Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37942040917/job/113858612734",
+        "name": "product",
+        "startedAt": "2026-10-09T14:09:08Z",
+        "status": "COMPLETED",
+        "workflowName": "Local PRODUCT acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T14:14:16Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37941988591/job/113858429515",
+        "name": "product",
+        "startedAt": "2026-10-09T14:08:41Z",
+        "status": "COMPLETED",
+        "workflowName": "Local PRODUCT acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T14:10:15Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37942040920/job/113858613010",
+        "name": "parser",
+        "startedAt": "2026-10-09T14:09:07Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline ANTLR parser acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T14:11:23Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37941988669/job/113858429133",
+        "name": "parser",
+        "startedAt": "2026-10-09T14:08:42Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline ANTLR parser acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T14:10:09Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37942040946/job/113858613346",
+        "name": "foundation",
+        "startedAt": "2026-10-09T14:09:07Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline WP0 checks"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T14:09:55Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37941988686/job/113858429687",
+        "name": "foundation",
+        "startedAt": "2026-10-09T14:08:41Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline WP0 checks"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T14:10:24Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37942036206/job/113858603313",
+        "name": "Analyze (java-kotlin)",
+        "startedAt": "2026-10-09T14:09:06Z",
+        "status": "COMPLETED",
+        "workflowName": "CodeQL"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T14:10:15Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37942036206/job/113858603155",
+        "name": "Analyze (javascript-typescript)",
+        "startedAt": "2026-10-09T14:09:06Z",
+        "status": "COMPLETED",
+        "workflowName": "CodeQL"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T14:09:51Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37942036206/job/113858603059",
+        "name": "Analyze (python)",
+        "startedAt": "2026-10-09T14:09:06Z",
+        "status": "COMPLETED",
+        "workflowName": "CodeQL"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T14:09:41Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/runs/113858821803",
+        "name": "CodeQL",
+        "startedAt": "2026-10-09T14:09:36Z",
+        "status": "COMPLETED",
+        "workflowName": ""
+      }
+    ],
+    "url": "https://github.com/devsecopslonghn/schemaForge/pull/31"
+  },
+  "reviews": {
+    "reviewThreads": {
+      "nodes": [],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    },
+    "reviews": {
+      "nodes": [],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  "native_reviews": {
+    "head": "87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+    "base": "38665228fb844311390c9a064d9e1c02dc88145a",
+    "qa": {
+      "verdict": "APPROVED",
+      "path": "native-qa-verdict.json",
+      "sha256": "8265d6201e0162000b2c95649a1765050bd3680cb72bbe3cfefe3274c0fcddd5"
+    },
+    "security": {
+      "verdict": "APPROVED",
+      "path": "native-security-verdict.json",
+      "sha256": "cb194685c8a0eb9695d34c4b78b43f84365e0cc7a6d1ba9a2cd0eab049c01454"
+    },
+    "prepublish_at_utc": "2026-10-09T13:45:39.711540+00:00",
+    "changed_file_ownership_checked": true,
+    "changed_paths": 321,
+    "open_prs_before_publish": [],
+    "remote_branches_before_publish": [
+      "origin 38665228fb844311390c9a064d9e1c02dc88145a",
+      "origin/development/product-approval-integrity e186072de9f0811e3c6868039b701da05dc2b677",
+      "origin/development/product-archive be799cf724b0d95e78e47cf5de871f37e4279cf7",
+      "origin/development/product-audit-action-filters 5be1428ef6ab810a28e5de97af65c45969d90dad",
+      "origin/development/product-decision-record a5598a9b592c66de648fa2a621c6208edb6bc9be",
+      "origin/development/product-delivery-state 011358e1a6d4ffb99cfd50062100761a32b86350",
+      "origin/development/product-governance-slice b3601c1ada7271673627775e72fdb26c20fe065a",
+      "origin/development/product-local-git-refs 2a97b5551a99446aef46a034ac8532d70bafd4e0",
+      "origin/development/product-local-repositories 0d61063c7c1f3d1a20b5b886d46393d8467b602b",
+      "origin/development/product-merge-checkpoint 3ec1d16f43581a368804403f63e968971c434166",
+      "origin/development/product-offline-plan-intent 5e08361d85955754e81f10617063546429eec7da",
+      "origin/development/product-plan-comments a40b3fed6e5d86157aa19b5b6f47ec0352af0ca7",
+      "origin/development/product-plan-resubmission 5db4779714fd18138c93c458c5965a7e91741c52",
+      "origin/development/product-plan-source-inspection 132b613ddb54dbaed62a9e3261d7b23633808cdb",
+      "origin/development/product-plan-status-filters 58e5deb41e5d001474cf6bc46917ef7f3dab0c7b",
+      "origin/development/product-plan-target-review 7a691ad511a139ee9e02809ba4056f95e245523c",
+      "origin/development/product-release-integrity 406c9d309ee6aa32eb73b5ecd920feafa2e2bc3e",
+      "origin/development/product-release-provenance 461242efa1cc39bf0167540418d21055420ef46c",
+      "origin/development/product-requester-review 7615280f0358743205ed26493e4bde7ce55b8f0b",
+      "origin/development/product-review-audit ac8779cb57eee31dbac3169be016bad925d08e18",
+      "origin/development/product-shield-license d56b92f422f2de110bb29050cef50a130219f326",
+      "origin/development/product-source-binding e7f91876ffaa03fb04e06d8ac25c8b553a69cddc",
+      "origin/development/product-t07-checkpoint e93a397829bac4805b4f8b540ccf1c98f76abc43",
+      "origin/development/wp0-antlr-parser 97432efde71ed16ad47d3995731625334000d059",
+      "origin/development/wp0-checkpoint 978f873d5f297d235422667a2af20470298dd061",
+      "origin/development/wp0-dependency-closure 0e5b2e93dcce33bdae5f57afbc50fb538e6b86fe",
+      "origin/development/wp0-supervisor-checkpoint 1ca471ee687b2d046c950ea254860c9d11030ae4",
+      "origin/development/wp0-thin-checkpoint e167f2f98086f3268a93b18819f610c928f31fc0",
+      "origin/development/wp0-thin-probe-plan 4299b4d0ce770d0d961a39046ec997bb05cc1446",
+      "origin/development/wp0-thin-readonly-probe fe63aebcc911c1b0de89659be253ea0f186ae277",
+      "origin/development/wp0-thin-supervision ef8a2ec4f161abf84631769754d0afd1a924ab50",
+      "origin/master 38665228fb844311390c9a064d9e1c02dc88145a"
+    ],
+    "sonar": {
+      "status": "UNAVAILABLE_OWNER_QUOTA_EXCEPTION",
+      "scan_passed": false
+    }
+  },
+  "alerts": {
+    "code-scanning": [],
+    "dependabot": [],
+    "secret-scanning": []
+  },
+  "branches": [
+    "origin 38665228fb844311390c9a064d9e1c02dc88145a",
+    "origin/development/product-approval-integrity e186072de9f0811e3c6868039b701da05dc2b677",
+    "origin/development/product-archive be799cf724b0d95e78e47cf5de871f37e4279cf7",
+    "origin/development/product-audit-action-filters 5be1428ef6ab810a28e5de97af65c45969d90dad",
+    "origin/development/product-decision-record a5598a9b592c66de648fa2a621c6208edb6bc9be",
+    "origin/development/product-delivery-state 011358e1a6d4ffb99cfd50062100761a32b86350",
+    "origin/development/product-governance-slice b3601c1ada7271673627775e72fdb26c20fe065a",
+    "origin/development/product-local-git-refs 2a97b5551a99446aef46a034ac8532d70bafd4e0",
+    "origin/development/product-local-repositories 0d61063c7c1f3d1a20b5b886d46393d8467b602b",
+    "origin/development/product-merge-checkpoint 3ec1d16f43581a368804403f63e968971c434166",
+    "origin/development/product-offline-plan-intent 5e08361d85955754e81f10617063546429eec7da",
+    "origin/development/product-plan-comments a40b3fed6e5d86157aa19b5b6f47ec0352af0ca7",
+    "origin/development/product-plan-resubmission 5db4779714fd18138c93c458c5965a7e91741c52",
+    "origin/development/product-plan-source-inspection 132b613ddb54dbaed62a9e3261d7b23633808cdb",
+    "origin/development/product-plan-status-filters 58e5deb41e5d001474cf6bc46917ef7f3dab0c7b",
+    "origin/development/product-plan-target-review 7a691ad511a139ee9e02809ba4056f95e245523c",
+    "origin/development/product-protected-source-binding 87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+    "origin/development/product-release-integrity 406c9d309ee6aa32eb73b5ecd920feafa2e2bc3e",
+    "origin/development/product-release-provenance 461242efa1cc39bf0167540418d21055420ef46c",
+    "origin/development/product-requester-review 7615280f0358743205ed26493e4bde7ce55b8f0b",
+    "origin/development/product-review-audit ac8779cb57eee31dbac3169be016bad925d08e18",
+    "origin/development/product-shield-license d56b92f422f2de110bb29050cef50a130219f326",
+    "origin/development/product-source-binding e7f91876ffaa03fb04e06d8ac25c8b553a69cddc",
+    "origin/development/product-t07-checkpoint e93a397829bac4805b4f8b540ccf1c98f76abc43",
+    "origin/development/wp0-antlr-parser 97432efde71ed16ad47d3995731625334000d059",
+    "origin/development/wp0-checkpoint 978f873d5f297d235422667a2af20470298dd061",
+    "origin/development/wp0-dependency-closure 0e5b2e93dcce33bdae5f57afbc50fb538e6b86fe",
+    "origin/development/wp0-supervisor-checkpoint 1ca471ee687b2d046c950ea254860c9d11030ae4",
+    "origin/development/wp0-thin-checkpoint e167f2f98086f3268a93b18819f610c928f31fc0",
+    "origin/development/wp0-thin-probe-plan 4299b4d0ce770d0d961a39046ec997bb05cc1446",
+    "origin/development/wp0-thin-readonly-probe fe63aebcc911c1b0de89659be253ea0f186ae277",
+    "origin/development/wp0-thin-supervision ef8a2ec4f161abf84631769754d0afd1a924ab50",
+    "origin/master 38665228fb844311390c9a064d9e1c02dc88145a"
+  ],
+  "open_prs": [
+    {
+      "headRefName": "development/product-protected-source-binding",
+      "headRefOid": "87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+      "isDraft": false,
+      "number": 31,
+      "title": "Protect source binding generations before plan approval"
+    }
+  ],
+  "ownership_paths": 321,
+  "sonar": {
+    "availability": "OWNER_QUOTA_EXCEPTION_UNAVAILABLE",
+    "scan_passed": false
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t19-final-quality.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-protected-source-binding",
+  "started_at_utc": "2026-10-09T13:38:05.348723+00:00",
+  "ended_at_utc": "2026-10-09T13:38:05.687746+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t19-publication-20261009T133805Z/09-staged-quality.log",
+    "sha256": "153480d3e22e36a01684d4011f21aa4b2ba1206e5671fb6715e22919b2d74c82"
+  }
+}

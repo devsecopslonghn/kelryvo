@@ -1,0 +1,46 @@
+{
+  "head": "87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+  "tree": "c794797fe6ae395270a91b58a689e25a28cd7ac8",
+  "results": [
+    {
+      "label": "api",
+      "command": "node --test --test-concurrency=1 tests/product-protected-source-binding.test.mjs",
+      "started_at_utc": "2026-10-09T13:41:43.939903+00:00",
+      "completed_at_utc": "2026-10-09T13:42:11.366779+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/schemaforge-t19-qa-review/api.raw.log",
+      "raw_bytes": 939,
+      "raw_sha256": "bd2f823e016448c5e7041c0eb7caaf962d434f81b4d3c35273b5e06951d72206",
+      "summary": [
+        "# tests 3",
+        "# suites 0",
+        "# pass 3",
+        "# fail 0",
+        "# cancelled 0",
+        "# skipped 0",
+        "# todo 0",
+        "# duration_ms 27380.956359"
+      ]
+    },
+    {
+      "label": "browser",
+      "command": "node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs",
+      "started_at_utc": "2026-10-09T13:42:11.367086+00:00",
+      "completed_at_utc": "2026-10-09T13:42:20.249855+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/schemaforge-t19-qa-review/browser.raw.log",
+      "raw_bytes": 404,
+      "raw_sha256": "7bf4e3dc75322e28504fdd8bbe68035e1cecdeb3cbd699e8d902df68550af21d",
+      "summary": [
+        "# tests 1",
+        "# suites 0",
+        "# pass 1",
+        "# fail 0",
+        "# cancelled 0",
+        "# skipped 0",
+        "# todo 0",
+        "# duration_ms 8828.401535"
+      ]
+    }
+  ]
+}

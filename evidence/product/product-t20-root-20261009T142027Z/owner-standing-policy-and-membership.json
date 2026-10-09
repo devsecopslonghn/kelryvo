@@ -1,0 +1,20 @@
+{
+  "at_utc": "2026-10-09T14:38:44.839833+00:00",
+  "authority": "Direct owner response to two asynchronous questions",
+  "standing_policy": "SF-D010",
+  "local_credential_default": "SF-D011",
+  "project_membership_policy": "SF-D012",
+  "owner_approved_operator_only": true,
+  "owner_requires_explicit_grants_all_projects": true,
+  "owner_requires_bootstrap_recovery_before_enforcement": true,
+  "historical_inference_or_backfill": false,
+  "prior_question_record": "membership-policy-question.json remains immutable; superseded by this approval",
+  "api_goal_objective_edit": "Current goal tool exposes status changes only; persistent repository goal/continuation instructions and current session directives carry the updated policy. No goal completion or blocked state claimed.",
+  "source_sha256": {
+    "AGENTS.md": "28342e4865f34edaed53dd4812517f1f072a8d52c73cb4ea7689e42a30d2fb40",
+    "docs/decisions/log.json": "4b18b7aa709d86ce19d28112b327dbd4ff63adbad7d53e11a0b712b4f160ddc3",
+    "docs/implementation/CURRENT.md": "0dccac0378c86e05c0a2b561130c6df5764ee492ebc332f8fc4bba94671a3502",
+    "docs/implementation/CONTINUE.md": "65932cfac4b97c5e9bed16d3575a4d8c989ed043fb8701ff0acbe036b1445b8d",
+    "docs/implementation/milestone.json": "f359ccfde38329a1bc70b9c44ebc85f8282ec630c0c6b76701cebeea30554cf4"
+  }
+}
