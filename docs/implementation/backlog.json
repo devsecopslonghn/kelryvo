@@ -2777,6 +2777,9 @@
       "evidence": [
         {
           "index_id": "product-t21-project-membership-local-verified"
+        },
+        {
+          "index_id": "product-t21-merge-master-verified"
         }
       ],
       "blockers": []
@@ -2808,7 +2811,7 @@
         "SF-PRODUCT-T22-WEB",
         "SF-PRODUCT-T22-PARSER"
       ],
-      "status": "READY",
+      "status": "IN_PROGRESS",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],

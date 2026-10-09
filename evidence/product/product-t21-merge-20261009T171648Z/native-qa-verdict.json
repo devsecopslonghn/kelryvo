@@ -1,0 +1,62 @@
+{
+  "verdict": "PASS",
+  "scope": "Independent exact-head focused T21 membership API/browser and selected-plan source revalidation QA",
+  "head": "94cad0640cdab4978394808bd52efcca27a88332",
+  "tree": "ed48ea469b17ab25401f8bf4692bc0771ef44574",
+  "required_base": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+  "command": [
+    "taskset",
+    "-c",
+    "0,1",
+    "env",
+    "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+    "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+    "node",
+    "--test",
+    "--test-concurrency=1",
+    "tests/product-membership.test.mjs",
+    "tests/product-membership-browser.integration.mjs",
+    "tests/product-plan-source-browser.integration.mjs"
+  ],
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-project-membership",
+  "environment": {
+    "SCHEMAFORGE_TEST_DATABASE_URL": "postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+    "SCHEMAFORGE_JAVA_HOME": "/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+    "taskset": "0,1"
+  },
+  "started_utc": "2026-10-09T17:00:21.820388+00:00",
+  "ended_utc": "2026-10-09T17:01:00.122047+00:00",
+  "exit_code": 0,
+  "focused_tests": {
+    "tests": 5,
+    "pass": 5,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "source_manifest": "evidence/product/product-t21-implementation-20261009T1643Z/source.sha256",
+  "source_manifest_entries_verified": 40,
+  "source_manifest_mismatches": [],
+  "git_before_after": {
+    "head_unchanged": true,
+    "tree_unchanged": true,
+    "clean_before_after": true
+  },
+  "raw_capture": {
+    "path": "/tmp/sf-t21-independent-20261009T170021Z/raw.log",
+    "sha256": "dd03890c0db5f69b23cbeb9b4dc6a28a26a250b92adf4e5fa03a364ef17dc240",
+    "bytes": 1653
+  },
+  "review_findings": [
+    "Membership routes resolve a current grant at request admission; bootstrap writes are rejected and project creation yields a receipt without a grant.",
+    "Operator activation serializes against grant and credential revocation before coverage validation.",
+    "The selected-plan source browser regression holds a delayed project revalidation, changes selection, then verifies stale completion cannot restore the older plan.",
+    "Migrated existing fixtures use the explicit operator grant/activation helper; no weakened auth-negative assertions or direct grant-table fixture bypass were found in the reviewed diffs.",
+    "Native failed 16/19 and 18/19 browser runs, early lock attempt, superseded 19-case run, and unredirected short focused failures are retained/candidly disclosed in acceptance evidence."
+  ],
+  "limitations": [
+    "Focused independent run covers the requested five cases, not a repeat of the 154-test standard suite or all 32 product/19 browser cases.",
+    "Oracle and scanner were not run; separate Oracle status remains BLOCKED and scanner availability is independent of this product verdict."
+  ]
+}

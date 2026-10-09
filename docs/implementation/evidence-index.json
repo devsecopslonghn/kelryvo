@@ -2338,6 +2338,35 @@
       },
       "path": "evidence/product/product-t20-browser-sync-root-20261009T154120Z/integration-record.json",
       "sha256": "fadad442f8f53cf3e02d7ef22639a56ffbe570a948637146ec43ede735e58ad8"
+    },
+    {
+      "id": "product-t21-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T21",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Independent exact-head QA/security/license, all11 PR checks, ordinary PR34 merge, reviewed/merge tree equality, all4 exact-master workflow families and postverified branch/alerts/shared-checkout reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T21-API",
+        "SF-PRODUCT-T21-WEB",
+        "SF-PRODUCT-T21-OPERATOR"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t21-merge-20261009T171648Z/43-final-exact-master-workflows.log",
+        "sha256": "11923ab98cfcce9f07dbb85317f73dd496444348becdfb2ad5b05a53428f9600"
+      },
+      "path": "evidence/product/product-t21-merge-20261009T171648Z/record.json",
+      "sha256": "025ed937cfaba20406c2c8cca83d6167ac27eeaea9a00e72cb3a8564dc65cc82"
     }
   ]
 }

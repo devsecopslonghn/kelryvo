@@ -1,0 +1,11 @@
+{
+  "command": "python - <<\"PY\"\nimport json,hashlib,shutil\nfrom pathlib import Path\nr=Path.cwd(); src=Path(\"/tmp/schemaforge-browser-sync-root-20261009T154120Z\"); dst=r/\"evidence/product/product-t21-root-20261009T152610Z\"\nfiles=list(src.glob(\"22-postverified-security-and-branch-reconciliation.*\")); assert len(files)==3\nfor f in files:\n p=dst/f.name; assert not p.exists(); shutil.copy2(f,p)\nt=(src/\"22-postverified-security-and-branch-reconciliation.log\").read_text(); off=0 if t.startswith(\"{\") else t.index(\"\\n{\")+1; d=json.JSONDecoder().raw_decode(t[off:])[0]\nassert d[\"master\"]==\"5ef2568e1904636ae7bec7aeb2188cbf71279414\" and d[\"workflows\"][\"all_exact_master_required_families_passed\"] and all(v==[] for v in d[\"alerts\"].values()) and d[\"shared_original_unchanged\"]\np=dst/\"t20-recovery-postverification-reconciliation.json\";assert not p.exists();p.write_text(json.dumps({\"master\":d[\"master\"],\"recorded_at_utc\":d[\"at_utc\"],\"four_corrective_master_families\":\"PASS\",\"original_T20_master_PRODUCT\":\"FAIL_RETAINED\",\"first_corrective_PRODUCT_attempt\":\"FAIL_BEFORE_TESTS_RETRY2_PASS\",\"alerts\":d[\"alerts\"],\"hygiene_branch_or_pr_visible\":bool(d[\"hygiene_branches\"] or d[\"open_prs\"]),\"shared_original_unchanged\":True,\"capture_sha256\":{f.name:hashlib.sha256(f.read_bytes()).hexdigest() for f in files}},indent=2)+\"\\n\")\nprint(json.dumps({\"master\":d[\"master\"],\"artifact\":\"t20-recovery-postverification-reconciliation.json\",\"alerts\":\"EMPTY\",\"shared_original\":\"UNCHANGED\"}))\nPY",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-project-membership",
+  "started_at_utc": "2026-10-09T16:25:52.576905+00:00",
+  "ended_at_utc": "2026-10-09T16:25:52.625875+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t21-root-live-20261009T152610Z/11-retain-postverified-reconciliation.log",
+    "sha256": "f4a602a0754f877981b54e2ad0f6994c4a339811e714e6f2fa688dca9a8167ea"
+  }
+}

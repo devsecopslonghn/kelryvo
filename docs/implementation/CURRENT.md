@@ -1,3 +1,28 @@
+## T21 merged and master verified; T22 active — 2026-10-09 UTC
+
+T21 merged through [PR #34](https://github.com/devsecopslonghn/schemaForge/pull/34) at
+`d19747356c3d962438631bcf393781d51ee9293a`, reviewed head `94cad0640cdab4978394808bd52efcca27a88332`. Trees match.
+Independent QA/security/license approved; all11 PR checks and all four exact-master workflow
+families passed. Local standard154/product32/browser19, independent focused5, zero skips.
+Explicit local OS operator grants and one-way activation preserve historical data; new
+creators receive no grant. Safe bootstrap reads, token-independent operator recovery and
+admission-only revocation remain documented. Evidence: `evidence/product/product-t21-merge-20261009T171648Z/record.json`.
+Early failures/missing captures/metadata corrections and original T20/corrective failures remain.
+Publication322files exit1/11 and historyexit1/115 remain independently classified finding-bearing
+scans, not clean PASS; eight inherited pre-final digest bytes remain unavailable. No actual
+credential observed/rotation indicated. Sonar unavailable never PASS; Oracle VALIDATION separate.
+
+SF-PRODUCT-T22 is IN_PROGRESS in `/home/longhn0710/workspace/schemaforge-product-statement-preview`,
+branch `development/product-statement-preview`, based on verified master above. Fresh coupled
+native context owns bounded retained-source API, parser-derived statement review UI, real
+regressions/driver and local operating docs; root owns contracts/tracking/integration/publication.
+Use existing validated pinned ANTLR ranges and source/execution digests with literal UTF-8
+slices; scalar SQL bounds/integrity before payload loading; scoped read-only no-write/stale guards.
+No regex split, historical backfill, worker authority/runtime target/Oracle/fullcatalog claim.
+T22 registration/preparation is not implementation or verification. SF-D014 records safe default.
+Standing autonomy SF-D010 and owner membership SF-D012 remain accepted. Shared original
+checkout is untouched at0346300; no Hygiene branch/PR visible, integration remains pending.
+
 ## T21 verified locally; next bounded T22 registered — 2026-10-09
 
 T21 has frozen standard154/product32/browser19 passing results with zero skips. Verified

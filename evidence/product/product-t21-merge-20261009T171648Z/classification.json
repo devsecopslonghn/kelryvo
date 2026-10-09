@@ -1,0 +1,262 @@
+{
+  "classified_at_utc": "2026-10-09T17:00:26.406880+00:00",
+  "head": "94cad0640cdab4978394808bd52efcca27a88332",
+  "tree": "ed48ea469b17ab25401f8bf4692bc0771ef44574",
+  "publication": {
+    "files": 322,
+    "scanner_exit_code": 1,
+    "finding_count": 11,
+    "clean_scan_PASS": false,
+    "classified_findings": [
+      {
+        "path": "evidence/product/product-t21-root-20261009T152610Z/integration-record.json",
+        "commit": "94cad0640cdab4978394808bd52efcca27a88332",
+        "rule": "generic-api-key",
+        "start_line": 42,
+        "end_line": 42,
+        "exact_blob_sha256": "0a99572a341f980ec0602128b7a186684ed397e79e43d7e357f9ace42427a6d6",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "tests/product-api.test.mjs",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "commit": "94cad0640cdab4978394808bd52efcca27a88332",
+        "rule": "generic-api-key",
+        "start_line": 23,
+        "end_line": 23,
+        "exact_blob_sha256": "5db6800a6bc9e5adfe4e953e6411f3f5bcea2b696a37584231d230434933c6ff",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "packages/database/local-credentials.ts",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "commit": "94cad0640cdab4978394808bd52efcca27a88332",
+        "rule": "generic-api-key",
+        "start_line": 25,
+        "end_line": 25,
+        "exact_blob_sha256": "5db6800a6bc9e5adfe4e953e6411f3f5bcea2b696a37584231d230434933c6ff",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "scripts/local-credential-operator.mjs",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "commit": "94cad0640cdab4978394808bd52efcca27a88332",
+        "rule": "generic-api-key",
+        "start_line": 29,
+        "end_line": 29,
+        "exact_blob_sha256": "5db6800a6bc9e5adfe4e953e6411f3f5bcea2b696a37584231d230434933c6ff",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "tests/product-credential-lifecycle.test.mjs",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "commit": "94cad0640cdab4978394808bd52efcca27a88332",
+        "rule": "generic-api-key",
+        "start_line": 38,
+        "end_line": 38,
+        "exact_blob_sha256": "5db6800a6bc9e5adfe4e953e6411f3f5bcea2b696a37584231d230434933c6ff",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "packages/database/local-credentials.ts",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "commit": "94cad0640cdab4978394808bd52efcca27a88332",
+        "rule": "generic-api-key",
+        "start_line": 40,
+        "end_line": 40,
+        "exact_blob_sha256": "5db6800a6bc9e5adfe4e953e6411f3f5bcea2b696a37584231d230434933c6ff",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "scripts/local-credential-operator.mjs",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "commit": "94cad0640cdab4978394808bd52efcca27a88332",
+        "rule": "generic-api-key",
+        "start_line": 44,
+        "end_line": 44,
+        "exact_blob_sha256": "5db6800a6bc9e5adfe4e953e6411f3f5bcea2b696a37584231d230434933c6ff",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "tests/product-credential-lifecycle.test.mjs",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "docs/implementation/CONTINUE.md",
+        "commit": "94cad0640cdab4978394808bd52efcca27a88332",
+        "rule": "generic-api-key",
+        "start_line": 205,
+        "end_line": 205,
+        "exact_blob_sha256": "27b882c937e080b4176596676d81cada95338ce41f5763c0cea6a778f30ccee7",
+        "matched_value_printed": false,
+        "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/record.json",
+        "commit": "94cad0640cdab4978394808bd52efcca27a88332",
+        "rule": "generic-api-key",
+        "start_line": 2463,
+        "end_line": 2463,
+        "exact_blob_sha256": "2948ae54752b71871c24e3c4a9d37e468c9c0116576f4592a627013df88b19f2",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.raw.log",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/record.json",
+        "commit": "94cad0640cdab4978394808bd52efcca27a88332",
+        "rule": "generic-api-key",
+        "start_line": 2464,
+        "end_line": 2464,
+        "exact_blob_sha256": "2948ae54752b71871c24e3c4a9d37e468c9c0116576f4592a627013df88b19f2",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "docs/implementation/CURRENT.md",
+        "commit": "94cad0640cdab4978394808bd52efcca27a88332",
+        "rule": "generic-api-key",
+        "start_line": 205,
+        "end_line": 205,
+        "exact_blob_sha256": "23c84fe22e1190c52c9ea0fecebd73a24bb7cb7cffb9bd7482c6abcc9ea51407",
+        "matched_value_printed": false,
+        "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+      }
+    ]
+  },
+  "history": {
+    "scanner_exit_code": 1,
+    "finding_count": 115,
+    "clean_scan_PASS": false,
+    "inherited106_exact_provenance_tuple_preserved": true,
+    "new9_classified_findings": [
+      {
+        "path": "evidence/product/product-t21-root-20261009T152610Z/integration-record.json",
+        "commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3",
+        "rule": "generic-api-key",
+        "start_line": 42,
+        "end_line": 42,
+        "exact_blob_sha256": "0a99572a341f980ec0602128b7a186684ed397e79e43d7e357f9ace42427a6d6",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "tests/product-api.test.mjs",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3",
+        "rule": "generic-api-key",
+        "start_line": 23,
+        "end_line": 23,
+        "exact_blob_sha256": "5db6800a6bc9e5adfe4e953e6411f3f5bcea2b696a37584231d230434933c6ff",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "packages/database/local-credentials.ts",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3",
+        "rule": "generic-api-key",
+        "start_line": 25,
+        "end_line": 25,
+        "exact_blob_sha256": "5db6800a6bc9e5adfe4e953e6411f3f5bcea2b696a37584231d230434933c6ff",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "scripts/local-credential-operator.mjs",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3",
+        "rule": "generic-api-key",
+        "start_line": 29,
+        "end_line": 29,
+        "exact_blob_sha256": "5db6800a6bc9e5adfe4e953e6411f3f5bcea2b696a37584231d230434933c6ff",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "tests/product-credential-lifecycle.test.mjs",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3",
+        "rule": "generic-api-key",
+        "start_line": 38,
+        "end_line": 38,
+        "exact_blob_sha256": "5db6800a6bc9e5adfe4e953e6411f3f5bcea2b696a37584231d230434933c6ff",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "packages/database/local-credentials.ts",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3",
+        "rule": "generic-api-key",
+        "start_line": 40,
+        "end_line": 40,
+        "exact_blob_sha256": "5db6800a6bc9e5adfe4e953e6411f3f5bcea2b696a37584231d230434933c6ff",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "scripts/local-credential-operator.mjs",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3",
+        "rule": "generic-api-key",
+        "start_line": 44,
+        "end_line": 44,
+        "exact_blob_sha256": "5db6800a6bc9e5adfe4e953e6411f3f5bcea2b696a37584231d230434933c6ff",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "tests/product-credential-lifecycle.test.mjs",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/record.json",
+        "commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3",
+        "rule": "generic-api-key",
+        "start_line": 2463,
+        "end_line": 2463,
+        "exact_blob_sha256": "2948ae54752b71871c24e3c4a9d37e468c9c0116576f4592a627013df88b19f2",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.raw.log",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      },
+      {
+        "path": "evidence/product/product-t20-recovery-20261009T155925Z/record.json",
+        "commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3",
+        "rule": "generic-api-key",
+        "start_line": 2464,
+        "end_line": 2464,
+        "exact_blob_sha256": "2948ae54752b71871c24e3c4a9d37e468c9c0116576f4592a627013df88b19f2",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+        "computed_exact_artifact": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+        "line_provenance": "Recorded filename/digest facts, exact referenced artifact bytes recomputed; redacted token not treated as unredacted value."
+      }
+    ],
+    "baseline_private_report_sha256": "35b20bdaf958f653cf3c93a6326624526587e9fee1dc39660218669dc74fab53",
+    "preserved_limitation": "Eight inherited pre-final source digest records lack earlier uncommitted bytes. Earlier independent metadata provenance review preserved; not recomputed or final-source attestations."
+  },
+  "actual_credentials_observed": false,
+  "rotation_indicated": false,
+  "scanner_or_allowlist_or_public_history_changes": false
+}

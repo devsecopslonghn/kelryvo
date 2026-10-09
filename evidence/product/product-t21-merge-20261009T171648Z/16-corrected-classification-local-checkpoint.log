@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/schemaforge-t21-precommit-classify.py", line 13, in <module>
+    else:raise AssertionError(json.dumps({'unclassified_path':name,'line':f['StartLine'],'rule':f['RuleID']}))
+AssertionError: {"unclassified_path": "evidence/product/product-t21-root-20261009T152610Z/integration-record.json", "line": 42, "rule": "generic-api-key"}

@@ -1,0 +1,30 @@
+[development/product-project-membership 94cad06] Record frozen membership verification and next offline statement review task
+ 37 files changed, 821 insertions(+), 5 deletions(-)
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/13-integrate-frozen-native.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/13-integrate-frozen-native.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/13-integrate-frozen-native.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/14-ownership-precommit-scan.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/14-ownership-precommit-scan.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/14-ownership-precommit-scan.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/15-classify-and-local-checkpoint.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/15-classify-and-local-checkpoint.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/15-classify-and-local-checkpoint.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/16-corrected-classification-local-checkpoint.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/16-corrected-classification-local-checkpoint.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/16-corrected-classification-local-checkpoint.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/17-redacted-line-provenance-and-checkpoint.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/17-redacted-line-provenance-and-checkpoint.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/17-redacted-line-provenance-and-checkpoint.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/18-reconcile-verified-master.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/18-reconcile-verified-master.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/18-reconcile-verified-master.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/19-register-next-bounded-product.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/19-register-next-bounded-product.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/19-register-next-bounded-product.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/20-final-root-tracker-and-format.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/20-final-root-tracker-and-format.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/20-final-root-tracker-and-format.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/next-product-priority.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/root-finalization.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/updated-master-reconciliation.json
+{"head": "94cad0640cdab4978394808bd52efcca27a88332", "tree": "ed48ea469b17ab25401f8bf4692bc0771ef44574", "owned_source": 40, "raw_whitespace_files": 8}

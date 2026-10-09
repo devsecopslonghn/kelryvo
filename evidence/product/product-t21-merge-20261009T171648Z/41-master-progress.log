@@ -1,0 +1,59 @@
+{
+  "at_utc": "2026-10-09T17:21:02.446384+00:00",
+  "master": "d19747356c3d962438631bcf393781d51ee9293a",
+  "workflow_families": {
+    "Local PRODUCT acceptance": [
+      {
+        "conclusion": "",
+        "createdAt": "2026-10-09T17:16:51Z",
+        "databaseId": 37965139899,
+        "event": "push",
+        "headSha": "d19747356c3d962438631bcf393781d51ee9293a",
+        "status": "in_progress",
+        "updatedAt": "2026-10-09T17:16:54Z",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37965139899",
+        "workflowName": "Local PRODUCT acceptance"
+      }
+    ],
+    "Offline ANTLR parser acceptance": [
+      {
+        "conclusion": "success",
+        "createdAt": "2026-10-09T17:16:51Z",
+        "databaseId": 37965139906,
+        "event": "push",
+        "headSha": "d19747356c3d962438631bcf393781d51ee9293a",
+        "status": "completed",
+        "updatedAt": "2026-10-09T17:19:30Z",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37965139906",
+        "workflowName": "Offline ANTLR parser acceptance"
+      }
+    ],
+    "Offline WP0 checks": [
+      {
+        "conclusion": "success",
+        "createdAt": "2026-10-09T17:16:51Z",
+        "databaseId": 37965139883,
+        "event": "push",
+        "headSha": "d19747356c3d962438631bcf393781d51ee9293a",
+        "status": "completed",
+        "updatedAt": "2026-10-09T17:17:58Z",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37965139883",
+        "workflowName": "Offline WP0 checks"
+      }
+    ],
+    "CodeQL": [
+      {
+        "conclusion": "success",
+        "createdAt": "2026-10-09T17:16:50Z",
+        "databaseId": 37965139052,
+        "event": "dynamic",
+        "headSha": "d19747356c3d962438631bcf393781d51ee9293a",
+        "status": "completed",
+        "updatedAt": "2026-10-09T17:18:37Z",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37965139052",
+        "workflowName": "CodeQL"
+      }
+    ]
+  },
+  "all_exact_master_required_families_passed": false
+}
