@@ -1911,6 +1911,48 @@
       },
       "path": "evidence/product/product-t13-source-inspection-20261009/root-record.json",
       "sha256": "596e4c045f7592effe80f59f254e988100078d20c3d1ea2e0cede8520161ae10"
+    },
+    {
+      "id": "product-t13-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T13",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "gh pr checks 25; gh pr view 25; gh run list --commit a0d1fd1616bdf43126bc8481c5aae820d0736d30; sanitized GitHub alerts; independent native exact-head QA/security review",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t13-merge-20261009T062735Z/master-workflows.json",
+        "sha256": "31433e98d92990c1264ab59adc80e82801690c4dddaa1b0977617c9dd918af3a"
+      },
+      "path": "evidence/product/product-t13-merge-20261009T062735Z/record.json",
+      "sha256": "c3eeb0da1c1561c24d4f921b72925a5a9b4fd1aff9970d84d9be30057aaa0d5f"
+    },
+    {
+      "id": "product-t14-configured-target-local-verified",
+      "subject_id": "SF-PRODUCT-T14",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser; focused configured-target browser regression",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T14-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t14-local-20261009T134200Z/test-browser.log",
+        "sha256": "60a934d32e01611ac758bca6fa38de9e883889929181e4a062987a068331d8b9"
+      },
+      "path": "evidence/product/product-t14-local-20261009T134200Z/root-record.json",
+      "sha256": "e29c017d98510f54b33473e67059ce470fbd32e7bfcd7c9dd9b8aaba4ac3bd0a"
     }
   ]
 }

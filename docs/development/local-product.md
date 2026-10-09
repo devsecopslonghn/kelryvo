@@ -69,6 +69,12 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    It reads the retained release through the authenticated release endpoint; it does not
    change plan, decision, comment, audit or migration history state. The displayed snapshot
    does not revalidate source bytes after approval.
+   The same review also shows the selected plan's profile and matching environment from
+   the currently loaded project configuration. It labels this as current configured metadata,
+   not a frozen plan snapshot or observed database identity. A missing or mismatched profile
+   or environment displays a fixed unavailable message and the retained reference IDs; it
+   never falls back to another profile. Credential references and secrets are not displayed
+   or resolved. This read-only view does not connect to a database.
 6. Inspect Audit & history. Audit action filters list only actions present in the selected
    project's recent events; All actions is the default and preserves server ordering.
    Project changes and sign-out restore that default. Archived project events remain

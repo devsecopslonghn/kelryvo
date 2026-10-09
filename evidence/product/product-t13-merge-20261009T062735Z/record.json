@@ -1,0 +1,97 @@
+{
+  "id": "product-t13-merge-master-verified",
+  "subject_id": "SF-PRODUCT-T13",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "gh pr checks 25; gh pr view 25; gh run list --commit a0d1fd1616bdf43126bc8481c5aae820d0736d30; sanitized GitHub alerts; independent native exact-head QA/security review",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t13-merge-20261009T062735Z/master-workflows.json",
+    "sha256": "31433e98d92990c1264ab59adc80e82801690c4dddaa1b0977617c9dd918af3a"
+  },
+  "pr": 25,
+  "reviewed_head": "132b613ddb54dbaed62a9e3261d7b23633808cdb",
+  "base_before_merge": "bc00d1547625279ebd0d45f0b08027ef8d458bff",
+  "merge_commit": "a0d1fd1616bdf43126bc8481c5aae820d0736d30",
+  "merged_at": "2026-10-09T06:27:35Z",
+  "pr_checks_passed": 10,
+  "master_workflows_passed": 4,
+  "normal_merge": true,
+  "force_push": false,
+  "admin_bypass": false,
+  "independent_reviews": {
+    "qa": "APPROVED /root/t13_qa exact132b613ddb54dbaed62a9e3261d7b23633808cdb; five source/log hashes verified; full33-file diff reviewed;142standard22product11browser0skips;roottracker21",
+    "security": "APPROVED /root/t13_security exact132b613ddb54dbaed62a9e3261d7b23633808cdb; publication33files0; fullhistory5 established benign UUID/source hashes/synthetic malformed UNIT PEM/log digest; no credential or rotation indicated"
+  },
+  "evidence_preserved": {
+    "failed_raw_logs": "T13 attempts03/04 and root tracker initial failure retained; seven specific Node TAP whitespace-only lines excepted in root-record; no source/scanner exceptions",
+    "missing_raw_logs": "T13 first two focused failures disclosed, not reconstructed"
+  },
+  "hygiene_integration": "PENDING separate branch/PR unavailable; original four report findings exactly crosschecked and classified, fifth T10 hash independently verified",
+  "shared_checkout": "Clean master0346300471a889ae8fd33b022b890034be08d301, untouched",
+  "sonar": "UNAVAILABLE under unchanged owner quota exception, never PASS",
+  "oracle": "VALIDATION BLOCKED; no connection/worker/deployment; no fullcatalog or post-approval byte-revalidation claim",
+  "next_product_task": "SF-PRODUCT-T14 READY, registration only",
+  "safe_snapshot_hashes": [
+    {
+      "path": "code-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "dependabot-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "master-workflows.json",
+      "sha256": "31433e98d92990c1264ab59adc80e82801690c4dddaa1b0977617c9dd918af3a"
+    },
+    {
+      "path": "merged-pr.json",
+      "sha256": "af1938f5c1f1d055422f6f74a6ec951a59e334ff96619ff45bc7e3adcc9f3736"
+    },
+    {
+      "path": "postmerge-code-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "postmerge-dependabot-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "postmerge-secret-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "premerge-checks.json",
+      "sha256": "e17e0bc657d4dfdb8b8598d2c92e703f53e96db57d0af6b12057d42e24d64d58"
+    },
+    {
+      "path": "premerge-pr.json",
+      "sha256": "debf430be2baf6992d8271f8f0f3dbcb96946991a569a6ef886045be62493919"
+    },
+    {
+      "path": "secret-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    }
+  ],
+  "continuation_checkpoint_checks": {
+    "tracker_tests": {
+      "path": "evidence/product/product-t13-merge-20261009T062735Z/checkpoint-tracker.log",
+      "sha256": "99b5513bc9d99ec613750541d3679b50a5c34201f719be9ae45f988bfc5f9fef",
+      "outcome": "PASS21/21zero skips"
+    },
+    "tracker_validate": "PASS",
+    "next": "SF-PRODUCT-T14 READY",
+    "authored_json": "PASS",
+    "source": "PASS130 authored files",
+    "diff_check": "PASS; preceding immutable raw-log exception unchanged"
+  },
+  "checkpoint_publication_scan_initial": {
+    "outcome": "Two generic-api-key matches on values of named sanitized alert-file checksum fields; exact values equal SHA256 of the corresponding empty JSON arrays. No credential. Draft checksum metadata restructured as separate path/hash fields before commit; no existing committed evidence changed.",
+    "classification": "evidence/product/product-t13-merge-20261009T062735Z/checkpoint-publication-classification.json"
+  }
+}

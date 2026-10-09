@@ -1,0 +1,5 @@
+0a2e5c9d5372b938d974d7b3661d034629a2c02d9deef5c4544ff45abb999ded  apps/web/src/app.jsx
+0dd56b87f6866e72ca0eedb06ab11112c4ed69652e28478bf8b1c4db87943b0c  apps/web/styles.css
+1efd266c00d40ebbb54697de8dc0e060c2359f14f39939c74787e1d0cb8bdd22  scripts/test-product.mjs
+0cd8e756f6437bfc072b621a3bdc159f4698fab656f56b89dcd63fe5ebaad639  tests/product-plan-target-browser.integration.mjs
+2cd9e67aaa0b41ac0759fa5ba1b9aa43b87fc29715cafb16dfe96b971231d3ab  docs/development/local-product.md

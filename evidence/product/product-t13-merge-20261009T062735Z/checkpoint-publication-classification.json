@@ -1,0 +1,31 @@
+{
+  "subject": "New uncommitted T13 continuation checkpoint draft",
+  "original_draft_sha256": "ace5eb911cefcba3fe92b6c49303c578fa4da53a0841a50b5d0ca9bc629a84ae",
+  "findings": [
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t13-merge-20261009T062735Z/record.json",
+      "original_line": 46,
+      "classification": "Verified integrity SHA256 of sanitized empty GitHub alert snapshot",
+      "artifact": "evidence/product/product-t13-merge-20261009T062735Z/postmerge-secret-alerts.json",
+      "digest_matches_exact_bytes": true,
+      "json_is_empty_array": true
+    },
+    {
+      "rule_id": "generic-api-key",
+      "file": "evidence/product/product-t13-merge-20261009T062735Z/record.json",
+      "original_line": 49,
+      "classification": "Verified integrity SHA256 of sanitized empty GitHub alert snapshot",
+      "artifact": "evidence/product/product-t13-merge-20261009T062735Z/secret-alerts.json",
+      "digest_matches_exact_bytes": true,
+      "json_is_empty_array": true
+    }
+  ],
+  "actual_credential_observed": false,
+  "rotation_indicated": false,
+  "history_rewritten": false,
+  "scanner_configuration_changed": false,
+  "prior_committed_evidence_modified": false,
+  "original_private_redacted_report_retained": true,
+  "native_security_review": "CONFIRMED /root/t13_security: exact original draft SHA, both named fields/lines and independently hashed sanitized empty JSON arrays verified; no credential, no edits"
+}

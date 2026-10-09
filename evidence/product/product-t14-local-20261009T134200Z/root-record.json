@@ -1,0 +1,45 @@
+{
+  "id": "product-t14-configured-target-local-verified",
+  "subject_id": "SF-PRODUCT-T14",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check; npm run test:product; npm run test:browser; focused configured-target browser regression",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T14-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t14-local-20261009T134200Z/test-browser.log",
+    "sha256": "60a934d32e01611ac758bca6fa38de9e883889929181e4a062987a068331d8b9"
+  },
+  "implementation_record": {
+    "path": "evidence/product/product-t14-local-20261009T134200Z/record.json",
+    "sha256": "6524c64196797e82b57d0cb6eeb99a2a63602372f2473217d677052cad911fe8"
+  },
+  "verification": "Root independently verified five source and fourteen raw-log hashes;142standard22product12browserzero skips; native exact-head reviews/remoteCI/merge pending",
+  "evidence_limits": "Failed focused attempts retained; original Workspace malformed-fixture crash is not claimed fixed. Run folder is an opaque identifier, not UTC start-time attestation. No Oracle/fullcatalog/targetattestation claims.",
+  "root_tracker": {
+    "path": "evidence/product/product-t14-local-20261009T134200Z/root-tracker.log",
+    "sha256": "cf449791527b1d3b31ad55e512791249609a66aa2cb6ecf3e2cfdf7ac460d2fc",
+    "outcome": "PASS21/21zero skips; T15registration verified"
+  },
+  "whitespace_exception": {
+    "scope": "Two whitespace-only lines emitted by Node TAP in immutable failed focused logs",
+    "locations": {
+      "focused-browser-retry2.log": [
+        20
+      ],
+      "focused-browser-retry4.log": [
+        13
+      ]
+    },
+    "policy": "Preserve original raw bytes/hashes; all authored changes pass; no scanner/threshold changes"
+  }
+}

@@ -2513,6 +2513,38 @@
       "test_references": [
         "SF-PRODUCT-T14-WEB"
       ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t14-configured-target-local-verified"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T15",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Verify retained source integrity before approving an offline plan",
+      "dependencies": [
+        "SF-PRODUCT-T14"
+      ],
+      "feature_ids": [
+        "GOV-013",
+        "GIT-007"
+      ],
+      "acceptance_criteria": [
+        "An authenticated independent approver can approve a pending offline plan only when its scoped retained VALID release passes the existing bounded UTF-8 content/hash/format-1 manifest verifier and its ordered path/version/SHA256 file facts match the retained plan items. Missing, malformed or mismatched data returns a fixed integrity error before decision/history/audit writes. Existing authorization, self-approval, archived and terminal denial behavior and audit remain intact.",
+        "Approval reads and verifies the linked release under a scoped row lock in the existing decision transaction after authorization, with consistent lock order and no stale checked snapshot during concurrent mutation. Rejection remains possible for an otherwise authorized pending plan with damaged source. Valid retained plans remain approvable without Git or a repository registration. No parser rerun, credential resolution, target connection, schema or worker execution is introduced.",
+        "Real Git/PostgreSQL/parser/API/browser regressions cover valid approval and source content/hash/manifest corruption after planning, changed or malformed plan items, concurrent stored-release mutation, foreign references and fixed UI feedback. Integrity failures leave complete plan/comment/history/audit snapshots unchanged; authorized rejection and existing audited denials are separately verified. This verifies retained UTF-8 source at approval only, not a tamper-proof database, frozen target attestation, execution-time revalidation, full GOV-013/GIT-007 or Oracle behavior."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T15-API",
+        "SF-PRODUCT-T15-WEB"
+      ],
       "status": "READY",
       "source_paths": [
         "docs/implementation/backlog.json"
