@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t23-verify-frozen.py check:158:/tmp/schemaforge-t23-standard-final-controlled-20261010.log product:34:/tmp/schemaforge-t23-product-final-20261010.log",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:21:00.740187+00:00",
+  "ended_at_utc": "2026-10-09T19:21:00.785704+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/05-verify-controlled-standard-product.log",
+    "sha256": "c953b44a282c3fb926c2d60645e4f9310a5a8742a0a9218156c87c5858c79a96"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "scope": "Initial precommit before root formatting correction, superseded scan required before final freeze",
+  "scanner_exit_code": 1,
+  "finding_count": 3,
+  "classified_findings": [
+    {
+      "path": "docs/implementation/CONTINUE.md",
+      "line": 343,
+      "rule": "generic-api-key",
+      "exact_blob_sha256": "113c5f80278fdac3cfac90c18da63e0f90d4be3596d4b618a21271ce03257a02",
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+    },
+    {
+      "path": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+      "line": 416,
+      "rule": "generic-api-key",
+      "exact_blob_sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9",
+      "classification": "BENIGN_RECOMPUTED_IMMUTABLE_ARTIFACT_SHA256",
+      "verified_artifact": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence/evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+      "matched_value_not_printed": true
+    },
+    {
+      "path": "docs/implementation/CURRENT.md",
+      "line": 343,
+      "rule": "generic-api-key",
+      "exact_blob_sha256": "66163a8763829ab69f619c2dac730716ec98254b8d6aa2dc0adaad11aa4c1191",
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+    }
+  ],
+  "actual_credentials_observed": false,
+  "rotation_indicated": false,
+  "clean_scan_PASS": false
+}

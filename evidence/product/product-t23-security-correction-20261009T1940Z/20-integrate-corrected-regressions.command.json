@@ -1,0 +1,5 @@
+{
+  "command": "python /tmp/schemaforge-t23-correction-integrate.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:59:08.808086+00:00"
+}

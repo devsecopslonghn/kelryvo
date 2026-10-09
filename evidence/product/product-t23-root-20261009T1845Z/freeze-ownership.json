@@ -1,0 +1,140 @@
+{
+  "frozen_at_utc": "2026-10-09T19:32:43.448909+00:00",
+  "based_on_master": "fe1d3a84381e5080d591ca1a43a7a9b9928f93ee",
+  "native_runtime_tests_unchanged": true,
+  "guide_only_correction": {
+    "path": "docs/development/local-product.md",
+    "tested_sha256": "43ac8a6f9a1497aa21109f679d9c181bfe463895f008091a477e31301fc6f6f4",
+    "corrected_sha256": "3ace3e15793f6a76b2be9696596e297c0fee6abd6b83d04502fd0610e5e8f500",
+    "tested_bytes_preserved_at": "evidence/product/product-t23-root-20261009T1845Z/tested-local-product-guide.md",
+    "scope": "Prose only: SQL excluded from reference/audit metadata, ordinary comment text remains allowed; explicit same-release multi-file descriptor draft scope clarified under SF-D018. Runtime/tests unchanged, no redundant runtime rerun."
+  },
+  "root_tracker_tests": 21,
+  "next_task": "SF-PRODUCT-T24_READY_NOT_IMPLEMENTED",
+  "precommit_classification": {
+    "scanner_exit_code": 1,
+    "finding_count": 3,
+    "classified_findings": [
+      {
+        "path": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+        "line": 416,
+        "rule": "generic-api-key",
+        "exact_blob_sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9",
+        "classification": "BENIGN_RECOMPUTED_IMMUTABLE_ARTIFACT_SHA256",
+        "verified_artifact": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+        "matched_value_not_printed": true
+      },
+      {
+        "path": "docs/implementation/CONTINUE.md",
+        "line": 343,
+        "rule": "generic-api-key",
+        "exact_blob_sha256": "113c5f80278fdac3cfac90c18da63e0f90d4be3596d4b618a21271ce03257a02",
+        "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+      },
+      {
+        "path": "docs/implementation/CURRENT.md",
+        "line": 343,
+        "rule": "generic-api-key",
+        "exact_blob_sha256": "66163a8763829ab69f619c2dac730716ec98254b8d6aa2dc0adaad11aa4c1191",
+        "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+      }
+    ],
+    "actual_credentials_observed": false,
+    "rotation_indicated": false,
+    "clean_scan_PASS": false,
+    "scanner_or_history_changes": false
+  },
+  "immutable_raw_whitespace": [
+    {
+      "path": "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-focused.log",
+      "sha256": "4284cc779deb9968bcddfdba2dfbeb8e0771030a057265eea02cc37731b408c1",
+      "lines": [
+        18
+      ]
+    },
+    {
+      "path": "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-focused-retry1.log",
+      "sha256": "e0b60df847feccb8903706d10df56645088a42f8d6cad5d59d44e060c73ac98b",
+      "lines": [
+        18
+      ]
+    },
+    {
+      "path": "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-focused-retry2.log",
+      "sha256": "33ec63a72fa8c6b3e604595eafe1e9f1958b9857b6172b491edae80ab5d289a4",
+      "lines": [
+        17,
+        23
+      ]
+    },
+    {
+      "path": "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-focused-retry3.log",
+      "sha256": "a412f3b06e54a16014987375b687e40b447880a53d9398a1ad01994ef6e423cf",
+      "lines": [
+        17,
+        23
+      ]
+    },
+    {
+      "path": "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-focused-retry4.log",
+      "sha256": "370575e2396101c2362cabb2e29159b7f1bd414d376abc0cc3fac4008cd228e0",
+      "lines": [
+        18
+      ]
+    },
+    {
+      "path": "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-focused-final-retry1-20261010.log",
+      "sha256": "225f2a123ee03ddab1b4b70db8b3dd519cdbba7721c7ecab7cc807982407c256",
+      "lines": [
+        40,
+        42
+      ]
+    },
+    {
+      "path": "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-final-20261010.log",
+      "sha256": "514304fae991730b295e696f50841d542078e445d8eb88854ef091d728787ff7",
+      "lines": [
+        98,
+        216,
+        218
+      ]
+    },
+    {
+      "path": "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-standard-final-20261010.log",
+      "sha256": "2c2479a429b79de72085dc3082ffe6d4761068fd788352a086ad919287a55759",
+      "lines": [
+        383,
+        386,
+        433,
+        436,
+        459,
+        462
+      ]
+    },
+    {
+      "path": "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-standard-final-retry1-20261010.log",
+      "sha256": "1c3923b7adc7c75e94d113bb2ccaf79462d72d387dedf41864757758f70225c7",
+      "lines": [
+        325,
+        327,
+        351,
+        353,
+        437,
+        439,
+        546,
+        548,
+        573,
+        575,
+        600,
+        602,
+        648,
+        653,
+        696,
+        698
+      ]
+    }
+  ],
+  "required_publication_gates": "Fresh exact-head QA/security/license, full changed-files and all-refs scans/provenance, required CI, ordinary merge and all4 exact-master workflow families",
+  "sonar": "UNAVAILABLE_NEVER_PASS",
+  "oracle": "INDEPENDENT_BLOCKED"
+}

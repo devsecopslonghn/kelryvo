@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t22-corrected-merge-gate.py 35",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:38:30.764919+00:00",
+  "ended_at_utc": "2026-10-09T18:38:36.573697+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/37-corrected-ready-merge-gate.log",
+    "sha256": "e336497d75653092999d586a35398f032995da025029eb7cfdfddd0e29d41aa4"
+  }
+}

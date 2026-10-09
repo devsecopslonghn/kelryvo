@@ -1,0 +1,11 @@
+{
+  "command": "set -e\n python /tmp/schemaforge-t22-master-state.py\n gh run view 37974709842 --repo devsecopslonghn/schemaForge --json databaseId,status,conclusion,jobs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:42:41.702956+00:00",
+  "ended_at_utc": "2026-10-09T18:42:45.044290+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/43-exact-master-ci-progress.log",
+    "sha256": "4ad9d3c1f3c2dfb9ce499452914adb02a68141fecebcdd85d582157609070a60"
+  }
+}

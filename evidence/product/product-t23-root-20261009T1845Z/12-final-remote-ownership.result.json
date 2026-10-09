@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t23-final-ownership.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:30:39.334779+00:00",
+  "ended_at_utc": "2026-10-09T19:30:41.596361+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/12-final-remote-ownership.log",
+    "sha256": "825c7d0fc016da9da2faf5e31491d666334df46a621d97385937c173746a739c"
+  }
+}

@@ -1,0 +1,837 @@
+{
+  "scope": "history",
+  "head": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+  "base": "fe1d3a84381e5080d591ca1a43a7a9b9928f93ee",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "git",
+    "--log-opts=--all",
+    "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-t23-publication-20261009T1933Z/history-private-report.json"
+  ],
+  "started_at_utc": "2026-10-09T19:32:50.633833+00:00",
+  "ended_at_utc": "2026-10-09T19:32:52.182425+00:00",
+  "scanner_exit_code": 1,
+  "finding_count": 116,
+  "paths": null,
+  "finding_metadata": [
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+      "StartLine": 416,
+      "EndLine": 416,
+      "Commit": "7c7cd5df8062e265ed9985a6389a3e87c455c6c5"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+      "StartLine": 25,
+      "EndLine": 25,
+      "Commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+      "StartLine": 29,
+      "EndLine": 29,
+      "Commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+      "StartLine": 40,
+      "EndLine": 40,
+      "Commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-recovery-20261009T155925Z/independent-qa/t20-focused-api-browser.record.json",
+      "StartLine": 44,
+      "EndLine": 44,
+      "Commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t21-root-20261009T152610Z/integration-record.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-recovery-20261009T155925Z/record.json",
+      "StartLine": 2463,
+      "EndLine": 2463,
+      "Commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-recovery-20261009T155925Z/record.json",
+      "StartLine": 2464,
+      "EndLine": 2464,
+      "Commit": "5d282e93dc81c49a90663db0c0a650a03a9241b3"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+      "StartLine": 26,
+      "EndLine": 26,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+      "StartLine": 35,
+      "EndLine": 35,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+      "StartLine": 37,
+      "EndLine": 37,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/credential-cli-pool-reopen.json",
+      "StartLine": 40,
+      "EndLine": 40,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+      "StartLine": 27,
+      "EndLine": 27,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-browser.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+      "StartLine": 27,
+      "EndLine": 27,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-product.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+      "StartLine": 27,
+      "EndLine": 27,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-check.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+      "StartLine": 27,
+      "EndLine": 27,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/final-check2.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+      "StartLine": 27,
+      "EndLine": 27,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/local-config-boundary.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+      "StartLine": 27,
+      "EndLine": 27,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/pool-helper-regression.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+      "StartLine": 25,
+      "EndLine": 25,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+      "StartLine": 34,
+      "EndLine": 34,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/credential-expired-recovery.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-root-20261009T142027Z/publication-source-freeze.json",
+      "StartLine": 40,
+      "EndLine": 40,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-root-20261009T142027Z/publication-source-freeze.json",
+      "StartLine": 42,
+      "EndLine": 42,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-root-20261009T142027Z/publication-source-freeze.json",
+      "StartLine": 46,
+      "EndLine": 46,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+      "StartLine": 21,
+      "EndLine": 21,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+      "StartLine": 23,
+      "EndLine": 23,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+      "StartLine": 25,
+      "EndLine": 25,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+      "StartLine": 34,
+      "EndLine": 34,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+      "StartLine": 36,
+      "EndLine": 36,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/npm-check-frozen.json",
+      "StartLine": 38,
+      "EndLine": 38,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-root-20261009T142027Z/integration-record.json",
+      "StartLine": 18,
+      "EndLine": 18,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-root-20261009T142027Z/integration-record.json",
+      "StartLine": 20,
+      "EndLine": 20,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-root-20261009T142027Z/integration-record.json",
+      "StartLine": 24,
+      "EndLine": 24,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-root-20261009T142027Z/corrected-integration-record.json",
+      "StartLine": 18,
+      "EndLine": 18,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-root-20261009T142027Z/corrected-integration-record.json",
+      "StartLine": 20,
+      "EndLine": 20,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-root-20261009T142027Z/corrected-integration-record.json",
+      "StartLine": 24,
+      "EndLine": 24,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/t20-native-result.json",
+      "StartLine": 11,
+      "EndLine": 11,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/t20-native-result.json",
+      "StartLine": 13,
+      "EndLine": 13,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t20-native-20261009T143323Z/t20-native-result.json",
+      "StartLine": 17,
+      "EndLine": 17,
+      "Commit": "d90403ed9c19586f21e00358e4b723f06af3ef8b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "docs/implementation/CURRENT.md",
+      "StartLine": 22,
+      "EndLine": 22,
+      "Commit": "3224b7269a93d5b804d4304b7c71eb200690d582"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "docs/implementation/CONTINUE.md",
+      "StartLine": 22,
+      "EndLine": 22,
+      "Commit": "3224b7269a93d5b804d4304b7c71eb200690d582"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t19-merge-20261009T141539Z/native-qa-verdict.json",
+      "StartLine": 103,
+      "EndLine": 103,
+      "Commit": "3224b7269a93d5b804d4304b7c71eb200690d582"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t19-merge-20261009T141539Z/qa-focused/final-verdict.json",
+      "StartLine": 103,
+      "EndLine": 103,
+      "Commit": "3224b7269a93d5b804d4304b7c71eb200690d582"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t19-root-20261009T123628Z/integration-record.json",
+      "StartLine": 35,
+      "EndLine": 35,
+      "Commit": "87e4942ef42e2557e67cfc757595c5e6f1d993c9"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 128,
+      "EndLine": 128,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 129,
+      "EndLine": 129,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 130,
+      "EndLine": 130,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 131,
+      "EndLine": 131,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 132,
+      "EndLine": 132,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 133,
+      "EndLine": 133,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 134,
+      "EndLine": 134,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 135,
+      "EndLine": 135,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 136,
+      "EndLine": 136,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 137,
+      "EndLine": 137,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 138,
+      "EndLine": 138,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 139,
+      "EndLine": 139,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 140,
+      "EndLine": 140,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 141,
+      "EndLine": 141,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 142,
+      "EndLine": 142,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 143,
+      "EndLine": 143,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 144,
+      "EndLine": 144,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 145,
+      "EndLine": 145,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 146,
+      "EndLine": 146,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 147,
+      "EndLine": 147,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 148,
+      "EndLine": 148,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 149,
+      "EndLine": 149,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 150,
+      "EndLine": 150,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 151,
+      "EndLine": 151,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 152,
+      "EndLine": 152,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 153,
+      "EndLine": 153,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 154,
+      "EndLine": 154,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 155,
+      "EndLine": 155,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 156,
+      "EndLine": 156,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t17-20261009T090639Z/T17-completion.json",
+      "StartLine": 157,
+      "EndLine": 157,
+      "Commit": "e6432c93d6f08ae31856aac159b77833594fc1cd"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t10-root-review-20261009T045700Z/record.json",
+      "StartLine": 19,
+      "EndLine": 19,
+      "Commit": "c4d339858e0ada5d5632c3968d3bc3ed432f200a"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/native-browser-diagnostic-summary.txt",
+      "StartLine": 4,
+      "EndLine": 4,
+      "Commit": "4c9259e426ec197e4ad527173147fc20562df69b"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t01-20261008T163522Z-87ad39d8/reviewed-source-hashes.json",
+      "StartLine": 40,
+      "EndLine": 40,
+      "Commit": "f0a28c3fc166830914289f83da4ea29e875ba76a"
+    },
+    {
+      "RuleID": "generic-api-key",
+      "File": "evidence/product/product-t01-20261008T163522Z-87ad39d8/source-hashes.json",
+      "StartLine": 40,
+      "EndLine": 40,
+      "Commit": "f0a28c3fc166830914289f83da4ea29e875ba76a"
+    },
+    {
+      "RuleID": "private-key",
+      "File": "tests/thin-readonly-probe.test.mjs",
+      "StartLine": 143,
+      "EndLine": 264,
+      "Commit": "7cb071bdbce6387101691dd49ea90786245caf54"
+    }
+  ],
+  "private_report_sha256": "23d8ae29bb50088fde8d25a94b6bc1f941a63c94b58b031abd6292ca6d7dc073",
+  "clean_scan_PASS": false,
+  "actual_credentials_printed": false
+}

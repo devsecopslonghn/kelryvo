@@ -1,0 +1,11 @@
+{
+  "command": "gh pr checks 35 --repo devsecopslonghn/schemaForge --json name,state,link",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:11:35.229063+00:00",
+  "ended_at_utc": "2026-10-09T18:11:36.931559+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/15-pr-ci-progress.log",
+    "sha256": "576fc9256d9af6dde879f08b0a026a1c20777925bcc64833290e19a062b03531"
+  }
+}

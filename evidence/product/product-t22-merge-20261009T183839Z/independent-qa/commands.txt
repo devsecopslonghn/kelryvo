@@ -1,0 +1,4 @@
+taskset -c 0,1 node --test tests/statement-preview.test.mjs
+taskset -c 0,1 node --test tests/product-statement-preview-parser.integration.mjs
+taskset -c 0,1 node --test tests/product-statement-preview.test.mjs
+taskset -c 0,1 node --test tests/product-plan-source-browser.integration.mjs

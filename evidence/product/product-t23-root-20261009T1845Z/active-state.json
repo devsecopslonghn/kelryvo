@@ -1,0 +1,49 @@
+{
+  "recorded_at_utc": "2026-10-09T18:46:40.296588+00:00",
+  "task": "SF-PRODUCT-T23",
+  "status": "IN_PROGRESS_NOT_YET_IMPLEMENTED",
+  "base_master": "fe1d3a84381e5080d591ca1a43a7a9b9928f93ee",
+  "branch": "development/product-discussion-evidence",
+  "root": "Contracts/tracker/ADR/integration/independentreviews/publication",
+  "native": "Fresh coupled commentrefsAPI/additiveDB/UI/regressions/driver/operatingguide after explicitSTART",
+  "T22": "MERGED_MASTER_VERIFIED_PR35",
+  "standing_policy": "Safest ordinary default decide/document/implement/test/review/eligiblemerge/continue; explicitOSoperator grants/bootstrap/recovery/noinferredmemberships",
+  "prerequisites": "npmci60packages command/tooloutput available, no immutable setuprawfile reconstructed; exactignoredANTLRhelper/runtime copied withverifiedSHA, no privateconfig copied",
+  "root_start_checks": "Tracker21/lint/format passed in command/toolcapture; no reconstructedraw. Initial shell command did not include fail-stop but individual actualoutputs/exit results allPASS; subsequent capture scripts fail-stop where dependent.",
+  "checkpoint_scan": {
+    "paths": 166,
+    "exit_code": 1,
+    "findings": 3,
+    "clean_scan_PASS": false,
+    "classification": [
+      {
+        "path": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+        "line": 416,
+        "rule": "generic-api-key",
+        "exact_blob_sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9",
+        "matched_value_printed": false,
+        "classification": "BENIGN_RECOMPUTED_EXACT_ARTIFACT_DIGEST",
+        "artifact": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log"
+      },
+      {
+        "path": "docs/implementation/CURRENT.md",
+        "line": 315,
+        "rule": "generic-api-key",
+        "exact_blob_sha256": "30dc61a4947105294450a314b306323e13e806ff824f1a1bb8ba275c75d44680",
+        "matched_value_printed": false,
+        "classification": "BENIGN_EXACT_DESCRIPTION_PROSE"
+      },
+      {
+        "path": "docs/implementation/CONTINUE.md",
+        "line": 315,
+        "rule": "generic-api-key",
+        "exact_blob_sha256": "a1d385178ea2ccb0c95b7b61acc58282394e940c952525400a3da48b9a18f251",
+        "matched_value_printed": false,
+        "classification": "BENIGN_EXACT_DESCRIPTION_PROSE"
+      }
+    ]
+  },
+  "actual_credentials_observed": false,
+  "Oracle": "SEPARATE_BLOCKED",
+  "Sonar": "UNAVAILABLE_NEVER_PASS"
+}

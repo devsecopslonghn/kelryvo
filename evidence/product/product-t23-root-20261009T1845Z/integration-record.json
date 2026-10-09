@@ -1,0 +1,164 @@
+{
+  "id": "product-t23-comment-evidence-local-verified",
+  "subject_id": "SF-PRODUCT-T23",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen native standard158, real PostgreSQL/Git/pinned-parser product34 and browser19; root source/capture hash and six-criterion diff review, separate prose correction",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "test_references": [
+    "SF-PRODUCT-T23-API",
+    "SF-PRODUCT-T23-WEB",
+    "SF-PRODUCT-T23-PERSISTENCE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t23-root-20261009T1845Z/06-verify-all-frozen-regressions.log",
+    "sha256": "9211d274be1349b3133a7d8678eba127cbe84e25714a54dd7b6d24f554b96ec1"
+  },
+  "recorded_at_utc": "2026-10-09T19:28:33.910284+00:00",
+  "native_record": {
+    "path": "evidence/product/product-t23-comment-evidence-20261009T1924Z/run-record.json",
+    "sha256": "7f3c4aee498d2e2dff2b13b0fdf794d0925bc62fb1749cb3f0864365ccb0e67e"
+  },
+  "tested_source_sha256": {
+    "apps/api/index.ts": "8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f",
+    "packages/database/index.ts": "a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d",
+    "apps/web/src/app.jsx": "eda54019caed963284e223f8c8723d2b76d7c64fb113466aa82ef8e7ffa76dcc",
+    "apps/web/styles.css": "66626be83c537f0662836213cd47975fc9e3ddf01ef88b6cbb38aa46d7dd86c2",
+    "packages/migrations/comment-evidence.mjs": "e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70",
+    "tests/product-comment-evidence-unit.test.mjs": "04a8740588e8a6a9175eb2b3ff70daf2fa1787367c0a3dfb14edc2a1ae8062a2",
+    "tests/product-comments.test.mjs": "63a4354f6cab052e63d7ee6858db47a070bff4fbc34ada95efa280e9679f9724",
+    "tests/product-comments-browser.integration.mjs": "54ab10e0c609dbe37d6133ea4d154c4479a1effaae86ea075b5822e7f038041a",
+    "tests/product-statement-preview.test.mjs": "cf3acc68dc1ebc3ffe671d2f25dd655a880b748623384a5deec4a4964437c4f4",
+    "tests/product-protected-source-binding-browser.integration.mjs": "648136621398bd3a638488c149bc3a87fa73b80f403f0b8e7f9d49c778214d21",
+    "scripts/test-product.mjs": "53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b",
+    "docs/development/local-product.md": "43ac8a6f9a1497aa21109f679d9c181bfe463895f008091a477e31301fc6f6f4"
+  },
+  "native_artifact_sha256": {
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/run-record.json": "7f3c4aee498d2e2dff2b13b0fdf794d0925bc62fb1749cb3f0864365ccb0e67e",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw-artifact-manifest.json": "e7e53014d58be8ef28c1369b5d247c51cc89d3d5a71f09fa59e97c693ffe533d",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-focused.log": "4284cc779deb9968bcddfdba2dfbeb8e0771030a057265eea02cc37731b408c1",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-focused-retry1.log": "e0b60df847feccb8903706d10df56645088a42f8d6cad5d59d44e060c73ac98b",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-focused-retry2.log": "33ec63a72fa8c6b3e604595eafe1e9f1958b9857b6172b491edae80ab5d289a4",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-focused-retry3.log": "a412f3b06e54a16014987375b687e40b447880a53d9398a1ad01994ef6e423cf",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-focused-retry4.log": "370575e2396101c2362cabb2e29159b7f1bd414d376abc0cc3fac4008cd228e0",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-focused-final-20261010.log": "9ea8a21b38f860bcb76116d0da176b382e2aeca0f6afb97c2aa34313ed128175",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-focused-final-retry1-20261010.log": "225f2a123ee03ddab1b4b70db8b3dd519cdbba7721c7ecab7cc807982407c256",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-comments-final-20261010.log": "5145638e5a0c79bc80ab637392e98ccdd3f33222ef914953e2c1dac6a28066fd",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-final-20261010.log": "514304fae991730b295e696f50841d542078e445d8eb88854ef091d728787ff7",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-standard-final-20261010.log": "2c2479a429b79de72085dc3082ffe6d4761068fd788352a086ad919287a55759",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-standard-final-retry1-20261010.log": "1c3923b7adc7c75e94d113bb2ccaf79462d72d387dedf41864757758f70225c7",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-product-final-20261010.log": "8a2c9d2dc432c12a47375c94951f59e56b6146c9810aef9ef4fd7a44fa7a1277",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-standard-final-controlled-20261010.log": "5aa165d73014a3ad45ff7606405e2768c1e636b8dc875634e0916bd33817ee34",
+    "evidence/product/product-t23-comment-evidence-20261009T1924Z/raw/schemaforge-t23-browser-final-controlled-20261010.log": "641747d8917a970971b6447867707596c90ca9e85af7d51dc943a19260cbc64e"
+  },
+  "final_runs": {
+    "product": {
+      "artifact": "raw/schemaforge-t23-product-final-20261010.log",
+      "sha256": "8a2c9d2dc432c12a47375c94951f59e56b6146c9810aef9ef4fd7a44fa7a1277",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run test:product",
+      "utc_start": "2026-10-09T19:14:18Z",
+      "actual_exit": 0,
+      "tap": {
+        "tests": 34,
+        "pass": 34,
+        "fail": 0,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:16:55Z"
+    },
+    "standard": {
+      "artifact": "raw/schemaforge-t23-standard-final-controlled-20261010.log",
+      "sha256": "5aa165d73014a3ad45ff7606405e2768c1e636b8dc875634e0916bd33817ee34",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run check",
+      "utc_start": "2026-10-09T19:17:03Z",
+      "actual_exit": 0,
+      "tap": {
+        "tests": 158,
+        "pass": 158,
+        "fail": 0,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:20:32Z"
+    },
+    "browser": {
+      "artifact": "raw/schemaforge-t23-browser-final-controlled-20261010.log",
+      "sha256": "641747d8917a970971b6447867707596c90ca9e85af7d51dc943a19260cbc64e",
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run test:browser",
+      "utc_start": "2026-10-09T19:20:40Z",
+      "actual_exit": 0,
+      "tap": {
+        "tests": 19,
+        "pass": 19,
+        "fail": 0,
+        "skipped": 0
+      },
+      "utc_end": "2026-10-09T19:24:21Z"
+    }
+  },
+  "verification": {
+    "standard": 158,
+    "product": 34,
+    "browser": 19,
+    "failed": 0,
+    "skipped": 0
+  },
+  "criterion_mapping": [
+    {
+      "criterion": 1,
+      "coverage": "Optional capped refs on pending comments, existing role/membership/privacy rules, plaintext/history compatibility, no upload/SQL/URL/credential tuple fields.",
+      "evidence": "Strict unit/API shape validation including digest array/object/number negatives; body-only works with malformed retained items; populated legacy rows preserve body/author/time/order/audit and expose []; foreign/revoked/archive/terminal paths covered."
+    },
+    {
+      "criterion": 2,
+      "coverage": "Existing plan/project/source lock order; valid format-1 intent/digest, current binding generation, plan file facts and scoped release; scalar bounds before payload; T22 parser once per path and exact ranges/digests; no historic backfill.",
+      "evidence": "API comments tests cover state validation, stale/malformed intent/items/generation and exact tuple matches; pinned parser actual integration runs in product suite; server resolves release/file/profile/intent facts."
+    },
+    {
+      "criterion": 3,
+      "coverage": "Atomic comment/ref/audit with no plan/source/intent/decision/generation/history mutation; exact attachment-vs-decision serialization.",
+      "evidence": "Invalid requests compare full populated plan/project/release/history/comment/audit snapshots; real PostgreSQL race records actual attachment backend PID and confirms pg_blocking_pids(waiter) includes it; populated legacy-schema migration tested."
+    },
+    {
+      "criterion": 4,
+      "coverage": "Exact T22 preview selection, saved facts, scoped reopen, and draft/result invalidation by changed context/session/credential.",
+      "evidence": "Chromium flow saves/renders/reopens, including fresh UI reload without Inspect; unsent selection clears on signout and plan switch; same-release explicit multi-file refs persist across current-file preview switch; project/release/session changes invalidate context."
+    },
+    {
+      "criterion": 5,
+      "coverage": "Real Git/PostgreSQL/pinned parser/API/Chromium regression with no required skips.",
+      "evidence": "Final standard 158/158, product 34/34, browser 19/19; all 0 skipped. All earlier failures copied and remain classified as failures."
+    },
+    {
+      "criterion": 6,
+      "coverage": "Bounded supplemental read-only evidence; do not change original 220 acceptance, Oracle/runtime/worker/execution scope; document safe defaults/recovery.",
+      "evidence": "Local guide records max 8, path <=4096 UTF-8 bytes, aggregate <=48 KiB and server resolution; format-1 does not contain statement hashes; no Oracle/worker/target runtime changes."
+    }
+  ],
+  "documentation_correction": {
+    "path": "docs/development/local-product.md",
+    "tested_sha256": "43ac8a6f9a1497aa21109f679d9c181bfe463895f008091a477e31301fc6f6f4",
+    "corrected_sha256": "3ace3e15793f6a76b2be9696596e297c0fee6abd6b83d04502fd0610e5e8f500",
+    "tested_bytes_preserved_at": "evidence/product/product-t23-root-20261009T1845Z/tested-local-product-guide.md",
+    "scope": "Prose only: SQL excluded from reference/audit metadata, ordinary comment text remains allowed; explicit same-release multi-file descriptor draft scope clarified under SF-D018. Runtime/tests unchanged, no redundant runtime rerun."
+  },
+  "limits": [
+    "Original available focused failures and first missing focused capture are preserved exactly. Five early browser raw captures lack immutable commands/times/raw-exit metadata; earlier chat summaries are not substituted for missing records.",
+    "No-environment standard failed with3 failures/23 skips. Environment-correct unconstrained standard failed150/158 with8 invalid-release results, zero skips. Parser/resource contention remains a hypothesis, not a diagnosed cause or logic fix; controlled unchanged-source full runs pass.",
+    "Failed initial full browser17/19 preserves source-clearing fixture and T19 message-copy failures. Both prior author assertions remain; only header selectors/literal semantics changed before final freeze.",
+    "Native raw trailing whitespace remains unnormalized, with34 exact recorded occurrences. Source/authored docs checks exclude immutable raw lines only through recorded scoped review, never scanner weakening.",
+    "Native legacy migration tests operate only on disposable fixture databases, preserve historical comment body/author/time/position/audit facts. Persistence proves API recreation against PostgreSQL metadata, not PostgreSQL daemon restart.",
+    "Early mutable security was not exact-head approval; three matching source bytes retained, earlier UI bytes unavailable and not reconstructed. Final independent reviews remain required.",
+    "Supplemental refs are server-derived from existing intent/source plus pinned preview; format1 does not contain statement hashes. No target/runtime/worker/Oracle authority, arbitrary upload or history backfill.",
+    "Independent exact-head QA/security/license, publication/history provenance review, required CI and ordinary merge pending. Sonar unavailable never PASS; Oracle VALIDATION independent BLOCKED."
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "classified_at_utc": "2026-10-09T20:00:35.209978+00:00",
+  "precommit_head": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+  "path_count": 300,
+  "scanner_exit_code": 1,
+  "finding_count": 4,
+  "clean_PASS": false,
+  "classification": [
+    {
+      "path": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+      "line": 416,
+      "rule": "generic-api-key",
+      "blob_sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9",
+      "no_matched_values_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_SHA256",
+      "verified_path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+      "exact_snapshot_and_current_bytes_recomputed": true
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/snapshot-sha256.json",
+      "line": 159,
+      "rule": "generic-api-key",
+      "blob_sha256": "7989f01d113c2d80db170b4cfb84bbd3e397301863e69afd6ba85683b6b47097",
+      "no_matched_values_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_SHA256",
+      "verified_path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+      "exact_snapshot_and_current_bytes_recomputed": true
+    },
+    {
+      "path": "docs/implementation/CURRENT.md",
+      "line": 370,
+      "rule": "generic-api-key",
+      "blob_sha256": "3c524b4c4f26ff49b6a344a4db4c6bdf597a48c556c521e85dbfe23356fd948c",
+      "no_matched_values_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+    },
+    {
+      "path": "docs/implementation/CONTINUE.md",
+      "line": 370,
+      "rule": "generic-api-key",
+      "blob_sha256": "4f52a0dc98b0847dfb9890c2fd36e96f00f0597a4756920d1706784081876c48",
+      "no_matched_values_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+    }
+  ],
+  "actual_credentials_observed": false,
+  "rotation_indicated": false,
+  "history_or_scanner_changes": false
+}

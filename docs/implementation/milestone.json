@@ -191,6 +191,15 @@
     },
     {
       "index_id": "product-t22-ci-prerequisite-correction-local-verified"
+    },
+    {
+      "index_id": "product-t22-merge-master-verified"
+    },
+    {
+      "index_id": "product-t23-comment-evidence-local-verified"
+    },
+    {
+      "index_id": "product-t23-corrected-comment-evidence-local-verified"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -204,10 +213,10 @@
   "product_features_verified": 0,
   "next_actionable_tasks": [
     {
-      "id": "SF-PRODUCT-T23",
+      "id": "SF-PRODUCT-T24",
       "owner": "backend",
       "status": "READY",
-      "action": "Referenced statement evidence after correctedT22 exacthead gates/eligiblemerge/masterverification"
+      "action": "Bounded scoped audit history pagination after T23 eligible merge and exact-master verification"
     }
   ],
   "blocked_inputs_evidence": {
@@ -219,7 +228,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-09T18:27:00.359917+00:00",
+  "updated_at": "2026-10-09T19:28:53.822390+00:00",
   "final_check_evidence": {
     "index_id": "product-t20-local-credential-lifecycle-local-verified"
   },
@@ -228,8 +237,8 @@
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
   "latest_validated_master_before_this_increment": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
-  "last_merged_implementation_pr": 34,
-  "checkpoint_evidence": "evidence/product/product-t20-recovery-20261009T155925Z/record.json",
+  "last_merged_implementation_pr": 35,
+  "checkpoint_evidence": "evidence/product/product-t23-security-correction-20261009T1940Z/corrected-integration-record.json",
   "implementation_prs_pending": [],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
@@ -237,8 +246,8 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "T22_CORRECTED_VERIFIED_LOCAL_FRESH_REVIEWS_CI_PENDING",
-  "current_checkpoint_branch": "development/product-statement-preview",
+  "current_increment_merge_status": "T23_CORRECTED_VERIFIED_LOCAL_FRESH_REVIEW_CI_PENDING",
+  "current_checkpoint_branch": "development/product-discussion-evidence",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -252,7 +261,7 @@
       ]
     }
   },
-  "product_task_status": "T01_THROUGH_T21_MERGED_T22_VERIFIED_LOCAL",
+  "product_task_status": "T01_THROUGH_T22_MERGED_T23_CORRECTED_VERIFIED_LOCAL",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",
@@ -305,19 +314,19 @@
     "original_report_crosscheck_evidence": "evidence/product/product-t11-release-provenance-20261009T050150Z/hygiene-original-report-crosscheck-safe.json",
     "original_report_crosscheck_sha256": "8af028caca267e84fa4dbad7693458672a405acc2785f6c62b281748517dd52e",
     "hygiene_branch_or_pr_visible": false,
-    "latest_master_redacted_scan": "Reviewed-head allrefs exit1/115;106 inherited exact provenance tuples+9 new recomputed artifact references, not cleanPASS. Eight earlier uncommitted source-digest bytes unavailable; prior independent provenance limit retained.",
+    "latest_master_redacted_scan": "Reviewed-head allrefs exit1/115 exactT21 classifiedtuplemultiset, notcleanPASS. Eight earlierpre-finalbytes unavailable limitpreserved.",
     "original_report_metadata_matches_independent_classification": true,
     "latest_publication_scan": {
-      "head": "94cad0640cdab4978394808bd52efcca27a88332",
-      "files": 322,
-      "findings": 11,
+      "head": "52ed5e7b29073cf5fa67f339294e1f9ac800fbef",
+      "files": 277,
+      "findings": 2,
       "exit_code": 1,
       "native_security": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS"
     }
   },
-  "current_increment_pr": 34,
-  "current_increment_reviewed_head": "94cad0640cdab4978394808bd52efcca27a88332",
-  "current_increment_merge_commit": "d19747356c3d962438631bcf393781d51ee9293a",
+  "current_increment_pr": null,
+  "current_increment_reviewed_head": null,
+  "current_increment_merge_commit": null,
   "t19_compatibility_decision": {
     "owner_approved_at_recorded_utc": "2026-10-09T12:37:42.238588+00:00",
     "legacy_pending_plan_without_verifiable_generation": "REQUIRE_FRESH_PLAN",
@@ -355,6 +364,7 @@
     "corrective_head": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
     "corrective_workflow_outcome": "PASS_ORIGINAL_FAIL_PRESERVED"
   },
-  "publication_gate": "T22_EXACT_HEAD_QA_SECURITY_LICENSE_SCANS_CI_ORDINARY_MERGE",
-  "latest_merged_master_before_this_increment": "d19747356c3d962438631bcf393781d51ee9293a"
+  "publication_gate": "T23_EXACT_HEAD_QA_SECURITY_LICENSE_SCANS_CI_ORDINARY_MERGE",
+  "latest_merged_master_before_this_increment": "fe1d3a84381e5080d591ca1a43a7a9b9928f93ee",
+  "last_verified_master_evidence": "evidence/product/product-t22-merge-20261009T183839Z/record.json"
 }

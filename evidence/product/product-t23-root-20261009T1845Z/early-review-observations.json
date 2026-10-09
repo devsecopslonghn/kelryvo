@@ -1,0 +1,17 @@
+{
+  "observed_at_utc": "2026-10-09T18:54:39.775600+00:00",
+  "scope": "Mutable T23 worktree at root checkpoint 7c7cd5df; early read-only source assessment, no exact-head approval, builds, tests or scanner result.",
+  "native_security_assessment": "No concrete blocking API/persistence/helper security issue found; aggregate retained JSON bounds are finite, optional selected-file scalar preflight note. Final frozen-head review required.",
+  "source_snapshots_reported_by_security": {
+    "apps/api/index.ts": "8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f",
+    "packages/migrations/comment-evidence.mjs": "00b207aa360fd2631462c02fd69777dd10fabaaea93751643852b27eefd01e39",
+    "packages/database/index.ts": "a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d",
+    "apps/web/src/app.jsx": "1041914e68288ab7a65fa97140f0c5de3bd61f5e095e635613aa4078be3da7ac"
+  },
+  "root_feedback_to_native": [
+    "Nested type-guard CASE before jsonb_array_length; body-only skips intent/release/parser and retains old audit facts.",
+    "Bound resolved stored references before insert.",
+    "Fresh-review saved reference reopen must load exact plan source with stale-response guards; check all retained reference facts and handle malformed saved objects without renderer crash."
+  ],
+  "source_state": "Still mutable; snapshot hashes are observations, not final-source freeze."
+}

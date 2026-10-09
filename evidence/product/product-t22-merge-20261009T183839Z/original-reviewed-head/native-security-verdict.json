@@ -1,0 +1,99 @@
+{
+  "review": "T22 independent exact-head security and license gate verdict",
+  "verdict": "APPROVED",
+  "verdict_scope": "Security and license review only; does not represent QA, CI, Sonar, Oracle acceptance, merge or deployment approval.",
+  "reviewed_at_utc": "2026-10-09T18:09:23.355157+00:00",
+  "head": "2bccfe249c719162511c276b94518665f7e203f8",
+  "tree": "a6a0a804052cb7f054de14f30d3c71b72b6ddf96",
+  "base": "d19747356c3d962438631bcf393781d51ee9293a",
+  "original_full_review": {
+    "path": "/tmp/schemaforge-t22-security-license-verdict-20261010T0100Z.json",
+    "sha256": "41a278d74c935605e5f5b680ce2cba37d0c1ddeb145dece2b239268979179ed8"
+  },
+  "security_review": {
+    "verdict": "APPROVED",
+    "findings": [
+      {
+        "severity": "informational",
+        "scope": "publication scan",
+        "count": 2,
+        "classification": "Benign inherited product-description prose in CURRENT.md and CONTINUE.md at line 263; exact current blob/line provenance independently recorded in original review.",
+        "actual_credentials_observed": false
+      },
+      {
+        "severity": "informational",
+        "scope": "allrefs history scan",
+        "count": 115,
+        "classification": "All exact scanner provenance tuples match the prior T21 allrefs scan; prior classification and its provenance limits remain preserved.",
+        "actual_credentials_observed": false
+      }
+    ],
+    "scan_results": {
+      "precommit": {
+        "scope": "precommit_changed_files",
+        "paths": 207,
+        "scanner_exit_code": 1,
+        "finding_count": 2,
+        "clean_scan_PASS": false,
+        "private_report_sha256": "5e78551f305b2263b49c69d4c10593408b771f3d6d8317b0fa34cd8bb8a73c5f"
+      },
+      "official_publication": {
+        "scope": "publication",
+        "paths": 216,
+        "scanner_exit_code": 1,
+        "finding_count": 2,
+        "clean_scan_PASS": false,
+        "private_report_sha256": "5fabcfdebd2bcad784c246b4797a4acd98991c2379a2b13130c034f029b402df"
+      },
+      "official_allrefs_history": {
+        "scope": "history",
+        "scanner_exit_code": 1,
+        "finding_count": 115,
+        "clean_scan_PASS": false,
+        "private_report_sha256": "bd3a454dd14f6cd339a4abf1b17b290df6e62939aebfb6a7d92ce21bbcb7cd5b",
+        "exact_T21_history_tuple_multiset_preserved": true,
+        "prior_new9_T21_tuples_still_present": true,
+        "prior_T21_inherited_106_tuple_provenance_preserved": true
+      }
+    },
+    "review_notes": {
+      "scalar_bounds_before_file_payload_materialization": true,
+      "scoped_project_membership_and_resource_404": true,
+      "project_membership_enforced_in_existing_auth_prehandler_for_release_routes": true,
+      "read_lock_through_retained_parse": true,
+      "pinned_parser_profile_and_utf8_byte_protocol_revalidated": true,
+      "no_database_writes_in_preview_route_or_helper": true,
+      "client_rechecks_release_file_parser_digest_ranges_and_source_bytes": true,
+      "UI_invalidates_stale_results_on_plan_project_release_session_and_token_changes": true,
+      "React_text_rendering_escapes_source_sql": true,
+      "existing_whole_release_GET_payload_size_behavior": {
+        "scope": "OUT_OF_T22_SCOPE",
+        "no_fix_claimed": true
+      }
+    },
+    "rotation_indicated": false,
+    "clean_scan_pass_claimed": false
+  },
+  "license_review": {
+    "verdict": "APPROVED",
+    "findings": [],
+    "observations": {
+      "root_license": "PolyForm Shield 1.0.0",
+      "license_notice_dependency_lock_unchanged_from_base": true,
+      "third_party_notices_preserved": true,
+      "unrelated_license_changes_found": false,
+      "distribution_readiness": "F31 remains pending per existing product documentation"
+    }
+  },
+  "limitations": {
+    "t21_eight_source_bytes": "provenance-only limit preserved; no fabricated source recomputation or attestation",
+    "t21_history": "independently tuple-crosschecked against T21 official history scan; all 115 exact provenance tuples preserved; the inherited 106 and classified newer 9 remain classified by the prior T21 record, not treated as a clean scan",
+    "oracle": "separate VALIDATION gate; this security/license review does not certify Oracle behavior",
+    "sonar": "UNAVAILABLE is never PASS",
+    "whole_release_get": {
+      "scope": "OUT_OF_T22_SCOPE",
+      "no_fix_claimed": true
+    }
+  },
+  "no_repository_edits": true
+}

@@ -1,0 +1,133 @@
+{
+  "head": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+  "tree": "2f973bd766aef270cc953275bd3138adf26eeff6",
+  "base": "fe1d3a84381e5080d591ca1a43a7a9b9928f93ee",
+  "source_paths": [
+    "apps/api/index.ts",
+    "packages/database/index.ts",
+    "apps/web/src/app.jsx",
+    "apps/web/styles.css",
+    "packages/migrations/comment-evidence.mjs",
+    "tests/product-comment-evidence-unit.test.mjs",
+    "tests/product-comments.test.mjs",
+    "tests/product-comments-browser.integration.mjs",
+    "tests/product-statement-preview.test.mjs",
+    "tests/product-protected-source-binding-browser.integration.mjs",
+    "scripts/test-product.mjs",
+    "docs/development/local-product.md"
+  ],
+  "source_sha256_start": {
+    "apps/api/index.ts": "8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f",
+    "packages/database/index.ts": "a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d",
+    "apps/web/src/app.jsx": "eda54019caed963284e223f8c8723d2b76d7c64fb113466aa82ef8e7ffa76dcc",
+    "apps/web/styles.css": "66626be83c537f0662836213cd47975fc9e3ddf01ef88b6cbb38aa46d7dd86c2",
+    "packages/migrations/comment-evidence.mjs": "e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70",
+    "tests/product-comment-evidence-unit.test.mjs": "04a8740588e8a6a9175eb2b3ff70daf2fa1787367c0a3dfb14edc2a1ae8062a2",
+    "tests/product-comments.test.mjs": "63a4354f6cab052e63d7ee6858db47a070bff4fbc34ada95efa280e9679f9724",
+    "tests/product-comments-browser.integration.mjs": "54ab10e0c609dbe37d6133ea4d154c4479a1effaae86ea075b5822e7f038041a",
+    "tests/product-statement-preview.test.mjs": "cf3acc68dc1ebc3ffe671d2f25dd655a880b748623384a5deec4a4964437c4f4",
+    "tests/product-protected-source-binding-browser.integration.mjs": "648136621398bd3a638488c149bc3a87fa73b80f403f0b8e7f9d49c778214d21",
+    "scripts/test-product.mjs": "53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b",
+    "docs/development/local-product.md": "3ace3e15793f6a76b2be9696596e297c0fee6abd6b83d04502fd0610e5e8f500"
+  },
+  "source_sha256_end": {
+    "apps/api/index.ts": "8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f",
+    "packages/database/index.ts": "a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d",
+    "apps/web/src/app.jsx": "eda54019caed963284e223f8c8723d2b76d7c64fb113466aa82ef8e7ffa76dcc",
+    "apps/web/styles.css": "66626be83c537f0662836213cd47975fc9e3ddf01ef88b6cbb38aa46d7dd86c2",
+    "packages/migrations/comment-evidence.mjs": "e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70",
+    "tests/product-comment-evidence-unit.test.mjs": "04a8740588e8a6a9175eb2b3ff70daf2fa1787367c0a3dfb14edc2a1ae8062a2",
+    "tests/product-comments.test.mjs": "63a4354f6cab052e63d7ee6858db47a070bff4fbc34ada95efa280e9679f9724",
+    "tests/product-comments-browser.integration.mjs": "54ab10e0c609dbe37d6133ea4d154c4479a1effaae86ea075b5822e7f038041a",
+    "tests/product-statement-preview.test.mjs": "cf3acc68dc1ebc3ffe671d2f25dd655a880b748623384a5deec4a4964437c4f4",
+    "tests/product-protected-source-binding-browser.integration.mjs": "648136621398bd3a638488c149bc3a87fa73b80f403f0b8e7f9d49c778214d21",
+    "scripts/test-product.mjs": "53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b",
+    "docs/development/local-product.md": "3ace3e15793f6a76b2be9696596e297c0fee6abd6b83d04502fd0610e5e8f500"
+  },
+  "source_hashes_unchanged": true,
+  "worktree_status_end": "",
+  "start_utc": "2026-10-09T19:34:31.592202+00:00",
+  "end_utc": "2026-10-09T19:35:53.558225+00:00",
+  "runs": [
+    {
+      "name": "01-product-comment-evidence-unit.test",
+      "file": "tests/product-comment-evidence-unit.test.mjs",
+      "command": "env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-comment-evidence-unit.test.mjs",
+      "started_at_utc": "2026-10-09T19:34:31.592202+00:00",
+      "ended_at_utc": "2026-10-09T19:34:31.721482+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/sf-product-t23-exactqa-20261009T193431Z-31897017/01-product-comment-evidence-unit.test.raw.log",
+      "raw_sha256": "ac474d0ce3ef077ec165236187c12ee462890af080feaa7944c1fd5a8b54a94b",
+      "raw_bytes": 564
+    },
+    {
+      "name": "02-product-comments.test",
+      "file": "tests/product-comments.test.mjs",
+      "command": "env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-comments.test.mjs",
+      "started_at_utc": "2026-10-09T19:34:31.721646+00:00",
+      "ended_at_utc": "2026-10-09T19:34:33.128271+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/sf-product-t23-exactqa-20261009T193431Z-31897017/02-product-comments.test.raw.log",
+      "raw_sha256": "6831da76faa19b3aacbe2c1d1f6f01c2fbdffea461d5b96fb8568a472a480e02",
+      "raw_bytes": 460
+    },
+    {
+      "name": "03-product-statement-preview-parser.integration",
+      "file": "tests/product-statement-preview-parser.integration.mjs",
+      "command": "env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-statement-preview-parser.integration.mjs",
+      "started_at_utc": "2026-10-09T19:34:33.128415+00:00",
+      "ended_at_utc": "2026-10-09T19:34:36.445524+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/sf-product-t23-exactqa-20261009T193431Z-31897017/03-product-statement-preview-parser.integration.raw.log",
+      "raw_sha256": "78bed46cea8ca9f177f5f81aeb2b6c50253f15bb9b18c54b6569dd82a4f5b4eb",
+      "raw_bytes": 354
+    },
+    {
+      "name": "04-product-statement-preview.test",
+      "file": "tests/product-statement-preview.test.mjs",
+      "command": "env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-statement-preview.test.mjs",
+      "started_at_utc": "2026-10-09T19:34:36.445664+00:00",
+      "ended_at_utc": "2026-10-09T19:35:11.789941+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/sf-product-t23-exactqa-20261009T193431Z-31897017/04-product-statement-preview.test.raw.log",
+      "raw_sha256": "713de924c74458b47cff77f10cfc00f6c8cfc9d92b6d8d444f33bb51b2f12008",
+      "raw_bytes": 413
+    },
+    {
+      "name": "05-product-comments-browser.integration",
+      "file": "tests/product-comments-browser.integration.mjs",
+      "command": "env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-comments-browser.integration.mjs",
+      "started_at_utc": "2026-10-09T19:35:11.790082+00:00",
+      "ended_at_utc": "2026-10-09T19:35:42.598987+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/sf-product-t23-exactqa-20261009T193431Z-31897017/05-product-comments-browser.integration.raw.log",
+      "raw_sha256": "5062eb820dc894d35bf272e77f9f8d390b4b647b7651408fb5915a7b6b7f464a",
+      "raw_bytes": 419
+    },
+    {
+      "name": "06-product-protected-source-binding-browser.integration",
+      "file": "tests/product-protected-source-binding-browser.integration.mjs",
+      "command": "env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs",
+      "started_at_utc": "2026-10-09T19:35:42.599141+00:00",
+      "ended_at_utc": "2026-10-09T19:35:52.687170+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/sf-product-t23-exactqa-20261009T193431Z-31897017/06-product-protected-source-binding-browser.integration.raw.log",
+      "raw_sha256": "f76fd80b26d6ff469736bd09be699baf3cf538a17a5ccd9ed1e3a855526bef8b",
+      "raw_bytes": 518
+    },
+    {
+      "name": "07-tracker.test",
+      "file": "tests/tracker.test.mjs",
+      "command": "env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/tracker.test.mjs",
+      "started_at_utc": "2026-10-09T19:35:52.687315+00:00",
+      "ended_at_utc": "2026-10-09T19:35:53.558225+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/sf-product-t23-exactqa-20261009T193431Z-31897017/07-tracker.test.raw.log",
+      "raw_sha256": "ee6015cf45c9cacbedb62ed0e148b41a4889996c04ff8276e6c3b58dd983e684",
+      "raw_bytes": 4507
+    }
+  ],
+  "native_record_path": "evidence/product/product-t23-comment-evidence-20261009T1924Z/run-record.json",
+  "native_record_sha256": "7f3c4aee498d2e2dff2b13b0fdf794d0925bc62fb1749cb3f0864365ccb0e67e",
+  "root_integration_record_sha256": "cffa526451abf83dbe354a69ba6201a6401f03f1b0ba34856318228a68faaec0"
+}

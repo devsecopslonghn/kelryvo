@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t22-master-state.py --require-pass",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:45:15.199813+00:00",
+  "ended_at_utc": "2026-10-09T18:45:16.460421+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/45-final-exact-master-workflows.log",
+    "sha256": "2035d655947bf01e561e6f3e8564f89cd3252ac43d5c381b4e346f517cd1243f"
+  }
+}

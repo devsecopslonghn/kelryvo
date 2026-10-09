@@ -72,8 +72,29 @@ test('statement preview is scoped, bounded, archived-readable and read only', {
       { releaseId: release.id, profileId: profileResult.json().profile.id });
     assert.equal(planResult.statusCode, 201);
     const planId = planResult.json().plan.id;
+    const candidatePreviewResponse = await request('GET', endpoint);
+    assert.equal(candidatePreviewResponse.statusCode, 200);
+    const candidatePreview = candidatePreviewResponse.json().preview;
+    const evidenceRefs = candidatePreview.statements.slice(0, 2).map(({ startByte, endByte, sourceSha256, executionSha256 }) =>
+      ({ filePath, startByte, endByte, sourceSha256, executionSha256 }));
     assert.equal((await request('POST', `${base}/plans/${planId}/comments`, actors[0].token,
       { body: 'Please review the retained statement boundaries.' })).statusCode, 201);
+    const invalidEvidence = await request('POST', `${base}/plans/${planId}/comments`, actors[0].token,
+      { body: 'Wrong source range', evidenceRefs: [{ ...evidenceRefs[0], endByte: evidenceRefs[0].endByte - 1 }] });
+    assert.equal(invalidEvidence.statusCode, 422);
+    assert.equal(invalidEvidence.json().error, 'COMMENT_EVIDENCE_UNAVAILABLE');
+    assert.equal((await request('POST', `${base}/plans/${planId}/comments`, actors[0].token,
+      { body: 'Unknown client fields are rejected', evidenceRefs: [{ ...evidenceRefs[0], sql: 'SELECT 1' }] })).statusCode, 400);
+    const evidenceComment = await request('POST', `${base}/plans/${planId}/comments`, actors[0].token,
+      { body: 'Two exact retained statements', evidenceRefs });
+    assert.equal(evidenceComment.statusCode, 201, evidenceComment.body);
+    assert.equal(evidenceComment.json().comment.evidenceRefs.length, 2);
+    assert.ok(evidenceComment.json().comment.evidenceRefs.every(ref => ref.releaseId === release.id
+      && ref.filePath === filePath && ref.intentDigest === planResult.json().plan.offlineIntent.digest));
+    assert.equal(JSON.stringify(evidenceComment.json()).includes('CREATE TABLE'), false, 'comment records contain no SQL');
+    const evidenceAudit = await database.sql`SELECT facts FROM sf_audit WHERE resource_id=${planId}
+      AND action='PLAN_COMMENT_ADDED' ORDER BY created_at DESC LIMIT 1`;
+    assert.deepEqual(evidenceAudit[0].facts, { commentId: evidenceComment.json().comment.id, evidenceRefCount: 2 });
     assert.equal((await request('POST', `/api/plans/${planId}/decision`, actors[1].token,
       { decision: 'APPROVE', reason: 'Independent offline review complete.' })).statusCode, 200);
 
@@ -118,7 +139,7 @@ test('statement preview is scoped, bounded, archived-readable and read only', {
     assert.deepEqual(foreignRelease.json(), missingRelease.json(), 'foreign and missing releases have identical denial bodies');
     const before = await snapshot();
     assert.equal(before.plans.filter(row => row.project_id === project.id).length, 1);
-    assert.equal(before.comments.filter(row => row.project_id === project.id).length, 1);
+    assert.equal(before.comments.filter(row => row.project_id === project.id).length, 2);
     assert.ok(before.history.some(row => row.project_id === project.id), 'plan setup retains NOT_EXECUTED history rows');
     assert.ok(before.audit.some(row => row.project_id === project.id && row.action === 'PLAN_COMMENT_ADDED'));
     assert.equal((await request('GET', endpoint, actors[1].token)).statusCode, 200,

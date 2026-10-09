@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t23-active-checkpoint.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T18:46:39.412259+00:00",
+  "ended_at_utc": "2026-10-09T18:46:40.421862+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/01-preserve-t22-proof-and-t23-active-checkpoint.log",
+    "sha256": "c225a7a04303487f13c4cda397d1499a986bd0b2cee7c6da380596bc9ab40327"
+  }
+}

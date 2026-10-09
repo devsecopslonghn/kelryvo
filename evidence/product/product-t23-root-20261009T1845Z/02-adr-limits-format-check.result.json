@@ -1,0 +1,11 @@
+{
+  "command": "node scripts/format-json.mjs --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T18:52:31.273441+00:00",
+  "ended_at_utc": "2026-10-09T18:52:31.369850+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/02-adr-limits-format-check.log",
+    "sha256": "282b1ea981dc9c1284fd59d4b41f4a41242a70690a488f76c2ce775c30f6ee53"
+  }
+}

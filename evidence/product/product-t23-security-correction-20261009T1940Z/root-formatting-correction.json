@@ -1,0 +1,8 @@
+{
+  "recorded_at_utc": "2026-10-09T19:47:42.780010+00:00",
+  "responsibility": "Root status serialization",
+  "failure": "Controlled native standard check stopped on format:check after root serialized existing Unicode apostrophes as escapes in docs/implementation/backlog.json. Build/typecheck/lint passed; overall check failed.",
+  "correction": "Canonical literal Unicode restored with ensure_ascii=False, with no semantic/source changes. Original native failed raw capture must remain immutable.",
+  "verification": "Pending complete controlled standard retry after product/browser lifecycle.",
+  "no_runtime_source_edits": true
+}

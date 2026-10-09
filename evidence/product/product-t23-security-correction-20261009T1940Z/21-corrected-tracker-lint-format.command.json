@@ -1,0 +1,5 @@
+{
+  "command": "set -e\nnode --test tests/tracker.test.mjs\nnpm run lint\nnpm run format:check\ngit diff --check -- apps/web/src/app.jsx tests/product-comments-browser.integration.mjs docs/implementation",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:59:16.047217+00:00"
+}

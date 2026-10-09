@@ -1,3 +1,85 @@
+## T23 source-context correction verified locally — 2026-10-09 UTC
+
+Binding context refresh and successful source-save now compare repository/folder/generation
+and invalidate selected statement references plus delayed previews, preserving plain comment
+drafts. Real browser coverage includes generation-only refresh, held preview delivery, actual
+binding PUT and populated predecessor comment/plan/audit comparisons. Project-level binding
+audit is allowed. Initial unpushed head3df3bef was independently blocked; original passing
+results, blocked reviews and the root-caused format failure remain immutable.
+
+Corrected frozen results: standard158, real PostgreSQL/Git/parser product34, browser20,
+focused2, zero failures/skips. Root verified12 source and7 corrective capture hashes.
+Evidence: `evidence/product/product-t23-security-correction-20261009T1940Z/corrected-integration-record.json`.
+Fresh exact-head QA/security/license, complete publication/history classification and CI remain
+required before normal merge. T24 READY is registration only. Sonar unavailable never PASS;
+Oracle VALIDATION separate BLOCKED; shared checkout and Git Hygiene scope untouched.
+
+## T23 source-context cleanup correction — 2026-10-09 UTC
+
+Independent security blocked unpushed head `3df3bef0471b8a4ee41d013b8f192d9c44a85f8c`:
+source-binding changes leave unsent statement references selected. The server rejects stale
+references without writes, but the registered UI draft-clear criterion is unmet. Prior passing
+standard158/product34/browser19 and independent focused/recovery checks remain immutable;
+they do not authorize publication. A narrow UI/browser correction is active, preserving plain
+comment drafts and historical records. Fresh corrected-head reviews, scans and CI are required.
+Evidence: `evidence/product/product-t23-security-correction-20261009T1940Z/blocked-review.json`.
+T24 remains registration only. Sonar unavailable never PASS; Oracle VALIDATION separate.
+
+## Next bounded T24 registered after T23 local verification — 2026-10-09 UTC
+
+T24 READY adds scoped keyset pagination through retained project audit events beyond the
+existing recent-100 window, including old-only actions. Preserve current membership, stable
+PostgreSQL microsecond ordering, archived reads and no-write boundaries; cursors grant no
+authority. SF-D019 records the safe reversible default under standing autonomy. Registration
+is not implementation; start in a fresh coupled context only after T23 eligible merge and
+exact-master verification. Original full SEC-011 search/retention/tamper/export and Oracle
+acceptance remain unchanged. Sonar unavailable never PASS; shared checkout/Hygiene untouched.
+
+## T23 locally verified; exact-head publication gates pending — 2026-10-09 UTC
+
+T23 stores bounded supplemental server-resolved statement references with pending-plan
+comments and audit atomically under plan/project/release locks. Fresh generation, retained
+format1 intent/source/file facts and pinned preview must match. Plain comments retain their
+legacy behavior/audit, historical records remain intact, and saved references reopen safely.
+
+Final controlled results: standard158, PostgreSQL/Git/parser product34, browser19, zero
+failures/skips. Root verified12 tested source hashes and14 immutable native captures. A
+separate guide-only correction accurately distinguishes reference/audit metadata from ordinary
+comment text; tested guide bytes and old/new hashes are retained. Earlier missing captures,
+failed fixtures/wording, no-env check and unexplained unconstrained8 failures remain candid.
+Evidence: `evidence/product/product-t23-root-20261009T1845Z/integration-record.json`.
+Fresh exact-head QA/security/license, full publication/history classification, CI and normal
+merge remain pending. Sonar unavailable never PASS; Oracle VALIDATION separate BLOCKED.
+Shared original checkout is untouched0346300; no Hygiene branch/PR visible, integrationpending.
+No arbitrary upload, historical intent/generation rewrite, worker or Oracle operation.
+
+## T22 merged and master verified; T23 active — 2026-10-09 UTC
+
+T22 merged through [PR #35](https://github.com/devsecopslonghn/schemaForge/pull/35) at
+`fe1d3a84381e5080d591ca1a43a7a9b9928f93ee`, reviewed head `52ed5e7b29073cf5fa67f339294e1f9ac800fbef`. Trees match.
+Fresh QA/security/license approved; all11 corrected-head PR checks and four exact-master
+workflow families passed. Corrected local standard156/product34/browser19 and independent4,
+zero failures/skips. Original failed foundation checks, corrective format/no-Java failures,
+partial browser unknownexit and missing early capture metadata remain candid and immutable.
+Evidence: `evidence/product/product-t22-merge-20261009T183839Z/record.json`.
+
+Scoped read-only statement preview bounds/verifies retained source before payload/parser;
+shared release lock, exact literalUTF8 ranges and source/executionfacts remain offline.
+No historical manifest/intent/NULLcount backfill or execution authority. Publication277files
+exit1/2 prose and historyexit1/115 unchanged classifiedtuples remain finding-bearing scans,
+notcleanPASS; eight inherited earlierbytes unavailable limit retained. No actualcredential
+observed/rotationindicated. Sonar unavailable neverPASS; OracleVALIDATION independentBLOCKED.
+
+T23 IN_PROGRESS in `/home/longhn0710/workspace/schemaforge-product-discussion-evidence`, branch
+`development/product-discussion-evidence`, based on verified master above. Fresh coupled native
+context owns capped supplemental statement refs in pending-plan discussion, additive storage,
+UI/real regressions/driver/operatingguide; root owns contracts/tracking/reviews/publication.
+Use server-resolved exact T22 bytes/digests tied to existing format1 intent; preserve body-only
+comments/history and executable source. No SQL upload, formatrewrite, worker/Oracle scope.
+Registration/preparation is not implementation or verification. SF-D016 safe default and
+standing autonomy/explicitOSoperator membership/bootstrap/recovery remain accepted.
+Shared checkout untouched0346300; no Hygiene branch/PR visible, integrationpending only.
+
 ## T22 prerequisite correction locally verified; fresh reviews pending — 2026-10-09 UTC
 
 The exact real-parser positive assertions now run in the mandatory product integration

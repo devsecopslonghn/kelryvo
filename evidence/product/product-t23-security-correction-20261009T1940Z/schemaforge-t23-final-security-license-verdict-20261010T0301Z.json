@@ -1,0 +1,241 @@
+{
+  "review": "T23 final exact-head independent security and license review",
+  "verdict": "BLOCKED",
+  "scope": "Exact-head T23 security/license review. The blocker is a registered source-context draft-clear acceptance gap, despite server-side rejection preserving data integrity.",
+  "reviewed_at_utc": "2026-10-09T19:38:46.503610+00:00",
+  "head": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+  "tree": "2f973bd766aef270cc953275bd3138adf26eeff6",
+  "base": "fe1d3a84381e5080d591ca1a43a7a9b9928f93ee",
+  "security_review": {
+    "verdict": "BLOCKED",
+    "actual_credentials_observed": false,
+    "rotation_indicated": false,
+    "clean_scan_PASS": false,
+    "findings": [
+      {
+        "severity": "BLOCKER",
+        "category": "T23 UI/source-context acceptance",
+        "title": "Source-binding changes leave comment evidence drafts selected",
+        "file": "apps/web/src/app.jsx",
+        "relevant_lines": [
+          545,
+          552
+        ],
+        "source_blob_sha256": "eda54019caed963284e223f8c8723d2b76d7c64fb113466aa82ef8e7ffa76dcc",
+        "source_line_hashes": {
+          "545": "3269cbde128947ea9764c466979a07c545269d2a21c86ee390c311ce3ec1dae5",
+          "552": "06c3c349d7ca672d083d87ecfb26a53b42430e9c65755b00761374797d95a37e"
+        },
+        "detail": "saveSourceBinding submits through generic mutate and has no success callback to clear commentEvidence. Refresh replaces the project detail with the new binding generation, while binding-related effects only update sourceForm/release form. A pending selected plan therefore retains old statement descriptors after its protected generation is invalidated. The server later rejects them and the API onError clears evidence; no stale reference or comment/audit writes persist. However acceptance and SF-D018 require drafts to be cleared when source context is invalidated, so exact T23 completion cannot be approved until the UI clears them at source-binding invalidation.",
+        "contract_evidence": {
+          "decision": "SF-D018",
+          "acceptance": "SF-PRODUCT-T23 criterion 4",
+          "guide_file": "docs/development/local-product.md",
+          "guide_text": "Project, plan, release, session or invalidated source changes clear unsent references.",
+          "guide_sha256": "3ace3e15793f6a76b2be9696596e297c0fee6abd6b83d04502fd0610e5e8f500",
+          "guide_line_hash": "18d3b4bf5a6e69f0702029cd7231308476f5946e3a293554fcaf57680b72d2fe"
+        },
+        "server_safety": "Server independently rechecks generation, retained intent, source manifest and exact parser tuples; stale references fail atomically without writes. This limits the issue to required client-state cleanup."
+      },
+      {
+        "severity": "INFO",
+        "category": "scanner classification",
+        "count": 2,
+        "classification": "Benign inherited SEC-001 product description prose at CURRENT.md and CONTINUE.md line 343; exact blobs and lines hashed; matched spans not accessed or printed.",
+        "actual_credential": false
+      },
+      {
+        "severity": "INFO",
+        "category": "scanner classification",
+        "count": 1,
+        "classification": "Benign artifact-reference SHA-256. Exact T22 merge commit/record blob/line provenance retained; referenced postgres_api.raw.log digest recomputed and matches the record. No matched value was accessed or printed.",
+        "provenance": {
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+          "commit": "7c7cd5df8062e265ed9985a6389a3e87c455c6c5",
+          "line": 416,
+          "record_blob_sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9",
+          "line_sha256": "ad2f1d7c4f625d2b4e5434ec92dde566e7e9ae36fd51ca0917d7de9dee030b27",
+          "artifact_path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "artifact_sha256": "d87f30710ba5134ee49cae28fdfba1e735e99d43cf90cc3edddb712a1fbb9990"
+        }
+      }
+    ],
+    "scans": {
+      "official_publication": {
+        "scope": "publication",
+        "paths": 259,
+        "head": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+        "exit_code": 1,
+        "finding_count": 3,
+        "clean_scan_PASS": false,
+        "private_report_sha256": "68168af0c78f61113a49c2e17728825d27ad19b8dcfb7150330f858a33dd50ab",
+        "safe_metadata_sha256": "252ad6f188f2c85e0b809623c14ae77ff5e92e8a8171b05239ffc50f91c7a04a",
+        "snapshot_sha256_manifest_sha256": "7989f01d113c2d80db170b4cfb84bbd3e397301863e69afd6ba85683b6b47097",
+        "classified_findings": [
+          {
+            "path": "docs/implementation/CONTINUE.md",
+            "line": 343,
+            "rule": "generic-api-key",
+            "exact_blob_sha256": "113c5f80278fdac3cfac90c18da63e0f90d4be3596d4b618a21271ce03257a02",
+            "line_sha256": "3f492042525cc90a49c6a50bdc9b4adbb5d5d6c842a2a629e265919a4598e7b3",
+            "classification": "BENIGN_EXACT_SEC001_PRODUCT_DESCRIPTION_PROSE",
+            "provenance": null,
+            "matched_value_or_secret_accessed": false,
+            "actual_credential_observed": false
+          },
+          {
+            "path": "docs/implementation/CURRENT.md",
+            "line": 343,
+            "rule": "generic-api-key",
+            "exact_blob_sha256": "66163a8763829ab69f619c2dac730716ec98254b8d6aa2dc0adaad11aa4c1191",
+            "line_sha256": "3f492042525cc90a49c6a50bdc9b4adbb5d5d6c842a2a629e265919a4598e7b3",
+            "classification": "BENIGN_EXACT_SEC001_PRODUCT_DESCRIPTION_PROSE",
+            "provenance": null,
+            "matched_value_or_secret_accessed": false,
+            "actual_credential_observed": false
+          },
+          {
+            "path": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+            "line": 416,
+            "rule": "generic-api-key",
+            "exact_blob_sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9",
+            "line_sha256": "ad2f1d7c4f625d2b4e5434ec92dde566e7e9ae36fd51ca0917d7de9dee030b27",
+            "classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256",
+            "provenance": {
+              "origin_commit": "7c7cd5df8062e265ed9985a6389a3e87c455c6c5",
+              "origin_record_blob_sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9",
+              "origin_line": 416,
+              "origin_line_sha256": "ad2f1d7c4f625d2b4e5434ec92dde566e7e9ae36fd51ca0917d7de9dee030b27",
+              "artifact_path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+              "artifact_sha256_recomputed": "d87f30710ba5134ee49cae28fdfba1e735e99d43cf90cc3edddb712a1fbb9990",
+              "artifact_sha_matches_record": true
+            },
+            "matched_value_or_secret_accessed": false,
+            "actual_credential_observed": false
+          }
+        ]
+      },
+      "official_allrefs_history": {
+        "scope": "history",
+        "head": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+        "exit_code": 1,
+        "finding_count": 116,
+        "clean_scan_PASS": false,
+        "private_report_sha256": "23d8ae29bb50088fde8d25a94b6bc1f941a63c94b58b031abd6292ca6d7dc073",
+        "safe_metadata_sha256": "de52b8de476c72183a4893fdd8341a7134219162ffecfea0180f0bc81d25300a",
+        "prior_T22_tuple_count": 115,
+        "current_tuple_count": 116,
+        "prior_T22_exact_tuple_multiset_preserved": true,
+        "new_tuple": [
+          "generic-api-key",
+          "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+          416,
+          416,
+          "7c7cd5df8062e265ed9985a6389a3e87c455c6c5"
+        ],
+        "new_tuple_classification": "BENIGN_RECOMPUTED_ARTIFACT_REFERENCE_SHA256"
+      },
+      "precommit_earlier_checkpoint": {
+        "scope": "precommit",
+        "head": "7c7cd5df8062e265ed9985a6389a3e87c455c6c5",
+        "paths": 248,
+        "exit_code": 1,
+        "finding_count": 3,
+        "clean_scan_PASS": false,
+        "private_report_sha256": "7b53237a2a9053f9abfdfeb7d189a692937345500daa8280cbef592e59278e12",
+        "note": "This precommit scan predates final HEAD; not represented as exact-head coverage."
+      }
+    },
+    "scanner": {
+      "name": "Gitleaks",
+      "version": "8.30.1",
+      "binary_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+      "allowlist_or_history_rewrites": false
+    },
+    "reviewed_controls": {
+      "descriptor_exact_five_keys_and_string_digest_guards": true,
+      "path_UTF8_limit_4096_total_request_48KiB": true,
+      "DB_shape_size_bound_before_file_payload": true,
+      "membership_resource_404": true,
+      "plan_project_release_locks_and_generation": true,
+      "format1_intent_release_manifest_and_plan_facts_rechecked": true,
+      "pinned_parser_once_per_distinct_file_exact_byte_and_hash_matching": true,
+      "only_server_facts_persisted_no_SQL_in_evidence_audit": true,
+      "comment_and_audit_atomic": true,
+      "legacy_body_only_archive_terminal_reads_preserved": true,
+      "UI_React_output_escaped_and_saved_refs_strictly_validated": true,
+      "decision_race_lock_order_covered_in_retained_native_tests": true
+    },
+    "history_provenance": {
+      "prior_T22_exact_115_tuple_multiset_preserved": true,
+      "new_116th_tuple_is_recomputed_artifact_reference_hash": true,
+      "prior_original_four_hygiene_findings_provenance_complete_per_preserved_review": true,
+      "eight_unavailable_pre_final_source_byte_records_remain_provenance_only_no_recomputation": true
+    }
+  },
+  "license_review": {
+    "verdict": "APPROVED",
+    "findings": [],
+    "product_license": "Unmodified PolyForm Shield 1.0.0",
+    "unchanged_from_base": [
+      "LICENSE",
+      "NOTICE",
+      "package-lock.json",
+      "docs/dependencies/product-NOTICES.txt",
+      "experiments/db-devops-wp0/antlr-helper/notices/NOTICE.txt",
+      "experiments/db-devops-wp0/antlr-helper/notices/Apache-2.0.txt",
+      "experiments/db-devops-wp0/antlr-helper/notices/ANTLR-BSD-3-Clause.txt"
+    ],
+    "third_party_notices_unchanged": true,
+    "dependency_lock_unchanged": true,
+    "distribution_F31": "Pending; no package/distribution readiness claim."
+  },
+  "evidence_accuracy": {
+    "native_runs_from_preserved_record": {
+      "product": {
+        "exit": 0,
+        "tests": 34,
+        "pass": 34,
+        "fail": 0,
+        "skipped": 0,
+        "artifact_hash_matches_record": true
+      },
+      "standard": {
+        "exit": 0,
+        "tests": 158,
+        "pass": 158,
+        "fail": 0,
+        "skipped": 0,
+        "artifact_hash_matches_record": true
+      },
+      "browser": {
+        "exit": 0,
+        "tests": 19,
+        "pass": 19,
+        "fail": 0,
+        "skipped": 0,
+        "artifact_hash_matches_record": true
+      }
+    },
+    "frozen_runtime_and_test_source_manifest_matches_head": true,
+    "guide_correction_hash_matches_record": true,
+    "guide_correction_scope": "Prose-only clarification: SQL is excluded from reference/audit metadata while ordinary comment text may contain it. Old tested bytes are preserved.",
+    "T24": "Registration only; no T24 implementation/runtime changes reviewed."
+  },
+  "limitations": {
+    "T21_eight_unavailable_pre_final_source_bytes": "Earlier review preserves as provenance-only; no fabricated recomputation or source attestation.",
+    "T23_early_mutable_UI_bytes": "Earlier mutable app.jsx bytes unavailable at time of preservation; no reconstruction. Current frozen app source was reviewed and hash matches final native source manifest.",
+    "Oracle": "Separate VALIDATION remains blocked; this verdict certifies no Oracle behavior.",
+    "Sonar": "Unavailable is never PASS.",
+    "whole_release_GET": "Pre-existing behavior remains outside T22/T23 scope."
+  },
+  "reviewer_actions": {
+    "tests_builds_or_scans_run": false,
+    "repository_edits": false
+  },
+  "supersedes_verdict": {
+    "path": "/tmp/schemaforge-t23-final-security-license-verdict-20261010T0300Z.json",
+    "sha256": "51a5c7f92cb45f00f7358c35302a07eca0e2d55a5a11c6c1917ce0a326497054",
+    "reason": "Corrected one supporting guide-line hash; verdict and source findings are unchanged."
+  }
+}

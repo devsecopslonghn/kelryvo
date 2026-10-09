@@ -1,0 +1,5 @@
+{
+  "command": "set -e\n git fetch origin\n test \"$(git rev-parse origin/master)\" = \"fe1d3a84381e5080d591ca1a43a7a9b9928f93ee\"\n test \"$(git rev-parse origin/master^{tree})\" = \"$(git rev-parse 52ed5e7b29073cf5fa67f339294e1f9ac800fbef^{tree})\"\n git status --porcelain\n git worktree add /home/longhn0710/workspace/schemaforge-product-discussion-evidence -b development/product-discussion-evidence origin/master\n gh run list --repo devsecopslonghn/schemaForge --commit fe1d3a84381e5080d591ca1a43a7a9b9928f93ee --limit 20 --json databaseId,workflowName,status,conclusion,event,headSha,url",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:39:04.913490+00:00"
+}

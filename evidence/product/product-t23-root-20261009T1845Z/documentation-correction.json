@@ -1,0 +1,7 @@
+{
+  "path": "docs/development/local-product.md",
+  "tested_sha256": "43ac8a6f9a1497aa21109f679d9c181bfe463895f008091a477e31301fc6f6f4",
+  "corrected_sha256": "3ace3e15793f6a76b2be9696596e297c0fee6abd6b83d04502fd0610e5e8f500",
+  "tested_bytes_preserved_at": "evidence/product/product-t23-root-20261009T1845Z/tested-local-product-guide.md",
+  "scope": "Prose only: SQL excluded from reference/audit metadata, ordinary comment text remains allowed; explicit same-release multi-file descriptor draft scope clarified under SF-D018. Runtime/tests unchanged, no redundant runtime rerun."
+}

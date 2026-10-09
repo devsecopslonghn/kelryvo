@@ -1,0 +1,230 @@
+{
+  "gate_at_utc": "2026-10-09T18:38:25.142517+00:00",
+  "head": "52ed5e7b29073cf5fa67f339294e1f9ac800fbef",
+  "base": "d19747356c3d962438631bcf393781d51ee9293a",
+  "pr": {
+    "baseRefOid": "d19747356c3d962438631bcf393781d51ee9293a",
+    "headRefOid": "52ed5e7b29073cf5fa67f339294e1f9ac800fbef",
+    "isDraft": true,
+    "mergeStateStatus": "CLEAN",
+    "mergeable": "MERGEABLE",
+    "number": 35,
+    "reviewDecision": "",
+    "state": "OPEN",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T18:31:24Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37973768937/job/113966733483",
+        "name": "Analyze (actions)",
+        "startedAt": "2026-10-09T18:30:38Z",
+        "status": "COMPLETED",
+        "workflowName": "CodeQL"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T18:37:11Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37973773540/job/113966742737",
+        "name": "product",
+        "startedAt": "2026-10-09T18:30:38Z",
+        "status": "COMPLETED",
+        "workflowName": "Local PRODUCT acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T18:37:09Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37973765819/job/113966715860",
+        "name": "product",
+        "startedAt": "2026-10-09T18:30:35Z",
+        "status": "COMPLETED",
+        "workflowName": "Local PRODUCT acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T18:33:16Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37973773560/job/113966742415",
+        "name": "parser",
+        "startedAt": "2026-10-09T18:30:38Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline ANTLR parser acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T18:33:12Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37973766016/job/113966715942",
+        "name": "parser",
+        "startedAt": "2026-10-09T18:30:35Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline ANTLR parser acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T18:31:40Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37973773681/job/113966742804",
+        "name": "foundation",
+        "startedAt": "2026-10-09T18:30:39Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline WP0 checks"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T18:31:42Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37973765980/job/113966716258",
+        "name": "foundation",
+        "startedAt": "2026-10-09T18:30:35Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline WP0 checks"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T18:31:47Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37973768937/job/113966733224",
+        "name": "Analyze (java-kotlin)",
+        "startedAt": "2026-10-09T18:30:38Z",
+        "status": "COMPLETED",
+        "workflowName": "CodeQL"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T18:31:46Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37973768937/job/113966733434",
+        "name": "Analyze (javascript-typescript)",
+        "startedAt": "2026-10-09T18:30:38Z",
+        "status": "COMPLETED",
+        "workflowName": "CodeQL"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T18:31:33Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37973768937/job/113966733404",
+        "name": "Analyze (python)",
+        "startedAt": "2026-10-09T18:30:38Z",
+        "status": "COMPLETED",
+        "workflowName": "CodeQL"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T18:31:17Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/runs/113966998502",
+        "name": "CodeQL",
+        "startedAt": "2026-10-09T18:31:14Z",
+        "status": "COMPLETED",
+        "workflowName": ""
+      }
+    ],
+    "url": "https://github.com/devsecopslonghn/schemaForge/pull/35"
+  },
+  "reviews": {
+    "reviewThreads": {
+      "nodes": [],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    },
+    "reviews": {
+      "nodes": [],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  "native_reviews": {
+    "at_utc": "2026-10-09T18:30:25.315370+00:00",
+    "head": "52ed5e7b29073cf5fa67f339294e1f9ac800fbef",
+    "base": "d19747356c3d962438631bcf393781d51ee9293a",
+    "qa": "APPROVED_FOCUSED4",
+    "security": "APPROVED_WITH_PRESERVED_FINDING_LIMITATIONS",
+    "verdict_hashes": {
+      "native-qa-verdict.json": "2ec66565be3444f2d0de94ca25a43fe8317f179474ef5a512de979b691604b2b",
+      "native-security-verdict.json": "6067f272a4f6653514dd43ce68ac057cc01f5eeb6725ee2d6e4ed86798178b4d",
+      "native-security-full-review.json": "41a278d74c935605e5f5b680ce2cba37d0c1ddeb145dece2b239268979179ed8"
+    },
+    "ownership_paths": 277,
+    "open_prs": [
+      {
+        "headRefName": "development/product-statement-preview",
+        "headRefOid": "2bccfe249c719162511c276b94518665f7e203f8",
+        "isDraft": true,
+        "number": 35,
+        "title": "Add scoped offline statement previews to release review"
+      }
+    ],
+    "hygiene_branches": [],
+    "shared_unchanged": true,
+    "alerts": {
+      "code-scanning": [],
+      "dependabot": [],
+      "secret-scanning": []
+    },
+    "sonar": "UNAVAILABLE_NEVER_PASS"
+  },
+  "alerts": {
+    "code-scanning": [],
+    "dependabot": [],
+    "secret-scanning": []
+  },
+  "branches": [
+    "origin d19747356c3d962438631bcf393781d51ee9293a",
+    "origin/development/product-approval-integrity e186072de9f0811e3c6868039b701da05dc2b677",
+    "origin/development/product-archive be799cf724b0d95e78e47cf5de871f37e4279cf7",
+    "origin/development/product-audit-action-filters 5be1428ef6ab810a28e5de97af65c45969d90dad",
+    "origin/development/product-decision-record a5598a9b592c66de648fa2a621c6208edb6bc9be",
+    "origin/development/product-delivery-state 011358e1a6d4ffb99cfd50062100761a32b86350",
+    "origin/development/product-governance-slice b3601c1ada7271673627775e72fdb26c20fe065a",
+    "origin/development/product-local-credential-lifecycle d90403ed9c19586f21e00358e4b723f06af3ef8b",
+    "origin/development/product-local-git-refs 2a97b5551a99446aef46a034ac8532d70bafd4e0",
+    "origin/development/product-local-repositories 0d61063c7c1f3d1a20b5b886d46393d8467b602b",
+    "origin/development/product-master-browser-synchronization 301f4c802680a2ed795f45b742be9761f66667fe",
+    "origin/development/product-merge-checkpoint 3ec1d16f43581a368804403f63e968971c434166",
+    "origin/development/product-offline-plan-intent 5e08361d85955754e81f10617063546429eec7da",
+    "origin/development/product-plan-comments a40b3fed6e5d86157aa19b5b6f47ec0352af0ca7",
+    "origin/development/product-plan-resubmission 5db4779714fd18138c93c458c5965a7e91741c52",
+    "origin/development/product-plan-source-inspection 132b613ddb54dbaed62a9e3261d7b23633808cdb",
+    "origin/development/product-plan-status-filters 58e5deb41e5d001474cf6bc46917ef7f3dab0c7b",
+    "origin/development/product-plan-target-review 7a691ad511a139ee9e02809ba4056f95e245523c",
+    "origin/development/product-project-membership 94cad0640cdab4978394808bd52efcca27a88332",
+    "origin/development/product-protected-source-binding 87e4942ef42e2557e67cfc757595c5e6f1d993c9",
+    "origin/development/product-release-integrity 406c9d309ee6aa32eb73b5ecd920feafa2e2bc3e",
+    "origin/development/product-release-provenance 461242efa1cc39bf0167540418d21055420ef46c",
+    "origin/development/product-requester-review 7615280f0358743205ed26493e4bde7ce55b8f0b",
+    "origin/development/product-review-audit ac8779cb57eee31dbac3169be016bad925d08e18",
+    "origin/development/product-shield-license d56b92f422f2de110bb29050cef50a130219f326",
+    "origin/development/product-source-binding e7f91876ffaa03fb04e06d8ac25c8b553a69cddc",
+    "origin/development/product-statement-preview 52ed5e7b29073cf5fa67f339294e1f9ac800fbef",
+    "origin/development/product-t07-checkpoint e93a397829bac4805b4f8b540ccf1c98f76abc43",
+    "origin/development/wp0-antlr-parser 97432efde71ed16ad47d3995731625334000d059",
+    "origin/development/wp0-checkpoint 978f873d5f297d235422667a2af20470298dd061",
+    "origin/development/wp0-dependency-closure 0e5b2e93dcce33bdae5f57afbc50fb538e6b86fe",
+    "origin/development/wp0-supervisor-checkpoint 1ca471ee687b2d046c950ea254860c9d11030ae4",
+    "origin/development/wp0-thin-checkpoint e167f2f98086f3268a93b18819f610c928f31fc0",
+    "origin/development/wp0-thin-probe-plan 4299b4d0ce770d0d961a39046ec997bb05cc1446",
+    "origin/development/wp0-thin-readonly-probe fe63aebcc911c1b0de89659be253ea0f186ae277",
+    "origin/development/wp0-thin-supervision ef8a2ec4f161abf84631769754d0afd1a924ab50",
+    "origin/master d19747356c3d962438631bcf393781d51ee9293a"
+  ],
+  "open_prs": [
+    {
+      "headRefName": "development/product-statement-preview",
+      "headRefOid": "52ed5e7b29073cf5fa67f339294e1f9ac800fbef",
+      "isDraft": true,
+      "number": 35,
+      "title": "Add scoped offline statement previews to release review"
+    }
+  ],
+  "ownership_paths": 277,
+  "sonar": {
+    "availability": "OWNER_QUOTA_EXCEPTION_UNAVAILABLE",
+    "scan_passed": false
+  }
+}

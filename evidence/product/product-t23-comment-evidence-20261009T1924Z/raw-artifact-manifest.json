@@ -1,0 +1,247 @@
+{
+  "artifacts": [
+    {
+      "path": "raw/schemaforge-t23-browser-focused.log",
+      "sha256": "4284cc779deb9968bcddfdba2dfbeb8e0771030a057265eea02cc37731b408c1",
+      "bytes": 1030,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 18,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "path": "raw/schemaforge-t23-browser-focused-retry1.log",
+      "sha256": "e0b60df847feccb8903706d10df56645088a42f8d6cad5d59d44e060c73ac98b",
+      "bytes": 1030,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 18,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "path": "raw/schemaforge-t23-browser-focused-retry2.log",
+      "sha256": "33ec63a72fa8c6b3e604595eafe1e9f1958b9857b6172b491edae80ab5d289a4",
+      "bytes": 1371,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 17,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 23,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "path": "raw/schemaforge-t23-browser-focused-retry3.log",
+      "sha256": "a412f3b06e54a16014987375b687e40b447880a53d9398a1ad01994ef6e423cf",
+      "bytes": 1407,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 17,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 23,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "path": "raw/schemaforge-t23-browser-focused-retry4.log",
+      "sha256": "370575e2396101c2362cabb2e29159b7f1bd414d376abc0cc3fac4008cd228e0",
+      "bytes": 1038,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 18,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "path": "raw/schemaforge-t23-focused-final-20261010.log",
+      "sha256": "9ea8a21b38f860bcb76116d0da176b382e2aeca0f6afb97c2aa34313ed128175",
+      "bytes": 4964,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": []
+    },
+    {
+      "path": "raw/schemaforge-t23-focused-final-retry1-20261010.log",
+      "sha256": "225f2a123ee03ddab1b4b70db8b3dd519cdbba7721c7ecab7cc807982407c256",
+      "bytes": 4575,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 40,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 42,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "path": "raw/schemaforge-t23-comments-final-20261010.log",
+      "sha256": "5145638e5a0c79bc80ab637392e98ccdd3f33222ef914953e2c1dac6a28066fd",
+      "bytes": 1759,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": []
+    },
+    {
+      "path": "raw/schemaforge-t23-browser-final-20261010.log",
+      "sha256": "514304fae991730b295e696f50841d542078e445d8eb88854ef091d728787ff7",
+      "bytes": 11517,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 98,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 216,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 218,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "path": "raw/schemaforge-t23-standard-final-20261010.log",
+      "sha256": "2c2479a429b79de72085dc3082ffe6d4761068fd788352a086ad919287a55759",
+      "bytes": 43191,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 383,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 386,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 433,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 436,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 459,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 462,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "path": "raw/schemaforge-t23-standard-final-retry1-20261010.log",
+      "sha256": "1c3923b7adc7c75e94d113bb2ccaf79462d72d387dedf41864757758f70225c7",
+      "bytes": 47862,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": [
+        {
+          "line": 325,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 327,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 351,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 353,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 437,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 439,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 546,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 548,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 573,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 575,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 600,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 602,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 648,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 653,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 696,
+          "bytes_hex": "20202020"
+        },
+        {
+          "line": 698,
+          "bytes_hex": "20202020"
+        }
+      ]
+    },
+    {
+      "path": "raw/schemaforge-t23-product-final-20261010.log",
+      "sha256": "8a2c9d2dc432c12a47375c94951f59e56b6146c9810aef9ef4fd7a44fa7a1277",
+      "bytes": 12530,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": []
+    },
+    {
+      "path": "raw/schemaforge-t23-standard-final-controlled-20261010.log",
+      "sha256": "5aa165d73014a3ad45ff7606405e2768c1e636b8dc875634e0916bd33817ee34",
+      "bytes": 42169,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": []
+    },
+    {
+      "path": "raw/schemaforge-t23-browser-final-controlled-20261010.log",
+      "sha256": "641747d8917a970971b6447867707596c90ca9e85af7d51dc943a19260cbc64e",
+      "bytes": 10159,
+      "byte_identical_to_original": true,
+      "trailing_whitespace_exceptions": []
+    }
+  ]
+}

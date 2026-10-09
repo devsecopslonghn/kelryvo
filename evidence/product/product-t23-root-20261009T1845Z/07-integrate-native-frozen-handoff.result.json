@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t23-integrate.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:28:33.866192+00:00",
+  "ended_at_utc": "2026-10-09T19:28:33.937400+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/07-integrate-native-frozen-handoff.log",
+    "sha256": "e96b6ce5cd7efa1356b74ccbd77fc7f3338ff4bb4940df3eec95f6f5fdc63c1c"
+  }
+}

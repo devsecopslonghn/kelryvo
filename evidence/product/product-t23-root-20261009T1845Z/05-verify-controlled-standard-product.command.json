@@ -1,0 +1,5 @@
+{
+  "command": "python3 /tmp/schemaforge-t23-verify-frozen.py check:158:/tmp/schemaforge-t23-standard-final-controlled-20261010.log product:34:/tmp/schemaforge-t23-product-final-20261010.log",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:21:00.740187+00:00"
+}

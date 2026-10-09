@@ -2445,6 +2445,93 @@
       },
       "path": "evidence/product/product-t22-ci-correction-20261009T1813Z/corrected-integration-record.json",
       "sha256": "50af870dd15f74a328ce9a4cc725d29d493ab40374f72d5728e68d7d8da327bb"
+    },
+    {
+      "id": "product-t22-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T22",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Corrected exact-head native QA/security/license, all11 PR checks, ordinary PR35 match-head merge, reviewed/merge tree equality, all4 exact-master workflow families and postverified ownership/alerts reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T22-API",
+        "SF-PRODUCT-T22-WEB",
+        "SF-PRODUCT-T22-PARSER"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t22-merge-20261009T183839Z/45-final-exact-master-workflows.log",
+        "sha256": "2035d655947bf01e561e6f3e8564f89cd3252ac43d5c381b4e346f517cd1243f"
+      },
+      "path": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+      "sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9"
+    },
+    {
+      "id": "product-t23-comment-evidence-local-verified",
+      "subject_id": "SF-PRODUCT-T23",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen native standard158, real PostgreSQL/Git/pinned-parser product34 and browser19; root source/capture hash and six-criterion diff review, separate prose correction",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T23-API",
+        "SF-PRODUCT-T23-WEB",
+        "SF-PRODUCT-T23-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t23-root-20261009T1845Z/06-verify-all-frozen-regressions.log",
+        "sha256": "9211d274be1349b3133a7d8678eba127cbe84e25714a54dd7b6d24f554b96ec1"
+      },
+      "path": "evidence/product/product-t23-root-20261009T1845Z/integration-record.json",
+      "sha256": "cffa526451abf83dbe354a69ba6201a6401f03f1b0ba34856318228a68faaec0"
+    },
+    {
+      "id": "product-t23-corrected-comment-evidence-local-verified",
+      "subject_id": "SF-PRODUCT-T23",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Corrected frozen standard158, real PostgreSQL/Git/pinned-parser product34, browser20 and focused2; root exact source/capture verification and diff review",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T23-API",
+        "SF-PRODUCT-T23-WEB",
+        "SF-PRODUCT-T23-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/schemaforge-t23-correction-browser-20261010.log",
+        "sha256": "1d72ba4da1a7e54bd5a7613f87c2d8029cf625f33d6e322cae92bfd08283072d"
+      },
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/corrected-integration-record.json",
+      "sha256": "2b67855166b5c2b1a3697ff156f01dec68730b5d0fdce7af29f9070a5217472e"
     }
   ]
 }

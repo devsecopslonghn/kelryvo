@@ -1,0 +1,90 @@
+{
+  "review": "T22 independent exact-head security/license review",
+  "reviewed_at_utc": "2026-10-09T18:08:47.674362+00:00",
+  "head": "2bccfe249c719162511c276b94518665f7e203f8",
+  "tree": "a6a0a804052cb7f054de14f30d3c71b72b6ddf96",
+  "base": "d19747356c3d962438631bcf393781d51ee9293a",
+  "security": {
+    "scans": {
+      "precommit": {
+        "scope": "precommit_changed_files",
+        "paths": 207,
+        "scanner_exit_code": 1,
+        "finding_count": 2,
+        "clean_scan_PASS": false,
+        "private_report_sha256": "5e78551f305b2263b49c69d4c10593408b771f3d6d8317b0fa34cd8bb8a73c5f"
+      },
+      "official_publication": {
+        "scope": "publication",
+        "paths": 216,
+        "scanner_exit_code": 1,
+        "finding_count": 2,
+        "clean_scan_PASS": false,
+        "private_report_sha256": "5fabcfdebd2bcad784c246b4797a4acd98991c2379a2b13130c034f029b402df"
+      },
+      "official_allrefs_history": {
+        "scope": "history",
+        "scanner_exit_code": 1,
+        "finding_count": 115,
+        "clean_scan_PASS": false,
+        "private_report_sha256": "bd3a454dd14f6cd339a4abf1b17b290df6e62939aebfb6a7d92ce21bbcb7cd5b",
+        "exact_T21_history_tuple_multiset_preserved": true,
+        "prior_new9_T21_tuples_still_present": true,
+        "prior_T21_inherited_106_tuple_provenance_preserved": true
+      }
+    },
+    "official_publication_findings": [
+      {
+        "path": "docs/implementation/CONTINUE.md",
+        "line": 263,
+        "rule": "generic-api-key",
+        "exact_blob_git_oid": "aa8cbad4720797dcdeb0ac4b6b0e0691dd256896",
+        "line_sha256": "3f492042525cc90a49c6a50bdc9b4adbb5d5d6c842a2a629e265919a4598e7b3",
+        "classification": "BENIGN_EXACT_INHERITED_PRODUCT_DESCRIPTION_PROSE",
+        "actual_match_value_accessed": false,
+        "actual_credentials_observed": false
+      },
+      {
+        "path": "docs/implementation/CURRENT.md",
+        "line": 263,
+        "rule": "generic-api-key",
+        "exact_blob_git_oid": "1bc1cd2296918d17731d6636ddde22415448176f",
+        "line_sha256": "3f492042525cc90a49c6a50bdc9b4adbb5d5d6c842a2a629e265919a4598e7b3",
+        "classification": "BENIGN_EXACT_INHERITED_PRODUCT_DESCRIPTION_PROSE",
+        "actual_match_value_accessed": false,
+        "actual_credentials_observed": false
+      }
+    ],
+    "current_source_security_review": {
+      "scalar_bounds_before_file_payload_materialization": true,
+      "scoped_project_membership_and_resource_404": true,
+      "project_membership_enforced_in_existing_auth_prehandler_for_release_routes": true,
+      "read_lock_through_retained_parse": true,
+      "pinned_parser_profile_and_utf8_byte_protocol_revalidated": true,
+      "no_database_writes_in_preview_route_or_helper": true,
+      "client_rechecks_release_file_parser_digest_ranges_and_source_bytes": true,
+      "UI_invalidates_stale_results_on_plan_project_release_session_and_token_changes": true,
+      "React_text_rendering_escapes_source_sql": true,
+      "existing_whole_release_GET_payload_size_behavior": {
+        "scope": "OUT_OF_T22_SCOPE",
+        "no_fix_claimed": true
+      }
+    },
+    "actual_credentials_observed": false,
+    "rotation_indicated": false
+  },
+  "license": {
+    "root_license": "PolyForm Shield 1.0.0",
+    "license_notice_dependency_lock_unchanged_from_base": true,
+    "third_party_notices_preserved": true,
+    "unrelated_license_changes_found": false,
+    "distribution_readiness": "F31 remains pending per existing product documentation"
+  },
+  "limits": {
+    "T21_history_115_findings": "independently tuple-crosschecked against T21 official history scan; all 115 exact provenance tuples preserved; the inherited 106 and classified newer 9 remain classified by the prior T21 record, not treated as a clean scan",
+    "T21_eight_unavailable_pre_final_source_bytes": "provenance-only limit preserved; no fabricated source recomputation or attestation",
+    "scanner": "Official exact-head full-scope scanner is pinned Gitleaks 8.30.1 as supplied by root scan metadata",
+    "Oracle": "separate VALIDATION gate; this security/license review does not certify Oracle behavior",
+    "Sonar": "UNAVAILABLE is never PASS"
+  }
+}

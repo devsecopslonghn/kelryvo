@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t22-corrected-prepublish.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:30:21.260641+00:00",
+  "ended_at_utc": "2026-10-09T18:30:25.322578+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/25-corrected-review-schema-prepublish-gate.log",
+    "sha256": "8317bbcdb294da22afc804c6e3925319d8ad9c214cc9ccb28602f3323e3195c7"
+  }
+}

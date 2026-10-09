@@ -1,0 +1,10 @@
+
+> schemaforge-local-development@0.0.0 format
+> node scripts/format-json.mjs --write
+
+Authored JSON formatting passed; imported inputs and evidence excluded.
+
+> schemaforge-local-development@0.0.0 format:check
+> node scripts/format-json.mjs --check
+
+Authored JSON formatting passed; imported inputs and evidence excluded.

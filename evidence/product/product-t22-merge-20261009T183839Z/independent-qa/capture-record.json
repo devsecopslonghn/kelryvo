@@ -1,0 +1,86 @@
+{
+  "head": "52ed5e7b29073cf5fa67f339294e1f9ac800fbef",
+  "tree": "daf457689c6647cdda2436d70325191efb80c4b8",
+  "source_paths": [
+    "apps/api/index.ts",
+    "apps/web/src/app.jsx",
+    "apps/web/styles.css",
+    "packages/migrations/statement-preview.mjs",
+    "tests/product-plan-source-browser.integration.mjs",
+    "tests/product-statement-preview.test.mjs",
+    "tests/statement-preview.test.mjs",
+    "tests/product-statement-preview-parser.integration.mjs",
+    "scripts/test-product.mjs",
+    "docs/development/local-product.md"
+  ],
+  "source_sha256_start": {
+    "apps/api/index.ts": "80315b6e072dfb849f37463f6fe13db4b3f6d519ee22dd24b989637d0fa17ac0",
+    "apps/web/src/app.jsx": "bcc88dfa9787c83ba701bf2781333f350be6e1d700c2aee48fcb2235a9424f44",
+    "apps/web/styles.css": "1a067cb664a09b3c0a87cca7aac6ee33f9d382ed8132a1a4ecc0e138f7e5db34",
+    "packages/migrations/statement-preview.mjs": "4ecc1e2c892b90e323c0d2d4bd6cf383d5975913dec8aac9963d78448d3b6826",
+    "tests/product-plan-source-browser.integration.mjs": "39630d7797f12f735baf630a480dd560cf63179fa8daaa6286196858aeb466e7",
+    "tests/product-statement-preview.test.mjs": "77c0f7f18273b5f93a4b98e76601ebedd1b3e3813f1e7eb67efbd1c502d2c3ba",
+    "tests/statement-preview.test.mjs": "1b52f893db7b05695f9b2ddef605e47c47b6571cc5a0ec3a98dc121de6eb389e",
+    "tests/product-statement-preview-parser.integration.mjs": "2972f233848f5dbcb7264f923dcde54e22d1276af369580bb684eee49ea97ce3",
+    "scripts/test-product.mjs": "53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b",
+    "docs/development/local-product.md": "6b20f2923dea2a1db32fd918a1892beccd851d1fba867f5d412ab94b550e2d89"
+  },
+  "source_sha256_end": {
+    "apps/api/index.ts": "80315b6e072dfb849f37463f6fe13db4b3f6d519ee22dd24b989637d0fa17ac0",
+    "apps/web/src/app.jsx": "bcc88dfa9787c83ba701bf2781333f350be6e1d700c2aee48fcb2235a9424f44",
+    "apps/web/styles.css": "1a067cb664a09b3c0a87cca7aac6ee33f9d382ed8132a1a4ecc0e138f7e5db34",
+    "packages/migrations/statement-preview.mjs": "4ecc1e2c892b90e323c0d2d4bd6cf383d5975913dec8aac9963d78448d3b6826",
+    "tests/product-plan-source-browser.integration.mjs": "39630d7797f12f735baf630a480dd560cf63179fa8daaa6286196858aeb466e7",
+    "tests/product-statement-preview.test.mjs": "77c0f7f18273b5f93a4b98e76601ebedd1b3e3813f1e7eb67efbd1c502d2c3ba",
+    "tests/statement-preview.test.mjs": "1b52f893db7b05695f9b2ddef605e47c47b6571cc5a0ec3a98dc121de6eb389e",
+    "tests/product-statement-preview-parser.integration.mjs": "2972f233848f5dbcb7264f923dcde54e22d1276af369580bb684eee49ea97ce3",
+    "scripts/test-product.mjs": "53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b",
+    "docs/development/local-product.md": "6b20f2923dea2a1db32fd918a1892beccd851d1fba867f5d412ab94b550e2d89"
+  },
+  "source_hashes_unchanged": true,
+  "worktree_status_end": "",
+  "runs": [
+    {
+      "name": "unit",
+      "command": "taskset -c 0,1 node --test tests/statement-preview.test.mjs",
+      "started_at_utc": "2026-10-09T18:28:07.896838+00:00",
+      "ended_at_utc": "2026-10-09T18:28:08.045625+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/sf-product-t22-corrected-qa-20261009T182807Z-b0cae4bc/unit.raw.log",
+      "raw_sha256": "d9b77beb7e7dc570d0771274d3015a7ae786121bacab1a631fe57e0227817f60",
+      "raw_bytes": 396
+    },
+    {
+      "name": "parser_integration",
+      "command": "taskset -c 0,1 node --test tests/product-statement-preview-parser.integration.mjs",
+      "started_at_utc": "2026-10-09T18:28:08.045746+00:00",
+      "ended_at_utc": "2026-10-09T18:28:11.410660+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/sf-product-t22-corrected-qa-20261009T182807Z-b0cae4bc/parser_integration.raw.log",
+      "raw_sha256": "f628c1a554d8d6f1f887f0988c0bd7a2e6ad604ce89ce7ec46b8778b6907146c",
+      "raw_bytes": 354
+    },
+    {
+      "name": "postgres_api",
+      "command": "taskset -c 0,1 node --test tests/product-statement-preview.test.mjs",
+      "started_at_utc": "2026-10-09T18:28:11.410765+00:00",
+      "ended_at_utc": "2026-10-09T18:28:37.055768+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/sf-product-t22-corrected-qa-20261009T182807Z-b0cae4bc/postgres_api.raw.log",
+      "raw_sha256": "d87f30710ba5134ee49cae28fdfba1e735e99d43cf90cc3edddb712a1fbb9990",
+      "raw_bytes": 414
+    },
+    {
+      "name": "browser",
+      "command": "taskset -c 0,1 node --test tests/product-plan-source-browser.integration.mjs",
+      "started_at_utc": "2026-10-09T18:28:37.055874+00:00",
+      "ended_at_utc": "2026-10-09T18:29:32.466598+00:00",
+      "exit_code": 0,
+      "raw_path": "/tmp/sf-product-t22-corrected-qa-20261009T182807Z-b0cae4bc/browser.raw.log",
+      "raw_sha256": "173049f865379e729373010e226900d176a41e2b9a0d2a9a92dbee66a5bff0a2",
+      "raw_bytes": 454
+    }
+  ],
+  "start_utc": "2026-10-09T18:28:07.896838+00:00",
+  "end_utc": "2026-10-09T18:29:32.466598+00:00"
+}

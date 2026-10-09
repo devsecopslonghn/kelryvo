@@ -1,0 +1,5 @@
+{
+  "command": "gh pr create --repo devsecopslonghn/schemaForge --base master --head development/product-statement-preview --draft --title \"Add scoped offline statement previews to release review\" --body-file /tmp/schemaforge-t22-pr-body.md",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:11:03.921800+00:00"
+}

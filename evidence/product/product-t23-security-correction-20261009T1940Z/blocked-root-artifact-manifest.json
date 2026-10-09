@@ -1,0 +1,70 @@
+{
+  "artifacts": [
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/15-freeze-owned-feature-head.command.json",
+      "sha256": "4a9075f7eaceb61a5aaed7a687751bd9d572d390a5905a4356e3160c96e47b01",
+      "bytes": 193
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/15-freeze-owned-feature-head.log",
+      "sha256": "0af6d99ce7b2150dfa17674c3f325ccf2c9bc9c8b2490837eff06a5c5194ed10",
+      "bytes": 9196
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/15-freeze-owned-feature-head.result.json",
+      "sha256": "7f4b0bd3b090a4bff1aa1e156c2c9d359429de640f779f5b8d4b5efe32f43e7c",
+      "bytes": 463
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/16-exact-head-publication-history-scans.command.json",
+      "sha256": "f438121017fb2582b86c78b7c1c9633fd2766b1ff7b0e59c42bffb6a665a5942",
+      "bytes": 254
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/16-exact-head-publication-history-scans.log",
+      "sha256": "c0cf7e63dd732a942aacd1a892e74a426c8133cd836c9129ba28efd34b92ef45",
+      "bytes": 325
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/16-exact-head-publication-history-scans.result.json",
+      "sha256": "49acd6344b90c55ed0ea3c4fc2710ac39abb6ae69e7690d88ba2380fefc12a73",
+      "bytes": 535
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/17-exact-provenance-classification.command.json",
+      "sha256": "48fbe706b04429a4c2fe98ad8dab380ff037b00d9af097cbc6cee623ce148cf7",
+      "bytes": 207
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/17-exact-provenance-classification.log",
+      "sha256": "7490b60869bebad0804d1992cfe97bf22fa54e0d1818a9fbecbb89eb14d847f9",
+      "bytes": 224
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/17-exact-provenance-classification.result.json",
+      "sha256": "e53b206d972625dda8d945f5cfa2dc7111b0518274ea8c5f102e86d705f8b369",
+      "bytes": 483
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/publication-safe.json",
+      "sha256": "252ad6f188f2c85e0b809623c14ae77ff5e92e8a8171b05239ffc50f91c7a04a",
+      "bytes": 25881
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/history-safe.json",
+      "sha256": "de52b8de476c72183a4893fdd8341a7134219162ffecfea0180f0bc81d25300a",
+      "bytes": 29071
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/classification.json",
+      "sha256": "e97462cac4c5b0e84ded41dc92f2b33e92771e6196ec6511341840af9b9e19bf",
+      "bytes": 3263
+    },
+    {
+      "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/snapshot-sha256.json",
+      "sha256": "7989f01d113c2d80db170b4cfb84bbd3e397301863e69afd6ba85683b6b47097",
+      "bytes": 41472
+    }
+  ],
+  "note": "Prior frozen-head finding-bearing scans preserved with exact classification. Private reports excluded. These do not approve a corrected future head."
+}

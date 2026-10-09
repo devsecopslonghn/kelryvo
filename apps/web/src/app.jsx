@@ -30,6 +30,7 @@ const errorCopy = {
   CONFLICT: 'The item changed while you were working. Refresh and review it again.',
   DECISION_ALREADY_RECORDED: 'A decision has already been recorded for this plan. Refresh to see it.',
   PLAN_NOT_PENDING: 'Comments are closed because this plan has a decision. Refresh to see it.',
+  COMMENT_EVIDENCE_UNAVAILABLE: 'A selected statement reference could not be verified against the retained source. Refresh the plan source or submit this comment without references.',
   INVALID_REQUEST: 'Some fields need attention. Check the values and try again.',
   INVALID_REFERENCE: 'The selected project, repository, or profile is no longer available.',
   INVALID_INPUT: 'Some fields need attention. Check the values and try again.',
@@ -37,7 +38,7 @@ const errorCopy = {
   RELEASE_INTEGRITY_FAILED: 'This stored release failed its integrity check. Import it again before preparing a plan.',
   STATEMENT_PREVIEW_UNAVAILABLE: 'Statement preview is unavailable for this retained file. Refresh the project and try again.',
   PLAN_APPROVAL_INTEGRITY_FAILED: 'Approval is unavailable because the retained release or plan items failed an integrity check.',
-  FRESH_PLAN_REQUIRED: 'This plan has no verifiable current source-binding generation. Prepare a fresh plan from the current bound repository and folder before approval.',
+  FRESH_PLAN_REQUIRED: 'This plan’s retained source, binding or intent facts are unavailable or stale. Prepare a fresh plan from the current bound repository and folder before approval or attaching statement references.',
   SOURCE_BINDING_INVALID: 'The project source binding is unavailable or invalid. Ask a developer to review the binding before preparing a plan.',
   SOURCE_BINDING_GENERATION_INVALID: 'The project source generation is invalid. Ask a developer to review the source binding.',
   SOURCE_BINDING_GENERATION_EXHAUSTED: 'The project source generation reached its limit. A developer must review the source binding.',
@@ -109,6 +110,41 @@ const retainedPlanTime = (value) => {
   const timestamp = new Date(value);
   return Number.isFinite(timestamp.getTime()) && timestamp.toISOString() === value ? value : null;
 };
+function validSavedEvidenceReference(ref, plan) {
+  if (!ref || typeof ref !== 'object' || Array.isArray(ref) || !plan) return false;
+  const keys = ['releaseId', 'filePath', 'startByte', 'endByte', 'sourceSha256', 'executionSha256', 'sourceFileSha256', 'parserProfile', 'intentDigest'];
+  if (Object.keys(ref).length !== keys.length || keys.some(key => !Object.hasOwn(ref, key))
+      || ref.releaseId !== plan.releaseId || typeof ref.filePath !== 'string'
+      || ref.filePath.length < 1 || ref.filePath.length > 4096 || !/^[A-Za-z0-9_.-]+(?:\/[A-Za-z0-9_.-]+)*$/.test(ref.filePath)
+      || ref.filePath.split('/').some(part => part === '.' || part === '..')
+      || !Number.isSafeInteger(ref.startByte) || ref.startByte < 0 || !Number.isSafeInteger(ref.endByte) || ref.endByte <= ref.startByte
+      || typeof ref.sourceSha256 !== 'string' || !/^[a-f0-9]{64}$/.test(ref.sourceSha256)
+      || typeof ref.executionSha256 !== 'string' || !/^[a-f0-9]{64}$/.test(ref.executionSha256)
+      || typeof ref.sourceFileSha256 !== 'string' || !/^[a-f0-9]{64}$/.test(ref.sourceFileSha256)
+      || typeof ref.intentDigest !== 'string' || !/^[a-f0-9]{64}$/.test(ref.intentDigest)
+      || ref.parserProfile !== statementPreviewProfile || ref.intentDigest !== plan.offlineIntent?.digest) return false;
+  return Array.isArray(plan.items) && plan.items.some(item => item?.path === ref.filePath && item.sha256 === ref.sourceFileSha256);
+}
+function savedEvidenceReferences(comment, plan) {
+  const refs = comment?.evidenceRefs ?? [];
+  return Array.isArray(refs) && refs.length <= 8 && refs.every(ref => validSavedEvidenceReference(ref, plan)) ? refs : null;
+}
+function PlanCommentRow({ comment, plan, fmt, reopenEvidence }) {
+  const refs = savedEvidenceReferences(comment, plan);
+  return <li className="comment-row" key={comment.id}>
+    <div><strong>{comment.authorName}</strong><time dateTime={comment.createdAt}>{fmt(comment.createdAt)}</time></div>
+    <p>{comment.body}</p>
+    {refs === null ? <p className="banner error" role="status">Saved statement evidence is unavailable. Refresh the project to retrieve current retained facts.</p>
+      : refs.map((ref, index) => <div className="comment-evidence" key={`${ref.filePath}-${ref.startByte}-${index}`}>
+        <p><strong>Supplemental retained statement evidence</strong></p>
+        <dl><div><dt>File</dt><dd><code>{ref.filePath}</code></dd></div><div><dt>Source bytes</dt><dd>{ref.startByte}–{ref.endByte}</dd></div>
+          <div><dt>Source SHA-256</dt><dd><code>{ref.sourceSha256}</code></dd></div><div><dt>Normalized execution SHA-256</dt><dd><code>{ref.executionSha256}</code></dd></div>
+          <div><dt>Retained source SHA-256</dt><dd><code>{ref.sourceFileSha256}</code></dd></div><div><dt>Parser profile</dt><dd><code>{ref.parserProfile}</code></dd></div>
+          <div><dt>Retained intent SHA-256</dt><dd><code>{ref.intentDigest}</code></dd></div></dl>
+        <button type="button" className="secondary" onClick={() => reopenEvidence(ref, plan.id)}>Reopen referenced statement</button>
+      </div>)}
+  </li>;
+}
 const validBindingGeneration = (value) => typeof value === 'string' && /^[1-9][0-9]{0,18}$/.test(value)
   && (value.length < 19 || value <= '9223372036854775807');
 const importStatusClass = (status) => status === 'VALID' ? 'good' : 'warn';
@@ -131,7 +167,7 @@ function auditDescription(item) {
   return item.facts?.reason || item.summary || item.reason || 'Governance record';
 }
 
-function RetainedReleaseContent({ source, repositories, fmt, requestStatementPreview, statementPreview, planContext = '' }) {
+function RetainedReleaseContent({ source, repositories, fmt, requestStatementPreview, statementPreview, planContext = '', selectEvidence, selectedEvidence = [] }) {
   return <>
     <section className="release-provenance" aria-label="Stored release provenance"><h3>Stored provenance</h3><dl>
       <div><dt>Release ID</dt><dd><code>{source.id || '—'}</code></dd></div>
@@ -147,11 +183,11 @@ function RetainedReleaseContent({ source, repositories, fmt, requestStatementPre
     <div className="file-table-wrap"><table><thead><tr><th>Migration file</th><th>Version</th><th>Statements</th><th>Bytes</th><th>SHA-256</th><th>Validation</th></tr></thead><tbody>
       {(source.files || []).map((file) => <tr key={file.path}><td><code>{file.path}</code></td><td>{file.version || '—'}</td><td>{file.statementCount ?? '—'}</td><td>{file.bytes ?? '—'}</td><td><code className="checksum">{file.sha256 || '—'}</code></td><td><span className={`status-pill ${importStatusClass(file.validationStatus)}`}>{file.validationStatus || '—'}</span></td></tr>)}
     </tbody></table>{!source.files?.length && <div className="empty-inline">No migration files were returned for this release.</div>}</div>
-    {(source.files || []).map((file) => <details className="sql-preview" key={`${file.path}-sql`}><summary>Preview SQL · {file.path}</summary><pre>{file.content || 'Source content unavailable.'}</pre><button type="button" className="secondary statement-preview-action" onClick={() => requestStatementPreview(source.id, file.path)}>Preview parsed statements</button>{statementPreview?.releaseId === source.id && statementPreview?.filePath === file.path && statementPreview?.planId === planContext && <StatementPreviewResult result={statementPreview}/>}</details>)}
+    {(source.files || []).map((file) => <details className="sql-preview" key={`${file.path}-sql`} open={statementPreview?.releaseId === source.id && statementPreview?.filePath === file.path && statementPreview?.planId === planContext}><summary>Preview SQL · {file.path}</summary><pre>{file.content || 'Source content unavailable.'}</pre><button type="button" className="secondary statement-preview-action" onClick={() => requestStatementPreview(source.id, file.path)}>Preview parsed statements</button>{statementPreview?.releaseId === source.id && statementPreview?.filePath === file.path && statementPreview?.planId === planContext && <StatementPreviewResult result={statementPreview} onSelectEvidence={planContext ? selectEvidence : null} selectedEvidence={selectedEvidence}/>}</details>)}
   </>;
 }
 
-function StatementPreviewResult({ result }) {
+function StatementPreviewResult({ result, onSelectEvidence, selectedEvidence = [] }) {
   if (result.loading) return <p className="statement-preview-status" role="status">Parsing retained source offline…</p>;
   if (result.error) return <p className="banner error" role="alert">Statement preview is unavailable for this retained file. Refresh the project and try again.</p>;
   if (!result.preview) return null;
@@ -167,6 +203,9 @@ function StatementPreviewResult({ result }) {
       <p>Source SHA-256 <code>{statement.sourceSha256}</code></p>
       <p>Normalized execution SHA-256 <code>{statement.executionSha256}</code></p>
       <pre>{statement.sourceSql}</pre>
+      {onSelectEvidence && <button type="button" className="secondary statement-preview-action" onClick={() => onSelectEvidence({ filePath: preview.filePath,
+        startByte: statement.startByte, endByte: statement.endByte, sourceSha256: statement.sourceSha256,
+        executionSha256: statement.executionSha256 })}>{selectedEvidence.some(ref => ref.filePath === preview.filePath && ref.startByte === statement.startByte && ref.endByte === statement.endByte) ? 'Remove reference' : 'Attach to comment'}</button>}
     </article>)}
     {!preview.statements.length && <p className="muted">No statements were returned by the pinned parser.</p>}
   </section>;
@@ -202,6 +241,7 @@ function App() {
   const [sourceForm, setSourceForm] = useState({ repositoryId: '', folder: 'migrations' });
   const [decisionReason, setDecisionReason] = useState('');
   const [commentBody, setCommentBody] = useState('');
+  const [commentEvidence, setCommentEvidence] = useState([]);
   const [freshPlanRequired, setFreshPlanRequired] = useState(null);
   const [statementPreview, setStatementPreview] = useState(null);
   const [archiveReason, setArchiveReason] = useState('');
@@ -210,6 +250,7 @@ function App() {
   const sessionEpoch = useRef(0);
   const previousAuditProjectId = useRef(projectId);
   const previousReleaseBinding = useRef({ projectId: '', repositoryId: '', folder: '' });
+  const currentSourceContext = useRef(null);
   const planSourceSequence = useRef(0);
   const statementPreviewSequence = useRef(0);
   const activeSelectedPlanId = useRef('');
@@ -219,14 +260,33 @@ function App() {
     setRelease(value);
   };
 
+  const rememberSourceContext = (selectedProjectId, project) => {
+    const binding = project?.sourceBinding;
+    const next = {
+      projectId: selectedProjectId,
+      signature: JSON.stringify([selectedProjectId, binding?.repositoryId || '', binding?.folder || '',
+        binding?.generation ?? '', binding?.updatedAt || '']),
+    };
+    const previous = currentSourceContext.current;
+    if (previous?.projectId === selectedProjectId && previous.signature !== next.signature) invalidateSourceEvidence();
+    currentSourceContext.current = next;
+  };
+
+  const invalidateSourceEvidence = () => {
+    statementPreviewSequence.current += 1;
+    setStatementPreview(null);
+    setCommentEvidence([]);
+  };
+
   const clearProjectState = () => {
     activeProjectId.current = '';
     activeSelectedPlanId.current = '';
+    currentSourceContext.current = null;
     planSourceSequence.current += 1;
     statementPreviewSequence.current += 1; setStatementPreview(null);
     setProjectId(''); setDetail(null); selectRelease(null); setSelectedPlan('');
     setPlanSource(null); setFreshPlanRequired(null); setPlanStatus('ALL'); setAuditAction('ALL');
-    setDecisionReason(''); setCommentBody(''); setSourceForm({ repositoryId: '', folder: 'migrations' });
+    setDecisionReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' });
     setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' });
     setEnvironmentName(''); setProfileForm({ name: '', environmentId: '', engine: 'oracle', host: 'oracle.example.invalid', port: '1521', service: 'DEV', username: 'APP', credentialRef: 'vault://local/app' });
     setArchiveReason(''); setGitRefs({ branches: [], tags: [] }); setGitRefsError(''); setGitRefsLoading(false);
@@ -239,9 +299,10 @@ function App() {
       sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1;
       statementPreviewSequence.current += 1; setStatementPreview(null);
       activeProjectId.current = ''; activeSelectedPlanId.current = '';
+      currentSourceContext.current = null;
       setActor(null); setToken(''); setTokenInput(''); setProjects([]); setRepositories([]); setProjectId(''); setDetail(null);
       selectRelease(null); setSelectedPlan(''); setPlanSource(null); setFreshPlanRequired(null); setPlanStatus('ALL'); setAuditAction('ALL');
-      setDecisionReason(''); setCommentBody(''); setSourceForm({ repositoryId: '', folder: 'migrations' });
+      setDecisionReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' });
       setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setGitRefs({ branches: [], tags: [] });
       setGitRefsLoading(false); setGitRefsError(''); setBusy(false); setNotice('');
       setError('Your session expired. Sign in again.');
@@ -257,10 +318,12 @@ function App() {
     setFreshPlanRequired(null);
     activeSelectedPlanId.current = id;
     setSelectedPlan(id);
+    setCommentEvidence([]);
   };
 
   const selectProject = (nextId) => {
     const alreadySelected = nextId === projectId;
+    if (!alreadySelected) currentSourceContext.current = null;
     activeProjectId.current = nextId;
     planSourceSequence.current += 1;
     statementPreviewSequence.current += 1; setStatementPreview(null);
@@ -278,6 +341,7 @@ function App() {
     setAuditAction('ALL');
     setDecisionReason('');
     setCommentBody('');
+    setCommentEvidence([]);
     setSourceForm({ repositoryId: '', folder: 'migrations' });
     setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' });
     if (alreadySelected && token) void refresh(token, nextId);
@@ -303,6 +367,7 @@ function App() {
       if (nextId) {
         const result = await json(`/api/projects/${encodeURIComponent(nextId)}`, activeToken);
         if (sequence !== refreshSequence.current) return;
+        rememberSourceContext(nextId, result.project);
         setDetail(result);
         return { selectedId: nextId, detail: result };
       }
@@ -344,7 +409,7 @@ function App() {
   const plan = useMemo(() => plans.find((item) => item.id === selectedPlan) || plans[0] || null, [plans, selectedPlan]);
   activeSelectedPlanId.current = plan?.id || '';
   const actionSessionEpoch = sessionEpoch.current;
-  useEffect(() => { setCommentBody(''); setDecisionReason(''); }, [plan?.id]);
+  useEffect(() => { setCommentBody(''); setCommentEvidence([]); setDecisionReason(''); }, [plan?.id]);
   const filterPlans = (status) => {
     planSourceSequence.current += 1;
     statementPreviewSequence.current += 1; setStatementPreview(null);
@@ -354,6 +419,7 @@ function App() {
     setSelectedPlan('');
     setFreshPlanRequired(null);
     setCommentBody('');
+    setCommentEvidence([]);
     setDecisionReason('');
   };
   const projectLoaded = detail?.project?.id === projectId;
@@ -415,12 +481,13 @@ function App() {
     setSelectedPlan('');
     setDecisionReason('');
     setCommentBody('');
+    setCommentEvidence([]);
     setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: detail.project.sourceBinding.folder || 'migrations' });
     setTab('release');
     setError('');
     setFreshPlanRequired(null);
     setNotice(plan?.status === 'PENDING_APPROVAL'
-      ? 'This plan predates the current source binding or its generation changed. Import the current bound commit and prepare a fresh plan; SQL edits are not required.'
+      ? 'This plan’s retained source, binding or intent facts are unavailable or stale. Import the current bound commit and prepare a fresh plan; SQL edits are not required.'
       : 'Prepare a new plan from changed SQL: commit the changes, then import that commit as a new immutable release.');
   };
   useEffect(() => {
@@ -501,11 +568,17 @@ function App() {
   const saveSourceBinding = (event) => {
     event.preventDefault();
     if (!projectId || !canBindSource || isArchived || !sourceForm.repositoryId || !sourceForm.folder.trim()) return;
-    void mutate(async () => {
-      await json(`/api/projects/${encodeURIComponent(projectId)}/source`, token, {
+    const savingProjectId = projectId;
+    const savingToken = token;
+    void mutate(async (isCurrentSession) => {
+      const result = await json(`/api/projects/${encodeURIComponent(savingProjectId)}/source`, savingToken, {
         method: 'PUT', body: JSON.stringify({ repositoryId: sourceForm.repositoryId, folder: sourceForm.folder.trim() }),
       });
-    }, 'Project source binding saved.');
+      return isCurrentSession() ? result : null;
+    }, 'Project source binding saved.', (result) => {
+      if (result?.project?.id === savingProjectId) rememberSourceContext(savingProjectId, result.project);
+    }, () => {}, () => activeProjectId.current === savingProjectId
+      && projectId === savingProjectId && tokenRef.current === savingToken);
   };
   const importRelease = (event) => {
     event.preventDefault(); if (!projectId || !sourceBinding || isArchived) return;
@@ -559,11 +632,34 @@ function App() {
   const addComment = (event) => {
     event.preventDefault();
     if (!projectLoaded || !plan || isArchived || plan.status !== 'PENDING_APPROVAL' || !commentBody.trim() || busy) return;
+    const commentProject = projectId;
+    const commentPlan = plan.id;
+    const commentSession = sessionEpoch.current;
+    const commentToken = token;
+    const isCurrentComment = () => activeProjectId.current === commentProject
+      && activeSelectedPlanId.current === commentPlan && sessionEpoch.current === commentSession
+      && tokenRef.current === commentToken;
     void mutate(async () => {
-      await json(`/api/projects/${encodeURIComponent(projectId)}/plans/${encodeURIComponent(plan.id)}/comments`, token, {
-        method: 'POST', body: JSON.stringify({ body: commentBody }),
+      await json(`/api/projects/${encodeURIComponent(commentProject)}/plans/${encodeURIComponent(commentPlan)}/comments`, commentToken, {
+        method: 'POST', body: JSON.stringify({ body: commentBody, evidenceRefs: commentEvidence }),
       });
-    }, 'Comment added.', () => setCommentBody(''));
+    }, 'Comment added.', () => { setCommentBody(''); setCommentEvidence([]); }, (failure) => {
+      if (['FRESH_PLAN_REQUIRED', 'COMMENT_EVIDENCE_UNAVAILABLE'].includes(failure?.message) && commentEvidence.length) {
+        setCommentEvidence([]);
+        if (failure.message === 'FRESH_PLAN_REQUIRED') setFreshPlanRequired({ projectId: commentProject,
+          planId: commentPlan, sessionEpoch: commentSession });
+      }
+    }, isCurrentComment);
+  };
+
+  const toggleCommentEvidence = (reference) => {
+    setCommentEvidence(current => {
+      const matches = item => item.filePath === reference.filePath && item.startByte === reference.startByte
+        && item.endByte === reference.endByte && item.sourceSha256 === reference.sourceSha256
+        && item.executionSha256 === reference.executionSha256;
+      if (current.some(matches)) return current.filter(item => !matches(item));
+      return current.length >= 8 ? current : [...current, reference];
+    });
   };
 
   const archiveProject = (event) => {
@@ -642,6 +738,7 @@ function App() {
         return;
       }
       setPlanSource({ planId: inspectedPlan, source });
+      return source;
     } catch (error) {
       if (isCurrent()) {
         if (error?.message === 'NOT_FOUND') {
@@ -659,6 +756,7 @@ function App() {
             if (current.project?.id !== inspectedProject || !current.plans?.some(item => item.id === inspectedPlan)) {
               throw new Error('NOT_FOUND');
             }
+            rememberSourceContext(inspectedProject, current.project);
             setDetail(current);
             setPlanSource({ planId: inspectedPlan, error: 'PLAN_SOURCE_UNAVAILABLE' });
           } catch {
@@ -672,27 +770,36 @@ function App() {
     }
   };
 
-  const requestStatementPreview = async (releaseId, filePath, planContext = '') => {
+  const requestStatementPreview = async (releaseId, filePath, planContext = '', expectedReference = null, sourceOverride = null) => {
     const sequence = ++statementPreviewSequence.current;
     const inspectedProject = projectId;
     const inspectedPlan = planContext;
     const inspectedToken = token;
     const inspectedSession = sessionEpoch.current;
     const sourceSnapshot = inspectedPlan
-      ? planSource?.planId === inspectedPlan ? planSource.source : null
+      ? sourceOverride || (planSource?.planId === inspectedPlan ? planSource.source : null)
       : activeSelectedReleaseId.current === releaseId ? release : null;
     const isCurrent = () => sequence === statementPreviewSequence.current
       && activeProjectId.current === inspectedProject
       && sessionEpoch.current === inspectedSession
       && tokenRef.current === inspectedToken
       && (!inspectedPlan || activeSelectedPlanId.current === inspectedPlan
-        && planSource?.planId === inspectedPlan && planSource?.source?.id === releaseId)
+        && (sourceOverride ? sourceSnapshot?.id === releaseId
+          : planSource?.planId === inspectedPlan && planSource?.source?.id === releaseId))
       && (inspectedPlan ? true : activeSelectedReleaseId.current === releaseId);
     setStatementPreview({ releaseId, filePath, planId: inspectedPlan, loading: true });
     try {
       const result = await json(`/api/releases/${encodeURIComponent(releaseId)}/statement-preview?path=${encodeURIComponent(filePath)}`, inspectedToken);
       if (!isCurrent()) return;
       const checked = await validateStatementPreview(result.preview, sourceSnapshot, releaseId, filePath);
+      if (checked && expectedReference && (checked.sourceSha256 !== expectedReference.sourceFileSha256
+          || checked.parserProfile !== expectedReference.parserProfile
+          || !checked.statements.some(item => item.startByte === expectedReference.startByte
+            && item.endByte === expectedReference.endByte && item.sourceSha256 === expectedReference.sourceSha256
+            && item.executionSha256 === expectedReference.executionSha256))) {
+        if (isCurrent()) setStatementPreview({ releaseId, filePath, planId: inspectedPlan, error: 'STATEMENT_PREVIEW_UNAVAILABLE' });
+        return;
+      }
       if (isCurrent()) setStatementPreview(checked
         ? { releaseId, filePath, planId: inspectedPlan, preview: checked }
         : { releaseId, filePath, planId: inspectedPlan, error: 'STATEMENT_PREVIEW_UNAVAILABLE' });
@@ -712,6 +819,7 @@ function App() {
             const projectStillAuthorized = current.project?.id === inspectedProject
               && (!inspectedPlan || current.plans?.some(item => item.id === inspectedPlan));
             if (!projectStillAuthorized) throw new Error('NOT_FOUND');
+            rememberSourceContext(inspectedProject, current.project);
             setDetail(current);
             if (inspectedPlan) setPlanSource({ planId: inspectedPlan, error: 'PLAN_SOURCE_UNAVAILABLE' });
             else setStatementPreview({ releaseId, filePath, planId: '', error: 'STATEMENT_PREVIEW_UNAVAILABLE' });
@@ -725,7 +833,28 @@ function App() {
     }
   };
 
-  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan };
+  const reopenCommentEvidence = async (reference, planId) => {
+    const selectedProject = projectId;
+    const selectedSession = sessionEpoch.current;
+    const selectedToken = token;
+    const selectedPlan = plan?.id === planId ? plan : null;
+    const current = () => activeProjectId.current === selectedProject && activeSelectedPlanId.current === planId
+      && sessionEpoch.current === selectedSession && tokenRef.current === selectedToken;
+    if (!validSavedEvidenceReference(reference, selectedPlan)) {
+      setStatementPreview({ releaseId: selectedPlan?.releaseId || '', filePath: reference?.filePath || '', planId, error: 'STATEMENT_PREVIEW_UNAVAILABLE' });
+      return;
+    }
+    let source = planSource?.planId === planId && planSource?.source?.id === reference.releaseId ? planSource.source : null;
+    if (!source) source = await inspectPlanSource();
+    if (!current()) return;
+    if (!source || source.id !== reference.releaseId) {
+      setStatementPreview({ releaseId: reference.releaseId, filePath: reference.filePath, planId, error: 'STATEMENT_PREVIEW_UNAVAILABLE' });
+      return;
+    }
+    await requestStatementPreview(reference.releaseId, reference.filePath, planId, reference, source);
+  };
+
+  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -752,7 +881,7 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => setTab('release')}><span>◫</span> Releases</button>
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => setTab('records')}><span>≡</span> Audit &amp; history</button>
-    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setCommentBody(''); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
+    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
       <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { void refresh(token); }} disabled={busy}>↻</button></div></header>
@@ -855,7 +984,7 @@ function ReleaseScreen({ model }) {
 
 
 function ReviewScreen({ model }) {
-  const { readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, statementPreview } = model;
+  const { readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview } = model;
   const scopedProfiles = projectLoaded && Array.isArray(detail?.profiles) ? detail.profiles : [];
   const scopedEnvironments = projectLoaded && Array.isArray(detail?.environments) ? detail.environments : [];
   const targetProfile = typeof plan?.profileId === 'string'
@@ -904,21 +1033,21 @@ function ReviewScreen({ model }) {
                   {!plan.releaseId && <p className="banner error">The linked source is unavailable or does not match this plan. Refresh the project and try again.</p>}
                   {planSource?.planId === plan.id && planSource.error && <p className="banner error">The linked source is unavailable or does not match this plan. Refresh the project and try again.</p>}
                   {planSource?.planId === plan.id && planSource.source && <div className="release-result plan-source-result" data-inspected-release-id={planSource.source.id}>
-                    <RetainedReleaseContent source={planSource.source} repositories={repositories} fmt={fmt} statementPreview={statementPreview} planContext={plan.id} requestStatementPreview={(releaseId, filePath) => requestStatementPreview(releaseId, filePath, plan.id)}/>
+                    <RetainedReleaseContent source={planSource.source} repositories={repositories} fmt={fmt} statementPreview={statementPreview} planContext={plan.id} selectEvidence={plan.status === 'PENDING_APPROVAL' && !isArchived ? toggleCommentEvidence : null} selectedEvidence={commentEvidence} requestStatementPreview={(releaseId, filePath) => requestStatementPreview(releaseId, filePath, plan.id)}/>
                   </div>}
                 </section>
                 {['APPROVED', 'REJECTED'].includes(plan.status) && <section className="decision-record" aria-label="Decision record"><h3>Decision record</h3><p><strong>{plan.decidedByName || plan.decidedBy}</strong>{plan.decidedByName && <code>{plan.decidedBy}</code>}</p><time dateTime={plan.decidedAt}>{fmt(plan.decidedAt)}</time><p className="decision-record-reason">{plan.decisionReason}</p>{plan.status === 'REJECTED' && canPrepareNewPlan && <div className="prepare-new-plan"><p>Changed SQL must be committed and imported as a new immutable release. The rejected plan and its review record remain unchanged.</p><button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare new plan</button></div>}{plan.status === 'REJECTED' && !isArchived && projectLoaded && !model.sourceBinding && <p className="banner warning">Bind a repository and migration folder before preparing a new plan.</p>}</section>}
                 <section className="panel source-generation" aria-label="Protected source generation"><h3>Protected source configuration</h3><p>Current project binding generation: <code>{validBindingGeneration(detail.project.sourceBinding?.generation) ? detail.project.sourceBinding.generation : 'Unavailable'}</code></p><p>Captured by this plan: <code>{validBindingGeneration(plan.sourceBindingGeneration) ? plan.sourceBindingGeneration : 'Unavailable'}</code></p></section>
-                {plan.status === 'PENDING_APPROVAL' && selectedNeedsFreshPlan && <div className="prepare-new-plan" role="region" aria-label="Fresh plan required"><p className="banner warning">This pending plan has no verifiable generation for the current protected repository and migration folder. Prepare a fresh plan before approval. You can import the current bound commit without editing SQL; the original plan and review history remain unchanged.</p>{canPrepareNewPlan && <button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare fresh plan</button>}</div>}
+                {plan.status === 'PENDING_APPROVAL' && selectedNeedsFreshPlan && <div className="prepare-new-plan" role="region" aria-label="Fresh plan required"><p className="banner warning">This pending plan’s retained source, binding or intent facts are missing, stale or unverifiable. Prepare a fresh plan from the current protected repository and migration folder before approval or attaching statement references. You can import the current bound commit without editing SQL; the original plan and review history remain unchanged.</p>{canPrepareNewPlan && <button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare fresh plan</button>}</div>}
                 {isApprover && plan.status === 'PENDING_APPROVAL' && <div className="decision-box" inert={readOnlyBootstrap}><label htmlFor="decision-reason">Decision reason</label><textarea id="decision-reason" value={decisionReason} onChange={(e) => setDecisionReason(e.target.value)} placeholder="Record why this candidate is approved or rejected" required disabled={isArchived}/><div><button type="button" className="danger-button" onClick={() => decide('REJECT')} disabled={busy || isArchived || !canReviewPlan || !decisionReason.trim()}>Reject plan</button><button type="button" className="primary" onClick={() => decide('APPROVE')} disabled={busy || isArchived || !canReviewPlan || selectedNeedsFreshPlan || !decisionReason.trim()}>Approve plan</button></div>
                   {isPlanAuthor ? <p className="banner warning">You authored this plan. Another approver must review it independently.</p> : !authorFactsAvailable ? <p className="banner warning">Requester information is unavailable. Refresh the project to retrieve retained plan facts.</p> : null}
                   <small>Approval records governance only. It does not authorize or perform execution in this product.</small></div>}
                 {!isApprover && plan.status === 'PENDING_APPROVAL' && <p className="banner warning">Awaiting an approver. Your current role can prepare plans but cannot decide them.</p>}
                 <section className="comments-section" aria-label="Plan comments">
                   <h3>Review comments</h3>
-                  <ol className="comment-timeline">{(detail.comments || []).filter((comment) => comment.planId === plan.id).map((comment) => <li className="comment-row" key={comment.id}><div><strong>{comment.authorName}</strong><time dateTime={comment.createdAt}>{fmt(comment.createdAt)}</time></div><p>{comment.body}</p></li>)}</ol>
+                  <ol className="comment-timeline">{(detail.comments || []).filter((comment) => comment.planId === plan.id).map((comment) => <PlanCommentRow key={comment.id} comment={comment} plan={plan} fmt={fmt} reopenEvidence={reopenCommentEvidence}/>)}</ol>
                   {!(detail.comments || []).some((comment) => comment.planId === plan.id) && <p className="muted">No comments yet.</p>}
-                  {!isArchived && plan.status === 'PENDING_APPROVAL' ? <form className="comment-form" inert={readOnlyBootstrap} onSubmit={addComment}><label htmlFor="plan-comment">Comment</label><textarea id="plan-comment" value={commentBody} onChange={(event) => setCommentBody(event.target.value)} maxLength={4000} placeholder="Add a plain-text review comment" required disabled={busy}/><div><small>Plain text · up to 4,000 characters</small><button type="submit" className="primary" disabled={busy || !commentBody.trim()}>Add comment</button></div></form> : <p className="muted">Comments are read only {isArchived ? 'because this project is archived.' : 'after a plan decision.'}</p>}
+                  {!isArchived && plan.status === 'PENDING_APPROVAL' ? <form className="comment-form" inert={readOnlyBootstrap} onSubmit={addComment}><label htmlFor="plan-comment">Comment</label><textarea id="plan-comment" value={commentBody} onChange={(event) => setCommentBody(event.target.value)} maxLength={4000} placeholder="Add a plain-text review comment" required disabled={busy}/><div><small>Plain text · up to 4,000 characters</small><button type="submit" className="primary" disabled={busy || !commentBody.trim()}>Add comment</button></div>{commentEvidence.length > 0 && <p className="muted">{commentEvidence.length} statement reference{commentEvidence.length === 1 ? '' : 's'} selected. They will be verified against the retained source on submission.</p>}</form> : <p className="muted">Comments are read only {isArchived ? 'because this project is archived.' : 'after a plan decision.'}</p>}
                 </section>
               </>}
             </>}

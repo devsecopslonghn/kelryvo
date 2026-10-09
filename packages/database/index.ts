@@ -96,6 +96,7 @@ export async function initializeDatabase(sql: any): Promise<void> {
       project_id uuid NOT NULL, organization_id uuid NOT NULL, plan_id uuid NOT NULL,
       author_id text NOT NULL, author_name text NOT NULL,
       body text NOT NULL CHECK (length(btrim(body)) BETWEEN 1 AND 4000 AND octet_length(body) <= 16000),
+      evidence_refs jsonb NOT NULL DEFAULT '[]'::jsonb CHECK (CASE WHEN jsonb_typeof(evidence_refs) = 'array' THEN jsonb_array_length(evidence_refs) <= 8 AND octet_length(evidence_refs::text) <= 49152 ELSE false END),
       created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
       FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
       FOREIGN KEY(plan_id,project_id) REFERENCES sf_plans(id,project_id)
@@ -114,6 +115,13 @@ export async function initializeDatabase(sql: any): Promise<void> {
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS offline_intent_envelope text;
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS offline_intent_digest text;
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS source_binding_generation bigint;
+    ALTER TABLE sf_plan_comments ADD COLUMN IF NOT EXISTS evidence_refs jsonb NOT NULL DEFAULT '[]'::jsonb;
+    DO $$ BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_plan_comments'::regclass AND conname='sf_plan_comments_evidence_refs_bounded') THEN
+        ALTER TABLE sf_plan_comments ADD CONSTRAINT sf_plan_comments_evidence_refs_bounded
+          CHECK (CASE WHEN jsonb_typeof(evidence_refs) = 'array' THEN jsonb_array_length(evidence_refs) <= 8 AND octet_length(evidence_refs::text) <= 49152 ELSE false END);
+      END IF;
+    END $$;
     DO $$ BEGIN
       IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_projects'::regclass AND conname='sf_projects_source_binding_complete') THEN
         ALTER TABLE sf_projects ADD CONSTRAINT sf_projects_source_binding_complete

@@ -1,0 +1,20 @@
+{
+  "observed_at_utc": "2026-10-09T18:52:31.231614+00:00",
+  "observations": [
+    {
+      "command": "node node_modules/prettier/bin/prettier.cjs --check docs/decisions/log.json",
+      "exit_code": 1,
+      "result": "MODULE_NOT_FOUND: repository uses scripts/format-json.mjs rather than Prettier; no changes or verification result",
+      "raw_capture": "Tool output only; no immutable raw log retained."
+    },
+    {
+      "command": "sed -n '1,130p' scripts/format.mjs",
+      "exit_code": 2,
+      "result": "File absent; actual formatter is scripts/format-json.mjs. No changes.",
+      "raw_capture": "Tool output only; no immutable raw log retained."
+    }
+  ],
+  "limitations": [
+    "Preparation mistakes do not establish a feature check result. Native source mutable; no T23 verification claimed."
+  ]
+}

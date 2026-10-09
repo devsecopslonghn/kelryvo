@@ -1,0 +1,5 @@
+{
+  "command": "set -e; node --test tests/tracker.test.mjs; npm run lint; npm run format:check; git diff --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T19:29:37.444305+00:00"
+}

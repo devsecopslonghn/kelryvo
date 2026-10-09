@@ -1,0 +1,5 @@
+{
+  "command": "gh pr merge 35 --repo devsecopslonghn/schemaForge --merge --match-head-commit 52ed5e7b29073cf5fa67f339294e1f9ac800fbef",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:38:36.966095+00:00"
+}

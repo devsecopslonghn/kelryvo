@@ -1,0 +1,11 @@
+{
+  "command": "gh pr create --repo devsecopslonghn/schemaForge --base master --head development/product-statement-preview --draft --title \"Add scoped offline statement previews to release review\" --body-file /tmp/schemaforge-t22-pr-body.md",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:11:03.921800+00:00",
+  "ended_at_utc": "2026-10-09T18:11:07.079704+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/13-create-draft-pr.log",
+    "sha256": "b10a78e89ebd0baf0fc09d89413100c8dd8d07d6a7644bbb68df3528745f934e"
+  }
+}

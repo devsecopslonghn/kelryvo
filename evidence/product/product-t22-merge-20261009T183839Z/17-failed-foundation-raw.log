@@ -1,0 +1,2012 @@
+foundation	Run npm run check	﻿2026-10-09T18:11:16.7659648Z ##[group]Run npm run check
+foundation	Run npm run check	2026-10-09T18:11:16.7659897Z ^[[36;1mnpm run check^[[0m
+foundation	Run npm run check	2026-10-09T18:11:16.7716564Z shell: /usr/bin/bash -e {0}
+foundation	Run npm run check	2026-10-09T18:11:16.7716772Z ##[endgroup]
+foundation	Run npm run check	2026-10-09T18:11:16.8450460Z 
+foundation	Run npm run check	2026-10-09T18:11:16.8451395Z > schemaforge-local-development@0.0.0 check
+foundation	Run npm run check	2026-10-09T18:11:16.8452317Z > npm run build && npm run lint && npm run format:check && npm test && npm run dependencies:smoke && npm run dependencies:product
+foundation	Run npm run check	2026-10-09T18:11:16.8452738Z 
+foundation	Run npm run check	2026-10-09T18:11:16.9110088Z 
+foundation	Run npm run check	2026-10-09T18:11:16.9111178Z > schemaforge-local-development@0.0.0 build
+foundation	Run npm run check	2026-10-09T18:11:16.9112090Z > node scripts/check-source.mjs && npm run typecheck && npm run build:web
+foundation	Run npm run check	2026-10-09T18:11:16.9112515Z 
+foundation	Run npm run check	2026-10-09T18:11:18.7429330Z Source checks passed for 154 authored files.
+foundation	Run npm run check	2026-10-09T18:11:18.8084682Z 
+foundation	Run npm run check	2026-10-09T18:11:18.8085808Z > schemaforge-local-development@0.0.0 typecheck
+foundation	Run npm run check	2026-10-09T18:11:18.8088390Z > tsc --noEmit
+foundation	Run npm run check	2026-10-09T18:11:18.8088550Z 
+foundation	Run npm run check	2026-10-09T18:11:20.1840112Z 
+foundation	Run npm run check	2026-10-09T18:11:20.1841056Z > schemaforge-local-development@0.0.0 build:web
+foundation	Run npm run check	2026-10-09T18:11:20.1841625Z > node scripts/build-web.mjs
+foundation	Run npm run check	2026-10-09T18:11:20.1841789Z 
+foundation	Run npm run check	2026-10-09T18:11:20.2575697Z Web application built in dist/web.
+foundation	Run npm run check	2026-10-09T18:11:20.3342094Z 
+foundation	Run npm run check	2026-10-09T18:11:20.3342881Z > schemaforge-local-development@0.0.0 lint
+foundation	Run npm run check	2026-10-09T18:11:20.3343312Z > node scripts/check-source.mjs && node scripts/tracker.mjs validate
+foundation	Run npm run check	2026-10-09T18:11:20.3343491Z 
+foundation	Run npm run check	2026-10-09T18:11:22.2266628Z Source checks passed for 154 authored files.
+foundation	Run npm run check	2026-10-09T18:11:22.2987739Z Tracker data valid: 220 features, 64 imported tasks plus foundation and 23 product tasks, 63 cases; no Oracle verification claims.
+foundation	Run npm run check	2026-10-09T18:11:22.3752514Z 
+foundation	Run npm run check	2026-10-09T18:11:22.3753273Z > schemaforge-local-development@0.0.0 format:check
+foundation	Run npm run check	2026-10-09T18:11:22.3753736Z > node scripts/format-json.mjs --check
+foundation	Run npm run check	2026-10-09T18:11:22.3777107Z 
+foundation	Run npm run check	2026-10-09T18:11:22.4157611Z Authored JSON formatting passed; imported inputs and evidence excluded.
+foundation	Run npm run check	2026-10-09T18:11:22.4895113Z 
+foundation	Run npm run check	2026-10-09T18:11:22.4896025Z > schemaforge-local-development@0.0.0 test
+foundation	Run npm run check	2026-10-09T18:11:22.4896562Z > node --test tests/*.test.mjs
+foundation	Run npm run check	2026-10-09T18:11:22.4896728Z 
+foundation	Run npm run check	2026-10-09T18:11:22.5331066Z TAP version 13
+foundation	Run npm run check	2026-10-09T18:11:22.5977862Z # Subtest: native specialist TOML parses with standard-library TOML and keeps parent settings
+foundation	Run npm run check	2026-10-09T18:11:22.5983270Z ok 1 - native specialist TOML parses with standard-library TOML and keeps parent settings
+foundation	Run npm run check	2026-10-09T18:11:22.5983622Z   ---
+foundation	Run npm run check	2026-10-09T18:11:22.5983942Z   duration_ms: 38.40534
+foundation	Run npm run check	2026-10-09T18:11:22.5984192Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:22.5984471Z   ...
+foundation	Run npm run check	2026-10-09T18:11:22.6279341Z # Subtest: ANTLR lock rejects unreviewed parser, tool and distribution rights
+foundation	Run npm run check	2026-10-09T18:11:22.6280733Z ok 2 - ANTLR lock rejects unreviewed parser, tool and distribution rights
+foundation	Run npm run check	2026-10-09T18:11:22.6282339Z   ---
+foundation	Run npm run check	2026-10-09T18:11:22.6307651Z   duration_ms: 1.718415
+foundation	Run npm run check	2026-10-09T18:11:22.6317403Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:22.6317916Z   ...
+foundation	Run npm run check	2026-10-09T18:11:22.6318573Z # Subtest: stale authored-source hashes reject before building or replacing an installed helper
+foundation	Run npm run check	2026-10-09T18:11:22.6319542Z ok 3 - stale authored-source hashes reject before building or replacing an installed helper
+foundation	Run npm run check	2026-10-09T18:11:22.6320137Z   ---
+foundation	Run npm run check	2026-10-09T18:11:22.6323092Z   duration_ms: 63.221175
+foundation	Run npm run check	2026-10-09T18:11:22.6323492Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:22.6323802Z   ...
+foundation	Run npm run check	2026-10-09T18:11:22.6588902Z # Subtest: ANTLR source validation rejects digest changes, symlinks and path escapes
+foundation	Run npm run check	2026-10-09T18:11:22.6611668Z ok 4 - ANTLR source validation rejects digest changes, symlinks and path escapes
+foundation	Run npm run check	2026-10-09T18:11:22.6630869Z   ---
+foundation	Run npm run check	2026-10-09T18:11:22.6642631Z   duration_ms: 31.347474
+foundation	Run npm run check	2026-10-09T18:11:22.6644824Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:22.6645227Z   ...
+foundation	Run npm run check	2026-10-09T18:11:22.6752959Z # Subtest: artifact preparation refuses unapproved URLs without echoing injected credentials
+foundation	Run npm run check	2026-10-09T18:11:22.6756013Z ok 5 - artifact preparation refuses unapproved URLs without echoing injected credentials
+foundation	Run npm run check	2026-10-09T18:11:22.6757521Z   ---
+foundation	Run npm run check	2026-10-09T18:11:22.6783385Z   duration_ms: 111.296751
+foundation	Run npm run check	2026-10-09T18:11:22.6783859Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:22.6784180Z   ...
+foundation	Run npm run check	2026-10-09T18:11:22.7245054Z # Subtest: artifact preparation rejects a cache symlink before creating any outside directories
+foundation	Run npm run check	2026-10-09T18:11:22.7257327Z ok 6 - artifact preparation rejects a cache symlink before creating any outside directories
+foundation	Run npm run check	2026-10-09T18:11:22.7262720Z   ---
+foundation	Run npm run check	2026-10-09T18:11:22.7263172Z   duration_ms: 49.228296
+foundation	Run npm run check	2026-10-09T18:11:22.7263546Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:22.7264040Z   ...
+foundation	Run npm run check	2026-10-09T18:11:22.9033488Z # Subtest: a later invalid origin or digest rejects before the first download or cache mutation
+foundation	Run npm run check	2026-10-09T18:11:22.9060067Z ok 7 - a later invalid origin or digest rejects before the first download or cache mutation
+foundation	Run npm run check	2026-10-09T18:11:22.9077287Z   ---
+foundation	Run npm run check	2026-10-09T18:11:22.9077816Z   duration_ms: 179.101446
+foundation	Run npm run check	2026-10-09T18:11:22.9078307Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:22.9079243Z   ...
+foundation	Run npm run check	2026-10-09T18:11:23.0150737Z # Subtest: manifest measures lock-matched npm cache tarball, installed bytes, and license files reproducibly
+foundation	Run npm run check	2026-10-09T18:11:23.0151939Z ok 8 - manifest measures lock-matched npm cache tarball, installed bytes, and license files reproducibly
+foundation	Run npm run check	2026-10-09T18:11:23.0152907Z   ---
+foundation	Run npm run check	2026-10-09T18:11:23.0153306Z   duration_ms: 215.301026
+foundation	Run npm run check	2026-10-09T18:11:23.0153907Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:23.0154400Z   ...
+foundation	Run npm run check	2026-10-09T18:11:23.0155164Z # Subtest: manifest verification rejects tampered installed files, lock identities, and undeclared packages
+foundation	Run npm run check	2026-10-09T18:11:23.0156948Z ok 9 - manifest verification rejects tampered installed files, lock identities, and undeclared packages
+foundation	Run npm run check	2026-10-09T18:11:23.0157855Z   ---
+foundation	Run npm run check	2026-10-09T18:11:23.0158179Z   duration_ms: 160.506995
+foundation	Run npm run check	2026-10-09T18:11:23.0158619Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:23.0159036Z   ...
+foundation	Run npm run check	2026-10-09T18:11:23.0251322Z # Subtest: lock credential URLs and identity mutations are rejected without echoing credentials
+foundation	Run npm run check	2026-10-09T18:11:23.0252115Z ok 10 - lock credential URLs and identity mutations are rejected without echoing credentials
+foundation	Run npm run check	2026-10-09T18:11:23.0275502Z   ---
+foundation	Run npm run check	2026-10-09T18:11:23.0275854Z   duration_ms: 10.478441
+foundation	Run npm run check	2026-10-09T18:11:23.0276172Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:23.0276713Z   ...
+foundation	Run npm run check	2026-10-09T18:11:23.1468004Z # Subtest: cached tarball bytes are rechecked against lock SRI on every measurement
+foundation	Run npm run check	2026-10-09T18:11:23.1497901Z ok 11 - cached tarball bytes are rechecked against lock SRI on every measurement
+foundation	Run npm run check	2026-10-09T18:11:23.1507183Z   ---
+foundation	Run npm run check	2026-10-09T18:11:23.1507743Z   duration_ms: 120.49088
+foundation	Run npm run check	2026-10-09T18:11:23.1508164Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:23.1508501Z   ...
+foundation	Run npm run check	2026-10-09T18:11:23.1592248Z # Subtest: installed dependency symlinks and smoke-script symlinks fail closed
+foundation	Run npm run check	2026-10-09T18:11:23.1599523Z ok 12 - installed dependency symlinks and smoke-script symlinks fail closed
+foundation	Run npm run check	2026-10-09T18:11:23.1601482Z   ---
+foundation	Run npm run check	2026-10-09T18:11:23.1602293Z   duration_ms: 12.913536
+foundation	Run npm run check	2026-10-09T18:11:23.1602760Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:23.1603862Z   ...
+foundation	Run npm run check	2026-10-09T18:11:23.4507511Z # Subtest: cache miss fails closed and offline install does not fall back to a registry
+foundation	Run npm run check	2026-10-09T18:11:23.4509808Z ok 13 - cache miss fails closed and offline install does not fall back to a registry
+foundation	Run npm run check	2026-10-09T18:11:23.4536960Z   ---
+foundation	Run npm run check	2026-10-09T18:11:23.4541454Z   duration_ms: 291.247394
+foundation	Run npm run check	2026-10-09T18:11:23.4553056Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:23.4553499Z   ...
+foundation	Run npm run check	2026-10-09T18:11:23.9052016Z # Subtest: offline install runs a smoke import from an isolated staging directory
+foundation	Run npm run check	2026-10-09T18:11:23.9067977Z ok 14 - offline install runs a smoke import from an isolated staging directory
+foundation	Run npm run check	2026-10-09T18:11:23.9068506Z   ---
+foundation	Run npm run check	2026-10-09T18:11:23.9068884Z   duration_ms: 453.863523
+foundation	Run npm run check	2026-10-09T18:11:23.9069283Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:23.9069608Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6121936Z # Subtest: offline install and post-install manifest use the supplied nonempty cache only
+foundation	Run npm run check	2026-10-09T18:11:24.6123157Z ok 15 - offline install and post-install manifest use the supplied nonempty cache only
+foundation	Run npm run check	2026-10-09T18:11:24.6123687Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6124440Z   duration_ms: 707.526839
+foundation	Run npm run check	2026-10-09T18:11:24.6124782Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6125082Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6302624Z # Subtest: append-only reports reject an evidence symlink before creating any external directory
+foundation	Run npm run check	2026-10-09T18:11:24.6304177Z ok 16 - append-only reports reject an evidence symlink before creating any external directory
+foundation	Run npm run check	2026-10-09T18:11:24.6306925Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6307233Z   duration_ms: 12.880501
+foundation	Run npm run check	2026-10-09T18:11:24.6307519Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6307798Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6452425Z # Subtest: format 1 is stable, binds ordered content and validates bounded facts
+foundation	Run npm run check	2026-10-09T18:11:24.6477422Z ok 17 - format 1 is stable, binds ordered content and validates bounded facts
+foundation	Run npm run check	2026-10-09T18:11:24.6505828Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6510072Z   duration_ms: 4.971271
+foundation	Run npm run check	2026-10-09T18:11:24.6510486Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6510787Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6511449Z # Subtest: offline Maven cache rejects artifact mutation, symlinks and credentialed origins
+foundation	Run npm run check	2026-10-09T18:11:24.6512351Z ok 18 - offline Maven cache rejects artifact mutation, symlinks and credentialed origins
+foundation	Run npm run check	2026-10-09T18:11:24.6513326Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6513777Z   duration_ms: 69.485996
+foundation	Run npm run check	2026-10-09T18:11:24.6514106Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6514406Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6514946Z # Subtest: cache-lock and runtime URL entries enforce the same origin and symlink boundaries
+foundation	Run npm run check	2026-10-09T18:11:24.6515815Z ok 19 - cache-lock and runtime URL entries enforce the same origin and symlink boundaries
+foundation	Run npm run check	2026-10-09T18:11:24.6516419Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6516777Z   duration_ms: 4.907416
+foundation	Run npm run check	2026-10-09T18:11:24.6517289Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6517598Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6518155Z # Subtest: validates candidate output as exact bounded source bytes and remains unapproved
+foundation	Run npm run check	2026-10-09T18:11:24.6519040Z ok 20 - validates candidate output as exact bounded source bytes and remains unapproved
+foundation	Run npm run check	2026-10-09T18:11:24.6519520Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6519805Z   duration_ms: 1.567721
+foundation	Run npm run check	2026-10-09T18:11:24.6520290Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6520587Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6521112Z # Subtest: rejects tampered digests, ranges, overlaps, and SQL not at the source prefix
+foundation	Run npm run check	2026-10-09T18:11:24.6521948Z ok 21 - rejects tampered digests, ranges, overlaps, and SQL not at the source prefix
+foundation	Run npm run check	2026-10-09T18:11:24.6522407Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6522689Z   duration_ms: 0.489381
+foundation	Run npm run check	2026-10-09T18:11:24.6522987Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6523493Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6524015Z # Subtest: rejects profile approval, unexpected stderr, malformed JSON, and extra protocol fields
+foundation	Run npm run check	2026-10-09T18:11:24.6524732Z ok 22 - rejects profile approval, unexpected stderr, malformed JSON, and extra protocol fields
+foundation	Run npm run check	2026-10-09T18:11:24.6525362Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6525637Z   duration_ms: 0.626014
+foundation	Run npm run check	2026-10-09T18:11:24.6525940Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6526219Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6526914Z # Subtest: bounds input/output and maps subprocess timeout and overflow to sanitized outcomes
+foundation	Run npm run check	2026-10-09T18:11:24.6527632Z ok 23 - bounds input/output and maps subprocess timeout and overflow to sanitized outcomes
+foundation	Run npm run check	2026-10-09T18:11:24.6528223Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6528497Z   duration_ms: 2.056771
+foundation	Run npm run check	2026-10-09T18:11:24.6528795Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6529065Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6529707Z # Subtest: fixture containment rejects parent paths while allowing paths beneath a fixtures root
+foundation	Run npm run check	2026-10-09T18:11:24.6530449Z ok 24 - fixture containment rejects parent paths while allowing paths beneath a fixtures root
+foundation	Run npm run check	2026-10-09T18:11:24.6530945Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6531343Z   duration_ms: 0.109884
+foundation	Run npm run check	2026-10-09T18:11:24.6531637Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6531912Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6532349Z # Subtest: STOP requires the exact safe protocol and the full input digest
+foundation	Run npm run check	2026-10-09T18:11:24.6578968Z ok 25 - STOP requires the exact safe protocol and the full input digest
+foundation	Run npm run check	2026-10-09T18:11:24.6596638Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6597058Z   duration_ms: 0.27476
+foundation	Run npm run check	2026-10-09T18:11:24.6598019Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6598366Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6599081Z # Subtest: rejects omitted SQL in empty, leading, middle and trailing statement coverage
+foundation	Run npm run check	2026-10-09T18:11:24.6600023Z ok 26 - rejects omitted SQL in empty, leading, middle and trailing statement coverage
+foundation	Run npm run check	2026-10-09T18:11:24.6600514Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6600941Z   duration_ms: 0.345766
+foundation	Run npm run check	2026-10-09T18:11:24.6601267Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6601564Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6602148Z # Subtest: accepts whitespace gaps and range-contained UTF-8 comments, rejects uncovered comments
+foundation	Run npm run check	2026-10-09T18:11:24.6603102Z ok 27 - accepts whitespace gaps and range-contained UTF-8 comments, rejects uncovered comments
+foundation	Run npm run check	2026-10-09T18:11:24.6603625Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6604048Z   duration_ms: 1.554761
+foundation	Run npm run check	2026-10-09T18:11:24.6604379Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6604670Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6605204Z # Subtest: ANTLR protocol preserves CRLF slash delimiters without allowing unknown profiles
+foundation	Run npm run check	2026-10-09T18:11:24.6606121Z ok 28 - ANTLR protocol preserves CRLF slash delimiters without allowing unknown profiles
+foundation	Run npm run check	2026-10-09T18:11:24.6607012Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6612144Z   duration_ms: 0.330874
+foundation	Run npm run check	2026-10-09T18:11:24.6612771Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6613078Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6614330Z # Subtest: original corpus covers F07–F20 and all fourteen parser cases
+foundation	Run npm run check	2026-10-09T18:11:24.6615247Z ok 29 - original corpus covers F07–F20 and all fourteen parser cases
+foundation	Run npm run check	2026-10-09T18:11:24.6615694Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6615993Z   duration_ms: 1.203457
+foundation	Run npm run check	2026-10-09T18:11:24.6616535Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6616814Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6617323Z # Subtest: every fixture digest and executable golden matches exact original byte ranges
+foundation	Run npm run check	2026-10-09T18:11:24.6618170Z ok 30 - every fixture digest and executable golden matches exact original byte ranges
+foundation	Run npm run check	2026-10-09T18:11:24.6618654Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6618939Z   duration_ms: 9.03762
+foundation	Run npm run check	2026-10-09T18:11:24.6619245Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6619694Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6620161Z # Subtest: encoding corpus distinguishes LF, CRLF, BOM and invalid bytes
+foundation	Run npm run check	2026-10-09T18:11:24.6620755Z ok 31 - encoding corpus distinguishes LF, CRLF, BOM and invalid bytes
+foundation	Run npm run check	2026-10-09T18:11:24.6621307Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6621595Z   duration_ms: 1.227042
+foundation	Run npm run check	2026-10-09T18:11:24.6621900Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6622176Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6622675Z # Subtest: late malformed release and non-atomic fixtures retain their required contracts
+foundation	Run npm run check	2026-10-09T18:11:24.6623542Z ok 32 - late malformed release and non-atomic fixtures retain their required contracts
+foundation	Run npm run check	2026-10-09T18:11:24.6624011Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6624438Z   duration_ms: 0.135202
+foundation	Run npm run check	2026-10-09T18:11:24.6624752Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6625037Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6625646Z # Subtest: release parse failure in a later file returns no executable or partially approved release
+foundation	Run npm run check	2026-10-09T18:11:24.6626675Z ok 33 - release parse failure in a later file returns no executable or partially approved release
+foundation	Run npm run check	2026-10-09T18:11:24.6627204Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6627623Z   duration_ms: 1.874619
+foundation	Run npm run check	2026-10-09T18:11:24.6627941Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6628244Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6628717Z # Subtest: all release bytes and digests are snapshotted before parser calls
+foundation	Run npm run check	2026-10-09T18:11:24.6629487Z ok 34 - all release bytes and digests are snapshotted before parser calls
+foundation	Run npm run check	2026-10-09T18:11:24.6629920Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6630203Z   duration_ms: 0.339607
+foundation	Run npm run check	2026-10-09T18:11:24.6630511Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6630929Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6631472Z # Subtest: bad, duplicate, traversing or oversized release inputs stop before parser invocation
+foundation	Run npm run check	2026-10-09T18:11:24.6632205Z ok 35 - bad, duplicate, traversing or oversized release inputs stop before parser invocation
+foundation	Run npm run check	2026-10-09T18:11:24.6632839Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6633130Z   duration_ms: 38.228266
+foundation	Run npm run check	2026-10-09T18:11:24.6633441Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6633724Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6634381Z # Subtest: parser throws, wrong profile, empty parses and envelope failures all stop safely
+foundation	Run npm run check	2026-10-09T18:11:24.6635410Z ok 36 - parser throws, wrong profile, empty parses and envelope failures all stop safely
+foundation	Run npm run check	2026-10-09T18:11:24.6636079Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6637343Z   duration_ms: 0.459816
+foundation	Run npm run check	2026-10-09T18:11:24.6637675Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6637968Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6638432Z # Subtest: empty manifest reports exact missing prerequisites as BLOCKED
+foundation	Run npm run check	2026-10-09T18:11:24.6639176Z ok 37 - empty manifest reports exact missing prerequisites as BLOCKED
+foundation	Run npm run check	2026-10-09T18:11:24.6639604Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6639888Z   duration_ms: 7.190965
+foundation	Run npm run check	2026-10-09T18:11:24.6640195Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6640614Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6641046Z # Subtest: example manifest is rejected and receives no profile hash
+foundation	Run npm run check	2026-10-09T18:11:24.6641615Z ok 38 - example manifest is rejected and receives no profile hash
+foundation	Run npm run check	2026-10-09T18:11:24.6642161Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6642444Z   duration_ms: 2.040957
+foundation	Run npm run check	2026-10-09T18:11:24.6642759Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6643046Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6643722Z # Subtest: complete synthetic manifest validates local fixture bytes without runtime authority
+foundation	Run npm run check	2026-10-09T18:11:24.6644710Z ok 39 - complete synthetic manifest validates local fixture bytes without runtime authority
+foundation	Run npm run check	2026-10-09T18:11:24.6645333Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6645620Z   duration_ms: 20.096048
+foundation	Run npm run check	2026-10-09T18:11:24.6645933Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6646219Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6647022Z # Subtest: malformed nested values, exact versions, duplicate refs, scope and authorization reject or block safely
+foundation	Run npm run check	2026-10-09T18:11:24.6648066Z ok 40 - malformed nested values, exact versions, duplicate refs, scope and authorization reject or block safely
+foundation	Run npm run check	2026-10-09T18:11:24.6648636Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6648924Z   duration_ms: 18.640376
+foundation	Run npm run check	2026-10-09T18:11:24.6649244Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6649667Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6650182Z # Subtest: unknown secret fields and TCPS userinfo are rejected without echoing canaries
+foundation	Run npm run check	2026-10-09T18:11:24.6650888Z ok 41 - unknown secret fields and TCPS userinfo are rejected without echoing canaries
+foundation	Run npm run check	2026-10-09T18:11:24.6651489Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6651788Z   duration_ms: 8.704993
+foundation	Run npm run check	2026-10-09T18:11:24.6652437Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6652852Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6653374Z # Subtest: malformed declared hashes, versions and nested unknown fields never leak canaries
+foundation	Run npm run check	2026-10-09T18:11:24.6654113Z ok 42 - malformed declared hashes, versions and nested unknown fields never leak canaries
+foundation	Run npm run check	2026-10-09T18:11:24.6654732Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6655014Z   duration_ms: 19.948089
+foundation	Run npm run check	2026-10-09T18:11:24.6655324Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6655607Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6656356Z # Subtest: artifact digest, symlink and protected-path checks stay within approved offline directory
+foundation	Run npm run check	2026-10-09T18:11:24.6657137Z ok 43 - artifact digest, symlink and protected-path checks stay within approved offline directory
+foundation	Run npm run check	2026-10-09T18:11:24.6657764Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6658069Z   duration_ms: 20.248687
+foundation	Run npm run check	2026-10-09T18:11:24.6658444Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6659031Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6659610Z # Subtest: CLI rejects missing/duplicate arguments, sanitizes errors, and appends two reports without overwrite
+foundation	Run npm run check	2026-10-09T18:11:24.6660769Z ok 44 - CLI rejects missing/duplicate arguments, sanitizes errors, and appends two reports without overwrite
+foundation	Run npm run check	2026-10-09T18:11:24.6661394Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6661665Z   duration_ms: 349.215207
+foundation	Run npm run check	2026-10-09T18:11:24.6661964Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6662403Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6663411Z # Subtest: product API persists a governed offline plan and never claims execution
+foundation	Run npm run check	2026-10-09T18:11:24.6664243Z ok 45 - product API persists a governed offline plan and never claims execution # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6664696Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6664968Z   duration_ms: 0.464884
+foundation	Run npm run check	2026-10-09T18:11:24.6665370Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6665645Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6666329Z # Subtest: approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+foundation	Run npm run check	2026-10-09T18:11:24.6667625Z ok 46 - approval verifies locked retained release and ordered plan facts before writes; rejection remains available # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6668200Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6668609Z   duration_ms: 0.560396
+foundation	Run npm run check	2026-10-09T18:11:24.6668918Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6669197Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6669683Z # Subtest: archival keeps immutable records readable and refuses further project work
+foundation	Run npm run check	2026-10-09T18:11:24.6670528Z ok 47 - archival keeps immutable records readable and refuses further project work # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6671009Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6671288Z   duration_ms: 2.343098
+foundation	Run npm run check	2026-10-09T18:11:24.6671695Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6671972Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6672473Z # Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+foundation	Run npm run check	2026-10-09T18:11:24.6673309Z ok 48 - an in-flight metadata write rechecks archival after acquiring the project lock # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6673807Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6674083Z   duration_ms: 0.220869
+foundation	Run npm run check	2026-10-09T18:11:24.6674383Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6674759Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6675393Z # Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+foundation	Run npm run check	2026-10-09T18:11:24.6676108Z ok 49 - plan review comments are scoped, validated, durable, ordered, and serialized # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6676757Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6677035Z   duration_ms: 0.67633
+foundation	Run npm run check	2026-10-09T18:11:24.6677337Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6677618Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6678273Z # Subtest: local credentials persist and recover real interrupted operator processes
+foundation	Run npm run check	2026-10-09T18:11:24.6678978Z ok 50 - local credentials persist and recover real interrupted operator processes # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6679559Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6679835Z   duration_ms: 0.794335
+foundation	Run npm run check	2026-10-09T18:11:24.6680136Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6680418Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6681064Z # Subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+foundation	Run npm run check	2026-10-09T18:11:24.6681873Z ok 51 - concurrent product schema initialization serializes DDL on a fresh PostgreSQL database # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6682401Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6682785Z   duration_ms: 0.582429
+foundation	Run npm run check	2026-10-09T18:11:24.6683088Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6683366Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6683862Z # Subtest: terminal plan decisions retain reviewer snapshots and historical ID fallback
+foundation	Run npm run check	2026-10-09T18:11:24.6684692Z ok 52 - terminal plan decisions retain reviewer snapshots and historical ID fallback # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6685236Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6685511Z   duration_ms: 0.97858
+foundation	Run npm run check	2026-10-09T18:11:24.6685904Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6686183Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6708873Z # Subtest: local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+foundation	Run npm run check	2026-10-09T18:11:24.6709993Z ok 53 - local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6710669Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6710985Z   duration_ms: 0.675058
+foundation	Run npm run check	2026-10-09T18:11:24.6711314Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6711607Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6712153Z # Subtest: resolved commits remain immutable after the source branch moves
+foundation	Run npm run check	2026-10-09T18:11:24.6712866Z ok 54 - resolved commits remain immutable after the source branch moves # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6713323Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6713608Z   duration_ms: 0.14083
+foundation	Run npm run check	2026-10-09T18:11:24.6713921Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6714344Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6714845Z # Subtest: leading-zero aliases and equivalent dotted versions are rejected as duplicates
+foundation	Run npm run check	2026-10-09T18:11:24.6715988Z ok 55 - leading-zero aliases and equivalent dotted versions are rejected as duplicates # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6716600Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6716892Z   duration_ms: 0.145788
+foundation	Run npm run check	2026-10-09T18:11:24.6717205Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6717586Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6718305Z # Subtest: malformed refs and migration-folder traversal are rejected before Git lookup
+foundation	Run npm run check	2026-10-09T18:11:24.6719153Z ok 56 - malformed refs and migration-folder traversal are rejected before Git lookup # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6719660Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6719937Z   duration_ms: 0.076063
+foundation	Run npm run check	2026-10-09T18:11:24.6720240Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6720525Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6817005Z # Subtest: symlinked migration entries and Git submodules are rejected
+foundation	Run npm run check	2026-10-09T18:11:24.6865251Z ok 57 - symlinked migration entries and Git submodules are rejected # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6865822Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6878414Z   duration_ms: 0.769819
+foundation	Run npm run check	2026-10-09T18:11:24.6878784Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6879074Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6879676Z # Subtest: invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+foundation	Run npm run check	2026-10-09T18:11:24.6880589Z ok 58 - invalid SQL makes the entire release unplannable while retaining explicit per-file observations # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6881174Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6881460Z   duration_ms: 0.095903
+foundation	Run npm run check	2026-10-09T18:11:24.6881776Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6882395Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6882963Z # Subtest: the installed ANTLR helper parses actual imported SQL without a fake positive driver
+foundation	Run npm run check	2026-10-09T18:11:24.6883690Z ok 59 - the installed ANTLR helper parses actual imported SQL without a fake positive driver # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6884167Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6884437Z   duration_ms: 0.065708
+foundation	Run npm run check	2026-10-09T18:11:24.6884730Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6884996Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6921991Z # Subtest: local generated credentials stay private and existing permissions are repaired before use
+foundation	Run npm run check	2026-10-09T18:11:24.6923034Z ok 60 - local generated credentials stay private and existing permissions are repaired before use
+foundation	Run npm run check	2026-10-09T18:11:24.6923575Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6923879Z   duration_ms: 21.133417
+foundation	Run npm run check	2026-10-09T18:11:24.6924206Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6924500Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6925102Z # Subtest: local startup rejects oversized and extra-field credential configs without output or mutation
+foundation	Run npm run check	2026-10-09T18:11:24.6925932Z ok 61 - local startup rejects oversized and extra-field credential configs without output or mutation
+foundation	Run npm run check	2026-10-09T18:11:24.6926579Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6926873Z   duration_ms: 149.364763
+foundation	Run npm run check	2026-10-09T18:11:24.6927193Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6927479Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6928048Z # Subtest: local startup refuses symlinked directories/configs without chmod or reading external files
+foundation	Run npm run check	2026-10-09T18:11:24.6928858Z ok 62 - local startup refuses symlinked directories/configs without chmod or reading external files
+foundation	Run npm run check	2026-10-09T18:11:24.6929376Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6929661Z   duration_ms: 6.554715
+foundation	Run npm run check	2026-10-09T18:11:24.6929972Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6930256Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6930810Z # Subtest: real Docker CLI ignores remote environment and saved context for read-only local commands
+foundation	Run npm run check	2026-10-09T18:11:24.6931595Z ok 63 - real Docker CLI ignores remote environment and saved context for read-only local commands
+foundation	Run npm run check	2026-10-09T18:11:24.6932103Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6932390Z   duration_ms: 244.365465
+foundation	Run npm run check	2026-10-09T18:11:24.6932713Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6933001Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6933627Z # Subtest: explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+foundation	Run npm run check	2026-10-09T18:11:24.6934572Z ok 64 - explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6935163Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6936834Z   duration_ms: 0.612734
+foundation	Run npm run check	2026-10-09T18:11:24.6937146Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6937434Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6937985Z # Subtest: activation serializes with in-flight revocation and bootstrap creation stays denied
+foundation	Run npm run check	2026-10-09T18:11:24.6938781Z ok 65 - activation serializes with in-flight revocation and bootstrap creation stays denied # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6939304Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6939874Z   duration_ms: 0.195031
+foundation	Run npm run check	2026-10-09T18:11:24.6940183Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6940465Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6941092Z # Subtest: activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+foundation	Run npm run check	2026-10-09T18:11:24.6942063Z ok 66 - activation waits for credential lifecycle serialization and refuses coverage after credential revocation # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6943820Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6944102Z   duration_ms: 0.935927
+foundation	Run npm run check	2026-10-09T18:11:24.6944414Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6944702Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6945307Z # Subtest: plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+foundation	Run npm run check	2026-10-09T18:11:24.6947505Z ok 67 - plan intent persists across API restart and damaged or legacy intent blocks approval without writes # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6948067Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6948363Z   duration_ms: 0.68962
+foundation	Run npm run check	2026-10-09T18:11:24.6948695Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6948995Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6950827Z # Subtest: rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+foundation	Run npm run check	2026-10-09T18:11:24.6951955Z ok 68 - rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6954119Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6954408Z   duration_ms: 0.711823
+foundation	Run npm run check	2026-10-09T18:11:24.6954733Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6955035Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6955799Z # Subtest: source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+foundation	Run npm run check	2026-10-09T18:11:24.6958110Z ok 69 - source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6960399Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6960684Z   duration_ms: 4.283654
+foundation	Run npm run check	2026-10-09T18:11:24.6961073Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6961621Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6963004Z # Subtest: binding updates serialize with approval and plan creation under project locks
+foundation	Run npm run check	2026-10-09T18:11:24.6963738Z ok 70 - binding updates serialize with approval and plan creation under project locks # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6965477Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6965748Z   duration_ms: 0.173599
+foundation	Run npm run check	2026-10-09T18:11:24.6966039Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6966487Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.6967988Z # Subtest: legacy project schema initializes only current tracking and never backfills historical plans
+foundation	Run npm run check	2026-10-09T18:11:24.6969905Z ok 71 - legacy project schema initializes only current tracking and never backfills historical plans # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.6970441Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.6970725Z   duration_ms: 0.092388
+foundation	Run npm run check	2026-10-09T18:11:24.6971033Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.6971315Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.7984250Z # Subtest: offline planning rejects corrupted retained releases without writes and uses locked current state
+foundation	Run npm run check	2026-10-09T18:11:24.7985307Z ok 72 - offline planning rejects corrupted retained releases without writes and uses locked current state # SKIP
+foundation	Run npm run check	2026-10-09T18:11:24.7985970Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.7986373Z   duration_ms: 0.792112
+foundation	Run npm run check	2026-10-09T18:11:24.7986685Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.7987006Z   ...
+foundation	Run npm run check	2026-10-09T18:11:24.8884027Z # Subtest: startup arguments accept repeated local repositories and reject unknown or excess options
+foundation	Run npm run check	2026-10-09T18:11:24.8927419Z ok 73 - startup arguments accept repeated local repositories and reject unknown or excess options
+foundation	Run npm run check	2026-10-09T18:11:24.8927954Z   ---
+foundation	Run npm run check	2026-10-09T18:11:24.8956997Z   duration_ms: 2.529316
+foundation	Run npm run check	2026-10-09T18:11:24.8987873Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:24.8989575Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.0329152Z # Subtest: configured repositories are canonical local Git worktrees with display-only public descriptors
+foundation	Run npm run check	2026-10-09T18:11:25.0348953Z ok 74 - configured repositories are canonical local Git worktrees with display-only public descriptors
+foundation	Run npm run check	2026-10-09T18:11:25.0378753Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.0379278Z   duration_ms: 150.480482
+foundation	Run npm run check	2026-10-09T18:11:25.0380023Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.0380290Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.1578038Z # Subtest: invalid startup options fail before creating local configuration or reaching Docker
+foundation	Run npm run check	2026-10-09T18:11:25.1607284Z ok 75 - invalid startup options fail before creating local configuration or reaching Docker
+foundation	Run npm run check	2026-10-09T18:11:25.1607858Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.1643008Z   duration_ms: 124.000223
+foundation	Run npm run check	2026-10-09T18:11:25.1643424Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.1643867Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.1644830Z # Subtest: a configured custom Git repository is visible without its path and imports through the product API
+foundation	Run npm run check	2026-10-09T18:11:25.1645752Z ok 76 - a configured custom Git repository is visible without its path and imports through the product API # SKIP
+foundation	Run npm run check	2026-10-09T18:11:25.1646425Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.1646720Z   duration_ms: 0.181701
+foundation	Run npm run check	2026-10-09T18:11:25.1647035Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.1647324Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.1647879Z # Subtest: project-bound Git refs list safely and imports retain immutable branch and tag commits
+foundation	Run npm run check	2026-10-09T18:11:25.1648715Z ok 77 - project-bound Git refs list safely and imports retain immutable branch and tag commits # SKIP
+foundation	Run npm run check	2026-10-09T18:11:25.1649901Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.1650231Z   duration_ms: 0.222673
+foundation	Run npm run check	2026-10-09T18:11:25.1650546Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.1650829Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.1759190Z # Subtest: authenticated denied decisions append fixed audit facts while preserving plan and history
+foundation	Run npm run check	2026-10-09T18:11:25.1764950Z ok 78 - authenticated denied decisions append fixed audit facts while preserving plan and history # SKIP
+foundation	Run npm run check	2026-10-09T18:11:25.1765621Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.1765927Z   duration_ms: 4.911932
+foundation	Run npm run check	2026-10-09T18:11:25.1766962Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.1767277Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.1767867Z # Subtest: source bindings persist, authorize changes, constrain imports before Git, and remain private
+foundation	Run npm run check	2026-10-09T18:11:25.1768696Z ok 79 - source bindings persist, authorize changes, constrain imports before Git, and remain private # SKIP
+foundation	Run npm run check	2026-10-09T18:11:25.1769262Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.1769562Z   duration_ms: 0.682419
+foundation	Run npm run check	2026-10-09T18:11:25.1769878Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.1770160Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.1770726Z # Subtest: source binding is rechecked under a project lock before an imported release can commit
+foundation	Run npm run check	2026-10-09T18:11:25.1771523Z ok 80 - source binding is rechecked under a project lock before an imported release can commit # SKIP
+foundation	Run npm run check	2026-10-09T18:11:25.1772055Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.1772343Z   duration_ms: 0.211856
+foundation	Run npm run check	2026-10-09T18:11:25.1772666Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.1772953Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.1773473Z # Subtest: statement preview is scoped, bounded, archived-readable and read only
+foundation	Run npm run check	2026-10-09T18:11:25.1774171Z ok 81 - statement preview is scoped, bounded, archived-readable and read only # SKIP
+foundation	Run npm run check	2026-10-09T18:11:25.1774650Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.1774944Z   duration_ms: 0.695519
+foundation	Run npm run check	2026-10-09T18:11:25.1775259Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.1775544Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.1776084Z # Subtest: every imported design input retains its exact source digest and classification
+foundation	Run npm run check	2026-10-09T18:11:25.1777001Z ok 82 - every imported design input retains its exact source digest and classification
+foundation	Run npm run check	2026-10-09T18:11:25.1777522Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.1777816Z   duration_ms: 31.423322
+foundation	Run npm run check	2026-10-09T18:11:25.1778139Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.1778429Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.1816893Z # Subtest: the original catalog, work packages and matrix keep all stable identifiers
+foundation	Run npm run check	2026-10-09T18:11:25.1827075Z ok 83 - the original catalog, work packages and matrix keep all stable identifiers
+foundation	Run npm run check	2026-10-09T18:11:25.1827565Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.1827834Z   duration_ms: 4.445066
+foundation	Run npm run check	2026-10-09T18:11:25.1828113Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.1828359Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.2117715Z # Subtest: recomputes ordered exact UTF-8 statement slices through the pinned ANTLR helper
+foundation	Run npm run check	2026-10-09T18:11:25.2122630Z not ok 84 - recomputes ordered exact UTF-8 statement slices through the pinned ANTLR helper
+foundation	Run npm run check	2026-10-09T18:11:25.2123795Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.2124337Z   duration_ms: 8.599578
+foundation	Run npm run check	2026-10-09T18:11:25.2124692Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.2125225Z   location: '/home/runner/work/schemaForge/schemaForge/tests/statement-preview.test.mjs:19:1'
+foundation	Run npm run check	2026-10-09T18:11:25.2125770Z   failureType: 'testCodeFailure'
+foundation	Run npm run check	2026-10-09T18:11:25.2126156Z   error: |-
+foundation	Run npm run check	2026-10-09T18:11:25.2126645Z     {"ok":false}
+foundation	Run npm run check	2026-10-09T18:11:25.2126927Z     
+foundation	Run npm run check	2026-10-09T18:11:25.2127162Z     false !== true
+foundation	Run npm run check	2026-10-09T18:11:25.2127412Z     
+foundation	Run npm run check	2026-10-09T18:11:25.2127684Z   code: 'ERR_ASSERTION'
+foundation	Run npm run check	2026-10-09T18:11:25.2127963Z   name: 'AssertionError'
+foundation	Run npm run check	2026-10-09T18:11:25.2128274Z   expected: true
+foundation	Run npm run check	2026-10-09T18:11:25.2128526Z   actual: false
+foundation	Run npm run check	2026-10-09T18:11:25.2128814Z   operator: 'strictEqual'
+foundation	Run npm run check	2026-10-09T18:11:25.2129097Z   stack: |-
+foundation	Run npm run check	2026-10-09T18:11:25.2129710Z     TestContext.<anonymous> (file:///home/runner/work/schemaForge/schemaForge/tests/statement-preview.test.mjs:23:10)
+foundation	Run npm run check	2026-10-09T18:11:25.2130363Z     async Test.run (node:internal/test_runner/test:1054:7)
+foundation	Run npm run check	2026-10-09T18:11:25.2130965Z     async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+foundation	Run npm run check	2026-10-09T18:11:25.2131425Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.2132092Z # Subtest: fails closed for wrong paths, corrupt retained manifests, oversized source and malformed adapter ranges
+foundation	Run npm run check	2026-10-09T18:11:25.2133238Z ok 85 - fails closed for wrong paths, corrupt retained manifests, oversized source and malformed adapter ranges
+foundation	Run npm run check	2026-10-09T18:11:25.2133831Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.2134089Z   duration_ms: 5.582724
+foundation	Run npm run check	2026-10-09T18:11:25.2134409Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.2134657Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.2480476Z # Subtest: the offline CLI reports missing authority with twelve blocked unexecuted cases
+foundation	Run npm run check	2026-10-09T18:11:25.2485697Z ok 86 - the offline CLI reports missing authority with twelve blocked unexecuted cases
+foundation	Run npm run check	2026-10-09T18:11:25.2486495Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.2486822Z   duration_ms: 32.920089
+foundation	Run npm run check	2026-10-09T18:11:25.2487155Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.2487461Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.3142623Z # Subtest: a complete synthetic profile exits successfully for planning while denying runtime
+foundation	Run npm run check	2026-10-09T18:11:25.3157261Z ok 87 - a complete synthetic profile exits successfully for planning while denying runtime
+foundation	Run npm run check	2026-10-09T18:11:25.3157825Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.3158106Z   duration_ms: 69.289063
+foundation	Run npm run check	2026-10-09T18:11:25.3158399Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.3158653Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.3988075Z # Subtest: malformed and oversized profile files produce fixed errors without leaking input
+foundation	Run npm run check	2026-10-09T18:11:25.4008603Z ok 88 - malformed and oversized profile files produce fixed errors without leaking input
+foundation	Run npm run check	2026-10-09T18:11:25.4009164Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.4009526Z   duration_ms: 83.793027
+foundation	Run npm run check	2026-10-09T18:11:25.4009919Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.4010212Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.4066607Z # Subtest: pinned case projection matches the six existing T04 acceptance cases
+foundation	Run npm run check	2026-10-09T18:11:25.4077067Z ok 89 - pinned case projection matches the six existing T04 acceptance cases
+foundation	Run npm run check	2026-10-09T18:11:25.4077565Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.4077884Z   duration_ms: 0.663921
+foundation	Run npm run check	2026-10-09T18:11:25.4078209Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.4078499Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.4079061Z # Subtest: complete synthetic profile produces 12 frozen NOT_RUN plans without authority
+foundation	Run npm run check	2026-10-09T18:11:25.4079808Z ok 90 - complete synthetic profile produces 12 frozen NOT_RUN plans without authority
+foundation	Run npm run check	2026-10-09T18:11:25.4080346Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.4080637Z   duration_ms: 19.816951
+foundation	Run npm run check	2026-10-09T18:11:25.4080953Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.4081243Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.4081763Z # Subtest: missing profile uses real preflight and keeps all 12 cells BLOCKED and NOT_RUN
+foundation	Run npm run check	2026-10-09T18:11:25.4082492Z ok 91 - missing profile uses real preflight and keeps all 12 cells BLOCKED and NOT_RUN
+foundation	Run npm run check	2026-10-09T18:11:25.4082974Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.4083255Z   duration_ms: 1.130107
+foundation	Run npm run check	2026-10-09T18:11:25.4083571Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.4083854Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.4084424Z # Subtest: example and malformed secret-bearing profiles are rejected without echoing supplied data
+foundation	Run npm run check	2026-10-09T18:11:25.4085662Z ok 92 - example and malformed secret-bearing profiles are rejected without echoing supplied data
+foundation	Run npm run check	2026-10-09T18:11:25.4086214Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.4086786Z   duration_ms: 2.637999
+foundation	Run npm run check	2026-10-09T18:11:25.4087101Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.4087396Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.4087994Z # Subtest: caller-supplied preflight-shaped data is just an invalid profile, not an admission token
+foundation	Run npm run check	2026-10-09T18:11:25.4088832Z ok 93 - caller-supplied preflight-shaped data is just an invalid profile, not an admission token
+foundation	Run npm run check	2026-10-09T18:11:25.4089361Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.4089640Z   duration_ms: 0.835277
+foundation	Run npm run check	2026-10-09T18:11:25.4089956Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.4090241Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.5370557Z # Subtest: supervisor requires trusted wiring and rejects public options before spawn
+foundation	Run npm run check	2026-10-09T18:11:25.5371574Z ok 94 - supervisor requires trusted wiring and rejects public options before spawn
+foundation	Run npm run check	2026-10-09T18:11:25.5372119Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.5372430Z   duration_ms: 1.286541
+foundation	Run npm run check	2026-10-09T18:11:25.5372758Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.5373046Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.5373583Z # Subtest: invalid or throwing starters retain dispatch uncertainty without retry
+foundation	Run npm run check	2026-10-09T18:11:25.5374600Z ok 95 - invalid or throwing starters retain dispatch uncertainty without retry
+foundation	Run npm run check	2026-10-09T18:11:25.5375047Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.5375336Z   duration_ms: 0.848046
+foundation	Run npm run check	2026-10-09T18:11:25.5375649Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.5375930Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.5376609Z # Subtest: matched result requires the real worker runner, terminal receipt and successful exit
+foundation	Run npm run check	2026-10-09T18:11:25.5377328Z ok 96 - matched result requires the real worker runner, terminal receipt and successful exit
+foundation	Run npm run check	2026-10-09T18:11:25.5377807Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.5378099Z   duration_ms: 242.688995
+foundation	Run npm run check	2026-10-09T18:11:25.5378418Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.5378711Z   ...
+foundation	Run npm run check	2026-10-09T18:11:26.0432615Z # Subtest: the real default driver remains behind denied child admission
+foundation	Run npm run check	2026-10-09T18:11:26.0433619Z ok 97 - the real default driver remains behind denied child admission
+foundation	Run npm run check	2026-10-09T18:11:26.0434101Z   ---
+foundation	Run npm run check	2026-10-09T18:11:26.0434294Z   duration_ms: 507.010624
+foundation	Run npm run check	2026-10-09T18:11:26.0434448Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:26.0434564Z   ...
+foundation	Run npm run check	2026-10-09T18:11:26.3166680Z # Subtest: fixed fixture starter uses the supplied allowlisted environment and empty execArgv
+foundation	Run npm run check	2026-10-09T18:11:26.3167471Z ok 98 - fixed fixture starter uses the supplied allowlisted environment and empty execArgv
+foundation	Run npm run check	2026-10-09T18:11:26.3167857Z   ---
+foundation	Run npm run check	2026-10-09T18:11:26.3168045Z   duration_ms: 273.509983
+foundation	Run npm run check	2026-10-09T18:11:26.3168255Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:26.3168432Z   ...
+foundation	Run npm run check	2026-10-09T18:11:29.3216955Z # Subtest: whole deadline terminates and reaps a child hanging at admit
+foundation	Run npm run check	2026-10-09T18:11:29.3217692Z ok 99 - whole deadline terminates and reaps a child hanging at admit
+foundation	Run npm run check	2026-10-09T18:11:29.3218066Z   ---
+foundation	Run npm run check	2026-10-09T18:11:29.3218283Z   duration_ms: 3004.995604
+foundation	Run npm run check	2026-10-09T18:11:29.3218539Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:29.3218787Z   ...
+foundation	Run npm run check	2026-10-09T18:11:32.3283175Z # Subtest: whole deadline terminates and reaps a child hanging at trust
+foundation	Run npm run check	2026-10-09T18:11:32.3283802Z ok 100 - whole deadline terminates and reaps a child hanging at trust
+foundation	Run npm run check	2026-10-09T18:11:32.3284007Z   ---
+foundation	Run npm run check	2026-10-09T18:11:32.3284141Z   duration_ms: 3006.393848
+foundation	Run npm run check	2026-10-09T18:11:32.3284281Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:32.3284398Z   ...
+foundation	Run npm run check	2026-10-09T18:11:35.3331585Z # Subtest: whole deadline terminates and reaps a child hanging at credentials
+foundation	Run npm run check	2026-10-09T18:11:35.3332027Z ok 101 - whole deadline terminates and reaps a child hanging at credentials
+foundation	Run npm run check	2026-10-09T18:11:35.3332420Z   ---
+foundation	Run npm run check	2026-10-09T18:11:35.3332610Z   duration_ms: 3004.786124
+foundation	Run npm run check	2026-10-09T18:11:35.3332799Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:35.3332990Z   ...
+foundation	Run npm run check	2026-10-09T18:11:38.3395289Z # Subtest: whole deadline terminates and reaps a child hanging at claim
+foundation	Run npm run check	2026-10-09T18:11:38.3395923Z ok 102 - whole deadline terminates and reaps a child hanging at claim
+foundation	Run npm run check	2026-10-09T18:11:38.3396812Z   ---
+foundation	Run npm run check	2026-10-09T18:11:38.3396999Z   duration_ms: 3006.189217
+foundation	Run npm run check	2026-10-09T18:11:38.3397210Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:38.3397384Z   ...
+foundation	Run npm run check	2026-10-09T18:11:41.3460484Z # Subtest: whole deadline terminates and reaps a child hanging at connect
+foundation	Run npm run check	2026-10-09T18:11:41.3461281Z ok 103 - whole deadline terminates and reaps a child hanging at connect
+foundation	Run npm run check	2026-10-09T18:11:41.3461622Z   ---
+foundation	Run npm run check	2026-10-09T18:11:41.3467736Z   duration_ms: 3006.444159
+foundation	Run npm run check	2026-10-09T18:11:41.3467972Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:41.3468145Z   ...
+foundation	Run npm run check	2026-10-09T18:11:44.3556024Z # Subtest: whole deadline terminates and reaps a child hanging at read
+foundation	Run npm run check	2026-10-09T18:11:44.3557934Z ok 104 - whole deadline terminates and reaps a child hanging at read
+foundation	Run npm run check	2026-10-09T18:11:44.3558820Z   ---
+foundation	Run npm run check	2026-10-09T18:11:44.3559396Z   duration_ms: 3007.652289
+foundation	Run npm run check	2026-10-09T18:11:44.3560228Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:44.3560595Z   ...
+foundation	Run npm run check	2026-10-09T18:11:47.3601573Z # Subtest: whole deadline terminates and reaps a child hanging at close
+foundation	Run npm run check	2026-10-09T18:11:47.3602242Z ok 105 - whole deadline terminates and reaps a child hanging at close
+foundation	Run npm run check	2026-10-09T18:11:47.3602609Z   ---
+foundation	Run npm run check	2026-10-09T18:11:47.3602803Z   duration_ms: 3006.530809
+foundation	Run npm run check	2026-10-09T18:11:47.3603402Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:47.3603573Z   ...
+foundation	Run npm run check	2026-10-09T18:11:50.3662217Z # Subtest: whole deadline terminates and reaps a child hanging at event-loop
+foundation	Run npm run check	2026-10-09T18:11:50.3663035Z ok 106 - whole deadline terminates and reaps a child hanging at event-loop
+foundation	Run npm run check	2026-10-09T18:11:50.3663361Z   ---
+foundation	Run npm run check	2026-10-09T18:11:50.3663544Z   duration_ms: 3005.806762
+foundation	Run npm run check	2026-10-09T18:11:50.3663751Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:50.3663920Z   ...
+foundation	Run npm run check	2026-10-09T18:11:53.9238522Z # Subtest: unconfirmed termination retains reaping ownership and blocks a replacement child
+foundation	Run npm run check	2026-10-09T18:11:53.9239601Z ok 107 - unconfirmed termination retains reaping ownership and blocks a replacement child
+foundation	Run npm run check	2026-10-09T18:11:53.9240225Z   ---
+foundation	Run npm run check	2026-10-09T18:11:53.9240460Z   duration_ms: 3557.595577
+foundation	Run npm run check	2026-10-09T18:11:53.9240685Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:53.9240859Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.9800516Z # Subtest: SIGTERM refusal escalates to SIGKILL and waits for the real exit
+foundation	Run npm run check	2026-10-09T18:11:56.9800993Z ok 108 - SIGTERM refusal escalates to SIGKILL and waits for the real exit
+foundation	Run npm run check	2026-10-09T18:11:56.9801231Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.9801370Z   duration_ms: 3056.157234
+foundation	Run npm run check	2026-10-09T18:11:56.9801508Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.9801620Z   ...
+foundation	Run npm run check	2026-10-09T18:11:57.2693609Z # Subtest: crash produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:57.2694263Z ok 109 - crash produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:57.2694567Z   ---
+foundation	Run npm run check	2026-10-09T18:11:57.2694691Z   duration_ms: 289.455741
+foundation	Run npm run check	2026-10-09T18:11:57.2694830Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:57.2694941Z   ...
+foundation	Run npm run check	2026-10-09T18:11:57.5642832Z # Subtest: missing produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:57.5643322Z ok 110 - missing produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:57.5643544Z   ---
+foundation	Run npm run check	2026-10-09T18:11:57.5643702Z   duration_ms: 294.88623
+foundation	Run npm run check	2026-10-09T18:11:57.5643834Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:57.5643943Z   ...
+foundation	Run npm run check	2026-10-09T18:11:57.8845935Z # Subtest: malformed produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:57.8846794Z ok 111 - malformed produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:57.8847067Z   ---
+foundation	Run npm run check	2026-10-09T18:11:57.8847192Z   duration_ms: 320.259799
+foundation	Run npm run check	2026-10-09T18:11:57.8847330Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:57.8847440Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.2058313Z # Subtest: duplicate produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:58.2059298Z ok 112 - duplicate produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:58.2059861Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.2060092Z   duration_ms: 320.963225
+foundation	Run npm run check	2026-10-09T18:11:58.2060313Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.2060486Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.5044701Z # Subtest: oversize produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:58.5045736Z ok 113 - oversize produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:58.5046092Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.5046446Z   duration_ms: 298.450727
+foundation	Run npm run check	2026-10-09T18:11:58.5046666Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.5046840Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9031614Z # Subtest: output produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:58.9032220Z ok 114 - output produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:58.9032736Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9032948Z   duration_ms: 399.252546
+foundation	Run npm run check	2026-10-09T18:11:58.9043704Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9043891Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9044324Z # Subtest: result allowlist rejects spoofed acceptance, leaked fields and inconsistent counters
+foundation	Run npm run check	2026-10-09T18:11:58.9044968Z ok 115 - result allowlist rejects spoofed acceptance, leaked fields and inconsistent counters
+foundation	Run npm run check	2026-10-09T18:11:58.9045342Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9045510Z   duration_ms: 0.820042
+foundation	Run npm run check	2026-10-09T18:11:58.9045708Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9045910Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9107852Z # Subtest: candidate uses one strict TCPS connection, one fixed read and closes without accepting a case
+foundation	Run npm run check	2026-10-09T18:11:58.9108837Z ok 116 - candidate uses one strict TCPS connection, one fixed read and closes without accepting a case
+foundation	Run npm run check	2026-10-09T18:11:58.9109217Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9109370Z   duration_ms: 5.792327
+foundation	Run npm run check	2026-10-09T18:11:58.9109549Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9109736Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9110094Z # Subtest: 21c has a separately matched version; wrong service/PDB controls never trigger another route
+foundation	Run npm run check	2026-10-09T18:11:58.9110714Z ok 117 - 21c has a separately matched version; wrong service/PDB controls never trigger another route
+foundation	Run npm run check	2026-10-09T18:11:58.9111082Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9111248Z   duration_ms: 1.918645
+foundation	Run npm run check	2026-10-09T18:11:58.9111424Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9111598Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9111946Z # Subtest: preflight/report booleans, write/fault cases and extra SQL cannot admit a probe
+foundation	Run npm run check	2026-10-09T18:11:58.9112504Z ok 118 - preflight/report booleans, write/fault cases and extra SQL cannot admit a probe
+foundation	Run npm run check	2026-10-09T18:11:58.9112864Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9113020Z   duration_ms: 0.307709
+foundation	Run npm run check	2026-10-09T18:11:58.9113196Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9113379Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9113665Z # Subtest: denied or throwing authority never resolves credentials or calls the driver
+foundation	Run npm run check	2026-10-09T18:11:58.9114159Z ok 119 - denied or throwing authority never resolves credentials or calls the driver
+foundation	Run npm run check	2026-10-09T18:11:58.9114488Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9114663Z   duration_ms: 0.707466
+foundation	Run npm run check	2026-10-09T18:11:58.9114788Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9114957Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9115368Z # Subtest: expired, overlong, unbound and descriptor-injected grants are rejected before providers
+foundation	Run npm run check	2026-10-09T18:11:58.9116000Z ok 120 - expired, overlong, unbound and descriptor-injected grants are rejected before providers
+foundation	Run npm run check	2026-10-09T18:11:58.9116913Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9117080Z   duration_ms: 1.047614
+foundation	Run npm run check	2026-10-09T18:11:58.9117275Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9117441Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9117803Z # Subtest: changed trust bytes and secret scope or revision cannot open a connection
+foundation	Run npm run check	2026-10-09T18:11:58.9118350Z ok 121 - changed trust bytes and secret scope or revision cannot open a connection
+foundation	Run npm run check	2026-10-09T18:11:58.9118703Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9118875Z   duration_ms: 2.837435
+foundation	Run npm run check	2026-10-09T18:11:58.9119075Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9119247Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9119658Z # Subtest: invalid CA material with a matching digest is rejected without consulting the driver
+foundation	Run npm run check	2026-10-09T18:11:58.9120045Z ok 122 - invalid CA material with a matching digest is rejected without consulting the driver
+foundation	Run npm run check	2026-10-09T18:11:58.9120271Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9120378Z   duration_ms: 0.448289
+foundation	Run npm run check	2026-10-09T18:11:58.9120499Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9120609Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9120889Z # Subtest: re-admission rejects revocation, scope revision and expiry after resolving providers
+foundation	Run npm run check	2026-10-09T18:11:58.9121490Z ok 123 - re-admission rejects revocation, scope revision and expiry after resolving providers
+foundation	Run npm run check	2026-10-09T18:11:58.9121725Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9121835Z   duration_ms: 3.694034
+foundation	Run npm run check	2026-10-09T18:11:58.9121961Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9122067Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9122318Z # Subtest: authority and request snapshots resist mutation during asynchronous credential lookup
+foundation	Run npm run check	2026-10-09T18:11:58.9122705Z ok 124 - authority and request snapshots resist mutation during asynchronous credential lookup
+foundation	Run npm run check	2026-10-09T18:11:58.9122938Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9123042Z   duration_ms: 1.085671
+foundation	Run npm run check	2026-10-09T18:11:58.9123166Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9123273Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9123541Z # Subtest: a wrong principal, container fact, version or malformed result always closes with no fallback
+foundation	Run npm run check	2026-10-09T18:11:58.9123953Z ok 125 - a wrong principal, container fact, version or malformed result always closes with no fallback
+foundation	Run npm run check	2026-10-09T18:11:58.9124194Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9124302Z   duration_ms: 3.951359
+foundation	Run npm run check	2026-10-09T18:11:58.9124426Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9124535Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9124811Z # Subtest: connect/read/close errors are sanitized; read or uncertain cleanup requires HOLD without retry
+foundation	Run npm run check	2026-10-09T18:11:58.9125321Z ok 126 - connect/read/close errors are sanitized; read or uncertain cleanup requires HOLD without retry
+foundation	Run npm run check	2026-10-09T18:11:58.9125568Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9125674Z   duration_ms: 2.748983
+foundation	Run npm run check	2026-10-09T18:11:58.9125799Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9125906Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9126148Z # Subtest: wallet produces the actual native TLS context while CA-only material fails closed
+foundation	Run npm run check	2026-10-09T18:11:58.9126749Z ok 127 - wallet produces the actual native TLS context while CA-only material fails closed
+foundation	Run npm run check	2026-10-09T18:11:58.9126976Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9127082Z   duration_ms: 1.119491
+foundation	Run npm run check	2026-10-09T18:11:58.9127206Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9127313Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9127594Z # Subtest: approved encrypted client wallet supports its scoped password without publishing it
+foundation	Run npm run check	2026-10-09T18:11:58.9128231Z ok 128 - approved encrypted client wallet supports its scoped password without publishing it
+foundation	Run npm run check	2026-10-09T18:11:58.9128595Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9128753Z   duration_ms: 3.902346
+foundation	Run npm run check	2026-10-09T18:11:58.9128966Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9129127Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9129552Z # Subtest: atomic claim is required, cannot reuse a consumed permit and never retries a denied claim
+foundation	Run npm run check	2026-10-09T18:11:58.9130188Z ok 129 - atomic claim is required, cannot reuse a consumed permit and never retries a denied claim
+foundation	Run npm run check	2026-10-09T18:11:58.9130554Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9130706Z   duration_ms: 2.853459
+foundation	Run npm run check	2026-10-09T18:11:58.9130857Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9130966Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9131246Z # Subtest: the real pinned default driver can only reach denied admission, without credential resolution
+foundation	Run npm run check	2026-10-09T18:11:58.9131654Z ok 130 - the real pinned default driver can only reach denied admission, without credential resolution
+foundation	Run npm run check	2026-10-09T18:11:58.9131899Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9132007Z   duration_ms: 0.206188
+foundation	Run npm run check	2026-10-09T18:11:58.9132128Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9132234Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9132487Z # Subtest: driver mode changes and throwing provider objects fail closed without leaking errors
+foundation	Run npm run check	2026-10-09T18:11:58.9132864Z ok 131 - driver mode changes and throwing provider objects fail closed without leaking errors
+foundation	Run npm run check	2026-10-09T18:11:58.9133094Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9133206Z   duration_ms: 1.01125
+foundation	Run npm run check	2026-10-09T18:11:58.9133329Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9133435Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9133704Z # Subtest: wallet ordering is checked against the native driver TLS context, including CA-first rejection
+foundation	Run npm run check	2026-10-09T18:11:58.9134115Z ok 132 - wallet ordering is checked against the native driver TLS context, including CA-first rejection
+foundation	Run npm run check	2026-10-09T18:11:58.9134359Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9134467Z   duration_ms: 1.381282
+foundation	Run npm run check	2026-10-09T18:11:58.9134589Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9134696Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9135056Z # Subtest: debugger or disabled TLS environment rejects both early admission and late dispatch
+foundation	Run npm run check	2026-10-09T18:11:58.9135427Z ok 133 - debugger or disabled TLS environment rejects both early admission and late dispatch
+foundation	Run npm run check	2026-10-09T18:11:58.9136713Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9136891Z   duration_ms: 1.490826
+foundation	Run npm run check	2026-10-09T18:11:58.9137086Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9137249Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9137618Z # Subtest: dispatch rejects wrong receipts, expired claims and late driver mode changes
+foundation	Run npm run check	2026-10-09T18:11:58.9138179Z ok 134 - dispatch rejects wrong receipts, expired claims and late driver mode changes
+foundation	Run npm run check	2026-10-09T18:11:58.9138526Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9138688Z   duration_ms: 3.288979
+foundation	Run npm run check	2026-10-09T18:11:58.9138874Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9139037Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9139421Z # Subtest: exact patch version and read failure count remain distinct from Oracle acceptance
+foundation	Run npm run check	2026-10-09T18:11:58.9140013Z ok 135 - exact patch version and read failure count remain distinct from Oracle acceptance
+foundation	Run npm run check	2026-10-09T18:11:58.9140345Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9140450Z   duration_ms: 1.80241
+foundation	Run npm run check	2026-10-09T18:11:58.9140572Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9140782Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9141037Z # Subtest: malformed repeated PEM markers and oversized trust cannot backtrack or reach providers
+foundation	Run npm run check	2026-10-09T18:11:58.9141424Z ok 136 - malformed repeated PEM markers and oversized trust cannot backtrack or reach providers
+foundation	Run npm run check	2026-10-09T18:11:58.9141728Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9141891Z   duration_ms: 2.340367
+foundation	Run npm run check	2026-10-09T18:11:58.9142086Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9142252Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9142596Z # Subtest: persisted tracker state validates without assuming initial statuses
+foundation	Run npm run check	2026-10-09T18:11:58.9143106Z ok 137 - persisted tracker state validates without assuming initial statuses
+foundation	Run npm run check	2026-10-09T18:11:58.9143429Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9143593Z   duration_ms: 48.533529
+foundation	Run npm run check	2026-10-09T18:11:58.9143788Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9143952Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9144283Z # Subtest: catalog and plan IDs are retained with original dependency links
+foundation	Run npm run check	2026-10-09T18:11:58.9144777Z ok 138 - catalog and plan IDs are retained with original dependency links
+foundation	Run npm run check	2026-10-09T18:11:58.9144993Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9145098Z   duration_ms: 2.661924
+foundation	Run npm run check	2026-10-09T18:11:58.9145221Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9145327Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9145518Z # Subtest: separate WP0 cells never claim research as runtime PASS
+foundation	Run npm run check	2026-10-09T18:11:58.9145872Z ok 139 - separate WP0 cells never claim research as runtime PASS
+foundation	Run npm run check	2026-10-09T18:11:58.9146158Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9146456Z   duration_ms: 51.68248
+foundation	Run npm run check	2026-10-09T18:11:58.9146648Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9146817Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9147194Z # Subtest: initial state keeps Oracle validation and product delivery tracks distinct
+foundation	Run npm run check	2026-10-09T18:11:58.9147779Z ok 140 - initial state keeps Oracle validation and product delivery tracks distinct
+foundation	Run npm run check	2026-10-09T18:11:58.9148127Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9148297Z   duration_ms: 10.217282
+foundation	Run npm run check	2026-10-09T18:11:58.9148507Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9148676Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9148943Z # Subtest: unknown and cyclic dependencies are rejected
+foundation	Run npm run check	2026-10-09T18:11:58.9149327Z ok 141 - unknown and cyclic dependencies are rejected
+foundation	Run npm run check	2026-10-09T18:11:58.9149587Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9149760Z   duration_ms: 21.185515
+foundation	Run npm run check	2026-10-09T18:11:58.9149958Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9150126Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9150489Z # Subtest: verification requires acceptance, evidence, and verified dependencies
+foundation	Run npm run check	2026-10-09T18:11:58.9151043Z ok 142 - verification requires acceptance, evidence, and verified dependencies
+foundation	Run npm run check	2026-10-09T18:11:58.9151388Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9151559Z   duration_ms: 15.043327
+foundation	Run npm run check	2026-10-09T18:11:58.9151757Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9151926Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9152224Z # Subtest: BLOCKED and DEFERRED states require concrete reasons
+foundation	Run npm run check	2026-10-09T18:11:58.9152649Z ok 143 - BLOCKED and DEFERRED states require concrete reasons
+foundation	Run npm run check	2026-10-09T18:11:58.9152933Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9153298Z   duration_ms: 10.772537
+foundation	Run npm run check	2026-10-09T18:11:58.9153498Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9153669Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9154041Z # Subtest: unit BLOCKED requires an offline blocker independent of Oracle lab status
+foundation	Run npm run check	2026-10-09T18:11:58.9154612Z ok 144 - unit BLOCKED requires an offline blocker independent of Oracle lab status
+foundation	Run npm run check	2026-10-09T18:11:58.9154962Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9155129Z   duration_ms: 10.310862
+foundation	Run npm run check	2026-10-09T18:11:58.9155323Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9155453Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9155713Z # Subtest: Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+foundation	Run npm run check	2026-10-09T18:11:58.9156106Z ok 145 - Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+foundation	Run npm run check	2026-10-09T18:11:58.9156523Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9156631Z   duration_ms: 8.069375
+foundation	Run npm run check	2026-10-09T18:11:58.9156756Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9156863Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9157119Z # Subtest: malformed evidence metadata returns validation errors without throwing
+foundation	Run npm run check	2026-10-09T18:11:58.9160824Z ok 146 - malformed evidence metadata returns validation errors without throwing
+foundation	Run npm run check	2026-10-09T18:11:58.9161267Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9161700Z   duration_ms: 34.479052
+foundation	Run npm run check	2026-10-09T18:11:58.9161917Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9162093Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9162396Z # Subtest: research evidence cannot certify product status
+foundation	Run npm run check	2026-10-09T18:11:58.9162810Z ok 147 - research evidence cannot certify product status
+foundation	Run npm run check	2026-10-09T18:11:58.9163092Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9163264Z   duration_ms: 7.410702
+foundation	Run npm run check	2026-10-09T18:11:58.9163463Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9163637Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9163855Z # Subtest: PASS cells need evidence
+foundation	Run npm run check	2026-10-09T18:11:58.9164139Z ok 148 - PASS cells need evidence
+foundation	Run npm run check	2026-10-09T18:11:58.9164357Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9164528Z   duration_ms: 3.713623
+foundation	Run npm run check	2026-10-09T18:11:58.9164724Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9164893Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9165264Z # Subtest: ownership and dependency graph remain synchronized with work records
+foundation	Run npm run check	2026-10-09T18:11:58.9165836Z ok 149 - ownership and dependency graph remain synchronized with work records
+foundation	Run npm run check	2026-10-09T18:11:58.9166179Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9166564Z   duration_ms: 9.120675
+foundation	Run npm run check	2026-10-09T18:11:58.9166763Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9166935Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9167270Z # Subtest: duplicate, missing, and unexpected imported IDs are rejected
+foundation	Run npm run check	2026-10-09T18:11:58.9167760Z ok 150 - duplicate, missing, and unexpected imported IDs are rejected
+foundation	Run npm run check	2026-10-09T18:11:58.9168074Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9168245Z   duration_ms: 21.107689
+foundation	Run npm run check	2026-10-09T18:11:58.9168446Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9168616Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9169003Z # Subtest: source dependencies, acceptance, references, and result enums cannot drift
+foundation	Run npm run check	2026-10-09T18:11:58.9169587Z ok 151 - source dependencies, acceptance, references, and result enums cannot drift
+foundation	Run npm run check	2026-10-09T18:11:58.9169943Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9170112Z   duration_ms: 5.219642
+foundation	Run npm run check	2026-10-09T18:11:58.9170305Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9170479Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9170906Z # Subtest: hashed indexed evidence covers every acceptance and test reference before verification
+foundation	Run npm run check	2026-10-09T18:11:58.9171568Z ok 152 - hashed indexed evidence covers every acceptance and test reference before verification
+foundation	Run npm run check	2026-10-09T18:11:58.9171957Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9172127Z   duration_ms: 67.3581
+foundation	Run npm run check	2026-10-09T18:11:58.9172320Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9172490Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9172947Z # Subtest: product feature verification needs product-scope evidence and verified implementation tasks
+foundation	Run npm run check	2026-10-09T18:11:58.9173670Z ok 153 - product feature verification needs product-scope evidence and verified implementation tasks
+foundation	Run npm run check	2026-10-09T18:11:58.9174084Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9174256Z   duration_ms: 9.513127
+foundation	Run npm run check	2026-10-09T18:11:58.9174454Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9174627Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9174976Z # Subtest: init refuses to overwrite initialized evidence or tracking state
+foundation	Run npm run check	2026-10-09T18:11:58.9175488Z ok 154 - init refuses to overwrite initialized evidence or tracking state
+foundation	Run npm run check	2026-10-09T18:11:58.9176016Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9176193Z   duration_ms: 36.640901
+foundation	Run npm run check	2026-10-09T18:11:58.9176552Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9176723Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9177154Z # Subtest: next respects milestone scope and dependency gates independent of persisted statuses
+foundation	Run npm run check	2026-10-09T18:11:58.9177812Z ok 155 - next respects milestone scope and dependency gates independent of persisted statuses
+foundation	Run npm run check	2026-10-09T18:11:58.9178193Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9178362Z   duration_ms: 2.185853
+foundation	Run npm run check	2026-10-09T18:11:58.9178558Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9178729Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9179178Z # Subtest: PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+foundation	Run npm run check	2026-10-09T18:11:58.9179866Z ok 156 - PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+foundation	Run npm run check	2026-10-09T18:11:58.9180465Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9180759Z   duration_ms: 28.844258
+foundation	Run npm run check	2026-10-09T18:11:58.9181137Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9181466Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9181985Z # Subtest: PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+foundation	Run npm run check	2026-10-09T18:11:58.9182990Z ok 157 - PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+foundation	Run npm run check	2026-10-09T18:11:58.9183501Z   ---
+foundation	Run npm run check	2026-10-09T18:11:58.9183878Z   duration_ms: 63.648492
+foundation	Run npm run check	2026-10-09T18:11:58.9184111Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:58.9184287Z   ...
+foundation	Run npm run check	2026-10-09T18:11:58.9193616Z 1..157
+foundation	Run npm run check	2026-10-09T18:11:58.9193753Z # tests 157
+foundation	Run npm run check	2026-10-09T18:11:58.9193864Z # suites 0
+foundation	Run npm run check	2026-10-09T18:11:58.9193992Z # pass 126
+foundation	Run npm run check	2026-10-09T18:11:58.9194120Z # fail 1
+foundation	Run npm run check	2026-10-09T18:11:58.9194258Z # cancelled 0
+foundation	Run npm run check	2026-10-09T18:11:58.9194379Z # skipped 30
+foundation	Run npm run check	2026-10-09T18:11:58.9194491Z # todo 0
+foundation	Run npm run check	2026-10-09T18:11:58.9194616Z # duration_ms 36395.306649
+foundation	Run npm run check	2026-10-09T18:11:58.9344728Z ##[error]Process completed with exit code 1.
+foundation	Run npm run check	﻿2026-10-09T18:11:08.2047018Z ##[group]Run npm run check
+foundation	Run npm run check	2026-10-09T18:11:08.2047520Z ^[[36;1mnpm run check^[[0m
+foundation	Run npm run check	2026-10-09T18:11:08.2123616Z shell: /usr/bin/bash -e {0}
+foundation	Run npm run check	2026-10-09T18:11:08.2123897Z ##[endgroup]
+foundation	Run npm run check	2026-10-09T18:11:08.3153653Z 
+foundation	Run npm run check	2026-10-09T18:11:08.3154557Z > schemaforge-local-development@0.0.0 check
+foundation	Run npm run check	2026-10-09T18:11:08.3156256Z > npm run build && npm run lint && npm run format:check && npm test && npm run dependencies:smoke && npm run dependencies:product
+foundation	Run npm run check	2026-10-09T18:11:08.3157220Z 
+foundation	Run npm run check	2026-10-09T18:11:08.4120603Z 
+foundation	Run npm run check	2026-10-09T18:11:08.4121255Z > schemaforge-local-development@0.0.0 build
+foundation	Run npm run check	2026-10-09T18:11:08.4122275Z > node scripts/check-source.mjs && npm run typecheck && npm run build:web
+foundation	Run npm run check	2026-10-09T18:11:08.4122747Z 
+foundation	Run npm run check	2026-10-09T18:11:10.6322480Z Source checks passed for 154 authored files.
+foundation	Run npm run check	2026-10-09T18:11:10.7344446Z 
+foundation	Run npm run check	2026-10-09T18:11:10.7345502Z > schemaforge-local-development@0.0.0 typecheck
+foundation	Run npm run check	2026-10-09T18:11:10.7346204Z > tsc --noEmit
+foundation	Run npm run check	2026-10-09T18:11:10.7346461Z 
+foundation	Run npm run check	2026-10-09T18:11:13.1348415Z 
+foundation	Run npm run check	2026-10-09T18:11:13.1349427Z > schemaforge-local-development@0.0.0 build:web
+foundation	Run npm run check	2026-10-09T18:11:13.1350167Z > node scripts/build-web.mjs
+foundation	Run npm run check	2026-10-09T18:11:13.1350592Z 
+foundation	Run npm run check	2026-10-09T18:11:13.2602103Z Web application built in dist/web.
+foundation	Run npm run check	2026-10-09T18:11:13.3739176Z 
+foundation	Run npm run check	2026-10-09T18:11:13.3740342Z > schemaforge-local-development@0.0.0 lint
+foundation	Run npm run check	2026-10-09T18:11:13.3741648Z > node scripts/check-source.mjs && node scripts/tracker.mjs validate
+foundation	Run npm run check	2026-10-09T18:11:13.3742407Z 
+foundation	Run npm run check	2026-10-09T18:11:15.6089048Z Source checks passed for 154 authored files.
+foundation	Run npm run check	2026-10-09T18:11:15.7047084Z Tracker data valid: 220 features, 64 imported tasks plus foundation and 23 product tasks, 63 cases; no Oracle verification claims.
+foundation	Run npm run check	2026-10-09T18:11:15.8071180Z 
+foundation	Run npm run check	2026-10-09T18:11:15.8071912Z > schemaforge-local-development@0.0.0 format:check
+foundation	Run npm run check	2026-10-09T18:11:15.8072846Z > node scripts/format-json.mjs --check
+foundation	Run npm run check	2026-10-09T18:11:15.8073283Z 
+foundation	Run npm run check	2026-10-09T18:11:15.8670095Z Authored JSON formatting passed; imported inputs and evidence excluded.
+foundation	Run npm run check	2026-10-09T18:11:15.9694476Z 
+foundation	Run npm run check	2026-10-09T18:11:15.9695954Z > schemaforge-local-development@0.0.0 test
+foundation	Run npm run check	2026-10-09T18:11:15.9696488Z > node --test tests/*.test.mjs
+foundation	Run npm run check	2026-10-09T18:11:15.9696723Z 
+foundation	Run npm run check	2026-10-09T18:11:16.0262350Z TAP version 13
+foundation	Run npm run check	2026-10-09T18:11:16.1106274Z # Subtest: native specialist TOML parses with standard-library TOML and keeps parent settings
+foundation	Run npm run check	2026-10-09T18:11:16.1123652Z ok 1 - native specialist TOML parses with standard-library TOML and keeps parent settings
+foundation	Run npm run check	2026-10-09T18:11:16.1141601Z   ---
+foundation	Run npm run check	2026-10-09T18:11:16.1155634Z   duration_ms: 52.027015
+foundation	Run npm run check	2026-10-09T18:11:16.1156545Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:16.1157430Z   ...
+foundation	Run npm run check	2026-10-09T18:11:16.1293544Z # Subtest: ANTLR lock rejects unreviewed parser, tool and distribution rights
+foundation	Run npm run check	2026-10-09T18:11:16.1327882Z ok 2 - ANTLR lock rejects unreviewed parser, tool and distribution rights
+foundation	Run npm run check	2026-10-09T18:11:16.1375089Z   ---
+foundation	Run npm run check	2026-10-09T18:11:16.1375512Z   duration_ms: 3.111914
+foundation	Run npm run check	2026-10-09T18:11:16.1375951Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:16.1376329Z   ...
+foundation	Run npm run check	2026-10-09T18:11:16.1377261Z # Subtest: stale authored-source hashes reject before building or replacing an installed helper
+foundation	Run npm run check	2026-10-09T18:11:16.1378761Z ok 3 - stale authored-source hashes reject before building or replacing an installed helper
+foundation	Run npm run check	2026-10-09T18:11:16.1379618Z   ---
+foundation	Run npm run check	2026-10-09T18:11:16.1379990Z   duration_ms: 35.31778
+foundation	Run npm run check	2026-10-09T18:11:16.1380397Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:16.1380761Z   ...
+foundation	Run npm run check	2026-10-09T18:11:16.1381540Z # Subtest: ANTLR source validation rejects digest changes, symlinks and path escapes
+foundation	Run npm run check	2026-10-09T18:11:16.1382698Z ok 4 - ANTLR source validation rejects digest changes, symlinks and path escapes
+foundation	Run npm run check	2026-10-09T18:11:16.1383395Z   ---
+foundation	Run npm run check	2026-10-09T18:11:16.1383726Z   duration_ms: 7.405895
+foundation	Run npm run check	2026-10-09T18:11:16.1384106Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:16.1384687Z   ...
+foundation	Run npm run check	2026-10-09T18:11:16.1465436Z # Subtest: artifact preparation refuses unapproved URLs without echoing injected credentials
+foundation	Run npm run check	2026-10-09T18:11:16.1495316Z ok 5 - artifact preparation refuses unapproved URLs without echoing injected credentials
+foundation	Run npm run check	2026-10-09T18:11:16.1514906Z   ---
+foundation	Run npm run check	2026-10-09T18:11:16.1515861Z   duration_ms: 70.377847
+foundation	Run npm run check	2026-10-09T18:11:16.1516518Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:16.1517060Z   ...
+foundation	Run npm run check	2026-10-09T18:11:16.2061013Z # Subtest: artifact preparation rejects a cache symlink before creating any outside directories
+foundation	Run npm run check	2026-10-09T18:11:16.2065284Z ok 6 - artifact preparation rejects a cache symlink before creating any outside directories
+foundation	Run npm run check	2026-10-09T18:11:16.2073787Z   ---
+foundation	Run npm run check	2026-10-09T18:11:16.2074622Z   duration_ms: 62.906848
+foundation	Run npm run check	2026-10-09T18:11:16.2075064Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:16.2075754Z   ...
+foundation	Run npm run check	2026-10-09T18:11:16.2940639Z # Subtest: a later invalid origin or digest rejects before the first download or cache mutation
+foundation	Run npm run check	2026-10-09T18:11:16.2963768Z ok 7 - a later invalid origin or digest rejects before the first download or cache mutation
+foundation	Run npm run check	2026-10-09T18:11:16.2965136Z   ---
+foundation	Run npm run check	2026-10-09T18:11:16.2965749Z   duration_ms: 87.614829
+foundation	Run npm run check	2026-10-09T18:11:16.2966387Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:16.2966918Z   ...
+foundation	Run npm run check	2026-10-09T18:11:16.5709227Z # Subtest: manifest measures lock-matched npm cache tarball, installed bytes, and license files reproducibly
+foundation	Run npm run check	2026-10-09T18:11:16.5714567Z ok 8 - manifest measures lock-matched npm cache tarball, installed bytes, and license files reproducibly
+foundation	Run npm run check	2026-10-09T18:11:16.5716619Z   ---
+foundation	Run npm run check	2026-10-09T18:11:16.5717256Z   duration_ms: 389.582813
+foundation	Run npm run check	2026-10-09T18:11:16.5717928Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:16.5718508Z   ...
+foundation	Run npm run check	2026-10-09T18:11:16.8511753Z # Subtest: manifest verification rejects tampered installed files, lock identities, and undeclared packages
+foundation	Run npm run check	2026-10-09T18:11:16.8515691Z ok 9 - manifest verification rejects tampered installed files, lock identities, and undeclared packages
+foundation	Run npm run check	2026-10-09T18:11:16.8516803Z   ---
+foundation	Run npm run check	2026-10-09T18:11:16.8517234Z   duration_ms: 280.545092
+foundation	Run npm run check	2026-10-09T18:11:16.8517655Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:16.8518013Z   ...
+foundation	Run npm run check	2026-10-09T18:11:16.8747054Z # Subtest: lock credential URLs and identity mutations are rejected without echoing credentials
+foundation	Run npm run check	2026-10-09T18:11:16.8750584Z ok 10 - lock credential URLs and identity mutations are rejected without echoing credentials
+foundation	Run npm run check	2026-10-09T18:11:16.8752283Z   ---
+foundation	Run npm run check	2026-10-09T18:11:16.8753437Z   duration_ms: 23.177432
+foundation	Run npm run check	2026-10-09T18:11:16.8754126Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:16.8757692Z   ...
+foundation	Run npm run check	2026-10-09T18:11:17.0391824Z # Subtest: cached tarball bytes are rechecked against lock SRI on every measurement
+foundation	Run npm run check	2026-10-09T18:11:17.0425443Z ok 11 - cached tarball bytes are rechecked against lock SRI on every measurement
+foundation	Run npm run check	2026-10-09T18:11:17.0454869Z   ---
+foundation	Run npm run check	2026-10-09T18:11:17.0495006Z   duration_ms: 164.539634
+foundation	Run npm run check	2026-10-09T18:11:17.0524814Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:17.0525495Z   ...
+foundation	Run npm run check	2026-10-09T18:11:17.0572680Z # Subtest: installed dependency symlinks and smoke-script symlinks fail closed
+foundation	Run npm run check	2026-10-09T18:11:17.0605164Z ok 12 - installed dependency symlinks and smoke-script symlinks fail closed
+foundation	Run npm run check	2026-10-09T18:11:17.0606378Z   ---
+foundation	Run npm run check	2026-10-09T18:11:17.0615368Z   duration_ms: 15.406752
+foundation	Run npm run check	2026-10-09T18:11:17.0616027Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:17.0616535Z   ...
+foundation	Run npm run check	2026-10-09T18:11:17.5617322Z # Subtest: cache miss fails closed and offline install does not fall back to a registry
+foundation	Run npm run check	2026-10-09T18:11:17.5623150Z ok 13 - cache miss fails closed and offline install does not fall back to a registry
+foundation	Run npm run check	2026-10-09T18:11:17.5628378Z   ---
+foundation	Run npm run check	2026-10-09T18:11:17.5632036Z   duration_ms: 506.721839
+foundation	Run npm run check	2026-10-09T18:11:17.5632656Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:17.5633169Z   ...
+foundation	Run npm run check	2026-10-09T18:11:18.2281039Z # Subtest: offline install runs a smoke import from an isolated staging directory
+foundation	Run npm run check	2026-10-09T18:11:18.2295627Z ok 14 - offline install runs a smoke import from an isolated staging directory
+foundation	Run npm run check	2026-10-09T18:11:18.2307079Z   ---
+foundation	Run npm run check	2026-10-09T18:11:18.2308801Z   duration_ms: 665.120523
+foundation	Run npm run check	2026-10-09T18:11:18.2312703Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:18.2319866Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4454768Z # Subtest: offline install and post-install manifest use the supplied nonempty cache only
+foundation	Run npm run check	2026-10-09T18:11:19.4460573Z ok 15 - offline install and post-install manifest use the supplied nonempty cache only
+foundation	Run npm run check	2026-10-09T18:11:19.4461300Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4462382Z   duration_ms: 1218.426134
+foundation	Run npm run check	2026-10-09T18:11:19.4462969Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4463509Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4525567Z # Subtest: append-only reports reject an evidence symlink before creating any external directory
+foundation	Run npm run check	2026-10-09T18:11:19.4535539Z ok 16 - append-only reports reject an evidence symlink before creating any external directory
+foundation	Run npm run check	2026-10-09T18:11:19.4554983Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4565639Z   duration_ms: 6.205497
+foundation	Run npm run check	2026-10-09T18:11:19.4566395Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4567048Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4765913Z # Subtest: format 1 is stable, binds ordered content and validates bounded facts
+foundation	Run npm run check	2026-10-09T18:11:19.4785597Z ok 17 - format 1 is stable, binds ordered content and validates bounded facts
+foundation	Run npm run check	2026-10-09T18:11:19.4804716Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4806287Z   duration_ms: 11.661676
+foundation	Run npm run check	2026-10-09T18:11:19.4807066Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4808268Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4810241Z # Subtest: offline Maven cache rejects artifact mutation, symlinks and credentialed origins
+foundation	Run npm run check	2026-10-09T18:11:19.4812015Z ok 18 - offline Maven cache rejects artifact mutation, symlinks and credentialed origins
+foundation	Run npm run check	2026-10-09T18:11:19.4813162Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4813778Z   duration_ms: 21.221272
+foundation	Run npm run check	2026-10-09T18:11:19.4814626Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4815190Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4816270Z # Subtest: cache-lock and runtime URL entries enforce the same origin and symlink boundaries
+foundation	Run npm run check	2026-10-09T18:11:19.4817771Z ok 19 - cache-lock and runtime URL entries enforce the same origin and symlink boundaries
+foundation	Run npm run check	2026-10-09T18:11:19.4818722Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4819269Z   duration_ms: 5.915872
+foundation	Run npm run check	2026-10-09T18:11:19.4819846Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4820422Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4822434Z # Subtest: validates candidate output as exact bounded source bytes and remains unapproved
+foundation	Run npm run check	2026-10-09T18:11:19.4823991Z ok 20 - validates candidate output as exact bounded source bytes and remains unapproved
+foundation	Run npm run check	2026-10-09T18:11:19.4825276Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4826266Z   duration_ms: 2.844534
+foundation	Run npm run check	2026-10-09T18:11:19.4826978Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4827593Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4828790Z # Subtest: rejects tampered digests, ranges, overlaps, and SQL not at the source prefix
+foundation	Run npm run check	2026-10-09T18:11:19.4830301Z ok 21 - rejects tampered digests, ranges, overlaps, and SQL not at the source prefix
+foundation	Run npm run check	2026-10-09T18:11:19.4831342Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4831954Z   duration_ms: 1.188741
+foundation	Run npm run check	2026-10-09T18:11:19.4832594Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4833193Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4834620Z # Subtest: rejects profile approval, unexpected stderr, malformed JSON, and extra protocol fields
+foundation	Run npm run check	2026-10-09T18:11:19.4836290Z ok 22 - rejects profile approval, unexpected stderr, malformed JSON, and extra protocol fields
+foundation	Run npm run check	2026-10-09T18:11:19.4837406Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4838122Z   duration_ms: 1.542822
+foundation	Run npm run check	2026-10-09T18:11:19.4838760Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4839354Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4840433Z # Subtest: bounds input/output and maps subprocess timeout and overflow to sanitized outcomes
+foundation	Run npm run check	2026-10-09T18:11:19.4842041Z ok 23 - bounds input/output and maps subprocess timeout and overflow to sanitized outcomes
+foundation	Run npm run check	2026-10-09T18:11:19.4843196Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4844088Z   duration_ms: 4.081195
+foundation	Run npm run check	2026-10-09T18:11:19.4845112Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4845728Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4846867Z # Subtest: fixture containment rejects parent paths while allowing paths beneath a fixtures root
+foundation	Run npm run check	2026-10-09T18:11:19.4848475Z ok 24 - fixture containment rejects parent paths while allowing paths beneath a fixtures root
+foundation	Run npm run check	2026-10-09T18:11:19.4849545Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4850161Z   duration_ms: 0.284752
+foundation	Run npm run check	2026-10-09T18:11:19.4850809Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4851397Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4852342Z # Subtest: STOP requires the exact safe protocol and the full input digest
+foundation	Run npm run check	2026-10-09T18:11:19.4853549Z ok 25 - STOP requires the exact safe protocol and the full input digest
+foundation	Run npm run check	2026-10-09T18:11:19.4854609Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4855159Z   duration_ms: 0.696131
+foundation	Run npm run check	2026-10-09T18:11:19.4856049Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4856622Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4857752Z # Subtest: rejects omitted SQL in empty, leading, middle and trailing statement coverage
+foundation	Run npm run check	2026-10-09T18:11:19.4859119Z ok 26 - rejects omitted SQL in empty, leading, middle and trailing statement coverage
+foundation	Run npm run check	2026-10-09T18:11:19.4860014Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4860525Z   duration_ms: 2.591572
+foundation	Run npm run check	2026-10-09T18:11:19.4861096Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4861632Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4862760Z # Subtest: accepts whitespace gaps and range-contained UTF-8 comments, rejects uncovered comments
+foundation	Run npm run check	2026-10-09T18:11:19.4864564Z ok 27 - accepts whitespace gaps and range-contained UTF-8 comments, rejects uncovered comments
+foundation	Run npm run check	2026-10-09T18:11:19.4894950Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4924810Z   duration_ms: 0.890023
+foundation	Run npm run check	2026-10-09T18:11:19.4930681Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4931379Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4932549Z # Subtest: ANTLR protocol preserves CRLF slash delimiters without allowing unknown profiles
+foundation	Run npm run check	2026-10-09T18:11:19.4934498Z ok 28 - ANTLR protocol preserves CRLF slash delimiters without allowing unknown profiles
+foundation	Run npm run check	2026-10-09T18:11:19.4935783Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4939179Z   duration_ms: 0.85641
+foundation	Run npm run check	2026-10-09T18:11:19.4939896Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4940537Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4942185Z # Subtest: original corpus covers F07–F20 and all fourteen parser cases
+foundation	Run npm run check	2026-10-09T18:11:19.4943818Z ok 29 - original corpus covers F07–F20 and all fourteen parser cases
+foundation	Run npm run check	2026-10-09T18:11:19.4945132Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4945767Z   duration_ms: 1.423619
+foundation	Run npm run check	2026-10-09T18:11:19.4946446Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4947068Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4948167Z # Subtest: every fixture digest and executable golden matches exact original byte ranges
+foundation	Run npm run check	2026-10-09T18:11:19.4949676Z ok 30 - every fixture digest and executable golden matches exact original byte ranges
+foundation	Run npm run check	2026-10-09T18:11:19.4950702Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4951323Z   duration_ms: 19.626386
+foundation	Run npm run check	2026-10-09T18:11:19.4952007Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4953000Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4954031Z # Subtest: encoding corpus distinguishes LF, CRLF, BOM and invalid bytes
+foundation	Run npm run check	2026-10-09T18:11:19.4955627Z ok 31 - encoding corpus distinguishes LF, CRLF, BOM and invalid bytes
+foundation	Run npm run check	2026-10-09T18:11:19.4956411Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4956910Z   duration_ms: 4.036621
+foundation	Run npm run check	2026-10-09T18:11:19.4957462Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4957947Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4958834Z # Subtest: late malformed release and non-atomic fixtures retain their required contracts
+foundation	Run npm run check	2026-10-09T18:11:19.4960190Z ok 32 - late malformed release and non-atomic fixtures retain their required contracts
+foundation	Run npm run check	2026-10-09T18:11:19.4961242Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4961828Z   duration_ms: 0.255317
+foundation	Run npm run check	2026-10-09T18:11:19.4962445Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4963021Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4964124Z # Subtest: release parse failure in a later file returns no executable or partially approved release
+foundation	Run npm run check	2026-10-09T18:11:19.4965978Z ok 33 - release parse failure in a later file returns no executable or partially approved release
+foundation	Run npm run check	2026-10-09T18:11:19.4966987Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4967491Z   duration_ms: 3.112565
+foundation	Run npm run check	2026-10-09T18:11:19.4968110Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4968663Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4969544Z # Subtest: all release bytes and digests are snapshotted before parser calls
+foundation	Run npm run check	2026-10-09T18:11:19.4970691Z ok 34 - all release bytes and digests are snapshotted before parser calls
+foundation	Run npm run check	2026-10-09T18:11:19.4971478Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4971996Z   duration_ms: 0.609378
+foundation	Run npm run check	2026-10-09T18:11:19.4972553Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4973039Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4974019Z # Subtest: bad, duplicate, traversing or oversized release inputs stop before parser invocation
+foundation	Run npm run check	2026-10-09T18:11:19.4975697Z ok 35 - bad, duplicate, traversing or oversized release inputs stop before parser invocation
+foundation	Run npm run check	2026-10-09T18:11:19.4976639Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4977138Z   duration_ms: 56.462802
+foundation	Run npm run check	2026-10-09T18:11:19.4977680Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4978182Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4979105Z # Subtest: parser throws, wrong profile, empty parses and envelope failures all stop safely
+foundation	Run npm run check	2026-10-09T18:11:19.4980726Z ok 36 - parser throws, wrong profile, empty parses and envelope failures all stop safely
+foundation	Run npm run check	2026-10-09T18:11:19.4981687Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4982208Z   duration_ms: 0.984229
+foundation	Run npm run check	2026-10-09T18:11:19.4982800Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4983343Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4984194Z # Subtest: empty manifest reports exact missing prerequisites as BLOCKED
+foundation	Run npm run check	2026-10-09T18:11:19.4985764Z ok 37 - empty manifest reports exact missing prerequisites as BLOCKED
+foundation	Run npm run check	2026-10-09T18:11:19.4986612Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4987160Z   duration_ms: 8.279908
+foundation	Run npm run check	2026-10-09T18:11:19.4987746Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4988290Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4989153Z # Subtest: example manifest is rejected and receives no profile hash
+foundation	Run npm run check	2026-10-09T18:11:19.4990278Z ok 38 - example manifest is rejected and receives no profile hash
+foundation	Run npm run check	2026-10-09T18:11:19.4991062Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4991572Z   duration_ms: 2.244873
+foundation	Run npm run check	2026-10-09T18:11:19.4992153Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4992649Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4993785Z # Subtest: complete synthetic manifest validates local fixture bytes without runtime authority
+foundation	Run npm run check	2026-10-09T18:11:19.4995601Z ok 39 - complete synthetic manifest validates local fixture bytes without runtime authority
+foundation	Run npm run check	2026-10-09T18:11:19.4996616Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.4997164Z   duration_ms: 22.076512
+foundation	Run npm run check	2026-10-09T18:11:19.4997735Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.4998276Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.4999464Z # Subtest: malformed nested values, exact versions, duplicate refs, scope and authorization reject or block safely
+foundation	Run npm run check	2026-10-09T18:11:19.5001226Z ok 40 - malformed nested values, exact versions, duplicate refs, scope and authorization reject or block safely
+foundation	Run npm run check	2026-10-09T18:11:19.5002321Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5002844Z   duration_ms: 21.987007
+foundation	Run npm run check	2026-10-09T18:11:19.5003425Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5003961Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5005220Z # Subtest: unknown secret fields and TCPS userinfo are rejected without echoing canaries
+foundation	Run npm run check	2026-10-09T18:11:19.5007014Z ok 41 - unknown secret fields and TCPS userinfo are rejected without echoing canaries
+foundation	Run npm run check	2026-10-09T18:11:19.5007982Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5008546Z   duration_ms: 5.117537
+foundation	Run npm run check	2026-10-09T18:11:19.5009136Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5009695Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5010768Z # Subtest: malformed declared hashes, versions and nested unknown fields never leak canaries
+foundation	Run npm run check	2026-10-09T18:11:19.5012311Z ok 42 - malformed declared hashes, versions and nested unknown fields never leak canaries
+foundation	Run npm run check	2026-10-09T18:11:19.5013308Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5013857Z   duration_ms: 18.174002
+foundation	Run npm run check	2026-10-09T18:11:19.5014961Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5015579Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5016768Z # Subtest: artifact digest, symlink and protected-path checks stay within approved offline directory
+foundation	Run npm run check	2026-10-09T18:11:19.5018546Z ok 43 - artifact digest, symlink and protected-path checks stay within approved offline directory
+foundation	Run npm run check	2026-10-09T18:11:19.5019663Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5020316Z   duration_ms: 47.663305
+foundation	Run npm run check	2026-10-09T18:11:19.5020994Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5021607Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5022891Z # Subtest: CLI rejects missing/duplicate arguments, sanitizes errors, and appends two reports without overwrite
+foundation	Run npm run check	2026-10-09T18:11:19.5025070Z ok 44 - CLI rejects missing/duplicate arguments, sanitizes errors, and appends two reports without overwrite
+foundation	Run npm run check	2026-10-09T18:11:19.5026282Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5026919Z   duration_ms: 523.217496
+foundation	Run npm run check	2026-10-09T18:11:19.5027609Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5028290Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5029253Z # Subtest: product API persists a governed offline plan and never claims execution
+foundation	Run npm run check	2026-10-09T18:11:19.5030639Z ok 45 - product API persists a governed offline plan and never claims execution # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5031563Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5032108Z   duration_ms: 1.082723
+foundation	Run npm run check	2026-10-09T18:11:19.5032682Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5033210Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5034662Z # Subtest: approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+foundation	Run npm run check	2026-10-09T18:11:19.5036799Z ok 46 - approval verifies locked retained release and ordered plan facts before writes; rejection remains available # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5037915Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5038420Z   duration_ms: 1.217946
+foundation	Run npm run check	2026-10-09T18:11:19.5038967Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5039483Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5040410Z # Subtest: archival keeps immutable records readable and refuses further project work
+foundation	Run npm run check	2026-10-09T18:11:19.5041826Z ok 47 - archival keeps immutable records readable and refuses further project work # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5042741Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5043255Z   duration_ms: 1.452123
+foundation	Run npm run check	2026-10-09T18:11:19.5043810Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5044535Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5045502Z # Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+foundation	Run npm run check	2026-10-09T18:11:19.5046999Z ok 48 - an in-flight metadata write rechecks archival after acquiring the project lock # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5047961Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5048463Z   duration_ms: 0.283399
+foundation	Run npm run check	2026-10-09T18:11:19.5049020Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5049529Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5075645Z # Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+foundation	Run npm run check	2026-10-09T18:11:19.5100406Z ok 49 - plan review comments are scoped, validated, durable, ordered, and serialized # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5101478Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5102117Z   duration_ms: 1.385539
+foundation	Run npm run check	2026-10-09T18:11:19.5102755Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5103305Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5104732Z # Subtest: local credentials persist and recover real interrupted operator processes
+foundation	Run npm run check	2026-10-09T18:11:19.5106338Z ok 50 - local credentials persist and recover real interrupted operator processes # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5107419Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5108067Z   duration_ms: 3.113616
+foundation	Run npm run check	2026-10-09T18:11:19.5108737Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5109371Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5110877Z # Subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+foundation	Run npm run check	2026-10-09T18:11:19.5112674Z ok 51 - concurrent product schema initialization serializes DDL on a fresh PostgreSQL database # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5113816Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5114693Z   duration_ms: 1.120433
+foundation	Run npm run check	2026-10-09T18:11:19.5115337Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5115926Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5116950Z # Subtest: terminal plan decisions retain reviewer snapshots and historical ID fallback
+foundation	Run npm run check	2026-10-09T18:11:19.5118440Z ok 52 - terminal plan decisions retain reviewer snapshots and historical ID fallback # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5119432Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5119984Z   duration_ms: 3.815728
+foundation	Run npm run check	2026-10-09T18:11:19.5120581Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5121129Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5122379Z # Subtest: local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+foundation	Run npm run check	2026-10-09T18:11:19.5124593Z ok 53 - local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5194867Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5195597Z   duration_ms: 1.189412
+foundation	Run npm run check	2026-10-09T18:11:19.5224943Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5255098Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5256071Z # Subtest: resolved commits remain immutable after the source branch moves
+foundation	Run npm run check	2026-10-09T18:11:19.5257332Z ok 54 - resolved commits remain immutable after the source branch moves # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5258152Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5258644Z   duration_ms: 0.250457
+foundation	Run npm run check	2026-10-09T18:11:19.5259185Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5259653Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5260736Z # Subtest: leading-zero aliases and equivalent dotted versions are rejected as duplicates
+foundation	Run npm run check	2026-10-09T18:11:19.5262162Z ok 55 - leading-zero aliases and equivalent dotted versions are rejected as duplicates # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5263030Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5263477Z   duration_ms: 3.258848
+foundation	Run npm run check	2026-10-09T18:11:19.5263960Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5264653Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5265895Z # Subtest: malformed refs and migration-folder traversal are rejected before Git lookup
+foundation	Run npm run check	2026-10-09T18:11:19.5267265Z ok 56 - malformed refs and migration-folder traversal are rejected before Git lookup # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5268181Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5268703Z   duration_ms: 0.152785
+foundation	Run npm run check	2026-10-09T18:11:19.5269270Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5269786Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5270611Z # Subtest: symlinked migration entries and Git submodules are rejected
+foundation	Run npm run check	2026-10-09T18:11:19.5271790Z ok 57 - symlinked migration entries and Git submodules are rejected # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5272594Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5273068Z   duration_ms: 0.190315
+foundation	Run npm run check	2026-10-09T18:11:19.5273590Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5274081Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5275416Z # Subtest: invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+foundation	Run npm run check	2026-10-09T18:11:19.5277082Z ok 58 - invalid SQL makes the entire release unplannable while retaining explicit per-file observations # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5278160Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5278649Z   duration_ms: 0.134662
+foundation	Run npm run check	2026-10-09T18:11:19.5279184Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5279652Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5280655Z # Subtest: the installed ANTLR helper parses actual imported SQL without a fake positive driver
+foundation	Run npm run check	2026-10-09T18:11:19.5282159Z ok 59 - the installed ANTLR helper parses actual imported SQL without a fake positive driver # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5283103Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5283585Z   duration_ms: 0.113452
+foundation	Run npm run check	2026-10-09T18:11:19.5284110Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5284822Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5285729Z # Subtest: local generated credentials stay private and existing permissions are repaired before use
+foundation	Run npm run check	2026-10-09T18:11:19.5287085Z ok 60 - local generated credentials stay private and existing permissions are repaired before use
+foundation	Run npm run check	2026-10-09T18:11:19.5287855Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5288184Z   duration_ms: 39.215692
+foundation	Run npm run check	2026-10-09T18:11:19.5288558Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5289075Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5289618Z # Subtest: local startup rejects oversized and extra-field credential configs without output or mutation
+foundation	Run npm run check	2026-10-09T18:11:19.5290462Z ok 61 - local startup rejects oversized and extra-field credential configs without output or mutation
+foundation	Run npm run check	2026-10-09T18:11:19.5290920Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5291126Z   duration_ms: 188.905016
+foundation	Run npm run check	2026-10-09T18:11:19.5291352Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5291541Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5292054Z # Subtest: local startup refuses symlinked directories/configs without chmod or reading external files
+foundation	Run npm run check	2026-10-09T18:11:19.5292829Z ok 62 - local startup refuses symlinked directories/configs without chmod or reading external files
+foundation	Run npm run check	2026-10-09T18:11:19.5293421Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5293625Z   duration_ms: 14.580478
+foundation	Run npm run check	2026-10-09T18:11:19.5293847Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5294058Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5295015Z # Subtest: real Docker CLI ignores remote environment and saved context for read-only local commands
+foundation	Run npm run check	2026-10-09T18:11:19.5296380Z ok 63 - real Docker CLI ignores remote environment and saved context for read-only local commands
+foundation	Run npm run check	2026-10-09T18:11:19.5297163Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5297491Z   duration_ms: 325.509397
+foundation	Run npm run check	2026-10-09T18:11:19.5297878Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5298190Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5299214Z # Subtest: explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+foundation	Run npm run check	2026-10-09T18:11:19.5300884Z ok 64 - explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5301814Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5302133Z   duration_ms: 1.212926
+foundation	Run npm run check	2026-10-09T18:11:19.5302493Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5302806Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5303640Z # Subtest: activation serializes with in-flight revocation and bootstrap creation stays denied
+foundation	Run npm run check	2026-10-09T18:11:19.5305186Z ok 65 - activation serializes with in-flight revocation and bootstrap creation stays denied # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5305996Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5306541Z   duration_ms: 0.352899
+foundation	Run npm run check	2026-10-09T18:11:19.5306907Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5307224Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5308238Z # Subtest: activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+foundation	Run npm run check	2026-10-09T18:11:19.5309881Z ok 66 - activation waits for credential lifecycle serialization and refuses coverage after credential revocation # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5310800Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5311111Z   duration_ms: 0.184605
+foundation	Run npm run check	2026-10-09T18:11:19.5311477Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5311787Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5312727Z # Subtest: plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+foundation	Run npm run check	2026-10-09T18:11:19.5314545Z ok 67 - plan intent persists across API restart and damaged or legacy intent blocks approval without writes # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5315441Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5315760Z   duration_ms: 0.906433
+foundation	Run npm run check	2026-10-09T18:11:19.5316123Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5316453Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5317389Z # Subtest: rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+foundation	Run npm run check	2026-10-09T18:11:19.5318897Z ok 68 - rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5319771Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5320082Z   duration_ms: 1.245276
+foundation	Run npm run check	2026-10-09T18:11:19.5320436Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5320749Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5321954Z # Subtest: source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+foundation	Run npm run check	2026-10-09T18:11:19.5323926Z ok 69 - source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5325258Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5325574Z   duration_ms: 1.177099
+foundation	Run npm run check	2026-10-09T18:11:19.5325934Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5326237Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5327219Z # Subtest: binding updates serialize with approval and plan creation under project locks
+foundation	Run npm run check	2026-10-09T18:11:19.5328540Z ok 70 - binding updates serialize with approval and plan creation under project locks # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5329287Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5329598Z   duration_ms: 0.192931
+foundation	Run npm run check	2026-10-09T18:11:19.5329956Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5330249Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5331154Z # Subtest: legacy project schema initializes only current tracking and never backfills historical plans
+foundation	Run npm run check	2026-10-09T18:11:19.5332598Z ok 71 - legacy project schema initializes only current tracking and never backfills historical plans # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5333456Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5333773Z   duration_ms: 0.178554
+foundation	Run npm run check	2026-10-09T18:11:19.5334185Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5334982Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5336023Z # Subtest: offline planning rejects corrupted retained releases without writes and uses locked current state
+foundation	Run npm run check	2026-10-09T18:11:19.5337560Z ok 72 - offline planning rejects corrupted retained releases without writes and uses locked current state # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.5338417Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5338741Z   duration_ms: 1.355801
+foundation	Run npm run check	2026-10-09T18:11:19.5339109Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5339436Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5340341Z # Subtest: startup arguments accept repeated local repositories and reject unknown or excess options
+foundation	Run npm run check	2026-10-09T18:11:19.5341726Z ok 73 - startup arguments accept repeated local repositories and reject unknown or excess options
+foundation	Run npm run check	2026-10-09T18:11:19.5342561Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5342921Z   duration_ms: 3.735915
+foundation	Run npm run check	2026-10-09T18:11:19.5343301Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5343631Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.5344990Z # Subtest: configured repositories are canonical local Git worktrees with display-only public descriptors
+foundation	Run npm run check	2026-10-09T18:11:19.5346491Z ok 74 - configured repositories are canonical local Git worktrees with display-only public descriptors
+foundation	Run npm run check	2026-10-09T18:11:19.5347373Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.5347728Z   duration_ms: 137.411872
+foundation	Run npm run check	2026-10-09T18:11:19.5348458Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.5348821Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.7135859Z # Subtest: invalid startup options fail before creating local configuration or reaching Docker
+foundation	Run npm run check	2026-10-09T18:11:19.7190152Z ok 75 - invalid startup options fail before creating local configuration or reaching Docker
+foundation	Run npm run check	2026-10-09T18:11:19.7225210Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.7244612Z   duration_ms: 220.492431
+foundation	Run npm run check	2026-10-09T18:11:19.7255268Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.7308943Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.7325652Z # Subtest: a configured custom Git repository is visible without its path and imports through the product API
+foundation	Run npm run check	2026-10-09T18:11:19.7327619Z ok 76 - a configured custom Git repository is visible without its path and imports through the product API # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.7328839Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.7357409Z   duration_ms: 0.341995
+foundation	Run npm run check	2026-10-09T18:11:19.7358028Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.7358466Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.7359441Z # Subtest: project-bound Git refs list safely and imports retain immutable branch and tag commits
+foundation	Run npm run check	2026-10-09T18:11:19.7360870Z ok 77 - project-bound Git refs list safely and imports retain immutable branch and tag commits # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.7361723Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.7362142Z   duration_ms: 1.938119
+foundation	Run npm run check	2026-10-09T18:11:19.7362592Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.7362990Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.7505885Z # Subtest: authenticated denied decisions append fixed audit facts while preserving plan and history
+foundation	Run npm run check	2026-10-09T18:11:19.7522915Z ok 78 - authenticated denied decisions append fixed audit facts while preserving plan and history # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.7527675Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.7535195Z   duration_ms: 1.164837
+foundation	Run npm run check	2026-10-09T18:11:19.7535711Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.7536210Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.8391129Z # Subtest: source bindings persist, authorize changes, constrain imports before Git, and remain private
+foundation	Run npm run check	2026-10-09T18:11:19.8448932Z ok 79 - source bindings persist, authorize changes, constrain imports before Git, and remain private # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.8451152Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.8485553Z   duration_ms: 1.162944
+foundation	Run npm run check	2026-10-09T18:11:19.8486273Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.8486890Z   ...
+foundation	Run npm run check	2026-10-09T18:11:19.8488064Z # Subtest: source binding is rechecked under a project lock before an imported release can commit
+foundation	Run npm run check	2026-10-09T18:11:19.8489814Z ok 80 - source binding is rechecked under a project lock before an imported release can commit # SKIP
+foundation	Run npm run check	2026-10-09T18:11:19.8490953Z   ---
+foundation	Run npm run check	2026-10-09T18:11:19.8491555Z   duration_ms: 0.301442
+foundation	Run npm run check	2026-10-09T18:11:19.8492166Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:19.8492744Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.0665811Z # Subtest: statement preview is scoped, bounded, archived-readable and read only
+foundation	Run npm run check	2026-10-09T18:11:20.0667383Z ok 81 - statement preview is scoped, bounded, archived-readable and read only # SKIP
+foundation	Run npm run check	2026-10-09T18:11:20.0668343Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.0668843Z   duration_ms: 1.314567
+foundation	Run npm run check	2026-10-09T18:11:20.0669350Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.0669805Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.1022222Z # Subtest: every imported design input retains its exact source digest and classification
+foundation	Run npm run check	2026-10-09T18:11:20.1032503Z ok 82 - every imported design input retains its exact source digest and classification
+foundation	Run npm run check	2026-10-09T18:11:20.1033450Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.1034021Z   duration_ms: 58.636787
+foundation	Run npm run check	2026-10-09T18:11:20.1034952Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.1035565Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.1036640Z # Subtest: the original catalog, work packages and matrix keep all stable identifiers
+foundation	Run npm run check	2026-10-09T18:11:20.1038149Z ok 83 - the original catalog, work packages and matrix keep all stable identifiers
+foundation	Run npm run check	2026-10-09T18:11:20.1039166Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.1039809Z   duration_ms: 7.418213
+foundation	Run npm run check	2026-10-09T18:11:20.1040481Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.1041081Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.1042155Z # Subtest: recomputes ordered exact UTF-8 statement slices through the pinned ANTLR helper
+foundation	Run npm run check	2026-10-09T18:11:20.1043747Z not ok 84 - recomputes ordered exact UTF-8 statement slices through the pinned ANTLR helper
+foundation	Run npm run check	2026-10-09T18:11:20.1045393Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.1045913Z   duration_ms: 15.62049
+foundation	Run npm run check	2026-10-09T18:11:20.1046466Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.1047438Z   location: '/home/runner/work/schemaForge/schemaForge/tests/statement-preview.test.mjs:19:1'
+foundation	Run npm run check	2026-10-09T18:11:20.1048537Z   failureType: 'testCodeFailure'
+foundation	Run npm run check	2026-10-09T18:11:20.1049177Z   error: |-
+foundation	Run npm run check	2026-10-09T18:11:20.1049678Z     {"ok":false}
+foundation	Run npm run check	2026-10-09T18:11:20.1050168Z     
+foundation	Run npm run check	2026-10-09T18:11:20.1050649Z     false !== true
+foundation	Run npm run check	2026-10-09T18:11:20.1051148Z     
+foundation	Run npm run check	2026-10-09T18:11:20.1051631Z   code: 'ERR_ASSERTION'
+foundation	Run npm run check	2026-10-09T18:11:20.1052231Z   name: 'AssertionError'
+foundation	Run npm run check	2026-10-09T18:11:20.1052831Z   expected: true
+foundation	Run npm run check	2026-10-09T18:11:20.1053428Z   actual: false
+foundation	Run npm run check	2026-10-09T18:11:20.1053981Z   operator: 'strictEqual'
+foundation	Run npm run check	2026-10-09T18:11:20.1055757Z   stack: |-
+foundation	Run npm run check	2026-10-09T18:11:20.1056966Z     TestContext.<anonymous> (file:///home/runner/work/schemaForge/schemaForge/tests/statement-preview.test.mjs:23:10)
+foundation	Run npm run check	2026-10-09T18:11:20.1058345Z     async Test.run (node:internal/test_runner/test:1054:7)
+foundation	Run npm run check	2026-10-09T18:11:20.1059467Z     async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+foundation	Run npm run check	2026-10-09T18:11:20.1060429Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.1090532Z # Subtest: fails closed for wrong paths, corrupt retained manifests, oversized source and malformed adapter ranges
+foundation	Run npm run check	2026-10-09T18:11:20.1092416Z ok 85 - fails closed for wrong paths, corrupt retained manifests, oversized source and malformed adapter ranges
+foundation	Run npm run check	2026-10-09T18:11:20.1093971Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.1094759Z   duration_ms: 8.029885
+foundation	Run npm run check	2026-10-09T18:11:20.1095390Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.1095904Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.1501019Z # Subtest: the offline CLI reports missing authority with twelve blocked unexecuted cases
+foundation	Run npm run check	2026-10-09T18:11:20.1525677Z ok 86 - the offline CLI reports missing authority with twelve blocked unexecuted cases
+foundation	Run npm run check	2026-10-09T18:11:20.1555438Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.1584892Z   duration_ms: 74.429422
+foundation	Run npm run check	2026-10-09T18:11:20.1592183Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.1615051Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.1616728Z # Subtest: a complete synthetic profile exits successfully for planning while denying runtime
+foundation	Run npm run check	2026-10-09T18:11:20.1618337Z ok 87 - a complete synthetic profile exits successfully for planning while denying runtime
+foundation	Run npm run check	2026-10-09T18:11:20.1619353Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.1619910Z   duration_ms: 97.91417
+foundation	Run npm run check	2026-10-09T18:11:20.1620511Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.1621070Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.2674489Z # Subtest: malformed and oversized profile files produce fixed errors without leaking input
+foundation	Run npm run check	2026-10-09T18:11:20.2691996Z ok 88 - malformed and oversized profile files produce fixed errors without leaking input
+foundation	Run npm run check	2026-10-09T18:11:20.2693131Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.2693677Z   duration_ms: 118.019353
+foundation	Run npm run check	2026-10-09T18:11:20.2694533Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.2695095Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.2811927Z # Subtest: pinned case projection matches the six existing T04 acceptance cases
+foundation	Run npm run check	2026-10-09T18:11:20.2828455Z ok 89 - pinned case projection matches the six existing T04 acceptance cases
+foundation	Run npm run check	2026-10-09T18:11:20.2844904Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.2873642Z   duration_ms: 1.923516
+foundation	Run npm run check	2026-10-09T18:11:20.2874069Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.2904756Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.2906982Z # Subtest: complete synthetic profile produces 12 frozen NOT_RUN plans without authority
+foundation	Run npm run check	2026-10-09T18:11:20.2929420Z ok 90 - complete synthetic profile produces 12 frozen NOT_RUN plans without authority
+foundation	Run npm run check	2026-10-09T18:11:20.2930558Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.2931231Z   duration_ms: 42.646857
+foundation	Run npm run check	2026-10-09T18:11:20.2931829Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.2932540Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.2933666Z # Subtest: missing profile uses real preflight and keeps all 12 cells BLOCKED and NOT_RUN
+foundation	Run npm run check	2026-10-09T18:11:20.2935381Z ok 91 - missing profile uses real preflight and keeps all 12 cells BLOCKED and NOT_RUN
+foundation	Run npm run check	2026-10-09T18:11:20.2936475Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.2937154Z   duration_ms: 2.479884
+foundation	Run npm run check	2026-10-09T18:11:20.2937692Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.2938352Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.2939586Z # Subtest: example and malformed secret-bearing profiles are rejected without echoing supplied data
+foundation	Run npm run check	2026-10-09T18:11:20.2941893Z ok 92 - example and malformed secret-bearing profiles are rejected without echoing supplied data
+foundation	Run npm run check	2026-10-09T18:11:20.2943027Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.2943497Z   duration_ms: 5.551132
+foundation	Run npm run check	2026-10-09T18:11:20.2944202Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.2944705Z   ...
+foundation	Run npm run check	2026-10-09T18:11:20.2946014Z # Subtest: caller-supplied preflight-shaped data is just an invalid profile, not an admission token
+foundation	Run npm run check	2026-10-09T18:11:20.2973648Z ok 93 - caller-supplied preflight-shaped data is just an invalid profile, not an admission token
+foundation	Run npm run check	2026-10-09T18:11:20.2975302Z   ---
+foundation	Run npm run check	2026-10-09T18:11:20.2975845Z   duration_ms: 1.914396
+foundation	Run npm run check	2026-10-09T18:11:20.2976682Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:20.2977193Z   ...
+foundation	Run npm run check	2026-10-09T18:11:21.2153375Z # Subtest: supervisor requires trusted wiring and rejects public options before spawn
+foundation	Run npm run check	2026-10-09T18:11:21.2154890Z ok 94 - supervisor requires trusted wiring and rejects public options before spawn
+foundation	Run npm run check	2026-10-09T18:11:21.2156134Z   ---
+foundation	Run npm run check	2026-10-09T18:11:21.2156491Z   duration_ms: 2.006337
+foundation	Run npm run check	2026-10-09T18:11:21.2156874Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:21.2157212Z   ...
+foundation	Run npm run check	2026-10-09T18:11:21.2157979Z # Subtest: invalid or throwing starters retain dispatch uncertainty without retry
+foundation	Run npm run check	2026-10-09T18:11:21.2159103Z ok 95 - invalid or throwing starters retain dispatch uncertainty without retry
+foundation	Run npm run check	2026-10-09T18:11:21.2185232Z   ---
+foundation	Run npm run check	2026-10-09T18:11:21.2190981Z   duration_ms: 1.136954
+foundation	Run npm run check	2026-10-09T18:11:21.2191525Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:21.2192014Z   ...
+foundation	Run npm run check	2026-10-09T18:11:21.2193269Z # Subtest: matched result requires the real worker runner, terminal receipt and successful exit
+foundation	Run npm run check	2026-10-09T18:11:21.2194982Z ok 96 - matched result requires the real worker runner, terminal receipt and successful exit
+foundation	Run npm run check	2026-10-09T18:11:21.2195892Z   ---
+foundation	Run npm run check	2026-10-09T18:11:21.2196269Z   duration_ms: 974.981145
+foundation	Run npm run check	2026-10-09T18:11:21.2196682Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:21.2197037Z   ...
+foundation	Run npm run check	2026-10-09T18:11:21.5673469Z # Subtest: the real default driver remains behind denied child admission
+foundation	Run npm run check	2026-10-09T18:11:21.5675303Z ok 97 - the real default driver remains behind denied child admission
+foundation	Run npm run check	2026-10-09T18:11:21.5676031Z   ---
+foundation	Run npm run check	2026-10-09T18:11:21.5676439Z   duration_ms: 351.748785
+foundation	Run npm run check	2026-10-09T18:11:21.5676882Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:21.5677220Z   ...
+foundation	Run npm run check	2026-10-09T18:11:22.1808613Z # Subtest: fixed fixture starter uses the supplied allowlisted environment and empty execArgv
+foundation	Run npm run check	2026-10-09T18:11:22.1809966Z ok 98 - fixed fixture starter uses the supplied allowlisted environment and empty execArgv
+foundation	Run npm run check	2026-10-09T18:11:22.1810699Z   ---
+foundation	Run npm run check	2026-10-09T18:11:22.1811039Z   duration_ms: 613.738607
+foundation	Run npm run check	2026-10-09T18:11:22.1811440Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:22.1811764Z   ...
+foundation	Run npm run check	2026-10-09T18:11:25.1873754Z # Subtest: whole deadline terminates and reaps a child hanging at admit
+foundation	Run npm run check	2026-10-09T18:11:25.1875490Z ok 99 - whole deadline terminates and reaps a child hanging at admit
+foundation	Run npm run check	2026-10-09T18:11:25.1876227Z   ---
+foundation	Run npm run check	2026-10-09T18:11:25.1876584Z   duration_ms: 3006.424818
+foundation	Run npm run check	2026-10-09T18:11:25.1877068Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:25.1877451Z   ...
+foundation	Run npm run check	2026-10-09T18:11:28.1939969Z # Subtest: whole deadline terminates and reaps a child hanging at trust
+foundation	Run npm run check	2026-10-09T18:11:28.1941231Z ok 100 - whole deadline terminates and reaps a child hanging at trust
+foundation	Run npm run check	2026-10-09T18:11:28.1942022Z   ---
+foundation	Run npm run check	2026-10-09T18:11:28.1942286Z   duration_ms: 3006.535774
+foundation	Run npm run check	2026-10-09T18:11:28.1942546Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:28.1942746Z   ...
+foundation	Run npm run check	2026-10-09T18:11:31.2010983Z # Subtest: whole deadline terminates and reaps a child hanging at credentials
+foundation	Run npm run check	2026-10-09T18:11:31.2012162Z ok 101 - whole deadline terminates and reaps a child hanging at credentials
+foundation	Run npm run check	2026-10-09T18:11:31.2012825Z   ---
+foundation	Run npm run check	2026-10-09T18:11:31.2013164Z   duration_ms: 3006.912451
+foundation	Run npm run check	2026-10-09T18:11:31.2013554Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:31.2013881Z   ...
+foundation	Run npm run check	2026-10-09T18:11:34.2078357Z # Subtest: whole deadline terminates and reaps a child hanging at claim
+foundation	Run npm run check	2026-10-09T18:11:34.2079442Z ok 102 - whole deadline terminates and reaps a child hanging at claim
+foundation	Run npm run check	2026-10-09T18:11:34.2080451Z   ---
+foundation	Run npm run check	2026-10-09T18:11:34.2080806Z   duration_ms: 3006.535016
+foundation	Run npm run check	2026-10-09T18:11:34.2081210Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:34.2081541Z   ...
+foundation	Run npm run check	2026-10-09T18:11:37.2155001Z # Subtest: whole deadline terminates and reaps a child hanging at connect
+foundation	Run npm run check	2026-10-09T18:11:37.2156224Z ok 103 - whole deadline terminates and reaps a child hanging at connect
+foundation	Run npm run check	2026-10-09T18:11:37.2156898Z   ---
+foundation	Run npm run check	2026-10-09T18:11:37.2157241Z   duration_ms: 3007.423548
+foundation	Run npm run check	2026-10-09T18:11:37.2157624Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:37.2157938Z   ...
+foundation	Run npm run check	2026-10-09T18:11:40.2212661Z # Subtest: whole deadline terminates and reaps a child hanging at read
+foundation	Run npm run check	2026-10-09T18:11:40.2213990Z ok 104 - whole deadline terminates and reaps a child hanging at read
+foundation	Run npm run check	2026-10-09T18:11:40.2214749Z   ---
+foundation	Run npm run check	2026-10-09T18:11:40.2214973Z   duration_ms: 3006.132798
+foundation	Run npm run check	2026-10-09T18:11:40.2215209Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:40.2215403Z   ...
+foundation	Run npm run check	2026-10-09T18:11:43.2272727Z # Subtest: whole deadline terminates and reaps a child hanging at close
+foundation	Run npm run check	2026-10-09T18:11:43.2274209Z ok 105 - whole deadline terminates and reaps a child hanging at close
+foundation	Run npm run check	2026-10-09T18:11:43.2275403Z   ---
+foundation	Run npm run check	2026-10-09T18:11:43.2276047Z   duration_ms: 3006.018673
+foundation	Run npm run check	2026-10-09T18:11:43.2276373Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:43.2276599Z   ...
+foundation	Run npm run check	2026-10-09T18:11:46.2342848Z # Subtest: whole deadline terminates and reaps a child hanging at event-loop
+foundation	Run npm run check	2026-10-09T18:11:46.2345587Z ok 106 - whole deadline terminates and reaps a child hanging at event-loop
+foundation	Run npm run check	2026-10-09T18:11:46.2346536Z   ---
+foundation	Run npm run check	2026-10-09T18:11:46.2347127Z   duration_ms: 3006.527078
+foundation	Run npm run check	2026-10-09T18:11:46.2347575Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:46.2347913Z   ...
+foundation	Run npm run check	2026-10-09T18:11:49.7913602Z # Subtest: unconfirmed termination retains reaping ownership and blocks a replacement child
+foundation	Run npm run check	2026-10-09T18:11:49.7916719Z ok 107 - unconfirmed termination retains reaping ownership and blocks a replacement child
+foundation	Run npm run check	2026-10-09T18:11:49.7917808Z   ---
+foundation	Run npm run check	2026-10-09T18:11:49.7918406Z   duration_ms: 3557.104064
+foundation	Run npm run check	2026-10-09T18:11:49.7919056Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:49.7920078Z   ...
+foundation	Run npm run check	2026-10-09T18:11:52.8464626Z # Subtest: SIGTERM refusal escalates to SIGKILL and waits for the real exit
+foundation	Run npm run check	2026-10-09T18:11:52.8465679Z ok 108 - SIGTERM refusal escalates to SIGKILL and waits for the real exit
+foundation	Run npm run check	2026-10-09T18:11:52.8466287Z   ---
+foundation	Run npm run check	2026-10-09T18:11:52.8466509Z   duration_ms: 3055.08735
+foundation	Run npm run check	2026-10-09T18:11:52.8466760Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:52.8466966Z   ...
+foundation	Run npm run check	2026-10-09T18:11:53.6427594Z # Subtest: crash produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:53.6429226Z ok 109 - crash produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:53.6430101Z   ---
+foundation	Run npm run check	2026-10-09T18:11:53.6430599Z   duration_ms: 796.359181
+foundation	Run npm run check	2026-10-09T18:11:53.6431009Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:53.6431339Z   ...
+foundation	Run npm run check	2026-10-09T18:11:54.1948926Z # Subtest: missing produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:54.1950106Z ok 110 - missing produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:54.1950743Z   ---
+foundation	Run npm run check	2026-10-09T18:11:54.1951118Z   duration_ms: 552.162068
+foundation	Run npm run check	2026-10-09T18:11:54.1951467Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:54.1951763Z   ...
+foundation	Run npm run check	2026-10-09T18:11:54.6891315Z # Subtest: malformed produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:54.6892410Z ok 111 - malformed produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:54.6893145Z   ---
+foundation	Run npm run check	2026-10-09T18:11:54.6893488Z   duration_ms: 494.115246
+foundation	Run npm run check	2026-10-09T18:11:54.6893889Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:54.6894455Z   ...
+foundation	Run npm run check	2026-10-09T18:11:54.9870953Z # Subtest: duplicate produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:54.9872335Z ok 112 - duplicate produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:54.9872854Z   ---
+foundation	Run npm run check	2026-10-09T18:11:54.9873114Z   duration_ms: 297.838676
+foundation	Run npm run check	2026-10-09T18:11:54.9873405Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:54.9873646Z   ...
+foundation	Run npm run check	2026-10-09T18:11:55.4581211Z # Subtest: oversize produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:55.4583192Z ok 113 - oversize produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:55.4586766Z   ---
+foundation	Run npm run check	2026-10-09T18:11:55.4587541Z   duration_ms: 470.993964
+foundation	Run npm run check	2026-10-09T18:11:55.4592525Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:55.4593082Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0481298Z # Subtest: output produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:56.0482505Z ok 114 - output produces sanitized HOLD with no replay or zero-call inference
+foundation	Run npm run check	2026-10-09T18:11:56.0494717Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0497958Z   duration_ms: 590.274471
+foundation	Run npm run check	2026-10-09T18:11:56.0500459Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0500909Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0501823Z # Subtest: result allowlist rejects spoofed acceptance, leaked fields and inconsistent counters
+foundation	Run npm run check	2026-10-09T18:11:56.0503236Z ok 115 - result allowlist rejects spoofed acceptance, leaked fields and inconsistent counters
+foundation	Run npm run check	2026-10-09T18:11:56.0504096Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0504763Z   duration_ms: 1.066763
+foundation	Run npm run check	2026-10-09T18:11:56.0505164Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0505529Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0586137Z # Subtest: candidate uses one strict TCPS connection, one fixed read and closes without accepting a case
+foundation	Run npm run check	2026-10-09T18:11:56.0587591Z ok 116 - candidate uses one strict TCPS connection, one fixed read and closes without accepting a case
+foundation	Run npm run check	2026-10-09T18:11:56.0588415Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0588741Z   duration_ms: 13.909003
+foundation	Run npm run check	2026-10-09T18:11:56.0589127Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0589450Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0590359Z # Subtest: 21c has a separately matched version; wrong service/PDB controls never trigger another route
+foundation	Run npm run check	2026-10-09T18:11:56.0591737Z ok 117 - 21c has a separately matched version; wrong service/PDB controls never trigger another route
+foundation	Run npm run check	2026-10-09T18:11:56.0592525Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0592844Z   duration_ms: 3.967431
+foundation	Run npm run check	2026-10-09T18:11:56.0593214Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0593523Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0594510Z # Subtest: preflight/report booleans, write/fault cases and extra SQL cannot admit a probe
+foundation	Run npm run check	2026-10-09T18:11:56.0596058Z ok 118 - preflight/report booleans, write/fault cases and extra SQL cannot admit a probe
+foundation	Run npm run check	2026-10-09T18:11:56.0596785Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0597109Z   duration_ms: 0.837525
+foundation	Run npm run check	2026-10-09T18:11:56.0597476Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0597796Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0598552Z # Subtest: denied or throwing authority never resolves credentials or calls the driver
+foundation	Run npm run check	2026-10-09T18:11:56.0599692Z ok 119 - denied or throwing authority never resolves credentials or calls the driver
+foundation	Run npm run check	2026-10-09T18:11:56.0600372Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0600685Z   duration_ms: 1.267438
+foundation	Run npm run check	2026-10-09T18:11:56.0601067Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0601378Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0602217Z # Subtest: expired, overlong, unbound and descriptor-injected grants are rejected before providers
+foundation	Run npm run check	2026-10-09T18:11:56.0603533Z ok 120 - expired, overlong, unbound and descriptor-injected grants are rejected before providers
+foundation	Run npm run check	2026-10-09T18:11:56.0604494Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0604827Z   duration_ms: 2.202705
+foundation	Run npm run check	2026-10-09T18:11:56.0605212Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0605522Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0606315Z # Subtest: changed trust bytes and secret scope or revision cannot open a connection
+foundation	Run npm run check	2026-10-09T18:11:56.0607398Z ok 121 - changed trust bytes and secret scope or revision cannot open a connection
+foundation	Run npm run check	2026-10-09T18:11:56.0608053Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0608370Z   duration_ms: 4.902046
+foundation	Run npm run check	2026-10-09T18:11:56.0608726Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0609031Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0609839Z # Subtest: invalid CA material with a matching digest is rejected without consulting the driver
+foundation	Run npm run check	2026-10-09T18:11:56.0611067Z ok 122 - invalid CA material with a matching digest is rejected without consulting the driver
+foundation	Run npm run check	2026-10-09T18:11:56.0611789Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0612012Z   duration_ms: 0.680942
+foundation	Run npm run check	2026-10-09T18:11:56.0612227Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0612408Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0612885Z # Subtest: re-admission rejects revocation, scope revision and expiry after resolving providers
+foundation	Run npm run check	2026-10-09T18:11:56.0613821Z ok 123 - re-admission rejects revocation, scope revision and expiry after resolving providers
+foundation	Run npm run check	2026-10-09T18:11:56.0614490Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0614801Z   duration_ms: 6.286683
+foundation	Run npm run check	2026-10-09T18:11:56.0615132Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0615417Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0616163Z # Subtest: authority and request snapshots resist mutation during asynchronous credential lookup
+foundation	Run npm run check	2026-10-09T18:11:56.0616894Z ok 124 - authority and request snapshots resist mutation during asynchronous credential lookup
+foundation	Run npm run check	2026-10-09T18:11:56.0617324Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0617517Z   duration_ms: 2.41433
+foundation	Run npm run check	2026-10-09T18:11:56.0617729Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0617924Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0618577Z # Subtest: a wrong principal, container fact, version or malformed result always closes with no fallback
+foundation	Run npm run check	2026-10-09T18:11:56.0619979Z ok 125 - a wrong principal, container fact, version or malformed result always closes with no fallback
+foundation	Run npm run check	2026-10-09T18:11:56.0620768Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0621096Z   duration_ms: 9.944916
+foundation	Run npm run check	2026-10-09T18:11:56.0621462Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0621781Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0622678Z # Subtest: connect/read/close errors are sanitized; read or uncertain cleanup requires HOLD without retry
+foundation	Run npm run check	2026-10-09T18:11:56.0624069Z ok 126 - connect/read/close errors are sanitized; read or uncertain cleanup requires HOLD without retry
+foundation	Run npm run check	2026-10-09T18:11:56.0625065Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0625382Z   duration_ms: 4.962379
+foundation	Run npm run check	2026-10-09T18:11:56.0625745Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0626066Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0626855Z # Subtest: wallet produces the actual native TLS context while CA-only material fails closed
+foundation	Run npm run check	2026-10-09T18:11:56.0628058Z ok 127 - wallet produces the actual native TLS context while CA-only material fails closed
+foundation	Run npm run check	2026-10-09T18:11:56.0628780Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0629093Z   duration_ms: 2.054988
+foundation	Run npm run check	2026-10-09T18:11:56.0629456Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0629781Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0630609Z # Subtest: approved encrypted client wallet supports its scoped password without publishing it
+foundation	Run npm run check	2026-10-09T18:11:56.0632093Z ok 128 - approved encrypted client wallet supports its scoped password without publishing it
+foundation	Run npm run check	2026-10-09T18:11:56.0632835Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0633147Z   duration_ms: 4.635929
+foundation	Run npm run check	2026-10-09T18:11:56.0633512Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0633839Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0634865Z # Subtest: atomic claim is required, cannot reuse a consumed permit and never retries a denied claim
+foundation	Run npm run check	2026-10-09T18:11:56.0635960Z ok 129 - atomic claim is required, cannot reuse a consumed permit and never retries a denied claim
+foundation	Run npm run check	2026-10-09T18:11:56.0636453Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0636742Z   duration_ms: 4.70609
+foundation	Run npm run check	2026-10-09T18:11:56.0637031Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0637216Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0637714Z # Subtest: the real pinned default driver can only reach denied admission, without credential resolution
+foundation	Run npm run check	2026-10-09T18:11:56.0638479Z ok 130 - the real pinned default driver can only reach denied admission, without credential resolution
+foundation	Run npm run check	2026-10-09T18:11:56.0639087Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0639415Z   duration_ms: 0.368268
+foundation	Run npm run check	2026-10-09T18:11:56.0639786Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0640105Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0640919Z # Subtest: driver mode changes and throwing provider objects fail closed without leaking errors
+foundation	Run npm run check	2026-10-09T18:11:56.0642171Z ok 131 - driver mode changes and throwing provider objects fail closed without leaking errors
+foundation	Run npm run check	2026-10-09T18:11:56.0642911Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0643241Z   duration_ms: 1.992371
+foundation	Run npm run check	2026-10-09T18:11:56.0643621Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0643938Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0645018Z # Subtest: wallet ordering is checked against the native driver TLS context, including CA-first rejection
+foundation	Run npm run check	2026-10-09T18:11:56.0646422Z ok 132 - wallet ordering is checked against the native driver TLS context, including CA-first rejection
+foundation	Run npm run check	2026-10-09T18:11:56.0647213Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0647536Z   duration_ms: 2.421363
+foundation	Run npm run check	2026-10-09T18:11:56.0647895Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0648218Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0649237Z # Subtest: debugger or disabled TLS environment rejects both early admission and late dispatch
+foundation	Run npm run check	2026-10-09T18:11:56.0650484Z ok 133 - debugger or disabled TLS environment rejects both early admission and late dispatch
+foundation	Run npm run check	2026-10-09T18:11:56.0651215Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0651535Z   duration_ms: 3.082357
+foundation	Run npm run check	2026-10-09T18:11:56.0651896Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0652210Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0652953Z # Subtest: dispatch rejects wrong receipts, expired claims and late driver mode changes
+foundation	Run npm run check	2026-10-09T18:11:56.0654096Z ok 134 - dispatch rejects wrong receipts, expired claims and late driver mode changes
+foundation	Run npm run check	2026-10-09T18:11:56.0654970Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0655296Z   duration_ms: 7.068203
+foundation	Run npm run check	2026-10-09T18:11:56.0655650Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0655965Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0656736Z # Subtest: exact patch version and read failure count remain distinct from Oracle acceptance
+foundation	Run npm run check	2026-10-09T18:11:56.0657921Z ok 135 - exact patch version and read failure count remain distinct from Oracle acceptance
+foundation	Run npm run check	2026-10-09T18:11:56.0658643Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0658961Z   duration_ms: 2.231729
+foundation	Run npm run check	2026-10-09T18:11:56.0659321Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0659636Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0660467Z # Subtest: malformed repeated PEM markers and oversized trust cannot backtrack or reach providers
+foundation	Run npm run check	2026-10-09T18:11:56.0661740Z ok 136 - malformed repeated PEM markers and oversized trust cannot backtrack or reach providers
+foundation	Run npm run check	2026-10-09T18:11:56.0662492Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0662817Z   duration_ms: 0.976454
+foundation	Run npm run check	2026-10-09T18:11:56.0663177Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0663488Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0664180Z # Subtest: persisted tracker state validates without assuming initial statuses
+foundation	Run npm run check	2026-10-09T18:11:56.0665389Z ok 137 - persisted tracker state validates without assuming initial statuses
+foundation	Run npm run check	2026-10-09T18:11:56.0666032Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0666355Z   duration_ms: 81.660052
+foundation	Run npm run check	2026-10-09T18:11:56.0666725Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0667038Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0667879Z # Subtest: catalog and plan IDs are retained with original dependency links
+foundation	Run npm run check	2026-10-09T18:11:56.0668849Z ok 138 - catalog and plan IDs are retained with original dependency links
+foundation	Run npm run check	2026-10-09T18:11:56.0669466Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0669781Z   duration_ms: 4.705019
+foundation	Run npm run check	2026-10-09T18:11:56.0670149Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0670461Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0671058Z # Subtest: separate WP0 cells never claim research as runtime PASS
+foundation	Run npm run check	2026-10-09T18:11:56.0671942Z ok 139 - separate WP0 cells never claim research as runtime PASS
+foundation	Run npm run check	2026-10-09T18:11:56.0672499Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0672833Z   duration_ms: 85.587488
+foundation	Run npm run check	2026-10-09T18:11:56.0673207Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0673519Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0674539Z # Subtest: initial state keeps Oracle validation and product delivery tracks distinct
+foundation	Run npm run check	2026-10-09T18:11:56.0675700Z ok 140 - initial state keeps Oracle validation and product delivery tracks distinct
+foundation	Run npm run check	2026-10-09T18:11:56.0676418Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0676745Z   duration_ms: 15.080408
+foundation	Run npm run check	2026-10-09T18:11:56.0677136Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0677451Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0677971Z # Subtest: unknown and cyclic dependencies are rejected
+foundation	Run npm run check	2026-10-09T18:11:56.0678693Z ok 141 - unknown and cyclic dependencies are rejected
+foundation	Run npm run check	2026-10-09T18:11:56.0679234Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0679546Z   duration_ms: 24.355844
+foundation	Run npm run check	2026-10-09T18:11:56.0679912Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0680224Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0680946Z # Subtest: verification requires acceptance, evidence, and verified dependencies
+foundation	Run npm run check	2026-10-09T18:11:56.0681703Z ok 142 - verification requires acceptance, evidence, and verified dependencies
+foundation	Run npm run check	2026-10-09T18:11:56.0682087Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0682272Z   duration_ms: 20.57928
+foundation	Run npm run check	2026-10-09T18:11:56.0682486Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0682671Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0682996Z # Subtest: BLOCKED and DEFERRED states require concrete reasons
+foundation	Run npm run check	2026-10-09T18:11:56.0683461Z ok 143 - BLOCKED and DEFERRED states require concrete reasons
+foundation	Run npm run check	2026-10-09T18:11:56.0683789Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0684133Z   duration_ms: 20.203888
+foundation	Run npm run check	2026-10-09T18:11:56.0684738Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0685093Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0685866Z # Subtest: unit BLOCKED requires an offline blocker independent of Oracle lab status
+foundation	Run npm run check	2026-10-09T18:11:56.0687054Z ok 144 - unit BLOCKED requires an offline blocker independent of Oracle lab status
+foundation	Run npm run check	2026-10-09T18:11:56.0687814Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0688175Z   duration_ms: 44.217312
+foundation	Run npm run check	2026-10-09T18:11:56.0688587Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0688934Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0689795Z # Subtest: Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+foundation	Run npm run check	2026-10-09T18:11:56.0691123Z ok 145 - Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+foundation	Run npm run check	2026-10-09T18:11:56.0691880Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0692199Z   duration_ms: 18.031731
+foundation	Run npm run check	2026-10-09T18:11:56.0692576Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0692893Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0693540Z # Subtest: malformed evidence metadata returns validation errors without throwing
+foundation	Run npm run check	2026-10-09T18:11:56.0694540Z ok 146 - malformed evidence metadata returns validation errors without throwing
+foundation	Run npm run check	2026-10-09T18:11:56.0695270Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0695577Z   duration_ms: 63.876845
+foundation	Run npm run check	2026-10-09T18:11:56.0695806Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0695995Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0696318Z # Subtest: research evidence cannot certify product status
+foundation	Run npm run check	2026-10-09T18:11:56.0696756Z ok 147 - research evidence cannot certify product status
+foundation	Run npm run check	2026-10-09T18:11:56.0697068Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0697260Z   duration_ms: 13.755474
+foundation	Run npm run check	2026-10-09T18:11:56.0697484Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0697673Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0697914Z # Subtest: PASS cells need evidence
+foundation	Run npm run check	2026-10-09T18:11:56.0698268Z ok 148 - PASS cells need evidence
+foundation	Run npm run check	2026-10-09T18:11:56.0698523Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0698732Z   duration_ms: 9.507629
+foundation	Run npm run check	2026-10-09T18:11:56.0698972Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0699182Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0699605Z # Subtest: ownership and dependency graph remain synchronized with work records
+foundation	Run npm run check	2026-10-09T18:11:56.0700520Z ok 149 - ownership and dependency graph remain synchronized with work records
+foundation	Run npm run check	2026-10-09T18:11:56.0700920Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0701131Z   duration_ms: 20.165477
+foundation	Run npm run check	2026-10-09T18:11:56.0701375Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0701563Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0701947Z # Subtest: duplicate, missing, and unexpected imported IDs are rejected
+foundation	Run npm run check	2026-10-09T18:11:56.0702520Z ok 150 - duplicate, missing, and unexpected imported IDs are rejected
+foundation	Run npm run check	2026-10-09T18:11:56.0702896Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0703089Z   duration_ms: 32.811398
+foundation	Run npm run check	2026-10-09T18:11:56.0703329Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0703516Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0703976Z # Subtest: source dependencies, acceptance, references, and result enums cannot drift
+foundation	Run npm run check	2026-10-09T18:11:56.0705054Z ok 151 - source dependencies, acceptance, references, and result enums cannot drift
+foundation	Run npm run check	2026-10-09T18:11:56.0705496Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0705682Z   duration_ms: 11.838401
+foundation	Run npm run check	2026-10-09T18:11:56.0705969Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0706164Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0706673Z # Subtest: hashed indexed evidence covers every acceptance and test reference before verification
+foundation	Run npm run check	2026-10-09T18:11:56.0707446Z ok 152 - hashed indexed evidence covers every acceptance and test reference before verification
+foundation	Run npm run check	2026-10-09T18:11:56.0707925Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0708128Z   duration_ms: 123.436483
+foundation	Run npm run check	2026-10-09T18:11:56.0708365Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0708570Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0709136Z # Subtest: product feature verification needs product-scope evidence and verified implementation tasks
+foundation	Run npm run check	2026-10-09T18:11:56.0709947Z ok 153 - product feature verification needs product-scope evidence and verified implementation tasks
+foundation	Run npm run check	2026-10-09T18:11:56.0710411Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0710641Z   duration_ms: 18.347982
+foundation	Run npm run check	2026-10-09T18:11:56.0710856Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0711042Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0711577Z # Subtest: init refuses to overwrite initialized evidence or tracking state
+foundation	Run npm run check	2026-10-09T18:11:56.0713051Z ok 154 - init refuses to overwrite initialized evidence or tracking state
+foundation	Run npm run check	2026-10-09T18:11:56.0713652Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0713850Z   duration_ms: 47.112601
+foundation	Run npm run check	2026-10-09T18:11:56.0714069Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0714506Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0714992Z # Subtest: next respects milestone scope and dependency gates independent of persisted statuses
+foundation	Run npm run check	2026-10-09T18:11:56.0715712Z ok 155 - next respects milestone scope and dependency gates independent of persisted statuses
+foundation	Run npm run check	2026-10-09T18:11:56.0716137Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0716322Z   duration_ms: 2.171226
+foundation	Run npm run check	2026-10-09T18:11:56.0716538Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0716718Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0717199Z # Subtest: PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+foundation	Run npm run check	2026-10-09T18:11:56.0717953Z ok 156 - PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+foundation	Run npm run check	2026-10-09T18:11:56.0718404Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0718588Z   duration_ms: 35.841287
+foundation	Run npm run check	2026-10-09T18:11:56.0718822Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0719007Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0719502Z # Subtest: PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+foundation	Run npm run check	2026-10-09T18:11:56.0720264Z ok 157 - PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+foundation	Run npm run check	2026-10-09T18:11:56.0720712Z   ---
+foundation	Run npm run check	2026-10-09T18:11:56.0720894Z   duration_ms: 78.726232
+foundation	Run npm run check	2026-10-09T18:11:56.0721110Z   type: 'test'
+foundation	Run npm run check	2026-10-09T18:11:56.0721294Z   ...
+foundation	Run npm run check	2026-10-09T18:11:56.0721463Z 1..157
+foundation	Run npm run check	2026-10-09T18:11:56.0721645Z # tests 157
+foundation	Run npm run check	2026-10-09T18:11:56.0721828Z # suites 0
+foundation	Run npm run check	2026-10-09T18:11:56.0722016Z # pass 126
+foundation	Run npm run check	2026-10-09T18:11:56.0722197Z # fail 1
+foundation	Run npm run check	2026-10-09T18:11:56.0722414Z # cancelled 0
+foundation	Run npm run check	2026-10-09T18:11:56.0722609Z # skipped 30
+foundation	Run npm run check	2026-10-09T18:11:56.0722795Z # todo 0
+foundation	Run npm run check	2026-10-09T18:11:56.0723003Z # duration_ms 40056.668152
+foundation	Run npm run check	2026-10-09T18:11:56.0884997Z ##[error]Process completed with exit code 1.

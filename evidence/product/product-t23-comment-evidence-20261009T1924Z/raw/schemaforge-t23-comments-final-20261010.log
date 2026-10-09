@@ -1,0 +1,37 @@
+UTC_START 2026-10-09T19:07:24Z
+COMMAND env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-comments.test.mjs
+8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f  apps/api/index.ts
+da82ac414872976d35b9f52870fbfa7ffe402dcf9717a23663c1a4be61406553  apps/web/src/app.jsx
+a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d  packages/database/index.ts
+e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70  packages/migrations/comment-evidence.mjs
+5a136f44d969abcf01efe54a4ac7a844857fa3293ddd236b54f1395586f63e15  tests/product-comments.test.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+ok 1 - plan review comments are scoped, validated, durable, ordered, and serialized
+  ---
+  duration_ms: 1095.203679
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1320.272864
+RAW_EXIT 0
+UTC_END 2026-10-09T19:07:26Z
+8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f  apps/api/index.ts
+da82ac414872976d35b9f52870fbfa7ffe402dcf9717a23663c1a4be61406553  apps/web/src/app.jsx
+a1a27cc36a6754bd9bce67ab2e641b8186c44275e5510716a2cc354855655a8d  packages/database/index.ts
+e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70  packages/migrations/comment-evidence.mjs
+5a136f44d969abcf01efe54a4ac7a844857fa3293ddd236b54f1395586f63e15  tests/product-comments.test.mjs

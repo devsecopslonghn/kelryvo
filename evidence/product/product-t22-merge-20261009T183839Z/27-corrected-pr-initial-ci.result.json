@@ -1,0 +1,11 @@
+{
+  "command": "set -e\n gh pr view 35 --repo devsecopslonghn/schemaForge --json number,state,headRefOid,baseRefOid,isDraft,mergeable,mergeStateStatus,statusCheckRollup\n gh run list --repo devsecopslonghn/schemaForge --commit 52ed5e7b29073cf5fa67f339294e1f9ac800fbef --limit 20 --json databaseId,workflowName,status,conclusion,event,headSha,url",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:30:34.997811+00:00",
+  "ended_at_utc": "2026-10-09T18:30:37.215512+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/27-corrected-pr-initial-ci.log",
+    "sha256": "e599b3b95d1de57322dbf0e3f2729ace276d1e88d540d76b3502c256f75ed7d0"
+  }
+}

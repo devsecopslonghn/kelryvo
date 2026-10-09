@@ -1,0 +1,82 @@
+{
+  "verdict": "APPROVE",
+  "subject": "SF-PRODUCT-T22",
+  "head": "2bccfe249c719162511c276b94518665f7e203f8",
+  "tree": "a6a0a804052cb7f054de14f30d3c71b72b6ddf96",
+  "scope": "Independent exact-head focused QA of pinned parser, PostgreSQL/API statement preview, and plan-source browser integration. Approval covers this bounded local review only.",
+  "findings": [],
+  "checks": [
+    {
+      "command": "taskset -c 0,1 node --test tests/statement-preview.test.mjs",
+      "result": "PASS: 2 passed, 0 failed, 0 skipped",
+      "raw_sha256": "4fb9e54425fe8e7f2cc5b133a8e2e2a3381ee28d6bb0ca286b1314ee3aa7149d"
+    },
+    {
+      "command": "taskset -c 0,1 node --test tests/product-statement-preview.test.mjs",
+      "result": "PASS: 1 passed, 0 failed, 0 skipped",
+      "raw_sha256": "996b74493e11dcd9ba95fc393349e68fe9beb3c63da6784ff68561c52a25a9ee"
+    },
+    {
+      "command": "taskset -c 0,1 node --test tests/product-plan-source-browser.integration.mjs",
+      "result": "PASS: 1 passed, 0 failed, 0 skipped",
+      "raw_sha256": "3b5ebaa68cbe26334e24c0d34b58c5342757906e6d2fafbf4bf16d0942591a50"
+    }
+  ],
+  "capture_record": {
+    "path": "/tmp/sf-product-t22-qa-20261009T180757Z-0b4e25bb/verdict.json",
+    "sha256": "f62a30fd821bd2147ac145ea39ba6a72a9a8ce54b1f115c42cb8ee65f8c4d8ed"
+  },
+  "raw_captures": [
+    {
+      "name": "parser",
+      "path": "/tmp/sf-product-t22-qa-20261009T180757Z-0b4e25bb/parser.raw.log",
+      "sha256": "4fb9e54425fe8e7f2cc5b133a8e2e2a3381ee28d6bb0ca286b1314ee3aa7149d"
+    },
+    {
+      "name": "postgres_api",
+      "path": "/tmp/sf-product-t22-qa-20261009T180757Z-0b4e25bb/postgres_api.raw.log",
+      "sha256": "996b74493e11dcd9ba95fc393349e68fe9beb3c63da6784ff68561c52a25a9ee"
+    },
+    {
+      "name": "browser",
+      "path": "/tmp/sf-product-t22-qa-20261009T180757Z-0b4e25bb/browser.raw.log",
+      "sha256": "3b5ebaa68cbe26334e24c0d34b58c5342757906e6d2fafbf4bf16d0942591a50"
+    }
+  ],
+  "source_freeze": {
+    "unchanged": true,
+    "start_sha256": {
+      "apps/api/index.ts": "80315b6e072dfb849f37463f6fe13db4b3f6d519ee22dd24b989637d0fa17ac0",
+      "apps/web/src/app.jsx": "bcc88dfa9787c83ba701bf2781333f350be6e1d700c2aee48fcb2235a9424f44",
+      "apps/web/styles.css": "1a067cb664a09b3c0a87cca7aac6ee33f9d382ed8132a1a4ecc0e138f7e5db34",
+      "packages/migrations/statement-preview.mjs": "4ecc1e2c892b90e323c0d2d4bd6cf383d5975913dec8aac9963d78448d3b6826",
+      "tests/product-plan-source-browser.integration.mjs": "39630d7797f12f735baf630a480dd560cf63179fa8daaa6286196858aeb466e7",
+      "tests/product-statement-preview.test.mjs": "77c0f7f18273b5f93a4b98e76601ebedd1b3e3813f1e7eb67efbd1c502d2c3ba",
+      "tests/statement-preview.test.mjs": "9362fb8f15496aa92b1998f16806f4336cc6095f29903ee38784679c03496631",
+      "scripts/test-product.mjs": "31db7b7f0c380b87fcd4985f31b2b7e2d7dd16a25710185804881fe4c2e6bf0b",
+      "docs/development/local-product.md": "6b20f2923dea2a1db32fd918a1892beccd851d1fba867f5d412ab94b550e2d89"
+    },
+    "end_sha256": {
+      "apps/api/index.ts": "80315b6e072dfb849f37463f6fe13db4b3f6d519ee22dd24b989637d0fa17ac0",
+      "apps/web/src/app.jsx": "bcc88dfa9787c83ba701bf2781333f350be6e1d700c2aee48fcb2235a9424f44",
+      "apps/web/styles.css": "1a067cb664a09b3c0a87cca7aac6ee33f9d382ed8132a1a4ecc0e138f7e5db34",
+      "packages/migrations/statement-preview.mjs": "4ecc1e2c892b90e323c0d2d4bd6cf383d5975913dec8aac9963d78448d3b6826",
+      "tests/product-plan-source-browser.integration.mjs": "39630d7797f12f735baf630a480dd560cf63179fa8daaa6286196858aeb466e7",
+      "tests/product-statement-preview.test.mjs": "77c0f7f18273b5f93a4b98e76601ebedd1b3e3813f1e7eb67efbd1c502d2c3ba",
+      "tests/statement-preview.test.mjs": "9362fb8f15496aa92b1998f16806f4336cc6095f29903ee38784679c03496631",
+      "scripts/test-product.mjs": "31db7b7f0c380b87fcd4985f31b2b7e2d7dd16a25710185804881fe4c2e6bf0b",
+      "docs/development/local-product.md": "6b20f2923dea2a1db32fd918a1892beccd851d1fba867f5d412ab94b550e2d89"
+    },
+    "worktree_clean_start": true,
+    "worktree_status_end": ""
+  },
+  "limitations": [
+    "Prior native browser full-run capture remains interrupted with unknown exit; the separate native retry remains its full-browser proof.",
+    "The prior standard157 suite start UTC is missing and is not inferred. This independent run covered only the three focused suites; it did not rerun the full standard suite.",
+    "This verdict does not certify CI, security/license scans, publication/history classification, merge eligibility, Oracle behavior, full catalog acceptance, worker execution authority, or runtime target verification."
+  ],
+  "captured_utc": {
+    "start": "2026-10-09T18:07:57.218380+00:00",
+    "end": "2026-10-09T18:09:21.118494+00:00"
+  }
+}

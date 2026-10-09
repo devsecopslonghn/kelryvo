@@ -1,0 +1,117 @@
+{
+  "review": "T22 corrected-head independent security and license verdict",
+  "verdict": "APPROVED",
+  "scope": "Security and license gate only; CI/QA/Oracle acceptance/merge/deployment are separate.",
+  "reviewed_at_utc": "2026-10-09T18:28:48.522503+00:00",
+  "head": "52ed5e7b29073cf5fa67f339294e1f9ac800fbef",
+  "tree": "daf457689c6647cdda2436d70325191efb80c4b8",
+  "base": "d19747356c3d962438631bcf393781d51ee9293a",
+  "supersedes_review_for_gate_decision": {
+    "path": "/tmp/schemaforge-t22-security-license-final-verdict-20261010T0102Z.json",
+    "sha256": "3962887c25456d5e7a6c6bc12d1e107897dabe70aa1298321cab39131b33f8f8",
+    "reviewed_head": "2bccfe249c719162511c276b94518665f7e203f8",
+    "note": "Earlier verdict remains valid only for its exact original head; this corrected-head verdict is authoritative for the current gate."
+  },
+  "original_full_review_reference": {
+    "path": "/tmp/schemaforge-t22-security-license-verdict-20261010T0100Z.json",
+    "sha256": "41a278d74c935605e5f5b680ce2cba37d0c1ddeb145dece2b239268979179ed8",
+    "reviewed_head": "2bccfe249c719162511c276b94518665f7e203f8"
+  },
+  "security_review": {
+    "verdict": "APPROVED",
+    "findings": [
+      {
+        "level": "informational",
+        "scope": "corrected exact-head publication scan",
+        "count": 2,
+        "classification": "Exact inherited product-description prose hits at CURRENT.md and CONTINUE.md line 288; exact blob and line provenance independently recomputed. No matched value accessed or printed; no credentials observed."
+      },
+      {
+        "level": "informational",
+        "scope": "corrected exact-head allrefs scan",
+        "count": 115,
+        "classification": "All scanner provenance tuples match prior T21 allrefs scan exactly; T21 inherited106 and newer9 classifications/limitations preserved."
+      }
+    ],
+    "precommit_scan": {
+      "paths": 268,
+      "exit_code": 1,
+      "finding_count": 2,
+      "clean_scan_PASS": false
+    },
+    "official_publication_scan": {
+      "paths": 277,
+      "exit_code": 1,
+      "finding_count": 2,
+      "clean_scan_PASS": false,
+      "private_report_sha256": "927c6f40b349e2fe62da71ec83a3a2eeaa28c00f8e4cb7515c67f12201e83de0",
+      "classified_findings": [
+        {
+          "path": "docs/implementation/CONTINUE.md",
+          "line": 288,
+          "rule": "generic-api-key",
+          "exact_blob_sha256": "90589d059b85236a107390a91ed88a086fe0f6a570c1a4807f327e279457944b",
+          "line_sha256": "3f492042525cc90a49c6a50bdc9b4adbb5d5d6c842a2a629e265919a4598e7b3",
+          "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE",
+          "matched_value_or_secret_accessed": false,
+          "actual_credentials_observed": false
+        },
+        {
+          "path": "docs/implementation/CURRENT.md",
+          "line": 288,
+          "rule": "generic-api-key",
+          "exact_blob_sha256": "2eea0263888c5735603f4f793d0d3cf20f4bad3c4aa8106fa057dd1e900b4f66",
+          "line_sha256": "3f492042525cc90a49c6a50bdc9b4adbb5d5d6c842a2a629e265919a4598e7b3",
+          "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE",
+          "matched_value_or_secret_accessed": false,
+          "actual_credentials_observed": false
+        }
+      ]
+    },
+    "official_allrefs_scan": {
+      "exit_code": 1,
+      "finding_count": 115,
+      "clean_scan_PASS": false,
+      "private_report_sha256": "cce89a65b10f7192bc85e15167a9f49c3815abf804b7db8a0a20c742fd845d20",
+      "exact_tuple_multiset_matches_T21": true,
+      "tuple_count": 115,
+      "prior_new9_still_present": true,
+      "inherited106_exact_provenance_tuple_preserved": true
+    },
+    "current_source_review": "API/UI/helper runtime remains byte-for-byte unchanged from prior exact-head review: scalar bounds precede release payload materialization, auth prehandler enforces project membership with resource 404, row FOR SHARE spans retained verification/parser, exact pinned parser profile/UTF-8 byte slices/digests are checked, route/helper are read only, and UI validates source facts and invalidates stale/session results. React escapes source text. Existing whole-file release GET payload sizing remains out of scope.",
+    "actual_credentials_observed": false,
+    "rotation_indicated": false
+  },
+  "license_review": {
+    "verdict": "APPROVED",
+    "findings": [],
+    "license": "Unmodified PolyForm Shield 1.0.0 remains selected for project-authored code/docs.",
+    "unchanged_against_base": [
+      "LICENSE",
+      "NOTICE",
+      "package-lock.json",
+      "docs/dependencies/product-NOTICES.txt",
+      "experiments/db-devops-wp0/antlr-helper/notices/NOTICE.txt",
+      "experiments/db-devops-wp0/antlr-helper/notices/Apache-2.0.txt",
+      "experiments/db-devops-wp0/antlr-helper/notices/ANTLR-BSD-3-Clause.txt"
+    ],
+    "third_party_notice_changes": [],
+    "dependency_lock_changes": false,
+    "full_distribution_F31": "Pending per existing product policy."
+  },
+  "correction_review": {
+    "API_UI_helper_runtime_changed_since_original_approved_head": false,
+    "positive_pinned_parser_integration_is_in_mandatory_product_runner": true,
+    "deterministic_unit_negatives_remain_registered": true,
+    "no_build_or_test_run_by_this_reviewer": true
+  },
+  "limitations": {
+    "T21_history_115": "Tuple provenance independently crosschecked exact; this preserves classification, not a clean scan.",
+    "T21_eight_unavailable_pre_final_source_bytes": "Eight inherited pre-final source digest records lack earlier uncommitted bytes. Earlier independent metadata provenance review preserved; not recomputed or final-source attestations.",
+    "oracle": "Separate VALIDATION/blocked acceptance gate; no Oracle behavior certified.",
+    "sonar": "Unavailable is never PASS.",
+    "whole_release_GET": "Pre-existing response sizing is outside T22 scope; no fix claim.",
+    "scanner": "Official exact-head scanner 8.30.1; findings make scan status non-clean, while classified review is APPROVED."
+  },
+  "repository_edits_by_reviewer": false
+}

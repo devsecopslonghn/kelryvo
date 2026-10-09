@@ -1,0 +1,4 @@
+ENFORCED
+grant complete
+grant complete
+{"result":"PASS","checks":["matching generation with missing retained intent is rejected by the UI comment submit","fixed fresh-plan feedback appears; plain draft retained and selected reference cleared","failed comment does not change predecessor plan/release/comment/history/audit state","existing fresh-plan navigation imports same source into a new immutable release and creates a valid pending plan","a verified supplemental reference attaches and persists against new intent; predecessor rows remain unchanged"],"oldPlanId":"bea6d95c-0e05-43de-b547-8c8096916f45","freshPlanId":"d49e596c-8f45-4466-82ad-94ef0a1254ee","oldReleaseId":"a4eb3908-3c37-450e-b38c-5fbbe697b628","freshReleaseId":"05afce6c-6b87-496a-b8cc-c1b90c58b24e","sourceBindingGeneration":"2"}

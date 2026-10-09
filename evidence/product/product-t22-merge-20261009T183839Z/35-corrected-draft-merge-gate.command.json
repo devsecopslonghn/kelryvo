@@ -1,0 +1,5 @@
+{
+  "command": "python /tmp/schemaforge-t22-corrected-merge-gate.py 35",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:38:18.924796+00:00"
+}
