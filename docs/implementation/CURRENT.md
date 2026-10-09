@@ -196,6 +196,8 @@ identity labels alone do not establish this behavior. An example or hostname is 
 Product license/name and full F31 distribution closure remain pending. Apache-2.0 is
 proposed. The reviewed Apache grammar/BSD grants cover the offline candidate boundary;
 product distribution still needs its owner decision and final source/notice/artifact closure.
+**Historical scheduling snapshot (superseded by PRODUCT scheduling above):**
+
 Work: four VERIFIED, one BLOCKED, 60 BACKLOG. Features: 213 BACKLOG, seven DEFERRED,
 zero VERIFIED. `npm run next` returns no fully unblocked task.
 
@@ -207,17 +209,35 @@ complete the remaining fault/rotation harness and real T04 acceptance. T05 and
 later tasks depend on T04; WP1/API/UI cannot bypass WP0-T12. Follow
 [CONTINUE.md](CONTINUE.md) and the existing graph; do not create a replacement roadmap.
 
+## Current PRODUCT delivery (continued)
+
 SF-PRODUCT-T04 local acceptance passed 137/137 standard checks, 17/17 mandatory
 product cases and both browser workflows with zero skips. Evidence: `evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1`.
 The initial integrated lock-observation failure is retained in the preceding run. Test
 workflows now own separate temporary PostgreSQL databases; each restart retains its own
 data until teardown. The UI explicitly refreshes when the selected project is clicked again
 and ignores stale mutation responses after sign-out. Original Oracle/catalog acceptance
-is unchanged. Next queued PRODUCT task is SF-PRODUCT-T05 (GOV-023/SEC-011): authenticated
-review-denial audit. Complete its bounded implementation/tests without waiting for Oracle.
+is unchanged. SF-PRODUCT-T05 follows with authenticated review-denial audit (GOV-023/SEC-011);
+its current local acceptance is recorded below.
 
 PR #12 is open for T04 source binding. Its initial UI quality warnings were repaired
 without changing behavior, tests or thresholds; the two inherited CLI security annotations
 still require a real passing analysis or concrete diagnostics. The primary product checkout
 includes the reviewed local lineage and a persisted `SchemaForge demo 2026-10-09 00:03 UTC`.
 The actual API demo and restart proof are indexed under product-t04-primary-live-demo.
+
+SF-PRODUCT-T05 is VERIFIED locally in `development/product-review-audit`
+(`/home/longhn0710/workspace/schemaforge-product-review-audit`). Role, author and
+terminal-state decision denials persist fixed audit reasons with server actor/resource
+metadata, while plans/history remain unchanged. Malformed, unauthenticated, missing-plan
+and archived-project requests append no denial event. The web displays the fixed denial
+reason. The implementation reuses existing auth, PostgreSQL transactions and audit tables.
+Verification passed 138/138 standard tests, 18/18 mandatory product cases and 3/3 real
+browser workflows, with zero skips. Evidence: `evidence/product/product-t05-review-audit-20261009T001803Z-75210e75/`.
+Initial focused-trial failures are explicitly reported as native implementer observations;
+their raw logs were not retained and are not used as verification evidence.
+Resolve this increment's own PR/head/gates from Git/GitHub; predecessor PRs #9–#12 remain
+unmerged. The primary checkout advances to the verified local lineage independently of
+remote merge eligibility. Next PRODUCT task is SF-PRODUCT-T06: persistent plain-text
+comments on pending plan reviews (GOV-020 partial increment); it is BACKLOG, unimplemented,
+and cannot certify full catalog acceptance. All 124 Oracle cells remain BLOCKED.

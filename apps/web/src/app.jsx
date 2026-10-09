@@ -51,6 +51,17 @@ function auditActorLabel(item, actor) {
   if (item.actorId) return `Actor ${item.actorId.slice(0, 8)}`;
   return 'Unknown actor';
 }
+function auditDescription(item) {
+  const denialCopy = {
+    APPROVER_REQUIRED: 'Decision denied: an approver role is required.',
+    SELF_APPROVAL_DENIED: 'Decision denied: plan authors cannot decide their own plans.',
+    DECISION_ALREADY_RECORDED: 'Decision denied: the plan already has a terminal decision.',
+  };
+  if (item.action === 'PLAN_DECISION_DENIED' && item.facts?.denialReason) {
+    return denialCopy[item.facts.denialReason] || 'A plan decision was denied.';
+  }
+  return item.facts?.reason || item.summary || item.reason || 'Governance record';
+}
 
 function App() {
   const [tokenInput, setTokenInput] = useState('');
@@ -407,7 +418,7 @@ function RecordsScreen({ model }) {
   const { detail, actor, fmt, isArchived } = model;
   return <>
           <div className="page-heading"><div><p className="eyebrow">TRACEABILITY</p><h1>Audit &amp; history {isArchived && <span className="status-pill neutral">ARCHIVED</span>}</h1><p className="muted">See governance events alongside the recorded migration outcomes.</p></div><div className="heading-mark">04 <span> / 04</span></div></div>
-          <div className="records-grid"><section className="panel"><div className="panel-heading"><div><h2>Audit events</h2><p>Actions recorded for this project.</p></div><span className="count-pill">{detail?.audit?.length || 0} events</span></div><div className="timeline">{(detail?.audit || []).map((item) => <div className="timeline-row" key={item.id}><span className="timeline-dot"/><div><strong>{item.action || item.event || 'Project event'}</strong><p>{item.facts?.reason || item.summary || item.reason || 'Governance record'}</p><small>{auditActorLabel(item, actor)} · {fmt(item.createdAt || item.created_at)}</small></div></div>)}{!detail?.audit?.length && <div className="empty-state compact"><strong>No audit events yet</strong><span>Project changes and review decisions will appear here.</span></div>}</div></section><section className="panel"><div className="panel-heading"><div><h2>Migration history</h2><p>Recorded migration states; these are not evidence of database application.</p></div><span className="count-pill">{detail?.history?.length || 0} records</span></div><div className="history-list">{(detail?.history || []).map((item) => <div className="history-row" key={item.id}><div><strong>{item.path || item.version || 'Migration event'}</strong><small>{fmt(item.executedAt || item.createdAt)}</small></div><span className={`status-pill ${item.status === 'SUCCEEDED' ? 'good' : 'neutral'}`}>{item.status || 'NOT_OBSERVED'}</span></div>)}{!detail?.history?.length && <div className="empty-state compact"><strong>No migration records yet</strong><span>Candidate plans add NOT_EXECUTED records; they do not imply database application.</span></div>}</div></section></div>
+          <div className="records-grid"><section className="panel"><div className="panel-heading"><div><h2>Audit events</h2><p>Actions recorded for this project.</p></div><span className="count-pill">{detail?.audit?.length || 0} events</span></div><div className="timeline">{(detail?.audit || []).map((item) => <div className="timeline-row" key={item.id}><span className="timeline-dot"/><div><strong>{item.action || item.event || 'Project event'}</strong><p>{auditDescription(item)}</p><small>{auditActorLabel(item, actor)} · {fmt(item.createdAt || item.created_at)}</small></div></div>)}{!detail?.audit?.length && <div className="empty-state compact"><strong>No audit events yet</strong><span>Project changes and review decisions will appear here.</span></div>}</div></section><section className="panel"><div className="panel-heading"><div><h2>Migration history</h2><p>Recorded migration states; these are not evidence of database application.</p></div><span className="count-pill">{detail?.history?.length || 0} records</span></div><div className="history-list">{(detail?.history || []).map((item) => <div className="history-row" key={item.id}><div><strong>{item.path || item.version || 'Migration event'}</strong><small>{fmt(item.executedAt || item.createdAt)}</small></div><span className={`status-pill ${item.status === 'SUCCEEDED' ? 'good' : 'neutral'}`}>{item.status || 'NOT_OBSERVED'}</span></div>)}{!detail?.history?.length && <div className="empty-state compact"><strong>No migration records yet</strong><span>Candidate plans add NOT_EXECUTED records; they do not imply database application.</span></div>}</div></section></div>
           <p className="history-footnote"><span className="status-dot"/> Unknown target history stays unknown until a trusted runtime observes it.</p>
 
   </>;

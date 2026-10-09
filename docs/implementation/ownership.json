@@ -1214,6 +1214,10 @@
     },
     "SF-PRODUCT-T05": {
       "assigned_agent": "backend",
+      "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T06": {
+      "assigned_agent": "backend",
       "status": "BACKLOG"
     }
   }

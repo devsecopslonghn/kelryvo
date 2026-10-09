@@ -30,6 +30,11 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    execution plan and does not claim that all files are pending on a real database.
 5. Sign out, sign in with `approverToken`, and open Plans & review. Record a reason and
    approve or reject. Decisions are serialized, terminal and independent of the author.
+   Authenticated requests denied for role, self-approval or an existing terminal decision
+   append a `PLAN_DECISION_DENIED` audit event containing only the fixed denial code,
+   server-resolved actor and plan resource. The audit timeline renders the denial reason.
+   Malformed, unauthenticated and nonexistent-plan requests add no event; archived projects
+   reject decisions without appending one.
    Approval does not grant execution authority. Prepare another candidate to demonstrate
    rejection as a separate decision.
 6. Inspect Audit & history. Each proposed migration records `NOT_EXECUTED`; no applied

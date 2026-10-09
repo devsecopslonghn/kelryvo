@@ -1270,6 +1270,31 @@
       },
       "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/product-t04-primary-live-demo-record.json",
       "sha256": "b09bafccd2a99ee4599f5e448ea1962a9f8d242278bdfe8cb8e7da6750471e85"
+    },
+    {
+      "id": "product-t05-review-audit-local-verified",
+      "subject_id": "SF-PRODUCT-T05",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run test:browser (actual PostgreSQL/API/Git/ANTLR/browser; no skipped required cases)",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T05-API",
+        "SF-PRODUCT-T05-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t05-review-audit-20261009T001803Z-75210e75/checks.log",
+        "sha256": "3bb9ccfccaf8e8e5862d959c986cda474f04f0d7f52be93144919c7faf95650e"
+      },
+      "path": "evidence/product/product-t05-review-audit-20261009T001803Z-75210e75/record.json",
+      "sha256": "dd0e9d5f81e0b5caa3a0da8864e254ea318708ffc46d41a2c1477255aa922adb"
     }
   ]
 }
