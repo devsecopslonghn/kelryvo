@@ -148,6 +148,24 @@ export function createApp(options: {
   app.get("/api/repositories", { preHandler: authenticate }, () => ({
     repositories: repositories.map(({ id, name }) => ({ id, name })),
   }));
+  app.get("/api/projects/:id/git-refs", { preHandler: authenticate }, async (req: any, reply: any) => {
+    if (!uuid(req.params.id)) return fail(reply, 404, "NOT_FOUND");
+    const p = await project(req.params.id);
+    if (!p) return fail(reply, 404, "NOT_FOUND");
+    if (!p.source_repository_id || !p.source_folder) return fail(reply, 409, "SOURCE_NOT_BOUND");
+    const repository = repositories.find((candidate) => candidate.id === p.source_repository_id);
+    if (!repository) return fail(reply, 503, "REPOSITORY_UNAVAILABLE");
+    try {
+      const { listLocalGitRefs } = await import("../../packages/migrations/list-git-refs.mjs");
+      const refs = await listLocalGitRefs(repository.path);
+      return { branches: refs.filter((ref: any) => ref.kind === "branch"),
+        tags: refs.filter((ref: any) => ref.kind === "tag") };
+    } catch (error: any) {
+      if (error?.code === "REPOSITORY_UNAVAILABLE") return fail(reply, 503, "REPOSITORY_UNAVAILABLE");
+      if (error?.code === "GIT_REF_LIMIT") return fail(reply, 503, "GIT_REF_LIMIT");
+      return fail(reply, 503, "GIT_REF_READ_FAILED");
+    }
+  });
   app.get("/api/projects", { preHandler: authenticate }, async () => ({
     projects: (
       await sql`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at FROM sf_projects WHERE organization_id=${ORG} ORDER BY created_at,id`

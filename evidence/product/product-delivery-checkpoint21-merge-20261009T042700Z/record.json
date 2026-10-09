@@ -1,0 +1,128 @@
+{
+  "id": "product-delivery-checkpoint21-merge-master-verified",
+  "subject_id": "SF-PRODUCT-T10",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Root-verified merged PR #21, ten successful PR checks, four successful post-merge master workflows, and empty captured code/dependency/secret alert responses.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-delivery-checkpoint21-merge-20261009T042700Z/master-workflows.json",
+    "sha256": "59a5ffc7d05aed6266e2e844ee0ee6bf5737bbe7736449788cad8524d1b520b9"
+  },
+  "path": "evidence/product/product-delivery-checkpoint21-merge-20261009T042700Z/record.json",
+  "merged_pr": {
+    "baseRefOid": "d970375e15706d4718a2e30f8b6754f17f4e7418",
+    "headRefOid": "011358e1a6d4ffb99cfd50062100761a32b86350",
+    "mergeCommit": {
+      "oid": "534c6e4024b7642bb7ece17447367d873335edc3"
+    },
+    "mergedAt": "2026-10-09T04:22:54Z",
+    "number": 21,
+    "state": "MERGED",
+    "url": "https://github.com/devsecopslonghn/schemaForge/pull/21"
+  },
+  "pr_checks": [
+    {
+      "bucket": "pass",
+      "link": "https://github.com/devsecopslonghn/schemaForge/runs/113667051584",
+      "name": "CodeQL",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37883077852/job/113666948284",
+      "name": "Analyze (java-kotlin)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37883077852/job/113666948302",
+      "name": "Analyze (javascript-typescript)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37883077852/job/113666948288",
+      "name": "Analyze (actions)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37883078926/job/113666947440",
+      "name": "product",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37883078916/job/113666947587",
+      "name": "parser",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37883078920/job/113666947539",
+      "name": "foundation",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37883075372/job/113666935464",
+      "name": "product",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37883075501/job/113666936185",
+      "name": "parser",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37883075450/job/113666936099",
+      "name": "foundation",
+      "state": "SUCCESS"
+    }
+  ],
+  "master_workflows": [
+    {
+      "conclusion": "success",
+      "databaseId": 37883612069,
+      "headSha": "534c6e4024b7642bb7ece17447367d873335edc3",
+      "name": "Offline WP0 checks",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37883612071,
+      "headSha": "534c6e4024b7642bb7ece17447367d873335edc3",
+      "name": "Local PRODUCT acceptance",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37883611590,
+      "headSha": "534c6e4024b7642bb7ece17447367d873335edc3",
+      "name": "Push on master",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37883612090,
+      "headSha": "534c6e4024b7642bb7ece17447367d873335edc3",
+      "name": "Offline ANTLR parser acceptance",
+      "status": "completed"
+    }
+  ],
+  "captured_alerts": {
+    "code": [],
+    "dependabot": [],
+    "secret": []
+  },
+  "limitations": [
+    "Baseline merge verification only; it does not review or certify T10."
+  ]
+}

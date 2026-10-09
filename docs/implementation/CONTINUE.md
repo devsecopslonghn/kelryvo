@@ -1,50 +1,61 @@
 # Resume SchemaForge PRODUCT delivery
 
-## T08/T09 merged and verified; next PRODUCT task T10 READY — 2026-10-09
+## T08–T10 locally delivered; T10 root review pending — 2026-10-09
 
 T08 plan-status filters merged through PR #19 at
 `577124f1b15058000fa89e5a17074992435efcd9`; T09 recent audit-action filters merged
-through PR #20 at `d970375e15706d4718a2e30f8b6754f17f4e7418`. Each exact head had
-ten passing non-Sonar checks and independent QA/security/license approval. All four
-master workflows passed on each implementation merge. Dedicated PRODUCT worktrees
-eliminated working-tree conflicts; the shared checkout remains untouched on its original
-`0346300471a889ae8fd33b022b890034be08d301` master for the concurrent hygiene session.
+through PR #20 at `d970375e15706d4718a2e30f8b6754f17f4e7418`. The T10 isolated
+worktree started from merged master checkpoint `534c6e4024b7642bb7ece17447367d873335edc3`;
+root reports PR #21's four master workflows passed. T10 is implemented and VERIFIED locally,
+with exact-head review/publication pending. No commit, push, PR or merge was made from this
+worktree.
 
-PRODUCT T01–T09 are VERIFIED_LOCAL. T08 tested actual pending/approved/rejected plans,
-ordered project-scoped subsets, drafts, retained comments/decisions and archived reads.
-T09 preserves audit facts/order/history and resets filters on explicit/automatic project
-changes, sign-out and recent-action eviction. Final checks: 140/140 standard, 20/20
-PostgreSQL/product and 7/7 browser workflows, zero skips. Initial observations are separate
-from PASS; see the immutable evidence runs and indexed post-merge records.
+PRODUCT T01–T10 are VERIFIED_LOCAL. T10 adds authenticated, project-bound local branch and
+commit-resolving tag choices for release intake, capped at 200 refs with fixed fail-closed
+over-limit behavior. Same-named branch/tag refs remain distinct; nested annotated tags resolve
+to commits; noncommit refs are excluded. HEAD/manual refs remain, and imports use the existing
+immutable importer. PostgreSQL/API/parser/product tests pass 21/21; browser regressions pass
+8/8; standard checks pass 141/141. Every suite had zero skips. T10 evidence is recorded under
+`evidence/product/product-t10-local-git-refs-20261009T042638Z/`.
 
-Git Hygiene integration is pending: no branch/PR was visible. Official checksum-verified
-Gitleaks 8.30.1 independently reproduced four history matches with exact provenance: one
-project UUID, two hashes verified against their exact source blob, and one malformed
-synthetic UNIT PEM fixture. No actual credential was observed or rotation indicated. The
-independent scan groups them differently from the earlier verbal summary; compare the
-other session’s original redacted report before closing its audit. Never print values,
-broadly allowlist findings or rewrite public history. Any hygiene PR still requires source/
-lockfile/immutable-evidence preservation, independent security review and passing CI.
-Provenance: `evidence/product/product-t08-merge-20261009T035130Z/gitleaks-provenance.json`.
+Git Hygiene integration remains pending. Root reports the reproduced history matches are
+benign synthetic/test values, with original-report comparison still open. Keep the required
+source, lockfiles and immutable evidence; do not broadly allowlist findings or rewrite public
+history. Any hygiene change still requires provenance classification, security review and
+passing CI.
 
-`npm run next` selects **SF-PRODUCT-T10 — Select local Git branches and tags for immutable
-release imports** (READY, backend, GIT-004 partial). Start a fresh isolated worktree from
-latest `origin/master`; read its tracker acceptance. List only bounded safe refs from the
-project-bound registered local repository, preserve HEAD/manual refs, and reuse existing
-immutable import/parser behavior. No provider authentication/clone, arbitrary caller paths,
-worker execution or Oracle connection. T10 is registered only; implementation is outstanding.
+The next bounded PRODUCT task is **SF-PRODUCT-T11 — Inspect retained release provenance**,
+registered READY. `npm run next` selects T11. Display stored full commit/repository ID/object
+format/folder/manifest digest/parser profile/import time through the current API; verify retained
+reads when Git is unavailable, project switching and archived read-only access. It is a partial
+GIT-006 display increment, with no schema changes, Git re-read, execution or Oracle acceptance.
+T10 worktree: `/home/longhn0710/workspace/schemaforge-product-git-refs`, branch
+`development/product-local-git-refs`, based on checkpoint `534c6e4024b7642bb7ece17447367d873335edc3`.
 
-Continuation worktree: `/home/longhn0710/workspace/schemaforge-product-status-filters`,
-branch `development/product-delivery-state`. Check Git/GitHub before resuming and leave
-the shared checkout alone while hygiene owns it. Do not run fresh-worktree local dev setup
-against another checkout’s owned demo container. PRODUCT tests used a separately owned
-loopback PostgreSQL container `schemaforge-product-t08-tests` and isolated test databases.
-The existing demo metadata/config were not modified. This checkpoint’s own PR/head/merge
-and workflows must be resolved from Git/GitHub; the master SHA above identifies its
-verified preceding implementation and is not a self-reference.
+Sonar remains unavailable under the unchanged quota exception and must never be reported PASS.
+Oracle VALIDATION and all 124 applicable cells remain BLOCKED independently; T10 is local
+PRODUCT evidence only.
 
-Sonar remains unavailable under the unchanged owner quota exception, never PASS.
-Oracle VALIDATION and all 124 applicable cells remain BLOCKED independently.
+## Earlier verified merge checkpoints
+
+T08 plan-status filters merged through PR #19 at
+`577124f1b15058000fa89e5a17074992435efcd9`; T09 audit-action filters merged through PR
+#20 at `d970375e15706d4718a2e30f8b6754f17f4e7418`. Each implementation head passed its
+ten non-Sonar checks with independent QA, security and license approval; all four master
+workflows passed on the relevant implementation merge. Immutable records remain at
+`evidence/product/product-t08-merge-20261009T035130Z/` and
+`evidence/product/product-t09-merge-20261009T040900Z/`.
+
+PR #21 merged the delivery checkpoint at `534c6e4024b7642bb7ece17447367d873335edc3`;
+its six captured PR/check/workflow/alert files are indexed under
+`evidence/product/product-delivery-checkpoint21-merge-20261009T042700Z/`. Four post-merge
+master workflows passed, and the three captured code, dependency and secret alert responses
+were empty. This checkpoint is the verified T10 base.
+
+At the last hygiene cross-check, Gitleaks 8.30.1 had four reproduced history matches: one
+project UUID, two hashes verified against exact source blobs, and one malformed synthetic
+UNIT PEM fixture. No credential was identified for rotation. The original redacted report
+comparison remains open; see `evidence/product/product-t08-merge-20261009T035130Z/gitleaks-provenance.json`.
 
 ## SF-PRODUCT-T09 verified locally; root review pending — 2026-10-09
 

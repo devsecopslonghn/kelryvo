@@ -34,6 +34,8 @@ const errorCopy = {
   SOURCE_NOT_BOUND: 'Bind a repository and migration folder to this project before importing.',
   SOURCE_BINDING_MISMATCH: 'The requested source differs from the project binding. Save the source binding and try again.',
   REPOSITORY_UNAVAILABLE: 'The selected repository cannot be read right now.',
+  GIT_REF_LIMIT: 'This repository has too many refs to list safely. Contact an administrator.',
+  GIT_REF_READ_FAILED: 'Repository refs could not be read. Try again later.',
   VALIDATION_UNAVAILABLE: 'The migration parser is unavailable. This release cannot be planned.',
   EXECUTION_UNAVAILABLE: 'Execution is unavailable. The plan remains NOT_EXECUTED.',
   PROJECT_ARCHIVED: 'This project is archived. It remains readable, but new work is disabled.',
@@ -85,6 +87,9 @@ function App() {
   const [environmentName, setEnvironmentName] = useState('');
   const [profileForm, setProfileForm] = useState({ name: '', environmentId: '', host: '', port: '1521', service: '', username: '', credentialRef: '' });
   const [releaseForm, setReleaseForm] = useState({ repositoryId: '', commit: 'HEAD', folder: 'migrations' });
+  const [gitRefs, setGitRefs] = useState({ branches: [], tags: [] });
+  const [gitRefsLoading, setGitRefsLoading] = useState(false);
+  const [gitRefsError, setGitRefsError] = useState('');
   const [sourceForm, setSourceForm] = useState({ repositoryId: '', folder: 'migrations' });
   const [decisionReason, setDecisionReason] = useState('');
   const [commentBody, setCommentBody] = useState('');
@@ -93,6 +98,7 @@ function App() {
   const activeProjectId = useRef(projectId);
   const sessionEpoch = useRef(0);
   const previousAuditProjectId = useRef(projectId);
+  const previousReleaseBinding = useRef({ projectId: '', repositoryId: '', folder: '' });
 
   const selectProject = (nextId) => {
     const alreadySelected = nextId === projectId;
@@ -189,6 +195,30 @@ function App() {
   }, [projectLoaded, auditAction, auditActions]);
   const sourceBinding = projectLoaded ? detail.project.sourceBinding || null : null;
   const boundRepository = repositories.find((item) => item.id === sourceBinding?.repositoryId);
+  useEffect(() => {
+    const next = { projectId: projectLoaded ? projectId : '', repositoryId: sourceBinding?.repositoryId || '', folder: sourceBinding?.folder || '' };
+    const previous = previousReleaseBinding.current;
+    if (next.projectId && previous.projectId === next.projectId
+        && (previous.repositoryId !== next.repositoryId || previous.folder !== next.folder)) {
+      setReleaseForm((current) => ({ ...current, commit: 'HEAD' }));
+    }
+    previousReleaseBinding.current = next;
+  }, [projectId, projectLoaded, sourceBinding?.repositoryId, sourceBinding?.folder]);
+  useEffect(() => {
+    let current = true;
+    setGitRefs({ branches: [], tags: [] });
+    setGitRefsError('');
+    if (!token || !projectLoaded || !sourceBinding || detail?.project?.id !== projectId) {
+      setGitRefsLoading(false);
+      return () => { current = false; };
+    }
+    setGitRefsLoading(true);
+    json(`/api/projects/${encodeURIComponent(projectId)}/git-refs`, token)
+      .then((refs) => { if (current) setGitRefs({ branches: refs.branches || [], tags: refs.tags || [] }); })
+      .catch((error) => { if (current) setGitRefsError(error.message || 'GIT_REF_READ_FAILED'); })
+      .finally(() => { if (current) setGitRefsLoading(false); });
+    return () => { current = false; };
+  }, [token, projectId, projectLoaded, sourceBinding?.repositoryId, sourceBinding?.folder]);
 
   const mutate = async (action, success, onSuccess = () => {}) => {
     const epoch = sessionEpoch.current;
@@ -311,7 +341,7 @@ function App() {
     finally { if (sequence === refreshSequence.current && activeProjectId.current === inspectedProjectId) setBusy(false); }
   };
 
-  const model = { actor, projects, projectId, selectProject, setRelease, setSelectedPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment };
+  const model = { actor, projects, projectId, selectProject, setRelease, setSelectedPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, addComment, gitRefs, gitRefsLoading, gitRefsError };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -411,7 +441,7 @@ function sourceBindingButtonLabel(busy, sourceBinding) {
 }
 
 function ReleaseScreen({ model }) {
-  const { projectId, selectProject, projects, releaseForm, setReleaseForm, busy, importRelease, release, detail, makePlan, isArchived, inspectRelease, fmt, sourceBinding, boundRepository, projectLoaded, sourceForm } = model;
+  const { projectId, selectProject, projects, releaseForm, setReleaseForm, busy, importRelease, release, detail, makePlan, isArchived, inspectRelease, fmt, sourceBinding, boundRepository, projectLoaded, sourceForm, gitRefs, gitRefsLoading, gitRefsError } = model;
   const bindingDraftMatches = Boolean(sourceBinding && boundRepository
     && sourceForm.repositoryId === sourceBinding.repositoryId && sourceForm.folder === sourceBinding.folder);
   let boundRepositoryLabel = 'Loading project source…';
@@ -427,7 +457,7 @@ function ReleaseScreen({ model }) {
           <SourceBindingPanel model={model} />
           <section className="panel saved-releases"><div className="panel-heading"><div><h2>Existing releases</h2><p>Open an imported release to review migration files and SQL.</p></div><span className="count-pill">{detail?.releases?.length || 0} releases</span></div>{detail?.releases?.length ? <div className="saved-release-list">{detail.releases.map((item) => <div className="saved-release-row" data-release-id={item.id} key={item.id}><span><strong>{item.commit?.slice(0, 12)} · {item.folder}</strong><small>Imported {fmt(item.createdAt)} · {item.validationStatus}</small></span><button type="button" className="secondary" onClick={() => { void inspectRelease(item.id); }} disabled={busy}>Inspect files</button></div>)}</div> : <p className="subtle">No releases imported for this project yet.</p>}</section>
           <section className="panel intake-panel"><div className="panel-heading"><div><h2>Repository source</h2><p>Repository paths stay on the server. The browser sends only the repository ID.</p></div><span className="step-badge">GIT</span></div>
-            <form className="release-form" onSubmit={importRelease}><label>Project<select aria-label="Release project" value={projectId} onChange={(e) => selectProject(e.target.value)} required disabled={busy}><option value="">Choose project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}{p.archivedAt ? ' · ARCHIVED' : ''}</option>)}</select></label><label>Bound repository<output aria-label="Bound repository" className="bound-source-value">{boundRepositoryLabel}</output></label><label>Commit or ref<input aria-label="Git commit or ref" value={releaseForm.commit} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value })} placeholder="40 character commit SHA" required disabled={busy || isArchived || !bindingDraftMatches}/><small>Use a commit SHA for a reproducible release.</small></label><label>Bound migration folder<output aria-label="Bound migration folder" className="bound-source-value">{projectLoaded ? sourceBinding?.folder || 'No source bound' : 'Loading project source…'}</output></label><div className="form-actions"><button type="submit" className="primary" disabled={busy || isArchived || !projects.length || !bindingDraftMatches}>{busy ? 'Importing…' : 'Import and validate'}</button><span className="subtle">{importHint} Files are parsed before a plan can be created.</span></div></form>
+            <form className="release-form" onSubmit={importRelease}><label>Project<select aria-label="Release project" value={projectId} onChange={(e) => selectProject(e.target.value)} required disabled={busy}><option value="">Choose project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}{p.archivedAt ? ' · ARCHIVED' : ''}</option>)}</select></label><label>Bound repository<output aria-label="Bound repository" className="bound-source-value">{boundRepositoryLabel}</output></label><label>Branch or tag<select aria-label="Git branch or tag" value={releaseForm.commit.startsWith('refs/') ? releaseForm.commit : ''} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value || 'HEAD' })} disabled={busy || isArchived || !bindingDraftMatches || gitRefsLoading || !!gitRefsError}><option value="">Use HEAD or enter a ref below</option><optgroup label="Branches">{gitRefs.branches.map((item) => <option key={item.ref} value={item.ref}>Branch · {item.name}</option>)}</optgroup><optgroup label="Tags">{gitRefs.tags.map((item) => <option key={item.ref} value={item.ref}>Tag · {item.name}</option>)}</optgroup></select><small>{gitRefsLoading ? 'Loading refs from the saved project repository…' : gitRefsError ? explain(new Error(gitRefsError)) : 'Choose a local branch or commit-resolving tag, or keep using HEAD/manual commit.'}</small></label><label>Commit or ref<input aria-label="Git commit or ref" value={releaseForm.commit} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value })} placeholder="40 character commit SHA" required disabled={busy || isArchived || !bindingDraftMatches}/><small>Selected refs are resolved to a full immutable commit during import.</small></label><label>Bound migration folder<output aria-label="Bound migration folder" className="bound-source-value">{projectLoaded ? sourceBinding?.folder || 'No source bound' : 'Loading project source…'}</output></label><div className="form-actions"><button type="submit" className="primary" disabled={busy || isArchived || !projects.length || !bindingDraftMatches}>{busy ? 'Importing…' : 'Import and validate'}</button><span className="subtle">{importHint} Files are parsed before a plan can be created.</span></div></form>
           </section>
           {release && <section className="panel release-result"><div className="panel-heading"><div><p className="eyebrow">IMPORTED RELEASE</p><h2>{release.commit?.slice(0, 12)} <span className="muted">· {release.folder}</span></h2></div><span className={`status-pill ${importStatusClass(release.validationStatus)}`}>{release.validationStatus}</span></div>{release.validationCode && <p className="banner warning">{release.validationCode}</p>}<div className="file-table-wrap"><table><thead><tr><th>Migration file</th><th>Version</th><th>Statements</th><th>Bytes</th><th>Validation</th></tr></thead><tbody>{(release.files || []).map((file) => <tr key={file.path}><td><code>{file.path}</code></td><td>{file.version || '—'}</td><td>{file.statementCount ?? '—'}</td><td>{file.bytes ?? '—'}</td><td><span className={`status-pill ${importStatusClass(file.validationStatus)}`}>{file.validationStatus}</span></td></tr>)}</tbody></table>{!release.files?.length && <div className="empty-inline">No migration files were returned for this release.</div>}</div>{(release.files || []).map((file) => <details className="sql-preview" key={`${file.path}-sql`}><summary>Preview SQL · {file.path}</summary><pre>{file.content || 'Source content unavailable.'}</pre></details>)}{(release.validationStatus === 'VALID') && <form className="plan-form" onSubmit={makePlan}><label>Target connection profile<select name="profileId" aria-label="Target connection profile" required disabled={busy || isArchived}><option value="">Choose profile</option>{(detail?.profiles || []).map((profile) => <option key={profile.id} value={profile.id}>{profile.name} · {profile.host}/{profile.service}</option>)}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.profiles?.length}>Prepare offline plan</button><span className="offline-note">This creates a review candidate. It does not connect to Oracle.</span></form>}</section>}
 

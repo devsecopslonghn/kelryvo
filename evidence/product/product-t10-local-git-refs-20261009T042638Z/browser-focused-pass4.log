@@ -1,0 +1,27 @@
+TAP version 13
+# Subtest: release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+not ok 1 - release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+  ---
+  duration_ms: 33684.033518
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-git-refs/tests/product-git-ref-selection-browser.integration.mjs:40:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByText('Repository release imported and validated.', { exact: true }) to be visible[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-git-refs/tests/product-git-ref-selection-browser.integration.mjs:124:89)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 34746.167865

@@ -1,0 +1,17 @@
+SF-PRODUCT-T10 local verification summary
+
+Baseline: merged origin/master checkpoint 534c6e4024b7642bb7ece17447367d873335edc3.
+Branch/worktree: development/product-local-git-refs at /home/longhn0710/workspace/schemaforge-product-git-refs.
+Scope: project-bound local branch and commit-resolving tag choices for the existing release importer. No API schema/database changes, clone/provider authentication, hooks, checkout, arbitrary caller paths, execution/history changes or Oracle validation.
+
+Verification, sequential, all exit 0:
+- `node --test --test-name-pattern='project-bound Git refs' tests/product-repositories.test.mjs`: 1/1.
+- `node --test tests/product-git-ref-selection-browser.integration.mjs`: 1/1, including scoped repositories, late-response discard, same-name ref distinction, HEAD default, source rebind reset, tag import and SQL preview.
+- `npm run test:product`: 21/21, zero skips.
+- `npm run test:browser`: 8/8, zero skips.
+- `npm run check`: source/type/web build, tracker, formatting, 141/141 standard tests with zero skips, dependency smoke and product license closure for 85 pinned packages.
+- `node scripts/tracker.mjs validate`, `node scripts/tracker.mjs next`, `npm run format:check`, and `git diff --check` also pass after tracker updates; `next` is empty because T11 awaits root registration.
+
+The real Git/PostgreSQL/parser/API tests cover local branch, lightweight, annotated and nested annotated commit tags; branch/tag same-name disambiguation; exclusion of nested blob tags and malformed noncommit branch refs; missing/unbound project and unavailable repository fixed errors; authentication and project binding scope; malicious option-like and noncommit refs; exact retained source bytes and full commit IDs after moving both branch and tag; archived ref reads with import denied; and deterministic 200-ref fail-closed cap with no truncated response. Browser tests cover scoped option sets, delayed stale response across project switch, source binding change resetting to HEAD, manual HEAD default, and tag import through the existing parser/import flow.
+
+Ref enumeration uses `for-each-ref --sort=refname --count=201`, a 256 KiB output cap, fixed `GIT_REF_LIMIT` response above 200 refs, and a 3-second total nested-tag peeling budget. Paths/provider credentials are never returned. Pinned ANTLR helper was reused from the verified PRODUCT worktree; helper SHA-256 is a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4d4a4d8bc995351f38 and runtime SHA-256 is dd3e8a13a2d669bf84fb8d834de35ce4875f27157698d206241ec8488aadcaf7. PRODUCT evidence is local only; Oracle VALIDATION remains unchanged/BLOCKED. Root review, commit, PR and merge are pending; no commit/push/PR/merge was performed here.

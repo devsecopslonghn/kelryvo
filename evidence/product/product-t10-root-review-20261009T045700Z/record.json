@@ -1,0 +1,43 @@
+{
+  "subject_id": "SF-PRODUCT-T10",
+  "baseline_master": "534c6e4024b7642bb7ece17447367d873335edc3",
+  "implementation_evidence": "evidence/product/product-t10-local-git-refs-20261009T042638Z/record.json",
+  "implementation_record_sha256": "41c7fcf60393ca1e9c6684dd0965614cce7ea18daec19d1ac325c7b92456ceae",
+  "runtime_source_hashes": {
+    "apps/api/index.ts": "d7653df9494eb719dbb887cc0093e67d1065a0916b40db608442f783dbabdda2",
+    "apps/web/src/app.jsx": "782036be1220c64c2b89e65fc6d8fee27175c2bb193eb212b09a9b94918a56bc",
+    "packages/migrations/list-git-refs.mjs": "2341aec071c58833f31ac986d980369c9248b6bbd2045aa6dd5af350694b630f",
+    "tests/product-repositories.test.mjs": "b3338531c5ef5eed72a1324c27f4603beee2e2344967cdb2a04a07eb6f286e3e",
+    "tests/product-git-ref-selection-browser.integration.mjs": "bf025b175c99537f2ab73f76ae5320a4f96207c6c7863848d005831cb2bff34f",
+    "scripts/test-product.mjs": "133b054091f8d20add1a4542288eeeec6d5a659b42b0a6eb495df76ddfca8dcc",
+    "docs/development/local-product.md": "feae793aafdba313ecb2e78f5efe955a9dcb1664f1eee039dbdd006f1b713195"
+  },
+  "successful_raw_logs": {
+    "evidence/product/product-t10-local-git-refs-20261009T042638Z/checks-final.log": "4db87e5a32d80b0bd637b0893716b5b779c1cea72ca359e51436437b4c66fc32",
+    "evidence/product/product-t10-local-git-refs-20261009T042638Z/product-integration-retry.log": "a3ea5277549c8eadf7b09fa27bee1e47c9b1459c605d58d3f8a1ff23cae57cc7",
+    "evidence/product/product-t10-local-git-refs-20261009T042638Z/browser-regressions-final.log": "64e9ac0e35d24168057214b262c0d40769cc3f9f2c56818fa16d6eaa20732b0f",
+    "evidence/product/product-t10-local-git-refs-20261009T042638Z/api-git-refs-final.log": "1afce35f2a500f64444738f28b977b453f0b1262feea59edf9cb47d517a18dfa",
+    "evidence/product/product-t10-local-git-refs-20261009T042638Z/browser-focused-final.log": "031de2f94089831d79fb3eb17fcfc1712eb6336df64d930cb44341e8eb187d66"
+  },
+  "root_tracking_checks": {
+    "path": "evidence/product/product-t10-root-review-20261009T045700Z/tracker-checks.log",
+    "sha256": "828c804481be7cdcba6ca87550358c6fb936898f9c46708062b98a05bd54e7f9",
+    "outcome": "PASS",
+    "tracker_tests": 21,
+    "skipped": 0
+  },
+  "next_task": {
+    "id": "SF-PRODUCT-T11",
+    "status": "READY",
+    "title": "Inspect retained release provenance",
+    "implemented": false,
+    "evidence_attached": false
+  },
+  "reconciliation_notes": [
+    "T10 runtime source hashes match original passing141/21/8 run; root added T11 registry/continuation metadata only and reran tracker checks21/21.",
+    "Original T10 record source hashes for tracker/continuation docs reflect pre-T11 observation, preserved immutable; they are not publication-head claims.",
+    "Initial registration script used a nonexistent acceptance.task_criteria property; failed validation was corrected to the existing acceptance.work schema before final21/21 tracker checks. No runtime code changed.",
+    "Original setup failures/one overwritten short initial API capture are disclosed separately; unavailable raw output was not reconstructed.",
+    "PR21 is merged with all4 master workflowsPASS, hygiene original report and separate PR remain pending. Sonar unavailable neverPASS; Oracle124cellsBLOCKED."
+  ]
+}

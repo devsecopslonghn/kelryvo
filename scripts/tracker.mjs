@@ -150,7 +150,27 @@ const PRODUCT_TASK_10 = {
     "SF-PRODUCT-T10-WEB"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10];
+const PRODUCT_TASK_11 = {
+  "id": "SF-PRODUCT-T11",
+  "package": "PRODUCT",
+  "assigned_agent": "frontend",
+  "title": "Inspect retained release provenance",
+  "dependencies": [
+    "SF-PRODUCT-T10"
+  ],
+  "feature_ids": [
+    "GIT-006"
+  ],
+  "acceptance_criteria": [
+    "Authenticated release inspection displays the stored full immutable commit, repository ID, object format, migration folder, manifest digest, parser profile and import timestamp using the existing API. A current registered repository name may supplement the durable ID; local paths and provider credentials remain private.",
+    "Provenance and exact retained SQL remain readable after source ref movement or repository unavailability and for archived projects. Inspection uses stored release facts without new Git reads, mutations, schema changes or worker execution; stale inspection responses cannot expose a previously selected project release.",
+    "Real Git/PostgreSQL/parser/API/browser regressions compare rendered provenance with persisted release values, verify authenticated scoped reads and archived access, and preserve audit/history and execution state. This is a partial GIT-006 display increment; repository ID remains a separate stored field and full catalog or Oracle acceptance is not claimed."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T11-WEB"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',
