@@ -1,0 +1,45 @@
+{
+  "id": "product-t20-master-browser-sync-local-verified",
+  "subject_id": "SF-PRODUCT-T20",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Controlled real Git/PostgreSQL/browser request gate; focused1 and fullbrowser18; root frozen-source/raw-hash/scope verification",
+  "exit_code": 0,
+  "criterion_indexes": [
+    5
+  ],
+  "test_references": [
+    "SF-PRODUCT-T20-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t20-master-browser-sync-20261009T150000Z/browser18.raw.log",
+    "sha256": "a1ef7e0c9d5c4c76929dbf5e055ebe7db8ae306e52e7d4aed0e70b233fa2281d"
+  },
+  "recorded_at_utc": "2026-10-09T15:43:06.975678+00:00",
+  "base": "c5130e3277e0955285ea3ff428019369cb46578c",
+  "native_record": {
+    "path": "evidence/product/product-t20-master-browser-sync-20261009T150000Z/run-record.json",
+    "sha256": "ffeb2ea58c475f9102ff2caa2fe9c2cb3649908fe0bab0d337f09e412d4050ab"
+  },
+  "source_sha256": {
+    "tests/product-protected-source-binding-browser.integration.mjs": "deb8c7429c1518e9a8cd28661508b259b06ebba35ff23d3e11acd69dc329b69e"
+  },
+  "verification": {
+    "focused": 1,
+    "browser": 18,
+    "failed": 0,
+    "skipped": 0
+  },
+  "original_master_PRODUCT": "FAIL_RUN37951569624_RETAINED",
+  "other_original_master_families": "PARSER_WP0_CODEQL_PASS",
+  "race_proof": "Exact plan POST held before API transmission; browser navigates to review and database remains2; after release require201/id, scoped refresh200 and rendered created plan before existing3-plan snapshot.",
+  "limitations": [
+    "Original CI has no HTTP timing capture; controlled gate proves race possible, not the exact original failure cause.",
+    "Native timestamp-shaped folder is an opaque run identifier; actual UTC command times are recorded.",
+    "Only browser test changes; no product/parser/timeout/threshold/assertion weakening.",
+    "Standard151/product29 before repair and existing source remain; focused1/browser18 after repair. Required new remote CI/reviews/merge/master recovery pending.",
+    "Sonar unavailable neverPASS; Oracle separateBLOCKED; no actual credentials/config/data changes."
+  ]
+}

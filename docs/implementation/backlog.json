@@ -2735,6 +2735,9 @@
       "evidence": [
         {
           "index_id": "product-t20-local-credential-lifecycle-local-verified"
+        },
+        {
+          "index_id": "product-t20-master-browser-sync-local-verified"
         }
       ],
       "blockers": []

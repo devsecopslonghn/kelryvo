@@ -1,0 +1,13 @@
+{
+  "path": "evidence/product/product-t20-browser-sync-root-20261009T154120Z/34-master-product-failed-raw.log",
+  "sha256": "6d1b1cf20d5da4468faecee680a90c11a03ff6bd7658f39722362c1a45605264",
+  "preserved_trailing_whitespace_lines": [
+    9,
+    12,
+    13,
+    16,
+    120,
+    122
+  ],
+  "scope": "Original CI raw bytes preserved; source/docs diff check excludes only this immutable failed raw file. No scanner exception."
+}

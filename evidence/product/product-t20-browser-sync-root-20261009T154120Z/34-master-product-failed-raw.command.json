@@ -1,0 +1,5 @@
+{
+  "command": "gh run view 37951569624 --repo devsecopslonghn/schemaForge --log-failed",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:33:48.896751+00:00"
+}

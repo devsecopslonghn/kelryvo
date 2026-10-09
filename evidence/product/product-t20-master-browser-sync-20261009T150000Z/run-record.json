@@ -1,0 +1,97 @@
+{
+  "task": "T20 exact-master browser regression synchronization repair",
+  "evidence_directory_name": "product-t20-master-browser-sync-20261009T150000Z",
+  "evidence_directory_name_note": "Opaque run identifier only; it does not attest the actual start time. Command times below are UTC.",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+  "branch": "development/product-master-browser-synchronization",
+  "base_head": "c5130e3277e0955285ea3ff428019369cb46578c",
+  "source_path": "tests/product-protected-source-binding-browser.integration.mjs",
+  "source_sha256_start": "deb8c7429c1518e9a8cd28661508b259b06ebba35ff23d3e11acd69dc329b69e",
+  "source_sha256_end": "deb8c7429c1518e9a8cd28661508b259b06ebba35ff23d3e11acd69dc329b69e",
+  "controlled_race_evidence": {
+    "method": "Playwright holds the exact POST /api/projects/{project.id}/plans request before forwarding it to the local API. While held, the browser navigates to Plans & review and a direct query of the test-owned PostgreSQL database asserts exactly two project plans. The route is then released; the test requires the exact POST response to return 201, the ensuing exact project-detail GET refresh to return 200, the refresh control to re-enable, and the returned plan row to render before taking the existing three-plan snapshot.",
+    "conclusion": "The fixture has a deterministic timing race when it snapshots PostgreSQL immediately after starting the asynchronous browser mutation. This controlled gate demonstrates that the plan is absent until the request completes.",
+    "limitation": "The original master CI failure has no HTTP timing capture. This local controlled-gate result proves the test race is possible; it does not establish that the same timing was the exact cause of the original CI failure, which remains retained as FAIL."
+  },
+  "dependency_setup": {
+    "command": "npm ci --ignore-scripts --no-audit --no-fund",
+    "result": "completed; 60 packages added",
+    "approved_ignored_jar_inputs": [
+      {
+        "source": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle/.cache/antlr/antlr4-runtime-4.13.2.jar",
+        "destination": ".cache/antlr/antlr4-runtime-4.13.2.jar",
+        "sha256": "dd3e8a13a2d669bf84fb8d834de35ce4875f27157698d206241ec8488aadcaf7"
+      },
+      {
+        "source": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle/experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar",
+        "destination": "experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar",
+        "sha256": "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38"
+      }
+    ]
+  },
+  "environment": {
+    "SCHEMAFORGE_TEST_DATABASE_URL": "postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+    "SCHEMAFORGE_JAVA_HOME": "/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+    "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS": "1",
+    "database_isolation": "Each browser test uses openIsolatedProductDatabase to create and drop its own test database."
+  },
+  "runs": [
+    {
+      "name": "Web build",
+      "command": "npm run build:web",
+      "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+      "start_utc": "2026-10-09T15:37:28Z",
+      "end_utc": "2026-10-09T15:37:28Z",
+      "exit_code": 0,
+      "raw_log": "build-web.raw.log",
+      "raw_bytes": 114,
+      "raw_sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4"
+    },
+    {
+      "name": "Focused controlled-gate browser case",
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 --test-name-pattern='review recovers a stale pending plan through T18 intake' tests/product-protected-source-binding-browser.integration.mjs",
+      "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+      "start_utc": "2026-10-09T15:37:33Z",
+      "end_utc": "2026-10-09T15:37:42Z",
+      "exit_code": 0,
+      "result": { "passed": 1, "failed": 0, "skipped": 0 },
+      "raw_log": "focused.raw.log",
+      "raw_bytes": 404,
+      "raw_sha256": "d6bf58db5418d381f1d38d672e83be09d07d2c10e6044624a7c0ab8cf6a91c88"
+    },
+    {
+      "name": "Full browser suite",
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 npm run test:browser",
+      "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+      "start_utc": "2026-10-09T15:37:47Z",
+      "end_utc": "2026-10-09T15:40:29Z",
+      "exit_code": 0,
+      "result": { "passed": 18, "failed": 0, "skipped": 0 },
+      "raw_log": "browser18.raw.log",
+      "raw_bytes": 5734,
+      "raw_sha256": "a1ef7e0c9d5c4c76929dbf5e055ebe7db8ae306e52e7d4aed0e70b233fa2281d"
+    },
+    {
+      "name": "Whitespace and source-scope check",
+      "command": "{ git diff --check && test \"$(git diff --name-only)\" = 'tests/product-protected-source-binding-browser.integration.mjs'; }",
+      "cwd": "/home/longhn0710/workspace/schemaforge-product-master-browser-synchronization",
+      "start_utc": "2026-10-09T15:40:41Z",
+      "end_utc": "2026-10-09T15:40:41Z",
+      "exit_code": 0,
+      "raw_log": "source-check.raw.log",
+      "raw_bytes": 63,
+      "raw_sha256": "29295c8f91818cf14193f2d19839de6be2977c5e147d279abe68a807b4cb4f07"
+    }
+  ],
+  "original_master_failure": {
+    "run_id": "37951569624",
+    "result": "FAIL retained; case 14 observed two plans where the unchanged assertion expected three",
+    "raw_log_sha256": "6d1b1cf20d5da4468faecee680a90c11a03ff6bd7658f39722362c1a45605264",
+    "source": "Root-provided immutable master run evidence"
+  },
+  "scope": {
+    "tracked_source_changes": ["tests/product-protected-source-binding-browser.integration.mjs"],
+    "no_product_or_parser_source_changes": true,
+    "no_stage_commit_push_or_external_operations": true
+  }
+}

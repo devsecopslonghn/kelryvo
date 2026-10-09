@@ -1,0 +1,11 @@
+{
+  "command": "gh run view 37951569624 --repo devsecopslonghn/schemaForge --log-failed",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-local-credential-lifecycle",
+  "started_at_utc": "2026-10-09T15:33:48.896751+00:00",
+  "ended_at_utc": "2026-10-09T15:33:52.462076+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t20-root-live-20261009T142342Z/34-master-product-failed-raw.log",
+    "sha256": "6d1b1cf20d5da4468faecee680a90c11a03ff6bd7658f39722362c1a45605264"
+  }
+}
