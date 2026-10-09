@@ -96,12 +96,13 @@ export function createApp(options: {
   };
   const project = async (id: string) =>
     (
-      await sql`SELECT id,name,description,created_at FROM sf_projects WHERE id=${id} AND organization_id=${ORG}`
+      await sql`SELECT id,name,description,created_at,archived_at FROM sf_projects WHERE id=${id} AND organization_id=${ORG}`
     )[0];
   const mappedProject = (p: any) => ({
     id: p.id,
     name: p.name,
     description: p.description,
+    archivedAt: p.archived_at,
     createdAt: p.created_at,
   });
   const mappedSimple = (r: any) => ({
@@ -109,6 +110,11 @@ export function createApp(options: {
     name: r.name,
     createdAt: r.created_at,
   });
+
+  const requireActiveProject = async (tx: any, id: string) => {
+    const row = (await tx`SELECT archived_at FROM sf_projects WHERE id=${id} AND organization_id=${ORG} FOR SHARE`)[0];
+    if (!row || row.archived_at) throw Object.assign(new Error('PROJECT_ARCHIVED'), { productCode: 'PROJECT_ARCHIVED' });
+  };
 
   app.get("/api/health", async (_req: any, reply: any) => {
     try {
@@ -134,7 +140,7 @@ export function createApp(options: {
   }));
   app.get("/api/projects", { preHandler: authenticate }, async () => ({
     projects: (
-      await sql`SELECT id,name,description,created_at FROM sf_projects WHERE organization_id=${ORG} ORDER BY created_at,id`
+      await sql`SELECT id,name,description,created_at,archived_at FROM sf_projects WHERE organization_id=${ORG} ORDER BY created_at,id`
     ).map(mappedProject),
   }));
   app.post(
@@ -222,6 +228,20 @@ export function createApp(options: {
       };
     },
   );
+  app.post('/api/projects/:id/archive', { preHandler: authenticate }, async (req: any, reply: any) => {
+    if (!uuid(req.params.id) || !object(req.body, ['reason']) || !text(req.body.reason, 2000)) return fail(reply, 400, 'INVALID_REQUEST');
+    if (req.actor.role !== 'developer') return fail(reply, 403, 'DEVELOPER_REQUIRED');
+    const result = await sql.begin(async (tx: any) => {
+      const row = (await tx`SELECT * FROM sf_projects WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`)[0];
+      if (!row) return null;
+      if (row.archived_at) return row;
+      const archived = (await tx`UPDATE sf_projects SET archived_at=now() WHERE id=${row.id} RETURNING *`)[0];
+      await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${row.id},${ORG},${req.actor.id},'PROJECT_ARCHIVED',${row.id},${tx.json({ reason: req.body.reason })})`;
+      return archived;
+    });
+    if (!result) return fail(reply, 404, 'NOT_FOUND');
+    return { project: mappedProject(result) };
+  });
   app.post(
     "/api/projects/:id/environments",
     { preHandler: authenticate },
@@ -232,6 +252,7 @@ export function createApp(options: {
       const p = await project(req.params.id);
       if (!p) return fail(reply, 404, "NOT_FOUND");
       const e = await sql.begin(async (tx: any) => {
+        await requireActiveProject(tx, p.id);
         const environment = (
           await tx`INSERT INTO sf_environments(project_id,organization_id,name) VALUES(${p.id},${ORG},${b.name.trim()}) RETURNING id,name,created_at`
         )[0];
@@ -273,6 +294,7 @@ export function createApp(options: {
       const p = await project(req.params.id);
       if (!p) return fail(reply, 404, "NOT_FOUND");
       const r = await sql.begin(async (tx: any) => {
+        await requireActiveProject(tx, p.id);
         const profile = (
           await tx`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref) VALUES(${p.id},${ORG},${b.environmentId},${b.name.trim()},${b.engine},${b.host},${b.port},${b.service},${b.username},${b.credentialRef}) RETURNING id,name,environment_id,engine,host,port,service,username,credential_ref,created_at`
         )[0];
@@ -311,6 +333,7 @@ export function createApp(options: {
         return fail(reply, 400, "INVALID_REQUEST");
       const p = await project(req.params.id);
       if (!p) return fail(reply, 404, "NOT_FOUND");
+      if (p.archived_at) return fail(reply, 409, "PROJECT_ARCHIVED");
       const repo = repositories.find((r) => r.id === b.repositoryId);
       if (!repo) return fail(reply, 400, "INVALID_REFERENCE");
       let release: any;
@@ -336,6 +359,7 @@ export function createApp(options: {
         content: file.content,
       }));
       const r = await sql.begin(async (tx: any) => {
+        await requireActiveProject(tx, p.id);
         const imported = (
           await tx`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,validation_code,parser_profile,files) VALUES(${p.id},${ORG},${repo.id},${release.commit},${release.objectFormat},${release.folder},${release.manifestDigest},${release.validationStatus},${release.validationCode},${release.parserProfile},${tx.json(files)}) RETURNING id,repository_id,commit_id,folder,manifest_digest,validation_status,validation_code,parser_profile,created_at`
         )[0];
@@ -416,6 +440,7 @@ export function createApp(options: {
       if (!items.length || items.some((f) => !f.version || !f.sha256))
         return fail(reply, 409, "RELEASE_NOT_PLANNABLE");
       const result = await sql.begin(async (tx: any) => {
+        await requireActiveProject(tx, p.id);
         const rows =
           await tx`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items) VALUES(${p.id},${ORG},${r.id},${profile.id},${req.actor.id},${tx.json(items)}) RETURNING *`;
         const plan = rows[0];
@@ -452,6 +477,7 @@ export function createApp(options: {
           await tx`SELECT * FROM sf_plans WHERE id=${req.params.id} FOR UPDATE`
         )[0];
         if (!p) return null;
+        await requireActiveProject(tx, p.project_id);
         if (p.status !== "PENDING_APPROVAL") return "decided";
         if (p.author_id === req.actor.id) {
           await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${p.project_id},${ORG},${req.actor.id},'PLAN_SELF_APPROVAL_DENIED',${p.id})`;
@@ -474,19 +500,34 @@ export function createApp(options: {
     { preHandler: authenticate },
     async (req: any, reply: any) => {
       if (!uuid(req.params.id)) return fail(reply, 404, "NOT_FOUND");
-      const plan = (
-        await sql`SELECT id,project_id FROM sf_plans WHERE id=${req.params.id}`
-      )[0];
+      let plan: any;
+      try {
+        plan = await sql.begin(async (tx: any) => {
+          const current = (
+            await tx`SELECT id,project_id FROM sf_plans WHERE id=${req.params.id} FOR SHARE`
+          )[0];
+          if (!current) return null;
+          await requireActiveProject(tx, current.project_id);
+          await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${current.project_id},${ORG},${req.actor.id},'EXECUTION_DENIED',${current.id})`;
+          return current;
+        });
+      } catch (error: any) {
+        if (error?.productCode === "PROJECT_ARCHIVED") {
+          return reply.code(409).send({
+            error: "PROJECT_ARCHIVED",
+            execution: "NOT_EXECUTED",
+          });
+        }
+        throw error;
+      }
       if (!plan) return fail(reply, 404, "NOT_FOUND");
-      await sql.begin(async (tx: any) => {
-        await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${plan.project_id},${ORG},${req.actor.id},'EXECUTION_DENIED',${plan.id})`;
-      });
       return reply
         .code(409)
         .send({ error: "EXECUTION_UNAVAILABLE", execution: "NOT_EXECUTED" });
     },
   );
   app.setErrorHandler((error: any, _req: any, reply: any) => {
+    if (error?.productCode === "PROJECT_ARCHIVED") return fail(reply, 409, "PROJECT_ARCHIVED");
     if (error?.code === "23503") return fail(reply, 400, "INVALID_REFERENCE");
     if (error?.code === "23505") return fail(reply, 409, "CONFLICT");
     if (error?.statusCode === 413) return fail(reply, 413, "REQUEST_TOO_LARGE");

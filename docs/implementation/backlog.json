@@ -2104,6 +2104,39 @@
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "index_id": "product-t02-20261008T172809Z-local-verified"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T03",
+      "package": "PRODUCT",
+      "assigned_agent": "devops",
+      "title": "Register local Git repositories for migration imports",
+      "dependencies": [
+        "SF-PRODUCT-T02"
+      ],
+      "feature_ids": [
+        "GIT-018",
+        "GIT-003",
+        "MIG-006"
+      ],
+      "acceptance_criteria": [
+        "The reproducible development CLI uses Node's native parseArgs for one to eight repeatable --repository PATH options, registers existing local Git directories, and displays only repository IDs and names.",
+        "Invalid flags, URLs, and non-repository paths are rejected before PostgreSQL or Docker startup with fixed errors that do not disclose supplied paths.",
+        "Registration never clones, fetches, or resolves provider credentials; custom releases use the existing parser with an immutable resolved commit, database execution remains NOT_EXECUTED, and no Oracle behavior is claimed."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T03-UNIT",
+        "SF-PRODUCT-T03-API"
+      ],
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
       "status": "BACKLOG",
       "evidence": [],
       "blockers": []

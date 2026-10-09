@@ -1,0 +1,16 @@
+{
+  "id": "product-t02-20261008T172809Z-quality-repair-1",
+  "subject_id": "SF-PRODUCT-T02",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run test:browser after native output accessibility repair",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t02-20261008T172809Z-local-retry1/quality-repair-1/checks.log",
+    "sha256": "e5cf6e0a1bdb35e0ad9b0820af8fda8d8512722867e31906aeb815bbd5dbf3be"
+  }
+}

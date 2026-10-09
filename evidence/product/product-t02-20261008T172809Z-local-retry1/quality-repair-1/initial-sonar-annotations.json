@@ -1,0 +1,26 @@
+[
+  {
+    "path": "apps/web/src/app.jsx",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/a7c02b42ca86aa2a333e13da784942629d6f8f22/apps/web/src/app.jsx",
+    "start_line": 270,
+    "start_column": null,
+    "end_line": 270,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Use <output> instead of the \"status\" role to ensure accessibility across all devices.",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEckS2-7jboJmQHE0a6&open=AaEckS2-7jboJmQHE0a6&pullRequest=10",
+    "raw_details": null
+  },
+  {
+    "path": "apps/web/src/app.jsx",
+    "blob_href": "https://github.com/devsecopslonghn/schemaForge/blob/a7c02b42ca86aa2a333e13da784942629d6f8f22/apps/web/src/app.jsx",
+    "start_line": 291,
+    "start_column": null,
+    "end_line": 291,
+    "end_column": null,
+    "annotation_level": "warning",
+    "title": "Use <output> instead of the \"status\" role to ensure accessibility across all devices.",
+    "message": "\nSee more on https://sonarcloud.io/project/issues?id=devsecopslonghn_schemaForge&issues=AaEckS2-7jboJmQHE0a7&open=AaEckS2-7jboJmQHE0a7&pullRequest=10",
+    "raw_details": null
+  }
+]

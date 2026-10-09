@@ -14,8 +14,8 @@ if (!url) {
   url = localDatabaseUrl(config).replace(/\/schemaforge$/, '/schemaforge_tests');
 }
 const args = process.argv.includes('--browser')
-  ? ['--test', 'tests/product-browser.integration.mjs']
-  : ['--test', 'tests/product-api.test.mjs', 'tests/product-import.test.mjs'];
+  ? ['--test', 'tests/product-browser.integration.mjs', 'tests/product-archive-browser.integration.mjs']
+  : ['--test', 'tests/product-api.test.mjs', 'tests/product-import.test.mjs', 'tests/product-archive.test.mjs', 'tests/product-database.test.mjs'];
 const child = spawn(process.execPath, args, { stdio: 'inherit', env: {
   ...process.env, SCHEMAFORGE_TEST_DATABASE_URL: url, SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: '1',
 } });

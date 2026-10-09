@@ -20,13 +20,24 @@ verification separately from full catalog/Oracle acceptance. Current PR/head/mer
 resolved from Git/GitHub; never record a self-referential commit hash.
 
 Local T01 acceptance is VERIFIED with real PostgreSQL/Git/parser/browser evidence in
-`evidence/product/product-t01-20261008T163522Z-87ad39d8/`. Initial failures and corrections are retained; remote exact-head CI/merge
-remain to be resolved from Git/GitHub. Full catalog features and Oracle cases are not verified.
+`evidence/product/product-t01-20261008T163522Z-87ad39d8/`. Initial failures and corrections are retained. PR #9 currently has ten successful
+exact-head checks, including CodeQL and real product CI; Sonar analysis is cancelled with
+zero source annotations. The public Sonar component/task APIs and GitHub suite rerequest
+return 404, so no scanner failure detail or passing quality result is available. Keep PR #9
+unmerged until Sonar passes; preserve this failure separately from local acceptance. Full catalog features and Oracle cases are not verified.
 
-SF-PRODUCT-T02 queues project archival and preservation of immutable history after T01.
+SF-PRODUCT-T02 implements project archival with preserved releases/audit/history and
+transactional rejection of stale writes. SF-PRODUCT-T03 follows with operator-supplied
+local Git repositories, using the existing importer rather than a new provider backend.
 Select further bounded product tasks from the existing catalog. T04 and all 124 Oracle
 cells remain BLOCKED; preserve Oracle safety boundaries without blocking API/web work.
 Product license/name and F31 distribution remain unresolved; local delivery is authorized.
+
+T02 local acceptance is VERIFIED with 127 standard tests passing (three dedicated-DB
+cases skip there), 10 PostgreSQL/API/importer cases passing, and both real browser
+workflows passing. Evidence and the initial missing-JDK failure are preserved under
+`evidence/product/product-t02-20261008T172809Z-local*`. This does not certify PR merge
+readiness or catalog/Oracle acceptance. T03 remains the next PRODUCT task.
 
 The previous master checkpoint was PR #8 at f2b333e. The following WP0 snapshot is retained
 as historical evidence; its scheduling-only API/UI prohibition is superseded by the owner

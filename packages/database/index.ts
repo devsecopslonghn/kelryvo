@@ -1,6 +1,10 @@
 /** Idempotent schema for the local, single-organization product slice. */
 export async function initializeDatabase(sql: any): Promise<void> {
-  await sql.unsafe(`
+  await sql.begin(async (tx: any) => {
+    // Test files and local startup callers can initialize the same schema at once.
+    // IF NOT EXISTS still races while PostgreSQL creates the backing catalog type.
+    await tx`SELECT pg_advisory_xact_lock(1397112658, 1)`;
+    await tx.unsafe(`
     CREATE TABLE IF NOT EXISTS sf_organizations (id uuid PRIMARY KEY, name text NOT NULL);
     INSERT INTO sf_organizations (id,name) VALUES ('00000000-0000-4000-8000-000000000001','Local organization') ON CONFLICT (id) DO NOTHING;
     CREATE TABLE IF NOT EXISTS sf_projects (
@@ -46,7 +50,9 @@ export async function initializeDatabase(sql: any): Promise<void> {
       path text NOT NULL, sha256 text NOT NULL, status text NOT NULL CHECK(status='NOT_EXECUTED'), created_at timestamptz NOT NULL DEFAULT now(),
       FOREIGN KEY(plan_id,project_id) REFERENCES sf_plans(id,project_id)
     );
+    ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS archived_at timestamptz;
     CREATE INDEX IF NOT EXISTS sf_audit_project_time ON sf_audit(project_id,created_at DESC);
     CREATE INDEX IF NOT EXISTS sf_history_project_time ON sf_history(project_id,created_at DESC);
-  `);
+    `);
+  });
 }
