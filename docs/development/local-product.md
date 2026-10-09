@@ -111,7 +111,10 @@ catalog workflows are incremental work.
 
 `npm run check` checks source/types/web build, all standard unit/regression tests, tracking,
 immutable provenance and existing dependency smoke. `npm run test:product` uses a separate
-local PostgreSQL test database (or `SCHEMAFORGE_TEST_DATABASE_URL` on a dedicated service),
+local PostgreSQL test service (or `SCHEMAFORGE_TEST_DATABASE_URL` on a disposable
+service with a role allowed to create databases). Each API/browser workflow owns a
+unique temporary database and drops only that database after closing its pools; this
+keeps concurrent schema initialization from interfering with row-lock and restart tests,
 actual temporary Git objects and the pinned parser. `node node_modules/playwright/cli.js install chromium`, then
 `npm run test:browser` exercises the real browser/API/parser/PostgreSQL flow, approvals,
 rejection, execution denial, archival and restart persistence. PostgreSQL integration also

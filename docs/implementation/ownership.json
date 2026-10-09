@@ -1210,7 +1210,7 @@
     },
     "SF-PRODUCT-T04": {
       "assigned_agent": "backend",
-      "status": "IN_PROGRESS"
+      "status": "VERIFIED"
     },
     "SF-PRODUCT-T05": {
       "assigned_agent": "backend",

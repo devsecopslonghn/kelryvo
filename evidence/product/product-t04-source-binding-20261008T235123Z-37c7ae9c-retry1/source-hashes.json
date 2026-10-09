@@ -1,0 +1,14 @@
+{
+  "apps/api/index.ts": "135332da363f8163304749c815ef1fafac19c32258c9ce41fb18a1fa4375885f",
+  "apps/web/src/app.jsx": "0b3b27aff4d8b486870f26c0eba56e3d46ee122a69c04b34e0fb7a78efa50f5b",
+  "apps/web/styles.css": "24d76ab836ba4889a3102866f3f11b377d995ff6fa163b8f6ca91b75f78f4e28",
+  "packages/database/index.ts": "a32e49b40652be36a82973e26a801fbd65ece3c515f42c8b8dcdc065e5d4fdc2",
+  "packages/migrations/import-release.mjs": "6f7a63fd302779fb62f751c9c26610fbc1f607802c933708521e19f48816b8ca",
+  "scripts/local-repositories.mjs": "3711aec8725e212604136e67da2afbfb0d1902b2d6ef4d84437c443b283d19bf",
+  "scripts/test-product.mjs": "7fc5ac9628db14708105808bdec08b3050b8c5ab3a9d66b98ec91e774ed3cb58",
+  "tests/helpers/product-db.mjs": "6aa3166941093f6f0bdb9db1d1a2ee09c66dec3405dda28fe626b85685363370",
+  "tests/product-source-binding.test.mjs": "fb09a31874a6c571e387bf011a9346ec8fe2b8b290e9827660efeae81c729691",
+  "tests/product-browser.integration.mjs": "481d7a8d50e39b8c2063cc72a64153c8e608d2cbb2a42027332325699c0099cd",
+  "tests/product-archive-browser.integration.mjs": "309088d0760f49baed0b6189f8f4b753a4501bd9fb7fa18204ab61e660dcc1bd",
+  "tests/product-database.test.mjs": "0ba7a6f3e3405d5444af22c39c7bcea0ffe10da7a55e09a46f9f8b084b246f8c"
+}

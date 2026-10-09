@@ -2172,8 +2172,12 @@
         "packages/database/index.ts",
         "tests/product-source-binding.test.mjs"
       ],
-      "status": "IN_PROGRESS",
-      "evidence": [],
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "index_id": "product-t04-source-binding-local-verified"
+        }
+      ],
       "blockers": []
     },
     {

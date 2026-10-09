@@ -1191,6 +1191,49 @@
       },
       "path": "evidence/product/product-t02-20261008T172809Z-local-retry1/quality-repair-2/record.json",
       "sha256": "bc1e26f64a6e4e1b398a5de6ab291caba7939b574b0654be47d439b56000c9b0"
+    },
+    {
+      "id": "product-t04-source-binding-initial-integrated-failure",
+      "subject_id": "SF-PRODUCT-T04",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "FAIL",
+      "command": "npm run check with dedicated PostgreSQL prerequisites; source-binding exact lock observation failed in concurrent full suite",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c/checks.log",
+        "sha256": "e6076151f6789c54111328be16ea1a064f0f4df60f6f5f964757c3e9e00ec441"
+      },
+      "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c/record.json",
+      "sha256": "0dc9a32ca3e1095a466f758c7631e9a13b1b8ea7de8db852859eec45428721bd"
+    },
+    {
+      "id": "product-t04-source-binding-local-verified",
+      "subject_id": "SF-PRODUCT-T04",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; npm run test:product; npm run build:web; npm run lint; npm run format:check; npm run test:browser (actual isolated PostgreSQL/Git/ANTLR/browser workflows, no skipped required cases)",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T04-API",
+        "SF-PRODUCT-T04-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/checks.log",
+        "sha256": "08beeeb63634b96b53125d939d1d99a14c237a4728d274cea7515b57df9b3eb6"
+      },
+      "path": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/record.json",
+      "sha256": "37dff6b88b5ecb79aba78032bb2c83072d67b31f8d3d11d94b488ed68f190514"
     }
   ]
 }

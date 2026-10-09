@@ -3,7 +3,7 @@
   "milestone": "PRODUCT runnable local governance / VALIDATION Oracle acceptance",
   "status": "IN_PROGRESS",
   "allowed_packages": [
-    "WP0"
+    "PRODUCT"
   ],
   "oracle_lab_authorized": false,
   "foundation_task": "SF-P0-FOUNDATION",
@@ -59,6 +59,9 @@
     },
     {
       "index_id": "product-t01-20261008T163522Z-87ad39d8-local"
+    },
+    {
+      "index_id": "product-t04-source-binding-local-verified"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -72,10 +75,10 @@
   "product_features_verified": 0,
   "next_actionable_tasks": [
     {
-      "id": "SF-PRODUCT-T04",
+      "id": "SF-PRODUCT-T05",
       "owner": "backend",
-      "status": "IN_PROGRESS",
-      "action": "Persist and enforce project Git source binding; run actual PostgreSQL and browser acceptance."
+      "status": "BACKLOG",
+      "action": "Audit authenticated plan-review denials without changing plan/history state; preserve archived-project and secret boundaries."
     }
   ],
   "blocked_inputs_evidence": {
@@ -87,30 +90,32 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-08T15:34:28.273958+00:00",
+  "updated_at": "2026-10-09T00:02:05.915031+00:00",
   "final_check_evidence": {
-    "index_id": "WP0-T04-SUPERVISION-QUALITY-t04-thin-supervision-20261008T151430Z-fc1518f5"
+    "index_id": "product-t04-source-binding-local-verified"
   },
-  "final_check_manifest": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/quality-repair-review.json",
+  "final_check_manifest": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/source-hashes.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
   "latest_validated_master_before_this_increment": "5ab696918a8bafcbd36a7277e810ec6cde34e2e2",
   "last_merged_implementation_pr": 7,
-  "checkpoint_evidence": "evidence/db-devops-wp0/t04-thin-supervision-20261008T151430Z-fc1518f5/postmerge-checkpoint.json",
+  "checkpoint_evidence": "evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1/record.json",
   "implementation_prs_pending": [
     9,
     10,
     11
   ],
-  "next_fully_unblocked_tasks": [],
+  "next_fully_unblocked_tasks": [
+    "SF-PRODUCT-T05"
+  ],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
     "reason": "Independent PRODUCT delivery continues while Oracle VALIDATION remains blocked and remote quality gates are unresolved."
   },
-  "current_increment_pr": 7,
+  "current_increment_pr": null,
   "current_increment_merge_status": "UNMERGED_PRODUCT",
-  "current_increment_reviewed_head": "ef8a2ec4f161abf84631769754d0afd1a924ab50",
+  "current_increment_reviewed_head": null,
   "current_checkpoint_branch": "development/product-source-binding",
   "active_track": "PRODUCT",
   "tracks": {
@@ -125,7 +130,7 @@
       ]
     }
   },
-  "product_task_status": "T01_T02_T03_VERIFIED_LOCAL_T04_IN_PROGRESS",
+  "product_task_status": "T01_T02_T03_T04_VERIFIED_LOCAL",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",

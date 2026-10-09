@@ -69,16 +69,19 @@ and local acceptance evidence; remote merge eligibility remains separate.
 
 The active next increment is SF-PRODUCT-T04 in `development/product-source-binding`
 (`/home/longhn0710/workspace/schemaforge-product-binding`): project repository/folder
-binding with pre-import enforcement. Implementation is in progress; do not certify it
-before actual API/browser evidence. PRs #9, #10 and #11 contain the prior PRODUCT
+binding with pre-import enforcement. Local acceptance is VERIFIED with real API/browser evidence. PRs #9, #10 and #11 contain the prior PRODUCT
 lineage and must merge in that order only after each exact head is eligible. The local
 `development/product-delivery-checkpoint` checkout in the primary directory holds the
 runnable prototype; resolve its current commit and open PRs from Git/GitHub.
 
 A PR #10 push CI run exposed concurrent schema initialization (PostgreSQL catalog
 duplicate type) and a connection-pool leak on setup failure; it reached the workflow
-time limit. Preserve the failed run and repair it without extending the timeout. A
-passing parallel run does not erase this failure.
+time limit. The advisory-lock/pool-cleanup repair is implemented in PR #10 and carried
+into PR #11, with 131 standard tests, 11 product cases and both browser workflows
+passing. Fresh exact-head push/PR product CI also passes. Preserve the original failure
+and `product-t02-20261008T172809Z-local-retry1/quality-repair-2/` evidence.
+PR #11 Sonar still reports CLI argument/path findings after defensive hardening; do not
+claim them resolved without the real passing analysis or richer rule diagnostics.
 
 ## Preserved WP0 evidence
 
@@ -97,3 +100,12 @@ silently download or reclassify failed CI. T04 retains its plan, read-only candi
 supervisor with no default starter, live CLI or production authority backend. Every
 Oracle acceptance restriction remains in AGENTS.md and the immutable acceptance records.
 See CURRENT.md and the evidence index for prior PRs and exact source/result records.
+
+SF-PRODUCT-T04 local acceptance passed 137/137 standard checks, 17/17 mandatory
+product cases and both browser workflows with zero skips. Evidence: `evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1`.
+The initial integrated lock-observation failure is retained in the preceding run. Test
+workflows now own separate temporary PostgreSQL databases; each restart retains its own
+data until teardown. The UI explicitly refreshes when the selected project is clicked again
+and ignores stale mutation responses after sign-out. Original Oracle/catalog acceptance
+is unchanged. Next queued PRODUCT task is SF-PRODUCT-T05 (GOV-023/SEC-011): authenticated
+review-denial audit. Complete its bounded implementation/tests without waiting for Oracle.

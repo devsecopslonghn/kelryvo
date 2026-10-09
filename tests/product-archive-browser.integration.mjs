@@ -5,6 +5,7 @@ import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
+import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 
 test('browser archives a project and keeps its releases, plan, audit, and history readable', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
@@ -14,15 +15,18 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     { id: `archive-dev-${randomUUID()}`, name: 'Archive developer', role: 'developer', token: randomBytes(32).toString('hex') },
     { id: `archive-approver-${randomUUID()}`, name: 'Archive approver', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
-  const options = {
-    databaseUrl: process.env.SCHEMAFORGE_TEST_DATABASE_URL,
-    actors,
-    repositories: [{ id: 'demo', name: 'Local migration demo', path: await prepareDemoRepository() }],
-    port: 0,
-  };
-  let app = await startProduct(options);
+  const database = await openIsolatedProductDatabase();
+  assert.ok(database, 'SCHEMAFORGE_TEST_DATABASE_URL is required for this browser workflow');
+  let app;
   let browser;
   try {
+    const options = {
+      databaseUrl: database.databaseUrl,
+      actors,
+      repositories: [{ id: 'demo', name: 'Local migration demo', path: await prepareDemoRepository() }],
+      port: 0,
+    };
+    app = await startProduct(options);
     let url = `http://127.0.0.1:${app.server.address().port}`;
     const api = async (method, path, token, body) => {
       const response = await fetch(`${url}${path}`, {
@@ -62,6 +66,7 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     await page.getByLabel('Sign out').waitFor();
     await page.getByRole('button', { name: /Projects/ }).click();
     await page.locator('.project-row').filter({ hasText: projectName }).click();
+    await page.getByRole('heading', { name: projectName, exact: true }).waitFor();
 
     await page.getByLabel('Archive reason').fill('Archived after local governance review.');
     await page.getByRole('button', { name: 'Archive project', exact: true }).click();
@@ -116,7 +121,10 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     assert.equal(persisted.plans.find((item) => item.id === plan.id).status, 'PENDING_APPROVAL');
     console.log('Browser archive workflow and archived project records remained readable after API restart.');
   } finally {
-    await browser?.close();
-    await app.close();
+    try { await browser?.close(); }
+    finally {
+      try { await app?.close(); }
+      finally { await database.close(); }
+    }
   }
 });

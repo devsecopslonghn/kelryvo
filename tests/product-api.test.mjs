@@ -5,7 +5,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createApp } from "../apps/api/index.ts";
-import { openProductDatabase } from "./helpers/product-db.mjs";
+import { openIsolatedProductDatabase } from "./helpers/product-db.mjs";
 import { prepareDemoRepository } from "../scripts/local-resources.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -20,7 +20,7 @@ test(
   "product API persists a governed offline plan and never claims execution",
   { skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL || !parserAvailable },
   async () => {
-    const db = await openProductDatabase();
+    const db = await openIsolatedProductDatabase();
     const actors = [
       {
         id: `developer-${randomUUID()}`,

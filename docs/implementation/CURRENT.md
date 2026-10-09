@@ -47,13 +47,16 @@ run separately), 14 product/startup/Git/API cases and both browser workflows. Ev
 Oracle execution are introduced. All three local PRODUCT milestones have implementation
 and local acceptance evidence; remote merge eligibility remains separate.
 
-SF-PRODUCT-T04 source binding is IN_PROGRESS in `development/product-source-binding`.
+SF-PRODUCT-T04 source binding is VERIFIED locally in `development/product-source-binding`.
 PRs #9/#10/#11 remain unmerged; inspect current exact heads and gates. The primary
 checkout uses `development/product-delivery-checkpoint` for the runnable local prototype,
-which currently includes T01–T03. Master remains the WP0 checkpoint until eligible merges.
+which is advanced to the reviewed runnable PRODUCT lineage. Master remains the WP0 checkpoint until eligible merges.
 One PR #10 product push run hit a concurrent schema-creation race and leaked its failed
-setup pool; a separate same-head product run passed. Repair and retest the actual failure
-without weakening the required check. Sonar failure remains a separate gate.
+setup pool. Advisory locking and failed-pool cleanup repair it; the fresh concurrent
+initialization regression, 131 standard tests, 11 product cases and both browser flows
+pass, as do the repaired exact-head push/PR product jobs. Preserve the cancelled original
+run and quality-repair-2 evidence. Sonar remains cancelled; PR #11 retains CLI path/argument
+annotations after defensive hardening, so no remote issue-resolution claim is made.
 
 The previous master checkpoint was PR #8 at f2b333e. The following WP0 snapshot is retained
 as historical evidence; its scheduling-only API/UI prohibition is superseded by the owner
@@ -203,3 +206,12 @@ observations before connecting the candidate, then
 complete the remaining fault/rotation harness and real T04 acceptance. T05 and
 later tasks depend on T04; WP1/API/UI cannot bypass WP0-T12. Follow
 [CONTINUE.md](CONTINUE.md) and the existing graph; do not create a replacement roadmap.
+
+SF-PRODUCT-T04 local acceptance passed 137/137 standard checks, 17/17 mandatory
+product cases and both browser workflows with zero skips. Evidence: `evidence/product/product-t04-source-binding-20261008T235123Z-37c7ae9c-retry1`.
+The initial integrated lock-observation failure is retained in the preceding run. Test
+workflows now own separate temporary PostgreSQL databases; each restart retains its own
+data until teardown. The UI explicitly refreshes when the selected project is clicked again
+and ignores stale mutation responses after sign-out. Original Oracle/catalog acceptance
+is unchanged. Next queued PRODUCT task is SF-PRODUCT-T05 (GOV-023/SEC-011): authenticated
+review-denial audit. Complete its bounded implementation/tests without waiting for Oracle.

@@ -5,7 +5,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createApp } from '../apps/api/index.ts';
-import { openProductDatabase } from './helpers/product-db.mjs';
+import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -20,7 +20,7 @@ const actor = role => ({
 test('source bindings persist, authorize changes, constrain imports before Git, and remain private', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL || !parserAvailable,
 }, async () => {
-  const db = await openProductDatabase();
+  const db = await openIsolatedProductDatabase();
   const developer = actor('developer');
   const approver = actor('approver');
   const repositoryPath = await prepareDemoRepository();
@@ -101,7 +101,7 @@ test('source binding is rechecked under a project lock before an imported releas
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL || !parserAvailable,
   timeout: 30_000,
 }, async () => {
-  const db = await openProductDatabase();
+  const db = await openIsolatedProductDatabase();
   const developer = actor('developer');
   const repositoryPath = await prepareDemoRepository();
   const app = createApp({ sql: db.sql, actors: [developer], repositories: [

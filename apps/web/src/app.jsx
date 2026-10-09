@@ -78,6 +78,7 @@ function App() {
   const sessionEpoch = useRef(0);
 
   const selectProject = (nextId) => {
+    const alreadySelected = nextId === projectId;
     activeProjectId.current = nextId;
     refreshSequence.current += 1;
     setProjectId(nextId);
@@ -87,6 +88,7 @@ function App() {
     setDecisionReason('');
     setSourceForm({ repositoryId: '', folder: 'migrations' });
     setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' });
+    if (alreadySelected && token) void refresh(token, nextId);
   };
 
   const refresh = useCallback(async (activeToken, selectedId = projectId) => {

@@ -5,6 +5,7 @@ import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
+import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 
 test('browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
@@ -13,12 +14,15 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
     { id: 'browser-developer', name: 'Browser developer', role: 'developer', token: randomBytes(32).toString('hex') },
     { id: 'browser-approver', name: 'Browser approver', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
-  const options = { databaseUrl: process.env.SCHEMAFORGE_TEST_DATABASE_URL, actors,
-    repositories: [{ id: 'demo', name: 'Local migration demo', path: await prepareDemoRepository() }], port: 0 };
-  let app = await startProduct(options);
+  const database = await openIsolatedProductDatabase();
+  assert.ok(database, 'SCHEMAFORGE_TEST_DATABASE_URL is required for this browser workflow');
+  let app;
   let browser;
   let page;
   try {
+    const options = { databaseUrl: database.databaseUrl, actors,
+      repositories: [{ id: 'demo', name: 'Local migration demo', path: await prepareDemoRepository() }], port: 0 };
+    app = await startProduct(options);
     const url = `http://127.0.0.1:${app.server.address().port}`;
     browser = await chromium.launch();
     const context = await browser.newContext({ viewport: { width: 1440, height: 1100 } });
@@ -150,22 +154,35 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
     let releaseDelayedResponse;
     let markSourceResponseReady;
     let markSourceResponseDelivered;
+    let sourceRouteStarted = false;
     const sourceResponseReady = new Promise(resolve => { markSourceResponseReady = resolve; });
     const sourceResponseDelivered = new Promise(resolve => { markSourceResponseDelivered = resolve; });
     const delayedResponse = new Promise(resolve => { releaseDelayedResponse = resolve; });
     // Delay delivery only after route.fetch completes the real write; this proves stale UI isolation, not backend write cancellation.
     await page.route(`**/api/projects/${otherProject.id}/source`, async route => {
-      const response = await route.fetch();
-      markSourceResponseReady();
-      await delayedResponse;
-      await route.fulfill({ response });
-      markSourceResponseDelivered();
+      sourceRouteStarted = true;
+      try {
+        const response = await route.fetch();
+        markSourceResponseReady();
+        await delayedResponse;
+        await route.fulfill({ response });
+      } catch {
+        await route.abort().catch(() => {});
+      } finally {
+        markSourceResponseDelivered();
+      }
     });
-    await page.getByLabel('Source repository').selectOption('demo');
-    await page.getByLabel('Source migration folder').fill('migrations');
-    await page.getByRole('button', { name: 'Save source binding', exact: true }).click();
     try {
-      await sourceResponseReady;
+      await page.getByLabel('Source repository').selectOption('demo');
+      await page.getByLabel('Source migration folder').fill('migrations');
+      await page.getByRole('button', { name: 'Save source binding', exact: true }).click();
+      let routeReadyTimeout;
+      try {
+        await Promise.race([
+          sourceResponseReady,
+          new Promise((_, reject) => { routeReadyTimeout = setTimeout(() => reject(new Error('Source binding request did not reach the delayed response route.')), 10_000); }),
+        ]);
+      } finally { clearTimeout(routeReadyTimeout); }
       await page.getByLabel('Sign out').click();
       await signin(actors[1].token);
       await page.getByRole('button', { name: /Projects/ }).click();
@@ -175,8 +192,14 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
       assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
     } finally {
       releaseDelayedResponse();
+      await page.unroute(`**/api/projects/${otherProject.id}/source`);
+      if (sourceRouteStarted) {
+        let deliveryTimeout;
+        try {
+          await Promise.race([sourceResponseDelivered, new Promise(resolve => { deliveryTimeout = setTimeout(resolve, 10_000); })]);
+        } finally { clearTimeout(deliveryTimeout); }
+      }
     }
-    await sourceResponseDelivered;
     await page.getByRole('button', { name: /Projects/ }).click();
     await page.getByRole('heading', { name, exact: true }).waitFor();
     assert.equal(await page.locator('.banner.success').filter({ hasText: 'Project source binding saved.' }).count(), 0);
@@ -188,5 +211,11 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
       console.log((await page.locator('body').innerText()).slice(0, 1800));
     }
     throw error;
-  } finally { await browser?.close(); await app.close(); }
+  } finally {
+    try { await browser?.close(); }
+    finally {
+      try { await app?.close(); }
+      finally { await database.close(); }
+    }
+  }
 });

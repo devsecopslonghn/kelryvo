@@ -2,12 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
-import { openProductDatabase } from './helpers/product-db.mjs';
+import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 
 test('archival keeps immutable records readable and refuses further project work', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
 }, async () => {
-  const db = await openProductDatabase();
+  const db = await openIsolatedProductDatabase();
   const developer = { id: `archiver-${randomUUID()}`, name: 'Developer', role: 'developer', token: randomBytes(32).toString('hex') };
   const approver = { id: `reviewer-${randomUUID()}`, name: 'Approver', role: 'approver', token: randomBytes(32).toString('hex') };
   const repositoryPath = '/private/local/repository/path';
@@ -71,7 +71,7 @@ test('archival keeps immutable records readable and refuses further project work
 test('an in-flight metadata write rechecks archival after acquiring the project lock', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 15_000,
 }, async () => {
-  const db = await openProductDatabase();
+  const db = await openIsolatedProductDatabase();
   const actor = { id: 'race-developer', name: 'Developer', role: 'developer', token: randomBytes(32).toString('hex') };
   const app = createApp({ sql: db.sql, actors: [actor], repositories: [] });
   const headers = { authorization: `Bearer ${actor.token}` };

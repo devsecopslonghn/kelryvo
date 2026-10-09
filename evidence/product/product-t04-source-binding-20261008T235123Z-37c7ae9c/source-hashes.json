@@ -1,0 +1,8 @@
+{
+  "apps/api/index.ts": "135332da363f8163304749c815ef1fafac19c32258c9ce41fb18a1fa4375885f",
+  "apps/web/src/app.jsx": "20db889206b29b0fe7254ec461941fc698c34ffb33341f2ddd7ca7a11ab03a02",
+  "packages/database/index.ts": "a32e49b40652be36a82973e26a801fbd65ece3c515f42c8b8dcdc065e5d4fdc2",
+  "scripts/test-product.mjs": "7fc5ac9628db14708105808bdec08b3050b8c5ab3a9d66b98ec91e774ed3cb58",
+  "tests/product-source-binding.test.mjs": "14543014f776b23c83e02d11715fafdfa225a2818941f10002a2baff11c50c7a",
+  "tests/product-browser.integration.mjs": "d2d9e3cb4161d74f6280b6a9c621ab00f92f2a622300a86d2a7539cd714551e5"
+}
