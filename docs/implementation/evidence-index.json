@@ -2445,6 +2445,35 @@
       },
       "path": "evidence/product/product-t22-ci-correction-20261009T1813Z/corrected-integration-record.json",
       "sha256": "50af870dd15f74a328ce9a4cc725d29d493ab40374f72d5728e68d7d8da327bb"
+    },
+    {
+      "id": "product-t22-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T22",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Corrected exact-head native QA/security/license, all11 PR checks, ordinary PR35 match-head merge, reviewed/merge tree equality, all4 exact-master workflow families and postverified ownership/alerts reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T22-API",
+        "SF-PRODUCT-T22-WEB",
+        "SF-PRODUCT-T22-PARSER"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t22-merge-20261009T183839Z/45-final-exact-master-workflows.log",
+        "sha256": "2035d655947bf01e561e6f3e8564f89cd3252ac43d5c381b4e346f517cd1243f"
+      },
+      "path": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+      "sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9"
     }
   ]
 }

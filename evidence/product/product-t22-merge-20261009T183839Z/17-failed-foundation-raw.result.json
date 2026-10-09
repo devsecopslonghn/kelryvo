@@ -1,0 +1,11 @@
+{
+  "command": "set -e\n gh run view 37971508767 --repo devsecopslonghn/schemaForge --log-failed\n gh run view 37971490751 --repo devsecopslonghn/schemaForge --log-failed",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:12:47.762682+00:00",
+  "ended_at_utc": "2026-10-09T18:12:54.969671+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/17-failed-foundation-raw.log",
+    "sha256": "54e04747fd3668bbf08d475677979c9cf19132e78f66af147563235185de80cc"
+  }
+}

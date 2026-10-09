@@ -1,0 +1,5 @@
+{
+  "command": "set -e\n gh pr checks 35 --repo devsecopslonghn/schemaForge --json name,state,link\n gh run view 37971508794 --repo devsecopslonghn/schemaForge --json databaseId,status,conclusion,jobs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:12:33.795673+00:00"
+}

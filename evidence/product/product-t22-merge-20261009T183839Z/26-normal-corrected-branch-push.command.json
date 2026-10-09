@@ -1,0 +1,5 @@
+{
+  "command": "set -e\n git push origin development/product-statement-preview\n test \"$(git rev-parse origin/development/product-statement-preview)\" = \"52ed5e7b29073cf5fa67f339294e1f9ac800fbef\"\n gh pr edit 35 --repo devsecopslonghn/schemaForge --body-file /tmp/schemaforge-t22-corrected-pr-body.md",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:30:28.560591+00:00"
+}

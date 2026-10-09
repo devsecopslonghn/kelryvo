@@ -1,0 +1,5 @@
+{
+  "command": "gh pr ready 35 --repo devsecopslonghn/schemaForge",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:38:25.553712+00:00"
+}

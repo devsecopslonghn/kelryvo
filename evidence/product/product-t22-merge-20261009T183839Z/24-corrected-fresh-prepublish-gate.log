@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/tmp/schemaforge-t22-corrected-prepublish.py", line 7, in <module>
+    a=json.loads(qa.read_text());b=json.loads(sec.read_text());assert a['head']==b['head']==head and a['tree']==b['tree']==run(['git','rev-parse','HEAD^{tree}']).strip();assert a['verdict']=='APPROVE' and a['findings']==[];assert b['verdict']=='APPROVED' and b['license_review']['findings']==[];assert all(x['severity']=='informational' and x['actual_credentials_observed'] is False for x in b['security_review']['findings'])
+  File "/tmp/schemaforge-t22-corrected-prepublish.py", line 7, in <genexpr>
+    a=json.loads(qa.read_text());b=json.loads(sec.read_text());assert a['head']==b['head']==head and a['tree']==b['tree']==run(['git','rev-parse','HEAD^{tree}']).strip();assert a['verdict']=='APPROVE' and a['findings']==[];assert b['verdict']=='APPROVED' and b['license_review']['findings']==[];assert all(x['severity']=='informational' and x['actual_credentials_observed'] is False for x in b['security_review']['findings'])
+KeyError: 'severity'

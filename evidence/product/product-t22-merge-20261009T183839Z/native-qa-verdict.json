@@ -1,0 +1,110 @@
+{
+  "verdict": "APPROVE",
+  "subject": "SF-PRODUCT-T22 corrected parser-test placement",
+  "head": "52ed5e7b29073cf5fa67f339294e1f9ac800fbef",
+  "tree": "daf457689c6647cdda2436d70325191efb80c4b8",
+  "scope": "Independent focused exact-head QA of the deterministic foundation unit, the relocated mandatory real pinned-parser integration, PostgreSQL/API behavior, and browser integration. All four serialized focused commands passed with zero skips.",
+  "findings": [],
+  "checks": [
+    {
+      "name": "unit",
+      "scope": "Foundation-safe deterministic unit negatives",
+      "command": "taskset -c 0,1 node --test tests/statement-preview.test.mjs",
+      "result": "PASS: 1 passed, 0 failed, 0 skipped",
+      "started_at_utc": "2026-10-09T18:28:07.896838+00:00",
+      "ended_at_utc": "2026-10-09T18:28:08.045625+00:00",
+      "raw_path": "/tmp/sf-product-t22-corrected-qa-20261009T182807Z-b0cae4bc/unit.raw.log",
+      "raw_sha256": "d9b77beb7e7dc570d0771274d3015a7ae786121bacab1a631fe57e0227817f60"
+    },
+    {
+      "name": "parser_integration",
+      "scope": "Mandatory real pinned-ANTLR positive integration",
+      "command": "taskset -c 0,1 node --test tests/product-statement-preview-parser.integration.mjs",
+      "result": "PASS: 1 passed, 0 failed, 0 skipped",
+      "started_at_utc": "2026-10-09T18:28:08.045746+00:00",
+      "ended_at_utc": "2026-10-09T18:28:11.410660+00:00",
+      "raw_path": "/tmp/sf-product-t22-corrected-qa-20261009T182807Z-b0cae4bc/parser_integration.raw.log",
+      "raw_sha256": "f628c1a554d8d6f1f887f0988c0bd7a2e6ad604ce89ce7ec46b8778b6907146c"
+    },
+    {
+      "name": "postgres_api",
+      "scope": "Real PostgreSQL/API statement-preview integration",
+      "command": "taskset -c 0,1 node --test tests/product-statement-preview.test.mjs",
+      "result": "PASS: 1 passed, 0 failed, 0 skipped",
+      "started_at_utc": "2026-10-09T18:28:11.410765+00:00",
+      "ended_at_utc": "2026-10-09T18:28:37.055768+00:00",
+      "raw_path": "/tmp/sf-product-t22-corrected-qa-20261009T182807Z-b0cae4bc/postgres_api.raw.log",
+      "raw_sha256": "d87f30710ba5134ee49cae28fdfba1e735e99d43cf90cc3edddb712a1fbb9990"
+    },
+    {
+      "name": "browser",
+      "scope": "Plan-source Chromium/browser integration",
+      "command": "taskset -c 0,1 node --test tests/product-plan-source-browser.integration.mjs",
+      "result": "PASS: 1 passed, 0 failed, 0 skipped",
+      "started_at_utc": "2026-10-09T18:28:37.055874+00:00",
+      "ended_at_utc": "2026-10-09T18:29:32.466598+00:00",
+      "raw_path": "/tmp/sf-product-t22-corrected-qa-20261009T182807Z-b0cae4bc/browser.raw.log",
+      "raw_sha256": "173049f865379e729373010e226900d176a41e2b9a0d2a9a92dbee66a5bff0a2"
+    }
+  ],
+  "capture_record": {
+    "path": "/tmp/sf-product-t22-corrected-qa-20261009T182807Z-b0cae4bc/capture-record.json",
+    "sha256": "cf1c8bc360606c14fa232a3e8b3fbed39d99bbdcc3a6dd3cae5c9090b7f61b8f"
+  },
+  "source_freeze": {
+    "unchanged": true,
+    "source_paths": [
+      "apps/api/index.ts",
+      "apps/web/src/app.jsx",
+      "apps/web/styles.css",
+      "packages/migrations/statement-preview.mjs",
+      "tests/product-plan-source-browser.integration.mjs",
+      "tests/product-statement-preview.test.mjs",
+      "tests/statement-preview.test.mjs",
+      "tests/product-statement-preview-parser.integration.mjs",
+      "scripts/test-product.mjs",
+      "docs/development/local-product.md"
+    ],
+    "start_sha256": {
+      "apps/api/index.ts": "80315b6e072dfb849f37463f6fe13db4b3f6d519ee22dd24b989637d0fa17ac0",
+      "apps/web/src/app.jsx": "bcc88dfa9787c83ba701bf2781333f350be6e1d700c2aee48fcb2235a9424f44",
+      "apps/web/styles.css": "1a067cb664a09b3c0a87cca7aac6ee33f9d382ed8132a1a4ecc0e138f7e5db34",
+      "packages/migrations/statement-preview.mjs": "4ecc1e2c892b90e323c0d2d4bd6cf383d5975913dec8aac9963d78448d3b6826",
+      "tests/product-plan-source-browser.integration.mjs": "39630d7797f12f735baf630a480dd560cf63179fa8daaa6286196858aeb466e7",
+      "tests/product-statement-preview.test.mjs": "77c0f7f18273b5f93a4b98e76601ebedd1b3e3813f1e7eb67efbd1c502d2c3ba",
+      "tests/statement-preview.test.mjs": "1b52f893db7b05695f9b2ddef605e47c47b6571cc5a0ec3a98dc121de6eb389e",
+      "tests/product-statement-preview-parser.integration.mjs": "2972f233848f5dbcb7264f923dcde54e22d1276af369580bb684eee49ea97ce3",
+      "scripts/test-product.mjs": "53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b",
+      "docs/development/local-product.md": "6b20f2923dea2a1db32fd918a1892beccd851d1fba867f5d412ab94b550e2d89"
+    },
+    "end_sha256": {
+      "apps/api/index.ts": "80315b6e072dfb849f37463f6fe13db4b3f6d519ee22dd24b989637d0fa17ac0",
+      "apps/web/src/app.jsx": "bcc88dfa9787c83ba701bf2781333f350be6e1d700c2aee48fcb2235a9424f44",
+      "apps/web/styles.css": "1a067cb664a09b3c0a87cca7aac6ee33f9d382ed8132a1a4ecc0e138f7e5db34",
+      "packages/migrations/statement-preview.mjs": "4ecc1e2c892b90e323c0d2d4bd6cf383d5975913dec8aac9963d78448d3b6826",
+      "tests/product-plan-source-browser.integration.mjs": "39630d7797f12f735baf630a480dd560cf63179fa8daaa6286196858aeb466e7",
+      "tests/product-statement-preview.test.mjs": "77c0f7f18273b5f93a4b98e76601ebedd1b3e3813f1e7eb67efbd1c502d2c3ba",
+      "tests/statement-preview.test.mjs": "1b52f893db7b05695f9b2ddef605e47c47b6571cc5a0ec3a98dc121de6eb389e",
+      "tests/product-statement-preview-parser.integration.mjs": "2972f233848f5dbcb7264f923dcde54e22d1276af369580bb684eee49ea97ce3",
+      "scripts/test-product.mjs": "53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b",
+      "docs/development/local-product.md": "6b20f2923dea2a1db32fd918a1892beccd851d1fba867f5d412ab94b550e2d89"
+    },
+    "worktree_clean_at_end": true
+  },
+  "correction_review": {
+    "positive_parser_assertions": "The actual pinned-helper positive integration is in tests/product-statement-preview-parser.integration.mjs and is mandatory in scripts/test-product.mjs product runner.",
+    "foundation_unit": "tests/statement-preview.test.mjs now contains deterministic negative cases and does not invoke the pinned helper.",
+    "assertion_preservation": "The positive assertions (profile, offline/no authority, statement count, exact UTF-8 byte slices and source digests, delimiters, non-ASCII offsets, quoted semicolons) and negative assertions (bad path/manifest/size/count/digest/unavailable helper) remain represented.",
+    "runtime_api_ui_unchanged": "The correction is scoped to test placement and product runner registration."
+  },
+  "limitations": [
+    "The earlier PR35 foundation CI failure on reviewed head 2bccfe2 remains a real failure and is not cleared by these local results.",
+    "A fresh corrected exact-head CI run is still required before claiming CI green; this verdict makes no clean-CI claim.",
+    "The corrected native full local verification reports check156/product34/browser19 with zero skips, but those parent-run captures were not rerun here. This independent verdict is limited to the four listed focused checks.",
+    "No Oracle behavior, full catalog acceptance, publication, merge eligibility, or external/runtime execution is certified."
+  ],
+  "captured_utc": {
+    "start": "2026-10-09T18:28:07.896838+00:00",
+    "end": "2026-10-09T18:29:32.466598+00:00"
+  }
+}

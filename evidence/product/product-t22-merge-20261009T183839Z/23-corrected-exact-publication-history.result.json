@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t22-corrected-scans.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:28:01.106906+00:00",
+  "ended_at_utc": "2026-10-09T18:28:04.708459+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/23-corrected-exact-publication-history.log",
+    "sha256": "8521f5b72daca358d40afe608dc08918f8b238d4294ee489c7e6d4e8c0acdb0c"
+  }
+}

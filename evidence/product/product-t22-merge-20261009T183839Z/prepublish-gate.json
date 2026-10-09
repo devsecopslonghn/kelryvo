@@ -1,0 +1,30 @@
+{
+  "at_utc": "2026-10-09T18:30:25.315370+00:00",
+  "head": "52ed5e7b29073cf5fa67f339294e1f9ac800fbef",
+  "base": "d19747356c3d962438631bcf393781d51ee9293a",
+  "qa": "APPROVED_FOCUSED4",
+  "security": "APPROVED_WITH_PRESERVED_FINDING_LIMITATIONS",
+  "verdict_hashes": {
+    "native-qa-verdict.json": "2ec66565be3444f2d0de94ca25a43fe8317f179474ef5a512de979b691604b2b",
+    "native-security-verdict.json": "6067f272a4f6653514dd43ce68ac057cc01f5eeb6725ee2d6e4ed86798178b4d",
+    "native-security-full-review.json": "41a278d74c935605e5f5b680ce2cba37d0c1ddeb145dece2b239268979179ed8"
+  },
+  "ownership_paths": 277,
+  "open_prs": [
+    {
+      "headRefName": "development/product-statement-preview",
+      "headRefOid": "2bccfe249c719162511c276b94518665f7e203f8",
+      "isDraft": true,
+      "number": 35,
+      "title": "Add scoped offline statement previews to release review"
+    }
+  ],
+  "hygiene_branches": [],
+  "shared_unchanged": true,
+  "alerts": {
+    "code-scanning": [],
+    "dependabot": [],
+    "secret-scanning": []
+  },
+  "sonar": "UNAVAILABLE_NEVER_PASS"
+}

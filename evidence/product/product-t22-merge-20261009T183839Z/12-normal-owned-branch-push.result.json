@@ -1,0 +1,11 @@
+{
+  "command": "set -e\n git push --set-upstream origin development/product-statement-preview\n test \"$(git rev-parse origin/development/product-statement-preview)\" = \"2bccfe249c719162511c276b94518665f7e203f8\"",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:10:55.373627+00:00",
+  "ended_at_utc": "2026-10-09T18:10:58.297496+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/12-normal-owned-branch-push.log",
+    "sha256": "4155039dcc0df483e9741344bc03e52c69aae68cbfdaa328c6d8758b08135020"
+  }
+}

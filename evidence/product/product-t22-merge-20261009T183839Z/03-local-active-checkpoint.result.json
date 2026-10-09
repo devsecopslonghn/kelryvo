@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t22-active-checkpoint.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T17:24:29.560664+00:00",
+  "ended_at_utc": "2026-10-09T17:24:29.724757+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/03-local-active-checkpoint.log",
+    "sha256": "990be3a4979adf02dc5559edeb880ed97f09fab1e2aee2541d4ef68c985943d8"
+  }
+}

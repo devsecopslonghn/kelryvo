@@ -1,0 +1,11 @@
+{
+  "command": "set -e\n python /tmp/schemaforge-t22-corrective-integrate.py\n npm run format\n node --test tests/tracker.test.mjs\n npm run lint\n npm run format:check\n git diff --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:27:00.316492+00:00",
+  "ended_at_utc": "2026-10-09T18:27:05.445075+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/20-integrate-corrected-frozen-regressions.log",
+    "sha256": "8dff7ae901af900296bfda083f42bc4a004d60f6408050fbe71bc3f902f81fe4"
+  }
+}

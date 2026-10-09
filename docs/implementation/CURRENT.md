@@ -1,3 +1,30 @@
+## T22 merged and master verified; T23 active — 2026-10-09 UTC
+
+T22 merged through [PR #35](https://github.com/devsecopslonghn/schemaForge/pull/35) at
+`fe1d3a84381e5080d591ca1a43a7a9b9928f93ee`, reviewed head `52ed5e7b29073cf5fa67f339294e1f9ac800fbef`. Trees match.
+Fresh QA/security/license approved; all11 corrected-head PR checks and four exact-master
+workflow families passed. Corrected local standard156/product34/browser19 and independent4,
+zero failures/skips. Original failed foundation checks, corrective format/no-Java failures,
+partial browser unknownexit and missing early capture metadata remain candid and immutable.
+Evidence: `evidence/product/product-t22-merge-20261009T183839Z/record.json`.
+
+Scoped read-only statement preview bounds/verifies retained source before payload/parser;
+shared release lock, exact literalUTF8 ranges and source/executionfacts remain offline.
+No historical manifest/intent/NULLcount backfill or execution authority. Publication277files
+exit1/2 prose and historyexit1/115 unchanged classifiedtuples remain finding-bearing scans,
+notcleanPASS; eight inherited earlierbytes unavailable limit retained. No actualcredential
+observed/rotationindicated. Sonar unavailable neverPASS; OracleVALIDATION independentBLOCKED.
+
+T23 IN_PROGRESS in `/home/longhn0710/workspace/schemaforge-product-discussion-evidence`, branch
+`development/product-discussion-evidence`, based on verified master above. Fresh coupled native
+context owns capped supplemental statement refs in pending-plan discussion, additive storage,
+UI/real regressions/driver/operatingguide; root owns contracts/tracking/reviews/publication.
+Use server-resolved exact T22 bytes/digests tied to existing format1 intent; preserve body-only
+comments/history and executable source. No SQL upload, formatrewrite, worker/Oracle scope.
+Registration/preparation is not implementation or verification. SF-D016 safe default and
+standing autonomy/explicitOSoperator membership/bootstrap/recovery remain accepted.
+Shared checkout untouched0346300; no Hygiene branch/PR visible, integrationpending only.
+
 ## T22 prerequisite correction locally verified; fresh reviews pending — 2026-10-09 UTC
 
 The exact real-parser positive assertions now run in the mandatory product integration

@@ -2821,6 +2821,9 @@
         },
         {
           "index_id": "product-t22-ci-prerequisite-correction-local-verified"
+        },
+        {
+          "index_id": "product-t22-merge-master-verified"
         }
       ],
       "blockers": []
@@ -2853,7 +2856,7 @@
         "SF-PRODUCT-T23-WEB",
         "SF-PRODUCT-T23-PERSISTENCE"
       ],
-      "status": "READY",
+      "status": "IN_PROGRESS",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],

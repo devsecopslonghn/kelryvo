@@ -1,0 +1,5 @@
+{
+  "command": "set -e\n git fetch origin\n git rev-parse origin/master\n gh pr list --repo devsecopslonghn/schemaForge --state open --json number,title,headRefName,headRefOid,isDraft\n git branch --all\n git -C /home/longhn0710/workspace/schemaforge status --porcelain=v1\n git -C /home/longhn0710/workspace/schemaforge rev-parse HEAD\n git status --short",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T17:56:03.231918+00:00"
+}

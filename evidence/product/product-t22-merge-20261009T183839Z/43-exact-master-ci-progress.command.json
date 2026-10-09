@@ -1,0 +1,5 @@
+{
+  "command": "set -e\n python /tmp/schemaforge-t22-master-state.py\n gh run view 37974709842 --repo devsecopslonghn/schemaForge --json databaseId,status,conclusion,jobs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:42:41.702956+00:00"
+}
