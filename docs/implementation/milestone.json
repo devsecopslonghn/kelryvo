@@ -224,8 +224,8 @@
     {
       "id": "SF-PRODUCT-T25",
       "owner": "backend",
-      "status": "READY",
-      "action": "Registration only; compare retained release sources after T24 eligible merge/master verification"
+      "status": "IN_PROGRESS",
+      "action": "Implement and verify retained-source comparison locally; T24 remains unmerged draft37, security gates unavailable"
     }
   ],
   "blocked_inputs_evidence": {
@@ -237,7 +237,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-09T22:17:55.752751+00:00",
+  "updated_at": "2026-10-09T22:23:07.717655+00:00",
   "final_check_evidence": {
     "index_id": "product-t24-audit-pages-local-verified"
   },
@@ -258,7 +258,7 @@
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
   "current_increment_merge_status": "T24_DRAFT37_SIX_AVAILABLE_CI_PASS_REQUIRED_SECURITY_UNAVAILABLE",
-  "current_checkpoint_branch": "development/product-continuation-t24",
+  "current_checkpoint_branch": "development/product-release-source-comparison",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -272,7 +272,7 @@
       ]
     }
   },
-  "product_task_status": "T01_THROUGH_T23_MERGED_T24_VERIFIED_LOCAL_DRAFT37_T25_READY_REGISTRATION_ONLY",
+  "product_task_status": "T01_THROUGH_T23_MERGED_T24_VERIFIED_LOCAL_DRAFT37_T25_IN_PROGRESS",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",
@@ -389,5 +389,12 @@
     "ready_or_merge": "INELIGIBLE_NO_BYPASS",
     "sonar_exception_scope": "SONAR_UNAVAILABILITY_ONLY_NO_EXPANSION"
   },
-  "latest_draft_ci_evidence": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/record.json"
+  "latest_draft_ci_evidence": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/record.json",
+  "t25_local_prerequisite": {
+    "verified_origin_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+    "reviewed_unmerged_t24_head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+    "carried_local_continuation": "d5ddb6dc6020adf9a00eded1fda0a75af8750df3",
+    "decision": "SF-D023",
+    "merge_eligible": false
+  }
 }

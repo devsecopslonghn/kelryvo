@@ -238,6 +238,18 @@
         "apps/web/src/app.jsx",
         "docs/implementation/backlog.json"
       ]
+    },
+    {
+      "id": "SF-D023",
+      "status": "ACCEPTED_LOCAL_PRODUCT_CONTINUATION_WITH_UNMERGED_REVIEWED_PREREQUISITE",
+      "accepted_at_utc": "2026-10-09T22:22:55.893849+00:00",
+      "decision": "Continue T25 local implementation and verification in a dedicated worktree while required GitHub security services for T24 draft PR37 are unavailable. This supersedes only the local start sequencing restriction in SF-D022: T24 is independently reviewed and VERIFIED locally, not merged. Create the worktree from current verified origin/master0fd6980 and fast-forward only the owned continuation branch containing exact reviewed T24 head704ef82 and immutable handoff evidence. Preserve the dependency graph, original220 acceptance, draft PR37 reviewed source, and all publication/merge gates. T25 readiness or merge requires eligible prerequisites, fresh base reconciliation, exact-head independent review, security findings classification and all required CI; no security availability exception, paid/public setting change or branch-protection bypass is inferred. Local source comparison is reversible and requires no external credentials, target authority or Oracle evidence. Use standing owner policy SF-D010 and preserve historical evidence append-only.",
+      "references": [
+        "AGENTS.md",
+        "docs/implementation/backlog.json",
+        "docs/implementation/CURRENT.md",
+        "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/record.json"
+      ]
     }
   ]
 }

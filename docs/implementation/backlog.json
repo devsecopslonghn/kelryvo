@@ -2939,7 +2939,7 @@
         "SF-PRODUCT-T25-WEB",
         "SF-PRODUCT-T25-PERSISTENCE"
       ],
-      "status": "READY",
+      "status": "IN_PROGRESS",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],

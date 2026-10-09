@@ -1,3 +1,20 @@
+## T25 local delivery active; T24 security gates remain unavailable — 2026-10-09 UTC
+
+T25 is IN_PROGRESS in `/home/longhn0710/workspace/schemaforge-product-release-source-comparison`,
+branch `development/product-release-source-comparison`. Worktree created from verified
+origin/master `0fd6980db49c9546ab0a04fe07321a348eee2d65`, then fast-forwarded only the owned
+local continuation `d5ddb6dc6020adf9a00eded1fda0a75af8750df3` carrying reviewed unmerged T24.
+SF-D023 supersedes the earlier local-start restriction; original dependencies and final gates
+remain intact. T24 draft37/head704ef82 remains unmerged and unchanged. Required GitHub security
+restoration remains pending; no security exception or remote settings change is inferred.
+
+Fresh coupled native context owns source-comparison API/helper/UI/regressions/runner and local
+operation guide; root owns contracts/tracking/integration/evidence/publication. No T25
+implementation or test completion is claimed. Same-project bounded retained manifest verification,
+exact arbitrary-precision version ordering, no-write snapshots and stale-response guards are
+required. Source comparison supplies no deployed/schema/Oracle facts. Sonar unavailable never PASS;
+Oracle VALIDATION independently BLOCKED. Shared checkout and Hygiene scope remain untouched.
+
 ## T24 all available CI passed; draft37 security gate remains unavailable — 2026-10-09 UTC
 
 All six push/PR PRODUCT/parser/foundation runs passed on reviewed `704ef82f3bf183707b40e8194f3b1f0a15e29a89`.
