@@ -1,0 +1,43 @@
+{
+  "id": "product-t08-final-tracker-and-drafts-verified",
+  "subject_id": "SF-PRODUCT-T08",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "node --test tests/product-status-filters-browser.integration.mjs; npm run check (PostgreSQL enabled, final tracking state)",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T08-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t08-status-filters-20261009T034214Z/tracker-final.txt",
+    "sha256": "5e06b4366615b8dc66cece98b0f21e2003c9130bb490a3538bd2dd614e3d782c"
+  },
+  "additional_output": {
+    "path": "evidence/product/product-t08-status-filters-20261009T034214Z/targeted-final.txt",
+    "sha256": "3704fc58a7df69ad37d1071498c9497ea4e7bcd1ff5e7268d5bbf89d84e4f04c"
+  },
+  "counts": {
+    "standard_pass": 140,
+    "targeted_browser_pass": 1,
+    "skipped": 0
+  },
+  "sources": {
+    "apps/web/src/app.jsx": "4e12c45f6885e273d68cdc4c3bbf01937da29b1b6a0e98aae8dbbdd9d887c19f",
+    "tests/product-status-filters-browser.integration.mjs": "5e938bfbd1372efe4d1e4e230bc4c095cc4d76da1e5a361c033c4d6757d7c95a",
+    "scripts/tracker.mjs": "1e4e8c756081870114bc7485b08f22d8a3a05f3c946f608ef3212caa552880c4",
+    "tests/tracker.test.mjs": "e726889e3b5185c6c7aedda6f5ef6a607934dc0168c7b5fdb7ae37287791e31b"
+  },
+  "notes": [
+    "Explicitly verifies unsent comment drafts on project change and unsent decision drafts on filter change.",
+    "T09 is registered only, its behavior is not implemented or verified.",
+    "Preceding snapshot record/logs are retained without modification.",
+    "No Oracle validation or Sonar PASS claimed."
+  ]
+}

@@ -2436,6 +2436,17 @@
       "test_references": [
         "SF-PRODUCT-T08-WEB"
       ]
+    },
+    "SF-PRODUCT-T09": {
+      "task_id": "SF-PRODUCT-T09",
+      "criteria": [
+        "Authenticated project audit timelines offer All actions by default and filters for the actions present in the existing scoped recent audit data, preserving server ordering and showing a clear empty state.",
+        "Changing projects or signing out resets the audit filter; filtering cannot expose events from another project and archived projects retain filtered historical read access.",
+        "Filtering is read only: audit facts, actors, timestamps, decisions, comments, plan bytes and migration history remain unchanged. Full audit search, pagination, retention policy, tamper evidence and Oracle acceptance are excluded."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T09-WEB"
+      ]
     }
   },
   "test_cases": [

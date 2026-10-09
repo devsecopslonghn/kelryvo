@@ -1,5 +1,35 @@
 # Current engineering state
 
+## T08 verified locally in isolated worktree; T09 registered — 2026-10-09
+
+SF-PRODUCT-T08 implements All/Pending approval/Approved/Rejected plan filters using the
+existing project detail API. Project ordering, auth, persisted comments/decision records,
+archived reads, audit and NOT_EXECUTED history remain intact. Changing filters clears
+unsent comment and decision drafts; project selection and sign-out restore All.
+
+Verification: 140/140 standard, 20/20 PostgreSQL/product (isolated retry), 6/6 browser,
+zero skips. Initial environment/fixture/locator and concurrent parser observations are
+retained separately from PASS. Evidence: `evidence/product/product-t08-status-filters-20261009T034214Z/record.json`.
+
+Worktree: `/home/longhn0710/workspace/schemaforge-product-status-filters`, branch
+`development/product-plan-status-filters`, based on `0346300471a889ae8fd33b022b890034be08d301`.
+The shared master checkout was not edited or switched. T08 PR, independent exact-head
+review, CI and merge are pending at this snapshot; resolve current state from Git/GitHub.
+
+Next bounded PRODUCT task: SF-PRODUCT-T09 — filter recent project audit events by action
+(SEC-011 partial, BACKLOG). Reuse current recent scoped data, preserve order and immutable
+audit facts, reset on project/sign-out, retain archive reads. Full search, pagination,
+retention/tamper evidence and Oracle acceptance are excluded. Continue after eligible T08 merge.
+
+Git Hygiene remains independent and pending: no branch/PR or redacted exact Gitleaks report
+was visible during review. Runtime-generated synthetic key test code was identified; the
+two reported API-key-pattern evidence lines remain unclassified. Obtain exact commit/path/
+line/rule provenance; never print secret values, dismiss findings, or rewrite public history.
+No hygiene merge is authorized by incomplete classification. PRODUCT delivery can continue.
+
+Sonar remains unavailable under the unchanged owner quota exception, never PASS.
+Oracle VALIDATION and all 124 applicable cells remain BLOCKED independently.
+
 ## T06/T07 merged; next PRODUCT task T08 READY — 2026-10-09
 
 T06 persistent plan comments merged through PR #16 at
