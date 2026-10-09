@@ -1,0 +1,54 @@
+{
+  "id": "product-t07-decision-record-local-verified",
+  "subject_id": "SF-PRODUCT-T07",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check (PostgreSQL enabled); npm run test:product; npm run test:browser (browser retry completed after session interruption)",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T07-API",
+    "SF-PRODUCT-T07-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t07-decision-record-20261009T025416Z/checks-final.log",
+    "sha256": "820ce923db3c83852848dbc98f8daca8d00bc6b220739cdf20b3bbba58ce41ff"
+  },
+  "recorded_at": "2026-10-09T03:10:23.894922+00:00",
+  "base_commit": "b5c0392feda043b26138fd591acb5be5b166fe74",
+  "tests": {
+    "standard": {
+      "passed": 140,
+      "failed": 0,
+      "skipped": 0
+    },
+    "product": {
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "source_hashes": "evidence/product/product-t07-decision-record-20261009T025416Z/source-hashes.json",
+  "initial_observations": [
+    "Initial recorder stream opened asynchronously and failed before running tests; corrected to synchronous descriptors.",
+    "The first browser run was interrupted by the session before summary/exit; it is not PASS. A fresh complete retry passed all five workflows.",
+    "The identified disposable database from the interrupted comments fixture was removed after confirming no active sessions; primary application metadata and volume were preserved."
+  ],
+  "limitations": [
+    "Bounded retained terminal decision provenance; no full catalog GOV-023/project-transfer acceptance.",
+    "Oracle runtime acceptance remains BLOCKED.",
+    "Sonar unavailable under unchanged owner quota exception; never PASS."
+  ],
+  "independent_review": "Native read-only specialist approved current working diff; exact committed-head review and CI still required before merge."
+}
