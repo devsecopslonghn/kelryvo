@@ -1,0 +1,12 @@
+
+> schemaforge-local-development@0.0.0 dev
+> npm run build:web && node scripts/local-dev.mjs
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+SchemaForge: http://127.0.0.1:4317
+Local bearer tokens: .cache/local-product/config.json (private local file).
+Target execution: NOT_EXECUTED; Oracle validation: BLOCKED.

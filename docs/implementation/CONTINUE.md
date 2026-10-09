@@ -6,6 +6,22 @@ Oracle VALIDATION. Start new bounded increments from latest `origin/master`; ins
 existing changes and open exact-head PRs first. Do not repeatedly request an Oracle lab
 or reinterpret BLOCKED acceptance as a prohibition on API/web/governance development.
 
+The owner selected unmodified PolyForm Shield 1.0.0 on 2026-10-09. Preserve LICENSE,
+NOTICE and separate third-party grants. Internal use is free; competing products/services
+are restricted, including free competitors. Noncompeting paid support/consulting is not
+categorically prohibited. Use source-available terminology; do not restore the Apache-2.0
+proposal or treat old pending-license evidence as current instructions. Public naming
+and F31 packaging/source/notice/distribution closure remain pending.
+PR #14 merged at `16260b9710c9c7d23e64149772b048505aa60c3b`; all ten non-Sonar
+head checks and its four master workflows passed. This license increment starts there;
+resolve its own head/PR/merge from Git/GitHub.
+
+License selection/static verification and current startup proof are under
+`evidence/product/product-shield-license-20261009T021701Z/`. Local checks passed 138/138,
+zero skips; API/web startup and the existing persisted demo were read-only verified.
+The dev process was stopped; metadata PostgreSQL remains running. No product task,
+catalog acceptance or Oracle cell advanced because of this license decision.
+
 ```sh
 cd /home/longhn0710/workspace/schemaforge
 git status --short
@@ -86,5 +102,5 @@ T03 retains immutable licensed grammar inputs, parser corpus and adapter. Prepar
 is `npm run parser:antlr:prepare`; fresh Linux x64 uses
 `SCHEMAFORGE_JAVA_HOME="$PWD/.cache/antlr/temurin"`. Builds never silently download.
 No Oracle execution, credential resolution or deployment is authorized. Original feature
-IDs, dependencies and acceptance remain unchanged. Product license/name and F31
-packaging decisions remain pending for distribution; independent local delivery continues.
+IDs, dependencies and acceptance remain unchanged. Product naming and F31 packaging
+decisions remain pending for distribution; independent local delivery continues.

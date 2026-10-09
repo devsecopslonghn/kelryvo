@@ -1,4 +1,4 @@
-SchemaForge PRODUCT third-party license notices. Product license remains undecided.
+SchemaForge PRODUCT third-party license notices. Independently authored SchemaForge uses PolyForm Shield 1.0.0; third-party grants below remain unchanged.
 Exact npm lock integrity identifies each package; external tool/image distributions are not bundled.
 
 ==== @esbuild/linux-x64@0.28.2 (MIT) ====

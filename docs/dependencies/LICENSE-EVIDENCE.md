@@ -2,7 +2,11 @@
 
 Register date: 2026-10-08. This records exact selected artifacts and evidence for WP0; it does not decide the independently authored product license.
 
-The product license remains **PENDING_OWNER_DECISION**. This is separate from the rights for the selected dependencies. The artifact-level selections below have identified grants and checksum/source evidence; future packaging must preserve the corresponding notices and comply with any applicable source availability terms.
+At this register's 2026-10-08 snapshot the product license was **PENDING_OWNER_DECISION**.
+On 2026-10-09 the owner selected PolyForm Shield 1.0.0; see the current
+[product license scope](../product/license-and-naming.md). Historical WP0 registers,
+including `third-party-notices.json`, retain their original observations. The artifact-level
+grants below are unchanged; packaging must preserve notices and applicable source obligations.
 
 ## Selected npm closure
 
@@ -48,5 +52,5 @@ its included BSD components and declared-but-absent ICU4J are recorded distinctl
 [lock](antlr-parser-lock.json). External JDK is the already audited Temurin artifact.
 The helper includes notice/license texts and excludes runtime/tool classes. Upstream Java
 support files without explicit grants are excluded; [provenance](antlr-provenance.md)
-discloses the independent rewrite and prior source exposure. Product license and final
-packaging/source obligations remain pending; this is no general legal clearance.
+discloses the independent rewrite and prior source exposure. The product license is now
+selected; final packaging/source obligations remain pending. This is no general legal clearance.

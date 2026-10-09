@@ -12,7 +12,9 @@ configuration, confidential imports and restricted source. The foundation review
 no such content. Authored research, public upstream references and synthetic `.invalid`
 fixtures are included. Local developer paths in provenance identify the source of the
 immutable snapshot; they contain no enterprise infrastructure or credential material.
-The proposed product license remains undecided; publication does not grant a license.
+The owner selected PolyForm Shield 1.0.0 on 2026-10-09 for independently authored
+SchemaForge code/documentation. Preserve LICENSE/NOTICE and independent third-party
+grants; naming and full F31 packaging/distribution clearance remain separate.
 
 For each verified milestone, run relevant checks, review the diff, scan tracked content,
 update implementation state, commit, push, then compare the remote branch SHA. Use a

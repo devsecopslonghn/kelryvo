@@ -1,0 +1,45 @@
+{
+  "recorded_at": "2026-10-09T02:19:15.136266+00:00",
+  "scope": "Owner-selected product license and current metadata/documentation; no new catalog acceptance or Oracle verification",
+  "commands": [
+    {
+      "command": "CI=true npm run check with dedicated local metadata test database and pinned real parser/JDK",
+      "exit_code": 0,
+      "tests": 138,
+      "passed": 138,
+      "skipped": 0,
+      "raw_output": {
+        "path": "evidence/product/product-shield-license-20261009T021701Z/check.log",
+        "sha256": "be8b5ce83ef7c6ba9b8cdeadf09c90ef54d0948a7f801600cff7362d64372d1f"
+      }
+    },
+    {
+      "command": "npm run dev; GET health/assets; authenticated GET of persisted demo; stop owned process",
+      "exit_code": 0,
+      "raw_output": {
+        "path": "evidence/product/product-shield-license-20261009T021701Z/runtime-status.json",
+        "sha256": "39f6204ad3d1ddc2551e2ee6f37120cf895895724a4cb4652b94c5e3389ca349"
+      }
+    }
+  ],
+  "license_selection": {
+    "path": "evidence/product/product-shield-license-20261009T021701Z/license-selection.json",
+    "sha256": "8501c2e290bf8c8a98676ab381e3fa73333a0a3b02ca294b421fac6a78025993"
+  },
+  "preservation": {
+    "official_license_exact": true,
+    "third_party_lock_versions_integrity_licenses": "unchanged; only root license field added",
+    "closure_packages": 85,
+    "unknown_required_grants": 0,
+    "historical_WP0_registers": "unchanged",
+    "catalog_ids_acceptance_and_original_edges": "unchanged",
+    "Oracle_cells": "124 BLOCKED",
+    "F31_and_naming": "pending"
+  },
+  "limitations": [
+    "No Oracle connection, target credential resolution or deployment",
+    "Free internal use and noncompete restrictions under standard Shield; no blanket commercial-use ban",
+    "Product-license selection does not certify final distribution packaging",
+    "Fresh exact-head remote CI remains required under the preserved Sonar quota availability exception"
+  ]
+}

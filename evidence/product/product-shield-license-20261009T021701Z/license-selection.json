@@ -1,0 +1,12 @@
+{
+  "recorded_at": "2026-10-09T02:17:01.998992+00:00",
+  "name": "PolyForm Shield License 1.0.0",
+  "upstream_url": "https://polyformproject.org/licenses/shield/1.0.0.txt",
+  "upstream_sha256": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+  "root_license_sha256": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+  "exact_upstream_text": true,
+  "owner_authorization": "Owner accepted the explained Shield scope and explicitly requested repository update in this session",
+  "scope": "Independently authored SchemaForge code/current documentation; preserve all third-party grants and immutable imported research provenance",
+  "constraints": "No claim of blanket ban on noncompeting paid consulting/support; standard Shield clauses and exceptions remain unmodified",
+  "original_distribution_acceptance": "F31, product naming and packaging clearance remain pending; no Oracle acceptance changed"
+}

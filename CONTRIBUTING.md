@@ -50,6 +50,8 @@ read-only repository permissions. Installing CI tooling is distinct from mirrori
 certifying all future runtime dependencies. Remote CI results must be checked separately
 from local observations.
 
-The proposed Apache-2.0 license and public product name await owner decisions. Do not copy
+Independently authored code/documentation uses the owner-selected PolyForm Shield 1.0.0;
+preserve LICENSE and NOTICE. Third-party grants remain separate. Public naming and full
+distribution packaging remain pending. Do not copy
 restricted Bytebase code or assets. Consult the imported compliance requirements before
 adding a parser, driver, JRE, UI asset or other dependency.

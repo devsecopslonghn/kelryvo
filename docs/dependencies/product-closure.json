@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "scope": "Local PRODUCT runtime and Linux x64 development tools; no production distribution approval",
-  "package_lock_sha256": "bb5ec5cff4fbe9b24565227f62b7cc142649f0dbe34b17cdf4f3616e94c49f5e",
+  "package_lock_sha256": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
   "notice_path": "docs/dependencies/product-NOTICES.txt",
-  "notice_sha256": "a91cd039b3a8597057b59f48466a5b1f3877397499619074cacafbe8846a3ae9",
+  "notice_sha256": "391f4100e7872f0791a0d1ddde1670127299affd75c7cce9e90a82963f5c4fae",
   "unknown_required_grants": 0,
   "packages": [
     {

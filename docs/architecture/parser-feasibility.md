@@ -25,7 +25,7 @@ Published artifact hashes (SHA-256):
 | `org.flywaydb:flyway-core:13.9.0` | `d7ef137f0c02ef18fb85f21370504c737061a446d0387109ee6111ff27e631fe` |
 | `com.fasterxml.jackson.core:jackson-annotations:2.22` | `21ddb598807d3a51a876704eb979d9296e1c6a6f47ab1826ff88c6d6a127a2d0` |
 
-The Flyway source modules declare Apache-2.0. Jackson Annotations 2.22 declares Apache-2.0. These declarations are inputs to the separate license/NOTICE audit, not distribution approval. The prototype fat jar is a feasibility artifact; its assembly merges metadata and is not a final notice-compliant distribution format. The product license remains pending.
+The Flyway source modules declare Apache-2.0. Jackson Annotations 2.22 declares Apache-2.0. These declarations are inputs to the separate license/NOTICE audit, not distribution approval. The prototype fat jar is a feasibility artifact; its assembly merges metadata and is not a final notice-compliant distribution format. The owner-selected product license is now PolyForm Shield 1.0.0; final distribution clearance remains pending.
 
 ## Smoke evidence and boundary
 

@@ -1,0 +1,26 @@
+{
+  "recorded_at": "2026-10-09T02:18:37.005323+00:00",
+  "command": "npm run dev; read-only loopback health/assets/authenticated persisted-demo queries; stop owned dev process",
+  "health": {
+    "status": "ok",
+    "execution": "NOT_EXECUTED",
+    "oracleValidation": "BLOCKED"
+  },
+  "web_html": "HTTP 200",
+  "web_bundle": "HTTP 200",
+  "persisted_demo": {
+    "plans": 2,
+    "plan_statuses": [
+      "APPROVED",
+      "REJECTED"
+    ],
+    "history_rows": 4,
+    "history_statuses": [
+      "NOT_EXECUTED"
+    ],
+    "review_denial_audit": true
+  },
+  "credentials_logged": false,
+  "oracle_connected": false,
+  "dev_process_stopped": true
+}
