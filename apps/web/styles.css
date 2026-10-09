@@ -958,6 +958,46 @@ td code {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+.statement-preview-action {
+  margin: 2px 0 10px;
+}
+.statement-preview-result {
+  border-left: 2px solid #4d7ab6;
+  margin: 8px 0 14px;
+  padding: 4px 12px 8px;
+  overflow-wrap: anywhere;
+}
+.statement-preview-result > p,
+.statement-preview-item > p {
+  color: #536274;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.statement-preview-item {
+  border-top: 1px solid #e4eaf1;
+  padding-top: 5px;
+}
+.statement-preview-item h4 {
+  margin: 8px 0;
+  font-size: 11px;
+}
+.statement-preview-item pre {
+  max-height: 280px;
+  overflow: auto;
+  background: #182536;
+  color: #dae6f4;
+  border-radius: 6px;
+  padding: 14px;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.statement-preview-status {
+  color: #536274;
+  font-size: 10px;
+}
 .plan-form {
   display: flex;
   align-items: end;

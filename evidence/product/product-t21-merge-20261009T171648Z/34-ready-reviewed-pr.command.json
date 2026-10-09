@@ -1,0 +1,5 @@
+{
+  "command": "gh pr ready 34 --repo devsecopslonghn/schemaForge",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-project-membership",
+  "started_at_utc": "2026-10-09T17:16:37.209739+00:00"
+}

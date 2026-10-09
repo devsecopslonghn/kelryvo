@@ -1,0 +1,3 @@
+STATUS=INTERRUPTED_OR_ORCHESTRATOR_SESSION_ENDED
+OBSERVED=No live node/test-product/Playwright/Chromium process; functions.write_stdin for original session 53537 returned Unknown process id.
+CAPTURE_LIMIT=browser-interrupted.partial.log ends after TAP case 12; no terminal summary or exit code captured. Do not infer pass/fail.

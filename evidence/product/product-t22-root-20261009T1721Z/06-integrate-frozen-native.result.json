@@ -1,0 +1,11 @@
+{
+  "command": "set -e\n python /tmp/schemaforge-t22-root-draft-integration.py\n python /tmp/schemaforge-t23-register-prefix.py\n npm run format\n node --test tests/tracker.test.mjs\n npm run lint\n npm run format:check\n git diff --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:05:17.329510+00:00",
+  "ended_at_utc": "2026-10-09T18:05:22.333790+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/06-integrate-frozen-native.log",
+    "sha256": "46c577ec47620878622424de5b927a8f9a831796820f9fb51137d31b9564ff70"
+  }
+}

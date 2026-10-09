@@ -1,0 +1,11 @@
+{
+  "command": "set -e\n python - <<\"PY\"\nimport pathlib,json,hashlib,datetime,subprocess\nr=pathlib.Path(\"/home/longhn0710/workspace/schemaforge-product-statement-preview\");p=r/\"evidence/product/product-t22-statement-preview-20261009T1750Z\";o=r/\"evidence/product/product-t22-root-20261009T1721Z/native-browser-observation.json\"\nassert not o.exists()\nps=subprocess.check_output([\"ps\",\"-eo\",\"pid,etimes,args\"],text=True)\nactive=[x for x in ps.splitlines() if \"node --test\" in x or \"node scripts/test-product.mjs\" in x]\nassert not active,active\nsources={}\nfor line in (p/\"browser-start.sha256\").read_text().splitlines():\n h,n=line.split(\"  \",1);assert hashlib.sha256((r/n).read_bytes()).hexdigest()==h;sources[n]=h\nraw=p/\"browser.raw.log\"\nd={\"observed_at_utc\":datetime.datetime.now(datetime.timezone.utc).isoformat(),\"browser\":\"UNVERIFIED_PARTIAL_NO_TERMINAL_STATUS\",\"raw_sha256\":hashlib.sha256(raw.read_bytes()).hexdigest(),\"raw_path\":str(raw.relative_to(r)),\"native_status_observed\":\"pending_init\",\"matching_live_node_test_processes\":active,\"source_sha256\":sources,\"missing\":[\"browser-exit.txt\",\"browser-end.sha256\"],\"limitation\":\"No execution handle result or final native completion available to root. Cause not inferred. Existing raw capture is preserved and not PASS. A new run requires a unique capture.\"}\no.write_text(json.dumps(d,indent=2)+\"\\n\");print(json.dumps({\"browser\":d[\"browser\"],\"source_files\":len(sources)}))\nPY",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:00:51.969719+00:00",
+  "ended_at_utc": "2026-10-09T18:00:52.045313+00:00",
+  "exit_code": 1,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/05-native-browser-interruption-observation.log",
+    "sha256": "14cdf227ac663d4a94d27c58026b4dc87b8abba84c29c5212f70fdf17984ab87"
+  }
+}

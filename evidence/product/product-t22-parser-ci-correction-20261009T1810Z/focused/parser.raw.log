@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+ok 1 - pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+  ---
+  duration_ms: 3019.42652
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3114.45956

@@ -1,0 +1,36 @@
+{
+  "recorded_at_utc": "2026-10-09T18:07:07.309931+00:00",
+  "source_files": 9,
+  "frozen_source_unchanged": true,
+  "root_tracker_tests": 21,
+  "root_lint_format_scoped_diff": "PASS",
+  "next_task": "SF-PRODUCT-T23_READY_REGISTRATION_ONLY",
+  "precommit_scan": {
+    "scanner_exit_code": 1,
+    "finding_count": 2,
+    "clean_scan_PASS": false,
+    "classified_findings": [
+      {
+        "path": "docs/implementation/CONTINUE.md",
+        "line": 263,
+        "rule": "generic-api-key",
+        "exact_blob_sha256": "1907681cc3be1fadf512418358c7688fe6e501abb1079dbf4442c4ff3775b43a",
+        "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE",
+        "no_matched_value_printed": true
+      },
+      {
+        "path": "docs/implementation/CURRENT.md",
+        "line": 263,
+        "rule": "generic-api-key",
+        "exact_blob_sha256": "708eb8546d39032d893d207e189efb7c94b4011b3f22e300114c7f3ee675ac52",
+        "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE",
+        "no_matched_value_printed": true
+      }
+    ],
+    "actual_credentials_observed": false,
+    "rotation_indicated": false,
+    "history_or_scanner_changes": false
+  },
+  "immutable_raw_whitespace": [],
+  "publication": "EXACT_HEAD_QA_SECURITY_LICENSE_FULL_SCANS_CI_PENDING"
+}

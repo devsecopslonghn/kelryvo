@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t21-proof-and-t22-active.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T17:23:31.157955+00:00",
+  "ended_at_utc": "2026-10-09T17:23:31.370520+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/01-preserve-t21-merge-and-start-t22-state.log",
+    "sha256": "9d1346ed047a01af4c91db4a415480e39954245054a3f9a4d339138d61f4fd04"
+  }
+}

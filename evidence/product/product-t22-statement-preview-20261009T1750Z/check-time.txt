@@ -1,0 +1,2 @@
+START_UTC=not captured by command wrapper; do not infer
+END_UTC=2026-10-09 17:53:34 UTC (completion output observed after npm run check exited 0)

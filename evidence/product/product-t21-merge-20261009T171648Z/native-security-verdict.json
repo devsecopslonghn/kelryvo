@@ -1,0 +1,62 @@
+{
+  "review": "independent exact-head security and license review",
+  "verdict": "APPROVED",
+  "head": "94cad0640cdab4978394808bd52efcca27a88332",
+  "tree": "ed48ea469b17ab25401f8bf4692bc0771ef44574",
+  "base": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+  "checkout_clean": true,
+  "security_review": {
+    "verdict": "APPROVED",
+    "findings": [],
+    "reviewed": [
+      "All protected project, release, plan, comment, source, and Git-ref routes enforce server-resolved project grants and fixed roles; bootstrap reads and writes follow the approved policy.",
+      "Missing, foreign, guessed, and malformed resource identifiers receive generic denial before unsafe resource lookup; creator gets only a receipt and no implicit grant.",
+      "Operator private config and loopback DSN checks, bounded file ownership/modes, symlink refusal, generic errors, local scope, transactional grant/revoke, audit, and credential-independent recovery match the owner decision.",
+      "Activation shares T20 credential advisory lock before locking mode, sorted projects, sorted actors, then credentials and checking usable coverage; no lock inversion or credential-revocation coverage race found.",
+      "Browser bootstrap controls and current-session/project/plan/request-sequence guards clear revoked project state; release, Git-ref and selected-plan source 404 paths revalidate authorization and preserve legitimate missing-source feedback.",
+      "Migration creates membership tables without inferring grants or rewriting prior project/product history; source manifest 40/40 entries match exact-head files."
+    ],
+    "publication_scan": {
+      "scanner": "pinned gitleaks build 88f9196",
+      "scope_files": 322,
+      "exit_code": 1,
+      "findings": 11,
+      "clean_scan_pass": false,
+      "classification": "All 11 findings individually matched to exact head blobs and recomputed artifact-reference digests or exact product-description prose; no actual credentials printed."
+    },
+    "all_refs_history_scan": {
+      "exit_code": 1,
+      "findings": 115,
+      "clean_scan_pass": false,
+      "baseline_findings_preserved": 106,
+      "new_findings_classified": 9,
+      "independent_verification": "All nine new tuples matched exact commit blobs and recomputed referenced artifact digests.",
+      "actual_credentials_observed": false,
+      "rotation_indicated": false,
+      "limitation": "Eight inherited pre-final source-digest records lack prior uncommitted bytes; their earlier metadata review is preserved, but they are not recomputed or claimed as final-source attestations."
+    }
+  },
+  "license_review": {
+    "verdict": "APPROVED",
+    "findings": [],
+    "basis": "T21 adds independently authored code and documentation, no dependencies or third-party assets; LICENSE, NOTICE, and package lock are unchanged."
+  },
+  "external_exact_head_qa": {
+    "verdict": "PASS",
+    "focused_tests": "5 passed, 0 failed, 0 skipped",
+    "record": "/tmp/sf-t21-independent-20261009T170021Z/verdict.json",
+    "record_sha256": "ecf34c5754bf478bc19044f97074c2d9de54114717e61b42ae6a62ac1bc772ca"
+  },
+  "reviewer_checks": {
+    "read_only": true,
+    "tests_or_build_run_by_reviewer": false,
+    "operator_or_saved_local_config_used": false,
+    "source_edits": false,
+    "publication_finding_provenance_verified": "11 publication findings and nine new history findings checked against exact blobs and referenced artifact bytes; 106 inherited history tuples preserved."
+  },
+  "evidence": {
+    "publication_safe": "/tmp/schemaforge-t21-publication-20261009T1700Z/publication-safe.json",
+    "history_safe": "/tmp/schemaforge-t21-publication-20261009T1700Z/history-safe.json",
+    "classification": "/tmp/schemaforge-t21-publication-20261009T1700Z/classification.json"
+  }
+}

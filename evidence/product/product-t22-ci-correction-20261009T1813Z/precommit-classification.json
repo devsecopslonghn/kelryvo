@@ -1,0 +1,26 @@
+{
+  "scanner_exit_code": 1,
+  "finding_count": 2,
+  "clean_scan_PASS": false,
+  "classified_findings": [
+    {
+      "path": "docs/implementation/CONTINUE.md",
+      "line": 288,
+      "rule": "generic-api-key",
+      "exact_blob_sha256": "90589d059b85236a107390a91ed88a086fe0f6a570c1a4807f327e279457944b",
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE",
+      "no_matched_value_printed": true
+    },
+    {
+      "path": "docs/implementation/CURRENT.md",
+      "line": 288,
+      "rule": "generic-api-key",
+      "exact_blob_sha256": "2eea0263888c5735603f4f793d0d3cf20f4bad3c4aa8106fa057dd1e900b4f66",
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE",
+      "no_matched_value_printed": true
+    }
+  ],
+  "actual_credentials_observed": false,
+  "rotation_indicated": false,
+  "history_or_scanner_changes": false
+}

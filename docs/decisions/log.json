@@ -144,6 +144,27 @@
         "experiments/db-devops-wp0/parser-envelope.mjs",
         "packages/migrations/import-release.mjs"
       ]
+    },
+    {
+      "id": "SF-D015",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T22_COUNT_COMPATIBILITY",
+      "accepted_at_utc": "2026-10-09T18:05:17.365129+00:00",
+      "decision": "Retained format-1 manifest excludes statementCount. Preview verifies any retained numeric count against current pinned-parser output and rejects mismatches; a historical NULL remains NULL in PostgreSQL and the read-only response reports the recomputed count. Preserve complete source/manifest/intent/history bytes and unavailable feedback. Ordinary safe read-compatibility default under SF-D010, no historical backfill or execution authority.",
+      "references": [
+        "packages/migrations/statement-preview.mjs",
+        "docs/development/local-product.md"
+      ]
+    },
+    {
+      "id": "SF-D016",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T23_REFERENCED_EVIDENCE_DEFAULT",
+      "accepted_at_utc": "2026-10-09T18:06:07.031943+00:00",
+      "decision": "Prioritize supplemental server-resolved statement references in pending-plan discussion after T22. Maximum eight compact references, no uploaded SQL/blob/URL/title. Bind to exact retained format-1 intent digest/release/file/profile and recomputed statement byte/source/execution facts under existing locks; do not claim format1 includes statement hashes. Preserve body-only comments and historical reads; legacy/malformed/stale intent or generation cannot accept new evidence refs, requiring a fresh eligible plan. No worker/target/Oracle acceptance. Ordinary safest reasonable default under SF-D010.",
+      "references": [
+        "docs/implementation/backlog.json",
+        "packages/migrations/statement-preview.mjs",
+        "packages/migrations/offline-plan-intent.mjs"
+      ]
     }
   ]
 }

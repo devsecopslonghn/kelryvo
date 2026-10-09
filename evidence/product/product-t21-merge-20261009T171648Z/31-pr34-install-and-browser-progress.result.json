@@ -1,0 +1,11 @@
+{
+  "command": "gh run view 37963591153 --repo devsecopslonghn/schemaForge --json status,conclusion,jobs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-project-membership",
+  "started_at_utc": "2026-10-09T17:11:00.878941+00:00",
+  "ended_at_utc": "2026-10-09T17:11:02.430041+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t21-root-live-20261009T152610Z/31-pr34-install-and-browser-progress.log",
+    "sha256": "e44d15e03af720a73e3404d220142ad9873d6d0225c177bac216a851fa223ed5"
+  }
+}

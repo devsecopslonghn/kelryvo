@@ -1,0 +1,102 @@
+{
+  "id": "product-t22-ci-prerequisite-correction-local-verified",
+  "subject_id": "SF-PRODUCT-T22",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Preserved real parser assertions moved into mandatory product integration runner; final controlled PG check156/product34/browser19, source10/hash/capture verification",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "test_references": [
+    "SF-PRODUCT-T22-API",
+    "SF-PRODUCT-T22-WEB",
+    "SF-PRODUCT-T22-PARSER"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/check.raw.log",
+    "sha256": "55fe06dfe87d894d66476859ea39233f4fe6edbbab395c49ac883115f31b94ef"
+  },
+  "recorded_at_utc": "2026-10-09T18:27:00.359917+00:00",
+  "source_sha256": {
+    "apps/api/index.ts": "80315b6e072dfb849f37463f6fe13db4b3f6d519ee22dd24b989637d0fa17ac0",
+    "apps/web/src/app.jsx": "bcc88dfa9787c83ba701bf2781333f350be6e1d700c2aee48fcb2235a9424f44",
+    "apps/web/styles.css": "1a067cb664a09b3c0a87cca7aac6ee33f9d382ed8132a1a4ecc0e138f7e5db34",
+    "packages/migrations/statement-preview.mjs": "4ecc1e2c892b90e323c0d2d4bd6cf383d5975913dec8aac9963d78448d3b6826",
+    "tests/product-plan-source-browser.integration.mjs": "39630d7797f12f735baf630a480dd560cf63179fa8daaa6286196858aeb466e7",
+    "tests/product-statement-preview.test.mjs": "77c0f7f18273b5f93a4b98e76601ebedd1b3e3813f1e7eb67efbd1c502d2c3ba",
+    "tests/statement-preview.test.mjs": "1b52f893db7b05695f9b2ddef605e47c47b6571cc5a0ec3a98dc121de6eb389e",
+    "tests/product-statement-preview-parser.integration.mjs": "2972f233848f5dbcb7264f923dcde54e22d1276af369580bb684eee49ea97ce3",
+    "scripts/test-product.mjs": "53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b",
+    "docs/development/local-product.md": "6b20f2923dea2a1db32fd918a1892beccd851d1fba867f5d412ab94b550e2d89"
+  },
+  "native_record": {
+    "path": "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/run-record.json",
+    "sha256": "55e494406a23ab8b5c3ecff1107a35743b39f5059ddf397bf4e687c36b99688f"
+  },
+  "native_artifact_sha256": {
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/source-paths.txt": "81759510e37ff559386f264befa0f9443ef077ca44b01e167601c3c8f667d4f6",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/check-start.sha256": "395c10081743c378cd65f675ee28833607d2c6ec7358b76981300cbe6ab5087d",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/check-time.txt": "9b700548aba27955bed7e449ef524b4572879cbc15624fa36f756246e33b38d7",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/check-command.txt": "c38b713f85d9a8990b0e87559622a72f8d13ee06e927d8ead6f228a343b3272c",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/check.raw.log": "0c64bc25eb51d322fc55bd777160e2b73b43fd2d24d4a2173981567261d346ad",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/check-end.sha256": "395c10081743c378cd65f675ee28833607d2c6ec7358b76981300cbe6ab5087d",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/check-exit.txt": "0aac2256ca135e9e2ce682d26e680d8ec767e0c2897215d636113386fbc768af",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/run-record.json": "55e494406a23ab8b5c3ecff1107a35743b39f5059ddf397bf4e687c36b99688f",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/focused/source-start.sha256": "44edf8fb8fbf668fd5fd17b1085876f8db53aec73140b31d277be7105880ee0a",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/focused/unit-time.txt": "b65b421096210294af0d3a84b512e6df767012f93365e37f2af0a23a41a2d618",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/focused/unit.raw.log": "ba8b7b44dce49262fc99c24128c5d283be1029b078a2932f25c2569525f0580e",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/focused/unit-exit.txt": "1ca4a13146b2891c0e462123ac0cb848f92e6221f18b870a1b78c232d1956c35",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/focused/parser-time.txt": "a6e04c42ec8598d81f172f3b6e9ebef519fd67ab12432835fed965bff03d28ce",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/focused/parser.raw.log": "7de8e56b4062fba0bccf74fa6d762c823848a098921e91ca13cd0a9022ed5512",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/focused/parser-exit.txt": "1ca4a13146b2891c0e462123ac0cb848f92e6221f18b870a1b78c232d1956c35",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/focused/source-end.sha256": "44edf8fb8fbf668fd5fd17b1085876f8db53aec73140b31d277be7105880ee0a",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/foundation-start.sha256": "395c10081743c378cd65f675ee28833607d2c6ec7358b76981300cbe6ab5087d",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/foundation-time.txt": "7cce95a97648f2fe7af307aa1304029103b24714f51ce28a9556cfa69cf60611",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/foundation-command.txt": "5e0fb437135c2c5c738e76384ebae7b94a0e105e6ae973b9c2cfe3781ad1bc1a",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/foundation.raw.log": "b9fbb36a65872f8631d6c4996606cadf1d34a5b934b626e82bdcdc2e87ba3e93",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/foundation-end.sha256": "395c10081743c378cd65f675ee28833607d2c6ec7358b76981300cbe6ab5087d",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/foundation-exit.txt": "0aac2256ca135e9e2ce682d26e680d8ec767e0c2897215d636113386fbc768af",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/check-start.sha256": "395c10081743c378cd65f675ee28833607d2c6ec7358b76981300cbe6ab5087d",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/check-time.txt": "fa0a19ae688b0a2c18608525e418804177b04930627412501e02fab8285cc022",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/check-command.txt": "c38b713f85d9a8990b0e87559622a72f8d13ee06e927d8ead6f228a343b3272c",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/check.raw.log": "55fe06dfe87d894d66476859ea39233f4fe6edbbab395c49ac883115f31b94ef",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/check-end.sha256": "395c10081743c378cd65f675ee28833607d2c6ec7358b76981300cbe6ab5087d",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/check-exit.txt": "1ca4a13146b2891c0e462123ac0cb848f92e6221f18b870a1b78c232d1956c35",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/product-start.sha256": "395c10081743c378cd65f675ee28833607d2c6ec7358b76981300cbe6ab5087d",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/product-time.txt": "ad337fe4e23ec6068134a3f4bc5a3dd1958c69b24875fcd8141a424b94621703",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/product-command.txt": "4223179c9e0d25c853816fbb81373933bbcf9777cb2eb79b982dec7b625765cf",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/product.raw.log": "8f926ed7b7216aafea2287880f2208c0e233034317016fc323777a1784199ad3",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/product-end.sha256": "395c10081743c378cd65f675ee28833607d2c6ec7358b76981300cbe6ab5087d",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/product-exit.txt": "1ca4a13146b2891c0e462123ac0cb848f92e6221f18b870a1b78c232d1956c35",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/browser-start.sha256": "395c10081743c378cd65f675ee28833607d2c6ec7358b76981300cbe6ab5087d",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/browser-time.txt": "d765ff198971425daaca6f80e7e603a2e722e415e183c9ccc69e477f0e65fb62",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/browser-command.txt": "8fdd04c970ca907811668c8fda9ede5e7e15dc519f871ec2f4bdcffa5d8e78c9",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/browser.raw.log": "b463ee5e94c19c55534e87c0506e40e60cfc474503a9744f67d315b2f705aa22",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/browser-end.sha256": "395c10081743c378cd65f675ee28833607d2c6ec7358b76981300cbe6ab5087d",
+    "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/browser-exit.txt": "1ca4a13146b2891c0e462123ac0cb848f92e6221f18b870a1b78c232d1956c35"
+  },
+  "verification": {
+    "standard": 156,
+    "product": 34,
+    "browser": 19,
+    "failed": 0,
+    "skipped": 0
+  },
+  "original_parser_assertion_block_preserved": true,
+  "source_runtime_unchanged_from_initial_reviewed_head": true,
+  "limits": [
+    "Initial PR35 foundation push/pullrequest runs failed and remain FAIL; all other initial check outcomes remain their actual outcomes.",
+    "First corrective check failed on root-owned JSON formatting; corrected. No-Java experiment still had helperJAR, so existing import tests ran and failed; experimentFAIL130/3/23 not clean foundationproof. Clean-checkout corrected CI is required.",
+    "Earlier standard startUTC and focusedraw missing; native browser partialunknownexit preserved.",
+    "API/UI/parser logic unchanged; new exacthead reviews/publication/history and allCI remain required.",
+    "Sonar unavailable neverPASS; Oracle separateBLOCKED."
+  ]
+}

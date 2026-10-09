@@ -1,0 +1,11 @@
+{
+  "command": "node --test tests/tracker.test.mjs && npm run format:check && npm run lint && git diff --check -- . \":!evidence/**\"",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-project-membership",
+  "started_at_utc": "2026-10-09T16:58:26.113491+00:00",
+  "ended_at_utc": "2026-10-09T16:58:30.742347+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t21-root-live-20261009T152610Z/20-final-root-tracker-and-format.log",
+    "sha256": "48eb54e79ffe1ad59c1fb9c8ea79594765c7682e77d47a8089a269cbeedf6094"
+  }
+}

@@ -33,6 +33,11 @@ test('plan source inspection stays bound to retained releases and is read only',
       assert.equal(result.status, 0, `git ${args[0]} succeeds: ${result.stderr}`);
       return result.stdout.trim();
     };
+    const reviewSql = "-- café ; retained comment\nCREATE TABLE widget (label VARCHAR2(40));\n/* quoted ; marker */\nBEGIN\n  DBMS_OUTPUT.PUT_LINE('semi;colon');\nEND;\n/\nSELECT 'naïve;value' FROM dual;\n";
+    await writeFile(path.join(repositoryPath, 'migrations/V001__create_widget.sql'), reviewSql);
+    git(['add', '--', 'migrations/V001__create_widget.sql']);
+    git(['-c', 'user.name=Plan Source Test', '-c', 'user.email=plan-source@schemaforge.invalid',
+      '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgSign=false', 'commit', '-m', 'Add statement preview corpus']);
     const firstCommit = git(['rev-parse', 'HEAD']);
     await writeFile(path.join(repositoryPath, 'migrations/V003__add_status.sql'), 'ALTER TABLE widget ADD (status VARCHAR2(20));\n');
     git(['add', '--', 'migrations/V003__add_status.sql']);
@@ -149,6 +154,73 @@ test('plan source inspection stays bound to retained releases and is read only',
     assert.equal(await firstPanel.locator('tbody tr').count(), persisted[0].files.length);
     await page.getByText('Preview SQL · migrations/V001__create_widget.sql', { exact: true }).click();
     assert.match(await firstPanel.locator('.sql-preview pre').first().innerText(), /CREATE TABLE widget/);
+    const previewResponse = await api('GET', `/api/releases/${primary.releases[0].id}/statement-preview?path=${encodeURIComponent('migrations/V001__create_widget.sql')}`);
+    assert.equal(previewResponse.response.status, 200);
+    assert.ok(previewResponse.result.preview.statements.length >= 3);
+    assert.equal(previewResponse.result.preview.executionAuthority, false);
+    assert.ok(previewResponse.result.preview.statements.some((item) => item.sourceSql.includes("'semi;colon'")));
+    assert.ok(previewResponse.result.preview.statements.some((item) => item.sourceSql.includes("'naïve;value'")));
+    for (const statement of previewResponse.result.preview.statements) {
+      assert.equal(Buffer.byteLength(statement.sourceSql, 'utf8'), statement.endByte - statement.startByte);
+      assert.equal(statement.delimiterDisposition, 'source_delimiter_in_range');
+    }
+    await firstPanel.getByRole('button', { name: 'Preview parsed statements' }).first().click();
+    await page.getByRole('region', { name: 'Offline statement preview' }).waitFor();
+    const renderedStatements = page.locator('.statement-preview-item');
+    assert.ok(await renderedStatements.count() >= 3);
+    assert.ok((await page.locator('.statement-preview-result').innerText()).includes('Normalized execution SHA-256'));
+    assert.ok((await page.locator('.statement-preview-result').innerText()).includes("'naïve;value'"));
+    await page.route(`**/api/releases/${primary.releases[0].id}/statement-preview?*`, (route) => route.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify({ preview: { ...previewResponse.result.preview, filePath: 'migrations/foreign.sql' } }),
+    }));
+    await firstPanel.getByRole('button', { name: 'Preview parsed statements' }).first().click();
+    await firstPanel.getByText('Statement preview is unavailable for this retained file. Refresh the project and try again.', { exact: true }).waitFor();
+    assert.equal(await firstPanel.locator('.statement-preview-item').count(), 0, 'mismatched response bodies never render partial SQL');
+    await page.unroute(`**/api/releases/${primary.releases[0].id}/statement-preview?*`);
+
+    await page.getByRole('button', { name: /Releases/ }).click();
+    const releaseRow = page.locator(`.saved-release-row[data-release-id="${primary.releases[0].id}"]`);
+    await releaseRow.getByRole('button', { name: 'Inspect files' }).click();
+    const releaseResult = page.locator(`.release-result[data-inspected-release-id="${primary.releases[0].id}"]`);
+    await releaseResult.waitFor();
+    const releaseFile = releaseResult.locator('.sql-preview').first();
+    await releaseFile.locator('summary').click();
+    await releaseFile.getByRole('button', { name: 'Preview parsed statements' }).click();
+    const releasePreview = page.locator(`.statement-preview-result[data-preview-release-id="${primary.releases[0].id}"]`);
+    await releasePreview.waitFor();
+    assert.ok((await releasePreview.innerText()).includes("'naïve;value'"), 'release review renders literal parser slices too');
+    await page.route(`**/api/releases/${primary.releases[0].id}/statement-preview?*`, (route) => route.fulfill({
+      status: 404, contentType: 'application/json', body: JSON.stringify({ error: 'NOT_FOUND' }),
+    }));
+    await releaseFile.getByRole('button', { name: 'Preview parsed statements' }).click();
+    await page.getByRole('alert').filter({ hasText: 'Statement preview is unavailable for this retained file.' }).waitFor();
+    assert.equal(await page.locator(`.release-result[data-inspected-release-id="${primary.releases[0].id}"]`).count(), 0,
+      'a missing retained release clears SQL while keeping fixed feedback visible');
+    await page.unroute(`**/api/releases/${primary.releases[0].id}/statement-preview?*`);
+    await page.locator(`.saved-release-row[data-release-id="${primary.releases[0].id}"]`).getByRole('button', { name: 'Inspect files' }).click();
+    await releaseResult.waitFor();
+    await releaseResult.locator('.sql-preview').first().locator('summary').click();
+    await releaseResult.getByRole('button', { name: 'Preview parsed statements' }).click();
+    await releasePreview.waitFor();
+
+    let delayedReleasePreviewRoute;
+    let releasePreviewResolve;
+    const releasePreviewPending = new Promise((resolve) => { releasePreviewResolve = resolve; });
+    await page.route(`**/api/releases/${primary.releases[0].id}/statement-preview?*`, async (route) => {
+      delayedReleasePreviewRoute = route; releasePreviewResolve();
+    });
+    await releaseFile.getByRole('button', { name: 'Preview parsed statements' }).click();
+    await releasePreviewPending;
+    await page.locator(`.saved-release-row[data-release-id="${primary.releases[1].id}"]`).getByRole('button', { name: 'Inspect files' }).click();
+    await page.locator(`.release-result[data-inspected-release-id="${primary.releases[1].id}"]`).waitFor();
+    await delayedReleasePreviewRoute.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ preview: previewResponse.result.preview }) });
+    await page.waitForTimeout(100);
+    assert.equal(await page.locator('.statement-preview-result').count(), 0,
+      'a delayed response for a previous release is discarded');
+    await page.unroute(`**/api/releases/${primary.releases[0].id}/statement-preview?*`);
+    await page.getByRole('button', { name: /Plans & review/ }).click();
+    await firstPanel.waitFor();
     assert.equal(await firstPanel.getByText('Unavailable', { exact: true }).count(), 1,
       'retained repository identity remains visible when its registry entry is absent');
 
@@ -161,6 +233,51 @@ test('plan source inspection stays bound to retained releases and is read only',
     assert.ok((await secondPanel.locator('tbody').innerText()).includes('V003__add_status.sql'));
     assert.ok(await page.getByLabel('Decision record').count(), 'terminal plans retain source review access');
     assert.match(await page.locator('.notice-card').innerText(), /Archived project · read only/);
+
+    const oldFilePreview = await api('GET', `/api/releases/${primary.releases[1].id}/statement-preview?path=${encodeURIComponent('migrations/V001__create_widget.sql')}`);
+    assert.equal(oldFilePreview.response.status, 200);
+    let delayedFileRoute;
+    let filePreviewResolve;
+    const filePreviewPending = new Promise((resolve) => { filePreviewResolve = resolve; });
+    await page.route(`**/api/releases/${primary.releases[1].id}/statement-preview?path=migrations%2FV001__create_widget.sql`, async (route) => {
+      delayedFileRoute = route; filePreviewResolve();
+    });
+    const firstFileDisclosure = secondPanel.locator('.sql-preview').nth(0);
+    await firstFileDisclosure.locator('summary').click();
+    await firstFileDisclosure.getByRole('button', { name: 'Preview parsed statements' }).click();
+    await filePreviewPending;
+    const secondFileDisclosure = secondPanel.locator('.sql-preview').filter({ hasText: 'migrations/V003__add_status.sql' });
+    await secondFileDisclosure.locator('summary').click();
+    await secondFileDisclosure.getByRole('button', { name: 'Preview parsed statements' }).click();
+    await page.locator(`.statement-preview-result[data-preview-file-path="migrations/V003__add_status.sql"]`).waitFor();
+    await delayedFileRoute.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(oldFilePreview.result) });
+    await page.waitForTimeout(100);
+    assert.equal(await page.locator(`.statement-preview-result[data-preview-file-path="migrations/V003__add_status.sql"]`).count(), 1,
+      'a delayed response for the prior file cannot replace the currently selected file preview');
+    await page.unroute(`**/api/releases/${primary.releases[1].id}/statement-preview?path=migrations%2FV001__create_widget.sql`);
+
+    // Statement responses are bound to the selected plan and retained file operation.
+    let delayedPreviewRoute;
+    let previewPendingResolve;
+    let previewPending = new Promise((resolve) => { previewPendingResolve = resolve; });
+    const previewPath = 'migrations/V001__create_widget.sql';
+    await page.route(`**/api/releases/${primary.releases[0].id}/statement-preview?*`, async (route) => {
+      delayedPreviewRoute = route;
+      previewPendingResolve();
+    });
+    await selectPlan(primary.plans[0].id);
+    await inspect();
+    const delayedPlanSource = page.locator(`.plan-source-result[data-inspected-release-id="${primary.releases[0].id}"]`);
+    await delayedPlanSource.waitFor();
+    await delayedPlanSource.locator('.sql-preview').first().locator('summary').click();
+    await delayedPlanSource.getByRole('button', { name: 'Preview parsed statements' }).first().click();
+    await previewPending;
+    await selectPlan(primary.plans[1].id);
+    await delayedPreviewRoute.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ preview: previewResponse.result.preview }) });
+    await page.waitForTimeout(100);
+    assert.equal(await page.locator('.statement-preview-result').count(), 0,
+      'an older selected-plan preview response is discarded');
+    await page.unroute(`**/api/releases/${primary.releases[0].id}/statement-preview?*`);
 
     // A response for the previous selected plan must be discarded after switching plans.
     let delayedRoute;
@@ -273,6 +390,24 @@ test('plan source inspection stays bound to retained releases and is read only',
     assert.equal(await page.locator('.plan-source-result').count(), 0);
     await page.unroute(`**/api/releases/${primary.releases[0].id}`);
 
+    // Project navigation invalidates a pending statement response as well as source inspection.
+    await openProject(primary.project, primary.base);
+    await selectPlan(primary.plans[0].id);
+    await inspect();
+    const projectPreviewSource = page.locator(`.plan-source-result[data-inspected-release-id="${primary.releases[0].id}"]`);
+    await projectPreviewSource.waitFor();
+    await projectPreviewSource.locator('.sql-preview').first().locator('summary').click();
+    pending = new Promise((resolve) => { pendingResolve = resolve; });
+    await page.route(`**/api/releases/${primary.releases[0].id}/statement-preview?*`, async (route) => { delayedRoute = route; pendingResolve(); });
+    await projectPreviewSource.getByRole('button', { name: 'Preview parsed statements' }).first().click();
+    await pending;
+    await openProject(secondary.project, secondary.base);
+    await delayedRoute.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ preview: previewResponse.result.preview }) });
+    await page.waitForTimeout(100);
+    assert.equal(await page.locator('.statement-preview-result').count(), 0,
+      'a delayed statement response cannot cross project navigation');
+    await page.unroute(`**/api/releases/${primary.releases[0].id}/statement-preview?*`);
+
     // Signing out while source is pending prevents the response from surviving a new session.
     await openProject(primary.project, primary.base);
     pending = new Promise((resolve) => { pendingResolve = resolve; });
@@ -291,6 +426,28 @@ test('plan source inspection stays bound to retained releases and is read only',
     assert.equal(await page.locator('.plan-source-result').count(), 0);
     await page.unroute(`**/api/releases/${primary.releases[0].id}`);
 
+    // A statement response admitted in an earlier credential session cannot render after sign out.
+    await openProject(primary.project, primary.base);
+    await selectPlan(primary.plans[0].id);
+    await inspect();
+    const sessionPreviewSource = page.locator(`.plan-source-result[data-inspected-release-id="${primary.releases[0].id}"]`);
+    await sessionPreviewSource.waitFor();
+    await sessionPreviewSource.locator('.sql-preview').first().locator('summary').click();
+    pending = new Promise((resolve) => { pendingResolve = resolve; });
+    await page.route(`**/api/releases/${primary.releases[0].id}/statement-preview?*`, async (route) => { delayedRoute = route; pendingResolve(); });
+    await sessionPreviewSource.getByRole('button', { name: 'Preview parsed statements' }).first().click();
+    await pending;
+    await page.getByLabel('Sign out').click();
+    await page.getByLabel('Local access token').fill(actors[0].token);
+    await page.getByRole('button', { name: 'Continue', exact: true }).click();
+    await page.getByLabel('Sign out').waitFor();
+    await page.getByRole('button', { name: /Plans & review/ }).click();
+    await delayedRoute.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ preview: previewResponse.result.preview }) });
+    await page.waitForTimeout(100);
+    assert.equal(await page.locator('.statement-preview-result').count(), 0,
+      'a delayed statement response cannot survive sign out');
+    await page.unroute(`**/api/releases/${primary.releases[0].id}/statement-preview?*`);
+
     // A plan with a missing release ID displays the fixed failure without issuing an alternate read.
     await page.route(`**/api/projects/${primary.project.id}`, async (route) => {
       const response = await route.fetch();
@@ -305,6 +462,22 @@ test('plan source inspection stays bound to retained releases and is read only',
     assert.equal(await sourcePanel.getByRole('button', { name: 'Inspect source', exact: true }).isDisabled(), true);
     assert.equal(await sourcePanel.getByText(fixedFailure, { exact: true }).count(), 1);
     await page.unroute(`**/api/projects/${primary.project.id}`);
+
+    // Revoked membership revalidation clears the retained source and unsent review state.
+    await page.getByRole('button', { name: /Projects/ }).click();
+    await page.locator('.project-row').filter({ hasText: primary.project.name }).click();
+    await page.getByRole('button', { name: /Plans & review/ }).click();
+    await selectPlan(primary.plans[0].id);
+    await inspect();
+    const revokedSource = page.locator(`.plan-source-result[data-inspected-release-id="${primary.releases[0].id}"]`);
+    await revokedSource.waitFor();
+    await revokedSource.locator('.sql-preview').first().locator('summary').click();
+    await membership.revoke(primary.project.id, actors[0].id);
+    await revokedSource.getByRole('button', { name: 'Preview parsed statements' }).first().click();
+    await page.locator('.project-row').filter({ hasText: primary.project.name }).waitFor({ state: 'detached' });
+    await page.locator('.plan-source-result').waitFor({ state: 'detached' });
+    assert.equal(await page.locator('.plan-source-result').count(), 0, 'revoked access clears retained SQL from the browser');
+    await membership.grant(primary.project.id, actors[0].id);
 
     assert.deepEqual(pageErrors, []);
     const after = {

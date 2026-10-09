@@ -1,0 +1,2 @@
+COMMAND: env -u SCHEMAFORGE_TEST_DATABASE_URL SCHEMAFORGE_JAVA_HOME=/tmp/schemaforge-no-java taskset -c 0,1 npm run check
+ENVIRONMENT: no product database URL; nonexistent Java home; standard npm test glob excludes the explicitly named product parser integration test.

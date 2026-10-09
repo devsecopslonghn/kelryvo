@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t21-merge-gate.py 34",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-project-membership",
+  "started_at_utc": "2026-10-09T17:16:31.468377+00:00",
+  "ended_at_utc": "2026-10-09T17:16:37.164486+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t21-root-live-20261009T152610Z/33-draft-exact-head-merge-gate.log",
+    "sha256": "582a51acb9e2015eed1864459712b6feb1c1c98ebeaee7b15e3de2bb305f454e"
+  }
+}

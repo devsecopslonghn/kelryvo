@@ -1,0 +1,11 @@
+{
+  "command": "gh run watch 37965139899 --repo devsecopslonghn/schemaForge --interval 10 --exit-status",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-project-membership",
+  "started_at_utc": "2026-10-09T17:21:36.296911+00:00",
+  "ended_at_utc": "2026-10-09T17:22:51.906664+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t21-root-live-20261009T152610Z/42-await-master-product.log",
+    "sha256": "51481d8849273f8c1181b50db7e2c4e07379bff266126abf83f2c71db149cb3c"
+  }
+}

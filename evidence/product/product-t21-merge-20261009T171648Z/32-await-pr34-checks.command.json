@@ -1,0 +1,5 @@
+{
+  "command": "gh pr checks 34 --repo devsecopslonghn/schemaForge --watch --interval 10",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-project-membership",
+  "started_at_utc": "2026-10-09T17:14:23.264136+00:00"
+}

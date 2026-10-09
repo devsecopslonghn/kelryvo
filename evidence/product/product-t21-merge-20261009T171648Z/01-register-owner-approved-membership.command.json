@@ -1,0 +1,5 @@
+{
+  "command": "python3 /tmp/schemaforge-t21-register.py /home/longhn0710/workspace/schemaforge-product-project-membership c5130e3277e0955285ea3ff428019369cb46578c /tmp/schemaforge-t20-root-live-20261009T142342Z/28-merged-pr-proof.log",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-project-membership",
+  "started_at_utc": "2026-10-09T15:26:26.577162+00:00"
+}

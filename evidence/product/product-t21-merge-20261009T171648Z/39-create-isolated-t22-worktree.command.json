@@ -1,0 +1,5 @@
+{
+  "command": "test ! -e /home/longhn0710/workspace/schemaforge-product-statement-preview && git worktree add -b development/product-statement-preview /home/longhn0710/workspace/schemaforge-product-statement-preview origin/master",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-project-membership",
+  "started_at_utc": "2026-10-09T17:17:40.240871+00:00"
+}

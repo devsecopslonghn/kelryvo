@@ -1,0 +1,87 @@
+{
+  "recorded_at_utc": "2026-10-09T18:27:30.357774+00:00",
+  "source_files": 10,
+  "frozen_source_unchanged": true,
+  "root_tracker_tests": 21,
+  "root_lint_format_scoped_diff": "PASS",
+  "next_task": "SF-PRODUCT-T23_READY_REGISTRATION_ONLY",
+  "precommit_scan": {
+    "scanner_exit_code": 1,
+    "finding_count": 2,
+    "clean_scan_PASS": false,
+    "classified_findings": [
+      {
+        "path": "docs/implementation/CONTINUE.md",
+        "line": 288,
+        "rule": "generic-api-key",
+        "exact_blob_sha256": "90589d059b85236a107390a91ed88a086fe0f6a570c1a4807f327e279457944b",
+        "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE",
+        "no_matched_value_printed": true
+      },
+      {
+        "path": "docs/implementation/CURRENT.md",
+        "line": 288,
+        "rule": "generic-api-key",
+        "exact_blob_sha256": "2eea0263888c5735603f4f793d0d3cf20f4bad3c4aa8106fa057dd1e900b4f66",
+        "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE",
+        "no_matched_value_printed": true
+      }
+    ],
+    "actual_credentials_observed": false,
+    "rotation_indicated": false,
+    "history_or_scanner_changes": false
+  },
+  "immutable_raw_whitespace": [
+    {
+      "path": "evidence/product/product-t22-ci-correction-20261009T1813Z/17-failed-foundation-raw.log",
+      "sha256": "54e04747fd3668bbf08d475677979c9cf19132e78f66af147563235185de80cc",
+      "immutable_trailing_whitespace_lines": [
+        5,
+        8,
+        9,
+        12,
+        14,
+        17,
+        18,
+        21,
+        23,
+        26,
+        29,
+        32,
+        34,
+        37,
+        546,
+        548,
+        1011,
+        1014,
+        1015,
+        1018,
+        1020,
+        1023,
+        1024,
+        1027,
+        1029,
+        1032,
+        1035,
+        1038,
+        1040,
+        1043,
+        1552,
+        1554
+      ]
+    },
+    {
+      "path": "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/foundation.raw.log",
+      "sha256": "b9fbb36a65872f8631d6c4996606cadf1d34a5b934b626e82bdcdc2e87ba3e93",
+      "immutable_trailing_whitespace_lines": [
+        357,
+        360,
+        407,
+        410,
+        433,
+        436
+      ]
+    }
+  ],
+  "publication": "EXACT_HEAD_QA_SECURITY_LICENSE_FULL_SCANS_CI_PENDING"
+}

@@ -1,0 +1,19 @@
+[development/product-project-membership ccb39d0] chore: register explicit project membership and owner migration policy
+ 26 files changed, 428 insertions(+), 14 deletions(-)
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/01-register-owner-approved-membership.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/01-register-owner-approved-membership.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/01-register-owner-approved-membership.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/02-active-state-and-default.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/02-active-state-and-default.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/02-active-state-and-default.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/03-registration-quality.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/03-registration-quality.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/03-registration-quality.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/04-isolated-dependencies.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/04-isolated-dependencies.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/04-isolated-dependencies.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/05-pinned-parser-test-setup.command.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/05-pinned-parser-test-setup.log
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/05-pinned-parser-test-setup.result.json
+ create mode 100644 evidence/product/product-t21-root-20261009T152610Z/registration-and-priority.json
+ccb39d05045ae51f24726dcd5e366074d9a03442
