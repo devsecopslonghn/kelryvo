@@ -1282,7 +1282,11 @@
     },
     "SF-PRODUCT-T22": {
       "assigned_agent": "backend",
-      "status": "IN_PROGRESS"
+      "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T23": {
+      "assigned_agent": "backend",
+      "status": "READY"
     }
   }
 }

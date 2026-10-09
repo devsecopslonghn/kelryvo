@@ -88,6 +88,19 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    It reads the retained release through the authenticated release endpoint; it does not
    change plan, decision, comment, audit or migration history state. The displayed snapshot
    does not revalidate source bytes after approval.
+   For an individual retained SQL file, choose **Preview parsed statements** to recompute an
+   offline statement view. The read-only endpoint checks release/file scope and retained JSON
+   bounds in PostgreSQL before loading file payloads, verifies the complete format-1 manifest,
+   then runs the pinned ANTLR helper against the exact retained UTF-8 bytes. The view shows
+   ordered source byte ranges and literal source slices, with separate source and normalized
+   execution SHA-256 facts and the parser profile. These are offline review facts only: they
+   do not bind an approved worker, verify an Oracle target, or authorize execution. Unsupported,
+   corrupt, oversized or unavailable parser inputs show one fixed unavailable message and
+   never show a successful partial result. Historical plans, intents and manifests are not
+   rewritten or backfilled. When a legacy retained file has a null statement count, the view
+   reports the count recomputed for this request without filling the old field; a stored
+   numeric count must match the parser result. Project, plan, release, file and session changes
+   discard delayed preview responses; current membership is checked when the request is admitted.
    The same review also shows the selected plan's profile and matching environment from
    the currently loaded project configuration. It labels this as current configured metadata,
    not a frozen plan snapshot or observed database identity. A missing or mismatched profile

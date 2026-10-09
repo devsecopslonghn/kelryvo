@@ -1,0 +1,132 @@
+{
+  "work_package": "SF-PRODUCT-T22",
+  "title": "Inspect parser-derived statement previews in offline release review",
+  "status": "IMPLEMENTED_AND_LOCALLY_VERIFIED_SOURCE_FROZEN",
+  "base_commit": "d5a60d0298940c66c5f83ebd25f5023cb94dbc76",
+  "source_ownership": {
+    "owned_paths": [
+      "apps/api/index.ts",
+      "apps/web/src/app.jsx",
+      "apps/web/styles.css",
+      "packages/migrations/statement-preview.mjs",
+      "tests/product-plan-source-browser.integration.mjs",
+      "tests/product-statement-preview.test.mjs",
+      "tests/statement-preview.test.mjs",
+      "scripts/test-product.mjs",
+      "docs/development/local-product.md"
+    ],
+    "root_owned_paths_not_modified": "Shared tracker, ADR/decision record, AGENTS instructions, implementation-status docs and pre-existing evidence remain root-owned. No commit, push, merge or publication performed.",
+    "frozen_source_hashes": "All nine owned source/test/doc paths have identical SHA-256 values in check-start/end, product-start/end and browser-retry-start/end manifests. Exact digest map is check-start.sha256 (same bytes in each other final manifest)."
+  },
+  "verification": {
+    "environment": {
+      "database": "postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+      "java_home": "/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+      "cpu_affinity": "taskset -c 0,1",
+      "parallelism": "serialized; no overlapping root test run"
+    },
+    "standard": {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin taskset -c 0,1 npm run check",
+      "start_utc": null,
+      "start_time_limitation": "The wrapper did not capture the exact start timestamp; it is intentionally not inferred.",
+      "end_utc": "2026-10-09T17:53:34Z",
+      "exit_code": 0,
+      "tests": {"passed": 157, "failed": 0, "skipped": 0},
+      "other_results": ["source checks passed for 154 authored files", "TypeScript typecheck passed", "web build passed", "tracker validation passed", "JSON format check passed", "dependency smoke passed with zero database calls", "product license closure passed: 85 pinned packages, zero unknown required grants"],
+      "capture": "check.raw.log",
+      "source_hashes_start": "check-start.sha256",
+      "source_hashes_end": "check-end.sha256",
+      "exit_capture": "check-exit.txt",
+      "time_capture": "check-time.txt"
+    },
+    "product": {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin taskset -c 0,1 npm run test:product",
+      "start_utc": "2026-10-09T17:53:44Z",
+      "end_utc": "2026-10-09T17:56:08Z",
+      "exit_code": 0,
+      "tests": {"passed": 33, "failed": 0, "skipped": 0},
+      "capture": "product.raw.log",
+      "source_hashes_start": "product-start.sha256",
+      "source_hashes_end": "product-end.sha256",
+      "exit_capture": "product-exit.txt",
+      "time_capture": "product-time.txt"
+    },
+    "browser": {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin taskset -c 0,1 npm run test:browser",
+      "start_utc": "2026-10-09T18:00:51Z",
+      "end_utc": "2026-10-09T18:04:16Z",
+      "exit_code": 0,
+      "tests": {"passed": 19, "failed": 0, "skipped": 0},
+      "capture": "browser-retry.raw.log",
+      "source_hashes_start": "browser-retry-start.sha256",
+      "source_hashes_end": "browser-retry-end.sha256",
+      "exit_capture": "browser-retry-exit.txt",
+      "time_capture": "browser-retry-time.txt",
+      "prior_interrupted_attempt": {
+        "original_session_id": 53537,
+        "recovery": "functions.write_stdin returned Unknown process id; process inspection found no live test-product, Playwright, Chromium or node --test process.",
+        "capture_renamed_to": "browser-interrupted.partial.log",
+        "capture_sha256": "609769b6d1a4406950d78a1d36e781b14698082dea381af2deea6808082f5938",
+        "status": "unknown; interrupted capture ends after test 12 with no TAP terminal summary or exit code; no pass/fail inferred",
+        "status_capture": "browser-interrupted-status.txt"
+      }
+    },
+    "focused_runs_and_early_failures": [
+      {
+        "suite": "browser focused product-plan-source-browser.integration.mjs",
+        "outcome": "Initial run failed because the test sampled before the retained repository identity panel appeared after a 404. A rerun with waitFor then exposed a real UI bug: the release 404 path cleared unrelated plan source. The UI recovery was fixed to preserve plan source for release-context errors; the test now waits for actual rendered state. A subsequent rerun exposed an assertion racing React removal after revoked access; the test now waits for detach.",
+        "terminal_captures": "These early focused attempt raw outputs were not separately saved; failures and corrections are retained here. Final full browser capture is browser-retry.raw.log."
+      },
+      {
+        "suite": "API focused product-statement-preview.test.mjs",
+        "outcome": "First blocker probe used an overstrict pg_stat_activity query-text filter. Second probe observed only the prior PID query because a lazy postgres.js query had not been submitted. The test now eagerly submits UPDATE, gets that connection's backend PID, confirms wait_event_type=Lock and nonempty pg_blocking_pids, and asserts the observed query is the exact retained-file UPDATE. The final focused API run passed; its output was not separately persisted. A finally cleanup releases the parser gate and awaits admitted operations.",
+        "terminal_captures": "Early focused attempt raw outputs were not separately saved; the failures and resolved causes are retained here. Final full standard/product raw captures are check.raw.log and product.raw.log."
+      },
+      {
+        "suite": "browser full first attempt",
+        "outcome": "Interrupted/orchestrator session ended; unknown result. The unique retry completed successfully.",
+        "capture": "browser-interrupted.partial.log"
+      }
+    ]
+  },
+  "acceptance_coverage": [
+    {
+      "criterion": 1,
+      "status": "covered",
+      "evidence": "Authenticated current-membership route, role and project scope; archived read, fixed identical missing/foreign denial, lock-held scalar/file-count/uncompressed JSON/path/content-byte preflight before payload SELECT; full retained release verification before pinned parse; no Git or target access. API integration includes approver/developer, foreign/missing/revoked, archive and API restart."
+    },
+    {
+      "criterion": 2,
+      "status": "covered",
+      "evidence": "Reusable helper delegates to pinned runAntlrCandidate and validated byte protocol; ordered ranges and exact UTF-8 slices are checked; response provides source/execution digests, parser profile, fixed delimiter fact and explicit offline/no-execution labels. Parser and browser fixtures exercise PL/SQL, comments, quoted semicolons, multiple statements and non-ASCII byte offsets."
+    },
+    {
+      "criterion": 3,
+      "status": "covered",
+      "evidence": "Malformed/oversized/profile/manifest/count/path/helper cases return fixed unavailable response; successful and failure snapshots include retained governance rows; per-tamper SQL SHA-256/scalar snapshots prove each corrupted row is unchanged by its request without loading oversized file payload. Exact PostgreSQL lock blocking is observed. Existing whole-file review remains."
+    },
+    {
+      "criterion": 4,
+      "status": "covered",
+      "evidence": "Release and plan review render literal exact source slices, byte and digest facts with separate normalized execution label and offline authority. Response validation and generation/project/plan/release/file/session/token guards reject mismatched and stale data. Browser tests cover controlled stale responses, missing retained release recovery, membership revocation cleanup, and session reset."
+    },
+    {
+      "criterion": 5,
+      "status": "covered",
+      "evidence": "Isolated Git/PostgreSQL/pinned parser API and browser tests; archived persistence, authorized roles, foreign/missing/revoked resources, unsupported/corrupt/oversized/unavailable data, full no-write snapshots and delayed-response races; full standard/product/browser regressions all pass with zero skips."
+    },
+    {
+      "criterion": 6,
+      "status": "covered_with_explicit_limits",
+      "evidence": "local-product docs describe recompute-from-retained-source compatibility, nullable legacy statementCount behavior without backfill, and offline-only authority limits. Historical format-1 manifest/intents unchanged. No Oracle execution, runtime verification, worker binding, remote authority or WP7/full catalog acceptance is claimed."
+    }
+  ],
+  "implementation_summary": {
+    "api": "GET /api/releases/:id/statement-preview?path=... performs bounded SQL preflight and retained integrity verification under a shared release lock; fixed fail-closed error contract and read-only behavior.",
+    "helper": "packages/migrations/statement-preview.mjs validates whole retained release and exact source, invokes the existing pinned parser protocol and returns validated exact byte slices/digests.",
+    "ui": "Release and plan source preview renders literal statements; stale and denied reads cannot leave source bytes or drafts visible.",
+    "compatibility": "Historical format-1 manifest/intents are not rewritten. Existing non-null retained statement counts must match recomputation; legacy null remains null. No runtime/execution authority is granted."
+  },
+  "evidence_directory": "evidence/product/product-t22-statement-preview-20261009T1750Z",
+  "frozen_source_hash_manifest": "check-start.sha256"
+}

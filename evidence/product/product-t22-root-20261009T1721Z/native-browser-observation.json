@@ -1,0 +1,10 @@
+{
+  "observed_at_utc": "2026-10-09T18:01:15.229262+00:00",
+  "browser": "UNVERIFIED_PARTIAL_NO_TERMINAL_STATUS",
+  "native_report": "Previous execution handle53537 returned Unknown process id; no test process remained. New distinct retry handle89663 active.",
+  "raw_path": "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-interrupted.partial.log",
+  "raw_sha256": "609769b6d1a4406950d78a1d36e781b14698082dea381af2deea6808082f5938",
+  "limitation": "Original exit/end manifest absent; cause not inferred. Partial log remains unverified, no PASS. Native reports preservation under renamed interrupted path. Root capture05 observation failed before file write because process-text matching found its own shell.",
+  "source_files": 9,
+  "current_source_matches_all_original_start_manifests": true
+}

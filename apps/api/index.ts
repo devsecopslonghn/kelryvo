@@ -1,8 +1,9 @@
 import Fastify from "fastify";
 import { authenticateLocalToken, seedLocalActors, tokenDigest } from "../../packages/database/local-credentials.ts";
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from "../../experiments/db-devops-wp0/parser-release.mjs";
-import { MAX_INPUT_BYTES, MAX_STDOUT_BYTES } from "../../experiments/db-devops-wp0/parser-envelope.mjs";
+import { ANTLR_PROFILE, MAX_INPUT_BYTES, MAX_STDOUT_BYTES } from "../../experiments/db-devops-wp0/parser-envelope.mjs";
 import { verifyRetainedRelease } from "../../packages/migrations/verify-retained-release.mjs";
+import { previewRetainedStatements } from "../../packages/migrations/statement-preview.mjs";
 import { encodeOfflinePlanIntent, verifyOfflinePlanIntent } from "../../packages/migrations/offline-plan-intent.mjs";
 import { actorHasProjectGrant, projectAccessMode } from "../../packages/database/project-membership.ts";
 
@@ -56,8 +57,10 @@ export function createApp(options: {
   actors: ProductActor[];
   repositories: ProductRepository[];
   webDirectory?: string;
+  statementParser?: (source: Buffer) => Promise<any>;
 }) {
   const { sql, actors, repositories } = options;
+  const statementParser = options.statementParser;
   let seedPromise: Promise<void> | undefined;
   if (
     !Array.isArray(actors) ||
@@ -503,6 +506,53 @@ export function createApp(options: {
           createdAt: imported.created_at,
         },
       });
+    },
+  );
+  app.get(
+    "/api/releases/:id/statement-preview",
+    { preHandler: authenticate },
+    async (req: any, reply: any) => {
+      if (!uuid(req.params.id) || typeof req.query?.path !== 'string'
+          || req.query.path.length < 1 || req.query.path.length > MAX_INPUT_BYTES)
+        return fail(reply, 422, 'STATEMENT_PREVIEW_UNAVAILABLE');
+      const requestedPath = req.query.path;
+      const maxRetainedJsonBytes = 6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024;
+      const result = await sql.begin(async (tx: any) => {
+        const bounds = (await tx`SELECT id,project_id,validation_status,jsonb_typeof(files) AS files_type,
+          CASE WHEN jsonb_typeof(files) = 'array' THEN jsonb_array_length(files) ELSE NULL END AS file_count,
+          octet_length(files::text) AS files_bytes, (object_format IN ('sha1','sha256')) AS format_valid,
+          (object_format = 'sha1') AS format_sha1, char_length(commit_id) AS commit_chars,
+          char_length(folder) AS folder_chars, char_length(parser_profile) AS parser_profile_chars,
+          char_length(manifest_digest) AS manifest_chars, (parser_profile=${ANTLR_PROFILE}) AS parser_profile_valid,
+          (SELECT count(*)::int FROM jsonb_array_elements(CASE WHEN jsonb_typeof(files)='array' THEN files ELSE '[]'::jsonb END) AS entries(item)
+            WHERE item->>'path'=${requestedPath}) AS requested_file_count,
+          (SELECT CASE WHEN jsonb_typeof(item)='object' AND jsonb_typeof(item->'content')='string'
+              THEN octet_length(item->>'content') ELSE NULL END
+            FROM jsonb_array_elements(CASE WHEN jsonb_typeof(files)='array' THEN files ELSE '[]'::jsonb END) AS entries(item)
+            WHERE item->>'path'=${requestedPath} LIMIT 1) AS requested_file_bytes
+          FROM sf_releases WHERE id=${req.params.id} AND organization_id=${ORG} FOR SHARE`)[0];
+        if (!bounds) return { error: 'NOT_FOUND' };
+        if (bounds.validation_status !== 'VALID' || bounds.files_type !== 'array'
+            || !Number.isInteger(bounds.file_count) || bounds.file_count < 1 || bounds.file_count > MAX_RELEASE_FILES
+            || !Number.isInteger(bounds.files_bytes) || bounds.files_bytes > maxRetainedJsonBytes
+            || !bounds.format_valid || bounds.commit_chars !== (bounds.format_sha1 ? 40 : 64)
+            || !Number.isInteger(bounds.folder_chars) || bounds.folder_chars < 1 || bounds.folder_chars > 200
+            || bounds.parser_profile_chars !== ANTLR_PROFILE.length || !bounds.parser_profile_valid || bounds.manifest_chars !== 64
+            || bounds.requested_file_count !== 1 || !Number.isInteger(bounds.requested_file_bytes)
+            || bounds.requested_file_bytes < 1 || bounds.requested_file_bytes > MAX_INPUT_BYTES)
+          return { error: 'STATEMENT_PREVIEW_UNAVAILABLE' };
+        // Materialize the retained JSON only after its complete database-side shape and size pass.
+        const retained = (await tx`SELECT id,commit_id,object_format,folder,manifest_digest,
+          validation_status,parser_profile,files FROM sf_releases
+          WHERE id=${bounds.id} AND project_id=${bounds.project_id} AND organization_id=${ORG}`)[0];
+        if (!retained || retained.parser_profile !== ANTLR_PROFILE || !verifyRetainedRelease(retained))
+          return { error: 'STATEMENT_PREVIEW_UNAVAILABLE' };
+        const preview = await previewRetainedStatements(retained, requestedPath, statementParser);
+        return preview.ok ? { preview } : { error: 'STATEMENT_PREVIEW_UNAVAILABLE' };
+      });
+      if (result.error === 'NOT_FOUND') return fail(reply, 404, 'NOT_FOUND');
+      if (result.error) return fail(reply, 422, 'STATEMENT_PREVIEW_UNAVAILABLE');
+      return { preview: result.preview };
     },
   );
   app.get(

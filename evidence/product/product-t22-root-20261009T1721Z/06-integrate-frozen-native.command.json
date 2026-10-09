@@ -1,0 +1,5 @@
+{
+  "command": "set -e\n python /tmp/schemaforge-t22-root-draft-integration.py\n python /tmp/schemaforge-t23-register-prefix.py\n npm run format\n node --test tests/tracker.test.mjs\n npm run lint\n npm run format:check\n git diff --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:05:17.329510+00:00"
+}

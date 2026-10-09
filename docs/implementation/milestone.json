@@ -185,6 +185,9 @@
     },
     {
       "index_id": "product-t21-merge-master-verified"
+    },
+    {
+      "index_id": "product-t22-statement-preview-local-verified"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -198,10 +201,10 @@
   "product_features_verified": 0,
   "next_actionable_tasks": [
     {
-      "id": "SF-PRODUCT-T22",
+      "id": "SF-PRODUCT-T23",
       "owner": "backend",
-      "status": "IN_PROGRESS",
-      "action": "Bounded pinned-parser offline statement review; preserve source/intent/membership/history and no Oracle claim"
+      "status": "READY",
+      "action": "Server-resolved statement references in pending-plan comments after T22 eligible merge and exact-master verification"
     }
   ],
   "blocked_inputs_evidence": {
@@ -213,7 +216,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-09T17:23:31.200392+00:00",
+  "updated_at": "2026-10-09T18:06:07.031943+00:00",
   "final_check_evidence": {
     "index_id": "product-t20-local-credential-lifecycle-local-verified"
   },
@@ -231,7 +234,7 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "T21_MERGED_MASTER_VERIFIED_T22_IN_PROGRESS",
+  "current_increment_merge_status": "T22_VERIFIED_LOCAL_EXACT_HEAD_REVIEW_CI_PENDING",
   "current_checkpoint_branch": "development/product-statement-preview",
   "active_track": "PRODUCT",
   "tracks": {
@@ -246,7 +249,7 @@
       ]
     }
   },
-  "product_task_status": "T01_THROUGH_T21_MERGED_T22_IN_PROGRESS",
+  "product_task_status": "T01_THROUGH_T21_MERGED_T22_VERIFIED_LOCAL",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",
@@ -349,6 +352,6 @@
     "corrective_head": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
     "corrective_workflow_outcome": "PASS_ORIGINAL_FAIL_PRESERVED"
   },
-  "publication_gate": "T22_FROZEN_REGRESSIONS_EXACT_HEAD_INDEPENDENT_REVIEWS_SCANS_CI_ORDINARY_MERGE",
+  "publication_gate": "T22_EXACT_HEAD_QA_SECURITY_LICENSE_SCANS_CI_ORDINARY_MERGE",
   "latest_merged_master_before_this_increment": "d19747356c3d962438631bcf393781d51ee9293a"
 }

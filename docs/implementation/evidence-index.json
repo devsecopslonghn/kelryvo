@@ -2367,6 +2367,35 @@
       },
       "path": "evidence/product/product-t21-merge-20261009T171648Z/record.json",
       "sha256": "025ed937cfaba20406c2c8cca83d6167ac27eeaea9a00e72cb3a8564dc65cc82"
+    },
+    {
+      "id": "product-t22-statement-preview-local-verified",
+      "subject_id": "SF-PRODUCT-T22",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen native standard157, real PostgreSQL/Git/pinned-parser product33, browser19; root hashes, final diff and six-criterion coverage verification",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T22-API",
+        "SF-PRODUCT-T22-WEB",
+        "SF-PRODUCT-T22-PARSER"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t22-statement-preview-20261009T1750Z/check.raw.log",
+        "sha256": "87d5e6cc4bd150379f93bed05cda2aae6e98d18b0852578ccdf3ee0e7a6998cd"
+      },
+      "path": "evidence/product/product-t22-root-20261009T1721Z/integration-record.json",
+      "sha256": "ff4a55986b418e7f668d6d1070bdcc54f00ee5e24803aaf5495c445a7f3d875f"
     }
   ]
 }

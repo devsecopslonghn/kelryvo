@@ -1,0 +1,126 @@
+{
+  "id": "product-t22-statement-preview-local-verified",
+  "subject_id": "SF-PRODUCT-T22",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen native standard157, real PostgreSQL/Git/pinned-parser product33, browser19; root hashes, final diff and six-criterion coverage verification",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "test_references": [
+    "SF-PRODUCT-T22-API",
+    "SF-PRODUCT-T22-WEB",
+    "SF-PRODUCT-T22-PARSER"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t22-statement-preview-20261009T1750Z/check.raw.log",
+    "sha256": "87d5e6cc4bd150379f93bed05cda2aae6e98d18b0852578ccdf3ee0e7a6998cd"
+  },
+  "recorded_at_utc": "2026-10-09T18:05:17.365129+00:00",
+  "native_record": {
+    "path": "evidence/product/product-t22-statement-preview-20261009T1750Z/run-record.json",
+    "sha256": "056cd9bcd1d95d6b888662c6a80d220c49ba74833c097f8f70c2526921e10021"
+  },
+  "source_sha256": {
+    "apps/api/index.ts": "80315b6e072dfb849f37463f6fe13db4b3f6d519ee22dd24b989637d0fa17ac0",
+    "apps/web/src/app.jsx": "bcc88dfa9787c83ba701bf2781333f350be6e1d700c2aee48fcb2235a9424f44",
+    "apps/web/styles.css": "1a067cb664a09b3c0a87cca7aac6ee33f9d382ed8132a1a4ecc0e138f7e5db34",
+    "packages/migrations/statement-preview.mjs": "4ecc1e2c892b90e323c0d2d4bd6cf383d5975913dec8aac9963d78448d3b6826",
+    "tests/product-plan-source-browser.integration.mjs": "39630d7797f12f735baf630a480dd560cf63179fa8daaa6286196858aeb466e7",
+    "tests/product-statement-preview.test.mjs": "77c0f7f18273b5f93a4b98e76601ebedd1b3e3813f1e7eb67efbd1c502d2c3ba",
+    "tests/statement-preview.test.mjs": "9362fb8f15496aa92b1998f16806f4336cc6095f29903ee38784679c03496631",
+    "scripts/test-product.mjs": "31db7b7f0c380b87fcd4985f31b2b7e2d7dd16a25710185804881fe4c2e6bf0b",
+    "docs/development/local-product.md": "6b20f2923dea2a1db32fd918a1892beccd851d1fba867f5d412ab94b550e2d89"
+  },
+  "artifact_sha256": {
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/source-paths.txt": "9d73f3c24a11d45d91e72cdb4d772db7e2af51c190571bdc8af9e46189b744fb",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/check-start.sha256": "a1d3f762f636449a942064fd56c3c8658c1fc4b363b5dbce5dee27fdca3d263f",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/check-command.txt": "7c464193711df547a6ea6e4a385ce5325d5f6a8f506c8f375de02833e2f71bd1",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/check.raw.log": "87d5e6cc4bd150379f93bed05cda2aae6e98d18b0852578ccdf3ee0e7a6998cd",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/check-end.sha256": "a1d3f762f636449a942064fd56c3c8658c1fc4b363b5dbce5dee27fdca3d263f",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/check-exit.txt": "1ca4a13146b2891c0e462123ac0cb848f92e6221f18b870a1b78c232d1956c35",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/check-time.txt": "1d3b86c3c3207860e9f5dc056a18edc988880284e5633336570d9d820124babb",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/product-start.sha256": "a1d3f762f636449a942064fd56c3c8658c1fc4b363b5dbce5dee27fdca3d263f",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/product-time.txt": "dbff84121557b60833db7d3c553ed55a5de4af616d589826d01274474e64998f",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/product-command.txt": "4223179c9e0d25c853816fbb81373933bbcf9777cb2eb79b982dec7b625765cf",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/product.raw.log": "58d7025f7557926fb201153e56e6bba8cbd5a56086abc6c271e0703e20992784",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/product-end.sha256": "a1d3f762f636449a942064fd56c3c8658c1fc4b363b5dbce5dee27fdca3d263f",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/product-exit.txt": "1ca4a13146b2891c0e462123ac0cb848f92e6221f18b870a1b78c232d1956c35",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-start.sha256": "a1d3f762f636449a942064fd56c3c8658c1fc4b363b5dbce5dee27fdca3d263f",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-time.txt": "c688efb39db6b7fcbbec06c66b01f78ad704bb338d050d174e9651874858aed4",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-command.txt": "8fdd04c970ca907811668c8fda9ede5e7e15dc519f871ec2f4bdcffa5d8e78c9",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-interrupted.partial.log": "609769b6d1a4406950d78a1d36e781b14698082dea381af2deea6808082f5938",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-interrupted-status.txt": "edc4f45a6130a5e74ed2689e60320e1ba28c8b11e16258123292b1d10d0b3c76",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-retry-start.sha256": "a1d3f762f636449a942064fd56c3c8658c1fc4b363b5dbce5dee27fdca3d263f",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-retry-time.txt": "4e898123b8653617320da4bba96e19ddb2964e11bd92d183ca7a9e95ab9bf247",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-retry-command.txt": "8fdd04c970ca907811668c8fda9ede5e7e15dc519f871ec2f4bdcffa5d8e78c9",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-retry.raw.log": "004d5cb7ebff224734cd2af9dda2bafe2ae692d2b40ea9b2d8d87b401f5fdd19",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-retry-end.sha256": "a1d3f762f636449a942064fd56c3c8658c1fc4b363b5dbce5dee27fdca3d263f",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-retry-exit.txt": "1ca4a13146b2891c0e462123ac0cb848f92e6221f18b870a1b78c232d1956c35",
+    "evidence/product/product-t22-statement-preview-20261009T1750Z/run-record.json": "056cd9bcd1d95d6b888662c6a80d220c49ba74833c097f8f70c2526921e10021"
+  },
+  "final_captures": [
+    {
+      "name": "check",
+      "passed": 157,
+      "failed": 0,
+      "skipped": 0,
+      "raw_path": "evidence/product/product-t22-statement-preview-20261009T1750Z/check.raw.log",
+      "sha256": "87d5e6cc4bd150379f93bed05cda2aae6e98d18b0852578ccdf3ee0e7a6998cd",
+      "command_record": "evidence/product/product-t22-statement-preview-20261009T1750Z/check-command.txt",
+      "timing_record": "evidence/product/product-t22-statement-preview-20261009T1750Z/check-time.txt"
+    },
+    {
+      "name": "product",
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "raw_path": "evidence/product/product-t22-statement-preview-20261009T1750Z/product.raw.log",
+      "sha256": "58d7025f7557926fb201153e56e6bba8cbd5a56086abc6c271e0703e20992784",
+      "command_record": "evidence/product/product-t22-statement-preview-20261009T1750Z/product-command.txt",
+      "timing_record": "evidence/product/product-t22-statement-preview-20261009T1750Z/product-time.txt"
+    },
+    {
+      "name": "browser-retry",
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "raw_path": "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-retry.raw.log",
+      "sha256": "004d5cb7ebff224734cd2af9dda2bafe2ae692d2b40ea9b2d8d87b401f5fdd19",
+      "command_record": "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-retry-command.txt",
+      "timing_record": "evidence/product/product-t22-statement-preview-20261009T1750Z/browser-retry-time.txt"
+    }
+  ],
+  "verification": {
+    "standard": 157,
+    "product": 33,
+    "browser": 19,
+    "failed": 0,
+    "skipped": 0
+  },
+  "criterion_mapping": {
+    "0": "Current T21 authentication/grant admission; SQL scalar shape/count/json-byte/profile/unique-path/selected-UTF8 bounds before files materialization. Actual developer/approver, outsider/missing/revoked fixed404, archive/API restart without Git.",
+    "1": "Pinned ANTLR actual mixed comments/PLSQL/quoted semicolon/nonASCII source; validated adapter ranges/execution facts and exact literal UTF8 source slices. Full ordered coverage and digest validation.",
+    "2": "Profile/manifest/count/oversized/unavailable negatives; SQL digest+scalar snapshots of each deliberately damaged state before/after request, populated plans/comments/history/audit preserved. Exact UPDATE backend Lock/pg_blocking_pids shows source snapshot held through parsing.",
+    "3": "Actual release/plan preview, malformed response, controlled release/file/plan/project/session staleness, missing resource fixedfeedback and membership revoke source/draft clearing.",
+    "4": "Real Git/PostgreSQL/parser/API/browser plus complete existing regressions. Persistence proves API instance recreation with same PostgreSQL pool/data and no repository, not PostgreSQL daemon restart.",
+    "5": "No schema, historical manifest/intent/count backfill, regex splitter, worker execution authority or Oracle/runtime claim. Operating guide documents NULLcount preserved in DB and fresh recomputed response."
+  },
+  "limitations": [
+    "Native standard check start UTC was not captured; original timing file explicitly states missing rather than inferred. Exact command, raw output, source start/end and exit0 are retained.",
+    "First native full browser execution handle53537 became Unknown process id and no process remained. Partial raw bytes preserved under browser-interrupted.partial.log, exit/end absent, cause unknown; never PASS. New unique browser retry provides final proof.",
+    "Root interruption observation05 failed before repository mutation because it matched its own shell process text; corrected append-only observation preserved.",
+    "Available earlier focused failures and any missing raw/commands remain as disclosed by native final record; no reconstruction.",
+    "Membership revocation applies at admission; already-admitted reads may finish. Existing whole-file GET size behavior lies outside this bounded preview endpoint.",
+    "Statement execution digest comes from existing validated pinned adapter; no approved worker binding or target/history attestation.",
+    "Independent exact-head QA/security/license, updated remote ownership/scans/CI/ordinary merge remain required. Sonar unavailable never PASS; Oracle separately BLOCKED."
+  ]
+}

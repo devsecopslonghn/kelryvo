@@ -411,7 +411,37 @@ const PRODUCT_TASK_22 = {
   ]
 };
 
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22];
+const PRODUCT_TASK_23 = {
+  "id": "SF-PRODUCT-T23",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Attach retained statement evidence references to pending plan discussions",
+  "dependencies": [
+    "SF-PRODUCT-T22",
+    "SF-PRODUCT-T21",
+    "SF-PRODUCT-T17",
+    "SF-PRODUCT-T19",
+    "SF-PRODUCT-T06"
+  ],
+  "feature_ids": [
+    "GOV-020"
+  ],
+  "acceptance_criteria": [
+    "Extend existing pending-plan plain-text comments with optional capped structured statement references resolved from the same scoped retained release. Accept at most eight references with strictly bounded fields; fixed developer/approver roles and current explicit project membership remain authoritative. Preserve body-only comments, terminal/archive reads and fixed indistinguishable resource denials. No arbitrary upload, SQL payload, external URL or credential reference.",
+    "Validate references before writes under the existing plan/project/source lock order: require a valid retained format-1 intent and digest, matching current protected binding generation, plan file facts and scoped retained release manifest. Apply database scalar size/shape bounds before payload loading and reuse T22 pinned-parser verification once per distinct file. Require exact source byte range and source/execution SHA facts; derive release/file/profile/intent facts server-side. Legacy or stale plans remain readable and body-only comment behavior remains unchanged; references require a fresh eligible plan rather than inferred or backfilled intent/generation.",
+    "Persist a comment and validated supplemental reference facts atomically with existing comment audit; evidence cannot change plan items, source, intent envelope/digest, decisions, generations or execution/history. Store no SQL in reference/audit records and no arbitrary client title. Existing comments expose an empty reference list without rewriting their historical body/author/time/audit facts. Attachments cannot be edited/deleted or added after a terminal decision. A concurrent decision either follows the committed comment or causes attachment to fail without writes.",
+    "React pending-plan review can select statements from the exact verified T22 plan-source preview and attach compact descriptors to a comment. Saved references display exact path/range/digests and retained intent digest as supplemental evidence; do not claim format 1 contains statement digests. Reopening resolves the exact tuple through the authenticated scoped preview API. Plan/project/release/file/session/current credential changes discard drafts and delayed results; revoked access clears source and drafts under existing T21 guards.",
+    "Real isolated Git/PostgreSQL/pinned-parser/API/Chromium tests prove valid multi-reference persistence after API/connection-pool reopen, legacy body-only compatibility, malformed/oversized/unknown fields, wrong release/path/range/digests/intent/source generation, foreign/revoked membership, archived/terminal history, and an exact-lock attachment-versus-decision race. Compare populated complete immutable-row snapshots and failed comment/audit snapshots. Retain standard, product, parser and browser regressions without skipped required cases.",
+    "This bounded partial GOV-020 increment attaches supplemental read-only review evidence to existing format-1 intent; it does not alter original 220-feature acceptance, re-encode historical intent, bind statement execution authority, add arbitrary file storage, worker/dispatch, target connection or Oracle runtime verification. Document safe compatibility defaults and recovery; keep Oracle VALIDATION independently BLOCKED and Sonar unavailable never PASS."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T23-API",
+    "SF-PRODUCT-T23-WEB",
+    "SF-PRODUCT-T23-PERSISTENCE"
+  ]
+};
+
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

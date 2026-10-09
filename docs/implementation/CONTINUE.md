@@ -1,3 +1,36 @@
+## Next bounded T23 registered after T22 local verification — 2026-10-09 UTC
+
+SF-PRODUCT-T23 READY adds capped server-resolved statement references to pending-plan
+plain-text discussions under partial GOV-020. Supplemental refs bind to existing retained
+format-1 intent/release/file and recomputed T22 byte/digest facts without claiming statement
+hashes are inside format 1. Preserve plain-text comments, historical reads and executable
+bytes; no arbitrary uploads, worker or Oracle scope. SF-D016 records the safe default under
+standing autonomy. Registration alone is not implementation; begin source after T22 eligible
+merge and exact-master verification. T22 exact-head reviews/scans/CI remain pending below.
+
+## T22 statement preview locally verified; exact-head review pending — 2026-10-09 UTC
+
+T22 recomputes ordered statement previews from scoped retained UTF-8 bytes through the pinned
+ANTLR adapter. SQL scalar shape/size/profile/path bounds precede payload loading; a shared
+release lock covers integrity checks and parsing. Literal source ranges, source/execution
+digests and offline labels retain no execution authority. Missing/foreign/revoked reads and
+malformed/unavailable previews fail closed; current project/plan/release/file/session guards
+prevent stale rendering. Historical manifests, plans/intents and NULL counts remain unchanged.
+
+Frozen local standard157, PostgreSQL/product33 and browser19 pass with zero failures/skips.
+Root verified nine source hashes and final source/capture manifests. Populated no-write
+snapshots, exact PostgreSQL blocker probe and API recreation without Git are covered.
+Original browser capture is partial/unverified after its handle disappeared; unique retry
+provides final proof. Standard start UTC is missing and not inferred; earlier failures remain.
+Evidence: `evidence/product/product-t22-root-20261009T1721Z/integration-record.json`.
+Fresh exact-head QA/security/license, publication/history classification, required CI and
+ordinary merge remain pending. Sonar unavailable never PASS; Oracle VALIDATION separate.
+
+Worktree `/home/longhn0710/workspace/schemaforge-product-statement-preview`, branch
+`development/product-statement-preview`, on verified master d197473 (PR34). Shared original
+checkout remains clean/untouched0346300; no Hygiene branch/PR visible. Standing autonomy and
+explicit local OS operator membership/bootstrap/recovery remain accepted in AGENTS/SF-D010/D012.
+
 ## T21 merged and master verified; T22 active — 2026-10-09 UTC
 
 T21 merged through [PR #34](https://github.com/devsecopslonghn/schemaForge/pull/34) at
