@@ -1,5 +1,31 @@
 # Current engineering state
 
+## T10 merged and master verified; T11 READY — 2026-10-09
+
+T10 local branch/tag selection merged through [PR #22](https://github.com/devsecopslonghn/schemaForge/pull/22)
+at `ed10fd1ba7913942cc50748473c32046f6353d20`, from independently reviewed head
+`2a97b5551a99446aef46a034ac8532d70bafd4e0`. All ten non-Sonar PR checks and all four
+post-merge master workflows passed. Local verification was 141/141 standard, 21/21 PRODUCT,
+8/8 browser regressions, zero skips; independent focused API/browser reruns each passed1/1.
+Immutable merge/review snapshots are indexed at `evidence/product/product-t10-merge-20261009T045151Z/record.json`.
+
+`npm run next` selects **SF-PRODUCT-T11 — Inspect retained release provenance**, READY and
+unimplemented. Fresh worktree `/home/longhn0710/workspace/schemaforge-product-release-provenance`,
+branch `development/product-release-provenance`, starts from merged master `ed10fd1`.
+This local metadata checkpoint records T10 only and will accompany the next eligible PRODUCT PR.
+Read the exact T11 tracker acceptance; reuse stored API fields and preserve scope, stale-response
+guards and archived reads. No new Git reads/schema/worker/Oracle claims are required.
+
+Hygiene integration is still pending: no separate branch/PR/original report was visible.
+The independent redacted history scan has five classified benign matches: the original project UUID,
+two source hashes and synthetic PEM fixture, plus T10’s exact raw-log SHA256. Both root and security
+verified the new digest against exact bytes without printing it. Original-report comparison remains
+open; no real credential was observed, no rotation indicated, no allowlist or history rewrite.
+The shared checkout stays clean and untouched at `0346300471a889ae8fd33b022b890034be08d301`.
+
+Sonar remains unavailable under the unchanged quota exception, never PASS. All124 applicable
+Oracle VALIDATION cells remain BLOCKED; PRODUCT verification is separate.
+
 ## T08–T10 locally delivered; T10 root review pending — 2026-10-09
 
 T08 plan-status filters merged through PR #19 at
