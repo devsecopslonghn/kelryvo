@@ -16,26 +16,6 @@ function retained(content) {
     manifest_digest: sha(JSON.stringify(manifest)), validation_status: 'VALID', parser_profile: ANTLR_PROFILE, files: [file] };
 }
 
-test('recomputes ordered exact UTF-8 statement slices through the pinned ANTLR helper', async () => {
-  const content = "-- café ; retained comment\nCREATE TABLE preview_item (label VARCHAR2(40));\n/* quoted ; marker */\nBEGIN\n  DBMS_OUTPUT.PUT_LINE('semi;colon');\nEND;\n/\nSELECT 'naïve;value' FROM dual;\n";
-  const release = retained(content);
-  const result = await previewRetainedStatements(release, release.files[0].path);
-  assert.equal(result.ok, true, JSON.stringify(result));
-  assert.equal(result.parserProfile, ANTLR_PROFILE);
-  assert.equal(result.offline, true);
-  assert.equal(result.executionAuthority, false);
-  assert.ok(result.statements.length >= 3);
-  for (const statement of result.statements) {
-    assert.equal(Buffer.byteLength(statement.sourceSql, 'utf8'), statement.endByte - statement.startByte);
-    assert.equal(sha(Buffer.from(statement.sourceSql)), statement.sourceSha256);
-    assert.equal(statement.delimiterDisposition, 'source_delimiter_in_range');
-  }
-  assert.ok(result.statements.some(item => item.startByte > content.indexOf(item.sourceSql)),
-    'later byte offsets account for non-ASCII bytes before the statement');
-  assert.ok(result.statements.some(item => item.sourceSql.includes("'semi;colon'")));
-  assert.ok(result.statements.some(item => item.sourceSql.includes("'naïve;value'")));
-});
-
 test('fails closed for wrong paths, corrupt retained manifests, oversized source and malformed adapter ranges', async () => {
   const release = retained('SELECT 1 FROM dual;\n');
   assert.deepEqual(await previewRetainedStatements(release, 'migrations/V002__other.sql'), { ok: false });

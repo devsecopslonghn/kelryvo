@@ -1,0 +1,11 @@
+{
+  "command": "set -e\n gh pr checks 35 --repo devsecopslonghn/schemaForge --json name,state,link\n gh run view 37971508794 --repo devsecopslonghn/schemaForge --json databaseId,status,conclusion,jobs",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-statement-preview",
+  "started_at_utc": "2026-10-09T18:14:39.954168+00:00",
+  "ended_at_utc": "2026-10-09T18:14:43.508960+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t22-root-live-20261009T1721Z/19-initial-pr-ci-final-state.log",
+    "sha256": "907b961614a3eb2fc5932d58439275a1b8e0275fe7222705e8c335c82d76aa55"
+  }
+}

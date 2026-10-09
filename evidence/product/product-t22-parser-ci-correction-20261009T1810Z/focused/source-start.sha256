@@ -1,0 +1,3 @@
+1b52f893db7b05695f9b2ddef605e47c47b6571cc5a0ec3a98dc121de6eb389e  tests/statement-preview.test.mjs
+2972f233848f5dbcb7264f923dcde54e22d1276af369580bb684eee49ea97ce3  tests/product-statement-preview-parser.integration.mjs
+53635229abfd5089942bc6d6a4bd8450577d83a18c79eff0ad3f25387536d32b  scripts/test-product.mjs

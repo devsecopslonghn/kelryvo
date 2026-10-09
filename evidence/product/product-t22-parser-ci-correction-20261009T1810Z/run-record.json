@@ -1,0 +1,112 @@
+{
+  "work_package": "SF-PRODUCT-T22",
+  "correction": "Move the positive real pinned-ANTLR statement-preview integration out of the offline foundation test glob while keeping it mandatory in the product parser runner.",
+  "status": "CORRECTED_LOCALLY_VERIFIED_CI_RETRY_PENDING",
+  "base_commit": "2bccfe2",
+  "source_ownership": {
+    "changed_owned_paths": [
+      "tests/statement-preview.test.mjs",
+      "tests/product-statement-preview-parser.integration.mjs",
+      "scripts/test-product.mjs"
+    ],
+    "full_frozen_source_set": "source-paths.txt (10 source/test/doc paths)",
+    "change_summary": "The standard tests/*.test.mjs glob retains deterministic wrong-path, corrupt-manifest, oversize, malformed-adapter, count-mismatch and unavailable-helper negatives. The actual pinned ANTLR positive was moved unchanged in substance, with all prior assertions preserved, into an explicitly named *.integration.mjs test. scripts/test-product.mjs invokes that test on every mandatory product-suite run. No runtime/API/UI behavior, threshold, grammar, workflow, or skip policy was changed.",
+    "no_commit_or_publication": true
+  },
+  "initial_ci_failure": {
+    "pull_request": 35,
+    "reviewed_head": "2bccfe2",
+    "workflow_family": "foundation checks",
+    "failed_check_ids": ["37971508767", "37971490751"],
+    "failure": "The newly added tests/statement-preview.test.mjs positive case launched the pinned ANTLR helper in the foundation workflow, whose npm ci --ignore-scripts setup does not install/prepare the helper; the test failed with helper unavailable.",
+    "raw_capture": "/tmp/schemaforge-t22-root-live-20261009T1721Z/17-failed-foundation-raw.log",
+    "raw_sha256": "54e04747fd3668bbf08d475677979c9cf19132e78f66af147563235185de80cc",
+    "classification": "real failed foundation CI on reviewed head; retained as failure and not reclassified by subsequent local runs"
+  },
+  "final_full_verification": {
+    "environment": {
+      "database": "postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+      "java_home": "/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+      "cpu_affinity": "taskset -c 0,1",
+      "execution": "serialized; root performed no overlapping tests/builds"
+    },
+    "source_hashes": {
+      "start_end_rule": "All 10 source/test/doc path digests are identical between each suite's start and end manifests.",
+      "manifest_paths": {
+        "standard_start": "final/full/check-start.sha256",
+        "standard_end": "final/full/check-end.sha256",
+        "product_start": "final/full/product-start.sha256",
+        "product_end": "final/full/product-end.sha256",
+        "browser_start": "final/full/browser-start.sha256",
+        "browser_end": "final/full/browser-end.sha256"
+      }
+    },
+    "standard": {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin taskset -c 0,1 npm run check",
+      "start_utc": "2026-10-09T18:16:22Z",
+      "end_utc": "2026-10-09T18:19:42Z",
+      "exit_code": 0,
+      "tests": {"passed": 156, "failed": 0, "skipped": 0},
+      "additional_checks": ["source validation passed for 155 authored files", "TypeScript typecheck and web build passed", "tracker and authored JSON format validation passed", "dependency smoke passed with zero database calls", "product license closure passed for 85 pinned packages"],
+      "raw_output": "final/full/check.raw.log",
+      "exit_capture": "final/full/check-exit.txt",
+      "time_capture": "final/full/check-time.txt"
+    },
+    "product": {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin taskset -c 0,1 npm run test:product",
+      "start_utc": "2026-10-09T18:19:47Z",
+      "end_utc": "2026-10-09T18:22:15Z",
+      "exit_code": 0,
+      "tests": {"passed": 34, "failed": 0, "skipped": 0},
+      "integration_case": "pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices (test 33); scoped API preview test passed as test 34",
+      "raw_output": "final/full/product.raw.log",
+      "exit_capture": "final/full/product-exit.txt",
+      "time_capture": "final/full/product-time.txt"
+    },
+    "browser": {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin taskset -c 0,1 npm run test:browser",
+      "start_utc": "2026-10-09T18:22:22Z",
+      "end_utc": "2026-10-09T18:25:47Z",
+      "exit_code": 0,
+      "tests": {"passed": 19, "failed": 0, "skipped": 0},
+      "raw_output": "final/full/browser.raw.log",
+      "exit_capture": "final/full/browser-exit.txt",
+      "time_capture": "final/full/browser-time.txt"
+    }
+  },
+  "focused_placement_checks": {
+    "foundation_unit": {
+      "command": "node --test tests/statement-preview.test.mjs",
+      "result": "1 passed, zero failed/skipped; deterministic bounds and malformed-adapter negatives do not launch or require the helper",
+      "capture_directory": "focused/"
+    },
+    "product_parser_integration": {
+      "command": "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin taskset -c 0,1 node --test tests/product-statement-preview-parser.integration.mjs",
+      "result": "1 passed, zero failed/skipped with the pinned helper",
+      "capture_directory": "focused/"
+    }
+  },
+  "preserved_failed_local_attempts": [
+    {
+      "attempt": "Initial controlled npm run check encountered concurrent root-owned backlog JSON edits not yet format-normalized.",
+      "result": "failed at format:check before tests; no source/build/lint failure",
+      "capture": "../product-t22-parser-ci-correction-20261009T1810Z/check.raw.log",
+      "later_resolution": "Root-owned docs were formatted; a complete corrected check subsequently passed."
+    },
+    {
+      "attempt": "No-DB / nonexistent Java-home attempt on this developer worktree, which still contains the ignored installed helper JAR.",
+      "result": "130 passed, 3 failed, 23 skipped. Three existing product-import parser tests detected the present helper JAR and then correctly returned UNAVAILABLE with the deliberately absent Java runtime. This was not a foundation-environment simulation and is not reported as pass.",
+      "capture": "final/foundation.raw.log",
+      "lesson": "Do not infer helper absence from a nonexistent Java home when the helper artifact remains installed. Actual offline-placement evidence is the deterministic test pass plus the successful full standard glob with no newly added helper-dependent positive; corrected foundation CI on a clean artifact-free checkout remains pending."
+    }
+  ],
+  "acceptance_preservation": {
+    "positive_assertions_retained": ["pinned parser profile", "offline true", "executionAuthority false", "three or more statements", "exact source byte lengths", "source SHA-256 per slice", "fixed delimiter disposition", "non-ASCII byte offsets", "quoted semicolons", "UTF-8 literal"],
+    "negative_assertions_retained_in_foundation_unit": ["wrong path", "corrupt manifest/source", "oversized source rejected before parser invocation", "mismatched retained count", "bad source digest", "helper unavailable adapter result"],
+    "product_runner_mandatory": true,
+    "skip_added": false,
+    "workflow_or_dependency_change": false,
+    "reviewed_head_ci_claim": "The original PR35 foundation checks remain failed on 2bccfe2. Local corrected tests pass; a new exact-head CI run is required before claiming CI green."
+  },
+  "evidence_directory": "evidence/product/product-t22-parser-ci-correction-20261009T1810Z"
+}

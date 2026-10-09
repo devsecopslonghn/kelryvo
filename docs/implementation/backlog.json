@@ -2818,6 +2818,9 @@
       "evidence": [
         {
           "index_id": "product-t22-statement-preview-local-verified"
+        },
+        {
+          "index_id": "product-t22-ci-prerequisite-correction-local-verified"
         }
       ],
       "blockers": []

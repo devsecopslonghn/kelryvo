@@ -2396,6 +2396,55 @@
       },
       "path": "evidence/product/product-t22-root-20261009T1721Z/integration-record.json",
       "sha256": "ff4a55986b418e7f668d6d1070bdcc54f00ee5e24803aaf5495c445a7f3d875f"
+    },
+    {
+      "id": "product-t22-initial-foundation-ci-failed",
+      "subject_id": "SF-PRODUCT-T22",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "FAIL",
+      "command": "PR35 exact initial head foundation npm run check: real pinned helper test ran in no-artifact foundation suite",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [
+        "SF-PRODUCT-T22-PARSER"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t22-ci-correction-20261009T1813Z/17-failed-foundation-raw.log",
+        "sha256": "54e04747fd3668bbf08d475677979c9cf19132e78f66af147563235185de80cc"
+      },
+      "path": "evidence/product/product-t22-ci-correction-20261009T1813Z/blocked-publication.json",
+      "sha256": "7f58049e13dc006e6b4f510759dd2fd0e0c830104f8fa5c3bc4fac77e0d4d2eb"
+    },
+    {
+      "id": "product-t22-ci-prerequisite-correction-local-verified",
+      "subject_id": "SF-PRODUCT-T22",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Preserved real parser assertions moved into mandatory product integration runner; final controlled PG check156/product34/browser19, source10/hash/capture verification",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T22-API",
+        "SF-PRODUCT-T22-WEB",
+        "SF-PRODUCT-T22-PARSER"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t22-parser-ci-correction-20261009T1810Z/final/full/check.raw.log",
+        "sha256": "55fe06dfe87d894d66476859ea39233f4fe6edbbab395c49ac883115f31b94ef"
+      },
+      "path": "evidence/product/product-t22-ci-correction-20261009T1813Z/corrected-integration-record.json",
+      "sha256": "50af870dd15f74a328ce9a4cc725d29d493ab40374f72d5728e68d7d8da327bb"
     }
   ]
 }

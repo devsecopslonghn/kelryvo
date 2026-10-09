@@ -1,3 +1,28 @@
+## T22 prerequisite correction locally verified; fresh reviews pending — 2026-10-09 UTC
+
+The exact real-parser positive assertions now run in the mandatory product integration
+runner; deterministic negatives remain in standard checks. API/UI/parser logic is unchanged.
+Frozen corrected results: standard156, PostgreSQL/product34 and browser19, zero failures/skips.
+Root verified10 source hashes and unchanged original parser assertion block. Original PR35
+foundation failures, root formatting failure, no-Java experiment failure and interrupted
+browser bytes remain candid/immutable; none are reclassified PASS. Clean-checkout corrected
+CI and fresh exact-head QA/security/publication review are required before eligible merge.
+Evidence: `evidence/product/product-t22-ci-correction-20261009T1813Z/corrected-integration-record.json`.
+T23 READY registration only. Shared checkout/Hygiene untouched; Sonar unavailable neverPASS;
+Oracle VALIDATION separateBLOCKED. No skip, timeout, grammar, workflow or scanner weakening.
+
+## T22 initial foundation CI failed; prerequisite correction active — 2026-10-09 UTC
+
+PR35 initial head2bccfe2 failed both required foundation checks because the new real pinned
+parser test was included in the standard suite, whose workflow prepares no parser artifacts.
+Earlier local full/focused results and independent reviews retain their stated scope; they do
+not override failed publication checks. Original raw failures remain immutable. T22 returns
+IN_PROGRESS for preserving actual-parser assertions in the mandatory product integration
+runner. No test skip, workflow/timeout/grammar/scanner weakening. Fresh corrected-head
+QA/security and CI remain required; T23 returns BACKLOG until the correction is verified.
+Evidence: `evidence/product/product-t22-ci-correction-20261009T1813Z/blocked-publication.json`.
+Sonar unavailable never PASS; Oracle VALIDATION remains independent. Shared checkout untouched.
+
 ## Next bounded T23 registered after T22 local verification — 2026-10-09 UTC
 
 SF-PRODUCT-T23 READY adds capped server-resolved statement references to pending-plan

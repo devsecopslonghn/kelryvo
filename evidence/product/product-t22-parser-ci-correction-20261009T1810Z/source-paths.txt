@@ -1,0 +1,10 @@
+apps/api/index.ts
+apps/web/src/app.jsx
+apps/web/styles.css
+packages/migrations/statement-preview.mjs
+tests/product-plan-source-browser.integration.mjs
+tests/product-statement-preview.test.mjs
+tests/statement-preview.test.mjs
+tests/product-statement-preview-parser.integration.mjs
+scripts/test-product.mjs
+docs/development/local-product.md
