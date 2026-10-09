@@ -1410,6 +1410,24 @@
       },
       "path": "evidence/product/product-shield-license-20261009T021701Z/record.json",
       "sha256": "39c8e1393deae09f81e3ff89d66427c4944f3790c1b9db783299ffb1ce1b3aeb"
+    },
+    {
+      "id": "product-shield-license-notice-header-repair",
+      "subject_id": "SF-P0-FOUNDATION",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Repair current notice header after independent review; npm run check and exact third-party/built notice comparison",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-shield-license-20261009T021701Z/quality-repair-1/commands.json",
+        "sha256": "708ddc2ff525b4de82b6efdd585a59767d2b403250b4c592eb2ba4046833d7a0"
+      },
+      "path": "evidence/product/product-shield-license-20261009T021701Z/quality-repair-1/record.json",
+      "sha256": "47564c8998c48a30a8aa172bf67924bd0cfc08c7d6e9878688c22fa382accc67"
     }
   ]
 }

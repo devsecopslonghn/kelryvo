@@ -1,0 +1,8 @@
+{
+  "reviewed_head": "e82d4f6cbbb93527f3aea4e5e66bda9f59c5a12a",
+  "native_reviewer": "license_review",
+  "outcome": "BLOCKING_DOCUMENTATION_INCONSISTENCY",
+  "finding": "Current web-served product-NOTICES.txt header still said product license undecided. Official LICENSE/other scopes, evidence and original grants passed review.",
+  "repair": "Update only first notice header line, refresh notice_sha256; every third-party license text after first line is unchanged.",
+  "limitations": "Native repository review, not an external legal clearance or GitHub account approval."
+}

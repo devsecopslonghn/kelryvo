@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-10-09T02:22:30.752262+00:00",
+  "initial_review": {
+    "path": "evidence/product/product-shield-license-20261009T021701Z/quality-repair-1/review-finding.json",
+    "sha256": "7dba6dc04479272edb79409548f5f846ff5431eb6153db9ced47ade7565153ea"
+  },
+  "repair": "Current notice header names selected PolyForm Shield1.0.0; only first line changed; all third-party texts after first line byte-identical to preceding master",
+  "verification": [
+    {
+      "command": "CI=true npm run check with dedicated local PostgreSQL and pinned real parser/JDK",
+      "exit_code": 0,
+      "passed": 138,
+      "skipped": 0,
+      "raw_output": {
+        "path": "evidence/product/product-shield-license-20261009T021701Z/quality-repair-1/check.log",
+        "sha256": "a887b13d4fd3a612a5019cb1ddc91206b31e5fcc5fcd7fbfa8fc23b83d8f1e03"
+      }
+    },
+    {
+      "command": "cmp dist/web/third-party-notices.txt docs/dependencies/product-NOTICES.txt; compare all bytes after first line against preceding master",
+      "exit_code": 0,
+      "outcome": "PASS"
+    }
+  ],
+  "updated_notice_sha256": "391f4100e7872f0791a0d1ddde1670127299affd75c7cce9e90a82963f5c4fae",
+  "license_sha256": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+  "grant_scope": "unchanged standard Shield; third-party grants unchanged",
+  "acceptance": "Catalog/Oracle task states unchanged; licensing selection does not close F31/naming/packaging",
+  "remote_gate": "Fresh exact-head CI and independent review required"
+}
