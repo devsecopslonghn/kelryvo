@@ -66,6 +66,15 @@ stall remains unreproduced; test-only cleanup/diagnostics and an intentional sta
 fixture passed without changing the original timeout thresholds. A root-cause fix is not
 claimed. Historical Sonar annotations remain observations, not issue-resolution evidence.
 
+This merge checkpoint also retains its first failed push browser run in
+`evidence/product/product-merge-20261009T010502Z-owner-quota/quality-repair-1/`.
+Test-only lifecycle handling now closes Chromium before graceful API restart and opens
+a fresh browser for the main persisted-state/UI checks. Fresh local verification passes
+138/138 standard and 3/3 browser cases, zero skips, with all assertions and original
+timeouts intact. Unused TCP connections can delay Fastify close in a standalone fixture;
+the original CI cause is still unconfirmed. Resolve the checkpoint's own current exact
+head/checks/merge from Git/GitHub; the owner waived only Sonar scan unavailability.
+
 WP0-T01–T03 and all existing parser/driver/supervisor code and evidence stay intact.
 WP0-T04 and all 124 applicable Oracle cells remain BLOCKED. The supervised read-only
 candidate has no default starter, live CLI or production authority/provider backend.

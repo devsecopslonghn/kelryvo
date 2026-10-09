@@ -108,6 +108,9 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
 
     await mkdir('.cache/local-product', { recursive: true });
     await page.screenshot({ path: '.cache/local-product/product-archive-demo.png', fullPage: true });
+    // Release browser-owned preconnect sockets before graceful API shutdown.
+    await browser.close();
+    browser = undefined;
     await app.close();
     app = await startProduct(options);
     url = `http://127.0.0.1:${app.server.address().port}`;

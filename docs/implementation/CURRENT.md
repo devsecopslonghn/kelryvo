@@ -16,6 +16,15 @@ github-sync.md while the same outage persists; restore normal Sonar gating when 
 Merge/security evidence is indexed under
 `evidence/product/product-merge-20261009T010502Z-owner-quota/`.
 
+This checkpoint's first push PRODUCT job failed its 120-second browser case while its
+PR job passed. The raw failure is preserved in `quality-repair-1/` under that merge run.
+Browser tests now close their original Chromium client before graceful API restart;
+the main flow then uses a fresh browser against the same PostgreSQL data. All assertions
+and timeout thresholds remain unchanged. Fresh local checks pass 138/138 and browser
+flows 3/3, zero skips. A standalone unused TCP connection reproduced delayed Fastify
+close, but the original CI stall's exact cause remains unconfirmed. Inspect this
+checkpoint's own fresh exact-head CI before merge; no non-Sonar failure is exempted.
+
 SF-PRODUCT-T01–T05 are VERIFIED_LOCAL: a runnable PostgreSQL/API/web product with
 projects, environments, reference-only profiles, immutable Git/parser imports, source
 binding, candidate plans, approval/rejection, archival and review-denial audit.

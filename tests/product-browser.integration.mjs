@@ -164,6 +164,7 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
       body: JSON.stringify({ releaseId: detail.releases[0].id, profileId: detail.profiles[0].id }) });
     assert.equal(secondResponse.status, 201);
     const secondPlan = (await secondResponse.json()).plan;
+    phase('duplicate pending plan created');
     await page.getByRole('button', { name: /Plans & review/ }).click();
     await page.getByLabel('Refresh workspace').click();
     await page.locator('.plan-option').filter({ hasText: 'PENDING APPROVAL' }).click();
@@ -174,7 +175,15 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
     assert.equal(denied.status, 409);
     assert.equal((await denied.json()).execution, 'NOT_EXECUTED');
     assert.deepEqual(errors, []);
+    phase('rejection and execution-denial workflow completed');
+    // A browser may retain unused preconnect sockets that graceful HTTP close waits for.
+    // Finish this client lifecycle before restarting; use a fresh browser for persistence checks.
+    await browser.close();
+    browser = undefined;
+    page = undefined;
+    phase('original browser closed before API restart');
     await closeApp();
+    phase('original API closed');
     if (t.signal.aborted) return;
     app = await startProduct(options);
     const restarted = `http://127.0.0.1:${app.server.address().port}`;
@@ -188,6 +197,9 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
     assert.equal(persisted.project.sourceBinding.folder, 'migrations');
     assert.equal(JSON.stringify(persisted.project.sourceBinding).includes('path'), false);
     phase('API restarted and PostgreSQL state verified');
+    browser = await chromium.launch();
+    page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
+    page.on('pageerror', error => errors.push(error.message));
     await page.goto(restarted);
     await signin(actors[0].token);
     await page.getByRole('button', { name: /Projects/ }).click();
