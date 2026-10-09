@@ -1,0 +1,15 @@
+{
+  "command": "npm run format; npm run format:check; node scripts/tracker.mjs validate; node --test tests/tracker.test.mjs; node scripts/check-source.mjs; git diff --check",
+  "exit_code": 0,
+  "result": "Tracker21/21zero skips; authoredformat/source133/validate/diff passed. Initial format check exit1 backlog ordering corrected using existing formatter, initial tool output retained but no raw capture, not reconstructed.",
+  "raw_outputs": [
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/root-tracker.stdout",
+      "sha256": "404b7d87475a8a1e6de8325d3fb4c45e8bdc56376ad55b9b309f69b263a47bf9"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/root-tracker.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

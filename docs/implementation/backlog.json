@@ -2552,6 +2552,9 @@
       "evidence": [
         {
           "index_id": "product-t15-approval-integrity-local-verified"
+        },
+        {
+          "index_id": "product-t15-merge-master-verified"
         }
       ],
       "blockers": []

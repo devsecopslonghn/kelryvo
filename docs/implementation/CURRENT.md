@@ -1,3 +1,27 @@
+## T15 merged and master verified; T16 ready — 2026-10-09
+
+T15 merged through [PR #27](https://github.com/devsecopslonghn/schemaForge/pull/27)
+at `f8be2a7c1c3c3bff10e90570bf4210c5ed0df264`, exact reviewed head
+`e186072de9f0811e3c6868039b701da05dc2b677`. Native QA/security approved;
+all ten PR checks and five exact-master runs across four workflow families passed.
+Local results: 143 standard, 23 PostgreSQL product, 13 browser, 21 tracker,
+one focused API and browser each, zero skips. Approval rechecks bounded scoped retained
+UTF-8 source and exact ordered plan facts before writes; rejection and audited denials remain.
+Evidence: `evidence/product/product-t15-merge-20261009T074554Z/record.json`.
+Publication133files zero findings; full history same five independently classified benign.
+The initial invalid security scan count was corrected by an explicit changed-file archive;
+initial overwritten native summary bytes remain unavailable, raw logs retained and limits explicit.
+
+Next task SF-PRODUCT-T16 READY: show retained requester/time facts and independent reviewer
+eligibility using the existing API. Fresh worktree
+`/home/longhn0710/workspace/schemaforge-product-requester-review`, branch
+`development/product-requester-review`, based on verified master above.
+Use fresh bounded feature context; root owns tracking/integration, assigned context owns UI/tests/docs.
+Shared checkout remains clean at `0346300471a889ae8fd33b022b890034be08d301`, untouched.
+No open PR or Hygiene branch visible; integrate only independently eligible separate changes.
+Sonar quota exception unchanged, unavailable never PASS. Original catalog and Oracle
+VALIDATION remain separate; no deployment, history rewrite or credential rotation indicated.
+
 ## T15 verified locally; exact-head review and publication pending — 2026-10-09
 
 SF-PRODUCT-T15 checks the scoped retained VALID release and ordered plan file facts before

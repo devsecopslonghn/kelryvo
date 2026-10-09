@@ -1,0 +1,92 @@
+{
+  "id": "product-t15-merge-master-verified",
+  "subject_id": "SF-PRODUCT-T15",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact-head native QA/security; all133changedpath Gitleaks;10PRchecks;normalmatch-headmerge;5exact-masterruns in4workflowfamilies;filteredsecurityalerts;branch/PR/shared-status reconciliation",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t15-merge-20261009T074554Z/master-workflows.json",
+    "sha256": "88ab4a2e6d87678eafcf0af6eb64bda63fb4aefe15d555f027f23e9d1cfb4aeb"
+  },
+  "pr": 27,
+  "reviewed_head": "e186072de9f0811e3c6868039b701da05dc2b677",
+  "merge_commit": "f8be2a7c1c3c3bff10e90570bf4210c5ed0df264",
+  "merged_at": "2026-10-09T07:45:54Z",
+  "recorded_at_utc": "2026-10-09T07:54:18.844523+00:00",
+  "snapshot_hashes": [
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/all-branches-postmerge.txt",
+      "sha256": "9b0338393f6c4f0ae353549d132950b1c1de97fa0e1f7bc2c6377662962f3755"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/all-local-remote-branches.txt",
+      "sha256": "50cd6382a7c18cd718f074b2be971e53bb3ec40d1b5a0029b1138b1ddeef4f07"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/code-scanning-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/code-scanning-postmerge-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/master-workflows.json",
+      "sha256": "88ab4a2e6d87678eafcf0af6eb64bda63fb4aefe15d555f027f23e9d1cfb4aeb"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/native-reviews.json",
+      "sha256": "967435722b4522e083fa95fc37d65cbc2853a2ed020bd54ab38fa732f973a0ec"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/open-prs-postmerge.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/open-prs.json",
+      "sha256": "27086029ebd0543a28608e31a7ac5e35df8940fff4a835b7698d9f0d5b859b46"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/pr-after-merge.json",
+      "sha256": "e8df6fa847bf17de9b28c1a9452776f350869cdbd11a2ea0986959dd189d737a"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/pr-before-ready.json",
+      "sha256": "75f65dc1fd1591d35d6da040dc43b21f2d393a7929b7fc759293fa92e94cfbc5"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/review-threads.json",
+      "sha256": "41aeb6f0b1637a4efc5c37cb0e47797c832b8582b70af2ac844f38a484b3a0b8"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/root-exact-head-scan.json",
+      "sha256": "b6a2eda323c02dfe74f98ab15033d39d2e52c33ddfabee5f3f46c6b2224f40cb"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/secret-scanning-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/secret-scanning-postmerge-alerts.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/shared-checkout-status.txt",
+      "sha256": "8b1803b0102d053f1744a61bf01fdcc7740641e02966b68f36eed90f9e4a32bd"
+    }
+  ],
+  "native_reviews": {
+    "qa": "APPROVED",
+    "security": "APPROVED",
+    "publication_files": 133,
+    "publication_findings": 0,
+    "historical_findings": 5,
+    "history_classification": "same exact benign UUID/blob/rawdigest/syntheticmalformedPEM proven by prior T08/T10/T11 evidence"
+  },
+  "scope_limits": "T15 retainedUTF8 approval integrity only, no Oracle/fullcatalog/execution/target attestation/DBtamperproof. Sonar unavailable neverPASS. Initial native summary overwrittenunrecoverable; rawcaptures and limits retained; independent invalidscaninitialcount corrected explicitly. Originalsharedcheckout unchanged; noHygienePRvisible; no public history rewrite or rotation indicated."
+}

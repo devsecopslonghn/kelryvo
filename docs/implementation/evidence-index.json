@@ -1996,6 +1996,24 @@
       },
       "path": "evidence/product/t15-approval-integrity-20261009T071325Z/integration-record.json",
       "sha256": "e6a191908e2a7e4b8a4340ac9cf4a4ea457ed4ca8865793d5159019b82809a17"
+    },
+    {
+      "id": "product-t15-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T15",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head native QA/security; all133changedpath Gitleaks;10PRchecks;normalmatch-headmerge;5exact-masterruns in4workflowfamilies;filteredsecurityalerts;branch/PR/shared-status reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t15-merge-20261009T074554Z/master-workflows.json",
+        "sha256": "88ab4a2e6d87678eafcf0af6eb64bda63fb4aefe15d555f027f23e9d1cfb4aeb"
+      },
+      "path": "evidence/product/product-t15-merge-20261009T074554Z/record.json",
+      "sha256": "e8403455d346b56661b2dfdc5b491072c889dd38356548957643a97861699056"
     }
   ]
 }
