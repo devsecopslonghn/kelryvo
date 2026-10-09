@@ -1,0 +1,33 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser compares explicitly selected retained releases and discards a late result after pair changes
+not ok 1 - browser compares explicitly selected retained releases and discards a late result after pair changes
+  ---
+  duration_ms: 19937.955071
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-release-source-comparison/tests/product-release-comparison-browser.integration.mjs:14:1'
+  failureType: 'testCodeFailure'
+  error: 'comparison control remained disabled: {"text":"Compare retained releases\\n\\nRead-only source comparison. This does not show deployment or database state.\\n\\nSOURCE ONLY\\nBase release\\nChoose base release\\nf259f172834d · migrations · VALID\\n2505e9051b62 · migrations · VALID\\nCandidate release\\nChoose candidate release\\nf259f172834d · migrations · VALID\\n2505e9051b62 · migrations · VALID\\nCompare source","controls":[{"label":"Base release","value":"","disabled":false,"text":"Choose base releasef259f172834d · migrations · VALID2505e9051b62 · migrations · VALID"},{"label":"Candidate release","value":"","disabled":false,"text":"Choose candidate releasef259f172834d · migrations · VALID2505e9051b62 · migrations · VALID"},{"label":null,"value":"","disabled":true,"text":"Compare source"}]}'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    waitCompareEnabled (file:///home/longhn0710/workspace/schemaforge-product-release-source-comparison/tests/product-release-comparison-browser.integration.mjs:60:15)
+    runNextTicks (node:internal/process/task_queues:64:5)
+    process.processImmediate (node:internal/timers:452:9)
+    process.callbackTrampoline (node:internal/async_hooks:130:17)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-release-source-comparison/tests/product-release-comparison-browser.integration.mjs:71:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 20681.204904

@@ -1,0 +1,59 @@
+{
+  "record_owner": "ROOT_OBSERVATION_NOT_NATIVE_VERDICT",
+  "recorded_at_utc": "2026-10-09T23:04:07.685032+00:00",
+  "first_standard_exit": 0,
+  "first_standard_counts": {
+    "tests": 162,
+    "pass": 162,
+    "fail": 0,
+    "skipped": 0
+  },
+  "matching_first_manifest_source_copies": [
+    {
+      "path": "apps/api/index.ts",
+      "sha256": "8a06577d9b99f485dd137f0bf5ed26a77859101c7de637b82fb834452e70ad0b"
+    },
+    {
+      "path": "packages/migrations/compare-retained-releases.mjs",
+      "sha256": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8"
+    },
+    {
+      "path": "apps/web/src/app.jsx",
+      "sha256": "5b0bcbd713ec66e7e6a73e9515022d6689892fa8ea5069209b4f5b24d448df48"
+    },
+    {
+      "path": "scripts/test-product.mjs",
+      "sha256": "af47fe31ff4608bbfd92f13acb18ed457e2c026a630d1ad79210f0e6de77e63f"
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256": "1ebb556fb08ee27af7d5ab833c458f9c26320b7e91ba74ab9e9eaab45c466dec"
+    }
+  ],
+  "already_changed_source": [
+    {
+      "path": "tests/product-release-comparison.test.mjs",
+      "first_manifest_sha256": "cd448d5a8e224a29c7f0902543bd6ecf0213b30bd668299fda5b49c44b4ca666",
+      "current_sha256": "9808b388bf2d13ee4768269f0f5d0d8f78e24cde519f12d3de4c8d7541da3fce",
+      "old_bytes_copied": false
+    },
+    {
+      "path": "tests/product-release-comparison-browser.integration.mjs",
+      "first_manifest_sha256": "6d23c863d910c72df09b489091ad48b16449fcd32ede1ea3e8c765849ec4d5e4",
+      "current_sha256": "c11406afde27b7d7faa590cab5cc53f7639547427b4520291670d5c48ff74320",
+      "old_bytes_copied": false
+    }
+  ],
+  "preliminary_qa_required_correction": [
+    "Complete snapshots around failed comparisons before fixture restoration",
+    "Explicit malformed and aggregate resource bounds including both release slots",
+    "Successful visible approver browser comparison"
+  ],
+  "final_verification_status": "PENDING_CORRECTED_FREEZE_FULL_SEQUENCE",
+  "limits": [
+    "First standard sequence alone completed; first full product/browser sequence not run",
+    "This is root observed evidence, not reconstructed native QA verdict",
+    "Pre-destructure UI draft bytes were not separately saved and cannot be reconstructed"
+  ],
+  "merge_eligible": false
+}

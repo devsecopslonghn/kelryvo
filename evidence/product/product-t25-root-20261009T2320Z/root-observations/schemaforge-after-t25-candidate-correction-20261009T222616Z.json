@@ -1,0 +1,30 @@
+{
+  "created_utc": "2026-10-09T22:26:16Z",
+  "corrects": "/tmp/schemaforge-after-t25-candidate-20261009T222524Z.json",
+  "original_sha256": "6f3cd67b83d5e5cf54262784ee2bbb1a5122874e0031ccf0411ca5547d458810",
+  "reason": "The original record presents an earlier observed HEAD as if it were contemporaneous with the later JSON capture timestamp, and does not distinguish mutable source hashes from a frozen review snapshot.",
+  "head_observation": {
+    "actual_command": "git status --short && git rev-parse HEAD",
+    "captured_stdout": "Modified docs/decisions/log.json, docs/implementation/CONTINUE.md, docs/implementation/CURRENT.md, docs/implementation/backlog.json, docs/implementation/milestone.json, docs/implementation/ownership.json; untracked evidence/product/product-t25-start-20261009T2222Z/ and packages/migrations/compare-retained-releases.mjs; HEAD d5ddb6dc6020adf9a00eded1fda0a75af8750df3.",
+    "timing_limit": "The command output is present in the conversation/tool record before the 22:25:24 UTC clock read used to label the original artifact, so d5ddb6d was an earlier observation. The shell command has no recorded execution timestamp. Therefore this audit record cannot establish whether the command preceded or followed root's e5147c0 checkpoint commit reported at 22:25:09 UTC, nor that d5ddb6d was HEAD when the original JSON was written. Treat observed_head in the original as stale point-in-time output, not capture-time state."
+  },
+  "source_hash_scope_correction": {
+    "status": "Point-in-time hashes during active T25 work; not a frozen review manifest and not evidence that all listed files coexisted unchanged at one instant.",
+    "reason": "Hash commands were run in separate shell invocations while the feature branch contained uncommitted T25 work. No working-tree freeze, shared commit, or simultaneous snapshot was created. The prior JSON incorrectly reads as though these hashes jointly identify a stable review state.",
+    "hashes_observed": {
+      "docs/inputs/db-research/product-research/feature-catalog.json": "5ffacb343a4cbea75f48537bd5e3bd45d4a6fae7fe0b5965e07fffbb83dcc3ba",
+      "docs/implementation/features.json": "cac6c511358a83d445ecc724a459c80c0f0ac27c1e225dca7565adf19c7ebb65",
+      "apps/api/index.ts": "30eb94d0e70bda813302f4b73b3ec11f1134f710d2d6380adfe7f2e89547ba42",
+      "apps/web/src/app.jsx": "2bda2677c92976a3e6facb268217c6692c81d3065b9655b91e5b043d8fffe518",
+      "docs/implementation/CURRENT.md": "40f68c492e8200388a521c7406ed1e83f63aa4cc9a1e8c0aee7996a884b80e88",
+      "evidence/product/product-t24-root-20261009T2204Z/root-prior-captures/schemaforge-t25-proposed-contract.json": "8eb537c80fe3c9e61e7eb3d2514ecb51061d2cbc7f8f1d66f93de704acc0e157",
+      "packages/migrations/compare-retained-releases.mjs": "3151525888c0eb4d36b8e6b94ddb931d1c591c7c6dd1795f00d11daf29aef451",
+      "docs/implementation/backlog.json": "054a8fea3d0d9aa26d3e43b4bedd9282e15d07ae83c3909f7f680818e539d14b",
+      "docs/implementation/dependency-graph.json": "8cbd967ed6f9b9bb69a35aa7ba217cfdc60eb16a7cb44fbf09a25fa71734a11e",
+      "docs/decisions/log.json": "c27863c98771918b0914267f7e5474e4be9f2ca5be5a7c40eb51cd9127ab7bab"
+    },
+    "limit": "Hashes are preserved as command observations only. This correction does not recompute them or certify the later e5147c0 checkout."
+  },
+  "recommendation": "The GOV-021 bounded cross-project pending review inbox recommendation and GIT-005 runner-up remain an analysis opinion based on inspected source/code outputs; neither is registered or implemented by this agent.",
+  "actions": "No repository source, tracker, or evidence index changed. Original /tmp candidate JSON was not overwritten. This correction is a separate external /tmp artifact."
+}

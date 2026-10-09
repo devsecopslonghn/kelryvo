@@ -1,0 +1,15 @@
+
+> schemaforge-local-development@0.0.0 build
+> node scripts/check-source.mjs && npm run typecheck && npm run build:web
+
+Source checks passed for 164 authored files.
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+apps/api/index.ts(668,41): error TS2339: Property 'repository_id' does not exist on type '{}'.
+apps/api/index.ts(668,69): error TS2339: Property 'repository_id' does not exist on type '{}'.
+apps/api/index.ts(669,21): error TS2339: Property 'folder' does not exist on type '{}'.
+apps/api/index.ts(669,42): error TS2339: Property 'folder' does not exist on type '{}'.
+apps/api/index.ts(669,57): error TS2339: Property 'parser_profile' does not exist on type '{}'.
+apps/api/index.ts(669,86): error TS2339: Property 'parser_profile' does not exist on type '{}'.

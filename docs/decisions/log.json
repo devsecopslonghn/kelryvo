@@ -250,6 +250,20 @@
         "docs/implementation/CURRENT.md",
         "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/record.json"
       ]
+    },
+    {
+      "id": "SF-D024",
+      "status": "ACCEPTED_BOUNDED_T25_READ_ONLY_SOURCE_COMPARISON_CONTRACT",
+      "accepted_at_utc": "2026-10-09T22:28:40.359256+00:00",
+      "decision": "Use authenticated POST /api/projects/:id/releases/compare with strict baseReleaseId and candidateReleaseId UUID body fields for a bounded read-only comparison. Preserve existing non-GET membership-bootstrap denial and same-origin authentication; explicit membership/current fixed roles protect each request. Read the scoped project under FOR SHARE and the unique release pair under FOR SHARE in deterministic UUID order. Check scalar JSON shape, count, metadata and encoded size bounds for both rows before loading either files payload; reproduce retained UTF-8 and format-1 manifests using the existing verifier and require compatible retained repository/folder/parser profile. Self comparison reads one unique row and returns unchanged facts. Missing, foreign, revoked or unverifiable pair requests use fixed nonleaking feedback; failures mutate no protected records. Return both immutable identities and ordered version-aligned ADDED/REMOVED/CHANGED/UNCHANGED facts with literal content, paths, hashes and byte counts. Use canonical decimal strings for versions; same-version rename and exact content change are changed source facts. Pair/project/session/credential/refresh changes clear results and discard old responses; existing authorized archived and repository-unavailable retained reads remain. No parser/Git rerun, schema/applied/deployed inference, target credential resolution or Oracle/execution authority. This ordinary reversible contract under SF-D010/SF-D022/SF-D023 changes no original220 acceptance or final security/merge gates.",
+      "references": [
+        "apps/api/index.ts",
+        "packages/migrations/compare-retained-releases.mjs",
+        "packages/migrations/verify-retained-release.mjs",
+        "apps/web/src/app.jsx",
+        "docs/implementation/backlog.json",
+        "docs/development/local-product.md"
+      ]
     }
   ]
 }

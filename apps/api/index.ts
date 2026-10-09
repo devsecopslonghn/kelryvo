@@ -3,6 +3,7 @@ import { authenticateLocalToken, seedLocalActors, tokenDigest } from "../../pack
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from "../../experiments/db-devops-wp0/parser-release.mjs";
 import { ANTLR_PROFILE, MAX_INPUT_BYTES, MAX_STDOUT_BYTES } from "../../experiments/db-devops-wp0/parser-envelope.mjs";
 import { verifyRetainedRelease } from "../../packages/migrations/verify-retained-release.mjs";
+import { compareRetainedReleases } from "../../packages/migrations/compare-retained-releases.mjs";
 import { previewRetainedStatements } from "../../packages/migrations/statement-preview.mjs";
 import { resolveCommentEvidence, validateCommentEvidenceInput } from "../../packages/migrations/comment-evidence.mjs";
 import { encodeOfflinePlanIntent, verifyOfflinePlanIntent } from "../../packages/migrations/offline-plan-intent.mjs";
@@ -606,6 +607,99 @@ export function createApp(options: {
       if (result.error === 'NOT_FOUND') return fail(reply, 404, 'NOT_FOUND');
       if (result.error) return fail(reply, 422, 'STATEMENT_PREVIEW_UNAVAILABLE');
       return { preview: result.preview };
+    },
+  );
+  app.post(
+    "/api/projects/:id/releases/compare",
+    { preHandler: authenticate },
+    async (req: any, reply: any) => {
+      const body = req.body;
+      if (!uuid(req.params.id) || !object(body, ["baseReleaseId", "candidateReleaseId"])
+          || !uuid(body.baseReleaseId) || !uuid(body.candidateReleaseId))
+        return fail(reply, 400, "INVALID_REQUEST");
+      body.baseReleaseId = body.baseReleaseId.toLowerCase();
+      body.candidateReleaseId = body.candidateReleaseId.toLowerCase();
+      const result = await sql.begin(async (tx: any) => {
+        const projectRow = (await tx`SELECT id,archived_at FROM sf_projects
+          WHERE id=${req.params.id} AND organization_id=${ORG} FOR SHARE`)[0];
+        if (!projectRow) return { error: "NOT_FOUND" };
+        // Archived projects retain read access. Lock the pair in a stable order.
+        const ids = [body.baseReleaseId, body.candidateReleaseId].sort();
+        const maxRetainedJsonBytes = 6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024;
+        const bounds = await tx`SELECT id,project_id,(validation_status='VALID') AS validation_valid,
+          jsonb_typeof(files) AS files_type,
+          CASE WHEN jsonb_typeof(files)='array' THEN jsonb_array_length(files) ELSE NULL END AS file_count,
+          octet_length(files::text) AS files_bytes,
+          (object_format IN ('sha1','sha256')) AS format_valid,(object_format='sha1') AS format_sha1,
+          (commit_id ~ CASE WHEN object_format='sha1' THEN '^[a-f0-9]{40}$' WHEN object_format='sha256' THEN '^[a-f0-9]{64}$' ELSE '^$' END) AS commit_valid,
+          char_length(commit_id) AS commit_chars,char_length(folder) AS folder_chars,
+          char_length(parser_profile) AS parser_profile_chars,char_length(manifest_digest) AS manifest_chars,
+          (folder ~ '^[A-Za-z0-9_-]+(/[A-Za-z0-9_-]+)*$') AS folder_valid,
+          (manifest_digest ~ '^[a-f0-9]{64}$') AS manifest_valid,
+          char_length(repository_id) AS repository_id_chars,
+          (SELECT count(DISTINCT repository_id)::int FROM sf_releases pair WHERE pair.id=ANY(${ids}::uuid[])
+            AND pair.project_id=${projectRow.id} AND pair.organization_id=${ORG}) AS pair_repository_count,
+          (SELECT count(DISTINCT folder)::int FROM sf_releases pair WHERE pair.id=ANY(${ids}::uuid[])
+            AND pair.project_id=${projectRow.id} AND pair.organization_id=${ORG}) AS pair_folder_count,
+          (SELECT count(DISTINCT parser_profile)::int FROM sf_releases pair WHERE pair.id=ANY(${ids}::uuid[])
+            AND pair.project_id=${projectRow.id} AND pair.organization_id=${ORG}) AS pair_profile_count,
+          (SELECT COALESCE(sum(char_length(CASE WHEN jsonb_typeof(item->'path')='string' THEN item->>'path' ELSE '' END)
+            +char_length(CASE WHEN jsonb_typeof(item->'version')='string' THEN item->>'version' ELSE '' END)),0)::bigint
+            FROM jsonb_array_elements(CASE WHEN jsonb_typeof(files)='array' THEN files ELSE '[]'::jsonb END) e(item)) AS file_metadata_chars,
+          (SELECT count(*)::int FROM jsonb_array_elements(CASE WHEN jsonb_typeof(files)='array' THEN files ELSE '[]'::jsonb END) e(item)
+            WHERE COALESCE(jsonb_typeof(item),'')<>'object' OR COALESCE(jsonb_typeof(item->'content'),'')<>'string'
+              OR COALESCE(jsonb_typeof(item->'path'),'')<>'string' OR COALESCE(jsonb_typeof(item->'version'),'')<>'string'
+              OR COALESCE(char_length(item->>'path'),0) NOT BETWEEN 1 AND ${MAX_INPUT_BYTES}
+              OR COALESCE(char_length(item->>'version'),0) NOT BETWEEN 1 AND ${MAX_INPUT_BYTES}
+              OR COALESCE((CASE WHEN char_length(item->>'bytes') BETWEEN 1 AND 7 AND item->>'bytes' ~ '^[0-9]{1,7}$' THEN (item->>'bytes')::integer END),0) NOT BETWEEN 1 AND ${MAX_INPUT_BYTES}
+              OR COALESCE(octet_length(item->>'content'),0) NOT BETWEEN 1 AND ${MAX_INPUT_BYTES}
+              OR COALESCE(item->>'path','') !~ '^[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$'
+              OR left(COALESCE(item->>'path',''),char_length(folder)+1)<>(folder || '/')
+              OR COALESCE(item->>'version','') !~ '^([0-9]+)(\\.[0-9]+)*$'
+              OR COALESCE(item->>'sha256','') !~ '^[a-f0-9]{64}$'
+              OR COALESCE(item->>'validationStatus','')<>'VALID') AS invalid_files,
+          (SELECT count(DISTINCT item->>'path')::int FROM jsonb_array_elements(CASE WHEN jsonb_typeof(files)='array' THEN files ELSE '[]'::jsonb END) e(item)) AS distinct_paths,
+          (SELECT count(DISTINCT item->>'version')::int FROM jsonb_array_elements(CASE WHEN jsonb_typeof(files)='array' THEN files ELSE '[]'::jsonb END) e(item)) AS distinct_versions,
+          (SELECT COALESCE(sum(octet_length(item->>'content')),0)::bigint FROM jsonb_array_elements(CASE WHEN jsonb_typeof(files)='array' THEN files ELSE '[]'::jsonb END) e(item)
+            WHERE jsonb_typeof(item)='object' AND jsonb_typeof(item->'content')='string') AS content_bytes
+          FROM sf_releases WHERE id=ANY(${ids}::uuid[]) AND project_id=${projectRow.id}
+            AND organization_id=${ORG} ORDER BY id FOR SHARE`;
+        if (bounds.length !== new Set(ids).size) return { error: "INVALID_REFERENCE" };
+        const validBounds = bounds.every((row: any) => row.validation_valid
+          && row.files_type === "array" && Number.isInteger(row.file_count) && row.file_count > 0
+          && row.file_count <= MAX_RELEASE_FILES && Number.isInteger(row.files_bytes)
+          && row.files_bytes <= maxRetainedJsonBytes && row.format_valid
+          && row.commit_valid && row.commit_chars === (row.format_sha1 ? 40 : 64)
+          && row.folder_valid && Number.isInteger(row.folder_chars) && row.folder_chars >= 1 && row.folder_chars <= 200
+          && Number.isInteger(row.parser_profile_chars) && row.parser_profile_chars >= 1 && row.parser_profile_chars <= MAX_INPUT_BYTES
+          && row.pair_repository_count === 1 && row.pair_folder_count === 1 && row.pair_profile_count === 1
+          && row.manifest_valid && row.manifest_chars === 64
+          && Number.isInteger(row.repository_id_chars) && row.repository_id_chars >= 1 && row.repository_id_chars <= 200
+          && Number.isSafeInteger(Number(row.file_metadata_chars))
+          && Number(row.file_metadata_chars) + row.folder_chars + row.parser_profile_chars <= MAX_STDOUT_BYTES
+          && row.invalid_files === 0 && row.distinct_paths === row.file_count && row.distinct_versions === row.file_count
+          && Number(row.content_bytes) <= MAX_RELEASE_BYTES);
+        if (!validBounds) return { error: "INVALID_REFERENCE" };
+        // Both releases pass database-side shape and size checks before either JSON payload is copied.
+        const retained = await tx`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,
+          validation_status,parser_profile,files FROM sf_releases
+          WHERE id=ANY(${ids}::uuid[]) AND project_id=${projectRow.id} AND organization_id=${ORG} ORDER BY id`;
+        if (retained.length !== new Set(ids).size || retained.some((release: any) => !verifyRetainedRelease(release)))
+          return { error: "INVALID_REFERENCE" };
+        const byId = new Map<string, any>(retained.map((release: any): [string, any] => [release.id, release]));
+        const base = byId.get(body.baseReleaseId);
+        const candidate = byId.get(body.candidateReleaseId);
+        if (!base || !candidate || base.repository_id !== candidate.repository_id
+            || base.folder !== candidate.folder || base.parser_profile !== candidate.parser_profile)
+          return { error: "INVALID_REFERENCE" };
+        const identity = (release: any) => ({ id: release.id, repositoryId: release.repository_id,
+          commit: release.commit_id, objectFormat: release.object_format, folder: release.folder,
+          manifestDigest: release.manifest_digest, parserProfile: release.parser_profile });
+        return { comparison: { base: identity(base), candidate: identity(candidate),
+          facts: compareRetainedReleases(base, candidate) } };
+      });
+      if (result.error) return fail(reply, 404, "NOT_FOUND");
+      return result;
     },
   );
   app.get(

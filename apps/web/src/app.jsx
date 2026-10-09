@@ -224,6 +224,7 @@ function App() {
   const [detail, setDetail] = useState(null);
   const projectLoaded = detail?.project?.id === projectId;
   const [release, setRelease] = useState(null);
+  const [releaseComparison, setReleaseComparison] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState('');
   const [planSource, setPlanSource] = useState(null);
   const [planStatus, setPlanStatus] = useState('ALL');
@@ -259,6 +260,7 @@ function App() {
   const currentSourceContext = useRef(null);
   const planSourceSequence = useRef(0);
   const statementPreviewSequence = useRef(0);
+  const releaseComparisonSequence = useRef(0);
   const auditSequence = useRef(0);
   const auditContextRef = useRef('');
   const activeSelectedPlanId = useRef('');
@@ -266,6 +268,32 @@ function App() {
   const selectRelease = value => {
     activeSelectedReleaseId.current = value?.id || '';
     setRelease(value);
+  };
+  const compareReleases = async (baseReleaseId, candidateReleaseId) => {
+    const sequence = ++releaseComparisonSequence.current;
+    const selectedProject = projectId; const selectedToken = token; const selectedSession = sessionEpoch.current;
+    const refreshAtStart = refreshSequence.current;
+    setReleaseComparison({ loading: true, baseReleaseId, candidateReleaseId });
+    try {
+      const result = await json(`/api/projects/${encodeURIComponent(selectedProject)}/releases/compare`, selectedToken, {
+        method: 'POST', body: JSON.stringify({ baseReleaseId, candidateReleaseId }),
+      });
+      if (sequence === releaseComparisonSequence.current && activeProjectId.current === selectedProject
+          && tokenRef.current === selectedToken && sessionEpoch.current === selectedSession
+          && refreshSequence.current === refreshAtStart)
+        setReleaseComparison({ ...result.comparison, baseReleaseId, candidateReleaseId });
+    } catch (failure) {
+      if (sequence === releaseComparisonSequence.current && activeProjectId.current === selectedProject
+          && tokenRef.current === selectedToken && sessionEpoch.current === selectedSession
+          && refreshSequence.current === refreshAtStart) {
+        if (failure?.message === 'NOT_FOUND') { setReleaseComparison(null); clearProjectState(); await refresh(selectedToken, selectedProject); }
+        else setReleaseComparison({ error: 'RELEASE_COMPARISON_UNAVAILABLE', baseReleaseId, candidateReleaseId });
+      }
+    }
+  };
+  const invalidateReleaseComparison = () => {
+    releaseComparisonSequence.current += 1;
+    setReleaseComparison(null);
   };
 
   const rememberSourceContext = (selectedProjectId, project) => {
@@ -287,6 +315,7 @@ function App() {
   };
 
   const clearProjectState = () => {
+    releaseComparisonSequence.current += 1; setReleaseComparison(null);
     auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
     activeProjectId.current = '';
     activeSelectedPlanId.current = '';
@@ -306,7 +335,7 @@ function App() {
       if (requestEpoch !== browserSessionEpoch || !tokenRef.current) return;
       browserSessionEpoch += 1;
       auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
-      sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1;
+      sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; invalidateReleaseComparison();
       statementPreviewSequence.current += 1; setStatementPreview(null);
       activeProjectId.current = ''; activeSelectedPlanId.current = '';
       currentSourceContext.current = null;
@@ -332,6 +361,7 @@ function App() {
   };
 
   const selectProject = (nextId) => {
+    releaseComparisonSequence.current += 1; setReleaseComparison(null);
     auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
     const alreadySelected = nextId === projectId;
     if (!alreadySelected) currentSourceContext.current = null;
@@ -360,6 +390,7 @@ function App() {
 
   const refresh = useCallback(async (activeToken, selectedId = projectId) => {
     if (!activeToken) return;
+    invalidateReleaseComparison();
     auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
     setAuditRefreshKey((value) => value + 1);
     const sequence = ++refreshSequence.current;
@@ -915,7 +946,7 @@ function App() {
     await requestStatementPreview(reference.releaseId, reference.filePath, planId, reference, source);
   };
 
-  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan };
+  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -942,7 +973,7 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => setTab('release')}><span>◫</span> Releases</button>
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => setTab('records')}><span>≡</span> Audit &amp; history</button>
-    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
+    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; invalidateReleaseComparison(); statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
       <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { void refresh(token); }} disabled={busy}>↻</button></div></header>
@@ -1016,7 +1047,10 @@ function sourceBindingButtonLabel(busy, sourceBinding) {
 }
 
 function ReleaseScreen({ model }) {
-  const { readOnlyBootstrap, projectId, selectProject, projects, repositories, releaseForm, setReleaseForm, busy, importRelease, release, detail, makePlan, isArchived, inspectRelease, fmt, sourceBinding, boundRepository, projectLoaded, sourceForm, gitRefs, gitRefsLoading, gitRefsError, statementPreview, requestStatementPreview } = model;
+  const { readOnlyBootstrap, projectId, selectProject, projects, repositories, releaseForm, setReleaseForm, busy, importRelease, release, detail, makePlan, isArchived, inspectRelease, fmt, sourceBinding, boundRepository, projectLoaded, sourceForm, gitRefs, gitRefsLoading, gitRefsError, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison } = model;
+  const [baseReleaseId, setBaseReleaseId] = useState('');
+  const [candidateReleaseId, setCandidateReleaseId] = useState('');
+  useEffect(() => { setBaseReleaseId(''); setCandidateReleaseId(''); }, [projectId]);
   const bindingDraftMatches = Boolean(sourceBinding && boundRepository
     && sourceForm.repositoryId === sourceBinding.repositoryId && sourceForm.folder === sourceBinding.folder);
   const scopedRelease = projectLoaded && release
@@ -1033,6 +1067,7 @@ function ReleaseScreen({ model }) {
           {isArchived && <output className="archive-notice"><strong>Archived project</strong><span>Existing release details can still be reviewed. Importing new releases is disabled.</span></output>}
           <SourceBindingPanel model={model} />
           <section className="panel saved-releases"><div className="panel-heading"><div><h2>Existing releases</h2><p>Open an imported release to review migration files and SQL.</p></div><span className="count-pill">{detail?.releases?.length || 0} releases</span></div>{detail?.releases?.length ? <div className="saved-release-list">{detail.releases.map((item) => <div className="saved-release-row" data-release-id={item.id} key={item.id}><span><strong>{item.commit?.slice(0, 12)} · {item.folder}</strong><small>Imported {fmt(item.createdAt)} · {item.validationStatus}</small></span><button type="button" className="secondary" onClick={() => { void inspectRelease(item.id); }} disabled={busy}>Inspect files</button></div>)}</div> : <p className="subtle">No releases imported for this project yet.</p>}</section>
+          <section className="panel release-comparison" aria-label="Compare retained releases"><div className="panel-heading"><div><h2>Compare retained releases</h2><p>Read-only source comparison. This does not show deployment or database state.</p></div><span className="step-badge">SOURCE ONLY</span></div><div className="release-form"><label>Base release<select aria-label="Base release" value={baseReleaseId} onChange={(event) => { invalidateReleaseComparison(); setBaseReleaseId(event.target.value); }} disabled={busy || !projectLoaded}><option value="">Choose base release</option>{(detail?.releases || []).map((item) => <option key={item.id} value={item.id}>{item.commit?.slice(0, 12)} · {item.folder} · {item.validationStatus}</option>)}</select></label><label>Candidate release<select aria-label="Candidate release" value={candidateReleaseId} onChange={(event) => { invalidateReleaseComparison(); setCandidateReleaseId(event.target.value); }} disabled={busy || !projectLoaded}><option value="">Choose candidate release</option>{(detail?.releases || []).map((item) => <option key={item.id} value={item.id}>{item.commit?.slice(0, 12)} · {item.folder} · {item.validationStatus}</option>)}</select></label><button type="button" className="primary" disabled={busy || !baseReleaseId || !candidateReleaseId || !projectLoaded} onClick={() => void compareReleases(baseReleaseId, candidateReleaseId)}>Compare source</button></div>{releaseComparison?.loading && releaseComparison.baseReleaseId === baseReleaseId && releaseComparison.candidateReleaseId === candidateReleaseId && <p role="status">Comparing retained source…</p>}{releaseComparison?.error && releaseComparison.baseReleaseId === baseReleaseId && releaseComparison.candidateReleaseId === candidateReleaseId && <p className="banner error" role="alert">Comparison is unavailable. Refresh the project and retry.</p>}{releaseComparison?.facts && releaseComparison.baseReleaseId === baseReleaseId && releaseComparison.candidateReleaseId === candidateReleaseId && <><dl className="release-provenance"><div><dt>Base commit / manifest</dt><dd><code>{releaseComparison.base.id}</code><br/><code>{releaseComparison.base.commit}</code><br/><code>{releaseComparison.base.manifestDigest}</code><br/>Repository {releaseComparison.base.repositoryId} · {releaseComparison.base.folder} · {releaseComparison.base.parserProfile}</dd></div><div><dt>Candidate commit / manifest</dt><dd><code>{releaseComparison.candidate.id}</code><br/><code>{releaseComparison.candidate.commit}</code><br/><code>{releaseComparison.candidate.manifestDigest}</code><br/>Repository {releaseComparison.candidate.repositoryId} · {releaseComparison.candidate.folder} · {releaseComparison.candidate.parserProfile}</dd></div></dl><div className="comparison-facts">{releaseComparison.facts.map((fact) => <details className="comparison-fact" key={fact.version}><summary><strong>{fact.version}</strong> · {fact.change} · {fact.base?.path || '—'} → {fact.candidate?.path || '—'}</summary><div className="comparison-sides">{fact.base && <section><h3>Base · {fact.base.path}</h3><p>SHA256 {fact.base.sha256} · {fact.base.bytes} bytes</p><pre>{fact.base.content}</pre></section>}{fact.candidate && <section><h3>Candidate · {fact.candidate.path}</h3><p>SHA256 {fact.candidate.sha256} · {fact.candidate.bytes} bytes</p><pre>{fact.candidate.content}</pre></section>}</div></details>)}{!releaseComparison.facts.length && <p>No migration files were present.</p>}</div></>}</section>
           <section className="panel intake-panel"><div className="panel-heading"><div><h2>Repository source</h2><p>Repository paths stay on the server. The browser sends only the repository ID.</p></div><span className="step-badge">GIT</span></div>
             <form className="release-form" inert={readOnlyBootstrap} onSubmit={importRelease}><label>Project<select aria-label="Release project" value={projectId} onChange={(e) => selectProject(e.target.value)} required disabled={busy}><option value="">Choose project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}{p.archivedAt ? ' · ARCHIVED' : ''}</option>)}</select></label><label>Bound repository<output aria-label="Bound repository" className="bound-source-value">{boundRepositoryLabel}</output></label><label>Branch or tag<select aria-label="Git branch or tag" value={releaseForm.commit.startsWith('refs/') ? releaseForm.commit : ''} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value || 'HEAD' })} disabled={busy || isArchived || !bindingDraftMatches || gitRefsLoading || !!gitRefsError}><option value="">Use HEAD or enter a ref below</option><optgroup label="Branches">{gitRefs.branches.map((item) => <option key={item.ref} value={item.ref}>Branch · {item.name}</option>)}</optgroup><optgroup label="Tags">{gitRefs.tags.map((item) => <option key={item.ref} value={item.ref}>Tag · {item.name}</option>)}</optgroup></select><small>{gitRefsLoading ? 'Loading refs from the saved project repository…' : gitRefsError ? explain(new Error(gitRefsError)) : 'Choose a local branch or commit-resolving tag, or keep using HEAD/manual commit.'}</small></label><label>Commit or ref<input aria-label="Git commit or ref" value={releaseForm.commit} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value })} placeholder="40 character commit SHA" required disabled={busy || isArchived || !bindingDraftMatches}/><small>Selected refs are resolved to a full immutable commit during import.</small></label><label>Bound migration folder<output aria-label="Bound migration folder" className="bound-source-value">{projectLoaded ? sourceBinding?.folder || 'No source bound' : 'Loading project source…'}</output></label><div className="form-actions"><button type="submit" className="primary" disabled={busy || isArchived || !projects.length || !bindingDraftMatches}>{busy ? 'Importing…' : 'Import and validate'}</button><span className="subtle">{importHint} Files are parsed before a plan can be created.</span></div></form>
           </section>

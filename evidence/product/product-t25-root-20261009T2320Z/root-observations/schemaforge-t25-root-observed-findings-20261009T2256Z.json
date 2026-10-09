@@ -1,0 +1,48 @@
+{
+  "task": "SF-PRODUCT-T25",
+  "record_owner": "ROOT_OBSERVED_PREFREEZE_REVIEW",
+  "recorded_at_utc": "2026-10-09T22:56:28.298042+00:00",
+  "scope": "Informal review during active feature implementation; not frozen-head approval",
+  "findings": [
+    {
+      "issue": "Self comparison and UUID casing",
+      "resolution_requested": "Use unique canonical UUID rows and canonical map lookups",
+      "source_or_test_claim": "Await frozen proof"
+    },
+    {
+      "issue": "Both-release preflight and metadata resource bounds",
+      "resolution_requested": "No raw unbounded repository/status fields or unsafe arbitrary numeric casts before rejection; total metadata bounded",
+      "source_or_test_claim": "Await frozen proof"
+    },
+    {
+      "issue": "Valid file size and dotted version compatibility",
+      "resolution_requested": "Preserve valid files above999999bytes through2MiB and canonical dotted versions; test exact SQL escaping",
+      "source_or_test_claim": "Focusedlargewhitespace attempt passed; frozenproofpending"
+    },
+    {
+      "issue": "Browser late pair-away/back results",
+      "independent_preliminary_record": "/tmp/schemaforge-t25-preliminary-security-20261009T222750Z.json",
+      "resolution_requested": "Immediate monotonic invalidation on everypair change; actualresponse finished+Reactflush before staleassert",
+      "source_or_test_claim": "Await frozen browser proof"
+    },
+    {
+      "issue": "Actual React selector ReferenceError",
+      "root_observation": "ReleaseScreen used invalidateReleaseComparison in both onChange handlers without destructuring it from model; function lives inside App, outside top-level ReleaseScreen lexical scope. Source observed directly before native confirmed and patched.",
+      "native_confirmation": "Native message confirms ReferenceError prevented both local selection setters; destructuring fixed.",
+      "correction": "Earlier native/browser and root commentary fixture-only diagnosis for emptyselects was incomplete. Keep stronger asynchronous readiness waits without weakening guards; add pageerror assertion and verify correctedsource.",
+      "source_or_test_claim": "Await actual rerun; no PASS yet"
+    }
+  ],
+  "capture_limits": [
+    "Initial missing-demo-path browser attempt had no complete TAP summary and an explicitly stopped leftover test Node process; native must record actual termination and exact-owned cleanup.",
+    "Root targeted source observations were returned by tools but have no separately captured pre-patch source snapshot. Earlier UI draft bytes are not reconstructed or claimed frozen.",
+    "All failed native command rawlogs/sidecars must remain immutable; latest source hashes do not establish old draft bytes."
+  ],
+  "next_catalog_assessment": "/tmp/schemaforge-after-t25-candidate-20261009T222524Z.json",
+  "next_assessment_correction": "/tmp/schemaforge-after-t25-candidate-correction-20261009T222616Z.json",
+  "next_candidate_status": "PROPOSED_ONLY_NOT_REGISTERED",
+  "merge_eligible": false,
+  "required_security_services": "UNAVAILABLE_NOTPASS; T24 draftPR37 unmerged",
+  "sonar": "UNAVAILABLE_NOTPASS",
+  "oracle_validation": "INDEPENDENT_BLOCKED"
+}

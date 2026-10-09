@@ -1,0 +1,53 @@
+{
+  "created_utc": "2026-10-09T22:25:24Z",
+  "task": "Read-only bounded PRODUCT catalog analysis after locally verified T25",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-release-source-comparison",
+  "observed_head": "d5ddb6dc6020adf9a00eded1fda0a75af8750df3",
+  "observed_state": "T25 IN_PROGRESS; CURRENT says no implementation/test completion. Worktree contains uncommitted T25 changes, including packages/migrations/compare-retained-releases.mjs. T24 PR37 required GitHub security gates are unavailable; T23 origin/master is 0fd6980db49c9546ab0a04fe07321a348eee2d65. No prediction that T25 is complete or T24 merged.",
+  "recommendation": {
+    "candidate": "Cross-project pending review inbox (bounded extension of GOV-021)",
+    "why": "Existing UI shows and filters plans only for the currently selected project. An approver with multiple explicitly granted projects must switch projects to find pending reviews. T21 supplies explicit membership; existing decision endpoint retains role, self-approval, status, immutable-plan, and integrity checks. A scoped inbox is a coherent reviewer workflow and can reuse those controls.",
+    "preserve_original": "Keep GOV-021 original delegation acceptance/dependencies unchanged; this increment covers the inbox read/review path only and does not implement delegation or claim full GOV-021 acceptance.",
+    "development_dependencies": ["T25 locally verified", "SF-PRODUCT-T21 explicit project membership", "existing project and decision API contracts"],
+    "bounded_acceptance": [
+      "Authenticated approver sees pending plans only from projects currently explicitly granted to them; project names, authors, release commit identity, creation time, and status are scoped fields.",
+      "Filter by project and status (at minimum pending); selecting a row opens the existing immutable plan review path and submits through the existing decision endpoint.",
+      "Non-approver, requester/self, revoked membership, foreign project, archived project, already decided, and malformed/stale rows disclose no foreign records and cannot create a decision; current role/membership is checked at read and decision time.",
+      "Cross-project/project-switch/session/credential delayed responses are discarded; membership revocation clears inaccessible rows; failures preserve current scoped state and permit retry.",
+      "Isolated PostgreSQL/API/Chromium tests cover multiple projects, role and membership changes, requester exclusion, stale decisions, archive, result ordering/pagination bounds, response invalidation, and no writes from inbox reads. No execution or Oracle assertions."
+    ],
+    "infrastructure": "No external provider, credentials, target connection, deployment, or Oracle runtime needed. Query existing PostgreSQL plan/project/grant tables; retain fail-closed behavior during membership bootstrap mode. Product metadata read only; decisions remain explicit and use existing governance controls.",
+    "limitations": "Current plan-detail API loads per-project data and membership grants are enforced in project lookup/listing; an inbox needs a dedicated bounded aggregate query with current grant joins and should not fan out unrestricted project-detail requests. No assignments or delegation exist, so label it pending review inbox for fixed approvers rather than claiming assigned workflow."
+  },
+  "runner_up": {
+    "candidate": "Nonprivileged exact-commit SQL validation findings for merge requests (GIT-005 bounded precursor)",
+    "why": "A CI-facing validation-only workflow is a substantial developer value and aligns with statement preview, immutable source identity, and retained release review.",
+    "development_dependencies": ["T25 locally verified", "provider/repository adapter and exact MR commit binding", "authenticated bounded CI ingestion/status contract"],
+    "bounded_acceptance": [
+      "A non-privileged caller submits a repository-bound full commit and obtains deterministic offline validation findings for exactly that commit/folder/parser profile.",
+      "Findings expose no SQL beyond authorized project access, create no approval or dispatch, and cannot read application writer credentials.",
+      "Duplicate request identity is idempotent; malformed, short/ambiguous SHA, foreign project/repository, oversized payload, and replay inputs fail closed; delayed status updates cannot overwrite newer terminal state."
+    ],
+    "infrastructure": "Can be tested with temporary local Git and PostgreSQL, but real CI/provider auth, callback signing and deployment integration need separate provider contract/security design. No live GitHub/GitLab credentials or provider runtime should be assumed.",
+    "reason_not_first": "GIT-005's catalog dependency is PRJ-008; current product inspection shows a local repository registry and local Git ref/release ingestion rather than an authenticated provider/MR integration. The coherent inbox can ship using already implemented project grants and plan review.",
+    "preserve_original": "Keep GIT-005 acceptance/dependencies unchanged; precursor alone does not satisfy full MR integration."
+  },
+  "defer_or_exclude": [
+    "MIG-013 applied-file checksum enforcement, MIG-014/MIG-033 schema comparison, and GIT-015 deployed provenance require trustworthy applied/deployed evidence; do not infer these from retained source or plan/history displays.",
+    "Target planning/execution/history features are outside this safe default because they require target-observed facts or restricted worker/runtime authority.",
+    "No catalog feature status/dependency/acceptance changed; no source edits or lifecycle tests were made. No Oracle, credential, target, or provider runtime was used."
+  ],
+  "evidence": [
+    {"path":"docs/implementation/CURRENT.md", "lines":"1-15, 70-80", "sha256":"40f68c492e8200388a521c7406ed1e83f63aa4cc9a1e8c0aee7996a884b80e88", "claim":"T25 IN_PROGRESS, no completion; T25 intent; T24 security gate state; master checkpoint."},
+    {"path":"evidence/product/product-t24-root-20261009T2204Z/root-prior-captures/schemaforge-t25-proposed-contract.json", "lines":"1-25", "sha256":"8eb537c80fe3c9e61e7eb3d2514ecb51061d2cbc7f8f1d66f93de704acc0e157", "claim":"T25 contract/dependencies and explicit no-applied/schema/deployed inference."},
+    {"path":"docs/inputs/db-research/product-research/feature-catalog.json", "lines":"4789-4835, 4893-4938, 8012-8057", "sha256":"5ffacb343a4cbea75f48537bd5e3bd45d4a6fae7fe0b5965e07fffbb83dcc3ba", "claim":"GOV-019/021 and GIT-005 original feature behavior, acceptance and dependencies."},
+    {"path":"docs/implementation/features.json", "lines":"1960-2065", "sha256":"cac6c511358a83d445ecc724a459c80c0f0ac27c1e225dca7565adf19c7ebb65", "claim":"MIG-008/009 retain BACKLOG original acceptance and dependencies."},
+    {"path":"apps/api/index.ts", "lines":"211-260, 318+, 704+, 906+", "sha256":"30eb94d0e70bda813302f4b73b3ec11f1134f710d2d6380adfe7f2e89547ba42", "claim":"Project list current membership joins; project detail is project-scoped; audit, project plan, and decision endpoints exist."},
+    {"path":"apps/web/src/app.jsx", "lines":"470-476, 1048-1074, 1105+", "sha256":"2bda2677c92976a3e6facb268217c6692c81d3065b9655b91e5b043d8fffe518", "claim":"Plans are sourced from selected project detail and filtered locally; UI documents review-only/no execution."},
+    {"path":"packages/migrations/compare-retained-releases.mjs", "lines":"whole file; uncommitted T25 source", "sha256":"3151525888c0eb4d36b8e6b94ddb931d1c591c7c6dd1795f00d11daf29aef451", "claim":"Inspected the active T25 comparison helper only as current in-progress work, not verified behavior."},
+    {"path":"docs/implementation/backlog.json", "lines":"2915-2945", "sha256":"054a8fea3d0d9aa26d3e43b4bedd9282e15d07ae83c3909f7f680818e539d14b", "claim":"T25 registration and references only."},
+    {"path":"docs/implementation/dependency-graph.json", "lines":"1460-1475", "sha256":"8cbd967ed6f9b9bb69a35aa7ba217cfdc60eb16a7cb44fbf09a25fa71734a11e", "claim":"Existing development dependency chain through T25."},
+    {"path":"docs/decisions/log.json", "lines":"229-253", "sha256":"c27863c98771918b0914267f7e5474e4be9f2ca5be5a7c40eb51cd9127ab7bab", "claim":"SF-D022 safe retained-source priorities; SF-D023 sequencing update."}
+  ],
+  "actions_performed": "Read-only inspection, line searches, git status/rev-parse and SHA-256 computation. No source/contract/tracker writes, tests, Oracle access, credential resolution, or provider/runtime execution. This JSON is the sole write and is outside the repository in /tmp."
+}

@@ -285,6 +285,7 @@ All other API reads/writes require a bearer token:
 | `POST /api/projects/:id/environments` | Create environment (`name`) |
 | `POST /api/projects/:id/profiles` | Store `name`, `environmentId`, `engine=oracle`, `host`, `port`, `service`, `username`, `credentialRef` |
 | `POST /api/projects/:id/releases` | Import `repositoryId`, `commit`, `folder` |
+| `POST /api/projects/:id/releases/compare` | Read-only `baseReleaseId`, `candidateReleaseId` comparison |
 | `GET /api/releases/:id` | Retained source, hashes and parser observations |
 | `POST /api/projects/:id/plans` | Freeze candidate from `releaseId`, `profileId` |
 | `GET /api/projects/:projectId/plans/:id/comments` | Authenticated, ordered historical comment timeline within the project/plan scope |
@@ -363,3 +364,20 @@ This is local development, not a packaged production distribution.
 Fastify request handling follows its [official reference](https://fastify.dev/docs/latest/Reference/Validation-and-Serialization/);
 the web bundle uses [React createRoot](https://react.dev/reference/react-dom/client/createRoot).
 Exact third-party grants and notices are recorded separately from the immutable WP0 audit.
+
+### Compare retained release sources
+
+In **Release intake**, choose a base release and a candidate release, then select **Compare source**.
+The read-only result shows both retained commit and manifest identities plus files aligned by the
+canonical migration version. Each ordered fact labels added, removed, changed or unchanged source
+and displays the retained path, SHA256, byte count and literal SQL for each side. A rename at the
+same version is shown as changed. Comparing one release with itself is supported.
+
+The API requires current project membership and rechecks both releases under project and release
+read locks. It checks database-side payload bounds for both retained manifests before loading either,
+then verifies their stored format-1 manifests and UTF-8 bytes. Releases must share retained repository
+ID, folder and parser profile. An archived project remains readable; removed local repository
+registration does not prevent reviewing retained data. Missing, foreign, revoked, invalid or
+incompatible comparisons use fixed unavailable feedback. Refresh, project, session or either pair
+selection change clears an in-flight result. The comparison never reads Git, reruns the parser,
+creates a plan, writes history, or reports whether SQL was applied or changed a database.

@@ -1,3 +1,26 @@
+## T25 locally verified; exact-head review and security gates pending — 2026-10-09 UTC
+
+Retained same-project release comparison verifies both bounded scoped manifests under read
+locks before materializing SQL. Canonical arbitrary-precision versions produce added, removed,
+changed and unchanged path/content facts. Both roles inspect explicit immutable identities and
+escaped source; pair/project/session/credential/refresh changes invalidate delayed results.
+Historical records, archived reads and repository-unavailable reads remain intact.
+
+Corrected frozen results: standard162, PostgreSQL/Git/pinned-parser product37, browser22;
+zero failures/skips. Native completion, seven source hashes and available captures are verified.
+Earlier selector ReferenceError, incomplete fixture diagnosis, failed attempts, missing draft
+bytes and first-standard-only sequence remain explicit and immutable. Test-only corrections
+prove failed-read full snapshots before restoration and successful visible approver comparison.
+Evidence: `evidence/product/product-t25-root-20261009T2320Z/integration-record.json`.
+
+T24 remains reviewed unmerged draft PR37; required GitHub security services/protection are
+unavailable, never PASS. Exact-head independent QA/security/license and publication scans remain
+pending. SF-D023 permits local progress on this reviewed prerequisite, not final merge.
+Latest verified master remains0fd6980; original220 acceptance unchanged, Oracle independently
+BLOCKED, Sonar unavailable never PASS. Shared original checkout and Hygiene scope untouched.
+Next proposed bounded capability is a pending-review inbox across explicitly granted projects;
+proposal alone is not registration or implementation. No deployed/schema/Oracle claim.
+
 ## T25 local delivery active; T24 security gates remain unavailable — 2026-10-09 UTC
 
 T25 is IN_PROGRESS in `/home/longhn0710/workspace/schemaforge-product-release-source-comparison`,
