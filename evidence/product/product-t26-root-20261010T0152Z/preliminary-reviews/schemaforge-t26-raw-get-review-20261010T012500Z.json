@@ -1,0 +1,24 @@
+{
+  "record_type": "PRELIMINARY_ADJACENT_READ_REVIEW_NOT_EXACT_HEAD_APPROVAL",
+  "task": "SF-PRODUCT-T26",
+  "recorded_at_utc": "2026-10-10T01:25:00Z",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "source_point": {
+    "head": "35fc2ca8de51d43457fb8caadc7636b03a6f25f6",
+    "working_tree_changes_present": true,
+    "source_sha256": {
+      "apps/api/index.ts": "b7a72c4b6f494ca3375ae6e9abd6a65922141561a81ab012210d6e8eb0fcac3a",
+      "packages/migrations/retained-release-preflight.mjs": "fdd7d6bcafb0158bd8bf769eabc9067e677a33b0da12032380aa6554f4b32bd7"
+    }
+  },
+  "finding": {
+    "id": "T26-PRELIM-GET-01",
+    "severity": "MEDIUM",
+    "status": "OPEN_ADJACENT",
+    "location": "apps/api/index.ts: GET /api/releases/:id, current source lines 725-745",
+    "summary": "This authenticated project-member endpoint executes SELECT * on sf_releases and returns r.files directly without database-side count/content/encoded-metadata bounds. A privileged database corruption/direct mutation that replaces files with an extremely large JSONB array or unknown nested extension metadata is fully decoded into Node and serialized to the caller. This is a retained-payload allocation/response-size exposure on a separate raw-detail read. It is distinct from the four T26 mutation/evidence readers; no unauthorized cross-project read was observed because the authenticate prehandler resolves and checks project membership.",
+    "recommended_followup": "Register a separate bounded retained-release detail-read hardening increment after T26: use a scoped row lock and the reusable PostgreSQL scalar preflight before selecting files, retain the existing successful response shape for bounded valid historical records, and return a fixed existing-style unavailable response for corrupt/over-budget rows. Keep authorization and archived read behavior intact.",
+    "scope_note": "Do not treat T26 four-route closure as all retained reads closed. This is a privileged corruption resource-exhaustion condition, not evidence of routine-row exploit or a new credential/data-confidentiality breach.",
+    "limitations": "Static preliminary review only; no tests/builds/scans/lifecycle run. Not exact-head approval."
+  }
+}

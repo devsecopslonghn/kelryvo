@@ -1,0 +1,18 @@
+{
+  "command": [
+    "git",
+    "diff",
+    "--",
+    "apps/api/index.ts",
+    "packages/migrations/retained-release-preflight.mjs",
+    "tests/product-statement-preview.test.mjs",
+    "scripts/test-product.mjs",
+    "docs/development/local-product.md"
+  ],
+  "start_utc": "2026-10-10T01:34:41.469145+00:00",
+  "end_utc": "2026-10-10T01:34:41.477786+00:00",
+  "exit_code": 0,
+  "raw_log": "full-diff-review.raw.log",
+  "raw_sha256": "c80757e0c2f452760f8ffa7ba9d424e11eb5ffe03af2fb2cb9202b930ffb0865",
+  "raw_bytes": 27278
+}

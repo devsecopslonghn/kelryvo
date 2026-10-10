@@ -2688,6 +2688,35 @@
         "path": "evidence/product/product-t25-draft-review-20261010T0119Z/publication/27-observe-draft-ci.raw.log",
         "sha256": "be20af33c5f11ceacb6c5fc7625091d691176cb8b8ccd32011d4c54aa4ff4255"
       }
+    },
+    {
+      "id": "product-t26-retained-metadata-local-verified",
+      "subject_id": "SF-PRODUCT-T26",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen standard162, real PostgreSQL/Git/pinned-parser product37, Chromium browser22; root exact ten-source and42-capture verification",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T26-API",
+        "SF-PRODUCT-T26-PERSISTENCE",
+        "SF-PRODUCT-T26-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t26-root-20261010T0152Z/native/final-browser-suite.raw.log",
+        "sha256": "28a7f7a46f529cd751f6824f437342b241efda943aa4e23a37646ce5f8485e50"
+      },
+      "path": "evidence/product/product-t26-root-20261010T0152Z/integration-manifest-addendum.json",
+      "sha256": "e53643be86e34239b5b52c470865a8eba37821ff09d4b682378779004465dc05"
     }
   ]
 }

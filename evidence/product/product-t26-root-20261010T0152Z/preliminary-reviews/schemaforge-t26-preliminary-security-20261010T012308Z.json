@@ -1,0 +1,23 @@
+{
+  "record_type": "PRELIMINARY_SECURITY_REVIEW_NOT_EXACT_HEAD_APPROVAL",
+  "task": "SF-PRODUCT-T26",
+  "recorded_at_utc": "2026-10-10T01:23:08Z",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "source_point": {
+    "head": "35fc2ca8de51d43457fb8caadc7636b03a6f25f6",
+    "working_tree_changes_present": true,
+    "source_sha256": {
+      "apps/api/index.ts": "cf1c42c17b5d50a873ff56ee0eb75eec44b6d3c65fd7723d636dc7906e82178f",
+      "packages/migrations/retained-release-preflight.mjs": "744558251bfbc85e7943f682ef8a8724a707ba8203ae7548861f042926d10ddf"
+    }
+  },
+  "finding": {
+    "id": "T26-PRELIM-01",
+    "severity": "MEDIUM",
+    "status": "OPEN_PRELIMINARY",
+    "location": "packages/migrations/retained-release-preflight.mjs: SELECT validation_status and subsequent row.validation_status_bytes check",
+    "summary": "The helper returns raw validation_status to Node and only afterward checks its byte length against 20. If direct database corruption replaces this text field with a very large value, PostgreSQL client materializes/transfers the string before complete scalar metadata preflight rejects it. This leaves a narrow oversized scalar allocation before rejection despite retained `files` staying unselected.",
+    "suggested_resolution": "Return a bounded equality fact such as validation_status='VALID' along with octet_length(validation_status), and validate only those scalar results in Node.",
+    "limitations": "Static preliminary source review only. No tests/builds/scans/lifecycle run. Does not assess final head, and does not claim exact-head security approval."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "command": [
+    "git",
+    "status",
+    "--short",
+    "--branch"
+  ],
+  "start_utc": "2026-10-10T01:47:47.328321+00:00",
+  "end_utc": "2026-10-10T01:47:47.340586+00:00",
+  "exit_code": 0,
+  "raw_log": "final-worktree-status.raw.log",
+  "raw_sha256": "ae09c6967f61cd316c525cf0ab2b184465e8d53a0da2e58510bd31374617f215",
+  "raw_bytes": 233
+}

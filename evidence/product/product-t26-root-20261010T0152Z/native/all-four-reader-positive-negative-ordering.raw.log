@@ -1,0 +1,37 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: statement preview is scoped, bounded, archived-readable and read only
+not ok 1 - statement preview is scoped, bounded, archived-readable and read only
+  ---
+  duration_ms: 30158.284365
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/tests/product-statement-preview.test.mjs:35:1'
+  failureType: 'testCodeFailure'
+  error: 'UNDEFINED_VALUE: Undefined values are not allowed'
+  code: 'UNDEFINED_VALUE'
+  stack: |-
+    handleValue (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/node_modules/postgres/src/types.js:83:20)
+    stringifyValue (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/node_modules/postgres/src/types.js:113:5)
+    stringify (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/node_modules/postgres/src/types.js:100:16)
+    build (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/node_modules/postgres/src/connection.js:228:20)
+    Object.execute (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/node_modules/postgres/src/connection.js:172:7)
+    go (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/node_modules/postgres/src/index.js:345:14)
+    Query.handler (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/node_modules/postgres/src/index.js:334:14)
+    Query.handle (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/node_modules/postgres/src/query.js:140:65)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    cachedError (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/node_modules/postgres/src/query.js:170:23)
+    new Query (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/node_modules/postgres/src/query.js:36:24)
+    Object.sql (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/node_modules/postgres/src/index.js:112:11)
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/tests/product-statement-preview.test.mjs:172:25)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 30464.864135

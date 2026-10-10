@@ -1,3 +1,23 @@
+## T26 locally verified; exact-head review pending — 2026-10-10 UTC
+
+Four protected retained-source readers perform complete bounded scalar PostgreSQL metadata
+preflight before payload reads under existing locks. Malformed/oversized known identity and
+unknown nested metadata fail without lifecycle writes. Unicode, arbitrary versions, null
+counts and bounded extensions preserve compatibility. Final standard162, PostgreSQL/Git/parser
+product37, browser22, focused1 and locking/persistence9 pass with zero skips. Root verified
+all42 captures and ten current source hashes. Five paths were captured equal before/after;
+five dependencies were captured only after and match committed checkpoint35fc blobs.
+Original native ten-before/after wording is inaccurate and corrected append-only; original
+record and failed captures remain immutable. One early uncaptured attempt is non-authoritative.
+Evidence: `evidence/product/product-t26-root-20261010T0152Z/integration-manifest-addendum.json`.
+
+Exact-commit independent QA/security/license, scans and CI remain pending. Raw GET release
+detail remains a separate MEDIUM resource concern under privileged database corruption;
+next bounded T27 hardening is proposed before inbox, not yet registered. Draft37/38 unmerged;
+required GitHub security unavailable never PASS. Verified master0fd6980 and shared original
+0346300 untouched; Hygiene integration pending. Sonar exception unchanged, never PASS;
+Oracle VALIDATION independently BLOCKED. Original220 catalog acceptance unchanged.
+
 ## T26 active in isolated metadata preflight worktree — 2026-10-10 UTC
 
 SF-PRODUCT-T26 IN_PROGRESS at schemaforge-product-retained-metadata-preflight,

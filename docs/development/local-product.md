@@ -45,6 +45,14 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    plan, history or audit records. This check uses the stored release only and works when Git
    is unavailable. Verification bounds encoded file size and retained metadata before allocations;
    canonical decimal versions preserve arbitrary-precision ordering without numeric conversion.
+   Statement preview, offline plan creation, evidence-linked comments and approval first run a
+   database-side scalar preflight under their existing scoped row locks. It caps a release at
+   128 files, 2 MiB per file and 16 MiB total SQL, and limits the complete encoded non-content
+   metadata—including unknown nested extension fields, array overhead and release identity—to
+   4 MiB. Known byte and statement-count fields are type-checked with bounded numeric parsing.
+   Small historical extensions, Unicode SQL and null statement counts remain readable; malformed
+   or over-budget metadata returns the route's existing fixed integrity response before SQL file
+   payloads are copied into the API process. No retained record is rewritten or backfilled.
    Review ordered files/hashes and
    `NOT_OBSERVED` target history. No target history was read, so this is not a reconciled
    execution plan and does not claim that all files are pending on a real database.

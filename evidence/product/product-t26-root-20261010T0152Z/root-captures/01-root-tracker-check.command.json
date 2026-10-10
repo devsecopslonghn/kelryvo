@@ -1,0 +1,5 @@
+{
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "command": "node --test tests/tracker.test.mjs && npm run lint && npm run format:check && git diff --check",
+  "started_at_utc": "2026-10-10T01:52:56.730226+00:00"
+}

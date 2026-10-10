@@ -1,0 +1,13 @@
+{
+  "command": [
+    "git",
+    "diff",
+    "--check"
+  ],
+  "start_utc": "2026-10-10T01:47:47.270617+00:00",
+  "end_utc": "2026-10-10T01:47:47.280263+00:00",
+  "exit_code": 0,
+  "raw_log": "final-diff-check.raw.log",
+  "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "raw_bytes": 0
+}

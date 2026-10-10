@@ -1,0 +1,21 @@
+{
+  "command": [
+    "sha256sum",
+    "apps/api/index.ts",
+    "packages/migrations/retained-release-preflight.mjs",
+    "tests/product-statement-preview.test.mjs",
+    "scripts/test-product.mjs",
+    "docs/development/local-product.md",
+    "packages/migrations/verify-retained-release.mjs",
+    "packages/migrations/compare-retained-releases.mjs",
+    "packages/migrations/statement-preview.mjs",
+    "experiments/db-devops-wp0/parser-release.mjs",
+    "experiments/db-devops-wp0/parser-envelope.mjs"
+  ],
+  "start_utc": "2026-10-10T01:47:47.223654+00:00",
+  "end_utc": "2026-10-10T01:47:47.227321+00:00",
+  "exit_code": 0,
+  "raw_log": "source-manifest-after.raw.log",
+  "raw_sha256": "930a1aa5b6d08d103bcc87799714091b7853c33bde138d99bbb19be73c614ae5",
+  "raw_bytes": 1060
+}
