@@ -369,6 +369,26 @@
         "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md",
         "docs/implementation/backlog.json"
       ]
+    },
+    {
+      "id": "SF-D034",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T31",
+      "accepted_at_utc": "2026-10-10T09:55:20.119076+00:00",
+      "decision": "Provide a usable offline approval withdrawal workflow independently on merged master. Any currently credentialed explicitly granted independent approver may withdraw an active project approved offline candidate plan, matching a stable new approval reference or explicit legacy NULL. Preserve immutable original decision/actor/reason/time and all source/intent/release/history records, append one linked revocation and audit, project state REVOKED; no reapproval of the same plan. New APPROVE decisions get a stable reference atomically linked to their success audit; never infer or backfill legacy references from audit history. Remove approval authority even if source/SQL/intent is stale or damaged, without claiming execution rollback. Active-project, current-author independence, exact live token/role/grant, serialization and NOT_EXECUTED/NOT_OBSERVED guards remain. A future actual job/worker must enforce revocation at admission and controlled stop/HOLD; T31 does not implement or certify that missing execution path. Ordinary reversible governance choice under SF-D010; no app admin, role expansion, Oracle calls or credentials.",
+      "references": [
+        "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D035",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T32_MVP_INTEGRATION",
+      "accepted_at_utc": "2026-10-10T10:56:49.940769+00:00",
+      "decision": "Resolve existing reviewed draft backlog as one combined offline MVP checkpoint in an isolated branch, preserving exact reviewed parents and original PRs/worktrees. Inbox eligibility follows assignment at pending review; approval withdrawal follows T31 any-current-independent-granted-approver authority even if different from assignee. Preserve immutable evidence/status semantics and union stable task identities; full feature and master verification require their own acceptance. External security unavailability prevents ready/master merge; no inferred waiver. Ordinary reversible engineering choice under SF-D010 and owner milestone priority.",
+      "references": [
+        "docs/implementation/github-sync.md",
+        "docs/implementation/backlog.json"
+      ]
     }
   ]
 }

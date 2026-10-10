@@ -1,0 +1,33 @@
+{
+  "reviewer": "native /root/t31_review",
+  "frozen_source": "560bb846aed8bad85f4a6c85ab9d991bfa392fe7",
+  "findings": [],
+  "sha256": {
+    "evidence/product/product-t31-approval-revocation-20261010/record.json": "099740ef5b7913678238f51eda930a0b8b3d9015518f3332694497c6f38716f6",
+    "evidence/product/product-t31-approval-revocation-20261010/focused-observations.json": "c91b8925e1cce9520bc33565ca292939753b4504c8e0ad2d279f99ff6163ab6e",
+    "evidence/product/product-t31-approval-revocation-20261010/standard.json": "7e14b4daf9d1817cbb3b6d3b82ed3e06a168807b39f647b59c301ab776c659ac",
+    "evidence/product/product-t31-approval-revocation-20261010/standard.log": "2088ac1780fa1f132478f69b34d4f1ee1cfef0c297dfcba56f02e1d40b5220bb",
+    "evidence/product/product-t31-approval-revocation-20261010/product.json": "7e65bf5b443b4348d40fd6c5493ffbee6acae33a162beea0ae32b45c98ffdfb6",
+    "evidence/product/product-t31-approval-revocation-20261010/product.log": "545883679c4d9ad0e2edd0ad0335c28a181446e95416846b95d4eb8c304bc10a",
+    "evidence/product/product-t31-approval-revocation-20261010/browser.json": "30a247be9baea698955f85c77945078a558633833ca21adcba3d550606911856",
+    "evidence/product/product-t31-approval-revocation-20261010/browser.log": "e1d5bcf330e4b686f3dd902d64199bb1cbaafedb5fe4eaf30b0178534477052d",
+    "evidence/product/product-t31-approval-revocation-20261010/publication-contents-scan.json": "aa9c8384f4d29043ed1cb15fd6dca4a80f9ada384d6d36846d231a4ce277fca7",
+    "docs/implementation/evidence-index.json": "f79f4a085ab26c4c2cb84d3f759a4c4299bb701323e7236d86f6dd5e16e3ed6d",
+    "docs/implementation/backlog.json": "7709f9bb32a35c96071d1cea69f5ab61699129e1c01d8d1c73b5d18f74d1bcc6",
+    "docs/implementation/acceptance.json": "ff8f3b9bc924ba4ec40887ea43efa2b3ee8ca2e0a17eeeaea0b5008c5bb7a76d",
+    "docs/implementation/feature-coverage.json": "9e1b4f8f3ad22e5cc04dbbcf4089234fa8b6e51fde5aaf1e3552f78753e6fe6d",
+    "docs/implementation/milestone.json": "316621bf05b45d26fc43f6742a4794cc81eef5f837c4af866c5bfcdb35cbebe4",
+    "docs/implementation/ownership.json": "b4f8f912a98420654d0378c1c07c1cd91e5139fee30794caab2b396fde2a1f84",
+    "docs/implementation/CURRENT.md": "049cb236ca5ed74335ccc048c66675eaae25cffca9b79d147774cdf36e977723",
+    "docs/implementation/CONTINUE.md": "049cb236ca5ed74335ccc048c66675eaae25cffca9b79d147774cdf36e977723"
+  },
+  "observations": [
+    "Final JSON/raw logs and all18 record/focused nested references matched; standard159/product35/browser21 passed with0fail0cancel0skip and exact frozen before/after head/source.",
+    "All40 contents scan paths matched; pinned scanner exit0/findings0; scope excludes its own subsequently added record.",
+    "T31 index/criteria/references/status and bounded coverage/checkpoint claims consistent. Historical focused failures/skips/capture limits retained; no full GOV011/Oracle/security PASS or merge eligibility claim."
+  ],
+  "limitations": [
+    "Reviewer ran no tests/scans/network; root executes checks and publication.",
+    "This review annotation was added afterward and inspected by root as metadata only."
+  ]
+}

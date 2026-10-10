@@ -1,0 +1,726 @@
+{
+  "recorded_at": "2026-10-10T10:30:03.045112+00:00",
+  "scope": "Append-only focused development observations, including original failures/skips and root corrections. These are not frozen regression acceptance.",
+  "captures": [
+    {
+      "path": "evidence/product/product-t31-approval-revocation-20261010/api-20261010.log",
+      "sha256": "3f4f5b953a16e557dd9324dccb56bc318aa833bc113894d12d2792a12f4231a4",
+      "observed_runs": [
+        {
+          "annotated_command": "node --test tests/product-approval-revocation.test.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              0
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              1
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evidence/product/product-t31-approval-revocation-20261010/implementation-20261010.log",
+      "sha256": "f5d377fe0945831eac7c5b17e43188b3a02b04139e956cf2d001897d645c3125",
+      "observed_runs": [
+        {
+          "annotated_command": "npm run typecheck; npm run build:web; env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              2
+            ],
+            "pass": [
+              2
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run typecheck && npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              2
+            ],
+            "pass": [
+              2
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run typecheck && npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs tests/product-approval-revocation.test.mjs",
+          "tap_summaries": {
+            "tests": [
+              2
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              1
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "1"
+          ]
+        },
+        {
+          "annotated_command": "npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              0
+            ],
+            "fail": [
+              1
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "1"
+          ]
+        },
+        {
+          "annotated_command": "npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run typecheck && npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs tests/product-approval-revocation.test.mjs",
+          "tap_summaries": {
+            "tests": [
+              2
+            ],
+            "pass": [
+              2
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run typecheck && npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              2
+            ],
+            "pass": [
+              2
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run typecheck && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run typecheck && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              0
+            ],
+            "fail": [
+              1
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "1"
+          ]
+        },
+        {
+          "annotated_command": "npm run typecheck && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              0
+            ],
+            "fail": [
+              1
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "1"
+          ]
+        },
+        {
+          "annotated_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run typecheck && npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              2
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              1
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "1"
+          ]
+        },
+        {
+          "annotated_command": "npm run typecheck && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              2
+            ],
+            "pass": [
+              2
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run typecheck && npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              2
+            ],
+            "pass": [
+              2
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run typecheck; npm run build:web; npm run lint; SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              2
+            ],
+            "pass": [
+              2
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              0
+            ],
+            "fail": [
+              1
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "1"
+          ]
+        },
+        {
+          "annotated_command": "npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              0
+            ],
+            "fail": [
+              1
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "1"
+          ]
+        },
+        {
+          "annotated_command": "npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        },
+        {
+          "annotated_command": "npm run typecheck; npm run build:web; npm run lint; SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs",
+          "tap_summaries": {
+            "tests": [
+              2
+            ],
+            "pass": [
+              2
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evidence/product/product-t31-approval-revocation-20261010/root-browser-corrected-1.log",
+      "sha256": "f91f7e90f9d7a39ccbfecb038bf04b29a64f91219a6359ecf69506a065592f66",
+      "observed_runs": [
+        {
+          "annotated_command": "[\"node\", \"--test\", \"tests/product-approval-revocation-browser.integration.mjs\"]",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evidence/product/product-t31-approval-revocation-20261010/root-browser-diagnostic-1.log",
+      "sha256": "ff110f70c816308ef1ae71532ba8119a780c2d04315deed01af7ef05b3cbf655",
+      "observed_runs": [
+        {
+          "annotated_command": "[\"node\", \"--test\", \"tests/product-approval-revocation-browser.integration.mjs\"]",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              0
+            ],
+            "fail": [
+              1
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "1"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evidence/product/product-t31-approval-revocation-20261010/root-busy-ownership-1.log",
+      "sha256": "7dacd9591c87c2d578d19536815fe4dcef394701071213500c51d53157e35a83",
+      "observed_runs": [
+        {
+          "annotated_command": "[\"node\", \"--test\", \"tests/product-approval-revocation-browser.integration.mjs\"]",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evidence/product/product-t31-approval-revocation-20261010/root-correction-1.log",
+      "sha256": "846aa75b56cdb956f85105ab600dce3d0e75b682c5ceda8ec018687d2b469841",
+      "observed_runs": [
+        {
+          "annotated_command": "[\"node\", \"--test\", \"--test-concurrency=1\", \"tests/product-approval-revocation.test.mjs\", \"tests/product-approval-revocation-browser.integration.mjs\"]",
+          "tap_summaries": {
+            "tests": [
+              2
+            ],
+            "pass": [
+              2
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evidence/product/product-t31-approval-revocation-20261010/root-correction-2.log",
+      "sha256": "d502ee9bf732d53236cf955a3df779902c17c89b927010cb967e95dcf32d99f2",
+      "observed_runs": [
+        {
+          "annotated_command": "[\"node\", \"--test\", \"--test-concurrency=1\", \"tests/product-approval-revocation.test.mjs\", \"tests/product-approval-revocation-browser.integration.mjs\"]",
+          "tap_summaries": {
+            "tests": [
+              2
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              1
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "1"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evidence/product/product-t31-approval-revocation-20261010/root-navigation-1.log",
+      "sha256": "0889edc544d0935393eb33d8dad438a4df25f378c77e338ea896e536b8e6df58",
+      "observed_runs": [
+        {
+          "annotated_command": "[\"node\", \"--test\", \"tests/product-approval-revocation-browser.integration.mjs\"]",
+          "tap_summaries": {
+            "tests": [
+              1
+            ],
+            "pass": [
+              1
+            ],
+            "fail": [
+              0
+            ],
+            "cancelled": [
+              0
+            ],
+            "skipped": [
+              0
+            ]
+          },
+          "exit_markers": [
+            "0"
+          ]
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Original command headers are preserved native annotations; shell prefix/individual exit capture varies. No fabricated execution-head or universal before/after source hash claim.",
+    "Initial implementation handoff predates root corrections. Original hash annotations remain in the raw log; current source will be frozen and verified separately.",
+    "Root corrected reference-null assertion masked by uniqueness, recovery snapshots taken after recovery, multiline reason handling, scoped busy navigation and stale operation cleanup. Two root browser failures were exact-text selector errors: banner close button appended ×; actual API201/success notice confirmed in diagnostic capture."
+  ]
+}

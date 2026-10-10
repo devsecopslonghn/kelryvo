@@ -82,15 +82,69 @@ export async function initializeDatabase(sql: any): Promise<void> {
       planning_scope text NOT NULL DEFAULT 'OFFLINE_CANDIDATE',
       offline_intent_envelope text,
       offline_intent_digest text CHECK (offline_intent_digest IS NULL OR offline_intent_digest ~ '^[a-f0-9]{64}$'),
+      approval_reference uuid,
       FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
       FOREIGN KEY(release_id,project_id) REFERENCES sf_releases(id,project_id),
       FOREIGN KEY(profile_id,project_id) REFERENCES sf_profiles(id,project_id), UNIQUE(id,project_id)
     );
+    ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS approval_reference uuid;
+    DO $$ BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_plans'::regclass AND conname='sf_plans_approval_reference_scope') THEN
+        ALTER TABLE sf_plans ADD CONSTRAINT sf_plans_approval_reference_scope UNIQUE(id,organization_id,approval_reference);
+      END IF;
+    END $$;
     CREATE TABLE IF NOT EXISTS sf_audit (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), project_id uuid NOT NULL, organization_id uuid NOT NULL,
       actor_id text NOT NULL, action text NOT NULL, resource_id uuid, facts jsonb NOT NULL DEFAULT '{}'::jsonb,
       created_at timestamptz NOT NULL DEFAULT now(), FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id)
     );
+    CREATE TABLE IF NOT EXISTS sf_plan_approval_revocations (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
+      project_id uuid NOT NULL, plan_id uuid NOT NULL, approval_reference uuid,
+      actor_id text NOT NULL, actor_name text NOT NULL,
+      reason text NOT NULL CHECK (length(btrim(reason)) BETWEEN 1 AND 2000 AND octet_length(reason) <= 8000),
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
+      FOREIGN KEY(plan_id,project_id) REFERENCES sf_plans(id,project_id),
+      UNIQUE(plan_id,organization_id)
+    );
+    DO $$ BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_plan_approval_revocations'::regclass AND conname='sf_revocations_approval_reference_link') THEN
+        ALTER TABLE sf_plan_approval_revocations ADD CONSTRAINT sf_revocations_approval_reference_link
+          FOREIGN KEY(plan_id,organization_id,approval_reference) REFERENCES sf_plans(id,organization_id,approval_reference);
+      END IF;
+    END $$;
+    DO $$ BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_plan_approval_revocations'::regclass AND conname='sf_revocations_actor_scope') THEN
+        ALTER TABLE sf_plan_approval_revocations ADD CONSTRAINT sf_revocations_actor_scope
+          FOREIGN KEY(actor_id,organization_id) REFERENCES sf_local_actors(id,organization_id);
+      END IF;
+    END $$;
+    CREATE OR REPLACE FUNCTION sf_check_approval_revocation_reference() RETURNS trigger LANGUAGE plpgsql AS $function$
+      DECLARE current_reference uuid;
+      BEGIN
+        SELECT approval_reference INTO current_reference FROM sf_plans
+          WHERE id=NEW.plan_id AND organization_id=NEW.organization_id;
+        IF current_reference IS DISTINCT FROM NEW.approval_reference THEN
+          RAISE EXCEPTION 'approval revocation reference does not match its plan';
+        END IF;
+        RETURN NEW;
+      END
+    $function$;
+    DO $$ BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_plan_approval_revocations_reference_match') THEN
+        CREATE TRIGGER sf_plan_approval_revocations_reference_match BEFORE INSERT
+          ON sf_plan_approval_revocations FOR EACH ROW EXECUTE FUNCTION sf_check_approval_revocation_reference();
+      END IF;
+    END $$;
+    DO $ddl$ BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_plan_approval_revocations_immutable') THEN
+        CREATE OR REPLACE FUNCTION sf_reject_approval_revocation_mutation() RETURNS trigger LANGUAGE plpgsql AS $$
+          BEGIN RAISE EXCEPTION 'approval revocations are immutable'; END $$;
+        CREATE TRIGGER sf_plan_approval_revocations_immutable BEFORE UPDATE OR DELETE
+          ON sf_plan_approval_revocations FOR EACH ROW EXECUTE FUNCTION sf_reject_approval_revocation_mutation();
+      END IF;
+    END $ddl$;
     CREATE TABLE IF NOT EXISTS sf_plan_comments (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), position bigint GENERATED ALWAYS AS IDENTITY UNIQUE,
       project_id uuid NOT NULL, organization_id uuid NOT NULL, plan_id uuid NOT NULL,
@@ -154,6 +208,7 @@ export async function initializeDatabase(sql: any): Promise<void> {
     ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_updated_at timestamptz;
     ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_binding_generation bigint NOT NULL DEFAULT 1;
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS decided_by_name text;
+    ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS approval_reference uuid;
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS offline_intent_envelope text;
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS offline_intent_digest text;
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS source_binding_generation bigint;

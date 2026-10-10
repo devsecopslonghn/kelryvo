@@ -45,3 +45,13 @@ attestations. Ownership changes preserve assignment history and existing project
 Legacy connection profiles and offline plans remain separate; attaching a reference to
 an executable target requires verified identity, scoped credentials, assignment revisions
 and the worker's actual authorization and history checks.
+
+The bounded T31 approval-withdrawal contract keeps the original approval immutable and
+appends a linked revocation while projecting the plan lifecycle as REVOKED. New approvals
+have a server-issued reference linked to their approval audit; legacy NULL references are
+explicit and never inferred from history. Withdrawal requires a current independent
+approver, explicit project membership and an active project after lifecycle serialization.
+It can remove authority from stale or damaged offline content without rewriting the
+release, intent or NOT_EXECUTED/NOT_OBSERVED history. Corrections create a fresh release
+and plan. This control-plane contract does not supply queued-job admission, worker HOLD
+or rollback of committed effects; those remain execution acceptance requirements.

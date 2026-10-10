@@ -1,0 +1,26 @@
+{
+  "reviewer": "native /root/t31_review",
+  "frozen_head": "560bb846aed8bad85f4a6c85ab9d991bfa392fe7",
+  "findings": [],
+  "sha256": {
+    "apps/api/index.ts": "39a1c82f0653efacd091604c3da306271292788d1334d5137780d1055534165a",
+    "packages/database/index.ts": "8d12db112dc24d1cecb99ffc944d5995fdb0449385387ffb6e1a481776c0ffc7",
+    "apps/web/src/app.jsx": "5438b0517f7bf3cca4604553141363c574ee1781ecd99c872dccf59fb45ed8a6",
+    "scripts/test-product.mjs": "528afd13937e341bd37f4a226618f54a1f869ef752663199a80b337551596dfa",
+    "tests/product-approval-revocation.test.mjs": "21e5dbca464998de9e16be8c2b4666ce26b5216a259e836348335dfc5af14a80",
+    "tests/product-approval-revocation-browser.integration.mjs": "c2e16af336b897868fdbf4d312f264eb823ecf99fb3071f84aabb17f855def8c",
+    "docs/development/local-product.md": "e98e8a1f02170c7448ab39c78103eac36066117e75a580a8e75ccdc94d9d44b8",
+    "docs/architecture/boundaries.md": "89fa3e1716bd694068ee092967d3b99430788d8b23a43ba3e2fb8b1b0675eb16"
+  },
+  "scope": "Independent source safety/quality/license-boundary review of eight implementation/docs paths: approval/audit reference and NULL/non-NULL trigger consistency, scoped FKs and uniqueness, lock order/live authority, strict payload/reasons, hidden scope/denial audits, protected-state/corrupt content, original decision/fresh recovery, delayed response and busy-state ownership, escaped success text.",
+  "resolved_work_in_progress_observations": [
+    "Conflict/bootstrap feedback gap repaired before freeze.",
+    "NULL reference storage consistency supported by trigger plus non-null reference FK and non-null same-plan/project/org scope FKs.",
+    "Project busy navigation restricted to withdrawal; old completion cannot clear newer mutation/refresh busy state."
+  ],
+  "limitations": [
+    "Reviewer ran no tests/scans/network; root owns actual execution and publication gates.",
+    "Root-owned untracked evidence directory not inspected or hashed by this source review.",
+    "No new dependency/package/notice/import/license/pin changes; no full distribution or Oracle runtime acceptance claim."
+  ]
+}

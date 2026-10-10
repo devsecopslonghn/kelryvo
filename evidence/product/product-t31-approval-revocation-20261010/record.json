@@ -1,0 +1,118 @@
+{
+  "id": "product-t31-approval-revocation-local-verified",
+  "subject_id": "SF-PRODUCT-T31",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "exit_code": 0,
+  "command": "Frozen serial standard/product/pinned-parser/Chromium regressions; independent exact-source review and root bounded acceptance/diff review",
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_references": [
+    "SF-PRODUCT-T31-API",
+    "SF-PRODUCT-T31-WEB",
+    "SF-PRODUCT-T31-PERSISTENCE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t31-approval-revocation-20261010/standard.log",
+    "sha256": "2088ac1780fa1f132478f69b34d4f1ee1cfef0c297dfcba56f02e1d40b5220bb"
+  },
+  "recorded_at": "2026-10-10T10:43:32.643002+00:00",
+  "implementation_head": "560bb846aed8bad85f4a6c85ab9d991bfa392fe7",
+  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "regressions": {
+    "standard": {
+      "result": "evidence/product/product-t31-approval-revocation-20261010/standard.json",
+      "result_sha256": "7e14b4daf9d1817cbb3b6d3b82ed3e06a168807b39f647b59c301ab776c659ac",
+      "raw_output": "evidence/product/product-t31-approval-revocation-20261010/standard.log",
+      "raw_output_sha256": "2088ac1780fa1f132478f69b34d4f1ee1cfef0c297dfcba56f02e1d40b5220bb",
+      "counts": {
+        "tests": 159,
+        "pass": 159,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "check"
+      ]
+    },
+    "product": {
+      "result": "evidence/product/product-t31-approval-revocation-20261010/product.json",
+      "result_sha256": "7e65bf5b443b4348d40fd6c5493ffbee6acae33a162beea0ae32b45c98ffdfb6",
+      "raw_output": "evidence/product/product-t31-approval-revocation-20261010/product.log",
+      "raw_output_sha256": "545883679c4d9ad0e2edd0ad0335c28a181446e95416846b95d4eb8c304bc10a",
+      "counts": {
+        "tests": 35,
+        "pass": 35,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:product"
+      ]
+    },
+    "browser": {
+      "result": "evidence/product/product-t31-approval-revocation-20261010/browser.json",
+      "result_sha256": "30a247be9baea698955f85c77945078a558633833ca21adcba3d550606911856",
+      "raw_output": "evidence/product/product-t31-approval-revocation-20261010/browser.log",
+      "raw_output_sha256": "e1d5bcf330e4b686f3dd902d64199bb1cbaafedb5fe4eaf30b0178534477052d",
+      "counts": {
+        "tests": 21,
+        "pass": 21,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:browser"
+      ]
+    }
+  },
+  "reviews": [
+    {
+      "path": "evidence/product/product-t31-approval-revocation-20261010/independent-review-final-source.json",
+      "sha256": "68377398291a26fe2ac25badbeea437f8861bb73e43276f3723556f1dd9794ce",
+      "reviewer_ran_tests": false
+    }
+  ],
+  "focused_observations": {
+    "path": "evidence/product/product-t31-approval-revocation-20261010/focused-observations.json",
+    "sha256": "c91b8925e1cce9520bc33565ca292939753b4504c8e0ad2d279f99ff6163ab6e"
+  },
+  "acceptance_observations": [
+    "New approvals have a server reference atomically linked to their approval audit UUID. Legacy NULL is explicit and unbackfilled. Revocation appends an immutable scoped record/audit and changes only lifecycle projection; populated protected snapshots and actual metadata/app reopen preserve records.",
+    "Strict reason/reference payload, active offline state, independent retained author and current exact credential/role/grant checks under consistent lock order; hidden scopes stay hidden. Actual observed lock waits against an eligible approved plan exercise credential, role and membership changes. Concurrent withdrawals produce one success event; corrupt retained content remains withdrawable.",
+    "Scoped plan reads expose original approval separately from revocation; REVOKED UI filtering and fresh release/new pending-plan recovery preserve original records. Execution remains unavailable with NOT_EXECUTED/NOT_OBSERVED states.",
+    "React controls and safe text distinguish original decision/withdrawal, accept bounded multiline reasons and report conflicts. Controlled actual response completion across ABA, refresh and new session is discarded; stale cleanup cannot clear a newer ordinary write busy state.",
+    "Frozen local PostgreSQL/API/pinned-parser/Chromium regressions passed without skips, independently reviewed source hashes match, and root reviewed the final diff. Original catalog/dependencies/license/notices/pins remain unchanged."
+  ],
+  "limitations": [
+    "Bounded offline approval withdrawal only. Full GOV011 queued-job admission, worker controlled stop/HOLD and committed-effects acceptance remain unimplemented/unverified; no Oracle19c/21c runtime validation.",
+    "Focused original failures/skips and corrected test assertions remain in append-only captures; development command/source-boundary capture limits are explicit. Only these frozen serial runs supply final regression acceptance.",
+    "Independent master-based source; prior T24-T30 verified facets remain explicitly unmerged in their own branches. No integrated-master or whole-feature certification.",
+    "Required external code/secret scanning and branch-protection permissions remain unavailable; no security PASS, readiness, eligible merge or deployment claim."
+  ]
+}

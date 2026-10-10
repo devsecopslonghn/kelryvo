@@ -1,0 +1,28 @@
+{
+  "reviewer": "native /root/t31_review",
+  "candidate_head": "b78776d8625654abd9164b75fadd2d0dde7a1e7e",
+  "finding_fingerprint": "b78776d8625654abd9164b75fadd2d0dde7a1e7e:evidence/product/product-t31-approval-revocation-20261010/publication-contents-scan.json:generic-api-key:23",
+  "disposition": "FALSE_POSITIVE_INERT_EVIDENCE_DIGEST",
+  "scanner_exit_code_preserved": 1,
+  "finding_count_preserved": 1,
+  "basis": "The reported line23 value equals the actual SHA-256 of the full43-line referenced test log. Native reviewer read all43 lines: commands, source hashes, TAP output and local environment references; no credential or API key. Original scanner records and report retained unchanged.",
+  "bindings": [
+    {
+      "path": "evidence/product/product-t31-approval-revocation-20261010/publication-incoming-scan.json",
+      "sha256": "3ab0d364828de1e2d0971f481be22651e5cddc3d1186557855714c87795b2170"
+    },
+    {
+      "path": "evidence/product/product-t31-approval-revocation-20261010/publication-contents-scan.json",
+      "sha256": "aa9c8384f4d29043ed1cb15fd6dca4a80f9ada384d6d36846d231a4ce277fca7"
+    },
+    {
+      "path": "evidence/product/product-t31-approval-revocation-20261010/api-20261010.log",
+      "sha256": "3f4f5b953a16e557dd9324dccb56bc318aa833bc113894d12d2792a12f4231a4"
+    }
+  ],
+  "private_original_report_sha256": "9185fb65face96c0945affadf484af1d4d152be5192cdf19127837c2e5123958",
+  "limitations": [
+    "No scanner rule suppression, threshold/config change or fabricated scan PASS.",
+    "Reviewer ran no tests/scans/network. No external security gate PASS or merge eligibility claim."
+  ]
+}

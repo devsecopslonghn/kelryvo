@@ -1315,6 +1315,14 @@
     "SF-PRODUCT-T30": {
       "assigned_agent": "backend",
       "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T31": {
+      "assigned_agent": "backend",
+      "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T32": {
+      "assigned_agent": "backend",
+      "status": "IN_PROGRESS"
     }
   }
 }
