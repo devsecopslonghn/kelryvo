@@ -6,6 +6,29 @@ const hash = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const uuid = (value) => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 const text = (value, max) => typeof value === 'string' && value.length > 0 && value.length <= max && Buffer.from(value, 'utf8').toString('utf8') === value && !/[\u0000-\u001f\u007f]/.test(value);
 const credential = (value) => text(value, 512) && /^(?:vault|secret):\/\/[A-Za-z0-9._/-]{1,500}$/.test(value);
+export const MAX_PLAN_STATEMENTS = 4096;
+
+function statementRows(statements, items) {
+  if (!Array.isArray(statements) || !statements.length || statements.length > MAX_PLAN_STATEMENTS) return null;
+  const rows = [];
+  let fileIndex = 0, fileOrdinal = 0, previousEnd = 0, approximateBytes = 0;
+  for (let index = 0; index < statements.length; index++) {
+    const s = statements[index];
+    if (s?.path !== items[fileIndex]?.path) {
+      if (!fileOrdinal || s?.path !== items[++fileIndex]?.path) return null;
+      fileOrdinal = 0; previousEnd = 0;
+    }
+    if (!s || s.ordinal !== index + 1 || s.fileOrdinal !== ++fileOrdinal
+        || !Number.isSafeInteger(s.startByte) || !Number.isSafeInteger(s.endByte)
+        || s.startByte < previousEnd || s.endByte <= s.startByte || s.endByte > MAX_INPUT_BYTES
+        || !/^[a-f0-9]{64}$/.test(s.sourceSha256 ?? '') || !/^[a-f0-9]{64}$/.test(s.executionSha256 ?? '')) return null;
+    approximateBytes += s.path.length * 6 + 220;
+    if (approximateBytes > MAX_STDOUT_BYTES) return null;
+    rows.push([s.ordinal, s.path, s.fileOrdinal, s.startByte, s.endByte, s.sourceSha256, s.executionSha256]);
+    previousEnd = s.endByte;
+  }
+  return fileIndex === items.length - 1 ? rows : null;
+}
 
 // Format 1 is a fixed ordered JSON array. It avoids relying on object property order
 // or claiming a general JSON canonicalization implementation.
@@ -36,11 +59,18 @@ export function encodeOfflinePlanIntent(facts) {
     facts.environmentId, facts.environmentName, facts.engine, facts.host, facts.service, facts.username,
     facts.credentialRef].reduce((sum, value) => sum + value.length * 6 + 8, 0);
   if (approximateBytes > MAX_STDOUT_BYTES) return null;
-  const envelope = JSON.stringify([1, facts.organizationId, facts.projectId, facts.requesterId,
+  const row = [1, facts.organizationId, facts.projectId, facts.requesterId,
     facts.releaseId, facts.commit, facts.objectFormat, facts.folder, facts.parserProfile,
     facts.manifestDigest, facts.profileId, facts.profileName, facts.environmentId,
     facts.environmentName, facts.engine, facts.host, facts.port, facts.service,
-    facts.username, facts.credentialRef, items]);
+    facts.username, facts.credentialRef, items];
+  if (facts.statements !== undefined) {
+    const statements = statementRows(facts.statements, facts.items);
+    if (!statements) return null;
+    row[0] = 2;
+    row.push(statements);
+  }
+  const envelope = JSON.stringify(row);
   if (Buffer.byteLength(envelope, 'utf8') > MAX_STDOUT_BYTES) return null;
   return { envelope, digest: hash(Buffer.from(envelope, 'utf8')) };
 }
@@ -50,16 +80,24 @@ export function verifyOfflinePlanIntent(envelope, digest, expected) {
     if (typeof envelope !== 'string' || Buffer.byteLength(envelope, 'utf8') > MAX_STDOUT_BYTES
       || !/^[a-f0-9]{64}$/.test(digest ?? '') || hash(Buffer.from(envelope, 'utf8')) !== digest) return null;
     const row = JSON.parse(envelope);
-    if (!Array.isArray(row) || row.length !== 21 || row[0] !== 1 || JSON.stringify(row) !== envelope) return null;
+    if (!Array.isArray(row) || ![1, 2].includes(row[0]) || row.length !== (row[0] === 1 ? 21 : 22)
+        || JSON.stringify(row) !== envelope) return null;
     const [version, organizationId, projectId, requesterId, releaseId, commit, objectFormat, folder, parserProfile,
-      manifestDigest, profileId, profileName, environmentId, environmentName, engine, host, port, service, username, credentialRef, rawItems] = row;
+      manifestDigest, profileId, profileName, environmentId, environmentName, engine, host, port, service, username, credentialRef, rawItems, rawStatements] = row;
+    if (!Array.isArray(rawItems) || !rawItems.length || rawItems.length > MAX_RELEASE_FILES
+        || version === 2 && (!Array.isArray(rawStatements) || !rawStatements.length || rawStatements.length > MAX_PLAN_STATEMENTS)) return null;
+    const statements = version === 2 && Array.isArray(rawStatements) ? rawStatements.map(s => Array.isArray(s) ? ({
+      ordinal: s[0], path: s[1], fileOrdinal: s[2], startByte: s[3], endByte: s[4], sourceSha256: s[5], executionSha256: s[6],
+    }) : null) : undefined;
+    if (version === 2 && !statements) return null;
     const encoded = encodeOfflinePlanIntent({ organizationId, projectId, requesterId, releaseId, commit, objectFormat, folder,
       parserProfile, manifestDigest, profileId, profileName, environmentId, environmentName, engine, host, port, service,
-      username, credentialRef, items: rawItems?.map((item) => Array.isArray(item) ? ({ path: item[0], version: item[1], sha256: item[2] }) : null) });
-    if (!encoded || encoded.envelope !== envelope || version !== 1) return null;
-    const publicFacts = { format: 1, digest, organizationId, projectId, releaseId, commit, objectFormat, folder, parserProfile, manifestDigest,
+      username, credentialRef, statements, items: rawItems?.map((item) => Array.isArray(item) ? ({ path: item[0], version: item[1], sha256: item[2] }) : null) });
+    if (!encoded || encoded.envelope !== envelope) return null;
+    const publicFacts = { format: version, digest, organizationId, projectId, releaseId, commit, objectFormat, folder, parserProfile, manifestDigest,
       requesterId, profileId, profileName, environmentId, environmentName, engine, host, port, service, username,
-      items: rawItems.map(([path, version, sha256]) => ({ path, version, sha256 })) };
+      items: rawItems.map(([path, version, sha256]) => ({ path, version, sha256 })),
+      ...(version === 2 ? { statements } : {}) };
     if (expected && Object.entries(expected).some(([key, value]) => JSON.stringify(publicFacts[key]) !== JSON.stringify(value))) return null;
     return publicFacts;
   } catch { return null; }

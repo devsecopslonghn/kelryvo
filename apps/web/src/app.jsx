@@ -224,6 +224,42 @@ function StatementPreviewResult({ result, onSelectEvidence, selectedEvidence = [
   </section>;
 }
 
+function StatementEnvelope({ token, projectId, planId, intentDigest }) {
+  const [rows, setRows] = useState([]), [next, setNext] = useState(null), [error, setError] = useState(''), [loading, setLoading] = useState(false);
+  const sequence = useRef(0);
+  const load = async (after = 0, append = false) => {
+    const n = ++sequence.current;
+    setLoading(true); setError('');
+    if (!append) { setRows([]); setNext(null); }
+    try {
+      const params = new URLSearchParams({ intentDigest, after: String(after) });
+      const result = await json(`/api/projects/${encodeURIComponent(projectId)}/plans/${encodeURIComponent(planId)}/statement-envelope?${params}`, token);
+      if (n !== sequence.current) return;
+      if (result.format !== 2 || result.intentDigest !== intentDigest || result.offline !== true || result.executionAuthority !== false
+          || !Number.isSafeInteger(result.statementCount) || result.statementCount < 1 || result.statementCount > 4096
+          || !Array.isArray(result.statements) || !result.statements.length || result.statements.length > 50
+          || result.statements.some((s, i) => !s || s.ordinal !== after + i + 1 || typeof s.path !== 'string'
+            || !Number.isSafeInteger(s.fileOrdinal) || s.fileOrdinal < 1
+            || !Number.isSafeInteger(s.startByte) || !Number.isSafeInteger(s.endByte) || s.startByte < 0 || s.endByte <= s.startByte
+            || !/^[a-f0-9]{64}$/.test(s.sourceSha256 ?? '') || !/^[a-f0-9]{64}$/.test(s.executionSha256 ?? ''))
+          || result.nextOrdinal !== (after + result.statements.length < result.statementCount ? after + result.statements.length : null)) throw new Error('INVALID_STATEMENT_ENVELOPE');
+      setRows(old => append ? [...old, ...result.statements] : result.statements); setNext(result.nextOrdinal);
+    } catch {
+      if (n === sequence.current) { setRows([]); setNext(null); setError('Statement identities are unavailable. Refresh the plan before approval.'); }
+    } finally { if (n === sequence.current) setLoading(false); }
+  };
+  useEffect(() => { void load(); return () => { sequence.current++; }; }, [token, projectId, planId, intentDigest]);
+  return <section aria-label="Bound statement sequence" className="panel">
+    <h3>Bound statement sequence</h3><p>Ordered identities retained in this plan’s approval digest. Offline parser evidence; target history and execution authority are unavailable.</p>
+    {error && <p className="banner error" role="alert">{error}</p>}
+    {loading && <p role="status">Loading statement identities…</p>}
+    {!!rows.length && <div className="file-table-wrap"><table><thead><tr><th>Order</th><th>Migration</th><th>File statement</th><th>Source bytes</th><th>Source SHA-256</th><th>Execution SHA-256</th></tr></thead><tbody>
+      {rows.map(s => <tr key={s.ordinal}><td>{s.ordinal}</td><td><code>{s.path}</code></td><td>{s.fileOrdinal}</td><td>{s.startByte}–{s.endByte}</td><td><code className="checksum">{s.sourceSha256}</code></td><td><code className="checksum">{s.executionSha256}</code></td></tr>)}
+    </tbody></table></div>}
+    {next !== null && <button type="button" className="secondary" disabled={loading} onClick={() => void load(next, true)}>Load more statement identities</button>}
+  </section>;
+}
+
 function SchemaReferences({ token, projectId, onMissing }) {
   const [rows,setRows]=useState([]),[next,setNext]=useState(null),[error,setError]=useState(''),[loading,setLoading]=useState(false);
   const seq=useRef(0);
@@ -1229,7 +1265,7 @@ function App() {
     await requestStatementPreview(reference.releaseId, reference.filePath, planId, reference, source);
   };
 
-  const model = { actor, accessMode, metadataRecovery, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, requestExecution, cancelExecution };
+  const model = { token, actor, accessMode, metadataRecovery, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, requestExecution, cancelExecution };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -1392,7 +1428,7 @@ function ReleaseScreen({ model }) {
 
 
 function ReviewScreen({ model }) {
-  const { metadataRecovery, readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview, actor, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, requestExecution, cancelExecution } = model;
+  const { token, projectId, metadataRecovery, readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview, actor, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, requestExecution, cancelExecution } = model;
   const scopedProfiles = projectLoaded && Array.isArray(detail?.profiles) ? detail.profiles : [];
   const scopedEnvironments = projectLoaded && Array.isArray(detail?.environments) ? detail.environments : [];
   const targetProfile = typeof plan?.profileId === 'string'
@@ -1405,7 +1441,8 @@ function ReviewScreen({ model }) {
     && typeof targetProfile.environmentId === 'string'
     && typeof targetEnvironment.id === 'string' && typeof targetEnvironment.name === 'string');
   const intent = plan?.offlineIntent;
-  const retainedIntentAvailable = Boolean(intent && intent.format === 1
+  const retainedIntentAvailable = Boolean(intent && [1, 2].includes(intent.format)
+    && (intent.format === 1 || Number.isSafeInteger(intent.statementCount) && intent.statementCount >= 1 && intent.statementCount <= 4096)
     && typeof intent.digest === 'string' && /^[a-f0-9]{64}$/.test(intent.digest)
     && intent.profileId === plan.profileId && typeof intent.profileName === 'string'
     && typeof intent.environmentId === 'string' && typeof intent.environmentName === 'string'
@@ -1440,6 +1477,13 @@ function ReviewScreen({ model }) {
                     ? <p className="banner error">Retained offline intent is unavailable for this plan.</p>
                     : <dl className="target-facts"><div><dt>Intent SHA-256</dt><dd><code>{plan.offlineIntent.digest}</code></dd></div><div><dt>Profile ID</dt><dd><code>{plan.offlineIntent.profileId}</code></dd></div><div><dt>Profile name</dt><dd>{plan.offlineIntent.profileName}</dd></div><div><dt>Environment ID</dt><dd><code>{plan.offlineIntent.environmentId}</code></dd></div><div><dt>Environment name</dt><dd>{plan.offlineIntent.environmentName}</dd></div><div><dt>Engine</dt><dd>{plan.offlineIntent.engine}</dd></div><div><dt>Host</dt><dd>{plan.offlineIntent.host}</dd></div><div><dt>Port</dt><dd>{plan.offlineIntent.port}</dd></div><div><dt>Service</dt><dd>{plan.offlineIntent.service}</dd></div><div><dt>Username</dt><dd>{plan.offlineIntent.username}</dd></div></dl>}
                 </section>
+                {retainedIntentAvailable && intent.format === 2 && <StatementEnvelope key={`${token}:${projectId}:${plan.id}:${intent.digest}`} token={token} projectId={projectId} planId={plan.id} intentDigest={intent.digest}/>}
+                {retainedIntentAvailable && intent.format === 1 && <p className="banner warning">This legacy plan binds files only. Prepare a new plan and obtain a new approval to bind the complete statement sequence; its existing history remains unchanged.</p>}
+                <section className="panel" aria-label="Execution readiness"><h3>Execution readiness</h3>
+                  <p>Target history, trusted worker admission, canonical target mutex and dispatch permits are unavailable. Requests remain waiting for validation.</p>
+                  {plan.status !== 'APPROVED' && <p>An independent approval is required.</p>}
+                  {(!retainedIntentAvailable || intent.format === 1) && <p>A valid statement-bound plan requires fresh preparation and approval.</p>}
+                </section>
                 <section className="panel configured-target" aria-label="Configured target" data-plan-target-id={plan.id}>
                   <div className="panel-heading"><div><h3>Configured target</h3><p>Current configured metadata · not a plan snapshot or runtime observed identity.</p></div></div>
                   {!targetAvailable ? <><dl className="target-facts"><div><dt>Profile ID</dt><dd><code>{typeof plan.profileId === 'string' ? plan.profileId : '—'}</code></dd></div><div><dt>Environment ID</dt><dd><code>{typeof targetProfile?.environmentId === 'string' ? targetProfile.environmentId : '—'}</code></dd></div></dl><p className="banner error">Configured profile or environment is unavailable for this plan.</p></>
@@ -1466,7 +1510,7 @@ function ReviewScreen({ model }) {
                   <p>Approved plan requests wait for observed target history and validation. This local product cannot execute the current offline candidate.</p>
                   {plan.status === 'APPROVED' && detail.canDeploy && !isArchived && <div className="decision-box"><label htmlFor="execution-reason">Request reason</label>
                     <textarea id="execution-reason" value={executionReason} onChange={event => setExecutionReason(event.target.value)} maxLength={1000} placeholder="Why is this deployment being requested?"/>
-                    <button type="button" className="primary" onClick={requestExecution} disabled={busy || metadataRecovery.state !== 'ACTIVE' || !executionReason.trim()}>Request deployment</button>
+                    <button type="button" className="primary" onClick={requestExecution} disabled={busy || metadataRecovery.state !== 'ACTIVE' || !retainedIntentAvailable || intent.format !== 2 || !executionReason.trim()}>Request deployment</button>
                     <small>Retrying unchanged details reuses the request key. Changing the reason starts a new request.</small>
                   </div>}
                   {plan.status === 'APPROVED' && !detail.canDeploy && <p className="muted">Deployment permission has not been granted by the local OS operator.</p>}

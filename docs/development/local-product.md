@@ -180,20 +180,33 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    or environment displays a fixed unavailable message and the retained reference IDs; it
    never falls back to another profile. Credential references and secrets are not displayed
    or resolved. This read-only view does not connect to a database.
-   Each new plan also stores a format-1 offline intent envelope and SHA-256 digest in the
-   plan transaction. Format 1 is a UTF-8 JSON array in this fixed order: version `1`,
+   Each new plan stores a format-2 offline intent envelope and SHA-256 digest in the
+   plan transaction. Historical format 1 remains a UTF-8 JSON array in this fixed order: version `1`,
    organization ID, project ID, authenticated requester ID, release ID, full commit,
    object format, folder, parser profile, manifest digest, profile ID and name, environment
    ID and name, engine, host, port, service, username, opaque credential reference, then
    ordered `[path, version, sha256]` item arrays. The digest hashes the exact UTF-8 array
    bytes; this is a task-specific encoding, not a general canonical JSON implementation.
-   Review displays only the digest and captured non-secret target/environment facts. The
+   Format 2 changes the version to `2` and appends the complete ordered statement array:
+   `[ordinal, path, fileOrdinal, startByte, endByte, sourceSha256, executionSha256]`.
+   The pinned parser derives every statement from one verified immutable retained-release
+   snapshot, in numeric migration order. The complete stream is capped at 4,096 statements
+   and the whole envelope at 4 MiB; empty, incomplete or oversized streams fail planning.
+   Review pages through this bound sequence in 50-row pages using the exact intent digest.
+   The read-only scoped endpoint returns identity metadata, without SQL or authority;
+   delayed responses after plan/project/session changes cannot replace the selected view.
+   Review also displays the digest and captured non-secret target/environment facts. The
    retained credential reference is never returned in the offline-intent view or rendered.
    Approval rechecks the envelope digest and its requester, scope, release provenance and
-   ordered items while holding the existing transaction locks. Missing, malformed or
-   changed intent fails closed without decision, history or audit writes; legacy plans stay
-   inspectable but cannot be approved. Reconfiguring a target affects new plans only.
-   These local checks do not observe Oracle identity/history, revalidate at execution, or
+   ordered items while holding the existing transaction locks. Format-2 approval and
+   deployment requests rederive the entire statement stream and require exact equality.
+   Missing, malformed or changed intent fails closed without decision, history or audit
+   writes. Historical format-1 intents remain readable and retain their file-only approval
+   behavior; their requests return `STATEMENT_APPROVAL_REQUIRED` without creating a job.
+   Prepare a fresh format-2 plan and obtain a fresh independent approval; never rewrite
+   or silently upgrade historical approval bytes. Plans lacking an intact intent remain
+   inspectable and cannot be approved. Reconfiguring a target affects new plans only.
+   These local checks do not observe Oracle identity/history or
    establish tamper resistance against a database administrator.
    A selected rejected or revoked plan in an active project with a registered bound source also offers
    **Prepare new plan**. This is read-only navigation into that project's release intake:
@@ -354,6 +367,7 @@ All other API reads/writes require an explicit bearer credential or, in HTTPS mo
 | `POST /api/plans/:id/execution` | Request a deployment job using only `idempotencyKey` and `reason`; creates a durable `WAITING_VALIDATION` job |
 | `GET /api/projects/:projectId/execution-jobs` | Read up to 50 current-project jobs |
 | `GET /api/execution-jobs/:id` | Read a scoped job and immutable events |
+| `GET /api/projects/:projectId/plans/:id/statement-envelope?intentDigest=...&after=...` | Inspect 50 statement identities bound to an exact format-2 intent; stale digest returns `FRESH_PLAN_REQUIRED`, format 1 returns `STATEMENT_APPROVAL_REQUIRED` |
 | `POST /api/execution-jobs/:id/cancel` | Cancel the requester's undispatched job with `expectedRevision` |
 
 Historical release detail reads enforce the retained limits of 128 files, 2 MiB per
@@ -369,7 +383,9 @@ unassigned at revision zero. Historical terminal and archived assignment metadat
 Additional eligible reviewers beyond the directory bound can be assigned by their known actor ID
 through the same scoped API. Expiring temporary delegation remains unavailable. Metadata administrators
 remain outside this protection. Offline plans have no observed target history, so requests
-remain `WAITING_VALIDATION` and cannot be admitted by API or operator grant. The restricted
+remain `WAITING_VALIDATION` and cannot be admitted by API or operator grant. Plan readiness
+explicitly lists missing target history, trusted host, target mutex and dispatch permit;
+format-1 approvals additionally require a fresh statement-bound approval. The restricted
 coordinator accepts only an admitted immutable job through injected trusted ports; synthetic
 ports are UNIT evidence only. No production Oracle adapter, automatic retry, target ledger,
 runtime authority, Oracle connections, Kubernetes deployment or production compatibility

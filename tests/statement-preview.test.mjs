@@ -40,3 +40,30 @@ test('fails closed for wrong paths, corrupt retained manifests, oversized source
       sourceSha256: '0'.repeat(64), executionSha256: '1'.repeat(64) }] })), { ok: false });
   assert.deepEqual(await previewRetainedStatements(valid, valid.files[0].path, async () => ({ ok: false, code: 'helper_launch_failed' })), { ok: false });
 });
+
+test('complete identity validates one release snapshot and resists mutation during parsing', async () => {
+  const { collectRetainedStatementIdentity } = await import('../packages/migrations/statement-identity.mjs');
+  const release = retained('SELECT 1 FROM dual;');
+  const original = release.files[0];
+  release.files = Array.from({ length: 128 }, (_, i) => ({ ...original,
+    path: `migrations/V${i + 1}__review.sql`, version: String(i + 1) }));
+  release.manifest_digest = sha(JSON.stringify({ format: 1, commit: release.commit_id, objectFormat: release.object_format,
+    folder: release.folder, parserProfile: release.parser_profile,
+    files: release.files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) }));
+  let boundsPasses = 0, calls = 0;
+  release.files.toJSON = function () { boundsPasses++; return [...this]; };
+  const result = await collectRetainedStatementIdentity(release, async bytes => {
+    calls++;
+    if (calls === 1) { release.files[127].content = 'corrupted during await'; release.files[127].path = 'wrong.sql'; }
+    await Promise.resolve();
+    return { ok: true, kind: 'PARSE', profile: ANTLR_PROFILE, statementCount: 1,
+      statements: [{ startByte: 0, endByte: bytes.length, sourceSha256: sha(bytes), executionSha256: '1'.repeat(64) }] };
+  });
+  assert.equal(boundsPasses, 1, 'whole-release JSON bounds run once, not once per file');
+  assert.equal(calls, 128); assert.equal(result.length, 128);
+  assert.equal(result[127].ordinal, 128); assert.equal(result[127].path, 'migrations/V128__review.sql');
+  assert.equal(result[127].sourceSha256, original.sha256);
+  assert.equal(await collectRetainedStatementIdentity(release, async () => assert.fail('corrupt snapshot must not reach parser')), null);
+  const invalid = retained('SELECT 1 FROM dual;'); invalid.validation_status = 'INVALID';
+  assert.equal(await collectRetainedStatementIdentity(invalid, async () => assert.fail('invalid release must not reach parser')), null);
+});
