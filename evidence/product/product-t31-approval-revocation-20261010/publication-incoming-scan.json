@@ -1,0 +1,23 @@
+{
+  "task": "SF-PRODUCT-T31",
+  "head": "b78776d8625654abd9164b75fadd2d0dde7a1e7e",
+  "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "started_at": "2026-10-10T10:45:43.335297+00:00",
+  "limits": "Only new T31 paths or incoming commits are scanned. Prior baseline/history observations are reused; no all-history clean claim or remote security-gate PASS.",
+  "scope": "Incoming T31 commits only: 0fd6980db49c9546ab0a04fe07321a348eee2d65..b78776d8625654abd9164b75fadd2d0dde7a1e7e",
+  "base": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "git",
+    ".",
+    "--log-opts=0fd6980db49c9546ab0a04fe07321a348eee2d65..b78776d8625654abd9164b75fadd2d0dde7a1e7e",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-t31-incoming-private.json"
+  ],
+  "finished_at": "2026-10-10T10:45:43.996047+00:00",
+  "scanner_exit_code": 1,
+  "finding_count": 1,
+  "private_report_sha256": "9185fb65face96c0945affadf484af1d4d152be5192cdf19127837c2e5123958"
+}
