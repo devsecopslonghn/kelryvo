@@ -2735,6 +2735,35 @@
       },
       "path": "evidence/product/product-t26-final-review-20261010T0157Z/record.json",
       "sha256": "aff33e0bb89406a54ae15641d2b3cb09ea2c6185ad82abc768376ed12aa0358f"
+    },
+    {
+      "id": "product-t27-historical-detail-local-verified",
+      "subject_id": "SF-PRODUCT-T27",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen two-CPU serial npm run check, npm run test:product, npm run test:browser; focused API and historical integrity browser; independent exact-source QA/security/license review",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T27-API",
+        "SF-PRODUCT-T27-PERSISTENCE",
+        "SF-PRODUCT-T27-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t27-resume-20261010/browserSerial.log",
+        "sha256": "b70c718b8aeef5242b71de8a707f680dbdff35fc1c542b5b7816efe920c178bd"
+      },
+      "path": "evidence/product/product-t27-resume-20261010/record.json",
+      "sha256": "8ff40158926127d08a956a864f5b2de97c2f5698c2ef92b4c29f4d0ff3da2699"
     }
   ]
 }

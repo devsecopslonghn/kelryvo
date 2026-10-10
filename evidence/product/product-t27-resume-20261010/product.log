@@ -1,0 +1,154 @@
+
+> schemaforge-local-development@0.0.0 test:product
+> node scripts/test-product.mjs
+
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: product API persists a governed offline plan and never claims execution
+ok 1 - product API persists a governed offline plan and never claims execution
+  ---
+  duration_ms: 6171.344652
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+ok 2 - approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+  ---
+  duration_ms: 6316.307616
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: archival keeps immutable records readable and refuses further project work
+ok 3 - archival keeps immutable records readable and refuses further project work
+  ---
+  duration_ms: 533.835425
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+ok 4 - an in-flight metadata write rechecks archival after acquiring the project lock
+  ---
+  duration_ms: 242.846081
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+ok 5 - scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+  ---
+  duration_ms: 694.934064
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+ok 6 - plan review comments are scoped, validated, durable, ordered, and serialized
+  ---
+  duration_ms: 1168.724982
+  type: 'test'
+  ...
+# Subtest: local credentials persist and recover real interrupted operator processes
+ok 7 - local credentials persist and recover real interrupted operator processes
+  ---
+  duration_ms: 1182.74045
+  type: 'test'
+  ...
+# Subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+ok 8 - concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+  ---
+  duration_ms: 334.884703
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: terminal plan decisions retain reviewer snapshots and historical ID fallback
+ok 9 - terminal plan decisions retain reviewer snapshots and historical ID fallback
+  ---
+  duration_ms: 466.492271
+  type: 'test'
+  ...
+# Subtest: local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+ok 10 - local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+  ---
+  duration_ms: 7780.811343
+  type: 'test'
+  ...
+# Subtest: resolved commits remain immutable after the source branch moves
+ok 11 - resolved commits remain immutable after the source branch moves
+  ---
+  duration_ms: 5434.720994
+  type: 'test'
+  ...
+# Subtest: leading-zero aliases and equivalent dotted versions are rejected as duplicates
+ok 12 - leading-zero aliases and equivalent dotted versions are rejected as duplicates
+  ---
+  duration_ms: 119.834429
+  type: 'test'
+  ...
+# Subtest: malformed refs and migration-folder traversal are rejected before Git lookup
+ok 13 - malformed refs and migration-folder traversal are rejected before Git lookup
+  ---
+  duration_ms: 41.327255
+  type: 'test'
+  ...
+# Subtest: symlinked migration entries and Git submodules are rejected
+ok 14 - symlinked migration entries and Git submodules are rejected
+  ---
+  duration_ms: 177.79065
+  type: 'test'
+  ...
+# Subtest: invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+ok 15 - invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+  ---
+  duration_ms: 5267.892424
+  type: 'test'
+  ...
+# Subtest: the installed ANTLR helper parses actual imported SQL without a fake positive driver
+ok 16 - the installed ANTLR helper parses actual imported SQL without a fake positive driver
+  ---
+  duration_ms: 2584.822231
+  type: 'test'
+  ...
+# Subtest: explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+ok 17 - explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+  ---
+  duration_ms: 2608.042689
+  type: 'test'
+  ...
+# grant complete
+# grant complete
+# ENFORCED
+# Subtest: activation serializes with in-flight revocation and bootstrap creation stays denied
+ok 18 - activation serializes with in-flight revocation and bootstrap creation stays denied
+  ---
+  duration_ms: 269.426633
+  type: 'test'
+  ...
+# grant complete
+# Subtest: activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+ok 19 - activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+  ---
+  duration_ms: 182.315003
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete

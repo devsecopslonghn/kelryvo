@@ -1,0 +1,32 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "0,1",
+    "npm",
+    "run",
+    "check"
+  ],
+  "started_at": "2026-10-10T04:58:35.832Z",
+  "finished_at": "2026-10-10T05:03:22.992Z",
+  "exit_code": 0,
+  "source_before": {
+    "apps/api/index.ts": "48a9eb01f2d24d25d02e679e54999ca8e70ce7418c5bd0c9e37ae71c63f1d47d",
+    "apps/web/src/app.jsx": "de2d11af4c1572ca37451e691b6ca5346f3d29f3dfde270ab3943afda0f8e343",
+    "packages/migrations/import-release.mjs": "7206531894e78ad96f4386ffc1ba24db9ff3f5e2052ffb88b86d8e107bc7be9b",
+    "packages/migrations/retained-release-preflight.mjs": "fcb3c09649723cd9c94427b6a97d8ad8085d770e6e2229f5c76906b8254605e6",
+    "scripts/test-product.mjs": "e1bbc640489fc700977bb208cc2ca994ca5020e162732c55efd9dc757e444cb1",
+    "tests/product-retained-detail.test.mjs": "bdc228df896b41091c257f424dc15fe2a0874da541403771e3ce8695d8044788",
+    "tests/product-release-provenance-browser.integration.mjs": "29c44675f8d4c70228452861b959153272414a5665ecf47707c019f5910cb52c"
+  },
+  "source_after": {
+    "apps/api/index.ts": "48a9eb01f2d24d25d02e679e54999ca8e70ce7418c5bd0c9e37ae71c63f1d47d",
+    "apps/web/src/app.jsx": "de2d11af4c1572ca37451e691b6ca5346f3d29f3dfde270ab3943afda0f8e343",
+    "packages/migrations/import-release.mjs": "7206531894e78ad96f4386ffc1ba24db9ff3f5e2052ffb88b86d8e107bc7be9b",
+    "packages/migrations/retained-release-preflight.mjs": "fcb3c09649723cd9c94427b6a97d8ad8085d770e6e2229f5c76906b8254605e6",
+    "scripts/test-product.mjs": "e1bbc640489fc700977bb208cc2ca994ca5020e162732c55efd9dc757e444cb1",
+    "tests/product-retained-detail.test.mjs": "bdc228df896b41091c257f424dc15fe2a0874da541403771e3ce8695d8044788",
+    "tests/product-release-provenance-browser.integration.mjs": "29c44675f8d4c70228452861b959153272414a5665ecf47707c019f5910cb52c"
+  },
+  "log_sha256": "158c1719677d5d4f80d3e0c1d651998e6072cd7595f7e5228db3b658075db32f"
+}

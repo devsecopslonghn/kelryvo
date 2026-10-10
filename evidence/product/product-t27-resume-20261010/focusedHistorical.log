@@ -1,0 +1,29 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# Subtest: browser gives fixed feedback when a retained release fails integrity verification
+ok 1 - browser gives fixed feedback when a retained release fails integrity verification
+  ---
+  duration_ms: 9132.415416
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: retained release detail keeps bounded historical diagnostics and rejects unbounded metadata without writes
+ok 2 - retained release detail keeps bounded historical diagnostics and rejects unbounded metadata without writes
+  ---
+  duration_ms: 21379.518243
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 31802.560075

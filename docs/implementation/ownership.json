@@ -1302,7 +1302,7 @@
     },
     "SF-PRODUCT-T27": {
       "assigned_agent": "backend",
-      "status": "IN_PROGRESS"
+      "status": "VERIFIED"
     }
   }
 }

@@ -1,0 +1,51 @@
+{
+  "verdict": "approve_no_blocking_findings",
+  "reviewed_commit": "3b87402c5912aa07b23bb7fb5aa0c0455340fb2c",
+  "worktree_head_matches_commit": true,
+  "findings": [],
+  "assessment": {
+    "security": "The detail endpoint keeps authentication and explicit membership masking, locks the project then the release, runs historical scalar bounds before explicit payload selection, and does not mutate state. The preflight and payload SELECT both hold FOR SHARE on the release in one transaction, covering concurrent row mutation after waits.",
+    "compatibility": "Historical VALID, INVALID, and UNAVAILABLE states and bounded per-file observations remain displayable. The historical read policy does not alter the protected-reader policy or promote diagnostic state to validity.",
+    "metadata_budget": "The final content-placeholder accounting includes the content property name and quotes for each file; the fixed envelope reserve and file-count reserve cover response structure and separators. This addresses the earlier missing-key overhead concern. Static review sees no concrete JSON escaping budget bypass; exact HTTP serialization size was not independently measured.",
+    "licensing_dependencies": "The commit changes no LICENSE, NOTICE, dependency manifest, or lockfile. The owner-selected license and third-party grants remain untouched.",
+    "source_sha256": {
+      "apps/api/index.ts": "173c9decf8e9da0cfa57bae9bea4a5dbc7db1c6d558727078f68dee4ae0f92f3",
+      "apps/web/src/app.jsx": "de2d11af4c1572ca37451e691b6ca5346f3d29f3dfde270ab3943afda0f8e343",
+      "docs/development/local-product.md": "1538b5c5affe892ab56525048b55fa4c5aaf59ef86dcb484db3f22549ccf2396",
+      "packages/migrations/import-release.mjs": "7206531894e78ad96f4386ffc1ba24db9ff3f5e2052ffb88b86d8e107bc7be9b",
+      "packages/migrations/retained-release-preflight.mjs": "b6f577f3ad5ea178841512b3e5ca56f518a35e79f7883b91beebd8071827253b",
+      "scripts/test-product.mjs": "e1bbc640489fc700977bb208cc2ca994ca5020e162732c55efd9dc757e444cb1",
+      "tests/product-release-provenance-browser.integration.mjs": "29c44675f8d4c70228452861b959153272414a5665ecf47707c019f5910cb52c",
+      "tests/product-retained-detail.test.mjs": "77cfd8c210bafb39ed30cd852859c002aedb0358d5b01b21e99748d5c9a57d9a"
+    }
+  },
+  "validation_evidence": {
+    "reviewer_ran_tests": false,
+    "recorded_focused_api": {
+      "file": "evidence/product/product-t27-resume-20261010/focusedFrozen.json",
+      "command": "node --test tests/product-retained-detail.test.mjs",
+      "exit_code": 0,
+      "source_hashes_match_before_and_after": true
+    },
+    "recorded_browser": {
+      "file": "evidence/product/product-t27-resume-20261010/browserFocused.json",
+      "command": "node --test tests/product-release-provenance-browser.integration.mjs",
+      "exit_code": 0,
+      "source_hashes_match_before_and_after": true
+    },
+    "recorded_standard": {
+      "file": "evidence/product/product-t27-resume-20261010/standardFrozen.json",
+      "command": "npm run check",
+      "exit_code": 0,
+      "source_hashes_match_before_and_after": true
+    },
+    "root_scan": "Parent reports the exact-head changed/untracked T27 scanner exited 0 with no findings; the scanner output was not present in the reviewed evidence directory, so this review did not independently inspect that report."
+  },
+  "scope_and_limits": [
+    "Read-only static review of exact commit 3b87402c5912aa07b23bb7fb5aa0c0455340fb2c.",
+    "No tests, scanners, or runtime experiments were run by this reviewer.",
+    "Recorded test evidence was inspected but not reproduced.",
+    "No Oracle behavior, deployment, external infrastructure, or exact maximum Fastify response byte size was independently validated.",
+    "The only worktree change outside the commit at review time was untracked generated evidence under evidence/product/product-t27-resume-20261010/."
+  ]
+}

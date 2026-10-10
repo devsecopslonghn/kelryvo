@@ -325,6 +325,17 @@
         "docs/implementation/backlog.json",
         "evidence/product/product-t26-final-review-20261010T0157Z/record.json"
       ]
+    },
+    {
+      "id": "SF-D030",
+      "status": "ACCEPTED_FOR_HISTORICAL_RELEASE_DETAIL",
+      "decision": "Keep historical display separate from strict planning/review integrity: PostgreSQL scalar type and encoded-size bounds precede explicit detail projection under scoped project/release locks. Preserve bounded invalid/unavailable and stored source/hash/byte-count facts without attesting integrity. Count empty content placeholders and envelope reserve; serialize representable timestamps through epoch milliseconds. Protected preflight policy is unchanged.",
+      "references": [
+        "packages/migrations/retained-release-preflight.mjs",
+        "apps/api/index.ts",
+        "docs/development/local-product.md",
+        "evidence/product/product-t27-resume-20261010/record.json"
+      ]
     }
   ]
 }

@@ -1,0 +1,26 @@
+{
+  "started_at": "2026-10-10T04:53:23.929655+00:00",
+  "finished_at": "2026-10-10T04:53:24.626079+00:00",
+  "scanner_exit_code": 0,
+  "paths": [
+    "apps/api/index.ts",
+    "apps/web/src/app.jsx",
+    "docs/development/local-product.md",
+    "evidence/product/product-t27-resume-20261010/browserFocused.json",
+    "evidence/product/product-t27-resume-20261010/focused.json",
+    "evidence/product/product-t27-resume-20261010/focusedCorrected.json",
+    "evidence/product/product-t27-resume-20261010/focusedFinal.json",
+    "evidence/product/product-t27-resume-20261010/focusedFrozen.json",
+    "evidence/product/product-t27-resume-20261010/product.json",
+    "evidence/product/product-t27-resume-20261010/standard.json",
+    "evidence/product/product-t27-resume-20261010/standardFinal.json",
+    "evidence/product/product-t27-resume-20261010/standardFrozen.json",
+    "packages/migrations/import-release.mjs",
+    "packages/migrations/retained-release-preflight.mjs",
+    "scripts/test-product.mjs",
+    "tests/product-release-provenance-browser.integration.mjs",
+    "tests/product-retained-detail.test.mjs"
+  ],
+  "findings": [],
+  "scope": "T27 new changed/untracked publication content; reviewed prerequisite scans reused, not reexecuted"
+}

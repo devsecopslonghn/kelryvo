@@ -1,0 +1,54 @@
+{
+  "verdict": "approve_no_blocking_findings",
+  "reviewed_commit": "ced0c1c62bc115d283aca4580999a6486403ce6b",
+  "parent_commit": "50d9222",
+  "working_tree": {
+    "head_matches_reviewed_commit": true,
+    "tracked_changes": [],
+    "untracked_path": "evidence/product/product-t27-resume-20261010/"
+  },
+  "findings": [],
+  "incremental_assessment": {
+    "timestamp_serialization": "The route now selects floor(extract(epoch FROM created_at)*1000)::bigint and converts the bounded millisecond value to an ISO string. Historical preflight constrains the timestamp to JavaScript Date's supported range and rejects infinity. The epoch-to-millisecond path avoids Postgres.js's ambiguous/extreme timestamp text parsing. The focused historical test covers year 0001 BC and expects the canonical year-0000 ISO representation.",
+    "historical_compatibility": "The latest change removes content length equality with the stored bytes field from historical preflight while retaining per-file content size, aggregate content size, metadata size, shape, and status bounds. The added test confirms bounded tampered historical content remains displayable as stored. The strict preflightRetainedRelease implementation remains unchanged from commit 3b87402: the only change in the helper file since then is inside preflightHistoricalRelease, so planning and protected integrity checks retain their T26 strictness.",
+    "security_and_locks": "No change to the transaction, project authorization, lock order, or release-row preflight/payload locking was introduced by these final corrections. Both preflight and payload selection retain FOR SHARE in one transaction.",
+    "license_and_dependencies": "The commits change no license, notice, package manifest, dependency lockfile, or third-party grant."
+  },
+  "source_sha256_at_reviewed_head": {
+    "apps/api/index.ts": "48a9eb01f2d24d25d02e679e54999ca8e70ce7418c5bd0c9e37ae71c63f1d47d",
+    "apps/web/src/app.jsx": "de2d11af4c1572ca37451e691b6ca5346f3d29f3dfde270ab3943afda0f8e343",
+    "docs/development/local-product.md": "1538b5c5affe892ab56525048b55fa4c5aaf59ef86dcb484db3f22549ccf2396",
+    "packages/migrations/import-release.mjs": "7206531894e78ad96f4386ffc1ba24db9ff3f5e2052ffb88b86d8e107bc7be9b",
+    "packages/migrations/retained-release-preflight.mjs": "fcb3c09649723cd9c94427b6a97d8ad8085d770e6e2229f5c76906b8254605e6",
+    "scripts/test-product.mjs": "e1bbc640489fc700977bb208cc2ca994ca5020e162732c55efd9dc757e444cb1",
+    "tests/product-release-provenance-browser.integration.mjs": "29c44675f8d4c70228452861b959153272414a5665ecf47707c019f5910cb52c",
+    "tests/product-retained-detail.test.mjs": "bdc228df896b41091c257f424dc15fe2a0874da541403771e3ce8695d8044788"
+  },
+  "validation_evidence_reviewed": {
+    "reviewer_ran_tests": false,
+    "focused_historical_and_integrity_browser": {
+      "evidence_file": "evidence/product/product-t27-resume-20261010/focusedHistorical.json",
+      "command": "taskset -c 0,1 node --test tests/product-retained-detail.test.mjs tests/product-release-integrity-browser.integration.mjs",
+      "exit_code": 0,
+      "summary": "2 passed, 0 failed, 0 skipped",
+      "all_reviewed_source_hashes_match_before_and_after": true
+    },
+    "focused_timestamp": {
+      "evidence_file": "evidence/product/product-t27-resume-20261010/focusedTimestamp.json",
+      "command": "taskset -c 0,1 node --test tests/product-retained-detail.test.mjs",
+      "exit_code": 0,
+      "note": "This run predates the historical content compatibility correction, so it is not treated as final-head validation."
+    },
+    "full_check": {
+      "evidence_file": "evidence/product/product-t27-resume-20261010/standardSerial.json",
+      "status": "incomplete_at_review",
+      "note": "The recorded run has no exit code and source hashes changed during it; it does not establish a full check result for the reviewed exact head."
+    }
+  },
+  "scope_and_limits": [
+    "Read-only static review of ced0c1c62bc115d283aca4580999a6486403ce6b.",
+    "No tests or scanners were run by this reviewer; focused results above come from recorded evidence.",
+    "The exact-head full standard/product/browser runs were still in progress or lacked a final exit code at review time.",
+    "No Oracle behavior, deployment, external infrastructure, or independently measured HTTP serialization maximum was validated."
+  ]
+}
