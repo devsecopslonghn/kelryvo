@@ -533,7 +533,39 @@ const PRODUCT_TASK_26 = {
   ]
 };
 
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26];
+const PRODUCT_TASK_27 = {
+  "id": "SF-PRODUCT-T27",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Bound retained release detail reads before payload materialization",
+  "dependencies": [
+    "SF-PRODUCT-T26",
+    "SF-PRODUCT-T25",
+    "SF-PRODUCT-T13",
+    "SF-PRODUCT-T11",
+    "SF-PRODUCT-T21"
+  ],
+  "feature_ids": [
+    "GIT-006",
+    "MIG-008",
+    "MIG-009"
+  ],
+  "acceptance_criteria": [
+    "GET /api/releases/:id uses scoped transaction and database scalar bounds before selecting retained files or raw identity/status/code metadata. Reject malformed/oversized retained records with fixed non-sensitive unavailable response; never transfer unknown unbounded fields through SELECT *. Preserve existing authenticated membership and project archive read boundaries.",
+    "Keep bounded legitimate retained VALID, INVALID and UNAVAILABLE imports readable, including per-file VALID/INVALID/UNAVAILABLE/NOT_VALIDATED observations, null statement counts, bounded unknown nested metadata, Unicode and arbitrary-precision versions. This reader is historical display; do not promote invalid/unavailable release to VALID, rewrite historical source/hash/manifest, backfill intent/generation or authorize planning/approval.",
+    "Reuse T26 scoped scalar bounds where practical with explicit protected versus historical-read policy, preserving 128files/2MiBper/16MiBtotal content and4MiB complete encoded non-content metadata budget. Bound validationCode and every returned identity/status field before Node allocation; shared helper changes preserve strict protected-reader validity. No parser/Git re-read/target connection or schema migration without concrete necessity.",
+    "Under existing scoped source locks prove concurrent mutation cannot bypass preflight and later payload selection. Every authorized read failure/success leaves complete populated source/project/plan/intent/comment/decision/history/audit records unchanged. Preserve current roles/grants/session/bootstrap/archive and API restart/PostgreSQL persistence; no denial audit mutation added to reads.",
+    "Real local Git and isolated PostgreSQL produce legitimate valid and invalid/offline-unavailable releases and exercise oversized flat/nested metadata, bad known fields/arraycounts/aggregatecontent/huge status and code. Query instrumentation proves no raw payload or unbounded status projection before rejection; snapshots surround request before fixture restoration. Browser existing source/provenance/review inspection displays bounded valid/invalid historical facts and fixed unavailable error; stale project/session responses stay hidden. Run full standard/Git/parser/product/browser regressions with zero required skips.",
+    "Bounded resource hardening closes only independently reviewed residual detail-read finding, not all original220 features or runtime attestation. Preserve license/notices/grants/dependencies/locks/grammar/scanners/immutable failures. Normal exact-head independent QA/security/CI and eligible merge gates remain; unmerged prerequisites can support documented local verification only. Sonar unavailable never PASS; Oracle independently BLOCKED; no public history rewrite/deployment/credential resolution."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T27-API",
+    "SF-PRODUCT-T27-PERSISTENCE",
+    "SF-PRODUCT-T27-WEB"
+  ]
+};
+
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

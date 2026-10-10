@@ -1,3 +1,31 @@
+## T27 active in isolated retained-detail worktree — 2026-10-10 UTC
+
+SF-PRODUCT-T27 IN_PROGRESS in schemaforge-product-retained-release-detail, branch
+ development/product-retained-release-detail. SF-D029 permits local continuation on reviewed
+unmerged T24/T25/T26 prerequisites from verified origin/master0fd6980; final gates unchanged.
+Fresh coupled native context owns scoped API/helper/source display if needed/regressions/guide;
+root owns contracts, evidence, integration and publication. Bound historical release detail
+before payload/identity/status/code allocation; preserve legitimate invalid/unavailable and
+NOT_VALIDATED diagnostics, archived/granted reads, exact locking, persistence and no writes.
+No implementation/verification or residual finding closure claimed at registration.
+Evidence: `evidence/product/product-t27-start-20261010T0203Z/record.json`.
+Draft37/38/39 unmerged, available T26 CI running; required security unavailable never PASS.
+Shared original0346300 and Hygiene untouched; Sonar unchanged never PASS; Oracle separate BLOCKED.
+
+## T27 retained release detail bounds registered; implementation pending — 2026-10-10 UTC
+
+T27 READY registers database-side complete metadata bounds before raw release detail
+materialization. SF-D028 prioritizes this separate MEDIUM residual before the unregistered
+inbox proposal. Preserve bounded valid/invalid/unavailable historical diagnostics and
+NOT_VALIDATED file observations; protected T26 readers retain strict validity checks.
+Keep archive/grant/project/session guards and immutable complete no-write snapshots.
+Registration is not implementation, verification or finding closure; original220 unchanged.
+
+T24/T25/T26 remain unmerged local or draft increments while required GitHub security
+is unavailable, never PASS. Sonar exception remains Sonar-only, Oracle independently BLOCKED;
+shared original checkout and separate Hygiene scope unchanged. Safe local sequencing
+requires exact reviewed prerequisites without waiving final publication/merge gates.
+
 ## T26 reviewed and draft PR39 published; T27 prioritized — 2026-10-10 UTC
 
 Exact-head62cbb02f four-reader metadata preflight passed independent QA/security/license;

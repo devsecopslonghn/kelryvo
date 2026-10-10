@@ -300,6 +300,31 @@
         "docs/implementation/backlog.json",
         "evidence/product/product-t25-draft-review-20261010T0119Z/record.json"
       ]
+    },
+    {
+      "id": "SF-D028",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T27_RETAINED_DETAIL_READ_BOUNDS",
+      "accepted_at_utc": "2026-10-10T02:03:07.485442+00:00",
+      "decision": "Prioritize the separately independently identified MEDIUM allocation exposure in GET /api/releases/:id before the earlier unregistered inbox proposal. Replace SELECT * with bounded scoped scalar preflight before any raw payload or identity/status/code projection. Preserve bounded historical VALID/INVALID/UNAVAILABLE and NOT_VALIDATED diagnostics and small extensions; never use a strict protected-reader VALID-only guard to hide legitimate invalid historical imports. Keep existing T26 protected readers strict, established locks/auth/grants/archive and no writes. Do not certify parser/runtime/target facts, rewrite sources/manifests/intents/generations or extend execution authority. Safe ordinary product hardening under SF-D010; exact-head review/CI/security gates and original220 acceptance remain unchanged. Registration is not implementation or residual finding closure.",
+      "references": [
+        "docs/inputs/db-research/product-research/feature-catalog.json",
+        "AGENTS.md",
+        "apps/api/index.ts",
+        "apps/web/src/app.jsx",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D029",
+      "status": "ACCEPTED_LOCAL_T27_SEQUENCE_ONLY_FINAL_GATES_UNCHANGED",
+      "accepted_at_utc": "2026-10-10T02:03:46.891425+00:00",
+      "decision": "Start T27 in a fresh worktree from latest verified origin/master0fd6980 and fast-forward only the owned reviewed prerequisite chain: T24head704ef82f, T25head2f3147fd, T26head62cbb02f and local append-only continuationb1eb72bd. T26 exact-head QA/security/license approves four-reader scope and draft-only PR39; available remote CI is running, required GitHub code/secret/protection remain unavailable. T27 may be implemented and verified locally under standing safe autonomy while prerequisites are unmerged, without changing original acceptance dependencies or waiving final exact-head review/security/CI/merge gates. Scope is bounded historical retained-detail reads, preserving INVALID/UNAVAILABLE diagnostics rather than granting execution or pretending target/runtime validity. Original220 acceptance unchanged; Sonar exception is Sonar-only, unavailable never PASS; Oracle independently BLOCKED. No public history rewrite, force-push, deployment, settings/financial change or shared checkout mutation.",
+      "references": [
+        "AGENTS.md",
+        "docs/implementation/github-sync.md",
+        "docs/implementation/backlog.json",
+        "evidence/product/product-t26-final-review-20261010T0157Z/record.json"
+      ]
     }
   ]
 }

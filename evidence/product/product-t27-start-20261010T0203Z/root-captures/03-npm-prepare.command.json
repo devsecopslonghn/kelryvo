@@ -1,0 +1,5 @@
+{
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
+  "command": "npm ci --ignore-scripts --no-audit --no-fund",
+  "started_at_utc": "2026-10-10T02:04:06.714938+00:00"
+}
