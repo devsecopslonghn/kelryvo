@@ -238,7 +238,7 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "LOCAL_VERIFIED_EXACT_PUBLISHED_CI_PENDING",
+  "current_increment_merge_status": "PR49_DRAFT_FIXTURE_CI_CORRECTION_PENDING",
   "current_checkpoint_branch": "development/product-execution-readiness",
   "active_track": "PRODUCT",
   "tracks": {
@@ -316,7 +316,7 @@
       "native_security": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS"
     }
   },
-  "current_increment_pr": null,
+  "current_increment_pr": 49,
   "current_increment_reviewed_head": "e4bd556cdf1e381c3978d5133b084443170eaefa",
   "current_increment_merge_commit": "d3249fb7b42fe0468720eaa73421df444b708652",
   "t19_compatibility_decision": {
@@ -775,11 +775,13 @@
     ],
     "active_increment": {
       "outcome": "Complete immutable statement approval and honest execution readiness",
-      "status": "LOCAL_VERIFIED_CI_PENDING",
+      "status": "CI_FIXTURE_CORRECTION_LOCAL_VERIFIED",
       "worktree": "/home/longhn0710/workspace/schemaforge-execution-readiness",
       "evidence": "evidence/product/mvp-statement-readiness-20261011/record.json",
       "next": "Scoped attempt/receipt/HOLD history using existing journal and UNIT ports; trusted host/target authority remains absent.",
-      "source_head": "3f72cbfd3fd2b6aa7c128932d32264c87c406d9a"
+      "source_head": "3f72cbfd3fd2b6aa7c128932d32264c87c406d9a",
+      "pr": 49,
+      "correction_record": "evidence/product/mvp-statement-readiness-20261011/assignment-fixture-ci-correction.json"
     }
   }
 }

@@ -1,0 +1,506 @@
+product	Run npm run test:product	﻿2026-10-10T20:17:34.8354673Z ##[group]Run npm run test:product
+product	Run npm run test:product	2026-10-10T20:17:34.8354980Z ^[[36;1mnpm run test:product^[[0m
+product	Run npm run test:product	2026-10-10T20:17:34.8407111Z shell: /usr/bin/bash -e {0}
+product	Run npm run test:product	2026-10-10T20:17:34.8407262Z env:
+product	Run npm run test:product	2026-10-10T20:17:34.8407463Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run npm run test:product	2026-10-10T20:17:34.8407769Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run npm run test:product	2026-10-10T20:17:34.8408004Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run npm run test:product	2026-10-10T20:17:34.8408151Z ##[endgroup]
+product	Run npm run test:product	2026-10-10T20:17:34.9064112Z 
+product	Run npm run test:product	2026-10-10T20:17:34.9073335Z > schemaforge-local-development@0.0.0 test:product
+product	Run npm run test:product	2026-10-10T20:17:34.9073938Z > node scripts/test-product.mjs
+product	Run npm run test:product	2026-10-10T20:17:34.9074220Z 
+product	Run npm run test:product	2026-10-10T20:17:34.9837461Z TAP version 13
+product	Run npm run test:product	2026-10-10T20:17:35.3419572Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:17:35.3764573Z # grant complete
+product	Run npm run test:product	2026-10-10T20:17:35.3984501Z # grant complete
+product	Run npm run test:product	2026-10-10T20:17:44.6560129Z # grant complete
+product	Run npm run test:product	2026-10-10T20:17:45.0524592Z # grant complete
+product	Run npm run test:product	2026-10-10T20:17:47.7811237Z # Subtest: product API persists a governed offline plan and never claims execution
+product	Run npm run test:product	2026-10-10T20:17:47.7812019Z ok 1 - product API persists a governed offline plan and never claims execution
+product	Run npm run test:product	2026-10-10T20:17:47.7812506Z   ---
+product	Run npm run test:product	2026-10-10T20:17:47.7812853Z   duration_ms: 12636.797195
+product	Run npm run test:product	2026-10-10T20:17:47.7813174Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:17:47.7813457Z   ...
+product	Run npm run test:product	2026-10-10T20:17:48.1348720Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:17:48.1670866Z # grant complete
+product	Run npm run test:product	2026-10-10T20:17:48.1902801Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:01.7928407Z # Subtest: approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+product	Run npm run test:product	2026-10-10T20:18:01.7931169Z ok 2 - approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+product	Run npm run test:product	2026-10-10T20:18:01.7932204Z   ---
+product	Run npm run test:product	2026-10-10T20:18:01.7932568Z   duration_ms: 13838.646022
+product	Run npm run test:product	2026-10-10T20:18:01.7933308Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:18:01.7933712Z   ...
+product	Run npm run test:product	2026-10-10T20:18:02.1428798Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:18:02.1744609Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:02.1972738Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:15.7532227Z # revoke complete
+product	Run npm run test:product	2026-10-10T20:18:15.7771851Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:21.0659867Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:21.1384785Z # Subtest: approval withdrawal links immutable history and works after retained content corruption
+product	Run npm run test:product	2026-10-10T20:18:21.1385867Z ok 3 - approval withdrawal links immutable history and works after retained content corruption
+product	Run npm run test:product	2026-10-10T20:18:21.1386254Z   ---
+product	Run npm run test:product	2026-10-10T20:18:21.1386442Z   duration_ms: 19163.574434
+product	Run npm run test:product	2026-10-10T20:18:21.1386682Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:18:21.1386858Z   ...
+product	Run npm run test:product	2026-10-10T20:18:21.4931724Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:18:21.5234713Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:21.5458277Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:22.8987709Z # Subtest: archival keeps immutable records readable and refuses further project work
+product	Run npm run test:product	2026-10-10T20:18:22.8988733Z ok 4 - archival keeps immutable records readable and refuses further project work
+product	Run npm run test:product	2026-10-10T20:18:22.8989253Z   ---
+product	Run npm run test:product	2026-10-10T20:18:22.8989707Z   duration_ms: 1582.992201
+product	Run npm run test:product	2026-10-10T20:18:22.8990156Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:18:22.8990688Z   ...
+product	Run npm run test:product	2026-10-10T20:18:23.0246904Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:18:23.0484986Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:23.1118623Z # Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+product	Run npm run test:product	2026-10-10T20:18:23.1121016Z ok 5 - an in-flight metadata write rechecks archival after acquiring the project lock
+product	Run npm run test:product	2026-10-10T20:18:23.1121731Z   ---
+product	Run npm run test:product	2026-10-10T20:18:23.1122049Z   duration_ms: 213.729597
+product	Run npm run test:product	2026-10-10T20:18:23.1122696Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:18:23.1122996Z   ...
+product	Run npm run test:product	2026-10-10T20:18:23.4636028Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:18:23.4860716Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:23.5078421Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:23.5291429Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:23.7175066Z # revoke complete
+product	Run npm run test:product	2026-10-10T20:18:23.7491783Z # Subtest: scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+product	Run npm run test:product	2026-10-10T20:18:23.7492796Z ok 6 - scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+product	Run npm run test:product	2026-10-10T20:18:23.7504387Z   ---
+product	Run npm run test:product	2026-10-10T20:18:23.7504839Z   duration_ms: 464.300862
+product	Run npm run test:product	2026-10-10T20:18:23.7505382Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:18:23.7505749Z   ...
+product	Run npm run test:product	2026-10-10T20:18:25.7417461Z # Subtest: native metadata backup and witness-verified restore retain source and enter persistent hold
+product	Run npm run test:product	2026-10-10T20:18:25.7421676Z ok 7 - native metadata backup and witness-verified restore retain source and enter persistent hold
+product	Run npm run test:product	2026-10-10T20:18:25.7424559Z   ---
+product	Run npm run test:product	2026-10-10T20:18:25.7425171Z   duration_ms: 1847.074489
+product	Run npm run test:product	2026-10-10T20:18:25.7425489Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:18:25.7425764Z   ...
+product	Run npm run test:product	2026-10-10T20:18:25.8950505Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:18:25.9262014Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:25.9464704Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:25.9651906Z # deploy-grant complete
+product	Run npm run test:product	2026-10-10T20:18:43.2853112Z # Subtest: native restore preserves retained Git review history and UNIT receipts while revoking old authority
+product	Run npm run test:product	2026-10-10T20:18:43.2853994Z ok 8 - native restore preserves retained Git review history and UNIT receipts while revoking old authority
+product	Run npm run test:product	2026-10-10T20:18:43.2854389Z   ---
+product	Run npm run test:product	2026-10-10T20:18:43.2854567Z   duration_ms: 17612.262592
+product	Run npm run test:product	2026-10-10T20:18:43.2854763Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:18:43.2854925Z   ...
+product	Run npm run test:product	2026-10-10T20:18:43.4291355Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:18:43.4527470Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:43.4698886Z # grant complete
+product	Run npm run test:product	2026-10-10T20:18:43.4878802Z # deploy-grant complete
+product	Run npm run test:product	2026-10-10T20:19:00.3469615Z # Subtest: SIGKILL after native import leaves restored approved queues unclaimable and startup refused
+product	Run npm run test:product	2026-10-10T20:19:00.3472471Z ok 9 - SIGKILL after native import leaves restored approved queues unclaimable and startup refused
+product	Run npm run test:product	2026-10-10T20:19:00.3472876Z   ---
+product	Run npm run test:product	2026-10-10T20:19:00.3473060Z   duration_ms: 17057.549127
+product	Run npm run test:product	2026-10-10T20:19:00.3473283Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:00.3473454Z   ...
+product	Run npm run test:product	2026-10-10T20:19:02.2854734Z # Subtest: native restore rejects damaged, unsupported, linked and untrusted inputs before destination creation
+product	Run npm run test:product	2026-10-10T20:19:02.2877296Z ok 10 - native restore rejects damaged, unsupported, linked and untrusted inputs before destination creation
+product	Run npm run test:product	2026-10-10T20:19:02.2900885Z   ---
+product	Run npm run test:product	2026-10-10T20:19:02.2901205Z   duration_ms: 1942.939674
+product	Run npm run test:product	2026-10-10T20:19:02.2901482Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:02.2901660Z   ...
+product	Run npm run test:product	2026-10-10T20:19:02.6482532Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:19:02.6802687Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:02.7029542Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:02.7422458Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:02.7620730Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:03.0724539Z # revoke complete
+product	Run npm run test:product	2026-10-10T20:19:03.0938396Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:03.2356616Z # Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+product	Run npm run test:product	2026-10-10T20:19:03.2360690Z ok 11 - plan review comments are scoped, validated, durable, ordered, and serialized
+product	Run npm run test:product	2026-10-10T20:19:03.2396047Z   ---
+product	Run npm run test:product	2026-10-10T20:19:03.2396505Z   duration_ms: 769.597457
+product	Run npm run test:product	2026-10-10T20:19:03.2397133Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:03.2397572Z   ...
+product	Run npm run test:product	2026-10-10T20:19:04.1702838Z # Subtest: local credentials persist and recover real interrupted operator processes
+product	Run npm run test:product	2026-10-10T20:19:04.1721335Z ok 12 - local credentials persist and recover real interrupted operator processes
+product	Run npm run test:product	2026-10-10T20:19:04.1730950Z   ---
+product	Run npm run test:product	2026-10-10T20:19:04.1731309Z   duration_ms: 758.366655
+product	Run npm run test:product	2026-10-10T20:19:04.1731767Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:04.1732141Z   ...
+product	Run npm run test:product	2026-10-10T20:19:04.6140958Z # Subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+product	Run npm run test:product	2026-10-10T20:19:04.6142207Z ok 13 - concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+product	Run npm run test:product	2026-10-10T20:19:04.6142936Z   ---
+product	Run npm run test:product	2026-10-10T20:19:04.6143376Z   duration_ms: 361.538124
+product	Run npm run test:product	2026-10-10T20:19:04.6143712Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:04.6144007Z   ...
+product	Run npm run test:product	2026-10-10T20:19:04.9540932Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:19:04.9866845Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:05.0111301Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:05.1295562Z # Subtest: terminal plan decisions retain reviewer snapshots and historical ID fallback
+product	Run npm run test:product	2026-10-10T20:19:05.1296896Z ok 14 - terminal plan decisions retain reviewer snapshots and historical ID fallback
+product	Run npm run test:product	2026-10-10T20:19:05.1297477Z   ---
+product	Run npm run test:product	2026-10-10T20:19:05.1297849Z   duration_ms: 338.415358
+product	Run npm run test:product	2026-10-10T20:19:05.1298195Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:05.1298494Z   ...
+product	Run npm run test:product	2026-10-10T20:19:05.4746178Z # Subtest: T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+product	Run npm run test:product	2026-10-10T20:19:05.4747429Z ok 15 - T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+product	Run npm run test:product	2026-10-10T20:19:05.4748088Z   ---
+product	Run npm run test:product	2026-10-10T20:19:05.4748428Z   duration_ms: 161.898546
+product	Run npm run test:product	2026-10-10T20:19:05.4748848Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:05.4749136Z   ...
+product	Run npm run test:product	2026-10-10T20:19:05.6332388Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:19:05.6659838Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:05.6881059Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:18.7150529Z # deploy-grant complete
+product	Run npm run test:product	2026-10-10T20:19:35.5215667Z # revoke complete
+product	Run npm run test:product	2026-10-10T20:19:35.5428196Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:38.1235207Z # Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+product	Run npm run test:product	2026-10-10T20:19:38.1237147Z ok 16 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+product	Run npm run test:product	2026-10-10T20:19:38.1237918Z   ---
+product	Run npm run test:product	2026-10-10T20:19:38.1238228Z   duration_ms: 32651.991666
+product	Run npm run test:product	2026-10-10T20:19:38.1238571Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:38.1238863Z   ...
+product	Run npm run test:product	2026-10-10T20:19:41.9300502Z # Subtest: local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+product	Run npm run test:product	2026-10-10T20:19:41.9303551Z ok 17 - local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+product	Run npm run test:product	2026-10-10T20:19:41.9304165Z   ---
+product	Run npm run test:product	2026-10-10T20:19:41.9304531Z   duration_ms: 3746.667097
+product	Run npm run test:product	2026-10-10T20:19:41.9304866Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:41.9305148Z   ...
+product	Run npm run test:product	2026-10-10T20:19:44.4499385Z # Subtest: resolved commits remain immutable after the source branch moves
+product	Run npm run test:product	2026-10-10T20:19:44.4502839Z ok 18 - resolved commits remain immutable after the source branch moves
+product	Run npm run test:product	2026-10-10T20:19:44.4503567Z   ---
+product	Run npm run test:product	2026-10-10T20:19:44.4503874Z   duration_ms: 2524.271294
+product	Run npm run test:product	2026-10-10T20:19:44.4504204Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:44.4504498Z   ...
+product	Run npm run test:product	2026-10-10T20:19:44.5101141Z # Subtest: leading-zero aliases and equivalent dotted versions are rejected as duplicates
+product	Run npm run test:product	2026-10-10T20:19:44.5104199Z ok 19 - leading-zero aliases and equivalent dotted versions are rejected as duplicates
+product	Run npm run test:product	2026-10-10T20:19:44.5105190Z   ---
+product	Run npm run test:product	2026-10-10T20:19:44.5105518Z   duration_ms: 62.394851
+product	Run npm run test:product	2026-10-10T20:19:44.5105867Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:44.5106176Z   ...
+product	Run npm run test:product	2026-10-10T20:19:44.5305684Z # Subtest: malformed refs and migration-folder traversal are rejected before Git lookup
+product	Run npm run test:product	2026-10-10T20:19:44.5308736Z ok 20 - malformed refs and migration-folder traversal are rejected before Git lookup
+product	Run npm run test:product	2026-10-10T20:19:44.5309307Z   ---
+product	Run npm run test:product	2026-10-10T20:19:44.5309655Z   duration_ms: 21.242932
+product	Run npm run test:product	2026-10-10T20:19:44.5309998Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:44.5310549Z   ...
+product	Run npm run test:product	2026-10-10T20:19:44.6227310Z # Subtest: symlinked migration entries and Git submodules are rejected
+product	Run npm run test:product	2026-10-10T20:19:44.6228304Z ok 21 - symlinked migration entries and Git submodules are rejected
+product	Run npm run test:product	2026-10-10T20:19:44.6228850Z   ---
+product	Run npm run test:product	2026-10-10T20:19:44.6229180Z   duration_ms: 90.706754
+product	Run npm run test:product	2026-10-10T20:19:44.6229539Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:44.6229854Z   ...
+product	Run npm run test:product	2026-10-10T20:19:47.1891554Z # Subtest: invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+product	Run npm run test:product	2026-10-10T20:19:47.1892491Z ok 22 - invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+product	Run npm run test:product	2026-10-10T20:19:47.1892814Z   ---
+product	Run npm run test:product	2026-10-10T20:19:47.1893006Z   duration_ms: 2564.737424
+product	Run npm run test:product	2026-10-10T20:19:47.1893254Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:47.1893422Z   ...
+product	Run npm run test:product	2026-10-10T20:19:48.4683132Z # Subtest: the installed ANTLR helper parses actual imported SQL without a fake positive driver
+product	Run npm run test:product	2026-10-10T20:19:48.4698527Z ok 23 - the installed ANTLR helper parses actual imported SQL without a fake positive driver
+product	Run npm run test:product	2026-10-10T20:19:48.4699117Z   ---
+product	Run npm run test:product	2026-10-10T20:19:48.4699375Z   duration_ms: 1297.08178
+product	Run npm run test:product	2026-10-10T20:19:48.4699651Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:48.4699890Z   ...
+product	Run npm run test:product	2026-10-10T20:19:50.7380170Z # Subtest: explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+product	Run npm run test:product	2026-10-10T20:19:50.7382272Z ok 24 - explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+product	Run npm run test:product	2026-10-10T20:19:50.7383697Z   ---
+product	Run npm run test:product	2026-10-10T20:19:50.7383884Z   duration_ms: 2091.591215
+product	Run npm run test:product	2026-10-10T20:19:50.7384086Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:50.7384246Z   ...
+product	Run npm run test:product	2026-10-10T20:19:50.8736637Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:50.9184629Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:50.9378787Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:19:50.9708704Z # Subtest: activation serializes with in-flight revocation and bootstrap creation stays denied
+product	Run npm run test:product	2026-10-10T20:19:50.9709197Z ok 25 - activation serializes with in-flight revocation and bootstrap creation stays denied
+product	Run npm run test:product	2026-10-10T20:19:50.9709431Z   ---
+product	Run npm run test:product	2026-10-10T20:19:50.9709554Z   duration_ms: 232.681347
+product	Run npm run test:product	2026-10-10T20:19:50.9709689Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:50.9709801Z   ...
+product	Run npm run test:product	2026-10-10T20:19:51.0951491Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:51.1464041Z # Subtest: activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+product	Run npm run test:product	2026-10-10T20:19:51.1469669Z ok 26 - activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+product	Run npm run test:product	2026-10-10T20:19:51.1470581Z   ---
+product	Run npm run test:product	2026-10-10T20:19:51.1470889Z   duration_ms: 173.760357
+product	Run npm run test:product	2026-10-10T20:19:51.1471219Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:19:51.1471501Z   ...
+product	Run npm run test:product	2026-10-10T20:19:51.5381699Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:19:51.5700880Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:51.5941416Z # grant complete
+product	Run npm run test:product	2026-10-10T20:19:51.6147071Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:06.4253176Z # Subtest: combined local Git workflow retains review, withdrawal, manual references and restart state
+product	Run npm run test:product	2026-10-10T20:20:06.4255581Z ok 27 - combined local Git workflow retains review, withdrawal, manual references and restart state
+product	Run npm run test:product	2026-10-10T20:20:06.4256678Z   ---
+product	Run npm run test:product	2026-10-10T20:20:06.4257075Z   duration_ms: 15097.344956
+product	Run npm run test:product	2026-10-10T20:20:06.4257421Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:20:06.4257715Z   ...
+product	Run npm run test:product	2026-10-10T20:20:06.7853896Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:20:06.8162202Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:06.8392162Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:12.1495925Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:12.1702259Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:31.0586868Z # Subtest: plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+product	Run npm run test:product	2026-10-10T20:20:31.0591262Z ok 28 - plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+product	Run npm run test:product	2026-10-10T20:20:31.0611187Z   ---
+product	Run npm run test:product	2026-10-10T20:20:31.0630991Z   duration_ms: 24447.638321
+product	Run npm run test:product	2026-10-10T20:20:31.0651072Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:20:31.0651517Z   ...
+product	Run npm run test:product	2026-10-10T20:20:31.4772412Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:20:31.5119033Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:31.5333544Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:31.5580152Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:39.7635869Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:39.7836964Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:39.8002695Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:42.5352297Z # Subtest: rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+product	Run npm run test:product	2026-10-10T20:20:42.5361418Z ok 29 - rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+product	Run npm run test:product	2026-10-10T20:20:42.5371478Z   ---
+product	Run npm run test:product	2026-10-10T20:20:42.5371935Z   duration_ms: 11274.664723
+product	Run npm run test:product	2026-10-10T20:20:42.5372465Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:20:42.5372994Z   ...
+product	Run npm run test:product	2026-10-10T20:20:42.9208264Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:20:42.9569939Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:42.9811180Z # grant complete
+product	Run npm run test:product	2026-10-10T20:20:42.9970838Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:07.5879447Z # Subtest: source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+product	Run npm run test:product	2026-10-10T20:21:07.5880861Z ok 30 - source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+product	Run npm run test:product	2026-10-10T20:21:07.5881354Z   ---
+product	Run npm run test:product	2026-10-10T20:21:07.5881537Z   duration_ms: 24866.910517
+product	Run npm run test:product	2026-10-10T20:21:07.5881743Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:21:07.5881912Z   ...
+product	Run npm run test:product	2026-10-10T20:21:07.7375940Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:21:07.7597251Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:07.7781656Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:07.7951460Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:11.7472312Z # Subtest: binding updates serialize with approval and plan creation under project locks
+product	Run npm run test:product	2026-10-10T20:21:11.7474142Z ok 31 - binding updates serialize with approval and plan creation under project locks
+product	Run npm run test:product	2026-10-10T20:21:11.7474735Z   ---
+product	Run npm run test:product	2026-10-10T20:21:11.7475066Z   duration_ms: 4155.433311
+product	Run npm run test:product	2026-10-10T20:21:11.7475410Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:21:11.7475750Z   ...
+product	Run npm run test:product	2026-10-10T20:21:11.8921473Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:21:11.9141694Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:11.9316709Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:11.9493939Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:14.6045951Z # Subtest: legacy project schema initializes only current tracking and never backfills historical plans
+product	Run npm run test:product	2026-10-10T20:21:14.6047110Z ok 32 - legacy project schema initializes only current tracking and never backfills historical plans
+product	Run npm run test:product	2026-10-10T20:21:14.6047736Z   ---
+product	Run npm run test:product	2026-10-10T20:21:14.6049663Z   duration_ms: 2861.368211
+product	Run npm run test:product	2026-10-10T20:21:14.6050065Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:21:14.6050507Z   ...
+product	Run npm run test:product	2026-10-10T20:21:14.7932424Z # Subtest: retained source facts align canonically and distinguish path, content and presence changes
+product	Run npm run test:product	2026-10-10T20:21:14.7939337Z ok 33 - retained source facts align canonically and distinguish path, content and presence changes
+product	Run npm run test:product	2026-10-10T20:21:14.7940012Z   ---
+product	Run npm run test:product	2026-10-10T20:21:14.7940479Z   duration_ms: 0.989839
+product	Run npm run test:product	2026-10-10T20:21:14.7940829Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:21:14.7941183Z   ...
+product	Run npm run test:product	2026-10-10T20:21:15.0311649Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:21:15.0670048Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:15.0891576Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:50.7191032Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:50.7357685Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:50.7909225Z # revoke complete
+product	Run npm run test:product	2026-10-10T20:21:50.8281917Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:50.9648575Z # Subtest: authenticated retained comparison is scoped, read-only, self-comparable, and survives repository removal
+product	Run npm run test:product	2026-10-10T20:21:50.9649568Z ok 34 - authenticated retained comparison is scoped, read-only, self-comparable, and survives repository removal
+product	Run npm run test:product	2026-10-10T20:21:50.9649950Z   ---
+product	Run npm run test:product	2026-10-10T20:21:50.9650148Z   duration_ms: 36180.390176
+product	Run npm run test:product	2026-10-10T20:21:50.9650765Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:21:50.9651051Z   ...
+product	Run npm run test:product	2026-10-10T20:21:51.3421186Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:21:51.3712270Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:54.0389255Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:56.7605742Z # Subtest: offline planning rejects corrupted retained releases without writes and uses locked current state
+product	Run npm run test:product	2026-10-10T20:21:56.7606556Z ok 35 - offline planning rejects corrupted retained releases without writes and uses locked current state
+product	Run npm run test:product	2026-10-10T20:21:56.7606956Z   ---
+product	Run npm run test:product	2026-10-10T20:21:56.7607141Z   duration_ms: 5593.813751
+product	Run npm run test:product	2026-10-10T20:21:56.7607343Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:21:56.7607509Z   ...
+product	Run npm run test:product	2026-10-10T20:21:56.9462011Z # Subtest: startup arguments accept repeated local repositories and reject unknown or excess options
+product	Run npm run test:product	2026-10-10T20:21:56.9463103Z ok 36 - startup arguments accept repeated local repositories and reject unknown or excess options
+product	Run npm run test:product	2026-10-10T20:21:56.9464059Z   ---
+product	Run npm run test:product	2026-10-10T20:21:56.9464380Z   duration_ms: 1.963182
+product	Run npm run test:product	2026-10-10T20:21:56.9464728Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:21:56.9465042Z   ...
+product	Run npm run test:product	2026-10-10T20:21:57.0048830Z # Subtest: configured repositories are canonical local Git worktrees with display-only public descriptors
+product	Run npm run test:product	2026-10-10T20:21:57.0051613Z ok 37 - configured repositories are canonical local Git worktrees with display-only public descriptors
+product	Run npm run test:product	2026-10-10T20:21:57.0052523Z   ---
+product	Run npm run test:product	2026-10-10T20:21:57.0052849Z   duration_ms: 65.793743
+product	Run npm run test:product	2026-10-10T20:21:57.0053183Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:21:57.0053485Z   ...
+product	Run npm run test:product	2026-10-10T20:21:57.0976693Z # Subtest: invalid startup options fail before creating local configuration or reaching Docker
+product	Run npm run test:product	2026-10-10T20:21:57.0983332Z ok 38 - invalid startup options fail before creating local configuration or reaching Docker
+product	Run npm run test:product	2026-10-10T20:21:57.0987750Z   ---
+product	Run npm run test:product	2026-10-10T20:21:57.0988251Z   duration_ms: 92.281243
+product	Run npm run test:product	2026-10-10T20:21:57.0988702Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:21:57.0989064Z   ...
+product	Run npm run test:product	2026-10-10T20:21:57.2829908Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:21:57.3145253Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:58.5975113Z # Subtest: a configured custom Git repository is visible without its path and imports through the product API
+product	Run npm run test:product	2026-10-10T20:21:58.5975935Z ok 39 - a configured custom Git repository is visible without its path and imports through the product API
+product	Run npm run test:product	2026-10-10T20:21:58.5976345Z   ---
+product	Run npm run test:product	2026-10-10T20:21:58.5976559Z   duration_ms: 1499.894174
+product	Run npm run test:product	2026-10-10T20:21:58.5976762Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:21:58.5976930Z   ...
+product	Run npm run test:product	2026-10-10T20:21:58.7669444Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:21:58.7901361Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:58.8312119Z # grant complete
+product	Run npm run test:product	2026-10-10T20:21:58.8632863Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:02.7761729Z # Subtest: project-bound Git refs list safely and imports retain immutable branch and tag commits
+product	Run npm run test:product	2026-10-10T20:22:02.7762449Z ok 40 - project-bound Git refs list safely and imports retain immutable branch and tag commits
+product	Run npm run test:product	2026-10-10T20:22:02.7762852Z   ---
+product	Run npm run test:product	2026-10-10T20:22:02.7763036Z   duration_ms: 4177.530854
+product	Run npm run test:product	2026-10-10T20:22:02.7763243Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:02.7763410Z   ...
+product	Run npm run test:product	2026-10-10T20:22:03.1588182Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:22:03.1900244Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:03.2101545Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:05.7288883Z # revoke complete
+product	Run npm run test:product	2026-10-10T20:22:05.7489391Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:10.4659334Z # Subtest: retained release detail keeps bounded historical diagnostics and rejects unbounded metadata without writes
+product	Run npm run test:product	2026-10-10T20:22:10.4661281Z ok 41 - retained release detail keeps bounded historical diagnostics and rejects unbounded metadata without writes
+product	Run npm run test:product	2026-10-10T20:22:10.4662484Z   ---
+product	Run npm run test:product	2026-10-10T20:22:10.4663232Z   duration_ms: 7510.03765
+product	Run npm run test:product	2026-10-10T20:22:10.4663549Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:10.4664385Z   ...
+product	Run npm run test:product	2026-10-10T20:22:10.8271695Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:22:10.8581906Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:10.8800648Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:10.8989622Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:17.3051850Z # Subtest: authenticated denied decisions append fixed audit facts while preserving plan and history
+product	Run npm run test:product	2026-10-10T20:22:17.3068688Z ok 42 - authenticated denied decisions append fixed audit facts while preserving plan and history
+product	Run npm run test:product	2026-10-10T20:22:17.3090863Z   ---
+product	Run npm run test:product	2026-10-10T20:22:17.3110740Z   duration_ms: 6657.269761
+product	Run npm run test:product	2026-10-10T20:22:17.3130749Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:17.3132184Z   ...
+product	Run npm run test:product	2026-10-10T20:22:17.3594135Z # Subtest: review inbox cursors preserve microseconds and reject malformed context and calendar positions
+product	Run npm run test:product	2026-10-10T20:22:17.3611199Z ok 43 - review inbox cursors preserve microseconds and reject malformed context and calendar positions
+product	Run npm run test:product	2026-10-10T20:22:17.3619775Z   ---
+product	Run npm run test:product	2026-10-10T20:22:17.3619984Z   duration_ms: 1.545954
+product	Run npm run test:product	2026-10-10T20:22:17.3620190Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:17.3620518Z   ...
+product	Run npm run test:product	2026-10-10T20:22:17.7090515Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:22:17.7311243Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:17.7526892Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:17.7701137Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:17.7866862Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:17.8027041Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:17.8239380Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:17.8420475Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:17.8592646Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:17.8800976Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:17.8988399Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:18.0091314Z # revoke complete
+product	Run npm run test:product	2026-10-10T20:22:18.0372721Z # Subtest: review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+product	Run npm run test:product	2026-10-10T20:22:18.0374915Z ok 44 - review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+product	Run npm run test:product	2026-10-10T20:22:18.0376125Z   ---
+product	Run npm run test:product	2026-10-10T20:22:18.0376458Z   duration_ms: 507.386042
+product	Run npm run test:product	2026-10-10T20:22:18.0377261Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:18.0377567Z   ...
+product	Run npm run test:product	2026-10-10T20:22:18.3876304Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:22:18.4171606Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:18.4401076Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:18.4564803Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:18.4728817Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:18.4895734Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:18.5570618Z # Subtest: reviewer assignment is scoped, revisioned, auditable and enforced at decision time
+product	Run npm run test:product	2026-10-10T20:22:18.5571859Z not ok 45 - reviewer assignment is scoped, revisioned, auditable and enforced at decision time
+product	Run npm run test:product	2026-10-10T20:22:18.5573429Z   ---
+product	Run npm run test:product	2026-10-10T20:22:18.5573798Z   duration_ms: 341.540086
+product	Run npm run test:product	2026-10-10T20:22:18.5574159Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:18.5574789Z   location: '/home/runner/work/schemaForge/schemaForge/tests/product-reviewer-assignment.test.mjs:9:1'
+product	Run npm run test:product	2026-10-10T20:22:18.5575421Z   failureType: 'testCodeFailure'
+product	Run npm run test:product	2026-10-10T20:22:18.5575908Z   error: "Cannot read properties of undefined (reading 'id')"
+product	Run npm run test:product	2026-10-10T20:22:18.5576350Z   code: 'ERR_TEST_FAILURE'
+product	Run npm run test:product	2026-10-10T20:22:18.5576666Z   name: 'TypeError'
+product	Run npm run test:product	2026-10-10T20:22:18.5576956Z   stack: |-
+product	Run npm run test:product	2026-10-10T20:22:18.5577561Z     TestContext.<anonymous> (file:///home/runner/work/schemaForge/schemaForge/tests/product-reviewer-assignment.test.mjs:42:187)
+product	Run npm run test:product	2026-10-10T20:22:18.5578392Z     process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+product	Run npm run test:product	2026-10-10T20:22:18.5578960Z     async Test.run (node:internal/test_runner/test:1054:7)
+product	Run npm run test:product	2026-10-10T20:22:18.5579502Z     async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+product	Run npm run test:product	2026-10-10T20:22:18.5579957Z   ...
+product	Run npm run test:product	2026-10-10T20:22:19.0561592Z # Subtest: manual schema references are idempotent, exact-case, serially assigned and project-scoped
+product	Run npm run test:product	2026-10-10T20:22:19.0563579Z ok 46 - manual schema references are idempotent, exact-case, serially assigned and project-scoped
+product	Run npm run test:product	2026-10-10T20:22:19.0564136Z   ---
+product	Run npm run test:product	2026-10-10T20:22:19.0564450Z   duration_ms: 319.034835
+product	Run npm run test:product	2026-10-10T20:22:19.0564740Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:19.0564906Z   ...
+product	Run npm run test:product	2026-10-10T20:22:20.4279229Z # Subtest: trusted inventory CLI uses private local metadata authority and preserves operator history
+product	Run npm run test:product	2026-10-10T20:22:20.4281841Z ok 47 - trusted inventory CLI uses private local metadata authority and preserves operator history
+product	Run npm run test:product	2026-10-10T20:22:20.4282417Z   ---
+product	Run npm run test:product	2026-10-10T20:22:20.4282729Z   duration_ms: 1370.822152
+product	Run npm run test:product	2026-10-10T20:22:20.4283056Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:20.4283337Z   ...
+product	Run npm run test:product	2026-10-10T20:22:21.1714110Z # Subtest: HTTPS sessions enforce transport, CSRF, parent and idle/absolute lifetime, replacement and logout
+product	Run npm run test:product	2026-10-10T20:22:21.1717165Z ok 48 - HTTPS sessions enforce transport, CSRF, parent and idle/absolute lifetime, replacement and logout
+product	Run npm run test:product	2026-10-10T20:22:21.1717710Z   ---
+product	Run npm run test:product	2026-10-10T20:22:21.1717966Z   duration_ms: 562.297793
+product	Run npm run test:product	2026-10-10T20:22:21.1718245Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:21.1718485Z   ...
+product	Run npm run test:product	2026-10-10T20:22:21.6661112Z # Subtest: browser mutation checkpoint loses authority when logout or parent revocation commits first
+product	Run npm run test:product	2026-10-10T20:22:21.6681217Z ok 49 - browser mutation checkpoint loses authority when logout or parent revocation commits first
+product	Run npm run test:product	2026-10-10T20:22:21.6686281Z   ---
+product	Run npm run test:product	2026-10-10T20:22:21.6686574Z   duration_ms: 492.236374
+product	Run npm run test:product	2026-10-10T20:22:21.6686863Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:21.6687412Z   ...
+product	Run npm run test:product	2026-10-10T20:22:22.2559544Z # Subtest: private TLS material rejects permissions, links, relative and mismatched keys
+product	Run npm run test:product	2026-10-10T20:22:22.2560890Z ok 50 - private TLS material rejects permissions, links, relative and mismatched keys
+product	Run npm run test:product	2026-10-10T20:22:22.2561237Z   ---
+product	Run npm run test:product	2026-10-10T20:22:22.2561414Z   duration_ms: 591.625666
+product	Run npm run test:product	2026-10-10T20:22:22.2561610Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:22.2561775Z   ...
+product	Run npm run test:product	2026-10-10T20:22:23.9936407Z # Subtest: browser churn above journal capacity preserves operator rotation, revocation and crash recovery
+product	Run npm run test:product	2026-10-10T20:22:23.9938375Z ok 51 - browser churn above journal capacity preserves operator rotation, revocation and crash recovery
+product	Run npm run test:product	2026-10-10T20:22:23.9939031Z   ---
+product	Run npm run test:product	2026-10-10T20:22:23.9939366Z   duration_ms: 1738.104674
+product	Run npm run test:product	2026-10-10T20:22:23.9939714Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:23.9940032Z   ...
+product	Run npm run test:product	2026-10-10T20:22:24.3473184Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:22:24.3775325Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:24.3978389Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:24.4692661Z # Subtest: source bindings persist, authorize changes, constrain imports before Git, and remain private
+product	Run npm run test:product	2026-10-10T20:22:24.4693440Z ok 52 - source bindings persist, authorize changes, constrain imports before Git, and remain private
+product	Run npm run test:product	2026-10-10T20:22:24.4693837Z   ---
+product	Run npm run test:product	2026-10-10T20:22:24.4694018Z   duration_ms: 292.85457
+product	Run npm run test:product	2026-10-10T20:22:24.4694217Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:24.4694392Z   ...
+product	Run npm run test:product	2026-10-10T20:22:24.5947429Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:22:24.6206900Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:27.2835127Z # Subtest: source binding is rechecked under a project lock before an imported release can commit
+product	Run npm run test:product	2026-10-10T20:22:27.2836153Z ok 53 - source binding is rechecked under a project lock before an imported release can commit
+product	Run npm run test:product	2026-10-10T20:22:27.2837594Z   ---
+product	Run npm run test:product	2026-10-10T20:22:27.2837937Z   duration_ms: 2816.68826
+product	Run npm run test:product	2026-10-10T20:22:27.2838293Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:27.2839226Z   ...
+product	Run npm run test:product	2026-10-10T20:22:27.7323542Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:22:27.7633959Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:27.7827207Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:38.1739029Z # deploy-grant complete
+product	Run npm run test:product	2026-10-10T20:22:48.5704349Z # Subtest: complete statement approval survives restart, pages by exact digest, denies tampering and preserves legacy history
+product	Run npm run test:product	2026-10-10T20:22:48.5705551Z ok 54 - complete statement approval survives restart, pages by exact digest, denies tampering and preserves legacy history
+product	Run npm run test:product	2026-10-10T20:22:48.5706969Z   ---
+product	Run npm run test:product	2026-10-10T20:22:48.5707256Z   duration_ms: 21059.458406
+product	Run npm run test:product	2026-10-10T20:22:48.5707587Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:48.5707868Z   ...
+product	Run npm run test:product	2026-10-10T20:22:50.0732250Z # Subtest: pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+product	Run npm run test:product	2026-10-10T20:22:50.0733394Z ok 55 - pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+product	Run npm run test:product	2026-10-10T20:22:50.0733916Z   ---
+product	Run npm run test:product	2026-10-10T20:22:50.0734170Z   duration_ms: 1463.376506
+product	Run npm run test:product	2026-10-10T20:22:50.0734449Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:22:50.0734692Z   ...
+product	Run npm run test:product	2026-10-10T20:22:50.4548203Z # ENFORCED
+product	Run npm run test:product	2026-10-10T20:22:50.4845022Z # grant complete
+product	Run npm run test:product	2026-10-10T20:22:50.5049344Z # grant complete
+product	Run npm run test:product	2026-10-10T20:23:33.3044798Z # revoke complete
+product	Run npm run test:product	2026-10-10T20:23:33.3261253Z # grant complete
+product	Run npm run test:product	2026-10-10T20:23:41.1658658Z # Subtest: statement preview is scoped, bounded, archived-readable and read only
+product	Run npm run test:product	2026-10-10T20:23:41.1659534Z ok 56 - statement preview is scoped, bounded, archived-readable and read only
+product	Run npm run test:product	2026-10-10T20:23:41.1659957Z   ---
+product	Run npm run test:product	2026-10-10T20:23:41.1660219Z   duration_ms: 50927.558838
+product	Run npm run test:product	2026-10-10T20:23:41.1661056Z   type: 'test'
+product	Run npm run test:product	2026-10-10T20:23:41.1661309Z   ...
+product	Run npm run test:product	2026-10-10T20:23:41.1815305Z 1..56
+product	Run npm run test:product	2026-10-10T20:23:41.1815675Z # tests 56
+product	Run npm run test:product	2026-10-10T20:23:41.1815919Z # suites 0
+product	Run npm run test:product	2026-10-10T20:23:41.1816158Z # pass 55
+product	Run npm run test:product	2026-10-10T20:23:41.1816388Z # fail 1
+product	Run npm run test:product	2026-10-10T20:23:41.1816625Z # cancelled 0
+product	Run npm run test:product	2026-10-10T20:23:41.1816870Z # skipped 0
+product	Run npm run test:product	2026-10-10T20:23:41.1817104Z # todo 0
+product	Run npm run test:product	2026-10-10T20:23:41.1817376Z # duration_ms 366211.680221
+product	Run npm run test:product	2026-10-10T20:23:41.1959923Z ##[error]Process completed with exit code 1.
