@@ -240,6 +240,9 @@ function App() {
   const [gitRefsError, setGitRefsError] = useState('');
   const [sourceForm, setSourceForm] = useState({ repositoryId: '', folder: 'migrations' });
   const [decisionReason, setDecisionReason] = useState('');
+  const [reviewerChoices, setReviewerChoices] = useState([]);
+  const [reviewerChoice, setReviewerChoice] = useState('');
+  const [reviewerMessage, setReviewerMessage] = useState('');
   const [commentBody, setCommentBody] = useState('');
   const [commentEvidence, setCommentEvidence] = useState([]);
   const [freshPlanRequired, setFreshPlanRequired] = useState(null);
@@ -254,7 +257,9 @@ function App() {
   const planSourceSequence = useRef(0);
   const statementPreviewSequence = useRef(0);
   const activeSelectedPlanId = useRef('');
+  const activeSelectedPlanRevision = useRef('');
   const activeSelectedReleaseId = useRef('');
+  const reviewerSequence = useRef(0);
   const selectRelease = value => {
     activeSelectedReleaseId.current = value?.id || '';
     setRelease(value);
@@ -312,6 +317,8 @@ function App() {
   }, []);
 
   const selectPlan = (id) => {
+    reviewerSequence.current += 1;
+    setReviewerChoices([]); setReviewerChoice(''); setReviewerMessage('');
     planSourceSequence.current += 1;
     statementPreviewSequence.current += 1; setStatementPreview(null);
     setPlanSource(null);
@@ -350,6 +357,7 @@ function App() {
   const refresh = useCallback(async (activeToken, selectedId = projectId) => {
     if (!activeToken) return;
     const sequence = ++refreshSequence.current;
+    reviewerSequence.current += 1; setReviewerChoices([]); setReviewerChoice(''); setReviewerMessage('');
     setBusy(true); setError('');
     try {
       const [repoResult, projectResult] = await Promise.all([
@@ -405,12 +413,39 @@ function App() {
     detail?.project?.sourceBinding?.folder, detail?.project?.sourceBinding?.updatedAt]);
 
   const projectPlans = detail?.project?.id === projectId ? detail.plans || [] : [];
-  const plans = useMemo(() => projectPlans.filter((item) => planStatus === 'ALL' || item.status === planStatus), [projectPlans, planStatus]);
+  const plans = useMemo(() => projectPlans.filter((item) => (planStatus === 'ASSIGNED_TO_ME'
+    ? item.status === 'PENDING_APPROVAL' && item.reviewerId === actor?.id
+    : planStatus === 'ALL' || item.status === planStatus)), [projectPlans, planStatus, actor?.id]);
   const plan = useMemo(() => plans.find((item) => item.id === selectedPlan) || plans[0] || null, [plans, selectedPlan]);
   activeSelectedPlanId.current = plan?.id || '';
+  activeSelectedPlanRevision.current = plan?.reviewerRevision || '0';
   const actionSessionEpoch = sessionEpoch.current;
+  useEffect(() => {
+    const sequence = ++reviewerSequence.current;
+    setReviewerChoices([]); setReviewerChoice(''); setReviewerMessage('');
+    if (!projectId || !plan?.id || !token || accessMode === 'BOOTSTRAP_REQUIRED' || detail?.project?.id !== projectId || plan.status !== 'PENDING_APPROVAL') return;
+    const selectedProject = projectId, selectedPlanId = plan.id, selectedToken = token, selectedSession = sessionEpoch.current;
+    json(`/api/projects/${encodeURIComponent(selectedProject)}/plans/${encodeURIComponent(selectedPlanId)}/reviewers`, selectedToken).then(result => {
+      if (sequence === reviewerSequence.current && activeProjectId.current === selectedProject
+        && activeSelectedPlanId.current === selectedPlanId && sessionEpoch.current === selectedSession && tokenRef.current === selectedToken)
+        {
+          const choices = Array.isArray(result.reviewers) ? result.reviewers : [];
+          setReviewerChoices(choices);
+          if (result.hasMore) setReviewerMessage('Only the first 50 eligible reviewers are listed.');
+          else if (!choices.length) setReviewerMessage('No eligible reviewers are currently available.');
+        }
+    }).catch((error) => {
+      if (sequence === reviewerSequence.current && activeProjectId.current === selectedProject && sessionEpoch.current === selectedSession) {
+        setReviewerChoices([]); setReviewerMessage('Reviewer choices are unavailable. Refresh this project.');
+        if (error?.message === 'NOT_FOUND') { clearProjectState(); void refresh(selectedToken, selectedProject); }
+      }
+    });
+    return () => { reviewerSequence.current += 1; };
+  }, [projectId, plan?.id, plan?.status, plan?.reviewerRevision, token, accessMode, detail]);
   useEffect(() => { setCommentBody(''); setCommentEvidence([]); setDecisionReason(''); }, [plan?.id]);
   const filterPlans = (status) => {
+    reviewerSequence.current += 1;
+    setReviewerChoices([]); setReviewerChoice(''); setReviewerMessage('');
     planSourceSequence.current += 1;
     statementPreviewSequence.current += 1; setStatementPreview(null);
     setPlanSource(null);
@@ -428,7 +463,7 @@ function App() {
   const planCreatedAt = retainedPlanTime(plan?.createdAt);
   const authorFactsAvailable = Boolean(projectLoaded && planAuthorId);
   const isPlanAuthor = Boolean(authorFactsAvailable && actor?.id === planAuthorId);
-  const canReviewPlan = Boolean(isApprover && authorFactsAvailable && !isPlanAuthor);
+  const canReviewPlan = Boolean(isApprover && authorFactsAvailable && !isPlanAuthor && (!plan?.reviewerId || plan.reviewerId === actor?.id));
   const canArchive = actor?.role === 'developer';
   const canBindSource = actor?.role === 'developer';
   const selectedProject = projects.find((item) => item.id === projectId);
@@ -627,6 +662,24 @@ function App() {
         setFreshPlanRequired({ projectId: decisionProjectId, planId: decisionPlanId, sessionEpoch: decisionSessionEpoch });
       }
     }, isCurrentDecision);
+  };
+  const assignReviewer = (reviewerId) => {
+    if (!plan || !projectLoaded || isArchived || busy) return;
+    const selectedProject = projectId, selectedPlanId = plan.id, selectedSession = sessionEpoch.current, selectedToken = token;
+    const selectedRevision = plan.reviewerRevision || '0';
+    const selectedRefresh = refreshSequence.current;
+    const selectedReviewerSequence = reviewerSequence.current;
+    const current = () => activeProjectId.current === selectedProject && activeSelectedPlanId.current === selectedPlanId
+      && sessionEpoch.current === selectedSession && tokenRef.current === selectedToken
+      && refreshSequence.current === selectedRefresh && reviewerSequence.current === selectedReviewerSequence
+      && activeSelectedPlanRevision.current === selectedRevision;
+    void mutate(async () => {
+      const result = await json(`/api/projects/${encodeURIComponent(selectedProject)}/plans/${encodeURIComponent(selectedPlanId)}/reviewer`, selectedToken,
+        { method: 'PUT', body: JSON.stringify({ reviewerId, expectedRevision: plan.reviewerRevision || '0' }) });
+      return result.assignment;
+    }, 'Reviewer assignment updated.', () => {
+      setReviewerMessage('');
+    }, (err) => setReviewerMessage(err?.message === 'REVISION_CONFLICT' ? 'This assignment changed elsewhere. Refresh to review the latest assignment.' : 'Assignment could not be changed. Refresh and try again.'), current);
   };
 
   const addComment = (event) => {
@@ -854,7 +907,7 @@ function App() {
     await requestStatementPreview(reference.releaseId, reference.filePath, planId, reference, source);
   };
 
-  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan };
+  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -984,7 +1037,7 @@ function ReleaseScreen({ model }) {
 
 
 function ReviewScreen({ model }) {
-  const { readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview } = model;
+  const { readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview, actor, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer } = model;
   const scopedProfiles = projectLoaded && Array.isArray(detail?.profiles) ? detail.profiles : [];
   const scopedEnvironments = projectLoaded && Array.isArray(detail?.environments) ? detail.environments : [];
   const targetProfile = typeof plan?.profileId === 'string'
@@ -1008,7 +1061,7 @@ function ReviewScreen({ model }) {
           <div className="page-heading"><div><p className="eyebrow">GOVERNANCE</p><h1>Plans &amp; review</h1><p className="muted">Review the exact migration candidate and record an independent decision.</p></div><div className="heading-mark">03 <span> / 04</span></div></div>
           <section className="notice-card"><span className="notice-icon">i</span><div><strong>{isArchived ? 'Archived project · read only' : 'Offline candidate only'}</strong><p>Target history has not been observed. Database execution is unavailable and remains <b>NOT_EXECUTED</b>. {isArchived && 'Review decisions are disabled for archived projects.'}</p></div><span className="scope-tag">{plan?.planningScope || 'OFFLINE_CANDIDATE'}</span></section>
           <section className="panel plan-panel"><div className="panel-heading"><div><h2>Candidate plans</h2><p>Plans preserve source checksums and explicit execution status.</p></div><span className="count-pill">{plans.length} plans</span></div>
-            <label>Plan status<select aria-label="Plan status" value={planStatus} onChange={(event) => filterPlans(event.target.value)} disabled={busy}><option value="ALL">All</option><option value="PENDING_APPROVAL">Pending approval</option><option value="APPROVED">Approved</option><option value="REJECTED">Rejected</option></select></label>
+            <label>Plan status<select aria-label="Plan status" value={planStatus} onChange={(event) => filterPlans(event.target.value)} disabled={busy}><option value="ALL">All</option><option value="PENDING_APPROVAL">Pending approval</option><option value="ASSIGNED_TO_ME">Assigned to me</option><option value="APPROVED">Approved</option><option value="REJECTED">Rejected</option></select></label>
             {!plans.length ? <div className="empty-state"><span className="empty-icon">◇</span><strong>{planStatus === 'ALL' ? 'No plans to review' : 'No plans match this status'}</strong>{planStatus === 'ALL' ? <><span>Import a valid release and prepare an offline candidate plan first.</span><button type="button" className="text-button" onClick={() => setTab('release')}>Go to release intake →</button></> : <span>Choose another status or All to see other plans.</span>}</div> : <>
               <div className="plan-selector">{plans.map((item) => { const sourceRelease = (detail.releases || []).find((candidate) => candidate.id === item.releaseId); return <button type="button" data-plan-id={item.id} key={item.id} onClick={() => setSelectedPlan(item.id)} className={`plan-option ${(plan?.id === item.id) ? 'selected' : ''}`}><span className={`status-dot ${planMarkerClass(item.status)}`} /><span><strong>{sourceRelease?.commit?.slice(0, 12) || `Plan ${item.id.slice(0, 8)}`}</strong><small>{fmt(item.createdAt || item.created_at)}</small></span><span className={`status-pill ${decisionClass(item.status)}`}>{item.status?.replaceAll('_', ' ')}</span></button>; })}</div>
               {plan && <><div className="plan-summary"><div><span className="data-label">PLAN ID</span><code>{plan.id}</code></div><div><span className="data-label">DECISION</span><span className={`status-pill ${decisionClass(plan.status)}`}>{plan.status?.replaceAll('_', ' ')}</span></div><div><span className="data-label">TARGET HISTORY</span><strong>{plan.historyStatus || 'NOT_OBSERVED'}</strong></div><div><span className="data-label">EXECUTION</span><strong className="not-executed">{plan.execution || 'NOT_EXECUTED'}</strong></div></div>
@@ -1016,6 +1069,16 @@ function ReviewScreen({ model }) {
                   <div><dt>Author ID</dt><dd>{authorFactsAvailable ? <code>{planAuthorId}</code> : <span>Unavailable</span>}</dd></div>
                   <div><dt>Created</dt><dd>{planCreatedAt ? <time dateTime={planCreatedAt}>{fmt(planCreatedAt)}</time> : <span>Unavailable</span>}</dd></div>
                 </dl></section>
+                <section className="panel reviewer-assignment" aria-label="Plan reviewer assignment">
+                  <div className="panel-heading"><div><h3>Assigned reviewer</h3><p>Routing a review does not grant project access or change plan source facts.</p></div><span className="count-pill">Revision {plan.reviewerRevision || '0'}</span></div>
+                  <p>{plan.reviewerId ? <><strong>{plan.reviewerName || plan.reviewerId}</strong> <code>{plan.reviewerId}</code></> : 'Unassigned · any eligible independent approver may review this plan.'}</p>
+                  {plan.status === 'PENDING_APPROVAL' && !isArchived && (actor?.id === plan.authorId || (isApprover && (plan.reviewerId === actor?.id || !plan.reviewerId))) && <div className="reviewer-assignment-controls" inert={readOnlyBootstrap}>
+                    {actor?.id === plan.authorId || (isApprover && plan.reviewerId === actor?.id) ? <><label>Choose reviewer<select aria-label="Choose reviewer" value={reviewerChoice} onChange={event => setReviewerChoice(event.target.value)} disabled={busy || readOnlyBootstrap}><option value="">Select an eligible approver</option>{reviewerChoices.map(candidate => <option key={candidate.id} value={candidate.id}>{candidate.name} · {candidate.id}</option>)}</select></label><button type="button" className="secondary" onClick={() => assignReviewer(reviewerChoice)} disabled={busy || readOnlyBootstrap || !reviewerChoice}>Assign reviewer</button>{plan.reviewerId && <button type="button" className="secondary" onClick={() => assignReviewer(null)} disabled={busy || readOnlyBootstrap}>Clear assignment</button>}</> : null}
+                    {!plan.reviewerId && isApprover && actor?.id !== plan.authorId && <button type="button" className="secondary" onClick={() => assignReviewer(actor.id)} disabled={busy || readOnlyBootstrap}>Assign to me</button>}
+                  </div>}
+                  {reviewerMessage && <p className="banner warning" role="status">{reviewerMessage}</p>}
+                  {plan.reviewerId && isApprover && actor?.id !== plan.reviewerId && plan.status === 'PENDING_APPROVAL' && <p className="banner warning">This plan is assigned to another approver. Decision controls are disabled.</p>}
+                </section>
                 <section className="panel retained-intent" aria-label="Retained offline intent" data-intent-plan-id={plan.id}>
                   <div className="panel-heading"><div><h3>Retained offline intent</h3><p>Captured when this plan was created · offline configuration, not current settings or runtime-observed identity.</p></div></div>
                   {!retainedIntentAvailable
