@@ -1,0 +1,51 @@
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: review assignment controls and Assigned to me filter follow scoped plan state
+not ok 1 - review assignment controls and Assigned to me filter follow scoped plan state
+  ---
+  duration_ms: 31044.103154
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-reviewer-assignment/tests/product-reviewer-assignment-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('select[aria-label="Choose reviewer"] option[value="assign-approver-05fc3ed6-0c09-459b-9c6d-d131fa0db236"]') to be visible[22m
+    [2m    63 × locator resolved to hidden <option value="assign-approver-05fc3ed6-0c09-459b-9c6d-d131fa0db236">Assigned reviewer · assign-approver-05fc3ed6-0c09…</option>[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-reviewer-assignment/tests/product-reviewer-assignment-browser.integration.mjs:49:96)
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: reviewer assignment is scoped, revisioned, auditable and enforced at decision time
+ok 2 - reviewer assignment is scoped, revisioned, auditable and enforced at decision time
+  ---
+  duration_ms: 876.10465
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 32141.339371

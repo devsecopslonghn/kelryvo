@@ -1,0 +1,45 @@
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: review assignment controls and Assigned to me filter follow scoped plan state
+ok 1 - review assignment controls and Assigned to me filter follow scoped plan state
+  ---
+  duration_ms: 2503.411159
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: reviewer assignment is scoped, revisioned, auditable and enforced at decision time
+ok 2 - reviewer assignment is scoped, revisioned, auditable and enforced at decision time
+  ---
+  duration_ms: 1355.793105
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3311.739808
