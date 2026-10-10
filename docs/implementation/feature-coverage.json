@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-10T17:34:46.866150+00:00",
+  "recorded_at": "2026-10-10T18:14:15.810379+00:00",
   "verified_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
-  "reviewed_local_source": "f7426040789076ff728263b7e09a78aa98360464",
+  "reviewed_local_source": "81d5340bbdd4c6c6db9526178f9703d2cdec5c14",
   "scope": "All220 existing catalog classifications with combined locally verified T24–T34 facets; no full feature, Oracle or integrated-master certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
@@ -13,16 +13,16 @@
   ],
   "summary": {
     "IMPLEMENTED_AND_VERIFIED": 0,
-    "PARTIALLY_IMPLEMENTED": 47,
-    "NOT_IMPLEMENTED": 166,
+    "PARTIALLY_IMPLEMENTED": 48,
+    "NOT_IMPLEMENTED": 165,
     "BLOCKED_EXTERNAL": 0,
     "DEFERRED": 7
   },
   "by_milestone": {
     "MVP-Core": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 5,
-      "NOT_IMPLEMENTED": 12,
+      "PARTIALLY_IMPLEMENTED": 6,
+      "NOT_IMPLEMENTED": 11,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     },
@@ -64,9 +64,9 @@
   },
   "external_acceptance": "Oracle19c/21c acceptance remains independently unavailable. Required external GitHub security/protection gates prevent integration of drafts37–47; local scans/available CI never replace those gates.",
   "next_product_capability": {
-    "status": "T34_LOCAL_VERIFIED_DRAFT47_ALL6_AVAILABLE_CI_SUCCESS",
-    "next_action": "Select one substantial missing product workflow from current coverage in a fresh bounded context. Preserve original drafts/worktrees and required integration/runtime gates.",
-    "branch_policy": "Preserve original drafts37–46 and all worktrees; one substantial draft from published T33 execution-jobs base."
+    "task": "SF-PRODUCT-T35",
+    "status": "LOCAL_IMPLEMENTED_PUBLICATION_PENDING",
+    "next_action": "Complete scoped scans/license review and normal draft publication, then actual available exact-head CI. Preserve original integration/security/runtime gates."
   },
   "features": [
     {
@@ -1700,20 +1700,49 @@
       "id": "SEC-018",
       "name": "Web and API TLS",
       "milestone": "MVP-Core",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Bounded T35 local HTTPS/browser-session acceptance is verified; complete catalog/deployed environment contract remains uncertified.",
+      "remaining_gap": "Authorized deployment/network and restricted worker transport acceptance; no full catalog security/identity acceptance package.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T35",
+          "facet": "Native loopback TLS and private certificate startup",
+          "evidence": [
+            "product-t35-secure-sessions-local-verified"
+          ]
+        }
+      ],
+      "source_or_test_paths": [
+        "packages/database/browser-sessions.ts",
+        "scripts/local-tls.mjs",
+        "tests/product-secure-sessions.test.mjs",
+        "tests/product-secure-sessions-browser.integration.mjs"
+      ]
     },
     {
       "id": "SEC-019",
       "name": "Session lifecycle and logout",
       "milestone": "MVP-Core",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "basis": "Bounded T35 local HTTPS/browser-session acceptance is verified; complete catalog/deployed environment contract remains uncertified.",
       "additional_observed_facet": "Immediate bearer-credential revocation/expiry checks; browser logout and stale-session isolation",
-      "remaining_gap": "Cookie/CSRF and idle-session controls are absent",
+      "remaining_gap": "Authorized deployment/network and restricted worker transport acceptance; no full catalog security/identity acceptance package.",
       "source_or_test_paths": [
         "tests/product-credential-lifecycle.test.mjs",
-        "tests/product-credential-browser.integration.mjs"
+        "tests/product-credential-browser.integration.mjs",
+        "packages/database/browser-sessions.ts",
+        "scripts/local-tls.mjs",
+        "tests/product-secure-sessions.test.mjs",
+        "tests/product-secure-sessions-browser.integration.mjs"
+      ],
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T35",
+          "facet": "Persistent secure cookie session exchange, CSRF, thirty-minute idle/eight-hour absolute and parent expiry, reload/logout/replacement and operator/restore revocation with mutation checkpoints",
+          "evidence": [
+            "product-t35-secure-sessions-local-verified"
+          ]
+        }
       ]
     },
     {
@@ -2413,7 +2442,7 @@
       "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
     }
   ],
-  "verification_record": "evidence/product/product-t34-backup-restore-ci-correction-20261010/record.json",
+  "verification_record": "evidence/product/product-t35-secure-sessions-20261010/record.json",
   "source_observations": {
     "integrated_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
     "retained_stack_implementation": "ced0c1c62bc115d283aca4580999a6486403ce6b",

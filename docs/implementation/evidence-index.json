@@ -3088,6 +3088,35 @@
       },
       "path": "evidence/product/product-t34-corrected-draft-publication-20261010/terminal-record.json",
       "sha256": "8db95660cbc9be110ed7ed606d9cad3efc41cf998d9591fb5d6d772d9f49e3c9"
+    },
+    {
+      "id": "product-t35-secure-sessions-local-verified",
+      "subject_id": "SF-PRODUCT-T35",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen serial npm run check; npm run test:product; npm run test:browser with PostgreSQL, pinned parser and real Chromium",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "test_references": [
+        "SF-PRODUCT-T35-HTTPS",
+        "SF-PRODUCT-T35-SESSION",
+        "SF-PRODUCT-T35-WEB",
+        "SF-PRODUCT-T35-RESTORE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t35-secure-sessions-20261010/standard.log",
+        "sha256": "0f45ca571a5191a0375f1b3bd589c8becc14f317f1fcc0e95cd348ad2ff9de65"
+      },
+      "path": "evidence/product/product-t35-secure-sessions-20261010/record.json",
+      "sha256": "3abaaf39b63c7edc5f1687d178bf7bc557199ad481a0f8d59fa32726368932ea"
     }
   ]
 }

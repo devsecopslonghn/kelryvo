@@ -1,19 +1,22 @@
 # SchemaForge HTTPS browser session checkpoint
 
-T35 IN_PROGRESS in /home/longhn0710/workspace/schemaforge-product-secure-sessions,
-branch development/product-secure-sessions from T34 local f2192cd. Native loopback HTTPS,
-private paired certificate/key startup, revocable cookie sessions, CSRF, idle/absolute/parent
-expiry, reload/logout and strict backup-schema migration implemented. Focused acceptance and
-independent native review in progress; final frozen regressions/publication remain.
+T35 locally verified source 81d5340bbdd4c6c6db9526178f9703d2cdec5c14: native loopback HTTPS and private certificates,
+revocable cookie sessions/CSRF, thirty-minute idle/eight-hour absolute/parent expiry,
+reload/logout and preserved review/restore/HOLD workflow. Final serial suites passed
+191 standard/54 product/31 Chromium, zero failures/cancellations/skips.
+Independent exact-source review has no blockers. Task IMPLEMENTED pending publication/CI
+criterion5. New source/tests/dependencies hashes unchanged from frozen acceptance.
 
-Master verified 0fd6980db49c9546ab0a04fe07321a348eee2d65. Drafts #37–#47 remain OPEN/DRAFT;
-latest #47 at9d6deff based on #46, six available jobs SUCCESS. T34 source f742604 verified
-188 standard/51 product/30 Chromium with original evidence preserved. Existing worktrees
-and drafts unchanged. Known required security/protection APIs unavailable403/404/403,
-never PASS; Sonar exception only applies to Sonar. Do not repeat unavailable probes.
+Worktree /home/longhn0710/workspace/schemaforge-product-secure-sessions; branch
+development/product-secure-sessions from T34 local f2192cd. Master lastverified
+0fd6980db49c9546ab0a04fe07321a348eee2d65. Drafts #37–#47 preserved OPEN/DRAFT;
+#47 at9d6deff based on #46, six available jobs SUCCESS. Required code/secret/protection
+APIs unavailable403/404/403, never PASS; Sonar exception only applies to Sonar.
+Do not repeat unavailable probes or rerun unchanged passing tests for evidence.
 
-Exact next: finish new HTTPS/session API and Chromium review/restore checks, freeze source,
-run required serial standard/product/browser suites, complete exact independent review,
-scoped scans/license checks, then one substantial draft based on the T34 checkpoint and
-observe actual available CI. No ready/merge/deployment or Oracle authority inferred.
-Overall goal active; previous catalog220=0full/47partial/166not/7deferred pending T35 evidence.
+Coverage220=0 full/48 partial/165 not/7 deferred.
+Browser fixtures trust only their ephemeral public key; Node validates CA and hostname.
+No deployed network/worker transport, Oracle execution/reconciliation, HOLD clearance,
+production infrastructure or full catalog acceptance is certified. Overall goal active.
+Exact next: scoped content/incoming scans and license review, metadata review, ordinary
+new draft publication from T34 checkpoint, then observe actual available CI before T35 VERIFIED.
