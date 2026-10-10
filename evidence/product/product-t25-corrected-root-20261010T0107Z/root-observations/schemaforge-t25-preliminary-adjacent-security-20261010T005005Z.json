@@ -1,0 +1,64 @@
+{
+  "record_type": "PRELIMINARY_INDEPENDENT_SECURITY_ASSESSMENT",
+  "task": "SF-PRODUCT-T25",
+  "reviewer": "/root/t25_correction_security",
+  "recorded_at_utc": "2026-10-10T00:50:05Z",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-release-source-comparison",
+  "source_point": {
+    "head": "93629076c230274e210acaf8f52c46f01fafdb00",
+    "working_tree": "uncommitted concurrent task changes present",
+    "sha256": {
+      "apps/api/index.ts": "d717c56a926f842a9872e5234468bb1ecd9fd19f37a5bf3c3b518c2ebcfdbc75",
+      "tests/product-release-comparison.test.mjs": "c9df38880ef2e81218f5b0b43c839aad809210fc3fadb803e34df60e2bef011e"
+    },
+    "hash_capture_note": "Actual source hashes captured at recorded_at_utc; apps/api/index.ts changed during concurrent work, so this assessment applies only to these exact bytes."
+  },
+  "review_scope": "Read-only preliminary review of T25 correction and adjacent retained-release payload preflights; no source edits.",
+  "t25_correction": {
+    "finding": "SEC-T25-01",
+    "preliminary_assessment": "Correction appears to address the compare-route finding by calculating per-item JSONB encoded bytes with content removed, adding folder/parser-profile/repository byte lengths, and validating statementCount in scalar preflight before payload SELECT. Tests cover bounded extras, oversized flat and nested extras in both slots with snapshots, and invalid statementCount values.",
+    "remaining_note": "Per-item encoded lengths omit JSON array separators and brackets. Include conservative array overhead (2 + 2 * file_count) in the metadata comparison against MAX_STDOUT_BYTES so the bound explicitly covers the complete encoded non-content metadata representation.",
+    "final_approval": false
+  },
+  "adjacent_finding": {
+    "id": "SEC-RETAINED-METADATA-02",
+    "status": "OPEN",
+    "severity": "MEDIUM",
+    "precondition": "Requires privileged database corruption or equivalent direct mutation of retained rows; no actual credentials or credential values were observed.",
+    "routes": [
+      {"path": "apps/api/index.ts", "route": "GET /api/releases/:id/statement-preview", "approximate_source_lines": "566-610"},
+      {"path": "apps/api/index.ts", "route": "POST /api/projects/:id/plans", "approximate_source_lines": "742-820"},
+      {"path": "apps/api/index.ts", "route": "POST /api/projects/:projectId/plans/:id/comments", "approximate_source_lines": "855-946"},
+      {"path": "apps/api/index.ts", "route": "plan approval decision handler", "approximate_source_lines": "980-1025"}
+    ],
+    "evidence": "These paths use a roughly 120 MiB complete files JSON cap, then select/materialize files and invoke verifyRetainedRelease. The verifier accepts unknown file object keys and validates known statementCount only after payload materialization. Oversized unknown metadata can therefore pass scalar size preflight below that cap and consume memory before rejection or further processing.",
+    "recommendation": "Create a separate bounded security task to add reusable PostgreSQL-side preflight predicates for complete encoded non-content metadata and known file-field types/ranges to all four payload readers before any files payload SELECT. Preserve the intended aggregate content allowance and support historical compatible fields, bounded unknown metadata, valid Unicode, arbitrary supported version components, and null statementCount. Return the existing fixed endpoint error on corrupt retained state. Preserve transaction lock order and explicitly preserve authorization-denial audit behavior. Do not combine this follow-up with the in-flight T25 compare correction absent a new explicit scope decision; ordinary security hardening is authorized by SF-D010.",
+    "no_writes_from_review": true
+  },
+  "verification": {
+    "tests_run": false,
+    "builds_run": false,
+    "scanners_run": false,
+    "focused_git_diff_check": "PASS at source capture for apps/api/index.ts and tests/product-release-comparison.test.mjs",
+    "original_220_acceptance_changed": false,
+    "oracle_validation": "INDEPENDENT_BLOCKED; no Oracle execution",
+    "license_notice_or_grants_changed_by_correction": false,
+    "security_approval": "WITHHELD pending review of exact corrected final head and required gates",
+    "publication_or_merge_approval": false
+  },
+  "proposed_followup_task": {
+    "scope": "SF-PRODUCT retained metadata-before-payload hardening for preview, plan creation, comment evidence, and plan approval.",
+    "exclusive_source_ownership": ["apps/api/index.ts", "packages/migrations/verify-retained-release.mjs", "tests/product-release-comparison.test.mjs"],
+    "dependencies": ["Complete SF-PRODUCT-T25 compare-route correction and fresh exact-head review"],
+    "meaningful_postgres_test_matrix": [
+      "valid release with canonical known fields, null and nonnegative safe integer statementCount, Unicode content and bounded historical unknown fields succeeds",
+      "oversized unknown metadata independently rejected in every base/retained payload reader before payload load",
+      "wrong known-field JSON types, invalid/unsafe statementCount, oversized metadata, and malformed files rejected with each route's existing fixed response",
+      "complete database snapshots prove no writes for read/plan/comment rejection except established authorization-denial audit rows where that behavior applies",
+      "verify locks, fresh-plan/source-binding checks, approval behavior, and existing regressions remain intact"
+    ],
+    "out_of_scope": ["Oracle execution", "deployment", "schema migration unless evidence proves unavoidable", "changing original 220 acceptance"],
+    "review_boundary": "This proposal is not authorization to claim completion or to skip the normal local check and exact-head review gates."
+  },
+  "limitations": "Static source inspection only. This is a preliminary immutable assessment at the stated source point, not an exact-final-head security/license/provenance approval."
+}

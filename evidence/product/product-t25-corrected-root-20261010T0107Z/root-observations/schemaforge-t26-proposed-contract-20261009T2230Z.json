@@ -1,0 +1,36 @@
+{
+  "status": "PROPOSED_ONLY_NOT_REGISTERED_NOT_IMPLEMENTED",
+  "task_id": "SF-PRODUCT-T26",
+  "title": "Find pending reviews across explicitly granted projects",
+  "feature_ids": [
+    "GOV-021"
+  ],
+  "dependencies": [
+    "SF-PRODUCT-T25",
+    "SF-PRODUCT-T24",
+    "SF-PRODUCT-T21",
+    "SF-PRODUCT-T19",
+    "SF-PRODUCT-T16"
+  ],
+  "created_at_utc": "2026-10-09T22:30:33.768524+00:00",
+  "candidate_assessment": "/tmp/schemaforge-after-t25-candidate-20261009T222524Z.json",
+  "candidate_correction": "/tmp/schemaforge-after-t25-candidate-correction-20261009T222616Z.json",
+  "acceptance_criteria": [
+    "Add an authenticated read-only pending-review inbox for existing fixed approvers across their currently explicitly granted active projects. Require enforced membership; deny bootstrap and developer inbox access with fixed feedback. Join current grants on every read, disclose no missing/foreign/revoked resources, and leave existing per-project release/plan/comment/decision contracts unchanged. No assignment, delegation, application administrator or new decision authority.",
+    "Bound the aggregate query and response with stable exclusive PostgreSQL creation-time/plan-ID ordering and fixed page size. Allow an optional exact currently granted project filter. Strict bounded untrusted continuation cursors grant no authority and retain exact PostgreSQL timestamp precision. Select only bounded project/requester/plan/release identity facts, not SQL payloads, credential references or target configuration. Preserve historical records and all scoped no-write behavior.",
+    "Show project, requester, retained commit identity, request time and pending status with an explicit independent-reviewer eligibility hint. Authored plans remain read-only to their requester. Open a selected row through the existing project-bound plan review; do not automatically decide, add comments, prepare plans or execute. Existing API remains authoritative for self-review, current permission, archive, terminal, generation/source/intent integrity and audited decision denials.",
+    "Filter/refresh/project-selection/row-navigation/session/credential changes invalidate rows/cursors and delayed requests immediately. Repeated away/back context changes must not resurrect results. Revoked grants, archived projects and already decided plans disappear on a fresh read; stale selected rows cannot open another project or bypass existing review guards. Recover with scoped fresh reads and fixed retry feedback.",
+    "Real isolated PostgreSQL/API and Chromium cover multiple granted and ungranted projects, both roles, requester and independent reviewer, deterministic timestamp/ID ties and page boundaries, malformed/foreign/filter-mismatched cursors, revocation/archival/terminal transitions, controlled delayed filter/refresh/navigation/project/session/credential responses, and API/connection-pool recreation persistence. Populate and compare complete source/plan/intent/comment/decision/history/audit rows for no writes from reads/navigation. Preserve all mandatory Git/parser/product/browser regressions with zero skips.",
+    "This is a bounded GOV-021 inbox read/navigation extension, not original full assigned inbox/delegation/editor exclusion acceptance or worker/runtime authorization. Preserve all220 original features and dependencies, license/grants/lockfiles, historical failures and scanner settings. No target/Oracle credentials, connections, deployment, execution, provider auth, inferred lineage/applied/schema facts or history rewrite. Sonar unavailable never PASS, required GitHub security gates unchanged and Oracle VALIDATION independently BLOCKED."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T26-API",
+    "SF-PRODUCT-T26-WEB",
+    "SF-PRODUCT-T26-PERSISTENCE"
+  ],
+  "limits": [
+    "Register only after T25 local verification and independent review eligibility; this preparation is not a commitment or verification.",
+    "Native catalog metadata timing correction remains attached; active-source hashes are not frozen review evidence.",
+    "Final publication/merge requires actual eligible prerequisites, current base reconciliation, independent exact-head review, security findings classification and required CI."
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "recorded_at_utc": "2026-10-10T00:49:40.697392+00:00",
+  "record_owner": "ROOT_INTERRUPTED_NATIVE_CORRECTION_RECOVERY",
+  "status": "IN_PROGRESS",
+  "prior_native_context": "ABSENT_FROM_LIVE_AGENT_TREE",
+  "matching_test_build_process": "NONE_OBSERVED",
+  "available_prior_capture": "FOCUSED_BUILD_EXIT0_ONLY_NO_CORRECTED_FULL_OR_COMPLETION",
+  "source_before_recovery_sha256": {
+    "apps/api/index.ts": "06d4c2826d42a4e01d3d908e3a8bfce8159249c8338c7befbc4578996dcb01a5",
+    "tests/product-release-comparison.test.mjs": "c9df38880ef2e81218f5b0b43c839aad809210fc3fadb803e34df60e2bef011e",
+    "docs/development/local-product.md": "9d07af35c899f246bbd0b4c8a7029190e5dea19498e07d99fd3648edd0e74aa4"
+  },
+  "copied_artifact_sha256": {
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/focused-build.command.txt": "76a4bdc9800b3e36d09d57566671591f36bccc7d39599408ccd460a603b437f5",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/focused-build.start.utc": "4fd7d1175809f45c1ed10e0c1050caee551b2ec84980368b9baf80bb49f8554b",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/focused-build.raw.log": "0533560d3195db468390751cabd57bdc34335468fb7d56a64f8d917aa71dc2be",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/focused-build.end.utc": "a03558149fb47671fc902fc7e74deb4bb77406e5ad53732c426dd4b2d831581e",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/focused-build.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/focused-build.sha256": "564990f87c6ac29b4d3cb9f90bb971914b7f0bfe224fd084ce3e7abd14c9d698",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/current-remote/fetch.raw.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/current-remote/repository.raw.json": "56afc3d8fbb82b7383beb9f2ac1da956f25fe6375c6c4aaa9719c8a3694c53b9",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/current-remote/prs.raw.json": "a12cf6739a0f163091f08ba6e3b98492526612befbe4d8e36af7a0e15dd5e125",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/current-remote/pr37.raw.json": "ae88f2ab0b8147182045cd835074af6737fccf781f425bc41db75d1c8e671ea1",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/current-remote/branches.raw.json": "44b69cf5d229501bfcffccd52285c6971ef2b76db1330db69228014f808d5772",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/current-remote/code-scanning.raw.json": "d57dab3960fa4a1e2ba1d77df32d3e288ea557c7771446fd17a2e30197f1cb09",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/current-remote/shared-status.raw.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/current-remote/shared-head.raw.json": "b68ac60bdf60bab48ffea004c413979b428aa00b349c521c4fb9c36d3accad09",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/current-remote/secret-scanning.raw.json": "0542e59b19421bb822f240af2e87c462a608432f58bf997afa08649370a722a3",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/current-remote/dependabot.raw.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/current-remote/protection.raw.json": "03bc633c7f1735f2f98853f758e945676281823caf34a38c325aa47ed8d7244f",
+    "evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/current-remote/record.json": "7f8da0f69b1869490abdf17f29d92c6dc8b8017e41ed0dc1c1b4e1d2370617bd"
+  },
+  "new_feature_context": "/root/t25_correction",
+  "read_only_security_context": "/root/t25_correction_security",
+  "required_security_services": "FRESH0049_PRIVATE_CODE403_SECRET404_PROTECTION403_UNAVAILABLE_NOTPASS",
+  "merge_eligible": false,
+  "limits": [
+    "No native correction completion or full run proof exists in prior folder. Context disappearance is not proof of verification.",
+    "Current bigint metadata sum uses explicit Number conversion; prior malformed draft not attested or reconstructed.",
+    "Owner replied work normally; actual required GitHub gates remain unavailable, no further waiver inferred."
+  ]
+}

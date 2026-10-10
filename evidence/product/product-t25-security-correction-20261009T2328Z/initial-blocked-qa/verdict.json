@@ -1,0 +1,47 @@
+{
+  "record_type": "independent_exact_head_qa_verdict",
+  "task": "SF-PRODUCT-T25",
+  "reviewer": "/root/t25_qa",
+  "recorded_at_utc": "2026-10-09T23:27:23Z",
+  "head_before": "93629076c230274e210acaf8f52c46f01fafdb00",
+  "tree_before": "02fbec02d8e9b4263faa6a4f2621056cd6a1c147",
+  "base": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+  "origin_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "head_after": "93629076c230274e210acaf8f52c46f01fafdb00",
+  "tree_after": "02fbec02d8e9b4263faa6a4f2621056cd6a1c147",
+  "worktree_status_before_after": "CLEAN",
+  "source_manifest_sha256": {
+    "apps/api/index.ts": "8a06577d9b99f485dd137f0bf5ed26a77859101c7de637b82fb834452e70ad0b",
+    "apps/web/src/app.jsx": "5b0bcbd713ec66e7e6a73e9515022d6689892fa8ea5069209b4f5b24d448df48",
+    "docs/development/local-product.md": "1ebb556fb08ee27af7d5ab833c458f9c26320b7e91ba74ab9e9eaab45c466dec",
+    "packages/migrations/compare-retained-releases.mjs": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8",
+    "scripts/test-product.mjs": "af47fe31ff4608bbfd92f13acb18ed457e2c026a630d1ad79210f0e6de77e63f",
+    "tests/product-release-comparison-browser.integration.mjs": "c11406afde27b7d7faa590cab5cc53f7639547427b4520291670d5c48ff74320",
+    "tests/product-release-comparison.test.mjs": "26904e5c2822ddefb7047ba66a4e32e0370a0a121b0843c3b9d03b96c50099ac"
+  },
+  "commands": [
+    {"name":"comparison_api","command_file":"api.command.txt","start_utc":"2026-10-09T23:24:05Z","end_utc":"2026-10-09T23:24:43Z","exit":0,"raw":"api.raw.log","raw_sha256":"e0339b9c1164d7e0aaff3e46ee1cb96b2131cafee65f866aea722f0105d534c0","tap":{"tests":2,"pass":2,"fail":0,"skipped":0}},
+    {"name":"comparison_browser","command_file":"browser.command.txt","start_utc":"2026-10-09T23:24:59Z","end_utc":"2026-10-09T23:25:16Z","exit":0,"raw":"browser.raw.log","raw_sha256":"d6906ee5bab83e72b7f27c085d7294bd3df40521b64e988b26a07febb60c348e","tap":{"tests":1,"pass":1,"fail":0,"skipped":0}},
+    {"name":"tracker_validate","command_file":"tracker.command.txt","start_utc":"2026-10-09T23:25:28Z","end_utc":"2026-10-09T23:25:29Z","exit":0,"raw":"tracker.raw.log","raw_sha256":"9e5f6c391d69adaf0cf573cd5edbe17038515279b6f4c61e76493108ee3d7904"},
+    {"name":"release_integrity_and_archive_regressions","command_file":"regression.command.txt","start_utc":"2026-10-09T23:25:40Z","end_utc":"2026-10-09T23:25:47Z","exit":0,"raw":"regression.raw.log","raw_sha256":"854afa6c3a3002e35ac553cb60e33e8f095ccf7ed3ff22e8c7b9270cbe70b382","tap":{"tests":3,"pass":3,"fail":0,"skipped":0}}
+  ],
+  "coverage_observed": [
+    "API test covers both fixed roles, unauthorized and strict-body denial, valid temporary Git commits, unchanged/add/remove/change/same-version rename facts, dotted and arbitrary precision versions, >1 MiB valid SQL, self comparison, corrupted/malformed/null/oversized/count/content/metadata/validation/manifest/commit/incompatible references, and complete populated project/release/plan/intent/comment/decision/history/audit/grant/operator-audit snapshots around failed reads.",
+    "API test covers project scoping, current grant revoke, archived reads, removed repository registration, database reopen and API recreation.",
+    "Browser test visibly compares as developer and approver, inspects literal SQL, waits for response.finished and double requestAnimationFrame, exercises pair away/back, project, session/token and refresh invalidation, and asserts no page errors."
+  ],
+  "material_finding": {
+    "status":"BLOCKS_QA_APPROVAL",
+    "finding":"Release comparison preflight allows non-content file metadata/unknown JSON fields to consume far more than the intended metadata budget. The broad files::text bound is 6*(MAX_RELEASE_BYTES+MAX_STDOUT_BYTES)+MAX_RELEASE_FILES*1024 (about 120 MiB plus 128 KiB with current constants); explicit metadata accounting covers path/version and folder/parser profile, while content bytes are separately capped. Unknown per-file JSON fields are not included in that metadata sum. This leaves a large metadata transmission/resource gap despite the content cap.",
+    "verification":"Static review of frozen source plus security reviewer finding communicated by root; no adversarial extra-metadata lifecycle was started after notice.",
+    "effect":"Withhold local QA approval and draft eligibility pending correction and fresh exact-head review. Passing captures above are limited positive evidence, not approval."
+  },
+  "approval_scope":"BLOCKED pending material preflight correction; no approval for local product readiness or draft publication.",
+  "limitations": [
+    "No full suite rerun; root supplied frozen standard/product/browser results and exact source hashes. Focused independent runs cover changed comparison paths and adjacent archive/release integrity behavior.",
+    "Native history candidly records earlier failed browser fixture setup and does not claim exact cleanup proof for that first setup attempt. Its captured ReferenceError diagnosis was corrected in the UI model destructuring, followed by rebuilt/final browser success; my independent focused browser run also passed.",
+    "No Oracle 19c/21c runtime or target verification; Oracle VALIDATION remains separately blocked.",
+    "T24 PR37 remains an unmerged draft and required GitHub security/protection services were unavailable. Sonar is unavailable, never PASS. Finding-bearing scanners are not clean PASS.",
+    "No source edits, staging, commits, remote writes, deployments, credential use or Oracle actions. Owned local test lifecycle ended; no test/build/server process remained."
+  ]
+}

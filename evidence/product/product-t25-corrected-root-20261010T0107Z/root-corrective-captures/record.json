@@ -1,0 +1,21 @@
+{
+  "recorded_at_utc": "2026-10-10T01:07:23.541673+00:00",
+  "record_owner": "ROOT_CORRECTED_NATIVE_AND_TRACKER_VERIFICATION",
+  "native_artifacts_verified": 41,
+  "frozen_owned_sources_verified": 7,
+  "counts": {
+    "standard": 162,
+    "product": 37,
+    "browser": 22,
+    "root_tracker": 21,
+    "skipped": 0
+  },
+  "raw_sha256": "a6750e228e2dc1318d8b0857a308960a7b8f5fe8e3dfe9d10b47dc3e655ccc47",
+  "root_lint_format_scoped_diff": "PASS",
+  "initial_blocked_head_preserved": "93629076c230274e210acaf8f52c46f01fafdb00",
+  "SEC-T25-01": "LOCAL_CORRECTED_FRESH_EXACT_HEAD_REVIEW_PENDING",
+  "SEC-RETAINED-METADATA-02": "OPEN_ADJACENT_FOLLOWUP_PRIORITIZED",
+  "merge_eligible": false,
+  "sonar": "UNAVAILABLE_NOTPASS",
+  "oracle_validation": "INDEPENDENT_BLOCKED"
+}

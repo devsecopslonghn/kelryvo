@@ -1,3 +1,59 @@
+## T25 security correction locally verified; fresh exact-head review pending — 2026-10-10 UTC
+
+Retained same-project release comparison verifies both bounded scoped manifests under read
+locks before materializing SQL. Canonical arbitrary-precision versions produce added, removed,
+changed and unchanged path/content facts. Both roles inspect explicit immutable identities and
+escaped source; pair/project/session/credential/refresh changes invalidate delayed results.
+Historical records, archived reads and repository-unavailable reads remain intact.
+
+Corrected frozen results: standard162, PostgreSQL/Git/pinned-parser product37, browser22;
+zero failures/skips. Corrective native completion, seven source hashes and available captures are verified.
+Complete encoded non-content metadata, including unknown nested fields and array overhead,
+is bounded in PostgreSQL before either payload; numeric metadata is typed and bounded.
+Earlier selector ReferenceError, incomplete fixture diagnosis, failed attempts, missing draft
+bytes and first-standard-only sequence remain explicit and immutable. Test-only corrections
+prove failed-read full snapshots before restoration and successful visible approver comparison.
+Evidence: `evidence/product/product-t25-corrected-root-20261010T0107Z/integration-record.json`.
+
+T24 remains reviewed unmerged draft PR37; required GitHub security services/protection are
+unavailable, never PASS. Exact-head independent QA/security/license and publication scans remain
+pending. SF-D023 permits local progress on this reviewed prerequisite, not final merge.
+Latest verified master remains0fd6980; original220 acceptance unchanged, Oracle independently
+BLOCKED, Sonar unavailable never PASS. Shared original checkout and Hygiene scope untouched.
+Next proposed bounded increment addresses the same metadata budget in existing retained-source
+readers before a future pending-review inbox; proposals are not registration or implementation. No deployed/schema/Oracle claim.
+
+## T25 corrective native context recovered; verification remains active — 2026-10-10 UTC
+
+Prior correction context is absent; no matching live test/build process was observed. Its
+available capture proves focused build only, with no corrected full tests or native completion.
+Root preserved exact capture bytes and handed the existing three owned correction paths to
+fresh coupled native context. Read-only security review runs independently; no completion is
+inferred from disappeared context. T25 remains IN_PROGRESS and unpushed. Initial blocked head
+and evidence stay immutable; corrected full freeze and exact-head review remain required.
+Evidence: `evidence/product/product-t25-security-correction-20261009T2328Z/native-interruption-recovery/record.json`.
+
+Fresh GitHub0049 observation still PRIVATE/code403/secret404/protection403 unavailable. Owner
+reply to work normally preserves normal gates; no extra security exemption. Master0fd6980 and
+T24 draft37 remain unchanged. Sonar unavailable never PASS; Oracle independently BLOCKED.
+Shared original checkout and separate Hygiene scope remain untouched.
+
+## T25 security metadata correction active; original head unpushed — 2026-10-09 UTC
+
+Independent security/QA blocked93629076 despite passing frozen162/37/22 and focused2/1/3:
+extra non-content JSON metadata can exceed the intended4MiB budget before payload loading.
+SEC-T25-01 remains OPEN. T25 returns to IN_PROGRESS for complete encoded metadata preflight,
+typed bounded numeric facts and adversarial both-slot no-write tests. Original source and
+captures remain immutable. Fresh full freeze and exact-head independent reviews are required.
+Evidence: `evidence/product/product-t25-security-correction-20261009T2328Z/blocked-review.json`; SF-D025 records safe bounded extension compatibility.
+No T25 push/PR or security approval claimed. Root owns records; native owns scoped correction.
+
+Owner replied GitHub was changed and work should continue normally. A fresh read still finds
+PRIVATE/code-scanning403/secret-scanning404/protection403, UNAVAILABLE never PASS; no additional
+security waiver or paid/visibility change inferred. T24 draft37 unchanged/unmerged; master0fd6980
+remains verified. Proposed inbox registration remains pending. Sonar unavailable never PASS,
+Oracle independently BLOCKED; original220 requirements and shared checkout/Hygiene untouched.
+
 ## T25 locally verified; exact-head review and security gates pending — 2026-10-09 UTC
 
 Retained same-project release comparison verifies both bounded scoped manifests under read

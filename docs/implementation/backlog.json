@@ -2946,6 +2946,9 @@
       "evidence": [
         {
           "index_id": "product-t25-retained-source-comparison-local-verified"
+        },
+        {
+          "index_id": "product-t25-security-corrected-local-verified"
         }
       ],
       "blockers": []

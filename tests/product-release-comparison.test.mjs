@@ -135,6 +135,18 @@ test('authenticated retained comparison is scoped, read-only, self-comparable, a
     assert.equal(approverCompared.statusCode, 200, 'the second fixed role can read the same comparison');
     assert.equal(compared.json().comparison.base.manifestDigest, imported.json().release.manifestDigest);
     const savedCandidate = (await db.sql`SELECT * FROM sf_releases WHERE id=${candidateReleaseId}`)[0];
+    try {
+      const files = structuredClone(savedCandidate.files);
+      files[0].extra = { review: 'bounded extension', flags: ['retained', 2, true] };
+      files[0].statementCount = null;
+      await db.sql`UPDATE sf_releases SET files=${db.sql.json(files)} WHERE id=${candidateReleaseId}`;
+      const beforeExtensionRead = await snapshot();
+      const extensionRead = await request('POST', compareUrl, { baseReleaseId: releaseId, candidateReleaseId });
+      assert.equal(extensionRead.statusCode, 200, 'small bounded unknown metadata remains compatible');
+      assert.deepEqual(await snapshot(), beforeExtensionRead, 'bounded extension comparison is read only');
+    } finally {
+      await db.sql`UPDATE sf_releases SET files=${db.sql.json(savedCandidate.files)} WHERE id=${candidateReleaseId}`;
+    }
     const rejectedCorruption = async (mutate, slot = 'candidate') => {
       const releaseToMutate = slot === 'base' ? releaseId : candidateReleaseId;
       const saved = (await db.sql`SELECT * FROM sf_releases WHERE id=${releaseToMutate}`)[0];
@@ -170,6 +182,15 @@ test('authenticated retained comparison is scoped, read-only, self-comparable, a
       return { ...files[0], path: `migrations/V${index + 1}__oversize.sql`, version: String(index + 1),
         content, bytes: Buffer.byteLength(content), sha256: createHash('sha256').update(content).digest('hex') };
     }));
+    for (const [slot, value] of [
+      ['base', -1], ['candidate', 1.5], ['base', 1e30], ['candidate', '2'],
+    ]) await rejectedCorruption((files) => { files[0].statementCount = value; }, slot);
+    for (const slot of ['base', 'candidate']) {
+      await rejectedCorruption((files) => { files[0].extra = 'x'.repeat(4 * 1024 * 1024 + 32_000); }, slot);
+      await rejectedCorruption((files) => {
+        files[0].extra = { parts: ['x'.repeat(2_150_000), ['y'.repeat(2_150_000)]] };
+      }, slot);
+    }
     for (const [column, value] of [['validation_status', 'INVALID'], ['manifest_digest', 'bad-digest'], ['commit_id', 'bad-commit']]) {
       const saved = (await db.sql`SELECT * FROM sf_releases WHERE id=${candidateReleaseId}`)[0];
       try {

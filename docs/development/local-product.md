@@ -375,8 +375,11 @@ same version is shown as changed. Comparing one release with itself is supported
 
 The API requires current project membership and rechecks both releases under project and release
 read locks. It checks database-side payload bounds for both retained manifests before loading either,
-then verifies their stored format-1 manifests and UTF-8 bytes. Releases must share retained repository
-ID, folder and parser profile. An archived project remains readable; removed local repository
+including a four MiB total encoded budget for all non-content file metadata and repository, folder and
+parser-profile identity fields. Unknown extension fields remain readable inside that budget; the
+known `statementCount` field must be null or a bounded nonnegative safe integer. It then verifies the
+stored format-1 manifests and UTF-8 bytes. Releases must share retained repository ID, folder and parser
+profile. An archived project remains readable; removed local repository
 registration does not prevent reviewing retained data. Missing, foreign, revoked, invalid or
 incompatible comparisons use fixed unavailable feedback. Refresh, project, session or either pair
 selection change clears an in-flight result. The comparison never reads Git, reruns the parser,

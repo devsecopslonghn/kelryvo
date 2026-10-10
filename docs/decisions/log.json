@@ -264,6 +264,17 @@
         "docs/implementation/backlog.json",
         "docs/development/local-product.md"
       ]
+    },
+    {
+      "id": "SF-D025",
+      "status": "ACCEPTED_T25_COMPLETE_NON_CONTENT_METADATA_PREFLIGHT_CORRECTION",
+      "accepted_at_utc": "2026-10-09T23:30:20.268093+00:00",
+      "decision": "Bound complete encoded non-content retained-file metadata in PostgreSQL before either compared release payload is materialized, including unknown/nested extension values. Keep each content budget independent and use safe typed guarded numeric checks for statementCount and bytes. Preserve compatible small bounded extension metadata rather than infer historical exact-key shape; never rewrite retained files/manifests or fill historical generations. Authorized corrupted reads fail fixed and do not mutate protected rows. The original unpushed936 head and passing initial captures remain immutable but lack security approval; corrected source needs fresh full frozen verification and independent exact-head QA/security. Ordinary safe corrective implementation under SF-D010, not a security waiver or original catalog change.",
+      "references": [
+        "apps/api/index.ts",
+        "tests/product-release-comparison.test.mjs",
+        "evidence/product/product-t25-security-correction-20261009T2328Z/blocked-review.json"
+      ]
     }
   ]
 }
