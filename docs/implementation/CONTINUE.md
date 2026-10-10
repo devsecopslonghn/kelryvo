@@ -10,7 +10,7 @@ revocation to determine commit state. The recovered capacity-limit proposal is p
 under evidence/product/product-t35-journal-repair-20261010/. Focused regression: 5/5
 passed, including >32 HTTPS sessions, rotation/revoke and six crash phases with legacy
 browser-inclusive journals. Final frozen serial acceptance passed 192 standard / 55 product-parser / 31 Chromium,
-zero failures/cancellations/skips. Corrected PR #48 exact-head CI is pending. T35 stays IMPLEMENTED; old source acceptance does not certify the correction.
+zero failures/cancellations/skips. First corrected8560993 push CI passed; PR browser30/31 failed on a refresh/revocation fixture race. The browser request barrier correction at fc8cee35ed4405e91610e2ac63ce319700763d24 passed focused1/1 and independent review; final corrected exact-head CI is pending. T35 stays IMPLEMENTED; old source acceptance does not certify the correction.
 
 Integration path: corrected #48 will target master as one aggregate reviewed PR. Its
 ancestry contains exact #45/#46/#47 heads and current master; #45 includes #37–#44.
@@ -35,7 +35,7 @@ release acceptance, reusing the coordinator/supervisor and preserving unknown/HO
 Catalog remains 220 = 0 full /
 48 partial / 165 not implemented / 7 deferred. PARTIAL is not full feature completion.
 
-Next: publish the scanned/reviewed bounded correction to #48 and wait for actual CI.
+Next: publish the focused browser fixture correction to #48 and wait for actual corrected CI. No unchanged local full-suite repeat is needed; final CI exercises every suite.
 License closure is unchanged: 85 pinned packages, zero unknown required grants.
 Then ordinarily merge aggregate #48 after its exact-head gates and verify master CI plus a
 local PostgreSQL/Git/parser/HTTPS browser demonstration. Retain all124 Oracle cells

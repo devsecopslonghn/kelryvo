@@ -698,6 +698,13 @@
         "cancelled": 0,
         "skipped": 0
       }
+    },
+    "browser_ci_correction": {
+      "frozen_head": "fc8cee35ed4405e91610e2ac63ce319700763d24",
+      "record": "evidence/product/product-t35-journal-repair-20261010/browser-ci-correction.json",
+      "focused": "1pass0fail0skip",
+      "first_candidate": "8560993 push3workflowsPASS; PR foundation/parserPASS productbrowser30/31FAIL",
+      "status": "FOCUSED_PASS_FINAL_CI_PENDING"
     }
   },
   "mvp_delivery": {

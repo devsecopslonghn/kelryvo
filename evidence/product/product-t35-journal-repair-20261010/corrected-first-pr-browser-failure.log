@@ -1,0 +1,375 @@
+product	Run npm run test:browser	﻿2026-10-10T19:11:16.5928309Z ##[group]Run npm run test:browser
+product	Run npm run test:browser	2026-10-10T19:11:16.5928704Z ^[[36;1mnpm run test:browser^[[0m
+product	Run npm run test:browser	2026-10-10T19:11:16.6021078Z shell: /usr/bin/bash -e {0}
+product	Run npm run test:browser	2026-10-10T19:11:16.6021375Z env:
+product	Run npm run test:browser	2026-10-10T19:11:16.6021739Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+product	Run npm run test:browser	2026-10-10T19:11:16.6022505Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+product	Run npm run test:browser	2026-10-10T19:11:16.6023062Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+product	Run npm run test:browser	2026-10-10T19:11:16.6023428Z ##[endgroup]
+product	Run npm run test:browser	2026-10-10T19:11:16.7065919Z 
+product	Run npm run test:browser	2026-10-10T19:11:16.7066908Z > schemaforge-local-development@0.0.0 test:browser
+product	Run npm run test:browser	2026-10-10T19:11:16.7069268Z > npm run build:web && node scripts/test-product.mjs --browser
+product	Run npm run test:browser	2026-10-10T19:11:16.7069620Z 
+product	Run npm run test:browser	2026-10-10T19:11:16.7852965Z 
+product	Run npm run test:browser	2026-10-10T19:11:16.7862280Z > schemaforge-local-development@0.0.0 build:web
+product	Run npm run test:browser	2026-10-10T19:11:16.7864732Z > node scripts/build-web.mjs
+product	Run npm run test:browser	2026-10-10T19:11:16.7864966Z 
+product	Run npm run test:browser	2026-10-10T19:11:16.8883362Z Web application built in dist/web.
+product	Run npm run test:browser	2026-10-10T19:11:16.9862603Z TAP version 13
+product	Run npm run test:browser	2026-10-10T19:11:17.7963025Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:11:17.8447237Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:17.9305336Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:23.9880907Z # Subtest: browser shows fixed approval integrity feedback and preserves pending plan for rejection
+product	Run npm run test:browser	2026-10-10T19:11:23.9896104Z ok 1 - browser shows fixed approval integrity feedback and preserves pending plan for rejection
+product	Run npm run test:browser	2026-10-10T19:11:23.9896925Z   ---
+product	Run npm run test:browser	2026-10-10T19:11:23.9897388Z   duration_ms: 6437.149226
+product	Run npm run test:browser	2026-10-10T19:11:23.9897787Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:11:23.9898176Z   ...
+product	Run npm run test:browser	2026-10-10T19:11:24.8180118Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:11:24.8691124Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:24.8906665Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:24.9179109Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:24.9419450Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:37.3361614Z # Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+product	Run npm run test:browser	2026-10-10T19:11:37.3366080Z ok 2 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+product	Run npm run test:browser	2026-10-10T19:11:37.3366962Z   ---
+product	Run npm run test:browser	2026-10-10T19:11:37.3369489Z   duration_ms: 12766.626885
+product	Run npm run test:browser	2026-10-10T19:11:37.3372750Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:11:37.3373145Z   ...
+product	Run npm run test:browser	2026-10-10T19:11:38.5109229Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:11:38.5597084Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:38.5822141Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:45.2378481Z # Browser archive workflow and archived project records remained readable after API restart.
+product	Run npm run test:browser	2026-10-10T19:11:45.2886292Z # Subtest: browser archives a project and keeps its releases, plan, audit, and history readable
+product	Run npm run test:browser	2026-10-10T19:11:45.2887447Z ok 3 - browser archives a project and keeps its releases, plan, audit, and history readable
+product	Run npm run test:browser	2026-10-10T19:11:45.2888143Z   ---
+product	Run npm run test:browser	2026-10-10T19:11:45.2895323Z   duration_ms: 7357.717692
+product	Run npm run test:browser	2026-10-10T19:11:45.2895903Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:11:45.2896357Z   ...
+product	Run npm run test:browser	2026-10-10T19:11:46.1150891Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:11:46.1629642Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:46.1860696Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:46.3855536Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:46.4060673Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:46.4415749Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:46.4621309Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:46.4944207Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:46.5180302Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:48.1513581Z # revoke complete
+product	Run npm run test:browser	2026-10-10T19:11:48.8582775Z # Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+product	Run npm run test:browser	2026-10-10T19:11:48.8585845Z ok 4 - audit action filters preserve project scope, server order, archived reads and read-only records
+product	Run npm run test:browser	2026-10-10T19:11:48.8589232Z   ---
+product	Run npm run test:browser	2026-10-10T19:11:48.8589697Z   duration_ms: 2983.407147
+product	Run npm run test:browser	2026-10-10T19:11:48.8590112Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:11:48.8590451Z   ...
+product	Run npm run test:browser	2026-10-10T19:11:49.7525664Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:11:49.7807955Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:49.8040249Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:49.8258944Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:49.8475957Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:52.1004272Z # revoke complete
+product	Run npm run test:browser	2026-10-10T19:11:52.3657400Z # Subtest: Records pages retained audit history, resets contexts, and clears delayed or revoked results
+product	Run npm run test:browser	2026-10-10T19:11:52.3660458Z ok 5 - Records pages retained audit history, resets contexts, and clears delayed or revoked results
+product	Run npm run test:browser	2026-10-10T19:11:52.3661184Z   ---
+product	Run npm run test:browser	2026-10-10T19:11:52.3661541Z   duration_ms: 2913.5205
+product	Run npm run test:browser	2026-10-10T19:11:52.3661932Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:11:52.3662265Z   ...
+product	Run npm run test:browser	2026-10-10T19:11:53.2469897Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:11:53.2855996Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:53.3101467Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:11:53.3359634Z # deploy-grant complete
+product	Run npm run test:browser	2026-10-10T19:12:04.1718167Z # Subtest: browser reopens restored retained history with fresh credentials and execution recovery hold
+product	Run npm run test:browser	2026-10-10T19:12:04.1722056Z ok 6 - browser reopens restored retained history with fresh credentials and execution recovery hold
+product	Run npm run test:browser	2026-10-10T19:12:04.1724397Z   ---
+product	Run npm run test:browser	2026-10-10T19:12:04.1725744Z   duration_ms: 11222.915782
+product	Run npm run test:browser	2026-10-10T19:12:04.1726210Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:12:04.1728681Z   ...
+product	Run npm run test:browser	2026-10-10T19:12:04.9995858Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:12:05.5430780Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:12:05.5659009Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:12:06.5301273Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:12:06.5615570Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:12:13.9631889Z # Real browser workflow and PostgreSQL restart persistence passed; Oracle untouched.
+product	Run npm run test:browser	2026-10-10T19:12:14.0273876Z # Subtest: browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+product	Run npm run test:browser	2026-10-10T19:12:14.0290585Z ok 7 - browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+product	Run npm run test:browser	2026-10-10T19:12:14.0291720Z   ---
+product	Run npm run test:browser	2026-10-10T19:12:14.0292544Z   duration_ms: 9267.186644
+product	Run npm run test:browser	2026-10-10T19:12:14.0293161Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:12:14.0293970Z   ...
+product	Run npm run test:browser	2026-10-10T19:12:14.0294782Z # browser phase: application and browser started
+product	Run npm run test:browser	2026-10-10T19:12:14.0295954Z # browser phase: project, import, and approval workflow completed
+product	Run npm run test:browser	2026-10-10T19:12:14.0296763Z # browser phase: duplicate pending plan created
+product	Run npm run test:browser	2026-10-10T19:12:14.0297759Z # browser phase: rejection and execution-denial workflow completed
+product	Run npm run test:browser	2026-10-10T19:12:14.0298507Z # browser phase: original browser closed before API restart
+product	Run npm run test:browser	2026-10-10T19:12:14.0299272Z # browser phase: original API closed
+product	Run npm run test:browser	2026-10-10T19:12:14.0299848Z # browser phase: API restarted and PostgreSQL state verified
+product	Run npm run test:browser	2026-10-10T19:12:14.0300707Z # browser phase: developer signed in and selected unbound project
+product	Run npm run test:browser	2026-10-10T19:12:14.0301766Z # browser phase: source PUT reached delayed-response handler after server write
+product	Run npm run test:browser	2026-10-10T19:12:14.0302787Z # browser phase: approver signed in and original project reselected
+product	Run npm run test:browser	2026-10-10T19:12:14.0303606Z # browser phase: delayed-response route cleanup completed
+product	Run npm run test:browser	2026-10-10T19:12:14.0304842Z # browser phase: stale success was ignored and workflow finished
+product	Run npm run test:browser	2026-10-10T19:12:14.8609310Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:12:14.9106147Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:12:14.9334753Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:12:19.9463512Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:12:19.9702246Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:12:41.5385680Z # Subtest: plan comments remain scoped, readable, and persistent across API restart
+product	Run npm run test:browser	2026-10-10T19:12:41.5386842Z ok 8 - plan comments remain scoped, readable, and persistent across API restart
+product	Run npm run test:browser	2026-10-10T19:12:41.5387436Z   ---
+product	Run npm run test:browser	2026-10-10T19:12:41.5387690Z   duration_ms: 26918.969154
+product	Run npm run test:browser	2026-10-10T19:12:41.5387981Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:12:41.5388250Z   ...
+product	Run npm run test:browser	2026-10-10T19:12:41.7066746Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:12:41.7381388Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:12:55.8635672Z # Subtest: source binding invalidation clears evidence refs, preserves plain text, and drops delayed previews
+product	Run npm run test:browser	2026-10-10T19:12:55.8636453Z ok 9 - source binding invalidation clears evidence refs, preserves plain text, and drops delayed previews
+product	Run npm run test:browser	2026-10-10T19:12:55.8636833Z   ---
+product	Run npm run test:browser	2026-10-10T19:12:55.8637007Z   duration_ms: 14325.333164
+product	Run npm run test:browser	2026-10-10T19:12:55.8637197Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:12:55.8637355Z   ...
+product	Run npm run test:browser	2026-10-10T19:13:27.6327682Z # Subtest: browser clears a revoked session and ignores a delayed 401 from an earlier session epoch
+product	Run npm run test:browser	2026-10-10T19:13:27.6331525Z not ok 10 - browser clears a revoked session and ignores a delayed 401 from an earlier session epoch
+product	Run npm run test:browser	2026-10-10T19:13:27.6332022Z   ---
+product	Run npm run test:browser	2026-10-10T19:13:27.6332323Z   duration_ms: 31171.527183
+product	Run npm run test:browser	2026-10-10T19:13:27.6332665Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:13:27.6333301Z   location: '/home/runner/work/schemaForge/schemaForge/tests/product-credential-browser.integration.mjs:8:1'
+product	Run npm run test:browser	2026-10-10T19:13:27.6333887Z   failureType: 'testCodeFailure'
+product	Run npm run test:browser	2026-10-10T19:13:27.6334257Z   error: |-
+product	Run npm run test:browser	2026-10-10T19:13:27.6334924Z     locator.click: Timeout 30000ms exceeded.
+product	Run npm run test:browser	2026-10-10T19:13:27.6335281Z     Call log:
+product	Run npm run test:browser	2026-10-10T19:13:27.6335648Z       - waiting for getByLabel('Refresh workspace')
+product	Run npm run test:browser	2026-10-10T19:13:27.6336539Z         - locator resolved to <button type="button" class="icon-button refresh" aria-label="Refresh workspace">↻</button>
+product	Run npm run test:browser	2026-10-10T19:13:27.6337076Z       - attempting click action
+product	Run npm run test:browser	2026-10-10T19:13:27.6337551Z         - waiting for element to be visible, enabled and stable
+product	Run npm run test:browser	2026-10-10T19:13:27.6337992Z       - element was detached from the DOM, retrying
+product	Run npm run test:browser	2026-10-10T19:13:27.6338335Z     
+product	Run npm run test:browser	2026-10-10T19:13:27.6338573Z   code: 'ERR_TEST_FAILURE'
+product	Run npm run test:browser	2026-10-10T19:13:27.6338827Z   name: 'TimeoutError'
+product	Run npm run test:browser	2026-10-10T19:13:27.6339003Z   stack: |-
+product	Run npm run test:browser	2026-10-10T19:13:27.6339662Z     TestContext.<anonymous> (/home/runner/work/schemaForge/schemaForge/tests/product-credential-browser.integration.mjs:58:48)
+product	Run npm run test:browser	2026-10-10T19:13:27.6340212Z   ...
+product	Run npm run test:browser	2026-10-10T19:13:28.8180499Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:13:28.8674687Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:13:28.8892192Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:13:30.7678483Z # Subtest: decision records render the stored attribution safely and stay plan-specific
+product	Run npm run test:browser	2026-10-10T19:13:30.7679863Z ok 11 - decision records render the stored attribution safely and stay plan-specific
+product	Run npm run test:browser	2026-10-10T19:13:30.7680673Z   ---
+product	Run npm run test:browser	2026-10-10T19:13:30.7681139Z   duration_ms: 2194.376432
+product	Run npm run test:browser	2026-10-10T19:13:30.7681649Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:13:30.7682062Z   ...
+product	Run npm run test:browser	2026-10-10T19:13:31.6539210Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:13:31.7139174Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:13:31.7371956Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:13:31.8312395Z # deploy-grant complete
+product	Run npm run test:browser	2026-10-10T19:13:38.3520638Z # Subtest: browser requests an approved plan and cancels its undispatched waiting job
+product	Run npm run test:browser	2026-10-10T19:13:38.3526906Z ok 12 - browser requests an approved plan and cancels its undispatched waiting job
+product	Run npm run test:browser	2026-10-10T19:13:38.3532730Z   ---
+product	Run npm run test:browser	2026-10-10T19:13:38.3533264Z   duration_ms: 6987.245232
+product	Run npm run test:browser	2026-10-10T19:13:38.3534114Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:13:38.3534926Z   ...
+product	Run npm run test:browser	2026-10-10T19:13:39.2278900Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:13:39.2765500Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:13:39.3409610Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:13:43.0825971Z # Subtest: release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+product	Run npm run test:browser	2026-10-10T19:13:43.0834243Z ok 13 - release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+product	Run npm run test:browser	2026-10-10T19:13:43.0836374Z   ---
+product	Run npm run test:browser	2026-10-10T19:13:43.0838251Z   duration_ms: 4153.114279
+product	Run npm run test:browser	2026-10-10T19:13:43.0839337Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:13:43.0839705Z   ...
+product	Run npm run test:browser	2026-10-10T19:13:44.6720256Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:13:44.6953549Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:13:44.8731809Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:13:47.7386825Z # revoke complete
+product	Run npm run test:browser	2026-10-10T19:13:47.9096040Z # revoke complete
+product	Run npm run test:browser	2026-10-10T19:13:48.0946941Z # Subtest: browser keeps bootstrap read-only, shows creation receipt without loading it, and clears revoked selection
+product	Run npm run test:browser	2026-10-10T19:13:48.0948686Z ok 14 - browser keeps bootstrap read-only, shows creation receipt without loading it, and clears revoked selection
+product	Run npm run test:browser	2026-10-10T19:13:48.0949845Z   ---
+product	Run npm run test:browser	2026-10-10T19:13:48.0950305Z   duration_ms: 4358.260333
+product	Run npm run test:browser	2026-10-10T19:13:48.0950793Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:13:48.0951225Z   ...
+product	Run npm run test:browser	2026-10-10T19:13:49.0990104Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:13:49.6383826Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:13:49.6628452Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:13:49.6863175Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:07.4227550Z # Subtest: Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+product	Run npm run test:browser	2026-10-10T19:14:07.4231930Z ok 15 - Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+product	Run npm run test:browser	2026-10-10T19:14:07.4232876Z   ---
+product	Run npm run test:browser	2026-10-10T19:14:07.4233331Z   duration_ms: 18694.952863
+product	Run npm run test:browser	2026-10-10T19:14:07.4233812Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:14:07.4234278Z   ...
+product	Run npm run test:browser	2026-10-10T19:14:08.2545486Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:14:08.3034337Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:08.3250878Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:13.4223875Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:13.4631325Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:14.9474880Z # Subtest: browser shows frozen intent facts and keeps changed current configuration separate
+product	Run npm run test:browser	2026-10-10T19:14:14.9477134Z ok 16 - browser shows frozen intent facts and keeps changed current configuration separate
+product	Run npm run test:browser	2026-10-10T19:14:14.9477811Z   ---
+product	Run npm run test:browser	2026-10-10T19:14:14.9478202Z   duration_ms: 6934.983208
+product	Run npm run test:browser	2026-10-10T19:14:14.9478591Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:14:14.9478928Z   ...
+product	Run npm run test:browser	2026-10-10T19:14:15.7515658Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:14:15.8015677Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:15.8243845Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:15.8459941Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:15.9107363Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:15.9440746Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:16.1645900Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:24.9243799Z # Subtest: browser shows retained plan requester facts and blocks author decisions
+product	Run npm run test:browser	2026-10-10T19:14:24.9245394Z ok 17 - browser shows retained plan requester facts and blocks author decisions
+product	Run npm run test:browser	2026-10-10T19:14:24.9246193Z   ---
+product	Run npm run test:browser	2026-10-10T19:14:24.9247895Z   duration_ms: 9410.329799
+product	Run npm run test:browser	2026-10-10T19:14:24.9248421Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:14:24.9248847Z   ...
+product	Run npm run test:browser	2026-10-10T19:14:25.7693285Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:14:26.0289035Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:26.0535469Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:26.1245807Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:26.1564999Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:31.2920063Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:31.3147785Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:41.2971656Z # Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+product	Run npm run test:browser	2026-10-10T19:14:41.2972745Z ok 18 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+product	Run npm run test:browser	2026-10-10T19:14:41.2974091Z   ---
+product	Run npm run test:browser	2026-10-10T19:14:41.2974370Z   duration_ms: 15786.789613
+product	Run npm run test:browser	2026-10-10T19:14:41.2975237Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:14:41.2975487Z   ...
+product	Run npm run test:browser	2026-10-10T19:14:42.2000990Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:14:42.2707809Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:42.2959524Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:55.6264768Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:14:55.6486172Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:32.1422442Z # revoke complete
+product	Run npm run test:browser	2026-10-10T19:15:32.2628823Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:32.3914928Z # Subtest: plan source inspection stays bound to retained releases and is read only
+product	Run npm run test:browser	2026-10-10T19:15:32.3920689Z ok 19 - plan source inspection stays bound to retained releases and is read only
+product	Run npm run test:browser	2026-10-10T19:15:32.3922606Z   ---
+product	Run npm run test:browser	2026-10-10T19:15:32.3924208Z   duration_ms: 50509.719055
+product	Run npm run test:browser	2026-10-10T19:15:32.3925609Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:15:32.3926039Z   ...
+product	Run npm run test:browser	2026-10-10T19:15:33.2290339Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:15:33.2787149Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:33.3005395Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:38.3311699Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:38.3527487Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:45.7452178Z # Subtest: plan review shows only its matching current project profile and environment
+product	Run npm run test:browser	2026-10-10T19:15:45.7457250Z ok 20 - plan review shows only its matching current project profile and environment
+product	Run npm run test:browser	2026-10-10T19:15:45.7458757Z   ---
+product	Run npm run test:browser	2026-10-10T19:15:45.7459303Z   duration_ms: 12757.820618
+product	Run npm run test:browser	2026-10-10T19:15:45.7459969Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:15:45.7460476Z   ...
+product	Run npm run test:browser	2026-10-10T19:15:46.5947339Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:15:46.6436914Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:46.6665288Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:46.6885257Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:46.7658890Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:46.7984577Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:46.8287510Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:54.5776924Z # Subtest: review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+product	Run npm run test:browser	2026-10-10T19:15:54.5778404Z ok 21 - review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+product	Run npm run test:browser	2026-10-10T19:15:54.5779226Z   ---
+product	Run npm run test:browser	2026-10-10T19:15:54.5779589Z   duration_ms: 8265.674108
+product	Run npm run test:browser	2026-10-10T19:15:54.5779976Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:15:54.5780310Z   ...
+product	Run npm run test:browser	2026-10-10T19:15:55.4779332Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:15:55.5251126Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:55.5489419Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:55.5757708Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:15:55.5998234Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:09.7339184Z # Subtest: browser compares explicitly selected retained releases and discards a late result after pair changes
+product	Run npm run test:browser	2026-10-10T19:16:09.7340665Z ok 22 - browser compares explicitly selected retained releases and discards a late result after pair changes
+product	Run npm run test:browser	2026-10-10T19:16:09.7341462Z   ---
+product	Run npm run test:browser	2026-10-10T19:16:09.7341833Z   duration_ms: 14530.152572
+product	Run npm run test:browser	2026-10-10T19:16:09.7342233Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:16:09.7342557Z   ...
+product	Run npm run test:browser	2026-10-10T19:16:10.5830230Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:16:10.6324018Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:16.4281752Z # Subtest: browser gives fixed feedback when a retained release fails integrity verification
+product	Run npm run test:browser	2026-10-10T19:16:16.4284624Z ok 23 - browser gives fixed feedback when a retained release fails integrity verification
+product	Run npm run test:browser	2026-10-10T19:16:16.4286974Z   ---
+product	Run npm run test:browser	2026-10-10T19:16:16.4288541Z   duration_ms: 6112.374512
+product	Run npm run test:browser	2026-10-10T19:16:16.4289697Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:16:16.4290145Z   ...
+product	Run npm run test:browser	2026-10-10T19:16:17.2896120Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:16:17.3376242Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:17.4025525Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:23.7589931Z # Subtest: release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+product	Run npm run test:browser	2026-10-10T19:16:23.7593364Z ok 24 - release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+product	Run npm run test:browser	2026-10-10T19:16:23.7595495Z   ---
+product	Run npm run test:browser	2026-10-10T19:16:23.7595949Z   duration_ms: 6743.435722
+product	Run npm run test:browser	2026-10-10T19:16:23.7596395Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:16:23.7596787Z   ...
+product	Run npm run test:browser	2026-10-10T19:16:24.5825481Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:16:24.6295599Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:24.6519172Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:30.5695963Z # Subtest: browser displays a server-audited decision denial to the authenticated project actor
+product	Run npm run test:browser	2026-10-10T19:16:30.5725276Z ok 25 - browser displays a server-audited decision denial to the authenticated project actor
+product	Run npm run test:browser	2026-10-10T19:16:30.5744923Z   ---
+product	Run npm run test:browser	2026-10-10T19:16:30.5745633Z   duration_ms: 6230.431986
+product	Run npm run test:browser	2026-10-10T19:16:30.5746059Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:16:30.5746393Z   ...
+product	Run npm run test:browser	2026-10-10T19:16:31.6637086Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:16:31.7124283Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:31.7359497Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:31.7674303Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:31.7965000Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:33.1886098Z # revoke complete
+product	Run npm run test:browser	2026-10-10T19:16:33.3349315Z # Subtest: browser inbox handles delayed scopes, exact plan navigation and grant revocation between pages
+product	Run npm run test:browser	2026-10-10T19:16:33.3353636Z ok 26 - browser inbox handles delayed scopes, exact plan navigation and grant revocation between pages
+product	Run npm run test:browser	2026-10-10T19:16:33.3355977Z   ---
+product	Run npm run test:browser	2026-10-10T19:16:33.3357804Z   duration_ms: 2138.747158
+product	Run npm run test:browser	2026-10-10T19:16:33.3358331Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:16:33.3358763Z   ...
+product	Run npm run test:browser	2026-10-10T19:16:34.2375981Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:16:34.2847229Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:34.3074924Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:34.3289668Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:36.7565922Z # Subtest: review assignment controls and Assigned to me filter follow scoped plan state
+product	Run npm run test:browser	2026-10-10T19:16:36.7567027Z ok 27 - review assignment controls and Assigned to me filter follow scoped plan state
+product	Run npm run test:browser	2026-10-10T19:16:36.7576904Z   ---
+product	Run npm run test:browser	2026-10-10T19:16:36.7577589Z   duration_ms: 2838.141554
+product	Run npm run test:browser	2026-10-10T19:16:36.7577943Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:16:36.7578244Z   ...
+product	Run npm run test:browser	2026-10-10T19:16:38.3737697Z # Subtest: schema-reference view labels provisional identity and drops a delayed session response
+product	Run npm run test:browser	2026-10-10T19:16:38.3738634Z ok 28 - schema-reference view labels provisional identity and drops a delayed session response
+product	Run npm run test:browser	2026-10-10T19:16:38.3739098Z   ---
+product	Run npm run test:browser	2026-10-10T19:16:38.3739372Z   duration_ms: 1007.20761
+product	Run npm run test:browser	2026-10-10T19:16:38.3739734Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:16:38.3740017Z   ...
+product	Run npm run test:browser	2026-10-10T19:16:39.7501268Z # Subtest: schema references follow project context and clear after grant revocation
+product	Run npm run test:browser	2026-10-10T19:16:39.7504050Z ok 29 - schema references follow project context and clear after grant revocation
+product	Run npm run test:browser	2026-10-10T19:16:39.7505611Z   ---
+product	Run npm run test:browser	2026-10-10T19:16:39.7506123Z   duration_ms: 1376.538269
+product	Run npm run test:browser	2026-10-10T19:16:39.7506578Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:16:39.7506967Z   ...
+product	Run npm run test:browser	2026-10-10T19:16:40.5625774Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:16:40.6011256Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:40.6275895Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:16:40.6533980Z # deploy-grant complete
+product	Run npm run test:browser	2026-10-10T19:17:36.2409528Z # Subtest: HTTPS browser resumes secure sessions and retains review workflow through logout, expiry and witnessed restore
+product	Run npm run test:browser	2026-10-10T19:17:36.2413502Z ok 30 - HTTPS browser resumes secure sessions and retains review workflow through logout, expiry and witnessed restore
+product	Run npm run test:browser	2026-10-10T19:17:36.2415123Z   ---
+product	Run npm run test:browser	2026-10-10T19:17:36.2415724Z   duration_ms: 55898.800588
+product	Run npm run test:browser	2026-10-10T19:17:36.2416541Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:17:36.2417179Z   ...
+product	Run npm run test:browser	2026-10-10T19:17:37.1768887Z # ENFORCED
+product	Run npm run test:browser	2026-10-10T19:17:37.2252476Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:17:37.2480992Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:17:37.4424765Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:17:37.4698400Z # grant complete
+product	Run npm run test:browser	2026-10-10T19:17:40.1765744Z # Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+product	Run npm run test:browser	2026-10-10T19:17:40.1768434Z ok 31 - status filters preserve scoped ordered plans, drafts, history and archived reads
+product	Run npm run test:browser	2026-10-10T19:17:40.1769864Z   ---
+product	Run npm run test:browser	2026-10-10T19:17:40.1770241Z   duration_ms: 3308.436827
+product	Run npm run test:browser	2026-10-10T19:17:40.1770633Z   type: 'test'
+product	Run npm run test:browser	2026-10-10T19:17:40.1770983Z   ...
+product	Run npm run test:browser	2026-10-10T19:17:40.1976693Z 1..31
+product	Run npm run test:browser	2026-10-10T19:17:40.1977150Z # tests 31
+product	Run npm run test:browser	2026-10-10T19:17:40.1977478Z # suites 0
+product	Run npm run test:browser	2026-10-10T19:17:40.1977797Z # pass 30
+product	Run npm run test:browser	2026-10-10T19:17:40.1978122Z # fail 1
+product	Run npm run test:browser	2026-10-10T19:17:40.1978453Z # cancelled 0
+product	Run npm run test:browser	2026-10-10T19:17:40.1978797Z # skipped 0
+product	Run npm run test:browser	2026-10-10T19:17:40.1979508Z # todo 0
+product	Run npm run test:browser	2026-10-10T19:17:40.1979857Z # duration_ms 383229.66876
+product	Run npm run test:browser	2026-10-10T19:17:40.2140119Z ##[error]Process completed with exit code 1.
