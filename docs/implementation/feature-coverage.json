@@ -688,6 +688,13 @@
           "evidence": [
             "product-t33-execution-jobs-local-verified"
           ]
+        },
+        {
+          "task": "SF-PRODUCT-T33",
+          "behavior": "Scoped API/UI retained attempt/event/receipt/HOLD projections, current credential/membership and50row paging verified on local PostgreSQL; explicitly UNIT_SYNTHETIC journal facts do not implement applied/reconciled Oracle history.",
+          "evidence": [
+            "mvp-execution-history-local-verified"
+          ]
         }
       ]
     },
@@ -2156,6 +2163,13 @@
             "product-t34-backup-restore-local-verified",
             "product-t34-backup-restore-ci-correction-local-verified"
           ]
+        },
+        {
+          "task": "SF-PRODUCT-T33",
+          "behavior": "Read-only retained attempt state, statement events, receipt/evidence digests and HOLD reasons survive restart/archive/RESTORE_HOLD; scoped50row pages hide lease tokens/rawfacts. Synthetic ports only; no authority/replay.",
+          "evidence": [
+            "mvp-execution-history-local-verified"
+          ]
         }
       ],
       "remaining_gap": "Authorized target-history/restore reconciliation, production restricted runtime/Oracle effects and full original acceptance remain missing; no hold-release interface."
@@ -2514,5 +2528,11 @@
     "evidence": "mvp-statement-readiness-local-verified",
     "behavior": "New format2 complete ordered statement identity is reviewed, freshly approved and rederived at request; v1 reads/approvals preserved, v1 request denied. Target authority absent.",
     "classification_change": false
+  },
+  "m4_history_increment": {
+    "status": "LOCAL_VERIFIED_INTEGRATION_PENDING",
+    "source_head": "a107a73b2f66c64d01fdbc2ea81fa61060396b1d",
+    "evidence": "mvp-execution-history-local-verified",
+    "limits": "No applied target ledger, production worker or Oracle runtime acceptance."
   }
 }

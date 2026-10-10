@@ -1,0 +1,37 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: scoped execution history is bounded, read only, restart durable and cannot replay ambiguous attempts
+not ok 1 - scoped execution history is bounded, read only, restart durable and cannot replay ambiguous attempts
+  ---
+  duration_ms: 17562.110518
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-execution-history/tests/product-execution-history.test.mjs:6:1'
+  failureType: 'testCodeFailure'
+  error: 'column "revocation_reason" of relation "sf_local_credentials" does not exist'
+  code: '42703'
+  name: 'PostgresError'
+  stack: |-
+    ErrorResponse (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/connection.js:815:30)
+    handle (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/connection.js:489:6)
+    Socket.data (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/connection.js:324:9)
+    Socket.emit (node:events:519:28)
+    addChunk (node:internal/streams/readable:561:12)
+    readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    Readable.push (node:internal/streams/readable:392:5)
+    TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    cachedError (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/query.js:170:23)
+    new Query (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/query.js:36:24)
+    Object.sql (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/index.js:112:11)
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-execution-history/tests/product-execution-history.test.mjs:72:19)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 17840.242862

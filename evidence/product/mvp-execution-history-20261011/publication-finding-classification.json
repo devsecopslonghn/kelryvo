@@ -1,0 +1,31 @@
+{
+  "source_head": "a107a73b2f66c64d01fdbc2ea81fa61060396b1d",
+  "findings": [
+    {
+      "rule": "generic-api-key",
+      "file": "evidence/product/mvp-execution-history-20261011/record.json",
+      "line": 49,
+      "referenced_path": "evidence/product/mvp-execution-history-20261011/api-initial.log",
+      "classification": "VERIFIED_SHA256_OF_DECLARED_CONTENT_NOT_A_CREDENTIAL",
+      "bytes_match": true
+    },
+    {
+      "rule": "generic-api-key",
+      "file": "evidence/product/mvp-execution-history-20261011/record.json",
+      "line": 51,
+      "referenced_path": "evidence/product/mvp-execution-history-20261011/api-corrected.log",
+      "classification": "VERIFIED_SHA256_OF_DECLARED_CONTENT_NOT_A_CREDENTIAL",
+      "bytes_match": true
+    },
+    {
+      "rule": "generic-api-key",
+      "file": "evidence/product/mvp-execution-history-20261011/record.json",
+      "line": 56,
+      "referenced_path": "evidence/product/mvp-execution-history-20261011/api-final.log",
+      "classification": "VERIFIED_SHA256_OF_DECLARED_CONTENT_NOT_A_CREDENTIAL",
+      "bytes_match": true
+    }
+  ],
+  "scope": "Exact3findings in publication record hash fields only; scanner remains exit1/3findings. No allowlist/threshold change or blanket clean claim.",
+  "independent_review": "Native /root/integration_review independently recomputed each API log hash and confirmed exact content match; no bearer/vault literal pattern. APPROVED_NON_CREDENTIAL_CLASSIFICATION."
+}
