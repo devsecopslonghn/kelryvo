@@ -1322,7 +1322,7 @@
     },
     "SF-PRODUCT-T32": {
       "assigned_agent": "backend",
-      "status": "IN_PROGRESS"
+      "status": "VERIFIED"
     }
   }
 }

@@ -2877,6 +2877,34 @@
       },
       "path": "evidence/product/product-t31-approval-revocation-20261010/record.json",
       "sha256": "099740ef5b7913678238f51eda930a0b8b3d9015518f3332694497c6f38716f6"
+    },
+    {
+      "id": "product-t32-mvp-integration-local-verified",
+      "subject_id": "SF-PRODUCT-T32",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen serial standard/product/pinned-parser/Chromium regressions; exact-source independent review and combined local Git/release/plan/review/history acceptance",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "test_references": [
+        "SF-PRODUCT-T32-API",
+        "SF-PRODUCT-T32-WEB",
+        "SF-PRODUCT-T32-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t32-mvp-integration-20261010/standard.log",
+        "sha256": "7dcf2940298d1e46eabb5b3de23303f85f5f5c970597b2cddad9201f08abd09e"
+      },
+      "path": "evidence/product/product-t32-mvp-integration-20261010/record.json",
+      "sha256": "6bd7456f403df1799e07c22bd47d40a5751e5c55522681b6490479c6dcefd4e0"
     }
   ]
 }

@@ -3223,12 +3223,17 @@
         "SF-PRODUCT-T32-WEB",
         "SF-PRODUCT-T32-PERSISTENCE"
       ],
-      "status": "IN_PROGRESS",
+      "status": "VERIFIED",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
-      "evidence": [],
-      "blockers": []
+      "evidence": [
+        {
+          "index_id": "product-t32-mvp-integration-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Combined local offline MVP candidate; master/full catalog/worker/Oracle acceptance unverified."
     }
   ]
 }

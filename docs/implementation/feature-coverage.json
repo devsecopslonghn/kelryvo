@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-10T10:43:32.643002+00:00",
+  "recorded_at": "2026-10-10T11:26:38.626650+00:00",
   "verified_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
-  "reviewed_local_source": "ced0c1c62bc115d283aca4580999a6486403ce6b",
-  "scope": "All220 catalog features across master0fd and explicitly unmerged locally verified T24-T31 facets; no full catalog certification.",
+  "reviewed_local_source": "1545aade353c3c2cf709b547b3eae5ed03e849bb",
+  "scope": "All 220 catalog features with combined locally verified T24–T32 candidate; no full feature or integrated-master certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
     "Task completion establishes only its bounded facet; original criteria and dependencies remain unchanged.",
@@ -62,11 +62,11 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "Oracle19c/21c acceptance remains independently unavailable. Required external GitHub security gates prevent integration of drafts37-42 and T30; local scans/CI never replace those gates.",
+  "external_acceptance": "Oracle19c/21c acceptance remains independently unavailable. Required external GitHub security/protection gates prevent master integration of drafts37–44 and the T32 candidate; local scans/available CI never replace those gates.",
   "next_product_capability": {
-    "status": "T31_LOCAL_VERIFIED_INDEPENDENT_MASTER_BRANCH",
-    "next_milestone": "Bounded MVP integration checkpoint for existing drafts37–43 and T31; preserve branches, reconcile working functionality and actual gates.",
-    "branch_policy": "Isolated integration checkout, no growing retained PR stack or premature Oracle certification."
+    "status": "T32_LOCAL_COMBINED_MVP_VERIFIED_DRAFT_PENDING",
+    "next_action": "Publish the reviewed combined checkpoint, observe final available CI and actual external gates, then select next meaningful execution-to-history readiness milestone.",
+    "branch_policy": "No additional minor-feature draft chain; preserve all reviewed source and original worktrees."
   },
   "features": [
     {
@@ -242,7 +242,16 @@
       "name": "Oracle CDB/PDB/service distinction",
       "milestone": "WS",
       "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient.",
+      "related_bounded_observations": [
+        {
+          "task": "SF-PRODUCT-T32",
+          "behavior": "Manual provisional container/service references render and persist with project ownership. This does not verify observed Oracle CDB/PDB/service identity distinction or change catalog classification.",
+          "evidence": [
+            "product-t32-mvp-integration-local-verified"
+          ]
+        }
+      ]
     },
     {
       "id": "DBM-020",
@@ -533,6 +542,13 @@
           "behavior": "Register local Git repositories for migration imports",
           "evidence": [
             "product-t03-20261008T173420Z-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T32",
+          "behavior": "Real local Git/pinned parser intake, retained source comparison and preservation through review, withdrawal, recovery and restart.",
+          "evidence": [
+            "product-t32-mvp-integration-local-verified"
           ]
         }
       ],
@@ -979,6 +995,13 @@
           "evidence": [
             "product-t31-approval-revocation-local-verified"
           ]
+        },
+        {
+          "task": "SF-PRODUCT-T32",
+          "behavior": "Independent granted approver withdraws approval despite another assigned reviewer; original approval/reference and protected records persist through fresh-plan recovery.",
+          "evidence": [
+            "product-t32-mvp-integration-local-verified"
+          ]
         }
       ],
       "remaining_gap": "Queued jobs must reject revoked authority, active workers require controlled stop/HOLD, and committed effects must remain observed/recorded. No worker execution is implemented or verified."
@@ -1157,6 +1180,13 @@
           "evidence": [
             "product-t29-reviewer-assignment-local-verified"
           ]
+        },
+        {
+          "task": "SF-PRODUCT-T32",
+          "behavior": "Combined assignment-restricted pending inbox eligibility and exact UI navigation to the review decision.",
+          "evidence": [
+            "product-t32-mvp-integration-local-verified"
+          ]
         }
       ],
       "catalog_acceptance_remaining": [
@@ -1206,6 +1236,13 @@
           "behavior": "Immutable linked offline approval withdrawal with current independent approver authority and preserved review/recovery history.",
           "evidence": [
             "product-t31-approval-revocation-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T32",
+          "behavior": "Complete ordered audit pagination, action filters and durable assignment/approval/revocation history across restart.",
+          "evidence": [
+            "product-t32-mvp-integration-local-verified"
           ]
         }
       ],
@@ -2302,14 +2339,14 @@
       "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
     }
   ],
-  "verification_record": "evidence/product/product-t31-approval-revocation-20261010/record.json",
+  "verification_record": "evidence/product/product-t32-mvp-integration-20261010/record.json",
   "source_observations": {
     "integrated_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
     "retained_stack_implementation": "ced0c1c62bc115d283aca4580999a6486403ce6b",
     "retained_stack_published_snapshot": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
     "retained_stack_worktree": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
     "inbox_implementation": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
-    "evidence_path_policy": "Prior T24-T29 source/evidence remains in its respective unmerged worktree/PR snapshot; T30 is independently based on merged master, with no unmerged source prerequisites copied.",
+    "evidence_path_policy": "Reviewed source/evidence parents37–44 remain immutable ancestors of the T32 candidate; original worktrees/PRs are preserved. Candidate verification does not certify master.",
     "inbox_worktree": "/home/longhn0710/workspace/schemaforge-product-review-inbox",
     "inbox_published_snapshot": "17e9a92fc91527dd8b9d374a52503e3430cddb3f",
     "assignment_implementation": "8658252e70217b41ac215a317fdd8b328a576d19",
@@ -2321,6 +2358,7 @@
     "reference_ownership_published_snapshot": "72f5e07170e8c9ebac1c17ad00a609b8f7b5f1b5",
     "reference_ownership_pr": 43,
     "approval_revocation_implementation": "560bb846aed8bad85f4a6c85ab9d991bfa392fe7",
-    "approval_revocation_worktree": "/home/longhn0710/workspace/schemaforge-product-approval-revocation"
+    "approval_revocation_worktree": "/home/longhn0710/workspace/schemaforge-product-approval-revocation",
+    "mvp_integration_implementation": "1545aade353c3c2cf709b547b3eae5ed03e849bb"
   }
 }

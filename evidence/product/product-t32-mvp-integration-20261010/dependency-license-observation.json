@@ -1,0 +1,17 @@
+{
+  "task": "SF-PRODUCT-T32",
+  "head": "1545aade353c3c2cf709b547b3eae5ed03e849bb",
+  "recorded_at": "2026-10-10T11:13:51.824876+00:00",
+  "observations": [
+    "No added or changed dependencies, lockfile, parser pins, LICENSE or NOTICE compared with verified remote master.",
+    "Combined code reuses independently authored reviewed SchemaForge parents and existing pinned libraries. No external restricted code or new license choice.",
+    "PolyForm Shield 1.0.0 product license and third-party grants preserved; full F31 packaging/distribution and naming clearance remain pending."
+  ],
+  "sha256": {
+    "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+    "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  }
+}
