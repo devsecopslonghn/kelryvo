@@ -1,0 +1,745 @@
+{
+  "task_id": "SF-PRODUCT-T26",
+  "status": "locally_verified",
+  "created_utc": "2026-10-10T01:48:20.084455+00:00",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "branch": "development/product-retained-metadata-preflight",
+  "head": "35fc2ca8de51d43457fb8caadc7636b03a6f25f6",
+  "source_manifest": {
+    "before_run": "source-manifest-before.raw.log",
+    "after_run": "source-manifest-after.raw.log",
+    "unchanged": true,
+    "sources": [
+      {
+        "path": "apps/api/index.ts",
+        "sha256": "edf22905b051e33f463bfc57acd70692c9e739f6ed8b06d9e015acdd156e41b9"
+      },
+      {
+        "path": "packages/migrations/retained-release-preflight.mjs",
+        "sha256": "fdd7d6bcafb0158bd8bf769eabc9067e677a33b0da12032380aa6554f4b32bd7"
+      },
+      {
+        "path": "tests/product-statement-preview.test.mjs",
+        "sha256": "5813547a197a5963ea49390feec1700e6f4e6c19918b0b1941c9361838d10740"
+      },
+      {
+        "path": "scripts/test-product.mjs",
+        "sha256": "af47fe31ff4608bbfd92f13acb18ed457e2c026a630d1ad79210f0e6de77e63f"
+      },
+      {
+        "path": "docs/development/local-product.md",
+        "sha256": "90cb09a327d1f3411df95819268254081e607f42dedfe10bea41295f554212d7"
+      },
+      {
+        "path": "packages/migrations/verify-retained-release.mjs",
+        "sha256": "6a47452c1e795d0eff098adf6143da34669b55200e90734ea68d04e44c9acb31"
+      },
+      {
+        "path": "packages/migrations/compare-retained-releases.mjs",
+        "sha256": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8"
+      },
+      {
+        "path": "packages/migrations/statement-preview.mjs",
+        "sha256": "4ecc1e2c892b90e323c0d2d4bd6cf383d5975913dec8aac9963d78448d3b6826"
+      },
+      {
+        "path": "experiments/db-devops-wp0/parser-release.mjs",
+        "sha256": "4e9a5358e71dbc19837b2ebc0c1f24ecebe47e95429c8fc58f47f34a242d3d29"
+      },
+      {
+        "path": "experiments/db-devops-wp0/parser-envelope.mjs",
+        "sha256": "191fef458acc5c55a406f5f1aa9e75c7fa7b2552799b647296507c7cae05f781"
+      }
+    ]
+  },
+  "final_runs": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "start_utc": "2026-10-10T01:22:50.697394+00:00",
+      "end_utc": "2026-10-10T01:22:53.045704+00:00",
+      "exit_code": 2,
+      "raw_log": "typecheck.raw.log",
+      "raw_sha256": "85e25ae5c84801b2ab59ab9f578ffa6d2131391141860c3014084e5285601fc6",
+      "raw_bytes": 2471
+    },
+    {
+      "name": "typecheck-2",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "start_utc": "2026-10-10T01:23:05.550029+00:00",
+      "end_utc": "2026-10-10T01:23:07.770479+00:00",
+      "exit_code": 0,
+      "raw_log": "typecheck-2.raw.log",
+      "raw_sha256": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1",
+      "raw_bytes": 65
+    },
+    {
+      "name": "typecheck-final",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "start_utc": "2026-10-10T01:23:53.853960+00:00",
+      "end_utc": "2026-10-10T01:23:56.087362+00:00",
+      "exit_code": 0,
+      "raw_log": "typecheck-final.raw.log",
+      "raw_sha256": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1",
+      "raw_bytes": 65
+    },
+    {
+      "name": "typecheck-after-preflight-guards",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "start_utc": "2026-10-10T01:25:39.866027+00:00",
+      "end_utc": "2026-10-10T01:25:42.063328+00:00",
+      "exit_code": 0,
+      "raw_log": "typecheck-after-preflight-guards.raw.log",
+      "raw_sha256": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1",
+      "raw_bytes": 65
+    },
+    {
+      "name": "focused-four-reader-preflight",
+      "command": [
+        "env",
+        "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+        "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+        "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+        "taskset",
+        "-c",
+        "0,1",
+        "node",
+        "--test",
+        "tests/product-statement-preview.test.mjs"
+      ],
+      "start_utc": "2026-10-10T01:25:44.308852+00:00",
+      "end_utc": "2026-10-10T01:26:21.255079+00:00",
+      "exit_code": 0,
+      "raw_log": "focused-four-reader-preflight.raw.log",
+      "raw_sha256": "1a0e794d2f1bab40aeb9bc961c992067a35e225580eafa9ccec98c7b587ce5fd",
+      "raw_bytes": 413
+    },
+    {
+      "name": "lock-order-error-precedence-retest",
+      "command": [
+        "env",
+        "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+        "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+        "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+        "taskset",
+        "-c",
+        "0,1",
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/product-plan-intent.test.mjs",
+        "tests/product-protected-source-binding.test.mjs"
+      ],
+      "start_utc": "2026-10-10T01:28:08.866875+00:00",
+      "end_utc": "2026-10-10T01:28:51.327488+00:00",
+      "exit_code": 0,
+      "raw_log": "lock-order-error-precedence-retest.raw.log",
+      "raw_sha256": "fda2fc3f6cf5ddfb88419865aa84703beba3cd613cce2a519e51f2a44a1f7a4b",
+      "raw_bytes": 1478
+    },
+    {
+      "name": "all-four-reader-positive-negative-ordering",
+      "command": [
+        "env",
+        "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+        "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+        "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+        "taskset",
+        "-c",
+        "0,1",
+        "node",
+        "--test",
+        "tests/product-statement-preview.test.mjs"
+      ],
+      "start_utc": "2026-10-10T01:28:54.674399+00:00",
+      "end_utc": "2026-10-10T01:29:25.192883+00:00",
+      "exit_code": 1,
+      "raw_log": "all-four-reader-positive-negative-ordering.raw.log",
+      "raw_sha256": "1ff3eebde5cfd152e24aead92a9e4e029f3fbe3c5344f413390b699872de4bf6",
+      "raw_bytes": 2447
+    },
+    {
+      "name": "all-four-reader-positive-negative-ordering-retest",
+      "command": [
+        "env",
+        "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+        "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+        "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+        "taskset",
+        "-c",
+        "0,1",
+        "node",
+        "--test",
+        "tests/product-statement-preview.test.mjs"
+      ],
+      "start_utc": "2026-10-10T01:29:39.445647+00:00",
+      "end_utc": "2026-10-10T01:30:15.281097+00:00",
+      "exit_code": 1,
+      "raw_log": "all-four-reader-positive-negative-ordering-retest.raw.log",
+      "raw_sha256": "0ecd0d2fb4e056e00207abbf1048983362440dc64bf2ba2c5a2f1da0e2606283",
+      "raw_bytes": 1282
+    },
+    {
+      "name": "all-four-reader-positive-negative-ordering-final-focused",
+      "command": [
+        "env",
+        "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+        "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+        "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+        "taskset",
+        "-c",
+        "0,1",
+        "node",
+        "--test",
+        "tests/product-statement-preview.test.mjs"
+      ],
+      "start_utc": "2026-10-10T01:30:23.633048+00:00",
+      "end_utc": "2026-10-10T01:30:59.340722+00:00",
+      "exit_code": 1,
+      "raw_log": "all-four-reader-positive-negative-ordering-final-focused.raw.log",
+      "raw_sha256": "a69daae2c2bbc2d0e4e6291c578a66b4b099d52dce98835d41b345d2138280ea",
+      "raw_bytes": 1459
+    },
+    {
+      "name": "all-four-reader-positive-negative-ordering-corrected",
+      "command": [
+        "env",
+        "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+        "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+        "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+        "taskset",
+        "-c",
+        "0,1",
+        "node",
+        "--test",
+        "tests/product-statement-preview.test.mjs"
+      ],
+      "start_utc": "2026-10-10T01:31:05.981040+00:00",
+      "end_utc": "2026-10-10T01:31:51.131872+00:00",
+      "exit_code": 1,
+      "raw_log": "all-four-reader-positive-negative-ordering-corrected.raw.log",
+      "raw_sha256": "bd2a6e3e2bf54c30d35facf74cc656e1e5eb63caaa1ee874ad2fbd941a8d0fec",
+      "raw_bytes": 1211
+    },
+    {
+      "name": "all-four-reader-final-case-suite",
+      "command": [
+        "env",
+        "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+        "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+        "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+        "taskset",
+        "-c",
+        "0,1",
+        "node",
+        "--test",
+        "tests/product-statement-preview.test.mjs"
+      ],
+      "start_utc": "2026-10-10T01:31:59.010888+00:00",
+      "end_utc": "2026-10-10T01:32:50.971633+00:00",
+      "exit_code": 0,
+      "raw_log": "all-four-reader-final-case-suite.raw.log",
+      "raw_sha256": "3b6ffeeb012490887156e63e90aa56098386ff4cd181019092e28d8c6c7044ec",
+      "raw_bytes": 414
+    },
+    {
+      "name": "retained-source-and-lock-regressions-final",
+      "command": [
+        "env",
+        "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+        "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+        "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+        "taskset",
+        "-c",
+        "0,1",
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/product-release-integrity.test.mjs",
+        "tests/product-comments.test.mjs",
+        "tests/product-approval-integrity.test.mjs",
+        "tests/product-plan-intent.test.mjs",
+        "tests/product-protected-source-binding.test.mjs",
+        "tests/product-release-comparison.test.mjs"
+      ],
+      "start_utc": "2026-10-10T01:32:57.546596+00:00",
+      "end_utc": "2026-10-10T01:34:33.963641+00:00",
+      "exit_code": 0,
+      "raw_log": "retained-source-and-lock-regressions-final.raw.log",
+      "raw_sha256": "31ba17ae0619ed71491acc4801cdb63431f819256a4b41294db410cbeff5de9a",
+      "raw_bytes": 3111
+    },
+    {
+      "name": "final-full-check",
+      "command": [
+        "env",
+        "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+        "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+        "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "check"
+      ],
+      "start_utc": "2026-10-10T01:34:57.240926+00:00",
+      "end_utc": "2026-10-10T01:39:26.306537+00:00",
+      "exit_code": 0,
+      "raw_log": "final-full-check.raw.log",
+      "raw_sha256": "0d10a22ed53d8bcdc2a6a12c25d0eb45df2987a58c510520b9ddec6a85ef6f4d",
+      "raw_bytes": 40631
+    },
+    {
+      "name": "final-product-suite",
+      "command": [
+        "env",
+        "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+        "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+        "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:product"
+      ],
+      "start_utc": "2026-10-10T01:39:31.481280+00:00",
+      "end_utc": "2026-10-10T01:43:08.619366+00:00",
+      "exit_code": 0,
+      "raw_log": "final-product-suite.raw.log",
+      "raw_sha256": "db177a2ff3b413fd300bae6a2f94e8e3b574b9c44ee233caffe025a5b3afeb85",
+      "raw_bytes": 10763
+    },
+    {
+      "name": "final-browser-suite",
+      "command": [
+        "env",
+        "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+        "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+        "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:browser"
+      ],
+      "start_utc": "2026-10-10T01:43:11.739566+00:00",
+      "end_utc": "2026-10-10T01:47:28.690600+00:00",
+      "exit_code": 0,
+      "raw_log": "final-browser-suite.raw.log",
+      "raw_sha256": "28a7f7a46f529cd751f6824f437342b241efda943aa4e23a37646ce5f8485e50",
+      "raw_bytes": 8427
+    },
+    {
+      "name": "source-manifest-before",
+      "command": [
+        "sha256sum",
+        "apps/api/index.ts",
+        "packages/migrations/retained-release-preflight.mjs",
+        "tests/product-statement-preview.test.mjs",
+        "scripts/test-product.mjs",
+        "docs/development/local-product.md"
+      ],
+      "start_utc": "2026-10-10T01:34:41.422040+00:00",
+      "end_utc": "2026-10-10T01:34:41.425183+00:00",
+      "exit_code": 0,
+      "raw_log": "source-manifest-before.raw.log",
+      "raw_sha256": "0c445235f588c7abf5b4ca47875ee381e1668fe77cd02dae92cc9a069cec5691",
+      "raw_bytes": 499
+    },
+    {
+      "name": "full-diff-review",
+      "command": [
+        "git",
+        "diff",
+        "--",
+        "apps/api/index.ts",
+        "packages/migrations/retained-release-preflight.mjs",
+        "tests/product-statement-preview.test.mjs",
+        "scripts/test-product.mjs",
+        "docs/development/local-product.md"
+      ],
+      "start_utc": "2026-10-10T01:34:41.469145+00:00",
+      "end_utc": "2026-10-10T01:34:41.477786+00:00",
+      "exit_code": 0,
+      "raw_log": "full-diff-review.raw.log",
+      "raw_sha256": "c80757e0c2f452760f8ffa7ba9d424e11eb5ffe03af2fb2cb9202b930ffb0865",
+      "raw_bytes": 27278
+    },
+    {
+      "name": "source-manifest-after",
+      "command": [
+        "sha256sum",
+        "apps/api/index.ts",
+        "packages/migrations/retained-release-preflight.mjs",
+        "tests/product-statement-preview.test.mjs",
+        "scripts/test-product.mjs",
+        "docs/development/local-product.md",
+        "packages/migrations/verify-retained-release.mjs",
+        "packages/migrations/compare-retained-releases.mjs",
+        "packages/migrations/statement-preview.mjs",
+        "experiments/db-devops-wp0/parser-release.mjs",
+        "experiments/db-devops-wp0/parser-envelope.mjs"
+      ],
+      "start_utc": "2026-10-10T01:47:47.223654+00:00",
+      "end_utc": "2026-10-10T01:47:47.227321+00:00",
+      "exit_code": 0,
+      "raw_log": "source-manifest-after.raw.log",
+      "raw_sha256": "930a1aa5b6d08d103bcc87799714091b7853c33bde138d99bbb19be73c614ae5",
+      "raw_bytes": 1060
+    },
+    {
+      "name": "final-diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "start_utc": "2026-10-10T01:47:47.270617+00:00",
+      "end_utc": "2026-10-10T01:47:47.280263+00:00",
+      "exit_code": 0,
+      "raw_log": "final-diff-check.raw.log",
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_bytes": 0
+    },
+    {
+      "name": "final-worktree-status",
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "start_utc": "2026-10-10T01:47:47.328321+00:00",
+      "end_utc": "2026-10-10T01:47:47.340586+00:00",
+      "exit_code": 0,
+      "raw_log": "final-worktree-status.raw.log",
+      "raw_sha256": "ae09c6967f61cd316c525cf0ab2b184465e8d53a0da2e58510bd31374617f215",
+      "raw_bytes": 233
+    }
+  ],
+  "coverage": {
+    "full_check": {
+      "standard_tests": 162,
+      "passed": 162,
+      "failed": 0,
+      "skipped": 0,
+      "dependencies_smoke": "PASS",
+      "product_license_closure": "PASS"
+    },
+    "product_suite": {
+      "cases": 37,
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browser_suite": {
+      "cases": 22,
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    },
+    "focused_t26": {
+      "cases": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "real_postgresql": true,
+      "local_git": true,
+      "four_readers": [
+        "statement preview",
+        "offline plan creation",
+        "source-linked comment creation",
+        "authorized approval"
+      ],
+      "instrumentation": "For each malformed/oversized fixture, the scalar complete-metadata preflight query is observed before response and no raw files SELECT or raw validation_status projection occurs; populated project/release/plan/comment/decision/history/audit snapshots match before and after each request, before restoration."
+    },
+    "targeted_lock_persistence": {
+      "cases": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "includes": "generation/source-binding locks, intent/API restart, release integrity, comment serialization, approval locking and retained comparison"
+    }
+  },
+  "known_limits": [
+    "The legacy GET /api/releases/:id raw payload reader remains outside T26 and is tracked by root as a separate follow-up; this completion does not claim every retained read is hardened.",
+    "GitHub CodeQL/secret-scanning/protection remain unavailable per the active shared record; no security-gate waiver or PR readiness is claimed.",
+    "Sonar remains unavailable and is never recorded PASS; Oracle VALIDATION remains independently BLOCKED. No Oracle connection or deployment occurred.",
+    "No tracker, ADR, evidence index, PR, commit, push, dependency, license, parser, schema, or scanner source was modified in this worktree.",
+    "One early focused run is retained only as an uncaptured-attempt limitation; all final claims use complete captured runs."
+  ],
+  "raw_artifacts": [
+    {
+      "path": "typecheck.raw.log",
+      "kind": "raw_log",
+      "bytes": 2471,
+      "sha256": "85e25ae5c84801b2ab59ab9f578ffa6d2131391141860c3014084e5285601fc6"
+    },
+    {
+      "path": "typecheck.json",
+      "kind": "sidecar",
+      "bytes": 318,
+      "sha256": "9f914043ea7b161e5d49bd3c68a9ab0874139350e6783fc96677834a911f82c5"
+    },
+    {
+      "path": "typecheck-2.raw.log",
+      "kind": "raw_log",
+      "bytes": 65,
+      "sha256": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1"
+    },
+    {
+      "path": "typecheck-2.json",
+      "kind": "sidecar",
+      "bytes": 318,
+      "sha256": "118abea6bc28cfc21a50565eccd9bd382b36e372e48c3bfa272887b2ebf42252"
+    },
+    {
+      "path": "typecheck-final.raw.log",
+      "kind": "raw_log",
+      "bytes": 65,
+      "sha256": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1"
+    },
+    {
+      "path": "typecheck-final.json",
+      "kind": "sidecar",
+      "bytes": 322,
+      "sha256": "f41f35a688ebf89a8dac169d7ba9d36e0d3844407343fda950d8c36d77656593"
+    },
+    {
+      "path": "typecheck-after-preflight-guards.raw.log",
+      "kind": "raw_log",
+      "bytes": 65,
+      "sha256": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1"
+    },
+    {
+      "path": "typecheck-after-preflight-guards.json",
+      "kind": "sidecar",
+      "bytes": 339,
+      "sha256": "90fb9534fdb46d8bd1615c5dbb06df2bf6a0d1570e3497e6832ea34ea1719937"
+    },
+    {
+      "path": "focused-four-reader-preflight.raw.log",
+      "kind": "raw_log",
+      "bytes": 413,
+      "sha256": "1a0e794d2f1bab40aeb9bc961c992067a35e225580eafa9ccec98c7b587ce5fd"
+    },
+    {
+      "path": "focused-four-reader-preflight.json",
+      "kind": "sidecar",
+      "bytes": 653,
+      "sha256": "9858e366d08b05cd7da98dd50422ab6a61c77741a48382bdd36995e59dba63e5"
+    },
+    {
+      "path": "lock-order-error-precedence-retest.raw.log",
+      "kind": "raw_log",
+      "bytes": 1478,
+      "sha256": "fda2fc3f6cf5ddfb88419865aa84703beba3cd613cce2a519e51f2a44a1f7a4b"
+    },
+    {
+      "path": "lock-order-error-precedence-retest.json",
+      "kind": "sidecar",
+      "bytes": 736,
+      "sha256": "ced5fd9950b1b7d27b94948e3eb23e7dd8b60cfcb956d34e64bc98f4cad2cad3"
+    },
+    {
+      "path": "all-four-reader-positive-negative-ordering.raw.log",
+      "kind": "raw_log",
+      "bytes": 2447,
+      "sha256": "1ff3eebde5cfd152e24aead92a9e4e029f3fbe3c5344f413390b699872de4bf6"
+    },
+    {
+      "path": "all-four-reader-positive-negative-ordering.json",
+      "kind": "sidecar",
+      "bytes": 667,
+      "sha256": "2307bfabb55daadb4c2d97f24bb6b0dbc8a82ae09dcc73d5a866727645b93383"
+    },
+    {
+      "path": "all-four-reader-positive-negative-ordering-retest.raw.log",
+      "kind": "raw_log",
+      "bytes": 1282,
+      "sha256": "0ecd0d2fb4e056e00207abbf1048983362440dc64bf2ba2c5a2f1da0e2606283"
+    },
+    {
+      "path": "all-four-reader-positive-negative-ordering-retest.json",
+      "kind": "sidecar",
+      "bytes": 674,
+      "sha256": "5444158f046fed589decacd2721dbdab1c687b7a9503684d5f74b5e14c8ee521"
+    },
+    {
+      "path": "all-four-reader-positive-negative-ordering-final-focused.raw.log",
+      "kind": "raw_log",
+      "bytes": 1459,
+      "sha256": "a69daae2c2bbc2d0e4e6291c578a66b4b099d52dce98835d41b345d2138280ea"
+    },
+    {
+      "path": "all-four-reader-positive-negative-ordering-final-focused.json",
+      "kind": "sidecar",
+      "bytes": 681,
+      "sha256": "330e177c7ab7082956b2b0262f424f12b7426602773a90a4a0cb939aabd046a6"
+    },
+    {
+      "path": "all-four-reader-positive-negative-ordering-corrected.raw.log",
+      "kind": "raw_log",
+      "bytes": 1211,
+      "sha256": "bd2a6e3e2bf54c30d35facf74cc656e1e5eb63caaa1ee874ad2fbd941a8d0fec"
+    },
+    {
+      "path": "all-four-reader-positive-negative-ordering-corrected.json",
+      "kind": "sidecar",
+      "bytes": 677,
+      "sha256": "5065f6bf3a76db79754a7a6f329240fbba66b90dc74d7b3cedd323aba218a87e"
+    },
+    {
+      "path": "all-four-reader-final-case-suite.raw.log",
+      "kind": "raw_log",
+      "bytes": 414,
+      "sha256": "3b6ffeeb012490887156e63e90aa56098386ff4cd181019092e28d8c6c7044ec"
+    },
+    {
+      "path": "all-four-reader-final-case-suite.json",
+      "kind": "sidecar",
+      "bytes": 656,
+      "sha256": "fcd5b1388e5f5d98ca00c1da8040419b06173dcc35b7296b0cfcb29149084d46"
+    },
+    {
+      "path": "retained-source-and-lock-regressions-final.raw.log",
+      "kind": "raw_log",
+      "bytes": 3111,
+      "sha256": "31ba17ae0619ed71491acc4801cdb63431f819256a4b41294db410cbeff5de9a"
+    },
+    {
+      "path": "retained-source-and-lock-regressions-final.json",
+      "kind": "sidecar",
+      "bytes": 929,
+      "sha256": "aa4b9c45d663c0d6a52e26b77666c605b385e4b8750045ce5e2ae4dbd6015336"
+    },
+    {
+      "path": "final-full-check.raw.log",
+      "kind": "raw_log",
+      "bytes": 40631,
+      "sha256": "0d10a22ed53d8bcdc2a6a12c25d0eb45df2987a58c510520b9ddec6a85ef6f4d"
+    },
+    {
+      "path": "final-full-check.json",
+      "kind": "sidecar",
+      "bytes": 603,
+      "sha256": "b42b06aba88c2fb446ea6529d918c8e3ef1391ea17fe848493758403014cbc7b"
+    },
+    {
+      "path": "final-product-suite.raw.log",
+      "kind": "raw_log",
+      "bytes": 10763,
+      "sha256": "db177a2ff3b413fd300bae6a2f94e8e3b574b9c44ee233caffe025a5b3afeb85"
+    },
+    {
+      "path": "final-product-suite.json",
+      "kind": "sidecar",
+      "bytes": 613,
+      "sha256": "071708224a3100935ba59713bb80ec2538af6b5c891a8e538a1ca7abc70c289b"
+    },
+    {
+      "path": "final-browser-suite.raw.log",
+      "kind": "raw_log",
+      "bytes": 8427,
+      "sha256": "28a7f7a46f529cd751f6824f437342b241efda943aa4e23a37646ce5f8485e50"
+    },
+    {
+      "path": "final-browser-suite.json",
+      "kind": "sidecar",
+      "bytes": 612,
+      "sha256": "c00547ca23dd0db8b348df67b1d058926b64bbf6fa9c7b8c7ba0a1b49f3a259f"
+    },
+    {
+      "path": "source-manifest-before.raw.log",
+      "kind": "raw_log",
+      "bytes": 499,
+      "sha256": "0c445235f588c7abf5b4ca47875ee381e1668fe77cd02dae92cc9a069cec5691"
+    },
+    {
+      "path": "source-manifest-before.json",
+      "kind": "sidecar",
+      "bytes": 512,
+      "sha256": "9d498616f1167ff358ac6e82888ea1f7a4b129e9353d1b5e6f241300b8506111"
+    },
+    {
+      "path": "full-diff-review.raw.log",
+      "kind": "raw_log",
+      "bytes": 27278,
+      "sha256": "c80757e0c2f452760f8ffa7ba9d424e11eb5ffe03af2fb2cb9202b930ffb0865"
+    },
+    {
+      "path": "full-diff-review.json",
+      "kind": "sidecar",
+      "bytes": 524,
+      "sha256": "3414dcd86b02f336d4b06ae67950effab934d1bb074e563719850854d556ca97"
+    },
+    {
+      "path": "source-manifest-after.raw.log",
+      "kind": "raw_log",
+      "bytes": 1060,
+      "sha256": "930a1aa5b6d08d103bcc87799714091b7853c33bde138d99bbb19be73c614ae5"
+    },
+    {
+      "path": "source-manifest-after.json",
+      "kind": "sidecar",
+      "bytes": 778,
+      "sha256": "8cd441102ae9fb1f2cc260789e5f69bf794e23e379dd269631fa206b49e39c97"
+    },
+    {
+      "path": "final-diff-check.raw.log",
+      "kind": "raw_log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "final-diff-check.json",
+      "kind": "sidecar",
+      "bytes": 321,
+      "sha256": "394b48e96397f881e53be02bce5d3ad76aa5bd94425386e620eacc5a0344c17d"
+    },
+    {
+      "path": "final-worktree-status.raw.log",
+      "kind": "raw_log",
+      "bytes": 233,
+      "sha256": "ae09c6967f61cd316c525cf0ab2b184465e8d53a0da2e58510bd31374617f215"
+    },
+    {
+      "path": "final-worktree-status.json",
+      "kind": "sidecar",
+      "bytes": 346,
+      "sha256": "b0cf244871a5c4b5bab86f6a998e3c345c8c8106d9563bf1ce459cea01751159"
+    },
+    {
+      "path": "setup.json",
+      "kind": "setup_metadata",
+      "bytes": 177,
+      "sha256": "2ddf3256e126b4532038a6a0878bf9c1538beb98336c12ec7a57294fb27d7c14"
+    },
+    {
+      "path": "uncaptured-attempt-limitation.json",
+      "kind": "limitation_record",
+      "bytes": 873,
+      "sha256": "11226da2d4d2b143f71ba3dcf605a83ee8d686a21697df703acd8d637ad9c3ad"
+    }
+  ],
+  "completion_path": "/tmp/schemaforge-t26-native-20261010T012245Z-2021039/native-completion.json"
+}

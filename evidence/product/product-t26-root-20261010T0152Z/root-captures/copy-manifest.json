@@ -1,0 +1,62 @@
+[
+  {
+    "path": "01-root-tracker-check.command.json",
+    "sha256": "c0825aa0e3863cc48cf2124277dbafcbc07d05e3dd34a2fc6061df793ecc6dbb"
+  },
+  {
+    "path": "01-root-tracker-check.raw.log",
+    "sha256": "8bed5090cdb8c5775e17546f99a173e544caa25c771cc830a968c72d2792b30c"
+  },
+  {
+    "path": "01-root-tracker-check.result.json",
+    "sha256": "31c0a122efbc4139d7405848fffcea0a6efecb336b1eef53ab187f3e3a21b861"
+  },
+  {
+    "path": "02-root-evidence-integration.command.json",
+    "sha256": "d92ab704d936e7a7d044d605624b5c9de58eca7285b3f942dd7762bee35078fc"
+  },
+  {
+    "path": "02-root-evidence-integration.raw.log",
+    "sha256": "524bc2ac0623d07f282fb1859102eb20e3bd595feecea69821b92d4b9c690e13"
+  },
+  {
+    "path": "02-root-evidence-integration.result.json",
+    "sha256": "23cb37c80781c13893a03bcf01f6365002566c252e7a7b6d43b4a08ccb792469"
+  },
+  {
+    "path": "03-postintegration-tracker-check.command.json",
+    "sha256": "2a031d1fc8d02a778db63a3f556e3f0d337b02e57f0ea44ffdbe19f8f897bc2b"
+  },
+  {
+    "path": "03-postintegration-tracker-check.raw.log",
+    "sha256": "b8828a4f880de3c4674444085b853133121702554ef271731d4406ecfc7bde88"
+  },
+  {
+    "path": "03-postintegration-tracker-check.result.json",
+    "sha256": "953c4b5d9f1ac46498a529cf1d44773ae3ede267202699d1b6bf29f5b3a06c72"
+  },
+  {
+    "path": "04-root-finish.command.json",
+    "sha256": "39a2c40a5a5f035b3f9ebc85fbdac22950714952151bedc9d1e87cb34b00c7c6"
+  },
+  {
+    "path": "04-root-finish.raw.log",
+    "sha256": "965bdf7f996097efba9a25707d238565c63035f56fbcac1b7b97aceb23f3e7db"
+  },
+  {
+    "path": "04-root-finish.result.json",
+    "sha256": "da90879ac99df46e887f2303edb35ce4d660cde4e45aab1e8181b65be6c8b208"
+  },
+  {
+    "path": "05-final-root-tracker-check.command.json",
+    "sha256": "1a051576fd937df8baf4119eb9e281a82f4d8d7f22cf0be637ab59f46e863c9e"
+  },
+  {
+    "path": "05-final-root-tracker-check.raw.log",
+    "sha256": "f61075b9c465ac6d7bff73268e29a773eaab014ad5d5a74f9afeffdb67d74c96"
+  },
+  {
+    "path": "05-final-root-tracker-check.result.json",
+    "sha256": "27f1a3b42c9b077056c513f0d0080b795f52dd066f7c34329930ba9d4e192c1a"
+  }
+]

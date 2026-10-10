@@ -1,0 +1,11 @@
+{
+  "command": "gh run list --repo devsecopslonghn/schemaForge --commit 0fd6980db49c9546ab0a04fe07321a348eee2d65 --limit 30 --json databaseId,name,status,conclusion,headSha,event,url,attempt,createdAt,updatedAt",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:24:39.135763+00:00",
+  "ended_at_utc": "2026-10-09T20:24:40.204832+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/40-master-workflows-initial.log",
+    "sha256": "83ddd5460756e2f5000d34541135cb5f08160ca57bd63fe4fe2e58049aac5424"
+  }
+}

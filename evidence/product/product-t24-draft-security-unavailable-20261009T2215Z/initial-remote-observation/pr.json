@@ -1,0 +1,16 @@
+{
+  "command": [
+    "gh",
+    "pr",
+    "view",
+    "37",
+    "--repo",
+    "devsecopslonghn/schemaForge",
+    "--json",
+    "number,url,state,isDraft,headRefOid,baseRefOid,statusCheckRollup,mergeable,mergeStateStatus"
+  ],
+  "observed_at_utc": "2026-10-09T22:08:19.750412+00:00",
+  "exit_code": 0,
+  "stdout": "{\"baseRefOid\":\"0fd6980db49c9546ab0a04fe07321a348eee2d65\",\"headRefOid\":\"704ef82f3bf183707b40e8194f3b1f0a15e29a89\",\"isDraft\":true,\"mergeStateStatus\":\"UNSTABLE\",\"mergeable\":\"MERGEABLE\",\"number\":37,\"state\":\"OPEN\",\"statusCheckRollup\":[{\"__typename\":\"CheckRun\",\"completedAt\":\"0001-01-01T00:00:00Z\",\"conclusion\":\"\",\"detailsUrl\":\"https://github.com/devsecopslonghn/schemaForge/actions/runs/37997504353/job/114047182443\",\"name\":\"product\",\"startedAt\":\"2026-10-09T22:07:57Z\",\"status\":\"IN_PROGRESS\",\"workflowName\":\"Local PRODUCT acceptance\"},{\"__typename\":\"CheckRun\",\"completedAt\":\"0001-01-01T00:00:00Z\",\"conclusion\":\"\",\"detailsUrl\":\"https://github.com/devsecopslonghn/schemaForge/actions/runs/37997485579/job/114047118856\",\"name\":\"product\",\"startedAt\":\"2026-10-09T22:07:46Z\",\"status\":\"IN_PROGRESS\",\"workflowName\":\"Local PRODUCT acceptance\"},{\"__typename\":\"CheckRun\",\"completedAt\":\"0001-01-01T00:00:00Z\",\"conclusion\":\"\",\"detailsUrl\":\"https://github.com/devsecopslonghn/schemaForge/actions/runs/37997504246/job/114047182298\",\"name\":\"parser\",\"startedAt\":\"2026-10-09T22:07:58Z\",\"status\":\"IN_PROGRESS\",\"workflowName\":\"Offline ANTLR parser acceptance\"},{\"__typename\":\"CheckRun\",\"completedAt\":\"0001-01-01T00:00:00Z\",\"conclusion\":\"\",\"detailsUrl\":\"https://github.com/devsecopslonghn/schemaForge/actions/runs/37997485598/job/114047119197\",\"name\":\"parser\",\"startedAt\":\"2026-10-09T22:07:46Z\",\"status\":\"IN_PROGRESS\",\"workflowName\":\"Offline ANTLR parser acceptance\"},{\"__typename\":\"CheckRun\",\"completedAt\":\"0001-01-01T00:00:00Z\",\"conclusion\":\"\",\"detailsUrl\":\"https://github.com/devsecopslonghn/schemaForge/actions/runs/37997504300/job/114047182603\",\"name\":\"foundation\",\"startedAt\":\"2026-10-09T22:07:58Z\",\"status\":\"IN_PROGRESS\",\"workflowName\":\"Offline WP0 checks\"},{\"__typename\":\"CheckRun\",\"completedAt\":\"0001-01-01T00:00:00Z\",\"conclusion\":\"\",\"detailsUrl\":\"https://github.com/devsecopslonghn/schemaForge/actions/runs/37997485587/job/114047119574\",\"name\":\"foundation\",\"startedAt\":\"2026-10-09T22:07:46Z\",\"status\":\"IN_PROGRESS\",\"workflowName\":\"Offline WP0 checks\"}],\"url\":\"https://github.com/devsecopslonghn/schemaForge/pull/37\"}\n",
+  "stderr": ""
+}

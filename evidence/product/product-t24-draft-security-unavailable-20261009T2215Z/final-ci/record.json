@@ -1,0 +1,170 @@
+{
+  "id": "product-t24-draft-all-available-ci-pass-security-unavailable",
+  "recorded_at_utc": "2026-10-09T22:17:55.752751+00:00",
+  "head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+  "master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "pr": 37,
+  "isDraft": true,
+  "available_ci": {
+    "runs": [
+      {
+        "conclusion": "success",
+        "databaseId": 37997504300,
+        "event": "pull_request",
+        "headSha": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+        "status": "completed",
+        "workflowName": "Offline WP0 checks"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 37997504246,
+        "event": "pull_request",
+        "headSha": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+        "status": "completed",
+        "workflowName": "Offline ANTLR parser acceptance"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 37997504353,
+        "event": "pull_request",
+        "headSha": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+        "status": "completed",
+        "workflowName": "Local PRODUCT acceptance"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 37997485587,
+        "event": "push",
+        "headSha": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+        "status": "completed",
+        "workflowName": "Offline WP0 checks"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 37997485598,
+        "event": "push",
+        "headSha": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+        "status": "completed",
+        "workflowName": "Offline ANTLR parser acceptance"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 37997485579,
+        "event": "push",
+        "headSha": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+        "status": "completed",
+        "workflowName": "Local PRODUCT acceptance"
+      }
+    ],
+    "all_six_pass": true,
+    "check_rollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T22:16:42Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37997504353/job/114047182443",
+        "name": "product",
+        "startedAt": "2026-10-09T22:07:57Z",
+        "status": "COMPLETED",
+        "workflowName": "Local PRODUCT acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T22:16:32Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37997485579/job/114047118856",
+        "name": "product",
+        "startedAt": "2026-10-09T22:07:46Z",
+        "status": "COMPLETED",
+        "workflowName": "Local PRODUCT acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T22:11:10Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37997504246/job/114047182298",
+        "name": "parser",
+        "startedAt": "2026-10-09T22:07:58Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline ANTLR parser acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T22:10:21Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37997485598/job/114047119197",
+        "name": "parser",
+        "startedAt": "2026-10-09T22:07:46Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline ANTLR parser acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T22:09:17Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37997504300/job/114047182603",
+        "name": "foundation",
+        "startedAt": "2026-10-09T22:07:58Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline WP0 checks"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-09T22:09:00Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/37997485587/job/114047119574",
+        "name": "foundation",
+        "startedAt": "2026-10-09T22:07:46Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline WP0 checks"
+      }
+    ]
+  },
+  "required_unavailable_gates": {
+    "CodeQL": "NO_NEW_HEAD_RUN_UNAVAILABLE_NOT_PASS",
+    "code_scanning_alerts": "403_ADVANCED_SECURITY_REQUIRED_NOT_PASS",
+    "secret_scanning_alerts": "404_DISABLED_NOT_PASS",
+    "branch_protection": "403_UPGRADE_OR_PUBLIC_REQUIRED_NOT_VERIFIABLE"
+  },
+  "merged": false,
+  "merge_eligible": false,
+  "post_merge_verification": "NOT_APPLICABLE_UNMERGED",
+  "standing_policy": "Ordinary defaults applied; actual external permissions/cost/visibility requires owner restoration. No security exception inferred.",
+  "goal": "ACTIVE_FIRST_REQUIRED_EXTERNAL_SECURITY_OUTAGE_NO_BLOCKED_OR_COMPLETE_TRANSITION",
+  "next": "T25_READY_REGISTERED_UNIMPLEMENTED_PENDING_T24_ELIGIBLE_MERGE_MASTER_VERIFICATION",
+  "artifact_sha256": {
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/remote/code-scanning.json": "c9826f7aaa34cd2a58628f0eb9589f7b617a4b51af148178166371a375a6b848",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/remote/dependabot.json": "3254760bc94334784056c2ee503923b3c2bb5be50e5b77932c77394f65ab8ec6",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/remote/pr.json": "863c01205181ffc1926aa95a7c81f14a0bacffef0f458ca305f2b0ff1431344a",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/remote/protection.json": "3ae1189f10e070d3809bc4a284cdcd579115e8efa53f83da77233cc90a2b1b55",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/remote/runs.json": "769056aa09bd48f0a194740cac5f7d58a780b909f6a96812ca0ac7fda1967387",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/remote/secret-scanning.json": "b7d8571533b0c83bdc111e958dd8612ef57b2b3f6c6740b3eeba2e8f8e470261",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/remote/visibility.json": "5576186aea68efdb94aa17885f5d04017ca709d666f7b25d44a9a3e1955300ee",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/28-preserve-draft-unavailable-security-proof.command.json": "ca34154ed177108646bdf703e5d38bb4ecb2d2e8902a0aa55b3ba37875881ca0",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/28-preserve-draft-unavailable-security-proof.log": "f3b4ff17c83d1d08431533aa846b96b2aa0d650b08c68e6cdd7866c05f567305",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/28-preserve-draft-unavailable-security-proof.result.json": "fe8fa91a3b5eda6be71897a91b94c00f27a4202883b91c0e10488d078ce27ee7",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/29-continuation-tracker-doc-checks.command.json": "e2b7504da5816bc76e6c834713f0dd57e31908fb90d3411b34d36f931edd7f43",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/29-continuation-tracker-doc-checks.log": "6c610df305b403e8f81326a24109a6ec677ca8d7138e6ebb074e330f686ec552",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/29-continuation-tracker-doc-checks.result.json": "35db8a8cc3b5db0cc44dde6f1f4fd5a734de00ee953f7548a828ce7180efdae0",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/30-continuation-precommit-scan.command.json": "24899ba74ab83e2510aa5fb646d4447e7bd924765afb627b0335a8980bcff8bc",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/30-continuation-precommit-scan.log": "124e8e675f898eef3ab52e13a119ebfa4fc417b2f2e55e8a934c35a5c782a8f5",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/30-continuation-precommit-scan.result.json": "3df0926efa61ccab1baa14c7b46e2b24970b49c73df8f14fb68efd012c749c4e",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/31-continuation-exact-classification.command.json": "3d8d29cee62355244cf8fd660655fe85ed66745edbe0da65b390710d89ed40f4",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/31-continuation-exact-classification.log": "de7e70576cb48fa33468e278f9afa5081cf695fd82e72fcc5464117fe48dfdb4",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/31-continuation-exact-classification.result.json": "f4a4d8b9f829b0e5b3206cfd3aa8c83442c7ad3096c5253954b80dc8cf2e58c1",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/32-freeze-local-continuation.command.json": "5d32a9f1ca47af65a76610c4f0dd8d75f9440eec983178848aa555fc88afd17d",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/32-freeze-local-continuation.log": "874cef34aca86ee1264a192fabfe3e361d06098a16aa93b92c349e20199c42ef",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/32-freeze-local-continuation.result.json": "261b6fb1b2187546eb044e091ec5703d48049453b7449504fbe1d5717bad2e66",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/33-final-draft-ci-security-reconciliation.command.json": "3a60d497273595a6d16c3828e92f798937fdfb346693a306676ec15d4f1e0d10",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/33-final-draft-ci-security-reconciliation.log": "1cdc802a245bc23cc10cf21602e44d01ab1c7483fad4f9824ce1ffcf5eb9d530",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/root-captures/33-final-draft-ci-security-reconciliation.result.json": "af7a32dd58960c1b56a5d6c9f940b118809cc5b4fd7d2ce4fd9acee805cf5887",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/continuation-scan/publication-safe.json": "e5c6d537c3cb1257a13537de154925ad4a44fe52d112819df01bc1a0f6036559",
+    "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/continuation-scan/classification.json": "ff51ec5e96e0a0b6e9251fad18b22d0643e8ac862313581a0b39292ee60f6dc0"
+  },
+  "limits": [
+    "Actual available CI is six passes, not the earlier eleven-check set; absent CodeQL is not success.",
+    "Earlier live observation and original records remain immutable; this append records actual completed CI.",
+    "Sonar unavailable never PASS; Oracle VALIDATION remains separate BLOCKED.",
+    "No remote visibility/security/protection settings, history or scanner controls changed."
+  ]
+}

@@ -130,6 +130,7 @@ export async function initializeDatabase(sql: any): Promise<void> {
       END IF;
     END $$;
     CREATE INDEX IF NOT EXISTS sf_audit_project_time ON sf_audit(project_id,created_at DESC);
+    CREATE INDEX IF NOT EXISTS sf_audit_project_time_id ON sf_audit(project_id,created_at DESC,id DESC);
     CREATE INDEX IF NOT EXISTS sf_history_project_time ON sf_history(project_id,created_at DESC);
     CREATE INDEX IF NOT EXISTS sf_comments_project_position ON sf_plan_comments(project_id,position);
     CREATE INDEX IF NOT EXISTS sf_comments_plan_position ON sf_plan_comments(plan_id,position);

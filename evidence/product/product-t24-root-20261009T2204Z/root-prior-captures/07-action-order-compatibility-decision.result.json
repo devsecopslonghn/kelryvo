@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t24-action-order-decision.py && npm run format:check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+  "started_at_utc": "2026-10-09T21:04:32.104507+00:00",
+  "ended_at_utc": "2026-10-09T21:04:32.375964+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/07-action-order-compatibility-decision.log",
+    "sha256": "9ed23e2d3beaa995eb36edc2ab210905f36bc620214957af7c642f85544cf170"
+  }
+}

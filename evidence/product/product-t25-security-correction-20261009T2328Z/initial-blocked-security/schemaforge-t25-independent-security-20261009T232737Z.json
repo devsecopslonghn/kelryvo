@@ -1,0 +1,107 @@
+{
+  "task": "SF-PRODUCT-T25",
+  "reviewer": "/root/t25_security",
+  "review_type": "INDEPENDENT_FINAL_SECURITY_LICENSE_PROVENANCE_REVIEW",
+  "recorded_at_utc": "2026-10-09T23:27:37Z",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-release-source-comparison",
+  "head_before": "93629076c230274e210acaf8f52c46f01fafdb00",
+  "tree_before": "02fbec02d8e9b4263faa6a4f2621056cd6a1c147",
+  "base_t24": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+  "origin_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "head_after": "93629076c230274e210acaf8f52c46f01fafdb00",
+  "tree_after": "02fbec02d8e9b4263faa6a4f2621056cd6a1c147",
+  "tracked_status_before_after": "CLEAN",
+  "reviewer_worktree_mutation": false,
+  "source_sha256": {
+    "apps/api/index.ts": "8a06577d9b99f485dd137f0bf5ed26a77859101c7de637b82fb834452e70ad0b",
+    "apps/web/src/app.jsx": "5b0bcbd713ec66e7e6a73e9515022d6689892fa8ea5069209b4f5b24d448df48",
+    "packages/migrations/compare-retained-releases.mjs": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8",
+    "packages/migrations/verify-retained-release.mjs": "6a47452c1e795d0eff098adf6143da34669b55200e90734ea68d04e44c9acb31",
+    "packages/database/project-membership.ts": "0f0f6996308b9931cdeab53361921e86d8d9fbf5b2facc1b36c4097333d0c72e",
+    "packages/database/local-credentials.ts": "df69cdf36815ea541a14abc6f41f8613cc823c43f667c7dadf5115f2a78772a8",
+    "tests/product-release-comparison.test.mjs": "26904e5c2822ddefb7047ba66a4e32e0370a0a121b0843c3b9d03b96c50099ac",
+    "tests/product-release-comparison-browser.integration.mjs": "c11406afde27b7d7faa590cab5cc53f7639547427b4520291670d5c48ff74320",
+    "docs/development/local-product.md": "1ebb556fb08ee27af7d5ab833c458f9c26320b7e91ba74ab9e9eaab45c466dec",
+    "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+    "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e",
+    "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3"
+  },
+  "verdict": "BLOCKED_OPEN_MEDIUM_SECURITY_FINDING",
+  "source_security_approval": "WITHHELD",
+  "license_review": "NO_LICENSE_OR_NOTICE_FINDING",
+  "draft_only_publication": "NOT_APPROVED_PENDING_CORRECTION_AND_FRESH_REVIEW",
+  "merge_readiness": "UNAVAILABLE",
+  "finding": {
+    "id": "SEC-T25-01",
+    "severity": "MEDIUM",
+    "status": "OPEN",
+    "locations": [
+      {
+        "path": "apps/api/index.ts",
+        "lines": [
+          646,
+          660
+        ]
+      },
+      {
+        "path": "apps/api/index.ts",
+        "lines": [
+          670,
+          681
+        ]
+      },
+      {
+        "path": "packages/migrations/verify-retained-release.mjs",
+        "lines": [
+          26,
+          39
+        ]
+      }
+    ],
+    "summary": "Preflight does not bound complete non-content JSON metadata before loading file payloads. The approximately 120 MiB files_bytes allowance plus ignored unknown object keys permits a stored/corrupt retained file with a large extra JSON value to pass SQL shape/content/path/version bounds; verifier ignores that key and only validates statementCount after loading. The subsequent SELECT/JSON parse can materialize close to the full 120 MiB per release.",
+    "impact": "Request-time memory/CPU amplification on malformed or corrupted retained records; fails bounded metadata-before-payload acceptance.",
+    "required_correction": "Bound complete encoded non-content metadata before payload SELECT while preserving compatible historical fields; validate statementCount shape/range in the scalar preflight; test oversized extra metadata in both base and candidate slots with complete no-write snapshots; then rerun exact-head QA/security."
+  },
+  "provenance_review": {
+    "publication_paths_verified": 579,
+    "snapshot_hash_matches_head_and_copy": true,
+    "classified_finding_blobs_verified": 81,
+    "digest_findings_matching_recomputed_provenance": 77,
+    "publication_findings": 43,
+    "publication_exit": 1,
+    "publication_clean_pass": false,
+    "history_findings": 158,
+    "history_exit": 1,
+    "history_clean_pass": false,
+    "prior_history_tuple_multiset_preserved": 120,
+    "new_history_tuple_delta": 38,
+    "new_delta_matches_classification": true,
+    "private_report_sha256_verified": true,
+    "private_report_secret_fields_redacted": true,
+    "actual_credentials_observed": false,
+    "rotation_indicated": false,
+    "older_missing_byte_and_T23_UI_limits_preserved": true,
+    "first_T25_old_test_bytes_gap_preserved": true
+  },
+  "required_services": {
+    "code_scanning": "UNAVAILABLE_HTTP_403",
+    "secret_scanning": "UNAVAILABLE_HTTP_404",
+    "branch_protection": "UNAVAILABLE_HTTP_403",
+    "observed_at_utc": "2026-10-09T23:05:27Z",
+    "t24_pr37": "OPEN_DRAFT_UNMERGED_HEAD_704ef82"
+  },
+  "product_boundary": {
+    "original_220_acceptance": "UNCHANGED",
+    "oracle_validation": "INDEPENDENT_BLOCKED",
+    "sonar": "UNAVAILABLE_NOT_PASS_SONAR_ONLY_EXCEPTION",
+    "no_oracle_or_target_execution": true
+  },
+  "commands_and_limits": {
+    "security_reviewer_ran_tests_or_builds": false,
+    "focused_source_diff_check": "PASS",
+    "broad_diff_check": "TRAILING_WHITESPACE_IN_PRESERVED_EVIDENCE_LOGS_ONLY",
+    "sidecar_log": "/tmp/schemaforge-t25-independent-security-20261009T232737Z.log",
+    "reviewer_command_capture": "Grouped read-only commands and summarized results are in sidecar; individual process start/end/raw-output hashes were not instrumented by this reviewer."
+  }
+}

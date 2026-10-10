@@ -1,0 +1,5 @@
+{
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
+  "command": "python3 - <<'PY'\nimport pathlib,hashlib,shutil,json\nroot=pathlib.Path.cwd();src=pathlib.Path(\"/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight\");facts=[]\nfor name,expected in [(\"experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar\",\"a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38\"),(\".cache/antlr/antlr4-runtime-4.13.2.jar\",\"dd3e8a13a2d669bf84fb8d834de35ce4875f27157698d206241ec8488aadcaf7\")]:\n a=src/name;assert hashlib.sha256(a.read_bytes()).hexdigest()==expected;b=root/name;b.parent.mkdir(parents=True,exist_ok=True);assert not b.exists();shutil.copyfile(a,b);assert hashlib.sha256(b.read_bytes()).hexdigest()==expected;facts.append({\"path\":name,\"sha256\":expected})\nprint(json.dumps({\"verified_ignored_setup_only\":facts,\"no_private_config_copied\":True}))\nPY",
+  "started_at_utc": "2026-10-10T02:04:46.402989+00:00"
+}

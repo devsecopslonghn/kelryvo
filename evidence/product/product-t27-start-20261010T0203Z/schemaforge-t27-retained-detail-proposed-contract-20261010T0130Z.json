@@ -1,0 +1,33 @@
+{
+  "status": "PROPOSED_ONLY_NOT_REGISTERED_NOT_IMPLEMENTED",
+  "task_id": "SF-PRODUCT-T27",
+  "title": "Bound retained release detail reads before payload materialization",
+  "created_at_utc": "2026-10-10T01:27:46.843423+00:00",
+  "feature_ids": [
+    "GIT-006",
+    "MIG-008",
+    "MIG-009"
+  ],
+  "dependencies": [
+    "SF-PRODUCT-T26",
+    "SF-PRODUCT-T25",
+    "SF-PRODUCT-T13",
+    "SF-PRODUCT-T11",
+    "SF-PRODUCT-T21"
+  ],
+  "security_assessment": "/tmp/schemaforge-t26-raw-get-review-20261010T012500Z.json",
+  "acceptance_criteria": [
+    "GET /api/releases/:id uses scoped transaction and database scalar bounds before selecting retained files or raw identity/status/code metadata. Reject malformed/oversized retained records with fixed non-sensitive unavailable response; never transfer unknown unbounded fields through SELECT *. Preserve existing authenticated membership and project archive read boundaries.",
+    "Keep bounded legitimate retained VALID, INVALID and UNAVAILABLE imports readable, including per-file VALID/INVALID/UNAVAILABLE/NOT_VALIDATED observations, null statement counts, bounded unknown nested metadata, Unicode and arbitrary-precision versions. This reader is historical display; do not promote invalid/unavailable release to VALID, rewrite historical source/hash/manifest, backfill intent/generation or authorize planning/approval.",
+    "Reuse T26 scoped scalar bounds where practical with explicit protected versus historical-read policy, preserving 128files/2MiBper/16MiBtotal content and4MiB complete encoded non-content metadata budget. Bound validationCode and every returned identity/status field before Node allocation; shared helper changes preserve strict protected-reader validity. No parser/Git re-read/target connection or schema migration without concrete necessity.",
+    "Under existing scoped source locks prove concurrent mutation cannot bypass preflight and later payload selection. Every authorized read failure/success leaves complete populated source/project/plan/intent/comment/decision/history/audit records unchanged. Preserve current roles/grants/session/bootstrap/archive and API restart/PostgreSQL persistence; no denial audit mutation added to reads.",
+    "Real local Git and isolated PostgreSQL produce legitimate valid and invalid/offline-unavailable releases and exercise oversized flat/nested metadata, bad known fields/arraycounts/aggregatecontent/huge status and code. Query instrumentation proves no raw payload or unbounded status projection before rejection; snapshots surround request before fixture restoration. Browser existing source/provenance/review inspection displays bounded valid/invalid historical facts and fixed unavailable error; stale project/session responses stay hidden. Run full standard/Git/parser/product/browser regressions with zero required skips.",
+    "Bounded resource hardening closes only independently reviewed residual detail-read finding, not all original220 features or runtime attestation. Preserve license/notices/grants/dependencies/locks/grammar/scanners/immutable failures. Normal exact-head independent QA/security/CI and eligible merge gates remain; unmerged prerequisites can support documented local verification only. Sonar unavailable never PASS; Oracle independently BLOCKED; no public history rewrite/deployment/credential resolution."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T27-API",
+    "SF-PRODUCT-T27-PERSISTENCE",
+    "SF-PRODUCT-T27-WEB"
+  ],
+  "priority": "Concrete residual MEDIUM resource issue before previously recommended partial GOV021 inbox; inbox recommendation remains unregistered, original invalid API provenance hash corrected append-only."
+}

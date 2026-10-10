@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t24-freeze.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+  "started_at_utc": "2026-10-09T22:04:13.590937+00:00",
+  "ended_at_utc": "2026-10-09T22:04:13.763976+00:00",
+  "exit_code": 1,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/16-freeze-preserved-raw-evidence.log",
+    "sha256": "e69f29a42db3453325327fbdf138699228147c3a1455d16cd78bfa429fa30712"
+  }
+}

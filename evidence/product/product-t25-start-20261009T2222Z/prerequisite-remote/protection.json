@@ -1,0 +1,13 @@
+{
+  "command": [
+    "gh",
+    "api",
+    "repos/devsecopslonghn/schemaForge/branches/master/protection",
+    "--jq",
+    "{required_status_checks,enforce_admins,required_pull_request_reviews}"
+  ],
+  "observed_at_utc": "2026-10-09T22:24:21.320379+00:00",
+  "exit_code": 1,
+  "stdout": "{\"message\":\"Upgrade to GitHub Pro or make this repository public to enable this feature.\",\"documentation_url\":\"https://docs.github.com/rest/branches/branch-protection#get-branch-protection\",\"status\":\"403\"}",
+  "stderr": "gh: Upgrade to GitHub Pro or make this repository public to enable this feature. (HTTP 403)\n"
+}

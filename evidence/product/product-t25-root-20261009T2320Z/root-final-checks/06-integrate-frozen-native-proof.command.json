@@ -1,0 +1,5 @@
+{
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-release-source-comparison",
+  "command": "python /tmp/schemaforge-t25-integrate.py /tmp/schemaforge-t25-native-20261009T222935Z/native-final-completion.json evidence/product/product-t25-root-20261009T2320Z",
+  "started_at_utc": "2026-10-09T23:20:41.804309+00:00"
+}

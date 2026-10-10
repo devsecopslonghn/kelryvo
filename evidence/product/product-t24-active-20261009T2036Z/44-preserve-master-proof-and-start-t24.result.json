@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t23-proof-t24-active.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:33:46.800417+00:00",
+  "ended_at_utc": "2026-10-09T20:33:48.402430+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/44-preserve-master-proof-and-start-t24.log",
+    "sha256": "87cdb3565f28e5bd5651150fc8a1b0d40aa7cbba84612fe783c16f5da55c315a"
+  }
+}

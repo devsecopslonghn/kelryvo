@@ -1,0 +1,11 @@
+{
+  "command": "git worktree add -b development/product-continuation-t24 /home/longhn0710/workspace/schemaforge-product-continuation-t24 704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+  "started_at_utc": "2026-10-09T22:08:29.745031+00:00",
+  "ended_at_utc": "2026-10-09T22:08:30.106429+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/27-isolate-continuation-proof.log",
+    "sha256": "64da893fc158107e528c43ee28cb224675f1961ad55993d7f785cd4b9de66ecd"
+  }
+}

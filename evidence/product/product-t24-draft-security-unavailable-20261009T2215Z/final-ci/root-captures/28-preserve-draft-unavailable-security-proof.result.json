@@ -1,0 +1,11 @@
+{
+  "command": "python3 /tmp/schemaforge-t24-continuation-proof.py",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+  "started_at_utc": "2026-10-09T22:09:24.666418+00:00",
+  "ended_at_utc": "2026-10-09T22:09:24.793483+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/28-preserve-draft-unavailable-security-proof.log",
+    "sha256": "f3b4ff17c83d1d08431533aa846b96b2aa0d650b08c68e6cdd7866c05f567305"
+  }
+}

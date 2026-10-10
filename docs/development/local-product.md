@@ -45,6 +45,14 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    plan, history or audit records. This check uses the stored release only and works when Git
    is unavailable. Verification bounds encoded file size and retained metadata before allocations;
    canonical decimal versions preserve arbitrary-precision ordering without numeric conversion.
+   Statement preview, offline plan creation, evidence-linked comments and approval first run a
+   database-side scalar preflight under their existing scoped row locks. It caps a release at
+   128 files, 2 MiB per file and 16 MiB total SQL, and limits the complete encoded non-content
+   metadata—including unknown nested extension fields, array overhead and release identity—to
+   4 MiB. Known byte and statement-count fields are type-checked with bounded numeric parsing.
+   Small historical extensions, Unicode SQL and null statement counts remain readable; malformed
+   or over-budget metadata returns the route's existing fixed integrity response before SQL file
+   payloads are copied into the API process. No retained record is rewritten or backfilled.
    Review ordered files/hashes and
    `NOT_OBSERVED` target history. No target history was read, so this is not a reconciled
    execution plan and does not claim that all files are pending on a real database.
@@ -278,18 +286,26 @@ All other API reads/writes require a bearer token:
 | `GET /api/session`, `/api/repositories`, `/api/projects` | Authenticated identity, allowlisted binding names and bootstrap/enforced project visibility |
 | `POST /api/projects` | During bootstrap, fixed denial; when enforced, create project (`name`, optional `description`) and return a receipt without an implicit grant |
 | `GET /api/projects/:id` | Project, environments, profiles, releases, plans, audit, history |
+| `GET /api/projects/:id/audit` | Read-only project audit page (`50` events) with optional exact `action` and opaque bounded `cursor`; current membership is checked on every request |
 | `GET /api/projects/:id/git-refs` | Authenticated local branches and commit-resolving tags from the project's saved registered repository |
 | `PUT /api/projects/:id/source` | Developer persists registered `repositoryId`, relative `folder`; changes are audited |
 | `POST /api/projects/:id/archive` | Developer archives with `reason`; preserves all records |
 | `POST /api/projects/:id/environments` | Create environment (`name`) |
 | `POST /api/projects/:id/profiles` | Store `name`, `environmentId`, `engine=oracle`, `host`, `port`, `service`, `username`, `credentialRef` |
 | `POST /api/projects/:id/releases` | Import `repositoryId`, `commit`, `folder` |
-| `GET /api/releases/:id` | Retained source, hashes and parser observations |
+| `POST /api/projects/:id/releases/compare` | Read-only `baseReleaseId`, `candidateReleaseId` comparison |
+| `GET /api/releases/:id` | Authenticated, scoped read-only historical source detail; scalar bounds are checked under project/release locks before file or diagnostic text projection. Malformed or oversized retained detail returns fixed HTTP 409 `RELEASE_UNAVAILABLE`. The historical view preserves bounded `VALID`, `INVALID` and `UNAVAILABLE` diagnostics and does not attest current Git or parser state. |
 | `POST /api/projects/:id/plans` | Freeze candidate from `releaseId`, `profileId` |
 | `GET /api/projects/:projectId/plans/:id/comments` | Authenticated, ordered historical comment timeline within the project/plan scope |
 | `POST /api/projects/:projectId/plans/:id/comments` | Append plain-text `body` to a pending plan in an active project; developer or approver |
 | `POST /api/plans/:id/decision` | Independent `APPROVE`/`REJECT` with `reason` |
 | `POST /api/plans/:id/execution` | Audit denial; HTTP 409 `EXECUTION_UNAVAILABLE`, `NOT_EXECUTED` |
+
+Historical release detail reads enforce the retained limits of 128 files, 2 MiB per
+file, 16 MiB aggregate source content and 4 MiB of complete encoded non-content metadata
+before PostgreSQL returns retained files, identity strings or validation diagnostics.
+This is a display allocation bound; protected planning, comparison, preview and review
+readers retain their separate strict integrity checks.
 
 Writes and their audit/history events share PostgreSQL transactions. Approved items are
 immutable through the API; terminal decisions cannot be overwritten. Metadata administrators
@@ -362,3 +378,23 @@ This is local development, not a packaged production distribution.
 Fastify request handling follows its [official reference](https://fastify.dev/docs/latest/Reference/Validation-and-Serialization/);
 the web bundle uses [React createRoot](https://react.dev/reference/react-dom/client/createRoot).
 Exact third-party grants and notices are recorded separately from the immutable WP0 audit.
+
+### Compare retained release sources
+
+In **Release intake**, choose a base release and a candidate release, then select **Compare source**.
+The read-only result shows both retained commit and manifest identities plus files aligned by the
+canonical migration version. Each ordered fact labels added, removed, changed or unchanged source
+and displays the retained path, SHA256, byte count and literal SQL for each side. A rename at the
+same version is shown as changed. Comparing one release with itself is supported.
+
+The API requires current project membership and rechecks both releases under project and release
+read locks. It checks database-side payload bounds for both retained manifests before loading either,
+including a four MiB total encoded budget for all non-content file metadata and repository, folder and
+parser-profile identity fields. Unknown extension fields remain readable inside that budget; the
+known `statementCount` field must be null or a bounded nonnegative safe integer. It then verifies the
+stored format-1 manifests and UTF-8 bytes. Releases must share retained repository ID, folder and parser
+profile. An archived project remains readable; removed local repository
+registration does not prevent reviewing retained data. Missing, foreign, revoked, invalid or
+incompatible comparisons use fixed unavailable feedback. Refresh, project, session or either pair
+selection change clears an in-flight result. The comparison never reads Git, reruns the parser,
+creates a plan, writes history, or reports whether SQL was applied or changed a database.

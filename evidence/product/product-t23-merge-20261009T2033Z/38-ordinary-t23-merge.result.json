@@ -1,0 +1,11 @@
+{
+  "command": "gh pr merge 36 --repo devsecopslonghn/schemaForge --merge --match-head-commit dab29a357e3e29d65b7db23255dbae56abf3f00f",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:23:40.625153+00:00",
+  "ended_at_utc": "2026-10-09T20:23:44.679256+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/38-ordinary-t23-merge.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

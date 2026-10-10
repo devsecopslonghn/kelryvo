@@ -1,0 +1,1 @@
+{"record": "/tmp/schemaforge-t26-safe-reconcile-20261010T0156Z/record.json", "statuses": {"fetch": 0, "master": 0, "prs": 0, "branches": 0, "repository": 0, "shared-status": 0, "shared-head": 0, "code": 403, "secret": 404, "dependabot": 200, "protection": 403}, "alert_counts": {"dependabot": 0}}

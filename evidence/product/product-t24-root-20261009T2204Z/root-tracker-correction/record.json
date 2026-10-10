@@ -1,0 +1,23 @@
+{
+  "recorded_at_utc": "2026-10-09T22:02:59.361751+00:00",
+  "status": "ROOT_TRACKER_CORRECTION_VERIFIED_SOURCE_FREEZE_UNCHANGED",
+  "reason": "T25 registration initially omitted the static tracker contract, causing root21test20pass1fail. After adding the contract, old literal fixture count89 expected24tasks failed against90 with25tasks. Root corrected the task count/comment only; original220feature acceptance and dependency graph remain exact.",
+  "checks": "Root tracker21/21, lint, authored JSON format and scoped diff all passed after corrections.",
+  "native_final_source": "All10 native tested source hashes remain unchanged. New root tracker contract/test changes verified separately; full native suite claim applies to frozen native source and pre-registration tracker bytes.",
+  "missing_capture": "One root apply_patch attempt used a mismatching expected identifier and failed before any edit; tool response exists, no separate raw capture. Not reconstructed.",
+  "artifacts": {
+    "evidence/product/product-t24-root-20261009T2204Z/root-tracker-correction/09-integrate-recovered-t24.command.json": "7e56f49e7687de117f962145c12c70521117d72bae10a9721196f4f0a0f89a7c",
+    "evidence/product/product-t24-root-20261009T2204Z/root-tracker-correction/09-integrate-recovered-t24.log": "98026995351902fe89164731d2d942a3e3a7b12cd47530c6fb55ebe74ea35c17",
+    "evidence/product/product-t24-root-20261009T2204Z/root-tracker-correction/09-integrate-recovered-t24.result.json": "8acf03df4b48ab98a47cab09d4942103f2152a3bc4d1fa54781c9689a647d537",
+    "evidence/product/product-t24-root-20261009T2204Z/root-tracker-correction/10-tracker-registration-correction.command.json": "a08353cf4486ecd8ebad8082115365563528579a023b96da25de786b3c281e6e",
+    "evidence/product/product-t24-root-20261009T2204Z/root-tracker-correction/10-tracker-registration-correction.log": "ab955394fe9b449986219e2b8c2d36401b18ecb35f176bb762219383d1209a99",
+    "evidence/product/product-t24-root-20261009T2204Z/root-tracker-correction/10-tracker-registration-correction.result.json": "0f5e60a4388507a1ecbb4f2d385dddc2b4f9f45d77776d1dc451858451faa00a",
+    "evidence/product/product-t24-root-20261009T2204Z/root-tracker-correction/11-corrected-root-tracker-checks.command.json": "dec64f5fa9b589eaa7e784e89dcae6e22967d8422b4fac7764e5a8b71b9e9d3f",
+    "evidence/product/product-t24-root-20261009T2204Z/root-tracker-correction/11-corrected-root-tracker-checks.log": "146d8352e0c4e8878b9794cf6d515084dfbecae7dda67812d97f754abd931655",
+    "evidence/product/product-t24-root-20261009T2204Z/root-tracker-correction/11-corrected-root-tracker-checks.result.json": "a13aa638fe903564cb452a7e9ce206a5053665440f6b7ac89a8b5845f6c7977b"
+  },
+  "limits": [
+    "Root records do not replace missing native final completion or pending exact-head independent review/CI.",
+    "Sonar unavailable never PASS; Oracle independent BLOCKED."
+  ]
+}

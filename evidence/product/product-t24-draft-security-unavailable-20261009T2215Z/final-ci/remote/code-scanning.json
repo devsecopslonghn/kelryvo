@@ -1,0 +1,13 @@
+{
+  "command": [
+    "gh",
+    "api",
+    "repos/devsecopslonghn/schemaForge/code-scanning/alerts?state=open",
+    "--jq",
+    "map({number,state,html_url})"
+  ],
+  "observed_at_utc": "2026-10-09T22:17:16.884860+00:00",
+  "exit_code": 1,
+  "stdout": "{\"message\":\"Advanced Security must be enabled for this repository to use code scanning.\",\"documentation_url\":\"https://docs.github.com/rest/code-scanning/code-scanning#list-code-scanning-alerts-for-a-repository\",\"status\":\"403\"}",
+  "stderr": "gh: Advanced Security must be enabled for this repository to use code scanning. (HTTP 403)\n"
+}

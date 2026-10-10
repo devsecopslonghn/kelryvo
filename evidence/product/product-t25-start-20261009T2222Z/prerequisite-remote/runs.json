@@ -1,0 +1,19 @@
+{
+  "command": [
+    "gh",
+    "run",
+    "list",
+    "--repo",
+    "devsecopslonghn/schemaForge",
+    "--commit",
+    "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+    "--limit",
+    "20",
+    "--json",
+    "databaseId,workflowName,status,conclusion,event,headSha"
+  ],
+  "observed_at_utc": "2026-10-09T22:24:18.607905+00:00",
+  "exit_code": 0,
+  "stdout": "[{\"conclusion\":\"success\",\"databaseId\":37997504353,\"event\":\"pull_request\",\"headSha\":\"704ef82f3bf183707b40e8194f3b1f0a15e29a89\",\"status\":\"completed\",\"workflowName\":\"Local PRODUCT acceptance\"},{\"conclusion\":\"success\",\"databaseId\":37997504300,\"event\":\"pull_request\",\"headSha\":\"704ef82f3bf183707b40e8194f3b1f0a15e29a89\",\"status\":\"completed\",\"workflowName\":\"Offline WP0 checks\"},{\"conclusion\":\"success\",\"databaseId\":37997504246,\"event\":\"pull_request\",\"headSha\":\"704ef82f3bf183707b40e8194f3b1f0a15e29a89\",\"status\":\"completed\",\"workflowName\":\"Offline ANTLR parser acceptance\"},{\"conclusion\":\"success\",\"databaseId\":37997485579,\"event\":\"push\",\"headSha\":\"704ef82f3bf183707b40e8194f3b1f0a15e29a89\",\"status\":\"completed\",\"workflowName\":\"Local PRODUCT acceptance\"},{\"conclusion\":\"success\",\"databaseId\":37997485587,\"event\":\"push\",\"headSha\":\"704ef82f3bf183707b40e8194f3b1f0a15e29a89\",\"status\":\"completed\",\"workflowName\":\"Offline WP0 checks\"},{\"conclusion\":\"success\",\"databaseId\":37997485598,\"event\":\"push\",\"headSha\":\"704ef82f3bf183707b40e8194f3b1f0a15e29a89\",\"status\":\"completed\",\"workflowName\":\"Offline ANTLR parser acceptance\"}]\n",
+  "stderr": ""
+}

@@ -1,0 +1,189 @@
+{
+  "recorded_at_utc": "2026-10-10T01:56:06.777839+00:00",
+  "owner_reply": "Work normally; no security gate waiver inferred.",
+  "observations": [
+    {
+      "name": "fetch",
+      "command": [
+        "git",
+        "fetch",
+        "origin"
+      ],
+      "utc_start": "2026-10-10T01:56:04.151873+00:00",
+      "utc_end": "2026-10-10T01:56:05.385724+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-t26-safe-reconcile-20261010T0156Z/fetch.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_private_not_for_publication": false
+    },
+    {
+      "name": "master",
+      "command": [
+        "git",
+        "rev-parse",
+        "origin/master"
+      ],
+      "utc_start": "2026-10-10T01:56:05.388101+00:00",
+      "utc_end": "2026-10-10T01:56:05.393814+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-t26-safe-reconcile-20261010T0156Z/master.raw",
+      "sha256": "b0d6dacb8755a38cc40ee8ee3891c38bce16aa9cf149881530b1892dad603b1e",
+      "raw_private_not_for_publication": false
+    },
+    {
+      "name": "prs",
+      "command": [
+        "gh",
+        "pr",
+        "list",
+        "--repo",
+        "devsecopslonghn/schemaForge",
+        "--state",
+        "open",
+        "--json",
+        "number,title,headRefName,headRefOid,baseRefName,isDraft"
+      ],
+      "utc_start": "2026-10-10T01:56:05.389371+00:00",
+      "utc_end": "2026-10-10T01:56:06.608574+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-t26-safe-reconcile-20261010T0156Z/prs.raw",
+      "sha256": "e2ebb4bd29d422612b8e63fbda9fae6d228baebb4043c42bcd96eae9c0f083aa",
+      "raw_private_not_for_publication": false
+    },
+    {
+      "name": "branches",
+      "command": [
+        "git",
+        "branch",
+        "-r"
+      ],
+      "utc_start": "2026-10-10T01:56:05.390594+00:00",
+      "utc_end": "2026-10-10T01:56:05.396706+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-t26-safe-reconcile-20261010T0156Z/branches.raw",
+      "sha256": "1b3ad86241bfafa691491a616c59d26ec61640d2dacab1f5a595f30027ed817e",
+      "raw_private_not_for_publication": false
+    },
+    {
+      "name": "repository",
+      "command": [
+        "gh",
+        "repo",
+        "view",
+        "devsecopslonghn/schemaForge",
+        "--json",
+        "visibility,isPrivate"
+      ],
+      "utc_start": "2026-10-10T01:56:05.391069+00:00",
+      "utc_end": "2026-10-10T01:56:06.135657+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-t26-safe-reconcile-20261010T0156Z/repository.raw",
+      "sha256": "0c2efe2320db2ff4283f21bd3f03e14b276f75366bcf9b34337b7d49882cb0bb",
+      "raw_private_not_for_publication": false
+    },
+    {
+      "name": "shared-status",
+      "command": [
+        "git",
+        "-C",
+        "/home/longhn0710/workspace/schemaforge",
+        "status",
+        "--porcelain"
+      ],
+      "utc_start": "2026-10-10T01:56:05.393878+00:00",
+      "utc_end": "2026-10-10T01:56:05.402434+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-t26-safe-reconcile-20261010T0156Z/shared-status.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_private_not_for_publication": false
+    },
+    {
+      "name": "shared-head",
+      "command": [
+        "git",
+        "-C",
+        "/home/longhn0710/workspace/schemaforge",
+        "rev-parse",
+        "HEAD"
+      ],
+      "utc_start": "2026-10-10T01:56:05.396855+00:00",
+      "utc_end": "2026-10-10T01:56:05.400917+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-t26-safe-reconcile-20261010T0156Z/shared-head.raw",
+      "sha256": "b68ac60bdf60bab48ffea004c413979b428aa00b349c521c4fb9c36d3accad09",
+      "raw_private_not_for_publication": false
+    },
+    {
+      "name": "code",
+      "command": [
+        "gh",
+        "api",
+        "--include",
+        "repos/devsecopslonghn/schemaForge/code-scanning/alerts"
+      ],
+      "utc_start": "2026-10-10T01:56:05.401018+00:00",
+      "utc_end": "2026-10-10T01:56:06.022039+00:00",
+      "exit_code": 1,
+      "path": "/tmp/schemaforge-t26-safe-reconcile-20261010T0156Z/code.private.raw",
+      "sha256": "55982b2a2be9fb244bc06b2f04e2e8e8d6914f1217dcfca5eb16843166079aab",
+      "raw_private_not_for_publication": true,
+      "http_status": 403,
+      "availability": "UNAVAILABLE_NOT_PASS"
+    },
+    {
+      "name": "secret",
+      "command": [
+        "gh",
+        "api",
+        "--include",
+        "repos/devsecopslonghn/schemaForge/secret-scanning/alerts"
+      ],
+      "utc_start": "2026-10-10T01:56:05.402536+00:00",
+      "utc_end": "2026-10-10T01:56:06.063187+00:00",
+      "exit_code": 1,
+      "path": "/tmp/schemaforge-t26-safe-reconcile-20261010T0156Z/secret.private.raw",
+      "sha256": "b56c46e39850ea6bb3c4bc05aa38a450c93b41f485e9719dfa395c4839581aea",
+      "raw_private_not_for_publication": true,
+      "http_status": 404,
+      "availability": "UNAVAILABLE_NOT_PASS"
+    },
+    {
+      "name": "dependabot",
+      "command": [
+        "gh",
+        "api",
+        "--include",
+        "repos/devsecopslonghn/schemaForge/dependabot/alerts"
+      ],
+      "utc_start": "2026-10-10T01:56:06.022722+00:00",
+      "utc_end": "2026-10-10T01:56:06.777676+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-t26-safe-reconcile-20261010T0156Z/dependabot.private.raw",
+      "sha256": "9b6fe7c932ad77845055bdcb7a6de9c0156094f0073f9f2f70abb12460540a7d",
+      "raw_private_not_for_publication": true,
+      "http_status": 200,
+      "availability": "AVAILABLE",
+      "alert_count": 0
+    },
+    {
+      "name": "protection",
+      "command": [
+        "gh",
+        "api",
+        "--include",
+        "repos/devsecopslonghn/schemaForge/branches/master/protection"
+      ],
+      "utc_start": "2026-10-10T01:56:06.063353+00:00",
+      "utc_end": "2026-10-10T01:56:06.724739+00:00",
+      "exit_code": 1,
+      "path": "/tmp/schemaforge-t26-safe-reconcile-20261010T0156Z/protection.private.raw",
+      "sha256": "3cb995b1e720a7ec9c6b3af49a1a1a5198f245975fc4e28ab8aa8dde1ecad03c",
+      "raw_private_not_for_publication": true,
+      "http_status": 403,
+      "availability": "UNAVAILABLE_NOT_PASS"
+    }
+  ],
+  "settings_modified": false,
+  "merge_eligible": false,
+  "private_alert_bodies_excluded_from_repository": true
+}

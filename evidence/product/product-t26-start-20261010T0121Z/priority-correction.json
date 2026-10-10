@@ -1,0 +1,15 @@
+{
+  "recorded_at_utc": "2026-10-10T00:50:15.482625+00:00",
+  "record_owner": "ROOT_NEXT_PRIORITY_CORRECTION",
+  "previous_inbox_proposal": "/tmp/schemaforge-t26-proposed-contract-20261009T2230Z.json",
+  "previous_proposal_registered": false,
+  "new_priority": "Bound complete retained-source metadata before existing payload readers",
+  "reason": "Independent read-only security assessment found adjacent preview, plan creation, evidence-comment and approval readers still permit unknown metadata under~120MiB overall ceiling before materialization; resolve bounded concrete hardening before new inbox capability.",
+  "candidate_task": "SF-PRODUCT-T26_PROPOSED_ONLY",
+  "inbox_status": "DEFERRED_PRIORITY_ONLY_NOT_ACCEPTANCE_CHANGE",
+  "original220_requirements_unchanged": true,
+  "ordinary_authority": "SF-D010 owner-standing safest documented engineering defaults",
+  "required_exact_head_reviews_and_ci_unchanged": true,
+  "oracle_validation": "INDEPENDENT_BLOCKED",
+  "sonar": "UNAVAILABLE_NOTPASS"
+}

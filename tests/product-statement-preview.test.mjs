@@ -12,6 +12,26 @@ import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
+function observeTransactions(sql, queries) {
+  return new Proxy(sql, {
+    apply(target, thisArg, args) { return Reflect.apply(target, thisArg, args); },
+    get(target, property) {
+      if (property === 'begin') return callback => target.begin(tx => callback(new Proxy(tx, {
+        apply(transaction, thisArg, args) {
+          if (Array.isArray(args[0])) queries.push(args[0].join(' ? '));
+          return Reflect.apply(transaction, thisArg, args);
+        },
+        get(transaction, key) {
+          const value = Reflect.get(transaction, key, transaction);
+          return typeof value === 'function' ? value.bind(transaction) : value;
+        },
+      })));
+      const value = Reflect.get(target, property, target);
+      return typeof value === 'function' ? value.bind(target) : value;
+    },
+  });
+}
+
 test('statement preview is scoped, bounded, archived-readable and read only', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 180_000,
 }, async () => {
@@ -23,6 +43,8 @@ test('statement preview is scoped, bounded, archived-readable and read only', {
     { id: `statement-outsider-${randomUUID()}`, name: 'Unassigned actor', role: 'developer', token: randomBytes(32).toString('hex') },
   ];
   const database = await openIsolatedProductDatabase();
+  const transactionQueries = [];
+  const observedSql = observeTransactions(database.sql, transactionQueries);
   let app;
   let unavailableApp;
   let lockApp;
@@ -40,11 +62,14 @@ test('statement preview is scoped, bounded, archived-readable and read only', {
     };
     const source = "-- café ; retained comment\nCREATE TABLE statement_item (label VARCHAR2(40));\n/* quoted ; marker */\nBEGIN\n  DBMS_OUTPUT.PUT_LINE('semi;colon');\nEND;\n/\nSELECT 'naïve;value' FROM dual;\n";
     await writeFile(path.join(repositoryPath, 'migrations/V099__statement_review.sql'), source);
-    git(['add', '--', 'migrations/V099__statement_review.sql']);
+    await writeFile(path.join(repositoryPath, 'migrations/V9007199254740992__large_version.sql'), 'CREATE TABLE version_large_a (id NUMBER);\n');
+    await writeFile(path.join(repositoryPath, 'migrations/V9007199254740993__large_version.sql'), 'CREATE TABLE version_large_b (id NUMBER);\n');
+    git(['add', '--', 'migrations/V099__statement_review.sql',
+      'migrations/V9007199254740992__large_version.sql', 'migrations/V9007199254740993__large_version.sql']);
     git(['-c', 'user.name=Statement Preview Test', '-c', 'user.email=statement-preview@schemaforge.invalid',
       '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgSign=false', 'commit', '-m', 'Add statement preview migration']);
     const commit = git(['rev-parse', 'HEAD']);
-    app = createApp({ sql: database.sql, actors, repositories: [{ id: 'statement-repo', name: 'Statement test', path: repositoryPath }] });
+    app = createApp({ sql: observedSql, actors, repositories: [{ id: 'statement-repo', name: 'Statement test', path: repositoryPath }] });
     membership = await createMembershipOperatorFixture(database.databaseUrl);
     await membership.activateEmptyFixture(app);
     const request = (method, route, token = actors[0].token, body) => app.inject({ method, url: route,
@@ -95,13 +120,104 @@ test('statement preview is scoped, bounded, archived-readable and read only', {
     const evidenceAudit = await database.sql`SELECT facts FROM sf_audit WHERE resource_id=${planId}
       AND action='PLAN_COMMENT_ADDED' ORDER BY created_at DESC LIMIT 1`;
     assert.deepEqual(evidenceAudit[0].facts, { commentId: evidenceComment.json().comment.id, evidenceRefCount: 2 });
+    const protectedRows = async () => ({
+      projects: await database.sql`SELECT * FROM sf_projects WHERE id=${project.id}`,
+      releases: await database.sql`SELECT * FROM sf_releases WHERE id=${release.id}`,
+      plans: await database.sql`SELECT * FROM sf_plans WHERE project_id=${project.id} ORDER BY id`,
+      comments: await database.sql`SELECT * FROM sf_plan_comments WHERE project_id=${project.id} ORDER BY id`,
+      decisions: await database.sql`SELECT id,status,decision,decision_reason,decided_by,decided_at FROM sf_plans WHERE project_id=${project.id} ORDER BY id`,
+      history: await database.sql`SELECT * FROM sf_history WHERE project_id=${project.id} ORDER BY id`,
+      audit: await database.sql`SELECT * FROM sf_audit WHERE project_id=${project.id} ORDER BY id`,
+    });
+    const importedRetained = (await database.sql`SELECT files,manifest_digest,folder,validation_status,commit_id,parser_profile
+      FROM sf_releases WHERE id=${release.id}`)[0];
+    const extendedFiles = structuredClone(importedRetained.files);
+    const unicodeFile = extendedFiles.find(item => item.path === filePath);
+    unicodeFile.statementCount = null;
+    unicodeFile.reviewExtension = { source: 'historical', labels: ['café', 'naïve'], flags: [true, 3] };
+    await database.sql`UPDATE sf_releases SET files=${database.sql.json(extendedFiles)} WHERE id=${release.id}`;
+    const originalRetained = (await database.sql`SELECT files,manifest_digest,folder,validation_status FROM sf_releases WHERE id=${release.id}`)[0];
+    const originalFiles = originalRetained.files;
+    const boundedPreview = await request('GET', endpoint);
+    assert.equal(boundedPreview.statusCode, 200, boundedPreview.body);
+    assert.ok(boundedPreview.json().preview.statements.some(statement => statement.sourceSql.includes('café')));
+    const boundedPlan = await request('POST', `${base}/plans`, actors[0].token,
+      { releaseId: release.id, profileId: profileResult.json().profile.id });
+    assert.equal(boundedPlan.statusCode, 201, boundedPlan.body);
+    assert.ok(boundedPlan.json().plan.items.some(item => item.version === '9007199254740992'));
+    assert.ok(boundedPlan.json().plan.items.some(item => item.version === '9007199254740993'));
+    const boundedComment = await request('POST', `${base}/plans/${planId}/comments`, actors[0].token,
+      { body: 'Bounded historical metadata remains reviewable.', evidenceRefs: [evidenceRefs[0]] });
+    assert.equal(boundedComment.statusCode, 201, boundedComment.body);
+    const targetPlan = await request('POST', `${base}/plans`, actors[0].token,
+      { releaseId: release.id, profileId: profileResult.json().profile.id });
+    assert.equal(targetPlan.statusCode, 201, targetPlan.body);
+    assert.equal((await request('POST', `${base}/plans/${targetPlan.json().plan.id}/comments`, actors[0].token,
+      { body: 'Preexisting comment on the pending corruption fixture.' })).statusCode, 201);
     assert.equal((await request('POST', `/api/plans/${planId}/decision`, actors[1].token,
-      { decision: 'APPROVE', reason: 'Independent offline review complete.' })).statusCode, 200);
-
+      { decision: 'APPROVE', reason: 'Validated bounded retained extensions.' })).statusCode, 200);
+    assert.equal((await request('POST', `/api/plans/${boundedPlan.json().plan.id}/decision`, actors[1].token,
+      { decision: 'REJECT', reason: 'Preserve the explicit reviewer rejection path.' })).statusCode, 200);
+    const corruptMetadata = [
+      { mutate: files => { files[0].extension = 'x'.repeat(4 * 1024 * 1024 + 64_000); } },
+      { mutate: files => { files[0].extension = { tree: ['x'.repeat(2_150_000), ['y'.repeat(2_150_000)]] }; } },
+      { mutate: files => { files[0].statementCount = 1.5; } },
+      { mutate: files => { files[0].statementCount = -1; } },
+      { mutate: files => { files[0].bytes = '9000'; } },
+      { mutate: files => { files[0].content = null; } },
+      { mutate: files => files.splice(0, files.length, ...Array.from({ length: 9 }, (_, index) => ({
+        ...files[0], path: `migrations/V${index + 1}__aggregate.sql`, version: String(index + 1),
+        content: 'x'.repeat(1_900_000), bytes: 1_900_000, sha256: 'a'.repeat(64),
+      }))) },
+      { manifestDigest: 'z'.repeat(64) },
+      { commitId: 'z'.repeat(importedRetained.commit_id.length) },
+      { parserProfile: 'P'.repeat(2 * 1024 * 1024 + 1) },
+      { folder: 'migrations/../escape' },
+      { mutate: files => { files[0].path = 'migrations/../escape.sql'; } },
+      { validationStatus: 'X'.repeat(4 * 1024 * 1024 + 64_000) },
+    ];
+    for (const corruption of corruptMetadata) {
+      const files = structuredClone(originalFiles);
+      corruption.mutate?.(files);
+      await database.sql`UPDATE sf_releases SET files=${database.sql.json(files)},
+        manifest_digest=${corruption.manifestDigest ?? originalRetained.manifest_digest},
+        folder=${corruption.folder ?? originalRetained.folder},
+        validation_status=${corruption.validationStatus ?? originalRetained.validation_status},
+        commit_id=${corruption.commitId ?? importedRetained.commit_id},
+        parser_profile=${corruption.parserProfile ?? importedRetained.parser_profile} WHERE id=${release.id}`;
+      const expectNoWriteFailure = async (run, status, code) => {
+        const beforeFailure = await protectedRows();
+        transactionQueries.length = 0;
+        const response = await run();
+        assert.equal(response.statusCode, status, response.body);
+        assert.deepEqual(response.json(), { error: code });
+        const preflightIndex = transactionQueries.findIndex(query => query.includes('AS metadata_bytes'));
+        assert.notEqual(preflightIndex, -1, `${code} ran the complete metadata preflight`);
+        const payloadRead = transactionQueries.some(query => /SELECT[^?]*,\s*files\s+FROM sf_releases/is.test(query));
+        assert.equal(payloadRead, false, `${code} rejected before any retained files payload SELECT`);
+        const rawValidationStatus = transactionQueries.some(query => /SELECT[^?]*\bvalidation_status\s*,/is.test(query));
+        assert.equal(rawValidationStatus, false, `${code} never projects raw validation metadata`);
+        assert.deepEqual(await protectedRows(), beforeFailure, `${code} preserves every populated project lifecycle row`);
+      };
+      await expectNoWriteFailure(() => request('GET', endpoint), 422, 'STATEMENT_PREVIEW_UNAVAILABLE');
+      await expectNoWriteFailure(() => request('POST', `${base}/plans`, actors[0].token,
+        { releaseId: release.id, profileId: profileResult.json().profile.id }), 409,
+      corruption.folder ? 'SOURCE_BINDING_MISMATCH' : corruption.validationStatus ? 'RELEASE_NOT_VALID' : 'RELEASE_INTEGRITY_FAILED');
+      await expectNoWriteFailure(() => request('POST', `${base}/plans/${targetPlan.json().plan.id}/comments`, actors[0].token,
+        { body: 'Reject damaged retained metadata', evidenceRefs: [evidenceRefs[0]] }),
+      corruption.folder ? 409 : 422, corruption.folder ? 'FRESH_PLAN_REQUIRED' : 'COMMENT_EVIDENCE_UNAVAILABLE');
+      await expectNoWriteFailure(() => request('POST', `/api/plans/${targetPlan.json().plan.id}/decision`, actors[1].token,
+        { decision: 'APPROVE', reason: 'Must reject damaged retained metadata' }), 409,
+      corruption.folder ? 'FRESH_PLAN_REQUIRED' : 'PLAN_APPROVAL_INTEGRITY_FAILED');
+      await database.sql`UPDATE sf_releases SET files=${database.sql.json(originalFiles)},
+        manifest_digest=${originalRetained.manifest_digest},folder=${originalRetained.folder},
+        validation_status=${originalRetained.validation_status},commit_id=${importedRetained.commit_id},
+        parser_profile=${importedRetained.parser_profile} WHERE id=${release.id}`;
+    }
     const archived = await request('POST', `${base}/archive`, actors[0].token, { reason: 'Preserve historical statement review' });
     assert.equal(archived.statusCode, 200);
     await app.close();
-    app = createApp({ sql: database.sql, actors, repositories: [] });
+    app = createApp({ sql: observedSql, actors, repositories: [] });
 
     const snapshot = async () => ({
       projects: await database.sql`SELECT * FROM sf_projects ORDER BY id`,
@@ -138,8 +254,8 @@ test('statement preview is scoped, bounded, archived-readable and read only', {
     assert.equal(missingRelease.statusCode, 404);
     assert.deepEqual(foreignRelease.json(), missingRelease.json(), 'foreign and missing releases have identical denial bodies');
     const before = await snapshot();
-    assert.equal(before.plans.filter(row => row.project_id === project.id).length, 1);
-    assert.equal(before.comments.filter(row => row.project_id === project.id).length, 2);
+    assert.equal(before.plans.filter(row => row.project_id === project.id).length, 3);
+    assert.equal(before.comments.filter(row => row.project_id === project.id).length, 4);
     assert.ok(before.history.some(row => row.project_id === project.id), 'plan setup retains NOT_EXECUTED history rows');
     assert.ok(before.audit.some(row => row.project_id === project.id && row.action === 'PLAN_COMMENT_ADDED'));
     assert.equal((await request('GET', endpoint, actors[1].token)).statusCode, 200,
@@ -181,8 +297,8 @@ test('statement preview is scoped, bounded, archived-readable and read only', {
 
     const alteredCount = structuredClone(original.files);
     const retainedFile = alteredCount.find(item => item.path === filePath);
-    assert.ok(Number.isSafeInteger(retainedFile.statementCount));
-    retainedFile.statementCount += 1;
+    assert.equal(retainedFile.statementCount, null, 'legacy null statement counts stay null after all four valid reads');
+    retainedFile.statementCount = candidatePreview.statements.length + 1;
     await database.sql`UPDATE sf_releases SET files=${database.sql.json(alteredCount)} WHERE id=${release.id}`;
     const countBefore = await releaseStateSnapshot();
     const countMismatch = await request('GET', endpoint);
@@ -211,7 +327,7 @@ test('statement preview is scoped, bounded, archived-readable and read only', {
     gateState.entered = new Promise(resolve => { gateState.enter = resolve; });
     gateState.blocked = new Promise(resolve => { gateState.release = resolve; });
     releaseParserGate = gateState.release;
-    lockApp = createApp({ sql: database.sql, actors, repositories: [], statementParser: async raw => {
+    lockApp = createApp({ sql: observedSql, actors, repositories: [], statementParser: async raw => {
       gateState.enter();
       await gateState.blocked;
       return runAntlrCandidate(raw);

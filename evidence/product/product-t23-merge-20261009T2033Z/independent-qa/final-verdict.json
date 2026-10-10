@@ -1,0 +1,44 @@
+{
+  "verdict": "APPROVE",
+  "approval_scope": "Corrected SF-PRODUCT-T23 behavior and acceptance at the exact head below; this scoped QA is not aggregate publication or merge authorization.",
+  "head": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+  "tree": "ccc3058db4b34c4db51085b74818587f1cd1d82d",
+  "base": "fe1d3a84381e5080d591ca1a43a7a9b9928f93ee",
+  "review_window_utc": {"start":"2026-10-09T20:03:30.838058+00:00","end":"2026-10-09T20:05:04.454729+00:00"},
+  "capture_record": {
+    "path":"/tmp/sf-product-t23-corrected-exactqa-20261010T-currentZ/capture-record.json",
+    "sha256":"22cb1a7c52b0a243d767e5b256f6699a0cc351a5006df58ea70761a4c557e8c3",
+    "source_hashes_unchanged":true,
+    "worktree_clean_at_start_and_end":true,
+    "exact_head_and_tree_unchanged":true
+  },
+  "findings": [],
+  "review_notes": [
+    "The source-context signature covers project, repository, folder, binding generation, and update timestamp. A signature change increments preview sequence, removes the displayed preview and selected evidence, and keeps ordinary comment text.",
+    "Source-context observation runs on workspace refresh and after a successful source-binding mutation. Project/session guards prevent stale mutation results from applying to a different active project or token/session.",
+    "The corrected browser fixture exercises generation-only refresh, a held preview response completing after invalidation, actual protected source-binding PUT, ordinary draft preservation, and unchanged populated predecessor plan/comment/plan-audit rows. It allows the source-binding operation's project-level audit event.",
+    "The earlier missing-retained-intent fresh-plan recovery proof is not carried forward as exact-head evidence; corrected-head comment/API and browser suites were rerun."
+  ],
+  "runs": [
+    {"name":"product-comment-evidence-unit.test.mjs","command":"env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-comment-evidence-unit.test.mjs","exit_code":0,"tap":"2 tests, 2 pass, 0 fail, 0 skipped","raw_sha256":"a8749356c119e9bf58a61d55f387f88d7dd67f324ad0e1569dc4ab64c6eec821"},
+    {"name":"product-comments.test.mjs","command":"env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-comments.test.mjs","exit_code":0,"tap":"1 test, 1 pass, 0 fail, 0 skipped","raw_sha256":"59374cc2f02561acefc59db692918fd8add5e254499cc09b8ae7c84708d4f4bc"},
+    {"name":"product-statement-preview.test.mjs","command":"env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-statement-preview.test.mjs","exit_code":0,"tap":"1 test, 1 pass, 0 fail, 0 skipped","raw_sha256":"c10179fb924f886fdafa96289f1df1bf88ce3cf4be9b6a1a0477a84b29b0c283"},
+    {"name":"product-comments-browser.integration.mjs","command":"env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-comments-browser.integration.mjs","exit_code":0,"tap":"2 tests, 2 pass, 0 fail, 0 skipped","raw_sha256":"075058a779f101c3a04ed915028a094399eebad1fb7acdbf950ebebc6b3f2d64"},
+    {"name":"product-protected-source-binding-browser.integration.mjs","command":"env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-protected-source-binding-browser.integration.mjs","exit_code":0,"tap":"1 test, 1 pass, 0 fail, 0 skipped","raw_sha256":"44dcecf1d11a8e7da8c7378e574f19ac89a2c43b051ef909a413708933aa4c8f"},
+    {"name":"tracker.test.mjs","command":"env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/tracker.test.mjs","exit_code":0,"tap":"21 tests, 21 pass, 0 fail, 0 skipped","raw_sha256":"35763e9ca3b48d81b0cbba8ec5baa78e0ab7415d5cf94a9510188d8909ed0a94"}
+  ],
+  "correction_evidence": {
+    "path":"evidence/product/product-t23-security-correction-20261009T1940Z/corrected-integration-record.json",
+    "sha256":"2b67855166b5c2b1a3697ff156f01dec68730b5d0fdce7af29f9070a5217472e",
+    "native_run_record_path":"evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/run-record.json",
+    "native_run_record_sha256":"0a45083d7d4de75bdd8a7b18d4bc284124503c17abd33a8e2b52adb3f497d332"
+  },
+  "limitations": [
+    "This review reran focused acceptance-relevant tests, not the complete standard/product/browser suites; final controlled totals are recorded in the corrected native evidence (standard158/product34/browser20/focused2; zero failures/skips).",
+    "The prior exact-head blocked verdict applies to 3df3bef and remains immutable historical evidence; it is superseded for the corrected behavior only by this fresh exact-head review.",
+    "Earlier root formatting, external-script, ownership assertions and finding-bearing scan/history observations remain in their original records. This verdict does not normalize or reclassify them, claim clean scans, or independently authorize publication/merge.",
+    "No separate custom race harness delayed a source-binding mutation across a project/session switch; the existing browser suite verifies project/session draft isolation, while the reviewed success callback checks active project and token and the generic mutation path checks session and operation freshness.",
+    "No claim is made for Oracle execution/runtime behavior, Sonar PASS, or full-catalog acceptance."
+  ],
+  "repository_changes": false
+}

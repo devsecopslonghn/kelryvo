@@ -1,0 +1,44 @@
+{
+  "task": "SF-PRODUCT-T25",
+  "started_at_utc": "2026-10-09T22:23:24.452881+00:00",
+  "origin_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "carried_owned_continuation": "d5ddb6dc6020adf9a00eded1fda0a75af8750df3",
+  "reviewed_unmerged_t24": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+  "prerequisite_merged": false,
+  "decision": "SF-D023",
+  "ignored_artifact_hashes": {
+    "experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar": "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38",
+    ".cache/antlr/antlr4-runtime-4.13.2.jar": "dd3e8a13a2d669bf84fb8d834de35ce4875f27157698d206241ec8488aadcaf7"
+  },
+  "setup_observations": [
+    "Initial shared-status command used a path outside linked repository and returned128; corrected independent git -C shared status was clean.",
+    "Initial targeted glob had no matching file; actual retained verifier path is known.",
+    "Initial local start script wrote decision and backlog before failing with ownership key tasks; inspected actual key items and completed remaining updates without repeating writes. These tool-output observations have no separately captured raw log and are not reconstructed.",
+    "npm ci output started before capture harness; tool-output final result will be recorded without reconstructing missing raw bytes."
+  ],
+  "authorization": "Existing owner autonomous product delivery; no GitHub security settings or exception changes.",
+  "npm_ci": {
+    "exit_code": 0,
+    "tool_output": "added60packagesin1s",
+    "raw_capture_available": false
+  },
+  "tracker_checks": {
+    "tests": 21,
+    "pass": 21,
+    "fail": 0,
+    "skips": 0,
+    "captured_result": "01-root-start-tracker.result.json"
+  },
+  "prerequisite_remote": {
+    "draft_pr": 37,
+    "exact_head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+    "available_CI_pass": 6,
+    "codeql_current_head_missing": true,
+    "code_scanning": "UNAVAILABLE403",
+    "secret_scanning": "UNAVAILABLE404",
+    "branch_protection": "UNAVAILABLE403",
+    "repository": "PRIVATE",
+    "merge_eligible": false
+  },
+  "native_assignment_sha256": "096dde13456b54f6703920f7e87b35b8f1ca5ee460595bd70409038c241bc0ca"
+}

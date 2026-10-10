@@ -1,0 +1,8 @@
+{
+  "record_type": "APPEND_ONLY_SCOPE_CORRECTION_TO_EXACT_HEAD_REVIEW",
+  "recorded_at_utc": "2026-10-10T01:59:27Z",
+  "exact_head_review": "/tmp/schemaforge-t26-final-security-license-review-20261010T0158Z.json",
+  "exact_head_review_sha256": "5a61501c11bfb869cb74483390db5860d2dc84e253c41eb953049a3afc62d01d",
+  "correction": "The exact-head review remains based only on commit62cbb02f726b2a8a1d38279554fb9e85cc3e4976, its ten independently recomputed committed-source hashes, committed diff, integrated T26 evidence, and the final safe scan/remote summaries. Preliminary record /tmp/schemaforge-t26-preliminary-security-20261010T012343Z.json has an inaccurate helper source hash for its stated sourcepoint and is expressly excluded from the exact-head basis; its append-only correction is /tmp/schemaforge-t26-preliminary-security-sourcepoint-correction-20261010T015837Z.json (sha256 35010e58af93eed1d80a427745d5f2ff21db73fbf4d8d9d8f663f648b2dd20b0). No publication finding is attributed to or claimed as a recomputed digest of that preliminary record. The safe final classification metadata did not list that filename or either competing helper hash, and no private match values were printed.",
+  "no_change": "This corrects provenance scope only. It does not change the independent exact-head source/license verdict, the finding-bearing scan interpretation, or the separate T27 raw-detail finding."
+}

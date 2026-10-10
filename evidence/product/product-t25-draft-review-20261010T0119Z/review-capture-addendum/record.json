@@ -1,0 +1,81 @@
+{
+  "recorded_at_utc": "2026-10-10T01:22:48.074610+00:00",
+  "scope": "Append-only final security check raw/sidecars, exact publication manifest/redacted finding metadata and intermediateCI observations. Private reports and snapshots excluded; no actual credentials. Initial741/102history217 exit1 unchanged; current6CI not complete at observations. Original reviewrecord unchanged.",
+  "artifacts": [
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/security/checks.sh",
+      "sha256": "8b21b3edb2729f94c93cdaf1df0d7f5c832222586f7843fcf9a4e5f78f0e8c2e",
+      "bytes": 5551
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/security/checks.start.utc",
+      "sha256": "6fbf2f042340f8e7058d43498f81056a8521cffe02431749cef4d9c1681ef1c6",
+      "bytes": 21
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/security/checks.raw.txt",
+      "sha256": "956c2e68ebd633e6ee98cdd4bcdb7df60ff8859096c5be0ccddd81357e863e89",
+      "bytes": 2552
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/security/checks.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/security/checks.end.utc",
+      "sha256": "0a6abcf171766632103c93e4feb64da3622444c15dcfee6f0b825fc733b3933c",
+      "bytes": 21
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/security/checks.raw.sha256",
+      "sha256": "84d569e341fba8f4d938e5c5021a16a2c140cc41c07eda612e51b49c00a1b0e7",
+      "bytes": 140
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/snapshot-sha256.json",
+      "sha256": "e617964422ed49fa6a3bf66eacb0522ffa1abf7864fce65e30fea11e58e9a61b",
+      "bytes": 124978
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/publication-safe.json",
+      "sha256": "4805cb7abc65506b4f0d37ae58368d1608d93d0ace435b61131e8660d663447f",
+      "bytes": 106067
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/history-safe.json",
+      "sha256": "3369e1471f1f177a4736f99c8df9fd1ffc66b8371316cca57a9ce30f9bb894ba",
+      "bytes": 55363
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/28-draft-ci-progress.command.json",
+      "sha256": "a9b32eea9cfe909662a288d905b421a0c12ea60d1fa9701ef07adab1f7a8f2d8",
+      "bytes": 457
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/28-draft-ci-progress.raw.log",
+      "sha256": "00c6147467865d8994ea413e30263a88eb4ed66c9e47a2307b86b9b67715bcf7",
+      "bytes": 3100
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/28-draft-ci-progress.result.json",
+      "sha256": "d508025bfc11d37bbc164c2a652ac20583a0a3eeb2aed2be6bdc43c4ab747caa",
+      "bytes": 236
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/29-draft-ci-observe.command.json",
+      "sha256": "6da393fd671c68abbb1d5011f4c9075ee0bf56e49c23d977588c3f51cc13ea0b",
+      "bytes": 457
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/29-draft-ci-observe.raw.log",
+      "sha256": "1ec41310ac5f866efa36cce2cd5a4776f16fc2de1c18473274ddbbcd799b66e6",
+      "bytes": 3100
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/review-capture-addendum/29-draft-ci-observe.result.json",
+      "sha256": "569137658fc18f6b206830971200dfe3ab9f789649ab8edf1814640114d84898",
+      "bytes": 236
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "id": "product-t26-retained-metadata-local-verified",
+  "subject_id": "SF-PRODUCT-T26",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen standard162, real PostgreSQL/Git/pinned-parser product37, Chromium browser22; root exact ten-source and42-capture verification",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "test_references": [
+    "SF-PRODUCT-T26-API",
+    "SF-PRODUCT-T26-PERSISTENCE",
+    "SF-PRODUCT-T26-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t26-root-20261010T0152Z/native/final-browser-suite.raw.log",
+    "sha256": "28a7f7a46f529cd751f6824f437342b241efda943aa4e23a37646ce5f8485e50"
+  },
+  "recorded_at_utc": "2026-10-10T01:53:33.722886+00:00",
+  "native_record": {
+    "path": "evidence/product/product-t26-root-20261010T0152Z/native/native-completion.json",
+    "sha256": "71b368f71a958c4b98ed81a56745e066c82c7d46e8e6e57a22c60675f3a94ce8"
+  },
+  "capture_record_owner": "NATIVE",
+  "native_executed_head": "35fc2ca8de51d43457fb8caadc7636b03a6f25f6",
+  "source_manifest": {
+    "before_run": "source-manifest-before.raw.log",
+    "after_run": "source-manifest-after.raw.log",
+    "unchanged": true,
+    "sources": [
+      {
+        "path": "apps/api/index.ts",
+        "sha256": "edf22905b051e33f463bfc57acd70692c9e739f6ed8b06d9e015acdd156e41b9"
+      },
+      {
+        "path": "packages/migrations/retained-release-preflight.mjs",
+        "sha256": "fdd7d6bcafb0158bd8bf769eabc9067e677a33b0da12032380aa6554f4b32bd7"
+      },
+      {
+        "path": "tests/product-statement-preview.test.mjs",
+        "sha256": "5813547a197a5963ea49390feec1700e6f4e6c19918b0b1941c9361838d10740"
+      },
+      {
+        "path": "scripts/test-product.mjs",
+        "sha256": "af47fe31ff4608bbfd92f13acb18ed457e2c026a630d1ad79210f0e6de77e63f"
+      },
+      {
+        "path": "docs/development/local-product.md",
+        "sha256": "90cb09a327d1f3411df95819268254081e607f42dedfe10bea41295f554212d7"
+      },
+      {
+        "path": "packages/migrations/verify-retained-release.mjs",
+        "sha256": "6a47452c1e795d0eff098adf6143da34669b55200e90734ea68d04e44c9acb31"
+      },
+      {
+        "path": "packages/migrations/compare-retained-releases.mjs",
+        "sha256": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8"
+      },
+      {
+        "path": "packages/migrations/statement-preview.mjs",
+        "sha256": "4ecc1e2c892b90e323c0d2d4bd6cf383d5975913dec8aac9963d78448d3b6826"
+      },
+      {
+        "path": "experiments/db-devops-wp0/parser-release.mjs",
+        "sha256": "4e9a5358e71dbc19837b2ebc0c1f24ecebe47e95429c8fc58f47f34a242d3d29"
+      },
+      {
+        "path": "experiments/db-devops-wp0/parser-envelope.mjs",
+        "sha256": "191fef458acc5c55a406f5f1aa9e75c7fa7b2552799b647296507c7cae05f781"
+      }
+    ]
+  },
+  "manifest_scope_correction": {
+    "before_captured_paths": 5,
+    "after_captured_paths": 10,
+    "common_five_source_hashes_unchanged": true,
+    "five_after_only_dependency_hashes_equal_checkpoint_committed_blobs": true,
+    "native_ten_before_after_description_inaccurate": true,
+    "root_initial_raw_equality_assertion_failed_before_tracker_edits": true,
+    "no_before_dependency_capture_reconstructed": true
+  },
+  "copied_artifact_sha256": {
+    "evidence/product/product-t26-root-20261010T0152Z/native/typecheck.raw.log": "85e25ae5c84801b2ab59ab9f578ffa6d2131391141860c3014084e5285601fc6",
+    "evidence/product/product-t26-root-20261010T0152Z/native/typecheck.json": "9f914043ea7b161e5d49bd3c68a9ab0874139350e6783fc96677834a911f82c5",
+    "evidence/product/product-t26-root-20261010T0152Z/native/typecheck-2.raw.log": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1",
+    "evidence/product/product-t26-root-20261010T0152Z/native/typecheck-2.json": "118abea6bc28cfc21a50565eccd9bd382b36e372e48c3bfa272887b2ebf42252",
+    "evidence/product/product-t26-root-20261010T0152Z/native/typecheck-final.raw.log": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1",
+    "evidence/product/product-t26-root-20261010T0152Z/native/typecheck-final.json": "f41f35a688ebf89a8dac169d7ba9d36e0d3844407343fda950d8c36d77656593",
+    "evidence/product/product-t26-root-20261010T0152Z/native/typecheck-after-preflight-guards.raw.log": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1",
+    "evidence/product/product-t26-root-20261010T0152Z/native/typecheck-after-preflight-guards.json": "90fb9534fdb46d8bd1615c5dbb06df2bf6a0d1570e3497e6832ea34ea1719937",
+    "evidence/product/product-t26-root-20261010T0152Z/native/focused-four-reader-preflight.raw.log": "1a0e794d2f1bab40aeb9bc961c992067a35e225580eafa9ccec98c7b587ce5fd",
+    "evidence/product/product-t26-root-20261010T0152Z/native/focused-four-reader-preflight.json": "9858e366d08b05cd7da98dd50422ab6a61c77741a48382bdd36995e59dba63e5",
+    "evidence/product/product-t26-root-20261010T0152Z/native/lock-order-error-precedence-retest.raw.log": "fda2fc3f6cf5ddfb88419865aa84703beba3cd613cce2a519e51f2a44a1f7a4b",
+    "evidence/product/product-t26-root-20261010T0152Z/native/lock-order-error-precedence-retest.json": "ced5fd9950b1b7d27b94948e3eb23e7dd8b60cfcb956d34e64bc98f4cad2cad3",
+    "evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering.raw.log": "1ff3eebde5cfd152e24aead92a9e4e029f3fbe3c5344f413390b699872de4bf6",
+    "evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering.json": "2307bfabb55daadb4c2d97f24bb6b0dbc8a82ae09dcc73d5a866727645b93383",
+    "evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering-retest.raw.log": "0ecd0d2fb4e056e00207abbf1048983362440dc64bf2ba2c5a2f1da0e2606283",
+    "evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering-retest.json": "5444158f046fed589decacd2721dbdab1c687b7a9503684d5f74b5e14c8ee521",
+    "evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering-final-focused.raw.log": "a69daae2c2bbc2d0e4e6291c578a66b4b099d52dce98835d41b345d2138280ea",
+    "evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering-final-focused.json": "330e177c7ab7082956b2b0262f424f12b7426602773a90a4a0cb939aabd046a6",
+    "evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering-corrected.raw.log": "bd2a6e3e2bf54c30d35facf74cc656e1e5eb63caaa1ee874ad2fbd941a8d0fec",
+    "evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering-corrected.json": "5065f6bf3a76db79754a7a6f329240fbba66b90dc74d7b3cedd323aba218a87e",
+    "evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-final-case-suite.raw.log": "3b6ffeeb012490887156e63e90aa56098386ff4cd181019092e28d8c6c7044ec",
+    "evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-final-case-suite.json": "fcd5b1388e5f5d98ca00c1da8040419b06173dcc35b7296b0cfcb29149084d46",
+    "evidence/product/product-t26-root-20261010T0152Z/native/retained-source-and-lock-regressions-final.raw.log": "31ba17ae0619ed71491acc4801cdb63431f819256a4b41294db410cbeff5de9a",
+    "evidence/product/product-t26-root-20261010T0152Z/native/retained-source-and-lock-regressions-final.json": "aa4b9c45d663c0d6a52e26b77666c605b385e4b8750045ce5e2ae4dbd6015336",
+    "evidence/product/product-t26-root-20261010T0152Z/native/final-full-check.raw.log": "0d10a22ed53d8bcdc2a6a12c25d0eb45df2987a58c510520b9ddec6a85ef6f4d",
+    "evidence/product/product-t26-root-20261010T0152Z/native/final-full-check.json": "b42b06aba88c2fb446ea6529d918c8e3ef1391ea17fe848493758403014cbc7b",
+    "evidence/product/product-t26-root-20261010T0152Z/native/final-product-suite.raw.log": "db177a2ff3b413fd300bae6a2f94e8e3b574b9c44ee233caffe025a5b3afeb85",
+    "evidence/product/product-t26-root-20261010T0152Z/native/final-product-suite.json": "071708224a3100935ba59713bb80ec2538af6b5c891a8e538a1ca7abc70c289b",
+    "evidence/product/product-t26-root-20261010T0152Z/native/final-browser-suite.raw.log": "28a7f7a46f529cd751f6824f437342b241efda943aa4e23a37646ce5f8485e50",
+    "evidence/product/product-t26-root-20261010T0152Z/native/final-browser-suite.json": "c00547ca23dd0db8b348df67b1d058926b64bbf6fa9c7b8c7ba0a1b49f3a259f",
+    "evidence/product/product-t26-root-20261010T0152Z/native/source-manifest-before.raw.log": "0c445235f588c7abf5b4ca47875ee381e1668fe77cd02dae92cc9a069cec5691",
+    "evidence/product/product-t26-root-20261010T0152Z/native/source-manifest-before.json": "9d498616f1167ff358ac6e82888ea1f7a4b129e9353d1b5e6f241300b8506111",
+    "evidence/product/product-t26-root-20261010T0152Z/native/full-diff-review.raw.log": "c80757e0c2f452760f8ffa7ba9d424e11eb5ffe03af2fb2cb9202b930ffb0865",
+    "evidence/product/product-t26-root-20261010T0152Z/native/full-diff-review.json": "3414dcd86b02f336d4b06ae67950effab934d1bb074e563719850854d556ca97",
+    "evidence/product/product-t26-root-20261010T0152Z/native/source-manifest-after.raw.log": "930a1aa5b6d08d103bcc87799714091b7853c33bde138d99bbb19be73c614ae5",
+    "evidence/product/product-t26-root-20261010T0152Z/native/source-manifest-after.json": "8cd441102ae9fb1f2cc260789e5f69bf794e23e379dd269631fa206b49e39c97",
+    "evidence/product/product-t26-root-20261010T0152Z/native/final-diff-check.raw.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/product/product-t26-root-20261010T0152Z/native/final-diff-check.json": "394b48e96397f881e53be02bce5d3ad76aa5bd94425386e620eacc5a0344c17d",
+    "evidence/product/product-t26-root-20261010T0152Z/native/final-worktree-status.raw.log": "ae09c6967f61cd316c525cf0ab2b184465e8d53a0da2e58510bd31374617f215",
+    "evidence/product/product-t26-root-20261010T0152Z/native/final-worktree-status.json": "b0cf244871a5c4b5bab86f6a998e3c345c8c8106d9563bf1ce459cea01751159",
+    "evidence/product/product-t26-root-20261010T0152Z/native/setup.json": "2ddf3256e126b4532038a6a0878bf9c1538beb98336c12ec7a57294fb27d7c14",
+    "evidence/product/product-t26-root-20261010T0152Z/native/uncaptured-attempt-limitation.json": "11226da2d4d2b143f71ba3dcf605a83ee8d686a21697df703acd8d637ad9c3ad",
+    "evidence/product/product-t26-root-20261010T0152Z/native/native-completion.json": "71b368f71a958c4b98ed81a56745e066c82c7d46e8e6e57a22c60675f3a94ce8",
+    "evidence/product/product-t26-root-20261010T0152Z/preliminary-reviews/schemaforge-t26-preliminary-security-20261010T012308Z.json": "9f77be6edcf00716037437bb3b1ec0b03ec173e6db01b2af0ed3f93a0e4e069b",
+    "evidence/product/product-t26-root-20261010T0152Z/preliminary-reviews/schemaforge-t26-preliminary-security-20261010T012343Z.json": "04429635c9dc1153e04b93c934889b186a4860049249af9ea0c75a6622a1f646",
+    "evidence/product/product-t26-root-20261010T0152Z/preliminary-reviews/schemaforge-t26-raw-get-review-20261010T012500Z.json": "d4bfea4c64cf764aafd72516c348c59f3f973502deed43cbfcd6687f59582e2c",
+    "evidence/product/product-t26-root-20261010T0152Z/preliminary-reviews/schemaforge-t26-security-precommit-20261010T013600Z.json": "4f8e58fcd37d803b3289e68f49ad85717b3cc1e097f990a3f8d7ea26f544831e",
+    "evidence/product/product-t26-root-20261010T0152Z/preliminary-reviews/schemaforge-t26-qa-preliminary-20261010T013126Z.json": "bb4473f777c7ad6a099613b0179791e398a9e1488f266681743f3618e8ac1ede"
+  },
+  "verification": {
+    "full_check": {
+      "standard_tests": 162,
+      "passed": 162,
+      "failed": 0,
+      "skipped": 0,
+      "dependencies_smoke": "PASS",
+      "product_license_closure": "PASS"
+    },
+    "product_suite": {
+      "cases": 37,
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browser_suite": {
+      "cases": 22,
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    },
+    "focused_t26": {
+      "cases": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "real_postgresql": true,
+      "local_git": true,
+      "four_readers": [
+        "statement preview",
+        "offline plan creation",
+        "source-linked comment creation",
+        "authorized approval"
+      ],
+      "instrumentation": "For each malformed/oversized fixture, the scalar complete-metadata preflight query is observed before response and no raw files SELECT or raw validation_status projection occurs; populated project/release/plan/comment/decision/history/audit snapshots match before and after each request, before restoration."
+    },
+    "targeted_lock_persistence": {
+      "cases": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "includes": "generation/source-binding locks, intent/API restart, release integrity, comment serialization, approval locking and retained comparison"
+    }
+  },
+  "native_completion_after_final_captures": true,
+  "lifecycle_handoff": "Native actual final message explicitly hands test lifecycle to root; source frozen.",
+  "limitations": [
+    "The legacy GET /api/releases/:id raw payload reader remains outside T26 and is tracked by root as a separate follow-up; this completion does not claim every retained read is hardened.",
+    "GitHub CodeQL/secret-scanning/protection remain unavailable per the active shared record; no security-gate waiver or PR readiness is claimed.",
+    "Sonar remains unavailable and is never recorded PASS; Oracle VALIDATION remains independently BLOCKED. No Oracle connection or deployment occurred.",
+    "No tracker, ADR, evidence index, PR, commit, push, dependency, license, parser, schema, or scanner source was modified in this worktree.",
+    "One early focused run is retained only as an uncaptured-attempt limitation; all final claims use complete captured runs.",
+    "Earlier captured failures remain immutable; only named final successful runs support passing claims. Independent exact-commit QA/security/license and publication/CI remain pending.",
+    "Residual raw GET release detail reader is an open separate privileged-database-corruption resource bound concern; prioritize T27 before inbox.",
+    "Original220 full catalog acceptance is unchanged. Required GitHub security unavailable is not PASS; no merge eligibility."
+  ]
+}

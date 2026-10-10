@@ -1,0 +1,5 @@
+{
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "command": "gh pr create --repo devsecopslonghn/schemaForge --draft --base development/product-release-source-comparison --head development/product-retained-metadata-preflight --title \"fix(product): bound metadata before protected retained payload reads\" --body-file /tmp/schemaforge-t26-draft-body.md",
+  "started_at_utc": "2026-10-10T02:00:27.510483+00:00"
+}

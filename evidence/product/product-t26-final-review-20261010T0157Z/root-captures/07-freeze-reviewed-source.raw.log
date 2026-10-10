@@ -1,0 +1,28 @@
+evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering-corrected.raw.log:16: trailing whitespace.
++    
+evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering-corrected.raw.log:18: trailing whitespace.
++    
+evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering-final-focused.raw.log:15: trailing whitespace.
++    
+evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering-final-focused.raw.log:20: trailing whitespace.
++    
+evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering-retest.raw.log:14: trailing whitespace.
++    
+evidence/product/product-t26-root-20261010T0152Z/native/all-four-reader-positive-negative-ordering-retest.raw.log:16: trailing whitespace.
++    
+evidence/product/product-t26-root-20261010T0152Z/native/full-diff-review.raw.log:12: trailing whitespace.
++ 
+evidence/product/product-t26-root-20261010T0152Z/native/full-diff-review.raw.log:149: trailing whitespace.
++ 
+evidence/product/product-t26-root-20261010T0152Z/native/full-diff-review.raw.log:304: trailing whitespace.
++ 
+evidence/product/product-t26-root-20261010T0152Z/native/full-diff-review.raw.log:319: trailing whitespace.
++ 
+evidence/product/product-t26-root-20261010T0152Z/native/typecheck-2.raw.log:4: new blank line at EOF.
+evidence/product/product-t26-root-20261010T0152Z/native/typecheck-after-preflight-guards.raw.log:4: new blank line at EOF.
+evidence/product/product-t26-root-20261010T0152Z/native/typecheck-final.raw.log:4: new blank line at EOF.
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+  File "/usr/lib64/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'diff', '--cached', '--check']' returned non-zero exit status 2.

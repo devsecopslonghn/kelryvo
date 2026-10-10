@@ -2532,6 +2532,238 @@
       },
       "path": "evidence/product/product-t23-security-correction-20261009T1940Z/corrected-integration-record.json",
       "sha256": "2b67855166b5c2b1a3697ff156f01dec68730b5d0fdce7af29f9070a5217472e"
+    },
+    {
+      "id": "product-t23-merge-master-verified",
+      "subject_id": "SF-PRODUCT-T23",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Corrected exact-head native QA/security/license, all11 PR checks, ordinary PR36 match-head merge, reviewed/master tree equality, all4 exact-master workflow families and postverified branches/ownership/alerts reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T23-API",
+        "SF-PRODUCT-T23-WEB",
+        "SF-PRODUCT-T23-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t23-merge-20261009T2033Z/41-final-exact-master-workflows.log",
+        "sha256": "238a456918f7e5b3b9e71d208e9e090d4d2a4cb3ab3790757d2829b05ead1cb4"
+      },
+      "path": "evidence/product/product-t23-merge-20261009T2033Z/record.json",
+      "sha256": "c708abf3da5b8cad4051a8e7c1cbc88fa0f054715e45ffa35183ddf9e375449f"
+    },
+    {
+      "id": "product-t24-audit-pages-local-verified",
+      "subject_id": "SF-PRODUCT-T24",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen standard160, real PostgreSQL/Git/pinned-parser product35, browser21; root exact source/capture verification and diff review",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T24-API",
+        "SF-PRODUCT-T24-WEB",
+        "SF-PRODUCT-T24-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-browser.raw.log",
+        "sha256": "a0814db5d4b1a86d1977b45613b6fea4a01ac1f41c8096b9fa083c0d4d968336"
+      },
+      "path": "evidence/product/product-t24-root-20261009T2204Z/integration-record.json",
+      "sha256": "3ed424813f36b3e08773148daf38f52c423b835cb64cd955a5c1a0b6e8138a7a"
+    },
+    {
+      "id": "product-t24-draft-required-security-unavailable",
+      "subject_id": "SF-PRODUCT-T24",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "BLOCKED",
+      "command": "Exact-head QA/security/license approval, publication/history provenance classification and draft-only PR creation; required GitHub security/protection infrastructure unavailable",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [
+        "SF-PRODUCT-T24-API",
+        "SF-PRODUCT-T24-WEB",
+        "SF-PRODUCT-T24-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/root-captures/21-prepublication-gate.log",
+        "sha256": "e07acd62ef215dff86098167aa751f21a8b05a96372ddfbdb45dcff3af480bb0"
+      },
+      "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/record.json",
+      "sha256": "93dae0d86ba97e9d7f463e5f9498c3e0cd560d1d7a570611bdbc5533a0ec8cd7"
+    },
+    {
+      "id": "product-t25-retained-source-comparison-local-verified",
+      "subject_id": "SF-PRODUCT-T25",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen corrected standard162, real PostgreSQL/Git/pinned-parser product37, Chromium browser22; root exact source/capture verification",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T25-API",
+        "SF-PRODUCT-T25-WEB",
+        "SF-PRODUCT-T25-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t25-root-20261009T2320Z/native/final-browser.raw.log",
+        "sha256": "51242a686ccf7806e235deb84691fdf1b71e959147a1d8abe3befad1771c3115"
+      },
+      "path": "evidence/product/product-t25-root-20261009T2320Z/integration-record.json",
+      "sha256": "a116d15fb1d4575aa4324f68b208b3849ad617a642121d03166489f828eef3e4"
+    },
+    {
+      "id": "product-t25-security-corrected-local-verified",
+      "subject_id": "SF-PRODUCT-T25",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen corrected standard162, real PostgreSQL/Git/pinned-parser product37, Chromium browser22; root exact source/capture verification",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T25-API",
+        "SF-PRODUCT-T25-WEB",
+        "SF-PRODUCT-T25-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t25-corrected-root-20261010T0107Z/native/browser.raw.log",
+        "sha256": "6748d0c60a32cca4510d4133201585a4629c0731a05de3b9b8b72a333a369ecc"
+      },
+      "path": "evidence/product/product-t25-corrected-root-20261010T0107Z/integration-record.json",
+      "sha256": "1886fde09f1b0ec3f3c5103986db5d48152ff09081a60257e7a482bab14a2240"
+    },
+    {
+      "id": "product-t25-reviewed-draft-publication",
+      "subject_id": "SF-PRODUCT-T25",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Static exact-head local QA/security/license review and successful draft-only publication; external required security unavailable, no readiness or merge acceptance",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/tracker-review-wrapper.json",
+      "sha256": "bf13cd6e31121e7652486ef9bbc3ade1b82e9835fdbcae0b19ec9f4f9eb6929a",
+      "raw_output": {
+        "path": "evidence/product/product-t25-draft-review-20261010T0119Z/publication/27-observe-draft-ci.raw.log",
+        "sha256": "be20af33c5f11ceacb6c5fc7625091d691176cb8b8ccd32011d4c54aa4ff4255"
+      }
+    },
+    {
+      "id": "product-t26-retained-metadata-local-verified",
+      "subject_id": "SF-PRODUCT-T26",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen standard162, real PostgreSQL/Git/pinned-parser product37, Chromium browser22; root exact ten-source and42-capture verification",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T26-API",
+        "SF-PRODUCT-T26-PERSISTENCE",
+        "SF-PRODUCT-T26-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t26-root-20261010T0152Z/native/final-browser-suite.raw.log",
+        "sha256": "28a7f7a46f529cd751f6824f437342b241efda943aa4e23a37646ce5f8485e50"
+      },
+      "path": "evidence/product/product-t26-root-20261010T0152Z/integration-manifest-addendum.json",
+      "sha256": "e53643be86e34239b5b52c470865a8eba37821ff09d4b682378779004465dc05"
+    },
+    {
+      "id": "product-t26-reviewed-draft-publication",
+      "subject_id": "SF-PRODUCT-T26",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Static exact-head local QA/security/license review and successful draft-only publication; external required security unavailable, no readiness or merge acceptance",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t26-final-review-20261010T0157Z/root-captures/15-create-stacked-draft.raw.log",
+        "sha256": "23a36c599eaf55d59ec3791636b1d5dbffbd8d669704c9faeb7101dce27ed1e9"
+      },
+      "path": "evidence/product/product-t26-final-review-20261010T0157Z/record.json",
+      "sha256": "aff33e0bb89406a54ae15641d2b3cb09ea2c6185ad82abc768376ed12aa0358f"
+    },
+    {
+      "id": "product-t27-historical-detail-local-verified",
+      "subject_id": "SF-PRODUCT-T27",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen two-CPU serial npm run check, npm run test:product, npm run test:browser; focused API and historical integrity browser; independent exact-source QA/security/license review",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "test_references": [
+        "SF-PRODUCT-T27-API",
+        "SF-PRODUCT-T27-PERSISTENCE",
+        "SF-PRODUCT-T27-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t27-resume-20261010/browserSerial.log",
+        "sha256": "b70c718b8aeef5242b71de8a707f680dbdff35fc1c542b5b7816efe920c178bd"
+      },
+      "path": "evidence/product/product-t27-resume-20261010/record.json",
+      "sha256": "8ff40158926127d08a956a864f5b2de97c2f5698c2ef92b4c29f4d0ff3da2699"
     }
   ]
 }

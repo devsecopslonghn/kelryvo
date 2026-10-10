@@ -1,0 +1,5 @@
+{
+  "command": "cd /home/longhn0710/workspace/schemaforge-product-continuation-t24 && node --test tests/tracker.test.mjs && npm run lint && npm run format:check && git diff --check -- . \":(exclude)evidence/\"",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+  "started_at_utc": "2026-10-09T22:09:33.017479+00:00"
+}

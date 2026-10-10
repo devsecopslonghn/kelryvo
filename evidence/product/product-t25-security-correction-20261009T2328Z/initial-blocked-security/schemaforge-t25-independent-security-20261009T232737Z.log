@@ -1,0 +1,32 @@
+SF-PRODUCT-T25 independent security/license/provenance review
+Agent: /root/t25_security
+Review result: BLOCKED by MEDIUM metadata preflight issue; no source modifications, tests, builds, lifecycle, credentials, Oracle or remote settings changed.
+
+Identity
+HEAD 93629076c230274e210acaf8f52c46f01fafdb00
+TREE 02fbec02d8e9b4263faa6a4f2621056cd6a1c147
+BASE T24 draft 704ef82f3bf183707b40e8194f3b1f0a15e29a89
+ORIGIN MASTER 0fd6980db49c9546ab0a04fe07321a348eee2d65
+Tracked status was clean before and after review.
+
+Read-only checks
+- `git status --porcelain=v1`, `git rev-parse HEAD`, `git rev-parse HEAD^{tree}`: expected clean exact identity.
+- `git diff --stat 704ef82..HEAD` and focused `git diff --name-only`: reviewed API, web, helper, docs and T25 test additions; no unexpected product scope.
+- `sha256sum` on comparison route, helper, verifier, auth/membership files, T25 tests/docs, LICENSE, NOTICE and package manifests: hashes recorded in verdict JSON.
+- Focused `git diff --check` over implementation/docs/T25 test paths: exit 0. Broad `git diff --check` reports trailing whitespace only in preserved evidence command/raw logs; no source whitespace issue.
+- Exact source/static review only. No test/build command was run by this security reviewer; native/root QA records remain separately attributable.
+- Scanner integrity script: detached snapshot 579/579 paths match both HEAD blobs and snapshot manifest; all 81 classified finding blob hashes match committed bytes; all 77 digest-classified finding lines contain a SHA256 token matching recomputed provenance. Both scanner private-report hashes match; report Secret fields are REDACTED.
+- History tuple audit: prior 120 tuple multiset preserved exactly; new history delta is 38 and matches the 38 classified new-history findings.
+- License/dependency comparison against origin/master: LICENSE, NOTICE, package.json, package-lock.json unchanged.
+
+Publication scanners
+Publication: 579 paths, 43 findings, exit 1, clean PASS false. History: 158 findings, exit 1, clean PASS false. Classified findings are exact recomputed artifact/source digests or the unchanged T24-confirmed product prose; no actual credential observed, no rotation indicated. Do not describe either as a clean scan. Older missing-byte/T23 UI limitations and the first T25 old test-bytes gap remain limitations.
+Fresh remote observation at 2026-10-09T23:05Z: private repository code scanning 403, secret scanning 404, branch protection 403; required external gates unavailable, not PASS. T24 PR37 remained open draft at head 704ef82; no merge/readiness inferred.
+
+Finding SEC-T25-01 (MEDIUM, OPEN)
+Location: `apps/api/index.ts` lines 646-660 and 670-681, with the post-load verifier at `packages/migrations/verify-retained-release.mjs` lines 26-39. Preflight bounds only path/version aggregate metadata and content bytes; `files_bytes` permits approximately 120 MiB (`6 * (16 MiB + 4 MiB) + 128 KiB`). SQL validation does not reject unknown file-object keys or bound all non-content JSON metadata; verifier reads known fields but ignores extra keys. A corrupted/stored retained file object can carry a large extra string while preserving valid required fields, format-1 manifest, bounded content, and path/version metadata. It can pass preflight and then cause the payload SELECT and JSON parsing to materialize/transfer close to the 120 MiB allowance. `statementCount` is also only validated after payload loading. This violates bounded complete metadata preflight before loading either release and creates avoidable memory/CPU amplification for malformed retained data.
+Required re-review evidence: bound complete encoded non-content metadata (preserving compatible known historical fields where required), validate statementCount shape/range before payload loading, and exercise oversized extra metadata in both base and candidate slots with full no-write snapshots; rerun fresh exact-head review and required product/browser QA. No corrective changes were made by this reviewer.
+
+Security observations otherwise: authenticated non-GET route honors bootstrap denial; current credential/project-grant and fixed-role checks precede access; strict two-UUID body; scoped project lock then deduplicated stable release row locks; fixed nonleaking errors; no writes, Git reread, parser rerun, target credential resolution, deployment or Oracle behavior. Existing manifest verifier covers literal UTF-8/hash/byte facts; canonical version comparison is arbitrary precision; JSX renders retained SQL as escaped text; pair/project/session/token/refresh invalidation is immediate/monotonic. LICENSE/NOTICE/third-party grants/grammar/lockfiles are unchanged.
+
+Verdict: source/security/license approval BLOCKED by SEC-T25-01. Draft-only publication is not approved by this review pending correction and fresh review. Merge readiness remains unavailable independently because required security services are disabled/unavailable and prerequisite T24 PR37 is unmerged. Sonar remains unavailable under the existing Sonar-only exception; Oracle VALIDATION and original 220-feature acceptance remain separate.

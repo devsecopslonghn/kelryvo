@@ -1,0 +1,228 @@
+{
+  "record_type": "EXACT_HEAD_REVIEW_DRAFT_PUBLICATION",
+  "recorded_at_utc": "2026-10-10T01:18:41.816018+00:00",
+  "head": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+  "tree": "3e915179d5d1d36fceb72bee802e58306413d138",
+  "master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "pr": 38,
+  "base_pr": 37,
+  "draft": true,
+  "merged": false,
+  "local_tests": {
+    "standard": 162,
+    "product": 37,
+    "browser": 22,
+    "skipped": 0
+  },
+  "independent_qa": {
+    "api": 2,
+    "browser": 1,
+    "integrity": 1,
+    "skipped": 0,
+    "scope": "LOCAL_T25_ONLY"
+  },
+  "independent_security_license": "APPROVED_CORRECTED_COMPARE_ONLY",
+  "open_adjacent_finding": "SEC-RETAINED-METADATA-02 MEDIUM; prioritized T26 four-reader hardening",
+  "publication_scan": {
+    "files": 741,
+    "exit": 1,
+    "findings": 102,
+    "clean_pass": false
+  },
+  "history_scan": {
+    "exit": 1,
+    "findings": 217,
+    "clean_pass": false
+  },
+  "actual_credentials_observed": false,
+  "rotation_indicated": false,
+  "external_required_gates": "code403/secret404/protection403 unavailable; never PASS; no waiver",
+  "available_ci": "initial running observations preserved; final required before final CI claim",
+  "sonar": "UNAVAILABLE_NOT_PASS_EXISTING_EXCEPTION_ONLY",
+  "oracle": "INDEPENDENT_BLOCKED",
+  "shared_checkout": "clean original master0346300 untouched",
+  "hygiene": "separate branch/PR absent; integration pending; original provenance classified",
+  "root_setup_failure": "Initial worktree command omitted cwd, failed before creating/changing worktree; retry from repository created isolated branch and ff safely. No shared file modification.",
+  "artifacts": [
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/security-verdict.json",
+      "sha256": "9c2eb2b009a60cbe6c3f1624ab647e2189ead47d96e9b556bce39a84f08bc7fc",
+      "bytes": 12462,
+      "source": "/tmp/schemaforge-t25-independent-security-20261010T011341Z.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/native-source-commit-binding.json",
+      "sha256": "154985f91182820d1bdb16788ef9a0c76ed9cfa34260942f8fe32bdbae04ff81",
+      "bytes": 2210,
+      "source": "/tmp/schemaforge-t25-corrected-source-commit-binding-20261010T0113Z.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/pr-body.md",
+      "sha256": "1429c7a115a4212d42ba5e127addbf89d39ccf7cf398a9417fbccfa435433010",
+      "bytes": 2070,
+      "source": "/tmp/schemaforge-t25-draft-body-corrected.md"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/qa/api.raw.log",
+      "sha256": "26cd0aa9a529e83af0adc05b841d1b2272ed4c2a345879533586c97df13450f5",
+      "bytes": 769,
+      "source": "/tmp/schemaforge-t25-corrected-independent-qa-20261010T0111Z/api.raw.log"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/qa/browser.raw.log",
+      "sha256": "3aba1ef738e49b0fe5394b41d174fe4348e78b9ae5a20100af55ab463df3787e",
+      "bytes": 475,
+      "source": "/tmp/schemaforge-t25-corrected-independent-qa-20261010T0111Z/browser.raw.log"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/qa/integrity.raw.log",
+      "sha256": "f8a32d4d8d665937726cbcd658f1fc3a2bd7f5899991a12445c25994689f3088",
+      "bytes": 433,
+      "source": "/tmp/schemaforge-t25-corrected-independent-qa-20261010T0111Z/integrity.raw.log"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/qa/browser-build.raw.log",
+      "sha256": "c4ed3b86c4fffbbf9893aa10fe67dc9318b4565832bfd0b584851ccceb0b1acf",
+      "bytes": 35,
+      "source": "/tmp/schemaforge-t25-corrected-independent-qa-20261010T0111Z/browser-build.raw.log"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/qa/verdict.json",
+      "sha256": "b6d965ddda4974bbdcc002beda9ee8f1fca3331e6f2a97212e2fdad9545b7171",
+      "bytes": 7110,
+      "source": "/tmp/schemaforge-t25-corrected-independent-qa-20261010T0111Z/verdict.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/publication/25-push-reviewed-draft.command.json",
+      "sha256": "41c7263bfb74b33079529cec892584d38ddb004fdb673ed9c61caf0c3da0eb2e",
+      "bytes": 449,
+      "source": "/tmp/schemaforge-t25-root-live-20261009T2222Z/25-push-reviewed-draft.command.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/publication/25-push-reviewed-draft.raw.log",
+      "sha256": "cf4bc2b08c577959cf9bd2b78a08df3a78fc63b0a37a67c5ef88195f20d3a996",
+      "bytes": 551,
+      "source": "/tmp/schemaforge-t25-root-live-20261009T2222Z/25-push-reviewed-draft.raw.log"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/publication/25-push-reviewed-draft.result.json",
+      "sha256": "5a3ccf3512fabeec198017a4c010d59d8f2754240e1bac19978386717c34b890",
+      "bytes": 235,
+      "source": "/tmp/schemaforge-t25-root-live-20261009T2222Z/25-push-reviewed-draft.result.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/publication/26-create-reviewed-draft.command.json",
+      "sha256": "1b2e50475c481106647874ba01767023a550327b72edfd85b307cc0305d6a27d",
+      "bytes": 429,
+      "source": "/tmp/schemaforge-t25-root-live-20261009T2222Z/26-create-reviewed-draft.command.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/publication/26-create-reviewed-draft.raw.log",
+      "sha256": "9e79325366487b17af19defb5caba1ce0d26435c859968b71eb06d1ea66f5509",
+      "bytes": 55,
+      "source": "/tmp/schemaforge-t25-root-live-20261009T2222Z/26-create-reviewed-draft.raw.log"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/publication/26-create-reviewed-draft.result.json",
+      "sha256": "46457f20c777c8bf9f9fac71ac7b475994e43d635f2a73b83916f2efa9b55361",
+      "bytes": 234,
+      "source": "/tmp/schemaforge-t25-root-live-20261009T2222Z/26-create-reviewed-draft.result.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/publication/27-observe-draft-ci.command.json",
+      "sha256": "66de7a65f6a2a785668c87f7c9892e2fc61ec0ef3ce06024819582d888f42abf",
+      "bytes": 559,
+      "source": "/tmp/schemaforge-t25-root-live-20261009T2222Z/27-observe-draft-ci.command.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/publication/27-observe-draft-ci.raw.log",
+      "sha256": "be20af33c5f11ceacb6c5fc7625091d691176cb8b8ccd32011d4c54aa4ff4255",
+      "bytes": 3251,
+      "source": "/tmp/schemaforge-t25-root-live-20261009T2222Z/27-observe-draft-ci.raw.log"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/publication/27-observe-draft-ci.result.json",
+      "sha256": "c2ae28b70ba506a3beca84977995cfc22d6d715778b21f6e76ce7abb6258a580",
+      "bytes": 236,
+      "source": "/tmp/schemaforge-t25-root-live-20261009T2222Z/27-observe-draft-ci.result.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/remote/fetch.raw.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "/tmp/schemaforge-t25-review-complete-remote-20261010T0111Z/fetch.raw.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/remote/branches.raw.json",
+      "sha256": "44b69cf5d229501bfcffccd52285c6971ef2b76db1330db69228014f808d5772",
+      "bytes": 9089,
+      "source": "/tmp/schemaforge-t25-review-complete-remote-20261010T0111Z/branches.raw.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/remote/repository.raw.json",
+      "sha256": "56afc3d8fbb82b7383beb9f2ac1da956f25fe6375c6c4aaa9719c8a3694c53b9",
+      "bytes": 69,
+      "source": "/tmp/schemaforge-t25-review-complete-remote-20261010T0111Z/repository.raw.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/remote/prs.raw.json",
+      "sha256": "a12cf6739a0f163091f08ba6e3b98492526612befbe4d8e36af7a0e15dd5e125",
+      "bytes": 237,
+      "source": "/tmp/schemaforge-t25-review-complete-remote-20261010T0111Z/prs.raw.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/remote/pr37.raw.json",
+      "sha256": "ae88f2ab0b8147182045cd835074af6737fccf781f425bc41db75d1c8e671ea1",
+      "bytes": 2012,
+      "source": "/tmp/schemaforge-t25-review-complete-remote-20261010T0111Z/pr37.raw.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/remote/code-scanning.raw.json",
+      "sha256": "d57dab3960fa4a1e2ba1d77df32d3e288ea557c7771446fd17a2e30197f1cb09",
+      "bytes": 317,
+      "source": "/tmp/schemaforge-t25-review-complete-remote-20261010T0111Z/code-scanning.raw.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/remote/shared-status.raw.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "/tmp/schemaforge-t25-review-complete-remote-20261010T0111Z/shared-status.raw.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/remote/shared-head.raw.json",
+      "sha256": "b68ac60bdf60bab48ffea004c413979b428aa00b349c521c4fb9c36d3accad09",
+      "bytes": 41,
+      "source": "/tmp/schemaforge-t25-review-complete-remote-20261010T0111Z/shared-head.raw.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/remote/secret-scanning.raw.json",
+      "sha256": "0542e59b19421bb822f240af2e87c462a608432f58bf997afa08649370a722a3",
+      "bytes": 267,
+      "source": "/tmp/schemaforge-t25-review-complete-remote-20261010T0111Z/secret-scanning.raw.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/remote/dependabot.raw.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "bytes": 2,
+      "source": "/tmp/schemaforge-t25-review-complete-remote-20261010T0111Z/dependabot.raw.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/remote/protection.raw.json",
+      "sha256": "03bc633c7f1735f2f98853f758e945676281823caf34a38c325aa47ed8d7244f",
+      "bytes": 297,
+      "source": "/tmp/schemaforge-t25-review-complete-remote-20261010T0111Z/protection.raw.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/remote/record.json",
+      "sha256": "783718034c6899aac360215c5de7bb6b003d4d3db1ed79b784384a5c05956612",
+      "bytes": 5533,
+      "source": "/tmp/schemaforge-t25-review-complete-remote-20261010T0111Z/record.json"
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/scan/classification.json",
+      "sha256": "dc906967a922d144408fc87a0684a6c088be6e0692fc39ca7e6b401e8a545f8b",
+      "bytes": 559761,
+      "source": "/tmp/schemaforge-t25-corrected-publication-20261010T0109Z/classification.json"
+    }
+  ]
+}

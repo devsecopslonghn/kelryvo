@@ -1,0 +1,89 @@
+{
+  "id": "product-t27-historical-detail-local-verified",
+  "subject_id": "SF-PRODUCT-T27",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen two-CPU serial npm run check, npm run test:product, npm run test:browser; focused API and historical integrity browser; independent exact-source QA/security/license review",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "test_references": [
+    "SF-PRODUCT-T27-API",
+    "SF-PRODUCT-T27-PERSISTENCE",
+    "SF-PRODUCT-T27-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t27-resume-20261010/browserSerial.log",
+    "sha256": "b70c718b8aeef5242b71de8a707f680dbdff35fc1c542b5b7816efe920c178bd"
+  },
+  "recorded_at": "2026-10-10T05:12:27.804181+00:00",
+  "reviewed_implementation_commit": "ced0c1c62bc115d283aca4580999a6486403ce6b",
+  "runs": {
+    "standardFinalSerial": {
+      "record": "evidence/product/product-t27-resume-20261010/standardFinalSerial.json",
+      "record_sha256": "299b475a92344190790120aa46edd2ff0ba8bfbc5fd11c55611717ff4936c82a",
+      "counts": {
+        "tests": 163,
+        "pass": 163,
+        "fail": 0,
+        "skipped": 0
+      },
+      "started_at": "2026-10-10T04:58:35.832Z",
+      "finished_at": "2026-10-10T05:03:22.992Z"
+    },
+    "productSerial": {
+      "record": "evidence/product/product-t27-resume-20261010/productSerial.json",
+      "record_sha256": "549a64945bbf457c693faf8bf2044e48f6aac8d8f11d65791350f27c35297a18",
+      "counts": {
+        "tests": 38,
+        "pass": 38,
+        "fail": 0,
+        "skipped": 0
+      },
+      "started_at": "2026-10-10T05:03:43.977Z",
+      "finished_at": "2026-10-10T05:07:37.119Z"
+    },
+    "browserSerial": {
+      "record": "evidence/product/product-t27-resume-20261010/browserSerial.json",
+      "record_sha256": "87be2bcb607b2ffdf0946139c718bdbf1be6fc62da6467884691cf5bd1db32c2",
+      "counts": {
+        "tests": 22,
+        "pass": 22,
+        "fail": 0,
+        "skipped": 0
+      },
+      "started_at": "2026-10-10T05:08:00.896Z",
+      "finished_at": "2026-10-10T05:12:18.494Z"
+    }
+  },
+  "source_hashes": {
+    "apps/api/index.ts": "48a9eb01f2d24d25d02e679e54999ca8e70ce7418c5bd0c9e37ae71c63f1d47d",
+    "apps/web/src/app.jsx": "de2d11af4c1572ca37451e691b6ca5346f3d29f3dfde270ab3943afda0f8e343",
+    "packages/migrations/import-release.mjs": "7206531894e78ad96f4386ffc1ba24db9ff3f5e2052ffb88b86d8e107bc7be9b",
+    "packages/migrations/retained-release-preflight.mjs": "fcb3c09649723cd9c94427b6a97d8ad8085d770e6e2229f5c76906b8254605e6",
+    "scripts/test-product.mjs": "e1bbc640489fc700977bb208cc2ca994ca5020e162732c55efd9dc757e444cb1",
+    "tests/product-retained-detail.test.mjs": "bdc228df896b41091c257f424dc15fe2a0874da541403771e3ce8695d8044788",
+    "tests/product-release-provenance-browser.integration.mjs": "29c44675f8d4c70228452861b959153272414a5665ecf47707c019f5910cb52c"
+  },
+  "independent_review": {
+    "path": "evidence/product/product-t27-resume-20261010/schemaforge-t27-final-review.json",
+    "sha256": "00e8bdde852a9e2afde6e57991c478bf31fb8c8f6e367a4189707b54c1dbaac7",
+    "verdict": "APPROVE_NO_BLOCKERS",
+    "limit": "Independent static review; root executed and hash-verified tests. Review predates full-suite completion."
+  },
+  "verification_scope": "Historical release DETAIL allocation bounds, tolerant diagnostics, read-only auth/locks/persistence and existing protected-reader regressions. Project release-summary readers are outside this scope.",
+  "earlier_attempts": "All earlier failed/interrupted/nonfinal logs and source manifests in this directory remain immutable. Authentication fixture setup, truncated pg_stat_activity query detection, a historical-display integrity compatibility regression and concurrent parser-dependent failures were corrected or followed by serial verification. Concurrency causality was not independently established.",
+  "limitations": [
+    "Recorded seven-source manifests bind runs to reviewed committed bytes; execution Git HEAD was not separately captured by the runner, so no full-tree execution provenance is asserted.",
+    "Required GitHub security remains unavailable: code scanning403, secret scanning404, branch protection403. Draft publication only; no merge eligibility or integrated-master verification for T27.",
+    "Sonar unavailable under existing quota exception, never PASS. Oracle acceptance independently blocked, no target execution/credential resolution/deployment."
+  ]
+}

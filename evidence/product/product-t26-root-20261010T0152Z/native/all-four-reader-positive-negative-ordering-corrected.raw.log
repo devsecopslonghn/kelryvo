@@ -1,0 +1,38 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: statement preview is scoped, bounded, archived-readable and read only
+not ok 1 - statement preview is scoped, bounded, archived-readable and read only
+  ---
+  duration_ms: 44837.113545
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/tests/product-statement-preview.test.mjs:35:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(Number.isSafeInteger(retainedFile.statementCount))
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/tests/product-statement-preview.test.mjs:292:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 45097.571513

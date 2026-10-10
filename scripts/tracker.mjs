@@ -470,7 +470,102 @@ const PRODUCT_TASK_24 = {
   ]
 };
 
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24];
+const PRODUCT_TASK_25 = {
+  "id": "SF-PRODUCT-T25",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Compare retained migration release sources",
+  "dependencies": [
+    "SF-PRODUCT-T24",
+    "SF-PRODUCT-T12",
+    "SF-PRODUCT-T11",
+    "SF-PRODUCT-T21"
+  ],
+  "feature_ids": [
+    "MIG-008",
+    "MIG-009"
+  ],
+  "acceptance_criteria": [
+    "Add authenticated same-project read-only comparison of two selected retained migration releases. Reuse fixed roles and current explicit project membership; missing, foreign or revoked resources retain indistinguishable denials. Authorized archived reads and repository-unavailable retained reads remain available. Existing release and plan APIs remain compatible; comparison confers no planning, approval or execution authority.",
+    "Under consistent scoped project/release read locks, apply PostgreSQL scalar size/shape/metadata preflight to both releases before loading file payloads. Require VALID retained releases, bounded verified UTF-8 content and reproduced format-1 manifests using existing verification. Require matching retained repository ID, folder and parser profile for a comparable pair. Reject malformed, oversized, corrupt or incompatible references with fixed feedback and no writes; never infer or backfill old generations, intent, raw bytes or applied history.",
+    "Align files by existing canonical arbitrary-precision migration version and produce deterministic ordered ADDED, REMOVED, CHANGED and UNCHANGED source facts, including both paths and retained SHA256/byte metadata. A path/name change at the same version is CHANGED even when content is equal. Detect exact content changes and preserve literal source bytes; do not convert versions through JavaScript Number or infer deployment/schema/target drift. Comparing a release with itself is a valid unchanged source view.",
+    "React release review lets both fixed roles explicitly select base and candidate retained releases, see both immutable commit/manifest identities and ordered comparison facts, and inspect retained SQL with existing escaped rendering. Label the result as source comparison only. Project/pair/session/current credential/refresh changes discard results and delayed responses; revoked access clears scoped records using current recovery. Failed comparisons leave existing records intact and can be retried with fresh scoped reads.",
+    "Real temporary Git commits, isolated PostgreSQL/API and Chromium prove added, removed, one-byte content edit, same-version rename and unchanged files; deterministic arbitrary-precision ordering; self comparison; invalid duplicate-version imports; corrupt/malformed/oversized/incompatible or cross-project pairs; unauthorized/revoked reads, archived history, removed repository registration, controlled delayed pair/project/session responses and API/connection-pool recreation persistence. Compare complete populated retained source/plan/intent/comment/decision/history/audit snapshots for no writes and preserve all standard/product/parser/browser regressions without skipped required cases.",
+    "This is a bounded retained-source review extension supporting MIG-008/MIG-009, not full original catalog acceptance, MIG-013 applied checksum enforcement, MIG-014/MIG-033 schema drift/comparison, or GIT-015 deployed provenance. Preserve original 220-feature requirements and separate Oracle VALIDATION BLOCKED. No target connection, credentials, parser rerun for comparisons, Git reread, external source, schema snapshot fabrication, history rewrite, worker/dispatch or deployment. Document safe compatibility/recovery defaults and preserve Sonar unavailable never PASS."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T25-API",
+    "SF-PRODUCT-T25-WEB",
+    "SF-PRODUCT-T25-PERSISTENCE"
+  ]
+};
+
+const PRODUCT_TASK_26 = {
+  "id": "SF-PRODUCT-T26",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Bound retained-source metadata before protected payload reads",
+  "dependencies": [
+    "SF-PRODUCT-T25",
+    "SF-PRODUCT-T23",
+    "SF-PRODUCT-T22",
+    "SF-PRODUCT-T19",
+    "SF-PRODUCT-T17",
+    "SF-PRODUCT-T15"
+  ],
+  "feature_ids": [
+    "MIG-008",
+    "GIT-016",
+    "GOV-023"
+  ],
+  "acceptance_criteria": [
+    "Apply complete bounded PostgreSQL scalar preflight before loading retained files in statement preview, offline plan creation, source-linked comments and approval. Reuse scoped existing locks, VALID source verification and fixed endpoint errors. Bound encoded non-content metadata including unknown nested fields/array overhead and identity facts; type/range known scalar fields with guarded safe numeric processing. Preserve current content budgets and arbitrary-precision supported versions.",
+    "Preserve historical retained releases and plans without rewriting or backfilling. Valid Unicode content, null/nonnegative safe statement counts and bounded historical extension metadata remain supported. Malformed or excessive metadata fails before payload materialization; retain legacy readable/rejection behavior and existing generation/intent/fresh-plan boundaries.",
+    "Preserve existing authorization, explicit memberships, fixed roles, requester exclusion, archival and terminal protections. Authorized integrity failures cause no new plan/comment/decision/history/audit mutations; existing audited authorization-denial behavior remains unchanged. No new execution authority, target credentials, Oracle calls or schema migration without concrete necessity.",
+    "Use one reusable bounded PostgreSQL preflight implementation where practical without changing importer manifests or historical verification semantics. Keep exact transaction lock ordering for project/release/plan/profile and prevent concurrent retained mutation from bypassing checks. Reuse T18 fresh-plan recovery and existing fixed UI integrity feedback.",
+    "Real isolated PostgreSQL and local Git fixtures cover each of four readers with legitimate Unicode/arbitrary versions/null counts/bounded extras; oversized flat/nested extras, malformed known metadata, aggregate content and counts; both roles/project isolation/archive/rejection/no Git registration; exact locking concurrent mutation and API/pool recreation persistence. Compare complete populated source/plan/intent/comment/decision/history/audit snapshots immediately around failures before restoration; preserve all full standard/Git/parser/product/browser regressions with zero skipped required cases.",
+    "This is bounded security hardening for retained-source reads, not full original catalog, database tamper-proofing, deployed/schema or Oracle validation. Preserve original220 requirements/dependencies, immutable failed evidence, license/grants/locks/grammar/scanners and normal exact-head QA/security/CI gates. Sonar unavailable never PASS; Oracle VALIDATION independently BLOCKED; no history rewrite/target connection/deployment."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T26-API",
+    "SF-PRODUCT-T26-PERSISTENCE",
+    "SF-PRODUCT-T26-WEB"
+  ]
+};
+
+const PRODUCT_TASK_27 = {
+  "id": "SF-PRODUCT-T27",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Bound retained release detail reads before payload materialization",
+  "dependencies": [
+    "SF-PRODUCT-T26",
+    "SF-PRODUCT-T25",
+    "SF-PRODUCT-T13",
+    "SF-PRODUCT-T11",
+    "SF-PRODUCT-T21"
+  ],
+  "feature_ids": [
+    "GIT-006",
+    "MIG-008",
+    "MIG-009"
+  ],
+  "acceptance_criteria": [
+    "GET /api/releases/:id uses scoped transaction and database scalar bounds before selecting retained files or raw identity/status/code metadata. Reject malformed/oversized retained records with fixed non-sensitive unavailable response; never transfer unknown unbounded fields through SELECT *. Preserve existing authenticated membership and project archive read boundaries.",
+    "Keep bounded legitimate retained VALID, INVALID and UNAVAILABLE imports readable, including per-file VALID/INVALID/UNAVAILABLE/NOT_VALIDATED observations, null statement counts, bounded unknown nested metadata, Unicode and arbitrary-precision versions. This reader is historical display; do not promote invalid/unavailable release to VALID, rewrite historical source/hash/manifest, backfill intent/generation or authorize planning/approval.",
+    "Reuse T26 scoped scalar bounds where practical with explicit protected versus historical-read policy, preserving 128files/2MiBper/16MiBtotal content and4MiB complete encoded non-content metadata budget. Bound validationCode and every returned identity/status field before Node allocation; shared helper changes preserve strict protected-reader validity. No parser/Git re-read/target connection or schema migration without concrete necessity.",
+    "Under existing scoped source locks prove concurrent mutation cannot bypass preflight and later payload selection. Every authorized read failure/success leaves complete populated source/project/plan/intent/comment/decision/history/audit records unchanged. Preserve current roles/grants/session/bootstrap/archive and API restart/PostgreSQL persistence; no denial audit mutation added to reads.",
+    "Real local Git and isolated PostgreSQL produce legitimate valid and invalid/offline-unavailable releases and exercise oversized flat/nested metadata, bad known fields/arraycounts/aggregatecontent/huge status and code. Query instrumentation proves no raw payload or unbounded status projection before rejection; snapshots surround request before fixture restoration. Browser existing source/provenance/review inspection displays bounded valid/invalid historical facts and fixed unavailable error; stale project/session responses stay hidden. Run full standard/Git/parser/product/browser regressions with zero required skips.",
+    "Bounded resource hardening closes only independently reviewed residual detail-read finding, not all original220 features or runtime attestation. Preserve license/notices/grants/dependencies/locks/grammar/scanners/immutable failures. Normal exact-head independent QA/security/CI and eligible merge gates remain; unmerged prerequisites can support documented local verification only. Sonar unavailable never PASS; Oracle independently BLOCKED; no public history rewrite/deployment/credential resolution."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T27-API",
+    "SF-PRODUCT-T27-PERSISTENCE",
+    "SF-PRODUCT-T27-WEB"
+  ]
+};
+
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

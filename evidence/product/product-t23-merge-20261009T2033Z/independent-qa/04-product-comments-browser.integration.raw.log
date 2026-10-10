@@ -1,0 +1,29 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: plan comments remain scoped, readable, and persistent across API restart
+ok 1 - plan comments remain scoped, readable, and persistent across API restart
+  ---
+  duration_ms: 30085.791915
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: source binding invalidation clears evidence refs, preserves plain text, and drops delayed previews
+ok 2 - source binding invalidation clears evidence refs, preserves plain text, and drops delayed previews
+  ---
+  duration_ms: 15409.022391
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 46254.646581

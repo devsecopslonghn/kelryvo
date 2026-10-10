@@ -1,0 +1,5 @@
+{
+  "command": "python - <<'PY'\nimport subprocess,json\nsha=subprocess.check_output([\"git\",\"ls-remote\",\"origin\",\"refs/heads/development/product-discussion-evidence\"],text=True).split()[0];assert sha==\"dab29a357e3e29d65b7db23255dbae56abf3f00f\";print(json.dumps({\"remote_head\":sha,\"reviewed_head_matches\":True}))\nPY",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:08:34.948679+00:00"
+}

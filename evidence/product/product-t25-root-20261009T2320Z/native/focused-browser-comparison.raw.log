@@ -1,0 +1,23 @@
+TAP version 13
+# fatal: repository 'undefined' does not exist
+# Subtest: browser compares explicitly selected retained releases and discards a late result after pair changes
+not ok 1 - browser compares explicitly selected retained releases and discards a late result after pair changes
+  ---
+  duration_ms: 114.272285
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-release-source-comparison/tests/product-release-comparison-browser.integration.mjs:13:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Command failed: /usr/bin/git clone --quiet  /tmp/schemaforge-comparison-browser-1JuxFV/repository
+    fatal: repository 'undefined' does not exist
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    genericNodeError (node:internal/errors:983:15)
+    wrappedFn (node:internal/errors:537:14)
+    checkExecSyncError (node:child_process:916:11)
+    execFileSync (node:child_process:952:15)
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-release-source-comparison/tests/product-release-comparison-browser.integration.mjs:19:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
