@@ -1,33 +1,11 @@
-import { constants } from 'node:fs';
-import { lstat, open } from 'node:fs/promises';
 import path from 'node:path';
 import postgres from 'postgres';
 import { initializeDatabase } from '../packages/database/index.ts';
+import { authorizeLocalMetadataUrl } from './local-operator-config.mjs';
 
 const ORG = '00000000-0000-4000-8000-000000000001';
 const fail = () => new Error('Local membership operation failed; inspect private local state and retry.');
 const uid = () => process.geteuid?.() ?? process.getuid();
-async function privateConfig(file) {
-  const config = path.resolve(file), directory = path.dirname(config);
-  let cursor = path.parse(config).root;
-  for (const component of config.slice(cursor.length).split(path.sep).filter(Boolean)) {
-    cursor = path.join(cursor, component);
-    try { if ((await lstat(cursor)).isSymbolicLink()) throw fail(); }
-    catch (error) { if (error.code !== 'ENOENT') throw fail(); }
-  }
-  const dir = await lstat(directory);
-  if (!dir.isDirectory() || dir.uid !== uid() || (dir.mode & 0o777) !== 0o700) throw fail();
-  const handle = await open(config, constants.O_RDONLY | constants.O_NOFOLLOW);
-  try {
-    const stat = await handle.stat();
-    if (!stat.isFile() || stat.uid !== uid() || stat.nlink !== 1 || stat.size > 16_384 || (stat.mode & 0o777) !== 0o600) throw fail();
-    const value = JSON.parse((await handle.readFile()).toString('utf8'));
-    if (!value || Array.isArray(value) || Object.keys(value).sort().join(',') !== 'approverToken,databasePassword,developerToken'
-        || Object.values(value).some(item => typeof item !== 'string' || !/^[a-f0-9]{64}$/.test(item))
-        || value.developerToken === value.approverToken) throw fail();
-    return value;
-  } finally { await handle.close(); }
-}
 const uuid = value => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 export async function applyLocalMembershipAction(sql, { action, projectId, actorId }) {
   if (['grant','revoke'].includes(action)) {
@@ -80,15 +58,7 @@ export async function applyLocalMembershipAction(sql, { action, projectId, actor
 
 async function operate({ action, projectId, actorId, configPath, databaseUrl }) {
   if (!databaseUrl || !configPath) throw fail();
-  const config = await privateConfig(configPath);
-  let parsed;
-  try { parsed = new URL(databaseUrl); } catch { throw fail(); }
-  const host = parsed.hostname.toLowerCase();
-  const databaseName = decodeURIComponent(parsed.pathname.slice(1));
-  if (!['postgres:', 'postgresql:'].includes(parsed.protocol) || !['127.0.0.1','[::1]','localhost'].includes(host)
-      || parsed.search || parsed.hash || !parsed.password || decodeURIComponent(parsed.password) !== config.databasePassword
-      || !['postgres','schemaforge'].includes(decodeURIComponent(parsed.username))
-      || !(databaseName === 'schemaforge' || databaseName === 'schemaforge_tests' || /^sf_product_test_[a-f0-9]{32}$/.test(databaseName))) throw fail();
+  await authorizeLocalMetadataUrl(configPath, databaseUrl);
   if (['grant','revoke'].includes(action) && (!uuid(projectId) || typeof actorId !== 'string' || actorId.trim().length < 1
       || actorId.length > 200 || /[\u0000-\u001f\u007f]/.test(actorId) || Buffer.from(actorId, 'utf8').toString('utf8') !== actorId)) throw fail();
   const sql = postgres(databaseUrl, { max: 1, connect_timeout: 3, onnotice: () => {} });

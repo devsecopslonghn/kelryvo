@@ -215,6 +215,31 @@ export function createApp(options: {
       : await sql`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at,source_binding_generation::text AS source_binding_generation FROM sf_projects WHERE organization_id=${ORG} ORDER BY created_at,id`;
     return { accessMode: mode, projects: rows.map(mappedProject) };
   });
+  app.get('/api/projects/:id/schema-references', { preHandler: authenticate }, async (req: any, reply: any) => {
+    const projectId=req.params.id, after=req.query?.after;
+    if(!uuid(projectId)||after!==undefined&&!uuid(after)) return fail(reply,404,'NOT_FOUND');
+    const p=await project(projectId); if(!p) return fail(reply,404,'NOT_FOUND');
+    if((await projectAccessMode(sql))==='BOOTSTRAP_REQUIRED') return {references:[],nextCursor:null};
+    const authorized=(await sql`SELECT 1 FROM sf_project_access_mode m JOIN sf_project_grants g ON g.organization_id=m.organization_id AND g.project_id=${projectId} AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL JOIN sf_local_credentials c ON c.actor_id=g.actor_id AND c.token_sha256=${tokenDigest(req.headers.authorization.slice(7))} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp() WHERE m.organization_id=${ORG} AND m.mode='ENFORCED' LIMIT 1`)[0];
+    if(!authorized) return fail(reply,404,'NOT_FOUND');
+    const rows=await sql`SELECT s.id AS schema_id,s.exact_owner,s.generation,s.provenance,s.revision::text AS revision,
+        c.id AS container_id,c.name AS container_name,c.kind AS container_kind,c.environment,
+        d.id AS database_id,d.display_label AS database_label,d.server_uuid AS database_server_id,d.generation AS database_generation,
+        c.server_uuid AS container_server_id,
+        (SELECT jsonb_agg(jsonb_build_object('id',x.id,'name',x.service) ORDER BY x.id)
+          FROM (SELECT DISTINCT rs.id,rs.service FROM sf_reference_services rs WHERE rs.container_id=c.id ORDER BY rs.id LIMIT 10) x) AS services,
+        (SELECT count(*)>10 FROM (SELECT DISTINCT rs.id FROM sf_reference_services rs WHERE rs.container_id=c.id ORDER BY rs.id LIMIT 11) y) AS services_truncated
+      FROM sf_reference_assignments a JOIN sf_reference_schemas s ON s.id=a.schema_id AND s.organization_id=a.organization_id
+      JOIN sf_reference_containers c ON c.id=s.container_id AND c.organization_id=s.organization_id
+      JOIN sf_reference_databases d ON d.id=c.database_id AND d.organization_id=c.organization_id
+      WHERE a.organization_id=${ORG} AND a.project_id=${projectId} AND a.closed_at IS NULL
+        AND EXISTS(SELECT 1 FROM sf_project_access_mode m JOIN sf_project_grants g ON g.organization_id=m.organization_id AND g.project_id=${projectId} AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL JOIN sf_local_credentials c ON c.actor_id=g.actor_id AND c.token_sha256=${tokenDigest(req.headers.authorization.slice(7))} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp() WHERE m.organization_id=${ORG} AND m.mode='ENFORCED')
+        AND (${after??null}::uuid IS NULL OR s.id>${after??null}::uuid) ORDER BY s.id LIMIT 51`;
+    const page=rows.slice(0,50); return {references:page.map((r:any)=>({id:r.schema_id,owner:r.exact_owner,generation:r.generation,provenance:r.provenance,revision:r.revision,
+      database:{id:r.database_id,serverId:r.database_server_id,generation:r.database_generation,label:r.database_label,provenance:'MANUAL_REFERENCE'},
+      container:{id:r.container_id,serverId:r.container_server_id,name:r.container_name,kind:r.container_kind,environment:r.environment,provenance:'MANUAL_REFERENCE'},
+      services:r.services||[],servicesTruncated:r.services_truncated})),nextCursor:rows.length>50?page[49].schema_id:null};
+  });
   app.post(
     "/api/projects",
     { preHandler: authenticate },

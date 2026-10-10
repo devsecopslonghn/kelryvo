@@ -100,7 +100,7 @@ async function validateStatementPreview(preview, source, releaseId, filePath) {
 }
 const explain = (error) => errorCopy[error.message] || 'The request could not be completed. Check the connection and try again.';
 const fmt = (date) => date ? new Date(date).toLocaleString() : '—';
-const pageTitles = { workspace: 'Projects', release: 'Release intake', review: 'Plan review', records: 'Audit & history' };
+const pageTitles = { workspace: 'Projects', references: 'Schema references', release: 'Release intake', review: 'Plan review', records: 'Audit & history' };
 const decisionClass = (status) => ({ APPROVED: 'good', REJECTED: 'bad' }[status] || 'pending');
 const planMarkerClass = (status) => ({ APPROVED: 'green', REJECTED: 'red' }[status] || '');
 const retainedAuthorId = (plan) => typeof plan?.authorId === 'string' && plan.authorId.trim().length > 0
@@ -208,6 +208,24 @@ function StatementPreviewResult({ result, onSelectEvidence, selectedEvidence = [
         executionSha256: statement.executionSha256 })}>{selectedEvidence.some(ref => ref.filePath === preview.filePath && ref.startByte === statement.startByte && ref.endByte === statement.endByte) ? 'Remove reference' : 'Attach to comment'}</button>}
     </article>)}
     {!preview.statements.length && <p className="muted">No statements were returned by the pinned parser.</p>}
+  </section>;
+}
+
+function SchemaReferences({ token, projectId, onMissing }) {
+  const [rows,setRows]=useState([]),[next,setNext]=useState(null),[error,setError]=useState(''),[loading,setLoading]=useState(false);
+  const seq=useRef(0);
+  const load=async(after=null,append=false)=>{const n=++seq.current;setLoading(true);setError('');if(!append){setRows([]);setNext(null);}
+    try{const result=await json(`/api/projects/${encodeURIComponent(projectId)}/schema-references${after?`?after=${encodeURIComponent(after)}`:''}`,token);if(n!==seq.current)return;setRows(old=>append?[...old,...(result.references||[])]:result.references||[]);setNext(result.nextCursor||null);}
+    catch(e){if(n===seq.current){setRows([]);setNext(null);setError(explain(e));if(e?.message==='NOT_FOUND')onMissing?.();}}finally{if(n===seq.current)setLoading(false);}};
+  useEffect(()=>{setRows([]);setNext(null);void load();return()=>{seq.current++;};},[token,projectId]);
+  return <section className="schema-reference-screen"><div className="section-heading"><div><p className="eyebrow">PROJECT CATALOG</p><h1>Schema references</h1></div><button className="secondary" type="button" onClick={()=>void load()} disabled={loading}>Refresh</button></div>
+    <p className="offline-note">Provisional manual references only. These declarations do not confirm an Oracle target, bind a profile or authorize a plan.</p>
+    {error&&<p className="banner error" role="alert">{error}</p>}{!rows.length&&!loading&&!error&&<div className="empty-state"><strong>No schema references assigned</strong><span>The trusted local OS operator registers references and assigns schemas to projects.</span></div>}
+    {rows.map(r=><article className="schema-reference-card" key={r.id}><span className="status-pill warn">Provisional · reference only</span><h2>{r.owner}</h2><dl>
+      <div><dt>Schema reference</dt><dd><code>{r.id}</code> · generation {r.generation}</dd></div><div><dt>Assignment revision</dt><dd>{r.revision}</dd></div><div><dt>Database</dt><dd>{r.database.label} · <code>{r.database.id}</code> · generation {r.database.generation}</dd></div>
+      <div><dt>Container</dt><dd>{r.container.name} ({r.container.kind}) · declared {r.container.environment} · <code>{r.container.id}</code></dd></div><div><dt>Services</dt><dd>{(r.services||[]).map(s=><span key={s.id}><code>{s.name}</code> </span>)}{r.servicesTruncated&&<span>Additional service routes omitted.</span>}</dd></div>
+    </dl></article>)}
+    {loading&&<p role="status">Loading schema references…</p>}{next&&<button className="secondary" type="button" onClick={()=>void load(next,true)} disabled={loading}>Next page</button>}
   </section>;
 }
 
@@ -878,6 +896,7 @@ function App() {
       <a className="brand" href="#workspace"><span className="brand-mark">S</span><span>Schema<span className="brand-light">Forge</span></span></a>
       <div className="workspace-label">WORKSPACE</div>
       <button type="button" className={`nav-item ${tab === 'workspace' ? 'active' : ''}`} onClick={() => setTab('workspace')}><span>▦</span> Projects</button>
+      <button type="button" className={`nav-item ${tab === 'references' ? 'active' : ''}`} onClick={() => setTab('references')}><span>⌑</span> Schema references</button>
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => setTab('release')}><span>◫</span> Releases</button>
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => setTab('records')}><span>≡</span> Audit &amp; history</button>
@@ -889,6 +908,8 @@ function App() {
       {accessMode === 'BOOTSTRAP_REQUIRED' && <div className="banner warning" role="status">Bootstrap required · project access is read-only until the local OS operator grants access and activates membership.</div>}
       <div className="content">
         {tab === 'workspace' && <WorkspaceScreen model={model} />}
+        {tab === 'references' && projectId && <SchemaReferences key={`${token}:${projectId}`} token={token} projectId={projectId} onMissing={()=>{clearProjectState();void refresh(token,projectId);}} />}
+        {tab === 'references' && !projectId && <div className="empty-state"><strong>Select a project first</strong><span>Choose an assigned project from Projects, then open Schema references.</span><button type="button" className="text-button" onClick={()=>setTab('workspace')}>Go to Projects →</button></div>}
         {tab === 'release' && <ReleaseScreen model={model} />}
         {tab === 'review' && <ReviewScreen model={model} />}
         {tab === 'records' && <RecordsScreen model={model} />}

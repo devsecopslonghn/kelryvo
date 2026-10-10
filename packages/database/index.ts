@@ -106,6 +106,48 @@ export async function initializeDatabase(sql: any): Promise<void> {
       path text NOT NULL, sha256 text NOT NULL, status text NOT NULL CHECK(status='NOT_EXECUTED'), created_at timestamptz NOT NULL DEFAULT now(),
       FOREIGN KEY(plan_id,project_id) REFERENCES sf_plans(id,project_id)
     );
+    CREATE TABLE IF NOT EXISTS sf_reference_databases (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
+      operator_key text COLLATE "C" NOT NULL CHECK(length(operator_key) BETWEEN 1 AND 100), display_label text NOT NULL CHECK(length(display_label) BETWEEN 1 AND 120), server_uuid uuid NOT NULL DEFAULT gen_random_uuid(),
+      generation bigint NOT NULL DEFAULT 1 CHECK(generation=1), provenance text NOT NULL DEFAULT 'MANUAL_REFERENCE' CHECK(provenance='MANUAL_REFERENCE'),
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(), UNIQUE(organization_id,operator_key), UNIQUE(id,organization_id)
+    );
+    CREATE TABLE IF NOT EXISTS sf_reference_containers (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL, database_id uuid NOT NULL,
+      registration_key text COLLATE "C" NOT NULL CHECK(length(registration_key) BETWEEN 1 AND 100), name text NOT NULL CHECK(length(name) BETWEEN 1 AND 120), kind text NOT NULL CHECK(kind IN ('PDB','NON_CDB')),
+      environment text NOT NULL CHECK(environment IN ('DEV','SIT','UAT','PROD')), server_uuid uuid NOT NULL DEFAULT gen_random_uuid(),
+      generation bigint NOT NULL DEFAULT 1 CHECK(generation=1), provenance text NOT NULL DEFAULT 'MANUAL_REFERENCE' CHECK(provenance='MANUAL_REFERENCE'),
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(), UNIQUE(database_id,registration_key), UNIQUE(id,organization_id),
+      FOREIGN KEY(database_id,organization_id) REFERENCES sf_reference_databases(id,organization_id)
+    );
+    CREATE TABLE IF NOT EXISTS sf_reference_services (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL, container_id uuid NOT NULL,
+      host text NOT NULL CHECK(length(host) BETWEEN 1 AND 253 AND host=lower(host)), port integer NOT NULL CHECK(port BETWEEN 1 AND 65535), service text COLLATE "C" NOT NULL CHECK(length(service) BETWEEN 1 AND 128), transport text NOT NULL CHECK(transport IN ('TCP','TCPS')),
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(), UNIQUE(organization_id,host,port,service,transport),
+      UNIQUE(id,organization_id), FOREIGN KEY(container_id,organization_id) REFERENCES sf_reference_containers(id,organization_id)
+    );
+    CREATE TABLE IF NOT EXISTS sf_reference_schemas (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL, container_id uuid NOT NULL,
+      exact_owner text COLLATE "C" NOT NULL CHECK(length(exact_owner) BETWEEN 1 AND 128 AND btrim(exact_owner)<>''), generation bigint NOT NULL DEFAULT 1 CHECK(generation=1),
+      provenance text NOT NULL DEFAULT 'MANUAL_REFERENCE' CHECK(provenance='MANUAL_REFERENCE'),
+      revision bigint NOT NULL DEFAULT 0 CHECK(revision>=0), created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      UNIQUE(container_id,exact_owner,generation), UNIQUE(id,organization_id),
+      FOREIGN KEY(container_id,organization_id) REFERENCES sf_reference_containers(id,organization_id)
+    );
+    CREATE TABLE IF NOT EXISTS sf_reference_assignments (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL, schema_id uuid NOT NULL,
+      project_id uuid NOT NULL, started_at timestamptz NOT NULL DEFAULT clock_timestamp(), closed_at timestamptz,
+      reason text NOT NULL CHECK(length(reason) BETWEEN 1 AND 500), operator_os_uid integer NOT NULL,
+      FOREIGN KEY(schema_id,organization_id) REFERENCES sf_reference_schemas(id,organization_id),
+      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id)
+    );
+    CREATE UNIQUE INDEX IF NOT EXISTS sf_reference_assignments_active ON sf_reference_assignments(schema_id) WHERE closed_at IS NULL;
+    CREATE TABLE IF NOT EXISTS sf_reference_operator_audit (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL, schema_id uuid NOT NULL,
+      action text NOT NULL CHECK(action IN ('REGISTER','ASSIGN','TRANSFER','RELEASE')), operator_os_uid integer NOT NULL,
+      facts jsonb NOT NULL DEFAULT '{}'::jsonb, created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      FOREIGN KEY(schema_id,organization_id) REFERENCES sf_reference_schemas(id,organization_id)
+    );
     ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS archived_at timestamptz;
     ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_repository_id text;
     ALTER TABLE sf_projects ADD COLUMN IF NOT EXISTS source_folder text;
