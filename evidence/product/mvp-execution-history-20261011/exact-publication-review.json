@@ -1,0 +1,7 @@
+{
+  "head": "00d020141981f70f80b63d81083f60041f4094d1",
+  "reviewer": "native /root/integration_review",
+  "outcome": "APPROVED_EXACT_SOURCE_SECURITY_LICENSE_EVIDENCE",
+  "recorded_at": "2026-10-10T21:13:11.126643+00:00",
+  "notes": "All15source/pin/license hashes match; browser evidence distinction accurate; scoped scanexit1/3 knownloghashes independentlyclassified; no fullcatalog/Oracle claims. Complete exact-head CI and prior49masterCI stillrequired."
+}

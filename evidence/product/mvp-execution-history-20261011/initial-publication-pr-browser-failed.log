@@ -1,0 +1,392 @@
+﻿2026-10-10T21:28:17.5035913Z ##[group]Run npm run test:browser
+2026-10-10T21:28:17.5036428Z ^[[36;1mnpm run test:browser^[[0m
+2026-10-10T21:28:17.5287020Z shell: /usr/bin/bash -e {0}
+2026-10-10T21:28:17.5317985Z env:
+2026-10-10T21:28:17.5318653Z   SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
+2026-10-10T21:28:17.5319656Z   SCHEMAFORGE_JAVA_HOME: /home/runner/work/schemaForge/schemaForge/.cache/antlr/temurin
+2026-10-10T21:28:17.5320418Z   SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: 1
+2026-10-10T21:28:17.5320871Z ##[endgroup]
+2026-10-10T21:28:17.6988155Z 
+2026-10-10T21:28:17.7008602Z > schemaforge-local-development@0.0.0 test:browser
+2026-10-10T21:28:17.7018577Z > npm run build:web && node scripts/test-product.mjs --browser
+2026-10-10T21:28:17.7051846Z 
+2026-10-10T21:28:17.8457975Z 
+2026-10-10T21:28:17.8478495Z > schemaforge-local-development@0.0.0 build:web
+2026-10-10T21:28:17.8498227Z > node scripts/build-web.mjs
+2026-10-10T21:28:17.8507916Z 
+2026-10-10T21:28:18.0665626Z Web application built in dist/web.
+2026-10-10T21:28:18.2228144Z TAP version 13
+2026-10-10T21:28:19.6639939Z # ENFORCED
+2026-10-10T21:28:19.7452329Z # grant complete
+2026-10-10T21:28:19.7882768Z # grant complete
+2026-10-10T21:28:33.5169337Z # Subtest: browser shows fixed approval integrity feedback and preserves pending plan for rejection
+2026-10-10T21:28:33.5173814Z ok 1 - browser shows fixed approval integrity feedback and preserves pending plan for rejection
+2026-10-10T21:28:33.5175031Z   ---
+2026-10-10T21:28:33.5175631Z   duration_ms: 14223.008498
+2026-10-10T21:28:33.5176312Z   type: 'test'
+2026-10-10T21:28:33.5176889Z   ...
+2026-10-10T21:28:34.5583671Z # ENFORCED
+2026-10-10T21:28:34.6217854Z # grant complete
+2026-10-10T21:28:34.6539122Z # grant complete
+2026-10-10T21:28:34.6871981Z # grant complete
+2026-10-10T21:28:34.7181403Z # grant complete
+2026-10-10T21:29:19.5859818Z # Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+2026-10-10T21:29:19.5879071Z ok 2 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+2026-10-10T21:29:19.5898267Z   ---
+2026-10-10T21:29:19.5898873Z   duration_ms: 45305.271779
+2026-10-10T21:29:19.5899365Z   type: 'test'
+2026-10-10T21:29:19.5899782Z   ...
+2026-10-10T21:29:20.6312252Z # ENFORCED
+2026-10-10T21:29:20.6947271Z # grant complete
+2026-10-10T21:29:20.7254129Z # grant complete
+2026-10-10T21:29:34.5220932Z # Browser archive workflow and archived project records remained readable after API restart.
+2026-10-10T21:29:34.5589165Z # Subtest: browser archives a project and keeps its releases, plan, audit, and history readable
+2026-10-10T21:29:34.5590789Z ok 3 - browser archives a project and keeps its releases, plan, audit, and history readable
+2026-10-10T21:29:34.5592280Z   ---
+2026-10-10T21:29:34.5592693Z   duration_ms: 14203.187486
+2026-10-10T21:29:34.5593160Z   type: 'test'
+2026-10-10T21:29:34.5593539Z   ...
+2026-10-10T21:29:35.5964030Z # ENFORCED
+2026-10-10T21:29:35.6601595Z # grant complete
+2026-10-10T21:29:35.6909036Z # grant complete
+2026-10-10T21:29:44.6215062Z # grant complete
+2026-10-10T21:29:44.6520296Z # grant complete
+2026-10-10T21:29:44.6951927Z # grant complete
+2026-10-10T21:29:44.7240163Z # grant complete
+2026-10-10T21:29:44.7670061Z # grant complete
+2026-10-10T21:29:44.7950808Z # grant complete
+2026-10-10T21:29:46.6938294Z # revoke complete
+2026-10-10T21:29:47.4843038Z # Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+2026-10-10T21:29:47.4845120Z ok 4 - audit action filters preserve project scope, server order, archived reads and read-only records
+2026-10-10T21:29:47.4848481Z   ---
+2026-10-10T21:29:47.4849060Z   duration_ms: 12161.908723
+2026-10-10T21:29:47.4851257Z   type: 'test'
+2026-10-10T21:29:47.4854588Z   ...
+2026-10-10T21:29:48.5321526Z # ENFORCED
+2026-10-10T21:29:48.5671652Z # grant complete
+2026-10-10T21:29:48.6001186Z # grant complete
+2026-10-10T21:29:48.6283308Z # grant complete
+2026-10-10T21:29:48.6562104Z # grant complete
+2026-10-10T21:29:50.7938038Z # revoke complete
+2026-10-10T21:29:51.0770871Z # Subtest: Records pages retained audit history, resets contexts, and clears delayed or revoked results
+2026-10-10T21:29:51.0775822Z ok 5 - Records pages retained audit history, resets contexts, and clears delayed or revoked results
+2026-10-10T21:29:51.0778580Z   ---
+2026-10-10T21:29:51.0780302Z   duration_ms: 2818.862718
+2026-10-10T21:29:51.0782003Z   type: 'test'
+2026-10-10T21:29:51.0782650Z   ...
+2026-10-10T21:29:52.1105427Z # ENFORCED
+2026-10-10T21:29:52.1619418Z # grant complete
+2026-10-10T21:29:52.1943734Z # grant complete
+2026-10-10T21:29:52.2278749Z # deploy-grant complete
+2026-10-10T21:30:31.0743347Z # Subtest: browser reopens restored retained history with fresh credentials and execution recovery hold
+2026-10-10T21:30:31.0747295Z ok 6 - browser reopens restored retained history with fresh credentials and execution recovery hold
+2026-10-10T21:30:31.0750009Z   ---
+2026-10-10T21:30:31.0751634Z   duration_ms: 39205.278436
+2026-10-10T21:30:31.0753383Z   type: 'test'
+2026-10-10T21:30:31.0754021Z   ...
+2026-10-10T21:30:32.1031941Z # ENFORCED
+2026-10-10T21:30:32.7959601Z # grant complete
+2026-10-10T21:30:32.8378553Z # grant complete
+2026-10-10T21:30:33.7167113Z # grant complete
+2026-10-10T21:30:33.7489001Z # grant complete
+2026-10-10T21:31:00.7898389Z # Real browser workflow and PostgreSQL restart persistence passed; Oracle untouched.
+2026-10-10T21:31:00.8702307Z # Subtest: browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+2026-10-10T21:31:00.8708929Z ok 7 - browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence
+2026-10-10T21:31:00.8721359Z   ---
+2026-10-10T21:31:00.8722232Z   duration_ms: 29037.060323
+2026-10-10T21:31:00.8723084Z   type: 'test'
+2026-10-10T21:31:00.8723699Z   ...
+2026-10-10T21:31:00.8724364Z # browser phase: application and browser started
+2026-10-10T21:31:00.8725345Z # browser phase: project, import, and approval workflow completed
+2026-10-10T21:31:00.8726186Z # browser phase: duplicate pending plan created
+2026-10-10T21:31:00.8727139Z # browser phase: rejection and execution-denial workflow completed
+2026-10-10T21:31:00.8728384Z # browser phase: original browser closed before API restart
+2026-10-10T21:31:00.8729245Z # browser phase: original API closed
+2026-10-10T21:31:00.8730082Z # browser phase: API restarted and PostgreSQL state verified
+2026-10-10T21:31:00.8731106Z # browser phase: developer signed in and selected unbound project
+2026-10-10T21:31:00.8732228Z # browser phase: source PUT reached delayed-response handler after server write
+2026-10-10T21:31:00.8733457Z # browser phase: approver signed in and original project reselected
+2026-10-10T21:31:00.8734397Z # browser phase: delayed-response route cleanup completed
+2026-10-10T21:31:00.8735313Z # browser phase: stale success was ignored and workflow finished
+2026-10-10T21:31:01.9737310Z # ENFORCED
+2026-10-10T21:31:02.0374698Z # grant complete
+2026-10-10T21:31:02.0684640Z # grant complete
+2026-10-10T21:31:26.1269029Z # grant complete
+2026-10-10T21:31:26.1590683Z # grant complete
+2026-10-10T21:32:11.1578822Z # Subtest: plan comments remain scoped, readable, and persistent across API restart
+2026-10-10T21:32:11.1596887Z not ok 8 - plan comments remain scoped, readable, and persistent across API restart
+2026-10-10T21:32:11.1598424Z   ---
+2026-10-10T21:32:11.1617401Z   duration_ms: 69458.137444
+2026-10-10T21:32:11.1619772Z   type: 'test'
+2026-10-10T21:32:11.1621097Z   location: '/home/runner/work/schemaForge/schemaForge/tests/product-comments-browser.integration.mjs:11:1'
+2026-10-10T21:32:11.1622302Z   failureType: 'testCodeFailure'
+2026-10-10T21:32:11.1623241Z   error: 'Expected notice "Plan approved."; alert=; status='
+2026-10-10T21:32:11.1624002Z   code: 'ERR_ASSERTION'
+2026-10-10T21:32:11.1624679Z   name: 'AssertionError'
+2026-10-10T21:32:11.1625266Z   operator: 'fail'
+2026-10-10T21:32:11.1625780Z   stack: |-
+2026-10-10T21:32:11.1626763Z     waitNotice (file:///home/runner/work/schemaForge/schemaForge/tests/product-comments-browser.integration.mjs:90:22)
+2026-10-10T21:32:11.1628847Z     runNextTicks (node:internal/process/task_queues:64:5)
+2026-10-10T21:32:11.1629699Z     process.processImmediate (node:internal/timers:452:9)
+2026-10-10T21:32:11.1630627Z     process.callbackTrampoline (node:internal/async_hooks:130:17)
+2026-10-10T21:32:11.1632071Z     async TestContext.<anonymous> (file:///home/runner/work/schemaForge/schemaForge/tests/product-comments-browser.integration.mjs:184:5)
+2026-10-10T21:32:11.1633383Z     async Test.run (node:internal/test_runner/test:1054:7)
+2026-10-10T21:32:11.1634284Z     async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+2026-10-10T21:32:11.1635008Z   ...
+2026-10-10T21:32:11.3631687Z # ENFORCED
+2026-10-10T21:32:11.4091185Z # grant complete
+2026-10-10T21:32:33.9424201Z # Subtest: source binding invalidation clears evidence refs, preserves plain text, and drops delayed previews
+2026-10-10T21:32:33.9440231Z ok 9 - source binding invalidation clears evidence refs, preserves plain text, and drops delayed previews
+2026-10-10T21:32:33.9443010Z   ---
+2026-10-10T21:32:33.9443527Z   duration_ms: 22785.078036
+2026-10-10T21:32:33.9444457Z   type: 'test'
+2026-10-10T21:32:33.9444889Z   ...
+2026-10-10T21:32:35.8709578Z # Subtest: browser clears a revoked session and ignores a delayed 401 from an earlier session epoch
+2026-10-10T21:32:35.8718405Z ok 10 - browser clears a revoked session and ignores a delayed 401 from an earlier session epoch
+2026-10-10T21:32:35.8719500Z   ---
+2026-10-10T21:32:35.8721760Z   duration_ms: 1151.361032
+2026-10-10T21:32:35.8723943Z   type: 'test'
+2026-10-10T21:32:35.8725372Z   ...
+2026-10-10T21:32:36.9313425Z # ENFORCED
+2026-10-10T21:32:36.9948108Z # grant complete
+2026-10-10T21:32:37.0258053Z # grant complete
+2026-10-10T21:32:39.3433806Z # Subtest: decision records render the stored attribution safely and stay plan-specific
+2026-10-10T21:32:39.3443364Z ok 11 - decision records render the stored attribution safely and stay plan-specific
+2026-10-10T21:32:39.3444408Z   ---
+2026-10-10T21:32:39.3444964Z   duration_ms: 2684.005244
+2026-10-10T21:32:39.3445548Z   type: 'test'
+2026-10-10T21:32:39.3446059Z   ...
+2026-10-10T21:32:40.4221315Z # ENFORCED
+2026-10-10T21:32:40.4822682Z # grant complete
+2026-10-10T21:32:40.5115144Z # grant complete
+2026-10-10T21:33:06.6339242Z # Subtest: browser pages synthetic execution receipts and HOLD history and discards signed-out reads
+2026-10-10T21:33:06.6342854Z ok 12 - browser pages synthetic execution receipts and HOLD history and discards signed-out reads
+2026-10-10T21:33:06.6345584Z   ---
+2026-10-10T21:33:06.6346210Z   duration_ms: 26514.980882
+2026-10-10T21:33:06.6350555Z   type: 'test'
+2026-10-10T21:33:06.6354786Z   ...
+2026-10-10T21:33:07.6652419Z # ENFORCED
+2026-10-10T21:33:07.7285166Z # grant complete
+2026-10-10T21:33:07.7587748Z # grant complete
+2026-10-10T21:33:07.7954590Z # deploy-grant complete
+2026-10-10T21:33:45.5964157Z # Subtest: browser requests an approved plan and cancels its undispatched waiting job
+2026-10-10T21:33:45.5966074Z ok 13 - browser requests an approved plan and cancels its undispatched waiting job
+2026-10-10T21:33:45.5967213Z   ---
+2026-10-10T21:33:45.5969258Z   duration_ms: 38204.480903
+2026-10-10T21:33:45.5970941Z   type: 'test'
+2026-10-10T21:33:45.5972433Z   ...
+2026-10-10T21:33:46.7113138Z # ENFORCED
+2026-10-10T21:33:46.7758712Z # grant complete
+2026-10-10T21:33:46.8579389Z # grant complete
+2026-10-10T21:33:51.2331533Z # Subtest: release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+2026-10-10T21:33:51.2337422Z ok 14 - release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+2026-10-10T21:33:51.2340801Z   ---
+2026-10-10T21:33:51.2342378Z   duration_ms: 4873.03259
+2026-10-10T21:33:51.2344601Z   type: 'test'
+2026-10-10T21:33:51.2346791Z   ...
+2026-10-10T21:33:52.9441585Z # grant complete
+2026-10-10T21:33:52.9859306Z # ENFORCED
+2026-10-10T21:33:53.1912605Z # grant complete
+2026-10-10T21:33:56.6687751Z # revoke complete
+2026-10-10T21:33:56.8723958Z # revoke complete
+2026-10-10T21:33:57.0577893Z # Subtest: browser keeps bootstrap read-only, shows creation receipt without loading it, and clears revoked selection
+2026-10-10T21:33:57.0584788Z ok 15 - browser keeps bootstrap read-only, shows creation receipt without loading it, and clears revoked selection
+2026-10-10T21:33:57.0587790Z   ---
+2026-10-10T21:33:57.0588490Z   duration_ms: 5052.381274
+2026-10-10T21:33:57.0589101Z   type: 'test'
+2026-10-10T21:33:57.0589626Z   ...
+2026-10-10T21:33:58.1549438Z # ENFORCED
+2026-10-10T21:33:58.8362551Z # grant complete
+2026-10-10T21:33:58.8661829Z # grant complete
+2026-10-10T21:33:58.8958836Z # grant complete
+2026-10-10T21:34:40.7784150Z # Subtest: Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+2026-10-10T21:34:40.7810238Z ok 16 - Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+2026-10-10T21:34:40.7843260Z   ---
+2026-10-10T21:34:40.7845177Z   duration_ms: 42962.254948
+2026-10-10T21:34:40.7845761Z   type: 'test'
+2026-10-10T21:34:40.7846199Z   ...
+2026-10-10T21:34:41.8401764Z # ENFORCED
+2026-10-10T21:34:41.9097623Z # grant complete
+2026-10-10T21:34:41.9387412Z # grant complete
+2026-10-10T21:34:59.9885232Z # grant complete
+2026-10-10T21:35:00.0183498Z # grant complete
+2026-10-10T21:35:01.8789028Z # Subtest: browser shows frozen intent facts and keeps changed current configuration separate
+2026-10-10T21:35:01.8791846Z ok 17 - browser shows frozen intent facts and keeps changed current configuration separate
+2026-10-10T21:35:01.8793123Z   ---
+2026-10-10T21:35:01.8793762Z   duration_ms: 20313.200077
+2026-10-10T21:35:01.8795432Z   type: 'test'
+2026-10-10T21:35:01.8796921Z   ...
+2026-10-10T21:35:02.9176558Z # ENFORCED
+2026-10-10T21:35:02.9803097Z # grant complete
+2026-10-10T21:35:03.0128486Z # grant complete
+2026-10-10T21:35:03.0398057Z # grant complete
+2026-10-10T21:35:03.1294514Z # grant complete
+2026-10-10T21:35:03.1681468Z # grant complete
+2026-10-10T21:35:03.2075150Z # grant complete
+2026-10-10T21:35:31.7560962Z # Subtest: browser shows retained plan requester facts and blocks author decisions
+2026-10-10T21:35:31.7562587Z ok 18 - browser shows retained plan requester facts and blocks author decisions
+2026-10-10T21:35:31.7563731Z   ---
+2026-10-10T21:35:31.7566560Z   duration_ms: 29113.624464
+2026-10-10T21:35:31.7567342Z   type: 'test'
+2026-10-10T21:35:31.7571402Z   ...
+2026-10-10T21:35:32.8891275Z # ENFORCED
+2026-10-10T21:35:32.9545678Z # grant complete
+2026-10-10T21:35:32.9921342Z # grant complete
+2026-10-10T21:35:33.0968404Z # grant complete
+2026-10-10T21:35:33.1359367Z # grant complete
+2026-10-10T21:35:45.3599746Z # grant complete
+2026-10-10T21:35:45.3902362Z # grant complete
+2026-10-10T21:36:12.2529320Z # Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+2026-10-10T21:36:12.2562308Z ok 19 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+2026-10-10T21:36:12.2568408Z   ---
+2026-10-10T21:36:12.2568941Z   duration_ms: 39660.249311
+2026-10-10T21:36:12.2569484Z   type: 'test'
+2026-10-10T21:36:12.2569964Z   ...
+2026-10-10T21:36:13.4657999Z # ENFORCED
+2026-10-10T21:36:13.5299224Z # grant complete
+2026-10-10T21:36:13.5628944Z # grant complete
+2026-10-10T21:36:45.9037138Z # grant complete
+2026-10-10T21:36:45.9340391Z # grant complete
+2026-10-10T21:37:46.5681808Z # revoke complete
+2026-10-10T21:37:46.7005487Z # grant complete
+2026-10-10T21:37:46.8449743Z # Subtest: plan source inspection stays bound to retained releases and is read only
+2026-10-10T21:37:46.8451381Z ok 20 - plan source inspection stays bound to retained releases and is read only
+2026-10-10T21:37:46.8453171Z   ---
+2026-10-10T21:37:46.8453770Z   duration_ms: 93739.28938
+2026-10-10T21:37:46.8456091Z   type: 'test'
+2026-10-10T21:37:46.8458805Z   ...
+2026-10-10T21:37:47.8608381Z # ENFORCED
+2026-10-10T21:37:47.9247696Z # grant complete
+2026-10-10T21:37:47.9560492Z # grant complete
+2026-10-10T21:38:05.8231867Z # grant complete
+2026-10-10T21:38:05.8588659Z # grant complete
+2026-10-10T21:38:26.5649198Z # Subtest: plan review shows only its matching current project profile and environment
+2026-10-10T21:38:26.5652407Z ok 21 - plan review shows only its matching current project profile and environment
+2026-10-10T21:38:26.5669729Z   ---
+2026-10-10T21:38:26.5688226Z   duration_ms: 38972.920084
+2026-10-10T21:38:26.5708219Z   type: 'test'
+2026-10-10T21:38:26.5728014Z   ...
+2026-10-10T21:38:27.6829180Z # ENFORCED
+2026-10-10T21:38:27.7462609Z # grant complete
+2026-10-10T21:38:27.7838164Z # grant complete
+2026-10-10T21:38:27.8131358Z # grant complete
+2026-10-10T21:38:27.9058542Z # grant complete
+2026-10-10T21:38:27.9429156Z # grant complete
+2026-10-10T21:38:27.9753913Z # grant complete
+2026-10-10T21:38:49.3032577Z # Subtest: review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+2026-10-10T21:38:49.3039511Z ok 22 - review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+2026-10-10T21:38:49.3043474Z   ---
+2026-10-10T21:38:49.3045605Z   duration_ms: 21922.742732
+2026-10-10T21:38:49.3046626Z   type: 'test'
+2026-10-10T21:38:49.3047154Z   ...
+2026-10-10T21:38:50.3923684Z # ENFORCED
+2026-10-10T21:38:50.4586721Z # grant complete
+2026-10-10T21:38:50.4900096Z # grant complete
+2026-10-10T21:38:50.5253623Z # grant complete
+2026-10-10T21:38:50.5641226Z # grant complete
+2026-10-10T21:39:07.6261046Z # Subtest: browser compares explicitly selected retained releases and discards a late result after pair changes
+2026-10-10T21:39:07.6264222Z ok 23 - browser compares explicitly selected retained releases and discards a late result after pair changes
+2026-10-10T21:39:07.6266800Z   ---
+2026-10-10T21:39:07.6269017Z   duration_ms: 17542.512858
+2026-10-10T21:39:07.6269664Z   type: 'test'
+2026-10-10T21:39:07.6289000Z   ...
+2026-10-10T21:39:08.6747377Z # ENFORCED
+2026-10-10T21:39:08.7387975Z # grant complete
+2026-10-10T21:39:15.7719417Z # Subtest: browser gives fixed feedback when a retained release fails integrity verification
+2026-10-10T21:39:15.7722812Z ok 24 - browser gives fixed feedback when a retained release fails integrity verification
+2026-10-10T21:39:15.7724832Z   ---
+2026-10-10T21:39:15.7725389Z   duration_ms: 7374.049503
+2026-10-10T21:39:15.7726996Z   type: 'test'
+2026-10-10T21:39:15.7728784Z   ...
+2026-10-10T21:39:16.8766007Z # ENFORCED
+2026-10-10T21:39:16.9408520Z # grant complete
+2026-10-10T21:39:17.0392388Z # grant complete
+2026-10-10T21:39:24.5536020Z # Subtest: release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+2026-10-10T21:39:24.5558803Z ok 25 - release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+2026-10-10T21:39:24.5578085Z   ---
+2026-10-10T21:39:24.5587272Z   duration_ms: 8032.227807
+2026-10-10T21:39:24.5588183Z   type: 'test'
+2026-10-10T21:39:24.5588697Z   ...
+2026-10-10T21:39:25.6033232Z # ENFORCED
+2026-10-10T21:39:25.6715386Z # grant complete
+2026-10-10T21:39:25.7043337Z # grant complete
+2026-10-10T21:39:38.5653341Z # Subtest: browser displays a server-audited decision denial to the authenticated project actor
+2026-10-10T21:39:38.5656737Z ok 26 - browser displays a server-audited decision denial to the authenticated project actor
+2026-10-10T21:39:38.5659869Z   ---
+2026-10-10T21:39:38.5661356Z   duration_ms: 13239.658715
+2026-10-10T21:39:38.5663442Z   type: 'test'
+2026-10-10T21:39:38.5664053Z   ...
+2026-10-10T21:39:39.5874912Z # ENFORCED
+2026-10-10T21:39:39.6536521Z # grant complete
+2026-10-10T21:39:39.6849449Z # grant complete
+2026-10-10T21:39:39.7289199Z # grant complete
+2026-10-10T21:39:39.7663035Z # grant complete
+2026-10-10T21:39:41.4382251Z # revoke complete
+2026-10-10T21:39:41.5686619Z # Subtest: browser inbox handles delayed scopes, exact plan navigation and grant revocation between pages
+2026-10-10T21:39:41.5699508Z ok 27 - browser inbox handles delayed scopes, exact plan navigation and grant revocation between pages
+2026-10-10T21:39:41.5702411Z   ---
+2026-10-10T21:39:41.5702994Z   duration_ms: 2251.101317
+2026-10-10T21:39:41.5703615Z   type: 'test'
+2026-10-10T21:39:41.5704171Z   ...
+2026-10-10T21:39:42.6860766Z # ENFORCED
+2026-10-10T21:39:42.7485083Z # grant complete
+2026-10-10T21:39:42.7790459Z # grant complete
+2026-10-10T21:39:42.8130297Z # grant complete
+2026-10-10T21:39:51.6980885Z # Subtest: review assignment controls and Assigned to me filter follow scoped plan state
+2026-10-10T21:39:51.6985066Z ok 28 - review assignment controls and Assigned to me filter follow scoped plan state
+2026-10-10T21:39:51.6989141Z   ---
+2026-10-10T21:39:51.6991130Z   duration_ms: 9285.581415
+2026-10-10T21:39:51.6991861Z   type: 'test'
+2026-10-10T21:39:51.6992472Z   ...
+2026-10-10T21:39:53.7171129Z # Subtest: schema-reference view labels provisional identity and drops a delayed session response
+2026-10-10T21:39:53.7176755Z ok 29 - schema-reference view labels provisional identity and drops a delayed session response
+2026-10-10T21:39:53.7178096Z   ---
+2026-10-10T21:39:53.7178633Z   duration_ms: 1203.854544
+2026-10-10T21:39:53.7179185Z   type: 'test'
+2026-10-10T21:39:53.7180011Z   ...
+2026-10-10T21:39:55.2300504Z # Subtest: schema references follow project context and clear after grant revocation
+2026-10-10T21:39:55.2302219Z ok 30 - schema references follow project context and clear after grant revocation
+2026-10-10T21:39:55.2304801Z   ---
+2026-10-10T21:39:55.2305382Z   duration_ms: 1513.493992
+2026-10-10T21:39:55.2305971Z   type: 'test'
+2026-10-10T21:39:55.2307308Z   ...
+2026-10-10T21:39:56.2758682Z # ENFORCED
+2026-10-10T21:39:56.3269169Z # grant complete
+2026-10-10T21:39:56.3600344Z # grant complete
+2026-10-10T21:39:56.3919482Z # deploy-grant complete
+2026-10-10T21:40:44.3117431Z # Subtest: HTTPS browser resumes secure sessions and retains review workflow through logout, expiry and witnessed restore
+2026-10-10T21:40:44.3122101Z ok 31 - HTTPS browser resumes secure sessions and retains review workflow through logout, expiry and witnessed restore
+2026-10-10T21:40:44.3124981Z   ---
+2026-10-10T21:40:44.3127158Z   duration_ms: 48284.324873
+2026-10-10T21:40:44.3128153Z   type: 'test'
+2026-10-10T21:40:44.3129681Z   ...
+2026-10-10T21:40:45.3999825Z # ENFORCED
+2026-10-10T21:40:45.4528613Z # grant complete
+2026-10-10T21:40:45.4831777Z # grant complete
+2026-10-10T21:41:05.1295313Z # Subtest: review shows the complete paged statement envelope, explicit readiness and legacy reapproval without stale results
+2026-10-10T21:41:05.1303507Z ok 32 - review shows the complete paged statement envelope, explicit readiness and legacy reapproval without stale results
+2026-10-10T21:41:05.1304784Z   ---
+2026-10-10T21:41:05.1307187Z   duration_ms: 20041.188547
+2026-10-10T21:41:05.1308245Z   type: 'test'
+2026-10-10T21:41:05.1310451Z   ...
+2026-10-10T21:41:06.1939512Z # ENFORCED
+2026-10-10T21:41:06.2581221Z # grant complete
+2026-10-10T21:41:06.2888655Z # grant complete
+2026-10-10T21:41:21.2074395Z # grant complete
+2026-10-10T21:41:21.2379706Z # grant complete
+2026-10-10T21:41:30.7068974Z # Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+2026-10-10T21:41:30.7074373Z ok 33 - status filters preserve scoped ordered plans, drafts, history and archived reads
+2026-10-10T21:41:30.7076539Z   ---
+2026-10-10T21:41:30.7080560Z   duration_ms: 24788.010624
+2026-10-10T21:41:30.7081326Z   type: 'test'
+2026-10-10T21:41:30.7083395Z   ...
+2026-10-10T21:41:30.7328265Z 1..33
+2026-10-10T21:41:30.7329031Z # tests 33
+2026-10-10T21:41:30.7329388Z # suites 0
+2026-10-10T21:41:30.7329718Z # pass 32
+2026-10-10T21:41:30.7330048Z # fail 1
+2026-10-10T21:41:30.7330381Z # cancelled 0
+2026-10-10T21:41:30.7330742Z # skipped 0
+2026-10-10T21:41:30.7331093Z # todo 0
+2026-10-10T21:41:30.7331465Z # duration_ms 792542.631022
+2026-10-10T21:41:30.7526667Z ##[error]Process completed with exit code 1.

@@ -206,7 +206,7 @@
   "foundation_evidence": {
     "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
   },
-  "current_phase": "MVP_M4_HISTORY_LOCAL_VERIFIED_INTEGRATION_PENDING",
+  "current_phase": "MVP_M4_HISTORY_CORRECTED_CI_PENDING",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
@@ -220,7 +220,7 @@
     "node scripts/tracker.mjs status",
     "node scripts/tracker.mjs next"
   ],
-  "updated_at": "2026-10-10T21:08:57.918951+00:00",
+  "updated_at": "2026-10-10T21:43:28.411835+00:00",
   "final_check_evidence": {
     "index_id": "product-t35-corrected-ci-mvp-integration-verified"
   },
@@ -228,17 +228,19 @@
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
-  "latest_validated_master_before_this_increment": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
+  "latest_validated_master_before_this_increment": "7ac6b711036ae484ee9a273cb85b99ecd82e44e3",
   "last_merged_implementation_pr": 49,
   "checkpoint_evidence": "evidence/product/mvp-execution-history-20261011/record.json",
-  "implementation_prs_pending": [],
+  "implementation_prs_pending": [
+    50
+  ],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "M4_HISTORY_PUBLICATION_PENDING",
+  "current_increment_merge_status": "PR50_DRAFT_CORRECTED_CI_REQUIRED",
   "current_checkpoint_branch": "development/product-execution-history",
   "active_track": "PRODUCT",
   "tracks": {
@@ -747,7 +749,7 @@
       {
         "outcome": "Versioned approved statement envelope and explicit readiness before trusted admission",
         "work": "Reuse pinned parser and retained release; bind every ordered ordinal/range/execution digest in a new immutable approval envelope. Preserve v1 historical bytes/approvals and require fresh approval. Keep requests WAITING_VALIDATION without trusted current target history, mutex/dispatch permit and host witness.",
-        "status": "INTEGRATED_PR49_MASTER_CI_PENDING"
+        "status": "INTEGRATED_PR49_MASTER_CI_VERIFIED"
       },
       {
         "outcome": "Visible execution attempt/receipt/HOLD history",
@@ -776,13 +778,16 @@
     ],
     "active_increment": {
       "outcome": "Scoped retained execution attempt/receipt/HOLD history",
-      "status": "LOCAL_VERIFIED_PUBLICATION_PENDING",
+      "status": "PR50_DRAFT_CORRECTED_PUBLICATION_CI_PENDING",
       "worktree": "/home/longhn0710/workspace/schemaforge-execution-history",
       "branch": "development/product-execution-history",
       "source_head": "a107a73b2f66c64d01fdbc2ea81fa61060396b1d",
       "integrated_base": "7ac6b711036ae484ee9a273cb85b99ecd82e44e3",
       "evidence": "evidence/product/mvp-execution-history-20261011/record.json",
-      "next": "Trusted worker/current-target admission and reconciliation ports under explicit Oracle authority; reproducible local Git-to-review/request/history release acceptance independently."
+      "next": "Trusted worker/current-target admission and reconciliation ports under explicit Oracle authority; reproducible local Git-to-review/request/history release acceptance independently.",
+      "pr": 50,
+      "original_publication_head": "00d020141981f70f80b63d81083f60041f4094d1",
+      "ci_correction": "evidence/product/mvp-execution-history-20261011/publication-ci-correction.json"
     }
   }
 }

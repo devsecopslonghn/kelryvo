@@ -1,0 +1,102 @@
+{
+  "observed_head": "00d020141981f70f80b63d81083f60041f4094d1",
+  "recorded_at": "2026-10-10T21:42:16.577897+00:00",
+  "original_runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 38086731603,
+      "event": "pull_request",
+      "headSha": "00d020141981f70f80b63d81083f60041f4094d1",
+      "name": "Offline WP0 checks",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38086731603"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38086731599,
+      "event": "pull_request",
+      "headSha": "00d020141981f70f80b63d81083f60041f4094d1",
+      "name": "Offline ANTLR parser acceptance",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38086731599"
+    },
+    {
+      "conclusion": "failure",
+      "databaseId": 38086731605,
+      "event": "pull_request",
+      "headSha": "00d020141981f70f80b63d81083f60041f4094d1",
+      "name": "Local PRODUCT acceptance",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38086731605"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38086690935,
+      "event": "push",
+      "headSha": "00d020141981f70f80b63d81083f60041f4094d1",
+      "name": "Offline WP0 checks",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38086690935"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38086690982,
+      "event": "push",
+      "headSha": "00d020141981f70f80b63d81083f60041f4094d1",
+      "name": "Offline ANTLR parser acceptance",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38086690982"
+    },
+    {
+      "conclusion": "failure",
+      "databaseId": 38086691038,
+      "event": "push",
+      "headSha": "00d020141981f70f80b63d81083f60041f4094d1",
+      "name": "Local PRODUCT acceptance",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38086691038"
+    }
+  ],
+  "original_browser_counts": {
+    "tests": 33,
+    "pass": 32,
+    "fail": 1,
+    "skipped": 0
+  },
+  "defect": "Existing comments browser test waited only5seconds for approval notice while real pinned-parser revalidation ran; push diagnostic already showed eventual approval, PR diagnostic remained pending. Sole failure in both runs; new history browser passed.",
+  "correction": "Register exact plan-decision POST response waiter before click, bounded30seconds, assert200, then retain notice/read-only checks. Product job30->40minute bounded runtime budget because prior job29minutes aborted midtest; all steps/assertions/conditions unchanged.",
+  "verification": {
+    "focused_browser": {
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "skipped": 0
+    },
+    "lint": "PASS",
+    "format": "PASS",
+    "full_corrected_ci": "PENDING"
+  },
+  "review": "Native independent approved response wait; subsequent budget delta review required before publication.",
+  "source_sha256": {
+    "tests/product-comments-browser.integration.mjs": "2ce5dd8c052301313a74c27daf0154e1f20756a2b7b6835afbabf65e11cae41d",
+    ".github/workflows/product.yml": "7563c547bdc9ab54d06e6371a08715ecd908f6b4f36c4a69855ed84a3e7b162d"
+  },
+  "logs": [
+    {
+      "path": "evidence/product/mvp-execution-history-20261011/initial-publication-browser-failed.log",
+      "sha256": "a367834d7d4cad06ad4a1aadab8ddf3238ed83e7f1b9078d12d08a586427ecf3"
+    },
+    {
+      "path": "evidence/product/mvp-execution-history-20261011/initial-publication-pr-browser-failed.log",
+      "sha256": "d0560781d6c6656ba6dffc08fb73245bd4d3d9f38b3547549a951f2909de28ad"
+    },
+    {
+      "path": "evidence/product/mvp-execution-history-20261011/comments-browser-corrected.log",
+      "sha256": "49c67cd622e765426251c1c1e4270c8196a18ac4f2b247da3ad0d1b97c183b8a"
+    }
+  ],
+  "limitations": [
+    "No production code or license change; local focused test correction does not claim full CI PASS.",
+    "Oracle runtime remains BLOCKED_EXTERNAL; original failed CI retained."
+  ]
+}
