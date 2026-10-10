@@ -199,6 +199,17 @@
         "apps/api/index.ts",
         "apps/web/src/app.jsx"
       ]
+    },
+    {
+      "id": "SF-D033",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T30",
+      "accepted_at_utc": "2026-10-10T09:02:00.505795+00:00",
+      "decision": "Introduce a shared reference-only inventory prerequisite to DBM001/004/007, independently on merged master. Trusted local OS operator alone registers immutable manual database/container/service/schema references and assigns current project ownership; project actors receive only scoped read views. Separate declared references from observed/attested Oracle identity: PROVISIONAL/MANUAL_REFERENCE, generation1, no observed DBID/GUID claims, no credential/profile/plan binding or verified execution state. Database/container operator keys scope immutable registrations; normalize route host case but preserve service and owner case. Declared route mapped to exactly one provisional container, never automatic alias/clone proof. Container declared environment DEV/SIT/UAT/PROD inherited with no schema override and no claim of target observation. One active schema owner; expected bigint revision and atomic historical transfer. No implicit legacy migration or new app admin. Full discovery/DBA attestation, credential purpose binding and plan lifecycle invalidation remain prerequisites before any execution use. Ordinary reversible metadata default under SF-D010.",
+      "references": [
+        "docs/inputs/db-research/product-research/DATABASE-RESOURCE-MODEL.md",
+        "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md",
+        "docs/implementation/backlog.json"
+      ]
     }
   ]
 }
