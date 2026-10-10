@@ -1,0 +1,32 @@
+{
+  "frozen_head": "af707b4fd08074c6109cae4c8c08c011fa82d597",
+  "comparison_parent": "ee3d1c60ca9b18b75ba983a73e828fb71a46c09a",
+  "sha256": {
+    "apps/api/index.ts": "423f49d59129481fde904f0373b8add6a3c63a0f0b5eb7abfa0a8349750ddc8f",
+    "apps/web/src/app.jsx": "2ec774f7146c082161a5108cd47dcdf167ca684fc794c41457cee2005cc030d2",
+    "apps/web/styles.css": "0074a6d65b3aa8cce453d9db1d079e7eb6f9d406d769a78f63e95bbebed086a7",
+    "docs/architecture/boundaries.md": "02f6d2951d44a942eeacad9ec591dca7f6d4b4f45f9f5c5a3e0253484af92f6f",
+    "docs/development/local-product.md": "df71d4beede9e21c023e5b26c88b627756b7cd65edfabcb0445c69cb09b10d0b",
+    "packages/catalog-reference/index.mjs": "4ce89a34fd6cbfeabbbc2cf1d25e85ff37a7cc1a8376652e07925ca0dbae31bb",
+    "packages/database/index.ts": "72c77ae557408d8171021f9b1d4893cb1d618356c39ca884ddcc844ea49c90e6",
+    "scripts/local-inventory-operator.mjs": "6d1ba4faa82a850435e150e3e8f9660b14e2fbcc2faa7d8e29a22ef5791537c1",
+    "scripts/local-membership-operator.mjs": "e99c27fc57b0b41b71fbe627067eac0d91889ffab2a3a0a5f0a9f3bb037fc830",
+    "scripts/local-operator-config.mjs": "35aa45b99643876febaa030d174914a45a26776b39171ebdee1e995f4235a981",
+    "scripts/test-product.mjs": "fc601ebe96374315348f5b92173d701a928fd806d7bc05d6f653bfbc80981cf9",
+    "tests/helpers/product-inventory-fixture.mjs": "a60d9d518a9879640bc444b5898cfdabe922d869c0bc52f3f03afc2c54f93ac0",
+    "tests/product-schema-reference-browser.integration.mjs": "3aa774465f93848ab1fd85bdc14f66e3eb1b4f34272a8b253d84bec9062efb64",
+    "tests/product-schema-reference.test.mjs": "f5f0c83dbc3c5f0f747cec6b02358d99c480e655e8760236c8f5ae03bee31584"
+  },
+  "findings": [],
+  "review_scope": {
+    "reviewed_all_14_changed_paths": true,
+    "acceptance_and_contracts": "SF-PRODUCT-T30 and SF-D033; previously reviewed DATABASE-RESOURCE-MODEL and DATA-CONTRACTS identity/assignment sections",
+    "source_review": "frozen commit diff, database schema, catalog-reference registration/assignment logic, local operator/config authority, API, React UI, focused PostgreSQL/operator/API/Chromium test assertions, and boundary/operator docs",
+    "reviewer_ran_tests": false
+  },
+  "limitations": [
+    "This is source review only; no tests, scans, network probes, or runtime execution were performed by this reviewer.",
+    "Does not certify full DBM-001/004/007, Oracle identity/discovery/attestation, catalog target verification, credential/profile-purpose binding, lifecycle restore, plan target binding, or schema baseline acceptance.",
+    "External security, license, branch-protection, and other independent merge gates remain owned by the root review and evidence process."
+  ]
+}

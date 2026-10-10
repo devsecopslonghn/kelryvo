@@ -2932,12 +2932,17 @@
         "SF-PRODUCT-T30-WEB",
         "SF-PRODUCT-T30-PERSISTENCE"
       ],
-      "status": "IN_PROGRESS",
+      "status": "VERIFIED",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
-      "evidence": [],
-      "blockers": []
+      "evidence": [
+        {
+          "index_id": "product-t30-schema-reference-ownership-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Bounded local manual schema reference registration/current ownership only; full DBM001/004/007 and Oracle/worker target acceptance unverified."
     }
   ]
 }
