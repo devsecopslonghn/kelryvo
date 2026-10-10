@@ -3167,6 +3167,28 @@
       "recorded_at": "2026-10-10T19:44:41.853042+00:00",
       "path": "evidence/product/product-t35-journal-repair-20261010/integration-record.json",
       "sha256": "4b526ce4b0c9d5eb8a3742a1e1c8332a8e1262e243c34046403e24f3031a4caf"
+    },
+    {
+      "id": "mvp-statement-readiness-local-verified",
+      "subject_id": "SF-PRODUCT-T17",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen npm run check (offline, as foundation CI); focused PostgreSQL/parser/Chromium affected checks7/7; corrected new API1/1. Full product/browser suites required in final CI.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "SF-PRODUCT-T17-UNIT",
+        "SF-PRODUCT-T17-API",
+        "SF-PRODUCT-T17-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/mvp-statement-readiness-20261011/affected-final.log",
+        "sha256": "ee263ccdcb3ed1d73e570915c9500e7762c1588d99ce0123bf39569b99f203b5"
+      },
+      "path": "evidence/product/mvp-statement-readiness-20261011/record.json",
+      "sha256": "f2062283baf548e416a051732d3568488079de609ad66fc50a8e9504353066f8"
     }
   ]
 }

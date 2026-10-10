@@ -1,0 +1,8 @@
+{
+  "source_head": "3f72cbfd3fd2b6aa7c128932d32264c87c406d9a",
+  "outcome": "APPROVED_SOURCE_SECURITY_LICENSE",
+  "reviewer": "native /root/integration_review",
+  "recorded_at": "2026-10-10T20:14:28.452673+00:00",
+  "prior_source_review": "independent-review.json approved832be8e",
+  "fixture_review": "Four SQL-source new-plan fixtures use ANTLR_PROFILE in manifest and row.201/response.ok assertions retained/strengthened. No weakening; historical direct-SQL v1 fixtures untouched. No tests rerun by reviewer. CI not certified."
+}

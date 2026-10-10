@@ -1,0 +1,41 @@
+{
+  "scope": "Changed publication paths since preserved T35 closeout1b11a69; prior security scans/gates reused. No whole-history clean claim.",
+  "source_head": "832be8e238f802f898f07ac1a84ed2d27dd70b64",
+  "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "dir",
+    "/tmp/schemaforge-statement-publication-ejf4_bow",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-statement-publication-ejf4_bow-private.json"
+  ],
+  "exit_code": 0,
+  "findings": 0,
+  "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "private_report": "/tmp/schemaforge-statement-publication-ejf4_bow-private.json",
+  "paths_sha256": {
+    "apps/api/index.ts": "7624c2c6e6dd0d770252e2dfa629e33ad0221dbdca811551a066618e535c9d0c",
+    "apps/web/src/app.jsx": "37c41a31cea67654ad1f2c459d732cb027fb866e52ee3e5025027b95775b2e97",
+    "docs/architecture/boundaries.md": "1bf814a1d7d8f73b05816a66e75ed678f17cef7738e1b59d798061351b71182d",
+    "docs/decisions/log.json": "6db890280a6b5659079cf01de0bc42858ab6a13a565874396ea2163cca597aba",
+    "docs/development/local-product.md": "c8715429214d46dada245725098a40eacc63a647cd26498d05fb1a173370ca11",
+    "docs/implementation/CONTINUE.md": "0e09defd79210f8bafd2c83308af758e121b3fe1e611dde5dff9d65f2b5bafa9",
+    "docs/implementation/CURRENT.md": "0e09defd79210f8bafd2c83308af758e121b3fe1e611dde5dff9d65f2b5bafa9",
+    "docs/implementation/milestone.json": "d03bf33c3fbb9f8251d8c5cc38e926e6d3523d7f71574acfeb6679b96652f5e1",
+    "evidence/product/mvp-statement-readiness-20261011/focused-corrected.log": "d2cf3e197cd85602b47324faec1a6f8840fadda67817293d57dcbc0aecc807c4",
+    "evidence/product/mvp-statement-readiness-20261011/focused-existing.log": "faa7f87492d2ffb5257a4fa0592ac819a1b2d50d7e96372214d56286cdbb16fb",
+    "evidence/product/mvp-statement-readiness-20261011/focused-initial.log": "424a3b2a5a742d4ec08c0093bb92a37a6aa02550cf47be29bebd48da636fccc0",
+    "packages/migrations/offline-plan-intent.mjs": "e2795dfb14d4a1babf375b4ad0138548284131e2778defbb77f06437725fbddf",
+    "packages/migrations/statement-identity.mjs": "70fff3d2a9df176ce847d2bef9dfbfc98c4085aee41e2cf5f06ea31efc0ccab3",
+    "packages/migrations/statement-preview.mjs": "5f0c29f4f2e63f2cf07172910dbc456c6cca651a043e4b041a77b57eaade8f80",
+    "scripts/test-product.mjs": "4c123061c12c3214d623b287aec67dd08cea460773cd6e9fd23e1741d7fb68d9",
+    "tests/helpers/statement-envelope-fixture.mjs": "d657a2e2bf50f4732e4d358d2cb45d335371ca775b3b8e088df21643f46e7fcb",
+    "tests/offline-plan-intent.test.mjs": "2619466be0b99c28e02c5e6cce480374a77fad494ede99f32684843c7de9c5c8",
+    "tests/product-statement-envelope-browser.integration.mjs": "0714f5660a1c405edb4d1425145e8a1d21a532baa69353ad5907b6dbc5804cd2",
+    "tests/product-statement-envelope.test.mjs": "e6db183b2035137573be6628d0f5e7c594e2c045b855c879a05ac5396e7a7b32",
+    "tests/statement-preview.test.mjs": "f5b7873e7adf41b1a4aff028384a6716266395a723c0f741023306a50c5ce438"
+  },
+  "recorded_at": "2026-10-10T20:01:56.594980+00:00"
+}

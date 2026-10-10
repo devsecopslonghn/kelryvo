@@ -1,0 +1,13 @@
+{
+  "source_head": "832be8e238f802f898f07ac1a84ed2d27dd70b64",
+  "base": "d3249fb7b42fe0468720eaa73421df444b708652",
+  "reviewer": "native /root/integration_review",
+  "outcome": "APPROVED_SOURCE_SECURITY_LICENSE",
+  "recorded_at": "2026-10-10T20:02:32.448760+00:00",
+  "resolved_findings": [
+    "whole retained release verification/bounds reused from a single copied snapshot",
+    "format1 execution requests denied before idempotency/job/audit writes, old reads/approval preserved"
+  ],
+  "scope": "Source/API/UI/tests/behavior docs; no full suite rerun by reviewer, CI and Oracle acceptance not certified.",
+  "notes": "No substantive blocker, dependency or license change. Scope/digest/paging/stale-response and no-authority boundaries preserved."
+}
