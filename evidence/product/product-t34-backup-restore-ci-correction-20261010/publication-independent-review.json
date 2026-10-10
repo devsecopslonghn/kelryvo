@@ -1,0 +1,14 @@
+{
+  "reviewer": "native /root/t34_review",
+  "reviewed_candidate": "65207e161df90377facd0eb254da265acd869dbe",
+  "frozen_source": "f7426040789076ff728263b7e09a78aa98360464",
+  "recorded_at": "2026-10-10T17:20:34.631218+00:00",
+  "actionable_findings": [],
+  "assessment": "Corrected serial188/51/30 actualpass with0fail/cancel/skip, source/head/hash maps match. Old591 acceptance and4cf5SUCCESS/1FAIL preserved. Localcriterion0..4/index/classification correct, criterion5pending. Source unchangedfromf742;85-package licenseclosure unchanged; no integrity/confidentiality/classification blocker.",
+  "housekeeping": {
+    "finding": "Continuation next-step text still lists completed scans",
+    "root_resolution": "Continuation now states same-draft push and actual available exact-head CI; incoming scan committed with annotations"
+  },
+  "root_validated_incoming_scan_sha256": "a0d30388882b9edfb7bd4ad3d383674db320f16fad1fdb3747902edb5e3b2001",
+  "limits": "Native reviewed bounded metadata and existing results; no tests/scans/API calls. Housekeeping edits by root after reviewed candidate. No remote security/Oracle/production/merge/full-catalog certification."
+}
