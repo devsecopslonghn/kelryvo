@@ -1,0 +1,11 @@
+{
+  "recorded_at": "2026-10-10T17:22:25.648910+00:00",
+  "pr": 47,
+  "published_head": "9d6deff83ea1373bdf3fccc77c653500e70620da",
+  "frozen_source": "f7426040789076ff728263b7e09a78aa98360464",
+  "first_candidate": "4cf76f4dd4313c4d72c40d7ff5b43a11eba1dbea",
+  "base": "development/product-execution-jobs",
+  "available_ci": "PENDING",
+  "required_security_available": false,
+  "merge_eligible": false
+}

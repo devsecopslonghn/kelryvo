@@ -1,0 +1,11 @@
+{
+  "reviewer": "native /root/t34_review",
+  "published_head": "9d6deff83ea1373bdf3fccc77c653500e70620da",
+  "frozen_source_head": "f7426040789076ff728263b7e09a78aa98360464",
+  "recorded_at": "2026-10-10T17:22:25.648910+00:00",
+  "findings": [],
+  "scope": "Exact corrected published candidate confirmation:652..9d only continuation/milestone and three publication evidence annotations; no source/test delta fromf742.",
+  "assessment": "Incoming and annotation scans actualexit0/zero findings, explicit scope/no remote security claim. Source tree matchesf742; no blocker.",
+  "housekeeping": "Published content still points to old4cf pending candidate; root corrects actual current pointer in post-push local checkpoint, retaining original failure.",
+  "limits": "Read-only confirmation, no tests/scans/remoteCI/security acceptance. Exact CI pending; no Oracle/production/merge/full-catalog certification."
+}
