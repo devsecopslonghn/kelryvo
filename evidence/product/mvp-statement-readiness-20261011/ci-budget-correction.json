@@ -1,0 +1,85 @@
+{
+  "source_head": "5c60d0f8373fe2ceb8589114f5de57ecdba43f19",
+  "outcome": "CI_NOT_ELIGIBLE",
+  "runs": [
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-10T20:30:12Z",
+      "databaseId": 38083994362,
+      "event": "pull_request",
+      "headSha": "5c60d0f8373fe2ceb8589114f5de57ecdba43f19",
+      "status": "completed",
+      "updatedAt": "2026-10-10T20:31:54Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38083994362",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-10T20:30:12Z",
+      "databaseId": 38083994357,
+      "event": "pull_request",
+      "headSha": "5c60d0f8373fe2ceb8589114f5de57ecdba43f19",
+      "status": "completed",
+      "updatedAt": "2026-10-10T20:31:42Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38083994357",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "cancelled",
+      "createdAt": "2026-10-10T20:30:12Z",
+      "databaseId": 38083994491,
+      "event": "pull_request",
+      "headSha": "5c60d0f8373fe2ceb8589114f5de57ecdba43f19",
+      "status": "completed",
+      "updatedAt": "2026-10-10T20:45:33Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38083994491",
+      "workflowName": "Local PRODUCT acceptance"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-10T20:30:08Z",
+      "databaseId": 38083988242,
+      "event": "push",
+      "headSha": "5c60d0f8373fe2ceb8589114f5de57ecdba43f19",
+      "status": "completed",
+      "updatedAt": "2026-10-10T20:31:38Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38083988242",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-10T20:30:08Z",
+      "databaseId": 38083988135,
+      "event": "push",
+      "headSha": "5c60d0f8373fe2ceb8589114f5de57ecdba43f19",
+      "status": "completed",
+      "updatedAt": "2026-10-10T20:33:24Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38083988135",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "cancelled",
+      "createdAt": "2026-10-10T20:30:08Z",
+      "databaseId": 38083988154,
+      "event": "push",
+      "headSha": "5c60d0f8373fe2ceb8589114f5de57ecdba43f19",
+      "status": "completed",
+      "updatedAt": "2026-10-10T20:45:27Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38083988154",
+      "workflowName": "Local PRODUCT acceptance"
+    }
+  ],
+  "reason": "Both product jobs exhausted15minute total budget before browser stage. Assignment API timed out30seconds with actual pinned parser; later cases continued and statement-envelope API passed. No final complete product/browser PASS claimed.",
+  "correction": "Same mandatory workflow steps, bounded30minute job deadline; assignment deadline120seconds for ten real-parser plans. No assertions removed.",
+  "focused_result": "Reviewer assignment API1PASS0FAIL0SKIP; 29.1seconds; real PostgreSQL and pinned parser.",
+  "review": "Native independent read-only review approved only these bounded deadline changes.",
+  "changed_source_sha256": {
+    ".github/workflows/product.yml": "d95b382077369e84aa675f146b7098a9e1c6d305eada0876373515d31073a464",
+    "tests/product-reviewer-assignment.test.mjs": "cec99b64283b59dfefd9c23a79c0de1f3614089e98b11a0feccdcbc01d4588eb"
+  },
+  "log_sha256": {
+    "budget-head-product-cancelled.log": "f3aeba4894d5b44d63fc36bce3c61cf6c8086bcb186b98101522da2ec61d7a5f",
+    "reviewer-budget-corrected.log": "ff000cee88cef9ad108284aa870ca35c6e7f387aabc99e065ac92d0ead8190f2"
+  },
+  "recorded_at": "2026-10-10T20:49:06.786305+00:00"
+}

@@ -8,7 +8,8 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
 test('reviewer assignment is scoped, revisioned, auditable and enforced at decision time', {
-  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 30000,
+  // Multiple fresh plans now derive the complete pinned-parser statement stream.
+  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
 }, async () => {
   const db = await openIsolatedProductDatabase();
   const actors = [
