@@ -504,7 +504,9 @@ Backup destinations and witness files must be new, mode-0700 directories and mod
 files respectively. Store the witness outside the backup directory and outside its custody
 failure domain. The custom-format archive is data-only; the versioned manifest binds its
 digest, the exported PostgreSQL snapshot's metadata generation/checkpoint and the complete
-registered public schema inventory, including the comment identity sequence. Source organization
+registered public schema inventory, including function definition digests, trigger bindings,
+sequence definitions/column ownership and object owner/privilege checks. The comment identity
+sequence value is restored separately from its controlled definition. Source organization
 metadata must exactly match the fixed local singleton; unsupported organization/schema state
 is rejected. Fixed organization metadata is recreated by initialization;
 the current-generation pointer and per-destination ownership marker are not copied. The

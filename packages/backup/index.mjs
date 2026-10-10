@@ -30,10 +30,10 @@ const TRIGGERS = ['sf_execution_admission_proofs_immutable','sf_execution_attemp
   'sf_execution_job_events_immutable','sf_execution_jobs_projection_guard','sf_execution_receipts_immutable',
   'sf_metadata_credentials_revoked_immutable','sf_metadata_generations_immutable','sf_metadata_operator_audit_immutable','sf_metadata_restore_owners_immutable',
   'sf_plan_approval_revocations_immutable','sf_plan_approval_revocations_reference_match'].sort();
-const SCHEMA_SIGNATURE = '28f8a2d17bf7f190efdf5d3d411326440f4d29679de017bc273b5c4e42484652';
+const SCHEMA_SIGNATURE = '6537761079b3de901b423240e5f3860a4b8c81e97e968c6d59509dc3b0bce1d5';
 const json = value => `${JSON.stringify(value, null, 2)}\n`;
 const schemaDigest = schema => sha(JSON.stringify({schemas:['public'],tables:schema.tables,relations:schema.relations,
-  functions:schema.functions,triggers:schema.triggers,columns:schema.columns,constraints:schema.constraints,indexes:schema.indexes}));
+  functions:schema.functions,triggers:schema.triggers,columns:schema.columns,constraints:schema.constraints,indexes:schema.indexes,routines:schema.routines,triggerDefinitions:schema.triggerDefinitions,sequenceDefinitions:schema.sequenceDefinitions,ownership:schema.ownership}));
 async function syncPath(file) {
   const handle=await open(file,constants.O_RDONLY|constants.O_NOFOLLOW);
   try {await handle.sync();} finally {await handle.close();}
@@ -115,13 +115,37 @@ async function inventory(sql) {
     FROM pg_constraint c JOIN pg_class r ON r.oid=c.conrelid JOIN pg_namespace n ON n.oid=r.relnamespace
     WHERE n.nspname='public' ORDER BY c.conrelid::regclass::text,c.conname`;
   const indexes=await sql`SELECT tablename,indexname,indexdef FROM pg_indexes WHERE schemaname='public' ORDER BY tablename,indexname`;
+  const routineRows=await sql`SELECT p.proname,p.prokind,p.prosecdef,p.provolatile,p.proacl::text AS acl,(p.proowner=(SELECT oid FROM pg_roles WHERE rolname=current_user)) AS owned,
+    pg_get_function_identity_arguments(p.oid) AS arguments,l.lanname AS language,
+    pg_get_functiondef(p.oid) AS definition FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
+    JOIN pg_language l ON l.oid=p.prolang WHERE n.nspname='public' ORDER BY p.proname,arguments`;
+  const routines=routineRows.map(({definition,...facts})=>({...facts,definitionSha256:sha(definition)}));
+  const triggerRows=await sql`SELECT t.tgname,c.relname AS table_name,t.tgenabled,p.proname AS routine_name,
+    pn.nspname AS routine_schema,pg_get_function_identity_arguments(p.oid) AS routine_arguments,
+    pg_get_triggerdef(t.oid,true) AS definition FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid
+    JOIN pg_namespace n ON n.oid=c.relnamespace JOIN pg_proc p ON p.oid=t.tgfoid
+    JOIN pg_namespace pn ON pn.oid=p.pronamespace WHERE n.nspname='public' AND NOT t.tgisinternal ORDER BY t.tgname`;
+  const triggerDefinitions=triggerRows.map(({definition,...facts})=>({...facts,definitionSha256:sha(definition)}));
+  const sequenceDefinitions=await sql`SELECT s.relname AS sequence_name,q.seqtypid::regtype::text AS type,
+    q.seqstart::text AS start,q.seqincrement::text AS increment,q.seqmax::text AS maximum,
+    q.seqmin::text AS minimum,q.seqcache::text AS cache,q.seqcycle AS cycle,
+    d.deptype AS dependency_type,r.relname AS table_name,a.attname AS column_name
+    FROM pg_class s JOIN pg_namespace n ON n.oid=s.relnamespace JOIN pg_sequence q ON q.seqrelid=s.oid
+    LEFT JOIN pg_depend d ON d.classid='pg_class'::regclass AND d.objid=s.oid
+      AND d.refclassid='pg_class'::regclass AND d.deptype IN ('a','i')
+    LEFT JOIN pg_class r ON r.oid=d.refobjid LEFT JOIN pg_attribute a ON a.attrelid=r.oid AND a.attnum=d.refobjsubid
+    WHERE n.nspname='public' ORDER BY s.relname`;
+  const ownership=await sql`SELECT c.relname,c.relkind,(c.relowner=(SELECT oid FROM pg_roles WHERE rolname=current_user)) AS owned,
+    c.relacl::text AS acl FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
+    WHERE n.nspname='public' AND c.relkind IN ('r','S') ORDER BY c.relname`;
+  if(ownership.some(row=>!row.owned || row.acl!==null) || routines.some(row=>!row.owned || row.acl!==null)) throw fail();
   const relationList=rows.map(r => `${r.relkind}:${r.relname}`);
   const functionList=functions.map(r => r.proname), triggerList=triggers.map(r => r.tgname);
   if(JSON.stringify(relationList)!==JSON.stringify(RELATIONS)
     || JSON.stringify(functionList)!==JSON.stringify(FUNCTIONS) || JSON.stringify(triggerList)!==JSON.stringify(TRIGGERS)) throw fail();
-  const signature=sha(JSON.stringify({schemas:['public'],tables,relations:relationList,functions:functionList,triggers:triggerList,columns,constraints,indexes}));
+  const signature=sha(JSON.stringify({schemas:['public'],tables,relations:relationList,functions:functionList,triggers:triggerList,columns,constraints,indexes,routines,triggerDefinitions,sequenceDefinitions,ownership}));
   if(signature!==SCHEMA_SIGNATURE) throw fail();
-  return { tables, relations: relationList, functions: functionList, triggers: triggerList, columns, constraints, indexes, signature };
+  return { tables, relations: relationList, functions: functionList, triggers: triggerList, columns, constraints, indexes, routines, triggerDefinitions, sequenceDefinitions, ownership, signature };
 }
 function validateArchiveList(list, owner) {
   const lines = list.split('\n').filter(line => line && !line.startsWith(';'));
@@ -147,11 +171,13 @@ function exactManifest(m) {
     && typeof m.checkpoint === 'string' && /^[a-f0-9]{64}$/.test(m.checkpoint)
     && typeof m.metadataGeneration === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(m.metadataGeneration)
     && typeof m.witnessId === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(m.witnessId)
-    && m.schema && Object.keys(m.schema).sort().join(',')==='columns,constraints,functions,indexes,relations,signature,tables,triggers'
+    && m.schema && Object.keys(m.schema).sort().join(',')==='columns,constraints,functions,indexes,ownership,relations,routines,sequenceDefinitions,signature,tables,triggerDefinitions,triggers'
     && JSON.stringify(m.schema.tables)===JSON.stringify(TABLES)
     && JSON.stringify(m.schema.relations)===JSON.stringify(RELATIONS)
     && JSON.stringify(m.schema.functions)===JSON.stringify(FUNCTIONS) && JSON.stringify(m.schema.triggers)===JSON.stringify(TRIGGERS)
     && Array.isArray(m.schema.columns) && Array.isArray(m.schema.constraints) && Array.isArray(m.schema.indexes)
+    && Array.isArray(m.schema.routines) && Array.isArray(m.schema.triggerDefinitions)
+    && Array.isArray(m.schema.sequenceDefinitions) && Array.isArray(m.schema.ownership)
     && m.schema.signature===SCHEMA_SIGNATURE && schemaDigest(m.schema)===SCHEMA_SIGNATURE
     && typeof m.createdAt==='string' && Number.isFinite(Date.parse(m.createdAt)) && new Date(m.createdAt).toISOString()===m.createdAt
     && typeof m.sourceDatabase === 'string' && /^[a-z0-9_]{1,63}$/.test(m.sourceDatabase);

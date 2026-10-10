@@ -215,6 +215,17 @@ test('native restore rejects damaged, unsupported, linked and untrusted inputs b
     try {
       process.env.DOCKER_HOST='tcp://invalid.example:2375';await denied();
     } finally {if(oldHost===undefined) delete process.env.DOCKER_HOST;else process.env.DOCKER_HOST=oldHost;}
+    await source.sql.unsafe(`CREATE OR REPLACE FUNCTION sf_reject_execution_event_mutation() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RETURN NEW; END $$`);
+    await assert.rejects(()=>createPrivateBackup({configPath,databaseUrl,destination:join(root,'changed-function'),witnessPath:join(root,'changed-function-witness')}));
+    await initializeDatabase(source.sql);
+    await source.sql.unsafe('DROP TRIGGER sf_execution_job_events_immutable ON sf_execution_job_events');
+    await source.sql.unsafe('CREATE TRIGGER sf_execution_job_events_immutable BEFORE UPDATE OR DELETE ON sf_metadata_current FOR EACH ROW EXECUTE FUNCTION sf_reject_execution_event_mutation()');
+    await assert.rejects(()=>createPrivateBackup({configPath,databaseUrl,destination:join(root,'changed-trigger'),witnessPath:join(root,'changed-trigger-witness')}));
+    await source.sql.unsafe('DROP TRIGGER sf_execution_job_events_immutable ON sf_metadata_current');
+    await initializeDatabase(source.sql);
+    await source.sql.unsafe('ALTER SEQUENCE sf_plan_comments_position_seq INCREMENT BY 7');
+    await assert.rejects(()=>createPrivateBackup({configPath,databaseUrl,destination:join(root,'changed-sequence'),witnessPath:join(root,'changed-sequence-witness')}));
+    await source.sql.unsafe('ALTER SEQUENCE sf_plan_comments_position_seq INCREMENT BY 1');
     await source.sql.unsafe('CREATE TABLE unsupported_metadata_object (id integer)');
     await assert.rejects(()=>createPrivateBackup({configPath,databaseUrl,destination:join(root,'unsupported-backup'),witnessPath:join(root,'unsupported-witness')}));
     assert.equal((await source.sql`SELECT 1 FROM pg_tables WHERE tablename='unsupported_metadata_object'`).length,1,'unsupported source is never cleaned');

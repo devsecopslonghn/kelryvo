@@ -1,0 +1,7 @@
+{
+  "scope": "interrupted observation, not acceptance",
+  "execution_head": "d26db6ab219490926277114fae1f80b80f2f4662",
+  "reason": "Root terminated confirmed live npm check process 1436846 and four descendants for concrete native review schema-definition correction. Capture supervisor preserved raw output and null child exit. No claim that mandatory standard suite completed.",
+  "log_sha256": "585e3b97566870623b92b0f41c74ee9f7a2d5401b948ee8b9b6416312f125377",
+  "result_sha256": "ad06869953b1af1799d5ef66e59d6d94195d5869743ed68cf7970618386809f4"
+}
