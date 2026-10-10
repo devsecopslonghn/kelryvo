@@ -1,0 +1,43 @@
+COMMAND: node --test tests/product-approval-revocation.test.mjs
+e8148857c4c81f7e1a5a095bb013e45de76ac8a43c7fe944407ae91f35cb6821  apps/api/index.ts
+b99408654390916264e0315f992054f7656de590a3a80ea35751b6c91e290b38  packages/database/index.ts
+4e130a21719b8c054a106b511e37e09b6cd2a6848b0fb98edfb2ed089e405e35  apps/web/src/app.jsx
+45267989b3a75ac938bab0bdaae8b66ea6a9ad1867a9d103e574784bccb51024  tests/product-approval-revocation.test.mjs
+TAP version 13
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 1 - approval withdrawal links immutable history and works after retained content corruption # SKIP
+  ---
+  duration_ms: 1.027912
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 0
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 223.196359
+EXIT: 0
+COMMAND: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 1 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 5645.737451
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5865.651292
+EXIT: 0

@@ -1,0 +1,47 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "0,1",
+    "npm",
+    "run",
+    "check"
+  ],
+  "started_at": "2026-10-10T10:32:44.009Z",
+  "finished_at": "2026-10-10T10:36:17.907Z",
+  "exit_code": 0,
+  "execution_head": "560bb846aed8bad85f4a6c85ab9d991bfa392fe7",
+  "head_after": "560bb846aed8bad85f4a6c85ab9d991bfa392fe7",
+  "source_before": {
+    "apps/api/index.ts": "39a1c82f0653efacd091604c3da306271292788d1334d5137780d1055534165a",
+    "apps/web/src/app.jsx": "5438b0517f7bf3cca4604553141363c574ee1781ecd99c872dccf59fb45ed8a6",
+    "packages/database/index.ts": "8d12db112dc24d1cecb99ffc944d5995fdb0449385387ffb6e1a481776c0ffc7",
+    "scripts/test-product.mjs": "528afd13937e341bd37f4a226618f54a1f869ef752663199a80b337551596dfa",
+    "scripts/tracker.mjs": "5ad59386c427a9b1fd66e49b0a4b5cc2d572142a996a89eb8b675594e9cf5f45",
+    "tests/product-approval-revocation-browser.integration.mjs": "c2e16af336b897868fdbf4d312f264eb823ecf99fb3071f84aabb17f855def8c",
+    "tests/product-approval-revocation.test.mjs": "21e5dbca464998de9e16be8c2b4666ce26b5216a259e836348335dfc5af14a80",
+    "tests/tracker.test.mjs": "33384171740e62642a72f8130393324814130ba7e5b7bfc1b6028ebe8ad62282",
+    "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  },
+  "source_after": {
+    "apps/api/index.ts": "39a1c82f0653efacd091604c3da306271292788d1334d5137780d1055534165a",
+    "apps/web/src/app.jsx": "5438b0517f7bf3cca4604553141363c574ee1781ecd99c872dccf59fb45ed8a6",
+    "packages/database/index.ts": "8d12db112dc24d1cecb99ffc944d5995fdb0449385387ffb6e1a481776c0ffc7",
+    "scripts/test-product.mjs": "528afd13937e341bd37f4a226618f54a1f869ef752663199a80b337551596dfa",
+    "scripts/tracker.mjs": "5ad59386c427a9b1fd66e49b0a4b5cc2d572142a996a89eb8b675594e9cf5f45",
+    "tests/product-approval-revocation-browser.integration.mjs": "c2e16af336b897868fdbf4d312f264eb823ecf99fb3071f84aabb17f855def8c",
+    "tests/product-approval-revocation.test.mjs": "21e5dbca464998de9e16be8c2b4666ce26b5216a259e836348335dfc5af14a80",
+    "tests/tracker.test.mjs": "33384171740e62642a72f8130393324814130ba7e5b7bfc1b6028ebe8ad62282",
+    "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  },
+  "log_sha256": "2088ac1780fa1f132478f69b34d4f1ee1cfef0c297dfcba56f02e1d40b5220bb",
+  "environment": {
+    "node": "v22.23.3",
+    "postgres": "isolated trusted local metadata test container, owned databases only",
+    "java_home": "/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin"
+  }
+}

@@ -1,0 +1,59 @@
+COMMAND ["npm", "run", "typecheck"]
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+EXIT 0
+COMMAND ["npm", "run", "build:web"]
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+EXIT 0
+COMMAND ["node", "--test", "--test-concurrency=1", "tests/product-approval-revocation.test.mjs", "tests/product-approval-revocation-browser.integration.mjs"]
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+not ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 43030.953227
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByText('Approval withdrawn. The plan remains NOT_EXECUTED.', { exact: true }) to be visible[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation-browser.integration.mjs:181:95)
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 2 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6215.890796
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 50542.459074
+EXIT 1

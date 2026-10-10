@@ -1,0 +1,48 @@
+COMMAND ["npm", "run", "typecheck"]
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+EXIT 0
+COMMAND ["npm", "run", "build:web"]
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+EXIT 0
+COMMAND ["node", "--test", "--test-concurrency=1", "tests/product-approval-revocation.test.mjs", "tests/product-approval-revocation-browser.integration.mjs"]
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 12751.627315
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 2 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6072.234636
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 19714.391477
+EXIT 0
