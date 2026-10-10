@@ -1,0 +1,8 @@
+{
+  "frozen_head": "3f3ccb87f68335d470d39f668eaf2e1b8b982267",
+  "outcome": "INTERRUPTED_NOT_ACCEPTANCE",
+  "exit_code": 143,
+  "observation": "Actual original write_stdin session5691 terminal exit143 after own runner process-group SIGTERM; original raw log and interruption record retained.",
+  "raw_output": "evidence/product/product-t33-execution-jobs-20261010/standard.log",
+  "raw_output_sha256": "b9f022ebe5b3f9235b846a196e450514807a68a270e7db47a120266a17410f74"
+}

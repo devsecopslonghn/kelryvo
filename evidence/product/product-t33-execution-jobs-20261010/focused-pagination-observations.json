@@ -1,0 +1,31 @@
+{
+  "task": "SF-PRODUCT-T33",
+  "recorded_at": "2026-10-10T12:44:34.484484+00:00",
+  "observations": [
+    {
+      "path": "evidence/product/product-t33-execution-jobs-20261010/root-pagination-20261010.log",
+      "sha256": "bf3a9211d6713fa27be2f5adc2d981edd9702213e53ffd78d3a4c5bb5c55f8f5",
+      "exit_code": 1,
+      "observation": "Job cursor still lost precision through timestamptz parameter serialization; 1 pass/1 fail."
+    },
+    {
+      "path": "evidence/product/product-t33-execution-jobs-20261010/root-pagination-text-parameter-20261010.log",
+      "sha256": "dc41f132daa2b5dfdf7d8aafad63dfe352fe3636a1ae3db15122dffd3b10a093",
+      "exit_code": 0,
+      "observation": "Text parameter preserves full job position; 2 pass/0 fail/0 skip."
+    },
+    {
+      "path": "evidence/product/product-t33-execution-jobs-20261010/root-inherited-audit-pagination-20261010.log",
+      "sha256": "d9cbbb08f74aca9bebeb6a0deebdb675022d685af21a990f35dbf33bb1fea4a0",
+      "exit_code": 1,
+      "observation": "Inherited unfiltered audit cursor reproduced precision loss; 1 pass/1 fail."
+    },
+    {
+      "path": "evidence/product/product-t33-execution-jobs-20261010/root-pagination-all-final-20261010.log",
+      "sha256": "3274a3a0233ae40915fefb89fc959efd268fe25243c60ecdc5e9dd53e02d3322",
+      "exit_code": 0,
+      "observation": "Final jobs and filtered/unfiltered audit precision regression plus request/migration tests: 2 pass/0 fail/0 skip."
+    }
+  ],
+  "limits": "Focused evolving source observations; exact per-run source guards not captured. Final immutable acceptance relies on corrected frozen serial suites. Original failures remain preserved; none are accepted as PASS."
+}

@@ -1,0 +1,181 @@
+TAP version 13
+# Subtest: T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+ok 1 - T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+  ---
+  duration_ms: 250.762931
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+not ok 2 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7081.130217
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:63:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    pagination preserves every exact database position without gaps or duplicates
+    + actual - expected
+    ... Skipped lines
+    
+      [
+        'b10d1e98-6bb8-494c-9965-4bbf6d2aa38c',
+        '77715707-aa86-4ac0-801b-6dd8aa89d72c',
+        '71e152e4-249a-40b3-821d-4df402432ef3',
+        'b8d2a10c-64d0-42ca-9fa7-852edc744e6e',
+    ...
+        'd6d8359d-e590-4224-bd5f-b83c93a83658',
+    -   '93a8ee9f-8ebb-4c6b-b7c9-d34e5b17a85d',
+    -   'c4ec19b2-6280-4348-8e5b-b2f610a4340b',
+    -   '710c3da9-dc04-48c3-8758-f61ba1e1689b',
+    -   'cdd0bbeb-f3c9-400f-8a5e-43653a89fe8d',
+    -   'be0f8fc8-aaba-4339-a04d-9393f91979b2',
+    -   'ccb54f05-d0c3-4dd6-8ce0-269184bbd5f2',
+    -   'ddf70269-6d06-491a-9190-a892c28e44aa',
+    -   '605fee12-aa5a-4121-93f2-3774041a8467',
+    -   'fa22af37-ff8c-4496-8729-efd1de7c73d6',
+    -   '54896422-ad2b-4567-af54-d39bcb7787f0',
+        'b3528a74-8295-4c4a-9c0e-e7b28a4498e3',
+        '7a1a98d2-36a4-4087-b16d-55e222d67de8',
+        '753053c3-831e-4506-ace4-3d63d5ede4fb'
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 'b10d1e98-6bb8-494c-9965-4bbf6d2aa38c'
+    1: '77715707-aa86-4ac0-801b-6dd8aa89d72c'
+    2: '71e152e4-249a-40b3-821d-4df402432ef3'
+    3: 'b8d2a10c-64d0-42ca-9fa7-852edc744e6e'
+    4: '6073312f-ec6d-4765-8fe0-5ca52555b8b0'
+    5: 'a9781608-f63e-49d5-8a62-64e9137e7af4'
+    6: 'c7c66ca2-8ab1-4268-a15e-16862da17893'
+    7: '53755327-89d1-4598-b6c0-8edd8cc81d44'
+    8: '5b77e19a-167c-46ee-9319-fc5c8180ef85'
+    9: '4347978d-e2ab-4cb1-92d6-3ad254994f5d'
+    10: '5ac92198-69be-4542-9e54-862586cffff2'
+    11: 'a9d48f12-4986-44b8-b339-f4a1c2169d98'
+    12: 'f31dd931-2369-4030-8974-9466ac755384'
+    13: '5413f061-4679-45a8-a769-7073faee1e64'
+    14: '72ae4d16-de30-4c61-8d0a-c426d0593632'
+    15: '50669f29-1de0-421f-9dc0-37e66823ae46'
+    16: '833dd6f9-791f-485d-a5bc-a8940180023e'
+    17: '144a8aac-58a7-4fcc-a7a8-8e3996b27932'
+    18: '3cae0669-41a1-454e-9782-6b6d43b7675f'
+    19: 'f4318a0f-c796-468f-ac49-92e7c697cc3c'
+    20: 'bc48cf34-4377-4c07-9036-c6314ef5a460'
+    21: 'f98effbf-c6c6-4b4e-b397-4988b4ced31d'
+    22: 'a127e214-6d68-430c-8cdc-427c7c9aa288'
+    23: '4b2bd64c-f6b7-42a7-9390-91cbc596032c'
+    24: '044326ec-a606-4b2c-9d7e-30b0ae24459f'
+    25: 'f2392afa-ed2c-4223-9996-1569711d38f7'
+    26: '0380a6aa-5a49-42a2-a2d6-df24208da8f8'
+    27: 'f8cabed7-176c-4647-9d9e-106eca4dbc89'
+    28: 'f2299f5c-c926-4318-addf-aba46fdc4d57'
+    29: 'eff961b6-845d-4e9a-993c-0341550ccf49'
+    30: 'aa2f1396-a9b6-4401-b9bb-e65cd0aad8f6'
+    31: 'edefd1e7-e0dd-40cc-889a-7a999cdc4339'
+    32: '96400c0a-7402-4edd-98b0-a6088f2ce634'
+    33: 'e09e7185-3604-44c8-9bb9-daea4f72150e'
+    34: '9f7b8dc7-b2b4-4dcf-b33c-d473c54e8e28'
+    35: 'eb5f06b2-bbb2-4b12-8b53-8188bf9093cc'
+    36: '64513dec-c27b-46d3-b8c5-b30698d1145f'
+    37: '38587cec-71a5-42da-a825-514df0cecf50'
+    38: 'f33a9094-7e0d-48fc-b26a-4ee820b06f7d'
+    39: 'c616a1fd-ec92-4a1f-b969-e4efdd8b9d40'
+    40: '6b97f4ec-fff9-47be-a6dc-c065b777929e'
+    41: 'dac2e3fb-2ca7-48ef-9f2f-c29fa82b53a4'
+    42: '74f09333-993c-4751-b3df-06980422ddbd'
+    43: 'd75907b9-0f50-4fd2-86a0-949563043094'
+    44: '56ce51e2-c85d-4096-9f8a-f341fe5f3c61'
+    45: 'e2b70905-e76d-420c-b1a5-fcf0b12ca2d5'
+    46: '90594b34-87bb-4524-a95a-1e5c14f47754'
+    47: 'b856b0d4-03cb-425f-82fe-5535bf500f50'
+    48: 'bb2f3064-1368-4d10-9722-36ec0f6c249e'
+    49: 'd6d8359d-e590-4224-bd5f-b83c93a83658'
+    50: '93a8ee9f-8ebb-4c6b-b7c9-d34e5b17a85d'
+    51: 'c4ec19b2-6280-4348-8e5b-b2f610a4340b'
+    52: '710c3da9-dc04-48c3-8758-f61ba1e1689b'
+    53: 'cdd0bbeb-f3c9-400f-8a5e-43653a89fe8d'
+    54: 'be0f8fc8-aaba-4339-a04d-9393f91979b2'
+    55: 'ccb54f05-d0c3-4dd6-8ce0-269184bbd5f2'
+    56: 'ddf70269-6d06-491a-9190-a892c28e44aa'
+    57: '605fee12-aa5a-4121-93f2-3774041a8467'
+    58: 'fa22af37-ff8c-4496-8729-efd1de7c73d6'
+    59: '54896422-ad2b-4567-af54-d39bcb7787f0'
+    60: 'b3528a74-8295-4c4a-9c0e-e7b28a4498e3'
+    61: '7a1a98d2-36a4-4087-b16d-55e222d67de8'
+    62: '753053c3-831e-4506-ace4-3d63d5ede4fb'
+  actual:
+    0: 'b10d1e98-6bb8-494c-9965-4bbf6d2aa38c'
+    1: '77715707-aa86-4ac0-801b-6dd8aa89d72c'
+    2: '71e152e4-249a-40b3-821d-4df402432ef3'
+    3: 'b8d2a10c-64d0-42ca-9fa7-852edc744e6e'
+    4: '6073312f-ec6d-4765-8fe0-5ca52555b8b0'
+    5: 'a9781608-f63e-49d5-8a62-64e9137e7af4'
+    6: 'c7c66ca2-8ab1-4268-a15e-16862da17893'
+    7: '53755327-89d1-4598-b6c0-8edd8cc81d44'
+    8: '5b77e19a-167c-46ee-9319-fc5c8180ef85'
+    9: '4347978d-e2ab-4cb1-92d6-3ad254994f5d'
+    10: '5ac92198-69be-4542-9e54-862586cffff2'
+    11: 'a9d48f12-4986-44b8-b339-f4a1c2169d98'
+    12: 'f31dd931-2369-4030-8974-9466ac755384'
+    13: '5413f061-4679-45a8-a769-7073faee1e64'
+    14: '72ae4d16-de30-4c61-8d0a-c426d0593632'
+    15: '50669f29-1de0-421f-9dc0-37e66823ae46'
+    16: '833dd6f9-791f-485d-a5bc-a8940180023e'
+    17: '144a8aac-58a7-4fcc-a7a8-8e3996b27932'
+    18: '3cae0669-41a1-454e-9782-6b6d43b7675f'
+    19: 'f4318a0f-c796-468f-ac49-92e7c697cc3c'
+    20: 'bc48cf34-4377-4c07-9036-c6314ef5a460'
+    21: 'f98effbf-c6c6-4b4e-b397-4988b4ced31d'
+    22: 'a127e214-6d68-430c-8cdc-427c7c9aa288'
+    23: '4b2bd64c-f6b7-42a7-9390-91cbc596032c'
+    24: '044326ec-a606-4b2c-9d7e-30b0ae24459f'
+    25: 'f2392afa-ed2c-4223-9996-1569711d38f7'
+    26: '0380a6aa-5a49-42a2-a2d6-df24208da8f8'
+    27: 'f8cabed7-176c-4647-9d9e-106eca4dbc89'
+    28: 'f2299f5c-c926-4318-addf-aba46fdc4d57'
+    29: 'eff961b6-845d-4e9a-993c-0341550ccf49'
+    30: 'aa2f1396-a9b6-4401-b9bb-e65cd0aad8f6'
+    31: 'edefd1e7-e0dd-40cc-889a-7a999cdc4339'
+    32: '96400c0a-7402-4edd-98b0-a6088f2ce634'
+    33: 'e09e7185-3604-44c8-9bb9-daea4f72150e'
+    34: '9f7b8dc7-b2b4-4dcf-b33c-d473c54e8e28'
+    35: 'eb5f06b2-bbb2-4b12-8b53-8188bf9093cc'
+    36: '64513dec-c27b-46d3-b8c5-b30698d1145f'
+    37: '38587cec-71a5-42da-a825-514df0cecf50'
+    38: 'f33a9094-7e0d-48fc-b26a-4ee820b06f7d'
+    39: 'c616a1fd-ec92-4a1f-b969-e4efdd8b9d40'
+    40: '6b97f4ec-fff9-47be-a6dc-c065b777929e'
+    41: 'dac2e3fb-2ca7-48ef-9f2f-c29fa82b53a4'
+    42: '74f09333-993c-4751-b3df-06980422ddbd'
+    43: 'd75907b9-0f50-4fd2-86a0-949563043094'
+    44: '56ce51e2-c85d-4096-9f8a-f341fe5f3c61'
+    45: 'e2b70905-e76d-420c-b1a5-fcf0b12ca2d5'
+    46: '90594b34-87bb-4524-a95a-1e5c14f47754'
+    47: 'b856b0d4-03cb-425f-82fe-5535bf500f50'
+    48: 'bb2f3064-1368-4d10-9722-36ec0f6c249e'
+    49: 'd6d8359d-e590-4224-bd5f-b83c93a83658'
+    50: 'b3528a74-8295-4c4a-9c0e-e7b28a4498e3'
+    51: '7a1a98d2-36a4-4087-b16d-55e222d67de8'
+    52: '753053c3-831e-4506-ace4-3d63d5ede4fb'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:238:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7563.941005

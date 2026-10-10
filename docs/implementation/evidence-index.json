@@ -2941,6 +2941,35 @@
       },
       "path": "evidence/product/product-t32-draft-publication-20261010/terminal-record.json",
       "sha256": "2aff087a491fa183876dcc04525ada3af9eaa10a20ed4fb4c127d4f0c91e50ad"
+    },
+    {
+      "id": "product-t33-execution-jobs-local-verified",
+      "subject_id": "SF-PRODUCT-T33",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen serial standard/product/pinned-parser/Chromium checks, real PostgreSQL job/operator/upgrade acceptance and trusted-port UNIT coordinator checks",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "test_references": [
+        "SF-PRODUCT-T33-API",
+        "SF-PRODUCT-T33-WEB",
+        "SF-PRODUCT-T33-COORDINATOR",
+        "SF-PRODUCT-T33-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t33-execution-jobs-20261010/standard-verified.log",
+        "sha256": "3bb73f5202330fc03b09b5ffffa430e841190fbbd5918d0d742fe34dfe8e1a35"
+      },
+      "path": "evidence/product/product-t33-execution-jobs-20261010/record.json",
+      "sha256": "e47c70b6432cecb57b9d49e582f5f0dff42f23a145821b1069f88c59002ae167"
     }
   ]
 }

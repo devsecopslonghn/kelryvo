@@ -1,0 +1,29 @@
+{
+  "id": "product-t33-focused-development-observations",
+  "recorded_at": "2026-10-10T12:34:03.528064+00:00",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT_DEVELOPMENT_AND_UNIT_SYNTHETIC",
+  "captures": [
+    {
+      "path": "evidence/product/product-t33-execution-jobs-20261010/focused-implementation.log",
+      "sha256": "f68ca042e4a7126fff94c1172305d9ee61b217252fe3c0519e59467be96337c4",
+      "bytes": 90820
+    },
+    {
+      "path": "evidence/product/product-t33-execution-jobs-20261010/focused-root-scalar-guard.log",
+      "sha256": "4f016167cfb6b6cd717d2c9fcb15c3f2de5d923b68e9d21f1813522748d81394",
+      "bytes": 825
+    }
+  ],
+  "implementation_frozen_later_at": "3f3ccb87f68335d470d39f668eaf2e1b8b982267",
+  "observations": [
+    "Agent raw append-only development log retains earlier failed runs and a zero-test archive name-pattern invocation, followed by actual corrected targeted passes. Zero tests do not count as acceptance.",
+    "Agent observed kernel10/10 and combined12/12, then changed API/migration2/2, archived compatibility1/1, browser1/1 and typecheck exit0; final source handoff messages identify exact bytes.",
+    "Root scalar-guard focused node --test tests/product-execution-jobs.test.mjs exited0 with2/2 actual passes after final malformed/object/null/over-budget corrections. Raw output copied exactly; root command did not capture before/after source/time metadata."
+  ],
+  "limits": [
+    "Development observations across evolving uncommitted source; not the frozen final regression record.",
+    "UNIT synthetic target ports plus real PostgreSQL persistence; no real Oracle connection, target/history attestation, production admission producer or actual restricted worker runtime isolation.",
+    "All original failures and capture limitations remain; final serial frozen checks and independent review are still pending."
+  ]
+}

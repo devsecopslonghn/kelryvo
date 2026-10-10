@@ -1,0 +1,14 @@
+{
+  "task": "SF-PRODUCT-T33",
+  "frozen_head": "3f3ccb87f68335d470d39f668eaf2e1b8b982267",
+  "reviewer": "/root/t33_review",
+  "findings": [
+    {
+      "issue": "Job pagination truncates PostgreSQL timestamp microseconds in cursor, skipping rows at page boundaries.",
+      "resolution_head": "0331a35b90180a2400301c84264b78ec924e7035",
+      "resolution": "Preserve six-digit cursor and TEXT parameter serialization; regression traverses 60 distinct microseconds. Related inherited audit behavior repaired."
+    }
+  ],
+  "outcome": "CHANGES_REQUESTED",
+  "limits": "Historical native read-only review; not final-source approval."
+}

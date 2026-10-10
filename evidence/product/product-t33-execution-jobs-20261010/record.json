@@ -1,0 +1,116 @@
+{
+  "id": "product-t33-execution-jobs-local-verified",
+  "subject_id": "SF-PRODUCT-T33",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "exit_code": 0,
+  "command": "Frozen serial standard/product/pinned-parser/Chromium checks, real PostgreSQL job/operator/upgrade acceptance and trusted-port UNIT coordinator checks",
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_references": [
+    "SF-PRODUCT-T33-API",
+    "SF-PRODUCT-T33-WEB",
+    "SF-PRODUCT-T33-COORDINATOR",
+    "SF-PRODUCT-T33-PERSISTENCE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t33-execution-jobs-20261010/standard-verified.log",
+    "sha256": "3bb73f5202330fc03b09b5ffffa430e841190fbbd5918d0d742fe34dfe8e1a35"
+  },
+  "recorded_at": "2026-10-10T15:12:17.614554+00:00",
+  "implementation_head": "ff14f24572414bd8e87a2b983facfbbbeb929402",
+  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "base_checkpoint": "f24f1428abe96852fa0ff0013dc0680de226fe6e",
+  "published_base": "57e2395aa645e83120e6d60a88cdb8b759e31af2",
+  "regressions": {
+    "standard": {
+      "result": "evidence/product/product-t33-execution-jobs-20261010/standard-verified.json",
+      "result_sha256": "5cfc5a921b639e96cb28110efadc8321bdf7c77a63bee2a69b4342dcbf55913a",
+      "raw_output": "evidence/product/product-t33-execution-jobs-20261010/standard-verified.log",
+      "raw_output_sha256": "3bb73f5202330fc03b09b5ffffa430e841190fbbd5918d0d742fe34dfe8e1a35",
+      "counts": {
+        "tests": 182,
+        "pass": 182,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "check"
+      ]
+    },
+    "product": {
+      "result": "evidence/product/product-t33-execution-jobs-20261010/product.json",
+      "result_sha256": "bdb62cd77773db7d5fd950670260778f8d7fe266dcd3317c8024da58863f16d6",
+      "raw_output": "evidence/product/product-t33-execution-jobs-20261010/product.log",
+      "raw_output_sha256": "f45abc6448e29b311f9ec258c1fff220eeff40e9a8b38f6b4103ac18720f9b0c",
+      "counts": {
+        "tests": 47,
+        "pass": 47,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:product"
+      ]
+    },
+    "browser": {
+      "result": "evidence/product/product-t33-execution-jobs-20261010/browser.json",
+      "result_sha256": "5ce54dc4301989cbeb0deb08a4cf61cce42f8e13c75570534e91c414fb1e9e5e",
+      "raw_output": "evidence/product/product-t33-execution-jobs-20261010/browser.log",
+      "raw_output_sha256": "6c774363c3da7baa138518833b6fcc739b3ab2ec45138453c1a9f9f7892457f6",
+      "counts": {
+        "tests": 29,
+        "pass": 29,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:browser"
+      ]
+    }
+  },
+  "reviews": [
+    {
+      "path": "evidence/product/product-t33-execution-jobs-20261010/independent-review-final-source.json",
+      "sha256": "1d8a07f8c9992c7ca86d1bfb5453488b8c5225aad7d08725598555368e5a75dd"
+    }
+  ],
+  "acceptance_observations": [
+    "Durable server-bound deployment requests, immutable events, explicit local operator deploy grants and atomic membership revocation are exercised against real PostgreSQL and pinned Git/parser releases.",
+    "Offline approved plans remain WAITING_VALIDATION with TARGET_HISTORY_UNAVAILABLE. Request/cancel/withdrawal and lost-response retries preserve plan, approval and job history.",
+    "Trusted-port UNIT kernel plus explicitly synthetic PostgreSQL adapter fixtures exercise durable claims, expiry recovery, no replay, ordered ACK receipts, evidence/validity gaps, revocation and zero-call NOOP.",
+    "Real T32 schema upgrade preserves reference assignment and legacy NULL approval values; initialization/reopen remains idempotent.",
+    "Job and filtered/unfiltered audit cursors preserve PostgreSQL microseconds through the pinned client; complete same-millisecond traversals are tested."
+  ],
+  "limitations": [
+    "Criterion 5 publication/scans remains pending and is covered by a later separate publication record; task stays IMPLEMENTED until then.",
+    "No production proof/admission producer, Oracle adapter/connection/execution, writer credentials, process isolation attestation, applied migration history or Oracle19c/21c acceptance. Expected proof digests alone do not establish current target evidence.",
+    "Earlier focused failures, interrupted 3f standard run and failed 0331 TypeScript build remain immutable. Only final ff14 guarded runs support this acceptance.",
+    "Required external security/protection gates unavailable; draft-only, no merge/master/full-catalog certification."
+  ]
+}

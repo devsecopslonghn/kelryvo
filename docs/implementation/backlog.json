@@ -3264,14 +3264,18 @@
         "SF-PRODUCT-T33-COORDINATOR",
         "SF-PRODUCT-T33-PERSISTENCE"
       ],
-      "status": "IN_PROGRESS",
+      "status": "IMPLEMENTED",
       "source_paths": [
         "apps/api/index.ts",
         "packages/execution",
         "apps/worker",
         "packages/database/index.ts"
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "product-t33-execution-jobs-local-verified"
+        }
+      ],
       "blockers": []
     }
   ]

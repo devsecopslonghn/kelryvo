@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-10T11:26:38.626650+00:00",
+  "recorded_at": "2026-10-10T15:12:17.614554+00:00",
   "verified_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
-  "reviewed_local_source": "1545aade353c3c2cf709b547b3eae5ed03e849bb",
-  "scope": "All 220 catalog features with combined locally verified T24–T32 candidate; no full feature or integrated-master certification.",
+  "reviewed_local_source": "ff14f24572414bd8e87a2b983facfbbbeb929402",
+  "scope": "All 220 catalog features with combined locally verified T24–T33 facets; no full feature, Oracle or integrated-master certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
     "Task completion establishes only its bounded facet; original criteria and dependencies remain unchanged.",
@@ -13,8 +13,8 @@
   ],
   "summary": {
     "IMPLEMENTED_AND_VERIFIED": 0,
-    "PARTIALLY_IMPLEMENTED": 44,
-    "NOT_IMPLEMENTED": 169,
+    "PARTIALLY_IMPLEMENTED": 46,
+    "NOT_IMPLEMENTED": 167,
     "BLOCKED_EXTERNAL": 0,
     "DEFERRED": 7
   },
@@ -56,17 +56,17 @@
     },
     "WS": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 34,
-      "NOT_IMPLEMENTED": 40,
+      "PARTIALLY_IMPLEMENTED": 36,
+      "NOT_IMPLEMENTED": 38,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     }
   },
   "external_acceptance": "Oracle19c/21c acceptance remains independently unavailable. Required external GitHub security/protection gates prevent master integration of drafts37–44 and the T32 candidate; local scans/available CI never replace those gates.",
   "next_product_capability": {
-    "status": "T32_COMBINED_LOCAL_MVP_VERIFIED_DRAFT45_ALL6_AVAILABLE_CI_SUCCESS",
-    "next_action": "Select a meaningful execution-to-history readiness milestone from remaining catalog gaps. Master integration requires actual external security/protection gates; independent local PRODUCT development may continue without Oracle access.",
-    "branch_policy": "Retain original drafts37–44 and worktrees; use the unified verified integration checkpoint, avoiding more dependent minor-feature drafts."
+    "status": "T33_LOCAL_REQUEST_COORDINATOR_FACETS_VERIFIED_PUBLICATION_PENDING",
+    "next_action": "Finish scoped scans and one draft from published T32; then choose the next substantial missing product workflow using current coverage. Production proof admission and Oracle adapter/runtime require their actual gates.",
+    "branch_policy": "Retain original drafts37–45 and all original worktrees; substantial T33 draft based on verified combined T32 checkpoint."
   },
   "features": [
     {
@@ -671,7 +671,16 @@
       "name": "Migration execution history",
       "milestone": "WS",
       "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "basis": "No production Oracle executor/runtime isolation or observed applied migration history. T33 journal/kernel prerequisites do not implement this complete catalog capability.",
+      "related_prerequisite_observations": [
+        {
+          "task": "SF-PRODUCT-T33",
+          "behavior": "Durable control-plane job journal and separate coordinator kernel with synthetic trusted-port tests; this is not applied migration execution history or deployed worker isolation.",
+          "evidence": [
+            "product-t33-execution-jobs-local-verified"
+          ]
+        }
+      ]
     },
     {
       "id": "MIG-013",
@@ -987,7 +996,7 @@
       "name": "Approval revocation",
       "milestone": "WS",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Locally verified bounded offline governance facets; complete original API/worker catalog acceptance is not certified.",
+      "basis": "Locally verified bounded control-plane and trusted-port UNIT facets; complete original catalog execution acceptance remains missing.",
       "verified_facets": [
         {
           "task": "SF-PRODUCT-T31",
@@ -1002,9 +1011,16 @@
           "evidence": [
             "product-t32-mvp-integration-local-verified"
           ]
+        },
+        {
+          "task": "SF-PRODUCT-T33",
+          "behavior": "Approval withdrawal atomically places waiting jobs on HOLD; real PostgreSQL authority checks and trusted-port UNIT revocation boundaries prevent later claim or dispatch.",
+          "evidence": [
+            "product-t33-execution-jobs-local-verified"
+          ]
         }
       ],
-      "remaining_gap": "Queued jobs must reject revoked authority, active workers require controlled stop/HOLD, and committed effects must remain observed/recorded. No worker execution is implemented or verified."
+      "remaining_gap": "Production target/history proof admission, restricted runtime and real authorized Oracle execution/effect observation remain unimplemented or unverified."
     },
     {
       "id": "GOV-012",
@@ -1113,8 +1129,18 @@
       "id": "GOV-018",
       "name": "Execution authorization",
       "milestone": "WS",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified bounded control-plane and trusted-port UNIT facets; complete original catalog execution acceptance remains missing.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T33",
+          "behavior": "Current exact credential, explicit project membership and independent deployment grant authorize only a server-bound durable waiting request; revocations deny request/claim/dispatch.",
+          "evidence": [
+            "product-t33-execution-jobs-local-verified"
+          ]
+        }
+      ],
+      "remaining_gap": "Production target/history proof admission, restricted runtime and real authorized Oracle execution/effect observation remain unimplemented or unverified."
     },
     {
       "id": "GOV-019",
@@ -2009,7 +2035,16 @@
       "name": "Restricted execution workers",
       "milestone": "WS",
       "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "basis": "No production Oracle executor/runtime isolation or observed applied migration history. T33 journal/kernel prerequisites do not implement this complete catalog capability.",
+      "related_prerequisite_observations": [
+        {
+          "task": "SF-PRODUCT-T33",
+          "behavior": "Durable control-plane job journal and separate coordinator kernel with synthetic trusted-port tests; this is not applied migration execution history or deployed worker isolation.",
+          "evidence": [
+            "product-t33-execution-jobs-local-verified"
+          ]
+        }
+      ]
     },
     {
       "id": "OPS-003",
@@ -2029,8 +2064,18 @@
       "id": "OPS-005",
       "name": "Execution state model",
       "milestone": "WS",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified bounded control-plane and trusted-port UNIT facets; complete original catalog execution acceptance remains missing.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T33",
+          "behavior": "Durable waiting/cancel/HOLD job events plus immutable attempts and ordered receipts; trusted-port UNIT NOOP and VERIFIED_SUCCESS remain distinct from real offline requests.",
+          "evidence": [
+            "product-t33-execution-jobs-local-verified"
+          ]
+        }
+      ],
+      "remaining_gap": "Production target/history proof admission, restricted runtime and real authorized Oracle execution/effect observation remain unimplemented or unverified."
     },
     {
       "id": "OPS-006",
@@ -2339,7 +2384,7 @@
       "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
     }
   ],
-  "verification_record": "evidence/product/product-t32-mvp-integration-20261010/record.json",
+  "verification_record": "evidence/product/product-t33-execution-jobs-20261010/record.json",
   "source_observations": {
     "integrated_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
     "retained_stack_implementation": "ced0c1c62bc115d283aca4580999a6486403ce6b",
