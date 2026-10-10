@@ -1,0 +1,45 @@
+{
+  "task": "SF-PRODUCT-T29",
+  "review": "preliminary, read-only; source not frozen",
+  "base": "0fd6980",
+  "observed_head": "d22a64ec8bfe905d5eea428c80c4d3c5673d6a3b",
+  "findings": [
+    {
+      "severity": "major",
+      "file": "tests/product-reviewer-assignment.test.mjs; tests/product-reviewer-assignment-browser.integration.mjs",
+      "issue": "Browser delayed-response test delays the initial reviewer-choice read, changes selected plan, then asserts the original result is present; it does not demonstrate stale response is discarded. No delayed assignment write response is tested across project/plan/session/credential/membership/refresh changes. API suite does not test role revocation or a concurrent membership-revocation/decision serialization race."
+    },
+    {
+      "severity": "major",
+      "file": "tests/product-reviewer-assignment.test.mjs",
+      "issue": "Criteria call for persistence and idempotent migration are only partially covered: restart reopens same database and observes assignment, but test does not start from legacy schema/data, invoke migration twice explicitly, or compare historical terminal/archive assignment metadata preservation. Reopen may incidentally rerun init, but this is not a reliable idempotent migration assertion."
+    }
+  ],
+  "positive_observations": [
+    "PUT assignment rechecks caller token credential, expiry, role and explicit grant in transaction; assignment uses expected revision, no-op skips audit, update and audit share transaction.",
+    "Decision route locks plan and project, rechecks live credential/grant/approver role, excludes author and gates assigned reviewer before established integrity checks.",
+    "Test covers self-claim, requester assignment, clear path absent (there is no positive clear assertion), reassignment absent, Unicode reviewer ID, stale revision, no-op audit count, concurrent conflicting assignments, assignment/decision race, expiry/grant/credential revocation, foreign plan, bootstrap, archive, restart, protected source/intent and comment preservation, NOT_EXECUTED.",
+    "Migration is additive IF NOT EXISTS, reviewer ID nullable, revision bigint nonnegative default 0."
+  ],
+  "hashes": {
+    "apps/api/index.ts": "60b8c9e322a6681879fd995cb78e6c3ca91f4d860ac7bdc0f9f4d06ab716d3b0",
+    "apps/web/src/app.jsx": "02b9b342301ecb363b6e9f9ba1879fa156ffd3598c2243cfbeb7a9f9d31fda4c",
+    "packages/database/index.ts": "dbc71b5f488eca95c71e008e1bd3c174b7fc8745043092f1bfe2af809cc3c96a",
+    "tests/product-reviewer-assignment.test.mjs": "0c054e1400a9ffdf22333387cdb0492552611094d05ba195dc2e36940a2a3d5f",
+    "tests/product-reviewer-assignment-browser.integration.mjs": "688699289437640ba1fc527487d1a305e671b5c4a591f8773d9d310ea8f56484",
+    "scripts/test-product.mjs": "4dfe4b0a463c9c47b4b538ac069ed2e6e2398d483cc8688c5bf42e9f0323aab7",
+    "docs/implementation/acceptance.json": "95f708b02b5b7507ea37959772e0705f3f397a21b6ac69997832fd30da108950",
+    "docs/decisions/log.json": "3105c2a31f28ca04c7194060b910d0c6a4b8d8c9f9a5ac3a3a1bfbc54485ddd3"
+  },
+  "limitations": [
+    "Native implementation still changing; hashes identify this observation only and final verdict requires frozen commit.",
+    "Per instruction, no tests, scanners, network calls or repository mutations were run.",
+    "Only bounded implementation and T29 tests reviewed; root owns broad regression/browser/product checks.",
+    "Rechecked shared route preHandler after root clarification; initial reviewer-list missing-grant claim was incorrect and has been withdrawn."
+  ],
+  "corrected_reachability": {
+    "reviewer_list_authorization": "Prior blocker withdrawn. Shared authenticate preHandler covers all /api/projects/ paths, authenticates the exact active token, and under ENFORCED mode checks actorHasProjectGrant for req.params.projectId before route logic. The endpoint therefore is not reachable by an ungranted authenticated actor. A narrow revoke-after-preHandler race remains subject to the existing T21 current-read semantics; this is not an endpoint-specific absent-auth finding.",
+    "browser_stale_test": "The test releases a delayed first reviewer-list response after selecting another plan and receiving that plan\u2019s list, but it asserts candidate presence only before releasing the delayed response. There is no post-release assertion that the selected plan\u2019s candidates remain correct / stale candidates absent, so it would pass if the delayed response overwrote current choices.",
+    "updated_observation": "Re-read current shared tree at observed HEAD d22a64ec8bfe905d5eea428c80c4d3c5673d6a3b. No tests or mutations run."
+  }
+}\n

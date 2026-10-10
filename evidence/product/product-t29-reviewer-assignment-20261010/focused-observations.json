@@ -1,0 +1,100 @@
+{
+  "logs": [
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-1.log",
+      "sha256": "150d307c0d01df5636746ee273b5a17825d129537da7b9378bdff60861de5ace"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-10.log",
+      "sha256": "d9ec6a963666268f7066d134d25dffa0b4f1d0e68a62a17a4c0b0770e6bc7646"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-11.log",
+      "sha256": "93361a0c2f43f6303be0708d9045411e2c54f94f8744e35c93962c2464654b60"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-12.log",
+      "sha256": "184c6000d710083905c1465a5e1090125ba719102b13105b12ff5a2f8013d53f"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-13.log",
+      "sha256": "aacabee46928329beca2682affc0e80a8398de07bac59d70f33fe125de4ea727"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-14.log",
+      "sha256": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-15.log",
+      "sha256": "bc21900e9e54d77c0b66a2730108985d40147bdad0ed89796fa0f0ca9e350ed3"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-16.log",
+      "sha256": "cc3c70e0ea985b32e72bb89bea8973e08214a30a93a8be258786460008ad2f70"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-17.log",
+      "sha256": "45d21ea5072b4fc5d3a726d3feec363c6d935714ce5fb1749688f9144646f6eb"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-18.log",
+      "sha256": "998a2be9f29f374b7ee6141bff7c0560f80ee2a51773b7741c0ccd1177342a77"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-19.log",
+      "sha256": "cdd0ec27944ab98df1de331f8511ad4206c53cffd85f77f325ab2d237dc18c14"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-2.log",
+      "sha256": "1863a1a18a8c145f58f86e45a722248824d8e4361007ecc91960175ff415af8b"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-20.log",
+      "sha256": "039b5dff4bc72811c24f4c9735d9e95c3bae56ba6c2c97f5fb18ea3996b5ce8f"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-3.log",
+      "sha256": "915dcc5fa974fff848801e751971c16c59d65e7b3cd46b9719779cf681e07280"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-4.log",
+      "sha256": "baf9b8c2ff51e478488429c8f803667014356f4a49f73f1e597a1061d28f9316"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-5.log",
+      "sha256": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-6.log",
+      "sha256": "0ad4d84985e22a4b0a6bd1860540fa8f885ffe8a957ebc9e7e7052450a2aeed5"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-7.log",
+      "sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-8.log",
+      "sha256": "cc7031b52e111447383c498bd8b863b09c855ff6aafc7a554914d7da0d2d0b6e"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-focused-9.log",
+      "sha256": "e6e3d7a516c590969a9094ff275e8036f46a13bbc5c41544ba34bc1e8e3e705c"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-root-focused-1.log",
+      "sha256": "0261b7d6e179caa0bed1a7a5ac4912d3a0663f467c9baaea71282cb1b60b71a5"
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/focused/schemaforge-t29-root-focused-2.log",
+      "sha256": "2bfbfb117c9f31ea61587f12ef706f983e44731eb2131fc510fa4852385b1c0b"
+    }
+  ],
+  "scope": "Pre-freeze focused development diagnostics only; actual final full regressions are authoritative acceptance.",
+  "reported_final_agent_command": "npm run typecheck; npm run build:web; node --test tests/product-reviewer-assignment.test.mjs tests/product-reviewer-assignment-browser.integration.mjs; git diff --check",
+  "reported_final_agent_outcome": "focused20:2/2 PASS, typecheck/build/diff passed; earlier failed diagnostic attempts preserved",
+  "root_focused_1": "API passed; browser timed out at Choose reviewer because latest default plan was authored by requested reviewer. Selected wrong default plan; web artifact was rebuilt during this diagnostic attempt. This run is not frozen acceptance.",
+  "root_focused_2": "Web rebuilt before focused API/browser run; explicit plan and assignment region selected, stale response completed before assertions.2/2 PASS exit0.",
+  "limitations": [
+    "Commands, process status and source hashes were not independently captured for every earlier focused attempt. No diagnostic PASS is substituted for frozen standard/product/browser acceptance."
+  ]
+}

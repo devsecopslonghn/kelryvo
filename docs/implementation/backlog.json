@@ -2930,12 +2930,17 @@
         "SF-PRODUCT-T29-WEB",
         "SF-PRODUCT-T29-PERSISTENCE"
       ],
-      "status": "IN_PROGRESS",
+      "status": "VERIFIED",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
-      "evidence": [],
-      "blockers": []
+      "evidence": [
+        {
+          "index_id": "product-t29-reviewer-assignment-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Bounded local pending-plan reviewer assignment only; full GOV021, external security and Oracle acceptance remain unverified."
     }
   ]
 }

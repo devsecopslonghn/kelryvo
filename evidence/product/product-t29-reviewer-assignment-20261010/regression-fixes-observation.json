@@ -1,0 +1,28 @@
+{
+  "recorded_at": "2026-10-10T08:33:04.890614+00:00",
+  "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin taskset -c 0,1 node --test tests/tracker.test.mjs tests/product-protected-source-binding.test.mjs",
+  "observed_exit_code": 0,
+  "counts": {
+    "tests": 24,
+    "pass": 24,
+    "fail": 0,
+    "skipped": 0
+  },
+  "raw_output": {
+    "path": "evidence/product/product-t29-reviewer-assignment-20261010/regression-fixes-focused.log",
+    "sha256": "7d092f1169213ac28727ab56b52ce8a11af7653b2b6b38a8a8ff967be50b7ad8"
+  },
+  "source_state": "Test-only fixes on parent f1ac453; subsequently committed8658252. No independent execution-head or before/after hash capture for this focused command; final mandatory suites bind exact freeze.",
+  "prior_failed_standard": {
+    "result": "evidence/product/product-t29-reviewer-assignment-20261010/standard.json",
+    "sha256": "19f9af498973f4b2418c078f5c198dea71a53a522f2452b375040fa41b223e6b",
+    "tests": 159,
+    "pass": 157,
+    "fail": 2,
+    "skipped": 0,
+    "errors": [
+      "Tracker count89 expected but registration adds T29, actual90.",
+      "Approval SQL waits on FOR UPDATE while older fixture searched FOR SHARE."
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "task": "SF-PRODUCT-T29 regression-fix follow-up",
+  "review_type": "read-only proportional review of two uncommitted test edits",
+  "implementation_head": "f1ac453cb77076bbc4e66322cf5df8f2af7eacfe",
+  "verdict": "Both test-only edits are correct and proportionate to the observed T29 regression failures. No blocker found.",
+  "reviewed_changes": [
+    {
+      "file": "tests/tracker.test.mjs",
+      "change": "Expected persisted task count increases from 89 to 90, and comment now says the total includes independent T29.",
+      "assessment": "Correct. T29 registration adds the twenty-fifth product task while the 64 imported tasks and foundation task remain; test still asserts the 220 feature count, 63 test cases, original dependency link, and other catalog invariants."
+    },
+    {
+      "file": "tests/product-protected-source-binding.test.mjs",
+      "change": "Approval-wait query now looks for FOR UPDATE instead of FOR SHARE in the blocked SQL text.",
+      "assessment": "Correct. Frozen T29 decision transaction reads the project source binding and generation under FOR UPDATE after locking the plan. The test still holds the project row, confirms the approval is queued, changes the source binding, and continues to assert the resulting approval/source-integrity outcomes and protected state. The separate plan-creation query and its FOR SHARE expectation are unchanged."
+    }
+  ],
+  "findings": [],
+  "limitations": [
+    "No tests or scanners run, per instruction. This review does not independently validate the reported full standard failure or root focused-check results.",
+    "Only the two requested test diffs were reviewed. Existing frozen T29 source review remains tied to f1ac453cb77076bbc4e66322cf5df8f2af7eacfe; a later source freeze requires its own hash/update."
+  ],
+  "sha256": {
+    "tests/tracker.test.mjs": "7ea7ebf7d7f1c4f20e7f17413484d04194d7405565621c6647f541e121be8f1b",
+    "tests/product-protected-source-binding.test.mjs": "c61fc420020d8588b22a48966e17d830fb4f1fe2680671be688af02c60470eb2",
+    "apps/api/index.ts": "75a4ca1d2d9852d86cded18dfc20f5b71eb86c8cd21ce1b5199bf551d29487ae",
+    "packages/database/index.ts": "dbc71b5f488eca95c71e008e1bd3c174b7fc8745043092f1bfe2af809cc3c96a"
+  }
+}

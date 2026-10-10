@@ -1,0 +1,27 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "0,1",
+    "npm",
+    "run",
+    "test:product"
+  ],
+  "started_at": "2026-10-10T08:32:43.518Z",
+  "execution_head": "8658252e70217b41ac215a317fdd8b328a576d19",
+  "source_before": {
+    "apps/api/index.ts": "75a4ca1d2d9852d86cded18dfc20f5b71eb86c8cd21ce1b5199bf551d29487ae",
+    "apps/web/src/app.jsx": "1da97857123c0cc0750a04f54f9da588f0af77af976338c00057fd791ff0e19a",
+    "apps/web/styles.css": "420c4ebd5ee9a2e202ff65c7890757f94cbe12cab869a80449a76fbbfd4402e2",
+    "packages/database/index.ts": "dbc71b5f488eca95c71e008e1bd3c174b7fc8745043092f1bfe2af809cc3c96a",
+    "scripts/test-product.mjs": "4dfe4b0a463c9c47b4b538ac069ed2e6e2398d483cc8688c5bf42e9f0323aab7",
+    "scripts/tracker.mjs": "f1d7937e0a8ea0e73367953ed0f3a1de873235b07a9b1dae062512f79c7e4ba2",
+    "tests/product-protected-source-binding.test.mjs": "c61fc420020d8588b22a48966e17d830fb4f1fe2680671be688af02c60470eb2",
+    "tests/product-reviewer-assignment-browser.integration.mjs": "823619ed2e19e4bf03dc79ec1570d4938782366e2d2ba355373652ab9a80db87",
+    "tests/product-reviewer-assignment.test.mjs": "96d4e931222714a4f02896fcecea2e427cb542f3df221294781f9c5afe6b86c6",
+    "tests/tracker.test.mjs": "7ea7ebf7d7f1c4f20e7f17413484d04194d7405565621c6647f541e121be8f1b",
+    "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  }
+}

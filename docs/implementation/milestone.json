@@ -223,7 +223,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-10T08:01:06.934168+00:00",
+  "updated_at": "2026-10-10T08:39:49.962803+00:00",
   "final_check_evidence": {
     "index_id": "product-t20-local-credential-lifecycle-local-verified"
   },
@@ -241,7 +241,7 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "T29_IMPLEMENTATION_ACTIVE_INDEPENDENT_MASTER_BRANCH",
+  "current_increment_merge_status": "T29_VERIFIED_LOCAL_DRAFT_PUBLICATION_PENDING_SECURITY_UNAVAILABLE",
   "current_checkpoint_branch": "development/product-reviewer-assignment",
   "active_track": "PRODUCT",
   "tracks": {
@@ -256,7 +256,7 @@
       ]
     }
   },
-  "product_task_status": "T01_THROUGH_T22_MERGED_T23_CORRECTED_VERIFIED_LOCAL",
+  "product_task_status": "T01_THROUGH_T23_MERGED_T24_THROUGH_T29_VERIFIED_LOCAL_IN_SEPARATE_BRANCHES",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",
@@ -320,7 +320,7 @@
     }
   },
   "current_increment_pr": null,
-  "current_increment_reviewed_head": null,
+  "current_increment_reviewed_head": "8658252e70217b41ac215a317fdd8b328a576d19",
   "current_increment_merge_commit": null,
   "t19_compatibility_decision": {
     "owner_approved_at_recorded_utc": "2026-10-09T12:37:42.238588+00:00",
@@ -364,7 +364,7 @@
     "merge_eligible": false,
     "required_security_unavailable": true
   },
-  "latest_merged_master_before_this_increment": "fe1d3a84381e5080d591ca1a43a7a9b9928f93ee",
+  "latest_merged_master_before_this_increment": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
   "last_verified_master_evidence": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
   "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
   "carry_forward": {
@@ -377,7 +377,49 @@
       39,
       40
     ],
-    "t28_ci": "Foundation/parser SUCCESS; product still IN_PROGRESS at resume",
-    "coverage": "220 features:0fully verified/41partial/172not implemented/7deferred, previous source worktrees retain evidence; no copied unmerged implementation."
-  }
+    "t28_ci": "All six available foundation/parser/product push+PR checks SUCCESS at exact published17e9a92; required security still unavailable.",
+    "coverage": "220 features:0fully verified/41partial/172not implemented/7deferred, previous source worktrees retain evidence; no copied unmerged implementation.",
+    "t28_ci_observation": "evidence/product/product-t29-reviewer-assignment-20261010/t28-ci-final-observation.json"
+  },
+  "t29_local_verification": {
+    "record": "evidence/product/product-t29-reviewer-assignment-20261010/record.json",
+    "implementation_head": "8658252e70217b41ac215a317fdd8b328a576d19",
+    "counts": {
+      "standardCorrected": {
+        "tests": 159,
+        "pass": 159,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "product": {
+        "tests": 35,
+        "pass": 35,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "browser": {
+        "tests": 21,
+        "pass": 21,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    "reviews": [
+      {
+        "path": "evidence/product/product-t29-reviewer-assignment-20261010/independent-review-final-source.json",
+        "sha256": "ad6cc355295053f3a5fee3c932421b8901f65050d117bf881a2c0b9e99f2e6f4",
+        "reviewer_ran_tests": false
+      },
+      {
+        "path": "evidence/product/product-t29-reviewer-assignment-20261010/independent-regression-fix-review.json",
+        "sha256": "b2ae34db9185fbcb551fc30061da8c2e1a4c4c05551c788968393cff2eec7574",
+        "reviewer_ran_tests": false
+      }
+    ],
+    "merge_eligible": false
+  },
+  "feature_coverage": "docs/implementation/feature-coverage.json"
 }
