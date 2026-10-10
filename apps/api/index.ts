@@ -740,7 +740,8 @@ export function createApp(options: {
         const preflight = await preflightHistoricalRelease(tx, { id: req.params.id, projectId: projectRow.id, organizationId: ORG });
         if (!preflight.valid) return { error: "RELEASE_UNAVAILABLE" };
         const r = (await tx`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,
-          validation_status,validation_code,parser_profile,files,created_at FROM sf_releases
+          validation_status,validation_code,parser_profile,files,
+          floor(extract(epoch FROM created_at)*1000)::bigint AS created_at_ms FROM sf_releases
           WHERE id=${req.params.id} AND project_id=${projectRow.id} AND organization_id=${ORG} FOR SHARE`)[0];
         if (!r) return { error: "NOT_FOUND" };
         return { release: r };
@@ -760,7 +761,7 @@ export function createApp(options: {
           validationCode: r.validation_code,
           parserProfile: r.parser_profile,
           files: r.files,
-          createdAt: r.created_at,
+          createdAt: new Date(Number(r.created_at_ms)).toISOString(),
         },
       };
     },

@@ -172,6 +172,12 @@ test('retained release detail keeps bounded historical diagnostics and rejects u
       assert.deepEqual(await snapshot(), before, 'rejected reads do not mutate retained product state');
       await db.sql`UPDATE sf_releases SET validation_status=${original.validation_status},validation_code=${original.validation_code},files=${db.sql.json(original.files)},repository_id=${original.repository_id},created_at=${original.created_at} WHERE id=${id}`;
     }
+    await db.sql`UPDATE sf_releases SET created_at='0001-01-01 00:00:00+00 BC'::timestamptz WHERE id=${id}`;
+    const ancient = await req('GET', `/api/releases/${id}`);
+    assert.equal(ancient.statusCode, 200, ancient.body);
+    assert.equal(ancient.json().release.createdAt, '0000-01-01T00:00:00.000Z',
+      'representable historical timestamps use epoch milliseconds without driver text-date ambiguity');
+    await db.sql`UPDATE sf_releases SET created_at=${source.created_at} WHERE id=${id}`;
     const lockTx = await db.sql.reserve();
     let pendingRead;
     try {
