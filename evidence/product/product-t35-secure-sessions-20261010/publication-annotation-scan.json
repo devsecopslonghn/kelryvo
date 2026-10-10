@@ -1,0 +1,22 @@
+{
+  "task": "SF-PRODUCT-T35",
+  "head": "8f8882dddfc480bfa46c4fa0ad5340cf06c8e8c2",
+  "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "started_at": "2026-10-10T18:19:41.158591+00:00",
+  "limits": "Only T35 changed publication contents/incoming commits and local T34 observation metadata beyond published draft47; prior scans/evidence reused. No all-history clean or remote security-gate PASS.",
+  "scope": "New annotation delta since reviewed/scanned candidate commit",
+  "paths_sha256": {},
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "dir",
+    "/tmp/schemaforge-t35-annotation-publication-snapshot",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-t35-annotation-private.json"
+  ],
+  "finished_at": "2026-10-10T18:19:41.767441+00:00",
+  "scanner_exit_code": 0,
+  "finding_count": 0,
+  "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+}
