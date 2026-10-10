@@ -48,6 +48,7 @@ const errorCopy = {
   SOURCE_BINDING_MISMATCH: 'The requested source differs from the project binding. Save the source binding and try again.',
   REPOSITORY_UNAVAILABLE: 'The selected repository cannot be read right now.',
   PLAN_SOURCE_UNAVAILABLE: 'The linked source is unavailable or does not match this plan. Refresh the project and try again.',
+  RELEASE_UNAVAILABLE: 'This retained release is unavailable because its stored detail is malformed or exceeds the safe display limit.',
   GIT_REF_LIMIT: 'This repository has too many refs to list safely. Contact an administrator.',
   GIT_REF_READ_FAILED: 'Repository refs could not be read. Try again later.',
   VALIDATION_UNAVAILABLE: 'The migration parser is unavailable. This release cannot be planned.',

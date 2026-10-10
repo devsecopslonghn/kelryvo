@@ -4,6 +4,77 @@ import { MAX_INPUT_BYTES, MAX_STDOUT_BYTES } from '../../experiments/db-devops-w
 const MAX_METADATA_BYTES = MAX_STDOUT_BYTES;
 const MAX_RETAINED_JSON_BYTES = 6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024;
 
+/** Historical detail reads preserve bounded diagnostics, including invalid files.
+ * This policy only establishes allocation bounds; it is not an integrity attestation.
+ * Call under the route's project and release locks before selecting JSON or text payloads.
+ */
+export async function preflightHistoricalRelease(tx, { id, organizationId, projectId }) {
+  const row = (await tx`SELECT id, project_id,
+    octet_length(id::text) id_bytes, octet_length(project_id::text) project_id_bytes,
+    octet_length(organization_id::text) organization_id_bytes,
+    validation_status IN ('VALID','INVALID','UNAVAILABLE') status_valid,
+    octet_length(validation_status) status_bytes,
+    validation_code IS NULL OR (octet_length(validation_code) <= ${MAX_STDOUT_BYTES}
+      AND validation_code !~ '[[:cntrl:]]') code_valid,
+    CASE WHEN validation_code IS NULL THEN 0 ELSE octet_length(validation_code) END code_bytes,
+    repository_id IS NOT NULL AND octet_length(repository_id) BETWEEN 1 AND 200 repository_valid,
+    octet_length(repository_id) repository_bytes,
+    commit_id IS NOT NULL AND octet_length(commit_id) BETWEEN 1 AND 128 commit_valid,
+    octet_length(commit_id) commit_bytes,
+    object_format IN ('sha1','sha256') format_valid, octet_length(object_format) format_bytes,
+    folder IS NOT NULL AND octet_length(folder) BETWEEN 1 AND 200 folder_valid, octet_length(folder) folder_bytes,
+    manifest_digest IS NOT NULL AND octet_length(manifest_digest) BETWEEN 1 AND 128 manifest_valid,
+    octet_length(manifest_digest) manifest_bytes,
+    parser_profile IS NULL OR octet_length(parser_profile) BETWEEN 1 AND ${MAX_INPUT_BYTES} profile_valid,
+    COALESCE(octet_length(parser_profile),0) profile_bytes,
+    created_at IS NOT NULL AND isfinite(created_at)
+      AND extract(epoch FROM created_at) BETWEEN -8640000000000 AND 8640000000000 created_at_valid,
+    octet_length(jsonb_build_object('id',id,'projectId',project_id,'organizationId',organization_id,
+      'repositoryId',repository_id,'commit',commit_id,'objectFormat',object_format,'folder',folder,
+      'manifestDigest',manifest_digest,'validationStatus',validation_status,'validationCode',validation_code,
+      'parserProfile',parser_profile,'createdAt',created_at)::text) identity_json_bytes,
+    jsonb_typeof(files)='array' files_array,
+    CASE WHEN jsonb_typeof(files)='array' THEN jsonb_array_length(files) ELSE 0 END file_count,
+    octet_length(files::text) files_bytes,
+    (SELECT COALESCE(sum(octet_length((CASE WHEN jsonb_typeof(item)='object' THEN jsonb_set(item,'{content}','""'::jsonb) ELSE '{}'::jsonb END)::text)),0)::bigint
+      FROM jsonb_array_elements(CASE WHEN jsonb_typeof(files)='array' THEN files ELSE '[]'::jsonb END) e(item)) metadata_bytes,
+    (SELECT COALESCE(sum(octet_length(item->>'content')),0)::bigint
+      FROM jsonb_array_elements(CASE WHEN jsonb_typeof(files)='array' THEN files ELSE '[]'::jsonb END) e(item)
+      WHERE jsonb_typeof(item)='object' AND jsonb_typeof(item->'content')='string') content_bytes,
+    (SELECT count(*)::int FROM jsonb_array_elements(CASE WHEN jsonb_typeof(files)='array' THEN files ELSE '[]'::jsonb END) e(item)
+      WHERE jsonb_typeof(item)<>'object'
+        OR COALESCE(jsonb_typeof(item->'path'),'')<>'string' OR octet_length(item->>'path') NOT BETWEEN 1 AND ${MAX_INPUT_BYTES}
+        OR COALESCE(jsonb_typeof(item->'version'),'')<>'string' OR octet_length(item->>'version') NOT BETWEEN 1 AND ${MAX_INPUT_BYTES}
+        OR COALESCE(jsonb_typeof(item->'sha256'),'')<>'string' OR item->>'sha256' !~ '^[a-f0-9]{64}$'
+        OR COALESCE((CASE WHEN jsonb_typeof(item->'bytes')='number' AND char_length(item->>'bytes') BETWEEN 1 AND 7
+          AND item->>'bytes' ~ '^[0-9]{1,7}$' THEN (item->>'bytes')::integer END),0) NOT BETWEEN 1 AND ${MAX_INPUT_BYTES}
+        OR NOT CASE WHEN jsonb_typeof(item->'statementCount')='null' THEN true
+          WHEN jsonb_typeof(item->'statementCount')='number' THEN CASE
+            WHEN char_length(item->>'statementCount') BETWEEN 1 AND 16 AND item->>'statementCount' ~ '^[0-9]{1,16}$'
+              THEN (item->>'statementCount')::numeric <= 9007199254740991 ELSE false END ELSE false END
+        OR COALESCE(jsonb_typeof(item->'validationStatus'),'') NOT IN ('string','null')
+        OR COALESCE(item->>'validationStatus','NOT_VALIDATED') NOT IN ('VALID','INVALID','UNAVAILABLE','NOT_VALIDATED')
+        OR COALESCE(jsonb_typeof(item->'content'),'')<>'string'
+        OR COALESCE(octet_length(item->>'content'),0) NOT BETWEEN 1 AND ${MAX_INPUT_BYTES}
+        OR COALESCE((CASE WHEN jsonb_typeof(item->'bytes')='number' AND char_length(item->>'bytes') BETWEEN 1 AND 7
+          AND item->>'bytes' ~ '^[0-9]{1,7}$' THEN (item->>'bytes')::integer END),0) <> octet_length(item->>'content')) invalid_files,
+    (SELECT count(DISTINCT item->>'path')::int FROM jsonb_array_elements(CASE WHEN jsonb_typeof(files)='array' THEN files ELSE '[]'::jsonb END) e(item)) distinct_paths
+    FROM sf_releases WHERE id=${id} AND organization_id=${organizationId}
+      AND (${projectId ?? null}::uuid IS NULL OR project_id=${projectId ?? null}::uuid) FOR SHARE`)[0];
+  if (!row) return { row: null, valid: false };
+  const nums = ['id_bytes','project_id_bytes','organization_id_bytes','status_bytes','code_bytes','repository_bytes','commit_bytes','format_bytes','folder_bytes','manifest_bytes','profile_bytes','file_count','files_bytes','metadata_bytes','content_bytes','identity_json_bytes'];
+  const numeric = nums.every((key) => Number.isSafeInteger(Number(row[key])) && Number(row[key]) >= 0);
+  // Empty content placeholders count property names/quotes; reserve the response envelope and array separators.
+  const metadataTotal = Number(row.metadata_bytes)+Number(row.identity_json_bytes)+64+2*Number(row.file_count);
+  const valid = numeric && row.status_valid && row.status_bytes <= 20 && row.code_valid && row.repository_valid
+    && row.commit_valid && row.format_valid && row.folder_valid && row.manifest_valid && row.profile_valid
+    && row.files_array && row.file_count >= 1 && row.file_count <= MAX_RELEASE_FILES
+    && row.created_at_valid && row.files_bytes <= MAX_RETAINED_JSON_BYTES && row.content_bytes <= MAX_RELEASE_BYTES
+    && row.invalid_files === 0 && row.distinct_paths === row.file_count
+    && row.metadata_bytes <= MAX_METADATA_BYTES && metadataTotal <= MAX_METADATA_BYTES;
+  return { row, valid };
+}
+
 /** Return only database-computed scalar facts for one scoped retained release.
  * Call while holding the caller's established project/plan/release locks. The
  * returned row deliberately contains no JSONB payload; load files only after

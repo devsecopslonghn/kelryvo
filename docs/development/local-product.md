@@ -294,12 +294,18 @@ All other API reads/writes require a bearer token:
 | `POST /api/projects/:id/profiles` | Store `name`, `environmentId`, `engine=oracle`, `host`, `port`, `service`, `username`, `credentialRef` |
 | `POST /api/projects/:id/releases` | Import `repositoryId`, `commit`, `folder` |
 | `POST /api/projects/:id/releases/compare` | Read-only `baseReleaseId`, `candidateReleaseId` comparison |
-| `GET /api/releases/:id` | Retained source, hashes and parser observations |
+| `GET /api/releases/:id` | Authenticated, scoped read-only historical source detail; scalar bounds are checked under project/release locks before file or diagnostic text projection. Malformed or oversized retained detail returns fixed HTTP 409 `RELEASE_UNAVAILABLE`. The historical view preserves bounded `VALID`, `INVALID` and `UNAVAILABLE` diagnostics and does not attest current Git or parser state. |
 | `POST /api/projects/:id/plans` | Freeze candidate from `releaseId`, `profileId` |
 | `GET /api/projects/:projectId/plans/:id/comments` | Authenticated, ordered historical comment timeline within the project/plan scope |
 | `POST /api/projects/:projectId/plans/:id/comments` | Append plain-text `body` to a pending plan in an active project; developer or approver |
 | `POST /api/plans/:id/decision` | Independent `APPROVE`/`REJECT` with `reason` |
 | `POST /api/plans/:id/execution` | Audit denial; HTTP 409 `EXECUTION_UNAVAILABLE`, `NOT_EXECUTED` |
+
+Historical release detail reads enforce the retained limits of 128 files, 2 MiB per
+file, 16 MiB aggregate source content and 4 MiB of complete encoded non-content metadata
+before PostgreSQL returns retained files, identity strings or validation diagnostics.
+This is a display allocation bound; protected planning, comparison, preview and review
+readers retain their separate strict integrity checks.
 
 Writes and their audit/history events share PostgreSQL transactions. Approved items are
 immutable through the API; terminal decisions cannot be overwritten. Metadata administrators

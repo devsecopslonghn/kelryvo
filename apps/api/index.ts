@@ -7,7 +7,7 @@ import { compareRetainedReleases } from "../../packages/migrations/compare-retai
 import { previewRetainedStatements } from "../../packages/migrations/statement-preview.mjs";
 import { resolveCommentEvidence, validateCommentEvidenceInput } from "../../packages/migrations/comment-evidence.mjs";
 import { encodeOfflinePlanIntent, verifyOfflinePlanIntent } from "../../packages/migrations/offline-plan-intent.mjs";
-import { preflightRetainedRelease } from "../../packages/migrations/retained-release-preflight.mjs";
+import { preflightRetainedRelease, preflightHistoricalRelease } from "../../packages/migrations/retained-release-preflight.mjs";
 import { actorHasProjectGrant, projectAccessMode } from "../../packages/database/project-membership.ts";
 import { AUDIT_PAGE_SIZE, decodeAuditCursor, encodeAuditCursor } from "../../packages/audit/cursor.mjs";
 
@@ -62,9 +62,11 @@ export function createApp(options: {
   repositories: ProductRepository[];
   webDirectory?: string;
   statementParser?: (source: Buffer) => Promise<any>;
+  releaseParser?: (source: Buffer) => Promise<any>;
 }) {
   const { sql, actors, repositories } = options;
   const statementParser = options.statementParser;
+  const releaseParser = options.releaseParser;
   let seedPromise: Promise<void> | undefined;
   if (
     !Array.isArray(actors) ||
@@ -520,6 +522,7 @@ export function createApp(options: {
           repositoryPath: repo.path,
           commit: b.commit,
           folder: b.folder,
+          ...(releaseParser ? { parse: releaseParser } : {}),
         });
       } catch {
         return fail(reply, 400, "RELEASE_IMPORT_FAILED");
@@ -727,10 +730,24 @@ export function createApp(options: {
     { preHandler: authenticate },
     async (req: any, reply: any) => {
       if (!uuid(req.params.id)) return fail(reply, 404, "NOT_FOUND");
-      const r = (
-        await sql`SELECT * FROM sf_releases WHERE id=${req.params.id} AND organization_id=${ORG}`
-      )[0];
-      if (!r) return fail(reply, 404, "NOT_FOUND");
+      const result = await sql.begin(async (tx: any) => {
+        const projectRow = (await tx`SELECT id,archived_at FROM sf_projects
+          WHERE id=(SELECT project_id FROM sf_releases WHERE id=${req.params.id} AND organization_id=${ORG})
+            AND organization_id=${ORG} FOR SHARE`)[0];
+        if (!projectRow) return { error: "NOT_FOUND" };
+        if ((await projectAccessMode(tx)) === 'ENFORCED'
+            && !(await actorHasProjectGrant(tx, req.actor.id, projectRow.id))) return { error: "NOT_FOUND" };
+        const preflight = await preflightHistoricalRelease(tx, { id: req.params.id, projectId: projectRow.id, organizationId: ORG });
+        if (!preflight.valid) return { error: "RELEASE_UNAVAILABLE" };
+        const r = (await tx`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,
+          validation_status,validation_code,parser_profile,files,created_at FROM sf_releases
+          WHERE id=${req.params.id} AND project_id=${projectRow.id} AND organization_id=${ORG} FOR SHARE`)[0];
+        if (!r) return { error: "NOT_FOUND" };
+        return { release: r };
+      });
+      if (result.error === "NOT_FOUND") return fail(reply, 404, "NOT_FOUND");
+      if (result.error) return fail(reply, 409, "RELEASE_UNAVAILABLE");
+      const r = result.release;
       return {
         release: {
           id: r.id,
