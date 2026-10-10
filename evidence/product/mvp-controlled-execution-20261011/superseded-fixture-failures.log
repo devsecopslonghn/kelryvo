@@ -1,0 +1,194 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: approved Git request reaches controlled worker/history; uncertainty and revoked authority never replay
+    # Subtest: explicit host boundary and complete immutable statement sequence
+    ok 1 - explicit host boundary and complete immutable statement sequence
+      ---
+      duration_ms: 19345.736544
+      type: 'test'
+      ...
+    # Subtest: exact applied history is a witnessed NOOP; partial/malformed history is declined
+    ok 2 - exact applied history is a witnessed NOOP; partial/malformed history is declined
+      ---
+      duration_ms: 43236.679979
+      type: 'test'
+      ...
+    # Subtest: unknown result, missing receipt, permit loss and invalid postconditions stop with HOLD
+    ok 3 - unknown result, missing receipt, permit loss and invalid postconditions stop with HOLD
+      ---
+      duration_ms: 27151.488468
+      type: 'test'
+      ...
+# deploy-revoke complete
+# deploy-grant complete
+# deploy-revoke complete
+# deploy-grant complete
+    # Subtest: grant/source/assignment mutation before admission leaves no proof; revocation after an effect stops
+    ok 4 - grant/source/assignment mutation before admission leaves no proof; revocation after an effect stops
+      ---
+      duration_ms: 21899.588589
+      type: 'test'
+      ...
+# deploy-revoke complete
+# deploy-grant complete
+    # Subtest: schema contention does not hold global governance and assignment/API work completes
+    ok 5 - schema contention does not hold global governance and assignment/API work completes
+      ---
+      duration_ms: 5413.89244
+      type: 'test'
+      ...
+    # Subtest: concurrent declaration service/schema locks serialize before execution and governance
+    ok 6 - concurrent declaration service/schema locks serialize before execution and governance
+      ---
+      duration_ms: 5573.195264
+      type: 'test'
+      ...
+# deploy-revoke complete
+    # Subtest: revocation waits for the guarded target call and prevents the next statement
+    not ok 7 - revocation waits for the guarded target call and prevents the next statement
+      ---
+      duration_ms: 7903.428928
+      type: 'test'
+      location: '/home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:203:13'
+      failureType: 'testCodeFailure'
+      error: |-
+        revocation is serialized against an in-flight target call
+        
+        false !== true
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: true
+      actual: false
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:215:16)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:203:5)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+      ...
+    # Subtest: lost admission COMMIT acknowledgement recovers expiry to HOLD without target calls or another claim
+    not ok 8 - lost admission COMMIT acknowledgement recovers expiry to HOLD without target calls or another claim
+      ---
+      duration_ms: 9.768283
+      type: 'test'
+      location: '/home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:221:13'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        + actual - expected
+        
+        + 'ADMISSION_DECLINED'
+        - 'HOLD_PERSISTENCE_PENDING'
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 'HOLD_PERSISTENCE_PENDING'
+      actual: 'ADMISSION_DECLINED'
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:228:14)
+        process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:221:5)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+      ...
+    # Subtest: legacy requests are read-only and browser child authority includes its parent lifecycle
+    not ok 9 - legacy requests are read-only and browser child authority includes its parent lifecycle
+      ---
+      duration_ms: 18.150956
+      type: 'test'
+      location: '/home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:236:13'
+      failureType: 'testCodeFailure'
+      error: 'new row for relation "sf_local_credentials" violates check constraint "sf_local_credentials_lifetime"'
+      code: '23514'
+      name: 'PostgresError'
+      stack: |-
+        ErrorResponse (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/connection.js:815:30)
+        handle (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/connection.js:489:6)
+        Socket.data (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/connection.js:324:9)
+        Socket.emit (node:events:519:28)
+        addChunk (node:internal/streams/readable:561:12)
+        readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+        Readable.push (node:internal/streams/readable:392:5)
+        TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+        cachedError (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/query.js:170:23)
+        new Query (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/query.js:36:24)
+        sql (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/index.js:112:11)
+        TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:250:30)
+      ...
+    # Subtest: credential revocation after possible effect preserves receipts and halts later dispatch
+    not ok 10 - credential revocation after possible effect preserves receipts and halts later dispatch
+      ---
+      duration_ms: 8.494428
+      type: 'test'
+      location: '/home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:261:13'
+      failureType: 'testCodeFailure'
+      error: |-
+        Expected values to be strictly equal:
+        + actual - expected
+        
+        + 'ADMISSION_DECLINED'
+        - 'HOLD'
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 'HOLD'
+      actual: 'ADMISSION_DECLINED'
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:263:14)
+        process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:261:5)
+        async Test.run (node:internal/test_runner/test:1054:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+      ...
+    # Subtest: restore generation stops dispatch and preserves unresolved metadata until recovery
+    not ok 11 - restore generation stops dispatch and preserves unresolved metadata until recovery
+      ---
+      duration_ms: 2.796725
+      type: 'test'
+      location: '/home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:268:13'
+      failureType: 'testCodeFailure'
+      error: 'new row for relation "sf_local_credentials" violates check constraint "sf_local_credentials_lifetime"'
+      code: '23514'
+      name: 'PostgresError'
+      stack: |-
+        ErrorResponse (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/connection.js:815:30)
+        handle (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/connection.js:489:6)
+        Socket.data (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/connection.js:324:9)
+        Socket.emit (node:events:519:28)
+        addChunk (node:internal/streams/readable:561:12)
+        readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+        Readable.push (node:internal/streams/readable:392:5)
+        TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+        cachedError (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/query.js:170:23)
+        new Query (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/query.js:36:24)
+        sql (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/node_modules/postgres/src/index.js:112:11)
+        TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:272:16)
+      ...
+    1..11
+not ok 1 - approved Git request reaches controlled worker/history; uncertainty and revoked authority never replay
+  ---
+  duration_ms: 148475.922219
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-controlled-execution/tests/product-controlled-execution.test.mjs:15:1'
+  failureType: 'subtestsFailed'
+  error: '5 subtests failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+1..1
+# tests 12
+# suites 0
+# pass 6
+# fail 6
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 148734.538896

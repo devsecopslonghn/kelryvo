@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-10T22:43:28.726585+00:00",
+  "recorded_at": "2026-10-10T23:11:32.170621+00:00",
   "verified_master": "ce632193ac3a1c9c544d71e84eca2071133987d0",
   "reviewed_local_source": "a97e7110d8ee1cd47dee9f27d713b3bc45e36eba",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
@@ -2538,5 +2538,12 @@
     "limits": "No applied target ledger, production worker or Oracle runtime acceptance.",
     "published_head": "a97e7110d8ee1cd47dee9f27d713b3bc45e36eba",
     "merged_master": "ce632193ac3a1c9c544d71e84eca2071133987d0"
+  },
+  "m3_controlled_increment": {
+    "status": "LOCAL_VERIFIED_REMOTE_CI_PENDING",
+    "source_head": "513bdfb91382592b9f7b9d76deea91611e24ac46",
+    "evidence": "mvp-controlled-execution-local-verified",
+    "behavior": "Exact reviewed statements advance under installed host capabilities with atomic proof/claim and checked authority across dispatch/final commit. Synthetic host12cases, no-replay and restore/credential fences verified. No Oracle adapter/deployed isolation/applied target ledger acceptance.",
+    "classification_change": false
   }
 }

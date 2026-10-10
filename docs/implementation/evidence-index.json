@@ -3252,6 +3252,26 @@
       },
       "path": "evidence/product/mvp-execution-history-20261011/integration-record.json",
       "sha256": "6e3657a63b861809c8263df04a8d97ac32f616cdb75c355f3f767e65d071ab3b"
+    },
+    {
+      "id": "mvp-controlled-execution-local-verified",
+      "subject_id": "SF-PRODUCT-T33",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Corrected12case controlled-host PostgreSQL workflow,4native backup/restore, final typecheck; prior standard154PASS44optionalSKIP. Frozen source513bdfb; remote CI pending separately. Oracle runtime not validated.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "SF-PRODUCT-T33-API"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/mvp-controlled-execution-20261011/focused-final.log",
+        "sha256": "e061f0129c65a0d29a19778106ec30bed5652546a6cdd7f8829c98ab2a2d7844"
+      },
+      "path": "evidence/product/mvp-controlled-execution-20261011/record.json",
+      "sha256": "e7bf111546c8d0ff07fa1385701f32596ec0646b67b7715a15324dde55208980"
     }
   ]
 }

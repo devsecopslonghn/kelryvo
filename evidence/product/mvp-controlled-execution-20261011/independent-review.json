@@ -1,0 +1,19 @@
+{
+  "source_head": "513bdfb91382592b9f7b9d76deea91611e24ac46",
+  "reviewer": "Native independent read-only integration_review",
+  "result": "LOCAL_ACCEPTED_REMOTE_CI_PENDING",
+  "runtime_test_pin_license_hashes": 17,
+  "mismatches": 0,
+  "verified_log_hashes": 5,
+  "focused": "12PASS0FAIL0SKIP",
+  "native_backup": "4PASS0FAIL0SKIP",
+  "final_typecheck": "PASS",
+  "resolved_findings": [
+    "Catalog/schema/global lock inversion",
+    "Authority-check-to-dispatch race",
+    "Declaration service/schema row-lock cycle",
+    "Browser parent credential lifecycle and row lock"
+  ],
+  "publication_scan": "27frozen delta source/docs/evidence/log files, gitleaks exit0/findings0; inherited prior PR50 digest classifications retained",
+  "limitations": "UNIT_SYNTHETIC ports only. No installed Oracle host, driver adapter, target ledger reconciliation, deployed worker isolation, runtime or full catalog acceptance. Exact publication CI and ordinary merge eligibility remain mandatory."
+}

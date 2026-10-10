@@ -758,6 +758,11 @@
         "status": "INTEGRATED_PR50_MASTER_CI_VERIFIED"
       },
       {
+        "outcome": "Controlled approved-request admission and no-replay execution/history",
+        "work": "Reuse coordinator, journal and pinned parser with installed trusted host capabilities; commit proof/first claim atomically, retain catalog/schema/global authority locks across dispatch and terminal success, fence restored metadata, preserve old reads. Test synthetic host effects explicitly; actual Oracle host/execution/reconciliation remains external.",
+        "status": "LOCAL_VERIFIED_REMOTE_CI_PENDING"
+      },
+      {
         "outcome": "Reproducible MVP release acceptance",
         "work": "Demonstrate installation and Git-to-review/request/history on local PostgreSQL/Git/parser/HTTPS; validate Oracle execution only against an explicitly authorized runtime. Assemble source/notices and deployment artifacts under existing license."
       }
@@ -778,24 +783,15 @@
       37
     ],
     "active_increment": {
-      "outcome": "Scoped retained execution attempt/receipt/HOLD history",
-      "status": "INTEGRATED_FINAL_MASTER_CI_VERIFIED",
-      "worktree": "/home/longhn0710/workspace/schemaforge-execution-history",
-      "branch": "development/product-execution-history",
-      "source_head": "a107a73b2f66c64d01fdbc2ea81fa61060396b1d",
-      "integrated_base": "7ac6b711036ae484ee9a273cb85b99ecd82e44e3",
-      "evidence": "evidence/product/mvp-execution-history-20261011/integration-record.json",
-      "next": "Trusted worker/current-target admission and reconciliation ports under explicit Oracle authority; reproducible local Git-to-review/request/history release acceptance independently.",
-      "pr": 50,
-      "original_publication_head": "00d020141981f70f80b63d81083f60041f4094d1",
-      "ci_correction": "evidence/product/mvp-execution-history-20261011/publication-ci-correction.json",
-      "reviewed_head": "a97e7110d8ee1cd47dee9f27d713b3bc45e36eba",
-      "merged_master": "ce632193ac3a1c9c544d71e84eca2071133987d0",
-      "master_ci_handles": [
-        38090765051,
-        38090765155,
-        38090765010
-      ]
+      "outcome": "Trusted host controlled execution bridge from approved Git request to durable history",
+      "status": "LOCAL_VERIFIED_REMOTE_CI_PENDING",
+      "worktree": "/home/longhn0710/workspace/schemaforge-controlled-execution",
+      "branch": "development/product-controlled-execution",
+      "integrated_base": "ce632193ac3a1c9c544d71e84eca2071133987d0",
+      "preserved_checkpoint_base": "732e438dcdab4f2a52ebe4ef924f80f34646d1a6",
+      "next": "Require corrected exact-head foundation/parser/product push andPRCI, independent exact-hash review, publication scan/license and actual merge eligibility; merge normally only after all gates pass. Oracle host/runtime remains unavailable.",
+      "source_head": "513bdfb91382592b9f7b9d76deea91611e24ac46",
+      "evidence": "evidence/product/mvp-controlled-execution-20261011/record.json"
     }
   }
 }
