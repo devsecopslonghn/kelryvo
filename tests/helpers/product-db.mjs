@@ -38,7 +38,7 @@ async function dropOwnedDatabase(baseUrl, name) {
 /** Create one test-owned database so concurrent test files never lock or initialize
  * each other's project rows and schema. The caller's dedicated PG URL is never logged.
  */
-export async function openIsolatedProductDatabase() {
+export async function openIsolatedProductDatabase({ initialize = initializeDatabase } = {}) {
   const baseUrl = process.env.SCHEMAFORGE_TEST_DATABASE_URL;
   if (!baseUrl) return null;
 
@@ -54,7 +54,7 @@ export async function openIsolatedProductDatabase() {
 
     const url = databaseUrl(baseUrl, name);
     sql = postgres(url, { max: 4, onnotice: () => {} });
-    await initializeDatabase(sql);
+    await initialize(sql);
 
     let closed = false;
     const result = {

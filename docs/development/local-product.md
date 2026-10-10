@@ -260,7 +260,11 @@ read-only state.
 The local OS operator manages explicit grants independently of API bearer credentials using
 `npm run local:membership -- <action> ... /absolute/private/config.json`. Supported forms are
 `status CONFIG`, `grant PROJECT_UUID ACTOR_ID CONFIG`, `revoke PROJECT_UUID ACTOR_ID CONFIG`,
-and `activate CONFIG`. The config must be the existing local 0700-directory/0600-file config;
+`deploy-grant PROJECT_UUID ACTOR_ID CONFIG`, `deploy-revoke PROJECT_UUID ACTOR_ID CONFIG`,
+and `activate CONFIG`. Deployment permission is an explicit operator grant separate from fixed
+developer/approver roles. It requires current membership and a usable credential. Membership
+revocation atomically retires deployment permission; restoring membership never restores it.
+The config must be the existing local 0700-directory/0600-file config;
 the database URL comes from `SCHEMAFORGE_LOCAL_DATABASE_URL`, must target the loopback local
 metadata database, contain no query overrides, and carry that config's database password.
 `status` reports project and existing actor identifiers/names, fixed roles, explicit assigned
@@ -346,7 +350,10 @@ All other API reads/writes require a bearer token:
 | `GET /api/projects/:projectId/plans/:id/reviewers` | Up to 50 current eligible reviewer IDs/names; `hasMore` reports truncation |
 | `PUT /api/projects/:projectId/plans/:id/reviewer` | Assign or clear with `reviewerId` (nullable) and canonical decimal `expectedRevision` |
 | `POST /api/plans/:id/approval-revocation` | Withdraw with `expectedApprovalReference` (UUID or explicit `null`) and `reason` |
-| `POST /api/plans/:id/execution` | Audit denial; HTTP 409 `EXECUTION_UNAVAILABLE`, `NOT_EXECUTED` |
+| `POST /api/plans/:id/execution` | Request a deployment job using only `idempotencyKey` and `reason`; creates a durable `WAITING_VALIDATION` job |
+| `GET /api/projects/:projectId/execution-jobs` | Read up to 50 current-project jobs |
+| `GET /api/execution-jobs/:id` | Read a scoped job and immutable events |
+| `POST /api/execution-jobs/:id/cancel` | Cancel the requester's undispatched job with `expectedRevision` |
 
 Historical release detail reads enforce the retained limits of 128 files, 2 MiB per
 file, 16 MiB aggregate source content and 4 MiB of complete encoded non-content metadata
@@ -360,12 +367,23 @@ immutable through the API; terminal decisions cannot be overwritten. Local start
 unassigned at revision zero. Historical terminal and archived assignment metadata stays readable.
 Additional eligible reviewers beyond the directory bound can be assigned by their known actor ID
 through the same scoped API. Expiring temporary delegation remains unavailable. Metadata administrators
-remain outside this protection. No simulated execution, automatic retry, target ledger,
+remain outside this protection. Offline plans have no observed target history, so requests
+remain `WAITING_VALIDATION` and cannot be admitted by API or operator grant. The restricted
+coordinator accepts only an admitted immutable job through injected trusted ports; synthetic
+ports are UNIT evidence only. No production Oracle adapter, automatic retry, target ledger,
 runtime authority, Oracle connections, Kubernetes deployment or production compatibility
 claim is included. Archival retains records and transactionally rejects further project
 writes with HTTP 409 `PROJECT_ARCHIVED`, including in-flight writes that were waiting
 on the project lock. No restore or deletion endpoint is provided. Edit/resubmit and broader
 catalog workflows are incremental work.
+
+The immutable PostgreSQL proof row stores expected bindings; it does not independently grant
+execution authority or establish live target identity, history, mutex ownership, validity or
+central evidence. Trusted production admission and target-check ports remain future work.
+The coordinator rechecks those injected live checks before each statement and before success;
+the PostgreSQL adapter persists matching expected digests, ordered acknowledgments, receipts
+and terminal projections. The synthetic PostgreSQL integration exercises this contract only
+with explicitly labeled UNIT evidence.
 
 Comments are append-only through the API and never modify migration bytes, plans, decisions
 or migration history. Only `body` is accepted: nonblank valid Unicode, up to 4,000 UTF-16

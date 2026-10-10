@@ -55,7 +55,10 @@ const errorCopy = {
   GIT_REF_LIMIT: 'This repository has too many refs to list safely. Contact an administrator.',
   GIT_REF_READ_FAILED: 'Repository refs could not be read. Try again later.',
   VALIDATION_UNAVAILABLE: 'The migration parser is unavailable. This release cannot be planned.',
-  EXECUTION_UNAVAILABLE: 'Execution is unavailable. The plan remains NOT_EXECUTED.',
+  EXECUTION_UNAVAILABLE: 'Target history is unavailable. The plan remains NOT_EXECUTED and the request waits for validation.',
+  DEPLOY_PERMISSION_REQUIRED: 'The local OS operator must grant deployment permission for this project.',
+  IDEMPOTENCY_CONFLICT: 'This request key was already used with different request details.',
+  PLAN_NOT_REQUESTABLE: 'The approved intent no longer matches current source or profile facts. Refresh and review the plan.',
   PROJECT_ARCHIVED: 'This project is archived. It remains readable, but new work is disabled.',
   ORIGIN_REJECTED: 'This request did not come from the local application origin.',
   INTERNAL_ERROR: 'The server could not complete the request. Try again in a moment.',
@@ -275,6 +278,8 @@ function App() {
   const [reviewerChoice, setReviewerChoice] = useState('');
   const [reviewerMessage, setReviewerMessage] = useState('');
   const [revocationReason, setRevocationReason] = useState('');
+  const [executionReason, setExecutionReason] = useState('');
+  const [executionEvents, setExecutionEvents] = useState({});
   const [commentBody, setCommentBody] = useState('');
   const [commentEvidence, setCommentEvidence] = useState([]);
   const [freshPlanRequired, setFreshPlanRequired] = useState(null);
@@ -303,6 +308,9 @@ function App() {
   const activeSelectedPlanId = useRef('');
   const activeSelectedPlanRevision = useRef('');
   const activeSelectedReleaseId = useRef('');
+  const executionKeys = useRef(new Map());
+  const executionEventSequence = useRef(0);
+  const executionContextEpoch = useRef(0);
   const reviewerSequence = useRef(0);
   const selectRelease = value => {
     activeSelectedReleaseId.current = value?.id || '';
@@ -354,6 +362,8 @@ function App() {
   };
 
   const clearProjectState = () => {
+    executionContextEpoch.current += 1;
+    executionEventSequence.current += 1; setExecutionEvents({});
     releaseComparisonSequence.current += 1; setReleaseComparison(null);
     auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
     inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' });
@@ -369,6 +379,7 @@ function App() {
     setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' });
     setEnvironmentName(''); setProfileForm({ name: '', environmentId: '', engine: 'oracle', host: 'oracle.example.invalid', port: '1521', service: 'DEV', username: 'APP', credentialRef: 'vault://local/app' });
     setArchiveReason(''); setGitRefs({ branches: [], tags: [] }); setGitRefsError(''); setGitRefsLoading(false);
+    setExecutionReason('');
   };
 
   useEffect(() => {
@@ -378,9 +389,11 @@ function App() {
       auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
       inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' });
       sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; invalidateReleaseComparison();
+      executionContextEpoch.current += 1;
       withdrawalContextEpoch.current += 1;
       statementPreviewSequence.current += 1; setStatementPreview(null);
       activeProjectId.current = ''; activeSelectedPlanId.current = '';
+      executionKeys.current.clear(); executionEventSequence.current += 1; setExecutionEvents({}); setExecutionReason('');
       currentSourceContext.current = null;
       setActor(null); setToken(''); setTokenInput(''); setProjects([]); setRepositories([]); setProjectId(''); setDetail(null);
       selectRelease(null); setSelectedPlan(''); setPlanSource(null); setFreshPlanRequired(null); setPlanStatus('ALL'); setAuditAction('ALL');
@@ -394,6 +407,10 @@ function App() {
   }, []);
 
   const selectPlan = (id) => {
+    if (activeSelectedPlanId.current !== id) {
+      executionContextEpoch.current += 1;
+      executionEventSequence.current += 1; setExecutionEvents({});
+    }
     reviewerSequence.current += 1;
     setReviewerChoices([]); setReviewerChoice(''); setReviewerMessage('');
     withdrawalContextEpoch.current += 1;
@@ -407,10 +424,12 @@ function App() {
   };
 
   const selectProject = (nextId) => {
+    executionContextEpoch.current += 1;
     releaseComparisonSequence.current += 1; setReleaseComparison(null);
     auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
     inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' });
     const alreadySelected = nextId === projectId;
+    executionEventSequence.current += 1; setExecutionEvents({});
     withdrawalContextEpoch.current += 1;
     if (!alreadySelected) currentSourceContext.current = null;
     activeProjectId.current = nextId;
@@ -438,6 +457,7 @@ function App() {
 
   const refresh = useCallback(async (activeToken, selectedId = projectId) => {
     if (!activeToken) return;
+    executionEventSequence.current += 1; setExecutionEvents({});
     invalidateReleaseComparison();
     auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
     setAuditRefreshKey((value) => value + 1);
@@ -905,6 +925,50 @@ function App() {
     }, 'Approval withdrawn. The plan remains NOT_EXECUTED.', () => setRevocationReason(''), () => {}, isCurrent, true);
   };
 
+  const requestExecution = () => {
+    const requestedProject = projectId, requestedPlan = plan?.id, requestedToken = token;
+    const epoch = sessionEpoch.current;
+    const contextEpoch = executionContextEpoch.current;
+    if (!requestedProject || !requestedPlan || !requestedToken || !detail?.canDeploy || plan?.status !== 'APPROVED'
+        || isArchived || activeProjectId.current !== requestedProject) return;
+    const prior = executionKeys.current.get(requestedPlan);
+    const payload = { actorId: actor?.id, sessionEpoch: epoch, reason: executionReason.trim(), intentDigest: plan?.offlineIntent?.digest };
+    let key = prior && Object.keys(payload).every(name => prior.payload[name] === payload[name]) ? prior.key : null;
+    if (!key) { key = crypto.randomUUID(); executionKeys.current.set(requestedPlan, { key, payload }); }
+    const isCurrent = () => sessionEpoch.current === epoch && executionContextEpoch.current === contextEpoch && activeProjectId.current === requestedProject
+      && projectId === requestedProject && activeSelectedPlanId.current === requestedPlan;
+    void mutate(async () => {
+      const outcome = await json(`/api/plans/${encodeURIComponent(requestedPlan)}/execution`, requestedToken, {
+        method: 'POST', body: JSON.stringify({ idempotencyKey: key, reason: executionReason.trim() }),
+      });
+      if (executionKeys.current.get(requestedPlan)?.key === key) executionKeys.current.delete(requestedPlan);
+      return outcome;
+    }, 'Deployment request recorded. Target history is unavailable, so the job is waiting for validation.',
+    () => setExecutionReason(''), () => {}, isCurrent);
+  };
+  const loadExecutionEvents = async (job) => {
+    const sequence = ++executionEventSequence.current;
+    const selectedProject = projectId, selectedSession = sessionEpoch.current, selectedToken = token;
+    const refreshAtStart = refreshSequence.current;
+    try {
+      const result = await json(`/api/execution-jobs/${encodeURIComponent(job.id)}`, selectedToken);
+      if (sequence === executionEventSequence.current && refreshSequence.current === refreshAtStart && sessionEpoch.current === selectedSession
+          && activeProjectId.current === selectedProject && projectId === selectedProject
+          && result.job?.projectId === selectedProject) setExecutionEvents(current => ({ ...current, [job.id]: result.events || [] }));
+    } catch (error) {
+      if (sequence === executionEventSequence.current && refreshSequence.current === refreshAtStart && sessionEpoch.current === selectedSession
+          && activeProjectId.current === selectedProject) setError(explain(error));
+    }
+  };
+  const cancelExecution = (job) => {
+    const epoch = sessionEpoch.current, requestedProject = projectId, requestedToken = token;
+    const contextEpoch = executionContextEpoch.current;
+    const isCurrent = () => sessionEpoch.current === epoch && executionContextEpoch.current === contextEpoch && activeProjectId.current === requestedProject;
+    void mutate(async () => json(`/api/execution-jobs/${encodeURIComponent(job.id)}/cancel`, requestedToken, {
+      method: 'POST', body: JSON.stringify({ expectedRevision: job.revision }),
+    }), 'Undispatched request cancelled.', () => {}, () => {}, isCurrent);
+  };
+
   const addComment = (event) => {
     event.preventDefault();
     if (!projectLoaded || !plan || isArchived || plan.status !== 'PENDING_APPROVAL' || !commentBody.trim() || busy) return;
@@ -1130,7 +1194,7 @@ function App() {
     await requestStatementPreview(reference.releaseId, reference.filePath, planId, reference, source);
   };
 
-  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval };
+  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, requestExecution, cancelExecution };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -1159,7 +1223,7 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('review'); }}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'inbox' ? 'active' : ''}`} onClick={() => { setTab('inbox'); void loadInbox({ append: false }); }}><span>▤</span> Review inbox</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('records'); }}><span>≡</span> Audit &amp; history</button>
-    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { browserSessionEpoch += 1; inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' }); sessionEpoch.current += 1; withdrawalContextEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; invalidateReleaseComparison(); statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setRevocationReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setNavigateDuringWithdrawal(false); setError(''); setNotice(''); }}>↗</button></div>
+    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { executionContextEpoch.current += 1; executionKeys.current.clear(); executionEventSequence.current += 1; setExecutionEvents({}); setExecutionReason(''); browserSessionEpoch += 1; inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' }); sessionEpoch.current += 1; withdrawalContextEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; invalidateReleaseComparison(); statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setRevocationReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setNavigateDuringWithdrawal(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
       <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { if (tab === 'inbox') void loadInbox(); else void refresh(token); }} disabled={busy}>↻</button></div></header>
@@ -1292,7 +1356,7 @@ function ReleaseScreen({ model }) {
 
 
 function ReviewScreen({ model }) {
-  const { readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview, actor, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, revocationReason, setRevocationReason, revokeApproval } = model;
+  const { readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview, actor, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, requestExecution, cancelExecution } = model;
   const scopedProfiles = projectLoaded && Array.isArray(detail?.profiles) ? detail.profiles : [];
   const scopedEnvironments = projectLoaded && Array.isArray(detail?.environments) ? detail.environments : [];
   const targetProfile = typeof plan?.profileId === 'string'
@@ -1361,6 +1425,25 @@ function ReviewScreen({ model }) {
                   {isPlanAuthor ? <p className="banner warning">You authored this plan. Another approver must review it independently.</p> : !authorFactsAvailable ? <p className="banner warning">Requester information is unavailable. Refresh the project to retrieve retained plan facts.</p> : null}
                   <small>Approval records governance only. It does not authorize or perform execution in this product.</small></div>}
                 {!isApprover && plan.status === 'PENDING_APPROVAL' && <p className="banner warning">Awaiting an approver. Your current role can prepare plans but cannot decide them.</p>}
+                {(plan.status === 'APPROVED' || (detail.executionJobs || []).some(job => job.planId === plan.id)) && <section className="panel execution-jobs" aria-label="Deployment requests">
+                  <h3>Deployment request</h3>
+                  <p>Approved plan requests wait for observed target history and validation. This local product cannot execute the current offline candidate.</p>
+                  {plan.status === 'APPROVED' && detail.canDeploy && !isArchived && <div className="decision-box"><label htmlFor="execution-reason">Request reason</label>
+                    <textarea id="execution-reason" value={executionReason} onChange={event => setExecutionReason(event.target.value)} maxLength={1000} placeholder="Why is this deployment being requested?"/>
+                    <button type="button" className="primary" onClick={requestExecution} disabled={busy || !executionReason.trim()}>Request deployment</button>
+                    <small>Retrying unchanged details reuses the request key. Changing the reason starts a new request.</small>
+                  </div>}
+                  {plan.status === 'APPROVED' && !detail.canDeploy && <p className="muted">Deployment permission has not been granted by the local OS operator.</p>}
+                  {(detail.executionJobs || []).filter(job => job.planId === plan.id).map(job => <div className="execution-job" key={job.id}>
+                    <strong>{job.state.replaceAll('_', ' ')}</strong> · readiness: {job.readiness.status.replaceAll('_', ' ')}
+                    <p>{job.reason}</p><code>{job.id}</code>
+                    {job.state === 'WAITING_VALIDATION' && job.requesterId === actor?.id && <button type="button" className="secondary" onClick={() => cancelExecution(job)} disabled={busy}>Cancel undispatched request</button>}
+                    <button type="button" className="secondary" onClick={() => void loadExecutionEvents(job)}>View job events</button>
+                    {(executionEvents[job.id] || []).length > 0 && <ol aria-label={`Events for job ${job.id}`}>
+                      {executionEvents[job.id].map(event => <li key={event.id}><strong>{event.to_state.replaceAll('_',' ')}</strong> · {fmt(event.created_at)}{event.reason ? ` · ${event.reason}` : ''}</li>)}
+                    </ol>}
+                  </div>)}
+                </section>}
                 <section className="comments-section" aria-label="Plan comments">
                   <h3>Review comments</h3>
                   <ol className="comment-timeline">{(detail.comments || []).filter((comment) => comment.planId === plan.id).map((comment) => <PlanCommentRow key={comment.id} comment={comment} plan={plan} fmt={fmt} reopenEvidence={reopenCommentEvidence}/>)}</ol>

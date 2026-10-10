@@ -53,5 +53,18 @@ explicit and never inferred from history. Withdrawal requires a current independ
 approver, explicit project membership and an active project after lifecycle serialization.
 It can remove authority from stale or damaged offline content without rewriting the
 release, intent or NOT_EXECUTED/NOT_OBSERVED history. Corrections create a fresh release
-and plan. This control-plane contract does not supply queued-job admission, worker HOLD
-or rollback of committed effects; those remain execution acceptance requirements.
+and plan. Deployment requests are durable and remain `WAITING_VALIDATION` while target
+history and validity evidence are unavailable. The separate coordinator accepts only an
+admitted immutable job through scoped trusted ports, requires a canonical target mutex and
+durable ordered receipts, and holds on ambiguity without automatic replay. Synthetic ports
+are UNIT-only and do not attest Oracle execution, production worker isolation or target identity.
+The PostgreSQL admission-proof row is an immutable expected-binding record, not an execution
+permission by itself. It cannot establish current target identity, history, mutex ownership,
+validity or central evidence. Only a separately trusted worker admission producer and its
+injected live-check ports could supply those attestations; no such production producer or
+Oracle adapter is included here. Receipt and validity projections must match the recorded
+expected digests, while the kernel rechecks the live trusted ports before dispatch and finish.
+If a claim or HOLD projection fails without commit confirmation, the kernel reports
+`HOLD_PERSISTENCE_PENDING` for operator recovery; it does not claim that HOLD was durably
+recorded. A restarted worker may only project an expired attempt to HOLD under the job lock,
+and only when both terminal projections commit; it never renews or replays the attempt.

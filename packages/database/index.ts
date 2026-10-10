@@ -19,6 +19,7 @@ export async function initializeDatabase(sql: any): Promise<void> {
       issued_at timestamptz NOT NULL, expires_at timestamptz NOT NULL, revoked_at timestamptz,
       CHECK(expires_at = issued_at + interval '24 hours')
     );
+    CREATE UNIQUE INDEX IF NOT EXISTS sf_local_credentials_id_actor ON sf_local_credentials(id,actor_id);
     CREATE INDEX IF NOT EXISTS sf_local_credentials_actor_active ON sf_local_credentials(actor_id) WHERE revoked_at IS NULL;
     CREATE TABLE IF NOT EXISTS sf_projects (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
@@ -49,7 +50,7 @@ export async function initializeDatabase(sql: any): Promise<void> {
     CREATE TABLE IF NOT EXISTS sf_project_operator_audit (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
       project_id uuid, actor_id text,
-      action text NOT NULL CHECK(action IN ('GRANT','REVOKE','ACTIVATE')),
+      action text NOT NULL CHECK(action IN ('GRANT','REVOKE','ACTIVATE','DEPLOY_GRANT','DEPLOY_REVOKE')),
       operator_os_uid integer NOT NULL, facts jsonb NOT NULL DEFAULT '{}'::jsonb,
       created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
       FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
@@ -193,8 +194,14 @@ export async function initializeDatabase(sql: any): Promise<void> {
       project_id uuid NOT NULL, started_at timestamptz NOT NULL DEFAULT clock_timestamp(), closed_at timestamptz,
       reason text NOT NULL CHECK(length(reason) BETWEEN 1 AND 500), operator_os_uid integer NOT NULL,
       FOREIGN KEY(schema_id,organization_id) REFERENCES sf_reference_schemas(id,organization_id),
-      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id)
+      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
+      CONSTRAINT sf_reference_assignments_identity_scope UNIQUE(id,organization_id,project_id)
     );
+    DO $$ BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_reference_assignments'::regclass AND conname='sf_reference_assignments_identity_scope') THEN
+        ALTER TABLE sf_reference_assignments ADD CONSTRAINT sf_reference_assignments_identity_scope UNIQUE(id,organization_id,project_id);
+      END IF;
+    END $$;
     CREATE UNIQUE INDEX IF NOT EXISTS sf_reference_assignments_active ON sf_reference_assignments(schema_id) WHERE closed_at IS NULL;
     CREATE TABLE IF NOT EXISTS sf_reference_operator_audit (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL, schema_id uuid NOT NULL,
@@ -233,6 +240,134 @@ export async function initializeDatabase(sql: any): Promise<void> {
     CREATE INDEX IF NOT EXISTS sf_history_project_time ON sf_history(project_id,created_at DESC);
     CREATE INDEX IF NOT EXISTS sf_comments_project_position ON sf_plan_comments(project_id,position);
     CREATE INDEX IF NOT EXISTS sf_comments_plan_position ON sf_plan_comments(plan_id,position);
+    ALTER TABLE sf_project_operator_audit DROP CONSTRAINT IF EXISTS sf_project_operator_audit_action_check;
+    ALTER TABLE sf_project_operator_audit ADD CONSTRAINT sf_project_operator_audit_action_check
+      CHECK(action IN ('GRANT','REVOKE','ACTIVATE','DEPLOY_GRANT','DEPLOY_REVOKE'));
+    CREATE TABLE IF NOT EXISTS sf_project_deploy_grants (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL,
+      project_id uuid NOT NULL, actor_id text NOT NULL, granted_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      revoked_at timestamptz, grant_os_uid integer NOT NULL, revoke_os_uid integer,
+      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
+      FOREIGN KEY(actor_id,organization_id) REFERENCES sf_local_actors(id,organization_id),
+      CHECK ((revoked_at IS NULL AND revoke_os_uid IS NULL) OR (revoked_at IS NOT NULL AND revoke_os_uid IS NOT NULL))
+    );
+    CREATE UNIQUE INDEX IF NOT EXISTS sf_project_deploy_grants_active ON sf_project_deploy_grants(project_id,actor_id) WHERE revoked_at IS NULL;
+    CREATE TABLE IF NOT EXISTS sf_execution_jobs (
+      id uuid PRIMARY KEY, organization_id uuid NOT NULL, project_id uuid NOT NULL, plan_id uuid NOT NULL,
+      approval_reference uuid NOT NULL, intent_digest text NOT NULL CHECK(intent_digest ~ '^[a-f0-9]{64}$'),
+      requester_id text NOT NULL, idempotency_key text NOT NULL CHECK(length(idempotency_key) BETWEEN 16 AND 128),
+      payload_digest text NOT NULL CHECK(payload_digest ~ '^[a-f0-9]{64}$'), reason text NOT NULL,
+      state text NOT NULL CHECK(state IN ('WAITING_VALIDATION','ADMITTED','CANCELLED','HOLD','NOOP','VERIFIED_SUCCESS')),
+      admission_scope text NOT NULL DEFAULT 'PRODUCT_REQUEST' CHECK(admission_scope IN ('PRODUCT_REQUEST','TRUSTED_VALIDATED','UNIT_SYNTHETIC')),
+      admission_statement_count integer CHECK(admission_statement_count IS NULL OR admission_statement_count BETWEEN 0 AND 100000),
+      readiness text NOT NULL CHECK(readiness='TARGET_HISTORY_UNAVAILABLE'), revision bigint NOT NULL DEFAULT 0,
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(), updated_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      UNIQUE(organization_id,requester_id,idempotency_key), UNIQUE(id,project_id), UNIQUE(id,organization_id,project_id),
+      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
+      FOREIGN KEY(plan_id,project_id) REFERENCES sf_plans(id,project_id),
+      FOREIGN KEY(requester_id,organization_id) REFERENCES sf_local_actors(id,organization_id)
+    );
+    CREATE OR REPLACE FUNCTION sf_check_execution_job_projection() RETURNS trigger LANGUAGE plpgsql AS $$
+      BEGIN
+        IF NEW.id IS DISTINCT FROM OLD.id OR NEW.organization_id IS DISTINCT FROM OLD.organization_id
+          OR NEW.project_id IS DISTINCT FROM OLD.project_id OR NEW.plan_id IS DISTINCT FROM OLD.plan_id
+          OR NEW.approval_reference IS DISTINCT FROM OLD.approval_reference OR NEW.intent_digest IS DISTINCT FROM OLD.intent_digest
+          OR NEW.requester_id IS DISTINCT FROM OLD.requester_id OR NEW.idempotency_key IS DISTINCT FROM OLD.idempotency_key
+          OR NEW.payload_digest IS DISTINCT FROM OLD.payload_digest OR NEW.reason IS DISTINCT FROM OLD.reason
+          OR NEW.admission_scope IS DISTINCT FROM OLD.admission_scope OR NEW.admission_statement_count IS DISTINCT FROM OLD.admission_statement_count
+          OR NEW.readiness IS DISTINCT FROM OLD.readiness OR NEW.created_at IS DISTINCT FROM OLD.created_at THEN
+          RAISE EXCEPTION 'execution job identity is immutable';
+        END IF;
+        IF NEW.revision <> OLD.revision+1 OR NOT (
+          (OLD.state='WAITING_VALIDATION' AND NEW.state IN ('CANCELLED','HOLD')) OR
+          (OLD.state='ADMITTED' AND NEW.state IN ('HOLD','NOOP','VERIFIED_SUCCESS'))
+        ) THEN RAISE EXCEPTION 'illegal execution job projection transition'; END IF;
+        RETURN NEW;
+      END $$;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_execution_jobs_projection_guard') THEN
+      CREATE TRIGGER sf_execution_jobs_projection_guard BEFORE UPDATE ON sf_execution_jobs
+      FOR EACH ROW EXECUTE FUNCTION sf_check_execution_job_projection(); END IF; END $$;
+    CREATE TABLE IF NOT EXISTS sf_execution_admission_proofs (
+      job_id uuid PRIMARY KEY, organization_id uuid NOT NULL, project_id uuid NOT NULL, plan_id uuid NOT NULL, scope text NOT NULL CHECK(scope IN ('TRUSTED_VALIDATED','UNIT_SYNTHETIC')),
+      approval_reference uuid NOT NULL, intent_digest text NOT NULL CHECK(intent_digest ~ '^[a-f0-9]{64}$'),
+      source_manifest_digest text NOT NULL CHECK(source_manifest_digest ~ '^[a-f0-9]{64}$'),
+      source_binding_generation bigint NOT NULL CHECK(source_binding_generation>0), profile_id uuid NOT NULL,
+      profile_facts_digest text NOT NULL CHECK(profile_facts_digest ~ '^[a-f0-9]{64}$'), profile_facts jsonb NOT NULL,
+      target_assignment_id uuid, target_identity_digest text NOT NULL CHECK(target_identity_digest ~ '^[a-f0-9]{64}$'),
+      history_snapshot_digest text NOT NULL CHECK(history_snapshot_digest ~ '^[a-f0-9]{64}$'),
+      mutex_authority_digest text NOT NULL CHECK(mutex_authority_digest ~ '^[a-f0-9]{64}$'),
+      validity_digest text NOT NULL CHECK(validity_digest ~ '^[a-f0-9]{64}$'),
+      central_evidence_digest text NOT NULL CHECK(central_evidence_digest ~ '^[a-f0-9]{64}$'),
+      authorized_actor_id text NOT NULL, authorized_actor_role text NOT NULL CHECK(authorized_actor_role IN ('developer','approver')),
+      authorized_credential_id uuid NOT NULL, created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      FOREIGN KEY(job_id,organization_id,project_id) REFERENCES sf_execution_jobs(id,organization_id,project_id),
+      FOREIGN KEY(plan_id,project_id) REFERENCES sf_plans(id,project_id),
+      FOREIGN KEY(profile_id,project_id) REFERENCES sf_profiles(id,project_id),
+      FOREIGN KEY(authorized_actor_id,organization_id) REFERENCES sf_local_actors(id,organization_id),
+      FOREIGN KEY(authorized_credential_id,authorized_actor_id) REFERENCES sf_local_credentials(id,actor_id),
+      FOREIGN KEY(target_assignment_id,organization_id,project_id) REFERENCES sf_reference_assignments(id,organization_id,project_id),
+      CHECK(scope='UNIT_SYNTHETIC' OR target_assignment_id IS NOT NULL)
+    );
+    CREATE OR REPLACE FUNCTION sf_reject_execution_proof_mutation() RETURNS trigger LANGUAGE plpgsql AS $$
+      BEGIN RAISE EXCEPTION 'execution admission proofs are immutable'; END $$;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_execution_admission_proofs_immutable') THEN
+      CREATE TRIGGER sf_execution_admission_proofs_immutable BEFORE UPDATE OR DELETE ON sf_execution_admission_proofs
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_execution_proof_mutation(); END IF; END $$;
+    CREATE TABLE IF NOT EXISTS sf_execution_job_events (
+      id uuid PRIMARY KEY, job_id uuid NOT NULL REFERENCES sf_execution_jobs(id), revision bigint NOT NULL,
+      from_state text, to_state text NOT NULL, actor_id text NOT NULL, reason text,
+      facts jsonb NOT NULL DEFAULT '{}'::jsonb, created_at timestamptz NOT NULL DEFAULT clock_timestamp(), UNIQUE(job_id,revision)
+    );
+    CREATE OR REPLACE FUNCTION sf_reject_execution_event_mutation() RETURNS trigger LANGUAGE plpgsql AS $$
+      BEGIN RAISE EXCEPTION 'execution job events are immutable'; END $$;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_execution_job_events_immutable') THEN
+      CREATE TRIGGER sf_execution_job_events_immutable BEFORE UPDATE OR DELETE ON sf_execution_job_events
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_execution_event_mutation(); END IF; END $$;
+    CREATE TABLE IF NOT EXISTS sf_execution_attempts (
+      id uuid PRIMARY KEY, job_id uuid NOT NULL REFERENCES sf_execution_jobs(id), generation bigint NOT NULL,
+      state text NOT NULL CHECK(state IN ('CLAIMED','STARTED','HOLD','NOOP','VERIFIED_SUCCESS')),
+      lease_token uuid NOT NULL,
+      lease_owner text NOT NULL, lease_until timestamptz NOT NULL, created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      UNIQUE(job_id,generation), UNIQUE(id,job_id,generation)
+    );
+    CREATE TABLE IF NOT EXISTS sf_execution_attempt_events (
+      id uuid PRIMARY KEY, attempt_id uuid NOT NULL REFERENCES sf_execution_attempts(id), revision bigint NOT NULL,
+      phase text NOT NULL CHECK(phase IN ('CLAIMED','STARTED','ACKNOWLEDGED','VALIDITY_VERIFIED','HOLD','NOOP','VERIFIED_SUCCESS')),
+      ordinal integer, statement_digest text CHECK(statement_digest IS NULL OR statement_digest ~ '^[a-f0-9]{64}$'),
+      facts jsonb NOT NULL DEFAULT '{}'::jsonb, created_at timestamptz NOT NULL DEFAULT clock_timestamp(), UNIQUE(attempt_id,revision)
+    );
+    CREATE OR REPLACE FUNCTION sf_reject_execution_attempt_mutation() RETURNS trigger LANGUAGE plpgsql AS $$
+      BEGIN
+        IF TG_OP='DELETE' THEN RAISE EXCEPTION 'execution attempts cannot be deleted'; END IF;
+        IF NEW.id IS DISTINCT FROM OLD.id OR NEW.job_id IS DISTINCT FROM OLD.job_id OR NEW.generation IS DISTINCT FROM OLD.generation
+          OR NEW.lease_owner IS DISTINCT FROM OLD.lease_owner OR NEW.lease_token IS DISTINCT FROM OLD.lease_token
+          OR NEW.lease_until IS DISTINCT FROM OLD.lease_until OR NEW.created_at IS DISTINCT FROM OLD.created_at
+          OR OLD.state IS DISTINCT FROM 'CLAIMED' OR NEW.state NOT IN ('HOLD','NOOP','VERIFIED_SUCCESS') THEN
+          RAISE EXCEPTION 'execution attempt identity is immutable and terminal state is one-way';
+        END IF;
+        RETURN NEW;
+      END $$;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_execution_attempts_immutable') THEN
+      CREATE TRIGGER sf_execution_attempts_immutable BEFORE UPDATE OR DELETE ON sf_execution_attempts
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_execution_attempt_mutation(); END IF; END $$;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_execution_attempt_events_immutable') THEN
+      CREATE TRIGGER sf_execution_attempt_events_immutable BEFORE UPDATE OR DELETE ON sf_execution_attempt_events
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_execution_event_mutation(); END IF; END $$;
+    CREATE TABLE IF NOT EXISTS sf_execution_receipts (
+      id uuid PRIMARY KEY, attempt_id uuid NOT NULL REFERENCES sf_execution_attempts(id), job_id uuid NOT NULL REFERENCES sf_execution_jobs(id),
+      generation bigint NOT NULL, ordinal integer NOT NULL CHECK(ordinal>0), statement_digest text NOT NULL CHECK(statement_digest ~ '^[a-f0-9]{64}$'),
+      receipt_digest text NOT NULL CHECK(receipt_digest ~ '^[a-f0-9]{64}$'), central_evidence_digest text NOT NULL CHECK(central_evidence_digest ~ '^[a-f0-9]{64}$'),
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(), UNIQUE(job_id,generation,ordinal),
+      FOREIGN KEY(attempt_id,job_id,generation) REFERENCES sf_execution_attempts(id,job_id,generation)
+    );
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_execution_attempts'::regclass AND conname='sf_execution_attempts_identity_scope') THEN
+      ALTER TABLE sf_execution_attempts ADD CONSTRAINT sf_execution_attempts_identity_scope UNIQUE(id,job_id,generation); END IF; END $$;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_execution_receipts'::regclass AND conname='sf_execution_receipts_attempt_scope') THEN
+      ALTER TABLE sf_execution_receipts ADD CONSTRAINT sf_execution_receipts_attempt_scope
+        FOREIGN KEY(attempt_id,job_id,generation) REFERENCES sf_execution_attempts(id,job_id,generation); END IF; END $$;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_execution_receipts_immutable') THEN
+      CREATE TRIGGER sf_execution_receipts_immutable BEFORE UPDATE OR DELETE ON sf_execution_receipts
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_execution_event_mutation(); END IF; END $$;
     `);
   });
 }

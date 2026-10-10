@@ -1,5 +1,5 @@
 import Fastify from "fastify";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { authenticateLocalToken, seedLocalActors, tokenDigest } from "../../packages/database/local-credentials.ts";
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from "../../experiments/db-devops-wp0/parser-release.mjs";
 import { ANTLR_PROFILE, MAX_INPUT_BYTES, MAX_STDOUT_BYTES } from "../../experiments/db-devops-wp0/parser-envelope.mjs";
@@ -331,7 +331,7 @@ export function createApp(options: {
       if (!uuid(req.params.id)) return fail(reply, 404, "NOT_FOUND");
       const p = await project(req.params.id);
       if (!p) return fail(reply, 404, "NOT_FOUND");
-      const [environments, profiles, releases, plans, audits, history, comments] =
+      const [environments, profiles, releases, plans, audits, history, comments, deploymentGrant, executionJobs] =
         await Promise.all([
           sql`SELECT id,name,created_at FROM sf_environments WHERE project_id=${p.id} ORDER BY created_at`,
           sql`SELECT id,name,environment_id,engine,host,port,service,username,credential_ref,created_at FROM sf_profiles WHERE project_id=${p.id} ORDER BY created_at`,
@@ -353,6 +353,10 @@ export function createApp(options: {
             CASE WHEN jsonb_typeof(evidence_refs)='array' THEN CASE WHEN jsonb_array_length(evidence_refs)<=8
               AND octet_length(evidence_refs::text)<=49152 THEN evidence_refs ELSE '[]'::jsonb END ELSE '[]'::jsonb END AS evidence_refs,created_at FROM sf_plan_comments
             WHERE project_id=${p.id} AND organization_id=${ORG} ORDER BY position`,
+          sql`SELECT 1 FROM sf_project_deploy_grants WHERE project_id=${p.id} AND organization_id=${ORG} AND actor_id=${req.actor.id} AND revoked_at IS NULL`,
+          sql`SELECT j.* FROM sf_execution_jobs j WHERE j.project_id=${p.id} AND j.organization_id=${ORG}
+            AND EXISTS(SELECT 1 FROM sf_project_grants g WHERE g.project_id=j.project_id AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL)
+            ORDER BY j.created_at DESC LIMIT 50`,
         ]);
       return {
         project: mappedProject(p),
@@ -383,6 +387,8 @@ export function createApp(options: {
         })),
         plans: plans.map(mapPlan),
         comments: comments.map(mapComment),
+        canDeploy: deploymentGrant.length > 0,
+        executionJobs: executionJobs.map(mapExecutionJob),
         audit: audits.map((r: any) => ({
           id: r.id,
           actorId: r.actor_id,
@@ -1287,11 +1293,15 @@ export function createApp(options: {
         const grant = (await tx`SELECT 1 FROM sf_project_grants WHERE organization_id=${ORG}
           AND project_id=${plan.project_id} AND actor_id=${live.id} AND revoked_at IS NULL`)[0];
         if (!grant) return null;
+        const approvalRevocation = (await tx`SELECT id FROM sf_plan_approval_revocations
+          WHERE organization_id=${ORG} AND project_id=${plan.project_id} AND plan_id=${plan.id}
+            AND approval_reference=${plan.approval_reference} LIMIT 1`)[0];
         let denial: string | undefined;
         if (project.archived_at) denial = 'PROJECT_ARCHIVED';
         else if (live.role !== 'approver') denial = 'APPROVER_REQUIRED';
         else if (!text(plan.author_id) || plan.author_id === live.id) denial = 'SELF_APPROVAL_DENIED';
         else if (plan.status !== 'APPROVED' || plan.decision !== 'APPROVE') denial = 'PLAN_NOT_WITHDRAWABLE';
+        else if (approvalRevocation) denial = 'APPROVAL_ALREADY_REVOKED';
         else if (plan.planning_scope !== 'OFFLINE_CANDIDATE' || plan.execution !== 'NOT_EXECUTED' || plan.history_status !== 'NOT_OBSERVED') denial = 'PLAN_NOT_WITHDRAWABLE';
         else if (plan.approval_reference !== (typeof b.expectedApprovalReference === 'string' ? b.expectedApprovalReference.toLowerCase() : null)) denial = 'APPROVAL_REFERENCE_STALE';
         if (denial) {
@@ -1303,6 +1313,12 @@ export function createApp(options: {
           (organization_id,project_id,plan_id,approval_reference,actor_id,actor_name,reason)
           VALUES(${ORG},${plan.project_id},${plan.id},${plan.approval_reference},${live.id},${live.name},${b.reason}) RETURNING *`)[0];
         await tx`UPDATE sf_plans SET status='REVOKED' WHERE id=${plan.id} AND organization_id=${ORG}`;
+        const waitingJobs = await tx`SELECT id,revision,state FROM sf_execution_jobs WHERE plan_id=${plan.id} AND organization_id=${ORG} AND state='WAITING_VALIDATION' ORDER BY id FOR UPDATE`;
+        for (const job of waitingJobs) {
+          const updated = (await tx`UPDATE sf_execution_jobs SET state='HOLD',revision=revision+1,updated_at=clock_timestamp() WHERE id=${job.id} AND revision=${job.revision} RETURNING revision`)[0];
+          await tx`INSERT INTO sf_execution_job_events(id,job_id,revision,from_state,to_state,actor_id,reason,facts)
+            VALUES(${randomUUID()},${job.id},${updated.revision},'WAITING_VALIDATION','HOLD',${live.id},'Approval withdrawn','{"authority":"WITHDRAWN"}'::jsonb)`;
+        }
         await tx`INSERT INTO sf_audit(id,project_id,organization_id,actor_id,action,resource_id,facts)
           VALUES(${revocation.id},${plan.project_id},${ORG},${live.id},'PLAN_APPROVAL_REVOKED',${plan.id},
             ${tx.json({ revocationId: revocation.id, approvalReference: plan.approval_reference, reason: b.reason })})`;
@@ -1327,32 +1343,164 @@ export function createApp(options: {
     { preHandler: authenticate },
     async (req: any, reply: any) => {
       if (!uuid(req.params.id)) return fail(reply, 404, "NOT_FOUND");
-      let plan: any;
-      try {
-        plan = await sql.begin(async (tx: any) => {
-          const current = (
-            await tx`SELECT id,project_id FROM sf_plans WHERE id=${req.params.id} FOR SHARE`
-          )[0];
-          if (!current) return null;
-          await requireActiveProject(tx, current.project_id);
-          await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${current.project_id},${ORG},${req.actor.id},'EXECUTION_DENIED',${current.id})`;
-          return current;
-        });
-      } catch (error: any) {
-        if (error?.productCode === "PROJECT_ARCHIVED") {
-          return reply.code(409).send({
-            error: "PROJECT_ARCHIVED",
-            execution: "NOT_EXECUTED",
+      const b = req.body;
+      if (object(b, [])) {
+        let plan;
+        try {
+          plan = await sql.begin(async (tx: any) => {
+            const current = (await tx`SELECT id,project_id FROM sf_plans WHERE id=${req.params.id} AND organization_id=${ORG} FOR SHARE`)[0];
+            if (!current) return null;
+            await requireActiveProject(tx, current.project_id);
+            await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id)
+              VALUES(${current.project_id},${ORG},${req.actor.id},'EXECUTION_DENIED',${current.id})`;
+            return current;
           });
+        } catch (error: any) {
+          if (error?.productCode === 'PROJECT_ARCHIVED') return reply.code(409).send({ error: 'PROJECT_ARCHIVED', execution: 'NOT_EXECUTED' });
+          throw error;
         }
-        throw error;
+        if (!plan) return fail(reply, 404, 'NOT_FOUND');
+        return reply.code(409).send({ error:'EXECUTION_UNAVAILABLE', execution:'NOT_EXECUTED' });
       }
-      if (!plan) return fail(reply, 404, "NOT_FOUND");
-      return reply
-        .code(409)
-        .send({ error: "EXECUTION_UNAVAILABLE", execution: "NOT_EXECUTED" });
+      if (!object(b, ['idempotencyKey','reason']) || !/^[A-Za-z0-9._:-]{16,128}$/.test(b.idempotencyKey ?? '') || !validReason(b.reason, 1000))
+        return fail(reply, 400, 'INVALID_REQUEST');
+      const digest = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
+      const result = await sql.begin(async (tx: any) => {
+        await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
+        const plan = (await tx`SELECT id,project_id,organization_id,author_id,status,decision,
+          CASE WHEN char_length(approval_reference::text) BETWEEN 1 AND 200 THEN approval_reference END AS approval_reference,
+          CASE WHEN char_length(offline_intent_digest)=64 THEN offline_intent_digest END AS offline_intent_digest,
+          CASE WHEN jsonb_typeof(items)='array' THEN
+            jsonb_array_length(items) BETWEEN 1 AND ${MAX_RELEASE_FILES}
+            AND octet_length(items::text)<=${MAX_STDOUT_BYTES} ELSE false END AS items_bounded,
+          CASE WHEN octet_length(offline_intent_envelope)<=${MAX_STDOUT_BYTES} THEN true ELSE false END AS envelope_bounded,
+          release_id,profile_id,source_binding_generation,execution,history_status,planning_scope
+          FROM sf_plans WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`)[0];
+        if (!plan) return { error: 'NOT_FOUND' };
+        const project = (await tx`SELECT archived_at,source_repository_id,source_folder,source_binding_generation FROM sf_projects WHERE id=${plan.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
+        const live = (await tx`SELECT a.id,a.role FROM sf_local_credentials c JOIN sf_local_actors a ON a.id=c.actor_id
+          WHERE c.token_sha256=${tokenDigest(req.headers.authorization.slice(7))} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
+          AND a.organization_id=${ORG} FOR UPDATE OF a,c`)[0];
+        if (!live || live.id !== req.actor.id) return { error: 'TOKEN_NOT_ACTIVE' };
+        const mode = (await tx`SELECT mode FROM sf_project_access_mode WHERE organization_id=${ORG} FOR SHARE`)[0]?.mode;
+        if (mode !== 'ENFORCED') return { error: 'MEMBERSHIP_BOOTSTRAP_REQUIRED' };
+        const member = (await tx`SELECT 1 FROM sf_project_grants WHERE organization_id=${ORG} AND project_id=${plan.project_id} AND actor_id=${live.id} AND revoked_at IS NULL FOR UPDATE`)[0];
+        if (!member) return { error: 'NOT_FOUND' };
+        const deployer = (await tx`SELECT 1 FROM sf_project_deploy_grants WHERE organization_id=${ORG} AND project_id=${plan.project_id} AND actor_id=${live.id} AND revoked_at IS NULL FOR UPDATE`)[0];
+        if (!plan.items_bounded || !plan.envelope_bounded || !plan.approval_reference || !plan.offline_intent_digest)
+          return { error: 'PLAN_NOT_REQUESTABLE' };
+        const retainedPreflight = await preflightRetainedRelease(tx, { id: plan.release_id, projectId: plan.project_id,
+          organizationId: ORG, repositoryId: project?.source_repository_id, folder: project?.source_folder });
+        if (!retainedPreflight.valid) return { error: 'PLAN_NOT_REQUESTABLE' };
+        const approvalRevocation = (await tx`SELECT id FROM sf_plan_approval_revocations WHERE organization_id=${ORG}
+          AND project_id=${plan.project_id} AND plan_id=${plan.id} AND approval_reference=${plan.approval_reference} LIMIT 1`)[0];
+        const retained = (await tx`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,parser_profile,
+          CASE WHEN jsonb_typeof(files)='array' AND octet_length(files::text)<=${6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024}
+            THEN files END AS files
+          FROM sf_releases WHERE id=${plan.release_id} AND project_id=${plan.project_id} FOR SHARE`)[0];
+        const payload = (await tx`SELECT offline_intent_envelope,items FROM sf_plans WHERE id=${plan.id} AND project_id=${plan.project_id}`)[0];
+        const itemsValid = Array.isArray(payload?.items) && payload.items.every((item: any) =>
+          object(item, ['path','version','sha256','status']) && item.status === 'NOT_EXECUTED');
+        if (!itemsValid) return { error: 'PLAN_NOT_REQUESTABLE' };
+        const profile = (await tx`SELECT profile.id,profile.engine,profile.host,profile.port,profile.service,profile.username,
+          release.repository_id,release.folder FROM sf_profiles profile JOIN sf_releases release ON release.id=${plan.release_id}
+          AND release.project_id=profile.project_id WHERE profile.id=${plan.profile_id} AND profile.project_id=${plan.project_id} FOR SHARE OF profile,release`)[0];
+        const intent = verifyOfflinePlanIntent(payload?.offline_intent_envelope, plan.offline_intent_digest, {
+          organizationId: ORG, projectId: plan.project_id, requesterId: plan.author_id,
+          releaseId: plan.release_id, profileId: plan.profile_id,
+          items: Array.isArray(payload?.items) ? payload.items.map((item: any) => ({ path: item.path, version: item.version, sha256: item.sha256 })) : [],
+        });
+        const retainedValid = retained && verifyRetainedRelease(retained);
+        const sourceItemsMatch = Boolean(retainedValid && intent && Array.isArray(retained.files)
+          && JSON.stringify(retained.files.map((item: any) => ({ path:item.path,version:item.version,sha256:item.sha256 }))) === JSON.stringify(intent.items));
+        let denial = project?.archived_at ? 'PROJECT_ARCHIVED' : !deployer ? 'DEPLOY_PERMISSION_REQUIRED'
+          : approvalRevocation ? 'APPROVAL_REVOKED'
+          : plan.status !== 'APPROVED' || plan.decision !== 'APPROVE' || !plan.approval_reference ? 'PLAN_NOT_APPROVED'
+          : !plan.offline_intent_digest || !intent || !profile || !retainedValid || !sourceItemsMatch
+            || plan.source_binding_generation?.toString() !== project.source_binding_generation?.toString()
+            || profile.repository_id !== project.source_repository_id || profile.folder !== project.source_folder
+            || intent.profileId !== profile.id || intent.engine !== profile.engine || intent.host !== profile.host
+            || intent.port !== profile.port || intent.service !== profile.service || intent.username !== profile.username
+            || intent.releaseId !== retained.id || intent.commit !== retained.commit_id || intent.objectFormat !== retained.object_format
+            || intent.folder !== retained.folder || intent.manifestDigest !== retained.manifest_digest || intent.parserProfile !== retained.parser_profile
+            || plan.execution !== 'NOT_EXECUTED' || plan.history_status !== 'NOT_OBSERVED' || plan.planning_scope !== 'OFFLINE_CANDIDATE' ? 'PLAN_NOT_REQUESTABLE' : null;
+        if (denial) return { error: denial };
+        const bodyDigest = digest({ projectId: plan.project_id, planId: plan.id, approvalReference: plan.approval_reference,
+          intentDigest: plan.offline_intent_digest, reason: b.reason });
+        const old = (await tx`SELECT * FROM sf_execution_jobs WHERE organization_id=${ORG} AND requester_id=${live.id} AND idempotency_key=${b.idempotencyKey} FOR UPDATE`)[0];
+        if (old) return old.payload_digest === bodyDigest ? { job: old, repeated: true } : { error: 'IDEMPOTENCY_CONFLICT' };
+        const id = randomUUID();
+        const job = (await tx`INSERT INTO sf_execution_jobs(id,organization_id,project_id,plan_id,approval_reference,intent_digest,requester_id,idempotency_key,payload_digest,reason,state,readiness)
+          VALUES(${id},${ORG},${plan.project_id},${plan.id},${plan.approval_reference},${plan.offline_intent_digest},${live.id},${b.idempotencyKey},${bodyDigest},${b.reason},'WAITING_VALIDATION','TARGET_HISTORY_UNAVAILABLE') RETURNING *`)[0];
+        await tx`INSERT INTO sf_execution_job_events(id,job_id,revision,from_state,to_state,actor_id,reason,facts)
+          VALUES(${randomUUID()},${id},0,NULL,'WAITING_VALIDATION',${live.id},${b.reason},'{}'::jsonb)`;
+        await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
+          VALUES(${plan.project_id},${ORG},${live.id},'EXECUTION_REQUESTED',${id},${tx.json({ planId: plan.id, approvalReference: plan.approval_reference, intentDigest: plan.offline_intent_digest })})`;
+        return { job, repeated: false };
+      });
+      if (result.error === 'NOT_FOUND') return fail(reply, 404, 'NOT_FOUND');
+      if (result.error === 'TOKEN_NOT_ACTIVE') return fail(reply, 401, 'UNAUTHENTICATED');
+      if (result.error === 'DEPLOY_PERMISSION_REQUIRED') return fail(reply, 403, result.error);
+      if (result.error === 'MEMBERSHIP_BOOTSTRAP_REQUIRED') return fail(reply, 409, result.error);
+      if (result.error) return fail(reply, 409, result.error);
+      return reply.code(result.repeated ? 200 : 201).send({ job: mapExecutionJob(result.job), repeated: result.repeated });
     },
   );
+  app.get('/api/projects/:projectId/execution-jobs', { preHandler: authenticate }, async (req: any, reply: any) => {
+    if (!uuid(req.params.projectId)) return fail(reply, 404, 'NOT_FOUND');
+    const cursor = req.query?.cursor === undefined ? null : decodeExecutionCursor(req.query.cursor, req.actor.id, req.params.projectId, 'jobs');
+    if (req.query && Object.keys(req.query).some((key: string) => key !== 'cursor') || req.query?.cursor !== undefined && !cursor) return fail(reply, 400, 'INVALID_REQUEST');
+    const limit = 50;
+    const rows = await sql`SELECT j.* FROM sf_execution_jobs j JOIN sf_project_grants g ON g.project_id=j.project_id AND g.organization_id=j.organization_id
+      AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL WHERE j.organization_id=${ORG} AND j.project_id=${req.params.projectId}
+      AND (${cursor?.createdAt ?? null}::timestamptz IS NULL OR (j.created_at,j.id)<(${cursor?.createdAt ?? null}::timestamptz,${cursor?.id ?? null}::uuid))
+      ORDER BY j.created_at DESC,j.id DESC LIMIT ${limit + 1}`;
+    const hasMore = rows.length > limit;
+    const page = rows.slice(0, limit);
+    return { jobs: page.map(mapExecutionJob), nextCursor: hasMore ? encodeExecutionCursor(req.actor.id, req.params.projectId, 'jobs', page.at(-1)) : null };
+  });
+  app.get('/api/execution-jobs/:id', { preHandler: authenticate }, async (req: any, reply: any) => {
+    if (!uuid(req.params.id)) return fail(reply, 404, 'NOT_FOUND');
+    const job = (await sql`SELECT j.* FROM sf_execution_jobs j JOIN sf_project_grants g ON g.project_id=j.project_id AND g.organization_id=j.organization_id
+      AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL WHERE j.id=${req.params.id} AND j.organization_id=${ORG}`)[0];
+    if (!job) return fail(reply, 404, 'NOT_FOUND');
+    const cursor = req.query?.cursor === undefined ? null : decodeExecutionCursor(req.query.cursor, req.actor.id, job.id, 'events');
+    if (req.query && Object.keys(req.query).some((key: string) => key !== 'cursor') || req.query?.cursor !== undefined && !cursor) return fail(reply, 400, 'INVALID_REQUEST');
+    const rows = await sql`SELECT id,revision,from_state,to_state,actor_id,reason,facts,created_at FROM sf_execution_job_events
+      WHERE job_id=${job.id} AND (${cursor?.revision ?? null}::bigint IS NULL OR revision>${cursor?.revision ?? null}::bigint) ORDER BY revision LIMIT 101`;
+    const hasMore = rows.length > 100, events = rows.slice(0,100);
+    return { job: mapExecutionJob(job), events, nextCursor: hasMore ? encodeExecutionCursor(req.actor.id, job.id, 'events', events.at(-1)) : null };
+  });
+  app.post('/api/execution-jobs/:id/cancel', { preHandler: authenticate }, async (req: any, reply: any) => {
+    if (!uuid(req.params.id) || !object(req.body, ['expectedRevision']) || !Number.isSafeInteger(req.body.expectedRevision) || req.body.expectedRevision < 0) return fail(reply, 400, 'INVALID_REQUEST');
+    const result = await sql.begin(async (tx: any) => {
+      await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
+      const identity = (await tx`SELECT plan_id,project_id FROM sf_execution_jobs WHERE id=${req.params.id} AND organization_id=${ORG}`)[0];
+      if (!identity) return { error: 'NOT_FOUND' };
+      const plan = (await tx`SELECT id FROM sf_plans WHERE id=${identity.plan_id} AND project_id=${identity.project_id} AND organization_id=${ORG} FOR UPDATE`)[0];
+      const project = (await tx`SELECT id FROM sf_projects WHERE id=${identity.project_id} AND organization_id=${ORG} AND archived_at IS NULL FOR SHARE`)[0];
+      const job = (await tx`SELECT * FROM sf_execution_jobs WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`)[0];
+      if (!plan || !project || !job) return { error: 'NOT_FOUND' };
+      const live = (await tx`SELECT a.id,a.role FROM sf_local_credentials c JOIN sf_local_actors a ON a.id=c.actor_id
+        WHERE c.token_sha256=${tokenDigest(req.headers.authorization.slice(7))} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
+          AND a.organization_id=${ORG} AND a.role IN ('developer','approver') FOR UPDATE OF a,c`)[0];
+      if (!live || live.id !== req.actor.id) return { error: 'TOKEN_NOT_ACTIVE' };
+      const mode = (await tx`SELECT mode FROM sf_project_access_mode WHERE organization_id=${ORG} FOR SHARE`)[0]?.mode;
+      if (mode !== 'ENFORCED') return { error: 'MEMBERSHIP_BOOTSTRAP_REQUIRED' };
+      if (job.requester_id !== live.id) return { error: 'FORBIDDEN' };
+      const member = (await tx`SELECT 1 FROM sf_project_grants WHERE organization_id=${ORG} AND project_id=${job.project_id} AND actor_id=${live.id} AND revoked_at IS NULL FOR SHARE`)[0];
+      if (!member) return { error: 'NOT_FOUND' };
+      if (Number(job.revision) !== req.body.expectedRevision || job.state !== 'WAITING_VALIDATION') return { error: 'STALE_OR_DISPATCHED' };
+      const updated = (await tx`UPDATE sf_execution_jobs SET state='CANCELLED',revision=revision+1,updated_at=clock_timestamp() WHERE id=${job.id} AND revision=${job.revision} RETURNING *`)[0];
+      await tx`INSERT INTO sf_execution_job_events(id,job_id,revision,from_state,to_state,actor_id) VALUES(${randomUUID()},${job.id},${updated.revision},${job.state},'CANCELLED',${live.id})`;
+      await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${job.project_id},${ORG},${live.id},'EXECUTION_CANCELLED',${job.id})`;
+      return { job: updated };
+    });
+    if (result.error === 'NOT_FOUND') return fail(reply, 404, 'NOT_FOUND');
+    if (result.error === 'TOKEN_NOT_ACTIVE') return fail(reply, 401, 'UNAUTHENTICATED');
+    if (result.error) return fail(reply, result.error === 'FORBIDDEN' ? 403 : 409, result.error);
+    return { job: mapExecutionJob(result.job) };
+  });
   app.setErrorHandler((error: any, _req: any, reply: any) => {
     if (error?.productCode === "PROJECT_ARCHIVED") return fail(reply, 409, "PROJECT_ARCHIVED");
     if (error?.code === "23503") return fail(reply, 400, "INVALID_REFERENCE");
@@ -1419,4 +1567,31 @@ function mapPlan(r: any) {
     approvalReference: r.approval_reference ?? null,
     revocation: r.revocation && typeof r.revocation === 'object' ? r.revocation : null,
   };
+}
+function mapExecutionJob(r: any) {
+  return { id: r.id, projectId: r.project_id, planId: r.plan_id, approvalReference: r.approval_reference,
+    intentDigest: r.intent_digest, requesterId: r.requester_id, reason: r.reason, state: r.state,
+    readiness: { status: r.readiness, executable: false }, revision: Number(r.revision),
+    createdAt: r.created_at, updatedAt: r.updated_at };
+}
+function encodeExecutionCursor(actorId: string, scopeId: string, kind: 'jobs' | 'events', row: any) {
+  const value = kind === 'jobs' ? { actorId, scopeId, kind, id: row.id, createdAt: new Date(row.created_at).toISOString() }
+    : { actorId, scopeId, kind, revision: String(row.revision) };
+  return Buffer.from(JSON.stringify(value)).toString('base64url');
+}
+function decodeExecutionCursor(value: unknown, actorId: string, scopeId: string, kind: 'jobs' | 'events') {
+  if (typeof value !== 'string' || value.length > 1024 || !/^[A-Za-z0-9_-]+$/.test(value)) return null;
+  try {
+    const decoded = JSON.parse(Buffer.from(value, 'base64url').toString('utf8'));
+    if (!decoded || decoded.actorId !== actorId || decoded.scopeId !== scopeId || decoded.kind !== kind) return null;
+    if (kind === 'jobs' && uuid(decoded.id) && typeof decoded.createdAt === 'string'
+        && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(decoded.createdAt)
+        && !decoded.createdAt.startsWith('0000-')
+        && Number.isFinite(Date.parse(decoded.createdAt)) && new Date(decoded.createdAt).toISOString() === decoded.createdAt)
+      return { id: decoded.id, createdAt: decoded.createdAt };
+    if (kind === 'events' && typeof decoded.revision === 'string' && /^(?:0|[1-9][0-9]{0,18})$/.test(decoded.revision)
+        && BigInt(decoded.revision) <= 9223372036854775807n)
+      return { revision: decoded.revision };
+  } catch { /* invalid opaque cursor */ }
+  return null;
 }

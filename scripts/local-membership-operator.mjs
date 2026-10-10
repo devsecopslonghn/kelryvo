@@ -23,9 +23,35 @@ export async function applyLocalMembershipAction(sql, { action, projectId, actor
       } else {
         const current = (await tx`SELECT id FROM sf_project_grants WHERE project_id=${projectId} AND actor_id=${actorId} AND revoked_at IS NULL FOR UPDATE`)[0];
         if (current) {
+          const retired = await tx`UPDATE sf_project_deploy_grants SET revoked_at=clock_timestamp(),revoke_os_uid=${uid()}
+            WHERE project_id=${projectId} AND actor_id=${actorId} AND revoked_at IS NULL RETURNING id`;
           await tx`UPDATE sf_project_grants SET revoked_at=clock_timestamp(),revoke_os_uid=${uid()} WHERE id=${current.id}`;
-          await tx`INSERT INTO sf_project_operator_audit(organization_id,project_id,actor_id,action,operator_os_uid,facts) VALUES(${ORG},${projectId},${actorId},'REVOKE',${uid()},'{}'::jsonb)`;
+          await tx`INSERT INTO sf_project_operator_audit(organization_id,project_id,actor_id,action,operator_os_uid,facts)
+            VALUES(${ORG},${projectId},${actorId},'REVOKE',${uid()},${tx.json({ deploymentGrantsRetired: retired.length })})`;
         }
+      }
+    });
+    return `${action} complete`;
+  }
+  if (['deploy-grant','deploy-revoke'].includes(action)) {
+    await sql.begin(async tx => {
+      await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
+      const project = (await tx`SELECT id FROM sf_projects WHERE id=${projectId} AND organization_id=${ORG} FOR UPDATE`)[0];
+      const actor = (await tx`SELECT id FROM sf_local_actors WHERE id=${actorId} AND organization_id=${ORG} AND role IN ('developer','approver') FOR UPDATE`)[0];
+      if (!project || !actor) throw fail();
+      const membership = (await tx`SELECT id FROM sf_project_grants WHERE project_id=${projectId} AND actor_id=${actorId} AND revoked_at IS NULL FOR UPDATE`)[0];
+      const current = (await tx`SELECT id FROM sf_project_deploy_grants WHERE project_id=${projectId} AND actor_id=${actorId} AND revoked_at IS NULL FOR UPDATE`)[0];
+      if (action === 'deploy-grant') {
+        if (!membership) throw fail();
+        const usable = (await tx`SELECT 1 FROM sf_local_credentials WHERE actor_id=${actorId} AND revoked_at IS NULL AND expires_at>clock_timestamp() LIMIT 1`)[0];
+        if (!usable) throw fail();
+        if (!current) {
+          await tx`INSERT INTO sf_project_deploy_grants(organization_id,project_id,actor_id,grant_os_uid) VALUES(${ORG},${projectId},${actorId},${uid()})`;
+          await tx`INSERT INTO sf_project_operator_audit(organization_id,project_id,actor_id,action,operator_os_uid,facts) VALUES(${ORG},${projectId},${actorId},'DEPLOY_GRANT',${uid()},'{}'::jsonb)`;
+        }
+      } else if (current) {
+        await tx`UPDATE sf_project_deploy_grants SET revoked_at=clock_timestamp(),revoke_os_uid=${uid()} WHERE id=${current.id}`;
+        await tx`INSERT INTO sf_project_operator_audit(organization_id,project_id,actor_id,action,operator_os_uid,facts) VALUES(${ORG},${projectId},${actorId},'DEPLOY_REVOKE',${uid()},'{}'::jsonb)`;
       }
     });
     return `${action} complete`;
@@ -59,7 +85,7 @@ export async function applyLocalMembershipAction(sql, { action, projectId, actor
 async function operate({ action, projectId, actorId, configPath, databaseUrl }) {
   if (!databaseUrl || !configPath) throw fail();
   await authorizeLocalMetadataUrl(configPath, databaseUrl);
-  if (['grant','revoke'].includes(action) && (!uuid(projectId) || typeof actorId !== 'string' || actorId.trim().length < 1
+  if (['grant','revoke','deploy-grant','deploy-revoke'].includes(action) && (!uuid(projectId) || typeof actorId !== 'string' || actorId.trim().length < 1
       || actorId.length > 200 || /[\u0000-\u001f\u007f]/.test(actorId) || Buffer.from(actorId, 'utf8').toString('utf8') !== actorId)) throw fail();
   const sql = postgres(databaseUrl, { max: 1, connect_timeout: 3, onnotice: () => {} });
   try {
@@ -89,9 +115,9 @@ async function operate({ action, projectId, actorId, configPath, databaseUrl }) 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname)) {
   const [, , action, ...args] = process.argv;
   try {
-    const expected = ['grant','revoke'].includes(action) ? 3 : 1;
-    if (!['status','activate','grant','revoke'].includes(action) || args.length !== expected || args.some(value => !value)) throw fail();
-    const [projectId, actorId, configPath] = ['grant','revoke'].includes(action) ? args : [undefined, undefined, args[0]];
+    const expected = ['grant','revoke','deploy-grant','deploy-revoke'].includes(action) ? 3 : 1;
+    if (!['status','activate','grant','revoke','deploy-grant','deploy-revoke'].includes(action) || args.length !== expected || args.some(value => !value)) throw fail();
+    const [projectId, actorId, configPath] = ['grant','revoke','deploy-grant','deploy-revoke'].includes(action) ? args : [undefined, undefined, args[0]];
     await operate({ action, projectId, actorId, configPath, databaseUrl: process.env.SCHEMAFORGE_LOCAL_DATABASE_URL });
   } catch { process.stderr.write('Local membership operation failed.\n'); process.exitCode = 1; }
 }

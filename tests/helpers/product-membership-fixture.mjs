@@ -18,6 +18,8 @@ export async function createMembershipOperatorFixture(databaseUrl) {
     activate: () => run('activate'),
     grant: (projectId, actorId) => run('grant', projectId, actorId),
     revoke: (projectId, actorId) => run('revoke', projectId, actorId),
+    deployGrant: (projectId, actorId) => run('deploy-grant', projectId, actorId),
+    deployRevoke: (projectId, actorId) => run('deploy-revoke', projectId, actorId),
     createProjectWithExplicitMembers: async ({ create, read, memberIds }) => {
       const response = await create();
       if (response.statusCode !== 201) throw new Error(`fixture_project_create_failed_${response.statusCode}`);

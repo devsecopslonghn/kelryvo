@@ -1231,6 +1231,10 @@ td code {
 .decision-record code { margin-left: 8px; color: #67768a; }
 .decision-record time { color: #67768a; font-size: 11px; }
 .decision-record-reason { white-space: pre-wrap; overflow-wrap: anywhere; }
+.execution-jobs { padding: 18px; margin: 18px 0; }
+.execution-jobs > p, .execution-job p { color: #69768a; }
+.execution-job { border-top: 1px solid #e6eaf0; padding: 12px 0; overflow-wrap: anywhere; }
+.execution-job code { display: block; margin: 8px 0; }
 .danger-button {
   border: 1px solid #f0d1ce;
   border-radius: 6px;
