@@ -1,0 +1,18 @@
+{
+  "command": [
+    "gh",
+    "pr",
+    "create",
+    "--draft",
+    "--base",
+    "development/product-mvp-integration",
+    "--head",
+    "development/product-execution-jobs",
+    "--title",
+    "feat(product): add durable deployment requests and coordinator journal",
+    "--body-file",
+    "/tmp/schemaforge-t33-pr-body.md"
+  ],
+  "exit_code": 0,
+  "observed_at": "2026-10-10T15:16:39.587377+00:00"
+}

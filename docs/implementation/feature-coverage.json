@@ -62,10 +62,10 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "Oracle19c/21c acceptance remains independently unavailable. Required external GitHub security/protection gates prevent master integration of drafts37–44 and the T32 candidate; local scans/available CI never replace those gates.",
+  "external_acceptance": "Oracle19c/21c acceptance remains independently unavailable. Required external GitHub security/protection gates prevent integration of drafts37–46; local scans/available CI never replace those gates.",
   "next_product_capability": {
-    "status": "T33_LOCAL_REQUEST_COORDINATOR_FACETS_VERIFIED_PUBLICATION_PENDING",
-    "next_action": "Finish scoped scans and one draft from published T32; then choose the next substantial missing product workflow using current coverage. Production proof admission and Oracle adapter/runtime require their actual gates.",
+    "status": "T33_DRAFT46_PUBLISHED_AVAILABLE_CI_IN_PROGRESS",
+    "next_action": "Observe all six available CI jobs on published b145a9a; complete the bounded checkpoint before selecting another substantial product workflow.",
     "branch_policy": "Retain original drafts37–45 and all original worktrees; substantial T33 draft based on verified combined T32 checkpoint."
   },
   "features": [
@@ -2404,6 +2404,8 @@
     "reference_ownership_pr": 43,
     "approval_revocation_implementation": "560bb846aed8bad85f4a6c85ab9d991bfa392fe7",
     "approval_revocation_worktree": "/home/longhn0710/workspace/schemaforge-product-approval-revocation",
-    "mvp_integration_implementation": "1545aade353c3c2cf709b547b3eae5ed03e849bb"
+    "mvp_integration_implementation": "1545aade353c3c2cf709b547b3eae5ed03e849bb",
+    "t33_frozen_source": "ff14f24572414bd8e87a2b983facfbbbeb929402",
+    "t33_published_head": "b145a9a96544113dc4ac1c247fd612aadb62c424"
   }
 }

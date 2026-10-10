@@ -2970,6 +2970,26 @@
       },
       "path": "evidence/product/product-t33-execution-jobs-20261010/record.json",
       "sha256": "e47c70b6432cecb57b9d49e582f5f0dff42f23a145821b1069f88c59002ae167"
+    },
+    {
+      "id": "product-t33-draft-publication",
+      "subject_id": "SF-PRODUCT-T33",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Normal push, exact remote branch/base/master verification and draft46 creation/observation after local acceptance, scoped scans and independent review",
+      "exit_code": 0,
+      "criterion_indexes": [
+        5
+      ],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t33-draft-publication-20261010/initial-pr.stdout",
+        "sha256": "f7a4610d0437e220e393af4aa01625f915b98caa678953aec59fe963c3e9c22d"
+      },
+      "path": "evidence/product/product-t33-draft-publication-20261010/record.json",
+      "sha256": "7c35b10bc2f1526e0cb21e8b8b364d768fe60a0305ad5dac9a0aa938f2f1c5fc"
     }
   ]
 }

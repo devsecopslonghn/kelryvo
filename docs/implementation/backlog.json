@@ -3274,6 +3274,9 @@
       "evidence": [
         {
           "index_id": "product-t33-execution-jobs-local-verified"
+        },
+        {
+          "index_id": "product-t33-draft-publication"
         }
       ],
       "blockers": []

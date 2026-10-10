@@ -1,0 +1,12 @@
+{
+  "command": [
+    "gh",
+    "pr",
+    "view",
+    "https://github.com/devsecopslonghn/schemaForge/pull/46",
+    "--json",
+    "number,url,state,isDraft,headRefOid,baseRefName,statusCheckRollup"
+  ],
+  "exit_code": 0,
+  "observed_at": "2026-10-10T15:16:40.428757+00:00"
+}
