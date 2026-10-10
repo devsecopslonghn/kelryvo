@@ -714,7 +714,37 @@ const PRODUCT_TASK_32 = {
   ]
 };
 
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32];
+const PRODUCT_TASK_33 = {
+  "id": "SF-PRODUCT-T33",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Deliver durable deployment requests and restricted execution coordination",
+  "dependencies": [
+    "SF-PRODUCT-T32"
+  ],
+  "feature_ids": [
+    "GOV-018",
+    "GOV-011",
+    "OPS-002",
+    "OPS-005",
+    "MIG-012"
+  ],
+  "acceptance_criteria": [
+    "Deliver a durable PostgreSQL deployment request/job/event workflow tied to one project, immutable approved plan/reference and intent digest. Authenticated request input accepts only server-resolved identities, bounded idempotency and reason; no submitted SQL, DSN, credential, status or executable target. Create job, first immutable event and audit atomically; same principal/action idempotency key repeats the same payload without new job/event, while a different payload conflicts. Current exact credential/role/membership/deployer permission and project/plan state are rechecked under lifecycle locks; cross-project, self-authorized role escalation, archive, revocation, stale reference/intent and malformed requests cannot create jobs.",
+    "Trusted local OS operator explicitly grants/revokes project deployment permission independently of developer/approver roles and ordinary membership. Require current explicit project membership and usable identity; preserve operator audit. Ordinary membership revocation removes deployment capability without implicit restoration on regrant. API never exposes operator or writer secrets. An approver without explicit deploy permission cannot request execution; read access remains current-project scoped.",
+    "Current offline plans lack observed target/history/ledger/mutex/validity evidence, so valid requests persist WAITING_VALIDATION with explicit unavailable readiness; no API transition can infer admission from manual schema references, grant status, approval or parser success. Requester cancellation before dispatch appends a revision-checked terminal event, without erasing approval, source, request or migration history. Approval withdrawal invalidates waiting requests atomically; later claim/dispatch must reject withdrawn authority. Durable job detail/list/events expose state and origin, not applied SQL or invented effects.",
+    "Implement a separate restricted execution coordinator kernel and PostgreSQL job/attempt/event adapters with scoped trusted ports. Only admitted immutable jobs may be claimed; use durable claims/generations, no automatic replay after expiry or unknown outcomes. Recheck current authorization and exact retained content/history before dispatch and each statement, require held canonical target mutex and exact bytes/digests, persist STARTED before calls and immutable ordered acknowledgments/receipts. Loss of acknowledgment, cancellation/revocation after possible effects, central evidence gap or failed/unknown validity yields HOLD. Receipt absence and driver success alone never prove no effect or deployed success. A complete authorized receipt plus validity/postconditions and durable central evidence is required for VERIFIED_SUCCESS; known zero pending records NOOP with zero migration calls. Trusted test ports may simulate these outcomes only with explicit UNIT/synthetic scope; no production Oracle adapter or runtime acceptance is inferred.",
+    "Integrated UI lets a granted deployer request an approved plan, see waiting readiness/history, retry idempotently after a lost response, inspect job events and cancel undispatched work; actor without deploy permission sees fixed denied/unavailable controls. Stale project/session/refresh/ABA responses and older writes cannot replace current context or clear a newer busy operation. Preserve all T32 review/source/assignment/withdrawal flows. Additive idempotent migration and real database/app reopen preserve job identity/events/grants, existing legacy NULL approvals and historical records.",
+    "Exercise real local Git/pinned-parser approved plans, real PostgreSQL API/operator persistence and Chromium request-to-job/cancel/withdrawal flows, plus meaningful independent coordinator tests for multiple contenders, stale authority/content, lost acknowledgment/lease, receipt gap, invalid verification and no replay/noop. Run focused tests during implementation; freeze once for mandatory standard/product/browser regressions and exact independent review, then scoped scans/license checks and one draft from the verified T32 checkpoint. Preserve original220 acceptance contracts, source heads, worktrees and unavailable external gates; no Oracle connection/deployment, production target attestation, actual worker isolation or complete catalog certification."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T33-API",
+    "SF-PRODUCT-T33-WEB",
+    "SF-PRODUCT-T33-COORDINATOR",
+    "SF-PRODUCT-T33-PERSISTENCE"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

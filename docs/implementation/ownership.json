@@ -1323,6 +1323,10 @@
     "SF-PRODUCT-T32": {
       "assigned_agent": "backend",
       "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T33": {
+      "assigned_agent": "backend",
+      "status": "IN_PROGRESS"
     }
   }
 }

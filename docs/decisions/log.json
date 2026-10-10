@@ -389,6 +389,17 @@
         "docs/implementation/github-sync.md",
         "docs/implementation/backlog.json"
       ]
+    },
+    {
+      "id": "SF-D036",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T33_EXECUTION_COORDINATION",
+      "accepted_at_utc": "2026-10-10T11:54:30.735150+00:00",
+      "decision": "Build durable deployment requests and a separately restricted execution coordinator from the T32 integration checkpoint. Deployment permission is an explicit local-operator grant separate from reviewer role/membership. Existing offline approved plans create WAITING_VALIDATION requests, never executable admissions; target/history/ledger/mutex/validity proofs must be real and current. Request/claim/attempt/event identities and revisions are durable; ambiguity/evidence gaps require HOLD with no automatic SQL replay. Synthetic trusted ports prove coordinator behavior only, not Oracle compatibility, target attestation or deployment isolation. Original approval/source/history remain immutable. This is an ordinary reversible implementation choice under standing owner autonomy; missing lab authority prevents runtime claims, not independent code delivery.",
+      "references": [
+        "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md",
+        "docs/architecture/boundaries.md",
+        "docs/implementation/backlog.json"
+      ]
     }
   ]
 }
