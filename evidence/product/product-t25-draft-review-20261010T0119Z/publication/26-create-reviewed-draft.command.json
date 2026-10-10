@@ -1,0 +1,5 @@
+{
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-release-source-comparison",
+  "command": "gh pr create --repo devsecopslonghn/schemaForge --draft --base development/product-audit-pages --head development/product-release-source-comparison --title \"feat(product): compare retained release SQL sources\" --body-file /tmp/schemaforge-t25-draft-body-corrected.md",
+  "started_at_utc": "2026-10-10T01:17:48.676541+00:00"
+}

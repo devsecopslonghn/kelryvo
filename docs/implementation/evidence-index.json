@@ -2670,6 +2670,20 @@
       },
       "path": "evidence/product/product-t25-corrected-root-20261010T0107Z/integration-record.json",
       "sha256": "1886fde09f1b0ec3f3c5103986db5d48152ff09081a60257e7a482bab14a2240"
+    },
+    {
+      "id": "product-t25-reviewed-draft-publication",
+      "subject_id": "SF-PRODUCT-T25",
+      "kind": "REVIEW",
+      "scope": "PRODUCT",
+      "outcome": "OBSERVATION",
+      "command": "Exact-head independent reviews and normal draft-only publication; required external gates unavailable",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/record.json",
+      "sha256": "6ff769decb14795324a2d2654674ea6b9a9c3ab116e4ac6e4f61315ec6eaf0db"
     }
   ]
 }

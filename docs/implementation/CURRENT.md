@@ -1,3 +1,19 @@
+## T25 independently reviewed; draft PR38 published — 2026-10-10 UTC
+
+Corrected T25 head2f3147f passes bounded source comparison QA/security/license review.
+Frozen standard162/product37/browser22 and independent API2/browser1/integrity1 pass,
+zero skips. Native runs executed corrected working files before commit; seven exact hashes
+bind them to this reviewed committed head without relabeling their recorded Git HEAD.
+Draft PR38 stacks on unmerged draft37. No readiness or merge claimed. Publication741paths
+exit1/102 and history217 exit1 are independently provenance-classified, not clean PASS.
+No actual credential observed or rotation indicated; scanners/history unchanged.
+
+SEC-RETAINED-METADATA-02 remains OPEN/MEDIUM for four adjacent source readers; bounded T26
+hardening takes priority before inbox. Code403/secret404/protection403 remain unavailable,
+never PASS. Sonar exception remains unchanged and Sonar-only; Oracle independently BLOCKED.
+Evidence: `evidence/product/product-t25-draft-review-20261010T0119Z/record.json`.
+Verified master0fd6980; shared original checkout clean0346300 untouched; Hygiene PR absent.
+
 ## T25 security correction locally verified; fresh exact-head review pending — 2026-10-10 UTC
 
 Retained same-project release comparison verifies both bounded scoped manifests under read

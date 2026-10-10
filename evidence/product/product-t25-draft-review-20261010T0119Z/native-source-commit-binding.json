@@ -1,0 +1,46 @@
+{
+  "record_owner": "ROOT_CORRECTED_NATIVE_SOURCE_TO_COMMIT_BINDING",
+  "recorded_at_utc": "2026-10-10T01:13:45.239370+00:00",
+  "native_record_path": "evidence/product/product-t25-corrected-root-20261010T0107Z/native/run-record.json",
+  "native_record_sha256": "1b44f6941e99a1920356dd34ade55026e05b8696522a808eb1ca94ff224bf3dd",
+  "native_execution_head": "93629076c230274e210acaf8f52c46f01fafdb00",
+  "native_recorded_at_utc": "2026-10-10T01:06:14Z",
+  "execution_state": "Corrective source changes uncommitted during captured runs; HEAD remained original936. Native record identifies actual execution HEAD, not original clean936 source.",
+  "later_corrective_commit": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+  "later_commit_time": "2026-10-10T08:08:06+07:00",
+  "committed_tree": "3e915179d5d1d36fceb72bee802e58306413d138",
+  "seven_exact_committed_source_hashes_equal_frozen_run_manifest": [
+    {
+      "path": "apps/api/index.ts",
+      "sha256": "d717c56a926f842a9872e5234468bb1ecd9fd19f37a5bf3c3b518c2ebcfdbc75"
+    },
+    {
+      "path": "apps/web/src/app.jsx",
+      "sha256": "5b0bcbd713ec66e7e6a73e9515022d6689892fa8ea5069209b4f5b24d448df48"
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256": "9d07af35c899f246bbd0b4c8a7029190e5dea19498e07d99fd3648edd0e74aa4"
+    },
+    {
+      "path": "packages/migrations/compare-retained-releases.mjs",
+      "sha256": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8"
+    },
+    {
+      "path": "scripts/test-product.mjs",
+      "sha256": "af47fe31ff4608bbfd92f13acb18ed457e2c026a630d1ad79210f0e6de77e63f"
+    },
+    {
+      "path": "tests/product-release-comparison-browser.integration.mjs",
+      "sha256": "c11406afde27b7d7faa590cab5cc53f7639547427b4520291670d5c48ff74320"
+    },
+    {
+      "path": "tests/product-release-comparison.test.mjs",
+      "sha256": "c9df38880ef2e81218f5b0b43c839aad809210fc3fadb803e34df60e2bef011e"
+    }
+  ],
+  "actual_capture_order": "frozen full runs finish01:02:35Z; actual nativecompletion01:06:14Z; root correctivecommit01:08:06Z",
+  "native_head_relabelled_or_record_rewritten": false,
+  "final_independent_reviews_at_later_exact_head": true,
+  "merge_eligible": false
+}

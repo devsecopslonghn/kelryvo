@@ -1,0 +1,158 @@
+{
+  "record_type": "INDEPENDENT_FINAL_SECURITY_LICENSE_PROVENANCE_REVIEW",
+  "task": "SF-PRODUCT-T25",
+  "reviewer": "/root/t25_correction_security",
+  "recorded_at_utc": "2026-10-10T01:13:41Z",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-release-source-comparison",
+  "source_point": {
+    "base_t24_unmerged_draft_head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+    "origin_master_at_reconciliation": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+    "head_before": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+    "tree_before": "3e915179d5d1d36fceb72bee802e58306413d138",
+    "head_after": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+    "tree_after": "3e915179d5d1d36fceb72bee802e58306413d138",
+    "tracked_status_before_after": "CLEAN",
+    "reviewer_worktree_mutation": false,
+    "source_sha256": {
+      "apps/api/index.ts": "d717c56a926f842a9872e5234468bb1ecd9fd19f37a5bf3c3b518c2ebcfdbc75",
+      "apps/web/src/app.jsx": "5b0bcbd713ec66e7e6a73e9515022d6689892fa8ea5069209b4f5b24d448df48",
+      "packages/migrations/compare-retained-releases.mjs": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8",
+      "tests/product-release-comparison.test.mjs": "c9df38880ef2e81218f5b0b43c839aad809210fc3fadb803e34df60e2bef011e",
+      "tests/product-release-comparison-browser.integration.mjs": "c11406afde27b7d7faa590cab5cc53f7639547427b4520291670d5c48ff74320",
+      "scripts/test-product.mjs": "af47fe31ff4608bbfd92f13acb18ed457e2c026a630d1ad79210f0e6de77e63f",
+      "docs/development/local-product.md": "9d07af35c899f246bbd0b4c8a7029190e5dea19498e07d99fd3648edd0e74aa4",
+      "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+      "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e",
+      "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+      "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3"
+    }
+  },
+  "commands_and_observations": {
+    "review_capture": {
+      "command": "/tmp/schemaforge-t25-independent-security-20261010T011302Z/checks.sh",
+      "utc_start": "2026-10-10T01:13:18Z",
+      "utc_end": "2026-10-10T01:13:22Z",
+      "exit_code": 0,
+      "raw_output": "/tmp/schemaforge-t25-independent-security-20261010T011302Z/checks.raw.txt",
+      "raw_output_sha256": "956c2e68ebd633e6ee98cdd4bcdb7df60ff8859096c5be0ccddd81357e863e89",
+      "checks": [
+        "git rev-parse HEAD and HEAD^{tree}; git status --porcelain=v1",
+        "sha256sum of seven review source files plus LICENSE, NOTICE, package.json, package-lock.json",
+        "git diff --check base..HEAD scoped to changed source/docs/tracker",
+        "git diff --quiet base..HEAD for license, notice, dependency metadata, third-party grants, grammar/runtime inputs, and original acceptance",
+        "read-only node recomputation of 741 snapshot-copy and committed-blob hashes, classified finding committed-blob hashes, private report digests, prior-history tuple multisets, and native run-log hashes"
+      ]
+    },
+    "independent_provenance_results": {
+      "publication_paths": 741,
+      "snapshot_copy_hash_matches": 741,
+      "snapshot_matches_exact_commit_blobs": 741,
+      "classified_finding_entries": 199,
+      "classified_finding_blobs_matching_exact_commits": 199,
+      "classified_finding_blob_mismatches": 0,
+      "previous_t24_history_tuples": 120,
+      "previous_t24_tuples_missing": 0,
+      "history_findings_current": 217,
+      "added_since_t24": 97,
+      "precorrection_t25_history_tuples": 158,
+      "precorrection_t25_tuples_missing": 0,
+      "added_since_precorrection_t25": 59,
+      "actual_credentials_observed": false,
+      "rotation_indicated": false,
+      "scanner_settings_or_history_changed": false,
+      "original_unavailable_byte_provenance_limitations": "The previously recorded unavailable original source-byte observations remain explicit and are not retroactively reconstructed."
+    },
+    "exact_scan_state": {
+      "publication_scanner_exit": 1,
+      "publication_findings": 102,
+      "publication_clean_PASS": false,
+      "history_scanner_exit": 1,
+      "history_findings": 217,
+      "history_clean_PASS": false,
+      "publication_private_report_sha256": "ab778a51c1c8e528c6407e9659832a47416549d9cf1a464d40929141802e0606",
+      "history_private_report_sha256": "6e2e7a32763ec63df402087d385bed00987b26f5292c901c6a2a6b275ab2ef1e",
+      "safe_classification_sha256": "dc906967a922d144408fc87a0684a6c088be6e0692fc39ca7e6b401e8a545f8b",
+      "snapshot_manifest_sha256": "e617964422ed49fa6a3bf66eacb0522ffa1abf7864fce65e30fea11e58e9a61b",
+      "interpretation": "Findings-bearing scanner exits are not clean PASS. Exact finding blobs were independently matched to committed bytes and classified as recorded benign product prose or recomputed source/artifact digests; no actual credential or rotation evidence was reported."
+    }
+  },
+  "native_verification_review": {
+    "final_runs": {
+      "standard": {"utc_start": "2026-10-10T00:50:48Z", "utc_end": "2026-10-10T00:54:59Z", "tests": 162, "pass": 162, "fail": 0, "skipped": 0, "raw_sha256": "8be721612d186c1cd2a74526945028b014c8ae21266d39d7ae8ce7a96e099b6f"},
+      "product": {"utc_start": "2026-10-10T00:54:59Z", "utc_end": "2026-10-10T00:58:17Z", "tests": 37, "pass": 37, "fail": 0, "skipped": 0, "raw_sha256": "85d781285169d94416183bcad07eb7bd8c7dcbfa78d7eab952fcbb8f592201b1"},
+      "browser": {"utc_start": "2026-10-10T00:58:17Z", "utc_end": "2026-10-10T01:02:35Z", "tests": 22, "pass": 22, "fail": 0, "skipped": 0, "raw_sha256": "6748d0c60a32cca4510d4133201585a4629c0731a05de3b9b8b72a333a369ecc"},
+      "final_focused_api": {"utc_start": "2026-10-10T00:49:58Z", "utc_end": "2026-10-10T00:50:37Z", "tests": 2, "pass": 2, "fail": 0, "skipped": 0, "raw_sha256": "7c649434888ccb1f3ba72d8e51022866050d88445d2268aae006dd7f2b670c28"}
+    },
+    "raw_log_hashes_recomputed": true,
+    "run_head_and_source_binding": "The native completion accurately records execution while HEAD was the original 93629076 commit with corrected changes present in the working tree. Its before/after seven-file source manifests match the final 2f3147f committed file bytes exactly. This verdict binds run evidence by those source hashes; it does not relabel the native run as having executed at Git HEAD 2f3147f.",
+    "reviewer_ran_tests_builds_or_lifecycle": false
+  },
+  "security_review": {
+    "t25_finding": "SEC-T25-01",
+    "status_for_corrected_compare_change": "CLOSED_BY_SCOPED_INDEPENDENT_REVIEW",
+    "source_security_approval": "APPROVED_FOR_CORRECTED_T25_RETAINED_SOURCE_COMPARISON_ONLY",
+    "assessment": "The PostgreSQL preflight bounds each file's encoded JSONB object after removing only top-level content, sums bounded folder/parser-profile/repository identity encodings, includes conservative array delimiters/separator allowance 2+2*file_count, and checks complete non-content metadata <=4 MiB before selecting either compared files payload. Known bytes is a guarded bounded JSON number, and statementCount is null or a guarded nonnegative safe integer. Both rows are preflighted under scoped stable-order read locks before payload materialization; verifier/hash checks occur after preflight. Small bounded unknown metadata remains compatible. No material remaining defect found in corrected comparison code.",
+    "controls_reviewed": [
+      "authenticate prehandler enforces local actor token, same-origin when present, non-GET bootstrap denial, and current project grants before scoped route logic",
+      "strict request object keys and UUID validation/canonicalization; self-pair deduplicates to one retained row",
+      "project lock precedes stable UUID-ordered release row locks; both release bounds precede either payload SELECT",
+      "fixed NOT_FOUND responses for scoped/malformed/incompatible records and read-only comparison behavior",
+      "existing retained verifier and format-1 digest; no parser/Git/Oracle/deployment execution",
+      "comparison uses ordinary React text rendering; sequence invalidation covers pair, project, token/session, and refresh changes"
+    ],
+    "remaining_adjacent_finding": {
+      "id": "SEC-RETAINED-METADATA-02",
+      "status": "OPEN",
+      "severity": "MEDIUM",
+      "precondition": "Privileged database corruption or equivalent direct mutation of retained rows; no actual credentials were observed.",
+      "affected_routes": [
+        "GET /api/releases/:id/statement-preview",
+        "POST /api/projects/:id/plans",
+        "POST /api/projects/:projectId/plans/:id/comments",
+        "plan approval decision handler"
+      ],
+      "summary": "Existing routes retain the approximately 120 MiB whole-files JSON preflight and materialize payloads before the verifier rejects oversized unknown metadata or malformed known metadata.",
+      "required_followup": "Keep as a separate T26 bounded PostgreSQL preflight hardening task before the next source-inbox workflow. Preserve aggregate content allowance, compatible bounded metadata, existing locks/fixed errors, and established denial-audit semantics. Do not claim this finding is closed or waived by T25."
+    },
+    "draft_publication_scope": "Corrected T25 source may be published as a draft-only PR under the existing owner authorization, with SEC-RETAINED-METADATA-02 explicitly disclosed and tracked. This is not readiness/merge/release approval and does not waive unavailable external gates. The adjacent finding is not introduced by the compare change and has privileged-row-corruption precondition; it remains actionable and prioritized before the inbox task."
+  },
+  "license_review": {
+    "verdict": "NO_LICENSE_OR_NOTICE_FINDING",
+    "license": "Unmodified PolyForm Shield 1.0.0 applies to independently authored SchemaForge code/documentation; product remains source-available, not OSI open source.",
+    "changed_license_or_notice_paths": [],
+    "dependency_or_lockfile_changes": false,
+    "third_party_grants_notices_and_grammar_changes": false,
+    "restricted_source_reuse_observed": false,
+    "basis": "LICENSE, NOTICE, package.json, package-lock.json, docs/dependencies, docs/product/license-and-naming.md, docs/inputs/db-research, parser grammar/runtime inputs, and third-party grant paths are unchanged from the unmerged T24 prerequisite. The new comparison helper is independently authored and adds no dependency."
+  },
+  "external_gate_state": {
+    "fresh_reconciliation_record": "/tmp/schemaforge-t25-corrected-before-publication-20261010T0109Z/record.json",
+    "observed_at_utc": "2026-10-10T01:09:08Z",
+    "t24_pr37": "OPEN_DRAFT_UNMERGED_AT_704ef82",
+    "origin_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+    "github_code_scanning": "UNAVAILABLE_HTTP_403",
+    "github_secret_scanning": "UNAVAILABLE_HTTP_404",
+    "master_branch_protection": "UNAVAILABLE_HTTP_403",
+    "dependabot": "HTTP_200_EMPTY_AT_OBSERVATION",
+    "sonar": "UNAVAILABLE_NOT_PASS; existing exception remains Sonar-only",
+    "oracle_validation": "INDEPENDENT_BLOCKED; no Oracle execution",
+    "ready_or_merge_eligible": false,
+    "settings_changed_or_bypass_used": false
+  },
+  "original_220_acceptance": "UNCHANGED",
+  "verdict_scope": {
+    "local_corrected_compare_security": "APPROVED",
+    "license": "APPROVED_NO_FINDING",
+    "provenance": "SNAPSHOT_AND_FINDING_BLOB_PROVENANCE_RECOMPUTED; FINDINGS-BEARING SCANS REMAIN NOT CLEAN PASS",
+    "draft_only_publication": "ELIGIBLE_WITH_EXISTING_AUTHORIZATION_AND_OPEN_ADJACENT_FINDING DISCLOSED",
+    "ready_merge_release_or_inbox": "NOT_APPROVED",
+    "external_settings_or_gate_waiver": "NOT_GRANTED"
+  },
+  "limitations": [
+    "Reviewer performed static source, evidence and provenance checks only; no tests, builds, scanners or lifecycle actions were run by reviewer.",
+    "Exact final local tests are native evidence bound by matching seven-file source hashes; native run's recorded Git HEAD was 93629076 before corrected source was committed at 2f3147f.",
+    "Security scanners returned findings and exit code 1, not clean PASS. Previously documented unavailable original source bytes remain unavailable; no values are reproduced here.",
+    "GitHub security services and branch protection were unavailable in the fresh remote observation. No push or external action is approved by this verdict.",
+    "SEC-RETAINED-METADATA-02 remains an open medium finding for existing adjacent routes."
+  ]
+}

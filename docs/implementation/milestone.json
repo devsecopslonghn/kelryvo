@@ -215,6 +215,9 @@
     },
     {
       "index_id": "product-t25-security-corrected-local-verified"
+    },
+    {
+      "index_id": "product-t25-reviewed-draft-publication"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -263,7 +266,7 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "T25_SECURITY_CORRECTED_LOCAL_VERIFIED_FRESH_REVIEW_PENDING_T24_DRAFT_UNMERGED",
+  "current_increment_merge_status": "DRAFT_UNMERGED_EXTERNAL_REQUIRED_SECURITY_UNAVAILABLE",
   "current_checkpoint_branch": "development/product-release-source-comparison",
   "active_track": "PRODUCT",
   "tracks": {
@@ -341,8 +344,8 @@
       "native_security": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS"
     }
   },
-  "current_increment_pr": 37,
-  "current_increment_reviewed_head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+  "current_increment_pr": 38,
+  "current_increment_reviewed_head": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
   "current_increment_merge_commit": null,
   "t19_compatibility_decision": {
     "owner_approved_at_recorded_utc": "2026-10-09T12:37:42.238588+00:00",
@@ -381,7 +384,12 @@
     "corrective_head": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
     "corrective_workflow_outcome": "PASS_ORIGINAL_FAIL_PRESERVED"
   },
-  "publication_gate": "T24_DRAFT_UNMERGED_T25_LOCAL_VERIFIED_REQUIRED_SECURITY_AND_CI_PENDING",
+  "publication_gate": {
+    "draft_only": true,
+    "merge_eligible": false,
+    "open_adjacent_security_finding": "SEC-RETAINED-METADATA-02 MEDIUM; prioritized T26 four-reader hardening",
+    "required_security_unavailable": true
+  },
   "latest_merged_master_before_this_increment": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
   "last_verified_master_evidence": "evidence/product/product-t23-merge-20261009T2033Z/record.json",
   "required_github_security_infrastructure": {
