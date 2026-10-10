@@ -18,6 +18,8 @@ test('review inbox cursors preserve microseconds and reject malformed context an
   assert.deepEqual(decodeReviewInboxCursor(longActorCursor, longUnicodeActor, 'ALL'), { createdAt: '2026-10-10T01:02:03.123456Z', id });
   const duplicateKey = Buffer.from(`{"v":1,"actor":"${actor}","actor":"${actor}","scope":"ALL","createdAt":"2026-10-10T01:02:03.123456Z","id":"${id}"}`).toString('base64url');
   assert.equal(decodeReviewInboxCursor(duplicateKey, actor, 'ALL'), null);
+  const reordered = Buffer.from(JSON.stringify({ id, createdAt: '2026-10-10T01:02:03.123456Z', scope: 'ALL', actor, v: 1 })).toString('base64url');
+  assert.equal(decodeReviewInboxCursor(reordered, actor, 'ALL'), null);
   const replacementActor = '\uFFFD';
   const canonicalBytes = Buffer.from(JSON.stringify({ v: 1, actor: replacementActor, scope: 'ALL', createdAt: '2026-10-10T01:02:03.123456Z', id }));
   const replacementOffset = canonicalBytes.indexOf(Buffer.from(replacementActor));

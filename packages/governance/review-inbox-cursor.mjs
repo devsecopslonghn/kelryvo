@@ -13,7 +13,7 @@ export function decodeReviewInboxCursor(value, actorId, scope) {
     const parsed = JSON.parse(source);
     if (!parsed || Array.isArray(parsed) || Object.keys(parsed).sort().join(',') !== 'actor,createdAt,id,scope,v') return null;
     if (parsed.v !== 1 || parsed.actor !== actorId || parsed.scope !== scope
-        || typeof parsed.actor !== 'string' || parsed.actor.length > 200 || JSON.stringify(parsed) !== source
+        || typeof parsed.actor !== 'string' || parsed.actor.length > 200 || JSON.stringify({ v: parsed.v, actor: parsed.actor, scope: parsed.scope, createdAt: parsed.createdAt, id: parsed.id }) !== source
         || typeof parsed.createdAt !== 'string' || !timestamp.test(parsed.createdAt)
         || !validCursorTime(parsed.createdAt) || typeof parsed.id !== 'string' || !uuid.test(parsed.id) || parsed.id !== parsed.id.toLowerCase()) return null;
     return { createdAt: parsed.createdAt, id: parsed.id };
