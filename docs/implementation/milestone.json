@@ -779,9 +779,17 @@
       "worktree": "/home/longhn0710/workspace/schemaforge-execution-readiness",
       "evidence": "evidence/product/mvp-statement-readiness-20261011/record.json",
       "next": "Scoped attempt/receipt/HOLD history using existing journal and UNIT ports; trusted host/target authority remains absent.",
-      "source_head": "3f72cbfd3fd2b6aa7c128932d32264c87c406d9a",
+      "source_head": "3c97997d8eff0a9840b942af759ae58c491401c4",
       "pr": 49,
-      "correction_record": "evidence/product/mvp-statement-readiness-20261011/assignment-fixture-ci-correction.json"
+      "correction_record": "evidence/product/mvp-statement-readiness-20261011/assignment-fixture-ci-correction.json",
+      "original_verified_source_head": "3f72cbfd3fd2b6aa7c128932d32264c87c406d9a",
+      "initial_ci": {
+        "head": "f8666342a99edb3d484186650bae8d89f435d2ce",
+        "foundation_parser": "push+PR SUCCESS",
+        "product_pr": "FAILURE55of56; browserSKIPPED",
+        "product_push": "CANCELLED obsolete failing head, neverPASS",
+        "record": "evidence/product/mvp-statement-readiness-20261011/initial-push-terminal.json"
+      }
     }
   }
 }
