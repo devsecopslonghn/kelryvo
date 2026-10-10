@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { classifySpawnFailure, PROFILE, ANTLR_PROFILE, validateResponse, MAX_INPUT_BYTES, MAX_STDOUT_BYTES, isWithin } from '../experiments/db-devops-wp0/parser-envelope.mjs';
+import { classifySpawnFailure, PROFILE, ANTLR_PROFILE, validateResponse, validateExecutionResponse, MAX_INPUT_BYTES, MAX_STDOUT_BYTES, isWithin } from '../experiments/db-devops-wp0/parser-envelope.mjs';
 
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const source = Buffer.from('SELECT 1 FROM dual;');
@@ -126,4 +126,17 @@ test('ANTLR protocol preserves CRLF slash delimiters without allowing unknown pr
   assert.equal(validateResponse(raw, 0, JSON.stringify(parsed), Buffer.alloc(0), ANTLR_PROFILE).ok, true);
   assert.equal(validateResponse(raw, 0, JSON.stringify(parsed)).code, 'protocol_header');
   assert.equal(validateResponse(raw, 0, JSON.stringify(parsed), Buffer.alloc(0), 'invented').code, 'unknown_parser_profile');
+});
+
+
+test('worker byte projection shares protocol validation and never exposes bytes on rejection', () => {
+  const preview = validateResponse(source, 0, success());
+  assert.equal('executionBytes' in preview.statements[0], false);
+  const worker = validateExecutionResponse(source, 0, success());
+  assert.deepEqual(worker.statements[0].executionBytes, Buffer.from(sql));
+  assert.equal(worker.statements[0].executionSha256, sha(Buffer.from(sql)));
+  const tampered = JSON.parse(success()); tampered.statements[0].execution_sql = 'SQL_SECRET_CANARY';
+  const denied = validateExecutionResponse(source, 0, JSON.stringify(tampered));
+  assert.equal(denied.ok, false); assert.equal(JSON.stringify(denied).includes('SQL_SECRET_CANARY'), false);
+  assert.deepEqual(validateExecutionResponse(source, 0, success(), Buffer.from('private error')), { ok:false,code:'unexpected_stderr' });
 });

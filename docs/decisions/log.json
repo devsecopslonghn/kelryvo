@@ -444,6 +444,18 @@
         "docs/development/local-product.md",
         "docs/implementation/milestone.json"
       ]
+    },
+    {
+      "id": "SF-D041",
+      "status": "ACCEPTED_MVP_M3_CONTROLLED_EXECUTION_BRIDGE",
+      "accepted_at_utc": "2026-10-10T23:03:24.479869+00:00",
+      "decision": "Reuse the restricted coordinator, PostgreSQL journal and pinned parser to promote a current statement-bound request only under installed worker host capabilities. Require explicit target assignment plus full EMPTY or witnessed EXACT_APPLIED history, fixed host scope/worker, original live credential including browser parent, explicit membership/deploy grant, unchanged approved/source/profile bytes and active metadata generation. Commit immutable proof and initial claim atomically before dispatch. Acquire catalog declaration advisory, then schema assignment advisory before global governance and retain checked locks through each target call and terminal success commit; STARTED commits before target calls. Unknown effects or revoked authority hold, expired claims recover only to HOLD, lost COMMIT acknowledgments remain unresolved. Preserve old request/proof/history reads without backfilling authority, update strict backup schema pin. UNIT host opt-in remains synthetic; no Oracle adapter, credential resolution, automatic replay, runtime acceptance or new task ID. Ordinary reversible decision under SF-D010.",
+      "references": [
+        "apps/worker/run-request.ts",
+        "docs/architecture/boundaries.md",
+        "docs/development/local-product.md",
+        "docs/implementation/milestone.json"
+      ]
     }
   ]
 }

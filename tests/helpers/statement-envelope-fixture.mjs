@@ -7,7 +7,7 @@ import { startProduct } from '../../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './product-db.mjs';
 import { createMembershipOperatorFixture } from './product-membership-fixture.mjs';
 
-export async function statementEnvelopeFixture() {
+export async function statementEnvelopeFixture({ firstStatementCount = 55 } = {}) {
   const repo = await mkdtemp(path.join(tmpdir(), 'sf-statement-envelope-'));
   let db, app, membership;
   const actors = ['developer', 'approver', 'developer'].map((role, i) => ({ id: `statement-${i}-${randomUUID()}`,
@@ -17,7 +17,7 @@ export async function statementEnvelopeFixture() {
     const git = (...args) => execFileSync('/usr/bin/git', ['-C', repo, ...args], { stdio: 'ignore' });
     git('init'); git('config', 'user.name', 'SchemaForge fixture'); git('config', 'user.email', 'fixture@example.invalid');
     await mkdir(path.join(repo, 'migrations'));
-    await writeFile(path.join(repo, 'migrations/V2__first.sql'), '-- café retained bytes\n' + Array.from({ length: 55 }, (_, i) => `CREATE TABLE envelope_${i} (id NUMBER);\n`).join(''));
+    await writeFile(path.join(repo, 'migrations/V2__first.sql'), '-- café retained bytes\n' + Array.from({ length: firstStatementCount }, (_, i) => `CREATE TABLE envelope_${i} (id NUMBER);\n`).join(''));
     await writeFile(path.join(repo, 'migrations/V10__second.sql'), 'CREATE TABLE second_envelope (id NUMBER);\nCREATE TABLE last_envelope (id NUMBER);\n');
     git('add', 'migrations'); git('commit', '-m', 'Disposable offline statement fixture');
     db = await openIsolatedProductDatabase();

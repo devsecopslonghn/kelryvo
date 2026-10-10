@@ -410,7 +410,8 @@ Oracle target ledger; runtime admission and reconciliation remain separate gates
 
 The immutable PostgreSQL proof row stores expected bindings; it does not independently grant
 execution authority or establish live target identity, history, mutex ownership, validity or
-central evidence. Trusted production admission and target-check ports remain future work.
+central evidence. The restricted worker bridge requires a separately installed trusted host; default local
+startup has no host or Oracle adapter.
 The coordinator rechecks those injected live checks before each statement and before success;
 the PostgreSQL adapter persists matching expected digests, ordered acknowledgments, receipts
 and terminal projections. The synthetic PostgreSQL integration exercises this contract only
@@ -635,3 +636,53 @@ under the shared transaction lock; session history remains retained. Recovery be
 database commit preserves access, and recovery after a commit completes the private
 config transition without restoring old access. Browser sign-in/logout while an operator
 operation is interrupted does not change its LOCAL credential recovery witness.
+
+
+## Restricted execution bridge
+
+The local web/API stack creates requests and displays history. An OS-installed worker can
+use `createExecutionWorker(sql, host)` from `apps/worker/run-request.ts`; the host is a set
+of callable capabilities, never a browser payload or JSON setting. Its fixed worker identity
+and evidence scope cannot be replaced by request fields. Production hosts require
+`TRUSTED_VALIDATED`; tests opt into `UNIT_SYNTHETIC` explicitly with `allowUnitSynthetic:true`.
+No Oracle host/driver adapter or worker deployment is supplied. Do not turn the UNIT fixture
+into a production configuration or resolve writer credentials in the API.
+
+The host's `withTarget` owns its physical connection, canonical target mutex and dispatch
+permit for the entire callback. `observe` provides current target identity, explicit catalog
+assignment, history, validity and evidence witnesses. `current` must attest that the held
+identity/permit and history progression still match that observation and dispatched receipts;
+postcondition and central evidence checks must attest actual target facts. Digest strings
+alone confer no authority. Full EMPTY history must match every approved statement digest in
+order; EXACT_APPLIED permits only a witnessed zero-statement NOOP. Partial or unknown history
+requires reconciliation outside this bridge. The pinned parser reconstructs exactly the reviewed
+delimiter-free execution bytes; no second splitter is used.
+
+Admission commits its immutable proof, ADMITTED job and first claimed attempt together,
+before any dispatch. Before every statement the worker checks the original requesting
+credential/session, membership/deploy grant, approval, source/profile/content, metadata
+generation and held host permit. Final authority checks retain catalog/schema/global/row locks throughout each target call and the
+successful terminal commit; revocation that starts during a call waits, then prevents the
+next statement. Host calls must be bounded and must not wait on governance mutations they
+serialize against. STARTED is committed before calling the target; matching
+acknowledgments and receipts are retained before success. Lease duration is bounded to 1–300
+seconds (default300); a slow/expired attempt stops and requires recovery rather than renewal.
+An uncertain result, missing receipt, failed postcondition or lost authority yields HOLD.
+`recoverExpired(jobId)` only projects an expired claimed attempt to HOLD, including after
+credential/approval revocation. It cannot create a claim, renew, execute SQL or release HOLD.
+A lost admission COMMIT acknowledgment returns HOLD_PERSISTENCE_PENDING; recover expiry
+before reconciliation. A failed HOLD commit or RESTORE_HOLD generation also stays pending.
+
+Startup adds nullable request-credential and bounded immutable host-binding columns without
+backfilling old authority. Old jobs/proofs/history remain readable; an old waiting request
+without presenting credential identity needs a fresh request, not automatic admission.
+Backup inventory now pins this schema. Keep old binaries and witnessed backups for older
+schema snapshots; cross-schema restore remains rejected. Existing witnessed restore still
+revokes credentials, holds unfinished attempts and preserves history.
+
+Focused metadata acceptance:
+`SCHEMAFORGE_TEST_DATABASE_URL=<disposable-postgres-url> SCHEMAFORGE_JAVA_HOME=<pinned-jdk> node --test tests/product-controlled-execution.test.mjs`.
+Build the web bundle and pinned parser first. This exercises Git→approval→request→worker→history
+with synthetic host ports only; it never certifies Oracle effects, target ledger reconciliation
+or production isolation. Actual execution/recovery acceptance remains blocked on an explicitly
+authorized Oracle runtime and host attestation.

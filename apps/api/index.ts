@@ -1441,7 +1441,7 @@ export function createApp(options: {
           FROM sf_plans WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`)[0];
         if (!plan) return { error: 'NOT_FOUND' };
         const project = (await tx`SELECT archived_at,source_repository_id,source_folder,source_binding_generation FROM sf_projects WHERE id=${plan.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
-        const live = (await tx`SELECT a.id,a.role FROM sf_local_credentials c JOIN sf_local_actors a ON a.id=c.actor_id
+        const live = (await tx`SELECT a.id,a.role,c.id AS credential_id FROM sf_local_credentials c JOIN sf_local_actors a ON a.id=c.actor_id
           WHERE c.token_sha256=${req.credentialDigest} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
           AND a.organization_id=${ORG} FOR UPDATE OF a,c`)[0];
         if (!live || live.id !== req.actor.id) return { error: 'TOKEN_NOT_ACTIVE' };
@@ -1496,8 +1496,8 @@ export function createApp(options: {
         const old = (await tx`SELECT * FROM sf_execution_jobs WHERE organization_id=${ORG} AND requester_id=${live.id} AND idempotency_key=${b.idempotencyKey} FOR UPDATE`)[0];
         if (old) return old.payload_digest === bodyDigest ? { job: old, repeated: true } : { error: 'IDEMPOTENCY_CONFLICT' };
         const id = randomUUID();
-        const job = (await tx`INSERT INTO sf_execution_jobs(id,organization_id,project_id,plan_id,approval_reference,intent_digest,requester_id,idempotency_key,payload_digest,reason,state,readiness)
-          VALUES(${id},${ORG},${plan.project_id},${plan.id},${plan.approval_reference},${plan.offline_intent_digest},${live.id},${b.idempotencyKey},${bodyDigest},${b.reason},'WAITING_VALIDATION','TARGET_HISTORY_UNAVAILABLE') RETURNING *`)[0];
+        const job = (await tx`INSERT INTO sf_execution_jobs(id,organization_id,project_id,plan_id,approval_reference,intent_digest,requester_id,request_credential_id,idempotency_key,payload_digest,reason,state,readiness)
+          VALUES(${id},${ORG},${plan.project_id},${plan.id},${plan.approval_reference},${plan.offline_intent_digest},${live.id},${live.credential_id},${b.idempotencyKey},${bodyDigest},${b.reason},'WAITING_VALIDATION','TARGET_HISTORY_UNAVAILABLE') RETURNING *`)[0];
         await tx`INSERT INTO sf_execution_job_events(id,job_id,revision,from_state,to_state,actor_id,reason,facts)
           VALUES(${randomUUID()},${id},0,NULL,'WAITING_VALIDATION',${live.id},${b.reason},'{}'::jsonb)`;
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
