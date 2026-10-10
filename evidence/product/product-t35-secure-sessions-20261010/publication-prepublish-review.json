@@ -1,0 +1,17 @@
+{
+  "task": "SF-PRODUCT-T35",
+  "reviewer": "/root/t35_review",
+  "recorded_at": "2026-10-10T18:23:53.272560+00:00",
+  "reviewed_head": "8f8882dddfc480bfa46c4fa0ad5340cf06c8e8c2",
+  "frozen_source_head": "81d5340bbdd4c6c6db9526178f9703d2cdec5c14",
+  "final_delta_scan_sha256": "7b04892745661d832b2102bd8feede738ce30e9e5aca1053a1c1db5a50723938",
+  "findings": [],
+  "draft_eligible": true,
+  "merge_eligible": false,
+  "observations": [
+    "Independently recomputed all six actual final-delta file SHA256 values; all match. Frozen source remains unchanged.",
+    "Explicit final delta pinned-scanner contents/incoming runs exit0/zero findings for declared delta; earlier empty annotation has no additional coverage.",
+    "Prior raw scans remain exit1 with10/11 benign public source-checksum findings, independently reviewed and retained. No all-history clean/security PASS/ready/merge recommendation.",
+    "Required remote security/protection gates remain unavailable. Ordinary draft publication is suitable with findings and limitations visible."
+  ]
+}

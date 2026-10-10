@@ -1,0 +1,25 @@
+{
+  "record_owner": "ROOT_VERIFIED_NATIVE_BYTES_AND_LOCAL_TRACKER",
+  "recorded_at_utc": "2026-10-09T23:21:32.848608+00:00",
+  "native_addendum": {
+    "path": "evidence/product/product-t25-root-20261009T2320Z/native/native-final-completion-addendum.json",
+    "sha256": "fee164fd84c43e2bd4acfc772913901c3d6b8bcc220efb7f0af880e94f94ed33"
+  },
+  "native_contemporaneous_artifacts_verified": 164,
+  "attempt_timing_exit_sidecars_verified": 26,
+  "root_tracker_tests": 21,
+  "root_lint_format_scoped_diff": "PASS",
+  "copied_artifact_sha256": {
+    "evidence/product/product-t25-root-20261009T2320Z/root-final-checks/06-integrate-frozen-native-proof.raw.log": "43d83ac84c828265888dbd3fe1ad0417f597ee2c35f8e4b21875f214d384d9f7",
+    "evidence/product/product-t25-root-20261009T2320Z/root-final-checks/06-integrate-frozen-native-proof.command.json": "4f43b3974a7a98014e714b24464037182edf8e983ebb668e76268e801db41d01",
+    "evidence/product/product-t25-root-20261009T2320Z/root-final-checks/06-integrate-frozen-native-proof.result.json": "4a6e0591b7ba9b2dfc3067bef876d88a27de4f3365f8ee5a8b3aa9786573bb53",
+    "evidence/product/product-t25-root-20261009T2320Z/root-final-checks/07-root-tracker-source-format.raw.log": "0a8deb65f4040dec9e4fab9001664abccc2399f5c95ee436516c248bfdb5bb45",
+    "evidence/product/product-t25-root-20261009T2320Z/root-final-checks/07-root-tracker-source-format.command.json": "1f9781a1862386a71762de91a2ed8a94838152a9b489f3bf77d682d2f93a0244",
+    "evidence/product/product-t25-root-20261009T2320Z/root-final-checks/07-root-tracker-source-format.result.json": "95aa217f490297b507c4c3a73f23d432c32aae1c574268d234433805a1351964"
+  },
+  "exact_head_independent_review": "PENDING",
+  "merge_eligible": false,
+  "required_security_services": "UNAVAILABLE_NOTPASS",
+  "oracle_validation": "INDEPENDENT_BLOCKED",
+  "sonar": "UNAVAILABLE_NOTPASS"
+}

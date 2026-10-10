@@ -1,0 +1,12 @@
+{
+  "observed_at": "2026-10-10T15:16:50.185941+00:00",
+  "command": [
+    "gh",
+    "pr",
+    "view",
+    "46",
+    "--json",
+    "number,url,isDraft,state,headRefOid,baseRefName,statusCheckRollup"
+  ],
+  "exit_code": 0
+}

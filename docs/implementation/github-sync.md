@@ -23,6 +23,13 @@ the exact head, run relevant tests, inspect dependencies/licenses and scan publi
 for secrets. Check remote required CI, CodeQL/security findings, unresolved blocking reviews,
 mergeability and whether the base is current before marking a draft ready or merging.
 All required checks must pass; never suppress or reclassify a required failing check.
+Use the actual branch/ruleset and check configuration to distinguish required checks from
+optional GitHub capabilities. A branch response explicitly reporting protection disabled
+and zero required contexts is evidence of that configuration; a paid-feature API error
+alone is not. Disabled code/secret scanning is UNAVAILABLE, never PASS, and does not
+create an unconfigured required check. Retain independent security review, scoped secret
+scans and license checks. An enabled required check or actual blocking finding still
+blocks integration even when its API is inaccessible. Use ordinary merges only.
 The owner's 2026-10-09 Sonar availability exception applies while the confirmed free LOC
 quota outage prevents scanning: retain CANCELLED/missing results as unavailable, require
 all other CI and independent security/QA review, and use ordinary merges. A passing Sonar

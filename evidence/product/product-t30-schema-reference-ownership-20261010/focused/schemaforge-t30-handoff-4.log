@@ -1,0 +1,28 @@
+TAP version 13
+# Subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+ok 1 - concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+  ---
+  duration_ms: 549.944687
+  type: 'test'
+  ...
+# Subtest: manual schema references are idempotent, exact-case, serially assigned and project-scoped
+ok 2 - manual schema references are idempotent, exact-case, serially assigned and project-scoped
+  ---
+  duration_ms: 708.831306
+  type: 'test'
+  ...
+# Subtest: trusted inventory CLI uses private local metadata authority and preserves operator history
+ok 3 - trusted inventory CLI uses private local metadata authority and preserves operator history
+  ---
+  duration_ms: 1914.259982
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3624.7742

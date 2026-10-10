@@ -1,0 +1,5 @@
+{
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "command": "python3 /tmp/schemaforge-t26-scanner.py precommit /tmp/schemaforge-t26-precommit-20261010T0154Z",
+  "started_at_utc": "2026-10-10T01:54:21.095176+00:00"
+}

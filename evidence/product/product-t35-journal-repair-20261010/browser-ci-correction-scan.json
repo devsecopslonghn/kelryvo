@@ -1,0 +1,17 @@
+{
+  "scanner": "Pinned Gitleaks8.30.1 official checksum verified",
+  "scope": "Eight changed/new paths since8560993: one browser test, three checkpoint docs, two raw logs and two correction/terminal records. Prior classified evidence preserved.",
+  "exit_code": 0,
+  "findings": 0,
+  "files": {
+    "docs/implementation/CONTINUE.md": "0865ae21b025d89617a850b22a633d6de8461ef93e4dae9e8d52006795c6e30a",
+    "docs/implementation/CURRENT.md": "0865ae21b025d89617a850b22a633d6de8461ef93e4dae9e8d52006795c6e30a",
+    "docs/implementation/milestone.json": "4a2cfd6cd620d8abc23fd133f89c3c7f86bc711b9637fe7b22907aa64d4893ff",
+    "tests/product-credential-browser.integration.mjs": "8476f3da97cd801a9fdb8b4d0d2e26ed4c931d38f87b9139badd161661796bdb",
+    "evidence/product/product-t35-journal-repair-20261010/corrected-first-pr-browser-failure.log": "7a0bafbab5f0e45c983b8a3cfeb1cc7bc21388e236459900d67420b47af65025",
+    "evidence/product/product-t35-journal-repair-20261010/browser-revocation-focused.log": "99c716ac14efbe1c361313676feff2358e724022a541c196dcea88112686cbcf",
+    "evidence/product/product-t35-journal-repair-20261010/corrected-first-ci-terminal.json": "b8b1a86c860d10a407ac1eda6e69886566b6dcb2585115213c4d5697dcc7a056",
+    "evidence/product/product-t35-journal-repair-20261010/browser-ci-correction.json": "fad4d19efa65674830cb42b32a6056fff155d58b37f8c731572e54219a5ab071"
+  },
+  "limits": "Bounded changed publication only, no repeated full history scan or optional remote security claim."
+}

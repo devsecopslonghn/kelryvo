@@ -1,0 +1,194 @@
+TAP version 13
+# Subtest: T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+ok 1 - T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+  ---
+  duration_ms: 210.109363
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+not ok 2 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7107.992253
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:63:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    audit pagination preserves microseconds through the PostgreSQL parameter serializer
+    + actual - expected
+    ... Skipped lines
+    
+      [
+        'a700343c-a7a9-4483-88f1-299f873d4c77',
+        '2efb2247-52a8-4ebd-a511-8368cdf8af52',
+        '939a7824-a28c-4719-a9cf-8056c9282e76',
+        'a9608807-7b20-4902-a024-feb089bf9233',
+    ...
+        'debbed79-c27d-46ca-8f7d-f25f35cee0d0',
+    -   '0c7a99ab-fc30-46ad-994a-6b327931bbb8',
+    -   'eed2c193-94b3-42ac-93aa-a10b996de963',
+    -   'fd7ae2f6-6767-4c58-9fa2-883284bbc781',
+    -   '0997f0cd-da73-48f4-a743-35637713b9d5',
+    -   '9f625ef5-3ac9-4033-8fa0-2b054b3e1e7c',
+    -   '3f241641-2672-4dd9-88e1-1b362555fda5',
+    -   '34ba9270-b386-4188-9d99-01f39cc8f8d1',
+    -   '87b2d517-cd02-469b-8eba-a912f24bea55',
+    -   'd3f991b2-2de2-4047-bb41-4fe48245720f',
+    -   'd01a6036-f1ab-4b12-a7b8-d8a83b8cd5d1',
+        '89357da3-a712-41de-ae64-a8f66fecc5ba',
+        '7a103b5b-f44b-42e2-ba2a-910d82113294',
+        'fb388bdd-c487-41cb-8caf-c204dacc2b80',
+        '1700b28a-cdfc-4bed-b189-c4ab6cbb3441',
+        '95083b9f-bb47-42da-8751-67bb4c0e45dd',
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 'a700343c-a7a9-4483-88f1-299f873d4c77'
+    1: '2efb2247-52a8-4ebd-a511-8368cdf8af52'
+    2: '939a7824-a28c-4719-a9cf-8056c9282e76'
+    3: 'a9608807-7b20-4902-a024-feb089bf9233'
+    4: '287d8be8-80bc-447f-b811-6d7335b19d88'
+    5: '3c7948dc-423f-4674-8e80-2aa165e14256'
+    6: 'fdcb0466-0831-4b1f-888f-fbd1f139bf4e'
+    7: 'aed25bbb-c04f-4f93-99e8-006d9bc53662'
+    8: '9f91b6b0-c24b-4291-ad57-5322cc27cccd'
+    9: 'ae355e4c-07d8-4d40-9219-8e285d8e3b89'
+    10: '7eda454e-3000-40fb-81c2-00dd576399ca'
+    11: '4966979f-efe8-461a-a20a-ebd04c5c3638'
+    12: '6ab78c52-f69a-43c7-8e9a-e95a6bb1e6e2'
+    13: '54929e87-6754-410d-be13-00e637aedac3'
+    14: 'f53e2af3-8c04-4dff-893a-d578e6967321'
+    15: '3e730fb6-7296-4cb7-9b09-4b10f7354b5a'
+    16: '92831a8e-f779-47aa-882d-acb90227f4c9'
+    17: 'db9b1969-16dc-4d49-b783-775418df9645'
+    18: 'b46b243e-6901-4c04-8352-5ba17b20e14c'
+    19: '050c63d3-ce9c-40c0-b3e7-0350ddad81c0'
+    20: '11c0a980-3bbf-4719-a861-9f1f9074986f'
+    21: 'ab899445-f9b3-40e4-b400-0d517831d8ae'
+    22: 'efc1f719-fcd9-4978-a8fa-6f2d18192433'
+    23: '9ad8d57f-10e2-43b1-940f-f08f44f19e50'
+    24: '9698c558-2b94-47a9-8c6a-efb46c87f926'
+    25: '8bfdda73-4147-4bcd-936f-3ac9409729ac'
+    26: '9cad9eca-0914-4a5f-bc7f-e9418617c297'
+    27: '4497b183-c7ac-4d67-a932-477d614377b2'
+    28: 'e5ab8244-0d8d-4d34-8755-f376959c0d73'
+    29: '458dfb46-e76b-4086-8fc5-b3a6d333f5fb'
+    30: 'c15b6f28-b419-4d44-a913-6f61d0a970e8'
+    31: '0f399837-a517-4bc4-8497-858225726767'
+    32: 'a60911aa-43d3-47ae-b6e7-9f1405680d6a'
+    33: '97666277-18d6-49ee-b2b9-a4aa45e52d2e'
+    34: '8ad572c7-72b8-48b3-8cc4-723feb4c11f2'
+    35: 'd8f28353-72f8-4ce7-96f8-03e2a1183ca7'
+    36: 'e688ebdf-0846-4281-a3ee-002beccc1cc4'
+    37: '261c275f-e1db-4d0d-8e1a-09123409a2bd'
+    38: '334f6632-117a-4d8a-8318-2efd0fe74cfa'
+    39: 'e3668801-2412-40c1-a910-07b73a658ef6'
+    40: '7704f46b-2d0b-4a27-a084-d1f4591970b0'
+    41: 'c2a0a0df-5285-4dd8-a727-68eaf0627445'
+    42: '0bd0da4c-29d3-42eb-ba09-a74eb64c4c36'
+    43: '1e8c778b-bc8d-4dbb-a783-ed23c99c4175'
+    44: '058b400b-005d-47d7-bf07-aaac2807260a'
+    45: '826dc4a9-52d5-4795-820b-de8f471def04'
+    46: '88de6617-4889-4f7e-865b-a441630b64dd'
+    47: 'b89ab27c-483f-460d-9640-4a0f0fedf246'
+    48: '0e4e438b-c9db-44fa-8aaa-0d505eebed7e'
+    49: 'debbed79-c27d-46ca-8f7d-f25f35cee0d0'
+    50: '0c7a99ab-fc30-46ad-994a-6b327931bbb8'
+    51: 'eed2c193-94b3-42ac-93aa-a10b996de963'
+    52: 'fd7ae2f6-6767-4c58-9fa2-883284bbc781'
+    53: '0997f0cd-da73-48f4-a743-35637713b9d5'
+    54: '9f625ef5-3ac9-4033-8fa0-2b054b3e1e7c'
+    55: '3f241641-2672-4dd9-88e1-1b362555fda5'
+    56: '34ba9270-b386-4188-9d99-01f39cc8f8d1'
+    57: '87b2d517-cd02-469b-8eba-a912f24bea55'
+    58: 'd3f991b2-2de2-4047-bb41-4fe48245720f'
+    59: 'd01a6036-f1ab-4b12-a7b8-d8a83b8cd5d1'
+    60: '89357da3-a712-41de-ae64-a8f66fecc5ba'
+    61: '7a103b5b-f44b-42e2-ba2a-910d82113294'
+    62: 'fb388bdd-c487-41cb-8caf-c204dacc2b80'
+    63: '1700b28a-cdfc-4bed-b189-c4ab6cbb3441'
+    64: '95083b9f-bb47-42da-8751-67bb4c0e45dd'
+    65: 'd66f0d72-03e0-4ea2-9d02-d17c8f501361'
+    66: 'ef0ba6e7-7bb6-4027-ae8c-c6fcc8c03be7'
+    67: '0f01f487-77ce-444d-a8f2-7b80ccfdc765'
+    68: '8531436d-2c85-4445-8f91-ef65807a08f9'
+  actual:
+    0: 'a700343c-a7a9-4483-88f1-299f873d4c77'
+    1: '2efb2247-52a8-4ebd-a511-8368cdf8af52'
+    2: '939a7824-a28c-4719-a9cf-8056c9282e76'
+    3: 'a9608807-7b20-4902-a024-feb089bf9233'
+    4: '287d8be8-80bc-447f-b811-6d7335b19d88'
+    5: '3c7948dc-423f-4674-8e80-2aa165e14256'
+    6: 'fdcb0466-0831-4b1f-888f-fbd1f139bf4e'
+    7: 'aed25bbb-c04f-4f93-99e8-006d9bc53662'
+    8: '9f91b6b0-c24b-4291-ad57-5322cc27cccd'
+    9: 'ae355e4c-07d8-4d40-9219-8e285d8e3b89'
+    10: '7eda454e-3000-40fb-81c2-00dd576399ca'
+    11: '4966979f-efe8-461a-a20a-ebd04c5c3638'
+    12: '6ab78c52-f69a-43c7-8e9a-e95a6bb1e6e2'
+    13: '54929e87-6754-410d-be13-00e637aedac3'
+    14: 'f53e2af3-8c04-4dff-893a-d578e6967321'
+    15: '3e730fb6-7296-4cb7-9b09-4b10f7354b5a'
+    16: '92831a8e-f779-47aa-882d-acb90227f4c9'
+    17: 'db9b1969-16dc-4d49-b783-775418df9645'
+    18: 'b46b243e-6901-4c04-8352-5ba17b20e14c'
+    19: '050c63d3-ce9c-40c0-b3e7-0350ddad81c0'
+    20: '11c0a980-3bbf-4719-a861-9f1f9074986f'
+    21: 'ab899445-f9b3-40e4-b400-0d517831d8ae'
+    22: 'efc1f719-fcd9-4978-a8fa-6f2d18192433'
+    23: '9ad8d57f-10e2-43b1-940f-f08f44f19e50'
+    24: '9698c558-2b94-47a9-8c6a-efb46c87f926'
+    25: '8bfdda73-4147-4bcd-936f-3ac9409729ac'
+    26: '9cad9eca-0914-4a5f-bc7f-e9418617c297'
+    27: '4497b183-c7ac-4d67-a932-477d614377b2'
+    28: 'e5ab8244-0d8d-4d34-8755-f376959c0d73'
+    29: '458dfb46-e76b-4086-8fc5-b3a6d333f5fb'
+    30: 'c15b6f28-b419-4d44-a913-6f61d0a970e8'
+    31: '0f399837-a517-4bc4-8497-858225726767'
+    32: 'a60911aa-43d3-47ae-b6e7-9f1405680d6a'
+    33: '97666277-18d6-49ee-b2b9-a4aa45e52d2e'
+    34: '8ad572c7-72b8-48b3-8cc4-723feb4c11f2'
+    35: 'd8f28353-72f8-4ce7-96f8-03e2a1183ca7'
+    36: 'e688ebdf-0846-4281-a3ee-002beccc1cc4'
+    37: '261c275f-e1db-4d0d-8e1a-09123409a2bd'
+    38: '334f6632-117a-4d8a-8318-2efd0fe74cfa'
+    39: 'e3668801-2412-40c1-a910-07b73a658ef6'
+    40: '7704f46b-2d0b-4a27-a084-d1f4591970b0'
+    41: 'c2a0a0df-5285-4dd8-a727-68eaf0627445'
+    42: '0bd0da4c-29d3-42eb-ba09-a74eb64c4c36'
+    43: '1e8c778b-bc8d-4dbb-a783-ed23c99c4175'
+    44: '058b400b-005d-47d7-bf07-aaac2807260a'
+    45: '826dc4a9-52d5-4795-820b-de8f471def04'
+    46: '88de6617-4889-4f7e-865b-a441630b64dd'
+    47: 'b89ab27c-483f-460d-9640-4a0f0fedf246'
+    48: '0e4e438b-c9db-44fa-8aaa-0d505eebed7e'
+    49: 'debbed79-c27d-46ca-8f7d-f25f35cee0d0'
+    50: '89357da3-a712-41de-ae64-a8f66fecc5ba'
+    51: '7a103b5b-f44b-42e2-ba2a-910d82113294'
+    52: 'fb388bdd-c487-41cb-8caf-c204dacc2b80'
+    53: '1700b28a-cdfc-4bed-b189-c4ab6cbb3441'
+    54: '95083b9f-bb47-42da-8751-67bb4c0e45dd'
+    55: 'd66f0d72-03e0-4ea2-9d02-d17c8f501361'
+    56: 'ef0ba6e7-7bb6-4027-ae8c-c6fcc8c03be7'
+    57: '0f01f487-77ce-444d-a8f2-7b80ccfdc765'
+    58: '8531436d-2c85-4445-8f91-ef65807a08f9'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:256:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7545.976309

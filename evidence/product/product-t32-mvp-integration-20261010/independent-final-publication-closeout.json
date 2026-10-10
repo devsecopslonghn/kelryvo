@@ -1,0 +1,25 @@
+{
+  "task": "SF-PRODUCT-T32",
+  "reviewer": "native t32_review read-only final publication delta",
+  "candidate_head": "7e7646f213edaac3c19c102cafae2ade2c5af627",
+  "frozen_source_head": "1545aade353c3c2cf709b547b3eae5ed03e849bb",
+  "recorded_at": "2026-10-10T11:34:26.832241+00:00",
+  "findings": [],
+  "sha256": {
+    "evidence/product/product-t32-mvp-integration-20261010/standard.log": "7dcf2940298d1e46eabb5b3de23303f85f5f5c970597b2cddad9201f08abd09e",
+    "evidence/product/product-t32-mvp-integration-20261010/product.log": "9d6513f6fbf2079f86c1d77d5e10866f5acfbd4e59c495c8659b618a83382b63",
+    "evidence/product/product-t32-mvp-integration-20261010/browser.log": "b0208195bdcabf7b17eb12ca9baa42a374ba68311a896e025dc00641c8097162",
+    "evidence/product/product-t32-mvp-integration-20261010/focused-implementation.log": "d0407aab37009b0100d3c2dcfda8a76248a97dad242d04777a0e08ae731c2aff",
+    "evidence/product/product-t32-mvp-integration-20261010/publication-incoming-scan.json": "ced89517686f01ee05bd6a576230e55e74fd833ff6e7ce0850bcbb9f715ee0be",
+    "evidence/product/product-t32-mvp-integration-20261010/publication-raw-content-scan.json": "abc72e8499048589f2ef3de08819c8ef06e8eed1aad54c7a239076aeb570dcf2",
+    "evidence/product/product-t32-mvp-integration-20261010/publication-incoming-delta-scan.json": "fbb8bbafe3aa376174b30baacf9e7bac95fab8783969508d40ffccaffda30f4b"
+  },
+  "observations": [
+    "Prior33 publication hashes unchanged; original four raw logs now tracked and byte-identical to immutable evidence.",
+    "New integration history scan, one raw-evidence commit scan and raw-log content scan exit0/finding0 with exact bounded scopes.",
+    "No source changes; no full-history clean, remote security PASS, ready/master/Oracle certification."
+  ],
+  "limits": [
+    "This final review annotation and incoming-delta summary are appended after review; root scans their single metadata commit before normal push."
+  ]
+}

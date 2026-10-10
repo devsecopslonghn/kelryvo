@@ -1,0 +1,43 @@
+{
+  "reviewed_head": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
+  "base": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "verdict": "approve_no_blocking_findings",
+  "findings": [],
+  "correction_review": {
+    "cursor_canonicality": "The final diff compares decoded JSON to an explicit fixed-order object, rejecting reordered compact payloads. A new test exercises reversed property order. This closes my prior low-priority finding. The change preserves duplicate-key, UTF-8, base64url, actor, scope, date, and UUID checks.",
+    "scope": "The diff from the previously reviewed implementation commit  ed385f32f8b2fb093d1ed1131e765e2b8c5bc2d3 is limited to the cursor helper and its cursor unit test.",
+    "broader_review": "The API's organization and explicit grant joins, bootstrap-empty behavior, active-project exclusion, requester eligibility rule, bounded response projection, microsecond keyset order, and membership recheck remain as previously reviewed. The React stale-request guards, scope/page reset, draft clearing and exact plan navigation remain unchanged. No changed license, notice, package manifest or lockfile was found in the diff from base."
+  },
+  "source_sha256": {
+    "apps/api/index.ts": "da0af95b4a12ef0b6b21e46a5be26e05179154c81bfe9432421d1f16d6f48c55",
+    "apps/web/src/app.jsx": "0d1ce2dbb8b8342989262b2c4f4ae8cc1b2e8ebbb92eeb3abbd0661d41516e96",
+    "apps/web/styles.css": "51325a57a22c5cc4f1b2eb5fb248d2e8b1c189994039a9aee11e923dd2d397b0",
+    "packages/governance/review-inbox-cursor.mjs": "1ed42e181cb224c000efc0e4612b8a697550f7c8b36edff143a863cf85776b7c",
+    "scripts/test-product.mjs": "8a7e7cd66af1a292a024b3c444ce3d1196a152ecca10b3e3057f2a495d0a76f2",
+    "scripts/tracker.mjs": "8f8dda3a775f11db1d02d5b43dcb0b8cea362c995ea244aba8d9da9b4a99fa32",
+    "tests/product-review-inbox-browser.integration.mjs": "c46e78e12bc0bad751af38ce14715aefd7bc2de2f542c308f43353d2ac6fd5a7",
+    "tests/product-review-inbox-cursor.test.mjs": "50836cdfc9537b3bd34f841d06f158292ed0321ada9c26b5c8c5c82021318297",
+    "tests/product-review-inbox.test.mjs": "743bedf9eb6010874c899f713b1e79c2a9d3818aa2dc65c26c34abd92e11a439",
+    "tests/tracker.test.mjs": "a5491de48a52340c0d288a8109889cda7b4f444d268e64209e168d8d31eca388",
+    "docs/development/local-product.md": "3cfcd0d71a97c1cb09aeace018544746661385c85a7586635a849fa37b62cad0",
+    "docs/implementation/acceptance.json": "9862508b22fd0a7cb28b7e4ef5e3302614c828a258160f563aa40588828e2d0f",
+    "docs/implementation/backlog.json": "62dc57a956a82bf6f86f43a9242c9ba9f5c57af028ba76df6d14d47f182d5171"
+  },
+  "validation": {
+    "reviewer_ran_tests": false,
+    "final_cursor_test": {
+      "command": "node --test tests/product-review-inbox-cursor.test.mjs",
+      "outcome": "Parent reports 1/1 passed after the fixed-order correction; no matching result artifact was present in the worktree when this review was written."
+    },
+    "full_check": {
+      "status": "in_progress_or_unverified_at_review",
+      "note": "standard-interrupted.json correctly records the prior interrupted attempt as UNVERIFIED. The restarted exact-head check had standard.started.json but no completion result at review time. Do not infer a pass."
+    },
+    "external_gates": "Required GitHub security and branch-protection checks remain unavailable per task context; this review does not confer merge eligibility."
+  },
+  "scope_and_limits": [
+    "Read-only review of the incremental correction plus the previously reviewed base-to-HEAD T28 implementation.",
+    "No tests, scanners, or tracker commands were run by this reviewer.",
+    "No Oracle behavior, deployment, or external infrastructure was examined."
+  ]
+}

@@ -1,0 +1,9 @@
+COMMAND: node --check packages/backup/index.mjs && node --check scripts/local-backup-operator.mjs && node --check scripts/local-dev.mjs && node --check apps/web/src/app.jsx && npx tsc --noEmit
+EXIT: 1
+RESULT: Node 22.23.3 does not support --check for .jsx and stopped before TypeScript; .mjs checks passed.
+COMMAND: node --check packages/backup/index.mjs
+EXIT: 0
+RESULT: Latest private archive staging cleanup syntax is valid.
+COMMAND: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test tests/local-backup-operator.test.mjs tests/product-backup-restore.test.mjs
+EXIT: 1
+RESULT: Operator negatives passed 2/2; product native test failed in toolchain version matching. Verified pinned image reports PostgreSQL 17.10 with Debian suffix; matcher fixed to accept that exact major/minor form.

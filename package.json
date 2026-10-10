@@ -33,6 +33,7 @@
     "build:web": "node scripts/build-web.mjs",
     "local:prepare": "node scripts/local-prepare.mjs",
     "local:credentials": "node scripts/local-credential-operator.mjs",
+    "local:backup-restore": "node scripts/local-backup-operator.mjs",
     "local:membership": "node scripts/local-membership-operator.mjs",
     "dev": "npm run build:web && node scripts/local-dev.mjs",
     "test:product": "node scripts/test-product.mjs",

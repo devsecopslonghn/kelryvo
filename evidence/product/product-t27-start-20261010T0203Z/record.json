@@ -1,0 +1,21 @@
+{
+  "recorded_at_utc": "2026-10-10T02:03:46.900635+00:00",
+  "task": "SF-PRODUCT-T27",
+  "status": "IN_PROGRESS_NO_VERIFICATION",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
+  "branch": "development/product-retained-release-detail",
+  "owned_prerequisite_checkpoint": "b1eb72bd4640c3e9ca9b88b388e9b277d67ca4ed",
+  "master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "decision": "SF-D029",
+  "original220_contracts_verified_unchanged_by_registration": true,
+  "input_artifact_sha256": {
+    "schemaforge-t27-retained-detail-proposed-contract-20261010T0130Z.json": "5df6af1dfc64cc15bb93a5b71441c306bd0f5dded9bd0ba5eb872e1e5fead70d",
+    "schemaforge-t27-native-assignment-prepared.txt": "5df27a20b45dcc41ddff71718250a26fed78f411134a664a6b29f1ce80b05e92",
+    "schemaforge-t27-owned-prerequisite-ff-20261010T0203Z.raw.log": "ecf6130fa1a72830b1e95cae1662421491dea28420fabde7f1494a3f9ace48d4"
+  },
+  "limitations": [
+    "Initial worktree creation, fast-forward and registration tool results are observed; individual start/endUTC/exit sidecars were not captured. FF raw output retained, no fabricated metadata. Subsequent root commands use immutable wrapper.",
+    "T26 continued raw GET residual is open; T27 registration/active state does not establish implementation or closure.",
+    "Required security services unavailable; drafts37/38/39 unmerged. Sonar unavailable never PASS; Oracle independently BLOCKED. No shared/Hygiene/source-history mutation."
+  ]
+}

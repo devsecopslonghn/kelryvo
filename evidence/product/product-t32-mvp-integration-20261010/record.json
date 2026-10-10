@@ -1,0 +1,138 @@
+{
+  "id": "product-t32-mvp-integration-local-verified",
+  "subject_id": "SF-PRODUCT-T32",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "exit_code": 0,
+  "command": "Frozen serial standard/product/pinned-parser/Chromium regressions; exact-source independent review and combined local Git/release/plan/review/history acceptance",
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_references": [
+    "SF-PRODUCT-T32-API",
+    "SF-PRODUCT-T32-WEB",
+    "SF-PRODUCT-T32-PERSISTENCE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t32-mvp-integration-20261010/standard.log",
+    "sha256": "7dcf2940298d1e46eabb5b3de23303f85f5f5c970597b2cddad9201f08abd09e"
+  },
+  "recorded_at": "2026-10-10T11:26:38.626650+00:00",
+  "implementation_head": "1545aade353c3c2cf709b547b3eae5ed03e849bb",
+  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "reviewed_parent_heads": [
+    {
+      "pr": 40,
+      "head": "b8177d4286927b0cdf5556fb53d7edff7accf4a6"
+    },
+    {
+      "pr": 41,
+      "head": "17e9a92fc91527dd8b9d374a52503e3430cddb3f"
+    },
+    {
+      "pr": 42,
+      "head": "f58c4146cf01c5e7a83de6b1b5b4255259f81c05"
+    },
+    {
+      "pr": 43,
+      "head": "72f5e07170e8c9ebac1c17ad00a609b8f7b5f1b5"
+    },
+    {
+      "pr": 44,
+      "head": "b69c3c34c7cb89a3124350f39a7af8eb89a5d609"
+    }
+  ],
+  "regressions": {
+    "standard": {
+      "result": "evidence/product/product-t32-mvp-integration-20261010/standard.json",
+      "result_sha256": "0dc06aa47b2cdf748ba158bf53bd84a44d4409c147adb1222a8eac2a6b78cfec",
+      "raw_output": "evidence/product/product-t32-mvp-integration-20261010/standard.log",
+      "raw_output_sha256": "7dcf2940298d1e46eabb5b3de23303f85f5f5c970597b2cddad9201f08abd09e",
+      "counts": {
+        "tests": 170,
+        "pass": 170,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "check"
+      ]
+    },
+    "product": {
+      "result": "evidence/product/product-t32-mvp-integration-20261010/product.json",
+      "result_sha256": "211334658e4955c84f7fa310004dc05819d14600c8ae46da9f9434327735c5e6",
+      "raw_output": "evidence/product/product-t32-mvp-integration-20261010/product.log",
+      "raw_output_sha256": "9d6513f6fbf2079f86c1d77d5e10866f5acfbd4e59c495c8659b618a83382b63",
+      "counts": {
+        "tests": 45,
+        "pass": 45,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:product"
+      ]
+    },
+    "browser": {
+      "result": "evidence/product/product-t32-mvp-integration-20261010/browser.json",
+      "result_sha256": "e15e5f155ffb6d1f8ca397ef65c0ff043e41a2471233f464b58db3e2e79c6230",
+      "raw_output": "evidence/product/product-t32-mvp-integration-20261010/browser.log",
+      "raw_output_sha256": "b0208195bdcabf7b17eb12ca9baa42a374ba68311a896e025dc00641c8097162",
+      "counts": {
+        "tests": 28,
+        "pass": 28,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:browser"
+      ]
+    }
+  },
+  "reviews": [
+    {
+      "path": "evidence/product/product-t32-mvp-integration-20261010/independent-review-final-source.json",
+      "sha256": "510d324d8d82ae4fe9e83bb532644b0616aa8d13102f7c8abadbe2216de946c3"
+    }
+  ],
+  "focused_observations": {
+    "path": "evidence/product/product-t32-mvp-integration-20261010/focused-observations.json",
+    "sha256": "f606f51956ccbfa539963227d11857d55272b954dea00b80aa4ab560e93f2ace"
+  },
+  "acceptance_observations": [
+    "Reviewed exact draft heads are preserved as ancestors in ordinary isolated merge commits; stable task/acceptance/graph/ownership/evidence records validate together.",
+    "Real local Git and pinned parser supply releases to the combined workflow, including retained source comparison and inspection, comments, assignment/inbox and decisions.",
+    "Pending inbox eligibility respects reviewer assignment; approved withdrawal uses a different currently granted independent approver. Original records and history remain preserved through fresh-plan recovery, audit pagination/filtering, manual-reference visibility and restart/idempotent initialization.",
+    "Chromium and real metadata API tests exercise the integrated product controls, with full existing guards regressed on exact frozen source.",
+    "No imported catalog/dependency/license/pin changes; local verification and publication do not imply master or full feature acceptance."
+  ],
+  "limitations": [
+    "Combined offline MVP only; execution still unavailable and NOT_EXECUTED/NOT_OBSERVED. Oracle 19c/21c, queued job admission, worker stop/HOLD and committed effects are not verified.",
+    "Focused historical failures and command/source capture limits are preserved. Only exact frozen final serial runs support final regression acceptance.",
+    "Draft37–44 and original worktrees remain intact. Security APIs/protection remain unavailable; no ready/eligible merge/integrated-master/deployment claim."
+  ]
+}

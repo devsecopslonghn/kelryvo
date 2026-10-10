@@ -1,0 +1,23 @@
+{
+  "record_type": "PRELIMINARY_SECURITY_REVIEW_NOT_EXACT_HEAD_APPROVAL",
+  "task": "SF-PRODUCT-T26",
+  "recorded_at_utc": "2026-10-10T01:23:43Z",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "source_point": {
+    "head": "35fc2ca8de51d43457fb8caadc7636b03a6f25f6",
+    "working_tree_changes_present": true,
+    "source_sha256": {
+      "apps/api/index.ts": "cf1c42c17b5d50a873ff56ee0eb75eec44b6d3c65fd7723d636dc7906e82178f",
+      "packages/migrations/retained-release-preflight.mjs": "744558251bfbc85e7943f682ef8a8724a707ba8203ae7548861f042926d10ddf"
+    }
+  },
+  "finding": {
+    "id": "T26-PRELIM-02",
+    "severity": "LOW_TO_MEDIUM",
+    "status": "OPEN_PRELIMINARY",
+    "location": "packages/migrations/retained-release-preflight.mjs manifest_digest metadata checks",
+    "summary": "Preflight requires a 64-character manifest_digest but does not check the lowercase-hex alphabet required by verifyRetainedRelease. A malformed 64-character value can therefore pass scalar preflight and cause the retained files payload to be selected before the verifier rejects it. Folder syntax and retained path dot-segment checks are also deferred to the verifier; those may be included if consistent with preserving compatibility.",
+    "suggested_resolution": "Add cheap database scalar boolean checks for the known manifest digest alphabet (and assess folder/path syntax checks against historical accepted valid rows) so malformed known identity metadata is rejected before payload selection.",
+    "limitations": "Static preliminary source review only. No tests/builds/scans/lifecycle run. Exact-head review remains pending. Does not assert cryptographic manifest verification can be completed before payload materialization."
+  }
+}

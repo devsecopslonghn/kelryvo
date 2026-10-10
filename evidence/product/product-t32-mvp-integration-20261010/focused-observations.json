@@ -1,0 +1,15 @@
+{
+  "task": "SF-PRODUCT-T32",
+  "captures": [
+    {
+      "path": "evidence/product/product-t32-mvp-integration-20261010/focused-implementation.log",
+      "sha256": "d0407aab37009b0100d3c2dcfda8a76248a97dad242d04777a0e08ae731c2aff"
+    }
+  ],
+  "observations": [
+    "API and Chromium focused tests passed separately at recorded source hashes and commands. Historical failed runs remain unchanged.",
+    "Initial output lacked exact command and source boundary capture; later runs record command, UTC, source hashes and exit status. Focused observations do not certify frozen regressions.",
+    "Root subsequently removed unused imports and added an explicit nonempty offline-history assertion; final frozen checks certify that revision."
+  ],
+  "recorded_at": "2026-10-10T11:10:55.149560+00:00"
+}

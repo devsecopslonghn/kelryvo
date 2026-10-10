@@ -1,0 +1,13 @@
+{
+  "command": [
+    "npm",
+    "run",
+    "typecheck"
+  ],
+  "start_utc": "2026-10-10T01:22:50.697394+00:00",
+  "end_utc": "2026-10-10T01:22:53.045704+00:00",
+  "exit_code": 2,
+  "raw_log": "typecheck.raw.log",
+  "raw_sha256": "85e25ae5c84801b2ab59ab9f578ffa6d2131391141860c3014084e5285601fc6",
+  "raw_bytes": 2471
+}

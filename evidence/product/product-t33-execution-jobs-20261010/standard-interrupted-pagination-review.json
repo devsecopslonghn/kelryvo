@@ -1,0 +1,11 @@
+{
+  "recorded_at": "2026-10-10T12:35:52.477943+00:00",
+  "implementation_head": "3f3ccb87f68335d470d39f668eaf2e1b8b982267",
+  "outcome": "INTERRUPTED_NOT_ACCEPTANCE",
+  "action": "SIGTERM to verified own standard runner process group1019029 before source correction",
+  "reason": "Independent exact-source reviewer confirmed timestamp microsecond precision loss skips execution-history rows at pagination boundary; frozen source needs correction and meaningful regression.",
+  "raw_output": "evidence/product/product-t33-execution-jobs-20261010/standard.log",
+  "raw_output_sha256": "b9f022ebe5b3f9235b846a196e450514807a68a270e7db47a120266a17410f74",
+  "started_record": "evidence/product/product-t33-execution-jobs-20261010/standard.started.json",
+  "limits": "Unfinished mandatory check, no final counts/result/acceptance claim. Original output retained unchanged."
+}

@@ -1,0 +1,55 @@
+{
+  "document_type": "publication_security_availability_addendum",
+  "supersedes_original_review": false,
+  "original_verdict_file": "/tmp/schemaforge-t24-final-security-license-verdict-20261009T2210Z.json",
+  "original_verdict_sha256": "8f385919cefdefe4fd1d5b1a40822c39b349ae16544c1851bdfca70bd1d108ae",
+  "head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+  "tree": "d31aba5368d77678786bdd867440a2c8418092c1",
+  "base": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "assessment": "DRAFT_ONLY_PUBLICATION_PERMITTED_UNDER_EXISTING_OWNER_AUTHORIZATION",
+  "publication_conditions": [
+    "Keep the PR in draft state; do not mark ready or merge while remote required checks and security findings are unavailable.",
+    "Do not suppress or reclassify missing/failing required checks, and do not report unavailable security services as PASS.",
+    "Resume ordinary readiness and merge gates only after required checks and security review become available and pass, or the owner explicitly changes authority."
+  ],
+  "basis": [
+    "docs/implementation/github-sync.md records owner authorization for ordinary pushes and PR creation and requires required checks, CodeQL/security findings, independent review and mergeability to be checked before draft readiness or merge.",
+    "The repository remains private, so draft publication remains within the existing private repository context.",
+    "The exact-head independent security/license review is APPROVED, local Gitleaks findings were classified without observing an actual credential, and the exact-head source snapshot was verified against committed blob bytes.",
+    "A draft PR is not a readiness or merge decision; required unavailable gates remain blocking."
+  ],
+  "fresh_remote_observations": {
+    "read_only_verified_by": "gh api GET",
+    "repository": "devsecopslonghn/schemaForge",
+    "private": true,
+    "security_and_analysis": null,
+    "code_scanning_alerts": {
+      "status": 403,
+      "message": "Advanced Security must be enabled for this repository to use code scanning.",
+      "classification": "UNAVAILABLE_BLOCKING_GATE"
+    },
+    "secret_scanning_alerts": {
+      "status": 404,
+      "message": "Secret scanning is disabled on this repository.",
+      "classification": "UNAVAILABLE_NOT_ZERO_ALERTS"
+    },
+    "dependabot_alerts": {
+      "status": 200,
+      "count": 0
+    },
+    "limitations": [
+      "No repository security settings were changed.",
+      "Code scanning alert state and secret scanning alert state could not be inspected; do not describe them as zero alerts or clean.",
+      "No exception or security-settings restoration authority is inferred."
+    ]
+  },
+  "preserved_gates": {
+    "sonar": "Unavailable under its separate existing quota exception; never PASS.",
+    "oracle_validation": "Separate and BLOCKED.",
+    "code_scanning": "Unavailable and blocking for readiness/merge until required checks are available and pass.",
+    "secret_scanning": "Disabled and unverified; not a clean result.",
+    "license_review": "Original exact-head APPROVED verdict unchanged; naming and F31 packaging/distribution remain separate."
+  },
+  "external_writes_performed": false,
+  "infrastructure_changes_performed": false
+}

@@ -1,0 +1,20 @@
+{
+  "command": [
+    "env",
+    "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+    "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+    "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+    "taskset",
+    "-c",
+    "0,1",
+    "npm",
+    "run",
+    "check"
+  ],
+  "start_utc": "2026-10-10T01:34:57.240926+00:00",
+  "end_utc": "2026-10-10T01:39:26.306537+00:00",
+  "exit_code": 0,
+  "raw_log": "final-full-check.raw.log",
+  "raw_sha256": "0d10a22ed53d8bcdc2a6a12c25d0eb45df2987a58c510520b9ddec6a85ef6f4d",
+  "raw_bytes": 40631
+}

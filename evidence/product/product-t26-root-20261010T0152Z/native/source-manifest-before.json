@@ -1,0 +1,16 @@
+{
+  "command": [
+    "sha256sum",
+    "apps/api/index.ts",
+    "packages/migrations/retained-release-preflight.mjs",
+    "tests/product-statement-preview.test.mjs",
+    "scripts/test-product.mjs",
+    "docs/development/local-product.md"
+  ],
+  "start_utc": "2026-10-10T01:34:41.422040+00:00",
+  "end_utc": "2026-10-10T01:34:41.425183+00:00",
+  "exit_code": 0,
+  "raw_log": "source-manifest-before.raw.log",
+  "raw_sha256": "0c445235f588c7abf5b4ca47875ee381e1668fe77cd02dae92cc9a069cec5691",
+  "raw_bytes": 499
+}

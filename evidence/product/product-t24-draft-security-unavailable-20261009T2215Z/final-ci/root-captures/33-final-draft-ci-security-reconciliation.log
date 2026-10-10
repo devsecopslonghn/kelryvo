@@ -1,0 +1,89 @@
+{
+  "folder": "/tmp/schemaforge-t24-final-draft-observation-20261009T2220Z",
+  "pr": 37,
+  "draft": true,
+  "checks": [
+    {
+      "name": "product",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "product",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "parser",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "parser",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "foundation",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "foundation",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS"
+    }
+  ],
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 37997504300,
+      "event": "pull_request",
+      "headSha": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "status": "completed",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37997504246,
+      "event": "pull_request",
+      "headSha": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "status": "completed",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37997504353,
+      "event": "pull_request",
+      "headSha": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "status": "completed",
+      "workflowName": "Local PRODUCT acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37997485587,
+      "event": "push",
+      "headSha": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "status": "completed",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37997485598,
+      "event": "push",
+      "headSha": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "status": "completed",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37997485579,
+      "event": "push",
+      "headSha": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "status": "completed",
+      "workflowName": "Local PRODUCT acceptance"
+    }
+  ],
+  "merge_eligible": false,
+  "reason": "Required GitHub security/protection services unavailable; owner restoration pending, not covered by Sonar exception."
+}

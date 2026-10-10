@@ -1,0 +1,21 @@
+TAP version 13
+# Subtest: retained release detail keeps bounded historical diagnostics and rejects unbounded metadata without writes
+not ok 1 - retained release detail keeps bounded historical diagnostics and rejects unbounded metadata without writes
+  ---
+  duration_ms: 249.054652
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-retained-release-detail/tests/product-retained-detail.test.mjs:17:1'
+  failureType: 'testCodeFailure'
+  error: 'password authentication failed for user "schemaforge"'
+  code: '28P01'
+  name: 'PostgresError'
+  stack: |-
+    ErrorResponse (file:///home/longhn0710/workspace/schemaforge-product-retained-release-detail/node_modules/postgres/src/connection.js:817:22)
+    handle (file:///home/longhn0710/workspace/schemaforge-product-retained-release-detail/node_modules/postgres/src/connection.js:489:6)
+    Socket.data (file:///home/longhn0710/workspace/schemaforge-product-retained-release-detail/node_modules/postgres/src/connection.js:324:9)
+    Socket.emit (node:events:519:28)
+    addChunk (node:internal/streams/readable:561:12)
+    readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    Readable.push (node:internal/streams/readable:392:5)
+    TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+  ...

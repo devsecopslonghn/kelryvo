@@ -1,0 +1,11 @@
+{
+  "command": "gh pr create --repo devsecopslonghn/schemaForge --base master --head development/product-discussion-evidence --draft --title \"Attach verified statement evidence to plan discussions\" --body-file /tmp/schemaforge-t23-corrected-pr-body.md",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:08:39.427790+00:00",
+  "ended_at_utc": "2026-10-09T20:08:43.061008+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/32-create-t23-draft-pr.log",
+    "sha256": "8c46fee013ff7fe50b36d2f7510bdd94ce43297020c4d59542d4bf12ae9d07a6"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "command": "gh pr create --repo devsecopslonghn/schemaForge --base master --head development/product-discussion-evidence --draft --title \"Attach verified statement evidence to plan discussions\" --body-file /tmp/schemaforge-t23-corrected-pr-body.md",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:08:39.427790+00:00"
+}

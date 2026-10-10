@@ -1,0 +1,39 @@
+{
+  "recorded_at_utc": "2026-10-10T01:20:40.292659+00:00",
+  "checks": [
+    {
+      "command": "node --test tests/tracker.test.mjs",
+      "utc_start": "2026-10-10T01:20:35.039560+00:00",
+      "utc_end": "2026-10-10T01:20:35.932770+00:00",
+      "exit": 0,
+      "path": "evidence/product/product-t26-start-20261010T0121Z/final-tracker.raw.log",
+      "sha256": "604cfab0b59aa85eb7754f8d5384c0a640d92272f62646275c0ff4fa25d8a960"
+    },
+    {
+      "command": "npm run lint",
+      "utc_start": "2026-10-10T01:20:35.933014+00:00",
+      "utc_end": "2026-10-10T01:20:39.924691+00:00",
+      "exit": 0,
+      "path": "evidence/product/product-t26-start-20261010T0121Z/final-lint.raw.log",
+      "sha256": "3d675e7e9949a9320ac903e79c67d34499e27a5828bd1d685534634d1f00c251"
+    },
+    {
+      "command": "npm run format:check",
+      "utc_start": "2026-10-10T01:20:39.924903+00:00",
+      "utc_end": "2026-10-10T01:20:40.142072+00:00",
+      "exit": 0,
+      "path": "evidence/product/product-t26-start-20261010T0121Z/final-format.raw.log",
+      "sha256": "dabee85493685726138044c6b46235d7f2032b05843e0d864a4967a507326747"
+    },
+    {
+      "command": "git diff --check",
+      "utc_start": "2026-10-10T01:20:40.142349+00:00",
+      "utc_end": "2026-10-10T01:20:40.291739+00:00",
+      "exit": 0,
+      "path": "evidence/product/product-t26-start-20261010T0121Z/final-diff.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "initial_failure": "Root continuation index invalid REVIEW/OBSERVATION, missing raw pointer and matching tracker metadata caused two tracker20/21 attempts and lint failure. Append-only STATIC scoped local review wrapper fixes record/index schema; immutable original record unchanged. Initial individual command exit/time not captured, raw retained without reconstruction.",
+  "initial_npm_prepare": "npm ci completed in owned worktree; individual UTC/exit sidecar missing, raw retained outside."
+}

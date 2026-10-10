@@ -8,7 +8,9 @@ The repository contains a runnable local governance application: a TypeScript/Fa
 React web app and persistent PostgreSQL metadata. Manage projects/environments and
 credential-reference profiles, import local Git releases, validate SQL with the existing
 ANTLR parser, prepare offline candidate plans, approve/reject independently, and inspect
-audit and migration history. Migration execution remains `NOT_EXECUTED`.
+audit and migration history. Approved plans can create durable deployment requests;
+the coordinator safety kernel is tested with UNIT adapters. Oracle migration execution
+remains `NOT_EXECUTED` without an authorized target and trusted worker.
 The engineering foundation and all WP0 experiments/evidence remain preserved.
 Independently authored code is licensed under [PolyForm Shield 1.0.0](LICENSE): internal
 use is permitted; using it to provide competing products/services is restricted by the
@@ -49,8 +51,22 @@ Preparation explicitly obtains pinned public parser tools and the PostgreSQL ima
 repeat preparation preserves existing parser inputs. Startup creates an isolated local
 metadata container on port 55432 and persistent Docker volume, a two-file demo Git
 repository, and private local tokens in `.cache/local-product/config.json` (mode 0600).
-Use `developerToken` to prepare a candidate, then sign out and use `approverToken` to
-approve or reject it. Tokens stay in browser memory. Target credentials are references only.
+Explicitly activate project membership and grant the intended actors before project writes;
+follow the operator steps in the guide below. Use `developerToken` to prepare a candidate,
+then sign out and use `approverToken` to approve or reject it. HTTP mode retains the bearer
+in browser memory. Target credentials are references only.
+
+For HTTPS browser sessions, provide a client-trusted certificate for the loopback address
+and its private key using the documented private file permissions:
+
+```sh
+npm run dev -- --tls-cert /absolute/private/tls/server-chain.pem --tls-key /absolute/private/tls/server-key.pem
+```
+
+Open **https://127.0.0.1:4317**. Sign-in exchanges the named local credential for a
+revocable Secure/HttpOnly cookie with CSRF protection and idle/absolute expiry. The bearer
+is then cleared from browser state. OS credential rotation/revocation invalidates derived
+sessions, and metadata restore retains a persistent execution hold.
 
 [The demonstration and API guide](docs/development/local-product.md) walks through the
 workflow, persistence, tests, local shutdown and current product boundaries.

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "gh",
+    "pr",
+    "edit",
+    "47",
+    "--body-file",
+    "/tmp/schemaforge-t34-corrected-pr-body.md"
+  ],
+  "exit_code": 0,
+  "observed_at": "2026-10-10T17:21:00.262044+00:00",
+  "published_head": "9d6deff83ea1373bdf3fccc77c653500e70620da"
+}

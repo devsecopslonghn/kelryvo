@@ -1,0 +1,17 @@
+{
+  "scope": "focused correction; not final frozen acceptance",
+  "finding": "T34-SCHEMA-DEFINITIONS",
+  "controlled_postgresql_version": "17.10",
+  "schema_signature": "6537761079b3de901b423240e5f3860a4b8c81e97e968c6d59509dc3b0bce1d5",
+  "changes": "Signature includes routine definition hashes and language/security/owner/ACL facts, trigger table/routine bindings and definition hashes, sequence definition and owning column, table/sequence owner/ACL. Same-name changed function, rebound trigger and changed sequence negatives pass.",
+  "focused_exit_code": 0,
+  "focused_counts": {
+    "tests": 7,
+    "pass": 7,
+    "fail": 0,
+    "skipped": 0
+  },
+  "raw_output": "evidence/product/product-t34-backup-restore-20261010/focused/root-schema-definitions.log",
+  "raw_output_sha256": "0546a6d696a9295a00930b3fa83c7ac3b7889da4ca28aab031cffc3868bc23fb",
+  "limitations": "Initial d26 standard run interrupted for this concrete finding and preserved. New source freeze must run mandatory serial suites and independent correction review."
+}

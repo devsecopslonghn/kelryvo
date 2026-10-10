@@ -1,0 +1,90 @@
+{
+  "task": "SF-PRODUCT-T33",
+  "reviewer": "native t33_review, read-only independent agent",
+  "reviewed_head": "eddf514054d676a2accfffceec8e55fa3daa0a55",
+  "frozen_source_head": "ff14f24572414bd8e87a2b983facfbbbeb929402",
+  "recorded_at": "2026-10-10T15:15:32.964001+00:00",
+  "outcome": "APPROVED_SCOPED_METADATA_AND_EXACT_FIXTURE_CLASSIFICATION",
+  "actionable_findings": [],
+  "classified_findings": [
+    {
+      "scan": "contents",
+      "rule": "generic-api-key",
+      "file": "tests/product-execution-jobs.test.mjs",
+      "start_line": 92,
+      "end_line": 92,
+      "commit": null,
+      "fingerprint": "/tmp/schemaforge-t33-publication-snapshot/tests/product-execution-jobs.test.mjs:generic-api-key:92",
+      "classification": "BENIGN_PUBLIC_IDEMPOTENCY_FIXTURE",
+      "scanner_exit_code": 1,
+      "finding_count": 1,
+      "private_report_sha256": "a429e7a2cea2995efcbb7c2a781790965aba2f299a30aa5fd01f263a2750f47e"
+    },
+    {
+      "scan": "incoming",
+      "rule": "generic-api-key",
+      "file": "tests/product-execution-jobs.test.mjs",
+      "start_line": 92,
+      "end_line": 92,
+      "commit": "3f3ccb87f68335d470d39f668eaf2e1b8b982267",
+      "fingerprint": "3f3ccb87f68335d470d39f668eaf2e1b8b982267:tests/product-execution-jobs.test.mjs:generic-api-key:92",
+      "classification": "BENIGN_PUBLIC_IDEMPOTENCY_FIXTURE",
+      "scanner_exit_code": 1,
+      "finding_count": 1,
+      "private_report_sha256": "97224854c27b2f50f3ed3594a61ef1684eda43ab803da4804cf8710cae7455ee"
+    }
+  ],
+  "reviewed_paths_sha256": {
+    "docs/implementation/CONTINUE.md": "4ab389746ff4ba656a92b0e8774ef2d2a156cd91f9996a982df915beafd6dfa8",
+    "docs/implementation/CURRENT.md": "4ab389746ff4ba656a92b0e8774ef2d2a156cd91f9996a982df915beafd6dfa8",
+    "docs/implementation/backlog.json": "170a82f98e855ca9b47f930533b8aa49cb4888c3a4ade94a1c22f2ebd92069a8",
+    "docs/implementation/evidence-index.json": "6ed589593b3230c26cdd2a845e386ea8fd06c556d9f1699623e297c48ace522f",
+    "docs/implementation/feature-coverage.json": "35d87dadbd38cb3b81605ef257d342ef2268e4f11d80ab0c664b64e5a50842e8",
+    "docs/implementation/milestone.json": "e5f6a55b56d73b8bd700298eb2eceaa1c1242f3bab0378f558267d27a5629c1e",
+    "docs/implementation/ownership.json": "7f82e155424d3da594dda552fc6d207d37e7821aa7f777109bf1ab7d4c9d4ae4",
+    "evidence/product/product-t33-execution-jobs-20261010/browser.json": "5ce54dc4301989cbeb0deb08a4cf61cce42f8e13c75570534e91c414fb1e9e5e",
+    "evidence/product/product-t33-execution-jobs-20261010/browser.log": "6c774363c3da7baa138518833b6fcc739b3ab2ec45138453c1a9f9f7892457f6",
+    "evidence/product/product-t33-execution-jobs-20261010/browser.started.json": "1b111322e4d44d70a0aaa6cded34e767de1c3f66c2513c61dfbfc0ebbeea7120",
+    "evidence/product/product-t33-execution-jobs-20261010/focused-implementation.log": "f68ca042e4a7126fff94c1172305d9ee61b217252fe3c0519e59467be96337c4",
+    "evidence/product/product-t33-execution-jobs-20261010/focused-observations.json": "f36b04518ba5e6728f93ce47ecefbb1209a7eeca2d75679fca2b869c14627765",
+    "evidence/product/product-t33-execution-jobs-20261010/focused-pagination-observations.json": "f6d6c1bcdefd2cc827be0dcd4f9d567254a709dd4b0c1a45779d49c6ea4beb61",
+    "evidence/product/product-t33-execution-jobs-20261010/focused-root-scalar-guard.log": "4f016167cfb6b6cd717d2c9fcb15c3f2de5d923b68e9d21f1813522748d81394",
+    "evidence/product/product-t33-execution-jobs-20261010/independent-review-final-source.json": "1d8a07f8c9992c7ca86d1bfb5453488b8c5225aad7d08725598555368e5a75dd",
+    "evidence/product/product-t33-execution-jobs-20261010/independent-review-first-freeze.json": "bb153a940840c16947020f2f32e3a841b7645640b9b5950a8170f2d1d7acbadc",
+    "evidence/product/product-t33-execution-jobs-20261010/product.json": "bdb62cd77773db7d5fd950670260778f8d7fe266dcd3317c8024da58863f16d6",
+    "evidence/product/product-t33-execution-jobs-20261010/product.log": "f45abc6448e29b311f9ec258c1fff220eeff40e9a8b38f6b4103ac18720f9b0c",
+    "evidence/product/product-t33-execution-jobs-20261010/product.started.json": "16266962b39532283f6cbade3f64649174f32e5c699842dcbec7d9634ea7e686",
+    "evidence/product/product-t33-execution-jobs-20261010/publication-contents-scan.json": "01595b76e12cd0ae9df4a021a2d0c5685f2c07dd9f36791ac95db4a2d3da8ff0",
+    "evidence/product/product-t33-execution-jobs-20261010/publication-incoming-scan.json": "5de8d0f5655b865662b9614f6ccddf101b598d06784fa3535892a6aaa146a9d3",
+    "evidence/product/product-t33-execution-jobs-20261010/publication-license-review.json": "4c66e6c854c0e4222583e3a69c01cb631d99badd76d4f2e95f082da3a124afb2",
+    "evidence/product/product-t33-execution-jobs-20261010/record.json": "e47c70b6432cecb57b9d49e582f5f0dff42f23a145821b1069f88c59002ae167",
+    "evidence/product/product-t33-execution-jobs-20261010/root-inherited-audit-pagination-20261010.log": "d9cbbb08f74aca9bebeb6a0deebdb675022d685af21a990f35dbf33bb1fea4a0",
+    "evidence/product/product-t33-execution-jobs-20261010/root-pagination-20261010.log": "bf3a9211d6713fa27be2f5adc2d981edd9702213e53ffd78d3a4c5bb5c55f8f5",
+    "evidence/product/product-t33-execution-jobs-20261010/root-pagination-all-final-20261010.log": "3274a3a0233ae40915fefb89fc959efd268fe25243c60ecdc5e9dd53e02d3322",
+    "evidence/product/product-t33-execution-jobs-20261010/root-pagination-text-parameter-20261010.log": "dc41f132daa2b5dfdf7d8aafad63dfe352fe3636a1ae3db15122dffd3b10a093",
+    "evidence/product/product-t33-execution-jobs-20261010/standard-final.json": "c57e55b43a07df0c213fbda144cd683974154b47c2f1eac0be3d4e423d1901d1",
+    "evidence/product/product-t33-execution-jobs-20261010/standard-final.log": "2d4c770b4d177358f1ade55abf9684e78b740b1a9c0975679a054f61fd8c178e",
+    "evidence/product/product-t33-execution-jobs-20261010/standard-final.started.json": "9febbbe3bebf6b43f7ae80781611658fe6426817bbe76cba61b6ea9b58ff72ae",
+    "evidence/product/product-t33-execution-jobs-20261010/standard-interrupted-pagination-review.json": "95f2762cc000dee1e182785e9816d487cf648c34c4e7daf0277436018455e184",
+    "evidence/product/product-t33-execution-jobs-20261010/standard-interrupted-terminal.json": "1fe1c862445db006100646e40511ec7dc4ed8cb84417c16059c4c7d4d72ab19c",
+    "evidence/product/product-t33-execution-jobs-20261010/standard-verified.json": "5cfc5a921b639e96cb28110efadc8321bdf7c77a63bee2a69b4342dcbf55913a",
+    "evidence/product/product-t33-execution-jobs-20261010/standard-verified.log": "3bb73f5202330fc03b09b5ffffa430e841190fbbd5918d0d742fe34dfe8e1a35",
+    "evidence/product/product-t33-execution-jobs-20261010/standard-verified.started.json": "adc74a46a9e2744113d6499a925060b875701568ed66ebd5ef54f48bf6b93b06",
+    "evidence/product/product-t33-execution-jobs-20261010/standard.log": "b9f022ebe5b3f9235b846a196e450514807a68a270e7db47a120266a17410f74",
+    "evidence/product/product-t33-execution-jobs-20261010/standard.started.json": "93365c04f754f8f7335afc133fc1fff338cb51ad2048b217c32bf12d27c5b7b1"
+  },
+  "observations": [
+    "Exact public idempotency correlation fixture grants no authentication, credential, authorization or access authority; denial is asserted before the separate deploy grant. Classification applies only to the declared tuple.",
+    "All declared immutable raw log hashes match; acceptance records cover criteria0\u20134 with publication pending, task IMPLEMENTED, full counts182/47/29 with no failures/skips.",
+    "Coverage220 retains0full/46partial/167not/7deferred. Dependency/license/pin files unchanged; product closure85 with zero unknown required grants.",
+    "Draft from published T32/pr45 checkpoint preserves originals37\u201345. No actionable blocker in reviewed metadata/classification."
+  ],
+  "conditions": [
+    "Commit scan metadata/classification preserving actual exit1/finding1 for each original scan.",
+    "Observe available exact-head CI independently; remote required security/protection remain unavailable, merge_eligible=false."
+  ],
+  "limitations": [
+    "No clean/zero-findings scanner PASS, all-history clean claim, scanner rule/threshold/suppression change or remote security-service PASS.",
+    "Native reviewer ran no tests or network calls. No Oracle/runtime, production proof admission, restricted process isolation, full catalog or integrated-master acceptance."
+  ]
+}

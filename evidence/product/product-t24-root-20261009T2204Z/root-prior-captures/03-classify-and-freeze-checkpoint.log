@@ -1,0 +1,96 @@
+[development/product-audit-pages b1d3077] Record T23 verified merge and begin scoped audit pagination
+ 91 files changed, 5616 insertions(+), 17 deletions(-)
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/25-final-corrected-precommit-scan.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/25-final-corrected-precommit-scan.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/25-final-corrected-precommit-scan.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/26-freeze-corrected-head.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/26-freeze-corrected-head.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/26-freeze-corrected-head.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/27-corrected-exact-head-scans.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/27-corrected-exact-head-scans.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/27-corrected-exact-head-scans.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/28-corrected-exact-provenance.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/28-corrected-exact-provenance.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/28-corrected-exact-provenance.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/29-corrected-prepublish-gate.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/29-corrected-prepublish-gate.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/29-corrected-prepublish-gate.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/30-push-corrected-reviewed-head.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/30-push-corrected-reviewed-head.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/30-push-corrected-reviewed-head.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/31-verify-remote-head.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/31-verify-remote-head.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/31-verify-remote-head.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/32-create-t23-draft-pr.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/32-create-t23-draft-pr.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/32-create-t23-draft-pr.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/33-pr-ci-initial.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/33-pr-ci-initial.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/33-pr-ci-initial.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/34-push-browser-after-install.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/34-push-browser-after-install.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/34-push-browser-after-install.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/35-draft-readiness-gate.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/35-draft-readiness-gate.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/35-draft-readiness-gate.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/36-mark-pr-ready.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/36-mark-pr-ready.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/36-mark-pr-ready.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/37-ready-merge-gate.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/37-ready-merge-gate.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/37-ready-merge-gate.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/38-ordinary-t23-merge.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/38-ordinary-t23-merge.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/38-ordinary-t23-merge.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/39-resolve-merged-master.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/39-resolve-merged-master.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/39-resolve-merged-master.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/40-master-workflows-initial.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/40-master-workflows-initial.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/40-master-workflows-initial.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/41-final-exact-master-workflows.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/41-final-exact-master-workflows.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/41-final-exact-master-workflows.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/42-postverified-reconciliation.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/42-postverified-reconciliation.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/42-postverified-reconciliation.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/43-create-t24-isolated-worktree.command.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/43-create-t24-isolated-worktree.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/43-create-t24-isolated-worktree.result.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/classification.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/final-precommit-classification.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/final-precommit-publication-safe.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/history-safe.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/independent-qa/01-product-comment-evidence-unit.test.raw.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/independent-qa/02-product-comments.test.raw.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/independent-qa/03-product-statement-preview.test.raw.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/independent-qa/04-product-comments-browser.integration.raw.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/independent-qa/05-product-protected-source-binding-browser.integration.raw.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/independent-qa/06-tracker.test.raw.log
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/independent-qa/capture-record.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/independent-qa/final-verdict.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/merged-pr.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/native-qa-verdict.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/native-security-verdict.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/pr-body.md
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/prepublish-gate.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/publication-safe.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/record.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/snapshot-sha256.json
+ create mode 100644 evidence/product/product-t23-merge-20261009T2033Z/staging-manifest.json
+ create mode 100644 evidence/product/product-t24-active-20261009T2036Z/01-owned-local-preparation.command.json
+ create mode 100644 evidence/product/product-t24-active-20261009T2036Z/01-owned-local-preparation.log
+ create mode 100644 evidence/product/product-t24-active-20261009T2036Z/01-owned-local-preparation.result.json
+ create mode 100644 evidence/product/product-t24-active-20261009T2036Z/44-preserve-master-proof-and-start-t24.command.json
+ create mode 100644 evidence/product/product-t24-active-20261009T2036Z/44-preserve-master-proof-and-start-t24.log
+ create mode 100644 evidence/product/product-t24-active-20261009T2036Z/44-preserve-master-proof-and-start-t24.result.json
+ create mode 100644 evidence/product/product-t24-active-20261009T2036Z/preparation-record.json
+{
+  "checkpoint_head": "b1d307767784a4195d38817fad845911ba88163c",
+  "parent_verified_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "owned_checkpoint_paths": 91,
+  "precommit_findings": 3,
+  "exact_provenance_classified": true,
+  "actual_credentials_observed": false,
+  "T24": "IN_PROGRESS_PREPARATION_ONLY"
+}

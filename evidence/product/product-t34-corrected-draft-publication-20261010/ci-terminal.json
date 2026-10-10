@@ -1,0 +1,47 @@
+{
+  "observed_at": "2026-10-10T17:34:07.467891+00:00",
+  "pr": 47,
+  "published_head": "9d6deff83ea1373bdf3fccc77c653500e70620da",
+  "available_checks": [
+    {
+      "name": "product",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38071369840/job/114269280821"
+    },
+    {
+      "name": "product",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38071367119/job/114269272511"
+    },
+    {
+      "name": "parser",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38071369833/job/114269280767"
+    },
+    {
+      "name": "parser",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38071367112/job/114269272403"
+    },
+    {
+      "name": "foundation",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38071369841/job/114269280775"
+    },
+    {
+      "name": "foundation",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38071367157/job/114269272661"
+    }
+  ],
+  "all_six_success": true,
+  "raw_observation": "ci-observation-15.stdout",
+  "required_security_available": false,
+  "merge_eligible": false
+}

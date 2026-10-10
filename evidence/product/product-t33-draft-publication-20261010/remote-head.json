@@ -1,0 +1,12 @@
+{
+  "command": [
+    "git",
+    "ls-remote",
+    "origin",
+    "refs/heads/development/product-execution-jobs",
+    "refs/heads/master",
+    "refs/heads/development/product-mvp-integration"
+  ],
+  "exit_code": 0,
+  "observed_at": "2026-10-10T15:16:36.511651+00:00"
+}

@@ -162,11 +162,14 @@ export async function recoverLocalCredentialOperation({ configPath, databaseUrl 
 
     sql = postgres(databaseUrl, { max: 1, connect_timeout: 3, onnotice: () => {} });
     const oldRows = journal.oldDigests.length
-      ? await sql`SELECT token_sha256,revoked_at FROM sf_local_credentials WHERE actor_id=${journal.actorId} AND token_sha256=ANY(${journal.oldDigests})`
+      ? await sql`SELECT token_sha256,credential_kind,revoked_at FROM sf_local_credentials WHERE actor_id=${journal.actorId} AND token_sha256=ANY(${journal.oldDigests})`
       : [];
     if (oldRows.length !== journal.oldDigests.length) throw genericFailure();
-    const oldCommitted = oldRows.every(row => row.revoked_at !== null);
-    const oldUncommitted = oldRows.every(row => row.revoked_at === null);
+    // Older v1 journals may include derived sessions. Their logout is independent
+    // of the operator commit; retain existence checks but witness LOCAL authority.
+    const oldAuthority = oldRows.filter(row => row.credential_kind === 'LOCAL');
+    const oldCommitted = oldAuthority.every(row => row.revoked_at !== null);
+    const oldUncommitted = oldAuthority.every(row => row.revoked_at === null);
     let committed;
     if (journal.action === 'rotate') {
       const replacement = (await sql`SELECT revoked_at FROM sf_local_credentials WHERE actor_id=${journal.actorId} AND token_sha256=${digest(journal.newToken)}`)[0];
@@ -180,7 +183,7 @@ export async function recoverLocalCredentialOperation({ configPath, databaseUrl 
         committed = false;
       }
     } else {
-      if (journal.oldDigests.length === 0) throw genericFailure();
+      if (oldAuthority.length === 0) throw genericFailure();
       if (oldCommitted) committed = true;
       else if (oldUncommitted) committed = false;
       else throw genericFailure();
@@ -212,7 +215,9 @@ export async function operateLocalCredential({ configPath, databaseUrl, identity
     const oldConfig = await readConfig(config), actorId = actorIdFor(identity), identityKey = tokenKeyFor(identity);
     const newToken = action === 'rotate' ? randomBytes(32).toString('hex') : null;
     sql = postgres(databaseUrl, { max: 1, connect_timeout: 3, onnotice: () => {} });
-    const oldRows = await sql`SELECT token_sha256 FROM sf_local_credentials WHERE actor_id=${actorId} AND revoked_at IS NULL ORDER BY token_sha256`;
+    // Journal independent authority only. Browser sessions inherit LOCAL revocation;
+    // their creation/logout must neither exhaust nor change the recovery witness.
+    const oldRows = await sql`SELECT token_sha256 FROM sf_local_credentials WHERE actor_id=${actorId} AND credential_kind='LOCAL' AND revoked_at IS NULL ORDER BY token_sha256`;
     const oldDigests = oldRows.map(row => row.token_sha256);
     if (action === 'revoke' && oldDigests.length === 0) throw genericFailure();
     const stagedConfig = { ...oldConfig };
@@ -230,7 +235,7 @@ export async function operateLocalCredential({ configPath, databaseUrl, identity
       await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
       const actor = (await tx`SELECT id FROM sf_local_actors WHERE id=${actorId} AND organization_id='00000000-0000-4000-8000-000000000001' AND role=${identity} FOR UPDATE`)[0];
       if (!actor) throw genericFailure();
-      const currentRows = await tx`SELECT token_sha256 FROM sf_local_credentials WHERE actor_id=${actorId} AND revoked_at IS NULL ORDER BY token_sha256 FOR UPDATE`;
+      const currentRows = await tx`SELECT token_sha256 FROM sf_local_credentials WHERE actor_id=${actorId} AND credential_kind='LOCAL' AND revoked_at IS NULL ORDER BY token_sha256 FOR UPDATE`;
       if (currentRows.length !== oldDigests.length || currentRows.some((row,index) => row.token_sha256 !== oldDigests[index])) throw genericFailure();
       await tx`UPDATE sf_local_credentials SET revoked_at=clock_timestamp() WHERE actor_id=${actorId} AND revoked_at IS NULL`;
       if (newToken) await tx`WITH issued AS (SELECT clock_timestamp() AS ts) INSERT INTO sf_local_credentials(actor_id,token_sha256,issued_at,expires_at) SELECT ${actorId},${digest(newToken)},ts,ts+interval '24 hours' FROM issued`;

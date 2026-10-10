@@ -101,9 +101,21 @@ test('audit action filters preserve project scope, server order, archived reads 
       await page.getByRole('button', { name: 'Continue', exact: true }).click();
       await page.getByLabel('Sign out').waitFor();
     };
+    const waitAuditResponse = (projectId, action = 'ALL') => page.waitForResponse((response) => {
+      const requestUrl = new URL(response.url());
+      return requestUrl.pathname === `/api/projects/${projectId}/audit`
+        && (requestUrl.searchParams.get('action') || 'ALL') === action;
+    });
+    const waitFrames = () => page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    let selectedAuditProjectId = '';
     const selectProject = async (project) => {
       await page.getByRole('button', { name: /Projects/ }).click();
+      selectedAuditProjectId = project.id;
+      const auditResponsePromise = waitAuditResponse(project.id, 'ALL');
       await page.locator('.project-row').filter({ hasText: project.name }).click();
+      const auditResponse = await auditResponsePromise;
+      await auditResponse.finished();
+      await waitFrames();
       await page.getByRole('button', { name: /Audit & history/ }).click();
       try { await page.getByLabel('Audit action').waitFor({ timeout: 5000 }); }
       catch (error) { throw new Error(`Audit filter did not render: ${await page.locator('body').innerText()} page errors: ${errors.join('; ')}`, { cause: error }); }
@@ -111,7 +123,13 @@ test('audit action filters preserve project scope, server order, archived reads 
     };
     const visibleIds = async () => page.locator('.timeline-row').evaluateAll((rows) => rows.map((row) => row.dataset.auditId));
     const optionValues = async () => page.getByLabel('Audit action').locator('option').evaluateAll((options) => options.map((option) => option.value));
-    const chooseAction = async (action) => page.getByLabel('Audit action').selectOption(action);
+    const chooseAction = async (action) => {
+      const auditResponsePromise = waitAuditResponse(selectedAuditProjectId, action);
+      await page.getByLabel('Audit action').selectOption(action);
+      const auditResponse = await auditResponsePromise;
+      await auditResponse.finished();
+      await waitFrames();
+    };
 
     await page.goto(url);
     await signIn(actors[0]);
@@ -143,7 +161,11 @@ test('audit action filters preserve project scope, server order, archived reads 
     assert.deepEqual(await visibleIds(), [staleAction.id]);
     await database.sql`DELETE FROM sf_audit WHERE id=${staleAction.id}`;
     const secondAfterRefresh = await read(second);
+    const refreshedAuditResponsePromise = waitAuditResponse(second.id, 'ALL');
     await page.getByLabel('Refresh workspace').click();
+    const refreshedAuditResponse = await refreshedAuditResponsePromise;
+    await refreshedAuditResponse.finished();
+    await waitFrames();
     await page.waitForFunction(() => document.querySelector('select[aria-label="Audit action"]')?.value === 'ALL'
       && ![...document.querySelector('select[aria-label="Audit action"]').options].some((option) => option.value === 'STALE_TEST_EVENT'));
     assert.deepEqual(await visibleIds(), secondAfterRefresh.audit.map((item) => item.id));
@@ -159,7 +181,11 @@ test('audit action filters preserve project scope, server order, archived reads 
     await chooseAction('PROJECT_CREATED');
     assert.deepEqual(await visibleIds(), evictedBefore.audit.map((item) => item.id));
     await membership.revoke(evictedProject.id, actors[0].id);
+    const fallbackAuditResponsePromise = waitAuditResponse(first.id, 'ALL');
     await page.getByLabel('Refresh workspace').click();
+    const fallbackAuditResponse = await fallbackAuditResponsePromise;
+    await fallbackAuditResponse.finished();
+    await waitFrames();
     await page.waitForFunction(() => {
       const filter = document.querySelector('select[aria-label="Audit action"]');
       return filter?.value === 'ALL' && !filter.disabled;

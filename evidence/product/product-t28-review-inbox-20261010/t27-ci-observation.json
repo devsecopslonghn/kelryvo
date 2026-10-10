@@ -1,0 +1,40 @@
+{
+  "recorded_at": "2026-10-10T07:39:02.338942+00:00",
+  "observation_source": "root read-only gh pr view40 tool result",
+  "pr": 40,
+  "head": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
+  "available_checks": "PASS",
+  "checks": [
+    {
+      "run": 38026904146,
+      "name": "product",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "run": 38026900400,
+      "name": "product",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "run": 38026904150,
+      "name": "parser",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "run": 38026900423,
+      "name": "parser",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "run": 38026904142,
+      "name": "foundation",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "run": 38026900422,
+      "name": "foundation",
+      "conclusion": "SUCCESS"
+    }
+  ],
+  "limits": "Required code scanning/secret scanning/protection previously unavailable, notPASS; no repeat gate query or merge readiness. Sonar exception unchanged. Oracle independently unverified."
+}

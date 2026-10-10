@@ -1,0 +1,52 @@
+{
+  "task": "SF-PRODUCT-T35",
+  "base": "a01ada593fd111f4d6563502483ea0b32354185a",
+  "head": "8f8882dddfc480bfa46c4fa0ad5340cf06c8e8c2",
+  "scope": "Explicit evidence delta after prior incoming scan through committed8f8882d plus untracked annotation record. Earlier annotation record has empty scope and provides no coverage of these committed additions.",
+  "paths_sha256": {
+    "evidence/product/product-t35-secure-sessions-20261010/browser.log": "ad6df5ac0fb4400d4a7d944518ca77b3c2855a1472cb75add054734e3346d967",
+    "evidence/product/product-t35-secure-sessions-20261010/product.log": "e1d5fe5ec4ac62f259e07bb87a96607297d1bc6851af621548251af214afb34f",
+    "evidence/product/product-t35-secure-sessions-20261010/publication-annotation-scan.json": "bfe2b39c25d39d4856e544e2ebcb728258dd760f34b7e2ece9b5d75226eb1cff",
+    "evidence/product/product-t35-secure-sessions-20261010/publication-incoming-scan.json": "c1b73be2d5bca81f4a6785c795d2696facfd890a8bf51ce09ac70ac742e3647f",
+    "evidence/product/product-t35-secure-sessions-20261010/publication-independent-review.json": "4f7711f211c0e967c944a6bcba942825a3faa7027b3f371cd081f9d105eda245",
+    "evidence/product/product-t35-secure-sessions-20261010/standard.log": "0f45ca571a5191a0375f1b3bd589c8becc14f317f1fcc0e95cd348ad2ff9de65"
+  },
+  "results": [
+    {
+      "mode": "contents",
+      "command": [
+        "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+        "dir",
+        "/tmp/schemaforge-t35-final-delta-snapshot",
+        "--no-banner",
+        "--redact=100",
+        "--report-format=json",
+        "--report-path=/tmp/schemaforge-t35-final-delta-contents-private.json"
+      ],
+      "started_at": "2026-10-10T18:22:42.259728+00:00",
+      "finished_at": "2026-10-10T18:22:42.868936+00:00",
+      "scanner_exit_code": 0,
+      "finding_count": 0,
+      "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "mode": "incoming",
+      "command": [
+        "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+        "git",
+        ".",
+        "--log-opts=a01ada593fd111f4d6563502483ea0b32354185a..8f8882dddfc480bfa46c4fa0ad5340cf06c8e8c2",
+        "--no-banner",
+        "--redact=100",
+        "--report-format=json",
+        "--report-path=/tmp/schemaforge-t35-final-delta-incoming-private.json"
+      ],
+      "started_at": "2026-10-10T18:22:42.869432+00:00",
+      "finished_at": "2026-10-10T18:22:43.515658+00:00",
+      "scanner_exit_code": 0,
+      "finding_count": 0,
+      "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    }
+  ],
+  "limits": "Earlier raw contents/incoming exit1 findings are independently reviewed public source SHA256 values. This delta does not replace or relabel those observations, remote gates, or full-history scans."
+}

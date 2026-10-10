@@ -35,3 +35,45 @@ credential references; no target credentials are resolved. Offline candidate pla
 NOT_OBSERVED target history and NOT_EXECUTED migration states. They are reviewable proposals,
 not reconciled executable plans or verified Oracle compatibility. See
 [local product operation](../development/local-product.md).
+
+Shared target references use a separate organization-owned metadata catalog. Only the
+trusted local OS operator registers manual database/container/service/schema references
+and changes their project ownership; project credentials provide scoped read access.
+These references retain manual provenance and provisional identity. Registration UUIDs,
+declared environments and exact owner names are not observed Oracle identities or DBA
+attestations. Ownership changes preserve assignment history and existing project facts.
+Legacy connection profiles and offline plans remain separate; attaching a reference to
+an executable target requires verified identity, scoped credentials, assignment revisions
+and the worker's actual authorization and history checks.
+
+The bounded T31 approval-withdrawal contract keeps the original approval immutable and
+appends a linked revocation while projecting the plan lifecycle as REVOKED. New approvals
+have a server-issued reference linked to their approval audit; legacy NULL references are
+explicit and never inferred from history. Withdrawal requires a current independent
+approver, explicit project membership and an active project after lifecycle serialization.
+It can remove authority from stale or damaged offline content without rewriting the
+release, intent or NOT_EXECUTED/NOT_OBSERVED history. Corrections create a fresh release
+and plan. Deployment requests are durable and remain `WAITING_VALIDATION` while target
+history and validity evidence are unavailable. The separate coordinator accepts only an
+admitted immutable job through scoped trusted ports, requires a canonical target mutex and
+durable ordered receipts, and holds on ambiguity without automatic replay. Synthetic ports
+are UNIT-only and do not attest Oracle execution, production worker isolation or target identity.
+The PostgreSQL admission-proof row is an immutable expected-binding record, not an execution
+permission by itself. It cannot establish current target identity, history, mutex ownership,
+validity or central evidence. Only a separately trusted worker admission producer and its
+injected live-check ports could supply those attestations; no such production producer or
+Oracle adapter is included here. Receipt and validity projections must match the recorded
+expected digests, while the kernel rechecks the live trusted ports before dispatch and finish.
+If a claim or HOLD projection fails without commit confirmation, the kernel reports
+`HOLD_PERSISTENCE_PENDING` for operator recovery; it does not claim that HOLD was durably
+recorded. A restarted worker may only project an expired attempt to HOLD under the job lock,
+and only when both terminal projections commit; it never renews or replays the attempt.
+
+Private metadata restore creates a new metadata generation in persistent `RESTORE_HOLD`.
+The archive never restores the current-generation pointer; a private destination marker makes
+startup fail closed if restore is interrupted before the new pointer commits. Both production
+and explicitly UNIT coordinator stores require the current generation to be ACTIVE before a
+claim or attempt mutation. Restore appends HOLD projections for waiting/admitted jobs and
+claimed attempts, revokes restored credentials, and preserves prior audit, event and receipt
+history. The UI can read retained history with freshly rotated local tokens but cannot clear
+the hold. No API endpoint observes Oracle state or releases recovery hold.

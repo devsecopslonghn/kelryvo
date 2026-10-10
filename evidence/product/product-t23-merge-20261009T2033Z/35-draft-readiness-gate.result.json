@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t23-merge-gate.py draft",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:23:13.078010+00:00",
+  "ended_at_utc": "2026-10-09T20:23:18.819348+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/35-draft-readiness-gate.log",
+    "sha256": "31dc3af9e2bd668e8836f784b77aa01c26e753a2380cff7c181fef7baa31a186"
+  }
+}

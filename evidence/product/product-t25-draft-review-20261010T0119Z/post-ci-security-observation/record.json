@@ -1,0 +1,185 @@
+{
+  "recorded_at_utc": "2026-10-10T01:29:38.916317+00:00",
+  "owner_reply": "Changed repo; work normally. No additional gate waiver inferred.",
+  "checks": [
+    {
+      "name": "fetch",
+      "command": [
+        "git",
+        "-C",
+        "/home/longhn0710/workspace/schemaforge-product-release-source-comparison",
+        "fetch",
+        "origin"
+      ],
+      "utc_start": "2026-10-10T01:29:33.110684+00:00",
+      "utc_end": "2026-10-10T01:29:34.349299+00:00",
+      "exit": 0,
+      "raw_path": "/tmp/schemaforge-t25-post-ci-safe-reconcile-20261010T0130Z/fetch.raw",
+      "raw_sha256": "a3680b6601c39b586ea892ad2bbaa58a7f72b62a64f73917b09aa8c5f188110e"
+    },
+    {
+      "name": "master",
+      "command": [
+        "git",
+        "-C",
+        "/home/longhn0710/workspace/schemaforge-product-release-source-comparison",
+        "rev-parse",
+        "origin/master"
+      ],
+      "utc_start": "2026-10-10T01:29:34.349562+00:00",
+      "utc_end": "2026-10-10T01:29:34.353201+00:00",
+      "exit": 0,
+      "raw_path": "/tmp/schemaforge-t25-post-ci-safe-reconcile-20261010T0130Z/master.raw",
+      "raw_sha256": "d1c524532cda6f15079d22906351103363d6e4991d2d9ec21445d8d954633f47"
+    },
+    {
+      "name": "shared-status",
+      "command": [
+        "git",
+        "-C",
+        "/home/longhn0710/workspace/schemaforge",
+        "status",
+        "--porcelain"
+      ],
+      "utc_start": "2026-10-10T01:29:34.353412+00:00",
+      "utc_end": "2026-10-10T01:29:34.360801+00:00",
+      "exit": 0,
+      "raw_path": "/tmp/schemaforge-t25-post-ci-safe-reconcile-20261010T0130Z/shared-status.raw",
+      "raw_sha256": "a3680b6601c39b586ea892ad2bbaa58a7f72b62a64f73917b09aa8c5f188110e"
+    },
+    {
+      "name": "shared-head",
+      "command": [
+        "git",
+        "-C",
+        "/home/longhn0710/workspace/schemaforge",
+        "rev-parse",
+        "HEAD"
+      ],
+      "utc_start": "2026-10-10T01:29:34.360982+00:00",
+      "utc_end": "2026-10-10T01:29:34.364251+00:00",
+      "exit": 0,
+      "raw_path": "/tmp/schemaforge-t25-post-ci-safe-reconcile-20261010T0130Z/shared-head.raw",
+      "raw_sha256": "7e44f93609c70807824cb2953a7da7fb4d2b7028ee9de3f8e3d0d1e4d0aea929"
+    },
+    {
+      "name": "branches",
+      "command": [
+        "git",
+        "-C",
+        "/home/longhn0710/workspace/schemaforge-product-release-source-comparison",
+        "branch",
+        "-r"
+      ],
+      "utc_start": "2026-10-10T01:29:34.364427+00:00",
+      "utc_end": "2026-10-10T01:29:34.369036+00:00",
+      "exit": 0,
+      "raw_path": "/tmp/schemaforge-t25-post-ci-safe-reconcile-20261010T0130Z/branches.raw",
+      "raw_sha256": "5ebc35a1f77fcb7464df3c8c44f0c4a3457b3d7e08a0d7f4a5f4526147f8759d"
+    },
+    {
+      "name": "prs",
+      "command": [
+        "gh",
+        "pr",
+        "list",
+        "--repo",
+        "devsecopslonghn/schemaForge",
+        "--state",
+        "open",
+        "--json",
+        "number,headRefName,headRefOid,baseRefName,isDraft,title"
+      ],
+      "utc_start": "2026-10-10T01:29:34.369319+00:00",
+      "utc_end": "2026-10-10T01:29:35.085482+00:00",
+      "exit": 0,
+      "raw_path": "/tmp/schemaforge-t25-post-ci-safe-reconcile-20261010T0130Z/prs.raw",
+      "raw_sha256": "b4ba8199f8cfe5f64e59868faabc521c5889dbc671ae0f76324514daede99688"
+    },
+    {
+      "name": "repository",
+      "command": [
+        "gh",
+        "repo",
+        "view",
+        "devsecopslonghn/schemaForge",
+        "--json",
+        "visibility,isPrivate"
+      ],
+      "utc_start": "2026-10-10T01:29:35.085728+00:00",
+      "utc_end": "2026-10-10T01:29:35.763453+00:00",
+      "exit": 0,
+      "raw_path": "/tmp/schemaforge-t25-post-ci-safe-reconcile-20261010T0130Z/repository.raw",
+      "raw_sha256": "1ebd94ba62e0a87ff3a71adf6a0dfeba8cbf36c0953f83e3f45fa366f57eb671"
+    },
+    {
+      "name": "code",
+      "command": [
+        "gh",
+        "api",
+        "--include",
+        "repos/devsecopslonghn/schemaForge/code-scanning/alerts"
+      ],
+      "utc_start": "2026-10-10T01:29:35.763699+00:00",
+      "utc_end": "2026-10-10T01:29:36.411974+00:00",
+      "exit": 1,
+      "raw_path": "/tmp/schemaforge-t25-post-ci-safe-reconcile-20261010T0130Z/code.private.raw",
+      "raw_sha256": "dba32eb1013323dd26e79c38cee04933eae7cfcddeaa7eb3244daab7026000b3",
+      "http_status": 403,
+      "availability": "UNAVAILABLE_NOT_PASS",
+      "raw_private_not_for_publication": true
+    },
+    {
+      "name": "secret",
+      "command": [
+        "gh",
+        "api",
+        "--include",
+        "repos/devsecopslonghn/schemaForge/secret-scanning/alerts"
+      ],
+      "utc_start": "2026-10-10T01:29:36.413855+00:00",
+      "utc_end": "2026-10-10T01:29:37.057648+00:00",
+      "exit": 1,
+      "raw_path": "/tmp/schemaforge-t25-post-ci-safe-reconcile-20261010T0130Z/secret.private.raw",
+      "raw_sha256": "fc31c875ab810a73b578797743373092f6db4b640b3d0f7a7e766d56d300c07c",
+      "http_status": 404,
+      "availability": "UNAVAILABLE_NOT_PASS",
+      "raw_private_not_for_publication": true
+    },
+    {
+      "name": "dependabot",
+      "command": [
+        "gh",
+        "api",
+        "--include",
+        "repos/devsecopslonghn/schemaForge/dependabot/alerts"
+      ],
+      "utc_start": "2026-10-10T01:29:37.058009+00:00",
+      "utc_end": "2026-10-10T01:29:37.878827+00:00",
+      "exit": 0,
+      "raw_path": "/tmp/schemaforge-t25-post-ci-safe-reconcile-20261010T0130Z/dependabot.private.raw",
+      "raw_sha256": "52a5322ac3ecb7512438c694f164663c33a65da5b272aac77e28b0b5267ae6bf",
+      "http_status": 200,
+      "availability": "AVAILABLE",
+      "raw_private_not_for_publication": true
+    },
+    {
+      "name": "protection",
+      "command": [
+        "gh",
+        "api",
+        "--include",
+        "repos/devsecopslonghn/schemaForge/branches/master/protection"
+      ],
+      "utc_start": "2026-10-10T01:29:37.879237+00:00",
+      "utc_end": "2026-10-10T01:29:38.915917+00:00",
+      "exit": 1,
+      "raw_path": "/tmp/schemaforge-t25-post-ci-safe-reconcile-20261010T0130Z/protection.private.raw",
+      "raw_sha256": "635a94726e1868c52dd55cbe76b239184659f172fee7bbb10fff3a912e48ddef",
+      "http_status": 403,
+      "availability": "UNAVAILABLE_NOT_PASS",
+      "raw_private_not_for_publication": true
+    }
+  ],
+  "scope": "Actual current service observations. Alert raw bodies private outside repository; never print or publish credentials. Safe statuses/counts only."
+}

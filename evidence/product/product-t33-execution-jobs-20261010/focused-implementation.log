@@ -1,0 +1,2068 @@
+UTC: 2026-10-10T11:58:51Z
+Source hashes:
+e6697f0cff180b2081074970003ba8221dcf9d2728d0bbad0b5236dbb2489548  apps/api/index.ts
+7f2dc9608dd6d30420b689891146fd974c3c8f7c8490c628803056938807be7b  packages/database/index.ts
+db94adf42eb4dca5d049d847eb5cb7a19408d9159ddf912f0e46105f1c4bc0cb  packages/execution/coordinator.ts
+cee9125116485aacc0e8aa622b174bfefa9cad7e030a39924e51d30408a1c549  packages/execution/postgres-jobs.ts
+e24f0dc1560cf095844e0e02d0d0c63135a18025adbd5f30124a71f72ece2efd  tests/execution-coordinator.test.mjs
+9a53c273799ea77e9a6edfdc840538c62a10e8a52b937e0ea9237c240c0a2a49  tests/product-execution-jobs.test.mjs
+Environment presence: SCHEMAFORGE_TEST_DATABASE_URL=set SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=set
+Command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 2.4901
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+not ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 1.306556
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/execution-coordinator.test.mjs:30:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/execution-coordinator.test.mjs:37:12)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 2.286044
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.33127
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 5 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.367682
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+not ok 6 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 6005.985846
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    403 !== 409
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 409
+  actual: 403
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:74:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 4
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6237.202727
+Exit: 1
+UTC: 2026-10-10T12:00:07Z
+Source hashes:
+ed9444343560d6de98aef84b9f095f113aa5567109ac8525b87e92d5f5bf9b6c  apps/api/index.ts
+f4bad6f936f525376a2c5f16682f473f4d9cf1aa39f1d662d6de16a63990aa71  packages/database/index.ts
+e8c8809119e3d92e663a744692434fbf4ae82a36aafd36a0273d5901ef1d677d  packages/execution/coordinator.ts
+b976a5f20ba86f59c9f242d5a5a268fd289bcc6ff5a9567689159dc89d865bbd  packages/execution/postgres-jobs.ts
+73056700c6e837b8492da3f0dc2fb191af7cc76c3350fe2a08812c0991002817  apps/web/src/app.jsx
+ba6e416f28d8917e6f7ad4a9f63a85e6ca4140c7cb67e3667fe465beda3104a8  apps/web/styles.css
+02c2a76f6c60659352d47def3a32f603001b7e20e0ea0b105e4a4875d96bc97c  tests/execution-coordinator.test.mjs
+1e9e69bf932eb10ac589d593f04055e11179a102c04e849303681a0d1cc3d621  tests/product-execution-jobs.test.mjs
+Environment presence: SCHEMAFORGE_TEST_DATABASE_URL=set SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=set
+Command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 2.895155
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 0.75367
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 2.284963
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.395907
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 5 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.294719
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+ok 6 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 5859.874499
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6085.468534
+Exit: 0
+UTC: 2026-10-10T12:00:18Z
+Source hashes:
+ed9444343560d6de98aef84b9f095f113aa5567109ac8525b87e92d5f5bf9b6c  apps/api/index.ts
+73056700c6e837b8492da3f0dc2fb191af7cc76c3350fe2a08812c0991002817  apps/web/src/app.jsx
+ba6e416f28d8917e6f7ad4a9f63a85e6ca4140c7cb67e3667fe465beda3104a8  apps/web/styles.css
+01e4963c590ef3f5855a72ef8429104715b60a74a1c1c4ce9efcfa48eb1e71ad  tests/product-execution-jobs-browser.integration.mjs
+Environment presence: SCHEMAFORGE_TEST_DATABASE_URL=set SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=set
+Command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-execution-jobs-browser.integration.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: browser requests an approved plan and cancels its undispatched waiting job
+not ok 1 - browser requests an approved plan and cancels its undispatched waiting job
+  ---
+  duration_ms: 36218.199618
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.click: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('[data-plan-id="e84bd3fe-2dae-4792-85fb-b6959584b9f3"]')[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs-browser.integration.mjs:50:55)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 37240.872791
+Exit: 1
+UTC: 2026-10-10T12:02:55Z
+Source hashes:
+ed9444343560d6de98aef84b9f095f113aa5567109ac8525b87e92d5f5bf9b6c  apps/api/index.ts
+732039cfe86bb5753a49a99ffa1e2ae413581ad5937e0ff1707b9450575fe940  packages/database/index.ts
+dd9c8677baf39d58cf821d88e1ecde67b45fdb14295f39a693bf3119c6b5843d  packages/execution/postgres-jobs.ts
+2bfdbdb47e7f64913eed3f69942c273ee4292a862e2d0a816814741a0ccd92d5  tests/product-execution-jobs.test.mjs
+Environment presence: SCHEMAFORGE_TEST_DATABASE_URL=set SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=set
+Command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 3.120129
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 0.867829
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 2.042045
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.389901
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 5 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.302628
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+not ok 6 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 5708.867128
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:11:1'
+  failureType: 'testCodeFailure'
+  error: 'invalid input syntax for type uuid: "[object Object]"'
+  code: '22P02'
+  name: 'PostgresError'
+  stack: |-
+    ErrorResponse (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/connection.js:815:30)
+    handle (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/connection.js:489:6)
+    Socket.data (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/connection.js:324:9)
+    Socket.emit (node:events:519:28)
+    addChunk (node:internal/streams/readable:561:12)
+    readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    Readable.push (node:internal/streams/readable:392:5)
+    TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    cachedError (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/query.js:170:23)
+    new Query (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/query.js:36:24)
+    sql (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/index.js:112:11)
+    activeAttempt (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/packages/execution/postgres-jobs.ts:8:26)
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 5
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5943.743685
+Exit: 1
+UTC: 2026-10-10T12:03:12Z
+Source hashes:
+dd9c8677baf39d58cf821d88e1ecde67b45fdb14295f39a693bf3119c6b5843d  packages/execution/postgres-jobs.ts
+49cfa740b5b5e16647d2ba1000cf7525a017c8777c052da293da9f52c3a3a227  tests/product-execution-jobs.test.mjs
+Environment presence: SCHEMAFORGE_TEST_DATABASE_URL=set SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=set
+Command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 2.696028
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 0.839566
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 2.013449
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.462322
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 5 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.26164
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+ok 6 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7074.638494
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7308.277913
+Exit: 0
+UTC: 2026-10-10T12:04:01Z
+Source hashes:
+28dc9650b93f8168ab37183ae50e7e04a7d415eb0a3ffbdeb552279dad2eb343  apps/web/src/app.jsx
+01e4963c590ef3f5855a72ef8429104715b60a74a1c1c4ce9efcfa48eb1e71ad  tests/product-execution-jobs-browser.integration.mjs
+Environment presence: SCHEMAFORGE_TEST_DATABASE_URL=set SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=set
+Command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-execution-jobs-browser.integration.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: browser requests an approved plan and cancels its undispatched waiting job
+not ok 1 - browser requests an approved plan and cancels its undispatched waiting job
+  ---
+  duration_ms: 36255.653738
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.click: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('[data-plan-id="6d36c67b-b54c-459b-ae85-98da36cf15cf"]')[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs-browser.integration.mjs:50:55)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 37285.518557
+Exit: 1
+UTC: 2026-10-10T12:04:48Z
+Source hashes:
+cc4b8d0a5e912324d28d07e780873073ac5e8f418ec591cbef97770b20742b6d  tests/product-execution-jobs-browser.integration.mjs
+28dc9650b93f8168ab37183ae50e7e04a7d415eb0a3ffbdeb552279dad2eb343  apps/web/src/app.jsx
+Environment presence: SCHEMAFORGE_TEST_DATABASE_URL=set SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=set
+Command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-execution-jobs-browser.integration.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: browser requests an approved plan and cancels its undispatched waiting job
+not ok 1 - browser requests an approved plan and cancels its undispatched waiting job
+  ---
+  duration_ms: 11291.004864
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: 'plan selector unavailable; page=; errors=["executionReason is not defined"]'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs-browser.integration.mjs:51:19)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 12215.468402
+Exit: 1
+
+SESSION UTC 2026-10-10T12:09:57Z
+COMMAND: npm run typecheck && node --test tests/execution-coordinator.test.mjs
+ENV: DATABASE_URL_PRESENT=yes REQUIRE_PRODUCT_TESTS=1 JAVA_HOME_PRESENT=yes
+8daa461e928155b8b7e65d50257ca40fe7f38fbfa81843eb7909fde9ac951202  packages/execution/coordinator.ts
+8b81010d371602c1922075395809936f135040ad9acf5cb4d41456f93b4e43ee  packages/execution/postgres-jobs.ts
+b575b6fa909688d9ae0c0cd8e53b18884a56d58d15e803a2eeb22c11520a4c01  packages/database/index.ts
+4652f757bef2a5d834e08adca9495eea22fcdf83fef01922a7ce43edbe644520  tests/execution-coordinator.test.mjs
+27d7c6159bb0ff9a18954c1c249a1e57faa2053cbba2247150648da2e6411320  tests/product-execution-jobs.test.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 2.578533
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 0.757426
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 1.715995
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.456048
+  type: 'test'
+  ...
+# Subtest: dispatch or persistence exceptions durably converge to HOLD and are not replayed
+ok 5 - dispatch or persistence exceptions durably converge to HOLD and are not replayed
+  ---
+  duration_ms: 0.438236
+  type: 'test'
+  ...
+# Subtest: authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+ok 6 - authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+  ---
+  duration_ms: 0.7629
+  type: 'test'
+  ...
+# Subtest: lease expiry after durable STARTED holds without dispatch
+ok 7 - lease expiry after durable STARTED holds without dispatch
+  ---
+  duration_ms: 0.431746
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 8 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.228883
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 131.792197
+Exit: 0
+
+SESSION UTC 2026-10-10T12:10:04Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin npm run build:web && env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+93194496c8471667f3bb4278350077a8570afb15b4cd0c00b7573a06fc74fb37  apps/api/index.ts
+8daa461e928155b8b7e65d50257ca40fe7f38fbfa81843eb7909fde9ac951202  packages/execution/coordinator.ts
+8b81010d371602c1922075395809936f135040ad9acf5cb4d41456f93b4e43ee  packages/execution/postgres-jobs.ts
+b575b6fa909688d9ae0c0cd8e53b18884a56d58d15e803a2eeb22c11520a4c01  packages/database/index.ts
+4652f757bef2a5d834e08adca9495eea22fcdf83fef01922a7ce43edbe644520  tests/execution-coordinator.test.mjs
+27d7c6159bb0ff9a18954c1c249a1e57faa2053cbba2247150648da2e6411320  tests/product-execution-jobs.test.mjs
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 2.60406
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 0.758754
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 1.732133
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.380585
+  type: 'test'
+  ...
+# Subtest: dispatch or persistence exceptions durably converge to HOLD and are not replayed
+ok 5 - dispatch or persistence exceptions durably converge to HOLD and are not replayed
+  ---
+  duration_ms: 0.485577
+  type: 'test'
+  ...
+# Subtest: authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+ok 6 - authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+  ---
+  duration_ms: 0.760135
+  type: 'test'
+  ...
+# Subtest: lease expiry after durable STARTED holds without dispatch
+ok 7 - lease expiry after durable STARTED holds without dispatch
+  ---
+  duration_ms: 0.391717
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 8 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.227326
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+not ok 9 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 5748.215067
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:12:1'
+  failureType: 'testCodeFailure'
+  error: 'null value in column "organization_id" of relation "sf_execution_admission_proofs" violates not-null constraint'
+  code: '23502'
+  name: 'PostgresError'
+  stack: |-
+    ErrorResponse (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/connection.js:815:30)
+    handle (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/connection.js:489:6)
+    Socket.data (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/connection.js:324:9)
+    Socket.emit (node:events:519:28)
+    addChunk (node:internal/streams/readable:561:12)
+    readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    Readable.push (node:internal/streams/readable:392:5)
+    TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    cachedError (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/query.js:170:23)
+    new Query (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/query.js:36:24)
+    Object.sql (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/index.js:112:11)
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:54:17)
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 8
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5987.997694
+Exit: 1
+
+SESSION UTC 2026-10-10T12:10:41Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin npm run typecheck && env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+8b15d373609a4e31317eed238c6e0eeb0a8d9ae8b14c2cc5cd066dfcaff9a464  packages/execution/coordinator.ts
+0582d91b5cf5ec09ab9db6632c755cb2ae26b6dd1468b0cf8e1fbd5dec83e43f  packages/execution/postgres-jobs.ts
+c6a33c61326485d6f094cbad5240d887be383032e98e6c413ad4a030be839836  packages/database/index.ts
+4652f757bef2a5d834e08adca9495eea22fcdf83fef01922a7ce43edbe644520  tests/execution-coordinator.test.mjs
+09f4f2f0bec3818fc718ea0493c57db447be2a683e11cfd527354fc314e45e6d  tests/product-execution-jobs.test.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 2.729316
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 0.765877
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 1.764599
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.39389
+  type: 'test'
+  ...
+# Subtest: dispatch or persistence exceptions durably converge to HOLD and are not replayed
+ok 5 - dispatch or persistence exceptions durably converge to HOLD and are not replayed
+  ---
+  duration_ms: 0.49231
+  type: 'test'
+  ...
+# Subtest: authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+ok 6 - authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+  ---
+  duration_ms: 0.714026
+  type: 'test'
+  ...
+# Subtest: lease expiry after durable STARTED holds without dispatch
+ok 7 - lease expiry after durable STARTED holds without dispatch
+  ---
+  duration_ms: 0.444988
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 8 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.299441
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+not ok 9 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 5761.554469
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'HOLD'
+    - 'VERIFIED_SUCCESS'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'VERIFIED_SUCCESS'
+  actual: 'HOLD'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:81:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 8
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5994.418732
+Exit: 1
+
+SESSION UTC 2026-10-10T12:10:59Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-execution-jobs.test.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+0582d91b5cf5ec09ab9db6632c755cb2ae26b6dd1468b0cf8e1fbd5dec83e43f  packages/execution/postgres-jobs.ts
+c6a33c61326485d6f094cbad5240d887be383032e98e6c413ad4a030be839836  packages/database/index.ts
+ff4b5f891ba5bb3ccb0e05e0d7837e5d2255c943ff470f7a8fbcf59775beb2e2  tests/product-execution-jobs.test.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+not ok 1 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 5770.927879
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'HOLD'
+    - 'VERIFIED_SUCCESS'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'VERIFIED_SUCCESS'
+  actual: 'HOLD'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:84:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6003.819934
+Exit: 1
+
+SESSION UTC 2026-10-10T12:13:31Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+0de111bd556175caa18141d8f548835539d8b74d62e21fa54922daeced048fc0  apps/api/index.ts
+8b15d373609a4e31317eed238c6e0eeb0a8d9ae8b14c2cc5cd066dfcaff9a464  packages/execution/coordinator.ts
+04460fc6c6f634ba32f56e3dfefe5f0c42d8e969f1956879136ec5fa6359d056  packages/execution/postgres-jobs.ts
+c6a33c61326485d6f094cbad5240d887be383032e98e6c413ad4a030be839836  packages/database/index.ts
+4652f757bef2a5d834e08adca9495eea22fcdf83fef01922a7ce43edbe644520  tests/execution-coordinator.test.mjs
+e848aceb09729615160b938f67e2a7ded557c97a76592ac58c2f901c9a7744d6  tests/product-execution-jobs.test.mjs
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 2.627653
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 0.76865
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 1.728506
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.403485
+  type: 'test'
+  ...
+# Subtest: dispatch or persistence exceptions durably converge to HOLD and are not replayed
+ok 5 - dispatch or persistence exceptions durably converge to HOLD and are not replayed
+  ---
+  duration_ms: 0.44484
+  type: 'test'
+  ...
+# Subtest: authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+ok 6 - authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+  ---
+  duration_ms: 0.851972
+  type: 'test'
+  ...
+# Subtest: lease expiry after durable STARTED holds without dispatch
+ok 7 - lease expiry after durable STARTED holds without dispatch
+  ---
+  duration_ms: 0.457431
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 8 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.345499
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+not ok 9 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7094.705382
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:12:1'
+  failureType: 'testCodeFailure'
+  error: 'new row for relation "sf_project_access_mode" violates check constraint "sf_project_access_mode_check"'
+  code: '23514'
+  name: 'PostgresError'
+  stack: |-
+    ErrorResponse (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/connection.js:815:30)
+    handle (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/connection.js:489:6)
+    Socket.data (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/connection.js:324:9)
+    Socket.emit (node:events:519:28)
+    addChunk (node:internal/streams/readable:561:12)
+    readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    Readable.push (node:internal/streams/readable:392:5)
+    TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    cachedError (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/query.js:170:23)
+    new Query (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/query.js:36:24)
+    Object.sql (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/index.js:112:11)
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:144:17)
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 8
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7327.017924
+Exit: 1
+
+SESSION UTC 2026-10-10T12:14:07Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+0de111bd556175caa18141d8f548835539d8b74d62e21fa54922daeced048fc0  apps/api/index.ts
+8b15d373609a4e31317eed238c6e0eeb0a8d9ae8b14c2cc5cd066dfcaff9a464  packages/execution/coordinator.ts
+04460fc6c6f634ba32f56e3dfefe5f0c42d8e969f1956879136ec5fa6359d056  packages/execution/postgres-jobs.ts
+c6a33c61326485d6f094cbad5240d887be383032e98e6c413ad4a030be839836  packages/database/index.ts
+4652f757bef2a5d834e08adca9495eea22fcdf83fef01922a7ce43edbe644520  tests/execution-coordinator.test.mjs
+a2662114a32e5c4417d51f2d709b2c219d1fcddf599fe4b6bba984300d9fdb1c  tests/product-execution-jobs.test.mjs
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 4.338275
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 1.354765
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 2.73659
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.606505
+  type: 'test'
+  ...
+# Subtest: dispatch or persistence exceptions durably converge to HOLD and are not replayed
+ok 5 - dispatch or persistence exceptions durably converge to HOLD and are not replayed
+  ---
+  duration_ms: 0.739824
+  type: 'test'
+  ...
+# Subtest: authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+ok 6 - authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+  ---
+  duration_ms: 1.175628
+  type: 'test'
+  ...
+# Subtest: lease expiry after durable STARTED holds without dispatch
+ok 7 - lease expiry after durable STARTED holds without dispatch
+  ---
+  duration_ms: 0.647831
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 8 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.418175
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+ok 9 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7214.160891
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7448.948389
+Exit: 0
+
+SESSION UTC 2026-10-10T12:14:19Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin npm run build:web && env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-execution-jobs-browser.integration.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+348c47880c3a9bb37a4b66d855a5029cb2adf080c7281941d8d99b646b915977  apps/web/src/app.jsx
+ba6e416f28d8917e6f7ad4a9f63a85e6ca4140c7cb67e3667fe465beda3104a8  apps/web/styles.css
+cc4b8d0a5e912324d28d07e780873073ac5e8f418ec591cbef97770b20742b6d  tests/product-execution-jobs-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: browser requests an approved plan and cancels its undispatched waiting job
+ok 1 - browser requests an approved plan and cancels its undispatched waiting job
+  ---
+  duration_ms: 6448.775813
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7162.658287
+Exit: 0
+
+SESSION UTC 2026-10-10T12:18:01Z
+COMMAND: npm run typecheck && npm run build:web && env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs tests/product-execution-jobs-browser.integration.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+0de111bd556175caa18141d8f548835539d8b74d62e21fa54922daeced048fc0  apps/api/index.ts
+348c47880c3a9bb37a4b66d855a5029cb2adf080c7281941d8d99b646b915977  apps/web/src/app.jsx
+7c125c0d1e6090ecdb883d6334adc4c1449a500ae756993ba94f1819e951b670  packages/execution/coordinator.ts
+c5f27b2cd1fe2d6c1c9177014991506ba81db403d83058a734003b5ab17f59db  packages/execution/postgres-jobs.ts
+c6a33c61326485d6f094cbad5240d887be383032e98e6c413ad4a030be839836  packages/database/index.ts
+889dbc1704e341dba9777aa5f732652b90b63b5ced2988361b9323c3684d6bbd  tests/execution-coordinator.test.mjs
+5464b338e81ee486bf4790a83667edaee6ba62dc46cae5844b5b5dcf52ce1cd9  tests/product-execution-jobs.test.mjs
+f97c7a2ab9a6d5e80632a591b5aa9f469ce91c88cd48a912e57c56dd78a82f81  tests/product-execution-jobs-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+packages/execution/coordinator.ts(34,13): error TS2339: Property 'recoveredHold' does not exist on type '{ generation: number; lease: string; }'.
+Exit: 2
+
+SESSION UTC 2026-10-10T12:18:09Z
+COMMAND: npm run typecheck && npm run build:web && env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs tests/product-execution-jobs-browser.integration.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+3fea6724f33e766b34d19d6cbecf36728ad7ee43f9ca7e54efe798cd011e596a  packages/execution/coordinator.ts
+c5f27b2cd1fe2d6c1c9177014991506ba81db403d83058a734003b5ab17f59db  packages/execution/postgres-jobs.ts
+c6a33c61326485d6f094cbad5240d887be383032e98e6c413ad4a030be839836  packages/database/index.ts
+889dbc1704e341dba9777aa5f732652b90b63b5ced2988361b9323c3684d6bbd  tests/execution-coordinator.test.mjs
+5464b338e81ee486bf4790a83667edaee6ba62dc46cae5844b5b5dcf52ce1cd9  tests/product-execution-jobs.test.mjs
+f97c7a2ab9a6d5e80632a591b5aa9f469ce91c88cd48a912e57c56dd78a82f81  tests/product-execution-jobs-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 3.884776
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 0.778983
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 2.053641
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.366413
+  type: 'test'
+  ...
+# Subtest: dispatch or persistence exceptions durably converge to HOLD and are not replayed
+ok 5 - dispatch or persistence exceptions durably converge to HOLD and are not replayed
+  ---
+  duration_ms: 0.623683
+  type: 'test'
+  ...
+# Subtest: authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+not ok 6 - authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+  ---
+  duration_ms: 3.035231
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/execution-coordinator.test.mjs:76:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'HOLD_PERSISTENCE_PENDING'
+    - 'HOLD'
+           ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'HOLD'
+  actual: 'HOLD_PERSISTENCE_PENDING'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/execution-coordinator.test.mjs:86:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: lease expiry after durable STARTED holds without dispatch
+not ok 7 - lease expiry after durable STARTED holds without dispatch
+  ---
+  duration_ms: 1.26824
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/execution-coordinator.test.mjs:91:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'HOLD_PERSISTENCE_PENDING'
+    - 'HOLD'
+           ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'HOLD'
+  actual: 'HOLD_PERSISTENCE_PENDING'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/execution-coordinator.test.mjs:99:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: authority changing during final evidence verification blocks success projection
+ok 8 - authority changing during final evidence verification blocks success projection
+  ---
+  duration_ms: 0.736381
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 9 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.893527
+  type: 'test'
+  ...
+# Subtest: unknown claim and unconfirmed HOLD commit report recovery required
+ok 10 - unknown claim and unconfirmed HOLD commit report recovery required
+  ---
+  duration_ms: 1.466102
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: browser requests an approved plan and cancels its undispatched waiting job
+ok 11 - browser requests an approved plan and cancels its undispatched waiting job
+  ---
+  duration_ms: 6860.648361
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+not ok 12 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7322.782586
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   {
+    +     approvalReference: '7aec4c30-3c1e-4346-b5f9-fee736dd4605',
+    +     createdAt: '2026-10-10T12:18:19.380Z',
+    +     id: 'c60b6823-75d3-49c5-bb18-546fb21e05a9',
+    +     intentDigest: 'd6009ec608033f3881c82057145f5e62f2dcf97deeb21e0999f09fc18a555081',
+    +     planId: 'aaebaadd-0f86-462b-86c9-115a6081d525',
+    +     projectId: '8e7c016b-cab0-4902-b3d8-2f0ced48998a',
+    +     readiness: {
+    +       executable: false,
+    +       status: 'TARGET_HISTORY_UNAVAILABLE'
+    +     },
+    +     reason: 'Deploy reviewed release',
+    +     requesterId: 'job-dev-09bc8912-d9e0-46dc-ab81-b5fbd93623cf',
+    +     revision: 0,
+    +     state: 'WAITING_VALIDATION',
+    +     updatedAt: '2026-10-10T12:18:19.380Z'
+    +   },
+    +   {
+    +     approvalReference: 'b3e97505-a982-4519-a55d-2b81364c7ba7',
+    +     createdAt: '2026-10-10T12:18:18.206Z',
+    +     id: 'edca7cd1-0624-40e9-84d7-aaca24f69760',
+    +     intentDigest: 'd6009ec608033f3881c82057145f5e62f2dcf97deeb21e0999f09fc18a555081',
+    +     planId: '8a0da2b7-a517-4e78-a6e7-65c97720697f',
+    +     projectId: '8e7c016b-cab0-4902-b3d8-2f0ced48998a',
+    +     readiness: {
+    +       executable: false,
+    +       status: 'TARGET_HISTORY_UNAVAILABLE'
+    +     },
+    +     reason: 'UNIT contender fixture',
+    +     requesterId: 'job-dev-09bc8912-d9e0-46dc-ab81-b5fbd93623cf',
+    +     revision: 1,
+    +     state: 'HOLD',
+    +     updatedAt: '2026-10-10T12:18:19.349Z'
+    +   },
+    +   {
+    +     approvalReference: 'b3e97505-a982-4519-a55d-2b81364c7ba7',
+    +     createdAt: '2026-10-10T12:18:18.100Z',
+    +     id: 'cf3da2f5-9c6b-4541-8386-926a47b81666',
+    +     intentDigest: 'd6009ec608033f3881c82057145f5e62f2dcf97deeb21e0999f09fc18a555081',
+    +     planId: '8a0da2b7-a517-4e78-a6e7-65c97720697f',
+    +     projectId: '8e7c016b-cab0-4902-b3d8-2f0ced48998a',
+    +     readiness: {
+    +       executable: false,
+    +       status: 'TARGET_HISTORY_UNAVAILABLE'
+    +     },
+    +     reason: 'UNIT synthetic ports only',
+    +     requesterId: 'job-dev-09bc8912-d9e0-46dc-ab81-b5fbd93623cf',
+    +     revision: 1,
+    +     state: 'VERIFIED_SUCCESS',
+    +     updatedAt: '2026-10-10T12:18:18.184Z'
+    +   }
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0:
+      id: 'c60b6823-75d3-49c5-bb18-546fb21e05a9'
+      projectId: '8e7c016b-cab0-4902-b3d8-2f0ced48998a'
+      planId: 'aaebaadd-0f86-462b-86c9-115a6081d525'
+      approvalReference: '7aec4c30-3c1e-4346-b5f9-fee736dd4605'
+      intentDigest: 'd6009ec608033f3881c82057145f5e62f2dcf97deeb21e0999f09fc18a555081'
+      requesterId: 'job-dev-09bc8912-d9e0-46dc-ab81-b5fbd93623cf'
+      reason: 'Deploy reviewed release'
+      state: 'WAITING_VALIDATION'
+      readiness:
+        status: 'TARGET_HISTORY_UNAVAILABLE'
+        executable: false
+      revision: 0
+      createdAt: '2026-10-10T12:18:19.380Z'
+      updatedAt: '2026-10-10T12:18:19.380Z'
+    1:
+      id: 'edca7cd1-0624-40e9-84d7-aaca24f69760'
+      projectId: '8e7c016b-cab0-4902-b3d8-2f0ced48998a'
+      planId: '8a0da2b7-a517-4e78-a6e7-65c97720697f'
+      approvalReference: 'b3e97505-a982-4519-a55d-2b81364c7ba7'
+      intentDigest: 'd6009ec608033f3881c82057145f5e62f2dcf97deeb21e0999f09fc18a555081'
+      requesterId: 'job-dev-09bc8912-d9e0-46dc-ab81-b5fbd93623cf'
+      reason: 'UNIT contender fixture'
+      state: 'HOLD'
+      readiness:
+        status: 'TARGET_HISTORY_UNAVAILABLE'
+        executable: false
+      revision: 1
+      createdAt: '2026-10-10T12:18:18.206Z'
+      updatedAt: '2026-10-10T12:18:19.349Z'
+    2:
+      id: 'cf3da2f5-9c6b-4541-8386-926a47b81666'
+      projectId: '8e7c016b-cab0-4902-b3d8-2f0ced48998a'
+      planId: '8a0da2b7-a517-4e78-a6e7-65c97720697f'
+      approvalReference: 'b3e97505-a982-4519-a55d-2b81364c7ba7'
+      intentDigest: 'd6009ec608033f3881c82057145f5e62f2dcf97deeb21e0999f09fc18a555081'
+      requesterId: 'job-dev-09bc8912-d9e0-46dc-ab81-b5fbd93623cf'
+      reason: 'UNIT synthetic ports only'
+      state: 'VERIFIED_SUCCESS'
+      readiness:
+        status: 'TARGET_HISTORY_UNAVAILABLE'
+        executable: false
+      revision: 1
+      createdAt: '2026-10-10T12:18:18.100Z'
+      updatedAt: '2026-10-10T12:18:18.184Z'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:151:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 9
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7613.553205
+Exit: 1
+
+SESSION UTC 2026-10-10T12:19:23Z
+COMMAND: npm run typecheck && npm run build:web && env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs tests/product-execution-jobs-browser.integration.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+e372ce52ffea8cb65a7f7b4d85f8ef007bc74632e2c740d6db247fced7879011  apps/web/src/app.jsx
+805e6b46b7d04782cf3b6b955a21337f0e685d4c7d2c8be288df04bb886f23b6  packages/execution/coordinator.ts
+c5f27b2cd1fe2d6c1c9177014991506ba81db403d83058a734003b5ab17f59db  packages/execution/postgres-jobs.ts
+c6a33c61326485d6f094cbad5240d887be383032e98e6c413ad4a030be839836  packages/database/index.ts
+9b5ec0fb04c7eaf168f4541668d24922189181dcb0cbc13295b43fafb84745be  tests/execution-coordinator.test.mjs
+5464b338e81ee486bf4790a83667edaee6ba62dc46cae5844b5b5dcf52ce1cd9  tests/product-execution-jobs.test.mjs
+333b79ca4ae8ce54ae3a26d86dd02029f096a65828237d64274abb9f86a0ae93  tests/product-execution-jobs-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 3.692171
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 1.018548
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 2.193359
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.442219
+  type: 'test'
+  ...
+# Subtest: dispatch or persistence exceptions durably converge to HOLD and are not replayed
+ok 5 - dispatch or persistence exceptions durably converge to HOLD and are not replayed
+  ---
+  duration_ms: 0.854792
+  type: 'test'
+  ...
+# Subtest: authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+ok 6 - authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+  ---
+  duration_ms: 0.708467
+  type: 'test'
+  ...
+# Subtest: lease expiry after durable STARTED holds without dispatch
+ok 7 - lease expiry after durable STARTED holds without dispatch
+  ---
+  duration_ms: 0.557024
+  type: 'test'
+  ...
+# Subtest: authority changing during final evidence verification blocks success projection
+ok 8 - authority changing during final evidence verification blocks success projection
+  ---
+  duration_ms: 0.53241
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 9 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.651666
+  type: 'test'
+  ...
+# Subtest: unknown claim and unconfirmed HOLD commit report recovery required
+ok 10 - unknown claim and unconfirmed HOLD commit report recovery required
+  ---
+  duration_ms: 0.865503
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: browser requests an approved plan and cancels its undispatched waiting job
+ok 11 - browser requests an approved plan and cancels its undispatched waiting job
+  ---
+  duration_ms: 6980.477433
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+not ok 12 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7398.431008
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   {
+    +     approvalReference: '9a5fb2b8-8871-4380-8fc0-ebbc3b08e28d',
+    +     createdAt: '2026-10-10T12:19:33.604Z',
+    +     id: '4510457f-6dfc-4813-9eb1-0af7c6bb0c31',
+    +     intentDigest: '44cb3e31074f6236535253a48520c89743de813a37545f16e0f88f24881df3c5',
+    +     planId: '94a5c1f8-be25-42b0-ba2a-3acbb2a2b23c',
+    +     projectId: 'a946f6de-5477-4a51-b8cd-79b0450f91ff',
+    +     readiness: {
+    +       executable: false,
+    +       status: 'TARGET_HISTORY_UNAVAILABLE'
+    +     },
+    +     reason: 'Deploy reviewed release',
+    +     requesterId: 'job-dev-f53076a0-4532-4f72-8a22-a7af31fb7a19',
+    +     revision: 0,
+    +     state: 'WAITING_VALIDATION',
+    +     updatedAt: '2026-10-10T12:19:33.604Z'
+    +   },
+    +   {
+    +     approvalReference: '9ca33220-c37a-4a4e-b352-b0847167105e',
+    +     createdAt: '2026-10-10T12:19:32.430Z',
+    +     id: '00f83037-a2e1-4f4b-8b38-cffc2fbf9577',
+    +     intentDigest: '44cb3e31074f6236535253a48520c89743de813a37545f16e0f88f24881df3c5',
+    +     planId: '8ed515cd-c2d8-445f-9c54-87f55210170f',
+    +     projectId: 'a946f6de-5477-4a51-b8cd-79b0450f91ff',
+    +     readiness: {
+    +       executable: false,
+    +       status: 'TARGET_HISTORY_UNAVAILABLE'
+    +     },
+    +     reason: 'UNIT contender fixture',
+    +     requesterId: 'job-dev-f53076a0-4532-4f72-8a22-a7af31fb7a19',
+    +     revision: 1,
+    +     state: 'HOLD',
+    +     updatedAt: '2026-10-10T12:19:33.576Z'
+    +   },
+    +   {
+    +     approvalReference: '9ca33220-c37a-4a4e-b352-b0847167105e',
+    +     createdAt: '2026-10-10T12:19:32.322Z',
+    +     id: 'b72e824e-4e55-4bec-ab0a-853ea917124a',
+    +     intentDigest: '44cb3e31074f6236535253a48520c89743de813a37545f16e0f88f24881df3c5',
+    +     planId: '8ed515cd-c2d8-445f-9c54-87f55210170f',
+    +     projectId: 'a946f6de-5477-4a51-b8cd-79b0450f91ff',
+    +     readiness: {
+    +       executable: false,
+    +       status: 'TARGET_HISTORY_UNAVAILABLE'
+    +     },
+    +     reason: 'UNIT synthetic ports only',
+    +     requesterId: 'job-dev-f53076a0-4532-4f72-8a22-a7af31fb7a19',
+    +     revision: 1,
+    +     state: 'VERIFIED_SUCCESS',
+    +     updatedAt: '2026-10-10T12:19:32.406Z'
+    +   }
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0:
+      id: '4510457f-6dfc-4813-9eb1-0af7c6bb0c31'
+      projectId: 'a946f6de-5477-4a51-b8cd-79b0450f91ff'
+      planId: '94a5c1f8-be25-42b0-ba2a-3acbb2a2b23c'
+      approvalReference: '9a5fb2b8-8871-4380-8fc0-ebbc3b08e28d'
+      intentDigest: '44cb3e31074f6236535253a48520c89743de813a37545f16e0f88f24881df3c5'
+      requesterId: 'job-dev-f53076a0-4532-4f72-8a22-a7af31fb7a19'
+      reason: 'Deploy reviewed release'
+      state: 'WAITING_VALIDATION'
+      readiness:
+        status: 'TARGET_HISTORY_UNAVAILABLE'
+        executable: false
+      revision: 0
+      createdAt: '2026-10-10T12:19:33.604Z'
+      updatedAt: '2026-10-10T12:19:33.604Z'
+    1:
+      id: '00f83037-a2e1-4f4b-8b38-cffc2fbf9577'
+      projectId: 'a946f6de-5477-4a51-b8cd-79b0450f91ff'
+      planId: '8ed515cd-c2d8-445f-9c54-87f55210170f'
+      approvalReference: '9ca33220-c37a-4a4e-b352-b0847167105e'
+      intentDigest: '44cb3e31074f6236535253a48520c89743de813a37545f16e0f88f24881df3c5'
+      requesterId: 'job-dev-f53076a0-4532-4f72-8a22-a7af31fb7a19'
+      reason: 'UNIT contender fixture'
+      state: 'HOLD'
+      readiness:
+        status: 'TARGET_HISTORY_UNAVAILABLE'
+        executable: false
+      revision: 1
+      createdAt: '2026-10-10T12:19:32.430Z'
+      updatedAt: '2026-10-10T12:19:33.576Z'
+    2:
+      id: 'b72e824e-4e55-4bec-ab0a-853ea917124a'
+      projectId: 'a946f6de-5477-4a51-b8cd-79b0450f91ff'
+      planId: '8ed515cd-c2d8-445f-9c54-87f55210170f'
+      approvalReference: '9ca33220-c37a-4a4e-b352-b0847167105e'
+      intentDigest: '44cb3e31074f6236535253a48520c89743de813a37545f16e0f88f24881df3c5'
+      requesterId: 'job-dev-f53076a0-4532-4f72-8a22-a7af31fb7a19'
+      reason: 'UNIT synthetic ports only'
+      state: 'VERIFIED_SUCCESS'
+      readiness:
+        status: 'TARGET_HISTORY_UNAVAILABLE'
+        executable: false
+      revision: 1
+      createdAt: '2026-10-10T12:19:32.322Z'
+      updatedAt: '2026-10-10T12:19:32.406Z'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:151:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 11
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7741.424908
+Exit: 1
+
+SESSION UTC 2026-10-10T12:19:45Z
+COMMAND: npm run typecheck && npm run build:web && env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs tests/product-execution-jobs-browser.integration.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+e372ce52ffea8cb65a7f7b4d85f8ef007bc74632e2c740d6db247fced7879011  apps/web/src/app.jsx
+805e6b46b7d04782cf3b6b955a21337f0e685d4c7d2c8be288df04bb886f23b6  packages/execution/coordinator.ts
+c5f27b2cd1fe2d6c1c9177014991506ba81db403d83058a734003b5ab17f59db  packages/execution/postgres-jobs.ts
+c6a33c61326485d6f094cbad5240d887be383032e98e6c413ad4a030be839836  packages/database/index.ts
+9b5ec0fb04c7eaf168f4541668d24922189181dcb0cbc13295b43fafb84745be  tests/execution-coordinator.test.mjs
+1379b6333d88509462bc868facc96e362da960abe8b26ba1dd38706ddec8f1e6  tests/product-execution-jobs.test.mjs
+333b79ca4ae8ce54ae3a26d86dd02029f096a65828237d64274abb9f86a0ae93  tests/product-execution-jobs-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 3.083284
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 0.825839
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 1.914449
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.438923
+  type: 'test'
+  ...
+# Subtest: dispatch or persistence exceptions durably converge to HOLD and are not replayed
+ok 5 - dispatch or persistence exceptions durably converge to HOLD and are not replayed
+  ---
+  duration_ms: 0.678501
+  type: 'test'
+  ...
+# Subtest: authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+ok 6 - authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+  ---
+  duration_ms: 0.717393
+  type: 'test'
+  ...
+# Subtest: lease expiry after durable STARTED holds without dispatch
+ok 7 - lease expiry after durable STARTED holds without dispatch
+  ---
+  duration_ms: 0.534078
+  type: 'test'
+  ...
+# Subtest: authority changing during final evidence verification blocks success projection
+ok 8 - authority changing during final evidence verification blocks success projection
+  ---
+  duration_ms: 0.470271
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 9 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.663476
+  type: 'test'
+  ...
+# Subtest: unknown claim and unconfirmed HOLD commit report recovery required
+ok 10 - unknown claim and unconfirmed HOLD commit report recovery required
+  ---
+  duration_ms: 0.880305
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: browser requests an approved plan and cancels its undispatched waiting job
+ok 11 - browser requests an approved plan and cancels its undispatched waiting job
+  ---
+  duration_ms: 6964.86691
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+not ok 12 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7354.726533
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    
+    undefined !== []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:151:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 11
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7703.560829
+Exit: 1
+
+SESSION UTC 2026-10-10T12:20:34Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-execution-jobs.test.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+0de111bd556175caa18141d8f548835539d8b74d62e21fa54922daeced048fc0  apps/api/index.ts
+c5f27b2cd1fe2d6c1c9177014991506ba81db403d83058a734003b5ab17f59db  packages/execution/postgres-jobs.ts
+c6a33c61326485d6f094cbad5240d887be383032e98e6c413ad4a030be839836  packages/database/index.ts
+da9f944e19c2d03e04030d246e3861cb47159a5df263ee9755224f1bd175a14c  tests/product-execution-jobs.test.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+ok 1 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7203.203775
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7431.097797
+Exit: 0
+
+SESSION UTC 2026-10-10T12:20:48Z
+COMMAND: npm run typecheck && npm run build:web && env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/execution-coordinator.test.mjs tests/product-execution-jobs.test.mjs tests/product-execution-jobs-browser.integration.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+0de111bd556175caa18141d8f548835539d8b74d62e21fa54922daeced048fc0  apps/api/index.ts
+e372ce52ffea8cb65a7f7b4d85f8ef007bc74632e2c740d6db247fced7879011  apps/web/src/app.jsx
+805e6b46b7d04782cf3b6b955a21337f0e685d4c7d2c8be288df04bb886f23b6  packages/execution/coordinator.ts
+c5f27b2cd1fe2d6c1c9177014991506ba81db403d83058a734003b5ab17f59db  packages/execution/postgres-jobs.ts
+c6a33c61326485d6f094cbad5240d887be383032e98e6c413ad4a030be839836  packages/database/index.ts
+9b5ec0fb04c7eaf168f4541668d24922189181dcb0cbc13295b43fafb84745be  tests/execution-coordinator.test.mjs
+da9f944e19c2d03e04030d246e3861cb47159a5df263ee9755224f1bd175a14c  tests/product-execution-jobs.test.mjs
+333b79ca4ae8ce54ae3a26d86dd02029f096a65828237d64274abb9f86a0ae93  tests/product-execution-jobs-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 1 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 2.994895
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 2 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 0.747593
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 3 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 2.107644
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 4 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.331687
+  type: 'test'
+  ...
+# Subtest: dispatch or persistence exceptions durably converge to HOLD and are not replayed
+ok 5 - dispatch or persistence exceptions durably converge to HOLD and are not replayed
+  ---
+  duration_ms: 0.831595
+  type: 'test'
+  ...
+# Subtest: authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+ok 6 - authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+  ---
+  duration_ms: 0.685104
+  type: 'test'
+  ...
+# Subtest: lease expiry after durable STARTED holds without dispatch
+ok 7 - lease expiry after durable STARTED holds without dispatch
+  ---
+  duration_ms: 0.550077
+  type: 'test'
+  ...
+# Subtest: authority changing during final evidence verification blocks success projection
+ok 8 - authority changing during final evidence verification blocks success projection
+  ---
+  duration_ms: 0.402944
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 9 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.59078
+  type: 'test'
+  ...
+# Subtest: unknown claim and unconfirmed HOLD commit report recovery required
+ok 10 - unknown claim and unconfirmed HOLD commit report recovery required
+  ---
+  duration_ms: 0.802554
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: browser requests an approved plan and cancels its undispatched waiting job
+ok 11 - browser requests an approved plan and cancels its undispatched waiting job
+  ---
+  duration_ms: 6980.202824
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+ok 12 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7473.656142
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7737.066092
+Exit: 0
+
+SESSION UTC 2026-10-10T12:21:24Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-execution-jobs.test.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+0de111bd556175caa18141d8f548835539d8b74d62e21fa54922daeced048fc0  apps/api/index.ts
+e31a790c444b6ee50b186db0c9722cb13caa40371e20acd350099cccf7023004  tests/product-execution-jobs.test.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+ok 1 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7221.902641
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7463.671153
+Exit: 0
+
+SESSION UTC 2026-10-10T12:22:37Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-execution-jobs.test.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+a67a3644f6c20645a5e29bc02c26f90aef7aa49206f4d48909cf7fa02a90c96d  apps/api/index.ts
+d0f265904a5e1e0eae89603a5dcc104ab0e98deed2371c796566d9245344b46b  tests/product-execution-jobs.test.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+ok 1 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7202.300613
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7427.026248
+Exit: 0
+
+SESSION UTC 2026-10-10T12:22:48Z
+COMMAND: npm run build:web && env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-execution-jobs-browser.integration.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+e372ce52ffea8cb65a7f7b4d85f8ef007bc74632e2c740d6db247fced7879011  apps/web/src/app.jsx
+a67a3644f6c20645a5e29bc02c26f90aef7aa49206f4d48909cf7fa02a90c96d  apps/api/index.ts
+a71ad367c3b791b917621e9496587a5fe66d1960e7852ab2d837dc9156d07465  tests/product-execution-jobs-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: browser requests an approved plan and cancels its undispatched waiting job
+ok 1 - browser requests an approved plan and cancels its undispatched waiting job
+  ---
+  duration_ms: 7240.960846
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7953.051468
+Exit: 0
+
+SESSION UTC 2026-10-10T12:23:01Z
+COMMAND: npm run typecheck && git diff --check
+ENV: NODE_ENV=workspace
+a67a3644f6c20645a5e29bc02c26f90aef7aa49206f4d48909cf7fa02a90c96d  apps/api/index.ts
+e372ce52ffea8cb65a7f7b4d85f8ef007bc74632e2c740d6db247fced7879011  apps/web/src/app.jsx
+ba6e416f28d8917e6f7ad4a9f63a85e6ca4140c7cb67e3667fe465beda3104a8  apps/web/styles.css
+c6a33c61326485d6f094cbad5240d887be383032e98e6c413ad4a030be839836  packages/database/index.ts
+805e6b46b7d04782cf3b6b955a21337f0e685d4c7d2c8be288df04bb886f23b6  packages/execution/coordinator.ts
+c5f27b2cd1fe2d6c1c9177014991506ba81db403d83058a734003b5ab17f59db  packages/execution/postgres-jobs.ts
+4d2f4ebed6b10db4bb6ca46699b9afbb3d0914568f00dd276bb2c282a67a31bc  apps/worker/coordinator.ts
+507c093e37fb8dbd60b9b16e608f7266922f8cf87058f3c1de46817c70d3cac2  scripts/local-membership-operator.mjs
+07c0b3230cf3f0d8e286b3afa178b043c758028413cd57e39cd79b50b7cf7ee6  docs/architecture/boundaries.md
+c876bba67dab4d4ab9c1c59d8cedf4d76a62d9f6341adb31fe19a021caddc1ad  docs/development/local-product.md
+9b5ec0fb04c7eaf168f4541668d24922189181dcb0cbc13295b43fafb84745be  tests/execution-coordinator.test.mjs
+d0f265904a5e1e0eae89603a5dcc104ab0e98deed2371c796566d9245344b46b  tests/product-execution-jobs.test.mjs
+a71ad367c3b791b917621e9496587a5fe66d1960e7852ab2d837dc9156d07465  tests/product-execution-jobs-browser.integration.mjs
+b7b4e446fd7df5c776ec133a86a6618eebb461b39dacfd903090cacb2ca6eaf5  tests/helpers/product-membership-fixture.mjs
+790e0a8b25daaf513774de39735e545a9ee1ad7b2ff8dde6ead70d897efa6620  tsconfig.json
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+Exit: 0
+
+SESSION UTC 2026-10-10T12:24:49Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-execution-jobs.test.mjs --test-name-pattern=T32ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+7aeffb9a0ea2a54aaf23162daa6af1ecdec26ac3f603bbc0bc399a931445c76f  packages/database/index.ts
+a8bd5a0f51d4df7dc26bdfd59e35c28d2e98822876186e6568d3112f5e823c58  tests/helpers/product-db.mjs
+e3c56c5ad08d602266df755a63da780eae6cf637420d6dc1d884767a520557fe  tests/product-execution-jobs.test.mjs
+TAP version 13
+# Subtest: T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+not ok 1 - T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+  ---
+  duration_ms: 171.562465
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:17:1'
+  failureType: 'testCodeFailure'
+  error: 'syntax error at or near "."'
+  code: '42601'
+  name: 'PostgresError'
+  stack: |-
+    ErrorResponse (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/connection.js:815:30)
+    handle (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/connection.js:489:6)
+    Socket.data (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/connection.js:324:9)
+    Socket.emit (node:events:519:28)
+    addChunk (node:internal/streams/readable:561:12)
+    readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    Readable.push (node:internal/streams/readable:392:5)
+    TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    cachedError (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/query.js:170:23)
+    new Query (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/query.js:36:24)
+    Object.sql (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/node_modules/postgres/src/index.js:112:11)
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:35:17)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 404.042328
+Exit: 1
+
+SESSION UTC 2026-10-10T12:25:02Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-name-pattern=T32 schema-upgrade test
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+7aeffb9a0ea2a54aaf23162daa6af1ecdec26ac3f603bbc0bc399a931445c76f  packages/database/index.ts
+a8bd5a0f51d4df7dc26bdfd59e35c28d2e98822876186e6568d3112f5e823c58  tests/helpers/product-db.mjs
+658d95812e9551799ad1215aabf3ef1009ad07c6ded597b4cd309f7491390f5a  tests/product-execution-jobs.test.mjs
+TAP version 13
+# Subtest: T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+not ok 1 - T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+  ---
+  duration_ms: 208.478962
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:17:1'
+  failureType: 'testCodeFailure'
+  error: 'execution proof composite target FK is installed after the legacy table upgrade'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-execution-jobs/tests/product-execution-jobs.test.mjs:62:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 438.139252
+Exit: 1
+
+SESSION UTC 2026-10-10T12:25:12Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-name-pattern="T32 schema upgrades" tests/product-execution-jobs.test.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+7aeffb9a0ea2a54aaf23162daa6af1ecdec26ac3f603bbc0bc399a931445c76f  packages/database/index.ts
+a8bd5a0f51d4df7dc26bdfd59e35c28d2e98822876186e6568d3112f5e823c58  tests/helpers/product-db.mjs
+e705f496fa4851d74af12234e8eeeb5368c54397dd4128a82730f4eaf2768b87  tests/product-execution-jobs.test.mjs
+TAP version 13
+# Subtest: T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+ok 1 - T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+  ---
+  duration_ms: 212.757514
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 435.235833
+Exit: 0
+
+SESSION UTC 2026-10-10T12:30:15Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-name-pattern=durable_deployment_requests\|T32_schema_upgrades tests/product-execution-jobs.test.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+d150063dd173f83dc4532a9c982bd550211df2b2503fc871cd14ddaef5a26695  apps/api/index.ts
+7aeffb9a0ea2a54aaf23162daa6af1ecdec26ac3f603bbc0bc399a931445c76f  packages/database/index.ts
+c7af15f1cf70a8bc6235d9fdee509956292d28915dba70a29d97a172157125ee  tests/helpers/product-db.mjs
+b3572da8b243cdd7f16d6a4b21379de7624cb1b5012e0c13322b20de5bc50f93  tests/product-execution-jobs.test.mjs
+ca04e3a7d7219e8d6e86469058beced4adad79fda8c206f334237df4eb420a7f  tests/fixtures/product-t32-schema.ts
+TAP version 13
+# Subtest: T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+ok 1 - T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+  ---
+  duration_ms: 202.569844
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+ok 2 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 7363.48018
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7802.589862
+
+SESSION UTC 2026-10-10T12:30:29Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-name-pattern='durable deployment requests|T32 schema upgrades' tests/product-execution-jobs.test.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+d150063dd173f83dc4532a9c982bd550211df2b2503fc871cd14ddaef5a26695  apps/api/index.ts
+7aeffb9a0ea2a54aaf23162daa6af1ecdec26ac3f603bbc0bc399a931445c76f  packages/database/index.ts
+c7af15f1cf70a8bc6235d9fdee509956292d28915dba70a29d97a172157125ee  tests/helpers/product-db.mjs
+b3572da8b243cdd7f16d6a4b21379de7624cb1b5012e0c13322b20de5bc50f93  tests/product-execution-jobs.test.mjs
+ca04e3a7d7219e8d6e86469058beced4adad79fda8c206f334237df4eb420a7f  tests/fixtures/product-t32-schema.ts
+TAP version 13
+1..0
+# Subtest: tests/product-archive.test.mjs
+ok 1 - tests/product-archive.test.mjs
+  ---
+  duration_ms: 225.89602
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 236.025063
+
+SESSION UTC 2026-10-10T12:30:35Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-name-pattern='archival keeps immutable records readable' tests/product-archive.test.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+d150063dd173f83dc4532a9c982bd550211df2b2503fc871cd14ddaef5a26695  apps/api/index.ts
+d6ae26ff66371236c0492e3570112f19fa5354a7936efab7973de934d9fb98bd  tests/product-archive.test.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: archival keeps immutable records readable and refuses further project work
+ok 1 - archival keeps immutable records readable and refuses further project work
+  ---
+  duration_ms: 525.762157
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 755.222135
+
+SESSION UTC 2026-10-10T12:30:39Z
+COMMAND: env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-execution-jobs-browser.integration.mjs
+ENV: DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres REQUIRE_PRODUCT_TESTS=1 JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+d150063dd173f83dc4532a9c982bd550211df2b2503fc871cd14ddaef5a26695  apps/api/index.ts
+e372ce52ffea8cb65a7f7b4d85f8ef007bc74632e2c740d6db247fced7879011  apps/web/src/app.jsx
+ba6e416f28d8917e6f7ad4a9f63a85e6ca4140c7cb67e3667fe465beda3104a8  apps/web/styles.css
+a71ad367c3b791b917621e9496587a5fe66d1960e7852ab2d837dc9156d07465  tests/product-execution-jobs-browser.integration.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: browser requests an approved plan and cancels its undispatched waiting job
+ok 1 - browser requests an approved plan and cancels its undispatched waiting job
+  ---
+  duration_ms: 7216.689241
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7924.886105
+
+SESSION UTC 2026-10-10T12:30:52Z
+COMMAND: npm run typecheck
+ENV: SCHEMAFORGE_TEST_DATABASE_URL present; SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1; SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin
+d150063dd173f83dc4532a9c982bd550211df2b2503fc871cd14ddaef5a26695  apps/api/index.ts
+7aeffb9a0ea2a54aaf23162daa6af1ecdec26ac3f603bbc0bc399a931445c76f  packages/database/index.ts
+b3572da8b243cdd7f16d6a4b21379de7624cb1b5012e0c13322b20de5bc50f93  tests/product-execution-jobs.test.mjs
+ca04e3a7d7219e8d6e86469058beced4adad79fda8c206f334237df4eb420a7f  tests/fixtures/product-t32-schema.ts
+790e0a8b25daaf513774de39735e545a9ee1ad7b2ff8dde6ead70d897efa6620  tsconfig.json
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+

@@ -1,0 +1,112 @@
+{
+  "id": "product-t28-review-inbox-local-verified",
+  "subject_id": "SF-PRODUCT-T28",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen serial standard/product/browser regressions at19ecdd8; exact-source independent review; root five-criterion acceptance and diff review",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_references": [
+    "SF-PRODUCT-T28-API",
+    "SF-PRODUCT-T28-WEB",
+    "SF-PRODUCT-T28-PERSISTENCE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t28-review-inbox-20261010/standardRecovered.log",
+    "sha256": "6803b97bf339c4d55a3960787350d9de09ec71cd804af77439199e2fa558b7ac"
+  },
+  "recorded_at": "2026-10-10T07:50:48.091055+00:00",
+  "implementation_head": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
+  "verified_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "regressions": {
+    "standardRecovered": {
+      "result": "evidence/product/product-t28-review-inbox-20261010/standardRecovered.json",
+      "result_sha256": "1f7bd5f99eeeb6267e9c9b703107eb738d8010c89305ac95dafdaef483b6c7db",
+      "raw_output": "evidence/product/product-t28-review-inbox-20261010/standardRecovered.log",
+      "raw_output_sha256": "6803b97bf339c4d55a3960787350d9de09ec71cd804af77439199e2fa558b7ac",
+      "counts": {
+        "tests": 160,
+        "pass": 160,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "check"
+      ]
+    },
+    "product": {
+      "result": "evidence/product/product-t28-review-inbox-20261010/product.json",
+      "result_sha256": "97931b28b60514681f32ccca46d275bf1a8d102044299df6734b63fa6e56d935",
+      "raw_output": "evidence/product/product-t28-review-inbox-20261010/product.log",
+      "raw_output_sha256": "8125b1bd89b094486ef044287325aa2ec45774fa08f1be1c84ea693faae3ca66",
+      "counts": {
+        "tests": 36,
+        "pass": 36,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:product"
+      ]
+    },
+    "browser": {
+      "result": "evidence/product/product-t28-review-inbox-20261010/browser.json",
+      "result_sha256": "1d8ff95c088c05fd4b72c9b008fa76ed3a430a665c591b9fac86f440fc9a733b",
+      "raw_output": "evidence/product/product-t28-review-inbox-20261010/browser.log",
+      "raw_output_sha256": "89f23b37f6a07292b48ad9138c2f144c8fbc9f744e1706e1e97ccd276ea90ac8",
+      "counts": {
+        "tests": 21,
+        "pass": 21,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:browser"
+      ]
+    }
+  },
+  "review": {
+    "path": "evidence/product/product-t28-review-inbox-20261010/independent-review-final-source.json",
+    "sha256": "f4fe0af1ddc3c85dbe38fb1660695eed5f8b81ab4da7fe4bc2ac3e4e1231e1a9",
+    "reviewer_ran_tests": false
+  },
+  "acceptance_observations": [
+    "Scoped current grants, active projects and organization isolation; bootstrap empty; all/mine/role-eligible scopes; nonauthor approvers only.",
+    "25-row plus-one bounded summaries; no SQL/items/source/profile/credential/path fields; strict actor/scope canonical cursor with exact PostgreSQL UTC microseconds through text wire type.",
+    "Discoverable inbox, refresh/older pages and exact project/plan review handoff; comment/decision drafts and stale filter/navigation/signout responses cleared; revocation between pages removes old rows.",
+    "Real isolated PG/Chromium cases and complete populated project/source/plan/intent/comment/decision/history/audit snapshots prove read-only behavior and API recreation.",
+    "Original220 catalog remains unchanged and GOV021 partial; no assignment/delegation/worker/Oracle/deployment authority added; license/pins unchanged."
+  ],
+  "limitations": [
+    "Local verification only; no full GOV021/catalog or Oracle acceptance.",
+    "Unchanged source freezes bound by execution HEAD and before/after hashes; final metadata follows that source head.",
+    "Initial standard interrupted without surviving output; later160-test attempt failed136pass/24connection-refused with stopped local PG, both preserved separately.",
+    "Required GitHub code/secret scanning and protection remain unavailable; no merge eligibility. Sonar quota exception remains Sonar-only."
+  ]
+}

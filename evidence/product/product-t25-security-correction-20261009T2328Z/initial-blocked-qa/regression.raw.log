@@ -1,0 +1,36 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: archival keeps immutable records readable and refuses further project work
+ok 1 - archival keeps immutable records readable and refuses further project work
+  ---
+  duration_ms: 457.589556
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+ok 2 - an in-flight metadata write rechecks archival after acquiring the project lock
+  ---
+  duration_ms: 247.588963
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: offline planning rejects corrupted retained releases without writes and uses locked current state
+ok 3 - offline planning rejects corrupted retained releases without writes and uses locked current state
+  ---
+  duration_ms: 6300.016174
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7534.042021

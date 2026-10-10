@@ -1,0 +1,27 @@
+{
+  "reviewed_candidate_head": "006e55df64e478085f1016c7dedf8df4af8e27a5",
+  "resolved_findings": [
+    {
+      "id": "PUB-T30-001",
+      "status": "RESOLVED",
+      "resolution": "Append-only correction names the actual T30 scan scope, records the original T29 wording and its original Git-blob hash, confirms the original scan was preserved and not rerun, and explains why the scope classification is accurate."
+    }
+  ],
+  "findings": [],
+  "sha256": {
+    "evidence/product/product-t30-schema-reference-ownership-20261010/publication-scan-scope-correction.json": "744333f42b47337d8707c4df62fcdfe4789e3f1167eddd9b5be7e995cbbcf6a5",
+    "evidence/product/product-t30-schema-reference-ownership-20261010/publication-scan.json": "a8982d7344e03f739bad596d11d0d403dd95097df35876fdea2eb0046fc92e92",
+    "evidence/product/product-t30-schema-reference-ownership-20261010/independent-publication-review-initial.json": "ce21fb238ba3aded172e22a21e641bb7c7d205b675740ab5d9f85ea3a7902c42"
+  },
+  "source_unchanged_since": {
+    "commit": "af707b4fd08074c6109cae4c8c08c011fa82d597",
+    "changed_source_files_unchanged_through_candidate": true
+  },
+  "reviewer_ran_tests": false,
+  "limits": [
+    "Narrow read-only check of the append-only scope correction only; the broader review remains bound to candidate 53245c5 and was not repeated.",
+    "No tests, scans, or network operations were run by this reviewer.",
+    "Required external GitHub code/secret scanning and branch-protection gates remain unavailable; no merge or security-gate PASS is implied.",
+    "The planned incoming-only scan must cover these append-only review/correction artifacts and any final report added after the candidate commit."
+  ]
+}

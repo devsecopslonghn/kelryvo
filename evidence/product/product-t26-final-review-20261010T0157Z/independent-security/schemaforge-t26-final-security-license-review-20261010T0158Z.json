@@ -1,0 +1,137 @@
+{
+  "record_type": "INDEPENDENT_FINAL_SECURITY_LICENSE_PROVENANCE_REVIEW",
+  "task": "SF-PRODUCT-T26",
+  "reviewer": "/root/t26_security_review",
+  "recorded_at_utc": "2026-10-10T01:58:00Z",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "source_point": {
+    "commit": "62cbb02f726b2a8a1d38279554fb9e85cc3e4976",
+    "tree": "510177bc0cf8d338c4c24f6a2831feb395d5ad68",
+    "branch": "development/product-retained-metadata-preflight",
+    "tracked_status": "CLEAN",
+    "parent": "35fc2ca8de51d43457fb8caadc7636b03a6f25f6",
+    "exact_source_bindings": {
+      "record": "/tmp/schemaforge-t26-exact-source-binding-20261010T0155Z.json",
+      "record_sha256": "a999e015a01798d0dab4a94523b5d517ce68ee48fab4c28307498b1c889f1a7b",
+      "binding_count": 10,
+      "independently_recomputed_matches": 10,
+      "native_executed_head": "35fc2ca8de51d43457fb8caadc7636b03a6f25f6",
+      "native_source_binding": "Ten final source hashes equal exact committed blobs. This binds evidence to these bytes without claiming native execution at the later commit."
+    },
+    "native_manifest_limitation": "Before manifest had five paths; after manifest had ten; five common source hashes match. The other five dependencies were after-only and independently equal checkpoint35fc committed blobs. The original overbroad native completion remains preserved; its append-only factual correction is integrated. No ten-path before/after equality is claimed.",
+    "source_sha256": {
+      "apps/api/index.ts": "edf22905b051e33f463bfc57acd70692c9e739f6ed8b06d9e015acdd156e41b9",
+      "packages/migrations/retained-release-preflight.mjs": "fdd7d6bcafb0158bd8bf769eabc9067e677a33b0da12032380aa6554f4b32bd7",
+      "tests/product-statement-preview.test.mjs": "5813547a197a5963ea49390feec1700e6f4e6c19918b0b1941c9361838d10740",
+      "scripts/test-product.mjs": "af47fe31ff4608bbfd92f13acb18ed457e2c026a630d1ad79210f0e6de77e63f",
+      "docs/development/local-product.md": "90cb09a327d1f3411df95819268254081e607f42dedfe10bea41295f554212d7",
+      "packages/migrations/verify-retained-release.mjs": "6a47452c1e795d0eff098adf6143da34669b55200e90734ea68d04e44c9acb31",
+      "packages/migrations/compare-retained-releases.mjs": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8",
+      "packages/migrations/statement-preview.mjs": "4ecc1e2c892b90e323c0d2d4bd6cf383d5975913dec8aac9963d78448d3b6826",
+      "experiments/db-devops-wp0/parser-release.mjs": "4e9a5358e71dbc19837b2ebc0c1f24ecebe47e95429c8fc58f47f34a242d3d29",
+      "experiments/db-devops-wp0/parser-envelope.mjs": "191fef458acc5c55a406f5f1aa9e75c7fa7b2552799b647296507c7cae05f781"
+    }
+  },
+  "security_review": {
+    "finding_id": "SEC-RETAINED-METADATA-02",
+    "status": "CLOSED_BY_SCOPED_INDEPENDENT_REVIEW",
+    "source_security_approval": "APPROVED_FOR_FOUR_PROTECTED_RETAINED_PAYLOAD_READERS_ONLY",
+    "assessment": "The reusable PostgreSQL helper returns bounded scalar facts without a JSONB payload. It checks file count and encoded JSON size; sums complete per-file JSONB encoding after removing only content; accounts for array delimiters/separators; includes encoded release identity facts; caps metadata at 4 MiB; retains 128-file, 2 MiB-per-file and 16 MiB aggregate content limits; types/ranges known bytes and statementCount fields with guarded casts; checks obvious digest/folder/path shapes; and keeps small unknown nested extension metadata compatible. Four protected routes call it while the existing project/release/plan locks remain held and before selecting files. Their existing authorization, fixed error priority, generation/source-binding/intent/fresh-plan checks, audited denial behavior, rejection and read-only integrity-failure paths remain intact. T25 comparison source is unchanged; its two release bounds checks still precede either files payload SELECT. No material remaining defect found in the scoped source review.",
+    "positive_compatibility_evidence": "Captured fixture changes retain Unicode SQL, null statementCount, bounded nested extension metadata and versions 9007199254740992/9007199254740993 through preview, plan, comments and decisions. Adversarial payload integrity cases assert each route rejects before a files payload SELECT and preserves populated protected row snapshots.",
+    "native_runs_as_reported_not_reexecuted_by_reviewer": {
+      "standard": "162 passed, 0 failed, 0 skipped",
+      "product_postgres_git_parser": "37 passed, 0 failed, 0 skipped",
+      "browser": "22 passed, 0 failed, 0 skipped",
+      "exact_source_artifact_hashes": "Root integration record reports 42 native capture hashes; the integration record also lists 48 copied artifact hashes, all 48 independently recomputed by this reviewer with zero mismatches."
+    },
+    "independent_provenance_review": {
+      "publication": {
+        "paths": 854,
+        "scanner_exit_code": 1,
+        "findings": 102,
+        "clean_pass": false,
+        "safe_record": "/tmp/schemaforge-t26-publication-20261010T0155Z/publication-safe.json",
+        "safe_record_sha256": "a01711dee4140dd12706d26b219f118a443a8b0c192a675fb73dbd14ce561cbf"
+      },
+      "history": {
+        "scanner_exit_code": 1,
+        "findings": 275,
+        "new_findings": 58,
+        "prior217_exact_tuple_multiset_preserved": true,
+        "clean_pass": false,
+        "safe_record": "/tmp/schemaforge-t26-publication-20261010T0155Z/history-safe.json",
+        "safe_record_sha256": "20245429a6191724f71ebaab7fbdc3a55be73690000169d64681a4ad2885a800"
+      },
+      "classification": {
+        "record": "/tmp/schemaforge-t26-publication-20261010T0155Z/classification.json",
+        "record_sha256": "fc78d7c7a1c558ac9b17d7cb989ef1e97186cc5ea52f19965589e60b31e12f58",
+        "entries": 160,
+        "categories": {
+          "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE": 2,
+          "BENIGN_EXACT_PRODUCT_PROSE_IN_IMMUTABLE_CAPTURE_COMMAND": 2,
+          "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST": 156
+        },
+        "all_digest_and_capture_provenance_references_recomputed_exact": true,
+        "actual_credentials_observed": false,
+        "rotation_indicated": false,
+        "scanner_or_history_changed": false,
+        "limitation": "The prior 217 exact classifications and eight earlier unavailable source-byte limitations remain unchanged. Findings-bearing scanners returned exit 1; no clean PASS is claimed. Private raw match details are not reproduced."
+      },
+      "artifact_manifest": {
+        "record": "evidence/product/product-t26-root-20261010T0152Z/integration-record.json",
+        "copied_artifacts": 48,
+        "sha256_mismatches": 0
+      }
+    }
+  },
+  "adjacent_finding": {
+    "id": "T26-PRELIM-GET-01",
+    "status": "OPEN_SEPARATE_T27_FOLLOWUP",
+    "severity": "MEDIUM",
+    "precondition": "Privileged database corruption or equivalent direct mutation of retained rows.",
+    "affected_route": "GET /api/releases/:id",
+    "summary": "This raw detail endpoint still selects the complete release row and returns files without the new preflight, exposing an authorized project reader to potentially unbounded JSONB decode/response allocation after privileged corruption. Its authenticate prehandler checks explicit project membership. This is separate from SEC-RETAINED-METADATA-02's four routes and must not be described as closed by T26.",
+    "recommended_followup": "A separate bounded detail-read increment should constrain payload size while preserving bounded VALID/INVALID/NOT_VALIDATED diagnostics and archived reads; do not reuse strict VALID-only behavior to hide legitimate invalid imports."
+  },
+  "license_review": {
+    "verdict": "NO_LICENSE_OR_NOTICE_FINDING",
+    "changed_license_or_notice_paths": [],
+    "unchanged_sha256": {
+      "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+      "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e",
+      "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+      "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3"
+    },
+    "third_party_grants_and_dependency_changes": false,
+    "restricted_source_reuse_observed": false,
+    "basis": "Exact commit diff leaves license, notice, dependency/lockfile, third-party grant, parser grammar/runtime and original acceptance bytes unchanged. The new helper is independently authored and adds no dependency."
+  },
+  "external_gates_and_publication": {
+    "github_code_scanning": "UNAVAILABLE_HTTP_403",
+    "github_secret_scanning": "UNAVAILABLE_HTTP_404",
+    "branch_protection": "UNAVAILABLE_HTTP_403",
+    "dependabot": "AVAILABLE_EMPTY_AT_RECONCILIATION",
+    "settings_modified_or_bypass": false,
+    "sonar": "UNAVAILABLE_NEVER_PASS",
+    "oracle_validation": "INDEPENDENT_BLOCKED",
+    "draft_pr37_and_pr38": "OPEN_DRAFT_UNMERGED_AT_SAFE_RECONCILIATION",
+    "t26_draft_only_stacked_publication": "ELIGIBLE_UNDER_EXISTING_AUTHORIZATION",
+    "ready_merge_release_or_gate_waiver": "NOT_APPROVED",
+    "basis": "Safe remote record merge_eligible=false. Required GitHub code/secret scanning and branch protection are unavailable; no settings change or waiver is approved. Draft-only source publication may proceed under already recorded owner authorization with the open separate T27 raw detail finding disclosed."
+  },
+  "verdict": {
+    "exact_source_security": "APPROVED_FOR_T26_SCOPE",
+    "license": "APPROVED_NO_FINDING",
+    "source_and_evidence_provenance": "REVIEWED; NATIVE EXECUTION HEAD NOT RELABELED; FINDINGS-BEARING SCANS REMAIN NOT CLEAN PASS",
+    "draft_only_publication": "ELIGIBLE_WITH_T27_RESIDUAL DISCLOSED",
+    "ready_merge_release": "NOT_APPROVED",
+    "external_gate_waiver": "NOT_GRANTED"
+  },
+  "limitations": [
+    "Reviewer performed static source, evidence and provenance review only; no tests, builds, scanners, lifecycle, settings or external actions were run by reviewer.",
+    "Native full check/product/browser counts are captured owner/native evidence bound by exact committed source hashes; reviewer did not execute them.",
+    "Publication and history scans are finding-bearing exit 1, not clean PASS. Safe classification was reviewed without printing private match details.",
+    "Earlier original unavailable source bytes, prior history classifications and original220 requirements are not reconstructed or changed.",
+    "T27 raw release detail resource bound remains open and separate from T26 finding closure."
+  ]
+}

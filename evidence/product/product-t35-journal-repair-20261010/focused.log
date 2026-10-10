@@ -1,0 +1,51 @@
+TAP version 13
+# Subtest: local credentials persist and recover real interrupted operator processes
+ok 1 - local credentials persist and recover real interrupted operator processes
+  ---
+  duration_ms: 1222.168489
+  type: 'test'
+  ...
+# Subtest: HTTPS sessions enforce transport, CSRF, parent and idle/absolute lifetime, replacement and logout
+ok 2 - HTTPS sessions enforce transport, CSRF, parent and idle/absolute lifetime, replacement and logout
+  ---
+  duration_ms: 847.462331
+  type: 'test'
+  ...
+# Subtest: browser mutation checkpoint loses authority when logout or parent revocation commits first
+ok 3 - browser mutation checkpoint loses authority when logout or parent revocation commits first
+  ---
+  duration_ms: 433.216916
+  type: 'test'
+  ...
+# Subtest: private TLS material rejects permissions, links, relative and mismatched keys
+ok 4 - private TLS material rejects permissions, links, relative and mismatched keys
+  ---
+  duration_ms: 482.830985
+  type: 'test'
+  ...
+# Subtest: browser churn above journal capacity preserves operator rotation, revocation and crash recovery
+not ok 5 - browser churn above journal capacity preserves operator rotation, revocation and crash recovery
+  ---
+  duration_ms: 577.382019
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-secure-sessions/tests/product-secure-sessions.test.mjs:124:1'
+  failureType: 'testCodeFailure'
+  error: 'Local credential operation failed; inspect private local state and retry recovery.'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    genericFailure (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/scripts/local-credential-operator.mjs:9:30)
+    recoverLocalCredentialOperation (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/scripts/local-credential-operator.mjs:189:84)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-secure-sessions/tests/product-secure-sessions.test.mjs:163:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 4
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4003.981069

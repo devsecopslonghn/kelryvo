@@ -1,0 +1,181 @@
+TAP version 13
+# Subtest: audit cursors accept only canonical bounded project and filter positions
+ok 1 - audit cursors accept only canonical bounded project and filter positions
+  ---
+  duration_ms: 3.002448
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+ok 2 - scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+  ---
+  duration_ms: 643.133831
+  type: 'test'
+  ...
+# Subtest: local credentials persist and recover real interrupted operator processes
+ok 3 - local credentials persist and recover real interrupted operator processes
+  ---
+  duration_ms: 1189.941861
+  type: 'test'
+  ...
+# Subtest: explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+ok 4 - explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+  ---
+  duration_ms: 2580.281278
+  type: 'test'
+  ...
+# grant complete
+# grant complete
+# ENFORCED
+# Subtest: activation serializes with in-flight revocation and bootstrap creation stays denied
+ok 5 - activation serializes with in-flight revocation and bootstrap creation stays denied
+  ---
+  duration_ms: 272.298824
+  type: 'test'
+  ...
+# grant complete
+# Subtest: activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+ok 6 - activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+  ---
+  duration_ms: 203.812029
+  type: 'test'
+  ...
+# Subtest: persisted tracker state validates without assuming initial statuses
+ok 7 - persisted tracker state validates without assuming initial statuses
+  ---
+  duration_ms: 81.12583
+  type: 'test'
+  ...
+# Subtest: catalog and plan IDs are retained with original dependency links
+ok 8 - catalog and plan IDs are retained with original dependency links
+  ---
+  duration_ms: 4.028182
+  type: 'test'
+  ...
+# Subtest: separate WP0 cells never claim research as runtime PASS
+ok 9 - separate WP0 cells never claim research as runtime PASS
+  ---
+  duration_ms: 71.859724
+  type: 'test'
+  ...
+# Subtest: initial state keeps Oracle validation and product delivery tracks distinct
+ok 10 - initial state keeps Oracle validation and product delivery tracks distinct
+  ---
+  duration_ms: 11.90332
+  type: 'test'
+  ...
+# Subtest: unknown and cyclic dependencies are rejected
+ok 11 - unknown and cyclic dependencies are rejected
+  ---
+  duration_ms: 22.462911
+  type: 'test'
+  ...
+# Subtest: verification requires acceptance, evidence, and verified dependencies
+ok 12 - verification requires acceptance, evidence, and verified dependencies
+  ---
+  duration_ms: 17.551276
+  type: 'test'
+  ...
+# Subtest: BLOCKED and DEFERRED states require concrete reasons
+ok 13 - BLOCKED and DEFERRED states require concrete reasons
+  ---
+  duration_ms: 18.482803
+  type: 'test'
+  ...
+# Subtest: unit BLOCKED requires an offline blocker independent of Oracle lab status
+ok 14 - unit BLOCKED requires an offline blocker independent of Oracle lab status
+  ---
+  duration_ms: 17.136417
+  type: 'test'
+  ...
+# Subtest: Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+ok 15 - Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+  ---
+  duration_ms: 12.021426
+  type: 'test'
+  ...
+# Subtest: malformed evidence metadata returns validation errors without throwing
+ok 16 - malformed evidence metadata returns validation errors without throwing
+  ---
+  duration_ms: 53.915435
+  type: 'test'
+  ...
+# Subtest: research evidence cannot certify product status
+ok 17 - research evidence cannot certify product status
+  ---
+  duration_ms: 12.455438
+  type: 'test'
+  ...
+# Subtest: PASS cells need evidence
+ok 18 - PASS cells need evidence
+  ---
+  duration_ms: 11.71287
+  type: 'test'
+  ...
+# Subtest: ownership and dependency graph remain synchronized with work records
+ok 19 - ownership and dependency graph remain synchronized with work records
+  ---
+  duration_ms: 20.566018
+  type: 'test'
+  ...
+# Subtest: duplicate, missing, and unexpected imported IDs are rejected
+ok 20 - duplicate, missing, and unexpected imported IDs are rejected
+  ---
+  duration_ms: 24.519096
+  type: 'test'
+  ...
+# Subtest: source dependencies, acceptance, references, and result enums cannot drift
+ok 21 - source dependencies, acceptance, references, and result enums cannot drift
+  ---
+  duration_ms: 8.124551
+  type: 'test'
+  ...
+# Subtest: hashed indexed evidence covers every acceptance and test reference before verification
+ok 22 - hashed indexed evidence covers every acceptance and test reference before verification
+  ---
+  duration_ms: 91.492577
+  type: 'test'
+  ...
+# Subtest: product feature verification needs product-scope evidence and verified implementation tasks
+ok 23 - product feature verification needs product-scope evidence and verified implementation tasks
+  ---
+  duration_ms: 24.465082
+  type: 'test'
+  ...
+# Subtest: init refuses to overwrite initialized evidence or tracking state
+ok 24 - init refuses to overwrite initialized evidence or tracking state
+  ---
+  duration_ms: 65.859712
+  type: 'test'
+  ...
+# Subtest: next respects milestone scope and dependency gates independent of persisted statuses
+ok 25 - next respects milestone scope and dependency gates independent of persisted statuses
+  ---
+  duration_ms: 2.842709
+  type: 'test'
+  ...
+# Subtest: PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+ok 26 - PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+  ---
+  duration_ms: 48.75606
+  type: 'test'
+  ...
+# Subtest: PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+ok 27 - PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+  ---
+  duration_ms: 88.541991
+  type: 'test'
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6401.372411

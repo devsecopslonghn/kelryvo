@@ -1,0 +1,28 @@
+{
+  "record_type": "preliminary_read_only_qa_observation",
+  "task": "SF-PRODUCT-T26",
+  "repository": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "record_written_at_utc": "2026-10-10T01:31:26Z",
+  "hash_observations": {
+    "observation_time": null,
+    "time_note": "These hashes were observed during the preliminary review, but no raw timestamp was captured then. They are preserved as observation notes and are not represented as frozen-head evidence.",
+    "apps/api/index.ts": "edf22905b051e33f463bfc57acd70692c9e739f6ed8b06d9e015acdd156e41b9",
+    "packages/migrations/retained-release-preflight.mjs": "fdd7d6bcafb0158bd8bf769eabc9067e677a33b0da12032380aa6554f4b32bd7",
+    "tests/product-statement-preview.test.mjs": "7571c62a46611ed6bf1f8329ba644b7a066c10cc06563bf0e02e66870c9955f1"
+  },
+  "preliminary_findings": {
+    "source_defect": "No conclusive source defect found in the observed moving snapshot.",
+    "positive_observations": [
+      "Reusable helper projects scalar facts without returning retained files JSONB.",
+      "All four target routes invoke the helper before retained payload SELECTs.",
+      "Decision preflight remains after authorization checks, preserving audited denial behavior.",
+      "T25 comparison remains separate and reads both release payloads only after both bounds pass."
+    ],
+    "coverage_gap": "The new four-route corruption fixture covers excessive flat/nested metadata, float statementCount, string bytes, aggregate content, malformed manifest/folder/path, and oversized validation status. It does not establish no-payload-read/no-write behavior for representative malformed required file fields or several known numeric/identity guard families, including wrong-type content/path/version/sha256/validationStatus; unsafe, negative, decimal or out-of-range bytes/statementCount; and commit/object_format/parser-profile/repository identity bounds. Existing regressions may cover some semantics, but the observed fixture does not cover these families across all four readers. This is a preliminary acceptance coverage observation, not a source bug claim."
+  },
+  "scope_limits": [
+    "Read-only review; no files in the repository modified.",
+    "No tests, builds, scans, or lifecycle actions run.",
+    "Preliminary only; exact frozen-head QA and authorized focused test lifecycle remain pending feature handoff."
+  ]
+}

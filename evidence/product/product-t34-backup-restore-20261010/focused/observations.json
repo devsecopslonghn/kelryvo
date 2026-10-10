@@ -1,0 +1,52 @@
+{
+  "scope": "development observations only; not frozen acceptance",
+  "created_at": "2026-10-10T16:17:36.063539+00:00",
+  "agent_log": "implementation-20261010.log contains command/result summaries; original agent raw stdout was unavailable",
+  "root_logs": "Root raw logs preserve initial sequence/header failures, rich terminal-comment test correction and browser reload/login test correction. Final candidate passed 5/5 with no skip; subsequent owned-destination, durability and strict operator checks await required final suites.",
+  "files": [
+    {
+      "path": "evidence/product/product-t34-backup-restore-20261010/focused/implementation-20261010.log",
+      "sha256": "f16ecde5b19bcb3bc83ea8c13b82c5b6dcdf9505332a0785489c5f4198445299"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-20261010/focused/root-browser-01.log",
+      "sha256": "5d6b74b487177e0785d977c7259746035b9be53654273f90985d135f19bf2541"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-20261010/focused/root-focused-01.log",
+      "sha256": "a0216815155d5d8de2af26a70a36f63fc948e770738d0102e0bbeff5d650d953"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-20261010/focused/root-focused-02.log",
+      "sha256": "9ec247a79499dabe22c382915ec3c88ba9554bbbecadfb848e28242c3bded176"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-20261010/focused/root-focused-03.log",
+      "sha256": "73aaeb7b2d0eaec2d7c2b803cf43cf0d8c1d4a4dbb8fb28820fea0f96e2877c7"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-20261010/focused/root-focused-final-candidate.log",
+      "sha256": "0bba0d6018ab43a620897a89ad8b3b232fd1e88d0f81dc0a44782533f2774ad7"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-20261010/focused/root-rich-01.log",
+      "sha256": "f1944d1ebead4f4acc0d5bef82372aea67d8955a663fdc19736e273ff91cd047"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-20261010/focused/root-rich-02.log",
+      "sha256": "cfaa30613a28b3bfde1a92d88adb3319a502975bdabde7f25b4e030e0475a685"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-20261010/focused/root-rich-03.log",
+      "sha256": "66e12ff4a6cbae7ebf0427d65bd8d2b0f71cf84e0060170c83395e4df104443d"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-20261010/focused/root-typecheck.log",
+      "sha256": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-20261010/focused/root-web-build-01.log",
+      "sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4"
+    }
+  ]
+}

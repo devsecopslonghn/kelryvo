@@ -1,0 +1,39 @@
+{
+  "task": "SF-PRODUCT-T32",
+  "head": "3c00c6465907ac18a83e9ca784a629ab38658219",
+  "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "started_at": "2026-10-10T11:31:39.135301+00:00",
+  "reused_reviewed_parent_heads": [
+    "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
+    "17e9a92fc91527dd8b9d374a52503e3430cddb3f",
+    "f58c4146cf01c5e7a83de6b1b5b4255259f81c05",
+    "72f5e07170e8c9ebac1c17ad00a609b8f7b5f1b5",
+    "b69c3c34c7cb89a3124350f39a7af8eb89a5d609"
+  ],
+  "limits": "Prior exact parent history observations reused; no all-history clean claim or remote security-gate PASS.",
+  "scope": "Only new integration/source/metadata commits excluding all preserved reviewed parents; remerge diffs scan conflict resolution and ordinary commit patches.",
+  "base": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "commits": [
+    "3c00c6465907ac18a83e9ca784a629ab38658219",
+    "1545aade353c3c2cf709b547b3eae5ed03e849bb",
+    "8921f02b22ebb04a322ff78a49dadc9d19e2617f",
+    "9966923a3dd41867d748babba5fe9cf4171e85d5",
+    "3272852c14169ff2f8618b393ddbcc9b1204144b",
+    "e52cfe66af49d1f9acab6a3a22bf5646b7e85ca5",
+    "de9e7ea7361458b20dd991e3db8704e7f80a0c88"
+  ],
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "git",
+    ".",
+    "--log-opts=--diff-merges=remerge 3c00c6465907ac18a83e9ca784a629ab38658219 --not 0fd6980db49c9546ab0a04fe07321a348eee2d65 b8177d4286927b0cdf5556fb53d7edff7accf4a6 17e9a92fc91527dd8b9d374a52503e3430cddb3f f58c4146cf01c5e7a83de6b1b5b4255259f81c05 72f5e07170e8c9ebac1c17ad00a609b8f7b5f1b5 b69c3c34c7cb89a3124350f39a7af8eb89a5d609",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-t32-incoming-private.json"
+  ],
+  "finished_at": "2026-10-10T11:31:39.981531+00:00",
+  "scanner_exit_code": 0,
+  "finding_count": 0,
+  "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+}

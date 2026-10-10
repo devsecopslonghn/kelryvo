@@ -1,0 +1,55 @@
+TAP version 13
+# Subtest: audit cursors accept only canonical bounded project and filter positions
+ok 1 - audit cursors accept only canonical bounded project and filter positions
+  ---
+  duration_ms: 3.088659
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+ok 2 - audit action filters preserve project scope, server order, archived reads and read-only records
+  ---
+  duration_ms: 3259.551784
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: Records pages retained audit history, resets contexts, and clears delayed or revoked results
+ok 3 - Records pages retained audit history, resets contexts, and clears delayed or revoked results
+  ---
+  duration_ms: 2645.451442
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+ok 4 - scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+  ---
+  duration_ms: 676.278529
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8431.829938

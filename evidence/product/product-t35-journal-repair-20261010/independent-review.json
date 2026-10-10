@@ -1,0 +1,19 @@
+{
+  "reviewer": "/root/integration_review",
+  "frozen_source_head": "1d428b416f76df65659aff1f30bb1b0c250fb6a7",
+  "recorded_at": "2026-10-10T18:43:56.166602+00:00",
+  "outcome": "APPROVED",
+  "findings": [],
+  "review_mode": "independent read-only source/test/recovery review; no reviewer test reruns",
+  "reviewed_sha256": {
+    "scripts/local-credential-operator.mjs": "c3a99f46577a6bba190c9a6508d383e0907591a687ffdaac4b332667a16b272d",
+    "tests/product-secure-sessions.test.mjs": "9c8dd85be003ac1618312ecd094d6e4d2d298eb29a975ead31e89540bcc15662",
+    "docs/development/local-product.md": "585d632ad6db9bd83c6b7d6a5c92668ce21a586fdb07be0146af062777b08f7e"
+  },
+  "observations": [
+    "Journal snapshots and concurrent DB comparison use independent LOCAL credentials; actor-wide UPDATE still revokes every credential.",
+    "Legacy v1 journals retain all digest existence checks and use LOCAL rows for commit state; mixed LOCAL state remains fail-closed.",
+    "Six action/crash phase cases exercise >32 browser sessions and legacy-journal child logout before recovery.",
+    "No Oracle runtime, deployed transport, remote scanner pass or merge certification."
+  ]
+}

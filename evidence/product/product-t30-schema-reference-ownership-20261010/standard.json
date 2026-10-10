@@ -1,0 +1,59 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "0,1",
+    "npm",
+    "run",
+    "check"
+  ],
+  "started_at": "2026-10-10T09:27:18.516Z",
+  "finished_at": "2026-10-10T09:30:49.215Z",
+  "exit_code": 0,
+  "execution_head": "af707b4fd08074c6109cae4c8c08c011fa82d597",
+  "head_after": "af707b4fd08074c6109cae4c8c08c011fa82d597",
+  "source_before": {
+    "apps/api/index.ts": "423f49d59129481fde904f0373b8add6a3c63a0f0b5eb7abfa0a8349750ddc8f",
+    "apps/web/src/app.jsx": "2ec774f7146c082161a5108cd47dcdf167ca684fc794c41457cee2005cc030d2",
+    "apps/web/styles.css": "0074a6d65b3aa8cce453d9db1d079e7eb6f9d406d769a78f63e95bbebed086a7",
+    "packages/catalog-reference/index.mjs": "4ce89a34fd6cbfeabbbc2cf1d25e85ff37a7cc1a8376652e07925ca0dbae31bb",
+    "packages/database/index.ts": "72c77ae557408d8171021f9b1d4893cb1d618356c39ca884ddcc844ea49c90e6",
+    "scripts/local-inventory-operator.mjs": "6d1ba4faa82a850435e150e3e8f9660b14e2fbcc2faa7d8e29a22ef5791537c1",
+    "scripts/local-membership-operator.mjs": "e99c27fc57b0b41b71fbe627067eac0d91889ffab2a3a0a5f0a9f3bb037fc830",
+    "scripts/local-operator-config.mjs": "35aa45b99643876febaa030d174914a45a26776b39171ebdee1e995f4235a981",
+    "scripts/test-product.mjs": "fc601ebe96374315348f5b92173d701a928fd806d7bc05d6f653bfbc80981cf9",
+    "scripts/tracker.mjs": "2d2fb1a30263004df9058ded50dead4c23e7b2c80bdaa5b06c1bfbe28f8fe10d",
+    "tests/helpers/product-inventory-fixture.mjs": "a60d9d518a9879640bc444b5898cfdabe922d869c0bc52f3f03afc2c54f93ac0",
+    "tests/product-schema-reference-browser.integration.mjs": "3aa774465f93848ab1fd85bdc14f66e3eb1b4f34272a8b253d84bec9062efb64",
+    "tests/product-schema-reference.test.mjs": "f5f0c83dbc3c5f0f747cec6b02358d99c480e655e8760236c8f5ae03bee31584",
+    "tests/tracker.test.mjs": "2665676e7f357c51d4ff5fced672073732542dc6a329a014f98a4c0882291647",
+    "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  },
+  "source_after": {
+    "apps/api/index.ts": "423f49d59129481fde904f0373b8add6a3c63a0f0b5eb7abfa0a8349750ddc8f",
+    "apps/web/src/app.jsx": "2ec774f7146c082161a5108cd47dcdf167ca684fc794c41457cee2005cc030d2",
+    "apps/web/styles.css": "0074a6d65b3aa8cce453d9db1d079e7eb6f9d406d769a78f63e95bbebed086a7",
+    "packages/catalog-reference/index.mjs": "4ce89a34fd6cbfeabbbc2cf1d25e85ff37a7cc1a8376652e07925ca0dbae31bb",
+    "packages/database/index.ts": "72c77ae557408d8171021f9b1d4893cb1d618356c39ca884ddcc844ea49c90e6",
+    "scripts/local-inventory-operator.mjs": "6d1ba4faa82a850435e150e3e8f9660b14e2fbcc2faa7d8e29a22ef5791537c1",
+    "scripts/local-membership-operator.mjs": "e99c27fc57b0b41b71fbe627067eac0d91889ffab2a3a0a5f0a9f3bb037fc830",
+    "scripts/local-operator-config.mjs": "35aa45b99643876febaa030d174914a45a26776b39171ebdee1e995f4235a981",
+    "scripts/test-product.mjs": "fc601ebe96374315348f5b92173d701a928fd806d7bc05d6f653bfbc80981cf9",
+    "scripts/tracker.mjs": "2d2fb1a30263004df9058ded50dead4c23e7b2c80bdaa5b06c1bfbe28f8fe10d",
+    "tests/helpers/product-inventory-fixture.mjs": "a60d9d518a9879640bc444b5898cfdabe922d869c0bc52f3f03afc2c54f93ac0",
+    "tests/product-schema-reference-browser.integration.mjs": "3aa774465f93848ab1fd85bdc14f66e3eb1b4f34272a8b253d84bec9062efb64",
+    "tests/product-schema-reference.test.mjs": "f5f0c83dbc3c5f0f747cec6b02358d99c480e655e8760236c8f5ae03bee31584",
+    "tests/tracker.test.mjs": "2665676e7f357c51d4ff5fced672073732542dc6a329a014f98a4c0882291647",
+    "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  },
+  "log_sha256": "8fcf50d8aa910ecd2aec7212fc3bad32a75c04334e4a70d6d96f3043df146eb6",
+  "environment": {
+    "node": "v22.23.3",
+    "postgres": "isolated trusted local metadata test container, owned databases only",
+    "java_home": "/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin"
+  }
+}

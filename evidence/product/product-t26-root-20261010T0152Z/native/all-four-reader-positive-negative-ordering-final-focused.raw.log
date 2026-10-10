@@ -1,0 +1,43 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: statement preview is scoped, bounded, archived-readable and read only
+not ok 1 - statement preview is scoped, bounded, archived-readable and read only
+  ---
+  duration_ms: 35394.187049
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/tests/product-statement-preview.test.mjs:35:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      {
+    +   error: 'RELEASE_NOT_VALID'
+    -   error: 'RELEASE_INTEGRITY_FAILED'
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    error: 'RELEASE_INTEGRITY_FAILED'
+  actual:
+    error: 'RELEASE_NOT_VALID'
+  operator: 'deepStrictEqual'
+  stack: |-
+    expectNoWriteFailure (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/tests/product-statement-preview.test.mjs:186:16)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight/tests/product-statement-preview.test.mjs:196:7)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 35647.763986

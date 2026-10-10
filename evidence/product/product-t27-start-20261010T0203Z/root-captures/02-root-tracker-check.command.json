@@ -1,0 +1,5 @@
+{
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
+  "command": "node --test tests/tracker.test.mjs && npm run lint && npm run format:check && git diff --check -- apps packages scripts tests docs",
+  "started_at_utc": "2026-10-10T02:03:46.954464+00:00"
+}

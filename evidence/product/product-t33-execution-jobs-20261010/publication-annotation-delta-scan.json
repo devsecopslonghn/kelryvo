@@ -1,0 +1,20 @@
+{
+  "task": "SF-PRODUCT-T33",
+  "head": "b145a9a96544113dc4ac1c247fd612aadb62c424",
+  "base": "eddf514054d676a2accfffceec8e55fa3daa0a55",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "git",
+    ".",
+    "--log-opts=eddf514054d676a2accfffceec8e55fa3daa0a55..b145a9a96544113dc4ac1c247fd612aadb62c424",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-t33-annotation-delta-private.json"
+  ],
+  "recorded_at": "2026-10-10T15:15:58.651792+00:00",
+  "scanner_exit_code": 0,
+  "finding_count": 0,
+  "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "scope": "Only final three scan/review annotation files in the new publication commit. Prior contents/incoming scans retain exit1/one exact benign fixture classification; no clean all-history or remote security-gate claim. This delta observation is retained locally after the scanned commit."
+}

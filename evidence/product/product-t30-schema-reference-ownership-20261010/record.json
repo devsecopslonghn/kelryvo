@@ -1,0 +1,119 @@
+{
+  "id": "product-t30-schema-reference-ownership-local-verified",
+  "subject_id": "SF-PRODUCT-T30",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen serial standard/product/pinned-parser/Chromium regressions; exact-source independent review and root five-criterion acceptance/diff review",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_references": [
+    "SF-PRODUCT-T30-OPERATOR",
+    "SF-PRODUCT-T30-API",
+    "SF-PRODUCT-T30-WEB",
+    "SF-PRODUCT-T30-PERSISTENCE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t30-schema-reference-ownership-20261010/standard.log",
+    "sha256": "8fcf50d8aa910ecd2aec7212fc3bad32a75c04334e4a70d6d96f3043df146eb6"
+  },
+  "recorded_at": "2026-10-10T09:38:07.764554+00:00",
+  "implementation_head": "af707b4fd08074c6109cae4c8c08c011fa82d597",
+  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "regressions": {
+    "standard": {
+      "result": "evidence/product/product-t30-schema-reference-ownership-20261010/standard.json",
+      "result_sha256": "03c7326d127177ffae5037176e3292af1f1b4678b466f14399b721be214e129e",
+      "raw_output": "evidence/product/product-t30-schema-reference-ownership-20261010/standard.log",
+      "raw_output_sha256": "8fcf50d8aa910ecd2aec7212fc3bad32a75c04334e4a70d6d96f3043df146eb6",
+      "counts": {
+        "tests": 160,
+        "pass": 160,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "check"
+      ]
+    },
+    "product": {
+      "result": "evidence/product/product-t30-schema-reference-ownership-20261010/product.json",
+      "result_sha256": "efb85164e1138432fb2c84a72104a5cb6616182a57e17ef1810dab382bd3488b",
+      "raw_output": "evidence/product/product-t30-schema-reference-ownership-20261010/product.log",
+      "raw_output_sha256": "8391ca9bb190f3ac51e6a45a3aa17536a969cf7715aa6f6a8420c2cbd0fa27d0",
+      "counts": {
+        "tests": 36,
+        "pass": 36,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:product"
+      ]
+    },
+    "browser": {
+      "result": "evidence/product/product-t30-schema-reference-ownership-20261010/browser.json",
+      "result_sha256": "e088010d0cd8d9ad1fdf807c3d9c150519179315fe5ee28db271be4f6c80b7e3",
+      "raw_output": "evidence/product/product-t30-schema-reference-ownership-20261010/browser.log",
+      "raw_output_sha256": "822bc5fa4a946c2c0d98273879ff45a91e311a0b017ce5ae153163b305c07d86",
+      "counts": {
+        "tests": 22,
+        "pass": 22,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:browser"
+      ]
+    }
+  },
+  "reviews": [
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/independent-review-final-source.json",
+      "sha256": "853faf416453584e982b7b794133733985afe94b5786c4a761a1630488aaf43f",
+      "reviewer_ran_tests": false
+    }
+  ],
+  "focused_observations": {
+    "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused-observations.json",
+    "sha256": "a050d04911586adde7e2fcc9f6973ea975291fae3cf09d2cefe1e834bd954567"
+  },
+  "acceptance_observations": [
+    "Additive organization-owned manual database/container/service/schema references retain stable provisional UUIDs, exact owners and declared environment; repeated declarations and initialization preserve references and existing records, with atomic immutable-fact conflict rejection.",
+    "Trusted local OS operator reuses private configuration and loopback metadata authority; strict declarations and expected revision ownership edits, one active owning project, no-op preservation, serialized competing edits and atomic assignment/audit history.",
+    "Bounded current project-reference reads enforce live token/grant/current ownership and bootstrap emptiness; stable UUID pages and bounded service summaries exclude other project schemas, physical hosts, credential references and private operator history.",
+    "React project navigation presents provisional manual identity and inherited environment with exact owner, revision, refresh/page and empty/error feedback; delayed context responses are discarded and revoked access clears stale references.",
+    "Real isolated PostgreSQL/operator/API/Chromium and existing complete regressions passed at frozen source; independent source review and root protected-state/diff verification retain original catalog contracts, dependencies and license/parser/package pins."
+  ],
+  "limitations": [
+    "Manual references are provisional declarations, not observed Oracle inventory or attested physical identity. Discovery/reconciliation DBM004 remains unimplemented; full DBM001/007 acceptance is not certified.",
+    "No profile-purpose binding, executable plan target binding, lifecycle restore/generation advancement, schema baseline, Oracle19c/21c probes or execution were added or verified. Offline history/execution remains NOT_OBSERVED/NOT_EXECUTED.",
+    "Focused development observations and failures remain in focused-observations.json; four incorrect agent command mappings were withdrawn after root raw-log cross-check. Earlier failure raw captures are unavailable and retained only as explicitly labeled historical observations. Registration formatting correction predates the frozen suites.",
+    "Required external GitHub code/secret scanning and branch-protection gates remain unavailable; Sonar availability exception is Sonar-only. No readiness, merge eligibility, deployment or Oracle authority claim."
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "id": "product-after-t24-read-only-candidate-assessment",
+  "observed_at_utc": "2026-10-09T20:45:57.891431+00:00",
+  "frozen_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "catalog_features": 220,
+  "read_source_sha256": {
+    "docs/inputs/db-research/product-research/feature-catalog.json": "5ffacb343a4cbea75f48537bd5e3bd45d4a6fae7fe0b5965e07fffbb83dcc3ba",
+    "packages/migrations/verify-retained-release.mjs": "6a47452c1e795d0eff098adf6143da34669b55200e90734ea68d04e44c9acb31",
+    "packages/migrations/import-release.mjs": "6f7a63fd302779fb62f751c9c26610fbc1f607802c933708521e19f48816b8ca",
+    "apps/api/index.ts": "8db352a11991ed3380ed96fed8dd75efb9a2171bc1cb5ef2490364592176179f",
+    "apps/web/src/app.jsx": "3f20763ffb1e6708803649eb48b0ba414d5e109928c8e372f88a9933ddeb55bf"
+  },
+  "original_contracts_unchanged": [
+    {
+      "id": "MIG-008",
+      "name": "Release creation and identity",
+      "dependencies": [
+        "MIG-004",
+        "MIG-005",
+        "MIG-006",
+        "MIG-009"
+      ],
+      "acceptance_criteria": [
+        "Two different folder/settings manifests at one commit produce distinguishable release identities.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "MIG-009",
+      "name": "Release structural validation",
+      "dependencies": [
+        "DBM-007",
+        "SEC-005"
+      ],
+      "acceptance_criteria": [
+        "A symlink or unsupported SQL*Plus command yields a file/line error and no target effects.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "MIG-013",
+      "name": "Raw-file checksum enforcement",
+      "dependencies": [
+        "MIG-008",
+        "MIG-025"
+      ],
+      "acceptance_criteria": [
+        "One changed byte in an applied file blocks both planning and dispatch.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "MIG-014",
+      "name": "Schema drift detection",
+      "dependencies": [
+        "DBM-007",
+        "SEC-005"
+      ],
+      "acceptance_criteria": [
+        "A manually added column produces a scoped drift finding rather than rewriting history.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "MIG-033",
+      "name": "Schema comparison and sync",
+      "dependencies": [
+        "DBM-007",
+        "SEC-005"
+      ],
+      "acceptance_criteria": [
+        "A diff never executes directly and warns about unsupported Oracle object kinds.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "SEC-011",
+      "name": "Complete change audit trail",
+      "dependencies": [
+        "SEC-001"
+      ],
+      "acceptance_criteria": [
+        "Audit reconstructs WHO/WHAT/WHERE/WHEN/HOW/RESULT for a completed and failed attempt.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GIT-015",
+      "name": "Git drift detection",
+      "dependencies": [
+        "PRJ-008"
+      ],
+      "acceptance_criteria": [
+        "A new branch head is shown as undeployed, never applied automatically.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    }
+  ],
+  "native_read_only_assessment": "/root/next_product_after_t24",
+  "root_preferred_candidate": "Compare two retained immutable Git migration releases before offline planning.",
+  "reason": "Actual product imports and verifies complete manifests but exposes only one retained release at a time; pairwise source review adds a meaningful decision step without target credentials.",
+  "ordinary_defaults": [
+    "Read-only derived comparison of verified retained UTF-8 content, never deployed or applied state.",
+    "Require current membership and same project/repository/folder/parser-profile; allow authorized archived reads.",
+    "Align by canonical migration version with path and content/hash facts; a rename at the same version is a changed source fact.",
+    "Bound and lock retained source before materializing content; do not re-read Git, invoke a target, or backfill historical facts.",
+    "Preserve no-write complete source/plan/intent/comment/history/audit snapshots and existing APIs."
+  ],
+  "ranked_alternatives": [
+    {
+      "id": "SEC-011",
+      "candidate": "Audit search by actor/resource/time",
+      "reason_not_first": "Useful but follows the current audit retrieval slice; pairwise source review improves release preparation."
+    },
+    {
+      "id": "MIG-014/MIG-033",
+      "candidate": "Observed schema drift/comparison",
+      "reason_not_first": "Requires actual observed target/schema evidence and authority that current offline releases do not establish."
+    }
+  ],
+  "status": "CANDIDATE_ONLY_NOT_REGISTERED_NOT_IMPLEMENTED",
+  "limits": [
+    "No original feature acceptance advanced.",
+    "T24 remains active; register only after its local verification milestone.",
+    "Native assessment was communicated without a separate native file; this is the root decision record, not reconstructed native evidence.",
+    "No tests, builds, scanners, commits or source edits performed for this assessment."
+  ]
+}

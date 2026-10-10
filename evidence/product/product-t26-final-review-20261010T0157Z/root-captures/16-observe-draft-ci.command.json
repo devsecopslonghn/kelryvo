@@ -1,0 +1,5 @@
+{
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "command": "gh pr view 39 --repo devsecopslonghn/schemaForge --json number,url,state,isDraft,headRefOid,baseRefName,statusCheckRollup && gh run list --repo devsecopslonghn/schemaForge --commit 62cbb02f726b2a8a1d38279554fb9e85cc3e4976 --limit 20 --json databaseId,headSha,status,conclusion,name,event",
+  "started_at_utc": "2026-10-10T02:00:45.184962+00:00"
+}

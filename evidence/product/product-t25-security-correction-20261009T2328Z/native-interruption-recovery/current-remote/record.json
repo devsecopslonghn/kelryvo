@@ -1,0 +1,158 @@
+{
+  "recorded_at_utc": "2026-10-10T00:49:01.354707+00:00",
+  "master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "observations": {
+    "fetch": {
+      "command": [
+        "git",
+        "fetch",
+        "origin"
+      ],
+      "utc_start": "2026-10-10T00:48:58.334342+00:00",
+      "utc_end": "2026-10-10T00:48:59.592746+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-owner-security-restoration-20261010T0049Z/fetch.raw.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "prs": {
+      "command": [
+        "gh",
+        "pr",
+        "list",
+        "--repo",
+        "devsecopslonghn/schemaForge",
+        "--state",
+        "open",
+        "--json",
+        "number,title,headRefName,baseRefName,isDraft,url"
+      ],
+      "utc_start": "2026-10-10T00:48:59.595075+00:00",
+      "utc_end": "2026-10-10T00:49:00.474648+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-owner-security-restoration-20261010T0049Z/prs.raw.json",
+      "sha256": "a12cf6739a0f163091f08ba6e3b98492526612befbe4d8e36af7a0e15dd5e125"
+    },
+    "pr37": {
+      "command": [
+        "gh",
+        "pr",
+        "view",
+        "37",
+        "--repo",
+        "devsecopslonghn/schemaForge",
+        "--json",
+        "state,isDraft,headRefOid,baseRefName,statusCheckRollup,mergeStateStatus,mergedAt"
+      ],
+      "utc_start": "2026-10-10T00:48:59.595347+00:00",
+      "utc_end": "2026-10-10T00:49:00.546236+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-owner-security-restoration-20261010T0049Z/pr37.raw.json",
+      "sha256": "ae88f2ab0b8147182045cd835074af6737fccf781f425bc41db75d1c8e671ea1"
+    },
+    "branches": {
+      "command": [
+        "gh",
+        "api",
+        "repos/devsecopslonghn/schemaForge/branches",
+        "--paginate"
+      ],
+      "utc_start": "2026-10-10T00:48:59.595617+00:00",
+      "utc_end": "2026-10-10T00:49:00.708001+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-owner-security-restoration-20261010T0049Z/branches.raw.json",
+      "sha256": "44b69cf5d229501bfcffccd52285c6971ef2b76db1330db69228014f808d5772"
+    },
+    "repository": {
+      "command": [
+        "gh",
+        "api",
+        "repos/devsecopslonghn/schemaForge",
+        "--jq",
+        "{private,visibility,security_and_analysis}"
+      ],
+      "utc_start": "2026-10-10T00:48:59.598863+00:00",
+      "utc_end": "2026-10-10T00:49:00.338507+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-owner-security-restoration-20261010T0049Z/repository.raw.json",
+      "sha256": "56afc3d8fbb82b7383beb9f2ac1da956f25fe6375c6c4aaa9719c8a3694c53b9"
+    },
+    "code-scanning": {
+      "command": [
+        "gh",
+        "api",
+        "repos/devsecopslonghn/schemaForge/code-scanning/alerts"
+      ],
+      "utc_start": "2026-10-10T00:49:00.338601+00:00",
+      "utc_end": "2026-10-10T00:49:01.025468+00:00",
+      "exit_code": 1,
+      "path": "/tmp/schemaforge-owner-security-restoration-20261010T0049Z/code-scanning.raw.json",
+      "sha256": "d57dab3960fa4a1e2ba1d77df32d3e288ea557c7771446fd17a2e30197f1cb09"
+    },
+    "secret-scanning": {
+      "command": [
+        "gh",
+        "api",
+        "repos/devsecopslonghn/schemaForge/secret-scanning/alerts"
+      ],
+      "utc_start": "2026-10-10T00:49:00.474775+00:00",
+      "utc_end": "2026-10-10T00:49:01.127338+00:00",
+      "exit_code": 1,
+      "path": "/tmp/schemaforge-owner-security-restoration-20261010T0049Z/secret-scanning.raw.json",
+      "sha256": "0542e59b19421bb822f240af2e87c462a608432f58bf997afa08649370a722a3"
+    },
+    "dependabot": {
+      "command": [
+        "gh",
+        "api",
+        "repos/devsecopslonghn/schemaForge/dependabot/alerts"
+      ],
+      "utc_start": "2026-10-10T00:49:00.546324+00:00",
+      "utc_end": "2026-10-10T00:49:01.340032+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-owner-security-restoration-20261010T0049Z/dependabot.raw.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "protection": {
+      "command": [
+        "gh",
+        "api",
+        "repos/devsecopslonghn/schemaForge/branches/master/protection"
+      ],
+      "utc_start": "2026-10-10T00:49:00.708139+00:00",
+      "utc_end": "2026-10-10T00:49:01.350779+00:00",
+      "exit_code": 1,
+      "path": "/tmp/schemaforge-owner-security-restoration-20261010T0049Z/protection.raw.json",
+      "sha256": "03bc633c7f1735f2f98853f758e945676281823caf34a38c325aa47ed8d7244f"
+    },
+    "shared-status": {
+      "command": [
+        "git",
+        "-C",
+        "/home/longhn0710/workspace/schemaforge",
+        "status",
+        "--porcelain"
+      ],
+      "utc_start": "2026-10-10T00:49:01.025555+00:00",
+      "utc_end": "2026-10-10T00:49:01.032884+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-owner-security-restoration-20261010T0049Z/shared-status.raw.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "shared-head": {
+      "command": [
+        "git",
+        "-C",
+        "/home/longhn0710/workspace/schemaforge",
+        "rev-parse",
+        "HEAD"
+      ],
+      "utc_start": "2026-10-10T00:49:01.032971+00:00",
+      "utc_end": "2026-10-10T00:49:01.036901+00:00",
+      "exit_code": 0,
+      "path": "/tmp/schemaforge-owner-security-restoration-20261010T0049Z/shared-head.raw.json",
+      "sha256": "b68ac60bdf60bab48ffea004c413979b428aa00b349c521c4fb9c36d3accad09"
+    }
+  },
+  "settings_modified": false,
+  "merge_eligible": false
+}

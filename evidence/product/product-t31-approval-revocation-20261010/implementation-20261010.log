@@ -1,0 +1,853 @@
+COMMANDS: npm run typecheck; npm run build:web; env SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: browser presents original approval separately and withdraws with an independent approver reason
+ok 1 - browser presents original approval separately and withdraws with an independent approver reason
+  ---
+  duration_ms: 6539.014147
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 2 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6017.458801
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7242.552813
+EXIT: 0
+COMMAND: npm run typecheck && npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: browser presents original approval separately and withdraws with an independent approver reason
+ok 1 - browser presents original approval separately and withdraws with an independent approver reason
+  ---
+  duration_ms: 6440.917421
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 2 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6114.297244
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7186.983678
+EXIT: 0
+COMMAND: npm run typecheck && npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs tests/product-approval-revocation.test.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+not ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 6584.097794
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.click: Error: strict mode violation: locator('.project-row') resolved to 2 elements:
+        1) <button disabled type="button" class="project-row selected">…</button> aka getByRole('button', { name: 'R Revocation browser c5ef3278' })
+        2) <button disabled type="button" class="project-row ">…</button> aka getByRole('button', { name: 'C Context browser a1ece78e-' })
+    
+    Call log:
+    [2m  - waiting for locator('.project-row')[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation-browser.integration.mjs:71:71)
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 2 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6021.917118
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7303.878479
+EXIT: 1
+COMMAND: npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+not ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 6405.989872
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.click: Error: strict mode violation: locator('.project-row') resolved to 2 elements:
+        1) <button type="button" class="project-row selected">…</button> aka getByRole('button', { name: 'R Revocation browser 159e83dd' })
+        2) <button type="button" class="project-row ">…</button> aka getByRole('button', { name: 'C Context browser 6a5850ad-' })
+    
+    Call log:
+    [2m  - waiting for locator('.project-row')[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation-browser.integration.mjs:71:71)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7120.390268
+EXIT: 1
+COMMAND: npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 6628.227449
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7319.229916
+EXIT: 0
+COMMAND: npm run typecheck && npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs tests/product-approval-revocation.test.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 6962.968352
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 2 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6091.344522
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7691.881833
+EXIT: 0
+COMMAND: npm run typecheck && npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 6963.469064
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 2 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6037.80369
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7701.803106
+EXIT: 0
+COMMAND: npm run typecheck && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 1 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 5910.251623
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6129.62844
+EXIT: 0
+COMMAND: npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 12335.24226
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13026.079574
+EXIT: 0
+COMMAND: npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 12881.336048
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13597.332812
+EXIT: 0
+COMMAND: npm run typecheck && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+not ok 1 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 5956.092947
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation.test.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    2 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 2
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation.test.mjs:177:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6182.397173
+EXIT: 1
+COMMAND: npm run typecheck && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+not ok 1 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6065.876906
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation.test.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    11 !== 10
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 10
+  actual: 11
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation.test.mjs:222:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6287.244038
+EXIT: 1
+COMMAND: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 1 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 5971.362531
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6196.136211
+EXIT: 0
+COMMAND: npm run typecheck && npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 13072.129577
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+not ok 2 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6266.219257
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation.test.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: 'function "sf_reject_approval_revocation_mutation" already exists with same argument types'
+  code: '42723'
+  name: 'PostgresError'
+  stack: |-
+    ErrorResponse (file:///home/longhn0710/workspace/schemaforge-product-approval-revocation/node_modules/postgres/src/connection.js:815:30)
+    handle (file:///home/longhn0710/workspace/schemaforge-product-approval-revocation/node_modules/postgres/src/connection.js:489:6)
+    Socket.data (file:///home/longhn0710/workspace/schemaforge-product-approval-revocation/node_modules/postgres/src/connection.js:324:9)
+    Socket.emit (node:events:519:28)
+    addChunk (node:internal/streams/readable:561:12)
+    readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    Readable.push (node:internal/streams/readable:392:5)
+    TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13832.516652
+EXIT: 1
+COMMAND: npm run typecheck && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 13221.328652
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 2 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6412.28382
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13938.24481
+EXIT: 0
+COMMAND: npm run typecheck && npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 13196.543044
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 2 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6211.633625
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13927.388553
+EXIT: 0
+COMMAND: npm run lint
+
+> schemaforge-local-development@0.0.0 lint
+> node scripts/check-source.mjs && node scripts/tracker.mjs validate
+
+Source checks passed for 160 authored files.
+Tracker data valid: 220 features, 64 imported tasks plus foundation and 25 product tasks, 63 cases; no Oracle verification claims.
+EXIT: 0
+COMMANDS: npm run typecheck; npm run build:web; npm run lint; SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+
+> schemaforge-local-development@0.0.0 lint
+> node scripts/check-source.mjs && node scripts/tracker.mjs validate
+
+Source checks passed for 160 authored files.
+Tracker data valid: 220 features, 64 imported tasks plus foundation and 25 product tasks, 63 cases; no Oracle verification claims.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 13240.96885
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 2 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6307.306198
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13992.872407
+5d5ccd41b2a7bc2795e2543ad239632d24b088913c53d967cb5136964c3e59e8  apps/api/index.ts
+8d12db112dc24d1cecb99ffc944d5995fdb0449385387ffb6e1a481776c0ffc7  packages/database/index.ts
+b152d82d761f21eb8db0bd0f6c9c2d1f34f21534bac719e47546fa1af9dda7d6  apps/web/src/app.jsx
+528afd13937e341bd37f4a226618f54a1f869ef752663199a80b337551596dfa  scripts/test-product.mjs
+ce4b4b1295670cf75e59582829efbf798143b58c8b351b5814b379bdf610e627  docs/development/local-product.md
+f5a740ddc385b5ac5534a3fe9ab0b72ac48feb27bb064de775937df4ff4b45ba  tests/product-approval-revocation.test.mjs
+66e72d7fc27617fcd28e574dc8dabff572e087fe3bb3ca811e7ae647d680f66d  tests/product-approval-revocation-browser.integration.mjs
+EXIT: 0
+COMMAND: npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+not ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 12688.200246
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'APPROVED'
+    - 'PENDING_APPROVAL'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'PENDING_APPROVAL'
+  actual: 'APPROVED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation-browser.integration.mjs:171:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13400.330614
+EXIT: 1
+COMMAND: npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+not ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 12721.710823
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading 'id')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-approval-revocation/tests/product-approval-revocation-browser.integration.mjs:171:31)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13432.981629
+EXIT: 1
+COMMAND: npm run build:web && SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 12822.853182
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13536.859434
+EXIT: 0
+COMMANDS: npm run typecheck; npm run build:web; npm run lint; SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test tests/product-approval-revocation.test.mjs tests/product-approval-revocation-browser.integration.mjs
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+
+> schemaforge-local-development@0.0.0 lint
+> node scripts/check-source.mjs && node scripts/tracker.mjs validate
+
+Source checks passed for 160 authored files.
+Tracker data valid: 220 features, 64 imported tasks plus foundation and 25 product tasks, 63 cases; no Oracle verification claims.
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 1 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 13114.311517
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 2 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 6460.653707
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13902.720386
+5d5ccd41b2a7bc2795e2543ad239632d24b088913c53d967cb5136964c3e59e8  apps/api/index.ts
+8d12db112dc24d1cecb99ffc944d5995fdb0449385387ffb6e1a481776c0ffc7  packages/database/index.ts
+b152d82d761f21eb8db0bd0f6c9c2d1f34f21534bac719e47546fa1af9dda7d6  apps/web/src/app.jsx
+528afd13937e341bd37f4a226618f54a1f869ef752663199a80b337551596dfa  scripts/test-product.mjs
+ce4b4b1295670cf75e59582829efbf798143b58c8b351b5814b379bdf610e627  docs/development/local-product.md
+f5a740ddc385b5ac5534a3fe9ab0b72ac48feb27bb064de775937df4ff4b45ba  tests/product-approval-revocation.test.mjs
+43bd3cf619df069dfdf7efa95081a9e157925abe51d893580d8910614fcbc003  tests/product-approval-revocation-browser.integration.mjs
+EXIT: 0

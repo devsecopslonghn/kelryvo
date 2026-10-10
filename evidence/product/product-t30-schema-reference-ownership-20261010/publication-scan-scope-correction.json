@@ -1,0 +1,13 @@
+{
+  "recorded_at": "2026-10-10T09:44:07.872472+00:00",
+  "subject": "T30 publication content scan scope description correction",
+  "original_record": {
+    "path": "evidence/product/product-t30-schema-reference-ownership-20261010/publication-scan.json",
+    "sha256": "a8982d7344e03f739bad596d11d0d403dd95097df35876fdea2eb0046fc92e92"
+  },
+  "original_scope": "Changed T29 publication paths plus all new T29 evidence files; baseline/master history and retained-stack observations reused, not rescanned. Scan record itself added afterward.",
+  "corrected_scope": "Changed T30 publication paths plus all new T30 evidence files; baseline/master history and retained-stack observations reused, not rescanned. Scan record itself added afterward.",
+  "reason": "Independent publication review found a leftover T29 scope label. Scanner snapshot path and all64 hashed candidate paths are T30 publication scope; root and reviewer verified those exact Git blob hashes. Correct label only; no changed scan command, input bytes, result, source or finding disposition.",
+  "original_record_preserved": true,
+  "scanner_rerun": false
+}

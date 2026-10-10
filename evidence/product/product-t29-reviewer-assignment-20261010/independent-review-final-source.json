@@ -1,0 +1,58 @@
+{
+  "task": "SF-PRODUCT-T29",
+  "review_type": "independent read-only final source review",
+  "base": "0fd6980",
+  "frozen_head": "f1ac453cb77076bbc4e66322cf5df8f2af7eacfe",
+  "source_state": "Frozen implementation commit reviewed; shared worktree has additional unrelated/uncommitted tracker/evidence summary updates, not treated as part of frozen source.",
+  "verdict": "No code blocker found in the bounded T29 source review. Implementation and focused tests provide strong coverage of all five registered criteria. Final verification status remains pending root-owned standard/product/parser/browser runs; this review does not infer those checks or merge/gate approval.",
+  "criteria": [
+    {
+      "criterion": 1,
+      "assessment": "SUPPORTED",
+      "evidence": "Additive reviewer_id and nonnegative bigint reviewer_revision columns use ADD COLUMN IF NOT EXISTS with default zero. API tests create a legacy plan, drop the two columns, run initializeDatabase twice, and verify retained historical fields plus null/zero reviewer metadata. Restart/reopen persistence is checked. Decision tests compare retained release, source binding, plan intent/items, comments and history around assignment; terminal and archived plan metadata remains readable while writes and reviewer listing are rejected."
+    },
+    {
+      "criterion": 2,
+      "assessment": "SUPPORTED",
+      "evidence": "Shared authenticate preHandler validates the active token and current explicit project grant in ENFORCED mode for the nested route. Handler scopes by project, plan and organization, checks bootstrap/archive/pending state, returns only bounded safe candidates (first 50 plus hasMore), excludes author, fixed approver role and inactive/expired credentials. PUT rechecks the exact token credential, role and grant transactionally, validates eligible target and requester/assignee/self-claim authority, uses expected bigint revision, preserves no-op revision/audit, and atomically updates assignment plus one safe audit event. Tests cover ungranted/foreign/bootstrap/archived/terminal/malformed/self/expired/revoked cases, no-op, reassignment, clear, self-claim, author-approver exclusion, concurrency, 51-plus-one directory bound and identity-only candidate shape."
+    },
+    {
+      "criterion": 3,
+      "assessment": "SUPPORTED",
+      "evidence": "Decision transaction keeps plan/project locking and source-integrity checks, adds the assignment gate, and rechecks active exact-token credential, current approver role, project grant and project state after acquiring locks. Unassigned decision behavior remains independent; assigned approval and rejection are tested, as are wrong-reviewer denial, role revocation and queued membership revocation for both assignment and decision. Protected plan/release/binding/comment/history snapshots are compared; execution remains NOT_EXECUTED."
+    },
+    {
+      "criterion": 4,
+      "assessment": "SUPPORTED WITH NARROW BROWSER-TEST SCOPE",
+      "evidence": "React UI shows current assignment/unassigned explanation and revision, candidate/clear/self-claim controls, feedback, assigned-to-me filter, and disables both decision buttons for other approvers. Candidate and assignment requests capture plan/project/session/token/revision and sequence contexts; selection/filter/refresh changes clear choices and invalidate pending responses. Browser test distinguishes two plan authors, waits for delayed response completion and two animation frames, then proves the current plan’s unique candidate survives a stale plan response; also delays a write through signout and exercises A-to-B-to-A context return before verifying stale success feedback is suppressed."
+    },
+    {
+      "criterion": 5,
+      "assessment": "SUPPORTED FOR THE REGISTERED FOCUSED SUITE; BROAD REGRESSION RUNS PENDING",
+      "evidence": "API/PostgreSQL test is integrated into product runner; browser test is integrated into serial browser runner. The focused tests now cover positive/negative authorization, decisions, revision/no-op/audit, conflicts, source/data integrity, persistence/restart, legacy migration/idempotence, directory bound and UI stale-response cases. Script changes register both files. Root reports focused API/browser 2/2 passed; this reviewer did not run or independently verify commands/logs."
+    }
+  ],
+  "findings": [],
+  "coverage_notes": [
+    "Browser delayed-response proof covers plan selection, session signout, and A-to-B-to-A stale assignment response. It does not independently drive every named context invalidation trigger (project switch, credential revocation, membership revocation, explicit refresh) in Chromium. The implementation has corresponding project/session/token/refresh/sequence guards, and API tests cover role/grant/credential revocation; this is a test breadth note, not an observed source defect.",
+    "Additional eligible reviewers beyond the first 50 can be assigned through the documented scoped API when their actor ID is known; the UI explicitly reports truncation."
+  ],
+  "prior_review_correction": "The initial preliminary report incorrectly claimed the reviewer-list endpoint lacked caller grant/credential authorization. That claim was withdrawn after inspecting shared authenticate preHandler, which validates the exact active token and current project grant for /api/projects/ routes. There is no such blocker in this final review.",
+  "review_scope_and_limitations": [
+    "Reviewed frozen T29 source versus master 0fd6980: API, React UI/CSS, database migration, product runner, T29 API/browser tests, local product documentation, and relevant acceptance/decision registration.",
+    "No tests, scanners, network operations, or repository mutations were performed by this reviewer.",
+    "Do not infer full product/browser/parser regressions, independent external security gates, Sonar status, Oracle acceptance, or merge eligibility from this source review."
+  ],
+  "sha256": {
+    "apps/api/index.ts": "75a4ca1d2d9852d86cded18dfc20f5b71eb86c8cd21ce1b5199bf551d29487ae",
+    "apps/web/src/app.jsx": "1da97857123c0cc0750a04f54f9da588f0af77af976338c00057fd791ff0e19a",
+    "apps/web/styles.css": "420c4ebd5ee9a2e202ff65c7890757f94cbe12cab869a80449a76fbbfd4402e2",
+    "packages/database/index.ts": "dbc71b5f488eca95c71e008e1bd3c174b7fc8745043092f1bfe2af809cc3c96a",
+    "scripts/test-product.mjs": "4dfe4b0a463c9c47b4b538ac069ed2e6e2398d483cc8688c5bf42e9f0323aab7",
+    "tests/product-reviewer-assignment.test.mjs": "96d4e931222714a4f02896fcecea2e427cb542f3df221294781f9c5afe6b86c6",
+    "tests/product-reviewer-assignment-browser.integration.mjs": "823619ed2e19e4bf03dc79ec1570d4938782366e2d2ba355373652ab9a80db87",
+    "docs/development/local-product.md": "ae1c6a085dbc3f8014d3e091e495e9f1f0d0e8ce42f353b8f0836a8fb45a53dd",
+    "docs/implementation/acceptance.json": "95f708b02b5b7507ea37959772e0705f3f397a21b6ac69997832fd30da108950",
+    "docs/decisions/log.json": "3105c2a31f28ca04c7194060b910d0c6a4b8d8c9f9a5ac3a3a1bfbc54485ddd3"
+  }
+}

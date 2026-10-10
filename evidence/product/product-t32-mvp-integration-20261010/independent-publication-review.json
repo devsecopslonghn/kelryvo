@@ -1,0 +1,52 @@
+{
+  "task": "SF-PRODUCT-T32",
+  "reviewer": "native t32_review read-only independent publication closure",
+  "frozen_source_head": "1545aade353c3c2cf709b547b3eae5ed03e849bb",
+  "recorded_at": "2026-10-10T11:31:38.952353+00:00",
+  "findings": [],
+  "sha256": {
+    "apps/api/index.ts": "37149a1a02e22fd2879525bbf7d348d410d30d2bcd4e56d14925cab96dacedad",
+    "apps/web/src/app.jsx": "a6be8245b28746aab3e4ad9682af5cef857f171058d23cbac58d941450062321",
+    "apps/web/styles.css": "bff290fe36c7cd8bb4ed6bd244e12a690f2e809a4033c801cff950a1fd029e78",
+    "docs/architecture/boundaries.md": "8f155e7dd6b52572fb1c9b48bb0d9cff548ee92a2ee3e6536c8662d504d26aaa",
+    "docs/decisions/log.json": "ffa9878a56f6283c15c07473a3ea4a042271bec18fe697b962437b8df6acda23",
+    "docs/development/local-product.md": "5915062a990db042ce5ca76db570cff66c31e854af54e3e67f75807e5342e165",
+    "docs/implementation/CONTINUE.md": "dfd9a8d31353f74143cd23cb7058da285914f3a7c4bbaf6f9331308a230a7245",
+    "docs/implementation/CURRENT.md": "dfd9a8d31353f74143cd23cb7058da285914f3a7c4bbaf6f9331308a230a7245",
+    "docs/implementation/acceptance.json": "9b63e0823419966cb8938b78a0dca6059e1d3dc84c0fe09d43a7255635d3b4b9",
+    "docs/implementation/backlog.json": "b1fb9e1861f4e2869b6d17982f7e39290f0380a810186816289abcfda0a41cf0",
+    "docs/implementation/dependency-graph.json": "56a3dedc3c8edd2e79124c2b6966bca5ba3a95f025e9840566ff2a1d60971070",
+    "docs/implementation/evidence-index.json": "2501428ef17e3f8a80434cd5b1fbfe4621074bfa98f3358f40d5f48fb7e6843e",
+    "docs/implementation/feature-coverage.json": "d14f5ec7d1c2b6a6d7a8a78cdf4bd158cbccb07d7d861d77dbbe4e1d2fd3bd50",
+    "docs/implementation/milestone.json": "0a5e3217756f341b002a1e63298d5f9110318d8ce08858749b862b1808678f34",
+    "docs/implementation/ownership.json": "89501c262d663138f777b67d82314555ecc50e97e0c396e92fded7fd98d0d7c7",
+    "evidence/product/product-t32-mvp-integration-20261010/browser.json": "e15e5f155ffb6d1f8ca397ef65c0ff043e41a2471233f464b58db3e2e79c6230",
+    "evidence/product/product-t32-mvp-integration-20261010/browser.started.json": "50815fbf76796be14e9bd6b5deb8576a93529e093951fd1cf129ba1a3a6819ec",
+    "evidence/product/product-t32-mvp-integration-20261010/dependency-license-observation.json": "e0a5aa5e29fe490fbc1716a5031dcd39eed4e4a70d87fa87db7fa19212bc3a4d",
+    "evidence/product/product-t32-mvp-integration-20261010/focused-observations.json": "f606f51956ccbfa539963227d11857d55272b954dea00b80aa4ab560e93f2ace",
+    "evidence/product/product-t32-mvp-integration-20261010/independent-review-final-source.json": "510d324d8d82ae4fe9e83bb532644b0616aa8d13102f7c8abadbe2216de946c3",
+    "evidence/product/product-t32-mvp-integration-20261010/product.json": "211334658e4955c84f7fa310004dc05819d14600c8ae46da9f9434327735c5e6",
+    "evidence/product/product-t32-mvp-integration-20261010/product.started.json": "4255961c4294b48a9748bb6ac86b774e3484d7ffabee8f2fe987adb36237c6be",
+    "evidence/product/product-t32-mvp-integration-20261010/record.json": "6bd7456f403df1799e07c22bd47d40a5751e5c55522681b6490479c6dcefd4e0",
+    "evidence/product/product-t32-mvp-integration-20261010/standard.json": "0dc06aa47b2cdf748ba158bf53bd84a44d4409c147adb1222a8eac2a6b78cfec",
+    "evidence/product/product-t32-mvp-integration-20261010/standard.started.json": "3beb7e461fab027e149cca47e05855718e420ef403eefedd94b3878b0cad8546",
+    "packages/database/index.ts": "ca04e3a7d7219e8d6e86469058beced4adad79fda8c206f334237df4eb420a7f",
+    "scripts/test-product.mjs": "7b5c2859fa24a26c98464a2bfc954a290d178482b14c53bfc78208e1bb84835b",
+    "scripts/tracker.mjs": "9113a89206954ae431ebb30d2b60003e1c914f35d14b34668ef4dbf4ff7e7b16",
+    "tests/product-mvp-workflow-browser.integration.mjs": "26713a516bf6c2255033a5c6ad08be5459216022b22c737e8678d0262fa82ec2",
+    "tests/product-mvp-workflow.test.mjs": "7780d89778a792f4d05071f1564c3e8c735d97dbf99af9f75c3f8b02b99f9f33",
+    "tests/tracker.test.mjs": "9e08bc867b9dfc4d24f88a80074011155e005b17d4fcfc16909ec71a452f065e",
+    "evidence/product/product-t32-mvp-integration-20261010/publication-contents-scan.json": "d5c6db59be8941117c36c24d17464f8afad30737b02083cbf0649ce586fa1f4f",
+    "evidence/product/product-t32-mvp-integration-20261010/publication-contents-delta-scan.json": "d7de82c6e6cb396a0fc03312f5d2adcd40e1140707be9f3604f4cc4fa000eb34"
+  },
+  "observations": [
+    "All33 current named file hashes independently recomputed and matched, including one corrected coverage file and both preserved scan records.",
+    "Actual exact-source regression counts, HEADs and nested log/index/record hashes verified:170standard/45product/28Chromium, zero fail/cancel/skip.",
+    "T32 VERIFIED task/ownership/criteria/test references and milestone bounded scope agree. Coverage remains44partial/169not/7deferred; DBM019 not implemented.",
+    "Dependencies/licenses/pins match; no fuller catalog/master/Oracle/security-gate certification."
+  ],
+  "limits": [
+    "This review record is appended after reviewed content bytes; root performs new incoming commit scan before publication.",
+    "Original independent source review correction and inherited authorization-admission limitation remain preserved."
+  ]
+}

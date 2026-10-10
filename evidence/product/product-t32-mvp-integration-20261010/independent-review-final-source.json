@@ -1,0 +1,26 @@
+{
+  "task": "SF-PRODUCT-T32",
+  "reviewer": "native t32_review, read-only independent agent",
+  "frozen_head": "1545aade353c3c2cf709b547b3eae5ed03e849bb",
+  "recorded_at": "2026-10-10T11:14:22.824470+00:00",
+  "findings": [],
+  "sha256": {
+    "apps/api/index.ts": "37149a1a02e22fd2879525bbf7d348d410d30d2bcd4e56d14925cab96dacedad",
+    "apps/web/src/app.jsx": "a6be8245b28746aab3e4ad9682af5cef857f171058d23cbac58d941450062321",
+    "packages/database/index.ts": "ca04e3a7d7219e8d6e86469058beced4adad79fda8c206f334237df4eb420a7f",
+    "apps/web/styles.css": "bff290fe36c7cd8bb4ed6bd244e12a690f2e809a4033c801cff950a1fd029e78",
+    "scripts/test-product.mjs": "7b5c2859fa24a26c98464a2bfc954a290d178482b14c53bfc78208e1bb84835b",
+    "tests/product-mvp-workflow.test.mjs": "7780d89778a792f4d05071f1564c3e8c735d97dbf99af9f75c3f8b02b99f9f33",
+    "tests/product-mvp-workflow-browser.integration.mjs": "26713a516bf6c2255033a5c6ad08be5459216022b22c737e8678d0262fa82ec2",
+    "docs/development/local-product.md": "5915062a990db042ce5ca76db570cff66c31e854af54e3e67f75807e5342e165",
+    "docs/architecture/boundaries.md": "8f155e7dd6b52572fb1c9b48bb0d9cff548ee92a2ee3e6536c8662d504d26aaa"
+  },
+  "observations": [
+    "Coupled API/UI/schema/workflow integration reviewed against preserved parent sources, with no actionable T32 findings remaining.",
+    "Initial claim that ungranted developers bypass archive/source authorization was explicitly withdrawn after common authenticate preHandler grant/mode enforcement was inspected. Original erroneous claim was not accepted."
+  ],
+  "limitations": [
+    "Review is code inspection only; final root regressions are recorded separately. No Oracle/full catalog/master/merge-eligibility/security-service acceptance.",
+    "Existing source/archive handlers check authorization at request admission; they do not recheck project membership inside their transaction. A possible admitted-request/revoke scheduling race was noted as inherited baseline behavior, without a reproduced introduced T32 regression. This review does not certify stronger transactional revocation semantics."
+  ]
+}

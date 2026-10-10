@@ -1,0 +1,5 @@
+{
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-release-source-comparison",
+  "command": "gh pr view 38 --repo devsecopslonghn/schemaForge --json number,state,isDraft,headRefOid,baseRefName,statusCheckRollup && gh run list --repo devsecopslonghn/schemaForge --branch development/product-release-source-comparison --limit 10 --json databaseId,headSha,status,conclusion,workflowName,event",
+  "started_at_utc": "2026-10-10T01:24:21.104517+00:00"
+}

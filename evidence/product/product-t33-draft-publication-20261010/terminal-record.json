@@ -1,0 +1,80 @@
+{
+  "id": "product-t33-draft46-available-ci-terminal",
+  "subject_id": "SF-PRODUCT-T33",
+  "kind": "STATIC",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact-head draft46 terminal available CI observation and unchanged original open-PR/master reconciliation",
+  "exit_code": 0,
+  "criterion_indexes": [
+    5
+  ],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t33-draft-publication-20261010/ci-observation-15.stdout",
+    "sha256": "c6382b6ce8240825ff119a7a4dbd686f0447ee07d9796f8fbf39d7f83cf73381"
+  },
+  "recorded_at": "2026-10-10T15:30:10.023565+00:00",
+  "published_head": "b145a9a96544113dc4ac1c247fd612aadb62c424",
+  "frozen_source_head": "ff14f24572414bd8e87a2b983facfbbbeb929402",
+  "pr": 46,
+  "available_checks": [
+    {
+      "name": "product",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38062952986/job/114244759745"
+    },
+    {
+      "name": "product",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38062947502/job/114244744166"
+    },
+    {
+      "name": "parser",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38062953003/job/114244759749"
+    },
+    {
+      "name": "parser",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38062947497/job/114244743949"
+    },
+    {
+      "name": "foundation",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38062953006/job/114244759774"
+    },
+    {
+      "name": "foundation",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38062947341/job/114244743700"
+    }
+  ],
+  "required_security_available": false,
+  "merge_eligible": false,
+  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "preserved_original_pr_heads": {
+    "37": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+    "38": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+    "39": "62cbb02f726b2a8a1d38279554fb9e85cc3e4976",
+    "40": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
+    "41": "17e9a92fc91527dd8b9d374a52503e3430cddb3f",
+    "42": "f58c4146cf01c5e7a83de6b1b5b4255259f81c05",
+    "43": "72f5e07170e8c9ebac1c17ad00a609b8f7b5f1b5",
+    "44": "b69c3c34c7cb89a3124350f39a7af8eb89a5d609",
+    "45": "57e2395aa645e83120e6d60a88cdb8b759e31af2"
+  },
+  "limitations": [
+    "Only six actual available foundation/parser/product push+PR jobs are SUCCESS. Required code scanning/secret scanning/protection APIs remain unavailable; Sonar exception is Sonar only. No ready/merge/integrated-master claim.",
+    "Both original scoped scans retain exit1/one exact independently classified public idempotency fixture; annotation delta is exit0/zero findings. No scanner suppression or all-history clean claim.",
+    "No production proof/admission producer, Oracle adapter/execution/runtime/process-isolation acceptance. Actual offline requests remain waiting and target/history unavailable.",
+    "Post-publication observation/tracking metadata is retained in local unpushed continuation commits; the remotely tested candidate remains b145a9a. Original failed/interrupted artifacts retain exact bytes, including raw Git stderr whitespace."
+  ]
+}

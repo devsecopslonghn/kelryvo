@@ -1,0 +1,106 @@
+{
+  "id": "product-t35-secure-sessions-local-verified",
+  "subject_id": "SF-PRODUCT-T35",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen serial npm run check; npm run test:product; npm run test:browser with PostgreSQL, pinned parser and real Chromium",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_references": [
+    "SF-PRODUCT-T35-HTTPS",
+    "SF-PRODUCT-T35-SESSION",
+    "SF-PRODUCT-T35-WEB",
+    "SF-PRODUCT-T35-RESTORE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t35-secure-sessions-20261010/standard.log",
+    "sha256": "0f45ca571a5191a0375f1b3bd589c8becc14f317f1fcc0e95cd348ad2ff9de65"
+  },
+  "recorded_at": "2026-10-10T18:14:15.810379+00:00",
+  "implementation_head": "81d5340bbdd4c6c6db9526178f9703d2cdec5c14",
+  "regressions": {
+    "standard": {
+      "result": "evidence/product/product-t35-secure-sessions-20261010/standard.json",
+      "result_sha256": "6932ecb5381494adf15798634b6321ef3953bf7ed2c044f3213f10f52bf9c81b",
+      "raw_output": "evidence/product/product-t35-secure-sessions-20261010/standard.log",
+      "raw_output_sha256": "0f45ca571a5191a0375f1b3bd589c8becc14f317f1fcc0e95cd348ad2ff9de65",
+      "counts": {
+        "tests": 191,
+        "pass": 191,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "check"
+      ]
+    },
+    "product": {
+      "result": "evidence/product/product-t35-secure-sessions-20261010/product.json",
+      "result_sha256": "06451e1c9a7e044ad54f954580b1389776c73c6e726fa05bd1f54fe7e50ed79c",
+      "raw_output": "evidence/product/product-t35-secure-sessions-20261010/product.log",
+      "raw_output_sha256": "e1d5fe5ec4ac62f259e07bb87a96607297d1bc6851af621548251af214afb34f",
+      "counts": {
+        "tests": 54,
+        "pass": 54,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:product"
+      ]
+    },
+    "browser": {
+      "result": "evidence/product/product-t35-secure-sessions-20261010/browser.json",
+      "result_sha256": "2cbe17cd19a9c6c5cd42be6bc2c261dba478a05706d0c6b4d91f4d4a38a59e8f",
+      "raw_output": "evidence/product/product-t35-secure-sessions-20261010/browser.log",
+      "raw_output_sha256": "ad6df5ac0fb4400d4a7d944518ca77b3c2855a1472cb75add054734e3346d967",
+      "counts": {
+        "tests": 31,
+        "pass": 31,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:browser"
+      ]
+    }
+  },
+  "reviews": [
+    {
+      "path": "evidence/product/product-t35-secure-sessions-20261010/independent-review-final-source.json",
+      "sha256": "897b80bcc185b1886c46d74cd897be2efdcd2225a540986e86541b05d32336db"
+    }
+  ],
+  "limitations": [
+    "Only local PostgreSQL metadata, real local Git/pinned parser and HTTPS Chromium workflow; no Oracle/network/worker deployment or restricted worker transport acceptance.",
+    "Node HTTPS validates fixture CA and hostname normally, with negative untrusted-CA/hostname cases; Chromium trusts only an ephemeral fixture public-key pin, not browser CA-chain validation. No global trust change or blanket certificate bypass.",
+    "Existing security/protection APIs unavailable, never PASS; Sonar exception is Sonar only. Publication/available CI criterion5 remains pending.",
+    "Focused fixture corrections before freeze: bearer-kind filter fixed; expired credential timestamps constrained to eight-hour limit; expected existing approval notice corrected; expiry UI awaits actual background poll instead of clicking an already-expired control; all three restored browser credentials remain revoked history while only the one active at snapshot adds restore revocation evidence. Final assertions/roles/gates remain enforced."
+  ]
+}

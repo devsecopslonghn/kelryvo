@@ -1,0 +1,51 @@
+{
+  "task": "SF-PRODUCT-T25",
+  "review_type": "PRELIMINARY_READ_ONLY_THREAT_REVIEW",
+  "captured_at_utc": "2026-10-09T22:27:50Z",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-release-source-comparison",
+  "observed_git_head": "e5147c08a05b894f7c8f68de05c03c3ccdf8972e",
+  "git_status_at_observation": [
+    " M apps/api/index.ts",
+    " M apps/web/src/app.jsx",
+    "?? packages/migrations/compare-retained-releases.mjs"
+  ],
+  "source_sha256_at_observation": {
+    "apps/api/index.ts": "5207d206e59212c6799258513db7f9156713c5cdf9a946b5139fe10571da7398",
+    "apps/web/src/app.jsx": "e85f4e3409e9d2f398ea697476bc084d57e507ca7cfb3fc7abec90bfd0024e60",
+    "packages/migrations/compare-retained-releases.mjs": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8"
+  },
+  "review_scope": [
+    "AGENTS.md",
+    "docs/implementation/acceptance.json SF-PRODUCT-T25 criteria",
+    "apps/api/index.ts comparison endpoint and authentication/project-grant path",
+    "apps/web/src/app.jsx comparison state/rendering",
+    "packages/migrations/compare-retained-releases.mjs",
+    "packages/migrations/verify-retained-release.mjs",
+    "packages/database/project-membership.ts",
+    "packages/database/local-credentials.ts"
+  ],
+  "preliminary_findings": [
+    {
+      "severity": "MEDIUM",
+      "status": "OPEN_IN_OBSERVED_SOURCE; REPORTED_TO_FEATURE_AGENT",
+      "finding": "Comparison selector changes do not increment releaseComparisonSequence or clear comparison state. A delayed request can complete after the user changes away from its pair and back, and its response can pass the current project/token/session/refresh/sequence guards. This does not meet the acceptance requirement that pair changes discard results.",
+      "location": "apps/web/src/app.jsx compareReleases and ReleaseScreen base/candidate select onChange handlers"
+    }
+  ],
+  "positive_observations": [
+    "API route has authenticated prehandler; project access hook checks current local credential and explicit project grant for this POST route.",
+    "Transaction locks scoped project and release rows in sorted ID order; archived project is accepted for reading.",
+    "Both release rows receive database-side shape and size checks before the payload SELECT.",
+    "Malformed retained references return fixed NOT_FOUND; verified parser profile and manifest are required; pair compatibility checks repository ID, folder, and parser profile.",
+    "Self-comparison is structurally supported by deduplicating requested IDs and comparing the mapped release with itself.",
+    "Comparison helper uses arbitrary-length digit-string ordering without JavaScript Number; React renders retained content as escaped text.",
+    "No write statements or target/credential access were observed in the comparison route/helper."
+  ],
+  "limitations": [
+    "This is a point-in-time preliminary review of actively edited uncommitted source, not exact-head or frozen-manifest approval.",
+    "Source may have changed immediately after capture; hashes identify only the source bytes observed at capture.",
+    "No tests, build, runtime security tooling, external GitHub security scan, or full adversarial database exercise was run.",
+    "This record does not approve T25 completion, merge, distribution, or any security-gate exception. Fresh QA/security review at the frozen final head remains mandatory."
+  ],
+  "worktree_mutation": false
+}

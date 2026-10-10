@@ -1,0 +1,64 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# DIRECT_COUNT Result(5) [
+#   {
+#     id: 'fd560900-1864-4eec-92db-ed5dfe354544',
+#     created: '2026-10-10 01:02:03.123456+00'
+#   },
+#   {
+#     id: 'dbb8fec3-55fd-4d26-aded-5af9e01ac357',
+#     created: '2026-10-10 01:02:03.123456+00'
+#   },
+#   {
+#     id: 'cc699bfe-3de2-466f-82e2-c8630d07f4ff',
+#     created: '2026-10-10 01:02:03.123456+00'
+#   },
+#   {
+#     id: 'be12b2b5-1b30-4838-a319-2625ee9b0c77',
+#     created: '2026-10-10 01:02:03.123456+00'
+#   },
+#   {
+#     id: 'aad19062-ceb7-47d9-95f4-2752184f0726',
+#     created: '2026-10-10 01:02:03.123456+00'
+#   }
+# ] POS 0532dd7c-0705-45ca-9fe7-2935a13e46a3
+# OLDER_DEBUG { scope: 'ALL', plans: [], nextCursor: null } {"v":1,"actor":"inbox-approver-267e97e3-e58a-4c21-8e03-27dfeb4f4657","scope":"ALL","createdAt":"2026-10-10T01:02:03.123456Z","id":"0532dd7c-0705-45ca-9fe7-2935a13e46a3"}
+# Subtest: review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+not ok 1 - review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+  ---
+  duration_ms: 517.575117
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-review-inbox/tests/product-review-inbox.test.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-review-inbox/tests/product-review-inbox.test.mjs:56:136)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 770.574968

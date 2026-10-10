@@ -1,0 +1,31 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: browser inbox handles delayed scopes, exact plan navigation and grant revocation between pages
+not ok 1 - browser inbox handles delayed scopes, exact plan navigation and grant revocation between pages
+  ---
+  duration_ms: 30977.619463
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-review-inbox/tests/product-review-inbox-browser.integration.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByText('Authored by me') to be visible[22m
+    [2m    64 × locator resolved to hidden <option value="MINE">Authored by me</option>[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-review-inbox/tests/product-review-inbox-browser.integration.mjs:73:44)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 32105.925406

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "git",
+    "ls-remote",
+    "origin",
+    "refs/heads/master",
+    "refs/heads/development/product-backup-restore",
+    "refs/heads/development/product-execution-jobs"
+  ],
+  "exit_code": 0,
+  "observed_at": "2026-10-10T17:20:57.999717+00:00",
+  "published_head": "9d6deff83ea1373bdf3fccc77c653500e70620da"
+}

@@ -1,0 +1,105 @@
+{
+  "recorded_at_utc": "2026-10-10T01:29:06.889477+00:00",
+  "head": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+  "pr": 38,
+  "state": "OPEN_DRAFT_UNMERGED",
+  "available_ci": "All six reported PRODUCT/parser/WP0 push+PR checks SUCCESS on exact head",
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 38012628439,
+      "event": "pull_request",
+      "headSha": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+      "status": "completed",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38012628497,
+      "event": "pull_request",
+      "headSha": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+      "status": "completed",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38012628558,
+      "event": "pull_request",
+      "headSha": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+      "status": "completed",
+      "workflowName": "Local PRODUCT acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38012597697,
+      "event": "push",
+      "headSha": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+      "status": "completed",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38012597675,
+      "event": "push",
+      "headSha": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+      "status": "completed",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38012597754,
+      "event": "push",
+      "headSha": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+      "status": "completed",
+      "workflowName": "Local PRODUCT acceptance"
+    }
+  ],
+  "required_external_security": "CodeQL/code scanning, secret scanning and protection unavailable in prior fresh observation; not PASS, not waived. No ready or merge claim. Sonar exception remains Sonar-only.",
+  "artifacts": [
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/final-available-ci/30-draft-ci-observe.command.json",
+      "sha256": "cee76626384aa4799400368de24d142911dd96354d5d9da76f6be0f18a5376d4",
+      "bytes": 457
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/final-available-ci/30-draft-ci-observe.raw.log",
+      "sha256": "1ec41310ac5f866efa36cce2cd5a4776f16fc2de1c18473274ddbbcd799b66e6",
+      "bytes": 3100
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/final-available-ci/30-draft-ci-observe.result.json",
+      "sha256": "eb3a4245fb30f7e5515c997e493fca7c984d5c0e12ed071b020234b441bf03c7",
+      "bytes": 236
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/final-available-ci/31-draft-ci-observe.command.json",
+      "sha256": "7da49de632ce1e979b22ada3292c44a8903767fae401b176f28d79498e29f0e4",
+      "bytes": 457
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/final-available-ci/31-draft-ci-observe.raw.log",
+      "sha256": "1ec41310ac5f866efa36cce2cd5a4776f16fc2de1c18473274ddbbcd799b66e6",
+      "bytes": 3100
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/final-available-ci/31-draft-ci-observe.result.json",
+      "sha256": "e887ad9511cac7c834e2d709fd50d4dbf2c93c26a3418e800ed63f2c80ce0194",
+      "bytes": 236
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/final-available-ci/32-draft-ci-final-check.command.json",
+      "sha256": "0eabb5657eb328d6cf61a3921669306edb766e26837ce7d88266f7178b487c33",
+      "bytes": 457
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/final-available-ci/32-draft-ci-final-check.raw.log",
+      "sha256": "8d5ec369bb82fd34594fcedbe487c47df6bf7310e825d4b39efbd76295f06cf0",
+      "bytes": 3120
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/final-available-ci/32-draft-ci-final-check.result.json",
+      "sha256": "e0011a4127138317404c49de855eacd659af10cfab15381331002a779e4a4694",
+      "bytes": 236
+    }
+  ]
+}

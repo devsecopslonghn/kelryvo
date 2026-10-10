@@ -1,0 +1,29 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "tests/product-retained-detail.test.mjs"
+  ],
+  "started_at": "2026-10-10T04:51:46.871Z",
+  "finished_at": "2026-10-10T04:52:03.320Z",
+  "exit_code": 0,
+  "source_before": {
+    "apps/api/index.ts": "173c9decf8e9da0cfa57bae9bea4a5dbc7db1c6d558727078f68dee4ae0f92f3",
+    "apps/web/src/app.jsx": "de2d11af4c1572ca37451e691b6ca5346f3d29f3dfde270ab3943afda0f8e343",
+    "packages/migrations/import-release.mjs": "7206531894e78ad96f4386ffc1ba24db9ff3f5e2052ffb88b86d8e107bc7be9b",
+    "packages/migrations/retained-release-preflight.mjs": "b6f577f3ad5ea178841512b3e5ca56f518a35e79f7883b91beebd8071827253b",
+    "scripts/test-product.mjs": "e1bbc640489fc700977bb208cc2ca994ca5020e162732c55efd9dc757e444cb1",
+    "tests/product-retained-detail.test.mjs": "77cfd8c210bafb39ed30cd852859c002aedb0358d5b01b21e99748d5c9a57d9a",
+    "tests/product-release-provenance-browser.integration.mjs": "29c44675f8d4c70228452861b959153272414a5665ecf47707c019f5910cb52c"
+  },
+  "source_after": {
+    "apps/api/index.ts": "173c9decf8e9da0cfa57bae9bea4a5dbc7db1c6d558727078f68dee4ae0f92f3",
+    "apps/web/src/app.jsx": "de2d11af4c1572ca37451e691b6ca5346f3d29f3dfde270ab3943afda0f8e343",
+    "packages/migrations/import-release.mjs": "7206531894e78ad96f4386ffc1ba24db9ff3f5e2052ffb88b86d8e107bc7be9b",
+    "packages/migrations/retained-release-preflight.mjs": "b6f577f3ad5ea178841512b3e5ca56f518a35e79f7883b91beebd8071827253b",
+    "scripts/test-product.mjs": "e1bbc640489fc700977bb208cc2ca994ca5020e162732c55efd9dc757e444cb1",
+    "tests/product-retained-detail.test.mjs": "77cfd8c210bafb39ed30cd852859c002aedb0358d5b01b21e99748d5c9a57d9a",
+    "tests/product-release-provenance-browser.integration.mjs": "29c44675f8d4c70228452861b959153272414a5665ecf47707c019f5910cb52c"
+  },
+  "log_sha256": "e0203c804734be236ffddbb033b9759acd729cccf5b4ae2c7b3e88d8146dd8e0"
+}

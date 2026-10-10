@@ -13,7 +13,7 @@ test('browser clears a revoked session and ignores a delayed 401 from an earlier
     { id: 'credential-browser-approver', name: 'Credential approver', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
   const database = await openIsolatedProductDatabase();
-  let app; let browser; let releaseOldResponse = () => {}; let routeStartedResolve;
+  let app; let browser; let releaseOldResponse = () => {}; let releaseRevokedRefresh = () => {}; let routeStartedResolve;
   const routeStarted = new Promise(resolve => { routeStartedResolve = resolve; });
   try {
     app = await startProduct({ databaseUrl: database.databaseUrl, actors, repositories: [], port: 0 });
@@ -53,15 +53,31 @@ test('browser clears a revoked session and ignores a delayed 401 from an earlier
     assert.equal((await page.locator('.role-pill').innerText()).toLowerCase(), 'approver');
 
     await page.unroute('**/api/projects');
+    // Start the refresh while the credential is live, then hold it before the server
+    // authorization checkpoint. A pending session/status read can otherwise observe
+    // revocation and remove the refresh button before Playwright clicks it.
+    let revokedRefreshStartedResolve;
+    const revokedRefreshStarted = new Promise(resolve => { revokedRefreshStartedResolve = resolve; });
+    const revokedRefreshGate = new Promise(resolve => { releaseRevokedRefresh = resolve; });
+    await page.route('**/api/projects', async route => {
+      revokedRefreshStartedResolve();
+      await revokedRefreshGate;
+      await route.continue();
+    }, { times: 1 });
+    await page.getByLabel('Refresh workspace').click();
+    await revokedRefreshStarted;
     const [credential] = await database.sql`SELECT token_sha256 FROM sf_local_credentials WHERE actor_id=${actors[1].id}`;
     await database.sql`UPDATE sf_local_credentials SET revoked_at=clock_timestamp() WHERE token_sha256=${credential.token_sha256}`;
-    await page.getByLabel('Refresh workspace').click();
+    const revokedResponse = page.waitForResponse(response => response.url().endsWith('/api/projects') && response.status() === 401);
+    releaseRevokedRefresh();
+    await revokedResponse;
     await page.getByLabel('Local access token').waitFor();
     await page.getByText('Your session expired. Sign in again.').waitFor();
     assert.equal(await page.getByLabel('Local access token').inputValue(), '');
     assert.deepEqual(errors, []);
   } finally {
     releaseOldResponse();
+    releaseRevokedRefresh();
     await browser?.close();
     await app?.close();
     await database.close();

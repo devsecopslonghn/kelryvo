@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-10-10T17:36:33.237425+00:00",
+  "command": "Read captured actual terminal gh pr list --state open result; verify preserved draft base relationships",
+  "source": "evidence/product/product-t34-corrected-draft-publication-20261010/terminal-prs.stdout",
+  "source_sha256": "b8d70d01182fac1f3dd0da54ecd02b23713505c09df527c72df6ce4af57a643c",
+  "draft_bases": {
+    "37": "master",
+    "38": "development/product-audit-pages",
+    "39": "development/product-release-source-comparison",
+    "40": "development/product-retained-metadata-preflight",
+    "41": "master",
+    "42": "master",
+    "43": "master",
+    "44": "master",
+    "45": "master",
+    "46": "development/product-mvp-integration",
+    "47": "development/product-execution-jobs"
+  },
+  "outcome": "PASS_SCOPED_PRESERVATION",
+  "limits": "Open/draft/base/head preservation only; no required security or merge certification."
+}

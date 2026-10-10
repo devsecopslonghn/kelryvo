@@ -1,0 +1,5 @@
+{
+  "command": "node --test tests/tracker.test.mjs && npm run lint && npm run format:check && git diff --check",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+  "started_at_utc": "2026-10-09T22:02:35.074311+00:00"
+}

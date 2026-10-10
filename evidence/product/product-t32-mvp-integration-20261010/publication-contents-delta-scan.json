@@ -1,0 +1,21 @@
+{
+  "task": "SF-PRODUCT-T32",
+  "scope": "Only corrected feature-coverage description bytes; prior content scan retained unchanged.",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "dir",
+    "/tmp/schemaforge-t32-contents-delta",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-t32-contents-delta-private.json"
+  ],
+  "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "scanner_exit_code": 0,
+  "finding_count": 0,
+  "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "paths_sha256": {
+    "docs/implementation/feature-coverage.json": "d14f5ec7d1c2b6a6d7a8a78cdf4bd158cbccb07d7d861d77dbbe4e1d2fd3bd50"
+  },
+  "recorded_at": "2026-10-10T11:29:54.796256+00:00"
+}

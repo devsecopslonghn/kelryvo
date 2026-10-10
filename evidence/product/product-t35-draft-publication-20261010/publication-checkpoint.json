@@ -1,0 +1,13 @@
+{
+  "task": "SF-PRODUCT-T35",
+  "pr": 48,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/48",
+  "published_head": "628eb4630176728eee3bb08959194eaa580b00a3",
+  "base": "development/product-backup-restore",
+  "is_draft": true,
+  "observed_at": "2026-10-10T18:24:37.538975+00:00",
+  "raw_observation_sha256": "55f72e7ec179830e494d79ad1610911516e7d27832efddb259b3aa6610c22be3",
+  "ci_terminal": false,
+  "merge_eligible": false,
+  "limits": "Published draft only. Local source191/54/31 passed; required remote security/protection gates remain unavailable. Actual available CI pending. Original drafts/master untouched."
+}

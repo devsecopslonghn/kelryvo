@@ -1,0 +1,23 @@
+{
+  "task": "SF-PRODUCT-T34",
+  "frozen_head": "f7426040789076ff728263b7e09a78aa98360464",
+  "recorded_at": "2026-10-10T17:08:12.259052+00:00",
+  "outcome": "PASS_SCOPED_LICENSE_DELTA",
+  "prior_review": {
+    "path": "evidence/product/product-t34-backup-restore-20261010/publication-license-review.json",
+    "sha256": "7944660ef73da3650a4c211d1b90d77ef558029deea1cffa445622a03299311c"
+  },
+  "unchanged_paths_sha256": {
+    "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+    "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b",
+    "docs/dependencies/product-closure.json": "d3a74a98934c47c581123d9476b04be1a4a0b7f82e4462e2a0fc70fb2a5cd897"
+  },
+  "current_package_manifest_sha256": "f2e8e1c4e849e7596baf135ffa9976e001ca9157b66bd1c8ba1808848a7709f4",
+  "actual_check": "Corrected frozen npm run check:85 pinned packages,zero unknown required grants",
+  "check_record": "evidence/product/product-t34-backup-restore-ci-correction-20261010/standard.json",
+  "check_record_sha256": "f7fbfe43723c2f706a14f69e2bf5bdd4640a6de94b05fe70f4e039d156ccb1d5",
+  "scope": "Only membership browser async-readiness wait and evidence/continuation delta since first published4cf; no dependency, library/version/pin/LICENSE/NOTICE/distribution change.",
+  "limits": "No naming/F31 packaging, remote security/protection, Oracle, production restore or merge acceptance."
+}

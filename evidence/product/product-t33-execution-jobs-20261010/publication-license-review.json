@@ -1,0 +1,23 @@
+{
+  "task": "SF-PRODUCT-T33",
+  "frozen_head": "ff14f24572414bd8e87a2b983facfbbbeb929402",
+  "recorded_at": "2026-10-10T15:04:56.865600+00:00",
+  "outcome": "PASS_SCOPED_LICENSE_DELTA",
+  "baseline": "57e2395aa645e83120e6d60a88cdb8b759e31af2",
+  "unchanged_paths_sha256": {
+    "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+    "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e",
+    "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b",
+    "docs/dependencies/product-closure.json": "d3a74a98934c47c581123d9476b04be1a4a0b7f82e4462e2a0fc70fb2a5cd897"
+  },
+  "actual_check": "npm run check -> dependencies:product: 85 pinned packages, zero unknown required grants",
+  "check_record": "evidence/product/product-t33-execution-jobs-20261010/standard-verified.json",
+  "check_record_sha256": "5cfc5a921b639e96cb28110efadc8321bdf7c77a63bee2a69b4342dcbf55913a",
+  "observations": [
+    "No new dependency, version, lock, parser pin, LICENSE, NOTICE or product closure change.",
+    "T32 schema fixture is exact independently authored existing SchemaForge schema bytes; new implementation uses existing PostgreSQL/Fastify/React/Node capabilities."
+  ],
+  "limits": "Scoped change review and existing pinned product closure; not F31 distribution/naming approval or remote security acceptance."
+}

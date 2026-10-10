@@ -199,6 +199,229 @@
         "apps/api/index.ts",
         "apps/web/src/app.jsx"
       ]
+    },
+    {
+      "id": "SF-D020",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T24_CURSOR_CONTRACT",
+      "accepted_at_utc": "2026-10-09T20:47:24.454546+00:00",
+      "decision": "T24 adds GET /api/projects/:id/audit with a fixed page size of 50, historical project-owned exact-action choices, hasMore and nextCursor. Preserve the existing project-detail recent-100 view. Encode an untrusted exclusive query position as canonical unpadded base64url JSON with exact ordered fields {v,p,a,t,i}: version 1, project ID, action or null, exact six-digit UTC PostgreSQL timestamp and event ID. Bound and strictly validate encoding, fields, calendar/time, IDs and project/filter agreement; cursors grant no authority and current explicit membership is checked on every request. Use PostgreSQL (created_at,id) DESC and limit-plus-one, never round cursor timestamps through JavaScript Date. The only schema change is an additive scoped ordering index; existing records and audit actions remain intact. Context changes clear previously displayed page rows and cursors and discard delayed responses; users may refresh from the latest page after failure. Paging is a read view over retained events, not a frozen multi-request snapshot: newly inserted newer events appear on refresh, with no counter or retention/tamper assertion. Authorized archived reads remain available. Ordinary reversible default under SF-D010 and SF-D019; no target, Oracle or external credential authority.",
+      "references": [
+        "packages/audit/cursor.mjs",
+        "apps/api/index.ts",
+        "apps/web/src/app.jsx",
+        "docs/implementation/backlog.json",
+        "docs/development/local-product.md"
+      ]
+    },
+    {
+      "id": "SF-D021",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T24_EXISTING_ACTION_ORDER_COMPATIBILITY",
+      "accepted_at_utc": "2026-10-09T21:04:32.155575+00:00",
+      "decision": "The first frozen T24 browser suite exposed an actual T09 compatibility regression: alphabetical historical action choices changed the established newest-occurrence order. Preserve existing action-choice behavior across the full retained project audit set by selecting each action’s newest (created_at,id) occurrence and ordering those occurrences descending, including actions older than the recent100. Retain all original T09 assertions, immutable failure capture and timestamp/ID tie semantics; correct only the new implementation and its new expected historical-action results, then rerun the complete frozen standard/product/browser suites. This is a bounded compatibility repair under SF-D010/SF-D019/SF-D020, not a redesign or original acceptance change. No audit records, thresholds, parser logic, security gates or Oracle authority change.",
+      "references": [
+        "tests/product-audit-action-filters-browser.integration.mjs",
+        "tests/product-audit-pages.test.mjs",
+        "apps/api/index.ts",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D022",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T25_RETAINED_SOURCE_COMPARISON_PRIORITY",
+      "accepted_at_utc": "2026-10-09T22:01:52.575680+00:00",
+      "decision": "After T24, prioritize a read-only comparison of two retained Git migration-release sources. The existing220 catalog and actual importer/verifier/UI expose complete immutable release identities but only one retained release at a time; pairwise source review improves release preparation without target credentials. Require current same-project membership, compatible retained repository/folder/parser-profile and bounded manifest revalidation under consistent scoped read locks before loading payloads. Align by canonical arbitrary-precision migration version and retain both paths/content/hash facts: a same-version rename is a changed source fact; self comparison is a valid unchanged source view. Preserve authorized archived and repository-unavailable reads, all historical source/intent/generation/review records and no-write semantics. Failures are retryable scoped reads; never infer a deployed baseline, raw-byte history, schema snapshots or Oracle facts. This supports MIG-008/MIG-009 as a bounded extension without altering original acceptance or dependencies; MIG-013 applied checksum enforcement, MIG-014/MIG-033 drift/schema comparison and GIT-015 deployed provenance remain unverified. Audit search is a later alternative; observed schema work still requires authorized evidence. Ordinary safe reversible priority and compatibility default under SF-D010, assessed independently by a read-only native context. Registration is not implementation: fresh coupled work starts after T24 eligible merge and exact-master verification.",
+      "references": [
+        "docs/inputs/db-research/product-research/feature-catalog.json",
+        "packages/migrations/verify-retained-release.mjs",
+        "packages/migrations/import-release.mjs",
+        "apps/api/index.ts",
+        "apps/web/src/app.jsx",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D023",
+      "status": "ACCEPTED_LOCAL_PRODUCT_CONTINUATION_WITH_UNMERGED_REVIEWED_PREREQUISITE",
+      "accepted_at_utc": "2026-10-09T22:22:55.893849+00:00",
+      "decision": "Continue T25 local implementation and verification in a dedicated worktree while required GitHub security services for T24 draft PR37 are unavailable. This supersedes only the local start sequencing restriction in SF-D022: T24 is independently reviewed and VERIFIED locally, not merged. Create the worktree from current verified origin/master0fd6980 and fast-forward only the owned continuation branch containing exact reviewed T24 head704ef82 and immutable handoff evidence. Preserve the dependency graph, original220 acceptance, draft PR37 reviewed source, and all publication/merge gates. T25 readiness or merge requires eligible prerequisites, fresh base reconciliation, exact-head independent review, security findings classification and all required CI; no security availability exception, paid/public setting change or branch-protection bypass is inferred. Local source comparison is reversible and requires no external credentials, target authority or Oracle evidence. Use standing owner policy SF-D010 and preserve historical evidence append-only.",
+      "references": [
+        "AGENTS.md",
+        "docs/implementation/backlog.json",
+        "docs/implementation/CURRENT.md",
+        "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/final-ci/record.json"
+      ]
+    },
+    {
+      "id": "SF-D024",
+      "status": "ACCEPTED_BOUNDED_T25_READ_ONLY_SOURCE_COMPARISON_CONTRACT",
+      "accepted_at_utc": "2026-10-09T22:28:40.359256+00:00",
+      "decision": "Use authenticated POST /api/projects/:id/releases/compare with strict baseReleaseId and candidateReleaseId UUID body fields for a bounded read-only comparison. Preserve existing non-GET membership-bootstrap denial and same-origin authentication; explicit membership/current fixed roles protect each request. Read the scoped project under FOR SHARE and the unique release pair under FOR SHARE in deterministic UUID order. Check scalar JSON shape, count, metadata and encoded size bounds for both rows before loading either files payload; reproduce retained UTF-8 and format-1 manifests using the existing verifier and require compatible retained repository/folder/parser profile. Self comparison reads one unique row and returns unchanged facts. Missing, foreign, revoked or unverifiable pair requests use fixed nonleaking feedback; failures mutate no protected records. Return both immutable identities and ordered version-aligned ADDED/REMOVED/CHANGED/UNCHANGED facts with literal content, paths, hashes and byte counts. Use canonical decimal strings for versions; same-version rename and exact content change are changed source facts. Pair/project/session/credential/refresh changes clear results and discard old responses; existing authorized archived and repository-unavailable retained reads remain. No parser/Git rerun, schema/applied/deployed inference, target credential resolution or Oracle/execution authority. This ordinary reversible contract under SF-D010/SF-D022/SF-D023 changes no original220 acceptance or final security/merge gates.",
+      "references": [
+        "apps/api/index.ts",
+        "packages/migrations/compare-retained-releases.mjs",
+        "packages/migrations/verify-retained-release.mjs",
+        "apps/web/src/app.jsx",
+        "docs/implementation/backlog.json",
+        "docs/development/local-product.md"
+      ]
+    },
+    {
+      "id": "SF-D025",
+      "status": "ACCEPTED_T25_COMPLETE_NON_CONTENT_METADATA_PREFLIGHT_CORRECTION",
+      "accepted_at_utc": "2026-10-09T23:30:20.268093+00:00",
+      "decision": "Bound complete encoded non-content retained-file metadata in PostgreSQL before either compared release payload is materialized, including unknown/nested extension values. Keep each content budget independent and use safe typed guarded numeric checks for statementCount and bytes. Preserve compatible small bounded extension metadata rather than infer historical exact-key shape; never rewrite retained files/manifests or fill historical generations. Authorized corrupted reads fail fixed and do not mutate protected rows. The original unpushed936 head and passing initial captures remain immutable but lack security approval; corrected source needs fresh full frozen verification and independent exact-head QA/security. Ordinary safe corrective implementation under SF-D010, not a security waiver or original catalog change.",
+      "references": [
+        "apps/api/index.ts",
+        "tests/product-release-comparison.test.mjs",
+        "evidence/product/product-t25-security-correction-20261009T2328Z/blocked-review.json"
+      ]
+    },
+    {
+      "id": "SF-D026",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T26_RETAINED_METADATA_HARDENING_PRIORITY",
+      "accepted_at_utc": "2026-10-10T01:18:49.958949+00:00",
+      "decision": "Prioritize complete database-side non-content metadata preflight for existing statement-preview, offline plan creation, source-linked comment and approval payload readers. Independent preliminary security finding SEC-RETAINED-METADATA-02 shows those readers permit unknown fields under an overall escaped-content budget before Node allocation. Reuse a scoped bounded scalar preflight, type known numeric metadata with guarded casts and preserve content limits, lock ordering, valid Unicode/arbitrary versions/null counts/bounded extensions and all historical records. Every authorized integrity failure must preserve protected rows; existing audited authorization denials remain. Do not rewrite manifests, generations or intents, infer history or extend Oracle/execution authority. Resolve this bounded concrete security hardening before the earlier unregistered inbox proposal. Safe ordinary correction under SF-D010; original220 acceptance and normal independent exact-head/security/CI gates unchanged. Registration alone is not implementation or finding closure.",
+      "references": [
+        "docs/inputs/db-research/product-research/feature-catalog.json",
+        "AGENTS.md",
+        "apps/api/index.ts",
+        "apps/web/src/app.jsx",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D027",
+      "status": "ACCEPTED_LOCAL_T26_REVIEWED_PREREQUISITE_SEQUENCE",
+      "accepted_at_utc": "2026-10-10T01:19:20.083482+00:00",
+      "decision": "Start bounded T26 local hardening from latest verified master0fd6980 using normal fast-forward of exclusively owned reviewed T24 head704ef82, corrected independently reviewed T25 head2f3147f and local continuation4e72346. PR37 and PR38 remain drafts unmerged while required external GitHub security is unavailable. Local sequence enables verification and repair of SEC-RETAINED-METADATA-02, never substitutes for final prerequisite merges, exact-head review, available CI or restored required security gates. No force push/history rewrite/gate waiver; original220 catalog contracts and dependencies unchanged. Owner standing autonomous engineering policy authorizes this reversible safe local sequence.",
+      "references": [
+        "AGENTS.md",
+        "docs/implementation/github-sync.md",
+        "docs/implementation/backlog.json",
+        "evidence/product/product-t25-draft-review-20261010T0119Z/record.json"
+      ]
+    },
+    {
+      "id": "SF-D028",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T27_RETAINED_DETAIL_READ_BOUNDS",
+      "accepted_at_utc": "2026-10-10T02:03:07.485442+00:00",
+      "decision": "Prioritize the separately independently identified MEDIUM allocation exposure in GET /api/releases/:id before the earlier unregistered inbox proposal. Replace SELECT * with bounded scoped scalar preflight before any raw payload or identity/status/code projection. Preserve bounded historical VALID/INVALID/UNAVAILABLE and NOT_VALIDATED diagnostics and small extensions; never use a strict protected-reader VALID-only guard to hide legitimate invalid historical imports. Keep existing T26 protected readers strict, established locks/auth/grants/archive and no writes. Do not certify parser/runtime/target facts, rewrite sources/manifests/intents/generations or extend execution authority. Safe ordinary product hardening under SF-D010; exact-head review/CI/security gates and original220 acceptance remain unchanged. Registration is not implementation or residual finding closure.",
+      "references": [
+        "docs/inputs/db-research/product-research/feature-catalog.json",
+        "AGENTS.md",
+        "apps/api/index.ts",
+        "apps/web/src/app.jsx",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D029",
+      "status": "ACCEPTED_LOCAL_T27_SEQUENCE_ONLY_FINAL_GATES_UNCHANGED",
+      "accepted_at_utc": "2026-10-10T02:03:46.891425+00:00",
+      "decision": "Start T27 in a fresh worktree from latest verified origin/master0fd6980 and fast-forward only the owned reviewed prerequisite chain: T24head704ef82f, T25head2f3147fd, T26head62cbb02f and local append-only continuationb1eb72bd. T26 exact-head QA/security/license approves four-reader scope and draft-only PR39; available remote CI is running, required GitHub code/secret/protection remain unavailable. T27 may be implemented and verified locally under standing safe autonomy while prerequisites are unmerged, without changing original acceptance dependencies or waiving final exact-head review/security/CI/merge gates. Scope is bounded historical retained-detail reads, preserving INVALID/UNAVAILABLE diagnostics rather than granting execution or pretending target/runtime validity. Original220 acceptance unchanged; Sonar exception is Sonar-only, unavailable never PASS; Oracle independently BLOCKED. No public history rewrite, force-push, deployment, settings/financial change or shared checkout mutation.",
+      "references": [
+        "AGENTS.md",
+        "docs/implementation/github-sync.md",
+        "docs/implementation/backlog.json",
+        "evidence/product/product-t26-final-review-20261010T0157Z/record.json"
+      ]
+    },
+    {
+      "id": "SF-D030",
+      "status": "ACCEPTED_FOR_HISTORICAL_RELEASE_DETAIL",
+      "decision": "Keep historical display separate from strict planning/review integrity: PostgreSQL scalar type and encoded-size bounds precede explicit detail projection under scoped project/release locks. Preserve bounded invalid/unavailable and stored source/hash/byte-count facts without attesting integrity. Count empty content placeholders and envelope reserve; serialize representable timestamps through epoch milliseconds. Protected preflight policy is unchanged.",
+      "references": [
+        "packages/migrations/retained-release-preflight.mjs",
+        "apps/api/index.ts",
+        "docs/development/local-product.md",
+        "evidence/product/product-t27-resume-20261010/record.json"
+      ]
+    },
+    {
+      "id": "SF-D031",
+      "status": "ACCEPTED_FOR_BOUNDED_PRODUCT_T28",
+      "decision": "After locally verifying and publishing T27 and reconciling all220 features, select an independent cross-project pending-review inbox based on merged master0fd6980. Exclude archived projects, require current explicit grants even during bootstrap, and define eligible-for-review only as fixed approver role and nonauthor. Preserve strict existing source integrity/fresh-plan checks at review. Actor/scope-bound exact-time cursors are untrusted positions and do not grant access. No inbox decisions, assignment/delegation or full GOV-021 acceptance; normal security/Oracle gates remain unchanged.",
+      "references": [
+        "docs/implementation/acceptance.json",
+        "apps/api/index.ts",
+        "apps/web/src/app.jsx"
+      ]
+    },
+    {
+      "id": "SF-D032",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T29",
+      "accepted_at_utc": "2026-10-10T08:01:06.933558+00:00",
+      "decision": "Implement persistent pending-plan reviewer assignment independently from merged master0fd6980. Requester and current assignee may choose another current explicitly granted nonauthor fixed approver or clear; eligible nonauthor approvers may self-claim only unassigned plans. Assigned plans require that assignee for both decisions; unassigned legacy plans preserve prior independent-role behavior. Expected bigint revision prevents stale edits; same target is a no-op. Assignment is workload routing, not a project/role/source/worker grant. Expiring temporary delegation and inbox integration are future catalog work; no dependency on draft T28. Ordinary reversible default under SF-D010.",
+      "references": [
+        "apps/api/index.ts",
+        "packages/database/index.ts",
+        "apps/web/src/app.jsx",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D033",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T30",
+      "accepted_at_utc": "2026-10-10T09:02:00.505795+00:00",
+      "decision": "Introduce a shared reference-only inventory prerequisite to DBM001/004/007, independently on merged master. Trusted local OS operator alone registers immutable manual database/container/service/schema references and assigns current project ownership; project actors receive only scoped read views. Separate declared references from observed/attested Oracle identity: PROVISIONAL/MANUAL_REFERENCE, generation1, no observed DBID/GUID claims, no credential/profile/plan binding or verified execution state. Database/container operator keys scope immutable registrations; normalize route host case but preserve service and owner case. Declared route mapped to exactly one provisional container, never automatic alias/clone proof. Container declared environment DEV/SIT/UAT/PROD inherited with no schema override and no claim of target observation. One active schema owner; expected bigint revision and atomic historical transfer. No implicit legacy migration or new app admin. Full discovery/DBA attestation, credential purpose binding and plan lifecycle invalidation remain prerequisites before any execution use. Ordinary reversible metadata default under SF-D010.",
+      "references": [
+        "docs/inputs/db-research/product-research/DATABASE-RESOURCE-MODEL.md",
+        "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D034",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T31",
+      "accepted_at_utc": "2026-10-10T09:55:20.119076+00:00",
+      "decision": "Provide a usable offline approval withdrawal workflow independently on merged master. Any currently credentialed explicitly granted independent approver may withdraw an active project approved offline candidate plan, matching a stable new approval reference or explicit legacy NULL. Preserve immutable original decision/actor/reason/time and all source/intent/release/history records, append one linked revocation and audit, project state REVOKED; no reapproval of the same plan. New APPROVE decisions get a stable reference atomically linked to their success audit; never infer or backfill legacy references from audit history. Remove approval authority even if source/SQL/intent is stale or damaged, without claiming execution rollback. Active-project, current-author independence, exact live token/role/grant, serialization and NOT_EXECUTED/NOT_OBSERVED guards remain. A future actual job/worker must enforce revocation at admission and controlled stop/HOLD; T31 does not implement or certify that missing execution path. Ordinary reversible governance choice under SF-D010; no app admin, role expansion, Oracle calls or credentials.",
+      "references": [
+        "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D035",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T32_MVP_INTEGRATION",
+      "accepted_at_utc": "2026-10-10T10:56:49.940769+00:00",
+      "decision": "Resolve existing reviewed draft backlog as one combined offline MVP checkpoint in an isolated branch, preserving exact reviewed parents and original PRs/worktrees. Inbox eligibility follows assignment at pending review; approval withdrawal follows T31 any-current-independent-granted-approver authority even if different from assignee. Preserve immutable evidence/status semantics and union stable task identities; full feature and master verification require their own acceptance. External security unavailability prevents ready/master merge; no inferred waiver. Ordinary reversible engineering choice under SF-D010 and owner milestone priority.",
+      "references": [
+        "docs/implementation/github-sync.md",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D036",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T33_EXECUTION_COORDINATION",
+      "accepted_at_utc": "2026-10-10T11:54:30.735150+00:00",
+      "decision": "Build durable deployment requests and a separately restricted execution coordinator from the T32 integration checkpoint. Deployment permission is an explicit local-operator grant separate from reviewer role/membership. Existing offline approved plans create WAITING_VALIDATION requests, never executable admissions; target/history/ledger/mutex/validity proofs must be real and current. Request/claim/attempt/event identities and revisions are durable; ambiguity/evidence gaps require HOLD with no automatic SQL replay. Synthetic trusted ports prove coordinator behavior only, not Oracle compatibility, target attestation or deployment isolation. Original approval/source/history remain immutable. This is an ordinary reversible implementation choice under standing owner autonomy; missing lab authority prevents runtime claims, not independent code delivery.",
+      "references": [
+        "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md",
+        "docs/architecture/boundaries.md",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D037",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T34_SAFE_METADATA_RESTORE",
+      "accepted_at_utc": "2026-10-10T15:42:52.393217+00:00",
+      "decision": "Deliver a private trusted-local-operator snapshot/restore workflow using existing PostgreSQL tooling. Restore only to a fresh positively owned database and persist a new generation in RESTORE_HOLD before any admission; preserve prior records and revoke old restored credentials. Independent operator-held witness binds the exact backup, but does not establish target history agreement or detect every undeclared hostile rewind. Fresh credential rotation and retained explicit memberships support historical application reads without restoring execution authority. No automatic Oracle replay, restore-to-existing-database, HTTP administration, external deployment or unilateral hold clearance. Reversible engineering decision under SF-D010; original catalog and actual runtime/security gates remain unchanged.",
+      "references": [
+        "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md",
+        "docs/development/local-product.md",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D038",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T35_HTTPS_SESSIONS",
+      "accepted_at_utc": "2026-10-10T17:46:33.576503+00:00",
+      "decision": "Use native Fastify/Node TLS with private OS-provided certificates on loopback and persistent child browser credentials in the existing credential lifecycle. Retain explicit bearer CLI semantics; actual HTTPS cookie requests need same-origin CSRF proof. Bind child expiry to parent LOCAL credentials,30-minute idle and8-hour absolute lifetime; OS rotation/revocation and restore revoke all old authority. Serialize browser write checkpoints with lifecycle mutations. Background polling does not renew idle time. Browser fixtures trust only an ephemeral public-key pin without global trust changes; independent Node HTTPS verifies CA and hostname. No proxy trust, HTTP downgrade, public/network/worker deployment, new identity role, new dependency or Oracle authority. Ordinary reversible engineering choice under SF-D010.",
+      "references": [
+        "packages/database/browser-sessions.ts",
+        "docs/development/local-product.md",
+        "docs/implementation/backlog.json"
+      ]
     }
   ]
 }

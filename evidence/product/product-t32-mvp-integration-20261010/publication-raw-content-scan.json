@@ -1,0 +1,24 @@
+{
+  "task": "SF-PRODUCT-T32",
+  "scope": "Four exact original raw focused/final logs explicitly included despite repository *.log ignore rule. Prior source/metadata scans retained.",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "dir",
+    "/tmp/schemaforge-t32-raw-content-snapshot",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-t32-raw-content-private.json"
+  ],
+  "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "scanner_exit_code": 0,
+  "finding_count": 0,
+  "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "paths_sha256": {
+    "evidence/product/product-t32-mvp-integration-20261010/standard.log": "7dcf2940298d1e46eabb5b3de23303f85f5f5c970597b2cddad9201f08abd09e",
+    "evidence/product/product-t32-mvp-integration-20261010/product.log": "9d6513f6fbf2079f86c1d77d5e10866f5acfbd4e59c495c8659b618a83382b63",
+    "evidence/product/product-t32-mvp-integration-20261010/browser.log": "b0208195bdcabf7b17eb12ca9baa42a374ba68311a896e025dc00641c8097162",
+    "evidence/product/product-t32-mvp-integration-20261010/focused-implementation.log": "d0407aab37009b0100d3c2dcfda8a76248a97dad242d04777a0e08ae731c2aff"
+  },
+  "recorded_at": "2026-10-10T11:32:17.607381+00:00"
+}

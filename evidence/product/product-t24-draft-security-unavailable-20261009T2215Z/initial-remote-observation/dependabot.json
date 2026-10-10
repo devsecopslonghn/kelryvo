@@ -1,0 +1,13 @@
+{
+  "command": [
+    "gh",
+    "api",
+    "repos/devsecopslonghn/schemaForge/dependabot/alerts?state=open",
+    "--jq",
+    "map({number,state,html_url})"
+  ],
+  "observed_at_utc": "2026-10-09T22:08:22.396566+00:00",
+  "exit_code": 0,
+  "stdout": "[]\n",
+  "stderr": ""
+}

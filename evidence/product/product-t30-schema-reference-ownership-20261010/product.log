@@ -1,0 +1,304 @@
+
+> schemaforge-local-development@0.0.0 test:product
+> node scripts/test-product.mjs
+
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: product API persists a governed offline plan and never claims execution
+ok 1 - product API persists a governed offline plan and never claims execution
+  ---
+  duration_ms: 5971.628745
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+ok 2 - approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+  ---
+  duration_ms: 6490.733791
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: archival keeps immutable records readable and refuses further project work
+ok 3 - archival keeps immutable records readable and refuses further project work
+  ---
+  duration_ms: 454.786826
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+ok 4 - an in-flight metadata write rechecks archival after acquiring the project lock
+  ---
+  duration_ms: 243.014969
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+ok 5 - plan review comments are scoped, validated, durable, ordered, and serialized
+  ---
+  duration_ms: 1126.270949
+  type: 'test'
+  ...
+# Subtest: local credentials persist and recover real interrupted operator processes
+ok 6 - local credentials persist and recover real interrupted operator processes
+  ---
+  duration_ms: 1180.715
+  type: 'test'
+  ...
+# Subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+ok 7 - concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+  ---
+  duration_ms: 363.574745
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: terminal plan decisions retain reviewer snapshots and historical ID fallback
+ok 8 - terminal plan decisions retain reviewer snapshots and historical ID fallback
+  ---
+  duration_ms: 471.236877
+  type: 'test'
+  ...
+# Subtest: local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+ok 9 - local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+  ---
+  duration_ms: 8126.490348
+  type: 'test'
+  ...
+# Subtest: resolved commits remain immutable after the source branch moves
+ok 10 - resolved commits remain immutable after the source branch moves
+  ---
+  duration_ms: 5489.365004
+  type: 'test'
+  ...
+# Subtest: leading-zero aliases and equivalent dotted versions are rejected as duplicates
+ok 11 - leading-zero aliases and equivalent dotted versions are rejected as duplicates
+  ---
+  duration_ms: 96.532767
+  type: 'test'
+  ...
+# Subtest: malformed refs and migration-folder traversal are rejected before Git lookup
+ok 12 - malformed refs and migration-folder traversal are rejected before Git lookup
+  ---
+  duration_ms: 40.773507
+  type: 'test'
+  ...
+# Subtest: symlinked migration entries and Git submodules are rejected
+ok 13 - symlinked migration entries and Git submodules are rejected
+  ---
+  duration_ms: 166.144945
+  type: 'test'
+  ...
+# Subtest: invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+ok 14 - invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+  ---
+  duration_ms: 5397.538115
+  type: 'test'
+  ...
+# Subtest: the installed ANTLR helper parses actual imported SQL without a fake positive driver
+ok 15 - the installed ANTLR helper parses actual imported SQL without a fake positive driver
+  ---
+  duration_ms: 2668.094397
+  type: 'test'
+  ...
+# Subtest: explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+ok 16 - explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+  ---
+  duration_ms: 2729.041447
+  type: 'test'
+  ...
+# grant complete
+# grant complete
+# ENFORCED
+# Subtest: activation serializes with in-flight revocation and bootstrap creation stays denied
+ok 17 - activation serializes with in-flight revocation and bootstrap creation stays denied
+  ---
+  duration_ms: 324.41629
+  type: 'test'
+  ...
+# grant complete
+# Subtest: activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+ok 18 - activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+  ---
+  duration_ms: 204.018872
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+ok 19 - plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+  ---
+  duration_ms: 9918.205724
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+ok 20 - rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+  ---
+  duration_ms: 9028.616414
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+ok 21 - source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+  ---
+  duration_ms: 19944.318712
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: binding updates serialize with approval and plan creation under project locks
+ok 22 - binding updates serialize with approval and plan creation under project locks
+  ---
+  duration_ms: 5800.362343
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: legacy project schema initializes only current tracking and never backfills historical plans
+ok 23 - legacy project schema initializes only current tracking and never backfills historical plans
+  ---
+  duration_ms: 3181.912262
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: offline planning rejects corrupted retained releases without writes and uses locked current state
+ok 24 - offline planning rejects corrupted retained releases without writes and uses locked current state
+  ---
+  duration_ms: 6203.994634
+  type: 'test'
+  ...
+# Subtest: startup arguments accept repeated local repositories and reject unknown or excess options
+ok 25 - startup arguments accept repeated local repositories and reject unknown or excess options
+  ---
+  duration_ms: 3.483298
+  type: 'test'
+  ...
+# Subtest: configured repositories are canonical local Git worktrees with display-only public descriptors
+ok 26 - configured repositories are canonical local Git worktrees with display-only public descriptors
+  ---
+  duration_ms: 85.747644
+  type: 'test'
+  ...
+# Subtest: invalid startup options fail before creating local configuration or reaching Docker
+ok 27 - invalid startup options fail before creating local configuration or reaching Docker
+  ---
+  duration_ms: 150.734338
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: a configured custom Git repository is visible without its path and imports through the product API
+ok 28 - a configured custom Git repository is visible without its path and imports through the product API
+  ---
+  duration_ms: 3089.09146
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: project-bound Git refs list safely and imports retain immutable branch and tag commits
+ok 29 - project-bound Git refs list safely and imports retain immutable branch and tag commits
+  ---
+  duration_ms: 8736.005507
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: authenticated denied decisions append fixed audit facts while preserving plan and history
+ok 30 - authenticated denied decisions append fixed audit facts while preserving plan and history
+  ---
+  duration_ms: 593.123184
+  type: 'test'
+  ...
+# Subtest: manual schema references are idempotent, exact-case, serially assigned and project-scoped
+ok 31 - manual schema references are idempotent, exact-case, serially assigned and project-scoped
+  ---
+  duration_ms: 512.036207
+  type: 'test'
+  ...
+# Subtest: trusted inventory CLI uses private local metadata authority and preserves operator history
+ok 32 - trusted inventory CLI uses private local metadata authority and preserves operator history
+  ---
+  duration_ms: 1882.336247
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: source bindings persist, authorize changes, constrain imports before Git, and remain private
+ok 33 - source bindings persist, authorize changes, constrain imports before Git, and remain private
+  ---
+  duration_ms: 403.31717
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: source binding is rechecked under a project lock before an imported release can commit
+ok 34 - source binding is rechecked under a project lock before an imported release can commit
+  ---
+  duration_ms: 5831.065922
+  type: 'test'
+  ...
+# Subtest: pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+ok 35 - pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+  ---
+  duration_ms: 3176.845587
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: statement preview is scoped, bounded, archived-readable and read only
+ok 36 - statement preview is scoped, bounded, archived-readable and read only
+  ---
+  duration_ms: 34732.295747
+  type: 'test'
+  ...
+1..36
+# tests 36
+# suites 0
+# pass 36
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 158866.417421

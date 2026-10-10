@@ -1,0 +1,43 @@
+{
+  "record_type": "INDEPENDENT_SECURITY_LICENSE_PRECOMMIT_REVIEW_NOT_FINAL_HEAD_APPROVAL",
+  "task": "SF-PRODUCT-T26",
+  "reviewer": "/root/t26_security_review",
+  "recorded_at_utc": "2026-10-10T01:36:00Z",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "source_point": {
+    "head": "35fc2ca8de51d43457fb8caadc7636b03a6f25f6",
+    "working_tree_frozen_as_reported_by_root": true,
+    "tracked_worktree_changes": ["apps/api/index.ts", "docs/development/local-product.md", "tests/product-statement-preview.test.mjs"],
+    "new_worktree_file": "packages/migrations/retained-release-preflight.mjs",
+    "source_sha256": {
+      "apps/api/index.ts": "edf22905b051e33f463bfc57acd70692c9e739f6ed8b06d9e015acdd156e41b9",
+      "packages/migrations/retained-release-preflight.mjs": "fdd7d6bcafb0158bd8bf769eabc9067e677a33b0da12032380aa6554f4b32bd7",
+      "tests/product-statement-preview.test.mjs": "5813547a197a5963ea49390feec1700e6f4e6c19918b0b1941c9361838d10740",
+      "docs/development/local-product.md": "90cb09a327d1f3411df95819268254081e607f42dedfe10bea41295f554212d7",
+      "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+      "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e",
+      "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+      "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3"
+    }
+  },
+  "review_observations": {
+    "four_protected_readers": "The shared helper returns scalar facts only, computes complete per-file JSONB metadata after removing content, includes array delimiters/separator allowance and encoded identity values, caps metadata at 4 MiB, bounds 128 files/2 MiB per file/16 MiB aggregate content and preserves parser/version/content fields. It performs no payload SELECT. Four callers retain their route lock sequence and call helper before their retained files SELECT. Duplicate preliminary queries return validation equality booleans rather than raw validation_status. Status/folder/digest/path obvious shape guards are present. Approval audited denials still execute before approval integrity preflight; authorized integrity paths return before lifecycle writes. No lock/auth/fixed-response/legacy denial semantic regression found by static review.",
+    "numeric_guarding": "bytes cast is behind JSON type, length and digit guards; statementCount numeric cast is behind JSON type, length, integer syntax and nested CASE guards. Null is accepted. Arbitrary decimal versions are not converted through JavaScript numbers.",
+    "t25_pair_comparison": "T26 does not modify the comparator route; its existing complete two-row bounds checks and both-payloads-after-both-preflights ordering remain intact.",
+    "initial_preliminary_findings": "T26-PRELIM-01 raw validation_status and T26-PRELIM-02 manifest digest syntax were addressed in later frozen working bytes. Earlier preliminary captures remain immutable; this record evaluates the later hashes only.",
+    "license": "LICENSE, NOTICE, package.json and package-lock.json hashes match the previously reviewed T25 prerequisite; no license, notice or dependency diff observed."
+  },
+  "remaining_adjacent_finding": {
+    "id": "T26-PRELIM-GET-01",
+    "status": "OPEN_FOR_SEPARATE_T27_TRIAGE",
+    "severity": "MEDIUM",
+    "summary": "Authenticated GET /api/releases/:id still uses SELECT * and returns raw files with no bounds. Under privileged direct DB corruption it can decode/serialize arbitrary JSONB size into Node; authenticate prehandler does enforce explicit project membership. Keep separate from four-reader T26 closure and preserve readable INVALID/NOT_VALIDATED release diagnostics in a future bounded detail-reader task."
+  },
+  "reviewer_verdict_at_this_source_point": "NO_MATERIAL_BLOCKER_FOUND_IN_FROZEN_T26_WORKING_BYTES; SEC-RETAINED-METADATA-02 EXACT-HEAD CLOSURE PENDING ROOT INTEGRATION/COMMIT AND FINAL REVIEW.",
+  "limitations": [
+    "Reviewer ran no tests, builds, scans, lifecycle, Git staging, publication, or external actions.",
+    "Root reports the native full check/product/browser capture is running and four-reader focused evidence passed; this reviewer did not independently execute or certify those results.",
+    "This is a pre-commit sourcepoint on the uncommitted shared tree, not exact final-head approval. Root followup is required after integration/commit.",
+    "Sonar unavailable remains never PASS; GitHub code scanning 403, secret scanning 404 and protection 403 remain unavailable; Oracle independent BLOCKED."
+  ]
+}

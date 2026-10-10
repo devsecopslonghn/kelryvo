@@ -1,0 +1,235 @@
+{
+  "schema_version": "1.0.0",
+  "review_type": "independent exact-head security and license review",
+  "recorded_at_utc": "2026-10-09T20:03:27Z",
+  "verdict": "APPROVED",
+  "exact_head": {
+    "repository": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+    "head": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+    "tree": "ccc3058db4b34c4db51085b74818587f1cd1d82d",
+    "base": "fe1d3a84381e5080d591ca1a43a7a9b9928f93ee",
+    "working_tree_clean": true
+  },
+  "security_review": {
+    "verdict": "APPROVED",
+    "findings": [],
+    "prior_blocker": {
+      "status": "RESOLVED",
+      "description": "The prior source-binding draft-clear blocker is fixed. Current source-context signature includes project, repository, folder, binding generation, and updatedAt; changes increment the statement-preview sequence, clear selected supplemental references and preview state, and preserve ordinary comment text. Save callback is guarded by current project/token/session.",
+      "evidence": {
+        "file": "apps/web/src/app.jsx",
+        "lines": [
+          263,
+          279,
+          576,
+          583
+        ],
+        "test": "tests/product-comments-browser.integration.mjs",
+        "lines_test": [
+          275,
+          404
+        ],
+        "coverage": "Generation-only refresh with populated body-only predecessor compares plan/comment/plan-audit rows; holds a statement preview response across refresh and proves it is discarded; exercises authorized folder PUT and verifies selected refs clear while plain text and predecessor rows remain."
+      }
+    },
+    "review_scope": [
+      "T23 acceptance and SF-D016/017/018 plus T24 registration SF-D019",
+      "API authorization, bounds, lock order, parser/source revalidation and atomic comment/audit",
+      "DB migration/helper, UI draft and preview guards, browser/regression evidence",
+      "license notices and exact-head publication/history scan classifications"
+    ],
+    "security_scans": {
+      "scanner": "Gitleaks 8.30.1",
+      "binary_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+      "publication": {
+        "files": 324,
+        "exit_code": 1,
+        "findings": 4,
+        "clean_scan_PASS": false,
+        "safe_metadata_sha256": "68642d5fe6ea1d310495b4e68527f5381ba2886efbbc02b4a54455d8247fe08b",
+        "private_report_sha256": "e032321c0081e6ffe60265a150455df67cca4e0ecfdc4c747efc46c026e03e04",
+        "private_report_hash_recomputed": "e032321c0081e6ffe60265a150455df67cca4e0ecfdc4c747efc46c026e03e04"
+      },
+      "allrefs_history": {
+        "findings": 117,
+        "exit_code": 1,
+        "clean_scan_PASS": false,
+        "previous_findings": 116,
+        "previous_tuple_multiset_preserved": true,
+        "new_tuples": [
+          {
+            "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+            "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/snapshot-sha256.json",
+            "line": 159,
+            "rule": "generic-api-key",
+            "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST"
+          }
+        ],
+        "safe_metadata_sha256": "357eb8ab14809c0211a15432b6aa028fd1b6ac25fb6f80027f8fe7c095075084",
+        "private_report_sha256": "c9020ab65e0ea38b783b8bddf21e383076969b574a47566dc3f93bc68f9c66ca",
+        "private_report_hash_recomputed": "c9020ab65e0ea38b783b8bddf21e383076969b574a47566dc3f93bc68f9c66ca"
+      },
+      "classification": {
+        "classification_file_sha256": "55ab55de89cef4f4dea4c40c8defed594348e1ce4ecb453bc0aa73ca71a64f0c",
+        "snapshot_sha256_manifest_sha256": "84a22c7aa48573fafcf2d1a1f40e34e6e418af07d58e4fa0f36186a0bd647963",
+        "findings": [
+          {
+            "scope": "publication",
+            "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+            "path": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+            "lines": [
+              416,
+              416
+            ],
+            "rule": "generic-api-key",
+            "blob_sha256": "cf905f3161b44a53d867b178dae320679c693f5c6f440f5dd480ea5dd92be5e9",
+            "matched_values_not_printed": true,
+            "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+            "verified_provenance": [
+              {
+                "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+                "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+                "exact_bytes_recomputed": true
+              },
+              {
+                "commit": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+                "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+                "exact_bytes_recomputed": true
+              },
+              {
+                "commit": "7c7cd5df8062e265ed9985a6389a3e87c455c6c5",
+                "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+                "exact_bytes_recomputed": true
+              }
+            ]
+          },
+          {
+            "scope": "publication",
+            "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+            "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/snapshot-sha256.json",
+            "lines": [
+              159,
+              159
+            ],
+            "rule": "generic-api-key",
+            "blob_sha256": "7989f01d113c2d80db170b4cfb84bbd3e397301863e69afd6ba85683b6b47097",
+            "matched_values_not_printed": true,
+            "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+            "verified_provenance": [
+              {
+                "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+                "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+                "exact_bytes_recomputed": true
+              },
+              {
+                "commit": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+                "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+                "exact_bytes_recomputed": true
+              },
+              {
+                "commit": "7c7cd5df8062e265ed9985a6389a3e87c455c6c5",
+                "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+                "exact_bytes_recomputed": true
+              }
+            ]
+          },
+          {
+            "scope": "publication",
+            "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+            "path": "docs/implementation/CONTINUE.md",
+            "lines": [
+              370,
+              370
+            ],
+            "rule": "generic-api-key",
+            "blob_sha256": "4f52a0dc98b0847dfb9890c2fd36e96f00f0597a4756920d1706784081876c48",
+            "matched_values_not_printed": true,
+            "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+          },
+          {
+            "scope": "publication",
+            "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+            "path": "docs/implementation/CURRENT.md",
+            "lines": [
+              370,
+              370
+            ],
+            "rule": "generic-api-key",
+            "blob_sha256": "3c524b4c4f26ff49b6a344a4db4c6bdf597a48c556c521e85dbfe23356fd948c",
+            "matched_values_not_printed": true,
+            "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+          },
+          {
+            "scope": "new_history",
+            "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+            "path": "evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/snapshot-sha256.json",
+            "lines": [
+              159,
+              159
+            ],
+            "rule": "generic-api-key",
+            "blob_sha256": "7989f01d113c2d80db170b4cfb84bbd3e397301863e69afd6ba85683b6b47097",
+            "matched_values_not_printed": true,
+            "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+            "verified_provenance": [
+              {
+                "commit": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+                "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+                "exact_bytes_recomputed": true
+              },
+              {
+                "commit": "3df3bef0471b8a4ee41d013b8f192d9c44a85f8c",
+                "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+                "exact_bytes_recomputed": true
+              },
+              {
+                "commit": "7c7cd5df8062e265ed9985a6389a3e87c455c6c5",
+                "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+                "exact_bytes_recomputed": true
+              }
+            ]
+          }
+        ],
+        "actual_credentials_observed": false,
+        "rotation_indicated": false,
+        "matched_values_or_secrets_printed": false,
+        "allowlist_or_history_rewrite": false
+      }
+    },
+    "native_evidence": {
+      "run_record": "evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/run-record.json",
+      "run_record_sha256": "0a45083d7d4de75bdd8a7b18d4bc284124503c17abd33a8e2b52adb3f497d332",
+      "recorded_counts": {
+        "standard": "158/158 pass, 0 skipped",
+        "product": "34/34 pass, 0 skipped",
+        "browser": "20/20 pass, 0 skipped",
+        "focused": "2/2 pass, 0 skipped"
+      },
+      "reviewer_ran_no_build_tests_or_scans": true
+    },
+    "limitations": [
+      "Inherited eight historical finding classifications remain provenance-only because original source bytes were unavailable; no fabricated recomputation.",
+      "Earlier mutable T23 UI bytes were unavailable and remain an explicit limit; the corrected final run source manifest is preserved.",
+      "Sonar unavailable is not PASS. Oracle acceptance remains separately BLOCKED.",
+      "Whole-file release GET size behavior remains outside this bounded T23 review; no claim of resolution."
+    ]
+  },
+  "license_review": {
+    "verdict": "APPROVED",
+    "findings": [],
+    "checks": {
+      "PolyForm Shield 1.0.0 LICENSE unchanged from base": true,
+      "NOTICE unchanged from base": true,
+      "third-party grants and package lock unchanged": true,
+      "no license/notice/third-party/package lock paths changed in scoped diff": true
+    },
+    "current_sha256": {
+      "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+      "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e",
+      "package_lock": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3"
+    },
+    "limitations": [
+      "Naming and F31 packaging/distribution approval remain pending; this review is not a distribution approval."
+    ]
+  }
+}

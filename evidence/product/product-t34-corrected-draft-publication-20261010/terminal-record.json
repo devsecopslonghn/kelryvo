@@ -1,0 +1,111 @@
+{
+  "id": "product-t34-corrected-draft47-available-ci-terminal",
+  "subject_id": "SF-PRODUCT-T34",
+  "kind": "STATIC",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact-head draft47 terminal available CI observation and unchanged original open-PR/master reconciliation",
+  "exit_code": 0,
+  "criterion_indexes": [
+    5
+  ],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t34-corrected-draft-publication-20261010/ci-observation-15.stdout",
+    "sha256": "7800854f7a9635f30d7eb006cf7428026c529ea418f89446e0526b76eeb107f9"
+  },
+  "recorded_at": "2026-10-10T17:34:46.866150+00:00",
+  "published_head": "9d6deff83ea1373bdf3fccc77c653500e70620da",
+  "frozen_source_head": "f7426040789076ff728263b7e09a78aa98360464",
+  "pr": 47,
+  "available_checks": [
+    {
+      "name": "product",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38071369840/job/114269280821"
+    },
+    {
+      "name": "product",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38071367119/job/114269272511"
+    },
+    {
+      "name": "parser",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38071369833/job/114269280767"
+    },
+    {
+      "name": "parser",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38071367112/job/114269272403"
+    },
+    {
+      "name": "foundation",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38071369841/job/114269280775"
+    },
+    {
+      "name": "foundation",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38071367157/job/114269272661"
+    }
+  ],
+  "required_security_available": false,
+  "merge_eligible": false,
+  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "preserved_original_pr_heads": {
+    "37": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+    "38": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+    "39": "62cbb02f726b2a8a1d38279554fb9e85cc3e4976",
+    "40": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
+    "41": "17e9a92fc91527dd8b9d374a52503e3430cddb3f",
+    "42": "f58c4146cf01c5e7a83de6b1b5b4255259f81c05",
+    "43": "72f5e07170e8c9ebac1c17ad00a609b8f7b5f1b5",
+    "44": "b69c3c34c7cb89a3124350f39a7af8eb89a5d609",
+    "45": "57e2395aa645e83120e6d60a88cdb8b759e31af2",
+    "46": "b145a9a96544113dc4ac1c247fd612aadb62c424"
+  },
+  "limitations": [
+    "Only six actual available foundation/parser/product push+PR jobs are SUCCESS. Required code scanning/secret scanning/protection APIs remain unavailable; Sonar exception is Sonar only. No ready/merge/integrated-master claim.",
+    "Both T34 scoped changed-content and incoming-commit scans passed with zero findings. Earlier T33 observations remain intact; no all-history clean or remote security claim.",
+    "No Oracle adapter/execution/runtime/process-isolation or target-history reconciliation acceptance. Original offline requests remain waiting; restored unfinished work is held and no HOLD-clear interface exists.",
+    "Post-publication observation/tracking metadata is retained in local unpushed continuation commits; the remotely tested candidate remains the exact published head recorded here. Original failed/interrupted artifacts retain exact bytes, including raw Git stderr whitespace."
+  ],
+  "first_candidate_failure": {
+    "path": "evidence/product/product-t34-draft-publication-20261010/ci-terminal.json",
+    "sha256": "f134ca015b6a2cd362b12bf27cab31e4c3d7055fa09fb2867f0d0738822644c9"
+  },
+  "publication_reviews": [
+    {
+      "path": "evidence/product/product-t34-backup-restore-ci-correction-20261010/publication-contents-scan.json",
+      "sha256": "daacbc02c5c0a85e79db8ca1553f4742e24d605fdede465bffe50aae321f489c"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-ci-correction-20261010/publication-incoming-scan.json",
+      "sha256": "a0d30388882b9edfb7bd4ad3d383674db320f16fad1fdb3747902edb5e3b2001"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-ci-correction-20261010/publication-annotation-delta-scan.json",
+      "sha256": "21d344df5114d47b4bd890f744f4dbf2240b6f736e1d0d9dbba94da61cb11a1f"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-ci-correction-20261010/publication-license-review.json",
+      "sha256": "a736709d3ddfdfd50ec42224fe9b785433b3177ae4b93118d11c34fb70aec50c"
+    },
+    {
+      "path": "evidence/product/product-t34-backup-restore-ci-correction-20261010/publication-independent-review.json",
+      "sha256": "3fde6e1b4ce08c9787589de306868131c74582d1504b24f54c334d4246aad215"
+    }
+  ],
+  "published_candidate_review": {
+    "path": "evidence/product/product-t34-corrected-draft-publication-20261010/published-candidate-independent-review.json",
+    "sha256": "c71c6f6c01ef5fc1870350c5453be5ff11068513a5b945b3f6f0a8b23198c6f8"
+  }
+}

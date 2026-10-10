@@ -1,0 +1,7 @@
+
+> schemaforge-local-development@0.0.0 lint
+> node scripts/check-source.mjs && node scripts/tracker.mjs validate
+
+Source checks passed for 164 authored files.
+ERROR evidence product-t25-reviewed-draft-publication has invalid kind, outcome, subject, scope, or coverage
+ERROR evidence product-t25-reviewed-draft-publication must name hashed record and raw output files

@@ -2866,6 +2866,9 @@
         },
         {
           "index_id": "product-t23-corrected-comment-evidence-local-verified"
+        },
+        {
+          "index_id": "product-t23-merge-master-verified"
         }
       ],
       "blockers": []
@@ -2897,11 +2900,474 @@
         "SF-PRODUCT-T24-WEB",
         "SF-PRODUCT-T24-PERSISTENCE"
       ],
-      "status": "READY",
+      "status": "VERIFIED",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "product-t24-audit-pages-local-verified"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T25",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Compare retained migration release sources",
+      "dependencies": [
+        "SF-PRODUCT-T24",
+        "SF-PRODUCT-T12",
+        "SF-PRODUCT-T11",
+        "SF-PRODUCT-T21"
+      ],
+      "feature_ids": [
+        "MIG-008",
+        "MIG-009"
+      ],
+      "acceptance_criteria": [
+        "Add authenticated same-project read-only comparison of two selected retained migration releases. Reuse fixed roles and current explicit project membership; missing, foreign or revoked resources retain indistinguishable denials. Authorized archived reads and repository-unavailable retained reads remain available. Existing release and plan APIs remain compatible; comparison confers no planning, approval or execution authority.",
+        "Under consistent scoped project/release read locks, apply PostgreSQL scalar size/shape/metadata preflight to both releases before loading file payloads. Require VALID retained releases, bounded verified UTF-8 content and reproduced format-1 manifests using existing verification. Require matching retained repository ID, folder and parser profile for a comparable pair. Reject malformed, oversized, corrupt or incompatible references with fixed feedback and no writes; never infer or backfill old generations, intent, raw bytes or applied history.",
+        "Align files by existing canonical arbitrary-precision migration version and produce deterministic ordered ADDED, REMOVED, CHANGED and UNCHANGED source facts, including both paths and retained SHA256/byte metadata. A path/name change at the same version is CHANGED even when content is equal. Detect exact content changes and preserve literal source bytes; do not convert versions through JavaScript Number or infer deployment/schema/target drift. Comparing a release with itself is a valid unchanged source view.",
+        "React release review lets both fixed roles explicitly select base and candidate retained releases, see both immutable commit/manifest identities and ordered comparison facts, and inspect retained SQL with existing escaped rendering. Label the result as source comparison only. Project/pair/session/current credential/refresh changes discard results and delayed responses; revoked access clears scoped records using current recovery. Failed comparisons leave existing records intact and can be retried with fresh scoped reads.",
+        "Real temporary Git commits, isolated PostgreSQL/API and Chromium prove added, removed, one-byte content edit, same-version rename and unchanged files; deterministic arbitrary-precision ordering; self comparison; invalid duplicate-version imports; corrupt/malformed/oversized/incompatible or cross-project pairs; unauthorized/revoked reads, archived history, removed repository registration, controlled delayed pair/project/session responses and API/connection-pool recreation persistence. Compare complete populated retained source/plan/intent/comment/decision/history/audit snapshots for no writes and preserve all standard/product/parser/browser regressions without skipped required cases.",
+        "This is a bounded retained-source review extension supporting MIG-008/MIG-009, not full original catalog acceptance, MIG-013 applied checksum enforcement, MIG-014/MIG-033 schema drift/comparison, or GIT-015 deployed provenance. Preserve original 220-feature requirements and separate Oracle VALIDATION BLOCKED. No target connection, credentials, parser rerun for comparisons, Git reread, external source, schema snapshot fabrication, history rewrite, worker/dispatch or deployment. Document safe compatibility/recovery defaults and preserve Sonar unavailable never PASS."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T25-API",
+        "SF-PRODUCT-T25-WEB",
+        "SF-PRODUCT-T25-PERSISTENCE"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t25-retained-source-comparison-local-verified"
+        },
+        {
+          "index_id": "product-t25-security-corrected-local-verified"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T26",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Bound retained-source metadata before protected payload reads",
+      "dependencies": [
+        "SF-PRODUCT-T25",
+        "SF-PRODUCT-T23",
+        "SF-PRODUCT-T22",
+        "SF-PRODUCT-T19",
+        "SF-PRODUCT-T17",
+        "SF-PRODUCT-T15"
+      ],
+      "feature_ids": [
+        "MIG-008",
+        "GIT-016",
+        "GOV-023"
+      ],
+      "acceptance_criteria": [
+        "Apply complete bounded PostgreSQL scalar preflight before loading retained files in statement preview, offline plan creation, source-linked comments and approval. Reuse scoped existing locks, VALID source verification and fixed endpoint errors. Bound encoded non-content metadata including unknown nested fields/array overhead and identity facts; type/range known scalar fields with guarded safe numeric processing. Preserve current content budgets and arbitrary-precision supported versions.",
+        "Preserve historical retained releases and plans without rewriting or backfilling. Valid Unicode content, null/nonnegative safe statement counts and bounded historical extension metadata remain supported. Malformed or excessive metadata fails before payload materialization; retain legacy readable/rejection behavior and existing generation/intent/fresh-plan boundaries.",
+        "Preserve existing authorization, explicit memberships, fixed roles, requester exclusion, archival and terminal protections. Authorized integrity failures cause no new plan/comment/decision/history/audit mutations; existing audited authorization-denial behavior remains unchanged. No new execution authority, target credentials, Oracle calls or schema migration without concrete necessity.",
+        "Use one reusable bounded PostgreSQL preflight implementation where practical without changing importer manifests or historical verification semantics. Keep exact transaction lock ordering for project/release/plan/profile and prevent concurrent retained mutation from bypassing checks. Reuse T18 fresh-plan recovery and existing fixed UI integrity feedback.",
+        "Real isolated PostgreSQL and local Git fixtures cover each of four readers with legitimate Unicode/arbitrary versions/null counts/bounded extras; oversized flat/nested extras, malformed known metadata, aggregate content and counts; both roles/project isolation/archive/rejection/no Git registration; exact locking concurrent mutation and API/pool recreation persistence. Compare complete populated source/plan/intent/comment/decision/history/audit snapshots immediately around failures before restoration; preserve all full standard/Git/parser/product/browser regressions with zero skipped required cases.",
+        "This is bounded security hardening for retained-source reads, not full original catalog, database tamper-proofing, deployed/schema or Oracle validation. Preserve original220 requirements/dependencies, immutable failed evidence, license/grants/locks/grammar/scanners and normal exact-head QA/security/CI gates. Sonar unavailable never PASS; Oracle VALIDATION independently BLOCKED; no history rewrite/target connection/deployment."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T26-API",
+        "SF-PRODUCT-T26-PERSISTENCE",
+        "SF-PRODUCT-T26-WEB"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t26-retained-metadata-local-verified"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T27",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Bound retained release detail reads before payload materialization",
+      "dependencies": [
+        "SF-PRODUCT-T26",
+        "SF-PRODUCT-T25",
+        "SF-PRODUCT-T13",
+        "SF-PRODUCT-T11",
+        "SF-PRODUCT-T21"
+      ],
+      "feature_ids": [
+        "GIT-006",
+        "MIG-008",
+        "MIG-009"
+      ],
+      "acceptance_criteria": [
+        "GET /api/releases/:id uses scoped transaction and database scalar bounds before selecting retained files or raw identity/status/code metadata. Reject malformed/oversized retained records with fixed non-sensitive unavailable response; never transfer unknown unbounded fields through SELECT *. Preserve existing authenticated membership and project archive read boundaries.",
+        "Keep bounded legitimate retained VALID, INVALID and UNAVAILABLE imports readable, including per-file VALID/INVALID/UNAVAILABLE/NOT_VALIDATED observations, null statement counts, bounded unknown nested metadata, Unicode and arbitrary-precision versions. This reader is historical display; do not promote invalid/unavailable release to VALID, rewrite historical source/hash/manifest, backfill intent/generation or authorize planning/approval.",
+        "Reuse T26 scoped scalar bounds where practical with explicit protected versus historical-read policy, preserving 128files/2MiBper/16MiBtotal content and4MiB complete encoded non-content metadata budget. Bound validationCode and every returned identity/status field before Node allocation; shared helper changes preserve strict protected-reader validity. No parser/Git re-read/target connection or schema migration without concrete necessity.",
+        "Under existing scoped source locks prove concurrent mutation cannot bypass preflight and later payload selection. Every authorized read failure/success leaves complete populated source/project/plan/intent/comment/decision/history/audit records unchanged. Preserve current roles/grants/session/bootstrap/archive and API restart/PostgreSQL persistence; no denial audit mutation added to reads.",
+        "Real local Git and isolated PostgreSQL produce legitimate valid and invalid/offline-unavailable releases and exercise oversized flat/nested metadata, bad known fields/arraycounts/aggregatecontent/huge status and code. Query instrumentation proves no raw payload or unbounded status projection before rejection; snapshots surround request before fixture restoration. Browser existing source/provenance/review inspection displays bounded valid/invalid historical facts and fixed unavailable error; stale project/session responses stay hidden. Run full standard/Git/parser/product/browser regressions with zero required skips.",
+        "Bounded resource hardening closes only independently reviewed residual detail-read finding, not all original220 features or runtime attestation. Preserve license/notices/grants/dependencies/locks/grammar/scanners/immutable failures. Normal exact-head independent QA/security/CI and eligible merge gates remain; unmerged prerequisites can support documented local verification only. Sonar unavailable never PASS; Oracle independently BLOCKED; no public history rewrite/deployment/credential resolution."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T27-API",
+        "SF-PRODUCT-T27-PERSISTENCE",
+        "SF-PRODUCT-T27-WEB"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t27-historical-detail-local-verified"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T28",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Find pending reviews across authorized active projects",
+      "dependencies": [
+        "SF-PRODUCT-T16",
+        "SF-PRODUCT-T21",
+        "SF-PRODUCT-T08"
+      ],
+      "feature_ids": [
+        "GOV-021"
+      ],
+      "acceptance_criteria": [
+        "Authenticated developers and approvers can list pending plans across only their currently explicitly granted active projects. Bootstrap-required access returns an empty inbox. Support All pending, Authored by me and Eligible for my review scopes; eligibility means fixed approver role plus requester exclusion only, not source integrity or execution attestation. Preserve organization isolation and existing project-detail/review contracts.",
+        "Return a fixed bounded page of safe plan/project/requester/time/status identifiers and role eligibility; exclude SQL/items, source files, target profiles, credential references and private repository paths. Stable descending PostgreSQL (created_at,id) limit-plus-one pagination preserves exact timestamp precision. Strict bounded canonical scope/actor/time/id cursors are untrusted query positions; recheck current access on every page and reject malformed, oversized or context-mismatched input with fixed feedback. Add only a scoped ordering index if useful; no history rewrite.",
+        "Provide a discoverable React inbox with role/authorship filters, empty/loading/error states, refresh and Load older. A row opens that exact project and plan in the existing review workflow without retaining another plan comment/decision drafts. Switching scope, refreshing, sign-out/session/current credential or membership changes discards old pages and delayed responses; navigation denial clears revoked data. The inbox makes no decisions or writes.",
+        "Real isolated PostgreSQL/API/browser tests cover multiple authorized/foreign/revoked/archived projects, both roles, requester exclusion, all three scopes, more than one page with tied microsecond timestamps and exact order, final/empty/malformed/cross-actor/filter cursor cases, membership revocation between pages, API recreation/persistence, exact row navigation and controlled stale responses. Compare complete populated retained source/plan/intent/comment/decision/history/audit state for read-only behavior. Required standard/product/parser/browser regressions pass without required skips.",
+        "This is a bounded GOV-021 inbox facet; assignment/delegation/notifications, full catalog acceptance, Oracle execution and worker dispatch remain unverified. Use only merged T16/T21/T08 prerequisites from master0fd6980, not the unmerged T24-T27 stack. Preserve original220 contracts, immutable failures, license/notices/pins and required security gates. Sonar unavailable never PASS; no deployment/target connection/credential resolution."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T28-API",
+        "SF-PRODUCT-T28-WEB",
+        "SF-PRODUCT-T28-PERSISTENCE"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t28-review-inbox-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Bounded local pending-review inbox only; full GOV021, external security and Oracle acceptance remain unverified."
+    },
+    {
+      "id": "SF-PRODUCT-T29",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Assign and reassign independent reviewers for pending project plans",
+      "dependencies": [
+        "SF-PRODUCT-T16",
+        "SF-PRODUCT-T21",
+        "SF-PRODUCT-T19",
+        "SF-PRODUCT-T05"
+      ],
+      "feature_ids": [
+        "GOV-021"
+      ],
+      "acceptance_criteria": [
+        "Persist nullable reviewer assignment and monotonic bigint revision for pending plans using an additive idempotent PostgreSQL migration. Existing unassigned plans retain independent fixed-role review behavior; no author, retained source, intent, decision, comment or history rewrite. Survive API restart. Assignment metadata remains readable on historical terminal or archived plans without making them editable.",
+        "Expose scoped safe assignment and bounded current-reviewer choices with authenticated explicit current project grants, organization isolation, active credentials and fixed approver role; exclude requester. Bootstrap exposes no new reviewer directory. Only the current granted requester or current assigned eligible reviewer may assign/reassign/clear; an eligible nonauthor approver may claim an unassigned plan for themselves. Never grant project access or roles. Strict expected revision rejects stale competing edits. Same-target no-op preserves revision/audit; actual changes create one atomic safe audit event. Terminal/archive/malformed/foreign/revoked/expired and self-assignment cases fail closed without protected mutation.",
+        "Enforce assignment at the decision API inside existing plan/project locking and source-integrity workflow: assigned plans admit only the assigned independent current approver for approval or rejection; unassigned plans preserve established role/self/status checks. Recheck current caller grants/credential/role in the transaction and serialize membership changes under existing project lock order. Preserve strict fresh-plan/source/intent checks, denial auditing and execution NOT_EXECUTED. Assignment does not attest source integrity or authorize worker/Oracle access.",
+        "Add usable React review assignment controls, current assigned identity or unassigned explanation, bounded candidate choices, explicit clear and self-claim where authorized, conflict/empty/error feedback, and an Assigned to me filter in the existing project review list. Disable other approver decision controls for assigned plans. Expected revision accompanies writes; project/plan/session/credential/membership/refresh changes discard pending choices and delayed responses, clear revoked data and never submit stale writes. Existing review drafts and navigation isolation remain intact.",
+        "Real isolated PostgreSQL/API/Chromium tests prove requester selection, self-claim and reassignment, assigned/unassigned decisions, requester exclusion even for approver authors, role and grant/credential revocation, unauthorized/foreign/bootstrap/archived/terminal/malformed cases, concurrent assignment conflict and decision/assignment serialization, no-op audit, persistence/idempotent migration, assigned filter and controlled delayed UI responses. Compare complete protected source/intent/comment/history state and assert atomic assignment/audit outcomes. Run standard/product/parser/browser regressions without skipped required cases. This bounded GOV021 assignment facet leaves expiring temporary delegation, notifications, worker/API full catalog acceptance and Oracle validation unverified. Preserve all original220 contracts, dependencies, license/notices/pins and draft security gates; no dependency on unmerged T24-T28."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T29-API",
+        "SF-PRODUCT-T29-WEB",
+        "SF-PRODUCT-T29-PERSISTENCE"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t29-reviewer-assignment-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Bounded local pending-plan reviewer assignment only; full GOV021, external security and Oracle acceptance remain unverified."
+    },
+    {
+      "id": "SF-PRODUCT-T30",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Register shared provisional target references and assign schemas to projects",
+      "dependencies": [
+        "SF-PRODUCT-T21",
+        "SF-PRODUCT-T20",
+        "SF-PRODUCT-T02"
+      ],
+      "feature_ids": [
+        "DBM-001",
+        "DBM-004",
+        "DBM-007"
+      ],
+      "acceptance_criteria": [
+        "Persist organization-owned provisional physical database registrations, containers, normalized service-route references and exact-case schema references using additive idempotent PostgreSQL tables and same-organization constraints. Stable server UUIDs and generation1 record manual reference provenance only, never VERIFIED/discovered/observed Oracle identity. Repeating identical declarations returns existing IDs without duplicate endpoint/schema or audit rows; conflicting existing immutable registration/container/route facts fail atomically. Exact-case owners stay distinct. Existing project profiles, releases, plans, source/intent/decision/comment/history remain unchanged; restart and repeated initialization preserve catalog and legacy data.",
+        "Provide a trusted local OS operator command using the existing private local configuration and loopback PostgreSQL authority protections, no bearer/API inventory administration. Strict bounded secret-free declarations register one database/container/route/schema hierarchy; no passwords, credential resolution, Oracle calls, containers/images or endpoint probes. Explicit assign/reassign/unassign requires schema ID, nullable target project, canonical bigint expected revision and reason. Enforce one active owning project per schema, serialized competing edits and archived/foreign/missing guards. Same-target no-op preserves revision/audit; actual transfer closes previous assignment and creates immutable history, increments revision and atomically records safe local-operator audit. Preserve schema identity and all former project records; no automatic historical profile migration or grants.",
+        "Expose a bounded read-only current schema-reference list for an authenticated actor with current explicit project grant in ENFORCED mode. Bootstrap returns an empty directory; ungranted/foreign project scopes fail closed. Return only currently assigned schema plus its required shared database/container/service reference summaries, inherited declared container environment and assignment revision; no other project schemas/assignment histories/operator reasons/UIDs/credential refs or physical route host details. Stable project-scoped UUID keyset pages at50 rows plus next cursor; current grants and ownership rechecked for every read. Reads do not add audits, mutate assignments/history or confer execution readiness. Archived projects retain only their own current-reference reads.",
+        "Add usable React project schema-reference navigation with provisional/reference-only identity labels, inherited declared environment, exact owner, stable IDs and revision, bounded next-page/refresh and empty/error feedback. Clear references/page state on project/session/grant/credential changes and discard delayed old context responses. Explain trusted local operator registration/ownership without adding application administrator or writer permissions. References do not become profile/plan/approval/execution targets; existing offline plan/history state remains NOT_OBSERVED/NOT_EXECUTED.",
+        "Real isolated PostgreSQL/operator/API/Chromium tests prove shared endpoint/container deduplication for two projects and schemas, exact owner semantics, atomic conflict/no-op/transfer/release history, concurrent stale revision rejection, archive/foreign/malformed/private-config/secret/unsupported operation denial, restart/idempotent migration, safe project isolation and pagination, revocation and controlled delayed UI reads. Compare complete protected project/source/plan/intent/release/decision/comment/history records. Run required standard/product/parser/browser regressions without skipped required cases and proportionate independent review. Keep full DBM001/004/007, Oracle discovery/attestation, profile-purpose bindings, lifecycle restore, plan target binding and schema baseline acceptance unverified; original220 contracts/dependencies, license/notices/pins and existing draft gates unchanged. Independent merged-master branch; no dependency on unmerged T24-T29."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T30-OPERATOR",
+        "SF-PRODUCT-T30-API",
+        "SF-PRODUCT-T30-WEB",
+        "SF-PRODUCT-T30-PERSISTENCE"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t30-schema-reference-ownership-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Bounded local manual schema reference registration/current ownership only; full DBM001/004/007 and Oracle/worker target acceptance unverified."
+    },
+    {
+      "id": "SF-PRODUCT-T31",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Withdraw approved offline plans with linked immutable revocation history",
+      "dependencies": [
+        "SF-PRODUCT-T07",
+        "SF-PRODUCT-T19",
+        "SF-PRODUCT-T20",
+        "SF-PRODUCT-T21",
+        "SF-PRODUCT-T23"
+      ],
+      "feature_ids": [
+        "GOV-011",
+        "GOV-013",
+        "GOV-023"
+      ],
+      "acceptance_criteria": [
+        "Add a stable server-generated approval reference for new APPROVE decisions and a same-project/organization append-only linked approval-revocation record unique per plan. New approval reference and existing PLAN_APPROVED audit commit atomically. Legacy approved plans retain NULL approval reference without backfill and remain explicitly distinguishable. Revocation changes only lifecycle projection to REVOKED and adds its linked record/audit; preserve original APPROVE decision, reason, principal/name/time, source binding, retained release/files/items, intent envelope/digest, profile, comments and NOT_EXECUTED/NOT_OBSERVED history. Repeated initialization/restart preserves old and new records.",
+        "Implement authenticated POST /api/plans/:id/approval-revocation with exactly mandatory expectedApprovalReference (UUID or explicit NULL) and bounded nonempty Unicode-safe reason, no extra fields. Require ENFORCED membership, current exact credential and live approver role/grant rechecked after credential lifecycle serialization and scoped plan/project locks; exclude request author and fail closed on unavailable author facts. Only active same-organization approved APPROVE offline candidate plans with NOT_EXECUTED/NOT_OBSERVED are withdrawable. Match expected reference, including explicit legacy NULL. Missing/foreign/ungranted scopes remain hidden; malformed/archived/developer/self/stale/pending/rejected/revoked/observed-or-executed cases fail without lifecycle/history mutation. Serialize competing withdrawals to one revocation and one success audit. Do not require intact SQL/source/intent to remove approval authority; corrupted or stale approved content may still be withdrawn by an eligible independent actor. Preserve safe fixed denial auditing for authenticated authorized attempts.",
+        "Expose safe approval reference and historical revocation attribution/reason/time in existing scoped project plan responses. Add REVOKED status filtering while keeping original decision record visible and immutable. Revoked plans cannot be approved again; correction uses the existing fresh release/new-plan workflow. Retained release/source/comments/history reads remain project-scoped and available under existing archive/read policies. No target credential resolution, real execution, jobs, queued-dispatch or HOLD claim; execution endpoint remains unavailable and all existing execution/history states remain unchanged.",
+        "Add React withdrawal reason/action for a current independent approver on an approved selected plan; disabled/hidden controls and clear conflict/permission feedback for other states, archives and bootstrap. Display original approval separately from linked withdrawal, safe text, current REVOKED status/filter, and fresh-plan recovery for revoked plans. Clear withdrawal drafts and discard delayed success/failure on session/project/plan changes and A-to-B-to-A, using context epochs rather than only ID comparison. Preserve selected project/filter context when refreshing and never present withdrawal as rollback of committed database effects.",
+        "Real isolated PostgreSQL/API and Chromium tests cover new/legacy approvals, linking, immutable protected-state snapshots, repeated initialization/restart, strict/malformed/foreign/ungranted/archive/role/self/stale/state/executed negatives, corrupted-content withdrawal, one-event concurrent races, queued credential/grant/role rechecks, filtering/read privacy, fresh recovery and controlled delayed UI responses. Preserve focused failures with honest capture limits. Run required frozen standard/product/pinned-parser/browser regressions with no skipped required cases and proportionate independent review. Keep full GOV011 queued-job admission/worker controlled stop/HOLD/committed-effects acceptance and Oracle19c/21c unverified. Original220 contracts/dependencies, licenses/notices/pins and draft gates unchanged; independent merged-master branch without unmerged T24-T30 source prerequisites."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T31-API",
+        "SF-PRODUCT-T31-WEB",
+        "SF-PRODUCT-T31-PERSISTENCE"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t31-approval-revocation-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Bounded local offline approval withdrawal; queued execution/worker HOLD/full catalog and Oracle acceptance unverified."
+    },
+    {
+      "id": "SF-PRODUCT-T32",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Integrate the reviewed MVP Git-to-plan-to-review backlog into one usable offline workflow",
+      "dependencies": [
+        "SF-PRODUCT-T27",
+        "SF-PRODUCT-T28",
+        "SF-PRODUCT-T29",
+        "SF-PRODUCT-T30",
+        "SF-PRODUCT-T31"
+      ],
+      "feature_ids": [
+        "MIG-006",
+        "GOV-011",
+        "GOV-021",
+        "GOV-023",
+        "DBM-019"
+      ],
+      "acceptance_criteria": [
+        "Combine reviewed draft37 through44 source heads using ordinary isolated local merge commits; preserve every original branch, PR, source SHA, immutable evidence and original220 catalog/dependency contracts. Reconcile existing tasks/acceptance/graph/ownership/evidence by stable identity without losing independently verified records. Resolve API/UI/schema and test-runner conflicts as one coherent product; no false claim that this candidate is integrated master or externally merge eligible.",
+        "A real registered local Git repository supplies independently imported releases through the pinned parser. In one running metadata product, a granted requester binds source, inspects retained release metadata and exact source, compares releases, creates an offline plan and comment, assigns an independent reviewer, and reaches that exact plan through the cross-project inbox. Inbox ALL stays project scoped, while eligibility/ELIGIBLE respects current author/role and reviewer assignment; other assigned reviewers cannot decide. Existing revoked membership/credential/session/project/archive controls remain enforced.",
+        "The assigned reviewer records a real approval with stable audit-linked reference. Any currently granted independent approver may withdraw it, including an approver different from the assigned reviewer. Original approval, reviewer assignment, source/intent/release/comment and NOT_EXECUTED/NOT_OBSERVED history remain intact; inbox excludes decided/revoked candidates. Fresh release/new pending-plan recovery never reapproves the old revoked plan. Paged/filterable audit exposes assignment/approval/revocation history, including older events. Manual schema references remain provisional operator-controlled project ownership, not target identity attestation or execution binding.",
+        "Chromium proves the combined intake/reviewer/inbox/approval/withdrawal/fresh-plan/audit workflow through the integrated UI with safe text, exact plan/project navigation and current role restrictions. Combined response handlers preserve previous tested ABA/refresh/session guards and ownership of newer writes; no external screen callback references App-only lexical state. Durable restart/idempotent additive migration preserves combined records and explicit legacy NULL approval references.",
+        "Focused real PostgreSQL/API/pinned-parser/Chromium integration tests cover the new cross-feature interactions and protected-state snapshots. After source freezes, run required standard/product/parser/browser suites without skipped required cases, review the exact combined source independently, inspect changed publication content/history and dependencies/licenses. Publish one reviewed draft against actual master; merge/verify exact master only if all actual external gates pass. Record unavailable security/Sonar/Oracle evidence honestly; no queue/worker/Oracle/execution/HOLD or full catalog acceptance claims."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T32-API",
+        "SF-PRODUCT-T32-WEB",
+        "SF-PRODUCT-T32-PERSISTENCE"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t32-mvp-integration-local-verified"
+        }
+      ],
+      "blockers": [],
+      "verification_scope": "Combined local offline MVP candidate; master/full catalog/worker/Oracle acceptance unverified."
+    },
+    {
+      "id": "SF-PRODUCT-T33",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Deliver durable deployment requests and restricted execution coordination",
+      "dependencies": [
+        "SF-PRODUCT-T32"
+      ],
+      "feature_ids": [
+        "GOV-018",
+        "GOV-011",
+        "OPS-002",
+        "OPS-005",
+        "MIG-012"
+      ],
+      "acceptance_criteria": [
+        "Deliver a durable PostgreSQL deployment request/job/event workflow tied to one project, immutable approved plan/reference and intent digest. Authenticated request input accepts only server-resolved identities, bounded idempotency and reason; no submitted SQL, DSN, credential, status or executable target. Create job, first immutable event and audit atomically; same principal/action idempotency key repeats the same payload without new job/event, while a different payload conflicts. Current exact credential/role/membership/deployer permission and project/plan state are rechecked under lifecycle locks; cross-project, self-authorized role escalation, archive, revocation, stale reference/intent and malformed requests cannot create jobs.",
+        "Trusted local OS operator explicitly grants/revokes project deployment permission independently of developer/approver roles and ordinary membership. Require current explicit project membership and usable identity; preserve operator audit. Ordinary membership revocation removes deployment capability without implicit restoration on regrant. API never exposes operator or writer secrets. An approver without explicit deploy permission cannot request execution; read access remains current-project scoped.",
+        "Current offline plans lack observed target/history/ledger/mutex/validity evidence, so valid requests persist WAITING_VALIDATION with explicit unavailable readiness; no API transition can infer admission from manual schema references, grant status, approval or parser success. Requester cancellation before dispatch appends a revision-checked terminal event, without erasing approval, source, request or migration history. Approval withdrawal invalidates waiting requests atomically; later claim/dispatch must reject withdrawn authority. Durable job detail/list/events expose state and origin, not applied SQL or invented effects.",
+        "Implement a separate restricted execution coordinator kernel and PostgreSQL job/attempt/event adapters with scoped trusted ports. Only admitted immutable jobs may be claimed; use durable claims/generations, no automatic replay after expiry or unknown outcomes. Recheck current authorization and exact retained content/history before dispatch and each statement, require held canonical target mutex and exact bytes/digests, persist STARTED before calls and immutable ordered acknowledgments/receipts. Loss of acknowledgment, cancellation/revocation after possible effects, central evidence gap or failed/unknown validity yields HOLD. Receipt absence and driver success alone never prove no effect or deployed success. A complete authorized receipt plus validity/postconditions and durable central evidence is required for VERIFIED_SUCCESS; known zero pending records NOOP with zero migration calls. Trusted test ports may simulate these outcomes only with explicit UNIT/synthetic scope; no production Oracle adapter or runtime acceptance is inferred.",
+        "Integrated UI lets a granted deployer request an approved plan, see waiting readiness/history, retry idempotently after a lost response, inspect job events and cancel undispatched work; actor without deploy permission sees fixed denied/unavailable controls. Stale project/session/refresh/ABA responses and older writes cannot replace current context or clear a newer busy operation. Preserve all T32 review/source/assignment/withdrawal flows. Additive idempotent migration and real database/app reopen preserve job identity/events/grants, existing legacy NULL approvals and historical records.",
+        "Exercise real local Git/pinned-parser approved plans, real PostgreSQL API/operator persistence and Chromium request-to-job/cancel/withdrawal flows, plus meaningful independent coordinator tests for multiple contenders, stale authority/content, lost acknowledgment/lease, receipt gap, invalid verification and no replay/noop. Run focused tests during implementation; freeze once for mandatory standard/product/browser regressions and exact independent review, then scoped scans/license checks and one draft from the verified T32 checkpoint. Preserve original220 acceptance contracts, source heads, worktrees and unavailable external gates; no Oracle connection/deployment, production target attestation, actual worker isolation or complete catalog certification."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T33-API",
+        "SF-PRODUCT-T33-WEB",
+        "SF-PRODUCT-T33-COORDINATOR",
+        "SF-PRODUCT-T33-PERSISTENCE"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "apps/api/index.ts",
+        "packages/execution",
+        "apps/worker",
+        "packages/database/index.ts"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t33-execution-jobs-local-verified"
+        },
+        {
+          "index_id": "product-t33-draft-publication"
+        },
+        {
+          "index_id": "product-t33-draft46-available-ci-terminal"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T34",
+      "package": "PRODUCT",
+      "assigned_agent": "devops",
+      "title": "Deliver private metadata and artifact backup with safe restore into execution hold",
+      "dependencies": [
+        "SF-PRODUCT-T33"
+      ],
+      "feature_ids": [
+        "OPS-012",
+        "MIG-034",
+        "OPS-005"
+      ],
+      "acceptance_criteria": [
+        "Trusted local OS operator backs up an explicitly authorized loopback PostgreSQL metadata database through the existing private config boundary, using pinned mature PostgreSQL tooling and a consistent snapshot. A new private directory/file set preserves approval/catalog/artifact/receipt/job/audit/credential lifecycle records with a strict versioned manifest, archive digest, source metadata generation/checkpoint and complete known schema inventory. Existing paths, unsafe permissions, symlinks/hardlinks, unknown schema/tool/remote Docker context and excessive payloads fail closed. Backup data remains private; no bearer token, password, DSN, SQL contents or target credential is printed in diagnostics. Keep an independently operator-held witness outside the backup directory tied to the exact snapshot/digests.",
+        "Restore requires exact archive/manifest/schema compatibility and matching private external witness before creating a destination. Restore only into a freshly generated owned local metadata database; never overwrite, clean, delete, truncate or restore into the source or another existing database. Restrict native restore payload to registered product data/current controlled schema; reject unknown or executable archive objects. Failure keeps the new instance inaccessible or in recovery hold; cleanup may touch only objects created and positively owned by this invocation. Preserve original source and private backup bytes.",
+        "Before any restored queue is eligible, persist a new metadata generation with RESTORE_HOLD, retained predecessor/witness references and operator audit. Initialization/restart cannot reset this state. Both production and explicitly UNIT coordinator stores reject claims while hold is active; API cannot grant execution, release hold or infer target agreement. Retain immutable identities, approval/source/history/receipts and terminal states. Project waiting/admitted requests and active attempts into HOLD with appended events where needed, revoke restored old local credentials with retained lifecycle evidence, and never reset attempts or automatically replay SQL. Target history/Oracle generation remain unobserved; this does not certify Oracle restore detection or reconciliation.",
+        "Deliver a usable operator restart path for the restored instance, reusing loopback API/web and existing private credential lifecycle without rewriting fixed actor roles or inferring memberships. Freshly rotated credentials and retained explicit membership permit historical reads; old tokens remain denied. UI exposes a fixed metadata-recovery hold state and disables execution request/cancel writes as appropriate while preserving T33/T32 historical flows and current actor/project/session/refresh guards. No HTTP backup, restore, credential administration or unilateral recovery-clear endpoint is exposed. Document backup custody, fresh destination/start/recovery and failure boundaries.",
+        "Exercise actual native PostgreSQL snapshot/restore plus real local Git/pinned-parser approved plans, durable jobs/grants/events, historical NULL approval/assignment values, audit/comment/source/receipt preservation and app/database reopen. Prove original database remains unchanged; wrong/absent witness, damaged artifact/manifest, incompatible/unknown schema, path/permission/remote-tool overrides and interrupted restore cannot admit work. Verify restored claim denial including synthetic admitted fixtures, old-token denial and meaningful Chromium historical-read/recovery-hold controls. Synthetic attempts/targets are UNIT-only; no Oracle connection/deployment or real effect witness.",
+        "Run focused checks while implementing, then freeze for mandatory serial standard/product/browser suites and proportionate exact independent source review. Preserve historical failures and existing IDs/acceptance contracts/worktrees/drafts. Complete scoped publication scans/license review and one substantial draft from the verified T33 checkpoint; observe available exact-head CI without weakening missing security/protection/Oracle gates. No full catalog or production distribution/restore certification."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T34-OPERATOR",
+        "SF-PRODUCT-T34-PERSISTENCE",
+        "SF-PRODUCT-T34-WEB",
+        "SF-PRODUCT-T34-RESTORE_GATE"
+      ],
+      "status": "VERIFIED",
+      "source_paths": [
+        "scripts/local-backup-operator.mjs",
+        "packages/backup",
+        "packages/database/index.ts"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t34-backup-restore-local-verified"
+        },
+        {
+          "index_id": "product-t34-backup-restore-ci-correction-local-verified"
+        },
+        {
+          "index_id": "product-t34-corrected-draft47-available-ci-terminal"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T35",
+      "package": "PRODUCT",
+      "assigned_agent": "orchestrator",
+      "title": "Deliver HTTPS browser sign-in and revocable session lifecycle",
+      "dependencies": [
+        "SF-PRODUCT-T34"
+      ],
+      "feature_ids": [
+        "SEC-018",
+        "SEC-019"
+      ],
+      "acceptance_criteria": [
+        "Trusted OS startup accepts paired private certificate/key files before database startup and serves native TLS 1.2 or newer on loopback, with no forwarding-header trust or HTTP downgrade. Invalid private paths, permission modes, keys and certificates fail with fixed diagnostics. Existing explicit bearer CLI and local HTTP compatibility remain; browser cookie endpoints require actual encrypted sockets and exact HTTPS Origin.",
+        "Browser sign-in exchanges a currently usable fixed-role LOCAL credential for a random hashed BROWSER child credential capped at its parent expiry and eight-hour absolute expiry. The __Host cookie is Secure, HttpOnly, SameSite=Strict and root-only. No bearer credential remains in browser storage or application state after exchange. Explicit cookie session requests carry a separate CSRF proof; missing or incorrect proof and cross-origin writes are denied. Replacement sign-in revokes the previous cookie session, preserving roles and explicit grants.",
+        "Persist a thirty-minute sliding idle deadline without extending the absolute deadline. Background polling alone does not renew idle time. Session reads recheck the exact live child and parent credentials, fixed organization and role. Logout immediately revokes the session on the server; operator credential rotation/revocation and metadata restore invalidate derived browser access. Mutation checkpoints serialize with logout and operator revocation, so already-revoked sessions cannot approve or queue work.",
+        "Deliver reload/resume, sign-out and expired-session user flows using cookie transport on HTTPS, preserving existing project/actor/session guards, review/source/plan/job history and fixed membership/deploy controls. A tab holding an obsolete CSRF proof cannot silently read another replacement session identity. Failed logout reports failure without claiming revocation. Historical restored data remains readable only after fresh operator credentials; RESTORE_HOLD never becomes execution authority.",
+        "Exercise actual PostgreSQL and native HTTPS with explicit fixture CA trust and negative untrusted-chain/hostname/plaintext cases; Chromium uses only one ephemeral fixture public-key pin, paired with no-pin and unrelated-key rejection, never blanket certificate bypass or global trust changes. Verify real cookie flags, login/reload/CSRF/logout/expiry/revocation and the backup schema migration with restored sessions denied. Meaningful barrier tests cover logout/revocation before a queued write checkpoint. No external deployment, worker transport or Oracle runtime certification is inferred.",
+        "Freeze final source for serial required standard/product/browser regressions and exact independent review, review final diff and scoped publication scans/license closure, then one substantial draft and actual available CI. Preserve original IDs, source/evidence/worktrees/drafts and security gate boundaries. Update operating instructions, catalog coverage and concise checkpoint honestly; SEC018 remains partial pending authorized network/worker transport acceptance."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T35-HTTPS",
+        "SF-PRODUCT-T35-SESSION",
+        "SF-PRODUCT-T35-WEB",
+        "SF-PRODUCT-T35-RESTORE"
+      ],
+      "status": "IMPLEMENTED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t35-secure-sessions-local-verified"
+        },
+        {
+          "index_id": "product-t35-journal-repair-local-verified"
+        }
+      ],
       "blockers": []
     }
   ]

@@ -1,0 +1,462 @@
+{
+  "head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+  "classified_at_utc": "2026-10-09T22:10:17.380029+00:00",
+  "publication": {
+    "paths": 328,
+    "scanner_exit_code": 1,
+    "findings": 14,
+    "clean_PASS": false
+  },
+  "history": null,
+  "classification": [
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-root-20261009T2204Z/root-prior-captures/03-classify-and-freeze-checkpoint.result.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        2,
+        2
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "d7fb9d7f195d46606c26a772f01f13a92768b6073e6006b91d7489cd7d8c5a0f",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_PROSE_IN_IMMUTABLE_CAPTURE_COMMAND",
+      "verified_provenance": [
+        {
+          "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/03-classify-and-freeze-checkpoint.result.json",
+          "exact_bytes_recomputed": true
+        }
+      ],
+      "reason": "The previously verified exact SEC001 product-description prose is a literal assertion in the captured classification script; no credential assignment occurs."
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-root-20261009T2204Z/root-prior-captures/03-classify-and-freeze-checkpoint.command.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        2,
+        2
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "a195f741a6d33d5999cba7196e330b51d378afb66d6e4aecf3d63058ed860eff",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_PROSE_IN_IMMUTABLE_CAPTURE_COMMAND",
+      "verified_provenance": [
+        {
+          "path": "/tmp/schemaforge-t24-root-live-20261009T2034Z/03-classify-and-freeze-checkpoint.command.json",
+          "exact_bytes_recomputed": true
+        }
+      ],
+      "reason": "The previously verified exact SEC001 product-description prose is a literal assertion in the captured classification script; no credential assignment occurs."
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t23-merge-20261009T2033Z/snapshot-sha256.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        159,
+        159
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "84a22c7aa48573fafcf2d1a1f40e34e6e418af07d58e4fa0f36186a0bd647963",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+          "path": "evidence/product/product-t22-merge-20261009T183839Z/independent-qa/postgres_api.raw.log",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    },
+    {
+      "scope": "publication",
+      "path": "docs/implementation/CURRENT.md",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        473,
+        473
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "6de2ec389c3b7c64cf28544b52699b78d67e763863abe769d3699c844904dc52",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+    },
+    {
+      "scope": "publication",
+      "path": "docs/implementation/CONTINUE.md",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        473,
+        473
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "cf9fbe398a0b202f58cdb9396aab566a5c914e685cb232ec58d12a4d963fc043",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE"
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/record.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        74,
+        74
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "93dae0d86ba97e9d7f463e5f9498c3e0cd560d1d7a570611bdbc5533a0ec8cd7",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/independent-qa/api-focused.command",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/record.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        75,
+        75
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "93dae0d86ba97e9d7f463e5f9498c3e0cd560d1d7a570611bdbc5533a0ec8cd7",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/independent-qa/api-focused.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/independent-qa/browser-focused.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/independent-qa/build.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/check-retry.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/check.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/final-browser.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/final-check.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/final-product.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-browser.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-check.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-product.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/focused3-build.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/focused3.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/final-check.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-check.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-product.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/check.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/final-product.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/focused3-build.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/final-browser.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-browser.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/focused3.cwd",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/check-retry.cwd",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/record.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        76,
+        76
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "93dae0d86ba97e9d7f463e5f9498c3e0cd560d1d7a570611bdbc5533a0ec8cd7",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/independent-qa/api-focused.end.utc",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/record.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        77,
+        77
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "93dae0d86ba97e9d7f463e5f9498c3e0cd560d1d7a570611bdbc5533a0ec8cd7",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/independent-qa/api-focused.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/independent-qa/browser-focused.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/independent-qa/build.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/check-retry.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/final-check.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/final-product.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-browser.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-check.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-product.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/focused3-build.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "snapshot_path": "evidence/product/product-t24-root-20261009T2204Z/native/focused3.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/final-product.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/final-check.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-product.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/focused3.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/focused3-build.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/check-retry.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-check.exit",
+          "exact_bytes_recomputed": true
+        },
+        {
+          "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+          "path": "evidence/product/product-t24-root-20261009T2204Z/native/final2-browser.exit",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/record.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        78,
+        78
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "93dae0d86ba97e9d7f463e5f9498c3e0cd560d1d7a570611bdbc5533a0ec8cd7",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/independent-qa/api-focused.raw.bytes",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/record.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        79,
+        79
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "93dae0d86ba97e9d7f463e5f9498c3e0cd560d1d7a570611bdbc5533a0ec8cd7",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/independent-qa/api-focused.raw.log",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/record.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        80,
+        80
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "93dae0d86ba97e9d7f463e5f9498c3e0cd560d1d7a570611bdbc5533a0ec8cd7",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/independent-qa/api-focused.raw.sha256",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/record.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        81,
+        81
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "93dae0d86ba97e9d7f463e5f9498c3e0cd560d1d7a570611bdbc5533a0ec8cd7",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/independent-qa/api-focused.start.utc",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    },
+    {
+      "scope": "publication",
+      "path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/record.json",
+      "commit": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "lines": [
+        106,
+        106
+      ],
+      "rule": "generic-api-key",
+      "blob_sha256": "93dae0d86ba97e9d7f463e5f9498c3e0cd560d1d7a570611bdbc5533a0ec8cd7",
+      "matched_values_not_printed": true,
+      "classification": "BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST",
+      "verified_provenance": [
+        {
+          "snapshot_path": "evidence/product/product-t24-draft-security-unavailable-20261009T2215Z/initial-remote-observation/secret-scanning.json",
+          "exact_bytes_recomputed": true
+        }
+      ]
+    }
+  ],
+  "actual_credentials_observed": false,
+  "rotation_indicated": false,
+  "no_scanner_or_history_changes": true,
+  "limitations": [
+    "Prior117 exact classifications and eight earlier unavailable source-byte limits remain unchanged.",
+    "Earlier mutable T23 UI bytes remain unavailable; no reconstruction is claimed.",
+    "Fresh independent exact-head review remains required; finding-bearing scans are not clean PASS.",
+    "Sonar unavailable never PASS; Oracle VALIDATION separate BLOCKED."
+  ]
+}

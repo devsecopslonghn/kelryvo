@@ -1,0 +1,125 @@
+{
+  "id": "product-t34-backup-restore-ci-correction-local-verified",
+  "subject_id": "SF-PRODUCT-T34",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "exit_code": 0,
+  "command": "Corrected frozen serial standard/product/pinned-parser/Chromium checks after actual first-candidate asynchronous membership browser failure",
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_references": [
+    "SF-PRODUCT-T34-OPERATOR",
+    "SF-PRODUCT-T34-PERSISTENCE",
+    "SF-PRODUCT-T34-WEB",
+    "SF-PRODUCT-T34-RESTORE_GATE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t34-backup-restore-ci-correction-20261010/standard.log",
+    "sha256": "1f91cf340bd2d74a2b0371a811a845c1ca8dea5956eb96fd4b460bc4b8c602d7"
+  },
+  "recorded_at": "2026-10-10T17:19:11.923780+00:00",
+  "implementation_head": "f7426040789076ff728263b7e09a78aa98360464",
+  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "base_checkpoint": "b9e37f9edd0af8f93181bc596993e654845e011a",
+  "published_base": "b145a9a96544113dc4ac1c247fd612aadb62c424",
+  "regressions": {
+    "standard": {
+      "result": "evidence/product/product-t34-backup-restore-ci-correction-20261010/standard.json",
+      "result_sha256": "f7fbfe43723c2f706a14f69e2bf5bdd4640a6de94b05fe70f4e039d156ccb1d5",
+      "raw_output": "evidence/product/product-t34-backup-restore-ci-correction-20261010/standard.log",
+      "raw_output_sha256": "1f91cf340bd2d74a2b0371a811a845c1ca8dea5956eb96fd4b460bc4b8c602d7",
+      "counts": {
+        "tests": 188,
+        "pass": 188,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "check"
+      ]
+    },
+    "product": {
+      "result": "evidence/product/product-t34-backup-restore-ci-correction-20261010/product.json",
+      "result_sha256": "e6b61f711088bb285a4f8c48b432b95b1c61e37a1a57a278f0edf1d115df09aa",
+      "raw_output": "evidence/product/product-t34-backup-restore-ci-correction-20261010/product.log",
+      "raw_output_sha256": "5fa12d7f62363e4e4ecd68f8e2555abdf76e7f94cdd80cabd08fc0f1374df380",
+      "counts": {
+        "tests": 51,
+        "pass": 51,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:product"
+      ]
+    },
+    "browser": {
+      "result": "evidence/product/product-t34-backup-restore-ci-correction-20261010/browser.json",
+      "result_sha256": "99ba74b70e1a8a71a270ac6f48b0055a66823c29c24a4c90936e08ec2f0bd0cb",
+      "raw_output": "evidence/product/product-t34-backup-restore-ci-correction-20261010/browser.log",
+      "raw_output_sha256": "3b676a5cdcef2eb7152af27f0de1dfcfc46ba86874463d7744924e5307239815",
+      "counts": {
+        "tests": 30,
+        "pass": 30,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:browser"
+      ]
+    }
+  },
+  "reviews": [
+    {
+      "path": "evidence/product/product-t34-backup-restore-ci-correction-20261010/independent-review-final-source.json",
+      "sha256": "f777f712e95a8e2bbffdcb69137672a3e9acbcf44d8a29cb8e514d6fa83bdab1"
+    }
+  ],
+  "acceptance_observations": [
+    "Private native PG17.10 data-only archive and manifest share an exported snapshot with generation/checkpoint/inventory; separate private witness binds exact bytes, schema definitions and complete table/sequence payload.",
+    "Valid restore creates only a fresh invocation-owned database; original database and backup bytes remain unchanged. Wrong witness, damaged artifacts, unsupported schemas/executable archives, links/modes and remote Docker overrides are denied before database creation.",
+    "Current pointer is never restored. Owner marker prevents ACTIVE bootstrap; SIGKILL after actual archive import leaves admitted UNIT queue unclaimable and startup refused. Success installs RESTORE_HOLD and appends unfinished-job/attempt holds and digest-only credential revocations atomically.",
+    "Real Git/pinned-parser approvals, NULL legacy approvals/assignments, comments/sequence, explicit grants, source artifacts, audit and UNIT receipts survive. Terminal jobs/attempts remain terminal; fresh valid synthetic proof cannot bypass global HOLD.",
+    "Existing private credential rotation preserves fixed roles/memberships and enables historical API/Chromium reads with fresh tokens. Old tokens are denied; persistent banner and execution request/cancel gates survive reopen."
+  ],
+  "limitations": [
+    "Criterion5 publication/scans/available exact CI remain pending; task stays IMPLEMENTED until separate publication evidence.",
+    "Restored-instance CLI is restricted to the default private local config/user/schemaforge source/55432 endpoint. Unknown organization or schema versions fail closed; no multi-organization/production recovery certification.",
+    "No target/Oracle history agreement, restore divergence detection, hold-clear/reconciliation implementation, Oracle connection/execution, production worker isolation or deployment acceptance. Synthetic attempts and receipts are UNIT only.",
+    "Original local591188/51/30 PASS, focused failures/interrupted d26 and original4cf push-browser29/30 FAIL are retained. New f742 guarded frozen188/51/30 serial runs support corrected acceptance.",
+    "Required external security/protection gates remain unavailable, never PASS. Draft-only publication; no merge/master/full-catalog certification."
+  ],
+  "previous_local_acceptance": {
+    "path": "evidence/product/product-t34-backup-restore-20261010/record.json",
+    "sha256": "7e5c329c459ff41c8b60585eaae9f4317ccc10af9c2608cc08ecabd177b15267"
+  },
+  "correction": {
+    "path": "evidence/product/product-t34-backup-restore-ci-correction-20261010/correction-observation.json",
+    "sha256": "2b0f95890cf5221cfda02b0b18d0db36eaf41d57a97f3812278dc6a2c621b446"
+  }
+}

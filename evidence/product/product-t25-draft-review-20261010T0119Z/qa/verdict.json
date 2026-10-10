@@ -1,0 +1,93 @@
+{
+  "reviewer": "t25_corrected_qa",
+  "task": "SF-PRODUCT-T25 exact corrected-head independent QA",
+  "recorded_at_utc": "2026-10-10T01:11:15Z",
+  "verdict": "APPROVE_LOCAL_T25_QA_SCOPE",
+  "merge_eligible": false,
+  "scope": "Independent review of corrected comparison preflight, focused real-PostgreSQL API tests, Chromium comparison flow, adjacent retained-release integrity regression, and exact-head state. This is not full catalog, security-service, license, publication-scan, merge, or Oracle approval.",
+  "git": {
+    "head_before": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+    "head_after": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+    "tree_before": "3e915179d5d1d36fceb72bee802e58306413d138",
+    "tree_after": "3e915179d5d1d36fceb72bee802e58306413d138",
+    "base": "704ef82f3bf183707b40e8194f3b1f0a15e29a89 (unmerged T24 draft PR37)",
+    "origin_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+    "tracked_status_before_after": "clean; no tracked or untracked changes"
+  },
+  "source_sha256": {
+    "apps/api/index.ts": "d717c56a926f842a9872e5234468bb1ecd9fd19f37a5bf3c3b518c2ebcfdbc75",
+    "apps/web/src/app.jsx": "5b0bcbd713ec66e7e6a73e9515022d6689892fa8ea5069209b4f5b24d448df48",
+    "docs/development/local-product.md": "9d07af35c899f246bbd0b4c8a7029190e5dea19498e07d99fd3648edd0e74aa4",
+    "packages/migrations/compare-retained-releases.mjs": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8",
+    "scripts/test-product.mjs": "af47fe31ff4608bbfd92f13acb18ed457e2c026a630d1ad79210f0e6de77e63f",
+    "tests/product-release-comparison-browser.integration.mjs": "c11406afde27b7d7faa590cab5cc53f7639547427b4520291670d5c48ff74320",
+    "tests/product-release-comparison.test.mjs": "c9df38880ef2e81218f5b0b43c839aad809210fc3fadb803e34df60e2bef011e"
+  },
+  "findings": [
+    {
+      "id": "SEC-T25-01",
+      "status": "CORRECTED_FOR_T25_COMPARISON_ROUTE",
+      "detail": "The current SQL preflight bounds complete serialized files JSON and complete content-excluded per-file metadata, including unknown nested metadata, retained repository/folder/parser identity, and conservative array delimiters/separators. It checks both locked release rows, field types and bounded statementCount before the subsequent SELECT materializes files payloads. Focused tests reject oversized flat and nested metadata in both base and candidate slots, malformed numeric facts in both slots, and compare populated lifecycle snapshots before fixture restoration. A bounded unknown-metadata/null-count extension remains accepted and read-only."
+    },
+    {
+      "id": "SEC-RETAINED-METADATA-02",
+      "status": "OPEN_SEPARATE_FOLLOWUP",
+      "detail": "Adjacent existing retained-source readers have a separately registered metadata preflight risk. This QA does not approve those readers or claim all retained metadata security is closed."
+    }
+  ],
+  "runs": [
+    {
+      "name": "comparison-api",
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL='postgres://postgres@127.0.0.1:32768/schemaforge_tests' SCHEMAFORGE_JAVA_HOME='/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin' SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-release-comparison.test.mjs",
+      "utc_start": "2026-10-10T01:09:04Z",
+      "utc_end": "2026-10-10T01:09:44Z",
+      "exit": 0,
+      "tap": {"tests": 2, "pass": 2, "fail": 0, "skipped": 0},
+      "raw_log": "api.raw.log",
+      "raw_sha256": "26cd0aa9a529e83af0adc05b841d1b2272ed4c2a345879533586c97df13450f5"
+    },
+    {
+      "name": "web-build-for-focused-browser",
+      "command": "SCHEMAFORGE_JAVA_HOME='/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin' taskset -c 0,1 node scripts/build-web.mjs",
+      "utc_start": "2026-10-10T01:09:59Z",
+      "utc_end": "2026-10-10T01:09:59Z",
+      "exit": 0,
+      "raw_log": "browser-build.raw.log",
+      "raw_sha256": "c4ed3b86c4fffbbf9893aa10fe67dc9318b4565832bfd0b584851ccceb0b1acf"
+    },
+    {
+      "name": "comparison-browser",
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL='postgres://postgres@127.0.0.1:32768/schemaforge_tests' SCHEMAFORGE_JAVA_HOME='/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin' SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-release-comparison-browser.integration.mjs",
+      "utc_start": "2026-10-10T01:10:07Z",
+      "utc_end": "2026-10-10T01:10:24Z",
+      "exit": 0,
+      "tap": {"tests": 1, "pass": 1, "fail": 0, "skipped": 0},
+      "raw_log": "browser.raw.log",
+      "raw_sha256": "3aba1ef738e49b0fe5394b1d174fe4348e78b9ae5a20100af55ab463df3787e"
+    },
+    {
+      "name": "retained-release-integrity-regression",
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL='postgres://postgres@127.0.0.1:32768/schemaforge_tests' SCHEMAFORGE_JAVA_HOME='/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin' SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-release-integrity.test.mjs",
+      "utc_start": "2026-10-10T01:10:33Z",
+      "utc_end": "2026-10-10T01:10:39Z",
+      "exit": 0,
+      "tap": {"tests": 1, "pass": 1, "fail": 0, "skipped": 0},
+      "raw_log": "integrity.raw.log",
+      "raw_sha256": "f8a32d4d8d665937726cbcd658f1fc3a2bd7f5899991a12445c25994689f3088"
+    }
+  ],
+  "lifecycle": {
+    "active_test_browser_or_chromium_processes_after_checks": 0,
+    "owned_fixture_cleanup": "Focused browser test left one empty /tmp/schemaforge-comparison-browser-1JuxFV directory; exact owned empty directory was removed with rmdir. No broad cleanup performed.",
+    "database_scope": "Only task-authorized isolated schema fixtures in schemaforge_tests; test helper cleaned its owned schema."
+  },
+  "limitations": [
+    "Prior native report's original first-browser fixture cleanup identity/bytes were not captured; this QA does not retroactively prove that earlier cleanup.",
+    "Original initial blocked review and captures remain immutable; prior SEC-T25-01 was based on a real extra-metadata preflight gap despite initial passing counts.",
+    "Root completion evidence records corrected frozen standard162/162, product37/37, browser22/22, zero skips, and exact seven source hashes; this QA independently ran focused suites only and does not repeat or re-attest the full freeze.",
+    "Separate SEC-RETAINED-METADATA-02 remains open outside comparison-route scope.",
+    "GitHub security services/protection remain unavailable per current root reconciliation; no security-gate waiver is inferred. T24 PR37 remains an unmerged draft; no merge eligibility is claimed.",
+    "Sonar unavailable is not PASS. Original220 acceptance remains unchanged. Oracle VALIDATION remains independently BLOCKED; no Oracle, deployment, schema, or applied-checksum claim is made."
+  ],
+  "review_basis": "AGENTS.md, docs/implementation/CURRENT.md, docs/implementation/acceptance.json SF-PRODUCT-T25 six criteria, evidence/product/product-t25-corrected-root-20261010T0107Z/integration-record.json, native source and focused current test bytes."
+}

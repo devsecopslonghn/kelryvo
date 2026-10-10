@@ -269,7 +269,7 @@ test('binding updates serialize with approval and plan creation under project lo
       let waiting = false;
       for (let attempt = 0; attempt < 600; attempt++) {
         const blocked = await f.database.sql`SELECT pid FROM pg_stat_activity WHERE datname=current_database()
-          AND ${blockerPid}=ANY(pg_blocking_pids(pid)) AND query LIKE '%source_binding_generation%' AND query LIKE '%FOR SHARE%'`;
+          AND ${blockerPid}=ANY(pg_blocking_pids(pid)) AND query LIKE '%source_binding_generation%' AND query LIKE '%FOR UPDATE%'`;
         if (blocked.length) { waiting = true; break; }
         await new Promise((resolve) => setTimeout(resolve, 25));
       }

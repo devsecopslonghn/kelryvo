@@ -1,0 +1,26 @@
+{
+  "command": [
+    "env",
+    "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests",
+    "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin",
+    "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+    "taskset",
+    "-c",
+    "0,1",
+    "node",
+    "--test",
+    "--test-concurrency=1",
+    "tests/product-release-integrity.test.mjs",
+    "tests/product-comments.test.mjs",
+    "tests/product-approval-integrity.test.mjs",
+    "tests/product-plan-intent.test.mjs",
+    "tests/product-protected-source-binding.test.mjs",
+    "tests/product-release-comparison.test.mjs"
+  ],
+  "start_utc": "2026-10-10T01:32:57.546596+00:00",
+  "end_utc": "2026-10-10T01:34:33.963641+00:00",
+  "exit_code": 0,
+  "raw_log": "retained-source-and-lock-regressions-final.raw.log",
+  "raw_sha256": "31ba17ae0619ed71491acc4801cdb63431f819256a4b41294db410cbeff5de9a",
+  "raw_bytes": 3111
+}

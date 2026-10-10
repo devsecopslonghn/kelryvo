@@ -1,0 +1,26 @@
+{
+  "recorded_at": "2026-10-10T19:20:30.322732+00:00",
+  "frozen_browser_test_head": "fc8cee35ed4405e91610e2ac63ce319700763d24",
+  "source_path": "tests/product-credential-browser.integration.mjs",
+  "source_sha256": "8476f3da97cd801a9fdb8b4d0d2e26ed4c931d38f87b9139badd161661796bdb",
+  "failure": "First corrected8560993 push CI passes all3 workflows; PR browser30/31 due revoked Refresh workspace button detached during click. All product tests passed. No security finding or runtime defect claimed.",
+  "correction": "One-shot route barrier starts request while credential live, revokes actual DB credential before server checkpoint, releases and requires actual401 plus cleared login state. Stale epoch401 assertion preserved; no timeout/assertion weakening.",
+  "focused": {
+    "command": "taskset -c0,1 node --test tests/product-credential-browser.integration.mjs with actual isolated PostgreSQL and Chromium",
+    "pass": 1,
+    "fail": 0,
+    "skip": 0,
+    "raw_output": "browser-revocation-focused.log",
+    "sha256": "99c716ac14efbe1c361313676feff2358e724022a541c196dcea88112686cbcf"
+  },
+  "failed_raw_output": {
+    "path": "corrected-first-pr-browser-failure.log",
+    "sha256": "7a0bafbab5f0e45c983b8a3cfeb1cc7bc21388e236459900d67420b47af65025"
+  },
+  "reviewer": "/root/integration_review",
+  "review": "APPROVED focused exact working test diff; no blockers. Source hash binds the reviewed test.",
+  "limits": [
+    "No production source/dependency/workflow changes. Frozen192/55/31 local source acceptance retained; only affected browser test rerun locally, final exact-head CI mandatory.",
+    "T35 remains IMPLEMENTED and PR48 draft until corrected final actual gates pass."
+  ]
+}

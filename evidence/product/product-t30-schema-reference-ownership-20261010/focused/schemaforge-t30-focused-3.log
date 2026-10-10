@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: manual schema references are idempotent, exact-case, serially assigned and project-scoped
+ok 1 - manual schema references are idempotent, exact-case, serially assigned and project-scoped
+  ---
+  duration_ms: 594.89479
+  type: 'test'
+  ...
+# Subtest: trusted inventory CLI uses private local metadata authority and preserves operator history
+ok 2 - trusted inventory CLI uses private local metadata authority and preserves operator history
+  ---
+  duration_ms: 1461.14873
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2350.178707

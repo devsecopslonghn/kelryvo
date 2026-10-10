@@ -1,0 +1,48 @@
+TAP version 13
+# Subtest: review inbox cursors preserve microseconds and reject malformed context and calendar positions
+ok 1 - review inbox cursors preserve microseconds and reject malformed context and calendar positions
+  ---
+  duration_ms: 2.846019
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+not ok 2 - review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+  ---
+  duration_ms: 451.95192
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-review-inbox/tests/product-review-inbox.test.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: 'could not determine data type of parameter $3'
+  code: '42P18'
+  name: 'PostgresError'
+  stack: |-
+    ErrorResponse (file:///home/longhn0710/workspace/schemaforge-product-review-inbox/node_modules/postgres/src/connection.js:815:30)
+    handle (file:///home/longhn0710/workspace/schemaforge-product-review-inbox/node_modules/postgres/src/connection.js:489:6)
+    Socket.data (file:///home/longhn0710/workspace/schemaforge-product-review-inbox/node_modules/postgres/src/connection.js:324:9)
+    Socket.emit (node:events:519:28)
+    addChunk (node:internal/streams/readable:561:12)
+    readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    Readable.push (node:internal/streams/readable:392:5)
+    TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    cachedError (file:///home/longhn0710/workspace/schemaforge-product-review-inbox/node_modules/postgres/src/query.js:170:23)
+    new Query (file:///home/longhn0710/workspace/schemaforge-product-review-inbox/node_modules/postgres/src/query.js:36:24)
+    Object.sql (file:///home/longhn0710/workspace/schemaforge-product-review-inbox/node_modules/postgres/src/index.js:112:11)
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-review-inbox/tests/product-review-inbox.test.mjs:33:34)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 778.589361

@@ -1,0 +1,39 @@
+{
+  "id": "product-t26-retained-metadata-local-verified",
+  "subject_id": "SF-PRODUCT-T26",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen standard162, real PostgreSQL/Git/pinned-parser product37, Chromium browser22; root exact ten-source and42-capture verification",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "test_references": [
+    "SF-PRODUCT-T26-API",
+    "SF-PRODUCT-T26-PERSISTENCE",
+    "SF-PRODUCT-T26-WEB"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t26-root-20261010T0152Z/native/final-browser-suite.raw.log",
+    "sha256": "28a7f7a46f529cd751f6824f437342b241efda943aa4e23a37646ce5f8485e50"
+  },
+  "recorded_at_utc": "2026-10-10T01:54:13.082308+00:00",
+  "original_integration_record": {
+    "path": "evidence/product/product-t26-root-20261010T0152Z/integration-record.json",
+    "sha256": "1180aad3204bcd13c3b99bc607546db783b74ddf3ee7886c6997f82b8a7789d1"
+  },
+  "native_manifest_correction": {
+    "path": "evidence/product/product-t26-root-20261010T0152Z/native/native-completion-source-manifest-correction-20261010.json",
+    "sha256": "6ba0bcd7c109b02d474acddbb9bd527dec570a016e9d6c768313ff4117c37952"
+  },
+  "correction": "Only five source paths were captured both before and after. Five dependencies were captured only after and independently equal committed checkpoint35fc blobs. Original native assertion is inaccurate, retained unchanged and corrected append-only. Root initial whole-manifest equality assertion failed before tracker edits; subsequent integration failed on string milestone schema after valid tracker/evidence writes. These coordination errors did not change feature source or test results.",
+  "native_test_lifecycle_handed_back": true,
+  "remaining_gates": "Exact-head independent review/publication/CI still pending. Raw GET release detail concern remains separate. GitHub required security unavailable, Sonar unavailable never PASS, Oracle independently BLOCKED."
+}

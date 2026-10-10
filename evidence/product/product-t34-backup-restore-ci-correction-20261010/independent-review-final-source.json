@@ -1,0 +1,16 @@
+{
+  "reviewer": "native /root/t34_review",
+  "frozen_head": "f7426040789076ff728263b7e09a78aa98360464",
+  "recorded_at": "2026-10-10T17:01:45.154546+00:00",
+  "findings": [],
+  "sha256": {
+    "tests/product-membership-browser.integration.mjs": "13676e2a4a796cbff3995efc6f2b4d2bf5593c3ec02e69ff176d752de4c54bde"
+  },
+  "prior_source_review": {
+    "path": "evidence/product/product-t34-backup-restore-20261010/independent-review-final-source.json",
+    "sha256": "6433acd83e71da595839156f314c82c59ff72a3705b1e2430d0acccdbefffb1c",
+    "original_frozen_head": "591076dbd56c420878c66af86f65f3fbd08a5e41"
+  },
+  "assessment": "Only source/test delta from591 is waitFor expected retained-project button before unchanged exact count1. Correct async readiness, no weakening of assertions/authorization, app behavior, timeout, retries or quality gates. Original5SUCCESS/1FAIL CI and focused1PASS preserved; current full frozen regressions/CI pending.",
+  "limits": "Read-only bounded test/evidence/continuation delta review, prior exact source review reused. No tests/scans/API calls; no remote/Oracle/production/merge/catalog certification."
+}

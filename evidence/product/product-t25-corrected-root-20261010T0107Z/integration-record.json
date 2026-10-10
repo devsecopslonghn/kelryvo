@@ -1,0 +1,221 @@
+{
+  "id": "product-t25-security-corrected-local-verified",
+  "subject_id": "SF-PRODUCT-T25",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen corrected standard162, real PostgreSQL/Git/pinned-parser product37, Chromium browser22; root exact source/capture verification",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "test_references": [
+    "SF-PRODUCT-T25-API",
+    "SF-PRODUCT-T25-WEB",
+    "SF-PRODUCT-T25-PERSISTENCE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t25-corrected-root-20261010T0107Z/native/browser.raw.log",
+    "sha256": "6748d0c60a32cca4510d4133201585a4629c0731a05de3b9b8b72a333a369ecc"
+  },
+  "native_record": {
+    "path": "evidence/product/product-t25-corrected-root-20261010T0107Z/native/run-record.json",
+    "sha256": "1b44f6941e99a1920356dd34ade55026e05b8696522a808eb1ca94ff224bf3dd"
+  },
+  "capture_record_owner": "NATIVE",
+  "recorded_at_utc": "2026-10-10T01:06:54.195457+00:00",
+  "source_manifest": [
+    {
+      "path": "apps/api/index.ts",
+      "sha256": "d717c56a926f842a9872e5234468bb1ecd9fd19f37a5bf3c3b518c2ebcfdbc75"
+    },
+    {
+      "path": "apps/web/src/app.jsx",
+      "sha256": "5b0bcbd713ec66e7e6a73e9515022d6689892fa8ea5069209b4f5b24d448df48"
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256": "9d07af35c899f246bbd0b4c8a7029190e5dea19498e07d99fd3648edd0e74aa4"
+    },
+    {
+      "path": "packages/migrations/compare-retained-releases.mjs",
+      "sha256": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8"
+    },
+    {
+      "path": "scripts/test-product.mjs",
+      "sha256": "af47fe31ff4608bbfd92f13acb18ed457e2c026a630d1ad79210f0e6de77e63f"
+    },
+    {
+      "path": "tests/product-release-comparison-browser.integration.mjs",
+      "sha256": "c11406afde27b7d7faa590cab5cc53f7639547427b4520291670d5c48ff74320"
+    },
+    {
+      "path": "tests/product-release-comparison.test.mjs",
+      "sha256": "c9df38880ef2e81218f5b0b43c839aad809210fc3fadb803e34df60e2bef011e"
+    }
+  ],
+  "copied_artifact_sha256": {
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/focused-api.command.txt": "9078ddb4473ab01b6b976954b62bc8afaeb51765578cfb0bfee8534181fd7742",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/focused-api.end.utc": "92e6a1cd2ccb9ae1d5b3f7c508587379178e91ac99d76d86b6d152e832195fae",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/focused-api.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/focused-api.raw.log": "8ba509b36531008c5ae67db8da5074b28665ad4d7ce5f3d1ad854f9e90e79109",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/focused-api.sha256": "060a272d34208869811ed342f370d2016f1154c41e9bb57409adf27d3bc10d35",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/focused-api.start.utc": "52c874cd0d9de5b082f02a02f3b18ded3a625e0cab529f1e6a9195592c0d6d06",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/schemaforge-t25-corrected-native-20261010T0800Z/focused-api.end.utc": "64d82f4bd7ff327fe7f824cd17a8c28169689ee7e53adc91110b4d85fccd1926",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/schemaforge-t25-corrected-native-20261010T0800Z/focused-api.raw.log": "7c649434888ccb1f3ba72d8e51022866050d88445d2268aae006dd7f2b670c28",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/schemaforge-t25-corrected-native-20261010T0800Z/focused-api.sha256": "48518a63f96e281bd9253ae4467fb9bd31c589ebc4fff8cf8eb5bba8cf7ca6a4",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/schemaforge-t25-corrected-native-20261010T0800Z/focused-api.start.utc": "d3fc42a1b63b7a55b84abb76d8faa67795e59b41b414951d2828ad401ed836de",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/browser.command.txt": "b7033c6a35357e9c06d16a138e5777c8aef46220cc0b1f602b2de8c830c03d6c",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/browser.end.utc": "2d6bba6fa11c88be67c716cb251520b81e7a7dbad716ba55a32e0c3e827abdec",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/browser.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/browser.raw.log": "6748d0c60a32cca4510d4133201585a4629c0731a05de3b9b8b72a333a369ecc",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/browser.sha256": "78d3bc39015ecd7ced23325a2b669fa7c2319985acc2b29daa19ccaf0b1d3beb",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/browser.start.utc": "eb61555f57441d8b852d9e35057131be3fa39d85742f5bfa6d9b8dbff9c37715",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/final-source-manifest-after.txt": "b46f37e9616d0ec292f7a7968914341de8d3ded15d2c8cf6f7ad073ab14b6d12",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/final-source-manifest-before.txt": "b46f37e9616d0ec292f7a7968914341de8d3ded15d2c8cf6f7ad073ab14b6d12",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/final-source-manifest-freeze.txt": "b46f37e9616d0ec292f7a7968914341de8d3ded15d2c8cf6f7ad073ab14b6d12",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/manifests.sha256": "0519d6e388d359e7fbb9ea9138573718a7d5ba78b872a67977dd9724d0b4a027",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/product.command.txt": "a54e1ab0568564af8db582276f789ab50567d8085ed3bf70355ce10a144ace20",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/product.end.utc": "eb61555f57441d8b852d9e35057131be3fa39d85742f5bfa6d9b8dbff9c37715",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/product.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/product.raw.log": "85d781285169d94416183bcad07eb7bd8c7dcbfa78d7eab952fcbb8f592201b1",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/product.sha256": "3918c8ef050cef5055e33d259096adc10d1b40b34d1d6d6af8c6e4f29b87f3aa",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/product.start.utc": "f48b3feab94e97a87f9c7b8dd9650bc0385d1f1591770809bfe2ed2caae623df",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/source-paths.txt": "b5b3e8d3661cdedf03a5d78ea7783aec8fe1a3521f5773661104c2abe1311f1f",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/standard.command.txt": "3193b504a784bf2ccf82f319d62580f03dbf32aa56c913d3f53f6bd06494669e",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/standard.end.utc": "f48b3feab94e97a87f9c7b8dd9650bc0385d1f1591770809bfe2ed2caae623df",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/standard.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/standard.raw.log": "8be721612d186c1cd2a74526945028b014c8ae21266d39d7ae8ce7a96e099b6f",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/standard.sha256": "f6c179906517c196d79a22577a70b18db85c25f5952d8e18c896e3754e98fc5a",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/standard.start.utc": "d0eb0be10fcdd8df7296374e2cd2c3fe5814fa5a25419e089fbc1aa203b9eb63",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/focused-build.command.txt": "76a4bdc9800b3e36d09d57566671591f36bccc7d39599408ccd460a603b437f5",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/focused-build.end.utc": "a03558149fb47671fc902fc7e74deb4bb77406e5ad53732c426dd4b2d831581e",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/focused-build.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/focused-build.raw.log": "0533560d3195db468390751cabd57bdc34335468fb7d56a64f8d917aa71dc2be",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/focused-build.sha256": "564990f87c6ac29b4d3cb9f90bb971914b7f0bfe224fd084ce3e7abd14c9d698",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/focused-build.start.utc": "4fd7d1175809f45c1ed10e0c1050caee551b2ec84980368b9baf80bb49f8554b",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/native/native-corrected-final-completion.json": "1b44f6941e99a1920356dd34ade55026e05b8696522a808eb1ca94ff224bf3dd",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/schemaforge-t25-root-observed-findings-20261009T2256Z.json": "7510868c05982368ce21769d42fa51e7269c8014e00b9e6a80c2922f34279c22",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/schemaforge-t25-preliminary-security-20261009T222750Z.json": "297d08059d3ba91fbb63b56c3fc80303b706030c2083759835e4288ad9974b5f",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/schemaforge-after-t25-candidate-20261009T222524Z.json": "6f3cd67b83d5e5cf54262784ee2bbb1a5122874e0031ccf0411ca5547d458810",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/schemaforge-after-t25-candidate-correction-20261009T222616Z.json": "a4d2f3a5400cbec1672bed4970b749ae90f853e53b2dd9682785fc73072ec98c",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/schemaforge-t26-proposed-contract-20261009T2230Z.json": "459d5cae7b3efd5dfb8f63e8da0feb1ba7370b320abeb3f856e6de32349a8b4c",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/schemaforge-t25-independent-review-assignment.txt": "f06ac32d8cd724ee5073c8e3f60ad3f481696dbaba114c443d396283ea8613bd",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/schemaforge-t25-preliminary-adjacent-security-20261010T005005Z.json": "0f1cf3d2a7a9dc4b03c1320a77187551e3aae7c1c9fad9729fb05a0e8daa281a",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/schemaforge-after-t25-priority-correction-20261010T0050Z.json": "df86bbf1463adf322df0f81f07ab3e43c87e517174cb636cd9f4f117dca58637",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/reconciliation/branches.raw.json": "44b69cf5d229501bfcffccd52285c6971ef2b76db1330db69228014f808d5772",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/reconciliation/code-scanning.raw.json": "d57dab3960fa4a1e2ba1d77df32d3e288ea557c7771446fd17a2e30197f1cb09",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/reconciliation/dependabot.raw.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/reconciliation/fetch.raw.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/reconciliation/pr37.raw.json": "ae88f2ab0b8147182045cd835074af6737fccf781f425bc41db75d1c8e671ea1",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/reconciliation/protection.raw.json": "03bc633c7f1735f2f98853f758e945676281823caf34a38c325aa47ed8d7244f",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/reconciliation/prs.raw.json": "a12cf6739a0f163091f08ba6e3b98492526612befbe4d8e36af7a0e15dd5e125",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/reconciliation/record.json": "ca843fec666befe314279e777c527afd83a3339182d694222cbd70ff01222a11",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/reconciliation/repository.raw.json": "56afc3d8fbb82b7383beb9f2ac1da956f25fe6375c6c4aaa9719c8a3694c53b9",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/reconciliation/secret-scanning.raw.json": "0542e59b19421bb822f240af2e87c462a608432f58bf997afa08649370a722a3",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/reconciliation/shared-head.raw.json": "b68ac60bdf60bab48ffea004c413979b428aa00b349c521c4fb9c36d3accad09",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/reconciliation/shared-status.raw.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/first-frozen-observation/matching-source/apps/api/index.ts": "8a06577d9b99f485dd137f0bf5ed26a77859101c7de637b82fb834452e70ad0b",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/first-frozen-observation/matching-source/apps/web/src/app.jsx": "5b0bcbd713ec66e7e6a73e9515022d6689892fa8ea5069209b4f5b24d448df48",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/first-frozen-observation/matching-source/docs/development/local-product.md": "1ebb556fb08ee27af7d5ab833c458f9c26320b7e91ba74ab9e9eaab45c466dec",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/first-frozen-observation/matching-source/packages/migrations/compare-retained-releases.mjs": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/first-frozen-observation/matching-source/scripts/test-product.mjs": "af47fe31ff4608bbfd92f13acb18ed457e2c026a630d1ad79210f0e6de77e63f",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/first-frozen-observation/record.json": "60cc72d7e2038d36b6e2e994e87f6ab09dba0ee4b818d53b5fc7a4a00d1e8597",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/first-frozen-observation/source-manifest-before.txt": "313c30499c2738101d45284ae8beecb64421bf7813f4872d670b1e33cc52745b",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/04-source-comparison-contract-decision.command.json": "b3eb0b4d894d6a68fa00b9e29d7918b9e07eb3a19e9ec26fec3199257646657f",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/04-source-comparison-contract-decision.raw.log": "c9007ac925a4e0e05de1f02d279d9360cb21603f1149e158ead0826e65893aa8",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/04-source-comparison-contract-decision.result.json": "fdd371ce411f7dd56b2af5b2df4e239852a0bf53cec2f48ac34f50b417c463be",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/05-prefreeze-observed-findings.command.json": "9c9d3711e1a0e5113c5f7a80f81e8047b5c0ac82726f52d4b32c224c02c4f2f2",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/05-prefreeze-observed-findings.raw.log": "e48a32842a5b8a64f10d71cb681bdd98b6f5f8f4e4805e9ae23067f6205ad3cd",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/05-prefreeze-observed-findings.result.json": "6c02aa064d7f34ec9ad0800dc15ce22faacea1ea2683eaceccb5ec02419edfd2",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/14-register-security-correction.command.json": "62b086e8f3c3378c7d40d337965772debdc709575dd4ecfe70decd7e3c5cbeba",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/14-register-security-correction.raw.log": "c40fe41c38812fa88410f3a0147c17788618c1a4f1acff957241ecd0933ddf02",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/14-register-security-correction.result.json": "430cb60197898f6e2c1067f92a4824fe0d8f7969861da80440fee5828e00fe56",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/15-recover-native-correction-context.command.json": "9c1a28aa7dc7ab10b408ff8c80f2ebc0ab6998fecb37423ae5ced347b9b12f90",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/15-recover-native-correction-context.raw.log": "5bed9c7a7c56c4d7a42a13970608d1e844d76ce66a0765af09568da3616348ab",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/15-recover-native-correction-context.result.json": "43f9073677dd751bc4f4d48ecb49ddad9ea3ee793eb8629b0a2025b4c39629c5",
+    "evidence/product/product-t25-corrected-root-20261010T0107Z/root-observations/schemaforge-t26-hardening-proposed-contract-20261010T0051Z.json": "2988767fb9305cc5745490f24e6e2ac1741db42b3894f3eb57e65eec38cedf1c"
+  },
+  "final_runs": {
+    "standard": {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/standard.raw.log",
+      "sha256": "8be721612d186c1cd2a74526945028b014c8ae21266d39d7ae8ce7a96e099b6f",
+      "raw_exit": 0,
+      "utc_start": "2026-10-10T00:50:48Z",
+      "utc_end": "2026-10-10T00:54:59Z",
+      "tap": {
+        "tests": 162,
+        "pass": 162,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    "product": {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/product.raw.log",
+      "sha256": "85d781285169d94416183bcad07eb7bd8c7dcbfa78d7eab952fcbb8f592201b1",
+      "raw_exit": 0,
+      "utc_start": "2026-10-10T00:54:59Z",
+      "utc_end": "2026-10-10T00:58:17Z",
+      "tap": {
+        "tests": 37,
+        "pass": 37,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    "browser": {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/browser.raw.log",
+      "sha256": "6748d0c60a32cca4510d4133201585a4629c0731a05de3b9b8b72a333a369ecc",
+      "raw_exit": 0,
+      "utc_start": "2026-10-10T00:58:17Z",
+      "utc_end": "2026-10-10T01:02:35Z",
+      "tap": {
+        "tests": 22,
+        "pass": 22,
+        "fail": 0,
+        "skipped": 0
+      }
+    }
+  },
+  "behavior_coverage": [
+    "Database-side preflight applies to both retained releases under the existing project/release read locks before either files payload is materialized to Node.",
+    "Combined encoded non-content metadata budget includes each file object with content removed, retained repository ID, folder, parser profile, and conservative JSON array delimiters and separators; aggregate bound is four MiB.",
+    "Unknown small bounded extension metadata remains compatible. statementCount accepts null or a bounded nonnegative safe integer; negative, fractional, excessive, and string values are rejected.",
+    "Focused real-API tests reject oversized flat and nested extra metadata independently in base and candidate slots, and reject malformed statementCount values across both slots; every rejected read compares complete populated project/lifecycle snapshots before fixture restoration.",
+    "Successful bounded-extension comparison remains read-only. Existing standard, product, and browser coverage passed with the corrected frozen seven-file manifest.",
+    "Actual frozen final counts: standard162/162, product37/37, browser22/22; zero failures and zero skips in each suite."
+  ],
+  "review_status": "CORRECTED_LOCAL_VERIFIED_FRESH_EXACT_HEAD_QA_SECURITY_LICENSE_SCANS_PENDING",
+  "merge_eligible": false,
+  "corrected_finding": "SEC-T25-01_LOCAL_CORRECTED_FRESH_REVIEW_PENDING",
+  "preserved_blocked_review": "evidence/product/product-t25-security-correction-20261009T2328Z/blocked-review.json",
+  "unmerged_prerequisite": {
+    "task": "SF-PRODUCT-T24",
+    "draft_pr": 37,
+    "head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89"
+  },
+  "limitations": [
+    "The initial blocked review of head93629076 found SEC-T25-01; its independently blocked verdict and original captures remain preserved and unchanged. Initial162/37/22 passing counts did not approve security or completion.",
+    "This record attests local verification only. Fresh independent QA/security/license review and required publication/CI/security gates remain pending; no push, PR, merge, deployment, or security approval is claimed.",
+    "Earlier native context disappeared after a focused build-only capture; that historical build attempt is preserved under /tmp/schemaforge-t25-security-correction-20261009T233033Z and is not represented as test completion.",
+    "Known earlier browser-fixture setup cleanup identity/bytes were not captured in the prior completion; no retroactive cleanup proof is claimed.",
+    "Capture directory suffixes are opaque labels and do not attest time. UTC fields in this record are copied from actual per-command sidecars.",
+    "No Oracle 19c/21c connection or runtime verification occurred; retained source comparison provides no deployed-schema, applied-checksum, or Oracle evidence.",
+    "First standard162 passed before required test-only evidence corrections; no first full product/browser completion is claimed.",
+    "Open separate SEC-RETAINED-METADATA-02 affects adjacent existing retained-source readers; bounded next hardening is prioritized before inbox. This correction covers comparison only, not all payload readers.",
+    "Actual missing invalidateReleaseComparison destructuring caused selector ReferenceError; earlier fixture-only diagnosis was incomplete. Failed captures retained; unavailable prepatch UI source bytes are not reconstructed.",
+    "Independent preliminary QA required complete failed-read snapshots and visible approver success; this root record does not reconstruct missing native preliminary verdict files.",
+    "First frozen observation copied five still-matching source files only; already changed two test files have hashes but missing old byte snapshots.",
+    "Exact-head independent QA/security/license, full publication/history classification and all required security/CI gates remain mandatory before readiness/merge.",
+    "GitHub security services and protection unavailable; no additional Sonar/security exception inferred. T24 remains unmerged draft.",
+    "API and connection-pool recreation is not PostgreSQL daemon restart. Retained UTF8 source comparison is not deployed/schema/Oracle evidence.",
+    "Original220 acceptance remains unchanged; Oracle independently BLOCKED; Sonar unavailable never PASS.",
+    "Shared original checkout and separate Hygiene scope untouched; no visible Hygiene branch/PR at last reconciliation."
+  ]
+}

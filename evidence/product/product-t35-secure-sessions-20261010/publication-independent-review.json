@@ -1,0 +1,255 @@
+{
+  "task": "SF-PRODUCT-T35",
+  "reviewer": "/root/t35_review",
+  "recorded_at": "2026-10-10T18:19:40.999393+00:00",
+  "reviewed_head": "a01ada593fd111f4d6563502483ea0b32354185a",
+  "frozen_source_head": "81d5340bbdd4c6c6db9526178f9703d2cdec5c14",
+  "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "raw_results": {
+    "contents": {
+      "exit_code": 1,
+      "findings": 10
+    },
+    "incoming": {
+      "exit_code": 1,
+      "findings": 11
+    }
+  },
+  "findings": [
+    {
+      "mode": "contents",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/product.started.json",
+      "line": 19,
+      "fingerprint": "/tmp/schemaforge-t35-contents-publication-snapshot/evidence/product/product-t35-secure-sessions-20261010/product.started.json:generic-api-key:19",
+      "commit": "",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "contents",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/standard.started.json",
+      "line": 19,
+      "fingerprint": "/tmp/schemaforge-t35-contents-publication-snapshot/evidence/product/product-t35-secure-sessions-20261010/standard.started.json:generic-api-key:19",
+      "commit": "",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "contents",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/independent-review-final-source.json",
+      "line": 14,
+      "fingerprint": "/tmp/schemaforge-t35-contents-publication-snapshot/evidence/product/product-t35-secure-sessions-20261010/independent-review-final-source.json:generic-api-key:14",
+      "commit": "",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "contents",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/standard.json",
+      "line": 22,
+      "fingerprint": "/tmp/schemaforge-t35-contents-publication-snapshot/evidence/product/product-t35-secure-sessions-20261010/standard.json:generic-api-key:22",
+      "commit": "",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "contents",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/standard.json",
+      "line": 42,
+      "fingerprint": "/tmp/schemaforge-t35-contents-publication-snapshot/evidence/product/product-t35-secure-sessions-20261010/standard.json:generic-api-key:42",
+      "commit": "",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "contents",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/browser.started.json",
+      "line": 19,
+      "fingerprint": "/tmp/schemaforge-t35-contents-publication-snapshot/evidence/product/product-t35-secure-sessions-20261010/browser.started.json:generic-api-key:19",
+      "commit": "",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "contents",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/browser.json",
+      "line": 22,
+      "fingerprint": "/tmp/schemaforge-t35-contents-publication-snapshot/evidence/product/product-t35-secure-sessions-20261010/browser.json:generic-api-key:22",
+      "commit": "",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "contents",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/browser.json",
+      "line": 42,
+      "fingerprint": "/tmp/schemaforge-t35-contents-publication-snapshot/evidence/product/product-t35-secure-sessions-20261010/browser.json:generic-api-key:42",
+      "commit": "",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "contents",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/product.json",
+      "line": 22,
+      "fingerprint": "/tmp/schemaforge-t35-contents-publication-snapshot/evidence/product/product-t35-secure-sessions-20261010/product.json:generic-api-key:22",
+      "commit": "",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "contents",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/product.json",
+      "line": 42,
+      "fingerprint": "/tmp/schemaforge-t35-contents-publication-snapshot/evidence/product/product-t35-secure-sessions-20261010/product.json:generic-api-key:42",
+      "commit": "",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "incoming",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/browser.started.json",
+      "line": 19,
+      "fingerprint": "a01ada593fd111f4d6563502483ea0b32354185a:evidence/product/product-t35-secure-sessions-20261010/browser.started.json:generic-api-key:19",
+      "commit": "a01ada593fd111f4d6563502483ea0b32354185a",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "incoming",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/standard.started.json",
+      "line": 19,
+      "fingerprint": "a01ada593fd111f4d6563502483ea0b32354185a:evidence/product/product-t35-secure-sessions-20261010/standard.started.json:generic-api-key:19",
+      "commit": "a01ada593fd111f4d6563502483ea0b32354185a",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "incoming",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/browser.json",
+      "line": 22,
+      "fingerprint": "a01ada593fd111f4d6563502483ea0b32354185a:evidence/product/product-t35-secure-sessions-20261010/browser.json:generic-api-key:22",
+      "commit": "a01ada593fd111f4d6563502483ea0b32354185a",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "incoming",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/browser.json",
+      "line": 42,
+      "fingerprint": "a01ada593fd111f4d6563502483ea0b32354185a:evidence/product/product-t35-secure-sessions-20261010/browser.json:generic-api-key:42",
+      "commit": "a01ada593fd111f4d6563502483ea0b32354185a",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "incoming",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/standard.json",
+      "line": 22,
+      "fingerprint": "a01ada593fd111f4d6563502483ea0b32354185a:evidence/product/product-t35-secure-sessions-20261010/standard.json:generic-api-key:22",
+      "commit": "a01ada593fd111f4d6563502483ea0b32354185a",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "incoming",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/standard.json",
+      "line": 42,
+      "fingerprint": "a01ada593fd111f4d6563502483ea0b32354185a:evidence/product/product-t35-secure-sessions-20261010/standard.json:generic-api-key:42",
+      "commit": "a01ada593fd111f4d6563502483ea0b32354185a",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "incoming",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/product.json",
+      "line": 22,
+      "fingerprint": "a01ada593fd111f4d6563502483ea0b32354185a:evidence/product/product-t35-secure-sessions-20261010/product.json:generic-api-key:22",
+      "commit": "a01ada593fd111f4d6563502483ea0b32354185a",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "incoming",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/product.json",
+      "line": 42,
+      "fingerprint": "a01ada593fd111f4d6563502483ea0b32354185a:evidence/product/product-t35-secure-sessions-20261010/product.json:generic-api-key:42",
+      "commit": "a01ada593fd111f4d6563502483ea0b32354185a",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "incoming",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/independent-review-final-source.json",
+      "line": 14,
+      "fingerprint": "a01ada593fd111f4d6563502483ea0b32354185a:evidence/product/product-t35-secure-sessions-20261010/independent-review-final-source.json:generic-api-key:14",
+      "commit": "a01ada593fd111f4d6563502483ea0b32354185a",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "incoming",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/product.started.json",
+      "line": 19,
+      "fingerprint": "a01ada593fd111f4d6563502483ea0b32354185a:evidence/product/product-t35-secure-sessions-20261010/product.started.json:generic-api-key:19",
+      "commit": "a01ada593fd111f4d6563502483ea0b32354185a",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    },
+    {
+      "mode": "incoming",
+      "rule": "generic-api-key",
+      "artifact": "evidence/product/product-t35-secure-sessions-20261010/publication-contents-scan.json",
+      "line": 112,
+      "fingerprint": "a01ada593fd111f4d6563502483ea0b32354185a:evidence/product/product-t35-secure-sessions-20261010/publication-contents-scan.json:generic-api-key:112",
+      "commit": "a01ada593fd111f4d6563502483ea0b32354185a",
+      "disposition": "BENIGN_PUBLIC_SOURCE_SHA256",
+      "source_file": "packages/database/local-credentials.ts",
+      "verified_code_sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    }
+  ],
+  "actionable_findings": [],
+  "independent_disposition": "Every finding line is a JSON source checksum map entry and equals the exact published-source file SHA256, not a issued credential/verifier. Native reviewer independently verified all21 occurrences. Raw exit1/findings remain. No scanner configuration/threshold/ignore change.",
+  "publication_authority": "Authorized ordinary DRAFT only; no scan clean/PASS, ready or merge claim. Required external security/protection unavailable.",
+  "metadata_review": "a01 adds actual guarded191/54/31 results, IMPLEMENTED status/evidence and partial coverage0/48/165/7. Source/test/dependency bytes unchanged; publication/CI pending."
+}

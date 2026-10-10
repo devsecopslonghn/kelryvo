@@ -1,0 +1,75 @@
+[development/product-discussion-evidence dab29a3] Clear discussion evidence drafts when protected source changes
+ 72 files changed, 6452 insertions(+), 7 deletions(-)
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/18-correction-focused-product-proof.command.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/18-correction-focused-product-proof.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/18-correction-focused-product-proof.result.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/19-integrate-corrected-regressions.command.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/19-integrate-corrected-regressions.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/19-integrate-corrected-regressions.result.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/20-integrate-corrected-regressions.command.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/20-integrate-corrected-regressions.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/20-integrate-corrected-regressions.result.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/21-corrected-tracker-lint-format.command.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/21-corrected-tracker-lint-format.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/21-corrected-tracker-lint-format.result.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/22-corrected-base-ownership.command.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/22-corrected-base-ownership.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/22-corrected-base-ownership.result.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/23-corrected-base-ownership.command.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/23-corrected-base-ownership.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/23-corrected-base-ownership.result.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/24-corrected-precommit-scan.command.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/24-corrected-precommit-scan.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/24-corrected-precommit-scan.result.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/01-product-comment-evidence-unit.test.raw.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/02-product-comments.test.raw.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/03-product-statement-preview-parser.integration.raw.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/04-product-statement-preview.test.raw.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/05-product-comments-browser.integration.raw.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/06-product-protected-source-binding-browser.integration.raw.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/07-tracker.test.raw.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/capture-record.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/commands.txt
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/copied-artifact-manifest.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/final-verdict.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/independent-ui-run.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/independent-ui.raw.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-independent-qa/stale-intent-ui.mjs
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/classification.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/history-safe.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/publication-safe.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-publication/snapshot-sha256.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-review.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-artifact-manifest.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/15-freeze-owned-feature-head.command.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/15-freeze-owned-feature-head.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/15-freeze-owned-feature-head.result.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/16-exact-head-publication-history-scans.command.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/16-exact-head-publication-history-scans.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/16-exact-head-publication-history-scans.result.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/17-exact-provenance-classification.command.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/17-exact-provenance-classification.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/blocked-root-captures/17-exact-provenance-classification.result.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/corrected-integration-record.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/run-record.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/schemaforge-t23-correction-browser-20261010.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/schemaforge-t23-correction-focused-browser-20261010-r2.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/schemaforge-t23-correction-focused-browser-20261010.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/schemaforge-t23-correction-focused-browser-final-20261010.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/schemaforge-t23-correction-product-20261010.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/schemaforge-t23-correction-standard-20261010.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/corrected-native/schemaforge-t23-correction-standard-final-20261010.log
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/corrected-root-finalization.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/initial-precommit-classification.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/initial-precommit-publication-safe.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/root-formatting-correction.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/schemaforge-t23-final-security-license-verdict-20261010T0300Z.json
+ create mode 100644 evidence/product/product-t23-security-correction-20261009T1940Z/schemaforge-t23-final-security-license-verdict-20261010T0301Z.json
+{
+  "head": "dab29a357e3e29d65b7db23255dbae56abf3f00f",
+  "tree": "ccc3058db4b34c4db51085b74818587f1cd1d82d",
+  "changed_owned_paths": 72,
+  "publication_paths": 324,
+  "precommit_scanned_paths": 324,
+  "clean_worktree": true
+}

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "gh",
+    "pr",
+    "view",
+    "47",
+    "--json",
+    "number,url,isDraft,state,headRefOid,baseRefName"
+  ],
+  "exit_code": 0,
+  "observed_at": "2026-10-10T18:23:54.100956+00:00",
+  "published_head": "628eb4630176728eee3bb08959194eaa580b00a3"
+}

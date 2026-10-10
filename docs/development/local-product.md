@@ -1,5 +1,23 @@
 # Local SchemaForge product
 
+## Provisional schema references
+
+The **Schema references** project view shows only current schema ownership for the selected
+project. These are trusted local operator declarations labelled `MANUAL_REFERENCE` and
+`PROVISIONAL`; they do not report observed Oracle identity or grant profile, plan, approval,
+or execution authority. Declared environment belongs to the container and applies to each
+schema reference in it.
+
+The trusted OS operator uses `node scripts/local-inventory-operator.mjs` with the private
+local config and `SCHEMAFORGE_LOCAL_DATABASE_URL`. `declare` accepts bounded flags for the
+database key/label, container key/name/kind, environment, host, port, service, transport and
+exact owner. `status` lists declarations and current ownership. `assign --schemaId UUID
+--projectId UUID --expectedRevision 0 --reason TEXT` assigns or transfers ownership;
+`release --schemaId UUID --expectedRevision 1 --reason TEXT` releases it. Supply
+`--config .cache/local-product/config.json` for each command. Revisions use canonical
+decimal strings. The operator rejects immutable fact conflicts and stale revisions. It does
+not connect to Oracle, resolve credentials or probe routes.
+
 PRODUCT is runnable governance; VALIDATION is Oracle compatibility, runtime acceptance and
 production hardening. T04 and all 124 applicable Oracle cells stay BLOCKED. Product delivery
 does not require the owner to provide an Oracle lab. The original 220 feature IDs and original
@@ -45,10 +63,23 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    plan, history or audit records. This check uses the stored release only and works when Git
    is unavailable. Verification bounds encoded file size and retained metadata before allocations;
    canonical decimal versions preserve arbitrary-precision ordering without numeric conversion.
+   Statement preview, offline plan creation, evidence-linked comments and approval first run a
+   database-side scalar preflight under their existing scoped row locks. It caps a release at
+   128 files, 2 MiB per file and 16 MiB total SQL, and limits the complete encoded non-content
+   metadata—including unknown nested extension fields, array overhead and release identity—to
+   4 MiB. Known byte and statement-count fields are type-checked with bounded numeric parsing.
+   Small historical extensions, Unicode SQL and null statement counts remain readable; malformed
+   or over-budget metadata returns the route's existing fixed integrity response before SQL file
+   payloads are copied into the API process. No retained record is rewritten or backfilled.
    Review ordered files/hashes and
    `NOT_OBSERVED` target history. No target history was read, so this is not a reconciled
    execution plan and does not claim that all files are pending on a real database.
-5. Sign out, sign in with `approverToken`, and open Plans & review. Record a reason and
+6. Open **Review inbox** to see pending plans across active projects with current explicit grants. Use
+   All pending, Authored by me, or Eligible for my review; refresh after project access changes.
+   Eligible means the fixed approver role with requester exclusion only; it does not attest to
+   source integrity or execution readiness. Open a row to review that exact plan in Plans & review. The inbox is read-only and excludes
+   archived projects.
+7. Sign out, sign in with `approverToken`, and open Plans & review. Record a reason and
    approve or reject. Each selected plan shows its retained author ID as text and its server
    creation timestamp. An approver who authored a pending plan sees fixed independent-review
    feedback and disabled decision controls; a missing or malformed author ID keeps decisions
@@ -66,6 +97,17 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    rejection remains available when source is damaged.
    Approval does not grant execution authority. Prepare another candidate to demonstrate
    rejection as a separate decision.
+   Pending plans can be routed to a current project member with the fixed approver role.
+   The requester or current assignee can choose another reviewer or clear the assignment;
+   an eligible approver can claim an unassigned plan for themselves. Reviewer choices are
+   scoped to the plan's project, exclude its requester, require a current grant and active
+   credential, and return at most 50 names; the UI reports when more choices exist. A strict
+   decimal revision accompanies each change. Stale writes fail, same-target requests leave
+   the revision and audit unchanged, and real changes append one `PLAN_REVIEWER_ASSIGNED`
+   event. Once assigned, only that independent current approver can decide the plan; unassigned
+   legacy plans retain independent approver review. The Assigned to me filter shows pending
+   plans routed to the signed-in actor. Assignment changes do not alter source, intent, comment,
+   decision or history facts and do not authorize execution.
    Developers and approvers can add review comments while a plan is pending. The timeline
    retains plain text, the server-resolved author name and timestamp in submission order.
    Comments remain readable after approval, rejection or project archival; those states
@@ -91,11 +133,21 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    reopening a saved reference requests the exact scoped retained-source preview and checks
    its saved range and digests. This local workflow does not connect to Oracle or change
    executable migration bytes, historical intents, decisions or history.
-   Approved and rejected plans also show a read-only Decision record with the server-stored
+   Approved, rejected and revoked plans show the original read-only Decision record with the server-stored
    reviewer name and ID, decision time and plain-text reason. The reviewer name is captured
    with the decision, so later identity configuration changes do not alter attribution;
    older decisions without a stored name display their retained actor ID.
-   Use Plan status to filter All (the default), Pending approval, Approved or Rejected.
+   New approvals carry a stable approval reference linked to their `PLAN_APPROVED` audit UUID.
+   An independent currently granted approver can withdraw an approved offline candidate by
+   submitting that exact reference (or explicit `null` for an older approval) and a nonempty
+   reason of at most 2,000 characters. Ordinary tabs and line breaks are supported; malformed
+   Unicode and other control characters are rejected.
+   Withdrawal appends one immutable scoped revocation record and audit event, changes only the
+   plan status to `REVOKED`, and preserves the original decision, actor, reason, time, source,
+   intent, comments and history. It remains available when retained SQL or intent is damaged;
+   it never claims to stop or roll back execution. Execution is unavailable and plans remain
+   `NOT_EXECUTED`. A revoked plan cannot be approved again; prepare a fresh plan to seek approval.
+   Use Plan status to filter All (the default), Pending approval, Approved, Rejected or Revoked.
    Filters preserve project ordering and historical read access for archived projects.
    Changing the filter clears unsent comment and decision drafts; an empty result offers
    another status or All. Selecting a project or signing out restores the All default.
@@ -143,7 +195,7 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    inspectable but cannot be approved. Reconfiguring a target affects new plans only.
    These local checks do not observe Oracle identity/history, revalidate at execution, or
    establish tamper resistance against a database administrator.
-   A selected rejected plan in an active project with a registered bound source also offers
+   A selected rejected or revoked plan in an active project with a registered bound source also offers
    **Prepare new plan**. This is read-only navigation into that project's release intake:
    it clears the inspected release and unsent review drafts and restores the All plan filter.
    Commit changed SQL and import that new commit as an immutable release before preparing
@@ -151,13 +203,13 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    intact. The new candidate receives its own retained intent digest and requires an
    independent decision. Archived, unbound and stale project selections do not offer the
    action; the existing authenticated release-import and plan APIs remain the write boundary.
-6. Inspect Audit & history. Audit action filters list only actions present in the selected
+8. Inspect Audit & history. Audit action filters list only actions present in the selected
    project's recent events; All actions is the default and preserves server ordering.
    Project changes and sign-out restore that default. Archived project events remain
    readable, and an empty timeline explains that no events are available. Each proposed
    migration records `NOT_EXECUTED`; no applied receipt exists. Stop/restart the API to
    confirm PostgreSQL retains these records.
-7. As the developer, return to Projects and archive a completed project with a reason.
+9. As the developer, return to Projects and archive a completed project with a reason.
    The timestamp and archived state persist. Existing releases (including SQL previews),
    plans, audit and history remain readable; creation and review controls become disabled.
    Repeated archive requests retain the original timestamp and create no duplicate event.
@@ -188,7 +240,7 @@ The API is a single-organization local service with server-configured named deve
 approver identities. Bearer tokens are randomly generated, private at rest, never stored
 by the browser, and mapped to identities on the server. Caller actor IDs and unexpected
 properties are rejected. Origin checks, fixed error codes and a same-origin CSP apply.
-This local authentication does not certify multi-tenant RBAC, production sessions or TLS.
+HTTP mode retains local bearer authentication. HTTPS mode adds the bounded browser session lifecycle described below; multi-tenant/provider login and deployed worker transport remain unverified.
 
 Local identities are persisted in PostgreSQL with a SHA-256 bearer digest and a fixed
 24-hour expiry measured from database issuance time. Startup seeds an identity and its
@@ -208,7 +260,11 @@ read-only state.
 The local OS operator manages explicit grants independently of API bearer credentials using
 `npm run local:membership -- <action> ... /absolute/private/config.json`. Supported forms are
 `status CONFIG`, `grant PROJECT_UUID ACTOR_ID CONFIG`, `revoke PROJECT_UUID ACTOR_ID CONFIG`,
-and `activate CONFIG`. The config must be the existing local 0700-directory/0600-file config;
+`deploy-grant PROJECT_UUID ACTOR_ID CONFIG`, `deploy-revoke PROJECT_UUID ACTOR_ID CONFIG`,
+and `activate CONFIG`. Deployment permission is an explicit operator grant separate from fixed
+developer/approver roles. It requires current membership and a usable credential. Membership
+revocation atomically retires deployment permission; restoring membership never restores it.
+The config must be the existing local 0700-directory/0600-file config;
 the database URL comes from `SCHEMAFORGE_LOCAL_DATABASE_URL`, must target the loopback local
 metadata database, contain no query overrides, and carry that config's database password.
 `status` reports project and existing actor identifiers/names, fixed roles, explicit assigned
@@ -241,6 +297,7 @@ writes a new one. `recover /absolute/private/config.json` completes an interrupt
 startup fails closed while its private journal is pending. The journal and staged config
 are private, bounded files protected by a persistent mode-0600 Linux `flock` lock and
 same-filesystem rename. The local operator requires `/usr/bin/flock` from util-linux.
+
 If a process dies after staging but before its journal is durable, `recover` verifies that
 the staged file changes exactly one local token, preserves the other identity and database
 password, and that the candidate digest was never inserted. It then discards only that
@@ -271,34 +328,63 @@ rejects symlinks/submodules and equivalent duplicate numeric versions, and valid
 whole release before planning. Source SQL is visible only after local authentication.
 
 `GET /api/health` probes PostgreSQL and reports `NOT_EXECUTED`/Oracle `BLOCKED`.
-All other API reads/writes require a bearer token:
+All other API reads/writes require an explicit bearer credential or, in HTTPS mode, a current browser cookie session with its CSRF proof:
 
 | Endpoint | Behavior |
 | --- | --- |
 | `GET /api/session`, `/api/repositories`, `/api/projects` | Authenticated identity, allowlisted binding names and bootstrap/enforced project visibility |
 | `POST /api/projects` | During bootstrap, fixed denial; when enforced, create project (`name`, optional `description`) and return a receipt without an implicit grant |
 | `GET /api/projects/:id` | Project, environments, profiles, releases, plans, audit, history |
+| `GET /api/projects/:id/audit` | Read-only project audit page (`50` events) with optional exact `action` and opaque bounded `cursor`; current membership is checked on every request |
 | `GET /api/projects/:id/git-refs` | Authenticated local branches and commit-resolving tags from the project's saved registered repository |
 | `PUT /api/projects/:id/source` | Developer persists registered `repositoryId`, relative `folder`; changes are audited |
 | `POST /api/projects/:id/archive` | Developer archives with `reason`; preserves all records |
 | `POST /api/projects/:id/environments` | Create environment (`name`) |
 | `POST /api/projects/:id/profiles` | Store `name`, `environmentId`, `engine=oracle`, `host`, `port`, `service`, `username`, `credentialRef` |
 | `POST /api/projects/:id/releases` | Import `repositoryId`, `commit`, `folder` |
-| `GET /api/releases/:id` | Retained source, hashes and parser observations |
+| `POST /api/projects/:id/releases/compare` | Read-only `baseReleaseId`, `candidateReleaseId` comparison |
+| `GET /api/releases/:id` | Authenticated, scoped read-only historical source detail; scalar bounds are checked under project/release locks before file or diagnostic text projection. Malformed or oversized retained detail returns fixed HTTP 409 `RELEASE_UNAVAILABLE`. The historical view preserves bounded `VALID`, `INVALID` and `UNAVAILABLE` diagnostics and does not attest current Git or parser state. |
 | `POST /api/projects/:id/plans` | Freeze candidate from `releaseId`, `profileId` |
 | `GET /api/projects/:projectId/plans/:id/comments` | Authenticated, ordered historical comment timeline within the project/plan scope |
 | `POST /api/projects/:projectId/plans/:id/comments` | Append plain-text `body` to a pending plan in an active project; developer or approver |
 | `POST /api/plans/:id/decision` | Independent `APPROVE`/`REJECT` with `reason` |
-| `POST /api/plans/:id/execution` | Audit denial; HTTP 409 `EXECUTION_UNAVAILABLE`, `NOT_EXECUTED` |
+| `GET /api/projects/:projectId/plans/:id/reviewers` | Up to 50 current eligible reviewer IDs/names; `hasMore` reports truncation |
+| `PUT /api/projects/:projectId/plans/:id/reviewer` | Assign or clear with `reviewerId` (nullable) and canonical decimal `expectedRevision` |
+| `POST /api/plans/:id/approval-revocation` | Withdraw with `expectedApprovalReference` (UUID or explicit `null`) and `reason` |
+| `POST /api/plans/:id/execution` | Request a deployment job using only `idempotencyKey` and `reason`; creates a durable `WAITING_VALIDATION` job |
+| `GET /api/projects/:projectId/execution-jobs` | Read up to 50 current-project jobs |
+| `GET /api/execution-jobs/:id` | Read a scoped job and immutable events |
+| `POST /api/execution-jobs/:id/cancel` | Cancel the requester's undispatched job with `expectedRevision` |
+
+Historical release detail reads enforce the retained limits of 128 files, 2 MiB per
+file, 16 MiB aggregate source content and 4 MiB of complete encoded non-content metadata
+before PostgreSQL returns retained files, identity strings or validation diagnostics.
+This is a display allocation bound; protected planning, comparison, preview and review
+readers retain their separate strict integrity checks.
 
 Writes and their audit/history events share PostgreSQL transactions. Approved items are
-immutable through the API; terminal decisions cannot be overwritten. Metadata administrators
-remain outside this protection. No simulated execution, automatic retry, target ledger,
+immutable through the API; terminal decisions cannot be overwritten. Local startup adds nullable
+`reviewer_id` and nonnegative `reviewer_revision` columns idempotently; existing plans remain
+unassigned at revision zero. Historical terminal and archived assignment metadata stays readable.
+Additional eligible reviewers beyond the directory bound can be assigned by their known actor ID
+through the same scoped API. Expiring temporary delegation remains unavailable. Metadata administrators
+remain outside this protection. Offline plans have no observed target history, so requests
+remain `WAITING_VALIDATION` and cannot be admitted by API or operator grant. The restricted
+coordinator accepts only an admitted immutable job through injected trusted ports; synthetic
+ports are UNIT evidence only. No production Oracle adapter, automatic retry, target ledger,
 runtime authority, Oracle connections, Kubernetes deployment or production compatibility
 claim is included. Archival retains records and transactionally rejects further project
 writes with HTTP 409 `PROJECT_ARCHIVED`, including in-flight writes that were waiting
 on the project lock. No restore or deletion endpoint is provided. Edit/resubmit and broader
 catalog workflows are incremental work.
+
+The immutable PostgreSQL proof row stores expected bindings; it does not independently grant
+execution authority or establish live target identity, history, mutex ownership, validity or
+central evidence. Trusted production admission and target-check ports remain future work.
+The coordinator rechecks those injected live checks before each statement and before success;
+the PostgreSQL adapter persists matching expected digests, ordered acknowledgments, receipts
+and terminal projections. The synthetic PostgreSQL integration exercises this contract only
+with explicitly labeled UNIT evidence.
 
 Comments are append-only through the API and never modify migration bytes, plans, decisions
 or migration history. Only `body` is accepted: nonblank valid Unicode, up to 4,000 UTF-16
@@ -362,3 +448,160 @@ This is local development, not a packaged production distribution.
 Fastify request handling follows its [official reference](https://fastify.dev/docs/latest/Reference/Validation-and-Serialization/);
 the web bundle uses [React createRoot](https://react.dev/reference/react-dom/client/createRoot).
 Exact third-party grants and notices are recorded separately from the immutable WP0 audit.
+
+### Compare retained release sources
+
+In **Release intake**, choose a base release and a candidate release, then select **Compare source**.
+The read-only result shows both retained commit and manifest identities plus files aligned by the
+canonical migration version. Each ordered fact labels added, removed, changed or unchanged source
+and displays the retained path, SHA256, byte count and literal SQL for each side. A rename at the
+same version is shown as changed. Comparing one release with itself is supported.
+
+The API requires current project membership and rechecks both releases under project and release
+read locks. It checks database-side payload bounds for both retained manifests before loading either,
+including a four MiB total encoded budget for all non-content file metadata and repository, folder and
+parser-profile identity fields. Unknown extension fields remain readable inside that budget; the
+known `statementCount` field must be null or a bounded nonnegative safe integer. It then verifies the
+stored format-1 manifests and UTF-8 bytes. Releases must share retained repository ID, folder and parser
+profile. An archived project remains readable; removed local repository
+registration does not prevent reviewing retained data. Missing, foreign, revoked, invalid or
+incompatible comparisons use fixed unavailable feedback. Refresh, project, session or either pair
+selection change clears an in-flight result. The comparison never reads Git, reruns the parser,
+creates a plan, writes history, or reports whether SQL was applied or changed a database.
+
+### Combined local review workflow
+
+Import and compare retained Git releases, prepare an offline plan, add review comments,
+and assign a currently granted independent approver. **Review inbox** lists pending
+plans across accessible projects; **Eligible** respects the assigned reviewer. After
+approval, select **All** or **Approved** to inspect the terminal plan. Any currently
+granted independent approver can withdraw approval, including an approver other than
+the assigned reviewer. Preserve the original approval and create a fresh release and
+plan for recovery. **Audit & history** retains assignment, approval and withdrawal
+events with action filters and older-page navigation. Manual schema references remain
+provisional reference metadata. The combined API and browser tests use local Git, the
+pinned parser and disposable PostgreSQL; they do not connect to Oracle or execute SQL.
+
+### Private metadata backup and restored-instance recovery
+
+The trusted local OS operator can take a consistent metadata snapshot and retain its
+archive separately from an external witness. Keep both locations private, protect the
+witness independently, and retain the local operator config beside the PostgreSQL volume.
+The CLI builds its loopback connection from that mode-0600 config; passwords and bearer
+tokens are not command arguments or diagnostics. It accepts only the pinned local
+PostgreSQL 17.10 image on its explicit loopback port and known product schema.
+The restored-instance CLI uses the existing default local config, `schemaforge` database,
+`schemaforge` user and port 55432. It rejects overrides on restore/start. The library API
+accepts separately authorized loopback fixtures; it does not expose an HTTP operation.
+
+```sh
+npm run local:backup-restore -- backup --destination /absolute/private/backups/run-01 --witness /absolute/private/witnesses/run-01.json
+npm run local:backup-restore -- restore --backup /absolute/private/backups/run-01 --witness /absolute/private/witnesses/run-01.json
+npm run local:backup-restore -- start
+```
+
+Backup destinations and witness files must be new, mode-0700 directories and mode-0600
+files respectively. Store the witness outside the backup directory and outside its custody
+failure domain. The custom-format archive is data-only; the versioned manifest binds its
+digest, the exported PostgreSQL snapshot's metadata generation/checkpoint and the complete
+registered public schema inventory, including function definition digests, trigger bindings,
+sequence definitions/column ownership and object owner/privilege checks. The comment identity
+sequence value is restored separately from its controlled definition. Source organization
+metadata must exactly match the fixed local singleton; unsupported organization/schema state
+is rejected. Fixed organization metadata is recreated by initialization;
+the current-generation pointer and per-destination ownership marker are not copied. The
+external witness binds the exact manifest bytes and archive digest. Do not move or edit any
+of these files after creation.
+
+Restore checks the witness, archive digest, path permissions, known schema, pinned tool image,
+source container and loopback port before it creates a randomly named destination database.
+It copies the verified archive bytes to a new private staging directory and mounts that
+copy read-only, preserving the original archive, manifest and witness. It imports only registered table data and sequence values into the initialized controlled
+schema. The fixed organization seed is recreated and the one bootstrap access-mode row is
+removed only in that invocation-owned new database before its backed-up mode is restored.
+The archive omits the active-generation pointer: restore installs a new generation in
+`RESTORE_HOLD` as the pointer in the same transaction that records the restore audit.
+Initialization refuses to seed an ACTIVE generation while an invocation ownership marker
+exists, so an interrupted restore remains inaccessible. Failed cleanup drops a database only
+when its private ownership marker, database OID and database owner still prove that this
+invocation created it. An inaccessible destination without that proof is retained for
+trusted operator inspection; no source or existing destination is overwritten.
+
+The restore preserves historical generations, catalog, explicit memberships, approvals,
+retained release bytes, comments, receipts, jobs, events and terminal states. Waiting and
+admitted jobs and claimed attempts move to HOLD with appended events; existing history is
+retained. Previously active local credentials are revoked with digest-only lifecycle evidence.
+The operator rotates the existing developer and approver credentials in the private config,
+retaining actor roles and explicit project/deploy grants. Old bearer tokens remain denied.
+The recovery banner leaves historical pages available and disables request/cancel controls.
+There is no HTTP restore or hold-clear route. Starting the restored app is local only:
+
+```sh
+npm run local:backup-restore -- start
+```
+
+This creates no target observation or Oracle evidence. RESTORE_HOLD remains until an
+independent operator reconciliation outside the application; this product slice has no
+hold-release interface.
+
+## HTTPS browser sessions
+
+Start the existing local product with operator-provided TLS material:
+
+```sh
+npm run dev -- --tls-cert /absolute/private/tls/server-chain.pem --tls-key /absolute/private/tls/server-key.pem
+```
+
+Use the same options with `--restored` to open a restored instance. The listener remains
+`https://127.0.0.1:4317`; no remote listener or trusted proxy mode is enabled. Both files
+must be regular, singly linked, owned by the current OS user, mode 0600, beneath an owned
+0700 directory, with no symlink components. Certificates must contain the correct address
+SAN and a chain trusted by the client. Provision and renew them through your authorized
+certificate authority. Startup validates TLS material before starting metadata services;
+invalid material fails with fixed diagnostics. Native TLS requires version 1.2 or newer.
+Do not bypass client certificate validation. Existing HTTP loopback startup remains a
+local bearer mode; cookie login cannot be enabled by forwarding headers or plaintext.
+
+In HTTPS mode, the sign-in form exchanges the private named LOCAL credential through
+`POST /api/session` for a random BROWSER child credential. Only its digest is retained in
+PostgreSQL. The original access token is cleared from application state. The browser
+stores the session in a `__Host-schemaforge` Secure, HttpOnly, SameSite=Strict cookie,
+with Path=/ and no Domain. The application retains only a CSRF proof in tab memory;
+localStorage/sessionStorage never store either credential. `GET /api/session` resumes
+this cookie session after reload and supplies the current fixed actor and CSRF proof.
+
+Cookie requests use `X-CSRF-Token`; state-changing requests also require an exact HTTPS
+Origin. Cookie tokens cannot be used as bearer credentials to bypass these checks.
+Explicit bearer API/CLI requests retain their existing nonambient authorization and
+same-origin checks. A stale tab's proof cannot silently read data under a replacement
+cookie identity. Replacement sign-in revokes the old cookie session. Logout calls
+`POST /api/session/logout`, revokes the session on the server and expires the cookie;
+failed requests show a retry message instead of claiming success. Logging out one session
+does not revoke the named operator credential or other browser sessions.
+
+The idle limit is 30 minutes, and absolute lifetime is at most eight hours and never
+later than the parent LOCAL credential's expiry. User activity can refresh the idle
+deadline; background polling alone cannot. Expired sessions cannot be renewed. Each
+request checks child and parent revocation/expiry, fixed organization and role; mutation
+checkpoints serialize with logout and operator credential lifecycle operations. Existing
+`local:credentials` rotation/revocation invalidates every child credential for that
+identity. Reopening the application never reseeds revoked credentials. Witnessed metadata
+restore imports credentials as retained history and revokes old LOCAL and BROWSER
+credentials; strict backup schema compatibility rejects snapshots from another schema
+version. Keep old binaries and their witnesses for old-schema snapshots; do not bypass
+inventory validation. Fresh operator credentials permit historical reads while the
+restored instance stays in RESTORE_HOLD.
+
+Local acceptance uses disposable certificates and normal Node HTTPS CA/hostname checks,
+including untrusted-chain and wrong-hostname rejection. Chromium trusts only the generated
+fixture public-key pin; no-pin and unrelated-key cases reject TLS. This is explicit test
+key trust, not browser CA-chain validation or deployed worker-transport acceptance.
+No global trust store is modified, and no external/Oracle deployment is certified.
+
+Credential operator recovery journals contain only independent `LOCAL` credentials.
+Derived browser sessions do not consume the existing 32-entry journal bound. Rotation
+and revocation still revoke every credential for the actor, including browser sessions,
+under the shared transaction lock; session history remains retained. Recovery before a
+database commit preserves access, and recovery after a commit completes the private
+config transition without restoring old access. Browser sign-in/logout while an operator
+operation is interrupted does not change its LOCAL credential recovery witness.

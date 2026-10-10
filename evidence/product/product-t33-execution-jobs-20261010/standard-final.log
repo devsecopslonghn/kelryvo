@@ -1,0 +1,23 @@
+
+> schemaforge-local-development@0.0.0 check
+> npm run build && npm run lint && npm run format:check && npm test && npm run dependencies:smoke && npm run dependencies:product
+
+
+> schemaforge-local-development@0.0.0 build
+> node scripts/check-source.mjs && npm run typecheck && npm run build:web
+
+Source checks passed for 190 authored files.
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+apps/api/index.ts(1457,22): error TS2339: Property 'createdAt' does not exist on type '{ createdAt: any; id: any; } | { revision: any; }'.
+  Property 'createdAt' does not exist on type '{ revision: any; }'.
+apps/api/index.ts(1457,102): error TS2339: Property 'createdAt' does not exist on type '{ createdAt: any; id: any; } | { revision: any; }'.
+  Property 'createdAt' does not exist on type '{ revision: any; }'.
+apps/api/index.ts(1457,150): error TS2339: Property 'id' does not exist on type '{ createdAt: any; id: any; } | { revision: any; }'.
+  Property 'id' does not exist on type '{ revision: any; }'.
+apps/api/index.ts(1471,45): error TS2339: Property 'revision' does not exist on type '{ createdAt: any; id: any; } | { revision: any; }'.
+  Property 'revision' does not exist on type '{ createdAt: any; id: any; }'.
+apps/api/index.ts(1471,101): error TS2339: Property 'revision' does not exist on type '{ createdAt: any; id: any; } | { revision: any; }'.
+  Property 'revision' does not exist on type '{ createdAt: any; id: any; }'.

@@ -1,0 +1,345 @@
+{
+  "record_type": "native_feature_completion",
+  "record_owner": "NATIVE",
+  "recorded_at_utc": "2026-10-10T01:06:14Z",
+  "task": "SF-PRODUCT-T25",
+  "feature": "Compare retained migration release sources with complete metadata preflight correction",
+  "status": "IMPLEMENTED_AND_LOCALLY_VERIFIED",
+  "review_status": "LOCAL_VERIFIED_ONLY_FRESH_EXACT_HEAD_QA_SECURITY_LICENSE_AND_REQUIRED_GATES_PENDING",
+  "merge_eligible": false,
+  "head": "93629076c230274e210acaf8f52c46f01fafdb00",
+  "branch": "development/product-release-source-comparison",
+  "source_manifest": [
+    {
+      "path": "apps/api/index.ts",
+      "sha256": "d717c56a926f842a9872e5234468bb1ecd9fd19f37a5bf3c3b518c2ebcfdbc75"
+    },
+    {
+      "path": "apps/web/src/app.jsx",
+      "sha256": "5b0bcbd713ec66e7e6a73e9515022d6689892fa8ea5069209b4f5b24d448df48"
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256": "9d07af35c899f246bbd0b4c8a7029190e5dea19498e07d99fd3648edd0e74aa4"
+    },
+    {
+      "path": "packages/migrations/compare-retained-releases.mjs",
+      "sha256": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8"
+    },
+    {
+      "path": "scripts/test-product.mjs",
+      "sha256": "af47fe31ff4608bbfd92f13acb18ed457e2c026a630d1ad79210f0e6de77e63f"
+    },
+    {
+      "path": "tests/product-release-comparison-browser.integration.mjs",
+      "sha256": "c11406afde27b7d7faa590cab5cc53f7639547427b4520291670d5c48ff74320"
+    },
+    {
+      "path": "tests/product-release-comparison.test.mjs",
+      "sha256": "c9df38880ef2e81218f5b0b43c839aad809210fc3fadb803e34df60e2bef011e"
+    }
+  ],
+  "final_source_manifests": {
+    "before": {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/final-source-manifest-before.txt",
+      "sha256": "b46f37e9616d0ec292f7a7968914341de8d3ded15d2c8cf6f7ad073ab14b6d12"
+    },
+    "after": {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/final-source-manifest-after.txt",
+      "sha256": "b46f37e9616d0ec292f7a7968914341de8d3ded15d2c8cf6f7ad073ab14b6d12"
+    }
+  },
+  "final_runs": {
+    "standard": {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/standard.raw.log",
+      "sha256": "8be721612d186c1cd2a74526945028b014c8ae21266d39d7ae8ce7a96e099b6f",
+      "raw_exit": 0,
+      "utc_start": "2026-10-10T00:50:48Z",
+      "utc_end": "2026-10-10T00:54:59Z",
+      "tap": {
+        "tests": 162,
+        "pass": 162,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    "product": {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/product.raw.log",
+      "sha256": "85d781285169d94416183bcad07eb7bd8c7dcbfa78d7eab952fcbb8f592201b1",
+      "raw_exit": 0,
+      "utc_start": "2026-10-10T00:54:59Z",
+      "utc_end": "2026-10-10T00:58:17Z",
+      "tap": {
+        "tests": 37,
+        "pass": 37,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    "browser": {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/browser.raw.log",
+      "sha256": "6748d0c60a32cca4510d4133201585a4629c0731a05de3b9b8b72a333a369ecc",
+      "raw_exit": 0,
+      "utc_start": "2026-10-10T00:58:17Z",
+      "utc_end": "2026-10-10T01:02:35Z",
+      "tap": {
+        "tests": 22,
+        "pass": 22,
+        "fail": 0,
+        "skipped": 0
+      }
+    }
+  },
+  "focused_runs": {
+    "focused_api_pre_overhead_adjustment": {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0750Z/focused-api.raw.log",
+      "sha256": "8ba509b36531008c5ae67db8da5074b28665ad4d7ce5f3d1ad854f9e90e79109",
+      "raw_exit": 0,
+      "utc_start": "2026-10-10T00:49:10Z",
+      "utc_end": "2026-10-10T00:49:50Z",
+      "tap": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "skipped": 0
+      },
+      "note": "Passed before conservative array delimiter/separator overhead was added; superseded by following focused run for final API bytes."
+    },
+    "focused_api_final_source": {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0800Z/focused-api.raw.log",
+      "sha256": "7c649434888ccb1f3ba72d8e51022866050d88445d2268aae006dd7f2b670c28",
+      "raw_exit": 0,
+      "utc_start": "2026-10-10T00:49:58Z",
+      "utc_end": "2026-10-10T00:50:37Z",
+      "tap": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "skipped": 0
+      }
+    }
+  },
+  "raw_artifacts": [
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0750Z/focused-api.command.txt",
+      "sha256": "9078ddb4473ab01b6b976954b62bc8afaeb51765578cfb0bfee8534181fd7742",
+      "bytes": 282
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0750Z/focused-api.end.utc",
+      "sha256": "92e6a1cd2ccb9ae1d5b3f7c508587379178e91ac99d76d86b6d152e832195fae",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0750Z/focused-api.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0750Z/focused-api.raw.log",
+      "sha256": "8ba509b36531008c5ae67db8da5074b28665ad4d7ce5f3d1ad854f9e90e79109",
+      "bytes": 769
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0750Z/focused-api.sha256",
+      "sha256": "060a272d34208869811ed342f370d2016f1154c41e9bb57409adf27d3bc10d35",
+      "bytes": 139
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0750Z/focused-api.start.utc",
+      "sha256": "52c874cd0d9de5b082f02a02f3b18ded3a625e0cab529f1e6a9195592c0d6d06",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0800Z/focused-api.command.txt",
+      "sha256": "9078ddb4473ab01b6b976954b62bc8afaeb51765578cfb0bfee8534181fd7742",
+      "bytes": 282
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0800Z/focused-api.end.utc",
+      "sha256": "64d82f4bd7ff327fe7f824cd17a8c28169689ee7e53adc91110b4d85fccd1926",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0800Z/focused-api.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0800Z/focused-api.raw.log",
+      "sha256": "7c649434888ccb1f3ba72d8e51022866050d88445d2268aae006dd7f2b670c28",
+      "bytes": 769
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0800Z/focused-api.sha256",
+      "sha256": "48518a63f96e281bd9253ae4467fb9bd31c589ebc4fff8cf8eb5bba8cf7ca6a4",
+      "bytes": 139
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0800Z/focused-api.start.utc",
+      "sha256": "d3fc42a1b63b7a55b84abb76d8faa67795e59b41b414951d2828ad401ed836de",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/browser.command.txt",
+      "sha256": "b7033c6a35357e9c06d16a138e5777c8aef46220cc0b1f602b2de8c830c03d6c",
+      "bytes": 249
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/browser.end.utc",
+      "sha256": "2d6bba6fa11c88be67c716cb251520b81e7a7dbad716ba55a32e0c3e827abdec",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/browser.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/browser.raw.log",
+      "sha256": "6748d0c60a32cca4510d4133201585a4629c0731a05de3b9b8b72a333a369ecc",
+      "bytes": 8427
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/browser.sha256",
+      "sha256": "78d3bc39015ecd7ced23325a2b669fa7c2319985acc2b29daa19ccaf0b1d3beb",
+      "bytes": 135
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/browser.start.utc",
+      "sha256": "eb61555f57441d8b852d9e35057131be3fa39d85742f5bfa6d9b8dbff9c37715",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/final-source-manifest-after.txt",
+      "sha256": "b46f37e9616d0ec292f7a7968914341de8d3ded15d2c8cf6f7ad073ab14b6d12",
+      "bytes": 709
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/final-source-manifest-before.txt",
+      "sha256": "b46f37e9616d0ec292f7a7968914341de8d3ded15d2c8cf6f7ad073ab14b6d12",
+      "bytes": 709
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/final-source-manifest-freeze.txt",
+      "sha256": "b46f37e9616d0ec292f7a7968914341de8d3ded15d2c8cf6f7ad073ab14b6d12",
+      "bytes": 709
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/manifests.sha256",
+      "sha256": "0519d6e388d359e7fbb9ea9138573718a7d5ba78b872a67977dd9724d0b4a027",
+      "bytes": 303
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/product.command.txt",
+      "sha256": "a54e1ab0568564af8db582276f789ab50567d8085ed3bf70355ce10a144ace20",
+      "bytes": 249
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/product.end.utc",
+      "sha256": "eb61555f57441d8b852d9e35057131be3fa39d85742f5bfa6d9b8dbff9c37715",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/product.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/product.raw.log",
+      "sha256": "85d781285169d94416183bcad07eb7bd8c7dcbfa78d7eab952fcbb8f592201b1",
+      "bytes": 10763
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/product.sha256",
+      "sha256": "3918c8ef050cef5055e33d259096adc10d1b40b34d1d6d6af8c6e4f29b87f3aa",
+      "bytes": 135
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/product.start.utc",
+      "sha256": "f48b3feab94e97a87f9c7b8dd9650bc0385d1f1591770809bfe2ed2caae623df",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/source-paths.txt",
+      "sha256": "b5b3e8d3661cdedf03a5d78ea7783aec8fe1a3521f5773661104c2abe1311f1f",
+      "bytes": 247
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/standard.command.txt",
+      "sha256": "3193b504a784bf2ccf82f319d62580f03dbf32aa56c913d3f53f6bd06494669e",
+      "bytes": 242
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/standard.end.utc",
+      "sha256": "f48b3feab94e97a87f9c7b8dd9650bc0385d1f1591770809bfe2ed2caae623df",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/standard.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/standard.raw.log",
+      "sha256": "8be721612d186c1cd2a74526945028b014c8ae21266d39d7ae8ce7a96e099b6f",
+      "bytes": 40621
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/standard.sha256",
+      "sha256": "f6c179906517c196d79a22577a70b18db85c25f5952d8e18c896e3754e98fc5a",
+      "bytes": 136
+    },
+    {
+      "path": "/tmp/schemaforge-t25-corrected-native-20261010T0810Z/standard.start.utc",
+      "sha256": "d0eb0be10fcdd8df7296374e2cd2c3fe5814fa5a25419e089fbc1aa203b9eb63",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t25-security-correction-20261009T233033Z/focused-build.command.txt",
+      "sha256": "76a4bdc9800b3e36d09d57566671591f36bccc7d39599408ccd460a603b437f5",
+      "bytes": 29
+    },
+    {
+      "path": "/tmp/schemaforge-t25-security-correction-20261009T233033Z/focused-build.end.utc",
+      "sha256": "a03558149fb47671fc902fc7e74deb4bb77406e5ad53732c426dd4b2d831581e",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t25-security-correction-20261009T233033Z/focused-build.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t25-security-correction-20261009T233033Z/focused-build.raw.log",
+      "sha256": "0533560d3195db468390751cabd57bdc34335468fb7d56a64f8d917aa71dc2be",
+      "bytes": 344
+    },
+    {
+      "path": "/tmp/schemaforge-t25-security-correction-20261009T233033Z/focused-build.sha256",
+      "sha256": "564990f87c6ac29b4d3cb9f90bb971914b7f0bfe224fd084ce3e7abd14c9d698",
+      "bytes": 65
+    },
+    {
+      "path": "/tmp/schemaforge-t25-security-correction-20261009T233033Z/focused-build.start.utc",
+      "sha256": "4fd7d1175809f45c1ed10e0c1050caee551b2ec84980368b9baf80bb49f8554b",
+      "bytes": 21
+    }
+  ],
+  "behavior_coverage": [
+    "Database-side preflight applies to both retained releases under the existing project/release read locks before either files payload is materialized to Node.",
+    "Combined encoded non-content metadata budget includes each file object with content removed, retained repository ID, folder, parser profile, and conservative JSON array delimiters and separators; aggregate bound is four MiB.",
+    "Unknown small bounded extension metadata remains compatible. statementCount accepts null or a bounded nonnegative safe integer; negative, fractional, excessive, and string values are rejected.",
+    "Focused real-API tests reject oversized flat and nested extra metadata independently in base and candidate slots, and reject malformed statementCount values across both slots; every rejected read compares complete populated project/lifecycle snapshots before fixture restoration.",
+    "Successful bounded-extension comparison remains read-only. Existing standard, product, and browser coverage passed with the corrected frozen seven-file manifest.",
+    "Actual frozen final counts: standard162/162, product37/37, browser22/22; zero failures and zero skips in each suite."
+  ],
+  "known_limits": [
+    "The initial blocked review of head93629076 found SEC-T25-01; its independently blocked verdict and original captures remain preserved and unchanged. Initial162/37/22 passing counts did not approve security or completion.",
+    "This record attests local verification only. Fresh independent QA/security/license review and required publication/CI/security gates remain pending; no push, PR, merge, deployment, or security approval is claimed.",
+    "Earlier native context disappeared after a focused build-only capture; that historical build attempt is preserved under /tmp/schemaforge-t25-security-correction-20261009T233033Z and is not represented as test completion.",
+    "Known earlier browser-fixture setup cleanup identity/bytes were not captured in the prior completion; no retroactive cleanup proof is claimed.",
+    "Capture directory suffixes are opaque labels and do not attest time. UTC fields in this record are copied from actual per-command sidecars.",
+    "No Oracle 19c/21c connection or runtime verification occurred; retained source comparison provides no deployed-schema, applied-checksum, or Oracle evidence."
+  ]
+}

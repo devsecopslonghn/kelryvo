@@ -1,0 +1,18 @@
+HEAD 2f3147fd57cfa726bfe7253f4947e321c1c747ef
+TREE 3e915179d5d1d36fceb72bee802e58306413d138
+STATUS_COUNT 0
+SOURCE_AND_LICENSE_HASHES
+d717c56a926f842a9872e5234468bb1ecd9fd19f37a5bf3c3b518c2ebcfdbc75  apps/api/index.ts
+5b0bcbd713ec66e7e6a73e9515022d6689892fa8ea5069209b4f5b24d448df48  apps/web/src/app.jsx
+f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8  packages/migrations/compare-retained-releases.mjs
+c9df38880ef2e81218f5b0b43c839aad809210fc3fadb803e34df60e2bef011e  tests/product-release-comparison.test.mjs
+c11406afde27b7d7faa590cab5cc53f7639547427b4520291670d5c48ff74320  tests/product-release-comparison-browser.integration.mjs
+9d07af35c899f246bbd0b4c8a7029190e5dea19498e07d99fd3648edd0e74aa4  docs/development/local-product.md
+67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6  LICENSE
+9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e  NOTICE
+cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db  package.json
+b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3  package-lock.json
+FOCUSED_DIFF_CHECK PASS
+LICENSE_NOTICE_DEPENDENCY_GRANTS_GRAMMAR_UNCHANGED true
+ORIGINAL_ACCEPTANCE_UNCHANGED true
+PROVENANCE {"snapshot":{"paths":741,"copied_exact":741,"head_exact":741,"failures":0},"classification":{"entries":199,"targets_exact":199,"failures":0,"categories":{"BENIGN_EXACT_PRODUCT_PROSE_IN_IMMUTABLE_CAPTURE_COMMAND":2,"BENIGN_EXACT_RECOMPUTED_ARTIFACT_OR_SOURCE_DIGEST":195,"BENIGN_EXACT_PRODUCT_DESCRIPTION_PROSE":2}},"scans":{"publication":{"paths":741,"findings":102,"exit":1,"clean_PASS":false,"private_hash_matches":true},"history":{"findings":217,"exit":1,"clean_PASS":false,"private_hash_matches":true},"actual_credentials_observed":false,"rotation_indicated":false},"history_preservation":{"t24":{"old":120,"current":217,"missing":0,"added":97},"t25_pre_correction":{"old":158,"current":217,"missing":0,"added":59}},"native":{"recorded_head":"93629076c230274e210acaf8f52c46f01fafdb00","final_source_manifest":["apps/api/index.ts","apps/web/src/app.jsx","docs/development/local-product.md","packages/migrations/compare-retained-releases.mjs","scripts/test-product.mjs","tests/product-release-comparison-browser.integration.mjs","tests/product-release-comparison.test.mjs"],"raw_log_hashes_match":true,"api_corrected_source_tests":{"tests":2,"pass":2,"fail":0,"skipped":0},"final_suite_counts":{"standard":{"tests":162,"pass":162,"fail":0,"skipped":0},"product":{"tests":37,"pass":37,"fail":0,"skipped":0},"browser":{"tests":22,"pass":22,"fail":0,"skipped":0}}}}

@@ -1,0 +1,60 @@
+{
+  "id": "product-t33-draft-publication",
+  "subject_id": "SF-PRODUCT-T33",
+  "kind": "STATIC",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Normal push, exact remote branch/base/master verification and draft46 creation/observation after local acceptance, scoped scans and independent review",
+  "exit_code": 0,
+  "criterion_indexes": [
+    5
+  ],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t33-draft-publication-20261010/initial-pr.stdout",
+    "sha256": "f7a4610d0437e220e393af4aa01625f915b98caa678953aec59fe963c3e9c22d"
+  },
+  "recorded_at": "2026-10-10T15:18:14.844069+00:00",
+  "pr": 46,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/46",
+  "published_head": "b145a9a96544113dc4ac1c247fd612aadb62c424",
+  "base_ref": "development/product-mvp-integration",
+  "base_head": "57e2395aa645e83120e6d60a88cdb8b759e31af2",
+  "frozen_source_head": "ff14f24572414bd8e87a2b983facfbbbeb929402",
+  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "local_acceptance_record": {
+    "path": "evidence/product/product-t33-execution-jobs-20261010/record.json",
+    "sha256": "e47c70b6432cecb57b9d49e582f5f0dff42f23a145821b1069f88c59002ae167"
+  },
+  "publication_reviews": [
+    {
+      "path": "evidence/product/product-t33-execution-jobs-20261010/publication-license-review.json",
+      "sha256": "4c66e6c854c0e4222583e3a69c01cb631d99badd76d4f2e95f082da3a124afb2"
+    },
+    {
+      "path": "evidence/product/product-t33-execution-jobs-20261010/publication-contents-scan.json",
+      "sha256": "01595b76e12cd0ae9df4a021a2d0c5685f2c07dd9f36791ac95db4a2d3da8ff0"
+    },
+    {
+      "path": "evidence/product/product-t33-execution-jobs-20261010/publication-incoming-scan.json",
+      "sha256": "5de8d0f5655b865662b9614f6ccddf101b598d06784fa3535892a6aaa146a9d3"
+    },
+    {
+      "path": "evidence/product/product-t33-execution-jobs-20261010/publication-independent-review.json",
+      "sha256": "6c659eea4a2781f16088a84881f4e11deee8775b17a2d070ec168645e1df4dbe"
+    },
+    {
+      "path": "evidence/product/product-t33-execution-jobs-20261010/publication-annotation-delta-scan.json",
+      "sha256": "eaaec516057c5ad2bec5981d15c863b0e409bb3d1d79af043a03e0e2d7926572"
+    }
+  ],
+  "actual_available_ci": "Initial observation in progress; no terminal CI success claimed.",
+  "required_security_available": false,
+  "merge_eligible": false,
+  "limitations": [
+    "Publication PASS covers only the actual normal push/branch/draft workflow and scoped local acceptance/review, not terminal remote CI or security-service/master/Oracle acceptance.",
+    "Both original scoped scans retain actual exit1/one finding: exact benign public test idempotency identifier classified by independent reviewer. Final annotation-only incoming delta scan exit0/zero findings; no all-history clean claim or suppression.",
+    "Original PR37–45/worktrees preserved. No deployment, Oracle connection/execution, production proof/admission producer or worker isolation acceptance."
+  ]
+}

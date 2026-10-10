@@ -1,0 +1,621 @@
+{
+  "id": "product-t24-root-recovered-native-captures",
+  "recorded_at_utc": "2026-10-09T22:01:43.313709+00:00",
+  "record_owner": "ROOT_RECOVERY_NOT_NATIVE_COMPLETION",
+  "source_manifest": [
+    {
+      "path": "apps/api/index.ts",
+      "sha256": "6e1bd01eab6ec2c583c8f8f80b06b72ab63dc447ab7625dd29d0790ddbed804f"
+    },
+    {
+      "path": "packages/database/index.ts",
+      "sha256": "dd5b960a0274993dee103775c36a2967e7cf31825c7a5b8bdab26c54df90a82e"
+    },
+    {
+      "path": "packages/audit/cursor.mjs",
+      "sha256": "2021ef98e9def3cea292236b54cba3cda1ba43d20ae96955c5a27c7e994a21aa"
+    },
+    {
+      "path": "apps/web/src/app.jsx",
+      "sha256": "2bda2677c92976a3e6facb268217c6692c81d3065b9655b91e5b043d8fffe518"
+    },
+    {
+      "path": "tests/audit-cursor.test.mjs",
+      "sha256": "553e4fd5ff82611105ee593197ae22f4dd42e87a33bf08d4e13b2407641096f5"
+    },
+    {
+      "path": "tests/product-audit-pages.test.mjs",
+      "sha256": "846216e138200d73c68fe5ec1cc270ca159f6e703f93540ae7d3ac042e9156b3"
+    },
+    {
+      "path": "tests/product-audit-pages-browser.integration.mjs",
+      "sha256": "ab56577c864578923e6407cde3345cd8a542e5e0b4ec2d4d6df052a287307978"
+    },
+    {
+      "path": "tests/product-audit-action-filters-browser.integration.mjs",
+      "sha256": "72a00f9142ce6cfce71c7e2ba6f5aa8ef5f790f82a6f15b0c7e2b48c4545e02b"
+    },
+    {
+      "path": "scripts/test-product.mjs",
+      "sha256": "eb7d531ea01935203bfe8d96fbefad435c7ce65bbd18c740b695f23fe6de32fe"
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256": "61b5a1b655083618b9c58c873f528839610ca86c2cc8b4fda0f24fcb7165ac49"
+    }
+  ],
+  "raw_artifacts": [
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/browser-debug.raw.log",
+      "sha256": "25adfb0be74047b6ccf65305c7bf5ab537a863230db333d7e4d86745bb17cbd2",
+      "bytes": 888
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/browser-debug2.raw.log",
+      "sha256": "33ae0b36fcd3f10b38235a3780355a1635a77a37dd4b020fefed2c9a05937094",
+      "bytes": 14855
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/browser-debug3.raw.log",
+      "sha256": "e6fdba9720850ef780490ebf3c1750d3bb99772b5dd14ffe74ffe91accd902ce",
+      "bytes": 10667
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check-retry.command",
+      "sha256": "df448bbfba16f15e0a069fb7cad6cf87664e48cdd51d3f368da41808a1d6a1b6",
+      "bytes": 242
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check-retry.cwd",
+      "sha256": "42b0d18c5a3d0aa998e2375954ae9e508899bb759f5b43101c1bcaa903cb996b",
+      "bytes": 59
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check-retry.end.utc",
+      "sha256": "f049ffcc234ee105a89c574a6500d3cb5e50af852bc0f6e3e857c7008017d913",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check-retry.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check-retry.raw.bytes",
+      "sha256": "1ff82165c514a2571b38619d01db8c61a4a4a732206926bcee9a4aad269e68ff",
+      "bytes": 6
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check-retry.raw.log",
+      "sha256": "f23ee1a247566fdefb6f7fc93c510819b8a4e2cf6de8056ac0fc7110b83634af",
+      "bytes": 39766
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check-retry.raw.sha256",
+      "sha256": "cdf8cab6fb8f48d2e5d79667e3a242832748b59e6bc483d90a58872ac3cbe690",
+      "bytes": 123
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check-retry.start.utc",
+      "sha256": "eab3435985944c7a20de0a4902374982859cea0b31a8d7958a0fd79caebb582e",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check.command",
+      "sha256": "2acad2865cf79e41d4c46382806ab972bfdf1e8fda90cbd6075ce6ee76fcd451",
+      "bytes": 149
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check.cwd",
+      "sha256": "42b0d18c5a3d0aa998e2375954ae9e508899bb759f5b43101c1bcaa903cb996b",
+      "bytes": 59
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check.end.utc",
+      "sha256": "54646a935bdab0bec5bf9addb98f33be33f251c9b4ee9b7289ccd3366ad00dee",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check.exit",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check.raw.bytes",
+      "sha256": "56554025ce9b5c385fa67df0f447e88ef4182f151769be308bc5c0876f94b762",
+      "bytes": 6
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check.raw.log",
+      "sha256": "64874a082f5e405056bdb0cc530121faaad1f194e17362f9c7e7afa32412a4d2",
+      "bytes": 49657
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check.raw.sha256",
+      "sha256": "4bfd39c1308c38884f70a27a8b9acc1a00d5be2e7293057d1eab4349678e875d",
+      "bytes": 117
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/check.start.utc",
+      "sha256": "01f0628ab4abf22a420c416ec3a012f62875e5d3d9c896fb13d0b0cfa2589152",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/corrected-source-after.sha256",
+      "sha256": "72ea86c2e7f82ef964a340353bb8ea707e62ac42c29499ebb3bbf39fc07c2ee5",
+      "bytes": 983
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/corrected-source-after.utc",
+      "sha256": "dbeda8e5d59ca9dd0b885f377cf6c6cd93e6033b84ef3e995264cbafe3eecdde",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/corrected-source-before.sha256",
+      "sha256": "72ea86c2e7f82ef964a340353bb8ea707e62ac42c29499ebb3bbf39fc07c2ee5",
+      "bytes": 983
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/corrected-source-before.utc",
+      "sha256": "5617897dc81d40a874349c2e25373a637d3df67976575823600ba2a67180370f",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-browser.command",
+      "sha256": "71b31f694273c10719a30066539306baf2ca8d12d000f888b5c6e0f9603387a5",
+      "bytes": 254
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-browser.cwd",
+      "sha256": "42b0d18c5a3d0aa998e2375954ae9e508899bb759f5b43101c1bcaa903cb996b",
+      "bytes": 59
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-browser.end.utc",
+      "sha256": "039044a72135f38f48065ecdd1fe52c73c69f584ff048f21412c065322d748f1",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-browser.exit",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-browser.raw.bytes",
+      "sha256": "172279b89d82e75dfa0dc5739a1d8bf6bf329dcffbb76424e418ba4f838ea054",
+      "bytes": 5
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-browser.raw.log",
+      "sha256": "54bb1d304789aa64a3aaa2c2ad066693b146cb2ab4909be9233808b2fa986ea8",
+      "bytes": 9508
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-browser.raw.sha256",
+      "sha256": "5e562838695c3c2deb93906b45ee792ed2debd3ea228d1331ee226f97508c2b5",
+      "bytes": 125
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-browser.start.utc",
+      "sha256": "09e7c2935e989d466b2a0b9e85eb442b269af2c48550991c679ca449a7c3cafe",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-capture.sh",
+      "sha256": "5603442077df0594fd5a9c4c1eea9a66ba02f8f243f62f573eb2c3b78933f643",
+      "bytes": 2785
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-check.command",
+      "sha256": "d3a4f3f3e055ef4e53af38c01cf52a44f2177fd97b0851c0f893f603be33ce04",
+      "bytes": 247
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-check.cwd",
+      "sha256": "42b0d18c5a3d0aa998e2375954ae9e508899bb759f5b43101c1bcaa903cb996b",
+      "bytes": 59
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-check.end.utc",
+      "sha256": "9ff9c9db1706ae35c436ca3fd4c03aac28e528d8e90075cca352ed0a7f96e1f1",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-check.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-check.raw.bytes",
+      "sha256": "7531dd8b5b548aa8a0b407d2073f4d27173b1d0f4dafca1c28552db4bf6dfce2",
+      "bytes": 6
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-check.raw.log",
+      "sha256": "807cffae3aa9188dc7b692fa19c24ff4683cb4d4974d0e789d6d6b80b54d913d",
+      "bytes": 39972
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-check.raw.sha256",
+      "sha256": "d9d01c16d701c9f2c8c1fe687b8f673f7ff2ac8e9229dc6c832f01318d30d325",
+      "bytes": 123
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-check.start.utc",
+      "sha256": "4e528a9b1e2f3f97b0ac891e124de0262bcb2309a88d18c0559a3fdb398eaf22",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-product.command",
+      "sha256": "3a1fd4caba71ad2f7c2df55257ed11d420f2cae4f2988040e2628b41603ff4d4",
+      "bytes": 254
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-product.cwd",
+      "sha256": "42b0d18c5a3d0aa998e2375954ae9e508899bb759f5b43101c1bcaa903cb996b",
+      "bytes": 59
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-product.end.utc",
+      "sha256": "09e7c2935e989d466b2a0b9e85eb442b269af2c48550991c679ca449a7c3cafe",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-product.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-product.raw.bytes",
+      "sha256": "1157f9da75a363d6daf75ce2b72ffb73638df1891ec969c0b3698d4c8d2efd86",
+      "bytes": 6
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-product.raw.log",
+      "sha256": "01496ec27572a93d982e455a2a4daa32b7d7ef5fab92daf2726e881ad2f5bf7e",
+      "bytes": 10111
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-product.raw.sha256",
+      "sha256": "0c4f51bf6de2b684b20204ed4d511171c32fe272c6d62d579fe5bcfdd1399155",
+      "bytes": 125
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-product.start.utc",
+      "sha256": "9ff9c9db1706ae35c436ca3fd4c03aac28e528d8e90075cca352ed0a7f96e1f1",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final-sequence2.sh",
+      "sha256": "79d0b9a758f31bb1f8416b72b0a7db09129ca307f91ecb3f8e245594795dfe07",
+      "bytes": 3622
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-browser.command",
+      "sha256": "71b31f694273c10719a30066539306baf2ca8d12d000f888b5c6e0f9603387a5",
+      "bytes": 254
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-browser.cwd",
+      "sha256": "42b0d18c5a3d0aa998e2375954ae9e508899bb759f5b43101c1bcaa903cb996b",
+      "bytes": 59
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-browser.end.utc",
+      "sha256": "dbeda8e5d59ca9dd0b885f377cf6c6cd93e6033b84ef3e995264cbafe3eecdde",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-browser.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-browser.raw.bytes",
+      "sha256": "e24290c2405948e4090400bbfc772cc069a95949408f28a90bdeb7af34e31664",
+      "bytes": 5
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-browser.raw.log",
+      "sha256": "a0814db5d4b1a86d1977b45613b6fea4a01ac1f41c8096b9fa083c0d4d968336",
+      "bytes": 8071
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-browser.raw.sha256",
+      "sha256": "54f5602812b8fb6e059f7c68b49f1c1646b8217e46152784bd94a9c58407511b",
+      "bytes": 126
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-browser.start.utc",
+      "sha256": "c0e26d7ab373818e8ba35b5b9ed66da181c605b1843d67fec2bb29d6d611bf36",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-check.command",
+      "sha256": "d3a4f3f3e055ef4e53af38c01cf52a44f2177fd97b0851c0f893f603be33ce04",
+      "bytes": 247
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-check.cwd",
+      "sha256": "42b0d18c5a3d0aa998e2375954ae9e508899bb759f5b43101c1bcaa903cb996b",
+      "bytes": 59
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-check.end.utc",
+      "sha256": "17b28f4b40d20e07918e50ccf4603cbeba291ae508ccc346f033ea9ad1193455",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-check.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-check.raw.bytes",
+      "sha256": "7531dd8b5b548aa8a0b407d2073f4d27173b1d0f4dafca1c28552db4bf6dfce2",
+      "bytes": 6
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-check.raw.log",
+      "sha256": "ddbf15d3d601df3fcae9467e134ff8445206e5202cce1e5f063a496767460c02",
+      "bytes": 39972
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-check.raw.sha256",
+      "sha256": "a06e7d7e8a655ce7c055b0f0472135ead0bb39aad7846efece22020c5a72ba43",
+      "bytes": 124
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-check.start.utc",
+      "sha256": "037c889a570fe0d2e11202cdaab740e3a4b883f98b10d1a285a19f06070085d2",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-product.command",
+      "sha256": "3a1fd4caba71ad2f7c2df55257ed11d420f2cae4f2988040e2628b41603ff4d4",
+      "bytes": 254
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-product.cwd",
+      "sha256": "42b0d18c5a3d0aa998e2375954ae9e508899bb759f5b43101c1bcaa903cb996b",
+      "bytes": 59
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-product.end.utc",
+      "sha256": "c0e26d7ab373818e8ba35b5b9ed66da181c605b1843d67fec2bb29d6d611bf36",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-product.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-product.raw.bytes",
+      "sha256": "1157f9da75a363d6daf75ce2b72ffb73638df1891ec969c0b3698d4c8d2efd86",
+      "bytes": 6
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-product.raw.log",
+      "sha256": "009a21832d807577b8eff332ad38eac713e442f6db77544d725c59bc795e9436",
+      "bytes": 10111
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-product.raw.sha256",
+      "sha256": "d238ae3fca158c563fdf5756db5bd15a940a2a26e3d87db33c124699a44dc798",
+      "bytes": 126
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-product.start.utc",
+      "sha256": "17b28f4b40d20e07918e50ccf4603cbeba291ae508ccc346f033ea9ad1193455",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused-strong.raw.log",
+      "sha256": "163e0e36756731b0fe217746dcd6588e6d53422c44802c6a180aaff97dfb7230",
+      "bytes": 1447
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused-strong2.raw.log",
+      "sha256": "ceed827e4c70e6c68ec1ad79fd7db0283f9ef834bd63309547fdd3a077efc3a1",
+      "bytes": 1015
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3-build.command",
+      "sha256": "45642794f5bfaf38fb752d1d7b0b6e06207d01312cdd08e07d9aa2093d09ebf7",
+      "bytes": 251
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3-build.cwd",
+      "sha256": "42b0d18c5a3d0aa998e2375954ae9e508899bb759f5b43101c1bcaa903cb996b",
+      "bytes": 59
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3-build.end.utc",
+      "sha256": "dbd26920648f9028c27d6f108b1a65ab4d54cf98028c8961eb53936ac7e4c1dc",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3-build.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3-build.raw.bytes",
+      "sha256": "e15cb49f231c64265cbcf05790aa5291ab7ee9f2efc092fbcafea2d58e5f83a8",
+      "bytes": 4
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3-build.raw.log",
+      "sha256": "ff94dbd5f0627f63d867e5ecc9a492aaeec0afbcda264c624044356b2c1bf3a4",
+      "bytes": 114
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3-build.raw.sha256",
+      "sha256": "f065dbf92c05dc29e6373c0cf1258c860868518a72f2ca4a239a66625aa66223",
+      "bytes": 126
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3-build.start.utc",
+      "sha256": "5617897dc81d40a874349c2e25373a637d3df67976575823600ba2a67180370f",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3.command",
+      "sha256": "608d68f152bb6a38578d0a76896dc944edbab8f26a9ee6cc31e1f4985f82154e",
+      "bytes": 438
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3.cwd",
+      "sha256": "42b0d18c5a3d0aa998e2375954ae9e508899bb759f5b43101c1bcaa903cb996b",
+      "bytes": 59
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3.end.utc",
+      "sha256": "037c889a570fe0d2e11202cdaab740e3a4b883f98b10d1a285a19f06070085d2",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3.raw.bytes",
+      "sha256": "d468265197d1fd6798a670e4b782e824b5b71ec230ed4d18b6ddfbf116753456",
+      "bytes": 5
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3.raw.log",
+      "sha256": "8bd98d49666f23d5366fc3db1111ac7d3f5c968a84c5c37d3e08e59eb2a0f2c1",
+      "bytes": 1444
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3.raw.sha256",
+      "sha256": "158d238b13878757b238f4b55dd3ee7d4ecb9586647c5175be62de2b6e1aac90",
+      "bytes": 120
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3.start.utc",
+      "sha256": "dbd26920648f9028c27d6f108b1a65ab4d54cf98028c8961eb53936ac7e4c1dc",
+      "bytes": 21
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/run-check.sh",
+      "sha256": "8cf7eeb66594b3fc27a62b6fb38938fbd09c5106552088bd4110e9b2d3893487",
+      "bytes": 1130
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/run-check2.sh",
+      "sha256": "4f2c712e83e762d435ed90dd60f94c4307e42d5b70e6e7eafabc215970c14a75",
+      "bytes": 1139
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/source-before.sha256",
+      "sha256": "84e504b2d4d738e6afbf2f9d9e48d3eab684365a83666498fb7dc05e7b73cc98",
+      "bytes": 858
+    },
+    {
+      "path": "/tmp/schemaforge-t24-native-20261010/source-before.utc",
+      "sha256": "4e528a9b1e2f3f97b0ac891e124de0262bcb2309a88d18c0559a3fdb398eaf22",
+      "bytes": 21
+    }
+  ],
+  "final_runs": {
+    "standard": {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-check.raw.log",
+      "sha256": "ddbf15d3d601df3fcae9467e134ff8445206e5202cce1e5f063a496767460c02",
+      "bytes": 39972,
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run check",
+      "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+      "utc_start": "2026-10-09T21:07:07Z",
+      "utc_end": "2026-10-09T21:10:37Z",
+      "raw_exit": 0,
+      "tap": {
+        "tests": 160,
+        "pass": 160,
+        "fail": 0,
+        "skipped": 0
+      },
+      "provenance": "Contemporaneous native sidecars retained; verified by root after continuation."
+    },
+    "product": {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-product.raw.log",
+      "sha256": "009a21832d807577b8eff332ad38eac713e442f6db77544d725c59bc795e9436",
+      "bytes": 10111,
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run test:product",
+      "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+      "utc_start": "2026-10-09T21:10:37Z",
+      "utc_end": "2026-10-09T21:13:14Z",
+      "raw_exit": 0,
+      "tap": {
+        "tests": 35,
+        "pass": 35,
+        "fail": 0,
+        "skipped": 0
+      },
+      "provenance": "Contemporaneous native sidecars retained; verified by root after continuation."
+    },
+    "browser": {
+      "path": "/tmp/schemaforge-t24-native-20261010/final2-browser.raw.log",
+      "sha256": "a0814db5d4b1a86d1977b45613b6fea4a01ac1f41c8096b9fa083c0d4d968336",
+      "bytes": 8071,
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 npm run test:browser",
+      "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+      "utc_start": "2026-10-09T21:13:14Z",
+      "utc_end": "2026-10-09T21:17:15Z",
+      "raw_exit": 0,
+      "tap": {
+        "tests": 21,
+        "pass": 21,
+        "fail": 0,
+        "skipped": 0
+      },
+      "provenance": "Contemporaneous native sidecars retained; verified by root after continuation."
+    },
+    "focused": {
+      "path": "/tmp/schemaforge-t24-native-20261010/focused3.raw.log",
+      "sha256": "8bd98d49666f23d5366fc3db1111ac7d3f5c968a84c5c37d3e08e59eb2a0f2c1",
+      "bytes": 1444,
+      "command": "env SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/audit-cursor.test.mjs tests/product-audit-pages.test.mjs tests/product-audit-action-filters-browser.integration.mjs tests/product-audit-pages-browser.integration.mjs",
+      "cwd": "/home/longhn0710/workspace/schemaforge-product-audit-pages",
+      "utc_start": "2026-10-09T21:06:59Z",
+      "utc_end": "2026-10-09T21:07:07Z",
+      "raw_exit": 0,
+      "tap": {
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "skipped": 0
+      },
+      "provenance": "Contemporaneous native sidecars retained; verified by root after continuation."
+    }
+  },
+  "final_source_manifests": {
+    "before": {
+      "path": "/tmp/schemaforge-t24-native-20261010/corrected-source-before.sha256",
+      "sha256": "72ea86c2e7f82ef964a340353bb8ea707e62ac42c29499ebb3bbf39fc07c2ee5"
+    },
+    "after": {
+      "path": "/tmp/schemaforge-t24-native-20261010/corrected-source-after.sha256",
+      "sha256": "72ea86c2e7f82ef964a340353bb8ea707e62ac42c29499ebb3bbf39fc07c2ee5"
+    }
+  },
+  "behavior_coverage": [
+    "Fixed50 exclusive PostgreSQL microsecond/time-ID paging concatenates123 real events exactly with tied timestamps; detailrecent100 preserved.",
+    "Historical-only action choices retain newest occurrence order; malformed/oversized/canonical/calendar/year0000/project/filter cursor negatives.",
+    "Current fixed developer/approver roles and membership, archived reads, revoke betweenpages and API/connectionpool recreation persistence.",
+    "Actual Chromium three-page order, final state, old-only filtering and held filter/refresh/project/session responses with completion/frame synchronization.",
+    "Revocation uses existing full project cleanup and authorized fallback; complete populated project/source/profile/release/plan/intent/comment/history/audit snapshots retained.",
+    "Original T09 assertions/timeout thresholds preserved with server-response readiness waits; actual firstfullbrowserfailure preserved."
+  ],
+  "known_limits": [
+    "Feature native and earlier QA context are no longer listed after continuation; no final native completion/run-record exists. Root recovered this record from intact raw files, contemporaneous commands/UTC/exit/hash sidecars and before/after source manifests. No missing native completion is reconstructed.",
+    "First check lacked pinned Java environment:159tests146pass13fail; retried pre-final159pass. First frozen check160/product35passed but browser21tests20pass1failure caused alphabetical-action compatibility regression.",
+    "Original failed frozen sequence stops before source-after capture; absence remains explicit. Corrected sequence has matching before/after10files.",
+    "focused-strong.raw.log and focused-strong2.raw.log lack complete command/UTC/exit sidecars; retained raw bytes only, not promoted to verified runs. Earlier interactive-only focused results and native commentary are not substitutes for captures.",
+    "The captured label focused3 actually contains4 passing tests, as raw TAP proves; label is an opaque name.",
+    "No root-cause claim for historical unconstrained parser contention; controlled twoCPU affinity/pinnedJava retained. No threshold/parser changes.",
+    "Fresh independent exact-head QA/security/license and publication/CI/master verification remain required."
+  ]
+}

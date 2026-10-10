@@ -1,0 +1,11 @@
+gh: Advanced Security must be enabled for this repository to use code scanning. (HTTP 403)
+Traceback (most recent call last):
+  File "/tmp/schemaforge-t24-prepublish.py", line 51, in <module>
+    alerts[family] = json.loads(run(['gh', 'api', 'repos/devsecopslonghn/schemaForge/' + family + '/alerts?state=open',
+  File "/tmp/schemaforge-t24-prepublish.py", line 9, in run
+    return subprocess.check_output(args, cwd=cwd, text=True)
+  File "/usr/lib64/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/usr/lib64/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['gh', 'api', 'repos/devsecopslonghn/schemaForge/code-scanning/alerts?state=open', '--jq', 'map({number,state,html_url})']' returned non-zero exit status 1.

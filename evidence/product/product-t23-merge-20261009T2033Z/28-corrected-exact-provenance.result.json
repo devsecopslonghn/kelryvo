@@ -1,0 +1,11 @@
+{
+  "command": "python /tmp/schemaforge-t23-corrected-classify.py /tmp/schemaforge-t23-corrected-publication-20261009T2002Z dab29a357e3e29d65b7db23255dbae56abf3f00f",
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-discussion-evidence",
+  "started_at_utc": "2026-10-09T20:02:06.116757+00:00",
+  "ended_at_utc": "2026-10-09T20:02:09.227347+00:00",
+  "exit_code": 0,
+  "raw_output": {
+    "path": "/tmp/schemaforge-t23-root-live-20261009T1845Z/28-corrected-exact-provenance.log",
+    "sha256": "84ee6bd550bb1a5721aac7530860bb294511565447e5ae78c1df91d8ad25f02d"
+  }
+}

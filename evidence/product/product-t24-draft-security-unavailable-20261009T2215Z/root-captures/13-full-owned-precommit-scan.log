@@ -1,0 +1,5 @@
+{"scope": "publication", "mode": "precommit", "head": "b1d307767784a4195d38817fad845911ba88163c", "path_count": 237, "scanner_exit_code": 1, "finding_count": 5}
+Traceback (most recent call last):
+  File "/tmp/schemaforge-t24-classify.py", line 71, in <module>
+    assert len(hashes) == 1, (scope, name, finding['StartLine'], 'REQUIRES_EXACT_PROVENANCE_REVIEW')
+AssertionError: ('publication', 'evidence/product/product-t24-root-20261009T2204Z/root-prior-captures/03-classify-and-freeze-checkpoint.command.json', 2, 'REQUIRES_EXACT_PROVENANCE_REVIEW')

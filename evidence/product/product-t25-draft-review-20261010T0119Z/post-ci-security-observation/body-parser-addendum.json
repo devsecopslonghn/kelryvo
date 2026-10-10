@@ -1,0 +1,31 @@
+{
+  "recorded_at_utc": "2026-10-10T01:30:18.684705+00:00",
+  "original_record_sha256": "57c1c8cde6ce1646b4256660e7d2569c57060959176cbf7505cf597eadb7984d",
+  "scope": "Append-only body parser correction normalizes CRLF header separator. Original countnull was not empty-alert proof; no statuses changed, no raw alert values printed.",
+  "safe_observations": [
+    {
+      "name": "code",
+      "http_status": 403,
+      "body_json_type": "dict",
+      "alert_count": null
+    },
+    {
+      "name": "secret",
+      "http_status": 404,
+      "body_json_type": "dict",
+      "alert_count": null
+    },
+    {
+      "name": "dependabot",
+      "http_status": 200,
+      "body_json_type": "list",
+      "alert_count": 0
+    },
+    {
+      "name": "protection",
+      "http_status": 403,
+      "body_json_type": "dict",
+      "alert_count": null
+    }
+  ]
+}

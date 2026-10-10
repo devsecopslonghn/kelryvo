@@ -50,7 +50,7 @@ function validateSource(commit, folder) {
       || !/^[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_-]+)*$/.test(folder)) stop('INVALID_MIGRATION_FOLDER');
 }
 
-export async function importGitRelease({ repositoryPath, commit, folder }) {
+export async function importGitRelease({ repositoryPath, commit, folder, parse = runAntlrCandidate }) {
   validateSource(commit, folder);
   let repository;
   try { repository = await realpath(repositoryPath); } catch { stop('REPOSITORY_UNAVAILABLE'); }
@@ -63,7 +63,7 @@ export async function importGitRelease({ repositoryPath, commit, folder }) {
   const validation = await prevalidateRelease(files.map(f => ({ id: f.path, raw: f.raw, sha256: f.sha256 })), {
     profile: PROFILE,
     parse: async raw => {
-      const result = await runAntlrCandidate(raw);
+      const result = await parse(raw);
       if (!result.ok) parserFailure = result.code;
       return result;
     },

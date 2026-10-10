@@ -1,0 +1,12 @@
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+apps/api/index.ts(576,62): error TS2345: Argument of type '{ id: any; organizationId: string; requestedPath: any; parserProfile: string; }' is not assignable to parameter of type '{ id: any; projectId: any; organizationId: any; repositoryId: any; folder: any; parserProfile: any; requestedPath: any; }'.
+  Type '{ id: any; organizationId: string; requestedPath: any; parserProfile: string; }' is missing the following properties from type '{ id: any; projectId: any; organizationId: any; repositoryId: any; folder: any; parserProfile: any; requestedPath: any; }': projectId, repositoryId, folder
+apps/api/index.ts(783,70): error TS2345: Argument of type '{ id: any; projectId: any; organizationId: string; repositoryId: any; folder: any; }' is not assignable to parameter of type '{ id: any; projectId: any; organizationId: any; repositoryId: any; folder: any; parserProfile: any; requestedPath: any; }'.
+  Type '{ id: any; projectId: any; organizationId: string; repositoryId: any; folder: any; }' is missing the following properties from type '{ id: any; projectId: any; organizationId: any; repositoryId: any; folder: any; parserProfile: any; requestedPath: any; }': parserProfile, requestedPath
+apps/api/index.ts(903,70): error TS2345: Argument of type '{ id: any; projectId: any; organizationId: string; repositoryId: any; folder: any; }' is not assignable to parameter of type '{ id: any; projectId: any; organizationId: any; repositoryId: any; folder: any; parserProfile: any; requestedPath: any; }'.
+  Type '{ id: any; projectId: any; organizationId: string; repositoryId: any; folder: any; }' is missing the following properties from type '{ id: any; projectId: any; organizationId: any; repositoryId: any; folder: any; parserProfile: any; requestedPath: any; }': parserProfile, requestedPath
+apps/api/index.ts(1009,72): error TS2345: Argument of type '{ id: any; projectId: any; organizationId: string; repositoryId: any; folder: any; }' is not assignable to parameter of type '{ id: any; projectId: any; organizationId: any; repositoryId: any; folder: any; parserProfile: any; requestedPath: any; }'.
+  Type '{ id: any; projectId: any; organizationId: string; repositoryId: any; folder: any; }' is missing the following properties from type '{ id: any; projectId: any; organizationId: any; repositoryId: any; folder: any; parserProfile: any; requestedPath: any; }': parserProfile, requestedPath

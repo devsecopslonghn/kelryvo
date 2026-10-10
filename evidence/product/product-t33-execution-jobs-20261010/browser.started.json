@@ -1,0 +1,34 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "0,1",
+    "npm",
+    "run",
+    "test:browser"
+  ],
+  "started_at": "2026-10-10T15:06:53.435Z",
+  "execution_head": "ff14f24572414bd8e87a2b983facfbbbeb929402",
+  "source_before": {
+    "apps/api/index.ts": "4af7d8c14a087fb7ad2ff3ef2dd746d952ae3fb4fbf71746a98a2f98304488bf",
+    "apps/web/src/app.jsx": "e372ce52ffea8cb65a7f7b4d85f8ef007bc74632e2c740d6db247fced7879011",
+    "apps/web/styles.css": "ba6e416f28d8917e6f7ad4a9f63a85e6ca4140c7cb67e3667fe465beda3104a8",
+    "apps/worker/coordinator.ts": "4d2f4ebed6b10db4bb6ca46699b9afbb3d0914568f00dd276bb2c282a67a31bc",
+    "packages/database/index.ts": "7aeffb9a0ea2a54aaf23162daa6af1ecdec26ac3f603bbc0bc399a931445c76f",
+    "packages/execution/coordinator.ts": "805e6b46b7d04782cf3b6b955a21337f0e685d4c7d2c8be288df04bb886f23b6",
+    "packages/execution/postgres-jobs.ts": "c5f27b2cd1fe2d6c1c9177014991506ba81db403d83058a734003b5ab17f59db",
+    "scripts/local-membership-operator.mjs": "507c093e37fb8dbd60b9b16e608f7266922f8cf87058f3c1de46817c70d3cac2",
+    "scripts/test-product.mjs": "205b2db377a5dd5da2fb39f894bf3e92bad3847ccdb80651d2b877aea5e0853d",
+    "scripts/tracker.mjs": "a638b2e74b25c0e127a512c6b31d86bd088d99c964cd139b5f6de7d311ecc1bc",
+    "tests/execution-coordinator.test.mjs": "9b5ec0fb04c7eaf168f4541668d24922189181dcb0cbc13295b43fafb84745be",
+    "tests/fixtures/product-t32-schema.ts": "ca04e3a7d7219e8d6e86469058beced4adad79fda8c206f334237df4eb420a7f",
+    "tests/helpers/product-db.mjs": "c7af15f1cf70a8bc6235d9fdee509956292d28915dba70a29d97a172157125ee",
+    "tests/helpers/product-membership-fixture.mjs": "b7b4e446fd7df5c776ec133a86a6618eebb461b39dacfd903090cacb2ca6eaf5",
+    "tests/product-execution-jobs-browser.integration.mjs": "a71ad367c3b791b917621e9496587a5fe66d1960e7852ab2d837dc9156d07465",
+    "tests/product-execution-jobs.test.mjs": "eb6432f841e01226be1aaee05c3f65d5665a3fc0b5124182eb56cf8f816c44e3",
+    "tests/tracker.test.mjs": "fc92e1bb36cd3daa8c05b0cdbe6f50fdee499c322af96b01e9b08062441bdb57",
+    "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "0,1",
+    "npm",
+    "run",
+    "test:browser"
+  ],
+  "started_at": "2026-10-10T18:07:30.997Z",
+  "finished_at": "2026-10-10T18:13:37.714Z",
+  "exit_code": 0,
+  "execution_head": "81d5340bbdd4c6c6db9526178f9703d2cdec5c14",
+  "head_after": "81d5340bbdd4c6c6db9526178f9703d2cdec5c14",
+  "source_before": {
+    "apps/api/index.ts": "535ff5bcc667b6bc07f706ece2577e665062d2f200d470f2ddba097c8b8e6b0c",
+    "apps/api/server.ts": "52ac307d251f945fd282a441f003f9933f3a57ea0dcb18faec1cd715d7c8508a",
+    "apps/web/src/app.jsx": "53404265ce4fe5b862b5556da5338ae5d92ab3a9c2f7b645d02d0e07ab99cee8",
+    "packages/backup/index.mjs": "6d5210970529b4cb31475e55e25a7fef383413935f8dbf1bfd6f2f268f33271e",
+    "packages/database/browser-sessions.ts": "96c431e443d37a5597d48af2d134926c5d55e2f6d5c382b38433b6fc273cff46",
+    "packages/database/index.ts": "94776ca22e6c35fc4a2eb76ac1a0390263a0ff10682c2a2aa65edd80f56129c2",
+    "packages/database/local-credentials.ts": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a",
+    "scripts/local-dev.mjs": "9eb72fed226a6b0362950ac90147e68e7b449590778c0a2713aed0430c0e9754",
+    "scripts/local-tls.mjs": "8424b99f92d0da2e8ab86145def321dc547eceb289ea39da08fd3cebf87fb511",
+    "scripts/test-product.mjs": "cb4be04d48b95492a8e19962e281afae6226687c85c616bd168d344c13cd4a4b",
+    "scripts/tracker.mjs": "1e2833c816d86d592b6c187724c8a08e1113118b77b6c6864301d0c2e9e16c5c",
+    "tests/helpers/product-tls-fixture.mjs": "4f15f58b47bee9f8c4a21c2e344348d8e9d0bf3bb129abb21e1f6a0077e51510",
+    "tests/product-secure-sessions-browser.integration.mjs": "36b21d2aea88d1b42be6073ff46cae59fb2d29f764a23a8cfc869cba6d55eeb2",
+    "tests/product-secure-sessions.test.mjs": "2c0d71784cd6cf54e4a4c92a03e9449d42ad4587582b4a9944e198fe7c724efc",
+    "tests/tracker.test.mjs": "025976bc86a47781750feb3bab0ea04eab6aa13f53c023fac578fdc59116f3aa",
+    "package.json": "f2e8e1c4e849e7596baf135ffa9976e001ca9157b66bd1c8ba1808848a7709f4",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  },
+  "source_after": {
+    "apps/api/index.ts": "535ff5bcc667b6bc07f706ece2577e665062d2f200d470f2ddba097c8b8e6b0c",
+    "apps/api/server.ts": "52ac307d251f945fd282a441f003f9933f3a57ea0dcb18faec1cd715d7c8508a",
+    "apps/web/src/app.jsx": "53404265ce4fe5b862b5556da5338ae5d92ab3a9c2f7b645d02d0e07ab99cee8",
+    "packages/backup/index.mjs": "6d5210970529b4cb31475e55e25a7fef383413935f8dbf1bfd6f2f268f33271e",
+    "packages/database/browser-sessions.ts": "96c431e443d37a5597d48af2d134926c5d55e2f6d5c382b38433b6fc273cff46",
+    "packages/database/index.ts": "94776ca22e6c35fc4a2eb76ac1a0390263a0ff10682c2a2aa65edd80f56129c2",
+    "packages/database/local-credentials.ts": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a",
+    "scripts/local-dev.mjs": "9eb72fed226a6b0362950ac90147e68e7b449590778c0a2713aed0430c0e9754",
+    "scripts/local-tls.mjs": "8424b99f92d0da2e8ab86145def321dc547eceb289ea39da08fd3cebf87fb511",
+    "scripts/test-product.mjs": "cb4be04d48b95492a8e19962e281afae6226687c85c616bd168d344c13cd4a4b",
+    "scripts/tracker.mjs": "1e2833c816d86d592b6c187724c8a08e1113118b77b6c6864301d0c2e9e16c5c",
+    "tests/helpers/product-tls-fixture.mjs": "4f15f58b47bee9f8c4a21c2e344348d8e9d0bf3bb129abb21e1f6a0077e51510",
+    "tests/product-secure-sessions-browser.integration.mjs": "36b21d2aea88d1b42be6073ff46cae59fb2d29f764a23a8cfc869cba6d55eeb2",
+    "tests/product-secure-sessions.test.mjs": "2c0d71784cd6cf54e4a4c92a03e9449d42ad4587582b4a9944e198fe7c724efc",
+    "tests/tracker.test.mjs": "025976bc86a47781750feb3bab0ea04eab6aa13f53c023fac578fdc59116f3aa",
+    "package.json": "f2e8e1c4e849e7596baf135ffa9976e001ca9157b66bd1c8ba1808848a7709f4",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  },
+  "log_sha256": "ad6df5ac0fb4400d4a7d944518ca77b3c2855a1472cb75add054734e3346d967",
+  "environment": {
+    "node": "v22.23.3",
+    "postgres": "isolated trusted local metadata test container, owned databases only",
+    "java_home": "/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin"
+  }
+}

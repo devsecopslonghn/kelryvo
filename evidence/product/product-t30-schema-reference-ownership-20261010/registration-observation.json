@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-10-10T09:04:49.550184+00:00",
+  "task": "SF-PRODUCT-T30",
+  "registration_head": "ee3d1c60ca9b18b75ba983a73e828fb71a46c09a",
+  "command": "npm run format; npm run format:check; npm run lint; node --test tests/tracker.test.mjs",
+  "scope": "Registration validation only; no implementation acceptance PASS.",
+  "result": {
+    "tracker_tests": 21,
+    "pass": 21,
+    "fail": 0,
+    "skipped": 0
+  },
+  "raw_output": {
+    "path": "evidence/product/product-t30-schema-reference-ownership-20261010/tracker-registration.log",
+    "sha256": "5491962bbd5476dc8e71b0d917798dd9ccc4fdfd18465251ebe805ca933bd0d6"
+  },
+  "limits": "Raw capture retained for tracker tests only; registration formatter/lint console outputs observed directly, not separately captured. First formatting check failed on Python escaped/non-ASCII JSON; canonical formatter corrected before successful validation and registration commit. No before/after source capture for this focused registration; final implementation runs remain pending."
+}
