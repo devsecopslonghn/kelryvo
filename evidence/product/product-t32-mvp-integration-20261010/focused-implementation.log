@@ -1,0 +1,531 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+not ok 1 - Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+  ---
+  duration_ms: 39840.450867
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:15:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByText('Reviewer assignment updated.', { exact: true }) to be visible[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:112:75)
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: combined local Git workflow retains review, withdrawal, manual references and restart state
+not ok 2 - combined local Git workflow retains review, withdrawal, manual references and restart state
+  ---
+  duration_ms: 8273.844258
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow.test.mjs:18:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + Result(1) [
+    - [
+        {
+          approval_reference: 'd736c88c-d4b2-4464-add9-ce4973e4320e',
+          author_id: 't32-author-3c9e7d60-405b-483d-a111-94bebe4f6c70',
+          created_at: 2026-10-10T11:02:12.379Z,
+          decided_at: 2026-10-10T11:02:12.434Z,
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0:
+      id: '8074778b-3145-4362-bdc0-bfb687f85819'
+      project_id: 'edd43a56-11c0-40bf-b308-c0f59a47b09e'
+      organization_id: '00000000-0000-4000-8000-000000000001'
+      release_id: 'ba8519ef-12b1-44b0-a3a5-3aa37a10e57d'
+      profile_id: '04ab6191-c4c3-422e-8089-25466692b1f5'
+      author_id: 't32-author-3c9e7d60-405b-483d-a111-94bebe4f6c70'
+      status: 'REVOKED'
+      decision: 'APPROVE'
+      decision_reason: 'Assigned reviewer approved offline candidate.'
+      decided_by: 't32-reviewer-ae950a7e-5de2-4b55-9a63-f249f5425033'
+      created_at: 2026-10-10T11:02:12.379Z
+      decided_at: 2026-10-10T11:02:12.434Z
+      items:
+        0:
+          path: 'migrations/V001__first.sql'
+          sha256: '278122e22637a54e7c0c4630b656eeae44bcb8767c9362b7c38e00ef42006096'
+          status: 'NOT_EXECUTED'
+          version: '1'
+        1:
+          path: 'migrations/V002__second.sql'
+          sha256: 'd6ae1ac909cb0b1d7fbd6a48e9b69df50fe173b5aa9191d19dfad59126990e6c'
+          status: 'NOT_EXECUTED'
+          version: '2'
+      execution: 'NOT_EXECUTED'
+      history_status: 'NOT_OBSERVED'
+      planning_scope: 'OFFLINE_CANDIDATE'
+      offline_intent_envelope: '[1,"00000000-0000-4000-8000-000000000001","edd43a56-11c0-40bf-b308-c0f59a47b09e","t32-author-3c9e7d60-405b-483d-a111-94bebe4f6c70","ba8519ef-12b1-44b0-a3a5-3aa37a10e57d","65373dc8e83cd5522357bc4652fca00c6e52020f","sha1","migrations","antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2","97552a258496e481c1dcf228fdfca5d2ce3ff25b8fc29457c63e915c5d5d0cd5","04ab6191-c4c3-422e-8089-25466692b1f5","Offline profile","60563a49-4c58-41b5-8137-529bdbab40c9","Development","oracle","oracle.example.invalid",1521,"DEV","APP","vault://local/t32",[["migrations/V001__first.sql","1","278122e22637a54e7c0c4630b656eeae44bcb8767c9362b7c38e00ef42006096"],["migrations/V002__second.sql","2","d6ae1ac909cb0b1d7fbd6a48e9b69df50fe173b5aa9191d19dfad59126990e6c"]]]'
+      offline_intent_digest: '498dba6e3ead77d5742ce57dff84ff12e62e848bbdc303f6d9dbe7bc269557a9'
+      approval_reference: 'd736c88c-d4b2-4464-add9-ce4973e4320e'
+      decided_by_name: 'T32 assigned reviewer'
+      source_binding_generation: '2'
+      reviewer_id: 't32-reviewer-ae950a7e-5de2-4b55-9a63-f249f5425033'
+      reviewer_revision: '1'
+  actual:
+    0:
+      id: '8074778b-3145-4362-bdc0-bfb687f85819'
+      project_id: 'edd43a56-11c0-40bf-b308-c0f59a47b09e'
+      organization_id: '00000000-0000-4000-8000-000000000001'
+      release_id: 'ba8519ef-12b1-44b0-a3a5-3aa37a10e57d'
+      profile_id: '04ab6191-c4c3-422e-8089-25466692b1f5'
+      author_id: 't32-author-3c9e7d60-405b-483d-a111-94bebe4f6c70'
+      status: 'REVOKED'
+      decision: 'APPROVE'
+      decision_reason: 'Assigned reviewer approved offline candidate.'
+      decided_by: 't32-reviewer-ae950a7e-5de2-4b55-9a63-f249f5425033'
+      created_at: 2026-10-10T11:02:12.379Z
+      decided_at: 2026-10-10T11:02:12.434Z
+      items:
+        0:
+          path: 'migrations/V001__first.sql'
+          sha256: '278122e22637a54e7c0c4630b656eeae44bcb8767c9362b7c38e00ef42006096'
+          status: 'NOT_EXECUTED'
+          version: '1'
+        1:
+          path: 'migrations/V002__second.sql'
+          sha256: 'd6ae1ac909cb0b1d7fbd6a48e9b69df50fe173b5aa9191d19dfad59126990e6c'
+          status: 'NOT_EXECUTED'
+          version: '2'
+      execution: 'NOT_EXECUTED'
+      history_status: 'NOT_OBSERVED'
+      planning_scope: 'OFFLINE_CANDIDATE'
+      offline_intent_envelope: '[1,"00000000-0000-4000-8000-000000000001","edd43a56-11c0-40bf-b308-c0f59a47b09e","t32-author-3c9e7d60-405b-483d-a111-94bebe4f6c70","ba8519ef-12b1-44b0-a3a5-3aa37a10e57d","65373dc8e83cd5522357bc4652fca00c6e52020f","sha1","migrations","antlr-plsql-grammars-v4-7df52be94698550d219d299d04105c6bafadd9c3-antlr4-4.13.2","97552a258496e481c1dcf228fdfca5d2ce3ff25b8fc29457c63e915c5d5d0cd5","04ab6191-c4c3-422e-8089-25466692b1f5","Offline profile","60563a49-4c58-41b5-8137-529bdbab40c9","Development","oracle","oracle.example.invalid",1521,"DEV","APP","vault://local/t32",[["migrations/V001__first.sql","1","278122e22637a54e7c0c4630b656eeae44bcb8767c9362b7c38e00ef42006096"],["migrations/V002__second.sql","2","d6ae1ac909cb0b1d7fbd6a48e9b69df50fe173b5aa9191d19dfad59126990e6c"]]]'
+      offline_intent_digest: '498dba6e3ead77d5742ce57dff84ff12e62e848bbdc303f6d9dbe7bc269557a9'
+      approval_reference: 'd736c88c-d4b2-4464-add9-ce4973e4320e'
+      decided_by_name: 'T32 assigned reviewer'
+      source_binding_generation: '2'
+      reviewer_id: 't32-reviewer-ae950a7e-5de2-4b55-9a63-f249f5425033'
+      reviewer_revision: '1'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow.test.mjs:86:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 49408.451682
+
+RUN 2: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-concurrency=1 tests/product-mvp-workflow.test.mjs tests/product-mvp-workflow-browser.integration.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+not ok 1 - Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+  ---
+  duration_ms: 40279.938951
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:15:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.plan-summary').filter({ hasText: 'APPROVED' }) to be visible[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:126:73)
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+
+=== focused run after strengthening ===
+UTC: 2026-10-10T11:03:22Z
+git/source hashes: 0ae66eb23e79ed8fc0714a1a2fea62f19ffaf2c30d9c287af7b91e253a5bdc76  tests/product-mvp-workflow.test.mjs
+22209b0ff80d9f62c52739e94682c802a51c91d394018f8b545b25e14700f615  tests/product-mvp-workflow-browser.integration.mjs
+command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-concurrency=1 tests/product-mvp-workflow.test.mjs tests/product-mvp-workflow-browser.integration.mjs
+TAP version 13
+# Subtest: combined local Git workflow retains review, withdrawal, manual references and restart state
+not ok 2 - combined local Git workflow retains review, withdrawal, manual references and restart state
+  ---
+  duration_ms: 13639.852377
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow.test.mjs:18:1'
+  failureType: 'testCodeFailure'
+  error: 'paged audit retains undefined'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow.test.mjs:114:123)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 55180.924946
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+not ok 1 - Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+  ---
+  duration_ms: 40272.406199
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:15:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.plan-summary').filter({ hasText: 'APPROVED' }) to be visible[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:126:73)
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: combined local Git workflow retains review, withdrawal, manual references and restart state
+not ok 2 - combined local Git workflow retains review, withdrawal, manual references and restart state
+  ---
+  duration_ms: 13537.510043
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow.test.mjs:18:1'
+  failureType: 'testCodeFailure'
+  error: 'paged audit retains 07ddf4fb-2009-4cf6-b620-6b9c735318e5'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow.test.mjs:114:98)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 55089.212026
+focused test exit: 1
+
+=== focused rerun after assertions corrected ===
+UTC: 2026-10-10T11:04:28Z
+41b3c983e8c73db94895e2117fe51ef19e8190c34c3de9582f969be9800d44c2  tests/product-mvp-workflow.test.mjs
+b2e752cbc2ecb89f99a872eb8e0afedb2624ef2c9d382374593606fad20e67a5  tests/product-mvp-workflow-browser.integration.mjs
+command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-concurrency=1 tests/product-mvp-workflow.test.mjs tests/product-mvp-workflow-browser.integration.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+not ok 1 - Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+  ---
+  duration_ms: 40336.919564
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:15:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.plan-summary').getByText('APPROVED', { exact: true }) to be visible[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:128:80)
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: combined local Git workflow retains review, withdrawal, manual references and restart state
+ok 2 - combined local Git workflow retains review, withdrawal, manual references and restart state
+  ---
+  duration_ms: 13745.716823
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 55367.965447
+focused test exit: 1
+
+=== focused rerun after browser status navigation fix ===
+UTC: 2026-10-10T11:05:38Z
+41b3c983e8c73db94895e2117fe51ef19e8190c34c3de9582f969be9800d44c2  tests/product-mvp-workflow.test.mjs
+091f19fbe6dc17680e06e30d9012828cbe393d472d2dae3504b9e186794aff8b  tests/product-mvp-workflow-browser.integration.mjs
+command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-concurrency=1 tests/product-mvp-workflow.test.mjs tests/product-mvp-workflow-browser.integration.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+not ok 1 - Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+  ---
+  duration_ms: 19043.49115
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:15:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected "actual" to be strictly unequal to:
+    
+    'ec1c9faa-5a96-492a-ab37-37248803bbd2'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'ec1c9faa-5a96-492a-ab37-37248803bbd2'
+  actual: 'ec1c9faa-5a96-492a-ab37-37248803bbd2'
+  operator: 'notStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:157:85)
+    runNextTicks (node:internal/process/task_queues:64:5)
+    process.processImmediate (node:internal/timers:452:9)
+    process.callbackTrampoline (node:internal/async_hooks:130:17)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: combined local Git workflow retains review, withdrawal, manual references and restart state
+ok 2 - combined local Git workflow retains review, withdrawal, manual references and restart state
+  ---
+  duration_ms: 13612.928852
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 33554.778156
+focused test exit: 1
+
+=== browser focused rerun after recovery navigation fix ===
+UTC: 2026-10-10T11:06:17Z
+e32360f1704603f7b18e7113cebc2a16c9ffd671397c9e2a1c4003da6b052f44  tests/product-mvp-workflow-browser.integration.mjs
+command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-concurrency=1 tests/product-mvp-workflow-browser.integration.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+not ok 1 - Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+  ---
+  duration_ms: 19110.867103
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:15:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    audit history paginates older assignment events
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:171:12)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 19833.61531
+focused browser exit: 1
+
+=== browser rerun with >one page newer audit rows ===
+UTC: 2026-10-10T11:06:44Z
+6699bfc876075dd5fb9de043c9eb74d1fd9524b60661633553d214736a47acb0  tests/product-mvp-workflow-browser.integration.mjs
+command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-concurrency=1 tests/product-mvp-workflow-browser.integration.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+not ok 1 - Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+  ---
+  duration_ms: 19033.789845
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:15:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    audit history paginates older assignment events
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:171:12)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 19756.839531
+focused browser exit: 1
+
+=== browser rerun waiting for audit page load ===
+UTC: 2026-10-10T11:07:21Z
+7da0ef681accd3d36a8719fad94937a10f447cc8790f408484ec9980667e1308  tests/product-mvp-workflow-browser.integration.mjs
+command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-concurrency=1 tests/product-mvp-workflow-browser.integration.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+not ok 1 - Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+  ---
+  duration_ms: 19211.283227
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:15:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    audit history paginates older assignment events
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-mvp-integration/tests/product-mvp-workflow-browser.integration.mjs:172:12)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 19910.735281
+focused browser exit: 1
+
+=== browser rerun waiting for unfiltered page reload ===
+UTC: 2026-10-10T11:08:00Z
+26713a516bf6c2255033a5c6ad08be5459216022b22c737e8678d0262fa82ec2  tests/product-mvp-workflow-browser.integration.mjs
+command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-concurrency=1 tests/product-mvp-workflow-browser.integration.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+ok 1 - Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+  ---
+  duration_ms: 19276.714485
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 19977.02926
+focused browser exit: 0
+
+=== API focused final persistence and pagination assertions ===
+UTC: 2026-10-10T11:08:25Z
+f7bb57e9ce9062c863bd8f3bb312a68044e969de6759245bc888a2cd4ed00354  tests/product-mvp-workflow.test.mjs
+command: SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-concurrency=1 tests/product-mvp-workflow.test.mjs
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: combined local Git workflow retains review, withdrawal, manual references and restart state
+ok 1 - combined local Git workflow retains review, withdrawal, manual references and restart state
+  ---
+  duration_ms: 13665.591464
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13884.950865
+focused API exit: 0
