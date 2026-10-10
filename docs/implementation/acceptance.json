@@ -2647,6 +2647,21 @@
         "SF-PRODUCT-T24-WEB",
         "SF-PRODUCT-T24-PERSISTENCE"
       ]
+    },
+    "SF-PRODUCT-T31": {
+      "task_id": "SF-PRODUCT-T31",
+      "criteria": [
+        "Add a stable server-generated approval reference for new APPROVE decisions and a same-project/organization append-only linked approval-revocation record unique per plan. New approval reference and existing PLAN_APPROVED audit commit atomically. Legacy approved plans retain NULL approval reference without backfill and remain explicitly distinguishable. Revocation changes only lifecycle projection to REVOKED and adds its linked record/audit; preserve original APPROVE decision, reason, principal/name/time, source binding, retained release/files/items, intent envelope/digest, profile, comments and NOT_EXECUTED/NOT_OBSERVED history. Repeated initialization/restart preserves old and new records.",
+        "Implement authenticated POST /api/plans/:id/approval-revocation with exactly mandatory expectedApprovalReference (UUID or explicit NULL) and bounded nonempty Unicode-safe reason, no extra fields. Require ENFORCED membership, current exact credential and live approver role/grant rechecked after credential lifecycle serialization and scoped plan/project locks; exclude request author and fail closed on unavailable author facts. Only active same-organization approved APPROVE offline candidate plans with NOT_EXECUTED/NOT_OBSERVED are withdrawable. Match expected reference, including explicit legacy NULL. Missing/foreign/ungranted scopes remain hidden; malformed/archived/developer/self/stale/pending/rejected/revoked/observed-or-executed cases fail without lifecycle/history mutation. Serialize competing withdrawals to one revocation and one success audit. Do not require intact SQL/source/intent to remove approval authority; corrupted or stale approved content may still be withdrawn by an eligible independent actor. Preserve safe fixed denial auditing for authenticated authorized attempts.",
+        "Expose safe approval reference and historical revocation attribution/reason/time in existing scoped project plan responses. Add REVOKED status filtering while keeping original decision record visible and immutable. Revoked plans cannot be approved again; correction uses the existing fresh release/new-plan workflow. Retained release/source/comments/history reads remain project-scoped and available under existing archive/read policies. No target credential resolution, real execution, jobs, queued-dispatch or HOLD claim; execution endpoint remains unavailable and all existing execution/history states remain unchanged.",
+        "Add React withdrawal reason/action for a current independent approver on an approved selected plan; disabled/hidden controls and clear conflict/permission feedback for other states, archives and bootstrap. Display original approval separately from linked withdrawal, safe text, current REVOKED status/filter, and fresh-plan recovery for revoked plans. Clear withdrawal drafts and discard delayed success/failure on session/project/plan changes and A-to-B-to-A, using context epochs rather than only ID comparison. Preserve selected project/filter context when refreshing and never present withdrawal as rollback of committed database effects.",
+        "Real isolated PostgreSQL/API and Chromium tests cover new/legacy approvals, linking, immutable protected-state snapshots, repeated initialization/restart, strict/malformed/foreign/ungranted/archive/role/self/stale/state/executed negatives, corrupted-content withdrawal, one-event concurrent races, queued credential/grant/role rechecks, filtering/read privacy, fresh recovery and controlled delayed UI responses. Preserve focused failures with honest capture limits. Run required frozen standard/product/pinned-parser/browser regressions with no skipped required cases and proportionate independent review. Keep full GOV011 queued-job admission/worker controlled stop/HOLD/committed-effects acceptance and Oracle19c/21c unverified. Original220 contracts/dependencies, licenses/notices/pins and draft gates unchanged; independent merged-master branch without unmerged T24-T30 source prerequisites."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T31-API",
+        "SF-PRODUCT-T31-WEB",
+        "SF-PRODUCT-T31-PERSISTENCE"
+      ]
     }
   },
   "test_cases": [

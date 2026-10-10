@@ -470,7 +470,38 @@ const PRODUCT_TASK_24 = {
   ]
 };
 
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24];
+const PRODUCT_TASK_31 = {
+  "id": "SF-PRODUCT-T31",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Withdraw approved offline plans with linked immutable revocation history",
+  "dependencies": [
+    "SF-PRODUCT-T07",
+    "SF-PRODUCT-T19",
+    "SF-PRODUCT-T20",
+    "SF-PRODUCT-T21",
+    "SF-PRODUCT-T23"
+  ],
+  "feature_ids": [
+    "GOV-011",
+    "GOV-013",
+    "GOV-023"
+  ],
+  "acceptance_criteria": [
+    "Add a stable server-generated approval reference for new APPROVE decisions and a same-project/organization append-only linked approval-revocation record unique per plan. New approval reference and existing PLAN_APPROVED audit commit atomically. Legacy approved plans retain NULL approval reference without backfill and remain explicitly distinguishable. Revocation changes only lifecycle projection to REVOKED and adds its linked record/audit; preserve original APPROVE decision, reason, principal/name/time, source binding, retained release/files/items, intent envelope/digest, profile, comments and NOT_EXECUTED/NOT_OBSERVED history. Repeated initialization/restart preserves old and new records.",
+    "Implement authenticated POST /api/plans/:id/approval-revocation with exactly mandatory expectedApprovalReference (UUID or explicit NULL) and bounded nonempty Unicode-safe reason, no extra fields. Require ENFORCED membership, current exact credential and live approver role/grant rechecked after credential lifecycle serialization and scoped plan/project locks; exclude request author and fail closed on unavailable author facts. Only active same-organization approved APPROVE offline candidate plans with NOT_EXECUTED/NOT_OBSERVED are withdrawable. Match expected reference, including explicit legacy NULL. Missing/foreign/ungranted scopes remain hidden; malformed/archived/developer/self/stale/pending/rejected/revoked/observed-or-executed cases fail without lifecycle/history mutation. Serialize competing withdrawals to one revocation and one success audit. Do not require intact SQL/source/intent to remove approval authority; corrupted or stale approved content may still be withdrawn by an eligible independent actor. Preserve safe fixed denial auditing for authenticated authorized attempts.",
+    "Expose safe approval reference and historical revocation attribution/reason/time in existing scoped project plan responses. Add REVOKED status filtering while keeping original decision record visible and immutable. Revoked plans cannot be approved again; correction uses the existing fresh release/new-plan workflow. Retained release/source/comments/history reads remain project-scoped and available under existing archive/read policies. No target credential resolution, real execution, jobs, queued-dispatch or HOLD claim; execution endpoint remains unavailable and all existing execution/history states remain unchanged.",
+    "Add React withdrawal reason/action for a current independent approver on an approved selected plan; disabled/hidden controls and clear conflict/permission feedback for other states, archives and bootstrap. Display original approval separately from linked withdrawal, safe text, current REVOKED status/filter, and fresh-plan recovery for revoked plans. Clear withdrawal drafts and discard delayed success/failure on session/project/plan changes and A-to-B-to-A, using context epochs rather than only ID comparison. Preserve selected project/filter context when refreshing and never present withdrawal as rollback of committed database effects.",
+    "Real isolated PostgreSQL/API and Chromium tests cover new/legacy approvals, linking, immutable protected-state snapshots, repeated initialization/restart, strict/malformed/foreign/ungranted/archive/role/self/stale/state/executed negatives, corrupted-content withdrawal, one-event concurrent races, queued credential/grant/role rechecks, filtering/read privacy, fresh recovery and controlled delayed UI responses. Preserve focused failures with honest capture limits. Run required frozen standard/product/pinned-parser/browser regressions with no skipped required cases and proportionate independent review. Keep full GOV011 queued-job admission/worker controlled stop/HOLD/committed-effects acceptance and Oracle19c/21c unverified. Original220 contracts/dependencies, licenses/notices/pins and draft gates unchanged; independent merged-master branch without unmerged T24-T30 source prerequisites."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T31-API",
+    "SF-PRODUCT-T31-WEB",
+    "SF-PRODUCT-T31-PERSISTENCE"
+  ]
+};
+
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_31];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',
