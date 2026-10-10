@@ -1,0 +1,23 @@
+{
+  "task": "SF-PRODUCT-T35",
+  "head": "a01ada593fd111f4d6563502483ea0b32354185a",
+  "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "started_at": "2026-10-10T18:14:29.493094+00:00",
+  "limits": "Only T35 changed publication contents/incoming commits and local T34 observation metadata beyond published draft47; prior scans/evidence reused. No all-history clean or remote security-gate PASS.",
+  "scope": "Incoming T35 commits only: 9d6deff83ea1373bdf3fccc77c653500e70620da..a01ada593fd111f4d6563502483ea0b32354185a",
+  "base": "9d6deff83ea1373bdf3fccc77c653500e70620da",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "git",
+    ".",
+    "--log-opts=9d6deff83ea1373bdf3fccc77c653500e70620da..a01ada593fd111f4d6563502483ea0b32354185a",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-t35-incoming-private.json"
+  ],
+  "finished_at": "2026-10-10T18:14:30.175866+00:00",
+  "scanner_exit_code": 1,
+  "finding_count": 11,
+  "private_report_sha256": "2b52abcce8cb91bc3f4c4010c6be55b2ee2642574fb590735ca021f5caac64c5"
+}
