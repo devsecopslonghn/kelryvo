@@ -1,0 +1,22 @@
+{
+  "task": "SF-PRODUCT-T34",
+  "recorded_at": "2026-10-10T17:20:53.118610+00:00",
+  "base": "65207e161df90377facd0eb254da265acd869dbe",
+  "head": "2279fa256630d9ef0de08d9158e5fd3969141c40",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "git",
+    ".",
+    "--log-opts=65207e161df90377facd0eb254da265acd869dbe..2279fa256630d9ef0de08d9158e5fd3969141c40",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-t34-correction-annotation-private.json"
+  ],
+  "scanner_exit_code": 0,
+  "finding_count": 0,
+  "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "scope": "Only final corrected publication review/scan annotation and continuation housekeeping after prior scoped correction scans; no source/test change.",
+  "limits": "No all-history clean or remote security/protection acceptance; this result added afterward."
+}
