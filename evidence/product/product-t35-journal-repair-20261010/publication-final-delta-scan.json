@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-10-10T19:03:25.549750+00:00",
+  "scope": "Only actual newly staged9 raw logs and2 scan/classification annotations after98bb849. Prior3/4 source-checksum findings not rescanned or suppressed.",
+  "exit_code": 0,
+  "findings": 0,
+  "paths_sha256": {
+    "evidence/product/product-t35-journal-repair-20261010/browser-final.log": "bc0cbbeb7d24cc1a23e76fb8c4c1d706b4afc82c6cf90634700d277f0ed04788",
+    "evidence/product/product-t35-journal-repair-20261010/focused-corrected.log": "1359dda507ef6ff1a4ebd3ab71f9771391b16569cfa26935d158fe52d56fe8ef",
+    "evidence/product/product-t35-journal-repair-20261010/focused-legacy-corrected.log": "a515cc1be357b0d0cc65e009417d275d1a55953b8d82ed4d0f55c54dcbf0c383",
+    "evidence/product/product-t35-journal-repair-20261010/focused.log": "ce15a6d100aaa0af6dc86ee3886eaa8978ec84ab8201a3d23a524fa611f3350e",
+    "evidence/product/product-t35-journal-repair-20261010/product-final.log": "3f64a7cb87c81053036547aaeed7271a7e32c9ca89c2f9f7bf32a1c1b01eeac8",
+    "evidence/product/product-t35-journal-repair-20261010/publication-classification.json": "c33a8502c1e428c80b3ac81d7b7b72089f6a7cbc00b67c27d281cb95759a5402",
+    "evidence/product/product-t35-journal-repair-20261010/publication-incoming-scan.json": "89c78698f9d825eba1da42a870073170d9b43a0a03f840aae5a422d5f454551c",
+    "evidence/product/product-t35-journal-repair-20261010/regression-before.log": "2ce7d86639d9ea7ca9a1bd8db26dc9da8fec3ce21f36665a38f1327e235b5d67",
+    "evidence/product/product-t35-journal-repair-20261010/regression-defect.log": "6dc47b79b5854d8c4b6958768ee1cb169c70bc84d33b6b5af6892d504f57724d",
+    "evidence/product/product-t35-journal-repair-20261010/standard-final.log": "272f33171c9a4773988d4e2553798fef87203f106d8481fa8a56c26d1a9b3759",
+    "evidence/product/product-t35-journal-repair-20261010/standard.log": "07f8a1d2c776829ed3f042a4a68144f43a9330ed4bbc880d57dcb00d4b0051bc"
+  },
+  "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "limits": "This generated bounded summary is manually reviewed after scan; not a whole-history or remote security PASS."
+}

@@ -1,0 +1,39 @@
+{
+  "reviewer": "/root/integration_review",
+  "reviewed_source": "1d428b416f76df65659aff1f30bb1b0c250fb6a7",
+  "reviewed_metadata_head": "98bb849b7a3f75210b7a3005ad00447660f0cdd0",
+  "recorded_at": "2026-10-10T19:03:24.927213+00:00",
+  "raw_scans": {
+    "contents": {
+      "exit_code": 1,
+      "findings": 3
+    },
+    "incoming": {
+      "exit_code": 1,
+      "findings": 4
+    }
+  },
+  "classification": "Every exact finding is a source-file SHA256 annotation matching the frozen Git blob; the incoming scan also flags the repeated annotation in the content-scan record. No actual credential is represented. Raw nonzero results retained, never scanner PASS.",
+  "locations": [
+    "independent-review.json:9",
+    "record.json:36",
+    "record.json:37",
+    "publication-content-scan.json:62"
+  ],
+  "checks": [
+    "All19 source/pin hashes independently match frozen source.",
+    "Allthree final log hashes match record; 192/55/31 passed, zero failures/cancellations/skips.",
+    "README startup commands agree with package scripts/CLI and preserve target-execution limits."
+  ],
+  "source_checksum_proofs": [
+    {
+      "path": "scripts/local-credential-operator.mjs",
+      "sha256": "c3a99f46577a6bba190c9a6508d383e0907591a687ffdaac4b332667a16b272d"
+    },
+    {
+      "path": "packages/database/local-credentials.ts",
+      "sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a"
+    }
+  ],
+  "limits": "No remote security-service PASS, no whole-history clean; newly staged raw-log/annotation delta and actual PR CI pending."
+}
