@@ -71,6 +71,14 @@ test('retained release detail keeps bounded historical diagnostics and rejects u
     assert.equal(unavailableDetail.json().release.validationStatus, 'UNAVAILABLE');
     parserUnavailable = false;
     const source = (await db.sql`SELECT * FROM sf_releases WHERE id=${id}`)[0];
+    const changedFiles = structuredClone(source.files);
+    changedFiles[0].content += 'tampered';
+    await db.sql`UPDATE sf_releases SET files=${db.sql.json(changedFiles)} WHERE id=${id}`;
+    const changedDetail = await req('GET', `/api/releases/${id}`);
+    assert.equal(changedDetail.statusCode, 200, changedDetail.body);
+    assert.deepEqual(changedDetail.json().release.files, changedFiles,
+      'bounded historical display preserves stored facts without attesting source/hash/byte-count integrity');
+    await db.sql`UPDATE sf_releases SET files=${db.sql.json(source.files)} WHERE id=${id}`;
     const diagnosticFiles = structuredClone(source.files);
     diagnosticFiles[0].version = '999999999999999999999999999999999999999999';
     diagnosticFiles[0].content = `${diagnosticFiles[0].content}\n-- café исторический`;

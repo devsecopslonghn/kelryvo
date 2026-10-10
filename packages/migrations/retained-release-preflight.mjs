@@ -55,9 +55,7 @@ export async function preflightHistoricalRelease(tx, { id, organizationId, proje
         OR COALESCE(jsonb_typeof(item->'validationStatus'),'') NOT IN ('string','null')
         OR COALESCE(item->>'validationStatus','NOT_VALIDATED') NOT IN ('VALID','INVALID','UNAVAILABLE','NOT_VALIDATED')
         OR COALESCE(jsonb_typeof(item->'content'),'')<>'string'
-        OR COALESCE(octet_length(item->>'content'),0) NOT BETWEEN 1 AND ${MAX_INPUT_BYTES}
-        OR COALESCE((CASE WHEN jsonb_typeof(item->'bytes')='number' AND char_length(item->>'bytes') BETWEEN 1 AND 7
-          AND item->>'bytes' ~ '^[0-9]{1,7}$' THEN (item->>'bytes')::integer END),0) <> octet_length(item->>'content')) invalid_files,
+        OR COALESCE(octet_length(item->>'content'),0) NOT BETWEEN 1 AND ${MAX_INPUT_BYTES}) invalid_files,
     (SELECT count(DISTINCT item->>'path')::int FROM jsonb_array_elements(CASE WHEN jsonb_typeof(files)='array' THEN files ELSE '[]'::jsonb END) e(item)) distinct_paths
     FROM sf_releases WHERE id=${id} AND organization_id=${organizationId}
       AND (${projectId ?? null}::uuid IS NULL OR project_id=${projectId ?? null}::uuid) FOR SHARE`)[0];
