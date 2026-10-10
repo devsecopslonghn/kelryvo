@@ -1,0 +1,94 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: approved Git request reaches controlled worker/history; uncertainty and revoked authority never replay
+    # Subtest: explicit host boundary and complete immutable statement sequence
+    ok 1 - explicit host boundary and complete immutable statement sequence
+      ---
+      duration_ms: 15840.586785
+      type: 'test'
+      ...
+    # Subtest: exact applied history is a witnessed NOOP; partial/malformed history is declined
+    ok 2 - exact applied history is a witnessed NOOP; partial/malformed history is declined
+      ---
+      duration_ms: 41358.599815
+      type: 'test'
+      ...
+    # Subtest: unknown result, missing receipt, permit loss and invalid postconditions stop with HOLD
+    ok 3 - unknown result, missing receipt, permit loss and invalid postconditions stop with HOLD
+      ---
+      duration_ms: 26158.602734
+      type: 'test'
+      ...
+# deploy-revoke complete
+# deploy-grant complete
+# deploy-revoke complete
+# deploy-grant complete
+    # Subtest: grant/source/assignment mutation before admission leaves no proof; revocation after an effect stops
+    ok 4 - grant/source/assignment mutation before admission leaves no proof; revocation after an effect stops
+      ---
+      duration_ms: 20806.372563
+      type: 'test'
+      ...
+# deploy-revoke complete
+# deploy-grant complete
+    # Subtest: schema contention does not hold global governance and assignment/API work completes
+    ok 5 - schema contention does not hold global governance and assignment/API work completes
+      ---
+      duration_ms: 5254.825501
+      type: 'test'
+      ...
+    # Subtest: concurrent declaration service/schema locks serialize before execution and governance
+    ok 6 - concurrent declaration service/schema locks serialize before execution and governance
+      ---
+      duration_ms: 5318.359004
+      type: 'test'
+      ...
+# deploy-grant complete
+    # Subtest: revocation waits for the guarded target call and prevents the next statement
+    ok 7 - revocation waits for the guarded target call and prevents the next statement
+      ---
+      duration_ms: 5268.049643
+      type: 'test'
+      ...
+    # Subtest: lost admission COMMIT acknowledgement recovers expiry to HOLD without target calls or another claim
+    ok 8 - lost admission COMMIT acknowledgement recovers expiry to HOLD without target calls or another claim
+      ---
+      duration_ms: 6201.274011
+      type: 'test'
+      ...
+    # Subtest: legacy requests are read-only and browser child authority includes its parent lifecycle
+    ok 9 - legacy requests are read-only and browser child authority includes its parent lifecycle
+      ---
+      duration_ms: 5168.071361
+      type: 'test'
+      ...
+    # Subtest: credential revocation after possible effect preserves receipts and halts later dispatch
+    ok 10 - credential revocation after possible effect preserves receipts and halts later dispatch
+      ---
+      duration_ms: 5170.157061
+      type: 'test'
+      ...
+    # Subtest: restore generation stops dispatch and preserves unresolved metadata until recovery
+    ok 11 - restore generation stops dispatch and preserves unresolved metadata until recovery
+      ---
+      duration_ms: 10392.793364
+      type: 'test'
+      ...
+    1..11
+ok 1 - approved Git request reaches controlled worker/history; uncertainty and revoked authority never replay
+  ---
+  duration_ms: 163000.087912
+  type: 'test'
+  ...
+1..1
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 163234.163681

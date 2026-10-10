@@ -21,7 +21,7 @@ export function createExecutionJobStore(sql: any, workerId: string, options: { a
       VALUES(${randomUUID()},${attempt.id},${Number(last.revision)+1},${phase},${ordinal},${digest}) RETURNING id,revision`)[0];
   return {
     /** Only trusted validated admissions are claimable by default. UNIT fixtures opt in explicitly. */
-    async claim(jobId: string, leaseSeconds = 30) {
+    async claim(jobId: string, leaseSeconds = 30, recoverOnly = false) {
       if (typeof jobId !== 'string' || !/^[0-9a-f-]{36}$/i.test(jobId) || !Number.isSafeInteger(leaseSeconds) || leaseSeconds < 1 || leaseSeconds > 300) return null;
       return sql.begin(async (tx: any) => {
         const job = (await tx`SELECT j.id,j.state,j.admission_scope,j.admission_statement_count,j.approval_reference,j.intent_digest,j.project_id,j.plan_id,j.requester_id
@@ -50,6 +50,9 @@ export function createExecutionJobStore(sql: any, workerId: string, options: { a
           }
           return null;
         }
+        // Trusted admission commits the first claim atomically under the host's
+        // continuously held mutex. A restart can recover expiry, never reclaim it.
+        if (recoverOnly || job.admission_scope === 'TRUSTED_VALIDATED') return null;
         const current = (await tx`SELECT p.id FROM sf_plans p JOIN sf_projects pr ON pr.id=p.project_id
           JOIN sf_execution_admission_proofs proof ON proof.job_id=${job.id} AND proof.project_id=p.project_id AND proof.plan_id=p.id
           JOIN sf_profiles profile ON profile.id=p.profile_id AND profile.project_id=p.project_id

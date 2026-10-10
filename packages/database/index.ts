@@ -328,12 +328,27 @@ export async function initializeDatabase(sql: any, options: { initializeMetadata
           OR NEW.approval_reference IS DISTINCT FROM OLD.approval_reference OR NEW.intent_digest IS DISTINCT FROM OLD.intent_digest
           OR NEW.requester_id IS DISTINCT FROM OLD.requester_id OR NEW.idempotency_key IS DISTINCT FROM OLD.idempotency_key
           OR NEW.payload_digest IS DISTINCT FROM OLD.payload_digest OR NEW.reason IS DISTINCT FROM OLD.reason
-          OR NEW.admission_scope IS DISTINCT FROM OLD.admission_scope OR NEW.admission_statement_count IS DISTINCT FROM OLD.admission_statement_count
-          OR NEW.readiness IS DISTINCT FROM OLD.readiness OR NEW.created_at IS DISTINCT FROM OLD.created_at THEN
+          OR NEW.request_credential_id IS DISTINCT FROM OLD.request_credential_id
+          OR NEW.created_at IS DISTINCT FROM OLD.created_at THEN
+          RAISE EXCEPTION 'execution job identity is immutable';
+        END IF;
+        IF OLD.state='WAITING_VALIDATION' AND NEW.state='ADMITTED' THEN
+          IF OLD.admission_scope<>'PRODUCT_REQUEST' OR OLD.admission_statement_count IS NOT NULL
+            OR OLD.request_credential_id IS NULL OR NEW.admission_scope NOT IN ('TRUSTED_VALIDATED','UNIT_SYNTHETIC')
+            OR NEW.admission_statement_count IS NULL OR NEW.readiness<>'ADMISSION_VALIDATED'
+            OR NOT EXISTS(SELECT 1 FROM sf_execution_admission_proofs p
+              WHERE p.job_id=OLD.id AND p.scope=NEW.admission_scope AND p.approval_reference=OLD.approval_reference
+                AND p.intent_digest=OLD.intent_digest AND p.authorized_credential_id=OLD.request_credential_id
+                AND p.host_binding->>'statementCount'=NEW.admission_statement_count::text) THEN
+            RAISE EXCEPTION 'execution admission proof required';
+          END IF;
+        ELSIF NEW.admission_scope IS DISTINCT FROM OLD.admission_scope
+          OR NEW.admission_statement_count IS DISTINCT FROM OLD.admission_statement_count
+          OR NEW.readiness IS DISTINCT FROM OLD.readiness THEN
           RAISE EXCEPTION 'execution job identity is immutable';
         END IF;
         IF NEW.revision <> OLD.revision+1 OR NOT (
-          (OLD.state='WAITING_VALIDATION' AND NEW.state IN ('CANCELLED','HOLD')) OR
+          (OLD.state='WAITING_VALIDATION' AND NEW.state IN ('ADMITTED','CANCELLED','HOLD')) OR
           (OLD.state='ADMITTED' AND NEW.state IN ('HOLD','NOOP','VERIFIED_SUCCESS'))
         ) THEN RAISE EXCEPTION 'illegal execution job projection transition'; END IF;
         RETURN NEW;
@@ -362,6 +377,19 @@ export async function initializeDatabase(sql: any, options: { initializeMetadata
       FOREIGN KEY(target_assignment_id,organization_id,project_id) REFERENCES sf_reference_assignments(id,organization_id,project_id),
       CHECK(scope='UNIT_SYNTHETIC' OR target_assignment_id IS NOT NULL)
     );
+    ALTER TABLE sf_execution_jobs ADD COLUMN IF NOT EXISTS request_credential_id uuid;
+    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_constraint WHERE conname='sf_execution_request_credential') THEN
+      ALTER TABLE sf_execution_jobs ADD CONSTRAINT sf_execution_request_credential
+        FOREIGN KEY(request_credential_id,requester_id) REFERENCES sf_local_credentials(id,actor_id);
+    END IF; END $$;
+    ALTER TABLE sf_execution_jobs DROP CONSTRAINT IF EXISTS sf_execution_jobs_readiness_check;
+    ALTER TABLE sf_execution_jobs ADD CONSTRAINT sf_execution_jobs_readiness_check
+      CHECK(readiness IN ('TARGET_HISTORY_UNAVAILABLE','ADMISSION_VALIDATED'));
+    ALTER TABLE sf_execution_admission_proofs ADD COLUMN IF NOT EXISTS host_binding jsonb;
+    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_constraint WHERE conname='sf_execution_host_binding_bounded') THEN
+      ALTER TABLE sf_execution_admission_proofs ADD CONSTRAINT sf_execution_host_binding_bounded
+        CHECK(host_binding IS NULL OR (jsonb_typeof(host_binding)='object' AND octet_length(host_binding::text)<=8192));
+    END IF; END $$;
     CREATE OR REPLACE FUNCTION sf_reject_execution_proof_mutation() RETURNS trigger LANGUAGE plpgsql AS $$
       BEGIN RAISE EXCEPTION 'execution admission proofs are immutable'; END $$;
     DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_execution_admission_proofs_immutable') THEN

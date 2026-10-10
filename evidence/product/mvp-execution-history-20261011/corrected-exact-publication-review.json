@@ -1,0 +1,37 @@
+{
+  "head": "a97e7110d8ee1cd47dee9f27d713b3bc45e36eba",
+  "recorded_at": "2026-10-10T21:45:08.918093+00:00",
+  "reviewer": "native /root/integration_review",
+  "outcome": "APPROVED_EXACT_SOURCE_SECURITY_LICENSE_PUBLICATION_SUBJECT_FULL_CI",
+  "verified_hashes": 20,
+  "notes": "15prior runtime/source/pin/license +2correction source +3correction logs match. No assertions removed or Oracle/runtime claims. Scoped11file correction scan exit0/findings0; prior00dscan exit1/3 exact digest classifications remain. Corrected full6CI running, not yet PASS. Whole original PR job ~29minutes, browserstage ~14minutes; bounded40minute job keeps all gates.",
+  "prior_pr49_master_final_ci": [
+    {
+      "conclusion": "success",
+      "databaseId": 38086379091,
+      "event": "push",
+      "headSha": "7ac6b711036ae484ee9a273cb85b99ecd82e44e3",
+      "name": "Offline WP0 checks",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38086379091"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38086379138,
+      "event": "push",
+      "headSha": "7ac6b711036ae484ee9a273cb85b99ecd82e44e3",
+      "name": "Offline ANTLR parser acceptance",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38086379138"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38086379210,
+      "event": "push",
+      "headSha": "7ac6b711036ae484ee9a273cb85b99ecd82e44e3",
+      "name": "Local PRODUCT acceptance",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38086379210"
+    }
+  ]
+}

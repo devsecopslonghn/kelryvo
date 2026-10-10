@@ -3,7 +3,7 @@ import { spawnSync } from 'node:child_process';
 import { readFile, lstat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ANTLR_PROFILE, MAX_INPUT_BYTES, MAX_STDOUT_BYTES, classifySpawnFailure, validateResponse } from './parser-envelope.mjs';
+import { ANTLR_PROFILE, MAX_INPUT_BYTES, MAX_STDOUT_BYTES, classifySpawnFailure, validateResponse, validateExecutionResponse } from './parser-envelope.mjs';
 
 export const PROFILE = ANTLR_PROFILE;
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -26,6 +26,15 @@ async function checkedArtifact(relativePath, expectedHash) {
 
 /** Bounded offline helper. Never returns or logs subprocess SQL/stdout/stderr. */
 export async function runAntlrCandidate(rawValue) {
+  return runCheckedHelper(rawValue, validateResponse);
+}
+
+/** Private worker materialization; never expose this projection through API previews. */
+export async function runAntlrExecutionCandidate(rawValue) {
+  return runCheckedHelper(rawValue, validateExecutionResponse);
+}
+
+async function runCheckedHelper(rawValue, validate) {
   const raw = Buffer.from(rawValue);
   if (raw.length > MAX_INPUT_BYTES) return fail('input_too_large');
   let registry, jar, runtime;
@@ -49,5 +58,5 @@ export async function runAntlrCandidate(rawValue) {
     });
   } catch { return fail('helper_launch_failed'); }
   if (result.error) return fail(classifySpawnFailure(result.error));
-  return validateResponse(raw, result.status, result.stdout ?? Buffer.alloc(0), result.stderr ?? Buffer.alloc(0), PROFILE);
+  return validate(raw, result.status, result.stdout ?? Buffer.alloc(0), result.stderr ?? Buffer.alloc(0), PROFILE);
 }

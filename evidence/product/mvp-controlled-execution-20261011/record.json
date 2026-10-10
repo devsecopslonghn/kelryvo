@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "outcome": "PASS",
+  "source_head": "513bdfb91382592b9f7b9d76deea91611e24ac46",
+  "recorded_at_utc": "2026-10-10T23:11:32.170621+00:00",
+  "scope": "PRODUCT",
+  "source_hashes": {
+    "apps/api/index.ts": "87214688461ae966a06942991771d1c727d6e8c39b70b4cc2123ce5568a3e557",
+    "apps/worker/run-request.ts": "61f7853b8b4f5577586159ec537c611aa097fc0aa8879d3bf3b1ce1bd51d181f",
+    "packages/execution/admission.ts": "9799e1c1295d44dffd7376f7ad77d0a71dec488d606e438ea9a2a14eae9a475d",
+    "packages/execution/statements.mjs": "6b9b9bfc7d2de0814a5fc7a1eb1519af81c1cecf3ac89fa5b13039d48a48d407",
+    "packages/execution/postgres-jobs.ts": "3868d54e39cebd58df11d5071e2c9f0be0d29b4614e3e6653a3bc639a985ce4c",
+    "packages/database/index.ts": "c769d536aaf26e5174847cfe889215e8fbc955e30e0187e0a919f8e5b7f41272",
+    "packages/backup/index.mjs": "07f4c7d6c5f545edc62f8906764ddb874383444b6926c4bb3aba2ab05695937f",
+    "experiments/db-devops-wp0/parser-envelope.mjs": "b6bf3f73cd252ea04004e721c044b5ae67fd61d70334c72004e3bc93f1b428b4",
+    "experiments/db-devops-wp0/antlr-envelope.mjs": "760ea849e7f9b8bd08a7f2dbce59569e7d2ae7e8499c61338e5de195cf27f02a",
+    "tests/product-controlled-execution.test.mjs": "b190a6224a954c4dbf71101e77a0758d886f36706f9cf3362fde44188afcb6ce",
+    "tests/helpers/statement-envelope-fixture.mjs": "7e1a37bf92da77108c0b15d54767b49804cff482c352e4c96cbcbbe1f6c75ce4",
+    "tests/parser-envelope.test.mjs": "ed29a965c243d7cab97e8a3278ffe0849975e731bbd7936f3ed95a3518b81e1e",
+    "scripts/test-product.mjs": "8ed89ffc017caf19e7e96bbb8dae476a71f79b988a7de1be521a2a34eb6717b4",
+    "package.json": "f2e8e1c4e849e7596baf135ffa9976e001ca9157b66bd1c8ba1808848a7709f4",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+    "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e"
+  },
+  "checks": [
+    {
+      "command": "node --test tests/product-controlled-execution.test.mjs with disposable PostgreSQL, pinned Java and REQUIRE_PRODUCT_TESTS=1",
+      "exit_code": 0,
+      "tests": 12,
+      "pass": 12,
+      "fail": 0,
+      "skipped": 0,
+      "log": "focused-final.log"
+    },
+    {
+      "command": "node --test tests/product-backup-restore.test.mjs with disposable PostgreSQL, pinned Java and REQUIRE_PRODUCT_TESTS=1",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "log": "native-backup-final.log"
+    },
+    {
+      "command": "node --test tests/product-execution-jobs.test.mjs (affected combined run)",
+      "exit_code": 0,
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "note": "Two old-store/schema-upgrade cases PASS in /tmp/schemaforge-controlled-affected.log; that combined process exited1 on superseded new-test fixtures, not a clean full affected run."
+    },
+    {
+      "command": "npm run check without optional database env",
+      "exit_code": 0,
+      "tests": 198,
+      "pass": 154,
+      "fail": 0,
+      "skipped": 44,
+      "log": "standard-check.log",
+      "note": "Run preceded final parent-row SHARE and fixture corrections; final typecheck and12focused tests cover corrected source. Exact publication foundation/parser/product CI remains mandatory."
+    },
+    {
+      "command": "npm run typecheck on final source",
+      "exit_code": 0,
+      "log": "final-typecheck.log"
+    }
+  ],
+  "corrections": [
+    "Independent review: catalog declaration31 then schema assignment29 then global governance2 before row locks prevents assignment and declaration cycles.",
+    "Authority transaction remains open through target dispatch and successful terminal validity/projection commit.",
+    "Browser authority checks idle/absolute lifetime and active LOCAL parent, with parent row share lock.",
+    "Fixture LOCAL issue/expiry fields obey exact24hour constraint; revocation wait test calls actual operator mutation on preinitialized metadata to observe governance instead of CLI startup DDL.",
+    "Negative worker cases clone one real API request in the owned UNIT database; avoid re-running unchanged API/parser requests. All gates and assertions remain."
+  ],
+  "licensing": {
+    "packages": 85,
+    "unknown_required_grants": 0,
+    "pins_license_notice_unchanged": true
+  },
+  "oracle_runtime": "BLOCKED_EXTERNAL_NO_AUTHORIZED_ENVIRONMENT",
+  "remote_ci": "PENDING",
+  "log_sha256": {
+    "focused-final.log": "e061f0129c65a0d29a19778106ec30bed5652546a6cdd7f8829c98ab2a2d7844",
+    "native-backup-final.log": "ed7511040db5a348ddc820447879a02c83ae2f6a1f4b3c7301603386e79bffd8",
+    "standard-check.log": "d56c4c8c1af981d2aac8cd2b7b1a84fce53061e712b694ce9e1391f2d552d7a4",
+    "final-typecheck.log": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1",
+    "superseded-fixture-failures.log": "7617e08e920812baf79dafb4807b445f0c6bb1cf156aaa4e3f9ca3c7d4cce9b6"
+  },
+  "boundary_note": "Synthetic host-port Git→approval→request→controlled admission/execution→central history on disposable PostgreSQL; no Oracle calls, adapter, credential resolution, target reconciliation or runtime acceptance.",
+  "verification_status": "LOCAL_PASS_FINAL_REMOTE_CI_PENDING",
+  "id": "mvp-controlled-execution-local-verified",
+  "subject_id": "SF-PRODUCT-T33",
+  "kind": "UNIT",
+  "command": "Corrected12case controlled-host PostgreSQL workflow,4native backup/restore, final typecheck; prior standard154PASS44optionalSKIP. Frozen source513bdfb; remote CI pending separately. Oracle runtime not validated.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [
+    "SF-PRODUCT-T33-API"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/mvp-controlled-execution-20261011/focused-final.log",
+    "sha256": "e061f0129c65a0d29a19778106ec30bed5652546a6cdd7f8829c98ab2a2d7844"
+  }
+}

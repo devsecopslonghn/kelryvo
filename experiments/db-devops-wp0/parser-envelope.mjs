@@ -94,6 +94,17 @@ export function validateResponse(rawValue, exitCode, stdoutValue, stderrValue = 
   return exitCode === 2 ? validateStop(response, profile) : validateParse(raw, response, exitCode, profile);
 }
 
+/** Worker-only projection of bytes already checked by the same bounded protocol.
+ * Parser output remains offline evidence and grants no dispatch authority.
+ */
+export function validateExecutionResponse(rawValue, exitCode, stdoutValue, stderrValue = Buffer.alloc(0), profile = PROFILE) {
+  const result = validateResponse(rawValue, exitCode, stdoutValue, stderrValue, profile);
+  if (!result.ok || result.kind !== 'PARSE') return result;
+  const response = JSON.parse(Buffer.from(stdoutValue).toString('utf8'));
+  return { ...result, statements: result.statements.map((statement, index) => ({ ...statement,
+    executionBytes: Buffer.from(response.statements[index].execution_sql, 'utf8') })) };
+}
+
 /** Invoke the pinned local helper with bounded resources. Never returns stdout/stderr contents. */
 export async function runCandidate(rawValue) {
   const raw = Buffer.from(rawValue);

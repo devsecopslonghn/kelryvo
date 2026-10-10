@@ -60,9 +60,8 @@ durable ordered receipts, and holds on ambiguity without automatic replay. Synth
 are UNIT-only and do not attest Oracle execution, production worker isolation or target identity.
 The PostgreSQL admission-proof row is an immutable expected-binding record, not an execution
 permission by itself. It cannot establish current target identity, history, mutex ownership,
-validity or central evidence. Only a separately trusted worker admission producer and its
-injected live-check ports could supply those attestations; no such production producer or
-Oracle adapter is included here. Receipt and validity projections must match the recorded
+validity or central evidence. The restricted worker admission producer requires explicitly installed host/session
+capabilities for live attestations. No Oracle adapter or deployable host is included here. Receipt and validity projections must match the recorded
 expected digests, while the kernel rechecks the live trusted ports before dispatch and finish.
 If a claim or HOLD projection fails without commit confirmation, the kernel reports
 `HOLD_PERSISTENCE_PENDING` for operator recovery; it does not claim that HOLD was durably
@@ -85,4 +84,25 @@ Historical format-1 envelopes and file-only approvals remain immutable and reada
 execution requests require a fresh format-2 plan and independent approval. The scoped
 paged identity view provides offline review evidence only. These digests and readiness
 labels never substitute for current target history, trusted host, mutex or dispatch
-permit; actual execution admission remains unavailable.
+permit. The worker bridge can admit only with installed host capabilities; the API and
+default local startup retain request-only behavior.
+
+
+`apps/worker/run-request.ts` holds the host session/mutex/dispatch permit continuously
+through observation, atomic proof/admission/initial-claim commit, statement dispatch and
+terminal projection. Catalog declaration advisory serialization precedes schema assignment and global governance serialization
+and plan/project/job row locks. Each dispatch rechecks active metadata generation, original
+presenting credential (including browser parent and expiry), explicit membership/deploy grant,
+independent approval, source binding, profile, exact retained content and host permit.
+The dispatch check and target call share a transaction holding those authority locks;
+successful terminal evidence/projection also commit under the checked locks. In-flight
+revocation waits for the current call and prevents a subsequent statement. Host calls must
+be bounded and must never await a governance mutation blocked by their own dispatch guard.
+Only full ordered EMPTY history or witnessed EXACT_APPLIED with no pending statements is
+admissible; partial/unknown histories decline without creating authority. NOOP still needs
+postconditions and central evidence. Unknown effects, receipt gaps or revoked authority
+produce HOLD. A lost admission COMMIT acknowledgment is unresolved until explicit expiry
+recovery; it never becomes an undispatched decline or a new dispatch claim. UNIT hosts require
+an explicit option and remain UNIT_SYNTHETIC. Historical requests missing presenting credential
+identity remain readable but cannot be promoted automatically. No new target reconciliation
+or recovery-release authority is inferred from these metadata contracts.
