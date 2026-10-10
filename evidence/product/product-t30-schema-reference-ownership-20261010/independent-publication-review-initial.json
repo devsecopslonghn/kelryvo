@@ -1,0 +1,123 @@
+{
+  "reviewed_candidate_head": "53245c51d69cd0421da6876ab4f2b0e423fce35e",
+  "parent": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "source_unchanged_since": {
+    "source_commit": "af707b4fd08074c6109cae4c8c08c011fa82d597",
+    "changed_source_path_count": 14,
+    "all_source_blob_hashes_match_source_and_candidate": true,
+    "mismatched_source_paths": []
+  },
+  "metadata_file_sha256_git_blobs": {
+    "evidence/product/product-t30-schema-reference-ownership-20261010/publication-scan.json": "a8982d7344e03f739bad596d11d0d403dd95097df35876fdea2eb0046fc92e92",
+    "evidence/product/product-t30-schema-reference-ownership-20261010/independent-review-final-source.json": "853faf416453584e982b7b794133733985afe94b5786c4a761a1630488aaf43f",
+    "evidence/product/product-t30-schema-reference-ownership-20261010/record.json": "c1bf069548f688a179b3ef2e3b2cf5017da1e24644c76f426cde7a8ca6ef355e",
+    "evidence/product/product-t30-schema-reference-ownership-20261010/standard.json": "03c7326d127177ffae5037176e3292af1f1b4678b466f14399b721be214e129e",
+    "evidence/product/product-t30-schema-reference-ownership-20261010/standard.log": "8fcf50d8aa910ecd2aec7212fc3bad32a75c04334e4a70d6d96f3043df146eb6",
+    "evidence/product/product-t30-schema-reference-ownership-20261010/product.json": "efb85164e1138432fb2c84a72104a5cb6616182a57e17ef1810dab382bd3488b",
+    "evidence/product/product-t30-schema-reference-ownership-20261010/product.log": "8391ca9bb190f3ac51e6a45a3aa17536a969cf7715aa6f6a8420c2cbd0fa27d0",
+    "evidence/product/product-t30-schema-reference-ownership-20261010/browser.json": "e088010d0cd8d9ad1fdf807c3d9c150519179315fe5ee28db271be4f6c80b7e3",
+    "evidence/product/product-t30-schema-reference-ownership-20261010/browser.log": "822bc5fa4a946c2c0d98273879ff45a91e311a0b017ce5ae153163b305c07d86",
+    "evidence/product/product-t30-schema-reference-ownership-20261010/focused-observations.json": "a050d04911586adde7e2fcc9f6973ea975291fae3cf09d2cefe1e834bd954567",
+    "evidence/product/product-t30-schema-reference-ownership-20261010/tracker-registration.log": "5491962bbd5476dc8e71b0d917798dd9ccc4fdfd18465251ebe805ca933bd0d6",
+    "docs/implementation/backlog.json": "97a373b38f3bb26df6eeddf28eda1ee19ddcf6a847f6cd980b42a952487b95bb",
+    "docs/implementation/acceptance.json": "24ee9296add64dcd3c253c41a5d9b4b1d946f8740945af4c8cfd627ea640e6bf",
+    "docs/implementation/evidence-index.json": "3bcceea9b2010a0fe9ab5f336efab70030a0b1c233c9c3288ce885a3b263376e",
+    "docs/implementation/feature-coverage.json": "cf670bbc27eb8456adba0dfb34851fb1decb65301808ea9b304bbfb09fe1f815",
+    "docs/implementation/milestone.json": "fca5ec1ef419bbf4242620308c8f5ea0ce8de54ffe616c7541a3ab03dcd4381c",
+    "docs/implementation/CURRENT.md": "4ea84e425554db5cfd7a0afb51a21cd1cdfae57f3157ea07ae4668402a9bacd0",
+    "docs/implementation/CONTINUE.md": "4ea84e425554db5cfd7a0afb51a21cd1cdfae57f3157ea07ae4668402a9bacd0",
+    "docs/implementation/dependency-graph.json": "58cf0bff816b211fd55d189273a055d797ef3c5dfc5fed168f0d61fe65677838",
+    "docs/decisions/log.json": "dd5678a67d92370a46f56a9ed04fb0a0ddeb75bb2f3372f7b90d9e04d1cf15a0",
+    "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+    "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e",
+    "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  },
+  "publication_scan_binding": {
+    "path_count": 64,
+    "git_blob_hash_mismatches": [],
+    "all_hashes_valid": true,
+    "scope": "Changed T29 publication paths plus all new T29 evidence files; baseline/master history and retained-stack observations reused, not rescanned. Scan record itself added afterward.",
+    "all_25_raw_logs_included": true,
+    "scan_record_added_after_scan": true,
+    "finding_count": 0,
+    "scanner_exit_code": 0
+  },
+  "acceptance_and_coverage": {
+    "criterion_indexes": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "test_references": [
+      "SF-PRODUCT-T30-OPERATOR",
+      "SF-PRODUCT-T30-API",
+      "SF-PRODUCT-T30-WEB",
+      "SF-PRODUCT-T30-PERSISTENCE"
+    ],
+    "coverage_counts": {
+      "full": 0,
+      "partial": 43,
+      "not_implemented": 170,
+      "deferred": 7,
+      "total": 220
+    },
+    "DBM_001": "PARTIALLY_IMPLEMENTED",
+    "DBM_004": "NOT_IMPLEMENTED",
+    "DBM_007": "PARTIALLY_IMPLEMENTED",
+    "T30_status": "VERIFIED bounded local increment"
+  },
+  "recorded_runs": {
+    "standard": {
+      "tests": 160,
+      "pass": 160,
+      "fail": 0,
+      "skipped": 0
+    },
+    "product_parser": {
+      "tests": 36,
+      "pass": 36,
+      "fail": 0,
+      "skipped": 0
+    },
+    "chromium": {
+      "tests": 22,
+      "pass": 22,
+      "fail": 0,
+      "skipped": 0
+    },
+    "reviewer_ran_tests": false
+  },
+  "scope": {
+    "source_unchanged_since": "af707b4fd08074c6109cae4c8c08c011fa82d597",
+    "review_method": "Read-only Git-blob and metadata/evidence binding review; no tests or network probes run.",
+    "unchanged_from_master": [
+      "LICENSE",
+      "NOTICE",
+      "package.json",
+      "package-lock.json",
+      "docs/dependencies/antlr-parser-lock.json",
+      "docs/inputs/**"
+    ],
+    "external_gate_state": "Required GitHub code/secret scanning and branch protection unavailable; no merge/security PASS claim.",
+    "known_history": "Four original focused command mappings are explicitly WITHDRAWN_INCORRECT; originals preserved and corrected actual subtest paths recorded. Earlier uncaptured failures remain labeled historical observations.",
+    "known_diffcheck": "Three raw-log EOF blank-line warnings are reported by root as pre-existing and preserved byte-for-byte; this reviewer did not rerun diffcheck."
+  },
+  "findings": [
+    {
+      "id": "PUB-T30-001",
+      "severity": "LOW",
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/publication-scan.json",
+      "issue": "The scan manifest scope labels its target T29 although this candidate is SF-PRODUCT-T30 and 38 of its 64 hashed paths are T30 files. All 64 recorded Git-blob hashes validate, so this is a stale scope label rather than a hash mismatch.",
+      "action": "Correct the scope wording in a follow-up metadata revision and include that revision in the planned incoming-only scan; preserve the historical scan result and state that the scan manifest itself was added afterward."
+    }
+  ],
+  "limitations": [
+    "This review checks publication metadata, evidence provenance and task scope only; no implementation retest.",
+    "The changed-content scanner manifest covers 64 hashed paths but its scope label is stale (T29). The manifest itself was added afterward and is not included in its own path hash list.",
+    "No availability or readiness claim for Oracle identity/discovery/attestation, DBM-004, plan target use, external security gates, Sonar, deployment or merge eligibility."
+  ]
+}
