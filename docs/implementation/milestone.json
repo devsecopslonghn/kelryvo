@@ -206,7 +206,7 @@
   "foundation_evidence": {
     "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
   },
-  "current_phase": "MVP_INTEGRATION_CORRECTED_LOCAL_PASS_CI_PENDING",
+  "current_phase": "MVP_FOUNDATION_PREPARATION_INTEGRATED_EXECUTION_PENDING",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
@@ -220,38 +220,25 @@
     "node scripts/tracker.mjs status",
     "node scripts/tracker.mjs next"
   ],
-  "updated_at": "2026-10-10T18:59:51.196429+00:00",
+  "updated_at": "2026-10-10T19:44:41.853042+00:00",
   "final_check_evidence": {
-    "index_id": "product-t20-local-credential-lifecycle-local-verified"
+    "index_id": "product-t35-corrected-ci-mvp-integration-verified"
   },
   "final_check_manifest": "evidence/product/product-t20-root-20261009T142027Z/corrected-integration-record.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
   "latest_validated_master_before_this_increment": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
-  "last_merged_implementation_pr": 36,
-  "checkpoint_evidence": "evidence/product/product-t32-mvp-integration-20261010/record.json",
-  "implementation_prs_pending": [
-    37,
-    38,
-    39,
-    40,
-    41,
-    42,
-    43,
-    44,
-    45,
-    46,
-    47,
-    48
-  ],
+  "last_merged_implementation_pr": 48,
+  "checkpoint_evidence": "evidence/product/product-t35-journal-repair-20261010/integration-record.json",
+  "implementation_prs_pending": [],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "CORRECTED_LOCAL_PASS_EXACT_HEAD_CI_PENDING",
+  "current_increment_merge_status": "MERGED_CORRECTED_CI_MASTER_VERIFIED",
   "current_checkpoint_branch": "development/product-secure-sessions",
   "active_track": "PRODUCT",
   "tracks": {
@@ -266,7 +253,7 @@
       ]
     }
   },
-  "product_task_status": "T01_THROUGH_T22_MERGED_T23_THROUGH_T34_VERIFIED_LOCAL",
+  "product_task_status": "T01_THROUGH_T35_BOUNDED_PRODUCT_VERIFIED_INTEGRATED",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",
@@ -330,8 +317,8 @@
     }
   },
   "current_increment_pr": 48,
-  "current_increment_reviewed_head": "1d428b416f76df65659aff1f30bb1b0c250fb6a7",
-  "current_increment_merge_commit": null,
+  "current_increment_reviewed_head": "e4bd556cdf1e381c3978d5133b084443170eaefa",
+  "current_increment_merge_commit": "d3249fb7b42fe0468720eaa73421df444b708652",
   "t19_compatibility_decision": {
     "owner_approved_at_recorded_utc": "2026-10-09T12:37:42.238588+00:00",
     "legacy_pending_plan_without_verifiable_generation": "REQUIRE_FRESH_PLAN",
@@ -370,31 +357,39 @@
     "corrective_workflow_outcome": "PASS_ORIGINAL_FAIL_PRESERVED"
   },
   "publication_gate": {
-    "draft_only": true,
-    "merge_eligible": false,
-    "required_security_unavailable": true
+    "draft_only": false,
+    "merge_eligible": true,
+    "integration_complete": true,
+    "configured_required_contexts": [],
+    "optional_host_security": "UNAVAILABLE_NOT_PASS",
+    "actual_ci": "CORRECTED_HEAD_AND_MASTER_SUCCESS",
+    "ordinary_merge_no_bypass": true
   },
   "latest_merged_master_before_this_increment": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
-  "last_verified_master_evidence": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
-  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "last_verified_master_evidence": "evidence/product/product-t35-journal-repair-20261010/integration-record.json",
+  "verified_remote_master": "d3249fb7b42fe0468720eaa73421df444b708652",
   "carry_forward": {
-    "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-product-schema-reference-ownership",
-    "pr43_head": "72f5e07170e8c9ebac1c17ad00a609b8f7b5f1b5",
-    "t30_frozen_source": "af707b4fd08074c6109cae4c8c08c011fa82d597",
-    "t30_local_checkpoint": "69bbe8e",
-    "t30_checks": "160standard/36product-parser/22browser all0fail0skip; all six available foundation/parser/product push+PR CI SUCCESS at72f5e07",
-    "retained_stack_drafts": [
+    "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-product-secure-sessions",
+    "published_head": "e4bd556cdf1e381c3978d5133b084443170eaefa",
+    "verified_remote_master": "d3249fb7b42fe0468720eaa73421df444b708652",
+    "integrated_prs": [
       37,
       38,
       39,
-      40
-    ],
-    "independent_drafts": [
+      40,
       41,
       42,
-      43
+      43,
+      44,
+      45,
+      46,
+      47,
+      48
     ],
-    "coverage": "220:0full/43partial/170not implemented/7deferred; prior worktrees retain unmerged evidence."
+    "all_worktrees_preserved": true,
+    "coverage": "220:0full/48partial/165not/7deferred",
+    "next_outcome": "Versioned statement approval/readiness and existing journal visibility; no task IDs registered.",
+    "checkpoint_publication": "LOCAL_UNPUSHED_CONTINUATION_ONLY"
   },
   "t31_local_verification": {
     "record": "evidence/product/product-t31-approval-revocation-20261010/record.json",
@@ -424,8 +419,8 @@
     },
     "merge_eligible": false
   },
-  "next_milestone": "Finish corrected frozen T35 verification and integrate aggregate PR48 into master under actual gates; demonstrate local workflow.",
-  "current_increment_published_head": "628eb4630176728eee3bb08959194eaa580b00a3",
+  "next_milestone": "Complete a versioned approved statement envelope and truthful readiness/history using existing parser, intent and journal; trusted target execution remains externally blocked.",
+  "current_increment_published_head": "e4bd556cdf1e381c3978d5133b084443170eaefa",
   "t32_integration_sources": [
     {
       "pr": 40,
@@ -667,7 +662,7 @@
   },
   "t35_journal_repair": {
     "source_head": "1d428b416f76df65659aff1f30bb1b0c250fb6a7",
-    "status": "LOCAL_VERIFIED_EXACT_HEAD_CI_PENDING",
+    "status": "VERIFIED_INTEGRATED",
     "focused_tests": {
       "pass": 5,
       "fail": 0,
@@ -704,8 +699,12 @@
       "record": "evidence/product/product-t35-journal-repair-20261010/browser-ci-correction.json",
       "focused": "1pass0fail0skip",
       "first_candidate": "8560993 push3workflowsPASS; PR foundation/parserPASS productbrowser30/31FAIL",
-      "status": "FOCUSED_PASS_FINAL_CI_PENDING"
-    }
+      "status": "VERIFIED_FINAL_CI_MASTER_PASS",
+      "final_head": "e4bd556cdf1e381c3978d5133b084443170eaefa"
+    },
+    "published_head": "e4bd556cdf1e381c3978d5133b084443170eaefa",
+    "merged_master": "d3249fb7b42fe0468720eaa73421df444b708652",
+    "ci_record": "evidence/product/product-t35-journal-repair-20261010/integration-record.json"
   },
   "mvp_delivery": {
     "integration_pr": 48,
@@ -723,7 +722,7 @@
       46,
       47
     ],
-    "integration_status": "PENDING_CORRECTED_GATES",
+    "integration_status": "MERGED_MASTER_CI_VERIFIED",
     "working_local_workflows": [
       "loopback startup, fixed-role credentials, explicit project membership and Git binding",
       "retained SQL, pinned offline parser validation, offline plan/review/approval/revocation",
@@ -737,8 +736,8 @@
       "reproducible integrated release acceptance; packaging/public naming remain pending"
     ],
     "milestones": {
-      "M1": "LOCAL_WORKFLOW_PENDING_INTEGRATION",
-      "M2": "OFFLINE_WORKFLOW_PENDING_INTEGRATION",
+      "M1": "LOCAL_FOUNDATION_WORKFLOW_VERIFIED_INTEGRATED",
+      "M2": "OFFLINE_PREPARATION_REVIEW_WORKFLOW_VERIFIED_INTEGRATED",
       "M3": "ORCHESTRATION_PARTIAL_ORACLE_BLOCKED_EXTERNAL",
       "M4": "AUDIT_METADATA_RECOVERY_PARTIAL_RECONCILIATION_BLOCKED_EXTERNAL",
       "M5": "INCOMPLETE"
@@ -746,17 +745,32 @@
     "oracle_runtime": "BLOCKED_EXTERNAL_NO_AUTHORIZED_ENVIRONMENT",
     "shortest_next_path": [
       {
-        "outcome": "Restricted execution host wired to existing coordinator and supervisor",
-        "work": "Reuse immutable intent, persisted claims/leases, authorization checks, canonical mutex and receipt store; add host capability adapters and independently tested admission. Provisional schema references alone must never authorize a target."
+        "outcome": "Versioned approved statement envelope and explicit readiness before trusted admission",
+        "work": "Reuse pinned parser and retained release; bind every ordered ordinal/range/execution digest in a new immutable approval envelope. Preserve v1 historical bytes/approvals and require fresh approval. Keep requests WAITING_VALIDATION without trusted current target history, mutex/dispatch permit and host witness."
       },
       {
-        "outcome": "Truthful execution history and recovery",
-        "work": "Connect started/receipt/HOLD evidence to UI/API status and implement reconciliation decisions for unknown outcomes, without automatic ambiguous replay or clearing RESTORE_HOLD."
+        "outcome": "Visible execution attempt/receipt/HOLD history",
+        "work": "Expose existing scoped durable attempt/event/receipt facts through API/UI; test restart, expiry and ambiguous outcomes with explicitly UNIT ports. Preserve no-replay and RESTORE_HOLD; real target reconciliation remains BLOCKED_EXTERNAL."
       },
       {
         "outcome": "Reproducible MVP release acceptance",
         "work": "Demonstrate installation and Git-to-review/request/history on local PostgreSQL/Git/parser/HTTPS; validate Oracle execution only against an explicitly authorized runtime. Assemble source/notices and deployment artifacts under existing license."
       }
+    ],
+    "merged_master": "d3249fb7b42fe0468720eaa73421df444b708652",
+    "reconciled_prs": [
+      48,
+      47,
+      46,
+      45,
+      44,
+      43,
+      42,
+      41,
+      40,
+      39,
+      38,
+      37
     ]
   }
 }

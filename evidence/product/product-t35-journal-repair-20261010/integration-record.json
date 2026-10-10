@@ -1,0 +1,56 @@
+{
+  "id": "product-t35-corrected-ci-mvp-integration-verified",
+  "subject_id": "SF-PRODUCT-T35",
+  "kind": "STATIC",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact corrected published-head CI; independent cumulative source/security review; ordinary match-head merge; source-identical master CI and ancestor PR reconciliation",
+  "exit_code": 0,
+  "criterion_indexes": [
+    5
+  ],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t35-journal-repair-20261010/integration-result.json",
+    "sha256": "9429fde4a12eff61cf129b4bad3bf37f51d54c32e2659eaa1f2e40eba54426e9"
+  },
+  "recorded_at": "2026-10-10T19:44:41.853042+00:00",
+  "published_head": "e4bd556cdf1e381c3978d5133b084443170eaefa",
+  "corrected_source_head": "1d428b416f76df65659aff1f30bb1b0c250fb6a7",
+  "pr": 48,
+  "merged_master": "d3249fb7b42fe0468720eaa73421df444b708652",
+  "source_verification": {
+    "matched_git_blob_hashes": 20,
+    "paths": [
+      "apps/api/index.ts",
+      "apps/api/server.ts",
+      "apps/web/src/app.jsx",
+      "packages/backup/index.mjs",
+      "packages/database/browser-sessions.ts",
+      "packages/database/index.ts",
+      "packages/database/local-credentials.ts",
+      "scripts/local-credential-operator.mjs",
+      "scripts/local-dev.mjs",
+      "scripts/local-tls.mjs",
+      "scripts/test-product.mjs",
+      "scripts/tracker.mjs",
+      "tests/helpers/product-tls-fixture.mjs",
+      "tests/product-secure-sessions-browser.integration.mjs",
+      "tests/product-secure-sessions.test.mjs",
+      "tests/tracker.test.mjs",
+      "package.json",
+      "package-lock.json",
+      "docs/dependencies/antlr-parser-lock.json",
+      "tests/product-credential-browser.integration.mjs"
+    ]
+  },
+  "local_acceptance": "record.json: 192 standard / 55 product-parser / 31 Chromium; browser fixture later corrected with focused1/1 plus exact final CI. Zero failures/skips in final accepted runs; initial failed CI preserved.",
+  "independent_review": "Native /root/integration_review approved exacte4bd556 for publication and aggregate ordinary merge; cumulative frozen source reviews plus exact source/evidence hashes verified.",
+  "security": "Actual protection disabled with no required contexts. Paid/disabled host scanning UNAVAILABLE, never PASS. Raw scoped Gitleaks exit1 checksum findings independently classified; final bounded delta exit0. No bypass/threshold change.",
+  "limitations": [
+    "No Oracle connection/runtime/execution/reconciliation acceptance. All124 applicable Oracle cells remain BLOCKED.",
+    "M1/M2 local workflows integrated; M3/M4 partial and M5 incomplete. Catalog remains0full/48partial/165not/7deferred.",
+    "This post-merge evidence/tracker checkpoint is a local unpushed continuation commit; tested remote master is recorded separately. Old failed observations and all worktrees retained."
+  ]
+}

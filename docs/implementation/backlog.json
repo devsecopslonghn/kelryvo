@@ -3356,7 +3356,7 @@
         "SF-PRODUCT-T35-WEB",
         "SF-PRODUCT-T35-RESTORE"
       ],
-      "status": "IMPLEMENTED",
+      "status": "VERIFIED",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
@@ -3366,6 +3366,9 @@
         },
         {
           "index_id": "product-t35-journal-repair-local-verified"
+        },
+        {
+          "index_id": "product-t35-corrected-ci-mvp-integration-verified"
         }
       ],
       "blockers": []

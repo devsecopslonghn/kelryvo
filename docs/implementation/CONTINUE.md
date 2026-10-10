@@ -1,42 +1,14 @@
-# SchemaForge security correction and MVP integration checkpoint — 2026-10-11
+# SchemaForge milestone checkpoint — 2026-10-11
 
-Active outcome: repair T35 and integrate the already implemented local MVP. No new
-functionality is scheduled until this checkpoint is complete.
+Completed bounded outcome: T35 recovery-journal correction and safe MVP stack integration.
+PR #48 merged normally at d3249fb7b42fe0468720eaa73421df444b708652; exact candidate e4bd556cdf1e381c3978d5133b084443170eaefa passed all six foundation/parser/product push + PR checks. Final master foundation/parser/product CI also passed. The master source matches all20 frozen source/pin hashes; local source acceptance passed192 standard /55 product-parser /31 Chromium. An initial PR browser fixture race was corrected and passed focused1/1 plus final exact-head/master CI; the failed run is retained.
 
-T35 corrected source: 1d428b416f76df65659aff1f30bb1b0c250fb6a7. Operator journals
-now witness LOCAL credentials only; actor-wide revocation still invalidates all browser
-sessions. Recovery accepts earlier v1 journals containing browser digests and uses LOCAL
-revocation to determine commit state. The recovered capacity-limit proposal is preserved
-under evidence/product/product-t35-journal-repair-20261010/. Focused regression: 5/5
-passed, including >32 HTTPS sessions, rotation/revoke and six crash phases with legacy
-browser-inclusive journals. Final frozen serial acceptance passed 192 standard / 55 product-parser / 31 Chromium,
-zero failures/cancellations/skips. First corrected8560993 push CI passed; PR browser30/31 failed on a refresh/revocation fixture race. The browser request barrier correction at fc8cee35ed4405e91610e2ac63ce319700763d24 passed focused1/1 and independent review; final corrected exact-head CI is pending. T35 stays IMPLEMENTED; old source acceptance does not certify the correction.
+T35 is VERIFIED for its bounded local scope. LOCAL-only recovery journals preserve actor-wide browser revocation; legacy v1 browser-inclusive journals recover safely. Regression covers >32 sessions and rotate/revoke at six real crash boundaries. All PRs #37–#48 are integrated: six ancestors were host-marked MERGED, five redundant stacked requests were closed with integration links, and #48 merged normally; every branch/worktree and unrelated untracked observation remains preserved. Main workspace master is fast-forwarded to the tested merge. Evidence: evidence/product/product-t35-journal-repair-20261010/integration-record.json.
 
-Integration path: corrected #48 will target master as one aggregate reviewed PR. Its
-ancestry contains exact #45/#46/#47 heads and current master; #45 includes #37–#44.
-Preserve every source branch/worktree and verify host PR reconciliation after merge.
-Local master was fast-forwarded to actual origin/master 0fd6980.
-The master branch API explicitly reports protected=false, protection disabled and no
-required contexts. Protection/rulesets require a paid feature, code scanning requires
-Advanced Security, and secret scanning is disabled. These are unavailable optional
-capabilities, never PASS. Repository review/security/license/available CI gates remain.
-No bypass, subscription change or security threshold change is authorized.
+Actual gates: master explicitly reported protection disabled and zero required contexts. Optional paid/disabled host security APIs are UNAVAILABLE, never PASS. Independent source/security review, scoped publication findings classification, license closure and available CI passed their actual gates. No admin bypass, threshold change, force push or branch deletion.
 
-MVP status: Git intake, retained SQL/parser validation, offline plans, independent review,
-approval withdrawal and persistent audit/history are implemented locally. Deployment
-requests, immutable intents, claim/checkpoint/UNIT receipt safety and metadata backup /
-RESTORE_HOLD are implemented; no authorized Oracle executor/runtime is demonstrated.
-M1/M2 local foundation and offline preparation workflows are demonstrable in existing
-API/Chromium acceptance, pending integration. M3/M4 are partial: the trusted execution
-host is not wired to actual target authority; Oracle runtime and
-reconciliation acceptance remain BLOCKED_EXTERNAL; M5 remains incomplete. The shortest
-next path is host/admission wiring → truthful journal/reconciliation UI → reproducible
-release acceptance, reusing the coordinator/supervisor and preserving unknown/HOLD safety.
-Catalog remains 220 = 0 full /
-48 partial / 165 not implemented / 7 deferred. PARTIAL is not full feature completion.
+M1 local startup/auth/projects/Git/provisional references and M2 retained SQL/parser/offline plan/independent approval workflows are demonstrated and integrated. M3 has request-only WAITING_VALIDATION and a UNIT-tested restricted coordinator/journal. M4 has audit/metadata recovery and RESTORE_HOLD; actual migration execution/history/reconciliation remain incomplete. M5 release remains incomplete. Catalog220 stays0full/48partial/165not implemented/7deferred; local facets do not certify full catalog contracts. All124 Oracle cells remain BLOCKED_EXTERNAL; no authorized Oracle execution occurred.
 
-Next: publish the focused browser fixture correction to #48 and wait for actual corrected CI. No unchanged local full-suite repeat is needed; final CI exercises every suite.
-License closure is unchanged: 85 pinned packages, zero unknown required grants.
-Then ordinarily merge aggregate #48 after its exact-head gates and verify master CI plus a
-local PostgreSQL/Git/parser/HTTPS browser demonstration. Retain all124 Oracle cells
-BLOCKED and never claim real migration execution. Persist exact heads and results here.
+Shortest next milestone: versioned complete approved statement envelope (ordered parser ordinals/ranges/execution digests), explicit reapproval without changing v1 history, and truthful readiness. Then wire trusted host/target evidence before admission. Surface existing project-scoped attempt/receipt/HOLD facts in API/UI with UNIT-only ambiguity/restart/no-replay checks. Preserve RESTORE_HOLD. Reuse existing parser/intent/coordinator/store/supervisor; no new task IDs registered.
+
+Recovery: use /home/longhn0710/workspace/schemaforge-product-secure-sessions for the latest checkpoint. This post-merge evidence/tracker update is a local unpushed continuation commit, preserving the tested remote master above. Do not rerun unchanged full suites or repeat unavailable API checks. The overall Goal stays active; next bounded increment is M3/M4, while real Oracle validation needs authorized external runtime evidence.

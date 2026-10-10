@@ -1,0 +1,75 @@
+{
+  "baseRefName": "master",
+  "baseRefOid": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "headRefOid": "e4bd556cdf1e381c3978d5133b084443170eaefa",
+  "isDraft": true,
+  "mergeStateStatus": "CLEAN",
+  "mergeable": "MERGEABLE",
+  "number": 48,
+  "reviewDecision": "",
+  "reviews": [],
+  "state": "OPEN",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:34:27Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38079477633/job/114293239681",
+      "name": "product",
+      "startedAt": "2026-10-10T19:21:32Z",
+      "status": "COMPLETED",
+      "workflowName": "Local PRODUCT acceptance"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:35:14Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38079474391/job/114293229807",
+      "name": "product",
+      "startedAt": "2026-10-10T19:21:30Z",
+      "status": "COMPLETED",
+      "workflowName": "Local PRODUCT acceptance"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:24:42Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38079477608/job/114293239537",
+      "name": "parser",
+      "startedAt": "2026-10-10T19:21:32Z",
+      "status": "COMPLETED",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:24:17Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38079474409/job/114293229942",
+      "name": "parser",
+      "startedAt": "2026-10-10T19:21:29Z",
+      "status": "COMPLETED",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:22:51Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38079477609/job/114293239605",
+      "name": "foundation",
+      "startedAt": "2026-10-10T19:21:32Z",
+      "status": "COMPLETED",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-10T19:22:58Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38079474294/job/114293229417",
+      "name": "foundation",
+      "startedAt": "2026-10-10T19:21:29Z",
+      "status": "COMPLETED",
+      "workflowName": "Offline WP0 checks"
+    }
+  ],
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/48"
+}
