@@ -2717,6 +2717,24 @@
       },
       "path": "evidence/product/product-t26-root-20261010T0152Z/integration-manifest-addendum.json",
       "sha256": "e53643be86e34239b5b52c470865a8eba37821ff09d4b682378779004465dc05"
+    },
+    {
+      "id": "product-t26-reviewed-draft-publication",
+      "subject_id": "SF-PRODUCT-T26",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Static exact-head local QA/security/license review and successful draft-only publication; external required security unavailable, no readiness or merge acceptance",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t26-final-review-20261010T0157Z/root-captures/15-create-stacked-draft.raw.log",
+        "sha256": "23a36c599eaf55d59ec3791636b1d5dbffbd8d669704c9faeb7101dce27ed1e9"
+      },
+      "path": "evidence/product/product-t26-final-review-20261010T0157Z/record.json",
+      "sha256": "aff33e0bb89406a54ae15641d2b3cb09ea2c6185ad82abc768376ed12aa0358f"
     }
   ]
 }

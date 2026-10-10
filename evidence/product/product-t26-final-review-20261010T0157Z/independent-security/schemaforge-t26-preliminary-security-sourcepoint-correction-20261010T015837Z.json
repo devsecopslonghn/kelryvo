@@ -1,0 +1,14 @@
+{
+  "record_type": "APPEND_ONLY_FACTUAL_CORRECTION_TO_PRELIMINARY_REVIEW_SOURCEPOINT",
+  "recorded_at_utc": "2026-10-10T01:58:37Z",
+  "corrects_record": "/tmp/schemaforge-t26-preliminary-security-20261010T012343Z.json",
+  "corrected_record_sha256": "04429635c9dc1153e04b93c934889b186a4860049249af9ea0c75a6622a1f646",
+  "source_point": {
+    "head": "35fc2ca8de51d43457fb8caadc7636b03a6f25f6",
+    "working_tree_changes_present": true,
+    "apps/api/index.ts_sha256_as_recorded_by_012343_capture_command": "cf1c42c17b5d50a873ff56ee0eb75eec44b6d3c65fd7723d636dc7906e82178f",
+    "packages/migrations/retained-release-preflight.mjs_sha256_as_recorded_by_012343_capture_command": "f9723e1c93c13249d803310ed20e0899c9d0347ec146f8bb20d052b2aa1a92d6"
+  },
+  "correction": "The original 01:23:43Z preliminary record reused helper hash 744558251bfbc85e7943f682ef8a8724a707ba8203ae7548861f042926d10ddf from the prior 01:23:08Z sourcepoint. The actual sha256sum output captured in the 01:23:43Z command response was f9723e1c93c13249d803310ed20e0899c9d0347ec146f8bb20d052b2aa1a92d6. Therefore the original 01:23:43Z JSON's helper source binding is inaccurate; its finding remains a preliminary observation only and is not treated as source-bound evidence. This correction does not reconstruct exact bytes from disk or alter the original immutable record.",
+  "limitations": "No repository files, tests, builds, scanners or lifecycle were changed or run for this correction. Exact-head verdict at 62cbb02 is independently source-bound and unaffected."
+}

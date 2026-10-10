@@ -1,0 +1,46 @@
+{
+  "recorded_at_utc": "2026-10-10T01:30:29.591963+00:00",
+  "scope": "Safe only. Security alert raw bodies remain private outside repository; no raw secret fields included. All original observation files immutable.",
+  "artifacts": [
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/post-ci-security-observation/record.json",
+      "sha256": "57c1c8cde6ce1646b4256660e7d2569c57060959176cbf7505cf597eadb7984d",
+      "bytes": 6409
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/post-ci-security-observation/body-parser-addendum.json",
+      "sha256": "231f56c9cefa505d35d34ced1a49fef436dc93c0219776d8151ee071ae5e32ad",
+      "bytes": 851
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/post-ci-security-observation/master.raw",
+      "sha256": "d1c524532cda6f15079d22906351103363d6e4991d2d9ec21445d8d954633f47",
+      "bytes": 49
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/post-ci-security-observation/shared-status.raw",
+      "sha256": "a3680b6601c39b586ea892ad2bbaa58a7f72b62a64f73917b09aa8c5f188110e",
+      "bytes": 8
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/post-ci-security-observation/shared-head.raw",
+      "sha256": "7e44f93609c70807824cb2953a7da7fb4d2b7028ee9de3f8e3d0d1e4d0aea929",
+      "bytes": 49
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/post-ci-security-observation/branches.raw",
+      "sha256": "5ebc35a1f77fcb7464df3c8c44f0c4a3457b3d7e08a0d7f4a5f4526147f8759d",
+      "bytes": 1810
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/post-ci-security-observation/prs.raw",
+      "sha256": "b4ba8199f8cfe5f64e59868faabc521c5889dbc671ae0f76324514daede99688",
+      "bytes": 495
+    },
+    {
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/post-ci-security-observation/repository.raw",
+      "sha256": "1ebd94ba62e0a87ff3a71adf6a0dfeba8cbf36c0953f83e3f45fa366f57eb671",
+      "bytes": 50
+    }
+  ]
+}

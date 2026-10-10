@@ -1,0 +1,5 @@
+{
+  "cwd": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "command": "git worktree add -b development/product-continuation-t26 /home/longhn0710/workspace/schemaforge-product-continuation-t26 origin/master && git -C /home/longhn0710/workspace/schemaforge-product-continuation-t26 merge --ff-only 62cbb02f726b2a8a1d38279554fb9e85cc3e4976",
+  "started_at_utc": "2026-10-10T01:56:21.072827+00:00"
+}

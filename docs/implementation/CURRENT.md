@@ -1,3 +1,23 @@
+## T26 reviewed and draft PR39 published; T27 prioritized — 2026-10-10 UTC
+
+Exact-head62cbb02f four-reader metadata preflight passed independent QA/security/license;
+full frozen162standard/37PostgreSQL-Git-parser/22browser and independent API1/browser1
+pass zero skips. Publication854paths102findings and history275 exit1 classified, not clean
+PASS; prior217 exact tuples retained, no actual credential observed or rotation indicated.
+Original native manifest overstatement and preliminary stale helper binding are corrected
+append-only and excluded from unsupported provenance claims. QA focused TAP logs support
+results; missing per-command UTC/exit sidecars remain explicit. All failures stay immutable.
+Evidence: `evidence/product/product-t26-final-review-20261010T0157Z/record.json`.
+
+Draft PR39 stacks on reviewed unmerged draft38 and37. Available CI is running; required
+GitHub code403/secret404/protection403 unavailable, never PASS; no readiness or merge.
+Four-reader finding is closed only in scope; raw GET release detail MEDIUM remains open.
+Next bounded T27 protects that read while retaining legitimate invalid/unavailable historical
+diagnostics, before the unregistered inbox. T27 not registered or implemented at this snapshot.
+Master0fd6980 remains verified; shared original0346300 untouched; Hygiene PR absent.
+Sonar quota exception unchanged, never PASS; Oracle independently BLOCKED; original220
+acceptance unchanged. No deployment, history rewrite or credential-reference resolution.
+
 ## T26 locally verified; exact-head review pending — 2026-10-10 UTC
 
 Four protected retained-source readers perform complete bounded scalar PostgreSQL metadata

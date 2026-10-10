@@ -1,0 +1,52 @@
+{
+  "record_type": "independent_exact_head_qa_verdict",
+  "task": "SF-PRODUCT-T26",
+  "recorded_at_utc": "2026-10-10T01:57:34Z",
+  "head": "62cbb02f726b2a8a1d38279554fb9e85cc3e4976",
+  "worktree": "/home/longhn0710/workspace/schemaforge-product-retained-metadata-preflight",
+  "worktree_status": "clean before and after focused QA",
+  "verdict": "PASS_FOCUSED_EXACT_HEAD",
+  "focused_lifecycle": [
+    {
+      "name": "four-reader retained statement-preview PostgreSQL/Git/API fixture",
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-statement-preview.test.mjs",
+      "result": "PASS",
+      "tests": 1,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 53985.742296,
+      "capture": "/tmp/schemaforge-t26-final-qa-20261010/focused-postgres.log",
+      "capture_sha256": "0e26f564c6d7bd3b0c028ff2accbe2884115cbb09baf5279dc1ee3b953ede476"
+    },
+    {
+      "name": "retained plan source and statement-preview browser regression",
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/schemaforge_tests SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 taskset -c 0,1 node --test --test-concurrency=1 tests/product-plan-source-browser.integration.mjs",
+      "result": "PASS",
+      "tests": 1,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 55013.944,
+      "capture": "/tmp/schemaforge-t26-final-qa-20261010/focused-browser.log",
+      "capture_sha256": "ae8ee9edcff8d2367173e55f9c804336ffb915e36e885947a86a0469037bfe35"
+    }
+  ],
+  "source_bindings": [
+    { "path": "apps/api/index.ts", "sha256": "edf22905b051e33f463bfc57acd70692c9e739f6ed8b06d9e015acdd156e41b9" },
+    { "path": "packages/migrations/retained-release-preflight.mjs", "sha256": "fdd7d6bcafb0158bd8bf769eabc9067e677a33b0da12032380aa6554f4b32bd7" },
+    { "path": "tests/product-statement-preview.test.mjs", "sha256": "5813547a197a5963ea49390feec1700e6f4e6c19918b0b1941c9361838d10740" },
+    { "path": "tests/product-plan-source-browser.integration.mjs", "sha256": "39630d7797f12f735baf630a480dd560cf63179fa8daaa6286196858aeb466e7" }
+  ],
+  "acceptance_observations": [
+    "All four protected reader routes are driven through the metadata corruption fixture; query observation checks the preflight projection and absence of retained-files payload SELECTs on failures.",
+    "Each corruption failure compares populated project, release, plan, comment, decision, history and audit snapshots immediately before and after the request.",
+    "Positive compatibility cases include Unicode content, null statementCount, bounded nested extension metadata and versions above JavaScript's safe-integer limit; fixture prepares both approved and rejected lifecycle records before corruption checks.",
+    "Focused source review found no blocker in the exact source bytes bound above."
+  ],
+  "broader_evidence_boundary": "Separate native fullcheck/product/browser lifecycle and T26 integration evidence are maintained by the root. This verdict records only the two focused exact-head reruns and does not claim the prior native captures executed at this commit; the linked source-binding record documents their equal source hashes and five comparable source paths.",
+  "not_claimed": [
+    "No T27 raw GET detail-reader closure; that medium finding remains a separate follow-up.",
+    "No Oracle validation, deployment, GitHub gate availability, Sonar PASS or PR merge claim.",
+    "No universal retained-data reader hardening beyond the four T26 acceptance routes."
+  ],
+  "files_unchanged": true
+}

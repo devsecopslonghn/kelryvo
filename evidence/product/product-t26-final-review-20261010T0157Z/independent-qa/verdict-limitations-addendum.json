@@ -1,0 +1,51 @@
+{
+  "record_type": "append_only_verdict_capture_limitations",
+  "task": "SF-PRODUCT-T26",
+  "recorded_at_utc": "2026-10-10T01:58:40Z",
+  "head": "62cbb02f726b2a8a1d38279554fb9e85cc3e4976",
+  "original_verdict": {
+    "path": "/tmp/schemaforge-t26-final-qa-20261010/verdict.json",
+    "sha256": "dc5406c217bfe3dcbe375c7ae93fe5c82838d9030a7a0d75639364c13fc90116"
+  },
+  "source_bindings_in_original_verdict": {
+    "apps/api/index.ts": "edf22905b051e33f463bfc57acd70692c9e739f6ed8b06d9e015acdd156e41b9",
+    "packages/migrations/retained-release-preflight.mjs": "fdd7d6bcafb0158bd8bf769eabc9067e677a33b0da12032380aa6554f4b32bd7",
+    "tests/product-statement-preview.test.mjs": "5813547a197a5963ea49390feec1700e6f4e6c19918b0b1941c9361838d10740",
+    "tests/product-plan-source-browser.integration.mjs": "39630d7797f12f735baf630a480dd560cf63179fa8daaa6286196858aeb466e7"
+  },
+  "captured_raw_logs": [
+    {
+      "name": "focused PostgreSQL/Git/API fixture",
+      "path": "/tmp/schemaforge-t26-final-qa-20261010/focused-postgres.log",
+      "sha256": "0e26f564c6d7bd3b0c028ff2accbe2884115cbb09baf5279dc1ee3b953ede476",
+      "captured_facts": {
+        "tap_tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "duration_ms": 53985.742296
+      },
+      "not_captured": ["individual process exit code", "command start UTC", "command end UTC"]
+    },
+    {
+      "name": "focused retained plan source browser regression",
+      "path": "/tmp/schemaforge-t26-final-qa-20261010/focused-browser.log",
+      "sha256": "ae8ee9edcff8d2367173e55f9c804336ffb915e36e885947a86a0469037bfe35",
+      "captured_facts": {
+        "tap_tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "duration_ms": 55013.944
+      },
+      "not_captured": ["individual process exit code", "command start UTC", "command end UTC"]
+    }
+  ],
+  "execution_observations": {
+    "tool_observation": "Both command sessions produced their complete TAP 1/1 pass, 0 fail, 0 skipped summaries and then completed; I did not retain separate structured process exit-code fields.",
+    "do_not_infer": "The stored logs do not contain per-command UTC timestamps. This addendum does not reconstruct start/end times or numeric exit codes from conversation timing or TAP summaries.",
+    "lifecycle_handoff": "I explicitly confirmed to the root that both sessions exited, test fixture cleanup completed, and test/build/app lifecycle was handed back. No owned live process or fixture remained; no new run was performed for this addendum."
+  },
+  "scope": "Addendum preserves capture limitations only; it does not change the original focused exact-head verdict or replace broader native suite evidence already complete at root.",
+  "repository_changes": false
+}
