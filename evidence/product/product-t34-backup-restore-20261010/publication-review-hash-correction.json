@@ -1,0 +1,8 @@
+{
+  "recorded_at": "2026-10-10T16:44:15.705529+00:00",
+  "review_record": "publication-independent-review.json",
+  "review_reported_sha256": "3729820268a6013f95383a2181b6acc9c025a932cae417dd8c4006a1563ef1f",
+  "actual_incoming_scan_sha256": "3729820268a6013f95383a2181b6acc9c025a932cae417ddc8d4006a1563ef1f",
+  "reason": "Native report digest transposed characters dd8c versus ddc8. Root exact-byte hash check caught discrepancy; original report preserved. No incoming scan or tested source bytes changed.",
+  "action": "Use actual digest; reviewer confirmation pending."
+}

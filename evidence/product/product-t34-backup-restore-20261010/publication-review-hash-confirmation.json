@@ -1,0 +1,7 @@
+{
+  "reviewer": "native /root/t34_review",
+  "recorded_at": "2026-10-10T16:44:26.141771+00:00",
+  "confirmed_incoming_scan_sha256": "3729820268a6013f95383a2181b6acc9c025a932cae417ddc8d4006a1563ef1f",
+  "reviewed_candidate": "b606fd9893b2cafb6751b353074c1536ed1670d3",
+  "confirmation": "Confirmed actual digest and same reviewed scan record, no edits. Prior digest transposition is display typo only."
+}

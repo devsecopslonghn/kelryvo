@@ -1,0 +1,23 @@
+{
+  "task": "SF-PRODUCT-T34",
+  "head": "b606fd9893b2cafb6751b353074c1536ed1670d3",
+  "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "started_at": "2026-10-10T16:42:02.366778+00:00",
+  "limits": "Only new or changed T34 paths and continuation metadata after published T33, or incoming commits, are scanned. Prior verified T33 baseline/history observations are reused; no all-history clean claim or remote security-gate PASS.",
+  "scope": "Incoming T34 commits only: b145a9a96544113dc4ac1c247fd612aadb62c424..b606fd9893b2cafb6751b353074c1536ed1670d3",
+  "base": "b145a9a96544113dc4ac1c247fd612aadb62c424",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "git",
+    ".",
+    "--log-opts=b145a9a96544113dc4ac1c247fd612aadb62c424..b606fd9893b2cafb6751b353074c1536ed1670d3",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-t34-incoming-private.json"
+  ],
+  "finished_at": "2026-10-10T16:42:03.039019+00:00",
+  "scanner_exit_code": 0,
+  "finding_count": 0,
+  "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+}

@@ -426,7 +426,7 @@
     },
     "merge_eligible": false
   },
-  "next_milestone": "Finish T34 bounded draft publication and available CI before selecting another substantive product workflow.",
+  "next_milestone": "Publish one T34 draft and observe actual available exact-head CI before selecting another substantive product workflow.",
   "current_increment_published_head": null,
   "t32_integration_sources": [
     {

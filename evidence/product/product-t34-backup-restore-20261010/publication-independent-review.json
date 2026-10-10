@@ -1,0 +1,24 @@
+{
+  "reviewer": "native /root/t34_review",
+  "reviewed_candidate": "b606fd9893b2cafb6751b353074c1536ed1670d3",
+  "frozen_source": "591076dbd56c420878c66af86f65f3fbd08a5e41",
+  "recorded_at": "2026-10-10T16:43:51.344630+00:00",
+  "actionable_findings": [],
+  "housekeeping": [
+    {
+      "finding": "Continuation files still list completed scoped scans as pending",
+      "resolution": "Root updates next action to draft and actual available CI; source unchanged"
+    },
+    {
+      "finding": "Incoming scan record untracked",
+      "resolution": "Included with final publication metadata commit"
+    }
+  ],
+  "incoming_scan_sha256": "3729820268a6013f95383a2181b6acc9c025a932cae417dd8c4006a1563ef1f",
+  "assessment": "Final read-only publication review at b606: source unchanged from591; actual188/51/30 zero-failure/skip serial results and record/index0..4 agree. Contents/incoming exit0/zero findings; license/notice/dependencies/pins unchanged. Coverage0full/47partial/166not/7deferred; OPS012partial/MIG034not. Criterion5 pending; no confidential/restricted material concern found in bounded delta.",
+  "limitations": [
+    "Reviewer inspected existing results, did not run tests or scans.",
+    "No remote security/protection, Oracle, production restore, merge or full-catalog certification.",
+    "Root housekeeping edits made after reviewed candidate; no source delta."
+  ]
+}
