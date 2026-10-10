@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
 import { chmod, symlink,writeFile,readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { startProduct } from '../apps/api/server.ts';
@@ -8,7 +9,7 @@ import { createApp } from '../apps/api/index.ts';
 import { tokenDigest } from '../packages/database/local-credentials.ts';
 import { guardBrowserMutation } from '../packages/database/browser-sessions.ts';
 import { readPrivateTls } from '../scripts/local-tls.mjs';
-import { operateLocalCredential } from '../scripts/local-credential-operator.mjs';
+import { operateLocalCredential, recoverLocalCredentialOperation } from '../scripts/local-credential-operator.mjs';
 import { createTlsFixture,tlsRequest } from './helpers/product-tls-fixture.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
@@ -117,4 +118,70 @@ test('private TLS material rejects permissions, links, relative and mismatched k
     const {createSecureContext}=await import('node:tls');
     assert.throws(()=>createSecureContext({cert:fixture.tls.cert,key:other.tls.key}),/key values mismatch/);
   }finally{await fixture.close();await other.close();}
+});
+
+
+test('browser churn above journal capacity preserves operator rotation, revocation and crash recovery',{skip:!enabled,timeout:60000},async()=>{
+  const db=await openIsolatedProductDatabase(),fixture=await createTlsFixture();let app;
+  const actors=[{id:'local-developer',name:'Recovery developer',role:'developer',token:randomBytes(32).toString('hex')},{id:'local-approver',name:'Recovery approver',role:'approver',token:randomBytes(32).toString('hex')}];
+  try{
+    app=await startProduct({databaseUrl:db.databaseUrl,actors,repositories:[],port:0,tls:fixture.tls});
+    const base=`https://127.0.0.1:${app.server.address().port}`;
+    const login=()=>tlsRequest(base,fixture.ca,'/api/session',{method:'POST',headers:{authorization:`Bearer ${actors[0].token}`,origin:base}});
+    const configPath=join(fixture.directory,'config.json');
+    await writeFile(configPath,JSON.stringify({databasePassword:randomBytes(32).toString('hex'),developerToken:actors[0].token,approverToken:actors[1].token},null,2)+'\n',{mode:0o600});
+    const cookies=[];
+    const fill=async()=>{
+      for(let i=0;i<40;i++){
+        const signed=await login();assert.equal(signed.status,200);
+        cookies.push(signed.headers['set-cookie'][0].split(';')[0]);
+      }
+      assert.equal(Number((await db.sql`SELECT count(*) FROM sf_local_credentials WHERE actor_id=${actors[0].id} AND revoked_at IS NULL`)[0].count),41);
+    };
+    const readSession=cookie=>tlsRequest(base,fixture.ca,'/api/session',{headers:{cookie}});
+    const interrupt=(action,phase)=>{
+      const code='import { operateLocalCredential } from '+JSON.stringify(new URL('../scripts/local-credential-operator.mjs',import.meta.url).href)
+        +'; await operateLocalCredential({configPath:'+JSON.stringify(configPath)+',databaseUrl:process.env.SCHEMAFORGE_TEST_DATABASE_URL,identity:"developer",action:'+JSON.stringify(action)+',interruptAt:'+JSON.stringify(phase)+'});';
+      const child=spawnSync(process.execPath,['--input-type=module','--eval',code],{env:{...process.env,SCHEMAFORGE_TEST_DATABASE_URL:db.databaseUrl},encoding:'utf8',timeout:15000,maxBuffer:16384});
+      assert.equal(child.error,undefined);assert.equal(child.signal,'SIGKILL');assert.equal(child.stdout,'');assert.equal(child.stderr,'');
+    };
+    for(const action of ['rotate','revoke']){
+      for(const phase of ['before-db-commit','after-db-commit','after-config-rename']){
+        await fill();
+        const originalToken=actors[0].token;
+        interrupt(action,phase);
+        const journal=JSON.parse(await readFile(configPath+'.lifecycle-journal','utf8'));
+        assert.equal(journal.oldDigests.length,1,'only independently authoritative LOCAL credentials enter the bounded journal');
+        const committed=phase!=='before-db-commit';
+        if(!committed){
+          // Browser changes while the operator is interrupted must not corrupt recovery.
+          const fresh=await login();assert.equal(fresh.status,200);
+          cookies.push(fresh.headers['set-cookie'][0].split(';')[0]);
+          const proof=(await readSession(cookies[0])).body.csrfToken;
+          assert.equal((await tlsRequest(base,fixture.ca,'/api/session/logout',{method:'POST',headers:{cookie:cookies[0],origin:base,'x-csrf-token':proof}})).status,204);
+        }
+        await recoverLocalCredentialOperation({configPath,databaseUrl:db.databaseUrl});
+        actors[0].token=JSON.parse(await readFile(configPath,'utf8')).developerToken;
+        await assert.rejects(readFile(configPath+'.lifecycle-journal'),{code:'ENOENT'});
+        await assert.rejects(readFile(configPath+'.lifecycle-staged'),{code:'ENOENT'});
+        if(!committed){
+          assert.equal(actors[0].token,originalToken);
+          assert.equal((await readSession(cookies.at(-1))).status,200,'precommit recovery preserves valid sessions');
+          // Retry despite session churn and >32 credentials; no recovery-bound expansion.
+          await operateLocalCredential({configPath,databaseUrl:db.databaseUrl,identity:'developer',action});
+          actors[0].token=JSON.parse(await readFile(configPath,'utf8')).developerToken;
+        }
+        for(const cookie of cookies)assert.equal((await readSession(cookie)).status,401,'committed rotation/revocation invalidates every child');
+        assert.equal((await tlsRequest(base,fixture.ca,'/api/session',{headers:{authorization:`Bearer ${originalToken}`}})).status,401);
+        const count=Number((await db.sql`SELECT count(*) FROM sf_local_credentials WHERE actor_id=${actors[0].id} AND revoked_at IS NULL`)[0].count);
+        assert.equal(count,action==='rotate'?1:0);
+        assert.ok(Number((await db.sql`SELECT count(*) FROM sf_local_credentials WHERE actor_id=${actors[0].id} AND credential_kind='BROWSER'`)[0].count)>=cookies.length,'revoked session history is retained');
+        cookies.length=0;
+        if(action==='revoke'){
+          await operateLocalCredential({configPath,databaseUrl:db.databaseUrl,identity:'developer',action:'rotate'});
+          actors[0].token=JSON.parse(await readFile(configPath,'utf8')).developerToken;
+        }
+      }
+    }
+  }finally{await app?.close();await db.close();await fixture.close();}
 });

@@ -597,3 +597,11 @@ including untrusted-chain and wrong-hostname rejection. Chromium trusts only the
 fixture public-key pin; no-pin and unrelated-key cases reject TLS. This is explicit test
 key trust, not browser CA-chain validation or deployed worker-transport acceptance.
 No global trust store is modified, and no external/Oracle deployment is certified.
+
+Credential operator recovery journals contain only independent `LOCAL` credentials.
+Derived browser sessions do not consume the existing 32-entry journal bound. Rotation
+and revocation still revoke every credential for the actor, including browser sessions,
+under the shared transaction lock; session history remains retained. Recovery before a
+database commit preserves access, and recovery after a commit completes the private
+config transition without restoring old access. Browser sign-in/logout while an operator
+operation is interrupted does not change its LOCAL credential recovery witness.
