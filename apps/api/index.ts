@@ -1580,6 +1580,8 @@ function encodeExecutionCursor(actorId: string, scopeId: string, kind: 'jobs' | 
     : { actorId, scopeId, kind, revision: String(row.revision) };
   return Buffer.from(JSON.stringify(value)).toString('base64url');
 }
+function decodeExecutionCursor(value: unknown, actorId: string, scopeId: string, kind: 'jobs'): { id: string; createdAt: string } | null;
+function decodeExecutionCursor(value: unknown, actorId: string, scopeId: string, kind: 'events'): { revision: string } | null;
 function decodeExecutionCursor(value: unknown, actorId: string, scopeId: string, kind: 'jobs' | 'events') {
   if (typeof value !== 'string' || value.length > 1024 || !/^[A-Za-z0-9_-]+$/.test(value)) return null;
   try {
