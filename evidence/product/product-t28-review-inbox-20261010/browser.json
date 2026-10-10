@@ -1,0 +1,51 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "0,1",
+    "npm",
+    "run",
+    "test:browser"
+  ],
+  "started_at": "2026-10-10T07:46:24.325Z",
+  "finished_at": "2026-10-10T07:50:21.063Z",
+  "exit_code": 0,
+  "execution_head": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
+  "head_after": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
+  "source_before": {
+    "apps/api/index.ts": "da0af95b4a12ef0b6b21e46a5be26e05179154c81bfe9432421d1f16d6f48c55",
+    "apps/web/src/app.jsx": "0d1ce2dbb8b8342989262b2c4f4ae8cc1b2e8ebbb92eeb3abbd0661d41516e96",
+    "apps/web/styles.css": "51325a57a22c5cc4f1b2eb5fb248d2e8b1c189994039a9aee11e923dd2d397b0",
+    "packages/governance/review-inbox-cursor.mjs": "1ed42e181cb224c000efc0e4612b8a697550f7c8b36edff143a863cf85776b7c",
+    "scripts/test-product.mjs": "8a7e7cd66af1a292a024b3c444ce3d1196a152ecca10b3e3057f2a495d0a76f2",
+    "scripts/tracker.mjs": "8f8dda3a775f11db1d02d5b43dcb0b8cea362c995ea244aba8d9da9b4a99fa32",
+    "tests/product-review-inbox-browser.integration.mjs": "c46e78e12bc0bad751af38ce14715aefd7bc2de2f542c308f43353d2ac6fd5a7",
+    "tests/product-review-inbox-cursor.test.mjs": "50836cdfc9537b3bd34f841d06f158292ed0321ada9c26b5c8c5c82021318297",
+    "tests/product-review-inbox.test.mjs": "743bedf9eb6010874c899f713b1e79c2a9d3818aa2dc65c26c34abd92e11a439",
+    "tests/tracker.test.mjs": "a5491de48a52340c0d288a8109889cda7b4f444d268e64209e168d8d31eca388",
+    "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  },
+  "source_after": {
+    "apps/api/index.ts": "da0af95b4a12ef0b6b21e46a5be26e05179154c81bfe9432421d1f16d6f48c55",
+    "apps/web/src/app.jsx": "0d1ce2dbb8b8342989262b2c4f4ae8cc1b2e8ebbb92eeb3abbd0661d41516e96",
+    "apps/web/styles.css": "51325a57a22c5cc4f1b2eb5fb248d2e8b1c189994039a9aee11e923dd2d397b0",
+    "packages/governance/review-inbox-cursor.mjs": "1ed42e181cb224c000efc0e4612b8a697550f7c8b36edff143a863cf85776b7c",
+    "scripts/test-product.mjs": "8a7e7cd66af1a292a024b3c444ce3d1196a152ecca10b3e3057f2a495d0a76f2",
+    "scripts/tracker.mjs": "8f8dda3a775f11db1d02d5b43dcb0b8cea362c995ea244aba8d9da9b4a99fa32",
+    "tests/product-review-inbox-browser.integration.mjs": "c46e78e12bc0bad751af38ce14715aefd7bc2de2f542c308f43353d2ac6fd5a7",
+    "tests/product-review-inbox-cursor.test.mjs": "50836cdfc9537b3bd34f841d06f158292ed0321ada9c26b5c8c5c82021318297",
+    "tests/product-review-inbox.test.mjs": "743bedf9eb6010874c899f713b1e79c2a9d3818aa2dc65c26c34abd92e11a439",
+    "tests/tracker.test.mjs": "a5491de48a52340c0d288a8109889cda7b4f444d268e64209e168d8d31eca388",
+    "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  },
+  "log_sha256": "89f23b37f6a07292b48ad9138c2f144c8fbc9f744e1706e1e97ccd276ea90ac8",
+  "environment": {
+    "node": "v22.23.3",
+    "postgres": "isolated trusted local metadata test container, owned databases only",
+    "java_home": "/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin"
+  }
+}

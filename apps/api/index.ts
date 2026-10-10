@@ -10,6 +10,7 @@ import { encodeOfflinePlanIntent, verifyOfflinePlanIntent } from "../../packages
 import { preflightRetainedRelease, preflightHistoricalRelease } from "../../packages/migrations/retained-release-preflight.mjs";
 import { actorHasProjectGrant, projectAccessMode } from "../../packages/database/project-membership.ts";
 import { AUDIT_PAGE_SIZE, decodeAuditCursor, encodeAuditCursor } from "../../packages/audit/cursor.mjs";
+import { decodeReviewInboxCursor, encodeReviewInboxCursor, reviewInboxScopes } from "../../packages/governance/review-inbox-cursor.mjs";
 
 const ORG = "00000000-0000-4000-8000-000000000001";
 const MAX_BINDING_GENERATION = "9223372036854775807";
@@ -219,6 +220,56 @@ export function createApp(options: {
           WHERE p.organization_id=${ORG} ORDER BY p.created_at,p.id`
       : await sql`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at,source_binding_generation::text AS source_binding_generation FROM sf_projects WHERE organization_id=${ORG} ORDER BY created_at,id`;
     return { accessMode: mode, projects: rows.map(mappedProject) };
+  });
+  app.get('/api/review-inbox', { preHandler: authenticate }, async (req: any, reply: any) => {
+    const query = req.query ?? {};
+    if (!query || typeof query !== 'object' || Array.isArray(query)
+        || Object.keys(query).some((key: string) => !['scope', 'cursor'].includes(key))
+        || typeof query.scope !== 'string' || !reviewInboxScopes.includes(query.scope)
+        || (query.cursor !== undefined && (typeof query.cursor !== 'string' || query.cursor.length > 2048)))
+      return fail(reply, 400, 'INVALID_REQUEST');
+    const scope = query.scope as 'ALL' | 'MINE' | 'ELIGIBLE';
+    const position = query.cursor === undefined ? null : decodeReviewInboxCursor(query.cursor, req.actor.id, scope);
+    if (query.cursor !== undefined && !position) return fail(reply, 400, 'INVALID_REQUEST');
+    const mode = await projectAccessMode(sql);
+    if (mode === 'BOOTSTRAP_REQUIRED') return { scope, plans: [], nextCursor: null };
+    const limit = 25;
+    const rows = await sql`
+      SELECT p.id AS plan_id,p.project_id,
+        CASE WHEN char_length(pr.name) BETWEEN 1 AND 200 THEN pr.name END AS project_name,
+        CASE WHEN char_length(p.author_id) BETWEEN 1 AND 200 THEN p.author_id END AS author_id,
+        CASE WHEN a.id IS NULL AND char_length(p.author_id) BETWEEN 1 AND 200 THEN p.author_id
+          WHEN a.id IS NOT NULL AND char_length(a.display_name) BETWEEN 1 AND 200 THEN a.display_name END AS requester_name,
+        CASE WHEN isfinite(p.created_at) AND p.created_at >= '0001-01-01 00:00:00+00'::timestamptz
+              AND p.created_at < '10000-01-01 00:00:00+00'::timestamptz
+          THEN to_char(p.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') END AS created_at_utc,
+        p.status,(${req.actor.role === 'approver'} AND p.author_id<>${req.actor.id}) AS eligible
+      FROM sf_plans p
+      JOIN sf_projects pr ON pr.id=p.project_id AND pr.organization_id=p.organization_id AND pr.archived_at IS NULL
+      JOIN sf_project_grants g ON g.project_id=p.project_id AND g.organization_id=p.organization_id
+        AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL
+      LEFT JOIN sf_local_actors a ON a.id=p.author_id AND a.organization_id=p.organization_id
+      WHERE p.organization_id=${ORG} AND p.status='PENDING_APPROVAL'
+        AND (${scope}='ALL' OR (${scope}='MINE' AND p.author_id=${req.actor.id})
+          OR (${scope}='ELIGIBLE' AND ${req.actor.role === 'approver'} AND p.author_id<>${req.actor.id}))
+        AND (${position?.createdAt ?? null}::text::timestamptz IS NULL OR (p.created_at,p.id)<(${position?.createdAt ?? null}::text::timestamptz,${position?.id ?? null}::uuid))
+      ORDER BY p.created_at DESC,p.id DESC LIMIT ${limit + 1}`;
+    const page = rows.slice(0, limit);
+    if (page.some((row: any) => typeof row.plan_id !== 'string' || !uuid(row.plan_id)
+        || typeof row.project_id !== 'string' || !uuid(row.project_id)
+        || typeof row.project_name !== 'string' || !row.project_name.trim() || row.project_name.length > 200
+        || typeof row.author_id !== 'string' || !row.author_id || row.author_id.length > 200
+        || typeof row.requester_name !== 'string' || !row.requester_name.trim() || row.requester_name.length > 200
+        || typeof row.created_at_utc !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$/.test(row.created_at_utc)
+        || !Number.isFinite(Date.parse(row.created_at_utc)) || typeof row.eligible !== 'boolean'))
+      return fail(reply, 503, 'REVIEW_INBOX_UNAVAILABLE');
+    const hasMore = rows.length > limit;
+    const last = page.at(-1);
+    return { scope, plans: page.map((row: any) => ({ id: row.plan_id, projectId: row.project_id,
+      projectName: row.project_name, requesterId: row.author_id, requesterName: row.requester_name,
+      createdAt: row.created_at_utc, status: 'PENDING_APPROVAL', eligible: row.eligible })),
+      nextCursor: hasMore && last ? encodeReviewInboxCursor({ actor: req.actor.id, scope,
+        createdAt: last.created_at_utc, id: last.plan_id }) : null };
   });
   app.post(
     "/api/projects",

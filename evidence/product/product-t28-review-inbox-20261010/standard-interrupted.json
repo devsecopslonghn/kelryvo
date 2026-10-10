@@ -1,0 +1,13 @@
+{
+  "recorded_at": "2026-10-10T07:37:31.670577+00:00",
+  "attempt": "First frozen standard run at ed385f32f8b2fb093d1ed1131e765e2b8c5bc2d3",
+  "command": "node /tmp/schemaforge-t28-checks.mjs standard -> taskset -c 0,1 npm run check",
+  "outcome": "INTERRUPTED_UNVERIFIED",
+  "observations": [
+    "Unified exec handle11509 became unavailable at goal continuation.",
+    "Known owned runner/npm/test/java process IDs2705861/2706221/2708116/2717580/2717721 are absent.",
+    "No completed standard.log or standard.json was persisted; runner buffered output in memory."
+  ],
+  "exit_code": null,
+  "limitations": "No test PASS or failure counts inferred. No surviving raw output for this interrupted attempt. Remaining focused logs are preserved. Subsequent runner will persist start metadata and incremental raw output."
+}

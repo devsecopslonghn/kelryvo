@@ -998,6 +998,14 @@ td code {
   color: #536274;
   font-size: 10px;
 }
+
+.review-inbox-panel { display: grid; gap: 16px; }
+.review-inbox-panel > select { max-width: 320px; }
+.review-inbox-list { display: grid; gap: 8px; }
+.review-inbox-row { display: flex; align-items: center; gap: 16px; width: 100%; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: inherit; text-align: left; cursor: pointer; }
+.review-inbox-row:hover { border-color: var(--blue); background: #f5f8ff; }
+.review-inbox-copy { display: grid; flex: 1; gap: 5px; }
+.review-inbox-copy small { color: var(--muted); }
 .plan-form {
   display: flex;
   align-items: end;

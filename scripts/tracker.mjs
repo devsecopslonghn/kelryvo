@@ -565,7 +565,34 @@ const PRODUCT_TASK_27 = {
   ]
 };
 
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27];
+const PRODUCT_TASK_28 = {
+  "id": "SF-PRODUCT-T28",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Find pending reviews across authorized active projects",
+  "dependencies": [
+    "SF-PRODUCT-T16",
+    "SF-PRODUCT-T21",
+    "SF-PRODUCT-T08"
+  ],
+  "feature_ids": [
+    "GOV-021"
+  ],
+  "acceptance_criteria": [
+    "Authenticated developers and approvers can list pending plans across only their currently explicitly granted active projects. Bootstrap-required access returns an empty inbox. Support All pending, Authored by me and Eligible for my review scopes; eligibility means fixed approver role plus requester exclusion only, not source integrity or execution attestation. Preserve organization isolation and existing project-detail/review contracts.",
+    "Return a fixed bounded page of safe plan/project/requester/time/status identifiers and role eligibility; exclude SQL/items, source files, target profiles, credential references and private repository paths. Stable descending PostgreSQL (created_at,id) limit-plus-one pagination preserves exact timestamp precision. Strict bounded canonical scope/actor/time/id cursors are untrusted query positions; recheck current access on every page and reject malformed, oversized or context-mismatched input with fixed feedback. Add only a scoped ordering index if useful; no history rewrite.",
+    "Provide a discoverable React inbox with role/authorship filters, empty/loading/error states, refresh and Load older. A row opens that exact project and plan in the existing review workflow without retaining another plan comment/decision drafts. Switching scope, refreshing, sign-out/session/current credential or membership changes discards old pages and delayed responses; navigation denial clears revoked data. The inbox makes no decisions or writes.",
+    "Real isolated PostgreSQL/API/browser tests cover multiple authorized/foreign/revoked/archived projects, both roles, requester exclusion, all three scopes, more than one page with tied microsecond timestamps and exact order, final/empty/malformed/cross-actor/filter cursor cases, membership revocation between pages, API recreation/persistence, exact row navigation and controlled stale responses. Compare complete populated retained source/plan/intent/comment/decision/history/audit state for read-only behavior. Required standard/product/parser/browser regressions pass without required skips.",
+    "This is a bounded GOV-021 inbox facet; assignment/delegation/notifications, full catalog acceptance, Oracle execution and worker dispatch remain unverified. Use only merged T16/T21/T08 prerequisites from master0fd6980, not the unmerged T24-T27 stack. Preserve original220 contracts, immutable failures, license/notices/pins and required security gates. Sonar unavailable never PASS; no deployment/target connection/credential resolution."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T28-API",
+    "SF-PRODUCT-T28-WEB",
+    "SF-PRODUCT-T28-PERSISTENCE"
+  ]
+};
+
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

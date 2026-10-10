@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-10T05:12:27.853056+00:00",
+  "recorded_at": "2026-10-10T07:50:48.091055+00:00",
   "verified_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
   "reviewed_local_source": "ced0c1c62bc115d283aca4580999a6486403ce6b",
-  "scope": "Original 220-feature implementation coverage, separate from bounded task completion and immutable research. Includes locally reviewed unmerged T24-T27 facets; does not certify them as integrated master.",
+  "scope": "All220 original features across integrated master0fd and explicitly unmerged locally verified T24-T28 facets; no full catalog certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
     "Task completion establishes only its bounded facet; original criteria and dependencies remain unchanged.",
@@ -64,10 +64,10 @@
   },
   "external_acceptance": "Oracle 19c/21c acceptance remains independently blocked; no execution worker/target ledger/runtime verification claimed. Required GitHub security gates prevent integration of draft37/38/39 and T27.",
   "next_product_capability": {
-    "feature": "GOV-021",
-    "increment": "Cross-project pending-review inbox with current membership scope, independent-review eligibility and navigation into existing plan review.",
-    "branch_policy": "Independent worktree based on verified master0fd6980; it requires merged T16/T21 review/membership interfaces, not T24-T27. Avoid extending the retained-source stacked PR chain.",
-    "remaining_catalog_scope": "Assignment/delegation is a later explicit increment; no full GOV-021 certification from an inbox alone."
+    "status": "T28_LOCAL_VERIFIED_INDEPENDENT_MASTER_BRANCH",
+    "remaining_catalog_scope": "Approval assignment/delegation and full GOV021 authorization/worker acceptance remain missing.",
+    "next_increment": "Persistent reviewer assignment for pending project plans with current granted approvers and requester exclusion; reuse merged project review interfaces independently of T28 inbox.",
+    "branch_policy": "Fresh master-based context/worktree after this checkpoint; no additional dependency on unmerged drafts37-40 or T28."
   },
   "features": [
     {
@@ -1097,6 +1097,13 @@
           "behavior": "Filter project plan reviews by decision status",
           "evidence": [
             "product-t08-status-filters-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T28",
+          "behavior": "Find pending reviews across authorized active projects",
+          "evidence": [
+            "product-t28-review-inbox-local-verified"
           ]
         }
       ],
@@ -2236,5 +2243,13 @@
       "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
     }
   ],
-  "verification_record": "evidence/product/product-t27-resume-20261010/record.json"
+  "verification_record": "evidence/product/product-t28-review-inbox-20261010/record.json",
+  "source_observations": {
+    "integrated_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+    "retained_stack_implementation": "ced0c1c62bc115d283aca4580999a6486403ce6b",
+    "retained_stack_published_snapshot": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
+    "retained_stack_worktree": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
+    "inbox_implementation": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
+    "evidence_path_policy": "T24-T27 evidence paths/IDs refer to retained-stack source worktree or PR40 published snapshot; these prerequisites are not copied into this independent master-based branch."
+  }
 }

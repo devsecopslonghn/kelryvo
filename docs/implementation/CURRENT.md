@@ -1,27 +1,9 @@
-# SchemaForge continuation checkpoint
+# SchemaForge MVP integration checkpoint
 
-Verified remote master: `0fd6980db49c9546ab0a04fe07321a348eee2d65` (T23 integrated; recovery verified remote SHA). Original shared checkout remains untouched at `0346300`.
+Remote master verified0fd6980db49c9546ab0a04fe07321a348eee2d65; original checkout untouched at0346300. Active isolated checkout /home/longhn0710/workspace/schemaforge-product-mvp-integration, branch development/product-mvp-integration. T31 locally verified159standard/35product-parser/21Chromium, draft44 publishedb69c3c3; exact source560bb84, original scanner finding independently adjudicated inert digest, records preserved.
 
-T27 is VERIFIED locally in `/home/longhn0710/workspace/schemaforge-product-retained-release-detail`, branch `development/product-retained-release-detail`, implementation `ced0c1c62bc115d283aca4580999a6486403ce6b`. Historical detail is bounded before projection, keeps invalid/unavailable diagnostics, and preserves strict planning integrity. No deployment or Oracle execution.
+Root is combining reviewed draft40 (retained stack37–40),41 inbox,42 assignment,43 manual schema references and44 withdrawal using ordinary local merge commits. Original PRs/branches/worktrees remain intact. Conflict resolution and combined acceptance/regressions are pending; no local integration verification or integrated-master claim. Source ownership is one coupled implementation agent; root owns git, tracker/contracts/evidence and final checks.
 
-Frozen serial checks: standard 163, real PostgreSQL/Git/pinned-parser product 38, Chromium 22; zero failures/skips. Independent exact-source review found no blockers. Evidence and earlier failures: `evidence/product/product-t27-resume-20261010/record.json`. Seven before/after source hashes bind verification; execution Git HEAD was not separately captured. License closure: 85 pinned packages, zero unknown required grants.
+Security gates remain unavailable: code scanning403 (Advanced Security), secret scanning404 (disabled), protection403 (private/account plan). Do not re-poll known failures, mark PASS/ready/merge or bypass. Sonar exception is Sonar only. Oracle19c/21c unverified; no connection, deployment or infrastructure authority. Goal remains active.
 
-Open drafts: #37 audit pages (`704ef82`) → #38 source comparison (`2f3147f`) → #39 metadata preflight (`62cbb02`). Their available foundation/parser/product CI passed at recovery. T27 draft publication will use #39 as base; resolve its number/current head with `gh pr view development/product-retained-release-detail`. No prerequisite is merged.
-
-Required security is unavailable: code scanning403 (Advanced Security required), secret scanning404 (disabled), protection403 (account plan/private-repository limitation). No readiness/merge or security PASS. Sonar quota exception remains Sonar-only; Oracle 19c/21c acceptance remains independently blocked. T27 closes the historical DETAIL finding only; summary readers are outside scope. Historical evidence, original 220 contracts and separate Hygiene work are preserved.
-
-Coverage: `docs/implementation/feature-coverage.json` classifies all 220 by milestone: 0 fully verified, 41 partial, 172 not implemented, 0 ready features blocked only externally, 7 deferred. Bounded tasks never certify full catalog acceptance.
-
-
-| Milestone | Partial | Not implemented | Deferred |
-| --- | ---: | ---: | ---: |
-| MVP-Core | 4 | 13 | 0 |
-| MVP-Extended | 1 | 3 | 0 |
-| REJECTED | 0 | 0 | 7 |
-| V1 | 4 | 73 | 0 |
-| V2 | 1 | 40 | 0 |
-| WS | 31 | 43 | 0 |
-
-Exact next action: publish the locally verified T27 draft, then create an independent worktree from verified `origin/master` for a bounded GOV-021 cross-project pending-review inbox. Reuse merged membership/requester/review contracts; do not extend the retained-source stack. Register its acceptance contract only after this T27 checkpoint. Assignment/delegation and full GOV-021 acceptance remain separate. Use the existing isolated PostgreSQL test container on loopback32768 and the pinned JDK; run heavy final suites serially with `taskset -c 0,1` and preserve failures.
-
-Resume: inspect this checkpoint, `git status --short`, current PR heads and `node scripts/tracker.mjs validate`. Do not repeat successful frozen T27 suites unless source or a concrete unresolved finding changes.
+Exact next: finish all five head integrations, semantically union existing validated task/evidence records, register bounded SF-PRODUCT-T32 with combined-workflow criteria, and exercise real local Git→release→plan→assignment/inbox→approval→withdrawal→fresh-plan recovery with audit/history and manual-reference visibility. Run focused checks while correcting interactions, then freeze once for required final standard/product/parser/browser checks and independent review. Publish one reviewed integration draft when locally verified; eligible master merge still requires actual external gates.

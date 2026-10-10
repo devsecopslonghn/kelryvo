@@ -336,6 +336,16 @@
         "docs/development/local-product.md",
         "evidence/product/product-t27-resume-20261010/record.json"
       ]
+    },
+    {
+      "id": "SF-D031",
+      "status": "ACCEPTED_FOR_BOUNDED_PRODUCT_T28",
+      "decision": "After locally verifying and publishing T27 and reconciling all220 features, select an independent cross-project pending-review inbox based on merged master0fd6980. Exclude archived projects, require current explicit grants even during bootstrap, and define eligible-for-review only as fixed approver role and nonauthor. Preserve strict existing source integrity/fresh-plan checks at review. Actor/scope-bound exact-time cursors are untrusted positions and do not grant access. No inbox decisions, assignment/delegation or full GOV-021 acceptance; normal security/Oracle gates remain unchanged.",
+      "references": [
+        "docs/implementation/acceptance.json",
+        "apps/api/index.ts",
+        "apps/web/src/app.jsx"
+      ]
     }
   ]
 }

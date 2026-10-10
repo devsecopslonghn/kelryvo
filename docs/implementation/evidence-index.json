@@ -2764,6 +2764,34 @@
       },
       "path": "evidence/product/product-t27-resume-20261010/record.json",
       "sha256": "8ff40158926127d08a956a864f5b2de97c2f5698c2ef92b4c29f4d0ff3da2699"
+    },
+    {
+      "id": "product-t28-review-inbox-local-verified",
+      "subject_id": "SF-PRODUCT-T28",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen serial standard/product/browser regressions at19ecdd8; exact-source independent review; root five-criterion acceptance and diff review",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "test_references": [
+        "SF-PRODUCT-T28-API",
+        "SF-PRODUCT-T28-WEB",
+        "SF-PRODUCT-T28-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t28-review-inbox-20261010/standardRecovered.log",
+        "sha256": "6803b97bf339c4d55a3960787350d9de09ec71cd804af77439199e2fa558b7ac"
+      },
+      "path": "evidence/product/product-t28-review-inbox-20261010/record.json",
+      "sha256": "6963522e0646cba60a3bb6b7fbecd8ae1fa21eb51df5f8334abcf0f59571de8e"
     }
   ]
 }

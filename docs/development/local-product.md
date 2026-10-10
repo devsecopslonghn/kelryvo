@@ -56,7 +56,12 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    Review ordered files/hashes and
    `NOT_OBSERVED` target history. No target history was read, so this is not a reconciled
    execution plan and does not claim that all files are pending on a real database.
-5. Sign out, sign in with `approverToken`, and open Plans & review. Record a reason and
+6. Open **Review inbox** to see pending plans across active projects with current explicit grants. Use
+   All pending, Authored by me, or Eligible for my review; refresh after project access changes.
+   Eligible means the fixed approver role with requester exclusion only; it does not attest to
+   source integrity or execution readiness. Open a row to review that exact plan in Plans & review. The inbox is read-only and excludes
+   archived projects.
+7. Sign out, sign in with `approverToken`, and open Plans & review. Record a reason and
    approve or reject. Each selected plan shows its retained author ID as text and its server
    creation timestamp. An approver who authored a pending plan sees fixed independent-review
    feedback and disabled decision controls; a missing or malformed author ID keeps decisions
@@ -159,13 +164,13 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    intact. The new candidate receives its own retained intent digest and requires an
    independent decision. Archived, unbound and stale project selections do not offer the
    action; the existing authenticated release-import and plan APIs remain the write boundary.
-6. Inspect Audit & history. Audit action filters list only actions present in the selected
+8. Inspect Audit & history. Audit action filters list only actions present in the selected
    project's recent events; All actions is the default and preserves server ordering.
    Project changes and sign-out restore that default. Archived project events remain
    readable, and an empty timeline explains that no events are available. Each proposed
    migration records `NOT_EXECUTED`; no applied receipt exists. Stop/restart the API to
    confirm PostgreSQL retains these records.
-7. As the developer, return to Projects and archive a completed project with a reason.
+9. As the developer, return to Projects and archive a completed project with a reason.
    The timestamp and archived state persist. Existing releases (including SQL previews),
    plans, audit and history remain readable; creation and review controls become disabled.
    Repeated archive requests retain the original timestamp and create no duplicate event.
