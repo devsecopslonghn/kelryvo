@@ -2990,6 +2990,26 @@
       },
       "path": "evidence/product/product-t33-draft-publication-20261010/record.json",
       "sha256": "7c35b10bc2f1526e0cb21e8b8b364d768fe60a0305ad5dac9a0aa938f2f1c5fc"
+    },
+    {
+      "id": "product-t33-draft46-available-ci-terminal",
+      "subject_id": "SF-PRODUCT-T33",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head draft46 terminal available CI observation and unchanged original open-PR/master reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [
+        5
+      ],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t33-draft-publication-20261010/ci-observation-15.stdout",
+        "sha256": "c6382b6ce8240825ff119a7a4dbd686f0447ee07d9796f8fbf39d7f83cf73381"
+      },
+      "path": "evidence/product/product-t33-draft-publication-20261010/terminal-record.json",
+      "sha256": "5d15829054f8a55da1ca83fb564c2250125e72e450310acaf7581bf7435009e9"
     }
   ]
 }

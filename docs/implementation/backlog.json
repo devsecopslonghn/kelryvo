@@ -3264,7 +3264,7 @@
         "SF-PRODUCT-T33-COORDINATOR",
         "SF-PRODUCT-T33-PERSISTENCE"
       ],
-      "status": "IMPLEMENTED",
+      "status": "VERIFIED",
       "source_paths": [
         "apps/api/index.ts",
         "packages/execution",
@@ -3277,6 +3277,9 @@
         },
         {
           "index_id": "product-t33-draft-publication"
+        },
+        {
+          "index_id": "product-t33-draft46-available-ci-terminal"
         }
       ],
       "blockers": []

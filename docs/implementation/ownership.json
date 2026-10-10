@@ -1326,7 +1326,7 @@
     },
     "SF-PRODUCT-T33": {
       "assigned_agent": "backend",
-      "status": "IMPLEMENTED"
+      "status": "VERIFIED"
     }
   }
 }
