@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import ExecutionHistory from './ExecutionHistory.jsx';
 
 let browserSessionEpoch = 0;
 let lastInteraction = Date.now();
@@ -1519,6 +1520,7 @@ function ReviewScreen({ model }) {
                     <p>{job.reason}</p><code>{job.id}</code>
                     {job.state === 'WAITING_VALIDATION' && job.requesterId === actor?.id && <button type="button" className="secondary" onClick={() => cancelExecution(job)} disabled={busy || metadataRecovery.state !== 'ACTIVE'}>Cancel undispatched request</button>}
                     <button type="button" className="secondary" onClick={() => void loadExecutionEvents(job)}>View job events</button>
+                    <ExecutionHistory key={`${projectId}:${plan.id}:${job.id}:${job.revision}:${token}`} job={job} projectId={projectId} token={token} request={json} formatTime={fmt}/>
                     {(executionEvents[job.id] || []).length > 0 && <ol aria-label={`Events for job ${job.id}`}>
                       {executionEvents[job.id].map(event => <li key={event.id}><strong>{event.to_state.replaceAll('_',' ')}</strong> · {fmt(event.created_at)}{event.reason ? ` · ${event.reason}` : ''}</li>)}
                     </ol>}

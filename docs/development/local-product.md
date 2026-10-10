@@ -367,6 +367,8 @@ All other API reads/writes require an explicit bearer credential or, in HTTPS mo
 | `POST /api/plans/:id/execution` | Request a deployment job using only `idempotencyKey` and `reason`; creates a durable `WAITING_VALIDATION` job |
 | `GET /api/projects/:projectId/execution-jobs` | Read up to 50 current-project jobs |
 | `GET /api/execution-jobs/:id` | Read a scoped job and immutable events |
+| `GET /api/execution-jobs/:id/attempts?cursor=...` | Read 50 retained attempts in descending generation order |
+| `GET /api/execution-jobs/:id/attempts/:attemptId?eventsCursor=...&receiptsCursor=...` | Read 50 statement events and 50 receipts; cursors are bound to actor, job, attempt and stream |
 | `GET /api/projects/:projectId/plans/:id/statement-envelope?intentDigest=...&after=...` | Inspect 50 statement identities bound to an exact format-2 intent; stale digest returns `FRESH_PLAN_REQUIRED`, format 1 returns `STATEMENT_APPROVAL_REQUIRED` |
 | `POST /api/execution-jobs/:id/cancel` | Cancel the requester's undispatched job with `expectedRevision` |
 
@@ -393,6 +395,18 @@ claim is included. Archival retains records and transactionally rejects further 
 writes with HTTP 409 `PROJECT_ARCHIVED`, including in-flight writes that were waiting
 on the project lock. No restore or deletion endpoint is provided. Edit/resubmit and broader
 catalog workflows are incremental work.
+
+The review screen's **View execution history** opens retained claim/terminal states,
+statement events, HOLD reason codes and receipt/evidence digests. Each API page contains
+at most50rows per stream; attempt generations and event revisions remain decimal strings
+without JavaScript rounding. Active project membership and the presenting credential are
+rechecked through a consistent read transaction. Archived projects and RESTORE_HOLD metadata remain
+readable with current authority; reads never claim, recover, release HOLD or replay SQL.
+Lease tokens, credential references and arbitrary event payloads are excluded. Synthetic
+records are explicitly labelled **UNIT_SYNTHETIC**, with no Oracle execution validation.
+Claim deadlines and missing receipts do not establish current authority or prove whether
+SQL was applied. These endpoints project central retained metadata, not a reconciled
+Oracle target ledger; runtime admission and reconciliation remain separate gates.
 
 The immutable PostgreSQL proof row stores expected bindings; it does not independently grant
 execution authority or establish live target identity, history, mutex ownership, validity or
