@@ -64,9 +64,9 @@
   },
   "external_acceptance": "Oracle19c/21c acceptance remains independently unavailable. Required external GitHub security/protection gates prevent master integration of drafts37–44 and the T32 candidate; local scans/available CI never replace those gates.",
   "next_product_capability": {
-    "status": "T32_LOCAL_COMBINED_MVP_VERIFIED_DRAFT_PENDING",
-    "next_action": "Publish the reviewed combined checkpoint, observe final available CI and actual external gates, then select next meaningful execution-to-history readiness milestone.",
-    "branch_policy": "No additional minor-feature draft chain; preserve all reviewed source and original worktrees."
+    "status": "T32_COMBINED_LOCAL_MVP_VERIFIED_DRAFT45_ALL6_AVAILABLE_CI_SUCCESS",
+    "next_action": "Select a meaningful execution-to-history readiness milestone from remaining catalog gaps. Master integration requires actual external security/protection gates; independent local PRODUCT development may continue without Oracle access.",
+    "branch_policy": "Retain original drafts37–44 and worktrees; use the unified verified integration checkpoint, avoiding more dependent minor-feature drafts."
   },
   "features": [
     {

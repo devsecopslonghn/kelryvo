@@ -2923,6 +2923,24 @@
       },
       "path": "evidence/product/product-t32-draft-publication-20261010/record.json",
       "sha256": "1d8ff1f4df3cab2423454008cce612def511ffbb8622bf0931bca0c5257436f2"
+    },
+    {
+      "id": "product-t32-draft45-available-ci-terminal",
+      "subject_id": "SF-PRODUCT-T32",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head draft45 terminal available CI observation and open-PR/master reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t32-draft-publication-20261010/terminal-pr.stdout",
+        "sha256": "6099458d4cd0cb73f358fa06b2719693ffbe653ef34593e488abe2b77f1ec0ee"
+      },
+      "path": "evidence/product/product-t32-draft-publication-20261010/terminal-record.json",
+      "sha256": "2aff087a491fa183876dcc04525ada3af9eaa10a20ed4fb4c127d4f0c91e50ad"
     }
   ]
 }

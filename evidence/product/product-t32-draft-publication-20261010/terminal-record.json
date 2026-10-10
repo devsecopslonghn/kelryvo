@@ -1,0 +1,84 @@
+{
+  "id": "product-t32-draft45-available-ci-terminal",
+  "subject_id": "SF-PRODUCT-T32",
+  "kind": "STATIC",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact-head draft45 terminal available CI observation and open-PR/master reconciliation",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t32-draft-publication-20261010/terminal-pr.stdout",
+    "sha256": "6099458d4cd0cb73f358fa06b2719693ffbe653ef34593e488abe2b77f1ec0ee"
+  },
+  "recorded_at": "2026-10-10T11:48:26.290681+00:00",
+  "observation_command": [
+    "gh",
+    "pr",
+    "view",
+    "45",
+    "--json",
+    "number,url,state,isDraft,baseRefName,headRefName,headRefOid,mergeStateStatus,mergeable,statusCheckRollup,reviews"
+  ],
+  "published_head": "57e2395aa645e83120e6d60a88cdb8b759e31af2",
+  "frozen_source_head": "1545aade353c3c2cf709b547b3eae5ed03e849bb",
+  "pr": 45,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/45",
+  "available_checks": [
+    {
+      "name": "product",
+      "conclusion": "SUCCESS",
+      "details_url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38048903480/job/114203889286"
+    },
+    {
+      "name": "product",
+      "conclusion": "SUCCESS",
+      "details_url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38048899983/job/114203878817"
+    },
+    {
+      "name": "parser",
+      "conclusion": "SUCCESS",
+      "details_url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38048903582/job/114203889791"
+    },
+    {
+      "name": "parser",
+      "conclusion": "SUCCESS",
+      "details_url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38048899955/job/114203878789"
+    },
+    {
+      "name": "foundation",
+      "conclusion": "SUCCESS",
+      "details_url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38048903492/job/114203889218"
+    },
+    {
+      "name": "foundation",
+      "conclusion": "SUCCESS",
+      "details_url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38048899963/job/114203878861"
+    }
+  ],
+  "open_pr_observation": {
+    "command": [
+      "gh",
+      "pr",
+      "list",
+      "--state",
+      "open",
+      "--limit",
+      "30",
+      "--json",
+      "number,url,isDraft,headRefOid,headRefName,baseRefName"
+    ],
+    "path": "evidence/product/product-t32-draft-publication-20261010/open-prs.stdout",
+    "sha256": "511db1efe212c187757301c9670fb7bfc41abd6ad1b6915346388e6682317720"
+  },
+  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "required_security_available": false,
+  "merge_eligible": false,
+  "limitations": [
+    "All six available foundation/parser/product push+PR checks SUCCESS; unavailable code/secret/protection gates are not PASS. Sonar availability exception applies to Sonar only.",
+    "PR remains draft. No integrated-master, Oracle execution, queued-worker/HOLD, deployment or full catalog certification.",
+    "Continuation-only metadata remains local, preserving exact published CI head without redundant runs."
+  ]
+}
