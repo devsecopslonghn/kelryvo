@@ -3363,6 +3363,9 @@
       "evidence": [
         {
           "index_id": "product-t35-secure-sessions-local-verified"
+        },
+        {
+          "index_id": "product-t35-journal-repair-local-verified"
         }
       ],
       "blockers": []

@@ -1,0 +1,94 @@
+diff --git a/docs/development/local-product.md b/docs/development/local-product.md
+index 8b124be..ea2412b 100644
+--- a/docs/development/local-product.md
++++ b/docs/development/local-product.md
+@@ -597,3 +597,12 @@ including untrusted-chain and wrong-hostname rejection. Chromium trusts only the
+ fixture public-key pin; no-pin and unrelated-key cases reject TLS. This is explicit test
+ key trust, not browser CA-chain validation or deployed worker-transport acceptance.
+ No global trust store is modified, and no external/Oracle deployment is certified.
++
++Browser sign-in returns `429 SESSION_CAPACITY_REACHED` when another session would
++exceed the local credential operator's existing 32-entry recovery journal for that
++actor (normally one LOCAL credential plus at most 31 browser sessions). Sign out an
++existing session or rotate credentials with the OS operator to free capacity. A
++replacement sign-in can reuse its old session's slot; a failed replacement leaves
++the old session valid. Sign-in marks expired or orphaned browser sessions revoked
++and retains their history. Admission and rotation use the same transaction lock,
++so concurrent sign-ins cannot prevent the operator from rotating or revoking access.
+diff --git a/packages/database/browser-sessions.ts b/packages/database/browser-sessions.ts
+index b6a093e..c8dcb2f 100644
+--- a/packages/database/browser-sessions.ts
++++ b/packages/database/browser-sessions.ts
+@@ -81,15 +81,28 @@ export function registerBrowserSessions(app: any, { sql, authenticate, seed, ena
+         WHERE c.token_sha256=${tokenDigest(token)} AND c.credential_kind='LOCAL' AND c.revoked_at IS NULL
+           AND c.expires_at>clock_timestamp() AND a.organization_id=${ORG} FOR SHARE OF c,a`)[0];
+       if (!parent) return null;
++      // Preserve the operator's bounded recovery journal without deleting session history.
++      await tx`UPDATE sf_local_credentials c SET revoked_at=clock_timestamp()
++        WHERE c.actor_id=${parent.actor_id} AND c.credential_kind='BROWSER' AND c.revoked_at IS NULL
++          AND (c.expires_at<=clock_timestamp() OR c.absolute_expires_at<=clock_timestamp()
++            OR NOT EXISTS(SELECT 1 FROM sf_local_credentials p WHERE p.id=c.parent_credential_id
++              AND p.credential_kind='LOCAL' AND p.revoked_at IS NULL AND p.expires_at>clock_timestamp()))`;
+       const old = cookieValue(req);
+       if (old) await tx`UPDATE sf_local_credentials SET revoked_at=clock_timestamp()
+         WHERE token_sha256=${tokenDigest(old)} AND credential_kind='BROWSER' AND revoked_at IS NULL`;
++      const total = (await tx`SELECT count(*)::integer AS count FROM sf_local_credentials
++        WHERE actor_id=${parent.actor_id} AND revoked_at IS NULL`)[0].count;
++      if (total >= 32) throw error('SESSION_CAPACITY_REACHED');
+       const row = (await tx`WITH issued AS (SELECT clock_timestamp() AS ts)
+         INSERT INTO sf_local_credentials(actor_id,token_sha256,issued_at,expires_at,credential_kind,parent_credential_id,absolute_expires_at)
+         SELECT ${parent.actor_id},${tokenDigest(sessionToken)},ts,LEAST(${parent.expires_at},ts+interval '30 minutes'),
+           'BROWSER',${parent.id},LEAST(${parent.expires_at},ts+interval '8 hours') FROM issued RETURNING id,absolute_expires_at`)[0];
+       return { actor: { id: parent.actor_id, name: parent.name, role: parent.role }, absoluteExpiresAt: row.absolute_expires_at };
++    }).catch((cause: any) => {
++      if (cause?.productCode === 'SESSION_CAPACITY_REACHED') return { capacityRejected: true };
++      throw cause;
+     });
++    if ('capacityRejected' in (session ?? {})) return reply.code(429).send({ error: 'SESSION_CAPACITY_REACHED' });
+     if (!session) return reply.code(401).send({ error: 'UNAUTHENTICATED' });
+     reply.header('Set-Cookie', `${COOKIE}=${sessionToken}; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=28800`);
+     return { ...session, csrfToken: csrf(sessionToken), idleTimeoutSeconds: 1800 };
+diff --git a/tests/product-secure-sessions.test.mjs b/tests/product-secure-sessions.test.mjs
+index b35738c..d0534f5 100644
+--- a/tests/product-secure-sessions.test.mjs
++++ b/tests/product-secure-sessions.test.mjs
+@@ -118,3 +118,39 @@ test('private TLS material rejects permissions, links, relative and mismatched k
+     assert.throws(()=>createSecureContext({cert:fixture.tls.cert,key:other.tls.key}),/key values mismatch/);
+   }finally{await fixture.close();await other.close();}
+ });
++
++
++test('browser session admission preserves bounded OS rotation journal under concurrent capacity and expiry',{skip:!enabled,timeout:60000},async()=>{
++  const db=await openIsolatedProductDatabase(),fixture=await createTlsFixture();let app;
++  const actors=[{id:'local-developer',name:'Capacity developer',role:'developer',token:randomBytes(32).toString('hex')},{id:'local-approver',name:'Capacity approver',role:'approver',token:randomBytes(32).toString('hex')}];
++  try{
++    app=await startProduct({databaseUrl:db.databaseUrl,actors,repositories:[],port:0,tls:fixture.tls});
++    const base=`https://127.0.0.1:${app.server.address().port}`;
++    const login=(actor=actors[0],cookie)=>tlsRequest(base,fixture.ca,'/api/session',{method:'POST',headers:{authorization:`Bearer ${actor.token}`,origin:base,...(cookie?{cookie}:{})}});
++    const cookie=signed=>signed.headers['set-cookie'][0].split(';')[0];
++    const sessions=[];
++    for(let i=0;i<30;i++){const signed=await login();assert.equal(signed.status,200);sessions.push(cookie(signed));}
++    const concurrent=await Promise.all([login(),login()]);assert.deepEqual(concurrent.map(x=>x.status).sort(),[200,429]);
++    const denied=concurrent.find(x=>x.status===429);assert.equal(denied.body.error,'SESSION_CAPACITY_REACHED');assert.equal(denied.headers['set-cookie'],undefined);
++    const count=async()=>Number((await db.sql`SELECT count(*) FROM sf_local_credentials WHERE actor_id=${actors[0].id} AND revoked_at IS NULL`)[0].count);
++    assert.equal(await count(),32,'concurrent clients cannot exceed existing operator journal capacity');
++    const replacement=await login(actors[0],sessions[0]);assert.equal(replacement.status,200);assert.equal(await count(),32);
++    assert.equal((await tlsRequest(base,fixture.ca,'/api/session',{headers:{cookie:sessions[0]}})).status,401);
++    const approver=await login(actors[1]);assert.equal(approver.status,200);
++    const switchDenied=await login(actors[0],cookie(approver));assert.equal(switchDenied.status,429);
++    assert.equal((await tlsRequest(base,fixture.ca,'/api/session',{headers:{cookie:cookie(approver)}})).status,200,'capacity failure rolls back replacement revocation');
++    const expiredDigest=tokenDigest(sessions[1].split('=')[1]);
++    await db.sql`UPDATE sf_local_credentials SET issued_at=now()-interval '1 hour',expires_at=now()-interval '1 minute',absolute_expires_at=now()+interval '7 hours' WHERE token_sha256=${expiredDigest}`;
++    const recovered=await login();assert.equal(recovered.status,200);assert.equal(await count(),32);
++    assert.ok((await db.sql`SELECT revoked_at FROM sf_local_credentials WHERE token_sha256=${expiredDigest}`)[0].revoked_at,'expired session history is retained and marked revoked');
++    const configPath=join(fixture.directory,'config.json'),password=randomBytes(32).toString('hex'),privateUrl=new URL(db.databaseUrl);privateUrl.password=password;
++    await writeFile(configPath,JSON.stringify({databasePassword:password,developerToken:actors[0].token,approverToken:actors[1].token}),{mode:0o600});
++    await operateLocalCredential({configPath,databaseUrl:privateUrl.toString(),identity:'developer',action:'rotate'});
++    assert.equal(await count(),1,'OS rotation at capacity revokes all sessions and issues one local credential');
++    for(const oldCookie of [...sessions,cookie(replacement),cookie(recovered)])assert.equal((await tlsRequest(base,fixture.ca,'/api/session',{headers:{cookie:oldCookie}})).status,401);
++    actors[0].token=JSON.parse(await readFile(configPath,'utf8')).developerToken;
++    const rotated=await login();assert.equal(rotated.status,200);
++    await operateLocalCredential({configPath,databaseUrl:privateUrl.toString(),identity:'developer',action:'revoke'});
++    assert.equal((await tlsRequest(base,fixture.ca,'/api/session',{headers:{cookie:cookie(rotated)}})).status,401);
++  }finally{await app?.close();await db.close();await fixture.close();}
++});

@@ -1,0 +1,107 @@
+{
+  "id": "product-t35-journal-repair-local-verified",
+  "subject_id": "SF-PRODUCT-T35",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Corrected frozen serial npm run check; npm run test:product; npm run test:browser with isolated PostgreSQL/Git/pinned parser/native HTTPS/Chromium",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_references": [
+    "SF-PRODUCT-T35-HTTPS",
+    "SF-PRODUCT-T35-SESSION",
+    "SF-PRODUCT-T35-WEB",
+    "SF-PRODUCT-T35-RESTORE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t35-journal-repair-20261010/standard-final.log",
+    "sha256": "272f33171c9a4773988d4e2553798fef87203f106d8481fa8a56c26d1a9b3759"
+  },
+  "recorded_at": "2026-10-10T18:59:51.196429+00:00",
+  "implementation_head": "1d428b416f76df65659aff1f30bb1b0c250fb6a7",
+  "source_matches_frozen_git_blobs": {
+    "apps/api/index.ts": "535ff5bcc667b6bc07f706ece2577e665062d2f200d470f2ddba097c8b8e6b0c",
+    "apps/api/server.ts": "52ac307d251f945fd282a441f003f9933f3a57ea0dcb18faec1cd715d7c8508a",
+    "apps/web/src/app.jsx": "53404265ce4fe5b862b5556da5338ae5d92ab3a9c2f7b645d02d0e07ab99cee8",
+    "packages/backup/index.mjs": "6d5210970529b4cb31475e55e25a7fef383413935f8dbf1bfd6f2f268f33271e",
+    "packages/database/browser-sessions.ts": "96c431e443d37a5597d48af2d134926c5d55e2f6d5c382b38433b6fc273cff46",
+    "packages/database/index.ts": "94776ca22e6c35fc4a2eb76ac1a0390263a0ff10682c2a2aa65edd80f56129c2",
+    "packages/database/local-credentials.ts": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a",
+    "scripts/local-credential-operator.mjs": "c3a99f46577a6bba190c9a6508d383e0907591a687ffdaac4b332667a16b272d",
+    "scripts/local-dev.mjs": "9eb72fed226a6b0362950ac90147e68e7b449590778c0a2713aed0430c0e9754",
+    "scripts/local-tls.mjs": "8424b99f92d0da2e8ab86145def321dc547eceb289ea39da08fd3cebf87fb511",
+    "scripts/test-product.mjs": "cb4be04d48b95492a8e19962e281afae6226687c85c616bd168d344c13cd4a4b",
+    "scripts/tracker.mjs": "1e2833c816d86d592b6c187724c8a08e1113118b77b6c6864301d0c2e9e16c5c",
+    "tests/helpers/product-tls-fixture.mjs": "4f15f58b47bee9f8c4a21c2e344348d8e9d0bf3bb129abb21e1f6a0077e51510",
+    "tests/product-secure-sessions-browser.integration.mjs": "36b21d2aea88d1b42be6073ff46cae59fb2d29f764a23a8cfc869cba6d55eeb2",
+    "tests/product-secure-sessions.test.mjs": "9c8dd85be003ac1618312ecd094d6e4d2d298eb29a975ead31e89540bcc15662",
+    "tests/tracker.test.mjs": "025976bc86a47781750feb3bab0ea04eab6aa13f53c023fac578fdc59116f3aa",
+    "package.json": "f2e8e1c4e849e7596baf135ffa9976e001ca9157b66bd1c8ba1808848a7709f4",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  },
+  "regressions": {
+    "standard": {
+      "command": "taskset -c 0,1 npm run check",
+      "exit_code": 0,
+      "counts": {
+        "tests": 192,
+        "pass": 192,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "raw_output": "evidence/product/product-t35-journal-repair-20261010/standard-final.log",
+      "raw_output_sha256": "272f33171c9a4773988d4e2553798fef87203f106d8481fa8a56c26d1a9b3759"
+    },
+    "product": {
+      "command": "taskset -c 0,1 npm run test:product",
+      "exit_code": 0,
+      "counts": {
+        "tests": 55,
+        "pass": 55,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "raw_output": "evidence/product/product-t35-journal-repair-20261010/product-final.log",
+      "raw_output_sha256": "3f64a7cb87c81053036547aaeed7271a7e32c9ca89c2f9f7bf32a1c1b01eeac8"
+    },
+    "browser": {
+      "command": "taskset -c 0,1 npm run test:browser",
+      "exit_code": 0,
+      "counts": {
+        "tests": 31,
+        "pass": 31,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "raw_output": "evidence/product/product-t35-journal-repair-20261010/browser-final.log",
+      "raw_output_sha256": "bc0cbbeb7d24cc1a23e76fb8c4c1d706b4afc82c6cf90634700d277f0ed04788"
+    }
+  },
+  "review": {
+    "path": "evidence/product/product-t35-journal-repair-20261010/independent-review.json",
+    "sha256": "0dc66133c72993b1fa2eccf08eea2e9a2e1f1194bafa2ca11c62370230362b0b"
+  },
+  "failed_observations_retained": {
+    "regression-before.log": "Initial unavailable stopped PG port; not defect evidence.",
+    "regression-defect.log": "Original implementation fails with >32 browser credentials before requested interruption.",
+    "focused.log": "Fixture first private config was compact rather than canonical pretty bytes; corrected fixture format.",
+    "standard.log": "Initial unrestricted16CPU test run hit parser/fixture failures; final2CPU run passes. Not counted as acceptance."
+  },
+  "limitations": [
+    "Corrected source supersedes original T35 acceptance for credential recovery; no source changes during final three serial suites.",
+    "Publication/exact-head CI criterion5 pending; task stays IMPLEMENTED until actual corrected gates pass.",
+    "Node validates disposable CA/hostname; Chromium pins one ephemeral fixture public key with negative no-pin/unrelated-key cases. No global trust changes.",
+    "No authorized Oracle connection/execution/reconciliation, deployed worker/transport, HOLD clearance or full catalog acceptance."
+  ]
+}

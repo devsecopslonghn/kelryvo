@@ -3117,6 +3117,35 @@
       },
       "path": "evidence/product/product-t35-secure-sessions-20261010/record.json",
       "sha256": "3abaaf39b63c7edc5f1687d178bf7bc557199ad481a0f8d59fa32726368932ea"
+    },
+    {
+      "id": "product-t35-journal-repair-local-verified",
+      "subject_id": "SF-PRODUCT-T35",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Corrected frozen serial npm run check; npm run test:product; npm run test:browser with isolated PostgreSQL/Git/pinned parser/native HTTPS/Chromium",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "test_references": [
+        "SF-PRODUCT-T35-HTTPS",
+        "SF-PRODUCT-T35-SESSION",
+        "SF-PRODUCT-T35-WEB",
+        "SF-PRODUCT-T35-RESTORE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t35-journal-repair-20261010/standard-final.log",
+        "sha256": "272f33171c9a4773988d4e2553798fef87203f106d8481fa8a56c26d1a9b3759"
+      },
+      "path": "evidence/product/product-t35-journal-repair-20261010/record.json",
+      "sha256": "d44869f3c5cf79ed9ca250b2762b81448171ec09b369e046d6cda53cd77c6cae"
     }
   ]
 }
