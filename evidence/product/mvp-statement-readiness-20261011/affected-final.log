@@ -1,0 +1,79 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: archival keeps immutable records readable and refuses further project work
+ok 1 - archival keeps immutable records readable and refuses further project work
+  ---
+  duration_ms: 3284.664185
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+ok 2 - an in-flight metadata write rechecks archival after acquiring the project lock
+  ---
+  duration_ms: 335.804036
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+ok 3 - audit action filters preserve project scope, server order, archived reads and read-only records
+  ---
+  duration_ms: 11458.209159
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: authenticated denied decisions append fixed audit facts while preserving plan and history
+ok 4 - authenticated denied decisions append fixed audit facts while preserving plan and history
+  ---
+  duration_ms: 16871.173718
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: review shows the complete paged statement envelope, explicit readiness and legacy reapproval without stale results
+ok 5 - review shows the complete paged statement envelope, explicit readiness and legacy reapproval without stale results
+  ---
+  duration_ms: 18512.354179
+  type: 'test'
+  ...
+# Subtest: pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+ok 6 - pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+  ---
+  duration_ms: 3179.161575
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+ok 7 - status filters preserve scoped ordered plans, drafts, history and archived reads
+  ---
+  duration_ms: 23097.128484
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 79583.603393

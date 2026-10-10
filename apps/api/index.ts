@@ -9,6 +9,7 @@ import { compareRetainedReleases } from "../../packages/migrations/compare-retai
 import { previewRetainedStatements } from "../../packages/migrations/statement-preview.mjs";
 import { resolveCommentEvidence, validateCommentEvidenceInput } from "../../packages/migrations/comment-evidence.mjs";
 import { encodeOfflinePlanIntent, verifyOfflinePlanIntent } from "../../packages/migrations/offline-plan-intent.mjs";
+import { collectRetainedStatementIdentity } from "../../packages/migrations/statement-identity.mjs";
 import { preflightRetainedRelease, preflightHistoricalRelease } from "../../packages/migrations/retained-release-preflight.mjs";
 import { actorHasProjectGrant, projectAccessMode } from "../../packages/database/project-membership.ts";
 import { AUDIT_PAGE_SIZE, decodeAuditCursor, encodeAuditCursor } from "../../packages/audit/cursor.mjs";
@@ -946,13 +947,15 @@ export function createApp(options: {
         const files = r.files as any[];
         const items = files.map((f) => ({ path: f.path, version: f.version, sha256: f.sha256, status: "NOT_EXECUTED" }));
         if (!items.length || items.some((f) => !f.version || !f.sha256)) return { error: "RELEASE_NOT_PLANNABLE" };
+        const statements = await collectRetainedStatementIdentity(r);
+        if (!statements) return { error: "RELEASE_NOT_PLANNABLE" };
         const offlineIntent = environment && encodeOfflinePlanIntent({ organizationId: ORG, projectId: p.id,
           requesterId: req.actor.id, releaseId: r.id, commit: r.commit_id, objectFormat: r.object_format,
           folder: r.folder, parserProfile: r.parser_profile, manifestDigest: r.manifest_digest,
           profileId: profile.id, profileName: profile.name, environmentId: environment.id,
           environmentName: environment.name, engine: profile.engine, host: profile.host, port: profile.port,
           service: profile.service, username: profile.username, credentialRef: profile.credential_ref,
-          items: items.map(({ path, version, sha256 }) => ({ path, version, sha256 })) });
+          items: items.map(({ path, version, sha256 }) => ({ path, version, sha256 })), statements });
         if (!offlineIntent) return { error: "INVALID_REFERENCE" };
         if (p.archived_at) return { error: "PROJECT_ARCHIVED" };
         const rows = await tx`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items,offline_intent_envelope,offline_intent_digest,source_binding_generation)
@@ -980,6 +983,27 @@ export function createApp(options: {
       return reply.code(201).send({ plan: mapPlan(outcome.plan) });
     },
   );
+  app.get('/api/projects/:projectId/plans/:id/statement-envelope', { preHandler: authenticate }, async (req: any, reply: any) => {
+    if (!uuid(req.params.projectId) || !uuid(req.params.id)) return fail(reply, 404, 'NOT_FOUND');
+    const q = req.query;
+    if (!object(q, ['after', 'intentDigest']) || !/^[a-f0-9]{64}$/.test(q.intentDigest ?? '')
+        || q.after !== undefined && !/^(?:0|[1-9][0-9]{0,3})$/.test(q.after)) return fail(reply, 400, 'INVALID_REQUEST');
+    const after = Number(q.after ?? 0);
+    const plan = (await sql`SELECT organization_id,project_id,author_id,release_id,profile_id,
+      CASE WHEN octet_length(offline_intent_envelope)<=${MAX_STDOUT_BYTES} THEN offline_intent_envelope END AS envelope,
+      CASE WHEN char_length(offline_intent_digest)=64 THEN offline_intent_digest END AS digest
+      FROM sf_plans WHERE id=${req.params.id} AND project_id=${req.params.projectId} AND organization_id=${ORG}`)[0];
+    if (!plan) return fail(reply, 404, 'NOT_FOUND');
+    const intent = verifyOfflinePlanIntent(plan.envelope, plan.digest, { organizationId: ORG, projectId: plan.project_id,
+      requesterId: plan.author_id, releaseId: plan.release_id, profileId: plan.profile_id });
+    if (!intent || q.intentDigest !== intent.digest) return fail(reply, 409, 'FRESH_PLAN_REQUIRED');
+    if (intent.format !== 2 || !Array.isArray(intent.statements)) return fail(reply, 409, 'STATEMENT_APPROVAL_REQUIRED');
+    if (after > intent.statements.length) return fail(reply, 400, 'INVALID_REQUEST');
+    const statements = intent.statements.slice(after, after + 50);
+    return { format: 2, intentDigest: intent.digest, offline: true, executionAuthority: false,
+      statementCount: intent.statements.length, statements,
+      nextOrdinal: after + statements.length < intent.statements.length ? after + statements.length : null };
+  });
   app.get('/api/projects/:projectId/plans/:id/comments', { preHandler: authenticate }, async (req: any, reply: any) => {
     if (!uuid(req.params.projectId) || !uuid(req.params.id)) return fail(reply, 404, 'NOT_FOUND');
     const plan = (await sql`SELECT id FROM sf_plans WHERE id=${req.params.id}
@@ -1265,6 +1289,10 @@ export function createApp(options: {
             items: files.map((file: any) => ({ path: file.path, version: file.version, sha256: file.sha256 })),
           });
           if (!boundIntent || !Array.isArray(items) || items.length !== files.length) return "PLAN_APPROVAL_INTEGRITY_FAILED";
+          if (boundIntent.format === 2) {
+            const statements = await collectRetainedStatementIdentity(release);
+            if (!statements || JSON.stringify(statements) !== JSON.stringify(boundIntent.statements)) return "PLAN_APPROVAL_INTEGRITY_FAILED";
+          }
         }
         const approvalReference = b.decision === 'APPROVE' ? randomUUID() : null;
         const rows = await tx`UPDATE sf_plans SET status=${b.decision === "APPROVE" ? "APPROVED" : "REJECTED"},decision=${b.decision},decision_reason=${b.reason},decided_by=${req.actor.id},decided_by_name=${req.actor.name},decided_at=now(),approval_reference=${approvalReference}
@@ -1427,7 +1455,7 @@ export function createApp(options: {
         if (!retainedPreflight.valid) return { error: 'PLAN_NOT_REQUESTABLE' };
         const approvalRevocation = (await tx`SELECT id FROM sf_plan_approval_revocations WHERE organization_id=${ORG}
           AND project_id=${plan.project_id} AND plan_id=${plan.id} AND approval_reference=${plan.approval_reference} LIMIT 1`)[0];
-        const retained = (await tx`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,parser_profile,
+        const retained = (await tx`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,parser_profile,validation_status,
           CASE WHEN jsonb_typeof(files)='array' AND octet_length(files::text)<=${6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024}
             THEN files END AS files
           FROM sf_releases WHERE id=${plan.release_id} AND project_id=${plan.project_id} FOR SHARE`)[0];
@@ -1446,10 +1474,13 @@ export function createApp(options: {
         const retainedValid = retained && verifyRetainedRelease(retained);
         const sourceItemsMatch = Boolean(retainedValid && intent && Array.isArray(retained.files)
           && JSON.stringify(retained.files.map((item: any) => ({ path:item.path,version:item.version,sha256:item.sha256 }))) === JSON.stringify(intent.items));
+        const sourceStatementsMatch = intent?.format === 2 && sourceItemsMatch
+          && JSON.stringify(await collectRetainedStatementIdentity(retained)) === JSON.stringify(intent.statements);
         let denial = project?.archived_at ? 'PROJECT_ARCHIVED' : !deployer ? 'DEPLOY_PERMISSION_REQUIRED'
           : approvalRevocation ? 'APPROVAL_REVOKED'
           : plan.status !== 'APPROVED' || plan.decision !== 'APPROVE' || !plan.approval_reference ? 'PLAN_NOT_APPROVED'
-          : !plan.offline_intent_digest || !intent || !profile || !retainedValid || !sourceItemsMatch
+          : intent?.format === 1 ? 'STATEMENT_APPROVAL_REQUIRED'
+          : !plan.offline_intent_digest || !intent || !profile || !retainedValid || !sourceItemsMatch || !sourceStatementsMatch
             || plan.source_binding_generation?.toString() !== project.source_binding_generation?.toString()
             || profile.repository_id !== project.source_repository_id || profile.folder !== project.source_folder
             || intent.profileId !== profile.id || intent.engine !== profile.engine || intent.host !== profile.host
@@ -1604,7 +1635,16 @@ function mapPlan(r: any) {
       environmentId: offlineIntent.environmentId, environmentName: offlineIntent.environmentName,
       engine: offlineIntent.engine, host: offlineIntent.host, port: offlineIntent.port,
       service: offlineIntent.service, username: offlineIntent.username,
+      statementCount: offlineIntent.format === 2 ? offlineIntent.statements?.length ?? null : null,
     } : null,
+    executionReadiness: {
+      state: 'WAITING_VALIDATION', executionAuthority: false,
+      blockers: [
+        ...(r.status !== 'APPROVED' ? ['PLAN_APPROVAL_REQUIRED'] : []),
+        ...(!offlineIntent ? ['PLAN_INTENT_UNAVAILABLE'] : offlineIntent.format === 1 ? ['STATEMENT_APPROVAL_REQUIRED'] : []),
+        'TARGET_HISTORY_UNAVAILABLE', 'TRUSTED_HOST_UNAVAILABLE', 'TARGET_MUTEX_UNAVAILABLE', 'DISPATCH_PERMIT_UNAVAILABLE',
+      ],
+    },
     approvalReference: r.approval_reference ?? null,
     revocation: r.revocation && typeof r.revocation === 'object' ? r.revocation : null,
   };

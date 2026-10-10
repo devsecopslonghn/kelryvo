@@ -1,0 +1,28 @@
+{
+  "source_parent": "5c60d0f8373fe2ceb8589114f5de57ecdba43f19",
+  "scope": "Only bounded CI/test deadlines and appended correction evidence/checkpoint; prior production/pin/license/security review retained. No whole-history claim.",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "dir",
+    "/tmp/schemaforge-ci-budget-scan-ew2suwlu",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path",
+    "/tmp/schemaforge-ci-budget-scan-ew2suwlu-private.json"
+  ],
+  "exit_code": 0,
+  "findings": 0,
+  "paths_sha256": {
+    ".github/workflows/product.yml": "d95b382077369e84aa675f146b7098a9e1c6d305eada0876373515d31073a464",
+    "docs/implementation/CONTINUE.md": "acae9969e880cbf62d948cd3340f5654e82257163ef30b47993a413e68f3eaff",
+    "docs/implementation/CURRENT.md": "acae9969e880cbf62d948cd3340f5654e82257163ef30b47993a413e68f3eaff",
+    "docs/implementation/milestone.json": "44221ab77169f0438918c967b7ebd4c443e6d52615a378191afe9c2d63d90e54",
+    "tests/product-reviewer-assignment.test.mjs": "cec99b64283b59dfefd9c23a79c0de1f3614089e98b11a0feccdcbc01d4588eb",
+    "evidence/product/mvp-statement-readiness-20261011/corrected-publication-review.json": "03d6491429938685e7c8c5149275197344410d2da8660f424baa9911faa10cf1",
+    "evidence/product/mvp-statement-readiness-20261011/budget-head-product-cancelled.log": "f3aeba4894d5b44d63fc36bce3c61cf6c8086bcb186b98101522da2ec61d7a5f",
+    "evidence/product/mvp-statement-readiness-20261011/ci-budget-correction.json": "dc943c39a72a5ac1b18af123ca4285018e982200af8335c031af4ada8e6b0ad4",
+    "evidence/product/mvp-statement-readiness-20261011/reviewer-budget-corrected.log": "ff000cee88cef9ad108284aa870ca35c6e7f387aabc99e065ac92d0ead8190f2"
+  },
+  "recorded_at": "2026-10-10T20:49:20.554830+00:00"
+}

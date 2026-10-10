@@ -1,0 +1,39 @@
+{
+  "source_head": "76bfd7cb85cbd46c8bf079a08b07eb6f836c4008",
+  "base": "832be8e",
+  "scope": "Fixture corrections and all new publication checkpoint/evidence paths; original source scan0 findings reused by exact file hashes. T35 prior scans reused.",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "dir",
+    "/tmp/schemaforge-statement-final-publication-huq452i5",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-statement-final-publication-huq452i5-private.json"
+  ],
+  "exit_code": 0,
+  "findings": 0,
+  "private_report": "/tmp/schemaforge-statement-final-publication-huq452i5-private.json",
+  "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "paths_sha256": {
+    "docs/implementation/CONTINUE.md": "62e1b953e4690bb52af4406e84248ed0d0a62e00a0fe2e36610674bf222fa4ac",
+    "docs/implementation/CURRENT.md": "62e1b953e4690bb52af4406e84248ed0d0a62e00a0fe2e36610674bf222fa4ac",
+    "docs/implementation/evidence-index.json": "c8f18bb7888857d83d80cd2a562215986534ad7d1027170bd5173d9d2681bfdd",
+    "docs/implementation/feature-coverage.json": "491357d37dc0eb1e6112cc5932910643fbc950e3d14b98cd56e908ab23fba298",
+    "docs/implementation/milestone.json": "f8e3012029a3eb3b30a44637ec8e8aadddb40b39439947c94332c7ce00e743b2",
+    "evidence/product/mvp-statement-readiness-20261011/affected-final.log": "ee263ccdcb3ed1d73e570915c9500e7762c1588d99ce0123bf39569b99f203b5",
+    "evidence/product/mvp-statement-readiness-20261011/fixture-review.json": "790ee82b9e4748932e639fb0420a88d0197d708c111bf3783fc53739c33d23ac",
+    "evidence/product/mvp-statement-readiness-20261011/independent-review.json": "8dd5e33f224b1efdaacdddb52d094eff327af29d0e385ae93ee6a88f50108bd9",
+    "evidence/product/mvp-statement-readiness-20261011/integration-gates.json": "6168ab5e38ac40ef3a491d895c3f56e3671e572302451da4ee973dc67a4f9bf8",
+    "evidence/product/mvp-statement-readiness-20261011/local-initial-failed.json": "6dc185405385e097ff4b1fd62794b51cee92b00079f32f95b79f4420f8679938",
+    "evidence/product/mvp-statement-readiness-20261011/publication-scan.json": "0fa71a9e7ae640a3c1d0745b2d60f5d72d57cbbacf3921b1bd35c8fb61ccaa24",
+    "evidence/product/mvp-statement-readiness-20261011/record.json": "f2062283baf548e416a051732d3568488079de609ad66fc50a8e9504353066f8",
+    "evidence/product/mvp-statement-readiness-20261011/standard-final.log": "85f760844ad047bf8e3ae13b114c3ab36490192ee972eff0a434ed71b6e6f55d",
+    "evidence/product/mvp-statement-readiness-20261011/standard-initial-failed.log": "bee0efa9d448a45ae673f7e46ffb8f9fd3a6ca32c4ae1e13f4922ed9158d8332",
+    "tests/product-archive.test.mjs": "cb3cd5e382608cc2db5d0f96afb8ce4fd978fe0c406549b66a2c5b975f9d8723",
+    "tests/product-audit-action-filters-browser.integration.mjs": "5bcec15525849bf59d6029afc5ea842e93a8106ea8f9184393ed796e3e4aa86f",
+    "tests/product-review-audit.test.mjs": "8703ff909d2a03f926ae1aca95daa7c9f0b074688b7ff195237f560e889539ab",
+    "tests/product-status-filters-browser.integration.mjs": "08ae71191ea67d96b2edf2cb534a61c0971e8b24ae9fdc135a449cbeae26f13a"
+  },
+  "recorded_at": "2026-10-10T20:15:03.184004+00:00"
+}

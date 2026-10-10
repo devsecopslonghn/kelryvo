@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { ANTLR_PROFILE } from '../experiments/db-devops-wp0/parser-envelope.mjs';
 import assert from 'node:assert/strict';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { chromium } from 'playwright';
@@ -27,10 +28,15 @@ test('review assignment controls and Assigned to me filter follow scoped plan st
     const profile=(await api('POST',`/api/projects/${project.id}/profiles`,actors[0],{name:'Profile',environmentId:env.id,engine:'oracle',host:'db.invalid',port:1521,service:'DEV',username:'APP',credentialRef:'vault://local/app'})).json.profile;
     const content='CREATE TABLE reviewer_ui (id NUMBER);',bytes=Buffer.from(content),sha256=createHash('sha256').update(bytes).digest('hex');
     const files=[{path:'migrations/V1__ui.sql',version:'1',sha256,bytes:bytes.length,content,statementCount:1,validationStatus:'VALID'}];
-    const parserProfile='assignment-ui-fixture',manifest=createHash('sha256').update(JSON.stringify({format:1,commit:'b'.repeat(40),objectFormat:'sha1',folder:'migrations',parserProfile,files:files.map(({path,version,sha256,bytes})=>({path,version,sha256,bytes}))})).digest('hex');
+    const parserProfile=ANTLR_PROFILE,manifest=createHash('sha256').update(JSON.stringify({format:1,commit:'b'.repeat(40),objectFormat:'sha1',folder:'migrations',parserProfile,files:files.map(({path,version,sha256,bytes})=>({path,version,sha256,bytes}))})).digest('hex');
     const release=(await database.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files) VALUES(${project.id},${ORG},'fixture',${'b'.repeat(40)},'sha1','migrations',${manifest},'VALID',${parserProfile},${database.sql.json(files)}) RETURNING id`)[0];
-    const plan=(await api('POST',`/api/projects/${project.id}/plans`,actors[0],{releaseId:release.id,profileId:profile.id})).json.plan;
-    const authorPlan=(await api('POST',`/api/projects/${project.id}/plans`,actors[1],{releaseId:release.id,profileId:profile.id})).json.plan;
+    const makePlan=async actor=>{
+      const result=await api('POST',`/api/projects/${project.id}/plans`,actor,{releaseId:release.id,profileId:profile.id});
+      assert.equal(result.status,201);
+      return result.json.plan;
+    };
+    const plan=await makePlan(actors[0]);
+    const authorPlan=await makePlan(actors[1]);
     await database.sql`UPDATE sf_plans SET created_at=now()-interval '1 minute' WHERE id=${plan.id}`;
     await database.sql`UPDATE sf_plans SET created_at=now() WHERE id=${authorPlan.id}`;
     browser=await chromium.launch(); const page=await browser.newPage({viewport:{width:1440,height:1100}}); const pageErrors=[]; page.on('pageerror',e=>pageErrors.push(e.message));

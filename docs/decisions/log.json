@@ -422,6 +422,17 @@
         "docs/development/local-product.md",
         "docs/implementation/backlog.json"
       ]
+    },
+    {
+      "id": "SF-D039",
+      "status": "ACCEPTED_MVP_M3_STATEMENT_BOUND_APPROVAL",
+      "accepted_at_utc": "2026-10-10T20:00:50.288594+00:00",
+      "decision": "New offline plans use a bounded format-2 complete ordered pinned-parser statement identity, rederived at approval and request. Preserve format-1 bytes and file-only approvals without automatic migration; deny legacy execution requests and require a fresh plan/independent approval. Reuse existing text envelope storage and parser, validate and copy one retained snapshot before awaits, and paginate scope/digest-bound identity metadata without credential references or SQL. Readiness reports absent target history/trusted host/mutex/dispatch permit; requests stay WAITING_VALIDATION. No target calls or authority inferred. Ordinary reversible choice under SF-D010; no new task ID or full feature/Oracle acceptance.",
+      "references": [
+        "docs/development/local-product.md",
+        "docs/architecture/boundaries.md",
+        "docs/implementation/milestone.json"
+      ]
     }
   ]
 }

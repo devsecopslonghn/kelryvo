@@ -1,0 +1,22 @@
+{
+  "source_parent": "f8666342a99edb3d484186650bae8d89f435d2ce",
+  "scope": "Two existing new-plan assignment fixtures only; implementation unchanged.",
+  "reason": "Actual required product CI failed55/56 because assignment-fixture parser profile was unsupported. Related browser used assignment-ui-fixture. Both now bind the pinned ANTLR_PROFILE in manifest/row, and require201 before plan IDs.",
+  "audit": "Other synthetic parser profile seeds inspected; all create historical format1 plans directly or intentional invalid/legacy fixtures, preserved. No further new-plan fake-profile fixture found.",
+  "focused_verification": {
+    "api": "Reviewer assignment API subtest PASS in retained mixed reviewer-fixtures-initial.log. Mixed run overall1PASS1FAIL: browser assertion used wrong .response.status; helper returns .status. API file unchanged thereafter, not rerun redundantly.",
+    "browser": "Corrected browser rerun1PASS0FAIL0SKIP, reviewer-browser-corrected.log",
+    "log_sha256": {
+      "initial-pr-product-failed.log": "e5b7956fb88f036cf03cf578a42e493006058f2372c5bb270d0b16811474ac14",
+      "reviewer-fixtures-initial.log": "ad2ce3aeb32ca49728cba68ec27acf3b4c7df3bd926f34dee7ac3a1db790b072",
+      "reviewer-browser-corrected.log": "596577a7683a1649b06ac6a53e1c9e9175dc9e596661d5d908b31806f14bcedd"
+    }
+  },
+  "review": "Native independent read-only reviewer approved both fixture corrections, no weakening; production unchanged.",
+  "changed_source_sha256": {
+    "tests/product-reviewer-assignment.test.mjs": "112e0fe1a13207fa11b0467501d01a6d4ac14d21317f03749a9c005db3ec222c",
+    "tests/product-reviewer-assignment-browser.integration.mjs": "9b3e1a44a9d69b87a376838d5a013d2ae6542363bcb2f5910e9e7e2b76bb6c4f"
+  },
+  "integration": "PR49 remains DRAFT; corrected exact-head full CI mandatory, no merge yet.",
+  "recorded_at": "2026-10-10T20:26:51.183674+00:00"
+}

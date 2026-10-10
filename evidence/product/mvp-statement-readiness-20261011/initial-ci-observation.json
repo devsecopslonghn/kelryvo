@@ -1,0 +1,53 @@
+{
+  "note": "PR product55/56failed, browser skipped; push product still running at this observation. Final outcomes must be checked separately.",
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 38083113332,
+      "event": "pull_request",
+      "headSha": "f8666342a99edb3d484186650bae8d89f435d2ce",
+      "name": "Offline WP0 checks",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38083113346,
+      "event": "pull_request",
+      "headSha": "f8666342a99edb3d484186650bae8d89f435d2ce",
+      "name": "Offline ANTLR parser acceptance",
+      "status": "completed"
+    },
+    {
+      "conclusion": "failure",
+      "databaseId": 38083113344,
+      "event": "pull_request",
+      "headSha": "f8666342a99edb3d484186650bae8d89f435d2ce",
+      "name": "Local PRODUCT acceptance",
+      "status": "completed"
+    },
+    {
+      "conclusion": "",
+      "databaseId": 38083108617,
+      "event": "push",
+      "headSha": "f8666342a99edb3d484186650bae8d89f435d2ce",
+      "name": "Local PRODUCT acceptance",
+      "status": "in_progress"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38083108626,
+      "event": "push",
+      "headSha": "f8666342a99edb3d484186650bae8d89f435d2ce",
+      "name": "Offline WP0 checks",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38083108615,
+      "event": "push",
+      "headSha": "f8666342a99edb3d484186650bae8d89f435d2ce",
+      "name": "Offline ANTLR parser acceptance",
+      "status": "completed"
+    }
+  ]
+}

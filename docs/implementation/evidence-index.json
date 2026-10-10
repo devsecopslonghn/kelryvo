@@ -3146,6 +3146,49 @@
       },
       "path": "evidence/product/product-t35-journal-repair-20261010/record.json",
       "sha256": "d44869f3c5cf79ed9ca250b2762b81448171ec09b369e046d6cda53cd77c6cae"
+    },
+    {
+      "id": "product-t35-corrected-ci-mvp-integration-verified",
+      "subject_id": "SF-PRODUCT-T35",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact corrected published-head CI; independent cumulative source/security review; ordinary match-head merge; source-identical master CI and ancestor PR reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [
+        5
+      ],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t35-journal-repair-20261010/integration-result.json",
+        "sha256": "9429fde4a12eff61cf129b4bad3bf37f51d54c32e2659eaa1f2e40eba54426e9"
+      },
+      "recorded_at": "2026-10-10T19:44:41.853042+00:00",
+      "path": "evidence/product/product-t35-journal-repair-20261010/integration-record.json",
+      "sha256": "4b526ce4b0c9d5eb8a3742a1e1c8332a8e1262e243c34046403e24f3031a4caf"
+    },
+    {
+      "id": "mvp-statement-readiness-local-verified",
+      "subject_id": "SF-PRODUCT-T17",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen npm run check (offline, as foundation CI); focused PostgreSQL/parser/Chromium affected checks7/7; corrected new API1/1. Full product/browser suites required in final CI.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "SF-PRODUCT-T17-UNIT",
+        "SF-PRODUCT-T17-API",
+        "SF-PRODUCT-T17-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/mvp-statement-readiness-20261011/affected-final.log",
+        "sha256": "ee263ccdcb3ed1d73e570915c9500e7762c1588d99ce0123bf39569b99f203b5"
+      },
+      "path": "evidence/product/mvp-statement-readiness-20261011/record.json",
+      "sha256": "f2062283baf548e416a051732d3568488079de609ad66fc50a8e9504353066f8"
     }
   ]
 }

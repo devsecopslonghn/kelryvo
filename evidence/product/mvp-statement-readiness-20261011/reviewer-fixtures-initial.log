@@ -1,0 +1,47 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: review assignment controls and Assigned to me filter follow scoped plan state
+not ok 1 - review assignment controls and Assigned to me filter follow scoped plan state
+  ---
+  duration_ms: 3335.232519
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-execution-readiness/tests/product-reviewer-assignment-browser.integration.mjs:11:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading 'status')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    makePlan (file:///home/longhn0710/workspace/schemaforge-execution-readiness/tests/product-reviewer-assignment-browser.integration.mjs:35:36)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-execution-readiness/tests/product-reviewer-assignment-browser.integration.mjs:38:16)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: reviewer assignment is scoped, revisioned, auditable and enforced at decision time
+ok 2 - reviewer assignment is scoped, revisioned, auditable and enforced at decision time
+  ---
+  duration_ms: 28552.387639
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 32920.433779

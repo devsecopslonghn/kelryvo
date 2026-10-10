@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { ANTLR_PROFILE } from '../experiments/db-devops-wp0/parser-envelope.mjs';
 import assert from 'node:assert/strict';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
@@ -41,11 +42,13 @@ test('archival keeps immutable records readable and refuses further project work
     const files = [{ path:'migrations/V1__fixture.sql', version:'1', sha256, bytes:bytes.length,
       content, statementCount:1, validationStatus:'VALID' }];
     const manifestDigest = createHash('sha256').update(JSON.stringify({ format:1, commit:'a'.repeat(40), objectFormat:'sha1',
-      folder:'migrations', parserProfile:'fixture-parser-profile', files:files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) })).digest('hex');
+      folder:'migrations', parserProfile:ANTLR_PROFILE, files:files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) })).digest('hex');
     const release = (await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)
-      VALUES(${project.id},'00000000-0000-4000-8000-000000000001','local-source',${'a'.repeat(40)},'sha1','migrations',${manifestDigest},'VALID','fixture-parser-profile',${db.sql.json(files)}) RETURNING id`)[0];
+      VALUES(${project.id},'00000000-0000-4000-8000-000000000001','local-source',${'a'.repeat(40)},'sha1','migrations',${manifestDigest},'VALID',${ANTLR_PROFILE},${db.sql.json(files)}) RETURNING id`)[0];
     const planInput = { releaseId: release.id, profileId: profile.id };
-    const plan = (await request('POST', `${base}/plans`, planInput)).json().plan;
+    const createdPlan = await request('POST', `${base}/plans`, planInput);
+    assert.equal(createdPlan.statusCode, 201, createdPlan.body);
+    const plan = createdPlan.json().plan;
     assert.equal((await request('POST', `${base}/archive`, { reason: 'read only' }, approver)).statusCode, 403);
     const archived = (await request('POST', `${base}/archive`, { reason: 'Completed local review' })).json().project;
     assert.ok(archived.archivedAt);

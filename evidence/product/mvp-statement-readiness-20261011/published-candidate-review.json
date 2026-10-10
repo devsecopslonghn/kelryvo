@@ -1,0 +1,8 @@
+{
+  "head": "f8666342a99edb3d484186650bae8d89f435d2ce",
+  "outcome": "APPROVED_EXACT_PUBLICATION_HEAD",
+  "reviewer": "native /root/integration_review",
+  "recorded_at": "2026-10-10T20:17:10.347414+00:00",
+  "scope": "All20 frozen code/test/pin/license hashes equal approved3f72cbf; final metadata/log hashes spot-verified, no implementation/security/license/evidence blocker. No Oracle or full CI certification.",
+  "ci": "Pending six final push/pull-request workflows."
+}

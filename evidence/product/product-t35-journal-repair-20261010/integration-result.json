@@ -1,0 +1,227 @@
+{
+  "recorded_at": "2026-10-10T19:44:41.720245+00:00",
+  "source": "Actual GitHub CLI JSON plus native git ancestry checks; one terminal snapshot, no repeated unavailable API probes.",
+  "pr_ci": {
+    "baseRefName": "master",
+    "baseRefOid": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+    "headRefOid": "e4bd556cdf1e381c3978d5133b084443170eaefa",
+    "isDraft": true,
+    "mergeStateStatus": "CLEAN",
+    "mergeable": "MERGEABLE",
+    "number": 48,
+    "reviewDecision": "",
+    "reviews": [],
+    "state": "OPEN",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-10T19:34:27Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38079477633/job/114293239681",
+        "name": "product",
+        "startedAt": "2026-10-10T19:21:32Z",
+        "status": "COMPLETED",
+        "workflowName": "Local PRODUCT acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-10T19:35:14Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38079474391/job/114293229807",
+        "name": "product",
+        "startedAt": "2026-10-10T19:21:30Z",
+        "status": "COMPLETED",
+        "workflowName": "Local PRODUCT acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-10T19:24:42Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38079477608/job/114293239537",
+        "name": "parser",
+        "startedAt": "2026-10-10T19:21:32Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline ANTLR parser acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-10T19:24:17Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38079474409/job/114293229942",
+        "name": "parser",
+        "startedAt": "2026-10-10T19:21:29Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline ANTLR parser acceptance"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-10T19:22:51Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38079477609/job/114293239605",
+        "name": "foundation",
+        "startedAt": "2026-10-10T19:21:32Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline WP0 checks"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-10T19:22:58Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38079474294/job/114293229417",
+        "name": "foundation",
+        "startedAt": "2026-10-10T19:21:29Z",
+        "status": "COMPLETED",
+        "workflowName": "Offline WP0 checks"
+      }
+    ],
+    "url": "https://github.com/devsecopslonghn/schemaForge/pull/48"
+  },
+  "merged_pr": {
+    "baseRefName": "master",
+    "headRefOid": "e4bd556cdf1e381c3978d5133b084443170eaefa",
+    "mergeCommit": {
+      "oid": "d3249fb7b42fe0468720eaa73421df444b708652"
+    },
+    "mergedAt": "2026-10-10T19:36:03Z",
+    "number": 48,
+    "state": "MERGED",
+    "url": "https://github.com/devsecopslonghn/schemaForge/pull/48"
+  },
+  "master_runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 38080447163,
+      "event": "push",
+      "headSha": "d3249fb7b42fe0468720eaa73421df444b708652",
+      "status": "completed",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38080447263,
+      "event": "push",
+      "headSha": "d3249fb7b42fe0468720eaa73421df444b708652",
+      "status": "completed",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38080447268,
+      "event": "push",
+      "headSha": "d3249fb7b42fe0468720eaa73421df444b708652",
+      "status": "completed",
+      "workflowName": "Local PRODUCT acceptance"
+    }
+  ],
+  "reconciled_prs": [
+    {
+      "number": 48,
+      "state": "MERGED",
+      "merged_at": "2026-10-10T19:36:03Z",
+      "head": "e4bd556cdf1e381c3978d5133b084443170eaefa",
+      "base": "master",
+      "source_integrated": true,
+      "reconciliation": "host-marked merged"
+    },
+    {
+      "number": 47,
+      "state": "CLOSED",
+      "merged_at": null,
+      "head": "9d6deff83ea1373bdf3fccc77c653500e70620da",
+      "base": "development/product-execution-jobs",
+      "source_integrated": true,
+      "reconciliation": "closed duplicate after aggregate integration; body links PR48; branch/worktree preserved"
+    },
+    {
+      "number": 46,
+      "state": "CLOSED",
+      "merged_at": null,
+      "head": "b145a9a96544113dc4ac1c247fd612aadb62c424",
+      "base": "development/product-mvp-integration",
+      "source_integrated": true,
+      "reconciliation": "closed duplicate after aggregate integration; body links PR48; branch/worktree preserved"
+    },
+    {
+      "number": 45,
+      "state": "MERGED",
+      "merged_at": "2026-10-10T19:36:05Z",
+      "head": "57e2395aa645e83120e6d60a88cdb8b759e31af2",
+      "base": "master",
+      "source_integrated": true,
+      "reconciliation": "host-marked merged"
+    },
+    {
+      "number": 44,
+      "state": "MERGED",
+      "merged_at": "2026-10-10T19:36:05Z",
+      "head": "b69c3c34c7cb89a3124350f39a7af8eb89a5d609",
+      "base": "master",
+      "source_integrated": true,
+      "reconciliation": "host-marked merged"
+    },
+    {
+      "number": 43,
+      "state": "MERGED",
+      "merged_at": "2026-10-10T19:36:05Z",
+      "head": "72f5e07170e8c9ebac1c17ad00a609b8f7b5f1b5",
+      "base": "master",
+      "source_integrated": true,
+      "reconciliation": "host-marked merged"
+    },
+    {
+      "number": 42,
+      "state": "MERGED",
+      "merged_at": "2026-10-10T19:36:05Z",
+      "head": "f58c4146cf01c5e7a83de6b1b5b4255259f81c05",
+      "base": "master",
+      "source_integrated": true,
+      "reconciliation": "host-marked merged"
+    },
+    {
+      "number": 41,
+      "state": "MERGED",
+      "merged_at": "2026-10-10T19:36:05Z",
+      "head": "17e9a92fc91527dd8b9d374a52503e3430cddb3f",
+      "base": "master",
+      "source_integrated": true,
+      "reconciliation": "host-marked merged"
+    },
+    {
+      "number": 40,
+      "state": "CLOSED",
+      "merged_at": null,
+      "head": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
+      "base": "development/product-retained-metadata-preflight",
+      "source_integrated": true,
+      "reconciliation": "closed duplicate after aggregate integration; body links PR48; branch/worktree preserved"
+    },
+    {
+      "number": 39,
+      "state": "CLOSED",
+      "merged_at": null,
+      "head": "62cbb02f726b2a8a1d38279554fb9e85cc3e4976",
+      "base": "development/product-release-source-comparison",
+      "source_integrated": true,
+      "reconciliation": "closed duplicate after aggregate integration; body links PR48; branch/worktree preserved"
+    },
+    {
+      "number": 38,
+      "state": "CLOSED",
+      "merged_at": null,
+      "head": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+      "base": "development/product-audit-pages",
+      "source_integrated": true,
+      "reconciliation": "closed duplicate after aggregate integration; body links PR48; branch/worktree preserved"
+    },
+    {
+      "number": 37,
+      "state": "MERGED",
+      "merged_at": "2026-10-10T19:36:05Z",
+      "head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+      "base": "master",
+      "source_integrated": true,
+      "reconciliation": "host-marked merged"
+    }
+  ],
+  "remaining_open_prs": []
+}

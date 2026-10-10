@@ -1,0 +1,31 @@
+{
+  "base": "f866634",
+  "source_head": "3c97997d8eff0a9840b942af759ae58c491401c4",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "dir",
+    "/tmp/schemaforge-assignment-correction-scan-qnyhuzbl",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-assignment-correction-scan-qnyhuzbl-private.json"
+  ],
+  "exit_code": 0,
+  "findings": 0,
+  "scope": "Two fixture corrections and changed publication/checkpoint/evidence delta only; prior exact source/pin/security evidence reused. No whole-history claim.",
+  "paths_sha256": {
+    "docs/implementation/CONTINUE.md": "06f00934f0e64e2b3ca15359093b3c4cb6f2fa79810e7b04c8df418d867bb359",
+    "docs/implementation/CURRENT.md": "06f00934f0e64e2b3ca15359093b3c4cb6f2fa79810e7b04c8df418d867bb359",
+    "docs/implementation/milestone.json": "314388bffa5d94050365e5a768fdd20d81653c3513c29a591cfeb7dd2200bd80",
+    "evidence/product/mvp-statement-readiness-20261011/assignment-fixture-ci-correction.json": "ab557c0ea00428d01bce99b99729e3f44e744706a51bfd4daf90ec213610a00e",
+    "evidence/product/mvp-statement-readiness-20261011/initial-ci-observation.json": "0230dd90fe80ac9a5e8aad04461916860ba523d65d6bbdce5a7e3693eea11084",
+    "evidence/product/mvp-statement-readiness-20261011/initial-pr-product-failed.log": "e5b7956fb88f036cf03cf578a42e493006058f2372c5bb270d0b16811474ac14",
+    "evidence/product/mvp-statement-readiness-20261011/published-candidate-review.json": "a6e9a6d4307f595efde339326416d0fca2b633784ab77a75906e590da5c4ebe8",
+    "evidence/product/mvp-statement-readiness-20261011/published-pr-initial.json": "a701d8bc02251fcb8c2b67bc17c15c7a00f3584a0ed411ad3b2d2f2988c3c7e2",
+    "evidence/product/mvp-statement-readiness-20261011/reviewer-browser-corrected.log": "596577a7683a1649b06ac6a53e1c9e9175dc9e596661d5d908b31806f14bcedd",
+    "evidence/product/mvp-statement-readiness-20261011/reviewer-fixtures-initial.log": "ad2ce3aeb32ca49728cba68ec27acf3b4c7df3bd926f34dee7ac3a1db790b072",
+    "tests/product-reviewer-assignment-browser.integration.mjs": "9b3e1a44a9d69b87a376838d5a013d2ae6542363bcb2f5910e9e7e2b76bb6c4f",
+    "tests/product-reviewer-assignment.test.mjs": "112e0fe1a13207fa11b0467501d01a6d4ac14d21317f03749a9c005db3ec222c"
+  },
+  "recorded_at": "2026-10-10T20:27:50.045935+00:00"
+}

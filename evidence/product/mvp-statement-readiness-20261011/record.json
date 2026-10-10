@@ -1,0 +1,105 @@
+{
+  "id": "mvp-statement-readiness-local-verified",
+  "subject_id": "SF-PRODUCT-T17",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen npm run check (offline, as foundation CI); focused PostgreSQL/parser/Chromium affected checks7/7; corrected new API1/1. Full product/browser suites required in final CI.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [
+    "SF-PRODUCT-T17-UNIT",
+    "SF-PRODUCT-T17-API",
+    "SF-PRODUCT-T17-WEB"
+  ],
+  "case_coverage": [],
+  "recorded_at": "2026-10-10T20:14:28.452673+00:00",
+  "source_head": "3f72cbfd3fd2b6aa7c128932d32264c87c406d9a",
+  "source_sha256": {
+    "apps/api/index.ts": "7624c2c6e6dd0d770252e2dfa629e33ad0221dbdca811551a066618e535c9d0c",
+    "apps/web/src/app.jsx": "37c41a31cea67654ad1f2c459d732cb027fb866e52ee3e5025027b95775b2e97",
+    "packages/migrations/offline-plan-intent.mjs": "e2795dfb14d4a1babf375b4ad0138548284131e2778defbb77f06437725fbddf",
+    "packages/migrations/statement-preview.mjs": "5f0c29f4f2e63f2cf07172910dbc456c6cca651a043e4b041a77b57eaade8f80",
+    "packages/migrations/statement-identity.mjs": "70fff3d2a9df176ce847d2bef9dfbfc98c4085aee41e2cf5f06ea31efc0ccab3",
+    "scripts/test-product.mjs": "4c123061c12c3214d623b287aec67dd08cea460773cd6e9fd23e1741d7fb68d9",
+    "tests/offline-plan-intent.test.mjs": "2619466be0b99c28e02c5e6cce480374a77fad494ede99f32684843c7de9c5c8",
+    "tests/statement-preview.test.mjs": "f5b7873e7adf41b1a4aff028384a6716266395a723c0f741023306a50c5ce438",
+    "tests/helpers/statement-envelope-fixture.mjs": "d657a2e2bf50f4732e4d358d2cb45d335371ca775b3b8e088df21643f46e7fcb",
+    "tests/product-statement-envelope.test.mjs": "e6db183b2035137573be6628d0f5e7c594e2c045b855c879a05ac5396e7a7b32",
+    "tests/product-statement-envelope-browser.integration.mjs": "0714f5660a1c405edb4d1425145e8a1d21a532baa69353ad5907b6dbc5804cd2",
+    "tests/product-archive.test.mjs": "cb3cd5e382608cc2db5d0f96afb8ce4fd978fe0c406549b66a2c5b975f9d8723",
+    "tests/product-review-audit.test.mjs": "8703ff909d2a03f926ae1aca95daa7c9f0b074688b7ff195237f560e889539ab",
+    "tests/product-audit-action-filters-browser.integration.mjs": "5bcec15525849bf59d6029afc5ea842e93a8106ea8f9184393ed796e3e4aa86f",
+    "tests/product-status-filters-browser.integration.mjs": "08ae71191ea67d96b2edf2cb534a61c0971e8b24ae9fdc135a449cbeae26f13a",
+    "package.json": "f2e8e1c4e849e7596baf135ffa9976e001ca9157b66bd1c8ba1808848a7709f4",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b",
+    "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+    "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e"
+  },
+  "raw_output": {
+    "path": "evidence/product/mvp-statement-readiness-20261011/affected-final.log",
+    "sha256": "ee263ccdcb3ed1d73e570915c9500e7762c1588d99ce0123bf39569b99f203b5"
+  },
+  "suites": {
+    "standard_offline": {
+      "counts": {
+        "tests": 195,
+        "pass": 153,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 42
+      },
+      "log": "evidence/product/mvp-statement-readiness-20261011/standard-final.log",
+      "sha256": "85f760844ad047bf8e3ae13b114c3ab36490192ee972eff0a434ed71b6e6f55d"
+    },
+    "affected_product_parser_browser": {
+      "counts": {
+        "tests": 7,
+        "pass": 7,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "log": "evidence/product/mvp-statement-readiness-20261011/affected-final.log",
+      "sha256": "ee263ccdcb3ed1d73e570915c9500e7762c1588d99ce0123bf39569b99f203b5"
+    },
+    "corrected_new_api": {
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "log": "evidence/product/mvp-statement-readiness-20261011/focused-corrected.log",
+      "sha256": "d2cf3e197cd85602b47324faec1a6f8840fadda67817293d57dcbc0aecc807c4"
+    }
+  },
+  "resolved_review_findings": [
+    "whole retained release verified/copied once;128-file mutation regression",
+    "format1 execution requests require fresh statement approval without any durable writes"
+  ],
+  "fixture_correction": {
+    "source_commit": "3f72cbfd3fd2b6aa7c128932d32264c87c406d9a",
+    "review": "native independent reviewer APPROVED exact3f72cbf, no weakening",
+    "initial_failure": "Archived fixture used unsupported fake parser profile; retained failing run stopped after known failure. Four new-plan fixtures now use pinned profile; legacy direct SQL fixtures untouched.",
+    "preserved_log": "evidence/product/mvp-statement-readiness-20261011/standard-initial-failed.log",
+    "preserved_log_sha256": "bee0efa9d448a45ae673f7e46ffb8f9fd3a6ca32c4ae1e13f4922ed9158d8332",
+    "initial_record": "local-initial-failed.json retains original output name before rename; its log hash matches this preserved path."
+  },
+  "license": "85 pinned packages, zero unknown required grants; pins/LICENSE/NOTICE unchanged",
+  "limits": [
+    "Local milestone facet only; no full catalog completion or new task ID.",
+    "Offline standard195tests153PASS42optional databaseSKIP; affected actual PostgreSQL/parser/browser7PASS0skip, corrected API1PASS0skip.",
+    "No Oracle calls, target admission, trusted host/target/mutex/dispatch proof or full execution/history acceptance. Requests remain WAITING_VALIDATION.",
+    "Final exact published-head CI and normal integration remain pending; unavailable optional security APIs never PASS."
+  ],
+  "focused_test_paths": [
+    "tests/offline-plan-intent.test.mjs",
+    "tests/statement-preview.test.mjs",
+    "tests/product-statement-envelope.test.mjs",
+    "tests/product-statement-envelope-browser.integration.mjs",
+    "tests/product-statement-preview-parser.integration.mjs"
+  ]
+}

@@ -77,3 +77,12 @@ claim or attempt mutation. Restore appends HOLD projections for waiting/admitted
 claimed attempts, revokes restored credentials, and preserves prior audit, event and receipt
 history. The UI can read retained history with freshly rotated local tokens but cannot clear
 the hold. No API endpoint observes Oracle state or releases recovery hold.
+
+New offline plans bind the complete pinned-parser statement identity in format 2, including
+ordered file/global ordinals, UTF-8 source ranges and source/execution digests. Approval
+and deployment request verify that sequence against one bounded retained snapshot.
+Historical format-1 envelopes and file-only approvals remain immutable and readable;
+execution requests require a fresh format-2 plan and independent approval. The scoped
+paged identity view provides offline review evidence only. These digests and readiness
+labels never substitute for current target history, trusted host, mutex or dispatch
+permit; actual execution admission remains unavailable.

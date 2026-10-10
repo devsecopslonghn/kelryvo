@@ -1,0 +1,33 @@
+{
+  "recorded_at": "2026-10-10T20:02:32.448760+00:00",
+  "master": "d3249fb7b42fe0468720eaa73421df444b708652",
+  "command": "gh api repos/devsecopslonghn/schemaForge/branches/master; gh pr list --state open",
+  "branch": {
+    "protected": false,
+    "protection": {
+      "enabled": false,
+      "required_status_checks": {
+        "contexts": [],
+        "checks": [],
+        "enforcement_level": "off"
+      }
+    }
+  },
+  "open_prs": [],
+  "available_repo_ci": [
+    "Local foundation checks",
+    "Pinned ANTLR parser",
+    "Local PRODUCT acceptance"
+  ],
+  "security_capabilities": "UNAVAILABLE disabled/paid APIs, prior actual response evidence reused in product-t35-journal-repair-20261010/integration-gates.json; no repeated unavailable API check or PASS claim.",
+  "policy": "Require available CI, independent security review, scoped publication scan/license closure and no blocking reviews. No admin/force/protection bypass.",
+  "pins_license_unchanged_from_master": {
+    "package.json": "f2e8e1c4e849e7596baf135ffa9976e001ca9157b66bd1c8ba1808848a7709f4",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b",
+    "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+    "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e"
+  },
+  "license_closure": "Prior verified85-package closure unchanged; final npm run check reruns dependencies:product.",
+  "oracle": "No authorized runtime; BLOCKED_EXTERNAL"
+}

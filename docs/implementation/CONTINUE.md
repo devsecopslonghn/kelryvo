@@ -1,42 +1,13 @@
-# SchemaForge security correction and MVP integration checkpoint — 2026-10-11
+# SchemaForge milestone checkpoint — 2026-10-11
 
-Active outcome: repair T35 and integrate the already implemented local MVP. No new
-functionality is scheduled until this checkpoint is complete.
+T35 VERIFIED; PR48 merged at d3249fb7b42fe0468720eaa73421df444b708652 after corrected exact-head and master CI. All prior PR37–48 work integrated, every branch/worktree and unfinished observation preserved. Actual branch configuration: protection disabled/zero required contexts. Available foundation/parser/product CI remains gating; disabled/paid optional security APIs UNAVAILABLE, neverPASS. No bypass or repeated unavailable probes.
 
-T35 corrected source: 1d428b416f76df65659aff1f30bb1b0c250fb6a7. Operator journals
-now witness LOCAL credentials only; actor-wide revocation still invalidates all browser
-sessions. Recovery accepts earlier v1 journals containing browser digests and uses LOCAL
-revocation to determine commit state. The recovered capacity-limit proposal is preserved
-under evidence/product/product-t35-journal-repair-20261010/. Focused regression: 5/5
-passed, including >32 HTTPS sessions, rotation/revoke and six crash phases with legacy
-browser-inclusive journals. Final frozen serial acceptance passed 192 standard / 55 product-parser / 31 Chromium,
-zero failures/cancellations/skips. First corrected8560993 push CI passed; PR browser30/31 failed on a refresh/revocation fixture race. The browser request barrier correction at fc8cee35ed4405e91610e2ac63ce319700763d24 passed focused1/1 and independent review; final corrected exact-head CI is pending. T35 stays IMPLEMENTED; old source acceptance does not certify the correction.
+Active bounded milestone: statement-bound offline approval/readiness, PR49 DRAFT directly against master. Head5c60d0f foundation/parser push+PR PASS; both product runs CANCELLED at15minute job deadline before browser, assignment API hit30second per-test deadline. Latest bounded correction preserves all mandatory steps/assertions: job30minutes, assignment120seconds; focused real API1PASS0FAIL0SKIP and independent review approved. Publish frozen correction and require fresh exact-head CI before ready/merge. Worktree /home/longhn0710/workspace/schemaforge-execution-readiness, branch development/product-execution-readiness. Main master remains d3249fb.
 
-Integration path: corrected #48 will target master as one aggregate reviewed PR. Its
-ancestry contains exact #45/#46/#47 heads and current master; #45 includes #37–#44.
-Preserve every source branch/worktree and verify host PR reconciliation after merge.
-Local master was fast-forwarded to actual origin/master 0fd6980.
-The master branch API explicitly reports protected=false, protection disabled and no
-required contexts. Protection/rulesets require a paid feature, code scanning requires
-Advanced Security, and secret scanning is disabled. These are unavailable optional
-capabilities, never PASS. Repository review/security/license/available CI gates remain.
-No bypass, subscription change or security threshold change is authorized.
+New format2 binds all ordered statement ordinals/ranges/source and execution digests,4096statements/4MiB cap;50-row review pages scoped to exact digest. Approval/request rederive one copied verified snapshot. Format1 historical bytes/approvals preserved; requests require fresh statement approval. Requests WAITING_VALIDATION, no target authority. All22 reviewed source/test/pin/license hashes match; scoped scans0findings, unchanged85package license closure0unknown.
 
-MVP status: Git intake, retained SQL/parser validation, offline plans, independent review,
-approval withdrawal and persistent audit/history are implemented locally. Deployment
-requests, immutable intents, claim/checkpoint/UNIT receipt safety and metadata backup /
-RESTORE_HOLD are implemented; no authorized Oracle executor/runtime is demonstrated.
-M1/M2 local foundation and offline preparation workflows are demonstrable in existing
-API/Chromium acceptance, pending integration. M3/M4 are partial: the trusted execution
-host is not wired to actual target authority; Oracle runtime and
-reconciliation acceptance remain BLOCKED_EXTERNAL; M5 remains incomplete. The shortest
-next path is host/admission wiring → truthful journal/reconciliation UI → reproducible
-release acceptance, reusing the coordinator/supervisor and preserving unknown/HOLD safety.
-Catalog remains 220 = 0 full /
-48 partial / 165 not implemented / 7 deferred. PARTIAL is not full feature completion.
+Local npmcheck153PASS/42optionalPGSKIP (195total), actual focused PostgreSQL/parser/Chromium7/7PASS and corrected newAPI1/1PASS. Initial failed standard fixture run retained. Six new-plan fixtures now use pinned parser; direct legacy SQL fixtures untouched. Initial f866 CI foundation/parser4PASS, PRproduct55/56FAIL, browserSKIPPED; obsolete pushproductCANCELLED, neverPASS. Assignment API subtest passed in retained mixed run; browser assertion helper-field mistake fixed, standalone1/1PASS. Corrected full CI mandatory; no redundant local full runs. Timeout evidence: ci-budget-correction.json. Evidence: evidence/product/mvp-statement-readiness-20261011/record.json and assignment-fixture-ci-correction.json.
 
-Next: publish the focused browser fixture correction to #48 and wait for actual corrected CI. No unchanged local full-suite repeat is needed; final CI exercises every suite.
-License closure is unchanged: 85 pinned packages, zero unknown required grants.
-Then ordinarily merge aggregate #48 after its exact-head gates and verify master CI plus a
-local PostgreSQL/Git/parser/HTTPS browser demonstration. Retain all124 Oracle cells
-BLOCKED and never claim real migration execution. Persist exact heads and results here.
+M1 local foundation/Git and M2 validation/offline preparation/review demonstrated/integrated. M3 request/coordinator partial, M4 audit/backup/RESTORE_HOLD partial, execution/history/reconciliation and M5 release incomplete. Catalog220 unchanged0full/48partial/165not implemented/7deferred; all124Oracle cells BLOCKED_EXTERNAL. No Oracle calls/runtime acceptance. Goal ACTIVE; no new task IDs.
+
+Next after integration: scoped attempt/receipt/HOLD history from packages/execution/postgres-jobs.ts and sf_execution_attempts/attempt_events/receipts. GET /api/execution-jobs/:id currently exposes job events only. Add bounded scoped API/UI projections; keep lease_token private; label UNIT_SYNTHETIC receipts and prove restart/HOLD ambiguity without automatic replay. Actual trusted host/target/history/mutex/dispatch facts remain absent before admission.

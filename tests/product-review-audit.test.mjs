@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { ANTLR_PROFILE } from '../experiments/db-devops-wp0/parser-envelope.mjs';
 import assert from 'node:assert/strict';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
@@ -39,11 +40,14 @@ test('authenticated denied decisions append fixed audit facts while preserving p
   const files = [{ path:'migrations/V1__fixture.sql', version:'1', sha256, bytes:bytes.length,
     content, statementCount:1, validationStatus:'VALID' }];
   const manifestDigest = createHash('sha256').update(JSON.stringify({ format:1, commit:'a'.repeat(40), objectFormat:'sha1',
-    folder:'migrations', parserProfile:'fixture-parser-profile', files:files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) })).digest('hex');
+    folder:'migrations', parserProfile:ANTLR_PROFILE, files:files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) })).digest('hex');
   const release = (await db.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)
-    VALUES(${project.id},'00000000-0000-4000-8000-000000000001','fixture',${'a'.repeat(40)},'sha1','migrations',${manifestDigest},'VALID','fixture-parser-profile',${db.sql.json(files)}) RETURNING id`)[0];
-  const newPlan = async (actor = actors[0]) => (await request('POST', `${base}/plans`,
-    { releaseId: release.id, profileId: profile.id }, actor)).json().plan;
+    VALUES(${project.id},'00000000-0000-4000-8000-000000000001','fixture',${'a'.repeat(40)},'sha1','migrations',${manifestDigest},'VALID',${ANTLR_PROFILE},${db.sql.json(files)}) RETURNING id`)[0];
+  const newPlan = async (actor = actors[0]) => {
+    const response = await request('POST', `${base}/plans`, { releaseId: release.id, profileId: profile.id }, actor);
+    assert.equal(response.statusCode, 201, response.body);
+    return response.json().plan;
+  };
   const denied = async (plan, actor, expectedStatus, code) => {
     const beforePlan = (await db.sql`SELECT * FROM sf_plans WHERE id=${plan.id}`)[0];
     const beforeHistory = await db.sql`SELECT * FROM sf_history WHERE plan_id=${plan.id} ORDER BY version`;
