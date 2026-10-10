@@ -199,6 +199,18 @@
         "apps/api/index.ts",
         "apps/web/src/app.jsx"
       ]
+    },
+    {
+      "id": "SF-D032",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T29",
+      "accepted_at_utc": "2026-10-10T08:01:06.933558+00:00",
+      "decision": "Implement persistent pending-plan reviewer assignment independently from merged master0fd6980. Requester and current assignee may choose another current explicitly granted nonauthor fixed approver or clear; eligible nonauthor approvers may self-claim only unassigned plans. Assigned plans require that assignee for both decisions; unassigned legacy plans preserve prior independent-role behavior. Expected bigint revision prevents stale edits; same target is a no-op. Assignment is workload routing, not a project/role/source/worker grant. Expiring temporary delegation and inbox integration are future catalog work; no dependency on draft T28. Ordinary reversible default under SF-D010.",
+      "references": [
+        "apps/api/index.ts",
+        "packages/database/index.ts",
+        "apps/web/src/app.jsx",
+        "docs/implementation/backlog.json"
+      ]
     }
   ]
 }

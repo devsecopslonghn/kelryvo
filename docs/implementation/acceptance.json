@@ -2647,6 +2647,21 @@
         "SF-PRODUCT-T24-WEB",
         "SF-PRODUCT-T24-PERSISTENCE"
       ]
+    },
+    "SF-PRODUCT-T29": {
+      "task_id": "SF-PRODUCT-T29",
+      "criteria": [
+        "Persist nullable reviewer assignment and monotonic bigint revision for pending plans using an additive idempotent PostgreSQL migration. Existing unassigned plans retain independent fixed-role review behavior; no author, retained source, intent, decision, comment or history rewrite. Survive API restart. Assignment metadata remains readable on historical terminal or archived plans without making them editable.",
+        "Expose scoped safe assignment and bounded current-reviewer choices with authenticated explicit current project grants, organization isolation, active credentials and fixed approver role; exclude requester. Bootstrap exposes no new reviewer directory. Only the current granted requester or current assigned eligible reviewer may assign/reassign/clear; an eligible nonauthor approver may claim an unassigned plan for themselves. Never grant project access or roles. Strict expected revision rejects stale competing edits. Same-target no-op preserves revision/audit; actual changes create one atomic safe audit event. Terminal/archive/malformed/foreign/revoked/expired and self-assignment cases fail closed without protected mutation.",
+        "Enforce assignment at the decision API inside existing plan/project locking and source-integrity workflow: assigned plans admit only the assigned independent current approver for approval or rejection; unassigned plans preserve established role/self/status checks. Recheck current caller grants/credential/role in the transaction and serialize membership changes under existing project lock order. Preserve strict fresh-plan/source/intent checks, denial auditing and execution NOT_EXECUTED. Assignment does not attest source integrity or authorize worker/Oracle access.",
+        "Add usable React review assignment controls, current assigned identity or unassigned explanation, bounded candidate choices, explicit clear and self-claim where authorized, conflict/empty/error feedback, and an Assigned to me filter in the existing project review list. Disable other approver decision controls for assigned plans. Expected revision accompanies writes; project/plan/session/credential/membership/refresh changes discard pending choices and delayed responses, clear revoked data and never submit stale writes. Existing review drafts and navigation isolation remain intact.",
+        "Real isolated PostgreSQL/API/Chromium tests prove requester selection, self-claim and reassignment, assigned/unassigned decisions, requester exclusion even for approver authors, role and grant/credential revocation, unauthorized/foreign/bootstrap/archived/terminal/malformed cases, concurrent assignment conflict and decision/assignment serialization, no-op audit, persistence/idempotent migration, assigned filter and controlled delayed UI responses. Compare complete protected source/intent/comment/history state and assert atomic assignment/audit outcomes. Run standard/product/parser/browser regressions without skipped required cases. This bounded GOV021 assignment facet leaves expiring temporary delegation, notifications, worker/API full catalog acceptance and Oracle validation unverified. Preserve all original220 contracts, dependencies, license/notices/pins and draft security gates; no dependency on unmerged T24-T28."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T29-API",
+        "SF-PRODUCT-T29-WEB",
+        "SF-PRODUCT-T29-PERSISTENCE"
+      ]
     }
   },
   "test_cases": [
