@@ -400,6 +400,17 @@
         "docs/architecture/boundaries.md",
         "docs/implementation/backlog.json"
       ]
+    },
+    {
+      "id": "SF-D037",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T34_SAFE_METADATA_RESTORE",
+      "accepted_at_utc": "2026-10-10T15:42:52.393217+00:00",
+      "decision": "Deliver a private trusted-local-operator snapshot/restore workflow using existing PostgreSQL tooling. Restore only to a fresh positively owned database and persist a new generation in RESTORE_HOLD before any admission; preserve prior records and revoke old restored credentials. Independent operator-held witness binds the exact backup, but does not establish target history agreement or detect every undeclared hostile rewind. Fresh credential rotation and retained explicit memberships support historical application reads without restoring execution authority. No automatic Oracle replay, restore-to-existing-database, HTTP administration, external deployment or unilateral hold clearance. Reversible engineering decision under SF-D010; original catalog and actual runtime/security gates remain unchanged.",
+      "references": [
+        "docs/inputs/db-research/product-research/implementation/DATA-CONTRACTS.md",
+        "docs/development/local-product.md",
+        "docs/implementation/backlog.json"
+      ]
     }
   ]
 }

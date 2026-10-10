@@ -206,12 +206,14 @@
   "foundation_evidence": {
     "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
   },
-  "current_phase": "T33_LOCAL_VERIFIED_DRAFT46_ALL6_AVAILABLE_CI_SUCCESS",
+  "current_phase": "T34_BACKUP_RESTORE_IMPLEMENTATION_IN_PROGRESS",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
   "product_features_verified": 0,
-  "next_actionable_tasks": [],
+  "next_actionable_tasks": [
+    "SF-PRODUCT-T34"
+  ],
   "blocked_inputs_evidence": {
     "index_id": "WP0-T01-INPUTS-20261008T094757Z-c4b97e39"
   },
@@ -220,7 +222,7 @@
     "node scripts/tracker.mjs status",
     "node scripts/tracker.mjs next"
   ],
-  "updated_at": "2026-10-10T15:30:10.023565+00:00",
+  "updated_at": "2026-10-10T15:42:52.393217+00:00",
   "final_check_evidence": {
     "index_id": "product-t20-local-credential-lifecycle-local-verified"
   },
@@ -249,8 +251,8 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "T33_VERIFIED_LOCAL_DRAFT46_AVAILABLE_CI_SUCCESS_SECURITY_UNAVAILABLE",
-  "current_checkpoint_branch": "development/product-execution-jobs",
+  "current_increment_merge_status": "T34_BACKUP_RESTORE_IN_PROGRESS_UNVERIFIED",
+  "current_checkpoint_branch": "development/product-backup-restore",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -327,8 +329,8 @@
       "native_security": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS"
     }
   },
-  "current_increment_pr": 46,
-  "current_increment_reviewed_head": "ff14f24572414bd8e87a2b983facfbbbeb929402",
+  "current_increment_pr": null,
+  "current_increment_reviewed_head": null,
   "current_increment_merge_commit": null,
   "t19_compatibility_decision": {
     "owner_approved_at_recorded_utc": "2026-10-09T12:37:42.238588+00:00",
@@ -422,8 +424,8 @@
     },
     "merge_eligible": false
   },
-  "next_milestone": "Select one substantial missing product workflow from current coverage in a fresh bounded context. Preserve original drafts/worktrees and required integration/runtime gates.",
-  "current_increment_published_head": "b145a9a96544113dc4ac1c247fd612aadb62c424",
+  "next_milestone": "Complete one bounded private metadata/artifact backup and fresh restore-to-hold workflow.",
+  "current_increment_published_head": null,
   "t32_integration_sources": [
     {
       "pr": 40,
@@ -539,5 +541,12 @@
     "required_security_available": false,
     "available_checks": "foundation2/parser2/product2 SUCCESS",
     "terminal_record": "evidence/product/product-t33-draft-publication-20261010/terminal-record.json"
+  },
+  "t34_base_checkpoint": {
+    "local_head": "b9e37f9edd0af8f93181bc596993e654845e011a",
+    "published_head": "b145a9a96544113dc4ac1c247fd612aadb62c424",
+    "pr": 46,
+    "available_checks": "foundation2/parser2/product2 SUCCESS",
+    "merge_eligible": false
   }
 }

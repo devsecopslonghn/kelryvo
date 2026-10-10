@@ -1327,6 +1327,10 @@
     "SF-PRODUCT-T33": {
       "assigned_agent": "backend",
       "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T34": {
+      "assigned_agent": "devops",
+      "status": "IN_PROGRESS"
     }
   }
 }

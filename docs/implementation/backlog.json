@@ -3283,6 +3283,42 @@
         }
       ],
       "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T34",
+      "package": "PRODUCT",
+      "assigned_agent": "devops",
+      "title": "Deliver private metadata and artifact backup with safe restore into execution hold",
+      "dependencies": [
+        "SF-PRODUCT-T33"
+      ],
+      "feature_ids": [
+        "OPS-012",
+        "MIG-034",
+        "OPS-005"
+      ],
+      "acceptance_criteria": [
+        "Trusted local OS operator backs up an explicitly authorized loopback PostgreSQL metadata database through the existing private config boundary, using pinned mature PostgreSQL tooling and a consistent snapshot. A new private directory/file set preserves approval/catalog/artifact/receipt/job/audit/credential lifecycle records with a strict versioned manifest, archive digest, source metadata generation/checkpoint and complete known schema inventory. Existing paths, unsafe permissions, symlinks/hardlinks, unknown schema/tool/remote Docker context and excessive payloads fail closed. Backup data remains private; no bearer token, password, DSN, SQL contents or target credential is printed in diagnostics. Keep an independently operator-held witness outside the backup directory tied to the exact snapshot/digests.",
+        "Restore requires exact archive/manifest/schema compatibility and matching private external witness before creating a destination. Restore only into a freshly generated owned local metadata database; never overwrite, clean, delete, truncate or restore into the source or another existing database. Restrict native restore payload to registered product data/current controlled schema; reject unknown or executable archive objects. Failure keeps the new instance inaccessible or in recovery hold; cleanup may touch only objects created and positively owned by this invocation. Preserve original source and private backup bytes.",
+        "Before any restored queue is eligible, persist a new metadata generation with RESTORE_HOLD, retained predecessor/witness references and operator audit. Initialization/restart cannot reset this state. Both production and explicitly UNIT coordinator stores reject claims while hold is active; API cannot grant execution, release hold or infer target agreement. Retain immutable identities, approval/source/history/receipts and terminal states. Project waiting/admitted requests and active attempts into HOLD with appended events where needed, revoke restored old local credentials with retained lifecycle evidence, and never reset attempts or automatically replay SQL. Target history/Oracle generation remain unobserved; this does not certify Oracle restore detection or reconciliation.",
+        "Deliver a usable operator restart path for the restored instance, reusing loopback API/web and existing private credential lifecycle without rewriting fixed actor roles or inferring memberships. Freshly rotated credentials and retained explicit membership permit historical reads; old tokens remain denied. UI exposes a fixed metadata-recovery hold state and disables execution request/cancel writes as appropriate while preserving T33/T32 historical flows and current actor/project/session/refresh guards. No HTTP backup, restore, credential administration or unilateral recovery-clear endpoint is exposed. Document backup custody, fresh destination/start/recovery and failure boundaries.",
+        "Exercise actual native PostgreSQL snapshot/restore plus real local Git/pinned-parser approved plans, durable jobs/grants/events, historical NULL approval/assignment values, audit/comment/source/receipt preservation and app/database reopen. Prove original database remains unchanged; wrong/absent witness, damaged artifact/manifest, incompatible/unknown schema, path/permission/remote-tool overrides and interrupted restore cannot admit work. Verify restored claim denial including synthetic admitted fixtures, old-token denial and meaningful Chromium historical-read/recovery-hold controls. Synthetic attempts/targets are UNIT-only; no Oracle connection/deployment or real effect witness.",
+        "Run focused checks while implementing, then freeze for mandatory serial standard/product/browser suites and proportionate exact independent source review. Preserve historical failures and existing IDs/acceptance contracts/worktrees/drafts. Complete scoped publication scans/license review and one substantial draft from the verified T33 checkpoint; observe available exact-head CI without weakening missing security/protection/Oracle gates. No full catalog or production distribution/restore certification."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T34-OPERATOR",
+        "SF-PRODUCT-T34-PERSISTENCE",
+        "SF-PRODUCT-T34-WEB",
+        "SF-PRODUCT-T34-RESTORE_GATE"
+      ],
+      "status": "IN_PROGRESS",
+      "source_paths": [
+        "scripts/local-backup-operator.mjs",
+        "packages/backup",
+        "packages/database/index.ts"
+      ],
+      "evidence": [],
+      "blockers": []
     }
   ]
 }
