@@ -1,0 +1,117 @@
+{
+  "id": "product-t34-backup-restore-local-verified",
+  "subject_id": "SF-PRODUCT-T34",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "exit_code": 0,
+  "command": "Frozen serial standard/product/pinned-parser/Chromium checks; native PG17.10 private snapshot/restore, real metadata/history/token recovery and SIGKILL interruption checks",
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_references": [
+    "SF-PRODUCT-T34-OPERATOR",
+    "SF-PRODUCT-T34-PERSISTENCE",
+    "SF-PRODUCT-T34-WEB",
+    "SF-PRODUCT-T34-RESTORE_GATE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t34-backup-restore-20261010/standard-verified.log",
+    "sha256": "22b6d6cb0aa5331b1f64b91b7b7589c76c2d9f91fe8375927f6ca08e34459ca8"
+  },
+  "recorded_at": "2026-10-10T16:41:34.641556+00:00",
+  "implementation_head": "591076dbd56c420878c66af86f65f3fbd08a5e41",
+  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "base_checkpoint": "b9e37f9edd0af8f93181bc596993e654845e011a",
+  "published_base": "b145a9a96544113dc4ac1c247fd612aadb62c424",
+  "regressions": {
+    "standard": {
+      "result": "evidence/product/product-t34-backup-restore-20261010/standard-verified.json",
+      "result_sha256": "742f4297017abc91eae7c755b3a8a76c1bbdd352c514e37ad8d31390b5b393c1",
+      "raw_output": "evidence/product/product-t34-backup-restore-20261010/standard-verified.log",
+      "raw_output_sha256": "22b6d6cb0aa5331b1f64b91b7b7589c76c2d9f91fe8375927f6ca08e34459ca8",
+      "counts": {
+        "tests": 188,
+        "pass": 188,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "check"
+      ]
+    },
+    "product": {
+      "result": "evidence/product/product-t34-backup-restore-20261010/product.json",
+      "result_sha256": "fd4a914fa0450886f59cee878ecd8f41f98d6f335ebf2aa2688a4e9aeeaf4d7e",
+      "raw_output": "evidence/product/product-t34-backup-restore-20261010/product.log",
+      "raw_output_sha256": "79be407cd6f99f24cb12ccbd9b9c733cd8ccb72eb7c3632193f8bf1501d4e36b",
+      "counts": {
+        "tests": 51,
+        "pass": 51,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:product"
+      ]
+    },
+    "browser": {
+      "result": "evidence/product/product-t34-backup-restore-20261010/browser.json",
+      "result_sha256": "bf4758b7d46aadb40bf230f75d5c5b405da6d19f7382ae8edeab9f4887912873",
+      "raw_output": "evidence/product/product-t34-backup-restore-20261010/browser.log",
+      "raw_output_sha256": "b9aeba513b993233941e770e85c709395d5390259cff1a8eaed4e6fe2ae615fc",
+      "counts": {
+        "tests": 30,
+        "pass": 30,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:browser"
+      ]
+    }
+  },
+  "reviews": [
+    {
+      "path": "evidence/product/product-t34-backup-restore-20261010/independent-review-final-source.json",
+      "sha256": "6433acd83e71da595839156f314c82c59ff72a3705b1e2430d0acccdbefffb1c"
+    }
+  ],
+  "acceptance_observations": [
+    "Private native PG17.10 data-only archive and manifest share an exported snapshot with generation/checkpoint/inventory; separate private witness binds exact bytes, schema definitions and complete table/sequence payload.",
+    "Valid restore creates only a fresh invocation-owned database; original database and backup bytes remain unchanged. Wrong witness, damaged artifacts, unsupported schemas/executable archives, links/modes and remote Docker overrides are denied before database creation.",
+    "Current pointer is never restored. Owner marker prevents ACTIVE bootstrap; SIGKILL after actual archive import leaves admitted UNIT queue unclaimable and startup refused. Success installs RESTORE_HOLD and appends unfinished-job/attempt holds and digest-only credential revocations atomically.",
+    "Real Git/pinned-parser approvals, NULL legacy approvals/assignments, comments/sequence, explicit grants, source artifacts, audit and UNIT receipts survive. Terminal jobs/attempts remain terminal; fresh valid synthetic proof cannot bypass global HOLD.",
+    "Existing private credential rotation preserves fixed roles/memberships and enables historical API/Chromium reads with fresh tokens. Old tokens are denied; persistent banner and execution request/cancel gates survive reopen."
+  ],
+  "limitations": [
+    "Criterion5 publication/scans/available exact CI remain pending; task stays IMPLEMENTED until separate publication evidence.",
+    "Restored-instance CLI is restricted to the default private local config/user/schemaforge source/55432 endpoint. Unknown organization or schema versions fail closed; no multi-organization/production recovery certification.",
+    "No target/Oracle history agreement, restore divergence detection, hold-clear/reconciliation implementation, Oracle connection/execution, production worker isolation or deployment acceptance. Synthetic attempts and receipts are UNIT only.",
+    "Original focused failures and interrupted d26 standard observation retained; only final591 guarded serial suites support acceptance.",
+    "Required external security/protection gates remain unavailable, never PASS. Draft-only publication; no merge/master/full-catalog certification."
+  ]
+}

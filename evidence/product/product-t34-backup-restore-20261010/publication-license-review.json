@@ -1,0 +1,24 @@
+{
+  "task": "SF-PRODUCT-T34",
+  "frozen_head": "591076dbd56c420878c66af86f65f3fbd08a5e41",
+  "baseline": "b145a9a96544113dc4ac1c247fd612aadb62c424",
+  "recorded_at": "2026-10-10T16:31:39.955451+00:00",
+  "outcome": "PASS_SCOPED_LICENSE_DELTA",
+  "unchanged_paths_sha256": {
+    "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+    "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b",
+    "docs/dependencies/product-closure.json": "d3a74a98934c47c581123d9476b04be1a4a0b7f82e4462e2a0fc70fb2a5cd897"
+  },
+  "package_manifest_delta": "Only new local:backup-restore script; dependencies and all other fields unchanged.",
+  "current_package_manifest_sha256": "f2e8e1c4e849e7596baf135ffa9976e001ca9157b66bd1c8ba1808848a7709f4",
+  "actual_check": "npm run check -> dependencies:product:85 pinned packages,zero unknown required grants",
+  "check_record": "evidence/product/product-t34-backup-restore-20261010/standard-verified.json",
+  "check_record_sha256": "742f4297017abc91eae7c755b3a8a76c1bbdd352c514e37ad8d31390b5b393c1",
+  "observations": [
+    "No new dependencies, versions, lock/pins, LICENSE/NOTICE or closure grants. Existing PostgreSQL17.10 native utilities and Docker pin reused; no download/vendor/distribution addition.",
+    "New code/tests independently authored using existing repository patterns and existing Node/PostgreSQL/Fastify/React/Playwright capabilities."
+  ],
+  "limits": "Scoped delta and pinned closure only; naming/F31 distribution and production/runtime/security acceptance remain outside scope."
+}

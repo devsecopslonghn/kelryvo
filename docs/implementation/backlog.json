@@ -3311,13 +3311,17 @@
         "SF-PRODUCT-T34-WEB",
         "SF-PRODUCT-T34-RESTORE_GATE"
       ],
-      "status": "IN_PROGRESS",
+      "status": "IMPLEMENTED",
       "source_paths": [
         "scripts/local-backup-operator.mjs",
         "packages/backup",
         "packages/database/index.ts"
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "index_id": "product-t34-backup-restore-local-verified"
+        }
+      ],
       "blockers": []
     }
   ]

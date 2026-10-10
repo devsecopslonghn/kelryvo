@@ -1,0 +1,34 @@
+{
+  "command": [
+    "taskset",
+    "-c",
+    "0,1",
+    "npm",
+    "run",
+    "check"
+  ],
+  "started_at": "2026-10-10T16:24:30.525Z",
+  "execution_head": "591076dbd56c420878c66af86f65f3fbd08a5e41",
+  "source_before": {
+    ".github/workflows/product.yml": "e471c1d18645313b24200c00abf28f060d0279742dc386deda00ff94ecff9070",
+    "apps/api/index.ts": "84dfedc6d5d13c9b0bedf637121d5276f08d14449909c90ff4da1cc6b0ac4d31",
+    "apps/web/src/app.jsx": "08d011b724e2cd48f3d0a71146270d101d06d123f68bc4cdd8d69f65d0ca13f2",
+    "apps/web/styles.css": "764d4ae9e205c783c336ca755a80ea89fb9ff00078a5c5232d7b97886d443714",
+    "packages/backup/index.mjs": "3906bc16f97962ca7306dd7eb040446f3dadc484a9ddaa0e6208674117830c4e",
+    "packages/database/index.ts": "4c3ae427bf0585d7b513d21cacbfb8e53c1af448b41e14ae43a8150b13f1d856",
+    "packages/execution/postgres-jobs.ts": "e5b79fbe481a68b9a0c7bd705b4efe138eda1218497f37fb93552c6343eeed56",
+    "scripts/local-backup-operator.mjs": "0ae35cd11f4d7829e9e303c067a10ae4306f1795c1b726435c2427e44fdc0e5e",
+    "scripts/local-dev.mjs": "cb10207ce6d2b667132a3bc9b3ab516e87827f03c9d1d023f34c4535353b5d75",
+    "scripts/local-operator-config.mjs": "b4e990ac7856c20e475cbb83a4d81d76261e9d96ab1a31e6856778a42af726c6",
+    "scripts/test-product.mjs": "d715c88d3f69726bdc569666d69eb1018f2a39f3b3b3ae4befb99b385d19e0e6",
+    "scripts/tracker.mjs": "e024b38fcf26fc34be1b274fc6c8d1cf1ae36cb0e285b4f3208374eeb28136d0",
+    "tests/helpers/product-backup-fixture.mjs": "361b761fb56800e7c2228a59fd683289cc340af11cddcc03228956b9dd3d8504",
+    "tests/local-backup-operator.test.mjs": "c88772184ecc635c3b1cab4cde9c1d36fb57d2c6da065e2878caa0ce6bd0b25d",
+    "tests/product-backup-restore-browser.integration.mjs": "1a217e58d04264526e89bf82b9d6719e9a80dee9ae5dcf3d12cce7a1e581427d",
+    "tests/product-backup-restore.test.mjs": "2724cfbbd12b17282510feda9803e5d93bf4779a3c0bd64ac5c88f9ce5095785",
+    "tests/tracker.test.mjs": "b11ac3f52ffbf73acfe2f8cb044efb4dc74e813b88cd968328da69af9736db51",
+    "package.json": "f2e8e1c4e849e7596baf135ffa9976e001ca9157b66bd1c8ba1808848a7709f4",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+  }
+}

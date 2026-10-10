@@ -3010,6 +3010,35 @@
       },
       "path": "evidence/product/product-t33-draft-publication-20261010/terminal-record.json",
       "sha256": "5d15829054f8a55da1ca83fb564c2250125e72e450310acaf7581bf7435009e9"
+    },
+    {
+      "id": "product-t34-backup-restore-local-verified",
+      "subject_id": "SF-PRODUCT-T34",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen serial standard/product/pinned-parser/Chromium checks; native PG17.10 private snapshot/restore, real metadata/history/token recovery and SIGKILL interruption checks",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "test_references": [
+        "SF-PRODUCT-T34-OPERATOR",
+        "SF-PRODUCT-T34-PERSISTENCE",
+        "SF-PRODUCT-T34-WEB",
+        "SF-PRODUCT-T34-RESTORE_GATE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t34-backup-restore-20261010/standard-verified.log",
+        "sha256": "22b6d6cb0aa5331b1f64b91b7b7589c76c2d9f91fe8375927f6ca08e34459ca8"
+      },
+      "path": "evidence/product/product-t34-backup-restore-20261010/record.json",
+      "sha256": "7e5c329c459ff41c8b60585eaae9f4317ccc10af9c2608cc08ecabd177b15267"
     }
   ]
 }
