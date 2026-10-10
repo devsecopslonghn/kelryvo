@@ -1,0 +1,21 @@
+{
+  "task": "SF-PRODUCT-T32",
+  "scope": "One raw-evidence/scanner-summary commit after preserved clean new-integration history scan.",
+  "base": "3c00c6465907ac18a83e9ca784a629ab38658219",
+  "head": "7e7646f213edaac3c19c102cafae2ade2c5af627",
+  "command": [
+    "/tmp/codex-schemaforge-gitleaks-audit/gitleaks",
+    "git",
+    ".",
+    "--log-opts=3c00c6465907ac18a83e9ca784a629ab38658219..7e7646f213edaac3c19c102cafae2ade2c5af627",
+    "--no-banner",
+    "--redact=100",
+    "--report-format=json",
+    "--report-path=/tmp/schemaforge-t32-incoming-delta-private.json"
+  ],
+  "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "scanner_exit_code": 0,
+  "finding_count": 0,
+  "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "recorded_at": "2026-10-10T11:32:43.160495+00:00"
+}
