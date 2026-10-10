@@ -1,0 +1,23 @@
+{
+  "source_head": "832be8e238f802f898f07ac1a84ed2d27dd70b64",
+  "results": [
+    {
+      "suite": "standard",
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "check"
+      ],
+      "started_at": "2026-10-10T20:01:25.438748+00:00",
+      "finished_at": "2026-10-10T20:10:29.301378+00:00",
+      "exit_code": 1,
+      "log": "evidence/product/mvp-statement-readiness-20261011/standard-final.log",
+      "sha256": "bee0efa9d448a45ae673f7e46ffb8f9fd3a6ca32c4ae1e13f4922ed9158d8332"
+    }
+  ],
+  "oracle_calls": 0,
+  "scope": "Local PostgreSQL/Git/parser/Chromium only, no execution runtime acceptance"
+}

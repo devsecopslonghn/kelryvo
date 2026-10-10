@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { ANTLR_PROFILE } from '../experiments/db-devops-wp0/parser-envelope.mjs';
 import assert from 'node:assert/strict';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { chromium } from 'playwright';
@@ -41,7 +42,7 @@ test('status filters preserve scoped ordered plans, drafts, history and archived
       const bytes = Buffer.from(content);
       const sha256 = createHash('sha256').update(bytes).digest('hex');
       const files = [{ path: 'migrations/V001__fixture.sql', version: '1', sha256, bytes: bytes.length, content, statementCount: null, validationStatus: 'VALID' }];
-      const parserProfile = 'fixture-parser-profile';
+      const parserProfile = ANTLR_PROFILE;
       const manifestDigest = createHash('sha256').update(JSON.stringify({ format:1, commit:'a'.repeat(40), objectFormat:'sha1', folder:'migrations', parserProfile,
         files:files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) })).digest('hex');
       const release = (await database.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)

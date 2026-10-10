@@ -1,0 +1,758 @@
+
+> schemaforge-local-development@0.0.0 check
+> npm run build && npm run lint && npm run format:check && npm test && npm run dependencies:smoke && npm run dependencies:product
+
+
+> schemaforge-local-development@0.0.0 build
+> node scripts/check-source.mjs && npm run typecheck && npm run build:web
+
+Source checks passed for 205 authored files.
+
+> schemaforge-local-development@0.0.0 typecheck
+> tsc --noEmit
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+
+> schemaforge-local-development@0.0.0 lint
+> node scripts/check-source.mjs && node scripts/tracker.mjs validate
+
+Source checks passed for 205 authored files.
+Tracker data valid: 220 features, 64 imported tasks plus foundation and 35 product tasks, 63 cases; no Oracle verification claims.
+
+> schemaforge-local-development@0.0.0 format:check
+> node scripts/format-json.mjs --check
+
+Authored JSON formatting passed; imported inputs and evidence excluded.
+
+> schemaforge-local-development@0.0.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: native specialist TOML parses with standard-library TOML and keeps parent settings
+ok 1 - native specialist TOML parses with standard-library TOML and keeps parent settings
+  ---
+  duration_ms: 48.526958
+  type: 'test'
+  ...
+# Subtest: ANTLR lock rejects unreviewed parser, tool and distribution rights
+ok 2 - ANTLR lock rejects unreviewed parser, tool and distribution rights
+  ---
+  duration_ms: 2.591322
+  type: 'test'
+  ...
+# Subtest: stale authored-source hashes reject before building or replacing an installed helper
+ok 3 - stale authored-source hashes reject before building or replacing an installed helper
+  ---
+  duration_ms: 23.360472
+  type: 'test'
+  ...
+# Subtest: ANTLR source validation rejects digest changes, symlinks and path escapes
+ok 4 - ANTLR source validation rejects digest changes, symlinks and path escapes
+  ---
+  duration_ms: 4.30021
+  type: 'test'
+  ...
+# Subtest: artifact preparation refuses unapproved URLs without echoing injected credentials
+ok 5 - artifact preparation refuses unapproved URLs without echoing injected credentials
+  ---
+  duration_ms: 59.357613
+  type: 'test'
+  ...
+# Subtest: artifact preparation rejects a cache symlink before creating any outside directories
+ok 6 - artifact preparation rejects a cache symlink before creating any outside directories
+  ---
+  duration_ms: 53.899793
+  type: 'test'
+  ...
+# Subtest: a later invalid origin or digest rejects before the first download or cache mutation
+ok 7 - a later invalid origin or digest rejects before the first download or cache mutation
+  ---
+  duration_ms: 109.203022
+  type: 'test'
+  ...
+# Subtest: audit cursors accept only canonical bounded project and filter positions
+ok 8 - audit cursors accept only canonical bounded project and filter positions
+  ---
+  duration_ms: 3.095819
+  type: 'test'
+  ...
+# Subtest: manifest measures lock-matched npm cache tarball, installed bytes, and license files reproducibly
+ok 9 - manifest measures lock-matched npm cache tarball, installed bytes, and license files reproducibly
+  ---
+  duration_ms: 331.19405
+  type: 'test'
+  ...
+# Subtest: manifest verification rejects tampered installed files, lock identities, and undeclared packages
+ok 10 - manifest verification rejects tampered installed files, lock identities, and undeclared packages
+  ---
+  duration_ms: 234.907473
+  type: 'test'
+  ...
+# Subtest: lock credential URLs and identity mutations are rejected without echoing credentials
+ok 11 - lock credential URLs and identity mutations are rejected without echoing credentials
+  ---
+  duration_ms: 9.342564
+  type: 'test'
+  ...
+# Subtest: cached tarball bytes are rechecked against lock SRI on every measurement
+ok 12 - cached tarball bytes are rechecked against lock SRI on every measurement
+  ---
+  duration_ms: 121.592608
+  type: 'test'
+  ...
+# Subtest: installed dependency symlinks and smoke-script symlinks fail closed
+ok 13 - installed dependency symlinks and smoke-script symlinks fail closed
+  ---
+  duration_ms: 9.617423
+  type: 'test'
+  ...
+# Subtest: cache miss fails closed and offline install does not fall back to a registry
+ok 14 - cache miss fails closed and offline install does not fall back to a registry
+  ---
+  duration_ms: 352.509975
+  type: 'test'
+  ...
+# Subtest: offline install runs a smoke import from an isolated staging directory
+ok 15 - offline install runs a smoke import from an isolated staging directory
+  ---
+  duration_ms: 502.090531
+  type: 'test'
+  ...
+# Subtest: offline install and post-install manifest use the supplied nonempty cache only
+ok 16 - offline install and post-install manifest use the supplied nonempty cache only
+  ---
+  duration_ms: 868.349319
+  type: 'test'
+  ...
+# Subtest: append-only reports reject an evidence symlink before creating any external directory
+ok 17 - append-only reports reject an evidence symlink before creating any external directory
+  ---
+  duration_ms: 6.448751
+  type: 'test'
+  ...
+# Subtest: coordinator requires complete receipt, validity and central evidence for success
+ok 18 - coordinator requires complete receipt, validity and central evidence for success
+  ---
+  duration_ms: 2.82905
+  type: 'test'
+  ...
+# Subtest: lost acknowledgment or receipt gap holds and never replays the statement
+ok 19 - lost acknowledgment or receipt gap holds and never replays the statement
+  ---
+  duration_ms: 0.72455
+  type: 'test'
+  ...
+# Subtest: stale authority, content, mutex, invalid validity or missing evidence hold
+ok 20 - stale authority, content, mutex, invalid validity or missing evidence hold
+  ---
+  duration_ms: 2.11422
+  type: 'test'
+  ...
+# Subtest: known zero pending is a NOOP with no migration call
+ok 21 - known zero pending is a NOOP with no migration call
+  ---
+  duration_ms: 0.328614
+  type: 'test'
+  ...
+# Subtest: dispatch or persistence exceptions durably converge to HOLD and are not replayed
+ok 22 - dispatch or persistence exceptions durably converge to HOLD and are not replayed
+  ---
+  duration_ms: 0.720953
+  type: 'test'
+  ...
+# Subtest: authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+ok 23 - authority revoked after first acknowledged statement retains receipt and prevents second dispatch
+  ---
+  duration_ms: 0.619273
+  type: 'test'
+  ...
+# Subtest: lease expiry after durable STARTED holds without dispatch
+ok 24 - lease expiry after durable STARTED holds without dispatch
+  ---
+  duration_ms: 0.443942
+  type: 'test'
+  ...
+# Subtest: authority changing during final evidence verification blocks success projection
+ok 25 - authority changing during final evidence verification blocks success projection
+  ---
+  duration_ms: 0.410956
+  type: 'test'
+  ...
+# Subtest: only admitted immutable job envelopes can be claimed
+ok 26 - only admitted immutable job envelopes can be claimed
+  ---
+  duration_ms: 0.519457
+  type: 'test'
+  ...
+# Subtest: unknown claim and unconfirmed HOLD commit report recovery required
+ok 27 - unknown claim and unconfirmed HOLD commit report recovery required
+  ---
+  duration_ms: 0.746363
+  type: 'test'
+  ...
+# Subtest: backup private configuration and loopback database authorization fail closed
+ok 28 - backup private configuration and loopback database authorization fail closed
+  ---
+  duration_ms: 11.225653
+  type: 'test'
+  ...
+# Subtest: backup operator rejects existing, unsafe, nested-witness, and symlink paths
+ok 29 - backup operator rejects existing, unsafe, nested-witness, and symlink paths
+  ---
+  duration_ms: 72.102949
+  type: 'test'
+  ...
+# Subtest: format 1 is stable, binds ordered content and validates bounded facts
+ok 30 - format 1 is stable, binds ordered content and validates bounded facts
+  ---
+  duration_ms: 8.401406
+  type: 'test'
+  ...
+# Subtest: format 2 binds the complete ordered statement identities and keeps format 1 exact
+ok 31 - format 2 binds the complete ordered statement identities and keeps format 1 exact
+  ---
+  duration_ms: 2.507361
+  type: 'test'
+  ...
+# Subtest: offline Maven cache rejects artifact mutation, symlinks and credentialed origins
+ok 32 - offline Maven cache rejects artifact mutation, symlinks and credentialed origins
+  ---
+  duration_ms: 19.438316
+  type: 'test'
+  ...
+# Subtest: cache-lock and runtime URL entries enforce the same origin and symlink boundaries
+ok 33 - cache-lock and runtime URL entries enforce the same origin and symlink boundaries
+  ---
+  duration_ms: 3.84283
+  type: 'test'
+  ...
+# Subtest: validates candidate output as exact bounded source bytes and remains unapproved
+ok 34 - validates candidate output as exact bounded source bytes and remains unapproved
+  ---
+  duration_ms: 2.333579
+  type: 'test'
+  ...
+# Subtest: rejects tampered digests, ranges, overlaps, and SQL not at the source prefix
+ok 35 - rejects tampered digests, ranges, overlaps, and SQL not at the source prefix
+  ---
+  duration_ms: 0.931911
+  type: 'test'
+  ...
+# Subtest: rejects profile approval, unexpected stderr, malformed JSON, and extra protocol fields
+ok 36 - rejects profile approval, unexpected stderr, malformed JSON, and extra protocol fields
+  ---
+  duration_ms: 1.240374
+  type: 'test'
+  ...
+# Subtest: bounds input/output and maps subprocess timeout and overflow to sanitized outcomes
+ok 37 - bounds input/output and maps subprocess timeout and overflow to sanitized outcomes
+  ---
+  duration_ms: 3.991534
+  type: 'test'
+  ...
+# Subtest: fixture containment rejects parent paths while allowing paths beneath a fixtures root
+ok 38 - fixture containment rejects parent paths while allowing paths beneath a fixtures root
+  ---
+  duration_ms: 0.229824
+  type: 'test'
+  ...
+# Subtest: STOP requires the exact safe protocol and the full input digest
+ok 39 - STOP requires the exact safe protocol and the full input digest
+  ---
+  duration_ms: 0.598343
+  type: 'test'
+  ...
+# Subtest: rejects omitted SQL in empty, leading, middle and trailing statement coverage
+ok 40 - rejects omitted SQL in empty, leading, middle and trailing statement coverage
+  ---
+  duration_ms: 1.686352
+  type: 'test'
+  ...
+# Subtest: accepts whitespace gaps and range-contained UTF-8 comments, rejects uncovered comments
+ok 41 - accepts whitespace gaps and range-contained UTF-8 comments, rejects uncovered comments
+  ---
+  duration_ms: 0.869227
+  type: 'test'
+  ...
+# Subtest: ANTLR protocol preserves CRLF slash delimiters without allowing unknown profiles
+ok 42 - ANTLR protocol preserves CRLF slash delimiters without allowing unknown profiles
+  ---
+  duration_ms: 0.687261
+  type: 'test'
+  ...
+# Subtest: original corpus covers F07–F20 and all fourteen parser cases
+ok 43 - original corpus covers F07–F20 and all fourteen parser cases
+  ---
+  duration_ms: 1.716917
+  type: 'test'
+  ...
+# Subtest: every fixture digest and executable golden matches exact original byte ranges
+ok 44 - every fixture digest and executable golden matches exact original byte ranges
+  ---
+  duration_ms: 14.843172
+  type: 'test'
+  ...
+# Subtest: encoding corpus distinguishes LF, CRLF, BOM and invalid bytes
+ok 45 - encoding corpus distinguishes LF, CRLF, BOM and invalid bytes
+  ---
+  duration_ms: 1.974503
+  type: 'test'
+  ...
+# Subtest: late malformed release and non-atomic fixtures retain their required contracts
+ok 46 - late malformed release and non-atomic fixtures retain their required contracts
+  ---
+  duration_ms: 0.270266
+  type: 'test'
+  ...
+# Subtest: release parse failure in a later file returns no executable or partially approved release
+ok 47 - release parse failure in a later file returns no executable or partially approved release
+  ---
+  duration_ms: 2.846295
+  type: 'test'
+  ...
+# Subtest: all release bytes and digests are snapshotted before parser calls
+ok 48 - all release bytes and digests are snapshotted before parser calls
+  ---
+  duration_ms: 0.547042
+  type: 'test'
+  ...
+# Subtest: bad, duplicate, traversing or oversized release inputs stop before parser invocation
+ok 49 - bad, duplicate, traversing or oversized release inputs stop before parser invocation
+  ---
+  duration_ms: 127.150398
+  type: 'test'
+  ...
+# Subtest: parser throws, wrong profile, empty parses and envelope failures all stop safely
+ok 50 - parser throws, wrong profile, empty parses and envelope failures all stop safely
+  ---
+  duration_ms: 0.807618
+  type: 'test'
+  ...
+# Subtest: empty manifest reports exact missing prerequisites as BLOCKED
+ok 51 - empty manifest reports exact missing prerequisites as BLOCKED
+  ---
+  duration_ms: 9.55658
+  type: 'test'
+  ...
+# Subtest: example manifest is rejected and receives no profile hash
+ok 52 - example manifest is rejected and receives no profile hash
+  ---
+  duration_ms: 2.643729
+  type: 'test'
+  ...
+# Subtest: complete synthetic manifest validates local fixture bytes without runtime authority
+ok 53 - complete synthetic manifest validates local fixture bytes without runtime authority
+  ---
+  duration_ms: 19.733445
+  type: 'test'
+  ...
+# Subtest: malformed nested values, exact versions, duplicate refs, scope and authorization reject or block safely
+ok 54 - malformed nested values, exact versions, duplicate refs, scope and authorization reject or block safely
+  ---
+  duration_ms: 21.976871
+  type: 'test'
+  ...
+# Subtest: unknown secret fields and TCPS userinfo are rejected without echoing canaries
+ok 55 - unknown secret fields and TCPS userinfo are rejected without echoing canaries
+  ---
+  duration_ms: 3.870614
+  type: 'test'
+  ...
+# Subtest: malformed declared hashes, versions and nested unknown fields never leak canaries
+ok 56 - malformed declared hashes, versions and nested unknown fields never leak canaries
+  ---
+  duration_ms: 23.870611
+  type: 'test'
+  ...
+# Subtest: artifact digest, symlink and protected-path checks stay within approved offline directory
+ok 57 - artifact digest, symlink and protected-path checks stay within approved offline directory
+  ---
+  duration_ms: 24.889616
+  type: 'test'
+  ...
+# Subtest: CLI rejects missing/duplicate arguments, sanitizes errors, and appends two reports without overwrite
+ok 58 - CLI rejects missing/duplicate arguments, sanitizes errors, and appends two reports without overwrite
+  ---
+  duration_ms: 406.995727
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: product API persists a governed offline plan and never claims execution
+ok 59 - product API persists a governed offline plan and never claims execution
+  ---
+  duration_ms: 17219.71285
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+ok 60 - approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+  ---
+  duration_ms: 28318.125506
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 61 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 39526.641629
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: archival keeps immutable records readable and refuses further project work
+not ok 62 - archival keeps immutable records readable and refuses further project work
+  ---
+  duration_ms: 488.311259
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-execution-readiness/tests/product-archive.test.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading 'id')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-execution-readiness/tests/product-archive.test.mjs:54:27)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# ENFORCED
+# grant complete
+# Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+ok 63 - an in-flight metadata write rechecks archival after acquiring the project lock
+  ---
+  duration_ms: 317.160723
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+ok 64 - scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+  ---
+  duration_ms: 769.374789
+  type: 'test'
+  ...
+# Subtest: native metadata backup and witness-verified restore retain source and enter persistent hold
+ok 65 - native metadata backup and witness-verified restore retain source and enter persistent hold
+  ---
+  duration_ms: 2543.372269
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: native restore preserves retained Git review history and UNIT receipts while revoking old authority
+ok 66 - native restore preserves retained Git review history and UNIT receipts while revoking old authority
+  ---
+  duration_ms: 35437.692864
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: SIGKILL after native import leaves restored approved queues unclaimable and startup refused
+ok 67 - SIGKILL after native import leaves restored approved queues unclaimable and startup refused
+  ---
+  duration_ms: 35055.031431
+  type: 'test'
+  ...
+# Subtest: native restore rejects damaged, unsupported, linked and untrusted inputs before destination creation
+ok 68 - native restore rejects damaged, unsupported, linked and untrusted inputs before destination creation
+  ---
+  duration_ms: 3046.317035
+  type: 'test'
+  ...
+# Subtest: comment evidence accepts only bounded compact exact statement tuples
+ok 69 - comment evidence accepts only bounded compact exact statement tuples
+  ---
+  duration_ms: 2.78962
+  type: 'test'
+  ...
+# Subtest: comment evidence resolution stores server facts only after exact preview tuple match
+ok 70 - comment evidence resolution stores server facts only after exact preview tuple match
+  ---
+  duration_ms: 0.996911
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+ok 71 - plan review comments are scoped, validated, durable, ordered, and serialized
+  ---
+  duration_ms: 1349.11604
+  type: 'test'
+  ...
+# Subtest: local credentials persist and recover real interrupted operator processes
+ok 72 - local credentials persist and recover real interrupted operator processes
+  ---
+  duration_ms: 1298.6013
+  type: 'test'
+  ...
+# Subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+ok 73 - concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+  ---
+  duration_ms: 470.05912
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: terminal plan decisions retain reviewer snapshots and historical ID fallback
+ok 74 - terminal plan decisions retain reviewer snapshots and historical ID fallback
+  ---
+  duration_ms: 571.708766
+  type: 'test'
+  ...
+# Subtest: T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+ok 75 - T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+  ---
+  duration_ms: 248.105395
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+ok 76 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 67591.619669
+  type: 'test'
+  ...
+# Subtest: local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+ok 77 - local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+  ---
+  duration_ms: 8077.335506
+  type: 'test'
+  ...
+# Subtest: resolved commits remain immutable after the source branch moves
+ok 78 - resolved commits remain immutable after the source branch moves
+  ---
+  duration_ms: 5314.473221
+  type: 'test'
+  ...
+# Subtest: leading-zero aliases and equivalent dotted versions are rejected as duplicates
+ok 79 - leading-zero aliases and equivalent dotted versions are rejected as duplicates
+  ---
+  duration_ms: 107.314011
+  type: 'test'
+  ...
+# Subtest: malformed refs and migration-folder traversal are rejected before Git lookup
+ok 80 - malformed refs and migration-folder traversal are rejected before Git lookup
+  ---
+  duration_ms: 36.641101
+  type: 'test'
+  ...
+# Subtest: symlinked migration entries and Git submodules are rejected
+ok 81 - symlinked migration entries and Git submodules are rejected
+  ---
+  duration_ms: 180.840262
+  type: 'test'
+  ...
+# Subtest: invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+ok 82 - invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+  ---
+  duration_ms: 5333.880331
+  type: 'test'
+  ...
+# Subtest: the installed ANTLR helper parses actual imported SQL without a fake positive driver
+ok 83 - the installed ANTLR helper parses actual imported SQL without a fake positive driver
+  ---
+  duration_ms: 2703.789984
+  type: 'test'
+  ...
+# Subtest: local generated credentials stay private and existing permissions are repaired before use
+ok 84 - local generated credentials stay private and existing permissions are repaired before use
+  ---
+  duration_ms: 30.890915
+  type: 'test'
+  ...
+# Subtest: local startup rejects oversized and extra-field credential configs without output or mutation
+ok 85 - local startup rejects oversized and extra-field credential configs without output or mutation
+  ---
+  duration_ms: 146.461668
+  type: 'test'
+  ...
+# Subtest: local startup refuses symlinked directories/configs without chmod or reading external files
+ok 86 - local startup refuses symlinked directories/configs without chmod or reading external files
+  ---
+  duration_ms: 6.968172
+  type: 'test'
+  ...
+# Subtest: real Docker CLI ignores remote environment and saved context for read-only local commands
+ok 87 - real Docker CLI ignores remote environment and saved context for read-only local commands
+  ---
+  duration_ms: 176.210559
+  type: 'test'
+  ...
+# Subtest: explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+ok 88 - explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+  ---
+  duration_ms: 2912.849022
+  type: 'test'
+  ...
+# grant complete
+# grant complete
+# ENFORCED
+# Subtest: activation serializes with in-flight revocation and bootstrap creation stays denied
+ok 89 - activation serializes with in-flight revocation and bootstrap creation stays denied
+  ---
+  duration_ms: 375.028862
+  type: 'test'
+  ...
+# grant complete
+# Subtest: activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+ok 90 - activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+  ---
+  duration_ms: 239.164891
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: combined local Git workflow retains review, withdrawal, manual references and restart state
+ok 91 - combined local Git workflow retains review, withdrawal, manual references and restart state
+  ---
+  duration_ms: 30444.388052
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+ok 92 - plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+  ---
+  duration_ms: 44880.167069
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+ok 93 - rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+  ---
+  duration_ms: 22679.326156
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+ok 94 - source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+  ---
+  duration_ms: 52048.304585
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: binding updates serialize with approval and plan creation under project locks
+ok 95 - binding updates serialize with approval and plan creation under project locks
+  ---
+  duration_ms: 8673.493343
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: legacy project schema initializes only current tracking and never backfills historical plans
+ok 96 - legacy project schema initializes only current tracking and never backfills historical plans
+  ---
+  duration_ms: 5977.561831
+  type: 'test'
+  ...
+# Subtest: retained source facts align canonically and distinguish path, content and presence changes
+ok 97 - retained source facts align canonically and distinguish path, content and presence changes
+  ---
+  duration_ms: 2.070026
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: authenticated retained comparison is scoped, read-only, self-comparable, and survives repository removal
+ok 98 - authenticated retained comparison is scoped, read-only, self-comparable, and survives repository removal
+  ---
+  duration_ms: 76804.009683
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: offline planning rejects corrupted retained releases without writes and uses locked current state
+ok 99 - offline planning rejects corrupted retained releases without writes and uses locked current state
+  ---
+  duration_ms: 11842.111768
+  type: 'test'
+  ...
+# Subtest: startup arguments accept repeated local repositories and reject unknown or excess options
+ok 100 - startup arguments accept repeated local repositories and reject unknown or excess options
+  ---
+  duration_ms: 3.740926
+  type: 'test'
+  ...
+# Subtest: configured repositories are canonical local Git worktrees with display-only public descriptors
+ok 101 - configured repositories are canonical local Git worktrees with display-only public descriptors
+  ---
+  duration_ms: 87.944663
+  type: 'test'
+  ...
+# Subtest: invalid startup options fail before creating local configuration or reaching Docker
+ok 102 - invalid startup options fail before creating local configuration or reaching Docker
+  ---
+  duration_ms: 133.24365
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: a configured custom Git repository is visible without its path and imports through the product API
+ok 103 - a configured custom Git repository is visible without its path and imports through the product API
+  ---
+  duration_ms: 3225.717254
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete

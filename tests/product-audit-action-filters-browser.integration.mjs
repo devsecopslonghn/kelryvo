@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { ANTLR_PROFILE } from '../experiments/db-devops-wp0/parser-envelope.mjs';
 import assert from 'node:assert/strict';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { chromium } from 'playwright';
@@ -44,7 +45,7 @@ test('audit action filters preserve project scope, server order, archived reads 
     const bytes = Buffer.from(content);
     const sha256 = createHash('sha256').update(bytes).digest('hex');
     const files = [{ path: 'migrations/V001__audit_filter.sql', version: '1', sha256, bytes: bytes.length, content, statementCount: null, validationStatus: 'VALID' }];
-    const parserProfile = 'fixture-parser-profile';
+    const parserProfile = ANTLR_PROFILE;
     const manifestDigest = createHash('sha256').update(JSON.stringify({ format:1, commit:'a'.repeat(40), objectFormat:'sha1', folder:'migrations', parserProfile,
       files:files.map(({ path, version, sha256, bytes }) => ({ path, version, sha256, bytes })) })).digest('hex');
     const release = (await database.sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)
@@ -52,7 +53,11 @@ test('audit action filters preserve project scope, server order, archived reads 
     const environment = (await database.sql`INSERT INTO sf_environments(project_id,organization_id,name) VALUES(${first.id},${ORG},'Audit filter environment') RETURNING id`)[0];
     const profile = (await database.sql`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref)
       VALUES(${first.id},${ORG},${environment.id},'Audit filter profile','oracle','oracle.example.invalid',1521,'DEV','APP','vault://test') RETURNING id`)[0];
-    const makePlan = async () => (await api('POST', `/api/projects/${first.id}/plans`, actors[0], { releaseId: release.id, profileId: profile.id })).body.plan;
+    const makePlan = async () => {
+      const result = await api('POST', `/api/projects/${first.id}/plans`, actors[0], { releaseId: release.id, profileId: profile.id });
+      assert.equal(result.response.status, 201);
+      return result.body.plan;
+    };
     const pending = await makePlan();
     const approved = await makePlan();
     const comment = await api('POST', `/api/projects/${first.id}/plans/${pending.id}/comments`, actors[0], { body: 'Audit filter persisted comment' });
