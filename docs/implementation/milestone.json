@@ -213,10 +213,10 @@
   "product_features_verified": 0,
   "next_actionable_tasks": [
     {
-      "id": "SF-PRODUCT-T24",
+      "id": "SF-PRODUCT-T28",
       "owner": "backend",
-      "status": "READY",
-      "action": "Bounded scoped audit history pagination after T23 eligible merge and exact-master verification"
+      "status": "IN_PROGRESS",
+      "action": "Bounded cross-project pending-review inbox from merged T16/T21/T08 interfaces; independent of draft37 through40"
     }
   ],
   "blocked_inputs_evidence": {
@@ -246,8 +246,8 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "T23_CORRECTED_VERIFIED_LOCAL_FRESH_REVIEW_CI_PENDING",
-  "current_checkpoint_branch": "development/product-discussion-evidence",
+  "current_increment_merge_status": "T28_IN_PROGRESS_INDEPENDENT_MASTER_BASE",
+  "current_checkpoint_branch": "development/product-review-inbox",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -261,7 +261,7 @@
       ]
     }
   },
-  "product_task_status": "T01_THROUGH_T22_MERGED_T23_CORRECTED_VERIFIED_LOCAL",
+  "product_task_status": "T01_THROUGH_T23_MERGED_T24_THROUGH_T27_VERIFIED_IN_OTHER_WORKTREES_T28_IN_PROGRESS",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",
@@ -364,7 +364,40 @@
     "corrective_head": "5ef2568e1904636ae7bec7aeb2188cbf71279414",
     "corrective_workflow_outcome": "PASS_ORIGINAL_FAIL_PRESERVED"
   },
-  "publication_gate": "T23_EXACT_HEAD_QA_SECURITY_LICENSE_SCANS_CI_ORDINARY_MERGE",
+  "publication_gate": {
+    "draft_only": true,
+    "merge_eligible": false,
+    "required_security_unavailable": true
+  },
   "latest_merged_master_before_this_increment": "fe1d3a84381e5080d591ca1a43a7a9b9928f93ee",
-  "last_verified_master_evidence": "evidence/product/product-t22-merge-20261009T183839Z/record.json"
+  "last_verified_master_evidence": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
+  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "retained_release_stack": {
+    "drafts": [
+      37,
+      38,
+      39,
+      40
+    ],
+    "t27_published_head": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
+    "local_checkpoint": "ede57bd",
+    "local_checks": {
+      "standard": 163,
+      "product": 38,
+      "browser": 22,
+      "failures": 0,
+      "skips": 0
+    },
+    "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
+    "coverage_summary": {
+      "total": 220,
+      "IMPLEMENTED_AND_VERIFIED": 0,
+      "PARTIALLY_IMPLEMENTED": 41,
+      "NOT_IMPLEMENTED": 172,
+      "BLOCKED_EXTERNAL": 0,
+      "DEFERRED": 7
+    },
+    "merge_eligible": false,
+    "gates": "Code scanning403,secret scanning404,protection403 unavailable; Sonar exception unchanged and Oracle independent."
+  }
 }
