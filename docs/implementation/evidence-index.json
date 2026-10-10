@@ -2674,16 +2674,20 @@
     {
       "id": "product-t25-reviewed-draft-publication",
       "subject_id": "SF-PRODUCT-T25",
-      "kind": "REVIEW",
+      "kind": "STATIC",
       "scope": "PRODUCT",
-      "outcome": "OBSERVATION",
-      "command": "Exact-head independent reviews and normal draft-only publication; required external gates unavailable",
+      "outcome": "PASS",
+      "command": "Static exact-head local QA/security/license review and successful draft-only publication; external required security unavailable, no readiness or merge acceptance",
       "exit_code": 0,
       "criterion_indexes": [],
       "test_references": [],
       "case_coverage": [],
-      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/record.json",
-      "sha256": "6ff769decb14795324a2d2654674ea6b9a9c3ab116e4ac6e4f61315ec6eaf0db"
+      "path": "evidence/product/product-t25-draft-review-20261010T0119Z/tracker-review-wrapper.json",
+      "sha256": "bf13cd6e31121e7652486ef9bbc3ade1b82e9835fdbcae0b19ec9f4f9eb6929a",
+      "raw_output": {
+        "path": "evidence/product/product-t25-draft-review-20261010T0119Z/publication/27-observe-draft-ci.raw.log",
+        "sha256": "be20af33c5f11ceacb6c5fc7625091d691176cb8b8ccd32011d4c54aa4ff4255"
+      }
     }
   ]
 }

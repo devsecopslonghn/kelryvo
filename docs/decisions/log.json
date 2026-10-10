@@ -275,6 +275,31 @@
         "tests/product-release-comparison.test.mjs",
         "evidence/product/product-t25-security-correction-20261009T2328Z/blocked-review.json"
       ]
+    },
+    {
+      "id": "SF-D026",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T26_RETAINED_METADATA_HARDENING_PRIORITY",
+      "accepted_at_utc": "2026-10-10T01:18:49.958949+00:00",
+      "decision": "Prioritize complete database-side non-content metadata preflight for existing statement-preview, offline plan creation, source-linked comment and approval payload readers. Independent preliminary security finding SEC-RETAINED-METADATA-02 shows those readers permit unknown fields under an overall escaped-content budget before Node allocation. Reuse a scoped bounded scalar preflight, type known numeric metadata with guarded casts and preserve content limits, lock ordering, valid Unicode/arbitrary versions/null counts/bounded extensions and all historical records. Every authorized integrity failure must preserve protected rows; existing audited authorization denials remain. Do not rewrite manifests, generations or intents, infer history or extend Oracle/execution authority. Resolve this bounded concrete security hardening before the earlier unregistered inbox proposal. Safe ordinary correction under SF-D010; original220 acceptance and normal independent exact-head/security/CI gates unchanged. Registration alone is not implementation or finding closure.",
+      "references": [
+        "docs/inputs/db-research/product-research/feature-catalog.json",
+        "AGENTS.md",
+        "apps/api/index.ts",
+        "apps/web/src/app.jsx",
+        "docs/implementation/backlog.json"
+      ]
+    },
+    {
+      "id": "SF-D027",
+      "status": "ACCEPTED_LOCAL_T26_REVIEWED_PREREQUISITE_SEQUENCE",
+      "accepted_at_utc": "2026-10-10T01:19:20.083482+00:00",
+      "decision": "Start bounded T26 local hardening from latest verified master0fd6980 using normal fast-forward of exclusively owned reviewed T24 head704ef82, corrected independently reviewed T25 head2f3147f and local continuation4e72346. PR37 and PR38 remain drafts unmerged while required external GitHub security is unavailable. Local sequence enables verification and repair of SEC-RETAINED-METADATA-02, never substitutes for final prerequisite merges, exact-head review, available CI or restored required security gates. No force push/history rewrite/gate waiver; original220 catalog contracts and dependencies unchanged. Owner standing autonomous engineering policy authorizes this reversible safe local sequence.",
+      "references": [
+        "AGENTS.md",
+        "docs/implementation/github-sync.md",
+        "docs/implementation/backlog.json",
+        "evidence/product/product-t25-draft-review-20261010T0119Z/record.json"
+      ]
     }
   ]
 }

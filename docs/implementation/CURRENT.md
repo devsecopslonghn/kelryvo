@@ -1,3 +1,29 @@
+## T26 active in isolated metadata preflight worktree — 2026-10-10 UTC
+
+SF-PRODUCT-T26 IN_PROGRESS at schemaforge-product-retained-metadata-preflight,
+branch development/product-retained-metadata-preflight. SF-D027 permits local sequencing
+of reviewed unmerged T24/T25 prerequisites from verified master0fd6980, preserving every
+final independent/security/CI gate. Fresh coupled native context owns API/helper/regressions
+and operating guide; root owns contracts/evidence/integration. Complete metadata preflight
+must precede payload reads in four protected routes, preserve content/lock/auth/rejection
+semantics and prove invalid operations leave populated records unchanged. No verification
+or finding closure claimed yet. Draft37/38 unmerged; Sonar unavailable never PASS;
+Oracle independently BLOCKED; shared checkout/Hygiene untouched.
+
+## T26 retained metadata hardening registered; implementation pending — 2026-10-10 UTC
+
+T26 READY registers complete database-side non-content metadata preflight across existing
+statement preview, offline planning, source-linked comments and approval payload readers.
+SF-D026 prioritizes concrete SEC-RETAINED-METADATA-02 hardening before the unregistered inbox
+proposal. Preserve bounded valid extension compatibility, source/intent/generation locks,
+fixed endpoint failures, rejection/recovery and full protected-row no-write evidence.
+Original220 acceptance stays unchanged; registration is not implementation or finding closure.
+
+Corrected T25 and reviewed T24 remain local/unmerged while required GitHub security gates are
+unavailable. Owner reply to work normally preserves normal gates; Sonar unavailable never PASS,
+Oracle independently BLOCKED. Local continuation needs documented sequencing without waiving
+final publication/merge prerequisites. Shared original checkout and Hygiene scope untouched.
+
 ## T25 independently reviewed; draft PR38 published — 2026-10-10 UTC
 
 Corrected T25 head2f3147f passes bounded source comparison QA/security/license review.

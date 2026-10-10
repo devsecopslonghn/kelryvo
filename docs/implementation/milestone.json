@@ -231,10 +231,10 @@
   "product_features_verified": 0,
   "next_actionable_tasks": [
     {
-      "id": "SF-PRODUCT-T25",
+      "id": "SF-PRODUCT-T26",
       "owner": "backend",
-      "status": "VERIFIED",
-      "action": "Local verification complete; exact-head reviews and required security/CI gates pending. T26 proposal remains separate."
+      "status": "IN_PROGRESS",
+      "action": "Registration only; complete retained-source metadata preflight across existing protected payload readers after corrected reviewed local prerequisites. Required security/merge gates remain unchanged."
     }
   ],
   "blocked_inputs_evidence": {
@@ -246,7 +246,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-10T01:06:54.195457+00:00",
+  "updated_at": "2026-10-10T01:18:49.987918+00:00",
   "final_check_evidence": {
     "index_id": "product-t25-security-corrected-local-verified"
   },
@@ -267,7 +267,7 @@
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
   "current_increment_merge_status": "DRAFT_UNMERGED_EXTERNAL_REQUIRED_SECURITY_UNAVAILABLE",
-  "current_checkpoint_branch": "development/product-release-source-comparison",
+  "current_checkpoint_branch": "development/product-retained-metadata-preflight",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -410,5 +410,12 @@
     "carried_local_continuation": "d5ddb6dc6020adf9a00eded1fda0a75af8750df3",
     "decision": "SF-D023",
     "merge_eligible": false
+  },
+  "t26_local_prerequisite": {
+    "master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+    "t24_reviewed_head": "704ef82f3bf183707b40e8194f3b1f0a15e29a89",
+    "t25_reviewed_head": "2f3147fd57cfa726bfe7253f4947e321c1c747ef",
+    "continuation": "4e72346d04ae6ab7f54b173c613b672dcf0d7718",
+    "final_gates_unchanged": true
   }
 }

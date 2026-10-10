@@ -2952,6 +2952,44 @@
         }
       ],
       "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T26",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Bound retained-source metadata before protected payload reads",
+      "dependencies": [
+        "SF-PRODUCT-T25",
+        "SF-PRODUCT-T23",
+        "SF-PRODUCT-T22",
+        "SF-PRODUCT-T19",
+        "SF-PRODUCT-T17",
+        "SF-PRODUCT-T15"
+      ],
+      "feature_ids": [
+        "MIG-008",
+        "GIT-016",
+        "GOV-023"
+      ],
+      "acceptance_criteria": [
+        "Apply complete bounded PostgreSQL scalar preflight before loading retained files in statement preview, offline plan creation, source-linked comments and approval. Reuse scoped existing locks, VALID source verification and fixed endpoint errors. Bound encoded non-content metadata including unknown nested fields/array overhead and identity facts; type/range known scalar fields with guarded safe numeric processing. Preserve current content budgets and arbitrary-precision supported versions.",
+        "Preserve historical retained releases and plans without rewriting or backfilling. Valid Unicode content, null/nonnegative safe statement counts and bounded historical extension metadata remain supported. Malformed or excessive metadata fails before payload materialization; retain legacy readable/rejection behavior and existing generation/intent/fresh-plan boundaries.",
+        "Preserve existing authorization, explicit memberships, fixed roles, requester exclusion, archival and terminal protections. Authorized integrity failures cause no new plan/comment/decision/history/audit mutations; existing audited authorization-denial behavior remains unchanged. No new execution authority, target credentials, Oracle calls or schema migration without concrete necessity.",
+        "Use one reusable bounded PostgreSQL preflight implementation where practical without changing importer manifests or historical verification semantics. Keep exact transaction lock ordering for project/release/plan/profile and prevent concurrent retained mutation from bypassing checks. Reuse T18 fresh-plan recovery and existing fixed UI integrity feedback.",
+        "Real isolated PostgreSQL and local Git fixtures cover each of four readers with legitimate Unicode/arbitrary versions/null counts/bounded extras; oversized flat/nested extras, malformed known metadata, aggregate content and counts; both roles/project isolation/archive/rejection/no Git registration; exact locking concurrent mutation and API/pool recreation persistence. Compare complete populated source/plan/intent/comment/decision/history/audit snapshots immediately around failures before restoration; preserve all full standard/Git/parser/product/browser regressions with zero skipped required cases.",
+        "This is bounded security hardening for retained-source reads, not full original catalog, database tamper-proofing, deployed/schema or Oracle validation. Preserve original220 requirements/dependencies, immutable failed evidence, license/grants/locks/grammar/scanners and normal exact-head QA/security/CI gates. Sonar unavailable never PASS; Oracle VALIDATION independently BLOCKED; no history rewrite/target connection/deployment."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T26-API",
+        "SF-PRODUCT-T26-PERSISTENCE",
+        "SF-PRODUCT-T26-WEB"
+      ],
+      "status": "IN_PROGRESS",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [],
+      "blockers": []
     }
   ]
 }
