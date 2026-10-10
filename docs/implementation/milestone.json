@@ -239,7 +239,7 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "T32_LOCAL_MVP_INTEGRATION_VERIFIED_DRAFT_PUBLICATION_PENDING_SECURITY_UNAVAILABLE",
+  "current_increment_merge_status": "T32_LOCAL_MVP_VERIFIED_DRAFT45_PUBLISHED_AVAILABLE_CI_RUNNING_SECURITY_UNAVAILABLE",
   "current_checkpoint_branch": "development/product-mvp-integration",
   "active_track": "PRODUCT",
   "tracks": {
@@ -317,8 +317,8 @@
       "native_security": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS"
     }
   },
-  "current_increment_pr": null,
-  "current_increment_reviewed_head": "1545aade353c3c2cf709b547b3eae5ed03e849bb",
+  "current_increment_pr": 45,
+  "current_increment_reviewed_head": "57e2395aa645e83120e6d60a88cdb8b759e31af2",
   "current_increment_merge_commit": null,
   "t19_compatibility_decision": {
     "owner_approved_at_recorded_utc": "2026-10-09T12:37:42.238588+00:00",
@@ -470,6 +470,14 @@
         "skipped": 0
       }
     },
+    "merge_eligible": false
+  },
+  "t32_publication": {
+    "pr": 45,
+    "published_head": "57e2395aa645e83120e6d60a88cdb8b759e31af2",
+    "frozen_source_head": "1545aade353c3c2cf709b547b3eae5ed03e849bb",
+    "publication_record": "evidence/product/product-t32-draft-publication-20261010/record.json",
+    "available_ci_terminal": false,
     "merge_eligible": false
   }
 }

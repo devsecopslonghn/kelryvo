@@ -1,0 +1,43 @@
+{
+  "id": "product-t32-draft-publication",
+  "subject_id": "SF-PRODUCT-T32",
+  "scope": "PRODUCT",
+  "kind": "STATIC",
+  "outcome": "PASS",
+  "command": "Normal push, exact remote branch verification and draft45 creation/observation",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t32-draft-publication-20261010/initial-pr.stdout",
+    "sha256": "44682667d7fc2eb37d56b154c233320d7f2d15aca09f533611169f339ed0b0dc"
+  },
+  "recorded_at": "2026-10-10T11:35:23.145708+00:00",
+  "pr": 45,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/45",
+  "published_head": "57e2395aa645e83120e6d60a88cdb8b759e31af2",
+  "frozen_source_head": "1545aade353c3c2cf709b547b3eae5ed03e849bb",
+  "base": "master",
+  "initial_observation_command": [
+    "gh",
+    "pr",
+    "view",
+    "45",
+    "--json",
+    "number,url,state,isDraft,baseRefName,headRefName,headRefOid,mergeStateStatus,mergeable,statusCheckRollup,reviews"
+  ],
+  "available_ci_terminal": false,
+  "merge_eligible": false,
+  "final_annotation_scan": {
+    "base": "7e7646f213edaac3c19c102cafae2ade2c5af627",
+    "head": "57e2395aa645e83120e6d60a88cdb8b759e31af2",
+    "exit_code": 0,
+    "finding_count": 0,
+    "private_report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+  },
+  "limitations": [
+    "Publication observation only; actual available CI initially running/pending. Required remote security/protection gates remain unavailable, not PASS.",
+    "No ready/merge/master/Oracle/execution/full-catalog certification; prior PRs/worktrees preserved."
+  ]
+}

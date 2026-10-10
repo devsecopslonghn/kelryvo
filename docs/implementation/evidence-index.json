@@ -2905,6 +2905,24 @@
       },
       "path": "evidence/product/product-t32-mvp-integration-20261010/record.json",
       "sha256": "6bd7456f403df1799e07c22bd47d40a5751e5c55522681b6490479c6dcefd4e0"
+    },
+    {
+      "id": "product-t32-draft-publication",
+      "subject_id": "SF-PRODUCT-T32",
+      "scope": "PRODUCT",
+      "kind": "STATIC",
+      "outcome": "PASS",
+      "command": "Normal push, exact remote branch verification and draft45 creation/observation",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t32-draft-publication-20261010/initial-pr.stdout",
+        "sha256": "44682667d7fc2eb37d56b154c233320d7f2d15aca09f533611169f339ed0b0dc"
+      },
+      "path": "evidence/product/product-t32-draft-publication-20261010/record.json",
+      "sha256": "1d8ff1f4df3cab2423454008cce612def511ffbb8622bf0931bca0c5257436f2"
     }
   ]
 }
