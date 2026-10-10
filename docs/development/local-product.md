@@ -91,11 +91,21 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    reopening a saved reference requests the exact scoped retained-source preview and checks
    its saved range and digests. This local workflow does not connect to Oracle or change
    executable migration bytes, historical intents, decisions or history.
-   Approved and rejected plans also show a read-only Decision record with the server-stored
+   Approved, rejected and revoked plans show the original read-only Decision record with the server-stored
    reviewer name and ID, decision time and plain-text reason. The reviewer name is captured
    with the decision, so later identity configuration changes do not alter attribution;
    older decisions without a stored name display their retained actor ID.
-   Use Plan status to filter All (the default), Pending approval, Approved or Rejected.
+   New approvals carry a stable approval reference linked to their `PLAN_APPROVED` audit UUID.
+   An independent currently granted approver can withdraw an approved offline candidate by
+   submitting that exact reference (or explicit `null` for an older approval) and a nonempty
+   reason of at most 2,000 characters. Ordinary tabs and line breaks are supported; malformed
+   Unicode and other control characters are rejected.
+   Withdrawal appends one immutable scoped revocation record and audit event, changes only the
+   plan status to `REVOKED`, and preserves the original decision, actor, reason, time, source,
+   intent, comments and history. It remains available when retained SQL or intent is damaged;
+   it never claims to stop or roll back execution. Execution is unavailable and plans remain
+   `NOT_EXECUTED`. A revoked plan cannot be approved again; prepare a fresh plan to seek approval.
+   Use Plan status to filter All (the default), Pending approval, Approved, Rejected or Revoked.
    Filters preserve project ordering and historical read access for archived projects.
    Changing the filter clears unsent comment and decision drafts; an empty result offers
    another status or All. Selecting a project or signing out restores the All default.
@@ -143,7 +153,7 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    inspectable but cannot be approved. Reconfiguring a target affects new plans only.
    These local checks do not observe Oracle identity/history, revalidate at execution, or
    establish tamper resistance against a database administrator.
-   A selected rejected plan in an active project with a registered bound source also offers
+   A selected rejected or revoked plan in an active project with a registered bound source also offers
    **Prepare new plan**. This is read-only navigation into that project's release intake:
    it clears the inspected release and unsent review drafts and restores the All plan filter.
    Commit changed SQL and import that new commit as an immutable release before preparing
@@ -289,6 +299,7 @@ All other API reads/writes require a bearer token:
 | `GET /api/projects/:projectId/plans/:id/comments` | Authenticated, ordered historical comment timeline within the project/plan scope |
 | `POST /api/projects/:projectId/plans/:id/comments` | Append plain-text `body` to a pending plan in an active project; developer or approver |
 | `POST /api/plans/:id/decision` | Independent `APPROVE`/`REJECT` with `reason` |
+| `POST /api/plans/:id/approval-revocation` | Withdraw with `expectedApprovalReference` (UUID or explicit `null`) and `reason` |
 | `POST /api/plans/:id/execution` | Audit denial; HTTP 409 `EXECUTION_UNAVAILABLE`, `NOT_EXECUTED` |
 
 Writes and their audit/history events share PostgreSQL transactions. Approved items are

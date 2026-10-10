@@ -1,4 +1,5 @@
 import Fastify from "fastify";
+import { randomUUID } from "node:crypto";
 import { authenticateLocalToken, seedLocalActors, tokenDigest } from "../../packages/database/local-credentials.ts";
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from "../../experiments/db-devops-wp0/parser-release.mjs";
 import { ANTLR_PROFILE, MAX_INPUT_BYTES, MAX_STDOUT_BYTES } from "../../experiments/db-devops-wp0/parser-envelope.mjs";
@@ -31,6 +32,8 @@ const validComment = (v: unknown) =>
   text(v, 4000) && typeof v === "string" &&
   !/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(v) &&
   Buffer.from(v, "utf8").toString("utf8") === v;
+const validReason = (v: unknown, max = 2000) =>
+  validComment(v) && text(v, max) && typeof v === "string" && !/[\u0080-\u009f]/u.test(v);
 const validHost = (v: unknown) =>
   typeof v === "string" &&
   /^(?:[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?|\[[0-9A-Fa-f:]+\])$/.test(v);
@@ -250,12 +253,14 @@ export function createApp(options: {
           sql`SELECT id,name,created_at FROM sf_environments WHERE project_id=${p.id} ORDER BY created_at`,
           sql`SELECT id,name,environment_id,engine,host,port,service,username,credential_ref,created_at FROM sf_profiles WHERE project_id=${p.id} ORDER BY created_at`,
           sql`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,validation_code,parser_profile,created_at FROM sf_releases WHERE project_id=${p.id} ORDER BY created_at DESC`,
-          sql`SELECT id,organization_id,project_id,release_id,profile_id,author_id,status,decision,decision_reason,decided_by,decided_by_name,created_at,decided_at,
+          sql`SELECT id,organization_id,project_id,release_id,profile_id,author_id,status,decision,decision_reason,decided_by,decided_by_name,created_at,decided_at,approval_reference,
             CASE WHEN jsonb_typeof(items) = 'array' THEN CASE WHEN jsonb_array_length(items) BETWEEN 1 AND ${MAX_RELEASE_FILES}
               AND octet_length(items::text) <= ${MAX_STDOUT_BYTES} THEN items END END AS items, execution,history_status,planning_scope,
             CASE WHEN octet_length(offline_intent_envelope) <= ${MAX_STDOUT_BYTES} THEN offline_intent_envelope ELSE NULL END AS offline_intent_envelope,
             CASE WHEN char_length(offline_intent_digest) = 64 THEN offline_intent_digest ELSE NULL END AS offline_intent_digest,
-            source_binding_generation::text AS source_binding_generation
+            source_binding_generation::text AS source_binding_generation,
+            (SELECT jsonb_build_object('id',rv.id,'approvalReference',rv.approval_reference,'actorId',rv.actor_id,'actorName',rv.actor_name,'reason',rv.reason,'createdAt',rv.created_at)
+              FROM sf_plan_approval_revocations rv WHERE rv.plan_id=sf_plans.id AND rv.organization_id=sf_plans.organization_id) AS revocation
             FROM sf_plans WHERE project_id=${p.id} ORDER BY created_at DESC`,
           sql`SELECT id,actor_id,action,resource_id,facts,created_at FROM sf_audit WHERE project_id=${p.id} ORDER BY created_at DESC LIMIT 100`,
           sql`SELECT id,plan_id,version,path,sha256,status,created_at FROM sf_history WHERE project_id=${p.id} ORDER BY created_at DESC`,
@@ -889,14 +894,16 @@ export function createApp(options: {
           });
           if (!boundIntent || !Array.isArray(items) || items.length !== files.length) return "PLAN_APPROVAL_INTEGRITY_FAILED";
         }
-        const rows = await tx`UPDATE sf_plans SET status=${b.decision === "APPROVE" ? "APPROVED" : "REJECTED"},decision=${b.decision},decision_reason=${b.reason},decided_by=${req.actor.id},decided_by_name=${req.actor.name},decided_at=now()
+        const approvalReference = b.decision === 'APPROVE' ? randomUUID() : null;
+        const rows = await tx`UPDATE sf_plans SET status=${b.decision === "APPROVE" ? "APPROVED" : "REJECTED"},decision=${b.decision},decision_reason=${b.reason},decided_by=${req.actor.id},decided_by_name=${req.actor.name},decided_at=now(),approval_reference=${approvalReference}
           WHERE id=${p.id} RETURNING id,organization_id,project_id,release_id,profile_id,author_id,status,decision,decision_reason,decided_by,decided_by_name,created_at,decided_at,
           CASE WHEN jsonb_typeof(items) = 'array' THEN CASE WHEN jsonb_array_length(items) BETWEEN 1 AND ${MAX_RELEASE_FILES}
             AND octet_length(items::text) <= ${MAX_STDOUT_BYTES} THEN items END END AS items,
-          execution,history_status,planning_scope,source_binding_generation::text AS source_binding_generation,
+          execution,history_status,planning_scope,approval_reference,source_binding_generation::text AS source_binding_generation,
           CASE WHEN octet_length(offline_intent_envelope) <= ${MAX_STDOUT_BYTES} THEN offline_intent_envelope END AS offline_intent_envelope,
           CASE WHEN char_length(offline_intent_digest) = 64 THEN offline_intent_digest END AS offline_intent_digest`;
-        await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${p.project_id},${ORG},${req.actor.id},${b.decision === "APPROVE" ? "PLAN_APPROVED" : "PLAN_REJECTED"},${p.id},${tx.json({ reason: b.reason })})`;
+        if (b.decision === 'APPROVE') await tx`INSERT INTO sf_audit(id,project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${approvalReference},${p.project_id},${ORG},${req.actor.id},'PLAN_APPROVED',${p.id},${tx.json({ reason: b.reason, approvalReference })})`;
+        else await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${p.project_id},${ORG},${req.actor.id},'PLAN_REJECTED',${p.id},${tx.json({ reason: b.reason })})`;
         return rows[0];
       });
       if (!result) return fail(reply, 404, "NOT_FOUND");
@@ -906,6 +913,71 @@ export function createApp(options: {
       if (result === 'PLAN_APPROVAL_INTEGRITY_FAILED') return fail(reply, 409, 'PLAN_APPROVAL_INTEGRITY_FAILED');
       if (result === 'FRESH_PLAN_REQUIRED') return fail(reply, 409, 'FRESH_PLAN_REQUIRED');
       return { plan: mapPlan(result) };
+    },
+  );
+  app.post(
+    '/api/plans/:id/approval-revocation',
+    { preHandler: authenticate },
+    async (req: any, reply: any) => {
+      const b = req.body;
+      if (!uuid(req.params.id) || !object(b, ['expectedApprovalReference', 'reason'])
+        || !Object.hasOwn(b, 'expectedApprovalReference')
+        || !(b.expectedApprovalReference === null || uuid(b.expectedApprovalReference))
+        || !validReason(b.reason, 2000)) return fail(reply, 400, 'INVALID_REQUEST');
+      const result = await sql.begin(async (tx: any) => {
+        // Credential lifecycle mutations take this organization seed lock first.
+        await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
+        if (!req.params.id || !uuid(req.params.id)) return null;
+        const plan = (await tx`SELECT id,project_id,organization_id,author_id,status,decision,approval_reference,execution,history_status,planning_scope
+          FROM sf_plans WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`)[0];
+        if (!plan) return null;
+        const project = (await tx`SELECT archived_at FROM sf_projects WHERE id=${plan.project_id}
+          AND organization_id=${ORG} FOR SHARE`)[0];
+        if (!project) return null;
+        const live = (await tx`SELECT a.id,a.display_name AS name,a.role FROM sf_local_credentials c
+          JOIN sf_local_actors a ON a.id=c.actor_id
+          WHERE c.token_sha256=${tokenDigest(req.headers.authorization.slice(7))}
+            AND a.organization_id=${ORG} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
+            AND a.role IN ('developer','approver') FOR UPDATE OF a,c`)[0];
+        if (!live || live.id !== req.actor.id) return { error: 'TOKEN_NOT_ACTIVE' };
+        const mode = (await tx`SELECT mode FROM sf_project_access_mode WHERE organization_id=${ORG} FOR SHARE`)[0]?.mode;
+        if (mode !== 'ENFORCED') return { error: 'MEMBERSHIP_BOOTSTRAP_REQUIRED' };
+        const grant = (await tx`SELECT 1 FROM sf_project_grants WHERE organization_id=${ORG}
+          AND project_id=${plan.project_id} AND actor_id=${live.id} AND revoked_at IS NULL`)[0];
+        if (!grant) return null;
+        let denial: string | undefined;
+        if (project.archived_at) denial = 'PROJECT_ARCHIVED';
+        else if (live.role !== 'approver') denial = 'APPROVER_REQUIRED';
+        else if (!text(plan.author_id) || plan.author_id === live.id) denial = 'SELF_APPROVAL_DENIED';
+        else if (plan.status !== 'APPROVED' || plan.decision !== 'APPROVE') denial = 'PLAN_NOT_WITHDRAWABLE';
+        else if (plan.planning_scope !== 'OFFLINE_CANDIDATE' || plan.execution !== 'NOT_EXECUTED' || plan.history_status !== 'NOT_OBSERVED') denial = 'PLAN_NOT_WITHDRAWABLE';
+        else if (plan.approval_reference !== (typeof b.expectedApprovalReference === 'string' ? b.expectedApprovalReference.toLowerCase() : null)) denial = 'APPROVAL_REFERENCE_STALE';
+        if (denial) {
+          await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
+            VALUES(${plan.project_id},${ORG},${live.id},'PLAN_APPROVAL_REVOCATION_DENIED',${plan.id},${tx.json({ denialReason: denial })})`;
+          return { error: denial };
+        }
+        const revocation = (await tx`INSERT INTO sf_plan_approval_revocations
+          (organization_id,project_id,plan_id,approval_reference,actor_id,actor_name,reason)
+          VALUES(${ORG},${plan.project_id},${plan.id},${plan.approval_reference},${live.id},${live.name},${b.reason}) RETURNING *`)[0];
+        await tx`UPDATE sf_plans SET status='REVOKED' WHERE id=${plan.id} AND organization_id=${ORG}`;
+        await tx`INSERT INTO sf_audit(id,project_id,organization_id,actor_id,action,resource_id,facts)
+          VALUES(${revocation.id},${plan.project_id},${ORG},${live.id},'PLAN_APPROVAL_REVOKED',${plan.id},
+            ${tx.json({ revocationId: revocation.id, approvalReference: plan.approval_reference, reason: b.reason })})`;
+        return { revocation };
+      });
+      if (!result) return fail(reply, 404, 'NOT_FOUND');
+      if (result.error === 'PROJECT_ARCHIVED') return fail(reply, 409, result.error);
+      if (result.error === 'TOKEN_NOT_ACTIVE') return fail(reply, 401, 'UNAUTHENTICATED');
+      if (result.error === 'APPROVER_REQUIRED' || result.error === 'SELF_APPROVAL_DENIED') return fail(reply, 403, result.error);
+      if (result.error === 'MEMBERSHIP_BOOTSTRAP_REQUIRED') return fail(reply, 409, result.error);
+      if (result.error) return fail(reply, 409, result.error);
+      return reply.code(201).send({ revocation: {
+        id: result.revocation.id, planId: result.revocation.plan_id,
+        approvalReference: result.revocation.approval_reference,
+        actorId: result.revocation.actor_id, actorName: result.revocation.actor_name,
+        reason: result.revocation.reason, createdAt: result.revocation.created_at,
+      } });
     },
   );
   app.post(
@@ -999,5 +1071,7 @@ function mapPlan(r: any) {
       engine: offlineIntent.engine, host: offlineIntent.host, port: offlineIntent.port,
       service: offlineIntent.service, username: offlineIntent.username,
     } : null,
+    approvalReference: r.approval_reference ?? null,
+    revocation: r.revocation && typeof r.revocation === 'object' ? r.revocation : null,
   };
 }

@@ -25,10 +25,13 @@ const errorCopy = {
   UNAUTHORIZED: 'That token was not accepted. Check it and try again.',
   FORBIDDEN: 'This role cannot make that change.',
   APPROVER_REQUIRED: 'Only an approver can record this decision.',
+  MEMBERSHIP_BOOTSTRAP_REQUIRED: 'Project access is still in bootstrap mode. Ask the local OS operator to finish membership setup, then refresh.',
   SELF_APPROVAL_DENIED: 'A plan author cannot approve their own plan. Ask another approver to review it.',
   NOT_FOUND: 'That item is no longer available. Refresh the project.',
   CONFLICT: 'The item changed while you were working. Refresh and review it again.',
   DECISION_ALREADY_RECORDED: 'A decision has already been recorded for this plan. Refresh to see it.',
+  APPROVAL_REFERENCE_STALE: 'This approval reference changed. Refresh the project and review the current decision before trying again.',
+  PLAN_NOT_WITHDRAWABLE: 'This plan is no longer in a withdrawable offline state. Refresh the project and review its current status.',
   PLAN_NOT_PENDING: 'Comments are closed because this plan has a decision. Refresh to see it.',
   COMMENT_EVIDENCE_UNAVAILABLE: 'A selected statement reference could not be verified against the retained source. Refresh the plan source or submit this comment without references.',
   INVALID_REQUEST: 'Some fields need attention. Check the values and try again.',
@@ -101,9 +104,9 @@ async function validateStatementPreview(preview, source, releaseId, filePath) {
 const explain = (error) => errorCopy[error.message] || 'The request could not be completed. Check the connection and try again.';
 const fmt = (date) => date ? new Date(date).toLocaleString() : '—';
 const pageTitles = { workspace: 'Projects', release: 'Release intake', review: 'Plan review', records: 'Audit & history' };
-const decisionClass = (status) => ({ APPROVED: 'good', REJECTED: 'bad' }[status] || 'pending');
-const planMarkerClass = (status) => ({ APPROVED: 'green', REJECTED: 'red' }[status] || '');
-const retainedAuthorId = (plan) => typeof plan?.authorId === 'string' && plan.authorId.trim().length > 0
+const decisionClass = (status) => ({ APPROVED: 'good', REVOKED: 'bad', REJECTED: 'bad' }[status] || 'pending');
+const planMarkerClass = (status) => ({ APPROVED: 'green', REVOKED: 'red', REJECTED: 'red' }[status] || '');
+const retainedAuthorId = (plan) => typeof plan?.authorId === 'string' && plan.authorId.length <= 200 && plan.authorId.trim().length > 0
   ? plan.authorId : null;
 const retainedPlanTime = (value) => {
   if (typeof value !== 'string') return null;
@@ -229,6 +232,7 @@ function App() {
   const [auditAction, setAuditAction] = useState('ALL');
   const [tab, setTab] = useState('workspace');
   const [busy, setBusy] = useState(false);
+  const [navigateDuringWithdrawal, setNavigateDuringWithdrawal] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [projectForm, setProjectForm] = useState({ name: '', description: '' });
@@ -240,14 +244,17 @@ function App() {
   const [gitRefsError, setGitRefsError] = useState('');
   const [sourceForm, setSourceForm] = useState({ repositoryId: '', folder: 'migrations' });
   const [decisionReason, setDecisionReason] = useState('');
+  const [revocationReason, setRevocationReason] = useState('');
   const [commentBody, setCommentBody] = useState('');
   const [commentEvidence, setCommentEvidence] = useState([]);
   const [freshPlanRequired, setFreshPlanRequired] = useState(null);
   const [statementPreview, setStatementPreview] = useState(null);
   const [archiveReason, setArchiveReason] = useState('');
   const refreshSequence = useRef(0);
+  const mutationSequence = useRef(0);
   const activeProjectId = useRef(projectId);
   const sessionEpoch = useRef(0);
+  const withdrawalContextEpoch = useRef(0);
   const previousAuditProjectId = useRef(projectId);
   const previousReleaseBinding = useRef({ projectId: '', repositoryId: '', folder: '' });
   const currentSourceContext = useRef(null);
@@ -279,6 +286,7 @@ function App() {
   };
 
   const clearProjectState = () => {
+    withdrawalContextEpoch.current += 1;
     activeProjectId.current = '';
     activeSelectedPlanId.current = '';
     currentSourceContext.current = null;
@@ -297,14 +305,15 @@ function App() {
       if (requestEpoch !== browserSessionEpoch || !tokenRef.current) return;
       browserSessionEpoch += 1;
       sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1;
+      withdrawalContextEpoch.current += 1;
       statementPreviewSequence.current += 1; setStatementPreview(null);
       activeProjectId.current = ''; activeSelectedPlanId.current = '';
       currentSourceContext.current = null;
       setActor(null); setToken(''); setTokenInput(''); setProjects([]); setRepositories([]); setProjectId(''); setDetail(null);
       selectRelease(null); setSelectedPlan(''); setPlanSource(null); setFreshPlanRequired(null); setPlanStatus('ALL'); setAuditAction('ALL');
-      setDecisionReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' });
+      setDecisionReason(''); setRevocationReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' });
       setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setGitRefs({ branches: [], tags: [] });
-      setGitRefsLoading(false); setGitRefsError(''); setBusy(false); setNotice('');
+      setGitRefsLoading(false); setGitRefsError(''); setBusy(false); setNavigateDuringWithdrawal(false); setNotice('');
       setError('Your session expired. Sign in again.');
     };
     unauthorizedSubscribers.add(expire);
@@ -312,6 +321,7 @@ function App() {
   }, []);
 
   const selectPlan = (id) => {
+    withdrawalContextEpoch.current += 1;
     planSourceSequence.current += 1;
     statementPreviewSequence.current += 1; setStatementPreview(null);
     setPlanSource(null);
@@ -323,6 +333,7 @@ function App() {
 
   const selectProject = (nextId) => {
     const alreadySelected = nextId === projectId;
+    withdrawalContextEpoch.current += 1;
     if (!alreadySelected) currentSourceContext.current = null;
     activeProjectId.current = nextId;
     planSourceSequence.current += 1;
@@ -349,6 +360,8 @@ function App() {
 
   const refresh = useCallback(async (activeToken, selectedId = projectId) => {
     if (!activeToken) return;
+    withdrawalContextEpoch.current += 1;
+    setRevocationReason('');
     const sequence = ++refreshSequence.current;
     setBusy(true); setError('');
     try {
@@ -409,8 +422,9 @@ function App() {
   const plan = useMemo(() => plans.find((item) => item.id === selectedPlan) || plans[0] || null, [plans, selectedPlan]);
   activeSelectedPlanId.current = plan?.id || '';
   const actionSessionEpoch = sessionEpoch.current;
-  useEffect(() => { setCommentBody(''); setCommentEvidence([]); setDecisionReason(''); }, [plan?.id]);
+  useEffect(() => { setCommentBody(''); setCommentEvidence([]); setDecisionReason(''); setRevocationReason(''); }, [plan?.id]);
   const filterPlans = (status) => {
+    withdrawalContextEpoch.current += 1;
     planSourceSequence.current += 1;
     statementPreviewSequence.current += 1; setStatementPreview(null);
     setPlanSource(null);
@@ -421,6 +435,7 @@ function App() {
     setCommentBody('');
     setCommentEvidence([]);
     setDecisionReason('');
+    setRevocationReason('');
   };
   const projectLoaded = detail?.project?.id === projectId;
   const isApprover = /approv/i.test(actor?.role || '');
@@ -457,7 +472,7 @@ function App() {
     || !(detail?.releases || []).some((release) => release.id === plan.releaseId
       && release.repositoryId === sourceBinding?.repositoryId && release.folder === sourceBinding?.folder)));
   const canPrepareNewPlan = Boolean(actor && projectLoaded && !isArchived && sourceBinding
-    && boundRepository && (plan?.status === 'REJECTED'
+    && boundRepository && (plan?.status === 'REJECTED' || plan?.status === 'REVOKED'
       || (plan?.status === 'PENDING_APPROVAL' && selectedNeedsFreshPlan
         && validBindingGeneration(sourceBinding.generation))));
   const prepareNewPlan = () => {
@@ -520,12 +535,15 @@ function App() {
     return () => { current = false; };
   }, [token, projectId, projectLoaded, sourceBinding?.repositoryId, sourceBinding?.folder, refresh]);
 
-  const mutate = async (action, success, onSuccess = () => {}, onError = () => {}, isCurrentOperation = () => true) => {
+  const mutate = async (action, success, onSuccess = () => {}, onError = () => {}, isCurrentOperation = () => true, allowProjectNavigation = false) => {
     if (accessMode === 'BOOTSTRAP_REQUIRED') { setError('MEMBERSHIP_BOOTSTRAP_REQUIRED'); return; }
     const epoch = sessionEpoch.current;
+    const operation = ++mutationSequence.current;
+    const startingRefresh = refreshSequence.current;
     const activeToken = token;
     const activeSelection = projectId;
     const isCurrentSession = () => sessionEpoch.current === epoch;
+    setNavigateDuringWithdrawal(allowProjectNavigation);
     setBusy(true); setError(''); setNotice('');
     try {
       const outcome = await action(isCurrentSession);
@@ -539,7 +557,12 @@ function App() {
         if (isCurrentSession() && isCurrentOperation()) { setError(explain(e)); onError(e); }
       }
     }
-    finally { if (isCurrentSession()) setBusy(false); }
+    finally {
+      if (isCurrentSession() && operation === mutationSequence.current) {
+        setNavigateDuringWithdrawal(false);
+        if (isCurrentOperation() || startingRefresh === refreshSequence.current) setBusy(false);
+      }
+    }
   };
 
   const createProject = (event) => {
@@ -627,6 +650,20 @@ function App() {
         setFreshPlanRequired({ projectId: decisionProjectId, planId: decisionPlanId, sessionEpoch: decisionSessionEpoch });
       }
     }, isCurrentDecision);
+  };
+
+  const revokeApproval = () => {
+    if (!plan || !canReviewPlan || isArchived || plan.status !== 'APPROVED' || !revocationReason.trim()) return;
+    const revokeProject = projectId, revokePlan = plan.id, revokeToken = token;
+    const contextEpoch = withdrawalContextEpoch.current;
+    const isCurrent = () => activeProjectId.current === revokeProject && projectId === revokeProject
+      && activeSelectedPlanId.current === revokePlan && withdrawalContextEpoch.current === contextEpoch
+      && tokenRef.current === revokeToken;
+    void mutate(async () => {
+      await json(`/api/plans/${encodeURIComponent(revokePlan)}/approval-revocation`, revokeToken, {
+        method: 'POST', body: JSON.stringify({ expectedApprovalReference: plan.approvalReference ?? null, reason: revocationReason }),
+      });
+    }, 'Approval withdrawn. The plan remains NOT_EXECUTED.', () => setRevocationReason(''), () => {}, isCurrent, true);
   };
 
   const addComment = (event) => {
@@ -854,7 +891,7 @@ function App() {
     await requestStatementPreview(reference.releaseId, reference.filePath, planId, reference, source);
   };
 
-  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan };
+  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction, auditActions, filteredAudit, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, revocationReason, setRevocationReason, revokeApproval };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -881,7 +918,7 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => setTab('release')}><span>◫</span> Releases</button>
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => setTab('review')}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => setTab('records')}><span>≡</span> Audit &amp; history</button>
-    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setError(''); setNotice(''); }}>↗</button></div>
+    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { browserSessionEpoch += 1; sessionEpoch.current += 1; withdrawalContextEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setRevocationReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setNavigateDuringWithdrawal(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
       <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { void refresh(token); }} disabled={busy}>↻</button></div></header>
@@ -899,12 +936,12 @@ function App() {
 }
 
 function WorkspaceScreen({ model }) {
-  const { accessMode, projects, projectId, selectProject, projectForm, setProjectForm, busy, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, isArchived, archivedAt, canArchive, archiveReason, setArchiveReason, archiveProject, fmt } = model;
+  const { accessMode, projects, projectId, selectProject, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, isArchived, archivedAt, canArchive, archiveReason, setArchiveReason, archiveProject, fmt } = model;
   return <>
           <div className="page-heading"><div><p className="eyebrow">PRODUCT WORKSPACE</p><h1>Your projects</h1><p className="muted">Organize environments and connection references before preparing a migration review.</p></div><div className="heading-mark">01 <span> / 04</span></div></div>
           <div className="workspace-grid">
             <section className="panel project-panel"><div className="panel-heading"><div><h2>Project space</h2><p>Choose a project to see its delivery context.</p></div><span className="count-pill">{projects.length} total</span></div>
-              {projects.length ? <div className="project-list">{projects.map((p) => <button type="button" key={p.id} className={`project-row ${projectId === p.id ? 'selected' : ''}`} onClick={() => selectProject(p.id)} disabled={busy}><span className="project-icon">{p.name.slice(0, 1).toUpperCase()}</span><span className="project-copy"><strong>{p.name}</strong><small>{p.description || 'No description provided'}</small></span>{p.archivedAt && <span className="status-pill neutral">ARCHIVED</span>}<span className="row-arrow">›</span></button>)}</div> : <div className="empty-state"><span className="empty-icon">＋</span><strong>{accessMode === 'ENFORCED' ? 'No assigned projects' : 'No projects yet'}</strong><span>{accessMode === 'ENFORCED' ? 'Ask the local OS operator for an explicit project grant.' : 'Create a project to start organizing database changes.'}</span></div>}
+              {projects.length ? <div className="project-list">{projects.map((p) => <button type="button" key={p.id} disabled={busy && !navigateDuringWithdrawal} className={`project-row ${projectId === p.id ? 'selected' : ''}`} onClick={() => selectProject(p.id)}><span className="project-icon">{p.name.slice(0, 1).toUpperCase()}</span><span className="project-copy"><strong>{p.name}</strong><small>{p.description || 'No description provided'}</small></span>{p.archivedAt && <span className="status-pill neutral">ARCHIVED</span>}<span className="row-arrow">›</span></button>)}</div> : <div className="empty-state"><span className="empty-icon">＋</span><strong>{accessMode === 'ENFORCED' ? 'No assigned projects' : 'No projects yet'}</strong><span>{accessMode === 'ENFORCED' ? 'Ask the local OS operator for an explicit project grant.' : 'Create a project to start organizing database changes.'}</span></div>}
               <form className="inline-form project-create" onSubmit={createProject}><label className="sr-only" htmlFor="project-name">New project name</label><input id="project-name" placeholder="New project name" value={projectForm.name} onChange={(e) => setProjectForm({ ...projectForm, name: e.target.value })} required disabled={accessMode === 'BOOTSTRAP_REQUIRED'}/><button type="submit" className="secondary" disabled={busy || accessMode === 'BOOTSTRAP_REQUIRED'}>Create project</button><label className="sr-only" htmlFor="project-description">Description (optional)</label><input id="project-description" className="wide-input" placeholder="Description (optional)" value={projectForm.description} onChange={(e) => setProjectForm({ ...projectForm, description: e.target.value })} disabled={accessMode === 'BOOTSTRAP_REQUIRED'}/></form>
             </section>
             <section className="panel context-panel"><div className="panel-heading"><div><h2>{detail?.project?.name || 'Project context'} {detail?.project?.archivedAt && <span className="status-pill neutral">ARCHIVED</span>}</h2><p>Configuration for the selected project.</p></div><span className="context-icon">⌘</span></div>
@@ -984,7 +1021,7 @@ function ReleaseScreen({ model }) {
 
 
 function ReviewScreen({ model }) {
-  const { readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview } = model;
+  const { readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview, revocationReason, setRevocationReason, revokeApproval } = model;
   const scopedProfiles = projectLoaded && Array.isArray(detail?.profiles) ? detail.profiles : [];
   const scopedEnvironments = projectLoaded && Array.isArray(detail?.environments) ? detail.environments : [];
   const targetProfile = typeof plan?.profileId === 'string'
@@ -1008,7 +1045,7 @@ function ReviewScreen({ model }) {
           <div className="page-heading"><div><p className="eyebrow">GOVERNANCE</p><h1>Plans &amp; review</h1><p className="muted">Review the exact migration candidate and record an independent decision.</p></div><div className="heading-mark">03 <span> / 04</span></div></div>
           <section className="notice-card"><span className="notice-icon">i</span><div><strong>{isArchived ? 'Archived project · read only' : 'Offline candidate only'}</strong><p>Target history has not been observed. Database execution is unavailable and remains <b>NOT_EXECUTED</b>. {isArchived && 'Review decisions are disabled for archived projects.'}</p></div><span className="scope-tag">{plan?.planningScope || 'OFFLINE_CANDIDATE'}</span></section>
           <section className="panel plan-panel"><div className="panel-heading"><div><h2>Candidate plans</h2><p>Plans preserve source checksums and explicit execution status.</p></div><span className="count-pill">{plans.length} plans</span></div>
-            <label>Plan status<select aria-label="Plan status" value={planStatus} onChange={(event) => filterPlans(event.target.value)} disabled={busy}><option value="ALL">All</option><option value="PENDING_APPROVAL">Pending approval</option><option value="APPROVED">Approved</option><option value="REJECTED">Rejected</option></select></label>
+            <label>Plan status<select aria-label="Plan status" value={planStatus} onChange={(event) => filterPlans(event.target.value)} disabled={busy}><option value="ALL">All</option><option value="PENDING_APPROVAL">Pending approval</option><option value="APPROVED">Approved</option><option value="REJECTED">Rejected</option><option value="REVOKED">Revoked</option></select></label>
             {!plans.length ? <div className="empty-state"><span className="empty-icon">◇</span><strong>{planStatus === 'ALL' ? 'No plans to review' : 'No plans match this status'}</strong>{planStatus === 'ALL' ? <><span>Import a valid release and prepare an offline candidate plan first.</span><button type="button" className="text-button" onClick={() => setTab('release')}>Go to release intake →</button></> : <span>Choose another status or All to see other plans.</span>}</div> : <>
               <div className="plan-selector">{plans.map((item) => { const sourceRelease = (detail.releases || []).find((candidate) => candidate.id === item.releaseId); return <button type="button" data-plan-id={item.id} key={item.id} onClick={() => setSelectedPlan(item.id)} className={`plan-option ${(plan?.id === item.id) ? 'selected' : ''}`}><span className={`status-dot ${planMarkerClass(item.status)}`} /><span><strong>{sourceRelease?.commit?.slice(0, 12) || `Plan ${item.id.slice(0, 8)}`}</strong><small>{fmt(item.createdAt || item.created_at)}</small></span><span className={`status-pill ${decisionClass(item.status)}`}>{item.status?.replaceAll('_', ' ')}</span></button>; })}</div>
               {plan && <><div className="plan-summary"><div><span className="data-label">PLAN ID</span><code>{plan.id}</code></div><div><span className="data-label">DECISION</span><span className={`status-pill ${decisionClass(plan.status)}`}>{plan.status?.replaceAll('_', ' ')}</span></div><div><span className="data-label">TARGET HISTORY</span><strong>{plan.historyStatus || 'NOT_OBSERVED'}</strong></div><div><span className="data-label">EXECUTION</span><strong className="not-executed">{plan.execution || 'NOT_EXECUTED'}</strong></div></div>
@@ -1036,7 +1073,7 @@ function ReviewScreen({ model }) {
                     <RetainedReleaseContent source={planSource.source} repositories={repositories} fmt={fmt} statementPreview={statementPreview} planContext={plan.id} selectEvidence={plan.status === 'PENDING_APPROVAL' && !isArchived ? toggleCommentEvidence : null} selectedEvidence={commentEvidence} requestStatementPreview={(releaseId, filePath) => requestStatementPreview(releaseId, filePath, plan.id)}/>
                   </div>}
                 </section>
-                {['APPROVED', 'REJECTED'].includes(plan.status) && <section className="decision-record" aria-label="Decision record"><h3>Decision record</h3><p><strong>{plan.decidedByName || plan.decidedBy}</strong>{plan.decidedByName && <code>{plan.decidedBy}</code>}</p><time dateTime={plan.decidedAt}>{fmt(plan.decidedAt)}</time><p className="decision-record-reason">{plan.decisionReason}</p>{plan.status === 'REJECTED' && canPrepareNewPlan && <div className="prepare-new-plan"><p>Changed SQL must be committed and imported as a new immutable release. The rejected plan and its review record remain unchanged.</p><button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare new plan</button></div>}{plan.status === 'REJECTED' && !isArchived && projectLoaded && !model.sourceBinding && <p className="banner warning">Bind a repository and migration folder before preparing a new plan.</p>}</section>}
+                {['APPROVED', 'REJECTED', 'REVOKED'].includes(plan.status) && <section className="decision-record" aria-label="Decision record"><h3>Original decision</h3><p><strong>{plan.decidedByName || plan.decidedBy}</strong>{plan.decidedByName && <code>{plan.decidedBy}</code>}</p><time dateTime={plan.decidedAt}>{fmt(plan.decidedAt)}</time><p className="decision-record-reason">{plan.decisionReason}</p>{plan.approvalReference && <p>Approval reference <code>{plan.approvalReference}</code></p>}{plan.revocation && <div className="revocation-record"><h4>Approval withdrawn</h4><p><strong>{plan.revocation.actorName}</strong> · <time dateTime={plan.revocation.createdAt}>{fmt(plan.revocation.createdAt)}</time></p><p className="decision-record-reason">{plan.revocation.reason}</p><p className="muted">Withdrawal changes offline approval authority. No execution was performed or rolled back.</p></div>}{plan.status === 'APPROVED' && canReviewPlan && !isArchived && <div className="decision-box"><label htmlFor="revocation-reason">Withdrawal reason</label><textarea id="revocation-reason" disabled={busy || readOnlyBootstrap} value={revocationReason} onChange={(event) => setRevocationReason(event.target.value)} maxLength={2000} placeholder="Explain why this approval is being withdrawn" required/><button type="button" className="danger-button" onClick={revokeApproval} disabled={busy || readOnlyBootstrap || !revocationReason.trim()}>Withdraw approval</button><small>The approved plan remains NOT_EXECUTED; a new plan is required to seek approval again.</small></div>}{plan.status === 'REJECTED' && canPrepareNewPlan && <div className="prepare-new-plan"><p>Changed SQL must be committed and imported as a new immutable release. The rejected plan and its review record remain unchanged.</p><button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare new plan</button></div>}{plan.status === 'REVOKED' && canPrepareNewPlan && <div className="prepare-new-plan"><p>Approval was withdrawn. Prepare a fresh plan before requesting approval again.</p><button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare new plan</button></div>}{['REJECTED','REVOKED'].includes(plan.status) && !isArchived && projectLoaded && !model.sourceBinding && <p className="banner warning">Bind a repository and migration folder before preparing a new plan.</p>}</section>}
                 <section className="panel source-generation" aria-label="Protected source generation"><h3>Protected source configuration</h3><p>Current project binding generation: <code>{validBindingGeneration(detail.project.sourceBinding?.generation) ? detail.project.sourceBinding.generation : 'Unavailable'}</code></p><p>Captured by this plan: <code>{validBindingGeneration(plan.sourceBindingGeneration) ? plan.sourceBindingGeneration : 'Unavailable'}</code></p></section>
                 {plan.status === 'PENDING_APPROVAL' && selectedNeedsFreshPlan && <div className="prepare-new-plan" role="region" aria-label="Fresh plan required"><p className="banner warning">This pending plan’s retained source, binding or intent facts are missing, stale or unverifiable. Prepare a fresh plan from the current protected repository and migration folder before approval or attaching statement references. You can import the current bound commit without editing SQL; the original plan and review history remain unchanged.</p>{canPrepareNewPlan && <button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare fresh plan</button>}</div>}
                 {isApprover && plan.status === 'PENDING_APPROVAL' && <div className="decision-box" inert={readOnlyBootstrap}><label htmlFor="decision-reason">Decision reason</label><textarea id="decision-reason" value={decisionReason} onChange={(e) => setDecisionReason(e.target.value)} placeholder="Record why this candidate is approved or rejected" required disabled={isArchived}/><div><button type="button" className="danger-button" onClick={() => decide('REJECT')} disabled={busy || isArchived || !canReviewPlan || !decisionReason.trim()}>Reject plan</button><button type="button" className="primary" onClick={() => decide('APPROVE')} disabled={busy || isArchived || !canReviewPlan || selectedNeedsFreshPlan || !decisionReason.trim()}>Approve plan</button></div>
