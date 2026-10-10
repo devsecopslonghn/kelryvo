@@ -449,3 +449,16 @@ registration does not prevent reviewing retained data. Missing, foreign, revoked
 incompatible comparisons use fixed unavailable feedback. Refresh, project, session or either pair
 selection change clears an in-flight result. The comparison never reads Git, reruns the parser,
 creates a plan, writes history, or reports whether SQL was applied or changed a database.
+
+### Combined local review workflow
+
+Import and compare retained Git releases, prepare an offline plan, add review comments,
+and assign a currently granted independent approver. **Review inbox** lists pending
+plans across accessible projects; **Eligible** respects the assigned reviewer. After
+approval, select **All** or **Approved** to inspect the terminal plan. Any currently
+granted independent approver can withdraw approval, including an approver other than
+the assigned reviewer. Preserve the original approval and create a fresh release and
+plan for recovery. **Audit & history** retains assignment, approval and withdrawal
+events with action filters and older-page navigation. Manual schema references remain
+provisional reference metadata. The combined API and browser tests use local Git, the
+pinned parser and disposable PostgreSQL; they do not connect to Oracle or execute SQL.
