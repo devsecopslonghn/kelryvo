@@ -1,4 +1,5 @@
 import Fastify from "fastify";
+import { browserAuthentication, registerBrowserSessions, guardBrowserMutation } from "../../packages/database/browser-sessions.ts";
 import { createHash, randomUUID } from "node:crypto";
 import { authenticateLocalToken, seedLocalActors, tokenDigest } from "../../packages/database/local-credentials.ts";
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from "../../experiments/db-devops-wp0/parser-release.mjs";
@@ -67,6 +68,7 @@ export function createApp(options: {
   webDirectory?: string;
   statementParser?: (source: Buffer) => Promise<any>;
   releaseParser?: (source: Buffer) => Promise<any>;
+  https?: any;
 }) {
   const { sql, actors, repositories } = options;
   const statementParser = options.statementParser;
@@ -92,7 +94,7 @@ export function createApp(options: {
     throw new Error("Invalid local actor configuration");
   if (new Set(actors.map((a) => tokenDigest(a.token))).size !== actors.length)
     throw new Error("Duplicate local actor token");
-  const app = Fastify({ logger: false, bodyLimit: 1024 * 1024 });
+  const app = Fastify({ logger: false, bodyLimit: 1024 * 1024, ...(options.https ? { https: options.https } : {}) });
   const seed = () => seedPromise ??= seedLocalActors(sql, actors);
   app.addHook('onReady', async () => { await seed(); });
   const authenticate = (req: any, reply: any): Promise<void> => {
@@ -101,12 +103,14 @@ export function createApp(options: {
       typeof auth === "string" && auth.startsWith("Bearer ")
         ? auth.slice(7)
         : "";
-    if (token.length < 32 || token.length > 4096) {
-      fail(reply, 401, "UNAUTHENTICATED");
-      return Promise.resolve();
-    }
     return seed().then(async () => {
-    const actor = await authenticateLocalToken(sql, token);
+    let actor;
+    if (typeof auth === 'string') {
+      if (token.length >= 32 && token.length <= 4096) actor = await authenticateLocalToken(sql, token);
+      req.credentialDigest = tokenDigest(token);
+    } else if (options.https) {
+      actor = await browserAuthentication(sql, req);
+    }
     if (!actor) { fail(reply, 401, "UNAUTHENTICATED"); return; }
     const origin = req.headers.origin;
     if (origin) {
@@ -149,6 +153,7 @@ export function createApp(options: {
     }
     });
   };
+  registerBrowserSessions(app, { sql, authenticate, seed, enabled: !!options.https });
   app.get('/api/recovery/status', { preHandler: authenticate }, async () => {
     const row = (await sql`SELECT g.id,g.state,g.predecessor_id,g.witness_id,g.created_at
       FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0];
@@ -199,6 +204,7 @@ export function createApp(options: {
   app.get("/api/session", { preHandler: authenticate }, async (req: any) => ({
     actor: { id: req.actor.id, name: req.actor.name, role: req.actor.role },
     accessMode: await projectAccessMode(sql),
+    ...(req.browserSession ? { csrfToken: req.browserSession.csrf, absoluteExpiresAt: req.browserSession.absoluteExpiresAt, idleTimeoutSeconds: 1800 } : {}),
   }));
   app.get("/api/repositories", { preHandler: authenticate }, () => ({
     repositories: repositories.map(({ id, name }) => ({ id, name })),
@@ -287,7 +293,7 @@ export function createApp(options: {
     if(!uuid(projectId)||after!==undefined&&!uuid(after)) return fail(reply,404,'NOT_FOUND');
     const p=await project(projectId); if(!p) return fail(reply,404,'NOT_FOUND');
     if((await projectAccessMode(sql))==='BOOTSTRAP_REQUIRED') return {references:[],nextCursor:null};
-    const authorized=(await sql`SELECT 1 FROM sf_project_access_mode m JOIN sf_project_grants g ON g.organization_id=m.organization_id AND g.project_id=${projectId} AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL JOIN sf_local_credentials c ON c.actor_id=g.actor_id AND c.token_sha256=${tokenDigest(req.headers.authorization.slice(7))} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp() WHERE m.organization_id=${ORG} AND m.mode='ENFORCED' LIMIT 1`)[0];
+    const authorized=(await sql`SELECT 1 FROM sf_project_access_mode m JOIN sf_project_grants g ON g.organization_id=m.organization_id AND g.project_id=${projectId} AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL JOIN sf_local_credentials c ON c.actor_id=g.actor_id AND c.token_sha256=${req.credentialDigest} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp() WHERE m.organization_id=${ORG} AND m.mode='ENFORCED' LIMIT 1`)[0];
     if(!authorized) return fail(reply,404,'NOT_FOUND');
     const rows=await sql`SELECT s.id AS schema_id,s.exact_owner,s.generation,s.provenance,s.revision::text AS revision,
         c.id AS container_id,c.name AS container_name,c.kind AS container_kind,c.environment,
@@ -300,7 +306,7 @@ export function createApp(options: {
       JOIN sf_reference_containers c ON c.id=s.container_id AND c.organization_id=s.organization_id
       JOIN sf_reference_databases d ON d.id=c.database_id AND d.organization_id=c.organization_id
       WHERE a.organization_id=${ORG} AND a.project_id=${projectId} AND a.closed_at IS NULL
-        AND EXISTS(SELECT 1 FROM sf_project_access_mode m JOIN sf_project_grants g ON g.organization_id=m.organization_id AND g.project_id=${projectId} AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL JOIN sf_local_credentials c ON c.actor_id=g.actor_id AND c.token_sha256=${tokenDigest(req.headers.authorization.slice(7))} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp() WHERE m.organization_id=${ORG} AND m.mode='ENFORCED')
+        AND EXISTS(SELECT 1 FROM sf_project_access_mode m JOIN sf_project_grants g ON g.organization_id=m.organization_id AND g.project_id=${projectId} AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL JOIN sf_local_credentials c ON c.actor_id=g.actor_id AND c.token_sha256=${req.credentialDigest} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp() WHERE m.organization_id=${ORG} AND m.mode='ENFORCED')
         AND (${after??null}::uuid IS NULL OR s.id>${after??null}::uuid) ORDER BY s.id LIMIT 51`;
     const page=rows.slice(0,50); return {references:page.map((r:any)=>({id:r.schema_id,owner:r.exact_owner,generation:r.generation,provenance:r.provenance,revision:r.revision,
       database:{id:r.database_id,serverId:r.database_server_id,generation:r.database_generation,label:r.database_label,provenance:'MANUAL_REFERENCE'},
@@ -319,6 +325,7 @@ export function createApp(options: {
       )
         return fail(reply, 400, "INVALID_REQUEST");
       const p = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
         const mode = (await tx`SELECT mode FROM sf_project_access_mode WHERE organization_id=${ORG} FOR SHARE`)[0]?.mode;
         if (mode !== 'ENFORCED') throw Object.assign(new Error('MEMBERSHIP_BOOTSTRAP_REQUIRED'), { productCode: 'MEMBERSHIP_BOOTSTRAP_REQUIRED' });
         const created = (
@@ -468,6 +475,7 @@ export function createApp(options: {
     if (!uuid(req.params.id) || !object(req.body, ['reason']) || !text(req.body.reason, 2000)) return fail(reply, 400, 'INVALID_REQUEST');
     if (req.actor.role !== 'developer') return fail(reply, 403, 'DEVELOPER_REQUIRED');
     const result = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
       const row = (await tx`SELECT * FROM sf_projects WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`)[0];
       if (!row) return null;
       if (row.archived_at) return row;
@@ -487,6 +495,7 @@ export function createApp(options: {
     if (req.actor.role !== 'developer') return fail(reply, 403, 'DEVELOPER_REQUIRED');
 
     const result = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
       const current = (await tx`SELECT id,archived_at,
         CASE WHEN char_length(source_repository_id) BETWEEN 1 AND 200 THEN source_repository_id END AS source_repository_id,
         CASE WHEN char_length(source_folder) BETWEEN 1 AND 200 THEN source_folder END AS source_folder,
@@ -523,6 +532,7 @@ export function createApp(options: {
       const p = await project(req.params.id);
       if (!p) return fail(reply, 404, "NOT_FOUND");
       const e = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
         await requireActiveProject(tx, p.id);
         const environment = (
           await tx`INSERT INTO sf_environments(project_id,organization_id,name) VALUES(${p.id},${ORG},${b.name.trim()}) RETURNING id,name,created_at`
@@ -565,6 +575,7 @@ export function createApp(options: {
       const p = await project(req.params.id);
       if (!p) return fail(reply, 404, "NOT_FOUND");
       const r = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
         await requireActiveProject(tx, p.id);
         const profile = (
           await tx`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref) VALUES(${p.id},${ORG},${b.environmentId},${b.name.trim()},${b.engine},${b.host},${b.port},${b.service},${b.username},${b.credentialRef}) RETURNING id,name,environment_id,engine,host,port,service,username,credential_ref,created_at`
@@ -634,6 +645,7 @@ export function createApp(options: {
         content: file.content,
       }));
       const r = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
         const current = (await tx`SELECT archived_at,source_repository_id,source_folder FROM sf_projects
           WHERE id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
         if (!current || current.archived_at) return { error: 'PROJECT_ARCHIVED' };
@@ -673,6 +685,7 @@ export function createApp(options: {
       const requestedPath = req.query.path;
       const maxRetainedJsonBytes = 6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024;
       const result = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
         const preflight = await preflightRetainedRelease(tx, { id: req.params.id, organizationId: ORG,
           requestedPath, parserProfile: ANTLR_PROFILE });
         if (!preflight.row) return { error: 'NOT_FOUND' };
@@ -725,6 +738,7 @@ export function createApp(options: {
       body.baseReleaseId = body.baseReleaseId.toLowerCase();
       body.candidateReleaseId = body.candidateReleaseId.toLowerCase();
       const result = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
         const projectRow = (await tx`SELECT id,archived_at FROM sf_projects
           WHERE id=${req.params.id} AND organization_id=${ORG} FOR SHARE`)[0];
         if (!projectRow) return { error: "NOT_FOUND" };
@@ -828,6 +842,7 @@ export function createApp(options: {
     async (req: any, reply: any) => {
       if (!uuid(req.params.id)) return fail(reply, 404, "NOT_FOUND");
       const result = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
         const projectRow = (await tx`SELECT id,archived_at FROM sf_projects
           WHERE id=(SELECT project_id FROM sf_releases WHERE id=${req.params.id} AND organization_id=${ORG})
             AND organization_id=${ORG} FOR SHARE`)[0];
@@ -877,6 +892,7 @@ export function createApp(options: {
         return fail(reply, 400, "INVALID_REQUEST");
       const { verifyRetainedRelease } = await import("../../packages/migrations/verify-retained-release.mjs");
       const outcome = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
         // Keep the lock order consistent: project first, then the scoped release.
         const p = (await tx`SELECT id,archived_at,
           CASE WHEN char_length(source_repository_id) BETWEEN 1 AND 200 THEN source_repository_id END AS source_repository_id,
@@ -982,6 +998,7 @@ export function createApp(options: {
       || (b.evidenceRefs !== undefined && !validateCommentEvidenceInput(b.evidenceRefs))) return fail(reply, 400, 'INVALID_REQUEST');
     const evidenceInput = b.evidenceRefs ?? [];
     const result = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
       // Match decision lock order so a comment cannot race a terminal transition.
       const plan = (await tx`SELECT id,project_id,organization_id,release_id,profile_id,author_id,status,
         source_binding_generation::text AS source_binding_generation
@@ -1094,6 +1111,7 @@ export function createApp(options: {
       || typeof b.expectedRevision !== 'string' || !/^(0|[1-9][0-9]{0,18})$/.test(b.expectedRevision)
       || (b.expectedRevision.length === 19 && b.expectedRevision > '9223372036854775807')) return fail(reply, 400, 'INVALID_REQUEST');
     const result = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
       await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
       const plan = (await tx`SELECT id,project_id,organization_id,author_id,status,reviewer_id,reviewer_revision::text AS revision
         FROM sf_plans WHERE id=${req.params.id} AND project_id=${req.params.projectId} AND organization_id=${ORG} FOR UPDATE`)[0];
@@ -1102,7 +1120,7 @@ export function createApp(options: {
       if (!p || p.archived_at) return { error: 'PROJECT_ARCHIVED' };
       const credential = (await tx`SELECT a.role FROM sf_local_actors a JOIN sf_local_credentials c ON c.actor_id=a.id
         WHERE a.id=${req.actor.id} AND a.organization_id=${ORG}
-          AND c.token_sha256=${tokenDigest(String(req.headers.authorization || '').slice(7))}
+          AND c.token_sha256=${req.credentialDigest}
           AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
           AND EXISTS(SELECT 1 FROM sf_project_access_mode m WHERE m.organization_id=${ORG} AND m.mode='ENFORCED')
           AND EXISTS(SELECT 1 FROM sf_project_grants g WHERE g.project_id=${plan.project_id} AND g.actor_id=a.id AND g.revoked_at IS NULL)`)[0];
@@ -1147,6 +1165,7 @@ export function createApp(options: {
       )
         return fail(reply, 400, "INVALID_REQUEST");
       const result = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
         await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
         const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF g`)[0];
         if (gate?.state !== 'ACTIVE') return { error:'METADATA_RESTORE_HOLD' };
@@ -1166,7 +1185,7 @@ export function createApp(options: {
         if (!currentProject || currentProject.archived_at)
           throw Object.assign(new Error('PROJECT_ARCHIVED'), { productCode: 'PROJECT_ARCHIVED' });
         const currentActor = (await tx`SELECT a.role FROM sf_local_actors a JOIN sf_local_credentials c ON c.actor_id=a.id
-          WHERE a.id=${req.actor.id} AND a.organization_id=${ORG} AND c.token_sha256=${tokenDigest(String(req.headers.authorization || '').slice(7))}
+          WHERE a.id=${req.actor.id} AND a.organization_id=${ORG} AND c.token_sha256=${req.credentialDigest}
             AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
             AND EXISTS(SELECT 1 FROM sf_project_access_mode m WHERE m.organization_id=${ORG} AND m.mode='ENFORCED')
             AND EXISTS(SELECT 1 FROM sf_project_grants g WHERE g.project_id=${p.project_id} AND g.actor_id=a.id AND g.revoked_at IS NULL)`)[0];
@@ -1282,6 +1301,7 @@ export function createApp(options: {
         || !(b.expectedApprovalReference === null || uuid(b.expectedApprovalReference))
         || !validReason(b.reason, 2000)) return fail(reply, 400, 'INVALID_REQUEST');
       const result = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
         // Credential lifecycle mutations take this organization seed lock first.
         await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
         if (!req.params.id || !uuid(req.params.id)) return null;
@@ -1293,7 +1313,7 @@ export function createApp(options: {
         if (!project) return null;
         const live = (await tx`SELECT a.id,a.display_name AS name,a.role FROM sf_local_credentials c
           JOIN sf_local_actors a ON a.id=c.actor_id
-          WHERE c.token_sha256=${tokenDigest(req.headers.authorization.slice(7))}
+          WHERE c.token_sha256=${req.credentialDigest}
             AND a.organization_id=${ORG} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
             AND a.role IN ('developer','approver') FOR UPDATE OF a,c`)[0];
         if (!live || live.id !== req.actor.id) return { error: 'TOKEN_NOT_ACTIVE' };
@@ -1357,6 +1377,7 @@ export function createApp(options: {
         let plan;
         try {
           plan = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
             const current = (await tx`SELECT id,project_id FROM sf_plans WHERE id=${req.params.id} AND organization_id=${ORG} FOR SHARE`)[0];
             if (!current) return null;
             await requireActiveProject(tx, current.project_id);
@@ -1375,6 +1396,7 @@ export function createApp(options: {
         return fail(reply, 400, 'INVALID_REQUEST');
       const digest = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
       const result = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
         await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
         const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF g`)[0];
         if (gate?.state !== 'ACTIVE') return { error:'METADATA_RESTORE_HOLD' };
@@ -1390,7 +1412,7 @@ export function createApp(options: {
         if (!plan) return { error: 'NOT_FOUND' };
         const project = (await tx`SELECT archived_at,source_repository_id,source_folder,source_binding_generation FROM sf_projects WHERE id=${plan.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
         const live = (await tx`SELECT a.id,a.role FROM sf_local_credentials c JOIN sf_local_actors a ON a.id=c.actor_id
-          WHERE c.token_sha256=${tokenDigest(req.headers.authorization.slice(7))} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
+          WHERE c.token_sha256=${req.credentialDigest} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
           AND a.organization_id=${ORG} FOR UPDATE OF a,c`)[0];
         if (!live || live.id !== req.actor.id) return { error: 'TOKEN_NOT_ACTIVE' };
         const mode = (await tx`SELECT mode FROM sf_project_access_mode WHERE organization_id=${ORG} FOR SHARE`)[0]?.mode;
@@ -1487,6 +1509,7 @@ export function createApp(options: {
   app.post('/api/execution-jobs/:id/cancel', { preHandler: authenticate }, async (req: any, reply: any) => {
     if (!uuid(req.params.id) || !object(req.body, ['expectedRevision']) || !Number.isSafeInteger(req.body.expectedRevision) || req.body.expectedRevision < 0) return fail(reply, 400, 'INVALID_REQUEST');
     const result = await sql.begin(async (tx: any) => {
+        await guardBrowserMutation(tx, req);
       await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
       const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF g`)[0];
       if (gate?.state !== 'ACTIVE') return { error:'METADATA_RESTORE_HOLD' };
@@ -1497,7 +1520,7 @@ export function createApp(options: {
       const job = (await tx`SELECT * FROM sf_execution_jobs WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`)[0];
       if (!plan || !project || !job) return { error: 'NOT_FOUND' };
       const live = (await tx`SELECT a.id,a.role FROM sf_local_credentials c JOIN sf_local_actors a ON a.id=c.actor_id
-        WHERE c.token_sha256=${tokenDigest(req.headers.authorization.slice(7))} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
+        WHERE c.token_sha256=${req.credentialDigest} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
           AND a.organization_id=${ORG} AND a.role IN ('developer','approver') FOR UPDATE OF a,c`)[0];
       if (!live || live.id !== req.actor.id) return { error: 'TOKEN_NOT_ACTIVE' };
       const mode = (await tx`SELECT mode FROM sf_project_access_mode WHERE organization_id=${ORG} FOR SHARE`)[0]?.mode;
@@ -1518,6 +1541,8 @@ export function createApp(options: {
     return { job: mapExecutionJob(result.job) };
   });
   app.setErrorHandler((error: any, _req: any, reply: any) => {
+    if (error?.productCode === "UNAUTHENTICATED") return fail(reply, 401, "UNAUTHENTICATED");
+    if (error?.productCode === "CSRF_REJECTED") return fail(reply, 403, "CSRF_REJECTED");
     if (error?.productCode === "PROJECT_ARCHIVED") return fail(reply, 409, "PROJECT_ARCHIVED");
     if (error?.code === "23503") return fail(reply, 400, "INVALID_REFERENCE");
     if (error?.code === "23505") return fail(reply, 409, "CONFLICT");

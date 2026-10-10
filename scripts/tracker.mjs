@@ -772,7 +772,34 @@ const PRODUCT_TASK_34 = {
     "SF-PRODUCT-T34-RESTORE_GATE"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34];
+const PRODUCT_TASK_35 = {
+  "id": "SF-PRODUCT-T35",
+  "package": "PRODUCT",
+  "assigned_agent": "orchestrator",
+  "title": "Deliver HTTPS browser sign-in and revocable session lifecycle",
+  "dependencies": [
+    "SF-PRODUCT-T34"
+  ],
+  "feature_ids": [
+    "SEC-018",
+    "SEC-019"
+  ],
+  "acceptance_criteria": [
+    "Trusted OS startup accepts paired private certificate/key files before database startup and serves native TLS 1.2 or newer on loopback, with no forwarding-header trust or HTTP downgrade. Invalid private paths, permission modes, keys and certificates fail with fixed diagnostics. Existing explicit bearer CLI and local HTTP compatibility remain; browser cookie endpoints require actual encrypted sockets and exact HTTPS Origin.",
+    "Browser sign-in exchanges a currently usable fixed-role LOCAL credential for a random hashed BROWSER child credential capped at its parent expiry and eight-hour absolute expiry. The __Host cookie is Secure, HttpOnly, SameSite=Strict and root-only. No bearer credential remains in browser storage or application state after exchange. Explicit cookie session requests carry a separate CSRF proof; missing or incorrect proof and cross-origin writes are denied. Replacement sign-in revokes the previous cookie session, preserving roles and explicit grants.",
+    "Persist a thirty-minute sliding idle deadline without extending the absolute deadline. Background polling alone does not renew idle time. Session reads recheck the exact live child and parent credentials, fixed organization and role. Logout immediately revokes the session on the server; operator credential rotation/revocation and metadata restore invalidate derived browser access. Mutation checkpoints serialize with logout and operator revocation, so already-revoked sessions cannot approve or queue work.",
+    "Deliver reload/resume, sign-out and expired-session user flows using cookie transport on HTTPS, preserving existing project/actor/session guards, review/source/plan/job history and fixed membership/deploy controls. A tab holding an obsolete CSRF proof cannot silently read another replacement session identity. Failed logout reports failure without claiming revocation. Historical restored data remains readable only after fresh operator credentials; RESTORE_HOLD never becomes execution authority.",
+    "Exercise actual PostgreSQL and native HTTPS with explicit fixture CA trust and negative untrusted-chain/hostname/plaintext cases; Chromium uses only one ephemeral fixture public-key pin, paired with no-pin and unrelated-key rejection, never blanket certificate bypass or global trust changes. Verify real cookie flags, login/reload/CSRF/logout/expiry/revocation and the backup schema migration with restored sessions denied. Meaningful barrier tests cover logout/revocation before a queued write checkpoint. No external deployment, worker transport or Oracle runtime certification is inferred.",
+    "Freeze final source for serial required standard/product/browser regressions and exact independent review, review final diff and scoped publication scans/license closure, then one substantial draft and actual available CI. Preserve original IDs, source/evidence/worktrees/drafts and security gate boundaries. Update operating instructions, catalog coverage and concise checkpoint honestly; SEC018 remains partial pending authorized network/worker transport acceptance."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T35-HTTPS",
+    "SF-PRODUCT-T35-SESSION",
+    "SF-PRODUCT-T35-WEB",
+    "SF-PRODUCT-T35-RESTORE"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

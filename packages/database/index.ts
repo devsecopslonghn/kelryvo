@@ -57,7 +57,23 @@ export async function initializeDatabase(sql: any, options: { initializeMetadata
       issued_at timestamptz NOT NULL, expires_at timestamptz NOT NULL, revoked_at timestamptz,
       CHECK(expires_at = issued_at + interval '24 hours')
     );
+    ALTER TABLE sf_local_credentials ADD COLUMN IF NOT EXISTS credential_kind text NOT NULL DEFAULT 'LOCAL';
+    ALTER TABLE sf_local_credentials ADD COLUMN IF NOT EXISTS parent_credential_id uuid;
+    ALTER TABLE sf_local_credentials ADD COLUMN IF NOT EXISTS absolute_expires_at timestamptz;
+    ALTER TABLE sf_local_credentials DROP CONSTRAINT IF EXISTS sf_local_credentials_check;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='sf_local_credentials_lifetime') THEN
+      ALTER TABLE sf_local_credentials ADD CONSTRAINT sf_local_credentials_lifetime CHECK (
+        (credential_kind='LOCAL' AND parent_credential_id IS NULL AND absolute_expires_at IS NULL
+          AND expires_at=issued_at+interval '24 hours') OR
+        (credential_kind='BROWSER' AND parent_credential_id IS NOT NULL AND absolute_expires_at IS NOT NULL
+          AND absolute_expires_at>issued_at AND absolute_expires_at<=issued_at+interval '8 hours'
+          AND expires_at>issued_at AND expires_at<=absolute_expires_at));
+    END IF; END $$;
     CREATE UNIQUE INDEX IF NOT EXISTS sf_local_credentials_id_actor ON sf_local_credentials(id,actor_id);
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='sf_local_credentials_parent') THEN
+      ALTER TABLE sf_local_credentials ADD CONSTRAINT sf_local_credentials_parent
+        FOREIGN KEY(parent_credential_id,actor_id) REFERENCES sf_local_credentials(id,actor_id);
+    END IF; END $$;
     CREATE INDEX IF NOT EXISTS sf_local_credentials_actor_active ON sf_local_credentials(actor_id) WHERE revoked_at IS NULL;
     CREATE TABLE IF NOT EXISTS sf_projects (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),

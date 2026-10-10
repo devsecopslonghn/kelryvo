@@ -1331,6 +1331,10 @@
     "SF-PRODUCT-T34": {
       "assigned_agent": "devops",
       "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T35": {
+      "assigned_agent": "orchestrator",
+      "status": "IN_PROGRESS"
     }
   }
 }

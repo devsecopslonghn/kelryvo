@@ -240,7 +240,7 @@ The API is a single-organization local service with server-configured named deve
 approver identities. Bearer tokens are randomly generated, private at rest, never stored
 by the browser, and mapped to identities on the server. Caller actor IDs and unexpected
 properties are rejected. Origin checks, fixed error codes and a same-origin CSP apply.
-This local authentication does not certify multi-tenant RBAC, production sessions or TLS.
+HTTP mode retains local bearer authentication. HTTPS mode adds the bounded browser session lifecycle described below; multi-tenant/provider login and deployed worker transport remain unverified.
 
 Local identities are persisted in PostgreSQL with a SHA-256 bearer digest and a fixed
 24-hour expiry measured from database issuance time. Startup seeds an identity and its
@@ -328,7 +328,7 @@ rejects symlinks/submodules and equivalent duplicate numeric versions, and valid
 whole release before planning. Source SQL is visible only after local authentication.
 
 `GET /api/health` probes PostgreSQL and reports `NOT_EXECUTED`/Oracle `BLOCKED`.
-All other API reads/writes require a bearer token:
+All other API reads/writes require an explicit bearer credential or, in HTTPS mode, a current browser cookie session with its CSRF proof:
 
 | Endpoint | Behavior |
 | --- | --- |
@@ -543,3 +543,57 @@ npm run local:backup-restore -- start
 This creates no target observation or Oracle evidence. RESTORE_HOLD remains until an
 independent operator reconciliation outside the application; this product slice has no
 hold-release interface.
+
+## HTTPS browser sessions
+
+Start the existing local product with operator-provided TLS material:
+
+```sh
+npm run dev -- --tls-cert /absolute/private/tls/server-chain.pem --tls-key /absolute/private/tls/server-key.pem
+```
+
+Use the same options with `--restored` to open a restored instance. The listener remains
+`https://127.0.0.1:4317`; no remote listener or trusted proxy mode is enabled. Both files
+must be regular, singly linked, owned by the current OS user, mode 0600, beneath an owned
+0700 directory, with no symlink components. Certificates must contain the correct address
+SAN and a chain trusted by the client. Provision and renew them through your authorized
+certificate authority. Startup validates TLS material before starting metadata services;
+invalid material fails with fixed diagnostics. Native TLS requires version 1.2 or newer.
+Do not bypass client certificate validation. Existing HTTP loopback startup remains a
+local bearer mode; cookie login cannot be enabled by forwarding headers or plaintext.
+
+In HTTPS mode, the sign-in form exchanges the private named LOCAL credential through
+`POST /api/session` for a random BROWSER child credential. Only its digest is retained in
+PostgreSQL. The original access token is cleared from application state. The browser
+stores the session in a `__Host-schemaforge` Secure, HttpOnly, SameSite=Strict cookie,
+with Path=/ and no Domain. The application retains only a CSRF proof in tab memory;
+localStorage/sessionStorage never store either credential. `GET /api/session` resumes
+this cookie session after reload and supplies the current fixed actor and CSRF proof.
+
+Cookie requests use `X-CSRF-Token`; state-changing requests also require an exact HTTPS
+Origin. Cookie tokens cannot be used as bearer credentials to bypass these checks.
+Explicit bearer API/CLI requests retain their existing nonambient authorization and
+same-origin checks. A stale tab's proof cannot silently read data under a replacement
+cookie identity. Replacement sign-in revokes the old cookie session. Logout calls
+`POST /api/session/logout`, revokes the session on the server and expires the cookie;
+failed requests show a retry message instead of claiming success. Logging out one session
+does not revoke the named operator credential or other browser sessions.
+
+The idle limit is 30 minutes, and absolute lifetime is at most eight hours and never
+later than the parent LOCAL credential's expiry. User activity can refresh the idle
+deadline; background polling alone cannot. Expired sessions cannot be renewed. Each
+request checks child and parent revocation/expiry, fixed organization and role; mutation
+checkpoints serialize with logout and operator credential lifecycle operations. Existing
+`local:credentials` rotation/revocation invalidates every child credential for that
+identity. Reopening the application never reseeds revoked credentials. Witnessed metadata
+restore imports credentials as retained history and revokes old LOCAL and BROWSER
+credentials; strict backup schema compatibility rejects snapshots from another schema
+version. Keep old binaries and their witnesses for old-schema snapshots; do not bypass
+inventory validation. Fresh operator credentials permit historical reads while the
+restored instance stays in RESTORE_HOLD.
+
+Local acceptance uses disposable certificates and normal Node HTTPS CA/hostname checks,
+including untrusted-chain and wrong-hostname rejection. Chromium trusts only the generated
+fixture public-key pin; no-pin and unrelated-key cases reject TLS. This is explicit test
+key trust, not browser CA-chain validation or deployed worker-transport acceptance.
+No global trust store is modified, and no external/Oracle deployment is certified.

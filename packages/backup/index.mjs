@@ -30,7 +30,7 @@ const TRIGGERS = ['sf_execution_admission_proofs_immutable','sf_execution_attemp
   'sf_execution_job_events_immutable','sf_execution_jobs_projection_guard','sf_execution_receipts_immutable',
   'sf_metadata_credentials_revoked_immutable','sf_metadata_generations_immutable','sf_metadata_operator_audit_immutable','sf_metadata_restore_owners_immutable',
   'sf_plan_approval_revocations_immutable','sf_plan_approval_revocations_reference_match'].sort();
-const SCHEMA_SIGNATURE = '6537761079b3de901b423240e5f3860a4b8c81e97e968c6d59509dc3b0bce1d5';
+const SCHEMA_SIGNATURE = '600dbb4039a8f5d838004b43501c6da01ffb79726b9c28f84f1e37904a4ab4ea';
 const json = value => `${JSON.stringify(value, null, 2)}\n`;
 const schemaDigest = schema => sha(JSON.stringify({schemas:['public'],tables:schema.tables,relations:schema.relations,
   functions:schema.functions,triggers:schema.triggers,columns:schema.columns,constraints:schema.constraints,indexes:schema.indexes,routines:schema.routines,triggerDefinitions:schema.triggerDefinitions,sequenceDefinitions:schema.sequenceDefinitions,ownership:schema.ownership}));

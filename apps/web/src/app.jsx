@@ -2,14 +2,18 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client';
 
 let browserSessionEpoch = 0;
+let lastInteraction = Date.now();
+for (const event of ['pointerdown', 'keydown']) window.addEventListener(event, () => { lastInteraction = Date.now(); }, { passive: true });
 const unauthorizedSubscribers = new Set();
 const json = async (url, token, options = {}) => {
   const requestEpoch = browserSessionEpoch;
   const response = await fetch(url, {
     ...options,
+    credentials: options.credentials ?? (token?.startsWith('session:') ? 'same-origin' : 'omit'),
     headers: {
       ...(options.body ? { 'Content-Type': 'application/json' } : {}),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(token?.startsWith('session:') && Date.now() - lastInteraction < 5000 ? { 'X-Session-Activity': '1' } : {}),
+      ...(token?.startsWith('session:') ? (token.slice(8) ? { 'X-CSRF-Token': token.slice(8) } : {}) : token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
   });
@@ -566,15 +570,28 @@ function App() {
   const connect = async (event) => {
     event.preventDefault(); browserSessionEpoch += 1; inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' }); setBusy(true); setError(''); setNotice('');
     try {
-      const session = await json('/api/session', tokenInput.trim());
+      const secure = location.protocol === 'https:';
+      const session = await json('/api/session', tokenInput.trim(), secure ? { method: 'POST', credentials: 'same-origin' } : {});
       const who = session.actor || session;
       if (!who?.role) throw new Error('UNAUTHORIZED');
-      setToken(tokenInput.trim()); setActor(who); setTokenInput('');
-      await refresh(tokenInput.trim(), projectId);
+      const active = secure ? `session:${session.csrfToken}` : tokenInput.trim();
+      setToken(active); setActor(who); setTokenInput('');
+      await refresh(active, projectId);
       setNotice(`Signed in as ${who.name || who.id || who.role}.`);
     } catch (e) { setError(explain(e)); }
     finally { setBusy(false); }
   };
+
+  useEffect(() => {
+    if (location.protocol !== 'https:') return;
+    const epoch = browserSessionEpoch; let current = true;
+    json('/api/session', 'session:').then(session => {
+      if (!current || browserSessionEpoch !== epoch || !session.csrfToken) return;
+      const active = `session:${session.csrfToken}`;
+      setToken(active); setActor(session.actor); void refresh(active, '');
+    }).catch(() => {});
+    return () => { current = false; };
+  }, []);
 
   useEffect(() => { if (token && projectId) void refresh(token, projectId); }, [token, projectId]);
   useEffect(() => {
@@ -1226,7 +1243,7 @@ function App() {
         <button className="primary" type="submit" disabled={busy}>{busy ? 'Connecting…' : 'Continue'}</button>
       </form>
       {error && <p className="banner error" role="alert">{error}</p>}
-      <p className="fine-print">Your token is kept in memory for this tab and is never saved in browser storage.</p>
+      <p className="fine-print">{location.protocol === 'https:' ? 'Sign-in creates a secure browser session. Sessions expire after 30 minutes idle or 8 hours; sign out revokes this session.' : 'Your token is kept in memory for this tab and is never saved in browser storage.'}</p>
     </div>
     <div className="login-art"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="art-card"><span className="status-dot"/> Controlled change <strong>Plan → Review → Record</strong><small>Execution stays with an authorized runtime.</small></div><div className="art-caption">A clear record for every proposed database change.</div></div>
   </main>;
@@ -1241,7 +1258,7 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('review'); }}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'inbox' ? 'active' : ''}`} onClick={() => { setTab('inbox'); void loadInbox({ append: false }); }}><span>▤</span> Review inbox</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('records'); }}><span>≡</span> Audit &amp; history</button>
-    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={() => { executionContextEpoch.current += 1; executionKeys.current.clear(); executionEventSequence.current += 1; setExecutionEvents({}); setExecutionReason(''); browserSessionEpoch += 1; inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' }); sessionEpoch.current += 1; withdrawalContextEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; invalidateReleaseComparison(); statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setRevocationReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setNavigateDuringWithdrawal(false); setError(''); setNotice(''); }}>↗</button></div>
+    <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={async () => { if (token.startsWith('session:')) { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; inboxSequence.current += 1; executionContextEpoch.current += 1; try { await json('/api/session/logout', token, { method: 'POST' }); } catch (e) { if (e.message !== 'UNAUTHENTICATED') { setBusy(false); setError('Sign out failed. Retry to revoke this session.'); return; } } } executionContextEpoch.current += 1; executionKeys.current.clear(); executionEventSequence.current += 1; setExecutionEvents({}); setExecutionReason(''); browserSessionEpoch += 1; inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' }); sessionEpoch.current += 1; withdrawalContextEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; invalidateReleaseComparison(); statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setRevocationReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setNavigateDuringWithdrawal(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
       <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { if (tab === 'inbox') void loadInbox(); else void refresh(token); }} disabled={busy}>↻</button></div></header>

@@ -411,6 +411,17 @@
         "docs/development/local-product.md",
         "docs/implementation/backlog.json"
       ]
+    },
+    {
+      "id": "SF-D038",
+      "status": "ACCEPTED_BOUNDED_PRODUCT_T35_HTTPS_SESSIONS",
+      "accepted_at_utc": "2026-10-10T17:46:33.576503+00:00",
+      "decision": "Use native Fastify/Node TLS with private OS-provided certificates on loopback and persistent child browser credentials in the existing credential lifecycle. Retain explicit bearer CLI semantics; actual HTTPS cookie requests need same-origin CSRF proof. Bind child expiry to parent LOCAL credentials,30-minute idle and8-hour absolute lifetime; OS rotation/revocation and restore revoke all old authority. Serialize browser write checkpoints with lifecycle mutations. Background polling does not renew idle time. Browser fixtures trust only an ephemeral public-key pin without global trust changes; independent Node HTTPS verifies CA and hostname. No proxy trust, HTTP downgrade, public/network/worker deployment, new identity role, new dependency or Oracle authority. Ordinary reversible engineering choice under SF-D010.",
+      "references": [
+        "packages/database/browser-sessions.ts",
+        "docs/development/local-product.md",
+        "docs/implementation/backlog.json"
+      ]
     }
   ]
 }

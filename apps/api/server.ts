@@ -1,14 +1,16 @@
 import postgres from 'postgres';
+import { createSecureContext } from 'node:tls';
 import { createApp } from './index.ts';
 import { initializeDatabase } from '../../packages/database/index.ts';
 import { resolve } from 'node:path';
 import { readFile } from 'node:fs/promises';
 
-export async function startProduct({ databaseUrl, actors, repositories, port = 4317 }: any) {
+export async function startProduct({ databaseUrl, actors, repositories, port = 4317, tls }: any) {
+  if (tls) createSecureContext({ ...tls, minVersion: 'TLSv1.2' });
   const sql = postgres(databaseUrl, { max: 5, onnotice: () => {} });
   try {
     await initializeDatabase(sql);
-    const app = createApp({ sql, actors, repositories });
+    const app = createApp({ sql, actors, repositories, https: tls ? { ...tls, minVersion: 'TLSv1.2' } : undefined });
     const web = resolve('dist/web');
     const files = new Map([
       ['/', ['index.html', 'text/html; charset=utf-8']],

@@ -1,9 +1,19 @@
-# SchemaForge metadata recovery checkpoint
+# SchemaForge HTTPS browser session checkpoint
 
-T34 VERIFIED locally at f7426040789076ff728263b7e09a78aa98360464: private witnessed native snapshot and fresh restore under persistent RESTORE_HOLD; old credentials revoked, historical data retained and execution denied. Corrected final serial suites passed 188 standard, 51 product and 30 Chromium tests, all zero failures/skips. Existing membership browser waits for actual project rendering before unchanged assertion. The original 591 local passes and first 4cf CI result (five successes, one failure) remain preserved. Independent exact-source and publication reviews have no actionable findings. Original failed/interrupted outputs preserved.
+T35 IN_PROGRESS in /home/longhn0710/workspace/schemaforge-product-secure-sessions,
+branch development/product-secure-sessions from T34 local f2192cd. Native loopback HTTPS,
+private paired certificate/key startup, revocable cookie sessions, CSRF, idle/absolute/parent
+expiry, reload/logout and strict backup-schema migration implemented. Focused acceptance and
+independent native review in progress; final frozen regressions/publication remain.
 
-Draft #47 https://github.com/devsecopslonghn/schemaForge/pull/47 OPEN/DRAFT at 9d6deff83ea1373bdf3fccc77c653500e70620da, based on development/product-execution-jobs / draft #46 b145a9a. All six available foundation/parser/product push+PR jobs actually SUCCESS. Master reconfirmed 0fd6980db49c9546ab0a04fe07321a348eee2d65. Original drafts #37–#46/worktrees unchanged; no merge/ready/deployment. Required code/secret/protection gates remain unavailable, never PASS; Sonar exception only applies to Sonar. Do not repeat unavailable API probes.
+Master verified 0fd6980db49c9546ab0a04fe07321a348eee2d65. Drafts #37–#47 remain OPEN/DRAFT;
+latest #47 at9d6deff based on #46, six available jobs SUCCESS. T34 source f742604 verified
+188 standard/51 product/30 Chromium with original evidence preserved. Existing worktrees
+and drafts unchanged. Known required security/protection APIs unavailable403/404/403,
+never PASS; Sonar exception only applies to Sonar. Do not repeat unavailable probes.
 
-Worktree /home/longhn0710/workspace/schemaforge-product-backup-restore; branch development/product-backup-restore. Post-publication observation/tracking commits are local and unpushed. Source hashes remain the final tested/reviewed bytes. Both scoped T34 publication scans exit 0 with zero findings; the pinned 85-package license closure unchanged. No rerun or republish unchanged source merely for evidence.
-
-Coverage: 220 features — 0 fully verified, 47 partial, 166 not implemented, 7 deferred. Oracle restore divergence MIG-034 remains NOT_IMPLEMENTED. No Oracle/runtime/target ledger reconciliation or HOLD clear acceptance. Restored instance remains held; no execution authority inferred. Overall product goal remains active. Exact next: select one substantial missing PRODUCT workflow from feature-coverage in a fresh bounded context, preserving existing integration/security boundaries and drafts. Do not begin another tiny dependent draft or restart completed tasks.
+Exact next: finish new HTTPS/session API and Chromium review/restore checks, freeze source,
+run required serial standard/product/browser suites, complete exact independent review,
+scoped scans/license checks, then one substantial draft based on the T34 checkpoint and
+observe actual available CI. No ready/merge/deployment or Oracle authority inferred.
+Overall goal active; previous catalog220=0full/47partial/166not/7deferred pending T35 evidence.

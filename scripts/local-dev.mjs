@@ -1,4 +1,6 @@
 import { constants } from 'node:fs';
+import { parseArgs } from 'node:util';
+import { readPrivateTls } from './local-tls.mjs';
 import { access, open } from 'node:fs/promises';
 import path from 'node:path';
 import { localConfiguration, localDatabaseUrl, startLocalPostgres, prepareDemoRepository } from './local-resources.mjs';
@@ -7,9 +9,13 @@ import { localDirectory } from './local-resources.mjs';
 import { authorizeLocalMetadataUrl } from './local-operator-config.mjs';
 
 try {
-  const args=process.argv.slice(2); const restored=args.includes('--restored');
-  if(args.filter(value=>value==='--restored').length>(restored?1:0) || restored && args.length!==1) throw new Error('invalid startup options');
-  const requestedRepositories = parseLocalRepositoryArguments(restored ? [] : args);
+  let values;
+  try { ({ values } = parseArgs({ options: { repository: { type: 'string', multiple: true }, restored: { type: 'boolean' }, 'tls-cert': { type: 'string' }, 'tls-key': { type: 'string' } }, strict: true, allowPositionals: false })); }
+  catch { throw new LocalRepositoryError('INVALID_STARTUP_ARGUMENTS'); }
+  const restored=!!values.restored;
+  if (restored && values.repository?.length || !!values['tls-cert'] !== !!values['tls-key']) throw new Error('invalid startup options');
+  const tls = values['tls-cert'] ? await readPrivateTls(values['tls-cert'], values['tls-key']) : undefined;
+  const requestedRepositories = parseLocalRepositoryArguments((values.repository ?? []).flatMap(value => ['--repository', value]));
   const configuredRepositories = await resolveLocalRepositories(requestedRepositories);
   if (!process.env.SCHEMAFORGE_JAVA_HOME) {
     try { await access('.cache/licenses/runtime/temurin/bin/java');
@@ -41,8 +47,8 @@ try {
   ], repositories: [
     { id: 'demo', name: 'Local migration demo', path: repository },
     ...configuredRepositories,
-  ] });
-  console.log('SchemaForge: http://127.0.0.1:4317');
+  ], tls });
+  console.log(`SchemaForge: ${tls ? 'https' : 'http'}://127.0.0.1:4317`);
   console.log('Local bearer tokens: .cache/local-product/config.json (private local file).');
   console.log('Target execution: NOT_EXECUTED; Oracle validation: BLOCKED.');
   const close = async () => { await app.close(); process.exitCode = 0; };
