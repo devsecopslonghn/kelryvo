@@ -1,0 +1,28 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
+import { decodeReviewInboxCursor, encodeReviewInboxCursor } from '../packages/governance/review-inbox-cursor.mjs';
+
+test('review inbox cursors preserve microseconds and reject malformed context and calendar positions', () => {
+  const actor = 'reviewer';
+  const id = randomUUID();
+  const value = encodeReviewInboxCursor({ actor, scope: 'ALL', createdAt: '2026-10-10T01:02:03.123456Z', id });
+  assert.deepEqual(decodeReviewInboxCursor(value, actor, 'ALL'), { createdAt: '2026-10-10T01:02:03.123456Z', id });
+  assert.equal(decodeReviewInboxCursor(value, 'another-reviewer', 'ALL'), null);
+  assert.equal(decodeReviewInboxCursor(value, actor, 'MINE'), null);
+  const invalidDate = Buffer.from(JSON.stringify({ v: 1, actor, scope: 'ALL', createdAt: '2026-02-30T01:02:03.000001Z', id })).toString('base64url');
+  assert.equal(decodeReviewInboxCursor(invalidDate, actor, 'ALL'), null);
+  const longUnicodeActor = 'é'.repeat(200);
+  const longActorCursor = encodeReviewInboxCursor({ actor: longUnicodeActor, scope: 'ALL', createdAt: '2026-10-10T01:02:03.123456Z', id });
+  assert.ok(longActorCursor.length > 512 && longActorCursor.length <= 2048);
+  assert.deepEqual(decodeReviewInboxCursor(longActorCursor, longUnicodeActor, 'ALL'), { createdAt: '2026-10-10T01:02:03.123456Z', id });
+  const duplicateKey = Buffer.from(`{"v":1,"actor":"${actor}","actor":"${actor}","scope":"ALL","createdAt":"2026-10-10T01:02:03.123456Z","id":"${id}"}`).toString('base64url');
+  assert.equal(decodeReviewInboxCursor(duplicateKey, actor, 'ALL'), null);
+  const replacementActor = '\uFFFD';
+  const canonicalBytes = Buffer.from(JSON.stringify({ v: 1, actor: replacementActor, scope: 'ALL', createdAt: '2026-10-10T01:02:03.123456Z', id }));
+  const replacementOffset = canonicalBytes.indexOf(Buffer.from(replacementActor));
+  const invalidUtf8 = Buffer.concat([canonicalBytes.subarray(0, replacementOffset), Buffer.from([0xff]), canonicalBytes.subarray(replacementOffset + 3)]).toString('base64url');
+  assert.equal(decodeReviewInboxCursor(invalidUtf8, replacementActor, 'ALL'), null);
+  assert.equal(decodeReviewInboxCursor(`${value}=`, actor, 'ALL'), null);
+  assert.equal(decodeReviewInboxCursor('x'.repeat(2049), actor, 'ALL'), null);
+});
