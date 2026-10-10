@@ -430,7 +430,7 @@ export function createApp(options: {
         ? await sql`SELECT id,actor_id,action,resource_id,facts,
             to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_time
             FROM sf_audit WHERE project_id=${p.id} AND action=${action}
-            AND (created_at,id) < (${cursor.createdAt}::timestamptz,${cursor.id}::uuid)
+            AND (created_at,id) < (${cursor.createdAt}::text::timestamptz,${cursor.id}::uuid)
             ORDER BY created_at DESC,id DESC LIMIT ${AUDIT_PAGE_SIZE + 1}`
         : await sql`SELECT id,actor_id,action,resource_id,facts,
             to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_time
@@ -440,7 +440,7 @@ export function createApp(options: {
         ? await sql`SELECT id,actor_id,action,resource_id,facts,
             to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_time
             FROM sf_audit WHERE project_id=${p.id}
-            AND (created_at,id) < (${cursor.createdAt}::timestamptz,${cursor.id}::uuid)
+            AND (created_at,id) < (${cursor.createdAt}::text::timestamptz,${cursor.id}::uuid)
             ORDER BY created_at DESC,id DESC LIMIT ${AUDIT_PAGE_SIZE + 1}`
         : await sql`SELECT id,actor_id,action,resource_id,facts,
             to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_time
@@ -1451,9 +1451,10 @@ export function createApp(options: {
     const cursor = req.query?.cursor === undefined ? null : decodeExecutionCursor(req.query.cursor, req.actor.id, req.params.projectId, 'jobs');
     if (req.query && Object.keys(req.query).some((key: string) => key !== 'cursor') || req.query?.cursor !== undefined && !cursor) return fail(reply, 400, 'INVALID_REQUEST');
     const limit = 50;
-    const rows = await sql`SELECT j.* FROM sf_execution_jobs j JOIN sf_project_grants g ON g.project_id=j.project_id AND g.organization_id=j.organization_id
+    const rows = await sql`SELECT j.*,to_char(j.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS cursor_time
+      FROM sf_execution_jobs j JOIN sf_project_grants g ON g.project_id=j.project_id AND g.organization_id=j.organization_id
       AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL WHERE j.organization_id=${ORG} AND j.project_id=${req.params.projectId}
-      AND (${cursor?.createdAt ?? null}::timestamptz IS NULL OR (j.created_at,j.id)<(${cursor?.createdAt ?? null}::timestamptz,${cursor?.id ?? null}::uuid))
+      AND (${cursor?.createdAt ?? null}::text::timestamptz IS NULL OR (j.created_at,j.id)<(${cursor?.createdAt ?? null}::text::timestamptz,${cursor?.id ?? null}::uuid))
       ORDER BY j.created_at DESC,j.id DESC LIMIT ${limit + 1}`;
     const hasMore = rows.length > limit;
     const page = rows.slice(0, limit);
@@ -1575,7 +1576,7 @@ function mapExecutionJob(r: any) {
     createdAt: r.created_at, updatedAt: r.updated_at };
 }
 function encodeExecutionCursor(actorId: string, scopeId: string, kind: 'jobs' | 'events', row: any) {
-  const value = kind === 'jobs' ? { actorId, scopeId, kind, id: row.id, createdAt: new Date(row.created_at).toISOString() }
+  const value = kind === 'jobs' ? { actorId, scopeId, kind, id: row.id, createdAt: row.cursor_time }
     : { actorId, scopeId, kind, revision: String(row.revision) };
   return Buffer.from(JSON.stringify(value)).toString('base64url');
 }
@@ -1584,11 +1585,11 @@ function decodeExecutionCursor(value: unknown, actorId: string, scopeId: string,
   try {
     const decoded = JSON.parse(Buffer.from(value, 'base64url').toString('utf8'));
     if (!decoded || decoded.actorId !== actorId || decoded.scopeId !== scopeId || decoded.kind !== kind) return null;
-    if (kind === 'jobs' && uuid(decoded.id) && typeof decoded.createdAt === 'string'
-        && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(decoded.createdAt)
-        && !decoded.createdAt.startsWith('0000-')
-        && Number.isFinite(Date.parse(decoded.createdAt)) && new Date(decoded.createdAt).toISOString() === decoded.createdAt)
-      return { id: decoded.id, createdAt: decoded.createdAt };
+    if (kind === 'jobs') {
+      const position = decodeAuditCursor(encodeAuditCursor({ projectId: scopeId, action: null,
+        id: decoded.id, createdAt: decoded.createdAt }), scopeId, null);
+      return position;
+    }
     if (kind === 'events' && typeof decoded.revision === 'string' && /^(?:0|[1-9][0-9]{0,18})$/.test(decoded.revision)
         && BigInt(decoded.revision) <= 9223372036854775807n)
       return { revision: decoded.revision };

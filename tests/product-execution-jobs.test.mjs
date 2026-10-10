@@ -214,6 +214,58 @@ test('durable deployment requests are idempotent, scoped, withdrawable and membe
     const overflowRevisionCursor=Buffer.from(JSON.stringify({ actorId:actors[1].id,scopeId:created.json().job.id,kind:'events',revision:'9223372036854775808' })).toString('base64url');
     const revisionCursorDenied=await request('GET',`/api/execution-jobs/${created.json().job.id}?cursor=${encodeURIComponent(overflowRevisionCursor)}`,undefined,actors[1]);
     assert.equal(revisionCursorDenied.statusCode,400);
+    // UNIT pagination fixtures share one millisecond but retain distinct database microseconds.
+    const paginationDigest=createHash('sha256').update('UNIT_PAGINATION_FIXTURE').digest('hex');
+    await db.sql`INSERT INTO sf_execution_jobs(id,organization_id,project_id,plan_id,approval_reference,intent_digest,
+      requester_id,idempotency_key,payload_digest,reason,state,admission_scope,readiness,created_at)
+      SELECT gen_random_uuid(),'00000000-0000-4000-8000-000000000001',${project.id},${plan.id},${approval.approval_reference},
+        ${approval.offline_intent_digest},${actors[0].id},'unit-pagination-fixture-'||ordinal::text,${paginationDigest},
+        'UNIT pagination fixture','WAITING_VALIDATION','UNIT_SYNTHETIC','TARGET_HISTORY_UNAVAILABLE',
+        '2030-01-01T00:00:00.000000Z'::timestamptz+ordinal*interval '1 microsecond'
+      FROM generate_series(1,60) ordinal`;
+    const expectedJobIds=(await db.sql`SELECT id FROM sf_execution_jobs WHERE project_id=${project.id} ORDER BY created_at DESC,id DESC`).map(row=>row.id);
+    const pagedJobIds=[];
+    let nextJobCursor=null,pages=0;
+    do {
+      const page=await request('GET',`${base}/execution-jobs${nextJobCursor?`?cursor=${encodeURIComponent(nextJobCursor)}`:''}`);
+      assert.equal(page.statusCode,200);
+      pagedJobIds.push(...page.json().jobs.map(job=>job.id));
+      nextJobCursor=page.json().nextCursor;
+      if(nextJobCursor) assert.match(JSON.parse(Buffer.from(nextJobCursor,'base64url').toString()).createdAt,/\.\d{6}Z$/);
+      assert.ok(++pages<5,'bounded traversal must advance');
+    } while(nextJobCursor);
+    assert.ok(pages>1);
+    assert.deepEqual(pagedJobIds,expectedJobIds,'pagination preserves every exact database position without gaps or duplicates');
+    // The integrated audit history must retain the same exact timestamp boundary.
+    await db.sql`INSERT INTO sf_audit(id,organization_id,project_id,actor_id,action,resource_id,facts,created_at)
+      SELECT gen_random_uuid(),'00000000-0000-4000-8000-000000000001',${project.id},${actors[0].id},
+        'UNIT_TIMESTAMP_FIXTURE',gen_random_uuid(),'{"scope":"UNIT_PAGINATION"}'::jsonb,
+        '2030-01-01T00:00:00.000000Z'::timestamptz+ordinal*interval '1 microsecond'
+      FROM generate_series(1,60) ordinal`;
+    const expectedAuditIds=(await db.sql`SELECT id FROM sf_audit WHERE project_id=${project.id} ORDER BY created_at DESC,id DESC`).map(row=>row.id);
+    const pagedAuditIds=[];
+    let nextAuditCursor=null,auditPages=0;
+    do {
+      const page=await request('GET',`${base}/audit${nextAuditCursor?`?cursor=${encodeURIComponent(nextAuditCursor)}`:''}`);
+      assert.equal(page.statusCode,200);
+      pagedAuditIds.push(...page.json().events.map(event=>event.id));
+      nextAuditCursor=page.json().nextCursor;
+      assert.ok(++auditPages<5,'bounded audit traversal must advance');
+    } while(nextAuditCursor);
+    assert.ok(auditPages>1);
+    assert.deepEqual(pagedAuditIds,expectedAuditIds,'audit pagination preserves microseconds through the PostgreSQL parameter serializer');
+    const expectedFilteredIds=(await db.sql`SELECT id FROM sf_audit WHERE project_id=${project.id} AND action='UNIT_TIMESTAMP_FIXTURE' ORDER BY created_at DESC,id DESC`).map(row=>row.id);
+    const filteredAuditIds=[];
+    let filteredCursor=null,filteredPages=0;
+    do {
+      const page=await request('GET',`${base}/audit?action=UNIT_TIMESTAMP_FIXTURE${filteredCursor?`&cursor=${encodeURIComponent(filteredCursor)}`:''}`);
+      assert.equal(page.statusCode,200);
+      filteredAuditIds.push(...page.json().events.map(event=>event.id));
+      filteredCursor=page.json().nextCursor;
+      assert.ok(++filteredPages<5,'bounded filtered audit traversal must advance');
+    } while(filteredCursor);
+    assert.ok(filteredPages>1);
+    assert.deepEqual(filteredAuditIds,expectedFilteredIds,'filtered audit history preserves every timestamp boundary');
     const currentSourceGeneration=(await db.sql`SELECT source_binding_generation FROM sf_projects WHERE id=${project.id}`)[0].source_binding_generation;
     await db.sql`UPDATE sf_projects SET source_binding_generation=source_binding_generation+1 WHERE id=${project.id}`;
     const staleBinding=await request('POST',`/api/plans/${plan.id}/execution`,{ idempotencyKey:'stale-binding-request-key-01',reason:'stale source binding' });
