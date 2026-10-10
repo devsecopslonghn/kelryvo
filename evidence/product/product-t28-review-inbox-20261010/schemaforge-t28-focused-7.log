@@ -1,0 +1,43 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# DIRECT_COUNT Result(0) [] POS 0c98ce0b-101c-4a27-9dd1-3c653f330c4f
+# OLDER_DEBUG { scope: 'ALL', plans: [], nextCursor: null } {"v":1,"actor":"inbox-approver-d5016d87-9fde-4858-94b8-0af6dd4173e2","scope":"ALL","createdAt":"2026-10-10T01:02:03.123456Z","id":"0c98ce0b-101c-4a27-9dd1-3c653f330c4f"}
+# Subtest: review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+not ok 1 - review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+  ---
+  duration_ms: 507.446555
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-review-inbox/tests/product-review-inbox.test.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-review-inbox/tests/product-review-inbox.test.mjs:56:136)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 753.235168

@@ -1,0 +1,2255 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-10T07:50:48.091055+00:00",
+  "verified_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "reviewed_local_source": "ced0c1c62bc115d283aca4580999a6486403ce6b",
+  "scope": "All220 original features across integrated master0fd and explicitly unmerged locally verified T24-T28 facets; no full catalog certification.",
+  "method": [
+    "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
+    "Task completion establishes only its bounded facet; original criteria and dependencies remain unchanged.",
+    "Also mapped concrete naming/order/folder/parser/security/health behavior missing from task feature-ID lists.",
+    "No full catalog-level acceptance package exists. Locally complete facets are partial until their complete catalog contract is verified.",
+    "BLOCKED_EXTERNAL is reserved for an otherwise implemented/ready feature missing only external evidence; unimplemented features are not relabeled merely because Oracle access is absent."
+  ],
+  "summary": {
+    "IMPLEMENTED_AND_VERIFIED": 0,
+    "PARTIALLY_IMPLEMENTED": 41,
+    "NOT_IMPLEMENTED": 172,
+    "BLOCKED_EXTERNAL": 0,
+    "DEFERRED": 7
+  },
+  "by_milestone": {
+    "MVP-Core": {
+      "IMPLEMENTED_AND_VERIFIED": 0,
+      "PARTIALLY_IMPLEMENTED": 4,
+      "NOT_IMPLEMENTED": 13,
+      "BLOCKED_EXTERNAL": 0,
+      "DEFERRED": 0
+    },
+    "MVP-Extended": {
+      "IMPLEMENTED_AND_VERIFIED": 0,
+      "PARTIALLY_IMPLEMENTED": 1,
+      "NOT_IMPLEMENTED": 3,
+      "BLOCKED_EXTERNAL": 0,
+      "DEFERRED": 0
+    },
+    "REJECTED": {
+      "IMPLEMENTED_AND_VERIFIED": 0,
+      "PARTIALLY_IMPLEMENTED": 0,
+      "NOT_IMPLEMENTED": 0,
+      "BLOCKED_EXTERNAL": 0,
+      "DEFERRED": 7
+    },
+    "V1": {
+      "IMPLEMENTED_AND_VERIFIED": 0,
+      "PARTIALLY_IMPLEMENTED": 4,
+      "NOT_IMPLEMENTED": 73,
+      "BLOCKED_EXTERNAL": 0,
+      "DEFERRED": 0
+    },
+    "V2": {
+      "IMPLEMENTED_AND_VERIFIED": 0,
+      "PARTIALLY_IMPLEMENTED": 1,
+      "NOT_IMPLEMENTED": 40,
+      "BLOCKED_EXTERNAL": 0,
+      "DEFERRED": 0
+    },
+    "WS": {
+      "IMPLEMENTED_AND_VERIFIED": 0,
+      "PARTIALLY_IMPLEMENTED": 31,
+      "NOT_IMPLEMENTED": 43,
+      "BLOCKED_EXTERNAL": 0,
+      "DEFERRED": 0
+    }
+  },
+  "external_acceptance": "Oracle 19c/21c acceptance remains independently blocked; no execution worker/target ledger/runtime verification claimed. Required GitHub security gates prevent integration of draft37/38/39 and T27.",
+  "next_product_capability": {
+    "status": "T28_LOCAL_VERIFIED_INDEPENDENT_MASTER_BRANCH",
+    "remaining_catalog_scope": "Approval assignment/delegation and full GOV021 authorization/worker acceptance remain missing.",
+    "next_increment": "Persistent reviewer assignment for pending project plans with current granted approvers and requester exclusion; reuse merged project review interfaces independently of T28 inbox.",
+    "branch_policy": "Fresh master-based context/worktree after this checkpoint; no additional dependency on unmerged drafts37-40 or T28."
+  },
+  "features": [
+    {
+      "id": "DBM-001",
+      "name": "Oracle service registration",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-002",
+      "name": "Multi-engine connection configuration",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-003",
+      "name": "Connection profiles and scoped credentials",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T14",
+          "behavior": "Show a plan's configured target in review",
+          "evidence": [
+            "product-t14-configured-target-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "A discovery identity cannot be selected as a writer without an explicit reviewed binding.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "DBM-004",
+      "name": "Inventory discovery and reconciliation",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-005",
+      "name": "Schema and object metadata synchronization",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-006",
+      "name": "Database metadata explorer",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-007",
+      "name": "Schema ownership and assignment",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-008",
+      "name": "Resource labels",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-009",
+      "name": "Environment mapping",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-010",
+      "name": "Project database assignment and transfer",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-011",
+      "name": "Instance groups",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-012",
+      "name": "Database groups",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-013",
+      "name": "Schema groups",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-014",
+      "name": "Connection testing",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-015",
+      "name": "Credential rotation",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-016",
+      "name": "TLS and connection trust",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-017",
+      "name": "Database lifecycle inventory",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-018",
+      "name": "Instance health and sync freshness",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-019",
+      "name": "Oracle CDB/PDB/service distinction",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-020",
+      "name": "Discovery visibility profile",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-021",
+      "name": "Oracle maintained account filtering",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-022",
+      "name": "Physical connection deduplication",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-023",
+      "name": "Topology generations and clone detection",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-024",
+      "name": "Schema dictionary and ER diagrams",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-025",
+      "name": "Resource maintenance mode",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "DBM-026",
+      "name": "Database provisioning",
+      "milestone": "REJECTED",
+      "classification": "DEFERRED",
+      "basis": "Deferred per source catalog: Keep Oracle user/PDB provisioning outside the migration MVP."
+    },
+    {
+      "id": "DBM-027",
+      "name": "SSH and bastion routes",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "PRJ-001",
+      "name": "Project creation and archival",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T01",
+          "behavior": "Deliver runnable local governance workflow",
+          "evidence": [
+            "product-t01-20261008T163522Z-87ad39d8-local"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T02",
+          "behavior": "Archive projects and reject new work on archived projects",
+          "evidence": [
+            "product-t02-20261008T172809Z-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Archived projects cannot admit new jobs and keep historical evidence readable.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "PRJ-002",
+      "name": "Project schema estate",
+      "milestone": "MVP-Extended",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "PRJ-003",
+      "name": "Project membership",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T01",
+          "behavior": "Deliver runnable local governance workflow",
+          "evidence": [
+            "product-t01-20261008T163522Z-87ad39d8-local"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T21",
+          "behavior": "Enforce explicit local project membership with safe bootstrap and recovery",
+          "evidence": [
+            "product-t21-project-membership-local-verified",
+            "product-t21-merge-master-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Removing a member immediately denies new actions on project resources.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "PRJ-004",
+      "name": "Fixed project roles",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Fixed developer/approver roles and author exclusion",
+      "remaining_gap": "Deployer/auditor roles and execution admission are absent",
+      "source_or_test_paths": [
+        "tests/product-api.test.mjs"
+      ]
+    },
+    {
+      "id": "PRJ-005",
+      "name": "Project policies",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "PRJ-006",
+      "name": "Project settings",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "PRJ-007",
+      "name": "Project approval configuration",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "PRJ-008",
+      "name": "Project repository binding",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T01",
+          "behavior": "Deliver runnable local governance workflow",
+          "evidence": [
+            "product-t01-20261008T163522Z-87ad39d8-local"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T04",
+          "behavior": "Bind a registered Git repository and migration folder to projects",
+          "evidence": [
+            "product-t04-source-binding-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "An unrelated repository/folder cannot ingest into the project.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "PRJ-009",
+      "name": "Project deployment configuration",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "PRJ-010",
+      "name": "Cross-project database visibility",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "PRJ-011",
+      "name": "Project resource isolation",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Organization/project-scoped API resources and explicit membership checks",
+      "remaining_gap": "Schema/catalog/job authorization is absent",
+      "source_or_test_paths": [
+        "tests/product-membership.test.mjs"
+      ]
+    },
+    {
+      "id": "PRJ-012",
+      "name": "Project ownership transfer",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "PRJ-013",
+      "name": "Schema assignment inbox",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "PRJ-014",
+      "name": "Project dashboard",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "PRJ-015",
+      "name": "Project export/import configuration",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-001",
+      "name": "Versioned schema migrations",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-002",
+      "name": "Versioned data migrations",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-003",
+      "name": "Declarative migrations",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-004",
+      "name": "Migration file naming",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Versioned filename validation and duplicate canonical-version rejection",
+      "remaining_gap": "Catalog-wide acceptance has not been separately verified",
+      "source_or_test_paths": [
+        "tests/product-import.test.mjs"
+      ]
+    },
+    {
+      "id": "MIG-005",
+      "name": "Migration numeric ordering",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Arbitrary-precision dotted numeric order in imported releases",
+      "remaining_gap": "Actual target execution order remains unverified",
+      "source_or_test_paths": [
+        "tests/product-import.test.mjs"
+      ]
+    },
+    {
+      "id": "MIG-006",
+      "name": "Immutable Git commit ingestion",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T03",
+          "behavior": "Register local Git repositories for migration imports",
+          "evidence": [
+            "product-t03-20261008T173420Z-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Moving a branch after ingestion cannot change the release artifact.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "MIG-007",
+      "name": "Folder migration discovery",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Folder import produces one immutable path/hash release",
+      "remaining_gap": "Remote ingestion and catalog-wide acceptance remain unverified",
+      "source_or_test_paths": [
+        "tests/product-import.test.mjs"
+      ]
+    },
+    {
+      "id": "MIG-008",
+      "name": "Release creation and identity",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T01",
+          "behavior": "Deliver runnable local governance workflow",
+          "evidence": [
+            "product-t01-20261008T163522Z-87ad39d8-local"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T25",
+          "behavior": "Compare retained migration release sources",
+          "evidence": [
+            "product-t25-retained-source-comparison-local-verified",
+            "product-t25-security-corrected-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T26",
+          "behavior": "Bound retained-source metadata before protected payload reads",
+          "evidence": [
+            "product-t26-retained-metadata-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T27",
+          "behavior": "Bound retained release detail reads before payload materialization",
+          "evidence": [
+            "product-t27-historical-detail-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Two different folder/settings manifests at one commit produce distinguishable release identities.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "MIG-009",
+      "name": "Release structural validation",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T25",
+          "behavior": "Compare retained migration release sources",
+          "evidence": [
+            "product-t25-retained-source-comparison-local-verified",
+            "product-t25-security-corrected-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T27",
+          "behavior": "Bound retained release detail reads before payload materialization",
+          "evidence": [
+            "product-t27-historical-detail-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "A symlink or unsupported SQL*Plus command yields a file/line error and no target effects.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "MIG-010",
+      "name": "Per-target migration planning",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T01",
+          "behavior": "Deliver runnable local governance workflow",
+          "evidence": [
+            "product-t01-20261008T163522Z-87ad39d8-local"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Schema A with two versions plans three files while schema B with one plans four.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "MIG-011",
+      "name": "Pending and applied reconciliation",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-012",
+      "name": "Migration execution history",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-013",
+      "name": "Raw-file checksum enforcement",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-014",
+      "name": "Schema drift detection",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-015",
+      "name": "Approved schema baseline",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-016",
+      "name": "Repeatable migration files",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-017",
+      "name": "Failed migration recovery",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-018",
+      "name": "Idempotent deployment API",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-019",
+      "name": "Target mutex across all aliases",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-020",
+      "name": "Safe migration retry admission",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-021",
+      "name": "Release promotion ladder",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-022",
+      "name": "Multi-database rollout",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-023",
+      "name": "Reviewed corrective migrations",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-024",
+      "name": "Automatic Oracle DDL rollback",
+      "milestone": "REJECTED",
+      "classification": "DEFERRED",
+      "basis": "Deferred per source catalog: Reject any claim that an arbitrary Oracle release can be atomically rolled back."
+    },
+    {
+      "id": "MIG-025",
+      "name": "Target-local ledger",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-026",
+      "name": "Hybrid history and reconciliation",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-027",
+      "name": "Statement-level diagnostics",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-028",
+      "name": "Exact plan history precondition",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-029",
+      "name": "Per-target zero-pending success",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-030",
+      "name": "Out-of-order migration policy",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-031",
+      "name": "Preconditions and postconditions",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-032",
+      "name": "Migration stream namespaces",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-033",
+      "name": "Schema comparison and sync",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "MIG-034",
+      "name": "Restore divergence detection",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-001",
+      "name": "Change request and issue creation",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T16",
+          "behavior": "Show retained requester facts and independent reviewer eligibility",
+          "evidence": [
+            "product-t16-requester-local-verified",
+            "product-t16-merge-master-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T17",
+          "behavior": "Freeze and verify the offline plan intent reviewed for approval",
+          "evidence": [
+            "product-t17-offline-intent-local-verified",
+            "product-t17-bounded-intent-local-verified",
+            "product-t17-merge-master-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Request links requester, release, target set and intent digest.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GOV-002",
+      "name": "Independent plan approval",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T13",
+          "behavior": "Inspect a plan’s retained source from review",
+          "evidence": [
+            "product-t13-source-inspection-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T14",
+          "behavior": "Show a plan's configured target in review",
+          "evidence": [
+            "product-t14-configured-target-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Author and last editor approvals are denied through UI and direct API.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GOV-003",
+      "name": "Multi-stage approval",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-004",
+      "name": "Dynamic approvers",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-005",
+      "name": "Environment-specific approval",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-006",
+      "name": "Segregation of duties",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Independent fixed-role review and author denial",
+      "remaining_gap": "Separate deployer authorization/CI/scheduler/console paths are absent",
+      "source_or_test_paths": [
+        "tests/product-review-audit.test.mjs"
+      ]
+    },
+    {
+      "id": "GOV-007",
+      "name": "Self-approval and last-editor restrictions",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T01",
+          "behavior": "Deliver runnable local governance workflow",
+          "evidence": [
+            "product-t01-20261008T163522Z-87ad39d8-local"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T16",
+          "behavior": "Show retained requester facts and independent reviewer eligibility",
+          "evidence": [
+            "product-t16-requester-local-verified",
+            "product-t16-merge-master-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Changing only the target still makes that editor ineligible to approve.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases.",
+        "Two successive substantive editors both remain ineligible after a third actor changes only request metadata."
+      ]
+    },
+    {
+      "id": "GOV-008",
+      "name": "Approval templates",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-009",
+      "name": "Approval expiration",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-010",
+      "name": "Rejection and resubmission",
+      "milestone": "MVP-Extended",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T18",
+          "behavior": "Prepare a fresh offline plan after rejection",
+          "evidence": [
+            "product-t18-resubmission-local-verified",
+            "product-t18-resubmission-cleanup-verified",
+            "product-t18-merge-master-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Resubmitting edited SQL cannot reuse an old approval.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GOV-011",
+      "name": "Approval revocation",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-012",
+      "name": "SQL or target edits invalidate approval",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T01",
+          "behavior": "Deliver runnable local governance workflow",
+          "evidence": [
+            "product-t01-20261008T163522Z-87ad39d8-local"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T17",
+          "behavior": "Freeze and verify the offline plan intent reviewed for approval",
+          "evidence": [
+            "product-t17-offline-intent-local-verified",
+            "product-t17-bounded-intent-local-verified",
+            "product-t17-merge-master-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "A changed schema or statement hash rejects old approval at dispatch.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GOV-013",
+      "name": "Immutable approved artifacts",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T15",
+          "behavior": "Verify retained source integrity before approving an offline plan",
+          "evidence": [
+            "product-t15-approval-integrity-local-verified",
+            "product-t15-merge-master-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T17",
+          "behavior": "Freeze and verify the offline plan intent reviewed for approval",
+          "evidence": [
+            "product-t17-offline-intent-local-verified",
+            "product-t17-bounded-intent-local-verified",
+            "product-t17-merge-master-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T22",
+          "behavior": "Inspect parser-derived statement previews in offline release review",
+          "evidence": [
+            "product-t22-statement-preview-local-verified",
+            "product-t22-ci-prerequisite-correction-local-verified",
+            "product-t22-merge-master-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Replacing a file in storage fails hash verification before any SQL.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GOV-014",
+      "name": "Deployment windows",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-015",
+      "name": "Scheduled execution",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-016",
+      "name": "Emergency change workflow",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-017",
+      "name": "Hotfix release workflow",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-018",
+      "name": "Execution authorization",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-019",
+      "name": "Risk-based approval routing",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-020",
+      "name": "Review comments and evidence attachments",
+      "milestone": "V1",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T06",
+          "behavior": "Add persistent comments to pending plan reviews",
+          "evidence": [
+            "product-t06-comments-local-verified",
+            "product-t06-merge-master-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T23",
+          "behavior": "Attach retained statement evidence references to pending plan discussions",
+          "evidence": [
+            "product-t23-comment-evidence-local-verified",
+            "product-t23-corrected-comment-evidence-local-verified",
+            "product-t23-merge-master-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Attachments cannot change executable content or expose another project's SQL.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GOV-021",
+      "name": "Approval inbox and delegation",
+      "milestone": "V1",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T08",
+          "behavior": "Filter project plan reviews by decision status",
+          "evidence": [
+            "product-t08-status-filters-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T28",
+          "behavior": "Find pending reviews across authorized active projects",
+          "evidence": [
+            "product-t28-review-inbox-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Delegated approver cannot approve an intent they authored.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GOV-022",
+      "name": "Manual continuation between stages",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-023",
+      "name": "Approval decision audit",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T05",
+          "behavior": "Audit authenticated review denials without changing migration plans",
+          "evidence": [
+            "product-t05-review-audit-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T07",
+          "behavior": "Display retained plan decision provenance in review",
+          "evidence": [
+            "product-t07-decision-record-local-verified",
+            "product-t07-merge-master-verified",
+            "product-t07-checkpoint-registration-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T26",
+          "behavior": "Bound retained-source metadata before protected payload reads",
+          "evidence": [
+            "product-t26-retained-metadata-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Auditor can reconstruct all approval revisions after project transfer.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GOV-024",
+      "name": "Execution cancellation semantics",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GOV-025",
+      "name": "Policy change revalidation",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-001",
+      "name": "Web SQL editor",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-002",
+      "name": "Syntax highlighting",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-003",
+      "name": "Metadata autocomplete",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-004",
+      "name": "Schema browsing",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-005",
+      "name": "Interactive SQL execution",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-006",
+      "name": "Query history",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-007",
+      "name": "Query result export",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-008",
+      "name": "SQL review rule configuration",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-009",
+      "name": "Static SQL linting",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-010",
+      "name": "Destructive statement review",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-011",
+      "name": "Sensitive data controls",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-012",
+      "name": "Query and export permissions",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-013",
+      "name": "Read-only query sessions",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-014",
+      "name": "Explain plan",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-015",
+      "name": "Exact execution preview",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T22",
+          "behavior": "Inspect parser-derived statement previews in offline release review",
+          "evidence": [
+            "product-t22-statement-preview-local-verified",
+            "product-t22-ci-prerequisite-correction-local-verified",
+            "product-t22-merge-master-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Preview digest matches the worker's parsed statement digest.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "SQL-016",
+      "name": "Oracle PL/SQL scripts",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Pinned mature parser preserves PL/SQL source boundaries",
+      "remaining_gap": "19c/21c execution and result semantics are unverified",
+      "source_or_test_paths": [
+        "tests/antlr.integration.mjs",
+        "experiments/db-devops-wp0/antlr-helper"
+      ]
+    },
+    {
+      "id": "SQL-017",
+      "name": "Oracle script splitting",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Parser corpus preserves q-quotes/comments/semicolons/slash boundaries",
+      "remaining_gap": "No production execution worker sends these statements; Oracle acceptance remains blocked",
+      "source_or_test_paths": [
+        "tests/antlr.integration.mjs",
+        "experiments/db-devops-wp0/antlr-envelope.mjs"
+      ]
+    },
+    {
+      "id": "SQL-018",
+      "name": "Package specification and body validation",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-019",
+      "name": "Required object validity gate",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-020",
+      "name": "Compiler diagnostics explorer",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-021",
+      "name": "SQL*Plus command profile",
+      "milestone": "V2",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Offline parser rejects unsupported SQL*Plus directives",
+      "remaining_gap": "Execution-side profile acceptance is unverified",
+      "source_or_test_paths": [
+        "tests/antlr.integration.mjs",
+        "experiments/db-devops-wp0/fixtures/manifest.json"
+      ]
+    },
+    {
+      "id": "SQL-022",
+      "name": "Saved and shared SQL scripts",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-023",
+      "name": "Visual query builder",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-024",
+      "name": "Batch query UX",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SQL-025",
+      "name": "Oracle dependency-aware object checks",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-001",
+      "name": "Local authentication",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T20",
+          "behavior": "Persist expiring and revocable local credentials",
+          "evidence": [
+            "product-t20-local-credential-lifecycle-local-verified",
+            "product-t20-merge-and-corrective-master-verified",
+            "product-t20-master-browser-sync-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Unauthenticated endpoints disclose no SQL or catalog resources.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "SEC-002",
+      "name": "LDAP federation",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-003",
+      "name": "OIDC single sign-on",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-004",
+      "name": "OAuth2 social login",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-005",
+      "name": "Role-based authorization",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T21",
+          "behavior": "Enforce explicit local project membership with safe bootstrap and recovery",
+          "evidence": [
+            "product-t21-project-membership-local-verified",
+            "product-t21-merge-master-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Direct API calls have the same authorization result as UI actions.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "SEC-006",
+      "name": "Resource-level permissions",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Current explicit project grants and object scope on API reads/writes",
+      "remaining_gap": "Schema-specific grants and execution-worker authorization are absent",
+      "source_or_test_paths": [
+        "tests/product-membership.test.mjs"
+      ]
+    },
+    {
+      "id": "SEC-007",
+      "name": "Database/schema access grants",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-008",
+      "name": "Approval policy enforcement",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-009",
+      "name": "Scoped secrets provider",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-010",
+      "name": "Credential encryption and redaction",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-011",
+      "name": "Complete change audit trail",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T01",
+          "behavior": "Deliver runnable local governance workflow",
+          "evidence": [
+            "product-t01-20261008T163522Z-87ad39d8-local"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T05",
+          "behavior": "Audit authenticated review denials without changing migration plans",
+          "evidence": [
+            "product-t05-review-audit-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T09",
+          "behavior": "Filter recent project audit events by action",
+          "evidence": [
+            "product-t09-audit-action-filters-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T24",
+          "behavior": "Page through retained project audit events",
+          "evidence": [
+            "product-t24-audit-pages-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Audit reconstructs WHO/WHAT/WHERE/WHEN/HOW/RESULT for a completed and failed attempt.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "SEC-012",
+      "name": "Activity versus audit separation",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-013",
+      "name": "Deployment evidence bundles",
+      "milestone": "MVP-Extended",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-014",
+      "name": "Policy enforcement on alternate entry points",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-015",
+      "name": "API credentials and key rotation",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-016",
+      "name": "Named service accounts",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-017",
+      "name": "Network restrictions",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-018",
+      "name": "Web and API TLS",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-019",
+      "name": "Session lifecycle and logout",
+      "milestone": "MVP-Core",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Immediate bearer-credential revocation/expiry checks; browser logout and stale-session isolation",
+      "remaining_gap": "Cookie/CSRF and idle-session controls are absent",
+      "source_or_test_paths": [
+        "tests/product-credential-lifecycle.test.mjs",
+        "tests/product-credential-browser.integration.mjs"
+      ]
+    },
+    {
+      "id": "SEC-020",
+      "name": "Compliance reports",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-021",
+      "name": "Custom RBAC roles",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-022",
+      "name": "User groups",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-023",
+      "name": "Multi-factor authentication",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-024",
+      "name": "SCIM provisioning",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-025",
+      "name": "Just-in-time database access",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-026",
+      "name": "Data classification and masking",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-027",
+      "name": "Workload identity federation",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "SEC-028",
+      "name": "Audit tamper evidence and external retention",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GIT-001",
+      "name": "GitLab repository integration",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GIT-002",
+      "name": "GitHub provider adapter",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GIT-003",
+      "name": "Repository connection and test",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T03",
+          "behavior": "Register local Git repositories for migration imports",
+          "evidence": [
+            "product-t03-20261008T173420Z-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T04",
+          "behavior": "Bind a registered Git repository and migration folder to projects",
+          "evidence": [
+            "product-t04-source-binding-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "A repository test verifies the allowed project/folder and redacts authentication failures.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GIT-004",
+      "name": "Branch and tag selection",
+      "milestone": "V1",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T10",
+          "behavior": "Select local Git branches and tags for immutable release imports",
+          "evidence": [
+            "product-t10-local-git-refs-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "A tag moved after ingestion does not mutate release bytes.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GIT-005",
+      "name": "Merge request SQL checks",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GIT-006",
+      "name": "Commit and source provenance",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T11",
+          "behavior": "Inspect retained release provenance",
+          "evidence": [
+            "product-t11-release-provenance-local-verified",
+            "product-t11-tracker-finalization-20261009T050150Z"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T13",
+          "behavior": "Inspect a plan’s retained source from review",
+          "evidence": [
+            "product-t13-source-inspection-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T27",
+          "behavior": "Bound retained release detail reads before payload materialization",
+          "evidence": [
+            "product-t27-historical-detail-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "A release at a short ambiguous SHA is rejected until resolved fully.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GIT-007",
+      "name": "Immutable release artifact retention",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T12",
+          "behavior": "Verify retained release integrity before offline planning",
+          "evidence": [
+            "product-t12-retained-integrity-local-verified",
+            "product-t12-resource-bounds-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T15",
+          "behavior": "Verify retained source integrity before approving an offline plan",
+          "evidence": [
+            "product-t15-approval-integrity-local-verified",
+            "product-t15-merge-master-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Approved deployment still validates stored bytes when Git is temporarily offline.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GIT-008",
+      "name": "CI trigger ingestion",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GIT-009",
+      "name": "Signed webhook ingestion",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GIT-010",
+      "name": "API-driven release and deployment",
+      "milestone": "V1",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Local API imports releases, prepares plans and records review decisions",
+      "remaining_gap": "Stable OpenAPI/machine credential contracts and deployment/status polling are absent",
+      "source_or_test_paths": [
+        "tests/product-api.test.mjs"
+      ]
+    },
+    {
+      "id": "GIT-011",
+      "name": "Environment promotion integration",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GIT-012",
+      "name": "Jenkins integration",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GIT-013",
+      "name": "Deployment status callbacks",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GIT-014",
+      "name": "Pipeline execution reports",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GIT-015",
+      "name": "Git drift detection",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GIT-016",
+      "name": "Protected source configuration",
+      "milestone": "WS",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T19",
+          "behavior": "Protect source binding generations during offline plan approval",
+          "evidence": [
+            "product-t19-protected-source-binding-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T26",
+          "behavior": "Bound retained-source metadata before protected payload reads",
+          "evidence": [
+            "product-t26-retained-metadata-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "Changing repository/folder/runner image invalidates relevant approved intent.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GIT-017",
+      "name": "GitOps policy as code",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "GIT-018",
+      "name": "Offline Git mirrors and artifacts",
+      "milestone": "MVP-Core",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T03",
+          "behavior": "Register local Git repositories for migration imports",
+          "evidence": [
+            "product-t03-20261008T173420Z-local-verified"
+          ]
+        }
+      ],
+      "catalog_acceptance_remaining": [
+        "End-to-end lab workflow functions with external internet egress disabled.",
+        "All applicable authorization and evidence checks are enforced by the API/worker, including negative cases."
+      ]
+    },
+    {
+      "id": "GIT-019",
+      "name": "Azure DevOps and Bitbucket adapters",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-001",
+      "name": "Durable background job scheduling",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-002",
+      "name": "Restricted execution workers",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-003",
+      "name": "Execution queues and concurrency budgets",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-004",
+      "name": "Read-only job retries",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-005",
+      "name": "Execution state model",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-006",
+      "name": "Structured execution logs",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-007",
+      "name": "User notifications",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-008",
+      "name": "Email notifications",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-009",
+      "name": "Outbound project webhooks",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-010",
+      "name": "Prometheus metrics",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-011",
+      "name": "Health and readiness checks",
+      "milestone": "MVP-Core",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "API health distinguishes process response and PostgreSQL readiness",
+      "remaining_gap": "Target availability and restricted-worker readiness are unimplemented",
+      "source_or_test_paths": [
+        "apps/api/index.ts",
+        "tests/product-api.test.mjs"
+      ]
+    },
+    {
+      "id": "OPS-012",
+      "name": "Metadata and artifact backup/restore",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-013",
+      "name": "High availability failover",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-014",
+      "name": "Credential-scoped connection pooling",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-015",
+      "name": "Operational deployment dashboard",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-016",
+      "name": "Resource usage budgets",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-017",
+      "name": "Multiple worker replicas",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-018",
+      "name": "Audit and log retention",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-019",
+      "name": "Graceful shutdown and drain",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-020",
+      "name": "OpenTelemetry traces",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-021",
+      "name": "Cancellation and orphan session tooling",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-022",
+      "name": "On-prem Kubernetes/OpenShift packaging",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-023",
+      "name": "Air-gapped updates and SBOM",
+      "milestone": "MVP-Core",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
+      "additional_observed_facet": "Pinned dependency artifacts, hashes and third-party notices/license inventory",
+      "remaining_gap": "SBOM, signed release/update and complete offline upgrade/install bundle are absent",
+      "source_or_test_paths": [
+        "scripts/dependency-artifacts.mjs",
+        "docs/dependencies/product-closure.json"
+      ]
+    },
+    {
+      "id": "OPS-024",
+      "name": "Database performance observability",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-025",
+      "name": "Operational recovery case management",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-026",
+      "name": "Capacity acceptance workload",
+      "milestone": "MVP-Core",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "OPS-027",
+      "name": "Upgrade compatibility and ledger versioning",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-001",
+      "name": "Oracle definer/invoker rights review",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-002",
+      "name": "Oracle dependency-aware rollout",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-003",
+      "name": "Oracle edition-based redefinition",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-004",
+      "name": "Oracle online DDL capability profiles",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-005",
+      "name": "Sqitch-style verification scripts",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-006",
+      "name": "Liquibase-style changeset preconditions",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-007",
+      "name": "Release impact graph",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-008",
+      "name": "Justification and risk acknowledgement",
+      "milestone": "WS",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-009",
+      "name": "Multi-language UI design",
+      "milestone": "V1",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-010",
+      "name": "Independent Oracle outcome panel",
+      "milestone": "MVP-Extended",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-011",
+      "name": "SQL review assistant using local AI",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-012",
+      "name": "Automatic AI approval or recovery",
+      "milestone": "REJECTED",
+      "classification": "DEFERRED",
+      "basis": "Deferred per source catalog: Keep approval/recovery decisions explicit and independently authenticated."
+    },
+    {
+      "id": "EXT-013",
+      "name": "MCP read-only discovery",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-014",
+      "name": "MCP autonomous production writes",
+      "milestone": "REJECTED",
+      "classification": "DEFERRED",
+      "basis": "Deferred per source catalog: Exclude autonomous unreviewed production SQL from product scope."
+    },
+    {
+      "id": "EXT-015",
+      "name": "Terraform/IaC inventory provider",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-016",
+      "name": "Data backup and data rollback previews",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    },
+    {
+      "id": "EXT-017",
+      "name": "Arbitrary data import/export tooling",
+      "milestone": "REJECTED",
+      "classification": "DEFERRED",
+      "basis": "Deferred per source catalog: Keep bulk movement outside the safe-migration core until separate product need exists."
+    },
+    {
+      "id": "EXT-018",
+      "name": "Vendor branding and identical UI assets",
+      "milestone": "REJECTED",
+      "classification": "DEFERRED",
+      "basis": "Deferred per source catalog: Design independent English UI assets and names."
+    },
+    {
+      "id": "EXT-019",
+      "name": "Commercial instance/user quotas",
+      "milestone": "REJECTED",
+      "classification": "DEFERRED",
+      "basis": "Deferred per source catalog: Exclude artificial product/license quotas; retain configurable operational budgets."
+    },
+    {
+      "id": "EXT-020",
+      "name": "Public extensibility API",
+      "milestone": "V2",
+      "classification": "NOT_IMPLEMENTED",
+      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+    }
+  ],
+  "verification_record": "evidence/product/product-t28-review-inbox-20261010/record.json",
+  "source_observations": {
+    "integrated_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+    "retained_stack_implementation": "ced0c1c62bc115d283aca4580999a6486403ce6b",
+    "retained_stack_published_snapshot": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
+    "retained_stack_worktree": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
+    "inbox_implementation": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
+    "evidence_path_policy": "T24-T27 evidence paths/IDs refer to retained-stack source worktree or PR40 published snapshot; these prerequisites are not copied into this independent master-based branch."
+  }
+}

@@ -1,0 +1,525 @@
+TAP version 13
+# Subtest: review inbox cursors preserve microseconds and reject malformed context and calendar positions
+ok 1 - review inbox cursors preserve microseconds and reject malformed context and calendar positions
+  ---
+  duration_ms: 2.813404
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+not ok 2 - review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+  ---
+  duration_ms: 494.07923
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-review-inbox/tests/product-review-inbox.test.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: 'fa368d23-479f-487b-a21c-a794616d1702',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: 'f59df821-2a8c-4710-9e8c-4943e0552e14',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20',
+    +     requesterName: 'Inbox developer',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: 'd1ac67b2-10a4-4c77-9f10-f90daa5d3a6c',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20',
+    +     requesterName: 'Inbox developer',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: 'cc9e7b6f-0814-421c-947f-075118e3f149',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: 'c215dab8-0f64-4796-b725-debfbf0c5e5e',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20',
+    +     requesterName: 'Inbox developer',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: 'b72a20e8-681a-485a-b85c-c59594b1bbe7',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: 'b452737a-478c-4d3f-adc7-37dc06811f80',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20',
+    +     requesterName: 'Inbox developer',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: 'a1bf261a-cfac-4cbb-ab24-16d45f4a6eaf',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20',
+    +     requesterName: 'Inbox developer',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '94d9e41e-a301-4a1d-97d1-d2c17f4d0bdb',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '7f12166f-0741-465a-827d-2bdb79bf5e3b',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '795bba21-f3cf-46b3-a8cb-3bb154496fd4',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '739af5b8-de3f-4303-bb57-3106da8151b6',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '6a6b1206-2013-483f-8533-eac41f6f2e9d',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20',
+    +     requesterName: 'Inbox developer',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '66bd9fce-7cc4-4baa-876f-e9ec6c3cd399',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '5fea8a51-5260-4e89-abc6-ca08724e4dc4',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '5aa8f2e9-ee10-484e-a733-3fd6ab75f620',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '58ed0a72-13f6-460c-a0fe-61a2a7ad3d76',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20',
+    +     requesterName: 'Inbox developer',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '4821d795-f67e-4e84-9dbd-6fc991ecc40f',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20',
+    +     requesterName: 'Inbox developer',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '436e2bb5-dfbc-451f-a2e2-1f24cac9b7f2',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20',
+    +     requesterName: 'Inbox developer',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '3d0f2d9c-4877-416e-bcb3-c6f1d767d275',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20',
+    +     requesterName: 'Inbox developer',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '37edd274-080c-4f63-a882-3484cbb6a722',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '285c68e4-7fb4-425c-a7de-82b22f4fb014',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '2794b101-10a6-4936-a5e8-ef2beeff7fde',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20',
+    +     requesterName: 'Inbox developer',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '20f2b387-424f-47e1-829b-22032ec42f49',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8',
+    +     requesterName: 'Approver author',
+    +     status: 'PENDING_APPROVAL'
+    +   },
+    +   {
+    +     createdAt: '2026-10-10T01:02:03.123456Z',
+    +     eligible: false,
+    +     id: '14e1f9e8-1a79-484c-be31-8eced0725329',
+    +     projectId: 'b0454e69-98a9-40b3-8a01-48184871511d',
+    +     projectName: 'Inbox alpha',
+    +     requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20',
+    +     requesterName: 'Inbox developer',
+    +     status: 'PENDING_APPROVAL'
+    +   }
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0:
+      id: 'fa368d23-479f-487b-a21c-a794616d1702'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    1:
+      id: 'f59df821-2a8c-4710-9e8c-4943e0552e14'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20'
+      requesterName: 'Inbox developer'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    2:
+      id: 'd1ac67b2-10a4-4c77-9f10-f90daa5d3a6c'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20'
+      requesterName: 'Inbox developer'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    3:
+      id: 'cc9e7b6f-0814-421c-947f-075118e3f149'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    4:
+      id: 'c215dab8-0f64-4796-b725-debfbf0c5e5e'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20'
+      requesterName: 'Inbox developer'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    5:
+      id: 'b72a20e8-681a-485a-b85c-c59594b1bbe7'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    6:
+      id: 'b452737a-478c-4d3f-adc7-37dc06811f80'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20'
+      requesterName: 'Inbox developer'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    7:
+      id: 'a1bf261a-cfac-4cbb-ab24-16d45f4a6eaf'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20'
+      requesterName: 'Inbox developer'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    8:
+      id: '94d9e41e-a301-4a1d-97d1-d2c17f4d0bdb'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    9:
+      id: '7f12166f-0741-465a-827d-2bdb79bf5e3b'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    10:
+      id: '795bba21-f3cf-46b3-a8cb-3bb154496fd4'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    11:
+      id: '739af5b8-de3f-4303-bb57-3106da8151b6'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    12:
+      id: '6a6b1206-2013-483f-8533-eac41f6f2e9d'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20'
+      requesterName: 'Inbox developer'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    13:
+      id: '66bd9fce-7cc4-4baa-876f-e9ec6c3cd399'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    14:
+      id: '5fea8a51-5260-4e89-abc6-ca08724e4dc4'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    15:
+      id: '5aa8f2e9-ee10-484e-a733-3fd6ab75f620'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    16:
+      id: '58ed0a72-13f6-460c-a0fe-61a2a7ad3d76'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20'
+      requesterName: 'Inbox developer'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    17:
+      id: '4821d795-f67e-4e84-9dbd-6fc991ecc40f'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20'
+      requesterName: 'Inbox developer'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    18:
+      id: '436e2bb5-dfbc-451f-a2e2-1f24cac9b7f2'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20'
+      requesterName: 'Inbox developer'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    19:
+      id: '3d0f2d9c-4877-416e-bcb3-c6f1d767d275'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20'
+      requesterName: 'Inbox developer'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    20:
+      id: '37edd274-080c-4f63-a882-3484cbb6a722'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    21:
+      id: '285c68e4-7fb4-425c-a7de-82b22f4fb014'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    22:
+      id: '2794b101-10a6-4936-a5e8-ef2beeff7fde'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20'
+      requesterName: 'Inbox developer'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    23:
+      id: '20f2b387-424f-47e1-829b-22032ec42f49'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-author-b05003c1-c819-4cfc-8b5d-5c5680d2eda8'
+      requesterName: 'Approver author'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+    24:
+      id: '14e1f9e8-1a79-484c-be31-8eced0725329'
+      projectId: 'b0454e69-98a9-40b3-8a01-48184871511d'
+      projectName: 'Inbox alpha'
+      requesterId: 'inbox-dev-84b3f7d9-f3f2-43f6-98ee-2e12c20d9e20'
+      requesterName: 'Inbox developer'
+      createdAt: '2026-10-10T01:02:03.123456Z'
+      status: 'PENDING_APPROVAL'
+      eligible: false
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-review-inbox/tests/product-review-inbox.test.mjs:43:53)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 817.153293

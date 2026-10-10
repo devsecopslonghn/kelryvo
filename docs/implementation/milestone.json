@@ -211,14 +211,7 @@
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
   "product_features_verified": 0,
-  "next_actionable_tasks": [
-    {
-      "id": "SF-PRODUCT-T28",
-      "owner": "backend",
-      "status": "IN_PROGRESS",
-      "action": "Bounded cross-project pending-review inbox from merged T16/T21/T08 interfaces; independent of draft37 through40"
-    }
-  ],
+  "next_actionable_tasks": [],
   "blocked_inputs_evidence": {
     "index_id": "WP0-T01-INPUTS-20261008T094757Z-c4b97e39"
   },
@@ -246,7 +239,7 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "T28_IN_PROGRESS_INDEPENDENT_MASTER_BASE",
+  "current_increment_merge_status": "T28_VERIFIED_LOCAL_DRAFT_PUBLICATION_PENDING_SECURITY_UNAVAILABLE",
   "current_checkpoint_branch": "development/product-review-inbox",
   "active_track": "PRODUCT",
   "tracks": {
@@ -261,7 +254,7 @@
       ]
     }
   },
-  "product_task_status": "T01_THROUGH_T23_MERGED_T24_THROUGH_T27_VERIFIED_IN_OTHER_WORKTREES_T28_IN_PROGRESS",
+  "product_task_status": "T01_THROUGH_T23_MERGED_T24_THROUGH_T28_VERIFIED_LOCAL",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",
@@ -325,7 +318,7 @@
     }
   },
   "current_increment_pr": null,
-  "current_increment_reviewed_head": null,
+  "current_increment_reviewed_head": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
   "current_increment_merge_commit": null,
   "t19_compatibility_decision": {
     "owner_approved_at_recorded_utc": "2026-10-09T12:37:42.238588+00:00",
@@ -369,7 +362,7 @@
     "merge_eligible": false,
     "required_security_unavailable": true
   },
-  "latest_merged_master_before_this_increment": "fe1d3a84381e5080d591ca1a43a7a9b9928f93ee",
+  "latest_merged_master_before_this_increment": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
   "last_verified_master_evidence": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
   "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
   "retained_release_stack": {
@@ -398,6 +391,37 @@
       "DEFERRED": 7
     },
     "merge_eligible": false,
-    "gates": "Code scanning403,secret scanning404,protection403 unavailable; Sonar exception unchanged and Oracle independent."
-  }
+    "gates": "Code scanning403,secret scanning404,protection403 unavailable; Sonar exception unchanged and Oracle independent.",
+    "available_ci": "PR37/38/39 checked PASS at recovery; all six PR40 foundation/parser/product checks passed at b8177d4. Required external security unavailable."
+  },
+  "t28_local_verification": {
+    "record": "evidence/product/product-t28-review-inbox-20261010/record.json",
+    "implementation_head": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
+    "counts": {
+      "standardRecovered": {
+        "tests": 160,
+        "pass": 160,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "product": {
+        "tests": 36,
+        "pass": 36,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "browser": {
+        "tests": 21,
+        "pass": 21,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    "independent_review": "evidence/product/product-t28-review-inbox-20261010/independent-review-final-source.json",
+    "merge_eligible": false
+  },
+  "feature_coverage": "docs/implementation/feature-coverage.json"
 }

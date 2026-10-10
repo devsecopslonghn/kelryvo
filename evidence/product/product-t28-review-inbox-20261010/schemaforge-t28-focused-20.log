@@ -1,0 +1,58 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser inbox handles delayed scopes, exact plan navigation and grant revocation between pages
+not ok 1 - browser inbox handles delayed scopes, exact plan navigation and grant revocation between pages
+  ---
+  duration_ms: 1040.972207
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-review-inbox/tests/product-review-inbox-browser.integration.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.fill: Error: strict mode violation: getByLabel('Comment') resolved to 2 elements:
+        1) <section class="comments-section" aria-label="Plan comments">…</section> aka getByRole('region', { name: 'Plan comments' })
+        2) <textarea required="" maxlength="4000" id="plan-comment" placeholder="Add a plain-text review comment"></textarea> aka getByRole('textbox', { name: 'Comment' })
+    
+    Call log:
+    [2m  - waiting for getByLabel('Comment')[22m
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    TestContext.<anonymous> (/home/longhn0710/workspace/schemaforge-product-review-inbox/tests/product-review-inbox-browser.integration.mjs:62:38)
+  ...
+# Subtest: review inbox cursors preserve microseconds and reject malformed context and calendar positions
+ok 2 - review inbox cursors preserve microseconds and reject malformed context and calendar positions
+  ---
+  duration_ms: 3.273159
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+ok 3 - review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+  ---
+  duration_ms: 735.440409
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 2
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2825.273964

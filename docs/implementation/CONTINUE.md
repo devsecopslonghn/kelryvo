@@ -1,27 +1,15 @@
 # SchemaForge continuation checkpoint
 
-Verified remote master: `0fd6980db49c9546ab0a04fe07321a348eee2d65` (T23 integrated; recovery verified remote SHA). Original shared checkout remains untouched at `0346300`.
+Verified remote master: `0fd6980db49c9546ab0a04fe07321a348eee2d65`. Original shared checkout stays untouched at `0346300`.
 
-T27 is VERIFIED locally in `/home/longhn0710/workspace/schemaforge-product-retained-release-detail`, branch `development/product-retained-release-detail`, implementation `ced0c1c62bc115d283aca4580999a6486403ce6b`. Historical detail is bounded before projection, keeps invalid/unavailable diagnostics, and preserves strict planning integrity. No deployment or Oracle execution.
+Active checkpoint T28: locally VERIFIED pending-review inbox, worktree `/home/longhn0710/workspace/schemaforge-product-review-inbox`, branch `development/product-review-inbox`, implementation `19ecdd85014ccf7766c7b89dcfe9e7a8136aee54`. It uses merged T16/T21/T08, independent of retained-release draft stack. Role/authorship scopes, safe bounded exact-time pages, current grants, exact review navigation and stale-response cleanup are implemented. Assignment/delegation remains missing.
 
-Frozen serial checks: standard 163, real PostgreSQL/Git/pinned-parser product 38, Chromium 22; zero failures/skips. Independent exact-source review found no blockers. Evidence and earlier failures: `evidence/product/product-t27-resume-20261010/record.json`. Seven before/after source hashes bind verification; execution Git HEAD was not separately captured. License closure: 85 pinned packages, zero unknown required grants.
+Frozen serial checks: standard 160, product 36, Chromium 21; zero failures/skips. Execution HEAD and before/after hashes match. Native exact-source review: no blockers; canonical cursor gap fixed. Evidence: `evidence/product/product-t28-review-inbox-20261010/record.json`. Preserve22 focused logs, initial interrupted run and136pass/24connection-refused standard attempt. Existing authorized local PG container was stopped; restart restored loopback32768. No data cleanup. License closure/pins unchanged.
 
-Open drafts: #37 audit pages (`704ef82`) → #38 source comparison (`2f3147f`) → #39 metadata preflight (`62cbb02`). Their available foundation/parser/product CI passed at recovery. T27 is draft #40, based on #39, published at `b8177d4286927b0cdf5556fb53d7edff7accf4a6`. CI was still running at publication observation; no remote PASS claimed. Local checkpoint commits after that head are not yet pushed. No prerequisite is merged.
+Open drafts: #37 `704ef82` → #38 `2f3147f` → #39 `62cbb02` → #40 `b8177d4`. All available six PR40 foundation/parser/product CI checks PASS; prior draft checks passed at recovery. T27 local standard163/product38/browser22 zero failures/skips. Its source/evidence/coverage checkpoint remains in `/home/longhn0710/workspace/schemaforge-product-retained-release-detail`; published PR40 excludes local continuation metadata. T28 draft against master publication pending; resolve branch PR instead of assuming a number.
 
-Required security is unavailable: code scanning403 (Advanced Security required), secret scanning404 (disabled), protection403 (account plan/private-repository limitation). No readiness/merge or security PASS. Sonar quota exception remains Sonar-only; Oracle 19c/21c acceptance remains independently blocked. T27 closes the historical DETAIL finding only; summary readers are outside scope. Historical evidence, original 220 contracts and separate Hygiene work are preserved.
+Required security unavailable: code scanning403 (Advanced Security required), secret scanning404 (disabled), protection403 (private-repo/account plan). Draft-only; no readiness/merge/security PASS. Sonar quota exception remains Sonar-only. Oracle19c/21c acceptance independently blocked; no target/deployment/credential authority.
 
-Coverage: `docs/implementation/feature-coverage.json` classifies all 220 by milestone: 0 fully verified, 41 partial, 172 not implemented, 0 ready features blocked only externally, 7 deferred. Bounded tasks never certify full catalog acceptance.
+Coverage: `docs/implementation/feature-coverage.json` reconciles220: 0 full,41 partial,172 not implemented,0 otherwise-ready externally blocked,7 deferred. Includes explicitly unmerged T24-T28 facets with source worktree provenance. Milestones partial/not: WS31/43; MVP-Core4/13; MVP-Extended1/3; V1 4/73; V2 1/40; REJECTED7deferred. Original feature contracts remain exact.
 
-
-| Milestone | Partial | Not implemented | Deferred |
-| --- | ---: | ---: | ---: |
-| MVP-Core | 4 | 13 | 0 |
-| MVP-Extended | 1 | 3 | 0 |
-| REJECTED | 0 | 0 | 7 |
-| V1 | 4 | 73 | 0 |
-| V2 | 1 | 40 | 0 |
-| WS | 31 | 43 | 0 |
-
-Active task: T28 is registered IN_PROGRESS in `/home/longhn0710/workspace/schemaforge-product-review-inbox`, branch `development/product-review-inbox`, based independently on master0fd6980. Exact next action: implement its bounded GOV-021 cross-project pending-review inbox API/UI and real PostgreSQL/browser tests, then freeze/regress/review/publish a draft against master. Reuse merged membership/requester/review contracts; do not extend the retained-source stack. Its acceptance contract is registered; implementation is not yet verified. Assignment/delegation and full GOV-021 acceptance remain separate. Use the existing isolated PostgreSQL test container on loopback32768 and the pinned JDK; run heavy final suites serially with `taskset -c 0,1` and preserve failures.
-
-Resume: inspect this checkpoint, `git status --short`, current PR heads and `node scripts/tracker.mjs validate`. Do not repeat successful frozen T27 suites unless source or a concrete unresolved finding changes.
+Exact next action: finish scoped publication content/history scan and draft T28 against master; record actual PR/head/CI, then inspect/register a bounded persistent reviewer-assignment workflow for pending project plans using current granted approvers and requester exclusion, independently from merged project-review interfaces. Do not add an inbox dependency on unmerged T28; assignment policy and exact acceptance must be decided from relevant catalog/code in that fresh context. Do not extend draft37-40 or repeat unchanged passing suites. At a new task boundary register a bounded contract only after inspecting relevant current code; one implementation task and proportionate reviewer. Local PG loopback32768/pinned JDK available; heavy suites serial `taskset -c 0,1`.

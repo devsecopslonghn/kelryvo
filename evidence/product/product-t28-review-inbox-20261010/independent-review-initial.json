@@ -1,0 +1,51 @@
+{
+  "reviewed_head": "ed385f32f8b2fb093d1ed1131e765e2b8c5bc2d3",
+  "base": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "verdict": "approve_with_low_priority_cursor_canonicality_gap",
+  "findings": [
+    {
+      "severity": "LOW",
+      "file": "packages/governance/review-inbox-cursor.mjs",
+      "line": 16,
+      "title": "Cursor decoder accepts noncanonical JSON property order",
+      "evidence": "JSON.stringify(parsed) === source rejects whitespace and duplicate-key spellings, but JavaScript preserves input property insertion order. A valid compact cursor with keys reordered is therefore accepted although encodeReviewInboxCursor emits only {v,actor,scope,createdAt,id}. This does not bypass actor/scope binding or project grants, but it falls short of the acceptance requirement for canonical cursors.",
+      "minimal_correction": "After validating fields, require the decoded source to equal JSON.stringify({ v: parsed.v, actor: parsed.actor, scope: parsed.scope, createdAt: parsed.createdAt, id: parsed.id }) or require the submitted token to equal encodeReviewInboxCursor(parsed). Add a reordered-key rejection test.",
+      "blocking": false
+    }
+  ],
+  "reviewed_criteria": [
+    "Authenticated fixed-role developers and approvers, explicit current project grants, bootstrap-empty response, active-project and organization scoping, three scopes, and requester exclusion for approver eligibility.",
+    "Fixed 25-row plus one pagination; bounded summary fields with no plan items/SQL, source content, target profile, credential reference, or repository path projection; exact microsecond timestamp wire values and descending (created_at,id) keyset order.",
+    "Context-bound cursor actor/scope/time/id checks, malformed/oversize/invalid-UTF8 rejection, per-page membership recheck, and stable behavior after revocation.",
+    "Inbox loading/empty/error states, filters, refresh/load-older, exact existing plan navigation, draft clearing, scope and sign-out stale-response guards, and denial cleanup.",
+    "Real PostgreSQL fixtures for foreign/archived/revoked scopes, both roles, requester exclusion, tied microsecond order, API recreation, complete populated state snapshots, and browser stale scope/navigation/signout/revocation paths.",
+    "License and dependency boundary: no changed license, notice, dependency manifest, or lockfile in the diff from the stated base."
+  ],
+  "source_sha256": {
+    "apps/api/index.ts": "da0af95b4a12ef0b6b21e46a5be26e05179154c81bfe9432421d1f16d6f48c55",
+    "apps/web/src/app.jsx": "0d1ce2dbb8b8342989262b2c4f4ae8cc1b2e8ebbb92eeb3abbd0661d41516e96",
+    "apps/web/styles.css": "51325a57a22c5cc4f1b2eb5fb248d2e8b1c189994039a9aee11e923dd2d397b0",
+    "packages/governance/review-inbox-cursor.mjs": "a1f4803506aa3f75eab0fb086b36327ecb7b38f95c0f8b0871866bbe8494ef3d",
+    "scripts/test-product.mjs": "8a7e7cd66af1a292a024b3c444ce3d1196a152ecca10b3e3057f2a495d0a76f2",
+    "scripts/tracker.mjs": "8f8dda3a775f11db1d02d5b43dcb0b8cea362c995ea244aba8d9da9b4a99fa32",
+    "tests/product-review-inbox-browser.integration.mjs": "c46e78e12bc0bad751af38ce14715aefd7bc2de2f542c308f43353d2ac6fd5a7",
+    "tests/product-review-inbox-cursor.test.mjs": "d65cbb28b2e1d941baf2e882a00d96648d412b34133b9614026369d71905eeea",
+    "tests/product-review-inbox.test.mjs": "743bedf9eb6010874c899f713b1e79c2a9d3818aa2dc65c26c34abd92e11a439",
+    "tests/tracker.test.mjs": "a5491de48a52340c0d288a8109889cda7b4f444d268e64209e168d8d31eca388",
+    "docs/development/local-product.md": "3cfcd0d71a97c1cb09aeace018544746661385c85a7586635a849fa37b62cad0",
+    "docs/implementation/acceptance.json": "9862508b22fd0a7cb28b7e4ef5e3302614c828a258160f563aa40588828e2d0f",
+    "docs/implementation/backlog.json": "62dc57a956a82bf6f86f43a9242c9ba9f5c57af028ba76df6d14d47f182d5171"
+  },
+  "validation": {
+    "reviewer_ran_tests": false,
+    "inspected_test_evidence": "evidence/product/product-t28-review-inbox-20261010/focused-observations.json",
+    "focused_evidence_limit": "The recorded focused 3/3 result predates final UTF-8, UTC-bound and copy changes; root's exact-source frozen standard/product/browser runs were not yet present when this review was written.",
+    "full_suite_status": "Not independently assessed; no final root suite result files were present at review time.",
+    "external_gates": "Required GitHub code scanning, secret scanning, and branch protection remain unavailable per task context; this review does not confer merge eligibility."
+  },
+  "scope_limits": [
+    "Read-only static review of the stated base-to-HEAD changes and T28 acceptance criteria.",
+    "Inherited project-detail readers on master are outside T28 scope.",
+    "No tests, trackers, scanners, Oracle behavior, deployment, or external infrastructure were run or changed by this reviewer."
+  ]
+}

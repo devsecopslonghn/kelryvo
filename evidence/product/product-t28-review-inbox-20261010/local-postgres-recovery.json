@@ -1,0 +1,9 @@
+{
+  "recorded_at": "2026-10-10T07:39:58.837606+00:00",
+  "reason": "All24 standard database failures were ECONNREFUSED at trusted local test port32768; docker inspect found existing authorized test container exited.",
+  "action": "docker start schemaforge-product-t08-tests; original PG data/worktrees retained; no database cleanup.",
+  "image": "postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f",
+  "binding": "127.0.0.1:32768",
+  "source_changed": false,
+  "limits": "No Oracle/app/production container startup or change."
+}
