@@ -1,0 +1,21 @@
+{
+  "task": "SF-PRODUCT-T34",
+  "kind": "UNIT",
+  "scope": "TRACKER_REGISTRATION_ONLY",
+  "outcome": "PASS",
+  "command": "node --test tests/tracker.test.mjs",
+  "exit_code": 0,
+  "counts": {
+    "tests": 21,
+    "passed": 21,
+    "failed": 0,
+    "skipped": 0
+  },
+  "registration_head": "4ede14e",
+  "recorded_at": "2026-10-10T15:48:13.797212+00:00",
+  "raw_output": {
+    "path": "evidence/product/product-t34-backup-restore-20261010/tracker-registration.log",
+    "sha256": "f903b50edecca021ae96181efbc334b09536df549488215bdaff67c695267fff"
+  },
+  "limits": "Only task/acceptance/dependency/ownership registration checks. No T34 backup/restore/product/runtime acceptance, no frozen feature source or before/after source metadata capture. Overall task remains IN_PROGRESS."
+}

@@ -68,3 +68,12 @@ If a claim or HOLD projection fails without commit confirmation, the kernel repo
 `HOLD_PERSISTENCE_PENDING` for operator recovery; it does not claim that HOLD was durably
 recorded. A restarted worker may only project an expired attempt to HOLD under the job lock,
 and only when both terminal projections commit; it never renews or replays the attempt.
+
+Private metadata restore creates a new metadata generation in persistent `RESTORE_HOLD`.
+The archive never restores the current-generation pointer; a private destination marker makes
+startup fail closed if restore is interrupted before the new pointer commits. Both production
+and explicitly UNIT coordinator stores require the current generation to be ACTIVE before a
+claim or attempt mutation. Restore appends HOLD projections for waiting/admitted jobs and
+claimed attempts, revokes restored credentials, and preserves prior audit, event and receipt
+history. The UI can read retained history with freshly rotated local tokens but cannot clear
+the hold. No API endpoint observes Oracle state or releases recovery hold.

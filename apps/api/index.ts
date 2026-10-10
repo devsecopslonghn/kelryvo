@@ -149,6 +149,12 @@ export function createApp(options: {
     }
     });
   };
+  app.get('/api/recovery/status', { preHandler: authenticate }, async () => {
+    const row = (await sql`SELECT g.id,g.state,g.predecessor_id,g.witness_id,g.created_at
+      FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0];
+    return { state: row?.state === 'ACTIVE' ? 'ACTIVE' : row?.state === 'RESTORE_HOLD' ? 'RESTORE_HOLD' : 'UNKNOWN',
+      generation: row?.id ?? null, predecessor: row?.predecessor_id ?? null, witness: row?.witness_id ?? null };
+  });
   const project = async (id: string) =>
     (
       await sql`SELECT id,name,description,created_at,archived_at,source_repository_id,source_folder,source_updated_at,source_binding_generation::text AS source_binding_generation FROM sf_projects WHERE id=${id} AND organization_id=${ORG}`
@@ -1142,6 +1148,8 @@ export function createApp(options: {
         return fail(reply, 400, "INVALID_REQUEST");
       const result = await sql.begin(async (tx: any) => {
         await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
+        const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF g`)[0];
+        if (gate?.state !== 'ACTIVE') return { error:'METADATA_RESTORE_HOLD' };
         const p = (
           await tx`SELECT id,project_id,organization_id,release_id,profile_id,author_id,reviewer_id,status,
             CASE WHEN octet_length(offline_intent_envelope) <= ${MAX_STDOUT_BYTES} THEN offline_intent_envelope ELSE NULL END AS offline_intent_envelope,
@@ -1253,6 +1261,7 @@ export function createApp(options: {
         else await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${p.project_id},${ORG},${req.actor.id},'PLAN_REJECTED',${p.id},${tx.json({ reason: b.reason })})`;
         return rows[0];
       });
+      if (result?.error === 'METADATA_RESTORE_HOLD') return fail(reply, 409, result.error);
       if (!result) return fail(reply, 404, "NOT_FOUND");
       if (result === 'APPROVER_REQUIRED') return fail(reply, 403, 'APPROVER_REQUIRED');
       if (result === 'SELF_APPROVAL_DENIED') return fail(reply, 403, 'SELF_APPROVAL_DENIED');
@@ -1367,6 +1376,8 @@ export function createApp(options: {
       const digest = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
       const result = await sql.begin(async (tx: any) => {
         await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
+        const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF g`)[0];
+        if (gate?.state !== 'ACTIVE') return { error:'METADATA_RESTORE_HOLD' };
         const plan = (await tx`SELECT id,project_id,organization_id,author_id,status,decision,
           CASE WHEN char_length(approval_reference::text) BETWEEN 1 AND 200 THEN approval_reference END AS approval_reference,
           CASE WHEN char_length(offline_intent_digest)=64 THEN offline_intent_digest END AS offline_intent_digest,
@@ -1439,6 +1450,7 @@ export function createApp(options: {
         return { job, repeated: false };
       });
       if (result.error === 'NOT_FOUND') return fail(reply, 404, 'NOT_FOUND');
+      if (result.error === 'METADATA_RESTORE_HOLD') return fail(reply, 409, result.error);
       if (result.error === 'TOKEN_NOT_ACTIVE') return fail(reply, 401, 'UNAUTHENTICATED');
       if (result.error === 'DEPLOY_PERMISSION_REQUIRED') return fail(reply, 403, result.error);
       if (result.error === 'MEMBERSHIP_BOOTSTRAP_REQUIRED') return fail(reply, 409, result.error);
@@ -1476,6 +1488,8 @@ export function createApp(options: {
     if (!uuid(req.params.id) || !object(req.body, ['expectedRevision']) || !Number.isSafeInteger(req.body.expectedRevision) || req.body.expectedRevision < 0) return fail(reply, 400, 'INVALID_REQUEST');
     const result = await sql.begin(async (tx: any) => {
       await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
+      const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF g`)[0];
+      if (gate?.state !== 'ACTIVE') return { error:'METADATA_RESTORE_HOLD' };
       const identity = (await tx`SELECT plan_id,project_id FROM sf_execution_jobs WHERE id=${req.params.id} AND organization_id=${ORG}`)[0];
       if (!identity) return { error: 'NOT_FOUND' };
       const plan = (await tx`SELECT id FROM sf_plans WHERE id=${identity.plan_id} AND project_id=${identity.project_id} AND organization_id=${ORG} FOR UPDATE`)[0];
@@ -1498,6 +1512,7 @@ export function createApp(options: {
       return { job: updated };
     });
     if (result.error === 'NOT_FOUND') return fail(reply, 404, 'NOT_FOUND');
+    if (result.error === 'METADATA_RESTORE_HOLD') return fail(reply, 409, result.error);
     if (result.error === 'TOKEN_NOT_ACTIVE') return fail(reply, 401, 'UNAUTHENTICATED');
     if (result.error) return fail(reply, result.error === 'FORBIDDEN' ? 403 : 409, result.error);
     return { job: mapExecutionJob(result.job) };

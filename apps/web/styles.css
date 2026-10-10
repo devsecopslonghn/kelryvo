@@ -1666,3 +1666,4 @@ td code {
     transition: none !important;
   }
 }
+.recovery-hold { display:flex; flex-direction:column; gap:.3rem; }

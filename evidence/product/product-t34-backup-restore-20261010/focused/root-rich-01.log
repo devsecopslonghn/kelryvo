@@ -1,0 +1,43 @@
+TAP version 13
+# Subtest: native metadata backup and witness-verified restore retain source and enter persistent hold
+ok 1 - native metadata backup and witness-verified restore retain source and enter persistent hold
+  ---
+  duration_ms: 1950.238663
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: native restore preserves retained Git review history and UNIT receipts while revoking old authority
+not ok 2 - native restore preserves retained Git review history and UNIT receipts while revoking old authority
+  ---
+  duration_ms: 7932.698671
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-backup-restore/tests/product-backup-restore.test.mjs:71:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    409 !== 201
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 201
+  actual: 409
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-backup-restore/tests/product-backup-restore.test.mjs:119:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10025.743797

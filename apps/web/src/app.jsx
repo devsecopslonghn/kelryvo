@@ -57,6 +57,7 @@ const errorCopy = {
   VALIDATION_UNAVAILABLE: 'The migration parser is unavailable. This release cannot be planned.',
   EXECUTION_UNAVAILABLE: 'Target history is unavailable. The plan remains NOT_EXECUTED and the request waits for validation.',
   DEPLOY_PERMISSION_REQUIRED: 'The local OS operator must grant deployment permission for this project.',
+  METADATA_RESTORE_HOLD: 'Metadata restore recovery is active. Deployment requests and cancellation are disabled pending operator reconciliation.',
   IDEMPOTENCY_CONFLICT: 'This request key was already used with different request details.',
   PLAN_NOT_REQUESTABLE: 'The approved intent no longer matches current source or profile facts. Refresh and review the plan.',
   PROJECT_ARCHIVED: 'This project is archived. It remains readable, but new work is disabled.',
@@ -280,6 +281,7 @@ function App() {
   const [revocationReason, setRevocationReason] = useState('');
   const [executionReason, setExecutionReason] = useState('');
   const [executionEvents, setExecutionEvents] = useState({});
+  const [metadataRecovery, setMetadataRecovery] = useState({ state: 'UNKNOWN' });
   const [commentBody, setCommentBody] = useState('');
   const [commentEvidence, setCommentEvidence] = useState([]);
   const [freshPlanRequired, setFreshPlanRequired] = useState(null);
@@ -575,6 +577,21 @@ function App() {
   };
 
   useEffect(() => { if (token && projectId) void refresh(token, projectId); }, [token, projectId]);
+  useEffect(() => {
+    if (!token) { setMetadataRecovery({ state: 'UNKNOWN' }); return; }
+    let current = true;
+    const load = async () => {
+      try {
+        const result = await json('/api/recovery/status', token);
+        if (current && tokenRef.current === token) setMetadataRecovery(result);
+      } catch {
+        if (current && tokenRef.current === token) setMetadataRecovery({ state: 'UNKNOWN' });
+      }
+    };
+    void load();
+    const timer = setInterval(load, 15_000);
+    return () => { current = false; clearInterval(timer); };
+  }, [token]);
 
   const loadAuditPage = useCallback(async (append = false) => {
     if (!token || !projectLoaded || !projectId) return;
@@ -929,7 +946,7 @@ function App() {
     const requestedProject = projectId, requestedPlan = plan?.id, requestedToken = token;
     const epoch = sessionEpoch.current;
     const contextEpoch = executionContextEpoch.current;
-    if (!requestedProject || !requestedPlan || !requestedToken || !detail?.canDeploy || plan?.status !== 'APPROVED'
+    if (metadataRecovery.state !== 'ACTIVE' || !requestedProject || !requestedPlan || !requestedToken || !detail?.canDeploy || plan?.status !== 'APPROVED'
         || isArchived || activeProjectId.current !== requestedProject) return;
     const prior = executionKeys.current.get(requestedPlan);
     const payload = { actorId: actor?.id, sessionEpoch: epoch, reason: executionReason.trim(), intentDigest: plan?.offlineIntent?.digest };
@@ -961,6 +978,7 @@ function App() {
     }
   };
   const cancelExecution = (job) => {
+    if (metadataRecovery.state !== 'ACTIVE') return;
     const epoch = sessionEpoch.current, requestedProject = projectId, requestedToken = token;
     const contextEpoch = executionContextEpoch.current;
     const isCurrent = () => sessionEpoch.current === epoch && executionContextEpoch.current === contextEpoch && activeProjectId.current === requestedProject;
@@ -1194,7 +1212,7 @@ function App() {
     await requestStatementPreview(reference.releaseId, reference.filePath, planId, reference, source);
   };
 
-  const model = { actor, accessMode, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, requestExecution, cancelExecution };
+  const model = { actor, accessMode, metadataRecovery, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, requestExecution, cancelExecution };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -1229,6 +1247,7 @@ function App() {
       <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { if (tab === 'inbox') void loadInbox(); else void refresh(token); }} disabled={busy}>↻</button></div></header>
       {(error || notice) && <div className={`banner ${error ? 'error' : 'success'}`} role={error ? 'alert' : 'status'}>{error || notice}<button type="button" className="banner-close" onClick={() => { setError(''); setNotice(''); }} aria-label="Dismiss message">×</button></div>}
       {accessMode === 'BOOTSTRAP_REQUIRED' && <div className="banner warning" role="status">Bootstrap required · project access is read-only until the local OS operator grants access and activates membership.</div>}
+      {metadataRecovery.state === 'RESTORE_HOLD' && <div className="banner warning recovery-hold" role="status" data-recovery-state="RESTORE_HOLD"><strong>Metadata restore recovery hold</strong><span>Historical records are available for review. Deployment requests and cancellation are disabled while an external operator reviews the restored metadata and target evidence.</span></div>}
       <div className="content">
         {tab === 'workspace' && <WorkspaceScreen model={model} />}
         {tab === 'references' && projectId && <SchemaReferences key={`${token}:${projectId}`} token={token} projectId={projectId} onMissing={()=>{clearProjectState();void refresh(token,projectId);}} />}
@@ -1356,7 +1375,7 @@ function ReleaseScreen({ model }) {
 
 
 function ReviewScreen({ model }) {
-  const { readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview, actor, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, requestExecution, cancelExecution } = model;
+  const { metadataRecovery, readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview, actor, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, requestExecution, cancelExecution } = model;
   const scopedProfiles = projectLoaded && Array.isArray(detail?.profiles) ? detail.profiles : [];
   const scopedEnvironments = projectLoaded && Array.isArray(detail?.environments) ? detail.environments : [];
   const targetProfile = typeof plan?.profileId === 'string'
@@ -1430,14 +1449,14 @@ function ReviewScreen({ model }) {
                   <p>Approved plan requests wait for observed target history and validation. This local product cannot execute the current offline candidate.</p>
                   {plan.status === 'APPROVED' && detail.canDeploy && !isArchived && <div className="decision-box"><label htmlFor="execution-reason">Request reason</label>
                     <textarea id="execution-reason" value={executionReason} onChange={event => setExecutionReason(event.target.value)} maxLength={1000} placeholder="Why is this deployment being requested?"/>
-                    <button type="button" className="primary" onClick={requestExecution} disabled={busy || !executionReason.trim()}>Request deployment</button>
+                    <button type="button" className="primary" onClick={requestExecution} disabled={busy || metadataRecovery.state !== 'ACTIVE' || !executionReason.trim()}>Request deployment</button>
                     <small>Retrying unchanged details reuses the request key. Changing the reason starts a new request.</small>
                   </div>}
                   {plan.status === 'APPROVED' && !detail.canDeploy && <p className="muted">Deployment permission has not been granted by the local OS operator.</p>}
                   {(detail.executionJobs || []).filter(job => job.planId === plan.id).map(job => <div className="execution-job" key={job.id}>
                     <strong>{job.state.replaceAll('_', ' ')}</strong> · readiness: {job.readiness.status.replaceAll('_', ' ')}
                     <p>{job.reason}</p><code>{job.id}</code>
-                    {job.state === 'WAITING_VALIDATION' && job.requesterId === actor?.id && <button type="button" className="secondary" onClick={() => cancelExecution(job)} disabled={busy}>Cancel undispatched request</button>}
+                    {job.state === 'WAITING_VALIDATION' && job.requesterId === actor?.id && <button type="button" className="secondary" onClick={() => cancelExecution(job)} disabled={busy || metadataRecovery.state !== 'ACTIVE'}>Cancel undispatched request</button>}
                     <button type="button" className="secondary" onClick={() => void loadExecutionEvents(job)}>View job events</button>
                     {(executionEvents[job.id] || []).length > 0 && <ol aria-label={`Events for job ${job.id}`}>
                       {executionEvents[job.id].map(event => <li key={event.id}><strong>{event.to_state.replaceAll('_',' ')}</strong> · {fmt(event.created_at)}{event.reason ? ` · ${event.reason}` : ''}</li>)}

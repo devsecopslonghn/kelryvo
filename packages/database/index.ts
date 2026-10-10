@@ -1,10 +1,48 @@
 /** Idempotent schema for the local, single-organization product slice. */
-export async function initializeDatabase(sql: any): Promise<void> {
+export async function initializeDatabase(sql: any, options: { initializeMetadata?: boolean } = {}): Promise<void> {
   await sql.begin(async (tx: any) => {
     // Test files and local startup callers can initialize the same schema at once.
     // IF NOT EXISTS still races while PostgreSQL creates the backing catalog type.
     await tx`SELECT pg_advisory_xact_lock(1397112658, 1)`;
     await tx.unsafe(`
+    CREATE TABLE IF NOT EXISTS sf_metadata_generations (
+      id uuid PRIMARY KEY, predecessor_id uuid REFERENCES sf_metadata_generations(id),
+      state text NOT NULL CHECK(state IN ('ACTIVE','RESTORE_HOLD')),
+      checkpoint text NOT NULL CHECK(checkpoint ~ '^[a-f0-9]{64}$'),
+      witness_id uuid, created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      operator_os_uid integer NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS sf_metadata_current (
+      singleton boolean PRIMARY KEY DEFAULT true CHECK(singleton),
+      generation_id uuid NOT NULL REFERENCES sf_metadata_generations(id)
+    );
+    CREATE TABLE IF NOT EXISTS sf_metadata_operator_audit (
+      id uuid PRIMARY KEY, action text NOT NULL CHECK(action IN ('INITIALIZE','RESTORE_HOLD','CREDENTIAL_REVOKE')),
+      generation_id uuid NOT NULL REFERENCES sf_metadata_generations(id),
+      witness_id uuid, credential_id uuid, credential_digest text,
+      operator_os_uid integer NOT NULL, created_at timestamptz NOT NULL DEFAULT clock_timestamp()
+    );
+    CREATE TABLE IF NOT EXISTS sf_metadata_credentials_revoked (
+      credential_id uuid PRIMARY KEY, token_sha256 text NOT NULL CHECK(token_sha256 ~ '^[a-f0-9]{64}$'),
+      generation_id uuid NOT NULL REFERENCES sf_metadata_generations(id), revoked_at timestamptz NOT NULL DEFAULT clock_timestamp()
+    );
+    CREATE TABLE IF NOT EXISTS sf_metadata_restore_owners (
+      id uuid PRIMARY KEY, operator_os_uid integer NOT NULL, created_at timestamptz NOT NULL DEFAULT clock_timestamp()
+    );
+    CREATE OR REPLACE FUNCTION sf_reject_metadata_evidence_mutation() RETURNS trigger LANGUAGE plpgsql AS $$
+      BEGIN RAISE EXCEPTION 'metadata recovery evidence is immutable'; END $$;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_metadata_generations_immutable') THEN
+      CREATE TRIGGER sf_metadata_generations_immutable BEFORE UPDATE OR DELETE ON sf_metadata_generations
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_metadata_evidence_mutation(); END IF; END $$;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_metadata_operator_audit_immutable') THEN
+      CREATE TRIGGER sf_metadata_operator_audit_immutable BEFORE UPDATE OR DELETE ON sf_metadata_operator_audit
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_metadata_evidence_mutation(); END IF; END $$;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_metadata_credentials_revoked_immutable') THEN
+      CREATE TRIGGER sf_metadata_credentials_revoked_immutable BEFORE UPDATE OR DELETE ON sf_metadata_credentials_revoked
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_metadata_evidence_mutation(); END IF; END $$;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_metadata_restore_owners_immutable') THEN
+      CREATE TRIGGER sf_metadata_restore_owners_immutable BEFORE UPDATE OR DELETE ON sf_metadata_restore_owners
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_metadata_evidence_mutation(); END IF; END $$;
     CREATE TABLE IF NOT EXISTS sf_organizations (id uuid PRIMARY KEY, name text NOT NULL);
     INSERT INTO sf_organizations (id,name) VALUES ('00000000-0000-4000-8000-000000000001','Local organization') ON CONFLICT (id) DO NOTHING;
     CREATE TABLE IF NOT EXISTS sf_local_actors (
@@ -368,6 +406,23 @@ export async function initializeDatabase(sql: any): Promise<void> {
     DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_execution_receipts_immutable') THEN
       CREATE TRIGGER sf_execution_receipts_immutable BEFORE UPDATE OR DELETE ON sf_execution_receipts
       FOR EACH ROW EXECUTE FUNCTION sf_reject_execution_event_mutation(); END IF; END $$;
+    `);
+    if (options.initializeMetadata !== false) await tx.unsafe(`
+      INSERT INTO sf_metadata_generations(id,state,checkpoint,operator_os_uid)
+        SELECT gen_random_uuid(),'ACTIVE',md5(clock_timestamp()::text || random()::text) || md5(random()::text),0
+        WHERE NOT EXISTS (SELECT 1 FROM sf_metadata_generations)
+          AND NOT EXISTS (SELECT 1 FROM sf_metadata_restore_owners)
+        ON CONFLICT DO NOTHING;
+      INSERT INTO sf_metadata_current(singleton,generation_id)
+        SELECT true,id FROM sf_metadata_generations
+        WHERE (SELECT count(*) FROM sf_metadata_generations)=1
+          AND NOT EXISTS (SELECT 1 FROM sf_metadata_restore_owners)
+        ORDER BY created_at,id LIMIT 1 ON CONFLICT DO NOTHING;
+      DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM sf_metadata_current WHERE singleton) THEN
+        RAISE EXCEPTION 'metadata generation recovery is incomplete'; END IF; END $$;
+      INSERT INTO sf_metadata_operator_audit(id,action,generation_id,operator_os_uid)
+        SELECT gen_random_uuid(),'INITIALIZE',generation_id,0 FROM sf_metadata_current
+        WHERE NOT EXISTS (SELECT 1 FROM sf_metadata_operator_audit WHERE action='INITIALIZE') ON CONFLICT DO NOTHING;
     `);
   });
 }

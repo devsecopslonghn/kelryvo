@@ -297,6 +297,7 @@ writes a new one. `recover /absolute/private/config.json` completes an interrupt
 startup fails closed while its private journal is pending. The journal and staged config
 are private, bounded files protected by a persistent mode-0600 Linux `flock` lock and
 same-filesystem rename. The local operator requires `/usr/bin/flock` from util-linux.
+
 If a process dies after staging but before its journal is durable, `recover` verifies that
 the staged file changes exactly one local token, preserves the other identity and database
 password, and that the candidate digest was never inserted. It then discards only that
@@ -480,3 +481,63 @@ plan for recovery. **Audit & history** retains assignment, approval and withdraw
 events with action filters and older-page navigation. Manual schema references remain
 provisional reference metadata. The combined API and browser tests use local Git, the
 pinned parser and disposable PostgreSQL; they do not connect to Oracle or execute SQL.
+
+### Private metadata backup and restored-instance recovery
+
+The trusted local OS operator can take a consistent metadata snapshot and retain its
+archive separately from an external witness. Keep both locations private, protect the
+witness independently, and retain the local operator config beside the PostgreSQL volume.
+The CLI builds its loopback connection from that mode-0600 config; passwords and bearer
+tokens are not command arguments or diagnostics. It accepts only the pinned local
+PostgreSQL 17.10 image on its explicit loopback port and known product schema.
+The restored-instance CLI uses the existing default local config, `schemaforge` database,
+`schemaforge` user and port 55432. It rejects overrides on restore/start. The library API
+accepts separately authorized loopback fixtures; it does not expose an HTTP operation.
+
+```sh
+npm run local:backup-restore -- backup --destination /absolute/private/backups/run-01 --witness /absolute/private/witnesses/run-01.json
+npm run local:backup-restore -- restore --backup /absolute/private/backups/run-01 --witness /absolute/private/witnesses/run-01.json
+npm run local:backup-restore -- start
+```
+
+Backup destinations and witness files must be new, mode-0700 directories and mode-0600
+files respectively. Store the witness outside the backup directory and outside its custody
+failure domain. The custom-format archive is data-only; the versioned manifest binds its
+digest, the exported PostgreSQL snapshot's metadata generation/checkpoint and the complete
+registered public schema inventory, including the comment identity sequence. Source organization
+metadata must exactly match the fixed local singleton; unsupported organization/schema state
+is rejected. Fixed organization metadata is recreated by initialization;
+the current-generation pointer and per-destination ownership marker are not copied. The
+external witness binds the exact manifest bytes and archive digest. Do not move or edit any
+of these files after creation.
+
+Restore checks the witness, archive digest, path permissions, known schema, pinned tool image,
+source container and loopback port before it creates a randomly named destination database.
+It copies the verified archive bytes to a new private staging directory and mounts that
+copy read-only, preserving the original archive, manifest and witness. It imports only registered table data and sequence values into the initialized controlled
+schema. The fixed organization seed is recreated and the one bootstrap access-mode row is
+removed only in that invocation-owned new database before its backed-up mode is restored.
+The archive omits the active-generation pointer: restore installs a new generation in
+`RESTORE_HOLD` as the pointer in the same transaction that records the restore audit.
+Initialization refuses to seed an ACTIVE generation while an invocation ownership marker
+exists, so an interrupted restore remains inaccessible. Failed cleanup drops a database only
+when its private ownership marker, database OID and database owner still prove that this
+invocation created it. An inaccessible destination without that proof is retained for
+trusted operator inspection; no source or existing destination is overwritten.
+
+The restore preserves historical generations, catalog, explicit memberships, approvals,
+retained release bytes, comments, receipts, jobs, events and terminal states. Waiting and
+admitted jobs and claimed attempts move to HOLD with appended events; existing history is
+retained. Previously active local credentials are revoked with digest-only lifecycle evidence.
+The operator rotates the existing developer and approver credentials in the private config,
+retaining actor roles and explicit project/deploy grants. Old bearer tokens remain denied.
+The recovery banner leaves historical pages available and disables request/cancel controls.
+There is no HTTP restore or hold-clear route. Starting the restored app is local only:
+
+```sh
+npm run local:backup-restore -- start
+```
+
+This creates no target observation or Oracle evidence. RESTORE_HOLD remains until an
+independent operator reconciliation outside the application; this product slice has no
+hold-release interface.

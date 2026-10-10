@@ -7,6 +7,7 @@ export function createExecutionJobStore(sql: any, workerId: string, options: { a
   const activeAttempt = async (tx: any, jobId: string, generation: number, lease: string, allowExpiredHold = false) => {
     const row = (await tx`SELECT a.id,a.lease_until,(a.lease_until>clock_timestamp()) AS lease_active,j.revision,j.state,j.admission_scope,j.admission_statement_count
       FROM sf_execution_attempts a JOIN sf_execution_jobs j ON j.id=a.job_id
+      JOIN sf_metadata_current mc ON mc.singleton JOIN sf_metadata_generations mg ON mg.id=mc.generation_id AND mg.state='ACTIVE'
       WHERE a.job_id=${jobId} AND a.generation=${generation} AND a.lease_token=${lease}
         AND a.lease_owner=${workerId} FOR UPDATE OF a,j`)[0];
     if (!row || (!row.lease_active && !allowExpiredHold) || row.state !== 'ADMITTED'
@@ -23,8 +24,10 @@ export function createExecutionJobStore(sql: any, workerId: string, options: { a
     async claim(jobId: string, leaseSeconds = 30) {
       if (typeof jobId !== 'string' || !/^[0-9a-f-]{36}$/i.test(jobId) || !Number.isSafeInteger(leaseSeconds) || leaseSeconds < 1 || leaseSeconds > 300) return null;
       return sql.begin(async (tx: any) => {
-        const job = (await tx`SELECT id,state,admission_scope,admission_statement_count,approval_reference,intent_digest,project_id,plan_id,requester_id
-          FROM sf_execution_jobs WHERE id=${jobId} FOR UPDATE`)[0];
+        const job = (await tx`SELECT j.id,j.state,j.admission_scope,j.admission_statement_count,j.approval_reference,j.intent_digest,j.project_id,j.plan_id,j.requester_id
+          FROM sf_execution_jobs j JOIN sf_metadata_current mc ON mc.singleton
+          JOIN sf_metadata_generations mg ON mg.id=mc.generation_id AND mg.state='ACTIVE'
+          WHERE j.id=${jobId} FOR UPDATE OF j`)[0];
         if (!job || job.state !== 'ADMITTED' || !Number.isSafeInteger(Number(job.admission_statement_count))
             || !job.approval_reference || !/^[a-f0-9]{64}$/.test(job.intent_digest)
             || (job.admission_scope !== 'TRUSTED_VALIDATED' && !(allowUnitSynthetic && job.admission_scope === 'UNIT_SYNTHETIC'))) return null;

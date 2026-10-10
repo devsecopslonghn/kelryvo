@@ -48,7 +48,8 @@ export async function authorizeLocalMetadataUrl(configPath, url) {
   const databaseName = decodeURIComponent(parsed.pathname.slice(1));
   const allowedDatabase = databaseName === 'schemaforge'
     || databaseName === 'schemaforge_tests'
-    || /^sf_product_test_[a-f0-9]{32}$/.test(databaseName);
+    || /^sf_product_test_[a-f0-9]{32}$/.test(databaseName)
+    || /^sf_product_restore_[a-f0-9]{32}$/.test(databaseName);
   if (!['postgres:', 'postgresql:'].includes(parsed.protocol)
       || !['127.0.0.1', '[::1]', 'localhost'].includes(parsed.hostname.toLowerCase())
       || parsed.search || parsed.hash || !parsed.password

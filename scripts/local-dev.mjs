@@ -1,10 +1,15 @@
-import { access } from 'node:fs/promises';
+import { constants } from 'node:fs';
+import { access, open } from 'node:fs/promises';
 import path from 'node:path';
 import { localConfiguration, localDatabaseUrl, startLocalPostgres, prepareDemoRepository } from './local-resources.mjs';
 import { LocalRepositoryError, parseLocalRepositoryArguments, resolveLocalRepositories } from './local-repositories.mjs';
+import { localDirectory } from './local-resources.mjs';
+import { authorizeLocalMetadataUrl } from './local-operator-config.mjs';
 
 try {
-  const requestedRepositories = parseLocalRepositoryArguments(process.argv.slice(2));
+  const args=process.argv.slice(2); const restored=args.includes('--restored');
+  if(args.filter(value=>value==='--restored').length>(restored?1:0) || restored && args.length!==1) throw new Error('invalid startup options');
+  const requestedRepositories = parseLocalRepositoryArguments(restored ? [] : args);
   const configuredRepositories = await resolveLocalRepositories(requestedRepositories);
   if (!process.env.SCHEMAFORGE_JAVA_HOME) {
     try { await access('.cache/licenses/runtime/temurin/bin/java');
@@ -13,9 +18,24 @@ try {
   }
   const config = await localConfiguration();
   await startLocalPostgres(config);
+  let databaseUrl=localDatabaseUrl(config);
+  if(restored) {
+    const descriptorPath=path.join(localDirectory,'restored-instance.json');
+    const handle=await open(descriptorPath,constants.O_RDONLY|constants.O_NOFOLLOW);
+    let instance;
+    try {
+      const stat=await handle.stat();
+      if(!stat.isFile() || stat.uid!==(process.geteuid?.()??process.getuid()) || stat.nlink!==1 || stat.size>2048 || (stat.mode&0o777)!==0o600) throw new Error('invalid descriptor');
+      instance=JSON.parse(await handle.readFile('utf8'));
+    } finally { await handle.close(); }
+    if(Object.keys(instance??{}).sort().join(',')!=='databaseName,format' || instance.format!=='schemaforge-restored-instance-v1'
+      || !/^sf_product_restore_[a-f0-9]{32}$/.test(instance.databaseName)) throw new Error('invalid descriptor');
+    const target=new URL(localDatabaseUrl(config)); target.pathname=`/${instance.databaseName}`; databaseUrl=target.toString();
+    await authorizeLocalMetadataUrl(path.join(localDirectory,'config.json'),databaseUrl);
+  }
   const repository = await prepareDemoRepository();
   const { startProduct } = await import('../apps/api/server.ts');
-  const app = await startProduct({ databaseUrl: localDatabaseUrl(config), actors: [
+  const app = await startProduct({ databaseUrl, actors: [
     { id: 'local-developer', name: 'Local developer', role: 'developer', token: config.developerToken },
     { id: 'local-approver', name: 'Local approver', role: 'approver', token: config.approverToken },
   ], repositories: [
