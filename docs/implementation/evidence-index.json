@@ -3231,6 +3231,27 @@
       },
       "path": "evidence/product/mvp-statement-readiness-20261011/integration-record.json",
       "sha256": "015fc30938a1249ef3802a50e81a5574c70a9e0f15a2abcf1813525f9459fa14"
+    },
+    {
+      "id": "mvp-execution-history-pr50-master-verified",
+      "subject_id": "SF-PRODUCT-T33",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Normal exact-head PR50 merge after6corrected candidateCI and prior49master3SUCCESS; fast-forward master, verify17frozen source/test/pin/license hashes, require all3merged-master workflows SUCCESS.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "SF-PRODUCT-T33-API",
+        "SF-PRODUCT-T33-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/mvp-execution-history-20261011/final-candidate-product.log",
+        "sha256": "d0e7fa606af091e04b60263937fd0adc34b04f4f17fe814d368c90923765d0dd"
+      },
+      "path": "evidence/product/mvp-execution-history-20261011/integration-record.json",
+      "sha256": "6e3657a63b861809c8263df04a8d97ac32f616cdb75c355f3f767e65d071ab3b"
     }
   ]
 }

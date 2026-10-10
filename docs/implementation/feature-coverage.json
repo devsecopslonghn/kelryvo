@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-10T20:14:28.452673+00:00",
-  "verified_master": "d3249fb7b42fe0468720eaa73421df444b708652",
-  "reviewed_local_source": "1d428b416f76df65659aff1f30bb1b0c250fb6a7",
+  "recorded_at": "2026-10-10T22:43:28.726585+00:00",
+  "verified_master": "ce632193ac3a1c9c544d71e84eca2071133987d0",
+  "reviewed_local_source": "a97e7110d8ee1cd47dee9f27d713b3bc45e36eba",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
@@ -62,11 +62,11 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "Corrected aggregate PR48 and master CI passed under actual configured gates. Optional disabled/paid host security remains UNAVAILABLE, never PASS. Oracle19c/21c runtime acceptance remains BLOCKED_EXTERNAL.",
+  "external_acceptance": "PR48 correctedjournal, PR49 statementbinding and PR50 centralhistory merged with exact-head and finalmasterCI verified. Optional disabled/paid host security remains UNAVAILABLE;124Oracle runtimecells BLOCKED_EXTERNAL.",
   "next_product_capability": {
     "milestone": "M3/M4",
-    "status": "INTEGRATED_PREPARATION_EXECUTION_PARTIAL",
-    "next_action": "Integrate this complete statement/readiness increment after exact-head CI; then expose scoped existing attempt/receipt/HOLD history. Actual admission needs trusted current host/target observations."
+    "status": "TRUSTED_ADMISSION_EXECUTION_RECONCILIATION_INCOMPLETE",
+    "next_action": "Implement trusted host/current target history/mutex/dispatch admission wiring and no-replay reconciliation; reproducible local release acceptance follows. No synthetic Oracle-history substitution."
   },
   "features": [
     {
@@ -2521,18 +2521,22 @@
     "evidence": "product-t35-journal-repair-local-verified",
     "scope": "LOCAL-only bounded journals; backward v1 recovery; >32 browser sessions; actor-wide revocation preserved. Catalog classification unchanged."
   },
-  "integration_record": "evidence/product/product-t35-journal-repair-20261010/integration-record.json",
+  "integration_record": "evidence/product/mvp-execution-history-20261011/integration-record.json",
   "m3_statement_increment": {
-    "status": "LOCAL_VERIFIED_INTEGRATION_PENDING",
+    "status": "INTEGRATED_MASTER_CI_VERIFIED",
     "source_head": "3f72cbfd3fd2b6aa7c128932d32264c87c406d9a",
     "evidence": "mvp-statement-readiness-local-verified",
     "behavior": "New format2 complete ordered statement identity is reviewed, freshly approved and rederived at request; v1 reads/approvals preserved, v1 request denied. Target authority absent.",
-    "classification_change": false
+    "classification_change": false,
+    "published_head": "634300f5cd3f6338244d42e9677f3a0748be7e8e",
+    "merged_master": "7ac6b711036ae484ee9a273cb85b99ecd82e44e3"
   },
   "m4_history_increment": {
-    "status": "LOCAL_VERIFIED_INTEGRATION_PENDING",
+    "status": "INTEGRATED_MASTER_CI_VERIFIED",
     "source_head": "a107a73b2f66c64d01fdbc2ea81fa61060396b1d",
     "evidence": "mvp-execution-history-local-verified",
-    "limits": "No applied target ledger, production worker or Oracle runtime acceptance."
+    "limits": "No applied target ledger, production worker or Oracle runtime acceptance.",
+    "published_head": "a97e7110d8ee1cd47dee9f27d713b3bc45e36eba",
+    "merged_master": "ce632193ac3a1c9c544d71e84eca2071133987d0"
   }
 }
