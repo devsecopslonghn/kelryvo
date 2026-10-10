@@ -206,7 +206,7 @@
   "foundation_evidence": {
     "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
   },
-  "current_phase": "T35_LOCAL_IMPLEMENTED_PUBLICATION_PENDING",
+  "current_phase": "T35_LOCAL_VERIFIED_DRAFT48_AVAILABLE_CI_RUNNING",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
@@ -242,7 +242,8 @@
     44,
     45,
     46,
-    47
+    47,
+    48
   ],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
@@ -328,7 +329,7 @@
       "native_security": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS"
     }
   },
-  "current_increment_pr": null,
+  "current_increment_pr": 48,
   "current_increment_reviewed_head": "81d5340bbdd4c6c6db9526178f9703d2cdec5c14",
   "current_increment_merge_commit": null,
   "t19_compatibility_decision": {
@@ -424,7 +425,7 @@
     "merge_eligible": false
   },
   "next_milestone": "Complete scoped scans/license review and normal draft publication, then actual available exact-head CI. Preserve original integration/security/runtime gates.",
-  "current_increment_published_head": null,
+  "current_increment_published_head": "628eb4630176728eee3bb08959194eaa580b00a3",
   "t32_integration_sources": [
     {
       "pr": 40,
@@ -650,5 +651,18 @@
     },
     "publication_pending": true,
     "merge_eligible": false
+  },
+  "t35_publication": {
+    "task": "SF-PRODUCT-T35",
+    "pr": 48,
+    "url": "https://github.com/devsecopslonghn/schemaForge/pull/48",
+    "published_head": "628eb4630176728eee3bb08959194eaa580b00a3",
+    "base": "development/product-backup-restore",
+    "is_draft": true,
+    "observed_at": "2026-10-10T18:24:37.538975+00:00",
+    "raw_observation_sha256": "55f72e7ec179830e494d79ad1610911516e7d27832efddb259b3aa6610c22be3",
+    "ci_terminal": false,
+    "merge_eligible": false,
+    "limits": "Published draft only. Local source191/54/31 passed; required remote security/protection gates remain unavailable. Actual available CI pending. Original drafts/master untouched."
   }
 }

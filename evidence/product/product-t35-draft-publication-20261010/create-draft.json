@@ -1,0 +1,19 @@
+{
+  "command": [
+    "gh",
+    "pr",
+    "create",
+    "--draft",
+    "--base",
+    "development/product-backup-restore",
+    "--head",
+    "development/product-secure-sessions",
+    "--title",
+    "Deliver HTTPS browser sessions with CSRF, expiry and revocation",
+    "--body-file",
+    "/tmp/schemaforge-t35-pr-body.md"
+  ],
+  "exit_code": 0,
+  "observed_at": "2026-10-10T18:24:01.144742+00:00",
+  "published_head": "628eb4630176728eee3bb08959194eaa580b00a3"
+}
