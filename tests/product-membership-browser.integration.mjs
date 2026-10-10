@@ -47,6 +47,7 @@ test('browser keeps bootstrap read-only, shows creation receipt without loading 
     await page.getByRole('button', { name: 'Continue', exact: true }).click();
     await page.getByRole('status').filter({ hasText: 'Bootstrap required' }).waitFor();
     assert.equal(await page.getByRole('button', { name: 'Create project', exact: true }).isDisabled(), true);
+    await page.getByRole('button', { name: /Retained legacy project/ }).waitFor();
     assert.equal(await page.getByRole('button', { name: /Retained legacy project/ }).count(), 1);
 
     await operator('grant', legacy.id, actors[0].id);

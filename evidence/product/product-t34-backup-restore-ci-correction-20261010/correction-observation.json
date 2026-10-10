@@ -1,0 +1,26 @@
+{
+  "task": "SF-PRODUCT-T34",
+  "recorded_at": "2026-10-10T17:00:27.169264+00:00",
+  "first_published_head": "4cf76f4dd4313c4d72c40d7ff5b43a11eba1dbea",
+  "failed_run": 38068902625,
+  "failed_test": "tests/product-membership-browser.integration.mjs:50",
+  "actual_browser_results": {
+    "tests": 30,
+    "pass": 29,
+    "fail": 1,
+    "skipped": 0
+  },
+  "failure": "Bootstrap banner is rendered from initial BOOTSTRAP_REQUIRED state before asynchronous workspace/projects arrive. Immediate locator.count() observed0 before the expected project button existed.",
+  "change": "Wait for the expected retained project button before the unchanged exact count1 assertion. No app behavior, authorization assertions, timeout, retries or quality gates changed.",
+  "failed_log_sha256": "6ff5b2a7565975920c59dca37c16e2bf54859001e6d519bff448ac1aa8375856",
+  "focused": {
+    "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin node --test --test-concurrency=1 tests/product-membership-browser.integration.mjs",
+    "exit_code": 0,
+    "pass": 1,
+    "fail": 0,
+    "skip": 0,
+    "raw_log": "focused-membership-browser.log",
+    "raw_sha256": "f36aaf4bb1d0968cc4d889746ab96542a584e17a57d87e6a8f1d3b97c3ccbf08"
+  },
+  "limits": "Original local591 regression PASS records preserved; original five remoteSUCCESS/oneFAIL retained. New final frozen regression and exact native review/CI required; task remains IMPLEMENTED."
+}
