@@ -1,0 +1,6 @@
+{
+  "reviewer": "native /root/integration_review",
+  "outcome": "APPROVED_COMMENTS_RESPONSE_WAIT_AND_BOUNDED_CI_BUDGET",
+  "recorded_at": "2026-10-10T21:43:28.411123+00:00",
+  "notes": "No assertions removed; exact response waiter adds200 check, notice/read-only retained. Whole original PR job29minutes, not browserstage; bounded40minute job retains every step. Focused2PASS; corrected fullCI pending."
+}

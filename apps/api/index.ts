@@ -15,6 +15,8 @@ import { actorHasProjectGrant, projectAccessMode } from "../../packages/database
 import { AUDIT_PAGE_SIZE, decodeAuditCursor, encodeAuditCursor } from "../../packages/audit/cursor.mjs";
 import { decodeReviewInboxCursor, encodeReviewInboxCursor, reviewInboxScopes } from "../../packages/governance/review-inbox-cursor.mjs";
 
+import { registerExecutionHistory } from "../../packages/execution/history.ts";
+
 const ORG = "00000000-0000-4000-8000-000000000001";
 const MAX_BINDING_GENERATION = "9223372036854775807";
 const canonicalBindingGeneration = (value: unknown) => typeof value === "string"
@@ -1511,6 +1513,7 @@ export function createApp(options: {
       return reply.code(result.repeated ? 200 : 201).send({ job: mapExecutionJob(result.job), repeated: result.repeated });
     },
   );
+  registerExecutionHistory(app, sql, authenticate, ORG);
   app.get('/api/projects/:projectId/execution-jobs', { preHandler: authenticate }, async (req: any, reply: any) => {
     if (!uuid(req.params.projectId)) return fail(reply, 404, 'NOT_FOUND');
     const cursor = req.query?.cursor === undefined ? null : decodeExecutionCursor(req.query.cursor, req.actor.id, req.params.projectId, 'jobs');

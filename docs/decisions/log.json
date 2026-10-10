@@ -433,6 +433,17 @@
         "docs/architecture/boundaries.md",
         "docs/implementation/milestone.json"
       ]
+    },
+    {
+      "id": "SF-D040",
+      "status": "ACCEPTED_MVP_M4_SCOPED_EXECUTION_HISTORY",
+      "accepted_at_utc": "2026-10-10T20:59:32.747505+00:00",
+      "decision": "Project existing durable attempt/event/receipt metadata through bounded, authenticated50row pages and scoped review UI. Preserve archived and RESTORE_HOLD reads with current credential/membership; expose selected digest/reason facts, never lease tokens or arbitrary event payloads. Label UNIT_SYNTHETIC explicitly and distinguish metadata receipts/deadlines from live execution authority or reconciled target history. Reads cannot claim/recover/release HOLD/replay SQL. Reuse the immutable PostgreSQL journal without schema or worker changes; ordinary reversible choice under SF-D010, no new task ID or Oracle acceptance.",
+      "references": [
+        "packages/execution/history.ts",
+        "docs/development/local-product.md",
+        "docs/implementation/milestone.json"
+      ]
     }
   ]
 }

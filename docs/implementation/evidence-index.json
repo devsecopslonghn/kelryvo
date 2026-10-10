@@ -3189,6 +3189,48 @@
       },
       "path": "evidence/product/mvp-statement-readiness-20261011/record.json",
       "sha256": "f2062283baf548e416a051732d3568488079de609ad66fc50a8e9504353066f8"
+    },
+    {
+      "id": "mvp-execution-history-local-verified",
+      "subject_id": "SF-PRODUCT-T33",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen npm run check with pinned Java home; actual focused PostgreSQL/parser API; new history and existing job Chromium regressions. Final published-head complete CI mandatory.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "SF-PRODUCT-T33-API",
+        "SF-PRODUCT-T33-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/mvp-execution-history-20261011/api-final.log",
+        "sha256": "7646f3c6b2a17a66299e5c6d20892f74adc0e04290011ed96604a4be8e7b6a2f"
+      },
+      "path": "evidence/product/mvp-execution-history-20261011/record.json",
+      "sha256": "6fbafd9f3c697aeedd60f2d3f8bf475c0f45f3253b982f789655da807282c8b8"
+    },
+    {
+      "id": "mvp-statement-readiness-pr49-integrated",
+      "subject_id": "SF-PRODUCT-T17",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Normal exact-head PR49 merge after six successful push/PR CI and current branch/review eligibility; fast-forward local master and verify23frozen source/pin/license hashes. Master CI pending separately.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "SF-PRODUCT-T17-API",
+        "SF-PRODUCT-T17-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/mvp-statement-readiness-20261011/final-candidate-product.log",
+        "sha256": "337e9e7e74256dfed61dcdac63303867eb1a509f4f72b9eab18896a2d2cae103"
+      },
+      "path": "evidence/product/mvp-statement-readiness-20261011/integration-record.json",
+      "sha256": "015fc30938a1249ef3802a50e81a5574c70a9e0f15a2abcf1813525f9459fa14"
     }
   ]
 }

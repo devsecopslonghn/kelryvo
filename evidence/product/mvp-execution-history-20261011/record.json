@@ -1,0 +1,71 @@
+{
+  "id": "mvp-execution-history-local-verified",
+  "subject_id": "SF-PRODUCT-T33",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen npm run check with pinned Java home; actual focused PostgreSQL/parser API; new history and existing job Chromium regressions. Final published-head complete CI mandatory.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [
+    "SF-PRODUCT-T33-API",
+    "SF-PRODUCT-T33-WEB"
+  ],
+  "case_coverage": [],
+  "recorded_at": "2026-10-10T21:06:19.842550+00:00",
+  "source_head": "a107a73b2f66c64d01fdbc2ea81fa61060396b1d",
+  "source_sha256": {
+    "apps/api/index.ts": "331871bd2f8f86faf3eb2174dc662c58c958cb90529a2184d554a844846310b0",
+    "apps/web/src/ExecutionHistory.jsx": "d49f01bf43f36ac2da2ae2ef15cb95b0c235c7a954de41a3edeacbced332b3b7",
+    "apps/web/src/app.jsx": "35980ea66bc389467837342fc13d13e53fc1bb2f5caa587b860ead59ebe0b1ac",
+    "docs/decisions/log.json": "3235b53ffe635ec0aab273bb069404e780e04c51f126edc58f5d6032ae17a294",
+    "docs/development/local-product.md": "786e5bff50f618b764b1cf58d7609b335d64daf6cb88dfcabf04ad532dce4bb0",
+    "packages/execution/history.ts": "06214bb31cce5931b5f696cc22e00b753a0f732188ea3a1327b33c8741528861",
+    "scripts/test-product.mjs": "b36a3eb5ae2645fcb172b4e1c970919db591a85bd0a90562217760b6cc4bba82",
+    "tests/helpers/execution-history-fixture.mjs": "aba56b892760659e7a312d3557518c61e2d9372076a823b2901b14617369d2d2",
+    "tests/product-execution-history-browser.integration.mjs": "bcb6750183a2b83fd503da5a280a6a60fefa23f3f9c1aa401855063bbddea451",
+    "tests/product-execution-history.test.mjs": "9186ec4537278a6564e7cf11abdeac8d9345bbe0ee517159f224d195bf95c94f",
+    "package.json": "f2e8e1c4e849e7596baf135ffa9976e001ca9157b66bd1c8ba1808848a7709f4",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b",
+    "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+    "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e"
+  },
+  "raw_output": {
+    "path": "evidence/product/mvp-execution-history-20261011/api-final.log",
+    "sha256": "7646f3c6b2a17a66299e5c6d20892f74adc0e04290011ed96604a4be8e7b6a2f"
+  },
+  "verification": {
+    "standard": {
+      "tests": 196,
+      "pass": 153,
+      "fail": 0,
+      "skipped": 43
+    },
+    "api": "1PASS0FAIL0SKIP;18seconds; after final server-only repeatable-read delta",
+    "browser": "2PASS0FAIL0SKIP; new history paging/stale-plan/logout and unchanged existing request/cancel. Exact UI/tests unchanged; run preceded server-only isolation option, whose final API rerun passed. Final exact-head full CI required."
+  },
+  "log_sha256": {
+    "api-initial.log": "c7da3c06369c19fa9150148625dca7c54cdd23cbed019c310efda8b4fbd075b7",
+    "browser-initial.log": "13e2e3d4b011202b06bcc5fc069c66599d6f668e5aab95b68b07517f8368131e",
+    "api-corrected.log": "fe32b5de37772671602de4f106a676045de38baf614713bbcc22bc56dd196238",
+    "browser-affected-final.log": "697f9952ead0d29b115e2f46dbbf35957a9c6710c2746363d4bbb2de58108d6e",
+    "standard-initial-format-failed.log": "5b1b32159eb753b42cb395ed8e435c4a0e975fbd2e70b7e656515908f8848166",
+    "standard-initial-jdk-failed.log": "b13137d72ee98a9b8ef7bc5a93b2898c25c4cd9de40263766385d524a658cf04",
+    "standard-final.log": "2ae65b8184df85af0b246b4633cbd0a833d9ea412c6ff52315c210a42e998a0d",
+    "api-final.log": "7646f3c6b2a17a66299e5c6d20892f74adc0e04290011ed96604a4be8e7b6a2f"
+  },
+  "preserved_failures": {
+    "api-initial.log": "Final fixture revocation referenced nonexistent revocation_reason; corrected to existing revoked_at field. No production defect or removed assertion.",
+    "standard-initial-format-failed.log": "Python Unicode escapes differed from canonical authored JSON; normalized changed decision file before tests.",
+    "standard-initial-jdk-failed.log": "Installed parser helper without SCHEMAFORGE_JAVA_HOME;150PASS43SKIP3parser failures. Corrected environment, full standard check passed."
+  },
+  "review": "Native independent read-only review approved exact a107a73 source/docs and scoped noauthority/pagination/privacy/isolation behavior.",
+  "license": "Unchanged85pinned packages/zero unknown required grants; LICENSE/NOTICE/pins unchanged.",
+  "limitations": [
+    "Retained central metadata only, not observed Oracle migration history or a target reconciliation ledger.",
+    "Synthetic journal/expiry/HOLD evidence explicitly UNIT_SYNTHETIC; no Oracle call, target admission or automatic replay.",
+    "Local facet verification only; original220catalog classifications and124blockedOracle cells unchanged, no new task ID.",
+    "Final exact publication CI/security/review and eligible integration pending."
+  ]
+}

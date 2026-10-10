@@ -180,7 +180,12 @@ test('plan comments remain scoped, readable, and persistent across API restart',
     await waitNotice(page, 'Plan rejected.');
     await selectPlan(page, approvedPlan);
     await page.getByLabel('Decision reason').fill('Approved for governance review.');
+    // Approval revalidates retained SQL with the pinned parser before returning.
+    const approvalResponse = page.waitForResponse((response) =>
+      new URL(response.url()).pathname === `/api/plans/${approvedPlan.id}/decision`
+        && response.request().method() === 'POST', { timeout: 30_000 });
     await page.getByRole('button', { name: 'Approve plan', exact: true }).click();
+    assert.equal((await approvalResponse).status(), 200);
     await waitNotice(page, 'Plan approved.');
     await selectPlan(page, approvedPlan);
     assert.equal(await page.getByRole('region', { name: 'Plan comments' }).getByLabel('Comment').count(), 0);
