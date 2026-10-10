@@ -3320,6 +3320,9 @@
       "evidence": [
         {
           "index_id": "product-t34-backup-restore-local-verified"
+        },
+        {
+          "index_id": "product-t34-backup-restore-ci-correction-local-verified"
         }
       ],
       "blockers": []

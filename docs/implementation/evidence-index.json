@@ -3039,6 +3039,35 @@
       },
       "path": "evidence/product/product-t34-backup-restore-20261010/record.json",
       "sha256": "7e5c329c459ff41c8b60585eaae9f4317ccc10af9c2608cc08ecabd177b15267"
+    },
+    {
+      "id": "product-t34-backup-restore-ci-correction-local-verified",
+      "subject_id": "SF-PRODUCT-T34",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Corrected frozen serial standard/product/pinned-parser/Chromium checks after actual first-candidate asynchronous membership browser failure",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "test_references": [
+        "SF-PRODUCT-T34-OPERATOR",
+        "SF-PRODUCT-T34-PERSISTENCE",
+        "SF-PRODUCT-T34-WEB",
+        "SF-PRODUCT-T34-RESTORE_GATE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t34-backup-restore-ci-correction-20261010/standard.log",
+        "sha256": "1f91cf340bd2d74a2b0371a811a845c1ca8dea5956eb96fd4b460bc4b8c602d7"
+      },
+      "path": "evidence/product/product-t34-backup-restore-ci-correction-20261010/record.json",
+      "sha256": "60f8f525a107cfdf32f00fb40b6416d57c95afa9f2c35674d5f61e971208b75a"
     }
   ]
 }

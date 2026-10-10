@@ -206,7 +206,7 @@
   "foundation_evidence": {
     "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
   },
-  "current_phase": "T34_CI_BROWSER_SYNCHRONIZATION_CORRECTION_UNVERIFIED",
+  "current_phase": "T34_CORRECTED_LOCAL_IMPLEMENTED_PUBLICATION_PENDING",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
@@ -222,7 +222,7 @@
     "node scripts/tracker.mjs status",
     "node scripts/tracker.mjs next"
   ],
-  "updated_at": "2026-10-10T17:00:27.169264+00:00",
+  "updated_at": "2026-10-10T17:19:11.923780+00:00",
   "final_check_evidence": {
     "index_id": "product-t20-local-credential-lifecycle-local-verified"
   },
@@ -253,7 +253,7 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "T34_LOCAL_IMPLEMENTED_DRAFT47_ONE_CI_FAILURE_CORRECTION_PENDING",
+  "current_increment_merge_status": "T34_CORRECTED_LOCAL_IMPLEMENTED_DRAFT47_OLD_FAILURE_PRESERVED",
   "current_checkpoint_branch": "development/product-backup-restore",
   "active_track": "PRODUCT",
   "tracks": {
@@ -332,7 +332,7 @@
     }
   },
   "current_increment_pr": 47,
-  "current_increment_reviewed_head": "591076dbd56c420878c66af86f65f3fbd08a5e41",
+  "current_increment_reviewed_head": "f7426040789076ff728263b7e09a78aa98360464",
   "current_increment_merge_commit": null,
   "t19_compatibility_decision": {
     "owner_approved_at_recorded_utc": "2026-10-09T12:37:42.238588+00:00",
@@ -426,7 +426,7 @@
     },
     "merge_eligible": false
   },
-  "next_milestone": "Publish one T34 draft and observe actual available exact-head CI before selecting another substantive product workflow.",
+  "next_milestone": "Complete corrected existing draft47 publication and actual available exact-head CI before any new task.",
   "current_increment_published_head": "4cf76f4dd4313c4d72c40d7ff5b43a11eba1dbea",
   "t32_integration_sources": [
     {
@@ -592,5 +592,34 @@
     "merge_eligible": false,
     "first_candidate_result": "foundation2/parser2/productPR SUCCESS; productPush FAILURE on existing asynchronous membership test",
     "all_available_ci_success": false
+  },
+  "t34_corrected_local_verification": {
+    "record": "evidence/product/product-t34-backup-restore-ci-correction-20261010/record.json",
+    "implementation_head": "f7426040789076ff728263b7e09a78aa98360464",
+    "counts": {
+      "standard": {
+        "tests": 188,
+        "pass": 188,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "product": {
+        "tests": 51,
+        "pass": 51,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "browser": {
+        "tests": 30,
+        "pass": 30,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    "publication_pending": true,
+    "merge_eligible": false
   }
 }
