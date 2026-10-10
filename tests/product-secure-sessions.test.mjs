@@ -152,6 +152,10 @@ test('browser churn above journal capacity preserves operator rotation, revocati
         interrupt(action,phase);
         const journal=JSON.parse(await readFile(configPath+'.lifecycle-journal','utf8'));
         assert.equal(journal.oldDigests.length,1,'only independently authoritative LOCAL credentials enter the bounded journal');
+        // Retained v1 journals from prior T35 may also witness browser digests.
+        // They remain recoverable if a witnessed child logs out before commit.
+        journal.oldDigests.push(tokenDigest(cookies[0].split('=')[1]));
+        await writeFile(configPath+'.lifecycle-journal',JSON.stringify(journal)+'\n',{mode:0o600});
         const committed=phase!=='before-db-commit';
         if(!committed){
           // Browser changes while the operator is interrupted must not corrupt recovery.

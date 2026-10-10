@@ -162,11 +162,14 @@ export async function recoverLocalCredentialOperation({ configPath, databaseUrl 
 
     sql = postgres(databaseUrl, { max: 1, connect_timeout: 3, onnotice: () => {} });
     const oldRows = journal.oldDigests.length
-      ? await sql`SELECT token_sha256,revoked_at FROM sf_local_credentials WHERE actor_id=${journal.actorId} AND token_sha256=ANY(${journal.oldDigests})`
+      ? await sql`SELECT token_sha256,credential_kind,revoked_at FROM sf_local_credentials WHERE actor_id=${journal.actorId} AND token_sha256=ANY(${journal.oldDigests})`
       : [];
     if (oldRows.length !== journal.oldDigests.length) throw genericFailure();
-    const oldCommitted = oldRows.every(row => row.revoked_at !== null);
-    const oldUncommitted = oldRows.every(row => row.revoked_at === null);
+    // Older v1 journals may include derived sessions. Their logout is independent
+    // of the operator commit; retain existence checks but witness LOCAL authority.
+    const oldAuthority = oldRows.filter(row => row.credential_kind === 'LOCAL');
+    const oldCommitted = oldAuthority.every(row => row.revoked_at !== null);
+    const oldUncommitted = oldAuthority.every(row => row.revoked_at === null);
     let committed;
     if (journal.action === 'rotate') {
       const replacement = (await sql`SELECT revoked_at FROM sf_local_credentials WHERE actor_id=${journal.actorId} AND token_sha256=${digest(journal.newToken)}`)[0];
@@ -180,7 +183,7 @@ export async function recoverLocalCredentialOperation({ configPath, databaseUrl 
         committed = false;
       }
     } else {
-      if (journal.oldDigests.length === 0) throw genericFailure();
+      if (oldAuthority.length === 0) throw genericFailure();
       if (oldCommitted) committed = true;
       else if (oldUncommitted) committed = false;
       else throw genericFailure();
