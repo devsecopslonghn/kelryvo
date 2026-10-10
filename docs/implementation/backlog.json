@@ -3311,7 +3311,7 @@
         "SF-PRODUCT-T34-WEB",
         "SF-PRODUCT-T34-RESTORE_GATE"
       ],
-      "status": "IMPLEMENTED",
+      "status": "VERIFIED",
       "source_paths": [
         "scripts/local-backup-operator.mjs",
         "packages/backup",
@@ -3323,6 +3323,9 @@
         },
         {
           "index_id": "product-t34-backup-restore-ci-correction-local-verified"
+        },
+        {
+          "index_id": "product-t34-corrected-draft47-available-ci-terminal"
         }
       ],
       "blockers": []

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-10T17:19:11.923780+00:00",
+  "recorded_at": "2026-10-10T17:34:46.866150+00:00",
   "verified_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
   "reviewed_local_source": "f7426040789076ff728263b7e09a78aa98360464",
   "scope": "All220 existing catalog classifications with combined locally verified T24–T34 facets; no full feature, Oracle or integrated-master certification.",
@@ -62,10 +62,10 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "Oracle19c/21c acceptance remains independently unavailable. Required external GitHub security/protection gates prevent integration of drafts37–46; local scans/available CI never replace those gates.",
+  "external_acceptance": "Oracle19c/21c acceptance remains independently unavailable. Required external GitHub security/protection gates prevent integration of drafts37–47; local scans/available CI never replace those gates.",
   "next_product_capability": {
-    "status": "T34_CORRECTED_LOCAL_VERIFIED_DRAFT47_REPUBLICATION_PENDING",
-    "next_action": "Scoped correction publication delta scans and normal push existing draft47; observe actual available exact-head CI.",
+    "status": "T34_LOCAL_VERIFIED_DRAFT47_ALL6_AVAILABLE_CI_SUCCESS",
+    "next_action": "Select one substantial missing product workflow from current coverage in a fresh bounded context. Preserve original drafts/worktrees and required integration/runtime gates.",
     "branch_policy": "Preserve original drafts37–46 and all worktrees; one substantial draft from published T33 execution-jobs base."
   },
   "features": [

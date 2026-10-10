@@ -3068,6 +3068,26 @@
       },
       "path": "evidence/product/product-t34-backup-restore-ci-correction-20261010/record.json",
       "sha256": "60f8f525a107cfdf32f00fb40b6416d57c95afa9f2c35674d5f61e971208b75a"
+    },
+    {
+      "id": "product-t34-corrected-draft47-available-ci-terminal",
+      "subject_id": "SF-PRODUCT-T34",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-head draft47 terminal available CI observation and unchanged original open-PR/master reconciliation",
+      "exit_code": 0,
+      "criterion_indexes": [
+        5
+      ],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t34-corrected-draft-publication-20261010/ci-observation-15.stdout",
+        "sha256": "7800854f7a9635f30d7eb006cf7428026c529ea418f89446e0526b76eeb107f9"
+      },
+      "path": "evidence/product/product-t34-corrected-draft-publication-20261010/terminal-record.json",
+      "sha256": "8db95660cbc9be110ed7ed606d9cad3efc41cf998d9591fb5d6d772d9f49e3c9"
     }
   ]
 }
