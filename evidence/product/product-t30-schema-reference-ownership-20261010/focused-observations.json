@@ -1,0 +1,325 @@
+{
+  "scope": "Historical focused observations only; final mandatory root captures independently bind actual commands and frozen source.",
+  "captures": [
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-focused-1.log",
+      "sha256": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1",
+      "implementation_reported_command": "npm run typecheck",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [],
+      "counts": {}
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-focused-2.log",
+      "sha256": "c4ed3b86c4fffbbf9893aa10fe67dc9318b4565832bfd0b584851ccceb0b1acf",
+      "implementation_reported_command": "node scripts/build-web.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [],
+      "counts": {}
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-focused-3.log",
+      "sha256": "0c6c019dcd22e6482ce76fd465058989159ad857c1b9ea56e7933bf847d658b0",
+      "implementation_reported_command": "node scripts/check-source.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [
+        "manual schema references are idempotent, exact-case, serially assigned and project-scoped",
+        "trusted inventory CLI uses private local metadata authority and preserves operator history"
+      ],
+      "counts": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "mapping_correction": {
+        "original_command_mapping": "WITHDRAWN_INCORRECT",
+        "observed_test_paths": "tests/product-schema-reference.test.mjs",
+        "basis": "Actual raw subtest contents; exact original shell prefix not captured. Not authoritative command evidence."
+      }
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-focused-4.log",
+      "sha256": "610f15b327ec49cebc71523b034ff020ba41490f721596d91eba56de973cffa2",
+      "implementation_reported_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference.test.mjs tests/product-database.test.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [
+        "schema-reference view labels provisional identity and drops a delayed session response",
+        "schema references follow project context and clear after grant revocation"
+      ],
+      "counts": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "mapping_correction": {
+        "original_command_mapping": "WITHDRAWN_INCORRECT",
+        "observed_test_paths": "tests/product-schema-reference-browser.integration.mjs",
+        "basis": "Actual raw subtest contents; exact original shell prefix not captured. Not authoritative command evidence."
+      }
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-focused-5.log",
+      "sha256": "ec5ec843eedef9a3778d8b83b8a2628b7bedcb79d44cd78cf056bf93872fbe03",
+      "implementation_reported_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference-browser.integration.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [
+        "explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke",
+        "activation serializes with in-flight revocation and bootstrap creation stays denied",
+        "activation waits for credential lifecycle serialization and refuses coverage after credential revocation"
+      ],
+      "counts": {
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "mapping_correction": {
+        "original_command_mapping": "WITHDRAWN_INCORRECT",
+        "observed_test_paths": "tests/product-membership.test.mjs",
+        "basis": "Actual raw subtest contents; exact original shell prefix not captured. Not authoritative command evidence."
+      }
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-final-1.log",
+      "sha256": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1",
+      "implementation_reported_command": "npm run typecheck",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [],
+      "counts": {}
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-final-2.log",
+      "sha256": "c4ed3b86c4fffbbf9893aa10fe67dc9318b4565832bfd0b584851ccceb0b1acf",
+      "implementation_reported_command": "node scripts/build-web.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [],
+      "counts": {}
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-final-3.log",
+      "sha256": "4d81eb51ffad131f2d22388e86bb782eb9f2113812dd57553bfbcb4d26f28b90",
+      "implementation_reported_command": "node scripts/check-source.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [],
+      "counts": {}
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-final-4.log",
+      "sha256": "28dd0dcf0e8f2b627449795cc041db04f6f1db4780f6d4fc8b0fbe36eabe558c",
+      "implementation_reported_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-database.test.mjs",
+      "implementation_reported_outcome": "PASS (exit 0); observed subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database",
+      "observed_subtests": [
+        "concurrent product schema initialization serializes DDL on a fresh PostgreSQL database",
+        "manual schema references are idempotent, exact-case, serially assigned and project-scoped",
+        "trusted inventory CLI uses private local metadata authority and preserves operator history"
+      ],
+      "counts": {
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "mapping_correction": {
+        "original_command_mapping": "WITHDRAWN_INCORRECT",
+        "observed_test_paths": "tests/product-schema-reference.test.mjs tests/product-database.test.mjs",
+        "basis": "Actual raw subtest contents; exact original shell prefix not captured. Not authoritative command evidence."
+      }
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-final-5.log",
+      "sha256": "31d072ab5fe72c08876799f97a296ff11c273d702a98cba84131922ab87bb63a",
+      "implementation_reported_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference-browser.integration.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [
+        "schema-reference view labels provisional identity and drops a delayed session response",
+        "schema references follow project context and clear after grant revocation"
+      ],
+      "counts": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-final-6.log",
+      "sha256": "1c1db695d22ea18ba4808daca9a739d78a7a4b8d0a5e12585516e0f7339f9dc8",
+      "implementation_reported_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-membership.test.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [
+        "explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke",
+        "activation serializes with in-flight revocation and bootstrap creation stays denied",
+        "activation waits for credential lifecycle serialization and refuses coverage after credential revocation"
+      ],
+      "counts": {
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-handoff-1.log",
+      "sha256": "d2c9e61f0a4fc229e31963070b85e560f75d62f45947c6b989c70627227122a1",
+      "implementation_reported_command": "npm run typecheck",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [],
+      "counts": {}
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-handoff-2.log",
+      "sha256": "c4ed3b86c4fffbbf9893aa10fe67dc9318b4565832bfd0b584851ccceb0b1acf",
+      "implementation_reported_command": "node scripts/build-web.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [],
+      "counts": {}
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-handoff-3.log",
+      "sha256": "4d81eb51ffad131f2d22388e86bb782eb9f2113812dd57553bfbcb4d26f28b90",
+      "implementation_reported_command": "node scripts/check-source.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [],
+      "counts": {}
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-handoff-4.log",
+      "sha256": "a16080daaed83b5b84da1ecaca54ad4b8a61adb061cd717b509adbc6e8b4bfa9",
+      "implementation_reported_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference.test.mjs tests/product-database.test.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [
+        "concurrent product schema initialization serializes DDL on a fresh PostgreSQL database",
+        "manual schema references are idempotent, exact-case, serially assigned and project-scoped",
+        "trusted inventory CLI uses private local metadata authority and preserves operator history"
+      ],
+      "counts": {
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-handoff-5.log",
+      "sha256": "a30d2767271103da5c6a4cba216b764bec0f0260ae3b9e2688a687503e791a1e",
+      "implementation_reported_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference-browser.integration.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [
+        "schema-reference view labels provisional identity and drops a delayed session response",
+        "schema references follow project context and clear after grant revocation"
+      ],
+      "counts": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-handoff-6.log",
+      "sha256": "ba6e4b8b477e631286bbb8ab77bb1543e260878be462696cc3ef66e4a2373429",
+      "implementation_reported_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-membership.test.mjs",
+      "implementation_reported_outcome": "PASS (exit 0)",
+      "observed_subtests": [
+        "explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke",
+        "activation serializes with in-flight revocation and bootstrap creation stays denied",
+        "activation waits for credential lifecycle serialization and refuses coverage after credential revocation"
+      ],
+      "counts": {
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-handoff-7.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "implementation_reported_command": "git diff --check",
+      "implementation_reported_outcome": "PASS (exit 0); empty log",
+      "observed_subtests": [],
+      "counts": {}
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-handoff-8.log",
+      "sha256": "20dff4619c85a3bffffe8291df0ec958362bde5eebcea8cc5b058e6d4be87fda",
+      "implementation_reported_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference.test.mjs",
+      "implementation_reported_outcome": "PASS (exit 0); 2/2 tests; superseded by handoff-10 after additional CLI negative assertions",
+      "observed_subtests": [
+        "manual schema references are idempotent, exact-case, serially assigned and project-scoped",
+        "trusted inventory CLI uses private local metadata authority and preserves operator history"
+      ],
+      "counts": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-handoff-9.log",
+      "sha256": "b8e32ee1a469cf96a8b28df3b20e1f13ad5d43408572ef0619d2d9b3391fc303",
+      "implementation_reported_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference-browser.integration.mjs",
+      "implementation_reported_outcome": "PASS (exit 0); 2/2 tests",
+      "observed_subtests": [
+        "schema-reference view labels provisional identity and drops a delayed session response",
+        "schema references follow project context and clear after grant revocation"
+      ],
+      "counts": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/schemaforge-t30-handoff-10.log",
+      "sha256": "370ebe517948210e9cdf22cdde9153e229b3776798e34556cb1c34e57be080c4",
+      "implementation_reported_command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference.test.mjs",
+      "implementation_reported_outcome": "PASS (exit 0); 2/2 tests; latest API/operator run",
+      "observed_subtests": [
+        "manual schema references are idempotent, exact-case, serially assigned and project-scoped",
+        "trusted inventory CLI uses private local metadata authority and preserves operator history"
+      ],
+      "counts": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    }
+  ],
+  "original_handoff_report": {
+    "path": "evidence/product/product-t30-schema-reference-ownership-20261010/focused/implementation-handoff-original.json",
+    "sha256": "cbc36f60ae58441df0049c2a13ff865d0903587ac99f376ed6d61f962163534d"
+  },
+  "historical_failures": [
+    {
+      "observation": "An initial new reference test run failed on an assertion that oldProjectRead.body did not include 'Sales'. The response still legitimately included shared service/container summaries; assertion was narrowed to transferred schema ID membership.",
+      "raw_capture": "unavailable as a durable log; the failure output was seen in the tool response. Exact preserved excerpt: assert.ok(!oldProjectRead.body.includes('Sales')); code ERR_ASSERTION; tests/product-schema-reference.test.mjs:102:54. This is an excerpt of tool output, not a raw log."
+    },
+    {
+      "observation": "Earlier iteration failures reported in implementation context: initial reference-test syntax errors, first browser navigation timeout, grant fixture inserted before actor (foreign-key failure), and browser release callback scope failure. Each was corrected before latest focused runs.",
+      "raw_capture": "unavailable; no durable failure logs identified, so these are historical observations only, not raw evidence."
+    }
+  ],
+  "limitations": [
+    "Root rejected four original command mappings based on raw subtest contents; original report preserved and corrections explicit.",
+    "Earlier failure tool responses were not durably captured; historical observations and labeled excerpt retained, not represented as raw logs.",
+    "Focused captures lack source HEAD/hashes and some shell-prefix/exit-code capture; they do not replace authoritative final frozen suites."
+  ]
+}

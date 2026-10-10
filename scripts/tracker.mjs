@@ -620,7 +620,37 @@ const PRODUCT_TASK_29 = {
   ]
 };
 
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29];
+const PRODUCT_TASK_30 = {
+  "id": "SF-PRODUCT-T30",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Register shared provisional target references and assign schemas to projects",
+  "dependencies": [
+    "SF-PRODUCT-T21",
+    "SF-PRODUCT-T20",
+    "SF-PRODUCT-T02"
+  ],
+  "feature_ids": [
+    "DBM-001",
+    "DBM-004",
+    "DBM-007"
+  ],
+  "acceptance_criteria": [
+    "Persist organization-owned provisional physical database registrations, containers, normalized service-route references and exact-case schema references using additive idempotent PostgreSQL tables and same-organization constraints. Stable server UUIDs and generation1 record manual reference provenance only, never VERIFIED/discovered/observed Oracle identity. Repeating identical declarations returns existing IDs without duplicate endpoint/schema or audit rows; conflicting existing immutable registration/container/route facts fail atomically. Exact-case owners stay distinct. Existing project profiles, releases, plans, source/intent/decision/comment/history remain unchanged; restart and repeated initialization preserve catalog and legacy data.",
+    "Provide a trusted local OS operator command using the existing private local configuration and loopback PostgreSQL authority protections, no bearer/API inventory administration. Strict bounded secret-free declarations register one database/container/route/schema hierarchy; no passwords, credential resolution, Oracle calls, containers/images or endpoint probes. Explicit assign/reassign/unassign requires schema ID, nullable target project, canonical bigint expected revision and reason. Enforce one active owning project per schema, serialized competing edits and archived/foreign/missing guards. Same-target no-op preserves revision/audit; actual transfer closes previous assignment and creates immutable history, increments revision and atomically records safe local-operator audit. Preserve schema identity and all former project records; no automatic historical profile migration or grants.",
+    "Expose a bounded read-only current schema-reference list for an authenticated actor with current explicit project grant in ENFORCED mode. Bootstrap returns an empty directory; ungranted/foreign project scopes fail closed. Return only currently assigned schema plus its required shared database/container/service reference summaries, inherited declared container environment and assignment revision; no other project schemas/assignment histories/operator reasons/UIDs/credential refs or physical route host details. Stable project-scoped UUID keyset pages at50 rows plus next cursor; current grants and ownership rechecked for every read. Reads do not add audits, mutate assignments/history or confer execution readiness. Archived projects retain only their own current-reference reads.",
+    "Add usable React project schema-reference navigation with provisional/reference-only identity labels, inherited declared environment, exact owner, stable IDs and revision, bounded next-page/refresh and empty/error feedback. Clear references/page state on project/session/grant/credential changes and discard delayed old context responses. Explain trusted local operator registration/ownership without adding application administrator or writer permissions. References do not become profile/plan/approval/execution targets; existing offline plan/history state remains NOT_OBSERVED/NOT_EXECUTED.",
+    "Real isolated PostgreSQL/operator/API/Chromium tests prove shared endpoint/container deduplication for two projects and schemas, exact owner semantics, atomic conflict/no-op/transfer/release history, concurrent stale revision rejection, archive/foreign/malformed/private-config/secret/unsupported operation denial, restart/idempotent migration, safe project isolation and pagination, revocation and controlled delayed UI reads. Compare complete protected project/source/plan/intent/release/decision/comment/history records. Run required standard/product/parser/browser regressions without skipped required cases and proportionate independent review. Keep full DBM001/004/007, Oracle discovery/attestation, profile-purpose bindings, lifecycle restore, plan target binding and schema baseline acceptance unverified; original220 contracts/dependencies, license/notices/pins and existing draft gates unchanged. Independent merged-master branch; no dependency on unmerged T24-T29."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T30-OPERATOR",
+    "SF-PRODUCT-T30-API",
+    "SF-PRODUCT-T30-WEB",
+    "SF-PRODUCT-T30-PERSISTENCE"
+  ]
+};
+
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

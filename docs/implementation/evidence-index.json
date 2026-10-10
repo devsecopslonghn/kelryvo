@@ -2820,6 +2820,35 @@
       },
       "path": "evidence/product/product-t29-reviewer-assignment-20261010/record.json",
       "sha256": "a9b728932d539414d37e9aaa4b247c566630e9cfec495d7295bd2e27fd581a5c"
+    },
+    {
+      "id": "product-t30-schema-reference-ownership-local-verified",
+      "subject_id": "SF-PRODUCT-T30",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen serial standard/product/pinned-parser/Chromium regressions; exact-source independent review and root five-criterion acceptance/diff review",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "test_references": [
+        "SF-PRODUCT-T30-OPERATOR",
+        "SF-PRODUCT-T30-API",
+        "SF-PRODUCT-T30-WEB",
+        "SF-PRODUCT-T30-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t30-schema-reference-ownership-20261010/standard.log",
+        "sha256": "8fcf50d8aa910ecd2aec7212fc3bad32a75c04334e4a70d6d96f3043df146eb6"
+      },
+      "path": "evidence/product/product-t30-schema-reference-ownership-20261010/record.json",
+      "sha256": "c1bf069548f688a179b3ef2e3b2cf5017da1e24644c76f426cde7a8ca6ef355e"
     }
   ]
 }

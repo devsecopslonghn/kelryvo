@@ -1,5 +1,23 @@
 # Local SchemaForge product
 
+## Provisional schema references
+
+The **Schema references** project view shows only current schema ownership for the selected
+project. These are trusted local operator declarations labelled `MANUAL_REFERENCE` and
+`PROVISIONAL`; they do not report observed Oracle identity or grant profile, plan, approval,
+or execution authority. Declared environment belongs to the container and applies to each
+schema reference in it.
+
+The trusted OS operator uses `node scripts/local-inventory-operator.mjs` with the private
+local config and `SCHEMAFORGE_LOCAL_DATABASE_URL`. `declare` accepts bounded flags for the
+database key/label, container key/name/kind, environment, host, port, service, transport and
+exact owner. `status` lists declarations and current ownership. `assign --schemaId UUID
+--projectId UUID --expectedRevision 0 --reason TEXT` assigns or transfers ownership;
+`release --schemaId UUID --expectedRevision 1 --reason TEXT` releases it. Supply
+`--config .cache/local-product/config.json` for each command. Revisions use canonical
+decimal strings. The operator rejects immutable fact conflicts and stale revisions. It does
+not connect to Oracle, resolve credentials or probe routes.
+
 PRODUCT is runnable governance; VALIDATION is Oracle compatibility, runtime acceptance and
 production hardening. T04 and all 124 applicable Oracle cells stay BLOCKED. Product delivery
 does not require the owner to provide an Oracle lab. The original 220 feature IDs and original

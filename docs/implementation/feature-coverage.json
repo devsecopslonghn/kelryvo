@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-10T08:39:49.962803+00:00",
+  "recorded_at": "2026-10-10T09:38:07.764554+00:00",
   "verified_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
   "reviewed_local_source": "ced0c1c62bc115d283aca4580999a6486403ce6b",
-  "scope": "All220 original features across integrated master0fd and explicitly unmerged locally verified T24-T29 facets; no full catalog certification.",
+  "scope": "All220 original features across integrated master0fd and explicitly unmerged locally verified T24-T30 facets; no full catalog certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
     "Task completion establishes only its bounded facet; original criteria and dependencies remain unchanged.",
@@ -13,8 +13,8 @@
   ],
   "summary": {
     "IMPLEMENTED_AND_VERIFIED": 0,
-    "PARTIALLY_IMPLEMENTED": 41,
-    "NOT_IMPLEMENTED": 172,
+    "PARTIALLY_IMPLEMENTED": 43,
+    "NOT_IMPLEMENTED": 170,
     "BLOCKED_EXTERNAL": 0,
     "DEFERRED": 7
   },
@@ -56,26 +56,36 @@
     },
     "WS": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 31,
-      "NOT_IMPLEMENTED": 43,
+      "PARTIALLY_IMPLEMENTED": 33,
+      "NOT_IMPLEMENTED": 41,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "Oracle19c/21c acceptance remains independently unavailable. Required external GitHub security gates prevent integration of drafts37-41 and T29; local scans/CI never replace those gates.",
+  "external_acceptance": "Oracle19c/21c acceptance remains independently unavailable. Required external GitHub security gates prevent integration of drafts37-42 and T30; local scans/CI never replace those gates.",
   "next_product_capability": {
-    "status": "T29_LOCAL_VERIFIED_INDEPENDENT_MASTER_BRANCH",
-    "remaining_catalog_scope": "Temporary expiring delegation, inbox-assignment integration, notifications and full GOV021 worker/API acceptance remain missing.",
-    "next_increment": "Inspect schema identity and ownership prerequisites DBM-004/DBM-007 before registering the next independent PRODUCT increment toward reviewed schema baselines MIG-015. Current profiles are project-local endpoint metadata; catalog requires independent schemas and one active owning project. Select the smallest missing prerequisite from actual source; no Oracle observation or target ledger fabrication.",
-    "branch_policy": "Fresh merged-master task context; preserve all independent drafts; do not grow retained stack or assume unmerged assignment/inbox prerequisites."
+    "status": "T30_LOCAL_VERIFIED_INDEPENDENT_MASTER_BRANCH",
+    "remaining_catalog_scope": "Actual Oracle discovery/attestation, credential purposes, plan target binding and baseline remain missing.",
+    "next_increment": "After draft publication/CI checkpoint, inspect the smallest independent missing Git-to-plan-to-review or schema-baseline prerequisite from actual merged source; retain manual-reference versus observed-target distinction. Do not assume unmerged T30 prerequisites.",
+    "branch_policy": "Fresh bounded context from merged master; preserve independent drafts and existing retained stack."
   },
   "features": [
     {
       "id": "DBM-001",
       "name": "Oracle service registration",
       "milestone": "WS",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified bounded manual-reference facet; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T30",
+          "behavior": "Trusted local OS operator registers organization-owned manual database/container/service/schema references with stable provisional IDs.",
+          "evidence": [
+            "product-t30-schema-reference-ownership-local-verified"
+          ]
+        }
+      ],
+      "remaining_gap": "Observed Oracle identity/attestation, endpoint verification, connectivity testing and full service registration contract remain missing."
     },
     {
       "id": "DBM-002",
@@ -109,7 +119,16 @@
       "name": "Inventory discovery and reconciliation",
       "milestone": "WS",
       "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "basis": "T30 verifies prerequisite manual catalog/reference metadata only; no Oracle observation, discovery or reconciliation is implemented.",
+      "verified_prerequisites": [
+        {
+          "task": "SF-PRODUCT-T30",
+          "behavior": "Persistent provisional shared references; no discovery/reconciliation.",
+          "evidence": [
+            "product-t30-schema-reference-ownership-local-verified"
+          ]
+        }
+      ]
     },
     {
       "id": "DBM-005",
@@ -129,8 +148,18 @@
       "id": "DBM-007",
       "name": "Schema ownership and assignment",
       "milestone": "WS",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Locally verified bounded manual-reference facet; complete original catalog acceptance is not certified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T30",
+          "behavior": "Revision-checked current schema ownership, transfer/release history and project-scoped manual reference reads.",
+          "evidence": [
+            "product-t30-schema-reference-ownership-local-verified"
+          ]
+        }
+      ],
+      "remaining_gap": "Independently observed physical schema identity, worker/plan admission and transfer/restore lifecycle acceptance remain missing."
     },
     {
       "id": "DBM-008",
@@ -2250,17 +2279,21 @@
       "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
     }
   ],
-  "verification_record": "evidence/product/product-t29-reviewer-assignment-20261010/record.json",
+  "verification_record": "evidence/product/product-t30-schema-reference-ownership-20261010/record.json",
   "source_observations": {
     "integrated_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
     "retained_stack_implementation": "ced0c1c62bc115d283aca4580999a6486403ce6b",
     "retained_stack_published_snapshot": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
     "retained_stack_worktree": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
     "inbox_implementation": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
-    "evidence_path_policy": "T24-T27 evidence paths/IDs refer to retained-stack worktree or PR40 snapshot; T28 evidence refers to independent inbox worktree or PR41 snapshot. Neither unmerged implementation/evidence set is copied into the T29 master-based branch.",
+    "evidence_path_policy": "Prior T24-T29 source/evidence remains in its respective unmerged worktree/PR snapshot; T30 is independently based on merged master, with no unmerged source prerequisites copied.",
     "inbox_worktree": "/home/longhn0710/workspace/schemaforge-product-review-inbox",
     "inbox_published_snapshot": "17e9a92fc91527dd8b9d374a52503e3430cddb3f",
     "assignment_implementation": "8658252e70217b41ac215a317fdd8b328a576d19",
-    "assignment_worktree": "/home/longhn0710/workspace/schemaforge-product-reviewer-assignment"
+    "assignment_worktree": "/home/longhn0710/workspace/schemaforge-product-reviewer-assignment",
+    "assignment_published_snapshot": "f58c4146cf01c5e7a83de6b1b5b4255259f81c05",
+    "assignment_pr": 42,
+    "reference_ownership_implementation": "af707b4fd08074c6109cae4c8c08c011fa82d597",
+    "reference_ownership_worktree": "/home/longhn0710/workspace/schemaforge-product-schema-reference-ownership"
   }
 }

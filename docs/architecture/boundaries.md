@@ -35,3 +35,13 @@ credential references; no target credentials are resolved. Offline candidate pla
 NOT_OBSERVED target history and NOT_EXECUTED migration states. They are reviewable proposals,
 not reconciled executable plans or verified Oracle compatibility. See
 [local product operation](../development/local-product.md).
+
+Shared target references use a separate organization-owned metadata catalog. Only the
+trusted local OS operator registers manual database/container/service/schema references
+and changes their project ownership; project credentials provide scoped read access.
+These references retain manual provenance and provisional identity. Registration UUIDs,
+declared environments and exact owner names are not observed Oracle identities or DBA
+attestations. Ownership changes preserve assignment history and existing project facts.
+Legacy connection profiles and offline plans remain separate; attaching a reference to
+an executable target requires verified identity, scoped credentials, assignment revisions
+and the worker's actual authorization and history checks.

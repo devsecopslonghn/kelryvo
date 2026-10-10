@@ -1,0 +1,41 @@
+{
+  "scope": "Focused local T30 checks only; no frozen mandatory root suites were run by this implementation agent.",
+  "environment_prefix": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+  "logs": [
+    {"path":"/tmp/schemaforge-t30-focused-1.log","command":"npm run typecheck","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-focused-2.log","command":"node scripts/build-web.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-focused-3.log","command":"node scripts/check-source.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-focused-4.log","command":"SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference.test.mjs tests/product-database.test.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-focused-5.log","command":"SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference-browser.integration.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-final-1.log","command":"npm run typecheck","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-final-2.log","command":"node scripts/build-web.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-final-3.log","command":"node scripts/check-source.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-final-4.log","command":"SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-database.test.mjs","outcome":"PASS (exit 0); observed subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database"},
+    {"path":"/tmp/schemaforge-t30-final-5.log","command":"SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference-browser.integration.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-final-6.log","command":"SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-membership.test.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-handoff-1.log","command":"npm run typecheck","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-handoff-2.log","command":"node scripts/build-web.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-handoff-3.log","command":"node scripts/check-source.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-handoff-4.log","command":"SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference.test.mjs tests/product-database.test.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-handoff-5.log","command":"SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference-browser.integration.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-handoff-6.log","command":"SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-membership.test.mjs","outcome":"PASS (exit 0)"},
+    {"path":"/tmp/schemaforge-t30-handoff-7.log","command":"git diff --check","outcome":"PASS (exit 0); empty log"},
+    {"path":"/tmp/schemaforge-t30-handoff-8.log","command":"SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference.test.mjs","outcome":"PASS (exit 0); 2/2 tests; superseded by handoff-10 after additional CLI negative assertions"},
+    {"path":"/tmp/schemaforge-t30-handoff-9.log","command":"SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference-browser.integration.mjs","outcome":"PASS (exit 0); 2/2 tests"},
+    {"path":"/tmp/schemaforge-t30-handoff-10.log","command":"SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 node --test --test-concurrency=1 tests/product-schema-reference.test.mjs","outcome":"PASS (exit 0); 2/2 tests; latest API/operator run"}
+  ],
+  "historical_failures": [
+    {
+      "observation": "An initial new reference test run failed on an assertion that oldProjectRead.body did not include 'Sales'. The response still legitimately included shared service/container summaries; assertion was narrowed to transferred schema ID membership.",
+      "raw_capture": "unavailable as a durable log; the failure output was seen in the tool response. Exact preserved excerpt: assert.ok(!oldProjectRead.body.includes('Sales')); code ERR_ASSERTION; tests/product-schema-reference.test.mjs:102:54. This is an excerpt of tool output, not a raw log."
+    },
+    {
+      "observation": "Earlier iteration failures reported in implementation context: initial reference-test syntax errors, first browser navigation timeout, grant fixture inserted before actor (foreign-key failure), and browser release callback scope failure. Each was corrected before latest focused runs.",
+      "raw_capture": "unavailable; no durable failure logs identified, so these are historical observations only, not raw evidence."
+    }
+  ],
+  "notes": [
+    "The focused/final/handoff logs are local implementation checks and are distinct from root's frozen mandatory standard/product/browser runs, which had not started at handoff.",
+    "No Oracle connections/probes, external infrastructure actions, commits, pushes, or full standard suites were performed by this agent."
+  ]
+}

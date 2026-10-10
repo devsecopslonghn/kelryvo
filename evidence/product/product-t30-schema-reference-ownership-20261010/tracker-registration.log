@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: persisted tracker state validates without assuming initial statuses
+ok 1 - persisted tracker state validates without assuming initial statuses
+  ---
+  duration_ms: 74.933761
+  type: 'test'
+  ...
+# Subtest: catalog and plan IDs are retained with original dependency links
+ok 2 - catalog and plan IDs are retained with original dependency links
+  ---
+  duration_ms: 4.72552
+  type: 'test'
+  ...
+# Subtest: separate WP0 cells never claim research as runtime PASS
+ok 3 - separate WP0 cells never claim research as runtime PASS
+  ---
+  duration_ms: 83.323805
+  type: 'test'
+  ...
+# Subtest: initial state keeps Oracle validation and product delivery tracks distinct
+ok 4 - initial state keeps Oracle validation and product delivery tracks distinct
+  ---
+  duration_ms: 14.322745
+  type: 'test'
+  ...
+# Subtest: unknown and cyclic dependencies are rejected
+ok 5 - unknown and cyclic dependencies are rejected
+  ---
+  duration_ms: 22.888099
+  type: 'test'
+  ...
+# Subtest: verification requires acceptance, evidence, and verified dependencies
+ok 6 - verification requires acceptance, evidence, and verified dependencies
+  ---
+  duration_ms: 20.972294
+  type: 'test'
+  ...
+# Subtest: BLOCKED and DEFERRED states require concrete reasons
+ok 7 - BLOCKED and DEFERRED states require concrete reasons
+  ---
+  duration_ms: 18.321646
+  type: 'test'
+  ...
+# Subtest: unit BLOCKED requires an offline blocker independent of Oracle lab status
+ok 8 - unit BLOCKED requires an offline blocker independent of Oracle lab status
+  ---
+  duration_ms: 17.880448
+  type: 'test'
+  ...
+# Subtest: Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+ok 9 - Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+  ---
+  duration_ms: 11.201757
+  type: 'test'
+  ...
+# Subtest: malformed evidence metadata returns validation errors without throwing
+ok 10 - malformed evidence metadata returns validation errors without throwing
+  ---
+  duration_ms: 41.86755
+  type: 'test'
+  ...
+# Subtest: research evidence cannot certify product status
+ok 11 - research evidence cannot certify product status
+  ---
+  duration_ms: 8.070582
+  type: 'test'
+  ...
+# Subtest: PASS cells need evidence
+ok 12 - PASS cells need evidence
+  ---
+  duration_ms: 7.888953
+  type: 'test'
+  ...
+# Subtest: ownership and dependency graph remain synchronized with work records
+ok 13 - ownership and dependency graph remain synchronized with work records
+  ---
+  duration_ms: 15.775312
+  type: 'test'
+  ...
+# Subtest: duplicate, missing, and unexpected imported IDs are rejected
+ok 14 - duplicate, missing, and unexpected imported IDs are rejected
+  ---
+  duration_ms: 24.749034
+  type: 'test'
+  ...
+# Subtest: source dependencies, acceptance, references, and result enums cannot drift
+ok 15 - source dependencies, acceptance, references, and result enums cannot drift
+  ---
+  duration_ms: 8.287104
+  type: 'test'
+  ...
+# Subtest: hashed indexed evidence covers every acceptance and test reference before verification
+ok 16 - hashed indexed evidence covers every acceptance and test reference before verification
+  ---
+  duration_ms: 93.875303
+  type: 'test'
+  ...
+# Subtest: product feature verification needs product-scope evidence and verified implementation tasks
+ok 17 - product feature verification needs product-scope evidence and verified implementation tasks
+  ---
+  duration_ms: 16.829895
+  type: 'test'
+  ...
+# Subtest: init refuses to overwrite initialized evidence or tracking state
+ok 18 - init refuses to overwrite initialized evidence or tracking state
+  ---
+  duration_ms: 60.041074
+  type: 'test'
+  ...
+# Subtest: next respects milestone scope and dependency gates independent of persisted statuses
+ok 19 - next respects milestone scope and dependency gates independent of persisted statuses
+  ---
+  duration_ms: 2.972128
+  type: 'test'
+  ...
+# Subtest: PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+ok 20 - PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+  ---
+  duration_ms: 48.976623
+  type: 'test'
+  ...
+# Subtest: PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+ok 21 - PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+  ---
+  duration_ms: 88.288115
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 798.45724

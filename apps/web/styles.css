@@ -117,6 +117,12 @@ button:disabled {
 .nav-item.active span {
   color: #77a7f4;
 }
+.schema-reference-screen { max-width: 1100px; margin: 0 auto; }
+.schema-reference-card { background: var(--surface, #fff); border: 1px solid var(--line, #dce2ea); border-radius: 12px; padding: 20px; margin: 16px 0; }
+.schema-reference-card h2 { margin: 12px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.schema-reference-card dl { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 12px 20px; }
+.schema-reference-card dt { color: var(--muted, #667085); font-size: .82rem; }
+.schema-reference-card dd { margin: 4px 0 0; overflow-wrap: anywhere; }
 .sidebar-bottom {
   margin-top: auto;
   border-top: 1px solid #314155;

@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: schema-reference view labels provisional identity and drops a delayed session response
+ok 1 - schema-reference view labels provisional identity and drops a delayed session response
+  ---
+  duration_ms: 907.255203
+  type: 'test'
+  ...
+# Subtest: schema references follow project context and clear after grant revocation
+ok 2 - schema references follow project context and clear after grant revocation
+  ---
+  duration_ms: 1218.232076
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2830.241842
