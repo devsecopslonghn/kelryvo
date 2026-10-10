@@ -115,6 +115,8 @@ export async function initializeDatabase(sql: any): Promise<void> {
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS offline_intent_envelope text;
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS offline_intent_digest text;
     ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS source_binding_generation bigint;
+    ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS reviewer_id text;
+    ALTER TABLE sf_plans ADD COLUMN IF NOT EXISTS reviewer_revision bigint NOT NULL DEFAULT 0 CHECK (reviewer_revision >= 0);
     ALTER TABLE sf_plan_comments ADD COLUMN IF NOT EXISTS evidence_refs jsonb NOT NULL DEFAULT '[]'::jsonb;
     DO $$ BEGIN
       IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='sf_plan_comments'::regclass AND conname='sf_plan_comments_evidence_refs_bounded') THEN

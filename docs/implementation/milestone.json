@@ -221,7 +221,7 @@
     "npm run status",
     "npm run next"
   ],
-  "updated_at": "2026-10-09T19:28:53.822390+00:00",
+  "updated_at": "2026-10-10T08:39:49.962803+00:00",
   "final_check_evidence": {
     "index_id": "product-t20-local-credential-lifecycle-local-verified"
   },
@@ -254,7 +254,7 @@
       ]
     }
   },
-  "product_task_status": "T01_THROUGH_T23_MERGED_T24_THROUGH_T28_VERIFIED_LOCAL",
+  "product_task_status": "T01_THROUGH_T23_MERGED_T24_THROUGH_T29_VERIFIED_LOCAL_IN_SEPARATE_BRANCHES",
   "historical_wp0_checkpoint": {
     "current_increment_pr": 7,
     "current_increment_merge_status": "MERGED",
@@ -365,49 +365,34 @@
   "latest_merged_master_before_this_increment": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
   "last_verified_master_evidence": "evidence/product/product-t22-merge-20261009T183839Z/record.json",
   "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
-  "retained_release_stack": {
-    "drafts": [
+  "carry_forward": {
+    "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-product-review-inbox",
+    "pr41_head": "17e9a92fc91527dd8b9d374a52503e3430cddb3f",
+    "local_checkpoint": "2a352c4d5f49e4f24ebb8480699910f8bd771d64",
+    "retained_stack_drafts": [
       37,
       38,
       39,
       40
     ],
-    "t27_published_head": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
-    "local_checkpoint": "ede57bd",
-    "local_checks": {
-      "standard": 163,
-      "product": 38,
-      "browser": 22,
-      "failures": 0,
-      "skips": 0
-    },
-    "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
-    "coverage_summary": {
-      "total": 220,
-      "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 41,
-      "NOT_IMPLEMENTED": 172,
-      "BLOCKED_EXTERNAL": 0,
-      "DEFERRED": 7
-    },
-    "merge_eligible": false,
-    "gates": "Code scanning403,secret scanning404,protection403 unavailable; Sonar exception unchanged and Oracle independent.",
-    "available_ci": "PR37/38/39 checked PASS at recovery; all six PR40 foundation/parser/product checks passed at b8177d4. Required external security unavailable."
+    "t28_ci": "All six available foundation/parser/product push+PR checks SUCCESS at exact published17e9a92; required security still unavailable.",
+    "coverage": "220 features:0fully verified/41partial/172not implemented/7deferred, previous source worktrees retain evidence; no copied unmerged implementation.",
+    "t28_ci_observation": "evidence/product/product-t29-reviewer-assignment-20261010/t28-ci-final-observation.json"
   },
-  "t28_local_verification": {
-    "record": "evidence/product/product-t28-review-inbox-20261010/record.json",
-    "implementation_head": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
+  "t29_local_verification": {
+    "record": "evidence/product/product-t29-reviewer-assignment-20261010/record.json",
+    "implementation_head": "8658252e70217b41ac215a317fdd8b328a576d19",
     "counts": {
-      "standardRecovered": {
-        "tests": 160,
-        "pass": 160,
+      "standardCorrected": {
+        "tests": 159,
+        "pass": 159,
         "fail": 0,
         "cancelled": 0,
         "skipped": 0
       },
       "product": {
-        "tests": 36,
-        "pass": 36,
+        "tests": 35,
+        "pass": 35,
         "fail": 0,
         "cancelled": 0,
         "skipped": 0
@@ -420,7 +405,18 @@
         "skipped": 0
       }
     },
-    "independent_review": "evidence/product/product-t28-review-inbox-20261010/independent-review-final-source.json",
+    "reviews": [
+      {
+        "path": "evidence/product/product-t29-reviewer-assignment-20261010/independent-review-final-source.json",
+        "sha256": "ad6cc355295053f3a5fee3c932421b8901f65050d117bf881a2c0b9e99f2e6f4",
+        "reviewer_ran_tests": false
+      },
+      {
+        "path": "evidence/product/product-t29-reviewer-assignment-20261010/independent-regression-fix-review.json",
+        "sha256": "b2ae34db9185fbcb551fc30061da8c2e1a4c4c05551c788968393cff2eec7574",
+        "reviewer_ran_tests": false
+      }
+    ],
     "merge_eligible": false
   },
   "feature_coverage": "docs/implementation/feature-coverage.json",

@@ -1178,6 +1178,19 @@ td code {
   padding: 15px;
   background: #fbfcfe;
 }
+.reviewer-assignment-controls {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0;
+}
+.reviewer-assignment-controls label {
+  flex: 1 1 240px;
+}
+.reviewer-assignment-controls select {
+  width: 100%;
+}
 .decision-box > label {
   display: block;
   font-size: 10px;

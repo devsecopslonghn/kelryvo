@@ -1,0 +1,121 @@
+{
+  "id": "product-t29-reviewer-assignment-local-verified",
+  "subject_id": "SF-PRODUCT-T29",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Frozen serial standard/product/parser/browser regressions at8658252; hash-bound native source and two-test follow-up reviews; root five-criterion acceptance and diff review",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_references": [
+    "SF-PRODUCT-T29-API",
+    "SF-PRODUCT-T29-WEB",
+    "SF-PRODUCT-T29-PERSISTENCE"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/product-t29-reviewer-assignment-20261010/standardCorrected.log",
+    "sha256": "f589cdfafacce85d870aebc53cf04ff2c8b65e9e52b0d77cb4a2069eb197c2de"
+  },
+  "recorded_at": "2026-10-10T08:39:49.962803+00:00",
+  "implementation_head": "8658252e70217b41ac215a317fdd8b328a576d19",
+  "verified_remote_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
+  "regressions": {
+    "standardCorrected": {
+      "result": "evidence/product/product-t29-reviewer-assignment-20261010/standardCorrected.json",
+      "result_sha256": "89608570319653f8ce277cc6b08860ba56422a5230035ef1080248fb6c613fb7",
+      "raw_output": "evidence/product/product-t29-reviewer-assignment-20261010/standardCorrected.log",
+      "raw_output_sha256": "f589cdfafacce85d870aebc53cf04ff2c8b65e9e52b0d77cb4a2069eb197c2de",
+      "counts": {
+        "tests": 159,
+        "pass": 159,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "check"
+      ]
+    },
+    "product": {
+      "result": "evidence/product/product-t29-reviewer-assignment-20261010/product.json",
+      "result_sha256": "aa20bb90f7f6f4ec08e06bfef4b42a23eb21f4c10f83a381337a7d0f31928eea",
+      "raw_output": "evidence/product/product-t29-reviewer-assignment-20261010/product.log",
+      "raw_output_sha256": "5992611314e98fbe2e036c5b5325c2ca1d8ef492ef2950ddaec0c6d296f906fc",
+      "counts": {
+        "tests": 35,
+        "pass": 35,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:product"
+      ]
+    },
+    "browser": {
+      "result": "evidence/product/product-t29-reviewer-assignment-20261010/browser.json",
+      "result_sha256": "22dcd56e686007d479d6a834af9ca8bdb76ebc0ea0a2d14e666d9ca6ba54a1be",
+      "raw_output": "evidence/product/product-t29-reviewer-assignment-20261010/browser.log",
+      "raw_output_sha256": "30819231f4bc54584ebb4efbe9082838e8ec4982738ec3fb613bd2e57a87ce93",
+      "counts": {
+        "tests": 21,
+        "pass": 21,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "command": [
+        "taskset",
+        "-c",
+        "0,1",
+        "npm",
+        "run",
+        "test:browser"
+      ]
+    }
+  },
+  "reviews": [
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/independent-review-final-source.json",
+      "sha256": "ad6cc355295053f3a5fee3c932421b8901f65050d117bf881a2c0b9e99f2e6f4",
+      "reviewer_ran_tests": false
+    },
+    {
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/independent-regression-fix-review.json",
+      "sha256": "b2ae34db9185fbcb551fc30061da8c2e1a4c4c05551c788968393cff2eec7574",
+      "reviewer_ran_tests": false
+    }
+  ],
+  "review_binding": "Original source review atf1ac453 plus unchanged file hashes and exact two-test-only delta reviewed separately; all final mandatory commands ran at8658252.",
+  "acceptance_observations": [
+    "Additive nullable assignment and nonnegative bigint revision preserve legacy author/source/intent/decision/comment/history; repeated initialization and API recreation verified.",
+    "Scoped bounded identity-only current eligible reviewer choices; explicit live grants/credentials/role; requester exclusion; requester/assignee routing and unassigned independent self-claim; strict optimistic revision, no-op and atomic one-event audit; all registered negative guards tested.",
+    "Assigned approval/rejection enforce current assignee and live caller role/token/grant after locks; unassigned independence and strict retained source/intent checks remain; concurrency tests confirm queued revocation and assignment/decision serialization; execution remains NOT_EXECUTED.",
+    "React assignment/reassignment/clear/self-claim, revision/conflict/empty/truncation feedback, assigned-to-me filter, both other-assignee decisions disabled; controlled delayed plan/session and A-to-B-to-A responses discarded.",
+    "Real isolated PG/API/Chromium with complete protected state comparisons; standard/product plus pinned offline parser and browser suites passed without skipped required cases; all220 original feature contracts/dependencies, license/notice/package/parser pins retained."
+  ],
+  "limitations": [
+    "Bounded local GOV021 assignment facet only; temporary expiring delegation, notifications, inbox-assignment integration, full API/worker catalog acceptance and Oracle19c/21c remain unverified.",
+    "T29 browser delayed-response cases directly cover plan selection, session signout and A-to-B-to-A; broader project/revocation contexts use source guards, API negatives and existing regression cases, not separately driven by the new T29 browser test.",
+    "First frozen standard157/159 failed on stale task count and old FOR SHARE lock-text expectations; preserved standard.json/log. Two reviewed assertion updates fixed both; focused24/24 and final mandatory runs capture subsequent source.",
+    "Earlier focused failures remain append-only; initial root browser wrong-plan/artifact-mixed attempt does not supply acceptance PASS.",
+    "Required GitHub code/secret scanning and protection unavailable; Sonar availability exception remains Sonar-only. No readiness, merge eligibility, deployment or Oracle authority."
+  ]
+}

@@ -313,7 +313,8 @@
     "SF-PRODUCT-T25",
     "SF-PRODUCT-T26",
     "SF-PRODUCT-T27",
-    "SF-PRODUCT-T28"
+    "SF-PRODUCT-T28",
+    "SF-PRODUCT-T29"
   ],
   "edges": {
     "DBM-001": [],
@@ -1492,6 +1493,12 @@
       "SF-PRODUCT-T16",
       "SF-PRODUCT-T21",
       "SF-PRODUCT-T08"
+    ],
+    "SF-PRODUCT-T29": [
+      "SF-PRODUCT-T16",
+      "SF-PRODUCT-T21",
+      "SF-PRODUCT-T19",
+      "SF-PRODUCT-T05"
     ]
   },
   "scheduling": {
@@ -1600,6 +1607,12 @@
         "SF-PRODUCT-T16",
         "SF-PRODUCT-T21",
         "SF-PRODUCT-T08"
+      ],
+      "SF-PRODUCT-T29": [
+        "SF-PRODUCT-T16",
+        "SF-PRODUCT-T21",
+        "SF-PRODUCT-T19",
+        "SF-PRODUCT-T05"
       ]
     },
     "VALIDATION": {}

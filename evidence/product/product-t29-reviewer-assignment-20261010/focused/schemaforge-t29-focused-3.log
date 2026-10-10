@@ -1,0 +1,39 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: reviewer assignment is scoped, revisioned, auditable and enforced at decision time
+not ok 1 - reviewer assignment is scoped, revisioned, auditable and enforced at decision time
+  ---
+  duration_ms: 495.667076
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge-product-reviewer-assignment/tests/product-reviewer-assignment.test.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'reviewer-0ef0e0b4-205f-47a6-b296-c1ca7eea4431'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'reviewer-0ef0e0b4-205f-47a6-b296-c1ca7eea4431'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge-product-reviewer-assignment/tests/product-reviewer-assignment.test.mjs:58:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 715.770741

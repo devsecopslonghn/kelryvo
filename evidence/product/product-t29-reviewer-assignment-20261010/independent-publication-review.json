@@ -1,0 +1,50 @@
+{
+  "task": "SF-PRODUCT-T29 publication review",
+  "review_type": "read-only candidate publication review",
+  "candidate_head": "dc69b9b139223b2c16eeb1014dcd0f0fdab733b4",
+  "verified_executable_test_head": "8658252e70217b41ac215a317fdd8b328a576d19",
+  "verdict": "Publication metadata and evidence are internally consistent with the reviewed T29 source and reported final local regressions. No publication blocker found. This is not CI, merge, security-gate, deployment, or Oracle approval.",
+  "source_hash_binding": {
+    "assessment": "Frozen implementation and test hashes from the independent source review and the two-test follow-up match the publication scan and final regression manifests. The final standard, product/parser and browser result records all bind execution_head and head_after to 8658252, with before/after hashes unchanged. Commits after 8658252 are documentation/evidence-only in this candidate diff.",
+    "sha256": {
+      "apps/api/index.ts": "75a4ca1d2d9852d86cded18dfc20f5b71eb86c8cd21ce1b5199bf551d29487ae",
+      "apps/web/src/app.jsx": "1da97857123c0cc0750a04f54f9da588f0af77af976338c00057fd791ff0e19a",
+      "apps/web/styles.css": "420c4ebd5ee9a2e202ff65c7890757f94cbe12cab869a80449a76fbbfd4402e2",
+      "packages/database/index.ts": "dbc71b5f488eca95c71e008e1bd3c174b7fc8745043092f1bfe2af809cc3c96a",
+      "scripts/test-product.mjs": "4dfe4b0a463c9c47b4b538ac069ed2e6e2398d483cc8688c5bf42e9f0323aab7",
+      "scripts/tracker.mjs": "f1d7937e0a8ea0e73367953ed0f3a1de873235b07a9b1dae062512f79c7e4ba2",
+      "tests/product-protected-source-binding.test.mjs": "c61fc420020d8588b22a48966e17d830fb4f1fe2680671be688af02c60470eb2",
+      "tests/product-reviewer-assignment-browser.integration.mjs": "823619ed2e19e4bf03dc79ec1570d4938782366e2d2ba355373652ab9a80db87",
+      "tests/product-reviewer-assignment.test.mjs": "96d4e931222714a4f02896fcecea2e427cb542f3df221294781f9c5afe6b86c6",
+      "tests/tracker.test.mjs": "7ea7ebf7d7f1c4f20e7f17413484d04194d7405565621c6647f541e121be8f1b",
+      "package.json": "cef1fe95bd6614e9505e18443bc5ce07cfcc3f9a64b4ca8ae0814967672283db",
+      "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+      "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b"
+    }
+  },
+  "evidence_review": {
+    "tracker": "SF-PRODUCT-T29 is registered with all five acceptance criteria, the three requested test references, and its scheduling dependencies. Acceptance adds the bounded task without editing the original feature catalog/contracts; dependency graph changes add the T29 task/scheduling node while preserving existing edges.",
+    "record_binding": "record.json is indexed once in docs/implementation/evidence-index.json; its recorded SHA256 matches the index. It has criterion_indexes [0,1,2,3,4] and all three test refs. Its nested result and raw-log hashes match the committed files.",
+    "regression_results": "Recorded final outcomes are standard 159/159, product/parser 35/35, Chromium 21/21, each with zero failures, cancellations or skips. The initial 157/159 standard failure is preserved and identified as two stale assertions; the test-only fixes were independently reviewed and final runs bind the corrected source/test hashes.",
+    "raw_logs": "All 27 committed .log files in the T29 evidence directory are present in the 64-path publication scan, hash-match current bytes, and are tracked. The scan path set matches all 65 changed paths except publication-scan.json itself, which its scope says was added after scanning. The three aggregate final raw log hashes also match record.json.",
+    "publication_scan": "Recorded local publication scanner exit code 0 with finding_count 0. The scan covers 64 scoped changed paths including source, metadata, review records and raw logs. This does not substitute for unavailable GitHub security gates."
+  },
+  "scope_and_policy": {
+    "license_and_pins": "No diff to LICENSE, NOTICE, package.json, package-lock.json, docs/dependencies/antlr-parser-lock.json, or the original features.json catalog.",
+    "coverage_and_limits": "Current/CONTINUE and feature-coverage retain bounded T29 local status, 220-feature partial/not-implemented/deferred counts, and explicitly state that full GOV021, temporary delegation, notifications/inbox integration, worker/API catalog acceptance, and Oracle 19c/21c remain unverified.",
+    "draft_policy": "Milestone and continuation metadata keep T29 draft-only / publication pending, retain drafts 37-41, and state that security scanning/protection is unavailable; no merge eligibility or readiness is asserted.",
+    "worktree": "Candidate worktree was clean during review. Candidate diff contains 65 paths; change concentration is T29 API/UI/migration/tests, bounded tracker/docs updates and append-only evidence."
+  },
+  "findings": [],
+  "non_blocking_observation": "A read-only `git diff --check` inspection reports trailing whitespace and blank-line-at-EOF warnings only in committed raw test logs. These are captured process output, including preserved failed historical runs; editing them would invalidate raw-log hashes. No source or documentation warning appeared in the shown output.",
+  "limitations": [
+    "No tests, scanners or network operations were run for this review. Regression results and the publication scanner are read from their hash-bound local evidence.",
+    "The publication-scan record intentionally excludes itself because it was created after the 64-path scan. Its private_report_sha256 is recorded, but this reviewer did not inspect a separate private scanner output artifact.",
+    "External GitHub CI, code/secret scanning, branch protection, Sonar status beyond the recorded exception, merge eligibility, deployment and Oracle acceptance are outside this review and are not marked PASS."
+  ],
+  "key_hashes": {
+    "docs/implementation/evidence-index.json": "7fd1e5d13fb6a732b645c6068b02c41cd94c5dfd8cb767e02f753dc4a0f940b6",
+    "evidence/product/product-t29-reviewer-assignment-20261010/record.json": "a9b728932d539414d37e9aaa4b247c566630e9cfec495d7295bd2e27fd581a5c",
+    "evidence/product/product-t29-reviewer-assignment-20261010/publication-scan.json": "recorded in local scan scope except self; candidate file was inspected directly"
+  }
+}

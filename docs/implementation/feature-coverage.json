@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-10T07:50:48.091055+00:00",
+  "recorded_at": "2026-10-10T08:39:49.962803+00:00",
   "verified_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
   "reviewed_local_source": "ced0c1c62bc115d283aca4580999a6486403ce6b",
-  "scope": "All220 original features across integrated master0fd and explicitly unmerged locally verified T24-T28 facets; no full catalog certification.",
+  "scope": "All220 original features across integrated master0fd and explicitly unmerged locally verified T24-T29 facets; no full catalog certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
     "Task completion establishes only its bounded facet; original criteria and dependencies remain unchanged.",
@@ -62,12 +62,12 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "Oracle 19c/21c acceptance remains independently blocked; no execution worker/target ledger/runtime verification claimed. Required GitHub security gates prevent integration of draft37/38/39 and T27.",
+  "external_acceptance": "Oracle19c/21c acceptance remains independently unavailable. Required external GitHub security gates prevent integration of drafts37-41 and T29; local scans/CI never replace those gates.",
   "next_product_capability": {
-    "status": "T28_LOCAL_VERIFIED_INDEPENDENT_MASTER_BRANCH",
-    "remaining_catalog_scope": "Approval assignment/delegation and full GOV021 authorization/worker acceptance remain missing.",
-    "next_increment": "Persistent reviewer assignment for pending project plans with current granted approvers and requester exclusion; reuse merged project review interfaces independently of T28 inbox.",
-    "branch_policy": "Fresh master-based context/worktree after this checkpoint; no additional dependency on unmerged drafts37-40 or T28."
+    "status": "T29_LOCAL_VERIFIED_INDEPENDENT_MASTER_BRANCH",
+    "remaining_catalog_scope": "Temporary expiring delegation, inbox-assignment integration, notifications and full GOV021 worker/API acceptance remain missing.",
+    "next_increment": "Inspect schema identity and ownership prerequisites DBM-004/DBM-007 before registering the next independent PRODUCT increment toward reviewed schema baselines MIG-015. Current profiles are project-local endpoint metadata; catalog requires independent schemas and one active owning project. Select the smallest missing prerequisite from actual source; no Oracle observation or target ledger fabrication.",
+    "branch_policy": "Fresh merged-master task context; preserve all independent drafts; do not grow retained stack or assume unmerged assignment/inbox prerequisites."
   },
   "features": [
     {
@@ -1104,6 +1104,13 @@
           "behavior": "Find pending reviews across authorized active projects",
           "evidence": [
             "product-t28-review-inbox-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T29",
+          "behavior": "Assign and reassign independent reviewers for pending project plans",
+          "evidence": [
+            "product-t29-reviewer-assignment-local-verified"
           ]
         }
       ],
@@ -2243,13 +2250,17 @@
       "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
     }
   ],
-  "verification_record": "evidence/product/product-t28-review-inbox-20261010/record.json",
+  "verification_record": "evidence/product/product-t29-reviewer-assignment-20261010/record.json",
   "source_observations": {
     "integrated_master": "0fd6980db49c9546ab0a04fe07321a348eee2d65",
     "retained_stack_implementation": "ced0c1c62bc115d283aca4580999a6486403ce6b",
     "retained_stack_published_snapshot": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
     "retained_stack_worktree": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
     "inbox_implementation": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
-    "evidence_path_policy": "T24-T27 evidence paths/IDs refer to retained-stack source worktree or PR40 published snapshot; these prerequisites are not copied into this independent master-based branch."
+    "evidence_path_policy": "T24-T27 evidence paths/IDs refer to retained-stack worktree or PR40 snapshot; T28 evidence refers to independent inbox worktree or PR41 snapshot. Neither unmerged implementation/evidence set is copied into the T29 master-based branch.",
+    "inbox_worktree": "/home/longhn0710/workspace/schemaforge-product-review-inbox",
+    "inbox_published_snapshot": "17e9a92fc91527dd8b9d374a52503e3430cddb3f",
+    "assignment_implementation": "8658252e70217b41ac215a317fdd8b328a576d19",
+    "assignment_worktree": "/home/longhn0710/workspace/schemaforge-product-reviewer-assignment"
   }
 }

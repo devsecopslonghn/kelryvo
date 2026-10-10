@@ -2792,6 +2792,34 @@
       },
       "path": "evidence/product/product-t28-review-inbox-20261010/record.json",
       "sha256": "6963522e0646cba60a3bb6b7fbecd8ae1fa21eb51df5f8334abcf0f59571de8e"
+    },
+    {
+      "id": "product-t29-reviewer-assignment-local-verified",
+      "subject_id": "SF-PRODUCT-T29",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen serial standard/product/parser/browser regressions at8658252; hash-bound native source and two-test follow-up reviews; root five-criterion acceptance and diff review",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "test_references": [
+        "SF-PRODUCT-T29-API",
+        "SF-PRODUCT-T29-WEB",
+        "SF-PRODUCT-T29-PERSISTENCE"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/product-t29-reviewer-assignment-20261010/standardCorrected.log",
+        "sha256": "f589cdfafacce85d870aebc53cf04ff2c8b65e9e52b0d77cb4a2069eb197c2de"
+      },
+      "path": "evidence/product/product-t29-reviewer-assignment-20261010/record.json",
+      "sha256": "a9b728932d539414d37e9aaa4b247c566630e9cfec495d7295bd2e27fd581a5c"
     }
   ]
 }

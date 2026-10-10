@@ -79,6 +79,17 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    rejection remains available when source is damaged.
    Approval does not grant execution authority. Prepare another candidate to demonstrate
    rejection as a separate decision.
+   Pending plans can be routed to a current project member with the fixed approver role.
+   The requester or current assignee can choose another reviewer or clear the assignment;
+   an eligible approver can claim an unassigned plan for themselves. Reviewer choices are
+   scoped to the plan's project, exclude its requester, require a current grant and active
+   credential, and return at most 50 names; the UI reports when more choices exist. A strict
+   decimal revision accompanies each change. Stale writes fail, same-target requests leave
+   the revision and audit unchanged, and real changes append one `PLAN_REVIEWER_ASSIGNED`
+   event. Once assigned, only that independent current approver can decide the plan; unassigned
+   legacy plans retain independent approver review. The Assigned to me filter shows pending
+   plans routed to the signed-in actor. Assignment changes do not alter source, intent, comment,
+   decision or history facts and do not authorize execution.
    Developers and approvers can add review comments while a plan is pending. The timeline
    retains plain text, the server-resolved author name and timestamp in submission order.
    Comments remain readable after approval, rejection or project archival; those states
@@ -304,6 +315,8 @@ All other API reads/writes require a bearer token:
 | `GET /api/projects/:projectId/plans/:id/comments` | Authenticated, ordered historical comment timeline within the project/plan scope |
 | `POST /api/projects/:projectId/plans/:id/comments` | Append plain-text `body` to a pending plan in an active project; developer or approver |
 | `POST /api/plans/:id/decision` | Independent `APPROVE`/`REJECT` with `reason` |
+| `GET /api/projects/:projectId/plans/:id/reviewers` | Up to 50 current eligible reviewer IDs/names; `hasMore` reports truncation |
+| `PUT /api/projects/:projectId/plans/:id/reviewer` | Assign or clear with `reviewerId` (nullable) and canonical decimal `expectedRevision` |
 | `POST /api/plans/:id/execution` | Audit denial; HTTP 409 `EXECUTION_UNAVAILABLE`, `NOT_EXECUTED` |
 
 Historical release detail reads enforce the retained limits of 128 files, 2 MiB per
@@ -313,7 +326,11 @@ This is a display allocation bound; protected planning, comparison, preview and 
 readers retain their separate strict integrity checks.
 
 Writes and their audit/history events share PostgreSQL transactions. Approved items are
-immutable through the API; terminal decisions cannot be overwritten. Metadata administrators
+immutable through the API; terminal decisions cannot be overwritten. Local startup adds nullable
+`reviewer_id` and nonnegative `reviewer_revision` columns idempotently; existing plans remain
+unassigned at revision zero. Historical terminal and archived assignment metadata stays readable.
+Additional eligible reviewers beyond the directory bound can be assigned by their known actor ID
+through the same scoped API. Expiring temporary delegation remains unavailable. Metadata administrators
 remain outside this protection. No simulated execution, automatic retry, target ledger,
 runtime authority, Oracle connections, Kubernetes deployment or production compatibility
 claim is included. Archival retains records and transactionally rejects further project
