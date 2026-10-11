@@ -2,6 +2,7 @@ name: Offline ANTLR parser acceptance
 
 on:
   push:
+    branches: [master]
   pull_request:
   workflow_dispatch:
 
