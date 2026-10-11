@@ -209,7 +209,7 @@
   "foundation_evidence": {
     "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
   },
-  "current_phase": "MVP_CONTROLLED_EXECUTION_BRIDGE_INTEGRATED_FINAL_MASTER_CI_VERIFIED",
+  "current_phase": "MVP_LOCAL_SOURCE_RELEASE_LOCAL_VERIFIED_REMOTE_CI_PENDING",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
@@ -223,7 +223,7 @@
     "node scripts/tracker.mjs status",
     "node scripts/tracker.mjs next"
   ],
-  "updated_at": "2026-10-11T00:13:22.448163+00:00",
+  "updated_at": "2026-10-11T00:24:50.491907+00:00",
   "final_check_evidence": {
     "index_id": "mvp-controlled-execution-pr51-master-verified"
   },
@@ -242,7 +242,7 @@
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
   "current_increment_merge_status": "MERGED_MASTER_FINAL_CI_VERIFIED",
-  "current_checkpoint_branch": "development/product-controlled-execution",
+  "current_checkpoint_branch": "development/product-local-release",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -731,7 +731,7 @@
       "M2": "OFFLINE_PREPARATION_REVIEW_WORKFLOW_VERIFIED_INTEGRATED",
       "M3": "CONTROLLED_HOST_BRIDGE_UNIT_VERIFIED_INTEGRATED_ORACLE_BLOCKED_EXTERNAL",
       "M4": "CENTRAL_HISTORY_METADATA_RECOVERY_VERIFIED_INTEGRATED_TARGET_RECONCILIATION_BLOCKED_EXTERNAL",
-      "M5": "INCOMPLETE"
+      "M5": "LOCAL_SOURCE_INSTALLATION_ACCEPTANCE_VERIFIED_REMOTE_CI_PENDING_FULL_RELEASE_INCOMPLETE"
     },
     "oracle_runtime": "BLOCKED_EXTERNAL_NO_AUTHORIZED_ENVIRONMENT",
     "shortest_next_path": [
@@ -753,7 +753,7 @@
       {
         "outcome": "Reproducible MVP release acceptance",
         "work": "Demonstrate installation and Git-to-review/request/history on local PostgreSQL/Git/parser/HTTPS; validate Oracle execution only against an explicitly authorized runtime. Assemble source/notices and deployment artifacts under existing license.",
-        "status": "NEXT_INDEPENDENTLY_ACTIONABLE"
+        "status": "LOCAL_VERIFIED_REMOTE_CI_PENDING"
       }
     ],
     "merged_master": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
@@ -773,12 +773,14 @@
     ],
     "active_increment": {
       "outcome": "Reproducible local source installation bundle and end-to-end acceptance",
-      "status": "IN_PROGRESS",
+      "status": "LOCAL_VERIFIED_REMOTE_CI_PENDING",
       "worktree": "/home/longhn0710/workspace/schemaforge-local-release",
       "branch": "development/product-local-release",
       "integrated_base": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
       "preserved_checkpoint_base": "1619cdfbfed60aabefac9bebc1fed31f0bb23829",
-      "next": "Test deterministic frozen source/notices, fresh installed artifact workflow, independent review and all actual candidate/masterCI. No Oracle runtime claim."
+      "next": "Independent final hashes/publication scan, exact-head candidateCI, ordinary merge and finalmasterCI.",
+      "source_head": "5502b8cd077cc61f63980d1d13d7ce1d1ffbc94c",
+      "evidence": "evidence/product/mvp-local-release-20261011/record.json"
     },
     "last_integrated_pr": 51
   },

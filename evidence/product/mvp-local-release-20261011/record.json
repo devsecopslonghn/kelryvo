@@ -1,0 +1,109 @@
+{
+  "source_head": "5502b8cd077cc61f63980d1d13d7ce1d1ffbc94c",
+  "integrated_base": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+  "preserved_checkpoint_base": "1619cdfbfed60aabefac9bebc1fed31f0bb23829",
+  "outcome": "PASS",
+  "scope": "PRODUCT",
+  "commands": {
+    "bundle_unit": "node --test tests/local-release.test.mjs",
+    "artifact": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 npm run test:release",
+    "standard": "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/antlr/temurin npm run check"
+  },
+  "checks": {
+    "bundle_unit": {
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0
+    },
+    "fresh_installation": {
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "inner_workflows": 4,
+      "inner_fail": 0,
+      "inner_skip": 0
+    },
+    "standard": {
+      "source_head": "db57a54a51b47101b99d33a0fae7ba88eb3af0ff",
+      "tests": 199,
+      "pass": 155,
+      "fail": 0,
+      "skipped": 44,
+      "notes": "Optional PostgreSQL cases skipped without configured database; changed launcher then checked by fresh artifact acceptance and source/tracker lint. Final publication CI remains mandatory."
+    },
+    "license_closure": "85 pinned packages, zero unknown required grants; exact lock/LICENSE/NOTICE/parser pins unchanged"
+  },
+  "resolved_findings": [
+    "Caller Git/object/config/tar environment could redirect frozen source; fixed allowlist and foreign-repository regression",
+    "Prepared parser helper was rejected by source inventory; exact path/file/type/link-count/digest exception with negative regressions and installed positive check",
+    "Inherited Node test context skipped nested acceptance despite exit0; cleared context, explicit TAP and strict nonzero/all-pass/zero-skip aggregate"
+  ],
+  "source_sha256": {
+    ".github/workflows/product.yml": "cb7e1dc1c950e65d90d9e0296bfd0769c4a1df253628705eb6413a1946dd1ca3",
+    "README.md": "3f98dddd7b8b182bcff2d77a6b77df6734a2c9a18e1f291e5cd46ff8c84e58d5",
+    "docs/decisions/log.json": "377ebcea72de874924bc62ee307053d3829d1130867f545ba02b54bda5b8445a",
+    "docs/development/local-release.md": "d15fd9285c8951521747fe46167b8ae98e356f069d3926e3a28952ad712bf399",
+    "docs/implementation/CONTINUE.md": "9637eeab5e208ab6c38f1267042eb59e87e74405107dfeb0c7c3a3269d0a1337",
+    "docs/implementation/CURRENT.md": "9637eeab5e208ab6c38f1267042eb59e87e74405107dfeb0c7c3a3269d0a1337",
+    "docs/implementation/milestone.json": "b3ae12ecefa9ccf6476c5d956a6230001b18e8b17037f025f9ed1c619e94e1db",
+    "docs/product/license-and-naming.md": "d08a66b66044b76410cac891e8014eb95cb2288f34a8e4627b6fae67de07e709",
+    "package.json": "bc63279b855cbfd36bed712fbb5dce4fac24697f82636308a52fbbbc25c08629",
+    "scripts/local-release.mjs": "64d48e3bfd1d499317117fd3a31ee93ce1d5acde0c0120ad388324188682a012",
+    "scripts/release-acceptance.mjs": "437e1b4e94c5bf68078346e4eaa35b6fe9ddcf14e717210d387d37d61d06c249",
+    "tests/local-release.test.mjs": "085bc42075502c3d69c39131af14d9a9b77833322cbf8b71edffe216df12cff1",
+    "tests/product-local-release.integration.mjs": "120e179ce2ac1649584f45dda961a981e48e12814921385389e3426172e3bb1d",
+    "tests/product-release-acceptance.integration.mjs": "3a38c9132f27df641cb2be4497b2e20a82936d278af56ff14c25ecad14c09372",
+    "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+    "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "docs/dependencies/antlr-parser-lock.json": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b",
+    "docs/dependencies/product-closure.json": "d3a74a98934c47c581123d9476b04be1a4a0b7f82e4462e2a0fc70fb2a5cd897"
+  },
+  "logs_sha256": {
+    "evidence/product/mvp-local-release-20261011/artifact-acceptance.log": "ac81eb119141f0f7f126ef88dc60feba3dfdc9217f2cb9e1c2ce8deac2aaa33b",
+    "evidence/product/mvp-local-release-20261011/bundle-unit.log": "666a37a45014437a8ea2d1496cad5d9b5ff88bf62fb2df597bc6103b83e19aa9",
+    "evidence/product/mvp-local-release-20261011/standard-check.log": "1247aebdcc60e45552934e56e12e3d86703669cb2d9aae99c4589081045a72e5"
+  },
+  "superseded_non_pass_runs": [
+    {
+      "path": "/tmp/schemaforge-local-release-artifact.log",
+      "sha256": "e5fdfa4a75fd6fb76f5b5f038ba9a1db3be782026e6927d2ca89d1790ce2f7f5",
+      "outcome": "FAIL_SUPERSEDED"
+    },
+    {
+      "path": "/tmp/schemaforge-local-release-artifact-diagnostic.log",
+      "sha256": "7c8d81af4e65138b191437dcb69c5a65f7261805e05e8bbcdc39f75c491a721e",
+      "outcome": "FAIL_SUPERSEDED"
+    },
+    {
+      "path": "/tmp/schemaforge-local-release-artifact-final.log",
+      "sha256": "73b1c48928f918fba6ff9cbf46100ba52e7dcb8e205ac942be160cb790e33196",
+      "outcome": "FAIL_SUPERSEDED"
+    },
+    {
+      "path": "/tmp/schemaforge-local-release-check.log",
+      "sha256": "b6211eaa67a4a608bdaf7c41ae87ae7ac6e56c8acef25dba99e95485afb93e4d",
+      "outcome": "FAIL_SUPERSEDED"
+    }
+  ],
+  "boundaries": [
+    "No Oracle host/driver installation, connection, runtime, reconciliation or deployed-worker isolation verified",
+    "No uploaded/published release or production deployment; source candidate internal/local only",
+    "Trust external archive checksum before extraction; internal manifest is not a signature",
+    "Public naming/full F31, signed offline updates/SBOM and Kubernetes/OpenShift remain pending",
+    "No task IDs added; preserve all prior branches, worktrees and failed evidence"
+  ],
+  "delivery_status": "LOCAL_VERIFIED_REMOTE_CI_PENDING",
+  "id": "mvp-local-release-local-verified",
+  "subject_id": "OPS-023",
+  "kind": "INTEGRATION",
+  "command": "Frozen-source deterministic/integrity tests, fresh npm install/license/parser/web build plus4 local workflow tests including UNIT controlled execution/history/restart and HTTPS; standard155PASS44optionalSKIP. Remote publication CI pending, no Oracle claim.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/mvp-local-release-20261011/artifact-acceptance.log",
+    "sha256": "ac81eb119141f0f7f126ef88dc60feba3dfdc9217f2cb9e1c2ce8deac2aaa33b"
+  }
+}

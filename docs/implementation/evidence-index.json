@@ -3293,6 +3293,24 @@
       },
       "path": "evidence/product/mvp-controlled-execution-20261011/integration-record.json",
       "sha256": "e879323fdabcf5b82a4d58e0741566cb85ccbae7ca91adcc10716a0bcbdd2620"
+    },
+    {
+      "id": "mvp-local-release-local-verified",
+      "subject_id": "OPS-023",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen-source deterministic/integrity tests, fresh npm install/license/parser/web build plus4 local workflow tests including UNIT controlled execution/history/restart and HTTPS; standard155PASS44optionalSKIP. Remote publication CI pending, no Oracle claim.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/mvp-local-release-20261011/artifact-acceptance.log",
+        "sha256": "ac81eb119141f0f7f126ef88dc60feba3dfdc9217f2cb9e1c2ce8deac2aaa33b"
+      },
+      "path": "evidence/product/mvp-local-release-20261011/record.json",
+      "sha256": "076c4dd7c9a0d7fc78a4743aa86b1f8918363996663223765509eae040f6a7ab"
     }
   ]
 }

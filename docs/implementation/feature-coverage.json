@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-11T00:02:57.100513+00:00",
+  "recorded_at": "2026-10-11T00:24:50.491907+00:00",
   "verified_master": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
   "reviewed_local_source": "513bdfb91382592b9f7b9d76deea91611e24ac46",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
@@ -65,8 +65,8 @@
   "external_acceptance": "Corrected PR48 journal, PR49 statement binding, PR50 scoped central history and PR51 restricted controlled-host bridge are merged with exact-head and merged-master CI verified. Host effects remain UNIT_SYNTHETIC; no Oracle runtime/driver/deployed-worker isolation/target reconciliation acceptance. Optional disabled/paid security remains UNAVAILABLE;124Oracle runtime cells BLOCKED_EXTERNAL.",
   "next_product_capability": {
     "milestone": "M5 with M3/M4 external acceptance retained",
-    "status": "REPRODUCIBLE_LOCAL_RELEASE_ACCEPTANCE_AND_ARTIFACT_ASSEMBLY_NEXT",
-    "next_action": "Reuse integrated startup, local PostgreSQL/Git/parser/HTTPS tests and license manifests for reproducible local release acceptance and source/notices/deployment artifacts. Actual Oracle host/driver/target ledger reconciliation and runtime acceptance remain external; no synthetic Oracle-history substitution."
+    "status": "LOCAL_SOURCE_INSTALLATION_ACCEPTANCE_VERIFIED_REMOTE_CI_PENDING",
+    "next_action": "Integrate tested local source installation candidate under actual gates. Then implement installed restricted Oracle host/driver and no-replay target reconciliation; authorized Oracle runtime/worker isolation remains external. No new task ID."
   },
   "features": [
     {
@@ -2316,11 +2316,14 @@
       "milestone": "MVP-Core",
       "classification": "PARTIALLY_IMPLEMENTED",
       "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
-      "additional_observed_facet": "Pinned dependency artifacts, hashes and third-party notices/license inventory",
-      "remaining_gap": "SBOM, signed release/update and complete offline upgrade/install bundle are absent",
+      "additional_observed_facet": "Pinned dependencies/notices plus deterministic frozen-Git local source candidate with trusted checksums, exact source/parser integrity and fresh installed local end-to-end acceptance.",
+      "remaining_gap": "SBOM, signed releases/updates, complete offline upgrade/install binaries and original full acceptance remain absent; local source candidate remote integration pending.",
       "source_or_test_paths": [
         "scripts/dependency-artifacts.mjs",
-        "docs/dependencies/product-closure.json"
+        "docs/dependencies/product-closure.json",
+        "scripts/local-release.mjs",
+        "scripts/release-acceptance.mjs",
+        "tests/product-local-release.integration.mjs"
       ]
     },
     {
