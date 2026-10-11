@@ -1,0 +1,115 @@
+{
+  "task": "SF-PRODUCT-T38",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "source_integrity": {
+    "apps/web/src/app.jsx": "00b9a3f867f805ea6fe8b06e71b2283027d45a0c470f50d280e858f37f59dadd",
+    "apps/web/src/executionJobs.js": "7eae101538437fa3ed1f4313843f526646b88739ebc9ee830957b934c25163b2",
+    "tests/product-execution-jobs-browser.integration.mjs": "71c924160861630c2b19e932cd15264434019a3077e4290f0117cc1c9c8a9be0",
+    "docs/development/local-product.md": "eb73140ac2fcaae68fc1e2773d3755b854bd5bd92acbac484e42c93434fdc1f9"
+  },
+  "browser": {
+    "command": "npm run build:web; node --test --test-concurrency=1 tests/product-execution-jobs-browser.integration.mjs with owned isolated PostgreSQL and SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+    "exit_code": 0,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "raw_output": {
+      "path": "evidence/product/execution-status/browser-local.log",
+      "sha256": "7c8a5a0715a0955bd84f1ee929a5dffb00eb1a4427b5b4a7e7046325c7e81b72"
+    }
+  },
+  "standard": {
+    "command": "npm run check",
+    "exit_code": 0,
+    "tests": 361,
+    "pass": 300,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 61,
+    "skip_scope": "Existing offline PostgreSQL-gated tests; browser uses actual isolated PostgreSQL.",
+    "raw_output": {
+      "path": "evidence/product/execution-status/standard-checks.log",
+      "sha256": "266258bf6d48ce6ff24d2d9ad4e56b2ab9a5f2fe7bf5a3bcba75f6f8346513d4"
+    }
+  },
+  "earlier_runs": [
+    {
+      "outcome": "FAIL",
+      "note": "Fixture omitted required metadata recovery factory; corrected.",
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "raw_output": {
+        "path": "evidence/product/execution-status/browser-local.failing1.log",
+        "sha256": "8f2bb6d12f6c5027e349b76ae1ccce17770170c8aa47045d68c78d034b33f500"
+      }
+    },
+    {
+      "outcome": "FAIL",
+      "note": "Fixture assumed one statement; corrected to exact committed admission/receipt count.",
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "raw_output": {
+        "path": "evidence/product/execution-status/browser-local.failing2.log",
+        "sha256": "87089db1e9d2f0a05e6d19b748f7b2945a8d1ac58ecf403770dd116c9c5fd694"
+      }
+    },
+    {
+      "outcome": "FAIL",
+      "note": "Fixture syntax error before execution; corrected.",
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "raw_output": {
+        "path": "evidence/product/execution-status/browser-local.failing-list-only.log",
+        "sha256": "db255ed7fa877236b7a79b1035de5d22f4b2dbf75469da8288027f79d02447e7"
+      }
+    },
+    {
+      "outcome": "PASS",
+      "note": "Earlier passing active-revocation run before API window-order correction; not final source evidence.",
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "raw_output": {
+        "path": "evidence/product/execution-status/browser-local.pre-window-order.pass.log",
+        "sha256": "ad449e7503aee01f53644e7692d800c8ef68f39aa86b1138c54baad843c9197d"
+      }
+    }
+  ],
+  "behaviors": [
+    "Actual installed serial UNIT worker completes approved migrations; browser observes VERIFIED_SUCCESS without navigation and preserves request draft.",
+    "Subsequent unchanged approved request reaches NOOP, with original exact target call and receipt counts unchanged.",
+    "Lost request response reuses idempotency key; cancelled job rejects delayed prior event response.",
+    "Held list response spans two poll intervals with one request; A-to-B-to-A and sign-out reject stale reads.",
+    "Active project grant revocation clears cached project/job data on next automatic read.",
+    "Latest project window is at most50 across successive active lists; server order wins for timestamps losing microsecond precision; revisions never regress.",
+    "Explicit refresh preserves withdrawal draft; current events and final CANCELLED/VERIFIED_SUCCESS/NOOP/HOLD states retained."
+  ],
+  "limitations": [
+    "Required exact candidate and resulting-master GitHub Actions pending.",
+    "Terminal/hidden views stop polling; changed access is discovered on next authorized read.",
+    "Only latest50 project jobs shown; older requests remain retained outside this view.",
+    "No Oracle runtime, deployed isolation or target-credential attestation."
+  ]
+}

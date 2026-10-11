@@ -851,7 +851,31 @@ const PRODUCT_TASK_37 = {
     "SF-PRODUCT-T37-DRAIN"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37];
+const PRODUCT_TASK_38 = {
+  "id": "SF-PRODUCT-T38",
+  "package": "PRODUCT",
+  "assigned_agent": "frontend",
+  "title": "Show current deployment status without resetting review context",
+  "dependencies": [
+    "SF-PRODUCT-T37"
+  ],
+  "feature_ids": [
+    "OPS-005",
+    "OPS-003"
+  ],
+  "acceptance_criteria": [
+    "Use existing scoped execution-job list and detail reads to show current job state, readiness and revision. Refresh shown nonterminal work at a modest non-overlapping interval and provide explicit refresh. View job events merges the matching current job summary and events together. No new endpoint, deployment capability or execution authority.",
+    "Preserve review, comment and request drafts and selected project/plan/filter during job-only refresh. Fence delayed reads by current project, plan, token/session epoch and refresh context; never replace newer job revision with older data. Stop background reads when hidden or terminal. Fail closed on missing/revoked access using existing scoped recovery and discard late success/error after navigation or sign-out.",
+    "Replace obsolete cannot-execute feedback with truthful queued validation and installed-worker progress. Display retained waiting/admitted/terminal states without inferring SQL effects, replay permission, target credential availability or Oracle certification. Preserve request/cancellation guards, original idempotency and history/receipt scope.",
+    "Actual isolated PostgreSQL and Chromium verify installed UNIT worker transitions visible without project navigation, current job events, preserved drafts, and controlled stale read responses across cancellation, project/plan/session changes and loss of access. Preserve complete required Foundation/parser/PRODUCT/CodeQL checks and existing source/license/security gates. No Oracle environment, credentials, deployment or full catalog acceptance is claimed."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T38-STATUS",
+    "SF-PRODUCT-T38-FRESHNESS",
+    "SF-PRODUCT-T38-INTEGRATION"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

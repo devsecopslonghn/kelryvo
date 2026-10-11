@@ -1342,6 +1342,10 @@
     },
     "SF-PRODUCT-T37": {
       "assigned_agent": "orchestrator",
+      "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T38": {
+      "assigned_agent": "frontend",
       "status": "IMPLEMENTED"
     }
   }

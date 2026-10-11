@@ -322,7 +322,8 @@
     "SF-PRODUCT-T34",
     "SF-PRODUCT-T35",
     "SF-PRODUCT-T36",
-    "SF-PRODUCT-T37"
+    "SF-PRODUCT-T37",
+    "SF-PRODUCT-T38"
   ],
   "edges": {
     "DBM-001": [],
@@ -1541,6 +1542,9 @@
     ],
     "SF-PRODUCT-T37": [
       "SF-PRODUCT-T36"
+    ],
+    "SF-PRODUCT-T38": [
+      "SF-PRODUCT-T37"
     ]
   },
   "scheduling": {
@@ -1689,6 +1693,9 @@
       ],
       "SF-PRODUCT-T37": [
         "SF-PRODUCT-T36"
+      ],
+      "SF-PRODUCT-T38": [
+        "SF-PRODUCT-T37"
       ]
     },
     "VALIDATION": {}

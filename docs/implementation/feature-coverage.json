@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "recorded_at": "2026-10-11T08:10:45.258800+00:00",
-  "verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+  "verified_master": "656d2273b58ae84c0191af37069cd71fa894eb10",
   "reviewed_local_source": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
@@ -62,7 +62,7 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "PR52-PR58 governance, source installation, pending-only history and release diagnostics integrated on GitHub-verified4d. PR59 candidate passed before merge3e. PR60 and installed factory integration require their normal GitHub checks. Exact08be API balancing and exactfa installed factory local acceptance remain scoped to their tested sources. No Oracle runtime or deployed isolation certification.",
+  "external_acceptance": "Installed worker, metadata-only expiry recovery and serial queue service integrated through PR63 on exact GitHub-verified master656d227. Candidate and master Foundation/parser/PRODUCT/CodeQL passed; complete PRODUCT110API/33browser/1release with zero failures/cancellations/skips. No Oracle runtime or deployed isolation certification.",
   "next_product_capability": {
     "milestone": "M4 installed metadata expiry recovery",
     "status": "IMPLEMENTED_PENDING_VERIFICATION",
@@ -692,7 +692,8 @@
           "behavior": "Bounded FIFO queue discovery, generation-bound serial children, metadata-only expiry HOLD, and drain retaining leadership until confirmed child reap. Synthetic target effects only; no deployed or Oracle runtime acceptance.",
           "evidence": [
             "product-t37-installed-execution-service-local",
-            "product-t37-authority-retirement-local"
+            "product-t37-authority-retirement-local",
+            "product-t37-installed-execution-service-ci"
           ]
         }
       ]
@@ -2193,7 +2194,8 @@
           "behavior": "Bounded FIFO queue discovery, generation-bound serial children, metadata-only expiry HOLD, and drain retaining leadership until confirmed child reap. Synthetic target effects only; no deployed or Oracle runtime acceptance.",
           "evidence": [
             "product-t37-installed-execution-service-local",
-            "product-t37-authority-retirement-local"
+            "product-t37-authority-retirement-local",
+            "product-t37-installed-execution-service-ci"
           ]
         }
       ]
@@ -2210,7 +2212,15 @@
           "behavior": "Bounded FIFO queue discovery, generation-bound serial children, metadata-only expiry HOLD, and drain retaining leadership until confirmed child reap. Synthetic target effects only; no deployed or Oracle runtime acceptance.",
           "evidence": [
             "product-t37-installed-execution-service-local",
-            "product-t37-authority-retirement-local"
+            "product-t37-authority-retirement-local",
+            "product-t37-installed-execution-service-ci"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T38",
+          "behavior": "Bounded job status refresh and coherent event inspection preserve drafts, reject stale contexts and clear revoked access on next read. Actual UNIT worker/browser acceptance; remote CI pending, no Oracle certification.",
+          "evidence": [
+            "product-t38-execution-status-local"
           ]
         }
       ]
@@ -2249,6 +2259,13 @@
           "behavior": "Read-only retained attempt state, statement events, receipt/evidence digests and HOLD reasons survive restart/archive/RESTORE_HOLD; scoped50row pages hide lease tokens/rawfacts. Synthetic ports only; no authority/replay.",
           "evidence": [
             "mvp-execution-history-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T38",
+          "behavior": "Bounded job status refresh and coherent event inspection preserve drafts, reject stale contexts and clear revoked access on next read. Actual UNIT worker/browser acceptance; remote CI pending, no Oracle certification.",
+          "evidence": [
+            "product-t38-execution-status-local"
           ]
         }
       ],
@@ -2374,7 +2391,8 @@
           "behavior": "Bounded FIFO queue discovery, generation-bound serial children, metadata-only expiry HOLD, and drain retaining leadership until confirmed child reap. Synthetic target effects only; no deployed or Oracle runtime acceptance.",
           "evidence": [
             "product-t37-installed-execution-service-local",
-            "product-t37-authority-retirement-local"
+            "product-t37-authority-retirement-local",
+            "product-t37-installed-execution-service-ci"
           ]
         }
       ]
@@ -2710,9 +2728,12 @@
   "installed_queue_service": {
     "task": "SF-PRODUCT-T37",
     "evidence": "product-t37-installed-execution-service-local",
-    "status": "LOCALLY_VERIFIED_CANDIDATE_CI_PENDING",
+    "status": "INTEGRATED_PR63_MASTER_CI_VERIFIED",
     "base_master": "95ade29572adf56f16be82b5d5a6d0437e235dec",
     "full_catalog_promotion": false,
-    "oracle_runtime_verified": false
+    "oracle_runtime_verified": false,
+    "published_head": "8cb9e2de74c873834307d8304ad849db92d2419d",
+    "merged_master": "656d2273b58ae84c0191af37069cd71fa894eb10",
+    "integration_evidence": "product-t37-installed-execution-service-ci"
   }
 }

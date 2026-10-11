@@ -395,17 +395,30 @@ immutable through the API; terminal decisions cannot be overwritten. Local start
 unassigned at revision zero. Historical terminal and archived assignment metadata stays readable.
 Additional eligible reviewers beyond the directory bound can be assigned by their known actor ID
 through the same scoped API. Expiring temporary delegation remains unavailable. Metadata administrators
-remain outside this protection. Offline plans have no observed target history, so requests
-remain `WAITING_VALIDATION` and cannot be admitted by API or operator grant. Plan readiness
+remain outside this protection. New requests start in `WAITING_VALIDATION`; the installed
+worker must observe target history and revalidate the immutable approval before admission.
+API access or an operator grant alone cannot admit a request. Plan readiness
 explicitly lists missing target history, trusted host, target mutex and dispatch permit;
 format-1 approvals additionally require a fresh statement-bound approval. The restricted
 coordinator accepts only an admitted immutable job through injected trusted ports; synthetic
-ports are UNIT evidence only. No production Oracle adapter, automatic retry, installed trusted target ledger,
-runtime authority, Oracle connections, Kubernetes deployment or production compatibility
-claim is included. Archival retains records and transactionally rejects further project
+ports are UNIT evidence only. Installed trusted credentials and ledger authority, Oracle
+runtime acceptance, Kubernetes deployment and production compatibility remain unverified.
+There is no automatic ambiguous replay. Archival retains records and transactionally rejects further project
 writes with HTTP 409 `PROJECT_ARCHIVED`, including in-flight writes that were waiting
 on the project lock. No restore or deletion endpoint is provided. Edit/resubmit and broader
 catalog workflows are incremental work.
+
+The review screen's **Refresh requests** reads current job status without reloading the
+project or resetting review and request drafts. The view retains at most the 50 most
+recent project requests. Visible unresolved jobs refresh every 10 seconds, with one read
+in flight for the current view. Reads stop when hidden, outside the review panel or
+when the shown jobs are terminal. **View job events** updates the matching job summary
+and events together; a newer status revision clears previously loaded event snapshots.
+Delayed reads from an old project, plan or session are discarded, and older revisions
+cannot replace newer facts. Every read rechecks project access; revocation clears cached
+project data on the next read. Idle terminal views require explicit refresh to discover
+changed access. Displayed state is retained product metadata; inspect execution history
+for its evidence scope and receipts. A status read grants no execution or recovery authority.
 
 The review screen's **View execution history** opens retained claim/terminal states,
 statement events, HOLD reason codes and receipt/evidence digests. Each API page contains

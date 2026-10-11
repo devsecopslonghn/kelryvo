@@ -3437,7 +3437,7 @@
         "SF-PRODUCT-T37-GENERATION",
         "SF-PRODUCT-T37-DRAIN"
       ],
-      "status": "IMPLEMENTED",
+      "status": "VERIFIED",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
@@ -3447,6 +3447,43 @@
         },
         {
           "index_id": "product-t37-authority-retirement-local"
+        },
+        {
+          "index_id": "product-t37-installed-execution-service-ci"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T38",
+      "package": "PRODUCT",
+      "assigned_agent": "frontend",
+      "title": "Show current deployment status without resetting review context",
+      "dependencies": [
+        "SF-PRODUCT-T37"
+      ],
+      "feature_ids": [
+        "OPS-005",
+        "OPS-003"
+      ],
+      "acceptance_criteria": [
+        "Use existing scoped execution-job list and detail reads to show current job state, readiness and revision. Refresh shown nonterminal work at a modest non-overlapping interval and provide explicit refresh. View job events merges the matching current job summary and events together. No new endpoint, deployment capability or execution authority.",
+        "Preserve review, comment and request drafts and selected project/plan/filter during job-only refresh. Fence delayed reads by current project, plan, token/session epoch and refresh context; never replace newer job revision with older data. Stop background reads when hidden or terminal. Fail closed on missing/revoked access using existing scoped recovery and discard late success/error after navigation or sign-out.",
+        "Replace obsolete cannot-execute feedback with truthful queued validation and installed-worker progress. Display retained waiting/admitted/terminal states without inferring SQL effects, replay permission, target credential availability or Oracle certification. Preserve request/cancellation guards, original idempotency and history/receipt scope.",
+        "Actual isolated PostgreSQL and Chromium verify installed UNIT worker transitions visible without project navigation, current job events, preserved drafts, and controlled stale read responses across cancellation, project/plan/session changes and loss of access. Preserve complete required Foundation/parser/PRODUCT/CodeQL checks and existing source/license/security gates. No Oracle environment, credentials, deployment or full catalog acceptance is claimed."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T38-STATUS",
+        "SF-PRODUCT-T38-FRESHNESS",
+        "SF-PRODUCT-T38-INTEGRATION"
+      ],
+      "status": "IMPLEMENTED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t38-execution-status-local"
         }
       ],
       "blockers": []
