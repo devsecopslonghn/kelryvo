@@ -1,0 +1,17 @@
+{
+  "source": "fa4bd87df1888a649a9cb927083eb9749ac3eaeb",
+  "required_check": {
+    "tests": 291,
+    "pass": 244,
+    "fail": 0,
+    "skips": 47
+  },
+  "fresh_source_acceptance": {
+    "outer_pass": 1,
+    "inner_pass": 4,
+    "fail": 0,
+    "skips": 0
+  },
+  "initial_master": "FAILURE; assertionUNKNOWN, not reproduced locally",
+  "oracle_runtime": "UNVALIDATED"
+}

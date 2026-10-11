@@ -1,0 +1,45 @@
+{
+  "id": "mvp-pr57-master-release-initial-failure",
+  "subject_id": "MIG-012",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "FAIL",
+  "command": "Actual PR57 resulting-master foundation/parser PASS; PRODUCT initial attempt API77/browser33 PASS, fresh-source installation1 FAIL and aggregate FAIL. Inner assertion unavailable; no weakened tests, no rerun and no master verification claim.",
+  "exit_code": 1,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/release-diagnostics-20261011/master-initial-failure.json",
+    "sha256": "83b6c808f7a4f1199da23c6433426f7a111e0bee17c58aaa909c53b7ef80f473"
+  },
+  "recorded_at": "2026-10-11T04:48:51.608118+00:00",
+  "pr": 57,
+  "reviewed_candidate": "718e74fe620ef2454917c991594c9a33a720f2c5",
+  "merged_master": "7da25d2775bd1f96b5ca02be117b2d348553dd81",
+  "candidate_product": "PASS77API33BROWSER1OUTER4INNER0FAIL0SKIP",
+  "master_foundation": {
+    "run": 38111860651,
+    "outcome": "PASS"
+  },
+  "master_parser": {
+    "run": 38111860687,
+    "outcome": "PASS"
+  },
+  "master_product": {
+    "run": 38111860684,
+    "outcome": "FAIL",
+    "api_pass": 77,
+    "browser_pass": 33,
+    "release_outer_pass": 0,
+    "release_outer_fail": 1,
+    "release_inner": "UNKNOWN"
+  },
+  "local_archive": "Source/checksum verified only; this master installation acceptance FAILED",
+  "next": "Preserve failure, add secret-safe diagnostic visibility, reproduce locally; require actual full candidate and resulting-master checks before closeout.",
+  "limits": [
+    "The lost inner assertion is not reconstructed or classified as an infrastructure failure.",
+    "Previous PR56 master release acceptance remains historical PASS; it does not override current master failure.",
+    "Oracle runtime and deployed isolation remain unvalidated."
+  ]
+}

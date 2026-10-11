@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { buildLocalRelease, verifyLocalRelease } from '../scripts/local-release.mjs';
+import { releaseTestDiagnostics } from './helpers/release-diagnostics.mjs';
 
 const run=(program,args,cwd)=>new Promise((resolve,reject)=>{
   const child=spawn(program,args,{ cwd,env:process.env,stdio:['ignore','pipe','pipe'] });let output='';
@@ -15,7 +16,9 @@ const run=(program,args,cwd)=>new Promise((resolve,reject)=>{
     try {
       const diagnostic=path.join(await mkdtemp(path.join(tmpdir(),'sf-release-failure-')),'installation.log');
       await writeFile(diagnostic,output,{ mode:0o600 });
-      reject(new Error(`Installation command failed: ${program} ${args.join(' ')} (exit ${code}); private log: ${diagnostic}`));
+      const summary=program==='npm' && args.length===2 && args[0]==='run' && args[1]==='release:acceptance'
+        ? `; safe test diagnostics: ${JSON.stringify(releaseTestDiagnostics(output))}` : '';
+      reject(new Error(`Installation command failed: ${program} ${args.join(' ')} (exit ${code}); private log: ${diagnostic}${summary}`));
     } catch (error) { reject(error); }
   });
 });

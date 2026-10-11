@@ -5,6 +5,20 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { buildLocalRelease, verifyLocalRelease, selectedReleasePath } from '../scripts/local-release.mjs';
+import { releaseTestDiagnostics } from './helpers/release-diagnostics.mjs';
+
+test('release failure diagnostics expose only bounded fixed test metadata',()=>{
+  const secret='PRIVATE_INSTALLATION_OUTPUT_FIXTURE';
+  const output=`npm fixture\n${secret}\nnot ok 1 - HTTPS browser resumes secure sessions and retains review workflow through logout, expiry and witnessed restore\n  ---\n  duration_ms: 30000.123\n  failureType: 'testCodeFailure'\n  error: '${secret}'\n  code: 'ERR_ASSERTION'\n  actual: '${secret}'\n  ...\nnot ok 2 - ${secret}\n  duration_ms: 12\n  code: 'ERR_ASSERTION'\nok 3 - installed source bundle connects approved Git request to controlled UNIT history and restart\n  duration_ms: 10\n  failureType: '${secret}'\n  code: '${secret}'\n`;
+  assert.deepEqual(releaseTestDiagnostics(output),[
+    { test:'secure-session-workflow',result:'FAIL',durationMs:30000.123,failureType:'testCodeFailure',code:'ERR_ASSERTION' },
+    { test:'controlled-unit-workflow',result:'PASS',durationMs:10 },
+  ]);
+  assert.equal(JSON.stringify(releaseTestDiagnostics(output)).includes(secret),false);
+  assert.deepEqual(releaseTestDiagnostics(`not ok 1 - HTTPS browser resumes secure sessions and retains review workflow through logout, expiry and witnessed restore\u001b[31m\n  duration_ms: 1`),[]);
+  const repeated=Array.from({ length:100 },()=>output).join('\n');
+  assert.equal(releaseTestDiagnostics(repeated).length,4);
+});
 
 test('local source bundle is reproducible, excludes private/research inputs, preserves notices and rejects corruption',async()=>{
   const temp=await mkdtemp(path.join(tmpdir(),'sf-release-unit-'));
