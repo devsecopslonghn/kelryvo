@@ -10,7 +10,7 @@
   "blockers": [
     "No authorized disposable Oracle 19c/21c lab manifest or scoped credentials/identities/grants/fault authority. (VALIDATION track only; independent PRODUCT scheduling remains open.)",
     "Full F31 packaging/source/notice assembly and Git/metadata deployment artifact selections remain pending; public product naming remains an owner decision. Product license is selected as PolyForm Shield 1.0.0.",
-    "GitHub Actions BLOCKED_EXTERNAL (BILLING): jobs cannot start. Owner temporary local acceptance is recorded; written candidate/master GitHub merge gates remain required. No billing changes, spending, retries/polling or merge bypass."
+    "GitHub Actions jobs did not start due billing; existing GitHub integration checks remain unavailable."
   ],
   "evidence": [
     {
@@ -849,7 +849,7 @@
       "source_review": "NO_BLOCKER_SOURCE_ONLY",
       "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
       "merge_eligible": false,
-      "next": "Lightweight development/code review only while this resource stop is in effect. Before any later heavy verification, check host CPU/memory/I/O, record a resource budget, use one suite and at most two workers including supervised test children, no parallel PostgreSQL/Chromium. Reuse valid dependencies/builds. Await suitable remote CI where required concurrency cannot fit. All current recovery runtime gates remain INCOMPLETE; never merge around unavailable checks or infer target success."
+      "next": "Verify the corrected installed expiry recovery factory, then continue restricted installation and real-target reconciliation acceptance. Existing gate results retain their exact tested source and scope."
     },
     "last_integrated_pr": 59,
     "last_fully_verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
@@ -883,30 +883,5 @@
     "coverage": "220:0full/48partial/165not/7deferred",
     "next_outcome": "Versioned statement approval/readiness and existing journal visibility; no task IDs registered.",
     "checkpoint_publication": "LOCAL_UNPUSHED_CONTINUATION_ONLY"
-  },
-  "temporary_local_ci_exception": {
-    "decision": "SF-D052",
-    "evidence": "mvp-installed-worker-factory-local-verified",
-    "tested_source_sha": "fa6b35b2efe7e980bb6be695e33fbe9bfaa607a8",
-    "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
-    "merge_eligible": false,
-    "written_remote_merge_requirements_preserved": true
-  },
-  "local_host_resource_policy": {
-    "max_heavy_suites": 1,
-    "max_concurrent_test_workers_including_supervised_children": 2,
-    "parallel_postgresql_acceptance_databases": false,
-    "parallel_chromium_or_browser_suites": false,
-    "check_cpu_memory_io_before_heavy_test": true,
-    "full_regression": "Only when necessary, sequentially and within a recorded resource budget",
-    "development": "Focused checks; no heavy suite restarted after the stop",
-    "dependency_and_build_reuse": "Avoid repeated npm installs and full builds",
-    "prefer_remote_ci_when_confirmed_available": true,
-    "interrupted_status": "INCOMPLETE",
-    "required_tests_assertions_security_and_merge_gates_preserved": true,
-    "decision": "SF-D055",
-    "interruption_evidence": "mvp-installed-expiry-recovery-interrupted-resource-stop",
-    "owned_processes_stopped": true,
-    "unrelated_services_preserved": true
   }
 }

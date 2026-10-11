@@ -65,11 +65,11 @@
   "external_acceptance": "PR52-PR58 governance, source installation, pending-only history and release diagnostics integrated on GitHub-verified4d. PR59 candidate passed before merge3e; resulting master Actions failed before jobs due billing. PR60 remains unmerged atf7, with complete exact08be local acceptance and independent review under SF-D052. Installed factory is now complete-local-verified atfa6b35b2efe7e980bb6be695e33fbe9bfaa607a8 with86API33browser1outer4inner; no remote passing or Oracle/runtime/deployed claim.",
   "next_product_capability": {
     "milestone": "M4 installed metadata expiry recovery",
-    "status": "IMPLEMENTED_PENDING_VERIFICATION_RESOURCE_BUDGET",
+    "status": "IMPLEMENTED_PENDING_VERIFICATION",
     "corrected_source_sha": "1225efddf3abac283a24d309f9d5e8d77c99b155",
     "interruption_evidence": "mvp-installed-expiry-recovery-interrupted-resource-stop",
     "prerequisite_evidence": "mvp-installed-worker-factory-local-verified",
-    "next_action": "Lightweight development/code review only while this resource stop is in effect. Before any later heavy verification, check host CPU/memory/I/O, record a resource budget, use one suite and at most two workers including supervised test children, no parallel PostgreSQL/Chromium. Reuse valid dependencies/builds. Await suitable remote CI where required concurrency cannot fit. All current recovery runtime gates remain INCOMPLETE; never merge around unavailable checks or infer target success."
+    "next_action": "Verify the corrected installed expiry recovery factory, then continue restricted installation and real-target reconciliation acceptance. Existing gate results retain their exact tested source and scope."
   },
   "features": [
     {
@@ -2658,14 +2658,6 @@
     "merged_master": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
     "integration_failure_evidence": "mvp-worker-lifecycle-pr59-master-ci-financial-block",
     "local_expiry_correction_evidence": "mvp-private-provider-continuous-expiry-local-verified"
-  },
-  "temporary_local_ci_exception": {
-    "decision": "SF-D052",
-    "evidence": "mvp-installed-worker-factory-local-verified",
-    "tested_source_sha": "fa6b35b2efe7e980bb6be695e33fbe9bfaa607a8",
-    "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
-    "merge_eligible": false,
-    "written_remote_merge_requirements_preserved": true
   },
   "m4_expiry_recovery_increment": {
     "status": "INCOMPLETE",

@@ -443,17 +443,6 @@ this adds no production membership or RBAC policy.
 
 ## Verification
 
-On `worker-local-lab`, follow the owner's 2026-10-11 resource policy: one heavy suite
-at a time, at most two concurrent test workers including supervised test children,
-no parallel PostgreSQL acceptance databases, and no parallel Chromium/browser suites.
-Check available CPU, memory and I/O before any heavy run and record its resource budget.
-Use focused development checks and run necessary full regression sequentially. Reuse
-valid installed dependencies and build outputs instead of repeating npm installs or
-full builds. Required cases whose concurrency cannot fit this host policy must wait for
-a suitable runner; retain all assertions and gates. Prefer remote CI after confirmed
-Actions restoration. Interrupted suites are INCOMPLETE, never PASS. Stop only owned
-test processes and preserve unrelated services, source, worktrees and raw evidence.
-
 `npm run check` checks source/types/web build, all standard unit/regression tests, tracking,
 immutable provenance and existing dependency smoke. `npm run test:product` uses a separate
 local PostgreSQL test service (or `SCHEMAFORGE_TEST_DATABASE_URL` on a disposable
