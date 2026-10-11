@@ -3491,6 +3491,42 @@
       },
       "path": "evidence/product/pending-history-context-20261011/record.json",
       "sha256": "4888c4561fdf06677bcd482ab7a5642dac208b6cd2748261b187c40927ebd3d3"
+    },
+    {
+      "id": "mvp-pr57-master-release-initial-failure",
+      "subject_id": "MIG-012",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "FAIL",
+      "command": "Actual PR57 resulting-master foundation/parser PASS; PRODUCT initial attempt API77/browser33 PASS, fresh-source installation1 FAIL and aggregate FAIL. Inner assertion unavailable; no weakened tests, no rerun and no master verification claim.",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/release-diagnostics-20261011/master-initial-failure.json",
+        "sha256": "83b6c808f7a4f1199da23c6433426f7a111e0bee17c58aaa909c53b7ef80f473"
+      },
+      "path": "evidence/product/release-diagnostics-20261011/initial-failure-record.json",
+      "sha256": "739f3e3c69264f1586fb0ce6424cfbfac15104acee7fe5ccfa3c1c22f5321d8c"
+    },
+    {
+      "id": "mvp-release-safe-diagnostics-local-verified",
+      "subject_id": "MIG-012",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact-helper/JDK env-unset npm run check244PASS47optionalPGskip; fresh committed-source archive release acceptance1outer/4innerPASS0fail0skip; bounded safe diagnostic source independently reviewed. Initial PR57 master failure did not reproduce; causeUNKNOWN remains preserved.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/release-diagnostics-20261011/local-check-summary.json",
+        "sha256": "d4a50ceb401ce9d7deb7a860db24b8fc842f753435cbdd630ac604f844de65f8"
+      },
+      "path": "evidence/product/release-diagnostics-20261011/local-verification.json",
+      "sha256": "6014d7341670216d3e15d8bbc34c836298a9b3b8b4121ddf59a86a0878e39c95"
     }
   ]
 }

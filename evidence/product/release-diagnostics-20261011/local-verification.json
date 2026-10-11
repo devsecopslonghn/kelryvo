@@ -1,0 +1,78 @@
+{
+  "id": "mvp-release-safe-diagnostics-local-verified",
+  "subject_id": "MIG-012",
+  "kind": "UNIT",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact-helper/JDK env-unset npm run check244PASS47optionalPGskip; fresh committed-source archive release acceptance1outer/4innerPASS0fail0skip; bounded safe diagnostic source independently reviewed. Initial PR57 master failure did not reproduce; causeUNKNOWN remains preserved.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "recorded_at": "2026-10-11T04:50:17.422966+00:00",
+  "tested_and_independently_reviewed_source": "fa4bd87df1888a649a9cb927083eb9749ac3eaeb",
+  "source_files": [
+    {
+      "path": "tests/helpers/release-diagnostics.mjs",
+      "sha256": "bce8d497c38726b2e9ddbaefd832ed0bbe9cad33f9a151bd4dad51f04f04eb68"
+    },
+    {
+      "path": "tests/local-release.test.mjs",
+      "sha256": "010a6891934c38a27d18b96952cf6f8649ef0bd2b132eecbd0d63a013d211db7"
+    },
+    {
+      "path": "tests/product-local-release.integration.mjs",
+      "sha256": "d5e6b983fc2ea58c179d72dadcb1b6d647b7d60924e4a6d522837c2db7e36a46"
+    },
+    {
+      "path": "docs/development/local-release.md",
+      "sha256": "54202bb5f5b2e774c2a8fec36355ef226052d9cac03d1f513a0feb95fecd0296"
+    }
+  ],
+  "standard": {
+    "command": "env -u SCHEMAFORGE_TEST_DATABASE_URL SCHEMAFORGE_JAVA_HOME=<exact pinned local JDK> npm run check",
+    "exit_code": 0,
+    "tests": 291,
+    "pass": 244,
+    "optional_skips": 47,
+    "fail": 0,
+    "private_full_log": "/tmp/schemaforge-release-diagnostics-check-final.log",
+    "sha256": "18b9ddd76e1ebf875aa3c07bddc5d18c0710846283f7ad86b5f4ed89cfeca6e0"
+  },
+  "fresh_source_reproduction": {
+    "command": "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_TEST_DATABASE_URL=<owned disposable loopback PG> SCHEMAFORGE_JAVA_HOME=<exact pinned JDK> npm run test:release",
+    "exit_code": 0,
+    "outer_tests": 1,
+    "inner_workflows": 4,
+    "fail": 0,
+    "skipped": 0,
+    "duration_ms": 219189.585938,
+    "private_full_log": "/tmp/schemaforge-release-diagnostics-reproduction.log",
+    "sha256": "a5e6afafabf26dea6654713e535ae5dcafb774dd17caa8d59ebca9c36ad1d25c"
+  },
+  "initial_unprepared_check": {
+    "tests": 291,
+    "pass": 237,
+    "optional_skips": 54,
+    "fail": 0,
+    "limits": "Outer helper had not yet been built; seven optional parser tests skipped. Exact pinned helper was then built and the final check passed244/47. Earlier log preserved.",
+    "private_log": "/tmp/schemaforge-release-diagnostics-check-unprepared-helper.log",
+    "sha256": "3c3bc8695c9f723dbb7901103c8372373bac035cb9be1b0480bfc2950311379e"
+  },
+  "independent_review": "Native ci_review approved exactfa4bd87; no tests/Oracle calls run byreviewer.",
+  "license": {
+    "packages": 85,
+    "unknown_required_grants": 0,
+    "dependency_changes": false
+  },
+  "limits": [
+    "Initial master release failure remains historicalFAIL with lost inner assertion/causeUNKNOWN; local reproductionPASS does not reclassify it.",
+    "Full actual candidate and resulting-master checks remain required.",
+    "Raw assertion/browser/SQL/credential text is retained privately; only fixed TAP metadata is emitted.",
+    "No Oracle execution/provider/deployment/runtime certification."
+  ],
+  "raw_output": {
+    "path": "evidence/product/release-diagnostics-20261011/local-check-summary.json",
+    "sha256": "d4a50ceb401ce9d7deb7a860db24b8fc842f753435cbdd630ac604f844de65f8"
+  }
+}

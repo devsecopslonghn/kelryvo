@@ -64,6 +64,12 @@ tests Git import, offline review/approval/withdrawal, restart history, HTTPS ses
 controlled worker dispatch through explicitly UNIT_SYNTHETIC host ports. It does not use
 the installed product's private configuration or change an existing metadata database.
 
+The development `npm run test:release` harness retains failed installation output in a
+mode-0600 temporary log and reports only fixed workflow identifiers, durations and TAP
+failure types/codes to CI. Assertion text, SQL, browser call logs and credentials stay
+private. A reported failure still blocks release acceptance; diagnostics do not change
+the test list, assertions, timeout or required checks.
+
 The default local API creates requests and displays history; it supplies no Oracle worker
 host, writer secret or execution authority. Actual Oracle identity/history/mutex/dispatch,
 target reconciliation and deployed-worker isolation remain unvalidated until an authorized

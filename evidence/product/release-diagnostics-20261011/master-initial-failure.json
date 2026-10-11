@@ -1,0 +1,785 @@
+{
+  "phase": "PR57_RESULTING_MASTER_INITIAL_ATTEMPT",
+  "run": 38111860684,
+  "head": "7da25d2775bd1f96b5ca02be117b2d348553dd81",
+  "status": "completed",
+  "conclusion": "failure",
+  "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38111860684",
+  "observed_at": "2026-10-11T04:48:51.608118+00:00",
+  "shards": {
+    "acceptance (api, 2/2)": {
+      "tests": 53,
+      "pass": 53,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (api, 1/2)": {
+      "tests": 24,
+      "pass": 24,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (browser, 2/2)": {
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (release, 1/1)": {
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (browser, 1/2)": {
+      "tests": 16,
+      "pass": 16,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  "jobs": [
+    {
+      "completedAt": "2026-10-11T04:43:49Z",
+      "conclusion": "success",
+      "databaseId": 114388902216,
+      "name": "acceptance (api, 2/2)",
+      "startedAt": "2026-10-11T04:31:36Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T04:31:37Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T04:31:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:55Z",
+          "conclusion": "success",
+          "name": "Initialize containers",
+          "number": 2,
+          "startedAt": "2026-10-11T04:31:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:56Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 3,
+          "startedAt": "2026-10-11T04:31:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:57Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 4,
+          "startedAt": "2026-10-11T04:31:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:59Z",
+          "conclusion": "success",
+          "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+          "number": 5,
+          "startedAt": "2026-10-11T04:31:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:04Z",
+          "conclusion": "success",
+          "name": "Run npm run parser:antlr:prepare",
+          "number": 6,
+          "startedAt": "2026-10-11T04:31:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:46Z",
+          "conclusion": "success",
+          "name": "Run npm run parser:antlr:build",
+          "number": 7,
+          "startedAt": "2026-10-11T04:32:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:55Z",
+          "conclusion": "success",
+          "name": "Run npm run build",
+          "number": 8,
+          "startedAt": "2026-10-11T04:32:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:43:45Z",
+          "conclusion": "success",
+          "name": "Run npm run test:product",
+          "number": 9,
+          "startedAt": "2026-10-11T04:32:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:43:45Z",
+          "conclusion": "skipped",
+          "name": "Run node node_modules/playwright/cli.js install --with-deps chromium",
+          "number": 10,
+          "startedAt": "2026-10-11T04:43:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:43:45Z",
+          "conclusion": "skipped",
+          "name": "Run node scripts/test-product.mjs --browser",
+          "number": 11,
+          "startedAt": "2026-10-11T04:43:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:43:45Z",
+          "conclusion": "skipped",
+          "name": "Run npm run test:release",
+          "number": 12,
+          "startedAt": "2026-10-11T04:43:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:43:45Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 22,
+          "startedAt": "2026-10-11T04:43:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:43:46Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 23,
+          "startedAt": "2026-10-11T04:43:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:43:46Z",
+          "conclusion": "success",
+          "name": "Stop containers",
+          "number": 24,
+          "startedAt": "2026-10-11T04:43:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:43:46Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-10-11T04:43:46Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38111860684/job/114388902216"
+    },
+    {
+      "completedAt": "2026-10-11T04:44:39Z",
+      "conclusion": "success",
+      "databaseId": 114388902267,
+      "name": "acceptance (api, 1/2)",
+      "startedAt": "2026-10-11T04:31:36Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T04:31:38Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T04:31:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:56Z",
+          "conclusion": "success",
+          "name": "Initialize containers",
+          "number": 2,
+          "startedAt": "2026-10-11T04:31:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:57Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 3,
+          "startedAt": "2026-10-11T04:31:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:59Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 4,
+          "startedAt": "2026-10-11T04:31:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:01Z",
+          "conclusion": "success",
+          "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+          "number": 5,
+          "startedAt": "2026-10-11T04:31:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:06Z",
+          "conclusion": "success",
+          "name": "Run npm run parser:antlr:prepare",
+          "number": 6,
+          "startedAt": "2026-10-11T04:32:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:44Z",
+          "conclusion": "success",
+          "name": "Run npm run parser:antlr:build",
+          "number": 7,
+          "startedAt": "2026-10-11T04:32:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:53Z",
+          "conclusion": "success",
+          "name": "Run npm run build",
+          "number": 8,
+          "startedAt": "2026-10-11T04:32:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:44:35Z",
+          "conclusion": "success",
+          "name": "Run npm run test:product",
+          "number": 9,
+          "startedAt": "2026-10-11T04:32:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:44:35Z",
+          "conclusion": "skipped",
+          "name": "Run node node_modules/playwright/cli.js install --with-deps chromium",
+          "number": 10,
+          "startedAt": "2026-10-11T04:44:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:44:35Z",
+          "conclusion": "skipped",
+          "name": "Run node scripts/test-product.mjs --browser",
+          "number": 11,
+          "startedAt": "2026-10-11T04:44:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:44:35Z",
+          "conclusion": "skipped",
+          "name": "Run npm run test:release",
+          "number": 12,
+          "startedAt": "2026-10-11T04:44:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:44:36Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 22,
+          "startedAt": "2026-10-11T04:44:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:44:36Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 23,
+          "startedAt": "2026-10-11T04:44:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:44:36Z",
+          "conclusion": "success",
+          "name": "Stop containers",
+          "number": 24,
+          "startedAt": "2026-10-11T04:44:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:44:36Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-10-11T04:44:36Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38111860684/job/114388902267"
+    },
+    {
+      "completedAt": "2026-10-11T04:40:24Z",
+      "conclusion": "success",
+      "databaseId": 114388902293,
+      "name": "acceptance (browser, 2/2)",
+      "startedAt": "2026-10-11T04:31:37Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T04:31:38Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T04:31:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:54Z",
+          "conclusion": "success",
+          "name": "Initialize containers",
+          "number": 2,
+          "startedAt": "2026-10-11T04:31:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:56Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 3,
+          "startedAt": "2026-10-11T04:31:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:57Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 4,
+          "startedAt": "2026-10-11T04:31:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:59Z",
+          "conclusion": "success",
+          "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+          "number": 5,
+          "startedAt": "2026-10-11T04:31:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:04Z",
+          "conclusion": "success",
+          "name": "Run npm run parser:antlr:prepare",
+          "number": 6,
+          "startedAt": "2026-10-11T04:31:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:46Z",
+          "conclusion": "success",
+          "name": "Run npm run parser:antlr:build",
+          "number": 7,
+          "startedAt": "2026-10-11T04:32:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:55Z",
+          "conclusion": "success",
+          "name": "Run npm run build",
+          "number": 8,
+          "startedAt": "2026-10-11T04:32:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:55Z",
+          "conclusion": "skipped",
+          "name": "Run npm run test:product",
+          "number": 9,
+          "startedAt": "2026-10-11T04:32:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:33:17Z",
+          "conclusion": "success",
+          "name": "Run node node_modules/playwright/cli.js install --with-deps chromium",
+          "number": 10,
+          "startedAt": "2026-10-11T04:32:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:40:21Z",
+          "conclusion": "success",
+          "name": "Run node scripts/test-product.mjs --browser",
+          "number": 11,
+          "startedAt": "2026-10-11T04:33:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:40:21Z",
+          "conclusion": "skipped",
+          "name": "Run npm run test:release",
+          "number": 12,
+          "startedAt": "2026-10-11T04:40:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:40:21Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 22,
+          "startedAt": "2026-10-11T04:40:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:40:22Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 23,
+          "startedAt": "2026-10-11T04:40:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:40:22Z",
+          "conclusion": "success",
+          "name": "Stop containers",
+          "number": 24,
+          "startedAt": "2026-10-11T04:40:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:40:22Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-10-11T04:40:22Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38111860684/job/114388902293"
+    },
+    {
+      "completedAt": "2026-10-11T04:36:05Z",
+      "conclusion": "failure",
+      "databaseId": 114388902315,
+      "name": "acceptance (release, 1/1)",
+      "startedAt": "2026-10-11T04:31:36Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T04:31:38Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T04:31:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:57Z",
+          "conclusion": "success",
+          "name": "Initialize containers",
+          "number": 2,
+          "startedAt": "2026-10-11T04:31:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:58Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 3,
+          "startedAt": "2026-10-11T04:31:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:02Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 4,
+          "startedAt": "2026-10-11T04:31:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:05Z",
+          "conclusion": "success",
+          "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+          "number": 5,
+          "startedAt": "2026-10-11T04:32:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:09Z",
+          "conclusion": "success",
+          "name": "Run npm run parser:antlr:prepare",
+          "number": 6,
+          "startedAt": "2026-10-11T04:32:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:09Z",
+          "conclusion": "skipped",
+          "name": "Run npm run parser:antlr:build",
+          "number": 7,
+          "startedAt": "2026-10-11T04:32:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:09Z",
+          "conclusion": "skipped",
+          "name": "Run npm run build",
+          "number": 8,
+          "startedAt": "2026-10-11T04:32:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:09Z",
+          "conclusion": "skipped",
+          "name": "Run npm run test:product",
+          "number": 9,
+          "startedAt": "2026-10-11T04:32:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:40Z",
+          "conclusion": "success",
+          "name": "Run node node_modules/playwright/cli.js install --with-deps chromium",
+          "number": 10,
+          "startedAt": "2026-10-11T04:32:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:40Z",
+          "conclusion": "skipped",
+          "name": "Run node scripts/test-product.mjs --browser",
+          "number": 11,
+          "startedAt": "2026-10-11T04:32:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:36:03Z",
+          "conclusion": "failure",
+          "name": "Run npm run test:release",
+          "number": 12,
+          "startedAt": "2026-10-11T04:32:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:36:03Z",
+          "conclusion": "skipped",
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 22,
+          "startedAt": "2026-10-11T04:36:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:36:03Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 23,
+          "startedAt": "2026-10-11T04:36:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:36:04Z",
+          "conclusion": "success",
+          "name": "Stop containers",
+          "number": 24,
+          "startedAt": "2026-10-11T04:36:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:36:04Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-10-11T04:36:04Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38111860684/job/114388902315"
+    },
+    {
+      "completedAt": "2026-10-11T04:40:42Z",
+      "conclusion": "success",
+      "databaseId": 114388902318,
+      "name": "acceptance (browser, 1/2)",
+      "startedAt": "2026-10-11T04:31:36Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T04:31:38Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T04:31:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:54Z",
+          "conclusion": "success",
+          "name": "Initialize containers",
+          "number": 2,
+          "startedAt": "2026-10-11T04:31:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:55Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 3,
+          "startedAt": "2026-10-11T04:31:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:31:58Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 4,
+          "startedAt": "2026-10-11T04:31:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:00Z",
+          "conclusion": "success",
+          "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+          "number": 5,
+          "startedAt": "2026-10-11T04:31:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:04Z",
+          "conclusion": "success",
+          "name": "Run npm run parser:antlr:prepare",
+          "number": 6,
+          "startedAt": "2026-10-11T04:32:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:44Z",
+          "conclusion": "success",
+          "name": "Run npm run parser:antlr:build",
+          "number": 7,
+          "startedAt": "2026-10-11T04:32:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:52Z",
+          "conclusion": "success",
+          "name": "Run npm run build",
+          "number": 8,
+          "startedAt": "2026-10-11T04:32:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:32:52Z",
+          "conclusion": "skipped",
+          "name": "Run npm run test:product",
+          "number": 9,
+          "startedAt": "2026-10-11T04:32:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:33:16Z",
+          "conclusion": "success",
+          "name": "Run node node_modules/playwright/cli.js install --with-deps chromium",
+          "number": 10,
+          "startedAt": "2026-10-11T04:32:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:40:38Z",
+          "conclusion": "success",
+          "name": "Run node scripts/test-product.mjs --browser",
+          "number": 11,
+          "startedAt": "2026-10-11T04:33:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:40:38Z",
+          "conclusion": "skipped",
+          "name": "Run npm run test:release",
+          "number": 12,
+          "startedAt": "2026-10-11T04:40:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:40:38Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "number": 22,
+          "startedAt": "2026-10-11T04:40:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:40:39Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "number": 23,
+          "startedAt": "2026-10-11T04:40:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:40:39Z",
+          "conclusion": "success",
+          "name": "Stop containers",
+          "number": 24,
+          "startedAt": "2026-10-11T04:40:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:40:39Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-10-11T04:40:39Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38111860684/job/114388902318"
+    },
+    {
+      "completedAt": "2026-10-11T04:44:44Z",
+      "conclusion": "failure",
+      "databaseId": 114390934122,
+      "name": "product",
+      "startedAt": "2026-10-11T04:44:41Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-11T04:44:42Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-11T04:44:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:44:42Z",
+          "conclusion": "failure",
+          "name": "Run test \"$ACCEPTANCE_RESULT\" = success",
+          "number": 2,
+          "startedAt": "2026-10-11T04:44:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-11T04:44:42Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 3,
+          "startedAt": "2026-10-11T04:44:42Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38111860684/job/114390934122"
+    }
+  ],
+  "private_full_log": {
+    "path": "/tmp/schemaforge-pending-history-master-product-attempt1.log",
+    "sha256": "58785e8ff4a1cca4763d7862499a872c1696649554a074b7dce215103785c0e7"
+  },
+  "inner_installation_log": "UNRETRIEVABLE_FROM_DISPOSED_RUNNER; assertion/cause UNKNOWN",
+  "rerun_performed": false,
+  "oracle_runtime": "UNVALIDATED"
+}
