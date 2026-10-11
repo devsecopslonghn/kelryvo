@@ -1,0 +1,25 @@
+{
+  "id": "product-t40-health-probes-ci",
+  "subject_id": "SF-PRODUCT-T40",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "PR66 exact candidate and resulting master Foundation/parser/full PRODUCT/CodeQL PASS;112 API/33 browser/1 fresh-source release per head, zero failures/cancellations/skips. Independent exact review NO_BLOCKERS and publication scan zero findings; no Oracle/deployment assertion.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "test_references": [
+    "SF-PRODUCT-T40-LIVENESS",
+    "SF-PRODUCT-T40-METADATA",
+    "SF-PRODUCT-T40-BOUNDARY"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/kelryvo-containers/health-ci.json",
+    "sha256": "f896bfebef7f1141ac3136f207c465ee93852d001fc46e86f5fc6fd05824ae82"
+  }
+}

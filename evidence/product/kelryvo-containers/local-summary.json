@@ -1,0 +1,165 @@
+{
+  "task": "SF-PRODUCT-T41",
+  "status": "LOCAL_IMPLEMENTED_REMOTE_VERIFICATION_PENDING",
+  "base": "8e1f31157a1d6ca9f333dd921b48873f923d1e58",
+  "source_sha256": [
+    {
+      "path": "Dockerfile",
+      "sha256": "8ca6360a03b166553779fe07f757e6ad4d65abc132314849267c970681ac6fbd"
+    },
+    {
+      "path": ".dockerignore",
+      "sha256": "89dc2403a4eeabc1b9cf3599937a3d37930d944a011533872f4006fb9b1a9b4c"
+    },
+    {
+      "path": ".github/workflows/containers.yml",
+      "sha256": "4e66a7facb42b5dfd24625335c91f2ba47ab732c457c93dac22645d115921777"
+    },
+    {
+      "path": "apps/api/server.ts",
+      "sha256": "55bcf79dd269e41ddaa4d55a601971268a1111dc857e87c31dcf00d165ab213a"
+    },
+    {
+      "path": "apps/api/container-main.mjs",
+      "sha256": "5c4849f7ffdb52c1cf50750ffef13c6c87a96ff6667c8850c97f0996d215d5f2"
+    },
+    {
+      "path": "apps/web/src/app.jsx",
+      "sha256": "7414c3568a9e36029e10439861c3a63d2ece950d01a64b4269d88a799da9d992"
+    },
+    {
+      "path": "packages/runtime/container-config.mjs",
+      "sha256": "30fe899e3e8c2444f64608bc7b624f96a0a5152020dd60ad5e394039f959fd81"
+    },
+    {
+      "path": "scripts/build-web.mjs",
+      "sha256": "4721fe3833153e12f7751d0285a1b30afd0ea30a1138ee7a2a449ec208a22883"
+    },
+    {
+      "path": "scripts/container-membership.mjs",
+      "sha256": "3dc96fac85a652855b555ad15efd67e48d22c6995705a7cde03914a9341b7f8d"
+    },
+    {
+      "path": "scripts/container-publication-gate.mjs",
+      "sha256": "49bf14cc28e1e412488acbfb47eb3720de4c3eee0d80cd99246fb89ab1665890"
+    },
+    {
+      "path": "scripts/container-inventory.mjs",
+      "sha256": "f6376ef9804c8af4b20864af2054cbf80ed28e1b95c94028f208a3c3d203d0b3"
+    },
+    {
+      "path": "scripts/container-source-archives.mjs",
+      "sha256": "c7dfd4ca75c748edc1dd346e80807b3f596eb963be943b814db71d41b3506cc3"
+    },
+    {
+      "path": "scripts/kelryvo-smoke.mjs",
+      "sha256": "dc35c54d9248ae535fc73563bbb84b4e86f305d0357a35fe8592da6c34e6f39a"
+    },
+    {
+      "path": "scripts/test-containers.mjs",
+      "sha256": "7e7356608c6f5897912a02ab8dfe943ca1481183420ebc000d97fb25c3944e3a"
+    },
+    {
+      "path": "tests/container-config.test.mjs",
+      "sha256": "43f0393c1c96acd6d63e493232b032fe87b745b8629085a7b913ea00840ffff6"
+    },
+    {
+      "path": "tests/container-shutdown.test.mjs",
+      "sha256": "c3ff6acc54b2d861c99ce1f2442754712a4b9b09ec1afcd5106e80089f4ef609"
+    },
+    {
+      "path": "docs/dependencies/container-runtime.json",
+      "sha256": "d115dc300b33565eb4e164af174782b923a946d959550a5ff3b83a8ba88ca6e4"
+    },
+    {
+      "path": "docs/development/containers.md",
+      "sha256": "1d678ef0543198ff7ae6d30d37424f80087841341992ffcd69fe6316e7afe9a5"
+    }
+  ],
+  "standard": {
+    "tests": 369,
+    "pass": 306,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 63
+  },
+  "tracker": {
+    "tests": 21,
+    "pass": 21,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "oci": {
+    "status": "PASS",
+    "scope": "LOCAL_OCI_POSTGRESQL",
+    "login": "Secure cookie and CSRF enforced",
+    "gitValidation": "VALID",
+    "approval": "APPROVED",
+    "history": "NOT_EXECUTED",
+    "restartPersistence": "PASS",
+    "gracefulExit": 0,
+    "worker": "DISABLED_FAIL_CLOSED",
+    "runtimeNotices": {
+      "debianPackages": 115,
+      "jdkFiles": 38
+    },
+    "oracleRuntimeVerified": false
+  },
+  "raw_outputs": [
+    {
+      "path": "evidence/product/kelryvo-containers/standard-checks.log",
+      "sha256": "4470a8bd682597219438fac45e61bdf3d990ada4ad78b61072c8c8639fc32e23"
+    },
+    {
+      "path": "evidence/product/kelryvo-containers/standard-checks.concurrent-failure.log",
+      "sha256": "af0f89f78ff02ae5143911c4db1bcfa88f453c3659ac1a92b42c59325d63edf6"
+    },
+    {
+      "path": "evidence/product/kelryvo-containers/container-smoke.log",
+      "sha256": "b56494c58031fc41167052586c294ecf0a2153716fc100998b7f542fbaabadc1"
+    },
+    {
+      "path": "evidence/product/kelryvo-containers/app-build.log",
+      "sha256": "ad87eb377893ca374be517d3bb7873510b4dd78503605401dd1c9d9226dc6d3a"
+    },
+    {
+      "path": "evidence/product/kelryvo-containers/worker-build.log",
+      "sha256": "92fe87ad8b8bb7bf389ec43c02fe7c3ccf1a8fd1af9c3e7241302cddd42ce85b"
+    }
+  ],
+  "local_image_ids": [
+    {
+      "image": "kelryvo-app:local",
+      "id": "sha256:2f4ec4e6e6765b55a768da0f6f3fc2817f488b6b578740afc387b01f4591392e"
+    },
+    {
+      "image": "kelryvo-worker:local",
+      "id": "sha256:b65ec1e730438e13635bf89f3a766d562e5ff8a1a4f927d42610e819bfbb7b46"
+    }
+  ],
+  "corrections": [
+    "Projected Secret ..revision directories remain confined within mount; unsafe file escape/write/size checks retain fixed errors.",
+    "Runtime ANTLR artifact downloaded root0600 was unreadable by non-root API; public runtime artifact is now root-owned0644.",
+    "Independent review found rejected close could clear shutdown deadline while a handle remained; rejection now exits1 and actual Fastify child regression passes.",
+    "OCI harness isolates metadata and publishes test HTTPS on a separate network, uses explicit session argument and stable allocated host port for restart."
+  ],
+  "prior_standard_failure": {
+    "counts": {
+      "tests": 369,
+      "pass": 305,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 63
+    },
+    "observation": "Existing product-import case returned INVALID rather than VALID at5293ms while OCI parser build ran concurrently. Cause not established; failed raw log retained. Final serial npm check passes without source/assertion/guard/timeout changes between runs."
+  },
+  "limitations": [
+    "Exact candidate/master Foundation/parser/full PRODUCT/CodeQL and new OCI workflow remain pending.",
+    "GitHub Actions dispatch publication, registry digests, Helm, Argo, dedicated PVC persistence and public browser/API verification remain pending.",
+    "Standard checks retain63 existing offline PostgreSQL skips; the separate genuine OCI PostgreSQL workflow passes.",
+    "Fixed actor credentials use the existing24-hour expiry and are never extended or resurrected on restart.",
+    "Worker has no private installation, target credentials or Oracle authority; Oracle runtime not verified.",
+    "Sonar unavailable under standing free LOC quota exception; supplied GitGuardian entity UUID false positive dashboard closure remains pending."
+  ]
+}

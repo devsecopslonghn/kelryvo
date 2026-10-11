@@ -4,6 +4,8 @@ import ExecutionHistory from './ExecutionHistory.jsx';
 import ExecutionRequestsHistory from './ExecutionRequestsHistory.jsx';
 import { mergeExecutionJobWindow, terminalExecutionStates } from './executionJobs.js';
 
+const productName = process.env.SCHEMAFORGE_PRODUCT_NAME;
+
 let browserSessionEpoch = 0;
 let lastInteraction = Date.now();
 for (const event of ['pointerdown', 'keydown']) window.addEventListener(event, () => { lastInteraction = Date.now(); }, { passive: true });
@@ -1419,7 +1421,7 @@ function App() {
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
-      <a className="brand" href="#home" aria-label="SchemaForge home"><span className="brand-mark">S</span><span>Schema<span className="brand-light">Forge</span></span></a>
+      <a className="brand" href="#home" aria-label={`${productName} home`}><span className="brand-mark">{productName[0]}</span><span>{productName === 'SchemaForge' ? <>Schema<span className="brand-light">Forge</span></> : productName}</span></a>
       <p className="eyebrow">DATABASE CHANGE GOVERNANCE</p>
       <h1>Make every change reviewable.</h1>
       <p className="muted">Sign in with a local access token to manage projects, review migration releases, and record decisions.</p>
@@ -1460,7 +1462,7 @@ function App() {
         {tab === 'inbox' && <ReviewInboxScreen model={model} />}
         {tab === 'records' && <RecordsScreen model={model} />}
       </div>
-      <footer className="footer"><span>SchemaForge <span className="footer-sep">·</span> Governance workspace</span><span>Local time · {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></footer>
+      <footer className="footer"><span>{productName} <span className="footer-sep">·</span> Governance workspace</span><span>Local time · {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></footer>
     </main>
   </div>;
 }

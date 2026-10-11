@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "scope": "Owner-authorized Kelryvo internal amd64 OCI deployment; existing source-bundle observations remain unchanged",
+  "node_build_base": "node:22.23.3-bookworm-slim@sha256:efd0ab5780c2d9ab1f0f869571a00d5edb17793bff4cce4a2792e3eb0ffc7562",
+  "runtime_base": "debian:bookworm-slim@sha256:a4672c0cb26fbdde88e38fa2dfb6c681942306680e41e4378b28770b6e79ee91",
+  "bundled": [
+    "Node 22.23.3 binary and full upstream LICENSE; npm, yarn and corepack excluded from runtime layers",
+    "Pinned Temurin 21.0.12.1+1 JDK with its complete legal directory and matching source/build-source archives",
+    "Pinned ANTLR helper and separate 4.13.2 runtime with unchanged lock hashes and preserved notices",
+    "Exact production npm dependencies and existing product-NOTICES.txt",
+    "Debian runtime and git/CA dependencies with preserved /usr/share/doc copyright material and build-time package inventory"
+  ],
+  "source_archives": [
+    {
+      "name": "temurin-source",
+      "url": "https://codeload.github.com/adoptium/jdk21u/tar.gz/1c417fbfc2f70ab03a565b0af0a5a3c6f5e15ad6",
+      "sha256": "a8bcdb5fcdd4126304a88bc2231d5a2ef68cb1b67d53422491c7026d8feca027"
+    },
+    {
+      "name": "temurin-build-source",
+      "url": "https://codeload.github.com/adoptium/temurin-build/tar.gz/e6ba7dec3d07654074559310376a3ae89da5f4ac",
+      "sha256": "b1340378b9ed62b32acfacd012dd069ec2b9d940fc39d3c73f32142d64e89713"
+    }
+  ],
+  "public_distribution_clearance": false,
+  "oracle_runtime_accepted": false
+}

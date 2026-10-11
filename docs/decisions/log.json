@@ -728,6 +728,22 @@
       "catalog_traceability": [
         "OPS-011"
       ]
+    },
+    {
+      "id": "SF-D060",
+      "status": "ACCEPTED_OWNER_AUTHORIZED_KELRYVO_CONTAINER_DELIVERY",
+      "decision": "Honor the owner Kubernetes deployment priority in the current goal after safely completing T40. Package separate non-root app and restricted worker images; mandatory app backend TLS preserves encrypted-socket sessions through the existing nginx ingress. Use mounted namespace Secrets, external dedicated PostgreSQL and explicit audited operator membership grants. Keep worker deployment and all Oracle execution disabled. Publish only tested exact verified master images by explicit Actions dispatch, preserving private registry visibility and source/runtime licenses. Reuse discovered cluster conventions in the dedicated Helm repository without shared infrastructure changes.",
+      "references": [
+        "Dockerfile",
+        ".github/workflows/containers.yml",
+        "apps/api/container-main.mjs",
+        "packages/runtime/container-config.mjs",
+        "scripts/test-containers.mjs",
+        "docs/development/containers.md"
+      ],
+      "catalog_traceability": [
+        "OPS-011"
+      ]
     }
   ]
 }

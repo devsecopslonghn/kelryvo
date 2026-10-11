@@ -922,7 +922,30 @@ const PRODUCT_TASK_40 = {
     "SF-PRODUCT-T40-BOUNDARY"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38, PRODUCT_TASK_39, PRODUCT_TASK_40];
+const PRODUCT_TASK_41 = {
+  "id": "SF-PRODUCT-T41",
+  "package": "PRODUCT",
+  "assigned_agent": "devops",
+  "title": "Package Kelryvo app and restricted worker for verified container delivery",
+  "dependencies": [
+    "SF-PRODUCT-T40"
+  ],
+  "feature_ids": [
+    "OPS-011"
+  ],
+  "acceptance_criteria": [
+    "Run the existing API and Kelryvo web assets as a non-root container with configurable bind address, external PostgreSQL, mandatory backend TLS, mounted Secrets, probes and graceful shutdown. Preserve session, authorization, migration, audit, HOLD and no-replay controls.",
+    "Build separate app and worker OCI images without bundled PostgreSQL or credentials. Keep worker startup fail-closed without private trusted installation and Oracle runtime authority. Preserve pinned dependencies, product license, runtime notices and corresponding JDK source material.",
+    "Verify projected Secret confinement, distinct fixed roles, unsafe input rejection and the actual OCI Git import, offline validation, approval, history, security denials and restart persistence against dedicated disposable PostgreSQL. No Oracle runtime acceptance.",
+    "Require exact candidate and master Foundation/parser/full PRODUCT/CodeQL and OCI verification before controlled master-dispatch publication of the tested images. Record immutable source tags and registry digests; actual Kubernetes deployment remains a subsequent verified milestone."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T41-CONFIG",
+    "SF-PRODUCT-T41-OCI",
+    "SF-PRODUCT-T41-PUBLICATION"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38, PRODUCT_TASK_39, PRODUCT_TASK_40, PRODUCT_TASK_41];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',
