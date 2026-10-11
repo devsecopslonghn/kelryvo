@@ -456,6 +456,18 @@
         "docs/development/local-product.md",
         "docs/implementation/milestone.json"
       ]
+    },
+    {
+      "id": "SF-D042",
+      "status": "ACCEPTED_MVP_M5_LOCAL_SOURCE_INSTALLATION",
+      "accepted_at_utc": "2026-10-11T00:13:50.865218+00:00",
+      "decision": "Assemble a deterministic internal local source installation candidate from an exact committed Git revision using regular whitelisted runtime/operator/parser/test sources. Preserve unmodified LICENSE/NOTICE, exact npm lock and third-party/parser notices; retain original package metadata and project operating commands into the installation package. Exclude private caches, credentials, research, tracker/evidence, external binaries and build outputs. Refuse existing output directories and symlink/traversal entries. Verify extracted bytes before installation and test fresh npm installation plus existing local workflow/HTTPS tests and a positive UNIT controlled-host/history/restart case. Reuse the existing mandatory CI without weakening gates. Public naming/fullF31 clearance and Oracle host/runtime/reconciliation remain separate, no license change or task ID. Ordinary reversible decision under SF-D010.",
+      "references": [
+        "scripts/local-release.mjs",
+        "scripts/release-acceptance.mjs",
+        "docs/development/local-release.md",
+        "docs/implementation/milestone.json"
+      ]
     }
   ]
 }

@@ -37,3 +37,5 @@ On 2026-10-08 an obvious-conflict search found related software named SchemaForg
 This records naming overlap, not trademark clearance. No jurisdiction-specific registry
 clearance was performed. Keep SchemaForge and the local path provisional; public naming
 remains an owner decision. Independent local PRODUCT delivery continues.
+
+The local source installation candidate now assembles the current product source, exact npm lock and third-party/parser notices; external binaries and imported research are excluded. This bounded assembly does not close public naming, full F31 redistribution clearance or Oracle/deployed-worker acceptance. See [local release installation](../development/local-release.md).
