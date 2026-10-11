@@ -3272,6 +3272,27 @@
       },
       "path": "evidence/product/mvp-controlled-execution-20261011/record.json",
       "sha256": "e7bf111546c8d0ff07fa1385701f32596ec0646b67b7715a15324dde55208980"
+    },
+    {
+      "id": "mvp-controlled-execution-pr51-master-verified",
+      "subject_id": "SF-PRODUCT-T33",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Ordinary exact-head PR51 merge after all6candidate foundation/parser/product push+PR SUCCESS, independent source/publication review, bounded secret scans and unchanged license/pins; fast-forward clean master and preserve active checkpoint, verify17runtime/test/pin/license hashes and all3merged-master workflows SUCCESS.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [
+        "SF-PRODUCT-T33-API",
+        "SF-PRODUCT-T33-WEB"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/mvp-controlled-execution-20261011/final-candidate-product.log",
+        "sha256": "7af2afeedddb50f32ade0c71906bc1540084bca98227889a7f6b4892a0fb6afe"
+      },
+      "path": "evidence/product/mvp-controlled-execution-20261011/integration-record.json",
+      "sha256": "e879323fdabcf5b82a4d58e0741566cb85ccbae7ca91adcc10716a0bcbdd2620"
     }
   ]
 }

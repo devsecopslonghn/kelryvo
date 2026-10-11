@@ -1,0 +1,185 @@
+{
+  "id": "mvp-controlled-execution-pr51-master-verified",
+  "subject_id": "SF-PRODUCT-T33",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Ordinary exact-head PR51 merge after all6candidate foundation/parser/product push+PR SUCCESS, independent source/publication review, bounded secret scans and unchanged license/pins; fast-forward clean master and preserve active checkpoint, verify17runtime/test/pin/license hashes and all3merged-master workflows SUCCESS.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [
+    "SF-PRODUCT-T33-API",
+    "SF-PRODUCT-T33-WEB"
+  ],
+  "case_coverage": [],
+  "recorded_at": "2026-10-11T00:02:17.488692+00:00",
+  "source_head": "513bdfb91382592b9f7b9d76deea91611e24ac46",
+  "published_head": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
+  "merged_master": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+  "pr": 51,
+  "merge": {
+    "headRefOid": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
+    "mergeCommit": {
+      "oid": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43"
+    },
+    "mergedAt": "2026-10-10T23:31:06Z",
+    "state": "MERGED"
+  },
+  "candidate_runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 38094255737,
+      "event": "pull_request",
+      "headSha": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38094255737",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38094255732,
+      "event": "pull_request",
+      "headSha": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38094255732",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38094255769,
+      "event": "pull_request",
+      "headSha": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38094255769",
+      "workflowName": "Local PRODUCT acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38094252681,
+      "event": "push",
+      "headSha": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38094252681",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38094252680,
+      "event": "push",
+      "headSha": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38094252680",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38094252673,
+      "event": "push",
+      "headSha": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38094252673",
+      "workflowName": "Local PRODUCT acceptance"
+    }
+  ],
+  "candidate_counts": {
+    "api": {
+      "tests": 69,
+      "pass": 69,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  "master_runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 38095309113,
+      "event": "push",
+      "headSha": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38095309113",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38095309236,
+      "event": "push",
+      "headSha": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38095309236",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38095309103,
+      "event": "push",
+      "headSha": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+      "status": "completed",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38095309103",
+      "workflowName": "Local PRODUCT acceptance"
+    }
+  ],
+  "master_counts": {
+    "api": {
+      "tests": 69,
+      "pass": 69,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  "source_hashes": {
+    "apps/api/index.ts": "87214688461ae966a06942991771d1c727d6e8c39b70b4cc2123ce5568a3e557",
+    "apps/worker/run-request.ts": "61f7853b8b4f5577586159ec537c611aa097fc0aa8879d3bf3b1ce1bd51d181f",
+    "packages/execution/admission.ts": "9799e1c1295d44dffd7376f7ad77d0a71dec488d606e438ea9a2a14eae9a475d",
+    "packages/execution/statements.mjs": "6b9b9bfc7d2de0814a5fc7a1eb1519af81c1cecf3ac89fa5b13039d48a48d407",
+    "packages/execution/postgres-jobs.ts": "3868d54e39cebd58df11d5071e2c9f0be0d29b4614e3e6653a3bc639a985ce4c",
+    "packages/database/index.ts": "c769d536aaf26e5174847cfe889215e8fbc955e30e0187e0a919f8e5b7f41272",
+    "packages/backup/index.mjs": "07f4c7d6c5f545edc62f8906764ddb874383444b6926c4bb3aba2ab05695937f",
+    "experiments/db-devops-wp0/parser-envelope.mjs": "b6bf3f73cd252ea04004e721c044b5ae67fd61d70334c72004e3bc93f1b428b4",
+    "experiments/db-devops-wp0/antlr-envelope.mjs": "760ea849e7f9b8bd08a7f2dbce59569e7d2ae7e8499c61338e5de195cf27f02a",
+    "tests/product-controlled-execution.test.mjs": "b190a6224a954c4dbf71101e77a0758d886f36706f9cf3362fde44188afcb6ce",
+    "tests/helpers/statement-envelope-fixture.mjs": "7e1a37bf92da77108c0b15d54767b49804cff482c352e4c96cbcbbe1f6c75ce4",
+    "tests/parser-envelope.test.mjs": "ed29a965c243d7cab97e8a3278ffe0849975e731bbd7936f3ed95a3518b81e1e",
+    "scripts/test-product.mjs": "8ed89ffc017caf19e7e96bbb8dae476a71f79b988a7de1be521a2a34eb6717b4",
+    "package.json": "f2e8e1c4e849e7596baf135ffa9976e001ca9157b66bd1c8ba1808848a7709f4",
+    "package-lock.json": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+    "LICENSE": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+    "NOTICE": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e"
+  },
+  "source_pin_license_hash_mismatches": [],
+  "publication_review": "final-publication-review.json",
+  "publication_scans": [
+    "publication-scan.json",
+    "final-publication-delta-scan.json"
+  ],
+  "security_gate": "Actual protection disabled/no configured required contexts; all available workflows still enforced. Disabled/paid GitHub security APIs and known owner-authorized Sonar outage UNAVAILABLE, neverPASS. No bypass or thresholds changed.",
+  "blocking_review_threads": 0,
+  "open_prs": [],
+  "retained_candidate_test_log": "final-candidate-product.log",
+  "retained_candidate_test_log_sha256": "7af2afeedddb50f32ade0c71906bc1540084bca98227889a7f6b4892a0fb6afe",
+  "master_test_log": "Selected product/browser step logs inspected at workflow URL; identical69API/33browser counts. No duplicate retained full test log.",
+  "oracle_runtime": "UNVALIDATED_NO_AUTHORIZED_HOST_OR_RUNTIME",
+  "limits": "Synthetic installed host ports only, no default API execution authority, Oracle adapter, target ledger reconciliation, deployed worker isolation or full220catalog acceptance. Request-only historical jobs retain reads and require fresh requests; older-schema backups require prior binaries and witnesses.",
+  "catalog": "220:0fullyverified/48partial/165unimplemented/7deferred;124Oracle acceptance cells BLOCKED_EXTERNAL",
+  "goal": "ACTIVE",
+  "next_bounded_outcome": "Reproducible local MVP release acceptance and source/notices/deployment artifact assembly; actual Oracle host execution and target reconciliation remain external.",
+  "raw_output": {
+    "path": "evidence/product/mvp-controlled-execution-20261011/final-candidate-product.log",
+    "sha256": "7af2afeedddb50f32ade0c71906bc1540084bca98227889a7f6b4892a0fb6afe"
+  }
+}

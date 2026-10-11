@@ -1,0 +1,15 @@
+{
+  "publication_head": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
+  "recorded_at_utc": "2026-10-10T23:17:58.156047+00:00",
+  "scope": "Only publication bytes absent from or changed after prior27file scan; preserve prior source scan and inheritedPR50 classification limits",
+  "command": "Pinned gitleaks8.30.1 dir --redact on exact git-show publication delta",
+  "exit_code": 0,
+  "findings": 0,
+  "files": 2,
+  "sha256": {
+    "evidence/product/mvp-controlled-execution-20261011/independent-review.json": "a92fd0ccdb160df3fcca8f9370931898c99e3b5ad74bb817143a1542d6ee24d9",
+    "evidence/product/mvp-controlled-execution-20261011/publication-scan.json": "3fcdb36d1112a81bb53d103307c06d9aa57bdac9a8823abf6a50c3b7a858e79b"
+  },
+  "original_result_preserved": "publication-scan.json",
+  "producer_report_excluded_from_own_inputs": true
+}

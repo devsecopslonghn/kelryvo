@@ -1,0 +1,24 @@
+{
+  "scope": "Only local closeout metadata and selected candidate API/browser log. Frozen implementation/pins/license unchanged; earlier original/delta scans and inheritedPR50 negative classifications retained.",
+  "verified_master": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+  "recorded_at_utc": "2026-10-11T00:03:59.695771+00:00",
+  "command": "Pinned gitleaks8.30.1 dir --redact on final local closeout byte snapshot",
+  "exit_code": 0,
+  "findings": 0,
+  "files": 12,
+  "sha256": {
+    "docs/implementation/CONTINUE.md": "92e9982e37f1712327c395e87965fd6fc46cc82ddc4377ad250332b89e09e7b0",
+    "docs/implementation/CURRENT.md": "92e9982e37f1712327c395e87965fd6fc46cc82ddc4377ad250332b89e09e7b0",
+    "docs/implementation/evidence-index.json": "e0affc4cee168a7e66bab110792062f5dfd60a377d797874aea678539732a630",
+    "docs/implementation/feature-coverage.json": "47bf859796fdc0f71e4d3ab98a8f0636a3f3bfef2dcbf4f095d51f2ec32f1361",
+    "docs/implementation/milestone.json": "f1b7d5af7ada3d49253b2768fe0fe932b9fb3af6c430658a8d81801ed149ba21",
+    "evidence/product/mvp-controlled-execution-20261011/candidate-ci-start.json": "1149fbe87941d70cdcb2cdf8021dbb5adf482dd23794aaad74c51fed27108957",
+    "evidence/product/mvp-controlled-execution-20261011/candidate-ci-terminal.json": "b025380ad378304a1d5ee41aa0e1a22d57e78421f2d6b9737540e8b45ea56ac7",
+    "evidence/product/mvp-controlled-execution-20261011/final-candidate-product.log": "7af2afeedddb50f32ade0c71906bc1540084bca98227889a7f6b4892a0fb6afe",
+    "evidence/product/mvp-controlled-execution-20261011/final-publication-delta-scan.json": "2bd75604dfda2a9bcc15980071099f23ed7ae82d3ee4aec966c7f8efbdb2f9b1",
+    "evidence/product/mvp-controlled-execution-20261011/final-publication-review.json": "705f69409e1b0257c08ae5af5c097c3a7a43bc3df3819468db7296de0ffab52e",
+    "evidence/product/mvp-controlled-execution-20261011/integration-record.json": "e879323fdabcf5b82a4d58e0741566cb85ccbae7ca91adcc10716a0bcbdd2620",
+    "evidence/product/mvp-controlled-execution-20261011/publication-observation.json": "68ad2f646b3659696d03734915c321a73c519887dbdea72432866ecef220bfc5"
+  },
+  "producer_report_excluded_from_own_inputs": true
+}

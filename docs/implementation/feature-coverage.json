@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-10T23:11:32.170621+00:00",
-  "verified_master": "ce632193ac3a1c9c544d71e84eca2071133987d0",
-  "reviewed_local_source": "a97e7110d8ee1cd47dee9f27d713b3bc45e36eba",
+  "recorded_at": "2026-10-11T00:02:57.100513+00:00",
+  "verified_master": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+  "reviewed_local_source": "513bdfb91382592b9f7b9d76deea91611e24ac46",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
@@ -62,11 +62,11 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "PR48 correctedjournal, PR49 statementbinding and PR50 centralhistory merged with exact-head and finalmasterCI verified. Optional disabled/paid host security remains UNAVAILABLE;124Oracle runtimecells BLOCKED_EXTERNAL.",
+  "external_acceptance": "Corrected PR48 journal, PR49 statement binding, PR50 scoped central history and PR51 restricted controlled-host bridge are merged with exact-head and merged-master CI verified. Host effects remain UNIT_SYNTHETIC; no Oracle runtime/driver/deployed-worker isolation/target reconciliation acceptance. Optional disabled/paid security remains UNAVAILABLE;124Oracle runtime cells BLOCKED_EXTERNAL.",
   "next_product_capability": {
-    "milestone": "M3/M4",
-    "status": "TRUSTED_ADMISSION_EXECUTION_RECONCILIATION_INCOMPLETE",
-    "next_action": "Implement trusted host/current target history/mutex/dispatch admission wiring and no-replay reconciliation; reproducible local release acceptance follows. No synthetic Oracle-history substitution."
+    "milestone": "M5 with M3/M4 external acceptance retained",
+    "status": "REPRODUCIBLE_LOCAL_RELEASE_ACCEPTANCE_AND_ARTIFACT_ASSEMBLY_NEXT",
+    "next_action": "Reuse integrated startup, local PostgreSQL/Git/parser/HTTPS tests and license manifests for reproducible local release acceptance and source/notices/deployment artifacts. Actual Oracle host/driver/target ledger reconciliation and runtime acceptance remain external; no synthetic Oracle-history substitution."
   },
   "features": [
     {
@@ -2521,7 +2521,7 @@
     "evidence": "product-t35-journal-repair-local-verified",
     "scope": "LOCAL-only bounded journals; backward v1 recovery; >32 browser sessions; actor-wide revocation preserved. Catalog classification unchanged."
   },
-  "integration_record": "evidence/product/mvp-execution-history-20261011/integration-record.json",
+  "integration_record": "evidence/product/mvp-controlled-execution-20261011/integration-record.json",
   "m3_statement_increment": {
     "status": "INTEGRATED_MASTER_CI_VERIFIED",
     "source_head": "3f72cbfd3fd2b6aa7c128932d32264c87c406d9a",
@@ -2540,10 +2540,13 @@
     "merged_master": "ce632193ac3a1c9c544d71e84eca2071133987d0"
   },
   "m3_controlled_increment": {
-    "status": "LOCAL_VERIFIED_REMOTE_CI_PENDING",
+    "status": "INTEGRATED_MASTER_CI_VERIFIED",
     "source_head": "513bdfb91382592b9f7b9d76deea91611e24ac46",
     "evidence": "mvp-controlled-execution-local-verified",
     "behavior": "Exact reviewed statements advance under installed host capabilities with atomic proof/claim and checked authority across dispatch/final commit. Synthetic host12cases, no-replay and restore/credential fences verified. No Oracle adapter/deployed isolation/applied target ledger acceptance.",
-    "classification_change": false
+    "classification_change": false,
+    "published_head": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
+    "merged_master": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+    "integration_evidence": "mvp-controlled-execution-pr51-master-verified"
   }
 }
