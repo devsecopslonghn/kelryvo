@@ -899,3 +899,21 @@ list and runs serially with its shard's disposable PostgreSQL service. It runs t
 worker in a child, retains durable success after cleanup uncertainty, refuses terminal
 redispatch, then approves and executes only new V2 after V1. The synthetic target and
 process fault tests are UNIT evidence; no Oracle SQL is executed.
+
+`createPrivateOracleProvider` in `apps/worker/oracle-provider.mjs` supplies the
+restricted host's installed connection lifecycle. Privileged child installation code
+must supply its purpose authority, a fixed private route resolver, and independent
+target attestation capabilities. Request data cannot select routes or install these
+capabilities. This module does not supply credentials, a deployed factory, target
+attestations or Oracle runtime acceptance.
+
+The provider authorizes one exact immutable request and write-purpose permit before
+resolving routes or opening dedicated writer and distinct ledger-owner sessions. It
+uses the pinned Thin driver, installs a bounded call timeout before session use, and
+rejects pooled routes. Each provider instance serves one child operation. Reuse,
+overlap, an owned operation failure, a callback returning with operations still pending,
+or cleanup uncertainty retires it and fails closed. Owned driver and target capability
+operations drain before both sessions close; it never reconnects or retries SQL.
+The explicit UNIT connection port cannot satisfy a trusted installation. The ten
+provider tests verify synthetic lifecycle behavior; production authority, physical
+identity, TLS, grants, protected object integrity and adoption remain separate gates.
