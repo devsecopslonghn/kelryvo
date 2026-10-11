@@ -389,7 +389,7 @@ remain `WAITING_VALIDATION` and cannot be admitted by API or operator grant. Pla
 explicitly lists missing target history, trusted host, target mutex and dispatch permit;
 format-1 approvals additionally require a fresh statement-bound approval. The restricted
 coordinator accepts only an admitted immutable job through injected trusted ports; synthetic
-ports are UNIT evidence only. No production Oracle adapter, automatic retry, target ledger,
+ports are UNIT evidence only. No production Oracle adapter, automatic retry, installed trusted target ledger,
 runtime authority, Oracle connections, Kubernetes deployment or production compatibility
 claim is included. Archival retains records and transactionally rejects further project
 writes with HTTP 409 `PROJECT_ARCHIVED`, including in-flight writes that were waiting
@@ -645,7 +645,9 @@ use `createExecutionWorker(sql, host)` from `apps/worker/run-request.ts`; the ho
 of callable capabilities, never a browser payload or JSON setting. Its fixed worker identity
 and evidence scope cannot be replaced by request fields. Production hosts require
 `TRUSTED_VALIDATED`; tests opt into `UNIT_SYNTHETIC` explicitly with `allowUnitSynthetic:true`.
-No Oracle host/driver adapter or worker deployment is supplied. Do not turn the UNIT fixture
+No deployable validated Oracle host or worker deployment is supplied. The protected ledger
+foundation below uses the already pinned driver through a private connection capability.
+Do not turn the UNIT fixture
 into a production configuration or resolve writer credentials in the API.
 
 The host's `withTarget` owns its physical connection, canonical target mutex and dispatch
@@ -721,3 +723,53 @@ Build the web bundle and pinned parser first. This exercises Git→approval→re
 with synthetic host ports only; it never certifies Oracle effects, target ledger reconciliation
 or production isolation. Actual execution/recovery acceptance remains blocked on an explicitly
 authorized Oracle runtime and host attestation.
+
+## Protected target-ledger foundation
+
+`packages/execution/oracle-target-ledger.mjs` exports `createOracleTargetLedger(connection)`
+for a separately installed restricted host. It accepts a dedicated physical ledger-owner
+connection using the existing pinned node-oracledb 7.0.1; it opens no connection, resolves
+no credential, executes no migration SQL and installs no API or worker entry point.
+`apps/worker/oracle/target-ledger.sql` is an unexecuted installation artifact for an
+authorized operator. Its owner must be separate from the application writer. The writer
+must have no direct, role-derived, public or ANY-object privilege that can mutate this
+ledger or disable its immutable-event trigger. Checking grants, object identity and owner
+integrity is a trusted-host/runtime requirement; the JavaScript factory cannot attest it.
+
+The callable methods are `read(targetId)`, `startFile(targetId, approvedIdentity)`,
+`startStatement`, `acknowledgeStatement` and `completeFile`. The last three take the
+one-based file ordinal; statement methods also take the one-based per-file ordinal and
+approved execution digest. `startFile` accepts path/version/sha256/statementManifestDigest,
+original approval UUID and intent digest, and the complete ordered statement digest list.
+It snapshots that identity before awaiting I/O and atomically commits the header, expected
+count/list digest and all planned statements. STARTED precedes the separate writer call;
+the restricted host records ACK only after that call returns ACKNOWLEDGED. Every planned
+statement must have its exact ordered ACK before FILE_APPLIED. Receipt checksums link
+records and are not independent proof of effects. No automatic replay or reconciliation
+is provided. Any ambiguous commit/error poisons this capability, including subsequent
+reads; it never retries or reopens a connection. The host must stop dispatch and HOLD.
+
+`oracleTargetLedgerId({targetKey,targetIdentityDigest})` derives a storage partition from
+independently attested physical target facts; catalog assignment changes do not reset it.
+Hashing caller data authenticates no target. `read` returns raw `ledgerFormat:1` and
+`UNINITIALIZED`, `EMPTY`, `COMPLETE`, `IN_FLIGHT` or `UNTRUSTED` state, complete applied
+identities and unresolved file facts. This is not a worker `TargetObservation`.
+UNINITIALIZED means the partition is absent, never that the application schema is empty.
+Before the first file, host must verify empty-target adoption or an explicit reviewed
+baseline. Missing tables/access, null, IN_FLIGHT, UNTRUSTED or any unresolved file must
+HOLD; never discard an unresolved suffix and use its completed prefix. The host compares
+complete identities with the immutable approval before selecting pending migrations.
+It separately attests canonical identity, protected ledger ownership, continuously held
+target mutex, dispatch permit, central reconciliation and final target validity.
+
+Fixed SQL uses bind variables, object-row format and a limit-plus-one overflow witness.
+The bounds are 128 files, 4,096 total planned statements and 12,544 events; exceeding them
+requires explicit reconciliation, not truncation into trusted history. Head-row locks
+serialize ledger appends only and end at commit; they do not hold the execution mutex
+across application DDL. Keep the ledger connection exclusive to the adapter, with no
+external transaction, auto-commit or application DDL. Overlapping adapter calls fail closed.
+The [pinned driver transaction documentation](https://node-oracledb.readthedocs.io/en/v7.0.1/user_guide/txn_management.html)
+describes explicit commit/rollback and Oracle DDL commits; the
+[connection API](https://node-oracledb.readthedocs.io/en/v7.0.1/api_manual/connection.html)
+documents execution options. Fake-driver unit checks cover these storage contracts and
+pending-suffix compatibility; static SQL is not Oracle installation/runtime acceptance.
