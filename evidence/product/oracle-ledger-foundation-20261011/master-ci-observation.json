@@ -1,0 +1,320 @@
+{
+  "observed_at": "2026-10-11T03:03:20.075028+00:00",
+  "candidate_runs": [
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T02:36:04Z",
+      "databaseId": 38105679375,
+      "event": "pull_request",
+      "headSha": "b5914d384ccfffa72e0dc4ea4c1c6922ca65e9ba",
+      "status": "completed",
+      "updatedAt": "2026-10-11T02:37:43Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38105679375",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T02:36:04Z",
+      "databaseId": 38105679378,
+      "event": "pull_request",
+      "headSha": "b5914d384ccfffa72e0dc4ea4c1c6922ca65e9ba",
+      "status": "completed",
+      "updatedAt": "2026-10-11T02:39:17Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38105679378",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T02:36:04Z",
+      "databaseId": 38105679395,
+      "event": "pull_request",
+      "headSha": "b5914d384ccfffa72e0dc4ea4c1c6922ca65e9ba",
+      "status": "completed",
+      "updatedAt": "2026-10-11T02:46:07Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38105679395",
+      "workflowName": "Local PRODUCT acceptance"
+    }
+  ],
+  "candidate_product": {
+    "head": "b5914d384ccfffa72e0dc4ea4c1c6922ca65e9ba",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "acceptance (release, 1/1)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:36:07Z",
+        "completedAt": "2026-10-11T02:41:04Z"
+      },
+      {
+        "name": "acceptance (browser, 2/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:36:06Z",
+        "completedAt": "2026-10-11T02:44:33Z"
+      },
+      {
+        "name": "acceptance (api, 1/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:36:06Z",
+        "completedAt": "2026-10-11T02:46:00Z"
+      },
+      {
+        "name": "acceptance (api, 2/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:36:06Z",
+        "completedAt": "2026-10-11T02:45:20Z"
+      },
+      {
+        "name": "acceptance (browser, 1/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:36:06Z",
+        "completedAt": "2026-10-11T02:45:08Z"
+      },
+      {
+        "name": "product",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:46:03Z",
+        "completedAt": "2026-10-11T02:46:06Z"
+      }
+    ],
+    "tap": {
+      "acceptance (release, 1/1)": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (browser, 2/2)": {
+        "tests": 17,
+        "pass": 17,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (api, 1/2)": {
+        "tests": 25,
+        "pass": 25,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (api, 2/2)": {
+        "tests": 45,
+        "pass": 45,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (browser, 1/2)": {
+        "tests": 16,
+        "pass": 16,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    "wall_seconds": 600,
+    "full_log_sha256": "c65a2bb31915c0891c4a95b9e2a0b388b197f6d4eaee25d20f2c19292ef213de",
+    "full_log_source": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38105679395",
+    "installed_source_acceptance": {
+      "checkout_commit": "93389ce3cf1fa3d5a7e62f9dc781db439b08f48c",
+      "passed": 4,
+      "oracle_runtime": "UNVALIDATED"
+    }
+  },
+  "master_runs": [
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T02:48:40Z",
+      "databaseId": 38106349528,
+      "event": "push",
+      "headSha": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
+      "status": "completed",
+      "updatedAt": "2026-10-11T02:50:01Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38106349528",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T02:48:40Z",
+      "databaseId": 38106349513,
+      "event": "push",
+      "headSha": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
+      "status": "completed",
+      "updatedAt": "2026-10-11T02:51:53Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38106349513",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T02:48:40Z",
+      "databaseId": 38106349541,
+      "event": "push",
+      "headSha": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
+      "status": "completed",
+      "updatedAt": "2026-10-11T03:02:23Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38106349541",
+      "workflowName": "Local PRODUCT acceptance"
+    }
+  ],
+  "master_product": {
+    "head": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "acceptance (release, 1/1)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:48:43Z",
+        "completedAt": "2026-10-11T02:51:49Z"
+      },
+      {
+        "name": "acceptance (browser, 1/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:48:43Z",
+        "completedAt": "2026-10-11T02:57:45Z"
+      },
+      {
+        "name": "acceptance (api, 2/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:48:43Z",
+        "completedAt": "2026-10-11T03:02:17Z"
+      },
+      {
+        "name": "acceptance (api, 1/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:48:43Z",
+        "completedAt": "2026-10-11T02:56:45Z"
+      },
+      {
+        "name": "acceptance (browser, 2/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:48:43Z",
+        "completedAt": "2026-10-11T02:55:06Z"
+      },
+      {
+        "name": "product",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T03:02:20Z",
+        "completedAt": "2026-10-11T03:02:22Z"
+      }
+    ],
+    "tap": {
+      "acceptance (release, 1/1)": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (browser, 1/2)": {
+        "tests": 16,
+        "pass": 16,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (api, 2/2)": {
+        "tests": 45,
+        "pass": 45,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (api, 1/2)": {
+        "tests": 25,
+        "pass": 25,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (browser, 2/2)": {
+        "tests": 17,
+        "pass": 17,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    "wall_seconds": 819,
+    "full_log_sha256": "129d632c96c1e9294c83ad0d489a83256392def6e6bb9baafd9d9c6076ac7b4e",
+    "full_log_source": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38106349541",
+    "installed_source_acceptance": {
+      "checkout_commit": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
+      "passed": 4,
+      "oracle_runtime": "UNVALIDATED"
+    }
+  },
+  "merge": {
+    "headRefOid": "b5914d384ccfffa72e0dc4ea4c1c6922ca65e9ba",
+    "mergeCommit": {
+      "oid": "54b17edc563bf83c8ce12e679c748ddf664ee1d6"
+    },
+    "mergedAt": "2026-10-11T02:48:38Z",
+    "state": "MERGED",
+    "url": "https://github.com/devsecopslonghn/schemaForge/pull/55"
+  },
+  "integrated_trees": {
+    "candidate": "7203857aadfbe17ca5014e81283af05d4edea5cf",
+    "master": "7203857aadfbe17ca5014e81283af05d4edea5cf"
+  },
+  "local_release": {
+    "format": "schemaforge-local-source-checksum-v1",
+    "sourceCommit": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
+    "archive": "schemaforge-local-54b17edc563b.tar.gz",
+    "sha256": "0fdb1717f5c2ebf2bfce36c58827ee5fa6d92f630db64ea09f4cbc3c0e7637ad",
+    "bytes": 416723,
+    "manifestSha256": "a7a50d9b7bbec3f46cd2241d4c99796fd90fec73874967fd31f85b767f687abb",
+    "files": 99,
+    "scope": "LOCAL_SOURCE_INSTALLATION_CANDIDATE",
+    "oracleRuntime": "UNVALIDATED",
+    "archive_path": "/home/longhn0710/workspace/schemaforge/.cache/releases/20261011-54b17edc563b/schemaforge-local-54b17edc563b.tar.gz",
+    "verification": "Archive checksum matched checksums.json; extracted source release:verify exited0",
+    "publication": "LOCAL_PRIVATE_ARTIFACT_ONLY"
+  },
+  "worktree_preservation": {
+    "worktrees": 47,
+    "dirty_worktrees_before_closeout": [
+      {
+        "worktree": "/home/longhn0710/workspace/schemaforge-execution-readiness",
+        "head": "634300f5cd3f6338244d42e9677f3a0748be7e8e",
+        "branch": "refs/heads/development/product-execution-readiness",
+        "tracked_changes": 2,
+        "tracked_diff_sha256": "220d2967fb903a742c21b186d05ea4a780aa0b38809bc6e0922c4328d5fcbe06"
+      },
+      {
+        "worktree": "/home/longhn0710/workspace/schemaforge-local-release",
+        "head": "e57b610ba8166a6d20a92143e557725687931e31",
+        "branch": "refs/heads/development/product-local-release",
+        "tracked_changes": 3,
+        "tracked_diff_sha256": "cb6d8ac344ea3b2410d6211153323df585de4e9e0a6cd2d5d074fa616fddf5e9"
+      },
+      {
+        "worktree": "/tmp/schemaforge-wp0-t04-plan",
+        "head": "ee841e849012b73f3f1baa79bcd499da81e52c3d",
+        "branch": null,
+        "tracked_changes": 1,
+        "tracked_diff_sha256": "96a71d2e3912e374d64d78d33ca157ae6b5c1ad2029025555eed3e6045cd65ee"
+      }
+    ],
+    "local_inventory_path": "/tmp/schemaforge-ledger-worktrees-after.json",
+    "inventory_sha256": "44624273d646d6d747dd01f90d3c04b8cdc31ffa311ebd2b4806408a064b8de8"
+  },
+  "static_install_parser": {
+    "path": "evidence/product/oracle-ledger-foundation-20261011/static-install-parser.json",
+    "sha256": "b1d2b3cefbb923bb392bcee22f0582073901ce19734db3c79c74ac4e39ade2f2"
+  }
+}

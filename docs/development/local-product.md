@@ -647,6 +647,8 @@ and evidence scope cannot be replaced by request fields. Production hosts requir
 `TRUSTED_VALIDATED`; tests opt into `UNIT_SYNTHETIC` explicitly with `allowUnitSynthetic:true`.
 No deployable validated Oracle host or worker deployment is supplied. The protected ledger
 foundation below uses the already pinned driver through a private connection capability.
+The restricted adapter described below connects those capabilities to the existing worker;
+it does not install a production authority/credential provider or certify runtime behavior.
 Do not turn the UNIT fixture
 into a production configuration or resolve writer credentials in the API.
 
@@ -773,3 +775,73 @@ describes explicit commit/rollback and Oracle DDL commits; the
 [connection API](https://node-oracledb.readthedocs.io/en/v7.0.1/api_manual/connection.html)
 documents execution options. Fake-driver unit checks cover these storage contracts and
 pending-suffix compatibility; static SQL is not Oracle installation/runtime acceptance.
+
+## Restricted Oracle host adapter
+
+`createRestrictedOracleHost(installed)` in `apps/worker/oracle-host.ts` supplies the
+existing `createExecutionWorker` host interface. The privileged installation provides
+`authorize` and `withTarget` functions; requests, API configuration and digest strings
+cannot install them. UNIT fixtures require `allowUnitSynthetic:true` and retain
+`UNIT_SYNTHETIC` scope. The adapter never assigns a validated scope to its unit results.
+No local command, API route, credential resolver or production provider activates it.
+
+`authorize` must return a live `EXECUTE_APPROVED_MIGRATIONS` permit bound to the exact
+worker, job, plan, original approval, intent, canonical profile digest and complete ordered
+statement digest list. Read-only `CONNECT_AND_READ_IDENTITY` probe permits are rejected
+before opening the target. `oracleExecutionProfileDigest` provides the adapter's explicit
+profile projection. The installation must retain TLS/route, credential revision and live
+writer authority through the entire callback, atomically consume every `claimDispatch`
+once, and enforce a whole-operation deadline; driver `callTimeout` only bounds individual
+round trips. Both dedicated physical sessions require a finite 1–30000ms call timeout.
+Never pool/reconnect/retry these sessions within a callback.
+
+The supplied writer and protected ledger-owner sessions must be separate principals.
+The adapter reads session user/current schema, database/container/service, session ID,
+proxy identity and server version on both sessions and checks them repeatedly. The
+installed `attest` capability additionally verifies physical database/PDB GUIDs, canonical
+target key, approved route/TLS, owner/object integrity, complete effective privileges,
+assignment, current permit and validity/central witnesses. A name or checksum alone
+does not authenticate those facts. Witnesses are stable for this callback; any changed
+authority or physical session makes it fail closed.
+
+`apps/worker/oracle/target-mutex.sql` is a manual, unexecuted install artifact. Install its
+definer-rights cover under the protected owner, with direct EXECUTE on `SYS.DBMS_LOCK`
+for that owner and EXECUTE on the cover only for the exact application writer. No PUBLIC
+or role grant, direct/inherited writer access to DBMS_LOCK, ANY-object privilege, protected
+owner object mutation or SQL bind/session inspection privilege is acceptable. Application
+migration SQL must not be able to inspect the private nonce or replace the cover package.
+The adapter uses the same writer session for mutex acquisition and exact parser-produced
+SQL. The cover allocates autonomously, requests X_MODE with `release_on_commit=FALSE`,
+and authenticates its private nonce for continuity and release. `REQUEST=4` is not adopted;
+continuity uses CONVERT on the existing handle, so a reset/lost lock cannot be reacquired.
+The lock key derives from the canonical physical target key, excluding mutable assignment,
+approval and credential identities. No separate connection's lock is treated as protecting
+writer SQL after the writer session ends.
+
+Before dispatch, observe the complete protected ledger. UNINITIALIZED and EMPTY both
+require independently verified empty-target adoption. Existing nonempty schemas require
+a future explicit reviewed baseline workflow; this adapter does not infer a baseline.
+IN_FLIGHT, UNTRUSTED, unreadable or divergent history holds before admission. Complete
+applied files must match the approved stream exactly through the existing suffix selector;
+retain original V1 approval/history when approved V2 is appended. The existing central
+completion reconciliation independently vetoes rewound or missing target history.
+
+The adapter commits a complete pending file plan and its target STARTED before consuming
+the one-use writer claim. It passes exact UTF-8 parser-produced bytes without splitting
+or rewriting and explicitly commits DML; Oracle DDL may already have committed. Either
+lost execute/commit acknowledgment leaves STARTED unresolved and returns UNKNOWN.
+Only the matching ordered central receipt can record target ACK; a file becomes APPLIED
+after all of its statements are acknowledged. Final postconditions and central completion
+must be independently verified, with live identity/mutex/authority throughout. Interrupted
+tails, mismatched receipts, callback/cleanup ambiguity and overlapping operations stop
+dispatch. Drain outstanding calls before mutex release and provider session retirement.
+Never discard a partial tail, infer SQL effects from a checksum, or automatically replay.
+
+Tests combine the real PostgreSQL/Git/pinned parser/approval/worker/history pipeline with
+an explicit fake Oracle transport. They verify V1/V2/NOOP, original approvals, restart,
+reassignment, durable central and target STARTED, withheld receipts on uncertain effects,
+adoption and write-purpose denial, and rewind veto. They do not verify actual Oracle DDL,
+cover-package compilation, privileges, TLS, runtime recovery or deployed-worker isolation.
+Oracle semantics are based on the official
+[DBMS_LOCK reference](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_LOCK.html)
+and [node-oracledb connection API](https://node-oracledb.readthedocs.io/en/v7.0.1/api_manual/connection.html).
