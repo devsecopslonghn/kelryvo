@@ -16,6 +16,20 @@ test('local source bundle is reproducible, excludes private/research inputs, pre
     const a=await buildLocalRelease({ repositoryRoot:repo,outputDirectory:path.join(temp,'a') });
     const b=await buildLocalRelease({ repositoryRoot:repo,outputDirectory:path.join(temp,'b') });
     assert.equal(a.sha256,b.sha256);assert.equal(a.manifestSha256,b.manifestSha256);
+    const foreign=path.join(temp,'foreign');execFileSync('/usr/bin/git',['clone','--no-hardlinks','--quiet',repo,foreign]);
+    await writeFile(path.join(foreign,'docs/development/local-release.md'),'FOREIGN_REPOSITORY_FIXTURE\n');
+    execFileSync('/usr/bin/git',['-C',foreign,'add','docs/development/local-release.md']);
+    execFileSync('/usr/bin/git',['-C',foreign,'-c','user.name=Release fixture','-c','user.email=fixture@example.invalid',
+      '-c','core.hooksPath=/dev/null','-c','commit.gpgSign=false','commit','-m','UNIT foreign repository'],{ stdio:'ignore' });
+    const override={ GIT_DIR:path.join(foreign,'.git'),GIT_WORK_TREE:foreign,GIT_INDEX_FILE:path.join(foreign,'.git/index'),
+      GIT_OBJECT_DIRECTORY:path.join(foreign,'.git/objects'),GIT_CONFIG_COUNT:'1',GIT_CONFIG_KEY_0:'core.worktree',
+      GIT_CONFIG_VALUE_0:foreign,TAR_OPTIONS:'--exclude=*',GZIP:'-1' };
+    const prior=Object.fromEntries(Object.keys(override).map(k=>[k,process.env[k]]));
+    try {
+      Object.assign(process.env,override);
+      const isolated=await buildLocalRelease({ repositoryRoot:repo,outputDirectory:path.join(temp,'isolated') });
+      assert.equal(isolated.sourceCommit,a.sourceCommit);assert.equal(isolated.sha256,a.sha256);
+    } finally { for(const [k,v] of Object.entries(prior)) { if(v===undefined) delete process.env[k];else process.env[k]=v; } }
     const unpack=path.join(temp,'unpack');await mkdir(unpack);
     execFileSync('/usr/bin/tar',['-xzf',path.join(temp,'a',a.archive),'-C',unpack]);
     const manifest=await verifyLocalRelease(unpack);

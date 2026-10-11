@@ -30,7 +30,10 @@ const safePath = name => typeof name === 'string' && /^[A-Za-z0-9._/-]{1,240}$/.
   && !/(^|\/)\.env($|\.)|\.(pem|key|p12|pfx)$/i.test(name);
 function run(program, args, cwd, input) {
   const r=spawnSync(program,args,{ cwd,input,encoding:null,timeout:60_000,maxBuffer:32*1024*1024,
-    env:{ ...process.env, PATH:'/usr/bin:/bin',LANG:'C',TZ:'UTC',GIT_CONFIG_NOSYSTEM:'1' } });
+    // Git repository/object/config selectors and TAR_OPTIONS/GZIP must not
+    // redirect the source or alter archive contents through caller environment.
+    env:{ PATH:'/usr/bin:/bin',LANG:'C',LC_ALL:'C',TZ:'UTC',GIT_CONFIG_NOSYSTEM:'1',
+      GIT_CONFIG_GLOBAL:'/dev/null',GIT_CONFIG_SYSTEM:'/dev/null',GIT_TERMINAL_PROMPT:'0' } });
   if (r.error || r.status !== 0) throw new Error('Release tool failed');
   return r.stdout;
 }

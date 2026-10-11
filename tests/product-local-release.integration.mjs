@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, rm, copyFile, readFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, rm, copyFile, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
@@ -10,7 +10,14 @@ const run=(program,args,cwd)=>new Promise((resolve,reject)=>{
   const child=spawn(program,args,{ cwd,env:process.env,stdio:['ignore','pipe','pipe'] });let output='';
   const capture=chunk=>{output+=chunk.toString();if(output.length>2*1024*1024){child.kill();reject(new Error('Installation output limit'));}};
   child.stdout.on('data',capture);child.stderr.on('data',capture);child.once('error',reject);
-  child.once('exit',code=>code===0?resolve(output):reject(new Error(`Installation command failed: ${program} ${args[0]} (exit ${code})`)));
+  child.once('close',async code=>{
+    if (code===0) return resolve(output);
+    try {
+      const diagnostic=path.join(await mkdtemp(path.join(tmpdir(),'sf-release-failure-')),'installation.log');
+      await writeFile(diagnostic,output,{ mode:0o600 });
+      reject(new Error(`Installation command failed: ${program} ${args.join(' ')} (exit ${code}); private log: ${diagnostic}`));
+    } catch (error) { reject(error); }
+  });
 });
 
 test('frozen source archive installs pinned dependencies and passes local end-to-end acceptance', { timeout:600_000 },async()=>{
