@@ -1,0 +1,113 @@
+{
+  "id": "mvp-approved-pending-history-context-local-verified",
+  "subject_id": "MIG-012",
+  "kind": "UNIT",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Required npm run check243PASS47optionalSKIP0fail; focused approved-context3UNIT, PostgreSQL/API2 and browser1PASS after review corrections. Immutable pending-ordinal source provenance only; no target calls or Oracle runtime promotion.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/pending-history-context-20261011/checks.log",
+    "sha256": "98791ecaea3af9f54a6e83650e61e0edae50c9ba2e10da9a133833dc1347c957"
+  },
+  "recorded_at": "2026-10-11T04:15:02.137152+00:00",
+  "tested_and_independently_reviewed_source": "6c336c3f5b816a470994c05810e745405d179b80",
+  "integrated_base": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
+  "root_closeout_carry": "0fd9fd294ec87b654b64cac79a6f762f3b726006",
+  "source_files": [
+    {
+      "path": "apps/web/src/ExecutionHistory.jsx",
+      "sha256": "451a27390274a0d960a926da00325e7941684c8c651308be857cca55c2f795f2"
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256": "86fa9338fc1b772b3f0b41776ecc7f0ac1a6275569d46f094a9e9da11b06a134"
+    },
+    {
+      "path": "packages/execution/history-context.mjs",
+      "sha256": "5ef1fda597d99dbe740a2c3256fb115a9264c3d1c1def43f6ef614e528221ac8"
+    },
+    {
+      "path": "packages/execution/history.ts",
+      "sha256": "a5bda5435f511d1b1c044767239a9842d8e372dc8f553b5ee6c3ffce384f154a"
+    },
+    {
+      "path": "tests/execution-history-context.test.mjs",
+      "sha256": "4d41f4515fcaf457e8eade9d9e7b8ac2349c1f7fbdabed1a00d6a311cd205103"
+    },
+    {
+      "path": "tests/product-execution-history-browser.integration.mjs",
+      "sha256": "58832b5612486db7099a3ce5d2f88a91ebcb22376de20caca2e2dbabf3a30749"
+    },
+    {
+      "path": "tests/product-execution-history.test.mjs",
+      "sha256": "cdd32556d2808531ced5fe3a41ae6b0324ad764b63c6af7a4cadb6240020e2f3"
+    }
+  ],
+  "standard_check": {
+    "command": "env -u SCHEMAFORGE_TEST_DATABASE_URL SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run check",
+    "tests": 290,
+    "pass": 243,
+    "fail": 0,
+    "cancelled": 0,
+    "optional_skips": 47,
+    "exit_code": 0,
+    "source_check_files": 236,
+    "web_build": "PASS",
+    "dependency_smoke": "PASS"
+  },
+  "focused_checks": {
+    "executor": "Native implementation agent target_ledger; actual post-correction tool results reported to root",
+    "commands": [
+      "node --test tests/execution-history-context.test.mjs",
+      "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --test tests/product-execution-history.test.mjs",
+      "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --test tests/product-execution-history-browser.integration.mjs"
+    ],
+    "unit_tests": 3,
+    "api_tests": 2,
+    "browser_tests": 1,
+    "failures": 0,
+    "skips": 0,
+    "exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "raw_log_limit": "Focused raw output retained in native tool transcript, not separately saved; committed checks.log is the full required check only. Actual candidate/master PRODUCT logs will independently verify mandatory focused suites."
+  },
+  "independent_review": {
+    "agent": "ci_review",
+    "head": "6c336c3f5b816a470994c05810e745405d179b80",
+    "outcome": "APPROVED_NO_REMAINING_BLOCKER",
+    "corrections": "Exact release-ID binding and verifiable zero-pending NOOP context; initial source e41e preserved. Authorization/privacy/legacy/ordinal-first duplicate-digest review approved."
+  },
+  "behavior": [
+    "Retained job/proof/plan/release and verified format-2 envelope bind approved source identity; private host/target/profile/credential facts never projected.",
+    "Existing journal ordinal remains attempt-local pending ordinal; original approved full ordinal and file-local ordinal/version/path are additive display context.",
+    "Ordinal-first exact digest comparison cannot redirect duplicate SQL digests to V1; V2 maps to original approved V2 identity.",
+    "Verifiable prefix/pending/NOOP counts; legacy, missing, corrupt or inconsistent binding falls back to readable unavailable context.",
+    "Current credential/project membership and scoped repeatable-read history preserved, including RESTORE_HOLD/historical reads; no execution, adoption, recovery, target queries or target effects asserted."
+  ],
+  "license": {
+    "product": "Unmodified PolyForm Shield1.0.0",
+    "pinned_packages": 85,
+    "unknown_required_grants": 0,
+    "dependency_changes": false
+  },
+  "oracle_calls": 0,
+  "oracle_runtime": "UNAVAILABLE_NO_AUTHORIZED_ENVIRONMENT; UNIT never promotes",
+  "publication_and_integration": "UNPUBLISHED_PENDING_SCOPED_SCAN_FINAL_EXACT_HEAD_REVIEW_AND_ACTUAL_CANDIDATE_MASTER_CI",
+  "catalog_traceability": [
+    "MIG-012",
+    "MIG-027"
+  ],
+  "full_catalog_acceptance": false,
+  "limitations": [
+    "Source provenance and central receipts do not prove SQL application or target reconciliation.",
+    "No database error text or source byte range projected; installed private provider/supervised worker, Oracle runtime/recovery and nonempty baseline remain incomplete.",
+    "Historical scan limits and unavailable optional security/Sonar preserved, never PASS."
+  ]
+}

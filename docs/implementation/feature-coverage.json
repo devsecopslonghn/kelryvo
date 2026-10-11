@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-11T04:11:10.061635+00:00",
+  "recorded_at": "2026-10-11T04:15:02.137152+00:00",
   "verified_master": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
-  "reviewed_local_source": "cedb235f1684042cc2698b3c647211d899ac445e",
+  "reviewed_local_source": "6c336c3f5b816a470994c05810e745405d179b80",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
@@ -12,8 +12,8 @@
     "BLOCKED_EXTERNAL is reserved for an otherwise implemented/ready feature missing only external evidence; unimplemented features are not relabeled merely because Oracle access is absent."
   ],
   "summary": {
-    "PARTIALLY_IMPLEMENTED": 52,
-    "NOT_IMPLEMENTED": 161,
+    "PARTIALLY_IMPLEMENTED": 54,
+    "NOT_IMPLEMENTED": 159,
     "DEFERRED": 7,
     "BLOCKED_EXTERNAL": 0,
     "IMPLEMENTED_AND_VERIFIED": 0
@@ -56,8 +56,8 @@
     },
     "WS": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 39,
-      "NOT_IMPLEMENTED": 35,
+      "PARTIALLY_IMPLEMENTED": 41,
+      "NOT_IMPLEMENTED": 33,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     }
@@ -65,8 +65,8 @@
   "external_acceptance": "PR52 installation,PR53 CI,PR54 pending suffix,PR55 ledger andPR56 restricted host integrated with actual candidate/master gates. PR56 API76/browser33/release1(inner4) nofail/skip. UNIT target only; installed provider/deployed isolation/Oracle runtime/recovery incomplete. Unavailable security/Sonar never PASS.",
   "next_product_capability": {
     "milestone": "M4 readable approved pending-history context",
-    "status": "IMPLEMENTATION_LOCAL_FOCUSED_VERIFIED_REVIEW_CORRECTIONS_PENDING",
-    "next_action": "Preserve retained history, exact ordinal-first immutable source mapping, NOOP/fallback and scoped reads; final local and candidate/master gates before integration."
+    "status": "LOCAL_VERIFIED_REVIEWED_REMOTE_CI_PENDING",
+    "next_action": "Publish and integrate under exact candidate/master gates; installed private provider/deployed isolation/Oracle runtime and reviewed recovery remain separate."
   },
   "features": [
     {
@@ -685,8 +685,8 @@
       "id": "MIG-012",
       "name": "Migration execution history",
       "milestone": "WS",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No production Oracle executor/runtime isolation or observed applied migration history. T33 journal/kernel prerequisites do not implement this complete catalog capability.",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Scoped central attempts/events/receipts now display verified immutable approved file/version and full/file-local statement identity for the selected pending suffix, including duplicate digests; readable fallback and explicit provenance-only labels. Local PostgreSQL/API/browser and UNIT NOOP/bad-binding cases verified. Target effects, source byte-range/database-error diagnostics, complete actor/target history and Oracle runtime/recovery acceptance remain incomplete.",
       "related_prerequisite_observations": [
         {
           "task": "SF-PRODUCT-T33",
@@ -702,6 +702,9 @@
             "mvp-execution-history-local-verified"
           ]
         }
+      ],
+      "evidence": [
+        "mvp-approved-pending-history-context-local-verified"
       ]
     },
     {
@@ -819,8 +822,11 @@
       "id": "MIG-027",
       "name": "Statement-level diagnostics",
       "milestone": "WS",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Scoped central attempts/events/receipts now display verified immutable approved file/version and full/file-local statement identity for the selected pending suffix, including duplicate digests; readable fallback and explicit provenance-only labels. Local PostgreSQL/API/browser and UNIT NOOP/bad-binding cases verified. Target effects, source byte-range/database-error diagnostics, complete actor/target history and Oracle runtime/recovery acceptance remain incomplete.",
+      "evidence": [
+        "mvp-approved-pending-history-context-local-verified"
+      ]
     },
     {
       "id": "MIG-028",
@@ -2610,5 +2616,11 @@
     "published_head": "cedb235f1684042cc2698b3c647211d899ac445e",
     "merged_master": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
     "integration_evidence": "mvp-restricted-oracle-host-pr56-master-verified"
+  },
+  "m4_pending_history_context": {
+    "status": "LOCAL_VERIFIED_REMOTE_CI_PENDING",
+    "source_head": "6c336c3f5b816a470994c05810e745405d179b80",
+    "evidence": "mvp-approved-pending-history-context-local-verified",
+    "classification_change": "MIG-012/MIG-027 bounded source provenance partial; no full catalog or Oracle promotion"
   }
 }
