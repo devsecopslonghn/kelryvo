@@ -60,4 +60,3 @@ test('fixed child bootstrap runs the real worker across PostgreSQL admission, di
     assert.equal((await f.db.sql`SELECT execute_calls FROM sf_supervisor_unit_target WHERE assignment_id=${assignmentId}`)[0].execute_calls, 2, 'V1 receipt was adopted and only pending V2 was dispatched');
   } finally { await f.close(); }
 });
-
