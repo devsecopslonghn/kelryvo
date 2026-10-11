@@ -1,0 +1,77 @@
+{
+  "scope": "Final publication changed files since integrated ef311b1 only, including actual local logs and PR54 closeout; existing all-ref classified findings/limitations preserved",
+  "tool": "Gitleaks8.30.1 official checksum verified",
+  "tool_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "command": "gitleaks dir /tmp/schemaforge-ledger-final-publication-scan --redact --report-format json --no-banner",
+  "exit_code": 0,
+  "findings": 0,
+  "recorded_at": "2026-10-11T02:35:21.623603+00:00",
+  "files": [
+    {
+      "path": "apps/worker/oracle/target-ledger.sql",
+      "sha256": "e4690f995fdfb5ec7e290f68c22208f62d17f6db162bd73fda4cc3ddb8f587dc"
+    },
+    {
+      "path": "docs/architecture/boundaries.md",
+      "sha256": "c089405e9844856dcd8bad9457cdc9427f658f0be15d55b6070f172efaffe8b4"
+    },
+    {
+      "path": "docs/decisions/log.json",
+      "sha256": "8153f56b387c7891096dbe5b13fa6d2c696c03d8a3112fcece66a345b9d39b55"
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256": "087b735d439ee56f822ef1fa11e4dbf1171fbcdea24e8067a2a609732c2ce6a1"
+    },
+    {
+      "path": "docs/implementation/CONTINUE.md",
+      "sha256": "11ea82c043960285be8b89ecfcf758463345a48ce5a0c8542a8afbd0b168a676"
+    },
+    {
+      "path": "docs/implementation/CURRENT.md",
+      "sha256": "11ea82c043960285be8b89ecfcf758463345a48ce5a0c8542a8afbd0b168a676"
+    },
+    {
+      "path": "docs/implementation/evidence-index.json",
+      "sha256": "c0f339e5121ee62ac3456b8a95efaea9807a9bdd820fd25b13c0aa0322c54746"
+    },
+    {
+      "path": "docs/implementation/feature-coverage.json",
+      "sha256": "4850645493b0b5785f51d2ce64ba049bdf431b09830276ddc81f791d0487c06b"
+    },
+    {
+      "path": "docs/implementation/milestone.json",
+      "sha256": "f58d42ac8c1690ae4a10d38e916ddc01b97abc1dfe2c4891e960e0b91f8bf457"
+    },
+    {
+      "path": "evidence/product/history-aware-20261011/master-ci-observation.json",
+      "sha256": "fe987c5f868d0f211add528215f5b2fab5fde724d1579683c839f4c32a56ac14"
+    },
+    {
+      "path": "evidence/product/history-aware-20261011/master-verification.json",
+      "sha256": "cda59d4820bbe6e237a7d03cda170e52c348686e2fa896210fe3efa5c44fdb20"
+    },
+    {
+      "path": "evidence/product/oracle-ledger-foundation-20261011/checks.log",
+      "sha256": "afd2a2e464e8c9ddb46fe4c5c5e64e4901bdaecd4abfeaa2d5eaf6dd944ffa73"
+    },
+    {
+      "path": "evidence/product/oracle-ledger-foundation-20261011/import-checks.log",
+      "sha256": "30574289bea6cfbb51b56f915fa1ae6cbddd717adadd27a5584ccdf301ef3ce1"
+    },
+    {
+      "path": "evidence/product/oracle-ledger-foundation-20261011/record.json",
+      "sha256": "b0b40cc256383b3b13e108778c0dde1e7590dc892defc819bf16b48c0918543e"
+    },
+    {
+      "path": "packages/execution/oracle-target-ledger.mjs",
+      "sha256": "b066c77d6b02d2348ee7183beefb1f6ec9e748c8313a2d2939af787d7cdd783b"
+    },
+    {
+      "path": "tests/oracle-target-ledger.test.mjs",
+      "sha256": "5f86c40b7289509e5fef094ce32c57f835b61fb1a8c5064e993b00cbe09eb029"
+    }
+  ],
+  "inventory_exclusion": "This annotation only; it introduces scan metadata and no source/secret payload",
+  "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+}

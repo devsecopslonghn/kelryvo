@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-11T00:24:50.491907+00:00",
-  "verified_master": "4938f0b26b223bcc6db65fb479117e146350720f",
-  "reviewed_local_source": "513bdfb91382592b9f7b9d76deea91611e24ac46",
+  "recorded_at": "2026-10-11T02:34:38.163316+00:00",
+  "verified_master": "ef311b1e6ed900502c4af01a928352e9171ee0a2",
+  "reviewed_local_source": "a1130d0c0652d83fe548a48a3070e87152b3ef58",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
@@ -12,8 +12,8 @@
     "BLOCKED_EXTERNAL is reserved for an otherwise implemented/ready feature missing only external evidence; unimplemented features are not relabeled merely because Oracle access is absent."
   ],
   "summary": {
-    "PARTIALLY_IMPLEMENTED": 51,
-    "NOT_IMPLEMENTED": 162,
+    "PARTIALLY_IMPLEMENTED": 52,
+    "NOT_IMPLEMENTED": 161,
     "DEFERRED": 7,
     "BLOCKED_EXTERNAL": 0,
     "IMPLEMENTED_AND_VERIFIED": 0
@@ -56,8 +56,8 @@
     },
     "WS": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 38,
-      "NOT_IMPLEMENTED": 36,
+      "PARTIALLY_IMPLEMENTED": 39,
+      "NOT_IMPLEMENTED": 35,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     }
@@ -790,8 +790,11 @@
       "id": "MIG-025",
       "name": "Target-local ledger",
       "milestone": "WS",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Private protected ledger storage with immutable complete approved file plans, ordered STARTED/ACK/APPLIED facts and strict bounded history replay; atomic rollback and unknown-commit poisoning verified through25 fake-driver UNIT cases. Raw UNINITIALIZED never proves empty-target adoption; no installed Oracle host, ledger/grants/runtime acceptance, automatic reconciliation or recovery release.",
+      "evidence": [
+        "mvp-protected-target-ledger-foundation-unit-verified"
+      ]
     },
     {
       "id": "MIG-026",
@@ -801,7 +804,8 @@
       "basis": "Host-attested approved applied prefix plus retained original approvals/complete receipts/validity reconciled before admission. Rewound/shorter/divergent target history, central uncertainty and missing witnesses HOLD even across catalog reassignment. Real local PostgreSQL/Git/parser with UNIT target ports verified; no installed Oracle ledger/adapter/runtime, repair/HOLD release or full feature acceptance.",
       "evidence": [
         "mvp-history-aware-local-verified",
-        "mvp-history-aware-divergence-local-verified"
+        "mvp-history-aware-divergence-local-verified",
+        "mvp-protected-target-ledger-foundation-unit-verified"
       ]
     },
     {
@@ -876,7 +880,8 @@
         }
       ],
       "evidence": [
-        "mvp-history-aware-divergence-local-verified"
+        "mvp-history-aware-divergence-local-verified",
+        "mvp-protected-target-ledger-foundation-unit-verified"
       ]
     },
     {
@@ -2574,5 +2579,12 @@
     "evidence": "mvp-history-aware-divergence-local-verified",
     "behavior": "Only approved pending suffix dispatches; original retained central completion vetoes target rewind and missing witnesses across reassignment. UNIT target only.",
     "classification_change": "MIG-011/MIG-026/MIG-034 partial; no full Oracle/restore acceptance"
+  },
+  "m4_ledger_foundation": {
+    "source_commit": "a1130d0c0652d83fe548a48a3070e87152b3ef58",
+    "evidence": "mvp-protected-target-ledger-foundation-unit-verified",
+    "status": "LOCAL_UNIT_VERIFIED_REMOTE_CI_PENDING",
+    "oracle_runtime": "UNVALIDATED",
+    "full_feature_acceptance": false
   }
 }

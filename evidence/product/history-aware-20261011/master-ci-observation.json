@@ -1,0 +1,275 @@
+{
+  "observed_at": "2026-10-11T02:27:10.673005+00:00",
+  "candidate_runs": [
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T02:06:01Z",
+      "databaseId": 38104040342,
+      "event": "pull_request",
+      "headSha": "bc0c394d90e2d421ccb79f62b60527991fa4ef5c",
+      "status": "completed",
+      "updatedAt": "2026-10-11T02:08:36Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38104040342",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T02:06:01Z",
+      "databaseId": 38104040431,
+      "event": "pull_request",
+      "headSha": "bc0c394d90e2d421ccb79f62b60527991fa4ef5c",
+      "status": "completed",
+      "updatedAt": "2026-10-11T02:07:39Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38104040431",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T02:06:01Z",
+      "databaseId": 38104040358,
+      "event": "pull_request",
+      "headSha": "bc0c394d90e2d421ccb79f62b60527991fa4ef5c",
+      "status": "completed",
+      "updatedAt": "2026-10-11T02:15:16Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38104040358",
+      "workflowName": "Local PRODUCT acceptance"
+    }
+  ],
+  "candidate_product": {
+    "head": "bc0c394d90e2d421ccb79f62b60527991fa4ef5c",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "acceptance (browser, 2/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:06:04Z",
+        "completedAt": "2026-10-11T02:12:41Z"
+      },
+      {
+        "name": "acceptance (browser, 1/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:06:04Z",
+        "completedAt": "2026-10-11T02:14:58Z"
+      },
+      {
+        "name": "acceptance (api, 2/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:06:04Z",
+        "completedAt": "2026-10-11T02:15:10Z"
+      },
+      {
+        "name": "acceptance (api, 1/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:06:04Z",
+        "completedAt": "2026-10-11T02:14:37Z"
+      },
+      {
+        "name": "acceptance (release, 1/1)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:06:04Z",
+        "completedAt": "2026-10-11T02:11:02Z"
+      },
+      {
+        "name": "product",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:15:12Z",
+        "completedAt": "2026-10-11T02:15:15Z"
+      }
+    ],
+    "tap": {
+      "acceptance (browser, 2/2)": {
+        "tests": 17,
+        "pass": 17,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (browser, 1/2)": {
+        "tests": 16,
+        "pass": 16,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (api, 2/2)": {
+        "tests": 45,
+        "pass": 45,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (api, 1/2)": {
+        "tests": 25,
+        "pass": 25,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (release, 1/1)": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    "wall_seconds": 551,
+    "full_log_sha256": "c90ea1d55e71ded15b24e12d301d87be4ab204a08f56574f63218755929dc18a",
+    "full_log_source": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38104040358"
+  },
+  "master_runs": [
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T02:16:34Z",
+      "databaseId": 38104621357,
+      "event": "push",
+      "headSha": "ef311b1e6ed900502c4af01a928352e9171ee0a2",
+      "status": "completed",
+      "updatedAt": "2026-10-11T02:17:47Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38104621357",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T02:16:34Z",
+      "databaseId": 38104621351,
+      "event": "push",
+      "headSha": "ef311b1e6ed900502c4af01a928352e9171ee0a2",
+      "status": "completed",
+      "updatedAt": "2026-10-11T02:19:52Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38104621351",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T02:16:34Z",
+      "databaseId": 38104621350,
+      "event": "push",
+      "headSha": "ef311b1e6ed900502c4af01a928352e9171ee0a2",
+      "status": "completed",
+      "updatedAt": "2026-10-11T02:26:06Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38104621350",
+      "workflowName": "Local PRODUCT acceptance"
+    }
+  ],
+  "master_product": {
+    "head": "ef311b1e6ed900502c4af01a928352e9171ee0a2",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "acceptance (browser, 1/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:16:37Z",
+        "completedAt": "2026-10-11T02:25:59Z"
+      },
+      {
+        "name": "acceptance (release, 1/1)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:16:37Z",
+        "completedAt": "2026-10-11T02:21:15Z"
+      },
+      {
+        "name": "acceptance (api, 2/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:16:37Z",
+        "completedAt": "2026-10-11T02:23:08Z"
+      },
+      {
+        "name": "acceptance (api, 1/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:16:37Z",
+        "completedAt": "2026-10-11T02:25:01Z"
+      },
+      {
+        "name": "acceptance (browser, 2/2)",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:16:37Z",
+        "completedAt": "2026-10-11T02:24:24Z"
+      },
+      {
+        "name": "product",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T02:26:02Z",
+        "completedAt": "2026-10-11T02:26:05Z"
+      }
+    ],
+    "tap": {
+      "acceptance (browser, 1/2)": {
+        "tests": 16,
+        "pass": 16,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (release, 1/1)": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (api, 2/2)": {
+        "tests": 45,
+        "pass": 45,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (api, 1/2)": {
+        "tests": 25,
+        "pass": 25,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "acceptance (browser, 2/2)": {
+        "tests": 17,
+        "pass": 17,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    "wall_seconds": 568,
+    "full_log_sha256": "6b6fa4bf94a7625a3feb6356efe6c4ddf78ab4e0c8c7bee6ab57ff3d5f70c2c8",
+    "full_log_source": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38104621350"
+  },
+  "merge": {
+    "headRefOid": "bc0c394d90e2d421ccb79f62b60527991fa4ef5c",
+    "mergeCommit": {
+      "oid": "ef311b1e6ed900502c4af01a928352e9171ee0a2"
+    },
+    "mergedAt": "2026-10-11T02:16:32Z",
+    "state": "MERGED",
+    "url": "https://github.com/devsecopslonghn/schemaForge/pull/54"
+  },
+  "local_release": {
+    "format": "schemaforge-local-source-checksum-v1",
+    "sourceCommit": "ef311b1e6ed900502c4af01a928352e9171ee0a2",
+    "archive": "schemaforge-local-ef311b1e6ed9.tar.gz",
+    "sha256": "5ab2a4622295f188e1f174b68c2a0e47ca7de852535612e69b13b2fd75267a71",
+    "bytes": 410123,
+    "manifestSha256": "4b38ef59a2973c8cc01c88a8795518f26787dbeb4c6e42af5bdaca1148a676d6",
+    "files": 97,
+    "scope": "LOCAL_SOURCE_INSTALLATION_CANDIDATE",
+    "oracleRuntime": "UNVALIDATED",
+    "archive_path": "/home/longhn0710/workspace/schemaforge/.cache/releases/20261011-ef311b1e6ed9/schemaforge-local-ef311b1e6ed9.tar.gz",
+    "verification": "Build manifest verified; archive SHA256 matched checksums.json; extracted source release:verify exited0",
+    "oracle_calls": 0,
+    "publication": "LOCAL_PRIVATE_ARTIFACT_ONLY"
+  }
+}

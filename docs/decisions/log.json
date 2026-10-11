@@ -501,6 +501,23 @@
         "MIG-026",
         "MIG-034"
       ]
+    },
+    {
+      "id": "SF-D045",
+      "status": "ACCEPTED_MVP_M4_PROTECTED_TARGET_LEDGER_FOUNDATION",
+      "accepted_at_utc": "2026-10-11T02:29:52.921237+00:00",
+      "decision": "Implement bounded protected target-local storage with the already pinned node-oracledb driver and a supplied private ledger-owner connection, separate from application writer. Atomically record complete immutable file plan/count/list digest, then ordered STARTED/ACK/APPLIED facts. Fixed bound SQL and checksummed strict state replay; stable physical target partition survives catalog reassignment. Lost commit/error poisons capability with no reconnect/retry. UNINITIALIZED is absent storage, not target emptiness; trusted adoption or reviewed baseline is mandatory before any future execution host uses it. No automatic connection, API activation, grant/bootstrap, runtime promotion, effect certification, Oracle verification or HOLD release. Host must independently attest ledger ownership/grants, physical identity, continuous mutex/permit, central reconciliation and validity. This implements an isolated PRODUCT prerequisite under SF-D010; static SQL and fake-driver tests are not runtime acceptance.",
+      "references": [
+        "packages/execution/oracle-target-ledger.mjs",
+        "apps/worker/oracle/target-ledger.sql",
+        "tests/oracle-target-ledger.test.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "MIG-025",
+        "MIG-026",
+        "MIG-034"
+      ]
     }
   ]
 }

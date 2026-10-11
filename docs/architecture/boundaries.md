@@ -61,7 +61,8 @@ are UNIT-only and do not attest Oracle execution, production worker isolation or
 The PostgreSQL admission-proof row is an immutable expected-binding record, not an execution
 permission by itself. It cannot establish current target identity, history, mutex ownership,
 validity or central evidence. The restricted worker admission producer requires explicitly installed host/session
-capabilities for live attestations. No Oracle adapter or deployable host is included here. Receipt and validity projections must match the recorded
+capabilities for live attestations. The private protected-ledger foundation is unactivated;
+no deployable validated Oracle host is included here. Receipt and validity projections must match the recorded
 expected digests, while the kernel rechecks the live trusted ports before dispatch and finish.
 If a claim or HOLD projection fails without commit confirmation, the kernel reports
 `HOLD_PERSISTENCE_PENDING` for operator recovery; it does not claim that HOLD was durably
@@ -112,3 +113,15 @@ recovery; it never becomes an undispatched decline or a new dispatch claim. UNIT
 an explicit option and remain UNIT_SYNTHETIC. Historical requests missing presenting credential
 identity remain readable but cannot be promoted automatically. No new target reconciliation
 or recovery-release authority is inferred from these metadata contracts.
+
+Protected target-ledger storage accepts only a supplied private owner connection, separate
+from the application writer. It atomically records each complete approved file plan before
+STARTED, links later ACK facts and permits APPLIED only after every ordered statement ACK.
+Unknown commit poisons the capability and never retries. Its raw UNINITIALIZED state is
+an absent partition, not proof of an empty target; host must independently verify adoption
+or an explicit reviewed baseline. Raw IN_FLIGHT/UNTRUSTED/null always require HOLD.
+Head-row locks serialize append transactions only; physical target mutex and dispatch
+authority remain separate continuous host obligations. Stable physical-key/identity
+partitioning survives catalog reassignment. Checksums never attest owner integrity or SQL
+effects. The SQL install artifact has no automatic bootstrap/grants; no Oracle installation,
+connection, runtime promotion or deployed-worker isolation acceptance is claimed.

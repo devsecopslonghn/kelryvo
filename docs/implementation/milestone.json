@@ -212,13 +212,19 @@
     },
     {
       "index_id": "mvp-history-aware-divergence-local-verified"
+    },
+    {
+      "index_id": "mvp-history-aware-pr54-master-verified"
+    },
+    {
+      "index_id": "mvp-protected-target-ledger-foundation-unit-verified"
     }
   ],
   "foundation_status": "VERIFIED",
   "foundation_evidence": {
     "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
   },
-  "current_phase": "MVP_HISTORY_AWARE_PENDING_MIGRATIONS_REVISED_CI_PENDING",
+  "current_phase": "MVP_TARGET_LEDGER_FOUNDATION_LOCAL_VERIFIED_REMOTE_CI_PENDING",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
@@ -232,28 +238,26 @@
     "node scripts/tracker.mjs status",
     "node scripts/tracker.mjs next"
   ],
-  "updated_at": "2026-10-11T01:54:35.293973+00:00",
+  "updated_at": "2026-10-11T02:34:38.163316+00:00",
   "final_check_evidence": {
-    "index_id": "mvp-ci-performance-pr53-master-verified"
+    "index_id": "mvp-history-aware-pr54-master-verified"
   },
-  "final_check_manifest": "evidence/product/ci-performance-20261011/master-verification.json",
+  "final_check_manifest": "evidence/product/history-aware-20261011/master-verification.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
-  "latest_validated_master_before_this_increment": "4938f0b26b223bcc6db65fb479117e146350720f",
-  "last_merged_implementation_pr": 53,
-  "checkpoint_evidence": "evidence/product/history-aware-20261011/rewind-correction/record.json",
-  "implementation_prs_pending": [
-    54
-  ],
+  "latest_validated_master_before_this_increment": "ef311b1e6ed900502c4af01a928352e9171ee0a2",
+  "last_merged_implementation_pr": 54,
+  "checkpoint_evidence": "evidence/product/oracle-ledger-foundation-20261011/record.json",
+  "implementation_prs_pending": [],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "LOCAL_UNIT_VERIFIED_REVISED_REMOTE_CI_PENDING",
-  "current_checkpoint_branch": "development/history-aware-migrations",
+  "current_increment_merge_status": "LOCAL_UNIT_VERIFIED_REMOTE_CI_PENDING",
+  "current_checkpoint_branch": "development/oracle-target-ledger",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -330,8 +334,8 @@
       "native_security": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS"
     }
   },
-  "current_increment_pr": 54,
-  "current_increment_reviewed_head": "712cae50419a0c5d0b9614e7f8f2fae7ebbd4525",
+  "current_increment_pr": null,
+  "current_increment_reviewed_head": "a1130d0c0652d83fe548a48a3070e87152b3ef58",
   "current_increment_merge_commit": null,
   "t19_compatibility_decision": {
     "owner_approved_at_recorded_utc": "2026-10-09T12:37:42.238588+00:00",
@@ -730,19 +734,19 @@
       "request-only deployment intent, UNIT-tested coordinator and durable journal, audit/history",
       "private metadata backup and witnessed restore under persistent RESTORE_HOLD",
       "native HTTPS cookie/CSRF/expiry/session revocation",
-      "Approved Git request → exact pinned-parser statements → checked worker admission/dispatch → durable receipts/history, UNIT_SYNTHETIC host only"
+      "Approved Git request → exact pinned-parser statements → checked worker admission/dispatch → durable receipts/history, UNIT_SYNTHETIC host only",
+      "Applied V1 → separately approved V1+V2 executes only V2; witnessed complete history NOOP; untrusted/divergent/rewound history HOLD, UNIT_SYNTHETIC targets only"
     ],
     "essential_gaps": [
       "Installed Oracle host/driver with attested target identity/history/mutex/dispatch authority and safe no-replay reconciliation",
-      "Authorized Oracle execution, recovery and deployed-worker isolation acceptance",
-      "Reproducible integrated local release acceptance and source/notices/deployment artifact assembly"
+      "Authorized Oracle execution, recovery and deployed-worker isolation acceptance"
     ],
     "milestones": {
       "M1": "LOCAL_FOUNDATION_WORKFLOW_VERIFIED_INTEGRATED",
       "M2": "OFFLINE_PREPARATION_REVIEW_WORKFLOW_VERIFIED_INTEGRATED",
       "M3": "CONTROLLED_HOST_BRIDGE_UNIT_VERIFIED_INTEGRATED_ORACLE_BLOCKED_EXTERNAL",
-      "M4": "CENTRAL_HISTORY_METADATA_RECOVERY_INTEGRATED_HISTORY_AWARE_PENDING_LOCAL_UNIT_VERIFIED_TARGET_RUNTIME_INCOMPLETE",
-      "M5": "LOCAL_SOURCE_INSTALLATION_INTEGRATED_FINAL_MASTER_CI_PENDING_FULL_RELEASE_INCOMPLETE"
+      "M4": "CENTRAL_HISTORY_AND_APPROVED_PENDING_SUFFIX_INTEGRATED_TARGET_RUNTIME_RECOVERY_INCOMPLETE",
+      "M5": "REPRODUCIBLE_LOCAL_SOURCE_INSTALLATION_ACCEPTANCE_INTEGRATED_MASTER_CI_VERIFIED_FULL_RELEASE_INCOMPLETE"
     },
     "oracle_runtime": "BLOCKED_EXTERNAL_NO_AUTHORIZED_ENVIRONMENT",
     "shortest_next_path": [
@@ -764,10 +768,10 @@
       {
         "outcome": "Reproducible MVP release acceptance",
         "work": "Demonstrate installation and Git-to-review/request/history on local PostgreSQL/Git/parser/HTTPS; validate Oracle execution only against an explicitly authorized runtime. Assemble source/notices and deployment artifacts under existing license.",
-        "status": "INTEGRATED_PR52_FINAL_MASTER_CI_PENDING"
+        "status": "INTEGRATED_PR52_MASTER_CI_VERIFIED_LOCAL_BUNDLE_PR54_BUILT_AND_VERIFIED"
       }
     ],
-    "merged_master": "4938f0b26b223bcc6db65fb479117e146350720f",
+    "merged_master": "ef311b1e6ed900502c4af01a928352e9171ee0a2",
     "reconciled_prs": [
       48,
       47,
@@ -783,15 +787,16 @@
       37
     ],
     "active_increment": {
-      "outcome": "History-aware complete approved pending migrations with no replay and fail-closed HOLD",
+      "outcome": "Protected Oracle target-ledger foundation using supplied private connection; no connection or automatic execution path",
       "status": "LOCAL_UNIT_VERIFIED_REMOTE_CI_PENDING",
-      "worktree": "/home/longhn0710/workspace/schemaforge-history-aware",
-      "branch": "development/history-aware-migrations",
-      "integrated_base": "4938f0b26b223bcc6db65fb479117e146350720f",
-      "evidence": "evidence/product/history-aware-20261011/record.json",
-      "next": "Finish final local/independent review, freeze publication evidence, candidate/master CI, then installed restricted Oracle host/target ledger and recovery acceptance."
+      "worktree": "/home/longhn0710/workspace/schemaforge-target-ledger",
+      "branch": "development/oracle-target-ledger",
+      "integrated_base": "ef311b1e6ed900502c4af01a928352e9171ee0a2",
+      "next": "Freeze final publication evidence, independent integrity review, then exact-head candidate and resulting-master gates. Trusted installed Oracle host/runtime acceptance remains separate.",
+      "source_commit": "a1130d0c0652d83fe548a48a3070e87152b3ef58",
+      "evidence": "evidence/product/oracle-ledger-foundation-20261011/record.json"
     },
-    "last_integrated_pr": 53
+    "last_integrated_pr": 54
   },
   "historical_t35_carry_forward": {
     "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-product-secure-sessions",
