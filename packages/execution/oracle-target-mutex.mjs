@@ -118,4 +118,3 @@ export function createOracleTargetMutex(writerConnection, { owner } = {}) {
 
   return Object.freeze({ acquire });
 }
-
