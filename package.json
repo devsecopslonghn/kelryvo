@@ -38,7 +38,9 @@
     "dev": "npm run build:web && node scripts/local-dev.mjs",
     "test:product": "node scripts/test-product.mjs",
     "test:browser": "npm run build:web && node scripts/test-product.mjs --browser",
-    "dependencies:product": "node scripts/product-dependencies.mjs"
+    "dependencies:product": "node scripts/product-dependencies.mjs",
+    "release:local": "node scripts/local-release.mjs build",
+    "test:release": "node --test tests/product-local-release.integration.mjs"
   },
   "dependencies": {
     "fastify": "5.12.5",

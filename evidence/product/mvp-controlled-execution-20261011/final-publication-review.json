@@ -1,0 +1,14 @@
+{
+  "publication_head": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
+  "source_head": "513bdfb91382592b9f7b9d76deea91611e24ac46",
+  "reviewer": "Native independent read-only integration_review",
+  "recorded_at_utc": "2026-10-10T23:18:34.843756+00:00",
+  "outcome": "ACCEPTED_CONDITIONAL_ON_CANDIDATE_AND_MASTER_CI",
+  "runtime_test_pin_license_hashes": 17,
+  "mismatches": 0,
+  "publication_delta": "Metadata/evidence only, source unchanged",
+  "publication_scan": "27original exactpublication bytes plus2new producer/review annotation bytes, pinnedgitleaks exit0/findings0; priorPR50 digest classification limits preserved",
+  "review_correction": "Reviewer initially compared dirty postpublication checkpoints to scan. Exact git-showa3 checkpoint hashes match originalb0685ad; stale-scan claim withdrawn. Dirtylocalafcbd7c bytes are unpushed and require closeout scan before publication.",
+  "gates": "All6candidate push/PR foundation/parser/product then all3merged-master workflows; ordinary merge only",
+  "oracle_runtime": "UNVALIDATED_NO_AUTHORIZED_HOST"
+}

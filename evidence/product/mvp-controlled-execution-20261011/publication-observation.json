@@ -1,0 +1,24 @@
+{
+  "publication_head": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
+  "source_head": "513bdfb91382592b9f7b9d76deea91611e24ac46",
+  "pr": 51,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/51",
+  "status": "DRAFT_REMOTE_CI_PENDING",
+  "remote_branch_sha_matches": true,
+  "actual_master_protection": {
+    "protected": false,
+    "enabled": false,
+    "required_status_checks": {
+      "checks": [],
+      "contexts": [],
+      "enforcement_level": "off"
+    }
+  },
+  "enforced_available_workflows": [
+    "foundation",
+    "parser-antlr",
+    "product"
+  ],
+  "candidate_required_for_this_increment": "All6push/PR workflow runs must succeed on corrected publication head, exact-source independent review/scan/license and ordinary merge eligibility. Then all3merged-master workflows.",
+  "optional_security": "Existing disabled/paid security APIs and known owner-authorized Sonar quota outage remain UNAVAILABLE, not PASS. No new probes or bypass."
+}

@@ -102,3 +102,5 @@ The [WP0 preflight](experiments/db-devops-wp0/README.md) reports missing lab inp
 connecting to a database. Disposable 19c and 21c targets require explicit authorization,
 entitlement, identities, grants, fault permissions, scoped credential references and
 offline artifact review. An example profile is not authority to use any database.
+
+Build a reproducible local source installation bundle with `npm run release:local -- --output /absolute/existing-parent/new-release-directory`. The [local release guide](docs/development/local-release.md) covers trusted checksums, fresh installation, included notices and end-to-end acceptance. Actual Oracle execution remains unvalidated.

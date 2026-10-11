@@ -1,0 +1,30 @@
+{
+  "command": "Pinned official-checksum-verified Gitleaks8.30.1 dir --redact on new/changed exact publication source/docs/typed evidence and local logs since preserved1619cdf; inherited closeout bytes separately already scanned",
+  "source_head": "5502b8cd077cc61f63980d1d13d7ce1d1ffbc94c",
+  "exit_code": 0,
+  "findings": 0,
+  "files": 20,
+  "sha256": {
+    ".github/workflows/product.yml": "cb7e1dc1c950e65d90d9e0296bfd0769c4a1df253628705eb6413a1946dd1ca3",
+    "README.md": "3f98dddd7b8b182bcff2d77a6b77df6734a2c9a18e1f291e5cd46ff8c84e58d5",
+    "docs/decisions/log.json": "377ebcea72de874924bc62ee307053d3829d1130867f545ba02b54bda5b8445a",
+    "docs/development/local-release.md": "d15fd9285c8951521747fe46167b8ae98e356f069d3926e3a28952ad712bf399",
+    "docs/implementation/CONTINUE.md": "43e97b6cdd58b91c8967d8bae43c11da73242851abf91690147582bd66ddc9d9",
+    "docs/implementation/CURRENT.md": "43e97b6cdd58b91c8967d8bae43c11da73242851abf91690147582bd66ddc9d9",
+    "docs/implementation/evidence-index.json": "d5cb52b46ee4b110aea195b4090c48523469ff1eed9619e15f1c7381406c2ba6",
+    "docs/implementation/feature-coverage.json": "8e8ddad3c66bb621242b21468d57f2ec36174e8e44d3b600596f7d56cee06408",
+    "docs/implementation/milestone.json": "ed4bdd4c77c309285d65c55254c06f80807571305ae1af65c59d49901fe981b1",
+    "docs/product/license-and-naming.md": "d08a66b66044b76410cac891e8014eb95cb2288f34a8e4627b6fae67de07e709",
+    "evidence/product/mvp-local-release-20261011/artifact-acceptance.log": "ac81eb119141f0f7f126ef88dc60feba3dfdc9217f2cb9e1c2ce8deac2aaa33b",
+    "evidence/product/mvp-local-release-20261011/bundle-unit.log": "666a37a45014437a8ea2d1496cad5d9b5ff88bf62fb2df597bc6103b83e19aa9",
+    "evidence/product/mvp-local-release-20261011/record.json": "076c4dd7c9a0d7fc78a4743aa86b1f8918363996663223765509eae040f6a7ab",
+    "evidence/product/mvp-local-release-20261011/standard-check.log": "1247aebdcc60e45552934e56e12e3d86703669cb2d9aae99c4589081045a72e5",
+    "package.json": "bc63279b855cbfd36bed712fbb5dce4fac24697f82636308a52fbbbc25c08629",
+    "scripts/local-release.mjs": "64d48e3bfd1d499317117fd3a31ee93ce1d5acde0c0120ad388324188682a012",
+    "scripts/release-acceptance.mjs": "437e1b4e94c5bf68078346e4eaa35b6fe9ddcf14e717210d387d37d61d06c249",
+    "tests/local-release.test.mjs": "085bc42075502c3d69c39131af14d9a9b77833322cbf8b71edffe216df12cff1",
+    "tests/product-local-release.integration.mjs": "120e179ce2ac1649584f45dda961a981e48e12814921385389e3426172e3bb1d",
+    "tests/product-release-acceptance.integration.mjs": "3a38c9132f27df641cb2be4497b2e20a82936d278af56ff14c25ecad14c09372"
+  },
+  "producer_excluded_from_own_hashes": true
+}
