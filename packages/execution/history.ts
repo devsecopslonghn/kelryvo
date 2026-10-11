@@ -73,7 +73,7 @@ export function registerExecutionHistory(app: any, sql: any, authenticate: any, 
         proof.organization_id,proof.project_id,proof.plan_id,proof.scope,proof.approval_reference,proof.intent_digest,
         proof.source_manifest_digest,proof.profile_id,proof.host_binding,plan.profile_id AS plan_profile_id,
         plan.approval_reference AS plan_approval_reference,plan.offline_intent_digest AS plan_intent_digest,
-        release.manifest_digest AS plan_manifest_digest,
+        plan.release_id AS plan_release_id,release.manifest_digest AS plan_manifest_digest,
         CASE WHEN octet_length(plan.offline_intent_envelope)<=${MAX_STDOUT_BYTES} THEN plan.offline_intent_envelope END AS envelope
         FROM sf_execution_jobs job JOIN sf_execution_admission_proofs proof ON proof.job_id=job.id
         JOIN sf_plans plan ON plan.id=job.plan_id AND plan.project_id=job.project_id

@@ -29,7 +29,7 @@ export function approvedHistoryContext(row) {
         || row.job_admission_statement_count !== binding.statementCount) return null;
     const intent = verifyOfflinePlanIntent(row.envelope, row.intent_digest, {
       organizationId: row.organization_id, projectId: row.project_id,
-      manifestDigest: row.source_manifest_digest, profileId: row.profile_id,
+      releaseId: row.plan_release_id, manifestDigest: row.source_manifest_digest, profileId: row.profile_id,
     });
     if (!intent || intent.format !== 2 || !Array.isArray(intent.statements)
         || intent.items.length > MAX_RELEASE_FILES || intent.statements.length > MAX_PLAN_STATEMENTS) return null;
@@ -41,7 +41,7 @@ export function approvedHistoryContext(row) {
     const pendingMigrations = migrations.slice(appliedFiles);
     const pending = pendingMigrations.flatMap(migration => migration.statementDigests);
     if (binding.appliedStatementCount !== appliedStatements || binding.statementCount !== pending.length
-        || pending.length === 0 || binding.statementManifestDigest !== executionDigest(intent.statements)
+        || binding.statementManifestDigest !== executionDigest(intent.statements)
         || binding.pendingManifestDigest !== executionDigest(pendingMigrations)) return null;
     return Object.freeze({
       totalApprovedMigrations: migrations.length,

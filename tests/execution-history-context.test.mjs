@@ -27,7 +27,7 @@ function fixture() {
     job_admission_statement_count:1,job_approval_reference:approval_reference,organization_id:organizationId,project_id:projectId,plan_id:null,scope:'UNIT_SYNTHETIC',
     approval_reference,plan_approval_reference:approval_reference,intent_digest:encoded.digest,plan_intent_digest:encoded.digest,
     job_intent_digest:encoded.digest,source_manifest_digest:facts.manifestDigest,plan_manifest_digest:facts.manifestDigest,
-    profile_id:profileId,plan_profile_id:profileId,host_binding:binding,envelope:encoded.envelope};
+    profile_id:profileId,plan_profile_id:profileId,plan_release_id:releaseId,host_binding:binding,envelope:encoded.envelope};
   row.plan_id=row.job_plan_id;
   return { row, digest, binding, facts };
 }
@@ -47,6 +47,20 @@ test('approved history maps a pending duplicate digest by immutable ordinal and 
   assert.equal(approvedStatementLabel(context,2,digest),null);
 });
 
+test('approved all-applied history keeps zero-pending NOOP counts verifiable', () => {
+  const {row,facts}=fixture();
+  const identities=approvedMigrationIdentities({items:facts.items,statements:facts.statements});
+  row.host_binding={...row.host_binding,appliedMigrationCount:identities.length,
+    appliedStatementCount:facts.statements.length,statementCount:0,pendingManifestDigest:executionDigest([])};
+  row.job_admission_statement_count=0;
+  const context=approvedHistoryContext(row);
+  assert.equal(context.appliedMigrationCount,2);
+  assert.equal(context.appliedStatementCount,2);
+  assert.equal(context.pendingMigrationCount,0);
+  assert.equal(context.pendingStatementCount,0);
+  assert.equal(approvedStatementLabel(context,1,facts.statements[0].executionSha256),null);
+});
+
 test('legacy, corrupt, and mismatched retained bindings remain readable without context', () => {
   const {row}=fixture();
   const legacyFacts={...fixture().facts}; delete legacyFacts.statements;
@@ -56,6 +70,7 @@ test('legacy, corrupt, and mismatched retained bindings remain readable without 
     plan_intent_digest:legacy.digest,job_intent_digest:legacy.digest}),null,'format-1 approval lacks statement identity');
   assert.equal(approvedHistoryContext({...row,envelope:`${row.envelope} `}),null);
   assert.equal(approvedHistoryContext({...row,plan_intent_digest:hash('different')}),null);
+  assert.equal(approvedHistoryContext({...row,plan_release_id:randomUUID()}),null);
   assert.equal(approvedHistoryContext({...row,job_project_id:randomUUID()}),null);
   assert.equal(approvedHistoryContext({...row,host_binding:{...row.host_binding,appliedStatementCount:0}}),null);
   assert.equal(approvedHistoryContext({...row,host_binding:{...row.host_binding,pendingManifestDigest:hash('different')}}),null);
