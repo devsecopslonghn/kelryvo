@@ -3563,6 +3563,60 @@
       },
       "path": "evidence/product/worker-lifecycle-20261011/record.json",
       "sha256": "450dd50781a50677976be18081eb9562b54d110e32c7968a790424f5caf1b5bc"
+    },
+    {
+      "id": "mvp-worker-lifecycle-pr59-master-ci-financial-block",
+      "subject_id": "OPS-002",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "FAIL",
+      "command": "PR59 ordinary exact-reviewed-head merge after candidate foundation/parser/PRODUCT PASS78API33browser1release(inner4) zero fail/skip. All resulting-master jobs did not start: GitHub reports failed payments or spending limit. No master verification, rerun or gate waiver.",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/worker-lifecycle-20261011/master-ci-not-started-summary.json",
+        "sha256": "66a8151a4f242d75b78eca343811881af15d383887abe494d5d7eca68e823a19"
+      },
+      "path": "evidence/product/worker-lifecycle-20261011/master-ci-financial-block.json",
+      "sha256": "0231bfc33e9822f50782ac113d27d9505ec6220968ae9bf3da069796f725b7a1"
+    },
+    {
+      "id": "mvp-api-shard-balancing-local-verified",
+      "subject_id": "OPS-023",
+      "kind": "STATIC",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Complete deterministic measured-cost API file partitions: five coverage/ordering/new-file/invalid-input regressions. Combined frozen npmcheck329tests281PASS48optionalPGskip0FAIL with provider expiry fix. Existing API/browser/security/fresh-release mandatory CI is unchanged; no observed remote speedup.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/api-shard-balancing-20261011/local-check-summary.json",
+        "sha256": "81f092825216857096ea988b24effa4ae7444e7bab014bbc30a129335ca9980c"
+      },
+      "path": "evidence/product/api-shard-balancing-20261011/record.json",
+      "sha256": "ee1f4d1f4552051dcaf2a641eaa1d263877209e35ef8e58e33a4e1781f2fd359"
+    },
+    {
+      "id": "mvp-private-provider-continuous-expiry-local-verified",
+      "subject_id": "OPS-002",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "One-shot provider rechecks permit after awaited private setup, before owned work, after settlement and cleanup; expiry poisons, drains and closes acquired handles once. Five deterministic expiry regressions,15providerUNIT PASS; combined required check281PASS48optionalPGskip0FAIL.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/provider-permit-expiry-20261011/local-check-summary.json",
+        "sha256": "1cd870d6a30719c42fb725d614accbba6a2a4b7a5ece9d6322af5819f8d5d846"
+      },
+      "path": "evidence/product/provider-permit-expiry-20261011/record.json",
+      "sha256": "f2da45ff64d9ab3db87190c45ad3479f5f6aaa0396d2a6efbd7a00e71e6fd630"
     }
   ]
 }

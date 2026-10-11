@@ -93,42 +93,47 @@ export function createPrivateOracleProvider(installed,options={}) {
       try { if(!samePermit(grant.permit,permit)||!permitValid(permit,grant.request,workerId,scope,Date.now())) throw reject(); }
       catch { retired=true;throw reject(); }
       authorized=false;const fixed=grant;grant=null;active=true;
-      const pending=new Set();let ending=false,poisoned=false;
+      const pending=new Set(),owned=new Set();let ending=false,poisoned=false;
+      const permitLive=()=>Date.now()<fixed.permit.expiresAt;
+      const requireLive=()=>{ if(retired||poisoned||!permitLive()) { poisoned=true;retired=true;throw reject(); } };
       const track=operation=>{
-        if(ending||poisoned||retired) { poisoned=true;return Promise.reject(reject()); }
+        if(ending||poisoned||retired||!permitLive()) { poisoned=true;retired=true;return Promise.reject(reject()); }
         let promise;try { promise=Promise.resolve(operation()); }catch { promise=Promise.reject(reject()); }
-        promise=promise.catch(()=>{poisoned=true;retired=true;throw reject();});
+        promise=promise.then(value=>{requireLive();return value;}).catch(()=>{poisoned=true;retired=true;throw reject();});
         pending.add(promise);promise.finally(()=>pending.delete(promise)).catch(()=>{});return promise;
       };
       const waitPending=async()=>{ while(pending.size) await Promise.allSettled([...pending]); };
       let writer,ledgerOwner,result,callbackStarted=false,closeFailed=false;
       try {
-        if(retired) throw reject();
+        requireLive();
         // No request field enters this resolver; its fixed options are private installation state.
         const routes=deepFreeze(privateSnapshot(await installed.resolvePrivateOptions()));
+        requireLive();
         if(retired||!isRecord(routes)||!isRecord(routes.writer)||!isRecord(routes.ledgerOwner)
           ||executionDigest(canonical(routes.writer))===executionDigest(canonical(routes.ledgerOwner))||!OWNER.test(routes.ledgerOwnerName??'')
           ||routes.ledgerOwnerName===fixed.request.profile.username||!Number.isInteger(routes.callTimeout)
           ||routes.callTimeout<1||routes.callTimeout>30000) throw reject();
         const timeout=routes.callTimeout;
         const acquire=async opts=>{
+          requireLive();
           const c=await getConnection(opts);
-          try {
-            if(!c||typeof c!=='object') throw reject();
-            // node-oracledb connections default to zero; install the private bound first.
-            c.callTimeout=timeout;
-            if(c.callTimeout!==timeout||!connectionShape(c)) throw reject();
-            for(const method of ['execute','commit','rollback']) {
-              const original=c[method].bind(c);
-              c[method]=(...args)=>track(()=>original(...args));
-              if(typeof c[method]!=='function') throw reject();
-            }
-            return c;
-          } catch { try { await c?.close(); } catch {} throw reject(); }
+          if(c&&typeof c==='object') owned.add(c);
+          requireLive();
+          if(!c||typeof c!=='object') throw reject();
+          // node-oracledb connections default to zero; install the private bound first.
+          c.callTimeout=timeout;
+          if(c.callTimeout!==timeout||!connectionShape(c)) throw reject();
+          for(const method of ['execute','commit','rollback']) {
+            const original=c[method].bind(c);
+            c[method]=(...args)=>track(()=>original(...args));
+            if(typeof c[method]!=='function') throw reject();
+          }
+          return c;
         };
-        writer=await acquire(routes.writer);if(retired||poisoned) throw reject();
-        ledgerOwner=await acquire(routes.ledgerOwner);if(retired||poisoned||writer===ledgerOwner) throw reject();
+        writer=await acquire(routes.writer);requireLive();
+        ledgerOwner=await acquire(routes.ledgerOwner);requireLive();if(writer===ledgerOwner) throw reject();
         const target=await installed.bindTarget(fixed.request,fixed.permit,writer,ledgerOwner,routes.ledgerOwnerName);
+        requireLive();
         if(retired||poisoned||!isRecord(target)||target.writer!==writer||target.ledgerOwner!==ledgerOwner
           ||target.ledgerOwnerName!==routes.ledgerOwnerName
           ||!['attest','verifyEmptyTarget','claimDispatch','verifyPostconditions','centralEvidenceComplete'].every(k=>typeof target[k]==='function')) throw reject();
@@ -136,17 +141,17 @@ export function createPrivateOracleProvider(installed,options={}) {
         for(const name of ['attest','verifyEmptyTarget','claimDispatch','verifyPostconditions','centralEvidenceComplete']) {
           const method=target[name];wrapped[name]=(...args)=>track(()=>method.apply(target,args));
         }
-        callbackStarted=true;
+        requireLive();callbackStarted=true;
         try { result=await run(Object.freeze(wrapped)); }
         finally { if(pending.size) poisoned=true;ending=true;await waitPending(); }
-        if(retired||poisoned) throw reject();
+        requireLive();
         return result;
       } catch { ending=true;poisoned=true;await waitPending();retired=true;throw reject(); }
       finally {
         ending=true;await waitPending();
-        for(const c of new Set([ledgerOwner,writer])) if(c) { try { await c.close(); } catch { closeFailed=true; } }
+        for(const c of [...owned].reverse()) { try { await c.close(); } catch { closeFailed=true; } }
         active=false;retired=true;
-        if(closeFailed||!callbackStarted) throw reject();
+        if(closeFailed||!callbackStarted||!permitLive()) throw reject();
       }
     }
   });

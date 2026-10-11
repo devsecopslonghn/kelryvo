@@ -1,0 +1,10 @@
+{
+  "scope": "UNIT_SYNTHETIC_ONLY",
+  "source": "3c85707c47a649e5a242ba11660b769fa45a83f6",
+  "combined_source": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
+  "unit_tests": 15,
+  "new_expiry_regressions": 5,
+  "fail": 0,
+  "skipped": 0,
+  "oracle_calls": 0
+}

@@ -1,0 +1,218 @@
+{
+  "scope": "READ_ONLY_OBSERVED_PR58_CANDIDATE_TAP_DURATIONS",
+  "run": 38112960840,
+  "source": "9e91c1b52caaef8768d85047124efd5a91ac823a",
+  "files": [
+    {
+      "file": "product-incremental-migrations.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 175.985555177
+    },
+    {
+      "file": "product-statement-preview.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 119.02414915700001
+    },
+    {
+      "file": "product-controlled-execution.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 1,
+      "seconds": 84.446084713
+    },
+    {
+      "file": "product-execution-jobs.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 2,
+      "seconds": 74.898466002
+    },
+    {
+      "file": "product-protected-source-binding.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 3,
+      "seconds": 73.245403555
+    },
+    {
+      "file": "product-statement-envelope.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 50.126818706
+    },
+    {
+      "file": "product-plan-intent.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 49.038467291
+    },
+    {
+      "file": "product-approval-revocation.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 43.179693347
+    },
+    {
+      "file": "product-backup-restore.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 4,
+      "seconds": 39.794074995
+    },
+    {
+      "file": "product-oracle-host.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 1,
+      "seconds": 39.305897668
+    },
+    {
+      "file": "product-release-comparison.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 2,
+      "seconds": 36.174870345
+    },
+    {
+      "file": "product-mvp-workflow.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 33.434161521
+    },
+    {
+      "file": "product-reviewer-assignment.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 31.54749109
+    },
+    {
+      "file": "product-api.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 24.705025565
+    },
+    {
+      "file": "product-execution-history.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 2,
+      "seconds": 19.794766733000003
+    },
+    {
+      "file": "product-retained-detail.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 17.250287429
+    },
+    {
+      "file": "product-approval-integrity.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 1,
+      "seconds": 13.387718581
+    },
+    {
+      "file": "product-release-integrity.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 12.965246057
+    },
+    {
+      "file": "product-plan-resubmission.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 1,
+      "seconds": 10.627111478000002
+    },
+    {
+      "file": "product-import.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 7,
+      "seconds": 10.252287272999999
+    },
+    {
+      "file": "product-review-audit.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 1,
+      "seconds": 7.924463622999999
+    },
+    {
+      "file": "product-secure-sessions.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 4,
+      "seconds": 6.334236626000001
+    },
+    {
+      "file": "product-repositories.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 5,
+      "seconds": 5.900227185
+    },
+    {
+      "file": "product-source-binding.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 2,
+      "seconds": 3.013395138
+    },
+    {
+      "file": "product-membership.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 3,
+      "seconds": 2.4434284450000003
+    },
+    {
+      "file": "product-archive.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 2,
+      "seconds": 1.983879185
+    },
+    {
+      "file": "product-schema-reference.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 2,
+      "seconds": 1.750799384
+    },
+    {
+      "file": "product-statement-preview-parser.integration.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 1,
+      "seconds": 1.4860809959999999
+    },
+    {
+      "file": "product-credential-lifecycle.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 1.264020585
+    },
+    {
+      "file": "product-comments.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 1.2461371799999998
+    },
+    {
+      "file": "product-audit-pages.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 0.75103964
+    },
+    {
+      "file": "product-decision-record.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 0.617809912
+    },
+    {
+      "file": "product-review-inbox.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 1,
+      "seconds": 0.526522344
+    },
+    {
+      "file": "product-database.test.mjs",
+      "shard": "acceptance (api, 2/2)",
+      "tests": 1,
+      "seconds": 0.326546495
+    },
+    {
+      "file": "product-review-inbox-cursor.test.mjs",
+      "shard": "acceptance (api, 1/2)",
+      "tests": 1,
+      "seconds": 0.0028508749999999997
+    }
+  ],
+  "unmapped": []
+}

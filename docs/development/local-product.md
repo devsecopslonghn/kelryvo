@@ -914,6 +914,11 @@ rejects pooled routes. Each provider instance serves one child operation. Reuse,
 overlap, an owned operation failure, a callback returning with operations still pending,
 or cleanup uncertainty retires it and fails closed. Owned driver and target capability
 operations drain before both sessions close; it never reconnects or retries SQL.
-The explicit UNIT connection port cannot satisfy a trusted installation. The ten
+The permit must remain live after private route resolution, each session acquisition
+and target binding, before callback entry and each owned operation, and after operation
+settlement and cleanup. Expiry retires the provider, prevents further work and withholds
+success. A call already in flight drains before its acquired handles close once;
+expiry does not cancel it or establish whether its SQL effects occurred.
+The explicit UNIT connection port cannot satisfy a trusted installation. The fifteen
 provider tests verify synthetic lifecycle behavior; production authority, physical
 identity, TLS, grants, protected object integrity and adoption remain separate gates.

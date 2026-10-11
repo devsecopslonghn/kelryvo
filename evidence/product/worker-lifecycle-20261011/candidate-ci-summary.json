@@ -1,0 +1,95 @@
+{
+  "scope": "ACTUAL_GITHUB_PRODUCT_CI_SYNTHETIC_TARGET_ONLY",
+  "phase": "candidate",
+  "run": 38115011971,
+  "head": "a8040555f88bd02bfaac2feb61efd5ab50c823af",
+  "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38115011971",
+  "outcome": "PASS",
+  "wall_seconds": 768.0,
+  "api_tests": 78,
+  "browser_tests": 33,
+  "release_outer_tests": 1,
+  "release_inner": {
+    "source_commit": "5f5590a6b2473d469c528aac56e54b7ae013ec4a",
+    "passed": 4,
+    "runtime": "UNVALIDATED"
+  },
+  "failures": 0,
+  "skips": 0,
+  "shards": {
+    "acceptance (release, 1/1)": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (browser, 1/2)": {
+      "tests": 16,
+      "pass": 16,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (api, 2/2)": {
+      "tests": 54,
+      "pass": 54,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (api, 1/2)": {
+      "tests": 24,
+      "pass": 24,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (browser, 2/2)": {
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  "oracle_runtime": "UNVALIDATED; tests do not authorize or exercise Oracle runtime.",
+  "jobs": [
+    {
+      "id": 114398062824,
+      "name": "acceptance (release, 1/1)",
+      "outcome": "success",
+      "duration_seconds": 251.0
+    },
+    {
+      "id": 114398062935,
+      "name": "acceptance (browser, 1/2)",
+      "outcome": "success",
+      "duration_seconds": 488.0
+    },
+    {
+      "id": 114398062983,
+      "name": "acceptance (api, 2/2)",
+      "outcome": "success",
+      "duration_seconds": 762.0
+    },
+    {
+      "id": 114398063024,
+      "name": "acceptance (api, 1/2)",
+      "outcome": "success",
+      "duration_seconds": 410.0
+    },
+    {
+      "id": 114398063071,
+      "name": "acceptance (browser, 2/2)",
+      "outcome": "success",
+      "duration_seconds": 311.0
+    },
+    {
+      "id": 114400053959,
+      "name": "product",
+      "outcome": "success",
+      "duration_seconds": 4.0
+    }
+  ]
+}

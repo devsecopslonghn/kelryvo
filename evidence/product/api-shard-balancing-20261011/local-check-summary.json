@@ -1,0 +1,26 @@
+{
+  "scope": "LOCAL_PRODUCT_CHECK_NOT_REMOTE_ACCEPTANCE_OR_SPEEDUP",
+  "functional_source": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
+  "standard": {
+    "command": "umask022; env -u SCHEMAFORGE_TEST_DATABASE_URL -u SCHEMAFORGE_REQUIRE_PRODUCT_TESTS SCHEMAFORGE_JAVA_HOME=<exact pinned JDK> npm run check",
+    "exit_code": 0,
+    "tests": 329,
+    "pass": 281,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 48
+  },
+  "partition_tests": 5,
+  "provider_unit_tests": 15,
+  "optional_postgresql_skips": 48,
+  "expected_mandatory_ci": {
+    "api": 78,
+    "browser": 33,
+    "release_outer": 1,
+    "release_inner": 4,
+    "disabled_tests": 0
+  },
+  "license_packages": 85,
+  "unknown_required_grants": 0,
+  "oracle_calls": 0
+}
