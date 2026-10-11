@@ -650,6 +650,22 @@
         "MIG-011",
         "OPS-005"
       ]
+    },
+    {
+      "id": "SF-D055",
+      "status": "ACCEPTED_METADATA_ONLY_OPERATOR_EXPIRY_RECOVERY",
+      "decision": "Permit a fixed metadata-only identity binding for installed expiry recovery while preserving the legacy host binding. Reuse durable PostgreSQL recovery without constructing an Oracle provider or host. The trusted local OS operator may discover bounded expired attempts and recover one explicit job using private loopback configuration; scope never promotes synthetic jobs and inactive generations remain closed. Recovery appends uncertainty as HOLD without replay, lease renewal or effect verdict. No API recovery endpoint, target credential or Oracle runtime authority is added.",
+      "references": [
+        "apps/worker/installed-worker-factory.mjs",
+        "scripts/local-execution-recovery.mjs",
+        "tests/product-metadata-recovery.test.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "OPS-002",
+        "OPS-005",
+        "MIG-011"
+      ]
     }
   ]
 }

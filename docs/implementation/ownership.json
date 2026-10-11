@@ -1335,6 +1335,10 @@
     "SF-PRODUCT-T35": {
       "assigned_agent": "orchestrator",
       "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T36": {
+      "assigned_agent": "orchestrator",
+      "status": "IMPLEMENTED"
     }
   }
 }

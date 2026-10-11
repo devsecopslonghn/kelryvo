@@ -799,7 +799,32 @@ const PRODUCT_TASK_35 = {
     "SF-PRODUCT-T35-RESTORE"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35];
+const PRODUCT_TASK_36 = {
+  "id": "SF-PRODUCT-T36",
+  "package": "PRODUCT",
+  "assigned_agent": "orchestrator",
+  "title": "Deliver metadata-only expired-attempt recovery for the local operator",
+  "dependencies": [
+    "SF-PRODUCT-T35"
+  ],
+  "feature_ids": [
+    "OPS-002",
+    "OPS-005",
+    "MIG-011"
+  ],
+  "acceptance_criteria": [
+    "Install expiry recovery using fixed metadata URL, worker identity and scope without Oracle capabilities; preserve the prior installed binding, reject mixed or caller-selected execution bindings, and retain one-operation ownership with awaited cleanup.",
+    "Provide a local OS operator command for bounded read-only discovery and selected expired-attempt recovery. Require existing private configuration and loopback metadata authorization before connecting, reject malformed input with fixed secret-free output, and expose no HTTP recovery or Oracle capability.",
+    "Recovery uses the existing durable store to append LEASE_EXPIRED_UNKNOWN HOLD exactly once, preserving attempts, leases, receipts, approval and earlier events. Live leases, terminal jobs, UNIT scope in the trusted operator and inactive metadata generations cannot advance. Recovery never renews, retries, dispatches SQL or releases HOLD.",
+    "Verify actual isolated PostgreSQL and supervised child recovery, bounded keyset discovery, CLI use and private-route failures, history preservation and required Foundation/parser/PRODUCT GitHub Actions. Record synthetic metadata scope honestly; Oracle runtime and deployed worker isolation remain unverified."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T36-FACTORY",
+    "SF-PRODUCT-T36-OPERATOR",
+    "SF-PRODUCT-T36-RECOVERY"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

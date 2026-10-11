@@ -2821,6 +2821,20 @@
         "SF-PRODUCT-T35-WEB",
         "SF-PRODUCT-T35-RESTORE"
       ]
+    },
+    "SF-PRODUCT-T36": {
+      "task_id": "SF-PRODUCT-T36",
+      "criteria": [
+        "Install expiry recovery using fixed metadata URL, worker identity and scope without Oracle capabilities; preserve the prior installed binding, reject mixed or caller-selected execution bindings, and retain one-operation ownership with awaited cleanup.",
+        "Provide a local OS operator command for bounded read-only discovery and selected expired-attempt recovery. Require existing private configuration and loopback metadata authorization before connecting, reject malformed input with fixed secret-free output, and expose no HTTP recovery or Oracle capability.",
+        "Recovery uses the existing durable store to append LEASE_EXPIRED_UNKNOWN HOLD exactly once, preserving attempts, leases, receipts, approval and earlier events. Live leases, terminal jobs, UNIT scope in the trusted operator and inactive metadata generations cannot advance. Recovery never renews, retries, dispatches SQL or releases HOLD.",
+        "Verify actual isolated PostgreSQL and supervised child recovery, bounded keyset discovery, CLI use and private-route failures, history preservation and required Foundation/parser/PRODUCT GitHub Actions. Record synthetic metadata scope honestly; Oracle runtime and deployed worker isolation remain unverified."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T36-FACTORY",
+        "SF-PRODUCT-T36-OPERATOR",
+        "SF-PRODUCT-T36-RECOVERY"
+      ]
     }
   },
   "test_cases": [

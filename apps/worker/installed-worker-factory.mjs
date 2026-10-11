@@ -8,6 +8,7 @@ import { createExecutionWorker as makeExecutionWorker } from './run-request.ts';
 import { createPrivateOracleProvider } from './oracle-provider.mjs';
 import { createRestrictedOracleHost } from './oracle-host.ts';
 import { executionUuid } from '../../packages/execution/admission.ts';
+import { createExecutionJobStore } from '../../packages/execution/postgres-jobs.ts';
 
 const reject = () => new Error('Installed execution worker unavailable');
 const plain = value => value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -55,16 +56,22 @@ function metadataClient(sql) {
  * Call this only from reviewed installation code, never with API/IPC request values.
  */
 function createInstalledWorkerFactory(binding, recoverOnly) {
+  // Recovery may be installed with metadata identity alone. Never manufacture an
+  // Oracle host to obtain a PostgreSQL-only safety operation.
+  const metadataOnly = recoverOnly && installationRecord(binding,
+    ['databaseUrl', 'scope', 'workerId'], ['allowUnitSynthetic', 'openMetadata']);
   const keys = ['databaseUrl', 'installedOracle'];
   const optional = ['allowUnitSynthetic', 'unitGetConnection', 'openMetadata', 'leaseSeconds'];
-  binding = installationRecord(binding, keys, optional);
+  binding = metadataOnly || installationRecord(binding, keys, optional);
   if (!binding || !validMetadataUrl(binding.databaseUrl)) throw reject();
 
-  const installedOracle = snapshotOracleBinding(binding.installedOracle);
+  const installedOracle = metadataOnly ? binding : snapshotOracleBinding(binding.installedOracle);
   const scope = installedOracle.scope;
+  if (!['TRUSTED_VALIDATED', 'UNIT_SYNTHETIC'].includes(scope)
+      || typeof installedOracle.workerId !== 'string' || !/^[A-Za-z0-9._:-]{1,100}$/.test(installedOracle.workerId)) throw reject();
   const allowUnitSynthetic = binding.allowUnitSynthetic === true;
   if (scope === 'UNIT_SYNTHETIC'
-      ? !allowUnitSynthetic || typeof binding.unitGetConnection !== 'function'
+    ? !allowUnitSynthetic || !metadataOnly && typeof binding.unitGetConnection !== 'function'
       : allowUnitSynthetic || binding.unitGetConnection !== undefined || binding.openMetadata !== undefined) throw reject();
   if (binding.allowUnitSynthetic !== undefined && typeof binding.allowUnitSynthetic !== 'boolean') throw reject();
   if (binding.openMetadata !== undefined && (scope !== 'UNIT_SYNTHETIC' || typeof binding.openMetadata !== 'function')) throw reject();
@@ -73,7 +80,7 @@ function createInstalledWorkerFactory(binding, recoverOnly) {
 
   // Snapshot only privileged installation values. Oracle credentials/options remain in installed closures.
   const databaseUrl = binding.databaseUrl;
-  const openMetadata = binding.openMetadata ?? (() => postgres(databaseUrl, { max: 1, onnotice: () => {} }));
+  const openMetadata = binding.openMetadata ?? (() => postgres(databaseUrl, { max: 1, connect_timeout: 3, onnotice: () => {} }));
   const oracleOptions = scope === 'UNIT_SYNTHETIC'
     ? Object.freeze({ allowUnitSynthetic: true, unitGetConnection: binding.unitGetConnection })
     : Object.freeze({});
@@ -92,9 +99,19 @@ function createInstalledWorkerFactory(binding, recoverOnly) {
     try {
       sql = await openMetadata();
       if (!metadataClient(sql)) throw reject();
-      const provider = createPrivateOracleProvider(installedOracle, oracleOptions);
-      const host = createRestrictedOracleHost(provider, scope === 'UNIT_SYNTHETIC' ? { allowUnitSynthetic: true } : {});
-      const worker = makeExecutionWorker(sql, host, { allowUnitSynthetic, leaseSeconds });
+      let worker;
+      if (recoverOnly) {
+        const store = createExecutionJobStore(sql, installedOracle.workerId, { allowUnitSynthetic });
+        worker = { scope, workerId: installedOracle.workerId,
+          async recoverExpired(jobId) {
+            const recovered = await store.claim(jobId, 30, true);
+            return recovered?.recoveredHold ? 'HOLD' : 'NOT_RECOVERED';
+          } };
+      } else {
+        const provider = createPrivateOracleProvider(installedOracle, oracleOptions);
+        const host = createRestrictedOracleHost(provider, scope === 'UNIT_SYNTHETIC' ? { allowUnitSynthetic: true } : {});
+        worker = makeExecutionWorker(sql, host, { allowUnitSynthetic, leaseSeconds });
+      }
       const operation = recoverOnly ? worker.recoverExpired : worker.runWaitingRequest;
       if (worker.scope !== scope || worker.workerId !== installedOracle.workerId
           || typeof operation !== 'function') throw reject();
