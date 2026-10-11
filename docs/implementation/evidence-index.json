@@ -3653,6 +3653,24 @@
       },
       "path": "evidence/product/actions-local-exception-20261011/record.json",
       "sha256": "101d383de67d3bba2540ff1df5357ddfa04688578eb7f0c9c497716b96950c54"
+    },
+    {
+      "id": "mvp-installed-worker-factory-local-verified",
+      "subject_id": "OPS-002",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Frozen installed factory local acceptance: fresh npm ci; pinned reproducible ANTLR build, corpus30 and integration4; npm run check288PASS/49 optional PostgreSQL skips; offline dependencies; complete complementary API37files86PASS; full browser33PASS; fresh source release1outer4innerPASS; independent review, scoped secret scan and license closure. Synthetic Oracle only; Actions BLOCKED_EXTERNAL (BILLING); no merge.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/installed-worker-factory-20261011/local-acceptance-summary.json",
+        "sha256": "f52b6e1455a3727f1a86ddb55418c1e78403b4c6dd8ef87151057fdbb8f1257c"
+      },
+      "path": "evidence/product/installed-worker-factory-20261011/record.json",
+      "sha256": "1cd30e9cba1099f81b6002799f23f0d0b018e1731e62f385bb0eb6fb2c499749"
     }
   ]
 }

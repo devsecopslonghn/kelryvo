@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-11T06:54:12.354956+00:00",
+  "recorded_at": "2026-10-11T07:34:35.086140+00:00",
   "verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
   "reviewed_local_source": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
@@ -62,15 +62,14 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "PR52-PR58 local source/governance/pending history integrated on verified4d. PR59 merged3e after actual candidate78API33browser1release(inner4) zero fail/skip; master all workflows FAIL before starting due to account payment/spending-limit block. Provider expiry gap corrected locally; no corrected candidate/master verification. Original7da failure retained/causeUNKNOWN; no Oracle/runtime/deployed acceptance.",
+  "external_acceptance": "PR52-PR58 governance, source installation, pending-only history and release diagnostics integrated on GitHub-verified4d. PR59 candidate passed before merge3e; resulting master Actions failed before jobs due billing. PR60 remains unmerged atf7, with complete exact08be local acceptance and independent review under SF-D052. Installed factory is now complete-local-verified atfa6b35b2efe7e980bb6be695e33fbe9bfaa607a8 with86API33browser1outer4inner; no remote passing or Oracle/runtime/deployed claim.",
   "next_product_capability": {
-    "milestone": "Full-coverage API CI balancing and continuous private-provider permit expiry",
-    "status": "PR60_LOCALLY_VERIFIED_OWNER_TEMPORARY_EXCEPTION_UNMERGED_REMOTE_ACTIONS_BLOCKED_EXTERNAL_BILLING",
-    "next_action": "Continue safe local worker installation readiness; no Oracle activation or remote merge. Resume required GitHub gates when Actions restoration is confirmed.",
-    "pr": 60,
-    "published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72",
-    "local_acceptance_evidence": "mvp-pr60-owner-exception-complete-local-acceptance",
-    "tested_source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0"
+    "milestone": "M4 explicit metadata expiry recovery installation readiness",
+    "status": "READY_FOR_LOCAL_IMPLEMENTATION",
+    "tested_source_sha": "fa6b35b2efe7e980bb6be695e33fbe9bfaa607a8",
+    "next_action": "Review the installation boundary for explicit metadata-only expired-attempt recovery through existing recoverExpired; expired or ambiguous work may only move to HOLD, never create a new attempt, contact a target or replay SQL. Private trusted purpose/routes/attestors, service/isolation and authorized Oracle execution/recovery acceptance remain separate. Resume normal remote gates when availability is confirmed.",
+    "verified_prerequisite_evidence": "mvp-installed-worker-factory-local-verified",
+    "prerequisite_status": "LOCALLY_VERIFIED_UNDER_OWNER_TEMPORARY_CI_EXCEPTION"
   },
   "features": [
     {
@@ -677,14 +676,15 @@
       "name": "Pending and applied reconciliation",
       "milestone": "WS",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Existing immutable approval, pending selector, controlled worker and protected ledger plus a restricted Oracle host adapter: same-session nonce mutex, write-purpose/one-use authority, ordered durable target STARTED/ACK/APPLIED, exact pending-only dispatch and uncertain-result no replay. Real PostgreSQL/Git/parser/worker and explicit fake Oracle transport verified locally. No independently installed provider/grants/TLS/Oracle runtime, deployed isolation, nonempty baseline or reviewed recovery/HOLD release acceptance. Native child and private provider lifecycles now bound/drain uncertainty without reconnect or replay; synthetic target only.",
+      "basis": "Existing immutable approval, pending selector, controlled worker and protected ledger plus a restricted Oracle host adapter: same-session nonce mutex, write-purpose/one-use authority, ordered durable target STARTED/ACK/APPLIED, exact pending-only dispatch and uncertain-result no replay. Real PostgreSQL/Git/parser/worker and explicit fake Oracle transport verified locally. No independently installed provider/grants/TLS/Oracle runtime, deployed isolation, nonempty baseline or reviewed recovery/HOLD release acceptance. Native child and private provider lifecycles now bound/drain uncertainty without reconnect or replay; synthetic target only. Fixed installation-only worker composition is locally verified with synthetic transport, one owned metadata handle and awaited cleanup; private installed trusted authority/routes/attestors and Oracle/deployed runtime remain unvalidated.",
       "evidence": [
         "mvp-history-aware-local-verified",
         "mvp-history-aware-divergence-local-verified",
         "mvp-restricted-oracle-host-local-verified",
         "mvp-restricted-oracle-host-pr56-master-verified",
         "mvp-worker-lifecycle-local-verified",
-        "mvp-private-provider-continuous-expiry-local-verified"
+        "mvp-private-provider-continuous-expiry-local-verified",
+        "mvp-installed-worker-factory-local-verified"
       ]
     },
     {
@@ -2162,7 +2162,7 @@
       "name": "Restricted execution workers",
       "milestone": "WS",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Reviewed fixed privileged child lifecycle, whole-operation deadline, matching scope/job challenge, awaited cleanup, confirmed reap/no replacement on unknown child and private one-shot dedicated-session provider implemented. Real PostgreSQL worker child preserves durable completion on cleanup uncertainty and approved V2 pending-only/no replay; target transport is UNIT. OS/deployed isolation, installed credentials/truthful target attestors and Oracle runtime/recovery remain incomplete.",
+      "basis": "Reviewed fixed privileged child lifecycle, whole-operation deadline, matching scope/job challenge, awaited cleanup, confirmed reap/no replacement on unknown child and private one-shot dedicated-session provider implemented. Real PostgreSQL worker child preserves durable completion on cleanup uncertainty and approved V2 pending-only/no replay; target transport is UNIT. OS/deployed isolation, installed credentials/truthful target attestors and Oracle runtime/recovery remain incomplete. Fixed installation-only worker composition is locally verified with synthetic transport, one owned metadata handle and awaited cleanup; private installed trusted authority/routes/attestors and Oracle/deployed runtime remain unvalidated.",
       "related_prerequisite_observations": [
         {
           "task": "SF-PRODUCT-T33",
@@ -2174,7 +2174,8 @@
       ],
       "evidence": [
         "mvp-worker-lifecycle-local-verified",
-        "mvp-private-provider-continuous-expiry-local-verified"
+        "mvp-private-provider-continuous-expiry-local-verified",
+        "mvp-installed-worker-factory-local-verified"
       ]
     },
     {
@@ -2660,8 +2661,8 @@
   },
   "temporary_local_ci_exception": {
     "decision": "SF-D052",
-    "evidence": "mvp-pr60-owner-exception-complete-local-acceptance",
-    "tested_source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+    "evidence": "mvp-installed-worker-factory-local-verified",
+    "tested_source_sha": "fa6b35b2efe7e980bb6be695e33fbe9bfaa607a8",
     "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
     "merge_eligible": false,
     "written_remote_merge_requirements_preserved": true
