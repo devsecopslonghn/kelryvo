@@ -443,6 +443,17 @@ this adds no production membership or RBAC policy.
 
 ## Verification
 
+On `worker-local-lab`, follow the owner's 2026-10-11 resource policy: one heavy suite
+at a time, at most two concurrent test workers including supervised test children,
+no parallel PostgreSQL acceptance databases, and no parallel Chromium/browser suites.
+Check available CPU, memory and I/O before any heavy run and record its resource budget.
+Use focused development checks and run necessary full regression sequentially. Reuse
+valid installed dependencies and build outputs instead of repeating npm installs or
+full builds. Required cases whose concurrency cannot fit this host policy must wait for
+a suitable runner; retain all assertions and gates. Prefer remote CI after confirmed
+Actions restoration. Interrupted suites are INCOMPLETE, never PASS. Stop only owned
+test processes and preserve unrelated services, source, worktrees and raw evidence.
+
 `npm run check` checks source/types/web build, all standard unit/regression tests, tracking,
 immutable provenance and existing dependency smoke. `npm run test:product` uses a separate
 local PostgreSQL test service (or `SCHEMAFORGE_TEST_DATABASE_URL` on a disposable
@@ -943,7 +954,7 @@ This factory invokes the existing metadata worker's `recoverExpired`. A previous
 admitted CLAIMED attempt whose lease expired moves to HOLD with the existing
 `LEASE_EXPIRED_UNKNOWN` event. The transaction preserves the original attempt identity,
 lease, receipts, approval and earlier events. Recovery creates no new attempt, renews
-no lease, opens no Oracle session and dispatches no SQL. Current leases, terminal jobs,
+no lease, opens no Oracle session and dispatches no target SQL. Current leases, terminal jobs,
 missing attempts and inactive metadata generations do not advance. Approval withdrawal
 or grant revocation cannot prevent a safety HOLD after expiry.
 

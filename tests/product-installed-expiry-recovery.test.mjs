@@ -143,7 +143,7 @@ test('a supervised child recovers only expired metadata and preserves retained e
     assert.equal(ambiguousAfter.attempts[0].state, 'HOLD');
     assert.deepEqual({ ...ambiguousAfter.attempts[0], state: ambiguousBefore.attempts[0].state },
       ambiguousBefore.attempts[0], 'attempt identity, generation and original lease are retained');
-    assert.equal(ambiguousAfter.job.revision, ambiguousBefore.job.revision + 1);
+    assert.equal(BigInt(ambiguousAfter.job.revision), BigInt(ambiguousBefore.job.revision) + 1n);
     assert.equal(ambiguousAfter.events.length, ambiguousBefore.events.length + 1);
     assert.deepEqual(ambiguousAfter.events.slice(0, ambiguousBefore.events.length), ambiguousBefore.events);
     assert.equal(ambiguousAfter.events.at(-1).phase, 'HOLD');

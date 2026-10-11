@@ -45,6 +45,21 @@ this file, and the bounded task's inputs before editing. Preserve unrelated work
 
 ## Work and evidence
 
+### Local host resource policy — 2026-10-11
+
+- The owner stopped resource-intensive local acceptance after host overload. Run at most
+  one heavy suite and two test workers, including supervised test children, at a time
+  on this host. Never run PostgreSQL
+  acceptance databases or Chromium/browser suites in parallel.
+- Check available CPU, memory and I/O before any new heavy test. Use focused tests during
+  development; run necessary full regression sequentially within a resource budget.
+  Reuse dependencies and build outputs where valid; avoid repeated npm installs and full builds.
+- Preserve interrupted raw evidence and record unfinished suites as INCOMPLETE, never PASS.
+  Stop only owned test processes and their children; preserve unrelated services, source,
+  commits, worktrees and existing evidence. Continue lightweight work only after load normalizes.
+- Prefer remote CI when Actions availability is confirmed. The billing exception and all
+  required verification/merge/security gates remain intact; no polling or billing changes.
+
 ### Standing owner decision policy — 2026-10-09
 
 - Independently make ordinary product, architecture, implementation, compatibility and

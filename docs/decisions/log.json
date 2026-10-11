@@ -663,6 +663,21 @@
         "MIG-011",
         "OPS-005"
       ]
+    },
+    {
+      "id": "SF-D055",
+      "status": "OWNER_REQUIRED_LOCAL_HOST_RESOURCE_LIMITS",
+      "accepted_at_utc": "2026-10-11T08:07:52.723956+00:00",
+      "decision": "Owner urgently stopped resource-intensive local acceptance after worker-local-lab overload. This host permits at most one heavy suite and two concurrent test workers, including supervised test children; no parallel PostgreSQL acceptance databases or Chromium suites. Check CPU/memory/I/O and a resource budget before any heavy run, prefer focused development tests, avoid repeated npm installs/full builds, and run necessary full regression sequentially. Preserve source/commits/worktrees/raw evidence, stop only owned test processes, and mark interrupted suites INCOMPLETE, never PASS. Continue lightweight work only after load normalizes; prefer remote CI on confirmed restoration. This scheduling policy waives no assertions, required checks, security controls or merge rules.",
+      "references": [
+        "AGENTS.md",
+        "docs/development/local-product.md",
+        "docs/implementation/CURRENT.md"
+      ],
+      "catalog_traceability": [
+        "OPS-002",
+        "OPS-005"
+      ]
     }
   ]
 }
