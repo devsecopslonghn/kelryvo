@@ -617,6 +617,19 @@
         "OPS-002",
         "MIG-011"
       ]
+    },
+    {
+      "id": "SF-D052",
+      "status": "OWNER_AUTHORIZED_TEMPORARY_LOCAL_ACCEPTANCE_REMOTE_MERGE_GATES_PRESERVED",
+      "accepted_at_utc": "2026-10-11T06:41:06.085580+00:00",
+      "decision": "Owner authorizes temporary local acceptance while Actions jobs cannot start due billing/spending-limit restrictions. Preserve all tests/assertions/security; run applicable standard, PostgreSQL/API, parser, browser and fresh-source release suites; preserve exact tested SHA and reproducible evidence; require successful results plus independent review before local verification. Record remote Actions BLOCKED_EXTERNAL (BILLING), never PASSED. No billing changes, additional costs, repeated retry/poll, required-check or branch-protection bypass. Condition6 forbids merging where written repository policy requires unavailable GitHub CI; existing candidate/resulting-master requirements therefore keep PR60 unmerged. Resume normal remote verification once available. This does not authorize Oracle access, deployment or full runtime acceptance.",
+      "references": [
+        "AGENTS.md",
+        "docs/implementation/github-sync.md"
+      ],
+      "catalog_traceability": [
+        "OPS-023"
+      ]
     }
   ]
 }

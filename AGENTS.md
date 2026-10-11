@@ -14,6 +14,14 @@ this file, and the bounded task's inputs before editing. Preserve unrelated work
   merges may proceed with all other CI, independent review, security and license gates.
   Preserve old annotations; this exception does not dismiss concrete findings, change
   thresholds, disable analysis or authorize branch-protection/admin bypasses.
+  On 2026-10-11 the owner authorized temporary local acceptance while Actions cannot
+  start jobs because of account billing or spending limits. Require every applicable
+  standard, PostgreSQL/API, parser, browser and fresh-release suite, exact tested SHA,
+  preserved evidence and independent review. Record Actions as BLOCKED_EXTERNAL (BILLING),
+  never PASS; do not retry or poll while this outage persists, change billing or incur costs.
+  This exception preserves configured checks and the written GitHub merge requirements
+  in `docs/implementation/github-sync.md`: PR60 remains unmerged while those checks are
+  unavailable. Resume normal remote verification when availability is confirmed.
   The owner clarified on 2026-10-08 that runnable PRODUCT delivery proceeds independently
   of Oracle VALIDATION. WP0 remains an execution/compatibility acceptance gate, not a
   development scheduling gate for API/web/governance work. Local PostgreSQL test containers

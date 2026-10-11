@@ -10,7 +10,7 @@
   "blockers": [
     "No authorized disposable Oracle 19c/21c lab manifest or scoped credentials/identities/grants/fault authority. (VALIDATION track only; independent PRODUCT scheduling remains open.)",
     "Full F31 packaging/source/notice assembly and Git/metadata deployment artifact selections remain pending; public product naming remains an owner decision. Product license is selected as PolyForm Shield 1.0.0.",
-    "GitHub Actions jobs cannot start: failed recent account payments or spending limit, actual PR59 master annotations. Owner financial action needed; no billing changes, blind reruns or gate waiver."
+    "GitHub Actions BLOCKED_EXTERNAL (BILLING): jobs cannot start. Owner temporary local acceptance is recorded; written candidate/master GitHub merge gates remain required. No billing changes, spending, retries/polling or merge bypass."
   ],
   "evidence": [
     {
@@ -255,6 +255,9 @@
     },
     {
       "index_id": "mvp-api-balancing-provider-expiry-pr60-ci-financial-block"
+    },
+    {
+      "index_id": "mvp-pr60-owner-exception-complete-local-acceptance"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -275,7 +278,7 @@
     "node scripts/tracker.mjs status",
     "node scripts/tracker.mjs next"
   ],
-  "updated_at": "2026-10-11T06:03:33.103757+00:00",
+  "updated_at": "2026-10-11T06:54:12.354956+00:00",
   "final_check_evidence": {
     "index_id": "mvp-release-diagnostics-pr58-master-verified"
   },
@@ -285,7 +288,7 @@
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
   "latest_validated_master_before_this_increment": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
   "last_merged_implementation_pr": 59,
-  "checkpoint_evidence": "evidence/product/api-shard-balancing-20261011/pr60-publication-ci-financial-block.json",
+  "checkpoint_evidence": "evidence/product/actions-local-exception-20261011/record.json",
   "implementation_prs_pending": [
     60
   ],
@@ -766,7 +769,7 @@
       46,
       47
     ],
-    "integration_status": "MERGED_MASTER_CI_VERIFIED",
+    "integration_status": "PR59_MERGED_MASTER_ACTIONS_BLOCKED_EXTERNAL_BILLING_PR60_LOCAL_VERIFIED_UNMERGED",
     "working_local_workflows": [
       "loopback startup, fixed-role credentials, explicit project membership and Git binding",
       "retained SQL, pinned offline parser validation, offline plan/review/approval/revocation",
@@ -784,9 +787,9 @@
     "milestones": {
       "M1": "LOCAL_FOUNDATION_WORKFLOW_VERIFIED_INTEGRATED",
       "M2": "OFFLINE_PREPARATION_REVIEW_WORKFLOW_VERIFIED_INTEGRATED",
-      "M3": "SUPERVISED_WORKER_PROVIDER_PR59_MERGED_CANDIDATE_VERIFIED_MASTER_FINANCIAL_BLOCK_EXPIRY_FIX_LOCAL_ONLY_ORACLE_INCOMPLETE",
+      "M3": "LOCAL_WORKER_HISTORY_VERIFIED_PROVIDER_EXPIRY_PR60_LOCALLY_VERIFIED_UNMERGED_ORACLE_RUNTIME_INCOMPLETE",
       "M4": "PENDING_SUFFIX_LEDGER_NO_REPLAY_AND_APPROVED_PROVENANCE_INTEGRATED_PR58_DESCENDANT_MASTER_VERIFIED_REAL_RECOVERY_INCOMPLETE",
-      "M5": "REPRODUCIBLE_LOCAL_SOURCE_INSTALLATION_VERIFIED_PR58_MASTER_ORACLE_AND_DISTRIBUTION_ACCEPTANCE_INCOMPLETE"
+      "M5": "LOCAL_SOURCE_INSTALLATION_ACCEPTANCE_VERIFIED_EXACT08BE_REMOTE_INTEGRATION_AND_ORACLE_DISTRIBUTION_INCOMPLETE"
     },
     "oracle_runtime": "BLOCKED_EXTERNAL_NO_AUTHORIZED_ENVIRONMENT",
     "shortest_next_path": [
@@ -828,16 +831,33 @@
     ],
     "active_increment": {
       "outcome": "Complete API CI balancing and continuously live private provider permit",
-      "status": "PR60_OPEN_UNMERGED_CANDIDATE_CI_FINANCIAL_BLOCK",
+      "status": "PR60_LOCALLY_VERIFIED_OWNER_TEMPORARY_EXCEPTION_UNMERGED_REMOTE_ACTIONS_BLOCKED_EXTERNAL_BILLING",
       "worktree": "/home/longhn0710/workspace/schemaforge-ci-balanced-api",
       "branch": "development/ci-balanced-api",
       "source_head": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
       "integrated_base": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
-      "checkpoint_publication": "EXACT_F7_PUBLISHED_PR60_CLOSEOUT_LOCAL_UNPUSHED",
-      "next": "Owner restores Actions availability; verify actual required master and PR60 gates, ordinary eligible merge, verify resulting master.",
+      "checkpoint_publication": "LOCAL_UNPUSHED_TO_AVOID_REPEATED_BLOCKED_ACTIONS_RUNS",
+      "next": "Continue safe local implementation. Do not retry/poll Actions while blocked. When service restoration is confirmed, resume exact candidate/master GitHub verification under unchanged merge policy. No Oracle runtime or deployment authority.",
       "pr": 60,
       "url": "https://github.com/devsecopslonghn/schemaForge/pull/60",
-      "published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72"
+      "published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72",
+      "tested_source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+      "local_acceptance_evidence": "mvp-pr60-owner-exception-complete-local-acceptance",
+      "local_test_counts": {
+        "standard_pass": 281,
+        "standard_optional_pg_skips": 48,
+        "parser_corpus": 30,
+        "parser_integration": 4,
+        "api": 78,
+        "browser": 33,
+        "release_outer": 1,
+        "release_inner": 4,
+        "mandatory_fail": 0,
+        "mandatory_skip": 0
+      },
+      "independent_review": "APPROVED_NO_BLOCKER",
+      "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
+      "merge_eligible": false
     },
     "last_integrated_pr": 59,
     "last_fully_verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac"
@@ -864,5 +884,13 @@
     "coverage": "220:0full/48partial/165not/7deferred",
     "next_outcome": "Versioned statement approval/readiness and existing journal visibility; no task IDs registered.",
     "checkpoint_publication": "LOCAL_UNPUSHED_CONTINUATION_ONLY"
+  },
+  "temporary_local_ci_exception": {
+    "decision": "SF-D052",
+    "evidence": "mvp-pr60-owner-exception-complete-local-acceptance",
+    "tested_source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+    "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
+    "merge_eligible": false,
+    "written_remote_merge_requirements_preserved": true
   }
 }

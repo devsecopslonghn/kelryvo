@@ -53,6 +53,24 @@ all three workflows on the resulting master. Do not require intentionally remove
 feature-push duplicates. Recheck actual protection and blocking findings at merge;
 this trigger change does not waive a configured required check.
 
+### Temporary local acceptance during the Actions billing outage
+
+The owner authorized local acceptance on 2026-10-11 while Actions cannot start jobs
+because of account billing or spending limits. Run all applicable standard,
+PostgreSQL/API, parser, browser and fresh-source release suites without changing tests,
+assertions or security controls. Preserve the exact tested commit, reproducible source
+and results, and require independent review before recording locally verified status.
+Record remote Actions as `BLOCKED_EXTERNAL (BILLING)`, never PASS. Retain the original
+failed workflow metadata; its jobs and tests did not start. Do not retry or poll Actions
+while billing remains blocked, change billing settings or incur additional costs.
+
+This exception does not waive branch protection, configured required checks or the
+candidate/resulting-master GitHub checks required above. The owner's condition 6
+explicitly prohibits merging where repository policy requires an unavailable check.
+PR60 therefore remains unmerged even after complete local acceptance. Resume normal
+remote verification when Actions availability is confirmed. The existing Sonar
+availability exception and Oracle authority boundaries remain unchanged.
+
 PRODUCT runs the complete PostgreSQL/API/security, browser and fresh-source installation
 suites in parallel on separate runners and disposable PostgreSQL services. All run on
 every PR and master integration; no test list or skip policy changes. The stable `product`

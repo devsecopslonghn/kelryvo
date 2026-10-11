@@ -3635,6 +3635,24 @@
       },
       "path": "evidence/product/api-shard-balancing-20261011/pr60-publication-ci-financial-block.json",
       "sha256": "95c15ad9387e65280fddaf585b71612bc631210ef0054097a96292bf1d30a5a5"
+    },
+    {
+      "id": "mvp-pr60-owner-exception-complete-local-acceptance",
+      "subject_id": "OPS-023",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact08be local owner-exception acceptance: fresh npm ci ignore-scripts; pinned reproducible ANTLR build/corpus/integration; npm run check; dependencies:offline; complementary API shards36files78PASS; complete browser33PASS; fresh-source release1outer4innerPASS. Independent review and scoped secret/license checks. Remote Actions BLOCKED_EXTERNAL (BILLING), no merge.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/actions-local-exception-20261011/local-acceptance-summary.json",
+        "sha256": "c8515c06ffcebea93f35ce311e7e1942aacf7f0c6bd5d91db9e6d16a13916850"
+      },
+      "path": "evidence/product/actions-local-exception-20261011/record.json",
+      "sha256": "101d383de67d3bba2540ff1df5357ddfa04688578eb7f0c9c497716b96950c54"
     }
   ]
 }

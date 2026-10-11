@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-11T06:03:33.103757+00:00",
+  "recorded_at": "2026-10-11T06:54:12.354956+00:00",
   "verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
   "reviewed_local_source": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
@@ -65,10 +65,12 @@
   "external_acceptance": "PR52-PR58 local source/governance/pending history integrated on verified4d. PR59 merged3e after actual candidate78API33browser1release(inner4) zero fail/skip; master all workflows FAIL before starting due to account payment/spending-limit block. Provider expiry gap corrected locally; no corrected candidate/master verification. Original7da failure retained/causeUNKNOWN; no Oracle/runtime/deployed acceptance.",
   "next_product_capability": {
     "milestone": "Full-coverage API CI balancing and continuous private-provider permit expiry",
-    "status": "PR60_OPEN_UNMERGED_CANDIDATE_CI_FINANCIAL_BLOCK",
-    "next_action": "Restore Actions availability, verify actual master and exact PR60 candidate, then ordinary eligible merge and resulting-master verification.",
+    "status": "PR60_LOCALLY_VERIFIED_OWNER_TEMPORARY_EXCEPTION_UNMERGED_REMOTE_ACTIONS_BLOCKED_EXTERNAL_BILLING",
+    "next_action": "Continue safe local worker installation readiness; no Oracle activation or remote merge. Resume required GitHub gates when Actions restoration is confirmed.",
     "pr": 60,
-    "published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72"
+    "published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72",
+    "local_acceptance_evidence": "mvp-pr60-owner-exception-complete-local-acceptance",
+    "tested_source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0"
   },
   "features": [
     {
@@ -2373,7 +2375,8 @@
         "tests/product-local-release.integration.mjs"
       ],
       "evidence": [
-        "mvp-api-shard-balancing-local-verified"
+        "mvp-api-shard-balancing-local-verified",
+        "mvp-pr60-owner-exception-complete-local-acceptance"
       ]
     },
     {
@@ -2654,5 +2657,13 @@
     "merged_master": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
     "integration_failure_evidence": "mvp-worker-lifecycle-pr59-master-ci-financial-block",
     "local_expiry_correction_evidence": "mvp-private-provider-continuous-expiry-local-verified"
+  },
+  "temporary_local_ci_exception": {
+    "decision": "SF-D052",
+    "evidence": "mvp-pr60-owner-exception-complete-local-acceptance",
+    "tested_source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+    "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
+    "merge_eligible": false,
+    "written_remote_merge_requirements_preserved": true
   }
 }
