@@ -1,0 +1,41 @@
+{
+  "review": "SF-PRODUCT-T43 final independent source review",
+  "base_commit": "d53c91cc1cf231a9bae8fbd373683c66983de53a",
+  "branch": "development/execution-record-export",
+  "head_commit": "d53c91cc1cf231a9bae8fbd373683c66983de53a",
+  "review_scope": [
+    "execution-record API and bounded metadata projection",
+    "retained plan/approval verification and admission-proof integrity",
+    "browser download wiring and delayed-response fencing",
+    "PostgreSQL and browser integration-test coverage"
+  ],
+  "result": "PASS_CODE_REVIEW",
+  "findings": [],
+  "reviewed_fixes": {
+    "projected_byte_preflight": "Confirmed PostgreSQL counts rows and sums allowlisted projected field lengths, rejects overlong fields, and rejects aggregate overflow before loading child journal rows; serialization has a separate UTF-8 cap.",
+    "proof_integrity": "Confirmed any present proof is validated; TRUSTED_VALIDATED without proof rejects; LEFT JOINs retain a proof row when plan/release linkage is damaged so it cannot be downgraded to absent evidence.",
+    "scope_and_redaction": "Confirmed current explicit membership and credential are joined in-snapshot; plan, approval, withdrawal, job, attempts, events, and receipts are projected with allowlists; raw facts, SQL, credential references, idempotency keys, and lease secrets are omitted.",
+    "authority_and_hold": "Confirmed export marks executionAuthority false and targetEffects NOT_ATTESTED, preserves retained HOLD state without repair, and describes missing-receipt uncertainty.",
+    "plan_binding": "Confirmed plan intent is verified and same organization/project, approval reference, and intent digest are bound to the job.",
+    "browser_staleness": "Confirmed keyed download component is invalidated across job/project/token remounts; browser integration covers plan navigation and logout while response is delayed.",
+    "cancelled_state": "Confirmed PostgreSQL fixture now cancels the queued request and asserts CANCELLED state, final event, and zero attempts."
+  },
+  "verification_observed": {
+    "product_check_log": "evidence/product/execution-record-20261012/check.log: npm run check passed; 306 passed, 68 skipped; offline dependency and product license closure checks passed.",
+    "postgres_execution_record": "Final cancellation-inclusive PostgreSQL run passed1/1,0skips; api-cancellation.log. Existing plan-record regression passed1/1 in api-final.log.",
+    "browser": "evidence/product/execution-record-20261012/browser.log: browser integration test passed 1/1 with zero skips.",
+    "diff_check": "git diff --check passed for reviewed tracked source/test files.",
+    "remote_or_oracle_acceptance": "Not claimed or reviewed."
+  },
+  "source_sha256": {
+    "apps/api/index.ts": "81e63570565f7d199b990ea178075a7b6ee1ce2b1dede06e394403467f3762b7",
+    "packages/execution/record.ts": "b643ca90699b63c77aeeb7d29f6911fde7ccbc93dd21f91129561894553e8511",
+    "packages/execution/history-context.mjs": "5ef1fda597d99dbe740a2c3256fb115a9264c3d1c1def43f6ef614e528221ac8",
+    "packages/governance/plan-record.ts": "ebd343461a2ad65f137fd97038b623502ecb531723372aa8992080ec0d2c9334",
+    "apps/web/src/ExecutionHistory.jsx": "3c1b9ead31d07f85ce7259b186a1dd29869066fa8a6f4e65debf74b64eb584da",
+    "apps/web/src/ExecutionRecord.jsx": "937dc07343155ec147565ed9b03fc245f005a08d5b10b5481b21b39e5a6f7c3a",
+    "tests/product-execution-record.test.mjs": "39be731d97de4981e07acf7fa80adfc940dc89781cdeda3098d66278fdc8860d",
+    "tests/product-execution-record-browser.integration.mjs": "e46f0a61914ed0b6a18a67ff20145d5c3c2d41e1e2ca14bc03006fe06700b934",
+    "docs/development/execution-record.md": "c1484fe44153ec261e8e5d1981b5017562f430ff308979f5a1b6394b43df525c"
+  }
+}

@@ -4068,6 +4068,33 @@
       },
       "path": "evidence/product/plan-record-20261011/record.json",
       "sha256": "b7295182958e91c60166442d9722045ede9da33c9becbebedd497f51523ec2d6"
+    },
+    {
+      "id": "product-t43-execution-record-local",
+      "subject_id": "SF-PRODUCT-T43",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; actual isolated PostgreSQL execution record and existing plan regression; Chromium actual record/download/history/navigation/logout; independent review and final scoped byte/binding regression. Candidate/master CI pending.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "test_references": [
+        "SF-PRODUCT-T43-SNAPSHOT",
+        "SF-PRODUCT-T43-BOUNDARY",
+        "SF-PRODUCT-T43-BROWSER"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/execution-record-20261012/summary.json",
+        "sha256": "de3504f8c9823e33a3658398efe63015a68cfe4b526346af0c2d75340f367261"
+      },
+      "path": "evidence/product/execution-record-20261012/record.json",
+      "sha256": "55ec287c7102974b7cf7f9e14dda54bc310fbbb006826f602cccf22612d1170b"
     }
   ]
 }

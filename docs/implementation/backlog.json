@@ -3635,6 +3635,39 @@
         }
       ],
       "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T43",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Download joined retained execution request records",
+      "dependencies": [
+        "SF-PRODUCT-T42"
+      ],
+      "feature_ids": [
+        "SEC-013"
+      ],
+      "acceptance_criteria": [
+        "Export one bounded repeatable-read metadata snapshot joining an explicitly authorized execution request to its verified saved public plan intent, original approval/current withdrawal, request events, attempts, statement events and receipt digests. Include all retained rows within fixed caps; reject oversized exports without silent truncation.",
+        "Preserve actual queued, HOLD, cancelled and synthetic admission scope labels without claiming target effects or execution authority. Verify same-project/organization approval and intent linkage. Explicitly project safe fields and exclude SQL, credential references, request credentials, idempotency keys, raw facts, lease secrets and private admission authority.",
+        "Allow both member roles and archived/RESTORE_HOLD historical reads; deny foreign, revoked and unfinished-bootstrap access. Reject damaged binding or oversized records with fixed errors. Reads must not mutate audit, job, plan or execution state.",
+        "Offer checksum-bearing execution-record downloads from current and historical request inspection. Fence delayed responses across plan/project/session navigation and logout; document checksum authenticity limits and missing-receipt uncertainty. Verify real PostgreSQL and Chromium positive/negative cases, required PRODUCT registration, independent review and mandatory CI."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T43-SNAPSHOT",
+        "SF-PRODUCT-T43-BOUNDARY",
+        "SF-PRODUCT-T43-BROWSER"
+      ],
+      "status": "IMPLEMENTED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t43-execution-record-local"
+        }
+      ],
+      "blockers": []
     }
   ]
 }

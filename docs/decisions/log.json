@@ -757,6 +757,19 @@
       "catalog_traceability": [
         "SEC-013"
       ]
+    },
+    {
+      "id": "SF-D062",
+      "status": "ACCEPTED_RETAINED_EXECUTION_RECORD_EXPORT",
+      "decision": "Continue independent development while the prior immutable release verifies. Join retained execution journal projections to verified public plan and approval metadata in one bounded read snapshot. Preserve actual scope and uncertainty; no claim of authenticated target evidence, replay permission or Oracle acceptance. Reject exports exceeding fixed row/byte caps instead of silent partial files. Standard SHA-256 supports external comparison, not signatures. No new dependencies or runtime authority.",
+      "references": [
+        "packages/execution/record.ts",
+        "apps/web/src/ExecutionRecord.jsx",
+        "docs/development/execution-record.md"
+      ],
+      "catalog_traceability": [
+        "SEC-013"
+      ]
     }
   ]
 }
