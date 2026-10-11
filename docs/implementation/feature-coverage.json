@@ -2645,7 +2645,6 @@
     "integration_evidence": "mvp-release-diagnostics-pr58-master-verified"
   },
   "m3_worker_lifecycle": {
-    "status": "PR59_MERGED_CANDIDATE_VERIFIED_MASTER_CI_FINANCIAL_BLOCK",
     "source_head": "74837d8f7611dcf056f2209e924813547663aa45",
     "evidence": "mvp-worker-lifecycle-local-verified",
     "scope": "UNIT_SYNTHETIC_TARGET_ONLY",

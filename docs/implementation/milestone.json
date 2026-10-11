@@ -269,7 +269,6 @@
   "foundation_evidence": {
     "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
   },
-  "current_phase": "MVP_CI_BALANCING_PROVIDER_EXPIRY_LOCAL_VERIFIED_REMOTE_CI_FINANCIAL_BLOCK",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
@@ -293,9 +292,8 @@
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
   "latest_validated_master_before_this_increment": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
   "last_merged_implementation_pr": 59,
-  "checkpoint_evidence": "evidence/product/installed-expiry-recovery-interrupted-20261011/record.json",
   "implementation_prs_pending": [
-    60
+    61
   ],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
@@ -303,8 +301,6 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "PR60_OPEN_UNMERGED_CANDIDATE_CI_FINANCIAL_BLOCK",
-  "current_checkpoint_branch": "development/ci-balanced-api",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -426,7 +422,6 @@
     "merge_eligible": false,
     "integration_complete": false,
     "configured_required_contexts": [],
-    "optional_host_security": "UNAVAILABLE_NOT_PASS",
     "ordinary_merge_no_bypass": true
   },
   "latest_merged_master_before_this_increment": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
@@ -880,5 +875,6 @@
     "coverage": "220:0full/48partial/165not/7deferred",
     "next_outcome": "Versioned statement approval/readiness and existing journal visibility; no task IDs registered.",
     "checkpoint_publication": "LOCAL_UNPUSHED_CONTINUATION_ONLY"
-  }
+  },
+  "interrupted_acceptance_evidence": "evidence/product/installed-expiry-recovery-interrupted-20261011/record.json"
 }
