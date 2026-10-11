@@ -1,0 +1,459 @@
+{
+  "task": "SF-PRODUCT-T37",
+  "pr": 63,
+  "candidate": {
+    "head": "8cb9e2de74c873834307d8304ad849db92d2419d",
+    "pr": 63,
+    "phase": "candidate",
+    "review": "Independent exact-candidate native review; no remaining blocking findings",
+    "allChecksPassed": true,
+    "counts": [
+      {
+        "suite": "acceptance (api, 1/2)",
+        "jobId": 114457941677,
+        "counts": {
+          "tests": 58,
+          "pass": 58,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "suite": "acceptance (api, 2/2)",
+        "jobId": 114457941516,
+        "counts": {
+          "tests": 52,
+          "pass": 52,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "suite": "acceptance (browser, 1/2)",
+        "jobId": 114457941701,
+        "counts": {
+          "tests": 16,
+          "pass": 16,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "suite": "acceptance (browser, 2/2)",
+        "jobId": 114457941679,
+        "counts": {
+          "tests": 17,
+          "pass": 17,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "suite": "acceptance (release, 1/1)",
+        "jobId": 114457941690,
+        "counts": {
+          "tests": 1,
+          "pass": 1,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        }
+      }
+    ],
+    "totals": {
+      "api": 110,
+      "browser": 33,
+      "release": 1
+    },
+    "runs": [
+      {
+        "suite": "foundation",
+        "conclusion": "success",
+        "databaseId": 38135339063,
+        "headSha": "8cb9e2de74c873834307d8304ad849db92d2419d",
+        "name": "Offline WP0 checks",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135339063",
+        "jobs": [
+          {
+            "completedAt": "2026-10-11T11:24:06Z",
+            "conclusion": "success",
+            "databaseId": 114457941611,
+            "name": "foundation",
+            "startedAt": "2026-10-11T11:22:52Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135339063/job/114457941611"
+          }
+        ]
+      },
+      {
+        "suite": "parser",
+        "conclusion": "success",
+        "databaseId": 38135339064,
+        "headSha": "8cb9e2de74c873834307d8304ad849db92d2419d",
+        "name": "Offline ANTLR parser acceptance",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135339064",
+        "jobs": [
+          {
+            "completedAt": "2026-10-11T11:24:03Z",
+            "conclusion": "success",
+            "databaseId": 114457941698,
+            "name": "parser",
+            "startedAt": "2026-10-11T11:22:52Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135339064/job/114457941698"
+          }
+        ]
+      },
+      {
+        "suite": "product",
+        "conclusion": "success",
+        "databaseId": 38135339008,
+        "headSha": "8cb9e2de74c873834307d8304ad849db92d2419d",
+        "name": "Local PRODUCT acceptance",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135339008",
+        "jobs": [
+          {
+            "completedAt": "2026-10-11T11:35:22Z",
+            "conclusion": "success",
+            "databaseId": 114457941516,
+            "name": "acceptance (api, 2/2)",
+            "startedAt": "2026-10-11T11:22:52Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135339008/job/114457941516"
+          },
+          {
+            "completedAt": "2026-10-11T11:34:43Z",
+            "conclusion": "success",
+            "databaseId": 114457941677,
+            "name": "acceptance (api, 1/2)",
+            "startedAt": "2026-10-11T11:22:53Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135339008/job/114457941677"
+          },
+          {
+            "completedAt": "2026-10-11T11:28:32Z",
+            "conclusion": "success",
+            "databaseId": 114457941679,
+            "name": "acceptance (browser, 2/2)",
+            "startedAt": "2026-10-11T11:22:52Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135339008/job/114457941679"
+          },
+          {
+            "completedAt": "2026-10-11T11:27:01Z",
+            "conclusion": "success",
+            "databaseId": 114457941690,
+            "name": "acceptance (release, 1/1)",
+            "startedAt": "2026-10-11T11:22:53Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135339008/job/114457941690"
+          },
+          {
+            "completedAt": "2026-10-11T11:29:08Z",
+            "conclusion": "success",
+            "databaseId": 114457941701,
+            "name": "acceptance (browser, 1/2)",
+            "startedAt": "2026-10-11T11:22:52Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135339008/job/114457941701"
+          },
+          {
+            "completedAt": "2026-10-11T11:35:27Z",
+            "conclusion": "success",
+            "databaseId": 114460205728,
+            "name": "product",
+            "startedAt": "2026-10-11T11:35:24Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135339008/job/114460205728"
+          }
+        ]
+      },
+      {
+        "suite": "codeql",
+        "conclusion": "success",
+        "databaseId": 38135338108,
+        "headSha": "8cb9e2de74c873834307d8304ad849db92d2419d",
+        "name": "PR #63",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135338108",
+        "jobs": [
+          {
+            "completedAt": "2026-10-11T11:23:39Z",
+            "conclusion": "success",
+            "databaseId": 114457941164,
+            "name": "Analyze (actions)",
+            "startedAt": "2026-10-11T11:22:52Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135338108/job/114457941164"
+          },
+          {
+            "completedAt": "2026-10-11T11:23:35Z",
+            "conclusion": "success",
+            "databaseId": 114457941326,
+            "name": "Analyze (python)",
+            "startedAt": "2026-10-11T11:22:52Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135338108/job/114457941326"
+          },
+          {
+            "completedAt": "2026-10-11T11:24:00Z",
+            "conclusion": "success",
+            "databaseId": 114457941330,
+            "name": "Analyze (java-kotlin)",
+            "startedAt": "2026-10-11T11:22:53Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135338108/job/114457941330"
+          },
+          {
+            "completedAt": "2026-10-11T11:23:44Z",
+            "conclusion": "success",
+            "databaseId": 114457941331,
+            "name": "Analyze (javascript-typescript)",
+            "startedAt": "2026-10-11T11:22:52Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38135338108/job/114457941331"
+          }
+        ]
+      }
+    ],
+    "oracle_runtime_verified": false
+  },
+  "master": {
+    "head": "656d2273b58ae84c0191af37069cd71fa894eb10",
+    "pr": 63,
+    "phase": "master",
+    "review": "Independent exact-candidate native review; no remaining blocking findings",
+    "allChecksPassed": true,
+    "counts": [
+      {
+        "suite": "acceptance (api, 1/2)",
+        "jobId": 114460472348,
+        "counts": {
+          "tests": 58,
+          "pass": 58,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "suite": "acceptance (api, 2/2)",
+        "jobId": 114460472431,
+        "counts": {
+          "tests": 52,
+          "pass": 52,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "suite": "acceptance (browser, 1/2)",
+        "jobId": 114460472255,
+        "counts": {
+          "tests": 16,
+          "pass": 16,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "suite": "acceptance (browser, 2/2)",
+        "jobId": 114460472358,
+        "counts": {
+          "tests": 17,
+          "pass": 17,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        }
+      },
+      {
+        "suite": "acceptance (release, 1/1)",
+        "jobId": 114460472432,
+        "counts": {
+          "tests": 1,
+          "pass": 1,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        }
+      }
+    ],
+    "totals": {
+      "api": 110,
+      "browser": 33,
+      "release": 1
+    },
+    "runs": [
+      {
+        "suite": "foundation",
+        "conclusion": "success",
+        "databaseId": 38136206593,
+        "headSha": "656d2273b58ae84c0191af37069cd71fa894eb10",
+        "name": "Offline WP0 checks",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136206593",
+        "jobs": [
+          {
+            "completedAt": "2026-10-11T11:38:20Z",
+            "conclusion": "success",
+            "databaseId": 114460472362,
+            "name": "foundation",
+            "startedAt": "2026-10-11T11:36:54Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136206593/job/114460472362"
+          }
+        ]
+      },
+      {
+        "suite": "parser",
+        "conclusion": "success",
+        "databaseId": 38136206592,
+        "headSha": "656d2273b58ae84c0191af37069cd71fa894eb10",
+        "name": "Offline ANTLR parser acceptance",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136206592",
+        "jobs": [
+          {
+            "completedAt": "2026-10-11T11:39:33Z",
+            "conclusion": "success",
+            "databaseId": 114460472401,
+            "name": "parser",
+            "startedAt": "2026-10-11T11:36:55Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136206592/job/114460472401"
+          }
+        ]
+      },
+      {
+        "suite": "product",
+        "conclusion": "success",
+        "databaseId": 38136206590,
+        "headSha": "656d2273b58ae84c0191af37069cd71fa894eb10",
+        "name": "Local PRODUCT acceptance",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136206590",
+        "jobs": [
+          {
+            "completedAt": "2026-10-11T11:44:40Z",
+            "conclusion": "success",
+            "databaseId": 114460472255,
+            "name": "acceptance (browser, 1/2)",
+            "startedAt": "2026-10-11T11:36:54Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136206590/job/114460472255"
+          },
+          {
+            "completedAt": "2026-10-11T11:50:28Z",
+            "conclusion": "success",
+            "databaseId": 114460472348,
+            "name": "acceptance (api, 1/2)",
+            "startedAt": "2026-10-11T11:36:53Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136206590/job/114460472348"
+          },
+          {
+            "completedAt": "2026-10-11T11:44:20Z",
+            "conclusion": "success",
+            "databaseId": 114460472358,
+            "name": "acceptance (browser, 2/2)",
+            "startedAt": "2026-10-11T11:36:53Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136206590/job/114460472358"
+          },
+          {
+            "completedAt": "2026-10-11T11:49:18Z",
+            "conclusion": "success",
+            "databaseId": 114460472431,
+            "name": "acceptance (api, 2/2)",
+            "startedAt": "2026-10-11T11:36:53Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136206590/job/114460472431"
+          },
+          {
+            "completedAt": "2026-10-11T11:40:57Z",
+            "conclusion": "success",
+            "databaseId": 114460472432,
+            "name": "acceptance (release, 1/1)",
+            "startedAt": "2026-10-11T11:36:53Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136206590/job/114460472432"
+          },
+          {
+            "completedAt": "2026-10-11T11:50:32Z",
+            "conclusion": "success",
+            "databaseId": 114462905650,
+            "name": "product",
+            "startedAt": "2026-10-11T11:50:30Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136206590/job/114462905650"
+          }
+        ]
+      },
+      {
+        "suite": "codeql",
+        "conclusion": "success",
+        "databaseId": 38136205509,
+        "headSha": "656d2273b58ae84c0191af37069cd71fa894eb10",
+        "name": "Push on master",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136205509",
+        "jobs": [
+          {
+            "completedAt": "2026-10-11T11:37:34Z",
+            "conclusion": "success",
+            "databaseId": 114460472471,
+            "name": "Analyze (actions)",
+            "startedAt": "2026-10-11T11:36:54Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136205509/job/114460472471"
+          },
+          {
+            "completedAt": "2026-10-11T11:38:28Z",
+            "conclusion": "success",
+            "databaseId": 114460472570,
+            "name": "Analyze (javascript-typescript)",
+            "startedAt": "2026-10-11T11:36:54Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136205509/job/114460472570"
+          },
+          {
+            "completedAt": "2026-10-11T11:37:55Z",
+            "conclusion": "success",
+            "databaseId": 114460472594,
+            "name": "Analyze (python)",
+            "startedAt": "2026-10-11T11:36:54Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136205509/job/114460472594"
+          },
+          {
+            "completedAt": "2026-10-11T11:38:14Z",
+            "conclusion": "success",
+            "databaseId": 114460472635,
+            "name": "Analyze (java-kotlin)",
+            "startedAt": "2026-10-11T11:36:54Z",
+            "status": "completed",
+            "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38136205509/job/114460472635"
+          }
+        ]
+      }
+    ],
+    "oracle_runtime_verified": false
+  },
+  "sameTreeAsReviewedCandidate": true,
+  "candidateMasterCountParity": true,
+  "code_scanning_open_alerts": 0,
+  "sonar": "UNAVAILABLE_UNDER_STANDING_QUOTA_EXCEPTION",
+  "gitguardian_external_alert_closed": false,
+  "oracle_runtime_verified": false,
+  "deployed_isolation_verified": false
+}

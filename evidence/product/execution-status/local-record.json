@@ -1,0 +1,24 @@
+{
+  "id": "product-t38-execution-status-local",
+  "subject_id": "SF-PRODUCT-T38",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Final rebuilt Chromium/isolated PostgreSQL installed UNIT worker browser case PASS with zero skips; npm run check PASS with existing offline PostgreSQL-gated skips. Current status, bounded reads, stale response and active grant-revocation checks; no Oracle or remote CI claim.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T38-STATUS",
+    "SF-PRODUCT-T38-FRESHNESS",
+    "SF-PRODUCT-T38-INTEGRATION"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/execution-status/local-summary.json",
+    "sha256": "7ef0cf43f61507ce1e130d258c5838f1fc9e42ae0a89537790b25bdf5baae590"
+  }
+}

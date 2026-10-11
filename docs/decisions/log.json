@@ -684,6 +684,20 @@
         "OPS-019",
         "MIG-011"
       ]
+    },
+    {
+      "id": "SF-D057",
+      "status": "ACCEPTED_READ_ONLY_JOB_STATUS_REFRESH",
+      "decision": "Use existing authenticated execution-job reads for isolated current status refresh and event inspection, preserving review/request drafts and existing project/plan/session freshness boundaries. Poll only visible unresolved work without overlapping requests; explicit refresh remains available. Merge current revisions without inferring effects, changing worker authority, adding target access, replaying or altering immutable approval/history. Retain actual UNIT worker/browser integration evidence separately from Oracle runtime acceptance.",
+      "references": [
+        "apps/web/src/app.jsx",
+        "tests/product-execution-jobs-browser.integration.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "OPS-005",
+        "OPS-003"
+      ]
     }
   ]
 }

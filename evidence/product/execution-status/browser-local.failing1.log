@@ -1,0 +1,31 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: browser observes durable worker transitions and cancels its undispatched waiting job
+not ok 1 - browser observes durable worker transitions and cancels its undispatched waiting job
+  ---
+  duration_ms: 33073.070559
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge/tests/product-execution-jobs-browser.integration.mjs:11:1'
+  failureType: 'testCodeFailure'
+  error: 'Installed execution service unavailable'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    reject (file:///home/longhn0710/workspace/schemaforge/apps/worker/execution-service.mjs:7:22)
+    createInstalledExecutionService (file:///home/longhn0710/workspace/schemaforge/apps/worker/execution-service.mjs:183:11)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge/tests/product-execution-jobs-browser.integration.mjs:114:19)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 33808.096172

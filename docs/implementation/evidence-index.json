@@ -3793,6 +3793,56 @@
       },
       "path": "evidence/product/execution-service/authority-retirement-record.json",
       "sha256": "bfbd9d36af2649ab5600314fddf4c7e5de176ccba1119bdf9a9ac2ea8f55de05"
+    },
+    {
+      "id": "product-t37-installed-execution-service-ci",
+      "subject_id": "SF-PRODUCT-T37",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "gh run view exact candidate/master Foundation, parser, PRODUCT and CodeQL; completed PRODUCT job logs: 110 API / 33 browser / 1 release PASS per head, zero failures/cancellations/skips; independent exact-head review; git tree/count parity and zero open code-scanning alerts. No Oracle runtime or deployed isolation attestation.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        4
+      ],
+      "test_references": [
+        "SF-PRODUCT-T37-QUEUE",
+        "SF-PRODUCT-T37-GENERATION",
+        "SF-PRODUCT-T37-DRAIN"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/execution-status/service-ci.json",
+        "sha256": "b4ab52e0c2095a4afb273182726707e4c523fcbbf15a21aaec5f48b8f4ee3ee4"
+      },
+      "path": "evidence/product/execution-status/service-ci-record.json",
+      "sha256": "ac870194983addcc10b379e683ea0385ec47c86dd5c0d5ca72e9b67bf6835464"
+    },
+    {
+      "id": "product-t38-execution-status-local",
+      "subject_id": "SF-PRODUCT-T38",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Final rebuilt Chromium/isolated PostgreSQL installed UNIT worker browser case PASS with zero skips; npm run check PASS with existing offline PostgreSQL-gated skips. Current status, bounded reads, stale response and active grant-revocation checks; no Oracle or remote CI claim.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T38-STATUS",
+        "SF-PRODUCT-T38-FRESHNESS",
+        "SF-PRODUCT-T38-INTEGRATION"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/execution-status/local-summary.json",
+        "sha256": "7ef0cf43f61507ce1e130d258c5838f1fc9e42ae0a89537790b25bdf5baae590"
+      },
+      "path": "evidence/product/execution-status/local-record.json",
+      "sha256": "37e84fc9f61b0eeced16d0e065103bce37b8037b0ac074b4c1d8b839f21b656b"
     }
   ]
 }

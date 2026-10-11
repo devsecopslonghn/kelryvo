@@ -1,0 +1,22 @@
+{
+  "id": "product-t37-installed-execution-service-ci",
+  "subject_id": "SF-PRODUCT-T37",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "gh run view exact candidate/master Foundation, parser, PRODUCT and CodeQL; completed PRODUCT job logs: 110 API / 33 browser / 1 release PASS per head, zero failures/cancellations/skips; independent exact-head review; git tree/count parity and zero open code-scanning alerts. No Oracle runtime or deployed isolation attestation.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    4
+  ],
+  "test_references": [
+    "SF-PRODUCT-T37-QUEUE",
+    "SF-PRODUCT-T37-GENERATION",
+    "SF-PRODUCT-T37-DRAIN"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/execution-status/service-ci.json",
+    "sha256": "b4ab52e0c2095a4afb273182726707e4c523fcbbf15a21aaec5f48b8f4ee3ee4"
+  }
+}
