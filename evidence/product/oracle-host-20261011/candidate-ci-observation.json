@@ -1,0 +1,452 @@
+{
+  "scope": "ACTUAL_GITHUB_PRODUCT_CI_SYNTHETIC_TARGET_ONLY",
+  "phase": "candidate",
+  "run": 38109086808,
+  "head": "cedb235f1684042cc2698b3c647211d899ac445e",
+  "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38109086808",
+  "outcome": "PASS",
+  "wall_seconds": 795.0,
+  "api_tests": 76,
+  "browser_tests": 33,
+  "release_outer_tests": 1,
+  "release_inner": {
+    "source_commit": "6bac9ee65e3d92144f6fe66d9b5f80cbdac9f5be",
+    "passed": 4,
+    "runtime": "UNVALIDATED"
+  },
+  "failures": 0,
+  "skips": 0,
+  "shards": {
+    "acceptance (api, 1/2)": {
+      "tests": 24,
+      "pass": 24,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (browser, 2/2)": {
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (browser, 1/2)": {
+      "tests": 16,
+      "pass": 16,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (release, 1/1)": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (api, 2/2)": {
+      "tests": 52,
+      "pass": 52,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  "jobs": [
+    {
+      "id": 114380697614,
+      "name": "acceptance (api, 1/2)",
+      "outcome": "success",
+      "duration_seconds": 788.0,
+      "steps": [
+        {
+          "name": "Set up job",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Initialize containers",
+          "outcome": "success",
+          "duration_seconds": 17.0
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "outcome": "success",
+          "duration_seconds": 2.0
+        },
+        {
+          "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+          "outcome": "success",
+          "duration_seconds": 2.0
+        },
+        {
+          "name": "Run npm run parser:antlr:prepare",
+          "outcome": "success",
+          "duration_seconds": 4.0
+        },
+        {
+          "name": "Run npm run parser:antlr:build",
+          "outcome": "success",
+          "duration_seconds": 41.0
+        },
+        {
+          "name": "Run npm run build",
+          "outcome": "success",
+          "duration_seconds": 10.0
+        },
+        {
+          "name": "Run npm run test:product",
+          "outcome": "success",
+          "duration_seconds": 707.0
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Stop containers",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Complete job",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "id": 114380697714,
+      "name": "acceptance (browser, 2/2)",
+      "outcome": "success",
+      "duration_seconds": 506.0,
+      "steps": [
+        {
+          "name": "Set up job",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Initialize containers",
+          "outcome": "success",
+          "duration_seconds": 16.0
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "outcome": "success",
+          "duration_seconds": 2.0
+        },
+        {
+          "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+          "outcome": "success",
+          "duration_seconds": 2.0
+        },
+        {
+          "name": "Run npm run parser:antlr:prepare",
+          "outcome": "success",
+          "duration_seconds": 4.0
+        },
+        {
+          "name": "Run npm run parser:antlr:build",
+          "outcome": "success",
+          "duration_seconds": 41.0
+        },
+        {
+          "name": "Run npm run build",
+          "outcome": "success",
+          "duration_seconds": 8.0
+        },
+        {
+          "name": "Run node node_modules/playwright/cli.js install --with-deps chromium",
+          "outcome": "success",
+          "duration_seconds": 22.0
+        },
+        {
+          "name": "Run node scripts/test-product.mjs --browser",
+          "outcome": "success",
+          "duration_seconds": 407.0
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Stop containers",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Complete job",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "id": 114380697721,
+      "name": "acceptance (browser, 1/2)",
+      "outcome": "success",
+      "duration_seconds": 312.0,
+      "steps": [
+        {
+          "name": "Set up job",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Initialize containers",
+          "outcome": "success",
+          "duration_seconds": 19.0
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "outcome": "success",
+          "duration_seconds": 2.0
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Run npm run parser:antlr:prepare",
+          "outcome": "success",
+          "duration_seconds": 3.0
+        },
+        {
+          "name": "Run npm run parser:antlr:build",
+          "outcome": "success",
+          "duration_seconds": 22.0
+        },
+        {
+          "name": "Run npm run build",
+          "outcome": "success",
+          "duration_seconds": 5.0
+        },
+        {
+          "name": "Run node node_modules/playwright/cli.js install --with-deps chromium",
+          "outcome": "success",
+          "duration_seconds": 24.0
+        },
+        {
+          "name": "Run node scripts/test-product.mjs --browser",
+          "outcome": "success",
+          "duration_seconds": 229.0
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Stop containers",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Complete job",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "id": 114380697723,
+      "name": "acceptance (release, 1/1)",
+      "outcome": "success",
+      "duration_seconds": 293.0,
+      "steps": [
+        {
+          "name": "Set up job",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Initialize containers",
+          "outcome": "success",
+          "duration_seconds": 17.0
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "outcome": "success",
+          "duration_seconds": 2.0
+        },
+        {
+          "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+          "outcome": "success",
+          "duration_seconds": 2.0
+        },
+        {
+          "name": "Run npm run parser:antlr:prepare",
+          "outcome": "success",
+          "duration_seconds": 4.0
+        },
+        {
+          "name": "Run node node_modules/playwright/cli.js install --with-deps chromium",
+          "outcome": "success",
+          "duration_seconds": 29.0
+        },
+        {
+          "name": "Run npm run test:release",
+          "outcome": "success",
+          "duration_seconds": 234.0
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Stop containers",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Complete job",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "id": 114380697727,
+      "name": "acceptance (api, 2/2)",
+      "outcome": "success",
+      "duration_seconds": 700.0,
+      "steps": [
+        {
+          "name": "Set up job",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Initialize containers",
+          "outcome": "success",
+          "duration_seconds": 17.0
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "outcome": "success",
+          "duration_seconds": 2.0
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "outcome": "success",
+          "duration_seconds": 2.0
+        },
+        {
+          "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+          "outcome": "success",
+          "duration_seconds": 2.0
+        },
+        {
+          "name": "Run npm run parser:antlr:prepare",
+          "outcome": "success",
+          "duration_seconds": 5.0
+        },
+        {
+          "name": "Run npm run parser:antlr:build",
+          "outcome": "success",
+          "duration_seconds": 42.0
+        },
+        {
+          "name": "Run npm run build",
+          "outcome": "success",
+          "duration_seconds": 9.0
+        },
+        {
+          "name": "Run npm run test:product",
+          "outcome": "success",
+          "duration_seconds": 616.0
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Stop containers",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Complete job",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "id": 114382769799,
+      "name": "product",
+      "outcome": "success",
+      "duration_seconds": 2.0,
+      "steps": [
+        {
+          "name": "Set up job",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        },
+        {
+          "name": "Run test \"$ACCEPTANCE_RESULT\" = success",
+          "outcome": "success",
+          "duration_seconds": 1.0
+        },
+        {
+          "name": "Complete job",
+          "outcome": "success",
+          "duration_seconds": 0.0
+        }
+      ]
+    }
+  ],
+  "oracle_runtime": "UNVALIDATED; tests do not authorize or exercise Oracle runtime."
+}
