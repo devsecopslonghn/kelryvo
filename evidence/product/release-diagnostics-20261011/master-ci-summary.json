@@ -1,0 +1,99 @@
+{
+  "scope": "ACTUAL_GITHUB_PRODUCT_CI_SYNTHETIC_TARGET_ONLY",
+  "phase": "master",
+  "run": 38114094526,
+  "head": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+  "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38114094526",
+  "outcome": "PASS",
+  "wall_seconds": 731,
+  "api_tests": 77,
+  "browser_tests": 33,
+  "release_outer_tests": 1,
+  "release_inner": {
+    "source_commit": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+    "passed": 4,
+    "runtime": "UNVALIDATED"
+  },
+  "failures": 0,
+  "skips": 0,
+  "shards": {
+    "acceptance (browser, 2/2)": {
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (api, 1/2)": {
+      "tests": 24,
+      "pass": 24,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (release, 1/1)": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (api, 2/2)": {
+      "tests": 53,
+      "pass": 53,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "acceptance (browser, 1/2)": {
+      "tests": 16,
+      "pass": 16,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  "oracle_runtime": "UNVALIDATED; tests do not authorize or exercise Oracle runtime.",
+  "jobs": [
+    {
+      "id": 114395418543,
+      "name": "acceptance (browser, 2/2)",
+      "outcome": "success",
+      "duration_seconds": 507
+    },
+    {
+      "id": 114395418621,
+      "name": "acceptance (api, 1/2)",
+      "outcome": "success",
+      "duration_seconds": 724
+    },
+    {
+      "id": 114395418622,
+      "name": "acceptance (release, 1/1)",
+      "outcome": "success",
+      "duration_seconds": 262
+    },
+    {
+      "id": 114395418639,
+      "name": "acceptance (api, 2/2)",
+      "outcome": "success",
+      "duration_seconds": 604
+    },
+    {
+      "id": 114395418671,
+      "name": "acceptance (browser, 1/2)",
+      "outcome": "success",
+      "duration_seconds": 302
+    },
+    {
+      "id": 114397279665,
+      "name": "product",
+      "outcome": "success",
+      "duration_seconds": 4
+    }
+  ],
+  "private_complete_step_observation": {
+    "path": "/tmp/schemaforge-release-diagnostics-master-ci-observation.json",
+    "sha256": "56c4e3ca8c705458be8e5fd7306f11e8cc9d2aad30bd10db0ecd82cfc7e3dae6"
+  }
+}
