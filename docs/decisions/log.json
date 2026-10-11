@@ -518,6 +518,26 @@
         "MIG-026",
         "MIG-034"
       ]
+    },
+    {
+      "id": "SF-D046",
+      "status": "ACCEPTED_MVP_M3_RESTRICTED_ORACLE_HOST_ADAPTER",
+      "accepted_at_utc": "2026-10-11T03:30:30.855629+00:00",
+      "decision": "Reuse the existing immutable approval, pending selector, worker authority, central journal and reconciliation with a private Oracle host adapter. Require explicit write-purpose authority before target entry and per-statement one-use claims; separate protected ledger and writer sessions. Hold a nonce-protected DBMS_LOCK cover on the writer physical session across DDL commits, never reacquire continuity. Require independent privileged physical GUID/TLS/effective-grant/object/adoption/validity attestation and whole-operation supervision. Record complete target plan and STARTED before any writer call, commit DML explicitly, acknowledge only matching ordered receipts, preserve unresolved tails on unknown execute/commit/cleanup. No API activation, credentials, connection/bootstrap/runtime verification or UNIT promotion; supplied installation obligations remain explicit until authorized runtime/deployment acceptance. Empty adoption only; nonempty baseline needs a future reviewed workflow.",
+      "references": [
+        "apps/worker/oracle-host.ts",
+        "packages/execution/oracle-driver.mjs",
+        "packages/execution/oracle-target-mutex.mjs",
+        "apps/worker/oracle/target-mutex.sql",
+        "tests/oracle-host.test.mjs",
+        "tests/product-oracle-host.test.mjs"
+      ],
+      "catalog_traceability": [
+        "MIG-011",
+        "MIG-025",
+        "MIG-026",
+        "MIG-034"
+      ]
     }
   ]
 }

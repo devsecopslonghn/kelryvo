@@ -125,3 +125,18 @@ authority remain separate continuous host obligations. Stable physical-key/ident
 partitioning survives catalog reassignment. Checksums never attest owner integrity or SQL
 effects. The SQL install artifact has no automatic bootstrap/grants; no Oracle installation,
 connection, runtime promotion or deployed-worker isolation acceptance is claimed.
+
+The restricted Oracle host adapter receives an independently installed writer-purpose
+permit and two dedicated private sessions. It reuses the worker admission/authority and
+central divergence veto; API startup does not install it. A protected definer-rights mutex
+cover on the same writer session retains the lock across DDL commits. A private nonce
+prevents migration SQL from releasing the host's lock; continuity checks use CONVERT,
+never REQUEST/reacquisition. Application writer privileges must exclude direct/inherited
+DBMS_LOCK, ANY-object mutation and protected owner access. Each target file plan and
+STARTED commit precede dispatch; ordered writer acknowledgments precede target ACK/APPLIED.
+Unknown driver/commit/continuity facts HOLD without replay. Provider callbacks retain both
+physical sessions through worker completion, drain outstanding operations, then retire them.
+Attested GUID/route/TLS/owner/grants, writer permit claims, empty-target adoption,
+postconditions and central completion remain privileged installation obligations. There
+is no credential resolver, deployed provider, automatic bootstrap, baseline adoption or
+Oracle runtime acceptance in this adapter increment.
