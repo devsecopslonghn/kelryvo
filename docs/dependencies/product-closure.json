@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "scope": "Local PRODUCT runtime and Linux x64 development tools; no production distribution approval",
-  "package_lock_sha256": "b0030180af470d57d7878fdfae44d308b838021c8a3c93dd2451518ed71788e3",
+  "package_lock_sha256": "5f0eb98ef2b51882c79c64d3f9ffaadba7124844e081f303d1f7231796448866",
   "notice_path": "docs/dependencies/product-NOTICES.txt",
-  "notice_sha256": "391f4100e7872f0791a0d1ddde1670127299affd75c7cce9e90a82963f5c4fae",
+  "notice_sha256": "ca13834dbe6b15ae89c36d6f84c54b58e31ea8278d13374ec663056f78098f31",
   "unknown_required_grants": 0,
   "packages": [
     {
@@ -305,6 +305,28 @@
       ]
     },
     {
+      "path": "node_modules/@fastify/rate-limit",
+      "version": "11.2.1",
+      "integrity": "sha512-uTQjii3tJUnb6ZyEMcunuvKE3FDKNZEaPpxdyWADDgthHnUV1swdvwuiZfi3DDDgxm1iBrhOkQ/w0yDBQ8qJtA==",
+      "license": "MIT",
+      "scope": "PRODUCT_RUNTIME",
+      "license_source": "node_modules/@fastify/rate-limit/LICENSE",
+      "license_sha256": [
+        "d24d2e5bdc50e739dcc8c73f547e54fce61388ea77bb57cf836e0c6ece46f8e8"
+      ]
+    },
+    {
+      "path": "node_modules/@lukeed/ms",
+      "version": "2.0.2",
+      "integrity": "sha512-9I2Zn6+NJLfaGoz9jN3lpwDgAYvfGeNYdbAIjJOqzs4Tpc+VU3Jqq4IofSUBKajiDS8k9fZIg18/z13mpk1bsA==",
+      "license": "MIT",
+      "scope": "PRODUCT_RUNTIME",
+      "license_source": "node_modules/@lukeed/ms/license",
+      "license_sha256": [
+        "9a9edad7baae52622bddf3c15b2ef8a33d2c89f2d25408ad13e8a7481c6b0c97"
+      ]
+    },
+    {
       "path": "node_modules/@pinojs/redact",
       "name": "@pinojs/redact",
       "version": "0.4.0",
@@ -544,6 +566,17 @@
       ]
     },
     {
+      "path": "node_modules/fastify-plugin",
+      "version": "6.0.1",
+      "integrity": "sha512-4wW4RxSmvPXLrh5mgQEiu43qU3bw44N2ss4FTkTkQIbprUhE+/s43QX0j/ttcztdWK7PEkHqVthdc5GdEGDvjA==",
+      "license": "MIT",
+      "scope": "PRODUCT_RUNTIME",
+      "license_source": "node_modules/fastify-plugin/LICENSE",
+      "license_sha256": [
+        "ba9677e5a34c2738c26b36bb478f95e0369cac48fbe68a01a91fd5c7972f2043"
+      ]
+    },
+    {
       "path": "node_modules/fastq",
       "name": "fastq",
       "version": "1.20.3",
@@ -569,6 +602,17 @@
       ],
       "license_sha256": [
         "693f9539655acc1847add1ccd364312ba570bf8ce84706b6059e7e0b5ceb90e6"
+      ]
+    },
+    {
+      "path": "node_modules/ip-address",
+      "version": "10.7.3",
+      "integrity": "sha512-A1kdq/tSb5QjvKvAMgIoEvDBIgL7qaqVP/jkvSwYYRZ9iEzvPpopxp2wQfu3SuZRHtpHNxMn8Fs0bS+gf5Xmwg==",
+      "license": "MIT",
+      "scope": "PRODUCT_RUNTIME",
+      "license_source": "node_modules/ip-address/LICENSE",
+      "license_sha256": [
+        "f8d791359a50cbcac82c29cb7b0b1b889b28be76fdd35b8ee33f0f7c8704702a"
       ]
     },
     {

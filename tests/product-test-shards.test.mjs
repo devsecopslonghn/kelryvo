@@ -32,7 +32,10 @@ test('every real API file appears once across all shards, retaining its serial o
     for (const group of groups) assert.deepEqual(group, files.filter(file => group.includes(file)));
   }
   assert.equal(files.includes('tests/product-worker-supervision.test.mjs'), true);
+  assert.equal(files.includes('tests/product-api-rate-limit.test.mjs'), true);
   assert.equal(files.includes('tests/product-backup-restore.test.mjs'), true);
+  assert.equal(files.includes('tests/product-installed-worker-factory.test.mjs'), true);
+  assert.equal(files.includes('tests/product-installed-expiry-recovery.test.mjs'), true);
 });
 
 test('membership is deterministic regardless of input order and inputs remain unchanged', async () => {

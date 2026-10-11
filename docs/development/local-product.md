@@ -1,5 +1,16 @@
 # Local SchemaForge product
 
+## HTTP request limits
+
+The API uses the pinned Fastify rate-limit plugin before authentication and metadata
+work. Each client address may make 600 requests per minute, shared across registered
+routes. Excess requests receive HTTP 429, `RATE_LIMITED` and a `Retry-After` header.
+There is no loopback exemption. Forwarded address headers are not trusted; IPv6 clients
+share a /64 subnet quota. Counters are bounded and local to one API process, so each
+replica and restart has its own counters. Multi-replica installations also need request
+limits at their trusted ingress. These limits protect product HTTP endpoints and do not
+change migration authorization or execution gates.
+
 ## Provisional schema references
 
 The **Schema references** project view shows only current schema ownership for the selected
@@ -891,14 +902,68 @@ Use the durable journal and explicit target reconciliation to investigate HOLD.
 
 The fixed starter must return its actual ChildProcess, remain synchronous and prompt,
 and create no descendants. This library is a process lifecycle boundary. It supplies
-no OS sandbox, production factory, secret resolver, service deployment or independently
-validated Oracle provider. Real target access and deployed isolation remain unvalidated.
+no OS sandbox, installed production binding, secret resolver, service deployment or
+independently validated Oracle provider. Real target access and deployed isolation
+remain unvalidated.
 
 `tests/product-worker-supervision.test.mjs` is mandatory in the PRODUCT API acceptance
 list and runs serially with its shard's disposable PostgreSQL service. It runs the real
 worker in a child, retains durable success after cleanup uncertainty, refuses terminal
 redispatch, then approves and executes only new V2 after V1. The synthetic target and
 process fault tests are UNIT evidence; no Oracle SQL is executed.
+
+### Installation factory composition
+
+`createInstalledExecutionWorkerFactory` in `apps/worker/installed-worker-factory.mjs`
+composes the existing metadata worker, private Oracle provider and restricted host.
+An independently reviewed installation module binds its private `databaseUrl` and
+`installedOracle` closures, then exports the returned asynchronous function as
+`createExecutionWorker` for the fixed child entry. These bindings are installation
+code, never API/IPC input. The database URL belongs to product metadata; application
+writer and ledger-owner routes remain inside the private Oracle resolver.
+The source release verifies its shipped files; the separate private installation
+module and its authority bindings require their own review before trusted execution.
+
+The factory snapshots its scope, worker ID and authority/resolver/target-binding
+functions. It creates one owned PostgreSQL client and permits one worker operation.
+`close()` drains that operation, closes metadata once and reports cleanup failure;
+the supervisor accepts success only after this hook and clean child exit. Reuse,
+overlap, malformed requests and missing capabilities fail closed. Lease bounds remain
+privileged installation options, validated before metadata acquisition.
+
+Production bindings require `TRUSTED_VALIDATED` and the existing independently
+installed purpose authority, private routes and truthful target attestations.
+`UNIT_SYNTHETIC` requires explicit opt-in and a fake Oracle connector. The optional
+`openMetadata` test port is accepted only in that synthetic scope; neither test port
+may enter a trusted binding. Importing this builder does not authorize Oracle access
+or supply credentials. Its unbound direct child export rejects startup. A deployed
+service, verified installation authority and Oracle/isolation acceptance remain
+separate requirements.
+
+### Expired-attempt recovery installation
+
+A fixed private installation module may export the function returned by
+`createInstalledExpiryRecoveryWorkerFactory` as the supervised child's
+`createExecutionWorker`. It accepts the same reviewed metadata and capability binding
+as the execution factory, and shares its one-operation client ownership and cleanup.
+The privileged export selects recovery; requests cannot supply an operation selector
+or change routes, scope, target capabilities or options. The existing supervised wire
+hook still accepts only the job and invocation IDs.
+
+This factory invokes the existing metadata worker's `recoverExpired`. A previously
+admitted CLAIMED attempt whose lease expired moves to HOLD with the existing
+`LEASE_EXPIRED_UNKNOWN` event. The transaction preserves the original attempt identity,
+lease, receipts, approval and earlier events. Recovery creates no new attempt, renews
+no lease, opens no Oracle session and dispatches no target SQL. Current leases, terminal jobs,
+missing attempts and inactive metadata generations do not advance. Approval withdrawal
+or grant revocation cannot prevent a safety HOLD after expiry.
+
+Successful durable recovery reports HOLD after metadata cleanup and clean child exit.
+An ineligible request reports admission declined. Database, run or cleanup uncertainty
+fails through the supervisor boundary; it cannot erase an already committed HOLD or
+claim target application. This operation supplies no reconciliation verdict, HOLD
+release, execution authority or automatic retry. Investigate the retained journal and
+protected target history before any separately authorized recovery or execution.
 
 `createPrivateOracleProvider` in `apps/worker/oracle-provider.mjs` supplies the
 restricted host's installed connection lifecycle. Privileged child installation code

@@ -617,6 +617,39 @@
         "OPS-002",
         "MIG-011"
       ]
+    },
+    {
+      "id": "SF-D053",
+      "status": "ACCEPTED_FIXED_CHILD_INSTALLED_WORKER_COMPOSITION",
+      "accepted_at_utc": "2026-10-11T07:04:53.717662+00:00",
+      "decision": "Reuse existing execution worker, private Oracle provider and restricted host behind a fixed installation-only factory export. Snapshot privileged metadata URL and installed capability hooks; reject caller-selected options and synthetic ports in trusted scope. Own one metadata client for one child operation, drain work before once-only close, and propagate uncertain startup/cleanup to the existing supervisor HOLD boundary. No new SQL execution logic, purpose authority, credentials, target attestation, service deployment or Oracle acceptance.",
+      "references": [
+        "apps/worker/installed-worker-factory.mjs",
+        "tests/product-installed-worker-factory.test.mjs",
+        "scripts/test-product.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "OPS-002",
+        "MIG-011"
+      ]
+    },
+    {
+      "id": "SF-D054",
+      "status": "ACCEPTED_FIXED_CHILD_EXPIRED_ATTEMPT_RECOVERY",
+      "accepted_at_utc": "2026-10-11T07:44:59.143914+00:00",
+      "decision": "Expose the existing metadata-only recoverExpired path through a separate fixed createInstalledExpiryRecoveryWorkerFactory export, sharing the installed execution factory one-operation metadata ownership and awaited cleanup. Privileged installation code chooses the export; API/IPC/request data cannot select execution versus recovery. Expired CLAIMED uncertainty appends the existing LEASE_EXPIRED_UNKNOWN HOLD through the durable store, preserving original attempts, receipts, approval and terminal facts. No new attempt, lease renewal, target capability call, SQL dispatch, replay, reconciliation verdict or HOLD release. Map only existing HOLD and NOT_RECOVERED outcomes into the unchanged supervised protocol; errors and cleanup uncertainty fail generically.",
+      "references": [
+        "apps/worker/installed-worker-factory.mjs",
+        "tests/product-installed-expiry-recovery.test.mjs",
+        "scripts/test-product.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "OPS-002",
+        "MIG-011",
+        "OPS-005"
+      ]
     }
   ]
 }

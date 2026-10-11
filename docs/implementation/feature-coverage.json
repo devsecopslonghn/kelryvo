@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-11T05:58:03.039669+00:00",
+  "recorded_at": "2026-10-11T08:10:45.258800+00:00",
   "verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
   "reviewed_local_source": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
@@ -62,11 +62,14 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "PR52-PR58 local source/governance/pending history integrated on verified4d. PR59 merged3e after actual candidate78API33browser1release(inner4) zero fail/skip; master all workflows FAIL before starting due to account payment/spending-limit block. Provider expiry gap corrected locally; no corrected candidate/master verification. Original7da failure retained/causeUNKNOWN; no Oracle/runtime/deployed acceptance.",
+  "external_acceptance": "PR52-PR58 governance, source installation, pending-only history and release diagnostics integrated on GitHub-verified4d. PR59 candidate passed before merge3e. PR60 and installed factory integration require their normal GitHub checks. Exact08be API balancing and exactfa installed factory local acceptance remain scoped to their tested sources. No Oracle runtime or deployed isolation certification.",
   "next_product_capability": {
-    "milestone": "Full-coverage API CI balancing and continuous private-provider permit expiry",
-    "status": "LOCAL_VERIFIED_REVIEWED_REMOTE_CI_FINANCIAL_BLOCK",
-    "next_action": "Owner restores Actions availability. Publish/freeze follow-up under unchanged gates; verify master and candidate results, ordinary eligible merge and resulting-master checks."
+    "milestone": "M4 installed metadata expiry recovery",
+    "status": "IMPLEMENTED_PENDING_VERIFICATION",
+    "corrected_source_sha": "1225efddf3abac283a24d309f9d5e8d77c99b155",
+    "interruption_evidence": "mvp-installed-expiry-recovery-interrupted-resource-stop",
+    "prerequisite_evidence": "mvp-installed-worker-factory-local-verified",
+    "next_action": "Complete required GitHub acceptance for the installed execution and metadata-only expiry recovery factories, then continue restricted installation and real-target reconciliation acceptance."
   },
   "features": [
     {
@@ -673,14 +676,15 @@
       "name": "Pending and applied reconciliation",
       "milestone": "WS",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Existing immutable approval, pending selector, controlled worker and protected ledger plus a restricted Oracle host adapter: same-session nonce mutex, write-purpose/one-use authority, ordered durable target STARTED/ACK/APPLIED, exact pending-only dispatch and uncertain-result no replay. Real PostgreSQL/Git/parser/worker and explicit fake Oracle transport verified locally. No independently installed provider/grants/TLS/Oracle runtime, deployed isolation, nonempty baseline or reviewed recovery/HOLD release acceptance. Native child and private provider lifecycles now bound/drain uncertainty without reconnect or replay; synthetic target only.",
+      "basis": "Existing immutable approval, pending selector, controlled worker and protected ledger plus a restricted Oracle host adapter: same-session nonce mutex, write-purpose/one-use authority, ordered durable target STARTED/ACK/APPLIED, exact pending-only dispatch and uncertain-result no replay. Real PostgreSQL/Git/parser/worker and explicit fake Oracle transport verified locally. No independently installed provider/grants/TLS/Oracle runtime, deployed isolation, nonempty baseline or reviewed recovery/HOLD release acceptance. Native child and private provider lifecycles now bound/drain uncertainty without reconnect or replay; synthetic target only. Fixed installation-only worker composition is locally verified with synthetic transport, one owned metadata handle and awaited cleanup; private installed trusted authority/routes/attestors and Oracle/deployed runtime remain unvalidated.",
       "evidence": [
         "mvp-history-aware-local-verified",
         "mvp-history-aware-divergence-local-verified",
         "mvp-restricted-oracle-host-local-verified",
         "mvp-restricted-oracle-host-pr56-master-verified",
         "mvp-worker-lifecycle-local-verified",
-        "mvp-private-provider-continuous-expiry-local-verified"
+        "mvp-private-provider-continuous-expiry-local-verified",
+        "mvp-installed-worker-factory-local-verified"
       ]
     },
     {
@@ -2158,7 +2162,7 @@
       "name": "Restricted execution workers",
       "milestone": "WS",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Reviewed fixed privileged child lifecycle, whole-operation deadline, matching scope/job challenge, awaited cleanup, confirmed reap/no replacement on unknown child and private one-shot dedicated-session provider implemented. Real PostgreSQL worker child preserves durable completion on cleanup uncertainty and approved V2 pending-only/no replay; target transport is UNIT. OS/deployed isolation, installed credentials/truthful target attestors and Oracle runtime/recovery remain incomplete.",
+      "basis": "Reviewed fixed privileged child lifecycle, whole-operation deadline, matching scope/job challenge, awaited cleanup, confirmed reap/no replacement on unknown child and private one-shot dedicated-session provider implemented. Real PostgreSQL worker child preserves durable completion on cleanup uncertainty and approved V2 pending-only/no replay; target transport is UNIT. OS/deployed isolation, installed credentials/truthful target attestors and Oracle runtime/recovery remain incomplete. Fixed installation-only worker composition is locally verified with synthetic transport, one owned metadata handle and awaited cleanup; private installed trusted authority/routes/attestors and Oracle/deployed runtime remain unvalidated.",
       "related_prerequisite_observations": [
         {
           "task": "SF-PRODUCT-T33",
@@ -2170,7 +2174,8 @@
       ],
       "evidence": [
         "mvp-worker-lifecycle-local-verified",
-        "mvp-private-provider-continuous-expiry-local-verified"
+        "mvp-private-provider-continuous-expiry-local-verified",
+        "mvp-installed-worker-factory-local-verified"
       ]
     },
     {
@@ -2371,7 +2376,8 @@
         "tests/product-local-release.integration.mjs"
       ],
       "evidence": [
-        "mvp-api-shard-balancing-local-verified"
+        "mvp-api-shard-balancing-local-verified",
+        "mvp-api-shard-balancing-local-acceptance"
       ]
     },
     {
@@ -2639,7 +2645,6 @@
     "integration_evidence": "mvp-release-diagnostics-pr58-master-verified"
   },
   "m3_worker_lifecycle": {
-    "status": "PR59_MERGED_CANDIDATE_VERIFIED_MASTER_CI_FINANCIAL_BLOCK",
     "source_head": "74837d8f7611dcf056f2209e924813547663aa45",
     "evidence": "mvp-worker-lifecycle-local-verified",
     "scope": "UNIT_SYNTHETIC_TARGET_ONLY",
@@ -2652,5 +2657,14 @@
     "merged_master": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
     "integration_failure_evidence": "mvp-worker-lifecycle-pr59-master-ci-financial-block",
     "local_expiry_correction_evidence": "mvp-private-provider-continuous-expiry-local-verified"
+  },
+  "m4_expiry_recovery_increment": {
+    "status": "INCOMPLETE",
+    "tested_candidate_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+    "corrected_source_sha": "1225efddf3abac283a24d309f9d5e8d77c99b155",
+    "evidence": "mvp-installed-expiry-recovery-interrupted-resource-stop",
+    "local_acceptance": "Focused recovery regression passed 4/4 at e182790 with zero skips; full acceptance remains incomplete. Prior interrupted APIs and failed assertion are retained.",
+    "source_review": "NO_BLOCKER_SOURCE_ONLY",
+    "full_catalog_promotion": false
   }
 }

@@ -1,0 +1,52 @@
+{
+  "id": "mvp-api-balancing-provider-expiry-pr60-ci-financial-block",
+  "subject_id": "OPS-023",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "FAIL",
+  "command": "Publish independently reviewed/scanned exactf7 as PR60. All candidate workflows FAIL before jobs start due account payment/spending-limit annotations; required gates remain mandatory, no merge/rerun/billing change. Local281PASS48optionalPGskip0FAIL remains local proof only.",
+  "exit_code": 1,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/api-shard-balancing-20261011/pr60-ci-not-started-summary.json",
+    "sha256": "dd02dd3792338fbfc04b691e0d1b8f3a05d56226577d4a9b981d3407ccb3a795"
+  },
+  "recorded_at": "2026-10-11T06:03:33.103757+00:00",
+  "pr": 60,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/60",
+  "state": "OPEN_UNMERGED_CANDIDATE_CI_FINANCIAL_BLOCK",
+  "reviewed_published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72",
+  "tested_functional_source": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
+  "independent_review": "Native ci_review approved exact functional2556 and exact21-file publicationf7; root reviewed final diff and verified record/index/raw hashes.",
+  "publication_scan": {
+    "head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72",
+    "base": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
+    "files": 21,
+    "tool": "Gitleaks8.30.1 official checksum verified",
+    "exit_code": 0,
+    "findings": 0,
+    "license_dependency_files_changed": false
+  },
+  "private_inventory": {
+    "path": "/tmp/schemaforge-ci-expiry-final-inventory.json",
+    "sha256": "3218ceab25175acd8eda0fbef59e05fc22a73fcdac409f5c49b46a784d98fe73"
+  },
+  "private_complete_ci_metadata": {
+    "path": "/tmp/schemaforge-ci-expiry-published-ci-not-started.json",
+    "sha256": "161acbe0f026b23286ea22a74272486cda108d2bc6e012ca531f8d4357033db5"
+  },
+  "preservation": {
+    "original_worktrees": 47,
+    "current_worktrees": 53,
+    "preserved": true
+  },
+  "next": "Owner restores Actions availability. Run actual required master and PR60 checks once available; merge ordinarily only after eligible exact-head gates, then verify resulting master. No financial or gate changes authorized.",
+  "oracle_calls": 0,
+  "limits": [
+    "New candidate and master tests never started; no remote speedup/master acceptance/fullMVP claim.",
+    "Original PR57 release failure remains FAIL/causeUNKNOWN; original PR59 master financial failure remains unchanged.",
+    "Local synthetic tests do not certify Oracle runtime/recovery/deployed isolation or truthful installed target evidence."
+  ]
+}

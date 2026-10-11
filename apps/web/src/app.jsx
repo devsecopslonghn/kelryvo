@@ -62,6 +62,7 @@ const errorCopy = {
   VALIDATION_UNAVAILABLE: 'The migration parser is unavailable. This release cannot be planned.',
   EXECUTION_UNAVAILABLE: 'Target history is unavailable. The plan remains NOT_EXECUTED and the request waits for validation.',
   DEPLOY_PERMISSION_REQUIRED: 'The local OS operator must grant deployment permission for this project.',
+  RATE_LIMITED: 'Too many requests. Wait before trying again.',
   METADATA_RESTORE_HOLD: 'Metadata restore recovery is active. Deployment requests and cancellation are disabled pending operator reconciliation.',
   IDEMPOTENCY_CONFLICT: 'This request key was already used with different request details.',
   PLAN_NOT_REQUESTABLE: 'The approved intent no longer matches current source or profile facts. Refresh and review the plan.',

@@ -1,0 +1,36 @@
+{
+  "id": "mvp-installed-expiry-recovery-interrupted-resource-stop",
+  "subject_id": "OPS-005",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "BLOCKED",
+  "command": "Local candidate80d acceptance interrupted by owner resource stop; both API orchestrators exited1 after SIGTERM. API suites INCOMPLETE, one prior bigint assertion failure preserved. Completed foundation/browser/release results retain their original source80d only; corrected1225 source remains runtime-unverified. No acceptance PASS or merge.",
+  "exit_code": 1,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/installed-expiry-recovery-interrupted-20261011/interrupted-summary.json",
+    "sha256": "85274aaa3dec66e7de57bd5111b90bed9163423e3573f860ebebf2c60a5ba994"
+  },
+  "status": "INCOMPLETE",
+  "local_verification_status": "INCOMPLETE",
+  "recorded_at": "2026-10-11T08:10:45.258800+00:00",
+  "tested_candidate_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+  "tested_tree": "0313b79712afeb60988533fda9e27d5d4d2239ef",
+  "corrected_source_sha": "1225efddf3abac283a24d309f9d5e8d77c99b155",
+  "corrected_source_runtime_verification": "NOT_RUN",
+  "catalog_traceability": [
+    "MIG-011",
+    "OPS-002",
+    "OPS-005"
+  ],
+  "milestone": "M4",
+  "implementation_decision": "SF-D054",
+  "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
+  "source_review": "NO_BLOCKER_SOURCE_ONLY_NOT_LOCAL_ACCEPTANCE",
+  "preserved_prior_local_acceptance": [
+    "mvp-api-shard-balancing-local-acceptance",
+    "mvp-installed-worker-factory-local-verified"
+  ]
+}

@@ -9,8 +9,7 @@
   "foundation_task": "SF-P0-FOUNDATION",
   "blockers": [
     "No authorized disposable Oracle 19c/21c lab manifest or scoped credentials/identities/grants/fault authority. (VALIDATION track only; independent PRODUCT scheduling remains open.)",
-    "Full F31 packaging/source/notice assembly and Git/metadata deployment artifact selections remain pending; public product naming remains an owner decision. Product license is selected as PolyForm Shield 1.0.0.",
-    "GitHub Actions jobs cannot start: failed recent account payments or spending limit, actual PR59 master annotations. Owner financial action needed; no billing changes, blind reruns or gate waiver."
+    "Full F31 packaging/source/notice assembly and Git/metadata deployment artifact selections remain pending; public product naming remains an owner decision. Product license is selected as PolyForm Shield 1.0.0."
   ],
   "evidence": [
     {
@@ -252,13 +251,24 @@
     },
     {
       "index_id": "mvp-private-provider-continuous-expiry-local-verified"
+    },
+    {
+      "index_id": "mvp-api-balancing-provider-expiry-pr60-ci-financial-block"
+    },
+    {
+      "index_id": "mvp-api-shard-balancing-local-acceptance"
+    },
+    {
+      "index_id": "mvp-installed-worker-factory-local-verified"
+    },
+    {
+      "index_id": "mvp-installed-expiry-recovery-interrupted-resource-stop"
     }
   ],
   "foundation_status": "VERIFIED",
   "foundation_evidence": {
     "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
   },
-  "current_phase": "MVP_CI_BALANCING_PROVIDER_EXPIRY_LOCAL_VERIFIED_REMOTE_CI_FINANCIAL_BLOCK",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
@@ -272,7 +282,7 @@
     "node scripts/tracker.mjs status",
     "node scripts/tracker.mjs next"
   ],
-  "updated_at": "2026-10-11T05:58:03.039669+00:00",
+  "updated_at": "2026-10-11T08:10:45.258800+00:00",
   "final_check_evidence": {
     "index_id": "mvp-release-diagnostics-pr58-master-verified"
   },
@@ -280,18 +290,17 @@
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
-  "latest_validated_master_before_this_increment": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
+  "latest_validated_master_before_this_increment": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
   "last_merged_implementation_pr": 59,
-  "checkpoint_evidence": "evidence/product/api-shard-balancing-20261011/record.json",
-  "implementation_prs_pending": [],
+  "implementation_prs_pending": [
+    61
+  ],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "LOCAL_VERIFIED_REVIEWED_REMOTE_CI_FINANCIAL_BLOCK",
-  "current_checkpoint_branch": "development/pending-history-context",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -368,7 +377,7 @@
       "native_security": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS"
     }
   },
-  "current_increment_pr": null,
+  "current_increment_pr": 60,
   "current_increment_reviewed_head": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
   "current_increment_merge_commit": null,
   "t19_compatibility_decision": {
@@ -413,11 +422,9 @@
     "merge_eligible": false,
     "integration_complete": false,
     "configured_required_contexts": [],
-    "optional_host_security": "UNAVAILABLE_NOT_PASS",
-    "actual_ci": "PR59 candidate PASS, master all3 FAIL before jobs started due financial block. Last fully verified master4d. New source local checks/review PASS; required candidate/master gates pending.",
     "ordinary_merge_no_bypass": true
   },
-  "latest_merged_master_before_this_increment": "ce632193ac3a1c9c544d71e84eca2071133987d0",
+  "latest_merged_master_before_this_increment": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
   "last_verified_master_evidence": "evidence/product/release-diagnostics-20261011/master-verification.json",
   "verified_remote_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
   "carry_forward": {
@@ -459,7 +466,7 @@
     "merge_eligible": false
   },
   "next_milestone": "Restore Actions availability, integrate full-coverage CI balancing/provider expiry after actual gates. Continue installed authority readiness without Oracle connections.",
-  "current_increment_published_head": null,
+  "current_increment_published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72",
   "t32_integration_sources": [
     {
       "pr": 40,
@@ -761,7 +768,7 @@
       46,
       47
     ],
-    "integration_status": "MERGED_MASTER_CI_VERIFIED",
+    "integration_status": "PR59_MERGED_PR60_AND_INSTALLED_FACTORY_PENDING_GITHUB_VERIFICATION",
     "working_local_workflows": [
       "loopback startup, fixed-role credentials, explicit project membership and Git binding",
       "retained SQL, pinned offline parser validation, offline plan/review/approval/revocation",
@@ -770,18 +777,19 @@
       "native HTTPS cookie/CSRF/expiry/session revocation",
       "Approved Git request → exact pinned-parser statements → checked worker admission/dispatch → durable receipts/history, UNIT_SYNTHETIC host only",
       "Applied V1 → separately approved V1+V2 executes only V2; witnessed complete history NOOP; untrusted/divergent/rewound history HOLD, UNIT_SYNTHETIC targets only",
-      "Scoped immutable approved migration file/version/full and file-local statement provenance for pending V2, including duplicate digests; labels never prove target effects"
+      "Scoped immutable approved migration file/version/full and file-local statement provenance for pending V2, including duplicate digests; labels never prove target effects",
+      "Fixed installed factory composes existing worker/provider/host with one owned metadata client, real PostgreSQL approved synthetic execution, awaited cleanup and terminal no-replay decline."
     ],
     "essential_gaps": [
-      "Independently installed private provider and supervised deployed worker with truthful target TLS/GUID/effective-grants/object/adoption attestations.",
-      "Authorized Oracle installation/execution/recovery/fault and deployed-worker isolation acceptance."
+      "Reviewed private installation module binding independent purpose authority, private dedicated-session routes and truthful target TLS/GUID/effective-grants/object/adoption attestations.",
+      "Supervised deployed worker service/isolation and authorized Oracle installation/execution/recovery/fault acceptance."
     ],
     "milestones": {
       "M1": "LOCAL_FOUNDATION_WORKFLOW_VERIFIED_INTEGRATED",
       "M2": "OFFLINE_PREPARATION_REVIEW_WORKFLOW_VERIFIED_INTEGRATED",
-      "M3": "SUPERVISED_WORKER_PROVIDER_PR59_MERGED_CANDIDATE_VERIFIED_MASTER_FINANCIAL_BLOCK_EXPIRY_FIX_LOCAL_ONLY_ORACLE_INCOMPLETE",
-      "M4": "PENDING_SUFFIX_LEDGER_NO_REPLAY_AND_APPROVED_PROVENANCE_INTEGRATED_PR58_DESCENDANT_MASTER_VERIFIED_REAL_RECOVERY_INCOMPLETE",
-      "M5": "REPRODUCIBLE_LOCAL_SOURCE_INSTALLATION_VERIFIED_PR58_MASTER_ORACLE_AND_DISTRIBUTION_ACCEPTANCE_INCOMPLETE"
+      "M3": "INSTALLED_FACTORY_COMPOSITION_AND_CONTROLLED_WORKER_LOCAL_VERIFIED_SYNTHETIC_TARGET_ONLY_REMOTE_AND_ORACLE_INCOMPLETE",
+      "M4": "PENDING_ONLY_NO_REPLAY_HISTORY_VERIFIED_INSTALLED_EXPIRY_IMPLEMENTED_FULL_ACCEPTANCE_PENDING_REAL_TARGET_RECOVERY_INCOMPLETE",
+      "M5": "LOCAL_SOURCE_INSTALLATION_ACCEPTANCE_VERIFIED_EXACT_FACTORY_COMMIT_REMOTE_INTEGRATION_AND_ORACLE_DISTRIBUTION_INCOMPLETE"
     },
     "oracle_runtime": "BLOCKED_EXTERNAL_NO_AUTHORIZED_ENVIRONMENT",
     "shortest_next_path": [
@@ -822,17 +830,28 @@
       37
     ],
     "active_increment": {
-      "outcome": "Complete API CI balancing and continuously live private provider permit",
-      "status": "LOCAL_VERIFIED_REVIEWED_UNPUBLISHED_REMOTE_CI_FINANCIAL_BLOCK",
-      "worktree": "/home/longhn0710/workspace/schemaforge-ci-balanced-api",
-      "branch": "development/ci-balanced-api",
-      "source_head": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
-      "integrated_base": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
-      "checkpoint_publication": "LOCAL_UNPUBLISHED",
-      "next": "Final scoped scan/publication review and PR; restore Actions availability before actual candidate/master gates and eligible merge."
+      "outcome": "Installed metadata-only expired-attempt recovery",
+      "status": "INCOMPLETE",
+      "worktree": "/home/longhn0710/workspace/schemaforge-expiry-recovery",
+      "branch": "development/restore-standard-ci",
+      "tested_candidate_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+      "corrected_source_sha": "1225efddf3abac283a24d309f9d5e8d77c99b155",
+      "runtime_verification": "FOCUSED_RECOVERY_PASSED_FULL_ACCEPTANCE_INCOMPLETE",
+      "evidence": "mvp-installed-expiry-recovery-interrupted-resource-stop",
+      "known_failed_assertion_preserved": true,
+      "source_review": "NO_BLOCKER_SOURCE_ONLY",
+      "next": "Complete required GitHub acceptance for the installed factories, then continue restricted installation and real-target reconciliation acceptance.",
+      "focused_tested_sha": "e18279047ecf9fb43127f6b7786eb89bf3972265"
     },
     "last_integrated_pr": 59,
-    "last_fully_verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac"
+    "last_fully_verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+    "pending_remote_integration": {
+      "pr": 60,
+      "published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72",
+      "local_tested_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+      "local_evidence": "mvp-api-shard-balancing-local-acceptance",
+      "state": "OPEN_UNMERGED"
+    }
   },
   "historical_t35_carry_forward": {
     "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-product-secure-sessions",
@@ -856,5 +875,6 @@
     "coverage": "220:0full/48partial/165not/7deferred",
     "next_outcome": "Versioned statement approval/readiness and existing journal visibility; no task IDs registered.",
     "checkpoint_publication": "LOCAL_UNPUSHED_CONTINUATION_ONLY"
-  }
+  },
+  "interrupted_acceptance_evidence": "evidence/product/installed-expiry-recovery-interrupted-20261011/record.json"
 }

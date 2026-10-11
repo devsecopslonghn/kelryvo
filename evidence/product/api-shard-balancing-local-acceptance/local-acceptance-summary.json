@@ -1,0 +1,424 @@
+{
+  "recorded_at": "2026-10-11T06:51:41.038873+00:00",
+  "status": "LOCALLY_VERIFIED",
+  "tested_source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+  "tested_tree": "03eeba9d9b7e8ea4912600fda0067bda44666e22",
+  "reviewed_pr60_published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72",
+  "functional_source_matches_pr60": true,
+  "metadata_only_changes_since_publication": [
+    "docs/implementation/CONTINUE.md",
+    "docs/implementation/CURRENT.md",
+    "docs/implementation/evidence-index.json",
+    "docs/implementation/feature-coverage.json",
+    "docs/implementation/milestone.json",
+    "evidence/product/api-shard-balancing-20261011/pr60-ci-not-started-summary.json",
+    "evidence/product/api-shard-balancing-20261011/pr60-publication-ci-financial-block.json"
+  ],
+  "local_only": true,
+  "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
+  "remote_workflow_historical_conclusions": "FAIL before any job or test started; preserved unchanged",
+  "foundation": {
+    "commands": [
+      {
+        "program": "npm",
+        "args": [
+          "run",
+          "parser:antlr:build"
+        ],
+        "source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+        "startedAt": "2026-10-11T06:34:50.571Z",
+        "completedAt": "2026-10-11T06:35:14.264Z",
+        "wall_seconds": 23.691831835,
+        "exit_code": 0,
+        "signal": null,
+        "log": "/tmp/schemaforge-local-exception-foundation-run-parser_antlr_build.log",
+        "log_sha256": "feb14400554134fd54b9789c5a2e2ffffb9f16d3807b1093f7d008a7f9da4a76"
+      },
+      {
+        "program": "npm",
+        "args": [
+          "run",
+          "parser:antlr:corpus"
+        ],
+        "source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+        "startedAt": "2026-10-11T06:35:14.266Z",
+        "completedAt": "2026-10-11T06:36:38.263Z",
+        "wall_seconds": 83.997015681,
+        "exit_code": 0,
+        "signal": null,
+        "log": "/tmp/schemaforge-local-exception-foundation-run-parser_antlr_corpus.log",
+        "log_sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+      },
+      {
+        "program": "npm",
+        "args": [
+          "run",
+          "parser:antlr:test"
+        ],
+        "source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+        "startedAt": "2026-10-11T06:36:38.263Z",
+        "completedAt": "2026-10-11T06:37:23.431Z",
+        "wall_seconds": 45.167445767,
+        "exit_code": 0,
+        "signal": null,
+        "log": "/tmp/schemaforge-local-exception-foundation-run-parser_antlr_test.log",
+        "log_sha256": "0ef5a7d9a45057c0c644f745b553afd53fb32130734c8a964a35392836112c89"
+      },
+      {
+        "program": "npm",
+        "args": [
+          "run",
+          "check"
+        ],
+        "source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+        "startedAt": "2026-10-11T06:37:23.431Z",
+        "completedAt": "2026-10-11T06:38:21.631Z",
+        "wall_seconds": 58.199563975,
+        "exit_code": 0,
+        "signal": null,
+        "log": "/tmp/schemaforge-local-exception-foundation-run-check.log",
+        "log_sha256": "f5f223d21eb276a256d90b70423d9dc7f3548c20ed4c1840fbd853aac0e4b67c"
+      },
+      {
+        "program": "npm",
+        "args": [
+          "run",
+          "dependencies:offline"
+        ],
+        "source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+        "startedAt": "2026-10-11T06:38:21.631Z",
+        "completedAt": "2026-10-11T06:38:27.924Z",
+        "wall_seconds": 6.292807799000002,
+        "exit_code": 0,
+        "signal": null,
+        "log": "/tmp/schemaforge-local-exception-foundation-run-dependencies_offline.log",
+        "log_sha256": "1ed9ed7af9fefc5bcbe48b60551388132fbbaa07a553f5eb2f99eb6d37ecb1de"
+      }
+    ],
+    "standard_counts": {
+      "tests": 329,
+      "pass": 281,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 48
+    },
+    "optional_skip_reason": "Unchanged foundation suite has no PostgreSQL URL; all mandatory PostgreSQL/API checks executed separately with required tests and zero skips.",
+    "parser_corpus": {
+      "observations": 30,
+      "mismatches": 0,
+      "blockers": [],
+      "manifest_sha256": "6081eec270098f6082263cae0f672aab1c12facb19703d4226476e105f0062e3"
+    },
+    "parser_integration": {
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  "postgresql_api": {
+    "files": 36,
+    "tests": 78,
+    "pass": 78,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "shards": [
+      {
+        "shard": "1/2",
+        "counts": {
+          "tests": 29,
+          "pass": 29,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "started_at": "2026-10-11T06:07:13.789Z",
+        "completed_at": "2026-10-11T06:17:31.594Z",
+        "wall_seconds": 617.804390536
+      },
+      {
+        "shard": "2/2",
+        "counts": {
+          "tests": 49,
+          "pass": 49,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0
+        },
+        "started_at": "2026-10-11T06:07:13.783Z",
+        "completed_at": "2026-10-11T06:18:00.160Z",
+        "wall_seconds": 646.375226395
+      }
+    ],
+    "files_selected_once": true,
+    "separate_owned_disposable_databases": true,
+    "runtime_selection": {
+      "path": "/tmp/schemaforge-api-balanced-runtime-selection.json",
+      "sha256": "692f89088dc369bff914d840c5f39b313a0804b1bed255acf09c30ab56112f8f"
+    },
+    "private_logs": [
+      {
+        "path": "/tmp/schemaforge-api-balanced-local-shard-1.log",
+        "sha256": "58b2616ce09afabc97e87250fbcad95fb4b026eac4d6aca60719eff831b11df8",
+        "bytes": 9234
+      },
+      {
+        "path": "/tmp/schemaforge-api-balanced-local-shard-2.log",
+        "sha256": "5a3e331917f382ab8c1a16297b2e2e80ebcb615acfe8165d4112b4bd2632bbdc",
+        "bytes": 13897
+      }
+    ]
+  },
+  "browser": {
+    "commands": [
+      {
+        "program": "node",
+        "args": [
+          "scripts/test-product.mjs",
+          "--browser"
+        ],
+        "source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+        "startedAt": "2026-10-11T06:39:16.828Z",
+        "completedAt": "2026-10-11T06:51:21.531Z",
+        "wall_seconds": 724.70151591,
+        "exit_code": 0,
+        "signal": null,
+        "log": "/tmp/schemaforge-local-exception-browser-scripts_test-product_mjs---browser.log",
+        "log_sha256": "b1c7d3fef39ab2b30e617d3caafe49a232460c0dd22cfc0639a1dbeef3c843c8"
+      }
+    ],
+    "counts": {
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "mode": "Complete unsharded browser list, serial files; no altered tests/assertions"
+  },
+  "release": {
+    "commands": [
+      {
+        "program": "npm",
+        "args": [
+          "run",
+          "test:release"
+        ],
+        "source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+        "startedAt": "2026-10-11T06:35:34.604Z",
+        "completedAt": "2026-10-11T06:39:00.517Z",
+        "wall_seconds": 205.911900539,
+        "exit_code": 0,
+        "signal": null,
+        "log": "/tmp/schemaforge-local-exception-release-run-test_release.log",
+        "log_sha256": "02a840f1b083bab604fd60c2d9f27964b80f4ecf1ee90dcf78042bfe8e632452"
+      }
+    ],
+    "outer_counts": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "source_bundle_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+    "inner_workflow_pass": 4,
+    "inner_fail": 0,
+    "inner_skipped": 0,
+    "inner_cancelled": 0,
+    "fresh_extracted_npm_install_and_parser_web_builds": true
+  },
+  "reproducible_source_artifact": {
+    "directory": "/tmp/schemaforge-owner-exception-source-08be8915d3d2",
+    "format": "schemaforge-local-source-checksum-v1",
+    "sourceCommit": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+    "archive": "schemaforge-local-08be8915d3d2.tar.gz",
+    "sha256": "ed0108fc31bd385c1edbb2f5a0cf120cdff9c606784518ce774266c6c7a06c4d",
+    "bytes": 444690,
+    "manifestSha256": "0f5de067ecab8bdc3db2d28ae2f14d63ad8e334794801fdf0ec24b95da56d6cf",
+    "files": 115,
+    "scope": "LOCAL_SOURCE_INSTALLATION_CANDIDATE",
+    "oracleRuntime": "UNVALIDATED"
+  },
+  "worktree_preservation": {
+    "original_worktrees": 47,
+    "all_original_tracked_diffs_preserved": true,
+    "total_worktrees": 54
+  },
+  "environment": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "postgresql": "17.10",
+    "umask": "022; logs created mode0600 before execution",
+    "setup": "Fresh npm ci --ignore-scripts --no-audit --no-fund. Reused only SHA-verified pinned public ANTLR tool/runtime, externally installed pinned JDK and existing pinned Playwright Chromium. Rebuilt parser helper reproducibly. No private cache or node_modules cache.",
+    "parser_helper_sha256": "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38",
+    "public_parser_artifacts": [
+      {
+        "id": "tool",
+        "sha256": "eae2dfa119a64327444672aff63e9ec35a20180dc5b8090b7a6ab85125df4d76"
+      },
+      {
+        "id": "runtime",
+        "sha256": "dd3e8a13a2d669bf84fb8d834de35ce4875f27157698d206241ec8488aadcaf7"
+      }
+    ],
+    "jdk_archive_sha256": "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94",
+    "npm_install_log": {
+      "path": "/tmp/schemaforge-local-exception-npm-ci.log",
+      "sha256": "e15eb40d172664f3645584896d79eab5bb0186a0e09cd3d9d7f254f9384eece6"
+    },
+    "initial_setup_failure": "After successful fresh npm ci, attempted public-artifact copy used a checkout without the tool jar. Corrected source path and verified exact public pins before any mandatory suite ran; no test failures suppressed."
+  },
+  "security": {
+    "source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+    "tree": "03eeba9d9b7e8ea4912600fda0067bda44666e22",
+    "base": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
+    "files": 23,
+    "inventory": [
+      {
+        "path": "apps/worker/oracle-provider.mjs",
+        "sha256": "69dafa475ad40fd4817d98a32d4677110cf9a708d362863bd0903433894057b0",
+        "bytes": 10425
+      },
+      {
+        "path": "docs/decisions/log.json",
+        "sha256": "f2a26de2b4a486ab37092190cbf0d2c386c0fa35d2c0b5c4fff86deedd74dda2",
+        "bytes": 55690
+      },
+      {
+        "path": "docs/development/local-product.md",
+        "sha256": "6178db93e7e28069c5aa31c58fa269ed5ee0feb7ca466745d5271418b3668b55",
+        "bytes": 73801
+      },
+      {
+        "path": "docs/implementation/CONTINUE.md",
+        "sha256": "87774d50f5ede951bb3f5b23cda1856e53ffae35bfb66c8db53c1d8df7834847",
+        "bytes": 3784
+      },
+      {
+        "path": "docs/implementation/CURRENT.md",
+        "sha256": "87774d50f5ede951bb3f5b23cda1856e53ffae35bfb66c8db53c1d8df7834847",
+        "bytes": 3784
+      },
+      {
+        "path": "docs/implementation/evidence-index.json",
+        "sha256": "25209055d61c032b8e7d22517e05ced4c104390cb3251bebdcc4ed30ec6ee295",
+        "bytes": 152993
+      },
+      {
+        "path": "docs/implementation/feature-coverage.json",
+        "sha256": "c3b672677dcc94366d00caddfe2582ff9214217360175f586968374d7c03153b",
+        "bytes": 127735
+      },
+      {
+        "path": "docs/implementation/github-sync.md",
+        "sha256": "c025bff1c7a374e3099f68f86e221f0097caa997955ff1c3b29813d650e35d4d",
+        "bytes": 6156
+      },
+      {
+        "path": "docs/implementation/milestone.json",
+        "sha256": "47674576f694bea14852fab448bdc1e03c8b61589bd352987875b84cf4026cfb",
+        "bytes": 31866
+      },
+      {
+        "path": "evidence/product/api-shard-balancing-20261011/local-check-summary.json",
+        "sha256": "81f092825216857096ea988b24effa4ae7444e7bab014bbc30a129335ca9980c",
+        "bytes": 730
+      },
+      {
+        "path": "evidence/product/api-shard-balancing-20261011/observed-file-durations.json",
+        "sha256": "675e404ae64d7b2ea87a388416f778f42ae2a0edf6f4d8e0703f8dd9c8b72e03",
+        "bytes": 5511
+      },
+      {
+        "path": "evidence/product/api-shard-balancing-20261011/pr60-ci-not-started-summary.json",
+        "sha256": "dd02dd3792338fbfc04b691e0d1b8f3a05d56226577d4a9b981d3407ccb3a795",
+        "bytes": 1155
+      },
+      {
+        "path": "evidence/product/api-shard-balancing-20261011/pr60-publication-ci-financial-block.json",
+        "sha256": "95c15ad9387e65280fddaf585b71612bc631210ef0054097a96292bf1d30a5a5",
+        "bytes": 2773
+      },
+      {
+        "path": "evidence/product/api-shard-balancing-20261011/record.json",
+        "sha256": "ee1f4d1f4552051dcaf2a641eaa1d263877209e35ef8e58e33a4e1781f2fd359",
+        "bytes": 4697
+      },
+      {
+        "path": "evidence/product/provider-permit-expiry-20261011/local-check-summary.json",
+        "sha256": "1cd870d6a30719c42fb725d614accbba6a2a4b7a5ece9d6322af5819f8d5d846",
+        "bytes": 259
+      },
+      {
+        "path": "evidence/product/provider-permit-expiry-20261011/record.json",
+        "sha256": "f2da45ff64d9ab3db87190c45ad3479f5f6aaa0396d2a6efbd7a00e71e6fd630",
+        "bytes": 2454
+      },
+      {
+        "path": "evidence/product/worker-lifecycle-20261011/candidate-ci-summary.json",
+        "sha256": "88e0527736c6c95de31b206c292edb62859750b632db9f26822571a618b6cd2e",
+        "bytes": 2152
+      },
+      {
+        "path": "evidence/product/worker-lifecycle-20261011/master-ci-financial-block.json",
+        "sha256": "0231bfc33e9822f50782ac113d27d9505ec6220968ae9bf3da069796f725b7a1",
+        "bytes": 3024
+      },
+      {
+        "path": "evidence/product/worker-lifecycle-20261011/master-ci-not-started-summary.json",
+        "sha256": "66a8151a4f242d75b78eca343811881af15d383887abe494d5d7eca68e823a19",
+        "bytes": 6747
+      },
+      {
+        "path": "scripts/product-test-shards.mjs",
+        "sha256": "c71037f7ac26a32a9e55ed2fe148f703aac150edc3ce130cd8694275fa8a7e2f",
+        "bytes": 2792
+      },
+      {
+        "path": "scripts/test-product.mjs",
+        "sha256": "2b65429135814684153152e0d45a5a44af585fef457705b57b1f6f1f0af3d9ac",
+        "bytes": 5439
+      },
+      {
+        "path": "tests/oracle-provider.test.mjs",
+        "sha256": "8d963c54d6b8f2578db004ff1f39004cc86b2013627cacab24c8ab9a7703448e",
+        "bytes": 17523
+      },
+      {
+        "path": "tests/product-test-shards.test.mjs",
+        "sha256": "8faabaabd2bdb537b0111d239b028e8e546287c46311f7a922834b35ebaaedc6",
+        "bytes": 3360
+      }
+    ],
+    "scanner": "Gitleaks8.30.1",
+    "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+    "exit_code": 0,
+    "findings": 0,
+    "report": "/tmp/schemaforge-local-exception-source-gitleaks.json",
+    "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+  },
+  "license": {
+    "product": "Unmodified PolyForm Shield1.0.0",
+    "unknown_required_grants": 0,
+    "pinned_packages": 85,
+    "dependency_or_license_changes": false
+  },
+  "independent_review": {
+    "reviewer": "native ci_review",
+    "reviewed_at": "2026-10-11T06:54:12.298682+00:00",
+    "tested_source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
+    "outcome": "APPROVED_NO_BLOCKER",
+    "scope": "Complete local acceptance only: exact source/tree and recorded command/API log hashes; standard281/48optionalPGskips, parser30corpus/4integration,API78separateDBs,browser33,freshsource1outer4inner;23fileGitleaks0findings;public pinned setup equivalence and corrected initial setup failure.",
+    "remote_merge_approval": false
+  },
+  "oracle_connections": 0,
+  "limits": [
+    "No remote CI passing claim or newly measured remote speedup.",
+    "Local UNIT Oracle host/provider tests do not validate real Oracle effects, recovery or deployed isolation.",
+    "Unavailable Sonar/scanning capabilities retain their explicit prior status; no passing claim.",
+    "No billing changes, spending, production deployment, branch-protection bypass or merge."
+  ]
+}
