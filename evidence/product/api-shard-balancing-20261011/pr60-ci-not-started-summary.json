@@ -1,0 +1,37 @@
+{
+  "scope": "ACTUAL_PR60_CI_JOBS_NOT_STARTED",
+  "head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72",
+  "outcome": "FAIL",
+  "tests_run": 0,
+  "jobs_started": 0,
+  "workflows": [
+    {
+      "name": "Local PRODUCT acceptance",
+      "run": 38116687918,
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38116687918",
+      "outcome": "FAIL",
+      "jobs": 6,
+      "jobs_started": 0
+    },
+    {
+      "name": "Offline ANTLR parser acceptance",
+      "run": 38116687908,
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38116687908",
+      "outcome": "FAIL",
+      "jobs": 1,
+      "jobs_started": 0
+    },
+    {
+      "name": "Offline WP0 checks",
+      "run": 38116687925,
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38116687925",
+      "outcome": "FAIL",
+      "jobs": 1,
+      "jobs_started": 0
+    }
+  ],
+  "reason": "GitHub Actions reports recent account payment failures or spending limit. All eight jobs have empty step lists and that annotation.",
+  "reruns": 0,
+  "merge_eligible": false,
+  "last_fully_verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac"
+}

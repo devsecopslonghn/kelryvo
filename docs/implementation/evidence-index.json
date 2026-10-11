@@ -3617,6 +3617,24 @@
       },
       "path": "evidence/product/provider-permit-expiry-20261011/record.json",
       "sha256": "f2da45ff64d9ab3db87190c45ad3479f5f6aaa0396d2a6efbd7a00e71e6fd630"
+    },
+    {
+      "id": "mvp-api-balancing-provider-expiry-pr60-ci-financial-block",
+      "subject_id": "OPS-023",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "FAIL",
+      "command": "Publish independently reviewed/scanned exactf7 as PR60. All candidate workflows FAIL before jobs start due account payment/spending-limit annotations; required gates remain mandatory, no merge/rerun/billing change. Local281PASS48optionalPGskip0FAIL remains local proof only.",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/api-shard-balancing-20261011/pr60-ci-not-started-summary.json",
+        "sha256": "dd02dd3792338fbfc04b691e0d1b8f3a05d56226577d4a9b981d3407ccb3a795"
+      },
+      "path": "evidence/product/api-shard-balancing-20261011/pr60-publication-ci-financial-block.json",
+      "sha256": "95c15ad9387e65280fddaf585b71612bc631210ef0054097a96292bf1d30a5a5"
     }
   ]
 }

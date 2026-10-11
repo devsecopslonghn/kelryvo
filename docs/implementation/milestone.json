@@ -252,6 +252,9 @@
     },
     {
       "index_id": "mvp-private-provider-continuous-expiry-local-verified"
+    },
+    {
+      "index_id": "mvp-api-balancing-provider-expiry-pr60-ci-financial-block"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -272,7 +275,7 @@
     "node scripts/tracker.mjs status",
     "node scripts/tracker.mjs next"
   ],
-  "updated_at": "2026-10-11T05:58:03.039669+00:00",
+  "updated_at": "2026-10-11T06:03:33.103757+00:00",
   "final_check_evidence": {
     "index_id": "mvp-release-diagnostics-pr58-master-verified"
   },
@@ -280,18 +283,20 @@
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
-  "latest_validated_master_before_this_increment": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
+  "latest_validated_master_before_this_increment": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
   "last_merged_implementation_pr": 59,
-  "checkpoint_evidence": "evidence/product/api-shard-balancing-20261011/record.json",
-  "implementation_prs_pending": [],
+  "checkpoint_evidence": "evidence/product/api-shard-balancing-20261011/pr60-publication-ci-financial-block.json",
+  "implementation_prs_pending": [
+    60
+  ],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "LOCAL_VERIFIED_REVIEWED_REMOTE_CI_FINANCIAL_BLOCK",
-  "current_checkpoint_branch": "development/pending-history-context",
+  "current_increment_merge_status": "PR60_OPEN_UNMERGED_CANDIDATE_CI_FINANCIAL_BLOCK",
+  "current_checkpoint_branch": "development/ci-balanced-api",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -368,7 +373,7 @@
       "native_security": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS"
     }
   },
-  "current_increment_pr": null,
+  "current_increment_pr": 60,
   "current_increment_reviewed_head": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
   "current_increment_merge_commit": null,
   "t19_compatibility_decision": {
@@ -414,10 +419,10 @@
     "integration_complete": false,
     "configured_required_contexts": [],
     "optional_host_security": "UNAVAILABLE_NOT_PASS",
-    "actual_ci": "PR59 candidate PASS, master all3 FAIL before jobs started due financial block. Last fully verified master4d. New source local checks/review PASS; required candidate/master gates pending.",
+    "actual_ci": "PR60 all3 workflows FAIL before jobs start due account payments/spending limit; no tests run or gate waiver. PR59 master same financial block. Last fully verified master4d. Local check/review/scan PASS only.",
     "ordinary_merge_no_bypass": true
   },
-  "latest_merged_master_before_this_increment": "ce632193ac3a1c9c544d71e84eca2071133987d0",
+  "latest_merged_master_before_this_increment": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
   "last_verified_master_evidence": "evidence/product/release-diagnostics-20261011/master-verification.json",
   "verified_remote_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
   "carry_forward": {
@@ -459,7 +464,7 @@
     "merge_eligible": false
   },
   "next_milestone": "Restore Actions availability, integrate full-coverage CI balancing/provider expiry after actual gates. Continue installed authority readiness without Oracle connections.",
-  "current_increment_published_head": null,
+  "current_increment_published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72",
   "t32_integration_sources": [
     {
       "pr": 40,
@@ -823,13 +828,16 @@
     ],
     "active_increment": {
       "outcome": "Complete API CI balancing and continuously live private provider permit",
-      "status": "LOCAL_VERIFIED_REVIEWED_UNPUBLISHED_REMOTE_CI_FINANCIAL_BLOCK",
+      "status": "PR60_OPEN_UNMERGED_CANDIDATE_CI_FINANCIAL_BLOCK",
       "worktree": "/home/longhn0710/workspace/schemaforge-ci-balanced-api",
       "branch": "development/ci-balanced-api",
       "source_head": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
       "integrated_base": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
-      "checkpoint_publication": "LOCAL_UNPUBLISHED",
-      "next": "Final scoped scan/publication review and PR; restore Actions availability before actual candidate/master gates and eligible merge."
+      "checkpoint_publication": "EXACT_F7_PUBLISHED_PR60_CLOSEOUT_LOCAL_UNPUSHED",
+      "next": "Owner restores Actions availability; verify actual required master and PR60 gates, ordinary eligible merge, verify resulting master.",
+      "pr": 60,
+      "url": "https://github.com/devsecopslonghn/schemaForge/pull/60",
+      "published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72"
     },
     "last_integrated_pr": 59,
     "last_fully_verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac"

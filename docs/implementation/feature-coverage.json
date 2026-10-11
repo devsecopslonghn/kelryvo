@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-11T05:58:03.039669+00:00",
+  "recorded_at": "2026-10-11T06:03:33.103757+00:00",
   "verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
   "reviewed_local_source": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
@@ -65,8 +65,10 @@
   "external_acceptance": "PR52-PR58 local source/governance/pending history integrated on verified4d. PR59 merged3e after actual candidate78API33browser1release(inner4) zero fail/skip; master all workflows FAIL before starting due to account payment/spending-limit block. Provider expiry gap corrected locally; no corrected candidate/master verification. Original7da failure retained/causeUNKNOWN; no Oracle/runtime/deployed acceptance.",
   "next_product_capability": {
     "milestone": "Full-coverage API CI balancing and continuous private-provider permit expiry",
-    "status": "LOCAL_VERIFIED_REVIEWED_REMOTE_CI_FINANCIAL_BLOCK",
-    "next_action": "Owner restores Actions availability. Publish/freeze follow-up under unchanged gates; verify master and candidate results, ordinary eligible merge and resulting-master checks."
+    "status": "PR60_OPEN_UNMERGED_CANDIDATE_CI_FINANCIAL_BLOCK",
+    "next_action": "Restore Actions availability, verify actual master and exact PR60 candidate, then ordinary eligible merge and resulting-master verification.",
+    "pr": 60,
+    "published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72"
   },
   "features": [
     {
