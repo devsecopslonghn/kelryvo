@@ -230,6 +230,12 @@
     },
     {
       "index_id": "mvp-approved-pending-history-context-local-verified"
+    },
+    {
+      "index_id": "mvp-pr57-master-release-initial-failure"
+    },
+    {
+      "index_id": "mvp-release-safe-diagnostics-local-verified"
     }
   ],
   "foundation_status": "VERIFIED",
@@ -757,8 +763,8 @@
       "M1": "LOCAL_FOUNDATION_WORKFLOW_VERIFIED_INTEGRATED",
       "M2": "OFFLINE_PREPARATION_REVIEW_WORKFLOW_VERIFIED_INTEGRATED",
       "M3": "RESTRICTED_ORACLE_HOST_ADAPTER_INTEGRATED_MASTER_CI_VERIFIED_UNIT_TARGET_ONLY_INSTALLED_PROVIDER_AND_RUNTIME_INCOMPLETE",
-      "M4": "PENDING_SUFFIX_LEDGER_AND_NO_REPLAY_ADAPTER_INTEGRATED_HISTORY_CONTEXT_IN_PROGRESS_REAL_RECOVERY_INCOMPLETE",
-      "M5": "REPRODUCIBLE_LOCAL_SOURCE_INSTALLATION_ACCEPTANCE_INTEGRATED_MASTER_CI_VERIFIED_FULL_RELEASE_INCOMPLETE"
+      "M4": "PENDING_SUFFIX_LEDGER_HOST_AND_APPROVED_HISTORY_PROVENANCE_MERGED_PR57_CURRENT_MASTER_RELEASE_CHECK_FAILED",
+      "M5": "PR52_PR56_REPRODUCIBLE_LOCAL_ACCEPTANCE_VERIFIED_PR57_CURRENT_MASTER_RELEASE_FAILURE_UNRESOLVED"
     },
     "oracle_runtime": "BLOCKED_EXTERNAL_NO_AUTHORIZED_ENVIRONMENT",
     "shortest_next_path": [
@@ -783,7 +789,7 @@
         "status": "INTEGRATED_PR52_MASTER_CI_VERIFIED_LOCAL_BUNDLE_PR55_BUILT_AND_VERIFIED"
       }
     ],
-    "merged_master": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
+    "merged_master": "7da25d2775bd1f96b5ca02be117b2d348553dd81",
     "reconciled_prs": [
       48,
       47,
@@ -799,16 +805,17 @@
       37
     ],
     "active_increment": {
-      "outcome": "Readable approved pending-migration context for retained execution history",
-      "status": "LOCAL_VERIFIED_INDEPENDENT_SOURCE_REVIEW_APPROVED_CI_PENDING",
-      "worktree": "/home/longhn0710/workspace/schemaforge-pending-history",
-      "branch": "development/pending-history-context",
-      "integrated_base": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
-      "source_head": "6c336c3f5b816a470994c05810e745405d179b80",
+      "outcome": "Restore secret-safe fresh-source release failure visibility and verify current master acceptance",
+      "status": "LOCAL_DIAGNOSTIC_AND_FRESH_SOURCE_ACCEPTANCE_PASS_INITIAL_MASTER_FAILURE_CAUSE_UNKNOWN_CI_PENDING",
+      "worktree": "/home/longhn0710/workspace/schemaforge-release-diagnostics",
+      "branch": "development/release-failure-diagnostics",
+      "source_head": "fa4bd87df1888a649a9cb927083eb9749ac3eaeb",
+      "integrated_base": "7da25d2775bd1f96b5ca02be117b2d348553dd81",
       "checkpoint_publication": "UNPUBLISHED",
-      "next": "Final scoped publication scan/inventory review, actual candidate foundation/parser/PRODUCT, ordinary exact-head merge and actual resulting-master gates."
+      "next": "Finish fresh-source local reproduction, review scoped publication, require actual candidate/master gates; independently review unpublished whole-worker supervision."
     },
-    "last_integrated_pr": 56
+    "last_integrated_pr": 57,
+    "last_fully_verified_master": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3"
   },
   "historical_t35_carry_forward": {
     "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-product-secure-sessions",

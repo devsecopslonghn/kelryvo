@@ -554,6 +554,21 @@
         "MIG-012",
         "MIG-027"
       ]
+    },
+    {
+      "id": "SF-D048",
+      "status": "ACCEPTED_MVP_RELEASE_SAFE_FAILURE_DIAGNOSTICS",
+      "accepted_at_utc": "2026-10-11T04:50:44.151729+00:00",
+      "decision": "Preserve the actual PR57 resulting-master release failure and its unknown lost inner assertion. Emit only bounded fixed workflow identifiers, numeric durations and whitelisted TAP failure types/codes from fresh-source installation failures; retain arbitrary assertions, SQL, browser call logs and credential text in mode-0600 private temporary logs. Do not upload raw installation output, change test coverage/assertions/timeouts, retry blindly or promote a failed required gate. Local reproduction passed; actual full candidate and resulting-master gates remain required. Routine reversible observability choice under SF-D010; no runtime/deployment/provider or Oracle certification.",
+      "references": [
+        "tests/helpers/release-diagnostics.mjs",
+        "tests/product-local-release.integration.mjs",
+        "docs/development/local-release.md",
+        "evidence/product/release-diagnostics-20261011/initial-failure-record.json"
+      ],
+      "catalog_traceability": [
+        "MIG-012"
+      ]
     }
   ]
 }
