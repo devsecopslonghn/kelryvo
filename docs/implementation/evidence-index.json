@@ -3545,6 +3545,24 @@
       },
       "path": "evidence/product/release-diagnostics-20261011/master-verification.json",
       "sha256": "81885e368cbb025780ff6a18622aaf5dc7b553732ee6d5a510cabf0907e6e030"
+    },
+    {
+      "id": "mvp-worker-lifecycle-local-verified",
+      "subject_id": "OPS-002",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Whole-operation native child supervision plus one-shot private dedicated-session provider. Frozen combined npm check271PASS48optionalPGskip0FAIL; process17/provider10UNIT; real PostgreSQL child1PASS0SKIP verifies V1/V2 no replay and cleanup uncertainty. Oracle/deployed isolation/installed authority remain unverified.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/worker-lifecycle-20261011/local-check-summary.json",
+        "sha256": "189a6cd1733238b104bb5cc8d706e03d949cbe04850417f41de13e41e29a13f4"
+      },
+      "path": "evidence/product/worker-lifecycle-20261011/record.json",
+      "sha256": "450dd50781a50677976be18081eb9562b54d110e32c7968a790424f5caf1b5bc"
     }
   ]
 }

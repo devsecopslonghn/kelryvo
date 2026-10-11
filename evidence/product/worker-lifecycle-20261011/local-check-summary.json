@@ -1,0 +1,28 @@
+{
+  "scope": "LOCAL_PRODUCT_CHECK_UNIT_TARGET_ONLY",
+  "functional_source": "74837d8f7611dcf056f2209e924813547663aa45",
+  "standard": {
+    "command": "env -u SCHEMAFORGE_TEST_DATABASE_URL -u SCHEMAFORGE_REQUIRE_PRODUCT_TESTS SCHEMAFORGE_JAVA_HOME=<exact pinned JDK> npm run check",
+    "exit_code": 0,
+    "tests": 319,
+    "pass": 271,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 48,
+    "optional_skips": 48
+  },
+  "mandatory_postgresql": {
+    "command": "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_TEST_DATABASE_URL=<owned disposable loopback PG> SCHEMAFORGE_JAVA_HOME=<exact pinned JDK> node --test tests/product-worker-supervision.test.mjs",
+    "tests": 1,
+    "pass": 1,
+    "fail": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "target": "UNIT_SYNTHETIC"
+  },
+  "focused_process_unit_tests": 17,
+  "focused_provider_unit_tests": 10,
+  "license_packages": 85,
+  "unknown_required_grants": 0,
+  "oracle_calls": 0
+}

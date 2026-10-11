@@ -569,6 +569,21 @@
       "catalog_traceability": [
         "MIG-012"
       ]
+    },
+    {
+      "id": "SF-D049",
+      "status": "ACCEPTED_MVP_SUPERVISED_WORKER_PRIVATE_SESSION_LIFECYCLE",
+      "accepted_at_utc": "2026-10-11T05:28:34.419716+00:00",
+      "decision": "Use one fixed privileged native Node child per approved operation and a one-shot private dedicated-session provider. Bind actual scope/id and fresh job challenge; await all owned operations and mandatory cleanup under a whole-operation deadline, require actual clean child exit for acknowledgment. Unknown/unreaped child bars replacement; overlap/early return/driver or cleanup uncertainty HOLD without retry or rewriting durable facts. API/request metadata supplies no executable, routes, secrets or target authority. Reuse pinned Thin driver/host/worker/ledger; synthetic tests never install trusted runtime evidence. OS/deployed isolation, independently truthful purpose/target attestations and authorized Oracle runtime remain separate.",
+      "references": [
+        "apps/worker/supervisor.mjs",
+        "apps/worker/oracle-provider.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "OPS-002",
+        "MIG-011"
+      ]
     }
   ]
 }
