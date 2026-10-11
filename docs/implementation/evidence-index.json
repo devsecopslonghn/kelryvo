@@ -3383,6 +3383,42 @@
       },
       "path": "evidence/product/history-aware-20261011/rewind-correction/record.json",
       "sha256": "52fddf8fd2a53f2b854b8b38a1cd53f93a52f612efed8c16564b7a71a4149dbc"
+    },
+    {
+      "id": "mvp-history-aware-pr54-master-verified",
+      "subject_id": "MIG-034",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "PR54 ordinary exact-head merge; candidate and resulting-master foundation/parser/PRODUCT actual SUCCESS; API70/browser33/fresh-source1(inner4) zero fail/skip; integrated local archive checksum and extracted manifest verified.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/history-aware-20261011/master-ci-observation.json",
+        "sha256": "fe987c5f868d0f211add528215f5b2fab5fde724d1579683c839f4c32a56ac14"
+      },
+      "path": "evidence/product/history-aware-20261011/master-verification.json",
+      "sha256": "cda59d4820bbe6e237a7d03cda170e52c348686e2fa896210fe3efa5c44fdb20"
+    },
+    {
+      "id": "mvp-protected-target-ledger-foundation-unit-verified",
+      "subject_id": "MIG-025",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check:175PASS52optionalSKIP0fail; required pinned-parser Git import7PASS0skip; includes25 ledger UNIT cases and independent no-blocker read-only review. No Oracle connection/runtime promotion.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/oracle-ledger-foundation-20261011/checks.log",
+        "sha256": "afd2a2e464e8c9ddb46fe4c5c5e64e4901bdaecd4abfeaa2d5eaf6dd944ffa73"
+      },
+      "path": "evidence/product/oracle-ledger-foundation-20261011/record.json",
+      "sha256": "b0b40cc256383b3b13e108778c0dde1e7590dc892defc819bf16b48c0918543e"
     }
   ]
 }

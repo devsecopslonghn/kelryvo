@@ -1,0 +1,92 @@
+{
+  "id": "mvp-protected-target-ledger-foundation-unit-verified",
+  "subject_id": "MIG-025",
+  "kind": "UNIT",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check:175PASS52optionalSKIP0fail; required pinned-parser Git import7PASS0skip; includes25 ledger UNIT cases and independent no-blocker read-only review. No Oracle connection/runtime promotion.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/oracle-ledger-foundation-20261011/checks.log",
+    "sha256": "afd2a2e464e8c9ddb46fe4c5c5e64e4901bdaecd4abfeaa2d5eaf6dd944ffa73"
+  },
+  "recorded_at": "2026-10-11T02:34:38.163316+00:00",
+  "source_commit": "a1130d0c0652d83fe548a48a3070e87152b3ef58",
+  "source_sha256": {
+    "packages/execution/oracle-target-ledger.mjs": "b066c77d6b02d2348ee7183beefb1f6ec9e748c8313a2d2939af787d7cdd783b",
+    "tests/oracle-target-ledger.test.mjs": "5f86c40b7289509e5fef094ce32c57f835b61fb1a8c5064e993b00cbe09eb029",
+    "apps/worker/oracle/target-ledger.sql": "e4690f995fdfb5ec7e290f68c22208f62d17f6db162bd73fda4cc3ddb8f587dc"
+  },
+  "standard": {
+    "command": "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run check",
+    "exit_code": 0,
+    "tests": 227,
+    "pass": 175,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 52,
+    "skipped_reason": "45 optional PostgreSQL product cases with no database URL; 7 Git import/parser cases lacked generated helper at standard-check time",
+    "licenses": "85 pinned packages; zero unknown required grants"
+  },
+  "supplemental_import": {
+    "command": "SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --test tests/product-import.test.mjs",
+    "exit_code": 0,
+    "tests": 7,
+    "pass": 7,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "raw_output": {
+      "path": "evidence/product/oracle-ledger-foundation-20261011/import-checks.log",
+      "sha256": "30574289bea6cfbb51b56f915fa1ae6cbddd717adadd27a5584ccdf301ef3ce1"
+    },
+    "setup": "Reused existing helper/runtime JARs after exact pinned SHA256 verification; no download",
+    "initial_setup_failure": "Helper alone was unavailable without runtime JAR (4PASS3FAIL); corrected isolated cache, final7PASS"
+  },
+  "ledger_unit_tests": {
+    "included_in_standard": true,
+    "tests": 25,
+    "pass": 25,
+    "fail": 0,
+    "skipped": 0
+  },
+  "independent_review": {
+    "reviewer": "native ci_review read-only",
+    "result": "NO_BLOCKING_FINDINGS_FOR_ISOLATED_UNACTIVATED_FOUNDATION",
+    "source_sha256": {
+      "packages/execution/oracle-target-ledger.mjs": "b066c77d6b02d2348ee7183beefb1f6ec9e748c8313a2d2939af787d7cdd783b",
+      "tests/oracle-target-ledger.test.mjs": "5f86c40b7289509e5fef094ce32c57f835b61fb1a8c5064e993b00cbe09eb029",
+      "apps/worker/oracle/target-ledger.sql": "e4690f995fdfb5ec7e290f68c22208f62d17f6db162bd73fda4cc3ddb8f587dc"
+    },
+    "requirement": "UNINITIALIZED is not empty target; future host must enforce adoption/approved baseline before startFile; raw incomplete/untrusted/unavailable states HOLD"
+  },
+  "catalog_traceability": [
+    "MIG-025",
+    "MIG-026",
+    "MIG-034"
+  ],
+  "oracle_calls": 0,
+  "runtime_scope": "UNIT fake transaction driver; real pinned offline Git/parser supplemental tests",
+  "candidate_ci": "PENDING",
+  "final_master_ci": "PENDING",
+  "publication_scan": "publication-scan.json",
+  "meaningful_cases": [
+    "Atomic full-file plan commit and rollback on interrupted plan; caller mutation snapshot",
+    "Original V1/V2 approval identities and compatible approved suffix selection",
+    "STARTED/no ACK, incomplete planned prefix, early completion and out-of-order/different digests cannot become applied",
+    "Missing/reordered/corrupt history, invalid signed state transitions and head mismatch fail closed",
+    "Commit ACK loss before/after publication poisons read/write capability without reconnect/retry",
+    "Numeric V2 to V10 ordering;128file/4096total statement caps; overflow witness",
+    "Stable physical-target partition across catalog reassignment; changed key/identity isolation"
+  ],
+  "limitations": [
+    "No Oracle installation/runtime acceptance, trusted host or API/worker activation",
+    "Dedicated protected owner/grants/object integrity, empty-target/baseline adoption, continuous mutex/dispatch permit and target validity must be independently attested by future host",
+    "Ledger-row lock serializes append transaction only; does not hold physical execution mutex through Oracle DDL",
+    "Checksum/receipt linkage does not authenticate target effects or authorize recovery/HOLD release",
+    "Bounds128files/4096total statements/12544events; no automatic repair/replay"
+  ]
+}

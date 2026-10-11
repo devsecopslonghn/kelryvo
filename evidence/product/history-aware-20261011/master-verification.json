@@ -1,0 +1,33 @@
+{
+  "id": "mvp-history-aware-pr54-master-verified",
+  "subject_id": "MIG-034",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "PR54 ordinary exact-head merge; candidate and resulting-master foundation/parser/PRODUCT actual SUCCESS; API70/browser33/fresh-source1(inner4) zero fail/skip; integrated local archive checksum and extracted manifest verified.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/history-aware-20261011/master-ci-observation.json",
+    "sha256": "fe987c5f868d0f211add528215f5b2fab5fde724d1579683c839f4c32a56ac14"
+  },
+  "recorded_at": "2026-10-11T02:27:10.673005+00:00",
+  "pr": 54,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/54",
+  "reviewed_published_head": "bc0c394d90e2d421ccb79f62b60527991fa4ef5c",
+  "merge_commit": "ef311b1e6ed900502c4af01a928352e9171ee0a2",
+  "ordinary_exact_head_merge": true,
+  "merge_status": "MERGED_MASTER_VERIFIED",
+  "independent_review": "Native ci_review frozen-head read-only review: no blocking findings; final source/evidence hashes matched",
+  "prior_pending_record": "rewind-correction/record.json",
+  "all_worktrees_and_unfinished_changes_preserved": true,
+  "runtime_scope": "Disposable PostgreSQL/Git/pinned parser/HTTPS plus UNIT_SYNTHETIC target ports",
+  "oracle_calls": 0,
+  "limitations": [
+    "No Oracle target host/ledger/runtime acceptance or deployed-worker isolation",
+    "Full public naming/distribution acceptance remains incomplete",
+    "Optional paid/disabled GitHub security and owner-authorized Sonar quota scans are UNAVAILABLE, never PASS"
+  ]
+}
