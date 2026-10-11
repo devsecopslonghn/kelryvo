@@ -37,7 +37,7 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
       || scope === 'UNIT_SYNTHETIC' && options.allowUnitSynthetic !== true
       || !Number.isInteger(leaseSeconds) || leaseSeconds < 1 || leaseSeconds > 300) throw new Error('Trusted execution host unavailable');
   const store = createExecutionJobStore(sql, workerId, { allowUnitSynthetic:scope === 'UNIT_SYNTHETIC' });
-  return {
+  return Object.freeze({ scope, workerId,
     async runWaitingRequest(jobId: string) {
       if (!executionUuid(jobId)) return 'ADMISSION_DECLINED' as const;
       let admitted = false;
@@ -205,5 +205,5 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
       const recovered = await store.claim(jobId,30,true);
       return recovered?.recoveredHold ? 'HOLD' as const : 'NOT_RECOVERED' as const;
     },
-  };
+  });
 }
