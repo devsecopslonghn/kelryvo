@@ -1,0 +1,54 @@
+{
+  "scope": "CI_SCHEDULING_ONLY_ALL_GATES_PRESERVED",
+  "base": "343eeaed357bd5ea7bbde5ab168b917a4a0cc93e",
+  "source_sha256": {
+    ".github/workflows/product.yml": "00ae40af82239a99ed0af9018f5e9a0d070cdbab96c66d129c66080288ec54fe",
+    "scripts/product-test-shards.mjs": "eee24e1138495997142bfa81065e2204d201f012ada6039464d518a2c0c47b96",
+    "scripts/test-product.mjs": "41eebe08bc3f367dabf0f71dda8e249352751704364f4c1420da5319a87d1a88",
+    "tests/product-test-shards.test.mjs": "2596cb0bb95281246c4982e749515e7c1fdb6067d4d36a719de09e6abcbcb846",
+    "docs/implementation/github-sync.md": "a57124a958a355c8a32cd6b12f66d0a87563ac620b74571aa564fb25b329269a"
+  },
+  "implementation": {
+    "apiShards": 4,
+    "browserShards": 3,
+    "freshSourceReleaseShards": 1,
+    "apiFiles": 44,
+    "browserFiles": 33,
+    "testFileLists": "UNCHANGED",
+    "isolatedPostgresPerShard": true,
+    "serialWithinShard": true,
+    "pullRequestAndMasterGates": "UNCHANGED",
+    "aggregate": "FAIL_CLOSED_ALL_SHARDS_MUST_SUCCEED"
+  },
+  "checks": {
+    "partitionTests": "PASS7/7; complete coverage/order/determinism/heavy separation/new files/invalid inputs",
+    "workflowYamlAndMatrix": "PASS:4API/3browser/1release",
+    "npm run check": "PASS301tests,75local fixture skips,0failures;89pinnedpackages known grants",
+    "skipExplanation": "No database env and no installed ANTLR helper in this isolated worktree. Seven parser-release cases were skipped beyond existing offline database skips. Mandatory fresh CI parser and complete PRODUCT tests remain unchanged.",
+    "independentReview": "PASS:ci_review read-only inspected five-file diff, preserved coverage/permissions/DB/cache/gates; no blocking findings",
+    "finalDiff": "PASS"
+  },
+  "estimates": {
+    "sourceRun": 38158157839,
+    "observedOldApiTestSeconds": [
+      593,
+      865
+    ],
+    "observedOldBrowserTestSeconds": [
+      281,
+      542
+    ],
+    "newMaximumApiWeightedSeconds": 346.193,
+    "newMaximumBrowserWeightedSeconds": 277.815,
+    "estimatedWholeJobSeconds": [
+      406,
+      446
+    ],
+    "remoteMeasurement": "PENDING_NEW_CANDIDATE_CI",
+    "runnerTradeoff": "Three additional jobs repeat setup; queue contention and increased runner minutes can reduce wall-time gains. No billing/provider changes."
+  },
+  "limits": [
+    "No test/assertion/timeout changes; no cached installed outputs or authority state.",
+    "Measurements are scheduling estimates; validate actual candidate/master durations before claiming achieved speed."
+  ]
+}
