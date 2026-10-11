@@ -87,7 +87,7 @@ function supervise(request, startWorker, limits, usedChildren, retain) {
       if (child instanceof ChildProcess && child.pid && !exited) {
         retain(child);
         reaper = setInterval(() => kill('SIGKILL'), 1000);
-      } else if (startInvoked && !child) { retain(true); }
+      } else if (startInvoked && !(child instanceof ChildProcess)) { retain(true); }
       else release();
       resolve(result);
     };

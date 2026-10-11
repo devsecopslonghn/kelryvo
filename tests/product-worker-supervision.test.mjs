@@ -29,7 +29,7 @@ test('fixed child bootstrap runs the real worker across PostgreSQL admission, di
     const dbUrl = f.db.databaseUrl;
     const factory = new URL('./helpers/execution-supervisor-unit-factory.mjs', import.meta.url).href;
     const startupEnv = Object.freeze({ PATH: '/usr/bin:/bin', LANG: 'C', TZ: 'UTC',
-      SCHEMAFORGE_JAVA_HOME: '/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin',
+      SCHEMAFORGE_JAVA_HOME: process.env.SCHEMAFORGE_JAVA_HOME,
       SCHEMAFORGE_UNIT_SCOPE: 'UNIT_SYNTHETIC', SCHEMAFORGE_TEST_DATABASE_URL: dbUrl,
       SCHEMAFORGE_UNIT_ASSIGNMENT_ID: assignmentId, SCHEMAFORGE_UNIT_CLEANUP_FAULT: 'throw' });
     const startWorker = createExecutionWorkerStarter({ factoryUrl: factory, env: startupEnv });

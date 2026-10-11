@@ -83,6 +83,16 @@ test('unconfirmed termination retains ownership and blocks replacement', async (
   await exit;
 });
 
+test('an invalid starter handle retains uncertainty and refuses another invocation', async () => {
+  let starts = 0;
+  const worker = createSupervisedExecutionWorker({ scope: 'UNIT_SYNTHETIC', workerId: 'supervisor-test-worker',
+    allowUnitSynthetic: true, limits: LIMITS, startWorker() { starts += 1; return {}; } });
+  const result = await worker.runWaitingRequest(JOB);
+  assert.equal(result.childTermination, 'UNCONFIRMED');
+  assert.equal((await worker.runWaitingRequest(JOB)).reason, 'SUPERVISOR_BUSY');
+  assert.equal(starts, 1);
+});
+
 test('a starter that throws retains uncertainty and refuses another invocation', async () => {
   let starts = 0;
   const worker = createSupervisedExecutionWorker({ scope: 'UNIT_SYNTHETIC', workerId: 'supervisor-test-worker',
