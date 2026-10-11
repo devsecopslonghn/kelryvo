@@ -1,0 +1,21 @@
+
+> schemaforge-local-development@0.0.0 test:release
+> node --test tests/product-local-release.integration.mjs
+
+TAP version 13
+# Source bundle 5502b8cd077cc61f63980d1d13d7ce1d1ffbc94c: 4 local workflow tests passed; Oracle UNVALIDATED.
+# Subtest: frozen source archive installs pinned dependencies and passes local end-to-end acceptance
+ok 1 - frozen source archive installs pinned dependencies and passes local end-to-end acceptance
+  ---
+  duration_ms: 196321.283782
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 196411.715971
