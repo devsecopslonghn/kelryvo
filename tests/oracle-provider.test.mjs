@@ -169,3 +169,83 @@ test('UNIT fake ports require explicit opt-in and TRUSTED scope cannot inject on
   assert.throws(()=>createPrivateOracleProvider({...installed,scope:'TRUSTED_VALIDATED'},
     {unitGetConnection:async()=>({}),allowUnitSynthetic:true}),/unavailable/);
 });
+
+const routes=()=>({writer:{connectString:'fixed-writer'},ledgerOwner:{connectString:'fixed-ledger'},
+  ledgerOwnerName:'SF_LEDGER',callTimeout:4321});
+function controlledClock(t) {
+  let now=1000000;
+  t.mock.method(Date,'now',()=>now);
+  return {expire:()=>{now+=60000;}};
+}
+function fakeSession() {
+  const c={callTimeout:0,closed:0,execute:async()=>{},commit:async()=>{},rollback:async()=>{},close:async()=>{c.closed++;}};
+  return c;
+}
+
+test('expiry during private route resolution prevents every connection and retires authority',async t=>{
+  const clock=controlledClock(t);let callbacks=0;
+  const f=fixture({installedOverrides:{resolvePrivateOptions:async()=>{clock.expire();return routes();}}});
+  const permit=await f.provider.authorize(f.request);
+  await assert.rejects(f.provider.withTarget(f.request,permit,async()=>{callbacks++;}),
+    /Oracle target capability unavailable/);
+  assert.equal(f.connections.length,0);assert.equal(callbacks,0);
+  assert.equal(await f.provider.authorize(f.request),null);
+});
+
+test('expiry during writer acquisition closes it without acquiring ledger or binding',async t=>{
+  const clock=controlledClock(t),writer=fakeSession();let connects=0,binds=0,callbacks=0;
+  const f=fixture({connectionFactory:async()=>{connects++;clock.expire();return writer;},
+    installedOverrides:{bindTarget:async()=>{binds++;return null;}}});
+  const permit=await f.provider.authorize(f.request);
+  await assert.rejects(f.provider.withTarget(f.request,permit,async()=>{callbacks++;}));
+  assert.equal(connects,1);assert.equal(binds,0);assert.equal(callbacks,0);assert.equal(writer.closed,1);
+});
+
+test('expiry during ledger acquisition closes both sessions without binding or callback',async t=>{
+  const clock=controlledClock(t),sessions=[fakeSession(),fakeSession()];let connects=0,binds=0,callbacks=0;
+  const f=fixture({connectionFactory:async()=>{const c=sessions[connects++];if(connects===2)clock.expire();return c;},
+    installedOverrides:{bindTarget:async()=>{binds++;return null;}}});
+  const permit=await f.provider.authorize(f.request);
+  await assert.rejects(f.provider.withTarget(f.request,permit,async()=>{callbacks++;}));
+  assert.equal(connects,2);assert.equal(binds,0);assert.equal(callbacks,0);assert.deepEqual(sessions.map(c=>c.closed),[1,1]);
+});
+
+test('expiry during installed binding prevents target callback and closes sessions',async t=>{
+  const clock=controlledClock(t);let binds=0,callbacks=0;
+  const f=fixture({installedOverrides:{bindTarget:async(_r,_p,writer,ledgerOwner,ledgerOwnerName)=>{
+    binds++;clock.expire();return {writer,ledgerOwner,ledgerOwnerName,
+      attest:async()=>assert.fail('expired attestation'),verifyEmptyTarget:async()=>false,claimDispatch:async()=>null,
+      verifyPostconditions:async()=>false,centralEvidenceComplete:async()=>false};
+  }}});
+  const permit=await f.provider.authorize(f.request);
+  await assert.rejects(f.provider.withTarget(f.request,permit,async()=>{callbacks++;}));
+  assert.equal(binds,1);assert.equal(callbacks,0);assert.equal(f.connections.every(c=>c.closed===1),true);
+});
+
+test('expiry prevents new owned calls, rejects expired settlement and expired callback success',async t=>{
+  const clock=controlledClock(t);
+  const before=fixture(),p1=await before.provider.authorize(before.request);
+  await assert.rejects(before.provider.withTarget(before.request,p1,async target=>{
+    clock.expire();await assert.rejects(target.writer.execute('synthetic denied call'));return 'caught';
+  }));
+  assert.equal(before.events.includes('execute'),false);
+  assert.equal(before.connections.every(c=>c.closed===1),true);
+
+  let finish,started,settlementRejected=false,commitRejected=false,commitCalls=0;
+  const began=new Promise(resolve=>{started=resolve;});
+  const during=fixture({connectionOverrides:{execute:async()=>{started();return new Promise(resolve=>{finish=resolve;});},
+    commit:async()=>{commitCalls++;}}});
+  const p2=await during.provider.authorize(during.request);
+  const task=during.provider.withTarget(during.request,p2,async target=>{
+    try { await target.writer.execute('synthetic in-flight call'); } catch { settlementRejected=true; }
+    try { await target.writer.commit(); } catch { commitRejected=true; } return 'caught';
+  });
+  await began;clock.expire();assert.equal(during.connections.some(c=>c.closed),false);finish();
+  await assert.rejects(task);assert.equal(during.connections.every(c=>c.closed===1),true);
+  assert.equal(settlementRejected,true);assert.equal(commitRejected,true);assert.equal(commitCalls,0);
+  assert.equal(await during.provider.authorize(during.request),null);
+
+  const after=fixture(),p3=await after.provider.authorize(after.request);
+  await assert.rejects(after.provider.withTarget(after.request,p3,async()=>{clock.expire();return 'expired result';}));
+  assert.equal(after.connections.every(c=>c.closed===1),true);
+});
