@@ -47,6 +47,12 @@ test('local source bundle is reproducible, excludes private/research inputs, pre
     await symlink('/tmp',path.join(unpack,'packages/unlisted-link'));await assert.rejects(verifyLocalRelease(unpack),/Unsafe/);
     await rm(path.join(unpack,'packages/unlisted-link'));
     await verifyLocalRelease(unpack);
+    const target=path.join(unpack,'experiments/db-devops-wp0/antlr-helper/target');
+    await mkdir(target);await writeFile(path.join(target,'schemaforge-antlr-parser.jar'),'UNPINNED_HELPER_FIXTURE');
+    await assert.rejects(verifyLocalRelease(unpack),/Prepared parser digest mismatch/);
+    await rm(target,{ recursive:true });
+    await symlink('/tmp',target);await assert.rejects(verifyLocalRelease(unpack),/Unsafe prepared parser/);
+    await rm(target);await verifyLocalRelease(unpack);
     await symlink('../.cache/private-token',path.join(repo,'apps/forbidden-link'));
     execFileSync('/usr/bin/git',['-C',repo,'add','apps/forbidden-link']);
     execFileSync('/usr/bin/git',['-C',repo,'-c','user.name=Release fixture','-c','user.email=fixture@example.invalid',

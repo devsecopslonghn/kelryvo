@@ -41,6 +41,9 @@ projected to installation/operator/acceptance commands; `release/source-package.
 retains the original package metadata. Research, tracker/evidence files, Git history,
 private local state and build outputs are excluded. Source and checksums are reproducible
 for the same committed revision. Modified or untracked working-tree files are not packaged.
+Verification permits installed dependencies, caches and web output outside the source
+inventory. The prepared parser helper must match its exact pinned digest; extra helper
+outputs, symlinks and altered source files fail verification.
 
 To build from the development repository, commit the intended source first:
 

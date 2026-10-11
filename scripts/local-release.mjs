@@ -8,6 +8,7 @@ import { parseArgs } from 'node:util';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const manifestName = 'release-manifest.json';
+const helperTarget = 'experiments/db-devops-wp0/antlr-helper/target';
 const scripts = new Set(['antlr-build','antlr-prepare','build-web','check-source','local-backup-operator',
   'local-credential-operator','local-dev','local-inventory-operator','local-membership-operator',
   'local-operator-config','local-prepare','local-repositories','local-resources','local-tls',
@@ -102,8 +103,21 @@ async function inventory(directory, prefix='') {
   for (const name of (await readdir(path.join(directory,prefix))).sort()) {
     const relative=prefix ? `${prefix}/${name}` : name;
     if (!prefix && ['node_modules','.cache','dist',manifestName].includes(name)) continue;
-    if (!safePath(relative)) throw new Error('Unsafe installation entry');
     const p=path.join(directory,relative),stat=await lstat(p);
+    // The reviewed parser build creates this one pinned helper after extraction.
+    // It is installation state, but unlike caches must match its exact source pin.
+    if (relative===helperTarget) {
+      const parser=JSON.parse(await readFile(path.join(directory,'docs/dependencies/antlr-parser-lock.json')));
+      if (!stat.isDirectory() || stat.isSymbolicLink()
+          || JSON.stringify(await readdir(p))!==JSON.stringify(['schemaforge-antlr-parser.jar'])
+          || parser.helper_path!==`${helperTarget}/schemaforge-antlr-parser.jar`
+          || !/^[a-f0-9]{64}$/.test(parser.helper_sha256)) throw new Error('Unsafe prepared parser');
+      const helper=path.join(directory,parser.helper_path),info=await lstat(helper);
+      if (!info.isFile() || info.nlink!==1 || info.isSymbolicLink()
+          || sha(await readFile(helper))!==parser.helper_sha256) throw new Error('Prepared parser digest mismatch');
+      continue;
+    }
+    if (!safePath(relative)) throw new Error('Unsafe installation entry');
     if (stat.isDirectory()) files.push(...await inventory(directory,relative));
     else if (stat.isFile() && stat.nlink===1) files.push({ path:relative,bytes:stat.size,sha256:sha(await readFile(p)) });
     else throw new Error('Unsafe installation entry');
