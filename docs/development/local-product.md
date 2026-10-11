@@ -856,3 +856,46 @@ cover-package compilation, privileges, TLS, runtime recovery or deployed-worker 
 Oracle semantics are based on the official
 [DBMS_LOCK reference](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_LOCK.html)
 and [node-oracledb connection API](https://node-oracledb.readthedocs.io/en/v7.0.1/api_manual/connection.html).
+
+## Supervised execution worker process
+
+`createSupervisedExecutionWorker` in `apps/worker/supervisor.mjs` wraps the complete
+`runWaitingRequest(jobId)` operation in a separate Node child. Its deadline includes
+fixed child bootstrap, metadata admission and locking, target dispatch/receipts, and
+mandatory awaited cleanup. The API still installs no worker or writer capability.
+
+Privileged installation code selects a reviewed file URL exporting an asynchronous
+`createExecutionWorker` factory. The factory resolves its private capabilities inside
+the child, constructs the existing execution worker, and returns its actual immutable
+`scope`, `workerId`, `runWaitingRequest` and an awaited `close` hook for its resources.
+`createExecutionWorkerStarter({ factoryUrl, env })` freezes that fixed URL and a small
+allowlisted environment, with no shell or inherited Node execution arguments. Do not
+resolve application writer credentials in the parent API or accept factory URLs,
+environment variables, target capabilities or worker scope from requests.
+
+Installation also binds the supervisor's expected worker ID and scope. Production
+requires `TRUSTED_VALIDATED`; `UNIT_SYNTHETIC` requires an explicit test opt-in and
+cannot satisfy a trusted binding. The request contains only the job UUID and a fresh
+invocation challenge. One READY and one exact matching RESULT are accepted; duplicate,
+stale, malformed, oversized or mismatched messages hold. IPC results are bounded and
+labelled with their evidence scope. The parent accepts a result only after clean child
+exit and acknowledged resource cleanup.
+
+The default whole-operation deadline is five minutes, followed by bounded TERM/KILL
+escalation and confirmed process exit. Operator-selected bounds remain privileged.
+Uncertain cleanup, protocol, startup or exit returns HOLD. An unreaped or unknown child
+bars replacement; a retained child is reaped continuously until its actual exit. The
+supervisor does not reconnect, retry SQL, redispatch a terminal job or overwrite an
+already committed worker outcome when transport or cleanup acknowledgment is uncertain.
+Use the durable journal and explicit target reconciliation to investigate HOLD.
+
+The fixed starter must return its actual ChildProcess, remain synchronous and prompt,
+and create no descendants. This library is a process lifecycle boundary. It supplies
+no OS sandbox, production factory, secret resolver, service deployment or independently
+validated Oracle provider. Real target access and deployed isolation remain unvalidated.
+
+`tests/product-worker-supervision.test.mjs` is mandatory in the PRODUCT API acceptance
+list and runs serially with its shard's disposable PostgreSQL service. It runs the real
+worker in a child, retains durable success after cleanup uncertainty, refuses terminal
+redispatch, then approves and executes only new V2 after V1. The synthetic target and
+process fault tests are UNIT evidence; no Oracle SQL is executed.
