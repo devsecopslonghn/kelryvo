@@ -3437,6 +3437,24 @@
       },
       "path": "evidence/product/oracle-ledger-foundation-20261011/master-verification.json",
       "sha256": "4c42ff4f94bd0084f898cf28138ab7c97556423aee46a08c53c78af3b54fb38f"
+    },
+    {
+      "id": "mvp-restricted-oracle-host-local-verified",
+      "subject_id": "MIG-011",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check240PASS46optionalSKIP0fail; real PG/Git/parser/approval/worker6PASS0skip; host/mutex58 and ledger25 UNIT cases; static mutex2 statements PARSE only. Independently reviewed source; no Oracle runtime promotion.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/oracle-host-20261011/checks.log",
+        "sha256": "04362b76312da25f0c1c2743891d8939e9edd11711f2c0ae07974d6ca109a158"
+      },
+      "path": "evidence/product/oracle-host-20261011/record.json",
+      "sha256": "8e645e5786be2d0166f45d6edaf71d7625a01ea797dc06bd99db40c052fd4ae8"
     }
   ]
 }

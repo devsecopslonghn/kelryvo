@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "kind": "PARSE",
+  "statementCount": 2,
+  "scope": "STATIC_PINNED_PARSER_ONLY",
+  "oracleCalls": 0,
+  "source_sha256": "ad5dbac6efcb2c2766b6da68b0f8e54b32b0856f688adc00da71c680751abd2e"
+}

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-11T03:03:20.075028+00:00",
+  "recorded_at": "2026-10-11T03:36:05.719111+00:00",
   "verified_master": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
-  "reviewed_local_source": "b5914d384ccfffa72e0dc4ea4c1c6922ca65e9ba",
+  "reviewed_local_source": "5bf2826421bf1571bc6b681c1f12144ac777b479",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
@@ -62,11 +62,11 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "Corrected PR48 journal, PR49 statement binding, PR50 scoped central history and PR51 restricted controlled-host bridge are merged with exact-head and merged-master CI verified. Host effects remain UNIT_SYNTHETIC; no Oracle runtime/driver/deployed-worker isolation/target reconciliation acceptance. Optional disabled/paid security remains UNAVAILABLE;124Oracle runtime cells BLOCKED_EXTERNAL.",
+  "external_acceptance": "PR52 installation, PR53 CI, PR54 pending suffix and PR55 ledger foundation are integrated with exact-head/master gates verified. Restricted Oracle host adapter locally UNIT and real PostgreSQL/Git/parser/worker verified; no installed provider/deployed isolation/Oracle runtime or recovery acceptance. Optional unavailable security/Sonar stays UNAVAILABLE, never PASS.",
   "next_product_capability": {
-    "milestone": "M5 with M3/M4 external acceptance retained",
-    "status": "LOCAL_SOURCE_INSTALLATION_ACCEPTANCE_VERIFIED_REMOTE_CI_PENDING",
-    "next_action": "Integrate tested local source installation candidate under actual gates. Then implement installed restricted Oracle host/driver and no-replay target reconciliation; authorized Oracle runtime/worker isolation remains external. No new task ID."
+    "milestone": "M3/M4 restricted host; M5 installation integrated",
+    "status": "RESTRICTED_ORACLE_HOST_LOCAL_VERIFIED_REMOTE_CI_PENDING",
+    "next_action": "Integrate adapter under actual candidate/master gates, then implement installed supervised provider/deployed-worker isolation. Oracle authorization/runtime and explicit nonempty baseline workflow remain separate."
   },
   "features": [
     {
@@ -673,10 +673,11 @@
       "name": "Pending and applied reconciliation",
       "milestone": "WS",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Host-attested approved applied prefix plus retained original approvals/complete receipts/validity reconciled before admission. Rewound/shorter/divergent target history, central uncertainty and missing witnesses HOLD even across catalog reassignment. Real local PostgreSQL/Git/parser with UNIT target ports verified; no installed Oracle ledger/adapter/runtime, repair/HOLD release or full feature acceptance.",
+      "basis": "Existing immutable approval, pending selector, controlled worker and protected ledger plus a restricted Oracle host adapter: same-session nonce mutex, write-purpose/one-use authority, ordered durable target STARTED/ACK/APPLIED, exact pending-only dispatch and uncertain-result no replay. Real PostgreSQL/Git/parser/worker and explicit fake Oracle transport verified locally. No independently installed provider/grants/TLS/Oracle runtime, deployed isolation, nonempty baseline or reviewed recovery/HOLD release acceptance.",
       "evidence": [
         "mvp-history-aware-local-verified",
-        "mvp-history-aware-divergence-local-verified"
+        "mvp-history-aware-divergence-local-verified",
+        "mvp-restricted-oracle-host-local-verified"
       ]
     },
     {
@@ -791,10 +792,11 @@
       "name": "Target-local ledger",
       "milestone": "WS",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Private protected ledger storage with immutable complete approved file plans, ordered STARTED/ACK/APPLIED facts and strict bounded history replay; atomic rollback and unknown-commit poisoning verified through25 fake-driver UNIT cases. Raw UNINITIALIZED never proves empty-target adoption; no installed Oracle host, ledger/grants/runtime acceptance, automatic reconciliation or recovery release.",
+      "basis": "Existing immutable approval, pending selector, controlled worker and protected ledger plus a restricted Oracle host adapter: same-session nonce mutex, write-purpose/one-use authority, ordered durable target STARTED/ACK/APPLIED, exact pending-only dispatch and uncertain-result no replay. Real PostgreSQL/Git/parser/worker and explicit fake Oracle transport verified locally. No independently installed provider/grants/TLS/Oracle runtime, deployed isolation, nonempty baseline or reviewed recovery/HOLD release acceptance.",
       "evidence": [
         "mvp-protected-target-ledger-foundation-unit-verified",
-        "mvp-protected-target-ledger-pr55-master-verified"
+        "mvp-protected-target-ledger-pr55-master-verified",
+        "mvp-restricted-oracle-host-local-verified"
       ]
     },
     {
@@ -802,11 +804,12 @@
       "name": "Hybrid history and reconciliation",
       "milestone": "WS",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Host-attested approved applied prefix plus retained original approvals/complete receipts/validity reconciled before admission. Rewound/shorter/divergent target history, central uncertainty and missing witnesses HOLD even across catalog reassignment. Real local PostgreSQL/Git/parser with UNIT target ports verified; no installed Oracle ledger/adapter/runtime, repair/HOLD release or full feature acceptance.",
+      "basis": "Existing immutable approval, pending selector, controlled worker and protected ledger plus a restricted Oracle host adapter: same-session nonce mutex, write-purpose/one-use authority, ordered durable target STARTED/ACK/APPLIED, exact pending-only dispatch and uncertain-result no replay. Real PostgreSQL/Git/parser/worker and explicit fake Oracle transport verified locally. No independently installed provider/grants/TLS/Oracle runtime, deployed isolation, nonempty baseline or reviewed recovery/HOLD release acceptance.",
       "evidence": [
         "mvp-history-aware-local-verified",
         "mvp-history-aware-divergence-local-verified",
-        "mvp-protected-target-ledger-foundation-unit-verified"
+        "mvp-protected-target-ledger-foundation-unit-verified",
+        "mvp-restricted-oracle-host-local-verified"
       ]
     },
     {
@@ -863,7 +866,7 @@
       "name": "Restore divergence detection",
       "milestone": "MVP-Core",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Host-attested approved applied prefix plus retained original approvals/complete receipts/validity reconciled before admission. Rewound/shorter/divergent target history, central uncertainty and missing witnesses HOLD even across catalog reassignment. Real local PostgreSQL/Git/parser with UNIT target ports verified; no installed Oracle ledger/adapter/runtime, repair/HOLD release or full feature acceptance.",
+      "basis": "Existing immutable approval, pending selector, controlled worker and protected ledger plus a restricted Oracle host adapter: same-session nonce mutex, write-purpose/one-use authority, ordered durable target STARTED/ACK/APPLIED, exact pending-only dispatch and uncertain-result no replay. Real PostgreSQL/Git/parser/worker and explicit fake Oracle transport verified locally. No independently installed provider/grants/TLS/Oracle runtime, deployed isolation, nonempty baseline or reviewed recovery/HOLD release acceptance.",
       "related_prerequisite_observations": [
         {
           "task": "SF-PRODUCT-T34",
@@ -882,7 +885,8 @@
       ],
       "evidence": [
         "mvp-history-aware-divergence-local-verified",
-        "mvp-protected-target-ledger-foundation-unit-verified"
+        "mvp-protected-target-ledger-foundation-unit-verified",
+        "mvp-restricted-oracle-host-local-verified"
       ]
     },
     {
@@ -924,7 +928,7 @@
       "verified_facets": [
         {
           "task": "SF-PRODUCT-T13",
-          "behavior": "Inspect a plan’s retained source from review",
+          "behavior": "Inspect a plan\u2019s retained source from review",
           "evidence": [
             "product-t13-source-inspection-local-verified"
           ]
@@ -1959,7 +1963,7 @@
         },
         {
           "task": "SF-PRODUCT-T13",
-          "behavior": "Inspect a plan’s retained source from review",
+          "behavior": "Inspect a plan\u2019s retained source from review",
           "evidence": [
             "product-t13-source-inspection-local-verified"
           ]
@@ -2525,7 +2529,7 @@
     "retained_stack_published_snapshot": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
     "retained_stack_worktree": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
     "inbox_implementation": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
-    "evidence_path_policy": "Reviewed source/evidence parents37–44 remain immutable ancestors of the T32 candidate; original worktrees/PRs are preserved. Candidate verification does not certify master.",
+    "evidence_path_policy": "Reviewed source/evidence parents37\u201344 remain immutable ancestors of the T32 candidate; original worktrees/PRs are preserved. Candidate verification does not certify master.",
     "inbox_worktree": "/home/longhn0710/workspace/schemaforge-product-review-inbox",
     "inbox_published_snapshot": "17e9a92fc91527dd8b9d374a52503e3430cddb3f",
     "assignment_implementation": "8658252e70217b41ac215a317fdd8b328a576d19",
@@ -2588,5 +2592,16 @@
     "oracle_runtime": "UNVALIDATED",
     "full_feature_acceptance": false,
     "integration_evidence": "mvp-protected-target-ledger-pr55-master-verified"
+  },
+  "m3_oracle_host_increment": {
+    "milestone": "M3/M4",
+    "evidence": "mvp-restricted-oracle-host-local-verified",
+    "status": "LOCAL_VERIFIED_REMOTE_CI_PENDING",
+    "scope": "UNIT_SYNTHETIC_TARGET_ONLY",
+    "source_head": "cacab0d6ede9f4aca3d09edd34860ef613f8df0e",
+    "real_metadata_workflow_tests": 6,
+    "unit_host_mutex_tests": 58,
+    "no_catalog_full_promotion": true,
+    "remaining": "Installed supervised provider, real Oracle installation/runtime and worker isolation/recovery acceptance."
   }
 }
