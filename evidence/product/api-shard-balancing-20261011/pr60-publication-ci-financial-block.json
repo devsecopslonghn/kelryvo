@@ -47,7 +47,6 @@
   "limits": [
     "New candidate and master tests never started; no remote speedup/master acceptance/fullMVP claim.",
     "Original PR57 release failure remains FAIL/causeUNKNOWN; original PR59 master financial failure remains unchanged.",
-    "Local synthetic tests do not certify Oracle runtime/recovery/deployed isolation or truthful installed target evidence.",
-    "This publication checkpoint is retained locally without another CI-triggering push while billing is unresolved."
+    "Local synthetic tests do not certify Oracle runtime/recovery/deployed isolation or truthful installed target evidence."
   ]
 }

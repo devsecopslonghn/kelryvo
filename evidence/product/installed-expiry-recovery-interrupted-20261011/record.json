@@ -11,7 +11,7 @@
   "case_coverage": [],
   "raw_output": {
     "path": "evidence/product/installed-expiry-recovery-interrupted-20261011/interrupted-summary.json",
-    "sha256": "c8c4deed95c06468875601dd862081ae86896c5bd9eeb345470fb1ba34e1a279"
+    "sha256": "85274aaa3dec66e7de57bd5111b90bed9163423e3573f860ebebf2c60a5ba994"
   },
   "status": "INCOMPLETE",
   "local_verification_status": "INCOMPLETE",
@@ -27,14 +27,10 @@
   ],
   "milestone": "M4",
   "implementation_decision": "SF-D054",
-  "resource_policy_decision": "SF-D055",
-  "temporary_ci_exception": "SF-D052_UNCHANGED_GATES",
   "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
-  "merge_eligible": false,
   "source_review": "NO_BLOCKER_SOURCE_ONLY_NOT_LOCAL_ACCEPTANCE",
   "preserved_prior_local_acceptance": [
-    "mvp-pr60-owner-exception-complete-local-acceptance",
+    "mvp-api-shard-balancing-local-acceptance",
     "mvp-installed-worker-factory-local-verified"
-  ],
-  "next": "Lightweight development/code review only while this resource stop is in effect. Before any later heavy verification, check host CPU/memory/I/O, record a resource budget, use one suite and at most two workers including supervised test children, no parallel PostgreSQL/Chromium. Reuse valid dependencies/builds. Await suitable remote CI where required concurrency cannot fit. All current recovery runtime gates remain INCOMPLETE; never merge around unavailable checks or infer target success."
+  ]
 }

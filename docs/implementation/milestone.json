@@ -9,8 +9,7 @@
   "foundation_task": "SF-P0-FOUNDATION",
   "blockers": [
     "No authorized disposable Oracle 19c/21c lab manifest or scoped credentials/identities/grants/fault authority. (VALIDATION track only; independent PRODUCT scheduling remains open.)",
-    "Full F31 packaging/source/notice assembly and Git/metadata deployment artifact selections remain pending; public product naming remains an owner decision. Product license is selected as PolyForm Shield 1.0.0.",
-    "GitHub Actions jobs did not start due billing; existing GitHub integration checks remain unavailable."
+    "Full F31 packaging/source/notice assembly and Git/metadata deployment artifact selections remain pending; public product naming remains an owner decision. Product license is selected as PolyForm Shield 1.0.0."
   ],
   "evidence": [
     {
@@ -257,7 +256,7 @@
       "index_id": "mvp-api-balancing-provider-expiry-pr60-ci-financial-block"
     },
     {
-      "index_id": "mvp-pr60-owner-exception-complete-local-acceptance"
+      "index_id": "mvp-api-shard-balancing-local-acceptance"
     },
     {
       "index_id": "mvp-installed-worker-factory-local-verified"
@@ -428,7 +427,6 @@
     "integration_complete": false,
     "configured_required_contexts": [],
     "optional_host_security": "UNAVAILABLE_NOT_PASS",
-    "actual_ci": "PR60 all3 workflows FAIL before jobs start due account payments/spending limit; no tests run or gate waiver. PR59 master same financial block. Last fully verified master4d. Local check/review/scan PASS only.",
     "ordinary_merge_no_bypass": true
   },
   "latest_merged_master_before_this_increment": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
@@ -775,7 +773,7 @@
       46,
       47
     ],
-    "integration_status": "PR59_MERGED_MASTER_ACTIONS_BLOCKED_EXTERNAL_BILLING_PR60_AND_INSTALLED_FACTORY_LOCAL_VERIFIED_UNMERGED",
+    "integration_status": "PR59_MERGED_PR60_AND_INSTALLED_FACTORY_PENDING_GITHUB_VERIFICATION",
     "working_local_workflows": [
       "loopback startup, fixed-role credentials, explicit project membership and Git binding",
       "retained SQL, pinned offline parser validation, offline plan/review/approval/revocation",
@@ -795,7 +793,7 @@
       "M1": "LOCAL_FOUNDATION_WORKFLOW_VERIFIED_INTEGRATED",
       "M2": "OFFLINE_PREPARATION_REVIEW_WORKFLOW_VERIFIED_INTEGRATED",
       "M3": "INSTALLED_FACTORY_COMPOSITION_AND_CONTROLLED_WORKER_LOCAL_VERIFIED_SYNTHETIC_TARGET_ONLY_REMOTE_AND_ORACLE_INCOMPLETE",
-      "M4": "PENDING_ONLY_NO_REPLAY_HISTORY_VERIFIED_INSTALLED_EXPIRY_IMPLEMENTED_UNVERIFIED_RESOURCE_INTERRUPTION_REAL_TARGET_RECOVERY_INCOMPLETE",
+      "M4": "PENDING_ONLY_NO_REPLAY_HISTORY_VERIFIED_INSTALLED_EXPIRY_IMPLEMENTED_FULL_ACCEPTANCE_PENDING_REAL_TARGET_RECOVERY_INCOMPLETE",
       "M5": "LOCAL_SOURCE_INSTALLATION_ACCEPTANCE_VERIFIED_EXACT_FACTORY_COMMIT_REMOTE_INTEGRATION_AND_ORACLE_DISTRIBUTION_INCOMPLETE"
     },
     "oracle_runtime": "BLOCKED_EXTERNAL_NO_AUTHORIZED_ENVIRONMENT",
@@ -840,16 +838,15 @@
       "outcome": "Installed metadata-only expired-attempt recovery",
       "status": "INCOMPLETE",
       "worktree": "/home/longhn0710/workspace/schemaforge-expiry-recovery",
-      "branch": "development/installed-expiry-recovery",
+      "branch": "development/restore-standard-ci",
       "tested_candidate_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
       "corrected_source_sha": "1225efddf3abac283a24d309f9d5e8d77c99b155",
-      "runtime_verification": "INCOMPLETE_INTERRUPTED_API_AND_UNTESTED_CORRECTION",
+      "runtime_verification": "FOCUSED_RECOVERY_PASSED_FULL_ACCEPTANCE_INCOMPLETE",
       "evidence": "mvp-installed-expiry-recovery-interrupted-resource-stop",
       "known_failed_assertion_preserved": true,
       "source_review": "NO_BLOCKER_SOURCE_ONLY",
-      "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
-      "merge_eligible": false,
-      "next": "Verify the corrected installed expiry recovery factory, then continue restricted installation and real-target reconciliation acceptance. Existing gate results retain their exact tested source and scope."
+      "next": "Complete required GitHub acceptance for the installed factories, then continue restricted installation and real-target reconciliation acceptance.",
+      "focused_tested_sha": "e18279047ecf9fb43127f6b7786eb89bf3972265"
     },
     "last_integrated_pr": 59,
     "last_fully_verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
@@ -857,8 +854,8 @@
       "pr": 60,
       "published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72",
       "local_tested_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
-      "local_evidence": "mvp-pr60-owner-exception-complete-local-acceptance",
-      "state": "OPEN_UNMERGED_ACTIONS_BLOCKED_EXTERNAL_BILLING"
+      "local_evidence": "mvp-api-shard-balancing-local-acceptance",
+      "state": "OPEN_UNMERGED"
     }
   },
   "historical_t35_carry_forward": {

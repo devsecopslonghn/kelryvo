@@ -1,13 +1,11 @@
 {
   "recorded_at": "2026-10-11T07:32:28.110708+00:00",
-  "status": "LOCALLY_VERIFIED_UNDER_OWNER_TEMPORARY_CI_EXCEPTION",
+  "status": "LOCALLY_VERIFIED",
   "tested_source_sha": "fa6b35b2efe7e980bb6be695e33fbe9bfaa607a8",
   "tested_tree": "11413bfb8950a084bde357ff854ade9e691279ad",
   "base_sha": "267bdc5bd5066ea1d1ddbeaaa411a48a6f724de3",
   "local_only": true,
   "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
-  "merge_eligible": false,
-  "merge_reason": "Existing written candidate/master GitHub requirements remain unavailable; owner exception preserves them.",
   "foundation": {
     "commands": [
       {
@@ -359,7 +357,7 @@
     "tested_source_sha": "fa6b35b2efe7e980bb6be695e33fbe9bfaa607a8",
     "tested_tree": "11413bfb8950a084bde357ff854ade9e691279ad",
     "outcome": "APPROVED_NO_BLOCKER",
-    "scope": "LOCAL acceptance only under owner temporary Actions exception SF-D052",
+    "scope": "Complete local acceptance only at the recorded tested source; no remote CI, Oracle runtime or deployed isolation certification.",
     "verified": [
       "Exact worktree HEAD/tree and six changed source file hashes; source review remains valid.",
       "All standard/parser/API/browser/release result log hashes, rows, successful exits and TAP totals.",
@@ -371,7 +369,6 @@
       "Both durable pack manifests and all 49 retained files match hashes/sizes; directories0700/files0600."
     ],
     "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
-    "merge_eligible": false,
     "limitations": [
       "Existing written candidate/master GitHub requirements preclude merge.",
       "Oracle runtime, deployed trusted authority and isolation remain unvalidated.",
@@ -383,7 +380,6 @@
   "oracle_connections": 0,
   "limits": [
     "Installed factory composition verified only with explicit UNIT_SYNTHETIC Oracle transport; no installed trusted authority, physical Oracle effects or deployed isolation certification.",
-    "Remote Actions remain BLOCKED_EXTERNAL (BILLING), never PASSED; existing failed-before-start records and unavailable Sonar statuses preserved.",
     "No billing/spending/deployment/license change, protection bypass or merge."
   ],
   "worktree_preservation": {

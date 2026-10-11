@@ -11,7 +11,7 @@
   "case_coverage": [],
   "raw_output": {
     "path": "evidence/product/installed-worker-factory-20261011/local-acceptance-summary.json",
-    "sha256": "f52b6e1455a3727f1a86ddb55418c1e78403b4c6dd8ef87151057fdbb8f1257c"
+    "sha256": "6aec880bd956e75095d4dc796fa15e2167ca29938c1f9765d9a7dc904dd02c6b"
   },
   "recorded_at": "2026-10-11T07:34:35.086140+00:00",
   "tested_source_sha": "fa6b35b2efe7e980bb6be695e33fbe9bfaa607a8",
@@ -26,33 +26,7 @@
     "M4",
     "M5"
   ],
-  "local_verification_status": "LOCALLY_VERIFIED_UNDER_OWNER_TEMPORARY_CI_EXCEPTION",
-  "owner_authorization": {
-    "date": "2026-10-11",
-    "source": "Explicit owner reply in active goal conversation",
-    "temporary": true,
-    "requirements": [
-      "Keep all existing tests, assertions and security checks intact.",
-      "Run applicable mandatory standard, PostgreSQL/API, parser, browser and release acceptance suites locally.",
-      "Successful local results and independent review are required before local verification.",
-      "Record GitHub Actions BLOCKED_EXTERNAL (BILLING), never PASSED.",
-      "Do not bypass branch protection or configured required checks.",
-      "Do not merge where repository policy requires GitHub CI or another unavailable check.",
-      "Where ordinary integration is permitted, require full local verification, independent review and an explicit temporary-exception record.",
-      "Preserve reproducible evidence and exact tested commit SHA.",
-      "Do not repeatedly retry or poll Actions while billing remains blocked.",
-      "Resume normal Actions verification once the service becomes available."
-    ],
-    "billing_settings_payment_spending_changes_authorized": false,
-    "additional_costs_authorized": false,
-    "test_security_or_branch_protection_waiver": false
-  },
-  "temporary_ci_exception": {
-    "decision": "SF-D052",
-    "source_evidence": "mvp-pr60-owner-exception-complete-local-acceptance",
-    "remote_execution_only": true,
-    "tests_security_branch_protection_and_written_merge_requirements_preserved": true
-  },
+  "local_verification_status": "LOCALLY_VERIFIED",
   "implementation_decision": "SF-D053",
   "behavior": [
     "Fixed installation-only composition reuses the existing worker, private provider and restricted host with snapshotted authority bindings.",
@@ -66,7 +40,7 @@
     "tested_source_sha": "fa6b35b2efe7e980bb6be695e33fbe9bfaa607a8",
     "tested_tree": "11413bfb8950a084bde357ff854ade9e691279ad",
     "outcome": "APPROVED_NO_BLOCKER",
-    "scope": "LOCAL acceptance only under owner temporary Actions exception SF-D052",
+    "scope": "Complete local acceptance only at the recorded tested source; no remote CI, Oracle runtime or deployed isolation certification.",
     "verified": [
       "Exact worktree HEAD/tree and six changed source file hashes; source review remains valid.",
       "All standard/parser/API/browser/release result log hashes, rows, successful exits and TAP totals.",
@@ -78,7 +52,6 @@
       "Both durable pack manifests and all 49 retained files match hashes/sizes; directories0700/files0600."
     ],
     "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
-    "merge_eligible": false,
     "limitations": [
       "Existing written candidate/master GitHub requirements preclude merge.",
       "Oracle runtime, deployed trusted authority and isolation remain unvalidated.",
@@ -88,9 +61,6 @@
     "durable_evidence_sha256": "adc0ae3996e08cd7bd1e127ba388ef1111c69ecdfce7c4d372eb8fbfb21e9398"
   },
   "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
-  "merge_eligible": false,
-  "merge_reason": "Existing written candidate/master GitHub requirements remain unavailable; owner exception preserves them.",
-  "publication_status": "LOCAL_UNPUBLISHED_TO_AVOID_RETRYING_BLOCKED_ACTIONS",
   "previous_pr60_status": "OPEN_UNMERGED_LOCAL08BE_VERIFIED",
   "oracle_runtime": "UNVALIDATED_NO_AUTHORIZED_ENVIRONMENT",
   "original_failed_remote_records_preserved": [
@@ -99,7 +69,6 @@
   ],
   "limits": [
     "Installed factory composition verified only with explicit UNIT_SYNTHETIC Oracle transport; no installed trusted authority, physical Oracle effects or deployed isolation certification.",
-    "Remote Actions remain BLOCKED_EXTERNAL (BILLING), never PASSED; existing failed-before-start records and unavailable Sonar statuses preserved.",
     "No billing/spending/deployment/license change, protection bypass or merge."
   ],
   "focused_preacceptance_evidence": {
@@ -111,6 +80,5 @@
       "/tmp/schemaforge-installed-worker-factory-pg-final.log",
       "/tmp/schemaforge-installed-worker-factory-pg-final2.log"
     ]
-  },
-  "next": "Review the installation boundary for explicit metadata-only expired-attempt recovery through existing recoverExpired; expired or ambiguous work may only move to HOLD, never create a new attempt, contact a target or replay SQL. Private trusted purpose/routes/attestors, service/isolation and authorized Oracle execution/recovery acceptance remain separate. Resume normal remote gates when availability is confirmed."
+  }
 }

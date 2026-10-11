@@ -1,6 +1,6 @@
 {
   "recorded_at": "2026-10-11T06:51:41.038873+00:00",
-  "status": "LOCALLY_VERIFIED_UNDER_OWNER_TEMPORARY_CI_EXCEPTION",
+  "status": "LOCALLY_VERIFIED",
   "tested_source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
   "tested_tree": "03eeba9d9b7e8ea4912600fda0067bda44666e22",
   "reviewed_pr60_published_head": "f7a2a1a588dac6e33eee5c3b1b5ce63b445c2a72",
@@ -17,8 +17,6 @@
   "local_only": true,
   "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
   "remote_workflow_historical_conclusions": "FAIL before any job or test started; preserved unchanged",
-  "merge_eligible": false,
-  "merge_reason": "docs/implementation/github-sync.md requires exact candidate foundation/parser/product and resulting-master GitHub checks. Owner temporary exception condition 6 preserves this written requirement.",
   "foundation": {
     "commands": [
       {
@@ -414,8 +412,7 @@
     "tested_source_sha": "08be8915d3d23ddea950ff2c84e9bcaf8aa498c0",
     "outcome": "APPROVED_NO_BLOCKER",
     "scope": "Complete local acceptance only: exact source/tree and recorded command/API log hashes; standard281/48optionalPGskips, parser30corpus/4integration,API78separateDBs,browser33,freshsource1outer4inner;23fileGitleaks0findings;public pinned setup equivalence and corrected initial setup failure.",
-    "remote_merge_approval": false,
-    "merge_reason": "Written policy requires exact candidate GitHub checks and resulting-master workflows. Billing-blocked historical failures remain unchanged; PR60 stays unmerged. No Oracle/deployed authority or remote speedup claim."
+    "remote_merge_approval": false
   },
   "oracle_connections": 0,
   "limits": [

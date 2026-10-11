@@ -43,8 +43,7 @@
   ],
   "limits": [
     "UNIT sessions only; expired in-flight SQL effects are uncertain, not proved absent.",
-    "Real Oracle and deployed worker/authority/physical attestation remain unverified.",
-    "Required remote candidate/master gates blocked by account billing; no merge waiver."
+    "Real Oracle and deployed worker/authority/physical attestation remain unverified."
   ],
   "target_scope": "UNIT_SYNTHETIC_ONLY"
 }

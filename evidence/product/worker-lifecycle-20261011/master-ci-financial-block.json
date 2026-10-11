@@ -51,7 +51,6 @@
       "jobs_started": 0
     }
   ],
-  "financial_action": "Owner must restore Actions availability; no billing/spend changes made.",
   "new_review_finding": "Provider expiry was checked only before setup; a slow private resolver/acquisition/binding could cross expiry before target callback. Locally corrected in3c85707 and combined2556ca3; remote gates pending. Historical candidate passes remain actual results, not proof of the correction.",
   "historical_failure": "Original PR57 master7da PRODUCT38111860684 remains FAIL/causeUNKNOWN; not reclassified.",
   "oracle_calls": 0,

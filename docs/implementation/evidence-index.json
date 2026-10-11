@@ -3580,7 +3580,7 @@
         "sha256": "66a8151a4f242d75b78eca343811881af15d383887abe494d5d7eca68e823a19"
       },
       "path": "evidence/product/worker-lifecycle-20261011/master-ci-financial-block.json",
-      "sha256": "0231bfc33e9822f50782ac113d27d9505ec6220968ae9bf3da069796f725b7a1"
+      "sha256": "6c8dbef4230d28b97deb50754241fd19420c3adbe4cd6f443e6f56711756a434"
     },
     {
       "id": "mvp-api-shard-balancing-local-verified",
@@ -3616,7 +3616,7 @@
         "sha256": "1cd870d6a30719c42fb725d614accbba6a2a4b7a5ece9d6322af5819f8d5d846"
       },
       "path": "evidence/product/provider-permit-expiry-20261011/record.json",
-      "sha256": "f2da45ff64d9ab3db87190c45ad3479f5f6aaa0396d2a6efbd7a00e71e6fd630"
+      "sha256": "ee1aff02eb591c4302a16fc1270665dfffeee5fc230693c3a90399ae7d06d399"
     },
     {
       "id": "mvp-api-balancing-provider-expiry-pr60-ci-financial-block",
@@ -3634,25 +3634,25 @@
         "sha256": "dd02dd3792338fbfc04b691e0d1b8f3a05d56226577d4a9b981d3407ccb3a795"
       },
       "path": "evidence/product/api-shard-balancing-20261011/pr60-publication-ci-financial-block.json",
-      "sha256": "95c15ad9387e65280fddaf585b71612bc631210ef0054097a96292bf1d30a5a5"
+      "sha256": "fee5f11fc25fbabdb5b42b7f81d735c38fc1e852f7e8ee7490c83b9db7094d25"
     },
     {
-      "id": "mvp-pr60-owner-exception-complete-local-acceptance",
+      "id": "mvp-api-shard-balancing-local-acceptance",
       "subject_id": "OPS-023",
       "kind": "INTEGRATION",
       "scope": "PRODUCT",
       "outcome": "PASS",
-      "command": "Exact08be local owner-exception acceptance: fresh npm ci ignore-scripts; pinned reproducible ANTLR build/corpus/integration; npm run check; dependencies:offline; complementary API shards36files78PASS; complete browser33PASS; fresh-source release1outer4innerPASS. Independent review and scoped secret/license checks. Remote Actions BLOCKED_EXTERNAL (BILLING), no merge.",
+      "command": "Exact08be local acceptance: fresh npm ci ignore-scripts; pinned reproducible ANTLR build/corpus/integration; npm run check; dependencies:offline; complementary API shards36files78PASS; complete browser33PASS; fresh-source release1outer4innerPASS. Independent review and scoped secret/license checks. Remote Actions BLOCKED_EXTERNAL (BILLING), no merge.",
       "exit_code": 0,
       "criterion_indexes": [],
       "test_references": [],
       "case_coverage": [],
       "raw_output": {
-        "path": "evidence/product/actions-local-exception-20261011/local-acceptance-summary.json",
-        "sha256": "c8515c06ffcebea93f35ce311e7e1942aacf7f0c6bd5d91db9e6d16a13916850"
+        "path": "evidence/product/api-shard-balancing-local-acceptance/local-acceptance-summary.json",
+        "sha256": "3ac6646ecd9a1aaa5f5701c820ef4b0e516dfc6f989648bfc3a19cf39bdaae49"
       },
-      "path": "evidence/product/actions-local-exception-20261011/record.json",
-      "sha256": "101d383de67d3bba2540ff1df5357ddfa04688578eb7f0c9c497716b96950c54"
+      "path": "evidence/product/api-shard-balancing-local-acceptance/record.json",
+      "sha256": "35fb7f5ddcffd695ff380077995d5f79f57437b2397a1876a956ca8494c37cfe"
     },
     {
       "id": "mvp-installed-worker-factory-local-verified",
@@ -3667,10 +3667,10 @@
       "case_coverage": [],
       "raw_output": {
         "path": "evidence/product/installed-worker-factory-20261011/local-acceptance-summary.json",
-        "sha256": "f52b6e1455a3727f1a86ddb55418c1e78403b4c6dd8ef87151057fdbb8f1257c"
+        "sha256": "6aec880bd956e75095d4dc796fa15e2167ca29938c1f9765d9a7dc904dd02c6b"
       },
       "path": "evidence/product/installed-worker-factory-20261011/record.json",
-      "sha256": "1cd30e9cba1099f81b6002799f23f0d0b018e1731e62f385bb0eb6fb2c499749"
+      "sha256": "60eda392c2c4af560e2ce73ec06a323e243cc776b6256f5a12512389ee91da61"
     },
     {
       "id": "mvp-installed-expiry-recovery-interrupted-resource-stop",
@@ -3685,10 +3685,10 @@
       "case_coverage": [],
       "raw_output": {
         "path": "evidence/product/installed-expiry-recovery-interrupted-20261011/interrupted-summary.json",
-        "sha256": "c8c4deed95c06468875601dd862081ae86896c5bd9eeb345470fb1ba34e1a279"
+        "sha256": "85274aaa3dec66e7de57bd5111b90bed9163423e3573f860ebebf2c60a5ba994"
       },
       "path": "evidence/product/installed-expiry-recovery-interrupted-20261011/record.json",
-      "sha256": "6b9c8b6830c9e5def844c6e46323ca864f41b6870d52d2b2b24303e17cebd54e"
+      "sha256": "3d967ed4ebfdcad8095aa881046e1dac147765c314a4549596db2bbe90f9cd3e"
     }
   ]
 }

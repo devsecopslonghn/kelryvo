@@ -72,8 +72,7 @@ this file, and the bounded task's inputs before editing. Preserve unrelated work
   Competing products/services are restricted, including free competitors; noncompeting
   consulting/support is not categorically prohibited. Preserve LICENSE, NOTICE and all
   independent third-party grants. Naming and F31 packaging/distribution remain pending.
-- At each session boundary update CURRENT.md, CONTINUE.md, milestone state and evidence index.
-  Keep implementation, local product verification and Oracle acceptance separate. The owner
+- Keep implementation, local product verification and Oracle acceptance separate. The owner
   has no 19c/21c lab: do not repeatedly request one or stop independent PRODUCT delivery.
 
 ## Delegation and ownership

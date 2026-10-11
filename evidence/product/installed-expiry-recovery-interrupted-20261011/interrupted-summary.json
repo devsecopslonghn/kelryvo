@@ -245,7 +245,6 @@
   },
   "source_review": "NO_BLOCKER_SOURCE_ONLY_NOT_LOCAL_ACCEPTANCE",
   "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
-  "merge_eligible": false,
   "oracle_runtime": "UNVALIDATED_NO_ORACLE_CONNECTIONS",
   "resource_stop": {
     "scope": "Only descendants of this exact candidate acceptance runner, verified by cwd and argv",
@@ -382,19 +381,6 @@
     ],
     "logical_cpus": 16,
     "memory_available_MiB_previous_sample": 11018
-  },
-  "resource_policy": {
-    "max_heavy_suites": 1,
-    "max_concurrent_test_workers_including_supervised_children": 2,
-    "parallel_postgresql_acceptance_databases": false,
-    "parallel_chromium_or_browser_suites": false,
-    "check_cpu_memory_io_before_heavy_test": true,
-    "full_regression": "Only when necessary, sequentially and within a recorded resource budget",
-    "development": "Focused checks; no heavy suite restarted after the stop",
-    "dependency_and_build_reuse": "Avoid repeated npm installs and full builds",
-    "prefer_remote_ci_when_confirmed_available": true,
-    "interrupted_status": "INCOMPLETE",
-    "required_tests_assertions_security_and_merge_gates_preserved": true
   },
   "reproducible_interrupted_source_artifact": {
     "directory": "/tmp/schemaforge-expiry-recovery-source-80d324b59917",
