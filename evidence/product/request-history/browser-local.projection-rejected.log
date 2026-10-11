@@ -1,0 +1,38 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: browser pages synthetic execution receipts and HOLD history and discards signed-out reads
+not ok 1 - browser pages synthetic execution receipts and HOLD history and discards signed-out reads
+  ---
+  duration_ms: 28904.45493
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge/tests/product-execution-history-browser.integration.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: 'illegal execution job projection transition'
+  code: 'P0001'
+  name: 'PostgresError'
+  stack: |-
+    ErrorResponse (file:///home/longhn0710/workspace/schemaforge/node_modules/postgres/src/connection.js:815:30)
+    handle (file:///home/longhn0710/workspace/schemaforge/node_modules/postgres/src/connection.js:489:6)
+    Socket.data (file:///home/longhn0710/workspace/schemaforge/node_modules/postgres/src/connection.js:324:9)
+    Socket.emit (node:events:519:28)
+    addChunk (node:internal/streams/readable:561:12)
+    readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    Readable.push (node:internal/streams/readable:392:5)
+    TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    cachedError (file:///home/longhn0710/workspace/schemaforge/node_modules/postgres/src/query.js:170:23)
+    new Query (file:///home/longhn0710/workspace/schemaforge/node_modules/postgres/src/query.js:36:24)
+    Object.sql (file:///home/longhn0710/workspace/schemaforge/node_modules/postgres/src/index.js:112:11)
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge/tests/product-execution-history-browser.integration.mjs:113:19)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 29625.620871

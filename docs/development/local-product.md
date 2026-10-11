@@ -420,6 +420,17 @@ project data on the next read. Idle terminal views require explicit refresh to d
 changed access. Displayed state is retained product metadata; inspect execution history
 for its evidence scope and receipts. A status read grants no execution or recovery authority.
 
+The selected plan's request-history browser uses the existing project cursor to reach
+requests older than the live queue window. Each page contains at most 50 project
+requests and displays only those belonging to the selected plan. A page may have no
+matches; continue to older requests using its returned cursor. History browsing keeps
+one page separate from live status, so automatic queue refresh does not erase the page
+or reset review drafts. Job-event inspection refreshes the job summary and keeps one
+page of up to 100 events; **More job events** follows the returned cursor. Explicit
+execution-history controls expose retained attempts and receipts without entering a job ID.
+Navigation or session changes discard
+delayed reads, and actual reads recheck access. Browsing creates no execution authority.
+
 The review screen's **View execution history** opens retained claim/terminal states,
 statement events, HOLD reason codes and receipt/evidence digests. Each API page contains
 at most50rows per stream; attempt generations and event revisions remain decimal strings

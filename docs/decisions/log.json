@@ -698,6 +698,20 @@
         "OPS-005",
         "OPS-003"
       ]
+    },
+    {
+      "id": "SF-D058",
+      "status": "ACCEPTED_SCOPED_REQUEST_HISTORY_PAGES",
+      "decision": "Expose older execution requests through existing actor/project cursor reads while retaining the selected plan. Keep server-global cursor and ordering, filter each displayed page locally, and bound state to one history page separate from current queue refresh. Explicit event/attempt/receipt reads preserve evidence scope and access/freshness fences. This adds discoverability without execution, replay or reconciliation authority.",
+      "references": [
+        "apps/web/src/app.jsx",
+        "tests/product-execution-history-browser.integration.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "OPS-005",
+        "MIG-012"
+      ]
     }
   ]
 }

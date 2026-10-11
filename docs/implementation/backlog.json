@@ -3477,13 +3477,50 @@
         "SF-PRODUCT-T38-FRESHNESS",
         "SF-PRODUCT-T38-INTEGRATION"
       ],
-      "status": "IMPLEMENTED",
+      "status": "VERIFIED",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
       "evidence": [
         {
           "index_id": "product-t38-execution-status-local"
+        },
+        {
+          "index_id": "product-t38-execution-status-ci"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T39",
+      "package": "PRODUCT",
+      "assigned_agent": "frontend",
+      "title": "Browse older execution requests and retained audit history within the selected plan",
+      "dependencies": [
+        "SF-PRODUCT-T38"
+      ],
+      "feature_ids": [
+        "OPS-005",
+        "MIG-012"
+      ],
+      "acceptance_criteria": [
+        "Use the existing actor/project-scoped execution-job cursor API to reach older requests without knowing a job ID. Preserve server project-global order and cursor, filter displayed rows by the selected plan, allow advancing through pages with no matching plan, and keep only a bounded current page separate from live queue state. No new execution or recovery capability.",
+        "Expose retained job events and existing attempt, statement-event and receipt inspection for older requests. Preserve evidence scope, missing-receipt uncertainty and immutable original plan/approval provenance; do not infer target effects, hold release, replay permission or Oracle acceptance.",
+        "Preserve selected project/plan and review drafts during history reads and live status updates. Fence pagination and detail results across navigation, session/token, refresh and visibility changes; reject overlapping reads and fail closed on actual revoked-access reads. Never let older history displace or regress the current queue.",
+        "Use actual isolated PostgreSQL and Chromium to browse more than50 interleaved requests, traverse a page with no selected-plan matches, open older events/attempts/receipts, and reject delayed responses after plan/session changes. Preserve existing history/status tests and complete required Foundation/parser/PRODUCT/CodeQL, independent review, source security and license gates. No Oracle runtime or deployment certification."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T39-PAGES",
+        "SF-PRODUCT-T39-HISTORY",
+        "SF-PRODUCT-T39-FRESHNESS"
+      ],
+      "status": "IMPLEMENTED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t39-request-history-local"
         }
       ],
       "blockers": []

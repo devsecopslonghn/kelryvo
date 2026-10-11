@@ -875,7 +875,31 @@ const PRODUCT_TASK_38 = {
     "SF-PRODUCT-T38-INTEGRATION"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38];
+const PRODUCT_TASK_39 = {
+  "id": "SF-PRODUCT-T39",
+  "package": "PRODUCT",
+  "assigned_agent": "frontend",
+  "title": "Browse older execution requests and retained audit history within the selected plan",
+  "dependencies": [
+    "SF-PRODUCT-T38"
+  ],
+  "feature_ids": [
+    "OPS-005",
+    "MIG-012"
+  ],
+  "acceptance_criteria": [
+    "Use the existing actor/project-scoped execution-job cursor API to reach older requests without knowing a job ID. Preserve server project-global order and cursor, filter displayed rows by the selected plan, allow advancing through pages with no matching plan, and keep only a bounded current page separate from live queue state. No new execution or recovery capability.",
+    "Expose retained job events and existing attempt, statement-event and receipt inspection for older requests. Preserve evidence scope, missing-receipt uncertainty and immutable original plan/approval provenance; do not infer target effects, hold release, replay permission or Oracle acceptance.",
+    "Preserve selected project/plan and review drafts during history reads and live status updates. Fence pagination and detail results across navigation, session/token, refresh and visibility changes; reject overlapping reads and fail closed on actual revoked-access reads. Never let older history displace or regress the current queue.",
+    "Use actual isolated PostgreSQL and Chromium to browse more than50 interleaved requests, traverse a page with no selected-plan matches, open older events/attempts/receipts, and reject delayed responses after plan/session changes. Preserve existing history/status tests and complete required Foundation/parser/PRODUCT/CodeQL, independent review, source security and license gates. No Oracle runtime or deployment certification."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T39-PAGES",
+    "SF-PRODUCT-T39-HISTORY",
+    "SF-PRODUCT-T39-FRESHNESS"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38, PRODUCT_TASK_39];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

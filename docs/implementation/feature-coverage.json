@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "recorded_at": "2026-10-11T08:10:45.258800+00:00",
-  "verified_master": "656d2273b58ae84c0191af37069cd71fa894eb10",
+  "verified_master": "ec625754f405fa8999eddccdaa86464efdf91998",
   "reviewed_local_source": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
@@ -723,6 +723,15 @@
       "evidence": [
         "mvp-approved-pending-history-context-local-verified",
         "mvp-release-diagnostics-pr58-master-verified"
+      ],
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T39",
+          "behavior": "Existing scoped project cursors reach older selected-plan requests and retained events/attempts/receipts without replacing live status; bounded pages, freshness and actual revoked-access reads verified in PostgreSQL/Chromium. Remote CI pending; no Oracle certification.",
+          "evidence": [
+            "product-t39-request-history-local"
+          ]
+        }
       ]
     },
     {
@@ -2267,6 +2276,13 @@
           "evidence": [
             "product-t38-execution-status-local"
           ]
+        },
+        {
+          "task": "SF-PRODUCT-T39",
+          "behavior": "Existing scoped project cursors reach older selected-plan requests and retained events/attempts/receipts without replacing live status; bounded pages, freshness and actual revoked-access reads verified in PostgreSQL/Chromium. Remote CI pending; no Oracle certification.",
+          "evidence": [
+            "product-t39-request-history-local"
+          ]
         }
       ],
       "remaining_gap": "Authorized target-history/restore reconciliation, production restricted runtime/Oracle effects and full original acceptance remain missing; no hold-release interface."
@@ -2735,5 +2751,15 @@
     "published_head": "8cb9e2de74c873834307d8304ad849db92d2419d",
     "merged_master": "656d2273b58ae84c0191af37069cd71fa894eb10",
     "integration_evidence": "product-t37-installed-execution-service-ci"
+  },
+  "execution_status": {
+    "task": "SF-PRODUCT-T38",
+    "status": "INTEGRATED_PR64_MASTER_CI_VERIFIED",
+    "published_head": "de5671bf9e0ed600b25dbf2f02295c84bc8199f5",
+    "merged_master": "ec625754f405fa8999eddccdaa86464efdf91998",
+    "evidence": "product-t38-execution-status-local",
+    "integration_evidence": "product-t38-execution-status-ci",
+    "full_catalog_promotion": false,
+    "oracle_runtime_verified": false
   }
 }
