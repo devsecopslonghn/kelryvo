@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-11T05:28:34.419716+00:00",
+  "recorded_at": "2026-10-11T05:58:03.039669+00:00",
   "verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
-  "reviewed_local_source": "74837d8f7611dcf056f2209e924813547663aa45",
+  "reviewed_local_source": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
@@ -62,11 +62,11 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "PR52 installation,PR53 CI,PR54 pending suffix,PR55 ledger,PR56 host,PR57 provenance andPR58 safe release diagnostics integrated. Exact PR58 candidate/master77API33browser1release(inner4) zero fail/skip. Original7da master releaseFAIL retained/causeUNKNOWN. UNIT target only; Oracle/runtime/recovery/deployed isolation incomplete. Unavailable optional scans never PASS.",
+  "external_acceptance": "PR52-PR58 local source/governance/pending history integrated on verified4d. PR59 merged3e after actual candidate78API33browser1release(inner4) zero fail/skip; master all workflows FAIL before starting due to account payment/spending-limit block. Provider expiry gap corrected locally; no corrected candidate/master verification. Original7da failure retained/causeUNKNOWN; no Oracle/runtime/deployed acceptance.",
   "next_product_capability": {
-    "milestone": "M3 supervised worker and private provider readiness",
-    "status": "LOCAL_VERIFIED_INDEPENDENT_REVIEWED_PUBLICATION_AND_CI_PENDING",
-    "next_action": "Publish scoped reviewed lifecycle under actual candidate/master gates; installed truthful authority/attestation and authorized Oracle runtime/deployed isolation remain separate."
+    "milestone": "Full-coverage API CI balancing and continuous private-provider permit expiry",
+    "status": "LOCAL_VERIFIED_REVIEWED_REMOTE_CI_FINANCIAL_BLOCK",
+    "next_action": "Owner restores Actions availability. Publish/freeze follow-up under unchanged gates; verify master and candidate results, ordinary eligible merge and resulting-master checks."
   },
   "features": [
     {
@@ -679,7 +679,8 @@
         "mvp-history-aware-divergence-local-verified",
         "mvp-restricted-oracle-host-local-verified",
         "mvp-restricted-oracle-host-pr56-master-verified",
-        "mvp-worker-lifecycle-local-verified"
+        "mvp-worker-lifecycle-local-verified",
+        "mvp-private-provider-continuous-expiry-local-verified"
       ]
     },
     {
@@ -2168,7 +2169,8 @@
         }
       ],
       "evidence": [
-        "mvp-worker-lifecycle-local-verified"
+        "mvp-worker-lifecycle-local-verified",
+        "mvp-private-provider-continuous-expiry-local-verified"
       ]
     },
     {
@@ -2360,13 +2362,16 @@
       "classification": "PARTIALLY_IMPLEMENTED",
       "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
       "additional_observed_facet": "Pinned dependencies/notices plus deterministic frozen-Git local source candidate with trusted checksums, exact source/parser integrity and fresh installed local end-to-end acceptance.",
-      "remaining_gap": "SBOM, signed releases/updates, complete offline upgrade/install binaries and original full acceptance remain absent; local source candidate remote integration pending.",
+      "remaining_gap": "Source installation accepted on verified master4d; SBOM, signed releases/updates, complete offline binaries and original full acceptance absent.",
       "source_or_test_paths": [
         "scripts/dependency-artifacts.mjs",
         "docs/dependencies/product-closure.json",
         "scripts/local-release.mjs",
         "scripts/release-acceptance.mjs",
         "tests/product-local-release.integration.mjs"
+      ],
+      "evidence": [
+        "mvp-api-shard-balancing-local-verified"
       ]
     },
     {
@@ -2634,7 +2639,7 @@
     "integration_evidence": "mvp-release-diagnostics-pr58-master-verified"
   },
   "m3_worker_lifecycle": {
-    "status": "LOCAL_VERIFIED_PUBLICATION_AND_CI_PENDING",
+    "status": "PR59_MERGED_CANDIDATE_VERIFIED_MASTER_CI_FINANCIAL_BLOCK",
     "source_head": "74837d8f7611dcf056f2209e924813547663aa45",
     "evidence": "mvp-worker-lifecycle-local-verified",
     "scope": "UNIT_SYNTHETIC_TARGET_ONLY",
@@ -2642,6 +2647,10 @@
       "OPS-002",
       "MIG-011"
     ],
-    "full_catalog_acceptance": false
+    "full_catalog_acceptance": false,
+    "published_head": "a8040555f88bd02bfaac2feb61efd5ab50c823af",
+    "merged_master": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
+    "integration_failure_evidence": "mvp-worker-lifecycle-pr59-master-ci-financial-block",
+    "local_expiry_correction_evidence": "mvp-private-provider-continuous-expiry-local-verified"
   }
 }

@@ -1,0 +1,113 @@
+{
+  "id": "mvp-api-shard-balancing-local-verified",
+  "subject_id": "OPS-023",
+  "kind": "STATIC",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Complete deterministic measured-cost API file partitions: five coverage/ordering/new-file/invalid-input regressions. Combined frozen npmcheck329tests281PASS48optionalPGskip0FAIL with provider expiry fix. Existing API/browser/security/fresh-release mandatory CI is unchanged; no observed remote speedup.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/api-shard-balancing-20261011/local-check-summary.json",
+    "sha256": "81f092825216857096ea988b24effa4ae7444e7bab014bbc30a129335ca9980c"
+  },
+  "recorded_at": "2026-10-11T05:58:03.039669+00:00",
+  "tested_functional_source": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
+  "integrated_master_base": "3e6452a7597176f70d0e4fae74a9e9cd8f0c488b",
+  "last_fully_verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+  "source_files": [
+    {
+      "path": "apps/worker/oracle-provider.mjs",
+      "sha256": "69dafa475ad40fd4817d98a32d4677110cf9a708d362863bd0903433894057b0"
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256": "6178db93e7e28069c5aa31c58fa269ed5ee0feb7ca466745d5271418b3668b55"
+    },
+    {
+      "path": "docs/implementation/github-sync.md",
+      "sha256": "c025bff1c7a374e3099f68f86e221f0097caa997955ff1c3b29813d650e35d4d"
+    },
+    {
+      "path": "scripts/product-test-shards.mjs",
+      "sha256": "c71037f7ac26a32a9e55ed2fe148f703aac150edc3ce130cd8694275fa8a7e2f"
+    },
+    {
+      "path": "scripts/test-product.mjs",
+      "sha256": "2b65429135814684153152e0d45a5a44af585fef457705b57b1f6f1f0af3d9ac"
+    },
+    {
+      "path": "tests/oracle-provider.test.mjs",
+      "sha256": "8d963c54d6b8f2578db004ff1f39004cc86b2013627cacab24c8ab9a7703448e"
+    },
+    {
+      "path": "tests/product-test-shards.test.mjs",
+      "sha256": "8faabaabd2bdb537b0111d239b028e8e546287c46311f7a922834b35ebaaedc6"
+    }
+  ],
+  "standard": {
+    "command": "umask022; env -u SCHEMAFORGE_TEST_DATABASE_URL -u SCHEMAFORGE_REQUIRE_PRODUCT_TESTS SCHEMAFORGE_JAVA_HOME=<exact pinned JDK> npm run check",
+    "exit_code": 0,
+    "tests": 329,
+    "pass": 281,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 48
+  },
+  "private_final_check": {
+    "path": "/tmp/schemaforge-ci-provider-expiry-check-normal-umask.log",
+    "sha256": "fb331e8ae5ba0e2b260778228ea9b0f5e43a66c77b44c5b485288a4467771c57",
+    "bytes": 73839
+  },
+  "private_failed_setup_check": {
+    "path": "/tmp/schemaforge-ci-provider-expiry-check.log",
+    "sha256": "e60a20d8f079fa1d892ae9664189240b27ea7a066e75de2bdbe3206f59fbe8f0",
+    "bytes": 74117
+  },
+  "failed_setup": "Root ran first check with umask077. Existing symlink fixture mkdir0755 became0700 and failed448!=493; no implementation changed. Normalumask022 same-source final check passed. Failed run retained.",
+  "partition_component": "6421902ff092f9815829de180fc670b235877c4b",
+  "provider_component": "3c85707c47a649e5a242ba11660b769fa45a83f6",
+  "independent_review": {
+    "agent": "ci_review",
+    "head": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
+    "outcome": "APPROVED_NO_BLOCKER",
+    "scope": "Both unchanged previously approved components and accurate documentation; review did not rerun tests."
+  },
+  "observed_costs": {
+    "run": 38112960840,
+    "head": "9e91c1b52caaef8768d85047124efd5a91ac823a",
+    "mapped_files": 35,
+    "unmapped_tests": 0,
+    "api_test_seconds": [
+      721,
+      282
+    ],
+    "new_worker_local_milliseconds": 40505
+  },
+  "behavior": [
+    "All API files appear exactly once across complementary partitions and retain original serial source order within each shard.",
+    "Deterministic greedy placement uses observed file duration estimates; new unmeasured files are included with fixed30second estimate.",
+    "Browser Node shards, unsharded full lists, independent disposable PostgreSQL services, assertions, timeouts, security and fresh-release suites and stable fail-closed aggregate remain enabled."
+  ],
+  "expected_mandatory_ci": {
+    "api": 78,
+    "browser": 33,
+    "release_outer": 1,
+    "release_inner": 4,
+    "disabled_tests": 0
+  },
+  "license": {
+    "product": "Unmodified PolyForm Shield1.0.0",
+    "pinned_packages": 85,
+    "unknown_required_grants": 0,
+    "dependency_changes": false
+  },
+  "oracle_calls": 0,
+  "limits": [
+    "New candidate/master CI not run; current master financial block is not waived.",
+    "Estimates do not prove an actual CI speedup.",
+    "No Oracle/runtime/recovery/OS isolation/full catalog or signed/offline binary acceptance."
+  ]
+}

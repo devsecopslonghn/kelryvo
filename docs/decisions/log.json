@@ -584,6 +584,39 @@
         "OPS-002",
         "MIG-011"
       ]
+    },
+    {
+      "id": "SF-D050",
+      "status": "ACCEPTED_COMPLETE_MEASURED_COST_API_CI_PARTITIONS",
+      "accepted_at_utc": "2026-10-11T05:58:03.039669+00:00",
+      "decision": "Balance complete API file placement deterministically with observed duration estimates, retaining every file exactly once and source order within each shard. Unknown files remain included; invalid partitions fail. Preserve all assertions/timeouts/independent databases/security/browser/fresh-release and aggregate gates. Claim speedup only from actual complete CI.",
+      "references": [
+        "apps/worker/oracle-provider.mjs",
+        "docs/development/local-product.md",
+        "docs/implementation/github-sync.md",
+        "scripts/product-test-shards.mjs",
+        "scripts/test-product.mjs",
+        "tests/oracle-provider.test.mjs",
+        "tests/product-test-shards.test.mjs"
+      ],
+      "catalog_traceability": [
+        "OPS-023"
+      ]
+    },
+    {
+      "id": "SF-D051",
+      "status": "ACCEPTED_CONTINUOUS_PRIVATE_PROVIDER_PERMIT_EXPIRY",
+      "accepted_at_utc": "2026-10-11T05:58:03.039669+00:00",
+      "decision": "Enforce the immutable installed permit after every awaited setup boundary, before owned work and after settlement/cleanup. Expiry retires authority, prevents new work and success; drain existing operations and close all acquired handles once without reconnect/retry. Expiry does not establish SQL effects or cancel already-started operations.",
+      "references": [
+        "apps/worker/oracle-provider.mjs",
+        "tests/oracle-provider.test.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "OPS-002",
+        "MIG-011"
+      ]
     }
   ]
 }
