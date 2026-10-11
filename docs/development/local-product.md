@@ -653,10 +653,33 @@ permit for the entire callback. `observe` provides current target identity, expl
 assignment, history, validity and evidence witnesses. `current` must attest that the held
 identity/permit and history progression still match that observation and dispatched receipts;
 postcondition and central evidence checks must attest actual target facts. Digest strings
-alone confer no authority. Full EMPTY history must match every approved statement digest in
-order; EXACT_APPLIED permits only a witnessed zero-statement NOOP. Partial or unknown history
-requires reconciliation outside this bridge. The pinned parser reconstructs exactly the reviewed
-delimiter-free execution bytes; no second splitter is used.
+alone confer no authority. The worker gives the host the immutable approval reference,
+intent digest and complete per-file migration identities. `observe` must return
+`historyFormat:1`, an ordered `appliedMigrations` ledger and the exact pending statement
+digests. Every applied file records APPLIED outcome, its original approval reference and
+intent digest, path/version/source checksum, per-file statement manifest and ordered
+execution digests. The host must attest the ledger's authenticity and target binding;
+central job/receipt history cannot establish these target facts. `centralEvidenceComplete`
+must confirm all known prior target effects have complete witnesses before admission,
+including for EMPTY and APPLIED_PREFIX, then confirm new receipts before final success.
+A prior ADMITTED/HOLD job with the same assignment and canonical target key is an
+independent metadata veto; it cannot be overridden by a reported applied prefix.
+
+EMPTY requires an empty witnessed ledger and selects all approved statements.
+APPLIED_PREFIX requires complete files forming an exact prefix and selects only the
+approved suffix. An applied V1 followed by independently approved V1+V2 executes V2 only;
+V1 retains its original approval/history. EXACT_APPLIED requires every file and permits
+only a witnessed zero-statement NOOP with postconditions and central evidence. File edits,
+reordering, missing/unknown/partial entries, inconsistent pending digests or lost witnesses
+record terminal HOLD without admission or an attempt. There is no automatic retry or HOLD
+release. Old host observations without protocol1 are held; retained historical metadata
+and immutable approvals are preserved. A trusted host must reconcile unknown effects
+outside this bridge before a new request can be considered.
+
+The admission proof binds the applied file/statement counts and pending manifest. The
+journal's contiguous ordinals describe the selected pending sequence. The original full
+approval envelope remains unchanged and is rechecked through dispatch. The pinned parser
+reconstructs exactly the reviewed delimiter-free execution bytes; no second splitter is used.
 
 Admission commits its immutable proof, ADMITTED job and first claimed attempt together,
 before any dispatch. Before every statement the worker checks the original requesting
@@ -681,7 +704,7 @@ schema snapshots; cross-schema restore remains rejected. Existing witnessed rest
 revokes credentials, holds unfinished attempts and preserves history.
 
 Focused metadata acceptance:
-`SCHEMAFORGE_TEST_DATABASE_URL=<disposable-postgres-url> SCHEMAFORGE_JAVA_HOME=<pinned-jdk> node --test tests/product-controlled-execution.test.mjs`.
+`SCHEMAFORGE_TEST_DATABASE_URL=<disposable-postgres-url> SCHEMAFORGE_JAVA_HOME=<pinned-jdk> node --test --test-concurrency=1 tests/product-controlled-execution.test.mjs tests/product-incremental-migrations.test.mjs`.
 Build the web bundle and pinned parser first. This exercises Git→approval→request→worker→history
 with synthetic host ports only; it never certifies Oracle effects, target ledger reconciliation
 or production isolation. Actual execution/recovery acceptance remains blocked on an explicitly

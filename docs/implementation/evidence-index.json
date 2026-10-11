@@ -3311,6 +3311,24 @@
       },
       "path": "evidence/product/mvp-local-release-20261011/record.json",
       "sha256": "076c4dd7c9a0d7fc78a4743aa86b1f8918363996663223765509eae040f6a7ab"
+    },
+    {
+      "id": "mvp-history-aware-local-verified",
+      "subject_id": "MIG-011",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Final14case controlled/incremental/release PostgreSQL/Git/real-parser tests; standard157PASS45optionalSKIP; independent corrected central-evidence security/QA review. UNIT target only; remote CI pending, no Oracle/full feature acceptance.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/history-aware-20261011/focused.log",
+        "sha256": "d1e8e903f9a9238347c75fea2ec0b9fd9835ca436ec8c3bc248b00fec89cbec6"
+      },
+      "path": "evidence/product/history-aware-20261011/record.json",
+      "sha256": "2618120b51cacbe2793442f681c1aa027281fc921193e1154a13ab23165ebfd4"
     }
   ]
 }

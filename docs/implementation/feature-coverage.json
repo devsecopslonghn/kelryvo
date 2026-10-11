@@ -12,11 +12,11 @@
     "BLOCKED_EXTERNAL is reserved for an otherwise implemented/ready feature missing only external evidence; unimplemented features are not relabeled merely because Oracle access is absent."
   ],
   "summary": {
-    "IMPLEMENTED_AND_VERIFIED": 0,
-    "PARTIALLY_IMPLEMENTED": 48,
-    "NOT_IMPLEMENTED": 165,
+    "PARTIALLY_IMPLEMENTED": 50,
+    "NOT_IMPLEMENTED": 163,
+    "DEFERRED": 7,
     "BLOCKED_EXTERNAL": 0,
-    "DEFERRED": 7
+    "IMPLEMENTED_AND_VERIFIED": 0
   },
   "by_milestone": {
     "MVP-Core": {
@@ -56,8 +56,8 @@
     },
     "WS": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 36,
-      "NOT_IMPLEMENTED": 38,
+      "PARTIALLY_IMPLEMENTED": 38,
+      "NOT_IMPLEMENTED": 36,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     }
@@ -672,8 +672,11 @@
       "id": "MIG-011",
       "name": "Pending and applied reconciliation",
       "milestone": "WS",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Worker selects only an exact approved suffix from host-attested complete applied migration files; rejects divergent/unknown/partial history and unresolved prior central attempts to HOLD. Real local PostgreSQL/Git/parser and UNIT host tests verified; installed target ledger/runtime/reconciliation and full catalog acceptance remain incomplete.",
+      "evidence": [
+        "mvp-history-aware-local-verified"
+      ]
     },
     {
       "id": "MIG-012",
@@ -793,8 +796,11 @@
       "id": "MIG-026",
       "name": "Hybrid history and reconciliation",
       "milestone": "WS",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Worker selects only an exact approved suffix from host-attested complete applied migration files; rejects divergent/unknown/partial history and unresolved prior central attempts to HOLD. Real local PostgreSQL/Git/parser and UNIT host tests verified; installed target ledger/runtime/reconciliation and full catalog acceptance remain incomplete.",
+      "evidence": [
+        "mvp-history-aware-local-verified"
+      ]
     },
     {
       "id": "MIG-027",
@@ -858,6 +864,12 @@
           "evidence": [
             "product-t34-backup-restore-local-verified",
             "product-t34-backup-restore-ci-correction-local-verified"
+          ]
+        },
+        {
+          "behavior": "Source/ledger divergence and unresolved central attempts veto UNIT-host admission; actual restored Oracle target observation/reconciliation is not implemented.",
+          "evidence": [
+            "mvp-history-aware-local-verified"
           ]
         }
       ]
@@ -2551,5 +2563,11 @@
     "published_head": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
     "merged_master": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
     "integration_evidence": "mvp-controlled-execution-pr51-master-verified"
+  },
+  "m4_pending_increment": {
+    "status": "LOCAL_UNIT_VERIFIED_REMOTE_CI_PENDING",
+    "evidence": "mvp-history-aware-local-verified",
+    "behavior": "Complete attested applied prefix selects only approved pending files; prior central uncertainty vetoes; UNIT target only.",
+    "classification_change": "MIG-011 and MIG-026 partial; no full acceptance or restored-target claim"
   }
 }

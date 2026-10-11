@@ -4,6 +4,7 @@ import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs
 import { ANTLR_PROFILE, MAX_STDOUT_BYTES } from '../../experiments/db-devops-wp0/parser-envelope.mjs';
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from '../../experiments/db-devops-wp0/parser-release.mjs';
 import { runAntlrExecutionCandidate } from '../../experiments/db-devops-wp0/antlr-envelope.mjs';
+import { approvedMigrationIdentities } from './pending-migrations.mjs';
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 
@@ -40,6 +41,7 @@ export async function materializeApprovedStatements(release, envelope, digest, e
       }
     }
     if (JSON.stringify(identities) !== JSON.stringify(intent.statements)) return null;
-    return { intent, statements: Object.freeze(statements), statementManifestDigest: hash(JSON.stringify(identities)) };
+    return { intent, statements: Object.freeze(statements), statementManifestDigest: hash(JSON.stringify(identities)),
+      migrations: approvedMigrationIdentities(intent) };
   } catch { return null; }
 }

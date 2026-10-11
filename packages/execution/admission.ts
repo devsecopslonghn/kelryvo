@@ -2,6 +2,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { preflightRetainedRelease } from '../migrations/retained-release-preflight.mjs';
 import { materializeApprovedStatements } from './statements.mjs';
+import { selectPendingMigrations } from './pending-migrations.mjs';
 import { MAX_STDOUT_BYTES } from '../../experiments/db-devops-wp0/parser-envelope.mjs';
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from '../../experiments/db-devops-wp0/parser-release.mjs';
 
@@ -10,30 +11,54 @@ const ORG = '00000000-0000-4000-8000-000000000001';
 export const executionUuid = (value: unknown): value is string => typeof value === 'string'
   && /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value);
 export type AdmissionScope = 'TRUSTED_VALIDATED' | 'UNIT_SYNTHETIC';
+export type MigrationIdentity = Readonly<{ path: string; version: string; sha256: string;
+  statementManifestDigest: string; statementDigests: readonly string[] }>;
+export type AppliedMigration = MigrationIdentity & Readonly<{ outcome: 'APPLIED'; approvalReference: string; intentDigest: string }>;
 export type TargetObservation = Readonly<{
   scope: AdmissionScope; targetAssignmentId: string; targetKey: string;
   targetIdentityDigest: string; historySnapshotDigest: string; mutexAuthorityDigest: string;
   validityDigest: string; centralEvidenceDigest: string; dispatchPermitDigest: string; hostWitnessDigest: string;
-  historyState: 'EMPTY' | 'EXACT_APPLIED'; pendingStatementDigests: readonly string[];
+  historyFormat: 1; appliedMigrations: readonly AppliedMigration[];
+  historyState: 'EMPTY' | 'EXACT_APPLIED' | 'APPLIED_PREFIX'; pendingStatementDigests: readonly string[];
+  appliedMigrationCount?: number; appliedStatementCount?: number; pendingManifestDigest?: string;
 }>;
 
-export function snapshotObservation(value: TargetObservation, scope: AdmissionScope, statements: readonly { digest: string }[]) {
+export function snapshotObservation(value: TargetObservation, scope: AdmissionScope, migrations: readonly MigrationIdentity[]) {
   if (!value || value.scope !== scope || !executionUuid(value.targetAssignmentId)
       || typeof value.targetKey !== 'string' || !/^[A-Za-z0-9._:/-]{1,512}$/.test(value.targetKey)
       || !['targetIdentityDigest','historySnapshotDigest','mutexAuthorityDigest','validityDigest',
         'centralEvidenceDigest','dispatchPermitDigest','hostWitnessDigest'].every(key => /^[a-f0-9]{64}$/.test(value[key as keyof TargetObservation] as string ?? ''))
       || !Array.isArray(value.pendingStatementDigests) || value.pendingStatementDigests.length > 4096) return null;
-  const digests = value.pendingStatementDigests.slice();
-  if (!(value.historyState === 'EMPTY' && digests.length === statements.length
-        && digests.every((digest, index) => digest === statements[index].digest)
-      || value.historyState === 'EXACT_APPLIED' && digests.length === 0)) return null;
+  const selected = selectPendingMigrations(migrations, value);
+  if (!selected) return null;
   // Explicit projection prevents arbitrary host payloads becoming journal facts.
   return Object.freeze({ scope, targetAssignmentId: value.targetAssignmentId, targetKey: value.targetKey,
     targetIdentityDigest: value.targetIdentityDigest, historySnapshotDigest: value.historySnapshotDigest,
     mutexAuthorityDigest: value.mutexAuthorityDigest, validityDigest: value.validityDigest,
     centralEvidenceDigest: value.centralEvidenceDigest, dispatchPermitDigest: value.dispatchPermitDigest,
     hostWitnessDigest: value.hostWitnessDigest, historyState: value.historyState,
-    pendingStatementDigests: Object.freeze(digests) });
+    historyFormat: 1 as const, ...selected });
+}
+
+/** Declining target history is a durable terminal HOLD, with no admission or
+ * attempt. Recheck the same live governance snapshot before changing the job.
+ */
+export async function holdUntrustedHistory(sql: any, candidate: any, workerId: string) {
+  return sql.begin(async (tx: any) => {
+    await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
+    const current = await readExecutionRequest(tx, candidate.job.id);
+    if (!current || current.snapshotDigest !== candidate.snapshotDigest || current.authority.role !== candidate.authority.role) return false;
+    const row = (await tx`UPDATE sf_execution_jobs SET state='HOLD',readiness='TARGET_HISTORY_UNAVAILABLE',
+      revision=revision+1,updated_at=clock_timestamp() WHERE id=${current.job.id}
+      AND state='WAITING_VALIDATION' AND revision=${current.job.revision} RETURNING revision`)[0];
+    if (!row) return false;
+    const facts = { reasonCode:'TARGET_HISTORY_UNTRUSTED', scope:'PRODUCT_REQUEST' };
+    await tx`INSERT INTO sf_execution_job_events(id,job_id,revision,from_state,to_state,actor_id,facts)
+      VALUES(${randomUUID()},${current.job.id},${row.revision},'WAITING_VALIDATION','HOLD',${workerId},${tx.json(facts)})`;
+    await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
+      VALUES(${current.project.id},${ORG},${current.job.requester_id},'EXECUTION_HELD',${current.job.id},${tx.json(facts)})`;
+    return true;
+  });
 }
 
 /** Called under global governance lock, then plan -> project -> job locks.
@@ -135,6 +160,9 @@ export async function commitExecutionAdmission(tx: any, candidate: any, material
     targetKey:observation.targetKey, statementCount:count, statementManifestDigest:materialized.statementManifestDigest,
     dispatchPermitDigest:observation.dispatchPermitDigest, hostWitnessDigest:observation.hostWitnessDigest,
     historyState:observation.historyState, candidateSnapshotDigest:candidate.snapshotDigest };
+  Object.assign(hostBinding, { historyFormat:observation.historyFormat,
+    appliedMigrationCount:observation.appliedMigrationCount, appliedStatementCount:observation.appliedStatementCount,
+    pendingManifestDigest:observation.pendingManifestDigest });
   const profileFacts = { engine:candidate.profile.engine, host:candidate.profile.host, port:candidate.profile.port,
     service:candidate.profile.service, username:candidate.profile.username };
   const job = candidate.job;

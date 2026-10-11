@@ -1,0 +1,31 @@
+{
+  "scope": "Exact candidate source/test/docs/evidence delta plus passing local raw logs",
+  "scanner": "Gitleaks8.30.1",
+  "scanner_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "outcome": "PASS",
+  "findings": 0,
+  "files": {
+    "apps/worker/run-request.ts": "2d9cb333f32b193608c8a9cb90a024ca90a4d066f31f08654fb87006a825114b",
+    "docs/architecture/boundaries.md": "69682fad4605e2cff4f19f40e54eb40764ebb26a1d047ef7b0b278b9b199ded8",
+    "docs/decisions/log.json": "ef0d2c71dea9470ed3580de84373c05027d04dff391fc264959ca2637f26e5c6",
+    "docs/development/local-product.md": "aef9210b351b293c5935e092fcd663cd88a1866884f9ab7012a11691bb892b8c",
+    "docs/implementation/CONTINUE.md": "f1f0f8b3aebda94a2533a69e5dc7a0a21ab4400e684eaf949fe5221319be7961",
+    "docs/implementation/CURRENT.md": "f1f0f8b3aebda94a2533a69e5dc7a0a21ab4400e684eaf949fe5221319be7961",
+    "docs/implementation/evidence-index.json": "bea9d515f66d2c63a72ec3a34f13330cbfb6ff5e3b69e49791ae66944fbf41b3",
+    "docs/implementation/feature-coverage.json": "4279f096e263b4325790a68f40f4ed2893ed1b1d59a1b3cbc816691657f360c0",
+    "docs/implementation/milestone.json": "d89dbe0a06e689df18737c510b2a29966fea99a1ffd87f276029b353156e6ee7",
+    "evidence/product/history-aware-20261011/checks.log": "3354b10b6c70c594ef8947ce78ecd1a6529d91e307e1dce003ae39f82d54aaff",
+    "evidence/product/history-aware-20261011/focused.log": "d1e8e903f9a9238347c75fea2ec0b9fd9835ca436ec8c3bc248b00fec89cbec6",
+    "evidence/product/history-aware-20261011/record.json": "2618120b51cacbe2793442f681c1aa027281fc921193e1154a13ab23165ebfd4",
+    "packages/execution/admission.ts": "42e6310d2b53c4c214bda27654e519ccd0c1832d0fda9fabbcaa051675c8136e",
+    "packages/execution/pending-migrations.mjs": "395b13c92251b85119709105266840e54bb59947263f5fc0483de9e4edaebbce",
+    "packages/execution/statements.mjs": "17da318f5c1c94f28ec15d86988629e6484c10b6e5128e03a20b0f05bdfb18a0",
+    "scripts/test-product.mjs": "be0c063e78876e9be9a00bb43f0753dd9209a7602df50627349ddca3a5ebe77f",
+    "tests/helpers/statement-envelope-fixture.mjs": "41957c3ae1971363b3ab28a25b6d763ddab07d6e8bf75200a4b81ccd3b707414",
+    "tests/pending-migrations.test.mjs": "edec9ed00d84bad65a0f4ad5918ed7e1e13cad64409530c0efeb2c0b72f5894f",
+    "tests/product-controlled-execution.test.mjs": "6be52b0582b368e6c703ac4f0b048d394b657f9a6b40b3776a33c4fe5383fa33",
+    "tests/product-incremental-migrations.test.mjs": "0290fb1adf73a8aac74ccbf187959c2b324612eac1fbfdc3d1a242b9e83fafeb",
+    "tests/product-release-acceptance.integration.mjs": "72e5f98af4ec6e5d541e9a1296a0310db156611681bae5374e680e6460f78aa9"
+  },
+  "license": "No dependency/lock/LICENSE/NOTICE/parser pin changes; 85 pinned packages remain"
+}

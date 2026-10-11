@@ -3,7 +3,8 @@ import { createHash } from 'node:crypto';
 import { coordinate, type Receipt } from '../../packages/execution/coordinator.ts';
 import { createExecutionJobStore } from '../../packages/execution/postgres-jobs.ts';
 import { executionUuid, executionDigest, snapshotObservation, readExecutionRequest, materializeExecutionRequest,
-  acquireExecutionTarget, lockExecutionTarget, commitExecutionAdmission, type AdmissionScope, type TargetObservation } from '../../packages/execution/admission.ts';
+  acquireExecutionTarget, lockExecutionTarget, commitExecutionAdmission, holdUntrustedHistory,
+  type AdmissionScope, type TargetObservation, type MigrationIdentity } from '../../packages/execution/admission.ts';
 
 export type ExecutionTargetSession = {
   scope: AdmissionScope;
@@ -19,7 +20,8 @@ export type ExecutionHost = {
   workerId: string; scope: AdmissionScope;
   /** Own the physical target session/mutex/permit for the entire callback, including commit and dispatch. */
   withTarget<T>(request: Readonly<{ jobId: string; planId: string; intentDigest: string;
-    profile: Readonly<Record<string, unknown>>; statementDigests: readonly string[] }>,
+    approvalReference: string; profile: Readonly<Record<string, unknown>>;
+    statementDigests: readonly string[]; migrations: readonly MigrationIdentity[] }>,
     run: (session: ExecutionTargetSession) => Promise<T>): Promise<T>;
 };
 
@@ -50,30 +52,49 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
         const expectedSnapshot = candidate.snapshotDigest;
         const profile = Object.freeze({ ...candidate.profile });
         const input = Object.freeze({ jobId, planId:candidate.plan.id, intentDigest:candidate.job.intent_digest,
-          profile, statementDigests:Object.freeze(materialized.statements.map(statement => statement.digest)) });
+          approvalReference:candidate.plan.approval_reference, profile, migrations:materialized.migrations,
+          statementDigests:Object.freeze(materialized.statements.map(statement => statement.digest)) });
         return await host.withTarget(input, async session => {
           if (!session || session.scope !== scope || !['observe','current','execute','recordTargetReceipt',
             'verifyPostconditions','centralEvidenceComplete'].every(key => typeof session[key as keyof ExecutionTargetSession] === 'function')) return 'ADMISSION_DECLINED' as const;
-          const observation = snapshotObservation(await session.observe(),scope,materialized.statements);
-          if (!observation || await session.current(observation) !== true
-              || observation.historyState === 'EXACT_APPLIED' && (await session.verifyPostconditions() !== true
-                || await session.centralEvidenceComplete() !== true)) return 'ADMISSION_DECLINED' as const;
+          const holdHistory = async () => {
+            try { return await holdUntrustedHistory(sql,candidate,workerId) ? 'HOLD' as const : 'ADMISSION_DECLINED' as const; }
+            catch { return 'HOLD_PERSISTENCE_PENDING' as const; }
+          };
+          let observation: ReturnType<typeof snapshotObservation>;
+          try {
+            observation = snapshotObservation(await session.observe(),scope,materialized.migrations);
+            if (!observation || await session.current(observation) !== true
+                || await session.centralEvidenceComplete() !== true
+                || observation.historyState === 'EXACT_APPLIED' && await session.verifyPostconditions() !== true) return holdHistory();
+          } catch {
+            return holdHistory();
+          }
+          let historyLost = false;
           const claim = await sql.begin(async (tx: any) => {
             if (!await acquireExecutionTarget(tx,observation.targetAssignmentId)) return null;
             await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
             if (!await lockExecutionTarget(tx,observation,candidate.project.id,profile)) return null;
             const current = await readExecutionRequest(tx,jobId);
-            if (!current || current.snapshotDigest !== expectedSnapshot || current.authority.role !== candidate.authority.role
-                || await session.current(observation) !== true) return null;
+            if (!current || current.snapshotDigest !== expectedSnapshot || current.authority.role !== candidate.authority.role) return null;
+            // Central uncertainty is a veto, never proof of target application.
+            // Target/catalog locks serialize admissions and authority changes.
+            if ((await tx`SELECT 1 FROM sf_execution_admission_proofs proof JOIN sf_execution_jobs prior ON prior.id=proof.job_id
+              WHERE proof.target_assignment_id=${observation.targetAssignmentId}
+                AND proof.host_binding->>'targetKey'=${observation.targetKey} AND prior.id<>${jobId}
+                AND prior.state IN ('ADMITTED','HOLD') LIMIT 1`)[0]) { historyLost = true; return null; }
+            try {
+              if (await session.current(observation) !== true) { historyLost = true; return null; }
+            } catch { historyLost = true; return null; }
             // A lost COMMIT acknowledgment is unknown, even if the transaction may
             // have rolled back. Never report an undispatched decline after writing.
             admitted = true;
             return commitExecutionAdmission(tx,current,materialized,observation,workerId,leaseSeconds);
           });
-          if (!claim) return 'ADMISSION_DECLINED' as const;
+          if (!claim) return historyLost ? holdHistory() : 'ADMISSION_DECLINED' as const;
           recovery.claim = claim;
           admitted = true;
-          const statements = observation.historyState === 'EXACT_APPLIED' ? [] : materialized.statements;
+          const statements = Object.freeze(materialized.statements.slice(observation.appliedStatementCount));
           const job = Object.freeze({ id:jobId,state:'ADMITTED' as const,planDigest:candidate.job.intent_digest,
             targetKey:observation.targetKey,statements });
           let claimUsed = false;
