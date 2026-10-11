@@ -54,7 +54,7 @@ function metadataClient(sql) {
  * Bind one fixed child invocation to one private PostgreSQL client and one installed Oracle host.
  * Call this only from reviewed installation code, never with API/IPC request values.
  */
-export function createInstalledExecutionWorkerFactory(binding) {
+function createInstalledWorkerFactory(binding, recoverOnly) {
   const keys = ['databaseUrl', 'installedOracle'];
   const optional = ['allowUnitSynthetic', 'unitGetConnection', 'openMetadata', 'leaseSeconds'];
   binding = installationRecord(binding, keys, optional);
@@ -95,8 +95,9 @@ export function createInstalledExecutionWorkerFactory(binding) {
       const provider = createPrivateOracleProvider(installedOracle, oracleOptions);
       const host = createRestrictedOracleHost(provider, scope === 'UNIT_SYNTHETIC' ? { allowUnitSynthetic: true } : {});
       const worker = makeExecutionWorker(sql, host, { allowUnitSynthetic, leaseSeconds });
+      const operation = recoverOnly ? worker.recoverExpired : worker.runWaitingRequest;
       if (worker.scope !== scope || worker.workerId !== installedOracle.workerId
-          || typeof worker.runWaitingRequest !== 'function') throw reject();
+          || typeof operation !== 'function') throw reject();
 
       let runStarted = false;
       let closing = false;
@@ -108,7 +109,12 @@ export function createInstalledExecutionWorkerFactory(binding) {
         runWaitingRequest(jobId, ...extra) {
           if (closing || runStarted || extra.length || !executionUuid(jobId)) return Promise.reject(reject());
           runStarted = true;
-          runPromise = Promise.resolve().then(() => worker.runWaitingRequest(jobId));
+          runPromise = Promise.resolve().then(() => operation(jobId)).then(result => {
+            if (!recoverOnly) return result;
+            if (result === 'HOLD') return 'HOLD';
+            if (result === 'NOT_RECOVERED') return 'ADMISSION_DECLINED';
+            throw reject();
+          }).catch(error => { if (recoverOnly) throw reject(); throw error; });
           return runPromise;
         },
         close() {
@@ -133,6 +139,16 @@ export function createInstalledExecutionWorkerFactory(binding) {
       throw reject();
     }
   };
+}
+
+/** Fixed privileged child operation: recover expired metadata only, never execute a request. */
+export function createInstalledExpiryRecoveryWorkerFactory(binding) {
+  return createInstalledWorkerFactory(binding, true);
+}
+
+/** Installation-only execution composition. */
+export function createInstalledExecutionWorkerFactory(binding) {
+  return createInstalledWorkerFactory(binding, false);
 }
 
 /** Direct use has no installation binding and must fail closed under the supervised runner. */
