@@ -662,8 +662,20 @@ execution digests. The host must attest the ledger's authenticity and target bin
 central job/receipt history cannot establish these target facts. `centralEvidenceComplete`
 must confirm all known prior target effects have complete witnesses before admission,
 including for EMPTY and APPLIED_PREFIX, then confirm new receipts before final success.
-A prior ADMITTED/HOLD job with the same assignment and canonical target key is an
-independent metadata veto; it cannot be overridden by a reported applied prefix.
+A prior ADMITTED/HOLD job with the same canonical target key is an independent metadata
+veto; catalog reassignment cannot erase it. Before admission, the worker also reconciles
+bounded retained completions for that canonical target. Every original approval/intent,
+complete ordered receipt sequence and validity/postcondition witness must agree with the
+separately attested applied prefix. A central VERIFIED_SUCCESS or NOOP sets a minimum
+prefix requirement; it never proves target effects. An EMPTY/shorter ledger after a
+recorded completion, changed original approval or intent, changed physical identity,
+missing central witnesses or incompatible evidence scope records HOLD with no attempt.
+Applied files without their original retained successful completion are also held. More
+than 128 distinct successful effect-producing intents requires explicit operator reconciliation
+outside this bridge; routine NOOP approvals do not consume that effect-history bound.
+NOOP evidence retains its minimum-prefix and scope/identity veto. Lookup currently uses
+the retained proof table under governance locks; large history requires operational sizing.
+No automatic truncation, history repair or replay occurs.
 
 EMPTY requires an empty witnessed ledger and selects all approved statements.
 APPLIED_PREFIX requires complete files forming an exact prefix and selects only the

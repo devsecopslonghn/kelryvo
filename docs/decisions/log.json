@@ -485,6 +485,22 @@
         "MIG-026",
         "MIG-034"
       ]
+    },
+    {
+      "id": "SF-D044",
+      "status": "ACCEPTED_MVP_M4_CENTRAL_TARGET_DIVERGENCE_VETO",
+      "accepted_at_utc": "2026-10-11T01:54:18.347437+00:00",
+      "decision": "A reported EMPTY or shorter target ledger after retained central completion is divergent even when a host reports complete evidence. Under existing target/governance admission locks, reconcile bounded prior immutable intents, original per-file approval/intent identities and complete receipts/validity witnesses with the independently attested prefix. Central records only veto divergence; they never establish target effects or infer a repair. Preserve canonical-target veto across catalog reassignment, forbid UNIT promotion, hold missing/incompatible/oversized evidence before any attempt. No replay, target connection, Oracle runtime claim, new metadata schema or HOLD release. This corrects the existing history-aware increment under SF-D010.",
+      "references": [
+        "packages/execution/history-reconciliation.ts",
+        "apps/worker/run-request.ts",
+        "tests/product-incremental-migrations.test.mjs"
+      ],
+      "catalog_traceability": [
+        "MIG-011",
+        "MIG-026",
+        "MIG-034"
+      ]
     }
   ]
 }

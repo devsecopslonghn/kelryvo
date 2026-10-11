@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "recorded_at": "2026-10-11T00:24:50.491907+00:00",
-  "verified_master": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+  "verified_master": "4938f0b26b223bcc6db65fb479117e146350720f",
   "reviewed_local_source": "513bdfb91382592b9f7b9d76deea91611e24ac46",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
@@ -12,8 +12,8 @@
     "BLOCKED_EXTERNAL is reserved for an otherwise implemented/ready feature missing only external evidence; unimplemented features are not relabeled merely because Oracle access is absent."
   ],
   "summary": {
-    "PARTIALLY_IMPLEMENTED": 50,
-    "NOT_IMPLEMENTED": 163,
+    "PARTIALLY_IMPLEMENTED": 51,
+    "NOT_IMPLEMENTED": 162,
     "DEFERRED": 7,
     "BLOCKED_EXTERNAL": 0,
     "IMPLEMENTED_AND_VERIFIED": 0
@@ -21,8 +21,8 @@
   "by_milestone": {
     "MVP-Core": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 6,
-      "NOT_IMPLEMENTED": 11,
+      "PARTIALLY_IMPLEMENTED": 7,
+      "NOT_IMPLEMENTED": 10,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     },
@@ -673,9 +673,10 @@
       "name": "Pending and applied reconciliation",
       "milestone": "WS",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Worker selects only an exact approved suffix from host-attested complete applied migration files; rejects divergent/unknown/partial history and unresolved prior central attempts to HOLD. Real local PostgreSQL/Git/parser and UNIT host tests verified; installed target ledger/runtime/reconciliation and full catalog acceptance remain incomplete.",
+      "basis": "Host-attested approved applied prefix plus retained original approvals/complete receipts/validity reconciled before admission. Rewound/shorter/divergent target history, central uncertainty and missing witnesses HOLD even across catalog reassignment. Real local PostgreSQL/Git/parser with UNIT target ports verified; no installed Oracle ledger/adapter/runtime, repair/HOLD release or full feature acceptance.",
       "evidence": [
-        "mvp-history-aware-local-verified"
+        "mvp-history-aware-local-verified",
+        "mvp-history-aware-divergence-local-verified"
       ]
     },
     {
@@ -797,9 +798,10 @@
       "name": "Hybrid history and reconciliation",
       "milestone": "WS",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Worker selects only an exact approved suffix from host-attested complete applied migration files; rejects divergent/unknown/partial history and unresolved prior central attempts to HOLD. Real local PostgreSQL/Git/parser and UNIT host tests verified; installed target ledger/runtime/reconciliation and full catalog acceptance remain incomplete.",
+      "basis": "Host-attested approved applied prefix plus retained original approvals/complete receipts/validity reconciled before admission. Rewound/shorter/divergent target history, central uncertainty and missing witnesses HOLD even across catalog reassignment. Real local PostgreSQL/Git/parser with UNIT target ports verified; no installed Oracle ledger/adapter/runtime, repair/HOLD release or full feature acceptance.",
       "evidence": [
-        "mvp-history-aware-local-verified"
+        "mvp-history-aware-local-verified",
+        "mvp-history-aware-divergence-local-verified"
       ]
     },
     {
@@ -855,8 +857,8 @@
       "id": "MIG-034",
       "name": "Restore divergence detection",
       "milestone": "MVP-Core",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No observed Oracle target ledger/restore divergence detection or reconciliation. Metadata HOLD is a prerequisite only.",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Host-attested approved applied prefix plus retained original approvals/complete receipts/validity reconciled before admission. Rewound/shorter/divergent target history, central uncertainty and missing witnesses HOLD even across catalog reassignment. Real local PostgreSQL/Git/parser with UNIT target ports verified; no installed Oracle ledger/adapter/runtime, repair/HOLD release or full feature acceptance.",
       "related_prerequisite_observations": [
         {
           "task": "SF-PRODUCT-T34",
@@ -872,6 +874,9 @@
             "mvp-history-aware-local-verified"
           ]
         }
+      ],
+      "evidence": [
+        "mvp-history-aware-divergence-local-verified"
       ]
     },
     {
@@ -2565,9 +2570,9 @@
     "integration_evidence": "mvp-controlled-execution-pr51-master-verified"
   },
   "m4_pending_increment": {
-    "status": "LOCAL_UNIT_VERIFIED_REMOTE_CI_PENDING",
-    "evidence": "mvp-history-aware-local-verified",
-    "behavior": "Complete attested applied prefix selects only approved pending files; prior central uncertainty vetoes; UNIT target only.",
-    "classification_change": "MIG-011 and MIG-026 partial; no full acceptance or restored-target claim"
+    "status": "LOCAL_UNIT_VERIFIED_REVISED_CI_PENDING",
+    "evidence": "mvp-history-aware-divergence-local-verified",
+    "behavior": "Only approved pending suffix dispatches; original retained central completion vetoes target rewind and missing witnesses across reassignment. UNIT target only.",
+    "classification_change": "MIG-011/MIG-026/MIG-034 partial; no full Oracle/restore acceptance"
   }
 }

@@ -7,6 +7,7 @@ import { statementEnvelopeFixture } from './helpers/statement-envelope-fixture.m
 import { declareReference, assignReference } from '../packages/catalog-reference/index.mjs';
 import { createExecutionWorker } from '../apps/worker/run-request.ts';
 import { readExecutionRequest, materializeExecutionRequest } from '../packages/execution/admission.ts';
+import { reconcileCompletedHistory } from '../packages/execution/history-reconciliation.ts';
 
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const scope = 'UNIT_SYNTHETIC';
@@ -22,7 +23,7 @@ test('Git V1 then approved V2 executes only pending files; divergent or untruste
       containerName:'UNIT PDB',containerKind:'PDB',environment:'DEV',host:f.profile.host,port:f.profile.port,
       service:f.profile.service,transport:'TCP',owner:f.profile.username });
     await assignReference(sql,{ schemaId:reference.schemaId,projectId:f.project.id,expectedRevision:'0',reason:'UNIT incremental assignment' });
-    const assignment=(await sql`SELECT id FROM sf_reference_assignments WHERE schema_id=${reference.schemaId} AND closed_at IS NULL`)[0].id;
+    let assignment=(await sql`SELECT id FROM sf_reference_assignments WHERE schema_id=${reference.schemaId} AND closed_at IS NULL`)[0].id;
     const approve=async plan=>assert.equal((await f.api('POST',`/api/plans/${plan.id}/decision`,{
       decision:'APPROVE',reason:'Independently review exact retained source' },f.actors[1])).statusCode,200);
     const request=async plan=>{
@@ -91,6 +92,35 @@ test('Git V1 then approved V2 executes only pending files; divergent or untruste
       assert.equal((await sql`SELECT facts->>'reasonCode' AS reason FROM sf_execution_job_events WHERE job_id=${id} ORDER BY revision DESC LIMIT 1`)[0].reason,'TARGET_HISTORY_UNTRUSTED');
       assert.equal(await untrusted.runWaitingRequest(id),'ADMISSION_DECLINED');
     }
+    // An authenticated-looking ledger rewind or altered original approval still
+    // contradicts retained completion evidence, even if the host claims current
+    // central evidence. Central history vetoes; it never supplies target effects.
+    for (const overrides of [
+      { appliedMigrations:[],historyState:'EMPTY',pendingStatementDigests:materialized.statements.map(row=>row.digest) },
+      { appliedMigrations:originalLedger,historyState:'APPLIED_PREFIX',pendingStatementDigests:materialized.statements.slice(2).map(row=>row.digest) },
+      { appliedMigrations:[{ ...ledger[0],approvalReference:randomUUID() },ledger[1]] },
+      { appliedMigrations:[{ ...ledger[0],intentDigest:'c'.repeat(64) },ledger[1]] },
+      { targetIdentityDigest:hash('UNIT changed physical target') },
+    ]) {
+      const id=await duplicate(),untrusted=createExecutionWorker(sql,host(overrides),{ allowUnitSynthetic:true });
+      assert.equal(await untrusted.runWaitingRequest(id),'HOLD');assert.equal(calls.length,4);
+      assert.equal((await sql`SELECT count(*)::int AS n FROM sf_execution_attempts WHERE job_id=${id}`)[0].n,0);
+    }
+    const oldAssignment=assignment;
+    await assignReference(sql,{ schemaId:reference.schemaId,projectId:null,expectedRevision:'1',reason:'UNIT release assignment; preserve physical history' });
+    await assignReference(sql,{ schemaId:reference.schemaId,projectId:f.project.id,expectedRevision:'2',reason:'UNIT reassign same canonical target' });
+    assignment=(await sql`SELECT id FROM sf_reference_assignments WHERE schema_id=${reference.schemaId} AND closed_at IS NULL`)[0].id;
+    assert.notEqual(assignment,oldAssignment);
+    const reassignedNoop=await duplicate();
+    assert.equal(await worker.runWaitingRequest(reassignedNoop),'NOOP');assert.equal(calls.length,4);
+    const rewound=await duplicate();
+    assert.equal(await createExecutionWorker(sql,host({ appliedMigrations:[],historyState:'EMPTY',
+      pendingStatementDigests:materialized.statements.map(row=>row.digest) }),{ allowUnitSynthetic:true }).runWaitingRequest(rewound),'HOLD');
+    assert.equal(calls.length,4);assert.equal((await sql`SELECT count(*)::int AS n FROM sf_execution_attempts WHERE job_id=${rewound}`)[0].n,0);
+    assert.equal(await sql.begin(async tx=>{
+      await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
+      return reconcileCompletedHistory(tx,{ scope,targetKey:'unit:separate-target',targetIdentityDigest:witness,appliedMigrations:[] });
+    }),true,'a different canonical target keeps independent empty history');
     for(const behavior of [{ observeThrows:true },{ loseAtAdmission:true },{ centralEvidence:false }]) {
       const id=await duplicate(),untrusted=createExecutionWorker(sql,host({},behavior),{ allowUnitSynthetic:true });
       assert.equal(await untrusted.runWaitingRequest(id),'HOLD');assert.equal(calls.length,4);
@@ -117,6 +147,22 @@ test('Git V1 then approved V2 executes only pending files; divergent or untruste
     assert.equal(await pendingHost.runWaitingRequest(guarded),'HOLD');assert.equal(calls.length,4);
     assert.equal((await sql`SELECT count(*)::int AS n FROM sf_execution_attempts WHERE job_id=${guarded}`)[0].n,0);
     assert.equal((await sql`SELECT state FROM sf_execution_jobs WHERE id=${ambiguous}`)[0].state,'ADMITTED','unknown prior attempt is preserved for explicit recovery');
+    // A success projection alone supplies no completion witness. A separate
+    // canonical target has this synthetic incomplete proof, but no attempt,
+    // receipts or validity evidence; the host's matching V1 prefix still holds.
+    const incomplete=randomUUID(),incompleteKey='unit:incomplete-completion';
+    await sql`INSERT INTO sf_execution_jobs(id,organization_id,project_id,plan_id,approval_reference,intent_digest,requester_id,
+      request_credential_id,idempotency_key,payload_digest,reason,state,admission_scope,admission_statement_count,readiness)
+      SELECT ${incomplete},organization_id,project_id,plan_id,approval_reference,intent_digest,requester_id,request_credential_id,
+        ${randomUUID()},payload_digest,reason,'VERIFIED_SUCCESS',admission_scope,admission_statement_count,readiness FROM sf_execution_jobs WHERE id=${first}`;
+    await sql`INSERT INTO sf_execution_admission_proofs SELECT copied.* FROM sf_execution_admission_proofs original,
+      LATERAL jsonb_populate_record(NULL::sf_execution_admission_proofs,to_jsonb(original)||jsonb_build_object('job_id',${incomplete}::text,
+        'host_binding',original.host_binding||jsonb_build_object('targetKey',${incompleteKey}::text))) copied WHERE original.job_id=${first}`;
+    const missingCompletion=await duplicate();
+    assert.equal(await createExecutionWorker(sql,host({ targetKey:incompleteKey,appliedMigrations:originalLedger,historyState:'APPLIED_PREFIX',
+      pendingStatementDigests:materialized.statements.slice(2).map(row=>row.digest) }),{ allowUnitSynthetic:true }).runWaitingRequest(missingCompletion),'HOLD');
+    assert.equal(calls.length,4);
+    assert.equal((await sql`SELECT count(*)::int AS n FROM sf_execution_attempts WHERE job_id=${missingCompletion}`)[0].n,0);
     await f.restart();
     assert.equal((await f.api('GET',`/api/execution-jobs/${second}/attempts`)).json().attempts[0].state,'VERIFIED_SUCCESS');
     assert.equal((await f.db.sql`SELECT approval_reference FROM sf_plans WHERE id=${v1.id}`)[0].approval_reference,originalLedger[0].approvalReference);

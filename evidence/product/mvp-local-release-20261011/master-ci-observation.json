@@ -1,0 +1,76 @@
+{
+  "observed_at": "2026-10-11T01:53:28.033985+00:00",
+  "master_runs": [
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T01:07:50Z",
+      "databaseId": 38100781964,
+      "event": "push",
+      "headSha": "e57b610ba8166a6d20a92143e557725687931e31",
+      "status": "completed",
+      "updatedAt": "2026-10-11T01:09:25Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38100781964",
+      "workflowName": "Offline WP0 checks"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T01:07:50Z",
+      "databaseId": 38100781967,
+      "event": "push",
+      "headSha": "e57b610ba8166a6d20a92143e557725687931e31",
+      "status": "completed",
+      "updatedAt": "2026-10-11T01:11:05Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38100781967",
+      "workflowName": "Offline ANTLR parser acceptance"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-10-11T01:07:50Z",
+      "databaseId": 38100781957,
+      "event": "push",
+      "headSha": "e57b610ba8166a6d20a92143e557725687931e31",
+      "status": "completed",
+      "updatedAt": "2026-10-11T01:44:49Z",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38100781957",
+      "workflowName": "Local PRODUCT acceptance"
+    }
+  ],
+  "product": {
+    "run": 38100781957,
+    "head": "e57b610ba8166a6d20a92143e557725687931e31",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "product",
+        "status": "completed",
+        "conclusion": "success",
+        "startedAt": "2026-10-11T01:07:52Z",
+        "completedAt": "2026-10-11T01:44:48Z"
+      }
+    ],
+    "tap": {
+      "Run npm run test:product": {
+        "tests": 69,
+        "pass": 69,
+        "fail": 0,
+        "skipped": 0
+      },
+      "Run npm run test:browser": {
+        "tests": 33,
+        "pass": 33,
+        "fail": 0,
+        "skipped": 0
+      },
+      "Run npm run test:release": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    "wall_seconds": 2216,
+    "full_log_sha256": "bbd3b76051b7820501ade5e073301aeac099cf682145e404be865911bb203986",
+    "full_log_source": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38100781957"
+  }
+}

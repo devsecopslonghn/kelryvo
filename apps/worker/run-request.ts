@@ -2,6 +2,7 @@
 import { createHash } from 'node:crypto';
 import { coordinate, type Receipt } from '../../packages/execution/coordinator.ts';
 import { createExecutionJobStore } from '../../packages/execution/postgres-jobs.ts';
+import { reconcileCompletedHistory } from '../../packages/execution/history-reconciliation.ts';
 import { executionUuid, executionDigest, snapshotObservation, readExecutionRequest, materializeExecutionRequest,
   acquireExecutionTarget, lockExecutionTarget, commitExecutionAdmission, holdUntrustedHistory,
   type AdmissionScope, type TargetObservation, type MigrationIdentity } from '../../packages/execution/admission.ts';
@@ -80,9 +81,10 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
             // Central uncertainty is a veto, never proof of target application.
             // Target/catalog locks serialize admissions and authority changes.
             if ((await tx`SELECT 1 FROM sf_execution_admission_proofs proof JOIN sf_execution_jobs prior ON prior.id=proof.job_id
-              WHERE proof.target_assignment_id=${observation.targetAssignmentId}
+              WHERE proof.organization_id='00000000-0000-4000-8000-000000000001'
                 AND proof.host_binding->>'targetKey'=${observation.targetKey} AND prior.id<>${jobId}
                 AND prior.state IN ('ADMITTED','HOLD') LIMIT 1`)[0]) { historyLost = true; return null; }
+            if (!await reconcileCompletedHistory(tx,observation)) { historyLost = true; return null; }
             try {
               if (await session.current(observation) !== true) { historyLost = true; return null; }
             } catch { historyLost = true; return null; }
