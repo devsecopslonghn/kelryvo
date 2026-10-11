@@ -1,0 +1,33 @@
+{
+  "scope": "RETAINED_METADATA_ONLY_NO_ORACLE_EXECUTION",
+  "base": "d53c91cc1cf231a9bae8fbd373683c66983de53a",
+  "checks": {
+    "npm run check": "PASS:306pass,68offline PostgreSQL skips,0fail;89pinned packages with known grants",
+    "actual isolated PostgreSQL execution record": "PASS1/1,0skips:api-cancellation.log",
+    "actual isolated PostgreSQL existing plan record": "PASS1/1,0skips:api-final.log (new execution record fixture failed at aggregate event revision before correction)",
+    "Chromium execution record download/history/navigation/logout": "PASS1/1,0skips:browser.log",
+    "tracker and complete test shard registration": "PASS26/26:registration.log",
+    "post-fix TypeScript check": "PASS",
+    "independent source review": "PASS_CODE_REVIEW; source hashes in independent-review.json"
+  },
+  "corrections": [
+    "PostgreSQL FOR SHARE requires repeatable read rather than read-only transaction; scoped reads perform no data mutations.",
+    "Restored unknown plan404 after shared helper extraction.",
+    "Added PostgreSQL pre-materialization projected byte/field guards.",
+    "Any present corrupt admission binding rejects export; missing trusted binding rejects; only documented proofless synthetic history remains explicitly unmapped.",
+    "Aggregate-size fixture moved to unused event revisions after real approval withdrawal inserted its own event."
+  ],
+  "limitations": [
+    "Remote candidate/master CI and deployment remain pending.",
+    "No Oracle effects, signatures, target authority, replay or full catalog certification."
+  ],
+  "evidence_sha256": {
+    "registration.log": "8cc6bd973cf97f3ccfc8e509fcdf9aafbe2e02f18ab8640fa9643d8be41f1a11",
+    "browser.log": "08cb460dd22b9c080e401d4418f393e2f70bbb1c699052c084637454c749a26b",
+    "check.log": "d58d2c46eb223e5e960aa48ef5a319e4e7dafc54b2e45a540220b7ba9c6a2367",
+    "api-final.log": "67313eaae400fa0e35890c666cf1a933189761a25b10f5e809b9ed305cd598d3",
+    "api-corrected.log": "2b93438df75e61f815bc4b53a89ab5a2d377174b3269d6741fa92b7f1710af3f",
+    "api-cancellation.log": "55b8c76c1092cffd1707bb008734053f2586e7e369ad7f832d8ef1dfd3e06675",
+    "independent-review.json": "1f081467199745edbe15cd5a321fc4638148d394a59f2c430a67b32e65fd79d3"
+  }
+}

@@ -968,7 +968,30 @@ const PRODUCT_TASK_42 = {
     "SF-PRODUCT-T42-BROWSER"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38, PRODUCT_TASK_39, PRODUCT_TASK_40, PRODUCT_TASK_41, PRODUCT_TASK_42];
+const PRODUCT_TASK_43 = {
+  "id": "SF-PRODUCT-T43",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Download joined retained execution request records",
+  "dependencies": [
+    "SF-PRODUCT-T42"
+  ],
+  "feature_ids": [
+    "SEC-013"
+  ],
+  "acceptance_criteria": [
+    "Export one bounded repeatable-read metadata snapshot joining an explicitly authorized execution request to its verified saved public plan intent, original approval/current withdrawal, request events, attempts, statement events and receipt digests. Include all retained rows within fixed caps; reject oversized exports without silent truncation.",
+    "Preserve actual queued, HOLD, cancelled and synthetic admission scope labels without claiming target effects or execution authority. Verify same-project/organization approval and intent linkage. Explicitly project safe fields and exclude SQL, credential references, request credentials, idempotency keys, raw facts, lease secrets and private admission authority.",
+    "Allow both member roles and archived/RESTORE_HOLD historical reads; deny foreign, revoked and unfinished-bootstrap access. Reject damaged binding or oversized records with fixed errors. Reads must not mutate audit, job, plan or execution state.",
+    "Offer checksum-bearing execution-record downloads from current and historical request inspection. Fence delayed responses across plan/project/session navigation and logout; document checksum authenticity limits and missing-receipt uncertainty. Verify real PostgreSQL and Chromium positive/negative cases, required PRODUCT registration, independent review and mandatory CI."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T43-SNAPSHOT",
+    "SF-PRODUCT-T43-BOUNDARY",
+    "SF-PRODUCT-T43-BROWSER"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38, PRODUCT_TASK_39, PRODUCT_TASK_40, PRODUCT_TASK_41, PRODUCT_TASK_42, PRODUCT_TASK_43];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

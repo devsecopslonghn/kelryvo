@@ -12,8 +12,8 @@
     "BLOCKED_EXTERNAL is reserved for an otherwise implemented/ready feature missing only external evidence; unimplemented features are not relabeled merely because Oracle access is absent."
   ],
   "summary": {
-    "PARTIALLY_IMPLEMENTED": 57,
-    "NOT_IMPLEMENTED": 156,
+    "PARTIALLY_IMPLEMENTED": 58,
+    "NOT_IMPLEMENTED": 155,
     "DEFERRED": 7,
     "BLOCKED_EXTERNAL": 0,
     "IMPLEMENTED_AND_VERIFIED": 0
@@ -28,8 +28,8 @@
     },
     "MVP-Extended": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 1,
-      "NOT_IMPLEMENTED": 3,
+      "PARTIALLY_IMPLEMENTED": 2,
+      "NOT_IMPLEMENTED": 2,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     },
@@ -64,9 +64,9 @@
   },
   "external_acceptance": "Integrated control-plane flow through PR65: exact candidate/master Foundation, parser, full PRODUCT and CodeQL PASS;110API/33browser/1release per head, zero failures/cancellations/skips. Oracle runtime and deployed isolation remain unaccepted.",
   "next_product_capability": {
-    "task": "SF-PRODUCT-T41",
-    "status": "IMPLEMENTED_PENDING_CI_PUBLICATION",
-    "capability": "Owner-prioritized Kelryvo containers and subsequent Kubernetes deployment; other feature backlog held until deployment completes or genuinely blocks",
+    "task": "SF-PRODUCT-T43",
+    "status": "IMPLEMENTED_PENDING_CI",
+    "capability": "Joined retained execution-request record export developed independently of prior release CI",
     "full_catalog_promotion": false
   },
   "features": [
@@ -1773,8 +1773,25 @@
       "id": "SEC-013",
       "name": "Deployment evidence bundles",
       "milestone": "MVP-Extended",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "T42 verifies scoped public plan/approval export; T43 locally verifies joined execution-request metadata records with checksums, complete bounded journals, verified admission labels where available and explicit uncertainty. Full target-evidence and catalog acceptance remain unverified.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T42",
+          "behavior": "Scoped bounded public plan/approval/withdrawal export, SQL and credential exclusion, checksum and browser navigation/logout fencing.",
+          "evidence": [
+            "product-t42-plan-record-local"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T43",
+          "behavior": "Scoped complete bounded joined request/plan/approval/journal export with exact checksum, redaction, admission binding verification and preserved HOLD/synthetic uncertainty.",
+          "evidence": [
+            "product-t43-execution-record-local"
+          ]
+        }
+      ],
+      "remaining_gap": "Complete signed deployment evidence, compiler/postcheck artifacts, independent target confirmation and Oracle/runtime acceptance."
     },
     {
       "id": "SEC-014",

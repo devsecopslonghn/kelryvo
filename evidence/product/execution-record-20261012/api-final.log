@@ -1,0 +1,48 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: execution record exports a complete bounded synthetic journal without mutations or private metadata
+not ok 1 - execution record exports a complete bounded synthetic journal without mutations or private metadata
+  ---
+  duration_ms: 16982.12781
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge/tests/product-execution-record.test.mjs:9:1'
+  failureType: 'testCodeFailure'
+  error: 'duplicate key value violates unique constraint "sf_execution_job_events_job_id_revision_key"'
+  code: '23505'
+  name: 'PostgresError'
+  stack: |-
+    ErrorResponse (file:///home/longhn0710/workspace/schemaforge/node_modules/postgres/src/connection.js:815:30)
+    handle (file:///home/longhn0710/workspace/schemaforge/node_modules/postgres/src/connection.js:489:6)
+    Socket.data (file:///home/longhn0710/workspace/schemaforge/node_modules/postgres/src/connection.js:324:9)
+    Socket.emit (node:events:519:28)
+    addChunk (node:internal/streams/readable:561:12)
+    readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    Readable.push (node:internal/streams/readable:392:5)
+    TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    cachedError (file:///home/longhn0710/workspace/schemaforge/node_modules/postgres/src/query.js:170:23)
+    new Query (file:///home/longhn0710/workspace/schemaforge/node_modules/postgres/src/query.js:36:24)
+    Object.sql (file:///home/longhn0710/workspace/schemaforge/node_modules/postgres/src/index.js:112:11)
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge/tests/product-execution-record.test.mjs:205:19)
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: plan record preserves scoped frozen intent, current decision and withdrawal without credentials or mutations
+ok 2 - plan record preserves scoped frozen intent, current decision and withdrawal without credentials or mutations
+  ---
+  duration_ms: 16379.700348
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 33847.939137

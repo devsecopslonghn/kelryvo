@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import ExecutionRecord from './ExecutionRecord.jsx';
 
 export default function ExecutionHistory({ job, projectId, token, request, formatTime }) {
   const active = useRef(true);
@@ -20,6 +21,7 @@ export default function ExecutionHistory({ job, projectId, token, request, forma
     finally { if (active.current) setBusy(false); }
   };
   return <section aria-label={`Execution history for job ${job.id}`}>
+    <ExecutionRecord key={`${projectId}:${job.id}:${token}`} job={job} projectId={projectId} token={token} request={request}/>
     <button type="button" className="secondary" onClick={() => void load()} disabled={busy}>View execution history</button>
     {error && <p role="alert">History unavailable: {error}</p>}
     {page && <>
