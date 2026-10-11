@@ -64,9 +64,10 @@
   },
   "external_acceptance": "Integrated control-plane flow through PR65: exact candidate/master Foundation, parser, full PRODUCT and CodeQL PASS;110API/33browser/1release per head, zero failures/cancellations/skips. Oracle runtime and deployed isolation remain unaccepted.",
   "next_product_capability": {
-    "task": "SF-PRODUCT-T40",
-    "status": "IMPLEMENTED_PENDING_VERIFICATION",
-    "next_action": "Verify separate process liveness and bounded metadata readiness, preserving unverified target availability and required full CI."
+    "task": "SF-PRODUCT-T41",
+    "status": "IMPLEMENTED_PENDING_CI_PUBLICATION",
+    "capability": "Owner-prioritized Kelryvo containers and subsequent Kubernetes deployment; other feature backlog held until deployment completes or genuinely blocks",
+    "full_catalog_promotion": false
   },
   "features": [
     {
@@ -2787,9 +2788,10 @@
   },
   "control_plane_health": {
     "task": "SF-PRODUCT-T40",
-    "status": "IMPLEMENTED_PENDING_CI",
-    "evidence": "product-t40-health-probes-local",
+    "status": "VERIFIED_PRODUCT_BOUNDARY",
+    "evidence": "product-t40-health-probes-ci",
     "full_catalog_promotion": false,
-    "oracle_runtime_verified": false
+    "oracle_runtime_verified": false,
+    "verified_master": "8e1f31157a1d6ca9f333dd921b48873f923d1e58"
   }
 }

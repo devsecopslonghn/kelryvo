@@ -1354,6 +1354,10 @@
     },
     "SF-PRODUCT-T40": {
       "assigned_agent": "backend",
+      "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T41": {
+      "assigned_agent": "devops",
       "status": "IMPLEMENTED"
     }
   }

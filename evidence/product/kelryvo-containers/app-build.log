@@ -1,0 +1,154 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.34kB done
+#1 DONE 0.0s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#2 DONE 1.3s
+
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+#3 CACHED
+
+#4 [internal] load metadata for docker.io/library/debian:bookworm-slim@sha256:a4672c0cb26fbdde88e38fa2dfb6c681942306680e41e4378b28770b6e79ee91
+#4 DONE 0.0s
+
+#5 [internal] load metadata for docker.io/library/node:22.23.3-bookworm-slim@sha256:efd0ab5780c2d9ab1f0f869571a00d5edb17793bff4cce4a2792e3eb0ffc7562
+#5 DONE 0.0s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 582B done
+#6 DONE 0.0s
+
+#7 [base 1/3] FROM docker.io/library/node:22.23.3-bookworm-slim@sha256:efd0ab5780c2d9ab1f0f869571a00d5edb17793bff4cce4a2792e3eb0ffc7562
+#7 DONE 0.0s
+
+#8 [runtime  1/18] FROM docker.io/library/debian:bookworm-slim@sha256:a4672c0cb26fbdde88e38fa2dfb6c681942306680e41e4378b28770b6e79ee91
+#8 DONE 0.0s
+
+#9 [internal] load build context
+#9 transferring context: 554.16kB 0.2s done
+#9 DONE 0.2s
+
+#10 [base 2/3] RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates     && rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#11 [base 3/3] WORKDIR /opt/kelryvo
+#11 CACHED
+
+#12 [build 1/9] COPY package.json package-lock.json ./
+#12 CACHED
+
+#13 [build 2/9] RUN npm ci --ignore-scripts --no-audit --no-fund
+#13 CACHED
+
+#14 [build 3/9] COPY . .
+#14 DONE 0.1s
+
+#15 [build 4/9] RUN node scripts/antlr-prepare.mjs --download
+#15 8.375 Pinned public ANTLR/JDK inputs prepared; use SCHEMAFORGE_JAVA_HOME=.cache/antlr/temurin.
+#15 DONE 8.6s
+
+#16 [build 5/9] RUN node scripts/container-source-archives.mjs
+#16 8.706 Matching pinned Temurin source archives prepared.
+#16 DONE 8.9s
+
+#17 [build 6/9] RUN node scripts/antlr-build.mjs
+#17 27.97 {
+#17 27.97   "outcome": "PASS",
+#17 27.97   "scope": "OFFLINE_CANDIDATE_BUILD_ONLY",
+#17 27.97   "offline": true,
+#17 27.97   "build_count": 2,
+#17 27.97   "helper_sha256": "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38",
+#17 27.97   "registered_helper_sha256_matches": true,
+#17 27.97   "artifact_installed": true,
+#17 27.97   "source_sha256": {
+#17 27.97     "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/Main.java": "7528676c77213259824f71505686aeadbc6136a0f5625b19b722a15cb306da11",
+#17 27.97     "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/PlSqlLexerBase.java": "a806d6ed05d269efc3aca4fe9debf2bab4d1c74767cfa1ff6b227db175732156",
+#17 27.97     "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/PlSqlParserBase.java": "235ca59b19294b9b8fac72621cbbeff1291b56f5e927367df54ba2a641990931"
+#17 27.97   },
+#17 27.97   "jdk_version": "21.0.12.1+1-LTS",
+#17 27.97   "runtime_shipped_in_helper": false,
+#17 27.97   "tool_shipped_in_helper": false,
+#17 27.97   "execution_approved": false,
+#17 27.97   "production_approved": false,
+#17 27.97   "database_calls": 0
+#17 27.97 }
+#17 DONE 28.0s
+
+#18 [build 7/9] RUN SCHEMAFORGE_PRODUCT_NAME=Kelryvo node scripts/build-web.mjs
+#18 0.373 Web application built in dist/web.
+#18 DONE 0.4s
+
+#19 [build 8/9] RUN GIT_AUTHOR_DATE=2000-01-01T00:00:00Z GIT_COMMITTER_DATE=2000-01-01T00:00:00Z     node --input-type=module -e "import {prepareDemoRepository} from './scripts/local-resources.mjs'; await prepareDemoRepository();"
+#19 DONE 0.3s
+
+#20 [build 9/9] RUN npm prune --omit=dev --ignore-scripts --no-audit --no-fund
+#20 0.723 
+#20 0.723 up to date in 427ms
+#20 DONE 0.7s
+
+#21 [runtime  2/18] RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates libatomic1 libstdc++6     && rm -rf /var/lib/apt/lists/*
+#21 CACHED
+
+#22 [runtime  3/18] COPY --from=base /usr/local/bin/node /usr/local/bin/node
+#22 CACHED
+
+#23 [runtime  4/18] COPY --from=base /usr/local/LICENSE /opt/licenses/node-LICENSE
+#23 CACHED
+
+#24 [runtime  5/18] WORKDIR /opt/kelryvo
+#24 CACHED
+
+#25 [runtime  6/18] COPY --from=build /opt/kelryvo/package.json /opt/kelryvo/package-lock.json /opt/kelryvo/LICENSE /opt/kelryvo/NOTICE ./
+#25 CACHED
+
+#26 [runtime  7/18] COPY --from=build /opt/kelryvo/node_modules ./node_modules
+#26 CACHED
+
+#27 [runtime  8/18] COPY --from=build /opt/kelryvo/apps ./apps
+#27 DONE 0.0s
+
+#28 [runtime  9/18] COPY --from=build /opt/kelryvo/packages ./packages
+#28 DONE 0.0s
+
+#29 [runtime 10/18] COPY --from=build /opt/kelryvo/scripts ./scripts
+#29 DONE 0.0s
+
+#30 [runtime 11/18] COPY --from=build /opt/kelryvo/docs/dependencies ./docs/dependencies
+#30 DONE 0.0s
+
+#31 [runtime 12/18] COPY --from=build /opt/kelryvo/experiments/db-devops-wp0/*.mjs ./experiments/db-devops-wp0/
+#31 DONE 0.0s
+
+#32 [runtime 13/18] COPY --from=build /opt/kelryvo/experiments/db-devops-wp0/antlr-helper ./experiments/db-devops-wp0/antlr-helper
+#32 DONE 0.0s
+
+#33 [runtime 14/18] COPY --from=build /opt/kelryvo/.cache/antlr/temurin ./.cache/antlr/temurin
+#33 DONE 0.1s
+
+#34 [runtime 15/18] COPY --from=build /opt/kelryvo/.cache/antlr/antlr4-runtime-4.13.2.jar ./.cache/antlr/antlr4-runtime-4.13.2.jar
+#34 DONE 0.0s
+
+#35 [runtime 16/18] COPY --from=build /opt/kelryvo/.cache/container-sources /opt/licenses/sources
+#35 DONE 0.0s
+
+#36 [runtime 17/18] RUN chmod 0644 .cache/antlr/antlr4-runtime-4.13.2.jar experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar
+#36 DONE 0.2s
+
+#37 [runtime 18/18] RUN node scripts/container-inventory.mjs
+#37 0.308 Runtime notices present for 115 Debian packages and 38 JDK files.
+#37 DONE 0.3s
+
+#38 [app 1/2] COPY --from=build /opt/kelryvo/dist/web ./dist/web
+#38 DONE 0.0s
+
+#39 [app 2/2] COPY --from=build --chown=10001:10001 /opt/kelryvo/.cache/local-product/demo-repository ./repositories/demo
+#39 DONE 0.0s
+
+#40 exporting to image
+#40 exporting layers
+#40 exporting layers 1.7s done
+#40 writing image sha256:2f4ec4e6e6765b55a768da0f6f3fc2817f488b6b578740afc387b01f4591392e done
+#40 naming to docker.io/library/kelryvo-app:local done
+#40 DONE 1.7s

@@ -2892,6 +2892,20 @@
         "SF-PRODUCT-T40-METADATA",
         "SF-PRODUCT-T40-BOUNDARY"
       ]
+    },
+    "SF-PRODUCT-T41": {
+      "task_id": "SF-PRODUCT-T41",
+      "criteria": [
+        "Run the existing API and Kelryvo web assets as a non-root container with configurable bind address, external PostgreSQL, mandatory backend TLS, mounted Secrets, probes and graceful shutdown. Preserve session, authorization, migration, audit, HOLD and no-replay controls.",
+        "Build separate app and worker OCI images without bundled PostgreSQL or credentials. Keep worker startup fail-closed without private trusted installation and Oracle runtime authority. Preserve pinned dependencies, product license, runtime notices and corresponding JDK source material.",
+        "Verify projected Secret confinement, distinct fixed roles, unsafe input rejection and the actual OCI Git import, offline validation, approval, history, security denials and restart persistence against dedicated disposable PostgreSQL. No Oracle runtime acceptance.",
+        "Require exact candidate and master Foundation/parser/full PRODUCT/CodeQL and OCI verification before controlled master-dispatch publication of the tested images. Record immutable source tags and registry digests; actual Kubernetes deployment remains a subsequent verified milestone."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T41-CONFIG",
+        "SF-PRODUCT-T41-OCI",
+        "SF-PRODUCT-T41-PUBLICATION"
+      ]
     }
   },
   "test_cases": [

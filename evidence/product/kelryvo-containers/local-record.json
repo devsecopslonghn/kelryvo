@@ -1,0 +1,23 @@
+{
+  "id": "product-t41-kelryvo-containers-local",
+  "subject_id": "SF-PRODUCT-T41",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Separate actual non-root app/worker OCI builds and mounted-Secret HTTPS/PG governance/restart smoke PASS; npm run check306/369 with63 existing offline PGskips, zero failures; tracker21/21. Secret confinement and rejected-close regression PASS. No Oracle/deployment/remote CI claim.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T41-CONFIG",
+    "SF-PRODUCT-T41-OCI"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/kelryvo-containers/local-summary.json",
+    "sha256": "037e7bad95bc45af96fff6f9503ccf4d7aac7695f380c3099c3b55f36676a282"
+  }
+}
