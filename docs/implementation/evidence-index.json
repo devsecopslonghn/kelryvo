@@ -4020,6 +4020,54 @@
       },
       "path": "evidence/product/kelryvo-containers/rotation-record.json",
       "sha256": "e3fc9de69fd71506599484624c3712388b481ded9ba0cd5d799208c197a6c454"
+    },
+    {
+      "id": "product-t41-kelryvo-publication-deployment",
+      "subject_id": "SF-PRODUCT-T41",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "PR67 exact candidate and master Foundation/parser/PRODUCT/OCI/four CodeQL checks PASS; no open code-scanning alerts. Verified master dispatch38154459321 publishes tested immutable images. Subsequent public Chromium and app restart acceptance PASS (result.json). Oracle execution disabled; no disaster recovery or Oracle acceptance claim.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        3
+      ],
+      "test_references": [
+        "SF-PRODUCT-T41-PUBLICATION"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/kelryvo-deployment-20261011/gates.json",
+        "sha256": "556d07822939d25c39095871541d8fb3d70a0eeba7d4575cbb9c6bea007c11bf"
+      },
+      "path": "evidence/product/kelryvo-deployment-20261011/record.json",
+      "sha256": "9d09bd15182731db8d0e0007fe7895dd1dda56c2f0ef17ccd18fbd1d87c0cced"
+    },
+    {
+      "id": "product-t42-plan-record-local",
+      "subject_id": "SF-PRODUCT-T42",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; isolated PostgreSQL plan-record API1/1; Chromium download/navigation/logout1/1; test registration/tracker checks; independent QA/security review with REVOKED finding fixed. Remote CI and feature deployment pending.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T42-SCOPE",
+        "SF-PRODUCT-T42-INTEGRITY",
+        "SF-PRODUCT-T42-BROWSER"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/plan-record-20261011/summary.json",
+        "sha256": "b3a2b9e455828a27f03c2125230eb390e7ac971a400e63045e4fdf4ccec26e44"
+      },
+      "path": "evidence/product/plan-record-20261011/record.json",
+      "sha256": "b7295182958e91c60166442d9722045ede9da33c9becbebedd497f51523ec2d6"
     }
   ]
 }

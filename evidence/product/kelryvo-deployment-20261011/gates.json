@@ -1,0 +1,184 @@
+{
+  "source": "46a82f49ab6a7b87984628e94ca53834a7e77528",
+  "candidate": "257319fc0710a5295800bf29c32cddf16733b7b8",
+  "publicationRun": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38154459321",
+  "checks": [
+    {
+      "name": "verify",
+      "conclusion": "skipped",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38154459321/job/114514449952"
+    },
+    {
+      "name": "publish",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38154459321/job/114514448554"
+    },
+    {
+      "name": "product",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278816/job/114513935150"
+    },
+    {
+      "name": "Analyze (python)",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278320/job/114510962691"
+    },
+    {
+      "name": "Analyze (java-kotlin)",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278320/job/114510962641"
+    },
+    {
+      "name": "Analyze (actions)",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278320/job/114510962636"
+    },
+    {
+      "name": "Analyze (javascript-typescript)",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278320/job/114510962426"
+    },
+    {
+      "name": "publish",
+      "conclusion": "skipped",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278743/job/114510961591"
+    },
+    {
+      "name": "acceptance (browser, 2/2)",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278816/job/114510961141"
+    },
+    {
+      "name": "acceptance (api, 1/2)",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278816/job/114510961127"
+    },
+    {
+      "name": "acceptance (browser, 1/2)",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278816/job/114510961065"
+    },
+    {
+      "name": "acceptance (api, 2/2)",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278816/job/114510961028"
+    },
+    {
+      "name": "acceptance (release, 1/1)",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278816/job/114510960989"
+    },
+    {
+      "name": "parser",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278764/job/114510960702"
+    },
+    {
+      "name": "verify",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278743/job/114510960433"
+    },
+    {
+      "name": "foundation",
+      "conclusion": "success",
+      "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38153278741/job/114510960421"
+    }
+  ],
+  "candidateChecks": [
+    {
+      "name": "Analyze (actions)",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "verify",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "acceptance (api, 1/2)",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "parser",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "foundation",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "Analyze (java-kotlin)",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "acceptance (api, 2/2)",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "Analyze (javascript-typescript)",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "acceptance (browser, 1/2)",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "Analyze (python)",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "acceptance (browser, 2/2)",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "acceptance (release, 1/1)",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "publish",
+      "conclusion": "SKIPPED"
+    },
+    {
+      "name": "product",
+      "conclusion": "SUCCESS"
+    },
+    {
+      "name": "CodeQL",
+      "conclusion": "SUCCESS"
+    }
+  ],
+  "openCodeScanningAlerts": 0,
+  "images": {
+    "kelryvo-app": {
+      "Name": "ghcr.io/devsecopslonghn/kelryvo-app",
+      "Digest": "sha256:00095f7519fd7db4f893e20dc4e9759c375f8fb80ba39d104e3dd04982a818e1",
+      "Architecture": "amd64",
+      "Os": "linux",
+      "Labels": {
+        "org.opencontainers.image.licenses": "PolyForm-Shield-1.0.0",
+        "org.opencontainers.image.revision": "46a82f49ab6a7b87984628e94ca53834a7e77528",
+        "org.opencontainers.image.source": "https://github.com/devsecopslonghn/schemaForge"
+      }
+    },
+    "kelryvo-worker": {
+      "Name": "ghcr.io/devsecopslonghn/kelryvo-worker",
+      "Digest": "sha256:fab73577a247f71e19a386adda458052fec3765b1ba03d60a856bb2446a9f49e",
+      "Architecture": "amd64",
+      "Os": "linux",
+      "Labels": {
+        "org.opencontainers.image.licenses": "PolyForm-Shield-1.0.0",
+        "org.opencontainers.image.revision": "46a82f49ab6a7b87984628e94ca53834a7e77528",
+        "org.opencontainers.image.source": "https://github.com/devsecopslonghn/schemaForge"
+      }
+    }
+  },
+  "independentReview": {
+    "chart": "ef88e89e63d80551928b362a89631a463adcb8bf",
+    "source": "46a82f49ab6a7b87984628e94ca53834a7e77528",
+    "reviewer": "native read-only QA/security subagent deployment_review",
+    "result": "No actionable chart security defect; acceptance and exact CI evidence gaps addressed by sibling records."
+  },
+  "limitations": [
+    "Sonar quota exception retained; no passing Sonar claim.",
+    "Public distribution and Oracle runtime acceptance are not certified."
+  ]
+}

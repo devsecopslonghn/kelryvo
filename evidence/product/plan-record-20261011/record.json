@@ -1,0 +1,24 @@
+{
+  "id": "product-t42-plan-record-local",
+  "subject_id": "SF-PRODUCT-T42",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check; isolated PostgreSQL plan-record API1/1; Chromium download/navigation/logout1/1; test registration/tracker checks; independent QA/security review with REVOKED finding fixed. Remote CI and feature deployment pending.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T42-SCOPE",
+    "SF-PRODUCT-T42-INTEGRITY",
+    "SF-PRODUCT-T42-BROWSER"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/plan-record-20261011/summary.json",
+    "sha256": "b3a2b9e455828a27f03c2125230eb390e7ac971a400e63045e4fdf4ccec26e44"
+  }
+}

@@ -2906,6 +2906,20 @@
         "SF-PRODUCT-T41-OCI",
         "SF-PRODUCT-T41-PUBLICATION"
       ]
+    },
+    "SF-PRODUCT-T42": {
+      "task_id": "SF-PRODUCT-T42",
+      "criteria": [
+        "Download a bounded versioned record for an explicitly authorized project member, containing saved public intent, migration/statement identities and the current decision and approval withdrawal from one metadata snapshot. Preserve archived reads; deny unknown, foreign, revoked and bootstrap scopes.",
+        "Verify retained intent and plan-item binding before export; reject malformed or oversized metadata. Never expose the private envelope, credential references, SQL content or execution capability. Clearly distinguish a redacted governance snapshot from full joined execution evidence or authentic signed proof.",
+        "Offer a plan-review download with a SHA-256 checksum of its exact serialized record. Fence delayed downloads across plan/project/session navigation and logout; keep governance and target state unchanged. Document offline verification with standard Node crypto and the need for a separately trusted digest.",
+        "Verify authorized roles, denial and tamper/bounds cases against isolated PostgreSQL and actual Chromium download/navigation/logout behavior. Register both tests in required PRODUCT lists and preserve required CI, independent security/QA review and licensing gates."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T42-SCOPE",
+        "SF-PRODUCT-T42-INTEGRITY",
+        "SF-PRODUCT-T42-BROWSER"
+      ]
     }
   },
   "test_cases": [

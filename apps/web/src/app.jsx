@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import PlanRecord from './PlanRecord.jsx';
 import ExecutionHistory from './ExecutionHistory.jsx';
 import ExecutionRequestsHistory from './ExecutionRequestsHistory.jsx';
 import { mergeExecutionJobWindow, terminalExecutionStates } from './executionJobs.js';
@@ -1629,6 +1630,7 @@ function ReviewScreen({ model }) {
                     ? <p className="banner error">Retained offline intent is unavailable for this plan.</p>
                     : <dl className="target-facts"><div><dt>Intent SHA-256</dt><dd><code>{plan.offlineIntent.digest}</code></dd></div><div><dt>Profile ID</dt><dd><code>{plan.offlineIntent.profileId}</code></dd></div><div><dt>Profile name</dt><dd>{plan.offlineIntent.profileName}</dd></div><div><dt>Environment ID</dt><dd><code>{plan.offlineIntent.environmentId}</code></dd></div><div><dt>Environment name</dt><dd>{plan.offlineIntent.environmentName}</dd></div><div><dt>Engine</dt><dd>{plan.offlineIntent.engine}</dd></div><div><dt>Host</dt><dd>{plan.offlineIntent.host}</dd></div><div><dt>Port</dt><dd>{plan.offlineIntent.port}</dd></div><div><dt>Service</dt><dd>{plan.offlineIntent.service}</dd></div><div><dt>Username</dt><dd>{plan.offlineIntent.username}</dd></div></dl>}
                 </section>
+                <PlanRecord key={`${token}:${projectId}:${plan.id}`} token={token} projectId={projectId} planId={plan.id} request={json}/>
                 {retainedIntentAvailable && intent.format === 2 && <StatementEnvelope key={`${token}:${projectId}:${plan.id}:${intent.digest}`} token={token} projectId={projectId} planId={plan.id} intentDigest={intent.digest}/>}
                 {retainedIntentAvailable && intent.format === 1 && <p className="banner warning">This legacy plan binds files only. Prepare a new plan and obtain a new approval to bind the complete statement sequence; its existing history remains unchanged.</p>}
                 <section className="panel" aria-label="Execution readiness"><h3>Execution readiness</h3>
