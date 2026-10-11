@@ -352,7 +352,24 @@ rejects symlinks/submodules and equivalent duplicate numeric versions, and valid
 whole release before planning. Source SQL is visible only after local authentication.
 
 `GET /api/health` probes PostgreSQL and reports `NOT_EXECUTED`/Oracle `BLOCKED`.
-All other API reads/writes require an explicit bearer credential or, in HTTPS mode, a current browser cookie session with its CSRF proof:
+Use unauthenticated `GET /api/livez` for process liveness: it returns `200` with
+`status: alive`, performs no SQL or target work and remains available independently of
+API quotas. `GET /api/readyz` observes the current metadata generation: consistent
+`ACTIVE` or `RESTORE_HOLD` metadata returns `200` with `status: ready` and its state;
+HOLD remains available for reads while existing mutation and execution gates stay held.
+Missing/unknown metadata, read failures or a one-second response deadline returns
+`503` with fixed `status: unavailable` and `metadata: UNAVAILABLE`. Concurrent checks
+share one unfinished SQL read until it actually settles, even after HTTP timeout;
+settled observations are not cached. Both readiness outcomes report
+`targetAvailability: UNVERIFIED`, disclose no resource IDs or connection errors and
+do not attest Oracle, worker authority or target reachability. GET and HEAD share a
+separate readiness quota of 120 requests per client per minute; resource routes retain
+their existing quota of 600. All probes return `Cache-Control: no-store`.
+Configure process restarts against liveness, so metadata or target outages do not
+restart a live control plane. These routes are served after normal startup metadata
+initialization; they do not waive that startup requirement.
+
+Resource API reads/writes require an explicit bearer credential or, in HTTPS mode, a current browser cookie session with its CSRF proof:
 
 | Endpoint | Behavior |
 | --- | --- |

@@ -1,0 +1,24 @@
+{
+  "id": "product-t40-health-probes-local",
+  "subject_id": "SF-PRODUCT-T40",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Actual isolated PostgreSQL quota/probe and source workflow acceptance PASS5/5, zero skips; npm run check PASS303/366 with63 existing offline PostgreSQL skips. Single-flight timeout, outage/HOLD/missing metadata, shared GET/HEAD quota and no SQL liveness. No fresh-source CI or Oracle claim.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T40-LIVENESS",
+    "SF-PRODUCT-T40-METADATA",
+    "SF-PRODUCT-T40-BOUNDARY"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/health-probes/local-summary-v2.json",
+    "sha256": "55c09a969ec32a913f986ac8ec8e82d0cbbc94c47ffde2c5c9973c411298fa6c"
+  }
+}

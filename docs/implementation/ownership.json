@@ -1350,6 +1350,10 @@
     },
     "SF-PRODUCT-T39": {
       "assigned_agent": "frontend",
+      "status": "VERIFIED"
+    },
+    "SF-PRODUCT-T40": {
+      "assigned_agent": "backend",
       "status": "IMPLEMENTED"
     }
   }

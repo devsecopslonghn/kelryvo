@@ -899,7 +899,30 @@ const PRODUCT_TASK_39 = {
     "SF-PRODUCT-T39-FRESHNESS"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38, PRODUCT_TASK_39];
+const PRODUCT_TASK_40 = {
+  "id": "SF-PRODUCT-T40",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Separate control-plane liveness from bounded metadata readiness",
+  "dependencies": [
+    "SF-PRODUCT-T39"
+  ],
+  "feature_ids": [
+    "OPS-011"
+  ],
+  "acceptance_criteria": [
+    "Provide cheap process liveness independently of metadata SQL, Oracle availability and exhausted business API quota. Preserve the existing health endpoint and normal startup requirements; no target or execution capability.",
+    "Report current ACTIVE and RESTORE_HOLD metadata read availability separately from target availability. Missing or unknown metadata, failures and a one-second response deadline return fixed unavailable results without resource identities, connection errors, secrets or execution-authority claims.",
+    "Share one unfinished metadata query across concurrent readiness checks until actual settlement, including after HTTP timeout, without stale result caching. Bound readiness separately to 120 GET/HEAD requests per client per minute while preserving existing business quotas, authentication and cheap liveness.",
+    "Use meaningful timeout/outage/quota unit cases and actual isolated PostgreSQL to verify ACTIVE/HOLD/missing metadata, error redaction, GET/HEAD shared quotas and installed source probe availability. Preserve full required Foundation/parser/PRODUCT/CodeQL, independent review, source security and license gates. No Oracle runtime or deployment certification."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T40-LIVENESS",
+    "SF-PRODUCT-T40-METADATA",
+    "SF-PRODUCT-T40-BOUNDARY"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38, PRODUCT_TASK_39, PRODUCT_TASK_40];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

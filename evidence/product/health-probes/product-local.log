@@ -1,0 +1,44 @@
+TAP version 13
+# Subtest: API quota runs before authentication and metadata, spans routes, and ignores spoofed forwarding headers
+ok 1 - API quota runs before authentication and metadata, spans routes, and ignores spoofed forwarding headers
+  ---
+  duration_ms: 1166.209312
+  type: 'test'
+  ...
+# Subtest: API readiness observes actual metadata HOLD and absence while liveness survives metadata outage
+ok 2 - API readiness observes actual metadata HOLD and absence while liveness survives metadata outage
+  ---
+  duration_ms: 192.167265
+  type: 'test'
+  ...
+# Subtest: metadata readiness has a separate bounded quota and cannot exhaust business API or liveness
+ok 3 - metadata readiness has a separate bounded quota and cannot exhaust business API or liveness
+  ---
+  duration_ms: 266.414068
+  type: 'test'
+  ...
+# Subtest: unauthenticated clients are limited and rotating addresses inside one IPv6 subnet cannot evade the quota
+ok 4 - unauthenticated clients are limited and rotating addresses inside one IPv6 subnet cannot evade the quota
+  ---
+  duration_ms: 344.967865
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: installed source bundle connects approved Git request to controlled UNIT history and restart
+ok 5 - installed source bundle connects approved Git request to controlled UNIT history and restart
+  ---
+  duration_ms: 26773.636854
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 29234.440666

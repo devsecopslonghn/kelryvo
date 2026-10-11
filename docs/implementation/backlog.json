@@ -3514,13 +3514,49 @@
         "SF-PRODUCT-T39-HISTORY",
         "SF-PRODUCT-T39-FRESHNESS"
       ],
-      "status": "IMPLEMENTED",
+      "status": "VERIFIED",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
       "evidence": [
         {
           "index_id": "product-t39-request-history-local"
+        },
+        {
+          "index_id": "product-t39-request-history-ci"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T40",
+      "package": "PRODUCT",
+      "assigned_agent": "backend",
+      "title": "Separate control-plane liveness from bounded metadata readiness",
+      "dependencies": [
+        "SF-PRODUCT-T39"
+      ],
+      "feature_ids": [
+        "OPS-011"
+      ],
+      "acceptance_criteria": [
+        "Provide cheap process liveness independently of metadata SQL, Oracle availability and exhausted business API quota. Preserve the existing health endpoint and normal startup requirements; no target or execution capability.",
+        "Report current ACTIVE and RESTORE_HOLD metadata read availability separately from target availability. Missing or unknown metadata, failures and a one-second response deadline return fixed unavailable results without resource identities, connection errors, secrets or execution-authority claims.",
+        "Share one unfinished metadata query across concurrent readiness checks until actual settlement, including after HTTP timeout, without stale result caching. Bound readiness separately to 120 GET/HEAD requests per client per minute while preserving existing business quotas, authentication and cheap liveness.",
+        "Use meaningful timeout/outage/quota unit cases and actual isolated PostgreSQL to verify ACTIVE/HOLD/missing metadata, error redaction, GET/HEAD shared quotas and installed source probe availability. Preserve full required Foundation/parser/PRODUCT/CodeQL, independent review, source security and license gates. No Oracle runtime or deployment certification."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T40-LIVENESS",
+        "SF-PRODUCT-T40-METADATA",
+        "SF-PRODUCT-T40-BOUNDARY"
+      ],
+      "status": "IMPLEMENTED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t40-health-probes-local"
         }
       ],
       "blockers": []
