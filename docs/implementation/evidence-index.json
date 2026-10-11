@@ -3455,6 +3455,42 @@
       },
       "path": "evidence/product/oracle-host-20261011/verified-record.json",
       "sha256": "0a90c3ac914f0c21efd919413943cd36abb77852418745724262f0af11adb4f6"
+    },
+    {
+      "id": "mvp-restricted-oracle-host-pr56-master-verified",
+      "subject_id": "MIG-011",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "PR56 ordinary exact-head merge; candidate and resulting-master foundation/parser/PRODUCT actual SUCCESS; API76/browser33/fresh-source1(inner4) zero fail/skip. Master PRODUCT595s, updated local archive checksum and105-file extracted manifest verified. No Oracle runtime claim.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/oracle-host-20261011/master-ci-observation.json",
+        "sha256": "0bf5bf64b807870dd499cc50d37184dab361fe0d68789c12c7affcc160513176"
+      },
+      "path": "evidence/product/oracle-host-20261011/master-verification.json",
+      "sha256": "675212521cae460c01bcfb6c2e31d9fad27922c56096948b09efe2b33d182d8b"
+    },
+    {
+      "id": "mvp-approved-pending-history-context-local-verified",
+      "subject_id": "MIG-012",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Required npm run check243PASS47optionalSKIP0fail; focused approved-context3UNIT, PostgreSQL/API2 and browser1PASS after review corrections. Immutable pending-ordinal source provenance only; no target calls or Oracle runtime promotion.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/pending-history-context-20261011/checks.log",
+        "sha256": "98791ecaea3af9f54a6e83650e61e0edae50c9ba2e10da9a133833dc1347c957"
+      },
+      "path": "evidence/product/pending-history-context-20261011/record.json",
+      "sha256": "4888c4561fdf06677bcd482ab7a5642dac208b6cd2748261b187c40927ebd3d3"
     }
   ]
 }

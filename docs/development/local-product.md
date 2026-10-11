@@ -408,6 +408,17 @@ Claim deadlines and missing receipts do not establish current authority or prove
 SQL was applied. These endpoints project central retained metadata, not a reconciled
 Oracle target ledger; runtime admission and reconciliation remain separate gates.
 
+When a retained admission proof matches the job, approved plan, release manifest and
+format-2 immutable intent, event and receipt rows also show their original approved
+migration path/version, file-local statement ordinal and full approved statement ordinal.
+The journal's existing ordinal remains the attempt's pending-work ordinal. The projection
+checks that ordinal against the corresponding approved pending statement digest, so repeated
+digests do not redirect migration attribution. Counts distinguish the retained approved
+prefix from pending work, while making no claim that those statements changed the target.
+Legacy envelopes, missing proofs and mismatched bindings remain readable with approved
+migration context marked unavailable. This provenance display does not consult current Git,
+target state, mutable profiles or cross-project approval history.
+
 The immutable PostgreSQL proof row stores expected bindings; it does not independently grant
 execution authority or establish live target identity, history, mutex ownership, validity or
 central evidence. The restricted worker bridge requires a separately installed trusted host; default local

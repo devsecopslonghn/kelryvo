@@ -538,6 +538,22 @@
         "MIG-026",
         "MIG-034"
       ]
+    },
+    {
+      "id": "SF-D047",
+      "status": "ACCEPTED_MVP_M4_APPROVED_PENDING_HISTORY_PROVENANCE",
+      "accepted_at_utc": "2026-10-11T04:15:02.137152+00:00",
+      "decision": "Project additive approved migration path/version and original file/full statement ordinals from the verified immutable format-2 envelope and retained admission binding. Preserve pending-attempt journal ordinals. Check ordinal before digest to prevent duplicate SQL from redirecting provenance; bind exact job/approval/plan/release/manifest/profile scope and selected suffix counts/digests. Valid NOOP counts remain available. Missing, legacy or inconsistent metadata falls back to readable unavailable context. Retain current credential/project membership and historical RESTORE_HOLD reads under a scoped repeatable-read transaction; whitelist approved source labels/counts only. Source provenance and central receipt metadata do not establish target effects, install authority, execute SQL or release HOLD. No schema/dependency changes or Oracle runtime claim; ordinary reversible choice under SF-D010.",
+      "references": [
+        "packages/execution/history-context.mjs",
+        "packages/execution/history.ts",
+        "apps/web/src/ExecutionHistory.jsx",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "MIG-012",
+        "MIG-027"
+      ]
     }
   ]
 }

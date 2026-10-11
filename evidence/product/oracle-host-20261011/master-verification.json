@@ -1,0 +1,121 @@
+{
+  "id": "mvp-restricted-oracle-host-pr56-master-verified",
+  "subject_id": "MIG-011",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "PR56 ordinary exact-head merge; candidate and resulting-master foundation/parser/PRODUCT actual SUCCESS; API76/browser33/fresh-source1(inner4) zero fail/skip. Master PRODUCT595s, updated local archive checksum and105-file extracted manifest verified. No Oracle runtime claim.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/oracle-host-20261011/master-ci-observation.json",
+    "sha256": "0bf5bf64b807870dd499cc50d37184dab361fe0d68789c12c7affcc160513176"
+  },
+  "recorded_at": "2026-10-11T04:11:10.061635+00:00",
+  "pr": 56,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/56",
+  "reviewed_published_head": "cedb235f1684042cc2698b3c647211d899ac445e",
+  "merge_commit": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
+  "ordinary_exact_head_merge": true,
+  "merge_status": "MERGED_MASTER_VERIFIED",
+  "candidate_and_master_tree": "ea41e0fc0718f060594194479d509a64c69cfb42",
+  "actual_ci": {
+    "candidate": [
+      {
+        "workflow": "foundation",
+        "run": 38109086816,
+        "head": "cedb235f1684042cc2698b3c647211d899ac445e",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38109086816"
+      },
+      {
+        "workflow": "parser",
+        "run": 38109086828,
+        "head": "cedb235f1684042cc2698b3c647211d899ac445e",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38109086828"
+      },
+      {
+        "workflow": "product",
+        "run": 38109086808,
+        "head": "cedb235f1684042cc2698b3c647211d899ac445e",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38109086808"
+      }
+    ],
+    "master": [
+      {
+        "workflow": "foundation",
+        "run": 38109985513,
+        "head": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38109985513"
+      },
+      {
+        "workflow": "parser",
+        "run": 38109985542,
+        "head": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38109985542"
+      },
+      {
+        "workflow": "product",
+        "run": 38109985516,
+        "head": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38109985516"
+      }
+    ]
+  },
+  "candidate_product_wall_seconds": 795,
+  "master_product_wall_seconds": 595,
+  "baseline_product_wall_seconds": 2216,
+  "independent_review": "Native read-only ci_review approved source5bf, final exact cedb publication inventory; no substantive correctness/security blockers. Timestamped pending evidence preserved as historical snapshot.",
+  "publication_scan": {
+    "tool": "Gitleaks8.30.1 official checksum verified",
+    "files": 27,
+    "exit_code": 0,
+    "findings": 0,
+    "historical_limits": "Prior115 classified all-ref findings and unavailable scans remain preserved; this is scoped candidate publication only."
+  },
+  "license": {
+    "product": "Unmodified PolyForm Shield1.0.0",
+    "pinned_packages": 85,
+    "unknown_required_grants": 0,
+    "dependency_changes": false
+  },
+  "local_archive": {
+    "scope": "LOCAL_COMMITTED_SOURCE_ARCHIVE_VERIFICATION_ONLY",
+    "sourceCommit": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
+    "archive": "/home/longhn0710/workspace/schemaforge/.cache/releases/20261011-83b1f9353cc4/schemaforge-local-83b1f9353cc4.tar.gz",
+    "archive_sha256": "60ba520b563d7dc368950f85dc19175327e96db792c4fa75bbe1b7c03a5bacd6",
+    "archive_bytes": 431131,
+    "manifest_sha256": "67f7212183e6dc3dabd35cea6fd7da1655ddfc7e6360639f7d02f3ac66501ae9",
+    "files": 105,
+    "extracted": "/tmp/schemaforge-local-83b1f9353cc4-YLr9Pv",
+    "source_verify": "PASS",
+    "checksum": "PASS",
+    "oracleRuntime": "UNVALIDATED",
+    "source_installation_acceptance": "PASS: actual candidate and resulting-master fresh-source CI, outer1/inner4; no local duplicate acceptance run",
+    "deployment": false
+  },
+  "prior_pending_record": "verified-record.json",
+  "all_worktrees_and_unfinished_changes_preserved": true,
+  "oracle_calls": 0,
+  "runtime_scope": "UNIT restricted host/ledger/mutex/transport; real local PostgreSQL/Git/pinned parser/HTTPS acceptance",
+  "limitations": [
+    "Independently installed private provider, effective grants/TLS/GUID/object/adoption attestation and supervised deployed-worker isolation remain incomplete.",
+    "No Oracle installation, compilation, execution, recovery or fault acceptance; static SQL parsing only.",
+    "No API installation of writer authority, credentials or UNIT-to-TRUSTED promotion; source provenance and central receipts do not prove target effects.",
+    "Full naming/distribution and explicitly reviewed nonempty baseline/recovery remain incomplete.",
+    "Optional paid/disabled GitHub security and owner-authorized Sonar quota outage remain UNAVAILABLE, never PASS."
+  ]
+}
