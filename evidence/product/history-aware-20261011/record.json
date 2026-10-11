@@ -1,0 +1,80 @@
+{
+  "scope": "PRODUCT",
+  "base_master": "4938f0b26b223bcc6db65fb479117e146350720f",
+  "catalog_traceability": [
+    "MIG-011",
+    "MIG-026",
+    "MIG-034"
+  ],
+  "runtime_scope": "UNIT_SYNTHETIC targets; real disposable local PostgreSQL/Git/pinned parser; no Oracle runtime",
+  "focused": {
+    "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --test --test-concurrency=1 tests/product-incremental-migrations.test.mjs tests/product-controlled-execution.test.mjs tests/product-release-acceptance.integration.mjs",
+    "exit_code": 0,
+    "tests": 14,
+    "pass": 14,
+    "fail": 0,
+    "skipped": 0,
+    "log_sha256": "d1e8e903f9a9238347c75fea2ec0b9fd9835ca436ec8c3bc248b00fec89cbec6"
+  },
+  "standard": {
+    "command": "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run check",
+    "exit_code": 0,
+    "tests": 202,
+    "pass": 157,
+    "fail": 0,
+    "skipped": 45,
+    "log_sha256": "3354b10b6c70c594ef8947ce78ecd1a6529d91e307e1dce003ae39f82d54aaff",
+    "licenses": "85 pinned packages; no unknown required grants"
+  },
+  "source_sha256": {
+    "packages/execution/pending-migrations.mjs": "395b13c92251b85119709105266840e54bb59947263f5fc0483de9e4edaebbce",
+    "packages/execution/statements.mjs": "17da318f5c1c94f28ec15d86988629e6484c10b6e5128e03a20b0f05bdfb18a0",
+    "packages/execution/admission.ts": "42e6310d2b53c4c214bda27654e519ccd0c1832d0fda9fabbcaa051675c8136e",
+    "apps/worker/run-request.ts": "2d9cb333f32b193608c8a9cb90a024ca90a4d066f31f08654fb87006a825114b",
+    "tests/pending-migrations.test.mjs": "edec9ed00d84bad65a0f4ad5918ed7e1e13cad64409530c0efeb2c0b72f5894f",
+    "tests/product-incremental-migrations.test.mjs": "0290fb1adf73a8aac74ccbf187959c2b324612eac1fbfdc3d1a242b9e83fafeb",
+    "tests/product-controlled-execution.test.mjs": "6be52b0582b368e6c703ac4f0b048d394b657f9a6b40b3776a33c4fe5383fa33",
+    "tests/product-release-acceptance.integration.mjs": "72e5f98af4ec6e5d541e9a1296a0310db156611681bae5374e680e6460f78aa9",
+    "tests/helpers/statement-envelope-fixture.mjs": "41957c3ae1971363b3ab28a25b6d763ddab07d6e8bf75200a4b81ccd3b707414",
+    "scripts/test-product.mjs": "be0c063e78876e9be9a00bb43f0753dd9209a7602df50627349ddca3a5ebe77f"
+  },
+  "independent_review": {
+    "agent": "ci_review native read-only",
+    "result": "NO_BLOCKING_FINDINGS_AFTER_CORRECTION",
+    "finding": "Applied prefix must not advance with incomplete prior central evidence",
+    "resolution": "Require complete central evidence before every admission and veto prior same-target ADMITTED/HOLD under authority locks; negative host and prior STARTED/no-receipt tests hold before any new attempt/dispatch",
+    "worker_reviewed_sha256": "2d9cb333f32b193608c8a9cb90a024ca90a4d066f31f08654fb87006a825114b"
+  },
+  "meaningful_cases": [
+    "V1 applied then independently approved V1+V2 executes V2 only; stable original V1 approval/intent and pending-only receipts",
+    "exact fully applied history is witnessed NOOP",
+    "changed/reordered/unknown/partial/missing ledger and inconsistent pending digests are terminal HOLD before admission",
+    "missing/lost host witness and unresolved prior central V1 STARTED despite attested prefix yield HOLD without replay",
+    "existing current credential/parent/membership/deploy/approval/source/assignment/generation/lease fences; revocation, contention, unknown effect, receipt gap, lost COMMIT and restore",
+    "release controlled-host/history restart uses new ledger protocol"
+  ],
+  "candidate_ci": "PENDING",
+  "final_master_ci": "PENDING",
+  "oracle_calls": 0,
+  "full_catalog_acceptance": "NOT_CLAIMED",
+  "limitations": [
+    "No installed Oracle target driver/ledger adapter or attested runtime acceptance",
+    "No recovery HOLD release or automatic replay; preserve unresolved original attempts",
+    "Source-only release candidate; full F31/public naming/deployed worker isolation remain incomplete"
+  ],
+  "initial_setup_failure": "Focused suite first failed because fresh worktree had no dist/web; existing npm run build corrected setup before final14PASS; prior intermediate13PASS superseded by final corrected central-evidence tests",
+  "bounded_scope": "MVP_HISTORY_AWARE_PENDING_MIGRATIONS_UNIT_PRODUCT",
+  "id": "mvp-history-aware-local-verified",
+  "subject_id": "MIG-011",
+  "kind": "UNIT",
+  "outcome": "PASS",
+  "command": "Final14case controlled/incremental/release PostgreSQL/Git/real-parser tests; standard157PASS45optionalSKIP; independent corrected central-evidence security/QA review. UNIT target only; remote CI pending, no Oracle/full feature acceptance.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/history-aware-20261011/focused.log",
+    "sha256": "d1e8e903f9a9238347c75fea2ec0b9fd9835ca436ec8c3bc248b00fec89cbec6"
+  }
+}

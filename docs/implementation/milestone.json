@@ -203,13 +203,22 @@
     },
     {
       "index_id": "mvp-execution-history-pr50-master-verified"
+    },
+    {
+      "index_id": "mvp-local-release-pr52-master-verified"
+    },
+    {
+      "index_id": "mvp-ci-performance-pr53-master-verified"
+    },
+    {
+      "index_id": "mvp-history-aware-divergence-local-verified"
     }
   ],
   "foundation_status": "VERIFIED",
   "foundation_evidence": {
     "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
   },
-  "current_phase": "MVP_LOCAL_SOURCE_RELEASE_LOCAL_VERIFIED_REMOTE_CI_PENDING",
+  "current_phase": "MVP_HISTORY_AWARE_PENDING_MIGRATIONS_REVISED_CI_PENDING",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
@@ -223,26 +232,28 @@
     "node scripts/tracker.mjs status",
     "node scripts/tracker.mjs next"
   ],
-  "updated_at": "2026-10-11T00:24:50.491907+00:00",
+  "updated_at": "2026-10-11T01:54:35.293973+00:00",
   "final_check_evidence": {
-    "index_id": "mvp-controlled-execution-pr51-master-verified"
+    "index_id": "mvp-ci-performance-pr53-master-verified"
   },
-  "final_check_manifest": "evidence/product/mvp-controlled-execution-20261011/integration-record.json",
+  "final_check_manifest": "evidence/product/ci-performance-20261011/master-verification.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
-  "latest_validated_master_before_this_increment": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
-  "last_merged_implementation_pr": 51,
-  "checkpoint_evidence": "evidence/product/mvp-controlled-execution-20261011/integration-record.json",
-  "implementation_prs_pending": [],
+  "latest_validated_master_before_this_increment": "4938f0b26b223bcc6db65fb479117e146350720f",
+  "last_merged_implementation_pr": 53,
+  "checkpoint_evidence": "evidence/product/history-aware-20261011/rewind-correction/record.json",
+  "implementation_prs_pending": [
+    54
+  ],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
     "consecutive_goal_turns_at_final_impasse": 0,
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "LOCAL_VERIFIED_REMOTE_CI_PENDING",
-  "current_checkpoint_branch": "development/ci-performance",
+  "current_increment_merge_status": "LOCAL_UNIT_VERIFIED_REVISED_REMOTE_CI_PENDING",
+  "current_checkpoint_branch": "development/history-aware-migrations",
   "active_track": "PRODUCT",
   "tracks": {
     "PRODUCT": {
@@ -319,9 +330,9 @@
       "native_security": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS"
     }
   },
-  "current_increment_pr": 51,
-  "current_increment_reviewed_head": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
-  "current_increment_merge_commit": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+  "current_increment_pr": 54,
+  "current_increment_reviewed_head": "712cae50419a0c5d0b9614e7f8f2fae7ebbd4525",
+  "current_increment_merge_commit": null,
   "t19_compatibility_decision": {
     "owner_approved_at_recorded_utc": "2026-10-09T12:37:42.238588+00:00",
     "legacy_pending_plan_without_verifiable_generation": "REQUIRE_FRESH_PLAN",
@@ -361,25 +372,25 @@
   },
   "publication_gate": {
     "draft_only": false,
-    "merge_eligible": true,
-    "integration_complete": true,
+    "merge_eligible": false,
+    "integration_complete": false,
     "configured_required_contexts": [],
     "optional_host_security": "UNAVAILABLE_NOT_PASS",
-    "actual_ci": "EXACT_PUBLICATION6_AND_MERGED_MASTER3_SUCCESS",
+    "actual_ci": "Superseded712cae5 all available checks SUCCESS; correction fresh exact-head CI pending",
     "ordinary_merge_no_bypass": true
   },
   "latest_merged_master_before_this_increment": "ce632193ac3a1c9c544d71e84eca2071133987d0",
-  "last_verified_master_evidence": "evidence/product/mvp-controlled-execution-20261011/integration-record.json",
-  "verified_remote_master": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+  "last_verified_master_evidence": "evidence/product/ci-performance-20261011/master-verification.json",
+  "verified_remote_master": "4938f0b26b223bcc6db65fb479117e146350720f",
   "carry_forward": {
-    "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-controlled-execution",
-    "branch": "development/product-controlled-execution",
-    "published_head": "a3f56b77151e0ba7f2dbd099d3dee601611eb1de",
-    "verified_remote_master": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+    "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-history-aware",
+    "branch": "development/history-aware-migrations",
+    "published_head": "712cae50419a0c5d0b9614e7f8f2fae7ebbd4525",
+    "verified_remote_master": "4938f0b26b223bcc6db65fb479117e146350720f",
     "all_worktrees_preserved": true,
-    "coverage": "220:0full/48partial/165not/7deferred",
-    "next_outcome": "Reproducible local release acceptance and artifact assembly; actual Oracle host/reconciliation remains external",
-    "checkpoint_publication": "LOCAL_UNPUSHED_CLOSEOUT_ONLY"
+    "coverage": "220:0full/51partial/162not/7deferred",
+    "next_outcome": "Finish history-aware exact-head integration, then installed restricted target host/ledger and recovery acceptance",
+    "checkpoint_publication": "LOCAL_VERIFIED_CORRECTION_PENDING_PUSH"
   },
   "t31_local_verification": {
     "record": "evidence/product/product-t31-approval-revocation-20261010/record.json",
@@ -409,7 +420,7 @@
     },
     "merge_eligible": false
   },
-  "next_milestone": "Complete a versioned approved statement envelope and truthful readiness/history using existing parser, intent and journal; trusted target execution remains externally blocked.",
+  "next_milestone": "Integrate target-history-bound incremental execution with central rewind/divergence veto; installed Oracle host/ledger and runtime/isolation acceptance remain separate.",
   "current_increment_published_head": "e4bd556cdf1e381c3978d5133b084443170eaefa",
   "t32_integration_sources": [
     {
@@ -730,7 +741,7 @@
       "M1": "LOCAL_FOUNDATION_WORKFLOW_VERIFIED_INTEGRATED",
       "M2": "OFFLINE_PREPARATION_REVIEW_WORKFLOW_VERIFIED_INTEGRATED",
       "M3": "CONTROLLED_HOST_BRIDGE_UNIT_VERIFIED_INTEGRATED_ORACLE_BLOCKED_EXTERNAL",
-      "M4": "CENTRAL_HISTORY_METADATA_RECOVERY_VERIFIED_INTEGRATED_TARGET_RECONCILIATION_BLOCKED_EXTERNAL",
+      "M4": "CENTRAL_HISTORY_METADATA_RECOVERY_INTEGRATED_HISTORY_AWARE_PENDING_LOCAL_UNIT_VERIFIED_TARGET_RUNTIME_INCOMPLETE",
       "M5": "LOCAL_SOURCE_INSTALLATION_INTEGRATED_FINAL_MASTER_CI_PENDING_FULL_RELEASE_INCOMPLETE"
     },
     "oracle_runtime": "BLOCKED_EXTERNAL_NO_AUTHORIZED_ENVIRONMENT",
@@ -756,7 +767,7 @@
         "status": "INTEGRATED_PR52_FINAL_MASTER_CI_PENDING"
       }
     ],
-    "merged_master": "e57b610ba8166a6d20a92143e557725687931e31",
+    "merged_master": "4938f0b26b223bcc6db65fb479117e146350720f",
     "reconciled_prs": [
       48,
       47,
@@ -772,15 +783,15 @@
       37
     ],
     "active_increment": {
-      "outcome": "Bounded CI performance optimization with complete mandatory acceptance",
-      "status": "IMPLEMENTED_LOCAL_VERIFICATION_PENDING",
-      "worktree": "/home/longhn0710/workspace/schemaforge-ci-performance",
-      "branch": "development/ci-performance",
-      "integrated_base": "e57b610ba8166a6d20a92143e557725687931e31",
-      "evidence": "evidence/product/ci-performance-20261011/record.json",
-      "next": "Verify actual optimized candidate/master gates and measured elapsed time, integrate, then resume observed-history-bound pending migration admission."
+      "outcome": "History-aware complete approved pending migrations with no replay and fail-closed HOLD",
+      "status": "LOCAL_UNIT_VERIFIED_REMOTE_CI_PENDING",
+      "worktree": "/home/longhn0710/workspace/schemaforge-history-aware",
+      "branch": "development/history-aware-migrations",
+      "integrated_base": "4938f0b26b223bcc6db65fb479117e146350720f",
+      "evidence": "evidence/product/history-aware-20261011/record.json",
+      "next": "Finish final local/independent review, freeze publication evidence, candidate/master CI, then installed restricted Oracle host/target ledger and recovery acceptance."
     },
-    "last_integrated_pr": 52
+    "last_integrated_pr": 53
   },
   "historical_t35_carry_forward": {
     "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-product-secure-sessions",

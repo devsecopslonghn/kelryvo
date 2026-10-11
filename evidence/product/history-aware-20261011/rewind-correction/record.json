@@ -1,0 +1,116 @@
+{
+  "id": "mvp-history-aware-divergence-local-verified",
+  "subject_id": "MIG-034",
+  "kind": "UNIT",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Final controlled/incremental/release14PASS; standard157PASS45optionalSKIP; independent no-blocker review. Rewound/shortened/divergent target history and missing original central completions HOLD before any attempt, including after reassignment. UNIT target only; revised remote CI pending.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/history-aware-20261011/rewind-correction/focused.log",
+    "sha256": "9125b34f2e42ee4e1443168e0c77b188d605e522f229b400f7b52ad09456a913"
+  },
+  "recorded_at": "2026-10-11T02:05:04.137691+00:00",
+  "source_parent_commit": "712cae50419a0c5d0b9614e7f8f2fae7ebbd4525",
+  "source_sha256": {
+    "packages/execution/history-reconciliation.ts": "d4f6175d65b5c030aec7bae4c75e6038ae92e066e4cb8e53b237f332fb5acd2d",
+    "apps/worker/run-request.ts": "0b5559a6fd5bada9e34a5a55a67089ca3f1588c312aeb407ce525d2956a7e056",
+    "tests/product-controlled-execution.test.mjs": "9a4fc7ac4db26a2eed8b5816320c76a671ea9665cf72568e85a0c624fc15ae46",
+    "tests/product-incremental-migrations.test.mjs": "481b337a7b260a0f166854748577de92d1bd3ec8a1fa65feba247a4e95431f0f"
+  },
+  "catalog_traceability": [
+    "MIG-011",
+    "MIG-026",
+    "MIG-034"
+  ],
+  "focused": {
+    "command": "SCHEMAFORGE_TEST_DATABASE_URL=postgres://postgres@127.0.0.1:32768/postgres SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin node --test --test-concurrency=1 tests/product-incremental-migrations.test.mjs tests/product-controlled-execution.test.mjs tests/product-release-acceptance.integration.mjs",
+    "exit_code": 0,
+    "tests": 14,
+    "pass": 14,
+    "fail": 0,
+    "skipped": 0
+  },
+  "standard": {
+    "command": "SCHEMAFORGE_JAVA_HOME=/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin npm run check",
+    "exit_code": 0,
+    "tests": 202,
+    "pass": 157,
+    "fail": 0,
+    "skipped": 45,
+    "raw_sha256": "2225f02df2fe682b423750e7213c245dfee8a1fb0cd17efa27aaa4607b0d74e2",
+    "licenses": "85 pinned packages; zero unknown required grants"
+  },
+  "independent_review": {
+    "reviewer": "native ci_review read-only",
+    "result": "NO_BLOCKING_FINDINGS",
+    "source_sha256": {
+      "packages/execution/history-reconciliation.ts": "d4f6175d65b5c030aec7bae4c75e6038ae92e066e4cb8e53b237f332fb5acd2d",
+      "apps/worker/run-request.ts": "0b5559a6fd5bada9e34a5a55a67089ca3f1588c312aeb407ce525d2956a7e056",
+      "tests/product-controlled-execution.test.mjs": "9a4fc7ac4db26a2eed8b5816320c76a671ea9665cf72568e85a0c624fc15ae46",
+      "tests/product-incremental-migrations.test.mjs": "481b337a7b260a0f166854748577de92d1bd3ec8a1fa65feba247a4e95431f0f"
+    }
+  },
+  "superseded_candidate": {
+    "conclusion": "success",
+    "head": "712cae50419a0c5d0b9614e7f8f2fae7ebbd4525",
+    "jobs": [
+      {
+        "conclusion": "success",
+        "name": "acceptance (api, 1/2)",
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "acceptance (browser, 1/2)",
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "acceptance (api, 2/2)",
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "acceptance (release, 1/1)",
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "acceptance (browser, 2/2)",
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "product",
+        "status": "completed"
+      }
+    ],
+    "run": 38102894536,
+    "status": "completed"
+  },
+  "superseded_candidate_authorizes_correction_merge": false,
+  "meaningful_cases": [
+    "Applied V1 followed by approved V1+V2 dispatches V2 only; original V1 approval and receipts unchanged",
+    "Fully applied witnessed history and same-target catalog reassignment produce NOOP without dispatch",
+    "Rewound EMPTY/shorter history, forged original approval/intent or changed physical identity HOLD before attempt",
+    "Reassignment cannot hide original successful history; a different canonical target retains independent history",
+    "Synthetic successful central projection without attempts/receipts/validity does not certify effects",
+    "Prior unresolved STARTED/no receipt blocks even with host-reported applied prefix; revocation/lease/source/restore fences retained"
+  ],
+  "preserved_evidence": "Original local14PASS/standard157PASS records and first passing remote candidate remain historical; this correction requires fresh exact-head CI",
+  "runtime_scope": "Real disposable PostgreSQL/Git/pinned parser; UNIT_SYNTHETIC target capability ports",
+  "oracle_calls": 0,
+  "candidate_ci": "PENDING_REVISED_HEAD",
+  "final_master_ci": "PENDING",
+  "limitations": [
+    "No installed Oracle target adapter/ledger or Oracle runtime acceptance",
+    "No automatic repair, HOLD release or replay; central records only veto divergence",
+    "128 distinct successful effect-producing intents bound; routine NOOP approvals excluded from effect-count bound",
+    "Canonical target proof lookup under global admission lock has no target-key index; bounded local-MVP sizing only",
+    "Full F31/public naming/distribution and deployed-worker isolation remain incomplete"
+  ]
+}

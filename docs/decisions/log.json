@@ -468,6 +468,39 @@
         "docs/development/local-release.md",
         "docs/implementation/milestone.json"
       ]
+    },
+    {
+      "id": "SF-D043",
+      "status": "ACCEPTED_MVP_M4_HISTORY_AWARE_PENDING_MIGRATIONS",
+      "accepted_at_utc": "2026-10-11T01:31:26.038769+00:00",
+      "decision": "Reuse format-2 immutable approval, pinned parser, restricted host, admission proof, coordinator and journal. Require history protocol1 with host-attested ordered complete APPLIED migration identities matching an exact approved prefix; select only the remaining approved statement suffix, never partial-file replay. Preserve original historical approvals and receipts. Bind selected counts/manifest in immutable admission proof; mismatched, absent, unknown or partial history and lost witnesses produce a durable terminal HOLD with no admission/attempt. Requests and metadata cannot supply target authority. Maintain full approval/source/governance checks during dispatch, RESTORE_HOLD and no-replay expiry handling. Local PostgreSQL/synthetic target acceptance only; no Oracle runtime/target adapter verification, schema rewrite or new task ID. Ordinary reversible decision under SF-D010.",
+      "references": [
+        "packages/execution/pending-migrations.mjs",
+        "apps/worker/run-request.ts",
+        "docs/development/local-product.md",
+        "tests/product-incremental-migrations.test.mjs"
+      ],
+      "catalog_traceability": [
+        "MIG-011",
+        "MIG-026",
+        "MIG-034"
+      ]
+    },
+    {
+      "id": "SF-D044",
+      "status": "ACCEPTED_MVP_M4_CENTRAL_TARGET_DIVERGENCE_VETO",
+      "accepted_at_utc": "2026-10-11T01:54:18.347437+00:00",
+      "decision": "A reported EMPTY or shorter target ledger after retained central completion is divergent even when a host reports complete evidence. Under existing target/governance admission locks, reconcile bounded prior immutable intents, original per-file approval/intent identities and complete receipts/validity witnesses with the independently attested prefix. Central records only veto divergence; they never establish target effects or infer a repair. Preserve canonical-target veto across catalog reassignment, forbid UNIT promotion, hold missing/incompatible/oversized evidence before any attempt. No replay, target connection, Oracle runtime claim, new metadata schema or HOLD release. This corrects the existing history-aware increment under SF-D010.",
+      "references": [
+        "packages/execution/history-reconciliation.ts",
+        "apps/worker/run-request.ts",
+        "tests/product-incremental-migrations.test.mjs"
+      ],
+      "catalog_traceability": [
+        "MIG-011",
+        "MIG-026",
+        "MIG-034"
+      ]
     }
   ]
 }

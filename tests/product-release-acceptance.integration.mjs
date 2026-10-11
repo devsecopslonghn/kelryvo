@@ -21,7 +21,7 @@ test('installed source bundle connects approved Git request to controlled UNIT h
     assert.equal(requested.statusCode,201,requested.body);const id=requested.json().job.id;
     const digest=createHash('sha256').update('UNIT_LOCAL_RELEASE').digest('hex'),calls=[];
     const host={ workerId:'release-unit-worker',scope:'UNIT_SYNTHETIC',withTarget:async(input,run)=>run({ scope:'UNIT_SYNTHETIC',
-      observe:async()=>({ scope:'UNIT_SYNTHETIC',targetAssignmentId:assignment,targetKey:'unit:release:APP',historyState:'EMPTY',
+      observe:async()=>({ scope:'UNIT_SYNTHETIC',targetAssignmentId:assignment,targetKey:'unit:release:APP',historyState:'EMPTY',historyFormat:1,appliedMigrations:[],
         pendingStatementDigests:input.statementDigests,targetIdentityDigest:digest,historySnapshotDigest:digest,
         mutexAuthorityDigest:digest,validityDigest:digest,centralEvidenceDigest:digest,dispatchPermitDigest:digest,hostWitnessDigest:digest }),
       current:async()=>true,execute:async bytes=>{calls.push(Buffer.from(bytes).toString('utf8').trim());return 'ACKNOWLEDGED';},

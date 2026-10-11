@@ -98,8 +98,14 @@ The dispatch check and target call share a transaction holding those authority l
 successful terminal evidence/projection also commit under the checked locks. In-flight
 revocation waits for the current call and prevents a subsequent statement. Host calls must
 be bounded and must never await a governance mutation blocked by their own dispatch guard.
-Only full ordered EMPTY history or witnessed EXACT_APPLIED with no pending statements is
-admissible; partial/unknown histories decline without creating authority. NOOP still needs
+History protocol1 requires an attested ordered ledger of complete APPLIED migration files.
+EMPTY selects the complete approved sequence; APPLIED_PREFIX selects only its approved
+suffix; EXACT_APPLIED selects a witnessed NOOP. Match every applied path/version/source
+checksum and per-file statement identity against the complete immutable approval. A
+changed, reordered, unknown or partial file, missing ledger, or lost history witness
+records terminal HOLD before creating admission or an attempt. Prior unresolved central
+attempts on the same assignment/canonical target veto admission even with a reported
+applied prefix; central evidence completion is checked before every admission. NOOP still needs
 postconditions and central evidence. Unknown effects, receipt gaps or revoked authority
 produce HOLD. A lost admission COMMIT acknowledgment is unresolved until explicit expiry
 recovery; it never becomes an undispatched decline or a new dispatch claim. UNIT hosts require

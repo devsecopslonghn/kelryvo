@@ -56,11 +56,17 @@ test('approved Git request reaches controlled worker/history; uncertainty and re
       (SELECT count(*)::int FROM sf_execution_attempts WHERE job_id=${id}) AS attempts,
       (SELECT count(*)::int FROM sf_execution_receipts WHERE job_id=${id}) AS receipts`)[0];
     const host = (options = {}) => {
-      const calls = []; let afterEffect;
+      const calls = []; let afterEffect,completed=false;
+      // Each host is an independent disposable synthetic target. Repeated
+      // operations on the same host retain its canonical key.
+      const targetKey = `unit:target:${randomUUID()}`;
       const capability = { workerId:'unit-controlled-worker',scope,withTarget:async (input,run) => {
         await options.beforeObservation?.(input);
-        const observation = { scope,targetAssignmentId:assignment,targetKey:'unit:target:APP',historyState:options.historyState ?? 'EMPTY',
-          pendingStatementDigests:options.historyState === 'EXACT_APPLIED' ? [] : input.statementDigests,
+        const historyState = options.historyState === 'EXACT_APPLIED' && options.seedApplied && !completed ? 'EMPTY' : options.historyState ?? 'EMPTY';
+        const observation = { scope,targetAssignmentId:assignment,targetKey,historyState,
+          historyFormat:1, appliedMigrations:historyState === 'EXACT_APPLIED' ? input.migrations.map(row=>({ ...row,
+            outcome:'APPLIED',approvalReference:input.approvalReference,intentDigest:input.intentDigest })) : [],
+          pendingStatementDigests:historyState === 'EXACT_APPLIED' ? [] : input.statementDigests,
           targetIdentityDigest:digest,historySnapshotDigest:digest,mutexAuthorityDigest:digest,validityDigest:digest,
           centralEvidenceDigest:digest,dispatchPermitDigest:digest,hostWitnessDigest:digest,...options.observation };
         const result = await run({ scope,observe:async()=>observation,
@@ -80,6 +86,7 @@ test('approved Git request reaches controlled worker/history; uncertainty and re
           verifyPostconditions:async()=> options.postconditions ?? true,
           centralEvidenceComplete:async()=> options.centralEvidence ?? true,
         });
+        if (result === 'VERIFIED_SUCCESS') completed=true;
         if (options.escape) throw new Error('UNIT host shutdown');
         return result;
       } };
@@ -112,25 +119,29 @@ test('approved Git request reaches controlled worker/history; uncertainty and re
       assert.equal(await h.worker.recoverExpired(id),'NOT_RECOVERED');
       assert.equal((await sql`SELECT execution,history_status,planning_scope FROM sf_plans WHERE id=${plan.id}`)[0].planning_scope,'OFFLINE_CANDIDATE');
     });
-    await t.test('exact applied history is a witnessed NOOP; partial/malformed history is declined',async()=>{
-      const id=await request(),h=host({ historyState:'EXACT_APPLIED' });
-      assert.equal(await h.worker.runWaitingRequest(id),'NOOP'); assert.equal(h.calls.length,0);
+    await t.test('exact applied history is a witnessed NOOP; partial/malformed history is held',async()=>{
+      const first=await request(),h=host({ historyState:'EXACT_APPLIED',seedApplied:true });
+      assert.equal(await h.worker.runWaitingRequest(first),'VERIFIED_SUCCESS'); assert.equal(h.calls.length,5);
+      const id=await request();
+      assert.equal(await h.worker.runWaitingRequest(id),'NOOP'); assert.equal(h.calls.length,5,'NOOP never dispatches again');
       assert.deepEqual(await counts(id),{ proofs:1,attempts:1,receipts:0 });
       for (const options of [{ historyState:'EXACT_APPLIED',postconditions:false },{ historyState:'EXACT_APPLIED',centralEvidence:false },
         { observation:{ historyState:'PARTIAL' } },{ observation:{ pendingStatementDigests:[digest] } },
-        { observation:{ scope:'TRUSTED_VALIDATED' } },{ observation:{ targetAssignmentId:randomUUID() } },{ current:()=>false }]) {
+        { historyState:'EXACT_APPLIED' },{ observation:{ scope:'TRUSTED_VALIDATED' } },
+        { observation:{ targetAssignmentId:randomUUID() } },{ current:()=>false }]) {
         const id=await request(),h=host(options);
-        assert.equal(await h.worker.runWaitingRequest(id),'ADMISSION_DECLINED');
-        assert.equal(h.calls.length,0); assert.equal(await jobState(id),'WAITING_VALIDATION');
+        const expected = options.observation?.targetAssignmentId ? 'ADMISSION_DECLINED' : 'HOLD';
+        assert.equal(await h.worker.runWaitingRequest(id),expected);
+        assert.equal(h.calls.length,0); assert.equal(await jobState(id),expected === 'HOLD' ? 'HOLD' : 'WAITING_VALIDATION');
         assert.deepEqual(await counts(id),{ proofs:0,attempts:0,receipts:0 });
       }
     });
     await t.test('unknown result, missing receipt, permit loss and invalid postconditions stop with HOLD',async()=>{
       for (const [options,expectedCalls] of [[{ outcome:'UNKNOWN' },1],[{ receiptGap:true },1],
-        [{ current:n=>n===0 },1],[{ postconditions:false },5],[{ centralEvidence:false },5]]) {
+        [{ current:n=>n===0 },1],[{ postconditions:false },5],[{ centralEvidence:false },0]]) {
         const id=await request(),h=host(options);
         assert.equal(await h.worker.runWaitingRequest(id),'HOLD'); assert.equal(h.calls.length,expectedCalls);
-        assert.equal(await jobState(id),'HOLD'); assert.equal((await counts(id)).attempts,1);
+        assert.equal(await jobState(id),'HOLD'); assert.equal((await counts(id)).attempts,options.centralEvidence===false ? 0 : 1);
         assert.equal(await h.worker.runWaitingRequest(id),'ADMISSION_DECLINED'); assert.equal(h.calls.length,expectedCalls);
       }
     });

@@ -7,7 +7,7 @@ import { startProduct } from '../../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './product-db.mjs';
 import { createMembershipOperatorFixture } from './product-membership-fixture.mjs';
 
-export async function statementEnvelopeFixture({ firstStatementCount = 55 } = {}) {
+export async function statementEnvelopeFixture({ firstStatementCount = 55, firstFile = 'V2__first.sql', includeSecond = true } = {}) {
   const repo = await mkdtemp(path.join(tmpdir(), 'sf-statement-envelope-'));
   let db, app, membership;
   const actors = ['developer', 'approver', 'developer'].map((role, i) => ({ id: `statement-${i}-${randomUUID()}`,
@@ -17,8 +17,8 @@ export async function statementEnvelopeFixture({ firstStatementCount = 55 } = {}
     const git = (...args) => execFileSync('/usr/bin/git', ['-C', repo, ...args], { stdio: 'ignore' });
     git('init'); git('config', 'user.name', 'SchemaForge fixture'); git('config', 'user.email', 'fixture@example.invalid');
     await mkdir(path.join(repo, 'migrations'));
-    await writeFile(path.join(repo, 'migrations/V2__first.sql'), '-- café retained bytes\n' + Array.from({ length: firstStatementCount }, (_, i) => `CREATE TABLE envelope_${i} (id NUMBER);\n`).join(''));
-    await writeFile(path.join(repo, 'migrations/V10__second.sql'), 'CREATE TABLE second_envelope (id NUMBER);\nCREATE TABLE last_envelope (id NUMBER);\n');
+    await writeFile(path.join(repo, 'migrations', firstFile), '-- café retained bytes\n' + Array.from({ length: firstStatementCount }, (_, i) => `CREATE TABLE envelope_${i} (id NUMBER);\n`).join(''));
+    if (includeSecond) await writeFile(path.join(repo, 'migrations/V10__second.sql'), 'CREATE TABLE second_envelope (id NUMBER);\nCREATE TABLE last_envelope (id NUMBER);\n');
     git('add', 'migrations'); git('commit', '-m', 'Disposable offline statement fixture');
     db = await openIsolatedProductDatabase();
     app = await startProduct({ databaseUrl: db.databaseUrl, actors, repositories: [{ id: 'statement-repo', name: 'Statement repository', path: repo }], port: 0 });
@@ -35,12 +35,12 @@ export async function statementEnvelopeFixture({ firstStatementCount = 55 } = {}
     const imported = await api('POST', `${base}/releases`, { repositoryId: 'statement-repo', commit: 'HEAD', folder: 'migrations' });
     if (imported.statusCode !== 201 || imported.json().release.validationStatus !== 'VALID') throw new Error('Fixture parser/release unavailable');
     const release = imported.json().release;
-    const makePlan = async () => {
-      const made = await api('POST', `${base}/plans`, { releaseId: release.id, profileId: profile.id });
+    const makePlan = async (releaseId = release.id) => {
+      const made = await api('POST', `${base}/plans`, { releaseId, profileId: profile.id });
       if (made.statusCode !== 201) throw new Error(`Fixture preparation failed: ${made.json().error}`);
       return made.json().plan;
     };
-    return { db, app, api, membership, project, base, actors, profile, release, makePlan,
+    return { db, app, api, membership, project, base, actors, profile, release, makePlan, repo, git,
       url: `http://127.0.0.1:${app.server.address().port}`,
       restart: async () => { await app.close(); await db.reopen(); app = await startProduct({ databaseUrl: db.databaseUrl, actors, repositories: [], port: 0 }); }, close };
   } catch (error) { await close(); throw error; }

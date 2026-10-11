@@ -1,0 +1,29 @@
+{
+  "id": "mvp-local-release-pr52-master-verified",
+  "subject_id": "OPS-023",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "PR52 ordinary exact-head merge; resulting master foundation/parser/PRODUCT actual SUCCESS, API69/browser33/fresh-source1(inner4) zero fail/skip; no Oracle runtime/full release claim.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/mvp-local-release-20261011/master-ci-observation.json",
+    "sha256": "1533897e6566f26d3d563994378049732784bb49e25265a720e07265f47b5eaf"
+  },
+  "pr": 52,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/52",
+  "reviewed_published_head": "e33eac502e80447365d79796a97a055e17de7415",
+  "merge_commit": "e57b610ba8166a6d20a92143e557725687931e31",
+  "ordinary_exact_head_merge": true,
+  "merge_status": "MERGED_MASTER_VERIFIED",
+  "prior_pending_record": "record.json",
+  "all_worktrees_and_unfinished_changes_preserved": true,
+  "limitations": [
+    "No Oracle runtime, deployed-worker isolation or target ledger/runtime reconciliation acceptance",
+    "Full F31/public naming/distribution clearance remains incomplete",
+    "Optional paid/disabled GitHub security and owner-authorized Sonar quota scans are UNAVAILABLE, never PASS"
+  ]
+}

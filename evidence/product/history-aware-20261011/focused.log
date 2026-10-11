@@ -1,0 +1,114 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: approved Git request reaches controlled worker/history; uncertainty and revoked authority never replay
+    # Subtest: explicit host boundary and complete immutable statement sequence
+    ok 1 - explicit host boundary and complete immutable statement sequence
+      ---
+      duration_ms: 15794.002163
+      type: 'test'
+      ...
+    # Subtest: exact applied history is a witnessed NOOP; partial/malformed history is held
+    ok 2 - exact applied history is a witnessed NOOP; partial/malformed history is held
+      ---
+      duration_ms: 41548.825773
+      type: 'test'
+      ...
+    # Subtest: unknown result, missing receipt, permit loss and invalid postconditions stop with HOLD
+    ok 3 - unknown result, missing receipt, permit loss and invalid postconditions stop with HOLD
+      ---
+      duration_ms: 26484.599699
+      type: 'test'
+      ...
+# deploy-revoke complete
+# deploy-grant complete
+# deploy-revoke complete
+# deploy-grant complete
+    # Subtest: grant/source/assignment mutation before admission leaves no proof; revocation after an effect stops
+    ok 4 - grant/source/assignment mutation before admission leaves no proof; revocation after an effect stops
+      ---
+      duration_ms: 23484.466083
+      type: 'test'
+      ...
+# deploy-revoke complete
+# deploy-grant complete
+    # Subtest: schema contention does not hold global governance and assignment/API work completes
+    ok 5 - schema contention does not hold global governance and assignment/API work completes
+      ---
+      duration_ms: 5472.174981
+      type: 'test'
+      ...
+    # Subtest: concurrent declaration service/schema locks serialize before execution and governance
+    ok 6 - concurrent declaration service/schema locks serialize before execution and governance
+      ---
+      duration_ms: 5563.007495
+      type: 'test'
+      ...
+# deploy-grant complete
+    # Subtest: revocation waits for the guarded target call and prevents the next statement
+    ok 7 - revocation waits for the guarded target call and prevents the next statement
+      ---
+      duration_ms: 5228.379711
+      type: 'test'
+      ...
+    # Subtest: lost admission COMMIT acknowledgement recovers expiry to HOLD without target calls or another claim
+    ok 8 - lost admission COMMIT acknowledgement recovers expiry to HOLD without target calls or another claim
+      ---
+      duration_ms: 6283.996377
+      type: 'test'
+      ...
+    # Subtest: legacy requests are read-only and browser child authority includes its parent lifecycle
+    ok 9 - legacy requests are read-only and browser child authority includes its parent lifecycle
+      ---
+      duration_ms: 5428.415194
+      type: 'test'
+      ...
+    # Subtest: credential revocation after possible effect preserves receipts and halts later dispatch
+    ok 10 - credential revocation after possible effect preserves receipts and halts later dispatch
+      ---
+      duration_ms: 5211.373672
+      type: 'test'
+      ...
+    # Subtest: restore generation stops dispatch and preserves unresolved metadata until recovery
+    ok 11 - restore generation stops dispatch and preserves unresolved metadata until recovery
+      ---
+      duration_ms: 10338.663826
+      type: 'test'
+      ...
+    1..11
+ok 1 - approved Git request reaches controlled worker/history; uncertainty and revoked authority never replay
+  ---
+  duration_ms: 166870.11552
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: Git V1 then approved V2 executes only pending files; divergent or untrusted target history holds without replay
+ok 2 - Git V1 then approved V2 executes only pending files; divergent or untrusted target history holds without replay
+  ---
+  duration_ms: 111347.563988
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: installed source bundle connects approved Git request to controlled UNIT history and restart
+ok 3 - installed source bundle connects approved Git request to controlled UNIT history and restart
+  ---
+  duration_ms: 26923.039084
+  type: 'test'
+  ...
+1..3
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 305820.902821

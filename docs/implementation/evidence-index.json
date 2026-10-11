@@ -3311,6 +3311,78 @@
       },
       "path": "evidence/product/mvp-local-release-20261011/record.json",
       "sha256": "076c4dd7c9a0d7fc78a4743aa86b1f8918363996663223765509eae040f6a7ab"
+    },
+    {
+      "id": "mvp-history-aware-local-verified",
+      "subject_id": "MIG-011",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Final14case controlled/incremental/release PostgreSQL/Git/real-parser tests; standard157PASS45optionalSKIP; independent corrected central-evidence security/QA review. UNIT target only; remote CI pending, no Oracle/full feature acceptance.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/history-aware-20261011/focused.log",
+        "sha256": "d1e8e903f9a9238347c75fea2ec0b9fd9835ca436ec8c3bc248b00fec89cbec6"
+      },
+      "path": "evidence/product/history-aware-20261011/record.json",
+      "sha256": "2618120b51cacbe2793442f681c1aa027281fc921193e1154a13ab23165ebfd4"
+    },
+    {
+      "id": "mvp-local-release-pr52-master-verified",
+      "subject_id": "OPS-023",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "PR52 ordinary exact-head merge; resulting master foundation/parser/PRODUCT actual SUCCESS, API69/browser33/fresh-source1(inner4) zero fail/skip; no Oracle runtime/full release claim.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/mvp-local-release-20261011/master-ci-observation.json",
+        "sha256": "1533897e6566f26d3d563994378049732784bb49e25265a720e07265f47b5eaf"
+      },
+      "path": "evidence/product/mvp-local-release-20261011/master-verification.json",
+      "sha256": "019de749c2ac7803197f9bec6ccdf3730bed8660802acecd9bafbfb3db02d6fd"
+    },
+    {
+      "id": "mvp-ci-performance-pr53-master-verified",
+      "subject_id": "OPS-023",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "PR53 ordinary exact-head merge; resulting master foundation/parser/PRODUCT actual SUCCESS, API69/browser33/fresh-source1(inner4) zero fail/skip; no Oracle runtime/full release claim.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/ci-performance-20261011/master-ci-observation.json",
+        "sha256": "f491ec4965593a4bfc6758a9ae1f03eba3f790830f5933482397473e9aed33bc"
+      },
+      "path": "evidence/product/ci-performance-20261011/master-verification.json",
+      "sha256": "878110474919ad3fb0d4ca5507a3d694aeb0a7cafed5d8cdf53f1416fbb3fa62"
+    },
+    {
+      "id": "mvp-history-aware-divergence-local-verified",
+      "subject_id": "MIG-034",
+      "kind": "UNIT",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Final controlled/incremental/release14PASS; standard157PASS45optionalSKIP; independent no-blocker review. Rewound/shortened/divergent target history and missing original central completions HOLD before any attempt, including after reassignment. UNIT target only; revised remote CI pending.",
+      "exit_code": 0,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/history-aware-20261011/rewind-correction/focused.log",
+        "sha256": "9125b34f2e42ee4e1443168e0c77b188d605e522f229b400f7b52ad09456a913"
+      },
+      "path": "evidence/product/history-aware-20261011/rewind-correction/record.json",
+      "sha256": "52fddf8fd2a53f2b854b8b38a1cd53f93a52f612efed8c16564b7a71a4149dbc"
     }
   ]
 }
