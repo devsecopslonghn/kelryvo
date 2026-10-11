@@ -1,0 +1,22 @@
+{
+  "id": "product-t36-metadata-expiry-recovery-ci",
+  "subject_id": "SF-PRODUCT-T36",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "gh pr checks 62; gh api commits/95ade29572adf56f16be82b5d5a6d0437e235dec/check-runs; gh run view --log completed PRODUCT jobs: exact candidate and resulting master Foundation/parser/PRODUCT/CodeQL succeeded; API95/browser33/release1 passed with zero PRODUCT skips; independent exact-head review and tree/count parity. No Oracle runtime or deployed isolation attestation.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    3
+  ],
+  "test_references": [
+    "SF-PRODUCT-T36-FACTORY",
+    "SF-PRODUCT-T36-OPERATOR",
+    "SF-PRODUCT-T36-RECOVERY"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/execution-service/metadata-recovery-ci.json",
+    "sha256": "3da795d5e22760c7a5a4958bfad1cdb087e8965cf38442b2d3d92c3b13caaf34"
+  }
+}

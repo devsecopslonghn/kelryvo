@@ -18,6 +18,7 @@ export async function createExecutionWorker() {
     scope: 'UNIT_SYNTHETIC',
     workerId: 'unit-expiry-recovery-worker',
     allowUnitSynthetic: true,
+    expectedMetadataGenerationId: process.env.SCHEMAFORGE_METADATA_GENERATION_ID,
     openMetadata,
   });
   return create();

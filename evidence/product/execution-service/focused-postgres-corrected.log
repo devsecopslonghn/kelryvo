@@ -1,0 +1,460 @@
+TAP version 13
+# Subtest: privileged scope and request identity are required before spawn
+ok 1 - privileged scope and request identity are required before spawn
+  ---
+  duration_ms: 2.903136
+  type: 'test'
+  ...
+# Subtest: a UNIT child cannot satisfy a TRUSTED_VALIDATED installation binding
+ok 2 - a UNIT child cannot satisfy a TRUSTED_VALIDATED installation binding
+  ---
+  duration_ms: 45.053974
+  type: 'test'
+  ...
+# Subtest: actual child must return the exact job result and exit cleanly
+ok 3 - actual child must return the exact job result and exit cleanly
+  ---
+  duration_ms: 41.144078
+  type: 'test'
+  ...
+# Subtest: crash terminal condition is held
+ok 4 - crash terminal condition is held
+  ---
+  duration_ms: 42.981425
+  type: 'test'
+  ...
+# Subtest: malformed terminal condition is held
+ok 5 - malformed terminal condition is held
+  ---
+  duration_ms: 43.962729
+  type: 'test'
+  ...
+# Subtest: stale terminal condition is held
+ok 6 - stale terminal condition is held
+  ---
+  duration_ms: 39.046309
+  type: 'test'
+  ...
+# Subtest: wrong-scope terminal condition is held
+ok 7 - wrong-scope terminal condition is held
+  ---
+  duration_ms: 40.711384
+  type: 'test'
+  ...
+# Subtest: wrong-worker terminal condition is held
+ok 8 - wrong-worker terminal condition is held
+  ---
+  duration_ms: 40.936975
+  type: 'test'
+  ...
+# Subtest: duplicate terminal condition is held
+ok 9 - duplicate terminal condition is held
+  ---
+  duration_ms: 41.367966
+  type: 'test'
+  ...
+# Subtest: oversize terminal condition is held
+ok 10 - oversize terminal condition is held
+  ---
+  duration_ms: 46.06725
+  type: 'test'
+  ...
+# Subtest: nonzero terminal condition is held
+ok 11 - nonzero terminal condition is held
+  ---
+  duration_ms: 42.267987
+  type: 'test'
+  ...
+# Subtest: timeout kills and confirms child exit before returning
+ok 12 - timeout kills and confirms child exit before returning
+  ---
+  duration_ms: 942.2612
+  type: 'test'
+  ...
+# Subtest: unconfirmed termination retains ownership and blocks replacement
+ok 13 - unconfirmed termination retains ownership and blocks replacement
+  ---
+  duration_ms: 1463.264775
+  type: 'test'
+  ...
+# Subtest: an invalid starter handle retains uncertainty and refuses another invocation
+ok 14 - an invalid starter handle retains uncertainty and refuses another invocation
+  ---
+  duration_ms: 541.312239
+  type: 'test'
+  ...
+# Subtest: a starter that throws retains uncertainty and refuses another invocation
+ok 15 - a starter that throws retains uncertainty and refuses another invocation
+  ---
+  duration_ms: 0.423628
+  type: 'test'
+  ...
+# Subtest: a completed child handle cannot be reused for a new invocation
+ok 16 - a completed child handle cannot be reused for a new invocation
+  ---
+  duration_ms: 48.132093
+  type: 'test'
+  ...
+# Subtest: child factory without an explicit cleanup hook is rejected before worker execution
+ok 17 - child factory without an explicit cleanup hook is rejected before worker execution
+  ---
+  duration_ms: 93.803984
+  type: 'test'
+  ...
+# Subtest: native metadata backup and witness-verified restore retain source and enter persistent hold
+ok 18 - native metadata backup and witness-verified restore retain source and enter persistent hold
+  ---
+  duration_ms: 2556.66048
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: native restore preserves retained Git review history and UNIT receipts while revoking old authority
+ok 19 - native restore preserves retained Git review history and UNIT receipts while revoking old authority
+  ---
+  duration_ms: 34054.566286
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: SIGKILL after native import leaves restored approved queues unclaimable and startup refused
+ok 20 - SIGKILL after native import leaves restored approved queues unclaimable and startup refused
+  ---
+  duration_ms: 33727.356423
+  type: 'test'
+  ...
+# Subtest: native restore rejects damaged, unsupported, linked and untrusted inputs before destination creation
+ok 21 - native restore rejects damaged, unsupported, linked and untrusted inputs before destination creation
+  ---
+  duration_ms: 3091.357088
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: approved Git request reaches controlled worker/history; uncertainty and revoked authority never replay
+    # Subtest: explicit host boundary and complete immutable statement sequence
+    ok 1 - explicit host boundary and complete immutable statement sequence
+      ---
+      duration_ms: 15744.417993
+      type: 'test'
+      ...
+    # Subtest: exact applied history is a witnessed NOOP; partial/malformed history is held
+    ok 2 - exact applied history is a witnessed NOOP; partial/malformed history is held
+      ---
+      duration_ms: 51670.313447
+      type: 'test'
+      ...
+    # Subtest: unknown result, missing receipt, permit loss and invalid postconditions stop with HOLD
+    ok 3 - unknown result, missing receipt, permit loss and invalid postconditions stop with HOLD
+      ---
+      duration_ms: 26070.067635
+      type: 'test'
+      ...
+# deploy-revoke complete
+# deploy-grant complete
+# deploy-revoke complete
+# deploy-grant complete
+    # Subtest: grant/source/assignment mutation before admission leaves no proof; revocation after an effect stops
+    ok 4 - grant/source/assignment mutation before admission leaves no proof; revocation after an effect stops
+      ---
+      duration_ms: 20723.141439
+      type: 'test'
+      ...
+# deploy-revoke complete
+# deploy-grant complete
+    # Subtest: schema contention does not hold global governance and assignment/API work completes
+    ok 5 - schema contention does not hold global governance and assignment/API work completes
+      ---
+      duration_ms: 5223.731179
+      type: 'test'
+      ...
+    # Subtest: concurrent declaration service/schema locks serialize before execution and governance
+    ok 6 - concurrent declaration service/schema locks serialize before execution and governance
+      ---
+      duration_ms: 5387.549927
+      type: 'test'
+      ...
+# deploy-grant complete
+    # Subtest: revocation waits for the guarded target call and prevents the next statement
+    ok 7 - revocation waits for the guarded target call and prevents the next statement
+      ---
+      duration_ms: 5234.391492
+      type: 'test'
+      ...
+    # Subtest: lost admission COMMIT acknowledgement recovers expiry to HOLD without target calls or another claim
+    ok 8 - lost admission COMMIT acknowledgement recovers expiry to HOLD without target calls or another claim
+      ---
+      duration_ms: 6300.903321
+      type: 'test'
+      ...
+    # Subtest: legacy requests are read-only and browser child authority includes its parent lifecycle
+    ok 9 - legacy requests are read-only and browser child authority includes its parent lifecycle
+      ---
+      duration_ms: 5220.491724
+      type: 'test'
+      ...
+    # Subtest: credential revocation after possible effect preserves receipts and halts later dispatch
+    ok 10 - credential revocation after possible effect preserves receipts and halts later dispatch
+      ---
+      duration_ms: 5256.537172
+      type: 'test'
+      ...
+    # Subtest: restore generation stops dispatch and preserves unresolved metadata until recovery
+    ok 11 - restore generation stops dispatch and preserves unresolved metadata until recovery
+      ---
+      duration_ms: 10275.188606
+      type: 'test'
+      ...
+    1..11
+ok 22 - approved Git request reaches controlled worker/history; uncertainty and revoked authority never replay
+  ---
+  duration_ms: 173267.43766
+  type: 'test'
+  ...
+# Subtest: service rejects caller-selected capabilities, mixed scope and accessor bindings before connecting
+ok 23 - service rejects caller-selected capabilities, mixed scope and accessor bindings before connecting
+  ---
+  duration_ms: 4.024887
+  type: 'test'
+  ...
+# Subtest: metadata connection, generation and leader-session loss latch the service without reopening
+ok 24 - metadata connection, generation and leader-session loss latch the service without reopening
+  ---
+  duration_ms: 4.498277
+  type: 'test'
+  ...
+# Subtest: run loop stops on abort and closes its owned metadata session once
+ok 25 - run loop stops on abort and closes its owned metadata session once
+  ---
+  duration_ms: 21.308618
+  type: 'test'
+  ...
+# Subtest: service CLI rejects insecure installation files before importing them and uses fixed diagnostics
+ok 26 - service CLI rejects insecure installation files before importing them and uses fixed diagnostics
+  ---
+  duration_ms: 200.407037
+  type: 'test'
+  ...
+# Subtest: generation-bound supervised bootstrap closes a mismatched factory before any operation
+ok 27 - generation-bound supervised bootstrap closes a mismatched factory before any operation
+  ---
+  duration_ms: 98.300983
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: durable service discovers approved jobs, executes only V2 suffix and records a later NOOP without replay
+ok 28 - durable service discovers approved jobs, executes only V2 suffix and records a later NOOP without replay
+  ---
+  duration_ms: 60925.949397
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: service recovers expiry before dispatch, preserves history, and waits on unresolved live claims
+ok 29 - service recovers expiry before dispatch, preserves history, and waits on unresolved live claims
+  ---
+  duration_ms: 16552.542027
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: bounded FIFO pages pass an ineligible request without starving later approved work
+not ok 30 - bounded FIFO pages pass an ineligible request without starving later approved work
+  ---
+  duration_ms: 11136.735408
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge/tests/product-execution-service.test.mjs:253:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+        {
+    +     jobId: '21a44992-9a7c-473e-ac72-a154ee34ed20',
+    -     jobId: 'fbcc5da7-b89e-4941-925b-f9827ec97c34',
+          phase: 'EXECUTION',
+    +     workerResult: 'ADMISSION_DECLINED'
+    -     workerResult: 'VERIFIED_SUCCESS'
+        }
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0:
+      jobId: 'fbcc5da7-b89e-4941-925b-f9827ec97c34'
+      phase: 'EXECUTION'
+      workerResult: 'VERIFIED_SUCCESS'
+  actual:
+    0:
+      jobId: '21a44992-9a7c-473e-ac72-a154ee34ed20'
+      phase: 'EXECUTION'
+      workerResult: 'ADMISSION_DECLINED'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge/tests/product-execution-service.test.mjs:271:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: service cleanup uncertainty preserves durable success and stops further dispatch until explicit restart
+ok 31 - service cleanup uncertainty preserves durable success and stops further dispatch until explicit restart
+  ---
+  duration_ms: 24255.225279
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: generation changes after dispatch fence stale receipt, HOLD and every durable attempt write
+    # Subtest: RECEIPT
+    ok 1 - RECEIPT
+      ---
+      duration_ms: 21091.981044
+      type: 'test'
+      ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+    # Subtest: HOLD
+    ok 2 - HOLD
+      ---
+      duration_ms: 21203.947116
+      type: 'test'
+      ...
+    1..2
+ok 32 - generation changes after dispatch fence stale receipt, HOLD and every durable attempt write
+  ---
+  duration_ms: 42297.532466
+  type: 'test'
+  ...
+# Subtest: service CLI boots on owned metadata, drains on SIGTERM, and releases leadership for restart
+ok 33 - service CLI boots on owned metadata, drains on SIGTERM, and releases leadership for restart
+  ---
+  duration_ms: 335.387504
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: unknown child exit stops dispatch and retains leadership until the actual child is reaped
+ok 34 - unknown child exit stops dispatch and retains leadership until the actual child is reaped
+  ---
+  duration_ms: 11891.678608
+  type: 'test'
+  ...
+# Subtest: recovery factory requires a fixed, explicit UNIT binding and a valid owned metadata client
+ok 35 - recovery factory requires a fixed, explicit UNIT binding and a valid owned metadata client
+  ---
+  duration_ms: 2.435967
+  type: 'test'
+  ...
+# Subtest: the fixed recovery operation is one-use, rejects overlap, drains before close, and maps only no-op to decline
+ok 36 - the fixed recovery operation is one-use, rejects overlap, drains before close, and maps only no-op to decline
+  ---
+  duration_ms: 2.304336
+  type: 'test'
+  ...
+# Subtest: recovery cleanup failure propagates and metadata startup failure does not reopen
+ok 37 - recovery cleanup failure propagates and metadata startup failure does not reopen
+  ---
+  duration_ms: 0.943597
+  type: 'test'
+  ...
+# Subtest: metadata-only recovery needs no Oracle capabilities and cannot install execution
+ok 38 - metadata-only recovery needs no Oracle capabilities and cannot install execution
+  ---
+  duration_ms: 3.387605
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: a supervised child recovers only expired metadata and preserves retained execution evidence
+ok 39 - a supervised child recovers only expired metadata and preserves retained execution evidence
+  ---
+  duration_ms: 18785.723881
+  type: 'test'
+  ...
+# Subtest: factory rejects absent, malformed, production UNIT, and caller-selected metadata bindings
+ok 40 - factory rejects absent, malformed, production UNIT, and caller-selected metadata bindings
+  ---
+  duration_ms: 2.382752
+  type: 'test'
+  ...
+# Subtest: installation snapshot composes the real worker with one metadata handle and one request
+ok 41 - installation snapshot composes the real worker with one metadata handle and one request
+  ---
+  duration_ms: 4.028845
+  type: 'test'
+  ...
+# Subtest: binding snapshots read own data without invoking property hooks
+ok 42 - binding snapshots read own data without invoking property hooks
+  ---
+  duration_ms: 0.486773
+  type: 'test'
+  ...
+# Subtest: trusted bindings reject synthetic ports and invalid leases before acquisition
+ok 43 - trusted bindings reject synthetic ports and invalid leases before acquisition
+  ---
+  duration_ms: 0.926736
+  type: 'test'
+  ...
+# Subtest: close drains the active worker call before closing metadata and never retries it
+ok 44 - close drains the active worker call before closing metadata and never retries it
+  ---
+  duration_ms: 0.614995
+  type: 'test'
+  ...
+# Subtest: metadata startup and close failures propagate without reopening or retrying
+ok 45 - metadata startup and close failures propagate without reopening or retrying
+  ---
+  duration_ms: 0.824684
+  type: 'test'
+  ...
+# Subtest: unbound child factory entry remains unavailable
+ok 46 - unbound child factory entry remains unavailable
+  ---
+  duration_ms: 0.271849
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# deploy-grant complete
+# Subtest: installed UNIT factory executes approved work and declines terminal retry without replay
+ok 47 - installed UNIT factory executes approved work and declines terminal retry without replay
+  ---
+  duration_ms: 14257.394431
+  type: 'test'
+  ...
+1..47
+# tests 60
+# suites 0
+# pass 59
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 451972.9208

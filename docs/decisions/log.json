@@ -666,6 +666,24 @@
         "OPS-005",
         "MIG-011"
       ]
+    },
+    {
+      "id": "SF-D056",
+      "status": "ACCEPTED_GENERATION_BOUND_SERIAL_EXECUTION_SERVICE",
+      "decision": "Use one reserved PostgreSQL advisory-lock session as the installed queue service owner and dispatch one fixed supervised child at a time. Recover expired metadata claims first, pause for unresolved admissions, and traverse waiting requests by bounded FIFO keyset pages. Bind children and all durable attempt writes to the startup ACTIVE metadata generation; row-share generation locks fence each write transaction. Retire on metadata/leader/child uncertainty without reconnect, replay or overwriting terminal facts. SIGTERM/SIGINT drain active work and retain leadership until actual child reap. This privileged service supplies no API writer capability, OS sandbox, orphan containment after forced parent death, target credential, deployment authority or Oracle runtime acceptance.",
+      "references": [
+        "apps/worker/execution-service.mjs",
+        "apps/worker/execution-service-main.mjs",
+        "packages/execution/postgres-jobs.ts",
+        "tests/product-execution-service.test.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "OPS-002",
+        "OPS-003",
+        "OPS-019",
+        "MIG-011"
+      ]
     }
   ]
 }

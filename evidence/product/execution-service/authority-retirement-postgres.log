@@ -1,0 +1,246 @@
+TAP version 13
+# Subtest: privileged scope and request identity are required before spawn
+ok 1 - privileged scope and request identity are required before spawn
+  ---
+  duration_ms: 3.098499
+  type: 'test'
+  ...
+# Subtest: a UNIT child cannot satisfy a TRUSTED_VALIDATED installation binding
+ok 2 - a UNIT child cannot satisfy a TRUSTED_VALIDATED installation binding
+  ---
+  duration_ms: 44.097934
+  type: 'test'
+  ...
+# Subtest: actual child must return the exact job result and exit cleanly
+ok 3 - actual child must return the exact job result and exit cleanly
+  ---
+  duration_ms: 43.091181
+  type: 'test'
+  ...
+# Subtest: crash terminal condition is held
+ok 4 - crash terminal condition is held
+  ---
+  duration_ms: 42.767385
+  type: 'test'
+  ...
+# Subtest: malformed terminal condition is held
+ok 5 - malformed terminal condition is held
+  ---
+  duration_ms: 41.697783
+  type: 'test'
+  ...
+# Subtest: stale terminal condition is held
+ok 6 - stale terminal condition is held
+  ---
+  duration_ms: 41.414995
+  type: 'test'
+  ...
+# Subtest: wrong-scope terminal condition is held
+ok 7 - wrong-scope terminal condition is held
+  ---
+  duration_ms: 49.04944
+  type: 'test'
+  ...
+# Subtest: wrong-worker terminal condition is held
+ok 8 - wrong-worker terminal condition is held
+  ---
+  duration_ms: 38.188862
+  type: 'test'
+  ...
+# Subtest: duplicate terminal condition is held
+ok 9 - duplicate terminal condition is held
+  ---
+  duration_ms: 43.012053
+  type: 'test'
+  ...
+# Subtest: oversize terminal condition is held
+ok 10 - oversize terminal condition is held
+  ---
+  duration_ms: 40.243367
+  type: 'test'
+  ...
+# Subtest: nonzero terminal condition is held
+ok 11 - nonzero terminal condition is held
+  ---
+  duration_ms: 55.138382
+  type: 'test'
+  ...
+# Subtest: timeout kills and confirms child exit before returning
+ok 12 - timeout kills and confirms child exit before returning
+  ---
+  duration_ms: 943.420652
+  type: 'test'
+  ...
+# Subtest: authority retirement terminates the active child and permanently rejects replacement
+ok 13 - authority retirement terminates the active child and permanently rejects replacement
+  ---
+  duration_ms: 143.77594
+  type: 'test'
+  ...
+# Subtest: authority retirement before dispatch never starts a child
+ok 14 - authority retirement before dispatch never starts a child
+  ---
+  duration_ms: 0.316565
+  type: 'test'
+  ...
+# Subtest: unconfirmed termination retains ownership and blocks replacement
+ok 15 - unconfirmed termination retains ownership and blocks replacement
+  ---
+  duration_ms: 1463.997493
+  type: 'test'
+  ...
+# Subtest: an invalid starter handle retains uncertainty and refuses another invocation
+ok 16 - an invalid starter handle retains uncertainty and refuses another invocation
+  ---
+  duration_ms: 541.341394
+  type: 'test'
+  ...
+# Subtest: a starter that throws retains uncertainty and refuses another invocation
+ok 17 - a starter that throws retains uncertainty and refuses another invocation
+  ---
+  duration_ms: 0.424084
+  type: 'test'
+  ...
+# Subtest: a completed child handle cannot be reused for a new invocation
+ok 18 - a completed child handle cannot be reused for a new invocation
+  ---
+  duration_ms: 46.445779
+  type: 'test'
+  ...
+# Subtest: child factory without an explicit cleanup hook is rejected before worker execution
+ok 19 - child factory without an explicit cleanup hook is rejected before worker execution
+  ---
+  duration_ms: 99.051273
+  type: 'test'
+  ...
+# Subtest: service rejects caller-selected capabilities, mixed scope and accessor bindings before connecting
+ok 20 - service rejects caller-selected capabilities, mixed scope and accessor bindings before connecting
+  ---
+  duration_ms: 4.168947
+  type: 'test'
+  ...
+# Subtest: metadata connection, generation and leader-session loss latch the service without reopening
+ok 21 - metadata connection, generation and leader-session loss latch the service without reopening
+  ---
+  duration_ms: 5.006898
+  type: 'test'
+  ...
+# Subtest: run loop stops on abort and closes its owned metadata session once
+ok 22 - run loop stops on abort and closes its owned metadata session once
+  ---
+  duration_ms: 21.676599
+  type: 'test'
+  ...
+# Subtest: service CLI rejects insecure installation files before importing them and uses fixed diagnostics
+ok 23 - service CLI rejects insecure installation files before importing them and uses fixed diagnostics
+  ---
+  duration_ms: 183.618882
+  type: 'test'
+  ...
+# Subtest: generation-bound supervised bootstrap closes a mismatched factory before any operation
+ok 24 - generation-bound supervised bootstrap closes a mismatched factory before any operation
+  ---
+  duration_ms: 103.091696
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: durable service discovers approved jobs, executes only V2 suffix and records a later NOOP without replay
+ok 25 - durable service discovers approved jobs, executes only V2 suffix and records a later NOOP without replay
+  ---
+  duration_ms: 65518.301438
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: service recovers expiry before dispatch, preserves history, and waits on unresolved live claims
+ok 26 - service recovers expiry before dispatch, preserves history, and waits on unresolved live claims
+  ---
+  duration_ms: 16461.539819
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: bounded FIFO pages pass an ineligible request without starving later approved work
+ok 27 - bounded FIFO pages pass an ineligible request without starving later approved work
+  ---
+  duration_ms: 14049.426031
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: service cleanup uncertainty preserves durable success and stops further dispatch until explicit restart
+ok 28 - service cleanup uncertainty preserves durable success and stops further dispatch until explicit restart
+  ---
+  duration_ms: 24173.447665
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: generation changes after dispatch fence stale receipt, HOLD and every durable attempt write
+    # Subtest: RECEIPT
+    ok 1 - RECEIPT
+      ---
+      duration_ms: 21307.403125
+      type: 'test'
+      ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+    # Subtest: HOLD
+    ok 2 - HOLD
+      ---
+      duration_ms: 21152.428346
+      type: 'test'
+      ...
+    1..2
+ok 29 - generation changes after dispatch fence stale receipt, HOLD and every durable attempt write
+  ---
+  duration_ms: 42461.362656
+  type: 'test'
+  ...
+# Subtest: service CLI boots on owned metadata, drains on SIGTERM, and releases leadership for restart
+ok 30 - service CLI boots on owned metadata, drains on SIGTERM, and releases leadership for restart
+  ---
+  duration_ms: 336.650187
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: leader connection loss terminates active migration before its second statement and preserves uncertainty
+ok 31 - leader connection loss terminates active migration before its second statement and preserves uncertainty
+  ---
+  duration_ms: 13706.418381
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: unknown child exit stops dispatch and retains leadership until the actual child is reaped
+ok 32 - unknown child exit stops dispatch and retains leadership until the actual child is reaped
+  ---
+  duration_ms: 11906.463136
+  type: 'test'
+  ...
+1..32
+# tests 34
+# suites 0
+# pass 34
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 192831.932291

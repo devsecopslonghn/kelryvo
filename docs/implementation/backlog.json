@@ -3397,13 +3397,56 @@
         "SF-PRODUCT-T36-OPERATOR",
         "SF-PRODUCT-T36-RECOVERY"
       ],
-      "status": "IMPLEMENTED",
+      "status": "VERIFIED",
       "source_paths": [
         "docs/implementation/backlog.json"
       ],
       "evidence": [
         {
           "index_id": "product-t36-metadata-expiry-recovery-local"
+        },
+        {
+          "index_id": "product-t36-metadata-expiry-recovery-ci"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T37",
+      "package": "PRODUCT",
+      "assigned_agent": "orchestrator",
+      "title": "Connect the durable queue to a generation-bound installed execution service",
+      "dependencies": [
+        "SF-PRODUCT-T36"
+      ],
+      "feature_ids": [
+        "OPS-002",
+        "OPS-003",
+        "OPS-019",
+        "MIG-011"
+      ],
+      "acceptance_criteria": [
+        "Install a fixed execution service with one PostgreSQL session leader and one active supervised child per metadata database. Snapshot reviewed factory/environment/limits before metadata startup; reject mixed UNIT/trusted capabilities and request-selected routes. Keep API credentials and target writer capability separate.",
+        "Discover bounded FIFO waiting requests with exact keyset timestamps, pass ineligible requests without starving later work, and recover expired CLAIMED attempts before dispatch. Preserve original history and wait on unresolved admitted jobs. Never renew, reclaim, replay or release HOLD.",
+        "Pin service children and every durable attempt write to the exact active metadata generation. Connection, leader-session or generation loss stops dispatch without reconnect. Transport, cleanup or projection uncertainty retires the service without overwriting committed terminal facts.",
+        "Provide a private OS-installed CLI with fixed diagnostics and SIGTERM/SIGINT drain. Stop scheduling new work, await active operations and confirmed child exit before releasing metadata leadership. Unknown termination retains ownership and prevents replacement while the process lives; no OS sandbox or deployed orphan containment is inferred.",
+        "Verify actual isolated PostgreSQL, real supervised children and Git/parser/approval/request/history integration with UNIT target ports: V1 then pending-only V2 and NOOP; expiry/live leases, bounded fairness, generation races, private CLI and unconfirmed child drain. Preserve backup compatibility and existing required Foundation/parser/PRODUCT/CodeQL GitHub Actions; no Oracle runtime certification."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T37-QUEUE",
+        "SF-PRODUCT-T37-GENERATION",
+        "SF-PRODUCT-T37-DRAIN"
+      ],
+      "status": "IMPLEMENTED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t37-installed-execution-service-local"
+        },
+        {
+          "index_id": "product-t37-authority-retirement-local"
         }
       ],
       "blockers": []

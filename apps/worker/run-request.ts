@@ -29,25 +29,30 @@ export type ExecutionHost = {
 /** A real request can advance only through installed trusted host capabilities.
  * UNIT hosts require an explicit option and produce UNIT_SYNTHETIC facts only.
  */
-export function createExecutionWorker(sql: any, host: ExecutionHost, options: { allowUnitSynthetic?: boolean; leaseSeconds?: number } = {}) {
+export function createExecutionWorker(sql: any, host: ExecutionHost, options: { allowUnitSynthetic?: boolean; leaseSeconds?: number; expectedMetadataGenerationId?: string } = {}) {
   const scope = host?.scope, workerId = host?.workerId;
   const leaseSeconds = options.leaseSeconds ?? 300;
   if (!host || typeof host.withTarget !== 'function' || !/^[A-Za-z0-9._:-]{1,100}$/.test(workerId ?? '')
       || !['TRUSTED_VALIDATED','UNIT_SYNTHETIC'].includes(scope)
       || scope === 'UNIT_SYNTHETIC' && options.allowUnitSynthetic !== true
-      || !Number.isInteger(leaseSeconds) || leaseSeconds < 1 || leaseSeconds > 300) throw new Error('Trusted execution host unavailable');
-  const store = createExecutionJobStore(sql, workerId, { allowUnitSynthetic:scope === 'UNIT_SYNTHETIC' });
-  return Object.freeze({ scope, workerId,
+      || !Number.isInteger(leaseSeconds) || leaseSeconds < 1 || leaseSeconds > 300
+      || options.expectedMetadataGenerationId !== undefined && !executionUuid(options.expectedMetadataGenerationId)) throw new Error('Trusted execution host unavailable');
+  const expectedMetadataGenerationId = options.expectedMetadataGenerationId;
+  const store = createExecutionJobStore(sql, workerId, { allowUnitSynthetic:scope === 'UNIT_SYNTHETIC', expectedMetadataGenerationId });
+  return Object.freeze({ scope, workerId, expectedMetadataGenerationId,
     async runWaitingRequest(jobId: string) {
       if (!executionUuid(jobId)) return 'ADMISSION_DECLINED' as const;
       let admitted = false;
+      let operationStore = store;
       const recovery: { claim?: { generation: number; lease: string } } = {};
       try {
         const candidate = await sql.begin(async (tx: any) => {
           await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
           return readExecutionRequest(tx,jobId);
         });
-        if (!candidate) return 'ADMISSION_DECLINED' as const;
+        if (!candidate || expectedMetadataGenerationId !== undefined && candidate.generationId !== expectedMetadataGenerationId) return 'ADMISSION_DECLINED' as const;
+        operationStore = createExecutionJobStore(sql,workerId,{ allowUnitSynthetic:scope === 'UNIT_SYNTHETIC',
+          expectedMetadataGenerationId:candidate.generationId });
         const materialized = await materializeExecutionRequest(candidate);
         if (!materialized) return 'ADMISSION_DECLINED' as const;
         const expectedSnapshot = candidate.snapshotDigest;
@@ -120,7 +125,7 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
           });
           const authorizationCurrent = async () => await withAuthority(async () => true) === true;
           const finish = async (_job: any, _generation: number, state: 'HOLD' | 'NOOP' | 'VERIFIED_SUCCESS') => {
-            if (state === 'HOLD') return Boolean(await store.finish(jobId,claim.generation,claim.lease,state));
+            if (state === 'HOLD') return Boolean(await operationStore.finish(jobId,claim.generation,claim.lease,state));
             const finished = await withAuthority(async (tx: any) => {
               if (await session.current(observation) !== true || await session.verifyPostconditions() !== true
                   || await session.centralEvidenceComplete() !== true) return false;
@@ -129,7 +134,8 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
               const atomicSql = new Proxy(tx, { get(target,key) {
                 return key === 'begin' ? (run: (tx: any) => unknown) => run(target) : Reflect.get(target,key);
               } });
-              const atomicStore = createExecutionJobStore(atomicSql,workerId,{ allowUnitSynthetic:scope === 'UNIT_SYNTHETIC' });
+              const atomicStore = createExecutionJobStore(atomicSql,workerId,{ allowUnitSynthetic:scope === 'UNIT_SYNTHETIC',
+                expectedMetadataGenerationId:candidate.generationId });
               if (state === 'VERIFIED_SUCCESS' && !await atomicStore.recordValidity(jobId,claim.generation,claim.lease,{
                 validity:'VALID',postconditions:'PASS',scope,
                 targetIdentityDigest:observation.targetIdentityDigest,historySnapshotDigest:observation.historySnapshotDigest,
@@ -138,7 +144,7 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
               return Boolean(await atomicStore.finish(jobId,claim.generation,claim.lease,state));
             });
             if (finished === true) return true;
-            await store.finish(jobId,claim.generation,claim.lease,'HOLD');
+            await operationStore.finish(jobId,claim.generation,claim.lease,'HOLD');
             return false;
           };
           const result = await coordinate(job, {
@@ -156,9 +162,9 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
                 && Buffer.from(statement.bytes).equals(Buffer.from(statements[index].bytes))),
             holdCanonicalMutex:async key => key === observation.targetKey && await session.current(observation) === true,
             pendingCount:async () => statements.length,
-            persistNoop:async () => { if (!await store.recordNoop(jobId,claim.generation,claim.lease)) throw new Error('Noop not committed'); },
+            persistNoop:async () => { if (!await operationStore.recordNoop(jobId,claim.generation,claim.lease)) throw new Error('Noop not committed'); },
             persistStarted:async (_job,generation,ordinal,digest) => {
-              if (!await store.startStatement(jobId,generation,claim.lease,ordinal,digest)) throw new Error('Started not committed');
+              if (!await operationStore.startStatement(jobId,generation,claim.lease,ordinal,digest)) throw new Error('Started not committed');
             },
             executeStatement:async bytes => {
               // Final check and target call share one transaction boundary with
@@ -176,8 +182,8 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
               const witness = await session.recordTargetReceipt(receipt);
               if (!witness || !/^[a-f0-9]{64}$/.test(witness.receiptDigest ?? '')
                   || witness.centralEvidenceDigest !== observation.centralEvidenceDigest) return false;
-              if (!await store.acknowledgeStatement(jobId,claim.generation,claim.lease,receipt.ordinal,receipt.statementDigest)) return false;
-              return Boolean(await store.recordReceipt(jobId,claim.generation,claim.lease,receipt.ordinal,
+              if (!await operationStore.acknowledgeStatement(jobId,claim.generation,claim.lease,receipt.ordinal,receipt.statementDigest)) return false;
+              return Boolean(await operationStore.recordReceipt(jobId,claim.generation,claim.lease,receipt.ordinal,
                 receipt.statementDigest,witness.receiptDigest,witness.centralEvidenceDigest));
             },
             verifyPostconditions:async () => await session.verifyPostconditions() === true,
@@ -194,7 +200,7 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
       } catch {
         if (recovery.claim) {
           try {
-            if (await store.finish(jobId,recovery.claim.generation,recovery.claim.lease,'HOLD')) return 'HOLD' as const;
+            if (await operationStore.finish(jobId,recovery.claim.generation,recovery.claim.lease,'HOLD')) return 'HOLD' as const;
           } catch { /* Uncertain persistence stays pending until explicit expiry recovery. */ }
         }
         return admitted ? 'HOLD_PERSISTENCE_PENDING' as const : 'ADMISSION_DECLINED' as const;

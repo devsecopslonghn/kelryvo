@@ -418,6 +418,10 @@ export async function initializeDatabase(sql: any, options: { initializeMetadata
       ordinal integer, statement_digest text CHECK(statement_digest IS NULL OR statement_digest ~ '^[a-f0-9]{64}$'),
       facts jsonb NOT NULL DEFAULT '{}'::jsonb, created_at timestamptz NOT NULL DEFAULT clock_timestamp(), UNIQUE(attempt_id,revision)
     );
+    CREATE INDEX IF NOT EXISTS sf_execution_jobs_waiting_queue ON sf_execution_jobs(organization_id,created_at,id)
+      WHERE state='WAITING_VALIDATION';
+    CREATE INDEX IF NOT EXISTS sf_execution_attempts_expiry_queue ON sf_execution_attempts(lease_until,job_id)
+      WHERE state='CLAIMED';
     CREATE OR REPLACE FUNCTION sf_reject_execution_attempt_mutation() RETURNS trigger LANGUAGE plpgsql AS $$
       BEGIN
         IF TG_OP='DELETE' THEN RAISE EXCEPTION 'execution attempts cannot be deleted'; END IF;

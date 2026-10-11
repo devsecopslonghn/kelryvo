@@ -36,6 +36,7 @@
     "local:backup-restore": "node scripts/local-backup-operator.mjs",
     "local:membership": "node scripts/local-membership-operator.mjs",
     "local:execution-recovery": "node scripts/local-execution-recovery.mjs",
+    "worker:service": "node apps/worker/execution-service-main.mjs",
     "dev": "npm run build:web && node scripts/local-dev.mjs",
     "test:product": "node scripts/test-product.mjs",
     "test:browser": "npm run build:web && node scripts/test-product.mjs --browser",

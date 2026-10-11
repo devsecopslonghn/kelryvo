@@ -59,9 +59,9 @@ function createInstalledWorkerFactory(binding, recoverOnly) {
   // Recovery may be installed with metadata identity alone. Never manufacture an
   // Oracle host to obtain a PostgreSQL-only safety operation.
   const metadataOnly = recoverOnly && installationRecord(binding,
-    ['databaseUrl', 'scope', 'workerId'], ['allowUnitSynthetic', 'openMetadata']);
+    ['databaseUrl', 'scope', 'workerId'], ['allowUnitSynthetic', 'openMetadata', 'expectedMetadataGenerationId']);
   const keys = ['databaseUrl', 'installedOracle'];
-  const optional = ['allowUnitSynthetic', 'unitGetConnection', 'openMetadata', 'leaseSeconds'];
+  const optional = ['allowUnitSynthetic', 'unitGetConnection', 'openMetadata', 'leaseSeconds', 'expectedMetadataGenerationId'];
   binding = metadataOnly || installationRecord(binding, keys, optional);
   if (!binding || !validMetadataUrl(binding.databaseUrl)) throw reject();
 
@@ -77,6 +77,8 @@ function createInstalledWorkerFactory(binding, recoverOnly) {
   if (binding.openMetadata !== undefined && (scope !== 'UNIT_SYNTHETIC' || typeof binding.openMetadata !== 'function')) throw reject();
   const leaseSeconds = binding.leaseSeconds ?? 300;
   if (!Number.isInteger(leaseSeconds) || leaseSeconds < 1 || leaseSeconds > 300) throw reject();
+  const expectedMetadataGenerationId = binding.expectedMetadataGenerationId;
+  if (expectedMetadataGenerationId !== undefined && !executionUuid(expectedMetadataGenerationId)) throw reject();
 
   // Snapshot only privileged installation values. Oracle credentials/options remain in installed closures.
   const databaseUrl = binding.databaseUrl;
@@ -101,8 +103,8 @@ function createInstalledWorkerFactory(binding, recoverOnly) {
       if (!metadataClient(sql)) throw reject();
       let worker;
       if (recoverOnly) {
-        const store = createExecutionJobStore(sql, installedOracle.workerId, { allowUnitSynthetic });
-        worker = { scope, workerId: installedOracle.workerId,
+        const store = createExecutionJobStore(sql, installedOracle.workerId, { allowUnitSynthetic, expectedMetadataGenerationId });
+        worker = { scope, workerId: installedOracle.workerId, expectedMetadataGenerationId,
           async recoverExpired(jobId) {
             const recovered = await store.claim(jobId, 30, true);
             return recovered?.recoveredHold ? 'HOLD' : 'NOT_RECOVERED';
@@ -110,7 +112,7 @@ function createInstalledWorkerFactory(binding, recoverOnly) {
       } else {
         const provider = createPrivateOracleProvider(installedOracle, oracleOptions);
         const host = createRestrictedOracleHost(provider, scope === 'UNIT_SYNTHETIC' ? { allowUnitSynthetic: true } : {});
-        worker = makeExecutionWorker(sql, host, { allowUnitSynthetic, leaseSeconds });
+        worker = makeExecutionWorker(sql, host, { allowUnitSynthetic, leaseSeconds, expectedMetadataGenerationId });
       }
       const operation = recoverOnly ? worker.recoverExpired : worker.runWaitingRequest;
       if (worker.scope !== scope || worker.workerId !== installedOracle.workerId
@@ -123,6 +125,7 @@ function createInstalledWorkerFactory(binding, recoverOnly) {
       return Object.freeze({
         scope,
         workerId: installedOracle.workerId,
+        expectedMetadataGenerationId,
         runWaitingRequest(jobId, ...extra) {
           if (closing || runStarted || extra.length || !executionUuid(jobId)) return Promise.reject(reject());
           runStarted = true;

@@ -3715,6 +3715,84 @@
       },
       "path": "evidence/product/metadata-expiry-recovery/record.json",
       "sha256": "21fe0da8ca2c71603b3c06f50e6723e59b0f0268c2c9f54ab5672680aa086b80"
+    },
+    {
+      "id": "product-t36-metadata-expiry-recovery-ci",
+      "subject_id": "SF-PRODUCT-T36",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "gh pr checks 62; gh api commits/95ade29572adf56f16be82b5d5a6d0437e235dec/check-runs; gh run view --log completed PRODUCT jobs: exact candidate and resulting master Foundation/parser/PRODUCT/CodeQL succeeded; API95/browser33/release1 passed with zero PRODUCT skips; independent exact-head review and tree/count parity. No Oracle runtime or deployed isolation attestation.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        3
+      ],
+      "test_references": [
+        "SF-PRODUCT-T36-FACTORY",
+        "SF-PRODUCT-T36-OPERATOR",
+        "SF-PRODUCT-T36-RECOVERY"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/execution-service/metadata-recovery-ci.json",
+        "sha256": "3da795d5e22760c7a5a4958bfad1cdb087e8965cf38442b2d3d92c3b13caaf34"
+      },
+      "path": "evidence/product/execution-service/metadata-recovery-ci-record.json",
+      "sha256": "a32f9f075710f3ff9aac9c336b8cd6b800b5642167e7444f6d14f58e90885408"
+    },
+    {
+      "id": "product-t37-installed-execution-service-local",
+      "subject_id": "SF-PRODUCT-T37",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Final isolated PostgreSQL execution-service14PASS/0skips and deterministic microsecond FIFO1PASS/0skips; prior unchanged kernel/factory/supervisor/native-backup46PASS within retained failing run. Fixed generation writes and FIFO driver cursor. No Oracle runtime, deployed isolation or remote-CI claim.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "test_references": [
+        "SF-PRODUCT-T37-QUEUE",
+        "SF-PRODUCT-T37-GENERATION",
+        "SF-PRODUCT-T37-DRAIN"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/execution-service/local-acceptance-summary.json",
+        "sha256": "77058a71cc80eb8e29fe590c7da90908c96c482645c8fce75d4468e8369335a1"
+      },
+      "path": "evidence/product/execution-service/local-record.json",
+      "sha256": "b3bee3a6c19456168ff071a5ed987e8f7141389b8ca795cb831cecfb309386e3"
+    },
+    {
+      "id": "product-t37-authority-retirement-local",
+      "subject_id": "SF-PRODUCT-T37",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Actual isolated PostgreSQL service15/supervisor19: 34 PASS, zero failures/cancellations/skips, including active leader loss. npm run check: 300 PASS, 61 existing offline PostgreSQL-gated skips. Permanent supervisor retirement, confirmed child exit and unchanged uncertainty; no Oracle/deployment/remote-CI claim.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "test_references": [
+        "SF-PRODUCT-T37-QUEUE",
+        "SF-PRODUCT-T37-GENERATION",
+        "SF-PRODUCT-T37-DRAIN"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/execution-service/authority-retirement-summary.json",
+        "sha256": "a6d19ccf409d5b67e78adea96a05a7f41520c15ca79fb6dc295c69b8525b4120"
+      },
+      "path": "evidence/product/execution-service/authority-retirement-record.json",
+      "sha256": "bfbd9d36af2649ab5600314fddf4c7e5de176ccba1119bdf9a9ac2ea8f55de05"
     }
   ]
 }

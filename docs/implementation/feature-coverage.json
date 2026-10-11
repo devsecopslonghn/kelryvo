@@ -12,8 +12,8 @@
     "BLOCKED_EXTERNAL is reserved for an otherwise implemented/ready feature missing only external evidence; unimplemented features are not relabeled merely because Oracle access is absent."
   ],
   "summary": {
-    "PARTIALLY_IMPLEMENTED": 55,
-    "NOT_IMPLEMENTED": 158,
+    "PARTIALLY_IMPLEMENTED": 57,
+    "NOT_IMPLEMENTED": 156,
     "DEFERRED": 7,
     "BLOCKED_EXTERNAL": 0,
     "IMPLEMENTED_AND_VERIFIED": 0
@@ -21,8 +21,8 @@
   "by_milestone": {
     "MVP-Core": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 7,
-      "NOT_IMPLEMENTED": 10,
+      "PARTIALLY_IMPLEMENTED": 8,
+      "NOT_IMPLEMENTED": 9,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     },
@@ -56,8 +56,8 @@
     },
     "WS": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 42,
-      "NOT_IMPLEMENTED": 32,
+      "PARTIALLY_IMPLEMENTED": 43,
+      "NOT_IMPLEMENTED": 31,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     }
@@ -685,6 +685,16 @@
         "mvp-worker-lifecycle-local-verified",
         "mvp-private-provider-continuous-expiry-local-verified",
         "mvp-installed-worker-factory-local-verified"
+      ],
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T37",
+          "behavior": "Bounded FIFO queue discovery, generation-bound serial children, metadata-only expiry HOLD, and drain retaining leadership until confirmed child reap. Synthetic target effects only; no deployed or Oracle runtime acceptance.",
+          "evidence": [
+            "product-t37-installed-execution-service-local",
+            "product-t37-authority-retirement-local"
+          ]
+        }
       ]
     },
     {
@@ -2176,14 +2186,34 @@
         "mvp-worker-lifecycle-local-verified",
         "mvp-private-provider-continuous-expiry-local-verified",
         "mvp-installed-worker-factory-local-verified"
+      ],
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T37",
+          "behavior": "Bounded FIFO queue discovery, generation-bound serial children, metadata-only expiry HOLD, and drain retaining leadership until confirmed child reap. Synthetic target effects only; no deployed or Oracle runtime acceptance.",
+          "evidence": [
+            "product-t37-installed-execution-service-local",
+            "product-t37-authority-retirement-local"
+          ]
+        }
       ]
     },
     {
       "id": "OPS-003",
       "name": "Execution queues and concurrency budgets",
       "milestone": "MVP-Core",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Installed serial queue service, metadata-session leadership and shutdown drain verified with real isolated PostgreSQL and separate UNIT worker children. Full catalog concurrency/restart/isolation and Oracle runtime acceptance remain missing.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T37",
+          "behavior": "Bounded FIFO queue discovery, generation-bound serial children, metadata-only expiry HOLD, and drain retaining leadership until confirmed child reap. Synthetic target effects only; no deployed or Oracle runtime acceptance.",
+          "evidence": [
+            "product-t37-installed-execution-service-local",
+            "product-t37-authority-retirement-local"
+          ]
+        }
+      ]
     },
     {
       "id": "OPS-004",
@@ -2336,8 +2366,18 @@
       "id": "OPS-019",
       "name": "Graceful shutdown and drain",
       "milestone": "WS",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Installed serial queue service, metadata-session leadership and shutdown drain verified with real isolated PostgreSQL and separate UNIT worker children. Full catalog concurrency/restart/isolation and Oracle runtime acceptance remain missing.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T37",
+          "behavior": "Bounded FIFO queue discovery, generation-bound serial children, metadata-only expiry HOLD, and drain retaining leadership until confirmed child reap. Synthetic target effects only; no deployed or Oracle runtime acceptance.",
+          "evidence": [
+            "product-t37-installed-execution-service-local",
+            "product-t37-authority-retirement-local"
+          ]
+        }
+      ]
     },
     {
       "id": "OPS-020",
@@ -2666,5 +2706,13 @@
     "local_acceptance": "Focused recovery regression passed 4/4 at e182790 with zero skips; full acceptance remains incomplete. Prior interrupted APIs and failed assertion are retained.",
     "source_review": "NO_BLOCKER_SOURCE_ONLY",
     "full_catalog_promotion": false
+  },
+  "installed_queue_service": {
+    "task": "SF-PRODUCT-T37",
+    "evidence": "product-t37-installed-execution-service-local",
+    "status": "LOCALLY_VERIFIED_CANDIDATE_CI_PENDING",
+    "base_master": "95ade29572adf56f16be82b5d5a6d0437e235dec",
+    "full_catalog_promotion": false,
+    "oracle_runtime_verified": false
   }
 }

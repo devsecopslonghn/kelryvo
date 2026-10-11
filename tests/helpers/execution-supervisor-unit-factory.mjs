@@ -34,8 +34,9 @@ export async function createExecutionWorker() {
       verifyPostconditions: async () => true, centralEvidenceComplete: async () => true });
     return result;
   } };
-  const worker = makeWorker(sql, host, { allowUnitSynthetic: true });
-  return { scope: worker.scope, workerId: worker.workerId, runWaitingRequest: worker.runWaitingRequest, close: async () => {
+  const worker = makeWorker(sql, host, { allowUnitSynthetic: true, expectedMetadataGenerationId: process.env.SCHEMAFORGE_METADATA_GENERATION_ID });
+  return { scope: worker.scope, workerId: worker.workerId, expectedMetadataGenerationId: worker.expectedMetadataGenerationId,
+    runWaitingRequest: worker.runWaitingRequest, close: async () => {
     await sql.end({ timeout: 1 });
     if (process.env.SCHEMAFORGE_UNIT_CLEANUP_FAULT === 'throw') throw new Error('unit_cleanup_fault');
   } };

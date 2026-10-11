@@ -1,0 +1,122 @@
+TAP version 13
+# Subtest: service rejects caller-selected capabilities, mixed scope and accessor bindings before connecting
+ok 1 - service rejects caller-selected capabilities, mixed scope and accessor bindings before connecting
+  ---
+  duration_ms: 4.176233
+  type: 'test'
+  ...
+# Subtest: metadata connection, generation and leader-session loss latch the service without reopening
+ok 2 - metadata connection, generation and leader-session loss latch the service without reopening
+  ---
+  duration_ms: 4.685493
+  type: 'test'
+  ...
+# Subtest: run loop stops on abort and closes its owned metadata session once
+ok 3 - run loop stops on abort and closes its owned metadata session once
+  ---
+  duration_ms: 21.077521
+  type: 'test'
+  ...
+# Subtest: service CLI rejects insecure installation files before importing them and uses fixed diagnostics
+ok 4 - service CLI rejects insecure installation files before importing them and uses fixed diagnostics
+  ---
+  duration_ms: 193.899545
+  type: 'test'
+  ...
+# Subtest: generation-bound supervised bootstrap closes a mismatched factory before any operation
+ok 5 - generation-bound supervised bootstrap closes a mismatched factory before any operation
+  ---
+  duration_ms: 99.640517
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: durable service discovers approved jobs, executes only V2 suffix and records a later NOOP without replay
+ok 6 - durable service discovers approved jobs, executes only V2 suffix and records a later NOOP without replay
+  ---
+  duration_ms: 61846.709812
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: service recovers expiry before dispatch, preserves history, and waits on unresolved live claims
+ok 7 - service recovers expiry before dispatch, preserves history, and waits on unresolved live claims
+  ---
+  duration_ms: 16459.086927
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: bounded FIFO pages pass an ineligible request without starving later approved work
+ok 8 - bounded FIFO pages pass an ineligible request without starving later approved work
+  ---
+  duration_ms: 14007.984896
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: service cleanup uncertainty preserves durable success and stops further dispatch until explicit restart
+ok 9 - service cleanup uncertainty preserves durable success and stops further dispatch until explicit restart
+  ---
+  duration_ms: 24167.277367
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: generation changes after dispatch fence stale receipt, HOLD and every durable attempt write
+    # Subtest: RECEIPT
+    ok 1 - RECEIPT
+      ---
+      duration_ms: 21537.751467
+      type: 'test'
+      ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+    # Subtest: HOLD
+    ok 2 - HOLD
+      ---
+      duration_ms: 21043.54888
+      type: 'test'
+      ...
+    1..2
+ok 10 - generation changes after dispatch fence stale receipt, HOLD and every durable attempt write
+  ---
+  duration_ms: 42582.886167
+  type: 'test'
+  ...
+# Subtest: service CLI boots on owned metadata, drains on SIGTERM, and releases leadership for restart
+ok 11 - service CLI boots on owned metadata, drains on SIGTERM, and releases leadership for restart
+  ---
+  duration_ms: 337.173202
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: unknown child exit stops dispatch and retains leadership until the actual child is reaped
+ok 12 - unknown child exit stops dispatch and retains leadership until the actual child is reaped
+  ---
+  duration_ms: 11956.466401
+  type: 'test'
+  ...
+1..12
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 171837.480595

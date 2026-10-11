@@ -1,0 +1,415 @@
+{
+  "task": "SF-PRODUCT-T36",
+  "candidate": {
+    "head": "2d7620349216cc251eeba5c7f574775420fdda6b",
+    "pr": 62,
+    "review": "Independent exact-head native review: no blocking findings",
+    "allChecksPassed": true,
+    "counts": [
+      {
+        "suite": "acceptance (api, 2/2)",
+        "jobId": 114442299154,
+        "counts": [
+          {
+            "field": "tests",
+            "value": 59
+          },
+          {
+            "field": "pass",
+            "value": 59
+          },
+          {
+            "field": "fail",
+            "value": 0
+          },
+          {
+            "field": "cancelled",
+            "value": 0
+          },
+          {
+            "field": "skipped",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "suite": "acceptance (release, 1/1)",
+        "jobId": 114442299325,
+        "counts": [
+          {
+            "field": "tests",
+            "value": 1
+          },
+          {
+            "field": "pass",
+            "value": 1
+          },
+          {
+            "field": "fail",
+            "value": 0
+          },
+          {
+            "field": "cancelled",
+            "value": 0
+          },
+          {
+            "field": "skipped",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "suite": "acceptance (api, 1/2)",
+        "jobId": 114442299337,
+        "counts": [
+          {
+            "field": "tests",
+            "value": 36
+          },
+          {
+            "field": "pass",
+            "value": 36
+          },
+          {
+            "field": "fail",
+            "value": 0
+          },
+          {
+            "field": "cancelled",
+            "value": 0
+          },
+          {
+            "field": "skipped",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "suite": "acceptance (browser, 2/2)",
+        "jobId": 114442299343,
+        "counts": [
+          {
+            "field": "tests",
+            "value": 17
+          },
+          {
+            "field": "pass",
+            "value": 17
+          },
+          {
+            "field": "fail",
+            "value": 0
+          },
+          {
+            "field": "cancelled",
+            "value": 0
+          },
+          {
+            "field": "skipped",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "suite": "acceptance (browser, 1/2)",
+        "jobId": 114442299398,
+        "counts": [
+          {
+            "field": "tests",
+            "value": 16
+          },
+          {
+            "field": "pass",
+            "value": 16
+          },
+          {
+            "field": "fail",
+            "value": 0
+          },
+          {
+            "field": "cancelled",
+            "value": 0
+          },
+          {
+            "field": "skipped",
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "checks": [
+      {
+        "name": "Analyze (actions)",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130043808/job/114442302045"
+      },
+      {
+        "name": "acceptance (api, 1/2)",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130043555/job/114442299337"
+      },
+      {
+        "name": "parser",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130043529/job/114442299249"
+      },
+      {
+        "name": "foundation",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130043524/job/114442299163"
+      },
+      {
+        "name": "Analyze (java-kotlin)",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130043808/job/114442302101"
+      },
+      {
+        "name": "acceptance (api, 2/2)",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130043555/job/114442299154"
+      },
+      {
+        "name": "Analyze (javascript-typescript)",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130043808/job/114442302088"
+      },
+      {
+        "name": "acceptance (browser, 1/2)",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130043555/job/114442299398"
+      },
+      {
+        "name": "Analyze (python)",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130043808/job/114442301972"
+      },
+      {
+        "name": "acceptance (browser, 2/2)",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130043555/job/114442299343"
+      },
+      {
+        "name": "acceptance (release, 1/1)",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130043555/job/114442299325"
+      },
+      {
+        "name": "product",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130043555/job/114444380948"
+      },
+      {
+        "name": "CodeQL",
+        "conclusion": "SUCCESS",
+        "link": "https://github.com/devsecopslonghn/schemaForge/runs/114442394165"
+      }
+    ],
+    "limitations": [
+      "No Oracle environment, target effects or deployed isolation validation",
+      "GitGuardian external alert remains open; exact supplied finding classified as a release UUID false positive"
+    ]
+  },
+  "master": {
+    "head": "95ade29572adf56f16be82b5d5a6d0437e235dec",
+    "pr": 62,
+    "allChecksPassed": true,
+    "sameTreeAsReviewedCandidate": true,
+    "candidateMasterCountParity": true,
+    "counts": [
+      {
+        "suite": "acceptance (api, 1/2)",
+        "jobId": 114444809424,
+        "counts": [
+          {
+            "field": "tests",
+            "value": 36
+          },
+          {
+            "field": "pass",
+            "value": 36
+          },
+          {
+            "field": "fail",
+            "value": 0
+          },
+          {
+            "field": "cancelled",
+            "value": 0
+          },
+          {
+            "field": "skipped",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "suite": "acceptance (release, 1/1)",
+        "jobId": 114444809560,
+        "counts": [
+          {
+            "field": "tests",
+            "value": 1
+          },
+          {
+            "field": "pass",
+            "value": 1
+          },
+          {
+            "field": "fail",
+            "value": 0
+          },
+          {
+            "field": "cancelled",
+            "value": 0
+          },
+          {
+            "field": "skipped",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "suite": "acceptance (api, 2/2)",
+        "jobId": 114444809572,
+        "counts": [
+          {
+            "field": "tests",
+            "value": 59
+          },
+          {
+            "field": "pass",
+            "value": 59
+          },
+          {
+            "field": "fail",
+            "value": 0
+          },
+          {
+            "field": "cancelled",
+            "value": 0
+          },
+          {
+            "field": "skipped",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "suite": "acceptance (browser, 1/2)",
+        "jobId": 114444809599,
+        "counts": [
+          {
+            "field": "tests",
+            "value": 16
+          },
+          {
+            "field": "pass",
+            "value": 16
+          },
+          {
+            "field": "fail",
+            "value": 0
+          },
+          {
+            "field": "cancelled",
+            "value": 0
+          },
+          {
+            "field": "skipped",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "suite": "acceptance (browser, 2/2)",
+        "jobId": 114444809629,
+        "counts": [
+          {
+            "field": "tests",
+            "value": 17
+          },
+          {
+            "field": "pass",
+            "value": 17
+          },
+          {
+            "field": "fail",
+            "value": 0
+          },
+          {
+            "field": "cancelled",
+            "value": 0
+          },
+          {
+            "field": "skipped",
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "checks": [
+      {
+        "name": "product",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130890975/job/114446881641"
+      },
+      {
+        "name": "Analyze (python)",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130890962/job/114444811674"
+      },
+      {
+        "name": "Analyze (javascript-typescript)",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130890962/job/114444811643"
+      },
+      {
+        "name": "Analyze (actions)",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130890962/job/114444811620"
+      },
+      {
+        "name": "Analyze (java-kotlin)",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130890962/job/114444811599"
+      },
+      {
+        "name": "acceptance (browser, 2/2)",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130890975/job/114444809629"
+      },
+      {
+        "name": "acceptance (browser, 1/2)",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130890975/job/114444809599"
+      },
+      {
+        "name": "acceptance (api, 2/2)",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130890975/job/114444809572"
+      },
+      {
+        "name": "acceptance (release, 1/1)",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130890975/job/114444809560"
+      },
+      {
+        "name": "acceptance (api, 1/2)",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130890975/job/114444809424"
+      },
+      {
+        "name": "parser",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130890979/job/114444809365"
+      },
+      {
+        "name": "foundation",
+        "conclusion": "success",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38130890960/job/114444809360"
+      }
+    ],
+    "oracleRuntimeVerified": false,
+    "gitguardianExternalAlertClosed": false
+  }
+}

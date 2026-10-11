@@ -1,0 +1,44 @@
+{
+  "task": "SF-PRODUCT-T37",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "correction": "Independent review of 2f346af found that an active child could dispatch after leader connection loss. Earlier passing evidence did not test this case. Retirement now permanently stops both supervisors and uses confirmed termination/drain; prior raw evidence is retained unchanged.",
+  "source_integrity": {
+    "apps/worker/execution-service.mjs": "0c809652f5c4cf6e5278e85e015f0cee6e2dc26e7fd28638803c72c0b3b59ab4",
+    "apps/worker/supervisor.mjs": "38470e1f442d8adbc99a67f2fc6cae701e64876293e41b2b2933666bca28e9b5",
+    "tests/product-execution-service.test.mjs": "ba9188e535248d0e739b91cebc52c755f5e26ad0893a59e9887db679851ced9c",
+    "tests/execution-worker-supervisor.test.mjs": "9730337dd18a31f3645418d25eb8f3a57d124324e7c2cb09c1e411a4b6958240",
+    "tests/helpers/execution-leader-loss-unit-factory.mjs": "d8237c130e2ccb99814e412e0e63677aad0f83e88f92420e32a83662456cd4c3",
+    "docs/development/local-product.md": "d8549454f76fe33d5307be93f41ea67ac63616baed907918887ac602dfa80170"
+  },
+  "postgres": {
+    "command": "node --test --test-concurrency=1 tests/product-execution-service.test.mjs tests/execution-worker-supervisor.test.mjs with SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 and owned isolated PostgreSQL",
+    "exit_code": 0,
+    "tests": 34,
+    "passed": 34,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "service_cases": 15,
+    "supervisor_cases": 19,
+    "raw_output": {
+      "path": "evidence/product/execution-service/authority-retirement-postgres.log",
+      "sha256": "9b6475055c4a77b3931c548c17e8ac8cfd1c624c47dee344b46dc5257995f56b"
+    }
+  },
+  "standard_checks": {
+    "path": "evidence/product/execution-service/authority-retirement-checks.json",
+    "sha256": "9fb22023f5502c4c709cb46efc053c6c1d1a00bf7edf3a58ebf4ba57302db0df"
+  },
+  "verified_behaviors": [
+    "Leader loss after statement 1 target acknowledgement terminates and confirms actual child exit before service cycle completes; no statement 2 dispatch.",
+    "Exact ADMITTED/CLAIMED/STARTED history and receipts remain unchanged; explicit restart pauses rather than replaying.",
+    "Supervisor retirement before dispatch never spawns, after dispatch kills and reaps, permanently refuses replacement.",
+    "Existing V1→V2→NOOP, expiry-first recovery, live-claim pause, precise FIFO, generation receipt/HOLD fences, cleanup uncertainty, private CLI and unconfirmed-child drain pass."
+  ],
+  "limitations": [
+    "Required candidate and resulting-master GitHub Actions pending.",
+    "No Oracle runtime, installed writer credentials, service deployment, OS sandbox or forced-parent-death orphan containment verified.",
+    "Metadata disconnection releases its session lock; attempted child termination does not infer whether an already dispatched target effect occurred."
+  ]
+}
