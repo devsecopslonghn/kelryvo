@@ -57,8 +57,14 @@ PRODUCT runs the complete PostgreSQL/API/security, browser and fresh-source inst
 suites in parallel on separate runners and disposable PostgreSQL services. All run on
 every PR and master integration; no test list or skip policy changes. The stable `product`
 aggregate requires every matrix suite to succeed, including on failure or cancellation.
-API and browser lists each run in two complementary Node test shards, with files still
-serial inside each shard. Every shard has its own database; never run shards against
+API and browser lists each run on two complementary shards, with files still
+serial inside each shard. API files use deterministic partitions weighted by observed
+file durations in `scripts/product-test-shards.mjs`; browser files retain Node sharding.
+The API partition retains the full input list exactly once across all shards and keeps
+its original order within each shard. New unmeasured files receive a fixed estimate
+and remain included. Estimates affect placement only; refresh them from actual complete
+CI observations when useful, without changing tests, assertions or timeouts.
+Every shard has its own database; never run shards against
 the same database because fixtures reset shared metadata. Local commands run the full
 lists by default; `SCHEMAFORGE_TEST_SHARD=1/2` selects one shard explicitly. Compare
 the combined shard test counts to the baseline to verify complete coverage.
