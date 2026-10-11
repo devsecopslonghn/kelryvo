@@ -3444,6 +3444,9 @@
       "evidence": [
         {
           "index_id": "product-t37-installed-execution-service-local"
+        },
+        {
+          "index_id": "product-t37-authority-retirement-local"
         }
       ],
       "blockers": []

@@ -66,6 +66,28 @@ test('timeout kills and confirms child exit before returning', async () => {
   assert.equal(children[0].signalCode, 'SIGKILL');
 });
 
+test('authority retirement terminates the active child and permanently rejects replacement', async () => {
+  const { worker, children } = harness('ignore-term', { limits: { ...LIMITS, operationMs: 30_000 } });
+  const work = worker.runWaitingRequest(JOB);
+  await delay(100);
+  worker.retire(); worker.retire();
+  const result = await work;
+  assert.equal(result.reason, 'WORKER_AUTHORITY_RETIRED');
+  assert.equal(result.terminalReceipt, false); assert.equal(result.childTermination, 'REAPED');
+  assert.ok(['SIGTERM', 'SIGKILL'].includes(children[0].signalCode));
+  await worker.drain();
+  const next = await worker.runWaitingRequest(JOB);
+  assert.equal(next.reason, 'WORKER_AUTHORITY_RETIRED'); assert.equal(next.childTermination, 'NOT_STARTED');
+  assert.equal(children.length, 1);
+});
+
+test('authority retirement before dispatch never starts a child', async () => {
+  const { worker, children } = harness('success');
+  worker.retire();
+  assert.equal((await worker.runWaitingRequest(JOB)).childTermination, 'NOT_STARTED');
+  await worker.drain(); assert.equal(children.length, 0);
+});
+
 test('unconfirmed termination retains ownership and blocks replacement', async () => {
   const children = [];
   const startWorker = () => {

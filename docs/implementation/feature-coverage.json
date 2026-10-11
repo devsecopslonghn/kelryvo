@@ -691,7 +691,8 @@
           "task": "SF-PRODUCT-T37",
           "behavior": "Bounded FIFO queue discovery, generation-bound serial children, metadata-only expiry HOLD, and drain retaining leadership until confirmed child reap. Synthetic target effects only; no deployed or Oracle runtime acceptance.",
           "evidence": [
-            "product-t37-installed-execution-service-local"
+            "product-t37-installed-execution-service-local",
+            "product-t37-authority-retirement-local"
           ]
         }
       ]
@@ -2191,7 +2192,8 @@
           "task": "SF-PRODUCT-T37",
           "behavior": "Bounded FIFO queue discovery, generation-bound serial children, metadata-only expiry HOLD, and drain retaining leadership until confirmed child reap. Synthetic target effects only; no deployed or Oracle runtime acceptance.",
           "evidence": [
-            "product-t37-installed-execution-service-local"
+            "product-t37-installed-execution-service-local",
+            "product-t37-authority-retirement-local"
           ]
         }
       ]
@@ -2207,7 +2209,8 @@
           "task": "SF-PRODUCT-T37",
           "behavior": "Bounded FIFO queue discovery, generation-bound serial children, metadata-only expiry HOLD, and drain retaining leadership until confirmed child reap. Synthetic target effects only; no deployed or Oracle runtime acceptance.",
           "evidence": [
-            "product-t37-installed-execution-service-local"
+            "product-t37-installed-execution-service-local",
+            "product-t37-authority-retirement-local"
           ]
         }
       ]
@@ -2370,7 +2373,8 @@
           "task": "SF-PRODUCT-T37",
           "behavior": "Bounded FIFO queue discovery, generation-bound serial children, metadata-only expiry HOLD, and drain retaining leadership until confirmed child reap. Synthetic target effects only; no deployed or Oracle runtime acceptance.",
           "evidence": [
-            "product-t37-installed-execution-service-local"
+            "product-t37-installed-execution-service-local",
+            "product-t37-authority-retirement-local"
           ]
         }
       ]

@@ -3766,6 +3766,33 @@
       },
       "path": "evidence/product/execution-service/local-record.json",
       "sha256": "b3bee3a6c19456168ff071a5ed987e8f7141389b8ca795cb831cecfb309386e3"
+    },
+    {
+      "id": "product-t37-authority-retirement-local",
+      "subject_id": "SF-PRODUCT-T37",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Actual isolated PostgreSQL service15/supervisor19: 34 PASS, zero failures/cancellations/skips, including active leader loss. npm run check: 300 PASS, 61 existing offline PostgreSQL-gated skips. Permanent supervisor retirement, confirmed child exit and unchanged uncertainty; no Oracle/deployment/remote-CI claim.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "test_references": [
+        "SF-PRODUCT-T37-QUEUE",
+        "SF-PRODUCT-T37-GENERATION",
+        "SF-PRODUCT-T37-DRAIN"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/execution-service/authority-retirement-summary.json",
+        "sha256": "a6d19ccf409d5b67e78adea96a05a7f41520c15ca79fb6dc295c69b8525b4120"
+      },
+      "path": "evidence/product/execution-service/authority-retirement-record.json",
+      "sha256": "bfbd9d36af2649ab5600314fddf4c7e5de176ccba1119bdf9a9ac2ea8f55de05"
     }
   ]
 }

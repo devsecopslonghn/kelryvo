@@ -44,10 +44,13 @@ function factoryBinding(value, scope, databaseUrl) {
 
 /** Privileged installation only. No API/request argument can choose a route, child or operation. */
 export async function createInstalledExecutionService(value) {
-  let sql, reader;
+  let sql, reader, executor, recoverer;
   let closing = false, fault = null, cyclePromise = null, closePromise = null, running = false;
   const stop = new AbortController();
-  const fail = reason => { fault ??= reason; stop.abort(); };
+  const fail = reason => {
+    fault ??= reason; stop.abort();
+    executor?.retire(); recoverer?.retire();
+  };
   try {
     const binding = snapshot(value, ['databaseUrl', 'scope', 'executionFactory', 'recoveryFactory'],
       ['allowUnitSynthetic', 'openMetadata', 'pageSize', 'pollMs']);
@@ -80,7 +83,7 @@ export async function createInstalledExecutionService(value) {
       allowUnitSynthetic: scope === 'UNIT_SYNTHETIC', ...(factory.limits === undefined ? {} : { limits: factory.limits }),
       startWorker: createExecutionWorkerStarter({ factoryUrl: factory.factoryUrl,
         env: Object.freeze({ ...factory.env, SCHEMAFORGE_METADATA_GENERATION_ID: generationId }) }) });
-    const executor = supervisor(execution), recoverer = supervisor(recovery);
+    executor = supervisor(execution); recoverer = supervisor(recovery);
     let cursor = null;
     const held = results => Object.freeze({ status: 'HELD', reason: fault, scope, results: Object.freeze(results) });
     const current = async () => {

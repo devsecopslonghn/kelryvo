@@ -137,10 +137,10 @@ test('generation-bound supervised bootstrap closes a mismatched factory before a
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
 
-async function pipelineFixture() {
+async function pipelineFixture(firstStatementCount = 1) {
   const { statementEnvelopeFixture } = await import('./helpers/statement-envelope-fixture.mjs');
   const { declareReference, assignReference } = await import('../packages/catalog-reference/index.mjs');
-  const f = await statementEnvelopeFixture({ firstStatementCount: 1, firstFile: 'V1__service.sql', includeSecond: false });
+  const f = await statementEnvelopeFixture({ firstStatementCount, firstFile: 'V1__service.sql', includeSecond: false });
   try {
     await f.db.sql`CREATE TABLE sf_supervisor_unit_target(assignment_id UUID PRIMARY KEY,applied JSONB NOT NULL DEFAULT '[]'::jsonb,execute_calls INTEGER NOT NULL DEFAULT 0)`;
     await f.membership.deployGrant(f.project.id, f.actors[0].id);
@@ -407,6 +407,71 @@ test('service CLI boots on owned metadata, drains on SIGTERM, and releases leade
     const restarted = await createInstalledExecutionService(unitBinding(db.databaseUrl));
     assert.equal((await restarted.runCycle()).status, 'IDLE'); await restarted.close();
   } finally { child?.kill('SIGKILL'); await db.close(); await rm(directory, { recursive: true, force: true }); }
+});
+
+test('leader connection loss terminates active migration before its second statement and preserves uncertainty', {
+  skip: !enabled, timeout: 600_000,
+}, async () => {
+  const f = await pipelineFixture(2);
+  const originalKill = ChildProcess.prototype.kill;
+  let service, replacement, work, ownedChild, ownedPid;
+  try {
+    const { jobId } = await f.request();
+    await f.db.sql`CREATE TABLE sf_leader_loss_barrier(singleton BOOLEAN PRIMARY KEY CHECK(singleton),
+      child_pid INTEGER,ordinal INTEGER,released BOOLEAN NOT NULL DEFAULT FALSE)`;
+    await f.db.sql`INSERT INTO sf_leader_loss_barrier(singleton) VALUES(TRUE)`;
+    service = await createInstalledExecutionService({ ...f.binding, executionFactory: {
+      factoryUrl: new URL('./helpers/execution-leader-loss-unit-factory.mjs', import.meta.url).href,
+      workerId: 'unit-leader-loss', env: f.binding.executionFactory.env,
+      limits: { operationMs: 60_000, termGraceMs: 40, reapMs: 500, outputBytes: 1024 } } });
+    work = service.runCycle();
+    const reached = (async () => {
+      const deadline = Date.now() + 60_000;
+      while (Date.now() < deadline) {
+        const row = (await f.db.sql`SELECT child_pid,ordinal FROM sf_leader_loss_barrier WHERE singleton`)[0];
+        if (row.child_pid) return row;
+        await delay(20);
+      }
+      throw new Error('UNIT leader loss barrier timed out');
+    })();
+    const marker = await Promise.race([reached, work.then(() => { throw new Error('worker finished before barrier'); })]);
+    ownedPid = marker.child_pid; assert.ok(Number.isInteger(ownedPid) && ownedPid > 0); assert.equal(marker.ordinal, 1);
+    assert.equal((await f.target()).execute_calls, 1);
+    const retained = async () => ({
+      job: (await f.db.sql`SELECT state,revision FROM sf_execution_jobs WHERE id=${jobId}`)[0],
+      attempts: Array.from(await f.db.sql`SELECT * FROM sf_execution_attempts WHERE job_id=${jobId}`),
+      events: Array.from(await f.db.sql`SELECT * FROM sf_execution_attempt_events WHERE attempt_id IN
+        (SELECT id FROM sf_execution_attempts WHERE job_id=${jobId}) ORDER BY revision`),
+      receipts: Array.from(await f.db.sql`SELECT * FROM sf_execution_receipts WHERE job_id=${jobId}`),
+    });
+    const before = await retained();
+    assert.equal(before.job.state, 'ADMITTED'); assert.equal(before.events.at(-1).phase, 'STARTED');
+    ChildProcess.prototype.kill = function (signal) {
+      if (this.pid === ownedPid) ownedChild = this;
+      return originalKill.call(this, signal);
+    };
+    const leaders = await f.db.sql`SELECT a.pid FROM pg_locks l JOIN pg_stat_activity a ON a.pid=l.pid
+      WHERE l.locktype='advisory' AND l.classid=1397112658 AND l.objid=3 AND l.objsubid=2
+        AND l.granted AND a.datname=current_database()`;
+    assert.equal(leaders.length, 1, 'terminate only this isolated fixture leader session');
+    assert.equal((await f.db.sql`SELECT pg_terminate_backend(${leaders[0].pid}) AS terminated`)[0].terminated, true);
+    const result = await work;
+    assert.equal(result.status, 'HELD'); assert.equal(result.reason, 'METADATA_CONNECTION_LOST');
+    assert.ok(ownedChild && ownedChild.signalCode !== null, 'supervisor confirms actual child exit');
+    assert.throws(() => process.kill(ownedPid, 0), { code: 'ESRCH' }); ownedPid = null;
+    assert.equal((await f.target()).execute_calls, 1, 'second statement never dispatched');
+    assert.deepEqual(await retained(), before, 'unknown target effect never manufactures metadata completion');
+    await service.close(); service = null;
+    replacement = await createInstalledExecutionService(f.binding);
+    assert.equal((await replacement.runCycle()).status, 'WAITING_FOR_RECOVERY');
+    assert.equal((await f.target()).execute_calls, 1, 'explicit restart never replays the unresolved claim');
+    assert.deepEqual(await retained(), before);
+  } finally {
+    ChildProcess.prototype.kill = originalKill;
+    if (ownedPid) try { process.kill(ownedPid, 'SIGKILL'); } catch { /* Only this test-owned child. */ }
+    if (work) await work;
+    await service?.close(); await replacement?.close(); await f.close();
+  }
 });
 
 test('unknown child exit stops dispatch and retains leadership until the actual child is reaped', {

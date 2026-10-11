@@ -50,6 +50,7 @@ export function createSupervisedExecutionWorker({ startWorker, limits = LIMITS, 
   const timing = bounds(limits);
   let active = false;
   let unreapedChild = null;
+  const retirement = new AbortController();
   const drains = new Set();
   const drained = () => {
     if (active || unreapedChild) return;
@@ -59,18 +60,22 @@ export function createSupervisedExecutionWorker({ startWorker, limits = LIMITS, 
   const usedChildren = new WeakSet();
   async function runWaitingRequest(jobId, ...extra) {
     if (extra.length || typeof jobId !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(jobId)) return hold('REQUEST_REJECTED', 'NOT_STARTED');
+    if (retirement.signal.aborted) return hold('WORKER_AUTHORITY_RETIRED', 'NOT_STARTED');
     if (active || unreapedChild) return hold('SUPERVISOR_BUSY');
     active = true;
     const invocationId = randomUUID();
-    try { return await supervise({ jobId, invocationId, scope, workerId }, startWorker, timing, usedChildren, child => { unreapedChild = child; drained(); }); }
+    try { return await supervise({ jobId, invocationId, scope, workerId }, startWorker, timing, usedChildren,
+      child => { unreapedChild = child; drained(); }, retirement.signal); }
     finally { active = false; drained(); }
   }
   return Object.freeze({ runWaitingRequest,
+    // Privileged authority loss permanently stops this owner; drain still requires actual exit.
+    retire() { retirement.abort(); },
     drain() { return !active && !unreapedChild ? Promise.resolve() : new Promise(resolve => drains.add(resolve)); },
   });
 }
 
-function supervise(request, startWorker, limits, usedChildren, retain) {
+function supervise(request, startWorker, limits, usedChildren, retain, signal) {
   return new Promise(resolve => {
     let child;
     let startInvoked = false;
@@ -93,6 +98,7 @@ function supervise(request, startWorker, limits, usedChildren, retain) {
     const finish = result => {
       if (settled) return;
       settled = true; clearTimeout(deadline); clearTimeout(escalation);
+      signal.removeEventListener('abort', onRetire);
       if (child instanceof ChildProcess && child.pid && !exited) {
         retain(child);
         reaper = setInterval(() => kill('SIGKILL'), 1000);
@@ -137,6 +143,9 @@ function supervise(request, startWorker, limits, usedChildren, retain) {
         return finish(Object.freeze({ status: workerResult.startsWith('HOLD') ? workerResult : 'DECLINED', reason: workerResult, workerResult, evidenceScope: receipt.scope, childTermination: 'REAPED', terminalReceipt: true }));
       finish(Object.freeze({ status: workerResult, reason: workerResult, workerResult, evidenceScope: receipt.scope, childTermination: 'REAPED', terminalReceipt: true }));
     }
+    const onRetire = () => stop('WORKER_AUTHORITY_RETIRED');
+    signal.addEventListener('abort', onRetire, { once: true });
+    if (signal.aborted) return onRetire();
     try {
       startInvoked = true;
       child = startWorker();

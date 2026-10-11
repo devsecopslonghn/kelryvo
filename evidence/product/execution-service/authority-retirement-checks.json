@@ -1,0 +1,19 @@
+{
+  "command": "npm run check",
+  "exit_code": 0,
+  "tests": 361,
+  "passed": 300,
+  "failed": 0,
+  "cancelled": 0,
+  "skipped": 61,
+  "skip_scope": "Existing offline PostgreSQL-gated tests; actual isolated PostgreSQL and required PRODUCT Actions remain separate.",
+  "license_closure": {
+    "pinned_packages": 89,
+    "unknown_required_grants": 0
+  },
+  "dependencies_or_license_changed": false,
+  "raw_output": {
+    "path": "evidence/product/execution-service/authority-retirement-checks.log",
+    "sha256": "973086f08e1fd361c3133dbbbca83b56ce14c6ff494c047599ebffd68df405c2"
+  }
+}

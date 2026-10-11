@@ -1064,7 +1064,9 @@ clears RESTORE_HOLD.
 
 A clean child result must match its installed scope and committed job projection.
 Connection loss, loss of leader ownership, generation replacement, uncertain transport,
-cleanup or projection retire this service. It does not reconnect, infer effects, overwrite
+cleanup or projection retire this service and its supervisors. Detected authority loss
+requests termination of an active child, escalating to SIGKILL and awaiting actual exit.
+Retirement never starts a replacement child. It does not reconnect, infer effects, overwrite
 terminal facts or resume dispatch. Shutdown keeps metadata ownership until the active
 child actually exits, including after an operation deadline reports unconfirmed
 termination. Forced parent death or loss of its metadata connection can release the
@@ -1076,7 +1078,8 @@ replacement attempt or HOLD release.
 `tests/product-execution-service.test.mjs` exercises actual PostgreSQL, Git, pinned parser,
 approval, requests, separate worker children and retained history with explicit UNIT target
 ports. It covers V1→V2→NOOP, recovery before dispatch, live-claim pause, bounded FIFO fairness,
-generation races, private CLI startup/SIGTERM/restart and leadership retention until an
+generation races, active leader-connection loss before a second statement, private CLI
+startup/SIGTERM/restart and leadership retention until an
 unconfirmed child is reaped. This is local orchestration acceptance; Oracle target effects,
 installed writer credentials and deployed isolation/recovery remain unverified.
 
