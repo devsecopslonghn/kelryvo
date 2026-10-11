@@ -1,0 +1,204 @@
+{
+  "id": "mvp-worker-lifecycle-local-verified",
+  "subject_id": "OPS-002",
+  "kind": "UNIT",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Whole-operation native child supervision plus one-shot private dedicated-session provider. Frozen combined npm check271PASS48optionalPGskip0FAIL; process17/provider10UNIT; real PostgreSQL child1PASS0SKIP verifies V1/V2 no replay and cleanup uncertainty. Oracle/deployed isolation/installed authority remain unverified.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/worker-lifecycle-20261011/local-check-summary.json",
+    "sha256": "189a6cd1733238b104bb5cc8d706e03d949cbe04850417f41de13e41e29a13f4"
+  },
+  "recorded_at": "2026-10-11T05:28:34.419716+00:00",
+  "tested_and_independently_reviewed_source": "74837d8f7611dcf056f2209e924813547663aa45",
+  "integrated_base": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+  "source_files": [
+    {
+      "path": "apps/worker/execution-worker-child.mjs",
+      "sha256": "aa2536ea9deb5db1daeefd035e7b4d44078d7af0d8de2360bc64007d51e5684f"
+    },
+    {
+      "path": "apps/worker/oracle-provider.mjs",
+      "sha256": "faee143bfb7f52542f5a3dfc1e5e80314277a54234888bbc319edfa90dea5a51"
+    },
+    {
+      "path": "apps/worker/run-request.ts",
+      "sha256": "c7efb061710456a93e0edb98051ea9648a2c7d95c4971e91d2be511c5537548e"
+    },
+    {
+      "path": "apps/worker/supervised-runner.mjs",
+      "sha256": "f02d33fe950af9345e04a37393e682e94e0f747e0a9bf8606c373cd6c4bede7e"
+    },
+    {
+      "path": "apps/worker/supervisor-protocol.mjs",
+      "sha256": "e6ce70e4bb116afe0f912fe13454f73b7ea68c073fcd77f67108b7a3f40ec2e4"
+    },
+    {
+      "path": "apps/worker/supervisor.mjs",
+      "sha256": "0248b27c1f82e61a6c4299fe4072a7dc7a6edc3ba9d62560d503f315cc139d9f"
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256": "1da4ca264ab5404df576022794103f3925c2ac64a79626c579e0e6f2ddeebc15"
+    },
+    {
+      "path": "scripts/test-product.mjs",
+      "sha256": "8f19a12400d5f5c0f25ffe8e117cb635ae266fdf4ff28145e29068fdfd834752"
+    },
+    {
+      "path": "tests/execution-worker-supervisor.test.mjs",
+      "sha256": "bcbde6ce486d0de738e80203ef10a819640a51b744366c2776d513458ab91b0b"
+    },
+    {
+      "path": "tests/helpers/execution-supervisor-child.mjs",
+      "sha256": "a91493a31f0f68ab57f6d59caff1ff26ae95dbde84a2a9aacbdc3de7f9233324"
+    },
+    {
+      "path": "tests/helpers/execution-supervisor-no-cleanup-factory.mjs",
+      "sha256": "17d2cbdbfc7e0dc2e8a0c048a796ff79247a5d8c79a845ce5cf5cbb0cb5d35bd"
+    },
+    {
+      "path": "tests/helpers/execution-supervisor-unit-factory.mjs",
+      "sha256": "2f06514848c138212667bdb732aa2649b9288f28ccd938bb1d92fd2e191dd043"
+    },
+    {
+      "path": "tests/oracle-provider.test.mjs",
+      "sha256": "ac35744eda89134530639ae029eeeaad69124ed52de12e0f6736dc2efe69d947"
+    },
+    {
+      "path": "tests/product-worker-supervision.test.mjs",
+      "sha256": "1f59e88383dc55c94f9eac614d26688b5d2cfb9e7f9b6629f201d8ef8a594952"
+    }
+  ],
+  "standard": {
+    "command": "env -u SCHEMAFORGE_TEST_DATABASE_URL -u SCHEMAFORGE_REQUIRE_PRODUCT_TESTS SCHEMAFORGE_JAVA_HOME=<exact pinned JDK> npm run check",
+    "exit_code": 0,
+    "tests": 319,
+    "pass": 271,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 48,
+    "optional_skips": 48
+  },
+  "focused": {
+    "process_unit": 17,
+    "provider_unit": 10,
+    "mandatory_postgresql_child": 1,
+    "failures": 0,
+    "skips": 0
+  },
+  "raw_logs": {
+    "combined_frozen_check": {
+      "path": "/tmp/schemaforge-worker-lifecycle-check-installed.log",
+      "bytes": 71606,
+      "sha256": "31ea99c60430c57b5f3025bdd21b2e8d5b9ad979f914456637dcccab433876fc"
+    },
+    "combined_missing_dependencies_attempt": {
+      "path": "/tmp/schemaforge-worker-lifecycle-check-final.log",
+      "bytes": 441,
+      "sha256": "11cd30d32aeeced05982928258ccdf2e964a36da493477c3c366ed989bb4368a"
+    },
+    "provider_frozen_check": {
+      "path": "/tmp/schemaforge-private-oracle-provider-check.Fk7mPo.log",
+      "bytes": 68083,
+      "sha256": "b0a78015995a9898748a8072aed9d66f6f8eab372f541443da4e5b738bf75162"
+    },
+    "postgresql_final": {
+      "path": "/tmp/schemaforge-product-worker-supervision-final-pg.log",
+      "bytes": 470,
+      "sha256": "c36c3bb470fac64e4d9bb48e6593b84f276a2c63b2628623691e8bdfd37f0c46"
+    },
+    "retained_prior_attempts": [
+      {
+        "path": "/tmp/schemaforge-worker-supervision-check-hardened.log",
+        "exists": true,
+        "bytes": 69085,
+        "sha256": "a6da7041b176bb23a92de14dcbd217c5edb8c858f32bed021400c2c1630e7af1"
+      },
+      {
+        "path": "/tmp/schemaforge-product-worker-supervision-final-pg.log",
+        "exists": true,
+        "bytes": 470,
+        "sha256": "c36c3bb470fac64e4d9bb48e6593b84f276a2c63b2628623691e8bdfd37f0c46"
+      },
+      {
+        "path": "/tmp/schemaforge-supervisor-unit-after-hardening.log",
+        "exists": true,
+        "bytes": 3126,
+        "sha256": "b9b60073967a1efd7bcc4bf337584d3194b2c110bf949c0cd753a759296037e9"
+      },
+      {
+        "path": "/tmp/schemaforge-worker-supervision-check-final.log",
+        "exists": true,
+        "bytes": 88016,
+        "sha256": "50d3888d1fb98fc6cf371c08391048db7293eacac56ece4114b42e31db274b25"
+      },
+      {
+        "path": "/tmp/schemaforge-worker-supervision-check-frozen.log",
+        "exists": true,
+        "bytes": 69206,
+        "sha256": "4c3726b5944a784545ff6a693f346b3fd3bc7dc8e25cc5be8efb3fef6dcacb9c"
+      },
+      {
+        "path": "/tmp/schemaforge-product-worker-supervision-pg.log",
+        "exists": true,
+        "bytes": 1105,
+        "sha256": "ce5ccc63b3a9da0e08d5dbdac544435aa36bac02cc4e1c72c0378ad472b7d454"
+      },
+      {
+        "path": "/tmp/schemaforge-product-import-unicode-diagnostic.log",
+        "exists": true,
+        "bytes": 403,
+        "sha256": "48d9ed76ca97f6dc59449d734b9c67074c8f2481b6120f8c8bdac712a88dc528"
+      }
+    ]
+  },
+  "earlier_attempts": [
+    "Combined first check exited127 before tests because this worktree lacked node_modules/tsc; preserved, exact npm ci --ignore-scripts restored dependencies then final same-source check passed.",
+    "Earlier supervisor check with PG/global parallel fixtures had277PASS24FAIL4SKIP; included actual new stale challenge fixture failure, then corrected. No failed run reclassified.",
+    "Proper pre-final supervisor check had a nonreproducing unchanged Unicode parser fixture failure; focused unchanged Unicode subsequently passed. Cause UNKNOWN; final hardened308/260/48/0 passed.",
+    "First split PostgreSQL test failed a missing import, corrected later. A child-agent setup attempt lacked postgres; its raw log was overwritten before root intervention. Only reported setup-failure fact survives; no fabricated raw/hash or PASS promotion. Final portable PostgreSQL raw retained separately."
+  ],
+  "independent_review": {
+    "source": "74837d8f7611dcf056f2209e924813547663aa45",
+    "agent": "ci_review",
+    "outcome": "APPROVED_NO_BLOCKER",
+    "prior_reviews": [
+      "supervisor6c59c8c (EOF-only ca48d5f preserved)",
+      "provider0f373547 (253PASS47SKIP0FAIL)"
+    ],
+    "final": "Combined host/provider/child lifecycle approved; mandatory PRODUCT case exactly once; existing suites preserved."
+  },
+  "behavior": [
+    "Fixed privileged factory/allowlisted immutable environment; only job UUID plus fresh invocation challenge enters child IPC; actual worker scope/id must match installation.",
+    "Deadline includes bootstrap/admission/dispatch/receipts/awaited close; bounded output/protocol, TERM/KILL and actual exit required. Unknown or unreaped child blocks replacement; no automatic SQL retry/reconnect.",
+    "Cleanup failure yields supervised HOLD after reap without rewriting durable VERIFIED_SUCCESS; terminal job cannot execute again; new approved V2 runs only its pending suffix.",
+    "Provider authorizes exact immutable purpose/request before zero-argument private resolver or driver entry. Pinned Thin driver opens dedicated distinct writer/ledger handles with fixed timeout before use.",
+    "One-shot provider rejects reuse/forgery/expiry/overlap; owned rejection or callback with pending operations poisons/drains before deduplicated close. Generic error text exposes no private driver details."
+  ],
+  "product_inclusion": {
+    "api_tests_expected": 78,
+    "browser_tests_expected": 33,
+    "release_outer_tests_expected": 1,
+    "release_inner_workflows_expected": 4,
+    "new_case": "tests/product-worker-supervision.test.mjs",
+    "cases_disabled": 0
+  },
+  "license": {
+    "product": "Unmodified PolyForm Shield1.0.0",
+    "pinned_packages": 85,
+    "unknown_required_grants": 0,
+    "dependency_changes": false
+  },
+  "oracle_calls": 0,
+  "limits": [
+    "No OS sandbox, production factory/service, credential resolver implementation or installed purpose/physical GUID/TLS/effective-grants/object/adoption attestation is supplied.",
+    "TRUSTED_VALIDATED is privileged installation authority; explicit synthetic ports cannot satisfy trusted binding.",
+    "No Oracle connection/bootstrap/runtime/fault/recovery acceptance or full catalog promotion.",
+    "Actual candidate/master gates, final scoped publication scan/review and ordinary merge remain pending."
+  ]
+}

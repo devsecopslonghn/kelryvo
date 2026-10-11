@@ -1,0 +1,123 @@
+{
+  "id": "mvp-release-diagnostics-pr58-master-verified",
+  "subject_id": "MIG-012",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "PR58 ordinary exact-head merge; actual candidate/master foundation/parser/PRODUCT SUCCESS: API77/browser33/release1(inner4), zero fail/skip. Source archive/extracted manifest verified. Original PR57 master release failure preserved as FAIL, cause UNKNOWN; diagnostics do not establish a root-cause fix.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/release-diagnostics-20261011/master-ci-summary.json",
+    "sha256": "d6c72e9e2f9dd1bf66c469f5cbbb300cb60b026cc65cb325a4d955cf5257de83"
+  },
+  "recorded_at": "2026-10-11T05:27:10.395442+00:00",
+  "pr": 58,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/58",
+  "reviewed_published_head": "9e91c1b52caaef8768d85047124efd5a91ac823a",
+  "tested_functional_source": "fa4bd87df1888a649a9cb927083eb9749ac3eaeb",
+  "merge_commit": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+  "candidate_and_master_tree": "f618a8828cec779e41bb981424898aae32143bc2",
+  "ordinary_exact_head_merge": true,
+  "merge_status": "MERGED_MASTER_VERIFIED",
+  "actual_ci": {
+    "candidate": [
+      {
+        "workflow": "foundation",
+        "run": 38112960836,
+        "head": "9e91c1b52caaef8768d85047124efd5a91ac823a",
+        "outcome": "PASS",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38112960836"
+      },
+      {
+        "workflow": "parser",
+        "run": 38112960849,
+        "head": "9e91c1b52caaef8768d85047124efd5a91ac823a",
+        "outcome": "PASS",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38112960849"
+      },
+      {
+        "workflow": "product",
+        "run": 38112960840,
+        "head": "9e91c1b52caaef8768d85047124efd5a91ac823a",
+        "outcome": "PASS",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38112960840"
+      }
+    ],
+    "master": [
+      {
+        "workflow": "foundation",
+        "run": 38114094503,
+        "head": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+        "outcome": "PASS",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38114094503"
+      },
+      {
+        "workflow": "parser",
+        "run": 38114094524,
+        "head": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+        "outcome": "PASS",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38114094524"
+      },
+      {
+        "workflow": "product",
+        "run": 38114094526,
+        "head": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+        "outcome": "PASS",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38114094526"
+      }
+    ]
+  },
+  "product_wall_seconds": {
+    "candidate": 804,
+    "master": 731
+  },
+  "independent_review": "Native read-only ci_review approved exact source and final14-file publication inventory; root verified original failure retention and all evidence hashes.",
+  "publication_scan": {
+    "tool": "Gitleaks8.30.1 official checksum verified",
+    "files": 14,
+    "exit_code": 0,
+    "findings": 0,
+    "limits": "Scoped publication only; historical115 findings and unavailable optional scans remain unchanged."
+  },
+  "license": {
+    "product": "Unmodified PolyForm Shield1.0.0",
+    "pinned_packages": 85,
+    "unknown_required_grants": 0,
+    "dependency_changes": false
+  },
+  "local_archive": {
+    "format": "schemaforge-local-source-checksum-v1",
+    "sourceCommit": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+    "archive": "/home/longhn0710/workspace/schemaforge/.cache/releases/20261011-4d4fd46a2a31/schemaforge-local-4d4fd46a2a31.tar.gz",
+    "bytes": 434244,
+    "manifestSha256": "577fbeb9cc54bb7061ece3b44f54aa616d167c2b99d48650408a64d9a0e6597f",
+    "files": 107,
+    "scope": "LOCAL_SOURCE_INSTALLATION_CANDIDATE",
+    "oracleRuntime": "UNVALIDATED",
+    "archive_sha256": "f489a0f9960852c6220056c1d6b5f3913840a24a3988791759f9559367aff8c5",
+    "source_verify": "PASS",
+    "checksum": "PASS",
+    "source_installation_acceptance": "PASS: actual candidate/master fresh-source CI outer1/inner4; no duplicated local installation run",
+    "duplicated_local_installation_run": false
+  },
+  "initial_failed_master": {
+    "commit": "7da25d2775bd1f96b5ca02be117b2d348553dd81",
+    "run": 38111860684,
+    "outcome": "FAIL",
+    "cause": "UNKNOWN",
+    "record": "evidence/product/release-diagnostics-20261011/initial-failure-record.json",
+    "reclassified": false
+  },
+  "pr57_history_integration": "Approved provenance from PR57 is present and accepted on this verified descendant; original7da master installation acceptance remains FAIL.",
+  "all_original_worktrees_and_unfinished_changes_preserved": true,
+  "oracle_calls": 0,
+  "limits": [
+    "No Oracle/provider/deployment/runtime/recovery or full catalog acceptance.",
+    "Bounded fixed TAP metadata only; arbitrary assertions/SQL/browser logs/credential text remain private.",
+    "Missing inner assertion from original disposed runner stays UNKNOWN; later successful runs do not diagnose its cause.",
+    "Unavailable paid/disabled GitHub security and owner-authorized Sonar quota outage stay UNAVAILABLE, never PASS."
+  ]
+}

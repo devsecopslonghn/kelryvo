@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-11T04:15:02.137152+00:00",
-  "verified_master": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
-  "reviewed_local_source": "6c336c3f5b816a470994c05810e745405d179b80",
+  "recorded_at": "2026-10-11T05:28:34.419716+00:00",
+  "verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+  "reviewed_local_source": "74837d8f7611dcf056f2209e924813547663aa45",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
@@ -12,8 +12,8 @@
     "BLOCKED_EXTERNAL is reserved for an otherwise implemented/ready feature missing only external evidence; unimplemented features are not relabeled merely because Oracle access is absent."
   ],
   "summary": {
-    "PARTIALLY_IMPLEMENTED": 54,
-    "NOT_IMPLEMENTED": 159,
+    "PARTIALLY_IMPLEMENTED": 55,
+    "NOT_IMPLEMENTED": 158,
     "DEFERRED": 7,
     "BLOCKED_EXTERNAL": 0,
     "IMPLEMENTED_AND_VERIFIED": 0
@@ -56,17 +56,17 @@
     },
     "WS": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 41,
-      "NOT_IMPLEMENTED": 33,
+      "PARTIALLY_IMPLEMENTED": 42,
+      "NOT_IMPLEMENTED": 32,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "PR52 installation,PR53 CI,PR54 pending suffix,PR55 ledger andPR56 restricted host integrated with actual candidate/master gates. PR56 API76/browser33/release1(inner4) nofail/skip. UNIT target only; installed provider/deployed isolation/Oracle runtime/recovery incomplete. Unavailable security/Sonar never PASS.",
+  "external_acceptance": "PR52 installation,PR53 CI,PR54 pending suffix,PR55 ledger,PR56 host,PR57 provenance andPR58 safe release diagnostics integrated. Exact PR58 candidate/master77API33browser1release(inner4) zero fail/skip. Original7da master releaseFAIL retained/causeUNKNOWN. UNIT target only; Oracle/runtime/recovery/deployed isolation incomplete. Unavailable optional scans never PASS.",
   "next_product_capability": {
-    "milestone": "M4 readable approved pending-history context",
-    "status": "LOCAL_VERIFIED_REVIEWED_REMOTE_CI_PENDING",
-    "next_action": "Publish and integrate under exact candidate/master gates; installed private provider/deployed isolation/Oracle runtime and reviewed recovery remain separate."
+    "milestone": "M3 supervised worker and private provider readiness",
+    "status": "LOCAL_VERIFIED_INDEPENDENT_REVIEWED_PUBLICATION_AND_CI_PENDING",
+    "next_action": "Publish scoped reviewed lifecycle under actual candidate/master gates; installed truthful authority/attestation and authorized Oracle runtime/deployed isolation remain separate."
   },
   "features": [
     {
@@ -673,12 +673,13 @@
       "name": "Pending and applied reconciliation",
       "milestone": "WS",
       "classification": "PARTIALLY_IMPLEMENTED",
-      "basis": "Existing immutable approval, pending selector, controlled worker and protected ledger plus a restricted Oracle host adapter: same-session nonce mutex, write-purpose/one-use authority, ordered durable target STARTED/ACK/APPLIED, exact pending-only dispatch and uncertain-result no replay. Real PostgreSQL/Git/parser/worker and explicit fake Oracle transport verified locally. No independently installed provider/grants/TLS/Oracle runtime, deployed isolation, nonempty baseline or reviewed recovery/HOLD release acceptance.",
+      "basis": "Existing immutable approval, pending selector, controlled worker and protected ledger plus a restricted Oracle host adapter: same-session nonce mutex, write-purpose/one-use authority, ordered durable target STARTED/ACK/APPLIED, exact pending-only dispatch and uncertain-result no replay. Real PostgreSQL/Git/parser/worker and explicit fake Oracle transport verified locally. No independently installed provider/grants/TLS/Oracle runtime, deployed isolation, nonempty baseline or reviewed recovery/HOLD release acceptance. Native child and private provider lifecycles now bound/drain uncertainty without reconnect or replay; synthetic target only.",
       "evidence": [
         "mvp-history-aware-local-verified",
         "mvp-history-aware-divergence-local-verified",
         "mvp-restricted-oracle-host-local-verified",
-        "mvp-restricted-oracle-host-pr56-master-verified"
+        "mvp-restricted-oracle-host-pr56-master-verified",
+        "mvp-worker-lifecycle-local-verified"
       ]
     },
     {
@@ -704,7 +705,8 @@
         }
       ],
       "evidence": [
-        "mvp-approved-pending-history-context-local-verified"
+        "mvp-approved-pending-history-context-local-verified",
+        "mvp-release-diagnostics-pr58-master-verified"
       ]
     },
     {
@@ -825,7 +827,8 @@
       "classification": "PARTIALLY_IMPLEMENTED",
       "basis": "Scoped central attempts/events/receipts now display verified immutable approved file/version and full/file-local statement identity for the selected pending suffix, including duplicate digests; readable fallback and explicit provenance-only labels. Local PostgreSQL/API/browser and UNIT NOOP/bad-binding cases verified. Target effects, source byte-range/database-error diagnostics, complete actor/target history and Oracle runtime/recovery acceptance remain incomplete.",
       "evidence": [
-        "mvp-approved-pending-history-context-local-verified"
+        "mvp-approved-pending-history-context-local-verified",
+        "mvp-release-diagnostics-pr58-master-verified"
       ]
     },
     {
@@ -2153,8 +2156,8 @@
       "id": "OPS-002",
       "name": "Restricted execution workers",
       "milestone": "WS",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No production Oracle executor/runtime isolation or observed applied migration history. T33 journal/kernel prerequisites do not implement this complete catalog capability.",
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Reviewed fixed privileged child lifecycle, whole-operation deadline, matching scope/job challenge, awaited cleanup, confirmed reap/no replacement on unknown child and private one-shot dedicated-session provider implemented. Real PostgreSQL worker child preserves durable completion on cleanup uncertainty and approved V2 pending-only/no replay; target transport is UNIT. OS/deployed isolation, installed credentials/truthful target attestors and Oracle runtime/recovery remain incomplete.",
       "related_prerequisite_observations": [
         {
           "task": "SF-PRODUCT-T33",
@@ -2163,6 +2166,9 @@
             "product-t33-execution-jobs-local-verified"
           ]
         }
+      ],
+      "evidence": [
+        "mvp-worker-lifecycle-local-verified"
       ]
     },
     {
@@ -2618,9 +2624,24 @@
     "integration_evidence": "mvp-restricted-oracle-host-pr56-master-verified"
   },
   "m4_pending_history_context": {
-    "status": "LOCAL_VERIFIED_REMOTE_CI_PENDING",
+    "status": "INTEGRATED_PR57_VERIFIED_PR58_DESCENDANT_MASTER",
     "source_head": "6c336c3f5b816a470994c05810e745405d179b80",
     "evidence": "mvp-approved-pending-history-context-local-verified",
-    "classification_change": "MIG-012/MIG-027 bounded source provenance partial; no full catalog or Oracle promotion"
+    "classification_change": "MIG-012/MIG-027 bounded source provenance partial; no full catalog or Oracle promotion",
+    "published_head": "718e74fe620ef2454917c991594c9a33a720f2c5",
+    "merged_master": "7da25d2775bd1f96b5ca02be117b2d348553dd81",
+    "verified_descendant_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
+    "integration_evidence": "mvp-release-diagnostics-pr58-master-verified"
+  },
+  "m3_worker_lifecycle": {
+    "status": "LOCAL_VERIFIED_PUBLICATION_AND_CI_PENDING",
+    "source_head": "74837d8f7611dcf056f2209e924813547663aa45",
+    "evidence": "mvp-worker-lifecycle-local-verified",
+    "scope": "UNIT_SYNTHETIC_TARGET_ONLY",
+    "catalog_traceability": [
+      "OPS-002",
+      "MIG-011"
+    ],
+    "full_catalog_acceptance": false
   }
 }
