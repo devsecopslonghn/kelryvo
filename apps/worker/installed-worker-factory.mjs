@@ -15,17 +15,23 @@ const plain = value => value !== null && typeof value === 'object' && !Array.isA
 
 function installationRecord(value, required, optional = []) {
   try {
-    if (!plain(value)) return false;
+    if (!plain(value)) return null;
     const keys = Reflect.ownKeys(value);
-    if (keys.some(key => typeof key !== 'string' || !required.includes(key) && !optional.includes(key))) return false;
-    if (required.some(key => !keys.includes(key))) return false;
-    return keys.every(key => Object.hasOwn(Object.getOwnPropertyDescriptor(value, key), 'value'));
-  } catch { return false; }
+    if (keys.some(key => typeof key !== 'string' || !required.includes(key) && !optional.includes(key))) return null;
+    if (required.some(key => !keys.includes(key))) return null;
+    const entries = keys.map(key => {
+      const descriptor = Object.getOwnPropertyDescriptor(value, key);
+      if (!descriptor || !Object.hasOwn(descriptor, 'value')) throw reject();
+      return [key, descriptor.value];
+    });
+    return Object.freeze(Object.fromEntries(entries));
+  } catch { return null; }
 }
 
 function snapshotOracleBinding(value) {
   const keys = ['scope', 'workerId', 'authorize', 'resolvePrivateOptions', 'bindTarget'];
-  if (!installationRecord(value, keys) || !['TRUSTED_VALIDATED', 'UNIT_SYNTHETIC'].includes(value.scope)
+  value = installationRecord(value, keys);
+  if (!value || !['TRUSTED_VALIDATED', 'UNIT_SYNTHETIC'].includes(value.scope)
       || typeof value.workerId !== 'string' || !/^[A-Za-z0-9._:-]{1,100}$/.test(value.workerId)
       || typeof value.authorize !== 'function' || typeof value.resolvePrivateOptions !== 'function'
       || typeof value.bindTarget !== 'function') throw reject();
@@ -51,7 +57,8 @@ function metadataClient(sql) {
 export function createInstalledExecutionWorkerFactory(binding) {
   const keys = ['databaseUrl', 'installedOracle'];
   const optional = ['allowUnitSynthetic', 'unitGetConnection', 'openMetadata', 'leaseSeconds'];
-  if (!installationRecord(binding, keys, optional) || !validMetadataUrl(binding.databaseUrl)) throw reject();
+  binding = installationRecord(binding, keys, optional);
+  if (!binding || !validMetadataUrl(binding.databaseUrl)) throw reject();
 
   const installedOracle = snapshotOracleBinding(binding.installedOracle);
   const scope = installedOracle.scope;

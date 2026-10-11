@@ -891,14 +891,43 @@ Use the durable journal and explicit target reconciliation to investigate HOLD.
 
 The fixed starter must return its actual ChildProcess, remain synchronous and prompt,
 and create no descendants. This library is a process lifecycle boundary. It supplies
-no OS sandbox, production factory, secret resolver, service deployment or independently
-validated Oracle provider. Real target access and deployed isolation remain unvalidated.
+no OS sandbox, installed production binding, secret resolver, service deployment or
+independently validated Oracle provider. Real target access and deployed isolation
+remain unvalidated.
 
 `tests/product-worker-supervision.test.mjs` is mandatory in the PRODUCT API acceptance
 list and runs serially with its shard's disposable PostgreSQL service. It runs the real
 worker in a child, retains durable success after cleanup uncertainty, refuses terminal
 redispatch, then approves and executes only new V2 after V1. The synthetic target and
 process fault tests are UNIT evidence; no Oracle SQL is executed.
+
+### Installation factory composition
+
+`createInstalledExecutionWorkerFactory` in `apps/worker/installed-worker-factory.mjs`
+composes the existing metadata worker, private Oracle provider and restricted host.
+An independently reviewed installation module binds its private `databaseUrl` and
+`installedOracle` closures, then exports the returned asynchronous function as
+`createExecutionWorker` for the fixed child entry. These bindings are installation
+code, never API/IPC input. The database URL belongs to product metadata; application
+writer and ledger-owner routes remain inside the private Oracle resolver.
+The source release verifies its shipped files; the separate private installation
+module and its authority bindings require their own review before trusted execution.
+
+The factory snapshots its scope, worker ID and authority/resolver/target-binding
+functions. It creates one owned PostgreSQL client and permits one worker operation.
+`close()` drains that operation, closes metadata once and reports cleanup failure;
+the supervisor accepts success only after this hook and clean child exit. Reuse,
+overlap, malformed requests and missing capabilities fail closed. Lease bounds remain
+privileged installation options, validated before metadata acquisition.
+
+Production bindings require `TRUSTED_VALIDATED` and the existing independently
+installed purpose authority, private routes and truthful target attestations.
+`UNIT_SYNTHETIC` requires explicit opt-in and a fake Oracle connector. The optional
+`openMetadata` test port is accepted only in that synthetic scope; neither test port
+may enter a trusted binding. Importing this builder does not authorize Oracle access
+or supply credentials. Its unbound direct child export rejects startup. A deployed
+service, verified installation authority and Oracle/isolation acceptance remain
+separate requirements.
 
 `createPrivateOracleProvider` in `apps/worker/oracle-provider.mjs` supplies the
 restricted host's installed connection lifecycle. Privileged child installation code

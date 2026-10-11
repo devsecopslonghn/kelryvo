@@ -166,6 +166,35 @@ test('installation snapshot composes the real worker with one metadata handle an
   await assert.rejects(create(), /unavailable/);
 });
 
+test('binding snapshots read own data without invoking property hooks', async () => {
+  let reads = 0;
+  const blockRead = { get() { reads++; throw new Error('private property read'); } };
+  const binding = new Proxy({ databaseUrl: DATABASE_URL,
+    installedOracle: new Proxy(unitInstallation(), blockRead), allowUnitSynthetic: true,
+    unitGetConnection: async () => { throw new Error('Oracle connection must not be reached'); },
+    openMetadata: async () => fakeSql() }, blockRead);
+  const worker = await createInstalledExecutionWorkerFactory(binding)();
+  assert.equal(worker.scope, 'UNIT_SYNTHETIC');
+  assert.equal(reads, 0);
+  await worker.close();
+});
+
+test('trusted bindings reject synthetic ports and invalid leases before acquisition', () => {
+  let opens = 0;
+  const trusted = { databaseUrl: DATABASE_URL,
+    installedOracle: unitInstallation({ scope: 'TRUSTED_VALIDATED' }) };
+  assert.equal(typeof createInstalledExecutionWorkerFactory(trusted), 'function');
+  for (const extra of [
+    { allowUnitSynthetic: true }, { unitGetConnection: async () => {} },
+    { openMetadata: async () => { opens++; return fakeSql(); } },
+  ]) assert.throws(() => createInstalledExecutionWorkerFactory({ ...trusted, ...extra }), /unavailable/);
+  for (const leaseSeconds of [0, 301, 1.5, NaN, '1']) {
+    assert.throws(() => unitFactory({ leaseSeconds,
+      openMetadata: async () => { opens++; return fakeSql(); } }), /unavailable/);
+  }
+  assert.equal(opens, 0);
+});
+
 test('close drains the active worker call before closing metadata and never retries it', async () => {
   let queryStarted, releaseQuery, endCount = 0, calls = 0;
   const started = new Promise(resolve => { queryStarted = resolve; });
@@ -214,7 +243,7 @@ test('unbound child factory entry remains unavailable', async () => {
   await assert.rejects(createExecutionWorker(), /unavailable/);
 });
 
-test('installed UNIT factory opens the pinned private PostgreSQL client and makes no Oracle call', {
+test('installed UNIT factory executes approved work and declines terminal retry without replay', {
   skip: !enabledProduct, timeout: 180_000,
 }, async () => {
   const { statementEnvelopeFixture } = await import('./helpers/statement-envelope-fixture.mjs');

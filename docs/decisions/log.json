@@ -630,6 +630,22 @@
       "catalog_traceability": [
         "OPS-023"
       ]
+    },
+    {
+      "id": "SF-D053",
+      "status": "ACCEPTED_FIXED_CHILD_INSTALLED_WORKER_COMPOSITION",
+      "accepted_at_utc": "2026-10-11T07:04:53.717662+00:00",
+      "decision": "Reuse existing execution worker, private Oracle provider and restricted host behind a fixed installation-only factory export. Snapshot privileged metadata URL and installed capability hooks; reject caller-selected options and synthetic ports in trusted scope. Own one metadata client for one child operation, drain work before once-only close, and propagate uncertain startup/cleanup to the existing supervisor HOLD boundary. No new SQL execution logic, purpose authority, credentials, target attestation, service deployment or Oracle acceptance. This ordinary reversible composition is local PRODUCT development under SF-D052; remote merge requirements remain unchanged.",
+      "references": [
+        "apps/worker/installed-worker-factory.mjs",
+        "tests/product-installed-worker-factory.test.mjs",
+        "scripts/test-product.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "OPS-002",
+        "MIG-011"
+      ]
     }
   ]
 }
