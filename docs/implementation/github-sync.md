@@ -43,3 +43,26 @@ before merge, synchronize local master with a fast-forward, then continue eligib
 Never force-push, force-merge, bypass protection, reset remote history, delete remote
 branches or modify another repository. Continue independent offline work when Oracle
 authorization or credentials are missing; runtime acceptance stays blocked.
+
+## Local CI integration gates
+
+Push workflows run on `master`; feature candidates run through `pull_request` (and
+manual `workflow_dispatch`), avoiding duplicate push/PR acceptance. Require the exact
+candidate's foundation, parser and product checks before ordinary merge, followed by
+all three workflows on the resulting master. Do not require intentionally removed
+feature-push duplicates. Recheck actual protection and blocking findings at merge;
+this trigger change does not waive a configured required check.
+
+PRODUCT runs the complete PostgreSQL/API/security, browser and fresh-source installation
+suites in parallel on separate runners and disposable PostgreSQL services. All run on
+every PR and master integration; no test list or skip policy changes. The stable `product`
+aggregate requires every matrix suite to succeed, including on failure or cancellation.
+The release suite still performs fresh npm installation, parser/web builds, HTTPS and
+controlled UNIT-host/history acceptance inside the extracted source bundle. Its outer
+checkout does not duplicate those builds. Browser acceptance remains mandatory.
+
+Node setup caches only npm's downloaded package content, keyed by the committed lockfile;
+`npm ci --ignore-scripts` still installs exact dependencies. Do not cache `node_modules`,
+product state, credentials, installed JDKs or built parser helpers. Parser preparation
+and pinned reproducible builds retain their existing verification. Parallelism reduces
+wall time, not summed runner time; compare measured timings and complete test counts.

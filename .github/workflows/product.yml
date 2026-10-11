@@ -2,6 +2,7 @@ name: Local PRODUCT acceptance
 
 on:
   push:
+    branches: [master]
   pull_request:
   workflow_dispatch:
 
@@ -9,10 +10,13 @@ permissions:
   contents: read
 
 jobs:
-  product:
+  acceptance:
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [api, browser, release]
     runs-on: ubuntu-24.04
-    # Real-parser PostgreSQL acceptance used 14 minutes before Chromium setup;
-    # keep both complete suites gated with a bounded budget for runner variance.
+    # Each complete suite has its own runner/database; all remain required.
     timeout-minutes: 40
     services:
       postgres:
@@ -36,13 +40,33 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm run parser:antlr:prepare
-      - run: npm run parser:antlr:build
-      - run: npm run build
-      - run: npm run test:product
-      - run: node node_modules/playwright/cli.js install --with-deps chromium
-      - run: npm run test:browser
-      - run: npm run test:release
+      # The release suite builds the extracted source itself, after fresh npm ci.
+      - if: matrix.suite != 'release'
+        run: npm run parser:antlr:build
+      - if: matrix.suite != 'release'
+        run: npm run build
+      - if: matrix.suite == 'api'
+        run: npm run test:product
+      - if: matrix.suite != 'api'
+        run: node node_modules/playwright/cli.js install --with-deps chromium
+      - if: matrix.suite == 'browser'
+        run: npm run test:browser
+      - if: matrix.suite == 'release'
+        run: npm run test:release
 
       # Only disposable metadata PostgreSQL and local Git/parser; no Oracle or deployment.
+
+  # Preserve the product check name and fail closed if any suite fails/skips/cancels.
+  product:
+    if: always()
+    needs: acceptance
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    env:
+      ACCEPTANCE_RESULT: ${{ needs.acceptance.result }}
+    steps:
+      - run: test "$ACCEPTANCE_RESULT" = success

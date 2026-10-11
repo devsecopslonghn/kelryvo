@@ -1,0 +1,23 @@
+{
+  "scope": "BOUNDED_CI_PERFORMANCE_INTEGRATION",
+  "base_master": "e57b610ba8166a6d20a92143e557725687931e31",
+  "baseline_run": 38098479426,
+  "baseline_job_seconds": 2258,
+  "baseline_step_seconds": {
+    "api": 1064,
+    "browser": 852,
+    "fresh_source_release": 236,
+    "npm_ci": 4,
+    "parser_prepare": 4,
+    "parser_build": 42,
+    "web_typecheck_build": 8,
+    "chromium_install": 23
+  },
+  "candidate_ci": "PENDING",
+  "final_master_ci": "PENDING",
+  "required_coverage": "All existing API/security, browser and fresh-source installation tests; independent PostgreSQL services; fail-closed stable product check",
+  "cache_scope": "npm download content only; exact lockfile; fresh npm ci retained",
+  "oracle_runtime": "UNVALIDATED",
+  "goal": "UNCHANGED_ACTIVE",
+  "next_mvp_outcome": "Observed target-history-bound pending migration selection/admission, then installed restricted Oracle host/ledger/reconciliation; runtime needs attested authority"
+}
