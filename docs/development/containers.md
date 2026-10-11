@@ -39,6 +39,25 @@ use the existing serialized membership operator and retained audit. Startup neve
 creates implicit grants or resets revoked credentials. Store and deliver actor tokens
 through private operator channels; do not put them in chart values, logs or Git.
 
+Actor credentials retain their existing 24-hour lifetime. To rotate a fixed actor,
+the trusted namespace operator first replaces that actor's token in the Kubernetes
+Secret with a fresh distinct random 64-character hex value, using resource-version
+checks and private input. Wait for the projected Secret to update, then run
+`node scripts/container-credentials.mjs rotate developer` (or `approver`) in the app
+pod. Only this explicit operator action adopts the desired token. It atomically retires
+the actor's previous local/browser credentials, records immutable metadata revocation
+evidence/audit and issues a new 24-hour credential. It preserves memberships, roles,
+plans and history. The API has no credential-management route.
+
+If interrupted before the transaction commits, retry with the same projected desired
+token; prior database authority remains unchanged. After commit, retry is a no-op and
+does not extend expiry. An already expired or revoked desired token is rejected;
+choose a fresh token instead. RESTORE_HOLD rejects issuance and revocation. Restart
+never adopts a changed token or resurrects a retired credential. Do not distribute
+the desired token until the operator succeeds and secure login verifies it. No app
+restart is needed after successful rotation. Preserve private operator access for
+recovery when an actor's credential has expired.
+
 The separate worker runs as UID 10002. Its existing entrypoint requires an explicitly
 installed private trusted service and fails closed when absent. There is no public
 worker service. Kubernetes worker replicas must remain disabled until trusted purpose

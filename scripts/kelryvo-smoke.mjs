@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import https from 'node:https';
+import { randomBytes } from 'node:crypto';
 
 // Reused for the actual OCI runtime and the authorized public deployment.
 // Caller supplies private credentials in memory. No request/response bodies are logged.
-export async function smokeGovernance({ origin, ca, tokens, operator, onStep = () => {} }) {
+export async function smokeGovernance({ origin, ca, tokens, operator, rotate, onStep = () => {} }) {
   const request = (method, route, payload, session, extra = {}) => new Promise((resolve, reject) => {
     const bytes = payload === undefined ? undefined : Buffer.from(JSON.stringify(payload));
     const req = https.request(new URL(route, origin), { method, ca, timeout: 30_000,
@@ -35,7 +36,8 @@ export async function smokeGovernance({ origin, ca, tokens, operator, onStep = (
     return { cookie: cookie.split(';')[0], csrfToken: res.body.csrfToken };
   };
   onStep('secure login');
-  const developer = await login(tokens.developer), approver = await login(tokens.approver);
+  let developer = await login(tokens.developer);
+  const approver = await login(tokens.approver);
   assert.equal((await request('GET', '/api/session', undefined, developer)).status, 200);
   assert.equal((await request('GET', '/api/session', undefined, approver)).status, 200);
   // Missing CSRF and cross-origin mutation fail without creating data.
@@ -83,6 +85,15 @@ export async function smokeGovernance({ origin, ca, tokens, operator, onStep = (
   const audit = await request('GET', `${base}/audit`, undefined, approver);
   assert.equal(audit.status, 200);
   assert.ok(audit.body.events.some(event => event.action === 'PLAN_APPROVED'));
+  if (rotate) {
+    onStep('audited actor credential rotation');
+    const previousSession = developer, previousToken = tokens.developer;
+    const nextToken = randomBytes(32).toString('hex');
+    await rotate('developer', nextToken);
+    assert.equal((await request('GET', '/api/session', undefined, previousSession)).status, 401);
+    assert.equal((await request('POST', '/api/session', undefined, undefined, { origin, authorization: `Bearer ${previousToken}` })).status, 401);
+    developer = await login(nextToken); tokens.developer = nextToken;
+  }
   return { projectId, planId, releaseId: imported.body.release.id, validation: 'VALID', decision: 'APPROVED', execution: 'NOT_EXECUTED',
     verify: async () => {
       const after = await request('GET', base, undefined, developer);

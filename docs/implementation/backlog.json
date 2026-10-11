@@ -3593,6 +3593,9 @@
       "evidence": [
         {
           "index_id": "product-t41-kelryvo-containers-local"
+        },
+        {
+          "index_id": "product-t41-kelryvo-containers-rotation"
         }
       ],
       "blockers": []

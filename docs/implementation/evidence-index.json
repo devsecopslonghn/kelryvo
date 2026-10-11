@@ -3995,6 +3995,31 @@
       },
       "path": "evidence/product/kelryvo-containers/local-record.json",
       "sha256": "4b020e080570e16a87e47d8bde44ea653ac0e0d6a07c71bdbb96e6f00ff89b06"
+    },
+    {
+      "id": "product-t41-kelryvo-containers-rotation",
+      "subject_id": "SF-PRODUCT-T41",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Trusted mounted-Secret rotation actual PostgreSQL3/3 and OCI governance/security/rotation/restart PASS; npm run check306/372 with66 offline PostgreSQL skips; tracker21/21. Fixed24h expiry, idempotence, no resurrection and immutable revocation/audit. CodeQL hostname fix exact rescan pending; no remote/deployment/Oracle claim.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T41-CONFIG",
+        "SF-PRODUCT-T41-OCI"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/kelryvo-containers/rotation-summary.json",
+        "sha256": "f735f14a1920096fda610753ed6b4bbb4edfa685d31c65d97f7f49709322d589"
+      },
+      "path": "evidence/product/kelryvo-containers/rotation-record.json",
+      "sha256": "e3fc9de69fd71506599484624c3712388b481ded9ba0cd5d799208c197a6c454"
     }
   ]
 }

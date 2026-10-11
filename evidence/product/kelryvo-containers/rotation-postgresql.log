@@ -1,0 +1,28 @@
+TAP version 13
+# Subtest: pod operator rotation retires local/browser authority, retains immutable revocation audit and bounds new expiry
+ok 1 - pod operator rotation retires local/browser authority, retains immutable revocation audit and bounds new expiry
+  ---
+  duration_ms: 223.726513
+  type: 'test'
+  ...
+# Subtest: pod credential rotation refuses expired, revoked, duplicate-role and malformed desired tokens
+ok 2 - pod credential rotation refuses expired, revoked, duplicate-role and malformed desired tokens
+  ---
+  duration_ms: 200.701594
+  type: 'test'
+  ...
+# Subtest: metadata HOLD rejects credential changes without retiring existing authority or adding rows
+ok 3 - metadata HOLD rejects credential changes without retiring existing authority or adding rows
+  ---
+  duration_ms: 197.657026
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 758.772225

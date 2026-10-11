@@ -1,0 +1,98 @@
+{
+  "scope": "PR67 deployment credential rotation and source download security correction",
+  "base_candidate": "58ded8f86221c925869ce49f44e88d0ef80bf85a",
+  "source_sha256": [
+    {
+      "path": "packages/database/container-credentials.ts",
+      "sha256": "a5b42821ffb89ddd119a6ad7d37c4feb0f1a9117d8df5fc2aa4bf6c9b79a74cb"
+    },
+    {
+      "path": "scripts/container-credentials.mjs",
+      "sha256": "ed22628ff775e8067b7ba76706ed317a0c360143c41ea3b6785bb5d7ca7bd371"
+    },
+    {
+      "path": "tests/product-container-credentials.test.mjs",
+      "sha256": "b41bf5992caf091f3b52888c0bbf43450d434819fc1325b99fc3a69ede8dc47d"
+    },
+    {
+      "path": "scripts/container-source-archives.mjs",
+      "sha256": "1741a91bd0f5d40328f1b6d7328fea23f476556df75ff6c6ed3d75af84e01369"
+    },
+    {
+      "path": "scripts/kelryvo-smoke.mjs",
+      "sha256": "339abdd5905372e9266576b0420b82fe2e58342adedb892c3acbc8b59fa6e758"
+    },
+    {
+      "path": "scripts/test-containers.mjs",
+      "sha256": "30acc6d11b3105b6e9f5c8754f625958a8528659b0a5ad7203e72ad5589112ca"
+    },
+    {
+      "path": "docs/development/containers.md",
+      "sha256": "ca398c9ab9af4af78c369f9a5770ebf44280e95edaeeb4d6a9370ccb221ea5bf"
+    }
+  ],
+  "standard": {
+    "tests": 372,
+    "pass": 306,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 66
+  },
+  "postgresql": {
+    "tests": 3,
+    "pass": 3,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "tracker": {
+    "tests": 21,
+    "pass": 21,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "oci": {
+    "status": "PASS",
+    "scope": "LOCAL_OCI_POSTGRESQL",
+    "login": "Secure cookie and CSRF enforced",
+    "gitValidation": "VALID",
+    "approval": "APPROVED",
+    "history": "NOT_EXECUTED",
+    "credentialRotation": "PASS_WITHOUT_EXPIRY_EXTENSION_OR_RESURRECTION",
+    "restartPersistence": "PASS",
+    "gracefulExit": 0,
+    "worker": "DISABLED_FAIL_CLOSED",
+    "runtimeNotices": {
+      "debianPackages": 115,
+      "jdkFiles": 38
+    },
+    "oracleRuntimeVerified": false
+  },
+  "builds": "App and worker actual builds PASS after archive hostname and redirect correction; smoke harness stdin flag corrected afterward, production module unchanged. Exact final-source OCI build remains mandatory in Actions.",
+  "security_correction": "CodeQL high hostname-regex finding corrected by literal dots and redirect rejection; exact new scan pending.",
+  "harness_correction": "Docker mounted-secret update needed --interactive to receive private JSON stdin; corrected retry PASS, failure retained.",
+  "raw_outputs": [
+    {
+      "path": "evidence/product/kelryvo-containers/rotation-standard.log",
+      "sha256": "c6aafc0ebc675270cc14f91ec6396079140a8639cd2573c651a1d555171d6815"
+    },
+    {
+      "path": "evidence/product/kelryvo-containers/rotation-postgresql.log",
+      "sha256": "ac32fae759740e7ddf6c3dd5ab43fbdb0a41e72410e12f3f9c5f6500d514afec"
+    },
+    {
+      "path": "evidence/product/kelryvo-containers/rotation-oci.log",
+      "sha256": "7bcc1954b6880e1ba2dac6ace3f2149810b77e695b164627c8bb1911a94e0e7b"
+    },
+    {
+      "path": "evidence/product/kelryvo-containers/rotation-harness-failure.log",
+      "sha256": "20b24d7ef5217db9bd7f79bb0a8f40ccf7e78c5f1c87eda4977bf060d817c8fb"
+    }
+  ],
+  "limitations": [
+    "No publication, Kubernetes or Oracle acceptance claim.",
+    "Offline standard checks retain66 PostgreSQL skips; separate actual3-case PostgreSQL and OCI acceptance pass.",
+    "Sonar unavailable under existing quota exception; GitGuardian entity-identifier alert external closure pending."
+  ]
+}

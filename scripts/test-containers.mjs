@@ -71,7 +71,16 @@ try {
   const operator = async (...args) => docker('exec', app, 'node', 'scripts/container-membership.mjs', ...args);
   await operator('activate');
   stage = 'HTTPS governance workflow';
-  const result = await smokeGovernance({ origin, ca, tokens, operator, onStep: step => { stage = step; } });
+  const rotate = async (identity, token) => {
+    privateValues.push(token);
+    execFileSync('/usr/bin/docker', ['run', '--rm', '--interactive', '--network', 'none', '--user', '0:0', '--entrypoint', 'node',
+      '--mount', `type=bind,src=${secrets},dst=/secrets`, appImage, '-e',
+      "const fs=require('node:fs');const x=JSON.parse(fs.readFileSync(0,'utf8'));const p='/secrets/'+x.identity+'-token';fs.chmodSync(p,0o600);fs.writeFileSync(p,x.token);fs.chmodSync(p,0o440);"],
+    { input: JSON.stringify({ identity, token }), encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'], timeout: 10_000 });
+    assert.match(docker('exec', app, 'node', 'scripts/container-credentials.mjs', 'rotate', identity), /previous authority retired and audited/);
+    assert.match(docker('exec', app, 'node', 'scripts/container-credentials.mjs', 'rotate', identity), /expiry unchanged/);
+  };
+  const result = await smokeGovernance({ origin, ca, tokens, operator, rotate, onStep: step => { stage = step; } });
   stage = 'graceful restart and retained metadata';
   docker('stop', '--time', '30', app);
   assert.equal(docker('inspect', '--format', '{{.State.ExitCode}}', app), '0');
@@ -82,7 +91,8 @@ try {
   assert.equal(inventory.jdkLegalFilesVerified, 38);
   assert.ok(inventory.packages.length > 0);
   console.log(JSON.stringify({ status: 'PASS', scope: 'LOCAL_OCI_POSTGRESQL', login: 'Secure cookie and CSRF enforced',
-    gitValidation: result.validation, approval: result.decision, history: result.execution, restartPersistence: 'PASS', gracefulExit: 0,
+    gitValidation: result.validation, approval: result.decision, history: result.execution,
+    credentialRotation: 'PASS_WITHOUT_EXPIRY_EXTENSION_OR_RESURRECTION', restartPersistence: 'PASS', gracefulExit: 0,
     worker: 'DISABLED_FAIL_CLOSED', runtimeNotices: { debianPackages: inventory.packages.length, jdkFiles: 38 }, oracleRuntimeVerified: false }));
 } catch (error) {
   console.error(JSON.stringify({ status: 'FAIL', stage, code: error.code ?? 'ASSERTION_OR_RUNTIME',
