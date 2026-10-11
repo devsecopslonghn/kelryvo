@@ -236,13 +236,16 @@
     },
     {
       "index_id": "mvp-release-safe-diagnostics-local-verified"
+    },
+    {
+      "index_id": "mvp-release-diagnostics-pr58-master-verified"
     }
   ],
   "foundation_status": "VERIFIED",
   "foundation_evidence": {
     "index_id": "SF-P0-FOUNDATION-20261008T094530364Z-87710c95"
   },
-  "current_phase": "MVP_APPROVED_PENDING_HISTORY_CONTEXT_LOCAL_VERIFIED_CI_PENDING",
+  "current_phase": "MVP_LOCAL_RELEASE_AND_APPROVED_HISTORY_INTEGRATED_PR58_MASTER_CI_VERIFIED",
   "wp0_t01_status": "VERIFIED_OFFLINE_INCREMENT",
   "wp0_acceptance": "BLOCKED",
   "wp0_architecture_decision": "OFFLINE_PARSER_PROFILE_ACCEPTED_RUNTIME_GATES_BLOCKED",
@@ -256,17 +259,17 @@
     "node scripts/tracker.mjs status",
     "node scripts/tracker.mjs next"
   ],
-  "updated_at": "2026-10-11T04:15:02.137152+00:00",
+  "updated_at": "2026-10-11T05:27:10.395442+00:00",
   "final_check_evidence": {
-    "index_id": "mvp-approved-pending-history-context-local-verified"
+    "index_id": "mvp-release-diagnostics-pr58-master-verified"
   },
-  "final_check_manifest": "evidence/product/pending-history-context-20261011/record.json",
+  "final_check_manifest": "evidence/product/release-diagnostics-20261011/master-verification.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
   "latest_validated_master_before_this_increment": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
-  "last_merged_implementation_pr": 56,
-  "checkpoint_evidence": "evidence/product/pending-history-context-20261011/record.json",
+  "last_merged_implementation_pr": 58,
+  "checkpoint_evidence": "evidence/product/release-diagnostics-20261011/master-verification.json",
   "implementation_prs_pending": [],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
@@ -274,7 +277,7 @@
     "previous_goal_turn": "OWNER_INPUT: require fresh planning for missing legacy generations; T19 resumed in isolated current-master worktree.",
     "reason": "Compatibility decision approved; independent PRODUCT delivery active."
   },
-  "current_increment_merge_status": "LOCAL_VERIFIED_PENDING_PUBLICATION_AND_CI",
+  "current_increment_merge_status": "MERGED_MASTER_VERIFIED",
   "current_checkpoint_branch": "development/pending-history-context",
   "active_track": "PRODUCT",
   "tracks": {
@@ -352,9 +355,9 @@
       "native_security": "APPROVED_WITH_PRESERVED_SCAN_LIMITATIONS"
     }
   },
-  "current_increment_pr": null,
-  "current_increment_reviewed_head": "6c336c3f5b816a470994c05810e745405d179b80",
-  "current_increment_merge_commit": null,
+  "current_increment_pr": 58,
+  "current_increment_reviewed_head": "9e91c1b52caaef8768d85047124efd5a91ac823a",
+  "current_increment_merge_commit": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
   "t19_compatibility_decision": {
     "owner_approved_at_recorded_utc": "2026-10-09T12:37:42.238588+00:00",
     "legacy_pending_plan_without_verifiable_generation": "REQUIRE_FRESH_PLAN",
@@ -394,16 +397,16 @@
   },
   "publication_gate": {
     "draft_only": false,
-    "merge_eligible": false,
-    "integration_complete": false,
+    "merge_eligible": true,
+    "integration_complete": true,
     "configured_required_contexts": [],
     "optional_host_security": "UNAVAILABLE_NOT_PASS",
-    "actual_ci": "PR56 master gates verified. New pending-history source local check/focused API/browser and independent review PASS; candidate and resulting-master foundation/parser/PRODUCT pending.",
+    "actual_ci": "PR58 exact candidate/master foundation/parser/PRODUCT SUCCESS77API33browser1release(inner4) zero fail/skip. Original PR57 master38111860684FAIL/causeUNKNOWN retained, not waived.",
     "ordinary_merge_no_bypass": true
   },
   "latest_merged_master_before_this_increment": "ce632193ac3a1c9c544d71e84eca2071133987d0",
-  "last_verified_master_evidence": "evidence/product/oracle-host-20261011/master-verification.json",
-  "verified_remote_master": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
+  "last_verified_master_evidence": "evidence/product/release-diagnostics-20261011/master-verification.json",
+  "verified_remote_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
   "carry_forward": {
     "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-history-aware",
     "branch": "development/history-aware-migrations",
@@ -442,8 +445,8 @@
     },
     "merge_eligible": false
   },
-  "next_milestone": "Integrate readable approved pending-history context; then address installed private provider/supervised worker readiness while Oracle runtime acceptance stays separate.",
-  "current_increment_published_head": null,
+  "next_milestone": "Integrate locally verified native worker supervision; finish bounded private provider readiness. Oracle runtime/recovery acceptance remains separate.",
+  "current_increment_published_head": "9e91c1b52caaef8768d85047124efd5a91ac823a",
   "t32_integration_sources": [
     {
       "pr": 40,
@@ -753,7 +756,8 @@
       "private metadata backup and witnessed restore under persistent RESTORE_HOLD",
       "native HTTPS cookie/CSRF/expiry/session revocation",
       "Approved Git request → exact pinned-parser statements → checked worker admission/dispatch → durable receipts/history, UNIT_SYNTHETIC host only",
-      "Applied V1 → separately approved V1+V2 executes only V2; witnessed complete history NOOP; untrusted/divergent/rewound history HOLD, UNIT_SYNTHETIC targets only"
+      "Applied V1 → separately approved V1+V2 executes only V2; witnessed complete history NOOP; untrusted/divergent/rewound history HOLD, UNIT_SYNTHETIC targets only",
+      "Scoped immutable approved migration file/version/full and file-local statement provenance for pending V2, including duplicate digests; labels never prove target effects"
     ],
     "essential_gaps": [
       "Independently installed private provider and supervised deployed worker with truthful target TLS/GUID/effective-grants/object/adoption attestations.",
@@ -763,8 +767,8 @@
       "M1": "LOCAL_FOUNDATION_WORKFLOW_VERIFIED_INTEGRATED",
       "M2": "OFFLINE_PREPARATION_REVIEW_WORKFLOW_VERIFIED_INTEGRATED",
       "M3": "RESTRICTED_ORACLE_HOST_ADAPTER_INTEGRATED_MASTER_CI_VERIFIED_UNIT_TARGET_ONLY_INSTALLED_PROVIDER_AND_RUNTIME_INCOMPLETE",
-      "M4": "PENDING_SUFFIX_LEDGER_HOST_AND_APPROVED_HISTORY_PROVENANCE_MERGED_PR57_CURRENT_MASTER_RELEASE_CHECK_FAILED",
-      "M5": "PR52_PR56_REPRODUCIBLE_LOCAL_ACCEPTANCE_VERIFIED_PR57_CURRENT_MASTER_RELEASE_FAILURE_UNRESOLVED"
+      "M4": "PENDING_SUFFIX_LEDGER_NO_REPLAY_AND_APPROVED_PROVENANCE_INTEGRATED_PR58_DESCENDANT_MASTER_VERIFIED_REAL_RECOVERY_INCOMPLETE",
+      "M5": "REPRODUCIBLE_LOCAL_SOURCE_INSTALLATION_VERIFIED_PR58_MASTER_ORACLE_AND_DISTRIBUTION_ACCEPTANCE_INCOMPLETE"
     },
     "oracle_runtime": "BLOCKED_EXTERNAL_NO_AUTHORIZED_ENVIRONMENT",
     "shortest_next_path": [
@@ -786,10 +790,10 @@
       {
         "outcome": "Reproducible MVP release acceptance",
         "work": "Demonstrate installation and Git-to-review/request/history on local PostgreSQL/Git/parser/HTTPS; validate Oracle execution only against an explicitly authorized runtime. Assemble source/notices and deployment artifacts under existing license.",
-        "status": "INTEGRATED_PR52_MASTER_CI_VERIFIED_LOCAL_BUNDLE_PR55_BUILT_AND_VERIFIED"
+        "status": "INTEGRATED_PR52_UPDATED_PR58_MASTER_ACCEPTANCE_AND_SOURCE_BUNDLE_VERIFIED"
       }
     ],
-    "merged_master": "7da25d2775bd1f96b5ca02be117b2d348553dd81",
+    "merged_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac",
     "reconciled_prs": [
       48,
       47,
@@ -806,16 +810,18 @@
     ],
     "active_increment": {
       "outcome": "Restore secret-safe fresh-source release failure visibility and verify current master acceptance",
-      "status": "LOCAL_DIAGNOSTIC_AND_FRESH_SOURCE_ACCEPTANCE_PASS_INITIAL_MASTER_FAILURE_CAUSE_UNKNOWN_CI_PENDING",
+      "status": "INTEGRATED_PR58_MASTER_CI_VERIFIED",
       "worktree": "/home/longhn0710/workspace/schemaforge-release-diagnostics",
       "branch": "development/release-failure-diagnostics",
       "source_head": "fa4bd87df1888a649a9cb927083eb9749ac3eaeb",
       "integrated_base": "7da25d2775bd1f96b5ca02be117b2d348553dd81",
-      "checkpoint_publication": "UNPUBLISHED",
-      "next": "Finish fresh-source local reproduction, review scoped publication, require actual candidate/master gates; independently review unpublished whole-worker supervision."
+      "checkpoint_publication": "MERGED",
+      "next": "Integrate reviewed native supervision with required PRODUCT test; finish independent private provider readiness without Oracle connections.",
+      "published_head": "9e91c1b52caaef8768d85047124efd5a91ac823a",
+      "merged_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac"
     },
-    "last_integrated_pr": 57,
-    "last_fully_verified_master": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3"
+    "last_integrated_pr": 58,
+    "last_fully_verified_master": "4d4fd46a2a31f6c3176fc03fa15fe9d850e5ccac"
   },
   "historical_t35_carry_forward": {
     "checkpoint_worktree": "/home/longhn0710/workspace/schemaforge-product-secure-sessions",
