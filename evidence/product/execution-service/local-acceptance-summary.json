@@ -1,0 +1,69 @@
+{
+  "task": "SF-PRODUCT-T37",
+  "base": "95ade29572adf56f16be82b5d5a6d0437e235dec",
+  "source_files": {
+    "apps/worker/execution-service.mjs": "2c038fb174f5ec78bfcf393f1b0a7dfefa9ba9fd35789cfd1794b553b51c880d",
+    "apps/worker/execution-service-main.mjs": "f67cfefb26a69ae2f31c32e0bc4edb097d46e78149c91c3bf738a6dcff7875fd",
+    "apps/worker/expiry-recovery-factory.mjs": "d07ea29d0e92ae5bb1a3a8548e8905fad70c468d2e7886f94e3faf228b790ca0",
+    "apps/worker/installed-worker-factory.mjs": "c96f75aa3914e8846d3d714550e7e184b5aa71c2fc9ca4685a6d484c7a01b7de",
+    "apps/worker/run-request.ts": "2b45ec55ccd6922b6191bd699b018eb9172b33916435896c1370c03fc6927275",
+    "apps/worker/supervised-runner.mjs": "f04ae6cfaac7818f3dd0a35b4631b733bdc3c8561431f00b1b595331f729d4ac",
+    "apps/worker/supervisor.mjs": "92019e60b1ced4201b7407ddd12f933f491098ed6b413ed2fcc1e0fd82e0ba52",
+    "packages/execution/postgres-jobs.ts": "d7f872527822bd2ef88ec4339ffeb20cc50efeb9335b7ab4497dc0d120b2c326",
+    "packages/database/index.ts": "b21dc03a2da5093370d28098784a2bf1f71738d108a646a0ef98c25ba44b1536",
+    "packages/backup/index.mjs": "d0e99e1371f935d802f51c42d807e76c159b434892a814f6f69a3bfe5a4275a9",
+    "tests/product-execution-service.test.mjs": "62c6f13062861a7713f93ba2fc67e6665e67641215331c77e1039c68815c3d84",
+    "tests/helpers/execution-expiry-recovery-unit-factory.mjs": "564cdf43f15821c7f50a3acdbafd90f3a648ec6918fe565d33c79ae0c15570b3",
+    "tests/helpers/execution-supervisor-unit-factory.mjs": "8ee1bc1583d7be57e5b8fa27fdd715e76ec420370c08cc36d8e5733c8a681f2a",
+    "tests/execution-worker-supervisor.test.mjs": "1276692b35387bfe1073898175bda40e72598d72a350b969520b58841e80620a",
+    "scripts/test-product.mjs": "26bb0e41ea567f4cc14655518b49dd040a2417d37fd0c625640ef0ae796b4aaa",
+    "package.json": "9610d132a25a0665077d1ff4a923925b7b327d03cddaa1282779ee14bd238972"
+  },
+  "final_service": {
+    "command": "node --test --test-concurrency=1 tests/product-execution-service.test.mjs with SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 and owned isolated PostgreSQL",
+    "exit_code": 0,
+    "tests": 14,
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0,
+    "raw_output": {
+      "path": "evidence/product/execution-service/service-final.log",
+      "sha256": "dbd9b216be81901d389ce4ca6fb05adf527df23e67278132e0a74a4aafc2cdec"
+    }
+  },
+  "deterministic_fifo": {
+    "command": "node --test --test-name-pattern=bounded FIFO tests/product-execution-service.test.mjs with SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 and owned isolated PostgreSQL",
+    "exit_code": 0,
+    "tests": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "raw_output": {
+      "path": "evidence/product/execution-service/fairness-final.log",
+      "sha256": "8b7cb49d3840256308c9ca0db32a4b1d185f0a316bf07e5035e1a4162ebda18c"
+    }
+  },
+  "retained_prior_regression": {
+    "command": "node --test --test-concurrency=1 tests/product-execution-service.test.mjs tests/product-installed-worker-factory.test.mjs tests/product-installed-expiry-recovery.test.mjs tests/product-backup-restore.test.mjs tests/execution-worker-supervisor.test.mjs tests/product-controlled-execution.test.mjs with SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 and owned PostgreSQL",
+    "exit_code": 1,
+    "tests": 60,
+    "passed": 59,
+    "failed": 1,
+    "skipped": 0,
+    "outcome": "FAIL before FIFO text-cast fix; all 46 existing kernel/factory/supervisor/native-backup regression cases passed. This full run is not PASS. Final service14 and deterministic FIFO1 passed separately after correction.",
+    "raw_output": {
+      "path": "evidence/product/execution-service/focused-postgres-corrected.log",
+      "sha256": "5de7542c1e8624aeaff54aa16d781f07ab0fbf32cc1673277c382f2f4b06df9e"
+    }
+  },
+  "review": {
+    "independent_native_review": "Generation fencing gap found and fixed; no remaining blocking source defect. FIFO driver serialization issue found by runtime test and corrected. Exact publication review still required."
+  },
+  "limitations": [
+    "Oracle target transport is UNIT_SYNTHETIC; no Oracle connection, credential resolution or runtime verification",
+    "CLI trusted bootstrap uses empty owned metadata only; no installed Oracle target acceptance",
+    "No deployed isolation or orphan containment after forced parent death or loss of metadata leadership",
+    "Required candidate and resulting-master Actions verification pending",
+    "GitGuardian supplied finding is a UUID entity false positive; external incident remains open"
+  ]
+}

@@ -824,7 +824,34 @@ const PRODUCT_TASK_36 = {
     "SF-PRODUCT-T36-RECOVERY"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36];
+const PRODUCT_TASK_37 = {
+  "id": "SF-PRODUCT-T37",
+  "package": "PRODUCT",
+  "assigned_agent": "orchestrator",
+  "title": "Connect the durable queue to a generation-bound installed execution service",
+  "dependencies": [
+    "SF-PRODUCT-T36"
+  ],
+  "feature_ids": [
+    "OPS-002",
+    "OPS-003",
+    "OPS-019",
+    "MIG-011"
+  ],
+  "acceptance_criteria": [
+    "Install a fixed execution service with one PostgreSQL session leader and one active supervised child per metadata database. Snapshot reviewed factory/environment/limits before metadata startup; reject mixed UNIT/trusted capabilities and request-selected routes. Keep API credentials and target writer capability separate.",
+    "Discover bounded FIFO waiting requests with exact keyset timestamps, pass ineligible requests without starving later work, and recover expired CLAIMED attempts before dispatch. Preserve original history and wait on unresolved admitted jobs. Never renew, reclaim, replay or release HOLD.",
+    "Pin service children and every durable attempt write to the exact active metadata generation. Connection, leader-session or generation loss stops dispatch without reconnect. Transport, cleanup or projection uncertainty retires the service without overwriting committed terminal facts.",
+    "Provide a private OS-installed CLI with fixed diagnostics and SIGTERM/SIGINT drain. Stop scheduling new work, await active operations and confirmed child exit before releasing metadata leadership. Unknown termination retains ownership and prevents replacement while the process lives; no OS sandbox or deployed orphan containment is inferred.",
+    "Verify actual isolated PostgreSQL, real supervised children and Git/parser/approval/request/history integration with UNIT target ports: V1 then pending-only V2 and NOOP; expiry/live leases, bounded fairness, generation races, private CLI and unconfirmed child drain. Preserve backup compatibility and existing required Foundation/parser/PRODUCT/CodeQL GitHub Actions; no Oracle runtime certification."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T37-QUEUE",
+    "SF-PRODUCT-T37-GENERATION",
+    "SF-PRODUCT-T37-DRAIN"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

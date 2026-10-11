@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { fork } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
+import { setTimeout as delay } from 'node:timers/promises';
 import { createExecutionWorkerStarter, createSupervisedExecutionWorker } from '../apps/worker/supervisor.mjs';
 
 const ENTRY = fileURLToPath(new URL('./helpers/execution-supervisor-child.mjs', import.meta.url));
@@ -77,10 +78,16 @@ test('unconfirmed termination retains ownership and blocks replacement', async (
   assert.equal(result.childTermination, 'UNCONFIRMED');
   assert.equal((await worker.runWaitingRequest(JOB)).reason, 'SUPERVISOR_BUSY');
   assert.equal(children.length, 1);
+  let drained = false;
+  const drain = worker.drain().then(() => { drained = true; });
+  await delay(20);
+  assert.equal(drained, false, 'drain cannot release ownership before actual child exit');
   const exit = new Promise(resolve => children[0].once('exit', resolve));
   children[0].kill = signal => children[0].constructor.prototype.kill.call(children[0], signal);
   children[0].kill('SIGKILL');
   await exit;
+  await drain;
+  assert.equal(drained, true);
 });
 
 test('an invalid starter handle retains uncertainty and refuses another invocation', async () => {

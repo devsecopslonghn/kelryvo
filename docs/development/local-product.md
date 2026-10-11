@@ -983,8 +983,8 @@ existing configuration must belong to the current OS user, with directory mode 0
 file mode 0600; the URL must identify an allowed loopback metadata database with the
 matching private password. The command does not initialize or migrate the database.
 `status` returns at most 50 expired trusted attempts with job/project/plan IDs and lease
-deadlines, without SQL, credentials or receipt payloads. If `nextAfter` is present, pass
-that job UUID as the third argument to `status` to read the next page. Discovery does not
+deadlines, without SQL, credentials or receipt payloads. If `nextAfter` is present, use
+`status /absolute/private/config.json JOB_UUID` to read the next page. Discovery does not
 lock or recover attempts; recovery rechecks eligibility transactionally.
 
 `recover` returns `HOLD` only after the selected expired claim is durably held and the
@@ -994,6 +994,91 @@ persistence and cleanup failures return a fixed error; inspect retained executio
 before retrying because HOLD may already have committed. Repeated recovery adds no
 second HOLD. This command supplies no effect verdict, replay or HOLD release and adds no
 HTTP endpoint. Real Oracle recovery and deployed worker isolation remain unverified.
+
+### Installed durable queue service
+
+`createInstalledExecutionService` in `apps/worker/execution-service.mjs` connects the
+durable waiting queue to the fixed execution and metadata-only recovery factories.
+Privileged installation code supplies its metadata URL, scope, reviewed factory module
+URLs and worker identities. It snapshots those bindings, the allowlisted child environment
+and bounded supervisor limits before opening metadata. Requests supply no routes, module
+selection, credentials or execution/recovery selector; the API retains no writer capability.
+
+An installation module exports `createExecutionService`, returning the installed service
+in `TRUSTED_VALIDATED` scope. For example, after installing a separately reviewed private
+Oracle factory that reads `SCHEMAFORGE_DATABASE_URL` and passes
+`SCHEMAFORGE_METADATA_GENERATION_ID` as `expectedMetadataGenerationId` to
+`createInstalledExecutionWorkerFactory`:
+
+```js
+import { createInstalledExecutionService } from '/absolute/schemaforge/apps/worker/execution-service.mjs';
+
+export const createExecutionService = () => createInstalledExecutionService({
+  databaseUrl: process.env.SCHEMAFORGE_DATABASE_URL,
+  scope: 'TRUSTED_VALIDATED',
+  executionFactory: {
+    factoryUrl: 'file:///absolute/private/oracle-worker.mjs',
+    workerId: 'your-installed-worker',
+  },
+  recoveryFactory: {
+    factoryUrl: 'file:///absolute/schemaforge/apps/worker/expiry-recovery-factory.mjs',
+    workerId: 'installed-expiry-recovery',
+  },
+});
+```
+
+The private installation must belong to the current OS user, with directory mode 0700,
+file mode 0600 and no symlink path components. Start it with:
+
+```sh
+npm run worker:service -- /absolute/private/service.mjs
+```
+
+The CLI accepts one reviewed `.mjs` installation file, uses fixed diagnostics, and handles
+SIGTERM/SIGINT by stopping new scheduling and draining active work. Installation modules
+are privileged executable code. File permissions and process separation provide no OS
+sandbox or deployment attestation. The Oracle factory still needs separately authorized
+private credentials, purpose authorization and truthful target binding; this service
+does not provide them or authorize an Oracle connection.
+
+The service reserves one physical PostgreSQL session and takes a nonblocking advisory
+leader lock. A second service for that metadata database cannot start while ownership
+remains held. It requires the current metadata generation to be ACTIVE and passes that
+exact generation through the fixed child environment. A child must expose the matching
+`expectedMetadataGenerationId` before its operation runs. Initial admission and all
+durable attempt writes recheck the bound generation; write transactions hold shared locks
+on the generation and its pointer until commit. RESTORE_HOLD and replaced generations
+cannot become execution authority through an old service or child.
+
+Each cycle first recovers up to 50 expired CLAIMED attempts into the existing uncertainty
+HOLD. Any remaining admitted job of the installed scope pauses new dispatch. Otherwise,
+the service selects up to 50 waiting PRODUCT_REQUEST jobs in `(created_at,id)` order and
+executes one supervised child at a time. Keyset cursors retain PostgreSQL timestamp
+precision; reaching the end wraps the next poll. Declined requests retain their facts and
+are reconsidered on later passes without starving newer requests. Installation may lower
+`pageSize` to 1–50 and set `pollMs` to 250–60000 (default 5000); these settings do not grant
+authority. Queue indexes are added by normal metadata initialization, preserving rows and
+history. Restore older witnessed backups with their matching source bundle first, then
+upgrade the retained instance; cross-schema restore remains rejected and upgrade never
+clears RESTORE_HOLD.
+
+A clean child result must match its installed scope and committed job projection.
+Connection loss, loss of leader ownership, generation replacement, uncertain transport,
+cleanup or projection retire this service. It does not reconnect, infer effects, overwrite
+terminal facts or resume dispatch. Shutdown keeps metadata ownership until the active
+child actually exits, including after an operation deadline reports unconfirmed
+termination. Forced parent death or loss of its metadata connection can release the
+session lock while a child remains alive: deployment must supply separate process/session
+containment before claiming safe unattended recovery. Existing target mutex and durable
+attempt guards remain required; the service adds no automatic replay, lease renewal,
+replacement attempt or HOLD release.
+
+`tests/product-execution-service.test.mjs` exercises actual PostgreSQL, Git, pinned parser,
+approval, requests, separate worker children and retained history with explicit UNIT target
+ports. It covers V1→V2→NOOP, recovery before dispatch, live-claim pause, bounded FIFO fairness,
+generation races, private CLI startup/SIGTERM/restart and leadership retention until an
+unconfirmed child is reaped. This is local orchestration acceptance; Oracle target effects,
+installed writer credentials and deployed isolation/recovery remain unverified.
 
 `createPrivateOracleProvider` in `apps/worker/oracle-provider.mjs` supplies the
 restricted host's installed connection lifecycle. Privileged child installation code

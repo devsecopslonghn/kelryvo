@@ -1,0 +1,25 @@
+{
+  "id": "product-t37-installed-execution-service-local",
+  "subject_id": "SF-PRODUCT-T37",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Final isolated PostgreSQL execution-service14PASS/0skips and deterministic microsecond FIFO1PASS/0skips; prior unchanged kernel/factory/supervisor/native-backup46PASS within retained failing run. Fixed generation writes and FIFO driver cursor. No Oracle runtime, deployed isolation or remote-CI claim.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "test_references": [
+    "SF-PRODUCT-T37-QUEUE",
+    "SF-PRODUCT-T37-GENERATION",
+    "SF-PRODUCT-T37-DRAIN"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/execution-service/local-acceptance-summary.json",
+    "sha256": "77058a71cc80eb8e29fe590c7da90908c96c482645c8fce75d4468e8369335a1"
+  }
+}

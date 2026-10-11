@@ -1,0 +1,19 @@
+{
+  "command": "npm run check",
+  "exit_code": 0,
+  "tests": 358,
+  "passed": 298,
+  "failed": 0,
+  "cancelled": 0,
+  "skipped": 60,
+  "skip_scope": "Existing offline database-gated tests; actual PostgreSQL service acceptance and required PRODUCT Actions are separate.",
+  "license_closure": {
+    "pinned_packages": 89,
+    "unknown_required_grants": 0
+  },
+  "dependencies_or_license_changed": false,
+  "raw_output": {
+    "path": "evidence/product/execution-service/standard-checks.log",
+    "sha256": "41ce457041302cca079eb61d3ca47d808450c804b0ddc815f3851baf1fbe1caf"
+  }
+}

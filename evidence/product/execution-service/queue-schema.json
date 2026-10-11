@@ -1,0 +1,19 @@
+{
+  "previousSignature": "d034558976118fee6438f3494830d8b90918c3a1d44f3720b7527ac923190dea",
+  "currentSignature": "2b6f1f25d556f0fe35a0c97e7ab5a7d0998dcd5468a8d71fa34ce213f2b672f8",
+  "previousSignatureReproducedWithoutQueueIndexes": true,
+  "addedIndexes": [
+    {
+      "tablename": "sf_execution_attempts",
+      "indexname": "sf_execution_attempts_expiry_queue",
+      "indexdef": "CREATE INDEX sf_execution_attempts_expiry_queue ON public.sf_execution_attempts USING btree (lease_until, job_id) WHERE (state = 'CLAIMED'::text)"
+    },
+    {
+      "tablename": "sf_execution_jobs",
+      "indexname": "sf_execution_jobs_waiting_queue",
+      "indexdef": "CREATE INDEX sf_execution_jobs_waiting_queue ON public.sf_execution_jobs USING btree (organization_id, created_at, id) WHERE (state = 'WAITING_VALIDATION'::text)"
+    }
+  ],
+  "historicalRowsModified": false,
+  "crossSchemaRestoreAccepted": false
+}

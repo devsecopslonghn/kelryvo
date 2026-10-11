@@ -17,6 +17,7 @@ const actualChild = child => child instanceof ChildProcess && Number.isInteger(c
   && child.connected && child.stdin === null && child.stdout && child.stderr;
 
 const FIXED_ENV_KEYS = new Set(['PATH', 'LANG', 'TZ', 'SCHEMAFORGE_JAVA_HOME', 'SCHEMAFORGE_DATABASE_URL',
+  'SCHEMAFORGE_METADATA_GENERATION_ID',
   'SCHEMAFORGE_TEST_DATABASE_URL', 'SCHEMAFORGE_UNIT_SCOPE', 'SCHEMAFORGE_UNIT_ASSIGNMENT_ID', 'SCHEMAFORGE_UNIT_CLEANUP_FAULT']);
 /** Build the fixed fork closure at privileged installation time. Request data cannot select its entry or factory. */
 export function createExecutionWorkerStarter({ factoryUrl, env = { PATH: '/usr/bin:/bin', LANG: 'C', TZ: 'UTC' } } = {}) {
@@ -49,16 +50,24 @@ export function createSupervisedExecutionWorker({ startWorker, limits = LIMITS, 
   const timing = bounds(limits);
   let active = false;
   let unreapedChild = null;
+  const drains = new Set();
+  const drained = () => {
+    if (active || unreapedChild) return;
+    for (const resolve of drains) resolve();
+    drains.clear();
+  };
   const usedChildren = new WeakSet();
   async function runWaitingRequest(jobId, ...extra) {
     if (extra.length || typeof jobId !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(jobId)) return hold('REQUEST_REJECTED', 'NOT_STARTED');
     if (active || unreapedChild) return hold('SUPERVISOR_BUSY');
     active = true;
     const invocationId = randomUUID();
-    try { return await supervise({ jobId, invocationId, scope, workerId }, startWorker, timing, usedChildren, child => { unreapedChild = child; }); }
-    finally { active = false; }
+    try { return await supervise({ jobId, invocationId, scope, workerId }, startWorker, timing, usedChildren, child => { unreapedChild = child; drained(); }); }
+    finally { active = false; drained(); }
   }
-  return Object.freeze({ runWaitingRequest });
+  return Object.freeze({ runWaitingRequest,
+    drain() { return !active && !unreapedChild ? Promise.resolve() : new Promise(resolve => drains.add(resolve)); },
+  });
 }
 
 function supervise(request, startWorker, limits, usedChildren, retain) {
