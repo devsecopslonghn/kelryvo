@@ -3671,6 +3671,24 @@
       },
       "path": "evidence/product/installed-worker-factory-20261011/record.json",
       "sha256": "1cd30e9cba1099f81b6002799f23f0d0b018e1731e62f385bb0eb6fb2c499749"
+    },
+    {
+      "id": "mvp-installed-expiry-recovery-interrupted-resource-stop",
+      "subject_id": "OPS-005",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "BLOCKED",
+      "command": "Local candidate80d acceptance interrupted by owner resource stop; both API orchestrators exited1 after SIGTERM. API suites INCOMPLETE, one prior bigint assertion failure preserved. Completed foundation/browser/release results retain their original source80d only; corrected1225 source remains runtime-unverified. No acceptance PASS or merge.",
+      "exit_code": 1,
+      "criterion_indexes": [],
+      "test_references": [],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/installed-expiry-recovery-interrupted-20261011/interrupted-summary.json",
+        "sha256": "c8c4deed95c06468875601dd862081ae86896c5bd9eeb345470fb1ba34e1a279"
+      },
+      "path": "evidence/product/installed-expiry-recovery-interrupted-20261011/record.json",
+      "sha256": "6b9c8b6830c9e5def844c6e46323ca864f41b6870d52d2b2b24303e17cebd54e"
     }
   ]
 }

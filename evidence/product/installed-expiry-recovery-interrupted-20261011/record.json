@@ -1,0 +1,40 @@
+{
+  "id": "mvp-installed-expiry-recovery-interrupted-resource-stop",
+  "subject_id": "OPS-005",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "BLOCKED",
+  "command": "Local candidate80d acceptance interrupted by owner resource stop; both API orchestrators exited1 after SIGTERM. API suites INCOMPLETE, one prior bigint assertion failure preserved. Completed foundation/browser/release results retain their original source80d only; corrected1225 source remains runtime-unverified. No acceptance PASS or merge.",
+  "exit_code": 1,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/installed-expiry-recovery-interrupted-20261011/interrupted-summary.json",
+    "sha256": "c8c4deed95c06468875601dd862081ae86896c5bd9eeb345470fb1ba34e1a279"
+  },
+  "status": "INCOMPLETE",
+  "local_verification_status": "INCOMPLETE",
+  "recorded_at": "2026-10-11T08:10:45.258800+00:00",
+  "tested_candidate_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+  "tested_tree": "0313b79712afeb60988533fda9e27d5d4d2239ef",
+  "corrected_source_sha": "1225efddf3abac283a24d309f9d5e8d77c99b155",
+  "corrected_source_runtime_verification": "NOT_RUN",
+  "catalog_traceability": [
+    "MIG-011",
+    "OPS-002",
+    "OPS-005"
+  ],
+  "milestone": "M4",
+  "implementation_decision": "SF-D054",
+  "resource_policy_decision": "SF-D055",
+  "temporary_ci_exception": "SF-D052_UNCHANGED_GATES",
+  "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
+  "merge_eligible": false,
+  "source_review": "NO_BLOCKER_SOURCE_ONLY_NOT_LOCAL_ACCEPTANCE",
+  "preserved_prior_local_acceptance": [
+    "mvp-pr60-owner-exception-complete-local-acceptance",
+    "mvp-installed-worker-factory-local-verified"
+  ],
+  "next": "Lightweight development/code review only while this resource stop is in effect. Before any later heavy verification, check host CPU/memory/I/O, record a resource budget, use one suite and at most two workers including supervised test children, no parallel PostgreSQL/Chromium. Reuse valid dependencies/builds. Await suitable remote CI where required concurrency cannot fit. All current recovery runtime gates remain INCOMPLETE; never merge around unavailable checks or infer target success."
+}

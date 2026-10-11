@@ -1,0 +1,426 @@
+{
+  "status": "INCOMPLETE",
+  "reason": "Owner urgently cancelled heavy acceptance due host CPU/RAM/I/O overload; both unfinished API suites terminated with SIGTERM.",
+  "recorded_at": "2026-10-11T08:10:45.258800+00:00",
+  "tested_candidate_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+  "tested_candidate_tree": "0313b79712afeb60988533fda9e27d5d4d2239ef",
+  "corrected_source_sha": "1225efddf3abac283a24d309f9d5e8d77c99b155",
+  "corrected_source_runtime_verification": "NOT_RUN",
+  "phases": {
+    "foundation": {
+      "status": "PASS",
+      "tested_source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+      "command_results": [
+        {
+          "program": "npm",
+          "args": [
+            "run",
+            "parser:antlr:build"
+          ],
+          "source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+          "shard": null,
+          "startedAt": "2026-10-11T07:50:44.355Z",
+          "completedAt": "2026-10-11T07:51:08.041Z",
+          "wall_seconds": 23.684622093,
+          "exit_code": 0,
+          "signal": null,
+          "log": "/tmp/schemaforge-expiry-recovery-local-foundation-run-parser_antlr_build.log",
+          "log_sha256": "feb14400554134fd54b9789c5a2e2ffffb9f16d3807b1093f7d008a7f9da4a76"
+        },
+        {
+          "program": "npm",
+          "args": [
+            "run",
+            "parser:antlr:corpus"
+          ],
+          "source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+          "shard": null,
+          "startedAt": "2026-10-11T07:51:08.042Z",
+          "completedAt": "2026-10-11T07:52:24.682Z",
+          "wall_seconds": 76.64020719399998,
+          "exit_code": 0,
+          "signal": null,
+          "log": "/tmp/schemaforge-expiry-recovery-local-foundation-run-parser_antlr_corpus.log",
+          "log_sha256": "c976926687b15659f4eafcd5f2699b8d7901e0bc18309780f75bcd2b26631796"
+        },
+        {
+          "program": "npm",
+          "args": [
+            "run",
+            "parser:antlr:test"
+          ],
+          "source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+          "shard": null,
+          "startedAt": "2026-10-11T07:52:24.683Z",
+          "completedAt": "2026-10-11T07:53:08.151Z",
+          "wall_seconds": 43.468373404999994,
+          "exit_code": 0,
+          "signal": null,
+          "log": "/tmp/schemaforge-expiry-recovery-local-foundation-run-parser_antlr_test.log",
+          "log_sha256": "1e62a948ae76dc80fde07897d1d7637d6cf970ad620d22e47323c92940907a5d"
+        },
+        {
+          "program": "npm",
+          "args": [
+            "run",
+            "check"
+          ],
+          "source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+          "shard": null,
+          "startedAt": "2026-10-11T07:53:08.152Z",
+          "completedAt": "2026-10-11T07:54:04.868Z",
+          "wall_seconds": 56.715715408000015,
+          "exit_code": 0,
+          "signal": null,
+          "log": "/tmp/schemaforge-expiry-recovery-local-foundation-run-check.log",
+          "log_sha256": "78447f0ca2f350ddc57af998f3cbe94c90379332b1375e75b264427dc2c92fee"
+        },
+        {
+          "program": "npm",
+          "args": [
+            "run",
+            "dependencies:offline"
+          ],
+          "source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+          "shard": null,
+          "startedAt": "2026-10-11T07:54:04.869Z",
+          "completedAt": "2026-10-11T07:54:10.711Z",
+          "wall_seconds": 5.842236337000009,
+          "exit_code": 0,
+          "signal": null,
+          "log": "/tmp/schemaforge-expiry-recovery-local-foundation-run-dependencies_offline.log",
+          "log_sha256": "1ed9ed7af9fefc5bcbe48b60551388132fbbaa07a553f5eb2f99eb6d37ecb1de"
+        }
+      ],
+      "standard_counts": {
+        "tests": 341,
+        "pass": 291,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 50
+      },
+      "optional_pg_skip_reason": "Database-free foundation; mandatory PostgreSQL/API verification was interrupted and remains INCOMPLETE."
+    },
+    "api-1": {
+      "status": "INCOMPLETE",
+      "reason": "Owner-requested host-resource cancellation",
+      "command_results": [
+        {
+          "program": "node",
+          "args": [
+            "scripts/test-product.mjs"
+          ],
+          "source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+          "shard": "1/2",
+          "startedAt": "2026-10-11T07:54:21.311Z",
+          "completedAt": "2026-10-11T08:03:55.968Z",
+          "wall_seconds": 574.655355078,
+          "exit_code": null,
+          "signal": "SIGTERM",
+          "log": "/tmp/schemaforge-expiry-recovery-local-api-1-scripts_test-product_mjs.log",
+          "log_sha256": "0d1d5568a56aa55021428504be6eba6bed32b9cbb64c81abeea85a3287205f01"
+        }
+      ],
+      "orchestration_exit_code": 1,
+      "full_TAP_totals_available": false
+    },
+    "api-2": {
+      "status": "INCOMPLETE",
+      "reason": "Owner-requested host-resource cancellation",
+      "command_results": [
+        {
+          "program": "node",
+          "args": [
+            "scripts/test-product.mjs"
+          ],
+          "source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+          "shard": "2/2",
+          "startedAt": "2026-10-11T07:54:21.301Z",
+          "completedAt": "2026-10-11T08:03:55.972Z",
+          "wall_seconds": 574.6694116389999,
+          "exit_code": null,
+          "signal": "SIGTERM",
+          "log": "/tmp/schemaforge-expiry-recovery-local-api-2-scripts_test-product_mjs.log",
+          "log_sha256": "32cdb5121d2f831127f90143a7556c5d4379183a7e887c15ee4ed08b77f6fc55"
+        }
+      ],
+      "orchestration_exit_code": 1,
+      "full_TAP_totals_available": false
+    },
+    "browser-1": {
+      "status": "PASS",
+      "tested_source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+      "command_results": [
+        {
+          "program": "node",
+          "args": [
+            "scripts/test-product.mjs",
+            "--browser"
+          ],
+          "source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+          "shard": "1/2",
+          "startedAt": "2026-10-11T07:54:21.315Z",
+          "completedAt": "2026-10-11T08:01:51.853Z",
+          "wall_seconds": 450.536687569,
+          "exit_code": 0,
+          "signal": null,
+          "log": "/tmp/schemaforge-expiry-recovery-local-browser-1-scripts_test-product_mjs---browser.log",
+          "log_sha256": "d9c748a3f99d6163956751d04ef4710e37200c6ea55e7cea4937b9798f7e43d3"
+        }
+      ],
+      "counts": {
+        "tests": 16,
+        "pass": 16,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    "browser-2": {
+      "status": "PASS",
+      "tested_source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+      "command_results": [
+        {
+          "program": "node",
+          "args": [
+            "scripts/test-product.mjs",
+            "--browser"
+          ],
+          "source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+          "shard": "2/2",
+          "startedAt": "2026-10-11T07:54:21.299Z",
+          "completedAt": "2026-10-11T08:01:29.798Z",
+          "wall_seconds": 428.49788014999996,
+          "exit_code": 0,
+          "signal": null,
+          "log": "/tmp/schemaforge-expiry-recovery-local-browser-2-scripts_test-product_mjs---browser.log",
+          "log_sha256": "effde40a6c08e6045d88a41ea2d51a642f9ad66f8b14071b163a72dbd666c140"
+        }
+      ],
+      "counts": {
+        "tests": 17,
+        "pass": 17,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    "release": {
+      "status": "PASS",
+      "tested_source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+      "command_results": [
+        {
+          "program": "npm",
+          "args": [
+            "run",
+            "test:release"
+          ],
+          "source_sha": "80d324b59917d5e355c8de78be93aeac314c11ec",
+          "shard": null,
+          "startedAt": "2026-10-11T07:54:21.294Z",
+          "completedAt": "2026-10-11T07:58:26.155Z",
+          "wall_seconds": 244.85937516700002,
+          "exit_code": 0,
+          "signal": null,
+          "log": "/tmp/schemaforge-expiry-recovery-local-release-run-test_release.log",
+          "log_sha256": "b26657579ce496cbe225b48ea2691dc91f421812eb097e2b439169f4a1b59b5b"
+        }
+      ],
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "inner_workflow_pass": 4
+    }
+  },
+  "known_pre_interruption_failure": {
+    "suite": "api-2",
+    "test": "a supervised child recovers only expired metadata and preserves retained execution evidence",
+    "cause": "Root-added +1 assertion concatenated PostgreSQL bigint string revision; actual 1 compared to erroneous 01.",
+    "correction": "Exact BigInt(after) === BigInt(before) + 1n; source-reviewed and syntax-checked only, no runtime verification.",
+    "original_failed_log_preserved": true
+  },
+  "source_review": "NO_BLOCKER_SOURCE_ONLY_NOT_LOCAL_ACCEPTANCE",
+  "remote_actions": "BLOCKED_EXTERNAL (BILLING)",
+  "merge_eligible": false,
+  "oracle_runtime": "UNVALIDATED_NO_ORACLE_CONNECTIONS",
+  "resource_stop": {
+    "scope": "Only descendants of this exact candidate acceptance runner, verified by cwd and argv",
+    "root_pids": [
+      4087246,
+      4087250
+    ],
+    "selected": [
+      {
+        "pid": 4087246,
+        "ppid": 3805571,
+        "program": [
+          "node",
+          "/tmp/schemaforge-expiry-recovery-local-runner.mjs",
+          "api-1"
+        ]
+      },
+      {
+        "pid": 4087250,
+        "ppid": 3805571,
+        "program": [
+          "node",
+          "/tmp/schemaforge-expiry-recovery-local-runner.mjs",
+          "api-2"
+        ]
+      },
+      {
+        "pid": 4088900,
+        "ppid": 4087250,
+        "program": [
+          "node",
+          "scripts/test-product.mjs"
+        ]
+      },
+      {
+        "pid": 4088925,
+        "ppid": 4087246,
+        "program": [
+          "node",
+          "scripts/test-product.mjs"
+        ]
+      },
+      {
+        "pid": 4088961,
+        "ppid": 4088925,
+        "program": [
+          "/home/longhn0710/.nvm/versions/node/v22.23.3/bin/node",
+          "--test",
+          "--test-concurrency=1",
+          "tests/product-secure-sessions.test.mjs"
+        ]
+      },
+      {
+        "pid": 4088984,
+        "ppid": 4088900,
+        "program": [
+          "/home/longhn0710/.nvm/versions/node/v22.23.3/bin/node",
+          "--test",
+          "--test-concurrency=1",
+          "tests/product-membership.test.mjs"
+        ]
+      },
+      {
+        "pid": 4137286,
+        "ppid": 4088961,
+        "program": [
+          "/home/longhn0710/.nvm/versions/node/v22.23.3/bin/node",
+          "--test-concurrency=1",
+          "tests/product-release-comparison.test.mjs"
+        ]
+      },
+      {
+        "pid": 4140136,
+        "ppid": 4088984,
+        "program": [
+          "/home/longhn0710/.nvm/versions/node/v22.23.3/bin/node",
+          "--test-concurrency=1",
+          "tests/product-retained-detail.test.mjs"
+        ]
+      },
+      {
+        "pid": 4140444,
+        "ppid": 4137286,
+        "program": [
+          "/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin/bin/java",
+          "-Xmx256m",
+          "-Xss1m",
+          "-Dfile.encoding=UTF-8"
+        ]
+      },
+      {
+        "pid": 4140515,
+        "ppid": 4140136,
+        "program": [
+          "/home/longhn0710/workspace/schemaforge/.cache/licenses/runtime/temurin/bin/java",
+          "-Xmx256m",
+          "-Xss1m",
+          "-Dfile.encoding=UTF-8"
+        ]
+      }
+    ],
+    "requested_signal": "SIGTERM",
+    "owner_requested_stop": true,
+    "unfinished_suites_status": "INCOMPLETE"
+  },
+  "post_stop": {
+    "selected_processes_still_running": [],
+    "owned_acceptance_database_active_queries": 0,
+    "load_average": [
+      1.23,
+      3.85,
+      3.32
+    ],
+    "memory": {
+      "MemTotal_MiB": 23693,
+      "MemAvailable_MiB": 11018,
+      "SwapTotal_MiB": 0,
+      "SwapFree_MiB": 0
+    },
+    "pressure": {
+      "cpu": "unavailable_on_this_host",
+      "memory": "unavailable_on_this_host",
+      "io": "unavailable_on_this_host"
+    },
+    "unrelated_services_or_database_server_stopped": false
+  },
+  "host_normalized_sample": {
+    "cpu_busy_percent": 2.3,
+    "cpu_iowait_percent": 0.1,
+    "load_average": [
+      0.82,
+      3.5,
+      3.22
+    ],
+    "logical_cpus": 16,
+    "memory_available_MiB_previous_sample": 11018
+  },
+  "resource_policy": {
+    "max_heavy_suites": 1,
+    "max_concurrent_test_workers_including_supervised_children": 2,
+    "parallel_postgresql_acceptance_databases": false,
+    "parallel_chromium_or_browser_suites": false,
+    "check_cpu_memory_io_before_heavy_test": true,
+    "full_regression": "Only when necessary, sequentially and within a recorded resource budget",
+    "development": "Focused checks; no heavy suite restarted after the stop",
+    "dependency_and_build_reuse": "Avoid repeated npm installs and full builds",
+    "prefer_remote_ci_when_confirmed_available": true,
+    "interrupted_status": "INCOMPLETE",
+    "required_tests_assertions_security_and_merge_gates_preserved": true
+  },
+  "reproducible_interrupted_source_artifact": {
+    "directory": "/tmp/schemaforge-expiry-recovery-source-80d324b59917",
+    "format": "schemaforge-local-source-checksum-v1",
+    "sourceCommit": "80d324b59917d5e355c8de78be93aeac314c11ec",
+    "archive": "schemaforge-local-80d324b59917.tar.gz",
+    "sha256": "8e739a90b7d793455ea0b34fc4e6afd1b639747b9c0b4184cdb858a462062435",
+    "bytes": 448080,
+    "manifestSha256": "cb32ef4270996279c28e0fe2f1fd5cad63cb261c52b65f82766f9914feb95f89",
+    "files": 117,
+    "scope": "LOCAL_SOURCE_INSTALLATION_CANDIDATE",
+    "oracleRuntime": "UNVALIDATED"
+  },
+  "license_and_dependencies": "Unmodified PolyForm Shield 1.0.0; no dependencies/license changes; previous closure85pins0unknown retained.",
+  "limits": [
+    "No complete API or aggregate local acceptance; neither interrupted suite is PASS.",
+    "Completed checks apply only to frozen80d source; corrected1225 source remains runtime-unverified.",
+    "No new heavy tests, npm installs or full builds after owner stop.",
+    "Source code, commits,56worktrees and prior evidence retained; no unrelated services or PostgreSQL server stopped."
+  ],
+  "durable_evidence": {
+    "directory": "/home/longhn0710/workspace/schemaforge/.cache/product-acceptance/80d324b59917d5e355c8de78be93aeac314c11ec",
+    "manifest_sha256": "108d6f89b8e53eca2079a6f2173750e9d5d8ee67712dbe802b4a9eaa4588d342",
+    "files": 35,
+    "private_modes": "directories0700/files0600",
+    "original_outcomes_and_bytes_preserved": true,
+    "previous_08be_and_fa_evidence_untouched": true
+  }
+}
