@@ -1,0 +1,12 @@
+{
+  "base_publication": "1c70991d27d4397b69cb4f3b46cf2002dfc9c7b8",
+  "command": "Pinned Gitleaks8.30.1 dir --redact on final readiness/review metadata; original20 publication bytes retained and already scanned",
+  "files": 2,
+  "exit_code": 0,
+  "findings": 0,
+  "sha256": {
+    "docs/implementation/milestone.json": "968db71f57e596b5d6691b06272ce3089180dfde02068ec4686ad5b0c9c795d6",
+    "evidence/product/mvp-local-release-20261011/independent-review.json": "41d98f471ee2d0bb91b58da98eb82bec06552dc71d3a153a098935349267b0e7"
+  },
+  "producer_excluded_from_own_input": true
+}

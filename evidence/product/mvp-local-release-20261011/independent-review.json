@@ -1,0 +1,36 @@
+{
+  "reviewed_head": "1c70991d27d4397b69cb4f3b46cf2002dfc9c7b8",
+  "source_head": "5502b8cd077cc61f63980d1d13d7ce1d1ffbc94c",
+  "reviewer": "Native independent read-only integration_review",
+  "result": "LOCAL_ELIGIBLE_EXACT_HEAD_CI_PENDING",
+  "source_test_pin_license_hashes": 19,
+  "verified_log_hashes": 3,
+  "verified_publication_input_hashes": 20,
+  "mismatches": 0,
+  "publication_scan": "Pinned Gitleaks8.30.1 exit0/findings0; original20inputs frozen1c70991; inherited prior closeout already reviewed/scanned",
+  "resolved_findings": [
+    "Caller Git/tar source selectors",
+    "Exact prepared parser after installation",
+    "Inherited node:test context prevented child tests"
+  ],
+  "actual_repository_rules": {
+    "observed_at_utc": "2026-10-11T00:26:45.203234+00:00",
+    "master": "3b6b75ebc79fee3d6b9596fd203277e2cf9ace43",
+    "branch_response": {
+      "protected": false,
+      "protection": {
+        "enabled": false,
+        "required_status_checks": {
+          "checks": [],
+          "contexts": [],
+          "enforcement_level": "off"
+        }
+      }
+    },
+    "enforced_available_gates": "all6 candidate foundation/parser/product push+PR SUCCESS; all3 merged-master workflows SUCCESS",
+    "optional_security": "Protection/rulesets paid API, code scanning disabled, secret scanning disabled UNAVAILABLE, neverPASS; reuse retained observations, do not probe again",
+    "sonar": "UNAVAILABLE_OWNER_CONFIRMED_LOC_QUOTA_EXCEPTION; no thresholds/analysis changes; concrete findings still blocking",
+    "merge": "ordinary exact-head only, no admin/force or branch deletion"
+  },
+  "limitations": "Local source installation candidate only. UNIT host effects, Oracle runtime/reconciliation/deployed-worker isolation unvalidated; full F31/public naming/release clearance and signed offline updates/SBOM incomplete."
+}
