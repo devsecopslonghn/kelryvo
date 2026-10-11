@@ -1,0 +1,166 @@
+TAP version 13
+# Subtest: every real API file appears once across all shards, retaining its serial order
+ok 1 - every real API file appears once across all shards, retaining its serial order
+  ---
+  duration_ms: 28.197808
+  type: 'test'
+  ...
+# Subtest: membership is deterministic regardless of input order and inputs remain unchanged
+ok 2 - membership is deterministic regardless of input order and inputs remain unchanged
+  ---
+  duration_ms: 8.754783
+  type: 'test'
+  ...
+# Subtest: the two slowest observed API files are distributed between the two runners
+ok 3 - the two slowest observed API files are distributed between the two runners
+  ---
+  duration_ms: 0.353487
+  type: 'test'
+  ...
+# Subtest: new unmeasured API files retain complete complementary coverage
+ok 4 - new unmeasured API files retain complete complementary coverage
+  ---
+  duration_ms: 0.255022
+  type: 'test'
+  ...
+# Subtest: invalid or ambiguous partitions fail closed
+ok 5 - invalid or ambiguous partitions fail closed
+  ---
+  duration_ms: 0.865781
+  type: 'test'
+  ...
+# Subtest: persisted tracker state validates without assuming initial statuses
+ok 6 - persisted tracker state validates without assuming initial statuses
+  ---
+  duration_ms: 99.788541
+  type: 'test'
+  ...
+# Subtest: catalog and plan IDs are retained with original dependency links
+ok 7 - catalog and plan IDs are retained with original dependency links
+  ---
+  duration_ms: 4.128005
+  type: 'test'
+  ...
+# Subtest: separate WP0 cells never claim research as runtime PASS
+ok 8 - separate WP0 cells never claim research as runtime PASS
+  ---
+  duration_ms: 84.356396
+  type: 'test'
+  ...
+# Subtest: initial state keeps Oracle validation and product delivery tracks distinct
+ok 9 - initial state keeps Oracle validation and product delivery tracks distinct
+  ---
+  duration_ms: 11.281312
+  type: 'test'
+  ...
+# Subtest: unknown and cyclic dependencies are rejected
+ok 10 - unknown and cyclic dependencies are rejected
+  ---
+  duration_ms: 23.19064
+  type: 'test'
+  ...
+# Subtest: verification requires acceptance, evidence, and verified dependencies
+ok 11 - verification requires acceptance, evidence, and verified dependencies
+  ---
+  duration_ms: 18.871385
+  type: 'test'
+  ...
+# Subtest: BLOCKED and DEFERRED states require concrete reasons
+ok 12 - BLOCKED and DEFERRED states require concrete reasons
+  ---
+  duration_ms: 18.257544
+  type: 'test'
+  ...
+# Subtest: unit BLOCKED requires an offline blocker independent of Oracle lab status
+ok 13 - unit BLOCKED requires an offline blocker independent of Oracle lab status
+  ---
+  duration_ms: 19.133865
+  type: 'test'
+  ...
+# Subtest: Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+ok 14 - Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+  ---
+  duration_ms: 12.214904
+  type: 'test'
+  ...
+# Subtest: malformed evidence metadata returns validation errors without throwing
+ok 15 - malformed evidence metadata returns validation errors without throwing
+  ---
+  duration_ms: 51.454581
+  type: 'test'
+  ...
+# Subtest: research evidence cannot certify product status
+ok 16 - research evidence cannot certify product status
+  ---
+  duration_ms: 11.242608
+  type: 'test'
+  ...
+# Subtest: PASS cells need evidence
+ok 17 - PASS cells need evidence
+  ---
+  duration_ms: 9.765892
+  type: 'test'
+  ...
+# Subtest: ownership and dependency graph remain synchronized with work records
+ok 18 - ownership and dependency graph remain synchronized with work records
+  ---
+  duration_ms: 18.493443
+  type: 'test'
+  ...
+# Subtest: duplicate, missing, and unexpected imported IDs are rejected
+ok 19 - duplicate, missing, and unexpected imported IDs are rejected
+  ---
+  duration_ms: 32.051453
+  type: 'test'
+  ...
+# Subtest: source dependencies, acceptance, references, and result enums cannot drift
+ok 20 - source dependencies, acceptance, references, and result enums cannot drift
+  ---
+  duration_ms: 10.417629
+  type: 'test'
+  ...
+# Subtest: hashed indexed evidence covers every acceptance and test reference before verification
+ok 21 - hashed indexed evidence covers every acceptance and test reference before verification
+  ---
+  duration_ms: 109.638728
+  type: 'test'
+  ...
+# Subtest: product feature verification needs product-scope evidence and verified implementation tasks
+ok 22 - product feature verification needs product-scope evidence and verified implementation tasks
+  ---
+  duration_ms: 21.91083
+  type: 'test'
+  ...
+# Subtest: init refuses to overwrite initialized evidence or tracking state
+ok 23 - init refuses to overwrite initialized evidence or tracking state
+  ---
+  duration_ms: 68.467276
+  type: 'test'
+  ...
+# Subtest: next respects milestone scope and dependency gates independent of persisted statuses
+ok 24 - next respects milestone scope and dependency gates independent of persisted statuses
+  ---
+  duration_ms: 2.910872
+  type: 'test'
+  ...
+# Subtest: PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+ok 25 - PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+  ---
+  duration_ms: 67.665364
+  type: 'test'
+  ...
+# Subtest: PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+ok 26 - PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+  ---
+  duration_ms: 123.924102
+  type: 'test'
+  ...
+1..26
+# tests 26
+# suites 0
+# pass 26
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 929.128352
