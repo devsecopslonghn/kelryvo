@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-11T02:34:38.163316+00:00",
-  "verified_master": "ef311b1e6ed900502c4af01a928352e9171ee0a2",
-  "reviewed_local_source": "a1130d0c0652d83fe548a48a3070e87152b3ef58",
+  "recorded_at": "2026-10-11T03:03:20.075028+00:00",
+  "verified_master": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
+  "reviewed_local_source": "b5914d384ccfffa72e0dc4ea4c1c6922ca65e9ba",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
@@ -793,7 +793,8 @@
       "classification": "PARTIALLY_IMPLEMENTED",
       "basis": "Private protected ledger storage with immutable complete approved file plans, ordered STARTED/ACK/APPLIED facts and strict bounded history replay; atomic rollback and unknown-commit poisoning verified through25 fake-driver UNIT cases. Raw UNINITIALIZED never proves empty-target adoption; no installed Oracle host, ledger/grants/runtime acceptance, automatic reconciliation or recovery release.",
       "evidence": [
-        "mvp-protected-target-ledger-foundation-unit-verified"
+        "mvp-protected-target-ledger-foundation-unit-verified",
+        "mvp-protected-target-ledger-pr55-master-verified"
       ]
     },
     {
@@ -2583,8 +2584,9 @@
   "m4_ledger_foundation": {
     "source_commit": "a1130d0c0652d83fe548a48a3070e87152b3ef58",
     "evidence": "mvp-protected-target-ledger-foundation-unit-verified",
-    "status": "LOCAL_UNIT_VERIFIED_REMOTE_CI_PENDING",
+    "status": "INTEGRATED_PR55_MASTER_CI_VERIFIED",
     "oracle_runtime": "UNVALIDATED",
-    "full_feature_acceptance": false
+    "full_feature_acceptance": false,
+    "integration_evidence": "mvp-protected-target-ledger-pr55-master-verified"
   }
 }

@@ -1,0 +1,34 @@
+{
+  "id": "mvp-protected-target-ledger-pr55-master-verified",
+  "subject_id": "MIG-025",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "PR55 ordinary exact-head merge; candidate and resulting-master foundation/parser/PRODUCT all actual SUCCESS, API70/browser33/fresh-source1(inner4) zero fail/skip. Updated local archive/extracted manifest verified. Static install3 statements parsed, no Oracle runtime claim.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/oracle-ledger-foundation-20261011/master-ci-observation.json",
+    "sha256": "64f2f202c2f53b49d61dcc44de04bc705dcc0338807de78ccb6ae9678eeec563"
+  },
+  "recorded_at": "2026-10-11T03:03:20.075028+00:00",
+  "pr": 55,
+  "url": "https://github.com/devsecopslonghn/schemaForge/pull/55",
+  "reviewed_published_head": "b5914d384ccfffa72e0dc4ea4c1c6922ca65e9ba",
+  "merge_commit": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
+  "ordinary_exact_head_merge": true,
+  "merge_status": "MERGED_MASTER_VERIFIED",
+  "independent_review": "Native read-only ci_review approved source, adoption distinction and exact frozen publication/evidence inventory without blockers",
+  "prior_pending_record": "record.json",
+  "all_worktrees_and_unfinished_changes_preserved": true,
+  "oracle_calls": 0,
+  "runtime_scope": "UNIT ledger transaction driver; real local PostgreSQL/Git/pinned parser/HTTPS acceptance",
+  "limitations": [
+    "No installed trusted Oracle host, verified target adoption/baseline, owner/grants, canonical identity/mutex/dispatch authority or runtime/recovery acceptance",
+    "No API/worker activation or UNIT-to-TRUSTED promotion; checksum linkage does not prove effects",
+    "Full public naming/distribution and deployed-worker isolation remain incomplete",
+    "Optional paid/disabled GitHub security and owner-authorized Sonar quota outage remain UNAVAILABLE, never PASS"
+  ]
+}
