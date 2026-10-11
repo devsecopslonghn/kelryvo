@@ -51,7 +51,8 @@ function AttemptHistory({ job, projectId, attempt, token, request, formatTime })
       if (!active.current) return;
       if (result.jobId !== job.id || result.projectId !== projectId || result.planId !== job.planId || result.attempt?.id !== attempt.id
           || result.executionAuthority !== false || !Array.isArray(result.events) || !Array.isArray(result.receipts)
-          || result.events.length > 50 || result.receipts.length > 50) throw new Error('HISTORY_UNAVAILABLE');
+          || result.events.length > 50 || result.receipts.length > 50
+          || !result.approvedPlanContext || typeof result.approvedPlanContext.available !== 'boolean') throw new Error('HISTORY_UNAVAILABLE');
       setPage(previous => kind === 'events' ? { ...previous, events: [...previous.events, ...result.events], nextEventsCursor: result.nextEventsCursor }
         : kind === 'receipts' ? { ...previous, receipts: [...previous.receipts, ...result.receipts], nextReceiptsCursor: result.nextReceiptsCursor } : result);
     } catch (failure) { if (active.current) setError(failure.message); }
@@ -62,10 +63,14 @@ function AttemptHistory({ job, projectId, attempt, token, request, formatTime })
     {error && <p role="alert">Attempt history unavailable: {error}</p>}
     {page && <>
       <p>Recorded claim deadline: {formatTime(page.attempt.claimExpiresAt)}. This timestamp does not prove a current lease.</p>
+      {page.approvedPlanContext.available
+        ? <p className="muted" aria-label="Approved plan context">Approved plan context: {page.approvedPlanContext.totalApprovedMigrations} migrations and {page.approvedPlanContext.totalApprovedStatements} statements; {page.approvedPlanContext.appliedMigrationCount} migrations / {page.approvedPlanContext.appliedStatementCount} statements precede this attempt, with {page.approvedPlanContext.pendingMigrationCount} migrations / {page.approvedPlanContext.pendingStatementCount} statements in its approved pending work. This is provenance context only and does not prove SQL was applied.</p>
+        : <p className="muted" aria-label="Approved plan context unavailable">Approved migration context unavailable for this retained history.</p>}
       <h4>Statement events</h4>
       <ol aria-label="Statement events">{page.events.map(event => <li key={event.id}>
         <strong>{event.phase.replaceAll('_',' ')}</strong> · revision {event.revision}
         {event.ordinal !== null && <> · statement {event.ordinal}</>}
+        {event.ordinal !== null && <ApprovedContext context={event.approvedContext} />}
         {event.reasonCode && <> · {event.reasonCode}</>} · {formatTime(event.createdAt)}
         {event.statementDigest && <code>{event.statementDigest}</code>}
       </li>)}</ol>
@@ -74,6 +79,7 @@ function AttemptHistory({ job, projectId, attempt, token, request, formatTime })
       {!page.receipts.length && <p>No retained receipts. Missing receipts do not prove whether a statement was applied.</p>}
       <ol aria-label="Statement receipts">{page.receipts.map(receipt => <li key={receipt.id}>
         Statement {receipt.ordinal} · {formatTime(receipt.createdAt)}
+        <ApprovedContext context={receipt.approvedContext} />
         <dl><dt>Statement digest</dt><dd><code>{receipt.statementDigest}</code></dd>
           <dt>Receipt digest</dt><dd><code>{receipt.receiptDigest}</code></dd>
           <dt>Central evidence digest</dt><dd><code>{receipt.centralEvidenceDigest}</code></dd></dl>
@@ -81,4 +87,11 @@ function AttemptHistory({ job, projectId, attempt, token, request, formatTime })
       {page.nextReceiptsCursor && <button type="button" className="secondary" disabled={busy} onClick={() => void load('receipts',page.nextReceiptsCursor)}>More statement receipts</button>}
     </>}
   </section>;
+}
+
+function ApprovedContext({ context }) {
+  if (!context) return <> · approved migration context unavailable</>;
+  return <> · approved {context.approvedPath} (version {context.approvedVersion}),
+    migration {context.approvedFileOrdinal} of {context.totalApprovedMigrations},
+    file statement {context.approvedFileStatementOrdinal}, full approved statement {context.approvedStatementOrdinal} of {context.totalApprovedStatements}</>;
 }
