@@ -3689,6 +3689,32 @@
       },
       "path": "evidence/product/installed-expiry-recovery-interrupted-20261011/record.json",
       "sha256": "3d967ed4ebfdcad8095aa881046e1dac147765c314a4549596db2bbe90f9cd3e"
+    },
+    {
+      "id": "product-t36-metadata-expiry-recovery-local",
+      "subject_id": "SF-PRODUCT-T36",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "npm run check; Node serial focused PostgreSQL tests product-installed-expiry-recovery, product-installed-worker-factory, product-metadata-recovery with SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1; Node targeted operator-negative regression",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T36-FACTORY",
+        "SF-PRODUCT-T36-OPERATOR",
+        "SF-PRODUCT-T36-RECOVERY"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/metadata-expiry-recovery/local-checks.log",
+        "sha256": "21398f0c4737a8ff07627bb1dadb8413378b0c1026759b89095cb2ef2023e469"
+      },
+      "path": "evidence/product/metadata-expiry-recovery/record.json",
+      "sha256": "21fe0da8ca2c71603b3c06f50e6723e59b0f0268c2c9f54ab5672680aa086b80"
     }
   ]
 }

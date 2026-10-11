@@ -97,6 +97,36 @@ test('recovery cleanup failure propagates and metadata startup failure does not 
   await assert.rejects(brokenWorker.close(), /unavailable/);
 });
 
+test('metadata-only recovery needs no Oracle capabilities and cannot install execution', async () => {
+  let opens = 0, ends = 0;
+  const binding = { databaseUrl: DATABASE_URL, scope: 'UNIT_SYNTHETIC', workerId: 'metadata-recovery-unit',
+    allowUnitSynthetic: true, openMetadata: async () => { opens++; return fakeSql({ end: async () => { ends++; } }); } };
+  const create = createInstalledExpiryRecoveryWorkerFactory(binding);
+  binding.scope = 'TRUSTED_VALIDATED';
+  binding.workerId = 'changed-after-installation';
+  const worker = await create();
+  assert.equal(worker.scope, 'UNIT_SYNTHETIC');
+  assert.equal(worker.workerId, 'metadata-recovery-unit');
+  assert.equal(await worker.runWaitingRequest(randomUUID()), 'ADMISSION_DECLINED');
+  await worker.close();
+  assert.equal(opens, 1); assert.equal(ends, 1);
+  const metadata = { databaseUrl: DATABASE_URL, scope: 'TRUSTED_VALIDATED', workerId: 'metadata-recovery' };
+  const trusted = await createInstalledExpiryRecoveryWorkerFactory(metadata)();
+  assert.equal(trusted.scope, 'TRUSTED_VALIDATED');
+  await trusted.close();
+  for (const invalid of [
+    { ...metadata, scope: 'UNIT_SYNTHETIC' },
+    { ...metadata, openMetadata: async () => fakeSql() },
+    { ...metadata, allowUnitSynthetic: true },
+    { ...metadata, unitGetConnection: async () => {} },
+    { ...metadata, operation: 'execution' },
+    { ...metadata, installedOracle: installation() },
+    { ...metadata, workerId: 'invalid worker id' },
+  ]) assert.throws(() => createInstalledExpiryRecoveryWorkerFactory(invalid), /unavailable/);
+  const { createInstalledExecutionWorkerFactory } = await import('../apps/worker/installed-worker-factory.mjs');
+  assert.throws(() => createInstalledExecutionWorkerFactory(metadata), /unavailable/);
+});
+
 test('a supervised child recovers only expired metadata and preserves retained execution evidence', {
   skip: !enabledProduct, timeout: 600_000,
 }, async () => {

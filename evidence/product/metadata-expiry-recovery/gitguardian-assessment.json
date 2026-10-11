@@ -1,0 +1,18 @@
+{
+  "detector": "Generic High Entropy Secret",
+  "source": "Owner-provided GitGuardian alert metadata",
+  "commit": "7e7646f213edaac3c19c102cafae2ade2c5af627",
+  "file": "evidence/product/product-t32-mvp-integration-20261010/focused-implementation.log",
+  "line": 53,
+  "github_diff_anchor_sha256": "cba9455838fa40dac88d5d1f2041df6aa2b4b56dbb61a19a2d75313cfb90b23e",
+  "field": "release_id",
+  "value_class": "UUID database entity identifier in captured local product test output",
+  "classification": "FALSE_POSITIVE_ENTITY_IDENTIFIER",
+  "credential_value_printed": false,
+  "credential_rotation_indicated": false,
+  "historical_and_current_line_identical": true,
+  "history_rewritten": false,
+  "scanner_allowlist_added": false,
+  "external_alert_status": "OPEN_UNCHANGED_DASHBOARD_ACCESS_UNAVAILABLE",
+  "recommended_alert_action": "Classify the incident as a false positive for a non-secret entity identifier in GitGuardian; retain exact provenance. No broad detector suppression or history rewrite."
+}

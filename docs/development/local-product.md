@@ -944,8 +944,12 @@ separate requirements.
 
 A fixed private installation module may export the function returned by
 `createInstalledExpiryRecoveryWorkerFactory` as the supervised child's
-`createExecutionWorker`. It accepts the same reviewed metadata and capability binding
-as the execution factory, and shares its one-operation client ownership and cleanup.
+`createExecutionWorker`. It accepts a fixed metadata-only binding with `databaseUrl`,
+`scope` and `workerId`, and shares the execution factory's one-operation client ownership
+and cleanup. The previous metadata and Oracle capability binding remains supported.
+Recovery constructs no Oracle provider or host. UNIT installation requires explicit
+`allowUnitSynthetic`; a custom `openMetadata` is permitted only for UNIT tests. Execution
+installation still requires its full reviewed Oracle capability binding.
 The privileged export selects recovery; requests cannot supply an operation selector
 or change routes, scope, target capabilities or options. The existing supervised wire
 hook still accepts only the job and invocation IDs.
@@ -964,6 +968,32 @@ fails through the supervisor boundary; it cannot erase an already committed HOLD
 claim target application. This operation supplies no reconciliation verdict, HOLD
 release, execution authority or automatic retry. Investigate the retained journal and
 protected target history before any separately authorized recovery or execution.
+
+The trusted local OS operator can inspect and recover expired attempts without installing
+Oracle capabilities. Using the private configuration and metadata URL already used by
+the membership operator:
+
+```sh
+npm run local:execution-recovery -- status /absolute/private/config.json
+npm run local:execution-recovery -- recover JOB_UUID /absolute/private/config.json
+```
+
+Supply `SCHEMAFORGE_LOCAL_DATABASE_URL` through the private operator environment. The
+existing configuration must belong to the current OS user, with directory mode 0700 and
+file mode 0600; the URL must identify an allowed loopback metadata database with the
+matching private password. The command does not initialize or migrate the database.
+`status` returns at most 50 expired trusted attempts with job/project/plan IDs and lease
+deadlines, without SQL, credentials or receipt payloads. If `nextAfter` is present, pass
+that job UUID as the third argument to `status` to read the next page. Discovery does not
+lock or recover attempts; recovery rechecks eligibility transactionally.
+
+`recover` returns `HOLD` only after the selected expired claim is durably held and the
+owned metadata client closes. `NOT_RECOVERED` means the job was ineligible, including a
+live lease, a terminal state, a UNIT fixture or inactive metadata generation. Connection,
+persistence and cleanup failures return a fixed error; inspect retained execution history
+before retrying because HOLD may already have committed. Repeated recovery adds no
+second HOLD. This command supplies no effect verdict, replay or HOLD release and adds no
+HTTP endpoint. Real Oracle recovery and deployed worker isolation remain unverified.
 
 `createPrivateOracleProvider` in `apps/worker/oracle-provider.mjs` supplies the
 restricted host's installed connection lifecycle. Privileged child installation code
