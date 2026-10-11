@@ -1,4 +1,5 @@
 import Fastify from "fastify";
+import rateLimit from "@fastify/rate-limit";
 import { browserAuthentication, registerBrowserSessions, guardBrowserMutation } from "../../packages/database/browser-sessions.ts";
 import { createHash, randomUUID } from "node:crypto";
 import { authenticateLocalToken, seedLocalActors, tokenDigest } from "../../packages/database/local-credentials.ts";
@@ -98,6 +99,9 @@ export function createApp(options: {
   if (new Set(actors.map((a) => tokenDigest(a.token))).size !== actors.length)
     throw new Error("Duplicate local actor token");
   const app = Fastify({ logger: false, bodyLimit: 1024 * 1024, ...(options.https ? { https: options.https } : {}) });
+  // Register routes after the plugin installs its onRoute hook. Limit before authentication/metadata work.
+  app.register(async app => {
+  await app.register(rateLimit, { global: true, max: 600, timeWindow: 60_000, cache: 5000 });
   const seed = () => seedPromise ??= seedLocalActors(sql, actors);
   app.addHook('onReady', async () => { await seed(); });
   const authenticate = (req: any, reply: any): Promise<void> => {
@@ -1575,6 +1579,7 @@ export function createApp(options: {
     return { job: mapExecutionJob(result.job) };
   });
   app.setErrorHandler((error: any, _req: any, reply: any) => {
+    if (error?.statusCode === 429) return fail(reply, 429, "RATE_LIMITED");
     if (error?.productCode === "UNAUTHENTICATED") return fail(reply, 401, "UNAUTHENTICATED");
     if (error?.productCode === "CSRF_REJECTED") return fail(reply, 403, "CSRF_REJECTED");
     if (error?.productCode === "PROJECT_ARCHIVED") return fail(reply, 409, "PROJECT_ARCHIVED");
@@ -1584,6 +1589,7 @@ export function createApp(options: {
     if (error?.statusCode >= 400 && error?.statusCode < 500)
       return fail(reply, 400, "INVALID_REQUEST");
     return fail(reply, 500, "INTERNAL_ERROR");
+  });
   });
   return app;
 }

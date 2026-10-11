@@ -1,5 +1,16 @@
 # Local SchemaForge product
 
+## HTTP request limits
+
+The API uses the pinned Fastify rate-limit plugin before authentication and metadata
+work. Each client address may make 600 requests per minute, shared across registered
+routes. Excess requests receive HTTP 429, `RATE_LIMITED` and a `Retry-After` header.
+There is no loopback exemption. Forwarded address headers are not trusted; IPv6 clients
+share a /64 subnet quota. Counters are bounded and local to one API process, so each
+replica and restart has its own counters. Multi-replica installations also need request
+limits at their trusted ingress. These limits protect product HTTP endpoints and do not
+change migration authorization or execution gates.
+
 ## Provisional schema references
 
 The **Schema references** project view shows only current schema ownership for the selected
