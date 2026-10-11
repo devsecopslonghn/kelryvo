@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-11T03:36:05.719111+00:00",
-  "verified_master": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
-  "reviewed_local_source": "5bf2826421bf1571bc6b681c1f12144ac777b479",
+  "recorded_at": "2026-10-11T04:11:10.061635+00:00",
+  "verified_master": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
+  "reviewed_local_source": "cedb235f1684042cc2698b3c647211d899ac445e",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
@@ -62,11 +62,11 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "PR52 installation, PR53 CI, PR54 pending suffix and PR55 ledger foundation are integrated with exact-head/master gates verified. Restricted Oracle host adapter locally UNIT and real PostgreSQL/Git/parser/worker verified; no installed provider/deployed isolation/Oracle runtime or recovery acceptance. Optional unavailable security/Sonar stays UNAVAILABLE, never PASS.",
+  "external_acceptance": "PR52 installation,PR53 CI,PR54 pending suffix,PR55 ledger andPR56 restricted host integrated with actual candidate/master gates. PR56 API76/browser33/release1(inner4) nofail/skip. UNIT target only; installed provider/deployed isolation/Oracle runtime/recovery incomplete. Unavailable security/Sonar never PASS.",
   "next_product_capability": {
-    "milestone": "M3/M4 restricted host; M5 installation integrated",
-    "status": "RESTRICTED_ORACLE_HOST_LOCAL_VERIFIED_REMOTE_CI_PENDING",
-    "next_action": "Integrate adapter under actual candidate/master gates, then implement installed supervised provider/deployed-worker isolation. Oracle authorization/runtime and explicit nonempty baseline workflow remain separate."
+    "milestone": "M4 readable approved pending-history context",
+    "status": "IMPLEMENTATION_LOCAL_FOCUSED_VERIFIED_REVIEW_CORRECTIONS_PENDING",
+    "next_action": "Preserve retained history, exact ordinal-first immutable source mapping, NOOP/fallback and scoped reads; final local and candidate/master gates before integration."
   },
   "features": [
     {
@@ -677,7 +677,8 @@
       "evidence": [
         "mvp-history-aware-local-verified",
         "mvp-history-aware-divergence-local-verified",
-        "mvp-restricted-oracle-host-local-verified"
+        "mvp-restricted-oracle-host-local-verified",
+        "mvp-restricted-oracle-host-pr56-master-verified"
       ]
     },
     {
@@ -796,7 +797,8 @@
       "evidence": [
         "mvp-protected-target-ledger-foundation-unit-verified",
         "mvp-protected-target-ledger-pr55-master-verified",
-        "mvp-restricted-oracle-host-local-verified"
+        "mvp-restricted-oracle-host-local-verified",
+        "mvp-restricted-oracle-host-pr56-master-verified"
       ]
     },
     {
@@ -809,7 +811,8 @@
         "mvp-history-aware-local-verified",
         "mvp-history-aware-divergence-local-verified",
         "mvp-protected-target-ledger-foundation-unit-verified",
-        "mvp-restricted-oracle-host-local-verified"
+        "mvp-restricted-oracle-host-local-verified",
+        "mvp-restricted-oracle-host-pr56-master-verified"
       ]
     },
     {
@@ -886,7 +889,8 @@
       "evidence": [
         "mvp-history-aware-divergence-local-verified",
         "mvp-protected-target-ledger-foundation-unit-verified",
-        "mvp-restricted-oracle-host-local-verified"
+        "mvp-restricted-oracle-host-local-verified",
+        "mvp-restricted-oracle-host-pr56-master-verified"
       ]
     },
     {
@@ -2580,7 +2584,7 @@
     "integration_evidence": "mvp-controlled-execution-pr51-master-verified"
   },
   "m4_pending_increment": {
-    "status": "LOCAL_UNIT_VERIFIED_REVISED_CI_PENDING",
+    "status": "INTEGRATED_PR54_MASTER_CI_VERIFIED",
     "evidence": "mvp-history-aware-divergence-local-verified",
     "behavior": "Only approved pending suffix dispatches; original retained central completion vetoes target rewind and missing witnesses across reassignment. UNIT target only.",
     "classification_change": "MIG-011/MIG-026/MIG-034 partial; no full Oracle/restore acceptance"
@@ -2596,12 +2600,15 @@
   "m3_oracle_host_increment": {
     "milestone": "M3/M4",
     "evidence": "mvp-restricted-oracle-host-local-verified",
-    "status": "LOCAL_VERIFIED_REMOTE_CI_PENDING",
+    "status": "INTEGRATED_PR56_MASTER_CI_VERIFIED",
     "scope": "UNIT_SYNTHETIC_TARGET_ONLY",
     "source_head": "cacab0d6ede9f4aca3d09edd34860ef613f8df0e",
     "real_metadata_workflow_tests": 6,
     "unit_host_mutex_tests": 58,
     "no_catalog_full_promotion": true,
-    "remaining": "Installed supervised provider, real Oracle installation/runtime and worker isolation/recovery acceptance."
+    "remaining": "Installed supervised provider, real Oracle installation/runtime and worker isolation/recovery acceptance.",
+    "published_head": "cedb235f1684042cc2698b3c647211d899ac445e",
+    "merged_master": "83b1f9353cc4917aec0cc957aa195baf81bbe9a3",
+    "integration_evidence": "mvp-restricted-oracle-host-pr56-master-verified"
   }
 }
