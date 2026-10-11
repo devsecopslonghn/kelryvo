@@ -712,6 +712,22 @@
         "OPS-005",
         "MIG-012"
       ]
+    },
+    {
+      "id": "SF-D059",
+      "status": "ACCEPTED_CONTROL_PLANE_HEALTH_SEPARATION",
+      "decision": "Provide a constant process liveness route independent of metadata and business quota, and a separately bounded metadata-readiness route. Current ACTIVE and RESTORE_HOLD metadata are available for reads; existing HOLD mutation/worker gates remain unchanged. Bound HTTP readiness responses to one second while retaining one unfinished observation until actual settlement; never infer target availability, worker purpose authority or Oracle effects. Preserve legacy health and startup behavior.",
+      "references": [
+        "packages/observability/health-probes.mjs",
+        "apps/api/index.ts",
+        "tests/health-probes.test.mjs",
+        "tests/product-api-rate-limit.test.mjs",
+        "tests/product-release-acceptance.integration.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "OPS-011"
+      ]
     }
   ]
 }

@@ -1,0 +1,140 @@
+{
+  "task": "SF-PRODUCT-T40",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "base_master": "dc38fa7e856b720d435ff110bf7716748e9eb1ec",
+  "source_integrity": [
+    {
+      "path": "packages/observability/health-probes.mjs",
+      "sha256": "6aa9d0d01d32db9196361d57696666a261af2cd385f89ae06318372d6a865a82"
+    },
+    {
+      "path": "apps/api/index.ts",
+      "sha256": "193f9041a4e93dba677c48ed6df00835c68977d2ebc144a5a4ec06598f86f04b"
+    },
+    {
+      "path": "tests/health-probes.test.mjs",
+      "sha256": "e42bb7b120f612205519f808e3a8860ebc4cccfec842ad48b261bd00d6da9380"
+    },
+    {
+      "path": "tests/product-api-rate-limit.test.mjs",
+      "sha256": "7e04afa97aa61607002e878e0ba6023219571b8be2614b02949a4ed30944f818"
+    },
+    {
+      "path": "tests/product-release-acceptance.integration.mjs",
+      "sha256": "c942157ac53590e84dcdf91af74b1b0175ce214ce9caa1704bf571ccf987d815"
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256": "12e687649abc8b1807d9eec471bc034c8a8609551df2cc57df85a079828d153c"
+    }
+  ],
+  "product": {
+    "command": "node --test --test-concurrency=1 tests/product-api-rate-limit.test.mjs tests/product-release-acceptance.integration.mjs; owned isolated loopback PostgreSQL injected in memory; SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+    "exit_code": 0,
+    "tests": 5,
+    "pass": 5,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "raw_output": {
+      "path": "evidence/product/health-probes/product-local.log",
+      "sha256": "6edb27226c133e7a590dac7060fde2064d4b582d6405a102c3e28cf3926b35fa"
+    },
+    "scope": "Source checkout integration; fresh-source bundle installation remains for required Actions."
+  },
+  "standard": {
+    "command": "npm run check",
+    "exit_code": 0,
+    "tests": 366,
+    "pass": 303,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 63,
+    "skip_scope": "Existing offline PostgreSQL-gated cases; actual isolated PostgreSQL runs above do not skip.",
+    "raw_output": {
+      "path": "evidence/product/health-probes/standard-checks.log",
+      "sha256": "8d5a4837d0fdb1e5d8336c434db62686a0e50248ff408feb51dd5e9aa827e962"
+    }
+  },
+  "earlier_runs": [
+    {
+      "outcome": "FAIL",
+      "counts": {
+        "tests": 5,
+        "pass": 4,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "raw_output": {
+        "path": "evidence/product/health-probes/product-local.concurrent-failure.log",
+        "sha256": "0a67a59f4ea52eb6051299aea0b9c42b7fc5427c397381d089a7ce4fee0f7bf2"
+      },
+      "note": "Four quota/probe cases and installed probe assertions passed. Later existing execution-request assertion declined PLAN_NOT_REQUESTABLE while the parser-heavy standard suite ran concurrently. Cause was not established. Serial final-source rerun passed all five cases; no source/assertion/guard/timeout change was made for this failure."
+    }
+  ],
+  "independent_source_review": {
+    "outcome": "NO_BLOCKERS",
+    "reviewed_source_hashes": [
+      {
+        "path": "packages/observability/health-probes.mjs",
+        "sha256": "6aa9d0d01d32db9196361d57696666a261af2cd385f89ae06318372d6a865a82"
+      },
+      {
+        "path": "apps/api/index.ts",
+        "sha256": "193f9041a4e93dba677c48ed6df00835c68977d2ebc144a5a4ec06598f86f04b"
+      },
+      {
+        "path": "tests/health-probes.test.mjs",
+        "sha256": "e42bb7b120f612205519f808e3a8860ebc4cccfec842ad48b261bd00d6da9380"
+      },
+      {
+        "path": "tests/product-api-rate-limit.test.mjs",
+        "sha256": "7e04afa97aa61607002e878e0ba6023219571b8be2614b02949a4ed30944f818"
+      },
+      {
+        "path": "tests/product-release-acceptance.integration.mjs",
+        "sha256": "c942157ac53590e84dcdf91af74b1b0175ce214ce9caa1704bf571ccf987d815"
+      },
+      {
+        "path": "docs/development/local-product.md",
+        "sha256": "12e687649abc8b1807d9eec471bc034c8a8609551df2cc57df85a079828d153c"
+      }
+    ],
+    "exact_commit_review": "PENDING"
+  },
+  "behaviors": [
+    "Cheap unauthenticated process liveness does no SQL, target work or authentication and survives exhausted business quota and metadata outage. Legacy health and normal startup requirements remain intact.",
+    "Readiness observes the current ACTIVE or RESTORE_HOLD generation without IDs or private errors; missing/unknown/failing metadata returns fixed503. Targets remain UNVERIFIED; no writer or worker authority is inferred.",
+    "Three meaningful unit cases in the standard suite cover throwing/missing/unknown metadata and timed-out single-flight reads. HTTP deadline does not start overlapping SQL and late results are not cached.",
+    "Actual PostgreSQL quota regression verifies GET and HEAD share120/client/min readiness quota, independent600 business quota, existing spoofed forwarding/IPv6 security boundaries and no-store.",
+    "Existing source installation workflow checks both probes before Git/approval/controlled UNIT history and restart; required fresh-source Actions pending."
+  ],
+  "limitations": [
+    "Exact candidate and resulting-master Foundation/parser/full PRODUCT/CodeQL pending.",
+    "Probe routes serve after normal metadata startup initialization.",
+    "RESTORE_HOLD readiness attests read availability only, not mutation eligibility or execution authority.",
+    "No Oracle runtime, private target installation, worker-readiness attestation, deployment or orphan-containment verification.",
+    "Sonar remains unavailable under the standing quota exception; GitGuardian dashboard false-positive closure remains pending."
+  ],
+  "publication_format_correction": {
+    "scanner": "Pinned Gitleaks8.30.1",
+    "earlier_exit_code": 1,
+    "findings": [
+      {
+        "rule": "generic-api-key",
+        "file": "evidence/product/health-probes/local-summary.json",
+        "line": 10,
+        "classification": "FALSE_POSITIVE_SOURCE_SHA256"
+      },
+      {
+        "rule": "generic-api-key",
+        "file": "evidence/product/health-probes/local-summary.json",
+        "line": 65,
+        "classification": "FALSE_POSITIVE_SOURCE_SHA256"
+      }
+    ],
+    "correction": "Use explicit path/sha256 records instead of API-path keys assigned to digests. Identical source hashes and actual test observations; no scanner suppression."
+  }
+}

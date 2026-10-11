@@ -9,6 +9,12 @@ test('installed source bundle connects approved Git request to controlled UNIT h
   assert.ok(process.env.SCHEMAFORGE_TEST_DATABASE_URL,'disposable metadata database required');
   const f=await statementEnvelopeFixture({ firstStatementCount:3 });
   try {
+    const live=await f.api('GET','/api/livez');
+    assert.equal(live.statusCode,200);assert.deepEqual(live.json(),{status:'alive'});
+    const ready=await f.api('GET','/api/readyz');
+    assert.equal(ready.statusCode,200);
+    assert.deepEqual(ready.json(),{status:'ready',metadata:'ACTIVE',targetAvailability:'UNVERIFIED'});
+    assert.equal(ready.headers['cache-control'],'no-store');
     const plan=await f.makePlan();
     assert.equal((await f.api('POST',`/api/plans/${plan.id}/decision`,{ decision:'APPROVE',reason:'Installed source acceptance' },f.actors[1])).statusCode,200);
     await f.membership.deployGrant(f.project.id,f.actors[0].id);

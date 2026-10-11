@@ -17,6 +17,7 @@ import { AUDIT_PAGE_SIZE, decodeAuditCursor, encodeAuditCursor } from "../../pac
 import { decodeReviewInboxCursor, encodeReviewInboxCursor, reviewInboxScopes } from "../../packages/governance/review-inbox-cursor.mjs";
 
 import { registerExecutionHistory } from "../../packages/execution/history.ts";
+import { registerHealthProbes } from "../../packages/observability/health-probes.mjs";
 
 const ORG = "00000000-0000-4000-8000-000000000001";
 const MAX_BINDING_GENERATION = "9223372036854775807";
@@ -192,6 +193,8 @@ export function createApp(options: {
     if (!row || row.archived_at) throw Object.assign(new Error('PROJECT_ARCHIVED'), { productCode: 'PROJECT_ARCHIVED' });
   };
 
+  registerHealthProbes(app, async () => (await sql`SELECT g.state FROM sf_metadata_current c
+    JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0]?.state);
   app.get("/api/health", async (_req: any, reply: any) => {
     try {
       await sql`SELECT 1`;

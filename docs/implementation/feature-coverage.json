@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "recorded_at": "2026-10-11T08:10:45.258800+00:00",
-  "verified_master": "ec625754f405fa8999eddccdaa86464efdf91998",
-  "reviewed_local_source": "2556ca3c281dee8371ca29745e6a65a17dc5fdd5",
+  "verified_master": "dc38fa7e856b720d435ff110bf7716748e9eb1ec",
+  "reviewed_local_source": "c05111b65b6d55fc1ad4a2016f864ee903120a6c",
   "scope": "All220 catalog classifications reconciled against integrated bounded PRODUCT functionality; no full catalog or Oracle certification.",
   "method": [
     "Inspected the full catalog names/criteria for implemented workflows, current product routes/module inventory, and validated task acceptance/evidence.",
@@ -62,14 +62,11 @@
       "DEFERRED": 0
     }
   },
-  "external_acceptance": "Installed worker, metadata-only expiry recovery and serial queue service integrated through PR63 on exact GitHub-verified master656d227. Candidate and master Foundation/parser/PRODUCT/CodeQL passed; complete PRODUCT110API/33browser/1release with zero failures/cancellations/skips. No Oracle runtime or deployed isolation certification.",
+  "external_acceptance": "Integrated control-plane flow through PR65: exact candidate/master Foundation, parser, full PRODUCT and CodeQL PASS;110API/33browser/1release per head, zero failures/cancellations/skips. Oracle runtime and deployed isolation remain unaccepted.",
   "next_product_capability": {
-    "milestone": "M4 installed metadata expiry recovery",
+    "task": "SF-PRODUCT-T40",
     "status": "IMPLEMENTED_PENDING_VERIFICATION",
-    "corrected_source_sha": "1225efddf3abac283a24d309f9d5e8d77c99b155",
-    "interruption_evidence": "mvp-installed-expiry-recovery-interrupted-resource-stop",
-    "prerequisite_evidence": "mvp-installed-worker-factory-local-verified",
-    "next_action": "Complete required GitHub acceptance for the installed execution and metadata-only expiry recovery factories, then continue restricted installation and real-target reconciliation acceptance."
+    "next_action": "Verify separate process liveness and bounded metadata readiness, preserving unverified target availability and required full CI."
   },
   "features": [
     {
@@ -727,10 +724,12 @@
       "verified_facets": [
         {
           "task": "SF-PRODUCT-T39",
-          "behavior": "Existing scoped project cursors reach older selected-plan requests and retained events/attempts/receipts without replacing live status; bounded pages, freshness and actual revoked-access reads verified in PostgreSQL/Chromium. Remote CI pending; no Oracle certification.",
+          "behavior": "Existing scoped project cursors reach older selected-plan requests and retained events/attempts/receipts without replacing live status; bounded pages, freshness and actual revoked-access reads verified in PostgreSQL/Chromium. Exact candidate/master CI passed; no Oracle certification.",
           "evidence": [
             "product-t39-request-history-local"
-          ]
+          ],
+          "integration_status": "INTEGRATED_PR65_MASTER_CI_VERIFIED",
+          "integration_evidence": "product-t39-request-history-ci"
         }
       ]
     },
@@ -2279,10 +2278,12 @@
         },
         {
           "task": "SF-PRODUCT-T39",
-          "behavior": "Existing scoped project cursors reach older selected-plan requests and retained events/attempts/receipts without replacing live status; bounded pages, freshness and actual revoked-access reads verified in PostgreSQL/Chromium. Remote CI pending; no Oracle certification.",
+          "behavior": "Existing scoped project cursors reach older selected-plan requests and retained events/attempts/receipts without replacing live status; bounded pages, freshness and actual revoked-access reads verified in PostgreSQL/Chromium. Exact candidate/master CI passed; no Oracle certification.",
           "evidence": [
             "product-t39-request-history-local"
-          ]
+          ],
+          "integration_status": "INTEGRATED_PR65_MASTER_CI_VERIFIED",
+          "integration_evidence": "product-t39-request-history-ci"
         }
       ],
       "remaining_gap": "Authorized target-history/restore reconciliation, production restricted runtime/Oracle effects and full original acceptance remain missing; no hold-release interface."
@@ -2328,11 +2329,23 @@
       "milestone": "MVP-Core",
       "classification": "PARTIALLY_IMPLEMENTED",
       "basis": "Locally verified facets exist; complete original catalog acceptance is not certified.",
-      "additional_observed_facet": "API health distinguishes process response and PostgreSQL readiness",
+      "additional_observed_facet": "Separate constant process liveness and bounded current metadata readiness are locally verified; legacy SQL-dependent health remains compatible.",
       "remaining_gap": "Target availability and restricted-worker readiness are unimplemented",
       "source_or_test_paths": [
         "apps/api/index.ts",
-        "tests/product-api.test.mjs"
+        "tests/product-api.test.mjs",
+        "packages/observability/health-probes.mjs",
+        "tests/health-probes.test.mjs",
+        "tests/product-api-rate-limit.test.mjs"
+      ],
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T40",
+          "behavior": "Actual PostgreSQL verifies ACTIVE/HOLD read availability, missing metadata and fixed errors, cheap SQL-independent liveness and separate shared GET/HEAD quotas. Unit checks verify bounded response timeout with one unfinished SQL read and no stale cache. Targets remain UNVERIFIED; remote CI pending.",
+          "evidence": [
+            "product-t40-health-probes-local"
+          ]
+        }
       ]
     },
     {
@@ -2759,6 +2772,23 @@
     "merged_master": "ec625754f405fa8999eddccdaa86464efdf91998",
     "evidence": "product-t38-execution-status-local",
     "integration_evidence": "product-t38-execution-status-ci",
+    "full_catalog_promotion": false,
+    "oracle_runtime_verified": false
+  },
+  "request_history": {
+    "task": "SF-PRODUCT-T39",
+    "status": "INTEGRATED_PR65_MASTER_CI_VERIFIED",
+    "published_head": "c05111b65b6d55fc1ad4a2016f864ee903120a6c",
+    "merged_master": "dc38fa7e856b720d435ff110bf7716748e9eb1ec",
+    "evidence": "product-t39-request-history-local",
+    "integration_evidence": "product-t39-request-history-ci",
+    "full_catalog_promotion": false,
+    "oracle_runtime_verified": false
+  },
+  "control_plane_health": {
+    "task": "SF-PRODUCT-T40",
+    "status": "IMPLEMENTED_PENDING_CI",
+    "evidence": "product-t40-health-probes-local",
     "full_catalog_promotion": false,
     "oracle_runtime_verified": false
   }

@@ -1,0 +1,61 @@
+TAP version 13
+# Subtest: API quota runs before authentication and metadata, spans routes, and ignores spoofed forwarding headers
+ok 1 - API quota runs before authentication and metadata, spans routes, and ignores spoofed forwarding headers
+  ---
+  duration_ms: 1136.461976
+  type: 'test'
+  ...
+# Subtest: API readiness observes actual metadata HOLD and absence while liveness survives metadata outage
+ok 2 - API readiness observes actual metadata HOLD and absence while liveness survives metadata outage
+  ---
+  duration_ms: 196.122497
+  type: 'test'
+  ...
+# Subtest: metadata readiness has a separate bounded quota and cannot exhaust business API or liveness
+ok 3 - metadata readiness has a separate bounded quota and cannot exhaust business API or liveness
+  ---
+  duration_ms: 280.637409
+  type: 'test'
+  ...
+# Subtest: unauthenticated clients are limited and rotating addresses inside one IPv6 subnet cannot evade the quota
+ok 4 - unauthenticated clients are limited and rotating addresses inside one IPv6 subnet cannot evade the quota
+  ---
+  duration_ms: 349.696742
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: installed source bundle connects approved Git request to controlled UNIT history and restart
+not ok 5 - installed source bundle connects approved Git request to controlled UNIT history and restart
+  ---
+  duration_ms: 21952.685378
+  type: 'test'
+  location: '/home/longhn0710/workspace/schemaforge/tests/product-release-acceptance.integration.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    {"error":"PLAN_NOT_REQUESTABLE"}
+    
+    409 !== 201
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 201
+  actual: 409
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/longhn0710/workspace/schemaforge/tests/product-release-acceptance.integration.mjs:27:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 4
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24403.971506

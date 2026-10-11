@@ -3893,6 +3893,56 @@
       },
       "path": "evidence/product/request-history/status-ci-record.json",
       "sha256": "0102fec321a0202fc6458826742f31e1bdb4a70c21f7accfc197ca1eb1ccfe42"
+    },
+    {
+      "id": "product-t39-request-history-ci",
+      "subject_id": "SF-PRODUCT-T39",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact PR65 candidate/master Foundation, parser, complete PRODUCT and CodeQL PASS; completed job logs confirm110 API/33 browser/1 release per head with zero failures/cancellations/skips. Independent exact-candidate review, identical master tree, zero open code-scanning alerts. No Oracle/deployed isolation claim.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        3
+      ],
+      "test_references": [
+        "SF-PRODUCT-T39-PAGES",
+        "SF-PRODUCT-T39-HISTORY",
+        "SF-PRODUCT-T39-FRESHNESS"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/health-probes/history-ci.json",
+        "sha256": "7fd84f5cc6fb848adecdbba09b6bf207e0191ca716b866a7df07a45be9d8d6bf"
+      },
+      "path": "evidence/product/health-probes/history-ci-record.json",
+      "sha256": "9041feea15f212ed445ec687d517613e844b9d1d4d8f095c1f29cefc1a773b3f"
+    },
+    {
+      "id": "product-t40-health-probes-local",
+      "subject_id": "SF-PRODUCT-T40",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Actual isolated PostgreSQL quota/probe and source workflow acceptance PASS5/5, zero skips; npm run check PASS303/366 with63 existing offline PostgreSQL skips. Single-flight timeout, outage/HOLD/missing metadata, shared GET/HEAD quota and no SQL liveness. No fresh-source CI or Oracle claim.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T40-LIVENESS",
+        "SF-PRODUCT-T40-METADATA",
+        "SF-PRODUCT-T40-BOUNDARY"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/health-probes/local-summary-v2.json",
+        "sha256": "55c09a969ec32a913f986ac8ec8e82d0cbbc94c47ffde2c5c9973c411298fa6c"
+      },
+      "path": "evidence/product/health-probes/local-record-v2.json",
+      "sha256": "ffa9372df248aeb5bf6e28b05d6eddd6506df690cb5994018d19d5df5667433e"
     }
   ]
 }

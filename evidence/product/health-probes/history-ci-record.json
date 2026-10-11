@@ -1,0 +1,22 @@
+{
+  "id": "product-t39-request-history-ci",
+  "subject_id": "SF-PRODUCT-T39",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact PR65 candidate/master Foundation, parser, complete PRODUCT and CodeQL PASS; completed job logs confirm110 API/33 browser/1 release per head with zero failures/cancellations/skips. Independent exact-candidate review, identical master tree, zero open code-scanning alerts. No Oracle/deployed isolation claim.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    3
+  ],
+  "test_references": [
+    "SF-PRODUCT-T39-PAGES",
+    "SF-PRODUCT-T39-HISTORY",
+    "SF-PRODUCT-T39-FRESHNESS"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/health-probes/history-ci.json",
+    "sha256": "7fd84f5cc6fb848adecdbba09b6bf207e0191ca716b866a7df07a45be9d8d6bf"
+  }
+}
