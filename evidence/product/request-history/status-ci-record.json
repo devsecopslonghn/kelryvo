@@ -1,0 +1,22 @@
+{
+  "id": "product-t38-execution-status-ci",
+  "subject_id": "SF-PRODUCT-T38",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Exact PR64 candidate/master Foundation, parser, complete PRODUCT and CodeQL PASS; completed job logs confirm110 API/33 browser/1 release per head and zero failures/cancellations/skips. Independent exact-candidate review, identical master tree, zero open code-scanning alerts. No Oracle/deployed isolation claim.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    3
+  ],
+  "test_references": [
+    "SF-PRODUCT-T38-STATUS",
+    "SF-PRODUCT-T38-FRESHNESS",
+    "SF-PRODUCT-T38-INTEGRATION"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/request-history/status-ci.json",
+    "sha256": "dd57dea4381183fc5f20fa6f2905784133e2912a30349037d8728dff789770c5"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "product-t39-request-history-local",
+  "subject_id": "SF-PRODUCT-T39",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "Rebuilt Chromium/isolated PostgreSQL history acceptance PASS, 1 case and zero skips; npm run check PASS, 300 passed and61 existing offline PostgreSQL skips. Paged project requests, 100-event cursor pages, original attempts/receipts and stale/access-loss checks. No Oracle or remote CI claim.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2
+  ],
+  "test_references": [
+    "SF-PRODUCT-T39-PAGES",
+    "SF-PRODUCT-T39-HISTORY",
+    "SF-PRODUCT-T39-FRESHNESS"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/request-history/local-summary.json",
+    "sha256": "001b2c93a62a075e9faecf6d8794a110e30eb577dcb6e43b5402f7b53aab0061"
+  }
+}

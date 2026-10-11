@@ -1,0 +1,124 @@
+{
+  "task": "SF-PRODUCT-T39",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "base_master": "ec625754f405fa8999eddccdaa86464efdf91998",
+  "source_integrity": {
+    "apps/web/src/app.jsx": "6b00438d834ee7eeb94073c497a8a9bbf733668b39aec0c78540378ecc8a1550",
+    "apps/web/src/ExecutionRequestsHistory.jsx": "8aada9ed1f6a1fe943f9ce116c7924a342842cfc3733b26968e3b4b35cb6ea38",
+    "tests/product-execution-history-browser.integration.mjs": "96eda0af69a22a43ff973984c93ce8144be8624230fba27c7c543847e5477c03",
+    "docs/development/local-product.md": "cfc2312d6fc071375c36885542fc85a9eaf6c2323a76f6c15362cf2504559a01"
+  },
+  "browser": {
+    "command": "npm run build:web then node --test --test-concurrency=1 tests/product-execution-history-browser.integration.mjs with owned isolated PostgreSQL and SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1",
+    "exit_code": 0,
+    "tests": 1,
+    "pass": 1,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "raw_output": {
+      "path": "evidence/product/request-history/browser-local.log",
+      "sha256": "736a780b217ffb5d4a450d18f52a51a541a9cd6fd2c824721c6e1d6ecc275db3"
+    }
+  },
+  "standard": {
+    "command": "npm run check",
+    "exit_code": 0,
+    "tests": 361,
+    "pass": 300,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 61,
+    "skip_scope": "Existing offline PostgreSQL-gated tests; browser uses actual isolated PostgreSQL.",
+    "raw_output": {
+      "path": "evidence/product/request-history/standard-checks.log",
+      "sha256": "a1f575ed1fda86b7f85f91560f62f6b34a910c20f35b0c820b46dc994223029b"
+    }
+  },
+  "earlier_runs": [
+    {
+      "outcome": "FAIL",
+      "note": "Per-row clock timestamp fixture did not deterministically order interleaved requests; corrected to one fixed timestamp and microsecond offsets.",
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "raw_output": {
+        "path": "evidence/product/request-history/browser-local.failing1.log",
+        "sha256": "4ae77e4c3a02c8329f7953ee654fb4e8949a5d5617bdfdabfe4ae4c9b75f40f2"
+      }
+    },
+    {
+      "outcome": "FAIL",
+      "note": "Repeated earlier fixture failure; source was corrected after this run started, so this is not final-source evidence.",
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "raw_output": {
+        "path": "evidence/product/request-history/browser-local.repeated-before-fix.log",
+        "sha256": "21a685c988592d1cc1fdb52a9f1d3c5c72ccb364cc5a7b52b09b10a6342a97ee"
+      }
+    },
+    {
+      "outcome": "FAIL",
+      "note": "Fixture plan preparation failed RELEASE_NOT_PLANNABLE; cause was not established. Final serial run prepared the plan successfully.",
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "raw_output": {
+        "path": "evidence/product/request-history/browser-local.fixture-declined.log",
+        "sha256": "43256d9a89b54392dad256c51ab21f083cad3dbf8fa19deba0ee7d5d6bddc111"
+      }
+    },
+    {
+      "outcome": "FAIL",
+      "note": "PostgreSQL correctly rejected mutation of a terminal job revision. Corrected by INSERTing a distinct synthetic timeline job; guards remain unchanged.",
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "raw_output": {
+        "path": "evidence/product/request-history/browser-local.projection-rejected.log",
+        "sha256": "e15fdb5e2904dab2ba41eab19e9b355b3026375606db5701829a350fe7d25db2"
+      }
+    }
+  ],
+  "independent_source_review": {
+    "outcome": "NO_BLOCKERS",
+    "base_head": "ec625754f405fa8999eddccdaa86464efdf91998",
+    "reviewed_source_hashes": {
+      "apps/web/src/app.jsx": "6b00438d834ee7eeb94073c497a8a9bbf733668b39aec0c78540378ecc8a1550",
+      "apps/web/src/ExecutionRequestsHistory.jsx": "8aada9ed1f6a1fe943f9ce116c7924a342842cfc3733b26968e3b4b35cb6ea38",
+      "tests/product-execution-history-browser.integration.mjs": "96eda0af69a22a43ff973984c93ce8144be8624230fba27c7c543847e5477c03"
+    },
+    "exact_commit_review": "PENDING"
+  },
+  "behaviors": [
+    "121 interleaved project requests use the existing server cursor; selected-plan matches are empty on page1 and45 on page2. Only the current project page is retained, separate from live queue.",
+    "Older completed and uncertain HOLD requests expose original attempts, approved57-statement provenance and bounded receipt/event controls. Existing original history assertions remain.",
+    "A distinct synthetic HOLD timeline pages121events as100then21 with cursor exhaustion; original terminal history is immutable.",
+    "Explicit and automatic live status refresh preserves page3 and inspected receipts.",
+    "Delayed page/attempt reads after plan change or sign-out are discarded; visibility epochs recover browse controls. Actual older-attempt read after revoked project membership clears cached history."
+  ],
+  "limitations": [
+    "Required exact candidate and resulting-master GitHub Actions pending.",
+    "Project pages may be empty for the selected plan; continue using the opaque project cursor.",
+    "Retained history pages are snapshots; job-event refresh updates its summary. No target-effect inference.",
+    "No Oracle runtime, trusted installation, deployed isolation or orphan-containment attestation."
+  ]
+}

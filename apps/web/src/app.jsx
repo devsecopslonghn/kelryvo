@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import ExecutionHistory from './ExecutionHistory.jsx';
+import ExecutionRequestsHistory from './ExecutionRequestsHistory.jsx';
 import { mergeExecutionJobWindow, terminalExecutionStates } from './executionJobs.js';
 
 let browserSessionEpoch = 0;
@@ -305,6 +306,7 @@ function App() {
   const [auditRefreshKey, setAuditRefreshKey] = useState(0);
   const auditPageRef = useRef(null);
   const [tab, setTabState] = useState('workspace');
+  const [executionHistoryVisibilityVersion, setExecutionHistoryVisibilityVersion] = useState(0);
   const [busy, setBusy] = useState(false);
   const [navigateDuringWithdrawal, setNavigateDuringWithdrawal] = useState(false);
   const [error, setError] = useState('');
@@ -465,6 +467,7 @@ function App() {
   useEffect(() => {
     const invalidateQueueReads = () => {
       documentVisibilitySequence.current += 1;
+      setExecutionHistoryVisibilityVersion(documentVisibilitySequence.current);
       executionQueueSequence.current += 1;
       executionQueueContextEpoch.current += 1;
       executionEventSequence.current += 1;
@@ -1400,7 +1403,19 @@ function App() {
     await requestStatementPreview(reference.releaseId, reference.filePath, planId, reference, source);
   };
 
-  const model = { token, actor, accessMode, metadataRecovery, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, refreshExecutionJobs, requestExecution, cancelExecution };
+  const historyEpoch = { session: sessionEpoch.current, refresh: refreshSequence.current,
+    context: executionContextEpoch.current, visibility: executionHistoryVisibilityVersion };
+  const isCurrentExecutionHistory = (expectedProject, expectedPlan, expectedToken) => tab === 'review'
+    && document.visibilityState === 'visible' && projectLoaded && activeProjectId.current === expectedProject
+    && activeSelectedPlanId.current === expectedPlan && tokenRef.current === expectedToken
+    && sessionEpoch.current === historyEpoch.session && refreshSequence.current === historyEpoch.refresh
+    && executionContextEpoch.current === historyEpoch.context && documentVisibilitySequence.current === historyEpoch.visibility;
+  const loseExecutionHistoryAccess = (expectedProject, expectedToken) => {
+    if (activeProjectId.current === expectedProject && tokenRef.current === expectedToken) {
+      clearProjectState(); void refresh(expectedToken, expectedProject);
+    }
+  };
+  const model = { token, actor, accessMode, metadataRecovery, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, refreshExecutionJobs, requestExecution, cancelExecution, historyEpoch, isCurrentExecutionHistory, loseExecutionHistoryAccess };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -1662,6 +1677,12 @@ function ReviewScreen({ model }) {
                     </ol>}
                   </div>)}
                 </section>}
+                {projectLoaded && projectId && plan?.id && <ExecutionRequestsHistory
+                  key={`${projectId}:${plan.id}:${token}:${model.historyEpoch.session}:${model.historyEpoch.refresh}:${model.historyEpoch.context}:${model.historyEpoch.visibility}`}
+                  projectId={projectId} planId={plan.id} token={token} request={json} formatTime={fmt}
+                  isCurrent={() => model.isCurrentExecutionHistory(projectId, plan.id, token)}
+                  onAccessLost={() => model.loseExecutionHistoryAccess(projectId, token)}
+                />}
                 <section className="comments-section" aria-label="Plan comments">
                   <h3>Review comments</h3>
                   <ol className="comment-timeline">{(detail.comments || []).filter((comment) => comment.planId === plan.id).map((comment) => <PlanCommentRow key={comment.id} comment={comment} plan={plan} fmt={fmt} reopenEvidence={reopenCommentEvidence}/>)}</ol>

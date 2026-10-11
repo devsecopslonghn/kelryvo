@@ -3843,6 +3843,56 @@
       },
       "path": "evidence/product/execution-status/local-record.json",
       "sha256": "37e84fc9f61b0eeced16d0e065103bce37b8037b0ac074b4c1d8b839f21b656b"
+    },
+    {
+      "id": "product-t39-request-history-local",
+      "subject_id": "SF-PRODUCT-T39",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Rebuilt Chromium/isolated PostgreSQL history acceptance PASS, 1 case and zero skips; npm run check PASS, 300 passed and61 existing offline PostgreSQL skips. Paged project requests, 100-event cursor pages, original attempts/receipts and stale/access-loss checks. No Oracle or remote CI claim.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        0,
+        1,
+        2
+      ],
+      "test_references": [
+        "SF-PRODUCT-T39-PAGES",
+        "SF-PRODUCT-T39-HISTORY",
+        "SF-PRODUCT-T39-FRESHNESS"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/request-history/local-summary.json",
+        "sha256": "001b2c93a62a075e9faecf6d8794a110e30eb577dcb6e43b5402f7b53aab0061"
+      },
+      "path": "evidence/product/request-history/local-record.json",
+      "sha256": "8fe175a516084e97d54e03d149988dbade2872ad8c52fbea3d4481d58d09956c"
+    },
+    {
+      "id": "product-t38-execution-status-ci",
+      "subject_id": "SF-PRODUCT-T38",
+      "kind": "INTEGRATION",
+      "scope": "PRODUCT",
+      "outcome": "PASS",
+      "command": "Exact PR64 candidate/master Foundation, parser, complete PRODUCT and CodeQL PASS; completed job logs confirm110 API/33 browser/1 release per head and zero failures/cancellations/skips. Independent exact-candidate review, identical master tree, zero open code-scanning alerts. No Oracle/deployed isolation claim.",
+      "exit_code": 0,
+      "criterion_indexes": [
+        3
+      ],
+      "test_references": [
+        "SF-PRODUCT-T38-STATUS",
+        "SF-PRODUCT-T38-FRESHNESS",
+        "SF-PRODUCT-T38-INTEGRATION"
+      ],
+      "case_coverage": [],
+      "raw_output": {
+        "path": "evidence/product/request-history/status-ci.json",
+        "sha256": "dd57dea4381183fc5f20fa6f2905784133e2912a30349037d8728dff789770c5"
+      },
+      "path": "evidence/product/request-history/status-ci-record.json",
+      "sha256": "0102fec321a0202fc6458826742f31e1bdb4a70c21f7accfc197ca1eb1ccfe42"
     }
   ]
 }
