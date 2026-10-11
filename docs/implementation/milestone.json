@@ -719,7 +719,7 @@
       "request-only deployment intent, UNIT-tested coordinator and durable journal, audit/history",
       "private metadata backup and witnessed restore under persistent RESTORE_HOLD",
       "native HTTPS cookie/CSRF/expiry/session revocation",
-      "Approved Git request \u2192 exact pinned-parser statements \u2192 checked worker admission/dispatch \u2192 durable receipts/history, UNIT_SYNTHETIC host only"
+      "Approved Git request → exact pinned-parser statements → checked worker admission/dispatch → durable receipts/history, UNIT_SYNTHETIC host only"
     ],
     "essential_gaps": [
       "Installed Oracle host/driver with attested target identity/history/mutex/dispatch authority and safe no-replay reconciliation",

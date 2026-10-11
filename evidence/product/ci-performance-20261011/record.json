@@ -19,5 +19,41 @@
   "cache_scope": "npm download content only; exact lockfile; fresh npm ci retained",
   "oracle_runtime": "UNVALIDATED",
   "goal": "UNCHANGED_ACTIVE",
-  "next_mvp_outcome": "Observed target-history-bound pending migration selection/admission, then installed restricted Oracle host/ledger/reconciliation; runtime needs attested authority"
+  "next_mvp_outcome": "Observed target-history-bound pending migration selection/admission, then installed restricted Oracle host/ledger/reconciliation; runtime needs attested authority",
+  "optimization": {
+    "trigger": "master push, pull_request and manual only",
+    "parallelism": "two API shards, two browser shards, one fresh-source release; distinct runners/PostgreSQL services",
+    "serial_within_shards": true,
+    "duplicate_outer_release_builds_removed": true,
+    "duplicate_browser_build_removed": true
+  },
+  "test_list_verification": {
+    "api_files": 33,
+    "browser_files": 31,
+    "order_unchanged": true,
+    "actual_node_shard_probe": "seven temporary test files partitioned disjointly and completely, 4+3"
+  },
+  "independent_review": {
+    "result": "NO_BLOCKING_FINDINGS",
+    "reviewer": "native ci_review read-only agent",
+    "files": {
+      "product.yml": "da15bb8e7e4c5712fd23c412d2a6726f0a1940eb2cc4e7155f6bcf37040d0ef0",
+      "test-product.mjs": "6996ac6768ff7e528dd8d9a4e0f686d05efc2c85294868284360ebe508a63889",
+      "github-sync.md": "4428d037b5451518f9f3b9f45c90f46bb50c344c5b2e7f8c3ea3bf0b09854ecc",
+      "check.yml": "3c7c5f12d6d345a44ac4684d33ae52caccd2d1ffb5cece6eb86ad49f6bf8e413",
+      "parser.yml": "50b21224c0a3476496f02f90a6f553ceaac1001689513d9010f6ca7755251b3e"
+    }
+  },
+  "local_check_initial": "FAIL: inherited milestone formatting normalized; subsequent local parser cases reported UNAVAILABLE with no JDK path; corrected explicit pinned JDK configuration",
+  "local_check": {
+    "result": "PASS",
+    "command": "SCHEMAFORGE_JAVA_HOME=<existing pinned Temurin> npm run check",
+    "tests": 199,
+    "pass": 155,
+    "fail": 0,
+    "skipped": 44,
+    "log_sha256": "529c647af2a425c18b61769283b93c511e7b3cef4698a4a42e3b93c54e14e43a",
+    "dependency_license_closure": "85 pinned packages, zero unknown required grants"
+  },
+  "workflow_syntax": "All three workflows parsed as YAML"
 }

@@ -1,0 +1,18 @@
+{
+  "tool": "Gitleaks8.30.1",
+  "tool_sha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+  "result": "PASS",
+  "findings": 0,
+  "files": {
+    ".github/workflows/check.yml": "3c7c5f12d6d345a44ac4684d33ae52caccd2d1ffb5cece6eb86ad49f6bf8e413",
+    ".github/workflows/parser.yml": "50b21224c0a3476496f02f90a6f553ceaac1001689513d9010f6ca7755251b3e",
+    ".github/workflows/product.yml": "da15bb8e7e4c5712fd23c412d2a6726f0a1940eb2cc4e7155f6bcf37040d0ef0",
+    "docs/implementation/CONTINUE.md": "333eef3a91f2a5c1c27d025aa845f2f7c11974ca6c302f92238ccc09c09dcbc2",
+    "docs/implementation/CURRENT.md": "333eef3a91f2a5c1c27d025aa845f2f7c11974ca6c302f92238ccc09c09dcbc2",
+    "docs/implementation/github-sync.md": "4428d037b5451518f9f3b9f45c90f46bb50c344c5b2e7f8c3ea3bf0b09854ecc",
+    "docs/implementation/milestone.json": "16938ba53703485d93d5c779207aec444b7109afe18e429807b4adc0384e2e0c",
+    "evidence/product/ci-performance-20261011/baseline.json": "2e9cb8483ac7e3858e976167b3eba95764f16f6868c22777618072de61dd0d74",
+    "evidence/product/ci-performance-20261011/record.json": "c17e3f576f9910c4404cec065464a954dc7ca7e8f6bb54a76fb05d074819f209",
+    "scripts/test-product.mjs": "6996ac6768ff7e528dd8d9a4e0f686d05efc2c85294868284360ebe508a63889"
+  }
+}

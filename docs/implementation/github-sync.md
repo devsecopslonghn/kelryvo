@@ -57,9 +57,16 @@ PRODUCT runs the complete PostgreSQL/API/security, browser and fresh-source inst
 suites in parallel on separate runners and disposable PostgreSQL services. All run on
 every PR and master integration; no test list or skip policy changes. The stable `product`
 aggregate requires every matrix suite to succeed, including on failure or cancellation.
+API and browser lists each run in two complementary Node test shards, with files still
+serial inside each shard. Every shard has its own database; never run shards against
+the same database because fixtures reset shared metadata. Local commands run the full
+lists by default; `SCHEMAFORGE_TEST_SHARD=1/2` selects one shard explicitly. Compare
+the combined shard test counts to the baseline to verify complete coverage.
 The release suite still performs fresh npm installation, parser/web builds, HTTPS and
 controlled UNIT-host/history acceptance inside the extracted source bundle. Its outer
 checkout does not duplicate those builds. Browser acceptance remains mandatory.
+After the full build, CI invokes the browser launcher directly to avoid rebuilding
+the same web output. The developer-facing `npm run test:browser` retains its build.
 
 Node setup caches only npm's downloaded package content, keyed by the committed lockfile;
 `npm ci --ignore-scripts` still installs exact dependencies. Do not cache `node_modules`,
