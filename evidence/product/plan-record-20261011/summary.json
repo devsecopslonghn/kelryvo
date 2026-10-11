@@ -1,0 +1,25 @@
+{
+  "scope": "REDACTED_OFFLINE_GOVERNANCE_ONLY",
+  "commands": {
+    "npm run check": "PASS: 306 pass,67 offline PostgreSQL skips,0 failures; 89 pinned package grants known",
+    "isolated PostgreSQL product-plan-record.test.mjs": "PASS 1/1,0 skips",
+    "Chromium product-plan-record-browser.integration.mjs": "PASS 1/1,0 skips; actual download checksum,plan navigation and logout fencing",
+    "node --test tests/product-test-shards.test.mjs tests/tracker.test.mjs": "See registration.log"
+  },
+  "review": {
+    "reviewers": [
+      "plan_record_review",
+      "final_delivery_review"
+    ],
+    "finding": "REVOKED must retain original APPROVE decision and a matching withdrawal. Fixed and covered by passing actual PostgreSQL case. Final independent code review found no remaining bounded security defect."
+  },
+  "retained_initial_failures": [
+    "First focused invocation used inactive default local PostgreSQL port55432; reran against existing authorized disposable test container.",
+    "First actual API test omitted expectedApprovalReference in withdrawal request; corrected fixture.",
+    "Next API run completed functional assertions but bootstrap fixture retained activation fields; cleared them per existing constraint, then final API run passed."
+  ],
+  "limitations": [
+    "No Oracle runtime, new execution permission, signed authenticity or full SEC-013 evidence claim.",
+    "Exact candidate/master remote CI and deployment of this feature remain pending."
+  ]
+}

@@ -945,7 +945,30 @@ const PRODUCT_TASK_41 = {
     "SF-PRODUCT-T41-PUBLICATION"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38, PRODUCT_TASK_39, PRODUCT_TASK_40, PRODUCT_TASK_41];
+const PRODUCT_TASK_42 = {
+  "id": "SF-PRODUCT-T42",
+  "package": "PRODUCT",
+  "assigned_agent": "backend",
+  "title": "Download scoped redacted offline plan governance records",
+  "dependencies": [
+    "SF-PRODUCT-T41"
+  ],
+  "feature_ids": [
+    "SEC-013"
+  ],
+  "acceptance_criteria": [
+    "Download a bounded versioned record for an explicitly authorized project member, containing saved public intent, migration/statement identities and the current decision and approval withdrawal from one metadata snapshot. Preserve archived reads; deny unknown, foreign, revoked and bootstrap scopes.",
+    "Verify retained intent and plan-item binding before export; reject malformed or oversized metadata. Never expose the private envelope, credential references, SQL content or execution capability. Clearly distinguish a redacted governance snapshot from full joined execution evidence or authentic signed proof.",
+    "Offer a plan-review download with a SHA-256 checksum of its exact serialized record. Fence delayed downloads across plan/project/session navigation and logout; keep governance and target state unchanged. Document offline verification with standard Node crypto and the need for a separately trusted digest.",
+    "Verify authorized roles, denial and tamper/bounds cases against isolated PostgreSQL and actual Chromium download/navigation/logout behavior. Register both tests in required PRODUCT lists and preserve required CI, independent security/QA review and licensing gates."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T42-SCOPE",
+    "SF-PRODUCT-T42-INTEGRITY",
+    "SF-PRODUCT-T42-BROWSER"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38, PRODUCT_TASK_39, PRODUCT_TASK_40, PRODUCT_TASK_41, PRODUCT_TASK_42];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

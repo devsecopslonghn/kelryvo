@@ -744,6 +744,19 @@
       "catalog_traceability": [
         "OPS-011"
       ]
+    },
+    {
+      "id": "SF-D061",
+      "status": "ACCEPTED_BOUNDED_REDACTED_PLAN_RECORD",
+      "decision": "Resume deferred evidence export after verified Kelryvo deployment. Export only public retained intent plus current plan decision and withdrawal in a repeatable-read authorized snapshot. Preserve private credential-bearing envelopes; expose their digest solely as a reference. SHA-256 covers the exact exported JSON string for external checksum comparison, not authenticity or proof of Oracle effects. No SQL, credentials, worker data, execution receipts, new packages or target access. Full SEC-013 joined evidence remains unverified.",
+      "references": [
+        "packages/governance/plan-record.ts",
+        "apps/web/src/PlanRecord.jsx",
+        "docs/development/plan-record.md"
+      ],
+      "catalog_traceability": [
+        "SEC-013"
+      ]
     }
   ]
 }

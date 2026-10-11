@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-11T16:36:42.346Z",
+  "origin": "https://kelryvo.apps.drgdevlab.com",
+  "source": "46a82f49ab6a7b87984628e94ca53834a7e77528",
+  "gitops": "ef88e89e63d80551928b362a89631a463adcb8bf",
+  "projectId": "cc1eb904-ab29-4e74-b959-e35a54a14581",
+  "steps": [
+    "developer: trusted public TLS, browser login, secure session, retained approved plan, two NOT_EXECUTED history rows and approval audit PASS",
+    "approver: trusted public TLS, browser login, secure session, retained approved plan, two NOT_EXECUTED history rows and approval audit PASS",
+    "retained Git/parser VALID release, unauthenticated 401, missing-CSRF 403, cross-Origin 403 PASS",
+    "app rolling restart and public readiness PASS",
+    "developer: same browser session and unchanged plan/history after restart PASS",
+    "approver: same browser session and unchanged plan/history after restart PASS",
+    "same PVC/PV and PostgreSQL pod, disabled worker, Synced/Healthy Argo PASS"
+  ],
+  "outcome": "PASS",
+  "oracleExecution": "NOT_AUTHORIZED_NOT_EXECUTED",
+  "limitations": [
+    "Uses existing approved synthetic demo; no new approval mutation repeated.",
+    "Verifies app restart only, not database disaster recovery or Oracle compatibility."
+  ]
+}

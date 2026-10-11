@@ -1,0 +1,20 @@
+{
+  "id": "product-t41-kelryvo-publication-deployment",
+  "subject_id": "SF-PRODUCT-T41",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "PR67 exact candidate and master Foundation/parser/PRODUCT/OCI/four CodeQL checks PASS; no open code-scanning alerts. Verified master dispatch38154459321 publishes tested immutable images. Subsequent public Chromium and app restart acceptance PASS (result.json). Oracle execution disabled; no disaster recovery or Oracle acceptance claim.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    3
+  ],
+  "test_references": [
+    "SF-PRODUCT-T41-PUBLICATION"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/kelryvo-deployment-20261011/gates.json",
+    "sha256": "556d07822939d25c39095871541d8fb3d70a0eeba7d4575cbb9c6bea007c11bf"
+  }
+}
