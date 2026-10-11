@@ -929,6 +929,31 @@ or supply credentials. Its unbound direct child export rejects startup. A deploy
 service, verified installation authority and Oracle/isolation acceptance remain
 separate requirements.
 
+### Expired-attempt recovery installation
+
+A fixed private installation module may export the function returned by
+`createInstalledExpiryRecoveryWorkerFactory` as the supervised child's
+`createExecutionWorker`. It accepts the same reviewed metadata and capability binding
+as the execution factory, and shares its one-operation client ownership and cleanup.
+The privileged export selects recovery; requests cannot supply an operation selector
+or change routes, scope, target capabilities or options. The existing supervised wire
+hook still accepts only the job and invocation IDs.
+
+This factory invokes the existing metadata worker's `recoverExpired`. A previously
+admitted CLAIMED attempt whose lease expired moves to HOLD with the existing
+`LEASE_EXPIRED_UNKNOWN` event. The transaction preserves the original attempt identity,
+lease, receipts, approval and earlier events. Recovery creates no new attempt, renews
+no lease, opens no Oracle session and dispatches no SQL. Current leases, terminal jobs,
+missing attempts and inactive metadata generations do not advance. Approval withdrawal
+or grant revocation cannot prevent a safety HOLD after expiry.
+
+Successful durable recovery reports HOLD after metadata cleanup and clean child exit.
+An ineligible request reports admission declined. Database, run or cleanup uncertainty
+fails through the supervisor boundary; it cannot erase an already committed HOLD or
+claim target application. This operation supplies no reconciliation verdict, HOLD
+release, execution authority or automatic retry. Investigate the retained journal and
+protected target history before any separately authorized recovery or execution.
+
 `createPrivateOracleProvider` in `apps/worker/oracle-provider.mjs` supplies the
 restricted host's installed connection lifecycle. Privileged child installation code
 must supply its purpose authority, a fixed private route resolver, and independent

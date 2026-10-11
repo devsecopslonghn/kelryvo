@@ -141,6 +141,10 @@ test('a supervised child recovers only expired metadata and preserves retained e
     assert.equal(ambiguousAfter.job.state, 'HOLD');
     assert.equal(ambiguousAfter.attempts.length, 1, 'recovery never creates a replacement attempt');
     assert.equal(ambiguousAfter.attempts[0].state, 'HOLD');
+    assert.deepEqual({ ...ambiguousAfter.attempts[0], state: ambiguousBefore.attempts[0].state },
+      ambiguousBefore.attempts[0], 'attempt identity, generation and original lease are retained');
+    assert.equal(ambiguousAfter.job.revision, ambiguousBefore.job.revision + 1);
+    assert.equal(ambiguousAfter.events.length, ambiguousBefore.events.length + 1);
     assert.deepEqual(ambiguousAfter.events.slice(0, ambiguousBefore.events.length), ambiguousBefore.events);
     assert.equal(ambiguousAfter.events.at(-1).phase, 'HOLD');
     assert.equal(ambiguousAfter.events.at(-1).facts.reasonCode, 'LEASE_EXPIRED_UNKNOWN');
@@ -151,6 +155,7 @@ test('a supervised child recovers only expired metadata and preserves retained e
     const repeated = await makeRecovery().runWaitingRequest(f.ambiguous.id);
     assert.equal(repeated.status, 'DECLINED');
     assert.deepEqual(await retainedBefore(f.ambiguous.id), ambiguousAfter, 'repeated recovery appends no second HOLD');
+    assert.equal((await makeRecovery().runWaitingRequest(f.completed.id)).status, 'DECLINED');
     assert.deepEqual(await retainedBefore(f.completed.id), completedBefore, 'terminal jobs and receipt-rich history are untouched');
 
     const createJob = async () => {
