@@ -1,0 +1,51 @@
+TAP version 13
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: protected Oracle host adapter integrates real Git approval, pending-only worker and durable central history
+    # Subtest: V1 completes with ordered target and central receipts
+    ok 1 - V1 completes with ordered target and central receipts
+      ---
+      duration_ms: 2803.668788
+      type: 'test'
+      ...
+    # Subtest: V2 executes its suffix; restart and catalog reassignment preserve V1
+    ok 2 - V2 executes its suffix; restart and catalog reassignment preserve V1
+      ---
+      duration_ms: 15779.840614
+      type: 'test'
+      ...
+    # Subtest: missing target adoption and wrong write purpose HOLD before any attempt
+    ok 3 - missing target adoption and wrong write purpose HOLD before any attempt
+      ---
+      duration_ms: 10249.470559
+      type: 'test'
+      ...
+    # Subtest: unknown writer result holds and an unresolved target file is never replayed
+    ok 4 - unknown writer result holds and an unresolved target file is never replayed
+      ---
+      duration_ms: 10410.75012
+      type: 'test'
+      ...
+    # Subtest: target rewind is vetoed by retained central completion before a new attempt
+    ok 5 - target rewind is vetoed by retained central completion before a new attempt
+      ---
+      duration_ms: 5134.927281
+      type: 'test'
+      ...
+    1..5
+ok 1 - protected Oracle host adapter integrates real Git approval, pending-only worker and durable central history
+  ---
+  duration_ms: 80958.34098
+  type: 'test'
+  ...
+1..1
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 81241.592497

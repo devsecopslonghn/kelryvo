@@ -248,13 +248,13 @@
   "final_check_evidence": {
     "index_id": "mvp-restricted-oracle-host-local-verified"
   },
-  "final_check_manifest": "evidence/product/oracle-host-20261011/record.json",
+  "final_check_manifest": "evidence/product/oracle-host-20261011/verified-record.json",
   "wp0_t02_status": "VERIFIED_AUDIT_INCREMENT",
   "wp0_t03_status": "VERIFIED_OFFLINE_PARSER_INCREMENT",
   "wp0_t04_status": "BLOCKED_RUNTIME_WITH_UNIT_CHECKED_SUPERVISED_READ_ONLY_CANDIDATE",
   "latest_validated_master_before_this_increment": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
   "last_merged_implementation_pr": 55,
-  "checkpoint_evidence": "evidence/product/oracle-host-20261011/record.json",
+  "checkpoint_evidence": "evidence/product/oracle-host-20261011/verified-record.json",
   "implementation_prs_pending": [],
   "next_fully_unblocked_tasks": [],
   "blocking_audit": {
@@ -740,8 +740,8 @@
       "request-only deployment intent, UNIT-tested coordinator and durable journal, audit/history",
       "private metadata backup and witnessed restore under persistent RESTORE_HOLD",
       "native HTTPS cookie/CSRF/expiry/session revocation",
-      "Approved Git request \u2192 exact pinned-parser statements \u2192 checked worker admission/dispatch \u2192 durable receipts/history, UNIT_SYNTHETIC host only",
-      "Applied V1 \u2192 separately approved V1+V2 executes only V2; witnessed complete history NOOP; untrusted/divergent/rewound history HOLD, UNIT_SYNTHETIC targets only"
+      "Approved Git request → exact pinned-parser statements → checked worker admission/dispatch → durable receipts/history, UNIT_SYNTHETIC host only",
+      "Applied V1 → separately approved V1+V2 executes only V2; witnessed complete history NOOP; untrusted/divergent/rewound history HOLD, UNIT_SYNTHETIC targets only"
     ],
     "essential_gaps": [
       "Independently installed private provider and supervised deployed worker with truthful target TLS/GUID/effective-grants/object/adoption attestations.",

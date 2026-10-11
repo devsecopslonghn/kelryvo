@@ -3453,8 +3453,8 @@
         "path": "evidence/product/oracle-host-20261011/checks.log",
         "sha256": "04362b76312da25f0c1c2743891d8939e9edd11711f2c0ae07974d6ca109a158"
       },
-      "path": "evidence/product/oracle-host-20261011/record.json",
-      "sha256": "8e645e5786be2d0166f45d6edaf71d7625a01ea797dc06bd99db40c052fd4ae8"
+      "path": "evidence/product/oracle-host-20261011/verified-record.json",
+      "sha256": "0a90c3ac914f0c21efd919413943cd36abb77852418745724262f0af11adb4f6"
     }
   ]
 }

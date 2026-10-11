@@ -928,7 +928,7 @@
       "verified_facets": [
         {
           "task": "SF-PRODUCT-T13",
-          "behavior": "Inspect a plan\u2019s retained source from review",
+          "behavior": "Inspect a plan’s retained source from review",
           "evidence": [
             "product-t13-source-inspection-local-verified"
           ]
@@ -1963,7 +1963,7 @@
         },
         {
           "task": "SF-PRODUCT-T13",
-          "behavior": "Inspect a plan\u2019s retained source from review",
+          "behavior": "Inspect a plan’s retained source from review",
           "evidence": [
             "product-t13-source-inspection-local-verified"
           ]
@@ -2529,7 +2529,7 @@
     "retained_stack_published_snapshot": "b8177d4286927b0cdf5556fb53d7edff7accf4a6",
     "retained_stack_worktree": "/home/longhn0710/workspace/schemaforge-product-retained-release-detail",
     "inbox_implementation": "19ecdd85014ccf7766c7b89dcfe9e7a8136aee54",
-    "evidence_path_policy": "Reviewed source/evidence parents37\u201344 remain immutable ancestors of the T32 candidate; original worktrees/PRs are preserved. Candidate verification does not certify master.",
+    "evidence_path_policy": "Reviewed source/evidence parents37–44 remain immutable ancestors of the T32 candidate; original worktrees/PRs are preserved. Candidate verification does not certify master.",
     "inbox_worktree": "/home/longhn0710/workspace/schemaforge-product-review-inbox",
     "inbox_published_snapshot": "17e9a92fc91527dd8b9d374a52503e3430cddb3f",
     "assignment_implementation": "8658252e70217b41ac215a317fdd8b328a576d19",

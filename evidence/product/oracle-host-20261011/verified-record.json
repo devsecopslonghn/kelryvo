@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-11T03:36:05.719111+00:00",
+  "source_head": "cacab0d6ede9f4aca3d09edd34860ef613f8df0e",
+  "tested_source_head": "5bf2826421bf1571bc6b681c1f12144ac777b479",
+  "integrated_base": "54b17edc563bf83c8ce12e679c748ddf664ee1d6",
+  "review": {
+    "reviewed_head": "5bf2826421bf1571bc6b681c1f12144ac777b479",
+    "agent": "/root/ci_review",
+    "outcome": "APPROVED_NO_SUBSTANTIVE_CORRECTNESS_OR_SECURITY_BLOCKERS",
+    "method": "Read-only exact source/contract review; no duplicate test runs, Oracle calls or source edits.",
+    "following_source_change": "One trailing blank line removed from oracle-target-mutex.mjs in cacab0d; no functional source change.",
+    "limitation": "Actual installation must independently provide truthful permits, identity/TLS/grants/adoption/postconditions/central capabilities. Provider isolation and Oracle runtime are unvalidated."
+  },
+  "checks": [
+    {
+      "command": "SCHEMAFORGE_JAVA_HOME=<verified local Temurin> npm run check",
+      "exit_code": 0,
+      "tests": 286,
+      "passed": 240,
+      "optional_skipped": 46,
+      "failed": 0,
+      "raw_output": "evidence/product/oracle-host-20261011/checks.log",
+      "sha256": "04362b76312da25f0c1c2743891d8939e9edd11711f2c0ae07974d6ca109a158"
+    },
+    {
+      "command": "SCHEMAFORGE_TEST_DATABASE_URL=<owned disposable local PostgreSQL> SCHEMAFORGE_REQUIRE_PRODUCT_TESTS=1 SCHEMAFORGE_JAVA_HOME=<verified local Temurin> node --test tests/product-oracle-host.test.mjs",
+      "exit_code": 0,
+      "tests": 6,
+      "passed": 6,
+      "skipped": 0,
+      "failed": 0,
+      "raw_output": "evidence/product/oracle-host-20261011/product-worker.log",
+      "sha256": "a8627d517d90c44df002a0895c6fe36bca9dc094b57e78e6d7e5ebb309eef72b"
+    },
+    {
+      "command": "Pinned runAntlrCandidate on apps/worker/oracle/target-mutex.sql",
+      "exit_code": 0,
+      "statements": 2,
+      "oracle_calls": 0,
+      "scope": "STATIC_PARSE_ONLY",
+      "raw_output": "evidence/product/oracle-host-20261011/static-mutex-parser.json",
+      "sha256": "799bbe1dbda99ea2a25cb51f27da31469d832ebcd2ef95a259e7284e74520555"
+    }
+  ],
+  "verified_behavior": [
+    "Purpose/worker/job/plan/intent/approval/profile/statement-bound private writer permit before provider entry; explicit UNIT opt-in.",
+    "Same dedicated writer physical session uses nonce-protected mutex; separate protected ledger owner and stable identity/authority checks.",
+    "Atomic complete file plan and target STARTED precede exact SQL; explicit DML commit, matching ordered receipt before ACK/APPLIED.",
+    "Real PostgreSQL/Git/pinned parser/approval/worker: V1 then approved V1+V2 dispatches only V2, preserves original approval, and restart/reassignment yields NOOP.",
+    "Missing adoption/read-only permits/untrusted or in-flight history/central rewind veto HOLD without another attempt.",
+    "Unknown execute/commit/target receipt, lost continuity and callback/cleanup ambiguity poison authority, drain outstanding calls and never replay."
+  ],
+  "test_inventory": {
+    "host_and_mutex_unit": 58,
+    "protected_ledger_unit": 25,
+    "product_worker_tests": 6,
+    "required_api_tests_expected_after_addition": 76,
+    "browser_tests_retained": 33,
+    "fresh_source_acceptance_retained": "1 outer / 4 inner; actual candidate/master CI pending"
+  },
+  "license": {
+    "product": "Unmodified PolyForm Shield 1.0.0",
+    "pinned_product_packages": 85,
+    "unknown_required_grants": 0,
+    "dependency_changes": false
+  },
+  "publication_and_integration": "Pending final scoped scan, exact-head inventory review, candidate/master foundation/parser/PRODUCT gates and ordinary eligible merge.",
+  "oracle_runtime": "UNAVAILABLE_NO_AUTHORIZED_ORACLE_ENVIRONMENT; zero connections, bootstrap or runtime/compile verification.",
+  "remaining_mvp_gaps": [
+    "Independently installed private provider/credential resolver, supervised deployed worker and truthful target TLS/GUID/effective-grants/object/adoption attestations.",
+    "Authorized Oracle target installation, execution/recovery/fault and worker-isolation acceptance.",
+    "Existing nonempty target needs a future explicit reviewed baseline workflow; automatic adoption/replay is unsupported."
+  ],
+  "source_files": [
+    {
+      "path": "apps/worker/oracle-host.ts",
+      "sha256": "36740f5608c05ec4447005a2ce4c7adaca078600352191714a7974849121df43"
+    },
+    {
+      "path": "apps/worker/oracle/target-mutex.sql",
+      "sha256": "ad5dbac6efcb2c2766b6da68b0f8e54b32b0856f688adc00da71c680751abd2e"
+    },
+    {
+      "path": "docs/architecture/boundaries.md",
+      "sha256": "c6e4ba51fa9a7494da82d76361f17bb2ce3e8d909365db5f7fce7483c6da6227"
+    },
+    {
+      "path": "docs/decisions/log.json",
+      "sha256": "d5da705e66b62144cc363fef96268611af46b296d90872995958f491a5104c33"
+    },
+    {
+      "path": "docs/development/local-product.md",
+      "sha256": "3e623c1406cdd84abcb692328b4bda4dd228d94b90609fb46d307d7abda74d47"
+    },
+    {
+      "path": "packages/execution/oracle-driver.mjs",
+      "sha256": "584518f550c397fd3134f13277054a9d528c1740de80922b8e1aa6db4a095a1f"
+    },
+    {
+      "path": "packages/execution/oracle-target-mutex.mjs",
+      "sha256": "e088f46428e26b3ef9a442d5a1f0bfee544be5726c0dd688d6325d69bb6a983c"
+    },
+    {
+      "path": "scripts/test-product.mjs",
+      "sha256": "8f605b9d492a433ae871f0ac23f2b37d8ee8ffeab74a817ba008d07b0a1d1323"
+    },
+    {
+      "path": "tests/helpers/oracle-host-fixture.mjs",
+      "sha256": "35d5bd6d274e5e721ee38bd257fe459f1ce2e6d7eee8e565e53ccb9e5cf625de"
+    },
+    {
+      "path": "tests/helpers/oracle-ledger-fixture.mjs",
+      "sha256": "7a18bbb1b717e9f16cc64b9e08dfa630764938f1eb015b3ac5733057fc368c18"
+    },
+    {
+      "path": "tests/oracle-host.test.mjs",
+      "sha256": "d186e10262bb63d0b6c5c59462927c080ac997f492163039538312f6006a9658"
+    },
+    {
+      "path": "tests/oracle-target-ledger.test.mjs",
+      "sha256": "851dc48e6b7f457e77b996158b314460d0a0cd5083090c7968f6445624b8f1d1"
+    },
+    {
+      "path": "tests/oracle-target-mutex.test.mjs",
+      "sha256": "7b8acd320573ba97b3f9d41c9cbc1f2484443abcb33c01032a7c4802dbe8dc50"
+    },
+    {
+      "path": "tests/product-oracle-host.test.mjs",
+      "sha256": "bbe1fcdc184597703ba55c3c566c4f323abfbb0c9799761ec4c0c24935e769f9"
+    }
+  ],
+  "prior_iteration_evidence": "Original local failing logs retained privately in /tmp; final checks above follow overlap/drain/provider and test-fixture corrections. No earlier failure reclassified as PASS.",
+  "historical_scan_limits": "Prior all-ref scan findings/limits remain preserved; this record does not claim a clean repository history or unavailable GitHub security/Sonar PASS.",
+  "verification_scope": "PRODUCT_ADAPTER_UNIT_SYNTHETIC_TARGET_ONLY",
+  "id": "mvp-restricted-oracle-host-local-verified",
+  "subject_id": "MIG-011",
+  "kind": "UNIT",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check240PASS46optionalSKIP0fail; real PG/Git/parser/approval/worker6PASS0skip; host/mutex58 and ledger25 UNIT cases; static mutex2 statements PARSE only. Independently reviewed source; no Oracle runtime promotion.",
+  "exit_code": 0,
+  "criterion_indexes": [],
+  "test_references": [],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/oracle-host-20261011/checks.log",
+    "sha256": "04362b76312da25f0c1c2743891d8939e9edd11711f2c0ae07974d6ca109a158"
+  },
+  "supersedes_unindexed_local_record": {
+    "path": "evidence/product/oracle-host-20261011/record.json",
+    "sha256": "8e645e5786be2d0166f45d6edaf71d7625a01ea797dc06bd99db40c052fd4ae8",
+    "reason": "Preserve original local snapshot; corrected tracker-compatible envelope only, no test or source result changed."
+  }
+}
