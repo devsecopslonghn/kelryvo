@@ -1,5 +1,14 @@
 # SchemaForge product state
 
+## Product-first MVP completion — 2026-10-12
+
+The current delivery stream is `development/kelryvo-mvp-completion`.
+[Locked MVP scope and actual feature matrix](MVP.md) supersedes the old per-feature
+PR/release cadence below. Preserve prior export/estate work; complete foundational
+account and instance workflows, then perform full milestone acceptance and release.
+Oracle remains disabled; operator-only grants and recovery authority remain.
+
+
 Git import, offline Oracle validation, retained plans, review/approval, controlled UNIT execution, history UI, secure sessions and reproducible source installation are integrated. The installed worker, metadata-only recovery, serial queue service and current deployment status are integrated through PR #65 at master `dc38fa7e856b720d435ff110bf7716748e9eb1ec`. Candidate and master Foundation, parser, PRODUCT and CodeQL passed; PRODUCT covered 110 API, 33 browser and one fresh-source release case with zero failures, cancellations or skips.
 
 The service binds children and durable writes to the active metadata generation, runs expiry recovery before dispatch and drains through confirmed child exit. Isolated PostgreSQL service/supervisor acceptance passed 34/34, including active leader loss after statement 1, no second dispatch and preserved uncertainty. Prior failed FIFO evidence remains retained alongside its passing correction.

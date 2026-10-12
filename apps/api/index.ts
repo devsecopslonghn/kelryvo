@@ -20,6 +20,7 @@ import { registerExecutionHistory } from "../../packages/execution/history.ts";
 import { registerPlanRecord } from "../../packages/governance/plan-record.ts";
 import { registerExecutionRecord } from "../../packages/execution/record.ts";
 import { registerHealthProbes } from "../../packages/observability/health-probes.mjs";
+import { registerAccount } from "../../packages/database/account.ts";
 
 const ORG = "00000000-0000-4000-8000-000000000001";
 const MAX_BINDING_GENERATION = "9223372036854775807";
@@ -166,6 +167,7 @@ export function createApp(options: {
   registerPlanRecord(app, { sql, authenticate });
   registerExecutionRecord(app, { sql, authenticate });
   registerBrowserSessions(app, { sql, authenticate, seed, enabled: !!options.https });
+  registerAccount(app, { sql, authenticate });
   app.get('/api/recovery/status', { preHandler: authenticate }, async () => {
     const row = (await sql`SELECT g.id,g.state,g.predecessor_id,g.witness_id,g.created_at
       FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0];

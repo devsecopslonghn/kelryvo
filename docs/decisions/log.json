@@ -217,7 +217,7 @@
       "id": "SF-D021",
       "status": "ACCEPTED_BOUNDED_PRODUCT_T24_EXISTING_ACTION_ORDER_COMPATIBILITY",
       "accepted_at_utc": "2026-10-09T21:04:32.155575+00:00",
-      "decision": "The first frozen T24 browser suite exposed an actual T09 compatibility regression: alphabetical historical action choices changed the established newest-occurrence order. Preserve existing action-choice behavior across the full retained project audit set by selecting each action’s newest (created_at,id) occurrence and ordering those occurrences descending, including actions older than the recent100. Retain all original T09 assertions, immutable failure capture and timestamp/ID tie semantics; correct only the new implementation and its new expected historical-action results, then rerun the complete frozen standard/product/browser suites. This is a bounded compatibility repair under SF-D010/SF-D019/SF-D020, not a redesign or original acceptance change. No audit records, thresholds, parser logic, security gates or Oracle authority change.",
+      "decision": "The first frozen T24 browser suite exposed an actual T09 compatibility regression: alphabetical historical action choices changed the established newest-occurrence order. Preserve existing action-choice behavior across the full retained project audit set by selecting each action\u2019s newest (created_at,id) occurrence and ordering those occurrences descending, including actions older than the recent100. Retain all original T09 assertions, immutable failure capture and timestamp/ID tie semantics; correct only the new implementation and its new expected historical-action results, then rerun the complete frozen standard/product/browser suites. This is a bounded compatibility repair under SF-D010/SF-D019/SF-D020, not a redesign or original acceptance change. No audit records, thresholds, parser logic, security gates or Oracle authority change.",
       "references": [
         "tests/product-audit-action-filters-browser.integration.mjs",
         "tests/product-audit-pages.test.mjs",
@@ -782,6 +782,16 @@
       ],
       "catalog_traceability": [
         "PRJ-002"
+      ]
+    },
+    {
+      "id": "SF-D064",
+      "status": "ACCEPTED_KELRYVO_MVP_COMPLETION",
+      "decision": "Owner product-first objective supersedes per-feature PR/release cadence. Preserve prior source on development/kelryvo-mvp-completion; lock practical self-hosted governance scope in MVP.md. Add self-service account access and active browser session revocation without introducing an administrator or changing operator-only grants. Preserve Oracle-disabled scope and exact approval, HOLD, no-replay and recovery invariants. Perform one reviewed milestone release after feature completion; externally blocked Oracle acceptance remains explicit.",
+      "references": [
+        "docs/implementation/MVP.md",
+        "packages/database/account.ts",
+        "apps/web/src/Account.jsx"
       ]
     }
   ]

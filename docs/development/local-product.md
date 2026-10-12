@@ -1154,3 +1154,23 @@ expiry does not cancel it or establish whether its SQL effects occurred.
 The explicit UNIT connection port cannot satisfy a trusted installation. The fifteen
 provider tests verify synthetic lifecycle behavior; production authority, physical
 identity, TLS, grants, protected object integrity and adoption remain separate gates.
+
+## Account and access
+
+Open **Account & access** in the browser sidebar to inspect your named identity, fixed
+role, explicit project grants and deployment-request eligibility. Missing grants are
+handled by the trusted OS operator using the membership commands in this guide; no
+application administrator or implicit grant is introduced. Approver eligibility still
+requires independent authorship and the current plan/source checks.
+
+The same screen lists your active HTTPS browser sessions and their idle/absolute
+deadlines. **Revoke session** signs out another browser session; use **Sign out** for
+the current one. Revocation preserves the credential row and an immutable account
+audit event, survives restart, and does not revoke the parent access token. No session
+token, hash or credential reference is returned. HTTP development keeps a bearer in
+this tab's memory; it creates no browser session.
+
+Authenticated self-service endpoints are `GET /api/account/access`,
+`GET /api/account/sessions` (50 rows, optional `after` UUID and `nextCursor`) and
+`POST /api/account/sessions/:id/revoke` (no body, own browser sessions only).
+HTTPS mutations require the session CSRF proof and same origin.

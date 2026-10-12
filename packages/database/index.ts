@@ -75,6 +75,15 @@ export async function initializeDatabase(sql: any, options: { initializeMetadata
         FOREIGN KEY(parent_credential_id,actor_id) REFERENCES sf_local_credentials(id,actor_id);
     END IF; END $$;
     CREATE INDEX IF NOT EXISTS sf_local_credentials_actor_active ON sf_local_credentials(actor_id) WHERE revoked_at IS NULL;
+    CREATE TABLE IF NOT EXISTS sf_account_audit (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
+      actor_id text NOT NULL, session_id uuid NOT NULL REFERENCES sf_local_credentials(id),
+      action text NOT NULL CHECK(action='SESSION_REVOKED'), created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      FOREIGN KEY(actor_id,organization_id) REFERENCES sf_local_actors(id,organization_id)
+    );
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_account_audit_immutable') THEN
+      CREATE TRIGGER sf_account_audit_immutable BEFORE UPDATE OR DELETE ON sf_account_audit
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_metadata_evidence_mutation(); END IF; END $$;
     CREATE TABLE IF NOT EXISTS sf_projects (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
       name text NOT NULL, description text,
