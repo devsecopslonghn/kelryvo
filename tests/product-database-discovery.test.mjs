@@ -36,7 +36,7 @@ test('database connections enforce workspace and project grants, preserve secret
     assert.equal((await f.api('POST',`${url}/test`,{reason:'Revoke during operation'})).statusCode,403);
     assert.equal((await f.api('GET',`${url}/observations`)).json().observations.length,6);
     await applyLocalMembershipAction(f.db.sql,{action:'database-grant',actorId:f.actors[0].id});
-    f.hook(()=>f.db.sql`UPDATE sf_local_credentials SET issued_at=clock_timestamp()-interval '25 hours',expires_at=clock_timestamp()-interval '1 hour' WHERE actor_id=${f.actors[0].id}`);
+    f.hook(()=>f.db.sql`UPDATE sf_local_credentials SET issued_at=now()-interval '25 hours',expires_at=now()-interval '1 hour' WHERE actor_id=${f.actors[0].id}`);
     assert.equal((await f.api('POST',`${url}/test`,{reason:'Expired credentials during operation'})).statusCode,401);
     assert.equal(Number((await f.db.sql`SELECT count(*)::int AS n FROM sf_database_observations WHERE connection_id=${f.connection.id}`)[0].n),6);
   }finally{await f.close();}
