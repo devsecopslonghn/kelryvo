@@ -166,6 +166,9 @@ CREATE OR REPLACE FUNCTION sf_guard_target_pointer_mutation() RETURNS trigger LA
       OR NEW.project_id IS DISTINCT FROM OLD.project_id OR NEW.assignment_id IS DISTINCT FROM OLD.assignment_id THEN
       RAISE EXCEPTION 'target identity is immutable';
     END IF;
+    IF NEW.current_revision <> OLD.current_revision + 1 THEN
+      RAISE EXCEPTION 'target revisions must advance by one';
+    END IF;
     IF TG_TABLE_NAME='sf_target_options' THEN
       IF NEW.schema_id IS DISTINCT FROM OLD.schema_id OR NEW.container_id IS DISTINCT FROM OLD.container_id THEN
         RAISE EXCEPTION 'target identity is immutable';

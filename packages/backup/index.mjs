@@ -33,7 +33,7 @@ const TRIGGERS = ['sf_account_audit_immutable','sf_execution_admission_proofs_im
   'sf_plan_approval_revocations_immutable','sf_plan_approval_revocations_reference_match',
   'sf_target_option_revisions_immutable','sf_target_binding_revisions_immutable','sf_target_binding_option_match',
   'sf_target_lineages_immutable','sf_target_streams_immutable','sf_target_options_identity_guard','sf_target_bindings_identity_guard'].sort();
-const SCHEMA_SIGNATURE = '0a2ba23928b6391f215a90e35dab1f9d21909b78787e2ff9e00b1fac62d47c30';
+const SCHEMA_SIGNATURE = '023d0a19f9f520bd47a6ee567e499fcb35d5996f10480bb9cbf6cd4383f74275';
 const LEGACY_SCHEMA_SIGNATURE = '277b528dfee78e582189a3a0747f5903e652bf3a2566f314c218d5f6093d25c8';
 const TARGET_TABLES = new Set(['sf_target_lineages','sf_target_streams','sf_target_options','sf_target_option_revisions','sf_target_bindings','sf_target_binding_revisions']);
 const TARGET_FUNCTIONS = new Set(['sf_reject_target_evidence_mutation','sf_check_target_binding_option_match','sf_guard_target_pointer_mutation']);

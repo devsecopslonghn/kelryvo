@@ -70,6 +70,8 @@ test('target options and bindings enforce CAS and project scope, preserve privat
       }));
       assert.equal(bindingA.binding.bindingRevision, '1');
       assert.equal(bindingA.currentness.state, 'CURRENT');
+      await assert.rejects(db.sql`UPDATE sf_target_bindings SET current_revision=current_revision WHERE id=${bindingA.binding.bindingId}`, /target revisions must advance by one/);
+      await assert.rejects(db.sql`UPDATE sf_target_options SET enabled=false WHERE id=${optionA.optionId}`, /target revisions must advance by one/);
 
       const loaded = await db.sql.begin(tx => loadBindingTarget(tx, projectA.id, bindingA.binding.bindingId));
       assert.equal(loaded.privatePrincipalRef, privateRef);
