@@ -258,7 +258,7 @@ export async function createTargetBinding(tx: any, input: any) {
   if (![input.projectId, input.assignmentId, input.environmentId, input.targetOptionId].every((v: string) => uuid.test(v))
       || (input.bindingId !== undefined && !uuid.test(input.bindingId))
       || !safeText(input.actorId, 200)
-      || !revision(input.expectedAssignmentRevision, { zero: true }) || !revision(input.expectedTargetOptionRevision)
+      || !revision(input.expectedAssignmentRevision, { zero: true }) || !revision(input.expectedTargetOptionRevision, {zero:true})
       || !revision(input.expectedBindingRevision, { zero: true }) || !safeText(input.reason, 2000)
       || input.reason.trim().length === 0) throw fail();
 
@@ -284,6 +284,7 @@ export async function createTargetBinding(tx: any, input: any) {
   if (!option) throw fail('NOT_FOUND', 404);
   if (asRevision(option.current_revision) !== input.expectedTargetOptionRevision) throw fail('TARGET_REVISION_CONFLICT', 409);
   const env = (await tx`SELECT id,name FROM sf_environments WHERE id=${input.environmentId} AND project_id=${input.projectId} FOR UPDATE`)[0];
+  if (!env) throw fail('NOT_FOUND',404);
   if (!env) throw fail('NOT_FOUND', 404);
   const profile = (await tx`SELECT id,name,retired_at,environment_id,host,port,service,username,credential_ref FROM sf_profiles
     WHERE id=${option.profile_id} AND project_id=${input.projectId} FOR UPDATE`)[0];

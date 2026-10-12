@@ -15,6 +15,12 @@ test('target-bound plans retain immutable format-3 evidence and fail closed acro
     const unauthorizedBinding = await createBinding({}, actors[2]);
     assert.equal(unauthorizedBinding.statusCode, 404, 'non-members cannot create bindings');
 
+    const foreignEnvironment=(await api('POST',`${foreignBase}/environments`,{name:'Foreign target environment'})).json().environment;
+    const foreignEnvBinding=await api('POST',`${base}/target-bindings`,{assignmentId:assignment.id,expectedAssignmentRevision:'1',environmentId:foreignEnvironment.id,
+      targetOptionId:option.optionId,expectedTargetOptionRevision:'1',expectedBindingRevision:'0',reason:'Foreign dependency rejection'});
+    assert.equal(foreignEnvBinding.statusCode,404,foreignEnvBinding.body);
+    const zeroOption=await createBinding({expectedTargetOptionRevision:'0'});
+    assert.equal(zeroOption.statusCode,409,zeroOption.body);assert.equal(zeroOption.json().error,'TARGET_REVISION_CONFLICT');
     const bindingResponse = await createBinding();
     assert.equal(bindingResponse.statusCode, 201, bindingResponse.body);
     const binding = bindingResponse.json().binding;
@@ -29,6 +35,9 @@ test('target-bound plans retain immutable format-3 evidence and fail closed acro
       expectedBindingRevision: '1' });
     assert.equal(crossProjectPlan.statusCode, 404, 'a binding from another project cannot authorize a plan');
 
+    const foreignReleasePlan=await api('POST',`${base}/plans`,{intentVersion:2,releaseId:randomUUID(),assignmentId:assignment.id,
+      expectedAssignmentRevision:'1',targetBindingId:binding.bindingId,expectedBindingRevision:'1'});
+    assert.equal(foreignReleasePlan.statusCode,404,foreignReleasePlan.body);
     const planResponse = await makePlan(binding);
     assert.equal(planResponse.statusCode, 201, planResponse.body);
     const plan = planResponse.json().plan;
@@ -65,6 +74,9 @@ test('target-bound plans retain immutable format-3 evidence and fail closed acro
     const integrityFailure = await decide(plan, actors[1]);
     assert.equal(integrityFailure.statusCode, 409);
     assert.equal(integrityFailure.json().error, 'PLAN_APPROVAL_INTEGRITY_FAILED');
+    const damagedRead=await api('GET',base);assert.equal(damagedRead.statusCode,200,damagedRead.body);
+    const damagedPlan=damagedRead.json().plans.find(p=>p.id===plan.id);
+    assert.equal(damagedPlan.currentness.state,'UNKNOWN');assert.equal(damagedPlan.retainedTarget,null);
     await db.sql`UPDATE sf_plans SET offline_intent_envelope=${originalEnvelope} WHERE id=${plan.id}`;
     assert.equal((await db.sql`SELECT offline_intent_digest FROM sf_plans WHERE id=${plan.id}`)[0].offline_intent_digest, originalDigest);
 

@@ -982,7 +982,7 @@ export function createApp(options: {
         const environment = profile && (await tx`SELECT id,project_id,organization_id,
           CASE WHEN char_length(name) BETWEEN 1 AND 200 THEN name END AS name FROM sf_environments WHERE id=${profile.environment_id}
           AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
-        if (!releaseBounds || !profile) return { error: "INVALID_REFERENCE" };
+        if (!releaseBounds || !profile) return { error: b.intentVersion === 2 ? "NOT_FOUND" : "INVALID_REFERENCE" };
         if (profile.retired_at) return { error: 'PROFILE_RETIRED' };
         if (!p.source_repository_id || !validMigrationFolder(p.source_folder)
             || !canonicalBindingGeneration(p.source_binding_generation)) return { error: "SOURCE_BINDING_INVALID" };
@@ -1717,7 +1717,7 @@ function mapPlan(r: any) {
     historyStatus: r.history_status,
     planningScope: r.planning_scope,
     retainedTarget: offlineIntent?.target ? {...publicTarget(offlineIntent.target),profileId:offlineIntent.profileId,environmentId:offlineIntent.environmentId,environmentName:offlineIntent.environmentName} : null,
-    currentness: {state:offlineIntent?.format === 3 ? 'UNKNOWN' : 'LEGACY_UNBOUND', reasons:offlineIntent?.format === 3 ? ['INTEGRITY_UNAVAILABLE'] : [], checkedAt:offlineIntent?.format === 3 ? new Date().toISOString() : null},
+    currentness: {state:offlineIntent && offlineIntent.format < 3 ? 'LEGACY_UNBOUND' : 'UNKNOWN', reasons:offlineIntent && offlineIntent.format < 3 ? [] : ['INTEGRITY_UNAVAILABLE'], checkedAt:offlineIntent?.format === 3 ? new Date().toISOString() : null},
     offlineIntent: offlineIntent ? {
       format: offlineIntent.format, digest: offlineIntent.digest,
       ...(offlineIntent.target ? {target:publicTarget(offlineIntent.target)} : {}),
