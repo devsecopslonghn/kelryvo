@@ -7,7 +7,7 @@ export async function acquireTargetLocks(tx: any, {assignmentId, bindingId, plan
     const plan = (await tx`SELECT CASE WHEN octet_length(offline_intent_envelope)<=${MAX_STDOUT_BYTES} THEN offline_intent_envelope END AS envelope,
       offline_intent_digest AS digest FROM sf_plans WHERE id=${planId} AND organization_id=${ORG}`)[0];
     const intent = plan && verifyOfflinePlanIntent(plan.envelope,plan.digest);
-    if (intent?.format !== 3) return;
+    if (!intent || intent.format < 3) return;
     assignmentId = intent.target?.assignmentId;
   } else if (bindingId) {
     assignmentId = (await tx`SELECT assignment_id FROM sf_target_bindings WHERE id=${bindingId} AND organization_id=${ORG}`)[0]?.assignment_id;

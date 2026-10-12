@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { verifyOfflinePlanIntent } from '../migrations/offline-plan-intent.mjs';
 import { MAX_STDOUT_BYTES } from '../../experiments/db-devops-wp0/parser-envelope.mjs';
 import { actorHasProjectGrant, projectAccessMode, LOCAL_ORGANIZATION as ORG } from '../database/project-membership.ts';
+import { validationForIntent } from '../sql-validation/results.ts';
 
 const uuid = (v: unknown) => typeof v === 'string' && /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(v);
 const unavailable = () => Object.assign(new Error('PLAN_RECORD_UNAVAILABLE'), { productCode: 'PLAN_RECORD_UNAVAILABLE' });
@@ -42,12 +43,13 @@ export async function readVerifiedPublicPlanRecord(tx: any, planId: string, proj
     e.exact_owner AS owner,e.observation_id AS "observationId",o.provenance,o.observed_at AS "observedAt",o.expires_at AS "expiresAt"
     FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id WHERE e.digest=${intent.target.observationDigest} AND e.project_id=${projectId}`)[0] : null;
   if(intent.target?.observationDigest && !targetObservation)throw unavailable();
+  const schemaValidation=intent.validation ? await validationForIntent(tx,intent) : null;
   return {
     plan: { id: p.id, projectId: p.projectId, authorId: p.authorId, createdAt: p.createdAt,
       sourceBindingGeneration: p.sourceBindingGeneration, status: p.status, decision: p.decision,
       decisionReason: p.decisionReason, decidedBy: p.decidedBy, decidedByName: p.decidedByName,
       decidedAt: p.decidedAt, approvalReference: p.approvalReference, revocation: revocationRow?.snapshot ?? null },
-    retainedIntent: {...publicIntent(intent),...(targetObservation ? {targetObservation} : {})},
+    retainedIntent: {...publicIntent(intent),...(targetObservation ? {targetObservation} : {}),...(schemaValidation ? {schemaValidation} : {})},
   };
 }
 
@@ -63,7 +65,7 @@ export function registerPlanRecord(app: any, { sql, authenticate }: any) {
         const verified = await readVerifiedPublicPlanRecord(tx, req.params.id, req.params.projectId);
         if (!verified) return null;
         const { plan, retainedIntent } = verified;
-        const record = JSON.stringify({ format: retainedIntent.format === 3 ? 2 : 1, kind: 'KELRYVO_PLAN_RECORD', scope: 'OFFLINE_GOVERNANCE',
+        const record = JSON.stringify({ format: retainedIntent.format >= 3 ? 2 : 1, kind: 'KELRYVO_PLAN_RECORD', scope: 'OFFLINE_GOVERNANCE',
           exportedAt: new Date().toISOString(), executionAuthority: false, targetEffects: 'NOT_ATTESTED',
           plan, retainedIntent,
           limitations: ['Checksum detects changes only against a separately trusted digest; it is not a signature.',
@@ -71,7 +73,7 @@ export function registerPlanRecord(app: any, { sql, authenticate }: any) {
             'Source SQL, credentials, execution jobs and receipts are not included.',
             'Target observations are retained metadata at the recorded time; they do not attest current connectivity or database effects.'] });
         if (Buffer.byteLength(record) > 2 * MAX_STDOUT_BYTES) throw unavailable();
-        return { format: retainedIntent.format === 3 ? 2 : 1, algorithm: 'sha256', record, sha256: createHash('sha256').update(record, 'utf8').digest('hex') };
+        return { format: retainedIntent.format >= 3 ? 2 : 1, algorithm: 'sha256', record, sha256: createHash('sha256').update(record, 'utf8').digest('hex') };
       });
       if (!outcome) return reply.code(404).send({ error: 'NOT_FOUND' });
       return reply.header('Content-Disposition', `attachment; filename="kelryvo-plan-${req.params.id}.json"`).send(outcome);

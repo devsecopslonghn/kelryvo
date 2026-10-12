@@ -94,8 +94,10 @@ test('superseding discovery invalidates schema visibility evidence, plans and ap
     const input={connectionId:f.connection.id,observationId:initial.id,expectedIdentityDigest:initial.identityDigest,
       expectedBindingRevision:'1',expectedAssignmentRevision:'1',owner:'APP',reason:'Bind exact schema observation'};
     const revised=(await f.api('POST',`${target}/observe`,input)).json().binding;
-    const pending=(await f.makePlan(revised)).json().plan;
-    const approved=(await f.makePlan(revised)).json().plan;
+    const pendingResponse=await f.makePlan(revised);assert.equal(pendingResponse.statusCode,201,pendingResponse.body);
+    const pending=pendingResponse.json().plan;
+    const approvedResponse=await f.makePlan(revised);assert.equal(approvedResponse.statusCode,201,approvedResponse.body);
+    const approved=approvedResponse.json().plan;
     assert.equal((await f.decide(approved)).statusCode,200);
     await f.membership.grant(f.project.id,f.actors[2].id);await f.membership.deployGrant(f.project.id,f.actors[2].id);
     for(const schemas of [[{owner:'APP',accessible:null}],[{owner:'APP',accessible:false}],[]]){

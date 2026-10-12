@@ -287,8 +287,8 @@ test('native restore rejects damaged, unsupported, linked and untrusted inputs b
 });
 
 
-for(const phase2 of [false,true])test(`exact ${phase2?'Phase 2':'legacy'} schema backup restores retained projects and migrates discovery under recovery HOLD`, {skip:!enabled,timeout:120000},async()=>{
-  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,phase2 ? {initializeConnectivity:false} : {initializeTargets:false})});
+for(const generation of ['legacy','Phase 2','Phase 3'])test(`exact ${generation} schema backup restores retained projects and migrates discovery under recovery HOLD`, {skip:!enabled,timeout:120000},async()=>{
+  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,generation==='legacy' ? {initializeTargets:false} : generation==='Phase 2' ? {initializeConnectivity:false} : {initializeValidation:false})});
   const root=await mkdtemp(join(process.cwd(),'.cache','phase2-legacy-backup-'));let restoredSql,restoredName;
   try {
     await chmod(root,0o700);const configPath=join(root,'config.json'),secret=randomBytes(32).toString('hex');
@@ -298,13 +298,14 @@ for(const phase2 of [false,true])test(`exact ${phase2?'Phase 2':'legacy'} schema
     const backupDirectory=join(root,'backup'),witnessPath=join(root,'witness.json');
     await createPrivateBackup({configPath,databaseUrl,destination:backupDirectory,witnessPath});
     const manifest=JSON.parse(await (await import('node:fs/promises')).readFile(join(backupDirectory,'manifest.json'),'utf8'));
-    assert.equal(manifest.schema.signature,phase2 ? '023d0a19f9f520bd47a6ee567e499fcb35d5996f10480bb9cbf6cd4383f74275' : '277b528dfee78e582189a3a0747f5903e652bf3a2566f314c218d5f6093d25c8');
+    assert.equal(manifest.schema.signature,generation==='Phase 2' ? '023d0a19f9f520bd47a6ee567e499fcb35d5996f10480bb9cbf6cd4383f74275' : generation==='Phase 3' ? 'ebbc39e7611d27e24ffea9575c756eb4b89e12919cdc3338ad77014089a4ec0a' : '277b528dfee78e582189a3a0747f5903e652bf3a2566f314c218d5f6093d25c8');
     const restored=await restorePrivateBackup({configPath,databaseUrl,backupDirectory,witnessPath});
     restoredName=restored.databaseName;restoredSql=postgres(restored.databaseUrl,{max:1,onnotice:()=>{}});
     assert.equal((await restoredSql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name,'Retained legacy project');
     assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
     assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_target_bindings`)[0].n,0);
     assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_database_connections`)[0].n,0);
+    assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_sql_validations`)[0].n,0);
     assert.equal((await source.sql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name,'Retained legacy project');
   }finally{
     await restoredSql?.end({timeout:2});await source.close();

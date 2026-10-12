@@ -25,6 +25,20 @@ const target = {
   createdAt: '2026-10-12T05:00:00.000Z', sourceBindingGeneration: '5',
 };
 
+test('format 4 binds exact validation evidence and preserves older canonical formats',()=>{
+  const statements=[{ordinal:1,path:base.items[0].path,fileOrdinal:1,startByte:0,endByte:10,sourceSha256:'d'.repeat(64),executionSha256:'e'.repeat(64)}];
+  const validation={id:'20000000-0000-4000-8000-000000000001',digest:'f'.repeat(64)};
+  const encoded=encodeOfflinePlanIntent({...base,statements,target,validation});
+  assert.equal(JSON.parse(encoded.envelope)[0],4);
+  const parsed=verifyOfflinePlanIntent(encoded.envelope,encoded.digest);
+  assert.deepEqual(parsed.validation,validation);assert.deepEqual(parsed.target,target);
+  assert.notEqual(encoded.digest,encodeOfflinePlanIntent({...base,statements,target,validation:{...validation,digest:'a'.repeat(64)}}).digest);
+  assert.equal(encodeOfflinePlanIntent({...base,statements,validation}),null);
+  assert.equal(encodeOfflinePlanIntent({...base,statements,target,validation:{...validation,extra:true}}),null);
+  const extra=JSON.stringify([...JSON.parse(encoded.envelope),'unbound']);
+  assert.equal(verifyOfflinePlanIntent(extra,createHash('sha256').update(extra).digest('hex')),null);
+});
+
 test('format 1 is stable, binds ordered content and validates bounded facts', () => {
   const encoded = encodeOfflinePlanIntent(base);
   assert.ok(encoded);

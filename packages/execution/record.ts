@@ -142,7 +142,7 @@ export function registerExecutionRecord(app: any, { sql, authenticate }: any) {
             centralEvidenceDigest: row.central_evidence_digest, createdAt: row.created_at });
           receiptsByAttempt.set(row.attempt_id, list);
         }
-        const record = JSON.stringify({ format: verified.retainedIntent.format === 3 ? 2 : 1, kind: 'KELRYVO_EXECUTION_RECORD', scope: 'RETAINED_METADATA',
+        const record = JSON.stringify({ format: verified.retainedIntent.format >= 3 ? 2 : 1, kind: 'KELRYVO_EXECUTION_RECORD', scope: 'RETAINED_METADATA',
           exportedAt: new Date().toISOString(), executionAuthority: false, targetEffects: 'NOT_ATTESTED',
           plan: verified.plan, retainedIntent: verified.retainedIntent,
           job: { id: job.id, projectId: job.project_id, planId: job.plan_id, state: job.state,
@@ -166,7 +166,7 @@ export function registerExecutionRecord(app: any, { sql, authenticate }: any) {
             'UNIT_SYNTHETIC is preserved as a label and represents synthetic evidence only.',
             `The complete export is limited to ${MAX_RECORD_ROWS} journal rows, ${MAX_PROJECTED_JOURNAL_BYTES} projected journal bytes and ${MAX_RECORD_BYTES} UTF-8 bytes; oversized or damaged records are unavailable.`] });
         if (Buffer.byteLength(record, 'utf8') > MAX_RECORD_BYTES) throw unavailable();
-        return { format: verified.retainedIntent.format === 3 ? 2 : 1, algorithm: 'sha256', record, sha256: createHash('sha256').update(record, 'utf8').digest('hex') };
+        return { format: verified.retainedIntent.format >= 3 ? 2 : 1, algorithm: 'sha256', record, sha256: createHash('sha256').update(record, 'utf8').digest('hex') };
       });
       if (!bundle) return reply.code(404).send({ error: 'NOT_FOUND' });
       return reply.header('Content-Disposition', `attachment; filename="kelryvo-execution-${req.params.id}.json"`).send(bundle);
