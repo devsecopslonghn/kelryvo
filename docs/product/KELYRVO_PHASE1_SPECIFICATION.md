@@ -1,21 +1,21 @@
-# Kelryvo Phase 1 — Bytebase-first product specification
+# Kelryvo Phase 1 — Product specification
 
 Status: implementation-ready **offline vertical slice**, 2026-10-12. Scope is exactly (1) Project and Access Management, (2) Instance, Database and Schema Management, (3) Database Change Management. This document is normative for this increment; it does not authorize implementation, deployment or Oracle access in this specification task.
 
-The [single reference inventory](BYTEBASE_REFERENCE_INVENTORY.md) pins official Bytebase source, records upstream behavior and evidence limits, and identifies recovery inputs. This specification is an original Kelryvo adaptation (**I** in that inventory). Existing-source statements below are source-verified (**S**), not new test or live-system claims. For this increment, these contracts take precedence over overlapping proposals in the earlier requirements/UI documents; unrelated backlog and established safety invariants remain unchanged.
+This specification defines independently authored Kelryvo product behavior. Existing-source statements below refer to the Kelryvo code baseline, not new test or live-system claims. For this increment, these contracts take precedence over overlapping proposals in the earlier requirements/UI documents; unrelated backlog and established safety invariants remain unchanged. Mandatory licenses, copyright notices and dependency attribution remain in their established notice files.
 
 ## Product boundary and decisions
 
 The first useful outcome is: an authorized developer selects an assigned Oracle schema and explicit project environment, prepares an immutable target-bound offline plan from retained Git source, a different authorized approver reviews exactly those facts, and a separately deploy-granted actor can create and inspect a durable **non-executable** request. Revision changes block further authority without rewriting old evidence.
 
-| Bytebase reference | Kelryvo decision |
+| Product concern | Kelryvo contract |
 |---|---|
-| Project owns workflow and can own instances; workspace instances can be shared | One private workspace owns physical infrastructure; projects own Git releases, environments, plans and reviews. Use explicit schema assignments, not project-owned physical instances. |
-| Oracle Database is a user-owned schema | UI separates physical database, PDB/non-CDB, route and exact owner; no ambiguous “database” ID as the approved target. |
-| IAM roles/conditions, creator owner, configurable approval | Preserve fixed developer/approver roles, operator-provisioned project and deploy grants, and one mandatory independent approval. No implicit creation grant. |
-| Mutable plan + linked Issue + Rollout | Keep immutable plan/review and separate execution request/attempt evidence. No generic Issue or second rollout model is needed for this slice. |
-| Multiple/live group targets, ordered rollout stages | Exactly one assignment/binding/environment per plan. The same release may produce separately reviewed plans; no implicit promotion order or expanding target set. |
-| Connect, sync, schema explorer, retry/skip/rollback controls | Phase 1 uses manual reference facts and offline parser evidence. Discovery and execution require separately accepted Oracle evidence; unknown DDL outcome always HOLD, never automatic replay. |
+| Infrastructure ownership | One private workspace owns physical infrastructure; projects own Git releases, environments, plans and reviews. Use explicit schema assignments, not project-owned physical instances. |
+| Oracle target selection | UI separates physical database, PDB/non-CDB, route and exact owner; no ambiguous “database” ID as the approved target. |
+| Human authority | Preserve fixed developer/approver roles, operator-provisioned project and deploy grants, and one mandatory independent approval. No implicit creation grant. |
+| Change records | Keep immutable plan/review and separate execution request/attempt evidence. No generic Issue or second rollout model is needed for this slice. |
+| Target cardinality | Exactly one assignment/binding/environment per plan. The same release may produce separately reviewed plans; no implicit promotion order or expanding target set. |
+| Evidence and execution | Phase 1 uses manual reference facts and offline parser evidence. Discovery and execution require separately accepted Oracle evidence; unknown DDL outcome always HOLD, never automatic replay. |
 
 Safety invariants: API services never receive application writer secrets; credential references remain private metadata; no CDB root DDL; no approval bypass; no applied-history claim from parser, request, checksum or receipt alone; no destructive project/inventory purge; no secret in URLs/logs/browser persistence; no cross-project resource disclosure. Keep existing local Git allowlist, parser bounds, current credential/grant rechecks, restore hold and immutable evidence protections.
 
@@ -178,7 +178,7 @@ Failure flow: parser unavailable or damaged retained bytes → no new plan/appro
 | Area / source-verified baseline | Disposition and gap |
 |---|---|
 | `apps/web/src/app.jsx`; `Instances.jsx`, `Account.jsx` | Reuse shell, project epoch invalidation, scoped drafts and feedback. Simplify instance page to compatibility connection context + assigned schema navigation; remove raw ref rendering. Build a bounded target list/editor/detail using existing page conventions, not a wholesale UI rewrite. |
-| `apps/api/index.ts`; `packages/database/{mutation-authority,project-membership,browser-sessions,account}.ts` | Reuse Fastify/current identity/grants/CSRF. Add target APIs through same guards and safe projections. Do not copy Bytebase IAM or expose operator administration. |
+| `apps/api/index.ts`; `packages/database/{mutation-authority,project-membership,browser-sessions,account}.ts` | Reuse Fastify/current identity/grants/CSRF. Add target APIs through same guards and safe projections. Preserve the existing local authority model; no browser operator administration. |
 | `packages/catalog-reference/index.mjs`; `scripts/local-inventory-operator.mjs`; catalog tables | Reuse exact-owner registration, one-owner constraint, CAS transfer and operator audit. Add retained assignment revision projection, provisional lineage/options and trusted local configuration. Registration conflicts remain immutable; do not rebuild ownership. |
 | `packages/migrations/{offline-plan-intent,verify-retained-release}.mjs`; parser envelopes | Reuse retained source/digests/parser/statement order. Add format-3 codec and target materialization beside compatibility codecs. Do not infer schema-aware correctness from parser validity. |
 | Review/comment/reviewer/revocation handlers in `apps/api/index.ts`; `packages/governance/plan-record.ts` | Reuse decision independence, reviewer CAS, bounded evidence and safe withdrawal. Extend integrity and currentness checks to target envelope; version public export. |
@@ -223,7 +223,7 @@ Acceptance requires P1-01 through P1-12 and affected existing regression suites,
 
 ## Coverage and unresolved blockers
 
-Coverage: all three modules have upstream navigation/screens/fields/actions/API/permission/state/error/workflow evidence in the inventory; twelve Kelryvo screen contracts; twelve traceability rows with required acceptance outcomes; explicit data/version/authority/race compatibility contracts and an ordered P0 slice. S01–06 and S08–12 are implementation-ready for offline behavior; S07 is a deliberately gated Not observed state. Bytebase release-import modal details and every task-log variant were not exhaustively enumerated; retained Kelryvo Git import and bounded execution views are the authoritative adaptation, so those omissions do not block P0.
+Coverage: all three modules have navigation, screen, field, action, API, permission, state, error and workflow contracts; twelve Kelryvo screen contracts; twelve traceability rows with required acceptance outcomes; explicit data/version/authority/race compatibility contracts and an ordered P0 slice. S01–06 and S08–12 are implementation-ready for offline behavior; S07 is a deliberately gated Not observed state. Retained Kelryvo Git import and bounded execution views define the release and request inspection behavior; live Oracle capabilities remain externally gated.
 
 | Unresolved external prerequisite | Precise impact / evidence required / responsible role |
 |---|---|

@@ -1,7 +1,7 @@
 # Kelryvo Stitch Design Handoff
 
-**Repository baseline:** 2026-10-12 product requirements and UI/UX specification  
-**Stitch project:** `projects/14912123519289853449` (Kelryvo)  
+**Repository baseline:** 2026-10-12 product requirements and UI/UX specification<br>
+**Stitch project:** `projects/14912123519289853449` (Kelryvo)<br>
 **Revised design-system asset:** `assets/12737833176170594836` — Kelryvo Enterprise Developer Platform
 
 ## Design system
