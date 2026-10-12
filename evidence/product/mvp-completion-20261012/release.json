@@ -1,0 +1,137 @@
+{
+  "status": "PASS",
+  "scope": "Completed practical governance MVP; original 220-feature catalog and real Oracle acceptance remain separate",
+  "applicationPR": 72,
+  "candidate": "b704f815ca5479eedb08ab351ba2190bb1a5c823",
+  "sourceCommit": "86eea330657cabc9c175a6a4c70e035978fd57d6",
+  "reviewedTreeUnchangedAfterMerge": true,
+  "candidateAndMasterGates": {
+    "status": "PASS",
+    "api": 123,
+    "browser": 38,
+    "sourceInstallationTests": 1,
+    "embeddedSourceWorkflows": 12,
+    "failures": 0,
+    "skips": 0,
+    "required": "Foundation, parser, all PRODUCT shards/aggregate, OCI and four CodeQL languages",
+    "candidateProductRun": 38196614582,
+    "masterWorkflows": {
+      "check.yml": {
+        "run": 38197262480,
+        "status": "success"
+      },
+      "parser.yml": {
+        "run": 38197262433,
+        "status": "success"
+      },
+      "product.yml": {
+        "run": 38197262377,
+        "status": "success"
+      },
+      "containers.yml": {
+        "run": 38197262454,
+        "status": "success"
+      }
+    },
+    "openCodeScanningAlerts": 0,
+    "openSecretScanningAlerts": 0
+  },
+  "publication": {
+    "status": "PASS",
+    "sourceCommit": "86eea330657cabc9c175a6a4c70e035978fd57d6",
+    "publicationRun": "38197820209",
+    "attempt": "1",
+    "images": {
+      "kelryvo-app": {
+        "reference": "ghcr.io/devsecopslonghn/kelryvo-app@sha256:32660abd9e70ad8cfaf7a3f115d8305f01410a9b6106904edb83f60093abec31",
+        "immutableTag": "86eea330657cabc9c175a6a4c70e035978fd57d6-38197820209-1",
+        "digest": "sha256:32660abd9e70ad8cfaf7a3f115d8305f01410a9b6106904edb83f60093abec31",
+        "os": "linux",
+        "architecture": "amd64",
+        "user": "10001:10001",
+        "revision": "86eea330657cabc9c175a6a4c70e035978fd57d6",
+        "metadataVerification": "PASS"
+      },
+      "kelryvo-worker": {
+        "reference": "ghcr.io/devsecopslonghn/kelryvo-worker@sha256:5aa16a13d7c0b78b9583f334b5d6370125988a7b479cfebf5eac5b1e3a96f0ec",
+        "immutableTag": "86eea330657cabc9c175a6a4c70e035978fd57d6-38197820209-1",
+        "digest": "sha256:5aa16a13d7c0b78b9583f334b5d6370125988a7b479cfebf5eac5b1e3a96f0ec",
+        "os": "linux",
+        "architecture": "amd64",
+        "user": "10002:10002",
+        "revision": "86eea330657cabc9c175a6a4c70e035978fd57d6",
+        "metadataVerification": "PASS"
+      }
+    }
+  },
+  "gitOps": {
+    "PR": 4,
+    "revision": "fbaffdfc70e15ce8596d0a4412b1cef591c1a21d",
+    "candidateRemoteCI": {
+      "status": "UNAVAILABLE",
+      "actualConclusion": "failure",
+      "run": 38198289311,
+      "reason": "Account billing limit prevented chart job starting",
+      "exception": "Existing owner-authorized Helm-only billing exception; ordinary merge, no bypass"
+    },
+    "localChartSafetyAndServerDryRun": "PASS",
+    "independentReview": "No must-fix finding"
+  },
+  "deployment": {
+    "status": "PASS",
+    "argo": {
+      "sync": "Synced",
+      "health": "Healthy",
+      "revision": "fbaffdfc70e15ce8596d0a4412b1cef591c1a21d"
+    },
+    "appImage": "ghcr.io/devsecopslonghn/kelryvo-app@sha256:32660abd9e70ad8cfaf7a3f115d8305f01410a9b6106904edb83f60093abec31",
+    "runningImageId": "ghcr.io/devsecopslonghn/kelryvo-app@sha256:32660abd9e70ad8cfaf7a3f115d8305f01410a9b6106904edb83f60093abec31",
+    "readyAppReplicas": 1,
+    "workerReplicas": 0,
+    "browserWithdrawalAndHistoryAfterRestart": "PASS",
+    "oracle": "DISABLED / NOT_EXECUTED"
+  },
+  "acceptance": {
+    "status": "PASS",
+    "projectId": "2148a667-ce6f-4adf-9831-5d09b399ee61",
+    "planId": "175ee97d-82de-4e1a-b8d9-962b32e6df89",
+    "releaseId": "6b44258e-bc20-40ab-8b46-43e76d06f36b",
+    "validation": "VALID",
+    "decision": "APPROVED",
+    "execution": "NOT_EXECUTED",
+    "browserRoles": [
+      "developer",
+      "approver"
+    ],
+    "browserWorkflow": {
+      "projectId": "03873dd1-a810-4b86-a4f0-d7697cab2660",
+      "planId": "b181bba4-482d-4463-bb8e-395a75d37380",
+      "validation": "VALID",
+      "decision": "REVOKED",
+      "history": "NOT_EXECUTED"
+    },
+    "recordDownloads": "PASS",
+    "oracle": "NOT_EXECUTED"
+  },
+  "preservation": {
+    "status": "PASS",
+    "existingReleasePlanHistoryAuditRows": "Unchanged against pre-rollout count/digest baseline",
+    "secrets": "All four existing Secret data payloads unchanged; hashes retained privately",
+    "pvcUid": "d2e06043-0a9b-4fea-9c27-9631c1583692",
+    "pv": "pvc-d2e06043-0a9b-4fea-9c27-9631c1583692",
+    "postgresPodUid": "81f7dda9-ffb9-4036-bb92-54fc7c90cc5c",
+    "privatePreDeploymentBackup": "Created read-only, permissions 0600; never published"
+  },
+  "harnessCorrections": [
+    "First attempt omitted browser session-proof header on direct account read; authentication correctly failed closed.",
+    "Repeat fixture reused a route under a different catalog identity; immutable route/container guard rejected it. Unique per-fixture .invalid routes corrected the harness.",
+    "Final complete acceptance passed without product/image changes; earlier failed local attempts retained."
+  ],
+  "fixturePolicy": "Synthetic acceptance projects/catalog/profiles/cancelled requests/history are retained; no existing data cleanup",
+  "externalLimitations": [
+    "Oracle connectivity, live discovery, target history, real execution and recovery require explicit target authority/credentials/attestation; worker remains zero and NOT_EXECUTED.",
+    "Registered local Git mirrors and trusted OS operator provisioning/grants/manual catalog are required. SSO/invitations/remote provider OAuth are outside the locked practical scope.",
+    "Native metadata backup/restore/HOLD verified in isolated PostgreSQL; no destructive deployed restore or disaster-recovery certification performed."
+  ],
+  "evidenceDelivery": "Post-release matrix and acceptance record committed on integration branch without a second application milestone PR or republishing unchanged code"
+}
