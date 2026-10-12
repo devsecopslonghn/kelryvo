@@ -22,6 +22,7 @@ test('profile retirement preserves exact history and blocks fresh authority at e
     assert.equal((await api('POST', path, { reason: 'Retire' }, actors[1])).statusCode, 403);
     assert.equal((await api('POST', path, { reason: 'Retire' }, actors[2])).statusCode, 404);
     assert.equal((await api('POST', path, { reason: '\n' })).statusCode, 400);
+    assert.equal((await api('POST', path, { reason: '\ud800' })).statusCode, 400, 'audit reasons must roundtrip as exact UTF-8');
     const before = {
       plans: Array.from(await db.sql`SELECT * FROM sf_plans ORDER BY id`),
       releases: Array.from(await db.sql`SELECT * FROM sf_releases ORDER BY id`),

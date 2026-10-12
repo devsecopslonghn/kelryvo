@@ -8,7 +8,8 @@ export function registerProfileLifecycle(app: any, { sql, authenticate }: any) {
     const reason = req.body?.reason;
     if (!uuid(req.params.projectId) || !uuid(req.params.id) || !req.body || Array.isArray(req.body)
       || Object.keys(req.body).some(key => key !== 'reason') || typeof reason !== 'string'
-      || reason.trim().length === 0 || reason.length > 2000 || /[\u0000-\u001f\u007f-\u009f]/u.test(reason))
+      || reason.trim().length === 0 || reason.length > 2000 || /[\u0000-\u001f\u007f-\u009f]/u.test(reason)
+      || Buffer.from(reason, 'utf8').toString('utf8') !== reason)
       return reply.code(400).send({ error: 'INVALID_REQUEST' });
     if (req.actor.role !== 'developer') return reply.code(403).send({ error: 'DEVELOPER_REQUIRED' });
     const result = await sql.begin(async (tx: any) => {
