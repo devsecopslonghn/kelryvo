@@ -77,6 +77,8 @@ workflow, persistence, tests, local shutdown and current product boundaries.
 | --- | --- |
 | `docs/inputs/` | Hashed, immutable design snapshot from DB-Research |
 | `docs/product/`, `docs/architecture/`, `docs/decisions/` | Product decisions and boundaries |
+| `docs/product/KELYRVO_PRODUCT_REQUIREMENTS.md` | Reconciled Kelryvo product behavior, domain contracts, acceptance criteria, and roadmap |
+| `docs/product/KELYRVO_UI_UX_DESIGN_SPECIFICATION.md` | Screen-level behavior, shared states, design tokens, accessibility, and responsive rules |
 | `docs/implementation/` | 220-feature tracker, backlog, ownership, acceptance and session state |
 | `.codex/agents/` | Six native specialist TOML definitions |
 | `experiments/db-devops-wp0/` | Isolated offline feasibility code and lab contract |

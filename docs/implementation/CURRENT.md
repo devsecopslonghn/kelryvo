@@ -2,12 +2,18 @@
 
 ## Product-first MVP completion — 2026-10-12
 
-The current delivery stream is `development/kelryvo-mvp-completion`.
-[Locked MVP scope and actual feature matrix](MVP.md) supersedes the old per-feature
-PR/release cadence below. Account, instance retirement and deployed operator grant workflows are implemented.
-The prior export/estate work is preserved; final regression and milestone release
-gates are in progress.
-Oracle remains disabled; operator-only grants and recovery authority remain.
+The practical governance MVP is deployed and accepted through application PR #72,
+master `86eea330657cabc9c175a6a4c70e035978fd57d6`, publication run `38197820209` and
+Helm PR #4 / Argo revision `fbaffdfc70e15ce8596d0a4412b1cef591c1a21d`.
+[Final feature matrix and external limitations](MVP.md) and
+[concise acceptance record](../../evidence/product/mvp-completion-20261012/release.json)
+supersede the historical checkpoints below. Candidate/master CI passed 123 API,
+38 Chromium and fresh-source acceptance cases; deployed API/browser flows, downloads,
+app restart and preservation checks passed. Argo is Synced/Healthy; worker replicas
+remain zero. Helm CI stays UNAVAILABLE under its billing exception. Original catalog,
+prior export/estate work, historical data, Secrets and storage identities are preserved.
+Post-release evidence is pushed on the integration branch without another application
+milestone PR or publishing unchanged code. Oracle acceptance remains external.
 
 
 Git import, offline Oracle validation, retained plans, review/approval, controlled UNIT execution, history UI, secure sessions and reproducible source installation are integrated. The installed worker, metadata-only recovery, serial queue service and current deployment status are integrated through PR #65 at master `dc38fa7e856b720d435ff110bf7716748e9eb1ec`. Candidate and master Foundation, parser, PRODUCT and CodeQL passed; PRODUCT covered 110 API, 33 browser and one fresh-source release case with zero failures, cancellations or skips.

@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-11T17:06:11.196993+00:00",
+  "pvcUid": "d2e06043-0a9b-4fea-9c27-9631c1583692",
+  "volumeName": "pvc-d2e06043-0a9b-4fea-9c27-9631c1583692",
+  "postgresqlPodUid": "81f7dda9-ffb9-4036-bb92-54fc7c90cc5c",
+  "image": "ghcr.io/devsecopslonghn/kelryvo-app@sha256:00095f7519fd7db4f893e20dc4e9759c375f8fb80ba39d104e3dd04982a818e1",
+  "argoRevision": "a7ff7328b8dcdd4bd3445ea48aec2a3ca04f0ebc",
+  "argoSync": "Synced",
+  "argoHealth": "Healthy"
+}
