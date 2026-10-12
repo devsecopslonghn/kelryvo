@@ -110,13 +110,14 @@ function toolArgs(command, mount, archive, url, config, snapshot = null) {
     '--exclude-table=public.sf_organizations','--exclude-table=public.sf_metadata_restore_owners','--exclude-table=public.sf_metadata_current','--file',archive,dsn] : ['--list',archive])];
 }
 function toolEnv(config) { return { PGPASSWORD:config.databasePassword }; }
-async function inventory(sql, { legacy = false } = {}) {
+async function inventory(sql, { legacy } = {}) {
   const schemaRows=await sql`SELECT nspname FROM pg_namespace WHERE nspname NOT IN ('pg_catalog','information_schema') AND nspname !~ '^pg_toast' ORDER BY nspname`;
   if(JSON.stringify(schemaRows.map(r=>r.nspname))!==JSON.stringify(['public'])) throw fail();
   const rows = await sql`SELECT c.relkind, n.nspname, c.relname FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
     WHERE n.nspname='public' AND c.relkind IN ('r','p','S','v','m','f') ORDER BY c.relkind,c.relname`;
   const tables = rows.filter(r => ['r','p'].includes(r.relkind)).map(r => r.relname).sort();
-  if (JSON.stringify(tables) !== JSON.stringify(TABLES)) throw fail();
+  if (legacy === undefined) legacy = JSON.stringify(tables) === JSON.stringify(LEGACY_TABLES);
+  if (JSON.stringify(tables) !== JSON.stringify(legacy ? LEGACY_TABLES : TABLES)) throw fail();
   const functions = await sql`SELECT p.proname FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
     WHERE n.nspname='public' ORDER BY p.proname`;
   const triggers = await sql`SELECT t.tgname FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace

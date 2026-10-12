@@ -285,3 +285,31 @@ test('native restore rejects damaged, unsupported, linked and untrusted inputs b
     assert.equal(digest(await readFile(witnessPath)),digest(witnessBytes));
   } finally {await admin.end({timeout:2});await source.close();await rm(root,{recursive:true,force:true});}
 });
+
+
+test('exact legacy schema backup restores retained projects and migrates targets under recovery HOLD', {skip:!enabled,timeout:120000},async()=>{
+  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeTargets:false})});
+  const root=await mkdtemp(join(process.cwd(),'.cache','phase2-legacy-backup-'));let restoredSql,restoredName;
+  try {
+    await chmod(root,0o700);const configPath=join(root,'config.json'),secret=randomBytes(32).toString('hex');
+    await writeFile(configPath,JSON.stringify({databasePassword:secret,developerToken:'1'.repeat(64),approverToken:'2'.repeat(64)}),{mode:0o600});
+    const url=new URL(source.databaseUrl);url.password=secret;const databaseUrl=url.toString();
+    const project=(await source.sql`INSERT INTO sf_projects(organization_id,name) VALUES('00000000-0000-4000-8000-000000000001','Retained legacy project') RETURNING id`)[0];
+    const backupDirectory=join(root,'backup'),witnessPath=join(root,'witness.json');
+    await createPrivateBackup({configPath,databaseUrl,destination:backupDirectory,witnessPath});
+    const manifest=JSON.parse(await (await import('node:fs/promises')).readFile(join(backupDirectory,'manifest.json'),'utf8'));
+    assert.equal(manifest.schema.signature,'277b528dfee78e582189a3a0747f5903e652bf3a2566f314c218d5f6093d25c8');
+    const restored=await restorePrivateBackup({configPath,databaseUrl,backupDirectory,witnessPath});
+    restoredName=restored.databaseName;restoredSql=postgres(restored.databaseUrl,{max:1,onnotice:()=>{}});
+    assert.equal((await restoredSql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name,'Retained legacy project');
+    assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
+    assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_target_bindings`)[0].n,0);
+    assert.equal((await source.sql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name,'Retained legacy project');
+  }finally{
+    await restoredSql?.end({timeout:2});await source.close();
+    if(restoredName){const admin=postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});try{
+      assert.match(restoredName,/^sf_product_restore_[a-f0-9]{32}$/);await admin.unsafe(`DROP DATABASE "${restoredName}" WITH (FORCE)`);
+    }finally{await admin.end({timeout:2});}}
+    await rm(root,{recursive:true,force:true});
+  }
+});
