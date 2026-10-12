@@ -1,0 +1,111 @@
+{
+  "scope": "Kelryvo practical governance MVP; original catalog and Oracle acceptance remain separate",
+  "reviewedSourceCommit": "0804b85729afc2adca65b5125138733f94c1f457",
+  "integrationBranch": "development/kelryvo-mvp-completion",
+  "checks": {
+    "repository": {
+      "command": "npm run check",
+      "status": "PASS",
+      "tests": 382,
+      "passed": 308,
+      "failed": 0,
+      "skipped": 74,
+      "skipScope": "Offline database-dependent cases; separate PostgreSQL regression has zero skips",
+      "licensePackages": 89,
+      "unknownRequiredGrants": 0
+    },
+    "api": {
+      "command": "node scripts/test-product.mjs (four isolated complementary shards)",
+      "status": "PASS",
+      "passed": 123,
+      "failed": 0,
+      "skipped": 0,
+      "shards": [
+        {
+          "shard": "1/4",
+          "source": "0804b85729afc2adca65b5125138733f94c1f457",
+          "passed": 31,
+          "attempt": "serial rerun"
+        },
+        {
+          "shard": "2/4",
+          "source": "78fa9cf",
+          "passed": 27
+        },
+        {
+          "shard": "3/4",
+          "source": "f6c92eb",
+          "passed": 41,
+          "attempt": "corrected live-role audit regression"
+        },
+        {
+          "shard": "4/4",
+          "source": "78fa9cf",
+          "passed": 24
+        }
+      ]
+    },
+    "browser": {
+      "command": "node scripts/test-product.mjs --browser (three isolated complementary shards)",
+      "source": "0804b85729afc2adca65b5125138733f94c1f457",
+      "status": "PASS",
+      "passed": 38,
+      "failed": 0,
+      "skipped": 0,
+      "shardCounts": [
+        14,
+        13,
+        11
+      ]
+    },
+    "sourceBundle": {
+      "command": "node --test tests/product-local-release.integration.mjs",
+      "source": "0804b85729afc2adca65b5125138733f94c1f457",
+      "status": "PASS",
+      "outerTests": 1,
+      "workflowTests": 12,
+      "failed": 0,
+      "skipped": 0
+    },
+    "oci": {
+      "command": "docker build --platform linux/amd64 --target app/worker; node scripts/test-containers.mjs",
+      "status": "PASS",
+      "scope": "Disposable PostgreSQL; secure login/CSRF, grant/revoke, Git/parser, independent approval, queue/cancel, own sessions, retirement, credential rotation, restart and notices; worker fails closed",
+      "oracleRuntimeVerified": false
+    }
+  },
+  "independentReview": {
+    "reviewers": [
+      "audit_identity",
+      "audit_instances"
+    ],
+    "source": "0804b85729afc2adca65b5125138733f94c1f457",
+    "mustFixFindings": 0,
+    "mode": "Read-only security/correctness review; no external provider"
+  },
+  "security": {
+    "scanner": "gitleaks",
+    "binarySha256": "88f91962aa2f93ac6ab281d553b9e125f5197bbbce38f9f2437f7299c32e5509",
+    "changedFilesFindings": 0,
+    "integrationHistoryFindings": 0,
+    "githubCodeScanningOpenAlerts": 0,
+    "githubSecretScanningOpenAlerts": 0,
+    "dependenciesAndLicensesChanged": false
+  },
+  "correctedAttempts": [
+    "Earlier overlapping parser workloads exceeded the fixed five-second parser deadline; serial repository check and affected API shard passed without weakening limits. Failed local logs remain private in .cache.",
+    "Authority role-denial/audit and lock-observation regression corrected, then complete affected API shard passed."
+  ],
+  "migration": {
+    "kind": "Additive account audit table and nullable profile retirement fields; historical records retained",
+    "backupSchemaSignature": "277b528dfee78e582189a3a0747f5903e652bf3a2566f314c218d5f6093d25c8",
+    "oldBackups": "Restore with matching old source release before normal additive upgrade; strict schema signature remains enforced",
+    "privatePreDeploymentBackupSha256": "82f5da70bfc350b30aebdf55f23f2abe0fef789b5037fef9cab76ec6f673b581",
+    "privateBackupPublished": false
+  },
+  "milestoneGitHubChecks": "PENDING",
+  "immutablePublication": "PENDING",
+  "deployedAcceptance": "PENDING",
+  "helmCI": "UNAVAILABLE: existing owner-authorized billing exception applies only to Helm",
+  "oracle": "DISABLED / NOT_EXECUTED; no target credentials or access authorized"
+}

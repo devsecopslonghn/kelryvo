@@ -4,8 +4,9 @@
 
 The current delivery stream is `development/kelryvo-mvp-completion`.
 [Locked MVP scope and actual feature matrix](MVP.md) supersedes the old per-feature
-PR/release cadence below. Preserve prior export/estate work; complete foundational
-account and instance workflows, then perform full milestone acceptance and release.
+PR/release cadence below. Account, instance retirement and deployed operator grant workflows are implemented.
+The prior export/estate work is preserved; final regression and milestone release
+gates are in progress.
 Oracle remains disabled; operator-only grants and recovery authority remain.
 
 

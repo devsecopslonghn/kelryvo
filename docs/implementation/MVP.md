@@ -1,6 +1,6 @@
 # Kelryvo MVP scope and feature matrix
 
-Locked 2026-10-12 under the owner's product-first completion objective. Work lands on
+Locked 2026-10-12 under the owner's product-first completion objective. The source workflows are feature-complete; milestone verification is in progress. Work lands on
 `development/kelryvo-mvp-completion`, preserving the unfinished execution-record export
 and project estate implementation. Commit/push completed features; defer milestone PR,
 full CI, publication and deployment until feature completion. The immutable 220-feature
@@ -21,12 +21,12 @@ below is not acceptance. Helm CI billing exception remains **UNAVAILABLE**, neve
 | IAM: explicit access/deployment grants | Implemented operator-only persistence/audit and own access API | Implemented own-grant/privilege overview and bootstrap guidance | New overview unavailable deployed | Full milestone/deployed regression | Trusted OS operator grants; no new administrator role |
 | Instance/connection: environments and reference-only Oracle profiles | Implemented create/list | Implemented project forms and Instances navigation | New Instances screen unavailable deployed | Full milestone/deployed regression | No Oracle access required |
 | Instance/connection: profile retirement | Implemented transactional lifecycle/admission gates | Implemented reasoned retirement and target warnings | Unavailable until milestone release | Full milestone/deployed regression | None |
-| Instance/connection: provisional database/service/schema catalog | Implemented operator declare/assign/release | Implemented grouped project estate | Unfinished estate source preserved; acceptance pending | Make entry point and operator boundaries discoverable | Operator attestation; live discovery excluded |
+| Instance/connection: provisional database/service/schema catalog | Implemented operator declare/assign/release | Implemented grouped project estate | Unfinished estate source preserved; acceptance pending | Milestone/deployed regression; preserve provisional labels | Operator attestation; live discovery excluded |
 | Git: registered local mirrors and protected folder binding | Implemented | Implemented binding/ref selection | Existing release; acceptance pending | Validate cohesive browser workflow | Operator-mounted Git mirror; remote provider OAuth excluded |
 | Migrations: immutable releases, parser validation, previews/comparison | Implemented | Implemented | Existing release; acceptance pending | Focused/full milestone regression | Pinned parser artifacts |
 | Review: exact intent, independent approval/rejection, reviewer inbox | Implemented | Implemented | Existing release; acceptance pending | Preserve separation and fail-closed integrity | None |
 | Review: discussion, rejection/resubmission, withdrawal | Implemented | Implemented | Existing release; acceptance pending | Milestone regression | None |
-| Controlled execution: durable requests/cancel/status/recovery/HOLD | Implemented governance and worker safety kernel | Implemented queued status/history | Governance existing; worker disabled | Retired-profile admission checks; truthful waiting states | Actual Oracle acceptance externally blocked |
+| Controlled execution: durable requests/cancel/status/recovery/HOLD | Implemented governance and worker safety kernel | Implemented queued status/history | Governance existing; worker disabled | Milestone/deployed regression; preserve truthful waiting states | Actual Oracle acceptance externally blocked |
 | History/audit: scoped paging, retained plans/request records | Implemented (unfinished export preserved) | Implemented | Export/estate not fully accepted deployed | Integrated regression and deployed acceptance | None |
 | Operations: readiness, metadata backup/restore and recovery hold | Implemented local/operator workflows | Implemented hold/status feedback | Readiness available; restore not exercised | Operational documentation and milestone checks | Operator; no destructive deployed restore |
 | Real Oracle connectivity/discovery/execution | Partial worker source; externally blocked | Intentionally unavailable | Disabled, zero workers | Report as NOT_EXECUTED; never accept simulation as Oracle evidence | Explicit target authority, secrets, trusted routes/attestation and lab |
@@ -52,10 +52,19 @@ correctness review/fixes, one milestone PR, mandatory GitHub checks without bypa
 eligible merge, immutable images, GitOps release, deployed browser/API acceptance and
 final matrix with external limitations. Never label unverified features accepted.
 
-## Local feature verification checkpoint
+## Local milestone verification checkpoint
 
-Account API/TLS/PostgreSQL and Chromium cases passed 2/2 with zero skips; independent
-security/correctness review found no high/medium defects. Profile retirement/API/worker
-revalidation and Chromium cases passed 2/2 with zero skips; independent review found no
-authority bypass or admission/retirement race. Native backup/restore and full milestone
-regression are pending; local feature tests do not establish deployed or Oracle acceptance.
+Local regression passed 123 API cases across four complementary isolated shards, 38
+Chromium cases, one fresh-source installation with 12 embedded workflows, and actual
+OCI/PostgreSQL acceptance. Database suites had zero failures, cancellations or skips.
+Affected API shards were rerun after the authority fixes; exact per-run source revisions
+are recorded in [the concise integration record](../../evidence/product/mvp-completion-20261012/integration.json).
+`npm run check` passed 308 cases with 74 intentional offline database skips; build,
+tracker/format checks and license closure passed (89 pins, zero unknown required grants).
+Independent review of source `0804b85` found no must-fix security/correctness defect;
+changed-file and integration-history secret scans found no secrets.
+
+Earlier overlapping local parser workloads exceeded the existing fixed deadline. Serial
+repository checks and the affected full API shard passed without changing timeouts or
+safety gates; failed attempts remain retained. GitHub checks, immutable publication and
+deployed acceptance are still required. Local success never establishes Oracle acceptance.
