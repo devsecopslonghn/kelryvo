@@ -1281,3 +1281,42 @@ Only fixed SELECT probes run: dual, V$DATABASE, session context, V$CONTAINERS fo
 The API allows at most two concurrent probes. Child processes have connection/call limits and an overall deadline, are killed and reaped on timeout, and restrict socket destinations to manifest-pinned IPs and ports, including listener redirects. Query results and error text are projected to bounded metadata and fixed codes. Other engines are explicitly unsupported. No migration SQL, DDL or DML is executed. Format-3 plans remain excluded from worker admission, including verified identities.
 
 Metadata backup includes connections, workspace grants, observations and target evidence. Exact older Phase 2 and legacy backups remain supported and are additively migrated into recovery HOLD. Browser acceptance uses Chromium, real disposable PostgreSQL and Git/parser fixtures; Oracle metadata is a deterministic fixture identified as `FIXTURE`.
+
+## Schema-aware SQL validation and planning
+
+Inspect a retained release under **Releases**, choose **Validation target**, and select
+**Validate against target**. The API verifies retained source bytes, reuses the pinned
+Oracle parser and records deterministic, immutable validation evidence. The result
+identifies the exact release, source-binding generation, target-binding and assignment
+revisions, policy revision, and retained discovery observation. Identical inputs reuse
+the existing validation result. Results remain inspectable after restart without Git.
+
+The supported review profile classifies bounded table/index DDL, DML and SELECT forms,
+checks identified schema-owner references, and reports risk with severity and rationale.
+Explicit cross-schema and database-link references and administrative/privilege changes
+block the new planning workflow. Destructive changes and unrestricted writes require
+visible risk review. Quoted owner names remain exact. Procedural/dynamic SQL, collection
+sources, qualified callable dependencies and other unmodeled forms remain unverified.
+The structural reviewer is not a database semantic validator.
+
+Phase 3 metadata establishes schema-owner visibility only. No object, column, constraint,
+privilege or complete object inventory was observed. Unseen objects are **UNKNOWN**, not
+absent. Provisional targets retain **NOT_OBSERVED** metadata and do not become verified.
+Other engines are unsupported. Actual Oracle semantic acceptance still requires a
+separately authorized disposable lab; fixtures cannot establish it.
+
+**Create immutable plan** binds the validation ID and digest in a format-4 intent alongside
+exact release bytes, statement hashes and target facts. The independent approver sees the
+same findings and metadata limitations in **Plans & review** and the downloadable plan
+record. Blocking findings cannot create a schema-aware plan. An unverified semantic outcome
+may produce an offline review candidate; it never grants execution authority. Superseded or
+expired observations, changed target/source revisions or damaged evidence require fresh
+validation, a new plan and independent approval. Metadata recovery HOLD prevents validation
+and new schema-aware plans while prior results and plan records stay readable.
+
+Formats 1–3 and their prior plans, approvals and history retain their original meaning.
+The compatibility planning controls remain available; those plans explicitly lack bound
+schema-aware validation. Format-4 intents remain excluded from worker statement
+materialization and admission, including approved plans. No target SQL is executed.
+Native backups include validation results; exact older Phase 3, Phase 2 and legacy backups
+are restored against their matching schema before additive upgrade into recovery HOLD.

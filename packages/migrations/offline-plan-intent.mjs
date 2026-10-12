@@ -111,6 +111,12 @@ export function encodeOfflinePlanIntent(facts) {
     row[0] = 3;
     row.push(tuple);
   }
+  if (facts.validation !== undefined) {
+    if(row[0]!==3 || !facts.validation || Object.keys(facts.validation).sort().join(',')!=='digest,id'
+      || !uuid(facts.validation.id) || !/^[a-f0-9]{64}$/.test(facts.validation.digest??''))return null;
+    row[0]=4;
+    row.push([facts.validation.id,facts.validation.digest]);
+  }
   const envelope = JSON.stringify(row);
   if (Buffer.byteLength(envelope, 'utf8') > MAX_STDOUT_BYTES) return null;
   return { envelope, digest: hash(Buffer.from(envelope, 'utf8')) };
@@ -121,28 +127,30 @@ export function verifyOfflinePlanIntent(envelope, digest, expected) {
     if (typeof envelope !== 'string' || Buffer.byteLength(envelope, 'utf8') > MAX_STDOUT_BYTES
       || !/^[a-f0-9]{64}$/.test(digest ?? '') || hash(Buffer.from(envelope, 'utf8')) !== digest) return null;
     const row = JSON.parse(envelope);
-    if (!Array.isArray(row) || ![1, 2, 3].includes(row[0]) || row.length !== (row[0] === 1 ? 21 : row[0] === 2 ? 22 : 23)
+    if (!Array.isArray(row) || ![1, 2, 3, 4].includes(row[0]) || row.length !== (row[0] === 1 ? 21 : row[0] === 2 ? 22 : row[0] === 3 ? 23 : 24)
         || JSON.stringify(row) !== envelope) return null;
     const [version, organizationId, projectId, requesterId, releaseId, commit, objectFormat, folder, parserProfile,
       manifestDigest, profileId, profileName, environmentId, environmentName, engine, host, port, service, username, credentialRef,
-      rawItems, rawStatements, rawTarget] = row;
+      rawItems, rawStatements, rawTarget, rawValidation] = row;
     if (!Array.isArray(rawItems) || !rawItems.length || rawItems.length > MAX_RELEASE_FILES
         || version >= 2 && (!Array.isArray(rawStatements) || !rawStatements.length || rawStatements.length > MAX_PLAN_STATEMENTS)
-        || version === 3 && (!Array.isArray(rawTarget) || rawTarget.length !== targetTupleFields.length)) return null;
+        || version >= 3 && (!Array.isArray(rawTarget) || rawTarget.length !== targetTupleFields.length)
+        || version === 4 && (!Array.isArray(rawValidation) || rawValidation.length!==2)) return null;
     const statements = version >= 2 && Array.isArray(rawStatements) ? rawStatements.map(s => Array.isArray(s) ? ({
       ordinal: s[0], path: s[1], fileOrdinal: s[2], startByte: s[3], endByte: s[4], sourceSha256: s[5], executionSha256: s[6],
     }) : null) : undefined;
     if (version >= 2 && !statements) return null;
-    const target = version === 3 ? targetObject(rawTarget) : undefined;
+    const target = version >= 3 ? targetObject(rawTarget) : undefined;
+    const validation = version === 4 ? {id:rawValidation[0],digest:rawValidation[1]} : undefined;
     const encoded = encodeOfflinePlanIntent({ organizationId, projectId, requesterId, releaseId, commit, objectFormat, folder,
       parserProfile, manifestDigest, profileId, profileName, environmentId, environmentName, engine, host, port, service,
-      username, credentialRef, statements, target,
+      username, credentialRef, statements, target, validation,
       items: rawItems?.map((item) => Array.isArray(item) ? ({ path: item[0], version: item[1], sha256: item[2] }) : null) });
     if (!encoded || encoded.envelope !== envelope) return null;
     const publicFacts = { format: version, digest, organizationId, projectId, releaseId, commit, objectFormat, folder, parserProfile, manifestDigest,
       requesterId, profileId, profileName, environmentId, environmentName, engine, host, port, service, username,
       items: rawItems.map(([path, version, sha256]) => ({ path, version, sha256 })),
-      ...(version >= 2 ? { statements } : {}), ...(version === 3 ? { target } : {}) };
+      ...(version >= 2 ? { statements } : {}), ...(version >= 3 ? { target } : {}), ...(version === 4 ? {validation} : {}) };
     if (expected && Object.entries(expected).some(([key, value]) => JSON.stringify(publicFacts[key]) !== JSON.stringify(value))) return null;
     return publicFacts;
   } catch { return null; }

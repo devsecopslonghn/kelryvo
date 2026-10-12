@@ -1712,3 +1712,11 @@ td code {
   .project-targets .profile-fields { grid-template-columns: minmax(0, 1fr); }
   .sidebar { flex-wrap: wrap; }
 }
+
+.schema-validation > label { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+.schema-validation select { width: 100%; max-width: 100%; }
+.validation-history { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+.validation-history h4 { flex-basis: 100%; margin: 0; }
+.validation-findings { margin: 20px 0; min-width: 0; }
+.validation-findings li { margin: 12px 0; overflow-wrap: anywhere; }
+.validation-findings li p { margin: 4px 0; color: var(--muted); }
