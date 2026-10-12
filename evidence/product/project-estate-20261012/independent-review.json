@@ -1,0 +1,24 @@
+{
+  "review": "SF-PRODUCT-T44 independent read-only UI review",
+  "branch": "development/project-schema-estate",
+  "head": "356d97f906b7cb4651fa6f87e15d07d41072ae7c",
+  "scope": [
+    "apps/web/src/app.jsx: SchemaReferences",
+    "apps/web/styles.css: schema estate styles",
+    "tests/product-schema-reference-browser.integration.mjs"
+  ],
+  "sha256": {
+    "apps/web/src/app.jsx": "50c55748572fba49478553cecdfa150445b722efa9ab38fe5886d392a2367546",
+    "apps/web/styles.css": "9a13b4f4e9cca4f3953515bebd0e5ec0db68e46ecf7c7d13e31c48c75ead047a",
+    "tests/product-schema-reference-browser.integration.mjs": "f636b5615922c4cd5d282c76a6c2482cb92c503eaf76292dd35d89b408ef4cc1"
+  },
+  "findings": [],
+  "review_notes": [
+    "Environment grouping uses declared container.environment; service groups use stable service reference IDs, with service name used only for display/sort.",
+    "Schema cards preserve exact owner, schema/database/container IDs and generations, declared environment, assignment revision, and provisional/reference-only labeling. UI does not render host, port, transport, or server UUID values.",
+    "Each paged assignment is rendered under every returned service reference; the server-reported servicesTruncated flag adds an explicit omitted-coverage warning. Empty service lists retain a distinct no-declared-service group.",
+    "The existing project/token keyed component and request sequence invalidation protect navigation/logout; existing browser cases exercise delayed response, project switch, transfer, and revoked grant clearing. No writer endpoint was added in the reviewed UI/test diff.",
+    "Read existing browser log only: all 3 schema-reference browser tests passed (0 skipped, 0 failed); no tests were rerun under the read-only review assignment."
+  ],
+  "limitation": "This is a UI-scope review; it does not certify API implementation or overall npm check."
+}

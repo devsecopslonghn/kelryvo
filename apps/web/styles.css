@@ -118,11 +118,18 @@ button:disabled {
   color: #77a7f4;
 }
 .schema-reference-screen { max-width: 1100px; margin: 0 auto; }
+.schema-estate-completeness { color: var(--muted, #667085); margin: 18px 0 8px; }
+.schema-estate-environment { margin: 24px 0 30px; }
+.schema-estate-environment > h2 { border-bottom: 1px solid var(--line, #dce2ea); padding-bottom: 10px; }
+.schema-estate-service { margin: 16px 0 24px 14px; }
+.schema-estate-service > h3 { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.schema-estate-service > h3 code { color: var(--muted, #667085); font-size: .78rem; font-weight: 400; overflow-wrap: anywhere; }
 .schema-reference-card { background: var(--surface, #fff); border: 1px solid var(--line, #dce2ea); border-radius: 12px; padding: 20px; margin: 16px 0; }
-.schema-reference-card h2 { margin: 12px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.schema-reference-card h4 { font-size: 1.08rem; margin: 12px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 .schema-reference-card dl { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 12px 20px; }
 .schema-reference-card dt { color: var(--muted, #667085); font-size: .82rem; }
 .schema-reference-card dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.schema-reference-truncation { grid-column: 1 / -1; border-left: 3px solid #c98a21; padding-left: 10px; }
 .sidebar-bottom {
   margin-top: auto;
   border-top: 1px solid #314155;

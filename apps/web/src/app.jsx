@@ -274,13 +274,37 @@ function SchemaReferences({ token, projectId, onMissing }) {
     try{const result=await json(`/api/projects/${encodeURIComponent(projectId)}/schema-references${after?`?after=${encodeURIComponent(after)}`:''}`,token);if(n!==seq.current)return;setRows(old=>append?[...old,...(result.references||[])]:result.references||[]);setNext(result.nextCursor||null);}
     catch(e){if(n===seq.current){setRows([]);setNext(null);setError(explain(e));if(e?.message==='NOT_FOUND')onMissing?.();}}finally{if(n===seq.current)setLoading(false);}};
   useEffect(()=>{setRows([]);setNext(null);void load();return()=>{seq.current++;};},[token,projectId]);
+  const environments=new Map();
+  for(const row of rows){
+    const environment=row.container?.environment||'Unknown environment';
+    if(!environments.has(environment))environments.set(environment,new Map());
+    const services=environments.get(environment),references=Array.isArray(row.services)?row.services:[];
+    if(references.length){for(const service of references){const key=service?.id||'invalid-service-reference';if(!services.has(key))services.set(key,{service,rows:[]});services.get(key).rows.push(row);}}
+    else{if(!services.has(null))services.set(null,{service:null,rows:[]});services.get(null).rows.push(row);}
+  }
+  const environmentOrder=['DEV','SIT','UAT','PROD'];
+  const groupedEnvironments=[...environments].sort(([a],[b])=>{
+    const ai=environmentOrder.indexOf(a),bi=environmentOrder.indexOf(b);
+    return (ai<0?environmentOrder.length:ai)-(bi<0?environmentOrder.length:bi)||a.localeCompare(b);
+  });
+  const renderReference=(r)=><article className="schema-reference-card" key={r.id} data-schema-id={r.id}><span className="status-pill warn">Provisional · reference only</span><h4>{r.owner}</h4><dl>
+    <div><dt>Schema reference</dt><dd><code>{r.id}</code> · generation {r.generation}</dd></div><div><dt>Assignment revision</dt><dd>{r.revision}</dd></div><div><dt>Database</dt><dd>{r.database.label} · <code>{r.database.id}</code> · generation {r.database.generation}</dd></div>
+    <div><dt>Container</dt><dd>{r.container.name} ({r.container.kind}) · declared {r.container.environment} · <code>{r.container.id}</code></dd></div>
+    {r.servicesTruncated&&<div className="schema-reference-truncation" role="note"><dt>Service coverage</dt><dd>Additional service references are omitted. This assignment may appear under more services.</dd></div>}
+  </dl></article>;
   return <section className="schema-reference-screen"><div className="section-heading"><div><p className="eyebrow">PROJECT CATALOG</p><h1>Schema references</h1></div><button className="secondary" type="button" onClick={()=>void load()} disabled={loading}>Refresh</button></div>
     <p className="offline-note">Provisional manual references only. These declarations do not confirm an Oracle target, bind a profile or authorize a plan.</p>
     {error&&<p className="banner error" role="alert">{error}</p>}{!rows.length&&!loading&&!error&&<div className="empty-state"><strong>No schema references assigned</strong><span>The trusted local OS operator registers references and assigns schemas to projects.</span></div>}
-    {rows.map(r=><article className="schema-reference-card" key={r.id}><span className="status-pill warn">Provisional · reference only</span><h2>{r.owner}</h2><dl>
-      <div><dt>Schema reference</dt><dd><code>{r.id}</code> · generation {r.generation}</dd></div><div><dt>Assignment revision</dt><dd>{r.revision}</dd></div><div><dt>Database</dt><dd>{r.database.label} · <code>{r.database.id}</code> · generation {r.database.generation}</dd></div>
-      <div><dt>Container</dt><dd>{r.container.name} ({r.container.kind}) · declared {r.container.environment} · <code>{r.container.id}</code></dd></div><div><dt>Services</dt><dd>{(r.services||[]).map(s=><span key={s.id}><code>{s.name}</code> </span>)}{r.servicesTruncated&&<span>Additional service routes omitted.</span>}</dd></div>
-    </dl></article>)}
+    {rows.length>0&&<p className="schema-estate-completeness" role="status">{next?'Showing the first':'All'} {rows.length} current project assignment{rows.length===1?'':'s'}{next?' loaded; more pages are available.':' loaded.'}</p>}
+    {groupedEnvironments.map(([environment,services])=><section className="schema-estate-environment" key={environment} data-environment={environment}>
+      <h2>Environment · {environment}</h2>
+      {[...services].sort(([a,ga],[b,gb])=>{
+        if(a===null)return 1;if(b===null)return -1;
+        return String(ga.service?.name||'').localeCompare(String(gb.service?.name||''))||String(a).localeCompare(String(b));
+      }).map(([serviceId,group])=>serviceId===null
+        ?<section className="schema-estate-service" key="no-service"><h3>Rows without a declared service reference</h3>{group.rows.map(renderReference)}</section>
+        :<section className="schema-estate-service" key={serviceId} data-service-id={serviceId}><h3>{group.service?.name||'Unnamed service reference'} <code>{serviceId}</code></h3>{group.rows.map(renderReference)}</section>)}
+    </section>)}
     {loading&&<p role="status">Loading schema references…</p>}{next&&<button className="secondary" type="button" onClick={()=>void load(next,true)} disabled={loading}>Next page</button>}
   </section>;
 }

@@ -770,6 +770,19 @@
       "catalog_traceability": [
         "SEC-013"
       ]
+    },
+    {
+      "id": "SF-D063",
+      "status": "ACCEPTED_PROJECT_ESTATE_GROUPING",
+      "decision": "Group the existing authorized project schema reference projection by declared environment and stable service ID. Preserve exact owners, provisional identities and loaded-page/service-summary limits; no new API or ownership writer authority. Shared physical services show separate project assignments. These are declarations, not Oracle discovery or confirmed target estate. Refresh and existing navigation/session gates remain.",
+      "references": [
+        "apps/web/src/app.jsx",
+        "tests/product-schema-reference-browser.integration.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "PRJ-002"
+      ]
     }
   ]
 }

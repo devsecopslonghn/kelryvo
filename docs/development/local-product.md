@@ -13,6 +13,14 @@ change migration authorization or execution gates.
 
 ## Provisional schema references
 
+The project view groups loaded assignments by declared environment and stable service
+reference ID. Shared service names do not merge distinct service identities. A schema
+with several declared services appears under each listed service. Counts describe the
+loaded unique assignments; **Next page** loads more. Service summaries remain bounded
+to ten references per container, and omitted references are explicitly marked. Refresh
+reloads the current assignment view. These declarations retain provisional provenance
+and do not confirm an observed Oracle estate or grant ownership/execution authority.
+
 The **Schema references** project view shows only current schema ownership for the selected
 project. These are trusted local operator declarations labelled `MANUAL_REFERENCE` and
 `PROVISIONAL`; they do not report observed Oracle identity or grant profile, plan, approval,
