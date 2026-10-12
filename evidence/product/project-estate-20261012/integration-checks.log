@@ -1,0 +1,178 @@
+TAP version 13
+# Subtest: every real API file appears once across configured shards, retaining serial order
+ok 1 - every real API file appears once across configured shards, retaining serial order
+  ---
+  duration_ms: 28.231967
+  type: 'test'
+  ...
+# Subtest: every real browser file appears once across configured shards, retaining serial order
+ok 2 - every real browser file appears once across configured shards, retaining serial order
+  ---
+  duration_ms: 5.895405
+  type: 'test'
+  ...
+# Subtest: API and browser memberships are deterministic regardless of input order
+ok 3 - API and browser memberships are deterministic regardless of input order
+  ---
+  duration_ms: 9.660247
+  type: 'test'
+  ...
+# Subtest: the four slowest observed API files are distributed across four runners
+ok 4 - the four slowest observed API files are distributed across four runners
+  ---
+  duration_ms: 4.238234
+  type: 'test'
+  ...
+# Subtest: the three slowest observed browser files are spread across all runners
+ok 5 - the three slowest observed browser files are spread across all runners
+  ---
+  duration_ms: 3.795537
+  type: 'test'
+  ...
+# Subtest: new unmeasured API files retain complete complementary coverage
+ok 6 - new unmeasured API files retain complete complementary coverage
+  ---
+  duration_ms: 0.253333
+  type: 'test'
+  ...
+# Subtest: invalid or ambiguous partitions fail closed
+ok 7 - invalid or ambiguous partitions fail closed
+  ---
+  duration_ms: 0.821859
+  type: 'test'
+  ...
+# Subtest: persisted tracker state validates without assuming initial statuses
+ok 8 - persisted tracker state validates without assuming initial statuses
+  ---
+  duration_ms: 100.746283
+  type: 'test'
+  ...
+# Subtest: catalog and plan IDs are retained with original dependency links
+ok 9 - catalog and plan IDs are retained with original dependency links
+  ---
+  duration_ms: 4.383315
+  type: 'test'
+  ...
+# Subtest: separate WP0 cells never claim research as runtime PASS
+ok 10 - separate WP0 cells never claim research as runtime PASS
+  ---
+  duration_ms: 83.322518
+  type: 'test'
+  ...
+# Subtest: initial state keeps Oracle validation and product delivery tracks distinct
+ok 11 - initial state keeps Oracle validation and product delivery tracks distinct
+  ---
+  duration_ms: 12.453864
+  type: 'test'
+  ...
+# Subtest: unknown and cyclic dependencies are rejected
+ok 12 - unknown and cyclic dependencies are rejected
+  ---
+  duration_ms: 24.250249
+  type: 'test'
+  ...
+# Subtest: verification requires acceptance, evidence, and verified dependencies
+ok 13 - verification requires acceptance, evidence, and verified dependencies
+  ---
+  duration_ms: 19.878922
+  type: 'test'
+  ...
+# Subtest: BLOCKED and DEFERRED states require concrete reasons
+ok 14 - BLOCKED and DEFERRED states require concrete reasons
+  ---
+  duration_ms: 18.931417
+  type: 'test'
+  ...
+# Subtest: unit BLOCKED requires an offline blocker independent of Oracle lab status
+ok 15 - unit BLOCKED requires an offline blocker independent of Oracle lab status
+  ---
+  duration_ms: 19.463985
+  type: 'test'
+  ...
+# Subtest: Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+ok 16 - Oracle WP0 completion tasks require every referenced case and applicable cell to PASS
+  ---
+  duration_ms: 12.2398
+  type: 'test'
+  ...
+# Subtest: malformed evidence metadata returns validation errors without throwing
+ok 17 - malformed evidence metadata returns validation errors without throwing
+  ---
+  duration_ms: 46.664013
+  type: 'test'
+  ...
+# Subtest: research evidence cannot certify product status
+ok 18 - research evidence cannot certify product status
+  ---
+  duration_ms: 9.734512
+  type: 'test'
+  ...
+# Subtest: PASS cells need evidence
+ok 19 - PASS cells need evidence
+  ---
+  duration_ms: 9.28599
+  type: 'test'
+  ...
+# Subtest: ownership and dependency graph remain synchronized with work records
+ok 20 - ownership and dependency graph remain synchronized with work records
+  ---
+  duration_ms: 18.354834
+  type: 'test'
+  ...
+# Subtest: duplicate, missing, and unexpected imported IDs are rejected
+ok 21 - duplicate, missing, and unexpected imported IDs are rejected
+  ---
+  duration_ms: 29.668729
+  type: 'test'
+  ...
+# Subtest: source dependencies, acceptance, references, and result enums cannot drift
+ok 22 - source dependencies, acceptance, references, and result enums cannot drift
+  ---
+  duration_ms: 13.015361
+  type: 'test'
+  ...
+# Subtest: hashed indexed evidence covers every acceptance and test reference before verification
+ok 23 - hashed indexed evidence covers every acceptance and test reference before verification
+  ---
+  duration_ms: 99.851063
+  type: 'test'
+  ...
+# Subtest: product feature verification needs product-scope evidence and verified implementation tasks
+ok 24 - product feature verification needs product-scope evidence and verified implementation tasks
+  ---
+  duration_ms: 19.477976
+  type: 'test'
+  ...
+# Subtest: init refuses to overwrite initialized evidence or tracking state
+ok 25 - init refuses to overwrite initialized evidence or tracking state
+  ---
+  duration_ms: 67.337768
+  type: 'test'
+  ...
+# Subtest: next respects milestone scope and dependency gates independent of persisted statuses
+ok 26 - next respects milestone scope and dependency gates independent of persisted statuses
+  ---
+  duration_ms: 2.896039
+  type: 'test'
+  ...
+# Subtest: PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+ok 27 - PRODUCT scheduling proceeds while T04 is blocked without changing acceptance dependencies
+  ---
+  duration_ms: 67.113902
+  type: 'test'
+  ...
+# Subtest: PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+ok 28 - PRODUCT track has a gated next task and rejects scheduling cycles or WP0 acceptance overrides
+  ---
+  duration_ms: 130.942648
+  type: 'test'
+  ...
+1..28
+# tests 28
+# suites 0
+# pass 28
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 922.763337
