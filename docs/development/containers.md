@@ -34,7 +34,11 @@ PostgreSQL pool; shutdown exceeding 25 seconds exits unsuccessfully.
 Membership remains deny by default. An authorized pod/OS operator may run
 `node scripts/container-membership.mjs activate` for a fresh empty organization,
 then `grant PROJECT_UUID kelryvo-developer` and `grant PROJECT_UUID kelryvo-approver`
-for an explicitly selected project. The same command supports `revoke`. All effects
+for an explicitly selected project. The same command supports `revoke`. Separately
+authorize durable deployment requests with `deploy-grant PROJECT_UUID kelryvo-developer`,
+and withdraw that capability with `deploy-revoke PROJECT_UUID kelryvo-developer`.
+Project access alone does not permit deployment requests; these commands preserve the
+actor's fixed role and do not enable the worker or authorize Oracle execution. All effects
 use the existing serialized membership operator and retained audit. Startup never
 creates implicit grants or resets revoked credentials. Store and deliver actor tokens
 through private operator channels; do not put them in chart values, logs or Git.
@@ -67,7 +71,8 @@ Run `node scripts/test-containers.mjs` after both builds. It uses an owned dispo
 PostgreSQL container on an internal network, read-only app filesystem, dropped Linux
 capabilities and private mounted test Secrets. It checks secure login, CSRF/Origin
 denials, explicit membership, Git/parser import, independent approval, NOT_EXECUTED
-history, graceful restart persistence, runtime notices and worker rejection. It removes
+history, deployment grant/revoke, queued request cancellation, account/session controls,
+profile retirement, graceful restart persistence, runtime notices and worker rejection. It removes
 only its own disposable fixtures. No Oracle endpoint is contacted.
 
 The OCI workflow verifies candidate/master builds without publication. Dispatch on

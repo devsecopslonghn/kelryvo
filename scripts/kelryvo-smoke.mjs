@@ -85,6 +85,21 @@ export async function smokeGovernance({ origin, ca, tokens, operator, rotate, on
   const audit = await request('GET', `${base}/audit`, undefined, approver);
   assert.equal(audit.status, 200);
   assert.ok(audit.body.events.some(event => event.action === 'PLAN_APPROVED'));
+  onStep('explicit deployment grant and durable request cancellation');
+  const executionPayload = { idempotencyKey: randomBytes(16).toString('hex'), reason: 'Offline acceptance; cancel without dispatch' };
+  assert.equal((await request('POST', `/api/plans/${planId}/execution`, executionPayload, developer)).status, 403);
+  await operator('deploy-grant', projectId, 'kelryvo-developer');
+  const queued = await request('POST', `/api/plans/${planId}/execution`, executionPayload, developer);
+  assert.equal(queued.status, 201);
+  assert.equal(queued.body.job.state, 'WAITING_VALIDATION');
+  assert.equal(queued.body.job.readiness.executable, false);
+  const cancelled = await request('POST', `/api/execution-jobs/${queued.body.job.id}/cancel`,
+    { expectedRevision: queued.body.job.revision }, developer);
+  assert.equal(cancelled.status, 200); assert.equal(cancelled.body.job.state, 'CANCELLED');
+  await operator('deploy-revoke', projectId, 'kelryvo-developer');
+  assert.equal((await request('POST', `/api/plans/${planId}/execution`,
+    { ...executionPayload, idempotencyKey: randomBytes(16).toString('hex') }, developer)).status, 403);
+  await operator('deploy-grant', projectId, 'kelryvo-developer');
   onStep('account access and remote session revocation');
   const account = await request('GET', '/api/account/access', undefined, developer);
   assert.equal(account.status, 200); assert.equal(account.body.actor.role, 'developer');
@@ -128,6 +143,8 @@ export async function smokeGovernance({ origin, ca, tokens, operator, rotate, on
       assert.equal(retainedPlan.status, 'APPROVED'); assert.equal(retainedPlan.execution, 'NOT_EXECUTED');
       assert.equal(after.body.history.length, 2);
       assert.ok(after.body.profiles.find(item => item.id === replacement.body.profile.id)?.retiredAt);
+      const retainedJob = await request('GET', `/api/execution-jobs/${queued.body.job.id}`, undefined, developer);
+      assert.equal(retainedJob.status, 200); assert.equal(retainedJob.body.job.state, 'CANCELLED');
       assert.equal((await request('GET', `${base}/audit`, undefined, approver)).status, 200);
     } };
 }
