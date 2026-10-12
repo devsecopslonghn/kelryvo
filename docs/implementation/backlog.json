@@ -2466,7 +2466,7 @@
       "id": "SF-PRODUCT-T13",
       "package": "PRODUCT",
       "assigned_agent": "frontend",
-      "title": "Inspect a plan\u2019s retained source from review",
+      "title": "Inspect a plan’s retained source from review",
       "dependencies": [
         "SF-PRODUCT-T12"
       ],
@@ -2475,7 +2475,7 @@
         "GIT-006"
       ],
       "acceptance_criteria": [
-        "Authenticated project plan review offers read-only inspection of the selected plan\u2019s linked retained release through the existing release API and provenance/SQL view. The plan release ID and scoped release metadata bind the displayed source; missing or mismatched source references show a fixed failure instead of another release.",
+        "Authenticated project plan review offers read-only inspection of the selected plan’s linked retained release through the existing release API and provenance/SQL view. The plan release ID and scoped release metadata bind the displayed source; missing or mismatched source references show a fixed failure instead of another release.",
         "Pending and terminal plans, archived projects and unavailable repository registrations retain inspection access. Project, session and selected-plan changes invalidate delayed inspection results; viewing source does not change decisions, comments, plans, audit or migration history, and introduces no Git reads, schema, authorization or worker changes.",
         "Real Git/PostgreSQL/parser/browser regressions compare two distinct plans and releases against persisted commit/file facts, cover stale responses and project isolation, and verify read-only snapshots. This is a bounded review navigation/display increment; it does not certify post-approval byte revalidation, full GOV-002/GIT-006 or Oracle execution."
       ],
