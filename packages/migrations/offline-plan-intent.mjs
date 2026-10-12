@@ -27,7 +27,8 @@ function targetTuple(target) {
   const ids = ['bindingId', 'assignmentId', 'targetOptionId', 'lineageId', 'streamId', 'routeId', 'policyId', 'deploymentPrincipalId'];
   const revisions = ['bindingRevision', 'assignmentRevision', 'targetOptionRevision', 'routeConfigRevision', 'policyRevision', 'sourceBindingGeneration'];
   if (ids.some((field) => !uuid(target[field])) || revisions.some((field) => !revision(target[field]))
-      || target.identityState !== 'PROVISIONAL' || target.observationDigest !== null || target.streamState !== 'PROVISIONAL'
+      || !['PROVISIONAL','OBSERVED','VERIFIED'].includes(target.identityState)
+      || (target.identityState==='PROVISIONAL' ? target.observationDigest!==null : !/^[a-f0-9]{64}$/.test(target.observationDigest??'')) || target.streamState !== 'PROVISIONAL'
       || !targetText(target.migrationNamespace, 128) || !exactOwner(target.exactOwner)
       || !targetText(target.routeAlias, 200)
       || !targetText(target.principalAlias, 200) || target.principalPurpose !== 'DEPLOY'

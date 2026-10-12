@@ -8,6 +8,18 @@ const fail = () => new Error('Local membership operation failed; inspect private
 const uid = () => process.geteuid?.() ?? process.getuid();
 const uuid = value => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 export async function applyLocalMembershipAction(sql, { action, projectId, actorId }) {
+  if (['database-grant','database-revoke'].includes(action)) {
+    await sql.begin(async tx=>{
+      await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
+      const actor=(await tx`SELECT id FROM sf_local_actors WHERE id=${actorId} AND organization_id=${ORG} AND role='developer' FOR UPDATE`)[0];
+      if(!actor)throw fail();
+      const current=(await tx`SELECT id FROM sf_workspace_database_grants WHERE organization_id=${ORG} AND actor_id=${actorId} AND revoked_at IS NULL`)[0];
+      if(action==='database-grant' && !current)await tx`INSERT INTO sf_workspace_database_grants(organization_id,actor_id,operator_os_uid) VALUES(${ORG},${actorId},${uid()})`;
+      if(action==='database-revoke' && current)await tx`UPDATE sf_workspace_database_grants SET revoked_at=clock_timestamp() WHERE id=${current.id}`;
+      await tx`INSERT INTO sf_database_connection_audit(organization_id,actor_id,action,facts) VALUES(${ORG},${actorId},${action==='database-grant'?'WORKSPACE_DATABASE_GRANTED':'WORKSPACE_DATABASE_REVOKED'},${tx.json({operatorOsUid:uid()})})`;
+    });
+    return `${action} complete`;
+  }
   if (['grant','revoke'].includes(action)) {
     await sql.begin(async tx => {
       await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
@@ -86,6 +98,7 @@ export async function applyLocalMembershipAction(sql, { action, projectId, actor
 async function operate({ action, projectId, actorId, configPath, databaseUrl }) {
   if (!databaseUrl || !configPath) throw fail();
   await authorizeLocalMetadataUrl(configPath, databaseUrl);
+  if (['database-grant','database-revoke'].includes(action) && (typeof actorId!=='string' || !actorId.trim() || actorId.length>200 || /[\u0000-\u001f\u007f]/.test(actorId))) throw fail();
   if (['grant','revoke','deploy-grant','deploy-revoke'].includes(action) && (!uuid(projectId) || typeof actorId !== 'string' || actorId.trim().length < 1
       || actorId.length > 200 || /[\u0000-\u001f\u007f]/.test(actorId) || Buffer.from(actorId, 'utf8').toString('utf8') !== actorId)) throw fail();
   const sql = postgres(databaseUrl, { max: 1, connect_timeout: 3, onnotice: () => {} });
@@ -116,9 +129,10 @@ async function operate({ action, projectId, actorId, configPath, databaseUrl }) 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname)) {
   const [, , action, ...args] = process.argv;
   try {
-    const expected = ['grant','revoke','deploy-grant','deploy-revoke'].includes(action) ? 3 : 1;
-    if (!['status','activate','grant','revoke','deploy-grant','deploy-revoke'].includes(action) || args.length !== expected || args.some(value => !value)) throw fail();
-    const [projectId, actorId, configPath] = ['grant','revoke','deploy-grant','deploy-revoke'].includes(action) ? args : [undefined, undefined, args[0]];
+    const databaseAction=['database-grant','database-revoke'].includes(action);
+    const expected = databaseAction ? 2 : ['grant','revoke','deploy-grant','deploy-revoke'].includes(action) ? 3 : 1;
+    if (!['status','activate','grant','revoke','deploy-grant','deploy-revoke','database-grant','database-revoke'].includes(action) || args.length !== expected || args.some(value => !value)) throw fail();
+    const [projectId, actorId, configPath] = databaseAction ? [undefined,args[0],args[1]] : ['grant','revoke','deploy-grant','deploy-revoke'].includes(action) ? args : [undefined, undefined, args[0]];
     await operate({ action, projectId, actorId, configPath, databaseUrl: process.env.SCHEMAFORGE_LOCAL_DATABASE_URL });
   } catch { process.stderr.write('Local membership operation failed.\n'); process.exitCode = 1; }
 }

@@ -38,12 +38,16 @@ export async function readVerifiedPublicPlanRecord(tx: any, planId: string, proj
   if ((p.status === 'REVOKED') !== !!revocationRow) throw unavailable();
   if (revocationRow && (!revocationRow.snapshot || p.status !== 'REVOKED'
       || revocationRow.snapshot.approvalReference !== p.approvalReference)) throw unavailable();
+  const targetObservation=intent.target?.observationDigest ? (await tx`SELECT e.digest,e.identity,e.identity_digest AS "identityDigest",e.identity_state AS "identityState",
+    e.exact_owner AS owner,e.observation_id AS "observationId",o.provenance,o.observed_at AS "observedAt",o.expires_at AS "expiresAt"
+    FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id WHERE e.digest=${intent.target.observationDigest} AND e.project_id=${projectId}`)[0] : null;
+  if(intent.target?.observationDigest && !targetObservation)throw unavailable();
   return {
     plan: { id: p.id, projectId: p.projectId, authorId: p.authorId, createdAt: p.createdAt,
       sourceBindingGeneration: p.sourceBindingGeneration, status: p.status, decision: p.decision,
       decisionReason: p.decisionReason, decidedBy: p.decidedBy, decidedByName: p.decidedByName,
       decidedAt: p.decidedAt, approvalReference: p.approvalReference, revocation: revocationRow?.snapshot ?? null },
-    retainedIntent: publicIntent(intent),
+    retainedIntent: {...publicIntent(intent),...(targetObservation ? {targetObservation} : {})},
   };
 }
 
@@ -64,7 +68,8 @@ export function registerPlanRecord(app: any, { sql, authenticate }: any) {
           plan, retainedIntent,
           limitations: ['Checksum detects changes only against a separately trusted digest; it is not a signature.',
             'Intent digest references the private retained envelope; this redacted export cannot reconstruct it.',
-            'Source SQL, credentials, live target facts, execution jobs and receipts are not included.'] });
+            'Source SQL, credentials, execution jobs and receipts are not included.',
+            'Target observations are retained metadata at the recorded time; they do not attest current connectivity or database effects.'] });
         if (Buffer.byteLength(record) > 2 * MAX_STDOUT_BYTES) throw unavailable();
         return { format: retainedIntent.format === 3 ? 2 : 1, algorithm: 'sha256', record, sha256: createHash('sha256').update(record, 'utf8').digest('hex') };
       });

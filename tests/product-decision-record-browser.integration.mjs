@@ -85,12 +85,8 @@ test('decision records render the stored attribution safely and stay plan-specif
     await page.locator('.project-row').filter({ hasText:project.name }).click();
     await page.getByRole('button',{ name:/Plans & review/ }).click();
     const selectPlan = async (id) => {
-      const choices = page.locator('.plan-option');
-      for (let i=0; i<await choices.count(); i++) {
-        await choices.nth(i).click();
-        if (await page.locator('.plan-summary code').innerText() === id) return;
-      }
-      assert.fail(`Plan ${id} unavailable`);
+      await page.locator(`.plan-option[data-plan-id="${id}"]`).click();
+      await page.locator('.plan-summary code').filter({hasText:id}).waitFor();
     };
     await selectPlan(pendingId);
     assert.equal(await page.getByRole('region',{ name:'Decision record' }).count(),0);
@@ -125,13 +121,24 @@ test('decision records render the stored attribution safely and stay plan-specif
     await restartedPage.getByRole('button',{ name:'Continue',exact:true }).click();
     await restartedPage.getByLabel('Sign out').waitFor();
     await restartedPage.getByRole('button',{ name:/Projects/ }).click();
+    await restartedPage.locator('.project-row').filter({hasText:project.name}).waitFor();
+    await restartedPage.waitForFunction(() => {
+      const refresh = document.querySelector('button[aria-label="Refresh workspace"]');
+      return refresh && !refresh.disabled;
+    });
+    let releaseDetailRead;
+    const detailReady = new Promise(resolve => { releaseDetailRead = resolve; });
+    await restartedPage.route(`**/api/projects/${project.id}`, async route => {
+      const response = await route.fetch();
+      await detailReady;
+      await route.fulfill({response});
+    });
     await restartedPage.locator('.project-row').filter({ hasText:project.name }).click();
     await restartedPage.getByRole('button',{ name:/Plans & review/ }).click();
-    const restartedChoices = restartedPage.locator('.plan-option');
-    for (let i=0; i<await restartedChoices.count(); i++) {
-      await restartedChoices.nth(i).click();
-      if (await restartedPage.locator('.plan-summary code').innerText() === approvedId) break;
-    }
+    assert.equal(await restartedPage.locator('.plan-option').count(),0,'reload remains pending until retained project detail is available');
+    releaseDetailRead();
+    await restartedPage.locator(`.plan-option[data-plan-id="${approvedId}"]`).click();
+    await restartedPage.locator('.plan-summary code').filter({hasText:approvedId}).waitFor();
     const restartedRecord = restartedPage.getByRole('region',{ name:'Decision record' });
     await restartedRecord.getByText(actors[1].name,{ exact:true }).waitFor();
     await restartedRecord.getByText(actors[1].id,{ exact:true }).waitFor();

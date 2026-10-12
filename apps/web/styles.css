@@ -130,6 +130,35 @@ button:disabled {
 .schema-reference-card dt { color: var(--muted, #667085); font-size: .82rem; }
 .schema-reference-card dd { margin: 4px 0 0; overflow-wrap: anywhere; }
 .schema-reference-truncation { grid-column: 1 / -1; border-left: 3px solid #c98a21; padding-left: 10px; }
+.connections-workspace { margin: 24px 0; }
+.connection-form { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 14px 0; background: #fbfcfe; }
+.connection-form summary { font-weight: 700; cursor: pointer; }
+.connection-grid { margin-top: 14px; }
+.connection-grid fieldset { border: 0; padding: 0; margin: 0 0 12px; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; min-width: 0; }
+.connection-grid label, .evidence-actions label, .target-observation label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; min-width: 0; }
+.connection-grid input, .connection-grid select, .connection-grid textarea, .evidence-actions textarea, .target-observation select, .target-observation textarea { width: 100%; border: 1px solid #d8dee7; border-radius: 7px; padding: 9px 10px; color: var(--ink); background: #fff; }
+.connection-grid textarea, .evidence-actions textarea, .target-observation textarea { min-height: 68px; resize: vertical; }
+.connection-grid .wide { grid-column: 1 / -1; }
+.connection-grid small { color: var(--muted); font-weight: 400; }
+.connection-card { border: 1px solid var(--line); border-radius: 12px; background: #fff; padding: 18px; margin: 16px 0; box-shadow: var(--shadow); min-width: 0; }
+.connection-card > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.connection-card > header h3 { margin: 0 0 6px; overflow-wrap: anywhere; }
+.connection-card > header > div { min-width: 0; max-width: 100%; }
+.connection-card > header p { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
+.connection-card > header > code { overflow-wrap: anywhere; color: var(--muted); }
+.connection-facts { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 12px 18px; }
+.connection-facts dt { color: var(--muted); font-size: 12px; }
+.connection-facts dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.evidence-actions { display: grid; grid-template-columns: minmax(220px,1fr) 2fr; gap: 12px; align-items: end; border-top: 1px solid var(--line); padding-top: 14px; }
+.evidence-actions > div, .target-observation > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.observation-result, .observation-history, .target-observation { border-top: 1px solid var(--line); margin-top: 16px; padding-top: 13px; }
+.observation-result h4, .observation-history h4, .target-observation h4 { margin: 0 0 10px; }
+.observation-choice { display: flex; gap: 10px; align-items: flex-start; margin: 8px 0; overflow-wrap: anywhere; }
+.observation-choice input { margin-top: 4px; }
+.target-observation { display: grid; gap: 10px; }
+.target-observation p { margin: 0; color: var(--muted); }
+.target-observation > small { color: var(--muted); }
+@media (max-width: 680px) { .connection-grid fieldset, .evidence-actions { grid-template-columns: 1fr; } .connection-card > header { flex-direction: column; } }
 .sidebar-bottom {
   margin-top: auto;
   border-top: 1px solid #314155;
