@@ -6,7 +6,7 @@ import { oracleIdentityDigest } from '../packages/connectivity/evidence.mjs';
 import { createPrivateBackup,restorePrivateBackup } from '../packages/backup/index.mjs';
 import { chmod,mkdtemp,writeFile,rm } from 'node:fs/promises';
 import { join } from 'node:path';
-import { randomBytes } from 'node:crypto';
+import { randomBytes,randomUUID } from 'node:crypto';
 import postgres from 'postgres';
 
 test('database connections enforce workspace and project grants, preserve secrets and bounded failed discovery evidence',{
@@ -129,4 +129,27 @@ test('native backup restores connection discovery and immutable target identity 
     await restoredSql?.end({timeout:2});if(restoredName)await f.db.sql.unsafe(`DROP DATABASE "${restoredName}" WITH (FORCE)`);
     await f.close();await rm(dir,{recursive:true,force:true});
   }
+});
+
+test('metadata recovery HOLD prevents connection and verification mutations without losing prior evidence',{
+  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+},async()=>{
+  const f=await createDiscoveryFixture();try{
+    const o=(await f.api('POST',`${f.connections}/${f.connection.id}/discover`,{reason:'Retain observation before HOLD'})).json().observation;
+    const binding=(await f.createBinding()).json().binding;
+    const generation=randomUUID();
+    await f.db.sql`INSERT INTO sf_metadata_generations(id,predecessor_id,state,checkpoint,operator_os_uid)
+      SELECT ${generation},generation_id,'RESTORE_HOLD',${'a'.repeat(64)},0 FROM sf_metadata_current WHERE singleton`;
+    await f.db.sql`UPDATE sf_metadata_current SET generation_id=${generation} WHERE singleton`;
+    for(const [path,payload] of [
+      [f.connections,f.definition],
+      [`${f.connections}/${f.connection.id}/discover`,{reason:'Probe during HOLD'}],
+      [`${f.connections}/${f.connection.id}/retire`,{reason:'Retire during HOLD'}],
+      [`${f.base}/target-bindings/${binding.bindingId}/observe`,{connectionId:f.connection.id,observationId:o.id,expectedIdentityDigest:o.identityDigest,expectedBindingRevision:'1',expectedAssignmentRevision:'1',owner:'APP',reason:'Observe during HOLD'}],
+    ]){
+      const r=await f.api('POST',path,payload);assert.equal(r.statusCode,409,r.body);assert.equal(r.json().error,'METADATA_RESTORE_HOLD');
+    }
+    const history=await f.api('GET',`${f.connections}/${f.connection.id}/observations`);assert.equal(history.statusCode,200);assert.equal(history.json().observations.length,1);
+    assert.equal((await f.api('GET',`${f.base}/target-bindings/${binding.bindingId}`)).json().revisions.length,1);
+  }finally{await f.close();}
 });

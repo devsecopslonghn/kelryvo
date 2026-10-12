@@ -164,7 +164,8 @@ async function isolatedRun({manifestPath,secretDirectory,connection,operation,ti
   const childPath=fileURLToPath(new URL('./oracle-child.mjs',import.meta.url));
   return new Promise(resolve=>{
     let done=false, message=null, timedOut=false;
-    const child=fork(childPath,[],{stdio:['ignore','ignore','ignore','ipc'],execArgv:['--max-old-space-size=128']});
+    const child=fork(childPath,[],{stdio:['ignore','ignore','ignore','ipc'],execArgv:['--max-old-space-size=128'],
+      env:{PATH:'/usr/bin:/bin',...(process.env.NODE_EXTRA_CA_CERTS ? {NODE_EXTRA_CA_CERTS:process.env.NODE_EXTRA_CA_CERTS} : {})}});
     const finish=(value)=>{ if(done)return;done=true;clearTimeout(timer);signal?.removeEventListener('abort',abort);resolve(value); };
     const abort=()=>{timedOut=true;child.kill('SIGKILL');};
     const timer=setTimeout(()=>{timedOut=true;child.kill('SIGKILL');},timeoutMs); timer.unref?.();
