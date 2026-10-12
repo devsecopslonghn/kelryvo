@@ -85,6 +85,32 @@ export async function smokeGovernance({ origin, ca, tokens, operator, rotate, on
   const audit = await request('GET', `${base}/audit`, undefined, approver);
   assert.equal(audit.status, 200);
   assert.ok(audit.body.events.some(event => event.action === 'PLAN_APPROVED'));
+  onStep('account access and remote session revocation');
+  const account = await request('GET', '/api/account/access', undefined, developer);
+  assert.equal(account.status, 200); assert.equal(account.body.actor.role, 'developer');
+  const remote = await login(tokens.developer);
+  let remoteId, after = null;
+  for (let page = 0; page < 100; page++) {
+    const sessions = await request('GET', `/api/account/sessions${after ? `?after=${encodeURIComponent(after)}` : ''}`, undefined, remote);
+    assert.equal(sessions.status, 200);
+    remoteId = sessions.body.sessions.find(session => session.current)?.id;
+    if (remoteId || !sessions.body.nextCursor) break;
+    after = sessions.body.nextCursor;
+  }
+  assert.ok(remoteId);
+  assert.equal((await request('POST', `/api/account/sessions/${remoteId}/revoke`, undefined, developer)).status, 204);
+  assert.equal((await request('GET', '/api/session', undefined, remote)).status, 401);
+  assert.equal((await request('GET', '/api/session', undefined, developer)).status, 200);
+  onStep('profile retirement and retained history');
+  const replacement = await request('POST', `${base}/profiles`, { name: 'Retirement acceptance profile',
+    environmentId: environment.body.environment.id, engine: 'oracle', host: 'retirement.example.invalid',
+    port: 1521, service: 'DEV', username: 'APP', credentialRef: 'secret://unconfigured/retirement' }, developer);
+  assert.equal(replacement.status, 201);
+  const retirementPath = `${base}/profiles/${replacement.body.profile.id}/retire`;
+  assert.equal((await request('POST', retirementPath, { reason: 'Offline lifecycle acceptance' }, approver)).status, 403);
+  assert.equal((await request('POST', retirementPath, { reason: 'Offline lifecycle acceptance' }, developer)).status, 204);
+  const retiredPlan = await request('POST', `${base}/plans`, { releaseId: imported.body.release.id, profileId: replacement.body.profile.id }, developer);
+  assert.equal(retiredPlan.status, 409); assert.equal(retiredPlan.body.error, 'PROFILE_RETIRED');
   if (rotate) {
     onStep('audited actor credential rotation');
     const previousSession = developer, previousToken = tokens.developer;
@@ -101,6 +127,7 @@ export async function smokeGovernance({ origin, ca, tokens, operator, rotate, on
       const retainedPlan = after.body.plans.find(item => item.id === planId);
       assert.equal(retainedPlan.status, 'APPROVED'); assert.equal(retainedPlan.execution, 'NOT_EXECUTED');
       assert.equal(after.body.history.length, 2);
+      assert.ok(after.body.profiles.find(item => item.id === replacement.body.profile.id)?.retiredAt);
       assert.equal((await request('GET', `${base}/audit`, undefined, approver)).status, 200);
     } };
 }
