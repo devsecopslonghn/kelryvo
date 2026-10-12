@@ -76,6 +76,8 @@ export async function readExecutionRequest(tx: any, jobId: string, admitted = fa
       AND history_status='NOT_OBSERVED' AND planning_scope='OFFLINE_CANDIDATE'
       AND NOT EXISTS(SELECT 1 FROM sf_plan_approval_revocations r WHERE r.plan_id=sf_plans.id) FOR SHARE`)[0];
   if (!plan || !plan.envelope || !Array.isArray(plan.items) || !plan.approval_reference) return null;
+  // New target-bound evidence has no accepted worker authority in this milestone.
+  try { if (JSON.parse(plan.envelope)[0] !== 2) return null; } catch { return null; }
   const project = (await tx`SELECT id,source_repository_id,source_folder,source_binding_generation::text
     FROM sf_projects WHERE id=${plan.project_id} AND organization_id=${ORG} AND archived_at IS NULL FOR SHARE`)[0];
   if (!project || project.source_binding_generation !== plan.source_binding_generation) return null;

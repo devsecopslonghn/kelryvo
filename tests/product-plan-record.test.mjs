@@ -2,6 +2,74 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash, randomUUID } from 'node:crypto';
 import { statementEnvelopeFixture } from './helpers/statement-envelope-fixture.mjs';
+import { encodeOfflinePlanIntent } from '../packages/migrations/offline-plan-intent.mjs';
+import { registerPlanRecord } from '../packages/governance/plan-record.ts';
+
+test('format-3 plan record exports the public target snapshot as record format 2', async () => {
+  const organizationId = '00000000-0000-4000-8000-000000000001';
+  const projectId = '00000000-0000-4000-8000-000000000010';
+  const planId = '00000000-0000-4000-8000-000000000011';
+  const releaseId = '00000000-0000-4000-8000-000000000012';
+  const profileId = '00000000-0000-4000-8000-000000000013';
+  const environmentId = '00000000-0000-4000-8000-000000000014';
+  const ownerFacts = {
+    organizationId, projectId, requesterId: 'author', releaseId, commit: 'a'.repeat(40), objectFormat: 'sha1',
+    folder: 'migrations', parserProfile: 'antlr-pinned-v1', manifestDigest: 'b'.repeat(64), profileId,
+    profileName: 'Development', environmentId, environmentName: 'Local', engine: 'oracle', host: 'db.example.invalid',
+    port: 1521, service: 'FREEPDB1', username: 'DEPLOYER', credentialRef: 'vault://local/app',
+    items: [{ path: 'migrations/V1__first.sql', version: '1', sha256: 'c'.repeat(64) }],
+    statements: [{ ordinal: 1, path: 'migrations/V1__first.sql', fileOrdinal: 1, startByte: 0, endByte: 10,
+      sourceSha256: 'd'.repeat(64), executionSha256: 'e'.repeat(64) }],
+    target: {
+      bindingId: '10000000-0000-4000-8000-000000000001', bindingRevision: '1',
+      assignmentId: '10000000-0000-4000-8000-000000000002', assignmentRevision: '3',
+      targetOptionId: '10000000-0000-4000-8000-000000000003', targetOptionRevision: '2',
+      lineageId: '10000000-0000-4000-8000-000000000004', identityState: 'PROVISIONAL', observationDigest: null,
+      streamId: '10000000-0000-4000-8000-000000000005', streamState: 'PROVISIONAL', migrationNamespace: 'APP_MIGRATIONS',
+      exactOwner: 'APP', routeId: '10000000-0000-4000-8000-000000000006', routeConfigRevision: '1', routeAlias: 'local-db',
+      policyId: '10000000-0000-4000-8000-000000000007', policyRevision: '4',
+      deploymentPrincipalId: '10000000-0000-4000-8000-000000000008', principalPurpose: 'DEPLOY',
+      privatePrincipalRef: 'vault://local/deploy', principalAlias: 'local-deploy',
+      createdAt: '2026-10-12T05:00:00.000Z', sourceBindingGeneration: '5',
+    },
+  };
+  const intent = encodeOfflinePlanIntent(ownerFacts);
+  assert.ok(intent);
+  const snapshot = {
+    id: planId, projectId, organizationId, releaseId, profileId, authorId: 'author', status: 'PENDING_APPROVAL',
+    decision: null, decisionReason: null, decidedBy: null, decidedByName: null,
+    createdAt: '2026-10-12T05:01:00.000Z', decidedAt: null, approvalReference: null,
+    sourceBindingGeneration: '5', items: [{ ...ownerFacts.items[0], status: 'NOT_EXECUTED' }],
+    envelope: intent.envelope, digest: intent.digest,
+  };
+  let handler;
+  const app = { get(_path, _options, registered) { handler = registered; } };
+  const sql = { async begin(_options, operation) {
+    const tx = async (strings) => {
+      const query = strings.join(' ');
+      if (query.includes('sf_project_access_mode')) return [{ mode: 'ENFORCED' }];
+      if (query.includes('sf_project_grants')) return [{ allowed: true }];
+      if (query.includes('FROM sf_plans')) return [{ snapshot }];
+      if (query.includes('sf_plan_approval_revocations')) return [];
+      throw new Error(`Unexpected query: ${query}`);
+    };
+    return operation(tx);
+  } };
+  registerPlanRecord(app, { sql, authenticate() {} });
+  const response = { status: 200, headers: {}, code(status) { this.status = status; return this; },
+    header(name, value) { this.headers[name] = value; return this; }, send(body) { this.body = body; return this; } };
+  await handler({ params: { projectId, id: planId }, query: {}, actor: { id: 'author' } }, response);
+  assert.equal(response.status, 200);
+  assert.equal(response.body.format, 2);
+  assert.equal(createHash('sha256').update(response.body.record, 'utf8').digest('hex'), response.body.sha256);
+  const record = JSON.parse(response.body.record);
+  assert.equal(record.format, 2);
+  assert.equal(record.retainedIntent.format, 3);
+  assert.equal(record.retainedIntent.target.exactOwner, 'APP');
+  assert.equal(record.retainedIntent.target.bindingId, ownerFacts.target.bindingId);
+  assert.equal(Object.hasOwn(record.retainedIntent.target, 'privatePrincipalRef'), false);
+  assert.doesNotMatch(response.body.record, /vault:\/\/|credentialRef/);
+});
 
 test('plan record preserves scoped frozen intent, current decision and withdrawal without credentials or mutations', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,

@@ -70,6 +70,54 @@ test('native metadata backup and witness-verified restore retain source and ente
   }
 });
 
+test('native restore retains target option and binding evidence without projecting private principal refs',{skip:!enabled,timeout:180_000},async()=>{
+  const {createTargetWorkflowFixture}=await import('./helpers/target-workflow-fixture.mjs');
+  const {tableSnapshot}=await import('./helpers/product-backup-fixture.mjs');
+  const {listTargetBindings,getTargetBinding}=await import('../packages/targets/index.ts');
+  const fixture=await createTargetWorkflowFixture();
+  const root=await mkdtemp(join(process.cwd(),'.cache','target-backup-'));
+  let restoredSql,restoredName;
+  try {
+    await chmod(root,0o700);
+    const configPath=join(root,'operator-config.json');
+    const databasePassword=randomBytes(32).toString('hex');
+    await writeFile(configPath,`${JSON.stringify({databasePassword,developerToken:'1'.repeat(64),approverToken:'2'.repeat(64)})}\n`,{mode:0o600});
+    const databaseUrl=new URL(fixture.db.databaseUrl);databaseUrl.password=databasePassword;
+    const created=await fixture.createBinding();
+    assert.equal(created.statusCode,201,created.body);
+    const binding=created.json().binding;
+    const tables=['sf_target_lineages','sf_target_streams','sf_target_options','sf_target_option_revisions','sf_target_bindings','sf_target_binding_revisions'];
+    const before=Object.fromEntries(await Promise.all(tables.map(async table=>[table,await tableSnapshot(fixture.db.sql,table)])));
+    const backupDirectory=join(root,'backup'),witnessPath=join(root,'witness.json');
+    await createPrivateBackup({configPath,databaseUrl:databaseUrl.toString(),destination:backupDirectory,witnessPath});
+    const restored=await restorePrivateBackup({configPath,databaseUrl:databaseUrl.toString(),backupDirectory,witnessPath});
+    restoredName=restored.databaseName;
+    restoredSql=postgres(restored.databaseUrl,{max:3,onnotice:()=>{}});
+    await initializeDatabase(restoredSql);
+    for(const table of tables) assert.equal(await tableSnapshot(restoredSql,table),before[table],`${table} retained exactly`);
+    const page=await listTargetBindings(restoredSql,fixture.project.id);
+    assert.equal(page.bindings.length,1);
+    assert.equal(page.bindings[0].bindingId,binding.bindingId);
+    assert.equal(page.bindings[0].reason,'bind assigned schema for offline review');
+    assert.equal(page.bindings[0].actorId,fixture.actors[0].id);
+    const detail=await getTargetBinding(restoredSql,fixture.project.id,binding.bindingId);
+    assert.equal(detail.binding.bindingRevision,'1');
+    assert.equal(detail.currentness.state,'CURRENT');
+    assert.doesNotMatch(JSON.stringify({page,detail}),/vault:\/\/local\/target-workflow/);
+    assert.equal((await fixture.db.sql`SELECT count(*)::int AS n FROM sf_target_binding_revisions`)[0].n,1,'source retained unchanged');
+  } finally {
+    if(restoredSql) await restoredSql.end({timeout:2});
+    if(restoredName) {
+      const adminUrl=new URL(fixture.db.databaseUrl);adminUrl.pathname='/postgres';
+      const admin=postgres(adminUrl.toString(),{max:1,onnotice:()=>{}});
+      try { await admin.unsafe(`DROP DATABASE IF EXISTS "${restoredName}" WITH (FORCE)`); }
+      finally { await admin.end({timeout:2}); }
+    }
+    await fixture.close();
+    await rm(root,{recursive:true,force:true});
+  }
+});
+
 test('native restore preserves retained Git review history and UNIT receipts while revoking old authority',{skip:!enabled,timeout:180_000},async()=>{
   const {createBackupProductFixture,tableSnapshot}=await import('./helpers/product-backup-fixture.mjs');
   const {createApp}=await import('../apps/api/index.ts');
@@ -236,4 +284,32 @@ test('native restore rejects damaged, unsupported, linked and untrusted inputs b
     assert.equal(digest(await readFile(manifestFile)),digest(manifestBytes));
     assert.equal(digest(await readFile(witnessPath)),digest(witnessBytes));
   } finally {await admin.end({timeout:2});await source.close();await rm(root,{recursive:true,force:true});}
+});
+
+
+test('exact legacy schema backup restores retained projects and migrates targets under recovery HOLD', {skip:!enabled,timeout:120000},async()=>{
+  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeTargets:false})});
+  const root=await mkdtemp(join(process.cwd(),'.cache','phase2-legacy-backup-'));let restoredSql,restoredName;
+  try {
+    await chmod(root,0o700);const configPath=join(root,'config.json'),secret=randomBytes(32).toString('hex');
+    await writeFile(configPath,JSON.stringify({databasePassword:secret,developerToken:'1'.repeat(64),approverToken:'2'.repeat(64)}),{mode:0o600});
+    const url=new URL(source.databaseUrl);url.password=secret;const databaseUrl=url.toString();
+    const project=(await source.sql`INSERT INTO sf_projects(organization_id,name) VALUES('00000000-0000-4000-8000-000000000001','Retained legacy project') RETURNING id`)[0];
+    const backupDirectory=join(root,'backup'),witnessPath=join(root,'witness.json');
+    await createPrivateBackup({configPath,databaseUrl,destination:backupDirectory,witnessPath});
+    const manifest=JSON.parse(await (await import('node:fs/promises')).readFile(join(backupDirectory,'manifest.json'),'utf8'));
+    assert.equal(manifest.schema.signature,'277b528dfee78e582189a3a0747f5903e652bf3a2566f314c218d5f6093d25c8');
+    const restored=await restorePrivateBackup({configPath,databaseUrl,backupDirectory,witnessPath});
+    restoredName=restored.databaseName;restoredSql=postgres(restored.databaseUrl,{max:1,onnotice:()=>{}});
+    assert.equal((await restoredSql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name,'Retained legacy project');
+    assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
+    assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_target_bindings`)[0].n,0);
+    assert.equal((await source.sql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name,'Retained legacy project');
+  }finally{
+    await restoredSql?.end({timeout:2});await source.close();
+    if(restoredName){const admin=postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});try{
+      assert.match(restoredName,/^sf_product_restore_[a-f0-9]{32}$/);await admin.unsafe(`DROP DATABASE "${restoredName}" WITH (FORCE)`);
+    }finally{await admin.end({timeout:2});}}
+    await rm(root,{recursive:true,force:true});
+  }
 });

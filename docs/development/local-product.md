@@ -1,5 +1,33 @@
 # Local SchemaForge product
 
+## Target-bound offline governance
+
+Select a granted project, open **Project targets**, and explicitly choose an active schema
+assignment, operator-configured target option, and project environment. Creating a binding
+appends immutable revision evidence. Import a retained SQL release under **Releases**,
+choose the binding, and select **Prepare target-bound plan**. The plan retains format-3
+source and target facts. A different authorized approver reviews the saved facts; a current
+project member with a separate deploy grant can then request deployment. Requests remain
+`WAITING_VALIDATION`; format-3 evidence cannot enter worker admission. No Oracle SQL is
+executed by this workflow. Requests, decisions, history and audit remain available after restart.
+
+The trusted local inventory CLI adds `target-option` alongside `declare`/`assign`/`release`.
+It uses the same private `--config` and local metadata URL authority. Required flags are
+`--projectId`, `--assignmentId`, `--environmentId`, `--profileId`, `--routeId`,
+`--routeConfigRevision`, `--routeAlias`, `--migrationNamespace`, `--policyId`,
+`--policyRevision`, `--exactOwner`, `--deploymentPrincipalId`, `--principalPurpose DEPLOY`,
+`--principalUsername`, `--privatePrincipalRef`, `--principalAlias`, `--reason`, and
+`--expectedOptionRevision 0`. Supply the same operator-declared `--lineageId` on every revision for a container. To append a revision, provide `--optionId` and the expected current revision;
+`--enabled false` disables the option through retained evidence. This command registers
+manual references only and does not test connectivity. Profile credentials are projected
+as safe aliases in browser responses; private references remain inside retained metadata.
+
+Binding changes, assignment transfer/release, option revision changes and source rebinding
+make saved plans stale. Old evidence stays readable; a fresh plan and independent decision
+are required. Legacy unbound plan creation/read APIs remain available for compatibility and
+are explicitly labeled in the UI. Live identity observation, drift and format-3 execution
+require separate future acceptance.
+
 ## HTTP request limits
 
 The API uses the pinned Fastify rate-limit plugin before authentication and metadata

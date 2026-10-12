@@ -1,3 +1,7 @@
+import { acquireTargetLocks } from '../../packages/targets/locks.ts';
+import { registerTargets } from '../../packages/targets/api.ts';
+import { loadBindingTarget, checkTargetCurrentness, listTargetBindings } from '../../packages/targets/index.ts';
+import { credentialAlias, publicTarget } from '../../packages/targets/public.mjs';
 import Fastify from "fastify";
 import rateLimit from "@fastify/rate-limit";
 import { browserAuthentication, registerBrowserSessions } from "../../packages/database/browser-sessions.ts";
@@ -10,7 +14,7 @@ import { verifyRetainedRelease } from "../../packages/migrations/verify-retained
 import { compareRetainedReleases } from "../../packages/migrations/compare-retained-releases.mjs";
 import { previewRetainedStatements } from "../../packages/migrations/statement-preview.mjs";
 import { resolveCommentEvidence, validateCommentEvidenceInput } from "../../packages/migrations/comment-evidence.mjs";
-import { encodeOfflinePlanIntent, verifyOfflinePlanIntent } from "../../packages/migrations/offline-plan-intent.mjs";
+import { encodeOfflinePlanIntent, verifyOfflinePlanIntent, targetTupleFields } from "../../packages/migrations/offline-plan-intent.mjs";
 import { collectRetainedStatementIdentity } from "../../packages/migrations/statement-identity.mjs";
 import { preflightRetainedRelease, preflightHistoricalRelease } from "../../packages/migrations/retained-release-preflight.mjs";
 import { actorHasProjectGrant, projectAccessMode } from "../../packages/database/project-membership.ts";
@@ -29,6 +33,9 @@ const MAX_BINDING_GENERATION = "9223372036854775807";
 const canonicalBindingGeneration = (value: unknown) => typeof value === "string"
   && /^[1-9][0-9]{0,18}$/.test(value)
   && (value.length < MAX_BINDING_GENERATION.length || value <= MAX_BINDING_GENERATION);
+const canonicalTargetRevision = (v: unknown) => typeof v === 'string' && /^(0|[1-9][0-9]{0,18})$/.test(v) && BigInt(v) <= 9223372036854775807n;
+const validTargetExpectations = (b: any) => [b.expectedIntentDigest,b.expectedAssignmentRevision,b.expectedBindingRevision].every(v => v === undefined)
+  || /^[a-f0-9]{64}$/.test(b.expectedIntentDigest ?? '') && canonicalTargetRevision(b.expectedAssignmentRevision) && canonicalTargetRevision(b.expectedBindingRevision);
 const fail = (reply: any, status: number, error: string) =>
   reply.code(status).send({ error });
 const uuid = (value: unknown) =>
@@ -168,6 +175,7 @@ export function createApp(options: {
     }
     });
   };
+  registerTargets(app, { sql, authenticate });
   registerPlanRecord(app, { sql, authenticate });
   registerExecutionRecord(app, { sql, authenticate });
   registerBrowserSessions(app, { sql, authenticate, seed, enabled: !!options.https });
@@ -202,6 +210,12 @@ export function createApp(options: {
   const requireActiveProject = async (tx: any, id: string) => {
     const row = (await tx`SELECT archived_at FROM sf_projects WHERE id=${id} AND organization_id=${ORG} FOR SHARE`)[0];
     if (!row || row.archived_at) throw Object.assign(new Error('PROJECT_ARCHIVED'), { productCode: 'PROJECT_ARCHIVED' });
+  };
+
+  const mapCurrentPlan = async (tx: any, row: any) => {
+    const mapped = mapPlan(row);
+    if (mapped.retainedTarget) mapped.currentness = await checkTargetCurrentness(tx, row.project_id, mapped.retainedTarget);
+    return mapped;
   };
 
   registerHealthProbes(app, async () => (await sql`SELECT g.state FROM sf_metadata_current c
@@ -316,7 +330,7 @@ export function createApp(options: {
     if((await projectAccessMode(sql))==='BOOTSTRAP_REQUIRED') return {references:[],nextCursor:null};
     const authorized=(await sql`SELECT 1 FROM sf_project_access_mode m JOIN sf_project_grants g ON g.organization_id=m.organization_id AND g.project_id=${projectId} AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL JOIN sf_local_credentials c ON c.actor_id=g.actor_id AND c.token_sha256=${req.credentialDigest} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp() WHERE m.organization_id=${ORG} AND m.mode='ENFORCED' LIMIT 1`)[0];
     if(!authorized) return fail(reply,404,'NOT_FOUND');
-    const rows=await sql`SELECT s.id AS schema_id,s.exact_owner,s.generation,s.provenance,s.revision::text AS revision,
+    const rows=await sql`SELECT s.id AS schema_id,s.exact_owner,s.generation,s.provenance,s.revision::text AS revision,a.id AS assignment_id,a.started_at AS assignment_started_at,
         c.id AS container_id,c.name AS container_name,c.kind AS container_kind,c.environment,
         d.id AS database_id,d.display_label AS database_label,d.server_uuid AS database_server_id,d.generation AS database_generation,
         c.server_uuid AS container_server_id,
@@ -329,7 +343,7 @@ export function createApp(options: {
       WHERE a.organization_id=${ORG} AND a.project_id=${projectId} AND a.closed_at IS NULL
         AND EXISTS(SELECT 1 FROM sf_project_access_mode m JOIN sf_project_grants g ON g.organization_id=m.organization_id AND g.project_id=${projectId} AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL JOIN sf_local_credentials c ON c.actor_id=g.actor_id AND c.token_sha256=${req.credentialDigest} AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp() WHERE m.organization_id=${ORG} AND m.mode='ENFORCED')
         AND (${after??null}::uuid IS NULL OR s.id>${after??null}::uuid) ORDER BY s.id LIMIT 51`;
-    const page=rows.slice(0,50); return {references:page.map((r:any)=>({id:r.schema_id,owner:r.exact_owner,generation:r.generation,provenance:r.provenance,revision:r.revision,
+    const page=rows.slice(0,50); return {references:page.map((r:any)=>({id:r.schema_id,owner:r.exact_owner,generation:r.generation,provenance:r.provenance,revision:r.revision,assignmentId:r.assignment_id,assignmentRevision:r.revision,assignmentStartedAt:r.assignment_started_at,
       database:{id:r.database_id,serverId:r.database_server_id,generation:r.database_generation,label:r.database_label,provenance:'MANUAL_REFERENCE'},
       container:{id:r.container_id,serverId:r.container_server_id,name:r.container_name,kind:r.container_kind,environment:r.environment,provenance:'MANUAL_REFERENCE'},
       services:r.services||[],servicesTruncated:r.services_truncated})),nextCursor:rows.length>50?page[49].schema_id:null};
@@ -392,8 +406,11 @@ export function createApp(options: {
             AND EXISTS(SELECT 1 FROM sf_project_grants g WHERE g.project_id=j.project_id AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL)
             ORDER BY j.created_at DESC LIMIT 50`,
         ]);
+      const targetPage = await sql.begin(async (tx: any) => { await guardMutationAuthority(tx, req); return (await projectAccessMode(tx)) === 'ENFORCED' ? listTargetBindings(tx, p.id, undefined) : {bindings:[],nextCursor:null}; });
       return {
         project: mappedProject(p),
+        targetBindings: targetPage.bindings,
+        targetBindingsNextCursor: targetPage.nextCursor,
         environments: environments.map((r: any) => ({ ...mappedSimple(r) })),
         profiles: profiles.map((r: any) => ({
           id: r.id,
@@ -404,7 +421,7 @@ export function createApp(options: {
           port: r.port,
           service: r.service,
           username: r.username,
-          credentialRef: r.credential_ref,
+          credentialAlias: credentialAlias(r.id),
           createdAt: r.created_at,
           retiredAt: r.retired_at,
           retiredBy: r.retired_by,
@@ -422,7 +439,11 @@ export function createApp(options: {
           parserProfile: r.parser_profile,
           createdAt: r.created_at,
         })),
-        plans: plans.map(mapPlan),
+        plans: await Promise.all(plans.map(async (r: any) => {
+          const mapped = mapPlan(r);
+          if (mapped.retainedTarget) mapped.currentness = await checkTargetCurrentness(sql, p.id, mapped.retainedTarget, p.source_binding_generation);
+          return mapped;
+        })),
         comments: comments.map(mapComment),
         canDeploy: deploymentGrant.length > 0,
         executionJobs: executionJobs.map(mapExecutionJob),
@@ -618,7 +639,7 @@ export function createApp(options: {
           port: r.port,
           service: r.service,
           username: r.username,
-          credentialRef: r.credential_ref,
+          credentialAlias: credentialAlias(r.id),
           createdAt: r.created_at,
         },
       });
@@ -909,13 +930,15 @@ export function createApp(options: {
       const b = req.body;
       if (
         !uuid(req.params.id) ||
-        !object(b, ["releaseId", "profileId"]) ||
-        !uuid(b.releaseId) ||
-        !uuid(b.profileId)
+        !uuid(b?.releaseId) || !(b.intentVersion === 2
+          ? object(b, ['intentVersion','releaseId','assignmentId','expectedAssignmentRevision','targetBindingId','expectedBindingRevision'])
+            && uuid(b.assignmentId) && uuid(b.targetBindingId) && canonicalTargetRevision(b.expectedAssignmentRevision) && canonicalTargetRevision(b.expectedBindingRevision)
+          : object(b, ['releaseId','profileId']) && uuid(b.profileId))
       )
         return fail(reply, 400, "INVALID_REQUEST");
       const { verifyRetainedRelease } = await import("../../packages/migrations/verify-retained-release.mjs");
       const outcome = await sql.begin(async (tx: any) => {
+        if (b.intentVersion === 2) await acquireTargetLocks(tx, {bindingId:b.targetBindingId});
         await guardMutationAuthority(tx, req);
         // Keep the lock order consistent: project first, then the scoped release.
         const p = (await tx`SELECT id,archived_at,
@@ -925,6 +948,15 @@ export function createApp(options: {
           AND organization_id=${ORG} FOR SHARE`)[0];
         if (!p) return { error: "NOT_FOUND" };
         if (p.archived_at) return { error: "PROJECT_ARCHIVED" };
+        let boundTarget: any = null;
+        if (b.intentVersion === 2) {
+          boundTarget = await loadBindingTarget(tx, p.id, b.targetBindingId);
+          if (!boundTarget || boundTarget.assignmentId !== b.assignmentId) return {error:'NOT_FOUND'};
+          if (boundTarget.assignmentRevision !== b.expectedAssignmentRevision || boundTarget.bindingRevision !== b.expectedBindingRevision) return {error:'TARGET_REVISION_CONFLICT'};
+          const currentness = await checkTargetCurrentness(tx, p.id, boundTarget, p.source_binding_generation);
+          if (currentness.state !== 'CURRENT') return {error:'TARGET_REVISION_CONFLICT'};
+          boundTarget = {...boundTarget, createdAt:new Date().toISOString(), sourceBindingGeneration:p.source_binding_generation};
+        }
         // Inspect only scalar bounds while holding the scoped release lock. A damaged
         // JSONB payload must not be copied into Node before its shape and size pass.
         const releaseBounds = (await tx`SELECT id,(validation_status='VALID') AS validation_valid,jsonb_typeof(files) AS files_type,
@@ -945,12 +977,12 @@ export function createApp(options: {
           CASE WHEN char_length(username) BETWEEN 1 AND 128 THEN username END AS username,
           retired_at,
           CASE WHEN char_length(credential_ref) BETWEEN 1 AND 512 THEN credential_ref END AS credential_ref
-          FROM sf_profiles WHERE id=${b.profileId} AND project_id=${p.id}
+          FROM sf_profiles WHERE id=${boundTarget?.profileId ?? b.profileId} AND project_id=${p.id}
           AND organization_id=${ORG} FOR SHARE`)[0];
         const environment = profile && (await tx`SELECT id,project_id,organization_id,
           CASE WHEN char_length(name) BETWEEN 1 AND 200 THEN name END AS name FROM sf_environments WHERE id=${profile.environment_id}
           AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
-        if (!releaseBounds || !profile) return { error: "INVALID_REFERENCE" };
+        if (!releaseBounds || !profile) return { error: b.intentVersion === 2 ? "NOT_FOUND" : "INVALID_REFERENCE" };
         if (profile.retired_at) return { error: 'PROFILE_RETIRED' };
         if (!p.source_repository_id || !validMigrationFolder(p.source_folder)
             || !canonicalBindingGeneration(p.source_binding_generation)) return { error: "SOURCE_BINDING_INVALID" };
@@ -980,9 +1012,10 @@ export function createApp(options: {
           profileId: profile.id, profileName: profile.name, environmentId: environment.id,
           environmentName: environment.name, engine: profile.engine, host: profile.host, port: profile.port,
           service: profile.service, username: profile.username, credentialRef: profile.credential_ref,
-          items: items.map(({ path, version, sha256 }) => ({ path, version, sha256 })), statements });
+          items: items.map(({ path, version, sha256 }) => ({ path, version, sha256 })), statements, ...(boundTarget ? {target: Object.fromEntries(targetTupleFields.map(key => [key,boundTarget[key]]))} : {}) });
         if (!offlineIntent) return { error: "INVALID_REFERENCE" };
         if (p.archived_at) return { error: "PROJECT_ARCHIVED" };
+        await guardMutationAuthority(tx, req);
         const rows = await tx`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items,offline_intent_envelope,offline_intent_digest,source_binding_generation)
           VALUES(${p.id},${ORG},${r.id},${profile.id},${req.actor.id},${tx.json(items)},${offlineIntent.envelope},${offlineIntent.digest},${p.source_binding_generation}::bigint) RETURNING *,source_binding_generation::text AS source_binding_generation`;
         const plan = rows[0];
@@ -997,6 +1030,7 @@ export function createApp(options: {
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${p.id},${ORG},${req.actor.id},'PLAN_CREATED',${plan.id})`;
         return { plan };
       });
+      if (outcome.error === 'TARGET_REVISION_CONFLICT') return fail(reply, 409, outcome.error);
       if (outcome.error === "NOT_FOUND") return fail(reply, 404, "NOT_FOUND");
       if (outcome.error === "PROJECT_ARCHIVED") return fail(reply, 409, "PROJECT_ARCHIVED");
       if (outcome.error === "INVALID_REFERENCE") return fail(reply, 400, "INVALID_REFERENCE");
@@ -1006,7 +1040,7 @@ export function createApp(options: {
       if (outcome.error === "RELEASE_NOT_PLANNABLE") return fail(reply, 409, "RELEASE_NOT_PLANNABLE");
       if (outcome.error === "SOURCE_BINDING_INVALID") return fail(reply, 409, "SOURCE_BINDING_INVALID");
       if (outcome.error === "SOURCE_BINDING_MISMATCH") return fail(reply, 409, "SOURCE_BINDING_MISMATCH");
-      return reply.code(201).send({ plan: mapPlan(outcome.plan) });
+      return reply.code(201).send({ plan: await mapCurrentPlan(sql, outcome.plan) });
     },
   );
   app.get('/api/projects/:projectId/plans/:id/statement-envelope', { preHandler: authenticate }, async (req: any, reply: any) => {
@@ -1023,7 +1057,7 @@ export function createApp(options: {
     const intent = verifyOfflinePlanIntent(plan.envelope, plan.digest, { organizationId: ORG, projectId: plan.project_id,
       requesterId: plan.author_id, releaseId: plan.release_id, profileId: plan.profile_id });
     if (!intent || q.intentDigest !== intent.digest) return fail(reply, 409, 'FRESH_PLAN_REQUIRED');
-    if (intent.format !== 2 || !Array.isArray(intent.statements)) return fail(reply, 409, 'STATEMENT_APPROVAL_REQUIRED');
+    if (![2,3].includes(intent.format) || !Array.isArray(intent.statements)) return fail(reply, 409, 'STATEMENT_APPROVAL_REQUIRED');
     if (after > intent.statements.length) return fail(reply, 400, 'INVALID_REQUEST');
     const statements = intent.statements.slice(after, after + 50);
     return { format: 2, intentDigest: intent.digest, offline: true, executionAuthority: false,
@@ -1209,12 +1243,13 @@ export function createApp(options: {
       const b = req.body;
       if (
         !uuid(req.params.id) ||
-        !object(b, ["decision", "reason"]) ||
-        !["APPROVE", "REJECT"].includes(b.decision) ||
-        !text(b.reason, 2000)
+        !object(b, ["decision", "reason", "expectedIntentDigest", "expectedAssignmentRevision", "expectedBindingRevision"]) ||
+        !["APPROVE", "REJECT"].includes(b.decision) || !validTargetExpectations(b) ||
+        !validReason(b.reason, 2000)
       )
         return fail(reply, 400, "INVALID_REQUEST");
       const result = await sql.begin(async (tx: any) => {
+        await acquireTargetLocks(tx, {planId:req.params.id});
         await guardMutationAuthority(tx, req);
         await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
         const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF g`)[0];
@@ -1249,7 +1284,14 @@ export function createApp(options: {
             VALUES(${p.project_id},${ORG},${req.actor.id},'PLAN_DECISION_DENIED',${p.id},${tx.json({ denialReason })})`;
           return denialReason;
         }
-        if (b.decision === "APPROVE") {
+        const retainedIntent = verifyOfflinePlanIntent(p.offline_intent_envelope, p.offline_intent_digest, {organizationId:ORG, projectId:p.project_id, requesterId:p.author_id, releaseId:p.release_id, profileId:p.profile_id});
+        if (!retainedIntent && (b.expectedIntentDigest !== undefined || /^\[3,/.test(p.offline_intent_envelope ?? ''))) return 'PLAN_APPROVAL_INTEGRITY_FAILED';
+        if (retainedIntent?.format === 3) {
+          if (b.expectedIntentDigest !== retainedIntent.digest || b.expectedAssignmentRevision !== retainedIntent.target?.assignmentRevision || b.expectedBindingRevision !== retainedIntent.target?.bindingRevision) return 'FRESH_PLAN_REQUIRED';
+          const currentness = await checkTargetCurrentness(tx, p.project_id, {...retainedIntent.target,profileId:retainedIntent.profileId,environmentId:retainedIntent.environmentId,environmentName:retainedIntent.environmentName}, currentProject.source_binding_generation);
+          if (currentness.state !== 'CURRENT') return 'FRESH_PLAN_REQUIRED';
+        } else if ([b.expectedIntentDigest,b.expectedAssignmentRevision,b.expectedBindingRevision].some(v => v !== undefined)) return 'FRESH_PLAN_REQUIRED';
+        if (b.decision === 'APPROVE' || retainedIntent?.format === 3) {
           const target = (await tx`SELECT retired_at FROM sf_profiles WHERE id=${p.profile_id}
             AND project_id=${p.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
           if (target?.retired_at) return 'PROFILE_RETIRED';
@@ -1318,12 +1360,13 @@ export function createApp(options: {
             items: files.map((file: any) => ({ path: file.path, version: file.version, sha256: file.sha256 })),
           });
           if (!boundIntent || !Array.isArray(items) || items.length !== files.length) return "PLAN_APPROVAL_INTEGRITY_FAILED";
-          if (boundIntent.format === 2) {
+          if (boundIntent.format >= 2) {
             const statements = await collectRetainedStatementIdentity(release);
             if (!statements || JSON.stringify(statements) !== JSON.stringify(boundIntent.statements)) return "PLAN_APPROVAL_INTEGRITY_FAILED";
           }
         }
         const approvalReference = b.decision === 'APPROVE' ? randomUUID() : null;
+        await guardMutationAuthority(tx, req);
         const rows = await tx`UPDATE sf_plans SET status=${b.decision === "APPROVE" ? "APPROVED" : "REJECTED"},decision=${b.decision},decision_reason=${b.reason},decided_by=${req.actor.id},decided_by_name=${req.actor.name},decided_at=now(),approval_reference=${approvalReference}
           WHERE id=${p.id} RETURNING id,organization_id,project_id,release_id,profile_id,author_id,reviewer_id,
           (SELECT display_name FROM sf_local_actors WHERE id=reviewer_id AND organization_id=${ORG} AND char_length(display_name) BETWEEN 1 AND 200) AS reviewer_name,
@@ -1346,7 +1389,7 @@ export function createApp(options: {
       if (result === 'PLAN_APPROVAL_INTEGRITY_FAILED') return fail(reply, 409, 'PLAN_APPROVAL_INTEGRITY_FAILED');
       if (result === 'FRESH_PLAN_REQUIRED') return fail(reply, 409, 'FRESH_PLAN_REQUIRED');
       if (result === 'PROFILE_RETIRED') return fail(reply, 409, 'PROFILE_RETIRED');
-      return { plan: mapPlan(result) };
+      return { plan: await mapCurrentPlan(sql, result) };
     },
   );
   app.post(
@@ -1435,6 +1478,7 @@ export function createApp(options: {
         let plan;
         try {
           plan = await sql.begin(async (tx: any) => {
+        await acquireTargetLocks(tx, {planId:req.params.id});
         await guardMutationAuthority(tx, req);
             const current = (await tx`SELECT id,project_id FROM sf_plans WHERE id=${req.params.id} AND organization_id=${ORG} FOR SHARE`)[0];
             if (!current) return null;
@@ -1450,10 +1494,11 @@ export function createApp(options: {
         if (!plan) return fail(reply, 404, 'NOT_FOUND');
         return reply.code(409).send({ error:'EXECUTION_UNAVAILABLE', execution:'NOT_EXECUTED' });
       }
-      if (!object(b, ['idempotencyKey','reason']) || !/^[A-Za-z0-9._:-]{16,128}$/.test(b.idempotencyKey ?? '') || !validReason(b.reason, 1000))
+      if (!object(b, ['idempotencyKey','reason','expectedIntentDigest','expectedAssignmentRevision','expectedBindingRevision']) || !/^[A-Za-z0-9._:-]{16,128}$/.test(b.idempotencyKey ?? '') || !validReason(b.reason, 1000) || !validTargetExpectations(b))
         return fail(reply, 400, 'INVALID_REQUEST');
       const digest = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
       const result = await sql.begin(async (tx: any) => {
+        await acquireTargetLocks(tx, {planId:req.params.id});
         await guardMutationAuthority(tx, req);
         await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
         const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF g`)[0];
@@ -1480,6 +1525,21 @@ export function createApp(options: {
         const deployer = (await tx`SELECT 1 FROM sf_project_deploy_grants WHERE organization_id=${ORG} AND project_id=${plan.project_id} AND actor_id=${live.id} AND revoked_at IS NULL FOR UPDATE`)[0];
         if (!plan.items_bounded || !plan.envelope_bounded || !plan.approval_reference || !plan.offline_intent_digest)
           return { error: 'PLAN_NOT_REQUESTABLE' };
+        if (project?.archived_at) return { error: 'PROJECT_ARCHIVED' };
+        if (!deployer) return { error: 'DEPLOY_PERMISSION_REQUIRED' };
+        const bodyDigest = digest({ projectId: plan.project_id, planId: plan.id, approvalReference: plan.approval_reference,
+          intentDigest: plan.offline_intent_digest, reason: b.reason });
+        const old = (await tx`SELECT * FROM sf_execution_jobs WHERE organization_id=${ORG} AND requester_id=${live.id} AND idempotency_key=${b.idempotencyKey} FOR UPDATE`)[0];
+        if (old) {
+          // Recover a durable request without admitting new work against changed target facts.
+          const frozen = (await tx`SELECT offline_intent_envelope FROM sf_plans WHERE id=${plan.id}`)[0];
+          const original = verifyOfflinePlanIntent(frozen?.offline_intent_envelope, plan.offline_intent_digest);
+          if (old.payload_digest !== bodyDigest || !original || original.format === 3 &&
+              (b.expectedIntentDigest !== original.digest || b.expectedAssignmentRevision !== original.target?.assignmentRevision
+                || b.expectedBindingRevision !== original.target?.bindingRevision)) return { error: 'IDEMPOTENCY_CONFLICT' };
+          await guardMutationAuthority(tx, req);
+          return { job: old, repeated: true };
+        }
         const retainedPreflight = await preflightRetainedRelease(tx, { id: plan.release_id, projectId: plan.project_id,
           organizationId: ORG, repositoryId: project?.source_repository_id, folder: project?.source_folder });
         if (!retainedPreflight.valid) return { error: 'PLAN_NOT_REQUESTABLE' };
@@ -1505,8 +1565,8 @@ export function createApp(options: {
         const retainedValid = retained && verifyRetainedRelease(retained);
         const sourceItemsMatch = Boolean(retainedValid && intent && Array.isArray(retained.files)
           && JSON.stringify(retained.files.map((item: any) => ({ path:item.path,version:item.version,sha256:item.sha256 }))) === JSON.stringify(intent.items));
-        const sourceStatementsMatch = intent?.format === 2 && sourceItemsMatch
-          && JSON.stringify(await collectRetainedStatementIdentity(retained)) === JSON.stringify(intent.statements);
+        const sourceStatementsMatch = [2,3].includes(intent?.format) && sourceItemsMatch
+          && JSON.stringify(await collectRetainedStatementIdentity(retained)) === JSON.stringify(intent?.statements);
         let denial = project?.archived_at ? 'PROJECT_ARCHIVED' : !deployer ? 'DEPLOY_PERMISSION_REQUIRED'
           : approvalRevocation ? 'APPROVAL_REVOKED'
           : plan.status !== 'APPROVED' || plan.decision !== 'APPROVE' || !plan.approval_reference ? 'PLAN_NOT_APPROVED'
@@ -1519,11 +1579,13 @@ export function createApp(options: {
             || intent.releaseId !== retained.id || intent.commit !== retained.commit_id || intent.objectFormat !== retained.object_format
             || intent.folder !== retained.folder || intent.manifestDigest !== retained.manifest_digest || intent.parserProfile !== retained.parser_profile
             || plan.execution !== 'NOT_EXECUTED' || plan.history_status !== 'NOT_OBSERVED' || plan.planning_scope !== 'OFFLINE_CANDIDATE' ? 'PLAN_NOT_REQUESTABLE' : null;
+        if (!denial && intent?.format === 3) {
+          const currentness = await checkTargetCurrentness(tx, plan.project_id, {...intent.target,profileId:intent.profileId,environmentId:intent.environmentId,environmentName:intent.environmentName}, project.source_binding_generation);
+          if (currentness.state !== 'CURRENT') denial = 'FRESH_PLAN_REQUIRED';
+          if (b.expectedIntentDigest !== intent.digest || b.expectedAssignmentRevision !== intent.target?.assignmentRevision || b.expectedBindingRevision !== intent.target?.bindingRevision) denial = 'FRESH_PLAN_REQUIRED';
+        }
         if (denial) return { error: denial };
-        const bodyDigest = digest({ projectId: plan.project_id, planId: plan.id, approvalReference: plan.approval_reference,
-          intentDigest: plan.offline_intent_digest, reason: b.reason });
-        const old = (await tx`SELECT * FROM sf_execution_jobs WHERE organization_id=${ORG} AND requester_id=${live.id} AND idempotency_key=${b.idempotencyKey} FOR UPDATE`)[0];
-        if (old) return old.payload_digest === bodyDigest ? { job: old, repeated: true } : { error: 'IDEMPOTENCY_CONFLICT' };
+        await guardMutationAuthority(tx, req);
         const id = randomUUID();
         const job = (await tx`INSERT INTO sf_execution_jobs(id,organization_id,project_id,plan_id,approval_reference,intent_digest,requester_id,request_credential_id,idempotency_key,payload_digest,reason,state,readiness)
           VALUES(${id},${ORG},${plan.project_id},${plan.id},${plan.approval_reference},${plan.offline_intent_digest},${live.id},${live.credential_id},${b.idempotencyKey},${bodyDigest},${b.reason},'WAITING_VALIDATION','TARGET_HISTORY_UNAVAILABLE') RETURNING *`)[0];
@@ -1611,6 +1673,8 @@ export function createApp(options: {
     if (error?.productCode === 'DEVELOPER_REQUIRED') return fail(reply, 403, 'DEVELOPER_REQUIRED');
     if (error?.productCode === 'MEMBERSHIP_BOOTSTRAP_REQUIRED') return fail(reply, 409, 'MEMBERSHIP_BOOTSTRAP_REQUIRED');
     if (error?.productCode === "PROJECT_ARCHIVED") return fail(reply, 409, "PROJECT_ARCHIVED");
+    if (['TARGET_REVISION_CONFLICT','TARGET_OPTION_INELIGIBLE','FRESH_PLAN_REQUIRED','METADATA_RESTORE_HOLD'].includes(error?.productCode)) return fail(reply, 409, error.productCode);
+    if (error?.productCode === 'INVALID_REQUEST') return fail(reply, 400, error.productCode);
     if (error?.code === "23503") return fail(reply, 400, "INVALID_REFERENCE");
     if (error?.code === "23505") return fail(reply, 409, "CONFLICT");
     if (error?.statusCode === 413) return fail(reply, 413, "REQUEST_TOO_LARGE");
@@ -1666,13 +1730,16 @@ function mapPlan(r: any) {
     execution: r.execution,
     historyStatus: r.history_status,
     planningScope: r.planning_scope,
+    retainedTarget: offlineIntent?.target ? {...publicTarget(offlineIntent.target),profileId:offlineIntent.profileId,environmentId:offlineIntent.environmentId,environmentName:offlineIntent.environmentName} : null,
+    currentness: {state:offlineIntent && offlineIntent.format < 3 ? 'LEGACY_UNBOUND' : 'UNKNOWN', reasons:offlineIntent && offlineIntent.format < 3 ? [] : ['INTEGRITY_UNAVAILABLE'], checkedAt:offlineIntent?.format === 3 ? new Date().toISOString() : null},
     offlineIntent: offlineIntent ? {
       format: offlineIntent.format, digest: offlineIntent.digest,
+      ...(offlineIntent.target ? {target:publicTarget(offlineIntent.target)} : {}),
       profileId: offlineIntent.profileId, profileName: offlineIntent.profileName,
       environmentId: offlineIntent.environmentId, environmentName: offlineIntent.environmentName,
       engine: offlineIntent.engine, host: offlineIntent.host, port: offlineIntent.port,
       service: offlineIntent.service, username: offlineIntent.username,
-      statementCount: offlineIntent.format === 2 ? offlineIntent.statements?.length ?? null : null,
+      statementCount: offlineIntent.format >= 2 ? offlineIntent.statements?.length ?? null : null,
     } : null,
     executionReadiness: {
       state: 'WAITING_VALIDATION', executionAuthority: false,

@@ -1,3 +1,4 @@
+import { configureTargetOption } from '../packages/targets/index.ts';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 import postgres from 'postgres';
@@ -18,6 +19,8 @@ const declarationKeys = [
   'environment', 'host', 'port', 'service', 'transport', 'owner',
 ];
 
+const targetOptionRequired = ['projectId','assignmentId','environmentId','profileId','routeId','routeConfigRevision','routeAlias','migrationNamespace','policyId','policyRevision','exactOwner','deploymentPrincipalId','principalPurpose','principalUsername','privatePrincipalRef','principalAlias','reason','expectedOptionRevision'];
+const targetOptionOptional = ['optionId','lineageId','enabled'];
 function validate(action, values) {
   if (!values || typeof values !== 'object' || Array.isArray(values)) throw fail();
   const allowed = action === 'declare'
@@ -26,9 +29,9 @@ function validate(action, values) {
       ? ['config', 'schemaId', 'projectId', 'expectedRevision', 'reason']
       : action === 'release'
         ? ['config', 'schemaId', 'expectedRevision', 'reason']
-        : action === 'status' ? ['config'] : null;
+        : action === 'target-option' ? ['config',...targetOptionRequired,...targetOptionOptional] : action === 'status' ? ['config'] : null;
   if (!allowed || Object.keys(values).some(key => !allowed.includes(key))
-      || allowed.filter(key => key !== 'config').some(key => !Object.hasOwn(values, key))) throw fail();
+      || allowed.filter(key => key !== 'config' && !(action === 'target-option' && targetOptionOptional.includes(key))).some(key => !Object.hasOwn(values, key))) throw fail();
 
   if (action === 'declare') {
     if (typeof values.port !== 'string' || !/^[1-9][0-9]{0,4}$/.test(values.port)) throw fail();
@@ -58,6 +61,12 @@ export async function operateLocalInventory({ action, values, configPath, databa
   const sql = postgres(databaseUrl, { max: 1, connect_timeout: 3, onnotice: () => {} });
   try {
     await initializeDatabase(sql);
+    if (action === 'target-option') {
+      if (values.enabled !== undefined && !['true','false'].includes(values.enabled)) throw fail();
+      const input = Object.fromEntries([...targetOptionRequired,...targetOptionOptional].filter(k => values[k] !== undefined).map(k => [k,values[k]]));
+      if (input.enabled !== undefined) input.enabled = input.enabled === 'true';
+      return await sql.begin(tx => configureTargetOption(tx, input));
+    }
     if (action === 'declare') {
       const declaration = Object.fromEntries(declarationKeys.map(key => [key, values[key]]));
       return await declareReference(sql, { ...declaration, port: Number(values.port) });
@@ -90,7 +99,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(im
   try {
     const [action, ...args] = process.argv.slice(2);
     const options = Object.fromEntries([
-      'config', ...declarationKeys, 'schemaId', 'projectId', 'expectedRevision', 'reason',
+      'config', ...declarationKeys, 'schemaId', 'projectId', 'expectedRevision', 'reason', ...targetOptionRequired, ...targetOptionOptional,
     ].map(name => [name, { type: 'string' }]));
     const parsed = parseArgs({ args, options, strict: true, allowPositionals: false, tokens: true });
     const seen = new Set();

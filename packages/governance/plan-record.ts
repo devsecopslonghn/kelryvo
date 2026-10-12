@@ -1,3 +1,4 @@
+import { publicIntent } from '../targets/public.mjs';
 import { createHash } from 'node:crypto';
 import { verifyOfflinePlanIntent } from '../migrations/offline-plan-intent.mjs';
 import { MAX_STDOUT_BYTES } from '../../experiments/db-devops-wp0/parser-envelope.mjs';
@@ -42,7 +43,7 @@ export async function readVerifiedPublicPlanRecord(tx: any, planId: string, proj
       sourceBindingGeneration: p.sourceBindingGeneration, status: p.status, decision: p.decision,
       decisionReason: p.decisionReason, decidedBy: p.decidedBy, decidedByName: p.decidedByName,
       decidedAt: p.decidedAt, approvalReference: p.approvalReference, revocation: revocationRow?.snapshot ?? null },
-    retainedIntent: intent,
+    retainedIntent: publicIntent(intent),
   };
 }
 
@@ -58,14 +59,14 @@ export function registerPlanRecord(app: any, { sql, authenticate }: any) {
         const verified = await readVerifiedPublicPlanRecord(tx, req.params.id, req.params.projectId);
         if (!verified) return null;
         const { plan, retainedIntent } = verified;
-        const record = JSON.stringify({ format: 1, kind: 'KELRYVO_PLAN_RECORD', scope: 'OFFLINE_GOVERNANCE',
+        const record = JSON.stringify({ format: retainedIntent.format === 3 ? 2 : 1, kind: 'KELRYVO_PLAN_RECORD', scope: 'OFFLINE_GOVERNANCE',
           exportedAt: new Date().toISOString(), executionAuthority: false, targetEffects: 'NOT_ATTESTED',
           plan, retainedIntent,
           limitations: ['Checksum detects changes only against a separately trusted digest; it is not a signature.',
             'Intent digest references the private retained envelope; this redacted export cannot reconstruct it.',
             'Source SQL, credentials, live target facts, execution jobs and receipts are not included.'] });
         if (Buffer.byteLength(record) > 2 * MAX_STDOUT_BYTES) throw unavailable();
-        return { format: 1, algorithm: 'sha256', record, sha256: createHash('sha256').update(record, 'utf8').digest('hex') };
+        return { format: retainedIntent.format === 3 ? 2 : 1, algorithm: 'sha256', record, sha256: createHash('sha256').update(record, 'utf8').digest('hex') };
       });
       if (!outcome) return reply.code(404).send({ error: 'NOT_FOUND' });
       return reply.header('Content-Disposition', `attachment; filename="kelryvo-plan-${req.params.id}.json"`).send(outcome);
