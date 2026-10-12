@@ -12,6 +12,18 @@ const base = {
   port: 1521, service: 'FREEPDB1', username: 'APP', credentialRef: 'vault://local/app',
   items: [{ path: 'migrations/V1__first.sql', version: '1', sha256: 'c'.repeat(64) }],
 };
+const target = {
+  bindingId: '10000000-0000-4000-8000-000000000001', bindingRevision: '1',
+  assignmentId: '10000000-0000-4000-8000-000000000002', assignmentRevision: '3',
+  targetOptionId: '10000000-0000-4000-8000-000000000003', targetOptionRevision: '2',
+  lineageId: '10000000-0000-4000-8000-000000000004', identityState: 'PROVISIONAL', observationDigest: null,
+  streamId: '10000000-0000-4000-8000-000000000005', streamState: 'PROVISIONAL', migrationNamespace: 'APP_MIGRATIONS',
+  exactOwner: 'APP', routeId: '10000000-0000-4000-8000-000000000006', routeConfigRevision: '1', routeAlias: 'local-db',
+  policyId: '10000000-0000-4000-8000-000000000007', policyRevision: '4',
+  deploymentPrincipalId: '10000000-0000-4000-8000-000000000008', principalPurpose: 'DEPLOY',
+  privatePrincipalRef: 'vault://local/deploy', principalAlias: 'local-deploy',
+  createdAt: '2026-10-12T05:00:00.000Z', sourceBindingGeneration: '5',
+};
 
 test('format 1 is stable, binds ordered content and validates bounded facts', () => {
   const encoded = encodeOfflinePlanIntent(base);
@@ -49,6 +61,8 @@ test('format 2 binds the complete ordered statement identities and keeps format 
       sourceSha256: 'f'.repeat(64), executionSha256: '1'.repeat(64) }];
   const encoded = encodeOfflinePlanIntent({ ...base, statements });
   assert.ok(encoded);
+  assert.equal(encoded.digest, 'ab45c401a6640929088872742d2761a4c59e255bc91e85cdf9af477ed14a51db',
+    'format 2 retains its original canonical bytes');
   assert.match(encoded.envelope, /^\[2,/);
   assert.equal(JSON.parse(encoded.envelope).length, 22);
   assert.deepEqual(verifyOfflinePlanIntent(encoded.envelope, encoded.digest).statements, statements);
@@ -72,4 +86,69 @@ test('format 2 binds the complete ordered statement identities and keeps format 
   const row = JSON.parse(encoded.envelope); row[21][0].push('unbound extra');
   const extra = JSON.stringify(row), digest = createHash('sha256').update(extra).digest('hex');
   assert.equal(verifyOfflinePlanIntent(extra, digest), null, 'unknown positional facts cannot escape the digest protocol');
+});
+
+test('format 3 appends the immutable target tuple and round-trips its named facts', () => {
+  const statements = [{ ordinal: 1, path: base.items[0].path, fileOrdinal: 1, startByte: 0, endByte: 10,
+    sourceSha256: 'd'.repeat(64), executionSha256: 'e'.repeat(64) }];
+  const encoded = encodeOfflinePlanIntent({ ...base, statements, target });
+  assert.ok(encoded);
+  assert.equal(encoded.digest, '2978b72bcc71446247241bbcbf47ad7df6b2668ee1bdf8c8b9b053066b974c62');
+  const row = JSON.parse(encoded.envelope);
+  assert.equal(row[0], 3);
+  assert.equal(row.length, 23);
+  assert.deepEqual(row[21], [[1, base.items[0].path, 1, 0, 10, 'd'.repeat(64), 'e'.repeat(64)]]);
+  assert.deepEqual(row[22], Object.values(target));
+  const verified = verifyOfflinePlanIntent(encoded.envelope, encoded.digest);
+  assert.equal(verified.format, 3);
+  assert.deepEqual(verified.target, target);
+  assert.deepEqual(verified.statements, statements);
+  const separatePrincipal = encodeOfflinePlanIntent({ ...base, username: 'DEPLOYER', statements, target });
+  assert.ok(separatePrincipal, 'the deployment connection user is independent of the SQL schema owner');
+  const wrongCase = encodeOfflinePlanIntent({ ...base, statements, target: { ...target, exactOwner: 'app' } });
+  assert.ok(wrongCase);
+  assert.equal(verifyOfflinePlanIntent(wrongCase.envelope, wrongCase.digest, { target }), null,
+    'case-sensitive owner substitution conflicts with the expected target facts');
+  for (const owner of ['Mixed Owner', '客户 Owner', '"App Schema"']) {
+    const literalOwner = encodeOfflinePlanIntent({ ...base, statements, target: { ...target, exactOwner: owner } });
+    assert.ok(literalOwner, `literal catalog owner ${owner} is retained`);
+    assert.equal(verifyOfflinePlanIntent(literalOwner.envelope, literalOwner.digest, {
+      target: { ...target, exactOwner: owner },
+    }).target.exactOwner, owner);
+  }
+  assert.equal(verifyOfflinePlanIntent(encoded.envelope, '0'.repeat(64)), null);
+});
+
+test('format 3 rejects malformed target tuples, out-of-range revisions and tampering', () => {
+  const statements = [{ ordinal: 1, path: base.items[0].path, fileOrdinal: 1, startByte: 0, endByte: 10,
+    sourceSha256: 'd'.repeat(64), executionSha256: 'e'.repeat(64) }];
+  const invalidTargets = [
+    { ...target, bindingRevision: '01' },
+    { ...target, assignmentRevision: '9223372036854775808' },
+    { ...target, sourceBindingGeneration: '-1' },
+    { ...target, bindingId: 'not-a-uuid' },
+    { ...target, exactOwner: 'APP\ud800' },
+    { ...target, exactOwner: '界'.repeat(43) },
+    { ...target, exactOwner: ' ' },
+    { ...target, routeAlias: 'r'.repeat(201) },
+    { ...target, identityState: 'UNKNOWN' },
+    { ...target, identityState: 'CONFLICT' },
+    { ...target, observationDigest: 'a'.repeat(64) },
+    { ...target, streamState: 'UNKNOWN' },
+    { ...target, principalPurpose: 'READ' },
+    { ...target, privatePrincipalRef: `vault://${'x'.repeat(510)}` },
+    { ...target, createdAt: '2026-10-12T05:00:00+00:00' },
+    { ...target, createdAt: '2026-02-30T05:00:00.000Z' },
+    { ...target, unexpected: 'field' },
+  ];
+  for (const badTarget of invalidTargets) assert.equal(encodeOfflinePlanIntent({ ...base, statements, target: badTarget }), null);
+  assert.equal(encodeOfflinePlanIntent({ ...base, target }), null, 'format 3 requires format-2 statement facts');
+  const encoded = encodeOfflinePlanIntent({ ...base, statements, target });
+  const broken = JSON.parse(encoded.envelope);
+  broken[22][1] = '01';
+  const tampered = JSON.stringify(broken);
+  const recomputedDigest = createHash('sha256').update(tampered).digest('hex');
+  assert.equal(verifyOfflinePlanIntent(tampered, recomputedDigest), null, 'invalid noncanonical tuple rejected even with matching digest');
+  const oversized = JSON.stringify([...JSON.parse(encoded.envelope), 'x'.repeat(1024 * 1024)]);
+  assert.equal(verifyOfflinePlanIntent(oversized, createHash('sha256').update(oversized).digest('hex')), null);
 });

@@ -72,6 +72,13 @@ jobs:
         run: node node_modules/playwright/cli.js install --with-deps chromium
       - if: matrix.suite == 'browser'
         run: node scripts/test-product.mjs --browser
+      - if: always() && matrix.suite == 'browser'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: phase2-browser-${{ strategy.job-index }}
+          path: .cache/phase2-acceptance/
+          if-no-files-found: ignore
+          retention-days: 14
       - if: matrix.suite == 'release'
         run: npm run test:release
 

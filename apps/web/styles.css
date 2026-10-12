@@ -1674,3 +1674,12 @@ td code {
   }
 }
 .recovery-hold { display:flex; flex-direction:column; gap:.3rem; }
+
+.project-targets .profile-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.project-targets .profile-fields label { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.project-targets .profile-fields select, .project-targets .profile-fields textarea { width: 100%; min-width: 0; max-width: 100%; }
+.project-targets .target-facts code { overflow-wrap: anywhere; }
+@media (max-width: 680px) {
+  .project-targets .profile-fields { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { flex-wrap: wrap; }
+}

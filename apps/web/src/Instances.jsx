@@ -31,7 +31,7 @@ export function Instances({ token, projectId, detail, api, actor, accessMode, on
         <h3>{profile.name} <span className="status-pill neutral">{profile.retiredAt ? 'RETIRED' : 'CONFIGURED · UNVERIFIED'}</span></h3>
         <dl><div><dt>Environment</dt><dd>{environments.find(env => env.id === profile.environmentId)?.name || 'Unavailable'}</dd></div>
           <div><dt>Endpoint</dt><dd>{profile.host}:{profile.port}/{profile.service}</dd></div>
-          <div><dt>Username</dt><dd>{profile.username}</dd></div><div><dt>Credential reference</dt><dd><code>{profile.credentialRef}</code></dd></div>
+          <div><dt>Username</dt><dd>{profile.username}</dd></div><div><dt>Credential alias</dt><dd><code>{profile.credentialAlias}</code></dd></div>
           <div><dt>Profile ID</dt><dd><code>{profile.id}</code></dd></div></dl>
         {profile.retiredAt ? <p>Retired {new Date(profile.retiredAt).toLocaleString()} by {profile.retiredBy}. {profile.retirementReason}</p>
           : actor?.role === 'developer' && accessMode === 'ENFORCED' && !detail.project.archivedAt && <form onSubmit={event => void retire(event, profile)}>

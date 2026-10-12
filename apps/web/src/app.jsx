@@ -1,3 +1,4 @@
+import { ProjectTargets } from './ProjectTargets.jsx';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import PlanRecord from './PlanRecord.jsx';
@@ -122,7 +123,7 @@ async function validateStatementPreview(preview, source, releaseId, filePath) {
 }
 const explain = (error) => errorCopy[error.message] || 'The request could not be completed. Check the connection and try again.';
 const fmt = (date) => date ? new Date(date).toLocaleString() : '—';
-const pageTitles = { workspace: 'Projects', references: 'Schema references', release: 'Release intake', review: 'Plan review', inbox: 'Review inbox', records: 'Audit & history' };
+const pageTitles = { workspace: 'Projects', references: 'Schema references', targets: 'Project targets', release: 'Release intake', review: 'Plan review', inbox: 'Review inbox', records: 'Audit & history' };
 const decisionClass = (status) => ({ APPROVED: 'good', REVOKED: 'bad', REJECTED: 'bad' }[status] || 'pending');
 const planMarkerClass = (status) => ({ APPROVED: 'green', REVOKED: 'red', REJECTED: 'red' }[status] || '');
 const retainedAuthorId = (plan) => typeof plan?.authorId === 'string' && plan.authorId.length <= 200 && plan.authorId.trim().length > 0 ? plan.authorId : null;
@@ -291,7 +292,7 @@ function SchemaReferences({ token, projectId, onMissing }) {
     return (ai<0?environmentOrder.length:ai)-(bi<0?environmentOrder.length:bi)||a.localeCompare(b);
   });
   const renderReference=(r)=><article className="schema-reference-card" key={r.id} data-schema-id={r.id}><span className="status-pill warn">Provisional · reference only</span><h4>{r.owner}</h4><dl>
-    <div><dt>Schema reference</dt><dd><code>{r.id}</code> · generation {r.generation}</dd></div><div><dt>Assignment revision</dt><dd>{r.revision}</dd></div><div><dt>Database</dt><dd>{r.database.label} · <code>{r.database.id}</code> · generation {r.database.generation}</dd></div>
+    <div><dt>Schema reference</dt><dd><code>{r.id}</code> · generation {r.generation}</dd></div><div><dt>Assignment ID</dt><dd><code>{r.assignmentId}</code></dd></div><div><dt>Assignment revision</dt><dd>{r.assignmentRevision || r.revision}</dd></div><div><dt>Observation</dt><dd>Not observed · environment not mapped</dd></div><div><dt>Database</dt><dd>{r.database.label} · <code>{r.database.id}</code> · generation {r.database.generation}</dd></div>
     <div><dt>Container</dt><dd>{r.container.name} ({r.container.kind}) · declared {r.container.environment} · <code>{r.container.id}</code></dd></div>
     {r.servicesTruncated&&<div className="schema-reference-truncation" role="note"><dt>Service coverage</dt><dd>Additional service references are omitted. This assignment may appear under more services.</dd></div>}
   </dl></article>;
@@ -1003,11 +1004,27 @@ function App() {
       setTab('release');
     });
   };
+  const loadPlanTargets = async () => {
+    const selectedProject = projectId, selectedToken = token, epoch = sessionEpoch.current;
+    const cursor = detail?.targetBindingsNextCursor;
+    if (!projectLoaded || !cursor || busy) return;
+    setBusy(true);
+    const current = () => activeProjectId.current === selectedProject && tokenRef.current === selectedToken && sessionEpoch.current === epoch;
+    try {
+      const result = await json(`/api/projects/${selectedProject}/target-bindings?after=${cursor}`, selectedToken);
+      if (current()) setDetail(old => old?.project?.id === selectedProject ? {...old,targetBindings:[...(old.targetBindings || []),...result.bindings],targetBindingsNextCursor:result.nextCursor} : old);
+    } catch (failure) {
+      if (current()) {setError(explain(failure));if (['NOT_FOUND','UNAUTHENTICATED'].includes(failure.message)) {clearProjectState();void refresh(selectedToken,selectedProject);}}
+    } finally {if(current())setBusy(false);}
+  };
   const makePlan = (event) => {
     event.preventDefault(); if (!release?.id || detail?.project?.archivedAt) return;
-    const profileId = event.currentTarget.elements.profileId.value;
+    const bindingId = event.currentTarget.elements.bindingId?.value;
+    const binding = (detail.targetBindings || []).find(b => b.id === bindingId || b.bindingId === bindingId);
+    const retainedTarget = binding?.retainedTarget || binding?.target || binding;
+    const profileId = event.currentTarget.elements.profileId?.value;
     void mutate(async () => {
-      const result = await json(`/api/projects/${projectId}/plans`, token, { method: 'POST', body: JSON.stringify({ releaseId: release.id, profileId }) });
+      const result = await json(`/api/projects/${projectId}/plans`, token, { method: 'POST', body: JSON.stringify(bindingId ? {intentVersion:2, releaseId:release.id, assignmentId:retainedTarget.assignmentId, expectedAssignmentRevision:retainedTarget.assignmentRevision, targetBindingId:bindingId, expectedBindingRevision:retainedTarget.bindingRevision || binding.revision} : { releaseId: release.id, profileId }) });
       return result.plan || result;
     }, 'Offline candidate plan created. Execution was not performed.', (createdPlan) => {
       selectPlan(createdPlan.id);
@@ -1022,7 +1039,7 @@ function App() {
     const isCurrentDecision = () => activeProjectId.current === decisionProjectId
       && activeSelectedPlanId.current === decisionPlanId && sessionEpoch.current === decisionSessionEpoch;
     void mutate(async () => {
-      const result = await json(`/api/plans/${plan.id}/decision`, token, { method: 'POST', body: JSON.stringify({ decision, reason: decisionReason }) });
+      const result = await json(`/api/plans/${plan.id}/decision`, token, { method: 'POST', body: JSON.stringify({ decision, reason: decisionReason, ...(plan.retainedTarget ? {expectedIntentDigest:plan.offlineIntent.digest, expectedAssignmentRevision:plan.retainedTarget.assignmentRevision, expectedBindingRevision:plan.retainedTarget.bindingRevision} : {}) }) });
       return result.plan || result;
     }, `Plan ${decision === 'APPROVE' ? 'approved' : 'rejected'}. Execution remains NOT_EXECUTED.`, (decidedPlan) => {
       selectPlan(decidedPlan.id || plan.id);
@@ -1081,7 +1098,7 @@ function App() {
       && projectId === requestedProject && activeSelectedPlanId.current === requestedPlan;
     void mutate(async () => {
       const outcome = await json(`/api/plans/${encodeURIComponent(requestedPlan)}/execution`, requestedToken, {
-        method: 'POST', body: JSON.stringify({ idempotencyKey: key, reason: executionReason.trim() }),
+        method: 'POST', body: JSON.stringify({ idempotencyKey: key, reason: executionReason.trim(), ...(plan.retainedTarget ? {expectedIntentDigest:plan.offlineIntent.digest, expectedAssignmentRevision:plan.retainedTarget.assignmentRevision, expectedBindingRevision:plan.retainedTarget.bindingRevision} : {}) }),
       });
       if (executionKeys.current.get(requestedPlan)?.key === key) executionKeys.current.delete(requestedPlan);
       return outcome;
@@ -1445,7 +1462,7 @@ function App() {
       clearProjectState(); void refresh(expectedToken, expectedProject);
     }
   };
-  const model = { token, actor, accessMode, metadataRecovery, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, refreshExecutionJobs, requestExecution, cancelExecution, historyEpoch, isCurrentExecutionHistory, loseExecutionHistoryAccess };
+  const model = { token, actor, accessMode, metadataRecovery, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, loadPlanTargets, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, refreshExecutionJobs, requestExecution, cancelExecution, historyEpoch, isCurrentExecutionHistory, loseExecutionHistoryAccess };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -1470,6 +1487,7 @@ function App() {
       <div className="workspace-label">WORKSPACE</div>
       <button type="button" className={`nav-item ${tab === 'workspace' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('workspace'); }}><span>▦</span> Projects</button>
       <button type="button" className={`nav-item ${tab === 'instances' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('instances'); }}><span>◎</span> Database instances</button>
+      <button type="button" className={`nav-item ${tab === 'targets' ? 'active' : ''}`} onClick={() => setTab('targets')}><span>◎</span> Project targets</button>
       <button type="button" className={`nav-item ${tab === 'references' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('references'); }}><span>⌑</span> Schema references</button>
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('release'); }}><span>◫</span> Releases</button>
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('review'); }}><span>◇</span> Plans &amp; review</button>
@@ -1491,6 +1509,8 @@ function App() {
         {tab === 'workspace' && <WorkspaceScreen model={model} />}
         {tab === 'references' && projectId && <SchemaReferences key={`${token}:${projectId}`} token={token} projectId={projectId} onMissing={()=>{clearProjectState();void refresh(token,projectId);}} />}
         {tab === 'references' && !projectId && <div className="empty-state"><strong>Select a project first</strong><span>Choose an assigned project from Projects, then open Schema references.</span><button type="button" className="text-button" onClick={()=>setTab('workspace')}>Go to Projects →</button></div>}
+        {tab === 'targets' && projectLoaded && <ProjectTargets key={`${token}:${projectId}`} token={token} projectId={projectId} detail={detail} actor={actor} request={json} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE'} onSaved={() => refresh(token, projectId)} onPrepare={() => setTab('release')} onMissing={() => {clearProjectState(); void refresh(token, projectId);}}/>}
+        {tab === 'targets' && !projectLoaded && <p role="status">Select a project to inspect its targets.</p>}
         {tab === 'release' && <ReleaseScreen model={model} />}
         {tab === 'review' && <ReviewScreen model={model} />}
         {tab === 'inbox' && <ReviewInboxScreen model={model} />}
@@ -1607,7 +1627,7 @@ function ReleaseScreen({ model }) {
           </section>
           {projectLoaded && <p className="intake-guidance">Import a commit from the current bound repository and folder to prepare a fresh plan. If the SQL changed, commit those edits first; a source-binding refresh alone does not require SQL edits. Existing releases and plans remain unchanged.</p>}
           {!scopedRelease && statementPreview?.error && !statementPreview.planId && <p className="banner error" role="alert">Statement preview is unavailable for this retained file. Refresh the project and try again.</p>}
-          {scopedRelease && <section className="panel release-result" data-inspected-release-id={scopedRelease.id}><div className="panel-heading"><div><p className="eyebrow">IMPORTED RELEASE</p><h2>{scopedRelease.commit?.slice(0, 12)} <span className="muted">· {scopedRelease.folder}</span></h2></div><span className={`status-pill ${importStatusClass(scopedRelease.validationStatus)}`}>{scopedRelease.validationStatus}</span></div>{scopedRelease.validationCode && <p className="banner warning">{scopedRelease.validationCode}</p>}<RetainedReleaseContent source={scopedRelease} repositories={repositories} fmt={fmt} requestStatementPreview={requestStatementPreview} statementPreview={statementPreview}/>{(scopedRelease.validationStatus === 'VALID') && <form className="plan-form" inert={readOnlyBootstrap} onSubmit={makePlan}><label>Target connection profile<select name="profileId" aria-label="Target connection profile" required disabled={busy || isArchived}><option value="">Choose profile</option>{(detail?.profiles || []).filter(profile => !profile.retiredAt).map((profile) => <option key={profile.id} value={profile.id}>{profile.name} · {profile.host}/{profile.service}</option>)}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.profiles?.some(profile => !profile.retiredAt)}>Prepare offline plan</button><span className="offline-note">This creates a review candidate. It does not connect to Oracle.</span></form>}</section>}
+          {scopedRelease && <section className="panel release-result" data-inspected-release-id={scopedRelease.id}><div className="panel-heading"><div><p className="eyebrow">IMPORTED RELEASE</p><h2>{scopedRelease.commit?.slice(0, 12)} <span className="muted">· {scopedRelease.folder}</span></h2></div><span className={`status-pill ${importStatusClass(scopedRelease.validationStatus)}`}>{scopedRelease.validationStatus}</span></div>{scopedRelease.validationCode && <p className="banner warning">{scopedRelease.validationCode}</p>}<RetainedReleaseContent source={scopedRelease} repositories={repositories} fmt={fmt} requestStatementPreview={requestStatementPreview} statementPreview={statementPreview}/>{(scopedRelease.validationStatus === 'VALID') && <><form className="plan-form" inert={readOnlyBootstrap} onSubmit={makePlan}><label>Project target binding<select name="bindingId" aria-label="Project target binding" required disabled={busy || isArchived}><option value="">Choose an explicit target</option>{(detail?.targetBindings || []).map(binding => {const t = binding.retainedTarget || binding.target || binding; return <option key={binding.id || t.bindingId} value={binding.id || t.bindingId}>{t.exactOwner} · {t.environmentName || t.environmentId} · revision {t.bindingRevision || binding.revision}</option>;})}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.targetBindings?.length}>Prepare target-bound plan</button>{detail?.targetBindingsNextCursor && <button type="button" className="secondary" disabled={busy} onClick={model.loadPlanTargets}>Load more planning targets</button>}<button type="button" className="text-button" onClick={() => model.setTab('targets')}>Open project targets →</button><span className="offline-note">Exact target and revisions are retained. No Oracle execution.</span></form><details open><summary>Legacy unbound planning</summary><form className="plan-form" inert={readOnlyBootstrap} onSubmit={makePlan}><label>Target connection profile<select name="profileId" aria-label="Target connection profile" required disabled={busy || isArchived}><option value="">Choose profile</option>{(detail?.profiles || []).filter(profile => !profile.retiredAt).map((profile) => <option key={profile.id} value={profile.id}>{profile.name} · {profile.host}/{profile.service}</option>)}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.profiles?.some(profile => !profile.retiredAt)}>Prepare offline plan</button><span className="offline-note">This creates a legacy unbound review candidate. It does not connect to Oracle.</span></form></details></>}</section>}
 
   </>;
 }
@@ -1627,7 +1647,7 @@ function ReviewScreen({ model }) {
     && typeof targetProfile.environmentId === 'string'
     && typeof targetEnvironment.id === 'string' && typeof targetEnvironment.name === 'string');
   const intent = plan?.offlineIntent;
-  const retainedIntentAvailable = Boolean(intent && [1, 2].includes(intent.format)
+  const retainedIntentAvailable = Boolean(intent && [1, 2, 3].includes(intent.format)
     && (intent.format === 1 || Number.isSafeInteger(intent.statementCount) && intent.statementCount >= 1 && intent.statementCount <= 4096)
     && typeof intent.digest === 'string' && /^[a-f0-9]{64}$/.test(intent.digest)
     && intent.profileId === plan.profileId && typeof intent.profileName === 'string'
@@ -1663,8 +1683,9 @@ function ReviewScreen({ model }) {
                     ? <p className="banner error">Retained offline intent is unavailable for this plan.</p>
                     : <dl className="target-facts"><div><dt>Intent SHA-256</dt><dd><code>{plan.offlineIntent.digest}</code></dd></div><div><dt>Profile ID</dt><dd><code>{plan.offlineIntent.profileId}</code></dd></div><div><dt>Profile name</dt><dd>{plan.offlineIntent.profileName}</dd></div><div><dt>Environment ID</dt><dd><code>{plan.offlineIntent.environmentId}</code></dd></div><div><dt>Environment name</dt><dd>{plan.offlineIntent.environmentName}</dd></div><div><dt>Engine</dt><dd>{plan.offlineIntent.engine}</dd></div><div><dt>Host</dt><dd>{plan.offlineIntent.host}</dd></div><div><dt>Port</dt><dd>{plan.offlineIntent.port}</dd></div><div><dt>Service</dt><dd>{plan.offlineIntent.service}</dd></div><div><dt>Username</dt><dd>{plan.offlineIntent.username}</dd></div></dl>}
                 </section>
+                {plan.retainedTarget ? <section className="panel retained-target" aria-label="Immutable target"><h3>Immutable target</h3><dl className="target-facts">{Object.entries(plan.retainedTarget).map(([key,value]) => <div key={key}><dt>{key}</dt><dd><code>{String(value ?? 'Not observed')}</code></dd></div>)}</dl><p role="status">Target currentness: <strong>{plan.currentness?.state || 'UNKNOWN'}</strong> {(plan.currentness?.reasons || []).join(', ')}</p><p>Provisional manual identity · offline review only · Not observed. A stale target requires a fresh plan.</p></section> : <p className="offline-note">Legacy unbound plan · no explicit schema assignment or target binding.</p>}
                 <PlanRecord key={`${token}:${projectId}:${plan.id}`} token={token} projectId={projectId} planId={plan.id} request={json}/>
-                {retainedIntentAvailable && intent.format === 2 && <StatementEnvelope key={`${token}:${projectId}:${plan.id}:${intent.digest}`} token={token} projectId={projectId} planId={plan.id} intentDigest={intent.digest}/>}
+                {retainedIntentAvailable && intent.format >= 2 && <StatementEnvelope key={`${token}:${projectId}:${plan.id}:${intent.digest}`} token={token} projectId={projectId} planId={plan.id} intentDigest={intent.digest}/>}
                 {retainedIntentAvailable && intent.format === 1 && <p className="banner warning">This legacy plan binds files only. Prepare a new plan and obtain a new approval to bind the complete statement sequence; its existing history remains unchanged.</p>}
                 <section className="panel" aria-label="Execution readiness"><h3>Execution readiness</h3>
                   <p>Target history, trusted worker admission, canonical target mutex and dispatch permits are unavailable. Requests remain waiting for validation.</p>
@@ -1689,7 +1710,7 @@ function ReviewScreen({ model }) {
                 <section className="panel source-generation" aria-label="Protected source generation"><h3>Protected source configuration</h3><p>Current project binding generation: <code>{validBindingGeneration(detail.project.sourceBinding?.generation) ? detail.project.sourceBinding.generation : 'Unavailable'}</code></p><p>Captured by this plan: <code>{validBindingGeneration(plan.sourceBindingGeneration) ? plan.sourceBindingGeneration : 'Unavailable'}</code></p></section>
                 {plan.status === 'PENDING_APPROVAL' && selectedNeedsFreshPlan && <div className="prepare-new-plan" role="region" aria-label="Fresh plan required"><p className="banner warning">This pending plan’s retained source, binding or intent facts are missing, stale or unverifiable. Prepare a fresh plan from the current protected repository and migration folder before approval or attaching statement references. You can import the current bound commit without editing SQL; the original plan and review history remain unchanged.</p>{canPrepareNewPlan && <button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare fresh plan</button>}</div>}
                 {targetProfile?.retiredAt && <p className="banner warning" role="status">This target profile is retired. Existing records remain readable; prepare a fresh plan with an active profile.</p>}
-                {isApprover && plan.status === 'PENDING_APPROVAL' && <div className="decision-box" inert={readOnlyBootstrap}><label htmlFor="decision-reason">Decision reason</label><textarea id="decision-reason" value={decisionReason} onChange={(e) => setDecisionReason(e.target.value)} placeholder="Record why this candidate is approved or rejected" required disabled={isArchived}/><div><button type="button" className="danger-button" onClick={() => decide('REJECT')} disabled={busy || isArchived || !canReviewPlan || !decisionReason.trim()}>Reject plan</button><button type="button" className="primary" onClick={() => decide('APPROVE')} disabled={busy || isArchived || !canReviewPlan || targetProfile?.retiredAt || selectedNeedsFreshPlan || !decisionReason.trim()}>Approve plan</button></div>
+                {isApprover && plan.status === 'PENDING_APPROVAL' && <div className="decision-box" inert={readOnlyBootstrap}><label htmlFor="decision-reason">Decision reason</label><textarea id="decision-reason" value={decisionReason} onChange={(e) => setDecisionReason(e.target.value)} placeholder="Record why this candidate is approved or rejected" required disabled={isArchived}/><div><button type="button" className="danger-button" onClick={() => decide('REJECT')} disabled={busy || isArchived || !canReviewPlan || plan.retainedTarget && plan.currentness?.state !== 'CURRENT' || !decisionReason.trim()}>Reject plan</button><button type="button" className="primary" onClick={() => decide('APPROVE')} disabled={busy || isArchived || !canReviewPlan || targetProfile?.retiredAt || selectedNeedsFreshPlan || plan.retainedTarget && plan.currentness?.state !== 'CURRENT' || !decisionReason.trim()}>Approve plan</button></div>
                   {isPlanAuthor ? <p className="banner warning">You authored this plan. Another approver must review it independently.</p> : !authorFactsAvailable ? <p className="banner warning">Requester information is unavailable. Refresh the project to retrieve retained plan facts.</p> : null}
                   <small>Approval records governance only. It does not authorize or perform execution in this product.</small></div>}
                 {!isApprover && plan.status === 'PENDING_APPROVAL' && <p className="banner warning">Awaiting an approver. Your current role can prepare plans but cannot decide them.</p>}
@@ -1700,7 +1721,7 @@ function ReviewScreen({ model }) {
                   <small>Showing up to the 50 most recent project requests. Older requests remain outside this view.</small>
                   {plan.status === 'APPROVED' && detail.canDeploy && !isArchived && <div className="decision-box"><label htmlFor="execution-reason">Request reason</label>
                     <textarea id="execution-reason" value={executionReason} onChange={event => setExecutionReason(event.target.value)} maxLength={1000} placeholder="Why is this deployment being requested?"/>
-                    <button type="button" className="primary" onClick={requestExecution} disabled={busy || targetProfile?.retiredAt || metadataRecovery.state !== 'ACTIVE' || !retainedIntentAvailable || intent.format !== 2 || !executionReason.trim()}>Request deployment</button>
+                    <button type="button" className="primary" onClick={requestExecution} disabled={busy || targetProfile?.retiredAt || metadataRecovery.state !== 'ACTIVE' || !retainedIntentAvailable || ![2,3].includes(intent.format) || plan.retainedTarget && plan.currentness?.state !== 'CURRENT' || !executionReason.trim()}>Request deployment</button>
                     <small>Retrying unchanged details reuses the request key. Changing the reason starts a new request.</small>
                   </div>}
                   {plan.status === 'APPROVED' && !detail.canDeploy && <p className="muted">Deployment permission has not been granted by the local OS operator.</p>}

@@ -12,7 +12,7 @@ export default function ExecutionRecord({ job, projectId, token, request }) {
       const bundle = await request(`/api/execution-jobs/${encodeURIComponent(job.id)}/record`, token);
       if (current !== epoch.current) return;
       const record = JSON.parse(bundle.record);
-      if (bundle.format !== 1 || bundle.algorithm !== 'sha256' || !/^[a-f0-9]{64}$/.test(bundle.sha256)
+      if (![1,2].includes(bundle.format) || record.format !== bundle.format || bundle.algorithm !== 'sha256' || !/^[a-f0-9]{64}$/.test(bundle.sha256)
           || record.kind !== 'KELRYVO_EXECUTION_RECORD' || record.job?.id !== job.id
           || record.job.projectId !== projectId || record.job.planId !== job.planId
           || record.executionAuthority !== false || record.targetEffects !== 'NOT_ATTESTED') throw new Error('RECORD_UNAVAILABLE');
