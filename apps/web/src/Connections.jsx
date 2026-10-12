@@ -8,6 +8,7 @@ export function Connections({ token, projectId, api, detail, readOnly = false })
   const [instance, setInstance] = useState(blankInstance), [connection, setConnection] = useState(blankConnection), [reasons, setReasons] = useState({});
   const [histories, setHistories] = useState({}), [historyCursors, setHistoryCursors] = useState({}), [selectedObservation, setSelectedObservation] = useState({}), [bindingPick, setBindingPick] = useState({}), [cursor, setCursor] = useState(''), [targetCursor, setTargetCursor] = useState(''), [notice, setNotice] = useState('');
   const epoch = useRef(0);
+  const report = e => { setError(messageFor(e)); if(['NOT_FOUND','UNAUTHENTICATED'].includes(e.message)){epoch.current++;setBusy(false);setData(null);setHistories({});setSelectedObservation({});setBindingPick({});} };
   const path = `/api/projects/${encodeURIComponent(projectId)}/database-connections`;
   const load = async (after = '', append = false) => {
     const n = ++epoch.current; setError('');
@@ -16,20 +17,20 @@ export function Connections({ token, projectId, api, detail, readOnly = false })
       const targets = append ? null : await api(`/api/projects/${encodeURIComponent(projectId)}/target-bindings`, token);
       if (n === epoch.current) { setData(prev => ({ ...connectionResult, connections: append ? [...(prev?.connections || []), ...(connectionResult.connections || [])] : connectionResult.connections || [], targetBindings: targets ? targets.bindings || targets.targetBindings || [] : prev?.targetBindings || [] })); setCursor(connectionResult.nextCursor || ''); if (targets) setTargetCursor(targets.nextCursor || ''); }
     }
-    catch (e) { if (n === epoch.current) { setError(messageFor(e)); if(['NOT_FOUND','UNAUTHENTICATED'].includes(e.message)){setData(null);setHistories({});setSelectedObservation({});setBindingPick({});} } }
+    catch (e) { if (n === epoch.current) { report(e); } }
   };
   useEffect(() => { setData(null); setHistories({}); setHistoryCursors({}); setSelectedObservation({}); setBindingPick({}); setTargetCursor(''); if (projectId) void load(); return () => { epoch.current += 1; }; }, [projectId, token]);
   const run = async (action, success) => {
     const n = epoch.current; setBusy(true); setError(''); setNotice('');
     try { const outcome = await action(); if (n === epoch.current) { setSelectedObservation({}); setBindingPick({}); if (success) success(outcome); setBusy(false); await load(); } }
-    catch (e) { if (n === epoch.current) { setError(messageFor(e)); if(['NOT_FOUND','UNAUTHENTICATED'].includes(e.message)){setData(null);setHistories({});setSelectedObservation({});setBindingPick({});} } }
+    catch (e) { if (n === epoch.current) { report(e); } }
     finally { if (n === epoch.current) setBusy(false); }
   };
   const post = (url, body) => api(url, token, { method: 'POST', body: JSON.stringify(body) });
   const addConnection = event => { event.preventDefault(); void run(() => post(path, { ...connection, name: connection.name.trim(), username: connection.username.trim(), credentialRef: connection.credentialRef.trim(), reason: connection.reason.trim() }), () => setConnection(blankConnection)); };
   const addInstance = event => { event.preventDefault(); void run(() => post(`/api/projects/${encodeURIComponent(projectId)}/database-instances`, { ...instance, name: instance.name.trim(), port: Number(instance.port), reason: instance.reason.trim() }), () => setInstance(blankInstance)); };
-  const history = async (id, after = '', append = false) => { const n = epoch.current; try { const result = await api(`${path}/${encodeURIComponent(id)}/observations${after ? `?after=${encodeURIComponent(after)}` : ''}`, token); if (n === epoch.current) { setHistories(prev => ({ ...prev, [id]: append ? [...(prev[id] || []), ...(result.observations || [])] : result.observations || [] })); setHistoryCursors(prev => ({ ...prev, [id]: result.nextCursor || '' })); } } catch (e) { if (n === epoch.current) setError(messageFor(e)); } };
-  const loadTargets = async (after = '') => { const n = epoch.current; try { const result = await api(`/api/projects/${encodeURIComponent(projectId)}/target-bindings${after ? `?after=${encodeURIComponent(after)}` : ''}`, token); if (n === epoch.current) { setData(prev => ({ ...prev, targetBindings: [...(prev?.targetBindings || []), ...(result.bindings || result.targetBindings || [])] })); setTargetCursor(result.nextCursor || ''); } } catch (e) { if (n === epoch.current) setError(messageFor(e)); } };
+  const history = async (id, after = '', append = false) => { const n = epoch.current; try { const result = await api(`${path}/${encodeURIComponent(id)}/observations${after ? `?after=${encodeURIComponent(after)}` : ''}`, token); if (n === epoch.current) { setHistories(prev => ({ ...prev, [id]: append ? [...(prev[id] || []), ...(result.observations || [])] : result.observations || [] })); setHistoryCursors(prev => ({ ...prev, [id]: result.nextCursor || '' })); } } catch (e) { if (n === epoch.current) report(e); } };
+  const loadTargets = async (after = '') => { const n = epoch.current; try { const result = await api(`/api/projects/${encodeURIComponent(projectId)}/target-bindings${after ? `?after=${encodeURIComponent(after)}` : ''}`, token); if (n === epoch.current) { setData(prev => ({ ...prev, targetBindings: [...(prev?.targetBindings || []), ...(result.bindings || result.targetBindings || [])] })); setTargetCursor(result.nextCursor || ''); } } catch (e) { if (n === epoch.current) report(e); } };
   const createBinding = (binding, connectionId, observationId, owner) => {
     const selected = data?.connections?.find(item => item.id === connectionId), observation = (histories[selected?.id] || []).find(item => item.id === observationId) || selected?.latestObservation;
     if (!observation || !binding || !observation.identityDigest) { setError('Choose an observation with an exact identity digest before recording a target.'); return; }
@@ -48,7 +49,7 @@ export function Connections({ token, projectId, api, detail, readOnly = false })
       {readOnly && <p className="banner warning" role="status">This workspace is read only. You can inspect retained connections and evidence.</p>}
       {error && <p role="alert" className="banner error">{error}</p>}
       {data && data.canManage === false && !readOnly && <p className="banner warning" role="status">Connection administration is unavailable for your current access. Existing evidence remains readable.</p>}
-      {!data && <p role="status">Loading database connections…</p>}
+      {!data && !error && <p role="status">Loading database connections…</p>}
       {notice && <p className="banner success" role="status">{notice}</p>}
       {data && <>
         {!!data.infrastructureTruncated && <p className="banner warning" role="status">Authorized infrastructure choices are truncated. Refine access or reload before selecting an unlisted assignment.</p>}

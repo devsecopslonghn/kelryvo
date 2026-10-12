@@ -52,5 +52,10 @@ test('browser registers infrastructure and connection, tests/discovers fixture m
     await page.getByRole('button',{name:/Audit & history/}).click();await page.locator('.timeline-row').filter({hasText:'TARGET_OBSERVED'}).waitFor();await page.locator('.timeline-row').filter({hasText:'DATABASE_DISCOVERED'}).waitFor();
     await page.screenshot({path:'.cache/phase3-acceptance/discovery-audit-after-restart.png',fullPage:true});assert.deepEqual(errors,[]);
     const records=await f.db.sql`SELECT identity_state FROM sf_target_identity_evidence WHERE project_id=${f.project.id}`;assert.deepEqual(records.map(r=>r.identity_state),['OBSERVED']);
+    await page.getByRole('button',{name:/Database instances/}).click();await persisted.waitFor();
+    await f.membership.revoke(f.project.id,f.actors[0].id);
+    await persisted.getByRole('button',{name:'Load observation history',exact:true}).click();
+    await discovery.getByRole('alert').waitFor();assert.equal(await discovery.locator('.connection-card').count(),0);
+    assert.equal(await discovery.getByText('Loading database connections…',{exact:true}).count(),0);
   }finally{await browser?.close();await f.close();}
 });
