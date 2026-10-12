@@ -1525,6 +1525,21 @@ export function createApp(options: {
         const deployer = (await tx`SELECT 1 FROM sf_project_deploy_grants WHERE organization_id=${ORG} AND project_id=${plan.project_id} AND actor_id=${live.id} AND revoked_at IS NULL FOR UPDATE`)[0];
         if (!plan.items_bounded || !plan.envelope_bounded || !plan.approval_reference || !plan.offline_intent_digest)
           return { error: 'PLAN_NOT_REQUESTABLE' };
+        if (project?.archived_at) return { error: 'PROJECT_ARCHIVED' };
+        if (!deployer) return { error: 'DEPLOY_PERMISSION_REQUIRED' };
+        const bodyDigest = digest({ projectId: plan.project_id, planId: plan.id, approvalReference: plan.approval_reference,
+          intentDigest: plan.offline_intent_digest, reason: b.reason });
+        const old = (await tx`SELECT * FROM sf_execution_jobs WHERE organization_id=${ORG} AND requester_id=${live.id} AND idempotency_key=${b.idempotencyKey} FOR UPDATE`)[0];
+        if (old) {
+          // Recover a durable request without admitting new work against changed target facts.
+          const frozen = (await tx`SELECT offline_intent_envelope FROM sf_plans WHERE id=${plan.id}`)[0];
+          const original = verifyOfflinePlanIntent(frozen?.offline_intent_envelope, plan.offline_intent_digest);
+          if (old.payload_digest !== bodyDigest || !original || original.format === 3 &&
+              (b.expectedIntentDigest !== original.digest || b.expectedAssignmentRevision !== original.target?.assignmentRevision
+                || b.expectedBindingRevision !== original.target?.bindingRevision)) return { error: 'IDEMPOTENCY_CONFLICT' };
+          await guardMutationAuthority(tx, req);
+          return { job: old, repeated: true };
+        }
         const retainedPreflight = await preflightRetainedRelease(tx, { id: plan.release_id, projectId: plan.project_id,
           organizationId: ORG, repositoryId: project?.source_repository_id, folder: project?.source_folder });
         if (!retainedPreflight.valid) return { error: 'PLAN_NOT_REQUESTABLE' };
@@ -1571,10 +1586,6 @@ export function createApp(options: {
         }
         if (denial) return { error: denial };
         await guardMutationAuthority(tx, req);
-        const bodyDigest = digest({ projectId: plan.project_id, planId: plan.id, approvalReference: plan.approval_reference,
-          intentDigest: plan.offline_intent_digest, reason: b.reason });
-        const old = (await tx`SELECT * FROM sf_execution_jobs WHERE organization_id=${ORG} AND requester_id=${live.id} AND idempotency_key=${b.idempotencyKey} FOR UPDATE`)[0];
-        if (old) return old.payload_digest === bodyDigest ? { job: old, repeated: true } : { error: 'IDEMPOTENCY_CONFLICT' };
         const id = randomUUID();
         const job = (await tx`INSERT INTO sf_execution_jobs(id,organization_id,project_id,plan_id,approval_reference,intent_digest,requester_id,request_credential_id,idempotency_key,payload_digest,reason,state,readiness)
           VALUES(${id},${ORG},${plan.project_id},${plan.id},${plan.approval_reference},${plan.offline_intent_digest},${live.id},${live.credential_id},${b.idempotencyKey},${bodyDigest},${b.reason},'WAITING_VALIDATION','TARGET_HISTORY_UNAVAILABLE') RETURNING *`)[0];

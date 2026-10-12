@@ -150,6 +150,11 @@ test('target-bound plans retain immutable format-3 evidence and fail closed acro
     }
     const advancedAfterApproval=await setBindingToOption({bindingId:binding.bindingId,expectedBindingRevision:'4',targetOptionId:option.optionId,expectedTargetOptionRevision:changedOption.optionRevision});
     assert.equal(advancedAfterApproval.statusCode,201,advancedAfterApproval.body);
+    const recovered=await api('POST',`/api/plans/${requestPlan.id}/execution`,request,actors[2]);
+    assert.equal(recovered.statusCode,200,recovered.body);
+    assert.equal(recovered.json().job.id,requested.json().job.id);
+    const changedRetry=await api('POST',`/api/plans/${requestPlan.id}/execution`,{...request,expectedBindingRevision:'5'},actors[2]);
+    assert.equal(changedRetry.statusCode,409);assert.equal(changedRetry.json().error,'IDEMPOTENCY_CONFLICT');
     const staleRequest=await api('POST',`/api/plans/${requestPlan.id}/execution`,{...request,idempotencyKey:randomUUID()},actors[2]);
     assert.equal(staleRequest.statusCode,409);assert.equal(staleRequest.json().error,'FRESH_PLAN_REQUIRED');
     const cancelled=await api('POST',`/api/execution-jobs/${requested.json().job.id}/cancel`,{expectedRevision:0},actors[2]);
