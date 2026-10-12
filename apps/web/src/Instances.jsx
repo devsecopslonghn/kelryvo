@@ -43,6 +43,6 @@ export function Instances({ token, projectId, detail, api, actor, accessMode, me
           </form>}
       </article>)}
     </section>
-    {loaded && <Connections token={token} projectId={projectId} api={api} detail={detail} readOnly={detail.project.archivedAt || accessMode !== 'ENFORCED' || metadataRecovery?.state && metadataRecovery.state !== 'ACTIVE'}/>}
+    {loaded && <Connections token={token} projectId={projectId} api={api} detail={detail} onChanged={onRefresh} readOnly={detail.project.archivedAt || accessMode !== 'ENFORCED' || metadataRecovery?.state && metadataRecovery.state !== 'ACTIVE'}/>}
   </section>;
 }

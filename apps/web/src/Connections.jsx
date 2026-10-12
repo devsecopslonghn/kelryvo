@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 const blankInstance = { name: '', containerName: '', kind: 'PDB', environment: 'DEV', host: '', port: '', service: '', transport: 'TCP', owner: '', reason: '' };
 const blankConnection = { assignmentId: '', routeId: '', name: '', engine: 'oracle', username: '', credentialRef: '', reason: '' };
 
-export function Connections({ token, projectId, api, detail, readOnly = false }) {
+export function Connections({ token, projectId, api, detail, onChanged, readOnly = false }) {
   const [data, setData] = useState(null), [error, setError] = useState(''), [busy, setBusy] = useState(false);
   const [instance, setInstance] = useState(blankInstance), [connection, setConnection] = useState(blankConnection), [reasons, setReasons] = useState({});
   const [histories, setHistories] = useState({}), [historyCursors, setHistoryCursors] = useState({}), [selectedObservation, setSelectedObservation] = useState({}), [bindingPick, setBindingPick] = useState({}), [cursor, setCursor] = useState(''), [targetCursor, setTargetCursor] = useState(''), [notice, setNotice] = useState('');
@@ -22,7 +22,7 @@ export function Connections({ token, projectId, api, detail, readOnly = false })
   useEffect(() => { setData(null); setHistories({}); setHistoryCursors({}); setSelectedObservation({}); setBindingPick({}); setTargetCursor(''); if (projectId) void load(); return () => { epoch.current += 1; }; }, [projectId, token]);
   const run = async (action, success) => {
     const n = epoch.current; setBusy(true); setError(''); setNotice('');
-    try { const outcome = await action(); if (n === epoch.current) { setSelectedObservation({}); setBindingPick({}); if (success) success(outcome); setBusy(false); await load(); } }
+    try { const outcome = await action(); if (n === epoch.current) { setSelectedObservation({}); setBindingPick({}); if (success) success(outcome); await onChanged?.(); if (n === epoch.current) { setBusy(false); await load(); } } }
     catch (e) { if (n === epoch.current) { report(e); } }
     finally { if (n === epoch.current) setBusy(false); }
   };

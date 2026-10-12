@@ -52,15 +52,16 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
     const owners=await tx`SELECT s.exact_owner FROM sf_reference_schemas s JOIN sf_reference_assignments a ON a.schema_id=s.id
       JOIN sf_database_connections c ON c.container_id=s.container_id WHERE c.id=${o.connection_id} AND a.project_id=${projectId} AND a.closed_at IS NULL`;
     const allowed=new Set(owners.map((r:any)=>r.exact_owner));
-    const latest=(await tx`SELECT identity_digest,status FROM sf_database_observations WHERE connection_id=${o.connection_id} AND operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
+    const latest=(await tx`SELECT id,identity_digest,status FROM sf_database_observations WHERE connection_id=${o.connection_id} AND operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
     const expired=Number(new Date(o.expires_at))<=Date.now();
+    const superseded=o.operation==='DISCOVER' && latest?.id!==o.id;
     const accepted=(await tx`SELECT identity_digest FROM sf_target_identity_evidence WHERE connection_id=${o.connection_id} AND project_id=${projectId} ORDER BY created_at DESC,digest DESC LIMIT 1`)[0];
     const conflict=!!(o.identity_digest && (latest?.identity_digest && latest.identity_digest!==o.identity_digest || accepted?.identity_digest && accepted.identity_digest!==o.identity_digest));
     const unavailable=!!(o.identity_digest && latest && !latest.identity_digest);
     return {id:o.id,operation:o.operation,status:o.status,identity:o.identity,identityDigest:o.identity_digest,
-      identityState:conflict?'CONFLICT':expired?'STALE':o.identity_digest?'OBSERVED':'UNKNOWN',
+      identityState:conflict?'CONFLICT':expired || superseded?'STALE':o.identity_digest?'OBSERVED':'UNKNOWN',
       schemas:(o.schemas ?? []).filter((s:any)=>allowed.has(s.owner)),limitations:o.limitations,provenance:o.provenance,verificationAcceptance:o.verification_acceptance,
-      observedAt:o.observed_at,expiresAt:o.expires_at,currentness:conflict?'CONFLICT':expired?'STALE':unavailable?'UNKNOWN':o.identity_digest?'CURRENT':'UNKNOWN'};
+      observedAt:o.observed_at,expiresAt:o.expires_at,currentness:conflict?'CONFLICT':expired || superseded?'STALE':unavailable?'UNKNOWN':o.identity_digest?'CURRENT':'UNKNOWN'};
   };
   const projectConnection=async(tx:any,c:any,projectId:string)=>{
     const latest=(await tx`SELECT * FROM sf_database_observations WHERE connection_id=${c.id} ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
@@ -177,7 +178,7 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
       const c=await connection(tx,{...req,params:{...req.params,connectionId:b.connectionId}});
       const detail=await getTargetBinding(tx,req.params.projectId,req.params.bindingId),binding=detail?.binding;
       if(!binding || binding.bindingRevision!==b.expectedBindingRevision || binding.assignmentRevision!==b.expectedAssignmentRevision)throw fail('TARGET_REVISION_CONFLICT');
-      if(detail.currentness.state!=='CURRENT' && !detail.currentness.reasons.every((r:string)=>['OBSERVATION_STALE','OBSERVATION_UNAVAILABLE'].includes(r)))throw fail('TARGET_REVISION_CONFLICT');
+      if(detail.currentness.state!=='CURRENT' && !detail.currentness.reasons.every((r:string)=>['OBSERVATION_STALE','OBSERVATION_UNAVAILABLE','OBSERVATION_SUPERSEDED'].includes(r)))throw fail('TARGET_REVISION_CONFLICT');
       const o=(await tx`SELECT *,expires_at>clock_timestamp() AS fresh FROM sf_database_observations WHERE id=${b.observationId} AND connection_id=${c.id} AND organization_id=${ORG}`)[0];
       if(!o)throw fail('NOT_FOUND',404);
       if(!o.fresh || c.retired_at)throw fail('DISCOVERY_STALE');

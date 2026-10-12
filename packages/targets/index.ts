@@ -469,8 +469,9 @@ export async function checkTargetCurrentness(tx: any, projectId: string, target:
         || asRevision(current.source_generation) !== asRevision(target.sourceBindingGeneration)) reasons.push('SOURCE_CHANGED');
   }
   if(target.identityState!=='PROVISIONAL' && target.observationDigest) {
-    const evidence=(await tx`SELECT e.identity_digest,e.assignment_revision::text AS assignment_revision,e.assignment_id,e.route_id,
+    const evidence=(await tx`SELECT e.identity_digest,e.observation_id,e.assignment_revision::text AS assignment_revision,e.assignment_id,e.route_id,
       o.expires_at>clock_timestamp() AS fresh,c.retired_at,
+      (SELECT id FROM sf_database_observations latest WHERE latest.connection_id=e.connection_id AND latest.operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1) AS latest_observation_id,
       (SELECT identity_digest FROM sf_database_observations latest WHERE latest.connection_id=e.connection_id AND latest.operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1) AS latest_identity
       FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id JOIN sf_database_connections c ON c.id=e.connection_id
       WHERE e.digest=${target.observationDigest} AND e.project_id=${projectId}`)[0];
@@ -481,6 +482,8 @@ export async function checkTargetCurrentness(tx: any, projectId: string, target:
       if(evidence.assignment_id!==target.assignmentId || evidence.assignment_revision!==target.assignmentRevision || evidence.route_id!==target.routeId)reasons.push('INTEGRITY_UNAVAILABLE');
       if(!evidence.latest_identity)reasons.push('OBSERVATION_UNAVAILABLE');
       else if(evidence.latest_identity!==evidence.identity_digest)reasons.push('OBSERVATION_CONFLICT');
+      // Physical identity alone cannot preserve approval authority after schema visibility changes.
+      if(evidence.latest_observation_id!==evidence.observation_id)reasons.push('OBSERVATION_SUPERSEDED');
     }
   }
   const state = reasons.includes('INTEGRITY_UNAVAILABLE') ? 'UNKNOWN' : reasons.length ? 'STALE' : 'CURRENT';

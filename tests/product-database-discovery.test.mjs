@@ -83,6 +83,55 @@ test('observed identities create immutable binding revisions, reject fixture ver
   }finally{await f.close();}
 });
 
+test('superseding discovery invalidates schema visibility evidence, plans and approval authority even when physical identity matches',{
+  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+},async()=>{
+  const f=await createDiscoveryFixture();try{
+    const binding=(await f.createBinding()).json().binding;
+    const target=`${f.base}/target-bindings/${binding.bindingId}`;
+    const discover=()=>f.api('POST',`${f.connections}/${f.connection.id}/discover`,{reason:'Refresh schema visibility evidence'});
+    const initial=(await discover()).json().observation;
+    const input={connectionId:f.connection.id,observationId:initial.id,expectedIdentityDigest:initial.identityDigest,
+      expectedBindingRevision:'1',expectedAssignmentRevision:'1',owner:'APP',reason:'Bind exact schema observation'};
+    const revised=(await f.api('POST',`${target}/observe`,input)).json().binding;
+    const pending=(await f.makePlan(revised)).json().plan;
+    const approved=(await f.makePlan(revised)).json().plan;
+    assert.equal((await f.decide(approved)).statusCode,200);
+    await f.membership.grant(f.project.id,f.actors[2].id);await f.membership.deployGrant(f.project.id,f.actors[2].id);
+    for(const schemas of [[{owner:'APP',accessible:null}],[{owner:'APP',accessible:false}],[]]){
+      f.runtime.run=async()=>({status:'PARTIAL',identity:fixtureIdentity,schemas,
+        limitations:['SCHEMA_VISIBILITY_LIMITED'],provenance:'FIXTURE'});
+      const latest=(await discover()).json().observation;
+      assert.equal(latest.identityDigest,initial.identityDigest);
+      const currentness=(await f.api('GET',target)).json().currentness;
+      assert.equal(currentness.state,'STALE');assert.ok(currentness.reasons.includes('OBSERVATION_SUPERSEDED'));
+      assert.equal((await f.makePlan(revised)).statusCode,409);
+      const decision=await f.decide(pending);assert.equal(decision.statusCode,409);assert.equal(decision.json().error,'FRESH_PLAN_REQUIRED');
+      const execution=await f.api('POST',`/api/plans/${approved.id}/execution`,{idempotencyKey:'superseded-observation-approval',
+        reason:'Superseded evidence cannot authorize a request',expectedIntentDigest:approved.offlineIntent.digest,
+        expectedBindingRevision:'2',expectedAssignmentRevision:'1'},f.actors[2]);
+      assert.equal(execution.statusCode,409);assert.equal(execution.json().error,'FRESH_PLAN_REQUIRED');
+      const renewal=await f.api('POST',`${target}/observe`,{...input,expectedBindingRevision:'2',observationId:latest.id});
+      assert.equal(renewal.statusCode,409);assert.equal(renewal.json().error,'SCHEMA_ACCESS_UNVERIFIED');
+    }
+    const history=(await f.api('GET',`${f.connections}/${f.connection.id}/observations`)).json().observations;
+    assert.equal(history.find(o=>o.id===initial.id).currentness,'STALE');
+    f.runtime.run=async()=>({status:'OBSERVED',identity:fixtureIdentity,schemas:[{owner:'APP',accessible:true}],provenance:'FIXTURE'});
+    const restored=(await discover()).json().observation;
+    const renewal=await f.api('POST',`${target}/observe`,{...input,expectedBindingRevision:'2',observationId:restored.id});
+    assert.equal(renewal.statusCode,201,renewal.body);
+    assert.equal(renewal.json().binding.bindingRevision,'3');
+    assert.equal((await f.decide(pending)).json().error,'FRESH_PLAN_REQUIRED');
+    const freshResponse=await f.makePlan(renewal.json().binding);assert.equal(freshResponse.statusCode,201,freshResponse.body);
+    const fresh=freshResponse.json().plan;
+    assert.equal((await f.decide(fresh)).statusCode,200);
+    await f.restart();
+    assert.equal((await f.api('GET',target)).json().revisions.length,3);
+    const record=await f.api('GET',`${f.base}/plans/${approved.id}/record`);
+    assert.equal(record.statusCode,200);assert.equal(JSON.parse(record.json().record).retainedIntent.targetObservation.observationId,initial.id);
+  }finally{await f.close();}
+});
+
 test('manual instance registration is authorized, unsupported engines and stale observations remain honest',{
   skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
 },async()=>{
