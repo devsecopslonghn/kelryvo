@@ -21,6 +21,7 @@ import { registerPlanRecord } from "../../packages/governance/plan-record.ts";
 import { registerExecutionRecord } from "../../packages/execution/record.ts";
 import { registerHealthProbes } from "../../packages/observability/health-probes.mjs";
 import { registerAccount } from "../../packages/database/account.ts";
+import { registerProfileLifecycle } from "../../packages/database/profile-lifecycle.ts";
 
 const ORG = "00000000-0000-4000-8000-000000000001";
 const MAX_BINDING_GENERATION = "9223372036854775807";
@@ -48,7 +49,7 @@ const validComment = (v: unknown) =>
 const validReason = (v: unknown, max = 2000) =>
   validComment(v) && text(v, max) && typeof v === "string" && !/[\u0080-\u009f]/u.test(v);
 const validHost = (v: unknown) =>
-  typeof v === "string" &&
+  typeof v === "string" && v.length <= 255 &&
   /^(?:[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?|\[[0-9A-Fa-f:]+\])$/.test(v);
 const validService = (v: unknown) =>
   typeof v === "string" && /^[A-Za-z0-9_$#.-]{1,128}$/.test(v);
@@ -168,6 +169,7 @@ export function createApp(options: {
   registerExecutionRecord(app, { sql, authenticate });
   registerBrowserSessions(app, { sql, authenticate, seed, enabled: !!options.https });
   registerAccount(app, { sql, authenticate });
+  registerProfileLifecycle(app, { sql, authenticate });
   app.get('/api/recovery/status', { preHandler: authenticate }, async () => {
     const row = (await sql`SELECT g.id,g.state,g.predecessor_id,g.witness_id,g.created_at
       FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0];
@@ -363,7 +365,7 @@ export function createApp(options: {
       const [environments, profiles, releases, plans, audits, history, comments, deploymentGrant, executionJobs] =
         await Promise.all([
           sql`SELECT id,name,created_at FROM sf_environments WHERE project_id=${p.id} ORDER BY created_at`,
-          sql`SELECT id,name,environment_id,engine,host,port,service,username,credential_ref,created_at FROM sf_profiles WHERE project_id=${p.id} ORDER BY created_at`,
+          sql`SELECT id,name,environment_id,engine,host,port,service,username,credential_ref,created_at,retired_at,retired_by,retirement_reason FROM sf_profiles WHERE project_id=${p.id} ORDER BY created_at`,
           sql`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,validation_code,parser_profile,created_at FROM sf_releases WHERE project_id=${p.id} ORDER BY created_at DESC`,
           sql`SELECT id,organization_id,project_id,release_id,profile_id,author_id,reviewer_id,
             (SELECT display_name FROM sf_local_actors WHERE id=reviewer_id AND organization_id=${ORG} AND char_length(display_name) BETWEEN 1 AND 200) AS reviewer_name,
@@ -401,6 +403,9 @@ export function createApp(options: {
           username: r.username,
           credentialRef: r.credential_ref,
           createdAt: r.created_at,
+          retiredAt: r.retired_at,
+          retiredBy: r.retired_by,
+          retirementReason: r.retirement_reason,
         })),
         releases: releases.map((r: any) => ({
           id: r.id,
@@ -935,6 +940,7 @@ export function createApp(options: {
           CASE WHEN char_length(host) BETWEEN 1 AND 255 THEN host END AS host,port,
           CASE WHEN char_length(service) BETWEEN 1 AND 128 THEN service END AS service,
           CASE WHEN char_length(username) BETWEEN 1 AND 128 THEN username END AS username,
+          retired_at,
           CASE WHEN char_length(credential_ref) BETWEEN 1 AND 512 THEN credential_ref END AS credential_ref
           FROM sf_profiles WHERE id=${b.profileId} AND project_id=${p.id}
           AND organization_id=${ORG} FOR SHARE`)[0];
@@ -942,6 +948,7 @@ export function createApp(options: {
           CASE WHEN char_length(name) BETWEEN 1 AND 200 THEN name END AS name FROM sf_environments WHERE id=${profile.environment_id}
           AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
         if (!releaseBounds || !profile) return { error: "INVALID_REFERENCE" };
+        if (profile.retired_at) return { error: 'PROFILE_RETIRED' };
         if (!p.source_repository_id || !validMigrationFolder(p.source_folder)
             || !canonicalBindingGeneration(p.source_binding_generation)) return { error: "SOURCE_BINDING_INVALID" };
         if (!releaseBounds.source_matches)
@@ -990,6 +997,7 @@ export function createApp(options: {
       if (outcome.error === "NOT_FOUND") return fail(reply, 404, "NOT_FOUND");
       if (outcome.error === "PROJECT_ARCHIVED") return fail(reply, 409, "PROJECT_ARCHIVED");
       if (outcome.error === "INVALID_REFERENCE") return fail(reply, 400, "INVALID_REFERENCE");
+      if (outcome.error === 'PROFILE_RETIRED') return fail(reply, 409, 'PROFILE_RETIRED');
       if (outcome.error === "RELEASE_NOT_VALID") return fail(reply, 409, "RELEASE_NOT_VALID");
       if (outcome.error === "RELEASE_INTEGRITY_FAILED") return fail(reply, 409, "RELEASE_INTEGRITY_FAILED");
       if (outcome.error === "RELEASE_NOT_PLANNABLE") return fail(reply, 409, "RELEASE_NOT_PLANNABLE");
@@ -1239,6 +1247,9 @@ export function createApp(options: {
           return denialReason;
         }
         if (b.decision === "APPROVE") {
+          const target = (await tx`SELECT retired_at FROM sf_profiles WHERE id=${p.profile_id}
+            AND project_id=${p.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
+          if (target?.retired_at) return 'PROFILE_RETIRED';
           if (!currentProject || !currentProject.source_repository_id || !validMigrationFolder(currentProject.source_folder)
               || !canonicalBindingGeneration(currentProject.source_binding_generation)
               || !canonicalBindingGeneration(p.source_binding_generation)
@@ -1331,6 +1342,7 @@ export function createApp(options: {
       if (result === 'DECISION_ALREADY_RECORDED') return fail(reply, 409, 'DECISION_ALREADY_RECORDED');
       if (result === 'PLAN_APPROVAL_INTEGRITY_FAILED') return fail(reply, 409, 'PLAN_APPROVAL_INTEGRITY_FAILED');
       if (result === 'FRESH_PLAN_REQUIRED') return fail(reply, 409, 'FRESH_PLAN_REQUIRED');
+      if (result === 'PROFILE_RETIRED') return fail(reply, 409, 'PROFILE_RETIRED');
       return { plan: mapPlan(result) };
     },
   );
@@ -1478,9 +1490,10 @@ export function createApp(options: {
         const itemsValid = Array.isArray(payload?.items) && payload.items.every((item: any) =>
           object(item, ['path','version','sha256','status']) && item.status === 'NOT_EXECUTED');
         if (!itemsValid) return { error: 'PLAN_NOT_REQUESTABLE' };
-        const profile = (await tx`SELECT profile.id,profile.engine,profile.host,profile.port,profile.service,profile.username,
+        const profile = (await tx`SELECT profile.id,profile.engine,profile.host,profile.port,profile.service,profile.username,profile.retired_at,
           release.repository_id,release.folder FROM sf_profiles profile JOIN sf_releases release ON release.id=${plan.release_id}
           AND release.project_id=profile.project_id WHERE profile.id=${plan.profile_id} AND profile.project_id=${plan.project_id} FOR SHARE OF profile,release`)[0];
+        if (profile?.retired_at) return { error: 'PROFILE_RETIRED' };
         const intent = verifyOfflinePlanIntent(payload?.offline_intent_envelope, plan.offline_intent_digest, {
           organizationId: ORG, projectId: plan.project_id, requesterId: plan.author_id,
           releaseId: plan.release_id, profileId: plan.profile_id,

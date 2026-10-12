@@ -103,7 +103,7 @@ export async function readExecutionRequest(tx: any, jobId: string, admitted = fa
   const profile = (await tx`SELECT p.id,p.environment_id,p.name,p.engine,p.host,p.port,p.service,p.username,
     CASE WHEN octet_length(p.credential_ref)<=500 THEN p.credential_ref END AS credential_ref,e.name AS environment_name
     FROM sf_profiles p JOIN sf_environments e ON e.id=p.environment_id AND e.project_id=p.project_id
-    WHERE p.id=${plan.profile_id} AND p.project_id=${project.id} AND octet_length(row(p.name,p.host,p.service,p.username,e.name)::text)<=8192
+    WHERE p.id=${plan.profile_id} AND p.project_id=${project.id} AND p.retired_at IS NULL AND octet_length(row(p.name,p.host,p.service,p.username,e.name)::text)<=8192
     FOR SHARE OF p,e`)[0];
   const preflight = await preflightRetainedRelease(tx, { id: plan.release_id, organizationId: ORG,
     projectId: project.id, repositoryId: project.source_repository_id, folder: project.source_folder });

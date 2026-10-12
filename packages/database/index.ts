@@ -138,6 +138,15 @@ export async function initializeDatabase(sql: any, options: { initializeMetadata
       files jsonb NOT NULL, created_at timestamptz NOT NULL DEFAULT now(),
       FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id), UNIQUE(id,project_id)
     );
+    ALTER TABLE sf_profiles ADD COLUMN IF NOT EXISTS retired_at timestamptz;
+    ALTER TABLE sf_profiles ADD COLUMN IF NOT EXISTS retired_by text;
+    ALTER TABLE sf_profiles ADD COLUMN IF NOT EXISTS retirement_reason text;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='sf_profiles_retirement') THEN
+      ALTER TABLE sf_profiles ADD CONSTRAINT sf_profiles_retirement CHECK (
+        (retired_at IS NULL AND retired_by IS NULL AND retirement_reason IS NULL) OR
+        (retired_at IS NOT NULL AND retired_by IS NOT NULL AND retirement_reason IS NOT NULL
+          AND char_length(btrim(retirement_reason)) BETWEEN 1 AND 2000));
+    END IF; END $$;
     CREATE TABLE IF NOT EXISTS sf_plans (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), project_id uuid NOT NULL, organization_id uuid NOT NULL,
       release_id uuid NOT NULL, profile_id uuid NOT NULL, author_id text NOT NULL, status text NOT NULL DEFAULT 'PENDING_APPROVAL',

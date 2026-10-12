@@ -13,7 +13,7 @@ const uid = () => process.geteuid?.() ?? process.getuid();
 const fail = () => new Error('Local backup or restore failed; inspect private operator state and retry.');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const TABLES = [
-  'sf_organizations','sf_local_actors','sf_local_credentials','sf_projects','sf_project_access_mode','sf_project_grants',
+  'sf_organizations','sf_local_actors','sf_local_credentials','sf_account_audit','sf_projects','sf_project_access_mode','sf_project_grants',
   'sf_project_operator_audit','sf_environments','sf_profiles','sf_releases','sf_plans','sf_audit',
   'sf_plan_approval_revocations','sf_plan_comments','sf_history','sf_reference_databases','sf_reference_containers',
   'sf_reference_services','sf_reference_schemas','sf_reference_assignments','sf_reference_operator_audit',
@@ -26,11 +26,11 @@ const RELATIONS = [...TABLES.map(name => `r:${name}`), ...SEQUENCES.map(name => 
 const FUNCTIONS = ['sf_check_approval_revocation_reference','sf_check_execution_job_projection','sf_reject_approval_revocation_mutation',
   'sf_reject_execution_attempt_mutation','sf_reject_execution_event_mutation','sf_reject_execution_proof_mutation',
   'sf_reject_metadata_evidence_mutation'].sort();
-const TRIGGERS = ['sf_execution_admission_proofs_immutable','sf_execution_attempt_events_immutable','sf_execution_attempts_immutable',
+const TRIGGERS = ['sf_account_audit_immutable','sf_execution_admission_proofs_immutable','sf_execution_attempt_events_immutable','sf_execution_attempts_immutable',
   'sf_execution_job_events_immutable','sf_execution_jobs_projection_guard','sf_execution_receipts_immutable',
   'sf_metadata_credentials_revoked_immutable','sf_metadata_generations_immutable','sf_metadata_operator_audit_immutable','sf_metadata_restore_owners_immutable',
   'sf_plan_approval_revocations_immutable','sf_plan_approval_revocations_reference_match'].sort();
-const SCHEMA_SIGNATURE = '2b6f1f25d556f0fe35a0c97e7ab5a7d0998dcd5468a8d71fa34ce213f2b672f8';
+const SCHEMA_SIGNATURE = '277b528dfee78e582189a3a0747f5903e652bf3a2566f314c218d5f6093d25c8';
 const json = value => `${JSON.stringify(value, null, 2)}\n`;
 const schemaDigest = schema => sha(JSON.stringify({schemas:['public'],tables:schema.tables,relations:schema.relations,
   functions:schema.functions,triggers:schema.triggers,columns:schema.columns,constraints:schema.constraints,indexes:schema.indexes,routines:schema.routines,triggerDefinitions:schema.triggerDefinitions,sequenceDefinitions:schema.sequenceDefinitions,ownership:schema.ownership}));

@@ -217,7 +217,7 @@
       "id": "SF-D021",
       "status": "ACCEPTED_BOUNDED_PRODUCT_T24_EXISTING_ACTION_ORDER_COMPATIBILITY",
       "accepted_at_utc": "2026-10-09T21:04:32.155575+00:00",
-      "decision": "The first frozen T24 browser suite exposed an actual T09 compatibility regression: alphabetical historical action choices changed the established newest-occurrence order. Preserve existing action-choice behavior across the full retained project audit set by selecting each action\u2019s newest (created_at,id) occurrence and ordering those occurrences descending, including actions older than the recent100. Retain all original T09 assertions, immutable failure capture and timestamp/ID tie semantics; correct only the new implementation and its new expected historical-action results, then rerun the complete frozen standard/product/browser suites. This is a bounded compatibility repair under SF-D010/SF-D019/SF-D020, not a redesign or original acceptance change. No audit records, thresholds, parser logic, security gates or Oracle authority change.",
+      "decision": "The first frozen T24 browser suite exposed an actual T09 compatibility regression: alphabetical historical action choices changed the established newest-occurrence order. Preserve existing action-choice behavior across the full retained project audit set by selecting each action’s newest (created_at,id) occurrence and ordering those occurrences descending, including actions older than the recent100. Retain all original T09 assertions, immutable failure capture and timestamp/ID tie semantics; correct only the new implementation and its new expected historical-action results, then rerun the complete frozen standard/product/browser suites. This is a bounded compatibility repair under SF-D010/SF-D019/SF-D020, not a redesign or original acceptance change. No audit records, thresholds, parser logic, security gates or Oracle authority change.",
       "references": [
         "tests/product-audit-action-filters-browser.integration.mjs",
         "tests/product-audit-pages.test.mjs",
@@ -792,6 +792,18 @@
         "docs/implementation/MVP.md",
         "packages/database/account.ts",
         "apps/web/src/Account.jsx"
+      ]
+    },
+    {
+      "id": "SF-D065",
+      "status": "ACCEPTED_PROFILE_LIFECYCLE",
+      "decision": "Reference-only connection profiles remain immutable configuration snapshots; change endpoints or credential references by creating a replacement and permanently retiring the prior profile. Only granted developers retire active-project profiles under the existing governance/lifecycle lock and transactional credential/membership revalidation. Block while any associated request is ADMITTED; preserve historical plans, approvals, history, uncertainty and requests. Retired profiles reject fresh plans, approval, new requests and worker admission. Keep old source bundles for old-schema backup restore before additive upgrade; update the exact backup fingerprint rather than bypassing it. No secret resolver, Oracle connection or target authority is added.",
+      "references": [
+        "packages/database/profile-lifecycle.ts",
+        "packages/execution/admission.ts",
+        "apps/web/src/Instances.jsx",
+        "packages/backup/index.mjs",
+        "docs/development/local-product.md"
       ]
     }
   ]

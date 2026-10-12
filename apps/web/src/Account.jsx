@@ -42,7 +42,7 @@ export function Account({ token, api }) {
       <p className="muted">The trusted operator provisions identities, rotates access tokens and explicitly grants or revokes project and deployment access. Contact your operator with your actor ID and project ID. Approvers cannot approve their own plans.</p>
       {access.accessMode === 'BOOTSTRAP_REQUIRED' && <p role="status" className="banner warning">Access bootstrap required. The operator must activate membership and grant project access.</p>}
       {!access.projects.length && <p>No assigned projects.</p>}
-      {access.projects.map(project => <article key={project.id} className="schema-reference-card"><h3>{project.name}</h3><p><code>{project.id}</code></p><p>{project.archivedAt ? 'Archived · read only' : 'Project member'} · Independent review: {project.canReview ? 'eligible' : 'unavailable'} · Deployment requests: {project.canDeploy ? 'granted' : 'unavailable'}</p></article>)}
+      {access.projects.map(project => <article key={project.id} className="schema-reference-card"><h3>{project.name}</h3><p><code>{project.id}</code></p><p>{project.archivedAt ? 'Archived · read only' : 'Project member'} · Independent review: {project.canReview ? 'role permits review' : 'unavailable'} · Deployment requests: {project.canDeploy ? 'granted' : 'unavailable'}</p></article>)}
       {access.nextCursor && <button className="secondary" disabled={busy} onClick={() => void more('access')}>Load more access</button>}
     </section>}
     {sessions && <section className="panel"><h2>Active browser sessions</h2><p>Revoke another session to sign it out. Use Sign out for this session. Sessions expire after 30 minutes idle or at their absolute deadline.</p>

@@ -1174,3 +1174,33 @@ Authenticated self-service endpoints are `GET /api/account/access`,
 `GET /api/account/sessions` (50 rows, optional `after` UUID and `nextCursor`) and
 `POST /api/account/sessions/:id/revoke` (no body, own browser sessions only).
 HTTPS mutations require the session CSRF proof and same origin.
+
+## Database instances and profile retirement
+
+Open **Database instances** to inspect the selected project's environments, Oracle
+endpoints, usernames and credential references. **Configure project connections** opens
+the existing environment/profile forms in Projects. **Inspect assigned instance
+references** opens the provisional database/container/service/schema catalog. The trusted
+operator maintains those declarations and assignments using the inventory commands;
+manual references never prove connectivity or authorize target execution.
+
+A granted developer can permanently retire a profile with a reason. Retired configuration
+stays readable in existing plans, audit and history. It is excluded from the target
+selector and rejected for new plans, approval, new deployment requests and worker
+admission of previously queued requests. Rejection, withdrawal and cancellation remain
+available under their existing permissions. An admitted request blocks retirement until
+its controlled recovery completes; retirement never interrupts or silently replays it.
+Create a replacement profile to change an endpoint or credential reference. No connection
+test, secret resolution or Oracle call is introduced.
+
+`POST /api/projects/:projectId/profiles/:id/retire` accepts only `{ "reason": "..." }`.
+Retirement is idempotent, transactionally rechecks membership/credential authority,
+preserves the first reason/time/actor and appends one `PROFILE_RETIRED` audit event.
+Archived projects are read only; approvers cannot retire profiles.
+
+This additive metadata migration retains existing profiles as active and retains all
+prior audit, plans, credential history and PostgreSQL data. Native backup includes
+account audit and retirement metadata under the new exact schema fingerprint. Backups
+from an older schema must be restored using their matching prior source release, then
+upgraded through normal startup; the strict fingerprint gate is never bypassed. Keep
+old source bundles and backup witnesses for that recovery path.

@@ -17,10 +17,10 @@ below is not acceptance. Helm CI billing exception remains **UNAVAILABLE**, neve
 | Feature/module | Backend | Frontend | Deployed availability | Remaining MVP work | External dependencies |
 | --- | --- | --- | --- | --- | --- |
 | IAM: named identities, fixed developer/approver roles | Implemented, hashed credentials | Implemented token sign-in | Existing release; acceptance pending | Preserve operator credential issue/rotate/revoke | Trusted OS operator |
-| IAM: secure sessions | Implemented HTTPS/CSRF/expiry/revocation | Implemented login/resume/logout | Existing release; acceptance pending | Add own-session inspection and remote session revocation | HTTPS |
-| IAM: explicit access/deployment grants | Implemented operator-only persistence/audit | Missing access overview | Existing enforcement; overview unavailable | Browser shows own grants and privileges, bootstrap guidance | Trusted OS operator grants; no new administrator role |
-| Instance/connection: environments and reference-only Oracle profiles | Implemented create/list | Implemented project forms | Existing release; acceptance pending | Dedicated Instances navigation and profile lifecycle | No Oracle access required |
-| Instance/connection: profile retirement | Missing | Missing | Unavailable | Audited retirement; preserve prior plans; prevent new plans/approvals/requests with retired target | None |
+| IAM: secure sessions | Implemented HTTPS/CSRF/expiry/revocation | Implemented login/resume/logout and own-session controls | New controls on integration branch; unavailable deployed | Full milestone/deployed regression | HTTPS |
+| IAM: explicit access/deployment grants | Implemented operator-only persistence/audit and own access API | Implemented own-grant/privilege overview and bootstrap guidance | New overview unavailable deployed | Full milestone/deployed regression | Trusted OS operator grants; no new administrator role |
+| Instance/connection: environments and reference-only Oracle profiles | Implemented create/list | Implemented project forms and Instances navigation | New Instances screen unavailable deployed | Full milestone/deployed regression | No Oracle access required |
+| Instance/connection: profile retirement | Implemented transactional lifecycle/admission gates | Implemented reasoned retirement and target warnings | Unavailable until milestone release | Full milestone/deployed regression | None |
 | Instance/connection: provisional database/service/schema catalog | Implemented operator declare/assign/release | Implemented grouped project estate | Unfinished estate source preserved; acceptance pending | Make entry point and operator boundaries discoverable | Operator attestation; live discovery excluded |
 | Git: registered local mirrors and protected folder binding | Implemented | Implemented binding/ref selection | Existing release; acceptance pending | Validate cohesive browser workflow | Operator-mounted Git mirror; remote provider OAuth excluded |
 | Migrations: immutable releases, parser validation, previews/comparison | Implemented | Implemented | Existing release; acceptance pending | Focused/full milestone regression | Pinned parser artifacts |
@@ -51,3 +51,11 @@ After feature completion: full local integration/regression, independent securit
 correctness review/fixes, one milestone PR, mandatory GitHub checks without bypass,
 eligible merge, immutable images, GitOps release, deployed browser/API acceptance and
 final matrix with external limitations. Never label unverified features accepted.
+
+## Local feature verification checkpoint
+
+Account API/TLS/PostgreSQL and Chromium cases passed 2/2 with zero skips; independent
+security/correctness review found no high/medium defects. Profile retirement/API/worker
+revalidation and Chromium cases passed 2/2 with zero skips; independent review found no
+authority bypass or admission/retirement race. Native backup/restore and full milestone
+regression are pending; local feature tests do not establish deployed or Oracle acceptance.
