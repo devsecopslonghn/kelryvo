@@ -71,7 +71,7 @@ test('overlapping operator revocation and API write serialize before project and
     operator = applyLocalMembershipAction(f.db.sql, { action: 'revoke', projectId: f.project.id, actorId: f.actors[0].id });
     await waitForBlockedQuery('%FROM sf_projects%FOR UPDATE%');
     mutation = f.api('POST', `${f.base}/environments`, { name: 'Revoked overlapping write' }).then(response => response);
-    await waitForBlockedQuery('%pg_advisory_xact_lock(1397112658,2)%');
+    await waitForBlockedQuery('%pg_advisory_xact_lock(1397112658, 2)%');
     releaseProject(); await blocker; await operator;
     const denied = await mutation;
     assert.equal(denied.statusCode, 404, denied.body);
@@ -81,4 +81,29 @@ test('overlapping operator revocation and API write serialize before project and
   } finally {
     releaseProject?.(); await Promise.allSettled([blocker, operator, mutation].filter(Boolean)); await f.close();
   }
+});
+
+test('source binding rechecks developer eligibility after a queued role change', {
+  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 60000,
+}, async () => {
+  const f = await statementEnvelopeFixture({ firstStatementCount: 1, includeSecond: false });
+  const blocker = await f.db.sql.reserve(); let pending;
+  try {
+    const before = (await f.db.sql`SELECT * FROM sf_projects WHERE id=${f.project.id}`)[0];
+    await blocker`BEGIN`; await blocker`SELECT pg_advisory_xact_lock(1397112658, 2)`;
+    const pid = (await blocker`SELECT pg_backend_pid() AS pid`)[0].pid;
+    pending = f.api('PUT', `${f.base}/source`, { repositoryId: 'statement-repo', folder: 'migrations-next' }).then(response => response);
+    let queued = false;
+    for (let attempt = 0; attempt < 500; attempt++) {
+      if ((await f.db.sql`SELECT 1 FROM pg_stat_activity WHERE datname=current_database()
+        AND ${pid}=ANY(pg_blocking_pids(pid)) AND wait_event_type='Lock' LIMIT 1`)[0]) { queued = true; break; }
+      await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    assert.ok(queued, 'binding request authenticated before its mutation checkpoint');
+    await blocker`UPDATE sf_local_actors SET role='approver' WHERE id=${f.actors[0].id}`;
+    await blocker`COMMIT`;
+    const denied = await pending;
+    assert.equal(denied.statusCode, 403, denied.body); assert.equal(denied.json().error, 'DEVELOPER_REQUIRED');
+    assert.deepEqual((await f.db.sql`SELECT * FROM sf_projects WHERE id=${f.project.id}`)[0], before);
+  } finally { await blocker`ROLLBACK`.catch(() => {}); await blocker.release(); await pending?.catch(() => {}); await f.close(); }
 });

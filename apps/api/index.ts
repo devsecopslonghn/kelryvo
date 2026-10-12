@@ -499,7 +499,7 @@ export function createApp(options: {
     if (!uuid(req.params.id) || !object(req.body, ['reason']) || !text(req.body.reason, 2000)) return fail(reply, 400, 'INVALID_REQUEST');
     if (req.actor.role !== 'developer') return fail(reply, 403, 'DEVELOPER_REQUIRED');
     const result = await sql.begin(async (tx: any) => {
-        await guardMutationAuthority(tx, req);
+        await guardMutationAuthority(tx, req, 'developer');
       const row = (await tx`SELECT * FROM sf_projects WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`)[0];
       if (!row) return null;
       if (row.archived_at) return row;
@@ -519,7 +519,7 @@ export function createApp(options: {
     if (req.actor.role !== 'developer') return fail(reply, 403, 'DEVELOPER_REQUIRED');
 
     const result = await sql.begin(async (tx: any) => {
-        await guardMutationAuthority(tx, req);
+        await guardMutationAuthority(tx, req, 'developer');
       const current = (await tx`SELECT id,archived_at,
         CASE WHEN char_length(source_repository_id) BETWEEN 1 AND 200 THEN source_repository_id END AS source_repository_id,
         CASE WHEN char_length(source_folder) BETWEEN 1 AND 200 THEN source_folder END AS source_folder,
@@ -1608,6 +1608,7 @@ export function createApp(options: {
     if (error?.productCode === "UNAUTHENTICATED") return fail(reply, 401, "UNAUTHENTICATED");
     if (error?.productCode === "CSRF_REJECTED") return fail(reply, 403, "CSRF_REJECTED");
     if (error?.productCode === 'NOT_FOUND') return fail(reply, 404, 'NOT_FOUND');
+    if (error?.productCode === 'DEVELOPER_REQUIRED') return fail(reply, 403, 'DEVELOPER_REQUIRED');
     if (error?.productCode === 'MEMBERSHIP_BOOTSTRAP_REQUIRED') return fail(reply, 409, 'MEMBERSHIP_BOOTSTRAP_REQUIRED');
     if (error?.productCode === "PROJECT_ARCHIVED") return fail(reply, 409, "PROJECT_ARCHIVED");
     if (error?.code === "23503") return fail(reply, 400, "INVALID_REFERENCE");
