@@ -57,16 +57,25 @@ PRODUCT runs the complete PostgreSQL/API/security, browser and fresh-source inst
 suites in parallel on separate runners and disposable PostgreSQL services. All run on
 every PR and master integration; no test list or skip policy changes. The stable `product`
 aggregate requires every matrix suite to succeed, including on failure or cancellation.
-API and browser lists each run on two complementary shards, with files still
-serial inside each shard. API files use deterministic partitions weighted by observed
-file durations in `scripts/product-test-shards.mjs`; browser files retain Node sharding.
-The API partition retains the full input list exactly once across all shards and keeps
-its original order within each shard. New unmeasured files receive a fixed estimate
-and remain included. Estimates affect placement only; refresh them from actual complete
-CI observations when useful, without changing tests, assertions or timeouts.
+API files run on four complementary shards and browser files on three, with files still
+serial inside each shard. Both suites use deterministic partitions weighted by observed
+file durations in `scripts/product-test-shards.mjs`. Each partition retains the full input
+list exactly once across all shards and keeps its original order within each shard. New
+unmeasured files receive a fixed estimate of 30 seconds and remain included. Estimates
+affect placement only; refresh them from actual complete CI observations when useful,
+without changing tests, assertions or timeouts.
+
+For measured master run 38158157839 (acceptance jobs 114525305349, 114525305616,
+114525305541 and 114525305594), the old two-shard API test steps took 593s and 865s, and
+browser test steps took 281s and 542s. Greedy weighted scheduling predicts 346s API and 278s
+browser test time with the new shard counts. Allowing roughly 60–100s for runner
+setup/build gives an estimate near 406–446s (about 7–8 minutes), compared with
+the observed 865s slowest old test step. This is an estimate from one run; three added runners may increase queue
+delay and runner-minute use. All API, browser and release suites remain required, and the
+aggregate check still fails closed.
 Every shard has its own database; never run shards against
 the same database because fixtures reset shared metadata. Local commands run the full
-lists by default; `SCHEMAFORGE_TEST_SHARD=1/2` selects one shard explicitly. Compare
+lists by default; `SCHEMAFORGE_TEST_SHARD=1/N` selects one shard explicitly. Compare
 the combined shard test counts to the baseline to verify complete coverage.
 The release suite still performs fresh npm installation, parser/web builds, HTTPS and
 controlled UNIT-host/history acceptance inside the extracted source bundle. Its outer

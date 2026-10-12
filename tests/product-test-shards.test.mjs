@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import ts from 'typescript';
 import { partitionProductFiles } from '../scripts/product-test-shards.mjs';
 
-async function actualApiFiles() {
+async function actualFiles(containing) {
   const text = await readFile(new URL('../scripts/test-product.mjs', import.meta.url), 'utf8');
   const source = ts.createSourceFile('test-product.mjs', text, ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
   const arrays = [];
@@ -14,14 +14,17 @@ async function actualApiFiles() {
     ts.forEachChild(node, walk);
   }
   walk(source);
-  const api = arrays.filter(values => values.includes('tests/product-api.test.mjs'));
-  assert.equal(api.length, 1);
-  return api[0].filter(value => value.startsWith('tests/'));
+  const matches = arrays.filter(values => values.includes(containing));
+  assert.equal(matches.length, 1);
+  return matches[0].filter(value => value.startsWith('tests/'));
 }
 
-test('every real API file appears once across all shards, retaining its serial order', async () => {
-  const files = await actualApiFiles();
-  for (const total of [1, 2, 3, files.length]) {
+for (const [suite, anchor, totals] of [
+  ['API', 'tests/product-api.test.mjs', [1, 2, 3, 4]],
+  ['browser', 'tests/product-browser.integration.mjs', [1, 2, 3]],
+]) test(`every real ${suite} file appears once across configured shards, retaining serial order`, async () => {
+  const files = await actualFiles(anchor);
+  for (const total of totals) {
     const groups = partitionProductFiles(files, total);
     assert.equal(groups.length, total);
     assert.equal(groups.every(group => group.length > 0), true);
@@ -31,24 +34,38 @@ test('every real API file appears once across all shards, retaining its serial o
     assert.deepEqual([...combined].sort(), [...files].sort());
     for (const group of groups) assert.deepEqual(group, files.filter(file => group.includes(file)));
   }
-  assert.equal(files.includes('tests/product-worker-supervision.test.mjs'), true);
-  assert.equal(files.includes('tests/product-api-rate-limit.test.mjs'), true);
-  assert.equal(files.includes('tests/product-backup-restore.test.mjs'), true);
-  assert.equal(files.includes('tests/product-installed-worker-factory.test.mjs'), true);
-  assert.equal(files.includes('tests/product-installed-expiry-recovery.test.mjs'), true);
-  assert.equal(files.includes('tests/product-execution-service.test.mjs'), true);
+  if (suite === 'API') {
+    for (const file of ['tests/product-worker-supervision.test.mjs', 'tests/product-api-rate-limit.test.mjs',
+      'tests/product-backup-restore.test.mjs', 'tests/product-installed-worker-factory.test.mjs',
+      'tests/product-installed-expiry-recovery.test.mjs', 'tests/product-execution-service.test.mjs']) {
+      assert.equal(files.includes(file), true, `missing ${file}`);
+    }
+  }
 });
 
-test('membership is deterministic regardless of input order and inputs remain unchanged', async () => {
-  const files = await actualApiFiles(), before = [...files];
+test('API and browser memberships are deterministic regardless of input order', async () => {
   const normalized = values => values.map(group => [...group].sort());
-  assert.deepEqual(normalized(partitionProductFiles(files, 2)), normalized(partitionProductFiles([...files].reverse(), 2)));
-  assert.deepEqual(files, before);
+  for (const anchor of ['tests/product-api.test.mjs', 'tests/product-browser.integration.mjs']) {
+    const files = await actualFiles(anchor), before = [...files];
+    assert.deepEqual(normalized(partitionProductFiles(files, anchor.includes('browser') ? 3 : 4)),
+      normalized(partitionProductFiles([...files].reverse(), anchor.includes('browser') ? 3 : 4)));
+    assert.deepEqual(files, before);
+  }
 });
 
-test('the two slowest observed API files are distributed between the two runners', () => {
-  const heavy = ['tests/product-incremental-migrations.test.mjs', 'tests/product-statement-preview.test.mjs'];
-  const groups = partitionProductFiles([...heavy, 'tests/product-api.test.mjs'], 2);
+test('the four slowest observed API files are distributed across four runners', async () => {
+  const files = await actualFiles('tests/product-api.test.mjs');
+  const heavy = ['tests/product-incremental-migrations.test.mjs', 'tests/product-statement-preview.test.mjs',
+    'tests/product-controlled-execution.test.mjs', 'tests/product-execution-service.test.mjs'];
+  const groups = partitionProductFiles(files, 4);
+  assert.equal(groups.every(group => group.filter(file => heavy.includes(file)).length === 1), true);
+});
+
+test('the three slowest observed browser files are spread across all runners', async () => {
+  const files = await actualFiles('tests/product-browser.integration.mjs');
+  const heavy = ['tests/product-execution-jobs-browser.integration.mjs',
+    'tests/product-comments-browser.integration.mjs', 'tests/product-plan-source-browser.integration.mjs'];
+  const groups = partitionProductFiles(files, 3);
   assert.equal(groups.every(group => group.filter(file => heavy.includes(file)).length === 1), true);
 });
 
