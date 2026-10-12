@@ -1,7 +1,7 @@
 # Kelryvo
 
 Oracle-first Database DevOps and Governance Platform.
-Bytebase is the primary functional reference; Kelryvo is independently implemented.
+Kelryvo is independently implemented. External behavioral research remains internal-only.
 
 ## Domain rules
 - Workspaces own database infrastructure; projects own Git releases, plans, and reviews.
@@ -10,7 +10,8 @@ Bytebase is the primary functional reference; Kelryvo is independently implement
 - Never replay ambiguous Oracle DDL automatically or claim Oracle acceptance from offline checks.
 - Do not connect to Oracle, execute live migrations, or change lab infrastructure without explicit task authorization and a secret-free attested disposable-lab manifest.
 - Treat credentials as references; never commit credentials or expose application writer secrets to API services.
-- Use Bytebase as a functional reference only; do not copy its code or assets. Preserve applicable licenses and notices.
+- Do not copy restricted external code or assets. Preserve mandatory licenses, copyright notices and attribution.
+- Keep third-party comparison/source research outside publication: tracked product documents, PR titles/bodies, branch names and commit messages must describe Kelryvo. Historical deletion is not Git-history removal; never rewrite history or force-push without explicit authorization.
 
 ## Development
 - Follow the canonical product specification and treat research snapshots as design input, not implementation evidence.

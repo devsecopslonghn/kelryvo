@@ -1,5 +1,7 @@
 # Kelryvo UI/UX Design Specification
 
+For Phase 1 screen behavior, use the [three-module screen contracts](KELYRVO_PHASE1_SPECIFICATION.md). The foundations and existing interaction conventions below remain design input; no Stitch screen or visual acceptance is implied.
+
 **Status:** Final written design baseline, 2026-10-12. **Scope:** Existing private governance MVP and the proposed target-binding MVP screens. No application code or visual assets were changed. No Google Stitch mockup was found or reviewed; this is not a claim of visual acceptance.
 
 ## Design intent

@@ -9,9 +9,16 @@ as parents of the initial reconciliation. The original local `main` remains inta
 
 Before publication, inspect history and changed tracked files for secrets, private lab
 configuration, confidential imports and restricted source. The foundation review found
-no such content. Authored research, public upstream references and synthetic `.invalid`
-fixtures are included. Local developer paths in provenance identify the source of the
-immutable snapshot; they contain no enterprise infrastructure or credential material.
+no such content. The owner clarified the publication boundary on 2026-10-12:
+third-party behavioral comparison, source inventories and research provenance are internal-only,
+even when their inputs are public. Keep new research outside the Git checkout and publication
+artifacts. Product documents, PR titles/bodies, branch names and commit messages describe
+Kelryvo behavior rather than its reference research. Synthetic `.invalid` fixtures are allowed.
+Historical tracked research is not permission to publish further research. Preserve mandatory
+license, copyright and dependency attribution; distinguish these notices from optional research.
+Editing current documents or PR metadata does not remove old commits, PR revisions, caches,
+clones or forks. Historical removal needs separate explicit authorization and a coordinated
+remediation; never claim that a deletion commit purges history.
 The owner selected PolyForm Shield 1.0.0 on 2026-10-09 for independently authored
 SchemaForge code/documentation. Preserve LICENSE/NOTICE and independent third-party
 grants; naming and full F31 packaging/distribution clearance remain separate.

@@ -1,5 +1,7 @@
 # Kelryvo Product Requirements
 
+For the three-module Phase 1 increment, use the [implementation contracts](KELYRVO_PHASE1_SPECIFICATION.md). They supersede overlapping proposals here for that increment; this document retains the earlier requirement identifiers and wider recovery baseline.
+
 **Status:** Final planning baseline, 2026-10-12. **Scope:** Product behavior and implementation contracts for the private Kelryvo Oracle migration-governance product. Documentation only; no application behavior is changed or authorized by this document.
 
 ## Source and traceability

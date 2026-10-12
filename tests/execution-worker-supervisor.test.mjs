@@ -54,7 +54,10 @@ for (const mode of ['crash', 'malformed', 'stale', 'wrong-scope', 'wrong-worker'
   assert.ok(['HOLD', 'HOLD_PERSISTENCE_PENDING'].includes(result.status));
   assert.equal(result.terminalReceipt, false);
   assert.equal(result.childTermination, 'REAPED');
-  assert.equal(children[0].exitCode === 0, false);
+  // Protocol rejection may race the fixture's normal exit; HOLD and confirmed
+  // termination are required even when SIGTERM arrives after that exit.
+  assert.ok(children[0].exitCode !== null || children[0].signalCode !== null);
+  if (mode === 'crash' || mode === 'nonzero') assert.equal(children[0].exitCode === 0, false);
 });
 
 test('timeout kills and confirms child exit before returning', async () => {
