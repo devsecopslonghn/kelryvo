@@ -75,7 +75,10 @@ test('native restore preserves retained Git review history and UNIT receipts whi
   const {createApp}=await import('../apps/api/index.ts');
   const fixture=await createBackupProductFixture();let app;
   try {
-    const tables=['sf_organizations','sf_projects','sf_project_access_mode','sf_project_grants','sf_project_deploy_grants','sf_releases','sf_plans','sf_plan_comments','sf_history','sf_audit','sf_reference_databases','sf_reference_containers','sf_reference_schemas','sf_reference_assignments','sf_execution_receipts','sf_execution_admission_proofs'];
+    const tables=['sf_account_audit','sf_profiles','sf_organizations','sf_projects','sf_project_access_mode','sf_project_grants','sf_project_deploy_grants','sf_releases','sf_plans','sf_plan_comments','sf_history','sf_audit','sf_reference_databases','sf_reference_containers','sf_reference_schemas','sf_reference_assignments','sf_execution_receipts','sf_execution_admission_proofs'];
+    const sessionId=(await fixture.source.sql`SELECT id FROM sf_local_credentials WHERE actor_id=${fixture.actors[0].id} ORDER BY issued_at LIMIT 1`)[0].id;
+    await fixture.source.sql`INSERT INTO sf_account_audit(organization_id,actor_id,session_id,action)
+      VALUES('00000000-0000-4000-8000-000000000001',${fixture.actors[0].id},${sessionId},'SESSION_REVOKED')`;
     const before=Object.fromEntries(await Promise.all(tables.map(async table=>[table,await tableSnapshot(fixture.source.sql,table)])));
     const sourceJobs=await tableSnapshot(fixture.source.sql,'sf_execution_jobs');
     const sourceCredentials=await tableSnapshot(fixture.source.sql,'sf_local_credentials');

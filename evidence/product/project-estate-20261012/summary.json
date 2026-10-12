@@ -1,0 +1,16 @@
+{
+  "scope": "PROJECT_SCOPED_PROVISIONAL_ESTATE_UI",
+  "base": "356d97f906b7cb4651fa6f87e15d07d41072ae7c",
+  "checks": {
+    "actualPostgreSQLChromium": "PASS3/3,0skips:sharedservice projectisolation/transfer/logout/navigation/revocation;52assignments/50pageboundary/11service10summary",
+    "npm run check": "PASS306tests,68offline database skips,0failures;89pinnedpackages known grants",
+    "tracker": "PASS21/21",
+    "independentUIReview": "PASS no blockers:independent-review.json",
+    "finalDiff": "PASS"
+  },
+  "limitations": [
+    "Provisional manual declared estate, no Oracle observation or writer authority.",
+    "Current source UI is locally verified; candidate/masterCI pending.",
+    "Pages/service summary retain current API limits and explicit partial-coverage warnings."
+  ]
+}

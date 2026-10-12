@@ -13,6 +13,14 @@ change migration authorization or execution gates.
 
 ## Provisional schema references
 
+The project view groups loaded assignments by declared environment and stable service
+reference ID. Shared service names do not merge distinct service identities. A schema
+with several declared services appears under each listed service. Counts describe the
+loaded unique assignments; **Next page** loads more. Service summaries remain bounded
+to ten references per container, and omitted references are explicitly marked. Refresh
+reloads the current assignment view. These declarations retain provisional provenance
+and do not confirm an observed Oracle estate or grant ownership/execution authority.
+
 The **Schema references** project view shows only current schema ownership for the selected
 project. These are trusted local operator declarations labelled `MANUAL_REFERENCE` and
 `PROVISIONAL`; they do not report observed Oracle identity or grant profile, plan, approval,
@@ -1146,3 +1154,60 @@ expiry does not cancel it or establish whether its SQL effects occurred.
 The explicit UNIT connection port cannot satisfy a trusted installation. The fifteen
 provider tests verify synthetic lifecycle behavior; production authority, physical
 identity, TLS, grants, protected object integrity and adoption remain separate gates.
+
+## Account and access
+
+Open **Account & access** in the browser sidebar to inspect your named identity, fixed
+role, explicit project grants and deployment-request eligibility. Missing grants are
+handled by the trusted OS operator using the membership commands in this guide; no
+application administrator or implicit grant is introduced. Approver eligibility still
+requires independent authorship and the current plan/source checks.
+
+The same screen lists your active HTTPS browser sessions and their idle/absolute
+deadlines. **Revoke session** signs out another browser session; use **Sign out** for
+the current one. Revocation preserves the credential row and an immutable account
+audit event, survives restart, and does not revoke the parent access token. No session
+token, hash or credential reference is returned. HTTP development keeps a bearer in
+this tab's memory; it creates no browser session.
+
+Authenticated self-service endpoints are `GET /api/account/access`,
+`GET /api/account/sessions` (50 rows, optional `after` UUID and `nextCursor`) and
+`POST /api/account/sessions/:id/revoke` (no body, own browser sessions only).
+HTTPS mutations require the session CSRF proof and same origin.
+
+## Database instances and profile retirement
+
+Open **Database instances** to inspect the selected project's environments, Oracle
+endpoints, usernames and credential references. **Configure project connections** opens
+the existing environment/profile forms in Projects. **Inspect assigned instance
+references** opens the provisional database/container/service/schema catalog. The trusted
+operator maintains those declarations and assignments using the inventory commands;
+manual references never prove connectivity or authorize target execution.
+
+A granted developer can permanently retire a profile with a reason. Retired configuration
+stays readable in existing plans, audit and history. It is excluded from the target
+selector and rejected for new plans, approval, new deployment requests and worker
+admission of previously queued requests. Rejection, withdrawal and cancellation remain
+available under their existing permissions. An admitted request blocks retirement until
+its controlled recovery completes; retirement never interrupts or silently replays it.
+Create a replacement profile to change an endpoint or credential reference. No connection
+test, secret resolution or Oracle call is introduced.
+
+`POST /api/projects/:projectId/profiles/:id/retire` accepts only `{ "reason": "..." }`.
+Retirement is idempotent, transactionally rechecks membership/credential authority,
+preserves the first reason/time/actor and appends one `PROFILE_RETIRED` audit event.
+Archived projects are read only; approvers cannot retire profiles.
+
+This additive metadata migration retains existing profiles as active and retains all
+prior audit, plans, credential history and PostgreSQL data. Native backup includes
+account audit and retirement metadata under the new exact schema fingerprint. Backups
+from an older schema must be restored using their matching prior source release, then
+upgraded through normal startup; the strict fingerprint gate is never bypassed. Keep
+old source bundles and backup witnesses for that recovery path.
+
+All API metadata transaction checkpoints revalidate the exact authenticated credential
+and resolved project membership under the lifecycle/governance lock. For example, if
+the operator revokes a grant or credential while a Git import is parsing, its later
+write returns scoped 404 or 401 and persists neither release nor release-audit facts.
+Browser parent-session validation remains required; a project creation receipt never
+grants implicit membership. Read-only bootstrap compatibility remains unchanged.

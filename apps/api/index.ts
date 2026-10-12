@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import rateLimit from "@fastify/rate-limit";
-import { browserAuthentication, registerBrowserSessions, guardBrowserMutation } from "../../packages/database/browser-sessions.ts";
+import { browserAuthentication, registerBrowserSessions } from "../../packages/database/browser-sessions.ts";
+import { guardMutationAuthority } from "../../packages/database/mutation-authority.ts";
 import { createHash, randomUUID } from "node:crypto";
 import { authenticateLocalToken, seedLocalActors, tokenDigest } from "../../packages/database/local-credentials.ts";
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from "../../experiments/db-devops-wp0/parser-release.mjs";
@@ -20,6 +21,8 @@ import { registerExecutionHistory } from "../../packages/execution/history.ts";
 import { registerPlanRecord } from "../../packages/governance/plan-record.ts";
 import { registerExecutionRecord } from "../../packages/execution/record.ts";
 import { registerHealthProbes } from "../../packages/observability/health-probes.mjs";
+import { registerAccount } from "../../packages/database/account.ts";
+import { registerProfileLifecycle } from "../../packages/database/profile-lifecycle.ts";
 
 const ORG = "00000000-0000-4000-8000-000000000001";
 const MAX_BINDING_GENERATION = "9223372036854775807";
@@ -47,7 +50,7 @@ const validComment = (v: unknown) =>
 const validReason = (v: unknown, max = 2000) =>
   validComment(v) && text(v, max) && typeof v === "string" && !/[\u0080-\u009f]/u.test(v);
 const validHost = (v: unknown) =>
-  typeof v === "string" &&
+  typeof v === "string" && v.length <= 255 &&
   /^(?:[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?|\[[0-9A-Fa-f:]+\])$/.test(v);
 const validService = (v: unknown) =>
   typeof v === "string" && /^[A-Za-z0-9_$#.-]{1,128}$/.test(v);
@@ -140,6 +143,7 @@ export function createApp(options: {
     const requestPath = req.url.split('?')[0];
     const projectScoped = (requestPath === '/api/projects' && req.method !== 'GET') || requestPath.startsWith('/api/projects/') || requestPath.startsWith('/api/releases/')
       || requestPath.startsWith('/api/plans/');
+    req.projectScopedMutation = projectScoped && req.method !== 'GET';
     const accessMode = await projectAccessMode(sql);
     if (projectScoped && req.method !== 'GET' && accessMode === 'BOOTSTRAP_REQUIRED') {
       fail(reply, 409, 'MEMBERSHIP_BOOTSTRAP_REQUIRED');
@@ -160,12 +164,15 @@ export function createApp(options: {
         fail(reply, 404, 'NOT_FOUND');
         return;
       }
+      req.scopedProjectId = projectId;
     }
     });
   };
   registerPlanRecord(app, { sql, authenticate });
   registerExecutionRecord(app, { sql, authenticate });
   registerBrowserSessions(app, { sql, authenticate, seed, enabled: !!options.https });
+  registerAccount(app, { sql, authenticate });
+  registerProfileLifecycle(app, { sql, authenticate });
   app.get('/api/recovery/status', { preHandler: authenticate }, async () => {
     const row = (await sql`SELECT g.id,g.state,g.predecessor_id,g.witness_id,g.created_at
       FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0];
@@ -339,7 +346,7 @@ export function createApp(options: {
       )
         return fail(reply, 400, "INVALID_REQUEST");
       const p = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
         const mode = (await tx`SELECT mode FROM sf_project_access_mode WHERE organization_id=${ORG} FOR SHARE`)[0]?.mode;
         if (mode !== 'ENFORCED') throw Object.assign(new Error('MEMBERSHIP_BOOTSTRAP_REQUIRED'), { productCode: 'MEMBERSHIP_BOOTSTRAP_REQUIRED' });
         const created = (
@@ -361,7 +368,7 @@ export function createApp(options: {
       const [environments, profiles, releases, plans, audits, history, comments, deploymentGrant, executionJobs] =
         await Promise.all([
           sql`SELECT id,name,created_at FROM sf_environments WHERE project_id=${p.id} ORDER BY created_at`,
-          sql`SELECT id,name,environment_id,engine,host,port,service,username,credential_ref,created_at FROM sf_profiles WHERE project_id=${p.id} ORDER BY created_at`,
+          sql`SELECT id,name,environment_id,engine,host,port,service,username,credential_ref,created_at,retired_at,retired_by,retirement_reason FROM sf_profiles WHERE project_id=${p.id} ORDER BY created_at`,
           sql`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,validation_code,parser_profile,created_at FROM sf_releases WHERE project_id=${p.id} ORDER BY created_at DESC`,
           sql`SELECT id,organization_id,project_id,release_id,profile_id,author_id,reviewer_id,
             (SELECT display_name FROM sf_local_actors WHERE id=reviewer_id AND organization_id=${ORG} AND char_length(display_name) BETWEEN 1 AND 200) AS reviewer_name,
@@ -399,6 +406,9 @@ export function createApp(options: {
           username: r.username,
           credentialRef: r.credential_ref,
           createdAt: r.created_at,
+          retiredAt: r.retired_at,
+          retiredBy: r.retired_by,
+          retirementReason: r.retirement_reason,
         })),
         releases: releases.map((r: any) => ({
           id: r.id,
@@ -489,7 +499,7 @@ export function createApp(options: {
     if (!uuid(req.params.id) || !object(req.body, ['reason']) || !text(req.body.reason, 2000)) return fail(reply, 400, 'INVALID_REQUEST');
     if (req.actor.role !== 'developer') return fail(reply, 403, 'DEVELOPER_REQUIRED');
     const result = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req, 'developer');
       const row = (await tx`SELECT * FROM sf_projects WHERE id=${req.params.id} AND organization_id=${ORG} FOR UPDATE`)[0];
       if (!row) return null;
       if (row.archived_at) return row;
@@ -509,7 +519,7 @@ export function createApp(options: {
     if (req.actor.role !== 'developer') return fail(reply, 403, 'DEVELOPER_REQUIRED');
 
     const result = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req, 'developer');
       const current = (await tx`SELECT id,archived_at,
         CASE WHEN char_length(source_repository_id) BETWEEN 1 AND 200 THEN source_repository_id END AS source_repository_id,
         CASE WHEN char_length(source_folder) BETWEEN 1 AND 200 THEN source_folder END AS source_folder,
@@ -546,7 +556,7 @@ export function createApp(options: {
       const p = await project(req.params.id);
       if (!p) return fail(reply, 404, "NOT_FOUND");
       const e = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
         await requireActiveProject(tx, p.id);
         const environment = (
           await tx`INSERT INTO sf_environments(project_id,organization_id,name) VALUES(${p.id},${ORG},${b.name.trim()}) RETURNING id,name,created_at`
@@ -589,7 +599,7 @@ export function createApp(options: {
       const p = await project(req.params.id);
       if (!p) return fail(reply, 404, "NOT_FOUND");
       const r = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
         await requireActiveProject(tx, p.id);
         const profile = (
           await tx`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref) VALUES(${p.id},${ORG},${b.environmentId},${b.name.trim()},${b.engine},${b.host},${b.port},${b.service},${b.username},${b.credentialRef}) RETURNING id,name,environment_id,engine,host,port,service,username,credential_ref,created_at`
@@ -659,7 +669,7 @@ export function createApp(options: {
         content: file.content,
       }));
       const r = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
         const current = (await tx`SELECT archived_at,source_repository_id,source_folder FROM sf_projects
           WHERE id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
         if (!current || current.archived_at) return { error: 'PROJECT_ARCHIVED' };
@@ -699,7 +709,7 @@ export function createApp(options: {
       const requestedPath = req.query.path;
       const maxRetainedJsonBytes = 6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024;
       const result = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
         const preflight = await preflightRetainedRelease(tx, { id: req.params.id, organizationId: ORG,
           requestedPath, parserProfile: ANTLR_PROFILE });
         if (!preflight.row) return { error: 'NOT_FOUND' };
@@ -752,7 +762,7 @@ export function createApp(options: {
       body.baseReleaseId = body.baseReleaseId.toLowerCase();
       body.candidateReleaseId = body.candidateReleaseId.toLowerCase();
       const result = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
         const projectRow = (await tx`SELECT id,archived_at FROM sf_projects
           WHERE id=${req.params.id} AND organization_id=${ORG} FOR SHARE`)[0];
         if (!projectRow) return { error: "NOT_FOUND" };
@@ -856,7 +866,7 @@ export function createApp(options: {
     async (req: any, reply: any) => {
       if (!uuid(req.params.id)) return fail(reply, 404, "NOT_FOUND");
       const result = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
         const projectRow = (await tx`SELECT id,archived_at FROM sf_projects
           WHERE id=(SELECT project_id FROM sf_releases WHERE id=${req.params.id} AND organization_id=${ORG})
             AND organization_id=${ORG} FOR SHARE`)[0];
@@ -906,7 +916,7 @@ export function createApp(options: {
         return fail(reply, 400, "INVALID_REQUEST");
       const { verifyRetainedRelease } = await import("../../packages/migrations/verify-retained-release.mjs");
       const outcome = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
         // Keep the lock order consistent: project first, then the scoped release.
         const p = (await tx`SELECT id,archived_at,
           CASE WHEN char_length(source_repository_id) BETWEEN 1 AND 200 THEN source_repository_id END AS source_repository_id,
@@ -933,6 +943,7 @@ export function createApp(options: {
           CASE WHEN char_length(host) BETWEEN 1 AND 255 THEN host END AS host,port,
           CASE WHEN char_length(service) BETWEEN 1 AND 128 THEN service END AS service,
           CASE WHEN char_length(username) BETWEEN 1 AND 128 THEN username END AS username,
+          retired_at,
           CASE WHEN char_length(credential_ref) BETWEEN 1 AND 512 THEN credential_ref END AS credential_ref
           FROM sf_profiles WHERE id=${b.profileId} AND project_id=${p.id}
           AND organization_id=${ORG} FOR SHARE`)[0];
@@ -940,6 +951,7 @@ export function createApp(options: {
           CASE WHEN char_length(name) BETWEEN 1 AND 200 THEN name END AS name FROM sf_environments WHERE id=${profile.environment_id}
           AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
         if (!releaseBounds || !profile) return { error: "INVALID_REFERENCE" };
+        if (profile.retired_at) return { error: 'PROFILE_RETIRED' };
         if (!p.source_repository_id || !validMigrationFolder(p.source_folder)
             || !canonicalBindingGeneration(p.source_binding_generation)) return { error: "SOURCE_BINDING_INVALID" };
         if (!releaseBounds.source_matches)
@@ -988,6 +1000,7 @@ export function createApp(options: {
       if (outcome.error === "NOT_FOUND") return fail(reply, 404, "NOT_FOUND");
       if (outcome.error === "PROJECT_ARCHIVED") return fail(reply, 409, "PROJECT_ARCHIVED");
       if (outcome.error === "INVALID_REFERENCE") return fail(reply, 400, "INVALID_REFERENCE");
+      if (outcome.error === 'PROFILE_RETIRED') return fail(reply, 409, 'PROFILE_RETIRED');
       if (outcome.error === "RELEASE_NOT_VALID") return fail(reply, 409, "RELEASE_NOT_VALID");
       if (outcome.error === "RELEASE_INTEGRITY_FAILED") return fail(reply, 409, "RELEASE_INTEGRITY_FAILED");
       if (outcome.error === "RELEASE_NOT_PLANNABLE") return fail(reply, 409, "RELEASE_NOT_PLANNABLE");
@@ -1035,7 +1048,7 @@ export function createApp(options: {
       || (b.evidenceRefs !== undefined && !validateCommentEvidenceInput(b.evidenceRefs))) return fail(reply, 400, 'INVALID_REQUEST');
     const evidenceInput = b.evidenceRefs ?? [];
     const result = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
       // Match decision lock order so a comment cannot race a terminal transition.
       const plan = (await tx`SELECT id,project_id,organization_id,release_id,profile_id,author_id,status,
         source_binding_generation::text AS source_binding_generation
@@ -1148,7 +1161,7 @@ export function createApp(options: {
       || typeof b.expectedRevision !== 'string' || !/^(0|[1-9][0-9]{0,18})$/.test(b.expectedRevision)
       || (b.expectedRevision.length === 19 && b.expectedRevision > '9223372036854775807')) return fail(reply, 400, 'INVALID_REQUEST');
     const result = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
       await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
       const plan = (await tx`SELECT id,project_id,organization_id,author_id,status,reviewer_id,reviewer_revision::text AS revision
         FROM sf_plans WHERE id=${req.params.id} AND project_id=${req.params.projectId} AND organization_id=${ORG} FOR UPDATE`)[0];
@@ -1202,7 +1215,7 @@ export function createApp(options: {
       )
         return fail(reply, 400, "INVALID_REQUEST");
       const result = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
         await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
         const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF g`)[0];
         if (gate?.state !== 'ACTIVE') return { error:'METADATA_RESTORE_HOLD' };
@@ -1237,6 +1250,9 @@ export function createApp(options: {
           return denialReason;
         }
         if (b.decision === "APPROVE") {
+          const target = (await tx`SELECT retired_at FROM sf_profiles WHERE id=${p.profile_id}
+            AND project_id=${p.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
+          if (target?.retired_at) return 'PROFILE_RETIRED';
           if (!currentProject || !currentProject.source_repository_id || !validMigrationFolder(currentProject.source_folder)
               || !canonicalBindingGeneration(currentProject.source_binding_generation)
               || !canonicalBindingGeneration(p.source_binding_generation)
@@ -1329,6 +1345,7 @@ export function createApp(options: {
       if (result === 'DECISION_ALREADY_RECORDED') return fail(reply, 409, 'DECISION_ALREADY_RECORDED');
       if (result === 'PLAN_APPROVAL_INTEGRITY_FAILED') return fail(reply, 409, 'PLAN_APPROVAL_INTEGRITY_FAILED');
       if (result === 'FRESH_PLAN_REQUIRED') return fail(reply, 409, 'FRESH_PLAN_REQUIRED');
+      if (result === 'PROFILE_RETIRED') return fail(reply, 409, 'PROFILE_RETIRED');
       return { plan: mapPlan(result) };
     },
   );
@@ -1342,7 +1359,7 @@ export function createApp(options: {
         || !(b.expectedApprovalReference === null || uuid(b.expectedApprovalReference))
         || !validReason(b.reason, 2000)) return fail(reply, 400, 'INVALID_REQUEST');
       const result = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
         // Credential lifecycle mutations take this organization seed lock first.
         await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
         if (!req.params.id || !uuid(req.params.id)) return null;
@@ -1418,7 +1435,7 @@ export function createApp(options: {
         let plan;
         try {
           plan = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
             const current = (await tx`SELECT id,project_id FROM sf_plans WHERE id=${req.params.id} AND organization_id=${ORG} FOR SHARE`)[0];
             if (!current) return null;
             await requireActiveProject(tx, current.project_id);
@@ -1437,7 +1454,7 @@ export function createApp(options: {
         return fail(reply, 400, 'INVALID_REQUEST');
       const digest = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
       const result = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
         await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
         const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF g`)[0];
         if (gate?.state !== 'ACTIVE') return { error:'METADATA_RESTORE_HOLD' };
@@ -1476,9 +1493,10 @@ export function createApp(options: {
         const itemsValid = Array.isArray(payload?.items) && payload.items.every((item: any) =>
           object(item, ['path','version','sha256','status']) && item.status === 'NOT_EXECUTED');
         if (!itemsValid) return { error: 'PLAN_NOT_REQUESTABLE' };
-        const profile = (await tx`SELECT profile.id,profile.engine,profile.host,profile.port,profile.service,profile.username,
+        const profile = (await tx`SELECT profile.id,profile.engine,profile.host,profile.port,profile.service,profile.username,profile.retired_at,
           release.repository_id,release.folder FROM sf_profiles profile JOIN sf_releases release ON release.id=${plan.release_id}
           AND release.project_id=profile.project_id WHERE profile.id=${plan.profile_id} AND profile.project_id=${plan.project_id} FOR SHARE OF profile,release`)[0];
+        if (profile?.retired_at) return { error: 'PROFILE_RETIRED' };
         const intent = verifyOfflinePlanIntent(payload?.offline_intent_envelope, plan.offline_intent_digest, {
           organizationId: ORG, projectId: plan.project_id, requesterId: plan.author_id,
           releaseId: plan.release_id, profileId: plan.profile_id,
@@ -1554,7 +1572,7 @@ export function createApp(options: {
   app.post('/api/execution-jobs/:id/cancel', { preHandler: authenticate }, async (req: any, reply: any) => {
     if (!uuid(req.params.id) || !object(req.body, ['expectedRevision']) || !Number.isSafeInteger(req.body.expectedRevision) || req.body.expectedRevision < 0) return fail(reply, 400, 'INVALID_REQUEST');
     const result = await sql.begin(async (tx: any) => {
-        await guardBrowserMutation(tx, req);
+        await guardMutationAuthority(tx, req);
       await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
       const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF g`)[0];
       if (gate?.state !== 'ACTIVE') return { error:'METADATA_RESTORE_HOLD' };
@@ -1589,6 +1607,9 @@ export function createApp(options: {
     if (error?.statusCode === 429) return fail(reply, 429, "RATE_LIMITED");
     if (error?.productCode === "UNAUTHENTICATED") return fail(reply, 401, "UNAUTHENTICATED");
     if (error?.productCode === "CSRF_REJECTED") return fail(reply, 403, "CSRF_REJECTED");
+    if (error?.productCode === 'NOT_FOUND') return fail(reply, 404, 'NOT_FOUND');
+    if (error?.productCode === 'DEVELOPER_REQUIRED') return fail(reply, 403, 'DEVELOPER_REQUIRED');
+    if (error?.productCode === 'MEMBERSHIP_BOOTSTRAP_REQUIRED') return fail(reply, 409, 'MEMBERSHIP_BOOTSTRAP_REQUIRED');
     if (error?.productCode === "PROJECT_ARCHIVED") return fail(reply, 409, "PROJECT_ARCHIVED");
     if (error?.code === "23503") return fail(reply, 400, "INVALID_REFERENCE");
     if (error?.code === "23505") return fail(reply, 409, "CONFLICT");

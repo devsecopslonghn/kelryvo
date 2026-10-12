@@ -14,7 +14,9 @@ const scripts = new Set(['antlr-build','antlr-prepare','build-web','check-source
   'local-operator-config','local-prepare','local-repositories','local-resources','local-tls',
   'product-dependencies','release-acceptance','local-release']);
 const tests = new Set(['product-mvp-workflow.test.mjs','product-mvp-workflow-browser.integration.mjs',
-  'product-secure-sessions-browser.integration.mjs','product-release-acceptance.integration.mjs']);
+  'product-secure-sessions-browser.integration.mjs','product-release-acceptance.integration.mjs',
+  'product-account.test.mjs','product-account-browser.integration.mjs',
+  'product-profile-lifecycle.test.mjs','product-instances-browser.integration.mjs','product-mutation-authority.test.mjs']);
 const fixed = new Set(['LICENSE','NOTICE','.nvmrc','package.json','package-lock.json','tsconfig.json',
   'docs/development/local-product.md','docs/development/local-release.md','docs/product/license-and-naming.md',
   'docs/architecture/boundaries.md']);

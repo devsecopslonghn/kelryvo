@@ -3668,6 +3668,39 @@
         }
       ],
       "blockers": []
+    },
+    {
+      "id": "SF-PRODUCT-T44",
+      "package": "PRODUCT",
+      "assigned_agent": "frontend",
+      "title": "Group assigned project schemas by declared environment and service",
+      "dependencies": [
+        "SF-PRODUCT-T30"
+      ],
+      "feature_ids": [
+        "PRJ-002"
+      ],
+      "acceptance_criteria": [
+        "Group the project-scoped loaded schema references by declared environment and stable service reference ID, preserving exact schema owners, database/container identities and provisional manual provenance. Schemas visible through multiple declared services may appear in each group; never combine different physical service references merely by display name.",
+        "Preserve existing scoped reader API and local-operator-only ownership authority. Keep unknown target availability, physical route hosts, operator data and other project assignments private. No Oracle access, profile binding or execution authority.",
+        "Keep on-demand pages, refresh and empty state. Report loaded unique assignment counts and pending pages; retain the explicit omitted-service warning for bounded summaries. Navigation, logout and revoked project access must clear stale records through existing context fencing.",
+        "Use actual PostgreSQL and Chromium to verify two project estates sharing one service remain isolated, operator transfers update grouping, delayed/logout/revocation protections remain, and more than50 assignments plus10-service summary limits are truthfully displayed. Preserve mandatory CI and independent review."
+      ],
+      "test_references": [
+        "SF-PRODUCT-T44-GROUPS",
+        "SF-PRODUCT-T44-SCOPE",
+        "SF-PRODUCT-T44-PAGES"
+      ],
+      "status": "IMPLEMENTED",
+      "source_paths": [
+        "docs/implementation/backlog.json"
+      ],
+      "evidence": [
+        {
+          "index_id": "product-t44-project-estate-local"
+        }
+      ],
+      "blockers": []
     }
   ]
 }

@@ -991,7 +991,30 @@ const PRODUCT_TASK_43 = {
     "SF-PRODUCT-T43-BROWSER"
   ]
 };
-const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38, PRODUCT_TASK_39, PRODUCT_TASK_40, PRODUCT_TASK_41, PRODUCT_TASK_42, PRODUCT_TASK_43];
+const PRODUCT_TASK_44 = {
+  "id": "SF-PRODUCT-T44",
+  "package": "PRODUCT",
+  "assigned_agent": "frontend",
+  "title": "Group assigned project schemas by declared environment and service",
+  "dependencies": [
+    "SF-PRODUCT-T30"
+  ],
+  "feature_ids": [
+    "PRJ-002"
+  ],
+  "acceptance_criteria": [
+    "Group the project-scoped loaded schema references by declared environment and stable service reference ID, preserving exact schema owners, database/container identities and provisional manual provenance. Schemas visible through multiple declared services may appear in each group; never combine different physical service references merely by display name.",
+    "Preserve existing scoped reader API and local-operator-only ownership authority. Keep unknown target availability, physical route hosts, operator data and other project assignments private. No Oracle access, profile binding or execution authority.",
+    "Keep on-demand pages, refresh and empty state. Report loaded unique assignment counts and pending pages; retain the explicit omitted-service warning for bounded summaries. Navigation, logout and revoked project access must clear stale records through existing context fencing.",
+    "Use actual PostgreSQL and Chromium to verify two project estates sharing one service remain isolated, operator transfers update grouping, delayed/logout/revocation protections remain, and more than50 assignments plus10-service summary limits are truthfully displayed. Preserve mandatory CI and independent review."
+  ],
+  "test_references": [
+    "SF-PRODUCT-T44-GROUPS",
+    "SF-PRODUCT-T44-SCOPE",
+    "SF-PRODUCT-T44-PAGES"
+  ]
+};
+const PRODUCT_TASKS = [PRODUCT_TASK, PRODUCT_TASK_02, PRODUCT_TASK_03, PRODUCT_TASK_04, PRODUCT_TASK_05, PRODUCT_TASK_06, PRODUCT_TASK_07, PRODUCT_TASK_08, PRODUCT_TASK_09, PRODUCT_TASK_10, PRODUCT_TASK_11, PRODUCT_TASK_12, PRODUCT_TASK_13, PRODUCT_TASK_14, PRODUCT_TASK_15, PRODUCT_TASK_16, PRODUCT_TASK_17, PRODUCT_TASK_18, PRODUCT_TASK_19, PRODUCT_TASK_20, PRODUCT_TASK_21, PRODUCT_TASK_22, PRODUCT_TASK_23, PRODUCT_TASK_24, PRODUCT_TASK_25, PRODUCT_TASK_26, PRODUCT_TASK_27, PRODUCT_TASK_28, PRODUCT_TASK_29, PRODUCT_TASK_30, PRODUCT_TASK_31, PRODUCT_TASK_32, PRODUCT_TASK_33, PRODUCT_TASK_34, PRODUCT_TASK_35, PRODUCT_TASK_36, PRODUCT_TASK_37, PRODUCT_TASK_38, PRODUCT_TASK_39, PRODUCT_TASK_40, PRODUCT_TASK_41, PRODUCT_TASK_42, PRODUCT_TASK_43, PRODUCT_TASK_44];
 const PRODUCT_SCHEDULE = Object.fromEntries(PRODUCT_TASKS.map((task) => [task.id, task.dependencies]));
 const OWNER_ROLES = {
   database: 'Oracle data model, database behavior, migration execution, and database contracts',

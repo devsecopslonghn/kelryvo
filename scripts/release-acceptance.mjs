@@ -14,7 +14,9 @@ try {
   delete environment.NODE_TEST_CONTEXT;
   const child=spawn(process.execPath,['--test','--test-reporter=tap','--test-concurrency=1',
     'tests/product-mvp-workflow.test.mjs','tests/product-mvp-workflow-browser.integration.mjs',
-    'tests/product-secure-sessions-browser.integration.mjs','tests/product-release-acceptance.integration.mjs'],
+    'tests/product-secure-sessions-browser.integration.mjs','tests/product-release-acceptance.integration.mjs',
+    'tests/product-account.test.mjs','tests/product-account-browser.integration.mjs',
+    'tests/product-profile-lifecycle.test.mjs','tests/product-instances-browser.integration.mjs','tests/product-mutation-authority.test.mjs'],
   { stdio:'inherit',env:environment });
   child.once('error',()=>{process.exitCode=1;});
   child.once('exit',code=>{process.exitCode=code??1;});

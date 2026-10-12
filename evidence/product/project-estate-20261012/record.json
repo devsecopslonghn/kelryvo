@@ -1,0 +1,25 @@
+{
+  "id": "product-t44-project-estate-local",
+  "subject_id": "SF-PRODUCT-T44",
+  "kind": "INTEGRATION",
+  "scope": "PRODUCT",
+  "outcome": "PASS",
+  "command": "npm run check; actual isolated PostgreSQL/Chromium schema-reference browser3/3; tracker21/21; independentUIreview. Existing API/provenance/authority contracts unchanged. Exact candidate/masterCI pending.",
+  "exit_code": 0,
+  "criterion_indexes": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "test_references": [
+    "SF-PRODUCT-T44-GROUPS",
+    "SF-PRODUCT-T44-SCOPE",
+    "SF-PRODUCT-T44-PAGES"
+  ],
+  "case_coverage": [],
+  "raw_output": {
+    "path": "evidence/product/project-estate-20261012/summary.json",
+    "sha256": "e16eb7504ed46aa0f363bc0329ebb491753460324cbcf5ef299689715c4a34eb"
+  }
+}

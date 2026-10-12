@@ -75,6 +75,15 @@ export async function initializeDatabase(sql: any, options: { initializeMetadata
         FOREIGN KEY(parent_credential_id,actor_id) REFERENCES sf_local_credentials(id,actor_id);
     END IF; END $$;
     CREATE INDEX IF NOT EXISTS sf_local_credentials_actor_active ON sf_local_credentials(actor_id) WHERE revoked_at IS NULL;
+    CREATE TABLE IF NOT EXISTS sf_account_audit (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
+      actor_id text NOT NULL, session_id uuid NOT NULL REFERENCES sf_local_credentials(id),
+      action text NOT NULL CHECK(action='SESSION_REVOKED'), created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      FOREIGN KEY(actor_id,organization_id) REFERENCES sf_local_actors(id,organization_id)
+    );
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='sf_account_audit_immutable') THEN
+      CREATE TRIGGER sf_account_audit_immutable BEFORE UPDATE OR DELETE ON sf_account_audit
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_metadata_evidence_mutation(); END IF; END $$;
     CREATE TABLE IF NOT EXISTS sf_projects (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL REFERENCES sf_organizations(id),
       name text NOT NULL, description text,
@@ -129,6 +138,15 @@ export async function initializeDatabase(sql: any, options: { initializeMetadata
       files jsonb NOT NULL, created_at timestamptz NOT NULL DEFAULT now(),
       FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id), UNIQUE(id,project_id)
     );
+    ALTER TABLE sf_profiles ADD COLUMN IF NOT EXISTS retired_at timestamptz;
+    ALTER TABLE sf_profiles ADD COLUMN IF NOT EXISTS retired_by text;
+    ALTER TABLE sf_profiles ADD COLUMN IF NOT EXISTS retirement_reason text;
+    DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='sf_profiles_retirement') THEN
+      ALTER TABLE sf_profiles ADD CONSTRAINT sf_profiles_retirement CHECK (
+        (retired_at IS NULL AND retired_by IS NULL AND retirement_reason IS NULL) OR
+        (retired_at IS NOT NULL AND retired_by IS NOT NULL AND retirement_reason IS NOT NULL
+          AND char_length(btrim(retirement_reason)) BETWEEN 1 AND 2000));
+    END IF; END $$;
     CREATE TABLE IF NOT EXISTS sf_plans (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), project_id uuid NOT NULL, organization_id uuid NOT NULL,
       release_id uuid NOT NULL, profile_id uuid NOT NULL, author_id text NOT NULL, status text NOT NULL DEFAULT 'PENDING_APPROVAL',

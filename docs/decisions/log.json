@@ -770,6 +770,51 @@
       "catalog_traceability": [
         "SEC-013"
       ]
+    },
+    {
+      "id": "SF-D063",
+      "status": "ACCEPTED_PROJECT_ESTATE_GROUPING",
+      "decision": "Group the existing authorized project schema reference projection by declared environment and stable service ID. Preserve exact owners, provisional identities and loaded-page/service-summary limits; no new API or ownership writer authority. Shared physical services show separate project assignments. These are declarations, not Oracle discovery or confirmed target estate. Refresh and existing navigation/session gates remain.",
+      "references": [
+        "apps/web/src/app.jsx",
+        "tests/product-schema-reference-browser.integration.mjs",
+        "docs/development/local-product.md"
+      ],
+      "catalog_traceability": [
+        "PRJ-002"
+      ]
+    },
+    {
+      "id": "SF-D064",
+      "status": "ACCEPTED_KELRYVO_MVP_COMPLETION",
+      "decision": "Owner product-first objective supersedes per-feature PR/release cadence. Preserve prior source on development/kelryvo-mvp-completion; lock practical self-hosted governance scope in MVP.md. Add self-service account access and active browser session revocation without introducing an administrator or changing operator-only grants. Preserve Oracle-disabled scope and exact approval, HOLD, no-replay and recovery invariants. Perform one reviewed milestone release after feature completion; externally blocked Oracle acceptance remains explicit.",
+      "references": [
+        "docs/implementation/MVP.md",
+        "packages/database/account.ts",
+        "apps/web/src/Account.jsx"
+      ]
+    },
+    {
+      "id": "SF-D065",
+      "status": "ACCEPTED_PROFILE_LIFECYCLE",
+      "decision": "Reference-only connection profiles remain immutable configuration snapshots; change endpoints or credential references by creating a replacement and permanently retiring the prior profile. Only granted developers retire active-project profiles under the existing governance/lifecycle lock and transactional credential/membership revalidation. Block while any associated request is ADMITTED; preserve historical plans, approvals, history, uncertainty and requests. Retired profiles reject fresh plans, approval, new requests and worker admission. Keep old source bundles for old-schema backup restore before additive upgrade; update the exact backup fingerprint rather than bypassing it. No secret resolver, Oracle connection or target authority is added.",
+      "references": [
+        "packages/database/profile-lifecycle.ts",
+        "packages/execution/admission.ts",
+        "apps/web/src/Instances.jsx",
+        "packages/backup/index.mjs",
+        "docs/development/local-product.md"
+      ]
+    },
+    {
+      "id": "SF-D066",
+      "status": "ACCEPTED_TRANSACTIONAL_MUTATION_AUTHORITY",
+      "decision": "Revalidate exact local or browser credential and server-resolved project membership at every existing metadata transaction checkpoint under the shared lifecycle/governance advisory lock. Slow Git parsing occurs outside the write transaction; revocation that commits during parsing denies persistence without changing retained release or audit facts. Preserve operator-only grants, creation receipts without implicit access, bootstrap read compatibility and fixed roles. Return scoped404 on membership loss and401 on credential loss. This closes a pre-handler-only authority gap without adding execution permissions.",
+      "references": [
+        "packages/database/mutation-authority.ts",
+        "apps/api/index.ts",
+        "tests/product-mutation-authority.test.mjs"
+      ]
     }
   ]
 }

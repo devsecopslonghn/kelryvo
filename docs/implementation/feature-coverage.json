@@ -12,8 +12,8 @@
     "BLOCKED_EXTERNAL is reserved for an otherwise implemented/ready feature missing only external evidence; unimplemented features are not relabeled merely because Oracle access is absent."
   ],
   "summary": {
-    "PARTIALLY_IMPLEMENTED": 58,
-    "NOT_IMPLEMENTED": 155,
+    "PARTIALLY_IMPLEMENTED": 59,
+    "NOT_IMPLEMENTED": 154,
     "DEFERRED": 7,
     "BLOCKED_EXTERNAL": 0,
     "IMPLEMENTED_AND_VERIFIED": 0
@@ -28,8 +28,8 @@
     },
     "MVP-Extended": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 2,
-      "NOT_IMPLEMENTED": 2,
+      "PARTIALLY_IMPLEMENTED": 3,
+      "NOT_IMPLEMENTED": 1,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     },
@@ -64,9 +64,9 @@
   },
   "external_acceptance": "Integrated control-plane flow through PR65: exact candidate/master Foundation, parser, full PRODUCT and CodeQL PASS;110API/33browser/1release per head, zero failures/cancellations/skips. Oracle runtime and deployed isolation remain unaccepted.",
   "next_product_capability": {
-    "task": "SF-PRODUCT-T43",
+    "task": "SF-PRODUCT-T44",
     "status": "IMPLEMENTED_PENDING_CI",
-    "capability": "Joined retained execution-request record export developed independently of prior release CI",
+    "capability": "Grouped project estate developed independently while release and CI optimization continue",
     "full_catalog_promotion": false
   },
   "features": [
@@ -341,8 +341,25 @@
       "id": "PRJ-002",
       "name": "Project schema estate",
       "milestone": "MVP-Extended",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Existing T30 project-scoped current ownership projection is now grouped by declared environment and stable service reference ID in T44, with real browser/project-isolation and pagination-limit acceptance. Provisional manual declarations do not certify observed Oracle estate or complete original catalog acceptance.",
+      "verified_facets": [
+        {
+          "task": "SF-PRODUCT-T30",
+          "behavior": "Current project-scoped schema reference ownership metadata with explicit operator assignment and scoped reader access.",
+          "evidence": [
+            "product-t30-schema-reference-ownership-local-verified"
+          ]
+        },
+        {
+          "task": "SF-PRODUCT-T44",
+          "behavior": "Environment/service grouping of loaded assignments; shared-service project isolation, transferred ownership, page count, service truncation and navigation/logout/revocation fencing.",
+          "evidence": [
+            "product-t44-project-estate-local"
+          ]
+        }
+      ],
+      "remaining_gap": "Observed Oracle estate/target identity and complete original catalog acceptance remain unverified; loaded pages and service summaries preserve explicit limits."
     },
     {
       "id": "PRJ-003",

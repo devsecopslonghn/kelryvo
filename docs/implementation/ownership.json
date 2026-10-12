@@ -1367,6 +1367,10 @@
     "SF-PRODUCT-T43": {
       "assigned_agent": "backend",
       "status": "IMPLEMENTED"
+    },
+    "SF-PRODUCT-T44": {
+      "assigned_agent": "frontend",
+      "status": "IMPLEMENTED"
     }
   }
 }

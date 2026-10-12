@@ -10,6 +10,7 @@ const uuid = value => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-
 export async function applyLocalMembershipAction(sql, { action, projectId, actorId }) {
   if (['grant','revoke'].includes(action)) {
     await sql.begin(async tx => {
+      await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
       await tx`SELECT mode FROM sf_project_access_mode WHERE organization_id=${ORG} FOR SHARE`;
       const project = (await tx`SELECT id FROM sf_projects WHERE id=${projectId} AND organization_id=${ORG} FOR UPDATE`)[0];
       const actor = (await tx`SELECT id FROM sf_local_actors WHERE id=${actorId} AND organization_id=${ORG} AND role IN ('developer','approver') FOR UPDATE`)[0];

@@ -1,0 +1,124 @@
+{
+  "pr": 70,
+  "head": "cacd4e54d4c8c46ce1d071a6ff0d14a37bacd1e2",
+  "productRun": 38186001095,
+  "jobs": [
+    {
+      "id": 114608333421,
+      "name": "acceptance (api, 2/4)",
+      "conclusion": "success",
+      "elapsedSeconds": 400,
+      "testTotals": {
+        "tests": 26,
+        "pass": 26,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "id": 114608333541,
+      "name": "acceptance (api, 3/4)",
+      "conclusion": "success",
+      "elapsedSeconds": 398,
+      "testTotals": {
+        "tests": 39,
+        "pass": 39,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "id": 114608333550,
+      "name": "acceptance (release, 1/1)",
+      "conclusion": "success",
+      "elapsedSeconds": 241,
+      "testTotals": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "id": 114608333566,
+      "name": "acceptance (api, 1/4)",
+      "conclusion": "success",
+      "elapsedSeconds": 431,
+      "testTotals": {
+        "tests": 25,
+        "pass": 25,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "id": 114608333584,
+      "name": "acceptance (browser, 3/3)",
+      "conclusion": "success",
+      "elapsedSeconds": 368,
+      "testTotals": {
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "id": 114608333590,
+      "name": "acceptance (api, 4/4)",
+      "conclusion": "success",
+      "elapsedSeconds": 366,
+      "testTotals": {
+        "tests": 27,
+        "pass": 27,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "id": 114608333623,
+      "name": "acceptance (browser, 2/3)",
+      "conclusion": "success",
+      "elapsedSeconds": 362,
+      "testTotals": {
+        "tests": 14,
+        "pass": 14,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "id": 114608333657,
+      "name": "acceptance (browser, 1/3)",
+      "conclusion": "success",
+      "elapsedSeconds": 316,
+      "testTotals": {
+        "tests": 11,
+        "pass": 11,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "id": 114609656845,
+      "name": "product",
+      "conclusion": "success",
+      "elapsedSeconds": 2
+    }
+  ],
+  "maximumAcceptanceJobSeconds": 431,
+  "coverage": {
+    "api": 117,
+    "browser": 35,
+    "release": 1
+  },
+  "limits": "One observed run with full assertions and fresh isolated shards; queue variance can change elapsed time."
+}
