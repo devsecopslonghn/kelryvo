@@ -244,7 +244,7 @@ test('activation serializes with in-flight revocation and bootstrap creation sta
     revocation = applyLocalMembershipAction(db.sql, { action: 'revoke', projectId: project.id, actorId: developer.id });
     await waitForLock(['select id from sf_projects where id=$1 and organization_id=$2 for update']);
     activation = applyLocalMembershipAction(db.sql, { action: 'activate' }).then(() => null, error => error);
-    await waitForLock(['select mode from sf_project_access_mode']);
+    await waitForLock(['select pg_advisory_xact_lock(1397112658, 2)']);
     releaseProjectLock();
     await lockTransaction;
     await revocation;

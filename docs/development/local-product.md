@@ -1204,3 +1204,10 @@ account audit and retirement metadata under the new exact schema fingerprint. Ba
 from an older schema must be restored using their matching prior source release, then
 upgraded through normal startup; the strict fingerprint gate is never bypassed. Keep
 old source bundles and backup witnesses for that recovery path.
+
+All API metadata transaction checkpoints revalidate the exact authenticated credential
+and resolved project membership under the lifecycle/governance lock. For example, if
+the operator revokes a grant or credential while a Git import is parsing, its later
+write returns scoped 404 or 401 and persists neither release nor release-audit facts.
+Browser parent-session validation remains required; a project creation receipt never
+grants implicit membership. Read-only bootstrap compatibility remains unchanged.

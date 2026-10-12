@@ -805,6 +805,16 @@
         "packages/backup/index.mjs",
         "docs/development/local-product.md"
       ]
+    },
+    {
+      "id": "SF-D066",
+      "status": "ACCEPTED_TRANSACTIONAL_MUTATION_AUTHORITY",
+      "decision": "Revalidate exact local or browser credential and server-resolved project membership at every existing metadata transaction checkpoint under the shared lifecycle/governance advisory lock. Slow Git parsing occurs outside the write transaction; revocation that commits during parsing denies persistence without changing retained release or audit facts. Preserve operator-only grants, creation receipts without implicit access, bootstrap read compatibility and fixed roles. Return scoped404 on membership loss and401 on credential loss. This closes a pre-handler-only authority gap without adding execution permissions.",
+      "references": [
+        "packages/database/mutation-authority.ts",
+        "apps/api/index.ts",
+        "tests/product-mutation-authority.test.mjs"
+      ]
     }
   ]
 }
