@@ -12,7 +12,7 @@ import { configureTargetOption } from '../../packages/targets/index.ts';
 const ORG = '00000000-0000-4000-8000-000000000001';
 
 /** Real PostgreSQL, a temporary local Git repository, the installed parser, and scoped product actors. */
-export async function createTargetWorkflowFixture() {
+export async function createTargetWorkflowFixture({fileCount=1}={}) {
   const repo = await mkdtemp(path.join(tmpdir(), 'sf-target-workflow-'));
   let db, app, membership;
   const actors = [
@@ -31,6 +31,7 @@ export async function createTargetWorkflowFixture() {
     git('init'); git('config', 'user.name', 'Kelryvo target workflow fixture'); git('config', 'user.email', 'fixture@example.invalid');
     await mkdir(path.join(repo, 'migrations'));
     await writeFile(path.join(repo, 'migrations', 'V1__target.sql'), '-- retained local source\nCREATE TABLE target_workflow (id NUMBER);\n');
+    for(let i=2;i<=fileCount;i++) await writeFile(path.join(repo,'migrations',`V${i}__target.sql`),`CREATE TABLE target_workflow_${i} (id NUMBER);\n`);
     git('add', 'migrations'); git('commit', '-m', 'Target workflow fixture release');
 
     db = await openIsolatedProductDatabase();

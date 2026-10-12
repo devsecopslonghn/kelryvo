@@ -271,7 +271,7 @@ function StatementEnvelope({ token, projectId, planId, intentDigest }) {
   </section>;
 }
 
-function SchemaReferences({ token, projectId, onMissing }) {
+function SchemaReferences({ token, projectId, onMissing, onTargets }) {
   const [rows,setRows]=useState([]),[next,setNext]=useState(null),[error,setError]=useState(''),[loading,setLoading]=useState(false);
   const seq=useRef(0);
   const load=async(after=null,append=false)=>{const n=++seq.current;setLoading(true);setError('');if(!append){setRows([]);setNext(null);}
@@ -292,11 +292,12 @@ function SchemaReferences({ token, projectId, onMissing }) {
     return (ai<0?environmentOrder.length:ai)-(bi<0?environmentOrder.length:bi)||a.localeCompare(b);
   });
   const renderReference=(r)=><article className="schema-reference-card" key={r.id} data-schema-id={r.id}><span className="status-pill warn">Provisional · reference only</span><h4>{r.owner}</h4><dl>
-    <div><dt>Schema reference</dt><dd><code>{r.id}</code> · generation {r.generation}</dd></div><div><dt>Assignment ID</dt><dd><code>{r.assignmentId}</code></dd></div><div><dt>Assignment revision</dt><dd>{r.assignmentRevision || r.revision}</dd></div><div><dt>Observation</dt><dd>Not observed · environment not mapped</dd></div><div><dt>Database</dt><dd>{r.database.label} · <code>{r.database.id}</code> · generation {r.database.generation}</dd></div>
+    <div><dt>Schema reference</dt><dd><code>{r.id}</code> · generation {r.generation}</dd></div><div><dt>Assignment ID</dt><dd><code>{r.assignmentId}</code></dd></div><div><dt>Assignment revision</dt><dd>{r.assignmentRevision || r.revision}</dd></div><div><dt>Observation</dt><dd>Not observed</dd></div><div><dt>Database</dt><dd>{r.database.label} · <code>{r.database.id}</code> · generation {r.database.generation}</dd></div>
     <div><dt>Container</dt><dd>{r.container.name} ({r.container.kind}) · declared {r.container.environment} · <code>{r.container.id}</code></dd></div>
     {r.servicesTruncated&&<div className="schema-reference-truncation" role="note"><dt>Service coverage</dt><dd>Additional service references are omitted. This assignment may appear under more services.</dd></div>}
   </dl></article>;
   return <section className="schema-reference-screen"><div className="section-heading"><div><p className="eyebrow">PROJECT CATALOG</p><h1>Schema references</h1></div><button className="secondary" type="button" onClick={()=>void load()} disabled={loading}>Refresh</button></div>
+    {onTargets && <button type="button" className="secondary" onClick={onTargets}>Open project targets and environment bindings</button>}
     <p className="offline-note">Provisional manual references only. These declarations do not confirm an Oracle target, bind a profile or authorize a plan.</p>
     {error&&<p className="banner error" role="alert">{error}</p>}{!rows.length&&!loading&&!error&&<div className="empty-state"><strong>No schema references assigned</strong><span>The trusted local OS operator registers references and assigns schemas to projects.</span></div>}
     {rows.length>0&&<p className="schema-estate-completeness" role="status">{next?'Showing the first':'All'} {rows.length} current project assignment{rows.length===1?'':'s'}{next?' loaded; more pages are available.':' loaded.'}</p>}
@@ -1507,7 +1508,7 @@ function App() {
           onRefresh={() => refresh(token, projectId)} onConfigure={() => setTab('workspace')} onReferences={() => setTab('references')}
           onMissing={() => { clearProjectState(); void refresh(token, projectId); }} />}
         {tab === 'workspace' && <WorkspaceScreen model={model} />}
-        {tab === 'references' && projectId && <SchemaReferences key={`${token}:${projectId}`} token={token} projectId={projectId} onMissing={()=>{clearProjectState();void refresh(token,projectId);}} />}
+        {tab === 'references' && projectId && <SchemaReferences key={`${token}:${projectId}`} token={token} projectId={projectId} onTargets={()=>setTab('targets')} onMissing={()=>{clearProjectState();void refresh(token,projectId);}} />}
         {tab === 'references' && !projectId && <div className="empty-state"><strong>Select a project first</strong><span>Choose an assigned project from Projects, then open Schema references.</span><button type="button" className="text-button" onClick={()=>setTab('workspace')}>Go to Projects →</button></div>}
         {tab === 'targets' && projectLoaded && <ProjectTargets key={`${token}:${projectId}`} token={token} projectId={projectId} detail={detail} actor={actor} request={json} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE'} onSaved={() => refresh(token, projectId)} onPrepare={() => setTab('release')} onMissing={() => {clearProjectState(); void refresh(token, projectId);}}/>}
         {tab === 'targets' && !projectLoaded && <p role="status">Select a project to inspect its targets.</p>}

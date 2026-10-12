@@ -196,3 +196,33 @@ test('target binding commit rechecks a project grant revoked while catalog seria
     assert.equal((await f.db.sql`SELECT count(*)::int AS n FROM sf_audit WHERE action='TARGET_BINDING_CREATED'`)[0].n,0);
   } finally {release?.();await blocked;await request;await f.close();}
 });
+
+
+test('credential expiry during real statement verification cannot create plans, decisions or requests', {
+  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+},async()=>{
+  const f=await createTargetWorkflowFixture({fileCount:3});
+  try {
+    const binding=(await f.createBinding()).json().binding;
+    const expires=async actor=>f.db.sql`WITH deadline AS (SELECT clock_timestamp()+interval '250 milliseconds' AS expires)
+      UPDATE sf_local_credentials c SET expires_at=deadline.expires,issued_at=deadline.expires-interval '24 hours' FROM deadline WHERE c.actor_id=${actor.id}`;
+    const original=(await f.db.sql`SELECT actor_id,issued_at,expires_at FROM sf_local_credentials`);
+    const restore=async actor=>f.db.sql`UPDATE sf_local_credentials SET expires_at=${original.find(c=>c.actor_id===actor.id).expires_at},issued_at=${original.find(c=>c.actor_id===actor.id).issued_at} WHERE actor_id=${actor.id}`;
+    await expires(f.actors[0]);
+    const failedPlan=await f.makePlan(binding);assert.equal(failedPlan.statusCode,401,failedPlan.body);
+    assert.equal((await f.db.sql`SELECT count(*)::int AS n FROM sf_plans`)[0].n,0);
+    await restore(f.actors[0]);
+    const prepared=await f.makePlan(binding);assert.equal(prepared.statusCode,201,prepared.body);const plan=prepared.json().plan;
+    await expires(f.actors[1]);
+    const failedDecision=await f.decide(plan);assert.equal(failedDecision.statusCode,401,failedDecision.body);
+    assert.equal((await f.db.sql`SELECT status FROM sf_plans WHERE id=${plan.id}`)[0].status,'PENDING_APPROVAL');
+    await restore(f.actors[1]);assert.equal((await f.decide(plan)).statusCode,200);
+    await f.membership.grant(f.project.id,f.actors[2].id);await f.membership.deployGrant(f.project.id,f.actors[2].id);
+    await expires(f.actors[2]);
+    const failedRequest=await f.api('POST',`/api/plans/${plan.id}/execution`,{idempotencyKey:randomUUID(),reason:'Expired requester must not gain authority',
+      expectedIntentDigest:plan.offlineIntent.digest,expectedAssignmentRevision:plan.retainedTarget.assignmentRevision,expectedBindingRevision:plan.retainedTarget.bindingRevision},f.actors[2]);
+    assert.equal(failedRequest.statusCode,401,failedRequest.body);
+    assert.equal((await f.db.sql`SELECT count(*)::int AS n FROM sf_execution_jobs`)[0].n,0);
+    assert.equal((await f.db.sql`SELECT count(*)::int AS n FROM sf_audit WHERE action='EXECUTION_REQUESTED'`)[0].n,0);
+  }finally{await f.close();}
+});

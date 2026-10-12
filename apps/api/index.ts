@@ -1015,6 +1015,7 @@ export function createApp(options: {
           items: items.map(({ path, version, sha256 }) => ({ path, version, sha256 })), statements, ...(boundTarget ? {target: Object.fromEntries(targetTupleFields.map(key => [key,boundTarget[key]]))} : {}) });
         if (!offlineIntent) return { error: "INVALID_REFERENCE" };
         if (p.archived_at) return { error: "PROJECT_ARCHIVED" };
+        await guardMutationAuthority(tx, req);
         const rows = await tx`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items,offline_intent_envelope,offline_intent_digest,source_binding_generation)
           VALUES(${p.id},${ORG},${r.id},${profile.id},${req.actor.id},${tx.json(items)},${offlineIntent.envelope},${offlineIntent.digest},${p.source_binding_generation}::bigint) RETURNING *,source_binding_generation::text AS source_binding_generation`;
         const plan = rows[0];
@@ -1365,6 +1366,7 @@ export function createApp(options: {
           }
         }
         const approvalReference = b.decision === 'APPROVE' ? randomUUID() : null;
+        await guardMutationAuthority(tx, req);
         const rows = await tx`UPDATE sf_plans SET status=${b.decision === "APPROVE" ? "APPROVED" : "REJECTED"},decision=${b.decision},decision_reason=${b.reason},decided_by=${req.actor.id},decided_by_name=${req.actor.name},decided_at=now(),approval_reference=${approvalReference}
           WHERE id=${p.id} RETURNING id,organization_id,project_id,release_id,profile_id,author_id,reviewer_id,
           (SELECT display_name FROM sf_local_actors WHERE id=reviewer_id AND organization_id=${ORG} AND char_length(display_name) BETWEEN 1 AND 200) AS reviewer_name,
@@ -1568,6 +1570,7 @@ export function createApp(options: {
           if (b.expectedIntentDigest !== intent.digest || b.expectedAssignmentRevision !== intent.target?.assignmentRevision || b.expectedBindingRevision !== intent.target?.bindingRevision) denial = 'FRESH_PLAN_REQUIRED';
         }
         if (denial) return { error: denial };
+        await guardMutationAuthority(tx, req);
         const bodyDigest = digest({ projectId: plan.project_id, planId: plan.id, approvalReference: plan.approval_reference,
           intentDigest: plan.offline_intent_digest, reason: b.reason });
         const old = (await tx`SELECT * FROM sf_execution_jobs WHERE organization_id=${ORG} AND requester_id=${live.id} AND idempotency_key=${b.idempotencyKey} FOR UPDATE`)[0];
