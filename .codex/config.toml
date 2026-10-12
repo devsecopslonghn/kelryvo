@@ -1,4 +1,0 @@
-[agents]
-enabled = true
-# Four total session slots, including the primary/orchestrator thread.
-max_concurrent_threads_per_session = 3
