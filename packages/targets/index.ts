@@ -48,14 +48,19 @@ export async function configureTargetOption(tx: any, input: any) {
   const observedAt = input.observedAt ?? null;
   const canonicalObservedAt = typeof observedAt === 'string' && Number.isFinite(Date.parse(observedAt))
     && new Date(observedAt).toISOString() === observedAt;
-  if (!['PROVISIONAL', 'OBSERVED'].includes(identityState)
+  if (!['PROVISIONAL', 'OBSERVED', 'VERIFIED'].includes(identityState)
       || (identityState === 'PROVISIONAL' && (observationDigest !== null || observedAt !== null))
-      || (identityState === 'OBSERVED' && (!/^[a-f0-9]{64}$/.test(observationDigest ?? '')
+      || (identityState !== 'PROVISIONAL' && (!/^[a-f0-9]{64}$/.test(observationDigest ?? '')
         || !canonicalObservedAt))) {
     throw fail('TARGET_OPTION_INELIGIBLE', 409);
   }
-  if (identityState !== 'PROVISIONAL' || observationDigest !== null || observedAt !== null) {
-    throw fail('TARGET_OPTION_INELIGIBLE', 409);
+  if (identityState !== 'PROVISIONAL') {
+    const evidence=(await tx`SELECT e.* FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id
+      JOIN sf_database_connections c ON c.id=e.connection_id WHERE e.digest=${observationDigest} AND e.project_id=${input.projectId}
+      AND e.organization_id=${ORG} AND e.assignment_id=${input.assignmentId} AND e.route_id=${input.routeId}
+      AND e.exact_owner=${input.exactOwner} AND e.identity_state=${identityState} AND o.expires_at>clock_timestamp()
+      AND date_trunc('milliseconds',o.observed_at)=${observedAt}::timestamptz AND c.retired_at IS NULL`)[0];
+    if(!evidence) throw fail('TARGET_OPTION_INELIGIBLE',409);
   }
 
   // Serialize operator metadata against project/archive and assignment ownership changes.
@@ -462,6 +467,21 @@ export async function checkTargetCurrentness(tx: any, projectId: string, target:
     if (current.profile_changed) reasons.push('PROFILE_CHANGED');
     if (target.sourceBindingGeneration === undefined
         || asRevision(current.source_generation) !== asRevision(target.sourceBindingGeneration)) reasons.push('SOURCE_CHANGED');
+  }
+  if(target.identityState!=='PROVISIONAL' && target.observationDigest) {
+    const evidence=(await tx`SELECT e.identity_digest,e.assignment_revision::text AS assignment_revision,e.assignment_id,e.route_id,
+      o.expires_at>clock_timestamp() AS fresh,c.retired_at,
+      (SELECT identity_digest FROM sf_database_observations latest WHERE latest.connection_id=e.connection_id AND latest.operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1) AS latest_identity
+      FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id JOIN sf_database_connections c ON c.id=e.connection_id
+      WHERE e.digest=${target.observationDigest} AND e.project_id=${projectId}`)[0];
+    if(!evidence)reasons.push('INTEGRITY_UNAVAILABLE');
+    else {
+      if(!evidence.fresh)reasons.push('OBSERVATION_STALE');
+      if(evidence.retired_at)reasons.push('CONNECTION_RETIRED');
+      if(evidence.assignment_id!==target.assignmentId || evidence.assignment_revision!==target.assignmentRevision || evidence.route_id!==target.routeId)reasons.push('INTEGRITY_UNAVAILABLE');
+      if(!evidence.latest_identity)reasons.push('OBSERVATION_UNAVAILABLE');
+      else if(evidence.latest_identity!==evidence.identity_digest)reasons.push('OBSERVATION_CONFLICT');
+    }
   }
   const state = reasons.includes('INTEGRITY_UNAVAILABLE') ? 'UNKNOWN' : reasons.length ? 'STALE' : 'CURRENT';
   return { state, reasons: [...new Set(reasons)].slice(0, 8), checkedAt };

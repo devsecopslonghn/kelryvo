@@ -41,13 +41,16 @@ try {
   }
   const repository = await prepareDemoRepository();
   const { startProduct } = await import('../apps/api/server.ts');
+  const manifestPath=process.env.KELYRVO_DISCOVERY_MANIFEST,secretDirectory=process.env.KELYRVO_DISCOVERY_SECRET_DIRECTORY;
+  if(!!manifestPath!==!!secretDirectory)throw new Error('invalid discovery startup options');
+  const discoveryRuntime=manifestPath ? (await import('../packages/connectivity/oracle.mjs')).createOracleDiscoveryRuntime({manifestPath,secretDirectory,timeoutMs:8000}) : undefined;
   const app = await startProduct({ databaseUrl, actors: [
     { id: 'local-developer', name: 'Local developer', role: 'developer', token: config.developerToken },
     { id: 'local-approver', name: 'Local approver', role: 'approver', token: config.approverToken },
   ], repositories: [
     { id: 'demo', name: 'Local migration demo', path: repository },
     ...configuredRepositories,
-  ], tls });
+  ], tls, discoveryRuntime });
   console.log(`SchemaForge: ${tls ? 'https' : 'http'}://127.0.0.1:4317`);
   console.log('Local bearer tokens: .cache/local-product/config.json (private local file).');
   console.log('Target execution: NOT_EXECUTED; Oracle validation: BLOCKED.');

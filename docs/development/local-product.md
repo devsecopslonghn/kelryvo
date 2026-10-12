@@ -1239,3 +1239,45 @@ the operator revokes a grant or credential while a Git import is parsing, its la
 write returns scoped 404 or 401 and persists neither release nor release-audit facts.
 Browser parent-session validation remains required; a project creation receipt never
 grants implicit membership. Read-only bootstrap compatibility remains unchanged.
+# Read-only database connectivity and discovery
+
+Database instances & connections now uses durable application APIs to register manual workspace infrastructure and project-scoped read-only connections, test connectivity, discover assigned schemas, inspect observation history, and append observed or verified target binding revisions. Existing deployment profiles and offline plans remain available. Retire and replace a connection to change its configuration; history is never removed.
+
+The trusted local OS operator grants database management separately from project membership:
+
+```sh
+SCHEMAFORGE_LOCAL_DATABASE_URL='<private metadata URL>' node scripts/local-membership-operator.mjs database-grant ACTOR_ID .cache/local-product/config.json
+```
+
+Use `database-revoke` to withdraw that workspace grant. Both project membership and the workspace grant are required for registration, probes and verification. Approvers can inspect project evidence but cannot administer connections. Discovery schemas exposed to a project are restricted to its active assignments.
+
+The default runtime is unavailable and never opens an Oracle connection. After separate authorization for an attested disposable read-only lab, the operator may opt in on local startup using `KELYRVO_DISCOVERY_MANIFEST` and `KELYRVO_DISCOVERY_SECRET_DIRECTORY`. Both paths are required. The manifest and password files must be private, OS-owned files; the secret directory must be private. Passwords are resolved in the bounded child process and never stored in metadata or returned by APIs.
+
+The secret-free manifest has this shape (example values are documentation only):
+
+```json
+{
+  "readOnly": true,
+  "disposable": true,
+  "authorizationId": "approved-disposable-lab",
+  "targets": [{
+    "engine": "oracle",
+    "host": "oracle-lab.example.invalid",
+    "port": 1521,
+    "service": "LABPDB",
+    "transport": "TCP",
+    "username": "DISCOVERY_READER",
+    "credentialRef": "secret://lab/discovery-reader",
+    "pinnedIps": ["192.0.2.10"],
+    "secretFile": "discovery-reader"
+  }]
+}
+```
+
+Each exact target may additionally contain `liveAcceptance: {authorizedLabId, acceptedAt, evidenceDigest}` after its read-only lab acceptance is independently recorded. The digest references that acceptance evidence; it is not a database password or a signature. Acceptance applies only to the matched target's observation. Injected fixtures cannot issue this attestation. Without accepted live evidence, the browser can retain `OBSERVED` target revisions but `Verify target` rejects with `LIVE_VERIFICATION_UNACCEPTED`. This implementation has **not** passed live Oracle acceptance.
+
+Only fixed SELECT probes run: dual, V$DATABASE, session context, V$CONTAINERS for PDBs, V$VERSION, ALL_USERS and ALL_OBJECTS visibility. Grant only these read permissions; missing access yields incomplete evidence instead of inferred identity. CDB root targets are unsupported. Empty or invisible schema objects do not establish accessibility, except the authenticated principal's own schema when listed. Observations retain version, service, DBID, resetlogs incarnation, container DBID and PDB GUID; endpoint labels are not identity. The physical identity digest excludes changeable service labels, container names and version strings. Observations expire after 15 minutes, and superseded, unavailable, conflicting or retired connections block further approval against their bindings. Renew a stale observation explicitly; identity replacement requires new manual infrastructure and bindings.
+
+The API allows at most two concurrent probes. Child processes have connection/call limits and an overall deadline, are killed and reaped on timeout, and restrict socket destinations to manifest-pinned IPs and ports, including listener redirects. Query results and error text are projected to bounded metadata and fixed codes. Other engines are explicitly unsupported. No migration SQL, DDL or DML is executed. Format-3 plans remain excluded from worker admission, including verified identities.
+
+Metadata backup includes connections, workspace grants, observations and target evidence. Exact older Phase 2 and legacy backups remain supported and are additively migrated into recovery HOLD. Browser acceptance uses Chromium, real disposable PostgreSQL and Git/parser fixtures; Oracle metadata is a deterministic fixture identified as `FIXTURE`.

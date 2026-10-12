@@ -1,5 +1,6 @@
 import { acquireTargetLocks } from '../../packages/targets/locks.ts';
 import { registerTargets } from '../../packages/targets/api.ts';
+import { registerConnectivity } from '../../packages/connectivity/api.ts';
 import { loadBindingTarget, checkTargetCurrentness, listTargetBindings } from '../../packages/targets/index.ts';
 import { credentialAlias, publicTarget } from '../../packages/targets/public.mjs';
 import Fastify from "fastify";
@@ -86,6 +87,8 @@ export function createApp(options: {
   statementParser?: (source: Buffer) => Promise<any>;
   releaseParser?: (source: Buffer) => Promise<any>;
   https?: any;
+  discoveryRuntime?: any;
+  discoveryTimeoutMs?: number;
 }) {
   const { sql, actors, repositories } = options;
   const statementParser = options.statementParser;
@@ -176,6 +179,7 @@ export function createApp(options: {
     });
   };
   registerTargets(app, { sql, authenticate });
+  registerConnectivity(app, {sql,authenticate,runtime:options.discoveryRuntime,timeoutMs:options.discoveryTimeoutMs});
   registerPlanRecord(app, { sql, authenticate });
   registerExecutionRecord(app, { sql, authenticate });
   registerBrowserSessions(app, { sql, authenticate, seed, enabled: !!options.https });

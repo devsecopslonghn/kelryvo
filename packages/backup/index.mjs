@@ -6,13 +6,14 @@ import path from 'node:path';
 import postgres from 'postgres';
 import { authorizeLocalMetadataUrl } from '../../scripts/local-operator-config.mjs';
 import { PG_IMAGE } from '../../scripts/local-resources.mjs';
+import { CONNECTIVITY_TABLES,CONNECTIVITY_FUNCTIONS,CONNECTIVITY_TRIGGERS } from '../connectivity/schema.mjs';
 
 export const BACKUP_FORMAT = 'schemaforge-private-postgres-backup-v1';
 export const MAX_ARCHIVE_BYTES = 2 * 1024 * 1024 * 1024;
 const uid = () => process.geteuid?.() ?? process.getuid();
 const fail = () => new Error('Local backup or restore failed; inspect private operator state and retry.');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
-const TABLES = [
+const PHASE2_TABLES = [
   'sf_organizations','sf_local_actors','sf_local_credentials','sf_account_audit','sf_projects','sf_project_access_mode','sf_project_grants',
   'sf_project_operator_audit','sf_environments','sf_profiles','sf_releases','sf_plans','sf_audit',
   'sf_plan_approval_revocations','sf_plan_comments','sf_history','sf_reference_databases','sf_reference_containers',
@@ -22,27 +23,32 @@ const TABLES = [
   'sf_metadata_current','sf_metadata_operator_audit','sf_metadata_credentials_revoked','sf_metadata_restore_owners',
   'sf_target_lineages','sf_target_streams','sf_target_options','sf_target_option_revisions','sf_target_bindings','sf_target_binding_revisions',
 ].sort();
+const TABLES = [...PHASE2_TABLES,...CONNECTIVITY_TABLES].sort();
 const SEQUENCES = ['sf_plan_comments_position_seq'];
 const RELATIONS = [...TABLES.map(name => `r:${name}`), ...SEQUENCES.map(name => `S:${name}`)].sort();
-const FUNCTIONS = ['sf_check_approval_revocation_reference','sf_check_execution_job_projection','sf_reject_approval_revocation_mutation',
+const PHASE2_FUNCTIONS = ['sf_check_approval_revocation_reference','sf_check_execution_job_projection','sf_reject_approval_revocation_mutation',
   'sf_reject_execution_attempt_mutation','sf_reject_execution_event_mutation','sf_reject_execution_proof_mutation',
   'sf_reject_metadata_evidence_mutation','sf_reject_target_evidence_mutation','sf_check_target_binding_option_match','sf_guard_target_pointer_mutation'].sort();
-const TRIGGERS = ['sf_account_audit_immutable','sf_execution_admission_proofs_immutable','sf_execution_attempt_events_immutable','sf_execution_attempts_immutable',
+const FUNCTIONS = [...PHASE2_FUNCTIONS,...CONNECTIVITY_FUNCTIONS].sort();
+const PHASE2_TRIGGERS = ['sf_account_audit_immutable','sf_execution_admission_proofs_immutable','sf_execution_attempt_events_immutable','sf_execution_attempts_immutable',
   'sf_execution_job_events_immutable','sf_execution_jobs_projection_guard','sf_execution_receipts_immutable',
   'sf_metadata_credentials_revoked_immutable','sf_metadata_generations_immutable','sf_metadata_operator_audit_immutable','sf_metadata_restore_owners_immutable',
   'sf_plan_approval_revocations_immutable','sf_plan_approval_revocations_reference_match',
   'sf_target_option_revisions_immutable','sf_target_binding_revisions_immutable','sf_target_binding_option_match',
   'sf_target_lineages_immutable','sf_target_streams_immutable','sf_target_options_identity_guard','sf_target_bindings_identity_guard'].sort();
-const SCHEMA_SIGNATURE = '023d0a19f9f520bd47a6ee567e499fcb35d5996f10480bb9cbf6cd4383f74275';
+const TRIGGERS = [...PHASE2_TRIGGERS,...CONNECTIVITY_TRIGGERS].sort();
+const PHASE2_SCHEMA_SIGNATURE = '023d0a19f9f520bd47a6ee567e499fcb35d5996f10480bb9cbf6cd4383f74275';
+const SCHEMA_SIGNATURE = 'ebbc39e7611d27e24ffea9575c756eb4b89e12919cdc3338ad77014089a4ec0a';
 const LEGACY_SCHEMA_SIGNATURE = '277b528dfee78e582189a3a0747f5903e652bf3a2566f314c218d5f6093d25c8';
 const TARGET_TABLES = new Set(['sf_target_lineages','sf_target_streams','sf_target_options','sf_target_option_revisions','sf_target_bindings','sf_target_binding_revisions']);
 const TARGET_FUNCTIONS = new Set(['sf_reject_target_evidence_mutation','sf_check_target_binding_option_match','sf_guard_target_pointer_mutation']);
 const TARGET_TRIGGERS = new Set(['sf_target_option_revisions_immutable','sf_target_binding_revisions_immutable','sf_target_binding_option_match',
   'sf_target_lineages_immutable','sf_target_streams_immutable','sf_target_options_identity_guard','sf_target_bindings_identity_guard']);
-const LEGACY_TABLES = TABLES.filter(name => !TARGET_TABLES.has(name));
+const LEGACY_TABLES = PHASE2_TABLES.filter(name => !TARGET_TABLES.has(name));
+const PHASE2_RELATIONS = [...PHASE2_TABLES.map(name => `r:${name}`), ...SEQUENCES.map(name => `S:${name}`)].sort();
 const LEGACY_RELATIONS = [...LEGACY_TABLES.map(name => `r:${name}`), ...SEQUENCES.map(name => `S:${name}`)].sort();
-const LEGACY_FUNCTIONS = FUNCTIONS.filter(name => !TARGET_FUNCTIONS.has(name));
-const LEGACY_TRIGGERS = TRIGGERS.filter(name => !TARGET_TRIGGERS.has(name));
+const LEGACY_FUNCTIONS = PHASE2_FUNCTIONS.filter(name => !TARGET_FUNCTIONS.has(name));
+const LEGACY_TRIGGERS = PHASE2_TRIGGERS.filter(name => !TARGET_TRIGGERS.has(name));
 const json = value => `${JSON.stringify(value, null, 2)}\n`;
 const schemaDigest = schema => sha(JSON.stringify({schemas:['public'],tables:schema.tables,relations:schema.relations,
   functions:schema.functions,triggers:schema.triggers,columns:schema.columns,constraints:schema.constraints,indexes:schema.indexes,routines:schema.routines,triggerDefinitions:schema.triggerDefinitions,sequenceDefinitions:schema.sequenceDefinitions,ownership:schema.ownership}));
@@ -110,14 +116,15 @@ function toolArgs(command, mount, archive, url, config, snapshot = null) {
     '--exclude-table=public.sf_organizations','--exclude-table=public.sf_metadata_restore_owners','--exclude-table=public.sf_metadata_current','--file',archive,dsn] : ['--list',archive])];
 }
 function toolEnv(config) { return { PGPASSWORD:config.databasePassword }; }
-async function inventory(sql, { legacy } = {}) {
+async function inventory(sql, { legacy,phase2 } = {}) {
   const schemaRows=await sql`SELECT nspname FROM pg_namespace WHERE nspname NOT IN ('pg_catalog','information_schema') AND nspname !~ '^pg_toast' ORDER BY nspname`;
   if(JSON.stringify(schemaRows.map(r=>r.nspname))!==JSON.stringify(['public'])) throw fail();
   const rows = await sql`SELECT c.relkind, n.nspname, c.relname FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
     WHERE n.nspname='public' AND c.relkind IN ('r','p','S','v','m','f') ORDER BY c.relkind,c.relname`;
   const tables = rows.filter(r => ['r','p'].includes(r.relkind)).map(r => r.relname).sort();
   if (legacy === undefined) legacy = JSON.stringify(tables) === JSON.stringify(LEGACY_TABLES);
-  if (JSON.stringify(tables) !== JSON.stringify(legacy ? LEGACY_TABLES : TABLES)) throw fail();
+  if (phase2 === undefined) phase2 = JSON.stringify(tables) === JSON.stringify(PHASE2_TABLES);
+  if (JSON.stringify(tables) !== JSON.stringify(legacy ? LEGACY_TABLES : phase2 ? PHASE2_TABLES : TABLES)) throw fail();
   const functions = await sql`SELECT p.proname FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
     WHERE n.nspname='public' ORDER BY p.proname`;
   const triggers = await sql`SELECT t.tgname FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace
@@ -154,20 +161,20 @@ async function inventory(sql, { legacy } = {}) {
   if(ownership.some(row=>!row.owned || row.acl!==null) || routines.some(row=>!row.owned || row.acl!==null)) throw fail();
   const relationList=rows.map(r => `${r.relkind}:${r.relname}`);
   const functionList=functions.map(r => r.proname), triggerList=triggers.map(r => r.tgname);
-  const expectedTables = legacy ? LEGACY_TABLES : TABLES;
-  const expectedRelations = legacy ? LEGACY_RELATIONS : RELATIONS;
-  const expectedFunctions = legacy ? LEGACY_FUNCTIONS : FUNCTIONS;
-  const expectedTriggers = legacy ? LEGACY_TRIGGERS : TRIGGERS;
+  const expectedTables = legacy ? LEGACY_TABLES : phase2 ? PHASE2_TABLES : TABLES;
+  const expectedRelations = legacy ? LEGACY_RELATIONS : phase2 ? PHASE2_RELATIONS : RELATIONS;
+  const expectedFunctions = legacy ? LEGACY_FUNCTIONS : phase2 ? PHASE2_FUNCTIONS : FUNCTIONS;
+  const expectedTriggers = legacy ? LEGACY_TRIGGERS : phase2 ? PHASE2_TRIGGERS : TRIGGERS;
   if(JSON.stringify(tables)!==JSON.stringify(expectedTables) || JSON.stringify(relationList)!==JSON.stringify(expectedRelations)
     || JSON.stringify(functionList)!==JSON.stringify(expectedFunctions) || JSON.stringify(triggerList)!==JSON.stringify(expectedTriggers)) throw fail();
   const signature=sha(JSON.stringify({schemas:['public'],tables,relations:relationList,functions:functionList,triggers:triggerList,columns,constraints,indexes,routines,triggerDefinitions,sequenceDefinitions,ownership}));
-  if(signature!==(legacy ? LEGACY_SCHEMA_SIGNATURE : SCHEMA_SIGNATURE)) throw fail();
+  if(signature!==(legacy ? LEGACY_SCHEMA_SIGNATURE : phase2 ? PHASE2_SCHEMA_SIGNATURE : SCHEMA_SIGNATURE)) throw fail();
   return { tables, relations: relationList, functions: functionList, triggers: triggerList, columns, constraints, indexes, routines, triggerDefinitions, sequenceDefinitions, ownership, signature };
 }
-function validateArchiveList(list, owner, { legacy = false } = {}) {
+function validateArchiveList(list, owner, { legacy = false,phase2 = false } = {}) {
   const lines = list.split('\n').filter(line => line && !line.startsWith(';'));
   const role=owner.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  const allowed=new Set((legacy ? LEGACY_TABLES : TABLES).filter(name=>!['sf_organizations','sf_metadata_restore_owners','sf_metadata_current'].includes(name)));
+  const allowed=new Set((legacy ? LEGACY_TABLES : phase2 ? PHASE2_TABLES : TABLES).filter(name=>!['sf_organizations','sf_metadata_restore_owners','sf_metadata_current'].includes(name)));
   const seen=new Set(), sequences=new Set();
   if (!lines.length || lines.some(line => {
     const match=line.match(new RegExp(`^\\d+; \\d+ \\d+ (TABLE DATA|SEQUENCE SET) public (sf_[a-z0-9_]+) ${role}$`));
@@ -189,14 +196,15 @@ function exactManifest(m) {
     && typeof m.metadataGeneration === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(m.metadataGeneration)
     && typeof m.witnessId === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(m.witnessId)
     && m.schema && Object.keys(m.schema).sort().join(',')==='columns,constraints,functions,indexes,ownership,relations,routines,sequenceDefinitions,signature,tables,triggerDefinitions,triggers'
-    && (JSON.stringify(m.schema.tables)===JSON.stringify(TABLES) || JSON.stringify(m.schema.tables)===JSON.stringify(LEGACY_TABLES))
-    && (JSON.stringify(m.schema.relations)===JSON.stringify(RELATIONS) || JSON.stringify(m.schema.relations)===JSON.stringify(LEGACY_RELATIONS))
-    && (JSON.stringify(m.schema.functions)===JSON.stringify(FUNCTIONS) || JSON.stringify(m.schema.functions)===JSON.stringify(LEGACY_FUNCTIONS))
-    && (JSON.stringify(m.schema.triggers)===JSON.stringify(TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(LEGACY_TRIGGERS))
+    && (JSON.stringify(m.schema.tables)===JSON.stringify(TABLES) || JSON.stringify(m.schema.tables)===JSON.stringify(PHASE2_TABLES) || JSON.stringify(m.schema.tables)===JSON.stringify(LEGACY_TABLES))
+    && (JSON.stringify(m.schema.relations)===JSON.stringify(RELATIONS) || JSON.stringify(m.schema.relations)===JSON.stringify(PHASE2_RELATIONS) || JSON.stringify(m.schema.relations)===JSON.stringify(LEGACY_RELATIONS))
+    && (JSON.stringify(m.schema.functions)===JSON.stringify(FUNCTIONS) || JSON.stringify(m.schema.functions)===JSON.stringify(PHASE2_FUNCTIONS) || JSON.stringify(m.schema.functions)===JSON.stringify(LEGACY_FUNCTIONS))
+    && (JSON.stringify(m.schema.triggers)===JSON.stringify(TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(PHASE2_TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(LEGACY_TRIGGERS))
     && Array.isArray(m.schema.columns) && Array.isArray(m.schema.constraints) && Array.isArray(m.schema.indexes)
     && Array.isArray(m.schema.routines) && Array.isArray(m.schema.triggerDefinitions)
     && Array.isArray(m.schema.sequenceDefinitions) && Array.isArray(m.schema.ownership)
     && ((m.schema.signature===SCHEMA_SIGNATURE && schemaDigest(m.schema)===SCHEMA_SIGNATURE)
+      || (m.schema.signature===PHASE2_SCHEMA_SIGNATURE && schemaDigest(m.schema)===PHASE2_SCHEMA_SIGNATURE)
       || (m.schema.signature===LEGACY_SCHEMA_SIGNATURE && schemaDigest(m.schema)===LEGACY_SCHEMA_SIGNATURE))
     && typeof m.createdAt==='string' && Number.isFinite(Date.parse(m.createdAt)) && new Date(m.createdAt).toISOString()===m.createdAt
     && typeof m.sourceDatabase === 'string' && /^[a-z0-9_]{1,63}$/.test(m.sourceDatabase);
@@ -299,7 +307,7 @@ export async function restorePrivateBackup({ configPath, databaseUrl, backupDire
   finally { await server.end({timeout:2}); }
   await ensureToolchain();
   const listing=runDocker(toolArgs('pg_restore',stagingDirectory,'/backup/metadata.pgdump',databaseUrl,config),toolEnv(config));
-  validateArchiveList(listing,decodeURIComponent(new URL(databaseUrl).username),{legacy:manifest.schema.signature===LEGACY_SCHEMA_SIGNATURE});
+  validateArchiveList(listing,decodeURIComponent(new URL(databaseUrl).username),{legacy:manifest.schema.signature===LEGACY_SCHEMA_SIGNATURE,phase2:manifest.schema.signature===PHASE2_SCHEMA_SIGNATURE});
   const dbName=destinationDatabase ?? `sf_product_restore_${randomUUID().replaceAll('-','')}`;
   if (!/^sf_product_restore_[a-f0-9]{32}$/.test(dbName) || dbName===manifest.sourceDatabase) throw fail();
   const base=new URL(databaseUrl); const targetUrl=new URL(databaseUrl); targetUrl.pathname=`/${dbName}`;
@@ -317,14 +325,15 @@ export async function restorePrivateBackup({ configPath, databaseUrl, backupDire
     await sql.unsafe('CREATE TABLE sf_metadata_restore_owners (id uuid PRIMARY KEY, operator_os_uid integer NOT NULL, created_at timestamptz NOT NULL DEFAULT clock_timestamp())');
     await sql`INSERT INTO sf_metadata_restore_owners(id,operator_os_uid) VALUES(${ownerId},${uid()})`;
     const legacy = manifest.schema.signature === LEGACY_SCHEMA_SIGNATURE;
-    await initializeDatabase(sql,{initializeMetadata:false, ...(legacy ? {initializeTargets:false} : {})});
-    const schema=await inventory(sql,{legacy});
+    const phase2 = manifest.schema.signature === PHASE2_SCHEMA_SIGNATURE;
+    await initializeDatabase(sql,{initializeMetadata:false,initializeConnectivity:!legacy && !phase2, ...(legacy ? {initializeTargets:false} : {})});
+    const schema=await inventory(sql,{legacy,phase2});
     if (JSON.stringify(schema)!==JSON.stringify(manifest.schema)) throw fail();
     // These two immutable bootstrap rows are seeded by initialization. Their fixed values are
     // recreated before restore; all mutable catalog and lifecycle facts come from the snapshot.
     await sql`DELETE FROM sf_project_access_mode WHERE organization_id='00000000-0000-4000-8000-000000000001'`;
     runDocker(toolArgs('pg_restore',stagingDirectory,'/backup/metadata.pgdump',databaseUrl,config).slice(0,-2).concat(['--exit-on-error','--single-transaction','--dbname',`postgresql://${encodeURIComponent(decodeURIComponent(base.username))}@127.0.0.1:${base.port||'5432'}/${dbName}`,'/backup/metadata.pgdump']),toolEnv(config));
-    if (legacy) await initializeDatabase(sql,{initializeMetadata:false});
+    if (legacy || phase2) await initializeDatabase(sql,{initializeMetadata:false});
     // Trusted OS-only fault injection, matching the credential lifecycle test boundary.
     if(interruptAt === 'after-import') process.kill(process.pid,'SIGKILL');
     await sql.begin(async tx=>{

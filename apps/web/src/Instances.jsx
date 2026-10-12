@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Connections } from './Connections.jsx';
 
-export function Instances({ token, projectId, detail, api, actor, accessMode, onRefresh, onConfigure, onReferences, onMissing }) {
+export function Instances({ token, projectId, detail, api, actor, accessMode, metadataRecovery, onRefresh, onConfigure, onReferences, onMissing }) {
   const [error, setError] = useState(''), [busy, setBusy] = useState(false), [reasons, setReasons] = useState({});
   const epoch = useRef(0);
   useEffect(() => () => { epoch.current += 1; }, [token, projectId]);
@@ -22,7 +23,7 @@ export function Instances({ token, projectId, detail, api, actor, accessMode, on
   return <section aria-label="Database instances and connections">
     <div className="page-heading"><div><p className="eyebrow">DATABASE MANAGEMENT</p><h1>Database instances &amp; connections</h1><p className="muted">{loaded ? detail.project.name : 'Choose a project to inspect its connections.'}</p></div></div>
     <section className="panel"><h2>Project connections</h2>
-      <p>Oracle profiles contain configuration and credential references. Connectivity is unverified; this screen does not connect to a database.</p>
+      <p>Deployment profiles retain configuration and credential aliases. Use the read-only connections below to inspect connectivity evidence.</p>
       <button type="button" className="secondary" disabled={busy} onClick={onConfigure}>Configure project connections</button>
       <button type="button" className="secondary" disabled={busy || !loaded} onClick={onReferences}>Inspect assigned instance references</button>
       {error && <p role="alert" className="banner error">{error}</p>}
@@ -42,6 +43,6 @@ export function Instances({ token, projectId, detail, api, actor, accessMode, on
           </form>}
       </article>)}
     </section>
-    <section className="panel"><h2>Database instance catalog</h2><p>The trusted operator declares database, container and service identities and assigns schema references to projects. Assigned references appear in Schema references, grouped by environment and service. Manual declarations remain provisional until separately verified.</p></section>
+    {loaded && <Connections token={token} projectId={projectId} api={api} detail={detail} readOnly={detail.project.archivedAt || accessMode !== 'ENFORCED' || metadataRecovery?.state && metadataRecovery.state !== 'ACTIVE'}/>}
   </section>;
 }
