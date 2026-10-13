@@ -1320,3 +1320,41 @@ schema-aware validation. Format-4 intents remain excluded from worker statement
 materialization and admission, including approved plans. No target SQL is executed.
 Native backups include validation results; exact older Phase 3, Phase 2 and legacy backups
 are restored against their matching schema before additive upgrade into recovery HOLD.
+
+## Integrated authored releases and review evidence
+
+SQL Workspace supports multiple migration files in one saved draft. File names use
+`V<version>__<name>.sql`; canonical numeric versions determine execution order, including
+large and dotted versions. Files retain UUID identities across edits and renames. Each
+save retains a new immutable revision, and publication retains an immutable format-2
+manifest covering file identities, order and content hashes. Existing single-SQL drafts
+and format-1 release checksums keep their original meaning. Editing a draft after
+publication requires a new release and plan; it cannot alter the published candidate.
+
+Draft create/save APIs accept `files: [{id, path, sql}]` instead of `sql`. Creation may
+omit IDs; saves supply the retained IDs. The total SQL limit remains 1 MiB. Publication,
+validation and planning use the existing release and target APIs. Native backups preserve
+both manifest generations and source attribution, and restore retains recovery HOLD.
+
+In Plans & review, choose an authorized retained baseline and compare it to the exact
+plan candidate. File changes align by migration version; reliable parser byte ranges and
+statement hashes allow ordinal statement comparison. This alignment does not establish
+semantic equivalence. Comparison evidence retains both manifest identities and the plan
+intent digest. Selected evidence is attached to submitted comments and independent
+review decisions, checked again by the server, and remains available after restart.
+Comparison evidence and linked audit records have a database mutation guard. Plan record
+exports include durable comparison references; source content remains in the separately
+scoped comparison endpoint.
+
+`POST /api/projects/:projectId/plans/:id/comparisons` accepts `baseReleaseId` and
+`expectedIntentDigest`. The corresponding GET lists retained evidence, and
+`GET .../comparisons/:comparisonId` revalidates the exact retained source pair. Comment
+and decision requests may supply `comparisonId`; evidence from another plan is rejected.
+
+Migration history uses descending timestamp/ID cursors bound to the project and normalized
+filters. Newly appended records do not shift subsequent pages, including timestamp ties
+at PostgreSQL microsecond precision. Counts and statuses are live projections: concurrent
+status changes can change filter membership. Refresh starts a new traversal. Legacy offset
+clients remain compatible. HOLD rows expose the latest attributed transition, attempt and
+receipt count; request details retain the full paginated event/recovery timeline and
+execution evidence. Request permalinks restore that authorized context after restart.

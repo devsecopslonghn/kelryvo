@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { PROFILE } from '../experiments/db-devops-wp0/antlr-envelope.mjs';
 import { AuthoredSnapshotError, prepareAuthoredSnapshot } from '../packages/migrations/authored-snapshot.mjs';
+import { verifyRetainedRelease } from '../packages/migrations/verify-retained-release.mjs';
 
 const snapshots = async draftId => (await readdir(tmpdir())).filter(name => name.startsWith(`kelryvo-authored-snapshot-${draftId}-`)).sort();
 const digest = value => createHash('sha256').update(value).digest('hex');
@@ -69,4 +70,26 @@ test('parser rejection is reported by the existing release importer and still cl
   assert.equal(result.validationStatus, 'INVALID');
   assert.equal(result.validationCode, 'fixture_rejected');
   assert.deepEqual(await snapshots(draftId), before);
+});
+
+test('multi-file authored snapshots bind stable identity and publish in version order regardless of input order', async () => {
+  const draftId=randomUUID(), firstId=randomUUID(), secondId=randomUUID();
+  const snapshot=await prepareAuthoredSnapshot({folder:'migrations/release',draftId,revision:4,files:[
+    {id:secondId,path:'V2__add_index.sql',sql:'CREATE INDEX authored_ix ON authored_table(id);\n'},
+    {id:firstId,path:'V1__create_table.sql',sql:'CREATE TABLE authored_table (id NUMBER);\n'},
+  ],parse:async()=>({ok:true,profile:PROFILE,kind:'PARSE',statementCount:1})});
+  assert.equal(snapshot.manifestVersion,2);
+  assert.deepEqual(snapshot.files.map(file=>({id:file.draftFileId,path:file.path,order:file.order,version:file.version})),[
+    {id:firstId,path:'migrations/release/V1__create_table.sql',order:0,version:'1'},
+    {id:secondId,path:'migrations/release/V2__add_index.sql',order:1,version:'2'},
+  ]);
+  const again=await prepareAuthoredSnapshot({folder:'migrations/release',draftId,revision:4,files:[
+    {id:firstId,path:'V1__create_table.sql',sql:'CREATE TABLE authored_table (id NUMBER);\n'},
+    {id:secondId,path:'V2__add_index.sql',sql:'CREATE INDEX authored_ix ON authored_table(id);\n'},
+  ],parse:async()=>({ok:true,profile:PROFILE,kind:'PARSE',statementCount:1})});
+  assert.equal(snapshot.commit,again.commit);
+  assert.equal(snapshot.manifestDigest,again.manifestDigest);
+  assert.equal(verifyRetainedRelease({commit_id:snapshot.commit,object_format:snapshot.objectFormat,folder:snapshot.folder,
+    parser_profile:snapshot.parserProfile,manifest_digest:snapshot.manifestDigest,
+    files:snapshot.files.map(file=>({...file,validationStatus:'VALID'}))}),true,'format-2 identity manifest verifies from retained immutable files');
 });

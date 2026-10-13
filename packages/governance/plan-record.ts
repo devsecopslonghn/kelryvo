@@ -45,13 +45,19 @@ export async function readVerifiedPublicPlanRecord(tx: any, planId: string, proj
     FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id WHERE e.digest=${intent.target.observationDigest} AND e.project_id=${projectId}`)[0] : null;
   if(intent.target?.observationDigest && !targetObservation)throw unavailable();
   const schemaValidation=intent.validation ? await validationForIntent(tx,intent) : null;
+  const sourceComparisons = await tx`SELECT id,actor_id AS "actorId",created_at AS "createdAt",
+    CASE WHEN octet_length(facts::text)<=1048576 THEN
+      CASE WHEN action='PLAN_SOURCE_COMPARED' THEN jsonb_build_object('digest',facts->'digest',
+        'evidence',(facts->'evidence')-'files') ELSE facts END END AS facts FROM sf_audit
+    WHERE project_id=${projectId} AND organization_id=${ORG} AND resource_id=${p.id}
+      AND (action='PLAN_SOURCE_COMPARED' OR facts ? 'comparisonId') ORDER BY created_at,id LIMIT 100`;
   const sourceOrigin=await loadWorkspaceReleaseOrigin(tx,projectId,intent.releaseId);
   return {
     plan: { id: p.id, projectId: p.projectId, authorId: p.authorId, createdAt: p.createdAt,
       sourceBindingGeneration: p.sourceBindingGeneration, status: p.status, decision: p.decision,
       decisionReason: p.decisionReason, decidedBy: p.decidedBy, decidedByName: p.decidedByName,
       decidedAt: p.decidedAt, approvalReference: p.approvalReference, revocation: revocationRow?.snapshot ?? null },
-    retainedIntent: {...publicIntent(intent),...(sourceOrigin.sourceKind==='AUTHORED_SQL_WORKSPACE'?{sourceOrigin}:{}),...(targetObservation ? {targetObservation} : {}),...(schemaValidation ? {schemaValidation} : {})},
+    retainedIntent: {...publicIntent(intent),...(sourceComparisons.length ? {sourceComparisons} : {}),...(sourceOrigin.sourceKind==='AUTHORED_SQL_WORKSPACE'?{sourceOrigin}:{}),...(targetObservation ? {targetObservation} : {}),...(schemaValidation ? {schemaValidation} : {})},
   };
 }
 

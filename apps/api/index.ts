@@ -1,3 +1,4 @@
+import { registerSourceComparison, readPlanComparison } from '../../packages/governance/source-comparison.ts';
 import {registerSqlWorkspace} from '../../packages/sql-workspace/api.ts';
 import {loadWorkspaceReleaseOrigins,loadWorkspaceReleaseOrigin} from '../../packages/migrations/workspace-release-origin.ts';
 import { registerMigrationHistory } from '../../packages/migration-history/api.ts';
@@ -194,6 +195,7 @@ export function createApp(options: {
   registerExecutionReadiness(app,sql,authenticate,ORG);
   registerExecutionReconciliation(app,{sql,authenticate});
   registerPlanRecord(app, { sql, authenticate });
+  registerSourceComparison(app, { sql, authenticate, statementParser });
   registerExecutionRecord(app, { sql, authenticate });
   registerBrowserSessions(app, { sql, authenticate, seed, enabled: !!options.https });
   registerAccount(app, { sql, authenticate });
@@ -420,7 +422,11 @@ export function createApp(options: {
           sql`SELECT id,plan_id,version,path,sha256,status,created_at FROM sf_history WHERE project_id=${p.id} ORDER BY created_at DESC`,
           sql`SELECT id,project_id,plan_id,author_id,author_name,body,
             CASE WHEN jsonb_typeof(evidence_refs)='array' THEN CASE WHEN jsonb_array_length(evidence_refs)<=8
-              AND octet_length(evidence_refs::text)<=49152 THEN evidence_refs ELSE '[]'::jsonb END ELSE '[]'::jsonb END AS evidence_refs,created_at FROM sf_plan_comments
+              AND octet_length(evidence_refs::text)<=49152 THEN evidence_refs ELSE '[]'::jsonb END ELSE '[]'::jsonb END AS evidence_refs,
+        (SELECT a.facts->>'comparisonId' FROM sf_audit a WHERE a.project_id=sf_plan_comments.project_id
+          AND a.organization_id=sf_plan_comments.organization_id AND a.resource_id=sf_plan_comments.plan_id
+          AND a.action='PLAN_COMMENT_ADDED' AND a.facts->>'commentId'=sf_plan_comments.id::text LIMIT 1) AS comparison_id,
+        created_at FROM sf_plan_comments
             WHERE project_id=${p.id} AND organization_id=${ORG} ORDER BY position`,
           sql`SELECT 1 FROM sf_project_deploy_grants WHERE project_id=${p.id} AND organization_id=${ORG} AND actor_id=${req.actor.id} AND revoked_at IS NULL`,
           sql`SELECT j.* FROM sf_execution_jobs j WHERE j.project_id=${p.id} AND j.organization_id=${ORG}
@@ -1109,14 +1115,18 @@ export function createApp(options: {
     if (!plan) return fail(reply, 404, 'NOT_FOUND');
     const comments = await sql`SELECT id,project_id,plan_id,author_id,author_name,body,
       CASE WHEN jsonb_typeof(evidence_refs)='array' THEN CASE WHEN jsonb_array_length(evidence_refs)<=8
-        AND octet_length(evidence_refs::text)<=49152 THEN evidence_refs ELSE '[]'::jsonb END ELSE '[]'::jsonb END AS evidence_refs,created_at FROM sf_plan_comments
+        AND octet_length(evidence_refs::text)<=49152 THEN evidence_refs ELSE '[]'::jsonb END ELSE '[]'::jsonb END AS evidence_refs,
+        (SELECT a.facts->>'comparisonId' FROM sf_audit a WHERE a.project_id=sf_plan_comments.project_id
+          AND a.organization_id=sf_plan_comments.organization_id AND a.resource_id=sf_plan_comments.plan_id
+          AND a.action='PLAN_COMMENT_ADDED' AND a.facts->>'commentId'=sf_plan_comments.id::text LIMIT 1) AS comparison_id,
+        created_at FROM sf_plan_comments
       WHERE plan_id=${plan.id} AND project_id=${req.params.projectId} AND organization_id=${ORG} ORDER BY position`;
     return { comments: comments.map(mapComment) };
   });
   app.post('/api/projects/:projectId/plans/:id/comments', { preHandler: authenticate }, async (req: any, reply: any) => {
     const b = req.body;
     if (!uuid(req.params.projectId) || !uuid(req.params.id)
-      || !object(b, ['body', 'evidenceRefs']) || !validComment(b?.body)
+      || !object(b, ['body', 'evidenceRefs', 'comparisonId']) || (b.comparisonId !== undefined && !uuid(b.comparisonId)) || !validComment(b?.body)
       || (b.evidenceRefs !== undefined && !validateCommentEvidenceInput(b.evidenceRefs))) return fail(reply, 400, 'INVALID_REQUEST');
     const evidenceInput = b.evidenceRefs ?? [];
     const result = await sql.begin(async (tx: any) => {
@@ -1195,12 +1205,14 @@ export function createApp(options: {
           return { error: 'COMMENT_EVIDENCE_UNAVAILABLE' };
         evidenceRefs = resolved;
       }
+      const comparison = b.comparisonId ? await readPlanComparison(tx, plan.project_id, plan.id, b.comparisonId) : null;
+      const comparisonFacts = comparison ? { comparisonId: comparison.id, comparisonDigest: comparison.digest, intentDigest: comparison.evidence.intentDigest } : {};
       const comment = (await tx`INSERT INTO sf_plan_comments(project_id,organization_id,plan_id,author_id,author_name,body,evidence_refs)
         VALUES(${plan.project_id},${ORG},${plan.id},${req.actor.id},${req.actor.name},${b.body},${tx.json(evidenceRefs)}) RETURNING *`)[0];
       await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
         VALUES(${plan.project_id},${ORG},${req.actor.id},'PLAN_COMMENT_ADDED',${plan.id},${tx.json(evidenceRefs.length
-          ? { commentId: comment.id, evidenceRefCount: evidenceRefs.length } : { commentId: comment.id })})`;
-      return { comment };
+          ? { commentId: comment.id, evidenceRefCount: evidenceRefs.length, ...comparisonFacts } : { commentId: comment.id, ...comparisonFacts })})`;
+      return { comment: {...comment, comparison_id: comparison?.id} };
     });
     if (!result) return fail(reply, 404, 'NOT_FOUND');
     if (result.error === 'FRESH_PLAN_REQUIRED') return fail(reply, 409, result.error);
@@ -1281,7 +1293,7 @@ export function createApp(options: {
       const b = req.body;
       if (
         !uuid(req.params.id) ||
-        !object(b, ["decision", "reason", "expectedIntentDigest", "expectedAssignmentRevision", "expectedBindingRevision"]) ||
+        !object(b, ["decision", "reason", "expectedIntentDigest", "expectedAssignmentRevision", "expectedBindingRevision", "comparisonId"]) || (b.comparisonId !== undefined && !uuid(b.comparisonId)) ||
         !["APPROVE", "REJECT"].includes(b.decision) || !validTargetExpectations(b) ||
         !validReason(b.reason, 2000)
       )
@@ -1404,6 +1416,8 @@ export function createApp(options: {
             if (!statements || JSON.stringify(statements) !== JSON.stringify(boundIntent.statements)) return "PLAN_APPROVAL_INTEGRITY_FAILED";
           }
         }
+        const comparison = b.comparisonId ? await readPlanComparison(tx, p.project_id, p.id, b.comparisonId) : null;
+        const comparisonFacts = comparison ? { comparisonId: comparison.id, comparisonDigest: comparison.digest, intentDigest: comparison.evidence.intentDigest } : {};
         const approvalReference = b.decision === 'APPROVE' ? randomUUID() : null;
         await guardMutationAuthority(tx, req);
         const rows = await tx`UPDATE sf_plans SET status=${b.decision === "APPROVE" ? "APPROVED" : "REJECTED"},decision=${b.decision},decision_reason=${b.reason},decided_by=${req.actor.id},decided_by_name=${req.actor.name},decided_at=now(),approval_reference=${approvalReference}
@@ -1415,8 +1429,8 @@ export function createApp(options: {
           execution,history_status,planning_scope,approval_reference,source_binding_generation::text AS source_binding_generation,
           CASE WHEN octet_length(offline_intent_envelope) <= ${MAX_STDOUT_BYTES} THEN offline_intent_envelope END AS offline_intent_envelope,
           CASE WHEN char_length(offline_intent_digest) = 64 THEN offline_intent_digest END AS offline_intent_digest`;
-        if (b.decision === 'APPROVE') await tx`INSERT INTO sf_audit(id,project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${approvalReference},${p.project_id},${ORG},${req.actor.id},'PLAN_APPROVED',${p.id},${tx.json({ reason: b.reason, approvalReference })})`;
-        else await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${p.project_id},${ORG},${req.actor.id},'PLAN_REJECTED',${p.id},${tx.json({ reason: b.reason })})`;
+        if (b.decision === 'APPROVE') await tx`INSERT INTO sf_audit(id,project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${approvalReference},${p.project_id},${ORG},${req.actor.id},'PLAN_APPROVED',${p.id},${tx.json({ reason: b.reason, approvalReference, ...comparisonFacts })})`;
+        else await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${p.project_id},${ORG},${req.actor.id},'PLAN_REJECTED',${p.id},${tx.json({ reason: b.reason, ...comparisonFacts })})`;
         return rows[0];
       });
       if (result?.error === 'METADATA_RESTORE_HOLD') return fail(reply, 409, result.error);
@@ -1716,6 +1730,7 @@ export function createApp(options: {
     if (error?.productCode === 'MEMBERSHIP_BOOTSTRAP_REQUIRED') return fail(reply, 409, 'MEMBERSHIP_BOOTSTRAP_REQUIRED');
     if (error?.productCode === "PROJECT_ARCHIVED") return fail(reply, 409, "PROJECT_ARCHIVED");
     if (['TARGET_REVISION_CONFLICT','TARGET_OPTION_INELIGIBLE','FRESH_PLAN_REQUIRED','METADATA_RESTORE_HOLD'].includes(error?.productCode)) return fail(reply, 409, error.productCode);
+    if (['COMPARISON_STALE','COMPARISON_UNAVAILABLE'].includes(error?.productCode)) return fail(reply, 409, error.productCode);
     if (error?.productCode === 'INVALID_REQUEST') return fail(reply, 400, error.productCode);
     if (error?.code === "23503") return fail(reply, 400, "INVALID_REFERENCE");
     if (error?.code === "23505") return fail(reply, 409, "CONFLICT");
@@ -1735,6 +1750,7 @@ function mapComment(r: any) {
     authorId: r.author_id,
     authorName: r.author_name,
     body: r.body,
+    ...(uuid(r.comparison_id) ? {comparisonId:r.comparison_id} : {}),
     evidenceRefs: Array.isArray(r.evidence_refs) && r.evidence_refs.length <= 8 ? r.evidence_refs : [],
     createdAt: r.created_at,
   };

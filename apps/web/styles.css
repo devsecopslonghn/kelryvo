@@ -1750,3 +1750,13 @@ td code {
 .history-filters label { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .history-filters input, .history-filters select { width: 100%; box-sizing: border-box; }
 .migration-history-explorer pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.sql-workspace .release-files { margin: 16px 0; }
+.sql-workspace .release-files label, .plan-source-comparison label { display: block; min-width: 0; margin-bottom: 12px; }
+.sql-workspace .release-files input, .sql-workspace .release-files select, .plan-source-comparison select { display: block; width: 100%; box-sizing: border-box; margin-top: 8px; }
+.plan-source-comparison { min-width: 0; }
+.plan-source-comparison code { overflow-wrap: anywhere; }
+.plan-source-comparison .comparison-sides { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.plan-source-comparison pre { white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0; padding: 12px; background: #f7f9fc; }
+.plan-source-comparison summary { cursor: pointer; padding: 12px 0; }
+.plan-source-comparison nav { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
+@media (max-width: 760px) { .plan-source-comparison .comparison-sides { grid-template-columns: minmax(0, 1fr); } }

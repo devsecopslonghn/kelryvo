@@ -95,6 +95,7 @@ export async function openBrowserUiFixture({ model = createUiModel(), handler, l
             executionSha256: model.preview.statements[0].executionSha256 }], nextOrdinal: null };
       }
       else if (method === 'GET' && /^\/api\/projects\/[^/]+\/plans\/[^/]+\/reviewers$/.test(path)) body = { reviewers: model.actors.filter(actor => actor.role === 'approver') };
+      else if (method === 'GET' && /^\/api\/projects\/[^/]+\/plans\/[^/]+\/comparisons$/.test(path)) body = { comparisons: [] };
       else if (method === 'GET' && path === `${base}/target-bindings`) body = { bindings: [], nextCursor: null };
       else if (method === 'GET' && path === `${base}/target-options`) body = { options: [], nextCursor: null };
       else {

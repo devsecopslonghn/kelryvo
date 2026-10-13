@@ -7,7 +7,7 @@ import postgres from 'postgres';
 import {createBackupProductFixture,tableSnapshot} from './helpers/product-backup-fixture.mjs';
 import {openIsolatedProductDatabase} from './helpers/product-db.mjs';
 import {initializeDatabase} from '../packages/database/index.ts';
-import {createPrivateBackup,restorePrivateBackup} from '../packages/backup/index.mjs';
+import {createPrivateBackup,restorePrivateBackup,inventory as inspectBackupSchema} from '../packages/backup/index.mjs';
 import {createApp} from '../apps/api/index.ts';
 import {SQL_WORKSPACE_TABLES} from '../packages/sql-workspace/schema.mjs';
 
@@ -17,6 +17,31 @@ test('Native backup preserves SQL revisions and release attribution, while resto
 },async()=>{
   const f=await createBackupProductFixture();let app;
   try {
+    // Model an existing Phase 7 catalog and exercise the additive upgrade before backup.
+    await f.source.sql`DROP TRIGGER sf_plan_source_comparison_immutable ON sf_audit`;
+    await f.source.sql`DROP TABLE sf_sql_workspace_releases`;
+    await f.source.sql`DROP TABLE sf_sql_draft_revisions`;
+    await f.source.sql.unsafe(`CREATE TABLE sf_sql_draft_revisions (
+      draft_id uuid NOT NULL,project_id uuid NOT NULL,revision bigint NOT NULL CHECK(revision>0),
+      sql text NOT NULL CHECK(octet_length(sql)<=1048576),sha256 text NOT NULL CHECK(sha256 ~ '^[a-f0-9]{64}$'),
+      created_by text NOT NULL REFERENCES sf_local_actors(id),created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
+      PRIMARY KEY(draft_id,revision),UNIQUE(draft_id,revision,project_id),
+      FOREIGN KEY(draft_id,project_id) REFERENCES sf_sql_drafts(id,project_id))`);
+    await f.source.sql`CREATE INDEX sf_sql_draft_revisions_project ON sf_sql_draft_revisions(project_id,draft_id,revision DESC)`;
+    await f.source.sql.unsafe(`CREATE TABLE sf_sql_workspace_releases (
+      release_id uuid PRIMARY KEY,project_id uuid NOT NULL,organization_id uuid NOT NULL,draft_id uuid NOT NULL,
+      draft_revision bigint NOT NULL CHECK(draft_revision>0),draft_sha256 text NOT NULL CHECK(draft_sha256 ~ '^[a-f0-9]{64}$'),
+      source_binding_generation bigint NOT NULL CHECK(source_binding_generation>0),created_by text NOT NULL REFERENCES sf_local_actors(id),
+      created_at timestamptz NOT NULL DEFAULT clock_timestamp(),UNIQUE(release_id,project_id),
+      FOREIGN KEY(release_id,project_id) REFERENCES sf_releases(id,project_id),
+      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
+      FOREIGN KEY(draft_id,draft_revision,project_id) REFERENCES sf_sql_draft_revisions(draft_id,revision,project_id))`);
+    await f.source.sql`CREATE INDEX sf_sql_workspace_releases_draft ON sf_sql_workspace_releases(project_id,draft_id,draft_revision DESC)`;
+    await f.source.sql`CREATE TRIGGER sf_sql_draft_revisions_immutable BEFORE UPDATE OR DELETE ON sf_sql_draft_revisions FOR EACH ROW EXECUTE FUNCTION sf_reject_sql_workspace_evidence_mutation()`;
+    await f.source.sql`CREATE TRIGGER sf_sql_workspace_releases_immutable BEFORE UPDATE OR DELETE ON sf_sql_workspace_releases FOR EACH ROW EXECUTE FUNCTION sf_reject_sql_workspace_evidence_mutation()`;
+    const historicalSchema=await inspectBackupSchema(f.source.sql,{phase7:true});
+    assert.equal(historicalSchema.signature,'d22b31c5bebfc07d7668f3201a5934eeaa4c48111a8fb64ee60721e822205cb4');
+    await initializeDatabase(f.source.sql);
     const sql=f.source.sql,draftId=randomUUID(),bindingId=randomUUID();
     const source=(await sql`SELECT files FROM sf_releases WHERE id=${f.release.id}`)[0].files[0].content;
     const sha=createHash('sha256').update(source).digest('hex');
@@ -24,6 +49,19 @@ test('Native backup preserves SQL revisions and release attribution, while resto
       VALUES(${draftId},'00000000-0000-4000-8000-000000000001',${f.project.id},'Retained backup SQL',${bindingId},1,${f.actors[0].id})`;
     await sql`INSERT INTO sf_sql_draft_revisions(draft_id,project_id,revision,sql,sha256,created_by)
       VALUES(${draftId},${f.project.id},1,${source},${sha},${f.actors[0].id})`;
+    const multiDraftId=randomUUID(),multiBindingId=randomUUID(),fileId=randomUUID(),secondFileId=randomUUID();
+    const fileSql='CREATE TABLE backup_multifile (id NUMBER);\n',fileSha=createHash('sha256').update(fileSql).digest('hex');
+    const secondFileSql='ALTER TABLE backup_multifile ADD (label VARCHAR2(20));\n',secondFileSha=createHash('sha256').update(secondFileSql).digest('hex');
+    const multiFiles=[{id:fileId,path:'V1__backup_multifile.sql',version:'1',order:0,sql:fileSql,sha256:fileSha},
+      {id:secondFileId,path:'V2__backup_multifile_label.sql',version:'2',order:1,sql:secondFileSql,sha256:secondFileSha}];
+    const multiSha=createHash('sha256').update(JSON.stringify(multiFiles.map(({id,path,version,order,sha256})=>({id,path,version,order,sha256})))).digest('hex');
+    await sql`INSERT INTO sf_sql_drafts(id,organization_id,project_id,name,target_binding_id,current_revision,created_by)
+      VALUES(${multiDraftId},'00000000-0000-4000-8000-000000000001',${f.project.id},'Retained multi-file backup SQL',${multiBindingId},1,${f.actors[0].id})`;
+    await sql`INSERT INTO sf_sql_draft_revisions(draft_id,project_id,revision,sql,sha256,manifest_version,files,created_by)
+      VALUES(${multiDraftId},${f.project.id},1,${fileSql},${multiSha},2,${sql.json(multiFiles)},${f.actors[0].id})`;
+    const comparisonId=randomUUID(),comparisonFacts={comparisonId,candidateDraftId:multiDraftId,candidateRevision:'1',manifestVersion:2};
+    await sql`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
+      VALUES(${f.project.id},'00000000-0000-4000-8000-000000000001',${f.actors[0].id},'PLAN_SOURCE_COMPARED',${f.release.id},${sql.json(comparisonFacts)})`;
     const generation=(await sql`SELECT source_binding_generation FROM sf_projects WHERE id=${f.project.id}`)[0].source_binding_generation;
     await sql`INSERT INTO sf_sql_workspace_releases(release_id,project_id,organization_id,draft_id,draft_revision,draft_sha256,source_binding_generation,created_by)
       VALUES(${f.release.id},${f.project.id},'00000000-0000-4000-8000-000000000001',${draftId},1,${sha},${generation},${f.actors[0].id})`;
@@ -36,6 +74,14 @@ test('Native backup preserves SQL revisions and release attribution, while resto
     const api=(method,url,payload)=>app.inject({method,url,payload,headers:{authorization:`Bearer ${restored.actors[0].token}`}});
     const draft=await api('GET',`/api/projects/${f.project.id}/sql-drafts/${draftId}`);
     assert.equal(draft.statusCode,200,draft.body);assert.equal(draft.json().draft.sql,source);
+    const multiDraft=await api('GET',`/api/projects/${f.project.id}/sql-drafts/${multiDraftId}`);
+    assert.equal(multiDraft.statusCode,200,multiDraft.body);
+    assert.equal(multiDraft.json().draft.manifestVersion,2);
+    assert.deepEqual(multiDraft.json().draft.files,multiFiles);
+    assert.deepEqual((await restored.sql`SELECT facts FROM sf_audit WHERE facts->>'comparisonId'=${comparisonId}`)[0].facts,comparisonFacts,
+      'source comparison provenance and candidate revision facts survive restore exactly');
+    await assert.rejects(restored.sql`UPDATE sf_audit SET facts='{}'::jsonb WHERE facts->>'comparisonId'=${comparisonId}`,/immutable/,
+      'backed-up source comparison evidence remains immutable after restore');
     const origin=await api('GET',`/api/releases/${f.release.id}`);
     assert.equal(origin.statusCode,200,origin.body);assert.equal(origin.json().release.sourceKind,'AUTHORED_SQL_WORKSPACE');
     assert.equal(origin.json().release.draftId,draftId);
@@ -51,7 +97,7 @@ test('A Phase 5 native backup restores without schema rewriting and then adds th
 },async()=>{
   const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeSqlWorkspace:false})});
   const directory=await mkdtemp(path.join(process.cwd(),'.cache','phase7-backup-compat-'));
-  let restoredSql,restoredName;
+  let restoredSql,restoredName,phase7RestoredSql,phase7RestoredName;
   try {
     const secret=randomBytes(32).toString('hex'),configPath=path.join(directory,'operator-config.json');
     await writeFile(configPath,JSON.stringify({databasePassword:secret,developerToken:'1'.repeat(64),approverToken:'2'.repeat(64)})+'\n',{mode:0o600});
@@ -67,9 +113,22 @@ test('A Phase 5 native backup restores without schema rewriting and then adds th
     assert.equal((await restoredSql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name,'Preserved Phase 5 project');
     for(const table of SQL_WORKSPACE_TABLES)assert.equal(await tableSnapshot(restoredSql,table),'[]');
     assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
+    await initializeDatabase(source.sql,{sqlWorkspaceVersion:1});
+    const phase7BackupDirectory=path.join(directory,'phase7-backup'),phase7WitnessPath=path.join(directory,'phase7-witness.json');
+    await createPrivateBackup({configPath,databaseUrl,destination:phase7BackupDirectory,witnessPath:phase7WitnessPath});
+    const phase7Manifest=JSON.parse(await readFile(path.join(phase7BackupDirectory,'manifest.json'),'utf8'));
+    assert.equal(phase7Manifest.schema.signature,'d22b31c5bebfc07d7668f3201a5934eeaa4c48111a8fb64ee60721e822205cb4');
+    const phase7Restored=await restorePrivateBackup({configPath,databaseUrl,backupDirectory:phase7BackupDirectory,witnessPath:phase7WitnessPath});
+    phase7RestoredName=phase7Restored.databaseName;phase7RestoredSql=postgres(phase7Restored.databaseUrl,{max:2,onnotice:()=>{}});
+    for(const table of SQL_WORKSPACE_TABLES)assert.equal((await phase7RestoredSql`SELECT to_regclass(${`public.${table}`}) IS NOT NULL AS present`)[0].present,true);
+    const upgradedColumn=(await phase7RestoredSql`SELECT column_name FROM information_schema.columns WHERE table_name='sf_sql_draft_revisions' AND column_name='manifest_version'`)[0];
+    assert.equal(upgradedColumn.column_name,'manifest_version','a previous Phase 7 backup is loaded into its exact old schema then upgraded');
+    assert.equal((await phase7RestoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
   } finally {
     await restoredSql?.end({timeout:2});
+    await phase7RestoredSql?.end({timeout:2});
     if(restoredName){const admin=postgres(source.databaseUrl,{max:1,onnotice:()=>{}});try{await admin.unsafe(`DROP DATABASE "${restoredName}" WITH (FORCE)`);}finally{await admin.end({timeout:2});}}
+    if(phase7RestoredName){const admin=postgres(source.databaseUrl,{max:1,onnotice:()=>{}});try{await admin.unsafe(`DROP DATABASE "${phase7RestoredName}" WITH (FORCE)`);}finally{await admin.end({timeout:2});}}
     await source.close();await rm(directory,{recursive:true,force:true});
   }
 });

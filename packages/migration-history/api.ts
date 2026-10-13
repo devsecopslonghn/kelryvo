@@ -4,25 +4,53 @@ import { guardMutationAuthority } from '../database/mutation-authority.ts';
 const uuid = (value: unknown) => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 const PAGE_SIZE = 25;
 
+type HistoryPosition = { projectId: string; filters: { targetId: string | null; status: string | null; q: string | null }; at: string; id: string };
+const encodePosition = (position: HistoryPosition) => Buffer.from(JSON.stringify(position)).toString('base64url');
+function decodePosition(value: unknown): HistoryPosition | null {
+  if (typeof value !== 'string' || value.length > 2048 || !/^[A-Za-z0-9_-]+$/.test(value)) return null;
+  try {
+    const parsed = JSON.parse(Buffer.from(value, 'base64url').toString('utf8'));
+    if (!parsed || typeof parsed !== 'object' || Object.keys(parsed).sort().join(',') !== 'at,filters,id,projectId'
+        || !uuid(parsed.projectId) || typeof parsed.id !== 'string' || parsed.id.length > 80
+        || typeof parsed.at !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|[+-]\d{2}:\d{2})$/.test(parsed.at)
+        || !Number.isFinite(Date.parse(parsed.at)) || !parsed.filters || typeof parsed.filters !== 'object'
+        || Object.keys(parsed.filters).sort().join(',') !== 'q,status,targetId'
+        || parsed.filters.targetId !== null && !uuid(parsed.filters.targetId)
+        || parsed.filters.status !== null && (typeof parsed.filters.status !== 'string' || !/^[A-Z][A-Z0-9_]{0,63}$/.test(parsed.filters.status))
+        || parsed.filters.q !== null && (typeof parsed.filters.q !== 'string' || parsed.filters.q.length > 120)) return null;
+    return parsed;
+  } catch { return null; }
+}
+
 export function registerMigrationHistory(app: any, sql: any, authenticate: any, organizationId: string) {
   app.get('/api/projects/:projectId/migration-history', { preHandler: authenticate }, async (req: any, reply: any) => {
     if (!uuid(req.params.projectId)) return reply.code(404).send({ error: 'NOT_FOUND' });
     const query = req.query || {};
-    if (Object.keys(query).some(key => !['targetId', 'status', 'q', 'offset'].includes(key))
+    if (Object.keys(query).some(key => !['targetId', 'status', 'q', 'offset', 'cursor'].includes(key))
         || query.targetId !== undefined && !uuid(query.targetId)
         || query.status !== undefined && (typeof query.status !== 'string' || !/^[A-Z][A-Z0-9_]{0,63}$/.test(query.status))
         || query.q !== undefined && (typeof query.q !== 'string' || query.q.length > 120)
-        || query.offset !== undefined && (typeof query.offset !== 'string' || !/^(0|[1-9][0-9]{0,7})$/.test(query.offset)))
+        || query.offset !== undefined && (typeof query.offset !== 'string' || !/^(0|[1-9][0-9]{0,7})$/.test(query.offset))
+        || query.offset !== undefined && query.cursor !== undefined)
       return reply.code(400).send({ error: 'INVALID_REQUEST' });
     const projectId = req.params.projectId.toLowerCase();
     const offset = Number(query.offset || 0);
     const targetId = query.targetId?.toLowerCase() ?? null;
     const status = query.status ?? null;
     const needle = query.q?.trim() || null;
+    const filters = { targetId, status, q: needle };
+    const position = query.cursor === undefined ? null : decodePosition(query.cursor);
+    if (query.cursor !== undefined && (!position || position.projectId !== projectId
+        || JSON.stringify(position.filters) !== JSON.stringify(filters))) return reply.code(400).send({ error: 'INVALID_REQUEST' });
     reply.header('Cache-Control', 'no-store');
     req.projectScopedMutation = true;
     req.scopedProjectId = projectId;
-    const result = await sql.begin('isolation level repeatable read', async (tx: any) => {
+    // Keep this read at READ COMMITTED. A browser session can refresh its idle
+    // expiry while this request waits for the shared mutation advisory lock;
+    // under REPEATABLE READ the subsequent FOR SHARE of that credential raises
+    // 40001 when it observes the concurrent refresh. The count and page remain
+    // one SQL statement/snapshot, so their ordering and totals stay consistent.
+    const result = await sql.begin(async (tx: any) => {
       await guardMutationAuthority(tx, req);
       const project = (await tx`SELECT id FROM sf_projects WHERE id=${projectId}
         AND organization_id=${organizationId} FOR SHARE`)[0];
@@ -68,7 +96,20 @@ export function registerMigrationHistory(app: any, sql: any, authenticate: any, 
         UNION ALL
         SELECT 'request:'||j.id::text,'request',j.created_at,j.plan_id,p.release_id,
           COALESCE(p.binding_id,p.profile_id::text),j.state,j.requester_id,NULL::text,'Execution request',
-          (j.reason||' · '||j.readiness),j.id,NULL::jsonb
+          (j.reason||' · '||j.readiness),j.id,
+          jsonb_build_object('readiness',j.readiness,'revision',j.revision,
+            'latestTransition',(SELECT jsonb_build_object('revision',e.revision,'fromState',e.from_state,'toState',e.to_state,
+              'actorId',CASE WHEN octet_length(e.actor_id)<=512 THEN e.actor_id END,
+              'reason',CASE WHEN octet_length(e.reason)<=8000 THEN e.reason END,
+              'reasonCode',CASE WHEN jsonb_typeof(e.facts->'reasonCode')='string' AND (e.facts->>'reasonCode') ~ '^[A-Z0-9_]{1,64}$' THEN e.facts->>'reasonCode' END,
+              'at',e.created_at) FROM sf_execution_job_events e WHERE e.job_id=j.id ORDER BY e.revision DESC LIMIT 1),
+            'attemptCount',(SELECT count(*) FROM sf_execution_attempts a WHERE a.job_id=j.id),
+            'latestAttempt',(SELECT jsonb_build_object('generation',a.generation,'state',a.state,
+              'latestPhase',ev.phase,'reasonCode',CASE WHEN jsonb_typeof(ev.facts->'reasonCode')='string' AND (ev.facts->>'reasonCode') ~ '^[A-Z0-9_]{1,64}$' THEN ev.facts->>'reasonCode' END)
+              FROM sf_execution_attempts a LEFT JOIN LATERAL (SELECT phase,facts FROM sf_execution_attempt_events
+                WHERE attempt_id=a.id ORDER BY revision DESC LIMIT 1) ev ON true
+              WHERE a.job_id=j.id ORDER BY a.generation DESC LIMIT 1),
+            'receiptCount',(SELECT count(*) FROM sf_execution_receipts r WHERE r.job_id=j.id))
         FROM sf_execution_jobs j JOIN plan_rows p ON p.plan_id=j.plan_id
         WHERE j.project_id=${projectId} AND j.organization_id=${organizationId}
         UNION ALL
@@ -92,11 +133,18 @@ export function registerMigrationHistory(app: any, sql: any, authenticate: any, 
           'releaseId',page.release_id,'targetId',page.target_id,'status',page.status,'actorId',page.actor_id,
           'actorName',page.actor_name,'title',page.title,'detail',page.detail,'jobId',page.job_id,'evidence',page.evidence)
           ORDER BY page.at DESC,page.id DESC),'[]'::jsonb) AS items
-      FROM (SELECT * FROM matched ORDER BY at DESC,id DESC LIMIT ${PAGE_SIZE + 1} OFFSET ${offset}) page`;
+      FROM (SELECT * FROM matched WHERE (${position?.at ?? null}::timestamptz IS NULL
+        OR (at,id)<(${position?.at ?? null}::timestamptz,${position?.id ?? null}::text))
+        ORDER BY at DESC,id DESC LIMIT ${PAGE_SIZE + 1} OFFSET ${query.cursor === undefined ? offset : 0}) page`;
       const row = records[0];
       const items = row.items.slice(0, PAGE_SIZE);
+      const nextPosition = row.items.length > PAGE_SIZE && items.length ? encodePosition({
+        projectId, filters, at: items.at(-1).at, id: items.at(-1).id,
+      }) : null;
       return { projectId, items, total: row.total, pageSize: PAGE_SIZE,
-        nextOffset: row.items.length > PAGE_SIZE ? offset + PAGE_SIZE : null };
+        nextCursor: nextPosition,
+        // Keep the old offset response available for clients that still use that contract.
+        nextOffset: query.cursor === undefined && row.items.length > PAGE_SIZE ? offset + PAGE_SIZE : null };
     });
     return result ?? reply.code(404).send({ error: 'NOT_FOUND' });
   });

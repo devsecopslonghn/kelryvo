@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { classifyWorkspaceError, validateDraft } from '../../../packages/sql-workspace/contracts.mjs';
 import { ValidationFindings } from './SchemaValidation.jsx';
 
+const editableFiles = draft => (draft?.files || [{id:draft?.id,path:'V1__workspace.sql',sql:draft?.sql || ''}]).map(({id,path,sql}) => ({...(id ? {id} : {}),path,sql}));
+
 function targetOf(binding) {
   return binding?.retainedTarget || binding?.target || binding;
 }
@@ -21,6 +23,7 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
   const [draft, setDraft] = useState(null);
   const [name, setName] = useState('Untitled SQL draft');
   const [sql, setSql] = useState('');
+  const [files,setFiles]=useState([]), [fileIndex,setFileIndex]=useState(0), [useFiles,setUseFiles]=useState(false);
   const [targetBindingId, setTargetBindingId] = useState('');
   const [analysis, setAnalysis] = useState(null);
   const [validation, setValidation] = useState(null);
@@ -67,7 +70,7 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
       if (!current(n)) return;
       const selected = result.draft || result;
       if (!validateDraft(selected)) throw new Error('INVALID_REQUEST');
-      setDraft(selected); setDraftId(selected.id); setName(selected.name); setSql(selected.sql);
+      setDraft(selected); setDraftId(selected.id); setName(selected.name); setSql(editableFiles(selected)[0].sql); setFiles(editableFiles(selected)); setFileIndex(0); setUseFiles(selected.manifestVersion === 2 || (selected.files?.length || 0)>1);
       setDrafts(rows=>rows.some(row=>row.id===selected.id)?rows:[selected,...rows]);
       setTargetBindingId(selected.targetBindingId || '');
       setPreparedRelease(selected.preparedRelease || null);
@@ -113,11 +116,11 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
     const n = ++epoch.current; setBusy(true); setError(''); setNotice(''); setAnalysis(null); setValidation(null); setComparison(null); setPreparedRelease(null);
     try {
       const result = await request(`${base}/${encodeURIComponent(draft.id)}`, token, { method: 'PUT',
-        body: JSON.stringify({ expectedRevision: draft.revision, name, targetBindingId, sql }) });
+        body: JSON.stringify({ expectedRevision: draft.revision, name, targetBindingId, ...(useFiles ? {files} : {sql}) }) });
       const saved = result.draft || result;
       if (!validateDraft(saved)) throw new Error('INVALID_REQUEST');
       if (current(n)) {
-        setDraft(saved); setSql(saved.sql); setDrafts(rows => [saved, ...rows.filter(item => item.id !== saved.id)]);
+        setDraft(saved); setFiles(editableFiles(saved)); setFileIndex(0); setSql(editableFiles(saved)[0].sql); setDrafts(rows => [saved, ...rows.filter(item => item.id !== saved.id)]);
         setCandidateRevision(String(saved.revision)); setNotice(`Saved revision ${saved.revision}.`);
       }
     } catch (e) { if (current(n)) reportError(e); }
@@ -206,7 +209,7 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
 
   const selectedTarget = bindings.find(binding => targetIdOf(binding) === targetBindingId);
   const target = targetOf(selectedTarget);
-  const hasUnsavedEdits=!!draft && (sql!==draft.sql || name!==draft.name || targetBindingId!==draft.targetBindingId);
+  const hasUnsavedEdits=!!draft && (JSON.stringify(files)!==JSON.stringify(editableFiles(draft)) || name!==draft.name || targetBindingId!==draft.targetBindingId);
   const revisions = draft?.revisions || [];
   return <section className="panel sql-workspace" aria-label="SQL workspace" aria-busy={busy || loading}>
     <div className="panel-heading"><div><p className="eyebrow">PROJECT SQL</p><h2>SQL workspace</h2>{projectName && <p>{projectName}</p>}</div><button type="button" className="secondary" onClick={() => void loadDrafts(draftId)} disabled={busy || loading}>Refresh drafts</button></div>
@@ -221,22 +224,23 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
       <div className="sql-workspace-editor">
         <label>Draft name<input aria-label="SQL draft name" value={name} maxLength={200} onChange={event => { setName(event.target.value); setAnalysis(null); setValidation(null); setPreparedRelease(null); }} disabled={busy || loading || readOnly}/></label>
         <label>Database target<select aria-label="SQL workspace target" value={targetBindingId} onChange={event => { setTargetBindingId(event.target.value); onBindingSelected?.(event.target.value); setAnalysis(null); setValidation(null); setPreparedRelease(null); }} disabled={busy || loading || readOnly}><option value="">Choose authorized project target</option>{bindings.map(binding => { const t = targetOf(binding); const id = targetIdOf(binding); return <option key={id} value={id}>{t?.exactOwner || t?.owner || 'Target'} · {t?.environmentName || t?.environmentId || 'Environment'} · revision {t?.bindingRevision || binding.revision || 'unknown'}</option>; })}</select></label>
-        <label>SQL editor<textarea aria-label="SQL editor" spellCheck="false" autoCapitalize="off" autoCorrect="off" value={sql} onChange={event => { setSql(event.target.value); setAnalysis(null); setValidation(null); setPreparedRelease(null); }} disabled={busy || loading || readOnly} rows={18} /></label>
-        <p className="offline-note">Revision {draft?.revision ?? 'not saved'}{draft && (sql !== draft.sql || name !== draft.name || targetBindingId !== draft.targetBindingId) ? ' · Unsaved edits' : ''} · Offline parser results do not establish Oracle semantic validity.</p>
+        {draft && <section className="release-files" aria-label="Release SQL files"><h3>Release files</h3><p>Execution order follows migration versions. Saving retains a new immutable manifest revision.</p><div className="form-actions"><label>SQL file<select aria-label="SQL file" value={fileIndex} onChange={event=>{const i=Number(event.target.value);setFileIndex(i);setSql(files[i].sql);}} disabled={busy || loading}>{files.map((file,i)=><option key={file.id || i} value={i}>{file.path}</option>)}</select></label><button type="button" className="secondary" disabled={busy || loading || readOnly || files.length>=128} onClick={()=>{const max=files.reduce((n,f)=>{const m=/^V([0-9]+)/.exec(f.path);return m && BigInt(m[1])>n?BigInt(m[1]):n;},0n);const next={id:crypto.randomUUID(),path:`V${max+1n}__migration.sql`,sql:''};setFiles([...files,next]);setFileIndex(files.length);setSql('');setUseFiles(true);setAnalysis(null);setValidation(null);setPreparedRelease(null);}}>Add SQL file</button><button type="button" className="secondary" disabled={busy || loading || readOnly || files.length<2} onClick={()=>{const remaining=files.filter((_,i)=>i!==fileIndex);setFiles(remaining);setFileIndex(0);setSql(remaining[0].sql);setUseFiles(true);setAnalysis(null);setValidation(null);setPreparedRelease(null);}}>Remove SQL file</button></div><label>Migration filename<input aria-label="Migration filename" value={files[fileIndex]?.path || ''} disabled={busy || loading || readOnly} onChange={event=>{setFiles(rows=>rows.map((f,i)=>i===fileIndex?{...f,path:event.target.value}:f));setUseFiles(true);setAnalysis(null);setValidation(null);setPreparedRelease(null);}}/></label></section>}
+        <label>SQL editor<textarea aria-label="SQL editor" spellCheck="false" autoCapitalize="off" autoCorrect="off" value={sql} onChange={event => { setSql(event.target.value); setFiles(rows=>rows.map((f,i)=>i===fileIndex?{...f,sql:event.target.value}:f)); setAnalysis(null); setValidation(null); setPreparedRelease(null); }} disabled={busy || loading || readOnly} rows={18} /></label>
+        <p className="offline-note">Revision {draft?.revision ?? 'not saved'}{draft && hasUnsavedEdits ? ' · Unsaved edits' : ''} · Offline parser results do not establish Oracle semantic validity.</p>
         <div className="form-actions"><button type="button" className="primary" onClick={() => void saveDraft()} disabled={busy || loading || readOnly || !draft || !name.trim() || !selectedTarget}>Save draft</button>
-          <button type="button" className="secondary" onClick={() => void preview()} disabled={busy || loading || readOnly || !draft || !targetBindingId || sql !== draft.sql || name !== draft.name || targetBindingId !== draft.targetBindingId}>Review syntax</button>
-          <button type="button" className="secondary" onClick={() => void validate()} disabled={busy || loading || readOnly || !draft || !targetBindingId || sql !== draft.sql || name !== draft.name || targetBindingId !== draft.targetBindingId}>Validate against target</button>
-          <button type="button" className="primary" onClick={() => void prepareRelease()} disabled={busy || loading || readOnly || !draft || !targetBindingId || sql !== draft.sql || name !== draft.name || targetBindingId !== draft.targetBindingId}>Prepare immutable release</button>
+          <button type="button" className="secondary" onClick={() => void preview()} disabled={busy || loading || readOnly || !draft || !targetBindingId || hasUnsavedEdits}>Review syntax</button>
+          <button type="button" className="secondary" onClick={() => void validate()} disabled={busy || loading || readOnly || !draft || !targetBindingId || hasUnsavedEdits}>Validate against target</button>
+          <button type="button" className="primary" onClick={() => void prepareRelease()} disabled={busy || loading || readOnly || !draft || !targetBindingId || hasUnsavedEdits}>Prepare immutable release</button>
           {preparedRelease && <button type="button" className="primary" onClick={() => void createPlan()} disabled={busy || loading || readOnly || !validation?.id || validation.currentness?.state !== 'CURRENT' || validation.report?.policy?.decision === 'BLOCKED'}>Create immutable plan</button>}
           {onNavigatePlan && <button type="button" className="text-button" onClick={() => onNavigatePlan()}>Open migration planning →</button>}</div>
         {!bindings.length && <p className="banner warning">No authorized project target is available. Configure a project target before validation or release preparation.</p>}
         {analysis && <section className="sql-workspace-analysis" aria-label="SQL syntax review"><h3>Offline syntax review</h3><p>Parser profile <code>{analysis.parserProfile || analysis.profile || 'Pinned Oracle parser'}</code> · Syntax {analysis.syntax || analysis.status || (analysis.ok ? 'PARSED' : 'UNAVAILABLE')}</p><p>Statement count {analysis.statementCount ?? analysis.statements?.length ?? 0}. Classification is a bounded statement review; Oracle semantics remain unverified.</p>
           {!!analysis.findings?.length && <ul aria-label="Syntax findings">{analysis.findings.map((finding, index) => <li key={index}><strong>{finding.severity} · {finding.code}</strong><p>{finding.rationale || finding.message}</p></li>)}</ul>}
-          {!!analysis.statements?.length && <div className="file-table-wrap"><table><thead><tr><th>Statement</th><th>Classification</th><th>Byte range</th></tr></thead><tbody>{analysis.statements.map((statement, index) => <tr key={`${statement.ordinal || index}`}><td>{statement.ordinal || index + 1}</td><td>{statement.classification || statement.kind || 'UNCLASSIFIED'}</td><td>{statement.startByte ?? '—'}–{statement.endByte ?? '—'}</td></tr>)}</tbody></table></div>}
+          {!!analysis.statements?.length && <div className="file-table-wrap"><table><thead><tr><th>Statement</th><th>Classification</th><th>Byte range</th></tr></thead><tbody>{analysis.statements.map((statement, index) => <tr key={`${statement.ordinal || index}`}><td>{statement.path || files[0]?.path} · {statement.ordinal || index + 1}</td><td>{statement.classification || statement.kind || 'UNCLASSIFIED'}</td><td>{statement.startByte ?? '—'}–{statement.endByte ?? '—'}</td></tr>)}</tbody></table></div>}
         </section>}
         {validation && <section className="sql-workspace-validation" aria-label="SQL target validation"><h3>Target validation and risk findings</h3><ValidationFindings validation={validation}/></section>}
         {!!revisions.length && <section aria-label="Draft revision comparison"><h3>Compare saved revisions</h3><div className="form-actions"><label>Base revision<select aria-label="Base draft revision" value={baseRevision} onChange={event => setBaseRevision(event.target.value)}>{revisions.map(revision => <option key={revision.revision} value={revision.revision}>Revision {revision.revision}</option>)}</select></label><label>Candidate revision<select aria-label="Candidate draft revision" value={candidateRevision} onChange={event => setCandidateRevision(event.target.value)}>{revisions.map(revision => <option key={revision.revision} value={revision.revision}>Revision {revision.revision}</option>)}</select></label><button type="button" className="secondary" onClick={() => void compare()} disabled={busy || loading || !baseRevision || !candidateRevision}>Compare</button></div>
-          {comparison && <div className="revision-comparison"><p>Revision {comparison.baseRevision ?? baseRevision} → {comparison.candidateRevision ?? candidateRevision}</p>{comparison.changed === false ? <p>No SQL changes.</p> : <div className="comparison-sides"><section><h4>Base</h4><pre>{comparison.baseSql ?? comparison.base?.sql ?? ''}</pre></section><section><h4>Candidate</h4><pre>{comparison.candidateSql ?? comparison.candidate?.sql ?? ''}</pre></section></div>}</div>}
+          {comparison && <div className="revision-comparison"><p>Revision {comparison.baseRevision ?? baseRevision} → {comparison.candidateRevision ?? candidateRevision}</p>{comparison.changed === false ? <p>No SQL changes.</p> : <div className="comparison-sides"><section><h4>Base</h4><pre>{comparison.baseFiles ? comparison.baseFiles.map(f=>`${f.path}\n${f.sql}`).join('\n\n') : comparison.baseSql ?? comparison.base?.sql ?? ''}</pre></section><section><h4>Candidate</h4><pre>{comparison.candidateFiles ? comparison.candidateFiles.map(f=>`${f.path}\n${f.sql}`).join('\n\n') : comparison.candidateSql ?? comparison.candidate?.sql ?? ''}</pre></section></div>}</div>}
         </section>}
       </div>
     </div>
