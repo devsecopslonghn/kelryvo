@@ -118,11 +118,10 @@ jobs:
     steps:
       - name: Check cross-repository credential configuration
         env:
-          APP_ID: ${{ secrets.KELRYVO_HELM_APP_ID }}
-          APP_PRIVATE_KEY: ${{ secrets.KELRYVO_HELM_APP_PRIVATE_KEY }}
+          GITOPS_TOKEN: ${{ secrets.GITOPS_TOKEN }}
         run: |
-          if [ -z "$APP_ID" ] || [ -z "$APP_PRIVATE_KEY" ]; then
-            echo '::error::Configure KELRYVO_HELM_APP_ID and KELRYVO_HELM_APP_PRIVATE_KEY in schemaForge. Install the App only on kelryvo-helm-chart with Contents and Pull requests read/write; see docs/development/containers.md.'
+          if [ -z "$GITOPS_TOKEN" ]; then
+            echo '::error::Configure GITOPS_TOKEN in schemaForge Actions secrets, scoped only to kelryvo-helm-chart with Contents and Pull requests read/write; see docs/development/containers.md.'
             exit 1
           fi
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -133,21 +132,12 @@ jobs:
         with:
           node-version-file: .nvmrc
       - run: node scripts/container-publication-gate.mjs --require
-      - id: helm-token
-        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
-        with:
-          app-id: ${{ secrets.KELRYVO_HELM_APP_ID }}
-          private-key: ${{ secrets.KELRYVO_HELM_APP_PRIVATE_KEY }}
-          owner: devsecopslonghn
-          repositories: kelryvo-helm-chart
-          permission-contents: write
-          permission-pull-requests: write
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           repository: devsecopslonghn/kelryvo-helm-chart
           ref: master
           path: helm-chart
-          token: ${{ steps.helm-token.outputs.token }}
+          token: ${{ secrets.GITOPS_TOKEN }}
           persist-credentials: false
       - name: Install chart validation tools
         shell: bash
@@ -162,4 +152,4 @@ jobs:
       - name: Verify both registry images, validate chart and promote digests
         run: node scripts/helm-promotion.mjs
         env:
-          HELM_TOKEN: ${{ steps.helm-token.outputs.token }}
+          HELM_TOKEN: ${{ secrets.GITOPS_TOKEN }}

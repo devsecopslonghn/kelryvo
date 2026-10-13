@@ -125,23 +125,22 @@ failures and never trigger a forced update.
 
 Owner setup for cross-repository authentication:
 
-1. Create a dedicated GitHub App with repository **Contents: read/write** and
-   **Pull requests: read/write**; Metadata read is implicit. No organization,
-   Administration, Actions, Workflows, Secrets or cluster permissions are needed.
-2. Install the App on **only** `devsecopslonghn/kelryvo-helm-chart`.
-3. In `devsecopslonghn/schemaForge` → Settings → Secrets and variables → Actions,
-   add repository secrets `KELRYVO_HELM_APP_ID` (numeric App ID) and
-   `KELRYVO_HELM_APP_PRIVATE_KEY` (complete generated PEM private key). Keep the
-   key out of chat, Git, logs and command arguments. A private key is generated
-   through the App owner's GitHub settings; an ordinary CLI user token cannot
-   create an App installation credential.
-4. The pinned `actions/create-github-app-token` action requests only the chart
-   repository and these two permissions. Its installation token is masked,
-   short-lived and revoked after the promotion job. Checkout does not persist it.
-5. Ensure the source `GITHUB_TOKEN` has GHCR package write access for both images.
+1. Create a fine-grained personal access token for **only**
+   `devsecopslonghn/kelryvo-helm-chart`, with repository **Contents: read/write**
+   and **Pull requests: read/write** (for the protected-branch PR fallback).
+   Metadata read is implicit. No organization, Administration, Actions, Workflows,
+   Secrets or cluster permissions are needed.
+2. In `devsecopslonghn/schemaForge` → Settings → Secrets and variables → Actions,
+   add the repository secret `GITOPS_TOKEN`. The workflow uses it only for Helm
+   checkout and promotion; checkout does not persist it. Store the token through
+   GitHub's secret input or `gh secret set GITOPS_TOKEN --repo
+   devsecopslonghn/schemaForge` with private stdin. Keep it out of chat, Git, logs
+   and command arguments. GitHub's secret API returns metadata, not secret values;
+   a secret in another repository cannot be read back and copied by this agent.
+3. Ensure the source `GITHUB_TOKEN` has GHCR package write access for both images.
    Delivery requests source Contents/Actions/security-events read and Packages
-   write only in publication (Packages read in promotion). No cross-repository PAT
-   is installed or reused. Missing App secrets and HTTP permission failures fail
+   write only in publication (Packages read in promotion). Missing `GITOPS_TOKEN`
+   and HTTP permission failures fail
    with fixed actionable diagnostics. After setup, rerun a failed delivery run or
    use the master recovery dispatch; routine merges need no manual publication.
 
