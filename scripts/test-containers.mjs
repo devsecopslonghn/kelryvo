@@ -10,6 +10,8 @@ import { PG_IMAGE } from './local-resources.mjs';
 import { smokeGovernance } from './kelryvo-smoke.mjs';
 
 const [appImage = 'kelryvo-app:local', workerImage = 'kelryvo-worker:local'] = process.argv.slice(2);
+const architecture=process.argv[4] || ({x64:'amd64',arm64:'arm64'})[process.arch];
+if (!['amd64','arm64'].includes(architecture)) throw new Error('Unsupported container smoke architecture');
 const owner = `kelryvo-test-${randomUUID()}`, pg = `${owner}-pg`, app = `${owner}-app`;
 const httpNetwork = `${owner}-http`;
 const root = await mkdtemp(path.join(tmpdir(), 'kelryvo-oci-'));
@@ -18,6 +20,15 @@ const docker = (...args) => execFileSync('/usr/bin/docker', args, { encoding: 'u
 let stage = 'configuration';
 const privateValues = [];
 try {
+  stage='target architecture and entrypoints';
+  for(const [image,user,entrypoint] of [[appImage,'10001:10001','apps/api/container-main.mjs'],[workerImage,'10002:10002','apps/worker/execution-service-main.mjs']]) {
+    const config=JSON.parse(docker('image','inspect',image))[0];
+    assert.equal(config.Architecture,architecture);assert.equal(config.Os,'linux');
+    assert.equal(config.Config.User,user);assert.deepEqual(config.Config.Entrypoint,['node',entrypoint]);
+    if(process.env.GITHUB_SHA)assert.equal(config.Config.Labels['org.opencontainers.image.revision'],process.env.GITHUB_SHA);
+    assert.equal(docker('run','--rm','--network','none','--read-only','--cap-drop=ALL','--security-opt=no-new-privileges',
+      '--entrypoint','node',image,'-e',"require('oracledb');process.stdout.write(process.arch)"),architecture==='amd64'?'x64':'arm64');
+  }
   await mkdir(secrets, { mode: 0o755 });
   const password = randomBytes(32).toString('hex'), tokens = { developer: randomBytes(32).toString('hex'), approver: randomBytes(32).toString('hex') };
   privateValues.push(password, tokens.developer, tokens.approver);
@@ -90,7 +101,7 @@ try {
   const inventory = JSON.parse(docker('exec', app, 'node', '-e', "process.stdout.write(require('node:fs').readFileSync('/opt/licenses/runtime-inventory.json'))"));
   assert.equal(inventory.jdkLegalFilesVerified, 38);
   assert.ok(inventory.packages.length > 0);
-  console.log(JSON.stringify({ status: 'PASS', scope: 'LOCAL_OCI_POSTGRESQL', login: 'Secure cookie and CSRF enforced',
+  console.log(JSON.stringify({ status: 'PASS', scope: 'LOCAL_OCI_POSTGRESQL', architecture, login: 'Secure cookie and CSRF enforced',
     gitValidation: result.validation, approval: result.decision, history: result.execution,
     credentialRotation: 'PASS_WITHOUT_EXPIRY_EXTENSION_OR_RESURRECTION', restartPersistence: 'PASS', gracefulExit: 0,
     worker: 'DISABLED_FAIL_CLOSED', runtimeNotices: { debianPackages: inventory.packages.length, jdkFiles: 38 }, oracleRuntimeVerified: false }));

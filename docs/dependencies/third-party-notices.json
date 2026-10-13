@@ -349,7 +349,19 @@
         }
       ],
       "source": "https://github.com/adoptium/jdk21u/tree/1c417fbfc2f70ab03a565b0af0a5a3c6f5e15ad6",
-      "license_summary": "GPL-2.0 with Classpath Exception for OpenJDK plus component-specific licenses/notices in the exact Temurin legal directory."
+      "license_summary": "GPL-2.0 with Classpath Exception for OpenJDK plus component-specific licenses/notices in the exact Temurin legal directory.",
+      "platform_artifacts": {
+        "linux-x64": {
+          "artifact": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz",
+          "observed_sha256": "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94",
+          "official_checksum_asset": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz.sha256.txt"
+        },
+        "linux-arm64": {
+          "artifact": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.12.1_1.tar.gz",
+          "observed_sha256": "23e37e026f12f3e706f18938ff611db3032d075b09d0879a25d06718c773e223",
+          "official_checksum_asset": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.12.1_1.tar.gz.sha256.txt"
+        }
+      }
     },
     {
       "name": "Apache Maven",

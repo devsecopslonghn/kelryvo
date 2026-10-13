@@ -11,8 +11,15 @@ import { updateValues, promoteHelm } from '../scripts/helm-promotion.mjs';
 const SHA = 'a'.repeat(40), OLD = 'b'.repeat(40), APP = `sha256:${'1'.repeat(64)}`, WORKER = `sha256:${'2'.repeat(64)}`;
 const CONFIG = `sha256:${'3'.repeat(64)}`;
 const labels = { 'org.opencontainers.image.revision': SHA, 'org.opencontainers.image.source': `https://github.com/${SOURCE_REPOSITORY}` };
-const remote = digest => ({ digest, configDigest: CONFIG, config: { architecture: 'amd64', os: 'linux', config: { Labels: labels } } });
-const local = () => ({ Id: CONFIG, Architecture: 'amd64', Os: 'linux', Config: { Labels: labels } });
+const roleConfig = image => ({ User: image === 'app' ? '10001:10001' : '10002:10002', Entrypoint: ['node', image === 'app' ? 'apps/api/container-main.mjs' : 'apps/worker/execution-service-main.mjs'] });
+const remote = (digest, image = 'app') => ({ digest, platforms: Object.fromEntries(['amd64', 'arm64'].map((arch, index) => [arch, {
+  digest: `sha256:${String(index + 4).repeat(64)}`, configDigest: index ? `sha256:${'5'.repeat(64)}` : CONFIG,
+  config: { architecture: arch, os: 'linux', config: { Labels: labels, ...roleConfig(image) } },
+}])) });
+const verifiedArchive = (_archive, sha, image) => ({ image, digest: image === 'app' ? APP : WORKER, platforms: Object.fromEntries(['amd64', 'arm64'].map((arch, index) => [arch, {
+  digest: `sha256:${String(index + 4).repeat(64)}`, configDigest: index ? `sha256:${'5'.repeat(64)}` : CONFIG,
+}])) });
+const hash = value => `sha256:${createHash('sha256').update(value).digest('hex')}`;
 function gateApi({ failed, pending, master = SHA, alerts = [], missingLanguage = false } = {}) {
   return async route => {
     if (route === 'git/ref/heads/master') return { object: { sha: master } };
@@ -46,37 +53,47 @@ test('API credential errors have actionable fixed diagnostics without response/t
   await assert.rejects(api('git/ref/heads/master'), error => /HTTP 403.*permissions/.test(error.message) && !error.message.includes('sensitive-token'));
   assert.throws(() => githubApi(''), /Missing GitHub credential/);
 });
-test('publication failure never returns a promotable digest pair; partial retries reuse verified app', async () => {
+test('publication failure never returns a promotable digest pair; partial retries reuse verified app index', async () => {
   const registry = new Map(); let pushes = 0;
-  const options = { sha: SHA, run: '4', attempt: '2', gate: async () => {}, local,
-    registry: async image => registry.get(image), push: async image => { pushes++; if (image === 'worker') throw new Error('worker publication failed'); registry.set(image, remote(APP)); } };
+  const options = { sha: SHA, run: '4', attempt: '2', gate: async () => {}, archives: image => `${image}.tar`, verifyArchive: verifiedArchive,
+    registry: async image => registry.get(image), push: async image => { pushes++; if (image === 'worker') throw new Error('worker publication failed'); registry.set(image, remote(APP, image)); } };
   await assert.rejects(publishImages(options), /worker publication failed/);
   assert.equal(registry.has('worker'), false);
-  const result = await publishImages({ ...options, push: async image => { pushes++; registry.set(image, remote(WORKER)); } });
+  const result = await publishImages({ ...options, push: async image => { pushes++; registry.set(image, remote(image === 'app' ? APP : WORKER, image)); } });
   assert.deepEqual([result.app, result.worker], [APP, WORKER]);
   assert.equal(pushes, 3);
   await publishImages(options); // both exist; no additional pushes
   assert.equal(pushes, 3);
 });
-test('stale source, invalid local worker and replaced registry tags block publication', async () => {
+test('stale source, invalid worker archive and replaced registry tags block publication', async () => {
   let pushes = 0;
-  const options = { sha: SHA, run: '4', attempt: '2', gate: async () => { throw new Error('superseded'); }, local,
+  const options = { sha: SHA, run: '4', attempt: '2', gate: async () => { throw new Error('superseded'); }, archives: image => `${image}.tar`, verifyArchive: verifiedArchive,
     registry: async () => undefined, push: async () => pushes++ };
   await assert.rejects(publishImages(options), /superseded/);
-  await assert.rejects(publishImages({ ...options, local: image => image === 'worker' ? { ...local(), Id: 'bad' } : local() }), /local image/);
-  await assert.rejects(publishImages({ ...options, gate: async () => {}, registry: async () => ({ ...remote(APP), configDigest: WORKER }) }), /verified source/);
+  await assert.rejects(publishImages({ ...options, verifyArchive: (archive, sha, image) => { if (image === 'worker') throw new Error('bad worker archive'); return verifiedArchive(archive, sha); } }), /bad worker archive/);
+  await assert.rejects(publishImages({ ...options, gate: async () => {}, registry: async () => ({ ...remote(APP), platforms: { ...remote(APP).platforms, arm64: { ...remote(APP).platforms.arm64, configDigest: WORKER } } }) }), /verified source/);
   assert.equal(pushes, 0);
-  assert.throws(() => verifyImage({ ...remote(APP), config: { ...remote(APP).config, architecture: 'arm64' } }, SHA), /verified source/);
+  assert.throws(() => verifyImage({ ...remote(APP), platforms: { ...remote(APP).platforms, arm64: { ...remote(APP).platforms.arm64, config: { architecture: 'amd64', os: 'linux', config: { Labels: labels, ...roleConfig('app') } } } } }, SHA, undefined, 'app'), /verified source/);
+  assert.throws(() => verifyImage(remote(APP), SHA, undefined, 'worker'), /verified source/);
 });
-test('registry verifies actual manifest and configuration hashes and source labels', async () => {
-  const config = Buffer.from(JSON.stringify(remote(APP).config));
-  const configDigest = `sha256:${createHash('sha256').update(config).digest('hex')}`;
-  const manifest = Buffer.from(JSON.stringify({ schemaVersion: 2, config: { digest: configDigest }, layers: [] }));
-  const digest = `sha256:${createHash('sha256').update(manifest).digest('hex')}`;
-  const request = async url => url.includes('/token?') ? new Response(JSON.stringify({ token: 'registry-secret' }))
-    : url.includes('/blobs/') ? new Response(config) : new Response(manifest, { headers: { 'docker-content-digest': digest } });
+test('registry verifies actual two-platform index and configuration hashes/source labels', async () => {
+  const configs = ['amd64', 'arm64'].map(architecture => Buffer.from(JSON.stringify({ architecture, os: 'linux', config: { Labels: labels, ...roleConfig('app') } })));
+  const manifests = configs.map(config => {
+    const configDigest = hash(config), bytes = Buffer.from(JSON.stringify({ schemaVersion: 2, mediaType: 'application/vnd.oci.image.manifest.v1+json', config: { digest: configDigest, size: config.length }, layers: [] }));
+    return { config, configDigest, bytes, digest: hash(bytes) };
+  });
+  const index = Buffer.from(JSON.stringify({ schemaVersion: 2, mediaType: 'application/vnd.oci.image.index.v1+json', manifests: manifests.map((item, i) => ({ mediaType: 'application/vnd.oci.image.manifest.v1+json', digest: item.digest, size: item.bytes.length, platform: { os: 'linux', architecture: i ? 'arm64' : 'amd64' } })) }));
+  const digest = hash(index);
+  const request = async url => {
+    if (url.includes('/token?')) return new Response(JSON.stringify({ token: 'registry-secret' }));
+    const manifest = manifests.find(item => url.endsWith(`/manifests/${item.digest}`));
+    if (manifest) return new Response(manifest.bytes, { headers: { 'docker-content-digest': manifest.digest } });
+    const config = manifests.find(item => url.endsWith(`/blobs/${item.configDigest}`));
+    if (config) return new Response(config.config);
+    return new Response(index, { headers: { 'docker-content-digest': digest } });
+  };
   const read = await registryReader('app', 'actor', 'secret', request);
-  assert.equal(verifyImage(await read(digest), SHA), digest);
+  assert.equal(verifyImage(await read(digest), SHA, undefined, 'app'), digest);
   await assert.rejects(read(APP), /digest mismatch/);
   const denied = await registryReader('app', 'actor', 'secret', async url => url.includes('/token?') ? new Response('{"token":"secret"}') : new Response('', { status: 403 }));
   await assert.rejects(denied('tag', true), /HTTP 403/);

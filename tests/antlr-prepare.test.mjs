@@ -10,6 +10,7 @@ async function staging() {
   await mkdir(join(root, 'scripts'));
   await mkdir(join(root, 'docs/dependencies'), { recursive: true });
   await copyFile(new URL('../scripts/antlr-prepare.mjs', import.meta.url), join(root, 'scripts/antlr-prepare.mjs'));
+  await copyFile(new URL('../scripts/jdk-platform.mjs', import.meta.url), join(root, 'scripts/jdk-platform.mjs'));
   const lock = JSON.parse(await readFile(new URL('../docs/dependencies/antlr-parser-lock.json', import.meta.url)));
   await writeFile(join(root, 'docs/dependencies/antlr-parser-lock.json'), JSON.stringify(lock));
   const notices = JSON.parse(await readFile(new URL('../docs/dependencies/third-party-notices.json', import.meta.url)));
