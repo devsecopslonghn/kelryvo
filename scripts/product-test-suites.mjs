@@ -1,5 +1,6 @@
 export const PRODUCT_API_FILES = Object.freeze([
-  'tests/product-sql-workspace.test.mjs', 'tests/product-phase7-persistence.test.mjs',
+  'tests/product-migration-history-cursor.integration.mjs', 'tests/product-plan-comparison.test.mjs',
+  'tests/product-sql-workspace.test.mjs', 'tests/product-multifile-sql-workspace.test.mjs', 'tests/product-phase7-persistence.test.mjs',
   'tests/product-runtime-lifecycle.test.mjs', 'tests/product-phase5-execution.test.mjs',
   'tests/product-phase5-stream.test.mjs', 'tests/product-execution-readiness.test.mjs',
   'tests/product-execution-reconciliation.test.mjs', 'tests/product-phase5-backup.test.mjs',
@@ -32,6 +33,7 @@ export const PRODUCT_API_FILES = Object.freeze([
 ]);
 
 export const PRODUCT_BROWSER_FILES = Object.freeze([
+  'tests/product-phase8-workflow-browser.integration.mjs',
   'tests/product-phase7-workflow-browser.integration.mjs',
   'tests/product-migration-history-browser.integration.mjs',
   'tests/product-sql-workspace-browser.integration.mjs',

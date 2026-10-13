@@ -1,3 +1,4 @@
+import PlanSourceComparison from './PlanSourceComparison.jsx';
 import SqlWorkspace from './SqlWorkspace.jsx';
 import MigrationHistory from './MigrationHistory.jsx';
 import {readWorkflowLocation,writeWorkflowLocation} from './workflowLocation.js';
@@ -157,11 +158,12 @@ function savedEvidenceReferences(comment, plan) {
   const refs = comment?.evidenceRefs ?? [];
   return Array.isArray(refs) && refs.length <= 8 && refs.every(ref => validSavedEvidenceReference(ref, plan)) ? refs : null;
 }
-function PlanCommentRow({ comment, plan, fmt, reopenEvidence }) {
+function PlanCommentRow({ comment, plan, fmt, reopenEvidence, reopenComparison }) {
   const refs = savedEvidenceReferences(comment, plan);
   return <li className="comment-row" key={comment.id}>
     <div><strong>{comment.authorName}</strong><time dateTime={comment.createdAt}>{fmt(comment.createdAt)}</time></div>
     <p>{comment.body}</p>
+    {comment.comparisonId && <button type="button" className="secondary" onClick={()=>reopenComparison?.(comment.comparisonId)}>Reopen source comparison</button>}
     {refs === null ? <p className="banner error" role="status">Saved statement evidence is unavailable. Refresh the project to retrieve current retained facts.</p>
       : refs.map((ref, index) => <div className="comment-evidence" key={`${ref.filePath}-${ref.startByte}-${index}`}>
         <p><strong>Supplemental retained statement evidence</strong></p>
@@ -371,6 +373,8 @@ function App() {
   const [executionEvents, setExecutionEvents] = useState({});
   const [metadataRecovery, setMetadataRecovery] = useState({ state: 'UNKNOWN' });
   const [commentBody, setCommentBody] = useState('');
+  const [requestedComparison, setRequestedComparison] = useState(null);
+  const [selectedComparison, setSelectedComparison] = useState(null);
   const [commentEvidence, setCommentEvidence] = useState([]);
   const [freshPlanRequired, setFreshPlanRequired] = useState(null);
   const [statementPreview, setStatementPreview] = useState(null);
@@ -1059,7 +1063,7 @@ function App() {
     const isCurrentDecision = () => activeProjectId.current === decisionProjectId
       && activeSelectedPlanId.current === decisionPlanId && sessionEpoch.current === decisionSessionEpoch;
     void mutate(async () => {
-      const result = await json(`/api/plans/${plan.id}/decision`, token, { method: 'POST', body: JSON.stringify({ decision, reason: decisionReason, ...(plan.retainedTarget ? {expectedIntentDigest:plan.offlineIntent.digest, expectedAssignmentRevision:plan.retainedTarget.assignmentRevision, expectedBindingRevision:plan.retainedTarget.bindingRevision} : {}) }) });
+      const result = await json(`/api/plans/${plan.id}/decision`, token, { method: 'POST', body: JSON.stringify({ decision, reason: decisionReason, ...(selectedComparison?.planId === plan.id && selectedComparison?.projectId === projectId ? {comparisonId:selectedComparison.id} : {}), ...(plan.retainedTarget ? {expectedIntentDigest:plan.offlineIntent.digest, expectedAssignmentRevision:plan.retainedTarget.assignmentRevision, expectedBindingRevision:plan.retainedTarget.bindingRevision} : {}) }) });
       return result.plan || result;
     }, `Plan ${decision === 'APPROVE' ? 'approved' : 'rejected'}. Execution remains NOT_EXECUTED.`, (decidedPlan) => {
       selectPlan(decidedPlan.id || plan.id);
@@ -1257,7 +1261,7 @@ function App() {
       && tokenRef.current === commentToken;
     void mutate(async () => {
       await json(`/api/projects/${encodeURIComponent(commentProject)}/plans/${encodeURIComponent(commentPlan)}/comments`, commentToken, {
-        method: 'POST', body: JSON.stringify({ body: commentBody, evidenceRefs: commentEvidence }),
+        method: 'POST', body: JSON.stringify({ body: commentBody, evidenceRefs: commentEvidence, ...(selectedComparison?.planId === plan.id && selectedComparison?.projectId === projectId ? {comparisonId:selectedComparison.id} : {}) }),
       });
     }, 'Comment added.', () => { setCommentBody(''); setCommentEvidence([]); }, (failure) => {
       if (['FRESH_PLAN_REQUIRED', 'COMMENT_EVIDENCE_UNAVAILABLE'].includes(failure?.message) && commentEvidence.length) {
@@ -1506,7 +1510,7 @@ function App() {
       clearProjectState(); void refresh(expectedToken, expectedProject);
     }
   };
-  const model = { token, actor, accessMode, metadataRecovery, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, schemaPlanCreated, loadPlanTargets, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, refreshExecutionJobs, requestExecution, cancelExecution, historyEpoch, isCurrentExecutionHistory, loseExecutionHistoryAccess };
+  const model = { requestedComparison, setRequestedComparison, selectedComparison, setSelectedComparison, token, actor, accessMode, metadataRecovery, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, schemaPlanCreated, loadPlanTargets, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, refreshExecutionJobs, requestExecution, cancelExecution, historyEpoch, isCurrentExecutionHistory, loseExecutionHistoryAccess };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -1754,6 +1758,7 @@ function ReviewScreen({ model }) {
                     : <dl className="target-facts"><div><dt>Profile ID</dt><dd><code>{targetProfile.id}</code></dd></div><div><dt>Profile name</dt><dd>{targetProfile.name}</dd></div><div><dt>Environment ID</dt><dd><code>{targetEnvironment.id}</code></dd></div><div><dt>Environment name</dt><dd>{targetEnvironment.name}</dd></div><div><dt>Engine</dt><dd>{targetProfile.engine}</dd></div><div><dt>Host</dt><dd>{targetProfile.host}</dd></div><div><dt>Port</dt><dd>{targetProfile.port}</dd></div><div><dt>Service</dt><dd>{targetProfile.service}</dd></div><div><dt>Username</dt><dd>{targetProfile.username}</dd></div></dl>}
                 </section>
                 <div className="file-table-wrap"><table><thead><tr><th>Migration</th><th>Version</th><th>SHA-256</th><th>State</th></tr></thead><tbody>{(plan.items || []).map((item) => <tr key={item.path}><td><code>{item.path}</code></td><td>{item.version || '—'}</td><td><code className="checksum">{item.sha256}</code></td><td><span className="status-pill neutral">{item.status || 'NOT_EXECUTED'}</span></td></tr>)}</tbody></table></div>
+                <PlanSourceComparison key={`${projectId}:${plan.id}:${token}`} projectId={projectId} plan={plan} releases={detail.releases} token={token} request={json} readOnly={isArchived || readOnlyBootstrap} onSelect={model.setSelectedComparison} requestedComparison={model.requestedComparison}/>
                 <section className="panel plan-source-panel" aria-label="Plan source inspection" data-plan-source-id={planSource?.planId === plan.id ? plan.id : ''}>
                   <div className="panel-heading"><div><h3>Retained source</h3><p>Inspect the retained files linked to this plan. This is a read only view.</p></div><button type="button" className="secondary" onClick={() => { void inspectPlanSource(); }} disabled={!plan.releaseId || planSource?.loading}>{planSource?.loading ? 'Loading source…' : 'Inspect source'}</button></div>
                   {!plan.releaseId && <p className="banner error">The linked source is unavailable or does not match this plan. Refresh the project and try again.</p>}
@@ -1806,7 +1811,7 @@ function ReviewScreen({ model }) {
                 />}
                 <section className="comments-section" aria-label="Plan comments">
                   <h3>Review comments</h3>
-                  <ol className="comment-timeline">{(detail.comments || []).filter((comment) => comment.planId === plan.id).map((comment) => <PlanCommentRow key={comment.id} comment={comment} plan={plan} fmt={fmt} reopenEvidence={reopenCommentEvidence}/>)}</ol>
+                  <ol className="comment-timeline">{(detail.comments || []).filter((comment) => comment.planId === plan.id).map((comment) => <PlanCommentRow key={comment.id} comment={comment} plan={plan} fmt={fmt} reopenEvidence={reopenCommentEvidence} reopenComparison={id=>{model.setRequestedComparison({planId:plan.id,id});document.getElementById(`plan-comparison-${plan.id}`)?.scrollIntoView({block:'start'});}}/>)}</ol>
                   {!(detail.comments || []).some((comment) => comment.planId === plan.id) && <p className="muted">No comments yet.</p>}
                   {!isArchived && plan.status === 'PENDING_APPROVAL' ? <form className="comment-form" inert={readOnlyBootstrap} onSubmit={addComment}><label htmlFor="plan-comment">Comment</label><textarea id="plan-comment" value={commentBody} onChange={(event) => setCommentBody(event.target.value)} maxLength={4000} placeholder="Add a plain-text review comment" required disabled={busy}/><div><small>Plain text · up to 4,000 characters</small><button type="submit" className="primary" disabled={busy || !commentBody.trim()}>Add comment</button></div>{commentEvidence.length > 0 && <p className="muted">{commentEvidence.length} statement reference{commentEvidence.length === 1 ? '' : 's'} selected. They will be verified against the retained source on submission.</p>}</form> : <p className="muted">Comments are read only {isArchived ? 'because this project is archived.' : 'after a plan decision.'}</p>}
                 </section>

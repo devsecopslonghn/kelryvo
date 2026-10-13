@@ -18,12 +18,15 @@ export function verifyRetainedRelease(release) {
         || !Array.isArray(release.files) || release.files.length === 0 || release.files.length > MAX_RELEASE_FILES) return false;
 
     const manifestFiles = [];
+    const authoredManifestFiles = [];
+    const hasAuthoredIdentity = release.files.some(file => record(file) && ('draftFileId' in file || 'order' in file));
+    const authoredIdentities = new Set();
     const versions = new Set();
     const paths = new Set();
     let previousVersion;
     let totalBytes = 0;
     let metadataChars = release.folder.length + release.parser_profile.length;
-    for (const file of release.files) {
+    for (const [fileOrder, file] of release.files.entries()) {
       if (!record(file) || typeof file.path !== 'string' || file.path.length > MAX_INPUT_BYTES || !file.path.startsWith(`${release.folder}/`)
           || !/^[A-Za-z0-9_.-]+(?:\/[A-Za-z0-9_.-]+)*$/.test(file.path)
           || file.path.split('/').some((part) => part === '.' || part === '..')
@@ -34,6 +37,10 @@ export function verifyRetainedRelease(release) {
           || !(file.statementCount === null || Number.isSafeInteger(file.statementCount) && file.statementCount >= 0)
           || file.validationStatus !== 'VALID') return false;
       metadataChars += file.path.length + file.version.length;
+      if (hasAuthoredIdentity && (typeof file.draftFileId !== 'string'
+          || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(file.draftFileId)
+          || authoredIdentities.has(file.draftFileId) || file.order !== fileOrder)) return false;
+      if (hasAuthoredIdentity) authoredIdentities.add(file.draftFileId);
       if (metadataChars > MAX_STDOUT_BYTES) return false;
       totalBytes += file.bytes;
       if (totalBytes > MAX_RELEASE_BYTES || Buffer.byteLength(file.content, 'utf8') !== file.bytes) return false;
@@ -52,6 +59,13 @@ export function verifyRetainedRelease(release) {
       const bytes = Buffer.from(file.content, 'utf8');
       if (bytes.toString('utf8') !== file.content || bytes.length !== file.bytes || sha256(bytes) !== file.sha256) return false;
       manifestFiles.push({ path: file.path, version: file.version, sha256: file.sha256, bytes: file.bytes });
+      if (hasAuthoredIdentity) authoredManifestFiles.push({ id:file.draftFileId,path:file.path,version:file.version,
+        order:file.order,sha256:file.sha256,bytes:file.bytes });
+    }
+    if (hasAuthoredIdentity) {
+      const manifest={format:2,commit:release.commit_id,objectFormat:release.object_format,folder:release.folder,
+        parserProfile:release.parser_profile,files:authoredManifestFiles};
+      return sha256(JSON.stringify(manifest))===release.manifest_digest;
     }
     const manifest = { format: 1, commit: release.commit_id, objectFormat: release.object_format,
       folder: release.folder, parserProfile: release.parser_profile, files: manifestFiles };

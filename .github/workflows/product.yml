@@ -91,6 +91,7 @@ jobs:
             .cache/phase6-acceptance/
             .cache/local-product/browser-failure.png
             .cache/phase7-acceptance/
+            .cache/phase8-acceptance/
           if-no-files-found: ignore
           retention-days: 14
       - if: matrix.suite == 'release'

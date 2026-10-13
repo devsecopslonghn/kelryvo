@@ -52,6 +52,7 @@ test('format-3 plan record exports the public target snapshot as record format 2
       if (query.includes('FROM sf_plans')) return [{ snapshot }];
       if (query.includes('sf_plan_approval_revocations')) return [];
       if (query.includes('sf_sql_workspace_releases')) return [];
+      if (query.includes('FROM sf_audit')) return [];
       throw new Error(`Unexpected query: ${query}`);
     };
     return operation(tx);

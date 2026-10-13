@@ -1,9 +1,9 @@
 export const SQL_WORKSPACE_TABLES = ['sf_sql_drafts', 'sf_sql_draft_revisions', 'sf_sql_workspace_releases'];
 export const SQL_WORKSPACE_FUNCTIONS = ['sf_reject_sql_workspace_evidence_mutation', 'sf_guard_sql_draft_pointer'];
-export const SQL_WORKSPACE_TRIGGERS = ['sf_sql_drafts_pointer_guard', 'sf_sql_draft_revisions_immutable', 'sf_sql_workspace_releases_immutable'];
+export const SQL_WORKSPACE_TRIGGERS = ['sf_sql_drafts_pointer_guard', 'sf_sql_draft_revisions_immutable', 'sf_sql_workspace_releases_immutable', 'sf_plan_source_comparison_immutable'];
 
 /** Additive durable schema for project-owned SQL drafts and authored release provenance. */
-export async function initializeSqlWorkspaceSchema(tx) {
+export async function initializeSqlWorkspaceSchema(tx, { version = 2 } = {}) {
   await tx.unsafe(`
     CREATE TABLE IF NOT EXISTS sf_sql_drafts (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL, project_id uuid NOT NULL,
@@ -28,12 +28,12 @@ export async function initializeSqlWorkspaceSchema(tx) {
       draft_sha256 text NOT NULL CHECK(draft_sha256 ~ '^[a-f0-9]{64}$'),
       source_binding_generation bigint NOT NULL CHECK(source_binding_generation > 0),
       created_by text NOT NULL REFERENCES sf_local_actors(id), created_at timestamptz NOT NULL DEFAULT clock_timestamp(),
-      UNIQUE(release_id,project_id),
-      FOREIGN KEY(release_id,project_id) REFERENCES sf_releases(id,project_id),
-      FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
-      FOREIGN KEY(draft_id,draft_revision,project_id) REFERENCES sf_sql_draft_revisions(draft_id,revision,project_id)
-    );
-    CREATE INDEX IF NOT EXISTS sf_sql_workspace_releases_draft ON sf_sql_workspace_releases(project_id,draft_id,draft_revision DESC);
+        UNIQUE(release_id,project_id),
+        FOREIGN KEY(release_id,project_id) REFERENCES sf_releases(id,project_id),
+        FOREIGN KEY(project_id,organization_id) REFERENCES sf_projects(id,organization_id),
+        FOREIGN KEY(draft_id,draft_revision,project_id) REFERENCES sf_sql_draft_revisions(draft_id,revision,project_id)
+      );
+      CREATE INDEX IF NOT EXISTS sf_sql_workspace_releases_draft ON sf_sql_workspace_releases(project_id,draft_id,draft_revision DESC);
     CREATE OR REPLACE FUNCTION sf_reject_sql_workspace_evidence_mutation() RETURNS trigger LANGUAGE plpgsql AS $$
       BEGIN RAISE EXCEPTION 'SQL workspace evidence is immutable'; END $$;
     CREATE OR REPLACE FUNCTION sf_guard_sql_draft_pointer() RETURNS trigger LANGUAGE plpgsql AS $$
@@ -46,14 +46,30 @@ export async function initializeSqlWorkspaceSchema(tx) {
         END IF;
         RETURN NEW;
       END $$;
-    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_sql_drafts_pointer_guard') THEN
-      CREATE TRIGGER sf_sql_drafts_pointer_guard BEFORE UPDATE OR DELETE ON sf_sql_drafts
-      FOR EACH ROW EXECUTE FUNCTION sf_guard_sql_draft_pointer(); END IF; END $$;
-    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_sql_draft_revisions_immutable') THEN
-      CREATE TRIGGER sf_sql_draft_revisions_immutable BEFORE UPDATE OR DELETE ON sf_sql_draft_revisions
-      FOR EACH ROW EXECUTE FUNCTION sf_reject_sql_workspace_evidence_mutation(); END IF; END $$;
-    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_sql_workspace_releases_immutable') THEN
-      CREATE TRIGGER sf_sql_workspace_releases_immutable BEFORE UPDATE OR DELETE ON sf_sql_workspace_releases
-      FOR EACH ROW EXECUTE FUNCTION sf_reject_sql_workspace_evidence_mutation(); END IF; END $$;
+      DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_sql_drafts_pointer_guard') THEN
+        CREATE TRIGGER sf_sql_drafts_pointer_guard BEFORE UPDATE OR DELETE ON sf_sql_drafts
+        FOR EACH ROW EXECUTE FUNCTION sf_guard_sql_draft_pointer(); END IF; END $$;
+      DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_sql_draft_revisions_immutable') THEN
+        CREATE TRIGGER sf_sql_draft_revisions_immutable BEFORE UPDATE OR DELETE ON sf_sql_draft_revisions
+        FOR EACH ROW EXECUTE FUNCTION sf_reject_sql_workspace_evidence_mutation(); END IF; END $$;
+      DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_sql_workspace_releases_immutable') THEN
+        CREATE TRIGGER sf_sql_workspace_releases_immutable BEFORE UPDATE OR DELETE ON sf_sql_workspace_releases
+        FOR EACH ROW EXECUTE FUNCTION sf_reject_sql_workspace_evidence_mutation(); END IF; END $$;
+    `);
+  if (version === 1) return;
+  await tx.unsafe(`
+    ALTER TABLE sf_sql_draft_revisions ADD COLUMN IF NOT EXISTS manifest_version smallint NOT NULL DEFAULT 1;
+    ALTER TABLE sf_sql_draft_revisions ADD COLUMN IF NOT EXISTS files jsonb NOT NULL DEFAULT '[]'::jsonb;
+    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_constraint WHERE conrelid='sf_sql_draft_revisions'::regclass AND conname='sf_sql_draft_revisions_manifest_version_check') THEN
+      ALTER TABLE sf_sql_draft_revisions ADD CONSTRAINT sf_sql_draft_revisions_manifest_version_check CHECK(manifest_version IN (1,2)); END IF; END $$;
+    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_constraint WHERE conrelid='sf_sql_draft_revisions'::regclass AND conname='sf_sql_draft_revisions_files_check') THEN
+      ALTER TABLE sf_sql_draft_revisions ADD CONSTRAINT sf_sql_draft_revisions_files_check CHECK(jsonb_typeof(files)='array'); END IF; END $$;
+    ALTER TABLE sf_sql_workspace_releases ADD COLUMN IF NOT EXISTS draft_manifest_version smallint NOT NULL DEFAULT 1;
+    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_constraint WHERE conrelid='sf_sql_workspace_releases'::regclass AND conname='sf_sql_workspace_releases_draft_manifest_version_check') THEN
+      ALTER TABLE sf_sql_workspace_releases ADD CONSTRAINT sf_sql_workspace_releases_draft_manifest_version_check CHECK(draft_manifest_version IN (1,2)); END IF; END $$;
+    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_plan_source_comparison_immutable') THEN
+      CREATE TRIGGER sf_plan_source_comparison_immutable BEFORE UPDATE OR DELETE ON sf_audit
+      FOR EACH ROW WHEN (OLD.action='PLAN_SOURCE_COMPARED' OR OLD.facts ? 'comparisonId')
+      EXECUTE FUNCTION sf_reject_sql_workspace_evidence_mutation(); END IF; END $$;
   `);
 }
