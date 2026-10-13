@@ -164,8 +164,24 @@ test('workflow grants publication permission only after gates and promotion depe
   assert.match(workflow, /cancel-in-progress: false/);
   assert.match(workflow, /needs: \[gate, publish\]/);
   assert.match(workflow, /if: needs.gate.outputs.ready == 'true'/);
-  assert.match(workflow, /repositories: kelryvo-helm-chart/);
+  assert.match(workflow, /repository: devsecopslonghn\/kelryvo-helm-chart/);
+  assert.match(workflow, /token: \$\{\{ secrets.GITOPS_TOKEN \}\}/);
+  assert.match(workflow, /HELM_TOKEN: \$\{\{ secrets.GITOPS_TOKEN \}\}/);
+  assert.doesNotMatch(workflow, /KELRYVO_HELM_APP|create-github-app-token/);
   assert.match(workflow, /persist-credentials: false/);
+});
+
+test('missing GitOps token fails clearly and a configured token is never printed', async () => {
+  const workflow = await readFile(new URL('../.github/workflows/delivery.yml', import.meta.url), 'utf8');
+  const script = workflow.match(/      - name: Check cross-repository credential configuration\n[\s\S]*?        run: \|\n([\s\S]*?)(?=      - uses:)/)?.[1];
+  assert.ok(script);
+  const { spawnSync } = await import('node:child_process');
+  const missing = spawnSync('bash', ['-e', '-c', script], { encoding: 'utf8', env: { ...process.env, GITOPS_TOKEN: '' } });
+  assert.equal(missing.status, 1);
+  assert.match(missing.stdout, /Configure GITOPS_TOKEN in schemaForge Actions secrets/);
+  const configured = spawnSync('bash', ['-e', '-c', script], { encoding: 'utf8', env: { ...process.env, GITOPS_TOKEN: 'private-test-credential' } });
+  assert.equal(configured.status, 0);
+  assert.equal(configured.stdout + configured.stderr, '');
 });
 
 test('protected promotion retries reuse an exact orphan branch and close superseded drafts', async t => {
