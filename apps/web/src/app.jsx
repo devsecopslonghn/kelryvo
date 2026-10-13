@@ -1749,6 +1749,7 @@ function ReviewScreen({ model }) {
                     <ExecutionHistory key={`${projectId}:${plan.id}:${job.id}:${job.revision}:${token}`} job={job} projectId={projectId} token={token} request={json} formatTime={fmt}/>
                     {job.state==='HOLD' && <ExecutionReconciliation key={`${job.id}:${job.revision}:${token}:${model.historyEpoch.refresh}`} job={job} projectId={projectId} token={token} request={json}
                       isDeployer={detail.canDeploy && !isArchived && metadataRecovery.state==='ACTIVE'} isApprover={isApprover && !isArchived && metadataRecovery.state==='ACTIVE'}
+                      actorId={actor?.id} planAuthorId={planAuthorId}
                       isCurrent={() => model.isCurrentExecutionHistory(projectId,plan.id,token)}/>}
                     {(executionEvents[job.id] || []).length > 0 && <ol aria-label={`Events for job ${job.id}`}>
                       {executionEvents[job.id].map(event => <li key={event.id}><strong>{event.to_state.replaceAll('_',' ')}</strong> · {fmt(event.created_at)}{event.reason ? ` · ${event.reason}` : ''}</li>)}

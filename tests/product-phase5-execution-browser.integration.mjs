@@ -71,6 +71,20 @@ test('browser manages schema-plan preflight, durable request, statement HOLD and
     await page.setViewportSize({width:1440,height:1100});await page.getByLabel('Sign out').click();
     await f.restart();await signIn(f.actors[1]);
     const review=page.getByRole('region',{name:'Execution HOLD reconciliation'});await review.locator('.execution-reconciliation-row').waitFor();
+    await f.membership.deployGrant(f.project.id,f.actors[1].id);
+    await page.getByRole('button',{name:'Refresh workspace',exact:true}).click();
+    const ownDigest=createHash('sha256').update('Approver submits their own evidence').digest('hex');
+    await review.getByLabel('Evidence SHA-256 digest').fill(ownDigest);
+    await review.getByLabel('Reason',{exact:true}).fill('This evidence requires another independent reviewer');
+    await review.getByRole('button',{name:'Retain evidence reference',exact:true}).click();
+    const ownRow=review.locator('.execution-reconciliation-row').filter({hasText:ownDigest});await ownRow.waitFor();
+    assert.equal(await ownRow.getByRole('button',{name:'Record evidence reviewed',exact:true}).count(),0);
+    assert.match(await ownRow.innerText(),/Review requires an approver independent/);
+    const ownEvidence=(await f.api('GET',`/api/execution-jobs/${job.id}/reconciliations`)).json().reconciliations.find(r=>r.evidenceDigest===ownDigest);
+    const currentJob=(await f.api('GET',`/api/execution-jobs/${job.id}`)).json().job;
+    const selfReview=await f.api('POST',`/api/execution-jobs/${job.id}/reconciliations/${ownEvidence.id}/decision`,
+      {expectedRevision:currentJob.revision,decision:'EVIDENCE_REVIEWED',reason:'Attempted self review'},f.actors[1]);
+    assert.equal(selfReview.statusCode,403);assert.equal(selfReview.json().error,'INDEPENDENT_REVIEW_REQUIRED');
     await review.getByLabel('Review reason').fill('Independent review of retained evidence; target effects remain unverified');
     await review.getByRole('button',{name:'Record evidence reviewed',exact:true}).click();
     await review.getByText(/Independent review: EVIDENCE_REVIEWED/).waitFor();

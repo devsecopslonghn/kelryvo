@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const kinds=['TARGET_LEDGER','TARGET_OBSERVATION','OPERATOR_REPORT'];
 
-export default function ExecutionReconciliation({job,projectId,token,request,isDeployer=false,isApprover=false,isCurrent=()=>true}){
+export default function ExecutionReconciliation({job,projectId,token,request,isDeployer=false,isApprover=false,actorId,planAuthorId,isCurrent=()=>true}){
   const epoch=useRef(0),pending=useRef(false);
   const currentCheck=useRef(isCurrent);currentCheck.current=isCurrent;
   const [rows,setRows]=useState([]),[busy,setBusy]=useState(false),[error,setError]=useState('');
@@ -60,9 +60,10 @@ export default function ExecutionReconciliation({job,projectId,token,request,isD
       <p>{row.evidenceKind} · SHA-256 {row.evidenceDigest}</p><p>{row.reason}</p>
       <p className="muted">Submitted by {row.submitterId} · {new Date(row.createdAt).toLocaleString()} · Target identity {row.targetIdentityDigest??'not available'}</p>
       {row.decision?<p>Independent review: {row.decision.decision} by {row.decision.reviewerId}. HOLD remains; target effects are not attested.</p>
-        :isApprover&&<div><label>Review reason<textarea value={decisionReasons[row.id]??''} maxLength={1000} onChange={e=>setDecisionReasons(v=>({...v,[row.id]:e.target.value}))}/></label>
+        :isApprover&&actorId&&planAuthorId&&![row.submitterId,job.requesterId,planAuthorId].includes(actorId)?<div><label>Review reason<textarea value={decisionReasons[row.id]??''} maxLength={1000} onChange={e=>setDecisionReasons(v=>({...v,[row.id]:e.target.value}))}/></label>
           <button type="button" className="secondary" disabled={busy||!(decisionReasons[row.id]??'').trim()} onClick={()=>decide(row,'RETAIN_HOLD')}>Retain HOLD</button>
-          <button type="button" className="secondary" disabled={busy||!(decisionReasons[row.id]??'').trim()} onClick={()=>decide(row,'EVIDENCE_REVIEWED')}>Record evidence reviewed</button></div>}
+          <button type="button" className="secondary" disabled={busy||!(decisionReasons[row.id]??'').trim()} onClick={()=>decide(row,'EVIDENCE_REVIEWED')}>Record evidence reviewed</button></div>
+          :<p className="muted">Review requires an approver independent from the evidence submitter, requester and plan author.</p>}
     </article>)}
     {error&&<p role="alert">{error}</p>}
   </section>;
