@@ -175,3 +175,15 @@ test('protected promotion retries reuse an exact orphan branch and close superse
   assert.deepEqual(fixture.mutations[0], { route: 'pulls/7', method: 'PATCH', body: { state: 'closed' } });
   assert.equal(fixture.mutations.at(-1).body.draft, true);
 });
+
+test('existing protected promotion PR cannot hide unrelated chart changes', async t => {
+  const fixture = await promotionFixture(t, { protectedBranch: true, orphan: true });
+  const original = fixture.options.api;
+  fixture.options.api = async (route, ...args) => {
+    if (route.startsWith('pulls?')) return [{ head: { sha: SHA, ref: `automation/kelryvo-images-${SHA}`, repo: { full_name: 'devsecopslonghn/kelryvo-helm-chart' } } }];
+    if (route.startsWith('compare/')) return { files: [{ filename: 'values.yaml' }, { filename: 'templates/secret.yaml' }] };
+    return original(route, ...args);
+  };
+  await assert.rejects(promoteHelm(fixture.options), /differs from the validated promotion/);
+  assert.equal(fixture.mutations.length, 0);
+});

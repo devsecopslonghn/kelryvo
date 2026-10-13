@@ -63,6 +63,17 @@ export async function promoteHelm({ api, sourceApi, sha, digests, directory, val
   if ((await api('git/ref/heads/master')).object.sha !== base) throw new Error('Helm master changed during validation; rerun delivery');
   const head = `automation/kelryvo-images-${sha}`;
   let reusableRef;
+  const verifyPromotionBranch = async candidateSha => {
+    const candidate = await api(`git/commits/${candidateSha}`);
+    const proposed = await api(`contents/values.yaml?ref=${candidateSha}`);
+    const diff = await api(`compare/${base}...${candidateSha}`);
+    if (candidate.parents.length !== 1 || candidate.parents[0].sha !== base
+        || !candidate.message.split('\n').includes(`Kelryvo-Source-SHA: ${sha}`)
+        || Buffer.from(proposed.content, 'base64').toString('utf8') !== after
+        || diff.files.length !== 1 || diff.files[0].filename !== 'values.yaml') {
+      throw new Error('Existing promotion branch differs from the validated promotion');
+    }
+  };
   if (branch.protected) {
     const open = await api('pulls?state=open&base=master&per_page=100');
     if (open.length === 100) throw new Error('Too many open chart PRs to safely supersede promotions');
@@ -75,25 +86,14 @@ export async function promoteHelm({ api, sourceApi, sha, digests, directory, val
     }
     const existing = open.filter(pr => pr.head.ref === head && pr.head.repo?.full_name === HELM_REPOSITORY);
     if (existing.length) {
-      const proposed = await api(`contents/values.yaml?ref=${existing[0].head.sha}`);
-      if (Buffer.from(proposed.content, 'base64').toString('utf8') !== after) throw new Error('Existing promotion PR differs; review it before retrying');
+      await verifyPromotionBranch(existing[0].head.sha);
       return { status: 'pull-request', url: existing[0].html_url };
     }
     // A failed PR creation can leave this deterministic branch behind. Reuse
     // only an exact, single-commit promotion from the inspected chart base.
     try { reusableRef = await api(`git/ref/heads/${head}`); }
     catch (error) { if (error.status !== 404) throw error; }
-    if (reusableRef) {
-      const candidate = await api(`git/commits/${reusableRef.object.sha}`);
-      const proposed = await api(`contents/values.yaml?ref=${reusableRef.object.sha}`);
-      const diff = await api(`compare/${base}...${reusableRef.object.sha}`);
-      if (candidate.parents.length !== 1 || candidate.parents[0].sha !== base
-          || !candidate.message.split('\n').includes(`Kelryvo-Source-SHA: ${sha}`)
-          || Buffer.from(proposed.content, 'base64').toString('utf8') !== after
-          || diff.files.length !== 1 || diff.files[0].filename !== 'values.yaml') {
-        throw new Error('Existing promotion branch differs from the validated promotion');
-      }
-    }
+    if (reusableRef) await verifyPromotionBranch(reusableRef.object.sha);
   }
   const commit = await api(`git/commits/${base}`);
   const tree = await api('git/trees', 'POST', { base_tree: commit.tree.sha,
