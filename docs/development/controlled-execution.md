@@ -70,7 +70,7 @@ they are not signatures or proof of physical Oracle effects.
 stream-conflict and native backup cases against disposable PostgreSQL.
 `npm run test:browser` includes Chromium acceptance of preflight, queued requests,
 statement HOLD, evidence submission, independent review and persistence after
-restart, with desktop/mobile screenshots under `.cache/phase5-acceptance`.
+restart, with desktop/mobile layout assertions.
 Run parser-building unit checks before product acceptance; do not mutate helper
 artifacts while product/browser tests use the pinned parser.
 

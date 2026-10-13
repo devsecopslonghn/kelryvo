@@ -23,7 +23,8 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: npm run check
+      - name: Fast offline feedback (complete source, unit and dependency checks)
+        run: npm run check:fast
       - run: npm run dependencies:offline
 
       # No credentials, Oracle targets, deployments, release publishing or remote mutations.

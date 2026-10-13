@@ -1,0 +1,902 @@
+[
+  {
+    "file": "product-approval-revocation.test.mjs",
+    "title": "approval withdrawal links immutable history and works after retained content corruption",
+    "ms": 33807
+  },
+  {
+    "file": "product-database-discovery.test.mjs",
+    "title": "database connections enforce workspace and project grants, preserve secrets and bounded failed discovery evidence",
+    "ms": 3278
+  },
+  {
+    "file": "product-database-discovery.test.mjs",
+    "title": "observed identities create immutable binding revisions, reject fixture verification, stale/conflicting evidence and reused approval",
+    "ms": 11909
+  },
+  {
+    "file": "product-database-discovery.test.mjs",
+    "title": "superseding discovery invalidates schema visibility evidence, plans and approval authority even when physical identity matches",
+    "ms": 20998
+  },
+  {
+    "file": "product-database-discovery.test.mjs",
+    "title": "manual instance registration is authorized, unsupported engines and stale observations remain honest",
+    "ms": 3088
+  },
+  {
+    "file": "product-database-discovery.test.mjs",
+    "title": "native backup restores connection discovery and immutable target identity evidence under recovery HOLD",
+    "ms": 4167
+  },
+  {
+    "file": "product-database-discovery.test.mjs",
+    "title": "metadata recovery HOLD prevents connection and verification mutations without losing prior evidence",
+    "ms": 2997
+  },
+  {
+    "file": "product-execution-reconciliation.test.mjs",
+    "title": "HOLD reconciliation retains digest-only evidence with independent immutable review and no replay authority",
+    "ms": 14282
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "service rejects caller-selected capabilities, mixed scope and accessor bindings before connecting",
+    "ms": 3
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "metadata connection, generation and leader-session loss latch the service without reopening",
+    "ms": 3
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "run loop stops on abort and closes its owned metadata session once",
+    "ms": 22
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "service CLI rejects insecure installation files before importing them and uses fixed diagnostics",
+    "ms": 114
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "generation-bound supervised bootstrap closes a mismatched factory before any operation",
+    "ms": 91
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "durable service discovers approved jobs, executes only V2 suffix and records a later NOOP without replay",
+    "ms": 51708
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "service recovers expiry before dispatch, preserves history, and waits on unresolved live claims",
+    "ms": 14029
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "bounded FIFO pages pass an ineligible request without starving later approved work",
+    "ms": 11956
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "service cleanup uncertainty preserves durable success and stops further dispatch until explicit restart",
+    "ms": 20879
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "generation changes after dispatch fence stale receipt, HOLD and every durable attempt write",
+    "ms": 36913
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "service CLI boots on owned metadata, drains on SIGTERM, and releases leadership for restart",
+    "ms": 292
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "leader connection loss terminates active migration before its second statement and preserves uncertainty",
+    "ms": 11834
+  },
+  {
+    "file": "product-execution-service.test.mjs",
+    "title": "unknown child exit stops dispatch and retains leadership until the actual child is reaped",
+    "ms": 10720
+  },
+  {
+    "file": "product-installed-expiry-recovery.test.mjs",
+    "title": "recovery factory requires a fixed, explicit UNIT binding and a valid owned metadata client",
+    "ms": 2
+  },
+  {
+    "file": "product-installed-expiry-recovery.test.mjs",
+    "title": "the fixed recovery operation is one-use, rejects overlap, drains before close, and maps only no-op to decline",
+    "ms": 1
+  },
+  {
+    "file": "product-installed-expiry-recovery.test.mjs",
+    "title": "recovery cleanup failure propagates and metadata startup failure does not reopen",
+    "ms": 1
+  },
+  {
+    "file": "product-installed-expiry-recovery.test.mjs",
+    "title": "metadata-only recovery needs no Oracle capabilities and cannot install execution",
+    "ms": 2
+  },
+  {
+    "file": "product-installed-expiry-recovery.test.mjs",
+    "title": "a supervised child recovers only expired metadata and preserves retained execution evidence",
+    "ms": 15952
+  },
+  {
+    "file": "product-installed-worker-factory.test.mjs",
+    "title": "factory rejects absent, malformed, production UNIT, and caller-selected metadata bindings",
+    "ms": 1
+  },
+  {
+    "file": "product-installed-worker-factory.test.mjs",
+    "title": "installation snapshot composes the real worker with one metadata handle and one request",
+    "ms": 2
+  },
+  {
+    "file": "product-installed-worker-factory.test.mjs",
+    "title": "binding snapshots read own data without invoking property hooks",
+    "ms": 0
+  },
+  {
+    "file": "product-installed-worker-factory.test.mjs",
+    "title": "trusted bindings reject synthetic ports and invalid leases before acquisition",
+    "ms": 1
+  },
+  {
+    "file": "product-installed-worker-factory.test.mjs",
+    "title": "close drains the active worker call before closing metadata and never retries it",
+    "ms": 0
+  },
+  {
+    "file": "product-installed-worker-factory.test.mjs",
+    "title": "metadata startup and close failures propagate without reopening or retrying",
+    "ms": 1
+  },
+  {
+    "file": "product-installed-worker-factory.test.mjs",
+    "title": "unbound child factory entry remains unavailable",
+    "ms": 0
+  },
+  {
+    "file": "product-installed-worker-factory.test.mjs",
+    "title": "installed UNIT factory executes approved work and declines terminal retry without replay",
+    "ms": 12261
+  },
+  {
+    "file": "product-mutation-authority.test.mjs",
+    "title": "a Git import loses membership authority before persisting parsed metadata",
+    "ms": 5225
+  },
+  {
+    "file": "product-mutation-authority.test.mjs",
+    "title": "a Git import loses credential authority before persisting parsed metadata",
+    "ms": 4742
+  },
+  {
+    "file": "product-mutation-authority.test.mjs",
+    "title": "overlapping operator revocation and API write serialize before project and identity locks",
+    "ms": 2766
+  },
+  {
+    "file": "product-mutation-authority.test.mjs",
+    "title": "source binding rechecks developer eligibility after a queued role change",
+    "ms": 3126
+  },
+  {
+    "file": "product-mvp-workflow.test.mjs",
+    "title": "combined local Git workflow retains review, withdrawal, manual references and restart state",
+    "ms": 24777
+  },
+  {
+    "file": "product-oracle-host.test.mjs",
+    "title": "protected Oracle host adapter integrates real Git approval, pending-only worker and durable central history",
+    "ms": 69283
+  },
+  {
+    "file": "product-review-inbox.test.mjs",
+    "title": "review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership",
+    "ms": 1169
+  },
+  {
+    "file": "product-runtime-lifecycle.test.mjs",
+    "title": "startProduct reports fixed metadata, web asset, and listen failure codes",
+    "ms": 641
+  },
+  {
+    "file": "product-secure-sessions.test.mjs",
+    "title": "HTTPS sessions enforce transport, CSRF, parent and idle/absolute lifetime, replacement and logout",
+    "ms": 1513
+  },
+  {
+    "file": "product-secure-sessions.test.mjs",
+    "title": "browser mutation checkpoint loses authority when logout or parent revocation commits first",
+    "ms": 1215
+  },
+  {
+    "file": "product-secure-sessions.test.mjs",
+    "title": "private TLS material rejects permissions, links, relative and mismatched keys",
+    "ms": 798
+  },
+  {
+    "file": "product-secure-sessions.test.mjs",
+    "title": "browser churn above journal capacity preserves operator rotation, revocation and crash recovery",
+    "ms": 3088
+  },
+  {
+    "file": "product-source-binding.test.mjs",
+    "title": "source bindings persist, authorize changes, constrain imports before Git, and remain private",
+    "ms": 676
+  },
+  {
+    "file": "product-source-binding.test.mjs",
+    "title": "source binding is rechecked under a project lock before an imported release can commit",
+    "ms": 4714
+  },
+  {
+    "file": "product-statement-preview-parser.integration.mjs",
+    "title": "pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices",
+    "ms": 2404
+  },
+  {
+    "file": "product-local-release.integration.mjs",
+    "title": "frozen source archive installs pinned dependencies and passes local end-to-end acceptance",
+    "ms": 366466
+  },
+  {
+    "file": "product-account.test.mjs",
+    "title": "account sessions and grants are self-scoped, revocation is durable, CSRF-protected and audited",
+    "ms": 1079
+  },
+  {
+    "file": "product-comments.test.mjs",
+    "title": "plan review comments are scoped, validated, durable, ordered, and serialized",
+    "ms": 1351
+  },
+  {
+    "file": "product-container-credentials.test.mjs",
+    "title": "pod operator rotation retires local/browser authority, retains immutable revocation audit and bounds new expiry",
+    "ms": 255
+  },
+  {
+    "file": "product-container-credentials.test.mjs",
+    "title": "pod credential rotation refuses expired, revoked, duplicate-role and malformed desired tokens",
+    "ms": 234
+  },
+  {
+    "file": "product-container-credentials.test.mjs",
+    "title": "metadata HOLD rejects credential changes without retiring existing authority or adding rows",
+    "ms": 216
+  },
+  {
+    "file": "product-execution-history.test.mjs",
+    "title": "scoped execution history is bounded, read only, restart durable and cannot replay ambiguous attempts",
+    "ms": 17117
+  },
+  {
+    "file": "product-execution-history.test.mjs",
+    "title": "history labels pending V2 from the approved V1+V2 envelope even when V1 and V2 digests duplicate",
+    "ms": 23774
+  },
+  {
+    "file": "product-incremental-migrations.test.mjs",
+    "title": "Git V1 then approved V2 executes only pending files; divergent or untrusted target history holds without replay",
+    "ms": 153986
+  },
+  {
+    "file": "product-membership.test.mjs",
+    "title": "explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke",
+    "ms": 3288
+  },
+  {
+    "file": "product-membership.test.mjs",
+    "title": "activation serializes with in-flight revocation and bootstrap creation stays denied",
+    "ms": 408
+  },
+  {
+    "file": "product-membership.test.mjs",
+    "title": "activation waits for credential lifecycle serialization and refuses coverage after credential revocation",
+    "ms": 287
+  },
+  {
+    "file": "product-metadata-recovery.test.mjs",
+    "title": "recovery operator rejects malformed commands and private routes without disclosing inputs",
+    "ms": 1185
+  },
+  {
+    "file": "product-metadata-recovery.test.mjs",
+    "title": "local operator discovers bounded expired metadata and recovers one selected attempt without replay",
+    "ms": 17345
+  },
+  {
+    "file": "product-phase5-stream.test.mjs",
+    "title": "target stream conflicts cross projects, leave unrelated streams alone, and veto worker admission without a proof",
+    "ms": 16852
+  },
+  {
+    "file": "product-plan-resubmission.test.mjs",
+    "title": "rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan",
+    "ms": 21818
+  },
+  {
+    "file": "product-profile-lifecycle.test.mjs",
+    "title": "profile retirement preserves exact history and blocks fresh authority at every admission boundary",
+    "ms": 13984
+  },
+  {
+    "file": "product-repositories.test.mjs",
+    "title": "startup arguments accept repeated local repositories and reject unknown or excess options",
+    "ms": 3
+  },
+  {
+    "file": "product-repositories.test.mjs",
+    "title": "configured repositories are canonical local Git worktrees with display-only public descriptors",
+    "ms": 90
+  },
+  {
+    "file": "product-repositories.test.mjs",
+    "title": "invalid startup options fail before creating local configuration or reaching Docker",
+    "ms": 113
+  },
+  {
+    "file": "product-repositories.test.mjs",
+    "title": "a configured custom Git repository is visible without its path and imports through the product API",
+    "ms": 3142
+  },
+  {
+    "file": "product-repositories.test.mjs",
+    "title": "project-bound Git refs list safely and imports retain immutable branch and tag commits",
+    "ms": 8599
+  },
+  {
+    "file": "product-review-inbox-cursor.test.mjs",
+    "title": "review inbox cursors preserve microseconds and reject malformed context and calendar positions",
+    "ms": 3
+  },
+  {
+    "file": "product-statement-preview.test.mjs",
+    "title": "statement preview is scoped, bounded, archived-readable and read only",
+    "ms": 102225
+  },
+  {
+    "file": "product-target-workflow.test.mjs",
+    "title": "target-bound plans retain immutable format-3 evidence and fail closed across stale or unauthorized workflow steps",
+    "ms": 30362
+  },
+  {
+    "file": "product-target-workflow.test.mjs",
+    "title": "target binding commit rechecks a project grant revoked while catalog serialization is queued",
+    "ms": 3312
+  },
+  {
+    "file": "product-target-workflow.test.mjs",
+    "title": "credential expiry during real statement verification cannot create plans, decisions or requests",
+    "ms": 47329
+  },
+  {
+    "file": "product-worker-supervision.test.mjs",
+    "title": "fixed child bootstrap runs the real worker across PostgreSQL admission, dispatch, receipts, and cleanup",
+    "ms": 40715
+  },
+  {
+    "file": "product-backup-restore-browser.integration.mjs",
+    "title": "browser reopens restored retained history with fresh credentials and execution recovery hold",
+    "ms": 47349
+  },
+  {
+    "file": "product-credential-browser.integration.mjs",
+    "title": "browser clears a revoked session and ignores a delayed 401 from an earlier session epoch",
+    "ms": 877
+  },
+  {
+    "file": "product-database-discovery-browser.integration.mjs",
+    "title": "browser registers infrastructure and connection, tests/discovers fixture metadata, records observed targets and keeps live verification unavailable after restart",
+    "ms": 11397
+  },
+  {
+    "file": "product-instances-browser.integration.mjs",
+    "title": "browser discovers instance configuration, retires a profile and keeps retained plans readable",
+    "ms": 5949
+  },
+  {
+    "file": "product-mvp-workflow-browser.integration.mjs",
+    "title": "Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit",
+    "ms": 32669
+  },
+  {
+    "file": "product-plan-requester-browser.integration.mjs",
+    "title": "browser shows retained plan requester facts and blocks author decisions",
+    "ms": 22004
+  },
+  {
+    "file": "product-plan-resubmission-browser.integration.mjs",
+    "title": "browser prepares a fresh plan from a new commit after rejection and fails closed by project state",
+    "ms": 29419
+  },
+  {
+    "file": "product-plan-source-browser.integration.mjs",
+    "title": "plan source inspection stays bound to retained releases and is read only",
+    "ms": 70578
+  },
+  {
+    "file": "product-release-comparison-browser.integration.mjs",
+    "title": "browser compares explicitly selected retained releases and discards a late result after pair changes",
+    "ms": 13426
+  },
+  {
+    "file": "product-review-inbox-browser.integration.mjs",
+    "title": "browser inbox handles delayed scopes, exact plan navigation and grant revocation between pages",
+    "ms": 2108
+  },
+  {
+    "file": "product-reviewer-assignment-browser.integration.mjs",
+    "title": "review assignment controls and Assigned to me filter follow scoped plan state",
+    "ms": 6877
+  },
+  {
+    "file": "product-schema-reference-browser.integration.mjs",
+    "title": "schema-reference view labels provisional identity and drops a delayed session response",
+    "ms": 924
+  },
+  {
+    "file": "product-schema-reference-browser.integration.mjs",
+    "title": "schema references follow project context and clear after grant revocation",
+    "ms": 1291
+  },
+  {
+    "file": "product-schema-reference-browser.integration.mjs",
+    "title": "schema estate groups loaded pages and preserves omitted-service warnings",
+    "ms": 1267
+  },
+  {
+    "file": "product-sql-validation-browser.integration.mjs",
+    "title": "browser selects retained SQL, validates target, reviews unknowns, creates immutable plan, independently approves and retains evidence after restart",
+    "ms": 19593
+  },
+  {
+    "file": "product-statement-envelope-browser.integration.mjs",
+    "title": "review shows the complete paged statement envelope, explicit readiness and legacy reapproval without stale results",
+    "ms": 14632
+  },
+  {
+    "file": "product-api-rate-limit.test.mjs",
+    "title": "API quota runs before authentication and metadata, spans routes, and ignores spoofed forwarding headers",
+    "ms": 789
+  },
+  {
+    "file": "product-api-rate-limit.test.mjs",
+    "title": "API readiness observes actual metadata HOLD and absence while liveness survives metadata outage",
+    "ms": 152
+  },
+  {
+    "file": "product-api-rate-limit.test.mjs",
+    "title": "metadata readiness has a separate bounded quota and cannot exhaust business API or liveness",
+    "ms": 201
+  },
+  {
+    "file": "product-api-rate-limit.test.mjs",
+    "title": "unauthenticated clients are limited and rotating addresses inside one IPv6 subnet cannot evade the quota",
+    "ms": 221
+  },
+  {
+    "file": "product-api.test.mjs",
+    "title": "product API persists a governed offline plan and never claims execution",
+    "ms": 9080
+  },
+  {
+    "file": "product-archive.test.mjs",
+    "title": "archival keeps immutable records readable and refuses further project work",
+    "ms": 1452
+  },
+  {
+    "file": "product-archive.test.mjs",
+    "title": "an in-flight metadata write rechecks archival after acquiring the project lock",
+    "ms": 237
+  },
+  {
+    "file": "product-controlled-execution.test.mjs",
+    "title": "approved Git request reaches controlled worker/history; uncertainty and revoked authority never replay",
+    "ms": 71167
+  },
+  {
+    "file": "product-database.test.mjs",
+    "title": "concurrent product schema initialization serializes DDL on a fresh PostgreSQL database",
+    "ms": 333
+  },
+  {
+    "file": "product-decision-record.test.mjs",
+    "title": "terminal plan decisions retain reviewer snapshots and historical ID fallback",
+    "ms": 361
+  },
+  {
+    "file": "product-execution-jobs.test.mjs",
+    "title": "T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references",
+    "ms": 142
+  },
+  {
+    "file": "product-execution-jobs.test.mjs",
+    "title": "durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants",
+    "ms": 16213
+  },
+  {
+    "file": "product-execution-readiness.test.mjs",
+    "title": "live readiness distinguishes queue eligibility from unverified Oracle runtime and blocks active requests",
+    "ms": 4875
+  },
+  {
+    "file": "product-import.test.mjs",
+    "title": "local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes",
+    "ms": 3198
+  },
+  {
+    "file": "product-import.test.mjs",
+    "title": "resolved commits remain immutable after the source branch moves",
+    "ms": 2267
+  },
+  {
+    "file": "product-import.test.mjs",
+    "title": "leading-zero aliases and equivalent dotted versions are rejected as duplicates",
+    "ms": 149
+  },
+  {
+    "file": "product-import.test.mjs",
+    "title": "malformed refs and migration-folder traversal are rejected before Git lookup",
+    "ms": 22
+  },
+  {
+    "file": "product-import.test.mjs",
+    "title": "symlinked migration entries and Git submodules are rejected",
+    "ms": 118
+  },
+  {
+    "file": "product-import.test.mjs",
+    "title": "invalid SQL makes the entire release unplannable while retaining explicit per-file observations",
+    "ms": 2168
+  },
+  {
+    "file": "product-import.test.mjs",
+    "title": "the installed ANTLR helper parses actual imported SQL without a fake positive driver",
+    "ms": 1120
+  },
+  {
+    "file": "product-plan-record.test.mjs",
+    "title": "format-3 plan record exports the public target snapshot as record format 2",
+    "ms": 3
+  },
+  {
+    "file": "product-plan-record.test.mjs",
+    "title": "plan record preserves scoped frozen intent, current decision and withdrawal without credentials or mutations",
+    "ms": 6920
+  },
+  {
+    "file": "product-protected-source-binding.test.mjs",
+    "title": "source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals",
+    "ms": 21174
+  },
+  {
+    "file": "product-protected-source-binding.test.mjs",
+    "title": "binding updates serialize with approval and plan creation under project locks",
+    "ms": 3548
+  },
+  {
+    "file": "product-protected-source-binding.test.mjs",
+    "title": "legacy project schema initializes only current tracking and never backfills historical plans",
+    "ms": 2443
+  },
+  {
+    "file": "product-reviewer-assignment.test.mjs",
+    "title": "reviewer assignment is scoped, revisioned, auditable and enforced at decision time",
+    "ms": 11581
+  },
+  {
+    "file": "product-sql-validation.test.mjs",
+    "title": "schema-aware validation is deterministic, immutable, scoped and restart-durable; format-4 plans bind evidence and independent approval",
+    "ms": 10234
+  },
+  {
+    "file": "product-sql-validation.test.mjs",
+    "title": "incorrect syntax, cross-schema and database-link policy violations remain blocked; risky and unsupported SQL retain honest findings",
+    "ms": 17932
+  },
+  {
+    "file": "product-sql-validation.test.mjs",
+    "title": "new observations and binding revisions stale validation, reject approval reuse and preserve historical records",
+    "ms": 6941
+  },
+  {
+    "file": "product-sql-validation.test.mjs",
+    "title": "provisional targets and insufficient discovery visibility cannot invent object absence or verified identity",
+    "ms": 2475
+  },
+  {
+    "file": "product-sql-validation.test.mjs",
+    "title": "credential expiry during validation cannot persist a result or audit event",
+    "ms": 2573
+  },
+  {
+    "file": "product-sql-validation.test.mjs",
+    "title": "native backup preserves schema validation and format-4 plans; recovery HOLD prevents new validation and planning",
+    "ms": 5995
+  },
+  {
+    "file": "product-statement-envelope.test.mjs",
+    "title": "complete statement approval survives restart, pages by exact digest, denies tampering and preserves legacy history",
+    "ms": 17829
+  },
+  {
+    "file": "product-approval-integrity-browser.integration.mjs",
+    "title": "browser shows fixed approval integrity feedback and preserves pending plan for rejection",
+    "ms": 10080
+  },
+  {
+    "file": "product-audit-action-filters-browser.integration.mjs",
+    "title": "audit action filters preserve project scope, server order, archived reads and read-only records",
+    "ms": 8603
+  },
+  {
+    "file": "product-audit-pages-browser.integration.mjs",
+    "title": "Records pages retained audit history, resets contexts, and clears delayed or revoked results",
+    "ms": 2134
+  },
+  {
+    "file": "product-browser.integration.mjs",
+    "title": "browser ignores a committed source-binding response after project and session change",
+    "ms": 2006
+  },
+  {
+    "file": "product-comments-browser.integration.mjs",
+    "title": "plan comments remain scoped, readable, and persistent across API restart",
+    "ms": 44572
+  },
+  {
+    "file": "product-comments-browser.integration.mjs",
+    "title": "source binding invalidation clears evidence refs, preserves plain text, and drops delayed previews",
+    "ms": 13396
+  },
+  {
+    "file": "product-decision-record-browser.integration.mjs",
+    "title": "decision records render the stored attribution safely and stay plan-specific",
+    "ms": 1601
+  },
+  {
+    "file": "product-git-ref-selection-browser.integration.mjs",
+    "title": "release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses",
+    "ms": 3228
+  },
+  {
+    "file": "product-phase5-execution-browser.integration.mjs",
+    "title": "browser manages schema-plan preflight, durable request, statement HOLD and independent reconciliation after restart",
+    "ms": 14838
+  },
+  {
+    "file": "product-phase6-workflow-browser.integration.mjs",
+    "title": "HTTPS browser completes registration through discovery, SQL review, independent approval, readiness, request and durable audit",
+    "ms": 12931
+  },
+  {
+    "file": "product-plan-intent-browser.integration.mjs",
+    "title": "browser shows frozen intent facts and keeps changed current configuration separate",
+    "ms": 12480
+  },
+  {
+    "file": "product-plan-target-browser.integration.mjs",
+    "title": "plan review shows only its matching current project profile and environment",
+    "ms": 23350
+  },
+  {
+    "file": "product-release-provenance-browser.integration.mjs",
+    "title": "release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives",
+    "ms": 4934
+  },
+  {
+    "file": "product-secure-sessions-browser.integration.mjs",
+    "title": "HTTPS browser resumes secure sessions and retains review workflow through logout, expiry and witnessed restore",
+    "ms": 59209
+  },
+  {
+    "file": "product-approval-integrity.test.mjs",
+    "title": "approval verifies locked retained release and ordered plan facts before writes; rejection remains available",
+    "ms": 23216
+  },
+  {
+    "file": "product-audit-pages.test.mjs",
+    "title": "scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks",
+    "ms": 601
+  },
+  {
+    "file": "product-backup-restore.test.mjs",
+    "title": "native metadata backup and witness-verified restore retain source and enter persistent hold",
+    "ms": 2751
+  },
+  {
+    "file": "product-backup-restore.test.mjs",
+    "title": "native restore retains target option and binding evidence without projecting private principal refs",
+    "ms": 4234
+  },
+  {
+    "file": "product-backup-restore.test.mjs",
+    "title": "native restore preserves retained Git review history and UNIT receipts while revoking old authority",
+    "ms": 28502
+  },
+  {
+    "file": "product-backup-restore.test.mjs",
+    "title": "SIGKILL after native import leaves restored approved queues unclaimable and startup refused",
+    "ms": 28581
+  },
+  {
+    "file": "product-backup-restore.test.mjs",
+    "title": "native restore rejects damaged, unsupported, linked and untrusted inputs before destination creation",
+    "ms": 2789
+  },
+  {
+    "file": "product-backup-restore.test.mjs",
+    "title": "exact legacy schema backup restores retained projects and migrates discovery under recovery HOLD",
+    "ms": 1858
+  },
+  {
+    "file": "product-backup-restore.test.mjs",
+    "title": "exact Phase 2 schema backup restores retained projects and migrates discovery under recovery HOLD",
+    "ms": 1591
+  },
+  {
+    "file": "product-backup-restore.test.mjs",
+    "title": "exact Phase 3 schema backup restores retained projects and migrates discovery under recovery HOLD",
+    "ms": 1943
+  },
+  {
+    "file": "product-credential-lifecycle.test.mjs",
+    "title": "local credentials persist and recover real interrupted operator processes",
+    "ms": 863
+  },
+  {
+    "file": "product-execution-record.test.mjs",
+    "title": "execution record exports a complete bounded synthetic journal without mutations or private metadata",
+    "ms": 14611
+  },
+  {
+    "file": "product-phase5-backup.test.mjs",
+    "title": "Phase 5 native backup retains reconciliation evidence and decision; restore hold blocks new reconciliation writes",
+    "ms": 28533
+  },
+  {
+    "file": "product-phase5-backup.test.mjs",
+    "title": "Phase 4 native backup inventory restores and upgrades to Phase 5 reconciliation schema",
+    "ms": 1568
+  },
+  {
+    "file": "product-phase5-execution.test.mjs",
+    "title": "Phase 5 schema-validated intent travels through durable admission, statements and retained history without duplicate execution",
+    "ms": 20850
+  },
+  {
+    "file": "product-phase5-execution.test.mjs",
+    "title": "Phase 5 refuses stale schema evidence and identity mismatch, and fixtures cannot authorize trusted Oracle dispatch",
+    "ms": 62040
+  },
+  {
+    "file": "product-phase5-execution.test.mjs",
+    "title": "Phase 5 unknown or interrupted sequences remain HOLD across restart with no replay or cancellation after admission",
+    "ms": 49237
+  },
+  {
+    "file": "product-plan-intent.test.mjs",
+    "title": "plan intent persists across API restart and damaged or legacy intent blocks approval without writes",
+    "ms": 35429
+  },
+  {
+    "file": "product-release-comparison.test.mjs",
+    "title": "retained source facts align canonically and distinguish path, content and presence changes",
+    "ms": 1
+  },
+  {
+    "file": "product-release-comparison.test.mjs",
+    "title": "authenticated retained comparison is scoped, read-only, self-comparable, and survives repository removal",
+    "ms": 60952
+  },
+  {
+    "file": "product-release-integrity.test.mjs",
+    "title": "offline planning rejects corrupted retained releases without writes and uses locked current state",
+    "ms": 9476
+  },
+  {
+    "file": "product-retained-detail.test.mjs",
+    "title": "retained release detail keeps bounded historical diagnostics and rejects unbounded metadata without writes",
+    "ms": 12731
+  },
+  {
+    "file": "product-review-audit.test.mjs",
+    "title": "authenticated denied decisions append fixed audit facts while preserving plan and history",
+    "ms": 13714
+  },
+  {
+    "file": "product-schema-reference.test.mjs",
+    "title": "manual schema references are idempotent, exact-case, serially assigned and project-scoped",
+    "ms": 416
+  },
+  {
+    "file": "product-schema-reference.test.mjs",
+    "title": "trusted inventory CLI uses private local metadata authority and preserves operator history",
+    "ms": 1945
+  },
+  {
+    "file": "product-target-bindings.test.mjs",
+    "title": "target options and bindings enforce CAS and project scope, preserve private facts, currentness and stream lineage",
+    "ms": 489
+  },
+  {
+    "file": "product-account-browser.integration.mjs",
+    "title": "browser discovers account access and revokes another session while preserving its own session",
+    "ms": 3661
+  },
+  {
+    "file": "product-approval-revocation-browser.integration.mjs",
+    "title": "browser preserves immutable approval display and drops a held withdrawal response after project ABA",
+    "ms": 39583
+  },
+  {
+    "file": "product-archive-browser.integration.mjs",
+    "title": "browser archives a project and keeps its releases, plan, audit, and history readable",
+    "ms": 12245
+  },
+  {
+    "file": "product-execution-history-browser.integration.mjs",
+    "title": "browser pages synthetic execution receipts and HOLD history and discards signed-out reads",
+    "ms": 40593
+  },
+  {
+    "file": "product-execution-jobs-browser.integration.mjs",
+    "title": "browser observes durable worker transitions and cancels its undispatched waiting job",
+    "ms": 86907
+  },
+  {
+    "file": "product-execution-record-browser.integration.mjs",
+    "title": "browser downloads complete execution metadata and fences delayed exports across plan changes and logout",
+    "ms": 23065
+  },
+  {
+    "file": "product-membership-browser.integration.mjs",
+    "title": "browser keeps bootstrap read-only, shows creation receipt without loading it, and clears revoked selection",
+    "ms": 4348
+  },
+  {
+    "file": "product-plan-record-browser.integration.mjs",
+    "title": "browser downloads current plan record and discards delayed exports after plan change or logout",
+    "ms": 17057
+  },
+  {
+    "file": "product-protected-source-binding-browser.integration.mjs",
+    "title": "review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session",
+    "ms": 19406
+  },
+  {
+    "file": "product-release-integrity-browser.integration.mjs",
+    "title": "browser gives fixed feedback when a retained release fails integrity verification",
+    "ms": 6401
+  },
+  {
+    "file": "product-review-audit-browser.integration.mjs",
+    "title": "browser displays a server-audited decision denial to the authenticated project actor",
+    "ms": 11558
+  },
+  {
+    "file": "product-status-filters-browser.integration.mjs",
+    "title": "status filters preserve scoped ordered plans, drafts, history and archived reads",
+    "ms": 21487
+  },
+  {
+    "file": "product-target-workflow-browser.integration.mjs",
+    "title": "browser completes target binding, format-3 review, deployment request, and durable records across restart",
+    "ms": 16586
+  },
+  {
+    "file": "product-target-workflow-browser.integration.mjs",
+    "title": "release planning loads target bindings beyond the first bounded page",
+    "ms": 7725
+  }
+]

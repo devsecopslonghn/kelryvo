@@ -121,8 +121,24 @@ test('native restore retains target option and binding evidence without projecti
 test('native restore preserves retained Git review history and UNIT receipts while revoking old authority',{skip:!enabled,timeout:180_000},async()=>{
   const {createBackupProductFixture,tableSnapshot}=await import('./helpers/product-backup-fixture.mjs');
   const {createApp}=await import('../apps/api/index.ts');
-  const fixture=await createBackupProductFixture();let app;
+  const {startProduct}=await import('../apps/api/server.ts');
+  const {createTlsFixture,tlsRequest}=await import('./helpers/product-tls-fixture.mjs');
+  const fixture=await createBackupProductFixture();let app,sessionApp,cert;
   try {
+    // Browser transport is tested separately. Native restoration must revoke
+    // cookie credentials and retain their audit history without Chromium.
+    cert=await createTlsFixture();
+    sessionApp=await startProduct({databaseUrl:fixture.source.databaseUrl,actors:fixture.actors,
+      repositories:[],port:0,tls:cert.tls});
+    let sessionBase=`https://127.0.0.1:${sessionApp.server.address().port}`;
+    const browserCookies=[];
+    for(const actor of fixture.actors) {
+      const login=await tlsRequest(sessionBase,cert.ca,'/api/session',{method:'POST',
+        headers:{authorization:`Bearer ${actor.token}`,origin:sessionBase}});
+      assert.equal(login.status,200);
+      browserCookies.push(login.headers['set-cookie'][0].split(';')[0]);
+    }
+    await sessionApp.close();sessionApp=undefined;
     const tables=['sf_account_audit','sf_profiles','sf_organizations','sf_projects','sf_project_access_mode','sf_project_grants','sf_project_deploy_grants','sf_releases','sf_plans','sf_plan_comments','sf_history','sf_audit','sf_reference_databases','sf_reference_containers','sf_reference_schemas','sf_reference_assignments','sf_execution_receipts','sf_execution_admission_proofs'];
     const sessionId=(await fixture.source.sql`SELECT id FROM sf_local_credentials WHERE actor_id=${fixture.actors[0].id} ORDER BY issued_at LIMIT 1`)[0].id;
     await fixture.source.sql`INSERT INTO sf_account_audit(organization_id,actor_id,session_id,action)
@@ -146,7 +162,18 @@ test('native restore preserves retained Git review history and UNIT receipts whi
     assert.equal(states.get(fixture.unitJobs[1]).state,'NOOP');
     assert.equal((await restored.sql`SELECT state FROM sf_execution_attempts WHERE job_id=${fixture.unitJobs[0]}`)[0].state,'HOLD');
     assert.equal((await restored.sql`SELECT state FROM sf_execution_attempts WHERE job_id=${fixture.unitJobs[1]}`)[0].state,'NOOP');
-    assert.equal((await restored.sql`SELECT count(*)::int AS n FROM sf_metadata_credentials_revoked`)[0].n,2);
+    assert.equal((await restored.sql`SELECT count(*)::int AS n FROM sf_metadata_credentials_revoked`)[0].n,4);
+    assert.equal((await restored.sql`SELECT count(*)::int AS n FROM sf_local_credentials
+      WHERE credential_kind='BROWSER' AND revoked_at IS NOT NULL`)[0].n,2);
+    assert.equal((await restored.sql`SELECT count(*)::int AS n FROM sf_metadata_credentials_revoked
+      WHERE credential_id IN (SELECT id FROM sf_local_credentials WHERE credential_kind='BROWSER')`)[0].n,2);
+    sessionApp=await startProduct({databaseUrl:restored.databaseUrl,actors:restored.actors,
+      repositories:[],port:0,tls:cert.tls});
+    sessionBase=`https://127.0.0.1:${sessionApp.server.address().port}`;
+    for(const cookie of browserCookies)
+      assert.equal((await tlsRequest(sessionBase,cert.ca,'/api/session',{headers:{cookie}})).status,401,
+        'a pre-restore cookie cannot regain authority after native restore');
+    await sessionApp.close();sessionApp=undefined;
     await assert.rejects(restored.sql`UPDATE sf_metadata_generations SET state='ACTIVE' WHERE state='RESTORE_HOLD'`,/immutable/);
     // A freshly admitted synthetic projection cannot bypass the global generation gate,
     // even though its other authorization is intentionally supplied as a UNIT fixture.
@@ -180,7 +207,10 @@ test('native restore preserves retained Git review history and UNIT receipts whi
     await initializeDatabase(restored.sql);
     assert.equal((await restored.sql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
     assert.equal((await restored.sql`SELECT approval_reference FROM sf_plans WHERE id=${fixture.legacyPlan}`)[0].approval_reference,null);
-  } finally {await app?.close();await fixture.close();}
+  } finally {
+    try {await sessionApp?.close();await app?.close();}
+    finally {try {await fixture.close();} finally {await cert?.close();}}
+  }
 });
 
 test('SIGKILL after native import leaves restored approved queues unclaimable and startup refused',{skip:!enabled,timeout:180_000},async()=>{

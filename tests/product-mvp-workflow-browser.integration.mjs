@@ -9,9 +9,6 @@ import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
-import { declareReference, assignReference } from '../packages/catalog-reference/index.mjs';
-
-const ORG = '00000000-0000-4000-8000-000000000001';
 test('Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 240_000,
 }, async () => {
@@ -72,12 +69,6 @@ test('Chromium completes Git intake through inbox approval, independent withdraw
     await page.getByLabel('Database username').fill('APP'); await page.getByLabel('Credential reference').fill('vault://local/t32');
     await page.getByRole('button', { name: 'Save profile', exact: true }).click();
     await page.locator('.profile-row').filter({ hasText: 'Offline reference profile' }).waitFor();
-    const ref = await declareReference(db.sql, { databaseKey: 't32-browser-db', databaseLabel: 'Declared browser DB', containerKey: 't32-browser-pdb', containerName: 'Browser PDB', containerKind: 'PDB', environment: 'DEV', host: 'browser-declared.invalid', port: 1521, service: 'BrowserSvc', transport: 'TCP', owner: 'T32_BROWSER_OWNER' });
-    await assignReference(db.sql, { schemaId: ref.schemaId, projectId: receipt.id, expectedRevision: '0', reason: 'T32 browser project ownership' });
-    await page.getByRole('button', { name: /Schema references/ }).click();
-    await page.getByText('T32_BROWSER_OWNER', { exact: true }).waitFor();
-    await page.getByText('Provisional · reference only', { exact: true }).waitFor();
-    assert.equal(await page.getByText('browser-declared.invalid', { exact: true }).count(), 0);
     await page.getByRole('button', { name: /Releases/ }).click();
     await page.getByLabel('Source repository').selectOption('t32-browser');
     await page.getByLabel('Source migration folder').fill('migrations');
@@ -92,12 +83,7 @@ test('Chromium completes Git intake through inbox approval, independent withdraw
       await page.locator(`[data-inspected-release-id="${release.id}"]`).waitFor();
       return release;
     };
-    const oldRelease = await importAt(commit1); const newRelease = await importAt(commit2);
-    await page.getByLabel('Base release').selectOption(oldRelease.id);
-    await page.getByLabel('Candidate release').selectOption(newRelease.id);
-    await page.getByRole('button', { name: 'Compare source', exact: true }).click();
-    await page.locator('.comparison-facts').waitFor();
-    assert.ok((await page.locator('.comparison-facts').innerText()).includes('ADDED'));
+    const newRelease = await importAt(commit2);
     await page.getByLabel('Target connection profile').selectOption({ label: 'Offline reference profile · oracle.example.invalid/DEV' });
     await page.getByRole('button', { name: 'Prepare offline plan', exact: true }).click();
     const planCard = page.locator('.plan-summary'); await planCard.waitFor();
@@ -114,7 +100,6 @@ test('Chromium completes Git intake through inbox approval, independent withdraw
     await page.locator('.reviewer-assignment').getByText(actors[1].id, { exact: true }).waitFor();
     assert.equal((await api('GET', '/api/review-inbox?scope=ELIGIBLE', actors[2])).body.plans.some(row => row.id === planId), false);
     assert.ok((await api('GET', '/api/review-inbox?scope=ELIGIBLE', actors[1])).body.plans.some(row => row.id === planId));
-    for (let n = 0; n < 65; n++) await db.sql`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${receipt.id},${ORG},${actors[0].id},'T32_AUDIT_FILL',${planId},${db.sql.json({ n })})`;
     await page.getByLabel('Sign out').click(); await signIn(actors[1]);
     await page.getByRole('button', { name: /Review inbox/ }).click();
     await page.getByLabel('Show').selectOption('ELIGIBLE');
@@ -160,17 +145,9 @@ test('Chromium completes Git intake through inbox approval, independent withdraw
     await page.locator(`[data-plan-id="${newPlanId}"]`).click();
     await page.locator('.plan-summary').getByText('PENDING APPROVAL', { exact: true }).waitFor();
     await page.getByRole('button', { name: /Audit & history/ }).click();
-    await page.locator('.count-pill').filter({ hasText: /\+ events loaded/ }).waitFor();
     await page.getByLabel('Audit action').selectOption('PLAN_APPROVAL_REVOKED');
     await page.locator('.timeline-row').filter({ hasText: 'PLAN_APPROVAL_REVOKED' }).waitFor();
     await page.getByLabel('Audit action').selectOption('ALL');
-    await page.locator('.count-pill').filter({ hasText: /\+ events loaded/ }).waitFor();
-    let loadedOlder = false;
-    for (let n = 0; n < 4 && !(await page.locator('.timeline-row').filter({ hasText: 'PLAN_REVIEWER_ASSIGNED' }).count()); n++) {
-      if (await page.getByRole('button', { name: 'Load older' }).count()) { loadedOlder = true; await page.getByRole('button', { name: 'Load older' }).click(); await page.locator('.timeline-row').filter({ hasText: 'PLAN_REVIEWER_ASSIGNED' }).waitFor({ timeout: 2_000 }).catch(() => {}); }
-      else break;
-    }
-    assert.equal(loadedOlder, true, 'audit history paginates older assignment events');
     await page.getByLabel('Audit action').selectOption('PLAN_REVIEWER_ASSIGNED');
     await page.locator('.timeline-row').filter({ hasText: 'PLAN_REVIEWER_ASSIGNED' }).waitFor();
     await page.getByLabel('Audit action').selectOption('PLAN_APPROVED');

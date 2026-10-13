@@ -8,56 +8,49 @@ import { prepareDemoRepository } from '../scripts/local-resources.mjs';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 
-test('browser drives real Git/parser/API/PostgreSQL workflow, independent approval/rejection and restart persistence', {
+test('browser ignores a committed source-binding response after project and session change', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120_000,
 }, async (t) => {
-  const phase = (name) => t.diagnostic(`browser phase: ${name}`);
   const actors = [
-    { id: 'browser-developer', name: 'Browser developer', role: 'developer', token: randomBytes(32).toString('hex') },
-    { id: 'browser-approver', name: 'Browser approver', role: 'approver', token: randomBytes(32).toString('hex') },
+    { id: `source-response-dev-${randomUUID()}`, name: 'Source developer', role: 'developer', token: randomBytes(32).toString('hex') },
+    { id: `source-response-approver-${randomUUID()}`, name: 'Source approver', role: 'approver', token: randomBytes(32).toString('hex') },
   ];
   const database = await openIsolatedProductDatabase();
-  assert.ok(database, 'SCHEMAFORGE_TEST_DATABASE_URL is required for this browser workflow');
   let app;
   let browser;
-  let membership;
   let page;
-  let closingApp;
-  let appClosePromise;
-  let releaseDelayedSourceResponse = () => {};
-  let abortSourceRoute = () => {};
-  let removeSourceRoute = async () => {};
-  let sourceRouteStarted = false;
+  let membership;
+  let releaseDelayedResponse = () => {};
   let sourceResponseDelivered;
+  let sourceWriteStatus;
+  let sourceRouteStarted = false;
+  let removeSourceRoute = async () => {};
   let cleanupPromise;
-  const closeApp = () => {
-    if (!app) return Promise.resolve();
-    if (app !== closingApp) {
-      closingApp = app;
-      appClosePromise = undefined;
-    }
-    appClosePromise ||= app.close();
-    return appClosePromise;
+  const waitForSourceResponse = async () => {
+    let timeout;
+    try {
+      return await Promise.race([
+        sourceResponseDelivered,
+        new Promise(resolve => { timeout = setTimeout(() => resolve({ status: 'TIMEOUT', message: 'delivery did not settle within 10 seconds' }), 10_000); }),
+      ]);
+    } finally { clearTimeout(timeout); }
   };
-  const cleanup = () => {
-    if (!cleanupPromise) {
-      cleanupPromise = (async () => {
-        releaseDelayedSourceResponse();
-        abortSourceRoute();
-        await removeSourceRoute().catch(() => {});
-        if (sourceRouteStarted && sourceResponseDelivered) await sourceResponseDelivered;
-        try { await browser?.close(); }
-        finally {
-          try { await closeApp(); }
-          finally { try { await membership?.close(); } finally { await database.close(); } }
-        }
-      })();
+  const cleanup = () => cleanupPromise ??= (async () => {
+    releaseDelayedResponse();
+    if (sourceRouteStarted && sourceResponseDelivered) {
+      const outcome = await waitForSourceResponse();
+      if (outcome?.status !== 'FULFILLED') t.diagnostic(`delayed source response delivery outcome: ${outcome?.status || 'unknown'}${outcome?.message ? ` (${outcome.message})` : ''}`);
     }
-    return cleanupPromise;
-  };
+    await removeSourceRoute().catch(error => t.diagnostic(`source route removal failed: ${error.message}`));
+    try { await browser?.close(); }
+    finally {
+      try { await app?.close(); }
+      finally { try { await membership?.close(); } finally { await database.close(); } }
+    }
+  })();
   const abortCleanup = () => {
-    phase('test abort signal received; releasing browser, API, and database resources');
-    void cleanup().catch(() => t.diagnostic('test timeout cleanup failed'));
+    t.diagnostic('test abort signal received; releasing delayed source response and cleaning up owned resources');
+    void cleanup().catch(error => t.diagnostic(`abort cleanup failed: ${error.stack || error}`));
   };
   t.signal.addEventListener('abort', abortCleanup, { once: true });
   t.after(async () => {
@@ -65,232 +58,133 @@ test('browser drives real Git/parser/API/PostgreSQL workflow, independent approv
     await cleanup();
   });
   try {
-    const options = { databaseUrl: database.databaseUrl, actors,
-      repositories: [{ id: 'demo', name: 'Local migration demo', path: await prepareDemoRepository() }], port: 0 };
-    app = await startProduct(options);
+    const repositoryPath = await prepareDemoRepository();
+    app = await startProduct({ databaseUrl: database.databaseUrl, actors,
+      repositories: [{ id: 'demo', name: 'Local migration demo', path: repositoryPath }], port: 0 });
     membership = await createMembershipOperatorFixture(database.databaseUrl);
     await membership.activateEmptyFixture(app);
     const url = `http://127.0.0.1:${app.server.address().port}`;
+    const api = async (method, route, actor = actors[0], payload) => {
+      const response = await fetch(`${url}${route}`, { method, headers: { authorization: `Bearer ${actor.token}`,
+        ...(payload !== undefined ? { 'content-type': 'application/json' } : {}) },
+      ...(payload !== undefined ? { body: JSON.stringify(payload) } : {}) });
+      const body = await response.json();
+      assert.ok(response.ok, `${method} ${route} returned ${response.status}: ${body.error || ''}`);
+      return body;
+    };
+    const createProject = async (name) => {
+      const { project } = await api('POST', '/api/projects', actors[0], { name });
+      for (const actor of actors) await membership.grant(project.id, actor.id);
+      return { ...project, name };
+    };
+    const originalProject = await createProject(`Source original ${randomUUID().slice(0, 8)}`);
+    const changedProject = await createProject(`Source changed ${randomUUID().slice(0, 8)}`);
+    const originalBase = `/api/projects/${originalProject.id}`;
+    const changedBase = `/api/projects/${changedProject.id}`;
+    await api('PUT', `${originalBase}/source`, actors[0], { repositoryId: 'demo', folder: 'migrations' });
+
     browser = await chromium.launch();
-    const context = await browser.newContext({ viewport: { width: 1440, height: 1100 } });
-    page = await context.newPage();
+    page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(url);
-    phase('application and browser started');
-    const signin = async token => {
-      await page.getByLabel('Local access token').fill(token);
+    const signIn = async actor => {
+      await page.getByLabel('Local access token').fill(actor.token);
       await page.getByRole('button', { name: 'Continue', exact: true }).click();
       await page.getByLabel('Sign out').waitFor();
     };
-    await signin(actors[0].token);
-    const name = `Browser demo ${randomUUID().slice(0, 8)}`;
-    const createResponse = page.waitForResponse(response => response.url().endsWith('/api/projects') && response.request().method() === 'POST');
-    await page.getByLabel('New project name').fill(name);
-    await page.getByRole('button', { name: 'Create project', exact: true }).click();
-    const createdProject = (await (await createResponse).json()).project;
-    for (const actor of actors) await membership.grant(createdProject.id, actor.id);
-    await page.getByLabel('Refresh workspace').click();
-    await page.getByRole('button', { name: /Projects/ }).click();
-    await page.locator('.project-row').filter({ hasText: name }).click();
-    await page.getByRole('heading', { name, exact: true }).waitFor();
-    await page.getByLabel('Environment name').fill('Development');
-    await page.getByRole('button', { name: '＋ Add', exact: true }).click();
-    await page.locator('.data-chip').filter({ hasText: 'Development' }).waitFor();
-    await page.getByText('Add Oracle profile', { exact: true }).click();
-    await page.getByLabel('Profile name', { exact: true }).fill('Oracle reference');
-    await page.getByLabel('Profile environment').selectOption({ label: 'Development' });
-    await page.getByLabel('Database host').fill('oracle.example.invalid');
-    await page.getByLabel('Oracle service').fill('DEV');
-    await page.getByLabel('Database username').fill('APP');
-    await page.getByLabel('Credential reference').fill('vault://local/dev/app');
-    await page.getByRole('button', { name: 'Save profile', exact: true }).click();
-    await page.locator('.profile-row').filter({ hasText: 'Oracle reference' }).waitFor();
-    await page.getByRole('button', { name: /Releases/ }).click();
-    await page.getByLabel('Source repository').selectOption('demo');
-    await page.getByLabel('Source migration folder').fill('../outside');
-    assert.equal(await page.getByRole('button', { name: 'Save source binding', exact: true }).isDisabled(), true);
-    await page.getByLabel('Source migration folder').fill('migrations');
-    await page.getByRole('button', { name: 'Save source binding', exact: true }).click();
-    await page.locator('.source-binding-current').filter({ hasText: 'Local migration demo · migrations' }).waitFor();
-    assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
-    assert.equal(await page.locator('.bound-source-value').first().innerText(), 'Local migration demo');
-    assert.equal(await page.locator('.bound-source-value').last().innerText(), 'migrations');
-    await page.getByLabel('Source migration folder').fill('pending');
-    assert.equal(await page.getByRole('button', { name: 'Import and validate', exact: true }).isDisabled(), true);
-    await page.getByLabel('Source migration folder').fill('migrations');
-    assert.equal(await page.getByRole('button', { name: 'Import and validate', exact: true }).isDisabled(), false);
-
-    const otherName = `Unbound project ${randomUUID().slice(0, 8)}`;
-    await page.getByRole('button', { name: /Projects/ }).click();
-    const otherCreateResponse = page.waitForResponse(response => response.url().endsWith('/api/projects') && response.request().method() === 'POST');
-    await page.getByLabel('New project name').fill(otherName);
-    await page.getByRole('button', { name: 'Create project', exact: true }).click();
-    const otherReceipt = (await (await otherCreateResponse).json()).project;
-    for (const actor of actors) await membership.grant(otherReceipt.id, actor.id);
-    await page.getByLabel('Refresh workspace').click();
-    await page.getByRole('button', { name: /Projects/ }).click();
-    await page.locator('.project-row').filter({ hasText: otherName }).click();
-    await page.getByRole('heading', { name: otherName, exact: true }).waitFor();
-    await page.getByRole('button', { name: /Releases/ }).click();
-    assert.equal(await page.getByRole('button', { name: 'Import and validate', exact: true }).isDisabled(), true);
-    assert.equal((await page.locator('.form-actions').innerText()).includes('Save a project source binding before importing.'), true);
-    await page.getByRole('button', { name: /Projects/ }).click();
-    await page.locator('.project-row').filter({ hasText: name }).click();
-    await page.getByRole('heading', { name, exact: true }).waitFor();
-    await page.getByRole('button', { name: /Releases/ }).click();
-    assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
-    await page.getByRole('button', { name: 'Import and validate', exact: true }).click();
-    await page.locator('.release-result').waitFor({ timeout: 30_000 });
-    assert.equal(await page.locator('.release-result tbody tr').count(), 2);
-    assert.ok((await page.locator('.release-result').innerText()).includes('VALID'));
-    await page.getByText('Preview SQL · migrations/V001__create_widget.sql', { exact: true }).click();
-    assert.ok((await page.locator('.sql-preview pre').first().innerText()).includes('CREATE TABLE widget'));
-    await page.getByLabel('Target connection profile').selectOption({ label: 'Oracle reference · oracle.example.invalid/DEV' });
-    await page.getByRole('button', { name: 'Prepare offline plan', exact: true }).click();
-    await page.locator('.plan-summary').waitFor();
-    assert.ok((await page.locator('.plan-summary').innerText()).includes('PENDING APPROVAL'));
-    assert.equal(await page.getByRole('button', { name: 'Approve plan', exact: true }).count(), 0);
-    await page.getByLabel('Sign out').click();
-    await signin(actors[1].token);
-    await page.getByRole('button', { name: /Projects/ }).click();
-    await page.locator('.project-row').filter({ hasText: name }).click();
-    await page.getByRole('heading', { name, exact: true }).waitFor();
-    await page.getByRole('button', { name: /Releases/ }).click();
-    assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
-    assert.equal(await page.getByRole('button', { name: 'Update source binding', exact: true }).count(), 0);
-    await page.getByRole('button', { name: /Plans & review/ }).click();
-    await page.getByLabel('Decision reason').fill('Reviewed exact local candidate. No execution authority.');
-    await page.getByRole('button', { name: 'Approve plan', exact: true }).click();
-    await page.locator('.plan-summary').filter({ hasText: 'APPROVED' }).waitFor();
-    await page.getByRole('button', { name: /Audit & history/ }).click();
-    await page.locator('.timeline-row').filter({ hasText: 'PLAN_APPROVED' }).waitFor();
-    await page.locator('.timeline-row').filter({ hasText: 'SOURCE_BINDING_UPDATED' }).waitFor();
-    assert.equal(await page.locator('.history-row').count(), 2);
-    assert.ok((await page.locator('.history-list').innerText()).includes('NOT_EXECUTED'));
-    assert.equal(await page.evaluate(() => localStorage.length + sessionStorage.length), 0);
-    await mkdir('.cache/local-product', { recursive: true });
-    await page.screenshot({ path: '.cache/local-product/product-demo.png', fullPage: true });
-    phase('project, import, and approval workflow completed');
-    const headers = { authorization: `Bearer ${actors[0].token}`, 'content-type': 'application/json' };
-    const projects = await (await fetch(`${url}/api/projects`, { headers })).json();
-    const project = projects.projects.find(p => p.name === name);
-    const detail = await (await fetch(`${url}/api/projects/${project.id}`, { headers })).json();
-    const secondResponse = await fetch(`${url}/api/projects/${project.id}/plans`, { method: 'POST', headers,
-      body: JSON.stringify({ releaseId: detail.releases[0].id, profileId: detail.profiles[0].id }) });
-    assert.equal(secondResponse.status, 201);
-    const secondPlan = (await secondResponse.json()).plan;
-    phase('duplicate pending plan created');
-    await page.getByRole('button', { name: /Plans & review/ }).click();
-    await page.getByLabel('Refresh workspace').click();
-    await page.locator('.plan-option').filter({ hasText: 'PENDING APPROVAL' }).click();
-    await page.getByLabel('Decision reason').fill('Rejecting this duplicate candidate.');
-    await page.getByRole('button', { name: 'Reject plan', exact: true }).click();
-    await page.locator('.plan-summary').filter({ hasText: 'REJECTED' }).waitFor();
-    const denied = await fetch(`${url}/api/plans/${secondPlan.id}/execution`, { method: 'POST', headers, body: '{}' });
-    assert.equal(denied.status, 409);
-    assert.equal((await denied.json()).execution, 'NOT_EXECUTED');
-    assert.deepEqual(errors, []);
-    phase('rejection and execution-denial workflow completed');
-    // A browser may retain unused preconnect sockets that graceful HTTP close waits for.
-    // Finish this client lifecycle before restarting; use a fresh browser for persistence checks.
-    await browser.close();
-    browser = undefined;
-    page = undefined;
-    phase('original browser closed before API restart');
-    await closeApp();
-    phase('original API closed');
-    if (t.signal.aborted) return;
-    app = await startProduct(options);
-    const restarted = `http://127.0.0.1:${app.server.address().port}`;
-    const persisted = await (await fetch(`${restarted}/api/projects/${project.id}`, { headers })).json();
-    assert.equal(persisted.plans.length, 2);
-    assert.ok(persisted.plans.some(p => p.status === 'APPROVED'));
-    assert.ok(persisted.plans.some(p => p.status === 'REJECTED'));
-    assert.ok(persisted.history.every(h => h.status === 'NOT_EXECUTED'));
-    assert.ok(persisted.audit.some(a => a.action === 'EXECUTION_DENIED'));
-    assert.equal(persisted.project.sourceBinding.repositoryId, 'demo');
-    assert.equal(persisted.project.sourceBinding.folder, 'migrations');
-    assert.equal(JSON.stringify(persisted.project.sourceBinding).includes('path'), false);
-    phase('API restarted and PostgreSQL state verified');
-    browser = await chromium.launch();
-    page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
-    page.on('pageerror', error => errors.push(error.message));
-    await page.goto(restarted);
-    await signin(actors[0].token);
-    await page.getByRole('button', { name: /Projects/ }).click();
-    await page.locator('.project-row').filter({ hasText: name }).click();
-    await page.getByRole('button', { name: /Releases/ }).click();
-    assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
-    await page.getByRole('button', { name: /Projects/ }).click();
-    await page.locator('.project-row').filter({ hasText: otherName }).click();
-    await page.getByRole('button', { name: /Releases/ }).click();
-    const otherProject = (await (await fetch(`${restarted}/api/projects`, { headers })).json()).projects.find(item => item.name === otherName);
-    phase('developer signed in and selected unbound project');
-    let markSourceResponseReady;
-    let markSourceResponseDelivered;
-    const sourceResponseReady = new Promise(resolve => { markSourceResponseReady = resolve; });
-    sourceResponseDelivered = new Promise(resolve => { markSourceResponseDelivered = resolve; });
-    const delayedResponse = new Promise(resolve => { releaseDelayedSourceResponse = resolve; });
-    // Delay delivery only after route.fetch completes the real write; this proves stale UI isolation, not backend write cancellation.
-    const sourceRoutePattern = `**/api/projects/${otherProject.id}/source`;
-    removeSourceRoute = () => page.unroute(sourceRoutePattern);
-    await page.route(sourceRoutePattern, async route => {
-      sourceRouteStarted = true;
-      const routeFetchController = new AbortController();
-      abortSourceRoute = () => routeFetchController.abort();
-      try {
-        const response = await route.fetch({ signal: routeFetchController.signal, timeout: 10_000 });
-        markSourceResponseReady();
-        await delayedResponse;
-        await route.fulfill({ response });
-      } catch {
-        await route.abort().catch(() => {});
-      } finally {
-        markSourceResponseDelivered();
-      }
-    });
-    try {
-      await page.getByLabel('Source repository').selectOption('demo');
-      await page.getByLabel('Source migration folder').fill('migrations');
-      await page.getByRole('button', { name: 'Save source binding', exact: true }).click();
-      let routeReadyTimeout;
-      try {
-        await Promise.race([
-          sourceResponseReady,
-          new Promise((_, reject) => { routeReadyTimeout = setTimeout(() => reject(new Error('Source binding request did not reach the delayed response route.')), 10_000); }),
-        ]);
-      } finally { clearTimeout(routeReadyTimeout); }
-      phase('source PUT reached delayed-response handler after server write');
-      await page.getByLabel('Sign out').click();
-      await signin(actors[1].token);
+    const selectProject = async (name) => {
       await page.getByRole('button', { name: /Projects/ }).click();
       await page.locator('.project-row').filter({ hasText: name }).click();
-      await page.getByRole('button', { name: /Releases/ }).click();
-      assert.match(await page.locator('.role-pill').innerText(), /approver/i);
-      assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
-      phase('approver signed in and original project reselected');
-    } finally {
-      releaseDelayedSourceResponse();
-      await removeSourceRoute();
-      if (sourceRouteStarted) {
-        let deliveryTimeout;
-        try {
-          await Promise.race([sourceResponseDelivered, new Promise(resolve => { deliveryTimeout = setTimeout(resolve, 10_000); })]);
-        } finally { clearTimeout(deliveryTimeout); }
-      }
-      phase('delayed-response route cleanup completed');
-    }
+      await page.getByRole('heading', { name, exact: true }).waitFor();
+    };
+    await signIn(actors[0]);
+    assert.deepEqual(await page.evaluate(() => [localStorage.length, sessionStorage.length]), [0, 0]);
+    await selectProject(originalProject.name);
+    await page.getByRole('button', { name: /Releases/ }).click();
+
+    // A traversal path cannot be saved, and changing the bound folder cannot be
+    // used to import before the source-binding update is explicitly committed.
+    await page.getByLabel('Source repository').selectOption('demo');
+    await page.getByLabel('Source migration folder').fill('migrations');
+    assert.equal(await page.getByRole('button', { name: 'Import and validate', exact: true }).isDisabled(), false,
+      'import is enabled when the selected repository and folder match the saved source binding');
+    await page.getByLabel('Source migration folder').fill('../outside');
+    assert.equal(await page.getByRole('button', { name: 'Update source binding', exact: true }).isDisabled(), true);
+    await page.getByLabel('Source migration folder').fill('migrations/pending');
+    assert.equal(await page.getByRole('button', { name: 'Import and validate', exact: true }).isDisabled(), true);
+
+    await page.getByLabel('Sign out').click();
+    await signIn(actors[1]);
+    await selectProject(originalProject.name);
+    await page.getByRole('button', { name: /Releases/ }).click();
+    assert.match(await page.locator('.role-pill').innerText(), /approver/i);
+    assert.equal(await page.getByRole('button', { name: 'Update source binding', exact: true }).count(), 0,
+      'an approver cannot change the project source binding');
+
+    await page.getByLabel('Sign out').click();
+    await signIn(actors[0]);
+    await selectProject(changedProject.name);
+    await page.getByRole('button', { name: /Releases/ }).click();
+    assert.equal(await page.getByRole('button', { name: 'Import and validate', exact: true }).isDisabled(), true);
+    assert.match(await page.locator('.form-actions').innerText(), /Save a project source binding before importing\./);
+
+    let markResponseReady;
+    const sourceResponseReady = new Promise(resolve => { markResponseReady = resolve; });
+    let markSourceResponseDelivered;
+    sourceResponseDelivered = new Promise(resolve => { markSourceResponseDelivered = resolve; });
+    const delayedResponse = new Promise(resolve => { releaseDelayedResponse = resolve; });
+    const sourceRoute = `**/api/projects/${changedProject.id}/source`;
+    removeSourceRoute = () => page.unroute(sourceRoute);
+    await page.route(sourceRoute, async route => {
+      sourceRouteStarted = true;
+      let outcome;
+      try {
+        const response = await route.fetch({ timeout: 10_000 });
+        sourceWriteStatus = response.status();
+        markResponseReady();
+        await delayedResponse;
+        await route.fulfill({ response });
+        outcome = { status: 'FULFILLED' };
+      } catch (error) {
+        outcome = { status: 'FAILED', message: error.message };
+      } finally { markSourceResponseDelivered(outcome); }
+    });
+    await page.getByLabel('Source repository').selectOption('demo');
+    await page.getByLabel('Source migration folder').fill('migrations');
+    await page.getByRole('button', { name: 'Save source binding', exact: true }).click();
+    let sourceRouteTimeout;
+    try {
+      await Promise.race([sourceResponseReady, new Promise((_, reject) => {
+        sourceRouteTimeout = setTimeout(() => reject(new Error('Source binding write did not reach the delayed-response route')), 10_000);
+      })]);
+    } finally { clearTimeout(sourceRouteTimeout); }
+    assert.equal(sourceWriteStatus, 200, 'server committed the source binding before the browser response was held');
+    t.diagnostic('Source binding write committed; delaying only its browser response');
+
+    await page.getByLabel('Sign out').click();
+    await signIn(actors[1]);
+    await selectProject(originalProject.name);
+    await page.getByRole('button', { name: /Releases/ }).click();
+    assert.equal((await page.locator('.source-binding-current').innerText()).includes('Local migration demo · migrations'), true);
+
+    releaseDelayedResponse();
+    const delivery = await sourceResponseDelivered;
+    assert.equal(delivery.status, 'FULFILLED', `delayed source response was not delivered: ${delivery.message || delivery.status}`);
+    await removeSourceRoute();
     await page.getByRole('button', { name: /Projects/ }).click();
-    await page.getByRole('heading', { name, exact: true }).waitFor();
-    assert.equal(await page.locator('.banner.success').filter({ hasText: 'Project source binding saved.' }).count(), 0);
+    await page.getByRole('heading', { name: originalProject.name, exact: true }).waitFor();
+    assert.equal(await page.locator('.banner.success').filter({ hasText: 'Project source binding saved.' }).count(), 0,
+      'the completed write response must not show success in a different project and session');
+    assert.equal((await api('GET', `${changedBase}`, actors[0])).project.sourceBinding.folder, 'migrations',
+      'the server write remains committed even though its stale response is ignored');
     assert.deepEqual(errors, []);
-    phase('stale success was ignored and workflow finished');
-    console.log('Real browser workflow and PostgreSQL restart persistence passed; Oracle untouched.');
   } catch (error) {
+    t.diagnostic(`source-binding browser case failed: ${error.stack || error}`);
     if (page) {
+      await mkdir('.cache/local-product', { recursive: true });
       await page.screenshot({ path: '.cache/local-product/browser-failure.png', fullPage: true }).catch(() => {});
-      console.log((await page.locator('body').innerText()).slice(0, 1800));
+      t.diagnostic((await page.locator('body').innerText().catch(() => '')).slice(0, 1800));
     }
     throw error;
   } finally {

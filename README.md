@@ -45,6 +45,9 @@ npm run next
 ```
 
 After dependency installation, no database credentials or network are needed for checks.
+`npm run check:fast` runs the same offline gates with one source scan. See the
+[testing guide](docs/development/testing.md) for focused reruns, CI tiers,
+measured timings and deliberately consolidated acceptance coverage.
 They verify authored source, JSON formatting, immutable input digests, tracker invariants,
 offline preflight, dependency imports/compiler behavior and candidate protocol contracts.
 The build checks authored source and API types, and bundles the React application.

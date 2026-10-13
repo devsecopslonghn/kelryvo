@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes, randomUUID } from 'node:crypto';
-import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
@@ -112,8 +111,6 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     assert.equal(await page.getByRole('button', { name: 'Approve plan', exact: true }).isDisabled(), true);
     assert.deepEqual(errors, []);
 
-    await mkdir('.cache/local-product', { recursive: true });
-    await page.screenshot({ path: '.cache/local-product/product-archive-demo.png', fullPage: true });
     // Release browser-owned preconnect sockets before graceful API shutdown.
     await browser.close();
     browser = undefined;

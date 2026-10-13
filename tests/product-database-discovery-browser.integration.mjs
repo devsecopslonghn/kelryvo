@@ -1,6 +1,5 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { createDiscoveryFixture } from './helpers/discovery-fixture.mjs';
 
@@ -39,9 +38,7 @@ test('browser registers infrastructure and connection, tests/discovers fixture m
     const observedBinding=(await f.api('GET',`${f.base}/target-bindings/${binding.bindingId}`)).json().binding;
     const observedPlanResponse=await f.makePlan(observedBinding);assert.equal(observedPlanResponse.statusCode,201,observedPlanResponse.body);
     const observedPlan=observedPlanResponse.json().plan;
-    await mkdir('.cache/phase3-acceptance',{recursive:true});await page.screenshot({path:'.cache/phase3-acceptance/connection-discovery-observed-target.png',fullPage:true});
     await page.setViewportSize({width:390,height:844});
-    await page.screenshot({path:'.cache/phase3-acceptance/connection-discovery-mobile.png',fullPage:true});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,JSON.stringify(await page.evaluate(()=>[...document.querySelectorAll('*')].filter(e=>e.getBoundingClientRect().right>innerWidth+1).slice(-10).map(e=>({tag:e.tagName,class:e.className,width:e.getBoundingClientRect().width})))));
     await page.setViewportSize({width:1440,height:1100});await f.restart();await signIn();
     const persisted=page.locator('.connection-card').filter({hasText:'Browser discovery connection'});await persisted.locator('.observation-result').filter({hasText:'OBSERVED'}).waitFor();
@@ -57,7 +54,6 @@ test('browser registers infrastructure and connection, tests/discovers fixture m
     await page.getByText('STALE',{exact:true}).waitFor();
     const currentness=(await f.api('GET',`${f.base}/target-bindings/${binding.bindingId}`)).json().currentness;
     assert.ok(currentness.reasons.includes('OBSERVATION_SUPERSEDED'));
-    await page.screenshot({path:'.cache/phase3-acceptance/superseded-discovery-plan.png',fullPage:true});
     await page.getByRole('button',{name:/Database instances/}).click();
     await persisted.getByLabel('Project target binding').selectOption(binding.bindingId);
     await persisted.getByLabel('Observed schema owner').selectOption('APP');
@@ -73,7 +69,7 @@ test('browser registers infrastructure and connection, tests/discovers fixture m
     await page.getByRole('button',{name:/Plans & review/}).click();await page.locator(`.plan-option[data-plan-id="${plan.id}"]`).click();await page.getByText('STALE',{exact:true}).waitFor();
     await page.getByRole('button',{name:/Audit & history/}).click();await page.locator('.timeline-row').filter({hasText:'TARGET_OBSERVED'}).first().waitFor();await page.locator('.timeline-row').filter({hasText:'DATABASE_DISCOVERED'}).first().waitFor();
     assert.equal(await page.locator('.timeline-row').filter({hasText:'TARGET_OBSERVED'}).count(),2);
-    await page.screenshot({path:'.cache/phase3-acceptance/discovery-audit-after-restart.png',fullPage:true});assert.deepEqual(errors,[]);
+    assert.deepEqual(errors,[]);
     const records=await f.db.sql`SELECT identity_state FROM sf_target_identity_evidence WHERE project_id=${f.project.id}`;assert.deepEqual(records.map(r=>r.identity_state),['OBSERVED','OBSERVED']);
     await page.getByRole('button',{name:/Database instances/}).click();await persisted.waitFor();
     await f.membership.revoke(f.project.id,f.actors[0].id);

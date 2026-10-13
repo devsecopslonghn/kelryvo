@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdir,readFile} from 'node:fs/promises';
+import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {chromium} from 'playwright';
 import {createValidationFixture} from './helpers/schema-validation-fixture.mjs';
@@ -12,7 +12,7 @@ test('browser selects retained SQL, validates target, reviews unknowns, creates 
   try{
     const originalRelease=f.release;
     browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];
-    page.on('pageerror',e=>errors.push(e.message));await mkdir('.cache/phase4-acceptance',{recursive:true});
+    page.on('pageerror',e=>errors.push(e.message));
     const signIn=async actor=>{await page.goto(f.currentUrl());await page.getByLabel('Local access token').fill(actor.token);
       await page.getByRole('button',{name:'Continue',exact:true}).click();await page.getByLabel('Sign out').waitFor();
       await page.getByRole('button',{name:/Projects/}).click();await page.locator('.project-row').filter({hasText:f.project.name}).click();
@@ -30,10 +30,9 @@ test('browser selects retained SQL, validates target, reviews unknowns, creates 
     await validation.getByText('UNVERIFIED',{exact:true}).waitFor();
     await validation.getByText('Schema owner visibility only',{exact:true}).waitFor();
     assert.match(await validation.innerText(),/Object existence and Oracle semantics remain unverified/);
-    await page.screenshot({path:'.cache/phase4-acceptance/sql-validation-findings.png',fullPage:true});
     await page.setViewportSize({width:390,height:844});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
-    await page.screenshot({path:'.cache/phase4-acceptance/sql-validation-mobile.png',fullPage:true});await page.setViewportSize({width:1440,height:1100});
+    await page.setViewportSize({width:1440,height:1100});
     await validation.getByRole('button',{name:'Create immutable plan',exact:true}).click();
     await page.getByRole('region',{name:'Retained SQL validation'}).getByText('CREATE_TABLE',{exact:true}).waitFor();
     const planId=await page.locator('.plan-option.selected').getAttribute('data-plan-id');
@@ -49,14 +48,12 @@ test('browser selects retained SQL, validates target, reviews unknowns, creates 
     assert.equal(createHash('sha256').update(bundle.record).digest('hex'),bundle.sha256);
     assert.equal(JSON.parse(bundle.record).retainedIntent.schemaValidation.digest,saved.offlineIntent.validation.digest);
     assert.doesNotMatch(bundle.record,/vault:\/\/|secret:\/\/|privatePrincipalRef|sourceSql/);
-    await page.screenshot({path:'.cache/phase4-acceptance/schema-plan-independent-approval.png',fullPage:true});
     await page.getByLabel('Sign out').click();await signIn(f.actors[0]);await f.importSql('DROP TABLE EVIL.forbidden_object;');
     await page.getByRole('button',{name:'Refresh workspace',exact:true}).click();await inspectRelease(f.release);
     await validation.getByLabel('Validation target').selectOption(f.binding.bindingId);
     await validation.getByRole('button',{name:'Validate against target',exact:true}).click();
     await validation.getByText('BLOCKED',{exact:true}).waitFor();
     assert.equal(await validation.getByRole('button',{name:'Create immutable plan',exact:true}).isDisabled(),true);
-    await page.screenshot({path:'.cache/phase4-acceptance/sql-validation-policy-blocked.png',fullPage:true});
     f.release=originalRelease;
     await f.restart();await signIn(f.actors[0]);await inspectRelease(f.release);
     await validation.getByRole('button',{name:/Inspect validation/}).click();await validation.getByText('CREATE_TABLE',{exact:true}).waitFor();
@@ -64,7 +61,6 @@ test('browser selects retained SQL, validates target, reviews unknowns, creates 
     await page.getByRole('button',{name:/Plans & review/}).click();await page.getByRole('button',{name:'Refresh workspace',exact:true}).click();
     await page.locator(`.plan-option[data-plan-id="${planId}"]`).click();
     await retained.getByText(/Evidence: STALE/).waitFor();
-    await page.screenshot({path:'.cache/phase4-acceptance/schema-validation-stale-after-restart.png',fullPage:true});
     assert.deepEqual(errors,[]);
     await inspectRelease(f.release);
     await validation.getByLabel('Validation target').selectOption(f.binding.bindingId);

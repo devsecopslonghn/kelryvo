@@ -78,18 +78,21 @@ test('fixed fixture starter uses the supplied allowlisted environment and empty 
   assert.equal(result.status, 'READ_ONLY_IDENTITY_MATCHED');
 });
 
-for (const phase of ['admit', 'trust', 'credentials', 'claim', 'connect', 'read', 'close', 'event-loop']) {
-  test(`whole deadline terminates and reaps a child hanging at ${phase}`, async () => {
-    const { result, state } = await run(phase);
-    assert.ok(state.output.includes(`unit-phase:${phase}`));
-    assert.equal(result.reason, 'WORKER_TIMEOUT');
-    assert.equal(result.status, 'HOLD');
-    assert.equal(result.cleanup, 'REQUIRED');
-    assert.equal(result.connectionCalls, null);
-    assert.equal(result.readOnlyCalls, null);
-    assert.equal(result.terminalReceipt, false);
-  });
-}
+// Every case owns its supervisor and child. Bound concurrency to two so the
+// eight real deadline waits overlap without tightening startup/termination limits.
+test('whole deadline terminates and reaps hanging children', { concurrency: 2 }, async t => {
+  await Promise.all(['admit', 'trust', 'credentials', 'claim', 'connect', 'read', 'close', 'event-loop'].map(phase =>
+    t.test(`child hanging at ${phase}`, async () => {
+      const { result, state } = await run(phase);
+      assert.ok(state.output.includes(`unit-phase:${phase}`));
+      assert.equal(result.reason, 'WORKER_TIMEOUT');
+      assert.equal(result.status, 'HOLD');
+      assert.equal(result.cleanup, 'REQUIRED');
+      assert.equal(result.connectionCalls, null);
+      assert.equal(result.readOnlyCalls, null);
+      assert.equal(result.terminalReceipt, false);
+    })));
+});
 
 test('unconfirmed termination retains reaping ownership and blocks a replacement child', async () => {
   const state = { calls: 0, output: '' };

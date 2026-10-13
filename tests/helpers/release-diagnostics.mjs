@@ -6,6 +6,7 @@ const tests = new Map([
   ['combined local Git workflow retains review, withdrawal, manual references and restart state', 'git-workflow'],
   ['Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit', 'browser-workflow'],
   ['HTTPS browser resumes secure sessions and retains review workflow through logout, expiry and witnessed restore', 'secure-session-workflow'],
+  ['HTTPS browser sessions enforce trust, cookie, CSRF, retry and expiry boundaries', 'secure-session-workflow'],
   ['installed source bundle connects approved Git request to controlled UNIT history and restart', 'controlled-unit-workflow'],
 ]);
 const failureTypes = new Set(['testCodeFailure', 'testTimeoutFailure', 'cancelledByParent', 'subtestsFailed']);
@@ -18,7 +19,7 @@ export function releaseTestDiagnostics(output) {
     const result = /^(ok|not ok) [1-9]\d* - (.+)$/.exec(line);
     if (result) {
       current = tests.has(result[2]) ? { test: tests.get(result[2]), result: result[1] === 'ok' ? 'PASS' : 'FAIL' } : undefined;
-      if (current && observations.length < tests.size) observations.push(current);
+      if (current && observations.length < 5) observations.push(current);
       else current = undefined;
       continue;
     }
