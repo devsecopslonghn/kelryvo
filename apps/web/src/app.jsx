@@ -209,7 +209,7 @@ function RetainedReleaseContent({ source, repositories, fmt, requestStatementPre
       <div><dt>Migration folder</dt><dd><code>{source.folder || '—'}</code></dd></div>
       <div><dt>Manifest digest</dt><dd><code>{source.manifestDigest || '—'}</code></dd></div>
       <div><dt>Parser profile</dt><dd><code>{source.parserProfile || '—'}</code></dd></div>
-      <div><dt>Prepared</dt><dd><time dateTime={source.createdAt || undefined}>{fmt(source.createdAt)}</time></dd></div>
+      <div><dt>{source.sourceKind==='AUTHORED_SQL_WORKSPACE'?'Prepared':'Imported'}</dt><dd><time dateTime={source.createdAt || undefined}>{fmt(source.createdAt)}</time></dd></div>
     </dl></section>
     <div className="file-table-wrap"><table><thead><tr><th>Migration file</th><th>Version</th><th>Statements</th><th>Bytes</th><th>SHA-256</th><th>Validation</th></tr></thead><tbody>
       {(source.files || []).map((file) => <tr key={file.path}><td><code>{file.path}</code></td><td>{file.version || '—'}</td><td>{file.statementCount ?? '—'}</td><td>{file.bytes ?? '—'}</td><td><code className="checksum">{file.sha256 || '—'}</code></td><td><span className={`status-pill ${importStatusClass(file.validationStatus)}`}>{file.validationStatus || '—'}</span></td></tr>)}

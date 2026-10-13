@@ -188,8 +188,8 @@ test('SQL workspace drafts are project scoped, revision checked, durable and pre
       releases: (await f.db.sql`SELECT count(*)::int AS n FROM sf_releases WHERE project_id=${f.project.id}`)[0].n,
       audit: (await f.db.sql`SELECT count(*)::int AS n FROM sf_audit WHERE project_id=${f.project.id} AND action LIKE 'SQL_DRAFT_%'`)[0].n,
     };
-    await f.db.sql`UPDATE sf_local_credentials SET issued_at=clock_timestamp()-interval '25 hours',
-      expires_at=clock_timestamp()-interval '1 hour' WHERE actor_id=${f.actors[0].id}`;
+    await f.db.sql`UPDATE sf_local_credentials SET issued_at=statement_timestamp()-interval '25 hours',
+      expires_at=statement_timestamp()-interval '1 hour' WHERE actor_id=${f.actors[0].id} AND credential_kind='LOCAL'`;
     const expiredCreate = await f.api('POST', base, { name: 'Expired credential draft', targetBindingId: f.binding.bindingId, sql: source });
     assert.equal(expiredCreate.statusCode, 401, expiredCreate.body);
     const expiredSave = await f.api('PUT', `${base}/${draft.id}`, { expectedRevision: '2', name: draft.name,
