@@ -4,7 +4,7 @@ import { partitionProductFiles } from '../scripts/product-test-shards.mjs';
 import { PRODUCT_API_FILES, PRODUCT_BROWSER_FILES } from '../scripts/product-test-suites.mjs';
 
 for (const [suite, files, totals] of [
-  ['API', PRODUCT_API_FILES, [1, 2, 3, 4]],
+  ['API', PRODUCT_API_FILES, [1, 2, 3, 4, 8]],
   ['browser', PRODUCT_BROWSER_FILES, [1, 2, 3]],
 ]) test(`every real ${suite} file appears once across configured shards, retaining serial order`, () => {
   for (const total of totals) {
@@ -34,7 +34,7 @@ for (const [suite, files, totals] of [
 
 test('API and browser memberships are deterministic regardless of input order', () => {
   const normalized = values => values.map(group => [...group].sort());
-  for (const [files, total] of [[PRODUCT_API_FILES, 4], [PRODUCT_BROWSER_FILES, 3]]) {
+  for (const [files, total] of [[PRODUCT_API_FILES, 8], [PRODUCT_BROWSER_FILES, 3]]) {
     const before = [...files];
     assert.deepEqual(normalized(partitionProductFiles(files, total)),
       normalized(partitionProductFiles([...files].reverse(), total)));
@@ -42,10 +42,12 @@ test('API and browser memberships are deterministic regardless of input order', 
   }
 });
 
-test('the four slowest observed API files are distributed across four runners', () => {
-  const heavy = ['tests/product-execution-service.test.mjs', 'tests/product-controlled-execution.test.mjs',
-    'tests/product-incremental-migrations.test.mjs', 'tests/product-sql-validation.test.mjs'];
-  const groups = partitionProductFiles(PRODUCT_API_FILES, 4);
+test('the eight slowest observed API files are distributed across eight runners', () => {
+  const heavy = ['tests/product-execution-service.test.mjs', 'tests/product-incremental-migrations.test.mjs',
+    'tests/product-phase5-execution.test.mjs', 'tests/product-sql-validation.test.mjs',
+    'tests/product-backup-restore.test.mjs', 'tests/product-oracle-host.test.mjs',
+    'tests/product-target-workflow.test.mjs', 'tests/product-controlled-execution.test.mjs'];
+  const groups = partitionProductFiles(PRODUCT_API_FILES, 8);
   assert.equal(groups.every(group => group.filter(file => heavy.includes(file)).length === 1), true);
 });
 

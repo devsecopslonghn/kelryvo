@@ -57,7 +57,9 @@ export async function runProductTests(argv = process.argv.slice(2), env = proces
     demoRepositoryPath = await resources.prepareDemoRepository();
   }
 
-  const args = ['--test', '--test-concurrency=1'];
+  // Node isolates each file in a subprocess. API files own UUID databases and
+  // temporary repositories; the demo repository was prepared once above.
+  const args = ['--test', `--test-concurrency=${options.browser ? 1 : 2}`];
   if (options.name !== undefined) args.push(`--test-name-pattern=${literalTestNamePattern(options.name)}`);
   args.push(...files);
   const child = spawn(process.execPath, args, { stdio: 'inherit', env: {
