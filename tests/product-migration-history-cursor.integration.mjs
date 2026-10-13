@@ -5,8 +5,57 @@ import { startProduct } from '../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 import { createMembershipOperatorFixture } from './helpers/product-membership-fixture.mjs';
 import { createValidationFixture } from './helpers/schema-validation-fixture.mjs';
+import { guardBrowserMutation } from '../packages/database/browser-sessions.ts';
 
 const ORG = '00000000-0000-4000-8000-000000000001';
+
+test('migration history authority reads tolerate browser session expiry refresh concurrent with its lock', {
+  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,
+  timeout: 90_000,
+}, async () => {
+  const actor = { id: `history-session-${randomUUID()}`, name: 'History session operator', role: 'developer', token: randomBytes(32).toString('hex') };
+  const database = await openIsolatedProductDatabase();
+  let app;
+  let membership;
+  try {
+    app = await startProduct({ databaseUrl: database.databaseUrl, actors: [actor], repositories: [], port: 0 });
+    membership = await createMembershipOperatorFixture(database.databaseUrl);
+    await membership.activateEmptyFixture(app);
+    const created = await app.inject({ method: 'POST', url: '/api/projects', headers: { authorization: `Bearer ${actor.token}` },
+      payload: { name: `History session ${randomUUID()}` } });
+    assert.equal(created.statusCode, 201, created.body);
+    const project = created.json().project;
+    await membership.grant(project.id, actor.id);
+
+    const local = (await database.sql`SELECT id FROM sf_local_credentials WHERE actor_id=${actor.id} AND credential_kind='LOCAL'`)[0];
+    const sessionId = randomUUID(), sessionDigest = randomBytes(32).toString('hex');
+    await database.sql`WITH issued AS (SELECT clock_timestamp() AS ts)
+      INSERT INTO sf_local_credentials(id,actor_id,token_sha256,issued_at,expires_at,credential_kind,parent_credential_id,absolute_expires_at)
+      SELECT ${sessionId},${actor.id},${sessionDigest},ts,ts+interval '30 minutes','BROWSER',${local.id},ts+interval '8 hours' FROM issued`;
+    const req = { browserSession: { id: sessionId }, credentialDigest: sessionDigest };
+
+    // Reproduce the exact stale-snapshot conflict: history's repeatable-read
+    // transaction observes the credential, then browserAuthentication commits
+    // its idle-expiry extension before guardBrowserMutation's FOR SHARE.
+    await assert.rejects(database.sql.begin('isolation level repeatable read', async tx => {
+      await tx`SELECT id FROM sf_local_credentials WHERE id=${sessionId}`;
+      await database.sql`UPDATE sf_local_credentials SET expires_at=LEAST(absolute_expires_at,clock_timestamp()+interval '30 minutes') WHERE id=${sessionId}`;
+      await guardBrowserMutation(tx, req);
+    }), error => error.code === '40001');
+
+    // The endpoint transaction now uses READ COMMITTED, allowing the authority
+    // check to see the refreshed credential while keeping page and count in one
+    // statement snapshot.
+    await database.sql.begin(tx => guardBrowserMutation(tx, req));
+    const response = await app.inject({ method: 'GET', url: `/api/projects/${project.id}/migration-history`,
+      headers: { authorization: `Bearer ${actor.token}` } });
+    assert.equal(response.statusCode, 200, response.body);
+  } finally {
+    try { await app?.close(); } finally {
+      try { await membership?.close(); } finally { await database.close(); }
+    }
+  }
+});
 
 test('migration history cursors remain stable across ties and writes and expose scoped HOLD evidence', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL,

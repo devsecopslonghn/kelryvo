@@ -45,7 +45,12 @@ export function registerMigrationHistory(app: any, sql: any, authenticate: any, 
     reply.header('Cache-Control', 'no-store');
     req.projectScopedMutation = true;
     req.scopedProjectId = projectId;
-    const result = await sql.begin('isolation level repeatable read', async (tx: any) => {
+    // Keep this read at READ COMMITTED. A browser session can refresh its idle
+    // expiry while this request waits for the shared mutation advisory lock;
+    // under REPEATABLE READ the subsequent FOR SHARE of that credential raises
+    // 40001 when it observes the concurrent refresh. The count and page remain
+    // one SQL statement/snapshot, so their ordering and totals stay consistent.
+    const result = await sql.begin(async (tx: any) => {
       await guardMutationAuthority(tx, req);
       const project = (await tx`SELECT id FROM sf_projects WHERE id=${projectId}
         AND organization_id=${organizationId} FOR SHARE`)[0];
