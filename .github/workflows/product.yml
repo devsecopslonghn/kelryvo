@@ -40,7 +40,7 @@ jobs:
           - suite: release
             shard: 1/1
     runs-on: ubuntu-24.04
-    # API files remain serial on eight isolated runners, balanced by hosted TAP cost.
+    # API files use two subprocesses on each of eight isolated runners, balanced by hosted TAP cost.
     # Every complete suite partition has its own database; all remain required.
     timeout-minutes: 40
     services:
