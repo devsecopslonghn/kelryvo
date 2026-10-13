@@ -78,6 +78,11 @@ test('SQL workspace drops stale analysis and surfaces optimistic revision confli
     await workspace.getByLabel('SQL editor').fill('CREATE TABLE stale_browser_revision (id NUMBER);\n');
     await workspace.getByRole('button', { name: 'Save draft', exact: true }).click();
     await workspace.getByRole('alert').filter({ hasText: 'changed elsewhere' }).waitFor();
+    assert.equal(await workspace.getByLabel('SQL editor').inputValue(), 'CREATE TABLE stale_browser_revision (id NUMBER);\n',
+      'a revision conflict preserves local edits for recovery');
+    assert.equal(await workspace.getByRole('button', { name: 'Refresh drafts', exact: true }).isDisabled(), true,
+      'refresh requires an explicit discard before replacing unsaved edits');
+    await workspace.getByRole('button', { name: 'Discard unsaved edits', exact: true }).click();
     await workspace.getByRole('button', { name: 'Refresh drafts', exact: true }).click();
     await page.waitForFunction(() => document.querySelector('[aria-label="SQL editor"]')?.value === 'CREATE TABLE server_revision (id NUMBER);\n');
     await workspace.getByLabel('Base draft revision').selectOption('2');

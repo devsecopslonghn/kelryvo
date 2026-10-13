@@ -351,6 +351,9 @@ function App() {
   const [auditRefreshKey, setAuditRefreshKey] = useState(0);
   const auditPageRef = useRef(null);
   const [tab, setTabState] = useState(initialWorkflow.current.tab);
+  const [workspaceContext, setWorkspaceContext] = useState('');
+  const [workspaceDirty, setWorkspaceDirty] = useState(false);
+  useEffect(() => { if (tab === 'sql') setWorkspaceContext(`${token}:${projectId}`); }, [tab, token, projectId]);
   const [executionHistoryVisibilityVersion, setExecutionHistoryVisibilityVersion] = useState(0);
   const [busy, setBusy] = useState(false);
   const [navigateDuringWithdrawal, setNavigateDuringWithdrawal] = useState(false);
@@ -387,6 +390,7 @@ function App() {
   const sessionEpoch = useRef(0);
   const withdrawalContextEpoch = useRef(0);
   const setTab = (nextTab) => {
+    if (nextTab === 'sql') setWorkspaceContext(`${token}:${projectId}`);
     if (nextTab !== tab) {
       withdrawalContextEpoch.current += 1;
       executionQueueSequence.current += 1;
@@ -543,6 +547,7 @@ function App() {
   };
 
   const selectProject = (nextId) => {
+    if (workspaceDirty) { setNotice('Save or discard unsaved SQL edits before selecting a project.'); setTab('sql'); return; }
     if (nextId !== projectId) {setWorkflowTarget('');setWorkflowDraft('');}
     executionContextEpoch.current += 1;
     releaseComparisonSequence.current += 1; setReleaseComparison(null);
@@ -660,6 +665,7 @@ function App() {
     queueMicrotask(() => { if (tokenRef.current) void loadInbox({ scope }); });
   };
   const openInboxPlan = async (row) => {
+    if (workspaceDirty && row.projectId !== projectId) { setNotice('Save or discard unsaved SQL edits before opening another project.'); setTab('sql'); return; }
     const sequence = ++inboxSequence.current;
     const requestToken = tokenRef.current;
     const requestEpoch = sessionEpoch.current;
@@ -1561,9 +1567,10 @@ function App() {
         {tab === 'references' && !projectId && <div className="empty-state"><strong>Select a project first</strong><span>Choose an assigned project from Projects, then open Schema references.</span><button type="button" className="text-button" onClick={()=>setTab('workspace')}>Go to Projects →</button></div>}
         {tab === 'targets' && projectLoaded && <ProjectTargets key={`${token}:${projectId}`} token={token} projectId={projectId} detail={detail} actor={actor} request={json} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE'} onSaved={() => refresh(token, projectId)} onPrepare={() => setTab('release')} onWorkspace={bindingId=>{setWorkflowTarget(bindingId);setTab('sql');}} onMissing={() => {clearProjectState(); void refresh(token, projectId);}}/>}
         {tab === 'targets' && !projectLoaded && <p role="status">Select a project to inspect its targets.</p>}
-        {tab === 'sql' && projectLoaded && <SqlWorkspace key={`${token}:${projectId}`} token={token} projectId={projectId} projectName={detail.project.name} bindings={detail.targetBindings || []} request={json}
+        {projectLoaded && (tab === 'sql' || workspaceContext === `${token}:${projectId}`) && <div hidden={tab !== 'sql'}><SqlWorkspace key={`${token}:${projectId}`} token={token} projectId={projectId} projectName={detail.project.name} bindings={detail.targetBindings || []} request={json}
           initialBindingId={workflowTarget} initialDraftId={workflowDraft} onBindingSelected={setWorkflowTarget} onDraftSelected={setWorkflowDraft}
-          onReleasePrepared={workspaceReleasePrepared} onPlan={schemaPlanCreated} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE' || actor.role !== 'developer'}/>}
+          onDirtyChange={setWorkspaceDirty}
+          onReleasePrepared={workspaceReleasePrepared} onPlan={schemaPlanCreated} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE' || actor.role !== 'developer'}/></div>}
         {tab === 'history' && projectLoaded && <MigrationHistory key={`${token}:${projectId}`} projectId={projectId} detail={detail} token={token} request={json} targets={detail.targetBindings || []} onOpenPlan={openHistoryPlan} onOpenRelease={openHistoryRelease} formatTime={fmt}/>}
         {['sql','history'].includes(tab) && !projectLoaded && <div className="empty-state"><strong>Select an authorized project</strong><button className="secondary" onClick={()=>setTab('workspace')}>Go to Projects</button></div>}
         {tab === 'release' && <ReleaseScreen model={model} />}
@@ -1758,7 +1765,7 @@ function ReviewScreen({ model }) {
                     : <dl className="target-facts"><div><dt>Profile ID</dt><dd><code>{targetProfile.id}</code></dd></div><div><dt>Profile name</dt><dd>{targetProfile.name}</dd></div><div><dt>Environment ID</dt><dd><code>{targetEnvironment.id}</code></dd></div><div><dt>Environment name</dt><dd>{targetEnvironment.name}</dd></div><div><dt>Engine</dt><dd>{targetProfile.engine}</dd></div><div><dt>Host</dt><dd>{targetProfile.host}</dd></div><div><dt>Port</dt><dd>{targetProfile.port}</dd></div><div><dt>Service</dt><dd>{targetProfile.service}</dd></div><div><dt>Username</dt><dd>{targetProfile.username}</dd></div></dl>}
                 </section>
                 <div className="file-table-wrap"><table><thead><tr><th>Migration</th><th>Version</th><th>SHA-256</th><th>State</th></tr></thead><tbody>{(plan.items || []).map((item) => <tr key={item.path}><td><code>{item.path}</code></td><td>{item.version || '—'}</td><td><code className="checksum">{item.sha256}</code></td><td><span className="status-pill neutral">{item.status || 'NOT_EXECUTED'}</span></td></tr>)}</tbody></table></div>
-                <PlanSourceComparison key={`${projectId}:${plan.id}:${token}`} projectId={projectId} plan={plan} releases={detail.releases} token={token} request={json} readOnly={isArchived || readOnlyBootstrap} onSelect={model.setSelectedComparison} requestedComparison={model.requestedComparison}/>
+                <PlanSourceComparison key={`${projectId}:${plan.id}:${token}`} projectId={projectId} plan={plan} releases={detail.releases} token={token} request={json} readOnly={isArchived || readOnlyBootstrap} onSelect={model.setSelectedComparison} requestedComparison={model.requestedComparison} onSelectEvidence={toggleCommentEvidence} selectedEvidence={commentEvidence}/>
                 <section className="panel plan-source-panel" aria-label="Plan source inspection" data-plan-source-id={planSource?.planId === plan.id ? plan.id : ''}>
                   <div className="panel-heading"><div><h3>Retained source</h3><p>Inspect the retained files linked to this plan. This is a read only view.</p></div><button type="button" className="secondary" onClick={() => { void inspectPlanSource(); }} disabled={!plan.releaseId || planSource?.loading}>{planSource?.loading ? 'Loading source…' : 'Inspect source'}</button></div>
                   {!plan.releaseId && <p className="banner error">The linked source is unavailable or does not match this plan. Refresh the project and try again.</p>}

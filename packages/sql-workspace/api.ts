@@ -6,6 +6,8 @@ import { ORG, loadBindingTarget, checkTargetCurrentness } from '../targets/index
 import { publicTarget } from '../targets/public.mjs';
 import { buildValidation, readSchemaEvidence, validationFailure } from '../sql-validation/results.ts';
 import { prepareAuthoredSnapshot } from '../migrations/authored-snapshot.mjs';
+import { preflightHistoricalRelease } from '../migrations/retained-release-preflight.mjs';
+import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs';
 
 const MAX_SQL_BYTES = 1_048_576;
 const MAX_DRAFT_FILES = 128;
@@ -22,6 +24,22 @@ const fileVersion = (path: string) => {
 const aggregateFilesHash = (files: any[]) => hash(JSON.stringify(files.map(file => ({
   id: file.id, path: file.path, version: file.version, order: file.order, sha256: file.sha256,
 }))));
+const releaseMatchesDraft = (release: any, project: any, current: any, origin: any) => {
+  if (!release || release.validation_status !== 'VALID' || release.repository_id !== project.source_repository_id
+      || release.folder !== project.source_folder || origin.draft_manifest_version !== current.manifest_version
+      || !verifyRetainedRelease(release) || !Array.isArray(release.files)) return false;
+  const authored = current.manifest_version === 2;
+  const sourceFiles = current.files;
+  if (!Array.isArray(sourceFiles) || sourceFiles.length !== release.files.length) return false;
+  return sourceFiles.every((source: any, index: number) => {
+    const retained = release.files[index];
+    return retained.path === `${project.source_folder}/${source.path}` && retained.version === source.version
+      && retained.sha256 === source.sha256 && retained.content === source.sql
+      && retained.bytes === Buffer.byteLength(source.sql, 'utf8')
+      && (authored ? retained.draftFileId === source.id && retained.order === index
+        : !Object.hasOwn(retained, 'draftFileId') && !Object.hasOwn(retained, 'order'));
+  });
+};
 const fail = (code: string, statusCode = 400) => Object.assign(new Error(code), { productCode: code, statusCode });
 const validName = (value: any) => typeof value === 'string' && value.trim().length > 0 && value.length <= 200 && !/[\u0000-\u001f\u007f]/.test(value);
 const validSql = (value: any) => typeof value === 'string' && !/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(value)
@@ -60,7 +78,7 @@ const sendError = (reply: any, error: any) => {
     MEMBERSHIP_BOOTSTRAP_REQUIRED: 409, PROJECT_ARCHIVED: 409, METADATA_RESTORE_HOLD: 409,
     DRAFT_REVISION_CONFLICT: 409, DRAFT_REVISION_EXHAUSTED: 409, DRAFT_INTEGRITY_FAILED: 409,
     TARGET_REVISION_CONFLICT: 409, SOURCE_BINDING_INVALID: 409, RELEASE_NOT_VALID: 409,
-    RELEASE_IMPORT_FAILED: 422,
+    RELEASE_IMPORT_FAILED: 422, RELEASE_INTEGRITY_FAILED: 409,
   } as Record<string, number>)[code] || (error.productCode ? 409 : 500);
   return reply.code(status).send({ error: code });
 };
@@ -365,12 +383,34 @@ export function registerSqlWorkspace(app: any, { sql, authenticate, releaseParse
       if (row.target_binding_id !== body.targetBindingId) throw fail('TARGET_REVISION_CONFLICT', 409);
       const target = await checkTarget(tx, project.id, body.targetBindingId, body.expectedBindingRevision, body.expectedAssignmentRevision);
       const current = await revisionRow(tx, row.id, project.id, row.revision);
-      const prepared = await snapshotFor(project, row, current);
-      if (prepared.source.validationStatus !== 'VALID') throw fail('RELEASE_NOT_VALID', 409);
       await guardMutationAuthority(tx, req, 'developer');
       await requireMetadataActive(tx);
       const currentness = await checkTargetCurrentness(tx, project.id, target, project.source_binding_generation);
       if (currentness.state !== 'CURRENT') throw fail('TARGET_REVISION_CONFLICT', 409);
+      const prior = (await tx`SELECT r.id,origin.draft_id,origin.draft_revision::text AS draft_revision,origin.draft_sha256,
+          origin.draft_manifest_version,origin.source_binding_generation::text AS source_binding_generation
+        FROM sf_sql_workspace_releases origin JOIN sf_releases r ON r.id=origin.release_id AND r.project_id=origin.project_id
+        WHERE origin.project_id=${project.id} AND origin.organization_id=${ORG} AND r.organization_id=${ORG} AND origin.draft_id=${row.id}
+          AND origin.draft_revision=${current.revision}::bigint AND origin.draft_sha256=${current.sha256}
+          AND origin.draft_manifest_version=${current.manifest_version}
+          AND origin.source_binding_generation=${project.source_binding_generation}::bigint
+        ORDER BY origin.created_at,r.id LIMIT 1 FOR SHARE OF origin,r`)[0];
+      if (prior) {
+        const bounded = await preflightHistoricalRelease(tx, { id: prior.id, projectId: project.id, organizationId: ORG });
+        if (!bounded.valid) throw fail('RELEASE_INTEGRITY_FAILED', 409);
+        const retained = (await tx`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,
+            validation_status,validation_code,parser_profile,files,created_at FROM sf_releases
+          WHERE id=${prior.id} AND project_id=${project.id} AND organization_id=${ORG} FOR SHARE`)[0];
+        if (!releaseMatchesDraft(retained, project, current, prior)) throw fail('RELEASE_INTEGRITY_FAILED', 409);
+        return { id: retained.id, repositoryId: retained.repository_id, commit: retained.commit_id, objectFormat: retained.object_format,
+          folder: retained.folder, manifestDigest: retained.manifest_digest, manifestVersion: prior.draft_manifest_version,
+          validationStatus: retained.validation_status, validationCode: retained.validation_code, parserProfile: retained.parser_profile,
+          createdAt: retained.created_at, sourceKind: 'AUTHORED_SQL_WORKSPACE', draftId: row.id,
+          draftRevision: current.revision, draftSha256: current.sha256 };
+      }
+      const prepared = await snapshotFor(project, row, current);
+      if (prepared.source.validationStatus !== 'VALID') throw fail('RELEASE_NOT_VALID', 409);
+      await guardMutationAuthority(tx, req, 'developer');
       const imported = (await tx`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,
         validation_status,validation_code,parser_profile,files)
         VALUES(${project.id},${ORG},${project.source_repository_id},${prepared.source.commit},${prepared.source.objectFormat},${prepared.source.folder},

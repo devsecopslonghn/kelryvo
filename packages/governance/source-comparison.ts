@@ -3,7 +3,7 @@ import { guardMutationAuthority } from '../database/mutation-authority.ts';
 import { actorHasProjectGrant, projectAccessMode, LOCAL_ORGANIZATION as ORG } from '../database/project-membership.ts';
 import { preflightRetainedRelease } from '../migrations/retained-release-preflight.mjs';
 import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs';
-import { verifyOfflinePlanIntent } from '../migrations/offline-plan-intent.mjs';
+import { verifyOfflinePlanIntent, MAX_PLAN_STATEMENTS } from '../migrations/offline-plan-intent.mjs';
 import { compareRetainedReleases } from '../migrations/compare-retained-releases.mjs';
 import { previewRetainedStatements } from '../migrations/statement-preview.mjs';
 
@@ -14,6 +14,72 @@ const canonical = (v: any): any => Array.isArray(v) ? v.map(canonical) : v && ty
 const digest = (v: any) => createHash('sha256').update(JSON.stringify(canonical(v))).digest('hex');
 const identity = (r: any) => ({ id: r.id, commit: r.commit_id, objectFormat: r.object_format,
   repositoryId: r.repository_id, folder: r.folder, parserProfile: r.parser_profile, manifestDigest: r.manifest_digest });
+
+type StatementRef = { startByte: number; endByte: number; sourceSha256: string; executionSha256: string };
+type StatementFact = { ordinal: number; change: string; base: StatementRef | null; candidate: StatementRef | null; ambiguity?: string };
+
+/** Compare exact parsed statement source without treating ordinal shifts as edits. */
+export function compareStatements(base: any[], candidate: any[]): StatementFact[] {
+  const left = new Map<string, number[]>(), right = new Map<string, number[]>();
+  const collect = (items: any[], into: Map<string, number[]>) => items.forEach((item, index) => {
+    const positions = into.get(item.sourceSha256) || [];
+    positions.push(index); into.set(item.sourceSha256, positions);
+  });
+  collect(base, left); collect(candidate, right);
+  const matched = new Map<number, { candidate: number }>();
+  const matchedRight = new Set<number>();
+  const duplicateLeft = new Set<number>(), duplicateRight = new Set<number>();
+  for (const [hash, a] of left) {
+    const b = right.get(hash) || [];
+    if (a.length === 1 && b.length === 1) {
+      matched.set(a[0], { candidate: b[0] }); matchedRight.add(b[0]);
+    } else if (a.length && b.length) {
+      a.forEach(index => duplicateLeft.add(index)); b.forEach(index => duplicateRight.add(index));
+    }
+  }
+  const exactPairs = [...matched.entries()]; // Collected in base source order.
+  const moved = new Set<number>();
+  let maxCandidate = -1;
+  for (const [i, pair] of exactPairs) {
+    if (pair.candidate < maxCandidate) moved.add(i);
+    maxCandidate = Math.max(maxCandidate, pair.candidate);
+  }
+  let minCandidate = candidate.length;
+  for (let i = exactPairs.length - 1; i >= 0; i--) {
+    const [index, pair] = exactPairs[i];
+    if (pair.candidate > minCandidate) moved.add(index);
+    minCandidate = Math.min(minCandidate, pair.candidate);
+  }
+  const usedLeft = new Set(matched.keys());
+  const unmatchedLeft = base.map((_, i) => i).filter(i => !usedLeft.has(i));
+  const unmatchedRight = candidate.map((_, i) => i).filter(i => !matchedRight.has(i));
+  const unmatchedLeftSet = new Set(unmatchedLeft);
+  // Delimiter/trivia changes with the same exact execution text can be paired.
+  // A sole delete/add with different text is still an unresolved replacement.
+  const pairedEdits = unmatchedLeft.length === 1 && unmatchedRight.length === 1
+    && base[unmatchedLeft[0]].executionSha256 === candidate[unmatchedRight[0]].executionSha256;
+  const refs = (item: any): StatementRef => ({ startByte: item.startByte, endByte: item.endByte,
+    sourceSha256: item.sourceSha256, executionSha256: item.executionSha256 });
+  const facts: StatementFact[] = [];
+  for (let i = 0; i < base.length; i++) {
+    const pair = matched.get(i);
+    if (pair) {
+      const j = pair.candidate;
+      facts.push({ ordinal: i + 1, change: moved.has(i) ? 'MOVED' : 'UNCHANGED', base: refs(base[i]), candidate: refs(candidate[j]) });
+    } else if (pairedEdits && unmatchedLeft[0] === i) {
+      const j = unmatchedRight[0]; matchedRight.add(j);
+      facts.push({ ordinal: i + 1, change: 'CHANGED', base: refs(base[i]), candidate: refs(candidate[j]) });
+    } else if (unmatchedLeftSet.has(i)) {
+      const ambiguous = duplicateLeft.has(i) || unmatchedRight.length > 0;
+      facts.push({ ordinal: i + 1, change: ambiguous ? 'AMBIGUOUS' : 'REMOVED',
+        ...(ambiguous ? { ambiguity: duplicateLeft.has(i) ? 'DUPLICATE_SOURCE' : 'MULTIPLE_MODIFICATION_CANDIDATES' } : {}), base: refs(base[i]), candidate: null });
+    }
+  }
+  for (const j of unmatchedRight) if (!matchedRight.has(j)) facts.push({ ordinal: j + 1,
+    change: duplicateRight.has(j) || unmatchedLeft.length ? 'AMBIGUOUS' : 'ADDED',
+    ...(duplicateRight.has(j) || unmatchedLeft.length ? { ambiguity: duplicateRight.has(j) ? 'DUPLICATE_SOURCE' : 'MULTIPLE_MODIFICATION_CANDIDATES' } : {}), base: null, candidate: refs(candidate[j]) });
+  return facts;
+}
 
 async function retained(tx: any, projectId: string, id: string) {
   if (!(await preflightRetainedRelease(tx, { id, projectId, organizationId: ORG })).valid) throw fail('COMPARISON_UNAVAILABLE');
@@ -81,21 +147,25 @@ export function registerSourceComparison(app: any, { sql, authenticate, statemen
     if (base.repository_id !== candidate.repository_id || base.folder !== candidate.folder || base.parser_profile !== candidate.parser_profile) throw fail('NOT_FOUND', 404);
     const facts = compareRetainedReleases(base, candidate);
     const files = [];
+    let baseStatementCount = 0, candidateStatementCount = 0, evidenceBytes = 0;
     for (const fact of facts) {
       let statements: any = null;
       if (fact.change !== 'UNCHANGED') {
         const left: any = fact.base ? await previewRetainedStatements(base, fact.base.path, statementParser) : { ok: true, statements: [] };
         const right: any = fact.candidate ? await previewRetainedStatements(candidate, fact.candidate.path, statementParser) : { ok: true, statements: [] };
+        baseStatementCount += left.statements?.length || 0;
+        candidateStatementCount += right.statements?.length || 0;
+        if (baseStatementCount > MAX_PLAN_STATEMENTS || candidateStatementCount > MAX_PLAN_STATEMENTS) throw fail('COMPARISON_UNAVAILABLE');
         if (left.ok && right.ok) {
-          const a = left.statements || [], b = right.statements || [];
-          const ref = (s: any) => s ? { startByte: s.startByte, endByte: s.endByte, sourceSha256: s.sourceSha256, executionSha256: s.executionSha256 } : null;
-          statements = Array.from({ length: Math.max(a.length, b.length) }, (_, i) => ({ ordinal: i + 1,
-            change: !a[i] ? 'ADDED' : !b[i] ? 'REMOVED' : a[i].sourceSha256 === b[i].sourceSha256 ? 'UNCHANGED' : 'CHANGED', base: ref(a[i]), candidate: ref(b[i]) }));
+          statements = compareStatements(left.statements || [], right.statements || []);
         }
       }
-      files.push({ version: fact.version, change: fact.change, basePath: fact.base?.path ?? null, candidatePath: fact.candidate?.path ?? null, statements });
+      const file = { version: fact.version, change: fact.change, basePath: fact.base?.path ?? null, candidatePath: fact.candidate?.path ?? null, statements };
+      evidenceBytes += Buffer.byteLength(JSON.stringify(file));
+      if (evidenceBytes > 900000) throw fail('COMPARISON_UNAVAILABLE');
+      files.push(file);
     }
-    const evidence = { format: 1, planId: p.id, intentDigest: intent.digest, base: identity(base), candidate: identity(candidate), alignment: 'VERSION_AND_STATEMENT_ORDINAL', files };
+    const evidence = { format: 2, planId: p.id, intentDigest: intent.digest, base: identity(base), candidate: identity(candidate), alignment: 'VERSION_AND_STATEMENT_SOURCE', files };
     if (Buffer.byteLength(JSON.stringify(evidence)) > 900000) throw fail('COMPARISON_UNAVAILABLE');
     const sha = digest(evidence);
     await guardMutationAuthority(tx, req);

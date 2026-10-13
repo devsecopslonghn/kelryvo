@@ -15,7 +15,7 @@ function targetIdOf(binding) {
 
 /** Project-scoped SQL draft editor. Parsing and target review are supplied by the authorized API. */
 export function SqlWorkspace({ token, projectId, projectName, bindings = [], request, onReleasePrepared, onNavigatePlan,
-  onDraftSelected, onBindingSelected, onPlan, initialBindingId = '', initialDraftId = '', readOnly = false }) {
+  onDraftSelected, onBindingSelected, onPlan, onDirtyChange, initialBindingId = '', initialDraftId = '', readOnly = false }) {
   const [drafts, setDrafts] = useState([]);
   const [nextCursor,setNextCursor]=useState(null);
   const initialDraft=useRef(initialDraftId);
@@ -35,19 +35,23 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const dirty = useRef(false);
+  const fileSelection = useRef(null);
+  const selectedDraft = useRef(null);
   const epoch = useRef(0);
   const base = `/api/projects/${encodeURIComponent(projectId)}/sql-drafts`;
   const current = useCallback((n) => n === epoch.current, []);
   const reportError = error => {
     setError(classifyWorkspaceError(error));
     if (['NOT_FOUND','UNAUTHENTICATED','FORBIDDEN','MEMBERSHIP_BOOTSTRAP_REQUIRED'].includes(error.message)) {
-      setDrafts([]);setNextCursor(null);setDraft(null);setDraftId('');setSql('');setName('Untitled SQL draft');
-      setTargetBindingId('');setAnalysis(null);setValidation(null);setPreparedRelease(null);setComparison(null);
+      selectedDraft.current=null;setDrafts([]);setNextCursor(null);setDraft(null);setDraftId('');setSql('');setName('Untitled SQL draft');
+      setFiles([]);setFileIndex(0);setUseFiles(false);setTargetBindingId('');setAnalysis(null);setValidation(null);setPreparedRelease(null);setComparison(null);
       onDraftSelected?.('');onBindingSelected?.('');
     }
   };
 
   const loadDrafts = useCallback(async (selectId = '') => {
+    if (dirty.current) { setNotice('Save or discard unsaved edits before refreshing drafts.'); return; }
     const n = ++epoch.current;
     setLoading(true); setError('');
     try {
@@ -63,6 +67,7 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
   }, [base, current, request, token]);
 
   const openDraft = async (id, parentEpoch) => {
+    if (dirty.current) { setNotice('Save or discard unsaved edits before opening another draft.'); return; }
     const n = parentEpoch ?? ++epoch.current;
     setBusy(true); setError(''); setNotice(''); setAnalysis(null); setValidation(null); setComparison(null);
     try {
@@ -70,7 +75,11 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
       if (!current(n)) return;
       const selected = result.draft || result;
       if (!validateDraft(selected)) throw new Error('INVALID_REQUEST');
-      setDraft(selected); setDraftId(selected.id); setName(selected.name); setSql(editableFiles(selected)[0].sql); setFiles(editableFiles(selected)); setFileIndex(0); setUseFiles(selected.manifestVersion === 2 || (selected.files?.length || 0)>1);
+      const selectedFiles = editableFiles(selected);
+      const selectedIndex = selected.id === selectedDraft.current ? Math.max(0, selectedFiles.findIndex(file => file.id === fileSelection.current)) : 0;
+      setDraft(selected); setDraftId(selected.id); setName(selected.name); setSql(selectedFiles[selectedIndex].sql);
+      selectedDraft.current=selected.id;setFiles(selectedFiles);setFileIndex(selectedIndex);fileSelection.current=selectedFiles[selectedIndex].id;
+      setUseFiles(selected.manifestVersion === 2 || selectedFiles.length>1);
       setDrafts(rows=>rows.some(row=>row.id===selected.id)?rows:[selected,...rows]);
       setTargetBindingId(selected.targetBindingId || '');
       setPreparedRelease(selected.preparedRelease || null);
@@ -88,7 +97,7 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
     return () => { epoch.current++; };
   }, [loadDrafts]);
 
-  useEffect(() => { if (initialBindingId && bindings.some(binding => targetIdOf(binding) === initialBindingId)) setTargetBindingId(initialBindingId); }, [initialBindingId, bindings]);
+  useEffect(() => { if (!dirty.current && initialBindingId && bindings.some(binding => targetIdOf(binding) === initialBindingId)) setTargetBindingId(initialBindingId); }, [initialBindingId, bindings]);
 
   const loadOlderDrafts=async()=>{
     if(!nextCursor || busy || loading)return;
@@ -102,6 +111,7 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
     finally{if(current(n))setBusy(false);}
   };
   const createDraft = async () => {
+    if (dirty.current) { setNotice('Save or discard unsaved edits before creating another draft.'); return; }
     const n = ++epoch.current; setBusy(true); setError(''); setNotice('');
     try {
       const result = await request(base, token, { method: 'POST', body: JSON.stringify({ name: 'Untitled SQL draft', targetBindingId, sql: '' }) });
@@ -120,7 +130,10 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
       const saved = result.draft || result;
       if (!validateDraft(saved)) throw new Error('INVALID_REQUEST');
       if (current(n)) {
-        setDraft(saved); setFiles(editableFiles(saved)); setFileIndex(0); setSql(editableFiles(saved)[0].sql); setDrafts(rows => [saved, ...rows.filter(item => item.id !== saved.id)]);
+        const savedFiles = editableFiles(saved);
+        const selectedIndex = Math.max(0, savedFiles.findIndex(file => file.id === fileSelection.current));
+        setDraft(saved); setFiles(savedFiles); setFileIndex(selectedIndex); setSql(savedFiles[selectedIndex].sql);
+        fileSelection.current = savedFiles[selectedIndex].id; setDrafts(rows => [saved, ...rows.filter(item => item.id !== saved.id)]);
         setCandidateRevision(String(saved.revision)); setNotice(`Saved revision ${saved.revision}.`);
       }
     } catch (e) { if (current(n)) reportError(e); }
@@ -210,24 +223,44 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
   const selectedTarget = bindings.find(binding => targetIdOf(binding) === targetBindingId);
   const target = targetOf(selectedTarget);
   const hasUnsavedEdits=!!draft && (JSON.stringify(files)!==JSON.stringify(editableFiles(draft)) || name!==draft.name || targetBindingId!==draft.targetBindingId);
+  dirty.current = hasUnsavedEdits;
+  useEffect(() => { onDirtyChange?.(hasUnsavedEdits); }, [hasUnsavedEdits, onDirtyChange]);
+  useEffect(() => () => onDirtyChange?.(false), [onDirtyChange]);
+  useEffect(() => {
+    if (!hasUnsavedEdits) return;
+    const protectEdits = event => { event.preventDefault(); event.returnValue = ''; };
+    window.addEventListener('beforeunload', protectEdits);
+    return () => window.removeEventListener('beforeunload', protectEdits);
+  }, [hasUnsavedEdits]);
+  const discardEdits = () => {
+    if (!draft) return;
+    const savedFiles = editableFiles(draft);
+    const selectedIndex = Math.max(0, savedFiles.findIndex(file => file.id === fileSelection.current));
+    setName(draft.name);setTargetBindingId(draft.targetBindingId || '');onBindingSelected?.(draft.targetBindingId || '');
+    setFiles(savedFiles);setFileIndex(selectedIndex);setSql(savedFiles[selectedIndex].sql);
+    fileSelection.current = savedFiles[selectedIndex].id;
+    setUseFiles(draft.manifestVersion === 2 || savedFiles.length > 1);
+    setAnalysis(null);setValidation(null);setComparison(null);setPreparedRelease(draft.preparedRelease || null);
+    setNotice('Unsaved edits discarded. Saved revision restored.');setError('');
+  };
   const revisions = draft?.revisions || [];
   return <section className="panel sql-workspace" aria-label="SQL workspace" aria-busy={busy || loading}>
-    <div className="panel-heading"><div><p className="eyebrow">PROJECT SQL</p><h2>SQL workspace</h2>{projectName && <p>{projectName}</p>}</div><button type="button" className="secondary" onClick={() => void loadDrafts(draftId)} disabled={busy || loading}>Refresh drafts</button></div>
+    <div className="panel-heading"><div><p className="eyebrow">PROJECT SQL</p><h2>SQL workspace</h2>{projectName && <p>{projectName}</p>}</div><button type="button" className="secondary" onClick={() => void loadDrafts(draftId)} disabled={busy || loading || hasUnsavedEdits}>Refresh drafts</button></div>
     <p>Draft SQL, review offline parsing and target evidence, then prepare an immutable authored release. SQL is never executed here.</p>
     {error && <p className="banner error" role="alert">{error}</p>}{notice && <p className="banner success" role="status">{notice}</p>}
     {loading && <p role="status">Loading project drafts…</p>}
     <div className="sql-workspace-layout">
-      <aside aria-label="Saved SQL drafts"><h3>Saved drafts</h3><button type="button" className="secondary" onClick={() => void createDraft()} disabled={busy || loading || readOnly || !selectedTarget}>New draft</button>
+      <aside aria-label="Saved SQL drafts"><h3>Saved drafts</h3><button type="button" className="secondary" onClick={() => void createDraft()} disabled={busy || loading || readOnly || !selectedTarget || hasUnsavedEdits}>New draft</button>
         {!drafts.length && !loading && <p>No saved SQL drafts yet.</p>}
-        <ul>{drafts.map(item => <li key={item.id}><button type="button" className={item.id === draftId ? 'draft-option selected' : 'draft-option'} onClick={() => void openDraft(item.id)} disabled={busy || loading} aria-current={item.id === draftId ? 'page' : undefined}>{item.name} · r{item.revision}</button></li>)}</ul>{nextCursor && <button type="button" className="secondary" disabled={busy || loading} onClick={()=>void loadOlderDrafts()}>Older SQL drafts</button>}
+        <ul>{drafts.map(item => <li key={item.id}><button type="button" className={item.id === draftId ? 'draft-option selected' : 'draft-option'} onClick={() => void openDraft(item.id)} disabled={busy || loading || hasUnsavedEdits} aria-current={item.id === draftId ? 'page' : undefined}>{item.name} · r{item.revision}</button></li>)}</ul>{nextCursor && <button type="button" className="secondary" disabled={busy || loading} onClick={()=>void loadOlderDrafts()}>Older SQL drafts</button>}
       </aside>
       <div className="sql-workspace-editor">
-        <label>Draft name<input aria-label="SQL draft name" value={name} maxLength={200} onChange={event => { setName(event.target.value); setAnalysis(null); setValidation(null); setPreparedRelease(null); }} disabled={busy || loading || readOnly}/></label>
+        <label>Draft name<input aria-label="SQL draft name" value={name} maxLength={200} onChange={event => { setName(event.target.value); setAnalysis(null); setValidation(null); setPreparedRelease(null); }} disabled={busy || loading || readOnly || !draft}/></label>
         <label>Database target<select aria-label="SQL workspace target" value={targetBindingId} onChange={event => { setTargetBindingId(event.target.value); onBindingSelected?.(event.target.value); setAnalysis(null); setValidation(null); setPreparedRelease(null); }} disabled={busy || loading || readOnly}><option value="">Choose authorized project target</option>{bindings.map(binding => { const t = targetOf(binding); const id = targetIdOf(binding); return <option key={id} value={id}>{t?.exactOwner || t?.owner || 'Target'} · {t?.environmentName || t?.environmentId || 'Environment'} · revision {t?.bindingRevision || binding.revision || 'unknown'}</option>; })}</select></label>
-        {draft && <section className="release-files" aria-label="Release SQL files"><h3>Release files</h3><p>Execution order follows migration versions. Saving retains a new immutable manifest revision.</p><div className="form-actions"><label>SQL file<select aria-label="SQL file" value={fileIndex} onChange={event=>{const i=Number(event.target.value);setFileIndex(i);setSql(files[i].sql);}} disabled={busy || loading}>{files.map((file,i)=><option key={file.id || i} value={i}>{file.path}</option>)}</select></label><button type="button" className="secondary" disabled={busy || loading || readOnly || files.length>=128} onClick={()=>{const max=files.reduce((n,f)=>{const m=/^V([0-9]+)/.exec(f.path);return m && BigInt(m[1])>n?BigInt(m[1]):n;},0n);const next={id:crypto.randomUUID(),path:`V${max+1n}__migration.sql`,sql:''};setFiles([...files,next]);setFileIndex(files.length);setSql('');setUseFiles(true);setAnalysis(null);setValidation(null);setPreparedRelease(null);}}>Add SQL file</button><button type="button" className="secondary" disabled={busy || loading || readOnly || files.length<2} onClick={()=>{const remaining=files.filter((_,i)=>i!==fileIndex);setFiles(remaining);setFileIndex(0);setSql(remaining[0].sql);setUseFiles(true);setAnalysis(null);setValidation(null);setPreparedRelease(null);}}>Remove SQL file</button></div><label>Migration filename<input aria-label="Migration filename" value={files[fileIndex]?.path || ''} disabled={busy || loading || readOnly} onChange={event=>{setFiles(rows=>rows.map((f,i)=>i===fileIndex?{...f,path:event.target.value}:f));setUseFiles(true);setAnalysis(null);setValidation(null);setPreparedRelease(null);}}/></label></section>}
-        <label>SQL editor<textarea aria-label="SQL editor" spellCheck="false" autoCapitalize="off" autoCorrect="off" value={sql} onChange={event => { setSql(event.target.value); setFiles(rows=>rows.map((f,i)=>i===fileIndex?{...f,sql:event.target.value}:f)); setAnalysis(null); setValidation(null); setPreparedRelease(null); }} disabled={busy || loading || readOnly} rows={18} /></label>
+        {draft && <section className="release-files" aria-label="Release SQL files"><h3>Release files</h3><p>Execution order follows migration versions. Saving retains a new immutable manifest revision.</p><div className="form-actions"><label>SQL file<select aria-label="SQL file" value={fileIndex} onChange={event=>{const i=Number(event.target.value);setFileIndex(i);fileSelection.current=files[i].id;setSql(files[i].sql);}} disabled={busy || loading}>{files.map((file,i)=><option key={file.id || i} value={i}>{file.path}</option>)}</select></label><button type="button" className="secondary" disabled={busy || loading || readOnly || files.length>=128} onClick={()=>{const max=files.reduce((n,f)=>{const m=/^V([0-9]+)/.exec(f.path);return m && BigInt(m[1])>n?BigInt(m[1]):n;},0n);const next={id:crypto.randomUUID(),path:`V${max+1n}__migration.sql`,sql:''};setFiles([...files,next]);setFileIndex(files.length);fileSelection.current=next.id;setSql('');setUseFiles(true);setAnalysis(null);setValidation(null);setPreparedRelease(null);}}>Add SQL file</button><button type="button" className="secondary" disabled={busy || loading || readOnly || files.length<2} onClick={()=>{const remaining=files.filter((_,i)=>i!==fileIndex);setFiles(remaining);setFileIndex(0);fileSelection.current=remaining[0].id;setSql(remaining[0].sql);setUseFiles(true);setAnalysis(null);setValidation(null);setPreparedRelease(null);}}>Remove SQL file</button></div><label>Migration filename<input aria-label="Migration filename" value={files[fileIndex]?.path || ''} disabled={busy || loading || readOnly} onChange={event=>{setFiles(rows=>rows.map((f,i)=>i===fileIndex?{...f,path:event.target.value}:f));setUseFiles(true);setAnalysis(null);setValidation(null);setPreparedRelease(null);}}/></label></section>}
+        <label>SQL editor<textarea aria-label="SQL editor" spellCheck="false" autoCapitalize="off" autoCorrect="off" value={sql} onChange={event => { setSql(event.target.value); setFiles(rows=>rows.map((f,i)=>i===fileIndex?{...f,sql:event.target.value}:f)); setAnalysis(null); setValidation(null); setPreparedRelease(null); }} disabled={busy || loading || readOnly || !draft} rows={18} /></label>
         <p className="offline-note">Revision {draft?.revision ?? 'not saved'}{draft && hasUnsavedEdits ? ' · Unsaved edits' : ''} · Offline parser results do not establish Oracle semantic validity.</p>
-        <div className="form-actions"><button type="button" className="primary" onClick={() => void saveDraft()} disabled={busy || loading || readOnly || !draft || !name.trim() || !selectedTarget}>Save draft</button>
+        <div className="form-actions">{hasUnsavedEdits && <button type="button" className="secondary" onClick={discardEdits} disabled={busy || loading}>Discard unsaved edits</button>}<button type="button" className="primary" onClick={() => void saveDraft()} disabled={busy || loading || readOnly || !draft || !name.trim() || !selectedTarget}>Save draft</button>
           <button type="button" className="secondary" onClick={() => void preview()} disabled={busy || loading || readOnly || !draft || !targetBindingId || hasUnsavedEdits}>Review syntax</button>
           <button type="button" className="secondary" onClick={() => void validate()} disabled={busy || loading || readOnly || !draft || !targetBindingId || hasUnsavedEdits}>Validate against target</button>
           <button type="button" className="primary" onClick={() => void prepareRelease()} disabled={busy || loading || readOnly || !draft || !targetBindingId || hasUnsavedEdits}>Prepare immutable release</button>

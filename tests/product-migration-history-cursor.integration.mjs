@@ -123,8 +123,19 @@ test('migration history cursors remain stable across ties and writes and expose 
     assert.equal(first.body.items.length, 25);
     assert.ok(first.body.nextCursor);
     assert.equal(first.body.total, 34);
+    const planEvents = await api(`${base}?q=${plan.id}`);
+    const planEvent = planEvents.body.items.find(item => item.id === `plan:${plan.id}`);
+    assert.ok(planEvent, 'plan creation remains a distinct historical event');
+    assert.equal(planEvent.status, 'CREATED');
+    assert.equal(planEvent.detail, 'Release aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa · migrations');
+    assert.deepEqual(planEvent.liveStatus, { status: 'APPROVED', execution: 'NOT_EXECUTED', targetHistory: 'NOT_OBSERVED' });
+    assert.ok((await api(`${base}?q=APPROVED`)).body.items.some(item => item.id === planEvent.id),
+      'history search includes explicitly live status values');
+    const migrationEvent = (await api(`${base}?q=V001__tie.sql`)).body.items[0];
+    assert.equal(migrationEvent.actorId, actor.id, 'migration evidence is attributed to the plan author');
     const hold = first.body.items.find(item => item.jobId === jobId);
-    assert.equal(hold?.status, 'HOLD');
+    assert.equal(hold?.status, 'REQUESTED');
+    assert.equal(hold?.liveStatus.state, 'HOLD');
     assert.equal(hold?.evidence.latestTransition.actorId, 'local-expiry-recovery');
     assert.equal(hold?.evidence.latestTransition.reasonCode, 'LEASE_EXPIRED_UNKNOWN');
     assert.equal(hold?.evidence.latestAttempt.state, 'HOLD');

@@ -61,12 +61,14 @@ test('multi-file SQL drafts preserve immutable file identity, version order, iso
     assert.deepEqual(reopened.json().draft.files.map(item=>item.id),[first.id,second.id]);
     assert.equal(reopened.json().draft.files[0].sql,changed.sql);
 
-    const releaseResponse=await f.api('POST',`${base}/${draft.id}/prepare-release`,{
-      expectedRevision:'2',targetBindingId:f.binding.bindingId,expectedBindingRevision:f.binding.bindingRevision,
-      expectedAssignmentRevision:f.binding.assignmentRevision,
-    });
+    const prepareBody={expectedRevision:'2',targetBindingId:f.binding.bindingId,expectedBindingRevision:f.binding.bindingRevision,
+      expectedAssignmentRevision:f.binding.assignmentRevision};
+    const releaseResponse=await f.api('POST',`${base}/${draft.id}/prepare-release`,prepareBody);
     assert.equal(releaseResponse.statusCode,201,releaseResponse.body);
     const release=releaseResponse.json().release;
+    const retry=await f.api('POST',`${base}/${draft.id}/prepare-release`,prepareBody);
+    assert.equal(retry.statusCode,201,retry.body);
+    assert.equal(retry.json().release.id,release.id,'multi-file preparation retries retain the same source revision identity');
     const retained=(await f.db.sql`SELECT files FROM sf_releases WHERE id=${release.id}`)[0].files;
     assert.deepEqual(retained.map(item=>({draftFileId:item.draftFileId,order:item.order,version:item.version})),[
       {draftFileId:first.id,order:0,version:'1'},{draftFileId:second.id,order:1,version:'2'},

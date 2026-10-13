@@ -20,11 +20,16 @@ local startup, fixed lifecycle diagnostics and continuous HTTPS browser acceptan
 The [disposable Oracle suite](docs/development/oracle-acceptance.md) records the
 remaining authorization and live-evidence requirements.
 The SQL Workspace saves project and target-scoped drafts with immutable revisions,
-compares saved SQL, and reuses offline syntax and risk review. Preparing a release creates
-an isolated authored Git snapshot; it does not commit to the bound repository. Existing
+compares saved SQL, and reuses offline syntax and risk review. Unsaved editor context survives
+project tabs; save or explicit discard protects draft/project changes. Release preparation
+retries reuse verified immutable source. Plan review matches exact statements across
+reordering, labels ambiguous replacements, and attaches immutable candidate statement refs.
+Preparing a release creates an isolated authored Git snapshot; it does not commit to the bound repository. Existing
 immutable plans, independent approvals and request controls remain in force. Migration
 history consolidates recorded plans, decisions, requests, ledger entries and audit facts
-with filtering and links to retained source and statement evidence. Selected object IDs
+with filtering and links to retained source and statement evidence. Historical events and
+current plan/request status are labelled separately; stable cursors preserve page position
+while current totals and status filters reflect live metadata. Selected object IDs
 survive refresh in the URL; SQL and credentials are not written to browser storage.
 The engineering foundation and all WP0 experiments/evidence remain preserved.
 Independently authored code is licensed under [PolyForm Shield 1.0.0](LICENSE): internal
