@@ -1,3 +1,6 @@
+import SqlWorkspace from './SqlWorkspace.jsx';
+import MigrationHistory from './MigrationHistory.jsx';
+import {readWorkflowLocation,writeWorkflowLocation} from './workflowLocation.js';
 import { ProjectTargets } from './ProjectTargets.jsx';
 import { SchemaValidation, RetainedValidation } from './SchemaValidation.jsx';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -126,7 +129,7 @@ async function validateStatementPreview(preview, source, releaseId, filePath) {
 }
 const explain = (error) => errorCopy[error.message] || 'The request could not be completed. Check the connection and try again.';
 const fmt = (date) => date ? new Date(date).toLocaleString() : '—';
-const pageTitles = { workspace: 'Projects', references: 'Schema references', targets: 'Project targets', release: 'Release intake', review: 'Plan review', inbox: 'Review inbox', records: 'Audit & history' };
+const pageTitles = { workspace: 'Projects', references: 'Schema references', targets: 'Project targets', sql: 'SQL Workspace', history: 'Migration history', release: 'Release intake', review: 'Plan review', inbox: 'Review inbox', records: 'Audit & history' };
 const decisionClass = (status) => ({ APPROVED: 'good', REVOKED: 'bad', REJECTED: 'bad' }[status] || 'pending');
 const planMarkerClass = (status) => ({ APPROVED: 'green', REVOKED: 'red', REJECTED: 'red' }[status] || '');
 const retainedAuthorId = (plan) => typeof plan?.authorId === 'string' && plan.authorId.length <= 200 && plan.authorId.trim().length > 0 ? plan.authorId : null;
@@ -196,16 +199,17 @@ function auditDescription(item) {
 
 function RetainedReleaseContent({ source, repositories, fmt, requestStatementPreview, statementPreview, planContext = '', selectEvidence, selectedEvidence = [] }) {
   return <>
+    {source.sourceKind==='AUTHORED_SQL_WORKSPACE' && <p className="banner warning">Authored SQL workspace snapshot · draft <code>{source.draftId}</code>, revision {source.draftRevision}. This local commit is retained with the release and has not been published to the bound repository.</p>}
     <section className="release-provenance" aria-label="Stored release provenance"><h3>Stored provenance</h3><dl>
       <div><dt>Release ID</dt><dd><code>{source.id || '—'}</code></dd></div>
-      <div><dt>Immutable commit</dt><dd><code>{source.commit || '—'}</code></dd></div>
+      <div><dt>{source.sourceKind==='AUTHORED_SQL_WORKSPACE'?'Local snapshot commit':'Immutable commit'}</dt><dd><code>{source.commit || '—'}</code></dd></div>
       <div><dt>Repository ID</dt><dd><code>{source.repositoryId || '—'}</code></dd></div>
-      <div><dt>Registered repository</dt><dd>{repositories.find((item) => item.id === source.repositoryId)?.name || 'Unavailable'}</dd></div>
+      <div><dt>{source.sourceKind==='AUTHORED_SQL_WORKSPACE'?'Intended repository':'Registered repository'}</dt><dd>{repositories.find((item) => item.id === source.repositoryId)?.name || 'Unavailable'}</dd></div>
       <div><dt>Git object format</dt><dd>{source.objectFormat || '—'}</dd></div>
       <div><dt>Migration folder</dt><dd><code>{source.folder || '—'}</code></dd></div>
       <div><dt>Manifest digest</dt><dd><code>{source.manifestDigest || '—'}</code></dd></div>
       <div><dt>Parser profile</dt><dd><code>{source.parserProfile || '—'}</code></dd></div>
-      <div><dt>Imported</dt><dd><time dateTime={source.createdAt || undefined}>{fmt(source.createdAt)}</time></dd></div>
+      <div><dt>Prepared</dt><dd><time dateTime={source.createdAt || undefined}>{fmt(source.createdAt)}</time></dd></div>
     </dl></section>
     <div className="file-table-wrap"><table><thead><tr><th>Migration file</th><th>Version</th><th>Statements</th><th>Bytes</th><th>SHA-256</th><th>Validation</th></tr></thead><tbody>
       {(source.files || []).map((file) => <tr key={file.path}><td><code>{file.path}</code></td><td>{file.version || '—'}</td><td>{file.statementCount ?? '—'}</td><td>{file.bytes ?? '—'}</td><td><code className="checksum">{file.sha256 || '—'}</code></td><td><span className={`status-pill ${importStatusClass(file.validationStatus)}`}>{file.validationStatus || '—'}</span></td></tr>)}
@@ -318,6 +322,10 @@ function SchemaReferences({ token, projectId, onMissing, onTargets }) {
 }
 
 function App() {
+  const initialWorkflow = useRef(readWorkflowLocation(location.hash));
+  const workflowRestored = useRef(false);
+  const [workflowTarget,setWorkflowTarget] = useState(initialWorkflow.current.target || '');
+  const [workflowDraft,setWorkflowDraft] = useState(initialWorkflow.current.draft || '');
   const [tokenInput, setTokenInput] = useState('');
   const [token, setToken] = useState('');
   const tokenRef = useRef(token);
@@ -326,7 +334,7 @@ function App() {
   const [repositories, setRepositories] = useState([]);
   const [projects, setProjects] = useState([]);
   const [accessMode, setAccessMode] = useState('BOOTSTRAP_REQUIRED');
-  const [projectId, setProjectId] = useState('');
+  const [projectId, setProjectId] = useState(initialWorkflow.current.project || '');
   const [detail, setDetail] = useState(null);
   const projectLoaded = detail?.project?.id === projectId;
   const [release, setRelease] = useState(null);
@@ -340,7 +348,7 @@ function App() {
   const [auditPageError, setAuditPageError] = useState('');
   const [auditRefreshKey, setAuditRefreshKey] = useState(0);
   const auditPageRef = useRef(null);
-  const [tab, setTabState] = useState('workspace');
+  const [tab, setTabState] = useState(initialWorkflow.current.tab);
   const [executionHistoryVisibilityVersion, setExecutionHistoryVisibilityVersion] = useState(0);
   const [busy, setBusy] = useState(false);
   const [navigateDuringWithdrawal, setNavigateDuringWithdrawal] = useState(false);
@@ -454,6 +462,7 @@ function App() {
   };
 
   const clearProjectState = () => {
+    setWorkflowTarget('');setWorkflowDraft('');
     executionContextEpoch.current += 1;
     executionEventSequence.current += 1; setExecutionEvents({});
     executionJobRevisions.current.clear();
@@ -530,6 +539,7 @@ function App() {
   };
 
   const selectProject = (nextId) => {
+    if (nextId !== projectId) {setWorkflowTarget('');setWorkflowDraft('');}
     executionContextEpoch.current += 1;
     releaseComparisonSequence.current += 1; setReleaseComparison(null);
     auditSequence.current += 1; auditContextRef.current = ''; auditPageRef.current = null; setAuditPage(null); setAuditPageError('');
@@ -691,7 +701,7 @@ function App() {
     json('/api/session', 'session:').then(session => {
       if (!current || browserSessionEpoch !== epoch || !session.csrfToken) return;
       const active = `session:${session.csrfToken}`;
-      setToken(active); setActor(session.actor); void refresh(active, '');
+      setToken(active); setActor(session.actor); void refresh(active, initialWorkflow.current.project || '');
     }).catch(() => {});
     return () => { current = false; };
   }, []);
@@ -1460,6 +1470,30 @@ function App() {
     await requestStatementPreview(reference.releaseId, reference.filePath, planId, reference, source);
   };
 
+  useEffect(() => {
+    if (!projectLoaded || workflowRestored.current) return;
+    workflowRestored.current = true;
+    const initial = initialWorkflow.current;
+    if (initial.project !== projectId) {setWorkflowTarget('');setWorkflowDraft('');return;}
+    if (initial.plan && detail.plans?.some(row => row.id === initial.plan)) selectPlan(initial.plan);
+    if (initial.release && detail.releases?.some(row => row.id === initial.release)) void inspectRelease(initial.release);
+  }, [projectLoaded,projectId,token]);
+  useEffect(() => {
+    if (!actor || !projectLoaded || !workflowRestored.current) return;
+    const hash=writeWorkflowLocation({tab,project:projectId,target:workflowTarget,draft:workflowDraft,release:release?.id,plan:selectedPlan});
+    if (location.hash!==hash) history.replaceState(null,'',hash);
+  }, [actor,projectLoaded,projectId,tab,workflowTarget,workflowDraft,release?.id,selectedPlan]);
+  const workspaceReleasePrepared = async prepared => {
+    const selectedProject=projectId,selectedToken=token,epoch=sessionEpoch.current;
+    await refresh(selectedToken,selectedProject);
+    if(activeProjectId.current===selectedProject && tokenRef.current===selectedToken && sessionEpoch.current===epoch){selectRelease(prepared);}
+  };
+  const openHistoryPlan = id => {
+    if (!detail?.plans?.some(row=>row.id===id)) {setNotice('Refresh the project to reopen this plan.');return;}
+    selectPlan(id);setTab('review');
+  };
+  const openHistoryRelease = id => {setTab('release');void inspectRelease(id);};
+
   const historyEpoch = { session: sessionEpoch.current, refresh: refreshSequence.current,
     context: executionContextEpoch.current, visibility: executionHistoryVisibilityVersion };
   const isCurrentExecutionHistory = (expectedProject, expectedPlan, expectedToken) => tab === 'review'
@@ -1502,6 +1536,8 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('release'); }}><span>◫</span> Releases</button>
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('review'); }}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'inbox' ? 'active' : ''}`} onClick={() => { setTab('inbox'); void loadInbox({ append: false }); }}><span>▤</span> Review inbox</button>
+      <button type="button" className={`nav-item ${tab === 'sql' ? 'active' : ''}`} onClick={() => setTab('sql')}><span aria-hidden="true">⌨</span> SQL Workspace</button>
+      <button type="button" className={`nav-item ${tab === 'history' ? 'active' : ''}`} onClick={() => setTab('history')}><span aria-hidden="true">≡</span> Migration history</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('records'); }}><span>≡</span> Audit &amp; history</button>
       <button type="button" className={`nav-item ${tab === 'account' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('account'); }}><span>◎</span> Account &amp; access</button>
     <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={async () => { if (token.startsWith('session:')) { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; inboxSequence.current += 1; executionContextEpoch.current += 1; try { await json('/api/session/logout', token, { method: 'POST' }); } catch (e) { if (e.message !== 'UNAUTHENTICATED') { setBusy(false); setError('Sign out failed. Retry to revoke this session.'); return; } } } executionContextEpoch.current += 1; executionKeys.current.clear(); executionEventSequence.current += 1; setExecutionEvents({}); setExecutionReason(''); browserSessionEpoch += 1; inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' }); sessionEpoch.current += 1; withdrawalContextEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; invalidateReleaseComparison(); statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setRevocationReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setNavigateDuringWithdrawal(false); setError(''); setNotice(''); }}>↗</button></div>
@@ -1519,8 +1555,13 @@ function App() {
         {tab === 'workspace' && <WorkspaceScreen model={model} />}
         {tab === 'references' && projectId && <SchemaReferences key={`${token}:${projectId}`} token={token} projectId={projectId} onTargets={()=>setTab('targets')} onMissing={()=>{clearProjectState();void refresh(token,projectId);}} />}
         {tab === 'references' && !projectId && <div className="empty-state"><strong>Select a project first</strong><span>Choose an assigned project from Projects, then open Schema references.</span><button type="button" className="text-button" onClick={()=>setTab('workspace')}>Go to Projects →</button></div>}
-        {tab === 'targets' && projectLoaded && <ProjectTargets key={`${token}:${projectId}`} token={token} projectId={projectId} detail={detail} actor={actor} request={json} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE'} onSaved={() => refresh(token, projectId)} onPrepare={() => setTab('release')} onMissing={() => {clearProjectState(); void refresh(token, projectId);}}/>}
+        {tab === 'targets' && projectLoaded && <ProjectTargets key={`${token}:${projectId}`} token={token} projectId={projectId} detail={detail} actor={actor} request={json} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE'} onSaved={() => refresh(token, projectId)} onPrepare={() => setTab('release')} onWorkspace={bindingId=>{setWorkflowTarget(bindingId);setTab('sql');}} onMissing={() => {clearProjectState(); void refresh(token, projectId);}}/>}
         {tab === 'targets' && !projectLoaded && <p role="status">Select a project to inspect its targets.</p>}
+        {tab === 'sql' && projectLoaded && <SqlWorkspace key={`${token}:${projectId}`} token={token} projectId={projectId} projectName={detail.project.name} bindings={detail.targetBindings || []} request={json}
+          initialBindingId={workflowTarget} initialDraftId={workflowDraft} onBindingSelected={setWorkflowTarget} onDraftSelected={setWorkflowDraft}
+          onReleasePrepared={workspaceReleasePrepared} onPlan={schemaPlanCreated} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE' || actor.role !== 'developer'}/>}
+        {tab === 'history' && projectLoaded && <MigrationHistory key={`${token}:${projectId}`} projectId={projectId} detail={detail} token={token} request={json} targets={detail.targetBindings || []} onOpenPlan={openHistoryPlan} onOpenRelease={openHistoryRelease} formatTime={fmt}/>}
+        {['sql','history'].includes(tab) && !projectLoaded && <div className="empty-state"><strong>Select an authorized project</strong><button className="secondary" onClick={()=>setTab('workspace')}>Go to Projects</button></div>}
         {tab === 'release' && <ReleaseScreen model={model} />}
         {tab === 'review' && <ReviewScreen model={model} />}
         {tab === 'inbox' && <ReviewInboxScreen model={model} />}
@@ -1630,14 +1671,14 @@ function ReleaseScreen({ model }) {
           <div className="page-heading"><div><p className="eyebrow">MIGRATION INTAKE</p><h1>Import a release</h1><p className="muted">Select an allowlisted Git repository and an immutable commit to inspect migration files.</p></div><div className="heading-mark">02 <span> / 04</span></div></div>
           {isArchived && <output className="archive-notice"><strong>Archived project</strong><span>Existing release details can still be reviewed. Importing new releases is disabled.</span></output>}
           <SourceBindingPanel model={model} />
-          <section className="panel saved-releases"><div className="panel-heading"><div><h2>Existing releases</h2><p>Open an imported release to review migration files and SQL.</p></div><span className="count-pill">{detail?.releases?.length || 0} releases</span></div>{detail?.releases?.length ? <div className="saved-release-list">{detail.releases.map((item) => <div className="saved-release-row" data-release-id={item.id} key={item.id}><span><strong>{item.commit?.slice(0, 12)} · {item.folder}</strong><small>Imported {fmt(item.createdAt)} · {item.validationStatus}</small></span><button type="button" className="secondary" onClick={() => { void inspectRelease(item.id); }} disabled={busy}>Inspect files</button></div>)}</div> : <p className="subtle">No releases imported for this project yet.</p>}</section>
+          <section className="panel saved-releases"><div className="panel-heading"><div><h2>Existing releases</h2><p>Open a retained release to review migration files, SQL and origin.</p></div><span className="count-pill">{detail?.releases?.length || 0} releases</span></div>{detail?.releases?.length ? <div className="saved-release-list">{detail.releases.map((item) => <div className="saved-release-row" data-release-id={item.id} key={item.id}><span><strong>{item.commit?.slice(0, 12)} · {item.folder}</strong><small>{item.sourceKind==='AUTHORED_SQL_WORKSPACE'?'Authored snapshot':'Git import'} · {fmt(item.createdAt)} · {item.validationStatus}</small></span><button type="button" className="secondary" onClick={() => { void inspectRelease(item.id); }} disabled={busy}>Inspect files</button></div>)}</div> : <p className="subtle">No releases imported for this project yet.</p>}</section>
           <section className="panel release-comparison" aria-label="Compare retained releases"><div className="panel-heading"><div><h2>Compare retained releases</h2><p>Read-only source comparison. This does not show deployment or database state.</p></div><span className="step-badge">SOURCE ONLY</span></div><div className="release-form"><label>Base release<select aria-label="Base release" value={baseReleaseId} onChange={(event) => { invalidateReleaseComparison(); setBaseReleaseId(event.target.value); }} disabled={busy || !projectLoaded}><option value="">Choose base release</option>{(detail?.releases || []).map((item) => <option key={item.id} value={item.id}>{item.commit?.slice(0, 12)} · {item.folder} · {item.validationStatus}</option>)}</select></label><label>Candidate release<select aria-label="Candidate release" value={candidateReleaseId} onChange={(event) => { invalidateReleaseComparison(); setCandidateReleaseId(event.target.value); }} disabled={busy || !projectLoaded}><option value="">Choose candidate release</option>{(detail?.releases || []).map((item) => <option key={item.id} value={item.id}>{item.commit?.slice(0, 12)} · {item.folder} · {item.validationStatus}</option>)}</select></label><button type="button" className="primary" disabled={busy || !baseReleaseId || !candidateReleaseId || !projectLoaded} onClick={() => void compareReleases(baseReleaseId, candidateReleaseId)}>Compare source</button></div>{releaseComparison?.loading && releaseComparison.baseReleaseId === baseReleaseId && releaseComparison.candidateReleaseId === candidateReleaseId && <p role="status">Comparing retained source…</p>}{releaseComparison?.error && releaseComparison.baseReleaseId === baseReleaseId && releaseComparison.candidateReleaseId === candidateReleaseId && <p className="banner error" role="alert">Comparison is unavailable. Refresh the project and retry.</p>}{releaseComparison?.facts && releaseComparison.baseReleaseId === baseReleaseId && releaseComparison.candidateReleaseId === candidateReleaseId && <><dl className="release-provenance"><div><dt>Base commit / manifest</dt><dd><code>{releaseComparison.base.id}</code><br/><code>{releaseComparison.base.commit}</code><br/><code>{releaseComparison.base.manifestDigest}</code><br/>Repository {releaseComparison.base.repositoryId} · {releaseComparison.base.folder} · {releaseComparison.base.parserProfile}</dd></div><div><dt>Candidate commit / manifest</dt><dd><code>{releaseComparison.candidate.id}</code><br/><code>{releaseComparison.candidate.commit}</code><br/><code>{releaseComparison.candidate.manifestDigest}</code><br/>Repository {releaseComparison.candidate.repositoryId} · {releaseComparison.candidate.folder} · {releaseComparison.candidate.parserProfile}</dd></div></dl><div className="comparison-facts">{releaseComparison.facts.map((fact) => <details className="comparison-fact" key={fact.version}><summary><strong>{fact.version}</strong> · {fact.change} · {fact.base?.path || '—'} → {fact.candidate?.path || '—'}</summary><div className="comparison-sides">{fact.base && <section><h3>Base · {fact.base.path}</h3><p>SHA256 {fact.base.sha256} · {fact.base.bytes} bytes</p><pre>{fact.base.content}</pre></section>}{fact.candidate && <section><h3>Candidate · {fact.candidate.path}</h3><p>SHA256 {fact.candidate.sha256} · {fact.candidate.bytes} bytes</p><pre>{fact.candidate.content}</pre></section>}</div></details>)}{!releaseComparison.facts.length && <p>No migration files were present.</p>}</div></>}</section>
           <section className="panel intake-panel"><div className="panel-heading"><div><h2>Repository source</h2><p>Repository paths stay on the server. The browser sends only the repository ID.</p></div><span className="step-badge">GIT</span></div>
             <form className="release-form" inert={readOnlyBootstrap} onSubmit={importRelease}><label>Project<select aria-label="Release project" value={projectId} onChange={(e) => selectProject(e.target.value)} required disabled={busy}><option value="">Choose project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}{p.archivedAt ? ' · ARCHIVED' : ''}</option>)}</select></label><label>Bound repository<output aria-label="Bound repository" className="bound-source-value">{boundRepositoryLabel}</output></label><label>Branch or tag<select aria-label="Git branch or tag" value={releaseForm.commit.startsWith('refs/') ? releaseForm.commit : ''} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value || 'HEAD' })} disabled={busy || isArchived || !bindingDraftMatches || gitRefsLoading || !!gitRefsError}><option value="">Use HEAD or enter a ref below</option><optgroup label="Branches">{gitRefs.branches.map((item) => <option key={item.ref} value={item.ref}>Branch · {item.name}</option>)}</optgroup><optgroup label="Tags">{gitRefs.tags.map((item) => <option key={item.ref} value={item.ref}>Tag · {item.name}</option>)}</optgroup></select><small>{gitRefsLoading ? 'Loading refs from the saved project repository…' : gitRefsError ? explain(new Error(gitRefsError)) : 'Choose a local branch or commit-resolving tag, or keep using HEAD/manual commit.'}</small></label><label>Commit or ref<input aria-label="Git commit or ref" value={releaseForm.commit} onChange={(e) => setReleaseForm({ ...releaseForm, commit: e.target.value })} placeholder="40 character commit SHA" required disabled={busy || isArchived || !bindingDraftMatches}/><small>Selected refs are resolved to a full immutable commit during import.</small></label><label>Bound migration folder<output aria-label="Bound migration folder" className="bound-source-value">{projectLoaded ? sourceBinding?.folder || 'No source bound' : 'Loading project source…'}</output></label><div className="form-actions"><button type="submit" className="primary" disabled={busy || isArchived || !projects.length || !bindingDraftMatches}>{busy ? 'Importing…' : 'Import and validate'}</button><span className="subtle">{importHint} Files are parsed before a plan can be created.</span></div></form>
           </section>
           {projectLoaded && <p className="intake-guidance">Import a commit from the current bound repository and folder to prepare a fresh plan. If the SQL changed, commit those edits first; a source-binding refresh alone does not require SQL edits. Existing releases and plans remain unchanged.</p>}
           {!scopedRelease && statementPreview?.error && !statementPreview.planId && <p className="banner error" role="alert">Statement preview is unavailable for this retained file. Refresh the project and try again.</p>}
-          {scopedRelease && <section className="panel release-result" data-inspected-release-id={scopedRelease.id}><div className="panel-heading"><div><p className="eyebrow">IMPORTED RELEASE</p><h2>{scopedRelease.commit?.slice(0, 12)} <span className="muted">· {scopedRelease.folder}</span></h2></div><span className={`status-pill ${importStatusClass(scopedRelease.validationStatus)}`}>{scopedRelease.validationStatus}</span></div>{scopedRelease.validationCode && <p className="banner warning">{scopedRelease.validationCode}</p>}<RetainedReleaseContent source={scopedRelease} repositories={repositories} fmt={fmt} requestStatementPreview={requestStatementPreview} statementPreview={statementPreview}/></section>}
+          {scopedRelease && <section className="panel release-result" data-inspected-release-id={scopedRelease.id}><div className="panel-heading"><div><p className="eyebrow">{scopedRelease.sourceKind==='AUTHORED_SQL_WORKSPACE'?'AUTHORED SQL RELEASE':'IMPORTED RELEASE'}</p><h2>{scopedRelease.commit?.slice(0, 12)} <span className="muted">· {scopedRelease.folder}</span></h2></div><span className={`status-pill ${importStatusClass(scopedRelease.validationStatus)}`}>{scopedRelease.validationStatus}</span></div>{scopedRelease.validationCode && <p className="banner warning">{scopedRelease.validationCode}</p>}<RetainedReleaseContent source={scopedRelease} repositories={repositories} fmt={fmt} requestStatementPreview={requestStatementPreview} statementPreview={statementPreview}/></section>}
 
           {scopedRelease && <SchemaValidation key={`${token}:${projectId}:${scopedRelease.id}`} token={token} projectId={projectId} release={scopedRelease}
             bindings={detail?.targetBindings || []} request={json} onPlan={model.schemaPlanCreated}

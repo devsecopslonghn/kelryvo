@@ -82,6 +82,7 @@ jobs:
             .cache/phase4-acceptance/
             .cache/phase5-acceptance/
             .cache/phase6-acceptance/
+            .cache/phase7-acceptance/
           if-no-files-found: ignore
           retention-days: 14
       - if: matrix.suite == 'release'

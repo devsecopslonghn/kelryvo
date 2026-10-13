@@ -1,3 +1,4 @@
+import {loadWorkspaceReleaseOrigin} from '../migrations/workspace-release-origin.ts';
 import { publicIntent } from '../targets/public.mjs';
 import { createHash } from 'node:crypto';
 import { verifyOfflinePlanIntent } from '../migrations/offline-plan-intent.mjs';
@@ -44,12 +45,13 @@ export async function readVerifiedPublicPlanRecord(tx: any, planId: string, proj
     FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id WHERE e.digest=${intent.target.observationDigest} AND e.project_id=${projectId}`)[0] : null;
   if(intent.target?.observationDigest && !targetObservation)throw unavailable();
   const schemaValidation=intent.validation ? await validationForIntent(tx,intent) : null;
+  const sourceOrigin=await loadWorkspaceReleaseOrigin(tx,projectId,intent.releaseId);
   return {
     plan: { id: p.id, projectId: p.projectId, authorId: p.authorId, createdAt: p.createdAt,
       sourceBindingGeneration: p.sourceBindingGeneration, status: p.status, decision: p.decision,
       decisionReason: p.decisionReason, decidedBy: p.decidedBy, decidedByName: p.decidedByName,
       decidedAt: p.decidedAt, approvalReference: p.approvalReference, revocation: revocationRow?.snapshot ?? null },
-    retainedIntent: {...publicIntent(intent),...(targetObservation ? {targetObservation} : {}),...(schemaValidation ? {schemaValidation} : {})},
+    retainedIntent: {...publicIntent(intent),...(sourceOrigin.sourceKind==='AUTHORED_SQL_WORKSPACE'?{sourceOrigin}:{}),...(targetObservation ? {targetObservation} : {}),...(schemaValidation ? {schemaValidation} : {})},
   };
 }
 

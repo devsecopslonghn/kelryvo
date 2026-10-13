@@ -1,3 +1,6 @@
+import {registerSqlWorkspace} from '../../packages/sql-workspace/api.ts';
+import {loadWorkspaceReleaseOrigins,loadWorkspaceReleaseOrigin} from '../../packages/migrations/workspace-release-origin.ts';
+import { registerMigrationHistory } from '../../packages/migration-history/api.ts';
 import { acquireTargetLocks } from '../../packages/targets/locks.ts';
 import { registerTargets } from '../../packages/targets/api.ts';
 import { registerConnectivity } from '../../packages/connectivity/api.ts';
@@ -186,6 +189,8 @@ export function createApp(options: {
   registerTargets(app, { sql, authenticate });
   registerConnectivity(app, {sql,authenticate,runtime:options.discoveryRuntime,timeoutMs:options.discoveryTimeoutMs});
   registerSqlValidation(app,{sql,authenticate});
+  registerSqlWorkspace(app,{sql,authenticate,releaseParser:options.releaseParser});
+  registerMigrationHistory(app,sql,authenticate,ORG);
   registerExecutionReadiness(app,sql,authenticate,ORG);
   registerExecutionReconciliation(app,{sql,authenticate});
   registerPlanRecord(app, { sql, authenticate });
@@ -422,6 +427,7 @@ export function createApp(options: {
             AND EXISTS(SELECT 1 FROM sf_project_grants g WHERE g.project_id=j.project_id AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL)
             ORDER BY j.created_at DESC LIMIT 50`,
         ]);
+      const workspaceReleaseOrigins=await loadWorkspaceReleaseOrigins(sql,p.id);
       const targetPage = await sql.begin(async (tx: any) => { await guardMutationAuthority(tx, req); return (await projectAccessMode(tx)) === 'ENFORCED' ? listTargetBindings(tx, p.id, undefined) : {bindings:[],nextCursor:null}; });
       return {
         project: mappedProject(p),
@@ -444,6 +450,7 @@ export function createApp(options: {
           retirementReason: r.retirement_reason,
         })),
         releases: releases.map((r: any) => ({
+          ...(workspaceReleaseOrigins.get(r.id) || {sourceKind:'GIT_IMPORT'}),
           id: r.id,
           repositoryId: r.repository_id,
           commit: r.commit_id,
@@ -915,13 +922,14 @@ export function createApp(options: {
           floor(extract(epoch FROM created_at)*1000)::bigint AS created_at_ms FROM sf_releases
           WHERE id=${req.params.id} AND project_id=${projectRow.id} AND organization_id=${ORG} FOR SHARE`)[0];
         if (!r) return { error: "NOT_FOUND" };
-        return { release: r };
+        return { release: {...r,workspaceOrigin:await loadWorkspaceReleaseOrigin(tx,projectRow.id,r.id)} };
       });
       if (result.error === "NOT_FOUND") return fail(reply, 404, "NOT_FOUND");
       if (result.error) return fail(reply, 409, "RELEASE_UNAVAILABLE");
       const r = result.release;
       return {
         release: {
+          ...r.workspaceOrigin,
           id: r.id,
           repositoryId: r.repository_id,
           commit: r.commit_id,

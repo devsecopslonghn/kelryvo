@@ -12,8 +12,8 @@
     "BLOCKED_EXTERNAL is reserved for an otherwise implemented/ready feature missing only external evidence; unimplemented features are not relabeled merely because Oracle access is absent."
   ],
   "summary": {
-    "PARTIALLY_IMPLEMENTED": 59,
-    "NOT_IMPLEMENTED": 154,
+    "PARTIALLY_IMPLEMENTED": 60,
+    "NOT_IMPLEMENTED": 153,
     "DEFERRED": 7,
     "BLOCKED_EXTERNAL": 0,
     "IMPLEMENTED_AND_VERIFIED": 0
@@ -49,8 +49,8 @@
     },
     "V2": {
       "IMPLEMENTED_AND_VERIFIED": 0,
-      "PARTIALLY_IMPLEMENTED": 1,
-      "NOT_IMPLEMENTED": 40,
+      "PARTIALLY_IMPLEMENTED": 2,
+      "NOT_IMPLEMENTED": 39,
       "BLOCKED_EXTERNAL": 0,
       "DEFERRED": 0
     },
@@ -1430,8 +1430,12 @@
       "id": "SQL-001",
       "name": "Web SQL editor",
       "milestone": "V2",
-      "classification": "NOT_IMPLEMENTED",
-      "basis": "No implementation and verification of this catalog capability identified in the current product API/web/migration modules or offline parser tooling. Related design or preflight metadata is insufficient."
+      "classification": "PARTIALLY_IMPLEMENTED",
+      "basis": "Phase 7 adds project/target-scoped durable SQL drafts, immutable revision comparison, offline syntax/classification/risk review and honest authored release snapshots entering existing immutable target validation/planning. Local PostgreSQL/HTTPS/restart acceptance covers the bounded editing journey. Governed interactive SQL execution and complete catalog acceptance remain outside this phase.",
+      "remaining_gap": "Interactive query execution, autocomplete and complete original catalog acceptance remain unimplemented. No Oracle semantic or execution certification.",
+      "evidence": [
+        "evidence/product/phase7-product-workspace-20261013/acceptance.json"
+      ]
     },
     {
       "id": "SQL-002",
@@ -2827,5 +2831,11 @@
     "full_catalog_promotion": false,
     "oracle_runtime_verified": false,
     "verified_master": "8e1f31157a1d6ca9f333dd921b48873f923d1e58"
+  },
+  "phase7_workspace": {
+    "status": "LOCAL_ACCEPTANCE_HOSTED_MILESTONE_GATES",
+    "evidence": "evidence/product/phase7-product-workspace-20261013/acceptance.json",
+    "full_catalog_promotion": false,
+    "oracle_runtime_verified": false
   }
 }
