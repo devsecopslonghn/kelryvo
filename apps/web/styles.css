@@ -1759,4 +1759,6 @@ td code {
 .plan-source-comparison pre { white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0; padding: 12px; background: #f7f9fc; }
 .plan-source-comparison summary { cursor: pointer; padding: 12px 0; }
 .plan-source-comparison nav { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
+.migration-analysis code, .migration-analysis li { overflow-wrap: anywhere; }
+.migration-analysis pre { white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0; }
 @media (max-width: 760px) { .plan-source-comparison .comparison-sides { grid-template-columns: minmax(0, 1fr); } }
