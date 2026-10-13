@@ -156,6 +156,15 @@ test('migration history is project and target scoped, searchable, paginated, and
     await page.getByText(/Project history access changed\. Refresh the project\./).waitFor();
     await page.getByRole('region', { name: `Execution request details ${jobId}` }).waitFor({ state: 'detached' });
     await membership.grant(first.id, actors[0].id);
+    await page.evaluate(planId=>{const url=new URL(location.href);url.searchParams.set('historyPlan',planId);history.replaceState(null,'',url);},plan.id);
+    await page.getByRole('button',{name:/Projects/}).first().click();
+    await page.locator('.project-row').filter({hasText:'Private history'}).click();
+    await page.getByRole('button',{name:'Migration history',exact:true}).click();
+    await page.waitForFunction(()=>document.querySelector('.migration-history-explorer .count-pill')?.textContent==='1 records');
+    assert.equal(new URL(page.url()).searchParams.has('historyJob'),false,'switching projects removes the previous project’s request permalink');
+    assert.equal(new URL(page.url()).searchParams.has('historyPlan'),false,'switching projects removes the previous plan filter identity');
+    assert.equal(await page.getByLabel('Search migration history').inputValue(),'');
+    assert.equal(await page.getByRole('region',{name:`Execution request details ${jobId}`}).count(),0);
     assert.deepEqual(pageErrors, []);
     await browser.close();
     browser = null;

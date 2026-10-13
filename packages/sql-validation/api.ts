@@ -15,7 +15,17 @@ export function registerSqlValidation(app:any,{sql,authenticate}:any) {
   };
   const route=(method:string,path:string,fn:any)=>app[method](path,{preHandler:authenticate},async(req:any,reply:any)=>{
     reply.header('Cache-Control','no-store');
-    try{return await fn(req,reply);}catch(e:any){if(e.validationStatus)return reply.code(e.validationStatus).send({error:e.productCode});throw e;}
+    try{return await fn(req,reply);}catch(e:any){
+      const code=e.productCode;
+      const status=e.statusCode || (code ? ({UNAUTHENTICATED:401,DEVELOPER_REQUIRED:403,NOT_FOUND:404,
+        INVALID_REQUEST:400,PROJECT_ARCHIVED:409,METADATA_RESTORE_HOLD:409,TARGET_REVISION_CONFLICT:409,
+        SOURCE_BINDING_MISMATCH:409,RELEASE_INTEGRITY_FAILED:409,RELEASE_NOT_VALID:409,
+        VALIDATION_EVIDENCE_UNAVAILABLE:409,VALIDATION_PARSER_UNAVAILABLE:503,VALIDATION_TOO_LARGE:413,
+      } as Record<string,number>)[code] || e.validationStatus || 409 : e.validationStatus || 500);
+      if(code)return reply.code(status).send({error:code});
+      if(e.validationStatus)return reply.code(e.validationStatus).send({error:'SQL_VALIDATION_UNAVAILABLE'});
+      throw e;
+    }
   });
   route('post','/api/projects/:projectId/releases/:releaseId/validations',async(req:any,reply:any)=>{
     const b=req.body,keys=['targetBindingId','expectedBindingRevision','expectedAssignmentRevision'];

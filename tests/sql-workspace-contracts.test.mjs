@@ -29,3 +29,18 @@ test('workspace bounds the total UTF-8 size of all files, including later files'
   assert.equal(validateDraft(large), true);
   assert.equal(validateDraft({ ...large, files: [...large.files, second] }), false);
 });
+
+test('workspace accepts only an immutable release reference bound to its exact draft evidence', () => {
+  const sha = 'a'.repeat(64), manifestDigest = 'b'.repeat(64);
+  const authored = { ...draft, sha256: sha, manifestVersion: 1 };
+  const preparedRelease = { id: secondId, sourceKind: 'AUTHORED_SQL_WORKSPACE', draftId: id,
+    draftRevision: '1', draftSha256: sha, manifestDigest, manifestVersion: 1 };
+  assert.equal(validateDraft({ ...authored, preparedRelease }), true);
+  assert.equal(validateDraft({ ...draft, preparedRelease: null }), true, 'legacy and absent release metadata remain compatible');
+  assert.equal(validateDraft(draft), true);
+  for (const [key, value] of [
+    ['id', 'invalid'], ['sourceKind', 'GIT_IMPORT'], ['draftId', secondId], ['draftRevision', '2'],
+    ['draftSha256', 'c'.repeat(64)], ['manifestDigest', 'not-a-digest'], ['manifestVersion', 2],
+  ]) assert.equal(validateDraft({ ...authored, preparedRelease: { ...preparedRelease, [key]: value } }), false, key);
+  assert.equal(validateDraft({ ...authored, sha256: undefined, preparedRelease }), false, 'the draft must carry the bound source digest');
+});

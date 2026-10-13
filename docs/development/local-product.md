@@ -1340,7 +1340,20 @@ validation and planning use the existing release and target APIs. Native backups
 both manifest generations and source attribution, and restore retains recovery HOLD.
 The editor applies the saved name returned by the API, preserves its current content
 when a file response is incomplete, and clears comparisons when the selected revisions
-change. Revision conflicts continue to preserve unsaved edits until explicitly discarded.
+change. Revision conflicts preserve local edits while the user inspects the latest saved
+revision and explicitly keeps or discards them; keeping edits requires a subsequent
+revision-checked save. File removal can be undone, and dirty drafts block project changes,
+refresh and manual sign-out. The workspace displays active files, per-file unsaved changes
+and the current lifecycle stage with guidance for the next action.
+
+Draft detail responses restore `preparedRelease` only for a verified exact revision and
+current source-binding generation. Reload retains the immutable release identity while
+requiring fresh validation before planning. Validation failures return fixed domain codes
+and appropriate conflict, unavailable-parser or size-limit statuses. Source findings link
+to exact file/statement byte ranges in the editor or verified immutable preview. Review
+summaries identify the release, draft revision and intent digest; plan/history links retain
+project scope and clear incompatible plan-status filters. Approval remains independent
+from execution authorization.
 
 In Plans & review, choose an authorized retained baseline and compare it to the exact
 plan candidate. File changes align by migration version; reliable parser byte ranges and

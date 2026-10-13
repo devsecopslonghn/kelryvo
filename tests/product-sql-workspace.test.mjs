@@ -100,6 +100,7 @@ test('SQL workspace drafts are project scoped, revision checked, durable and pre
       name: draft.name, targetBindingId: f.binding.bindingId, sql: `${source}CREATE TABLE workspace_authored_two (id NUMBER);\n` });
     assert.equal(saved.statusCode, 200, saved.body);
     assert.equal(saved.json().draft.revision, '2');
+    assert.equal(saved.json().draft.preparedRelease, null, 'an unpublished draft revision has no retained release reference');
     assert.equal((await f.api('PUT', `${base}/${draft.id}`, { expectedRevision: '1',
       name: draft.name, targetBindingId: f.binding.bindingId, sql: source })).statusCode, 409);
 
@@ -127,6 +128,7 @@ test('SQL workspace drafts are project scoped, revision checked, durable and pre
     assert.equal(reopened.statusCode, 200, reopened.body);
     assert.equal(reopened.json().draft.revision, '2');
     assert.equal(reopened.json().draft.sql, `${source}CREATE TABLE workspace_authored_two (id NUMBER);\n`);
+    assert.equal(reopened.json().draft.preparedRelease, null, 'reload does not invent a release for an unprepared revision');
 
     const prepareBody = { expectedRevision: '2', targetBindingId: f.binding.bindingId,
       expectedBindingRevision: f.binding.bindingRevision, expectedAssignmentRevision: f.binding.assignmentRevision };
@@ -137,6 +139,10 @@ test('SQL workspace drafts are project scoped, revision checked, durable and pre
     const prepared = parallelPrepared[0];
     assert.equal(prepared.statusCode, 201, prepared.body);
     const release = prepared.json().release;
+    const preparedDraft = await f.api('GET', `${base}/${draft.id}`);
+    assert.equal(preparedDraft.statusCode, 200, preparedDraft.body);
+    assert.equal(preparedDraft.json().draft.preparedRelease.id, release.id,
+      'reopening the exact saved revision restores its immutable release context');
     assert.equal(parallelPrepared[1].statusCode, 201, parallelPrepared[1].body);
     assert.equal(parallelPrepared[1].json().release.id, release.id,
       'concurrent retries resolve to one retained release');
@@ -181,12 +187,19 @@ test('SQL workspace drafts are project scoped, revision checked, durable and pre
     assert.equal(afterRestart.statusCode, 201, afterRestart.body);
     assert.equal(afterRestart.json().release.id, release.id,
       'restarting after commit preserves the retry result');
+    const afterRestartDraft = await f.api('GET', `${base}/${draft.id}`);
+    assert.equal(afterRestartDraft.json().draft.preparedRelease.id, release.id,
+      'the draft API restores the retained release reference after server restart');
 
     const malformedFiles = Array.from({ length: 129 }, (_, index) => ({ ...snapshot[0],
       path: `${release.folder}/V${index + 1}__bounded_corruption.sql`, version: String(index + 1) }));
     await f.db.suspendRetainedEvidenceGuards();
     try {
       await f.db.sql`UPDATE sf_releases SET files=${f.db.sql.json(malformedFiles)} WHERE id=${release.id}`;
+      const corruptDetail = await f.api('GET', `${base}/${draft.id}`);
+      assert.equal(corruptDetail.statusCode, 409, corruptDetail.body);
+      assert.deepEqual(corruptDetail.json(), { error: 'RELEASE_INTEGRITY_FAILED' },
+        'draft detail fails closed when its exact retained release origin is corrupt');
       const corruptRetry = await f.api('POST', `${base}/${draft.id}/prepare-release`, prepareBody);
       assert.equal(corruptRetry.statusCode, 409, corruptRetry.body);
       assert.equal(corruptRetry.json().error, 'RELEASE_INTEGRITY_FAILED',
@@ -201,10 +214,35 @@ test('SQL workspace drafts are project scoped, revision checked, durable and pre
     assert.equal(staleRetry.statusCode, 409, staleRetry.body,
       'idempotent retries still reject stale target revisions before reusing a release');
     await f.db.sql`UPDATE sf_projects SET source_binding_generation=source_binding_generation+1 WHERE id=${f.project.id}`;
+    const oldGenerationDraft = await f.api('GET', `${base}/${draft.id}`);
+    assert.equal(oldGenerationDraft.statusCode, 200, oldGenerationDraft.body);
+    assert.equal(oldGenerationDraft.json().draft.preparedRelease, null,
+      'an authored release from a superseded source-binding generation is not restored');
     const newSourceGeneration = await f.api('POST', `${base}/${draft.id}/prepare-release`, prepareBody);
     assert.equal(newSourceGeneration.statusCode, 201, newSourceGeneration.body);
     assert.notEqual(newSourceGeneration.json().release.id, release.id,
       'a changed source binding generation produces a distinct retained release');
+    const freshGenerationDraft = await f.api('GET', `${base}/${draft.id}`);
+    assert.equal(freshGenerationDraft.json().draft.preparedRelease.id, newSourceGeneration.json().release.id);
+
+    const revisionDraftResponse = await f.api('POST', base, {
+      name: 'Prepared revision fixture', targetBindingId: f.binding.bindingId, sql: source,
+    });
+    const revisionDraft = revisionDraftResponse.json().draft;
+    const revisionRelease = await f.api('POST', `${base}/${revisionDraft.id}/prepare-release`, {
+      expectedRevision: '1', targetBindingId: f.binding.bindingId,
+      expectedBindingRevision: f.binding.bindingRevision, expectedAssignmentRevision: f.binding.assignmentRevision,
+    });
+    assert.equal(revisionRelease.statusCode, 201, revisionRelease.body);
+    assert.equal((await f.api('GET', `${base}/${revisionDraft.id}`)).json().draft.preparedRelease.id,
+      revisionRelease.json().release.id);
+    const laterRevision = await f.api('PUT', `${base}/${revisionDraft.id}`, {
+      expectedRevision: '1', name: revisionDraft.name, targetBindingId: f.binding.bindingId,
+      sql: `${source}CREATE TABLE later_revision (id NUMBER);\n`,
+    });
+    assert.equal(laterRevision.statusCode, 200, laterRevision.body);
+    assert.equal(laterRevision.json().draft.preparedRelease, null,
+      'a release tied to an earlier immutable draft revision is not restored for later SQL');
 
     const revisionsBeforeHold = (await f.db.sql`SELECT count(*)::int AS n FROM sf_sql_draft_revisions WHERE draft_id=${draft.id}`)[0].n;
     const releasesBeforeHold = (await f.db.sql`SELECT count(*)::int AS n FROM sf_releases WHERE project_id=${f.project.id}`)[0].n;
