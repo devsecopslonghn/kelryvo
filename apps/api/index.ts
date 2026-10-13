@@ -30,6 +30,7 @@ import { decodeReviewInboxCursor, encodeReviewInboxCursor, reviewInboxScopes } f
 
 import { registerExecutionHistory } from "../../packages/execution/history.ts";
 import { registerExecutionReadiness } from '../../packages/execution/readiness.ts';
+import { registerMigrationAnalysis } from '../../packages/execution/migration-analysis.ts';
 import { registerExecutionReconciliation } from '../../packages/execution/reconciliation.ts';
 import { targetRequestConflict } from '../../packages/execution/admission.ts';
 import { registerPlanRecord } from "../../packages/governance/plan-record.ts";
@@ -193,6 +194,7 @@ export function createApp(options: {
   registerSqlWorkspace(app,{sql,authenticate,releaseParser:options.releaseParser});
   registerMigrationHistory(app,sql,authenticate,ORG);
   registerExecutionReadiness(app,sql,authenticate,ORG);
+  registerMigrationAnalysis(app,sql,authenticate);
   registerExecutionReconciliation(app,{sql,authenticate});
   registerPlanRecord(app, { sql, authenticate });
   registerSourceComparison(app, { sql, authenticate, statementParser });

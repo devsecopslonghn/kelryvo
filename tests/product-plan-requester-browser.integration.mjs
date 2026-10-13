@@ -153,7 +153,7 @@ test('browser shows retained plan requester facts and blocks author decisions', 
     await signIn(actors[0]);
     await openReview();
     await selectPlan(approverPlan);
-    assert.match(await page.locator('.banner.warning').innerText(), /cannot decide/i);
+    assert.match(await page.locator('.banner.warning').filter({ hasText: /cannot decide/i }).innerText(), /cannot decide/i);
     assert.equal(await page.getByRole('region', { name: 'Plan comments' }).getByLabel('Comment').isEnabled(), true);
     await page.getByLabel('Sign out').click();
     await signIn(actors[1]);

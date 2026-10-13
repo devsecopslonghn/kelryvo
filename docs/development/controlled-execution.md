@@ -38,6 +38,27 @@ against the captured identity evidence. Only an independently attested, matching
 target prefix with complete retained receipts and validity evidence can support
 skipping prior migrations; missing evidence remains blocked.
 
+The plan view's **Incremental migration preview** compares the immutable release
+with retained completion evidence and shows its exact ordered source SQL. The
+read-only `migration-analysis` endpoint binds the plan intent, source manifest,
+target and retained history in an analysis digest. Later SQL pages require that
+digest; changed evidence requires refreshing the comparison. Existing bounded
+SQL review identifies known risks without asserting semantic equivalence or
+resolving unobserved object dependencies.
+The preview verifies saved source ranges and hashes without reparsing the release;
+the worker still independently reparses and verifies execution bytes at admission.
+
+Completed rows describe retained receipts, acknowledgments and terminal validity
+evidence, with their execution scope. They do not attest current target effects.
+A NOOP candidate still requires independent target-ledger verification at worker
+admission. Missing, conflicting or uncertain history blocks the comparison;
+file-only legacy plans retain their evidence and require a fresh statement-bound
+plan. Format 2 lacks an exact target binding, so its target history remains
+unverifiable. Source, target or scope changes require a fresh independent review.
+The preview performs no writes, grants no execution authority and cannot clear
+HOLD or metadata recovery. Retained evidence is read from existing tables, so no
+metadata migration or archive-format change is introduced.
+
 **View execution history** shows attempts, statement progress, receipts and their
 approved migration identities. Synthetic acceptance remains explicitly labelled
 UNIT_SYNTHETIC, including retained success metadata. It does not verify Oracle.

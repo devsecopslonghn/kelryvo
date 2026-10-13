@@ -2,7 +2,10 @@
 // and PR run 38383990783 (e9de8e2), so a fast runner does not hide expensive files.
 // Nested durations are included once in their parent; costs only schedule files.
 // Browser costs retain the preceding PR calibration (38369582109 / 38376558062).
+// Phase 12 migration-preview API/browser costs measured locally; all files still run.
 const ESTIMATED_MILLISECONDS = Object.freeze({
+  "product-migration-analysis-browser.integration.mjs": 57500,
+  "product-migration-analysis.test.mjs": 120250,
   "product-account-browser.integration.mjs": 1340,
   "product-account.test.mjs": 914,
   "product-api-rate-limit.test.mjs": 1272,

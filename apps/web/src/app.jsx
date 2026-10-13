@@ -7,6 +7,7 @@ import { SchemaValidation, RetainedValidation } from './SchemaValidation.jsx';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import PlanRecord from './PlanRecord.jsx';
+import MigrationAnalysis from './MigrationAnalysis.jsx';
 import ExecutionHistory from './ExecutionHistory.jsx';
 import ExecutionReadiness from './ExecutionReadiness.jsx';
 import ExecutionReconciliation from './ExecutionReconciliation.jsx';
@@ -1751,6 +1752,7 @@ function ReviewScreen({ model }) {
                 </section>
                 {plan.retainedTarget ? <section className="panel retained-target" aria-label="Immutable target"><h3>Immutable target</h3><dl className="target-facts">{Object.entries(plan.retainedTarget).map(([key,value]) => <div key={key}><dt>{key}</dt><dd><code>{String(value ?? 'Not observed')}</code></dd></div>)}</dl><p role="status">Target currentness: <strong>{plan.currentness?.state || 'UNKNOWN'}</strong> {(plan.currentness?.reasons || []).join(', ')}</p><p>{plan.retainedTarget.identityState === 'PROVISIONAL' ? 'Provisional manual identity · Not observed.' : `Retained ${plan.retainedTarget.identityState.toLowerCase()} identity evidence · ${plan.retainedTarget.observationDigest}.`} Offline review only. A stale target requires a fresh plan.</p></section> : <p className="offline-note">{plan.currentness?.state === 'LEGACY_UNBOUND' ? 'Legacy unbound plan · no explicit schema assignment or target binding.' : 'Target evidence unavailable · currentness UNKNOWN. Refresh and inspect the retained evidence before continuing.'}</p>}
                 <PlanRecord key={`${token}:${projectId}:${plan.id}`} token={token} projectId={projectId} planId={plan.id} request={json}/>
+                {retainedIntentAvailable && <MigrationAnalysis key={`migration-analysis:${token}:${projectId}:${plan.id}:${intent.digest}`} token={token} projectId={projectId} planId={plan.id} releaseId={plan.releaseId} intentDigest={intent.digest} request={json}/> }
                 {intent?.validation ? <RetainedValidation key={`${token}:${projectId}:${plan.id}:${intent.validation.digest}`} token={token} projectId={projectId} reference={intent.validation} request={json} currentness={plan.currentness}/> : <p className="offline-note">This historical plan does not bind schema-aware SQL validation. Its retained offline evidence remains available.</p>}
                 {retainedIntentAvailable && intent.format >= 2 && <StatementEnvelope key={`${token}:${projectId}:${plan.id}:${intent.digest}`} token={token} projectId={projectId} planId={plan.id} intentDigest={intent.digest}/>}
                 {retainedIntentAvailable && intent.format === 1 && <p className="banner warning">This legacy plan binds files only. Prepare a new plan and obtain a new approval to bind the complete statement sequence; its existing history remains unchanged.</p>}
