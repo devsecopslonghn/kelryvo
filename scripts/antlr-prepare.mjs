@@ -6,6 +6,7 @@ import { Transform } from 'node:stream';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { selectTemurinArtifact } from './jdk-platform.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 if (process.argv.slice(2).join(' ') !== '--download') {
@@ -61,16 +62,14 @@ try {
   });
   const existing = JSON.parse(await readFile(path.join(root, 'docs/dependencies/third-party-notices.json')));
   const jdk = existing.runtimes.find(item => item.name === 'Eclipse Temurin JDK');
-  const expectedJdk = 'https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz';
-  if (jdk.artifact !== expectedJdk) throw new Error('invalid_jdk_origin');
-  if (!/^[a-f0-9]{64}$/.test(jdk.observed_sha256)) throw new Error('invalid_digest');
+  const selectedJdk = selectTemurinArtifact(jdk);
   const archive = path.join(root, '.cache/antlr/temurin.tar.gz');
   const destination = path.join(root, '.cache/antlr/temurin');
   const prior = await lstat(destination).catch(() => null);
   if (prior) throw new Error('jdk_destination_exists');
   // All origins/digests are validated first. Downloads share parent directories,
   // so retain sequential path validation/creation and artifact installation.
-  const downloads = [...artifacts, { url: expectedJdk, target: archive, digest: jdk.observed_sha256 }];
+  const downloads = [...artifacts, { url: selectedJdk.artifact, target: archive, digest: selectedJdk.observed_sha256 }];
   await downloads.reduce(async (previous, artifact) => {
     await previous;
     await download(artifact.url, artifact.target, artifact.digest);

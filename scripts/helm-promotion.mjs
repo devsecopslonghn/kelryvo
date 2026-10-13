@@ -127,7 +127,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     for (const image of IMAGES) {
       const reader = await registryReader(image, env.GITHUB_ACTOR, env.GITHUB_TOKEN);
       const remote = await reader(digests[image]);
-      verifyImage(remote, env.SOURCE_SHA);
+      verifyImage(remote, env.SOURCE_SHA, undefined, image);
       if ((await reader(tag)).digest !== digests[image]) throw new Error('Promotion digest does not match the verified publication tag');
     }
     const result = await promoteHelm({ api: githubApi(env.HELM_TOKEN, HELM_REPOSITORY), sourceApi,

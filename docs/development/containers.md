@@ -1,8 +1,12 @@
 # Kelryvo containers
 
-Build native amd64 images with `docker build --platform linux/amd64 --target app
---tag kelryvo-app:local .` and the corresponding `--target worker --tag
-kelryvo-worker:local`. The existing pinned parser is built inside the image;
+Build either Linux architecture with `docker buildx build --platform linux/amd64
+--target app --load --tag kelryvo-app:local .` (use `linux/arm64` on an ARM64
+builder), and the corresponding worker target. CI uses native AMD64 and ARM64
+runners, checks Node, JDK/parser, HTTPS readiness, governance and worker fail-closed
+behavior on each, then assembles the tested OCI artifacts into two-platform indexes.
+The pinned Node/Debian base indexes and architecture-specific Temurin archives keep
+executables matched to the target. The existing pinned parser is built inside the image;
 production npm packages, full Node/JDK notices, matching JDK source archives and
 the Debian package/notice inventory are retained. Node/npm dependency pins and
 PolyForm Shield 1.0.0 remain unchanged. npm, yarn and corepack are build tools,
@@ -91,7 +95,8 @@ there is no second build. Images retain immutable
 `SOURCE_SHA-OCI_RUN_ID-OCI_RUN_ATTEMPT` tags and source labels. Before each registry
 write it rechecks all gates and current master. Existing tags must match the tested
 local image configuration; a partial publication resumes without replacing the
-first image. Both registry manifests and configurations are SHA-256 verified, and
+first image. Both platform manifests/configurations and the enclosing OCI index are
+SHA-256 verified against the tested artifacts, and
 only a complete verified app/worker pair can reach promotion. No mutable latest tag
 is written. Artifact retention is three days; recovery after expiry requires rerunning
 master OCI verification, whose completion event resumes delivery.
@@ -99,7 +104,8 @@ master OCI verification, whose completion event resumes delivery.
 The full delivery workflow is serialized without cancelling active writes. Before
 promotion it independently revalidates both registry digests, source labels, the
 verified tags and all source gates. The chart checkout must match Helm master.
-Only `app.image.digest` and `worker.image.digest` in `values.yaml` change; the worker
+Only `app.image.digest` and `worker.image.digest` in `values.yaml` change to the
+`linux/amd64` + `linux/arm64` OCI index digests; the worker
 remains at zero replicas. Run `helm lint --strict .`,
 `python3 scripts/check-chart.py`, and
 `helm template kelryvo . --namespace kelryvo` before any chart commit. Helm commits

@@ -90,7 +90,11 @@ jobs:
           name: verified-images-${{ needs.gate.outputs.sha }}-${{ needs.gate.outputs.oci_attempt }}
           run-id: ${{ needs.gate.outputs.oci_run }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker load --input verified-images.tar.gz
+          path: dist/oci
+      - name: Install OCI transfer tool
+        run: sudo apt-get update -qq && sudo apt-get install -y skopeo
+      - name: Verify downloaded multi-platform indexes
+        run: node scripts/container-oci.mjs verify dist/oci "$SOURCE_SHA"
       - name: Authenticate GHCR
         run: printf '%s' "$GITHUB_TOKEN" | docker login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
       - id: publish

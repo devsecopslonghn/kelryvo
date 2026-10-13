@@ -9,8 +9,16 @@ permissions:
   contents: read
 
 jobs:
-  verify:
-    runs-on: ubuntu-24.04
+  platform:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -19,19 +27,63 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version-file: .nvmrc
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: docker build --platform linux/amd64 --build-arg KELRYVO_REVISION="$GITHUB_SHA" --target app --tag kelryvo-app:test .
-      - run: docker build --platform linux/amd64 --build-arg KELRYVO_REVISION="$GITHUB_SHA" --target worker --tag kelryvo-worker:test .
-      - run: node scripts/test-containers.mjs kelryvo-app:test kelryvo-worker:test
-      # Export only images from a successful trusted master verification.
-      - if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        name: Save verified images for delivery
-        run: docker save kelryvo-app:test kelryvo-worker:test | gzip -1 > verified-images.tar.gz
+      - name: Install OCI transfer tool
+        run: sudo apt-get update -qq && sudo apt-get install -y skopeo
+      - name: Build app and worker for the native target
+        env:
+          TARGET_ARCH: ${{ matrix.arch }}
+        run: |
+          set -euo pipefail
+          mkdir -p dist/oci
+          docker buildx build --platform "linux/$TARGET_ARCH" --build-arg KELRYVO_REVISION="$GITHUB_SHA" --target app --provenance=false --sbom=false --output "type=oci,dest=dist/oci/app-$TARGET_ARCH.tar" .
+          docker buildx build --platform "linux/$TARGET_ARCH" --build-arg KELRYVO_REVISION="$GITHUB_SHA" --target worker --provenance=false --sbom=false --output "type=oci,dest=dist/oci/worker-$TARGET_ARCH.tar" .
+      - name: Smoke-test the exact platform artifacts
+        env:
+          TARGET_ARCH: ${{ matrix.arch }}
+        run: |
+          set -euo pipefail
+          skopeo copy "oci-archive:dist/oci/app-$TARGET_ARCH.tar" docker-daemon:kelryvo-app:test
+          skopeo copy "oci-archive:dist/oci/worker-$TARGET_ARCH.tar" docker-daemon:kelryvo-worker:test
+          node scripts/test-containers.mjs kelryvo-app:test kelryvo-worker:test "$TARGET_ARCH"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: platform-images-${{ github.sha }}-${{ github.run_attempt }}-${{ matrix.arch }}
+          path: dist/oci/*-${{ matrix.arch }}.tar
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 3
+
+  verify:
+    if: always()
+    needs: platform
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Require both native platform checks
+        env:
+          PLATFORM_RESULT: ${{ needs.platform.result }}
+        run: test "$PLATFORM_RESULT" = success
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: platform-images-${{ github.sha }}-${{ github.run_attempt }}-*
+          path: dist/oci
+          merge-multiple: true
+      - name: Assemble and verify both OCI indexes from tested platforms
+        run: node scripts/container-oci.mjs assemble dist/oci "$GITHUB_SHA"
+      # Export only indexes from a successful trusted master verification.
       - if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: verified-images-${{ github.sha }}-${{ github.run_attempt }}
-          path: verified-images.tar.gz
+          path: dist/oci/kelryvo-*.tar
           compression-level: 0
           if-no-files-found: error
           retention-days: 3
