@@ -105,12 +105,23 @@ construction, repaired in this change. Browser test steps were 320/288/220 secon
 was the slowest at 410 seconds including preparation. The actual critical path
 was API 3/4 at 567 seconds (512-second test step); release was 420 seconds.
 
-API estimates now use that run's top-level case durations, with nested durations
-included once in their parent. The same measured case costs applied to old/new
-assignments give loads 407/409/509/224 versus 388/387/387/387 seconds. This is a
-scheduling projection, not a hosted speedup claim. No runner or timeout increase
-is used. Browser regressions remove native restore, real worker cycles, repeated
-parsing and real 15/22-second polling waits from cases that only need UI responses.
+The first optimized hosted run at `2ac637a`,
+[PRODUCT run 38369582109](https://github.com/devsecopslonghn/schemaForge/actions/runs/38369582109),
+passed all acceptance and CodeQL. Browser steps fell to 145/87/114 seconds
+(slowest step 320 → 145, 54.7% lower); release fell from 420 to 174 seconds.
+API steps were 478/590/325/411 seconds. Its slowest API job rose from 567 to
+646 seconds, so this run did **not** establish an overall CI speedup.
+Controlled execution rose from 71 to 173 seconds, and SQL validation from 46
+to 107 seconds. The first scheduling projection was insufficient for this run.
+
+Scheduling now uses that complete hosted run's top-level per-file TAP costs,
+with nested durations included once in their parent. Those same observed costs
+project to API loads 448/448/448/448 and browser loads 109/109/108 seconds after
+repartitioning. These are scheduling estimates, not measured hosted improvements.
+All four API and three browser shards remain, with every file selected exactly
+once. No runner or timeout increase is used. Browser regressions remove native
+restore, real worker cycles, repeated parsing and real 15/22-second polling waits
+from cases that only need UI responses.
 
 The PR records the final exact-head GitHub Actions comparison, including API,
 browser, release and total acceptance timing. Local focused timings establish
@@ -120,12 +131,16 @@ correctness and test cost; hosted timings establish PR critical-path improvement
 
 The complete default browser gate passed all 41 tests without skips in 436.63
 seconds wall time, serially against disposable local PostgreSQL where required.
-Its top-level case durations sum to about 411 seconds; the same three-runner
-partition now balances that observed local cost to about 137 seconds per shard.
-Those local costs are scheduling estimates, not a hosted performance claim.
+Its top-level case durations sum to about 411 seconds. Local costs provided the
+first browser scheduling estimate; the final scheduler uses hosted measurements.
 The restored-cookie API transfer passed separately (one existing native restore
 case, 35.40 seconds). Follow-up focused runs verified the approver-submitter HOLD
 restriction and the final comment HTTP contracts. The scheduling/selector/window
 unit tests passed all 15 cases. Two bounded contributors independently reviewed
 the UI assertion transfers, surviving API safety coverage, cancellation cleanup,
 strict fixture behavior and literal-name selector.
+
+After recalibration, required `npm run check` passed in 44.01 seconds with the
+prepared parser and configured fixture Java: 350 passed, zero failures, 103
+existing unconfigured-database skips. Hosted acceptance configures PostgreSQL
+and requires the integration cases to run. Focused partition/suite checks passed.

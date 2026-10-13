@@ -15,5 +15,9 @@
   "restore_cookie_api_passed": 1,
   "restore_cookie_api_skipped": 0,
   "restore_cookie_api_wall_seconds": 35.4,
-  "hosted_after_comparison": "Recorded in PR #81 after exact-head CI; local timings are not a hosted speedup claim."
+  "hosted_after_comparison": "Recorded in PR #81 after exact-head CI; local timings are not a hosted speedup claim.",
+  "recalibrated_check_wall_seconds": 44.01,
+  "recalibrated_check_passed": 350,
+  "recalibrated_check_failed": 0,
+  "recalibrated_check_existing_unconfigured_database_skips": 103
 }
