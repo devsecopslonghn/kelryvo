@@ -63,7 +63,7 @@ export default function ExecutionReadiness({ planId, projectId, token, request, 
   };
 
   const blocked = result?.checks.filter(row => row.status === 'BLOCKED') ?? [];
-  return <section className="panel execution-readiness-live" aria-label="Live execution readiness" data-project-id={projectId} data-plan-id={planId}>
+  return <section className="panel execution-readiness-live" aria-label="Live execution readiness" data-project-id={projectId} data-readiness-plan-id={planId}>
     <div className="panel-heading"><div><h3>Live readiness check</h3>
       <p>Checks current governance metadata without connecting to the target database.</p></div>
       <button type="button" className="secondary" onClick={() => void refresh()} disabled={busy}>{busy ? 'Checking…' : 'Refresh readiness'}</button>
