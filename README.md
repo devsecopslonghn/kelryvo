@@ -15,6 +15,10 @@ The [controlled execution guide](docs/development/controlled-execution.md) cover
 live governance preflight, target-bound worker admission, statement history,
 durable HOLD evidence and independent reconciliation review. Oracle runtime
 acceptance remains unverified and HOLD never enables automatic replay.
+The [runtime readiness guide](docs/development/runtime-readiness.md) documents secure
+local startup, fixed lifecycle diagnostics and continuous HTTPS browser acceptance.
+The [disposable Oracle suite](docs/development/oracle-acceptance.md) records the
+remaining authorization and live-evidence requirements.
 The engineering foundation and all WP0 experiments/evidence remain preserved.
 Independently authored code is licensed under [PolyForm Shield 1.0.0](LICENSE): internal
 use is permitted; using it to provide competing products/services is restricted by the

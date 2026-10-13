@@ -78,12 +78,11 @@ test('plan comments remain scoped, readable, and persistent across API restart',
     const other = await createProject(`Other comments project ${randomUUID().slice(0, 8)}`);
     const htmlText = '<img src=x onerror="window.__commentXss=1">\nsecond line';
     const selectPlan = async (targetPage, plan) => {
-      const choices = targetPage.locator('.plan-option');
-      for (let index = 0; index < await choices.count(); index += 1) {
-        await choices.nth(index).click();
-        if ((await targetPage.locator('.plan-summary code').innerText()) === plan.id) return;
-      }
-      assert.fail(`Plan ${plan.id} was not available in the review selector`);
+      // Project detail arrives asynchronously after selecting the review tab.
+      // Locator actions wait for the intended retained plan instead of treating
+      // a momentarily empty selector as a missing plan.
+      await targetPage.locator(`.plan-option[data-plan-id="${plan.id}"]`).click();
+      await targetPage.waitForFunction(id => document.querySelector('.plan-summary code')?.textContent === id, plan.id);
     };
     const waitNotice = async (targetPage, expected) => {
       try { await targetPage.locator('[role="status"]').filter({ hasText: expected }).waitFor({ timeout: 5000 }); }

@@ -13,12 +13,12 @@ const scripts = new Set(['antlr-build','antlr-prepare','build-web','check-source
   'local-credential-operator','local-dev','local-inventory-operator','local-membership-operator',
   'local-operator-config','local-prepare','local-repositories','local-resources','local-tls',
   'product-dependencies','release-acceptance','local-release']);
-const tests = new Set(['product-target-bindings.test.mjs','product-target-workflow.test.mjs','product-target-workflow-browser.integration.mjs','offline-plan-intent.test.mjs','product-mvp-workflow.test.mjs','product-mvp-workflow-browser.integration.mjs',
+const tests = new Set(['product-phase6-workflow-browser.integration.mjs','product-target-bindings.test.mjs','product-target-workflow.test.mjs','product-target-workflow-browser.integration.mjs','offline-plan-intent.test.mjs','product-mvp-workflow.test.mjs','product-mvp-workflow-browser.integration.mjs',
   'product-secure-sessions-browser.integration.mjs','product-release-acceptance.integration.mjs',
   'product-account.test.mjs','product-account-browser.integration.mjs',
   'product-profile-lifecycle.test.mjs','product-instances-browser.integration.mjs','product-mutation-authority.test.mjs']);
 const fixed = new Set(['LICENSE','NOTICE','.nvmrc','package.json','package-lock.json','tsconfig.json',
-  'docs/development/local-product.md','docs/development/local-release.md','docs/product/license-and-naming.md',
+  'docs/development/local-product.md','docs/development/local-release.md','docs/development/controlled-execution.md','docs/development/runtime-readiness.md','docs/development/oracle-acceptance.md','docs/product/license-and-naming.md',
   'docs/architecture/boundaries.md']);
 export function selectedReleasePath(name) {
   return fixed.has(name) || /^(apps|packages)\//.test(name) || name.startsWith('docs/dependencies/')

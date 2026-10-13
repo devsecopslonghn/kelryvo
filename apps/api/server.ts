@@ -5,9 +5,10 @@ import { initializeDatabase } from '../../packages/database/index.ts';
 import { resolve } from 'node:path';
 import { readFile } from 'node:fs/promises';
 
-export async function startProduct({ databaseUrl, actors, repositories, port = 4317, host = '127.0.0.1', tls, discoveryRuntime, discoveryTimeoutMs }: any) {
+export async function startProduct({ databaseUrl, actors, repositories, port = 4317, host = '127.0.0.1', tls, discoveryRuntime, discoveryTimeoutMs }: any, emitLifecycle: (event: any) => void = () => {}) {
   if (tls) createSecureContext({ ...tls, minVersion: 'TLSv1.2' });
   const sql = postgres(databaseUrl, { max: 5, connect_timeout: 5, onnotice: () => {} });
+  let stage = 'metadata';
   try {
     await initializeDatabase(sql);
     const app = createApp({ sql, actors, repositories, discoveryRuntime, discoveryTimeoutMs, https: tls ? { ...tls, minVersion: 'TLSv1.2' } : undefined });
@@ -19,7 +20,9 @@ export async function startProduct({ databaseUrl, actors, repositories, port = 4
       ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
       ['/third-party-notices.txt', ['third-party-notices.txt', 'text/plain; charset=utf-8']],
     ]);
-    const assets = await Promise.all([...files].map(async ([route, [filename, contentType]]) =>
+    let assets;
+    stage = 'web_assets';
+    assets = await Promise.all([...files].map(async ([route, [filename, contentType]]) =>
       ({ route, contentType, bytes: await readFile(resolve(web, filename)) })));
     for (const { route, contentType, bytes } of assets) {
       app.get(route, (_request, reply) => {
@@ -31,7 +34,14 @@ export async function startProduct({ databaseUrl, actors, repositories, port = 4
       });
     }
     app.addHook('onClose', async () => { await sql.end({ timeout: 5 }); });
+    stage = 'listen';
     await app.listen({ host, port });
     return app;
-  } catch (error) { await sql.end({ timeout: 2 }); throw error; }
+  } catch (error) {
+    const code = stage === 'metadata' ? 'metadata_unavailable'
+      : stage === 'web_assets' ? 'web_assets_unavailable' : 'listen_unavailable';
+    emitLifecycle({ event: 'startup', state: 'failed', code });
+    try { await sql.end({ timeout: 2 }); } catch { /* retain the original startup error */ }
+    throw error;
+  }
 }

@@ -28,6 +28,11 @@ test('rejected Fastify close exits unsuccessfully despite a surviving handle and
       child.on('close', (code, signal) => resolve({ code, signal }));
     });
     assert.deepEqual(result, { code: 1, signal: null });
-    assert.equal(errors, 'Kelryvo shutdown incomplete.\n');
+    const events = errors.trim().split('\n').map(line => JSON.parse(line));
+    assert.deepEqual(events.slice(-2), [
+      { event: 'shutdown', state: 'started' },
+      { event: 'shutdown', state: 'failed', code: 'shutdown_unavailable' },
+    ]);
+    assert.equal(errors.includes('MUST_NOT_EXPOSE_SHUTDOWN_DETAILS'), false);
   } finally { clearTimeout(timer); if (child.exitCode === null) child.kill('SIGKILL'); }
 });
