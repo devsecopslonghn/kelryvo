@@ -18,6 +18,10 @@ test('Native backup preserves SQL revisions and release attribution, while resto
   const f=await createBackupProductFixture();let app;
   try {
     // Model an existing Phase 7 catalog and exercise the additive upgrade before backup.
+    await f.source.sql`DROP TRIGGER sf_execution_reconciliations_binding_insert ON sf_execution_reconciliations`;
+    await f.source.sql`DROP TRIGGER sf_execution_reconciliation_decisions_binding_insert ON sf_execution_reconciliation_decisions`;
+    await f.source.sql`DROP FUNCTION sf_check_execution_reconciliation_binding()`;
+    await f.source.sql`DROP FUNCTION sf_check_execution_reconciliation_decision_binding()`;
     await f.source.sql`DROP TRIGGER sf_plan_source_comparison_immutable ON sf_audit`;
     await f.source.sql`DROP TRIGGER sf_audit_immutable ON sf_audit`;
     await f.source.sql`DROP TRIGGER sf_releases_immutable ON sf_releases`;
