@@ -57,9 +57,9 @@ test('browser shows fixed approval integrity feedback and preserves pending plan
     await page.locator(`[data-plan-id="${plan.id}"]`).click();
     await page.getByLabel('Decision reason').fill('Integrity review');
     await page.getByRole('button',{ name:'Approve plan' }).click();
-    const alert = page.getByRole('alert');
-    await alert.waitFor();
-    assert.equal((await alert.innerText()).replace(/\s+/g, ' ').trim(), 'Approval is unavailable because the retained release or plan items failed an integrity check. ×');
+    const integrityAlert = page.getByRole('alert').filter({ hasText: 'Approval is unavailable because the retained release or plan items failed an integrity check.' });
+    await integrityAlert.waitFor();
+    assert.equal((await integrityAlert.innerText()).replace(/\s+/g, ' ').trim(), 'Approval is unavailable because the retained release or plan items failed an integrity check. ×');
     assert.equal((await database.sql`SELECT status FROM sf_plans WHERE id=${plan.id}`)[0].status,'PENDING_APPROVAL');
     await page.getByLabel('Dismiss message').click();
     await page.getByLabel('Decision reason').fill('Rejected after integrity check');
