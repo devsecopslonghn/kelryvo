@@ -1728,3 +1728,25 @@ td code {
 .execution-reconciliation input, .execution-reconciliation select, .execution-reconciliation textarea { width: 100%; min-width: 0; max-width: 100%; }
 .execution-reconciliation-row { margin: 16px 0; overflow-wrap: anywhere; }
 .plan-panel p { overflow-wrap: anywhere; }
+
+.sql-workspace-layout { display: grid; grid-template-columns: minmax(160px, 220px) minmax(0, 1fr); gap: 24px; }
+.sql-workspace-editor { min-width: 0; }
+.sql-workspace textarea { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; line-height: 1.6; min-height: 280px; resize: vertical; tab-size: 2; }
+.sql-workspace aside ul { list-style: none; padding: 0; }
+.sql-workspace .draft-option { width: 100%; text-align: left; overflow-wrap: anywhere; margin: 4px 0; }
+.sql-workspace .draft-option.selected { border-color: var(--accent, #2563eb); }
+.sql-workspace .comparison-sides { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.sql-workspace pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.history-filters { display: grid; grid-template-columns: minmax(180px, 2fr) repeat(2, minmax(140px, 1fr)); gap: 16px; }
+.migration-history-timeline { list-style: none; padding: 0; }
+.migration-history-row { padding: 16px 0; border-bottom: 1px solid var(--border, #dfe5ed); overflow-wrap: anywhere; }
+.migration-history-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (max-width: 800px) {
+  .sql-workspace-layout, .history-filters, .sql-workspace .comparison-sides { grid-template-columns: minmax(0, 1fr); }
+}
+.sql-workspace-editor > label { display: block; margin-bottom: 16px; }
+.sql-workspace-editor > label input, .sql-workspace-editor > label select, .sql-workspace-editor > label textarea { display: block; width: 100%; box-sizing: border-box; margin-top: 8px; }
+.sql-workspace code, .migration-history-explorer code { overflow-wrap: anywhere; }
+.history-filters label { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.history-filters input, .history-filters select { width: 100%; box-sizing: border-box; }
+.migration-history-explorer pre { white-space: pre-wrap; overflow-wrap: anywhere; }

@@ -1,5 +1,22 @@
 # SchemaForge product state
 
+## Phase 7 SQL workspace and migration history — 2026-10-13
+
+Phase 6 PR #79 is integrated at master `30cf3b015b86ebe14128bf48cbddd8239b0bf7cd`;
+its candidate and resulting-master Foundation, parser, complete PRODUCT, OCI and CodeQL
+checks passed. Phase 7 adds project/target-scoped durable SQL drafts with immutable
+revisions, comparison and offline syntax/risk review. Authored SQL is retained through
+an isolated local Git snapshot with explicit workspace attribution; the bound repository
+is unchanged. Existing validation, immutable plan, independent approval and request
+controls are reused. The consolidated history explorer filters and pages recorded plans,
+decisions, requests, ledger and audit facts, with source, plan and statement-detail links.
+URL context survives refresh; metadata restart and compatible native backup restore
+preserve records and HOLD. Local API/HTTPS acceptance and review are recorded in
+[Phase 7 evidence](../../evidence/product/phase7-product-workspace-20261013/acceptance.json).
+Exact candidate and resulting-master acceptance are reported by the hosted milestone
+PR checks. The editor never executes SQL; autocomplete, syntax coloring, multiple migration-file authoring, Oracle semantic
+validation and live Oracle execution are outside this milestone.
+
 ## Phase 6 non-production runtime acceptance — 2026-10-13
 
 Phase 5 PR #78 is integrated at master `22cb7d1468d0df538953ad94e07c6087575bf781`.

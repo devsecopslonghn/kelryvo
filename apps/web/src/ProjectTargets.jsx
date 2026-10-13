@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export function ProjectTargets({token, projectId, detail, actor, request, readOnly, onSaved, onPrepare, onMissing}) {
+export function ProjectTargets({token, projectId, detail, actor, request, readOnly, onSaved, onPrepare, onWorkspace, onMissing}) {
   const [references,setReferences] = useState([]), [bindings,setBindings] = useState([]), [options,setOptions] = useState([]);
   const [next,setNext] = useState(null), [referenceNext,setReferenceNext] = useState(null), [optionNext,setOptionNext] = useState(null);
   const [form,setForm] = useState({assignmentId:'',optionId:'',environmentId:'',bindingId:'',reason:''});
@@ -51,6 +51,6 @@ export function ProjectTargets({token, projectId, detail, actor, request, readOn
       {form.assignmentId && !options.length && <p>No configured options. Ask the trusted local operator to configure an offline target option matching the profile, route, deployment principal and exact owner policy.</p>}
       {optionNext && <button type="button" className="secondary" disabled={busy} onClick={async()=>{const n=optionEpoch.current;try{const result=await request(`/api/projects/${projectId}/target-options?assignmentId=${form.assignmentId}&after=${optionNext}`,token);if(n===optionEpoch.current){setOptions(old=>[...old,...result.options]);setOptionNext(result.nextCursor);}}catch(e){if(n===optionEpoch.current)report(e);}}}>Load more options</button>}
     </section>
-    {inspected && <section className="panel" aria-label="Binding detail"><h2>Retained binding</h2><dl className="target-facts">{Object.entries(inspected.binding).map(([key,value])=><div key={key}><dt>{key}</dt><dd><code>{String(value ?? 'Not observed')}</code></dd></div>)}</dl>{inspected.currentness && <p role="status">Currentness: {inspected.currentness.state} {inspected.currentness.reasons.join(', ')}</p>}{inspected.revisions && <p>{inspected.revisions.length} retained revisions shown (latest 50).</p>}<button type="button" className="primary" onClick={onPrepare}>Go to releases and prepare plan</button></section>}
+    {inspected && <section className="panel" aria-label="Binding detail"><h2>Retained binding</h2><dl className="target-facts">{Object.entries(inspected.binding).map(([key,value])=><div key={key}><dt>{key}</dt><dd><code>{String(value ?? 'Not observed')}</code></dd></div>)}</dl>{inspected.currentness && <p role="status">Currentness: {inspected.currentness.state} {inspected.currentness.reasons.join(', ')}</p>}{inspected.revisions && <p>{inspected.revisions.length} retained revisions shown (latest 50).</p>}<button type="button" className="primary" onClick={onPrepare}>Go to releases and prepare plan</button>{onWorkspace && <button type="button" className="secondary" onClick={()=>onWorkspace(inspected.binding.bindingId)}>Open SQL Workspace for this target</button>}</section>}
   </section>;
 }
