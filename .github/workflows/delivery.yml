@@ -1,0 +1,165 @@
+name: Kelryvo verified GitOps delivery
+
+on:
+  workflow_run:
+    workflows:
+      - Offline WP0 checks
+      - Offline ANTLR parser acceptance
+      - Local PRODUCT acceptance
+      - Kelryvo OCI verification and publication
+      - CodeQL
+    types: [completed]
+    branches: [master]
+  # Recovery only; normal publication follows CI completion without dispatch.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Keep the publication and Helm write in the same serialized workflow. Pending
+# completion events can coalesce; the last event always rechecks all CI gates.
+concurrency:
+  group: kelryvo-delivery-master
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    if: >-
+      github.repository == 'devsecopslonghn/schemaForge' &&
+      ((github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master') ||
+       (github.event_name == 'workflow_run' &&
+        (github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'dynamic') &&
+        github.event.workflow_run.head_branch == 'master' &&
+        github.event.workflow_run.head_repository.full_name == github.repository))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+      security-events: read
+    outputs:
+      ready: ${{ steps.gate.outputs.ready }}
+      sha: ${{ steps.gate.outputs.sha }}
+      oci_run: ${{ steps.gate.outputs.oci_run }}
+      oci_attempt: ${{ steps.gate.outputs.oci_attempt }}
+    steps:
+      # workflow_run's github.sha is trusted default-branch code. Do not check
+      # out event.head_sha or consume its artifact until all gates pass.
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+      - id: gate
+        run: node scripts/container-publication-gate.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    needs: gate
+    if: needs.gate.outputs.ready == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+      security-events: read
+      packages: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SOURCE_SHA: ${{ needs.gate.outputs.sha }}
+      OCI_RUN: ${{ needs.gate.outputs.oci_run }}
+      OCI_ATTEMPT: ${{ needs.gate.outputs.oci_attempt }}
+    outputs:
+      app: ${{ steps.publish.outputs.app }}
+      worker: ${{ steps.publish.outputs.worker }}
+      tag: ${{ steps.publish.outputs.tag }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ needs.gate.outputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+      - run: node scripts/container-publication-gate.mjs --require
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: verified-images-${{ needs.gate.outputs.sha }}-${{ needs.gate.outputs.oci_attempt }}
+          run-id: ${{ needs.gate.outputs.oci_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker load --input verified-images.tar.gz
+      - name: Authenticate GHCR
+        run: printf '%s' "$GITHUB_TOKEN" | docker login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
+      - id: publish
+        name: Publish tested images and verify registry digests
+        run: node scripts/container-delivery.mjs
+      - if: always()
+        run: docker logout ghcr.io
+
+  promote:
+    needs: [gate, publish]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+      security-events: read
+      packages: read
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SOURCE_SHA: ${{ needs.gate.outputs.sha }}
+      OCI_RUN: ${{ needs.gate.outputs.oci_run }}
+      OCI_ATTEMPT: ${{ needs.gate.outputs.oci_attempt }}
+      APP_DIGEST: ${{ needs.publish.outputs.app }}
+      WORKER_DIGEST: ${{ needs.publish.outputs.worker }}
+    steps:
+      - name: Check cross-repository credential configuration
+        env:
+          APP_ID: ${{ secrets.KELRYVO_HELM_APP_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.KELRYVO_HELM_APP_PRIVATE_KEY }}
+        run: |
+          if [ -z "$APP_ID" ] || [ -z "$APP_PRIVATE_KEY" ]; then
+            echo '::error::Configure KELRYVO_HELM_APP_ID and KELRYVO_HELM_APP_PRIVATE_KEY in schemaForge. Install the App only on kelryvo-helm-chart with Contents and Pull requests read/write; see docs/development/containers.md.'
+            exit 1
+          fi
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ needs.gate.outputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+      - run: node scripts/container-publication-gate.mjs --require
+      - id: helm-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        with:
+          app-id: ${{ secrets.KELRYVO_HELM_APP_ID }}
+          private-key: ${{ secrets.KELRYVO_HELM_APP_PRIVATE_KEY }}
+          owner: devsecopslonghn
+          repositories: kelryvo-helm-chart
+          permission-contents: write
+          permission-pull-requests: write
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: devsecopslonghn/kelryvo-helm-chart
+          ref: master
+          path: helm-chart
+          token: ${{ steps.helm-token.outputs.token }}
+          persist-credentials: false
+      - name: Install chart validation tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsS https://get.helm.sh/helm-v3.18.3-linux-amd64.tar.gz -o /tmp/helm.tar.gz
+          printf '%s\n' '6ec85f306dd8fe9eb05c61ba4593182b2afcfefb52f21add3fe043ebbdc48e39  /tmp/helm.tar.gz' | sha256sum --check
+          tar -xzf /tmp/helm.tar.gz -C /tmp
+          sudo install /tmp/linux-amd64/helm /usr/local/bin/helm
+          sudo apt-get update -qq
+          sudo apt-get install -y python3-yaml
+      - name: Verify both registry images, validate chart and promote digests
+        run: node scripts/helm-promotion.mjs
+        env:
+          HELM_TOKEN: ${{ steps.helm-token.outputs.token }}
