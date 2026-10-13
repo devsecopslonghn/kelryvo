@@ -1,6 +1,7 @@
 // Rounded per-file TAP durations from PR run 38369582109 at exact optimization head 2ac637a.
 // Nested TAP durations are included in their parent file cost; estimates only schedule shards.
 // All costs use hosted complete acceptance; measured comparison is in browser-testing.md.
+// Phase 7 additions use completed PRODUCT run 38376558062 at head 1005112.
 const ESTIMATED_MILLISECONDS = Object.freeze({
   "product-account-browser.integration.mjs": 1340,
   "product-account.test.mjs": 1261,
@@ -55,6 +56,9 @@ const ESTIMATED_MILLISECONDS = Object.freeze({
   "product-phase5-execution.test.mjs": 105992,
   "product-phase5-stream.test.mjs": 17795,
   "product-phase6-workflow-browser.integration.mjs": 14631,
+  "product-phase7-persistence.test.mjs": 35849,
+  "product-phase7-workflow-browser.integration.mjs": 31562,
+  "product-migration-history-browser.integration.mjs": 1448,
   "product-plan-intent-browser.integration.mjs": 1399,
   "product-plan-intent.test.mjs": 28844,
   "product-plan-record.test.mjs": 14160,
@@ -87,6 +91,8 @@ const ESTIMATED_MILLISECONDS = Object.freeze({
   "product-source-binding.test.mjs": 6073,
   "product-sql-validation-browser.integration.mjs": 22046,
   "product-sql-validation.test.mjs": 107009,
+  "product-sql-workspace-browser.integration.mjs": 9955,
+  "product-sql-workspace.test.mjs": 22379,
   "product-statement-envelope-browser.integration.mjs": 17345,
   "product-statement-envelope.test.mjs": 36760,
   "product-statement-preview-parser.integration.mjs": 2901,

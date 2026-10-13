@@ -27,6 +27,7 @@ test('browser discovers account access and revokes another session while preserv
     await page.getByRole('button', { name: /^Revoke session/ }).click();
     await page.waitForFunction(() => !document.querySelector('[aria-label^="Revoke session"]'));
     assert.equal((await tlsRequest(base, tls.ca, '/api/session', { headers: { cookie: remote.headers['set-cookie'][0].split(';')[0] } })).status, 401);
+    await page.getByRole('heading', { name: 'This browser session', exact: true }).waitFor();
     assert.equal(await page.getByRole('heading', { name: 'This browser session', exact: true }).count(), 1);
     await page.getByLabel('Sign out').click(); await page.getByLabel('Local access token').waitFor();
     assert.equal(await page.getByRole('heading', { name: 'Active browser sessions', exact: true }).count(), 0);

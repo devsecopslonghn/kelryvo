@@ -19,6 +19,13 @@ The [runtime readiness guide](docs/development/runtime-readiness.md) documents s
 local startup, fixed lifecycle diagnostics and continuous HTTPS browser acceptance.
 The [disposable Oracle suite](docs/development/oracle-acceptance.md) records the
 remaining authorization and live-evidence requirements.
+The SQL Workspace saves project and target-scoped drafts with immutable revisions,
+compares saved SQL, and reuses offline syntax and risk review. Preparing a release creates
+an isolated authored Git snapshot; it does not commit to the bound repository. Existing
+immutable plans, independent approvals and request controls remain in force. Migration
+history consolidates recorded plans, decisions, requests, ledger entries and audit facts
+with filtering and links to retained source and statement evidence. Selected object IDs
+survive refresh in the URL; SQL and credentials are not written to browser storage.
 The engineering foundation and all WP0 experiments/evidence remain preserved.
 Independently authored code is licensed under [PolyForm Shield 1.0.0](LICENSE): internal
 use is permitted; using it to provide competing products/services is restricted by the

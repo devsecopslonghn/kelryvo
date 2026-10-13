@@ -1,0 +1,267 @@
+{
+  "format": "kelryvo-phase7-acceptance-v1",
+  "recordedAt": "2026-10-13T04:47:35.546265+00:00",
+  "sourceBase": "30cf3b015b86ebe14128bf48cbddd8239b0bf7cd",
+  "sourceFiles": [
+    {
+      "path": ".github/workflows/product.yml",
+      "sha256": "c58f333667a17f1d284b4c4c552625ff4130694e4d8f8b3754fd74fbf468aea5"
+    },
+    {
+      "path": "apps/api/index.ts",
+      "sha256": "818747fa325ea2412a05c5da0e10988e0ccd67e3e9b2332bf49855b56cd0a3c9"
+    },
+    {
+      "path": "apps/web/src/MigrationHistory.jsx",
+      "sha256": "514bf43d9b448480c2b8f05267d45c63d05b4710cd5841e8fc49312ea72bf46c"
+    },
+    {
+      "path": "apps/web/src/ProjectTargets.jsx",
+      "sha256": "aa7ce933178ca5a0d9aee74e33c4810b24d800d8e9b5eec1a93f1c72d1e67753"
+    },
+    {
+      "path": "apps/web/src/SqlWorkspace.jsx",
+      "sha256": "c9742e5d5cdce1d283acbd16f089217500dca806bae27bd6a4caaca384849485"
+    },
+    {
+      "path": "apps/web/src/app.jsx",
+      "sha256": "b1d08e68696c0b3ef9bf9355a50309003c38aa045b971e405f0a38fffa36f38b"
+    },
+    {
+      "path": "apps/web/src/workflowLocation.js",
+      "sha256": "966ddabb46231bf2add342c89872935bbd0e0d1aed1ba4f7ba55a25f0e359091"
+    },
+    {
+      "path": "apps/web/styles.css",
+      "sha256": "d0f40d212baa89018f0a29b7bdaa4a23f777d710adbb311f350b8837a601c7a5"
+    },
+    {
+      "path": "packages/backup/index.mjs",
+      "sha256": "f532da650917779ce3fcf32a2a3bf789267bc29e2bb16f59dfc8d43ad3d2f9ff"
+    },
+    {
+      "path": "packages/database/index.ts",
+      "sha256": "1ad0f007e30cff663a311f3ef392a523ed38dbf93a623421dbb7ff23d808b6a6"
+    },
+    {
+      "path": "packages/governance/plan-record.ts",
+      "sha256": "79e71822558ce282b5c8da56ee6e3b70b9e9d32962abe77a1ef30364e3b7413c"
+    },
+    {
+      "path": "packages/migration-history/api.ts",
+      "sha256": "f93ca509d768883412faa010194d0817ad49cb375e6e8ea1c56b591db42337aa"
+    },
+    {
+      "path": "packages/migrations/authored-snapshot.mjs",
+      "sha256": "d132a0f44a823172c3f06bf46f74778d47a3ac0eccec0b591f0b06c5ea19bdf5"
+    },
+    {
+      "path": "packages/migrations/workspace-release-origin.ts",
+      "sha256": "9a894f4465f8f3162e607a03b48c96c93ca2dfc269d83c3bc93d96c535bbdaf5"
+    },
+    {
+      "path": "packages/sql-workspace/api.ts",
+      "sha256": "b649aea63d8f9b458e7782d1929f26f68197cc83556e0a3f2e982dfb5a227b8a"
+    },
+    {
+      "path": "packages/sql-workspace/contracts.mjs",
+      "sha256": "f9c0bd3105dcc6cfcbc1505bfb0b911457711d3bd406885d140fcd7d849a9a35"
+    },
+    {
+      "path": "packages/sql-workspace/schema.mjs",
+      "sha256": "dc1b712a3c9a7b21c131ddb2cb8e48addaaa7a7d0ec80f4e8f8962df13ef8896"
+    },
+    {
+      "path": "scripts/release-acceptance.mjs",
+      "sha256": "48ab670d27c877cb1692ee2c92ca07bd6623881b2325f336dda94806e20de2e5"
+    },
+    {
+      "path": "scripts/test-product.mjs",
+      "sha256": "b2c94850073cb7c61b940582d99fe51f40f7a6e97339f11456e895f799b3ac60"
+    },
+    {
+      "path": "tests/authored-snapshot.test.mjs",
+      "sha256": "a4f231760b328667f254c03b44b43f2e14c726762f966aebaf6a5d9acbe380a8"
+    },
+    {
+      "path": "tests/product-migration-history-browser.integration.mjs",
+      "sha256": "6f0c460221f145aaa2687786090f06d8d301ee3f2d6d26d640713846d696a1af"
+    },
+    {
+      "path": "tests/product-phase7-persistence.test.mjs",
+      "sha256": "03ae0378b755d3751d00375ba40b0574905b103a7d234e3cc2ce8fbfb420270c"
+    },
+    {
+      "path": "tests/product-phase7-workflow-browser.integration.mjs",
+      "sha256": "96b8681cbe82e3856541eb0ca88c0c3b0e7f17e68824e113b7e3978c40a0e8b1"
+    },
+    {
+      "path": "tests/product-plan-record.test.mjs",
+      "sha256": "050631739bcc53a3e47f563c0f7e91838cbd6b6b23506b834870f9e62e9fb021"
+    },
+    {
+      "path": "tests/product-sql-workspace-browser.integration.mjs",
+      "sha256": "25e296124a2bfc500d367bdcc2fcd6b7d96c286927bbe40bf6e1c56b05d0a725"
+    },
+    {
+      "path": "tests/product-sql-workspace.test.mjs",
+      "sha256": "ef07841130a295629db581d3800cb469ae0271419d860e549b26b8e49b212eaf"
+    }
+  ],
+  "phase6": {
+    "pr": 79,
+    "head": "9b59c000f116b1e3a74d604efd4a921b52ab36c8",
+    "mergeSha": "30cf3b015b86ebe14128bf48cbddd8239b0bf7cd",
+    "candidateCI": "PASS",
+    "masterCI": "PASS",
+    "branchProtection": false,
+    "rulesets": [],
+    "requiredHumanApproval": "NOT_CONFIGURED",
+    "unresolvedReviewThreads": 0,
+    "codeAndSecretAlerts": 0
+  },
+  "workPackages": {
+    "A": "DURABLE_SQL_DRAFTS_REVISION_COMPARISON_OFFLINE_REVIEW_AUTHORED_IMMUTABLE_RELEASE_PLANNING",
+    "B": "SCOPED_SEARCH_FILTER_PAGING_HISTORY_AND_EXISTING_STATEMENT_EVIDENCE",
+    "C": "CONTEXT_URLS_DENIAL_LOADING_DIRTY_STALE_STATES_AND_RESTART_BACKUP_COMPATIBILITY"
+  },
+  "localAcceptance": {
+    "npmRunCheck": {
+      "tests": 450,
+      "pass": 344,
+      "fail": 0,
+      "skipped": 106,
+      "note": "Offline command skips PostgreSQL cases; complete PRODUCT CI separately requires database, browser and source-installation acceptance."
+    },
+    "newWorkspaceAPI": {
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "coverage": [
+        "project and foreign binding denial",
+        "concurrent optimistic saves",
+        "unsafe/invalid review",
+        "preview creates no release",
+        "immutable exact release provenance",
+        "paged drafts",
+        "archive/HOLD/expired-credential denial"
+      ]
+    },
+    "newWorkspaceBrowser": {
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "coverage": [
+        "older-page selection and direct reopening",
+        "revision comparison",
+        "dirty evidence clearing",
+        "conflict",
+        "delayed and denied responses"
+      ]
+    },
+    "migrationHistoryAPIAndBrowser": {
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "coverage": [
+        "project isolation",
+        "target/search/status filters",
+        "pagination",
+        "API restart"
+      ]
+    },
+    "nativeBackup": {
+      "pass": 2,
+      "fail": 0,
+      "skipped": 0,
+      "coverage": [
+        "revision and provenance preservation",
+        "restored HOLD",
+        "Phase 5 compatible restore and upgrade"
+      ]
+    },
+    "exportAndHTTPSRegression": {
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "command": "node --test --test-concurrency=1 tests/product-phase7-workflow-browser.integration.mjs tests/product-plan-record.test.mjs tests/product-execution-record.test.mjs"
+    },
+    "authoredSnapshotHelper": {
+      "pass": 3,
+      "fail": 0,
+      "skipped": 0,
+      "coverage": [
+        "exact bytes and manifest",
+        "deterministic synthetic Git identity",
+        "isolated cleanup and input boundaries"
+      ]
+    },
+    "workflow": {
+      "status": "PASS",
+      "scope": "LOCAL_HTTPS_POSTGRESQL",
+      "draftSavedReopenedValidated": true,
+      "authoredReleaseOrigin": true,
+      "independentApproval": true,
+      "requestState": "WAITING_VALIDATION",
+      "historyFilteringNavigation": true,
+      "projectIsolation": true,
+      "restartPersistence": true,
+      "oracleAcceptance": "NOT_RUN",
+      "oracleExecution": false
+    }
+  },
+  "independentReview": {
+    "result": "NO_UNRESOLVED_BLOCKING_FINDINGS",
+    "reviewer": "independent phase7_review agent",
+    "resolvedFinding": "New navigation icon contributed to accessible button name; aria-hidden fixes it.",
+    "scope": [
+      "authorization and immutable revision integrity",
+      "isolated authored snapshots and honest source attribution",
+      "scoped history/denied and stale responses",
+      "backup schema and older compatibility",
+      "plan and execution-record exports"
+    ],
+    "fullCI": "REQUIRED_ON_EXACT_PR_AND_RESULTING_MASTER"
+  },
+  "security": {
+    "gitleaks": {
+      "version": "8.30.1",
+      "scope": "CHANGED_PUBLICATION_FILES",
+      "findings": 0
+    },
+    "npmAudit": {
+      "vulnerabilities": 0
+    },
+    "dependencyLicenseClosure": {
+      "pinnedPackages": 89,
+      "unknownRequiredGrants": 0,
+      "newDependencies": 0
+    },
+    "remoteSecurity": "SEE_EXACT_HEAD_HOSTED_CHECKS"
+  },
+  "earlierObservations": [
+    {
+      "check": "npm run check",
+      "pass": 343,
+      "fail": 1,
+      "skipped": 106,
+      "finding": "Existing real-parser import exceeded unchanged deadline under overlapping local parser work. Isolated import regression passed 7/7; later standalone full check passed."
+    },
+    {
+      "check": "HTTPS integrated browser",
+      "finding": "Initial harness reused a locator after closing Chromium; corrected the locator. A later assertion raced loading; waited for the exact saved value. Final complete flow passed."
+    },
+    {
+      "check": "export regression",
+      "finding": "Updated existing unit SQL adapter for the additive authored-origin read. Complete regression passed."
+    }
+  ],
+  "limits": [
+    "Editor never executes SQL.",
+    "Object/Oracle semantics remain UNVERIFIED; Oracle runtime acceptance NOT_RUN.",
+    "One authored V1 workspace migration file per release; multi-file/version authoring, syntax coloring and metadata autocomplete are deferred.",
+    "Snapshot commit is local and is not published to the intended bound repository.",
+    "Selected IDs survive URL refresh; unsaved SQL and credentials are not written to browser storage."
+  ],
+  "remoteAcceptance": "Hosted Phase 7 milestone PR and resulting-master checks are authoritative for exact-head CI; no external deployment performed."
+}

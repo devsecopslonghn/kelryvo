@@ -20,7 +20,13 @@ for (const [suite, files, totals] of [
   if (suite === 'API') {
     for (const file of ['tests/product-worker-supervision.test.mjs', 'tests/product-api-rate-limit.test.mjs',
       'tests/product-backup-restore.test.mjs', 'tests/product-installed-worker-factory.test.mjs',
-      'tests/product-installed-expiry-recovery.test.mjs', 'tests/product-execution-service.test.mjs']) {
+      'tests/product-installed-expiry-recovery.test.mjs', 'tests/product-execution-service.test.mjs',
+      'tests/product-sql-workspace.test.mjs', 'tests/product-phase7-persistence.test.mjs']) {
+      assert.equal(files.includes(file), true, `missing ${file}`);
+    }
+  } else {
+    for (const file of ['tests/product-phase7-workflow-browser.integration.mjs',
+      'tests/product-migration-history-browser.integration.mjs', 'tests/product-sql-workspace-browser.integration.mjs']) {
       assert.equal(files.includes(file), true, `missing ${file}`);
     }
   }
@@ -45,7 +51,7 @@ test('the four slowest observed API files are distributed across four runners', 
 
 test('the three slowest observed browser files are spread across all runners', () => {
   const heavy = ['tests/product-approval-revocation-browser.integration.mjs',
-    'tests/product-mvp-workflow-browser.integration.mjs', 'tests/product-plan-target-browser.integration.mjs'];
+    'tests/product-phase7-workflow-browser.integration.mjs', 'tests/product-mvp-workflow-browser.integration.mjs'];
   const groups = partitionProductFiles(PRODUCT_BROWSER_FILES, 3);
   assert.equal(groups.every(group => group.filter(file => heavy.includes(file)).length === 1), true);
 });
