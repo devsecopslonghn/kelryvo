@@ -214,7 +214,7 @@ test('close drains the active worker call before closing metadata and never retr
   releaseQuery();
   assert.equal(await run, 'ADMISSION_DECLINED');
   await closing;
-  assert.equal(calls, 2, 'the real worker completed its advisory and request reads exactly once');
+  assert.equal(calls, 1, 'the real worker checks request identity once before acquiring governance locks');
   assert.equal(endCount, 1);
 });
 

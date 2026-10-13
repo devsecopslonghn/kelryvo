@@ -11,6 +11,10 @@ ANTLR parser, prepare offline candidate plans, approve/reject independently, and
 audit and migration history. Approved plans can create durable deployment requests;
 the coordinator safety kernel is tested with UNIT adapters. Oracle migration execution
 remains `NOT_EXECUTED` without an authorized target and trusted worker.
+The [controlled execution guide](docs/development/controlled-execution.md) covers
+live governance preflight, target-bound worker admission, statement history,
+durable HOLD evidence and independent reconciliation review. Oracle runtime
+acceptance remains unverified and HOLD never enables automatic replay.
 The engineering foundation and all WP0 experiments/evidence remain preserved.
 Independently authored code is licensed under [PolyForm Shield 1.0.0](LICENSE): internal
 use is permitted; using it to provide competing products/services is restricted by the

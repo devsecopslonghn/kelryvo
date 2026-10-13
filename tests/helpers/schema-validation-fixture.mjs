@@ -1,8 +1,8 @@
 import {writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {createDiscoveryFixture} from './discovery-fixture.mjs';
-export async function createValidationFixture() {
-  const f=await createDiscoveryFixture();
+export async function createValidationFixture(options={}) {
+  const f=await createDiscoveryFixture(options);
   try{
     const binding=(await f.createBinding()).json().binding;
     const observation=(await f.api('POST',`${f.connections}/${f.connection.id}/discover`,{reason:'Observe schema visibility for SQL review'})).json().observation;

@@ -36,10 +36,11 @@ test('schema-aware validation is deterministic, immutable, scoped and restart-du
     const retained=(await f.db.sql`SELECT offline_intent_envelope,offline_intent_digest FROM sf_plans WHERE id=${plan.id}`)[0];
     const intent=verifyOfflinePlanIntent(retained.offline_intent_envelope,retained.offline_intent_digest);
     assert.equal(intent.validation.digest,v.digest);
-    // The execution materializer admits only format 2; new governance evidence cannot enable SQL execution.
-    const releaseRow=(await f.db.sql`SELECT * FROM sf_releases WHERE id=${f.release.id}`)[0];let parserCalled=false;
-    assert.equal(await materializeApprovedStatements(releaseRow,retained.offline_intent_envelope,retained.offline_intent_digest,{},async()=>{parserCalled=true;throw new Error('format 4 must not reach execution parsing');}),null);
-    assert.equal(parserCalled,false);
+    // Materialization reproduces reviewed bytes; it grants no worker/target authority.
+    const releaseRow=(await f.db.sql`SELECT * FROM sf_releases WHERE id=${f.release.id}`)[0];
+    const materialized=await materializeApprovedStatements(releaseRow,retained.offline_intent_envelope,retained.offline_intent_digest,{});
+    assert.equal(materialized.intent.format,4);
+    assert.equal(materialized.statements.length,intent.statements.length);
     await f.restart();
     const persisted=await f.api('GET',`${f.base}/validations/${v.id}`);assert.equal(persisted.statusCode,200,persisted.body);assert.equal(persisted.json().validation.digest,v.digest);
     const record=await f.api('GET',`${f.base}/plans/${plan.id}/record`);assert.equal(record.statusCode,200,record.body);

@@ -12,7 +12,7 @@ import { configureTargetOption } from '../../packages/targets/index.ts';
 const ORG = '00000000-0000-4000-8000-000000000001';
 
 /** Real PostgreSQL, a temporary local Git repository, the installed parser, and scoped product actors. */
-export async function createTargetWorkflowFixture({fileCount=1,discoveryRuntime,discoveryTimeoutMs}={}) {
+export async function createTargetWorkflowFixture({fileCount=1,discoveryRuntime,discoveryTimeoutMs,deploymentUsername='APP'}={}) {
   const repo = await mkdtemp(path.join(tmpdir(), 'sf-target-workflow-'));
   let db, app, membership;
   const actors = [
@@ -52,7 +52,7 @@ export async function createTargetWorkflowFixture({fileCount=1,discoveryRuntime,
     const environment = (await api('POST', `${base}/environments`, { name: 'Local' })).json().environment;
     const credentialRef = 'vault://local/target-workflow';
     const profile = (await api('POST', `${base}/profiles`, { name: 'Target workflow profile', environmentId: environment.id,
-      engine: 'oracle', host: 'target-workflow.example.invalid', port: 1521, service: 'TARGETSVC', username: 'APP', credentialRef })).json().profile;
+      engine: 'oracle', host: 'target-workflow.example.invalid', port: 1521, service: 'TARGETSVC', username: deploymentUsername, credentialRef })).json().profile;
     await api('PUT', `${base}/source`, { repositoryId: repositories[0].id, folder: 'migrations' });
     const imported = await api('POST', `${base}/releases`, { repositoryId: repositories[0].id, commit: 'HEAD', folder: 'migrations' });
     if (imported.statusCode !== 201 || imported.json().release.validationStatus !== 'VALID') throw new Error(`Target workflow fixture parser or release unavailable: ${imported.statusCode} ${imported.body}`);
@@ -68,7 +68,7 @@ export async function createTargetWorkflowFixture({fileCount=1,discoveryRuntime,
     const optionDefinition = () => ({ expectedOptionRevision: '0', projectId: project.id, assignmentId: assignment.id,
       environmentId: environment.id, profileId: profile.id, routeId: reference.serviceId, routeConfigRevision: '1',
       routeAlias: 'Target workflow route', migrationNamespace: 'KELYRVO_WORKFLOW', policyId: randomUUID(), policyRevision: '1',
-      exactOwner: 'APP', deploymentPrincipalId: randomUUID(), principalPurpose: 'DEPLOY', principalUsername: 'APP',
+      exactOwner: 'APP', deploymentPrincipalId: randomUUID(), principalPurpose: 'DEPLOY', principalUsername: deploymentUsername,
       privatePrincipalRef: credentialRef, principalAlias: 'Workflow deployment principal', lineageId,
       reason: 'configure offline target option' });
     const option = await db.sql.begin((tx) => configureTargetOption(tx, optionDefinition()));
