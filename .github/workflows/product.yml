@@ -16,13 +16,21 @@ jobs:
       matrix:
         include:
           - suite: api
-            shard: 1/4
+            shard: 1/8
           - suite: api
-            shard: 2/4
+            shard: 2/8
           - suite: api
-            shard: 3/4
+            shard: 3/8
           - suite: api
-            shard: 4/4
+            shard: 4/8
+          - suite: api
+            shard: 5/8
+          - suite: api
+            shard: 6/8
+          - suite: api
+            shard: 7/8
+          - suite: api
+            shard: 8/8
           - suite: browser
             shard: 1/3
           - suite: browser
@@ -32,7 +40,8 @@ jobs:
           - suite: release
             shard: 1/1
     runs-on: ubuntu-24.04
-    # Every deterministic suite partition has its own runner/database; all remain required.
+    # API files remain serial on eight isolated runners, balanced by hosted TAP cost.
+    # Every complete suite partition has its own database; all remain required.
     timeout-minutes: 40
     services:
       postgres:

@@ -20,8 +20,11 @@ Oracle effects. Unmodeled API requests and page errors fail these tests.
 `npm run test:browser:smoke` selects these three flows. `test:browser:extended`
 selects complementary UI regressions. The existing `test:browser` command and
 CI run **both** sets: splitting tiers does not remove a required gate or silently
-exclude critical coverage. The same four API shards, three browser shards,
-release acceptance and fail-closed `product` aggregate remain.
+exclude critical coverage. CI uses eight isolated serial API shards, three browser
+shards, release acceptance and the fail-closed `product` aggregate. API scheduling
+uses top-level TAP costs from master PRODUCT run 38379731590 at `8f4c15b`; browser
+partitions and assertions are unchanged. The preceding optimization measurements
+below retain their historical four-shard configuration.
 
 ## Assertion audit
 
