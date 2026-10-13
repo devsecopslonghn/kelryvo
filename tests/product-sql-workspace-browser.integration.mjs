@@ -126,4 +126,3 @@ test('SQL workspace drops stale analysis and surfaces optimistic revision confli
     assert.deepEqual(errors, []);
   } finally { await browser?.close(); await f.close(); }
 });
-

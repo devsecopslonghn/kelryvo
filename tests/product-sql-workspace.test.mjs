@@ -204,4 +204,3 @@ test('SQL workspace drafts are project scoped, revision checked, durable and pre
     assert.deepEqual(afterExpiredCredential, beforeExpiredCredential, 'expired credentials cannot persist drafts, revisions, releases or audit events');
   } finally { await f.close(); }
 });
-

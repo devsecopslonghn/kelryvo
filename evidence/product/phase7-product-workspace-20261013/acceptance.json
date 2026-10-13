@@ -101,11 +101,11 @@
     },
     {
       "path": "tests/product-sql-workspace-browser.integration.mjs",
-      "sha256": "2dd99d77039c52e9d2b3953510b632e8408724dcfbd931654ffa9d9c84428235"
+      "sha256": "25e296124a2bfc500d367bdcc2fcd6b7d96c286927bbe40bf6e1c56b05d0a725"
     },
     {
       "path": "tests/product-sql-workspace.test.mjs",
-      "sha256": "57a7833dd77dd0fc1d5659af4e61becb8896a6880382cdbb131651cb2a93832d"
+      "sha256": "ef07841130a295629db581d3800cb469ae0271419d860e549b26b8e49b212eaf"
     }
   ],
   "phase6": {
