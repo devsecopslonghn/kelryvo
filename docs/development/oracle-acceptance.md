@@ -20,7 +20,8 @@ permission record outside public evidence. Never resolve credentials during offl
 preflight or publish usernames, endpoints, secrets, raw connection errors or SQL logs
 from the private lab.
 
-Use `npm run preflight -- --profile /absolute/private/lab-profile.json` for the
+From the engineering checkout, use
+`npm run preflight -- --profile /absolute/private/lab-profile.json` for the
 existing WP0 contract, which requires exact 19c/21c versions, disposable DEV routes,
 TCPS identity/CA hashes, scoped credential references, entitlements, artifacts,
 grants and separately permitted fault/teardown actions. A passing offline preflight
@@ -28,6 +29,8 @@ does not authorize connection or prove operational identity. Example profiles ar
 rejected as runtime authority. Do not weaken that contract to accommodate missing
 inputs. If a different supported Oracle version is proposed, stop at that contract
 boundary and obtain reviewed acceptance requirements before connecting.
+The projected source installation bundle does not include the WP0 preflight command
+or its offline lab artifacts; prepare this gate in the engineering checkout.
 
 The product discovery manifest is a separate read-only contract documented in
 [local-product.md](local-product.md). Its accepted discovery evidence cannot install

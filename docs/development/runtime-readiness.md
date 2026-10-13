@@ -73,6 +73,9 @@ the private trusted installation and separately authorized Oracle acceptance exi
 
 ## Reproduce acceptance
 
+The commands below run from the engineering checkout. An extracted source bundle
+uses `npm run release:acceptance` after installation and verification, as documented
+in [local-release.md](local-release.md); it excludes engineering check/test scripts.
 Run `npm run check` first; its parser unit cases may rebuild helper artifacts.
 Then run product/browser suites against a dedicated disposable loopback PostgreSQL
 service, with permission to create/drop test-owned databases. Set these process
