@@ -10,6 +10,7 @@ import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
 
 const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL
   && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS === '1';
+const actors = [{ id: 'runtime-lifecycle', name: 'Runtime lifecycle test', role: 'developer', token: 'a'.repeat(64) }];
 
 function childResult(child, timeoutMs = 15_000) {
   let stdout = '', stderr = '';
@@ -40,7 +41,7 @@ test('startProduct reports fixed metadata, web asset, and listen failure codes',
     const code = `
       const { startProduct } = await import(${JSON.stringify(`file://${modulePath}`)});
       try {
-        await startProduct({ databaseUrl: process.env.LIFECYCLE_DATABASE_URL, actors: [], repositories: [], port: 0 },
+        await startProduct({ databaseUrl: process.env.LIFECYCLE_DATABASE_URL, actors: ${JSON.stringify(actors)}, repositories: [], port: 0 },
           event => process.stderr.write(JSON.stringify(event) + '\\n'));
       } catch { process.exitCode = 2; }
     `;
@@ -60,7 +61,7 @@ test('startProduct reports fixed metadata, web asset, and listen failure codes',
     });
     const port = occupied.address().port;
     events.length = 0;
-    await assert.rejects(startProduct({ databaseUrl: db.databaseUrl, actors: [], repositories: [], port }, event => events.push(event)));
+    await assert.rejects(startProduct({ databaseUrl: db.databaseUrl, actors, repositories: [], port }, event => events.push(event)));
     assert.deepEqual(events, [{ event: 'startup', state: 'failed', code: 'listen_unavailable' }]);
   } finally {
     if (occupied?.listening) await new Promise(resolve => occupied.close(resolve));
