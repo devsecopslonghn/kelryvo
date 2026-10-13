@@ -1,0 +1,19 @@
+{
+  "baseline_head": "32962879cb30cdd53d2a4e6b45657e84262c3ea4",
+  "baseline_product_run": 38360930977,
+  "browser_files_before": 40,
+  "browser_files_after": 37,
+  "core_smoke_files": 3,
+  "extended_files": 34,
+  "api_files_retained": 57,
+  "local_browser_tests": 41,
+  "local_browser_passed": 41,
+  "local_browser_skipped": 0,
+  "local_browser_wall_seconds": 436.63,
+  "local_check_wall_seconds": 42.86,
+  "restore_cookie_api_tests": 1,
+  "restore_cookie_api_passed": 1,
+  "restore_cookie_api_skipped": 0,
+  "restore_cookie_api_wall_seconds": 35.4,
+  "hosted_after_comparison": "Recorded in PR #81 after exact-head CI; local timings are not a hosted speedup claim."
+}

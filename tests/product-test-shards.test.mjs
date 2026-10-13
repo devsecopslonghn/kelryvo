@@ -38,14 +38,14 @@ test('API and browser memberships are deterministic regardless of input order', 
 
 test('the four slowest observed API files are distributed across four runners', () => {
   const heavy = ['tests/product-execution-service.test.mjs', 'tests/product-incremental-migrations.test.mjs',
-    'tests/product-phase5-execution.test.mjs', 'tests/product-controlled-execution.test.mjs'];
+    'tests/product-phase5-execution.test.mjs', 'tests/product-statement-preview.test.mjs'];
   const groups = partitionProductFiles(PRODUCT_API_FILES, 4);
   assert.equal(groups.every(group => group.filter(file => heavy.includes(file)).length === 1), true);
 });
 
 test('the three slowest observed browser files are spread across all runners', () => {
-  const heavy = ['tests/product-execution-jobs-browser.integration.mjs',
-    'tests/product-plan-source-browser.integration.mjs', 'tests/product-comments-browser.integration.mjs'];
+  const heavy = ['tests/product-approval-revocation-browser.integration.mjs',
+    'tests/product-plan-resubmission-browser.integration.mjs', 'tests/product-mvp-workflow-browser.integration.mjs'];
   const groups = partitionProductFiles(PRODUCT_BROWSER_FILES, 3);
   assert.equal(groups.every(group => group.filter(file => heavy.includes(file)).length === 1), true);
 });

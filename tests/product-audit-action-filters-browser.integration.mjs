@@ -145,7 +145,12 @@ test('audit action filters preserve project scope, server order, archived reads 
     await chooseAction('PLAN_COMMENT_ADDED');
     assert.deepEqual(await visibleIds(), firstBefore.audit.filter((item) => item.action === 'PLAN_COMMENT_ADDED').map((item) => item.id));
     await chooseAction('PLAN_DECISION_DENIED');
-    assert.deepEqual(await visibleIds(), firstBefore.audit.filter((item) => item.action === 'PLAN_DECISION_DENIED').map((item) => item.id));
+    const deniedRecords = firstBefore.audit.filter((item) => item.action === 'PLAN_DECISION_DENIED');
+    assert.deepEqual(await visibleIds(), deniedRecords.map((item) => item.id));
+    const deniedRow = page.locator(`.timeline-row[data-audit-id="${deniedRecords[0].id}"]`);
+    await deniedRow.getByText('Decision denied: an approver role is required.', { exact: true }).waitFor();
+    const denialText = await deniedRow.innerText();
+    assert.ok(denialText.includes(actors[0].name) || denialText.includes(`Actor ${actors[0].id.slice(0, 8)}`), denialText);
     await chooseAction('PLAN_APPROVED');
     assert.deepEqual(await visibleIds(), firstBefore.audit.filter((item) => item.action === 'PLAN_APPROVED').map((item) => item.id));
     await chooseAction('PROJECT_ARCHIVED');

@@ -43,9 +43,7 @@ export const PRODUCT_BROWSER_FILES = Object.freeze([
   'tests/product-credential-browser.integration.mjs',
   'tests/product-browser.integration.mjs',
   'tests/product-archive-browser.integration.mjs',
-  'tests/product-review-audit-browser.integration.mjs',
   'tests/product-comments-browser.integration.mjs',
-  'tests/product-decision-record-browser.integration.mjs',
   'tests/product-status-filters-browser.integration.mjs',
   'tests/product-audit-action-filters-browser.integration.mjs',
   'tests/product-audit-pages-browser.integration.mjs',
@@ -58,7 +56,6 @@ export const PRODUCT_BROWSER_FILES = Object.freeze([
   'tests/product-approval-integrity-browser.integration.mjs',
   'tests/product-plan-requester-browser.integration.mjs',
   'tests/product-plan-intent-browser.integration.mjs',
-  'tests/product-plan-record-browser.integration.mjs',
   'tests/product-execution-record-browser.integration.mjs',
   'tests/product-statement-envelope-browser.integration.mjs',
   'tests/product-plan-resubmission-browser.integration.mjs',
@@ -73,13 +70,29 @@ export const PRODUCT_BROWSER_FILES = Object.freeze([
   'tests/product-backup-restore-browser.integration.mjs',
 ]);
 
+// Three real API/PostgreSQL/Chromium journeys; distinct UI regressions stay in
+// the complete default browser gate and can also run independently.
+export const PRODUCT_BROWSER_SMOKE_FILES = Object.freeze([
+  'tests/product-phase6-workflow-browser.integration.mjs',
+  'tests/product-mvp-workflow-browser.integration.mjs',
+  'tests/product-secure-sessions-browser.integration.mjs',
+]);
+export const PRODUCT_BROWSER_EXTENDED_FILES = Object.freeze(
+  PRODUCT_BROWSER_FILES.filter(file => !PRODUCT_BROWSER_SMOKE_FILES.includes(file)));
+
 export function parseProductTestOptions(argv, { shard = process.env.SCHEMAFORGE_TEST_SHARD } = {}) {
-  let browser = false, list = false, file, name;
+  let browser = false, list = false, smoke = false, extended = false, file, name;
   for (let index = 0; index < argv.length; index++) {
     const arg = argv[index];
     if (arg === '--browser') {
       if (browser) throw new TypeError('Duplicate --browser option');
       browser = true;
+    } else if (arg === '--smoke') {
+      if (smoke) throw new TypeError('Duplicate --smoke option');
+      smoke = true;
+    } else if (arg === '--extended') {
+      if (extended) throw new TypeError('Duplicate --extended option');
+      extended = true;
     } else if (arg === '--list') {
       if (list) throw new TypeError('Duplicate --list option');
       list = true;
@@ -98,16 +111,22 @@ export function parseProductTestOptions(argv, { shard = process.env.SCHEMAFORGE_
     }
   }
   if (name !== undefined && !file) throw new TypeError('--name requires --file so the test can be debugged independently');
-  if (name !== undefined) {
-    try { new RegExp(name); } catch { throw new TypeError('--name must be a valid regular expression'); }
-  }
+  if (name !== undefined && (name.length > 1000 || !name.trim()))
+    throw new TypeError('--name must be a nonempty literal test name of at most 1000 characters');
   if (list && (file || name !== undefined)) throw new TypeError('--list cannot be combined with --file or --name');
   if (shard && (file || name !== undefined || list)) throw new TypeError('Product test selection cannot be combined with SCHEMAFORGE_TEST_SHARD');
-  const files = browser ? PRODUCT_BROWSER_FILES : PRODUCT_API_FILES;
+  if ((smoke || extended) && !browser) throw new TypeError('Browser tiers require --browser');
+  if (smoke && extended) throw new TypeError('Choose one browser tier');
+  const files = browser ? smoke ? PRODUCT_BROWSER_SMOKE_FILES
+    : extended ? PRODUCT_BROWSER_EXTENDED_FILES : PRODUCT_BROWSER_FILES : PRODUCT_API_FILES;
   if (file) {
     const selected = files.filter(candidate => candidate === file || candidate.slice('tests/'.length) === file);
     if (selected.length !== 1) throw new TypeError(`Unknown ${browser ? 'browser' : 'API'} product test file: ${file}`);
     file = selected[0];
   }
-  return Object.freeze({ browser, list, file, name, files: file ? [file] : files });
+  return Object.freeze({ browser, list, smoke, extended, file, name, files: file ? [file] : files });
 }
+
+// Node accepts a regular expression, but this CLI takes a literal name fragment.
+// Escaping keeps debug input from introducing regex metacharacters or backtracking.
+export const literalTestNamePattern = name => name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

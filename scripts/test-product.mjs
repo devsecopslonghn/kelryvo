@@ -1,7 +1,7 @@
 import { spawn } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { partitionProductFiles } from './product-test-shards.mjs';
-import { parseProductTestOptions } from './product-test-suites.mjs';
+import { parseProductTestOptions, literalTestNamePattern } from './product-test-suites.mjs';
 
 function parseShard(value) {
   if (!value) return undefined;
@@ -58,7 +58,7 @@ export async function runProductTests(argv = process.argv.slice(2), env = proces
   }
 
   const args = ['--test', '--test-concurrency=1'];
-  if (options.name !== undefined) args.push(`--test-name-pattern=${options.name}`);
+  if (options.name !== undefined) args.push(`--test-name-pattern=${literalTestNamePattern(options.name)}`);
   args.push(...files);
   const child = spawn(process.execPath, args, { stdio: 'inherit', env: {
     ...env, SCHEMAFORGE_TEST_DATABASE_URL: url, SCHEMAFORGE_DEMO_REPOSITORY_PATH: demoRepositoryPath,

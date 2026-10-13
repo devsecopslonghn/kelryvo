@@ -1,7 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { parseProductTestOptions, PRODUCT_API_FILES, PRODUCT_BROWSER_FILES } from '../scripts/product-test-suites.mjs';
+import { parseProductTestOptions, PRODUCT_API_FILES, PRODUCT_BROWSER_FILES,
+  PRODUCT_BROWSER_SMOKE_FILES, PRODUCT_BROWSER_EXTENDED_FILES, literalTestNamePattern } from '../scripts/product-test-suites.mjs';
+
+test('browser tiers are complete complementary sets and the default still runs all coverage', () => {
+  assert.equal(PRODUCT_BROWSER_SMOKE_FILES.length, 3);
+  assert.deepEqual(parseProductTestOptions(['--browser', '--smoke']).files, PRODUCT_BROWSER_SMOKE_FILES);
+  assert.deepEqual(parseProductTestOptions(['--browser', '--extended']).files, PRODUCT_BROWSER_EXTENDED_FILES);
+  assert.deepEqual([...PRODUCT_BROWSER_SMOKE_FILES, ...PRODUCT_BROWSER_EXTENDED_FILES].sort(), [...PRODUCT_BROWSER_FILES].sort());
+  assert.equal(new Set([...PRODUCT_BROWSER_SMOKE_FILES, ...PRODUCT_BROWSER_EXTENDED_FILES]).size, PRODUCT_BROWSER_FILES.length);
+  assert.throws(() => parseProductTestOptions(['--smoke']), /require --browser/);
+  assert.throws(() => parseProductTestOptions(['--browser', '--smoke', '--extended']), /one browser tier/);
+});
 
 test('default runner selections retain each complete ordered product suite', () => {
   assert.deepEqual(parseProductTestOptions([]).files, PRODUCT_API_FILES);
@@ -15,11 +26,14 @@ test('a single suite file can be selected by repository path or basename', () =>
     ['tests/product-browser.integration.mjs']);
 });
 
-test('a test name is scoped to one file and validated as a regular expression', () => {
+test('a test name is scoped to one file and regex metacharacters stay literal', () => {
   assert.deepEqual(parseProductTestOptions(['--file', 'product-api.test.mjs', '--name', 'rate limit']).files,
     ['tests/product-api.test.mjs']);
   assert.throws(() => parseProductTestOptions(['--name', 'rate limit']), /requires --file/);
-  assert.throws(() => parseProductTestOptions(['--file', 'product-api.test.mjs', '--name', '[']), /valid regular expression/);
+  assert.equal(parseProductTestOptions(['--file', 'product-api.test.mjs', '--name', '[']).name, '[');
+  assert.equal(literalTestNamePattern('[rate] (a+)+ $.*'), '\\[rate\\] \\(a\\+\\)\\+ \\$\\.\\*');
+  assert.throws(() => parseProductTestOptions(['--file', 'product-api.test.mjs', '--name', ' '.repeat(3)]), /nonempty literal/);
+  assert.throws(() => parseProductTestOptions(['--file', 'product-api.test.mjs', '--name', 'a'.repeat(1001)]), /at most 1000/);
 });
 
 test('unknown, ambiguous, and incompatible selections fail before runner setup', () => {

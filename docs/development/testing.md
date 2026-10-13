@@ -10,6 +10,10 @@ cases skip without a test database; parser-dependent cases also skip in a fresh
 checkout until the pinned helper is prepared. When the helper is installed, set
 `SCHEMAFORGE_JAVA_HOME` to the prepared JDK as documented in [offline build](offline-build.md).
 
+See the [browser strategy and complete assertion audit](browser-testing.md) for
+the current three real-stack smoke flows, complementary focused UI regressions,
+and the subsequent hosted baseline. `test:browser` and CI still run both tiers.
+
 The foundation CI job supplies fast feedback and retains `dependencies:offline`.
 Deeper acceptance retains all four API shards, three browser shards, extracted
 release acceptance and the fail-closed `product` aggregate on PRs and master.
@@ -35,8 +39,8 @@ node scripts/test-product.mjs --browser --file product-browser.integration.mjs -
 node --test --test-name-pattern='whole deadline.*child hanging at read' tests/thin-probe-supervisor.test.mjs
 ```
 
-`--file` accepts a listed basename or repository path. `--name` takes a regular
-expression and requires one file; Node can exit successfully when a pattern
+`--file` accepts a listed basename or repository path. `--name` takes a literal
+name fragment (regex characters are escaped) and requires one file; Node can exit successfully when a pattern
 matches no tests, so check the TAP test count/name. Product runs print suite,
 file count, shard and a focused rerun hint. Comment fixtures now report the
 failed setup operation/status rather than a later undefined plan ID. The
@@ -81,7 +85,9 @@ The eight thin-supervisor deadline cases retain real children, existing
 three-second deadlines and all HOLD/reaping assertions. They now share one
 parent with concurrency bounded to two, overlapping independent waits.
 Suite membership comes from plain exported lists rather than TypeScript AST
-inspection of the runner; all 97 original API/browser file entries remain.
+inspection of the runner. That preceding optimization retained all 97 entries;
+the subsequent browser audit consolidates three files after explicit UI transfers
+and preserves all 57 API files (94 API/browser entries total).
 
 ## Measurements
 
