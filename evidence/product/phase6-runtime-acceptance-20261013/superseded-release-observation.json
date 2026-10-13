@@ -1,0 +1,8 @@
+{
+  "sourceCommit": "57142bf6492b996863144a9937e4dd1bef937316",
+  "result": "INCOMPLETE_TERMINATED",
+  "stage": "SIGNED_OUT_HTTPS_RESTART",
+  "observation": "Chromium retained an idle TLS connection; test server drain remained pending",
+  "correction": "Close signed-out browser client before fixture restart",
+  "oracleAcceptance": "NOT_RUN"
+}

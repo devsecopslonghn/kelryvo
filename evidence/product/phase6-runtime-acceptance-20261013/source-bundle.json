@@ -1,0 +1,11 @@
+{
+  "format": "schemaforge-local-source-checksum-v1",
+  "sourceCommit": "fafeaf956282a9a2ec9c252418eff2805b706e34",
+  "archive": "schemaforge-local-fafeaf956282.tar.gz",
+  "sha256": "1e22c20dc42e57bf863a3365da8f1218308df1667de0ee5b4941b6ed8aba60d2",
+  "bytes": 577819,
+  "manifestSha256": "249e4876a7517639f1c3a263ddc0335e2b1f24457e4e5ded437144257aa355c5",
+  "files": 175,
+  "scope": "LOCAL_SOURCE_INSTALLATION_CANDIDATE",
+  "oracleRuntime": "UNVALIDATED"
+}

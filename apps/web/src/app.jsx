@@ -515,6 +515,7 @@ function App() {
     if (activeSelectedPlanId.current !== id) {
       executionContextEpoch.current += 1;
       executionEventSequence.current += 1; setExecutionEvents({});
+      setCommentBody(''); setDecisionReason(''); setRevocationReason('');
     }
     reviewerSequence.current += 1;
     setReviewerChoices([]); setReviewerChoice(''); setReviewerMessage('');

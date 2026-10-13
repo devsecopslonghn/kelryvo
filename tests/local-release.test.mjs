@@ -17,7 +17,7 @@ test('release failure diagnostics expose only bounded fixed test metadata',()=>{
   assert.equal(JSON.stringify(releaseTestDiagnostics(output)).includes(secret),false);
   assert.deepEqual(releaseTestDiagnostics(`not ok 1 - HTTPS browser resumes secure sessions and retains review workflow through logout, expiry and witnessed restore\u001b[31m\n  duration_ms: 1`),[]);
   const repeated=Array.from({ length:100 },()=>output).join('\n');
-  assert.equal(releaseTestDiagnostics(repeated).length,4);
+  assert.equal(releaseTestDiagnostics(repeated).length,5);
 });
 
 test('local source bundle is reproducible, excludes private/research inputs, preserves notices and rejects corruption',async()=>{

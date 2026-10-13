@@ -13,7 +13,7 @@ try {
   const environment={ ...process.env,SCHEMAFORGE_REQUIRE_PRODUCT_TESTS:'1' };
   delete environment.NODE_TEST_CONTEXT;
   const child=spawn(process.execPath,['--test','--test-reporter=tap','--test-concurrency=1',
-    'tests/offline-plan-intent.test.mjs','tests/product-target-bindings.test.mjs','tests/product-target-workflow.test.mjs','tests/product-target-workflow-browser.integration.mjs',
+    'tests/product-phase6-workflow-browser.integration.mjs','tests/offline-plan-intent.test.mjs','tests/product-target-bindings.test.mjs','tests/product-target-workflow.test.mjs','tests/product-target-workflow-browser.integration.mjs',
     'tests/product-mvp-workflow.test.mjs','tests/product-mvp-workflow-browser.integration.mjs',
     'tests/product-secure-sessions-browser.integration.mjs','tests/product-release-acceptance.integration.mjs',
     'tests/product-account.test.mjs','tests/product-account-browser.integration.mjs',

@@ -1,0 +1,210 @@
+{
+  "format": "kelryvo-phase6-acceptance-v1",
+  "sourceCommit": "fafeaf956282a9a2ec9c252418eff2805b706e34",
+  "scope": "NON_PRODUCTION_LOCAL_ONLY",
+  "phase5": {
+    "pr": "https://github.com/devsecopslonghn/schemaForge/pull/78",
+    "reviewedHead": "12115456b1453af09dfb433b1b4f6859c0746d48",
+    "masterCommit": "22cb7d1468d0df538953ad94e07c6087575bf781",
+    "independentReview": "NO_BLOCKING_FINDINGS",
+    "configuredBranchProtection": false,
+    "configuredBranchRules": [],
+    "requiredHumanApproval": "NOT_CONFIGURED",
+    "unresolvedReviewThreads": 0,
+    "candidateCI": "PASS",
+    "masterCI": "PASS",
+    "masterProductFirstAttempt": "FAIL_COMMENTS_SELECTOR_TIMING",
+    "masterProductFinalAttempt": 2,
+    "masterGates": [
+      {
+        "conclusion": "success",
+        "databaseId": 38340836370,
+        "name": "Kelryvo OCI verification and publication",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38340836370"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 38340836208,
+        "name": "Push on master",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38340836208"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 38340836482,
+        "name": "Offline ANTLR parser acceptance",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38340836482"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 38340836418,
+        "name": "Offline WP0 checks",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38340836418"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 38340836414,
+        "name": "Local PRODUCT acceptance",
+        "status": "completed",
+        "url": "https://github.com/devsecopslonghn/schemaForge/actions/runs/38340836414"
+      }
+    ],
+    "focusedPostgresReview": {
+      "tests": 16,
+      "pass": 14,
+      "fail": 0,
+      "skipped": 2,
+      "note": "Native backup cases rerun separately with required-product flag"
+    },
+    "nativeBackupRestore": {
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "skipped": 0,
+      "scope": [
+        "PHASE5_RECONCILIATION_PERSISTENCE",
+        "PHASE4_BACKUP_UPGRADE",
+        "RESTORE_HOLD"
+      ]
+    }
+  },
+  "phase6": {
+    "independentReview": "NO_BLOCKING_FINDINGS",
+    "sourceCheck": {
+      "command": "npm run check",
+      "tests": 444,
+      "pass": 341,
+      "fail": 0,
+      "skipped": 103,
+      "scope": "OFFLINE_CHECKS; database cases are separately required in PRODUCT CI"
+    },
+    "healthConfigurationLifecycle": {
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "skipped": 0
+    },
+    "postgresBrowserWorkerRecovery": {
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skipped": 0
+    },
+    "commentsBrowserRegression": {
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "skipped": 0
+    },
+    "sourceInstallation": {
+      "status": "PASS",
+      "sourceCommit": "fafeaf956282a9a2ec9c252418eff2805b706e34",
+      "workflowTests": 24,
+      "pass": 24,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "outerHarnessTests": 1,
+      "durationMs": 382618.234477,
+      "command": "npm run test:release; explicit disposable PostgreSQL and pinned JDK environment"
+    },
+    "candidateCI": "SEE_HOSTED_PR_CHECKS_FOR_EXACT_FINAL_HEAD",
+    "secretScan": {
+      "tool": "gitleaks",
+      "version": "8.30.1",
+      "scope": "NEW_PHASE6_COMMITS",
+      "findings": 0
+    },
+    "appImage": {
+      "id": "sha256:3a16e81f5dafb541c722010f04eb3a0e5b3189f3a664524c91ac6cfa84db3b12",
+      "revision": "fafeaf956282a9a2ec9c252418eff2805b706e34"
+    },
+    "workerImage": {
+      "id": "sha256:31442f05d337d299af2953dbdff6fe21e1ed1eebdd7b743d119062020844a042",
+      "revision": "fafeaf956282a9a2ec9c252418eff2805b706e34"
+    },
+    "reproduce": "docs/development/runtime-readiness.md",
+    "screenshots": [
+      {
+        "path": "screenshots/01-register-target.png",
+        "sha256": "2d319ce746ac14fd8e8dd9929aaa96cd7f7c59388ba6386655bda2cfae55c9b7"
+      },
+      {
+        "path": "screenshots/02-discover-target.png",
+        "sha256": "d2f78ae333ea98da05c5819b31e54c3e893c736cc8f3cf4a3a2a6383e07b9020"
+      },
+      {
+        "path": "screenshots/03-validate-sql.png",
+        "sha256": "4d7cda5c4f924012c73358e3b6cb1fb66e414fd096b9c88d0a8275be0bdcc9ba"
+      },
+      {
+        "path": "screenshots/04-create-plan.png",
+        "sha256": "d74aa63d287b67defbd166bfdfd15eef8f4f0bf09058ba2d83caf8d8dc411fd4"
+      },
+      {
+        "path": "screenshots/05-independent-approval.png",
+        "sha256": "1c30ddebbfa5c8d105c9a191c80a36eaaaa3cd861d8c5605eef01b2f40adc395"
+      },
+      {
+        "path": "screenshots/06-execution-readiness.png",
+        "sha256": "7569e70a775df5af0d1d48de5ad8c039428e4cc4e17be8033402c3910cd8f124"
+      },
+      {
+        "path": "screenshots/07-execution-request.png",
+        "sha256": "a1cf4be8727cc025177c1d73d8fd0d633b77f82b8ea750478805d660f905e76e"
+      },
+      {
+        "path": "screenshots/08-history-after-restart.png",
+        "sha256": "6d57f61ba0637606f6efae24877bd7aaee82555582fbd15ea67e412bf4522467"
+      },
+      {
+        "path": "screenshots/09-audit-after-restart.png",
+        "sha256": "f30bba4947f23c71ac8e7716126001d6a4976b8dc9ebe3048d6b4602030cf238"
+      },
+      {
+        "path": "screenshots/10-audit-mobile.png",
+        "sha256": "fce7abf14d9dfc71c7d8cf28619bbfbc5a6a260965b40396ce564fe5e0e93ba5"
+      }
+    ]
+  },
+  "oracle": {
+    "status": "NOT_RUN",
+    "connected": false,
+    "ddlExecuted": false,
+    "fixtureEvidenceIsLiveAcceptance": false,
+    "suite": "docs/development/oracle-acceptance.md",
+    "cases": {
+      "OA01": "NOT_RUN",
+      "OA02": "NOT_RUN",
+      "OA03": "NOT_RUN",
+      "OA04": "NOT_RUN",
+      "OA05": "NOT_RUN",
+      "OA06": "NOT_RUN",
+      "OA07": "NOT_RUN",
+      "OA08": "NOT_RUN",
+      "OA09": "NOT_RUN",
+      "OA10": "NOT_RUN"
+    },
+    "requiredInputs": [
+      "Secret-free owner-attested disposable lab manifest",
+      "Explicit scoped migration execution authorization",
+      "Exact observed database/service/PDB/schema identity",
+      "Private distinct discovery/writer/ledger secret references and least-privilege grant evidence",
+      "Private trusted worker transport/identity/history/mutex/dispatch authorities",
+      "Explicit fault/session-stop and teardown permissions",
+      "Independently reviewed target and central audit/ledger evidence"
+    ]
+  },
+  "externalDeployment": {
+    "performed": false,
+    "requiredBeforeDeployment": "Separate owner authorization"
+  },
+  "remainingBlockers": [
+    "Authorized disposable Oracle lab and live execution evidence absent",
+    "Trusted Oracle worker cannot be enabled before scoped installation and authorized acceptance"
+  ],
+  "stopBoundary": "PUBLISH_PHASE6_PR; DO_NOT_START_PHASE7"
+}

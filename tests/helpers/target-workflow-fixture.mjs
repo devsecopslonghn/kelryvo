@@ -12,7 +12,7 @@ import { configureTargetOption } from '../../packages/targets/index.ts';
 const ORG = '00000000-0000-4000-8000-000000000001';
 
 /** Real PostgreSQL, a temporary local Git repository, the installed parser, and scoped product actors. */
-export async function createTargetWorkflowFixture({fileCount=1,discoveryRuntime,discoveryTimeoutMs,deploymentUsername='APP'}={}) {
+export async function createTargetWorkflowFixture({fileCount=1,discoveryRuntime,discoveryTimeoutMs,deploymentUsername='APP',tls}={}) {
   const repo = await mkdtemp(path.join(tmpdir(), 'sf-target-workflow-'));
   let db, app, membership;
   const actors = [
@@ -39,7 +39,7 @@ export async function createTargetWorkflowFixture({fileCount=1,discoveryRuntime,
       { id: 'target-workflow-repo', name: 'Target workflow repository', path: repo },
       { id: 'target-workflow-repo-alt', name: 'Target workflow repository alias', path: repo },
     ];
-    app = await startProduct({ databaseUrl: db.databaseUrl, actors, repositories, port: 0, discoveryRuntime, discoveryTimeoutMs });
+    app = await startProduct({ databaseUrl: db.databaseUrl, actors, repositories, port: 0, discoveryRuntime, discoveryTimeoutMs, tls });
     membership = await createMembershipOperatorFixture(db.databaseUrl);
     await membership.activateEmptyFixture(app);
     const api = async (method, route, body, actor = actors[0]) => app.inject({ method, url: route,
@@ -106,11 +106,11 @@ export async function createTargetWorkflowFixture({fileCount=1,discoveryRuntime,
         reason: 'advance binding to the current option revision' }, actor);
       return response;
     };
-    const currentUrl = () => `http://127.0.0.1:${app.server.address().port}`;
+    const currentUrl = () => `${tls ? 'https' : 'http'}://127.0.0.1:${app.server.address().port}`;
     const restart = async () => {
       await app.close();
       await db.reopen();
-      app = await startProduct({ databaseUrl: db.databaseUrl, actors, repositories: [], port: 0, discoveryRuntime, discoveryTimeoutMs });
+      app = await startProduct({ databaseUrl: db.databaseUrl, actors, repositories: [], port: 0, discoveryRuntime, discoveryTimeoutMs, tls });
     };
     return { db, get app() { return app; }, membership, actors, project, base, environment, profile, credentialRef,
       repositories, repo, git, reference, assignment, option, lineageId, optionDefinition, release, foreignProject: foreign.project, foreignBase,

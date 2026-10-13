@@ -1,5 +1,23 @@
 # SchemaForge product state
 
+## Phase 6 non-production runtime acceptance — 2026-10-13
+
+Phase 5 PR #78 is integrated at master `22cb7d1468d0df538953ad94e07c6087575bf781`.
+Independent review found no blocking execution/reconciliation defect. Candidate and
+resulting-master Foundation, parser, complete PRODUCT, OCI and CodeQL passed; the
+first master comments-browser timing failure is retained with its successful rerun.
+Phase 6 source `fafeaf956282a9a2ec9c252418eff2805b706e34` adds fixed structured
+startup/shutdown diagnostics, synchronous clearing of drafts on plan changes,
+and a continuous HTTPS target-to-audit journey included in browser and source-bundle
+acceptance. The existing app/worker runtime and deployment architecture are preserved.
+[Runtime operations](../development/runtime-readiness.md) and
+[recorded local evidence](../../evidence/product/phase6-runtime-acceptance-20261013/acceptance.json)
+describe the scope; hosted PR checks report final candidate CI.
+Discovery remains FIXTURE in local acceptance, queued execution remains NOT_EXECUTED,
+and [live Oracle acceptance](../development/oracle-acceptance.md) is NOT_RUN pending an
+attested disposable lab, explicit execution/fault/teardown authority and private trusted
+worker inputs. No external deployment or infrastructure change is part of this phase.
+
 ## Product-first MVP completion — 2026-10-12
 
 The practical governance MVP is deployed and accepted through application PR #72,
