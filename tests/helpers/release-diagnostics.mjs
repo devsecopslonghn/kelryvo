@@ -2,6 +2,7 @@
 // log. Assertions, browser call logs, SQL, credentials and arbitrary output stay
 // private, including strings that resemble test names or terminal commands.
 const tests = new Map([
+  ['HTTPS browser completes registration through discovery, SQL review, independent approval, readiness, request and durable audit', 'target-execution-workflow'],
   ['combined local Git workflow retains review, withdrawal, manual references and restart state', 'git-workflow'],
   ['Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit', 'browser-workflow'],
   ['HTTPS browser resumes secure sessions and retains review workflow through logout, expiry and witnessed restore', 'secure-session-workflow'],

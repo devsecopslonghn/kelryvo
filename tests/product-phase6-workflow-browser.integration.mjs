@@ -11,17 +11,22 @@ import {configureTargetOption} from '../packages/targets/index.ts';
 // No target credentials, Oracle connections, DDL dispatch or infrastructure changes.
 test('HTTPS browser completes registration through discovery, SQL review, independent approval, readiness, request and durable audit', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 240000,
-}, async () => {
+}, async t => {
   const cert = await createTlsFixture();
   let f, browser;
   const output = '.cache/phase6-acceptance';
   try {
     f = await createDiscoveryFixture({tls: cert.tls});
     await mkdir(output, {recursive: true});
-    browser = await chromium.launch({args: [`--ignore-certificate-errors-spki-list=${cert.spki}`]});
-    const page = await browser.newPage({viewport: {width: 1440, height: 1100}}), errors = [];
-    page.setDefaultTimeout(30000);
-    page.on('pageerror', error => errors.push(error.message));
+    const errors = [];
+    let page;
+    const openBrowser = async () => {
+      browser = await chromium.launch({args: [`--ignore-certificate-errors-spki-list=${cert.spki}`]});
+      page = await browser.newPage({viewport: {width: 1440, height: 1100}});
+      page.setDefaultTimeout(30000);
+      page.on('pageerror', error => errors.push(error.message));
+    };
+    await openBrowser();
     const screenshot = name => page.screenshot({path: `${output}/${name}.png`, fullPage: true});
     const signIn = async actor => {
       await page.goto(f.currentUrl());
@@ -36,7 +41,7 @@ test('HTTPS browser completes registration through discovery, SQL review, indepe
       await page.getByLabel('Sign out').click();
       await page.getByLabel('Local access token').waitFor();
     };
-    for (const path of ['/api/livez', '/api/readyz']) assert.equal((await tlsRequest(f.currentUrl(), cert.ca, path)).status, 200);
+    for (const path of ['/api/livez', '/api/readyz']) assert.equal((await tlsRequest(f.currentUrl(), cert.ca, path, {agent: false})).status, 200);
     await signIn(f.actors[0]);
     const cookie = (await page.context().cookies()).find(c => c.name === '__Host-schemaforge');
     assert.ok(cookie?.secure && cookie.httpOnly && cookie.sameSite === 'Strict');
@@ -155,8 +160,13 @@ test('HTTPS browser completes registration through discovery, SQL review, indepe
     assert.equal(await page.getByRole('button', {name: 'Request deployment', exact: true}).isDisabled(), true);
     await screenshot('07-execution-request');
     await logout();
-    await page.goto('about:blank');
+    // Chromium can retain a preconnected TLS socket even after about:blank.
+    // Close the signed-out client before draining this owned test server.
+    await browser.close(); browser = undefined;
+    t.diagnostic('Signed out and closed browser client before HTTPS service restart');
     await f.restart();
+    await openBrowser();
+    t.diagnostic('HTTPS service restarted; reading retained request and audit');
     await signIn(f.actors[0]);
     await page.getByRole('button', {name: /Plans & review/}).click();
     await page.locator(`.plan-option[data-plan-id="${planId}"]`).click();
