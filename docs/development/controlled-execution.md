@@ -32,6 +32,12 @@ sequence enters HOLD. Missing evidence never proves a statement failed. Workers
 do not reclaim or replay an uncertain attempt. Cancellation is available only
 before admission; there is no rollback promise for Oracle DDL.
 
+Completed-history reconciliation accepts retained statement intents in formats
+2–4. Target-bound formats additionally verify the saved binding tuple and digest
+against the captured identity evidence. Only an independently attested, matching
+target prefix with complete retained receipts and validity evidence can support
+skipping prior migrations; missing evidence remains blocked.
+
 **View execution history** shows attempts, statement progress, receipts and their
 approved migration identities. Synthetic acceptance remains explicitly labelled
 UNIT_SYNTHETIC, including retained success metadata. It does not verify Oracle.

@@ -4,13 +4,106 @@ import { createHash, randomUUID } from 'node:crypto';
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { statementEnvelopeFixture } from './helpers/statement-envelope-fixture.mjs';
+import { createValidationFixture } from './helpers/schema-validation-fixture.mjs';
 import { declareReference, assignReference } from '../packages/catalog-reference/index.mjs';
 import { createExecutionWorker } from '../apps/worker/run-request.ts';
 import { readExecutionRequest, materializeExecutionRequest } from '../packages/execution/admission.ts';
+import { verifyOfflinePlanIntent } from '../packages/migrations/offline-plan-intent.mjs';
+import { approvedMigrationIdentities } from '../packages/execution/pending-migrations.mjs';
 import { reconcileCompletedHistory } from '../packages/execution/history-reconciliation.ts';
+import { acquireTargetLocks } from '../packages/targets/locks.ts';
 
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const scope = 'UNIT_SYNTHETIC';
+test('modern retained target completions reconcile format-3 and format-4 intents from captured identity evidence', {
+  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout:300_000,
+},async t=>{
+  for(const intentVersion of [2,3]) await t.test(`intentVersion ${intentVersion}`,async()=>{
+    const f=await createValidationFixture({deploymentUsername:'DEPLOYER'});
+    try{
+      let validation;
+      if(intentVersion===3){
+        const response=await f.validate();assert.equal(response.statusCode,201,response.body);validation=response.json().validation;
+      }
+      const made=intentVersion===3?await f.makeSchemaPlan(validation):await f.api('POST',`${f.base}/plans`,{
+        intentVersion:2,releaseId:f.release.id,assignmentId:f.binding.assignmentId,
+        expectedAssignmentRevision:f.binding.assignmentRevision,targetBindingId:f.binding.bindingId,
+        expectedBindingRevision:f.binding.bindingRevision});
+      assert.equal(made.statusCode,201,made.body);
+      const plan=made.json().plan;
+      assert.equal((await f.decide(plan)).statusCode,200);
+      await f.membership.deployGrant(f.project.id,f.actors[0].id);
+      const request=()=>f.api('POST',`/api/plans/${plan.id}/execution`,{idempotencyKey:randomUUID(),
+        reason:'Synthetic retained-history reconciliation',expectedIntentDigest:plan.offlineIntent.digest,
+        expectedAssignmentRevision:plan.retainedTarget.assignmentRevision,
+        expectedBindingRevision:plan.retainedTarget.bindingRevision});
+      const first=await request();assert.equal(first.statusCode,201,first.body);
+      const ledger=[],calls=[],targetKey=`unit:modern-history:${f.binding.streamId}`;
+      const host={workerId:`unit-modern-${intentVersion}`,scope,withTarget:async(input,run)=>run({scope,
+        observe:async()=>{const applied=ledger.map(row=>({...row,statementDigests:[...row.statementDigests]}));return {
+          scope,targetAssignmentId:f.assignment.id,targetKey,targetIdentityDigest:f.observation.identityDigest,
+          historyFormat:1,appliedMigrations:applied,historyState:!applied.length?'EMPTY':applied.length===input.migrations.length?'EXACT_APPLIED':'APPLIED_PREFIX',
+          pendingStatementDigests:input.migrations.slice(applied.length).flatMap(row=>row.statementDigests),
+          historySnapshotDigest:hash(applied),mutexAuthorityDigest:hash('unit mutex'),validityDigest:hash('unit validity'),
+          centralEvidenceDigest:hash('unit central evidence'),dispatchPermitDigest:hash('unit permit'),hostWitnessDigest:hash('unit host')};},
+        current:async()=>true,execute:async bytes=>{calls.push(Buffer.from(bytes));return 'ACKNOWLEDGED';},
+        recordTargetReceipt:async receipt=>({receiptDigest:hash(receipt),centralEvidenceDigest:hash('unit central evidence')}),
+        verifyPostconditions:async()=>true,centralEvidenceComplete:async()=>true})};
+      const worker=createExecutionWorker(f.db.sql,host,{allowUnitSynthetic:true});
+      assert.equal(await worker.runWaitingRequest(first.json().job.id),'VERIFIED_SUCCESS');
+      const proof=(await f.db.sql`SELECT host_binding,target_identity_digest,scope FROM sf_execution_admission_proofs WHERE job_id=${first.json().job.id}`)[0];
+      assert.equal(proof.scope,scope);assert.equal(proof.target_identity_digest,f.observation.identityDigest);
+      assert.equal(proof.host_binding.targetBindingId,f.binding.bindingId);
+      const originalIntent=(await f.db.sql`SELECT offline_intent_envelope,offline_intent_digest,approval_reference FROM sf_plans WHERE id=${plan.id}`)[0];
+      const intent=verifyOfflinePlanIntent(originalIntent.offline_intent_envelope,originalIntent.offline_intent_digest);
+      const approvals=approvedMigrationIdentities(intent);
+      ledger.push(...approvals.map(row=>({...row,outcome:'APPLIED',approvalReference:originalIntent.approval_reference,intentDigest:originalIntent.offline_intent_digest})));
+      const matching={scope,targetKey,targetIdentityDigest:f.observation.identityDigest,appliedMigrations:ledger};
+      const reconcile=observation=>f.db.sql.begin(async tx=>{await acquireTargetLocks(tx,{planId:plan.id});return reconcileCompletedHistory(tx,observation);});
+      assert.equal(await reconcile(matching),true,
+        'a completed modern intent plus its actual retained target evidence is a witness');
+      assert.equal(await reconcile({...matching,targetIdentityDigest:hash('different physical target')}),false,
+        'a saved binding cannot witness effects on a different target identity');
+      const copyWitness=async(targetSuffix,targetBindingDigest)=>{
+        const copiedJob=randomUUID(),copiedAttempt=randomUUID(),copiedKey=`${targetKey}:${targetSuffix}`;
+        await f.db.sql`INSERT INTO sf_execution_jobs SELECT copied.* FROM sf_execution_jobs original
+          CROSS JOIN LATERAL jsonb_populate_record(NULL::sf_execution_jobs,to_jsonb(original)||jsonb_build_object(
+            'id',${copiedJob}::text,'idempotency_key',${randomUUID()}::text)) copied WHERE original.id=${first.json().job.id}`;
+        await f.db.sql`INSERT INTO sf_execution_admission_proofs SELECT copied.* FROM sf_execution_admission_proofs original
+          CROSS JOIN LATERAL jsonb_populate_record(NULL::sf_execution_admission_proofs,to_jsonb(original)||jsonb_build_object(
+            'job_id',${copiedJob}::text,'host_binding',original.host_binding||jsonb_build_object(
+              'targetKey',${copiedKey}::text,'targetBindingDigest',${targetBindingDigest}::text))) copied
+          WHERE original.job_id=${first.json().job.id}`;
+        await f.db.sql`INSERT INTO sf_execution_attempts SELECT copied.* FROM sf_execution_attempts original
+          CROSS JOIN LATERAL jsonb_populate_record(NULL::sf_execution_attempts,to_jsonb(original)||jsonb_build_object(
+            'id',${copiedAttempt}::text,'job_id',${copiedJob}::text)) copied WHERE original.job_id=${first.json().job.id}`;
+        await f.db.sql`INSERT INTO sf_execution_attempt_events SELECT copied.* FROM sf_execution_attempt_events original
+          JOIN sf_execution_attempts source ON source.id=original.attempt_id AND source.job_id=${first.json().job.id}
+          CROSS JOIN LATERAL jsonb_populate_record(NULL::sf_execution_attempt_events,to_jsonb(original)||jsonb_build_object(
+            'id',gen_random_uuid(),'attempt_id',${copiedAttempt}::text)) copied`;
+        await f.db.sql`INSERT INTO sf_execution_receipts SELECT copied.* FROM sf_execution_receipts original
+          JOIN sf_execution_attempts source ON source.id=original.attempt_id AND source.job_id=${first.json().job.id}
+          CROSS JOIN LATERAL jsonb_populate_record(NULL::sf_execution_receipts,to_jsonb(original)||jsonb_build_object(
+            'id',gen_random_uuid(),'attempt_id',${copiedAttempt}::text,'job_id',${copiedJob}::text)) copied`;
+        return {targetKey:copiedKey,targetIdentityDigest:f.observation.identityDigest,scope,appliedMigrations:ledger};
+      };
+      const intactCopy=await copyWitness('intact',proof.host_binding.targetBindingDigest);
+      assert.equal(await reconcile(intactCopy),true,
+        'the complete copied attempt remains a positive control for binding-digest validation');
+      const corruptCopy=await copyWitness('corrupt',hash('corrupt saved target binding'));
+      assert.equal(await reconcile(corruptCopy),false,
+        'a complete witness with a corrupted saved target-binding digest is rejected');
+      const missingCopy=await copyWitness('missing',null);
+      assert.equal(await reconcile(missingCopy),false,
+        'a complete witness with no saved target-binding digest stays unverifiable');
+      assert.equal(calls.length,approvals.reduce((n,row)=>n+row.statementDigests.length,0),
+        'history reconciliation reads evidence only and never dispatches target SQL');
+      const repeated=await request();assert.equal(repeated.statusCode,201,repeated.body);
+      assert.equal(await worker.runWaitingRequest(repeated.json().job.id),'NOOP');
+      assert.equal(calls.length,approvals.reduce((n,row)=>n+row.statementDigests.length,0));
+    }finally{await f.close();}
+  });
+});
 test('Git V1 then approved V2 executes only pending files; divergent or untrusted target history holds without replay', {
   skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout:300_000,
 },async()=>{

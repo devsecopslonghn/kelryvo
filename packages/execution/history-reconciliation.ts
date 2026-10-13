@@ -48,12 +48,28 @@ export async function reconcileCompletedHistory(tx: any, observation: TargetObse
     const intent = verifyOfflinePlanIntent(prior.envelope, prior.intent_digest, {
       organizationId:prior.organization_id,projectId:prior.project_id,manifestDigest:prior.source_manifest_digest,
       profileId:prior.profile_id });
-    if (!intent || intent.format !== 2 || prior.scope !== observation.scope
+    if (!intent || ![2,3,4].includes(intent.format) || prior.scope !== observation.scope
         || prior.target_identity_digest !== observation.targetIdentityDigest
         || prior.approval_reference !== prior.plan_approval_reference || prior.intent_digest !== prior.plan_intent_digest
         || !binding || binding.historyFormat !== 1 || !Number.isSafeInteger(binding.appliedMigrationCount)
         || binding.appliedMigrationCount < 0 || binding.appliedMigrationCount > intent.items.length
         || binding.statementManifestDigest !== executionDigest(intent.statements)) return false;
+    if (intent.target) {
+      if (binding.targetBindingId !== intent.target.bindingId
+          || binding.targetBindingRevision !== intent.target.bindingRevision || binding.streamId !== intent.target.streamId
+          || binding.migrationNamespace !== intent.target.migrationNamespace) return false;
+      const targetEvidence=await tx`SELECT e.identity_digest,o.provenance,o.verification_acceptance
+        FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id
+        WHERE e.digest=${intent.target.observationDigest} AND e.organization_id=${prior.organization_id}
+          AND e.project_id=${prior.project_id} AND e.assignment_id=${intent.target.assignmentId}
+          AND e.assignment_revision::text=${intent.target.assignmentRevision} AND e.route_id=${intent.target.routeId}
+          AND e.exact_owner=${intent.target.exactOwner} LIMIT 2`;
+      if (targetEvidence.length !== 1 || targetEvidence[0].identity_digest !== prior.target_identity_digest
+          || binding.targetBindingDigest !== executionDigest({ ...intent.target,
+            expectedIdentityDigest:targetEvidence[0].identity_digest,evidenceProvenance:targetEvidence[0].provenance,
+            liveVerificationAccepted:Boolean(targetEvidence[0].verification_acceptance) })) return false;
+    } else if (['targetBindingId','targetBindingRevision','targetBindingDigest','streamId','migrationNamespace']
+      .some(key => Object.hasOwn(binding,key))) return false;
     const migrations = approvedMigrationIdentities(intent);
     // Even a complete prior central execution cannot authorize skipping: it
     // only requires the separately attested target prefix to retain those files.
