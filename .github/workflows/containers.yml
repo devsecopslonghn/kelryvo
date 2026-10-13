@@ -4,14 +4,12 @@ on:
   pull_request:
   push:
     branches: [master]
-  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
   verify:
-    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -25,47 +23,15 @@ jobs:
       - run: docker build --platform linux/amd64 --build-arg KELRYVO_REVISION="$GITHUB_SHA" --target app --tag kelryvo-app:test .
       - run: docker build --platform linux/amd64 --build-arg KELRYVO_REVISION="$GITHUB_SHA" --target worker --tag kelryvo-worker:test .
       - run: node scripts/test-containers.mjs kelryvo-app:test kelryvo-worker:test
-
-  publish:
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    permissions:
-      contents: read
-      actions: read
-      checks: read
-      security-events: read
-      packages: write
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      # Export only images from a successful trusted master verification.
+      - if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        name: Save verified images for delivery
+        run: docker save kelryvo-app:test kelryvo-worker:test | gzip -1 > verified-images.tar.gz
+      - if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version-file: .nvmrc
-      - run: node scripts/container-publication-gate.mjs
-      - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: docker build --platform linux/amd64 --build-arg KELRYVO_REVISION="$GITHUB_SHA" --target app --tag kelryvo-app:test .
-      - run: docker build --platform linux/amd64 --build-arg KELRYVO_REVISION="$GITHUB_SHA" --target worker --tag kelryvo-worker:test .
-      - run: node scripts/test-containers.mjs kelryvo-app:test kelryvo-worker:test
-      # Recheck exact master after build and publish only these tested local images.
-      - run: node scripts/container-publication-gate.mjs
-      - name: Publish immutable source tags and record registry digests
-        shell: bash
-        run: |
-          set -euo pipefail
-          printf '%s' "$GITHUB_TOKEN" | docker login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
-          owner="${GITHUB_REPOSITORY_OWNER,,}"
-          for image in kelryvo-app kelryvo-worker; do
-            reference="ghcr.io/$owner/$image:$GITHUB_SHA-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
-            if docker manifest inspect "$reference" > /dev/null 2>&1; then
-              echo "Source tag already exists; preserve the published image and use its recorded digest." >&2
-              exit 1
-            fi
-            docker tag "$image:test" "$reference"
-            docker push "$reference"
-            docker buildx imagetools inspect "$reference" >> "$GITHUB_STEP_SUMMARY"
-          done
-          docker logout ghcr.io
+          name: verified-images-${{ github.sha }}-${{ github.run_attempt }}
+          path: verified-images.tar.gz
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 3

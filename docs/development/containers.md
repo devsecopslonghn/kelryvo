@@ -75,12 +75,78 @@ history, deployment grant/revoke, queued request cancellation, account/session c
 profile retirement, graceful restart persistence, runtime notices and worker rejection. It removes
 only its own disposable fixtures. No Oracle endpoint is contacted.
 
-The OCI workflow verifies candidate/master builds without publication. Dispatch on
-current master to publish the same images tested by that run to GHCR with immutable
-source SHA/run ID/attempt tags and revision labels, avoiding replacement during reruns.
-Publication checks the exact current master, successful Foundation,
-parser, full PRODUCT and all CodeQL languages, and open code-scanning findings before
-build and again before push. Required integration reviews/security gates also apply.
-The dedicated `kelryvo-helm-chart` repository owns deployment configuration and pinned
-published image digests. Kubernetes/PVC/public browser verification remains separate
-from container verification.
+The OCI workflow verifies candidate/master builds without publication. Successful
+master verification exports both tested images as a short-lived Actions artifact.
+`Kelryvo verified GitOps delivery` (`delivery.yml`) runs on `workflow_run: completed`
+for Foundation, parser, PRODUCT, OCI verification and default CodeQL, restricted to
+source master. Each event takes one gate snapshot. Pending/failed gates defer
+publication; the final completion event reevaluates every gate. No sleeps, polling,
+PR artifacts or privileged PR checkout are used. A master `workflow_dispatch` remains
+available for recovery, including promotion after credentials have been repaired.
+
+Delivery checks the exact current master, successful push runs for all four required
+workflows, the latest master CodeQL run and all four language jobs, and open
+code-scanning findings. It consumes only the successful OCI run/attempt's images;
+there is no second build. Images retain immutable
+`SOURCE_SHA-OCI_RUN_ID-OCI_RUN_ATTEMPT` tags and source labels. Before each registry
+write it rechecks all gates and current master. Existing tags must match the tested
+local image configuration; a partial publication resumes without replacing the
+first image. Both registry manifests and configurations are SHA-256 verified, and
+only a complete verified app/worker pair can reach promotion. No mutable latest tag
+is written. Artifact retention is three days; recovery after expiry requires rerunning
+master OCI verification, whose completion event resumes delivery.
+
+The full delivery workflow is serialized without cancelling active writes. Before
+promotion it independently revalidates both registry digests, source labels, the
+verified tags and all source gates. The chart checkout must match Helm master.
+Only `app.image.digest` and `worker.image.digest` in `values.yaml` change; the worker
+remains at zero replicas. Run `helm lint --strict .`,
+`python3 scripts/check-chart.py`, and
+`helm template kelryvo . --namespace kelryvo` before any chart commit. Helm commits
+record `Kelryvo-Source-SHA`, `Kelryvo-App-Digest` and `Kelryvo-Worker-Digest` trailers.
+An older/divergent source cannot supersede a promoted source; the same source and
+digests are a no-op. The source is checked again immediately before the branch write.
+A non-forced Git ref update with the inspected Helm master as its sole parent rejects
+concurrent chart updates; delivery fails for a safe rerun instead of blindly rebasing.
+Cross-repository source reads and Helm writes cannot be one atomic transaction, so
+a merge arriving after the final source check is handled by the newer source's own
+completion events. Serialization and the Helm ref update prevent an older run from
+overwriting a newer promotion.
+
+If Helm master is protected, delivery creates a narrowly scoped
+`automation/kelryvo-images-SOURCE_SHA` draft promotion PR instead, reusing an identical
+open PR. It closes superseded automation PRs and recovers an exact orphan branch
+when a prior PR creation failed. Normal chart CI/review must pass before an owner
+marks the draft ready and merges it. Do not grant a
+branch-protection bypass. Review source currency before merging a promotion PR;
+protected-chart PRs require the repository's normal integration process. GitHub
+reports master protection in its branch API; policy/permission denials remain explicit
+failures and never trigger a forced update.
+
+Owner setup for cross-repository authentication:
+
+1. Create a dedicated GitHub App with repository **Contents: read/write** and
+   **Pull requests: read/write**; Metadata read is implicit. No organization,
+   Administration, Actions, Workflows, Secrets or cluster permissions are needed.
+2. Install the App on **only** `devsecopslonghn/kelryvo-helm-chart`.
+3. In `devsecopslonghn/schemaForge` → Settings → Secrets and variables → Actions,
+   add repository secrets `KELRYVO_HELM_APP_ID` (numeric App ID) and
+   `KELRYVO_HELM_APP_PRIVATE_KEY` (complete generated PEM private key). Keep the
+   key out of chat, Git, logs and command arguments. A private key is generated
+   through the App owner's GitHub settings; an ordinary CLI user token cannot
+   create an App installation credential.
+4. The pinned `actions/create-github-app-token` action requests only the chart
+   repository and these two permissions. Its installation token is masked,
+   short-lived and revoked after the promotion job. Checkout does not persist it.
+5. Ensure the source `GITHUB_TOKEN` has GHCR package write access for both images.
+   Delivery requests source Contents/Actions/security-events read and Packages
+   write only in publication (Packages read in promotion). No cross-repository PAT
+   is installed or reused. Missing App secrets and HTTP permission failures fail
+   with fixed actionable diagnostics. After setup, rerun a failed delivery run or
+   use the master recovery dispatch; routine merges need no manual publication.
+
+Targeted delivery tests: `node --test tests/container-delivery.test.mjs`.
+The dedicated `kelryvo-helm-chart` repository owns deployment configuration and
+pinned published image digests. Kubernetes/PVC/public browser verification remains
+separate from container verification. This delivery work changes no Argo CD or
+Kubernetes resources and authorizes no Oracle execution.
