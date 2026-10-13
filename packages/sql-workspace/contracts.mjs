@@ -20,7 +20,7 @@ export function compareRevisionContent(base, candidate) {
 
 export function classifyWorkspaceError(error) {
   const code = typeof error?.message === 'string' ? error.message : '';
-  if (code === 'DRAFT_REVISION_CONFLICT' || code === 'REVISION_CONFLICT') return 'This draft changed elsewhere. Reload it before saving.';
+  if (code === 'DRAFT_REVISION_CONFLICT' || code === 'REVISION_CONFLICT') return 'This draft changed elsewhere. Copy or discard unsaved edits, then refresh.';
   if (code === 'NOT_FOUND' || code === 'FORBIDDEN') return 'This draft is unavailable in the selected project.';
   if (code === 'RELEASE_INTEGRITY_FAILED') return 'The retained release failed its integrity check. Ask an operator to review its stored source evidence before retrying.';
   if (code === 'INVALID_REQUEST') return 'The draft could not be saved. Check its name and SQL size.';

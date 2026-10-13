@@ -13,7 +13,7 @@
   },
   "focusedAcceptance": {
     "status": "PASS_AFTER_FOCUSED_CORRECTION",
-    "uniqueCases": 16,
+    "uniqueCases": 17,
     "skipped": 0,
     "initialRun": {
       "passed": 15,
@@ -30,7 +30,13 @@
       "concurrent/restart release retry identity and corruption bounds",
       "historical/live status, HOLD attribution, stable cursor position and project isolation",
       "HTTPS SQL editing context, failed-save recovery, source-linked comment, independent approval, queued request, history and restart"
-    ]
+    ],
+    "conflictRecoveryBrowser": {
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "assertions": "Preserve conflicted local SQL; require explicit discard; refresh latest server revision; retain authorization and stale-analysis checks."
+    }
   },
   "observedLocalLimit": {
     "parserPreparedConcurrentFastRuns": 2,
@@ -54,5 +60,14 @@
   ],
   "oracleExecution": false,
   "oracleAcceptance": "NOT_RUN_AUTHORIZED_DISPOSABLE_LAB_REQUIRED",
-  "infrastructureChanges": false
+  "infrastructureChanges": false,
+  "observedHostedFailure": {
+    "runId": 38416288467,
+    "head": "a6284f3b3717b687d283e899e38d6b711e241b94",
+    "status": "FAIL",
+    "case": "SQL workspace optimistic conflict browser recovery",
+    "cause": "Existing test expected Refresh to discard unsaved SQL implicitly.",
+    "correction": "Explicit discard required; preservation/disabled-refresh assertions added; focused real browser case passed.",
+    "gatesChanged": false
+  }
 }
