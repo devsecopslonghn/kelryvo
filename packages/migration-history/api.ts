@@ -79,24 +79,26 @@ export function registerMigrationHistory(app: any, sql: any, authenticate: any, 
         WHERE p.project_id=${projectId} AND p.organization_id=${organizationId}
       ), rows AS (
         SELECT 'plan:'||p.plan_id::text AS id,'plan' AS kind,p.created_at AS at,p.plan_id,p.release_id,
-          COALESCE(p.binding_id,p.profile_id::text) AS target_id,p.status,p.author_id AS actor_id,NULL::text AS actor_name,
-          'Migration plan' AS title,('Release '||p.commit_id||' · '||p.folder||' · execution '||COALESCE(p.execution,'UNKNOWN')||' · target history '||COALESCE(p.history_status,'UNKNOWN')) AS detail,
-          NULL::uuid AS job_id,NULL::jsonb AS evidence
+          COALESCE(p.binding_id,p.profile_id::text) AS target_id,'CREATED'::text AS status,p.author_id AS actor_id,NULL::text AS actor_name,
+          'Migration plan' AS title,('Release '||p.commit_id||' · '||p.folder) AS detail,
+          NULL::uuid AS job_id,NULL::jsonb AS evidence,
+          jsonb_build_object('status',p.status,'execution',COALESCE(p.execution,'UNKNOWN'),
+            'targetHistory',COALESCE(p.history_status,'UNKNOWN')) AS live_status
         FROM plan_rows p
         UNION ALL
         SELECT 'approval:'||p.plan_id::text,'approval',COALESCE(p.decided_at,p.created_at),p.plan_id,p.release_id,
           COALESCE(p.binding_id,p.profile_id::text),COALESCE(p.decision,p.status),p.decided_by,p.decided_by_name,
-          'Approval decision',COALESCE(p.decision_reason,'Decision recorded without a reason.'),NULL::uuid,NULL::jsonb
+          'Approval decision',COALESCE(p.decision_reason,'Decision recorded without a reason.'),NULL::uuid,NULL::jsonb,NULL::jsonb
         FROM plan_rows p WHERE p.decision IS NOT NULL OR p.decided_at IS NOT NULL
         UNION ALL
         SELECT 'migration:'||h.id::text,'migration',h.created_at,h.plan_id,p.release_id,
-          COALESCE(p.binding_id,p.profile_id::text),h.status,NULL::text,NULL::text,'Migration record',
-          ('Version '||h.version||' · '||h.path||' · SHA '||h.sha256),NULL::uuid,NULL::jsonb
+          COALESCE(p.binding_id,p.profile_id::text),h.status,p.author_id,NULL::text,'Migration record',
+          ('Version '||h.version||' · '||h.path||' · SHA '||h.sha256),NULL::uuid,NULL::jsonb,NULL::jsonb
         FROM sf_history h JOIN plan_rows p ON p.plan_id=h.plan_id WHERE h.project_id=${projectId}
         UNION ALL
         SELECT 'request:'||j.id::text,'request',j.created_at,j.plan_id,p.release_id,
-          COALESCE(p.binding_id,p.profile_id::text),j.state,j.requester_id,NULL::text,'Execution request',
-          (j.reason||' · '||j.readiness),j.id,
+          COALESCE(p.binding_id,p.profile_id::text),'REQUESTED',j.requester_id,NULL::text,'Execution request',
+          j.reason,j.id,
           jsonb_build_object('readiness',j.readiness,'revision',j.revision,
             'latestTransition',(SELECT jsonb_build_object('revision',e.revision,'fromState',e.from_state,'toState',e.to_state,
               'actorId',CASE WHEN octet_length(e.actor_id)<=512 THEN e.actor_id END,
@@ -109,29 +111,35 @@ export function registerMigrationHistory(app: any, sql: any, authenticate: any, 
               FROM sf_execution_attempts a LEFT JOIN LATERAL (SELECT phase,facts FROM sf_execution_attempt_events
                 WHERE attempt_id=a.id ORDER BY revision DESC LIMIT 1) ev ON true
               WHERE a.job_id=j.id ORDER BY a.generation DESC LIMIT 1),
-            'receiptCount',(SELECT count(*) FROM sf_execution_receipts r WHERE r.job_id=j.id))
+            'receiptCount',(SELECT count(*) FROM sf_execution_receipts r WHERE r.job_id=j.id)),
+          jsonb_build_object('state',j.state,'readiness',j.readiness,'revision',j.revision)
         FROM sf_execution_jobs j JOIN plan_rows p ON p.plan_id=j.plan_id
         WHERE j.project_id=${projectId} AND j.organization_id=${organizationId}
         UNION ALL
-        SELECT 'audit:'||a.id::text,'audit',a.created_at,COALESCE(p.plan_id,j.plan_id),COALESCE(p.release_id,jp.release_id),
+        SELECT 'audit:'||a.id::text,'audit',a.created_at,COALESCE(p.plan_id,j.plan_id),COALESCE(p.release_id,jp.release_id,release.id),
           COALESCE(p.binding_id,p.profile_id::text,jp.binding_id,jp.profile_id::text),a.action,a.actor_id,
           actor.display_name,a.action,COALESCE(a.resource_id::text,'No resource reference'),j.id,
-          CASE WHEN jsonb_typeof(a.facts)='object' AND octet_length(a.facts::text)<=4096 THEN a.facts END
+          CASE WHEN jsonb_typeof(a.facts)='object' AND octet_length(a.facts::text)<=4096 THEN a.facts END,NULL::jsonb
         FROM sf_audit a
         LEFT JOIN plan_rows p ON p.plan_id=a.resource_id
         LEFT JOIN sf_execution_jobs j ON j.id=a.resource_id AND j.project_id=a.project_id
         LEFT JOIN plan_rows jp ON jp.plan_id=j.plan_id
+        LEFT JOIN sf_releases release ON release.id=a.resource_id AND release.project_id=a.project_id
+          AND release.organization_id=a.organization_id
         LEFT JOIN sf_local_actors actor ON actor.id=a.actor_id AND actor.organization_id=a.organization_id
         WHERE a.project_id=${projectId} AND a.organization_id=${organizationId}
       ), matched AS (
         SELECT * FROM rows WHERE (${targetId}::text IS NULL OR target_id=${targetId}::text)
-          AND (${status}::text IS NULL OR status=${status}::text)
-          AND (${needle}::text IS NULL OR concat_ws(' ',title,detail,status,actor_id,actor_name,plan_id,release_id,job_id) ILIKE ('%'||${needle}::text||'%'))
+          AND (${status}::text IS NULL OR status=${status}::text OR live_status->>'status'=${status}::text
+            OR live_status->>'state'=${status}::text OR live_status->>'readiness'=${status}::text
+            OR live_status->>'execution'=${status}::text OR live_status->>'targetHistory'=${status}::text)
+          AND (${needle}::text IS NULL OR concat_ws(' ',title,detail,status,live_status::text,actor_id,actor_name,plan_id,release_id,job_id) ILIKE ('%'||${needle}::text||'%'))
       )
       SELECT (SELECT count(*)::int FROM matched) AS total,
         COALESCE(jsonb_agg(jsonb_build_object('id',page.id,'kind',page.kind,'at',page.at,'planId',page.plan_id,
           'releaseId',page.release_id,'targetId',page.target_id,'status',page.status,'actorId',page.actor_id,
-          'actorName',page.actor_name,'title',page.title,'detail',page.detail,'jobId',page.job_id,'evidence',page.evidence)
+          'actorName',page.actor_name,'title',page.title,'detail',page.detail,'jobId',page.job_id,'evidence',page.evidence,
+          'liveStatus',page.live_status)
           ORDER BY page.at DESC,page.id DESC),'[]'::jsonb) AS items
       FROM (SELECT * FROM matched WHERE (${position?.at ?? null}::timestamptz IS NULL
         OR (at,id)<(${position?.at ?? null}::timestamptz,${position?.id ?? null}::text))

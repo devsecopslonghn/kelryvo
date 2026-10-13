@@ -128,12 +128,27 @@ test('SQL workspace drafts are project scoped, revision checked, durable and pre
     assert.equal(reopened.json().draft.revision, '2');
     assert.equal(reopened.json().draft.sql, `${source}CREATE TABLE workspace_authored_two (id NUMBER);\n`);
 
-    const prepared = await f.api('POST', `${base}/${draft.id}/prepare-release`, {
-      expectedRevision: '2', targetBindingId: f.binding.bindingId,
-      expectedBindingRevision: f.binding.bindingRevision, expectedAssignmentRevision: f.binding.assignmentRevision,
-    });
+    const prepareBody = { expectedRevision: '2', targetBindingId: f.binding.bindingId,
+      expectedBindingRevision: f.binding.bindingRevision, expectedAssignmentRevision: f.binding.assignmentRevision };
+    const parallelPrepared = await Promise.all([
+      f.api('POST', `${base}/${draft.id}/prepare-release`, prepareBody),
+      f.api('POST', `${base}/${draft.id}/prepare-release`, prepareBody),
+    ]);
+    const prepared = parallelPrepared[0];
     assert.equal(prepared.statusCode, 201, prepared.body);
     const release = prepared.json().release;
+    assert.equal(parallelPrepared[1].statusCode, 201, parallelPrepared[1].body);
+    assert.equal(parallelPrepared[1].json().release.id, release.id,
+      'concurrent retries resolve to one retained release');
+    const retried = await f.api('POST', `${base}/${draft.id}/prepare-release`, prepareBody);
+    assert.equal(retried.statusCode, 201, retried.body);
+    assert.equal(retried.json().release.id, release.id,
+      'retry after a committed operation returns the original release');
+    const releaseHistory = await f.api('GET', `${f.base}/migration-history?q=SQL_WORKSPACE_RELEASE_PREPARED`);
+    assert.equal(releaseHistory.statusCode, 200, releaseHistory.body);
+    const releaseAudit = releaseHistory.json().items.find(item => item.title === 'SQL_WORKSPACE_RELEASE_PREPARED');
+    assert.equal(releaseAudit?.releaseId, release.id,
+      'release audit events link to their project-scoped retained release');
     assert.equal(release.sourceKind, 'AUTHORED_SQL_WORKSPACE');
     assert.equal(release.draftId, draft.id);
     assert.equal(release.draftRevision, '2');
@@ -146,10 +161,49 @@ test('SQL workspace drafts are project scoped, revision checked, durable and pre
     const snapshot = (await f.db.sql`SELECT files FROM sf_releases WHERE id=${release.id}`)[0].files;
     assert.ok(snapshot.some(file => file.content === `${source}CREATE TABLE workspace_authored_two (id NUMBER);\n`),
       'release snapshot retains the authored SQL bytes for its recorded origin');
+    assert.equal((await f.db.sql`SELECT count(*)::int AS n FROM sf_sql_workspace_releases
+      WHERE project_id=${f.project.id} AND draft_id=${draft.id} AND draft_revision=2`)[0].n, 1,
+      'one draft revision has one release origin within a source binding generation');
+    assert.equal((await f.db.sql`SELECT count(*)::int AS n FROM sf_audit WHERE project_id=${f.project.id}
+      AND action='SQL_WORKSPACE_RELEASE_PREPARED' AND resource_id=${release.id}`)[0].n, 1,
+      'idempotent retries do not duplicate preparation audit events');
+    const preparationHistory=await f.api('GET',`${f.base}/migration-history?q=${release.id}`);
+    assert.equal(preparationHistory.statusCode,200,preparationHistory.body);
+    assert.ok(preparationHistory.json().items.some(item=>item.status==='SQL_WORKSPACE_RELEASE_PREPARED' && item.releaseId===release.id),
+      'release preparation audit events link to scoped retained release evidence');
     assert.equal((await f.api('POST', `${f.base}/releases/${release.id}/validations`, {
       targetBindingId: f.binding.bindingId, expectedBindingRevision: f.binding.bindingRevision,
       expectedAssignmentRevision: f.binding.assignmentRevision,
     })).statusCode, 201);
+
+    await f.restart();
+    const afterRestart = await f.api('POST', `${base}/${draft.id}/prepare-release`, prepareBody);
+    assert.equal(afterRestart.statusCode, 201, afterRestart.body);
+    assert.equal(afterRestart.json().release.id, release.id,
+      'restarting after commit preserves the retry result');
+
+    const malformedFiles = Array.from({ length: 129 }, (_, index) => ({ ...snapshot[0],
+      path: `${release.folder}/V${index + 1}__bounded_corruption.sql`, version: String(index + 1) }));
+    try {
+      await f.db.sql`UPDATE sf_releases SET files=${f.db.sql.json(malformedFiles)} WHERE id=${release.id}`;
+      const corruptRetry = await f.api('POST', `${base}/${draft.id}/prepare-release`, prepareBody);
+      assert.equal(corruptRetry.statusCode, 409, corruptRetry.body);
+      assert.equal(corruptRetry.json().error, 'RELEASE_INTEGRITY_FAILED',
+        'retry rejects a retained release that fails scalar preflight before reading its payload');
+    } finally {
+      await f.db.sql`UPDATE sf_releases SET files=${f.db.sql.json(snapshot)} WHERE id=${release.id}`;
+    }
+
+    const staleRetry = await f.api('POST', `${base}/${draft.id}/prepare-release`, {
+      ...prepareBody, expectedBindingRevision: (BigInt(f.binding.bindingRevision) + 1n).toString(),
+    });
+    assert.equal(staleRetry.statusCode, 409, staleRetry.body,
+      'idempotent retries still reject stale target revisions before reusing a release');
+    await f.db.sql`UPDATE sf_projects SET source_binding_generation=source_binding_generation+1 WHERE id=${f.project.id}`;
+    const newSourceGeneration = await f.api('POST', `${base}/${draft.id}/prepare-release`, prepareBody);
+    assert.equal(newSourceGeneration.statusCode, 201, newSourceGeneration.body);
+    assert.notEqual(newSourceGeneration.json().release.id, release.id,
+      'a changed source binding generation produces a distinct retained release');
 
     const revisionsBeforeHold = (await f.db.sql`SELECT count(*)::int AS n FROM sf_sql_draft_revisions WHERE draft_id=${draft.id}`)[0].n;
     const releasesBeforeHold = (await f.db.sql`SELECT count(*)::int AS n FROM sf_releases WHERE project_id=${f.project.id}`)[0].n;

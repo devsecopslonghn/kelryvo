@@ -1,0 +1,58 @@
+{
+  "phase": 9,
+  "date": "2026-10-13",
+  "baseline": "fd7c4df10050bd7efb4221d62b2ea92ea9844663",
+  "scope": "LOCAL_OFFLINE_AND_DISPOSABLE_POSTGRESQL_HTTPS_CHROMIUM",
+  "fastCheck": {
+    "status": "PASS",
+    "command": "npm run check",
+    "mode": "documented fresh-checkout offline mode; prepared generated parser restored afterward",
+    "passed": 363,
+    "failed": 0,
+    "skipped": 115
+  },
+  "focusedAcceptance": {
+    "status": "PASS_AFTER_FOCUSED_CORRECTION",
+    "uniqueCases": 16,
+    "skipped": 0,
+    "initialRun": {
+      "passed": 15,
+      "failed": 1,
+      "cause": "New comparison fixture imported after restart intentionally removed repository access."
+    },
+    "correctedComparisonRerun": {
+      "passed": 2,
+      "failed": 0
+    },
+    "coverage": [
+      "real pinned parser import and exact UTF-8 source",
+      "multi-file statement reorder and immutable comparison binding",
+      "concurrent/restart release retry identity and corruption bounds",
+      "historical/live status, HOLD attribution, stable cursor position and project isolation",
+      "HTTPS SQL editing context, failed-save recovery, source-linked comment, independent approval, queued request, history and restart"
+    ]
+  },
+  "observedLocalLimit": {
+    "parserPreparedConcurrentFastRuns": 2,
+    "status": "FAIL",
+    "cause": "Unchanged product-import parser case exhausted its five-second helper budget during concurrent full-unit runs. Serial prepared-parser acceptance passed; no deadline or CI changes."
+  },
+  "security": {
+    "changedFileSecretScan": "PASS_ZERO_FINDINGS",
+    "productionDependencyAudit": "PASS_ZERO_VULNERABILITIES",
+    "licenseClosure": "PASS_89_PINNED_PACKAGES_ZERO_UNKNOWN_GRANTS",
+    "independentBoundedReviews": 2,
+    "blockingFindings": 0
+  },
+  "hostedCI": "REQUIRED_ON_PR_AND_RESULTING_MASTER",
+  "limits": [
+    "MOVED reports relative statement order, not an inferred editing action.",
+    "Ambiguous replacements require exact source review; semantic SQL equivalence is not claimed.",
+    "Individual comment statement refs bind candidate source; the comparison binds removed baseline source.",
+    "History totals/live filter membership can change between reads; cursors retain keyset position.",
+    "Existing duplicate historical releases are preserved."
+  ],
+  "oracleExecution": false,
+  "oracleAcceptance": "NOT_RUN_AUTHORIZED_DISPOSABLE_LAB_REQUIRED",
+  "infrastructureChanges": false
+}

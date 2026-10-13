@@ -1,5 +1,31 @@
 # SchemaForge product state
 
+## Phase 9 product hardening — 2026-10-13
+
+SQL editing retains unsaved context across project tabs and retains the active file on save
+and refresh. Draft replacement and project selection require save or explicit discard;
+failed saves keep the editor contents. History separates creation/request facts from
+labelled current status and current request evidence, retains author attribution and
+links release audit events to retained source. Keyset pagination remains project/filter
+bound; each page and count use one SQL snapshot. Current totals and live filters may
+change between reads.
+
+Plan comparisons match unique exact statement source within migration versions, report
+relative order changes without ordinal-shift false edits, and explicitly show duplicate
+or unresolved replacement ambiguity. Only exact execution-text matches permit a bounded
+modified-source pairing. Candidate statement references reuse server-verified immutable
+comment evidence; removed baseline statements remain bound through the retained comparison.
+Historical format-1 comparisons remain readable. Preparation retries reuse a verified
+release for the same draft revision/source generation after current target and authority
+checks; corrupt retained sources fail closed before payload allocation. Existing duplicate
+historical releases are preserved.
+
+Extended local HTTPS/PostgreSQL acceptance covers the integrated author-to-independent-
+approval-to-queued-request/history journey and restart, with offline SQL comparison and
+focused API retry/concurrency checks. Hosted candidate and resulting-master gates remain
+required. Oracle execution and semantic acceptance remain unavailable without the authorized
+disposable lab; worker enablement and infrastructure are outside Phase 9.
+
 ## Phase 7 SQL workspace and migration history — 2026-10-13
 
 Phase 6 PR #79 is integrated at master `30cf3b015b86ebe14128bf48cbddd8239b0bf7cd`;
