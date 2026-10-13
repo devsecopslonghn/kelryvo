@@ -46,7 +46,11 @@ test('browser registers infrastructure and connection, tests/discovers fixture m
     await page.setViewportSize({width:1440,height:1100});await f.restart();await signIn();
     const persisted=page.locator('.connection-card').filter({hasText:'Browser discovery connection'});await persisted.locator('.observation-result').filter({hasText:'OBSERVED'}).waitFor();
     await persisted.getByLabel('Evidence reason').fill('Refresh the same physical identity with a new observation');
+    const rediscovered=page.waitForResponse(response=>response.url().endsWith('/discover')&&response.request().method()==='POST');
     await persisted.getByRole('button',{name:'Discover schemas',exact:true}).click();
+    const rediscoveryResponse=await rediscovered;assert.equal(rediscoveryResponse.status(),201,await rediscoveryResponse.text());
+    const rediscovery=(await rediscoveryResponse.json()).observation;
+    await persisted.locator('.observation-result').filter({hasText:rediscovery.id}).waitFor();
     await persisted.locator('.observation-result').filter({hasText:'DISCOVER · OBSERVED'}).waitFor();
     await page.getByRole('button',{name:/Plans & review/}).click();
     await page.locator(`.plan-option[data-plan-id="${observedPlan.id}"]`).click();

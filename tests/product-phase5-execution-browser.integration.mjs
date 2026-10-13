@@ -8,7 +8,7 @@ import {createExecutionWorker} from '../apps/worker/run-request.ts';
 
 test('browser manages schema-plan preflight, durable request, statement HOLD and independent reconciliation after restart',{
   skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:240000,
-},async()=>{
+},async t=>{
   const f=await createValidationFixture();let browser;
   try{
     await f.importSql('CREATE TABLE browser_phase5_first (id NUMBER);\nCREATE TABLE browser_phase5_second (id NUMBER);\n');
@@ -16,6 +16,7 @@ test('browser manages schema-plan preflight, durable request, statement HOLD and
     const plan=(await f.makeSchemaPlan(validation)).json().plan;
     await f.decide(plan);await f.membership.deployGrant(f.project.id,f.actors[0].id);
     browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];
+    page.setDefaultTimeout(30000);page.setDefaultNavigationTimeout(30000);
     page.on('pageerror',e=>errors.push(e.message));await mkdir('.cache/phase5-acceptance',{recursive:true});
     const signIn=async actor=>{
       await page.goto(f.currentUrl());await page.getByLabel('Local access token').fill(actor.token);
@@ -69,7 +70,11 @@ test('browser manages schema-plan preflight, durable request, statement HOLD and
         .slice(-15).map(e=>({tag:e.tagName,className:e.className,width:e.getBoundingClientRect().width,text:e.textContent.slice(0,60)}))}));
     assert.ok(overflow.scrollWidth<=overflow.width,JSON.stringify(overflow));
     await page.setViewportSize({width:1440,height:1100});await page.getByLabel('Sign out').click();
-    await f.restart();await signIn(f.actors[1]);
+    await page.getByLabel('Local access token').waitFor();
+    t.diagnostic('Logout completed before restarting the metadata service');
+    await page.goto('about:blank');await f.restart();
+    t.diagnostic('Metadata service restarted; signing in as independent approver');
+    await signIn(f.actors[1]);
     const review=page.getByRole('region',{name:'Execution HOLD reconciliation'});await review.locator('.execution-reconciliation-row').waitFor();
     await f.membership.deployGrant(f.project.id,f.actors[1].id);
     await page.getByRole('button',{name:'Refresh workspace',exact:true}).click();
