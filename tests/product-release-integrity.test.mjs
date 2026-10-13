@@ -53,6 +53,7 @@ test('offline planning rejects corrupted retained releases without writes and us
     assert.deepEqual((await request('POST', `/api/projects/${foreign.id}/plans`, { releaseId, profileId: foreignProfile.id })).json(), { error: 'INVALID_REFERENCE' });
     assert.deepEqual((await request('POST', planUrl, { releaseId, profileId: foreignProfile.id })).json(), { error: 'INVALID_REFERENCE' });
     const original = (await db.sql`SELECT * FROM sf_releases WHERE id=${releaseId}`)[0];
+    await db.suspendRetainedEvidenceGuards();
     const mutations = [
       (files) => { files[0].content += ' -- changed'; },
       (files) => { files[0].bytes += 1; },

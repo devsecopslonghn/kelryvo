@@ -68,6 +68,7 @@ test('approval withdrawal links immutable history and works after retained conte
     assert.equal((await db.sql`SELECT count(*)::int AS n FROM sf_audit`)[0].n,auditCountBeforeForeign);
     const original=(await db.sql`SELECT decision,decision_reason,decided_by,decided_by_name,decided_at,approval_reference FROM sf_plans WHERE id=${plan.id}`)[0];
     const content=(await db.sql`SELECT files FROM sf_releases WHERE id=${release.id}`)[0].files;
+    await db.suspendRetainedEvidenceGuards();
     await db.sql`UPDATE sf_releases SET files='{}'::jsonb WHERE id=${release.id}`;
     await db.sql`UPDATE sf_plans SET items='{}'::jsonb,offline_intent_envelope=NULL WHERE id=${plan.id}`;
     const malformed=await request('POST',`/api/plans/${plan.id}/approval-revocation`,{ expectedApprovalReference:reference,reason:'x',extra:true },actors[1]);

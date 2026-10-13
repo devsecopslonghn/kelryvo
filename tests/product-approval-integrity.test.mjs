@@ -74,6 +74,7 @@ test('approval verifies locked retained release and ordered plan facts before wr
     assert.equal(comment.statusCode, 201);
     const originalItems = structuredClone(damagedPlan.items);
     const beforeDenials = await snapshot();
+    await db.suspendRetainedEvidenceGuards();
     await db.sql`UPDATE sf_releases SET files=${db.sql.json(source.files.map((file,index) => index ? file : { ...file, content:`${file.content}tampered` }))} WHERE id=${release.id}`;
     const unauthenticated = await app.inject({ method:'POST', url:`/api/plans/${damagedPlan.id}/decision`, payload:{ decision:'APPROVE', reason:'unauthenticated' } });
     assert.equal(unauthenticated.statusCode, 401);

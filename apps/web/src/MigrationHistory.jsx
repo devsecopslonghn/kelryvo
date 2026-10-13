@@ -16,7 +16,7 @@ export default function MigrationHistory({ projectId, detail, token, request, ta
 
   useEffect(() => {
     setPageData(null);
-    setCursorStack([]);
+    setCursorStack(current => current.length ? [] : current);
     setSelectedJob(null);
   }, [projectId, detail]);
 

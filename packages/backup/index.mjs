@@ -47,14 +47,17 @@ const PHASE2_TRIGGERS = ['sf_account_audit_immutable','sf_execution_admission_pr
 const PHASE3_TRIGGERS = [...PHASE2_TRIGGERS,...CONNECTIVITY_TRIGGERS].sort();
 const PHASE4_TRIGGERS = [...PHASE3_TRIGGERS,...VALIDATION_TRIGGERS].sort();
 const PHASE5_TRIGGERS = [...PHASE4_TRIGGERS,'sf_execution_reconciliations_immutable','sf_execution_reconciliation_decisions_immutable'].sort();
-const PHASE7_TRIGGERS = [...PHASE5_TRIGGERS,...SQL_WORKSPACE_TRIGGERS.filter(name=>name!=='sf_plan_source_comparison_immutable')].sort();
+const PRE_IMMUTABILITY_WORKSPACE_TRIGGERS = ['sf_sql_drafts_pointer_guard','sf_sql_draft_revisions_immutable','sf_sql_workspace_releases_immutable'];
+const PRE_IMMUTABILITY_TRIGGERS = [...PHASE5_TRIGGERS,...PRE_IMMUTABILITY_WORKSPACE_TRIGGERS,'sf_plan_source_comparison_immutable'].sort();
+const PHASE7_TRIGGERS = [...PHASE5_TRIGGERS,...PRE_IMMUTABILITY_WORKSPACE_TRIGGERS].sort();
 const TRIGGERS = [...PHASE5_TRIGGERS,...SQL_WORKSPACE_TRIGGERS].sort();
 const PHASE2_SCHEMA_SIGNATURE = '023d0a19f9f520bd47a6ee567e499fcb35d5996f10480bb9cbf6cd4383f74275';
 const PHASE3_SCHEMA_SIGNATURE = 'ebbc39e7611d27e24ffea9575c756eb4b89e12919cdc3338ad77014089a4ec0a';
 const PHASE4_SCHEMA_SIGNATURE = 'c571e10e7f1090403a68d2370eff35b17eb15776ae8f1bb166a404961f6cb1cf';
 const PHASE5_SCHEMA_SIGNATURE = 'cfb8fd757822c7e572475e05dab514fb9eba9f578fef3d5dc8f58230666bc360';
 const PHASE7_SCHEMA_SIGNATURE = 'd22b31c5bebfc07d7668f3201a5934eeaa4c48111a8fb64ee60721e822205cb4';
-const SCHEMA_SIGNATURE = 'f13a607a283262b21999c74dffa5abdfb5710b0d6cfbcb90f2af3721a0a488b1';
+const PRE_IMMUTABILITY_SCHEMA_SIGNATURE = 'f13a607a283262b21999c74dffa5abdfb5710b0d6cfbcb90f2af3721a0a488b1';
+const SCHEMA_SIGNATURE = 'd36aeb9ad7393e063c153da5c4ee5250fd9d1a081953b95b978c1ba33cb6e599';
 const LEGACY_SCHEMA_SIGNATURE = '277b528dfee78e582189a3a0747f5903e652bf3a2566f314c218d5f6093d25c8';
 const TARGET_TABLES = new Set(['sf_target_lineages','sf_target_streams','sf_target_options','sf_target_option_revisions','sf_target_bindings','sf_target_binding_revisions']);
 const TARGET_FUNCTIONS = new Set(['sf_reject_target_evidence_mutation','sf_check_target_binding_option_match','sf_guard_target_pointer_mutation']);
@@ -183,16 +186,18 @@ export async function inventory(sql, { legacy,phase2,phase3,phase4,phase5,phase7
   if(ownership.some(row=>!row.owned || row.acl!==null) || routines.some(row=>!row.owned || row.acl!==null)) throw fail();
   const relationList=rows.map(r => `${r.relkind}:${r.relname}`);
   const functionList=functions.map(r => r.proname), triggerList=triggers.map(r => r.tgname);
+  const preImmutability = JSON.stringify(triggerList)===JSON.stringify(PRE_IMMUTABILITY_TRIGGERS);
   if (phase7 === undefined) phase7 = JSON.stringify(tables)===JSON.stringify(TABLES)
     && JSON.stringify(triggerList)===JSON.stringify(PHASE7_TRIGGERS);
   const expectedTables = legacy ? LEGACY_TABLES : phase2 ? PHASE2_TABLES : phase3 ? PHASE3_TABLES : phase4 ? PHASE4_TABLES : phase5 ? PHASE5_TABLES : TABLES;
   const expectedRelations = legacy ? LEGACY_RELATIONS : phase2 ? PHASE2_RELATIONS : phase3 ? PHASE3_RELATIONS : phase4 ? PHASE4_RELATIONS : phase5 ? PHASE5_RELATIONS : RELATIONS;
   const expectedFunctions = legacy ? LEGACY_FUNCTIONS : phase2 ? PHASE2_FUNCTIONS : phase3 || phase4 ? PHASE4_FUNCTIONS : phase5 ? PHASE5_FUNCTIONS : FUNCTIONS;
-  const expectedTriggers = legacy ? LEGACY_TRIGGERS : phase2 ? PHASE2_TRIGGERS : phase3 ? PHASE3_TRIGGERS : phase4 ? PHASE4_TRIGGERS : phase5 ? PHASE5_TRIGGERS : phase7 ? PHASE7_TRIGGERS : TRIGGERS;
+  const expectedTriggers = legacy ? LEGACY_TRIGGERS : phase2 ? PHASE2_TRIGGERS : phase3 ? PHASE3_TRIGGERS : phase4 ? PHASE4_TRIGGERS : phase5 ? PHASE5_TRIGGERS : phase7 ? PHASE7_TRIGGERS : preImmutability ? PRE_IMMUTABILITY_TRIGGERS : TRIGGERS;
   if(JSON.stringify(tables)!==JSON.stringify(expectedTables) || JSON.stringify(relationList)!==JSON.stringify(expectedRelations)
     || JSON.stringify(functionList)!==JSON.stringify(expectedFunctions) || JSON.stringify(triggerList)!==JSON.stringify(expectedTriggers)) throw fail();
   const signature=sha(JSON.stringify({schemas:['public'],tables,relations:relationList,functions:functionList,triggers:triggerList,columns,constraints,indexes,routines,triggerDefinitions,sequenceDefinitions,ownership}));
-  if(signature!==(legacy ? LEGACY_SCHEMA_SIGNATURE : phase2 ? PHASE2_SCHEMA_SIGNATURE : phase3 ? PHASE3_SCHEMA_SIGNATURE : phase4 ? PHASE4_SCHEMA_SIGNATURE : phase5 ? PHASE5_SCHEMA_SIGNATURE : phase7 ? PHASE7_SCHEMA_SIGNATURE : SCHEMA_SIGNATURE)) throw fail();
+  const expectedSignature = legacy ? LEGACY_SCHEMA_SIGNATURE : phase2 ? PHASE2_SCHEMA_SIGNATURE : phase3 ? PHASE3_SCHEMA_SIGNATURE : phase4 ? PHASE4_SCHEMA_SIGNATURE : phase5 ? PHASE5_SCHEMA_SIGNATURE : phase7 ? PHASE7_SCHEMA_SIGNATURE : preImmutability ? PRE_IMMUTABILITY_SCHEMA_SIGNATURE : SCHEMA_SIGNATURE;
+  if(signature!==expectedSignature) throw fail();
   return { tables, relations: relationList, functions: functionList, triggers: triggerList, columns, constraints, indexes, routines, triggerDefinitions, sequenceDefinitions, ownership, signature };
 }
 function validateArchiveList(list, owner, { legacy = false,phase2 = false,phase3 = false,phase4 = false,phase5 = false } = {}) {
@@ -223,13 +228,14 @@ function exactManifest(m) {
     && (JSON.stringify(m.schema.tables)===JSON.stringify(TABLES) || JSON.stringify(m.schema.tables)===JSON.stringify(PHASE5_TABLES) || JSON.stringify(m.schema.tables)===JSON.stringify(PHASE4_TABLES) || JSON.stringify(m.schema.tables)===JSON.stringify(PHASE3_TABLES) || JSON.stringify(m.schema.tables)===JSON.stringify(PHASE2_TABLES) || JSON.stringify(m.schema.tables)===JSON.stringify(LEGACY_TABLES))
     && (JSON.stringify(m.schema.relations)===JSON.stringify(RELATIONS) || JSON.stringify(m.schema.relations)===JSON.stringify(PHASE5_RELATIONS) || JSON.stringify(m.schema.relations)===JSON.stringify(PHASE4_RELATIONS) || JSON.stringify(m.schema.relations)===JSON.stringify(PHASE3_RELATIONS) || JSON.stringify(m.schema.relations)===JSON.stringify(PHASE2_RELATIONS) || JSON.stringify(m.schema.relations)===JSON.stringify(LEGACY_RELATIONS))
     && (JSON.stringify(m.schema.functions)===JSON.stringify(FUNCTIONS) || JSON.stringify(m.schema.functions)===JSON.stringify(PHASE5_FUNCTIONS) || JSON.stringify(m.schema.functions)===JSON.stringify(PHASE4_FUNCTIONS) || JSON.stringify(m.schema.functions)===JSON.stringify(PHASE2_FUNCTIONS) || JSON.stringify(m.schema.functions)===JSON.stringify(LEGACY_FUNCTIONS))
-    && (JSON.stringify(m.schema.triggers)===JSON.stringify(TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(PHASE7_TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(PHASE5_TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(PHASE4_TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(PHASE3_TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(PHASE2_TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(LEGACY_TRIGGERS))
+    && (JSON.stringify(m.schema.triggers)===JSON.stringify(TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(PRE_IMMUTABILITY_TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(PHASE7_TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(PHASE5_TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(PHASE4_TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(PHASE3_TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(PHASE2_TRIGGERS) || JSON.stringify(m.schema.triggers)===JSON.stringify(LEGACY_TRIGGERS))
     && Array.isArray(m.schema.columns) && Array.isArray(m.schema.constraints) && Array.isArray(m.schema.indexes)
     && Array.isArray(m.schema.routines) && Array.isArray(m.schema.triggerDefinitions)
     && Array.isArray(m.schema.sequenceDefinitions) && Array.isArray(m.schema.ownership)
     && ((m.schema.signature===SCHEMA_SIGNATURE && schemaDigest(m.schema)===SCHEMA_SIGNATURE)
       || (m.schema.signature===PHASE7_SCHEMA_SIGNATURE && schemaDigest(m.schema)===PHASE7_SCHEMA_SIGNATURE)
       || (m.schema.signature===PHASE5_SCHEMA_SIGNATURE && schemaDigest(m.schema)===PHASE5_SCHEMA_SIGNATURE)
+      || (m.schema.signature===PRE_IMMUTABILITY_SCHEMA_SIGNATURE && schemaDigest(m.schema)===PRE_IMMUTABILITY_SCHEMA_SIGNATURE)
       || (m.schema.signature===PHASE3_SCHEMA_SIGNATURE && schemaDigest(m.schema)===PHASE3_SCHEMA_SIGNATURE)
       || (m.schema.signature===PHASE4_SCHEMA_SIGNATURE && schemaDigest(m.schema)===PHASE4_SCHEMA_SIGNATURE)
       || (m.schema.signature===PHASE2_SCHEMA_SIGNATURE && schemaDigest(m.schema)===PHASE2_SCHEMA_SIGNATURE)
@@ -358,16 +364,18 @@ export async function restorePrivateBackup({ configPath, databaseUrl, backupDire
     const phase4 = manifest.schema.signature === PHASE4_SCHEMA_SIGNATURE;
     const phase5 = manifest.schema.signature === PHASE5_SCHEMA_SIGNATURE;
     const phase7 = manifest.schema.signature === PHASE7_SCHEMA_SIGNATURE;
+    const preImmutability = manifest.schema.signature === PRE_IMMUTABILITY_SCHEMA_SIGNATURE;
     await initializeDatabase(sql,{initializeMetadata:false,initializeSqlWorkspace:!legacy && !phase2 && !phase3 && !phase4 && !phase5,sqlWorkspaceVersion:phase7?1:2,initializeValidation:!legacy && !phase2 && !phase3,initializeConnectivity:!legacy && !phase2,
-      initializeReconciliation:!legacy && !phase2 && !phase3 && !phase4, ...(legacy ? {initializeTargets:false} : {})});
+      initializeReconciliation:!legacy && !phase2 && !phase3 && !phase4,installRetainedEvidenceGuards:!preImmutability && !phase7,
+      ...(legacy ? {initializeTargets:false} : {})});
     const schema=await inventory(sql,{legacy,phase2,phase3,phase4,phase5,phase7});
     if (JSON.stringify(schema)!==JSON.stringify(manifest.schema)) throw fail();
     // These two immutable bootstrap rows are seeded by initialization. Their fixed values are
     // recreated before restore; all mutable catalog and lifecycle facts come from the snapshot.
     await sql`DELETE FROM sf_project_access_mode WHERE organization_id='00000000-0000-4000-8000-000000000001'`;
     runDocker(toolArgs('pg_restore',stagingDirectory,'/backup/metadata.pgdump',databaseUrl,config).slice(0,-2).concat(['--exit-on-error','--single-transaction','--dbname',`postgresql://${encodeURIComponent(decodeURIComponent(base.username))}@127.0.0.1:${base.port||'5432'}/${dbName}`,'/backup/metadata.pgdump']),toolEnv(config));
-    if (phase7) {
-      const restoredSchema=await inventory(sql,{phase7:true});
+    if (phase7 || preImmutability) {
+      const restoredSchema=await inventory(sql,{phase7:phase7 || undefined});
       if(JSON.stringify(restoredSchema)!==JSON.stringify(manifest.schema)) throw fail();
       await initializeDatabase(sql,{initializeMetadata:false});
       await inventory(sql);

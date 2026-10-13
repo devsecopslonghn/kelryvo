@@ -43,6 +43,7 @@ test('browser shows fixed approval integrity feedback and preserves pending plan
     const plan = planResult.body.plan;
     const source = (await database.sql`SELECT files FROM sf_releases WHERE id=${imported.body.release.id}`)[0].files;
     const corrupted = source.map((file,index) => index ? file : { ...file, content:`${file.content}tampered` });
+    await database.suspendRetainedEvidenceGuards();
     await database.sql`UPDATE sf_releases SET files=${database.sql.json(corrupted)} WHERE id=${imported.body.release.id}`;
     browser = await chromium.launch();
     const page = await browser.newPage();

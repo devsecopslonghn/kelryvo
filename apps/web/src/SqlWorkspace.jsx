@@ -74,7 +74,7 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
       const result = await request(`${base}/${encodeURIComponent(id)}`, token);
       if (!current(n)) return;
       const selected = result.draft || result;
-      if (!validateDraft(selected)) throw new Error('INVALID_REQUEST');
+      if (!validateDraft(selected)) throw new Error('INVALID_DRAFT_RESPONSE');
       const selectedFiles = editableFiles(selected);
       const selectedIndex = selected.id === selectedDraft.current ? Math.max(0, selectedFiles.findIndex(file => file.id === fileSelection.current)) : 0;
       setDraft(selected); setDraftId(selected.id); setName(selected.name); setSql(selectedFiles[selectedIndex].sql);
@@ -128,11 +128,11 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
       const result = await request(`${base}/${encodeURIComponent(draft.id)}`, token, { method: 'PUT',
         body: JSON.stringify({ expectedRevision: draft.revision, name, targetBindingId, ...(useFiles ? {files} : {sql}) }) });
       const saved = result.draft || result;
-      if (!validateDraft(saved)) throw new Error('INVALID_REQUEST');
+      if (!validateDraft(saved)) throw new Error('INVALID_DRAFT_RESPONSE');
       if (current(n)) {
         const savedFiles = editableFiles(saved);
         const selectedIndex = Math.max(0, savedFiles.findIndex(file => file.id === fileSelection.current));
-        setDraft(saved); setFiles(savedFiles); setFileIndex(selectedIndex); setSql(savedFiles[selectedIndex].sql);
+        setDraft(saved); setName(saved.name); setFiles(savedFiles); setFileIndex(selectedIndex); setSql(savedFiles[selectedIndex].sql);
         fileSelection.current = savedFiles[selectedIndex].id; setDrafts(rows => [saved, ...rows.filter(item => item.id !== saved.id)]);
         setCandidateRevision(String(saved.revision)); setNotice(`Saved revision ${saved.revision}.`);
       }
@@ -272,7 +272,7 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
           {!!analysis.statements?.length && <div className="file-table-wrap"><table><thead><tr><th>Statement</th><th>Classification</th><th>Byte range</th></tr></thead><tbody>{analysis.statements.map((statement, index) => <tr key={`${statement.ordinal || index}`}><td>{statement.path || files[0]?.path} · {statement.ordinal || index + 1}</td><td>{statement.classification || statement.kind || 'UNCLASSIFIED'}</td><td>{statement.startByte ?? '—'}–{statement.endByte ?? '—'}</td></tr>)}</tbody></table></div>}
         </section>}
         {validation && <section className="sql-workspace-validation" aria-label="SQL target validation"><h3>Target validation and risk findings</h3><ValidationFindings validation={validation}/></section>}
-        {!!revisions.length && <section aria-label="Draft revision comparison"><h3>Compare saved revisions</h3><div className="form-actions"><label>Base revision<select aria-label="Base draft revision" value={baseRevision} onChange={event => setBaseRevision(event.target.value)}>{revisions.map(revision => <option key={revision.revision} value={revision.revision}>Revision {revision.revision}</option>)}</select></label><label>Candidate revision<select aria-label="Candidate draft revision" value={candidateRevision} onChange={event => setCandidateRevision(event.target.value)}>{revisions.map(revision => <option key={revision.revision} value={revision.revision}>Revision {revision.revision}</option>)}</select></label><button type="button" className="secondary" onClick={() => void compare()} disabled={busy || loading || !baseRevision || !candidateRevision}>Compare</button></div>
+        {!!revisions.length && <section aria-label="Draft revision comparison"><h3>Compare saved revisions</h3><div className="form-actions"><label>Base revision<select aria-label="Base draft revision" value={baseRevision} disabled={busy || loading} onChange={event => {setBaseRevision(event.target.value);setComparison(null);}}>{revisions.map(revision => <option key={revision.revision} value={revision.revision}>Revision {revision.revision}</option>)}</select></label><label>Candidate revision<select aria-label="Candidate draft revision" value={candidateRevision} disabled={busy || loading} onChange={event => {setCandidateRevision(event.target.value);setComparison(null);}}>{revisions.map(revision => <option key={revision.revision} value={revision.revision}>Revision {revision.revision}</option>)}</select></label><button type="button" className="secondary" onClick={() => void compare()} disabled={busy || loading || !baseRevision || !candidateRevision}>Compare</button></div>
           {comparison && <div className="revision-comparison"><p>Revision {comparison.baseRevision ?? baseRevision} → {comparison.candidateRevision ?? candidateRevision}</p>{comparison.changed === false ? <p>No SQL changes.</p> : <div className="comparison-sides"><section><h4>Base</h4><pre>{comparison.baseFiles ? comparison.baseFiles.map(f=>`${f.path}\n${f.sql}`).join('\n\n') : comparison.baseSql ?? comparison.base?.sql ?? ''}</pre></section><section><h4>Candidate</h4><pre>{comparison.candidateFiles ? comparison.candidateFiles.map(f=>`${f.path}\n${f.sql}`).join('\n\n') : comparison.candidateSql ?? comparison.candidate?.sql ?? ''}</pre></section></div>}</div>}
         </section>}
       </div>

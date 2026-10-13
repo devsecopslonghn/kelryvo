@@ -1330,11 +1330,17 @@ save retains a new immutable revision, and publication retains an immutable form
 manifest covering file identities, order and content hashes. Existing single-SQL drafts
 and format-1 release checksums keep their original meaning. Editing a draft after
 publication requires a new release and plan; it cannot alter the published candidate.
+Database mutation guards reject updates and deletion of retained Git and authored
+release rows, migration ledger facts and project audit events, including rows created
+before the upgrade.
 
 Draft create/save APIs accept `files: [{id, path, sql}]` instead of `sql`. Creation may
 omit IDs; saves supply the retained IDs. The total SQL limit remains 1 MiB. Publication,
 validation and planning use the existing release and target APIs. Native backups preserve
 both manifest generations and source attribution, and restore retains recovery HOLD.
+The editor applies the saved name returned by the API, preserves its current content
+when a file response is incomplete, and clears comparisons when the selected revisions
+change. Revision conflicts continue to preserve unsaved edits until explicitly discarded.
 
 In Plans & review, choose an authorized retained baseline and compare it to the exact
 plan candidate. File changes align by migration version; reliable parser byte ranges and

@@ -5,7 +5,6 @@ import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { randomBytes, randomUUID } from 'node:crypto';
-import postgres from 'postgres';
 import { createApp } from '../apps/api/index.ts';
 import { initializeDatabase } from '../packages/database/index.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
@@ -36,7 +35,6 @@ async function fixture(prefix) {
   let app = createApp({ sql: database.sql, actors, repositories });
   const membership = await createMembershipOperatorFixture(database.databaseUrl);
   await membership.activateEmptyFixture(app);
-  let replacementSql;
   const request = (method, url, payload, actor = actors[0]) => app.inject({ method, url,
     headers: { authorization: `Bearer ${actor.token}` }, payload });
   const { project } = await membership.createProjectWithExplicitMembers({
@@ -60,7 +58,7 @@ async function fixture(prefix) {
   };
   const close = async () => {
     try { await app?.close(); }
-    finally { try { await replacementSql?.end({ timeout: 2 }); } finally { try { await membership.close(); } finally { try { await database.close(); } finally { await rm(repositoryPath, { recursive: true, force: true }); } } } }
+    finally { try { await membership.close(); } finally { try { await database.close(); } finally { await rm(repositoryPath, { recursive: true, force: true }); } } }
   };
   const restartApp = async (registry = repositories) => {
     await app.close();
@@ -68,10 +66,7 @@ async function fixture(prefix) {
   };
   const restartPostgres = async () => {
     await app.close();
-    await database.sql.end({ timeout: 2 });
-    replacementSql = postgres(database.databaseUrl, { max: 4, onnotice: () => {} });
-    database.sql = replacementSql;
-    await initializeDatabase(database.sql);
+    await database.reopen();
     app = createApp({ sql: database.sql, actors, repositories });
   };
   return { database, actors, repositoryPath, repositories, commit, project, base, profile, request, bind,
@@ -137,6 +132,7 @@ test('source binding generations capture current configuration, preserve history
 
     const mismatchedRelease = await f.importRelease();
     const mismatched = await f.createPlan(mismatchedRelease);
+    await f.database.suspendRetainedEvidenceGuards();
     await f.database.sql`UPDATE sf_releases SET folder='migrations/altered' WHERE id=${mismatchedRelease.id}`;
     const beforeMismatch = await snapshotPlan(f.database, mismatched.id);
     const mismatchApproval = await f.request('POST', `/api/plans/${mismatched.id}/decision`, { decision: 'APPROVE', reason: 'Retained source facts are corrupt.' }, f.actors[1]);

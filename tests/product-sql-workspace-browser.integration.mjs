@@ -40,10 +40,13 @@ test('SQL workspace drops stale analysis and surfaces optimistic revision confli
     await workspace.getByLabel('SQL workspace target').selectOption(f.binding.bindingId);
     await workspace.getByRole('button', { name: 'New draft', exact: true }).click();
     await workspace.getByRole('button', { name: 'Save draft', exact: true }).waitFor();
-    await workspace.getByLabel('SQL draft name').fill('Concurrent edit');
+    await workspace.getByLabel('SQL draft name').fill('  Concurrent edit  ');
     await workspace.getByLabel('SQL editor').fill('CREATE TABLE local_revision (id NUMBER);\n');
     await workspace.getByRole('button', { name: 'Save draft', exact: true }).click();
     await workspace.getByText('Saved revision 2.', { exact: true }).waitFor();
+    assert.equal(await workspace.getByLabel('SQL draft name').inputValue(), 'Concurrent edit');
+    assert.equal(await workspace.getByRole('button', { name: 'Discard unsaved edits', exact: true }).count(), 0,
+      'a successful normalized save leaves no phantom unsaved edits');
     await workspace.getByRole('button', { name: 'Review syntax', exact: true }).click();
     await workspace.getByRole('region', { name: 'SQL syntax review' }).waitFor();
     await workspace.getByLabel('SQL editor').fill('CREATE TABLE unsaved_revision (id NUMBER);\n');
@@ -94,6 +97,20 @@ test('SQL workspace drops stale analysis and surfaces optimistic revision confli
     assert.match(await comparison.innerText(), /CREATE TABLE local_revision/);
     assert.match(await comparison.innerText(), /CREATE TABLE server_revision/);
     assert.equal(await workspace.getByText('Offline parser results do not establish Oracle semantic validity.', { exact: false }).count(), 1);
+    await workspace.getByLabel('Base draft revision').selectOption('3');
+    assert.equal(await workspace.locator('.revision-comparison').count(), 0, 'selecting a different revision invalidates the displayed comparison');
+
+    const draftResponse = (await f.api('GET', base)).json().draft;
+    await page.route(`**${base}`, async route => {
+      if (route.request().method() !== 'GET') return route.continue();
+      await route.fulfill({ contentType: 'application/json', body: JSON.stringify({ draft: { ...draftResponse, manifestVersion: 2, files: [] } }) });
+    });
+    await workspace.getByRole('button', { name: 'Refresh drafts', exact: true }).click();
+    await workspace.getByRole('alert').filter({ hasText: 'saved draft response is incomplete' }).waitFor();
+    assert.equal(await workspace.getByLabel('SQL editor').inputValue(), 'CREATE TABLE server_revision (id NUMBER);\n',
+      'an incomplete file response leaves the previous saved editor intact');
+    await page.unroute(`**${base}`);
+
 
     await page.route(`**/api/projects/${f.project.id}/sql-drafts/${draftId}`, async route => {
       if (route.request().method() !== 'PUT') return route.continue();

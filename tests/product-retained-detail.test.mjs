@@ -71,6 +71,7 @@ test('retained release detail keeps bounded historical diagnostics and rejects u
     assert.equal(unavailableDetail.json().release.validationStatus, 'UNAVAILABLE');
     parserUnavailable = false;
     const source = (await db.sql`SELECT * FROM sf_releases WHERE id=${id}`)[0];
+    await db.suspendRetainedEvidenceGuards();
     const changedFiles = structuredClone(source.files);
     changedFiles[0].content += 'tampered';
     await db.sql`UPDATE sf_releases SET files=${db.sql.json(changedFiles)} WHERE id=${id}`;

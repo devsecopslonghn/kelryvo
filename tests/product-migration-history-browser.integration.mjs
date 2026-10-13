@@ -20,6 +20,7 @@ test('migration history is project and target scoped, searchable, paginated, and
   let app;
   let membership;
   let browser;
+  const pendingExecutionReleases = [];
   try {
     app = await startProduct({ databaseUrl: database.databaseUrl, actors, repositories: [], port: 0 });
     membership = await createMembershipOperatorFixture(database.databaseUrl);
@@ -76,27 +77,85 @@ test('migration history is project and target scoped, searchable, paginated, and
     assert.equal((await api(base, actors[1])).status, 404);
     assert.equal((await api(`${base}?offset=01`)).status, 400);
     assert.equal((await api(`${base}?targetId=not-a-uuid`)).status, 400);
+    const jobId = randomUUID(), approvalReference = randomUUID();
+    await database.sql`INSERT INTO sf_execution_jobs(id,organization_id,project_id,plan_id,approval_reference,intent_digest,
+      requester_id,idempotency_key,payload_digest,reason,state,admission_scope,readiness,revision)
+      VALUES(${jobId},${ORG},${first.id},${plan.id},${approvalReference},${'e'.repeat(64)},${actors[0].id},${randomUUID()},${'f'.repeat(64)},
+        'Permalink lifecycle fixture','HOLD','PRODUCT_REQUEST','TARGET_HISTORY_UNAVAILABLE',1)`;
+    await database.sql`INSERT INTO sf_execution_job_events(id,job_id,revision,from_state,to_state,actor_id,reason)
+      VALUES(${randomUUID()},${jobId},1,'ADMITTED','HOLD','local-expiry-recovery','Worker lease expired; outcome unknown.')`;
     browser = await chromium.launch();
     const page = await browser.newPage();
     const pageErrors = [];
+    let executionGate = null;
+    const blockNextExecutionRead = () => {
+      let signalStarted, releaseResponse;
+      const started = new Promise(resolve => { signalStarted = resolve; });
+      const response = new Promise(resolve => { releaseResponse = resolve; });
+      executionGate = { signalStarted, response };
+      pendingExecutionReleases.push(releaseResponse);
+      return { started, release: releaseResponse };
+    };
+    await page.route(`**/api/execution-jobs/${jobId}`, async route => {
+      const gate = executionGate;
+      if (gate) { executionGate = null; gate.signalStarted(); await gate.response; }
+      await route.continue();
+    });
     page.on('pageerror', error => pageErrors.push(error.message));
-    await page.goto(url);
+    const firstPermalinkRead = blockNextExecutionRead();
+    await page.goto(`${url}?historyJob=${jobId}#page=history&project=${first.id}`);
     await page.getByLabel('Local access token').fill(actors[0].token);
     await page.getByRole('button', { name: 'Continue', exact: true }).click();
     await page.getByLabel('Sign out').waitFor();
-    await page.getByRole('button', { name: /Projects/ }).click();
-    await page.locator('.project-row').filter({ hasText: `Migration history` }).first().click();
-    await page.locator('button.nav-item').filter({ hasText: 'Migration history' }).click();
+    await firstPermalinkRead.started;
+    let executionRegion = page.getByRole('region', { name: `Execution request details ${jobId}` });
+    await executionRegion.waitFor();
+    firstPermalinkRead.release();
+    await executionRegion.locator('ol li').getByText('HOLD', { exact: true }).waitFor();
+    assert.equal(await page.locator('.migration-history-explorer .count-pill').textContent(), '34 records');
+
+    const reloadPermalinkRead = blockNextExecutionRead();
+    await page.reload();
+    await page.getByLabel('Local access token').fill(actors[0].token);
+    await page.getByRole('button', { name: 'Continue', exact: true }).click();
+    await reloadPermalinkRead.started;
+    executionRegion = page.getByRole('region', { name: `Execution request details ${jobId}` });
+    await executionRegion.waitFor();
+    reloadPermalinkRead.release();
+    await executionRegion.locator('ol li').getByText('HOLD', { exact: true }).waitFor();
     await page.getByLabel('Search migration history').waitFor();
     await page.waitForFunction(() => document.querySelectorAll('.migration-history-row').length === 25);
+
+    const staleDetailsRead = blockNextExecutionRead();
+    await page.locator('.migration-history-row').filter({ hasText: 'Execution request' }).getByRole('button', { name: 'Request details' }).click();
+    await staleDetailsRead.started;
+    await page.getByLabel('Search migration history').fill('V017__history.sql');
+    await page.waitForFunction(() => document.querySelectorAll('.migration-history-row').length === 1);
+    staleDetailsRead.release();
+    await page.getByRole('region', { name: `Execution request details ${jobId}` }).waitFor({ state: 'detached' });
+
+    await page.getByLabel('Search migration history').fill('');
+    await page.waitForFunction(() => document.querySelectorAll('.migration-history-row').length === 25);
     await page.getByLabel('Filter history by target').selectOption(profile.id);
-    await page.waitForFunction(() => document.querySelector('.migration-history-explorer .count-pill')?.textContent === '32 records');
+    await page.waitForFunction(() => document.querySelector('.migration-history-explorer .count-pill')?.textContent === '33 records');
     await page.getByLabel('Search migration history').fill('V017__history.sql');
     await page.waitForFunction(() => document.querySelectorAll('.migration-history-row').length === 1);
     await page.getByLabel('Search migration history').fill('');
     await page.waitForFunction(() => document.querySelectorAll('.migration-history-row').length === 25);
     await page.getByRole('button', { name: 'Older records' }).click();
-    await page.waitForFunction(() => document.querySelectorAll('.migration-history-row').length === 7);
+    await page.waitForFunction(() => document.querySelectorAll('.migration-history-row').length === 8);
+    await page.getByRole('button', { name: 'Newer records' }).click();
+    await page.waitForFunction(() => document.querySelectorAll('.migration-history-row').length === 25);
+    await page.getByLabel('Filter history by target').selectOption('ALL');
+    await page.waitForFunction(() => document.querySelectorAll('.migration-history-row').length === 25);
+    await page.locator('.migration-history-row').filter({ hasText: 'Execution request' }).getByRole('button', { name: 'Request details' }).click();
+    executionRegion = page.getByRole('region', { name: `Execution request details ${jobId}` });
+    await executionRegion.locator('ol li').getByText('HOLD', { exact: true }).waitFor();
+    await membership.revoke(first.id, actors[0].id);
+    await page.locator('.migration-history-row').filter({ hasText: 'Execution request' }).getByRole('button', { name: 'Request details' }).click();
+    await page.getByText(/Project history access changed\. Refresh the project\./).waitFor();
+    await page.getByRole('region', { name: `Execution request details ${jobId}` }).waitFor({ state: 'detached' });
+    await membership.grant(first.id, actors[0].id);
     assert.deepEqual(pageErrors, []);
     await browser.close();
     browser = null;
@@ -105,9 +164,11 @@ test('migration history is project and target scoped, searchable, paginated, and
     const restartedUrl = `http://127.0.0.1:${app.server.address().port}`;
     const restartedResponse = await fetch(`${restartedUrl}${base}`, { headers: { authorization: `Bearer ${actors[0].token}` } });
     assert.equal(restartedResponse.status, 200);
-    assert.equal((await restartedResponse.json()).total, 33, 'history remains available after an API restart');
+    assert.equal((await restartedResponse.json()).total, 34, 'history remains available after an API restart');
     console.log('Migration history API preserved project membership, exact target scoping, filtering, pagination, and denied access.');
   } finally {
+    // Unblock any delayed browser response before closing the page, including assertion failures.
+    for (const release of pendingExecutionReleases) release();
     try { await browser?.close(); } finally {
       try { await app?.close(); } finally {
         try { await membership?.close(); } finally { await database.close(); }

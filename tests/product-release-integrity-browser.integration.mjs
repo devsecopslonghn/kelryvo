@@ -36,6 +36,7 @@ test('browser gives fixed feedback when a retained release fails integrity verif
     assert.equal(imported.response.status, 201);
     const releaseId = imported.result.release.id;
     const retained = (await database.sql`SELECT files FROM sf_releases WHERE id=${releaseId}`)[0].files;
+    await database.suspendRetainedEvidenceGuards();
     retained[0].content += 'tampered';
     await database.sql`UPDATE sf_releases SET files=${database.sql.json(retained)} WHERE id=${releaseId}`;
     const beforeFailure = {

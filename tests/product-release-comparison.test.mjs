@@ -134,6 +134,7 @@ test('authenticated retained comparison is scoped, read-only, self-comparable, a
     const approverCompared = await request('POST', compareUrl, { baseReleaseId: releaseId, candidateReleaseId }, approver.token);
     assert.equal(approverCompared.statusCode, 200, 'the second fixed role can read the same comparison');
     assert.equal(compared.json().comparison.base.manifestDigest, imported.json().release.manifestDigest);
+    await db.suspendRetainedEvidenceGuards();
     const savedCandidate = (await db.sql`SELECT * FROM sf_releases WHERE id=${candidateReleaseId}`)[0];
     try {
       const files = structuredClone(savedCandidate.files);

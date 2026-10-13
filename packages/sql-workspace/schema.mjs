@@ -1,9 +1,9 @@
 export const SQL_WORKSPACE_TABLES = ['sf_sql_drafts', 'sf_sql_draft_revisions', 'sf_sql_workspace_releases'];
 export const SQL_WORKSPACE_FUNCTIONS = ['sf_reject_sql_workspace_evidence_mutation', 'sf_guard_sql_draft_pointer'];
-export const SQL_WORKSPACE_TRIGGERS = ['sf_sql_drafts_pointer_guard', 'sf_sql_draft_revisions_immutable', 'sf_sql_workspace_releases_immutable', 'sf_plan_source_comparison_immutable'];
+export const SQL_WORKSPACE_TRIGGERS = ['sf_sql_drafts_pointer_guard', 'sf_sql_draft_revisions_immutable', 'sf_sql_workspace_releases_immutable', 'sf_plan_source_comparison_immutable', 'sf_releases_immutable', 'sf_history_immutable', 'sf_audit_immutable'];
 
 /** Additive durable schema for project-owned SQL drafts and authored release provenance. */
-export async function initializeSqlWorkspaceSchema(tx, { version = 2 } = {}) {
+export async function initializeSqlWorkspaceSchema(tx, { version = 2, installRetainedEvidenceGuards = true } = {}) {
   await tx.unsafe(`
     CREATE TABLE IF NOT EXISTS sf_sql_drafts (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), organization_id uuid NOT NULL, project_id uuid NOT NULL,
@@ -56,6 +56,17 @@ export async function initializeSqlWorkspaceSchema(tx, { version = 2 } = {}) {
         CREATE TRIGGER sf_sql_workspace_releases_immutable BEFORE UPDATE OR DELETE ON sf_sql_workspace_releases
         FOR EACH ROW EXECUTE FUNCTION sf_reject_sql_workspace_evidence_mutation(); END IF; END $$;
     `);
+  if (installRetainedEvidenceGuards) await tx.unsafe(`
+    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_releases_immutable') THEN
+      CREATE TRIGGER sf_releases_immutable BEFORE UPDATE OR DELETE ON sf_releases
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_sql_workspace_evidence_mutation(); END IF; END $$;
+    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_history_immutable') THEN
+      CREATE TRIGGER sf_history_immutable BEFORE UPDATE OR DELETE ON sf_history
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_sql_workspace_evidence_mutation(); END IF; END $$;
+    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_audit_immutable') THEN
+      CREATE TRIGGER sf_audit_immutable BEFORE UPDATE OR DELETE ON sf_audit
+      FOR EACH ROW EXECUTE FUNCTION sf_reject_sql_workspace_evidence_mutation(); END IF; END $$;
+  `);
   if (version === 1) return;
   await tx.unsafe(`
     ALTER TABLE sf_sql_draft_revisions ADD COLUMN IF NOT EXISTS manifest_version smallint NOT NULL DEFAULT 1;

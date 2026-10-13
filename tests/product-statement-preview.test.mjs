@@ -135,6 +135,7 @@ test('statement preview is scoped, bounded, archived-readable and read only', {
     const unicodeFile = extendedFiles.find(item => item.path === filePath);
     unicodeFile.statementCount = null;
     unicodeFile.reviewExtension = { source: 'historical', labels: ['café', 'naïve'], flags: [true, 3] };
+    await database.suspendRetainedEvidenceGuards();
     await database.sql`UPDATE sf_releases SET files=${database.sql.json(extendedFiles)} WHERE id=${release.id}`;
     const originalRetained = (await database.sql`SELECT files,manifest_digest,folder,validation_status FROM sf_releases WHERE id=${release.id}`)[0];
     const originalFiles = originalRetained.files;
