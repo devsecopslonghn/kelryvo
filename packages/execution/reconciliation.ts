@@ -19,7 +19,7 @@ function boundPlanIntent(plan:any,projectId:string){
     requesterId:plan.author_id,releaseId:plan.release_id,profileId:plan.profile_id});
 }
 
-export async function initializeExecutionReconciliation(sql:any){
+export async function initializeExecutionReconciliation(sql:any,{installBindingGuards=true}: {installBindingGuards?:boolean}={}){
   const install=async(tx:any)=>tx.unsafe(`
     CREATE TABLE IF NOT EXISTS sf_execution_reconciliations (
       id uuid PRIMARY KEY, job_id uuid NOT NULL, organization_id uuid NOT NULL, project_id uuid NOT NULL, plan_id uuid NOT NULL,
@@ -43,6 +43,76 @@ export async function initializeExecutionReconciliation(sql:any){
       FOREIGN KEY(reconciliation_id,job_id,organization_id,project_id) REFERENCES sf_execution_reconciliations(id,job_id,organization_id,project_id),
       FOREIGN KEY(reviewer_id,organization_id) REFERENCES sf_local_actors(id,organization_id)
     );
+    ${installBindingGuards ? `CREATE OR REPLACE FUNCTION sf_check_execution_reconciliation_binding() RETURNS trigger LANGUAGE plpgsql AS $$
+      DECLARE v_plan sf_plans%ROWTYPE; v_project sf_projects%ROWTYPE; v_job sf_execution_jobs%ROWTYPE;
+        v_proof sf_execution_admission_proofs%ROWTYPE;
+      BEGIN
+        -- Match API lock order (plan, project, job) for direct inserts too.
+        SELECT * INTO v_plan FROM sf_plans WHERE id=NEW.plan_id FOR SHARE;
+        SELECT * INTO v_project FROM sf_projects WHERE id=NEW.project_id FOR SHARE;
+        SELECT * INTO v_job FROM sf_execution_jobs WHERE id=NEW.job_id FOR SHARE;
+        IF v_plan.id IS NULL OR v_project.id IS NULL OR v_job.id IS NULL
+          OR v_plan.project_id IS DISTINCT FROM NEW.project_id OR v_plan.organization_id IS DISTINCT FROM NEW.organization_id
+          OR v_project.organization_id IS DISTINCT FROM NEW.organization_id OR v_project.archived_at IS NOT NULL
+          OR v_job.organization_id IS DISTINCT FROM NEW.organization_id OR v_job.project_id IS DISTINCT FROM NEW.project_id
+          OR v_job.plan_id IS DISTINCT FROM NEW.plan_id OR v_job.approval_reference IS DISTINCT FROM NEW.approval_reference
+          OR v_job.intent_digest IS DISTINCT FROM NEW.intent_digest OR v_job.revision IS DISTINCT FROM NEW.job_revision
+          OR v_job.admission_scope IS DISTINCT FROM NEW.admission_scope OR v_job.state IS DISTINCT FROM 'HOLD'
+          OR v_plan.approval_reference IS DISTINCT FROM NEW.approval_reference
+          OR v_plan.offline_intent_digest IS DISTINCT FROM NEW.intent_digest THEN
+          RAISE EXCEPTION 'execution reconciliation must match the current held job and approved plan';
+        END IF;
+        SELECT * INTO v_proof FROM sf_execution_admission_proofs WHERE job_id=NEW.job_id FOR SHARE;
+        IF FOUND THEN
+          IF v_proof.organization_id IS DISTINCT FROM NEW.organization_id OR v_proof.project_id IS DISTINCT FROM NEW.project_id
+            OR v_proof.plan_id IS DISTINCT FROM NEW.plan_id OR v_proof.approval_reference IS DISTINCT FROM NEW.approval_reference
+            OR v_proof.intent_digest IS DISTINCT FROM NEW.intent_digest OR v_proof.scope IS DISTINCT FROM NEW.admission_scope
+            OR v_proof.target_identity_digest IS DISTINCT FROM NEW.target_identity_digest THEN
+            RAISE EXCEPTION 'execution reconciliation target binding does not match admission proof';
+          END IF;
+        ELSIF NEW.admission_scope IS DISTINCT FROM 'PRODUCT_REQUEST' OR NEW.target_identity_digest IS NOT NULL THEN
+          RAISE EXCEPTION 'execution reconciliation admission proof required';
+        END IF;
+        RETURN NEW;
+      END $$;
+    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_execution_reconciliations_binding_insert') THEN
+      CREATE TRIGGER sf_execution_reconciliations_binding_insert BEFORE INSERT ON sf_execution_reconciliations
+      FOR EACH ROW EXECUTE FUNCTION sf_check_execution_reconciliation_binding(); END IF; END $$;
+    CREATE OR REPLACE FUNCTION sf_check_execution_reconciliation_decision_binding() RETURNS trigger LANGUAGE plpgsql AS $$
+      DECLARE v_submission sf_execution_reconciliations%ROWTYPE; v_plan sf_plans%ROWTYPE; v_project sf_projects%ROWTYPE;
+        v_job sf_execution_jobs%ROWTYPE; v_actor sf_local_actors%ROWTYPE; v_grant sf_project_grants%ROWTYPE;
+      BEGIN
+        SELECT * INTO v_submission FROM sf_execution_reconciliations WHERE id=NEW.reconciliation_id;
+        IF v_submission.id IS NULL THEN RAISE EXCEPTION 'execution reconciliation submission required'; END IF;
+        -- Match API lock order (plan, project, job, submission).
+        SELECT * INTO v_plan FROM sf_plans WHERE id=v_submission.plan_id FOR SHARE;
+        SELECT * INTO v_project FROM sf_projects WHERE id=v_submission.project_id FOR SHARE;
+        SELECT * INTO v_job FROM sf_execution_jobs WHERE id=NEW.job_id FOR SHARE;
+        SELECT * INTO v_submission FROM sf_execution_reconciliations WHERE id=NEW.reconciliation_id FOR SHARE;
+        SELECT * INTO v_actor FROM sf_local_actors WHERE id=NEW.reviewer_id AND organization_id=NEW.organization_id FOR SHARE;
+        SELECT * INTO v_grant FROM sf_project_grants WHERE organization_id=NEW.organization_id
+          AND project_id=NEW.project_id AND actor_id=NEW.reviewer_id AND revoked_at IS NULL FOR SHARE;
+        IF v_submission.id IS NULL OR v_plan.id IS NULL OR v_project.id IS NULL OR v_job.id IS NULL OR v_actor.id IS NULL
+          OR v_submission.job_id IS DISTINCT FROM NEW.job_id OR v_submission.organization_id IS DISTINCT FROM NEW.organization_id
+          OR v_submission.project_id IS DISTINCT FROM NEW.project_id OR v_job.organization_id IS DISTINCT FROM NEW.organization_id
+          OR v_job.project_id IS DISTINCT FROM NEW.project_id OR v_job.plan_id IS DISTINCT FROM v_submission.plan_id
+          OR v_job.approval_reference IS DISTINCT FROM v_submission.approval_reference OR v_job.intent_digest IS DISTINCT FROM v_submission.intent_digest
+          OR v_plan.project_id IS DISTINCT FROM NEW.project_id OR v_plan.organization_id IS DISTINCT FROM NEW.organization_id
+          OR v_plan.approval_reference IS DISTINCT FROM v_submission.approval_reference
+          OR v_plan.offline_intent_digest IS DISTINCT FROM v_submission.intent_digest
+          OR v_project.organization_id IS DISTINCT FROM NEW.organization_id OR v_project.archived_at IS NOT NULL
+          OR v_job.state IS DISTINCT FROM 'HOLD' OR v_job.revision IS DISTINCT FROM NEW.job_revision
+          OR v_submission.job_revision IS DISTINCT FROM NEW.job_revision
+          OR v_actor.role IS DISTINCT FROM 'approver'
+          OR NEW.reviewer_id IN (v_submission.submitter_id,v_job.requester_id,v_plan.author_id)
+          OR v_grant.id IS NULL THEN
+          RAISE EXCEPTION 'execution reconciliation decision must independently review the current held submission';
+        END IF;
+        RETURN NEW;
+      END $$;
+    DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_execution_reconciliation_decisions_binding_insert') THEN
+      CREATE TRIGGER sf_execution_reconciliation_decisions_binding_insert BEFORE INSERT ON sf_execution_reconciliation_decisions
+      FOR EACH ROW EXECUTE FUNCTION sf_check_execution_reconciliation_decision_binding(); END IF; END $$;` : ''}
     CREATE OR REPLACE FUNCTION sf_reject_execution_reconciliation_mutation() RETURNS trigger LANGUAGE plpgsql AS $$
       BEGIN RAISE EXCEPTION 'execution reconciliation evidence is immutable'; END $$;
     DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='sf_execution_reconciliations_immutable') THEN
@@ -183,7 +253,12 @@ export function registerExecutionReconciliation(app:any,{sql,authenticate}:any){
       if(job.state!=='HOLD')throw responseError('JOB_NOT_ON_HOLD');
       if(String(job.revision)!==String(b.expectedRevision))throw responseError('REVISION_CONFLICT');
       if(req.actor.id===row.submitter_id||req.actor.id===job.requester_id||req.actor.id===plan.author_id)throw responseError('INDEPENDENT_REVIEW_REQUIRED',403);
-      if((await tx`SELECT 1 FROM sf_execution_reconciliation_decisions WHERE reconciliation_id=${row.id}`)[0])throw responseError('DECISION_ALREADY_RECORDED');
+      const prior=(await tx`SELECT * FROM sf_execution_reconciliation_decisions WHERE reconciliation_id=${row.id}`)[0];
+      if(prior){
+        if(prior.reviewer_id!==req.actor.id||prior.decision!==b.decision||prior.reason!==b.reason.trim()
+          ||String(prior.job_revision)!==String(job.revision))throw responseError('DECISION_ALREADY_RECORDED');
+        return {row,decision:prior,repeated:true};
+      }
       const decision=(await tx`INSERT INTO sf_execution_reconciliation_decisions(id,reconciliation_id,job_id,organization_id,project_id,reviewer_id,
         job_revision,decision,reason) VALUES(${randomUUID()},${row.id},${row.job_id},${row.organization_id},${row.project_id},${req.actor.id},
         ${job.revision},${b.decision},${b.reason.trim()}) RETURNING *`)[0];
@@ -191,7 +266,7 @@ export function registerExecutionReconciliation(app:any,{sql,authenticate}:any){
         VALUES(${row.project_id},${ORG},${req.actor.id},'EXECUTION_RECONCILIATION_REVIEWED',${row.id},${tx.json({jobId:row.job_id,
           reconciliationId:row.id,decision:b.decision,evidenceDigest:row.evidence_digest,jobRevision:String(job.revision),
           retryEligible:false,executionAuthority:false,targetEffects:'NOT_ATTESTED'})})`;
-      return {row,decision};
+      return {row,decision,repeated:false};
     });
     if(!result)return reply.code(404).send({error:'NOT_FOUND'});
     return {reconciliation:publicSubmission({...result.row,decision_id:result.decision.id,reviewer_id:result.decision.reviewer_id,

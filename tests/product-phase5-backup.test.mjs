@@ -38,9 +38,17 @@ test('Phase 5 native backup retains reconciliation evidence and decision; restor
     const beforeEvidence = await tableSnapshot(f.source.sql, 'sf_execution_reconciliations');
     const beforeDecisions = await tableSnapshot(f.source.sql, 'sf_execution_reconciliation_decisions');
 
+    // A later archive must not make historical evidence impossible to restore.
+    // Insert guards protect new evidence, while restoration retains old rows.
+    await f.source.sql`UPDATE sf_projects SET archived_at=clock_timestamp() WHERE id=${f.project.id}`;
+
     const restored = await f.restore();
     assert.equal(await tableSnapshot(restored.sql, 'sf_execution_reconciliations'), beforeEvidence);
     assert.equal(await tableSnapshot(restored.sql, 'sf_execution_reconciliation_decisions'), beforeDecisions);
+    const guards = await restored.sql`SELECT tgname,tgenabled FROM pg_trigger
+      WHERE tgname IN ('sf_execution_reconciliations_binding_insert','sf_execution_reconciliation_decisions_binding_insert') ORDER BY tgname`;
+    assert.equal(guards.length, 2);
+    assert.ok(guards.every(row => row.tgenabled === 'O'), 'insert guards are restored before the database is returned');
     await assert.rejects(restored.sql`UPDATE sf_execution_reconciliations SET reason='rewritten' WHERE id=${reconciliationId}`,
       /immutable/);
     await assert.rejects(restored.sql`UPDATE sf_execution_reconciliation_decisions SET reason='rewritten' WHERE id=${decisionId}`,
@@ -74,10 +82,13 @@ test('Phase 5 native backup retains reconciliation evidence and decision; restor
   }
 });
 
-test('Phase 4 native backup inventory restores and upgrades to Phase 5 reconciliation schema', {
+for (const prior of [
+  { phase: 4, options: { initializeReconciliation: false }, signature: 'c571e10e7f1090403a68d2370eff35b17eb15776ae8f1bb166a404961f6cb1cf' },
+  { phase: 10, options: { installReconciliationBindingGuards: false }, signature: 'd36aeb9ad7393e063c153da5c4ee5250fd9d1a081953b95b978c1ba33cb6e599' },
+]) test(`Phase ${prior.phase} native backup inventory restores and upgrades to current reconciliation guards`, {
   skip: !enabled, timeout: 180_000,
 }, async () => {
-  const source = await openIsolatedProductDatabase({ initialize: sql => initializeDatabase(sql, { initializeReconciliation: false }) });
+  const source = await openIsolatedProductDatabase({ initialize: sql => initializeDatabase(sql, prior.options) });
   const directory = await mkdtemp(path.join(process.cwd(), '.cache', 'phase5-backup-compat-'));
   let restoredSql, restoredName;
   try {
@@ -88,18 +99,20 @@ test('Phase 4 native backup inventory restores and upgrades to Phase 5 reconcili
     const url = new URL(source.databaseUrl); url.password = secret;
     const databaseUrl = url.toString();
     const project = (await source.sql`INSERT INTO sf_projects(organization_id,name)
-      VALUES('00000000-0000-4000-8000-000000000001','Phase 4 retained project') RETURNING id`)[0];
+      VALUES('00000000-0000-4000-8000-000000000001',${`Phase ${prior.phase} retained project`}) RETURNING id`)[0];
     const backupDirectory = path.join(directory, 'backup'), witnessPath = path.join(directory, 'witness.json');
     await createPrivateBackup({ configPath, databaseUrl, destination: backupDirectory, witnessPath });
     const manifest = JSON.parse(await (await import('node:fs/promises')).readFile(path.join(backupDirectory, 'manifest.json'), 'utf8'));
-    assert.equal(manifest.schema.signature, 'c571e10e7f1090403a68d2370eff35b17eb15776ae8f1bb166a404961f6cb1cf');
+    assert.equal(manifest.schema.signature, prior.signature);
 
     const restored = await restorePrivateBackup({ configPath, databaseUrl, backupDirectory, witnessPath });
     restoredName = restored.databaseName;
     restoredSql = postgres(restored.databaseUrl, { max: 2, onnotice: () => {} });
-    assert.equal((await restoredSql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name, 'Phase 4 retained project');
+    assert.equal((await restoredSql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name, `Phase ${prior.phase} retained project`);
     assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_execution_reconciliations`)[0].n, 0);
     assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_execution_reconciliation_decisions`)[0].n, 0);
+    assert.equal((await restoredSql`SELECT count(*)::int AS n FROM pg_trigger
+      WHERE tgname IN ('sf_execution_reconciliations_binding_insert','sf_execution_reconciliation_decisions_binding_insert') AND tgenabled='O'`)[0].n, 2);
     assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g
       ON g.id=c.generation_id WHERE c.singleton`)[0].state, 'RESTORE_HOLD');
   } finally {
