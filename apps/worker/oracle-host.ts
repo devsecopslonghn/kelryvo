@@ -78,8 +78,15 @@ function snapshotRequest(input: OracleHostRequest): OracleHostRequest | null {
     if (statements.length > MAX_PLAN_STATEMENTS || migrations.some((m,i) => i && compareVersions(migrations[i-1].version,m.version)>=0)
         || new Set(migrations.map(m => m.path)).size !== migrations.length || !Array.isArray(input.statementDigests)
         || executionDigest(statements)!==executionDigest(input.statementDigests)) return null;
+    const executionTarget = input.executionTarget;
+    if (executionTarget !== undefined && (!dataRecord(executionTarget)
+        || !executionUuid(executionTarget.assignmentId) || !digest(executionTarget.expectedIdentityDigest)
+        || typeof executionTarget.exactOwner !== 'string' || executionTarget.exactOwner.length < 1
+        || executionTarget.exactOwner.length > 128 || JSON.stringify(executionTarget).length > 8192
+        || Object.values(executionTarget).some(v => v !== null && !['string','number','boolean'].includes(typeof v)))) return null;
     return Object.freeze({ jobId:input.jobId,planId:input.planId,approvalReference:input.approvalReference,intentDigest:input.intentDigest,
-      profile,migrations:Object.freeze(migrations),statementDigests:Object.freeze(statements) });
+      profile,migrations:Object.freeze(migrations),statementDigests:Object.freeze(statements),
+      ...(executionTarget ? {executionTarget:Object.freeze({...executionTarget})} : {}) });
   } catch { return null; }
 }
 function snapshotPermit(value: any, request: OracleHostRequest, workerId: string, scope: AdmissionScope, now: number) {
@@ -164,7 +171,7 @@ export function createRestrictedOracleHost(installed: InstalledOracleHost, optio
           if (Date.now()>=permit.expiresAt) { poisoned=true;return false; }
           const fresh=snapshotAttestation(await target.attest(request,permit),permit);
           if (!fresh || executionDigest(fresh)!==executionDigest(witness) || !await mutex.current()
-              || executionDigest(await readIdentity(target.writer,request.profile.username as string,witness.expected))!==executionDigest(writerIdentity)
+              || executionDigest(await readIdentity(target.writer,request.profile.username as string,witness.expected,request.executionTarget?.exactOwner as string | undefined))!==executionDigest(writerIdentity)
               || executionDigest(await readIdentity(target.ledgerOwner,target.ledgerOwnerName,witness.expected))!==executionDigest(ownerIdentity)) {
             poisoned=true;return false;
           }
@@ -186,9 +193,11 @@ export function createRestrictedOracleHost(installed: InstalledOracleHost, optio
         };
         try {
           const initial=snapshotAttestation(await target.attest(request,permit),permit);
-          if (!initial || initial.expected.serviceName!==request.profile.service || Date.now()>=permit.expiresAt) return decline();
+          if (!initial || initial.expected.serviceName!==request.profile.service || Date.now()>=permit.expiresAt
+              || request.executionTarget && (initial.targetAssignmentId !== request.executionTarget.assignmentId
+                || initial.targetIdentityDigest !== request.executionTarget.expectedIdentityDigest)) return decline();
           witness=initial;
-          writerIdentity=await readIdentity(target.writer,request.profile.username as string,witness.expected);
+          writerIdentity=await readIdentity(target.writer,request.profile.username as string,witness.expected,request.executionTarget?.exactOwner as string | undefined);
           ownerIdentity=await readIdentity(target.ledgerOwner,target.ledgerOwnerName,witness.expected);
           if (!writerIdentity || !ownerIdentity) return decline();
           mutex=await createOracleTargetMutex(target.writer,{ owner:target.ledgerOwnerName }).acquire(witness.targetKey);

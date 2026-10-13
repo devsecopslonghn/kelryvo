@@ -3,7 +3,7 @@ import { applyLocalMembershipAction } from '../../scripts/local-membership-opera
 export const fixtureIdentity={engine:'oracle',dbid:'1234567',dbUniqueName:'KELYRVO_FIXTURE',resetlogsChange:'987654',
   cdb:true,containerId:'3',containerGuid:'0123456789ABCDEF0123456789ABCDEF',containerDbid:'7654321',
   containerName:'FIXTURE_PDB',serviceName:'TARGETSVC',version:'23.0.0'};
-export async function createDiscoveryFixture() {
+export async function createDiscoveryFixture(options={}) {
   let mode='OBSERVED',identity=fixtureIdentity,hook;
   const runtime={liveVerificationAccepted:false,async run(_c,operation,{signal}) {
     if(hook)await hook();
@@ -13,7 +13,7 @@ export async function createDiscoveryFixture() {
     return {status:mode,identity:mode==='PARTIAL'?null:identity,schemas:[{owner:'APP',accessible:true},{owner:'FOREIGN_PRIVATE',accessible:true}],
       limitations:mode==='PARTIAL'?['INSUFFICIENT_METADATA_PRIVILEGES']:[],provenance:'FIXTURE',password:'fixture-private-password'};
   }};
-  const f=await createTargetWorkflowFixture({discoveryRuntime:runtime,discoveryTimeoutMs:50});
+  const f=await createTargetWorkflowFixture({...options,discoveryRuntime:runtime,discoveryTimeoutMs:50});
   await applyLocalMembershipAction(f.db.sql,{action:'database-grant',actorId:f.actors[0].id});
   const connections=`${f.base}/database-connections`;
   const definition={assignmentId:f.assignment.id,routeId:f.reference.serviceId,name:'Read-only fixture connection',engine:'oracle',username:'APP',credentialRef:'secret://local/discovery',reason:'Register scoped discovery fixture'};

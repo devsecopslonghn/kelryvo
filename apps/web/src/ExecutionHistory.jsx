@@ -62,6 +62,7 @@ function AttemptHistory({ job, projectId, attempt, token, request, formatTime })
   };
   useEffect(() => { active.current = true; void load(); return () => { active.current = false; }; }, []);
   return <section aria-label={`Attempt ${attempt.generation} details`}>
+    <button type="button" className="secondary" onClick={() => void load()} disabled={busy}>Refresh statement progress</button>
     {error && <p role="alert">Attempt history unavailable: {error}</p>}
     {page && <>
       <p>Recorded claim deadline: {formatTime(page.attempt.claimExpiresAt)}. This timestamp does not prove a current lease.</p>

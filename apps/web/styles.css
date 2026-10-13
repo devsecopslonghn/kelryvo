@@ -1720,3 +1720,11 @@ td code {
 .validation-findings { margin: 20px 0; min-width: 0; }
 .validation-findings li { margin: 12px 0; overflow-wrap: anywhere; }
 .validation-findings li p { margin: 4px 0; color: var(--muted); }
+
+.execution-readiness-live li { margin: 10px 0; overflow-wrap: anywhere; }
+.execution-readiness-live li p { margin: 4px 0; color: var(--muted); }
+.execution-reconciliation { margin: 20px 0; min-width: 0; }
+.execution-reconciliation label { display: flex; flex-direction: column; gap: 6px; margin: 12px 0; }
+.execution-reconciliation input, .execution-reconciliation select, .execution-reconciliation textarea { width: 100%; min-width: 0; max-width: 100%; }
+.execution-reconciliation-row { margin: 16px 0; overflow-wrap: anywhere; }
+.plan-panel p { overflow-wrap: anywhere; }

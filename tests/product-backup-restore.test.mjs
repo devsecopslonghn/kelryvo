@@ -288,7 +288,7 @@ test('native restore rejects damaged, unsupported, linked and untrusted inputs b
 
 
 for(const generation of ['legacy','Phase 2','Phase 3'])test(`exact ${generation} schema backup restores retained projects and migrates discovery under recovery HOLD`, {skip:!enabled,timeout:120000},async()=>{
-  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,generation==='legacy' ? {initializeTargets:false} : generation==='Phase 2' ? {initializeConnectivity:false} : {initializeValidation:false})});
+  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,generation==='legacy' ? {initializeTargets:false,initializeReconciliation:false} : generation==='Phase 2' ? {initializeConnectivity:false,initializeReconciliation:false} : {initializeValidation:false,initializeReconciliation:false})});
   const root=await mkdtemp(join(process.cwd(),'.cache','phase2-legacy-backup-'));let restoredSql,restoredName;
   try {
     await chmod(root,0o700);const configPath=join(root,'config.json'),secret=randomBytes(32).toString('hex');

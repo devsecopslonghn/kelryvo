@@ -4,6 +4,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client';
 import PlanRecord from './PlanRecord.jsx';
 import ExecutionHistory from './ExecutionHistory.jsx';
+import ExecutionReadiness from './ExecutionReadiness.jsx';
+import ExecutionReconciliation from './ExecutionReconciliation.jsx';
 import ExecutionRequestsHistory from './ExecutionRequestsHistory.jsx';
 import { Account } from './Account.jsx';
 import { Instances } from './Instances.jsx';
@@ -1731,9 +1733,11 @@ function ReviewScreen({ model }) {
                   <p>Requests stay queued while target history or validation is unavailable. Queue status is local product state and does not confirm target effects or Oracle verification.</p>
                   <button type="button" className="secondary" onClick={() => void refreshExecutionJobs()} disabled={busy || !projectLoaded}>Refresh requests</button>
                   <small>Showing up to the 50 most recent project requests. Older requests remain outside this view.</small>
+                  <ExecutionReadiness key={`${projectId}:${plan.id}:${token}:${model.historyEpoch.refresh}`} planId={plan.id} projectId={projectId} token={token} request={json}
+                    isCurrent={() => model.isCurrentExecutionHistory(projectId,plan.id,token)}/>
                   {plan.status === 'APPROVED' && detail.canDeploy && !isArchived && <div className="decision-box"><label htmlFor="execution-reason">Request reason</label>
                     <textarea id="execution-reason" value={executionReason} onChange={event => setExecutionReason(event.target.value)} maxLength={1000} placeholder="Why is this deployment being requested?"/>
-                    <button type="button" className="primary" onClick={requestExecution} disabled={busy || targetProfile?.retiredAt || metadataRecovery.state !== 'ACTIVE' || !retainedIntentAvailable || ![2,3,4].includes(intent.format) || plan.retainedTarget && plan.currentness?.state !== 'CURRENT' || !executionReason.trim()}>Request deployment</button>
+                    <button type="button" className="primary" onClick={requestExecution} disabled={busy || targetProfile?.retiredAt || metadataRecovery.state !== 'ACTIVE' || !retainedIntentAvailable || ![2,3,4].includes(intent.format) || plan.retainedTarget && (plan.currentness?.state !== 'CURRENT' || detail.executionJobs?.some(job => job.planId===plan.id && ['WAITING_VALIDATION','ADMITTED','HOLD'].includes(job.state))) || !executionReason.trim()}>Request deployment</button>
                     <small>Retrying unchanged details reuses the request key. Changing the reason starts a new request.</small>
                   </div>}
                   {plan.status === 'APPROVED' && !detail.canDeploy && <p className="muted">Deployment permission has not been granted by the local OS operator.</p>}
@@ -1743,6 +1747,10 @@ function ReviewScreen({ model }) {
                     {job.state === 'WAITING_VALIDATION' && job.requesterId === actor?.id && <button type="button" className="secondary" onClick={() => cancelExecution(job)} disabled={busy || metadataRecovery.state !== 'ACTIVE'}>Cancel undispatched request</button>}
                     <button type="button" className="secondary" onClick={() => void loadExecutionEvents(job)}>View job events</button>
                     <ExecutionHistory key={`${projectId}:${plan.id}:${job.id}:${job.revision}:${token}`} job={job} projectId={projectId} token={token} request={json} formatTime={fmt}/>
+                    {job.state==='HOLD' && <ExecutionReconciliation key={`${job.id}:${job.revision}:${token}:${model.historyEpoch.refresh}`} job={job} projectId={projectId} token={token} request={json}
+                      isDeployer={detail.canDeploy && !isArchived && metadataRecovery.state==='ACTIVE'} isApprover={isApprover && !isArchived && metadataRecovery.state==='ACTIVE'}
+                      actorId={actor?.id} planAuthorId={planAuthorId}
+                      isCurrent={() => model.isCurrentExecutionHistory(projectId,plan.id,token)}/>}
                     {(executionEvents[job.id] || []).length > 0 && <ol aria-label={`Events for job ${job.id}`}>
                       {executionEvents[job.id].map(event => <li key={event.id}><strong>{event.to_state.replaceAll('_',' ')}</strong> · {fmt(event.created_at)}{event.reason ? ` · ${event.reason}` : ''}</li>)}
                     </ol>}

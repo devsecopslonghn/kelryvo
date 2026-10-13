@@ -1,8 +1,9 @@
 import { initializeTargetSchema } from '../targets/schema.ts';
 import { initializeConnectivitySchema } from '../connectivity/schema.mjs';
 import { initializeValidationSchema } from '../sql-validation/schema.mjs';
+import { initializeExecutionReconciliation } from '../execution/reconciliation.ts';
 /** Idempotent schema for the local, single-organization product slice. */
-export async function initializeDatabase(sql: any, options: { initializeMetadata?: boolean; initializeTargets?: boolean; initializeConnectivity?: boolean; initializeValidation?: boolean } = {}): Promise<void> {
+export async function initializeDatabase(sql: any, options: { initializeMetadata?: boolean; initializeTargets?: boolean; initializeConnectivity?: boolean; initializeValidation?: boolean; initializeReconciliation?: boolean } = {}): Promise<void> {
   await sql.begin(async (tx: any) => {
     // Test files and local startup callers can initialize the same schema at once.
     // IF NOT EXISTS still races while PostgreSQL creates the backing catalog type.
@@ -476,6 +477,7 @@ export async function initializeDatabase(sql: any, options: { initializeMetadata
       CREATE TRIGGER sf_execution_receipts_immutable BEFORE UPDATE OR DELETE ON sf_execution_receipts
       FOR EACH ROW EXECUTE FUNCTION sf_reject_execution_event_mutation(); END IF; END $$;
     `);
+    if (options.initializeReconciliation !== false) await initializeExecutionReconciliation(tx);
     if (options.initializeTargets !== false) await initializeTargetSchema(tx);
     if (options.initializeTargets !== false && options.initializeConnectivity !== false) await initializeConnectivitySchema(tx);
     if (options.initializeTargets !== false && options.initializeConnectivity !== false && options.initializeValidation !== false) await initializeValidationSchema(tx);

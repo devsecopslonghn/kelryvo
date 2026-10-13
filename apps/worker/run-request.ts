@@ -3,8 +3,10 @@ import { createHash } from 'node:crypto';
 import { coordinate, type Receipt } from '../../packages/execution/coordinator.ts';
 import { createExecutionJobStore } from '../../packages/execution/postgres-jobs.ts';
 import { reconcileCompletedHistory } from '../../packages/execution/history-reconciliation.ts';
+import { acquireTargetLocks } from '../../packages/targets/locks.ts';
 import { executionUuid, executionDigest, snapshotObservation, readExecutionRequest, materializeExecutionRequest,
   acquireExecutionTarget, lockExecutionTarget, commitExecutionAdmission, holdUntrustedHistory,
+  targetRequestConflict,
   type AdmissionScope, type TargetObservation, type MigrationIdentity } from '../../packages/execution/admission.ts';
 
 export type ExecutionTargetSession = {
@@ -22,7 +24,8 @@ export type ExecutionHost = {
   /** Own the physical target session/mutex/permit for the entire callback, including commit and dispatch. */
   withTarget<T>(request: Readonly<{ jobId: string; planId: string; intentDigest: string;
     approvalReference: string; profile: Readonly<Record<string, unknown>>;
-    statementDigests: readonly string[]; migrations: readonly MigrationIdentity[] }>,
+    statementDigests: readonly string[]; migrations: readonly MigrationIdentity[];
+    executionTarget?: Readonly<Record<string, unknown>> }>,
     run: (session: ExecutionTargetSession) => Promise<T>): Promise<T>;
 };
 
@@ -47,10 +50,16 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
       const recovery: { claim?: { generation: number; lease: string } } = {};
       try {
         const candidate = await sql.begin(async (tx: any) => {
+          const hint = (await tx`SELECT plan_id FROM sf_execution_jobs WHERE id=${jobId}`)[0];
+          if (!hint) return null;
+          await acquireTargetLocks(tx,{planId:hint.plan_id});
           await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
           return readExecutionRequest(tx,jobId);
         });
         if (!candidate || expectedMetadataGenerationId !== undefined && candidate.generationId !== expectedMetadataGenerationId) return 'ADMISSION_DECLINED' as const;
+        if (candidate.executionTarget && scope === 'TRUSTED_VALIDATED'
+            && (candidate.executionTarget.evidenceProvenance !== 'ORACLE_READ_ONLY'
+              || !candidate.executionTarget.liveVerificationAccepted)) return 'ADMISSION_DECLINED' as const;
         operationStore = createExecutionJobStore(sql,workerId,{ allowUnitSynthetic:scope === 'UNIT_SYNTHETIC',
           expectedMetadataGenerationId:candidate.generationId });
         const materialized = await materializeExecutionRequest(candidate);
@@ -59,7 +68,8 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
         const profile = Object.freeze({ ...candidate.profile });
         const input = Object.freeze({ jobId, planId:candidate.plan.id, intentDigest:candidate.job.intent_digest,
           approvalReference:candidate.plan.approval_reference, profile, migrations:materialized.migrations,
-          statementDigests:Object.freeze(materialized.statements.map(statement => statement.digest)) });
+          statementDigests:Object.freeze(materialized.statements.map(statement => statement.digest)),
+          ...(candidate.executionTarget ? {executionTarget:candidate.executionTarget} : {}) });
         return await host.withTarget(input, async session => {
           if (!session || session.scope !== scope || !['observe','current','execute','recordTargetReceipt',
             'verifyPostconditions','centralEvidenceComplete'].every(key => typeof session[key as keyof ExecutionTargetSession] === 'function')) return 'ADMISSION_DECLINED' as const;
@@ -70,6 +80,9 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
           let observation: ReturnType<typeof snapshotObservation>;
           try {
             observation = snapshotObservation(await session.observe(),scope,materialized.migrations);
+            if (candidate.executionTarget && (!observation
+                || observation.targetAssignmentId !== candidate.executionTarget.assignmentId
+                || observation.targetIdentityDigest !== candidate.executionTarget.expectedIdentityDigest)) return holdHistory();
             if (!observation || await session.current(observation) !== true
                 || await session.centralEvidenceComplete() !== true
                 || observation.historyState === 'EXACT_APPLIED' && await session.verifyPostconditions() !== true) return holdHistory();
@@ -80,15 +93,20 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
           const claim = await sql.begin(async (tx: any) => {
             if (!await acquireExecutionTarget(tx,observation.targetAssignmentId)) return null;
             await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
-            if (!await lockExecutionTarget(tx,observation,candidate.project.id,profile)) return null;
+            if (!await lockExecutionTarget(tx,observation,candidate.project.id,profile,candidate.executionTarget?.exactOwner)) return null;
             const current = await readExecutionRequest(tx,jobId);
             if (!current || current.snapshotDigest !== expectedSnapshot || current.authority.role !== candidate.authority.role) return null;
             // Central uncertainty is a veto, never proof of target application.
             // Target/catalog locks serialize admissions and authority changes.
             if ((await tx`SELECT 1 FROM sf_execution_admission_proofs proof JOIN sf_execution_jobs prior ON prior.id=proof.job_id
               WHERE proof.organization_id='00000000-0000-4000-8000-000000000001'
-                AND proof.host_binding->>'targetKey'=${observation.targetKey} AND prior.id<>${jobId}
+                AND (proof.host_binding->>'targetKey'=${observation.targetKey}
+                  OR ${candidate.executionTarget?.streamId ?? null}::text IS NOT NULL
+                    AND proof.host_binding->>'streamId'=${candidate.executionTarget?.streamId ?? null}) AND prior.id<>${jobId}
                 AND prior.state IN ('ADMITTED','HOLD') LIMIT 1`)[0]) { historyLost = true; return null; }
+            if (candidate.executionTarget && await targetRequestConflict(tx,candidate.project.id,candidate.executionTarget.streamId,jobId,true)) {
+              historyLost=true; return null;
+            }
             if (!await reconcileCompletedHistory(tx,observation)) { historyLost = true; return null; }
             try {
               if (await session.current(observation) !== true) { historyLost = true; return null; }
@@ -117,7 +135,7 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
           const withAuthority = async <T>(run: (tx: any) => Promise<T>) => sql.begin(async (tx: any) => {
             if (!await acquireExecutionTarget(tx,observation.targetAssignmentId)) return null;
             await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
-            if (!await lockExecutionTarget(tx,observation,candidate.project.id,profile)) return null;
+            if (!await lockExecutionTarget(tx,observation,candidate.project.id,profile,candidate.executionTarget?.exactOwner)) return null;
             const live = await readExecutionRequest(tx,jobId,true);
             if (!live || live.snapshotDigest !== expectedSnapshot || live.authority.role !== candidate.authority.role
                 || !await leaseCurrentIn(tx)) return null;

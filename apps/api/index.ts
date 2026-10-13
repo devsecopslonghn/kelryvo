@@ -25,6 +25,9 @@ import { AUDIT_PAGE_SIZE, decodeAuditCursor, encodeAuditCursor } from "../../pac
 import { decodeReviewInboxCursor, encodeReviewInboxCursor, reviewInboxScopes } from "../../packages/governance/review-inbox-cursor.mjs";
 
 import { registerExecutionHistory } from "../../packages/execution/history.ts";
+import { registerExecutionReadiness } from '../../packages/execution/readiness.ts';
+import { registerExecutionReconciliation } from '../../packages/execution/reconciliation.ts';
+import { targetRequestConflict } from '../../packages/execution/admission.ts';
 import { registerPlanRecord } from "../../packages/governance/plan-record.ts";
 import { registerExecutionRecord } from "../../packages/execution/record.ts";
 import { registerHealthProbes } from "../../packages/observability/health-probes.mjs";
@@ -183,6 +186,8 @@ export function createApp(options: {
   registerTargets(app, { sql, authenticate });
   registerConnectivity(app, {sql,authenticate,runtime:options.discoveryRuntime,timeoutMs:options.discoveryTimeoutMs});
   registerSqlValidation(app,{sql,authenticate});
+  registerExecutionReadiness(app,sql,authenticate,ORG);
+  registerExecutionReconciliation(app,{sql,authenticate});
   registerPlanRecord(app, { sql, authenticate });
   registerExecutionRecord(app, { sql, authenticate });
   registerBrowserSessions(app, { sql, authenticate, seed, enabled: !!options.https });
@@ -1610,6 +1615,7 @@ export function createApp(options: {
           if (currentness.state !== 'CURRENT') denial = 'FRESH_PLAN_REQUIRED';
           if (b.expectedIntentDigest !== intent.digest || b.expectedAssignmentRevision !== intent.target?.assignmentRevision || b.expectedBindingRevision !== intent.target?.bindingRevision) denial = 'FRESH_PLAN_REQUIRED';
           if(!denial && intent.validation)await validationForIntent(tx,intent);
+          if (!denial && await targetRequestConflict(tx,plan.project_id,intent.target!.streamId)) denial='EXECUTION_ALREADY_PENDING';
         }
         if (denial) return { error: denial };
         await guardMutationAuthority(tx, req);

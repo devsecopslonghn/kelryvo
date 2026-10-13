@@ -31,8 +31,12 @@ export function approvedHistoryContext(row) {
       organizationId: row.organization_id, projectId: row.project_id,
       releaseId: row.plan_release_id, manifestDigest: row.source_manifest_digest, profileId: row.profile_id,
     });
-    if (!intent || intent.format !== 2 || !Array.isArray(intent.statements)
+    if (!intent || ![2,3,4].includes(intent.format) || !Array.isArray(intent.statements)
         || intent.items.length > MAX_RELEASE_FILES || intent.statements.length > MAX_PLAN_STATEMENTS) return null;
+    if (intent.target && (binding.targetBindingId !== intent.target.bindingId
+        || binding.targetBindingRevision !== intent.target.bindingRevision || binding.streamId !== intent.target.streamId
+        || binding.migrationNamespace !== intent.target.migrationNamespace
+        || !HASH.test(binding.targetBindingDigest ?? ''))) return null;
     const migrations = approvedMigrationIdentities(intent);
     const appliedFiles = binding.appliedMigrationCount;
     if (appliedFiles < 0 || appliedFiles > migrations.length) return null;

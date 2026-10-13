@@ -5,12 +5,37 @@ import { materializeApprovedStatements } from './statements.mjs';
 import { selectPendingMigrations } from './pending-migrations.mjs';
 import { MAX_STDOUT_BYTES } from '../../experiments/db-devops-wp0/parser-envelope.mjs';
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from '../../experiments/db-devops-wp0/parser-release.mjs';
+import { verifyOfflinePlanIntent } from '../migrations/offline-plan-intent.mjs';
+import { checkTargetCurrentness } from '../targets/index.ts';
+import { validationForIntent, validationCurrentness } from '../sql-validation/results.ts';
+import { acquireTargetLocks } from '../targets/locks.ts';
 
 export const executionDigest = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const ORG = '00000000-0000-4000-8000-000000000001';
 export const executionUuid = (value: unknown): value is string => typeof value === 'string'
   && /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value);
 export type AdmissionScope = 'TRUSTED_VALIDATED' | 'UNIT_SYNTHETIC';
+/** A HOLD without an admission proof still vetoes its retained stream. Unknown
+ * bindings fail closed; reading them never grants authority to clear or replay.
+ */
+export async function targetRequestConflict(tx: any, projectId: string, streamId: string, excludeJobId?: string, heldOnly = false) {
+  const rows = await tx`WITH pending AS (
+    SELECT j.id,j.state,j.project_id,p.offline_intent_digest,p.offline_intent_envelope
+      FROM sf_execution_jobs j JOIN sf_plans p ON p.id=j.plan_id AND p.project_id=j.project_id
+      WHERE j.organization_id=${ORG}
+        AND j.state IN ('WAITING_VALIDATION','ADMITTED','HOLD') AND (${heldOnly}=false OR j.state='HOLD')
+        AND (${excludeJobId ?? null}::uuid IS NULL OR j.id<>${excludeJobId ?? null}::uuid)
+      ORDER BY j.id LIMIT 1001
+    ) SELECT id,state,project_id,offline_intent_digest,
+      CASE WHEN octet_length(offline_intent_envelope)<=${MAX_STDOUT_BYTES}
+        AND sum(coalesce(octet_length(offline_intent_envelope),0)) OVER()<=${2 * MAX_STDOUT_BYTES}
+        THEN offline_intent_envelope END AS envelope FROM pending`;
+  if (rows.length > 1000) return true;
+  return rows.some((row: any) => {
+    const prior = verifyOfflinePlanIntent(row.envelope,row.offline_intent_digest,{organizationId:ORG,projectId:row.project_id});
+    return !prior || (prior.target ? prior.target.streamId === streamId : row.project_id === projectId);
+  });
+}
 export type MigrationIdentity = Readonly<{ path: string; version: string; sha256: string;
   statementManifestDigest: string; statementDigests: readonly string[] }>;
 export type AppliedMigration = MigrationIdentity & Readonly<{ outcome: 'APPLIED'; approvalReference: string; intentDigest: string }>;
@@ -45,6 +70,7 @@ export function snapshotObservation(value: TargetObservation, scope: AdmissionSc
  */
 export async function holdUntrustedHistory(sql: any, candidate: any, workerId: string) {
   return sql.begin(async (tx: any) => {
+    await acquireTargetLocks(tx,{planId:candidate.plan.id});
     await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
     const current = await readExecutionRequest(tx, candidate.job.id);
     if (!current || current.snapshotDigest !== candidate.snapshotDigest || current.authority.role !== candidate.authority.role) return false;
@@ -73,11 +99,14 @@ export async function readExecutionRequest(tx: any, jobId: string, admitted = fa
     CASE WHEN jsonb_typeof(items)='array' AND octet_length(items::text)<=${MAX_STDOUT_BYTES} THEN items END AS items
     FROM sf_plans WHERE id=${identity.plan_id} AND organization_id=${ORG}
       AND status='APPROVED' AND decision='APPROVE' AND execution='NOT_EXECUTED'
+      AND decided_by IS NOT NULL AND decided_by<>author_id
       AND history_status='NOT_OBSERVED' AND planning_scope='OFFLINE_CANDIDATE'
       AND NOT EXISTS(SELECT 1 FROM sf_plan_approval_revocations r WHERE r.plan_id=sf_plans.id) FOR SHARE`)[0];
   if (!plan || !plan.envelope || !Array.isArray(plan.items) || !plan.approval_reference) return null;
-  // New target-bound evidence has no accepted worker authority in this milestone.
-  try { if (JSON.parse(plan.envelope)[0] !== 2) return null; } catch { return null; }
+  const intent = verifyOfflinePlanIntent(plan.envelope,plan.offline_intent_digest,{
+    organizationId:ORG,projectId:plan.project_id,requesterId:plan.author_id,
+    releaseId:plan.release_id,profileId:plan.profile_id });
+  if (!intent || ![2,3,4].includes(intent.format)) return null;
   const project = (await tx`SELECT id,source_repository_id,source_folder,source_binding_generation::text
     FROM sf_projects WHERE id=${plan.project_id} AND organization_id=${ORG} AND archived_at IS NULL FOR SHARE`)[0];
   if (!project || project.source_binding_generation !== plan.source_binding_generation) return null;
@@ -110,13 +139,32 @@ export async function readExecutionRequest(tx: any, jobId: string, admitted = fa
   const preflight = await preflightRetainedRelease(tx, { id: plan.release_id, organizationId: ORG,
     projectId: project.id, repositoryId: project.source_repository_id, folder: project.source_folder });
   if (!profile || !profile.credential_ref || !preflight.valid) return null;
+  let executionTarget = null;
+  if (intent.target) {
+    const target = {...intent.target,profileId:intent.profileId,environmentId:intent.environmentId,
+      environmentName:intent.environmentName};
+    if ((await checkTargetCurrentness(tx,project.id,target,project.source_binding_generation)).state !== 'CURRENT'
+        || intent.target.identityState === 'PROVISIONAL') return null;
+    const evidence = (await tx`SELECT e.identity_digest,o.provenance,o.verification_acceptance FROM sf_target_identity_evidence e
+      JOIN sf_database_observations o ON o.id=e.observation_id WHERE e.digest=${intent.target.observationDigest}
+        AND e.project_id=${project.id} AND e.assignment_id=${intent.target.assignmentId}`)[0];
+    if (!evidence || !/^[a-f0-9]{64}$/.test(evidence.identity_digest)) return null;
+    executionTarget = Object.freeze({...intent.target,expectedIdentityDigest:evidence.identity_digest,
+      evidenceProvenance:evidence.provenance,liveVerificationAccepted:Boolean(evidence.verification_acceptance)});
+    if (intent.validation) {
+      try {
+        const validation = await validationForIntent(tx,intent);
+        if (!validation || (await validationCurrentness(tx,validation)).state !== 'CURRENT') return null;
+      } catch { return null; }
+    }
+  }
   const release = (await tx`SELECT id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,
     CASE WHEN jsonb_typeof(files)='array' AND octet_length(files::text)<=${6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX_RELEASE_FILES * 1024}
       THEN files END AS files
     FROM sf_releases WHERE id=${plan.release_id} AND project_id=${project.id} FOR SHARE`)[0];
   if (!release?.files) return null;
-  return { job, plan, project, authority, generationId: generation.id, profile, release,
-    snapshotDigest: executionDigest([plan,project,profile,release,job.request_credential_id,generation.id]) };
+  return { job, plan, project, authority, generationId: generation.id, profile, release, executionTarget,
+    snapshotDigest: executionDigest([plan,project,profile,release,job.request_credential_id,generation.id,executionTarget]) };
 }
 
 export async function materializeExecutionRequest(candidate: any) {
@@ -144,11 +192,11 @@ export async function acquireExecutionTarget(tx: any, assignmentId: string) {
 }
 
 /** Caller holds schema advisory, then global governance advisory, in that order. */
-export async function lockExecutionTarget(tx: any, observation: TargetObservation, projectId: string, profile: any) {
+export async function lockExecutionTarget(tx: any, observation: TargetObservation, projectId: string, profile: any, exactOwner = profile.username) {
   const target = (await tx`SELECT a.id FROM sf_reference_schemas s JOIN sf_reference_assignments a ON a.schema_id=s.id
     JOIN sf_reference_services service ON service.container_id=s.container_id AND service.organization_id=s.organization_id
     WHERE a.id=${observation.targetAssignmentId} AND a.organization_id=${ORG} AND a.project_id=${projectId}
-      AND a.closed_at IS NULL AND s.exact_owner=${profile.username} AND service.host=${profile.host}
+      AND a.closed_at IS NULL AND s.exact_owner=${exactOwner} AND service.host=${profile.host}
       AND service.port=${profile.port} AND service.service=${profile.service} FOR SHARE OF s,a,service`)[0];
   return Boolean(target);
 }
@@ -165,6 +213,9 @@ export async function commitExecutionAdmission(tx: any, candidate: any, material
   Object.assign(hostBinding, { historyFormat:observation.historyFormat,
     appliedMigrationCount:observation.appliedMigrationCount, appliedStatementCount:observation.appliedStatementCount,
     pendingManifestDigest:observation.pendingManifestDigest });
+  if (candidate.executionTarget) Object.assign(hostBinding,{ targetBindingDigest:executionDigest(candidate.executionTarget),
+    targetBindingId:candidate.executionTarget.bindingId, targetBindingRevision:candidate.executionTarget.bindingRevision,
+    streamId:candidate.executionTarget.streamId, migrationNamespace:candidate.executionTarget.migrationNamespace });
   const profileFacts = { engine:candidate.profile.engine, host:candidate.profile.host, port:candidate.profile.port,
     service:candidate.profile.service, username:candidate.profile.username };
   const job = candidate.job;

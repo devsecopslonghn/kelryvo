@@ -27,6 +27,25 @@ const run=async(host,input,texts)=>host.withTarget(input,async s=>{
   return observation;
 });
 
+test('target-bound host verifies the deployment login and exact schema owner independently',async()=>{
+  const assignment=randomUUID();
+  const f=oracleHostFixture({assignment,attest:(witness,_request,writer)=>{
+    writer.identity.SESSION_USER='DEPLOYER';
+    writer.identity.SCHEMA_NAME='APP';
+    return witness;
+  }});
+  const input=request();input.profile.username='DEPLOYER';
+  input.executionTarget={assignmentId:assignment,expectedIdentityDigest:f.binding.targetIdentityDigest,exactOwner:'APP'};
+  await run(f.host(),input,v1);assert.deepEqual(f.calls,v1);
+  const wrong=oracleHostFixture({assignment,attest:(witness,_request,writer)=>{
+    writer.identity.SESSION_USER='DEPLOYER';return witness;
+  }});
+  const wrongInput=request();wrongInput.profile.username='DEPLOYER';
+  wrongInput.executionTarget={assignmentId:assignment,expectedIdentityDigest:wrong.binding.targetIdentityDigest,exactOwner:'OTHER_SCHEMA'};
+  await wrong.host().withTarget(wrongInput,s=>assert.rejects(s.observe(),/unavailable/));
+  assert.equal(wrong.calls.length,0);
+});
+
 test('protected host records exact approved bytes and only later pending files across sessions and reassignment',async()=>{
   const f=oracleHostFixture(),first=request(),h=f.host();
   assert.equal((await run(h,first,v1)).historyState,'EMPTY');
