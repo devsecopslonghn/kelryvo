@@ -15,9 +15,13 @@ test('browser manages schema-plan preflight, durable request, statement HOLD and
     const validation=(await f.validate()).json().validation;
     const plan=(await f.makeSchemaPlan(validation)).json().plan;
     await f.decide(plan);await f.membership.deployGrant(f.project.id,f.actors[0].id);
-    browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];
-    page.setDefaultTimeout(30000);page.setDefaultNavigationTimeout(30000);
-    page.on('pageerror',e=>errors.push(e.message));await mkdir('.cache/phase5-acceptance',{recursive:true});
+    const errors=[];
+    const openBrowser=async()=>{
+      browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:1100}});
+      page.setDefaultTimeout(30000);page.setDefaultNavigationTimeout(30000);
+      page.on('pageerror',e=>errors.push(e.message));return page;
+    };
+    let page=await openBrowser();await mkdir('.cache/phase5-acceptance',{recursive:true});
     const signIn=async actor=>{
       await page.goto(f.currentUrl());await page.getByLabel('Local access token').fill(actor.token);
       await page.getByRole('button',{name:'Continue',exact:true}).click();await page.getByLabel('Sign out').waitFor();
@@ -72,7 +76,9 @@ test('browser manages schema-plan preflight, durable request, statement HOLD and
     await page.setViewportSize({width:1440,height:1100});await page.getByLabel('Sign out').click();
     await page.getByLabel('Local access token').waitFor();
     t.diagnostic('Logout completed before restarting the metadata service');
-    await page.goto('about:blank');await f.restart();
+    // Dispose Chromium's speculative connections before waiting for server.close.
+    // Navigating to a blank page can leave a raw socket that prevents shutdown.
+    await browser.close();browser=undefined;await f.restart();page=await openBrowser();
     t.diagnostic('Metadata service restarted; signing in as independent approver');
     await signIn(f.actors[1]);
     const review=page.getByRole('region',{name:'Execution HOLD reconciliation'});await review.locator('.execution-reconciliation-row').waitFor();
