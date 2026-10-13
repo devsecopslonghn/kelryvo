@@ -191,5 +191,43 @@ test('migration history resolves a verified target intent for filtered execution
     const history = await f.api('GET', base);
     assert.equal(history.statusCode, 200, history.body);
     assert.ok(history.json().items.some(row => row.jobId === requested.json().job.id));
+
+    // Metadata-only HOLD fixture: recording/reviewing evidence cannot attest DDL.
+    const job = requested.json().job;
+    await f.db.sql`UPDATE sf_execution_jobs SET state='HOLD',revision=revision+1 WHERE id=${job.id}`;
+    const reconciliationRoute = `/api/execution-jobs/${job.id}/reconciliations`;
+    const submitted = await f.api('POST', reconciliationRoute, { expectedRevision: 1,
+      evidenceDigest: '7'.repeat(64), evidenceKind: 'OPERATOR_REPORT', reason: 'Investigate unknown target effects' });
+    assert.equal(submitted.statusCode, 201, submitted.body);
+    const reconciliation = submitted.json().reconciliation;
+    const reviewed = await f.api('POST', `${reconciliationRoute}/${reconciliation.id}/decision`, {
+      expectedRevision: 1, decision: 'EVIDENCE_REVIEWED', reason: 'Retain HOLD without target attestation',
+    }, f.actors[1]);
+    assert.equal(reviewed.statusCode, 200, reviewed.body);
+    const auditHistory = `/api/projects/${f.project.id}/migration-history?targetId=${f.binding.bindingId}&q=EXECUTION_RECONCILIATION`;
+    const events = await f.api('GET', auditHistory);
+    assert.equal(events.statusCode, 200, events.body);
+    assert.equal(events.json().total, 2, 'target filtering retains both reconciliation audit events');
+    assert.deepEqual(new Set(events.json().items.map(row => row.status)),
+      new Set(['EXECUTION_RECONCILIATION_SUBMITTED', 'EXECUTION_RECONCILIATION_REVIEWED']));
+    for (const row of events.json().items) {
+      assert.equal(row.jobId, job.id);
+      assert.equal(row.planId, plan.id);
+      assert.equal(row.releaseId, f.release.id);
+      assert.equal(row.targetId, f.binding.bindingId);
+      assert.equal(row.evidence.retryEligible, false);
+      assert.equal(row.evidence.executionAuthority, false);
+    }
+    // An unbound audit's facts cannot invent authoritative navigation links.
+    await f.db.sql`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
+      VALUES(${f.project.id},${ORG},${f.actors[0].id},'EXECUTION_RECONCILIATION_SUBMITTED',${randomUUID()},
+        ${f.db.sql.json({jobId: job.id, planId: plan.id})})`;
+    assert.equal((await f.api('GET', auditHistory)).json().total, 2);
+    const unfiltered = await f.api('GET', `/api/projects/${f.project.id}/migration-history?q=EXECUTION_RECONCILIATION`);
+    const unbound = unfiltered.json().items.find(row => row.jobId === null);
+    assert.ok(unbound);
+    assert.equal(unbound.planId, null);
+    assert.equal(unbound.targetId, null);
+    assert.equal((await f.db.sql`SELECT state FROM sf_execution_jobs WHERE id=${job.id}`)[0].state, 'HOLD');
   } finally { await f.close(); }
 });

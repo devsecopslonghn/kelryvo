@@ -122,7 +122,13 @@ export function registerMigrationHistory(app: any, sql: any, authenticate: any, 
           CASE WHEN jsonb_typeof(a.facts)='object' AND octet_length(a.facts::text)<=4096 THEN a.facts END,NULL::jsonb
         FROM sf_audit a
         LEFT JOIN plan_rows p ON p.plan_id=a.resource_id
-        LEFT JOIN sf_execution_jobs j ON j.id=a.resource_id AND j.project_id=a.project_id
+        -- Reconciliation audits reference the immutable submission, not the job.
+        -- Resolve through retained scoped rows rather than trusting audit facts.
+        LEFT JOIN sf_execution_reconciliations reconciliation ON reconciliation.id=a.resource_id
+          AND reconciliation.project_id=a.project_id AND reconciliation.organization_id=a.organization_id
+          AND a.action IN ('EXECUTION_RECONCILIATION_SUBMITTED','EXECUTION_RECONCILIATION_REVIEWED')
+        LEFT JOIN sf_execution_jobs j ON j.id=COALESCE(reconciliation.job_id,a.resource_id)
+          AND j.project_id=a.project_id AND j.organization_id=a.organization_id
         LEFT JOIN plan_rows jp ON jp.plan_id=j.plan_id
         LEFT JOIN sf_releases release ON release.id=a.resource_id AND release.project_id=a.project_id
           AND release.organization_id=a.organization_id

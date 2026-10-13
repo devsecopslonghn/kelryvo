@@ -129,7 +129,7 @@ test('Native backup preserves SQL revisions and release attribution, while resto
 test('A Phase 5 native backup restores without schema rewriting and then adds the Phase 7 tables under HOLD',{
   skip:!enabled,timeout:180000,
 },async()=>{
-  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeSqlWorkspace:false})});
+  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeSqlWorkspace:false,installReconciliationBindingGuards:false})});
   const directory=await mkdtemp(path.join(process.cwd(),'.cache','phase7-backup-compat-'));
   let restoredSql,restoredName,phase7RestoredSql,phase7RestoredName,preGuardRestoredSql,preGuardRestoredName;
   try {
@@ -147,7 +147,7 @@ test('A Phase 5 native backup restores without schema rewriting and then adds th
     assert.equal((await restoredSql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name,'Preserved Phase 5 project');
     for(const table of SQL_WORKSPACE_TABLES)assert.equal(await tableSnapshot(restoredSql,table),'[]');
     assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
-    await initializeDatabase(source.sql,{sqlWorkspaceVersion:1});
+    await initializeDatabase(source.sql,{sqlWorkspaceVersion:1,installReconciliationBindingGuards:false});
     await source.sql`DROP TRIGGER sf_audit_immutable ON sf_audit`;
     await source.sql`DROP TRIGGER sf_releases_immutable ON sf_releases`;
     await source.sql`DROP TRIGGER sf_history_immutable ON sf_history`;
@@ -162,7 +162,7 @@ test('A Phase 5 native backup restores without schema rewriting and then adds th
     assert.equal(upgradedColumn.column_name,'manifest_version','a previous Phase 7 backup is loaded into its exact old schema then upgraded');
     assert.equal((await phase7RestoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
 
-    await initializeDatabase(source.sql);
+    await initializeDatabase(source.sql,{installReconciliationBindingGuards:false});
     await source.sql`DROP TRIGGER sf_releases_immutable ON sf_releases`;
     await source.sql`DROP TRIGGER sf_history_immutable ON sf_history`;
     await source.sql`DROP TRIGGER sf_audit_immutable ON sf_audit`;

@@ -47,6 +47,9 @@ accepts no SQL, credential material or raw evidence bundle. Submissions bind
 the request revision, plan, approval, intent, admission scope and observed target
 identity when admission evidence exists. Records are append-only and survive
 metadata restart and native backup/restore.
+New evidence and review rows also enforce their current held job, approved plan
+and admission bindings in PostgreSQL. Exact review retries recover the retained
+decision without adding another audit event; conflicting reviews stay blocked.
 
 An approver distinct from the submitter, requester and plan author can record
 **Retain HOLD** or **Record evidence reviewed**. Both decisions append audit
@@ -55,6 +58,10 @@ does not attest target effects, release a worker lock, clear uncertainty, enable
 retry or authorize SQL replay. Actual target reconciliation and any further
 execution require separately authorized disposable Oracle lab acceptance and
 trusted target evidence. No management API currently clears HOLD.
+**Refresh evidence** loads other reviewers' decisions without clearing your input.
+Stale requests require **Refresh requests** before another submission. Consolidated
+migration history links reconciliation audit events to their retained job, plan,
+release and target; audit facts alone cannot supply those links.
 
 Metadata RESTORE_HOLD and project archive allow historical reads and block
 reconciliation mutations. Backup restores retain evidence and decisions, then
@@ -62,6 +69,11 @@ keep restored metadata on its existing recovery hold. Phase 1–4 native archive
 remain accepted only against their pinned schema signatures and upgrade to the
 new reconciliation schema. Digests detect changed bytes against trusted copies;
 they are not signatures or proof of physical Oracle effects.
+Phase 10 archives retain their exact previous schema signature during import and
+then gain the new insert guards. Current archives preserve evidence from projects
+archived after review. The isolated restore database suspends only those insert
+checks during historical import and enables them before returning the database;
+immutable history guards and the recovery HOLD remain enforced.
 
 ## Verification
 
