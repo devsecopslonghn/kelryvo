@@ -1,10 +1,29 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { projectMigrationHistory } from '../packages/execution/migration-analysis.ts';
+import { createHash } from 'node:crypto';
+import { projectMigrationHistory, retainedSourceStatements } from '../packages/execution/migration-analysis.ts';
 
 const migration = (path, version, sha256, count = 2) => ({ path, version, sha256, statementDigests: Array(count).fill('a'.repeat(64)) });
 const witness = (jobId = 'job-1', scope = 'TRUSTED_VALIDATED') => ({ jobId, planId: 'plan-1', scope });
 const key = m => `${m.path}\0${m.version}\0${m.sha256}`;
+
+test('read-only SQL projection preserves exact UTF-8 ranges and rejects changed, missing or split source', () => {
+  const content = '-- café\nCREATE TABLE first (id NUMBER);\nDROP TABLE first;';
+  const bytes = Buffer.from(content);
+  const boundary = bytes.indexOf('DROP TABLE');
+  const identity = (startByte, endByte) => ({ path: 'migrations/V1.sql', startByte, endByte,
+    sourceSha256: createHash('sha256').update(bytes.subarray(startByte, endByte)).digest('hex'),
+    executionSha256: 'e'.repeat(64) });
+  const files = [{ path: 'migrations/V1.sql', content }];
+  const statements = [identity(0, boundary), identity(boundary, bytes.length)];
+  const result = retainedSourceStatements(files, statements);
+  assert.deepEqual(result.map(s => s.sourceSql), ['-- café\nCREATE TABLE first (id NUMBER);\n', 'DROP TABLE first;']);
+  assert.equal(result[0].executionSha256, statements[0].executionSha256, 'saved execution identity remains display evidence only');
+  assert.equal(retainedSourceStatements([{ ...files[0], content: content.replace('first', 'other') }], statements), null);
+  assert.equal(retainedSourceStatements(files, [{ ...statements[0], path: 'missing.sql' }]), null);
+  assert.equal(retainedSourceStatements(files, [{ ...statements[0], endByte: bytes.length + 1 }]), null);
+  assert.equal(retainedSourceStatements(files, [identity(7, 8)]), null, 'a partial UTF-8 code point cannot be shown as source SQL');
+});
 
 test('retained completion projects an ordered prefix and leaves the candidate suffix pending', () => {
   const first = migration('migrations/V001__base.sql', '1', '1'.repeat(64));

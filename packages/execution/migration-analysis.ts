@@ -3,7 +3,6 @@ import { createHash } from 'node:crypto';
 import { verifyOfflinePlanIntent, MAX_PLAN_STATEMENTS } from '../migrations/offline-plan-intent.mjs';
 import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs';
 import { preflightRetainedRelease } from '../migrations/retained-release-preflight.mjs';
-import { materializeApprovedStatements } from './statements.mjs';
 import { approvedMigrationIdentities } from './pending-migrations.mjs';
 import { approvedHistoryContext } from './history-context.mjs';
 import { reviewSqlStatements } from '../sql-validation/review.mjs';
@@ -19,6 +18,24 @@ const MAX_RETAINED_JSON_BYTES = 6 * (MAX_RELEASE_BYTES + MAX_STDOUT_BYTES) + MAX
 const HASH = /^[a-f0-9]{64}$/;
 const uuid = (v: unknown) => typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v);
 const digest = (v: unknown) => createHash('sha256').update(JSON.stringify(v)).digest('hex');
+
+/** Display only, after complete release/intent verification. Execution bytes
+ * remain the worker's independently reparsed and verified admission boundary. */
+export function retainedSourceStatements(files: readonly any[], identities: readonly any[]) {
+  try {
+    const bytesByPath = new Map(files.map(file => [file.path, Buffer.from(file.content, 'utf8')]));
+    return identities.map(statement => {
+      const bytes = bytesByPath.get(statement.path);
+      if (!bytes || !Number.isSafeInteger(statement.startByte) || !Number.isSafeInteger(statement.endByte)
+          || statement.startByte < 0 || statement.endByte <= statement.startByte || statement.endByte > bytes.length)
+        throw new Error('INVALID_SOURCE_RANGE');
+      const range = bytes.subarray(statement.startByte, statement.endByte);
+      if (createHash('sha256').update(range).digest('hex') !== statement.sourceSha256)
+        throw new Error('SOURCE_RANGE_DIGEST_MISMATCH');
+      return { ...statement, sourceSql: new TextDecoder('utf-8', { fatal: true }).decode(range) };
+    });
+  } catch { return null; }
+}
 
 /** Call only after each retained completion witness has passed full verification. */
 export function projectMigrationHistory(migrations: readonly any[], completed: Map<string, any>, uncertain = false, targetVerified = true) {
@@ -199,15 +216,8 @@ export function registerMigrationAnalysis(app: any, sql: any, authenticate: any)
           return { ...answer(base, findings, rows, 0, d), approvedStatementCount: intent.statements.length,
             sqlAvailable: false, statements: [], nextOrdinal: null };
         }
-        const materialized = await materializeApprovedStatements({ ...plan, id: plan.release_id }, plan.envelope,
-          plan.offline_intent_digest, exactExpected(plan, ORG));
-        if (!materialized) return { error: 'MIGRATION_ANALYSIS_UNAVAILABLE' };
-        const statements = (materialized.intent.statements ?? []).map((s: any) => {
-          const file = plan.files.find((f: any) => f.path === s.path);
-          const bytes = Buffer.from(file.content, 'utf8').subarray(s.startByte, s.endByte);
-          const sourceSql = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
-          return { ...s, sourceSql };
-        });
+        const statements = retainedSourceStatements(plan.files, intent.statements);
+        if (!statements) return { error: 'MIGRATION_ANALYSIS_UNAVAILABLE' };
         const reviews = reviewSqlStatements(statements, intent.target?.exactOwner ?? intent.username, 'oracle');
         const reviewByOrdinal = new Map(reviews.map((r: any) => [r.ordinal, r]));
         const migrations = approvedMigrationIdentities(intent);

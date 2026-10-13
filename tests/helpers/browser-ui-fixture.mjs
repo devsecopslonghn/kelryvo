@@ -84,6 +84,39 @@ export async function openBrowserUiFixture({ model = createUiModel(), handler, l
       else if (method === 'GET' && path === '/api/review-inbox') body = { plans: [], nextCursor: null };
       else if (method === 'GET' && path === `/api/releases/${model.source.id}`) body = { release: model.source };
       else if (method === 'GET' && path === `/api/releases/${model.source.id}/statement-preview`) body = { preview: model.preview };
+      else if (method === 'GET' && path.startsWith(`${base}/plans/`) && path.endsWith('/migration-analysis')) {
+        const selected = model.detail.plans.find(plan => path === `${base}/plans/${plan.id}/migration-analysis`);
+        const keys = [...endpoint.searchParams.keys()];
+        const afterText = endpoint.searchParams.get('after') ?? '0';
+        if (!selected || keys.some(key => !['intentDigest', 'after', 'analysisDigest'].includes(key))
+            || new Set(keys).size !== keys.length || !/^[a-f0-9]{64}$/.test(endpoint.searchParams.get('intentDigest') ?? '')
+            || !/^(?:0|[1-9][0-9]{0,3})$/.test(afterText)
+            || endpoint.searchParams.has('analysisDigest') && !/^[a-f0-9]{64}$/.test(endpoint.searchParams.get('analysisDigest'))
+            || Number(afterText) > 0 && !endpoint.searchParams.has('analysisDigest')
+            || Number(afterText) === 0 && endpoint.searchParams.has('analysisDigest')) {
+          unexpected.push(`${method} ${path}`);
+          return route.fulfill({ status: 500, contentType: 'application/json', body: JSON.stringify({ error: 'UNHANDLED_UI_FIXTURE_REQUEST' }) });
+        }
+        if (!selected?.offlineIntent || endpoint.searchParams.get('intentDigest') !== selected.offlineIntent.digest)
+          return route.fulfill({ status: 409, contentType: 'application/json', body: JSON.stringify({ error: 'FRESH_PLAN_REQUIRED' }) });
+        const after = Number(afterText);
+        const migrations = selected.items.map((item, index) => ({ ...item, order: index + 1,
+          status: 'UNVERIFIABLE', reason: 'TARGET_BINDING_UNAVAILABLE', statementCount: 1, evidence: [] }));
+        const statements = selected.offlineIntent.format < 2 ? [] : model.preview.statements.map((statement, index) => ({
+          ordinal: index + 1, fileOrdinal: index + 1, path: model.source.files[0].path,
+          sourceSql: statement.sourceSql, sourceSha256: statement.sourceSha256,
+          executionSha256: statement.executionSha256, migrationStatus: 'UNVERIFIABLE',
+        }));
+        const analysisDigest = sha(JSON.stringify([selected.id, selected.offlineIntent.digest, migrations]));
+        if (after > statements.length || after && endpoint.searchParams.get('analysisDigest') !== analysisDigest)
+          return route.fulfill({ status: 409, contentType: 'application/json', body: JSON.stringify({ error: 'ANALYSIS_CHANGED' }) });
+        body = { format: 1, projectId: model.project.id, planId: selected.id, releaseId: selected.releaseId,
+          intentDigest: selected.offlineIntent.digest, manifestDigest: model.source.manifestDigest, analysisDigest,
+          target: null, executionAuthority: false, oracleAcceptance: 'NOT_RUN', liveTargetState: 'UNVERIFIED',
+          decision: 'UNVERIFIABLE', findings: [{ code: 'TARGET_BINDING_UNAVAILABLE', status: 'UNVERIFIED',
+            message: 'Synthetic UI contract has no target completion evidence.' }], migrations,
+          statementCount: statements.length, statements: statements.slice(after), nextOrdinal: null };
+      }
       else if (method === 'GET' && /^\/api\/projects\/[^/]+\/plans\/[^/]+\/statement-envelope$/.test(path)) {
         const selected = model.detail.plans.find(plan => path.includes(`/${plan.id}/`));
         if (!selected?.offlineIntent) return route.fulfill({ status: 422, contentType: 'application/json',

@@ -45,6 +45,8 @@ target and retained history in an analysis digest. Later SQL pages require that
 digest; changed evidence requires refreshing the comparison. Existing bounded
 SQL review identifies known risks without asserting semantic equivalence or
 resolving unobserved object dependencies.
+The preview verifies saved source ranges and hashes without reparsing the release;
+the worker still independently reparses and verifies execution bytes at admission.
 
 Completed rows describe retained receipts, acknowledgments and terminal validity
 evidence, with their execution scope. They do not attest current target effects.
