@@ -360,6 +360,8 @@ test(
       assert.equal(afterRestart.json().plans.length, 2);
       assert.equal(afterRestart.json().project.sourceBinding.repositoryId, "demo");
       assert.equal(afterRestart.json().project.sourceBinding.folder, "migrations");
+      assert.ok(afterRestart.json().audit.some((event) => event.action === "EXECUTION_DENIED"),
+        "denied execution remains in the authorization audit after API restart");
     } finally {
       await app.close();
       await membership.close();

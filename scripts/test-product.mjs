@@ -1,41 +1,72 @@
 import { spawn } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
 import { partitionProductFiles } from './product-test-shards.mjs';
-import postgres from 'postgres';
-import { localConfiguration, localDatabaseUrl, startLocalPostgres } from './local-resources.mjs';
-import { prepareDemoRepository } from './local-resources.mjs';
+import { parseProductTestOptions } from './product-test-suites.mjs';
 
-// Each CI shard must use its own disposable PostgreSQL database. Files remain
-// serial within a shard because integration fixtures reset shared metadata.
-const shard = process.env.SCHEMAFORGE_TEST_SHARD;
-if (shard && !/^[1-9]\d*\/[1-9]\d*$/.test(shard)) throw new Error('Invalid test shard');
-if (shard) {
-  const [index, total] = shard.split('/').map(Number);
-  if (!Number.isSafeInteger(index) || !Number.isSafeInteger(total) || index > total) throw new Error('Invalid test shard');
+function parseShard(value) {
+  if (!value) return undefined;
+  if (!/^[1-9]\d*\/[1-9]\d*$/.test(value)) throw new TypeError('Invalid test shard');
+  const [index, total] = value.split('/').map(Number);
+  if (!Number.isSafeInteger(index) || !Number.isSafeInteger(total) || index > total) throw new TypeError('Invalid test shard');
+  return { index, total };
 }
 
-let url = process.env.SCHEMAFORGE_TEST_DATABASE_URL;
-if (!url) {
-  const config = await localConfiguration();
-  await startLocalPostgres(config);
-  const admin = postgres(localDatabaseUrl(config), { max: 1, onnotice: () => {} });
+export async function runProductTests(argv = process.argv.slice(2), env = process.env) {
+  let shard;
+  let options;
+  let files;
   try {
-    const present = await admin`SELECT 1 FROM pg_database WHERE datname='schemaforge_tests'`;
-    if (!present.length) await admin.unsafe('CREATE DATABASE schemaforge_tests');
-  } finally { await admin.end({ timeout: 2 }); }
-  url = localDatabaseUrl(config).replace(/\/schemaforge$/, '/schemaforge_tests');
+    shard = parseShard(env.SCHEMAFORGE_TEST_SHARD);
+    options = parseProductTestOptions(argv, { shard: env.SCHEMAFORGE_TEST_SHARD });
+    files = shard
+      ? partitionProductFiles(options.files, shard.total)[shard.index - 1]
+      : options.files;
+  } catch (error) {
+    process.stderr.write(`${error.message}\n`);
+    return 2;
+  }
+  if (options.list) {
+    process.stdout.write(`${options.files.join('\n')}\n`);
+    return 0;
+  }
+  const suite = options.browser ? 'Browser' : 'API';
+  const runnerOptions = `${options.browser ? '--browser ' : ''}--file <product-test-file>${options.name === undefined ? '' : ' --name <pattern>'}`;
+  process.stderr.write(`${suite} product tests: ${files.length} file${files.length === 1 ? '' : 's'}${shard ? ` (shard ${shard.index}/${shard.total})` : ''}. Debug one file: node scripts/test-product.mjs ${runnerOptions}\n`);
+
+  let url = env.SCHEMAFORGE_TEST_DATABASE_URL;
+  let demoRepositoryPath = env.SCHEMAFORGE_DEMO_REPOSITORY_PATH;
+  let resources;
+  if (!url) {
+    const [resourceModule, postgresModule] = await Promise.all([
+      import('./local-resources.mjs'), import('postgres'),
+    ]);
+    resources = resourceModule;
+    const postgres = postgresModule.default;
+    const config = await resources.localConfiguration();
+    await resources.startLocalPostgres(config);
+    const admin = postgres(resources.localDatabaseUrl(config), { max: 1, onnotice: () => {} });
+    try {
+      const present = await admin`SELECT 1 FROM pg_database WHERE datname='schemaforge_tests'`;
+      if (!present.length) await admin.unsafe('CREATE DATABASE schemaforge_tests');
+    } finally { await admin.end({ timeout: 2 }); }
+    url = resources.localDatabaseUrl(config).replace(/\/schemaforge$/, '/schemaforge_tests');
+    demoRepositoryPath = await resources.prepareDemoRepository();
+  }
+  if (!demoRepositoryPath) {
+    resources ??= await import('./local-resources.mjs');
+    demoRepositoryPath = await resources.prepareDemoRepository();
+  }
+
+  const args = ['--test', '--test-concurrency=1'];
+  if (options.name !== undefined) args.push(`--test-name-pattern=${options.name}`);
+  args.push(...files);
+  const child = spawn(process.execPath, args, { stdio: 'inherit', env: {
+    ...env, SCHEMAFORGE_TEST_DATABASE_URL: url, SCHEMAFORGE_DEMO_REPOSITORY_PATH: demoRepositoryPath,
+    SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: '1',
+  } });
+  return await new Promise(resolve => child.once('exit', code => resolve(code ?? 1)));
 }
-// Warm this worktree's disposable Git fixture before Node starts parallel test files.
-const demoRepositoryPath = await prepareDemoRepository();
-const browser = process.argv.includes('--browser');
-const args = browser
-  ? ['--test', '--test-concurrency=1', 'tests/product-phase6-workflow-browser.integration.mjs', 'tests/product-phase5-execution-browser.integration.mjs', 'tests/product-target-workflow-browser.integration.mjs', 'tests/product-database-discovery-browser.integration.mjs', 'tests/product-sql-validation-browser.integration.mjs', 'tests/product-instances-browser.integration.mjs', 'tests/product-account-browser.integration.mjs', 'tests/product-secure-sessions-browser.integration.mjs', 'tests/product-membership-browser.integration.mjs', 'tests/product-credential-browser.integration.mjs', 'tests/product-browser.integration.mjs', 'tests/product-archive-browser.integration.mjs', 'tests/product-review-audit-browser.integration.mjs', 'tests/product-comments-browser.integration.mjs', 'tests/product-decision-record-browser.integration.mjs', 'tests/product-status-filters-browser.integration.mjs', 'tests/product-audit-action-filters-browser.integration.mjs', 'tests/product-audit-pages-browser.integration.mjs', 'tests/product-git-ref-selection-browser.integration.mjs', 'tests/product-release-provenance-browser.integration.mjs', 'tests/product-release-integrity-browser.integration.mjs', 'tests/product-release-comparison-browser.integration.mjs', 'tests/product-plan-source-browser.integration.mjs', 'tests/product-plan-target-browser.integration.mjs', 'tests/product-approval-integrity-browser.integration.mjs', 'tests/product-plan-requester-browser.integration.mjs', 'tests/product-plan-intent-browser.integration.mjs', 'tests/product-plan-record-browser.integration.mjs', 'tests/product-execution-record-browser.integration.mjs', 'tests/product-statement-envelope-browser.integration.mjs', 'tests/product-plan-resubmission-browser.integration.mjs', 'tests/product-protected-source-binding-browser.integration.mjs', 'tests/product-review-inbox-browser.integration.mjs', 'tests/product-reviewer-assignment-browser.integration.mjs', 'tests/product-schema-reference-browser.integration.mjs', 'tests/product-approval-revocation-browser.integration.mjs', 'tests/product-mvp-workflow-browser.integration.mjs', 'tests/product-execution-jobs-browser.integration.mjs', 'tests/product-execution-history-browser.integration.mjs', 'tests/product-backup-restore-browser.integration.mjs']
-  : ['--test', '--test-concurrency=1', 'tests/product-runtime-lifecycle.test.mjs', 'tests/product-phase5-execution.test.mjs', 'tests/product-phase5-stream.test.mjs', 'tests/product-execution-readiness.test.mjs', 'tests/product-execution-reconciliation.test.mjs', 'tests/product-phase5-backup.test.mjs', 'tests/product-target-bindings.test.mjs', 'tests/product-database-discovery.test.mjs', 'tests/product-sql-validation.test.mjs', 'tests/product-target-workflow.test.mjs', 'tests/product-mutation-authority.test.mjs', 'tests/product-profile-lifecycle.test.mjs', 'tests/product-account.test.mjs', 'tests/product-secure-sessions.test.mjs', 'tests/product-membership.test.mjs', 'tests/product-credential-lifecycle.test.mjs', 'tests/product-container-credentials.test.mjs', 'tests/product-api.test.mjs', 'tests/product-api-rate-limit.test.mjs', 'tests/product-audit-pages.test.mjs', 'tests/product-statement-preview.test.mjs', 'tests/product-statement-preview-parser.integration.mjs', 'tests/product-import.test.mjs', 'tests/product-archive.test.mjs', 'tests/product-repositories.test.mjs', 'tests/product-database.test.mjs', 'tests/product-source-binding.test.mjs', 'tests/product-review-audit.test.mjs', 'tests/product-comments.test.mjs', 'tests/product-decision-record.test.mjs', 'tests/product-release-integrity.test.mjs', 'tests/product-release-comparison.test.mjs', 'tests/product-retained-detail.test.mjs', 'tests/product-approval-integrity.test.mjs', 'tests/product-plan-intent.test.mjs', 'tests/product-plan-record.test.mjs', 'tests/product-execution-record.test.mjs', 'tests/product-statement-envelope.test.mjs', 'tests/product-plan-resubmission.test.mjs', 'tests/product-protected-source-binding.test.mjs', 'tests/product-review-inbox-cursor.test.mjs', 'tests/product-review-inbox.test.mjs', 'tests/product-reviewer-assignment.test.mjs', 'tests/product-schema-reference.test.mjs', 'tests/product-approval-revocation.test.mjs', 'tests/product-mvp-workflow.test.mjs', 'tests/product-execution-jobs.test.mjs', 'tests/product-execution-history.test.mjs', 'tests/product-controlled-execution.test.mjs', 'tests/product-incremental-migrations.test.mjs', 'tests/product-oracle-host.test.mjs', 'tests/product-worker-supervision.test.mjs', 'tests/product-backup-restore.test.mjs', 'tests/product-installed-worker-factory.test.mjs', 'tests/product-installed-expiry-recovery.test.mjs', 'tests/product-metadata-recovery.test.mjs', 'tests/product-execution-service.test.mjs'];
-if (shard) {
-  const [index, total] = shard.split('/').map(Number);
-  const groups = partitionProductFiles(args.slice(2), total);
-  args.splice(2, args.length-2, ...groups[index-1]);
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  process.exitCode = await runProductTests();
 }
-const child = spawn(process.execPath, args, { stdio: 'inherit', env: {
-  ...process.env, SCHEMAFORGE_TEST_DATABASE_URL: url, SCHEMAFORGE_DEMO_REPOSITORY_PATH: demoRepositoryPath, SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: '1',
-} });
-child.once('exit', code => { process.exitCode = code ?? 1; });

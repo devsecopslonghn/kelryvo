@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes, randomUUID } from 'node:crypto';
-import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { startProduct } from '../apps/api/server.ts';
 import { prepareDemoRepository } from '../scripts/local-resources.mjs';
@@ -40,36 +39,43 @@ test('plan comments remain scoped, readable, and persistent across API restart',
       const result = await response.json();
       return { response, result };
     };
+    const expectStatus = ({ response, result }, status, operation) => {
+      assert.equal(response.status, status,
+        `${operation} returned ${response.status}: ${result.error || JSON.stringify(result)}`);
+      return result;
+    };
     const createProject = async (name) => {
       const created = await api('POST', '/api/projects', actors[0].token, { name });
-      assert.equal(created.response.status, 201);
-      const receipt = created.result.project;
+      const receipt = expectStatus(created, 201, 'create project').project;
       for (const actor of actors) await membership.grant(receipt.id, actor.id);
       const authorizedRead = await api('GET', `/api/projects/${receipt.id}`, actors[0].token);
-      assert.equal(authorizedRead.response.status, 200);
-      const project = authorizedRead.result.project;
+      const project = expectStatus(authorizedRead, 200, 'read created project').project;
       const base = `/api/projects/${project.id}`;
-      const { result: { environment } } = await api('POST', `${base}/environments`, actors[0].token, { name: 'Development' });
-      await api('PUT', `${base}/source`, actors[0].token, { repositoryId: 'demo', folder: 'migrations' });
-      await api('POST', `${base}/profiles`, actors[0].token, {
+      const environment = expectStatus(await api('POST', `${base}/environments`, actors[0].token,
+        { name: 'Development' }), 201, 'create project environment').environment;
+      expectStatus(await api('PUT', `${base}/source`, actors[0].token,
+        { repositoryId: 'demo', folder: 'migrations' }), 200, 'bind project source');
+      expectStatus(await api('POST', `${base}/profiles`, actors[0].token, {
         name: 'Comment reference', environmentId: environment.id, engine: 'oracle', host: 'oracle.example.invalid',
         port: 1521, service: 'DEV', username: 'APP', credentialRef: 'vault://local/comments/app',
-      });
-      const imported = await api('POST', `${base}/releases`, actors[0].token, {
+      }), 201, 'create project profile');
+      const imported = expectStatus(await api('POST', `${base}/releases`, actors[0].token, {
         repositoryId: 'demo', commit: 'HEAD', folder: 'migrations',
-      });
-      assert.equal(imported.response.status, 201);
-      const { result: detail } = await api('GET', base, actors[0].token);
-      const { result: first } = await api('POST', `${base}/plans`, actors[0].token, {
-        releaseId: imported.result.release.id, profileId: detail.profiles[0].id,
-      });
-      const { result: second } = await api('POST', `${base}/plans`, actors[0].token, {
-        releaseId: imported.result.release.id, profileId: detail.profiles[0].id,
-      });
-      const { result: third } = await api('POST', `${base}/plans`, actors[0].token, {
-        releaseId: imported.result.release.id, profileId: detail.profiles[0].id,
-      });
-      return { project, base, plans: [first.plan, second.plan, third.plan] };
+      }), 201, 'import demo release');
+      const detail = expectStatus(await api('GET', base, actors[0].token), 200, 'read project before plan creation');
+      assert.ok(detail.profiles?.[0]?.id, `project profile was not returned: ${JSON.stringify(detail)}`);
+      const first = expectStatus(await api('POST', `${base}/plans`, actors[0].token, {
+        releaseId: imported.release.id, profileId: detail.profiles[0].id,
+      }), 201, 'create first comment plan');
+      const second = expectStatus(await api('POST', `${base}/plans`, actors[0].token, {
+        releaseId: imported.release.id, profileId: detail.profiles[0].id,
+      }), 201, 'create second comment plan');
+      const third = expectStatus(await api('POST', `${base}/plans`, actors[0].token, {
+        releaseId: imported.release.id, profileId: detail.profiles[0].id,
+      }), 201, 'create third comment plan');
+      const plans = [first.plan, second.plan, third.plan];
+      assert.ok(plans.every(plan => plan?.id), `plan creation returned incomplete records: ${JSON.stringify(plans)}`);
+      return { project, base, plans };
     };
 
     const projectName = `Comments browser ${randomUUID().slice(0, 8)}`;
@@ -221,8 +227,6 @@ test('plan comments remain scoped, readable, and persistent across API restart',
     assert.equal(await archivedTimeline.getByLabel('Comment').count(), 0);
     assert.match(await archivedTimeline.innerText(), /read only|archived/i);
     await archivedTimeline.locator('.comment-row').getByText(pendingArchivedBody, { exact: true }).waitFor();
-    await mkdir('.cache', { recursive: true });
-    await page.screenshot({ path: '.cache/product-comments-review.png', fullPage: true });
 
     const { response: historicalRead, result: historical } = await api('GET', `${base}/plans/${approvedPlan.id}/comments`, actors[1].token);
     assert.equal(historicalRead.status, 200);

@@ -1,29 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
-import ts from 'typescript';
 import { partitionProductFiles } from '../scripts/product-test-shards.mjs';
+import { PRODUCT_API_FILES, PRODUCT_BROWSER_FILES } from '../scripts/product-test-suites.mjs';
 
-async function actualFiles(containing) {
-  const text = await readFile(new URL('../scripts/test-product.mjs', import.meta.url), 'utf8');
-  const source = ts.createSourceFile('test-product.mjs', text, ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
-  const arrays = [];
-  function walk(node) {
-    if (ts.isArrayLiteralExpression(node) && node.elements.every(ts.isStringLiteral)
-        && node.elements[0]?.text === '--test') arrays.push(node.elements.map(element => element.text));
-    ts.forEachChild(node, walk);
-  }
-  walk(source);
-  const matches = arrays.filter(values => values.includes(containing));
-  assert.equal(matches.length, 1);
-  return matches[0].filter(value => value.startsWith('tests/'));
-}
-
-for (const [suite, anchor, totals] of [
-  ['API', 'tests/product-api.test.mjs', [1, 2, 3, 4]],
-  ['browser', 'tests/product-browser.integration.mjs', [1, 2, 3]],
-]) test(`every real ${suite} file appears once across configured shards, retaining serial order`, async () => {
-  const files = await actualFiles(anchor);
+for (const [suite, files, totals] of [
+  ['API', PRODUCT_API_FILES, [1, 2, 3, 4]],
+  ['browser', PRODUCT_BROWSER_FILES, [1, 2, 3]],
+]) test(`every real ${suite} file appears once across configured shards, retaining serial order`, () => {
   for (const total of totals) {
     const groups = partitionProductFiles(files, total);
     assert.equal(groups.length, total);
@@ -43,29 +26,27 @@ for (const [suite, anchor, totals] of [
   }
 });
 
-test('API and browser memberships are deterministic regardless of input order', async () => {
+test('API and browser memberships are deterministic regardless of input order', () => {
   const normalized = values => values.map(group => [...group].sort());
-  for (const anchor of ['tests/product-api.test.mjs', 'tests/product-browser.integration.mjs']) {
-    const files = await actualFiles(anchor), before = [...files];
-    assert.deepEqual(normalized(partitionProductFiles(files, anchor.includes('browser') ? 3 : 4)),
-      normalized(partitionProductFiles([...files].reverse(), anchor.includes('browser') ? 3 : 4)));
+  for (const [files, total] of [[PRODUCT_API_FILES, 4], [PRODUCT_BROWSER_FILES, 3]]) {
+    const before = [...files];
+    assert.deepEqual(normalized(partitionProductFiles(files, total)),
+      normalized(partitionProductFiles([...files].reverse(), total)));
     assert.deepEqual(files, before);
   }
 });
 
-test('the four slowest observed API files are distributed across four runners', async () => {
-  const files = await actualFiles('tests/product-api.test.mjs');
-  const heavy = ['tests/product-incremental-migrations.test.mjs', 'tests/product-statement-preview.test.mjs',
-    'tests/product-controlled-execution.test.mjs', 'tests/product-execution-service.test.mjs'];
-  const groups = partitionProductFiles(files, 4);
+test('the four slowest observed API files are distributed across four runners', () => {
+  const heavy = ['tests/product-execution-service.test.mjs', 'tests/product-incremental-migrations.test.mjs',
+    'tests/product-phase5-execution.test.mjs', 'tests/product-controlled-execution.test.mjs'];
+  const groups = partitionProductFiles(PRODUCT_API_FILES, 4);
   assert.equal(groups.every(group => group.filter(file => heavy.includes(file)).length === 1), true);
 });
 
-test('the three slowest observed browser files are spread across all runners', async () => {
-  const files = await actualFiles('tests/product-browser.integration.mjs');
+test('the three slowest observed browser files are spread across all runners', () => {
   const heavy = ['tests/product-execution-jobs-browser.integration.mjs',
-    'tests/product-comments-browser.integration.mjs', 'tests/product-plan-source-browser.integration.mjs'];
-  const groups = partitionProductFiles(files, 3);
+    'tests/product-plan-source-browser.integration.mjs', 'tests/product-comments-browser.integration.mjs'];
+  const groups = partitionProductFiles(PRODUCT_BROWSER_FILES, 3);
   assert.equal(groups.every(group => group.filter(file => heavy.includes(file)).length === 1), true);
 });
 

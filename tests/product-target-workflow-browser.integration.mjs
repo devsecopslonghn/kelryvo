@@ -1,7 +1,5 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdir } from 'node:fs/promises';
-import path from 'node:path';
 import { chromium } from 'playwright';
 import { createTargetWorkflowFixture } from './helpers/target-workflow-fixture.mjs';
 
@@ -19,11 +17,6 @@ test('browser completes target binding, format-3 review, deployment request, and
     const errors = [];
     page.on('pageerror', (error) => errors.push(error.message));
     let baseUrl = f.currentUrl();
-    const screenshot = async (name) => {
-      const dir = path.resolve('.cache/phase2-acceptance');
-      await mkdir(dir, { recursive: true });
-      await page.screenshot({ path: path.join(dir, `${name}.png`), fullPage: true });
-    };
     const signIn = async (actor) => {
       await page.goto(baseUrl);
       await page.getByLabel('Local access token').fill(actor.token);
@@ -49,7 +42,6 @@ test('browser completes target binding, format-3 review, deployment request, and
     assert.equal(await page.getByLabel('Target environment').inputValue(), '', 'environment choice remains explicit');
     await page.getByLabel('Target environment').focus();
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'target form fits the narrow viewport');
-    await screenshot('target-form-mobile-keyboard');
     await page.getByLabel('Target environment').selectOption(f.environment.id);
     await page.getByLabel('Binding reason').fill('Bind the manually assigned schema for offline review');
     await page.getByRole('button', { name: 'Create binding revision', exact: true }).click();
@@ -58,7 +50,6 @@ test('browser completes target binding, format-3 review, deployment request, and
     const bindingDetail = page.getByRole('region', { name: 'Binding detail' });
     await bindingDetail.getByText('APP', { exact: true }).waitFor();
     assert.equal(await bindingDetail.locator('.target-facts > div').filter({ hasText: 'bindingRevision' }).locator('dd').innerText(), '1');
-    await screenshot('target-binding-created');
 
     await page.setViewportSize({ width: 1440, height: 1100 });
     await page.getByRole('button', { name: /Releases/ }).click();
@@ -75,7 +66,6 @@ test('browser completes target binding, format-3 review, deployment request, and
     await page.getByRole('region', { name: 'Immutable target' }).waitFor();
     await assert.doesNotReject(() => page.getByText('PROVISIONAL', { exact: true }).first().waitFor());
     assert.equal(await page.locator('body').innerText().then((body) => body.includes(f.credentialRef)), false);
-    await screenshot('format3-plan-prepared');
 
     await page.getByLabel('Sign out').click();
     await signIn(f.actors[1]);
@@ -85,7 +75,6 @@ test('browser completes target binding, format-3 review, deployment request, and
     await page.getByLabel('Decision reason').fill('Reviewed retained source and provisional target binding');
     await page.getByRole('button', { name: 'Approve plan', exact: true }).click();
     await page.getByRole('region', { name: 'Decision record' }).waitFor();
-    await screenshot('format3-plan-approved');
 
     await page.getByLabel('Sign out').click();
     await signIn(f.actors[2]);
@@ -95,7 +84,6 @@ test('browser completes target binding, format-3 review, deployment request, and
     await page.getByLabel('Request reason').fill('Request local deployment validation');
     await page.getByRole('button', { name: 'Request deployment', exact: true }).click();
     await page.getByText('WAITING VALIDATION', { exact: true }).waitFor();
-    await screenshot('deployment-request-recorded');
 
     const persistedBindingId = (await f.db.sql`SELECT id FROM sf_target_bindings WHERE project_id=${f.project.id}`)[0].id;
     const advanced = await f.setBindingToOption({ bindingId: persistedBindingId,
@@ -109,13 +97,11 @@ test('browser completes target binding, format-3 review, deployment request, and
     await page.locator(`.plan-option[data-plan-id="${planId}"]`).click();
     await page.getByText('Target currentness:', { exact: false }).waitFor();
     await page.getByText('STALE', { exact: true }).waitFor();
-    await screenshot('stale-plan-after-refresh');
     await page.getByRole('button', { name: /Audit & history/ }).click();
     await page.locator('.timeline-row').filter({ hasText: 'PLAN_CREATED' }).waitFor();
     await page.locator('.timeline-row').filter({ hasText: 'PLAN_APPROVED' }).waitFor();
     await page.locator('.timeline-row').filter({ hasText: 'EXECUTION_REQUESTED' }).waitFor();
     await page.getByText(/V1__target\.sql/).waitFor();
-    await screenshot('durable-audit-history-after-restart');
     assert.deepEqual(errors, [], 'the genuine browser workflow has no uncaught page errors');
     const jobEvents = await f.api('GET', `/api/projects/${f.project.id}/execution-jobs`);
     assert.equal(jobEvents.statusCode, 200);

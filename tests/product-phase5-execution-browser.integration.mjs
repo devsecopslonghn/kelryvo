@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {mkdir} from 'node:fs/promises';
 import {chromium} from 'playwright';
 import {createValidationFixture} from './helpers/schema-validation-fixture.mjs';
 import {createExecutionWorker} from '../apps/worker/run-request.ts';
@@ -17,7 +16,7 @@ test('browser manages schema-plan preflight, durable request, statement HOLD and
     await f.decide(plan);await f.membership.deployGrant(f.project.id,f.actors[0].id);
     browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];
     page.setDefaultTimeout(30000);page.setDefaultNavigationTimeout(30000);
-    page.on('pageerror',e=>errors.push(e.message));await mkdir('.cache/phase5-acceptance',{recursive:true});
+    page.on('pageerror',e=>errors.push(e.message));
     const signIn=async actor=>{
       await page.goto(f.currentUrl());await page.getByLabel('Local access token').fill(actor.token);
       await page.getByRole('button',{name:'Continue',exact:true}).click();await page.getByLabel('Sign out').waitFor();
@@ -30,7 +29,6 @@ test('browser manages schema-plan preflight, durable request, statement HOLD and
     await readiness.getByRole('button',{name:'Refresh readiness',exact:true}).click();
     await readiness.getByText('Governance checks allow a deployment request to be queued.',{exact:true}).waitFor();
     assert.match(await readiness.innerText(),/Oracle acceptance: not run/);
-    await page.screenshot({path:'.cache/phase5-acceptance/execution-preflight.png',fullPage:true});
     await page.getByLabel('Request reason').fill('Browser controlled execution request');
     await page.getByRole('button',{name:'Request deployment',exact:true}).click();
     await page.locator('.execution-job').filter({hasText:'Browser controlled execution request'}).waitFor();
@@ -62,9 +60,7 @@ test('browser manages schema-plan preflight, durable request, statement HOLD and
     await requestRow.getByRole('heading',{name:'Statement events',exact:true}).waitFor();
     assert.match(await requestRow.innerText(),/STARTED/);assert.match(await requestRow.innerText(),/Synthetic test evidence/);
     assert.match(await requestRow.innerText(),/Missing receipts do not prove whether a statement was applied/);
-    await page.screenshot({path:'.cache/phase5-acceptance/statement-hold.png',fullPage:true});
     await page.setViewportSize({width:390,height:844});
-    await page.screenshot({path:'.cache/phase5-acceptance/hold-mobile.png',fullPage:true});
     const overflow=await page.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,
       elements:[...document.querySelectorAll('body *')].filter(e=>e.getBoundingClientRect().right>innerWidth+1)
         .slice(-15).map(e=>({tag:e.tagName,className:e.className,width:e.getBoundingClientRect().width,text:e.textContent.slice(0,60)}))}));
@@ -93,7 +89,6 @@ test('browser manages schema-plan preflight, durable request, statement HOLD and
     await review.getByLabel('Review reason').fill('Independent review of retained evidence; target effects remain unverified');
     await review.getByRole('button',{name:'Record evidence reviewed',exact:true}).click();
     await review.getByText(/Independent review: EVIDENCE_REVIEWED/).waitFor();
-    await page.screenshot({path:'.cache/phase5-acceptance/independent-reconciliation.png',fullPage:true});
     assert.equal((await f.api('GET',`/api/execution-jobs/${job.id}`)).json().job.state,'HOLD');
     const reconciliation=(await f.api('GET',`/api/execution-jobs/${job.id}/reconciliations`)).json();
     assert.equal(reconciliation.retryEligible,false);assert.equal(reconciliation.reconciliations[0].decision.reviewerId,f.actors[1].id);
