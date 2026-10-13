@@ -137,6 +137,7 @@ test('source binding generations capture current configuration, preserve history
 
     const mismatchedRelease = await f.importRelease();
     const mismatched = await f.createPlan(mismatchedRelease);
+    await f.database.suspendRetainedEvidenceGuards();
     await f.database.sql`UPDATE sf_releases SET folder='migrations/altered' WHERE id=${mismatchedRelease.id}`;
     const beforeMismatch = await snapshotPlan(f.database, mismatched.id);
     const mismatchApproval = await f.request('POST', `/api/plans/${mismatched.id}/decision`, { decision: 'APPROVE', reason: 'Retained source facts are corrupt.' }, f.actors[1]);

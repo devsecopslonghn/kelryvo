@@ -184,6 +184,7 @@ test('SQL workspace drafts are project scoped, revision checked, durable and pre
 
     const malformedFiles = Array.from({ length: 129 }, (_, index) => ({ ...snapshot[0],
       path: `${release.folder}/V${index + 1}__bounded_corruption.sql`, version: String(index + 1) }));
+    await f.db.suspendRetainedEvidenceGuards();
     try {
       await f.db.sql`UPDATE sf_releases SET files=${f.db.sql.json(malformedFiles)} WHERE id=${release.id}`;
       const corruptRetry = await f.api('POST', `${base}/${draft.id}/prepare-release`, prepareBody);

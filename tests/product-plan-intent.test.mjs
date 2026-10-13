@@ -77,6 +77,7 @@ test('plan intent persists across API restart and damaged or legacy intent block
     assert.deepEqual(await snapshots(), beforeInvalidConfig);
     await database.sql`UPDATE sf_profiles SET credential_ref='vault://private/intentionally-literal' WHERE id=${profile.id}`;
     const originalFiles = (await database.sql`SELECT files FROM sf_releases WHERE id=${release.id}`)[0].files;
+    await database.suspendRetainedEvidenceGuards();
     const releaseBoundCases = [
       ['non-array release files', () => database.sql`UPDATE sf_releases SET files='{}'::jsonb WHERE id=${release.id}`],
       ['too many release files', () => database.sql`UPDATE sf_releases SET files=(SELECT jsonb_agg(jsonb_build_object('id','migration-'||n,'version','1','sha256',repeat('a',64),'raw','YQ==')) FROM generate_series(1,129) n) WHERE id=${release.id}`],
@@ -132,6 +133,7 @@ test('plan intent persists across API restart and damaged or legacy intent block
       engine: 'oracle', host: 'second.example.invalid', port: 1521, service: 'DEV2', username: 'APP2',
       credentialRef: 'vault://private/second' })).json().profile;
     const originalRelease = (await database.sql`SELECT commit_id,object_format,folder,parser_profile,manifest_digest FROM sf_releases WHERE id=${release.id}`)[0];
+    await database.suspendRetainedEvidenceGuards();
     const originalEnvelope = retained.offline_intent_envelope;
     const originalDigest = retained.offline_intent_digest;
     const integrityCases = [

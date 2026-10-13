@@ -57,11 +57,33 @@ export async function openIsolatedProductDatabase({ initialize = initializeDatab
     await initialize(sql);
 
     let closed = false;
+    // Corruption tests opt in explicitly; close/reopen restore every suspended guard first.
+    const disabledEvidenceTriggers = new Set();
     const result = {
       sql,
       databaseUrl: url,
+      suspendRetainedEvidenceGuards: async ({ releases = true, history = false, audits = false } = {}) => {
+        const requested = [
+          ...(releases ? [['sf_releases', 'sf_releases_immutable']] : []),
+          ...(history ? [['sf_history', 'sf_history_immutable']] : []),
+          ...(audits ? [['sf_audit', 'sf_audit_immutable']] : []),
+        ];
+        for (const [table, trigger] of requested) {
+          if (disabledEvidenceTriggers.has(trigger)) continue;
+          await sql`ALTER TABLE ${sql(table)} DISABLE TRIGGER ${sql(trigger)}`;
+          disabledEvidenceTriggers.add(trigger);
+        }
+      },
+      restoreRetainedEvidenceGuards: async () => {
+        for (const [table, trigger] of [['sf_releases', 'sf_releases_immutable'], ['sf_history', 'sf_history_immutable'], ['sf_audit', 'sf_audit_immutable']]) {
+          if (!disabledEvidenceTriggers.has(trigger)) continue;
+          await sql`ALTER TABLE ${sql(table)} ENABLE TRIGGER ${sql(trigger)}`;
+          disabledEvidenceTriggers.delete(trigger);
+        }
+      },
       reopen: async () => {
         if (closed) throw new Error("test_database_closed");
+        await result.restoreRetainedEvidenceGuards();
         await sql.end({ timeout: 2 });
         sql = postgres(url, { max: 4, onnotice: () => {} });
         result.sql = sql;
@@ -71,8 +93,10 @@ export async function openIsolatedProductDatabase({ initialize = initializeDatab
       close: async () => {
         if (closed) return;
         closed = true;
-        try { await sql.end({ timeout: 2 }); }
-        finally { await dropOwnedDatabase(baseUrl, name); }
+        try { await result.restoreRetainedEvidenceGuards(); }
+        finally { try { await sql.end({ timeout: 2 }); }
+          finally { await dropOwnedDatabase(baseUrl, name); }
+        }
       },
     };
     return result;

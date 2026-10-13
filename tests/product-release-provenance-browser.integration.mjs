@@ -119,6 +119,7 @@ test('release inspection shows persisted provenance and retained SQL after Git b
     assert.ok(await displayed('Imported'));
     assert.equal(await panel.locator('.release-provenance time').getAttribute('dateTime'), stored.createdAt);
     const historical = (await database.sql`SELECT validation_status,validation_code,files FROM sf_releases WHERE id=${releaseId}`)[0];
+    await database.suspendRetainedEvidenceGuards();
     const historicalFiles = structuredClone(historical.files);
     historicalFiles[0].validationStatus = 'NOT_VALIDATED';
     historicalFiles[0].statementCount = null;

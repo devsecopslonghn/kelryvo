@@ -74,6 +74,7 @@ test('audit action filters preserve project scope, server order, archived reads 
     const staleAction = (await database.sql`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
       VALUES(${second.id},${ORG},${actors[0].id},'STALE_TEST_EVENT',${second.id},'{}'::jsonb) RETURNING id`)[0];
     const empty = await createProject(`Empty audit events ${randomUUID()}`);
+    await database.suspendRetainedEvidenceGuards({ releases: false, audits: true });
     await database.sql`DELETE FROM sf_audit WHERE project_id=${empty.id}`;
     const evictedProject = await createProject(`Evicted audit project ${randomUUID()}`);
     const read = async (project, actor = actors[0]) => {

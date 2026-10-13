@@ -287,6 +287,7 @@ test('durable deployment requests are idempotent, scoped, withdrawable and membe
     assert.equal(oversizedPlanPayload.json().error,'PLAN_NOT_REQUESTABLE');
     await db.sql`UPDATE sf_plans SET items=${db.sql.json(retainedItems)} WHERE id=${plan.id}`;
     const retainedFiles=(await db.sql`SELECT files FROM sf_releases WHERE id=${release.id}`)[0].files;
+    await db.suspendRetainedEvidenceGuards();
     await db.sql`UPDATE sf_releases SET files='{}'::jsonb WHERE id=${release.id}`;
     const invalidRetainedPayload=await request('POST',`/api/plans/${plan.id}/execution`,{ idempotencyKey:'bounded-release-payload-key-01',reason:'bounded release payload' });
     assert.equal(invalidRetainedPayload.statusCode,409);

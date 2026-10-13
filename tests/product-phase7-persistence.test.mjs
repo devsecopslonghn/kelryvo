@@ -19,6 +19,9 @@ test('Native backup preserves SQL revisions and release attribution, while resto
   try {
     // Model an existing Phase 7 catalog and exercise the additive upgrade before backup.
     await f.source.sql`DROP TRIGGER sf_plan_source_comparison_immutable ON sf_audit`;
+    await f.source.sql`DROP TRIGGER sf_audit_immutable ON sf_audit`;
+    await f.source.sql`DROP TRIGGER sf_releases_immutable ON sf_releases`;
+    await f.source.sql`DROP TRIGGER sf_history_immutable ON sf_history`;
     await f.source.sql`DROP TABLE sf_sql_workspace_releases`;
     await f.source.sql`DROP TABLE sf_sql_draft_revisions`;
     await f.source.sql.unsafe(`CREATE TABLE sf_sql_draft_revisions (
@@ -42,6 +45,29 @@ test('Native backup preserves SQL revisions and release attribution, while resto
     const historicalSchema=await inspectBackupSchema(f.source.sql,{phase7:true});
     assert.equal(historicalSchema.signature,'d22b31c5bebfc07d7668f3201a5934eeaa4c48111a8fb64ee60721e822205cb4');
     await initializeDatabase(f.source.sql);
+    const historyId=(await f.source.sql`SELECT id FROM sf_history WHERE project_id=${f.project.id} ORDER BY created_at,id LIMIT 1`)[0]?.id;
+    const auditId=(await f.source.sql`SELECT id FROM sf_audit WHERE project_id=${f.project.id} AND action<>'PLAN_SOURCE_COMPARED' ORDER BY created_at,id LIMIT 1`)[0]?.id;
+    assert.ok(historyId,'fixture retains migration history before the additive guard upgrade');
+    assert.ok(auditId,'fixture retains ordinary audit facts before the additive guard upgrade');
+    await assert.rejects(f.source.sql`UPDATE sf_releases SET manifest_digest=${'0'.repeat(64)} WHERE id=${f.release.id}`,/immutable/,
+      'the additive upgrade protects existing retained releases');
+    await assert.rejects(f.source.sql`DELETE FROM sf_releases WHERE id=${f.release.id}`,/immutable/);
+    await assert.rejects(f.source.sql`UPDATE sf_history SET path='changed.sql' WHERE id=${historyId}`,/immutable/,
+      'the additive upgrade protects existing migration history');
+    await assert.rejects(f.source.sql`DELETE FROM sf_history WHERE id=${historyId}`,/immutable/);
+    await assert.rejects(f.source.sql`UPDATE sf_audit SET facts='{"changed":true}'::jsonb WHERE id=${auditId}`,/immutable/,
+      'the additive upgrade protects existing timeline audit facts');
+    await assert.rejects(f.source.sql`DELETE FROM sf_audit WHERE id=${auditId}`,/immutable/);
+    const reopenedSql=postgres(f.source.databaseUrl,{max:2,onnotice:()=>{}});
+    try {
+      await initializeDatabase(reopenedSql);
+      await assert.rejects(reopenedSql`UPDATE sf_releases SET manifest_digest=${'0'.repeat(64)} WHERE id=${f.release.id}`,/immutable/,
+        'reinitializing from a fresh connection keeps the release guard installed');
+      await assert.rejects(reopenedSql`UPDATE sf_history SET path='changed.sql' WHERE id=${historyId}`,/immutable/,
+        'reinitializing from a fresh connection keeps the history guard installed');
+      await assert.rejects(reopenedSql`UPDATE sf_audit SET facts='{"changed":true}'::jsonb WHERE id=${auditId}`,/immutable/,
+        'reinitializing from a fresh connection keeps the audit guard installed');
+    } finally { await reopenedSql.end({timeout:2}); }
     const sql=f.source.sql,draftId=randomUUID(),bindingId=randomUUID();
     const source=(await sql`SELECT files FROM sf_releases WHERE id=${f.release.id}`)[0].files[0].content;
     const sha=createHash('sha256').update(source).digest('hex');
@@ -68,6 +94,14 @@ test('Native backup preserves SQL revisions and release attribution, while resto
     const before=await Promise.all(SQL_WORKSPACE_TABLES.map(table=>tableSnapshot(sql,table)));
     const restored=await f.restore();
     assert.deepEqual(await Promise.all(SQL_WORKSPACE_TABLES.map(table=>tableSnapshot(restored.sql,table))),before);
+    await assert.rejects(restored.sql`UPDATE sf_releases SET manifest_digest=${'0'.repeat(64)} WHERE id=${f.release.id}`,/immutable/,
+      'backup and restore preserve the retained release guard');
+    const restoredHistory=(await restored.sql`SELECT id FROM sf_history WHERE project_id=${f.project.id} LIMIT 1`)[0]?.id;
+    assert.ok(restoredHistory,'backup retains migration history rows');
+    await assert.rejects(restored.sql`DELETE FROM sf_history WHERE id=${restoredHistory}`,/immutable/,
+      'backup and restore preserve the migration history guard');
+    await assert.rejects(restored.sql`UPDATE sf_audit SET facts='{"changed":true}'::jsonb WHERE id=${auditId}`,/immutable/,
+      'backup and restore preserve the audit fact guard');
     await assert.rejects(restored.sql`UPDATE sf_sql_draft_revisions SET sql='changed' WHERE draft_id=${draftId}`,/immutable/);
     await assert.rejects(restored.sql`DELETE FROM sf_sql_workspace_releases WHERE release_id=${f.release.id}`,/immutable/);
     app=createApp({sql:restored.sql,actors:restored.actors,repositories:f.repositories});
@@ -97,7 +131,7 @@ test('A Phase 5 native backup restores without schema rewriting and then adds th
 },async()=>{
   const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeSqlWorkspace:false})});
   const directory=await mkdtemp(path.join(process.cwd(),'.cache','phase7-backup-compat-'));
-  let restoredSql,restoredName,phase7RestoredSql,phase7RestoredName;
+  let restoredSql,restoredName,phase7RestoredSql,phase7RestoredName,preGuardRestoredSql,preGuardRestoredName;
   try {
     const secret=randomBytes(32).toString('hex'),configPath=path.join(directory,'operator-config.json');
     await writeFile(configPath,JSON.stringify({databasePassword:secret,developerToken:'1'.repeat(64),approverToken:'2'.repeat(64)})+'\n',{mode:0o600});
@@ -114,6 +148,9 @@ test('A Phase 5 native backup restores without schema rewriting and then adds th
     for(const table of SQL_WORKSPACE_TABLES)assert.equal(await tableSnapshot(restoredSql,table),'[]');
     assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
     await initializeDatabase(source.sql,{sqlWorkspaceVersion:1});
+    await source.sql`DROP TRIGGER sf_audit_immutable ON sf_audit`;
+    await source.sql`DROP TRIGGER sf_releases_immutable ON sf_releases`;
+    await source.sql`DROP TRIGGER sf_history_immutable ON sf_history`;
     const phase7BackupDirectory=path.join(directory,'phase7-backup'),phase7WitnessPath=path.join(directory,'phase7-witness.json');
     await createPrivateBackup({configPath,databaseUrl,destination:phase7BackupDirectory,witnessPath:phase7WitnessPath});
     const phase7Manifest=JSON.parse(await readFile(path.join(phase7BackupDirectory,'manifest.json'),'utf8'));
@@ -124,11 +161,34 @@ test('A Phase 5 native backup restores without schema rewriting and then adds th
     const upgradedColumn=(await phase7RestoredSql`SELECT column_name FROM information_schema.columns WHERE table_name='sf_sql_draft_revisions' AND column_name='manifest_version'`)[0];
     assert.equal(upgradedColumn.column_name,'manifest_version','a previous Phase 7 backup is loaded into its exact old schema then upgraded');
     assert.equal((await phase7RestoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
+
+    await initializeDatabase(source.sql);
+    await source.sql`DROP TRIGGER sf_releases_immutable ON sf_releases`;
+    await source.sql`DROP TRIGGER sf_history_immutable ON sf_history`;
+    await source.sql`DROP TRIGGER sf_audit_immutable ON sf_audit`;
+    const preGuardSchema=await inspectBackupSchema(source.sql);
+    assert.equal(preGuardSchema.signature,'f13a607a283262b21999c74dffa5abdfb5710b0d6cfbcb90f2af3721a0a488b1');
+    const preGuardBackupDirectory=path.join(directory,'pre-guard-backup'),preGuardWitnessPath=path.join(directory,'pre-guard-witness.json');
+    await createPrivateBackup({configPath,databaseUrl,destination:preGuardBackupDirectory,witnessPath:preGuardWitnessPath});
+    const preGuardManifest=JSON.parse(await readFile(path.join(preGuardBackupDirectory,'manifest.json'),'utf8'));
+    assert.equal(preGuardManifest.schema.signature,preGuardSchema.signature);
+    const preGuardRestored=await restorePrivateBackup({configPath,databaseUrl,backupDirectory:preGuardBackupDirectory,witnessPath:preGuardWitnessPath});
+    preGuardRestoredName=preGuardRestored.databaseName;
+    preGuardRestoredSql=postgres(preGuardRestored.databaseUrl,{max:2,onnotice:()=>{}});
+    assert.equal((await preGuardRestoredSql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name,'Preserved Phase 5 project');
+    const restoredGuards=await preGuardRestoredSql`SELECT tgname,tgenabled FROM pg_trigger
+      WHERE tgname IN ('sf_releases_immutable','sf_history_immutable','sf_audit_immutable') ORDER BY tgname`;
+    assert.deepEqual(restoredGuards.map(row=>[row.tgname,row.tgenabled]),[
+      ['sf_audit_immutable','O'],['sf_history_immutable','O'],['sf_releases_immutable','O'],
+    ],'a Phase 8/9 backup receives all retained evidence guards after exact-schema restoration');
+    assert.equal((await preGuardRestoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
   } finally {
     await restoredSql?.end({timeout:2});
     await phase7RestoredSql?.end({timeout:2});
+    await preGuardRestoredSql?.end({timeout:2});
     if(restoredName){const admin=postgres(source.databaseUrl,{max:1,onnotice:()=>{}});try{await admin.unsafe(`DROP DATABASE "${restoredName}" WITH (FORCE)`);}finally{await admin.end({timeout:2});}}
     if(phase7RestoredName){const admin=postgres(source.databaseUrl,{max:1,onnotice:()=>{}});try{await admin.unsafe(`DROP DATABASE "${phase7RestoredName}" WITH (FORCE)`);}finally{await admin.end({timeout:2});}}
+    if(preGuardRestoredName){const admin=postgres(source.databaseUrl,{max:1,onnotice:()=>{}});try{await admin.unsafe(`DROP DATABASE "${preGuardRestoredName}" WITH (FORCE)`);}finally{await admin.end({timeout:2});}}
     await source.close();await rm(directory,{recursive:true,force:true});
   }
 });
