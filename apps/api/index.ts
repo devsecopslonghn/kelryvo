@@ -1364,7 +1364,6 @@ export function createApp(options: {
           const target = (await tx`SELECT retired_at FROM sf_profiles WHERE id=${p.profile_id}
             AND project_id=${p.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
           if (target?.retired_at) return 'PROFILE_RETIRED';
-          if (!await profilePlanCurrent(tx,p.id)) return 'FRESH_PLAN_REQUIRED';
           if (!currentProject || !currentProject.source_repository_id || !validMigrationFolder(currentProject.source_folder)
               || !canonicalBindingGeneration(currentProject.source_binding_generation)
               || !canonicalBindingGeneration(p.source_binding_generation)

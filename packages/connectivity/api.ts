@@ -152,7 +152,7 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
       await guard(tx,req,true);const c=await connection(tx,req);
       if(c.retired_at)throw fail('CONNECTION_RETIRED');
       if((await tx`SELECT 1 FROM sf_execution_jobs j JOIN sf_plans p ON p.id=j.plan_id JOIN sf_target_option_revisions r ON r.profile_id=p.profile_id
-        JOIN sf_target_identity_evidence e ON e.digest=r.observation_digest WHERE e.connection_id=${c.id} AND j.state IN ('ADMITTED','HOLD') LIMIT 1`)[0])throw fail('CONNECTION_EXECUTION_ACTIVE');
+        JOIN sf_target_identity_evidence e ON e.digest=r.observation_digest WHERE e.connection_id=${c.id} AND j.state='ADMITTED' LIMIT 1`)[0])throw fail('CONNECTION_EXECUTION_ACTIVE');
       await tx`UPDATE sf_database_connections SET retired_at=clock_timestamp(),retirement_reason=${req.body.reason.trim()} WHERE id=${c.id}`;
       await audited(tx,req,'CONNECTION_RETIRED',c.id,{});return {retired:true};
     });

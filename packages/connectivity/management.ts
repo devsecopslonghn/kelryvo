@@ -121,9 +121,11 @@ export function registerConnectionManagement(app:any,{sql,authenticate}:any) {
       }
       if(c.retired_at)throw fail('CONNECTION_RETIRED');
       const active=kind==='DEPLOY'
-        ? (await tx`SELECT 1 FROM sf_execution_jobs j JOIN sf_plans p ON p.id=j.plan_id WHERE p.profile_id=${c.id} AND j.state IN ('ADMITTED','HOLD') LIMIT 1`)[0]
+        ? (await tx`SELECT 1 FROM sf_execution_jobs j JOIN sf_plans p ON p.id=j.plan_id WHERE p.profile_id=${c.id}
+            AND (j.state='ADMITTED' OR j.state='HOLD' AND ${b.action!=='RETIRE'}) LIMIT 1`)[0]
         : (await tx`SELECT 1 FROM sf_execution_jobs j JOIN sf_plans p ON p.id=j.plan_id JOIN sf_target_option_revisions r ON r.profile_id=p.profile_id
-            JOIN sf_target_identity_evidence e ON e.digest=r.observation_digest WHERE e.connection_id=${c.id} AND j.state IN ('ADMITTED','HOLD') LIMIT 1`)[0];
+            JOIN sf_target_identity_evidence e ON e.digest=r.observation_digest WHERE e.connection_id=${c.id}
+            AND (j.state='ADMITTED' OR j.state='HOLD' AND ${b.action!=='RETIRE'}) LIMIT 1`)[0];
       if(active)throw fail('CONNECTION_EXECUTION_ACTIVE');
       let updated,action;
       if(operation==='configuration'){

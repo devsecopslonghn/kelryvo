@@ -1324,13 +1324,16 @@ container, retaining all earlier routes. Connection list queries accept `search`
 Every configuration/lifecycle mutation advances its revision, records immutable private
 reference-only snapshots and appends sanitized audit facts. Stale writers receive
 `409 CONNECTION_REVISION_CONFLICT`; refreshing details allows an explicit new edit.
-Retirement requires UI confirmation and preserves history. Admitted or unresolved HOLD
-execution blocks edits and lifecycle changes. Disable/retire blocks new plans,
+Retirement requires UI confirmation and preserves history. Admitted execution blocks
+edits and lifecycle changes; HOLD additionally blocks edits and enable/disable. The
+existing permanent-retirement contract permits retirement after execution enters HOLD,
+while retaining all uncertainty and recovery evidence. Disable/retire blocks new plans,
 discovery operations and request/admission eligibility. Enabling or restoring earlier
 values cannot revive old approval: retained profile/observation revisions remain stale,
 and a trusted operator must configure fresh target option/binding evidence before a
 fresh plan and independent approval. Existing plan envelopes, approvals and audit are
-never rewritten.
+never rewritten. Legacy unbound offline review can still approve its original retained
+facts after configuration changes; deployment requests and admission stay blocked.
 
 Readiness distinguishes `CONFIGURED`, `PREFLIGHT_PASSED`, `CONNECTED_VERIFIED`,
 `UNVERIFIED` and `FAILED`. Checks cover completeness, credential reference presence,

@@ -127,6 +127,13 @@ test('plan intent persists across API restart and damaged or legacy intent block
     assert.equal(registryFreeApproval.json().plan.status, 'APPROVED');
     assert.equal(registryFreeApproval.json().plan.offlineIntent.digest, racedPlan.offlineIntent.digest);
     assert.equal(registryFreeApproval.json().plan.offlineIntent.host, 'race.example.invalid');
+    await membership.deployGrant(project.id, actors[0].id);
+    const staleLegacyRequest=await request('POST',`/api/plans/${racedPlan.id}/execution`,{
+      idempotencyKey:'legacy-profile-revision-changed',reason:'Retained offline review cannot authorize the changed route',
+    });
+    assert.equal(staleLegacyRequest.statusCode,409,staleLegacyRequest.body);
+    assert.equal(staleLegacyRequest.json().error,'FRESH_PLAN_REQUIRED',
+      'legacy offline approval retains its original meaning while changed profile revisions block deployment');
     assert.equal((await request('GET', base)).json().profiles.find((item) => item.id === profile.id).host,
       'changed-after-freeze.example.invalid');
     const secondProfile = (await request('POST', `${base}/profiles`, { name: 'Second offline target', environmentId: env.id,

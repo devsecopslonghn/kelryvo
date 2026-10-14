@@ -83,8 +83,8 @@ test('Phase 5 native backup retains reconciliation evidence and decision; restor
 });
 
 for (const prior of [
-  { phase: 4, options: { initializeReconciliation: false }, signature: 'c571e10e7f1090403a68d2370eff35b17eb15776ae8f1bb166a404961f6cb1cf' },
-  { phase: 10, options: { installReconciliationBindingGuards: false }, signature: 'd36aeb9ad7393e063c153da5c4ee5250fd9d1a081953b95b978c1ba33cb6e599' },
+  { phase: 4, options: { initializeReconciliation: false, initializeConnectionManagement:false }, signature: 'c571e10e7f1090403a68d2370eff35b17eb15776ae8f1bb166a404961f6cb1cf' },
+  { phase: 10, options: { installReconciliationBindingGuards: false, initializeConnectionManagement:false }, signature: 'd36aeb9ad7393e063c153da5c4ee5250fd9d1a081953b95b978c1ba33cb6e599' },
 ]) test(`Phase ${prior.phase} native backup inventory restores and upgrades to current reconciliation guards`, {
   skip: !enabled, timeout: 180_000,
 }, async () => {
