@@ -1439,8 +1439,14 @@ both manifest generations and source attribution, and restore retains recovery H
 The editor applies the saved name returned by the API, preserves its current content
 when a file response is incomplete, and clears comparisons when the selected revisions
 change. Revision conflicts preserve local edits while the user inspects the latest saved
-revision and explicitly keeps or discards them; keeping edits requires a subsequent
-revision-checked save. File removal can be undone, and dirty drafts block project changes,
+revision. Reconciliation compares the cached saved base, local editor and latest manifest
+by immutable file ID: independent file changes are combined, while overlapping edits,
+renames, removals, names and targets require explicit choices. SQL text is never merged.
+Duplicate filenames or canonical migration versions, file-count and SQL-size limits block
+applying the result until resolved. Explicitly excluded files survive in prior revisions.
+**Apply reconciliation to editor** stages the result without a write; **Save draft** uses
+the latest expected revision. Another concurrent save produces a new conflict and retains
+the staged edits for another inspection. File removal can be undone, and dirty drafts block project changes,
 refresh and manual sign-out. The workspace displays active files, per-file unsaved changes
 and the current lifecycle stage with guidance for the next action.
 

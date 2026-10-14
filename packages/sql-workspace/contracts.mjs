@@ -1,5 +1,59 @@
 export const SQL_DRAFT_MAX_BYTES = 1_048_576;
 
+export function migrationFileVersion(path) {
+  if(typeof path!=='string' || path.length>200)return null;
+  const match=typeof path==='string' && /^V(\d+(?:[._]\d+)*)__[A-Za-z0-9_-]+\.sql$/.exec(path);
+  if(!match)return null;
+  const parts=match[1].split(/[._]/).map(part=>BigInt(part).toString());
+  while(parts.length>1 && parts.at(-1)==='0')parts.pop();
+  return parts.join('.');
+}
+
+export function compareMigrationFiles(a,b) {
+  const av=(migrationFileVersion(a.path) || '0').split('.').map(BigInt),bv=(migrationFileVersion(b.path) || '0').split('.').map(BigInt);
+  for(let i=0;i<Math.max(av.length,bv.length);i++){const x=av[i]??0n,y=bv[i]??0n;if(x!==y)return x<y?-1:1;}
+  return a.path.localeCompare(b.path);
+}
+
+/** Reconcile whole files and metadata; never merge SQL text or persist choices. */
+export function reconcileDraftConflict(base,local,remote,choices={},excludedIds=[]) {
+  const conflicts=[],files=[];
+  const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+  const pick=(key,label,b,l,r)=>{
+    if(same(l,r))return l;
+    if(same(l,b))return r;
+    if(same(r,b))return l;
+    conflicts.push({key,label,base:b,local:l,remote:r});
+    return choices[key]==='local'?l:choices[key]==='remote'?r:undefined;
+  };
+  const map=rows=>new Map(rows.map(({id,path,sql})=>[id,{id,path,sql}]));
+  const b=map(base.files),l=map(local.files),r=map(remote.files);
+  for(const id of new Set([...b.keys(),...l.keys(),...r.keys()])){
+    const file=pick(`file:${id}`,l.get(id)?.path || r.get(id)?.path || b.get(id)?.path,b.get(id)??null,l.get(id)??null,r.get(id)??null);
+    if(file)files.push(file);
+  }
+  const name=pick('name','Draft name',base.name,local.name,remote.name);
+  const targetBindingId=pick('target','Database target',base.targetBindingId,local.targetBindingId,remote.targetBindingId);
+  const selected=files.filter(file=>!excludedIds.includes(file.id));
+  const issues=[],versions=new Map(),paths=new Map();
+  let bytes=0;
+  for(const file of selected){
+    const version=migrationFileVersion(file.path);
+    if(!version || file.path.length>200)issues.push(`Invalid migration filename: ${file.path}`);
+    if(paths.has(file.path))issues.push(`Duplicate migration filename: ${file.path}`);
+    if(version && versions.has(version))issues.push(`Duplicate migration version: ${version}`);
+    paths.set(file.path,file.id);if(version)versions.set(version,file.id);
+    bytes+=new TextEncoder().encode(file.sql).length;
+  }
+  if(!selected.length || selected.length>128)issues.push('A draft must contain 1–128 files.');
+  if(bytes>SQL_DRAFT_MAX_BYTES)issues.push('Combined SQL exceeds the 1 MiB draft limit.');
+  if(name!==undefined && (typeof name!=='string' || !name.trim() || name.length>200 || /[\u0000-\u001f\u007f]/.test(name)))issues.push('Enter a valid draft name.');
+  if(targetBindingId!==undefined && !isUuid(targetBindingId))issues.push('Choose an authorized database target.');
+  selected.sort(compareMigrationFiles);
+  const unresolved=conflicts.filter(c=>!['local','remote'].includes(choices[c.key]));
+  return {name,targetBindingId,files:selected,candidates:files,conflicts,issues,ready:!unresolved.length && !issues.length};
+}
+
 export function draftPath(projectId, draftId) {
   if (!isUuid(projectId) || (draftId !== undefined && !isUuid(draftId))) throw new TypeError('Invalid SQL draft identity');
   return `/api/projects/${encodeURIComponent(projectId)}/sql-drafts${draftId ? `/${encodeURIComponent(draftId)}` : ''}`;
@@ -12,13 +66,13 @@ export function validateDraft(draft) {
   if (draft.manifestVersion !== undefined && ![1, 2].includes(draft.manifestVersion)) return false;
   if (draft.files !== undefined) {
     if (!Array.isArray(draft.files) || draft.files.length < 1 || draft.files.length > 128) return false;
-    const ids = new Set(), paths = new Set();
+    const ids = new Set(), paths = new Set(), versions = new Set();
     let bytes = 0;
     for (const file of draft.files) {
       if (!file || !isUuid(file.id) || typeof file.path !== 'string' || file.path.length > 200
-          || !/^V\d+(?:[._]\d+)*__[A-Za-z0-9_-]+\.sql$/.test(file.path)
-          || typeof file.sql !== 'string' || ids.has(file.id) || paths.has(file.path)) return false;
-      ids.add(file.id); paths.add(file.path);
+          || !migrationFileVersion(file.path)
+          || typeof file.sql !== 'string' || ids.has(file.id) || paths.has(file.path) || versions.has(migrationFileVersion(file.path))) return false;
+      ids.add(file.id); paths.add(file.path);versions.add(migrationFileVersion(file.path));
       bytes += new TextEncoder().encode(file.sql).length;
       if (bytes > SQL_DRAFT_MAX_BYTES) return false;
     }

@@ -8,19 +8,14 @@ import { buildValidation, readSchemaEvidence, validationFailure } from '../sql-v
 import { prepareAuthoredSnapshot } from '../migrations/authored-snapshot.mjs';
 import { preflightHistoricalRelease } from '../migrations/retained-release-preflight.mjs';
 import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs';
+import { migrationFileVersion, compareMigrationFiles } from './contracts.mjs';
 
 const MAX_SQL_BYTES = 1_048_576;
 const MAX_DRAFT_FILES = 128;
 const uuid = (value: any) => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 const revision = (value: any) => typeof value === 'string' && /^[1-9][0-9]{0,18}$/.test(value) && BigInt(value) <= 9223372036854775807n;
 const hash = (value: string) => createHash('sha256').update(value, 'utf8').digest('hex');
-const fileVersion = (path: string) => {
-  const match = /^V(\d+(?:[._]\d+)*)__[A-Za-z0-9_-]+\.sql$/.exec(path);
-  if (!match) return null;
-  const parts = match[1].split(/[._]/).map(part => BigInt(part).toString());
-  while (parts.length > 1 && parts.at(-1) === '0') parts.pop();
-  return parts.join('.');
-};
+const fileVersion = migrationFileVersion;
 const aggregateFilesHash = (files: any[]) => hash(JSON.stringify(files.map(file => ({
   id: file.id, path: file.path, version: file.version, order: file.order, sha256: file.sha256,
 }))));
@@ -61,11 +56,7 @@ const normalizeFiles = (input: any, requireIds = false, stored = false) => {
     ids.add(id); paths.add(entry.path); versions.add(version);
     files.push({ id, path: entry.path, version, order: 0, sql: entry.sql, sha256 });
   }
-  files.sort((a,b) => {
-    const av=a.version.split('.').map(BigInt),bv=b.version.split('.').map(BigInt);
-    for(let i=0;i<Math.max(av.length,bv.length);i++){const x=av[i]??0n,y=bv[i]??0n;if(x!==y)return x<y?-1:1;}
-    return a.path.localeCompare(b.path);
-  });
+  files.sort(compareMigrationFiles);
   files.forEach((file,index)=>file.order=index);
   return files;
 };
