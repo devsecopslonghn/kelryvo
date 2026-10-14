@@ -1,8 +1,9 @@
 # Disposable Oracle execution acceptance
 
 Live Oracle execution acceptance remains **NOT_RUN**. The owner-authorized live
-qualification below exercised connectivity, metadata and partial application workflows;
-it did not install a writer or execute a governed migration. Fixture discovery,
+qualification below exercised connectivity, accepted read-only identity, metadata,
+baseline/drift and partial application workflows. Purpose accounts and protected
+ledger/mutex objects were prepared; no governed migration has executed. Fixture discovery,
 UNIT_SYNTHETIC workers and PostgreSQL tests do not establish Oracle migration effects.
 
 This bounded suite uses the existing Oracle provider, target ledger and session
@@ -12,6 +13,9 @@ accounts; an independent reviewer evaluates retained evidence. The application
 operator installs the private trusted worker only after these prerequisites pass.
 
 ## Live qualification on 2026-10-14
+
+The initial phase below predates the purpose-separated follow-up. Its unchanged-grant
+and cleanup statements describe that phase only.
 
 [Sanitized results](../../evidence/product/oracle-lab-qualification-20261014/acceptance.json)
 retain the tested source, checks and limitations. The owner approved a separate
@@ -39,6 +43,50 @@ All owned prefixed fixture objects were removed; the application object inventor
 matched its initial state, and effective privileges remained unchanged. PVC free capacity was
 929 MiB before and after the run (4 GiB claim). The lab remains intact for remaining
 acceptance. Raw identities, routes, manifests, SQL and backups remain private.
+
+## Purpose-separated follow-up on 2026-10-14
+
+[Follow-up evidence](../../evidence/product/oracle-lab-qualification-20261014/followup.json)
+records the owner's subsequent authorization to create dedicated lab accounts and
+scoped grants. Four distinct discovery, writer, protected execution-owner and observer
+sessions passed bounded privilege/denial probes. The installed ledger trigger rejected
+mutation, and the real target mutex excluded another writer session across COMMIT.
+These direct qualification probes do not establish governed migration acceptance.
+
+An independent reviewer accepted the actual isolated read-only adapter within three
+explicit owner scopes, on both supplied service spellings. Exact database/PDB/service/
+version identity, route pins, expiry and actual grants matched. Discovery remains
+`PARTIAL` solely for metadata visibility outside the accepted scopes.
+
+The positive API/Chromium run passed 11 bounded checks: registration/connectivity,
+accepted identity, observe/verify binding revisions, stale/wrong-digest rejection,
+immutable observations, identity-bound partial snapshots/baselines, independent plan
+approval and application restart. A second run passed 15 checks, including actual
+fixture ALTER/add/remove, `MODIFIED` differences with unverified absence, permanent
+old-plan staleness after restoring structure, and pagination of 51 real snapshots and
+101 named baselines. The runs overlap; their counts are not distinct full contracts.
+
+[PR #105](https://github.com/devsecopslonghn/kelryvo/pull/105) fixed a confirmed provider
+defect that dropped the governed execution target before private authorization/binding.
+It preserves a detached frozen target and rejects changed or non-finite target facts.
+Independent review, 62 focused host/provider tests and the complete local check passed;
+hosted checks passed before merge `f0a1fe2e843ca9810e15fc34acf13d25a665ecd4`.
+
+A bounded failure run also exercised one real invalid-password attempt, missing
+private Secret, mismatched expected version and retired connections. The missing-Secret
+case reproduced an incorrect endpoint diagnostic; [PR #106](https://github.com/devsecopslonghn/kelryvo/pull/106)
+now returns `SECRET_UNAVAILABLE` after route authorization. Independent review, 23
+focused discovery tests, the complete local check and hosted CI passed before merge
+`e00f4d48098bb98d3edf7d8d76f7063da71d500b`. The failed run remains retained;
+the follow-up reran only remaining cases and confirmed good reader connectivity.
+
+R1/R2 complete negative, visibility/concurrency and browser matrices remain incomplete.
+R3/OA01–OA10 and Oracle worker/fault/recovery cases remain **NOT_RUN** as complete
+contracts. The private execution installation is still under review. Two scoped
+application discovery fixtures remain; controlled drift was restored with acknowledged
+DDL. The fresh worker schema was independently observed entirely empty after its
+temporary discovery anchor was removed. Existing application privileges remain
+unchanged, PVC free capacity remains 929 MiB, and the lab must remain for further work.
 
 ## Entry gate
 
