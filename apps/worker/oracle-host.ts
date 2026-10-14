@@ -83,7 +83,8 @@ function snapshotRequest(input: OracleHostRequest): OracleHostRequest | null {
         || !executionUuid(executionTarget.assignmentId) || !digest(executionTarget.expectedIdentityDigest)
         || typeof executionTarget.exactOwner !== 'string' || executionTarget.exactOwner.length < 1
         || executionTarget.exactOwner.length > 128 || JSON.stringify(executionTarget).length > 8192
-        || Object.values(executionTarget).some(v => v !== null && !['string','number','boolean'].includes(typeof v)))) return null;
+        || Object.values(executionTarget).some(v => v !== null && (!['string','number','boolean'].includes(typeof v)
+          || typeof v === 'number' && !Number.isFinite(v))))) return null;
     return Object.freeze({ jobId:input.jobId,planId:input.planId,approvalReference:input.approvalReference,intentDigest:input.intentDigest,
       profile,migrations:Object.freeze(migrations),statementDigests:Object.freeze(statements),
       ...(executionTarget ? {executionTarget:Object.freeze({...executionTarget})} : {}) });
