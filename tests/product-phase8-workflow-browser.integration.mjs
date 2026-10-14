@@ -96,6 +96,10 @@ test('Phase 8 journey authors ordered multi-file SQL and retains plan-bound comp
     const sourceLink=validationFindings.getByRole('button',{name:/Open SQL source.*V2__indexes.sql/}).last();
     await sourceLink.click();
     assert.equal(await workspace.getByLabel('Migration filename').inputValue(),'V2__indexes.sql');
+    await page.waitForFunction(()=>{
+      const editor=document.querySelector('.sql-workspace textarea[aria-label="SQL editor"]');
+      return editor && /ALTER TABLE phase8_authored/.test(editor.value.slice(editor.selectionStart,editor.selectionEnd));
+    });
     const selectedSql=await workspace.getByLabel('SQL editor').evaluate(el=>el.value.slice(el.selectionStart,el.selectionEnd));
     assert.match(selectedSql,/ALTER TABLE phase8_authored/,'finding selects exact statement bytes after a UTF-8 comment');
     const validationPattern=`**/api/projects/${f.project.id}/releases/*/validations`;
