@@ -158,7 +158,38 @@ button:disabled {
 .target-observation { display: grid; gap: 10px; }
 .target-observation p { margin: 0; color: var(--muted); }
 .target-observation > small { color: var(--muted); }
+.connection-config { border: 1px solid var(--line); border-radius: 10px; background: #fbfcfe; padding: 18px; margin: 14px 0; }
+.connection-config-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 12px; }
+.connection-config-heading h3 { margin: 0 0 5px; }
+.connection-config-heading p, .connection-config section > p { color: var(--muted); margin: 0; font-size: 12px; }
+.connection-config-columns { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(260px,.8fr); gap: 22px; }
+.connection-config-columns h4, .config-related h4 { margin: 5px 0 12px; }
+.connection-config-form { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+.connection-config-form label, .connection-config-columns section > label { display: flex; flex-direction: column; gap: 5px; font-size: 12px; font-weight: 600; min-width: 0; margin: 8px 0; }
+.connection-config-form input, .connection-config-form select, .connection-config-form textarea, .connection-config-columns textarea { box-sizing: border-box; width: 100%; min-width: 0; border: 1px solid #d8dee7; border-radius: 7px; padding: 8px 9px; background: #fff; color: var(--ink); }
+.connection-config-form textarea, .connection-config-columns textarea { min-height: 62px; resize: vertical; }
+.connection-config-form small { color: var(--muted); font-weight: 400; }
+.connection-config-form .config-wide { grid-column: 1 / -1; }
+.connection-config-form .config-wide button + button { margin-left: 8px; }
+.readiness-checks, .config-limitations { padding-left: 18px; font-size: 12px; line-height: 1.65; }
+.check-pass { color: #286c4f; font-weight: 800; }
+.check-fail { color: #805500; font-weight: 800; }
+.config-limitations { color: #745619; }
+.readiness-checks li, .config-limitations li { overflow-wrap: anywhere; }
+.config-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.retire-confirm { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; }
+.config-related, .config-revisions { border-top: 1px solid var(--line); margin-top: 16px; padding-top: 12px; font-size: 12px; }
+.config-related p { margin: 6px 0; }
+.config-revisions summary { cursor: pointer; font-weight: 700; }
+.config-revisions li { margin: 10px 0; overflow-wrap: anywhere; }
+.connection-list-tools { display: grid; grid-template-columns: minmax(220px,2fr) repeat(3,minmax(130px,1fr)) auto; gap: 10px; align-items: end; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: #fbfcfe; }
+.connection-list-tools label { display: flex; flex-direction: column; gap: 5px; font-size: 11px; font-weight: 600; }
+.connection-list-tools input, .connection-list-tools select { min-width: 0; border: 1px solid #d8dee7; border-radius: 7px; padding: 8px; background: #fff; }
+.connection-list-tools span { color: var(--muted); font-size: 11px; white-space: nowrap; }
 @media (max-width: 680px) { .connection-grid fieldset, .evidence-actions { grid-template-columns: 1fr; } .connection-card > header { flex-direction: column; } }
+@media (max-width: 820px) { .connection-config-columns, .connection-list-tools { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .connection-config-columns, .connection-config-form, .connection-list-tools { grid-template-columns: 1fr; } .connection-config-form .config-wide { grid-column: auto; } }
+@media (max-width: 560px) { .connection-config-columns { grid-template-columns: minmax(0, 1fr); } .connection-config-columns > section, .connection-config-heading > div { min-width: 0; } .connection-config-heading { flex-direction: column; } }
 .sidebar-bottom {
   margin-top: auto;
   border-top: 1px solid #314155;

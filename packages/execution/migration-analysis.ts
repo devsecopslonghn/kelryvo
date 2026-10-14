@@ -8,6 +8,7 @@ import { approvedHistoryContext } from './history-context.mjs';
 import { reviewSqlStatements } from '../sql-validation/review.mjs';
 import { publicTarget } from '../targets/public.mjs';
 import { checkTargetCurrentness } from '../targets/index.ts';
+import { profilePlanCurrent } from '../connectivity/management.ts';
 import { validationCurrentness, validationForIntent } from '../sql-validation/results.ts';
 import { MAX_STDOUT_BYTES } from '../../experiments/db-devops-wp0/parser-envelope.mjs';
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from '../../experiments/db-devops-wp0/parser-release.mjs';
@@ -189,7 +190,7 @@ export function registerMigrationAnalysis(app: any, sql: any, authenticate: any)
         const profile = (await tx`SELECT p.id,p.name,p.environment_id,p.engine,p.host,p.port,p.service,p.username,p.retired_at,e.name AS environment_name
           FROM sf_profiles p JOIN sf_environments e ON e.id=p.environment_id AND e.project_id=p.project_id
           WHERE p.id=${plan.profile_id} AND p.project_id=${projectId} AND p.organization_id=${ORG}`)[0];
-        const profileCurrent = Boolean(profile && !profile.retired_at && intent.profileId === profile.id
+        const profileCurrent = Boolean(await profilePlanCurrent(tx,plan.id) && profile && !profile.retired_at && intent.profileId === profile.id
           && intent.profileName === profile.name && intent.environmentId === profile.environment_id
           && intent.environmentName === profile.environment_name && intent.engine === profile.engine
           && intent.host === profile.host && Number(intent.port) === Number(profile.port)

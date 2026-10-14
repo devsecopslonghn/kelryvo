@@ -35,7 +35,7 @@ export function registerProfileLifecycle(app: any, { sql, authenticate }: any) {
       if (!profile.retired_at) {
         const admitted = (await tx`SELECT 1 FROM sf_execution_jobs j JOIN sf_plans p ON p.id=j.plan_id
           AND p.project_id=j.project_id WHERE p.profile_id=${profile.id} AND j.project_id=${req.params.projectId}
-          AND j.organization_id=${ORG} AND j.state='ADMITTED' LIMIT 1`)[0];
+          AND j.organization_id=${ORG} AND j.state IN ('ADMITTED','HOLD') LIMIT 1`)[0];
         if (admitted) return { error: 'PROFILE_EXECUTION_ACTIVE' };
         await tx`UPDATE sf_profiles SET retired_at=clock_timestamp(),retired_by=${req.actor.id},retirement_reason=${reason.trim()} WHERE id=${profile.id}`;
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)

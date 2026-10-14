@@ -14,9 +14,10 @@ test('browser discovers instance configuration, retires a profile and keeps reta
     await page.getByRole('heading', { name: f.project.name, exact: true }).waitFor();
     await page.getByRole('button', { name: /Database instances/ }).click();
     await page.getByRole('heading', { name: 'Database instances & connections', exact: true }).waitFor();
+    await page.getByLabel('I understand retirement is permanent').check();
     await page.getByLabel(`Retirement reason for ${f.profile.name}`).fill('Use a replacement connection');
     await page.getByRole('button', { name: `Retire profile ${f.profile.name}`, exact: true }).click();
-    await page.getByText('RETIRED', { exact: true }).waitFor();
+    await page.locator('[data-profile-id]').filter({ hasText: f.profile.name }).locator('.status-pill').getByText('RETIRED', { exact: false }).waitFor();
     assert.equal(await page.getByRole('button', { name: `Retire profile ${f.profile.name}`, exact: true }).count(), 0);
     await page.getByRole('button', { name: /Plans & review/ }).click();
     await page.locator(`[data-plan-id="${plan.id}"]`).click();

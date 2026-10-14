@@ -32,6 +32,11 @@ current plan/request status are labelled separately; stable cursors preserve pag
 while current totals and status filters reflect live metadata. Selected object IDs
 survive refresh in the URL; SQL and credentials are not written to browser storage.
 The engineering foundation and all WP0 experiments/evidence remain preserved.
+Database instances & connections manages deployment profiles and discovery connections
+with revision history, credential aliases, offline preflight and reasoned lifecycle actions.
+Configuration changes invalidate dependent plans without changing retained approvals or
+target facts. [Connection management](docs/development/local-product.md#database-connection-management)
+documents permissions, API contracts and Oracle verification limits.
 Independently authored code is licensed under [PolyForm Shield 1.0.0](LICENSE): internal
 use is permitted; using it to provide competing products/services is restricted by the
 license. Noncompeting paid consulting/support is not categorically prohibited.

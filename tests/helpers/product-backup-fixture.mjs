@@ -18,8 +18,8 @@ export async function tableSnapshot(sql,table) {
   assert.match(table,/^sf_[a-z0-9_]+$/);
   return (await sql.unsafe(`SELECT coalesce(jsonb_agg(value ORDER BY value::text),'[]'::jsonb)::text AS rows FROM (SELECT to_jsonb(t) AS value FROM "${table}" t) r`))[0].rows;
 }
-export async function createBackupProductFixture() {
-  const source=await openIsolatedProductDatabase();
+export async function createBackupProductFixture({initialize}={}) {
+  const source=await openIsolatedProductDatabase({initialize});
   const directory=await mkdtemp(path.join(process.cwd(),'.cache','t34-fixture-'));
   await chmod(directory,0o700);
   const configPath=path.join(directory,'config.json');

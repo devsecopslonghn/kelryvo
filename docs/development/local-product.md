@@ -1218,7 +1218,7 @@ selector and rejected for new plans, approval, new deployment requests and worke
 admission of previously queued requests. Rejection, withdrawal and cancellation remain
 available under their existing permissions. An admitted request blocks retirement until
 its controlled recovery completes; retirement never interrupts or silently replays it.
-Create a replacement profile to change an endpoint or credential reference. No connection
+Use revisioned connection management below to change an endpoint or credential reference. No connection
 test, secret resolution or Oracle call is introduced.
 
 `POST /api/projects/:projectId/profiles/:id/retire` accepts only `{ "reason": "..." }`.
@@ -1241,7 +1241,7 @@ Browser parent-session validation remains required; a project creation receipt n
 grants implicit membership. Read-only bootstrap compatibility remains unchanged.
 # Read-only database connectivity and discovery
 
-Database instances & connections now uses durable application APIs to register manual workspace infrastructure and project-scoped read-only connections, test connectivity, discover assigned schemas, inspect observation history, and append observed or verified target binding revisions. Existing deployment profiles and offline plans remain available. Retire and replace a connection to change its configuration; history is never removed.
+Database instances & connections uses durable application APIs to register manual workspace infrastructure and project-scoped read-only connections, test connectivity, discover assigned schemas, inspect observation history, and append observed or verified target binding revisions. Existing deployment profiles and offline plans remain available. Configuration changes append revisions; history is never removed.
 
 The trusted local OS operator grants database management separately from project membership:
 
@@ -1281,6 +1281,72 @@ Only fixed SELECT probes run: dual, V$DATABASE, session context, V$CONTAINERS fo
 The API allows at most two concurrent probes. Child processes have connection/call limits and an overall deadline, are killed and reaped on timeout, and restrict socket destinations to manifest-pinned IPs and ports, including listener redirects. Query results and error text are projected to bounded metadata and fixed codes. Other engines are explicitly unsupported. No migration SQL, DDL or DML is executed. Format-3 plans remain excluded from worker admission, including verified identities.
 
 Metadata backup includes connections, workspace grants, observations and target evidence. Exact older Phase 2 and legacy backups remain supported and are additively migrated into recovery HOLD. Browser acceptance uses Chromium, real disposable PostgreSQL and Git/parser fixtures; Oracle metadata is a deterministic fixture identified as `FIXTURE`.
+
+## Database connection management
+
+Open **Database instances & connections** after selecting a project. Create deployment
+profiles, register assigned discovery connections, search/filter the lists, and open
+**Configure and inspect** or **Configure connection** for details, edits, readiness,
+related environments/schemas and retained revision history. A project developer manages
+deployment profiles; discovery administration additionally requires the workspace
+database grant. Reviewers can inspect authorized configuration and evidence. Archived
+projects and metadata recovery HOLD prevent mutations.
+
+The existing ownership contracts remain distinct: projects own deployment profiles and
+their environments; workspace containers/services own discovery routes. Discovery
+environment is inherited from its immutable container. Deployment and discovery
+credential purposes are fixed by the resource type. APIs return credential aliases and
+reference presence, never reference values or passwords. A blank edit reference keeps
+the current value; a replacement must be a `vault://` or `secret://` reference. Updating
+metadata does not rotate or revoke an operator's secret, authorize its resolver, or
+establish Oracle access. Operators retain the existing secret and runtime boundaries.
+
+Both resource types support these project-scoped APIs, where `:resource` is `profiles`
+or `database-connections`:
+
+| Endpoint | Behavior |
+| --- | --- |
+| `GET /api/projects/:projectId/:resource/:connectionId` | Redacted detail, recent configuration revisions, related records and readiness |
+| `POST .../:connectionId/configuration` | Validate configuration and append a revision using `expectedRevision` and a reason |
+| `POST .../:connectionId/preflight` | Audit offline checks for the exact `expectedRevision`; never resolve a secret or open Oracle |
+| `POST .../:connectionId/lifecycle` | Reasoned `ENABLE`, `DISABLE` or permanent `RETIRE`, using `expectedRevision` |
+
+Creation reuses `POST /api/projects/:id/profiles` and
+`POST /api/projects/:projectId/database-connections`. Both accept optional `description`
+and `serviceKind` (`SERVICE_NAME` by default, or explicit `SID`); optional `purpose`
+must match the resource. Configuration edits carry name, description, host, numeric
+port, service identifier/type, username, reference-or-null and reason. Profile edits
+also require an environment from the same project. Engine and ownership stay fixed.
+Discovery endpoint edits create/reuse a new immutable service route for the same
+container, retaining all earlier routes. Connection list queries accept `search`,
+`engine`, `environment`, `status` (`ENABLED`, `DISABLED`, `RETIRED`) and `after`.
+
+Every configuration/lifecycle mutation advances its revision, records immutable private
+reference-only snapshots and appends sanitized audit facts. Stale writers receive
+`409 CONNECTION_REVISION_CONFLICT`; refreshing details allows an explicit new edit.
+Retirement requires UI confirmation and preserves history. Admitted or unresolved HOLD
+execution blocks edits and lifecycle changes. Disable/retire blocks new plans,
+discovery operations and request/admission eligibility. Enabling or restoring earlier
+values cannot revive old approval: retained profile/observation revisions remain stale,
+and a trusted operator must configure fresh target option/binding evidence before a
+fresh plan and independent approval. Existing plan envelopes, approvals and audit are
+never rewritten.
+
+Readiness distinguishes `CONFIGURED`, `PREFLIGHT_PASSED`, `CONNECTED_VERIFIED`,
+`UNVERIFIED` and `FAILED`. Checks cover completeness, credential reference presence,
+engine/topology, target metadata, revision and lifecycle. SID configurations are retained
+explicitly but the current trusted runtime supports Service Name routes only; SID
+preflight fails and deployment is blocked. Deployment target metadata still requires
+operator configuration. `CONNECTED_VERIFIED` requires current, fresh actual
+`ORACLE_READ_ONLY` connectivity evidence; fixtures and opaque references cannot produce
+it. This label establishes observed connectivity only; governed target verification and
+execution admission retain their stricter attestation requirements. Live Oracle
+verification for Phase 14 remains `NOT_RUN` without a separately authorized lab.
+
+Backup includes revision/preflight/plan-to-profile revision records under an exact new
+schema fingerprint. Earlier exact supported schemas restore and upgrade into recovery
+HOLD, retaining their original plans and evidence. No worker enablement or live DDL is
+part of connection management.
 
 ## Schema-aware SQL validation and planning
 

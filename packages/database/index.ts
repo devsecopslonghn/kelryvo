@@ -1,10 +1,11 @@
 import { initializeSqlWorkspaceSchema } from '../sql-workspace/schema.mjs';
 import { initializeTargetSchema } from '../targets/schema.ts';
 import { initializeConnectivitySchema } from '../connectivity/schema.mjs';
+import { initializeConnectionManagement } from '../connectivity/management-schema.mjs';
 import { initializeValidationSchema } from '../sql-validation/schema.mjs';
 import { initializeExecutionReconciliation } from '../execution/reconciliation.ts';
 /** Idempotent schema for the local, single-organization product slice. */
-export async function initializeDatabase(sql: any, options: { initializeMetadata?: boolean; initializeTargets?: boolean; initializeConnectivity?: boolean; initializeValidation?: boolean; initializeSqlWorkspace?: boolean; sqlWorkspaceVersion?: 1 | 2; initializeReconciliation?: boolean; installRetainedEvidenceGuards?: boolean; installReconciliationBindingGuards?: boolean } = {}): Promise<void> {
+export async function initializeDatabase(sql: any, options: { initializeConnectionManagement?: boolean; initializeMetadata?: boolean; initializeTargets?: boolean; initializeConnectivity?: boolean; initializeValidation?: boolean; initializeSqlWorkspace?: boolean; sqlWorkspaceVersion?: 1 | 2; initializeReconciliation?: boolean; installRetainedEvidenceGuards?: boolean; installReconciliationBindingGuards?: boolean } = {}): Promise<void> {
   await sql.begin(async (tx: any) => {
     // Test files and local startup callers can initialize the same schema at once.
     // IF NOT EXISTS still races while PostgreSQL creates the backing catalog type.
@@ -486,6 +487,8 @@ export async function initializeDatabase(sql: any, options: { initializeMetadata
         && options.initializeValidation !== false && options.initializeReconciliation !== false)
       await initializeSqlWorkspaceSchema(tx,{version:options.sqlWorkspaceVersion ?? 2,
         installRetainedEvidenceGuards:options.installRetainedEvidenceGuards !== false});
+    if (options.initializeConnectionManagement !== false && options.initializeTargets !== false && options.initializeConnectivity !== false)
+      await initializeConnectionManagement(tx);
     if (options.initializeMetadata !== false) await tx.unsafe(`
       INSERT INTO sf_metadata_generations(id,state,checkpoint,operator_os_uid)
         SELECT gen_random_uuid(),'ACTIVE',md5(clock_timestamp()::text || random()::text) || md5(random()::text),0
