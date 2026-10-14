@@ -1,14 +1,44 @@
 # Disposable Oracle execution acceptance
 
-Live Oracle execution acceptance is **NOT_RUN** as of the Phase 14 source baseline. Fixture discovery, UNIT_SYNTHETIC
-workers, PostgreSQL tests and browser screenshots do not establish Oracle effects.
-This documentation consolidation supplies no Oracle lab manifest or migration-execution authorization. Read-only onboarding is the next milestone in the [product roadmap](../product/KELYRVO_PRODUCT_REQUIREMENTS.md#prioritized-roadmap); discovery permission cannot authorize this execution suite.
+Live Oracle execution acceptance remains **NOT_RUN**. The owner-authorized live
+qualification below exercised connectivity, metadata and partial application workflows;
+it did not install a writer or execute a governed migration. Fixture discovery,
+UNIT_SYNTHETIC workers and PostgreSQL tests do not establish Oracle migration effects.
 
 This bounded suite uses the existing Oracle provider, target ledger and session
 mutex. It introduces no deployment infrastructure. The lab owner supplies the
 attested scope; a database operator prepares isolated disposable schemas and
 accounts; an independent reviewer evaluates retained evidence. The application
 operator installs the private trusted worker only after these prerequisites pass.
+
+## Live qualification on 2026-10-14
+
+[Sanitized results](../../evidence/product/oracle-lab-qualification-20261014/acceptance.json)
+retain the tested source, checks and limitations. The owner approved a separate
+Oracle Free lab variant using private TCP. The actual database reported **Oracle AI
+Database 26ai Free 23.26.3.0.0**, in a CDB/PDB topology behind a Kubernetes ClusterIP.
+This qualification does not change the existing 19c/21c TCPS WP0 contract or establish
+an accepted execution installation for the Free variant.
+
+Private, expiring manifests retain owner authorization, observed identity, grants,
+credential references and the bounded fixture allowlist. An existing privileged
+operator observed the full database/container identity separately. That identity
+was not substituted for the application's missing identity evidence. The application
+account cannot read `SYS.V_$DATABASE` or `SYS.V_$CONTAINERS`; its effective privileges
+also permit DDL, so it does not establish least-privilege discovery isolation.
+No privileges were changed, and the privileged operator was not installed in the API.
+
+| Scope | Actual result | Remaining acceptance boundary |
+| --- | --- | --- |
+| R1 | Live registration/connectivity, permission diagnostics, immutable history, rejected identity binding/verification, browser display and restart passed with `PARTIAL/UNKNOWN` evidence. | Full application identity, a least-privilege discovery identity and independently accepted exact-target evidence remain unavailable. |
+| R2 | Own-schema tables/defaults/CHECK/PK/FK, quoted names, views, sequences, indexes and dependencies were collected from real prefixed fixtures; repeated observations were stable. Actual metadata changes were observed. Application baselines retained unavailable identity and comparisons stayed `INCOMPARABLE`. Privileged owner-bound comparisons retained `MODIFIED` findings and `UNVERIFIED` absence/coverage. | No accepted identity-bound complete baseline/drift workflow. Descending indexes expose internal expressions and remain partial; multi-query consistency remains unverified. |
+| R3 / OA01–OA10 | **NOT_RUN** as complete governed execution cases. Direct fixture DDL is not worker/migration evidence. | Purpose-separated discovery/writer/ledger/mutex/observer authorities, reviewed execution installation and acceptance/adoption evidence are missing. No fault scope was attested. |
+| R4 | Real observation/baseline metadata survived application restart and native backup/restore; restored immutable evidence stayed under `RESTORE_HOLD`. | Oracle worker recovery, target-ledger durability, interrupted migration/fault handling and deployment isolation remain untested on Oracle. |
+
+All owned prefixed fixture objects were removed; the application object inventory
+matched its initial state, and effective privileges remained unchanged. PVC free capacity was
+929 MiB before and after the run (4 GiB claim). The lab remains intact for remaining
+acceptance. Raw identities, routes, manifests, SQL and backups remain private.
 
 ## Entry gate
 
