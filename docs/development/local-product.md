@@ -1357,6 +1357,21 @@ part of connection management.
 
 ## Schema-aware SQL validation and planning
 
+Authored release inspection and retained validation findings offer **Open originating
+draft**. The read-only `GET /api/projects/:projectId/releases/:releaseId/draft-origin`
+route rechecks membership and verifies the retained release against its exact historical
+draft revision before returning IDs, digests and file mappings. Ordinary Git imports
+have no authored origin. Historical origin reads remain available after source-binding
+changes and project archive; write authority remains governed by the existing draft APIs.
+
+The workspace opens the current draft, labels the originating historical revision, and
+focuses the matching immutable file ID. It selects historical UTF-8 statement positions
+only when the current file checksum still matches the release. Changed or removed files
+show a warning; removed files are not restored automatically. Unsaved edits block origin
+navigation, and stale responses cannot replace another project or session. Corrections
+require an explicit save, a new release, fresh validation and independent approval.
+Earlier releases, findings and decisions retain their original meaning.
+
 New validation reports include per-statement `catalogReferences`: exact owner/name/role,
 retained snapshot ID, observation state, and matching object types/checksums. These are
 structural observations only; missing matches stay `UNKNOWN`, foreign owners are

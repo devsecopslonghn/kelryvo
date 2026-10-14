@@ -272,6 +272,33 @@ export function registerSqlWorkspace(app: any, { sql, authenticate, releaseParse
     });
   });
 
+  route('get', '/api/projects/:projectId/releases/:releaseId/draft-origin', async (req: any) => {
+    if (!uuid(req.params.projectId) || !uuid(req.params.releaseId) || Object.keys(req.query || {}).length) throw fail('NOT_FOUND',404);
+    return sql.begin(async (tx: any) => {
+      const project=await readGuard(tx,req);
+      const origin=(await tx`SELECT o.draft_id,o.draft_revision::text AS draft_revision,o.draft_sha256,o.draft_manifest_version,
+        o.source_binding_generation::text AS source_binding_generation
+        FROM sf_sql_workspace_releases o JOIN sf_releases r ON r.id=o.release_id AND r.project_id=o.project_id
+        WHERE o.release_id=${req.params.releaseId} AND o.project_id=${project.id} AND o.organization_id=${ORG} AND r.organization_id=${ORG} FOR SHARE OF o,r`)[0];
+      if(!origin)throw fail('NOT_FOUND',404);
+      const bounds=await preflightHistoricalRelease(tx,{id:req.params.releaseId,projectId:project.id,organizationId:ORG});
+      if(!bounds.valid)throw fail('RELEASE_INTEGRITY_FAILED',409);
+      const release=(await tx`SELECT * FROM sf_releases WHERE id=${req.params.releaseId} AND project_id=${project.id} AND organization_id=${ORG}`)[0];
+      const row=await draftRow(tx,project.id,origin.draft_id);
+      if(!row)throw fail('DRAFT_INTEGRITY_FAILED',409);
+      const historical=await revisionRow(tx,row.id,project.id,origin.draft_revision);
+      // Verify historical folder/repository facts, independently of today's source binding.
+      if(historical.sha256!==origin.draft_sha256 || !releaseMatchesDraft(release,
+        {source_repository_id:release.repository_id,source_folder:release.folder},historical,origin))throw fail('RELEASE_INTEGRITY_FAILED',409);
+      return {origin:{projectId:project.id,releaseId:release.id,manifestDigest:release.manifest_digest,draftId:row.id,
+        draftRevision:origin.draft_revision,draftSha256:origin.draft_sha256,manifestVersion:origin.draft_manifest_version,
+        currentRevision:row.revision,sourceBindingCurrent:project.source_binding_generation===origin.source_binding_generation
+          && project.source_repository_id===release.repository_id && project.source_folder===release.folder,
+        files:historical.files.map((file:any,index:number)=>({draftFileId:file.id,draftPath:file.path,
+          releasePath:release.files[index].path,sha256:file.sha256}))}};
+    });
+  });
+
   route('post', '/api/projects/:projectId/sql-drafts', async (req: any, reply: any) => {
     const body = req.body;
     const legacy = strictObject(body, ['name','targetBindingId','sql']);

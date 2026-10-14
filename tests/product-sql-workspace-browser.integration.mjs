@@ -4,6 +4,100 @@ import { createHash, randomUUID } from 'node:crypto';
 import { chromium } from 'playwright';
 import { createValidationFixture } from './helpers/schema-validation-fixture.mjs';
 
+test('authored review corrections focus exact saved SQL, preserve unsaved edits, and create fresh independently reviewed candidates',{
+  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:240000,
+},async()=>{
+  const f=await createValidationFixture();let browser;
+  try{
+    const sqlBase=`${f.base}/sql-drafts`,first='CREATE TABLE browser_correction (id NUMBER);\n',second='-- café 😀: retained byte positions\nALTER TABLE browser_correction ADD original NUMBER;\n';
+    const created=await f.api('POST',sqlBase,{name:'Browser correction origin',targetBindingId:f.binding.bindingId,files:[
+      {path:'V1__table.sql',sql:first},{path:'V2__change.sql',sql:second},
+    ]});assert.equal(created.statusCode,201,created.body);const draft=created.json().draft;
+    const prep=await f.api('POST',`${sqlBase}/${draft.id}/prepare-release`,{expectedRevision:'1',targetBindingId:f.binding.bindingId,
+      expectedBindingRevision:f.binding.bindingRevision,expectedAssignmentRevision:f.binding.assignmentRevision});assert.equal(prep.statusCode,201,prep.body);
+    const oldRelease=prep.json().release;f.release=oldRelease;
+    const v=(await f.validate()).json().validation,planResponse=await f.makeSchemaPlan(v);assert.equal(planResponse.statusCode,201,planResponse.body);
+    const oldPlan=planResponse.json().plan;assert.equal((await f.decide(oldPlan)).statusCode,200);
+    browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];
+    page.on('pageerror',e=>errors.push(e.message));let originReads=0;
+    page.on('request',r=>{if(r.url().includes('/draft-origin'))originReads++;});
+    const signIn=async actor=>{await page.goto(f.currentUrl());await page.getByLabel('Local access token').fill(actor.token);
+      await page.getByRole('button',{name:'Continue',exact:true}).click();await page.getByLabel('Sign out').waitFor();
+      await page.getByRole('button',{name:/Projects/}).click();await page.locator('.project-row').filter({hasText:f.project.name}).click();};
+    const inspectOld=async()=>{await page.getByRole('button',{name:/Releases/}).click();
+      await page.locator(`.saved-release-row[data-release-id="${oldRelease.id}"]`).getByRole('button',{name:'Inspect files',exact:true}).click();
+      await page.locator(`.release-result[data-inspected-release-id="${oldRelease.id}"]`).waitFor();};
+    await signIn(f.actors[0]);await page.getByRole('button',{name:/Plans & review/}).click();await page.locator(`.plan-option[data-plan-id="${oldPlan.id}"]`).click();
+    const retained=page.getByRole('region',{name:'Retained SQL validation'});
+    await retained.getByRole('button',{name:'Open originating draft · migrations/V2__change.sql',exact:true}).click();
+    const workspace=page.getByRole('region',{name:'SQL workspace',exact:true}),correction=workspace.getByRole('region',{name:'Authored release correction'});
+    await correction.waitFor();assert.equal(await workspace.getByLabel('Migration filename').inputValue(),'V2__change.sql');
+    await page.waitForFunction(()=>{
+      const el=document.querySelector('.sql-workspace textarea');return el && /ALTER TABLE browser_correction/.test(el.value.slice(el.selectionStart,el.selectionEnd));
+    });
+    const statement=v.report.statements.find(s=>s.path==='migrations/V2__change.sql');
+    assert.equal(await workspace.getByLabel('SQL editor').evaluate(el=>el.value.slice(el.selectionStart,el.selectionEnd)),
+      new TextDecoder().decode(new TextEncoder().encode(second).subarray(statement.startByte,statement.endByte)));
+    assert.equal(await workspace.getByLabel('SQL editor').inputValue(),second);
+    assert.match(await correction.innerText(),/retains draft revision 1.*current editable revision 1/s);
+    await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+    await page.setViewportSize({width:1440,height:1100});
+    const corrected=second+'ALTER TABLE browser_correction ADD corrected NUMBER;\n';
+    await workspace.getByLabel('SQL editor').fill(corrected);await workspace.getByRole('button',{name:'Save draft',exact:true}).click();
+    await workspace.getByText('Saved revision 2.',{exact:true}).waitFor();
+    await workspace.getByRole('button',{name:'Prepare immutable release',exact:true}).click();
+    const planning=workspace.getByRole('button',{name:'Create immutable plan',exact:true});
+    await page.waitForFunction(()=>{const b=[...document.querySelectorAll('.sql-workspace button')].find(b=>b.textContent==='Create immutable plan');return b && !b.disabled;});
+    await planning.click();const freshId=await page.locator('.plan-option.selected').getAttribute('data-plan-id');assert.notEqual(freshId,oldPlan.id);
+    let detail=(await f.api('GET',f.base)).json();const fresh=detail.plans.find(p=>p.id===freshId);assert.equal(fresh.status,'PENDING_APPROVAL');
+    assert.equal(detail.plans.find(p=>p.id===oldPlan.id).status,'APPROVED');assert.notEqual(fresh.releaseId,oldRelease.id);
+    assert.equal((await f.api('GET',`/api/releases/${oldRelease.id}`)).json().release.files[1].content,second);
+    assert.equal(Number((await f.db.sql`SELECT count(*)::int AS n FROM sf_execution_jobs`)[0].n),0);
+    await page.getByRole('button',{name:/SQL Workspace/}).click();await workspace.getByLabel('SQL editor').fill(corrected+'-- unsaved work\n');
+    const before=originReads;await inspectOld();await page.getByRole('button',{name:'Open originating draft',exact:true}).click();
+    await page.getByRole('status').filter({hasText:'Save or discard unsaved SQL edits before opening the originating draft.'}).waitFor();
+    assert.equal(await workspace.getByLabel('SQL editor').inputValue(),corrected+'-- unsaved work\n');assert.equal(originReads,before);
+    await workspace.getByRole('button',{name:'Discard unsaved edits',exact:true}).click();
+    await inspectOld();await page.getByRole('button',{name:'Open originating draft',exact:true}).click();await correction.waitFor();
+    assert.match(await correction.innerText(),/retains draft revision 1.*current editable revision 2/s);
+    // Reopening the retained finding after a file edit must not use old UTF-8 offsets.
+    await inspectOld();const releaseValidation=page.getByRole('region',{name:'Validate SQL against target'});
+    await releaseValidation.getByRole('button',{name:/Inspect validation/}).first().click();
+    await releaseValidation.getByRole('button',{name:'Open originating draft · migrations/V2__change.sql',exact:true}).click();await correction.getByText(/file has changed/).waitFor();
+    await page.waitForFunction(()=>{const el=document.querySelector('.sql-workspace textarea');return el?.selectionStart===0 && el.selectionEnd===0;});
+    const head=(await f.api('GET',`${sqlBase}/${draft.id}`)).json().draft;
+    const rename=await f.api('PUT',`${sqlBase}/${draft.id}`,{expectedRevision:head.revision,name:head.name,targetBindingId:head.targetBindingId,
+      files:head.files.map(({id,path,sql},index)=>({id,path:index===1?'V2__renamed.sql':path,sql:index===1?second:sql}))});assert.equal(rename.statusCode,200,rename.body);
+    await inspectOld();await releaseValidation.getByRole('button',{name:/Inspect validation/}).first().click();
+    await releaseValidation.getByRole('button',{name:'Open originating draft · migrations/V2__change.sql',exact:true}).click();await correction.getByText(/now named V2__renamed.sql/).waitFor();
+    assert.equal(await workspace.getByLabel('Migration filename').inputValue(),'V2__renamed.sql');
+    const renamed=rename.json().draft;
+    const removed=await f.api('PUT',`${sqlBase}/${draft.id}`,{expectedRevision:renamed.revision,name:renamed.name,targetBindingId:renamed.targetBindingId,
+      files:renamed.files.slice(0,1).map(({id,path,sql})=>({id,path,sql}))});assert.equal(removed.statusCode,200,removed.body);
+    await inspectOld();await releaseValidation.getByRole('button',{name:/Inspect validation/}).first().click();
+    await releaseValidation.getByRole('button',{name:'Open originating draft · migrations/V2__change.sql',exact:true}).click();await correction.getByText(/file is absent/).waitFor();
+    assert.equal(await workspace.getByLabel('SQL file',{exact:true}).locator('option').count(),1);
+    let unblock,entered;
+    const gate=new Promise(resolve=>{unblock=resolve;}),started=new Promise(resolve=>{entered=resolve;});
+    const originPattern=`**${f.base}/releases/${oldRelease.id}/draft-origin`;
+    await page.route(originPattern,async route=>{entered();await gate;await route.continue();});
+    await inspectOld();await page.getByRole('button',{name:'Open originating draft',exact:true}).click();await started;
+    const staleResponse=page.waitForResponse(r=>r.url().endsWith(`${f.base}/releases/${oldRelease.id}/draft-origin`));
+    await page.getByRole('button',{name:/Projects/}).click();await page.locator('.project-row').filter({hasText:f.foreignProject.name}).click();
+    await page.getByRole('button',{name:/SQL Workspace/}).click();
+    unblock();await staleResponse;await page.unroute(originPattern);
+    await workspace.getByText('No saved SQL drafts yet.',{exact:true}).waitFor();
+    assert.equal(await workspace.getByLabel('SQL editor').inputValue(),'');assert.equal(await correction.count(),0,'stale origin reads cannot populate another project');
+    await page.getByRole('button',{name:/Projects/}).click();await page.locator('.project-row').filter({hasText:f.project.name}).click();
+    await page.getByLabel('Sign out').click();await f.restart();await signIn(f.actors[1]);
+    await page.getByRole('button',{name:/Plans & review/}).click();await page.locator(`.plan-option[data-plan-id="${oldPlan.id}"]`).click();
+    await retained.getByRole('button',{name:'Open originating draft · migrations/V2__change.sql',exact:true}).click();await correction.getByText(/inspection only/).waitFor();
+    assert.equal(await workspace.getByLabel('SQL editor').isDisabled(),true);
+    assert.equal(await workspace.getByRole('button',{name:'Save draft',exact:true}).isDisabled(),true);
+    assert.deepEqual(errors,[]);
+  }finally{await browser?.close();await f.close();}
+});
+
 test('SQL workspace drops stale analysis and surfaces optimistic revision conflicts in the browser', {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 120000,
 }, async () => {
