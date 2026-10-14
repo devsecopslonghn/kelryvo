@@ -153,7 +153,7 @@ test('Phase 13 native backup retains profiles and plans through exact-schema res
     await createPrivateBackup({configPath,databaseUrl,destination:backupDirectory,witnessPath});
     const restored=await restorePrivateBackup({configPath,databaseUrl,backupDirectory,witnessPath});
     restoredName=restored.databaseName;restoredSql=postgres(restored.databaseUrl,{max:2,onnotice:()=>{}});
-    assert.equal((await inspectBackupSchema(restoredSql)).signature,'f8e0d47aa6e8f1c5c1a21cbbc5ff8550222edfe7791f312a965172547d438ab1');
+    assert.equal((await inspectBackupSchema(restoredSql)).signature,'9e4c70ac76caf62e3bec6a5db5f920735e480f689a76a59a2f1ba8b233d9c87e');
     assert.equal(await tableSnapshot(restoredSql,'sf_plans'),planBefore,'old plan bytes and approval facts are retained');
     const retained=(await restoredSql`SELECT * FROM sf_profiles WHERE id=${profile.id}`)[0];
     for(const field of Object.keys(profile))assert.deepEqual(retained[field],profile[field],`original profile ${field} remains unchanged`);

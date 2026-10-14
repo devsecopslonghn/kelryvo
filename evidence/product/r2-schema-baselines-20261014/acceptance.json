@@ -1,0 +1,132 @@
+{
+  "milestone": "Kelryvo R2 schema baseline and drift product integration",
+  "recordedAt": "2026-10-14T05:15:07.943704+00:00",
+  "implementationBase": "7d36e576ba48219ed10fa1f21bf1cf9135d20a58",
+  "reviewedImplementationPatchSha256": "173dd776e1adf10619f0ba173c81973b96288bdf00c2c562048fc59e01f7b9f4",
+  "patchScope": "complete staged implementation diff from implementationBase excluding this acceptance record and screenshot",
+  "checks": [
+    {
+      "command": "npm run check",
+      "result": "PASS",
+      "counts": {
+        "tests": 533,
+        "pass": 408,
+        "fail": 0,
+        "skipped": 125,
+        "cancelled": 0
+      },
+      "scope": "source/type/web build, tracker, formatting, unit tests and pinned dependency/license gates"
+    },
+    {
+      "command": "node scripts/test-product.mjs --file tests/product-schema-baselines.test.mjs",
+      "result": "PASS",
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "scope": "dedicated disposable PostgreSQL, actual API and retained parser; controlled schema fixtures"
+    },
+    {
+      "command": "node scripts/test-product.mjs --browser --file tests/product-schema-baselines-browser.integration.mjs",
+      "result": "PASS",
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "scope": "PostgreSQL/API/Chromium with controlled schema fixtures"
+    },
+    {
+      "command": "node scripts/test-product.mjs --file tests/product-schema-backup.test.mjs",
+      "result": "PASS",
+      "counts": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "scope": "native immutable snapshot/baseline/plan restoration; R1 exact-schema upgrade; historical snapshot retained after later connection-route edit; insert scope guard re-enabled before recovery HOLD; 2/2 direct worker verification"
+    },
+    {
+      "command": "node --test tests/schema-baselines.test.mjs tests/oracle-discovery.test.mjs",
+      "result": "PASS",
+      "counts": {
+        "tests": 32,
+        "pass": 32,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "scope": "pure structural comparison and injected SELECT-only Oracle driver; zero live Oracle connections"
+    },
+    {
+      "command": "node scripts/test-product.mjs --file tests/product-phase7-persistence.test.mjs",
+      "result": "PASS",
+      "counts": {
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "scope": "native SQL/source attribution persistence and historical backup upgrades; direct worker tool execution"
+    },
+    {
+      "command": "node scripts/test-product.mjs --browser --file tests/product-sql-validation-browser.integration.mjs",
+      "result": "PASS",
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "scope": "complete retained validation and independent-review browser compatibility"
+    },
+    {
+      "command": "node scripts/test-product.mjs --browser --file tests/product-phase6-workflow-browser.integration.mjs",
+      "result": "PASS",
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "scope": "HTTPS onboarding, SQL validation, approval, readiness, request and durable audit journey"
+    }
+  ],
+  "independentReview": {
+    "result": "PASS",
+    "scope": "working diff and compatibility corrections reviewed without remaining blockers; exact final head checked before integration"
+  },
+  "security": {
+    "newCredentialPatternMatches": 0,
+    "dependencyChanges": false,
+    "pinnedProductLicenseClosure": 89,
+    "hostedGates": "Final PR source is verified by its foundation, parser, all product shards/release, OCI and CodeQL checks before ordinary merge"
+  },
+  "oracle": {
+    "acceptance": "NOT_RUN",
+    "liveConnections": 0,
+    "manifestConfigured": false,
+    "secretDirectoryConfigured": false,
+    "remaining": "Authorized exact-target Oracle lab, owner/grant visibility, metadata type/version coverage, concurrent DDL consistency, timeout/truncation/revocation, real baseline comparison and browser persistence acceptance"
+  },
+  "boundaries": [
+    "Controlled fixtures cannot certify live target identity or live drift.",
+    "Multi-query Oracle catalog consistency is unverified; missing/inaccessible objects never imply absence.",
+    "Function-based index expressions, partition definitions and foreign-owner completeness remain partial.",
+    "Schema observations do not grant worker authority or certify Oracle compilation."
+  ],
+  "browserScreenshot": {
+    "path": "browser.png",
+    "sha256": "d1f43ed4e2c10716d3d3b1e220c80c14a2a4696693baea1d316a53a24f301dd6"
+  }
+}

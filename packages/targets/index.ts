@@ -1,3 +1,4 @@
+import { schemaPlanChanged } from '../schema-baselines/store.ts';
 import { acquireTargetLocks } from './locks.ts';
 import { randomUUID } from 'node:crypto';
 import { initializeTargetSchema as initializeTargetSchemaTx } from './schema.ts';
@@ -493,6 +494,7 @@ export async function checkTargetCurrentness(tx: any, projectId: string, target:
       if(evidence.latest_observation_id!==evidence.observation_id)reasons.push('OBSERVATION_SUPERSEDED');
     }
   }
+  if(await schemaPlanChanged(tx,projectId,target))reasons.push('SCHEMA_OBSERVATION_CHANGED');
   const state = reasons.includes('INTEGRITY_UNAVAILABLE') ? 'UNKNOWN' : reasons.length ? 'STALE' : 'CURRENT';
   return { state, reasons: [...new Set(reasons)].slice(0, 8), checkedAt };
 }

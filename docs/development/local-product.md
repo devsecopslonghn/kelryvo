@@ -1450,3 +1450,21 @@ status changes can change filter membership. Refresh starts a new traversal. Leg
 clients remain compatible. HOLD rows expose the latest attributed transition, attempt and
 receipt count; request details retain the full paginated event/recovery timeline and
 execution evidence. Request permalinks restore that authorized context after restart.
+
+
+## Schema snapshots, baselines and drift
+
+R2 extends the same opt-in Oracle discovery adapter. The default runtime returns unavailable evidence. `SCHEMA` is an internal runtime operation with a bound exact owner, using only fixed SELECTs against `ALL_TABLES`, `ALL_TAB_COLUMNS`, `ALL_CONSTRAINTS`, `ALL_CONS_COLUMNS`, `ALL_VIEWS`, `ALL_SEQUENCES`, `ALL_INDEXES`, `ALL_IND_COLUMNS` and `ALL_DEPENDENCIES`. The existing endpoint manifest, child-process timeout, pinned network destinations, transport checks and discovery-secret boundary apply. A configured runtime is not accepted Oracle evidence.
+
+Collection limits are 2,001 fetched rows per query (2,000 retained), 1,000 normalized objects and roughly 1 MiB of object payload. API collection has a deadline of at most ten seconds and at most two in-flight discovery operations per application; the same connection cannot overlap. Object/byte bounds, unsupported definitions, partition definitions, privileges and owner visibility downgrade completeness. Only the session's exact owner can have complete dictionary visibility. Multi-query collection explicitly lacks a catalog consistency witness; comparison remains UNVERIFIED even when all queries succeeded. Sequence values exclude volatile `LAST_NUMBER`. CHECK expressions and column defaults are structural evidence; no DDL or user SQL is executed.
+
+Project-scoped APIs:
+
+- `POST /api/projects/:projectId/target-bindings/:bindingId/schema/observe`: `{connectionId,expectedBindingRevision,expectedAssignmentRevision,reason}`. Recheck management grants, project/target/configuration revisions and restore state before and after collection. Retain unavailable observations with explicit coverage; never infer absence from them.
+- `GET /api/projects/:projectId/target-bindings/:bindingId/schema`: scoped snapshot and baseline summaries, currentness and latest drift. `after` pages snapshots; `baselineAfter` pages baselines. Cursors must belong to the same project and target.
+- `GET /api/projects/:projectId/schema-snapshots/:snapshotId`: immutable definitions, database/container identity, target/connection revisions, stream, coverage, provenance and checksums.
+- `POST /api/projects/:projectId/schema-baselines`: `{snapshotId,name,reason}`. Capture a named immutable reference to a retained snapshot; partial snapshots remain visibly partial.
+- `GET /api/projects/:projectId/schema-comparison?expected=:snapshotId&observed=:snapshotId`: compare exact owner and physical target identity, require matching stream/route, and return structural added/removed/modified/unverified findings with property paths and before/after definitions. Differences involving unmatched identity are INCOMPARABLE. Checksums detect structural differences; they are not signatures.
+- `GET /api/projects/:projectId/plans/:planId/schema-drift`: latest baseline/observation comparison and the plan's retained snapshot, without execution authority.
+
+Read access follows current project membership, including archived history. Observation and baseline capture require a developer with workspace database-management authority and active metadata. Baselines and snapshots have no update/delete API. An updated expectation is another named capture. Plans and validations retain immutable schema references; later changed schema facts require fresh validation/planning and cannot restore old approval authority. Legacy plans without schema association preserve their original contract. SQL validation and Oracle compilation remain unverified even when structural observations are present.

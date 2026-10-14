@@ -44,6 +44,10 @@ export async function readVerifiedPublicPlanRecord(tx: any, planId: string, proj
     e.exact_owner AS owner,e.observation_id AS "observationId",o.provenance,o.observed_at AS "observedAt",o.expires_at AS "expiresAt"
     FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id WHERE e.digest=${intent.target.observationDigest} AND e.project_id=${projectId}`)[0] : null;
   if(intent.target?.observationDigest && !targetObservation)throw unavailable();
+  const schemaObservation=(await tx`SELECT e.snapshot_id AS "snapshotId",e.snapshot_digest AS "contentDigest",s.owner,s.identity_digest AS "identityDigest",
+    s.provenance,s.observed_at AS "observedAt",s.binding_revision::text AS "bindingRevision",s.connection_revision::text AS "connectionRevision",
+    s.schema->'coverage' AS coverage,s.schema->'limitations' AS limitations FROM sf_plan_schema_evidence e
+    LEFT JOIN sf_schema_snapshots s ON s.id=e.snapshot_id WHERE e.plan_id=${planId} AND e.project_id=${projectId}`)[0];
   const schemaValidation=intent.validation ? await validationForIntent(tx,intent) : null;
   const sourceComparisons = await tx`SELECT id,actor_id AS "actorId",created_at AS "createdAt",
     CASE WHEN octet_length(facts::text)<=1048576 THEN
@@ -57,7 +61,7 @@ export async function readVerifiedPublicPlanRecord(tx: any, planId: string, proj
       sourceBindingGeneration: p.sourceBindingGeneration, status: p.status, decision: p.decision,
       decisionReason: p.decisionReason, decidedBy: p.decidedBy, decidedByName: p.decidedByName,
       decidedAt: p.decidedAt, approvalReference: p.approvalReference, revocation: revocationRow?.snapshot ?? null },
-    retainedIntent: {...publicIntent(intent),...(sourceComparisons.length ? {sourceComparisons} : {}),...(sourceOrigin.sourceKind==='AUTHORED_SQL_WORKSPACE'?{sourceOrigin}:{}),...(targetObservation ? {targetObservation} : {}),...(schemaValidation ? {schemaValidation} : {})},
+    retainedIntent: {...publicIntent(intent),...(sourceComparisons.length ? {sourceComparisons} : {}),...(sourceOrigin.sourceKind==='AUTHORED_SQL_WORKSPACE'?{sourceOrigin}:{}),...(targetObservation ? {targetObservation} : {}),...(schemaValidation ? {schemaValidation} : {}),...(schemaObservation ? {schemaObservation} : {})},
   };
 }
 
