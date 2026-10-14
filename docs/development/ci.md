@@ -19,7 +19,9 @@ Every PR and master push runs:
 - `platform (amd64)`, `platform (arm64)` and `verify` (`containers.yml`): pinned
   native app/worker builds, exact-artifact governance/security/runtime smoke,
   SHA-256 verification and assembly of exactly two-platform OCI indexes. BuildKit
-  caches use architecture-specific scopes; worker builds reuse app shared stages.
+  caches use architecture-specific scopes; only master writes caches (with bounded,
+  non-fatal export errors), and PRs read them. Pinned parser inputs occupy stable
+  build layers; worker builds reuse app shared stages.
 - Default CodeQL: all four existing language analyses. Publication also rejects
   open code-scanning findings.
 

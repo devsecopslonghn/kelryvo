@@ -29,6 +29,7 @@ export function selectFocusedTests(paths) {
       selected.get('changed-tests').add(path);
     } else if (/^(apps\/api\/|packages\/database\/|tests\/helpers\/|scripts\/(local-|test-product|product-test)|package(-lock)?\.json$|\.github\/workflows\/product\.yml$)/.test(path)) {
       all();
+      if (path === 'packages/database/index.ts') selected.set('backup', new Set(['tests/product-backup-restore.test.mjs']));
     } else if (/^(apps\/worker\/|packages\/execution\/)/.test(path)) {
       add('execution'); add('governance'); add('integrity');
     } else if (/^packages\/(governance|migrations)\//.test(path)) {

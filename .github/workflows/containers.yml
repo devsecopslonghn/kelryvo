@@ -49,7 +49,8 @@ jobs:
           sbom: false
           outputs: type=oci,dest=dist/oci/app-${{ matrix.arch }}.tar
           cache-from: type=gha,scope=kelryvo-${{ matrix.arch }}
-          cache-to: type=gha,scope=kelryvo-${{ matrix.arch }},mode=max
+          # Cache writes are performance-only and reserved for trusted master.
+          cache-to: ${{ github.event_name == 'push' && format('type=gha,scope=kelryvo-{0},mode=max,ignore-error=true,timeout=2m', matrix.arch) || '' }}
       # BuildKit reuses the identical shared stages from the preceding app build.
       - name: Build worker from the shared native stages
         env:
