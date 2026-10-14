@@ -134,7 +134,7 @@ async function validateStatementPreview(preview, source, releaseId, filePath) {
 }
 const explain = (error) => errorCopy[error.message] || 'The request could not be completed. Check the connection and try again.';
 const fmt = (date) => date ? new Date(date).toLocaleString() : '—';
-const pageTitles = { schema: 'Schema baselines & drift', workspace: 'Projects', references: 'Schema references', targets: 'Project targets', sql: 'SQL Workspace', history: 'Migration history', release: 'Release intake', review: 'Plan review', inbox: 'Review inbox', records: 'Audit & history' };
+const pageTitles = { schema: 'Schema baselines & drift', workspace: 'Projects', instances: 'Database instances & connections', references: 'Schema references', targets: 'Project targets', sql: 'SQL Workspace', history: 'Migration history', release: 'Release intake', review: 'Plan review', inbox: 'Review inbox', records: 'Audit & history', account: 'Account & access' };
 const decisionClass = (status) => ({ APPROVED: 'good', REVOKED: 'bad', REJECTED: 'bad' }[status] || 'pending');
 const planMarkerClass = (status) => ({ APPROVED: 'green', REVOKED: 'red', REJECTED: 'red' }[status] || '');
 const retainedAuthorId = (plan) => typeof plan?.authorId === 'string' && plan.authorId.length <= 200 && plan.authorId.trim().length > 0 ? plan.authorId : null;
@@ -347,6 +347,9 @@ function SchemaReferences({ token, projectId, onMissing, onTargets }) {
 }
 
 function App() {
+  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+  useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
+  const toggleTheme = () => setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
   const initialWorkflow = useRef(readWorkflowLocation(location.hash));
   const workflowRestored = useRef(false);
   const [workflowTarget,setWorkflowTarget] = useState(initialWorkflow.current.target || '');
@@ -423,6 +426,7 @@ function App() {
       executionEventSequence.current += 1;
     }
     setTabState(nextTab);
+    if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') window.scrollTo(0, 0);
   };
   const previousAuditProjectId = useRef(projectId);
   const previousReleaseBinding = useRef({ projectId: '', repositoryId: '', folder: '' });
@@ -1561,10 +1565,13 @@ function App() {
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
-      <a className="brand" href="#home" aria-label={`${productName} home`}><span className="brand-mark">{productName[0]}</span><span>{productName === 'SchemaForge' ? <>Schema<span className="brand-light">Forge</span></> : productName}</span></a>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <a className="brand" href="#home" aria-label={`${productName} home`}><span className="brand-mark">{productName[0]}</span><span className="brand-copy"><span className="brand-title">{productName === 'SchemaForge' ? <>Schema<span className="brand-light">Forge</span></> : productName}</span><span className="brand-subtitle">Oracle Database DevOps</span></span></a>
+        <button type="button" className="theme-toggle" aria-label="Toggle color theme" onClick={toggleTheme}>{theme === 'dark' ? '☀ Light' : '☾ Dark'}</button>
+      </div>
       <p className="eyebrow">DATABASE CHANGE GOVERNANCE</p>
       <h1>Make every change reviewable.</h1>
-      <p className="muted">Sign in with a local access token to manage projects, review migration releases, and record decisions.</p>
+      <p className="muted">Sign in with a local access token to manage projects, validate Oracle schema changes, review migration releases, and record immutable governance decisions.</p>
       <form onSubmit={connect} className="stack login-form">
         <label htmlFor="access-token">Local access token</label>
         <input id="access-token" aria-label="Local access token" type="password" autoComplete="off" value={tokenInput} onChange={(e) => setTokenInput(e.target.value)} required />
@@ -1573,29 +1580,33 @@ function App() {
       {error && <p className="banner error" role="alert">{error}</p>}
       <p className="fine-print">{location.protocol === 'https:' ? 'Sign-in creates a secure browser session. Sessions expire after 30 minutes idle or 8 hours; sign out revokes this session.' : 'Your token is kept in memory for this tab and is never saved in browser storage.'}</p>
     </div>
-    <div className="login-art"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="art-card"><span className="status-dot"/> Controlled change <strong>Plan → Review → Record</strong><small>Execution stays with an authorized runtime.</small></div><div className="art-caption">A clear record for every proposed database change.</div></div>
+    <div className="login-art"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="art-card"><span className="status-dot"/> Controlled change <strong>Plan → Review → Record</strong><small>Execution stays with an authorized runtime.</small><div className="art-pipeline"><div className="art-step"><span>01 · AUTHOR &amp; VALIDATE</span><strong>Oracle SQL &amp; PL/SQL AST checks</strong></div><div className="art-step"><span>02 · PLAN &amp; DIFF</span><strong>Target-bound baseline &amp; drift analysis</strong></div><div className="art-step"><span>03 · INDEPENDENT REVIEW</span><strong>Separation of duties &amp; SHA-256 digests</strong></div><div className="art-step"><span>04 · IMMUTABLE AUDIT</span><strong>Full traceability &amp; reconciliation</strong></div></div></div><div className="art-caption">A clear record for every proposed database change.</div></div>
   </main>;
 
   return <div className="app-shell">
     <aside className="sidebar">
-      <a className="brand" href="#workspace"><span className="brand-mark">S</span><span>Schema<span className="brand-light">Forge</span></span></a>
-      <div className="workspace-label">WORKSPACE</div>
+      <a className="brand" href="#workspace" aria-label={`${productName} workspace`}><span className="brand-mark">{productName[0]}</span><span className="brand-copy"><span className="brand-title">{productName === 'SchemaForge' ? <>Schema<span className="brand-light">Forge</span></> : productName}</span><span className="brand-subtitle">Oracle Database DevOps</span></span></a>
+      {selectedProject && <div className="sidebar-project-pill"><span className="sidebar-project-label">Active Project</span><strong>{selectedProject.name}</strong></div>}
+      <div className="workspace-label">WORKSPACE &amp; INFRASTRUCTURE</div>
       <button type="button" className={`nav-item ${tab === 'workspace' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('workspace'); }}><span>▦</span> Projects</button>
       <button type="button" className={`nav-item ${tab === 'instances' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('instances'); }}><span>◎</span> Database instances &amp; connections</button>
       <button type="button" className={`nav-item ${tab === 'targets' ? 'active' : ''}`} onClick={() => setTab('targets')}><span>◎</span> Project targets</button>
       <button type="button" className={`nav-item ${tab === 'schema' ? 'active' : ''}`} onClick={() => setTab('schema')}><span>⌑</span> Schema baselines &amp; drift</button>
       <button type="button" className={`nav-item ${tab === 'references' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('references'); }}><span>⌑</span> Schema references</button>
+      <div className="workspace-label">SQL &amp; RELEASES</div>
+      <button type="button" className={`nav-item ${tab === 'sql' ? 'active' : ''}`} onClick={() => setTab('sql')}><span aria-hidden="true">⌨</span> SQL Workspace</button>
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('release'); }}><span>◫</span> Releases</button>
+      <div className="workspace-label">GOVERNANCE &amp; AUDIT</div>
       <button type="button" className={`nav-item ${tab === 'review' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('review'); }}><span>◇</span> Plans &amp; review</button>
       <button type="button" className={`nav-item ${tab === 'inbox' ? 'active' : ''}`} onClick={() => { setTab('inbox'); void loadInbox({ append: false }); }}><span>▤</span> Review inbox</button>
-      <button type="button" className={`nav-item ${tab === 'sql' ? 'active' : ''}`} onClick={() => setTab('sql')}><span aria-hidden="true">⌨</span> SQL Workspace</button>
       <button type="button" className={`nav-item ${tab === 'history' ? 'active' : ''}`} onClick={() => setTab('history')}><span aria-hidden="true">≡</span> Migration history</button>
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('records'); }}><span>≡</span> Audit &amp; history</button>
+      <div className="workspace-label">IDENTITY</div>
       <button type="button" className={`nav-item ${tab === 'account' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('account'); }}><span>◎</span> Account &amp; access</button>
     <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={async () => { if (workspaceDirty) {setNotice('Save or discard unsaved SQL edits before signing out.');setTab('sql');return;} if (token.startsWith('session:')) { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; inboxSequence.current += 1; executionContextEpoch.current += 1; try { await json('/api/session/logout', token, { method: 'POST' }); } catch (e) { if (e.message !== 'UNAUTHENTICATED') { setBusy(false); setError('Sign out failed. Retry to revoke this session.'); return; } } } executionContextEpoch.current += 1; executionKeys.current.clear(); executionEventSequence.current += 1; setExecutionEvents({}); setExecutionReason(''); browserSessionEpoch += 1; inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' }); sessionEpoch.current += 1; withdrawalContextEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; invalidateReleaseComparison(); statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setRevocationReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setNavigateDuringWithdrawal(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
-      <header className="topbar"><div><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong></div><div className="topbar-right"><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { if (tab === 'inbox') void loadInbox(); else void refresh(token); }} disabled={busy}>↻</button></div></header>
+      <header className="topbar"><div className="topbar-breadcrumbs"><span className="crumb">Workspace</span><span className="crumb-sep">/</span><strong>{pageTitles[tab] || pageTitles.workspace}</strong>{selectedProject && <span className="topbar-project-badge">{selectedProject.name}</span>}</div><div className="topbar-right"><button type="button" className="theme-toggle" aria-label="Toggle color theme" onClick={toggleTheme}>{theme === 'dark' ? '☀ Light' : '☾ Dark'}</button><span className="role-pill">{actor.role}</span><button type="button" className="icon-button refresh" aria-label="Refresh workspace" onClick={() => { if (tab === 'inbox') void loadInbox(); else void refresh(token); }} disabled={busy}>↻</button></div></header>
       {(error || notice) && <div className={`banner ${error ? 'error' : 'success'}`} role={error ? 'alert' : 'status'}>{error || notice}<button type="button" className="banner-close" onClick={() => { setError(''); setNotice(''); }} aria-label="Dismiss message">×</button></div>}
       {accessMode === 'BOOTSTRAP_REQUIRED' && <div className="banner warning" role="status">Bootstrap required · project access is read-only until the local OS operator grants access and activates membership.</div>}
       {metadataRecovery.state === 'RESTORE_HOLD' && <div className="banner warning recovery-hold" role="status" data-recovery-state="RESTORE_HOLD"><strong>Metadata restore recovery hold</strong><span>Historical records are available for review. Deployment requests and cancellation are disabled while an external operator reviews the restored metadata and target evidence.</span></div>}
@@ -1662,6 +1673,17 @@ function WorkspaceScreen({ model }) {
             <section className="panel context-panel"><div className="panel-heading"><div><h2>{detail?.project?.name || 'Project context'} {detail?.project?.archivedAt && <span className="status-pill neutral">ARCHIVED</span>}</h2><p>Configuration for the selected project.</p></div><span className="context-icon">⌘</span></div>
               {isArchived && <output className="archive-notice"><strong>Project archived</strong><span>Archived {fmt(archivedAt)}. New changes are disabled; existing releases, plans, and records remain readable.</span></output>}
               {!detail ? <div className="empty-state compact">Select or create a project to continue.</div> : <>
+                <div className="project-kpi-strip" aria-label="Project delivery metrics">
+                  <div className="project-kpi-card"><span className="project-kpi-label">Environments</span><strong className="project-kpi-value">{(detail.environments || []).length}</strong></div>
+                  <div className="project-kpi-card"><span className="project-kpi-label">Profiles</span><strong className="project-kpi-value">{(detail.profiles || []).length}</strong></div>
+                  <div className="project-kpi-card"><span className="project-kpi-label">Target Bindings</span><strong className="project-kpi-value">{(detail.targetBindings || []).length}</strong></div>
+                  <div className="project-kpi-card"><span className="project-kpi-label">Releases / Plans</span><strong className="project-kpi-value">{(detail.releases || []).length} / {(detail.plans || []).length}</strong></div>
+                </div>
+                <div className="project-quick-links">
+                  <button type="button" className="secondary" onClick={() => model.setTab('targets')}>Configure targets →</button>
+                  <button type="button" className="secondary" onClick={() => model.setTab('sql')}>Open SQL Workspace →</button>
+                  <button type="button" className="secondary" onClick={() => model.setTab('review')}>Review plans ({(detail.plans || []).length}) →</button>
+                </div>
                 <div className="section-title"><span>01</span><strong>Environments</strong></div>
                 <div className="chip-list">{(detail.environments || []).map((env) => <span className="data-chip" key={env.id}><i/> {env.name}</span>)}{!detail.environments?.length && <span className="subtle">No environments configured</span>}</div>
                 <form className="inline-form" inert={accessMode === 'BOOTSTRAP_REQUIRED'} onSubmit={createEnvironment}><label className="sr-only" htmlFor="environment-name">Environment name</label><input id="environment-name" placeholder="e.g. Development" value={environmentName} onChange={(e) => setEnvironmentName(e.target.value)} required disabled={busy || isArchived}/><button type="submit" className="text-button" disabled={busy || isArchived}>＋ Add</button></form>
@@ -1774,6 +1796,7 @@ function ReviewScreen({ model }) {
               <div className="plan-selector">{plans.map((item) => { const sourceRelease = (detail.releases || []).find((candidate) => candidate.id === item.releaseId); return <button type="button" data-plan-id={item.id} key={item.id} onClick={() => setSelectedPlan(item.id)} className={`plan-option ${(plan?.id === item.id) ? 'selected' : ''}`}><span className={`status-dot ${planMarkerClass(item.status)}`} /><span><strong>{sourceRelease?.commit?.slice(0, 12) || `Plan ${item.id.slice(0, 8)}`}</strong><small>{fmt(item.createdAt || item.created_at)}</small></span><span className={`status-pill ${decisionClass(item.status)}`}>{item.status?.replaceAll('_', ' ')}</span></button>; })}</div>
               {plan && <><div className="plan-summary"><div><span className="data-label">PLAN ID</span><code>{plan.id}</code></div><div><span className="data-label">DECISION</span><span className={`status-pill ${decisionClass(plan.status)}`}>{plan.status?.replaceAll('_', ' ')}</span></div><div><span className="data-label">TARGET HISTORY</span><strong>{plan.historyStatus || 'NOT_OBSERVED'}</strong></div><div><span className="data-label">EXECUTION</span><strong className="not-executed">{plan.execution || 'NOT_EXECUTED'}</strong></div></div>
                 <section className="panel" aria-label="Database change review stage"><h3>Immutable candidate · {plan.status.replaceAll('_',' ')}</h3><p>Review release <code>{plan.releaseId}</code>{intent?.sourceOrigin?.draftRevision && <> · SQL draft revision {intent.sourceOrigin.draftRevision}</>}. Approval applies to this immutable candidate. Inspect its retained evidence below.</p>{intent?.digest && <p>Plan intent SHA-256 <code>{intent.digest}</code></p>}<p>Independent approval records a review decision. Deployment still requires the backend readiness and execution authorization checks.</p>{plan.status==='PENDING_APPROVAL' && <ul aria-label="Approval requirements">{isArchived && <li>The project is archived.</li>}{readOnlyBootstrap && <li>Project membership must be enforced before decisions.</li>}{!isApprover && <li>An approver role is required.</li>}{isPlanAuthor && <li>The plan author cannot approve their own candidate.</li>}{!authorFactsAvailable && <li>Requester facts are unavailable.</li>}{plan.reviewerId && plan.reviewerId!==actor?.id && <li>The candidate is assigned to another approver.</li>}{selectedNeedsFreshPlan && <li>Source or intent evidence is stale or unverifiable; prepare a fresh plan.</li>}{plan.retainedTarget && plan.currentness?.state!=='CURRENT' && <li>Target evidence is {plan.currentness?.state || 'UNKNOWN'}: {(plan.currentness?.reasons || []).join(', ')}. Prepare a fresh plan.</li>}{targetProfile?.retiredAt && <li>The configured target profile is retired.</li>}{!decisionReason.trim() && <li>Enter a decision reason after inspecting the source and findings.</li>}</ul>}<div className="form-actions"><button type="button" className="secondary" onClick={()=>openHistoryRelease(plan.releaseId)}>Open reviewed release</button><button type="button" className="secondary" onClick={()=>openMigrationHistory(null,plan.id)}>Open plan history</button><button type="button" className="secondary" onClick={()=>setTab('records')}>Open project audit log</button></div></section>
+                <div className="governance-meta-grid">
                 <section className="panel requester-facts" aria-label="Plan requester"><div className="panel-heading"><div><h3>Plan requester</h3><p>Retained plan author and server creation time.</p></div></div><dl>
                   <div><dt>Author ID</dt><dd>{authorFactsAvailable ? <code>{planAuthorId}</code> : <span>Unavailable</span>}</dd></div>
                   <div><dt>Created</dt><dd>{planCreatedAt ? <time dateTime={planCreatedAt}>{fmt(planCreatedAt)}</time> : <span>Unavailable</span>}</dd></div>
@@ -1788,6 +1811,7 @@ function ReviewScreen({ model }) {
                   {reviewerMessage && <p className="banner warning" role="status">{reviewerMessage}</p>}
                   {plan.reviewerId && isApprover && actor?.id !== plan.reviewerId && plan.status === 'PENDING_APPROVAL' && <p className="banner warning">This plan is assigned to another approver. Decision controls are disabled.</p>}
                 </section>
+                </div>
                 <section className="panel retained-intent" aria-label="Retained offline intent" data-intent-plan-id={plan.id}>
                   <div className="panel-heading"><div><h3>Retained offline intent</h3><p>Captured when this plan was created · offline configuration, not current settings or runtime-observed identity.</p></div></div>
                   {!retainedIntentAvailable

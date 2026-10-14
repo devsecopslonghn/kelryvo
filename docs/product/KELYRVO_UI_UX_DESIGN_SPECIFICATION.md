@@ -26,9 +26,9 @@
 
 ## Visual and responsive conventions
 
-Reuse the current light interface, semantic CSS properties, restrained blue primary actions, neutral surfaces/borders and monospace SQL/identifiers. Keep status labels in addition to color, readable SQL/diffs and visible provenance. Reuse established components rather than introducing a second design system.
+Reuse the current light and dark themes, semantic CSS properties, restrained blue primary actions, neutral surfaces/borders and monospace SQL/identifiers. The theme toggle keeps appearance state in React memory and updates the root `data-theme` attribute without browser storage. Keep status labels in addition to color, readable SQL/diffs and visible provenance. Reuse established components rather than introducing a second design system.
 
-The older design proposed dark mode and alternative tokens; neither is a delivered-product claim. Any appearance change must use actual bundled fonts and pass contrast/interaction checks rather than relying on static mockups.
+The interface uses installed fonts from its CSS font stacks and system fallbacks; named font families are not bundled assets. Any appearance change must verify the fonts actually rendered and pass contrast/interaction checks rather than relying on static mockups.
 
 - Keep forms and detail panels usable on narrow screens and at 200% zoom. Tables may scroll inside a labeled region; core actions, target identity and HOLD warnings remain visible.
 - Provide semantic headings, labels, tables and buttons, keyboard access, visible focus and dialog focus return.
