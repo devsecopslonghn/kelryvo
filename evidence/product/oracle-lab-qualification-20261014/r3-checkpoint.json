@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "dc5a97899c4ccfaf83c09aaaff8678f3041d61da",
+  "retainedExecutionSourceCommit": "a0c26ba348a0ef7ece8c9a86d4e3190b8a50768e",
+  "status": "BLOCKED_COMPLETE_ORACLE_ACCEPTANCE",
+  "engineVersion": "Oracle AI Database 26ai Free 23.26.3.0.0",
+  "topology": "CDB_PDB",
+  "transport": "private TCP",
+  "sourceTreesEquivalent": true,
+  "provenance": {
+    "executionRecordsMatchRetainedReviewDigests": true,
+    "allRunsStartedBeforeReviewExpiry": true,
+    "v1EventsMatchCurrentCentralHistory": true,
+    "currentFullIdentityMatchesExecutionAuthority": true,
+    "privateEvidenceSha256": {
+      "execution-v1-once": "fed55ddefc73d48e5e84ec1b02da7b2f54fd3fb730d5cb0ea197c6835c64d245",
+      "execution-v2-once": "9c8744fc93faf0546a2562185c035b7921eb83dd495009f28e31230decc54500",
+      "execution-noop-once": "4a54e37ec32dcf45401f8bab08947b0e8935284e8707b3c08ec2806238841f7a",
+      "v1-independent-effect-observation": "5449e78cb317e24aeecb99662d98df8e33f244fa1ef142dc648f3ace69230efe",
+      "v2-independent-effect-observation": "502100de84ffc5fd8e00302e2e0424edc01306b9ff0b4166b63ff6fc7dc62c87",
+      "resume-independent-observation": "8692f146965a569abea1479a7c0c8bbd5a72b8a3528783c66e973c8529887bdd",
+      "resume-identity-observation": "8f3903e6506fbb52e452d8640b900e38e6c16fd320378706c5d296989f92df1e",
+      "resume-metadata-results": "3cfa637b54a079fb6e0c96a13892529f8d23ddd4dcb2b709504c4dd7c399ffd9",
+      "resume-authority-correction": "bc4cb71e4fad44b9126777a6199a3930d6eaa9a9d9ff7908df47ccc1db09f3bd",
+      "worker-installation-acceptance": "2bab83c03a11591ed2077e2eabfbcfe1128f63f214a0527af1a04e88adff699b",
+      "worker-installation-acceptance-v2": "bb199cff37651f5292186de87d53f49fb13887d8795b0f4d9aa5f0a50f3b729b",
+      "worker-installation-acceptance-noop": "678b453b4d748fdde751dfd2a114ef30c510ef69d8ec2beb6c4cd864c6bb7d86"
+    }
+  },
+  "v1": {
+    "status": "PASS",
+    "statementsExecuted": 2,
+    "receipts": 2
+  },
+  "v2": {
+    "status": "PASS",
+    "newStatementsExecuted": 2,
+    "receipts": 2,
+    "v1Preserved": true
+  },
+  "noop": {
+    "status": "FAIL",
+    "classification": "PRIVATE_HARNESS_AUTHORITY_STATE_GATE",
+    "retainedTerminalState": "HOLD",
+    "admissionScope": "PRODUCT_REQUEST",
+    "attemptCount": 0,
+    "statementStarts": 0,
+    "statementAcknowledgments": 0,
+    "receipts": 0,
+    "targetLedgerUnchangedFromV2": true,
+    "fourTablesPreserved": true,
+    "rootCause": "Pre-admission EXACT_APPLIED postcondition verification called authority callback whose loadRequest accepted ADMITTED only.",
+    "correction": "Private callback now accepts WAITING_VALIDATION and ADMITTED with existing current-candidate/identity/digest/expiry constraints; independently reviewed, syntax checked, never executed. Original module retained privately.",
+    "correctedInstallationAccepted": false,
+    "originalHoldCleared": false,
+    "replacementRequestCreated": false
+  },
+  "acceptanceCases": {
+    "OA01": {
+      "status": "NOT_RUN",
+      "verified": "Full live identity matches retained manifest and purpose observer; existing wrong-version/digest checks passed.",
+      "remaining": "Explicitly allowlisted mismatched writer route with zero statement calls not exercised."
+    },
+    "OA02": {
+      "status": "PASS",
+      "verified": "Retained narrow grants, distinct physical sessions, reader DDL denial, writer protected-ledger/DBMS_LOCK denial, private resolver isolation and independently accepted installation checks.",
+      "scope": "Bounded purpose roles only; app_user is not the writer in this lineage."
+    },
+    "OA03": {
+      "status": "PASS",
+      "verified": "V1 two CREATE TABLE calls; V2 only two pending calls; parser byte digests, independent approvals, target chain, STARTED/ACK and exact central receipts matched. Live four-table observation and restart preserve V1/V2."
+    },
+    "OA04": {
+      "status": "NOT_RUN",
+      "remaining": "Separate marker fixture/DML and failing-DDL scope absent from attested CREATE TABLE-only manifest."
+    },
+    "OA05": {
+      "status": "NOT_RUN",
+      "verified": "Earlier direct real mutex qualification excluded a second writer across COMMIT.",
+      "remaining": "Two route aliases and concurrent isolated governed workers were not attested/tested."
+    },
+    "OA06": {
+      "status": "NOT_RUN",
+      "remaining": "workerKill=false; no interruption fixture or approved stop points."
+    },
+    "OA07": {
+      "status": "NOT_RUN",
+      "remaining": "networkProxyFault=false; no approved fault proxy/session scope."
+    },
+    "OA08": {
+      "status": "NOT_RUN",
+      "boundedResult": "PASS",
+      "verified": "Actual pre-admission HOLD target observation submitted; self-review denied; distinct reviewer retained HOLD; restart preserved decision, retryEligible=false and executionAuthority=false. Immutable evidence/audit checks passed.",
+      "remaining": "No ambiguous DDL/admitted HOLD or retained live mutex was exercised."
+    },
+    "OA09": {
+      "status": "NOT_RUN",
+      "boundedResult": "PASS",
+      "verified": "Exact held request retry returns original; changed payload IDEMPOTENCY_CONFLICT and replacement key PLAN_NOT_REQUESTABLE; V1/V2 checksums and lineage retained.",
+      "remaining": "Full queued/admitted/held matrix and incompatible target-history case incomplete; NOOP failed in private authority adapter."
+    },
+    "OA10": {
+      "status": "BLOCKED",
+      "boundedResult": "PASS",
+      "verified": "Actual V1/V2 jobs/receipts and pre-admission HOLD reconciliation/audit survive application restart; Oracle effects/ledger remain unchanged.",
+      "remaining": "Retained R3 database uses sf_r3_ naming, outside native product backup authorization contract; execution backup/restore and worker interruption recovery not exercised. Earlier reader-only backup/RESTORE_HOLD evidence is preserved."
+    }
+  },
+  "r4": {
+    "applicationRestart": "PASS_BOUNDED",
+    "executionHistoryDurability": "PASS_V1_V2",
+    "reconciliationAuditDurabilityAndImmutability": "PASS",
+    "oracleEffectsAndLedgerPersistence": "PASS_READ_ONLY_REOBSERVATION",
+    "credentialIsolation": "PASS_BOUNDED_RETAINED_PURPOSE_INSTALLATION",
+    "workerTerminalReaping": "PASS_RETAINED_V1_V2_NOOP_RECEIPTS",
+    "workerInterruptionRecovery": "NOT_RUN",
+    "executionBackupRestore": "BLOCKED_METADATA_NAME_CONTRACT",
+    "operationalReadiness": "BLOCKED_R3_INCOMPLETE"
+  },
+  "newVerification": [
+    "OA09_EXACT_RETRY_RETURNS_HELD_REQUEST_CHANGED_PAYLOAD_AND_NEW_KEY_DENIED",
+    "OA08_DISTINCT_REVIEWER_RETAIN_HOLD_SELF_REVIEW_DENIED_NO_EXECUTION_AUTHORITY",
+    "V1_SUCCESS_EXACT_RECEIPTS_SURVIVE_APPLICATION_RESTART",
+    "V2_SUCCESS_EXACT_RECEIPTS_SURVIVE_APPLICATION_RESTART",
+    "OA08_RECONCILIATION_AND_DECISION_SURVIVE_APPLICATION_RESTART",
+    "R4_RECONCILIATION_DECISION_AND_AUDIT_IMMUTABLE_AND_DURABLE"
+  ],
+  "independentReview": {
+    "authorityCorrection": "PASS_NO_ISSUE_FOUND",
+    "metadataClaims": "PASS_BOUNDED_ONLY",
+    "databaseAccessByReviewer": false
+  },
+  "capacity": {
+    "claimBytes": 4294967296,
+    "observedFreeBytes": 973979648,
+    "stopFloorBytes": 536870912,
+    "status": "ABOVE_FLOOR"
+  },
+  "delivery": {
+    "priorPR": 107,
+    "priorMergeCommit": "dc5a97899c4ccfaf83c09aaaff8678f3041d61da",
+    "newProductDefectsConfirmed": 0,
+    "privateHarnessDefectsConfirmed": 1,
+    "scope": "Sanitized retained acceptance evidence and status documentation; private authority correction excluded from publication."
+  },
+  "blockers": [
+    "Terminal held stream must not be cleared, replaced or replayed to make NOOP pass. Corrected module has no renewed accepted installation; original review invalid for changed module.",
+    "Fault and separate implicit-commit/mutex-route fixture scope absent.",
+    "Native backup contract rejects existing sf_r3_ metadata name; no authorization contract weakened or live metadata renamed."
+  ],
+  "labSafeToDelete": false,
+  "labDeletionPerformed": false,
+  "labRetentionReason": "Full R3/R4 acceptance incomplete; original held request, scoped objects, purpose accounts, ledger and private evidence required for owner/operator-reviewed continuation."
+}

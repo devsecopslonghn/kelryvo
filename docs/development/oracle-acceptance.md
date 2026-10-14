@@ -1,9 +1,9 @@
 # Disposable Oracle execution acceptance
 
-Live Oracle execution acceptance remains **NOT_RUN**. The owner-authorized live
-qualification below exercised connectivity, accepted read-only identity, metadata,
-baseline/drift and partial application workflows. Purpose accounts and protected
-ledger/mutex objects were prepared; no governed migration has executed. Fixture discovery,
+Live Oracle execution acceptance is **BLOCKED as a complete program**. Retained V1
+and V2 governed executions passed with independently observed Oracle effects; NOOP
+ended in a pre-admission HOLD caused by the private authority adapter. The checkpoint
+recovery below supersedes earlier NOT_RUN execution status. Fixture discovery,
 UNIT_SYNTHETIC workers and PostgreSQL tests do not establish Oracle migration effects.
 
 This bounded suite uses the existing Oracle provider, target ledger and session
@@ -81,12 +81,63 @@ focused discovery tests, the complete local check and hosted CI passed before me
 the follow-up reran only remaining cases and confirmed good reader connectivity.
 
 R1/R2 complete negative, visibility/concurrency and browser matrices remain incomplete.
-R3/OA01–OA10 and Oracle worker/fault/recovery cases remain **NOT_RUN** as complete
-contracts. The private execution installation is still under review. Two scoped
+At this follow-up checkpoint, R3/OA01–OA10 and Oracle worker/fault/recovery cases were
+**NOT_RUN** as complete contracts. The private execution installation was still under review. Two scoped
 application discovery fixtures remain; controlled drift was restored with acknowledged
 DDL. The fresh worker schema was independently observed entirely empty after its
 temporary discovery anchor was removed. Existing application privileges remain
 unchanged, PVC free capacity remains 929 MiB, and the lab must remain for further work.
+
+## Recovered execution checkpoint on 2026-10-14
+
+[Sanitized checkpoint evidence](../../evidence/product/oracle-lab-qualification-20261014/r3-checkpoint.json)
+records retained execution/review digests and new read-only observations. V1/V2/NOOP
+execution records match their separately accepted installation reviews and started
+within those reviews' validity windows. PR #107 merged the reader follow-up at
+`dc5a97899c4ccfaf83c09aaaff8678f3041d61da`; its source tree matches the retained execution checkout.
+
+V1 executed two approved CREATE TABLE statements. V2 executed only its two new
+statements, preserving V1. The current purpose observer matched the full attested
+database identity, four exact tables/columns and complete two-migration target chain.
+Target history is unchanged from V2. Original approvals, ordered STARTED/ACK events
+and two receipts per execution remain retained across application restart.
+
+NOOP had already run before session recovery. It is **FAIL (private harness)**:
+the worker checks EXACT_APPLIED postconditions before admission, but the private
+adapter allowed only ADMITTED candidates. Its safe terminal state is HOLD under
+PRODUCT_REQUEST, with zero attempts, statement events or receipts. No ledger entry
+was duplicated and no Oracle SQL was replayed. The private state gate was corrected
+and independently reviewed; its original module is retained. Changed module bytes
+invalidate the previous installation review. No corrected worker was invoked.
+
+| Case | Complete contract status | Verified scope / remaining boundary |
+| --- | --- | --- |
+| OA01 identity | NOT_RUN | Full identity reobserved; allowlisted mismatched writer route remains untested. |
+| OA02 purpose isolation | PASS | Retained narrow grants, denial probes, distinct sessions and private resolver isolation within accepted purpose-role scope. |
+| OA03 ordering/checksum | PASS | Governed V1/V2 effects, exact bytes/order, durable starts, acknowledgments and target/central receipts. |
+| OA04 implicit commit | NOT_RUN | Separate marker/failing-DDL fixture is outside the CREATE TABLE-only manifest. |
+| OA05 stream mutex | NOT_RUN | Direct real mutex/COMMIT probe passed earlier; governed route-alias concurrency is untested. |
+| OA06 interruption | NOT_RUN | Manifest explicitly disables worker-kill faults. |
+| OA07 network failure | NOT_RUN | Manifest explicitly disables network faults. |
+| OA08 reconciliation | NOT_RUN | Bounded pre-admission HOLD submission, independent review, no replay authority and restart durability passed; ambiguous DDL/mutex retention is untested. |
+| OA09 idempotency/history | NOT_RUN | Exact HOLD retry, changed payload/new-key denial and V1/V2 history passed; full state/incompatible-history matrix and successful NOOP remain incomplete. |
+| OA10 recovery/audit | BLOCKED | App restart and immutable reconciliation/audit passed; execution metadata backup/restore and worker recovery remain incomplete. |
+
+R4 verified application restart, durable V1/V2 receipts, reconciliation/decision
+retention, audit immutability and current Oracle effects/ledger preservation. Original
+supervised runs retained terminal receipts with child reaping. This is bounded
+operational evidence, not full recovery readiness. The retained R3 metadata database
+uses an `sf_r3_` name, outside the product native-backup authorization contract;
+that contract was not weakened or the database renamed. Earlier reader-only
+backup/restore evidence cannot establish migration-history restore acceptance.
+
+The original held request remains untouched. Exact retries return it; changed payload
+and replacement-key requests are rejected. A distinct reviewer retained HOLD using
+the independent observation digest, with retryEligible=false and executionAuthority=false.
+Continuation requires an owner/operator-reviewed disposition that respects retained
+HOLD, fresh installation acceptance and separately attested fixture/fault scope.
+The lab is **not safe to delete for acceptance completion**. No Oracle infrastructure
+was changed or deleted; observed free PVC capacity remains 929 MiB, above the 512 MiB floor.
 
 ## Entry gate
 
