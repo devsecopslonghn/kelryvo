@@ -10,6 +10,7 @@ import {initializeDatabase} from '../packages/database/index.ts';
 import {createPrivateBackup,restorePrivateBackup,inventory as inspectBackupSchema} from '../packages/backup/index.mjs';
 import {createApp} from '../apps/api/index.ts';
 import {SQL_WORKSPACE_TABLES} from '../packages/sql-workspace/schema.mjs';
+import {prepareAuthoredSnapshot} from '../packages/migrations/authored-snapshot.mjs';
 
 const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS==='1';
 test('Native backup preserves SQL revisions and release attribution, while restored metadata keeps preparation held',{
@@ -93,8 +94,18 @@ test('Native backup preserves SQL revisions and release attribution, while resto
     await sql`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts)
       VALUES(${f.project.id},'00000000-0000-4000-8000-000000000001',${f.actors[0].id},'PLAN_SOURCE_COMPARED',${f.release.id},${sql.json(comparisonFacts)})`;
     const generation=(await sql`SELECT source_binding_generation FROM sf_projects WHERE id=${f.project.id}`)[0].source_binding_generation;
-    await sql`INSERT INTO sf_sql_workspace_releases(release_id,project_id,organization_id,draft_id,draft_revision,draft_sha256,source_binding_generation,created_by)
-      VALUES(${f.release.id},${f.project.id},'00000000-0000-4000-8000-000000000001',${draftId},1,${sha},${generation},${f.actors[0].id})`;
+    const authored=await prepareAuthoredSnapshot({folder:'migrations',sql:source,draftId,revision:1});
+    assert.equal(authored.validationStatus,'VALID',authored.validationCode || 'authored snapshot parser must establish a valid release');
+    const authoredFiles=authored.files.map(({path,version,sha256,bytes,statementCount,validationStatus,content})=>
+      ({path,version,sha256,bytes,statementCount,validationStatus,content}));
+    const authoredRelease=(await sql`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,
+      validation_status,validation_code,parser_profile,files)
+      VALUES(${f.project.id},'00000000-0000-4000-8000-000000000001',${f.release.repositoryId},${authored.commit},${authored.objectFormat},
+        ${authored.folder},${authored.manifestDigest},${authored.validationStatus},${authored.validationCode},${authored.parserProfile},${sql.json(authoredFiles)})
+      RETURNING id`)[0];
+    await sql`INSERT INTO sf_sql_workspace_releases(release_id,project_id,organization_id,draft_id,draft_revision,draft_sha256,
+      draft_manifest_version,source_binding_generation,created_by)
+      VALUES(${authoredRelease.id},${f.project.id},'00000000-0000-4000-8000-000000000001',${draftId},1,${sha},1,${generation},${f.actors[0].id})`;
     const before=await Promise.all(SQL_WORKSPACE_TABLES.map(table=>tableSnapshot(sql,table)));
     const restored=await f.restore();
     assert.deepEqual(await Promise.all(SQL_WORKSPACE_TABLES.map(table=>tableSnapshot(restored.sql,table))),before);
@@ -107,11 +118,13 @@ test('Native backup preserves SQL revisions and release attribution, while resto
     await assert.rejects(restored.sql`UPDATE sf_audit SET facts='{"changed":true}'::jsonb WHERE id=${auditId}`,/immutable/,
       'backup and restore preserve the audit fact guard');
     await assert.rejects(restored.sql`UPDATE sf_sql_draft_revisions SET sql='changed' WHERE draft_id=${draftId}`,/immutable/);
-    await assert.rejects(restored.sql`DELETE FROM sf_sql_workspace_releases WHERE release_id=${f.release.id}`,/immutable/);
+    await assert.rejects(restored.sql`DELETE FROM sf_sql_workspace_releases WHERE release_id=${authoredRelease.id}`,/immutable/);
     app=createApp({sql:restored.sql,actors:restored.actors,repositories:f.repositories});
     const api=(method,url,payload)=>app.inject({method,url,payload,headers:{authorization:`Bearer ${restored.actors[0].token}`}});
     const draft=await api('GET',`/api/projects/${f.project.id}/sql-drafts/${draftId}`);
     assert.equal(draft.statusCode,200,draft.body);assert.equal(draft.json().draft.sql,source);
+    assert.equal(draft.json().draft.preparedRelease.id,authoredRelease.id,
+      'backup preserves the exact authored release bound to this retained draft revision');
     const multiDraft=await api('GET',`/api/projects/${f.project.id}/sql-drafts/${multiDraftId}`);
     assert.equal(multiDraft.statusCode,200,multiDraft.body);
     assert.equal(multiDraft.json().draft.manifestVersion,2);
@@ -120,7 +133,10 @@ test('Native backup preserves SQL revisions and release attribution, while resto
       'source comparison provenance and candidate revision facts survive restore exactly');
     await assert.rejects(restored.sql`UPDATE sf_audit SET facts='{}'::jsonb WHERE facts->>'comparisonId'=${comparisonId}`,/immutable/,
       'backed-up source comparison evidence remains immutable after restore');
-    const origin=await api('GET',`/api/releases/${f.release.id}`);
+    const importedOrigin=await api('GET',`/api/releases/${f.release.id}`);
+    assert.equal(importedOrigin.statusCode,200,importedOrigin.body);assert.equal(importedOrigin.json().release.sourceKind,'GIT_IMPORT',
+      'the existing imported release remains a Git import rather than being attributed to authored SQL');
+    const origin=await api('GET',`/api/releases/${authoredRelease.id}`);
     assert.equal(origin.statusCode,200,origin.body);assert.equal(origin.json().release.sourceKind,'AUTHORED_SQL_WORKSPACE');
     assert.equal(origin.json().release.draftId,draftId);
     const held=await api('POST',`/api/projects/${f.project.id}/sql-drafts/${draftId}/prepare-release`,{

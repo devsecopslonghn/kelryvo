@@ -32,6 +32,9 @@ test('multi-file SQL drafts preserve immutable file identity, version order, iso
     assert.equal(preview.statusCode,200,preview.body);
     assert.deepEqual([...new Set(preview.json().preview.statements.map(statement=>statement.path))],
       ['migrations/V1__create_table.sql','migrations/V2__add_column.sql']);
+    const laterFileStatement=preview.json().preview.statements.find(statement=>statement.path==='migrations/V2__add_column.sql');
+    assert.equal(laterFileStatement.ordinal,2,'statement ordinal remains global across the release');
+    assert.equal(laterFileStatement.fileOrdinal,1,'the workspace preview also exposes the statement number within its file');
     assert.equal((await f.api('PUT',`${base}/${draft.id}`,{expectedRevision:'1',name:draft.name,
       targetBindingId:f.binding.bindingId,files:[first,{...second,path:'../V2__escape.sql'}]})).statusCode,400);
     assert.equal((await f.api('PUT',`${base}/${draft.id}`,{expectedRevision:'1',name:draft.name,

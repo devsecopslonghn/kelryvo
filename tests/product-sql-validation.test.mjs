@@ -6,13 +6,47 @@ import {createTargetWorkflowFixture} from './helpers/target-workflow-fixture.mjs
 import {verifyOfflinePlanIntent} from '../packages/migrations/offline-plan-intent.mjs';
 import {materializeApprovedStatements} from '../packages/execution/statements.mjs';
 import {createPrivateBackup,restorePrivateBackup} from '../packages/backup/index.mjs';
-import {verifyValidation} from '../packages/sql-validation/results.ts';
+import {verifyValidation,validationFailure} from '../packages/sql-validation/results.ts';
+import {registerSqlValidation} from '../packages/sql-validation/api.ts';
 import {chmod,mkdtemp,writeFile,rm} from 'node:fs/promises';
 import {join} from 'node:path';
 import {randomBytes} from 'node:crypto';
 import postgres from 'postgres';
 
 const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
+test('validation API preserves parser availability and evidence size HTTP statuses',async()=>{
+  for(const [code,status] of [['VALIDATION_PARSER_UNAVAILABLE',503],['VALIDATION_TOO_LARGE',413],['VALIDATION_EVIDENCE_UNAVAILABLE',409]]){
+    let handler;
+    const app={post(_path,_options,route){handler=route;},get(){}};
+    registerSqlValidation(app,{authenticate(){},sql:{begin(){throw validationFailure(code);}}});
+    const result={headers:{},statusCode:200,body:null,header(name,value){this.headers[name]=value;return this;},
+      code(value){this.statusCode=value;return this;},send(value){this.body=value;return value;}};
+    await handler({params:{projectId:'11111111-1111-4111-8111-111111111111',releaseId:'22222222-2222-4222-8222-222222222222'},
+      body:{targetBindingId:'33333333-3333-4333-8333-333333333333',expectedBindingRevision:'1',expectedAssignmentRevision:'1'}},result);
+    assert.equal(result.statusCode,status,code);
+    assert.deepEqual(result.body,{error:code});
+    assert.equal(result.headers['Cache-Control'],'no-store');
+  }
+});
+
+test('validation API returns safe domain statuses for archived projects, missing releases, and stale source bindings', {skip:!enabled,timeout:120000},async()=>{
+  const f=await createValidationFixture();try{
+    await f.db.sql`UPDATE sf_projects SET archived_at=clock_timestamp() WHERE id=${f.project.id}`;
+    const archived=await f.validate();
+    assert.equal(archived.statusCode,409,archived.body);assert.deepEqual(archived.json(),{error:'PROJECT_ARCHIVED'});
+    await f.db.sql`UPDATE sf_projects SET archived_at=NULL WHERE id=${f.project.id}`;
+    const missing=await f.api('POST',`${f.base}/releases/${randomUUID()}/validations`,{
+      targetBindingId:f.binding.bindingId,expectedBindingRevision:f.binding.bindingRevision,
+      expectedAssignmentRevision:f.binding.assignmentRevision,
+    });
+    assert.equal(missing.statusCode,404,missing.body);assert.deepEqual(missing.json(),{error:'NOT_FOUND'});
+    await f.db.sql`UPDATE sf_projects SET source_folder='other_migrations' WHERE id=${f.project.id}`;
+    const staleSource=await f.validate();
+    assert.equal(staleSource.statusCode,409,staleSource.body);assert.deepEqual(staleSource.json(),{error:'SOURCE_BINDING_MISMATCH'});
+    assert.doesNotMatch(staleSource.body,/stack|postgres|SELECT|password|token/i);
+  }finally{await f.close();}
+});
+
 test('schema-aware validation is deterministic, immutable, scoped and restart-durable; format-4 plans bind evidence and independent approval', {skip:!enabled,timeout:120000},async()=>{
   const f=await createValidationFixture();try{
     const response=await f.validate();assert.equal(response.statusCode,201,response.body);

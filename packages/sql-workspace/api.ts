@@ -147,7 +147,32 @@ export function registerSqlWorkspace(app: any, { sql, authenticate, releaseParse
     return row;
   };
 
-  const mapDraft = async (tx: any, row: any, includeSql = true) => {
+  const preparedReleaseFor = async (tx: any, project: any, row: any, current: any) => {
+    if (!project.source_repository_id || !project.source_folder) return null;
+    const origin = (await tx`SELECT r.id,origin.draft_id,origin.draft_revision::text AS draft_revision,
+        origin.draft_sha256,origin.draft_manifest_version,origin.source_binding_generation::text AS source_binding_generation
+      FROM sf_sql_workspace_releases origin JOIN sf_releases r ON r.id=origin.release_id AND r.project_id=origin.project_id
+      WHERE origin.project_id=${project.id} AND origin.organization_id=${ORG} AND r.organization_id=${ORG}
+        AND origin.draft_id=${row.id} AND origin.draft_revision=${row.revision}::bigint
+        AND origin.draft_sha256=${current.sha256} AND origin.draft_manifest_version=${current.manifest_version}
+        AND origin.source_binding_generation=${project.source_binding_generation}::bigint
+      ORDER BY origin.created_at DESC,r.id DESC LIMIT 1 FOR SHARE OF origin,r`)[0];
+    if (!origin) return null;
+    const bounds = await preflightHistoricalRelease(tx, { id: origin.id, projectId: project.id, organizationId: ORG });
+    if (!bounds.valid) throw fail('RELEASE_INTEGRITY_FAILED', 409);
+    const release = (await tx`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,
+        validation_status,validation_code,parser_profile,files,created_at FROM sf_releases
+      WHERE id=${origin.id} AND project_id=${project.id} AND organization_id=${ORG} FOR SHARE`)[0];
+    if (!releaseMatchesDraft(release, project, current, origin)) throw fail('RELEASE_INTEGRITY_FAILED', 409);
+    return { id: release.id, repositoryId: release.repository_id, commit: release.commit_id,
+      objectFormat: release.object_format, folder: release.folder, manifestDigest: release.manifest_digest,
+      manifestVersion: origin.draft_manifest_version, validationStatus: release.validation_status,
+      validationCode: release.validation_code, parserProfile: release.parser_profile, createdAt: release.created_at,
+      sourceKind: 'AUTHORED_SQL_WORKSPACE', draftId: row.id, draftRevision: origin.draft_revision,
+      draftSha256: origin.draft_sha256 };
+  };
+
+  const mapDraft = async (tx: any, row: any, includeSql = true, project: any = null) => {
     let current: any;
     if (includeSql) current = await revisionRow(tx, row.id, row.project_id, row.revision);
     else {
@@ -173,9 +198,11 @@ export function registerSqlWorkspace(app: any, { sql, authenticate, releaseParse
       FROM sf_sql_draft_revisions WHERE draft_id=${row.id} AND project_id=${row.project_id}
       ORDER BY revision DESC LIMIT 50`;
     if (!validName(row.name) || !uuid(row.target_binding_id) || !revision(row.revision)) throw fail('DRAFT_INTEGRITY_FAILED', 409);
+    const preparedRelease = includeSql && project ? await preparedReleaseFor(tx, project, row, current) : null;
     return { id: row.id, projectId: row.project_id, name: row.name, targetBindingId: row.target_binding_id,
       revision: row.revision, ...(includeSql ? { sql: current.sql, files: current.files } : {}), sha256: current.sha256,
       manifestVersion: current.manifest_version,
+      ...(includeSql ? { preparedRelease } : {}),
       createdBy: row.created_by, createdAt: row.created_at, updatedAt: row.updated_at,
       revisions: history.map((item: any) => ({ revision: item.revision, sha256: item.sha256,
         createdBy: item.createdBy, createdAt: item.createdAt })) };
@@ -235,13 +262,13 @@ export function registerSqlWorkspace(app: any, { sql, authenticate, releaseParse
     if (!uuid(req.params.projectId) || Object.keys(req.query || {}).some(key=>key!=='after')
         || req.query.after!==undefined && !uuid(req.query.after)) throw fail('INVALID_REQUEST');
     return sql.begin(async (tx: any) => {
-      await readGuard(tx, req);
+      const project = await readGuard(tx, req);
       const rows = await tx`SELECT id,project_id,organization_id,name,target_binding_id,current_revision::text AS revision,created_by,created_at,updated_at
         FROM sf_sql_drafts WHERE project_id=${req.params.projectId} AND organization_id=${ORG}
           AND (${req.query.after??null}::uuid IS NULL OR (updated_at,id)<(SELECT updated_at,id FROM sf_sql_drafts
             WHERE id=${req.query.after??null}::uuid AND project_id=${req.params.projectId} AND organization_id=${ORG}))
         ORDER BY updated_at DESC,id DESC LIMIT 51`;
-      return { drafts: await Promise.all(rows.slice(0,50).map((row: any) => mapDraft(tx, row, false))),nextCursor:rows.length>50?rows[49].id:null };
+      return { drafts: await Promise.all(rows.slice(0,50).map((row: any) => mapDraft(tx, row, false, project))),nextCursor:rows.length>50?rows[49].id:null };
     });
   });
 
@@ -267,7 +294,7 @@ export function registerSqlWorkspace(app: any, { sql, authenticate, releaseParse
       await tx`INSERT INTO sf_sql_draft_revisions(draft_id,project_id,revision,sql,sha256,manifest_version,files,created_by)
         VALUES(${row.id},${project.id},1,${sqlText},${sha},${manifestVersion},${tx.json(storedFiles)},${req.actor.id})`;
       await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${project.id},${ORG},${req.actor.id},'SQL_DRAFT_CREATED',${row.id},${tx.json({revision:'1',sha256:sha})})`;
-      return mapDraft(tx, row);
+      return mapDraft(tx, row, true, project);
     });
     return reply.code(201).send({ draft: created });
   }, 2_200_000);
@@ -275,9 +302,9 @@ export function registerSqlWorkspace(app: any, { sql, authenticate, releaseParse
   route('get', '/api/projects/:projectId/sql-drafts/:draftId', async (req: any) => {
     if (!uuid(req.params.projectId) || !uuid(req.params.draftId) || Object.keys(req.query || {}).length) throw fail('NOT_FOUND', 404);
     return sql.begin(async (tx: any) => {
-      await readGuard(tx, req);
+      const project = await readGuard(tx, req);
       const row = await draftRow(tx, req.params.projectId, req.params.draftId);
-      return row ? { draft: await mapDraft(tx, row) } : (() => { throw fail('NOT_FOUND', 404); })();
+      return row ? { draft: await mapDraft(tx, row, true, project) } : (() => { throw fail('NOT_FOUND', 404); })();
     });
   });
 
@@ -308,7 +335,7 @@ export function registerSqlWorkspace(app: any, { sql, authenticate, releaseParse
       const nextHash = multi ? aggregateFilesHash(nextFiles) : hash(body.sql);
       const changed = body.name.trim() !== row.name || body.targetBindingId !== row.target_binding_id
         || (multi ? old.manifest_version !== 2 || aggregateFilesHash(old.files) !== nextHash : old.manifest_version !== 1 || body.sql !== old.sql);
-      if (!changed) return mapDraft(tx, row);
+      if (!changed) return mapDraft(tx, row, true, project);
       const next = (BigInt(row.revision) + 1n).toString();
       if (BigInt(next) > 9223372036854775807n) throw fail('DRAFT_REVISION_EXHAUSTED', 409);
       const sha = nextHash;
@@ -319,7 +346,7 @@ export function registerSqlWorkspace(app: any, { sql, authenticate, releaseParse
         RETURNING id,project_id,organization_id,name,target_binding_id,current_revision::text AS revision,created_by,created_at,updated_at`)[0];
       if (!updated) throw fail('DRAFT_REVISION_CONFLICT', 409);
       await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${project.id},${ORG},${req.actor.id},'SQL_DRAFT_SAVED',${row.id},${tx.json({revision:next,sha256:sha})})`;
-      return mapDraft(tx, updated);
+      return mapDraft(tx, updated, true, project);
     });
     return reply.send({ draft: saved });
   }, 2_200_000);
@@ -341,8 +368,8 @@ export function registerSqlWorkspace(app: any, { sql, authenticate, releaseParse
       const { prepared, built, currentness } = await makeReview(tx, req, project, row, current, body);
       if (path.endsWith('/preview')) return { preview: { ok: prepared.source.validationStatus === 'VALID', parserProfile: prepared.source.parserProfile,
         syntax: prepared.source.validationStatus, statementCount: built.report.statements.length,
-        statements: built.report.statements.map((statement: any) => ({ path: statement.path, ordinal: statement.ordinal, classification: statement.classification,
-          startByte: statement.startByte, endByte: statement.endByte })), findings: [...built.report.findings,...built.report.statements.flatMap((statement: any)=>statement.findings.map((finding: any)=>({...finding,path:statement.path,ordinal:statement.ordinal})))],
+        statements: built.report.statements.map((statement: any) => ({ path: statement.path, ordinal: statement.ordinal, fileOrdinal: statement.fileOrdinal, classification: statement.classification,
+          startByte: statement.startByte, endByte: statement.endByte })), findings: [...built.report.findings,...built.report.statements.flatMap((statement: any)=>statement.findings.map((finding: any)=>({...finding,path:statement.path,ordinal:statement.ordinal,fileOrdinal:statement.fileOrdinal})))],
         policy: built.report.policy, semantics: 'UNVERIFIED', offline: true, executionAuthority: false } };
       const validation = { digest: built.digest, report: built.report, currentness };
       return { validation };

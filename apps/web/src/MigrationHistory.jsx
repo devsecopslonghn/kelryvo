@@ -6,7 +6,7 @@ export default function MigrationHistory({ projectId, detail, token, request, ta
   const [cursorStack, setCursorStack] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(()=>{const id=new URLSearchParams(location.search).get('historyPlan');return /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(id || '')?id:'';});
   const [targetId, setTargetId] = useState('ALL');
   const [status, setStatus] = useState('ALL');
   const [selectedJob, setSelectedJob] = useState(null);

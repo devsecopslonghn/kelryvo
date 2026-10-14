@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export function ValidationFindings({ validation }) {
+export function ValidationFindings({ validation, onOpenSource }) {
   const r=validation.report;
-  const findings=[...r.findings,...r.statements.flatMap(s=>s.findings.map(f=>({...f,path:s.path,ordinal:s.ordinal})))];
+  const findings=[...r.findings,...r.statements.flatMap(s=>s.findings.map(f=>({...f,path:s.path,ordinal:s.ordinal,fileOrdinal:s.fileOrdinal})))];
   return <div className="validation-findings">
     <p role="status"><strong>{r.outcome}</strong> · Policy: {r.policy.decision.replaceAll('_',' ')} · Evidence: {validation.currentness?.state || 'UNKNOWN'}</p>
     <p>Syntax: {r.syntax}. Object existence and Oracle semantics remain unverified. This result grants no database execution authority.</p>
     <dl className="target-facts"><div><dt>Validation digest</dt><dd><code>{validation.digest}</code></dd></div><div><dt>Target owner</dt><dd>{r.target.exactOwner}</dd></div><div><dt>Binding revision</dt><dd>{r.target.bindingRevision}</dd></div><div><dt>Metadata completeness</dt><dd>{r.metadata.completeness==='OWNER_VISIBILITY_ONLY'?'Schema owner visibility only':'Not observed'}</dd></div><div><dt>Observation</dt><dd><code>{r.metadata.observationId || 'Not observed'}</code></dd></div><div><dt>Metadata expiry</dt><dd>{r.metadata.expiresAt || 'Not observed'}</dd></div><div><dt>Provenance</dt><dd>{r.metadata.provenance}</dd></div><div><dt>Engine capability</dt><dd>{r.capabilities.engine} · {r.capabilities.syntax==='PINNED_ANTLR_ORACLE'?'Oracle syntax parsing':'Unsupported'}</dd></div></dl>
     {validation.currentness?.state!=='CURRENT' && <p className="banner warning">Validation evidence is stale or unavailable. Refresh the target, validate again and create a fresh plan. {(validation.currentness?.reasons || []).join(', ')}</p>}
-    <ul aria-label="Validation findings">{findings.map((f,index)=><li key={index}><strong>{f.severity} · {f.code}</strong>{f.path && <small> · {f.path} · statement {f.ordinal}</small>}<p>{f.rationale}</p></li>)}</ul>
+    <ul aria-label="Validation findings">{findings.map((f,index)=><li key={index}><strong>{f.severity} · {f.code}</strong>{f.path && <small> · {f.path} · statement {f.fileOrdinal ?? f.ordinal}</small>}<p>{f.rationale}</p>{f.path && onOpenSource && <button type="button" className="text-button" onClick={()=>onOpenSource(f.path,f.ordinal,r.statements.find(s=>s.path===f.path && s.ordinal===f.ordinal))}>Open SQL source · {f.path} · statement {f.fileOrdinal ?? f.ordinal}</button>}</li>)}</ul>
     {r.statements.length>0 && <div className="file-table-wrap"><table><thead><tr><th>SQL file</th><th>Statement</th><th>Classification</th><th>Schema references</th><th>Object existence</th></tr></thead><tbody>{r.statements.map(s=><tr key={s.ordinal}><td>{s.path}</td><td>{s.fileOrdinal}</td><td>{s.classification}</td><td>{s.schemaCheck}<br/>{s.references.map(x=>`${x.owner}.${x.name}`).join(', ')}</td><td>{s.objectCheck}</td></tr>)}</tbody></table></div>}
   </div>;
 }
@@ -20,7 +20,7 @@ function errorMessage(e) {
   return `Validation could not be completed (${e.message || 'UNAVAILABLE'}). Refresh to check your access and evidence.`;
 }
 
-export function SchemaValidation({token,projectId,release,bindings,request,onPlan,readOnly}) {
+export function SchemaValidation({token,projectId,release,bindings,request,onPlan,readOnly,onOpenSource}) {
   const [bindingId,setBindingId]=useState(''),[validation,setValidation]=useState(null),[history,setHistory]=useState([]),[cursor,setCursor]=useState(null);
   const [busy,setBusy]=useState(false),[loading,setLoading]=useState(true),[error,setError]=useState('');
   const epoch=useRef(0),base=`/api/projects/${encodeURIComponent(projectId)}`;
@@ -49,15 +49,15 @@ export function SchemaValidation({token,projectId,release,bindings,request,onPla
     {!bindings.length && <p>No assigned target binding is available. Configure a project target first.</p>}
     <button type="button" className="primary" disabled={busy || readOnly || !bindingId} onClick={validate}>{busy?'Working…':'Validate against target'}</button>
     {history.length>0 && <div className="validation-history"><h4>Retained validation results</h4>{history.map(v=><button type="button" className="secondary" key={v.id} disabled={busy} onClick={()=>void inspect(v.id)}>Inspect validation {v.digest.slice(0,12)} · {new Date(v.createdAt).toLocaleString()}</button>)}{cursor && <button type="button" className="secondary" onClick={()=>void load(cursor)} disabled={busy}>Load more validations</button>}</div>}
-    {validation && <><ValidationFindings validation={validation}/><button type="button" className="primary" disabled={busy || readOnly || validation.currentness?.state!=='CURRENT' || validation.report.policy.decision==='BLOCKED'} onClick={plan}>Create immutable plan</button></>}
+    {validation && <><ValidationFindings validation={validation} onOpenSource={onOpenSource}/><button type="button" className="primary" disabled={busy || readOnly || validation.currentness?.state!=='CURRENT' || validation.report.policy.decision==='BLOCKED'} onClick={plan}>Create immutable plan</button></>}
   </section>;
 }
 
-export function RetainedValidation({token,projectId,reference,request,currentness}) {
+export function RetainedValidation({token,projectId,reference,request,currentness,onOpenSource}) {
   const [validation,setValidation]=useState(null),[error,setError]=useState(''),[loading,setLoading]=useState(true);
   useEffect(()=>{let active=true;setValidation(null);setError('');setLoading(true);
     request(`/api/projects/${projectId}/validations/${reference.id}`,token).then(r=>{if(active){if(r.validation.digest!==reference.digest)throw new Error('VALIDATION_EVIDENCE_UNAVAILABLE');setValidation(r.validation);}})
       .catch(e=>{if(active)setError(errorMessage(e));}).finally(()=>{if(active)setLoading(false);});
     return()=>{active=false;};},[token,projectId,reference.id,reference.digest]);
-  return <section className="panel" aria-label="Retained SQL validation"><h3>Retained SQL validation</h3>{loading && <p role="status">Loading validation evidence…</p>}{error && <p className="banner error" role="alert">{error}</p>}{validation && <ValidationFindings validation={{...validation,currentness:currentness || validation.currentness}}/>}</section>;
+  return <section className="panel" aria-label="Retained SQL validation"><h3>Retained SQL validation</h3>{loading && <p role="status">Loading validation evidence…</p>}{error && <p className="banner error" role="alert">{error}</p>}{validation && <ValidationFindings validation={{...validation,currentness:currentness || validation.currentness}} onOpenSource={onOpenSource}/>}</section>;
 }

@@ -41,8 +41,12 @@ test('Phase 8 journey authors ordered multi-file SQL and retains plan-bound comp
     await workspace.getByLabel('SQL editor').fill(source);
     await workspace.getByRole('button',{name:'Add SQL file',exact:true}).click();
     await workspace.getByLabel('Migration filename').fill('V2__indexes.sql');
-    const secondSource='CREATE INDEX phase8_authored_id ON phase8_authored (id);\n';
+    const secondSource='CREATE INDEX phase8_authored_id ON phase8_authored (id);\n-- café: exact byte context\nALTER TABLE phase8_authored ADD (name VARCHAR2(100));\n';
     await workspace.getByLabel('SQL editor').fill(secondSource);
+    await workspace.getByRole('button',{name:'Remove SQL file',exact:true}).click();
+    await workspace.getByRole('button',{name:'Undo file removal',exact:true}).click();
+    assert.equal(await workspace.getByLabel('SQL editor').inputValue(),secondSource,'removing a file can restore its unsaved content and active identity');
+
     await workspace.getByRole('button',{name:'Save draft',exact:true}).click();
     await workspace.getByText('Saved revision 2.',{exact:true}).waitFor();
     assert.equal(await workspace.getByLabel('Migration filename').inputValue(),'V2__indexes.sql','save preserves the active file by identity');
@@ -87,9 +91,32 @@ test('Phase 8 journey authors ordered multi-file SQL and retains plan-bound comp
     await page.setViewportSize({width:390,height:844});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'SQL workspace remains usable on a narrow viewport');
     await page.setViewportSize({width:1440,height:1100});
+    // Statement findings navigate to the correct file and exact UTF-8 source range.
+    const validationFindings=workspace.getByRole('region',{name:'SQL target validation'});
+    const sourceLink=validationFindings.getByRole('button',{name:/Open SQL source.*V2__indexes.sql/}).last();
+    await sourceLink.click();
+    assert.equal(await workspace.getByLabel('Migration filename').inputValue(),'V2__indexes.sql');
+    const selectedSql=await workspace.getByLabel('SQL editor').evaluate(el=>el.value.slice(el.selectionStart,el.selectionEnd));
+    assert.match(selectedSql,/ALTER TABLE phase8_authored/,'finding selects exact statement bytes after a UTF-8 comment');
+    const validationPattern=`**/api/projects/${f.project.id}/releases/*/validations`;
+    await page.route(validationPattern,async route=>{
+      if(route.request().method()==='POST')await route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({error:'VALIDATION_PARSER_UNAVAILABLE'})});
+      else await route.continue();
+    },{times:1});
     await workspace.getByRole('button',{name:'Prepare immutable release',exact:true}).click();
-    const planning=workspace.getByRole('button',{name:'Create immutable plan',exact:true});
-    await planning.waitFor();await planning.click();
+    let planning=workspace.getByRole('button',{name:'Create immutable plan',exact:true});
+    await planning.waitFor();
+    await workspace.getByRole('alert').filter({hasText:'VALIDATION_PARSER_UNAVAILABLE'}).waitFor();
+    assert.equal(await planning.isDisabled(),true,'failed release validation cannot reuse earlier draft validation eligibility');
+    await page.unroute(validationPattern);
+    const preparedReleaseId=new URLSearchParams(new URL(page.url()).hash.slice(1)).get('release');assert.ok(preparedReleaseId);
+    await page.reload();
+    await workspace.getByText(preparedReleaseId,{exact:true}).waitFor();
+    planning=workspace.getByRole('button',{name:'Create immutable plan',exact:true});
+    assert.equal(await planning.isDisabled(),true,'reload restores release identity but requires fresh validation eligibility');
+    await workspace.getByRole('button',{name:'Validate against target',exact:true}).click();
+    await page.waitForFunction(()=>{const b=[...document.querySelectorAll('button')].find(b=>b.textContent==='Create immutable plan');return b && !b.disabled;});
+    await planning.click();
     const planId=await page.locator('.plan-option.selected').getAttribute('data-plan-id');assert.ok(planId);
     const plan=(await f.api('GET',f.base)).json().plans.find(p=>p.id===planId);
     assert.equal(plan.offlineIntent.format,4);
@@ -106,6 +133,11 @@ test('Phase 8 journey authors ordered multi-file SQL and retains plan-bound comp
     await logout();await signIn(f.actors[1]);await selectProject();
     await page.getByRole('button',{name:/Plans & review/}).click();
     await page.locator(`.plan-option[data-plan-id="${planId}"]`).click();
+    const retainedValidation=page.getByRole('region',{name:'Retained SQL validation',exact:true});
+    await retainedValidation.getByRole('button',{name:/Open SQL source.*V2__indexes.sql/}).last().click();
+    const selectedStatement=page.locator('.plan-source-panel .statement-preview-item[data-source-selected="true"]');
+    await selectedStatement.waitFor();
+    assert.match(await selectedStatement.locator('pre').innerText(),/ALTER TABLE phase8_authored/,'review finding reopens the exact immutable source statement');
     const comparisonPanel=page.getByRole('region',{name:'Plan source comparison'});
     await comparisonPanel.getByLabel('Review baseline').selectOption(f.release.id);
     const comparing=page.waitForResponse(r=>r.url().endsWith(`/plans/${planId}/comparisons`) && r.request().method()==='POST',{timeout:30000});
@@ -132,6 +164,19 @@ test('Phase 8 journey authors ordered multi-file SQL and retains plan-bound comp
     await page.getByLabel('Decision reason').fill('Independent review of saved authored SQL and exact target evidence');
     await page.getByRole('button',{name:'Approve plan',exact:true}).click();
     await page.getByRole('region',{name:'Decision record'}).waitFor();
+    await page.getByRole('region',{name:'Database change review stage'}).getByRole('button',{name:'Open plan history',exact:true}).click();
+    const reviewHistory=page.getByRole('region',{name:'Consolidated migration history'});
+    assert.equal(await reviewHistory.getByLabel('Search migration history').inputValue(),planId);
+    await reviewHistory.getByText('Approval decision',{exact:true}).waitFor();
+    assert.equal(new URL(page.url()).searchParams.get('historyPlan'),planId,'plan-specific history has a durable identity link');
+    await reviewHistory.getByRole('button',{name:'Open plan',exact:true}).first().click();
+    await page.locator(`.plan-option[data-plan-id="${planId}"].selected`).waitFor();
+    await page.getByLabel('Plan status',{exact:true}).selectOption('PENDING_APPROVAL');
+    await page.getByRole('button',{name:/Migration history/}).click();
+    await reviewHistory.getByRole('button',{name:'Open plan',exact:true}).first().click();
+    await page.locator(`.plan-option[data-plan-id="${planId}"].selected`).waitFor();
+    assert.equal(await page.getByLabel('Plan status',{exact:true}).inputValue(),'ALL','opening an evidence plan clears an incompatible status filter');
+
     const approval=(await f.db.sql`SELECT facts FROM sf_audit WHERE resource_id=${planId} AND action='PLAN_APPROVED'`)[0].facts;
     assert.equal(approval.comparisonId,comparison.id);
     await logout();await signIn(f.actors[0]);await selectProject();

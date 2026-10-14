@@ -1762,3 +1762,6 @@ td code {
 .migration-analysis code, .migration-analysis li { overflow-wrap: anywhere; }
 .migration-analysis pre { white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0; }
 @media (max-width: 760px) { .plan-source-comparison .comparison-sides { grid-template-columns: minmax(0, 1fr); } }
+
+.statement-preview-item[data-source-selected="true"] { outline: 2px solid #2563eb; outline-offset: 4px; }
+.validation-findings .text-button, .sql-workspace-analysis .text-button { white-space: normal; overflow-wrap: anywhere; max-width: 100%; text-align: left; }

@@ -107,10 +107,18 @@ test('browser inbox handles delayed scopes, exact plan navigation and grant revo
     const firstRow = page.locator('.review-inbox-row').first();
     const firstPlanId = await firstRow.getAttribute('data-plan-id');
     assert.equal(firstPlanId, otherProject.planIds[0]);
+    await page.evaluate(planId => {
+      const url = new URL(location.href);
+      url.searchParams.set('historyPlan', planId);
+      url.searchParams.set('historyJob', planId);
+      history.replaceState(null, '', url);
+    }, primaryProject.planIds[0]);
     await firstRow.click();
     await page.getByRole('heading', { name: 'Plans & review' }).waitFor();
     await page.locator(`[data-plan-id="${firstPlanId}"]`).waitFor();
     await page.getByText('Inbox browser other project · plans preserve source checksums and explicit execution status.').waitFor();
+    assert.equal(new URL(page.url()).searchParams.has('historyPlan'), false, 'inbox project navigation clears the prior plan filter');
+    assert.equal(new URL(page.url()).searchParams.has('historyJob'), false, 'inbox project navigation clears the prior request permalink');
     assert.equal(await page.getByLabel('Decision reason').inputValue(), '');
     assert.equal(await page.getByRole('textbox', { name: 'Comment' }).inputValue(), '');
     assert.deepEqual(writes, []);
