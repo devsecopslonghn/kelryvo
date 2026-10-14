@@ -145,7 +145,11 @@ export async function assembleOCIArchives(directory, sha) {
             if (error.code !== 'EEXIST') throw error;
           });
         }
-        manifests.push({ ...info.descriptor, platform: { os: 'linux', architecture } });
+        // Exporter layout annotations describe this export, not the tested
+        // image. Copying their wall-clock timestamps changes the index digest
+        // on a cache hit even when every child manifest/config is identical.
+        manifests.push({ mediaType: info.descriptor.mediaType, digest: info.descriptor.digest,
+          size: info.descriptor.size, platform: { os: 'linux', architecture } });
       }
       const out = join(temporary, image);
       await writeFile(join(out, 'oci-layout'), JSON.stringify({ imageLayoutVersion: '1.0.0' }));

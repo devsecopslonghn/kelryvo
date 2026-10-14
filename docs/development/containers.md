@@ -98,7 +98,11 @@ local image configuration; a partial publication resumes without replacing the
 first image. Both platform manifests/configurations and the enclosing OCI index are
 SHA-256 verified against the tested artifacts, and
 only a complete verified app/worker pair can reach promotion. No mutable latest tag
-is written. Artifact retention is three days; recovery after expiry requires rerunning
+is written. Assembled platform descriptors use verified media type, digest, size and
+architecture; transient exporter layout timestamps are excluded, so re-exporting
+identical child images preserves the index digest and permits a no-op promotion.
+Source provenance remains verified in each platform's image configuration.
+Artifact retention is three days; recovery after expiry requires rerunning
 master OCI verification, whose completion event resumes delivery.
 
 The full delivery workflow is serialized without cancelling active writes. Before

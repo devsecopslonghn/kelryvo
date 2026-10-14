@@ -15,7 +15,7 @@ const labels = { 'org.opencontainers.image.revision': SHA, 'org.opencontainers.i
 const roleConfig = image => ({ User: image === 'app' ? '10001:10001' : '10002:10002', Entrypoint: ['node', image === 'app' ? 'apps/api/container-main.mjs' : 'apps/worker/execution-service-main.mjs'] });
 const digest = bytes => `sha256:${createHash('sha256').update(bytes).digest('hex')}`;
 
-async function fixture(t, { missing, badRole, wrongSource, corruptLayer, wrongSize } = {}) {
+async function fixture(t, { missing, badRole, wrongSource, corruptLayer, wrongSize, exportedAt } = {}) {
   const root = await mkdtemp(join(tmpdir(), 'kelryvo-oci-verification-'));
   t.after(() => rm(root, { recursive: true, force: true }));
   const expected = {};
@@ -39,6 +39,7 @@ async function fixture(t, { missing, badRole, wrongSource, corruptLayer, wrongSi
     await writeFile(join(directory, 'oci-layout'), JSON.stringify({ imageLayoutVersion: '1.0.0' }));
     await writeFile(join(directory, 'index.json'), JSON.stringify({ schemaVersion: 2, manifests: [{
       mediaType: 'application/vnd.oci.image.manifest.v1+json', digest: manifestDigest, size: manifest.length,
+      ...(exportedAt ? { annotations: { 'org.opencontainers.image.created': exportedAt, 'org.opencontainers.image.ref.name': 'ephemeral-export' } } : {}),
     }] }));
     const archive = join(root, `${image}-${architecture}.tar`);
     checked('tar', ['-C', directory, '-cf', archive, 'oci-layout', 'index.json', 'blobs']);
@@ -70,6 +71,19 @@ test('assembly creates a single named multi-platform OCI index and preserves chi
     const rawIndex = checked('tar', ['-xOf', assembled[image], `blobs/sha256/${wrapper.manifests[0].digest.slice(7)}`]);
     assert.equal(digest(Buffer.from(rawIndex)), wrapper.manifests[0].digest);
     assert.deepEqual(JSON.parse(rawIndex).manifests.map(item => item.platform.architecture).sort(), ['amd64', 'arm64']);
+  }
+});
+
+test('re-exporting identical tested platforms preserves index digests despite exporter timestamps', async t => {
+  const first = await fixture(t, { exportedAt: '2026-10-14T06:21:54Z' });
+  const retry = await fixture(t, { exportedAt: '2026-10-14T06:31:09Z' });
+  const a = await assembleOCIArchives(first.root, SHA);
+  const b = await assembleOCIArchives(retry.root, SHA);
+  for (const image of ['app', 'worker']) {
+    const original = verifyOCIArchive(a[image], SHA, image);
+    const rebuilt = verifyOCIArchive(b[image], SHA, image);
+    assert.deepEqual(rebuilt.platforms, original.platforms);
+    assert.equal(rebuilt.digest, original.digest);
   }
 });
 
