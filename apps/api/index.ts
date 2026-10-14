@@ -5,6 +5,7 @@ import { registerMigrationHistory } from '../../packages/migration-history/api.t
 import { acquireTargetLocks } from '../../packages/targets/locks.ts';
 import { registerTargets } from '../../packages/targets/api.ts';
 import { registerConnectivity } from '../../packages/connectivity/api.ts';
+import { registerConnectionManagement, publicConnection, profilePlanCurrent, validServiceKind, validDescription } from '../../packages/connectivity/management.ts';
 import { registerSqlValidation } from '../../packages/sql-validation/api.ts';
 import { loadValidation, validationForIntent, validationCurrentness } from '../../packages/sql-validation/results.ts';
 import { loadBindingTarget, checkTargetCurrentness, listTargetBindings } from '../../packages/targets/index.ts';
@@ -190,6 +191,7 @@ export function createApp(options: {
   };
   registerTargets(app, { sql, authenticate });
   registerConnectivity(app, {sql,authenticate,runtime:options.discoveryRuntime,timeoutMs:options.discoveryTimeoutMs});
+  registerConnectionManagement(app, {sql,authenticate});
   registerSqlValidation(app,{sql,authenticate});
   registerSqlWorkspace(app,{sql,authenticate,releaseParser:options.releaseParser});
   registerMigrationHistory(app,sql,authenticate,ORG);
@@ -236,6 +238,7 @@ export function createApp(options: {
   const mapCurrentPlan = async (tx: any, row: any) => {
     const mapped = mapPlan(row);
     if (mapped.retainedTarget) mapped.currentness = await checkTargetCurrentness(tx, row.project_id, mapped.retainedTarget);
+    if (!await profilePlanCurrent(tx,row.id)) mapped.currentness={state:'STALE',reasons:[...(mapped.currentness?.reasons || []),'CONNECTION_REVISION_CHANGED'],checkedAt:new Date().toISOString()};
     if(mapped.offlineIntent?.validation){
       try { await validationForIntent(tx,verifyOfflinePlanIntent(row.offline_intent_envelope,row.offline_intent_digest)); }
       catch { mapped.currentness={state:'UNKNOWN',reasons:['VALIDATION_EVIDENCE_UNAVAILABLE'],checkedAt:new Date().toISOString()}; }
@@ -407,7 +410,7 @@ export function createApp(options: {
       const [environments, profiles, releases, plans, audits, history, comments, deploymentGrant, executionJobs] =
         await Promise.all([
           sql`SELECT id,name,created_at FROM sf_environments WHERE project_id=${p.id} ORDER BY created_at`,
-          sql`SELECT id,name,environment_id,engine,host,port,service,username,credential_ref,created_at,retired_at,retired_by,retirement_reason FROM sf_profiles WHERE project_id=${p.id} ORDER BY created_at`,
+          sql`SELECT * FROM sf_profiles WHERE project_id=${p.id} ORDER BY created_at`,
           sql`SELECT id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,validation_code,parser_profile,created_at FROM sf_releases WHERE project_id=${p.id} ORDER BY created_at DESC`,
           sql`SELECT id,organization_id,project_id,release_id,profile_id,author_id,reviewer_id,
             (SELECT display_name FROM sf_local_actors WHERE id=reviewer_id AND organization_id=${ORG} AND char_length(display_name) BETWEEN 1 AND 200) AS reviewer_name,
@@ -443,6 +446,7 @@ export function createApp(options: {
         targetBindingsNextCursor: targetPage.nextCursor,
         environments: environments.map((r: any) => ({ ...mappedSimple(r) })),
         profiles: profiles.map((r: any) => ({
+          ...publicConnection(r,'DEPLOY'),
           id: r.id,
           name: r.name,
           environmentId: r.environment_id,
@@ -633,8 +637,14 @@ export function createApp(options: {
           "service",
           "username",
           "credentialRef",
+          "description", "serviceKind", "purpose", "reason",
         ]) ||
         !text(b.name) ||
+        !validDescription(b.name) ||
+        (b.description !== undefined && !validDescription(b.description)) ||
+        (b.serviceKind !== undefined && !validServiceKind(b.serviceKind)) ||
+        (b.purpose !== undefined && b.purpose !== 'DEPLOY') ||
+        (b.reason !== undefined && !validReason(b.reason)) ||
         !uuid(b.environmentId) ||
         b.engine !== "oracle" ||
         !validHost(b.host) ||
@@ -649,17 +659,22 @@ export function createApp(options: {
       const p = await project(req.params.id);
       if (!p) return fail(reply, 404, "NOT_FOUND");
       const r = await sql.begin(async (tx: any) => {
-        await guardMutationAuthority(tx, req);
+        await guardMutationAuthority(tx, req, 'developer');
         await requireActiveProject(tx, p.id);
+        const metadata=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF g`)[0];
+        if(metadata?.state!=='ACTIVE')throw Object.assign(new Error('METADATA_RESTORE_HOLD'),{productCode:'METADATA_RESTORE_HOLD'});
+        if(!(await tx`SELECT 1 FROM sf_environments WHERE id=${b.environmentId} AND project_id=${p.id}`)[0])throw Object.assign(new Error('INVALID_REFERENCE'),{productCode:'INVALID_REFERENCE',statusCode:400});
         const profile = (
-          await tx`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref) VALUES(${p.id},${ORG},${b.environmentId},${b.name.trim()},${b.engine},${b.host},${b.port},${b.service},${b.username},${b.credentialRef}) RETURNING id,name,environment_id,engine,host,port,service,username,credential_ref,created_at`
+          await tx`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref,description,service_kind)
+            VALUES(${p.id},${ORG},${b.environmentId},${b.name.trim()},${b.engine},${b.host},${b.port},${b.service},${b.username},${b.credentialRef},${b.description??''},${b.serviceKind??'SERVICE_NAME'}) RETURNING *`
         )[0];
-        await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${p.id},${ORG},${req.actor.id},'PROFILE_CREATED',${profile.id})`;
+        await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${p.id},${ORG},${req.actor.id},'PROFILE_CREATED',${profile.id},${tx.json({revision:'1',purpose:'DEPLOY',reason:b.reason??null})})`;
         return profile;
       });
       if (!r) return fail(reply, 400, "INVALID_REFERENCE");
       return reply.code(201).send({
         profile: {
+          ...publicConnection(r,'DEPLOY'),
           id: r.id,
           name: r.name,
           environmentId: r.environment_id,
@@ -1010,7 +1025,7 @@ export function createApp(options: {
           CASE WHEN char_length(host) BETWEEN 1 AND 255 THEN host END AS host,port,
           CASE WHEN char_length(service) BETWEEN 1 AND 128 THEN service END AS service,
           CASE WHEN char_length(username) BETWEEN 1 AND 128 THEN username END AS username,
-          retired_at,
+          retired_at,enabled,service_kind,
           CASE WHEN char_length(credential_ref) BETWEEN 1 AND 512 THEN credential_ref END AS credential_ref
           FROM sf_profiles WHERE id=${boundTarget?.profileId ?? b.profileId} AND project_id=${p.id}
           AND organization_id=${ORG} FOR SHARE`)[0];
@@ -1019,6 +1034,7 @@ export function createApp(options: {
           AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
         if (!releaseBounds || !profile) return { error: [2,3].includes(b.intentVersion) ? "NOT_FOUND" : "INVALID_REFERENCE" };
         if (profile.retired_at) return { error: 'PROFILE_RETIRED' };
+        if (!profile.enabled || profile.service_kind!=='SERVICE_NAME') return { error: 'CONNECTION_INELIGIBLE' };
         if (!p.source_repository_id || !validMigrationFolder(p.source_folder)
             || !canonicalBindingGeneration(p.source_binding_generation)) return { error: "SOURCE_BINDING_INVALID" };
         if (!releaseBounds.source_matches)
@@ -1612,6 +1628,7 @@ export function createApp(options: {
           release.repository_id,release.folder FROM sf_profiles profile JOIN sf_releases release ON release.id=${plan.release_id}
           AND release.project_id=profile.project_id WHERE profile.id=${plan.profile_id} AND profile.project_id=${plan.project_id} FOR SHARE OF profile,release`)[0];
         if (profile?.retired_at) return { error: 'PROFILE_RETIRED' };
+        if (!await profilePlanCurrent(tx,plan.id)) return { error: 'FRESH_PLAN_REQUIRED' };
         const intent = verifyOfflinePlanIntent(payload?.offline_intent_envelope, plan.offline_intent_digest, {
           organizationId: ORG, projectId: plan.project_id, requesterId: plan.author_id,
           releaseId: plan.release_id, profileId: plan.profile_id,

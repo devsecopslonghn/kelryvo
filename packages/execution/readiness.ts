@@ -7,6 +7,7 @@ import { validationCurrentness, validationForIntent } from '../sql-validation/re
 import { projectAccessMode } from '../database/project-membership.ts';
 import { MAX_STDOUT_BYTES } from '../../experiments/db-devops-wp0/parser-envelope.mjs';
 import { targetRequestConflict } from './admission.ts';
+import { profilePlanCurrent } from '../connectivity/management.ts';
 
 const uuid = (value: unknown) => typeof value === 'string'
   && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
@@ -91,7 +92,7 @@ export function registerExecutionReadiness(app: any, sql: any, authenticate: any
           p.retired_at,e.name AS environment_name FROM sf_profiles p JOIN sf_environments e
             ON e.id=p.environment_id AND e.project_id=p.project_id
           WHERE p.id=${plan.profile_id} AND p.project_id=${plan.project_id} AND p.organization_id=${organizationId}`)[0];
-        const profileCurrent = Boolean(profile && !profile.retired_at && intent.profileId === profile.id
+        const profileCurrent = Boolean(await profilePlanCurrent(tx,plan.id) && profile && !profile.retired_at && intent.profileId === profile.id
           && intent.profileName === profile.name && intent.environmentId === profile.environment_id
           && intent.environmentName === profile.environment_name && intent.engine === profile.engine
           && intent.host === profile.host && Number(intent.port) === Number(profile.port)

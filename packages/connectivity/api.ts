@@ -5,6 +5,7 @@ import { configureTargetOption, createTargetBinding, getTargetBinding, ORG } fro
 import { declareReference, assignReference } from '../catalog-reference/index.mjs';
 import { normalizeObservation, evidenceDigest } from './evidence.mjs';
 import { credentialAlias } from '../targets/public.mjs';
+import { publicConnection, connectionReadiness, validDescription, validServiceKind } from './management.ts';
 
 const uuid=(v:any)=>typeof v==='string' && /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(v);
 const text=(v:any,n=2000)=>typeof v==='string' && v.trim().length>0 && v.length<=n && !/[\u0000-\u001f\u007f]/.test(v) && Buffer.from(v).toString()===v;
@@ -53,7 +54,8 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
       JOIN sf_database_connections c ON c.container_id=s.container_id WHERE c.id=${o.connection_id} AND a.project_id=${projectId} AND a.closed_at IS NULL`;
     const allowed=new Set(owners.map((r:any)=>r.exact_owner));
     const latest=(await tx`SELECT id,identity_digest,status FROM sf_database_observations WHERE connection_id=${o.connection_id} AND operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
-    const expired=Number(new Date(o.expires_at))<=Date.now();
+    const config=(await tx`SELECT revision,enabled,retired_at FROM sf_database_connections WHERE id=${o.connection_id}`)[0];
+    const expired=Number(new Date(o.expires_at))<=Date.now() || String(config?.revision)!==String(o.connection_revision) || !config?.enabled || !!config?.retired_at;
     const superseded=o.operation==='DISCOVER' && latest?.id!==o.id;
     const accepted=(await tx`SELECT identity_digest FROM sf_target_identity_evidence WHERE connection_id=${o.connection_id} AND project_id=${projectId} ORDER BY created_at DESC,digest DESC LIMIT 1`)[0];
     const conflict=!!(o.identity_digest && (latest?.identity_digest && latest.identity_digest!==o.identity_digest || accepted?.identity_digest && accepted.identity_digest!==o.identity_digest));
@@ -65,11 +67,13 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
   };
   const projectConnection=async(tx:any,c:any,projectId:string)=>{
     const latest=(await tx`SELECT * FROM sf_database_observations WHERE connection_id=${c.id} ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
-    return {id:c.id,name:c.name,engine:c.engine,containerId:c.container_id,host:c.host,port:c.port,service:c.service,
+    const container=(await tx`SELECT environment FROM sf_reference_containers WHERE id=${c.container_id}`)[0];
+    return {...publicConnection({...c,environment:container?.environment},'DISCOVERY'),readiness:await connectionReadiness(tx,c,'DISCOVERY'),id:c.id,name:c.name,engine:c.engine,containerId:c.container_id,host:c.host,port:c.port,service:c.service,
       transport:c.transport,username:c.username,credentialAlias:credentialAlias(c.id),retiredAt:c.retired_at,
       latestObservation:await observation(tx,latest,projectId)};
   };
   const route=(method:string,path:string,fn:any)=>app[method](path,{preHandler:authenticate},async(req:any,reply:any)=>{
+    reply.header('Cache-Control','no-store');
     try{return await fn(req,reply);}catch(e:any){
       if(e.connectivityStatus)return reply.code(e.connectivityStatus).send({error:e.productCode});
       if(['ROUTE_CONTAINER_CONFLICT','IMMUTABLE_FACT_CONFLICT','CONTAINER_KIND_CONFLICT'].includes(e.code))return reply.code(409).send({error:'INSTANCE_REFERENCE_CONFLICT'});
@@ -78,9 +82,18 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
   });
   route('get',`${base}/database-connections`,async(req:any)=>sql.begin(async(tx:any)=>{
     const canManage=await guard(tx,req);
-    if(Object.keys(req.query).some(k=>k!=='after') || req.query.after!==undefined && !uuid(req.query.after))throw fail('INVALID_REQUEST',400);
+    if(Object.keys(req.query).some(k=>!['after','search','engine','environment','status'].includes(k)) || req.query.after!==undefined && !uuid(req.query.after)
+      || req.query.search!==undefined && (typeof req.query.search!=='string' || req.query.search.length>120)
+      || req.query.engine!==undefined && !caps.some(c=>c.engine===req.query.engine)
+      || req.query.environment!==undefined && !['DEV','SIT','UAT','PROD'].includes(req.query.environment)
+      || req.query.status!==undefined && !['ENABLED','DISABLED','RETIRED'].includes(req.query.status))throw fail('INVALID_REQUEST',400);
     const rows=await tx`SELECT c.* FROM sf_database_connections c JOIN sf_database_connection_projects p ON p.connection_id=c.id
+      JOIN sf_reference_containers t ON t.id=c.container_id
       WHERE c.organization_id=${ORG} AND p.project_id=${req.params.projectId} AND (${req.query.after??null}::uuid IS NULL OR c.id>${req.query.after??null}::uuid)
+      AND (${req.query.search??null}::text IS NULL OR position(lower(${req.query.search??''}) in lower(c.name))>0)
+      AND (${req.query.engine??null}::text IS NULL OR c.engine=${req.query.engine??null})
+      AND (${req.query.environment??null}::text IS NULL OR t.environment=${req.query.environment??null})
+      AND (${req.query.status??null}::text IS NULL OR CASE WHEN c.retired_at IS NOT NULL THEN 'RETIRED' WHEN c.enabled THEN 'ENABLED' ELSE 'DISABLED' END=${req.query.status??null})
       AND EXISTS(SELECT 1 FROM sf_reference_schemas s JOIN sf_reference_assignments a ON a.schema_id=s.id WHERE s.container_id=c.container_id AND a.project_id=p.project_id AND a.closed_at IS NULL)
       ORDER BY c.id LIMIT 51`;
     const refs=await tx`SELECT a.id AS "assignmentId",s.exact_owner AS owner,c.id AS "containerId",c.name AS "containerName",r.id AS "routeId",r.host,r.port,r.service,r.transport
@@ -113,7 +126,10 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
   });
   route('post',`${base}/database-connections`,async(req:any,reply:any)=>{
     const b=req.body;
-    if(!body(b,['assignmentId','routeId','name','engine','username','credentialRef','reason']) || !uuid(b.assignmentId) || !uuid(b.routeId)
+    const required=['assignmentId','routeId','name','engine','username','credentialRef','reason'];
+    if(!b || typeof b!=='object' || Array.isArray(b) || required.some(k=>!Object.hasOwn(b,k)) || Object.keys(b).some(k=>![...required,'description','serviceKind','purpose'].includes(k))
+      || b.description!==undefined && !validDescription(b.description) || b.serviceKind!==undefined && !validServiceKind(b.serviceKind)
+      || b.purpose!==undefined && b.purpose!=='DISCOVERY' || !uuid(b.assignmentId) || !uuid(b.routeId)
       || !text(b.name,120) || !caps.some(c=>c.engine===b.engine) || !/^[A-Za-z][A-Za-z0-9_$#]{0,127}$/.test(b.username??'')
       || !/^(vault|secret):\/\/[A-Za-z0-9._/-]{1,500}$/.test(b.credentialRef??'') || !text(b.reason))throw fail('INVALID_REQUEST',400);
     const result=await sql.begin(async(tx:any)=>{
@@ -122,8 +138,8 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
         JOIN sf_reference_services r ON r.container_id=s.container_id WHERE a.id=${b.assignmentId} AND a.project_id=${req.params.projectId}
         AND a.organization_id=${ORG} AND a.closed_at IS NULL AND r.id=${b.routeId}`)[0];
       if(!r)throw fail('NOT_FOUND',404);
-      const c=(await tx`INSERT INTO sf_database_connections(organization_id,container_id,route_id,name,engine,host,port,service,transport,username,credential_ref,actor_id,reason)
-        VALUES(${ORG},${r.container_id},${r.id},${b.name.trim()},${b.engine},${r.host},${r.port},${r.service},${r.transport},${b.username},${b.credentialRef},${req.actor.id},${b.reason.trim()}) RETURNING *`)[0];
+      const c=(await tx`INSERT INTO sf_database_connections(organization_id,container_id,route_id,name,engine,host,port,service,transport,username,credential_ref,actor_id,reason,description,service_kind)
+        VALUES(${ORG},${r.container_id},${r.id},${b.name.trim()},${b.engine},${r.host},${r.port},${r.service},${r.transport},${b.username},${b.credentialRef},${req.actor.id},${b.reason.trim()},${b.description??''},${b.serviceKind??'SERVICE_NAME'}) RETURNING *`)[0];
       await tx`INSERT INTO sf_database_connection_projects(connection_id,organization_id,project_id) VALUES(${c.id},${ORG},${req.params.projectId})`;
       await audited(tx,req,'CONNECTION_REGISTERED',c.id,{engine:c.engine,containerId:c.container_id});
       return {connection:await projectConnection(tx,c,req.params.projectId)};
@@ -132,8 +148,11 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
   route('post',`${base}/database-connections/:connectionId/retire`,async(req:any)=>{
     if(!body(req.body,['reason']) || !text(req.body.reason))throw fail('INVALID_REQUEST',400);
     return sql.begin(async(tx:any)=>{
+      await tx`SELECT pg_advisory_xact_lock(hashtextextended(${ORG},31))`;
       await guard(tx,req,true);const c=await connection(tx,req);
       if(c.retired_at)throw fail('CONNECTION_RETIRED');
+      if((await tx`SELECT 1 FROM sf_execution_jobs j JOIN sf_plans p ON p.id=j.plan_id JOIN sf_target_option_revisions r ON r.profile_id=p.profile_id
+        JOIN sf_target_identity_evidence e ON e.digest=r.observation_digest WHERE e.connection_id=${c.id} AND j.state='ADMITTED' LIMIT 1`)[0])throw fail('CONNECTION_EXECUTION_ACTIVE');
       await tx`UPDATE sf_database_connections SET retired_at=clock_timestamp(),retirement_reason=${req.body.reason.trim()} WHERE id=${c.id}`;
       await audited(tx,req,'CONNECTION_RETIRED',c.id,{});return {retired:true};
     });
@@ -147,7 +166,7 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
   }));
   for(const [suffix,operation] of [['test','TEST'],['discover','DISCOVER']])route('post',`${base}/database-connections/:connectionId/${suffix}`,async(req:any,reply:any)=>{
     if(!body(req.body,['reason']) || !text(req.body.reason))throw fail('INVALID_REQUEST',400);
-    const c=await sql.begin(async(tx:any)=>{await guard(tx,req,true);const c=await connection(tx,req);if(c.retired_at)throw fail('CONNECTION_RETIRED');return c;});
+    const c=await sql.begin(async(tx:any)=>{await guard(tx,req,true);const c=await connection(tx,req);if(c.retired_at)throw fail('CONNECTION_RETIRED');if(!c.enabled || c.service_kind!=='SERVICE_NAME')throw fail('CONNECTION_INELIGIBLE');return c;});
     if(running.has(c.id) || running.size>=2)throw fail('DISCOVERY_BUSY',429);
     let raw:any;
     if(c.engine!=='oracle')raw={status:'UNAVAILABLE',provenance:'UNAVAILABLE',limitations:['ENGINE_UNSUPPORTED']};
@@ -162,8 +181,9 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
     const normalized=normalizeObservation(raw,operation);
     const result=await sql.begin(async(tx:any)=>{
       await guard(tx,req,true);const current=await connection(tx,req);if(current.retired_at)throw fail('CONNECTION_RETIRED');
-      const o=(await tx`INSERT INTO sf_database_observations(organization_id,connection_id,operation,status,identity,identity_digest,schemas,limitations,provenance,verification_acceptance,actor_id)
-        VALUES(${ORG},${c.id},${operation},${normalized.status},${normalized.identity?tx.json(normalized.identity):null},${normalized.identityDigest},${tx.json(normalized.schemas)},${tx.json(normalized.limitations)},${normalized.provenance},${normalized.verificationAcceptance?tx.json(normalized.verificationAcceptance):null},${req.actor.id}) RETURNING *`)[0];
+      if(String(current.revision)!==String(c.revision) || !current.enabled)throw fail('CONNECTION_REVISION_CONFLICT');
+      const o=(await tx`INSERT INTO sf_database_observations(organization_id,connection_id,operation,status,identity,identity_digest,schemas,limitations,provenance,verification_acceptance,actor_id,connection_revision)
+        VALUES(${ORG},${c.id},${operation},${normalized.status},${normalized.identity?tx.json(normalized.identity):null},${normalized.identityDigest},${tx.json(normalized.schemas)},${tx.json(normalized.limitations)},${normalized.provenance},${normalized.verificationAcceptance?tx.json(normalized.verificationAcceptance):null},${req.actor.id},${c.revision}) RETURNING *`)[0];
       await audited(tx,req,operation==='TEST'?'CONNECTIVITY_TESTED':'DATABASE_DISCOVERED',c.id,{observationId:o.id,status:o.status,identityDigest:o.identity_digest});
       return {observation:await observation(tx,o,req.params.projectId)};
     });return reply.code(201).send(result);
@@ -181,7 +201,7 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
       if(detail.currentness.state!=='CURRENT' && !detail.currentness.reasons.every((r:string)=>['OBSERVATION_STALE','OBSERVATION_UNAVAILABLE','OBSERVATION_SUPERSEDED'].includes(r)))throw fail('TARGET_REVISION_CONFLICT');
       const o=(await tx`SELECT *,expires_at>clock_timestamp() AS fresh FROM sf_database_observations WHERE id=${b.observationId} AND connection_id=${c.id} AND organization_id=${ORG}`)[0];
       if(!o)throw fail('NOT_FOUND',404);
-      if(!o.fresh || c.retired_at)throw fail('DISCOVERY_STALE');
+      if(!o.fresh || c.retired_at || !c.enabled || String(c.revision)!==String(o.connection_revision))throw fail('DISCOVERY_STALE');
       if(!o.identity_digest || o.identity_digest!==b.expectedIdentityDigest || !['OBSERVED','PARTIAL'].includes(o.status))throw fail('IDENTITY_MISMATCH');
       const latest=(await tx`SELECT id FROM sf_database_observations WHERE connection_id=${c.id} AND operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
       if(latest?.id!==o.id)throw fail('DISCOVERY_CONFLICT');

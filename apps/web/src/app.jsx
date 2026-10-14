@@ -1570,7 +1570,7 @@ function App() {
       <a className="brand" href="#workspace"><span className="brand-mark">S</span><span>Schema<span className="brand-light">Forge</span></span></a>
       <div className="workspace-label">WORKSPACE</div>
       <button type="button" className={`nav-item ${tab === 'workspace' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('workspace'); }}><span>▦</span> Projects</button>
-      <button type="button" className={`nav-item ${tab === 'instances' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('instances'); }}><span>◎</span> Database instances</button>
+      <button type="button" className={`nav-item ${tab === 'instances' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('instances'); }}><span>◎</span> Database instances &amp; connections</button>
       <button type="button" className={`nav-item ${tab === 'targets' ? 'active' : ''}`} onClick={() => setTab('targets')}><span>◎</span> Project targets</button>
       <button type="button" className={`nav-item ${tab === 'references' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('references'); }}><span>⌑</span> Schema references</button>
       <button type="button" className={`nav-item ${tab === 'release' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('release'); }}><span>◫</span> Releases</button>

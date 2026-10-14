@@ -13,7 +13,7 @@ const scripts = new Set(['antlr-build','antlr-prepare','build-web','check-source
   'local-credential-operator','local-dev','local-inventory-operator','local-membership-operator',
   'local-operator-config','local-prepare','local-repositories','local-resources','local-tls',
   'product-dependencies','release-acceptance','local-release']);
-const tests = new Set(['product-phase6-workflow-browser.integration.mjs','product-target-bindings.test.mjs','product-target-workflow.test.mjs','product-target-workflow-browser.integration.mjs','offline-plan-intent.test.mjs','product-mvp-workflow.test.mjs','product-mvp-workflow-browser.integration.mjs',
+const tests = new Set(['product-phase7-workflow-browser.integration.mjs','product-phase6-workflow-browser.integration.mjs','product-target-bindings.test.mjs','product-target-workflow.test.mjs','product-target-workflow-browser.integration.mjs','offline-plan-intent.test.mjs','product-mvp-workflow.test.mjs','product-mvp-workflow-browser.integration.mjs',
   'product-secure-sessions-browser.integration.mjs','product-release-acceptance.integration.mjs',
   'product-account.test.mjs','product-account-browser.integration.mjs',
   'product-profile-lifecycle.test.mjs','product-instances-browser.integration.mjs','product-mutation-authority.test.mjs']);

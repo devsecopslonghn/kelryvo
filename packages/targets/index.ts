@@ -59,7 +59,7 @@ export async function configureTargetOption(tx: any, input: any) {
       JOIN sf_database_connections c ON c.id=e.connection_id WHERE e.digest=${observationDigest} AND e.project_id=${input.projectId}
       AND e.organization_id=${ORG} AND e.assignment_id=${input.assignmentId} AND e.route_id=${input.routeId}
       AND e.exact_owner=${input.exactOwner} AND e.identity_state=${identityState} AND o.expires_at>clock_timestamp()
-      AND date_trunc('milliseconds',o.observed_at)=${observedAt}::timestamptz AND c.retired_at IS NULL`)[0];
+      AND date_trunc('milliseconds',o.observed_at)=${observedAt}::timestamptz AND c.retired_at IS NULL AND c.enabled AND c.revision=o.connection_revision`)[0];
     if(!evidence) throw fail('TARGET_OPTION_INELIGIBLE',409);
   }
 
@@ -89,7 +89,7 @@ export async function configureTargetOption(tx: any, input: any) {
     WHERE p.id=${input.profileId} AND p.project_id=${input.projectId} AND p.retired_at IS NULL FOR UPDATE OF p`)[0];
   const route = (await tx`SELECT r.* FROM sf_reference_services r
     WHERE r.id=${input.routeId} AND r.organization_id=${ORG} FOR UPDATE`)[0];
-  if (!profile || profile.environment_id !== input.environmentId || !route || route.container_id !== schema.container_id
+  if (!profile || !profile.enabled || profile.service_kind!=='SERVICE_NAME' || profile.environment_id !== input.environmentId || !route || route.container_id !== schema.container_id
       || Number(input.routeConfigRevision) !== 1
       || profile.host.toLowerCase() !== route.host.toLowerCase() || Number(profile.port) !== Number(route.port)
       || profile.service !== route.service || profile.username !== input.principalUsername
@@ -129,12 +129,12 @@ export async function configureTargetOption(tx: any, input: any) {
       WHERE id=${optionId}`;
   }
   const row = (await tx`INSERT INTO sf_target_option_revisions(option_id,revision,organization_id,project_id,assignment_id,schema_id,container_id,
-      profile_id,profile_name,environment_id,profile_host,profile_port,profile_service,profile_username,profile_credential_ref,
+      profile_id,profile_name,environment_id,profile_host,profile_port,profile_service,profile_username,profile_credential_ref,profile_revision,
       route_id,route_config_revision,route_alias,route_host,route_port,route_service,lineage_id,identity_state,observation_digest,observed_at,
       stream_id,stream_state,migration_namespace,policy_id,policy_revision,exact_owner,deployment_principal_id,principal_purpose,
       private_principal_ref,principal_alias,operator_os_uid,reason)
     VALUES(${optionId},${nextRevision}::bigint,${ORG},${input.projectId},${input.assignmentId},${schema.id},${schema.container_id},
-      ${input.profileId},${profile.name},${input.environmentId},${profile.host},${profile.port},${profile.service},${profile.username},${profile.credential_ref},
+      ${input.profileId},${profile.name},${input.environmentId},${profile.host},${profile.port},${profile.service},${profile.username},${profile.credential_ref},${profile.revision},
       ${input.routeId},${input.routeConfigRevision}::bigint,${input.routeAlias},${route.host},${route.port},${route.service},${lineage.id},
       ${identityState},${observationDigest},${observedAt},${stream.id},'PROVISIONAL',${input.migrationNamespace},${input.policyId},
       ${input.policyRevision}::bigint,${schema.exact_owner},${input.deploymentPrincipalId},'DEPLOY',${input.privatePrincipalRef},
@@ -291,11 +291,11 @@ export async function createTargetBinding(tx: any, input: any) {
   const env = (await tx`SELECT id,name FROM sf_environments WHERE id=${input.environmentId} AND project_id=${input.projectId} FOR UPDATE`)[0];
   if (!env) throw fail('NOT_FOUND',404);
   if (!env) throw fail('NOT_FOUND', 404);
-  const profile = (await tx`SELECT id,name,retired_at,environment_id,host,port,service,username,credential_ref FROM sf_profiles
+  const profile = (await tx`SELECT id,name,retired_at,environment_id,host,port,service,username,credential_ref,enabled,service_kind,revision FROM sf_profiles
     WHERE id=${option.profile_id} AND project_id=${input.projectId} FOR UPDATE`)[0];
   const route = (await tx`SELECT id,container_id,host,port,service FROM sf_reference_services WHERE id=${option.route_id} AND organization_id=${ORG}`)[0];
   if (!option.enabled || option.identity_state === 'UNKNOWN' || option.identity_state === 'CONFLICT'
-      || env.id !== option.environment_id || !profile || profile.retired_at
+      || env.id !== option.environment_id || !profile || profile.retired_at || !profile.enabled || profile.service_kind!=='SERVICE_NAME' || String(profile.revision)!==String(option.profile_revision)
       || profile.environment_id !== env.id || !route || route.container_id !== schema.container_id
       || profile.host.toLowerCase() !== route.host.toLowerCase() || Number(profile.port) !== Number(route.port)
       || profile.service !== route.service
@@ -434,7 +434,8 @@ export async function checkTargetCurrentness(tx: any, projectId: string, target:
   }
   const current = (await tx`SELECT b.current_revision::text AS binding_revision,a.closed_at,
       a.project_id AS active_project_id,s.revision::text AS assignment_revision,
-      o.current_revision::text AS option_revision,o.enabled,p.retired_at,
+      o.current_revision::text AS option_revision,o.enabled,p.retired_at,p.enabled AS profile_enabled,p.service_kind,
+      p.revision IS DISTINCT FROM tr.profile_revision AS profile_revision_changed,
       e.name AS environment_name,pr.source_binding_generation::text AS source_generation,pr.archived_at,
       (p.name IS DISTINCT FROM tr.profile_name OR p.host IS DISTINCT FROM tr.profile_host OR p.port IS DISTINCT FROM tr.profile_port
         OR p.service IS DISTINCT FROM tr.profile_service OR p.username IS DISTINCT FROM tr.profile_username
@@ -465,12 +466,13 @@ export async function checkTargetCurrentness(tx: any, projectId: string, target:
     if (current.environment_name !== (target.environmentName ?? target.env?.name)) reasons.push('ENVIRONMENT_CHANGED');
     if (current.retired_at) reasons.push('POLICY_CHANGED');
     if (current.profile_changed) reasons.push('PROFILE_CHANGED');
+    if (current.profile_revision_changed || !current.profile_enabled || current.service_kind!=='SERVICE_NAME') reasons.push('CONNECTION_REVISION_CHANGED');
     if (target.sourceBindingGeneration === undefined
         || asRevision(current.source_generation) !== asRevision(target.sourceBindingGeneration)) reasons.push('SOURCE_CHANGED');
   }
   if(target.identityState!=='PROVISIONAL' && target.observationDigest) {
     const evidence=(await tx`SELECT e.identity_digest,e.observation_id,e.assignment_revision::text AS assignment_revision,e.assignment_id,e.route_id,
-      o.expires_at>clock_timestamp() AS fresh,c.retired_at,
+      o.expires_at>clock_timestamp() AS fresh,c.retired_at,c.enabled,c.revision IS DISTINCT FROM o.connection_revision AS connection_changed,
       (SELECT id FROM sf_database_observations latest WHERE latest.connection_id=e.connection_id AND latest.operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1) AS latest_observation_id,
       (SELECT identity_digest FROM sf_database_observations latest WHERE latest.connection_id=e.connection_id AND latest.operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1) AS latest_identity
       FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id JOIN sf_database_connections c ON c.id=e.connection_id
@@ -479,6 +481,7 @@ export async function checkTargetCurrentness(tx: any, projectId: string, target:
     else {
       if(!evidence.fresh)reasons.push('OBSERVATION_STALE');
       if(evidence.retired_at)reasons.push('CONNECTION_RETIRED');
+      if(evidence.connection_changed || !evidence.enabled)reasons.push('CONNECTION_REVISION_CHANGED');
       if(evidence.assignment_id!==target.assignmentId || evidence.assignment_revision!==target.assignmentRevision || evidence.route_id!==target.routeId)reasons.push('INTEGRITY_UNAVAILABLE');
       if(!evidence.latest_identity)reasons.push('OBSERVATION_UNAVAILABLE');
       else if(evidence.latest_identity!==evidence.identity_digest)reasons.push('OBSERVATION_CONFLICT');
