@@ -2,9 +2,43 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { createValidationFixture } from './helpers/schema-validation-fixture.mjs';
+import { reconcileDraftConflict } from '../packages/sql-workspace/contracts.mjs';
 
 const enabled = !!process.env.SCHEMAFORGE_TEST_DATABASE_URL;
 const file = (version,name,sql,id=randomUUID())=>({id,path:`V${version}__${name}.sql`,sql});
+
+test('concurrent draft saves retain both independently reconciled file edits and immutable prior revisions',{
+  skip:!enabled,timeout:120000,
+},async()=>{
+  const f=await createValidationFixture();
+  try{
+    await f.membership.grant(f.project.id,f.actors[2].id);
+    const base=`${f.base}/sql-drafts`,created=await f.api('POST',base,{name:'Concurrent manifests',targetBindingId:f.binding.bindingId,
+      files:[file(1,'first','-- base first'),file(2,'second','-- base second')]});assert.equal(created.statusCode,201,created.body);
+    const draft=created.json().draft,path=`${base}/${draft.id}`;
+    const left=draft.files.map(({id,path,sql},index)=>({id,path,sql:index===0?'-- local first':sql}));left.push(file(3,'local','-- local addition'));
+    const right=draft.files.map(({id,path,sql},index)=>({id,path,sql:index===1?'-- remote second':sql}));right.push(file(4,'remote','-- remote addition'));
+    const common={expectedRevision:'1',name:draft.name,targetBindingId:draft.targetBindingId};
+    const results=await Promise.all([f.api('PUT',path,{...common,files:left}),f.api('PUT',path,{...common,files:right},f.actors[2])]);
+    assert.deepEqual(results.map(r=>r.statusCode).sort(),[200,409]);
+    const winningIndex=results.findIndex(r=>r.statusCode===200),remote=results[winningIndex].json().draft;
+    const local={...draft,files:winningIndex===0?right:left};
+    const merged=reconcileDraftConflict(draft,local,remote);assert.equal(merged.ready,true);assert.equal(merged.files.length,4);
+    assert.equal((await f.api('PUT',path,{...common,files:merged.files})).statusCode,409,'stale authority is still denied');
+    const saved=await f.api('PUT',path,{...common,expectedRevision:'2',files:merged.files});assert.equal(saved.statusCode,200,saved.body);
+    const final=saved.json().draft;assert.equal(final.revision,'3');assert.deepEqual(final.files.map(f=>f.version),['1','2','3','4']);
+    assert.equal(final.files[0].sql,'-- local first');assert.equal(final.files[1].sql,'-- remote second');
+    assert.equal((await f.api('PUT',path,{...common,expectedRevision:'3',files:merged.files},f.actors[1])).statusCode,403);
+    assert.equal((await f.api('PUT',`${f.foreignBase}/sql-drafts/${draft.id}`,{...common,expectedRevision:'3',files:merged.files})).statusCode,404);
+    const old=(await f.api('GET',`${path}/revisions/compare?base=1&candidate=3`)).json().comparison;
+    assert.equal(old.baseFiles[0].sql,'-- base first');assert.equal(old.candidateFiles.length,4);
+    await assert.rejects(()=>f.db.sql`UPDATE sf_sql_draft_revisions SET sql='rewrite' WHERE draft_id=${draft.id} AND revision=1`,/immutable/);
+    assert.equal(Number((await f.db.sql`SELECT count(*)::int AS n FROM sf_execution_jobs`)[0].n),0);
+    await f.restart();assert.deepEqual((await f.api('GET',path)).json().draft.files,final.files);
+    await f.membership.revoke(f.project.id,f.actors[0].id);
+    assert.equal((await f.api('PUT',path,{...common,expectedRevision:'3',files:merged.files})).statusCode,404);
+  }finally{await f.close();}
+});
 
 test('authored correction origin verifies immutable legacy and multi-file provenance, preserves approval, and rechecks access', {
   skip:!enabled,timeout:180000,

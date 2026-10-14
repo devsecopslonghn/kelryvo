@@ -1796,3 +1796,12 @@ td code {
 
 .statement-preview-item[data-source-selected="true"] { outline: 2px solid #2563eb; outline-offset: 4px; }
 .validation-findings .text-button, .sql-workspace-analysis .text-button { white-space: normal; overflow-wrap: anywhere; max-width: 100%; text-align: left; }
+
+.draft-reconciliation label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.draft-reconciliation input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}

@@ -1,6 +1,6 @@
 import SchemaDrift from './SchemaDrift.jsx';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { classifyWorkspaceError, validateDraft } from '../../../packages/sql-workspace/contracts.mjs';
+import { classifyWorkspaceError, validateDraft, reconcileDraftConflict } from '../../../packages/sql-workspace/contracts.mjs';
 import { ValidationFindings } from './SchemaValidation.jsx';
 
 const editableFiles = draft => (draft?.files || [{id:draft?.id,path:'V1__workspace.sql',sql:draft?.sql || ''}]).map(({id,path,sql}) => ({...(id ? {id} : {}),path,sql}));
@@ -37,6 +37,7 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [conflict, setConflict] = useState(false), [latestDraft, setLatestDraft] = useState(null);
+  const [conflictChoices,setConflictChoices]=useState({}),[excludedFiles,setExcludedFiles]=useState([]);
   const [removedFile,setRemovedFile]=useState(null);
   const [correctionContext,setCorrectionContext]=useState(null);
   const correctionAttempt=useRef(null);
@@ -202,7 +203,7 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
       if (!current(n)) return;
       const latest=result.draft || result;
       if (!validateDraft(latest) || latest.id!==draft.id || latest.projectId!==projectId) throw new Error('INVALID_DRAFT_RESPONSE');
-      setLatestDraft(latest);
+      setLatestDraft(latest);setConflictChoices({});setExcludedFiles([]);
     } catch(e) {if(current(n))reportError(e);}
     finally {if(current(n))setBusy(false);}
   };
@@ -210,11 +211,16 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
   const resolveConflict = keepEdits => {
     if (!latestDraft || busy || loading || readOnly) return;
     if (keepEdits) {
+      if(!reconciliation?.ready || !bindings.some(b=>targetIdOf(b)===reconciliation.targetBindingId))return;
+      const merged=reconciliation.files;
+      const index=Math.max(0,merged.findIndex(file=>file.id===fileSelection.current));
+      setFiles(merged);setFileIndex(index);fileSelection.current=merged[index].id;setSql(merged[index].sql);
+      setName(reconciliation.name);setTargetBindingId(reconciliation.targetBindingId);onBindingSelected?.(reconciliation.targetBindingId);
       setDraft(latestDraft);setAnalysis(null);setValidation(null);setComparison(null);setPreparedRelease(null);
-      setUseFiles(useFiles || latestDraft.manifestVersion===2 || editableFiles(latestDraft).length>1);
+      setUseFiles(true);setRemovedFile(null);setCorrectionContext(null);
       setBaseRevision(String(latestDraft.revision));setCandidateRevision(String(latestDraft.revision));
       setConflict(false);setLatestDraft(null);
-      setNotice(`Local edits retained over revision ${latestDraft.revision}. Review all files and save explicitly; no changes have been sent.`);
+      setNotice(`Reconciled files staged over revision ${latestDraft.revision}. Save explicitly; no changes have been sent.`);
     } else {adoptDraft(latestDraft);setNotice(`Loaded saved revision ${latestDraft.revision}. Local edits discarded.`);}
     setDrafts(rows=>rows.map(row=>row.id===latestDraft.id?latestDraft:row));setError('');
   };
@@ -362,6 +368,10 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
     setNotice(`Opened ${path}${statement?` · statement ${statement.fileOrdinal ?? statement.ordinal}`:''}. This finding refers to saved revision ${draft.revision}.`);
   };
   const revisions = draft?.revisions || [];
+  const reconciliation=conflict && draft && latestDraft?reconcileDraftConflict(
+    {name:draft.name,targetBindingId:draft.targetBindingId,files:editableFiles(draft)},
+    {name,targetBindingId,files},
+    {name:latestDraft.name,targetBindingId:latestDraft.targetBindingId,files:editableFiles(latestDraft)},conflictChoices,excludedFiles):null;
   return <section className="panel sql-workspace" aria-label="SQL workspace" aria-busy={busy || loading}>
     <div className="panel-heading"><div><p className="eyebrow">PROJECT SQL</p><h2>SQL workspace</h2>{projectName && <p>{projectName}</p>}</div><button type="button" className="secondary" onClick={() => void loadDrafts(draftId)} disabled={busy || loading || hasUnsavedEdits}>Refresh drafts</button></div>
     <p>Draft SQL, review offline parsing and target evidence, then prepare an immutable authored release. SQL is never executed here.</p>
@@ -376,7 +386,13 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
     </div></section>}
     {targetBindingId && <SchemaDrift token={token} projectId={projectId} bindingId={targetBindingId} request={request}/>}
     <section aria-label="Database change stage"><h3>{stage}</h3><p>{nextAction}</p>{draft && <p>Draft <code>{draft.id}</code> · saved revision {draft.revision}</p>}{preparedRelease && <><p>Immutable release <code>{preparedRelease.id}</code> · draft revision {preparedRelease.draftRevision}. Further edits create a new draft revision; this release remains unchanged.</p>{onOpenRelease && <button type="button" className="text-button" onClick={()=>onOpenRelease(preparedRelease.id)}>Inspect immutable release →</button>}</>}</section>
-    {conflict && <section aria-label="Resolve draft revision conflict"><h3>Resolve draft revision conflict</h3><p>Your local edits are preserved. Inspect the latest saved revision before choosing what to keep.</p><button type="button" className="secondary" disabled={busy || loading} onClick={()=>void inspectConflict()}>Inspect latest saved revision</button>{latestDraft && <><div className="comparison-sides"><section><h4>Your local edits · based on revision {draft.revision}</h4><p>{name} · target <code>{targetBindingId}</code></p><pre>{files.map(f=>`${f.path}\n${f.sql}`).join('\n\n')}</pre></section><section><h4>Latest saved revision {latestDraft.revision}</h4><p>{latestDraft.name} · target <code>{latestDraft.targetBindingId}</code></p><pre>{editableFiles(latestDraft).map(f=>`${f.path}\n${f.sql}`).join('\n\n')}</pre></section></div><p>Keeping your edits changes the revision used by the next explicit save. That save replaces the latest draft content, while all saved revisions remain retained. Combine any changes you need in the editor first.</p><div className="form-actions"><button type="button" className="secondary" disabled={busy || loading || readOnly} onClick={()=>resolveConflict(false)}>Discard local edits and load latest revision</button><button type="button" className="secondary" disabled={busy || loading || readOnly} onClick={()=>resolveConflict(true)}>Keep my edits over revision {latestDraft.revision}</button></div></>}</section>}
+    {conflict && <section aria-label="Resolve draft revision conflict"><h3>Resolve draft revision conflict</h3><p>Your local edits are preserved. Inspect the latest saved revision before choosing what to keep.</p><button type="button" className="secondary" disabled={busy || loading} onClick={()=>void inspectConflict()}>Inspect latest saved revision</button>{latestDraft && <><div className="comparison-sides"><section><h4>Your local edits · based on revision {draft.revision}</h4><p>{name} · target <code>{targetBindingId}</code></p><pre>{files.map(f=>`${f.path}\n${f.sql}`).join('\n\n')}</pre></section><section><h4>Latest saved revision {latestDraft.revision}</h4><p>{latestDraft.name} · target <code>{latestDraft.targetBindingId}</code></p><pre>{editableFiles(latestDraft).map(f=>`${f.path}\n${f.sql}`).join('\n\n')}</pre></section></div><section className="draft-reconciliation" aria-label="Reconcile concurrent draft changes"><h4>Reconcile saved and local changes</h4><p>Non-overlapping file changes are combined by file identity. Overlapping edits, renames or removals require a choice; SQL text is never merged. Applying stages the result in your editor. Only an explicit save creates a new immutable revision.</p>
+              {reconciliation?.conflicts.map(item=><div key={item.key}><label>Resolve {item.label}<select aria-label={`Resolve ${item.label}`} value={conflictChoices[item.key] || ''} disabled={busy || loading || readOnly} onChange={event=>setConflictChoices(previous=>({...previous,[item.key]:event.target.value}))}><option value="">Choose explicitly</option><option value="local">Use my version{item.local===null?' (remove file)':''}</option><option value="remote">Use latest saved version{item.remote===null?' (remove file)':''}</option></select></label><details><summary>Compare conflicting values · {item.label}</summary><div className="comparison-sides"><section><h5>My version</h5><pre>{typeof item.local==='object'?item.local?`${item.local.path}\n${item.local.sql}`:'File removed':String(item.local)}</pre></section><section><h5>Latest saved version</h5><pre>{typeof item.remote==='object'?item.remote?`${item.remote.path}\n${item.remote.sql}`:'File removed':String(item.remote)}</pre></section></div></details></div>)}
+              <h5>Staged file manifest</h5><p>Uncheck a file only if you intend to exclude it from the next saved revision. All prior revisions remain retained.</p><ul>{reconciliation?.candidates.map(file=><li key={file.id}><label><input type="checkbox" aria-label={`Include ${file.path} ${file.id}`} checked={!excludedFiles.includes(file.id)} disabled={busy || loading || readOnly} onChange={event=>setExcludedFiles(ids=>event.target.checked?ids.filter(id=>id!==file.id):[...ids,file.id])}/>{file.path} · <code>{file.id}</code></label></li>)}</ul>
+              {!!reconciliation?.issues.length && <ul role="alert">{reconciliation.issues.map(issue=><li key={issue}>{issue}</li>)}</ul>}
+              {reconciliation?.targetBindingId && !bindings.some(b=>targetIdOf(b)===reconciliation.targetBindingId) && <p role="alert">The reconciled target is unavailable. Choose an authorized target before saving.</p>}
+              <div className="form-actions"><button type="button" className="secondary" disabled={busy || loading || readOnly} onClick={()=>resolveConflict(false)}>Discard local edits and load latest revision</button><button type="button" className="primary" disabled={busy || loading || readOnly || !reconciliation?.ready || !bindings.some(b=>targetIdOf(b)===reconciliation.targetBindingId)} onClick={()=>resolveConflict(true)}>Apply reconciliation to editor</button></div>
+            </section></>}</section>}
     <div className="sql-workspace-layout">
       <aside aria-label="Saved SQL drafts"><h3>Saved drafts</h3><button type="button" className="secondary" onClick={() => void createDraft()} disabled={busy || loading || readOnly || !selectedTarget || hasUnsavedEdits}>New draft</button>
         {!drafts.length && !loading && <p>No saved SQL drafts yet.</p>}
