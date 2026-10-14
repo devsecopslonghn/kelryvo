@@ -205,7 +205,7 @@ function auditDescription(item) {
 
 function clearHistoryLocation() {
   const params=new URLSearchParams(location.search);
-  params.delete('historyJob');params.delete('historyPlan');
+  params.delete('historyJob');params.delete('historyPlan');params.delete('historyTarget');
   history.replaceState(null,'',`${location.pathname}${params.size?`?${params}`:''}${location.hash}`);
 }
 
@@ -1534,12 +1534,13 @@ function App() {
     if(workspaceDirty){setNotice('Save or discard unsaved SQL edits before opening the originating draft.');setTab('sql');return;}
     setSourceCorrection({releaseId,path,statement});setTab('sql');
   };
-  const openMigrationHistory = (jobId, planId) => {
+  const openMigrationHistory = (jobId, planId, bindingId) => {
     const params=new URLSearchParams(location.search);
     const validId=value=>typeof value==='string' && /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(value);
-    params.delete('historyJob');params.delete('historyPlan');
+    params.delete('historyJob');params.delete('historyPlan');params.delete('historyTarget');
     if(validId(jobId))params.set('historyJob',jobId);
     if(validId(planId))params.set('historyPlan',planId);
+    if(validId(bindingId))params.set('historyTarget',bindingId.toLowerCase());
     history.replaceState(null,'',`${location.pathname}${params.size?`?${params}`:''}${location.hash}`);
     setTab('history');
   };
@@ -1606,7 +1607,7 @@ function App() {
         {tab === 'workspace' && <WorkspaceScreen model={model} />}
         {tab === 'references' && projectId && <SchemaReferences key={`${token}:${projectId}`} token={token} projectId={projectId} onTargets={()=>setTab('targets')} onMissing={()=>{clearProjectState();void refresh(token,projectId);}} />}
         {tab === 'references' && !projectId && <div className="empty-state"><strong>Select a project first</strong><span>Choose an assigned project from Projects, then open Schema references.</span><button type="button" className="text-button" onClick={()=>setTab('workspace')}>Go to Projects →</button></div>}
-        {tab === 'schema' && projectLoaded && <SchemaBaselines key={`${token}:${projectId}`} token={token} projectId={projectId} bindings={detail.targetBindings || []} initialBindingId={workflowTarget} hasMoreTargets={!!detail.targetBindingsNextCursor} onLoadTargets={loadPlanTargets} request={json} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE' || actor.role !== 'developer'} onWorkspace={bindingId=>{setWorkflowTarget(bindingId);setTab('sql');}} onPlans={bindingId=>{setWorkflowTarget(bindingId);const matching=(detail.plans || []).find(p=>p.retainedTarget?.bindingId===bindingId);if(matching){selectPlan(matching.id);setTab('review');}else setTab('release');}} onHistory={()=>setTab('history')} onMissing={()=>{clearProjectState();void refresh(token,projectId);}}/>}
+        {tab === 'schema' && projectLoaded && <SchemaBaselines key={`${token}:${projectId}`} token={token} projectId={projectId} bindings={detail.targetBindings || []} initialBindingId={workflowTarget} hasMoreTargets={!!detail.targetBindingsNextCursor} onLoadTargets={loadPlanTargets} request={json} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE' || actor.role !== 'developer'} onWorkspace={bindingId=>{setWorkflowTarget(bindingId);setTab('sql');}} onPlans={bindingId=>{setWorkflowTarget(bindingId);const matching=(detail.plans || []).find(p=>p.retainedTarget?.bindingId===bindingId);if(matching){selectPlan(matching.id);setTab('review');}else setTab('release');}} onHistory={bindingId=>openMigrationHistory(null,null,bindingId)} onMissing={()=>{clearProjectState();void refresh(token,projectId);}}/>}
         {tab === 'schema' && !projectLoaded && <p role="status">Select a project to inspect schema baselines and drift.</p>}
         {tab === 'targets' && projectLoaded && <ProjectTargets key={`${token}:${projectId}`} token={token} projectId={projectId} detail={detail} actor={actor} request={json} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE'} onSaved={() => refresh(token, projectId)} onPrepare={() => setTab('release')} onWorkspace={bindingId=>{setWorkflowTarget(bindingId);setTab('sql');}} onMissing={() => {clearProjectState(); void refresh(token, projectId);}}/>}
         {tab === 'targets' && !projectLoaded && <p role="status">Select a project to inspect its targets.</p>}

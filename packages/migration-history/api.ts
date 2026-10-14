@@ -147,8 +147,9 @@ export function registerMigrationHistory(app: any, sql: any, authenticate: any, 
           'actorName',page.actor_name,'title',page.title,'detail',page.detail,'jobId',page.job_id,'evidence',page.evidence,
           'liveStatus',page.live_status)
           ORDER BY page.at DESC,page.id DESC),'[]'::jsonb) AS items
-      FROM (SELECT * FROM matched WHERE (${position?.at ?? null}::timestamptz IS NULL
-        OR (at,id)<(${position?.at ?? null}::timestamptz,${position?.id ?? null}::text))
+      -- Bind cursor timestamps as text before casting: the driver's timestamp serializer truncates microseconds.
+      FROM (SELECT * FROM matched WHERE (${position?.at ?? null}::text::timestamptz IS NULL
+        OR (at,id)<(${position?.at ?? null}::text::timestamptz,${position?.id ?? null}::text))
         ORDER BY at DESC,id DESC LIMIT ${PAGE_SIZE + 1} OFFSET ${query.cursor === undefined ? offset : 0}) page`;
       const row = records[0];
       const items = row.items.slice(0, PAGE_SIZE);

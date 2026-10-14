@@ -1481,6 +1481,10 @@ status changes can change filter membership. Refresh starts a new traversal. Leg
 clients remain compatible. HOLD rows expose the latest attributed transition, attempt and
 receipt count; request details retain the full paginated event/recovery timeline and
 execution evidence. Request permalinks restore that authorized context after restart.
+Opening history from schema baselines applies that exact target binding as the initial
+filter and clears an earlier plan/request permalink. The handoff is consumed once;
+ordinary history navigation starts with all targets. Manual target changes preserve
+the search and status filters and reset the cursor traversal.
 
 
 ## Schema snapshots, baselines and drift

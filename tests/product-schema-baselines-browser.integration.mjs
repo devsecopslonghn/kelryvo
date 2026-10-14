@@ -89,3 +89,61 @@ test('browser retains exact object reference observations through validation, pl
     assert.deepEqual(errors,[]);
   }finally{await browser?.close();await f.close();}
 });
+
+test('schema navigation scopes migration history to the exact binding and preserves manual filters and scoped cursors',{
+  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:180000,
+},async()=>{
+  const f=await createSchemaFixture();let browser;
+  try {
+    const {configureTargetOption}=await import('../packages/targets/index.ts');
+    const env=(await f.db.sql`INSERT INTO sf_environments(project_id,organization_id,name)
+      VALUES(${f.project.id},'00000000-0000-4000-8000-000000000001','Second history environment') RETURNING id`)[0];
+    const profile=(await f.db.sql`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref)
+      VALUES(${f.project.id},'00000000-0000-4000-8000-000000000001',${env.id},'Second history profile','oracle',
+      'target-workflow.example.invalid',1521,'TARGETSVC','APP',${f.credentialRef}) RETURNING id`)[0];
+    const option=await f.db.sql.begin(tx=>configureTargetOption(tx,{...f.optionDefinition(),environmentId:env.id,profileId:profile.id}));
+    const created=await f.api('POST',`${f.base}/target-bindings`,{assignmentId:f.assignment.id,expectedAssignmentRevision:'1',environmentId:env.id,
+      targetOptionId:option.optionId,expectedTargetOptionRevision:option.optionRevision,expectedBindingRevision:'0',reason:'Exact binding history fixture'});
+    assert.equal(created.statusCode,201,created.body);const other=created.json().binding;
+    const firstPlans=[];
+    for(let i=0;i<14;i++) {const response=await f.makePlan(f.binding);assert.equal(response.statusCode,201,response.body);firstPlans.push(response.json().plan.id);}
+    const secondPlan=await f.makePlan(other);assert.equal(secondPlan.statusCode,201,secondPlan.body);const secondId=secondPlan.json().plan.id;
+    const firstResponse=await f.api('GET',`${f.base}/migration-history?targetId=${f.binding.bindingId}`);
+    assert.equal(firstResponse.statusCode,200,firstResponse.body);const firstPage=firstResponse.json();
+    assert.ok(firstPage.nextCursor);assert.ok(firstPage.items.every(row=>firstPlans.includes(row.planId)));
+    const older=(await f.api('GET',`${f.base}/migration-history?targetId=${f.binding.bindingId}&cursor=${encodeURIComponent(firstPage.nextCursor)}`)).json();
+    assert.ok(older.items.length);assert.ok(older.items.every(row=>firstPlans.includes(row.planId)));
+    assert.equal(new Set([...firstPage.items,...older.items].map(row=>row.id)).size,firstPage.total);
+    assert.equal((await f.api('GET',`${f.base}/migration-history?targetId=${other.bindingId}&cursor=${encodeURIComponent(firstPage.nextCursor)}`)).statusCode,400);
+    const otherPage=(await f.api('GET',`${f.base}/migration-history?targetId=${other.bindingId}`)).json();
+    assert.ok(otherPage.items.length);assert.ok(otherPage.items.every(row=>row.planId===secondId));
+    assert.equal((await f.api('GET',`${f.base}/migration-history?targetId=${f.binding.bindingId}`,undefined,f.actors[2])).statusCode,404);
+
+    browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];
+    page.on('pageerror',e=>errors.push(e.message));
+    await page.goto(f.currentUrl());await page.getByLabel('Local access token').fill(f.actors[0].token);
+    await page.getByRole('button',{name:'Continue',exact:true}).click();await page.getByLabel('Sign out').waitFor();
+    await page.getByRole('button',{name:/Projects/}).click();await page.locator('.project-row').filter({hasText:f.project.name}).click();
+    await page.getByRole('button',{name:/Schema baselines & drift/}).click();
+    const schema=page.getByRole('region',{name:'Schema baselines and drift'});await schema.getByLabel('Schema target').selectOption(f.binding.bindingId);
+    // A prior plan permalink must not intersect the new schema target filter.
+    await page.evaluate(id=>history.replaceState(null,'',`?historyPlan=${id}${location.hash}`),secondId);
+    const scopedRequest=page.waitForResponse(r=>r.url().includes('/migration-history?')&&new URL(r.url()).searchParams.get('targetId')===f.binding.bindingId);
+    await schema.getByRole('button',{name:'Open migration history',exact:true}).click();
+    assert.ok((await (await scopedRequest).json()).items.every(row=>firstPlans.includes(row.planId)));
+    const historyPanel=page.getByRole('region',{name:'Consolidated migration history'}),target=historyPanel.getByLabel('Filter history by target');
+    await historyPanel.locator('.migration-history-row').first().waitFor();assert.equal(await target.inputValue(),f.binding.bindingId);
+    assert.equal(await historyPanel.getByLabel('Search migration history').inputValue(),'');
+    assert.equal(new URL(page.url()).searchParams.has('historyTarget'),false);assert.equal(new URL(page.url()).searchParams.has('historyPlan'),false);
+    await historyPanel.getByRole('button',{name:'Older records',exact:true}).click();await historyPanel.getByText('Page 2',{exact:true}).waitFor();
+    const search=historyPanel.getByLabel('Search migration history'),status=historyPanel.getByLabel('Filter history by status');
+    await search.fill(secondId);await status.selectOption('CREATED');await target.selectOption(other.bindingId);
+    await historyPanel.getByText('Page 1',{exact:true}).waitFor();await historyPanel.locator('.migration-history-row').first().waitFor();
+    assert.equal(await search.inputValue(),secondId);assert.equal(await status.inputValue(),'CREATED');assert.equal(await historyPanel.locator('.migration-history-row').count(),1);
+    await historyPanel.getByRole('button',{name:'Open plan',exact:true}).click();await page.locator(`.plan-option.selected[data-plan-id="${secondId}"]`).waitFor();
+    await page.getByRole('button',{name:/Migration history/}).click();await historyPanel.waitFor();assert.equal(await historyPanel.getByLabel('Filter history by target').inputValue(),'ALL');
+    assert.equal(await historyPanel.getByLabel('Search migration history').inputValue(),'');
+    await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+    assert.deepEqual(errors,[]);assert.equal(Number((await f.db.sql`SELECT count(*)::integer AS count FROM sf_execution_jobs`)[0].count),0);
+  }finally{await browser?.close();await f.close();}
+});
