@@ -101,6 +101,9 @@ test('schema-aware validation retains snapshot provenance and cannot be reused a
     assert.equal(response.statusCode,201,response.body);const validation=response.json().validation;
     assert.equal(validation.report.metadata.schemaSnapshot.id,snapshot.id);assert.equal(validation.report.metadata.schemaSnapshot.provenance,'FIXTURE');
     assert.ok(validation.report.findings.some(x=>x.code==='SCHEMA_STRUCTURE_OBSERVED'));
+    assert.equal(validation.report.statements[0].catalogReferences[0].state,'UNKNOWN');
+    assert.equal(validation.report.statements[0].catalogReferences[0].snapshotId,snapshot.id);
+    assert.equal(validation.report.metadata.schemaSnapshot.objects,undefined);
     const input={intentVersion:3,releaseId:f.release.id,assignmentId:f.assignment.id,expectedAssignmentRevision:'1',targetBindingId:f.binding.bindingId,expectedBindingRevision:'1',validationId:validation.id,expectedValidationDigest:validation.digest};
     assert.equal((await f.api('POST',`${f.base}/plans`,input)).statusCode,201);
     f.setSchema({owner:'APP',objects:[object('NewTable')],coverage:completeCoverage,limitations:[]});await f.observe();
