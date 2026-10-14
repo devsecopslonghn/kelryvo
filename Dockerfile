@@ -10,11 +10,16 @@ ARG TARGETARCH
 RUN node -e "if ({x64:'amd64',arm64:'arm64'}[process.arch] !== '${TARGETARCH}') process.exit(1)"
 COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts --no-audit --no-fund
-COPY . .
+# Keep pinned parser/JDK/source inputs independent of application edits, so the
+# reviewed parser build can be reused without downloading or recompiling it.
+COPY docs/dependencies ./docs/dependencies
+COPY experiments/db-devops-wp0/antlr-helper ./experiments/db-devops-wp0/antlr-helper
+COPY scripts/antlr-prepare.mjs scripts/antlr-build.mjs scripts/jdk-platform.mjs scripts/container-source-archives.mjs ./scripts/
 RUN node scripts/antlr-prepare.mjs --download
 RUN node scripts/container-source-archives.mjs
 ENV SCHEMAFORGE_JAVA_HOME=/opt/kelryvo/.cache/antlr/temurin
 RUN node scripts/antlr-build.mjs
+COPY . .
 RUN SCHEMAFORGE_PRODUCT_NAME=Kelryvo node scripts/build-web.mjs
 RUN GIT_AUTHOR_DATE=2000-01-01T00:00:00Z GIT_COMMITTER_DATE=2000-01-01T00:00:00Z \
     node --input-type=module -e "import {prepareDemoRepository} from './scripts/local-resources.mjs'; await prepareDemoRepository();"
@@ -45,7 +50,7 @@ RUN node -e "if ({x64:'amd64',arm64:'arm64'}[process.arch] !== '${TARGETARCH}') 
     && node scripts/container-inventory.mjs
 ENV NODE_ENV=production SCHEMAFORGE_JAVA_HOME=/opt/kelryvo/.cache/antlr/temurin
 ARG KELRYVO_REVISION=local-unpublished
-LABEL org.opencontainers.image.source="https://github.com/devsecopslonghn/schemaForge" \
+LABEL org.opencontainers.image.source="https://github.com/devsecopslonghn/kelryvo" \
       org.opencontainers.image.revision="${KELRYVO_REVISION}" \
       org.opencontainers.image.licenses="PolyForm-Shield-1.0.0"
 

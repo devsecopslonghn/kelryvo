@@ -1,4 +1,4 @@
-name: Local PRODUCT acceptance
+name: Kelryvo focused acceptance
 
 on:
   push:
@@ -9,40 +9,51 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: kelryvo-focused-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  acceptance:
+  changes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      needed: ${{ steps.select.outputs.needed }}
+      matrix: ${{ steps.select.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - id: select
+        name: Select affected security and data boundaries
+        run: node scripts/ci-focused-tests.mjs
+        env:
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+      - if: steps.select.outputs.needed == 'true'
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - if: steps.select.outputs.needed == 'true'
+        run: npm run build:web
+      - if: steps.select.outputs.needed == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: focused-web-${{ github.sha }}-${{ github.run_attempt }}
+          path: dist/web
+          if-no-files-found: error
+          retention-days: 1
+
+  focused:
+    needs: changes
+    if: needs.changes.outputs.needed == 'true'
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - suite: api
-            shard: 1/8
-          - suite: api
-            shard: 2/8
-          - suite: api
-            shard: 3/8
-          - suite: api
-            shard: 4/8
-          - suite: api
-            shard: 5/8
-          - suite: api
-            shard: 6/8
-          - suite: api
-            shard: 7/8
-          - suite: api
-            shard: 8/8
-          - suite: browser
-            shard: 1/3
-          - suite: browser
-            shard: 2/3
-          - suite: browser
-            shard: 3/3
-          - suite: release
-            shard: 1/1
+      matrix: ${{ fromJSON(needs.changes.outputs.matrix) }}
     runs-on: ubuntu-24.04
-    # API files use two subprocesses on each of eight isolated runners, balanced by hosted TAP cost.
-    # Every complete suite partition has its own database; all remain required.
-    timeout-minutes: 40
+    timeout-minutes: 15
     services:
       postgres:
         image: postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f
@@ -58,7 +69,6 @@ jobs:
       SCHEMAFORGE_TEST_DATABASE_URL: postgres://postgres@127.0.0.1:5432/schemaforge_test
       SCHEMAFORGE_JAVA_HOME: ${{ github.workspace }}/.cache/antlr/temurin
       SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: '1'
-      SCHEMAFORGE_TEST_SHARD: ${{ matrix.shard }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -69,43 +79,34 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: npm run parser:antlr:prepare
-      # The release suite builds the extracted source itself, after fresh npm ci.
-      - if: matrix.suite != 'release'
-        run: npm run parser:antlr:build
-      - if: matrix.suite != 'release'
-        # Source/type/unit/dependency gates run once in foundation. Each shard
-        # still builds its browser bundle; release builds the extracted source.
-        run: npm run build:web
-      - if: matrix.suite == 'api'
-        run: npm run test:product
-      - if: matrix.suite != 'api'
-        run: node node_modules/playwright/cli.js install --with-deps chromium
-      - if: matrix.suite == 'browser'
-        run: node scripts/test-product.mjs --browser
-      - if: always() && matrix.suite == 'browser'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          name: product-browser-${{ strategy.job-index }}
-          path: |
-            .cache/phase6-acceptance/
-            .cache/local-product/browser-failure.png
-            .cache/phase7-acceptance/
-            .cache/phase8-acceptance/
-          if-no-files-found: ignore
-          retention-days: 14
-      - if: matrix.suite == 'release'
-        run: npm run test:release
+          name: focused-web-${{ github.sha }}-${{ github.run_attempt }}
+          path: dist/web
+      - run: npm run parser:antlr:prepare
+      - run: npm run parser:antlr:build
+      - name: Run selected PostgreSQL or parser tests with the shared web build
+        run: node scripts/ci-focused-tests.mjs --run
+        env:
+          CI_TEST_FILES: ${{ toJSON(matrix.files) }}
 
-      # Only disposable metadata PostgreSQL and local Git/parser; no Oracle or deployment.
-
-  # Preserve the product check name and fail closed if any suite fails/skips/cancels.
+  # Always report a stable, fail-closed gate, including a deliberate no-test diff.
   product:
     if: always()
-    needs: acceptance
+    needs: [changes, focused]
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     env:
-      ACCEPTANCE_RESULT: ${{ needs.acceptance.result }}
+      CHANGES_RESULT: ${{ needs.changes.result }}
+      TESTS_NEEDED: ${{ needs.changes.outputs.needed }}
+      FOCUSED_RESULT: ${{ needs.focused.result }}
     steps:
-      - run: test "$ACCEPTANCE_RESULT" = success
+      - name: Require a successful selection and every relevant test
+        run: |
+          test "$CHANGES_RESULT" = success
+          if [ "$TESTS_NEEDED" = true ]; then
+            test "$FOCUSED_RESULT" = success
+          else
+            test "$TESTS_NEEDED" = false
+            test "$FOCUSED_RESULT" = skipped
+          fi
