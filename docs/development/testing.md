@@ -15,10 +15,8 @@ the current three real-stack smoke flows, complementary focused UI regressions,
 and the subsequent hosted baseline. `test:browser` and CI still run both tiers.
 
 The foundation CI job supplies fast feedback and retains `dependencies:offline`.
-Deeper acceptance retains all four API shards, three browser shards, extracted
-release acceptance and the fail-closed `product` aggregate on PRs and master.
-Every shard owns a disposable PostgreSQL database and runs its files serially.
-Only the repeated source/type checks in those seven shards move to foundation;
+Deeper acceptance retains all eight API shards, three browser shards, extracted release acceptance and the fail-closed `product` aggregate on PRs and master. Each shard owns a disposable PostgreSQL database; API files use bounded concurrency of two, while browser files are serial. The workflow and suite selectors are authoritative for current partitioning.
+Only the repeated source/type checks in the acceptance shards move to foundation;
 each still builds its own web bundle and reproducible pinned parser. Parser,
 container, CodeQL and publication gates retain their existing behavior and names.
 Release acceptance remains a PR gate; making it master-only would change the

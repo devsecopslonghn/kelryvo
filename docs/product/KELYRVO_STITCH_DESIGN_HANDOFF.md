@@ -1,4 +1,6 @@
-# Kelryvo Stitch Design Handoff
+# Historical Kelryvo Stitch design handoff
+
+This 2026-10-12 visual-review record is retained for design provenance. Its implementation statuses are historical. Use [Product requirements](KELYRVO_PRODUCT_REQUIREMENTS.md) for current functionality; target binding and offline schema-aware review have since been implemented.
 
 **Repository baseline:** 2026-10-12 product requirements and UI/UX specification<br>
 **Stitch project:** `projects/14912123519289853449` (Kelryvo)<br>

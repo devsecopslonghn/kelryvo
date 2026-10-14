@@ -15,20 +15,15 @@ npm run check:record
 npm run dependencies:offline
 ```
 
-`build` checks authored JavaScript syntax and text/JSON validity; this repository does not
-yet produce a deployable application. `lint` adds graph, tracker and evidence invariants.
-`format:check` requires two-space JSON with final LF and excludes immutable research and
-evidence. `format` rewrites authored JSON only. JavaScript uses two spaces, ESM imports,
-explicit errors and Node built-ins; lint also enforces final LF and no trailing whitespace.
-`test` runs Node's built-in test runner. API-specific lint/typecheck/build tooling will be
-selected when an accepted API slice exists. Do not count syntax checks as a product build.
+Start with [product requirements and the selected roadmap acceptance](docs/product/KELYRVO_PRODUCT_REQUIREMENTS.md). Do not use historical phases or catalog BACKLOG as evidence that a delivered workflow must be rebuilt.
+
+`build` checks authored source, TypeScript API/worker types and bundles the React application. `lint` adds graph, tracker and evidence invariants. `format:check` requires two-space JSON with final LF and excludes immutable research/evidence. JavaScript uses two spaces, ESM imports, explicit errors and Node built-ins. `test` uses Node's built-in runner; database-dependent cases skip offline. Full PostgreSQL/API, Chromium and source-installation gates are documented in [testing](docs/development/testing.md). Syntax/unit passes alone do not establish a usable workflow or Oracle support.
 
 `check:record` executes `npm run check` and writes an exclusive timestamped evidence run,
 including the command, exit status, full output, log digest and authored-source hashes.
 It does not change acceptance statuses; the orchestrator reviews and indexes the run.
 
-Select a bounded task with fulfilled dependencies and record its original feature IDs,
-criteria, exclusive paths and test commands. Keep safety-critical contract changes together.
+Select a bounded roadmap outcome with fulfilled dependencies and its acceptance criteria. Preserve relevant original feature IDs and acceptance contracts; keep path ownership clear. Keep safety-critical contract changes together.
 Add meaningful positive/negative tests where behavior changes; use synthetic inputs only
 for offline validation. Do not update imported source snapshots or change research IDs.
 

@@ -1,4 +1,6 @@
-# Kelryvo MVP scope and feature matrix
+# Historical governance MVP acceptance — 2026-10-12
+
+This is the accepted deployment snapshot through PR #72, not current master or current infrastructure status. Later delivery and the outstanding backlog are consolidated in [Product requirements](../product/KELYRVO_PRODUCT_REQUIREMENTS.md). Deployment observations below apply only to the recorded revision and date.
 
 Locked 2026-10-12 under the owner's product-first completion objective. The practical
 governance MVP is implemented, merged through application PR #72, published from exact

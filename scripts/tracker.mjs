@@ -1651,7 +1651,7 @@ export function validateState(s) {
 
 function formatStatus(s) {
   const counts = (items) => Object.fromEntries([...new Set(items.map((x) => x.status))].sort(compareStrings).map((status) => [status, items.filter((x) => x.status === status).length]));
-  return { features: s.features.features.length, feature_status: counts(s.features.features), work_items: s.tasks.tasks.length, work_status: counts(s.tasks.tasks), wp0_cases: s.tests.cases.length, oracle_cells: 'BLOCKED pending authorized lab manifest' };
+  return { scope: 'Original catalog/task acceptance; not delivered capability counts', product_source_of_truth: s.milestone.product_source_of_truth ?? null, features: s.features.features.length, feature_status: counts(s.features.features), work_items: s.tasks.tasks.length, work_status: counts(s.tasks.tasks), wp0_cases: s.tests.cases.length, oracle_cells: 'BLOCKED pending authorized lab manifest' };
 }
 export function selectNext(s) {
   const all = [...s.tasks.tasks, ...s.features.features];
@@ -1685,6 +1685,10 @@ function runValidation(s) {
 }
 function printNext(s) {
   const eligible = selectNext(s);
+  if (!eligible.length && s.milestone.active_track === 'PRODUCT' && s.milestone.next_priority) {
+    console.log(JSON.stringify({ eligible_tasks: [], roadmap_priority: s.milestone.next_priority, blockers: s.milestone.blockers }, null, 2));
+    return;
+  }
   console.log(JSON.stringify(eligible.map(({ id, title, name, package: pkg }) => ({ id, title: title ?? name, package: pkg })), null, 2));
 }
 function printGraph(s, format) {

@@ -1,115 +1,29 @@
-# Product tracking
+# Retained implementation and acceptance tracker
 
-The tracking records preserve all 220 feature IDs from the immutable research catalog and
-all 64 imported tasks plus `SF-P0-FOUNDATION` and the bounded PRODUCT tasks. Catalog dependencies and acceptance criteria
-remain exact. The 95 refined features use their implementation-plan tier as `phase` and retain
-the catalog release in `original_phase`. Seven rejected catalog features start as `DEFERRED`
-with a source-based reason; other features start as `BACKLOG`.
+[Product requirements, state and roadmap](../product/KELYRVO_PRODUCT_REQUIREMENTS.md) is the single source for current product delivery and next work. The tracker preserves essential original traceability and acceptance safeguards; it is not a second product roadmap.
 
-Feature ownership follows domain charters; work ownership follows package, with named WP0
-owners and QA review on WP0-T12. The ownership policies follow `apps/api`, `apps/web`,
-`apps/worker`, `packages`, tests, experiments, and shared tracking docs. `ownership.json`
-records responsibilities and allowed path patterns.
+## What the records mean
 
-`acceptance.json` contains feature and work acceptance criteria plus 63 distinct WP0 cases.
-Each case has separate unit, Oracle 19c, and Oracle 21c cells. Source `NOT_APPLICABLE` values
-are preserved; applicable Oracle cells are `BLOCKED` while lab authorization is absent, and
-unit cells start as `NOT_RUN`. A unit cell may become `BLOCKED` for an explicit offline
-blocker independent of Oracle authorization. `BLOCKED` and `DEFERRED` work items require a
-specific reason.
+- `features.json` preserves all 220 original catalog IDs, descriptions, acceptance criteria and dependencies. BACKLOG means the full original contract has not been verified, even when bounded product facets work. Seven rejected catalog items remain DEFERRED. Do not treat old phase labels as development order.
+- `backlog.json`, `acceptance.json`, `dependency-graph.json` and `ownership.json` retain 64 imported tasks, foundation and 44 bounded PRODUCT task contracts. A task's VERIFIED status applies only to its own evidenced criteria. Later product delivery is assessed in the product document; do not manufacture new task copies for already completed workflows.
+- `acceptance.json` also preserves 63 distinct WP0 cases with independent unit, Oracle 19c and Oracle 21c cells. No unit/fixture pass may certify an Oracle cell. Original NOT_APPLICABLE values and dependency gates stay intact.
+- `evidence-index.json` and all raw `evidence/` records remain retained acceptance history. Indexed paths/digests are immutable. Add new evidence rather than editing a published run.
+- `feature-coverage.json` is the dated 2026-10-11 catalog assessment, not current capability counts; `final-review.json` is the dated WP0 review. They remain historical references, not maintained parallel progress reports. `MVP.md` records the 2026-10-12 deployed snapshot only.
+- `milestone.json` retains PRODUCT/VALIDATION selection policy and points to the current product priority. Stale session checkpoints were removed; Git history and indexed evidence preserve their historical basis.
 
-The tracker is pure Node.js ESM and uses no dependencies. `validateState(s)` accepts the
-tracking objects `features`, `tasks`, `acceptance`, `graph`, `ownership`, `evidence`,
-`milestone`, and `tests: { cases }`, and returns error strings (empty means valid). The CLI
-commands are:
+## Commands and gates
 
 ```sh
+npm run status
+npm run next
 node scripts/tracker.mjs validate
-node scripts/tracker.mjs status
-node scripts/tracker.mjs next
 node scripts/tracker.mjs graph
-node scripts/tracker.mjs graph dot
 ```
 
-`next` selects READY or BACKLOG work inside `milestone.json`'s active track and allowed
-packages whose scheduling dependencies are VERIFIED. Initialization starts on PRODUCT;
-switch to VALIDATION to select WP0 work. Verification requires
-every acceptance criterion index and named test reference to have passing evidence. A WP0
-task also requires explicit case coverage for each referenced case. WP0-T01 through WP0-T03
-may record a task increment with `scope: TASK_INCREMENT`, `full_case_pass: false`, the actual
-covered cells, and a description. This can verify that bounded task's own acceptance while
-the shared case remains NOT_RUN or BLOCKED. WP0-T04 through WP0-T12 are completion gates and
-require `scope: FULL_CASE`, `full_case_pass: true`, all applicable cells PASS, and complete
-case evidence. A STATIC case uses `kind: STATIC` for its unit result. Partial task evidence
-cannot set a case PASS or verify a product feature. Product feature verification requires
-product-scope evidence and every related implementation task to be VERIFIED.
+`status` reports original contract acceptance, not a delivered-feature percentage. `next` selects READY/BACKLOG tasks within the active track whose scheduling dependencies are VERIFIED. When no historical task is selectable, it reports the product roadmap priority and its evidence gate; it does not invent an eligible task or silently authorize Oracle access.
 
-Evidence outcomes `PASS`, `FAIL`, `BLOCKED`, and `NOT_RUN` are retained as history. PASS
-requires exit code zero; FAIL and BLOCKED require a nonzero exit code; NOT_RUN uses a null
-exit code. Only PASS evidence can support verification or a PASS result cell. The item/case
-`evidence` array refers to evidence-index entries by `index_id`. Each index entry mirrors a
-JSON record under `evidence/` and includes a hashed raw output:
+PRODUCT and VALIDATION scheduling remain separate. Original acceptance dependencies still govern verification; scheduling overrides cannot waive them. BLOCKED/DEFERRED items need explicit reasons. Full catalog VERIFIED requires its complete original criteria, dependencies and real PRODUCT evidence; narrower milestone acceptance cannot substitute for it.
 
-```json
-{
-  "id": "run-id-record-id",
-  "subject_id": "WP0-T01",
-  "kind": "STATIC",
-  "scope": "HARNESS",
-  "outcome": "BLOCKED",
-  "command": "node experiments/db-devops-wp0/preflight.mjs",
-  "exit_code": 1,
-  "criterion_indexes": [],
-  "test_references": [],
-  "case_coverage": [
-    {
-      "case_id": "WP0-10-01",
-      "scope": "TASK_INCREMENT",
-      "full_case_pass": false,
-      "cells": ["unit"],
-      "description": "Offline report subrun; shared case remains NOT_RUN."
-    }
-  ],
-  "raw_output": {
-    "path": "evidence/run-id/checks.log",
-    "sha256": "64 lowercase hexadecimal characters"
-  },
-  "path": "evidence/run-id/record.json",
-  "sha256": "64 lowercase hexadecimal characters"
-}
-```
+The pure Node ESM tracker validates imported IDs/contracts, graph, ownership, evidence hashes/statuses and result cells. `validateState` accepts the existing `features`, `tasks`, `acceptance`, `graph`, `ownership`, `evidence`, `milestone` and `tests: { cases }` objects. `init` refuses to overwrite existing records. Keep the validator and immutable source contracts intact when updating actual acceptance.
 
-The JSON record repeats every field except its own `path` and `sha256`. Both files must resolve
-inside the repository `evidence/` directory, with symlink escapes rejected, and their bytes
-must match the indexed hashes. Record metadata must match the index exactly. Product feature
-and bounded PRODUCT task evidence uses `scope: PRODUCT`; WP0 task/case evidence uses
-`scope: HARNESS`. Oracle cells remain BLOCKED until
-`milestone.json` sets `oracle_lab_authorized` after manifest preflight. Research observations
-cannot count as product evidence. `init` refuses to overwrite existing tracking state.
-
-## Development tracks
-
-Development scheduling is independent from acceptance requirements. `milestone.json` selects an
-active track: PRODUCT admits bounded runnable application work, while VALIDATION admits WP0
-parser/driver/runtime and Oracle acceptance work. `dependency-graph.json` preserves `edges` as
-the immutable catalog/task acceptance dependencies and adds `scheduling` for track-specific
-selection dependencies. The selector uses scheduling edges only to decide what work can start;
-`validateState` continues to require the original item dependencies before any imported feature or
-task can become VERIFIED. An implementation milestone may have its own acceptance and evidence,
-but cannot set a catalog feature VERIFIED or change any WP0 result cell. Oracle 19c/21c cells
-remain BLOCKED until authorized real evidence exists.
-
-`SF-PRODUCT-T01` is the first local-governance vertical slice and references existing project,
-Git, migration, governance, and security feature IDs. `SF-PRODUCT-T02` follows it to implement
-project archival and reject new work on archived projects, with a partial local criterion linked
-to PRJ-001. `SF-PRODUCT-T03` follows T02 to register operator-supplied local Git repositories
-through the reproducible development CLI and import custom releases through the existing
-immutable-commit parser path. T03 records GIT-018, GIT-003, and MIG-006 as partial local links;
-it does not verify those catalog features. These milestone acceptances are tracked under
-`acceptance.work`; they are not substitutes for the catalog acceptance contracts for those IDs.
-`SF-PRODUCT-T04` follows T03 to bind an allowlisted repository ID and migration folder to a
-project, reject unbound or mismatched imports before Git/parser work, and reject source changes
-after archival while retaining existing history with execution marked `NOT_EXECUTED`. Its PRJ-008
-and GIT-003 links are partial local criteria, not full catalog verification. Keep selecting the next
-bounded PRODUCT increment from the existing catalog; do not infer an Oracle prerequisite for
-independent application behavior.
+For new work, define the bounded acceptance in the selected product milestone and reuse established source/tests. Add original feature IDs when relevant, but do not keep another session plan, status matrix or per-phase continuation document. Follow [testing](../development/testing.md) and [GitHub integration gates](github-sync.md).
