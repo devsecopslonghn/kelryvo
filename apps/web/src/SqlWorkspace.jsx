@@ -16,7 +16,7 @@ function targetIdOf(binding) {
 
 /** Project-scoped SQL draft editor. Parsing and target review are supplied by the authorized API. */
 export function SqlWorkspace({ token, projectId, projectName, bindings = [], request, onReleasePrepared, onNavigatePlan, onOpenRelease,
-  onDraftSelected, onBindingSelected, onPlan, onDirtyChange, initialBindingId = '', initialDraftId = '', sourceBindingGeneration = '', readOnly = false }) {
+  onDraftSelected, onBindingSelected, onPlan, onDirtyChange, sourceCorrection = null, initialBindingId = '', initialDraftId = '', sourceBindingGeneration = '', readOnly = false }) {
   const [drafts, setDrafts] = useState([]);
   const [nextCursor,setNextCursor]=useState(null);
   const initialDraft=useRef(initialDraftId);
@@ -38,6 +38,8 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
   const [notice, setNotice] = useState('');
   const [conflict, setConflict] = useState(false), [latestDraft, setLatestDraft] = useState(null);
   const [removedFile,setRemovedFile]=useState(null);
+  const [correctionContext,setCorrectionContext]=useState(null);
+  const correctionAttempt=useRef(null);
   const editor = useRef(null);
   const dirty = useRef(false);
   const fileSelection = useRef(null);
@@ -58,6 +60,7 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
   };
 
   const adoptDraft = selected => {
+    setCorrectionContext(null);
     const selectedFiles = editableFiles(selected);
     const selectedIndex = selected.id === selectedDraft.current ? Math.max(0, selectedFiles.findIndex(file => file.id === fileSelection.current)) : 0;
     setDraft(selected);setDraftId(selected.id);setName(selected.name);setSql(selectedFiles[selectedIndex].sql);
@@ -107,6 +110,48 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
     void loadDrafts();
     return () => { epoch.current++; };
   }, [loadDrafts]);
+
+  useEffect(()=>{
+    if(!sourceCorrection || loading || correctionAttempt.current===sourceCorrection)return;
+    correctionAttempt.current=sourceCorrection;
+    if(dirty.current){setNotice('Save or discard unsaved edits before opening the originating draft.');return;}
+    const n=++epoch.current;
+    setBusy(true);setError('');setNotice('');setCorrectionContext(null);
+    const open=async()=>{
+      try{
+        const {origin}=await request(`/api/projects/${encodeURIComponent(projectId)}/releases/${encodeURIComponent(sourceCorrection.releaseId)}/draft-origin`,token);
+        if(!current(n))return;
+        if(origin?.projectId!==projectId || origin.releaseId!==sourceCorrection.releaseId || !Array.isArray(origin.files)
+          || origin.files.length>128 || !origin.draftId || !origin.draftRevision)throw new Error('INVALID_DRAFT_RESPONSE');
+        const {draft:selected}=await request(`${base}/${encodeURIComponent(origin.draftId)}`,token);
+        if(!current(n))return;
+        if(!validateDraft(selected) || selected.id!==origin.draftId || selected.projectId!==projectId)throw new Error('INVALID_DRAFT_RESPONSE');
+        adoptDraft(selected);
+        setDrafts(rows=>rows.some(row=>row.id===selected.id)?rows:[selected,...rows]);
+        const oldFile=origin.files.find(file=>file.releasePath===sourceCorrection.path);
+        const index=oldFile?(selected.files || []).findIndex(file=>file.id===oldFile.draftFileId):-1;
+        const file=index>=0?selected.files[index]:null;
+        const state=!oldFile?'DRAFT':!file?'REMOVED':file.sha256!==oldFile.sha256?'CHANGED':file.path!==oldFile.draftPath?'RENAMED':'UNCHANGED';
+        setCorrectionContext({...origin,path:sourceCorrection.path,currentPath:file?.path,state});
+        if(file){
+          setFileIndex(index);fileSelection.current=file.id;setSql(file.sql);
+          const statement=sourceCorrection.statement,bytes=new TextEncoder().encode(file.sql),decoder=new TextDecoder();
+          requestAnimationFrame(()=>{
+            if(!current(n))return;
+            editor.current?.focus();
+            if(['UNCHANGED','RENAMED'].includes(state) && statement?.path===oldFile.releasePath
+              && Number.isSafeInteger(statement.startByte) && Number.isSafeInteger(statement.endByte)
+              && statement.startByte>=0 && statement.endByte>=statement.startByte && statement.endByte<=bytes.length)
+              editor.current?.setSelectionRange(decoder.decode(bytes.subarray(0,statement.startByte)).length,decoder.decode(bytes.subarray(0,statement.endByte)).length);
+            else editor.current?.setSelectionRange(0,0);
+          });
+        }else requestAnimationFrame(()=>{if(current(n))editor.current?.setSelectionRange(0,0);});
+        setNotice(`Opened originating draft at current revision ${selected.revision}. No changes have been saved.`);
+      }catch(error){if(current(n))reportError(error);}
+      finally{if(current(n))setBusy(false);}
+    };
+    void open();
+  },[sourceCorrection,loading]);
 
   useEffect(() => { if (!dirty.current && initialBindingId && bindings.some(binding => targetIdOf(binding) === initialBindingId)) setTargetBindingId(initialBindingId); }, [initialBindingId, bindings]);
 
@@ -322,6 +367,13 @@ export function SqlWorkspace({ token, projectId, projectName, bindings = [], req
     <p>Draft SQL, review offline parsing and target evidence, then prepare an immutable authored release. SQL is never executed here.</p>
     {error && <p className="banner error" role="alert">{error}</p>}{notice && <p className="banner success" role="status">{notice}</p>}
     {loading && <p role="status">Loading project drafts…</p>}
+    {correctionContext && <section className="banner warning" aria-label="Authored release correction"><div><strong>Correct an authored release</strong><p>Release <code>{correctionContext.releaseId}</code> retains draft revision {correctionContext.draftRevision}. You are viewing current editable revision {draft?.revision}. The retained release, findings and approvals remain unchanged. Save explicitly, prepare a new release, validate again and obtain fresh approval.</p>
+      {!correctionContext.sourceBindingCurrent && <p>The project source binding changed since this release. New releases use the current binding.</p>}
+      {correctionContext.state==='CHANGED' && <p>This file has changed since the release. Historical statement positions were not selected; review the current SQL before editing.</p>}
+      {correctionContext.state==='REMOVED' && <p>The referenced file is absent from the current draft. No file was restored or historical statement selected.</p>}
+      {correctionContext.state==='RENAMED' && <p>The same file is now named {correctionContext.currentPath}; its SQL still matches the retained source.</p>}
+      {readOnly && <p>Your access or project state allows inspection only.</p>}
+    </div></section>}
     {targetBindingId && <SchemaDrift token={token} projectId={projectId} bindingId={targetBindingId} request={request}/>}
     <section aria-label="Database change stage"><h3>{stage}</h3><p>{nextAction}</p>{draft && <p>Draft <code>{draft.id}</code> · saved revision {draft.revision}</p>}{preparedRelease && <><p>Immutable release <code>{preparedRelease.id}</code> · draft revision {preparedRelease.draftRevision}. Further edits create a new draft revision; this release remains unchanged.</p>{onOpenRelease && <button type="button" className="text-button" onClick={()=>onOpenRelease(preparedRelease.id)}>Inspect immutable release →</button>}</>}</section>
     {conflict && <section aria-label="Resolve draft revision conflict"><h3>Resolve draft revision conflict</h3><p>Your local edits are preserved. Inspect the latest saved revision before choosing what to keep.</p><button type="button" className="secondary" disabled={busy || loading} onClick={()=>void inspectConflict()}>Inspect latest saved revision</button>{latestDraft && <><div className="comparison-sides"><section><h4>Your local edits · based on revision {draft.revision}</h4><p>{name} · target <code>{targetBindingId}</code></p><pre>{files.map(f=>`${f.path}\n${f.sql}`).join('\n\n')}</pre></section><section><h4>Latest saved revision {latestDraft.revision}</h4><p>{latestDraft.name} · target <code>{latestDraft.targetBindingId}</code></p><pre>{editableFiles(latestDraft).map(f=>`${f.path}\n${f.sql}`).join('\n\n')}</pre></section></div><p>Keeping your edits changes the revision used by the next explicit save. That save replaces the latest draft content, while all saved revisions remain retained. Combine any changes you need in the editor first.</p><div className="form-actions"><button type="button" className="secondary" disabled={busy || loading || readOnly} onClick={()=>resolveConflict(false)}>Discard local edits and load latest revision</button><button type="button" className="secondary" disabled={busy || loading || readOnly} onClick={()=>resolveConflict(true)}>Keep my edits over revision {latestDraft.revision}</button></div></>}</section>}
