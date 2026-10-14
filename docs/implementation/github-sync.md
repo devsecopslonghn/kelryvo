@@ -3,7 +3,7 @@
 The owner authorized development branches, commits, ordinary pushes, PR creation, independent
 review, draft readiness and eligible automatic PR merges on 2026-10-08.
 `origin` is `https://github.com/devsecopslonghn/schemaForge.git`; its default branch is
-`master`. The original local foundation `e817a4b65eb07c2c84d810509c912046f09a233c` and
+`master`. GitHub now identifies the canonical repository as `devsecopslonghn/kelryvo`; the configured legacy remote redirects there. The original local foundation `e817a4b65eb07c2c84d810509c912046f09a233c` and
 independent remote README `b2b2b9c10eae24243ae42aef8d94ac00aed6c2f9` are preserved
 as parents of the initial reconciliation. The original local `main` remains intact.
 

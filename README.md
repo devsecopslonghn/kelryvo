@@ -1,6 +1,6 @@
 # Kelryvo
 
-Kelryvo is a self-hosted, Oracle-first Database DevOps platform in the `schemaForge` repository. The runnable product combines a TypeScript/Fastify API, React browser app and PostgreSQL metadata.
+Kelryvo is a self-hosted, Oracle-first Database DevOps platform. The runnable product combines a TypeScript/Fastify API, React browser app and PostgreSQL metadata.
 
 **Start with [product requirements, current capabilities and roadmap](docs/product/KELYRVO_PRODUCT_REQUIREMENTS.md).** It is the authoritative product document, reconciled through Phase 14 PR #93. The [next-session entry](docs/implementation/CURRENT.md) links the implementation and safety guides.
 
