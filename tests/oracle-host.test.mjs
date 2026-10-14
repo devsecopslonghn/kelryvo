@@ -46,6 +46,16 @@ test('target-bound host verifies the deployment login and exact schema owner ind
   assert.equal(wrong.calls.length,0);
 });
 
+test('non-finite target facts are declined before invoking the installed provider',async()=>{
+  for(const value of [NaN,Infinity,-Infinity]){
+    const f=oracleHostFixture(),input=request();
+    input.executionTarget={assignmentId:randomUUID(),expectedIdentityDigest:f.binding.targetIdentityDigest,
+      exactOwner:'APP',bindingRevision:value};
+    await f.host().withTarget(input,s=>assert.rejects(s.observe(),/unavailable/));
+    assert.equal(f.providers.length,0);assert.equal(f.calls.length,0);
+  }
+});
+
 test('protected host records exact approved bytes and only later pending files across sessions and reassignment',async()=>{
   const f=oracleHostFixture(),first=request(),h=f.host();
   assert.equal((await run(h,first,v1)).historyState,'EMPTY');
