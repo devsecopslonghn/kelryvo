@@ -4,7 +4,7 @@ import { mkdtemp, readFile, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
-import { sourceRevision, publicationGate, githubApi, SOURCE_REPOSITORY, CODEQL_JOBS } from '../scripts/container-publication-gate.mjs';
+import { sourceRevision, publicationGate, githubApi, SOURCE_REPOSITORY, CODEQL_JOBS, REQUIRED_WORKFLOWS } from '../scripts/container-publication-gate.mjs';
 import { publishImages, verifyImage, registryReader, command } from '../scripts/container-delivery.mjs';
 import { updateValues, promoteHelm } from '../scripts/helm-promotion.mjs';
 
@@ -39,14 +39,17 @@ test('only exact source master workflow completion or master recovery dispatch c
   assert.equal(sourceRevision({ ...env, GITHUB_EVENT_NAME: 'workflow_dispatch', GITHUB_REF: 'refs/heads/master', GITHUB_SHA: SHA }, {}), SHA);
 });
 test('every master workflow, CodeQL language and security gate is required', async () => {
+  assert.deepEqual(REQUIRED_WORKFLOWS, ['check.yml', 'product.yml', 'containers.yml']);
   assert.equal((await publicationGate(gateApi(), SHA)).ready, true);
-  for (const workflow of ['check.yml', 'parser.yml', 'product.yml', 'containers.yml', '/5/']) {
+  for (const workflow of [...REQUIRED_WORKFLOWS, '/5/']) {
     assert.equal((await publicationGate(gateApi({ failed: workflow }), SHA)).ready, false);
     assert.equal((await publicationGate(gateApi({ pending: workflow }), SHA)).ready, false);
   }
   assert.equal((await publicationGate(gateApi({ missingLanguage: true }), SHA)).ready, false);
   assert.equal((await publicationGate(gateApi({ master: OLD }), SHA)).ready, false);
   await assert.rejects(publicationGate(gateApi({ alerts: [{}] }), SHA), /findings/);
+  assert.equal((await publicationGate(gateApi({ failed: 'parser.yml' }), SHA)).ready, true, 'optional corpus runs do not gate tested images');
+  assert.equal((await publicationGate(gateApi({ failed: 'regression.yml' }), SHA)).ready, true, 'optional full regression does not gate tested images');
 });
 test('API credential errors have actionable fixed diagnostics without response/token leakage', async () => {
   const api = githubApi('sensitive-token', SOURCE_REPOSITORY, async () => ({ ok: false, status: 403 }));
@@ -177,6 +180,7 @@ test('concurrent Helm writes are rejected and protected master produces a narrow
 test('workflow grants publication permission only after gates and promotion depends on both outputs', async () => {
   const workflow = await readFile(new URL('../.github/workflows/delivery.yml', import.meta.url), 'utf8');
   assert.match(workflow, /workflow_run:/);
+  assert.match(workflow, /github.repository == 'devsecopslonghn\/kelryvo'/);
   assert.match(workflow, /types: \[completed\]/);
   assert.match(workflow, /cancel-in-progress: false/);
   assert.match(workflow, /needs: \[gate, publish\]/);
@@ -195,7 +199,7 @@ test('missing GitOps token fails clearly and a configured token is never printed
   const { spawnSync } = await import('node:child_process');
   const missing = spawnSync('bash', ['-e', '-c', script], { encoding: 'utf8', env: { ...process.env, GITOPS_TOKEN: '' } });
   assert.equal(missing.status, 1);
-  assert.match(missing.stdout, /Configure GITOPS_TOKEN in schemaForge Actions secrets/);
+  assert.match(missing.stdout, /Configure GITOPS_TOKEN in kelryvo Actions secrets/);
   const configured = spawnSync('bash', ['-e', '-c', script], { encoding: 'utf8', env: { ...process.env, GITOPS_TOKEN: 'private-test-credential' } });
   assert.equal(configured.status, 0);
   assert.equal(configured.stdout + configured.stderr, '');

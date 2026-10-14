@@ -45,7 +45,7 @@ RUN node -e "if ({x64:'amd64',arm64:'arm64'}[process.arch] !== '${TARGETARCH}') 
     && node scripts/container-inventory.mjs
 ENV NODE_ENV=production SCHEMAFORGE_JAVA_HOME=/opt/kelryvo/.cache/antlr/temurin
 ARG KELRYVO_REVISION=local-unpublished
-LABEL org.opencontainers.image.source="https://github.com/devsecopslonghn/schemaForge" \
+LABEL org.opencontainers.image.source="https://github.com/devsecopslonghn/kelryvo" \
       org.opencontainers.image.revision="${KELRYVO_REVISION}" \
       org.opencontainers.image.licenses="PolyForm-Shield-1.0.0"
 

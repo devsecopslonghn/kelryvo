@@ -4,8 +4,7 @@ on:
   workflow_run:
     workflows:
       - Offline WP0 checks
-      - Offline ANTLR parser acceptance
-      - Local PRODUCT acceptance
+      - Kelryvo focused acceptance
       - Kelryvo OCI verification and publication
       - CodeQL
     types: [completed]
@@ -25,7 +24,7 @@ concurrency:
 jobs:
   gate:
     if: >-
-      github.repository == 'devsecopslonghn/schemaForge' &&
+      github.repository == 'devsecopslonghn/kelryvo' &&
       ((github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master') ||
        (github.event_name == 'workflow_run' &&
         (github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'dynamic') &&
@@ -125,7 +124,7 @@ jobs:
           GITOPS_TOKEN: ${{ secrets.GITOPS_TOKEN }}
         run: |
           if [ -z "$GITOPS_TOKEN" ]; then
-            echo '::error::Configure GITOPS_TOKEN in schemaForge Actions secrets, scoped only to kelryvo-helm-chart with Contents and Pull requests read/write; see docs/development/containers.md.'
+            echo '::error::Configure GITOPS_TOKEN in kelryvo Actions secrets, scoped only to kelryvo-helm-chart with Contents and Pull requests read/write; see docs/development/containers.md.'
             exit 1
           fi
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2

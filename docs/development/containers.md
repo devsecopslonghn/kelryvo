@@ -82,13 +82,13 @@ only its own disposable fixtures. No Oracle endpoint is contacted.
 The OCI workflow verifies candidate/master builds without publication. Successful
 master verification exports both tested images as a short-lived Actions artifact.
 `Kelryvo verified GitOps delivery` (`delivery.yml`) runs on `workflow_run: completed`
-for Foundation, parser, PRODUCT, OCI verification and default CodeQL, restricted to
+for Foundation, focused PRODUCT, OCI verification and default CodeQL, restricted to
 source master. Each event takes one gate snapshot. Pending/failed gates defer
 publication; the final completion event reevaluates every gate. No sleeps, polling,
 PR artifacts or privileged PR checkout are used. A master `workflow_dispatch` remains
 available for recovery, including promotion after credentials have been repaired.
 
-Delivery checks the exact current master, successful push runs for all four required
+Delivery checks the exact current master, successful push runs for all three required
 workflows, the latest master CodeQL run and all four language jobs, and open
 code-scanning findings. It consumes only the successful OCI run/attempt's images;
 there is no second build. Images retain immutable
@@ -136,11 +136,11 @@ Owner setup for cross-repository authentication:
    and **Pull requests: read/write** (for the protected-branch PR fallback).
    Metadata read is implicit. No organization, Administration, Actions, Workflows,
    Secrets or cluster permissions are needed.
-2. In `devsecopslonghn/schemaForge` → Settings → Secrets and variables → Actions,
+2. In `devsecopslonghn/kelryvo` → Settings → Secrets and variables → Actions,
    add the repository secret `GITOPS_TOKEN`. The workflow uses it only for Helm
    checkout and promotion; checkout does not persist it. Store the token through
    GitHub's secret input or `gh secret set GITOPS_TOKEN --repo
-   devsecopslonghn/schemaForge` with private stdin. Keep it out of chat, Git, logs
+   devsecopslonghn/kelryvo` with private stdin. Keep it out of chat, Git, logs
    and command arguments. GitHub's secret API returns metadata, not secret values;
    a secret in another repository cannot be read back and copied by this agent.
 3. Ensure the source `GITHUB_TOKEN` has GHCR package write access for both images.

@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { isSha } from './container-publication-gate.mjs';
 
-const SOURCE = 'https://github.com/devsecopslonghn/schemaForge';
+const SOURCE = 'https://github.com/devsecopslonghn/kelryvo';
 const PLATFORMS = ['amd64', 'arm64'];
 const ROLE_CONFIG = {
   app: { user: '10001:10001', entrypoint: ['node', 'apps/api/container-main.mjs'] },
