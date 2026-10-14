@@ -30,14 +30,29 @@ test('browser registers infrastructure and connection, tests/discovers fixture m
     await card.getByLabel('Evidence reason').fill('Test the fixture connection');await card.getByRole('button',{name:'Test connection',exact:true}).click();
     await card.locator('.observation-result').filter({hasText:'CONNECTED'}).waitFor();
     await card.getByLabel('Evidence reason').fill('Discover fixture identity and assigned schemas');await card.getByRole('button',{name:'Discover schemas',exact:true}).click();
-    await card.locator('.observation-result').filter({hasText:'DISCOVER · OBSERVED'}).waitFor();assert.doesNotMatch(await card.innerText(),/FOREIGN_PRIVATE|secret:\/\/|fixture-private-password/);
+    await card.locator('.observation-result').filter({hasText:'DISCOVER · OBSERVED'}).waitFor();
+    const initialObservation=await card.locator('.observation-result').innerText();assert.match(initialObservation,/Observed .* expires .* evidence/);assert.match(initialObservation,/fixture evidence.*cannot verify a live database target/i);
+    assert.doesNotMatch(await card.innerText(),/FOREIGN_PRIVATE|secret:\/\/|fixture-private-password/);
     await card.getByLabel('Project target binding').selectOption(binding.bindingId);await card.getByLabel('Observed schema owner').selectOption('APP');
-    await card.getByLabel('Reason',{exact:true}).fill('Verify fixture must remain unaccepted');await card.getByRole('button',{name:'Verify target',exact:true}).click();
+    await card.getByRole('button',{name:'Verify target',exact:true}).waitFor({state:'visible'});
+    await card.getByLabel('Reason',{exact:true}).fill('Verify fixture must remain unaccepted');assert.equal(await card.getByRole('button',{name:'Verify target',exact:true}).isEnabled(),true);await card.getByRole('button',{name:'Verify target',exact:true}).click();
     await discovery.getByRole('alert').filter({hasText:'accepted live evidence'}).waitFor();
     await card.getByRole('button',{name:'Record observed target',exact:true}).click();await discovery.getByRole('status').filter({hasText:'Observed target recorded'}).waitFor();
     const observedBinding=(await f.api('GET',`${f.base}/target-bindings/${binding.bindingId}`)).json().binding;
     const observedPlanResponse=await f.makePlan(observedBinding);assert.equal(observedPlanResponse.statusCode,201,observedPlanResponse.body);
     const observedPlan=observedPlanResponse.json().plan;
+    assert.equal((await f.decide(observedPlan)).statusCode,200,'Independent reviewer approves the retained observed target');
+    await f.membership.grant(f.project.id,f.actors[2].id);await f.membership.deployGrant(f.project.id,f.actors[2].id);
+    const readiness=(await f.api('GET',`/api/plans/${observedPlan.id}/execution-readiness`,undefined,f.actors[2])).json();
+    assert.equal(readiness.executable,false);assert.equal(readiness.executionAuthority,false);assert.equal(readiness.oracleAcceptance,'NOT_RUN');
+    const requested=await f.api('POST',`/api/plans/${observedPlan.id}/execution`,{idempotencyKey:'r1-observed-target-request',reason:'Request reviewed observed target without writer authority',
+      expectedIntentDigest:observedPlan.offlineIntent.digest,expectedBindingRevision:observedBinding.bindingRevision,expectedAssignmentRevision:observedBinding.assignmentRevision},f.actors[2]);
+    assert.equal(requested.statusCode,201,requested.body);assert.equal(requested.json().job.state,'WAITING_VALIDATION');
+    const retained=await f.api('GET',`${f.base}/plans/${observedPlan.id}/record`);assert.equal(retained.statusCode,200);
+    const targetObservation=JSON.parse(retained.json().record).retainedIntent.targetObservation;
+    assert.match(targetObservation.identityDigest,/^[a-f0-9]{64}$/);
+    assert.equal(targetObservation.provenance,'FIXTURE');assert.equal(targetObservation.identity.containerGuid,'0123456789ABCDEF0123456789ABCDEF');
+
     await page.setViewportSize({width:390,height:844});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,JSON.stringify(await page.evaluate(()=>[...document.querySelectorAll('*')].filter(e=>e.getBoundingClientRect().right>innerWidth+1).slice(-10).map(e=>({tag:e.tagName,class:e.className,width:e.getBoundingClientRect().width})))));
     await page.setViewportSize({width:1440,height:1100});await f.restart();await signIn();
@@ -52,6 +67,9 @@ test('browser registers infrastructure and connection, tests/discovers fixture m
     await page.getByRole('button',{name:/Plans & review/}).click();
     await page.locator(`.plan-option[data-plan-id="${observedPlan.id}"]`).click();
     await page.getByText('STALE',{exact:true}).waitFor();
+    const retainedIdentity=page.getByRole('region',{name:'Retained Oracle identity evidence'});
+    await retainedIdentity.getByText('FIXTURE_PDB',{exact:true}).waitFor();
+    assert.match(await retainedIdentity.innerText(),/0123456789ABCDEF0123456789ABCDEF/);
     const currentness=(await f.api('GET',`${f.base}/target-bindings/${binding.bindingId}`)).json().currentness;
     assert.ok(currentness.reasons.includes('OBSERVATION_SUPERSEDED'));
     await page.getByRole('button',{name:/Database instances/}).click();
@@ -60,7 +78,8 @@ test('browser registers infrastructure and connection, tests/discovers fixture m
     await persisted.getByLabel('Reason',{exact:true}).fill('Bind renewed exact observation after supersession');
     await persisted.getByRole('button',{name:'Record observed target',exact:true}).click();
     await discovery.getByRole('status').filter({hasText:'Observed target recorded'}).waitFor();
-    await persisted.getByRole('button',{name:'Load observation history',exact:true}).click();await persisted.locator('.observation-choice').filter({hasText:'TEST · CONNECTED'}).waitFor();
+    await persisted.getByRole('button',{name:'Load observation history',exact:true}).click();const retainedTest=persisted.locator('.observation-choice').filter({hasText:'TEST · CONNECTED'});await retainedTest.waitFor();
+    await retainedTest.click();await persisted.locator('.observation-result').getByRole('heading',{name:'Selected historical observation'}).waitFor();
     f.mode('HANG');await persisted.getByLabel('Evidence reason').fill('Verify bounded timeout state');await persisted.getByRole('button',{name:'Test connection',exact:true}).click();
     await persisted.locator('.observation-result').filter({hasText:'TIMEOUT'}).waitFor();
     f.mode('THROW');await persisted.getByLabel('Evidence reason').fill('Verify unavailable state without lost history');await persisted.getByRole('button',{name:'Discover schemas',exact:true}).click();

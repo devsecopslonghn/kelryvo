@@ -3,7 +3,7 @@
 ## Local and CI tiers
 
 Run `npm run check:fast` for source syntax/format, TypeScript, web build, tracker,
-the complete `tests/*.test.mjs` command, dependency smoke and license closure.
+the complete `tests/*.test.mjs` command, dependency smoke and license closure. File concurrency is bounded to two so parser-dependent tests retain their existing deadlines when the pinned helper is installed; suite membership, skip policy and parser budgets are unchanged.
 `npm run check` uses the same gates. The source scan runs once rather than twice.
 The offline command does not provision PostgreSQL or connect to Oracle. Database
 cases skip without a test database; parser-dependent cases also skip in a fresh

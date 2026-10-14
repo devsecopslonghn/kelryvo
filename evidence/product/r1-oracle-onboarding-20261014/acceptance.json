@@ -1,0 +1,109 @@
+{
+  "milestone": "R1 Oracle connection and discovery product integration",
+  "date": "2026-10-14",
+  "baselineSource": "975dea5a614ba8ee53a02933fe5615a3fd97407c",
+  "candidateCodeDigest": "0b4397bd8fb09ea1eb3f0bd7f4225fa73b9d925a9418116b9a39c3d49055b082",
+  "candidateCodeDigestMethod": "SHA-256 of sorted source/test/package paths, NUL, and each file SHA-256 (raw digest bytes)",
+  "scope": "Offline product/API/Chromium and deterministic Oracle adapter contracts; no live Oracle acceptance",
+  "tools": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "oracleDriver": "7.0.1 Thin",
+    "postgres": "17.10 pinned image",
+    "jdk": "21.0.12.1+1-LTS",
+    "antlrHelperSha256": "a8aa930fd0a17aee5d74a5d65dc91bcc7e166fca99ac6aca4a4d8bc995351f38"
+  },
+  "checks": [
+    {
+      "command": "npm run check",
+      "outcome": "PASS",
+      "tests": 509,
+      "passed": 392,
+      "skipped": 117,
+      "skipScope": "Database-dependent tests require the separate product suites; no Oracle acceptance inferred"
+    },
+    {
+      "command": "node --test tests/oracle-discovery.test.mjs tests/database-discovery-evidence.test.mjs",
+      "outcome": "PASS",
+      "passed": 19,
+      "skipped": 0
+    },
+    {
+      "command": "node scripts/test-product.mjs --file product-database-discovery.test.mjs",
+      "outcome": "PASS",
+      "passed": 7,
+      "skipped": 0,
+      "includes": "native compatible backup/restore, authority/secret isolation, exact identity/topology and accepted-owner scope denial"
+    },
+    {
+      "command": "node scripts/test-product.mjs --file product-connection-management.test.mjs",
+      "outcome": "PASS",
+      "passed": 2,
+      "skipped": 0
+    },
+    {
+      "command": "node scripts/test-product.mjs --file product-target-workflow.test.mjs",
+      "outcome": "PASS",
+      "passed": 3,
+      "skipped": 0
+    },
+    {
+      "command": "node scripts/test-product.mjs --browser --file product-database-discovery-browser.integration.mjs",
+      "outcome": "PASS",
+      "passed": 1,
+      "skipped": 0,
+      "includes": "registration, discovery, observed binding, immutable plan, independent review, WAITING_VALIDATION request, restart/history, retained identity display, stale feedback and revocation"
+    },
+    {
+      "command": "node scripts/test-product.mjs --browser --file product-connection-management-browser.integration.mjs",
+      "outcome": "PASS",
+      "passed": 1,
+      "skipped": 0
+    },
+    {
+      "command": "node scripts/test-product.mjs --browser --file product-target-workflow-browser.integration.mjs",
+      "outcome": "PASS",
+      "passed": 1,
+      "skipped": 0
+    },
+    {
+      "command": "npm run dependencies:offline",
+      "outcome": "PASS"
+    },
+    {
+      "command": "npm run dependencies:product",
+      "outcome": "PASS",
+      "pinnedPackages": 89,
+      "unknownRequiredGrants": 0
+    }
+  ],
+  "review": {
+    "securityCorrectness": "Independent review: no remaining blockers after exact identity, owner scope and project readiness corrections",
+    "uiQA": "Independent UI/API contract review: no blocking findings",
+    "publication": "Changed-content review and scoped credential-pattern scan passed; no private lab artifacts published"
+  },
+  "resolvedVerificationFindings": [
+    "Unbounded standard-test file concurrency exceeded an unchanged parser deadline; isolated importer passed, then the complete check passed with file concurrency two. Test lists, skip policy and parser budgets are unchanged.",
+    "Initial native backup test rejected a test container started by tag; rerun used the required pinned image digest and passed without weakening the backup gate."
+  ],
+  "hostedAcceptance": "Full exact-head CI/security and extracted source-installation results are recorded on the delivery PR; local evidence does not replace those merge gates.",
+  "liveOracle": {
+    "outcome": "NOT_RUN",
+    "connections": 0,
+    "writerCalls": 0,
+    "acceptedVersionTopologies": [],
+    "prerequisites": [
+      "Lab owner explicit exact-target read-only authorization and entitlement",
+      "Expiring owner-attested disposable manifest with exact endpoint/database/incarnation/container/service/version and accepted schema owners",
+      "Approved SELECT metadata grants and denied-write privilege evidence",
+      "Pinned network destinations and attested transport/CA/server identity policy",
+      "Private discovery-purpose secret directory and manifest paths supplied by the trusted operator",
+      "Independent live acceptance evidence digest and bounded stop/teardown duties"
+    ]
+  },
+  "boundaries": [
+    "No Oracle version/topology support certified",
+    "No writer enablement, migration DDL, infrastructure change or deployment",
+    "R2/R3 not started; R1 live exit remains incomplete"
+  ]
+}

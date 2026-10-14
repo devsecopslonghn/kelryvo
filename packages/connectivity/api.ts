@@ -3,7 +3,7 @@ import { guardMutationAuthority } from '../database/mutation-authority.ts';
 import { acquireTargetLocks } from '../targets/locks.ts';
 import { configureTargetOption, createTargetBinding, getTargetBinding, ORG } from '../targets/index.ts';
 import { declareReference, assignReference } from '../catalog-reference/index.mjs';
-import { normalizeObservation, evidenceDigest } from './evidence.mjs';
+import { normalizeObservation, evidenceDigest, acceptedOracleObservation } from './evidence.mjs';
 import { credentialAlias } from '../targets/public.mjs';
 import { publicConnection, connectionReadiness, validDescription, validServiceKind } from './management.ts';
 
@@ -58,17 +58,18 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
     const expired=Number(new Date(o.expires_at))<=Date.now() || String(config?.revision)!==String(o.connection_revision) || !config?.enabled || !!config?.retired_at;
     const superseded=o.operation==='DISCOVER' && latest?.id!==o.id;
     const accepted=(await tx`SELECT identity_digest FROM sf_target_identity_evidence WHERE connection_id=${o.connection_id} AND project_id=${projectId} ORDER BY created_at DESC,digest DESC LIMIT 1`)[0];
-    const conflict=!!(o.identity_digest && (latest?.identity_digest && latest.identity_digest!==o.identity_digest || accepted?.identity_digest && accepted.identity_digest!==o.identity_digest));
+    const conflict=!!(o.limitations?.includes('IDENTITY_MISMATCH') || o.identity_digest && (latest?.identity_digest && latest.identity_digest!==o.identity_digest || accepted?.identity_digest && accepted.identity_digest!==o.identity_digest));
     const unavailable=!!(o.identity_digest && latest && !latest.identity_digest);
     return {id:o.id,operation:o.operation,status:o.status,identity:o.identity,identityDigest:o.identity_digest,
       identityState:conflict?'CONFLICT':expired || superseded?'STALE':o.identity_digest?'OBSERVED':'UNKNOWN',
-      schemas:(o.schemas ?? []).filter((s:any)=>allowed.has(s.owner)),limitations:o.limitations,provenance:o.provenance,verificationAcceptance:o.verification_acceptance,
+      schemas:(o.schemas ?? []).filter((s:any)=>allowed.has(s.owner)),limitations:o.limitations,provenance:o.provenance,
+      verificationAcceptance:o.verification_acceptance?{...o.verification_acceptance,...(Array.isArray(o.verification_acceptance.schemaOwners)?{schemaOwners:o.verification_acceptance.schemaOwners.filter((owner:string)=>allowed.has(owner))}:{})}:null,
       observedAt:o.observed_at,expiresAt:o.expires_at,currentness:conflict?'CONFLICT':expired || superseded?'STALE':unavailable?'UNKNOWN':o.identity_digest?'CURRENT':'UNKNOWN'};
   };
   const projectConnection=async(tx:any,c:any,projectId:string)=>{
     const latest=(await tx`SELECT * FROM sf_database_observations WHERE connection_id=${c.id} ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
     const container=(await tx`SELECT environment FROM sf_reference_containers WHERE id=${c.container_id}`)[0];
-    return {...publicConnection({...c,environment:container?.environment},'DISCOVERY'),readiness:await connectionReadiness(tx,c,'DISCOVERY'),id:c.id,name:c.name,engine:c.engine,containerId:c.container_id,host:c.host,port:c.port,service:c.service,
+    return {...publicConnection({...c,environment:container?.environment},'DISCOVERY'),readiness:await connectionReadiness(tx,c,'DISCOVERY',projectId),id:c.id,name:c.name,engine:c.engine,containerId:c.container_id,host:c.host,port:c.port,service:c.service,
       transport:c.transport,username:c.username,credentialAlias:credentialAlias(c.id),retiredAt:c.retired_at,
       latestObservation:await observation(tx,latest,projectId)};
   };
@@ -106,9 +107,14 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
     await guard(tx,req);
     if(!/^[a-f0-9]{64}$/.test(req.params.digest) || Object.keys(req.query).length)throw fail('NOT_FOUND',404);
     const e=(await tx`SELECT e.digest,e.identity,e.identity_digest AS "identityDigest",e.identity_state AS "identityState",e.exact_owner AS owner,
-      e.observation_id AS "observationId",e.reason,e.actor_id AS "actorId",e.created_at AS "createdAt",o.provenance,o.observed_at AS "observedAt",o.expires_at AS "expiresAt"
+      e.observation_id AS "observationId",e.reason,e.actor_id AS "actorId",e.created_at AS "createdAt",o.provenance,o.limitations,o.verification_acceptance AS "verificationAcceptance",
+      o.connection_revision::text AS "connectionRevision",o.observed_at AS "observedAt",o.expires_at AS "expiresAt"
       FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id WHERE e.digest=${req.params.digest} AND e.project_id=${req.params.projectId}`)[0];
-    if(!e)throw fail('NOT_FOUND',404);return {evidence:e};
+    if(!e)throw fail('NOT_FOUND',404);
+    e.liveVerificationAccepted=e.provenance==='ORACLE_READ_ONLY' && acceptedOracleObservation(e.identity,e.verificationAcceptance,e.owner)
+      && e.limitations.every((code:string)=>code==='SCHEMA_VISIBILITY_LIMITED');
+    if(Array.isArray(e.verificationAcceptance?.schemaOwners))e.verificationAcceptance={...e.verificationAcceptance,schemaOwners:e.verificationAcceptance.schemaOwners.filter((owner:string)=>owner===e.owner)};
+    return {evidence:e};
   }));
   route('post',`${base}/database-instances`,async(req:any,reply:any)=>{
     const b=req.body;if(!body(b,['name','containerName','kind','environment','host','port','service','transport','owner','reason']) || !text(b.reason))throw fail('INVALID_REQUEST',400);
@@ -182,6 +188,10 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
     const result=await sql.begin(async(tx:any)=>{
       await guard(tx,req,true);const current=await connection(tx,req);if(current.retired_at)throw fail('CONNECTION_RETIRED');
       if(String(current.revision)!==String(c.revision) || !current.enabled)throw fail('CONNECTION_REVISION_CONFLICT');
+      const container=(await tx`SELECT kind FROM sf_reference_containers WHERE id=${c.container_id}`)[0];
+      if(normalized.identity && (normalized.identity.cdb ? container?.kind!=='PDB' : container?.kind!=='NON_CDB')){
+        normalized.status='PARTIAL';normalized.limitations.push('IDENTITY_MISMATCH');normalized.verificationAcceptance=null;
+      }
       const o=(await tx`INSERT INTO sf_database_observations(organization_id,connection_id,operation,status,identity,identity_digest,schemas,limitations,provenance,verification_acceptance,actor_id,connection_revision)
         VALUES(${ORG},${c.id},${operation},${normalized.status},${normalized.identity?tx.json(normalized.identity):null},${normalized.identityDigest},${tx.json(normalized.schemas)},${tx.json(normalized.limitations)},${normalized.provenance},${normalized.verificationAcceptance?tx.json(normalized.verificationAcceptance):null},${req.actor.id},${c.revision}) RETURNING *`)[0];
       await audited(tx,req,operation==='TEST'?'CONNECTIVITY_TESTED':'DATABASE_DISCOVERED',c.id,{observationId:o.id,status:o.status,identityDigest:o.identity_digest});
@@ -198,18 +208,18 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
       const c=await connection(tx,{...req,params:{...req.params,connectionId:b.connectionId}});
       const detail=await getTargetBinding(tx,req.params.projectId,req.params.bindingId),binding=detail?.binding;
       if(!binding || binding.bindingRevision!==b.expectedBindingRevision || binding.assignmentRevision!==b.expectedAssignmentRevision)throw fail('TARGET_REVISION_CONFLICT');
-      if(detail.currentness.state!=='CURRENT' && !detail.currentness.reasons.every((r:string)=>['OBSERVATION_STALE','OBSERVATION_UNAVAILABLE','OBSERVATION_SUPERSEDED'].includes(r)))throw fail('TARGET_REVISION_CONFLICT');
+      if(detail.currentness.state!=='CURRENT' && !detail.currentness.reasons.every((r:string)=>['OBSERVATION_STALE','OBSERVATION_UNAVAILABLE','OBSERVATION_SUPERSEDED','LIVE_VERIFICATION_UNACCEPTED'].includes(r)))throw fail('TARGET_REVISION_CONFLICT');
       const o=(await tx`SELECT *,expires_at>clock_timestamp() AS fresh FROM sf_database_observations WHERE id=${b.observationId} AND connection_id=${c.id} AND organization_id=${ORG}`)[0];
       if(!o)throw fail('NOT_FOUND',404);
       if(!o.fresh || c.retired_at || !c.enabled || String(c.revision)!==String(o.connection_revision))throw fail('DISCOVERY_STALE');
-      if(!o.identity_digest || o.identity_digest!==b.expectedIdentityDigest || !['OBSERVED','PARTIAL'].includes(o.status))throw fail('IDENTITY_MISMATCH');
+      if(!o.identity_digest || o.identity_digest!==b.expectedIdentityDigest || !['OBSERVED','PARTIAL'].includes(o.status) || o.limitations.includes('IDENTITY_MISMATCH'))throw fail('IDENTITY_MISMATCH');
       const latest=(await tx`SELECT id FROM sf_database_observations WHERE connection_id=${c.id} AND operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
       if(latest?.id!==o.id)throw fail('DISCOVERY_CONFLICT');
       if(binding.exactOwner!==b.owner || binding.routeId!==c.route_id)throw fail('IDENTITY_MISMATCH');
       const schema=o.schemas.find((s:any)=>s.owner===b.owner);
       if(!schema || schema.accessible!==true)throw fail('SCHEMA_ACCESS_UNVERIFIED');
-      if(state==='VERIFIED' && (o.provenance!=='ORACLE_READ_ONLY' || !o.verification_acceptance
-        || o.limitations.some((code:string)=>['INSUFFICIENT_METADATA_PRIVILEGES','IDENTITY_INCOMPLETE'].includes(code))))throw fail('LIVE_VERIFICATION_UNACCEPTED');
+      if(state==='VERIFIED' && (o.provenance!=='ORACLE_READ_ONLY' || !acceptedOracleObservation(o.identity,o.verification_acceptance,b.owner)
+        || o.limitations.some((code:string)=>code!=='SCHEMA_VISIBILITY_LIMITED')))throw fail('LIVE_VERIFICATION_UNACCEPTED');
       const previous=(await tx`SELECT e.identity_digest FROM sf_target_binding_revisions br JOIN sf_target_identity_evidence e ON e.digest=br.observation_digest
         WHERE br.binding_id=${binding.bindingId} ORDER BY br.revision DESC LIMIT 1`)[0];
       if(previous && previous.identity_digest!==o.identity_digest)throw fail('IDENTITY_CONFLICT');

@@ -5,12 +5,13 @@ import { fork } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import os from 'node:os';
 import path from 'node:path';
+import { exactOracleIdentity } from '../packages/connectivity/evidence.mjs';
 import { createOracleDiscoveryRuntime, oracleDiscoverySql } from '../packages/connectivity/oracle.mjs';
 
 const target={engine:'oracle',host:'127.0.0.1',port:1521,service:'FREEPDB1',transport:'TCP',username:'APP',credentialRef:'app-password'};
 const identityRows={
   [oracleDiscoverySql.database]:[{DBID:123,DB_UNIQUE_NAME:'TESTDB',RESETLOGS_CHANGE:100,CDB:'YES'}],
-  [oracleDiscoverySql.session]:[{CONTAINER_ID:3,CONTAINER_NAME:'FREEPDB1',SERVICE_NAME:'freepdb1'}],
+  [oracleDiscoverySql.session]:[{CONTAINER_ID:3,CONTAINER_NAME:'FREEPDB1',SERVICE_NAME:'freepdb1',SESSION_USER:'APP'}],
   [oracleDiscoverySql.container]:[{CONTAINER_ID:3,CONTAINER_DBID:456,CONTAINER_GUID:'0123456789ABCDEF0123456789ABCDEF',CONTAINER_NAME:'FREEPDB1'}],
   [oracleDiscoverySql.version]:[{VERSION:'19.0.0.0.0'}],
   [oracleDiscoverySql.schemas]:[{OWNER:'APP',HAS_VISIBLE_OBJECT:1},{OWNER:'OTHER',HAS_VISIBLE_OBJECT:0}],
@@ -19,7 +20,7 @@ const identityRows={
 async function fixture(t, { rows=identityRows, customManifest={} }={}) {
   const dir=await mkdtemp(path.join(os.tmpdir(),'oracle-discovery-')); const secrets=path.join(dir,'secrets');
   await mkdir(secrets,{mode:0o700}); await writeFile(path.join(secrets,'app-password'),'secret-value\n',{mode:0o600});
-  const manifest={readOnly:true,disposable:true,authorizationId:'test-authorization',targets:[{...target,pinnedIps:['127.0.0.1'],secretFile:'app-password'}],...customManifest};
+  const manifest={readOnly:true,disposable:true,authorizationId:'test-authorization',expiresAt:new Date(Date.now()+3600000).toISOString(),targets:[{...target,pinnedIps:['127.0.0.1'],secretFile:'app-password'}],...customManifest};
   const manifestPath=path.join(dir,'manifest.json'); await writeFile(manifestPath,JSON.stringify(manifest),{mode:0o600});
   const calls=[]; const driver={versionString:'7.0.1',thin:true,OUT_FORMAT_OBJECT:1,async getConnection(config){
     calls.push({connect:config}); return {callTimeout:0,async execute(sql,binds,opts){calls.push({sql,binds,opts}); if(sql===oracleDiscoverySql.test)return {rows:[{OK:1}]};
@@ -31,7 +32,7 @@ async function fixture(t, { rows=identityRows, customManifest={} }={}) {
 
 test('discovers explicit full Oracle identity with read-only fixed SQL and no secret in result',async t=>{
   const f=await fixture(t); const result=await f.runtime.run(target,'DISCOVER');
-  assert.equal(result.status,'PARTIAL'); assert.equal(result.provenance,'ORACLE_READ_ONLY');
+  assert.equal(result.status,'PARTIAL'); assert.equal(result.provenance,'FIXTURE');
   assert.ok(result.limitations.includes('SCHEMA_VISIBILITY_LIMITED'));
   assert.deepEqual(result.identity,{engine:'oracle',dbid:'123',dbUniqueName:'TESTDB',resetlogsChange:'100',cdb:true,kind:'CDB_PDB',containerId:'3',containerGuid:'0123456789ABCDEF0123456789ABCDEF',containerDbid:'456',containerName:'FREEPDB1',serviceName:'freepdb1',version:'19.0.0.0.0'});
   assert.deepEqual(result.schemas,[{owner:'APP',accessible:true},{owner:'OTHER',accessible:null}]);
@@ -41,7 +42,7 @@ test('discovers explicit full Oracle identity with read-only fixed SQL and no se
   assert.equal(f.calls.at(-1).close,true);
 });
 
-test('permission failure retains only verified identity and marks discovery partial',async t=>{
+test('permission failure retains observed identity and marks discovery partial',async t=>{
   const broken={...identityRows,[oracleDiscoverySql.schemas]:Object.assign(new Error('password=do-not-leak'),{code:'ORA-01031'})};
   const f=await fixture(t,{rows:broken}); const result=await f.runtime.run(target,'DISCOVER');
   assert.equal(result.status,'PARTIAL'); assert.equal(result.identity.dbid,'123'); assert.deepEqual(result.schemas,[]);
@@ -57,7 +58,7 @@ test('malformed and unauthorized destination never attempts driver connection',a
 
 test('connection-only probe returns connected with no identity claim',async t=>{
   const f=await fixture(t); const result=await f.runtime.run(target,'TEST');
-  assert.equal(result.status,'CONNECTED'); assert.equal(result.identity,null); assert.equal(result.provenance,'ORACLE_READ_ONLY');
+  assert.equal(result.status,'CONNECTED'); assert.equal(result.identity,null); assert.equal(result.provenance,'FIXTURE');
 });
 
 test('complete discovery is OBSERVED when all reported schema access is established',async t=>{
@@ -74,7 +75,7 @@ test('aborted operation returns timeout without exposing connection details',asy
 
 test('non-CDB identity derives its container database identity without querying V$CONTAINERS',async t=>{
   const rows={...identityRows,[oracleDiscoverySql.database]:[{DBID:123,DB_UNIQUE_NAME:'TESTDB',RESETLOGS_CHANGE:100,CDB:'NO'}],
-    [oracleDiscoverySql.session]:[{CONTAINER_ID:0,CONTAINER_NAME:'TESTDB',SERVICE_NAME:'testdb'}]};
+    [oracleDiscoverySql.session]:[{CONTAINER_ID:0,CONTAINER_NAME:'TESTDB',SERVICE_NAME:'testdb',SESSION_USER:'APP'}]};
   const f=await fixture(t,{rows}); const result=await f.runtime.run(target,'DISCOVER');
   assert.equal(result.identity.kind,'NON_CDB'); assert.equal(result.identity.containerGuid,null);
   assert.equal(result.identity.containerDbid,'123'); assert.equal(f.calls.some(c=>c.sql===oracleDiscoverySql.container),false);
@@ -88,8 +89,9 @@ test('CDB root cannot be accepted as a verified PDB target',async t=>{
 });
 
 test('injected fixtures never claim live verification from manifest attestations',async t=>{
+  const expectedIdentity=exactOracleIdentity((await (await fixture(t)).runtime.run(target,'DISCOVER')).identity);
   const attestation={authorizedLabId:'lab-1',acceptedAt:'2026-10-12T00:00:00.000Z',evidenceDigest:'a'.repeat(64)};
-  const f=await fixture(t,{customManifest:{targets:[{...target,pinnedIps:['127.0.0.1'],secretFile:'app-password',liveAcceptance:attestation}]}});
+  const f=await fixture(t,{customManifest:{targets:[{...target,pinnedIps:['127.0.0.1'],secretFile:'app-password',expectedIdentity,acceptedSchemaOwners:['APP'],liveAcceptance:attestation}]}});
   const result=await f.runtime.run(target,'DISCOVER'); assert.equal(result.verificationAcceptance,null);assert.equal(result.status,'PARTIAL');
   const global=await fixture(t,{customManifest:{liveAcceptance:attestation}});
   assert.equal((await global.runtime.run(target,'DISCOVER')).status,'UNAUTHORIZED');assert.equal(global.calls.length,0);
@@ -108,4 +110,50 @@ test('child socket guard rejects a listener redirect before network access',asyn
 test('unsupported operation is sanitized',async t=>{
   const f=await fixture(t); const result=await f.runtime.run(target,'EXECUTE');
   assert.equal(result.status,'MISCONFIGURED'); assert.equal(result.provenance,'UNAVAILABLE');
+});
+
+test('attested database, container, service and version mismatches retain actual evidence but cannot be accepted',async t=>{
+  const original=await fixture(t);
+  const expectedIdentity=exactOracleIdentity((await original.runtime.run(target,'DISCOVER')).identity);
+  for(const [query,field,value] of [
+    [oracleDiscoverySql.database,'DBID',999], [oracleDiscoverySql.database,'RESETLOGS_CHANGE',999],
+    [oracleDiscoverySql.database,'DB_UNIQUE_NAME','WRONG_DATABASE'],
+    [oracleDiscoverySql.container,'CONTAINER_GUID','F'.repeat(32)], [oracleDiscoverySql.container,'CONTAINER_DBID',999],
+    [oracleDiscoverySql.session,'SERVICE_NAME','wrong-service'], [oracleDiscoverySql.version,'VERSION','wrong-version'],
+  ]){
+    const rows={...identityRows,[query]:[{...identityRows[query][0],[field]:value}]};
+    const f=await fixture(t,{rows,customManifest:{targets:[{...target,pinnedIps:['127.0.0.1'],secretFile:'app-password',expectedIdentity}]}});
+    const result=await f.runtime.run(target,'DISCOVER');
+    assert.equal(result.status,'PARTIAL',field);assert.ok(result.limitations.includes('IDENTITY_MISMATCH'),field);
+    assert.ok(result.identity,field);assert.equal(result.verificationAcceptance,null,field);
+  }
+});
+
+test('unbound or malformed acceptance manifests fail before credential use or connecting',async t=>{
+  const liveAcceptance={authorizedLabId:'lab-1',acceptedAt:'2026-10-12T00:00:00.000Z',evidenceDigest:'a'.repeat(64)};
+  for(const extra of [{liveAcceptance},{expectedIdentity:{engine:'oracle'}},{expectedIdentity:{...exactOracleIdentity((await (await fixture(t)).runtime.run(target,'DISCOVER')).identity),password:'never-export'}}]){
+    const f=await fixture(t,{customManifest:{targets:[{...target,pinnedIps:['127.0.0.1'],secretFile:'app-password',...extra}]}});
+    const result=await f.runtime.run(target,'DISCOVER');assert.equal(result.status,'UNAUTHORIZED');assert.equal(f.calls.length,0);
+    assert.doesNotMatch(JSON.stringify(result),/never-export|secret-value/);
+  }
+});
+
+test('own empty schema is determined by the authenticated session, preserving exact owner case',async t=>{
+  const rows={...identityRows,[oracleDiscoverySql.schemas]:[{OWNER:'APP',HAS_VISIBLE_OBJECT:0}]};
+  const f=await fixture(t,{rows,customManifest:{targets:[{...target,username:'app',pinnedIps:['127.0.0.1'],secretFile:'app-password'}]}});
+  const result=await f.runtime.run({...target,username:'app'},'DISCOVER');
+  assert.equal(result.status,'OBSERVED');assert.deepEqual(result.schemas,[{owner:'APP',accessible:true}]);
+});
+
+test('TCPS uses pinned destinations with explicit strong certificate DN matching',async t=>{
+  const tcps={...target,transport:'TCPS'};
+  const f=await fixture(t,{customManifest:{targets:[{...tcps,pinnedIps:['127.0.0.1'],secretFile:'app-password',serverCertificateDN:'CN=oracle-lab.example.invalid'}]}});
+  assert.equal((await f.runtime.run(tcps,'TEST')).status,'CONNECTED');
+  const config=f.calls[0].connect;assert.equal(config.sslServerDNMatch,true);assert.equal(config.sslAllowWeakDNMatch,false);
+  assert.equal(config.sslServerCertDN,'CN=oracle-lab.example.invalid');assert.equal(config.connectString,'tcps://127.0.0.1:1521/FREEPDB1');
+});
+
+test('expired authorization rejects read-only probes before connecting',async t=>{
+  const f=await fixture(t,{customManifest:{expiresAt:'2000-01-01T00:00:00.000Z'}});
+  assert.equal((await f.runtime.run(target,'TEST')).status,'UNAUTHORIZED');assert.equal(f.calls.length,0);
 });

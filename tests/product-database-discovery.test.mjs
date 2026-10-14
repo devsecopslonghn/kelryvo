@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createDiscoveryFixture,fixtureIdentity } from './helpers/discovery-fixture.mjs';
 import { applyLocalMembershipAction } from '../scripts/local-membership-operator.mjs';
-import { oracleIdentityDigest } from '../packages/connectivity/evidence.mjs';
+import { oracleIdentityDigest,evidenceDigest } from '../packages/connectivity/evidence.mjs';
 import { createPrivateBackup,restorePrivateBackup } from '../packages/backup/index.mjs';
 import { chmod,mkdtemp,writeFile,rm } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -202,5 +202,49 @@ test('metadata recovery HOLD prevents connection and verification mutations with
     }
     const history=await f.api('GET',`${f.connections}/${f.connection.id}/observations`);assert.equal(history.statusCode,200);assert.equal(history.json().observations.length,1);
     assert.equal((await f.api('GET',`${f.base}/target-bindings/${binding.bindingId}`)).json().revisions.length,1);
+  }finally{await f.close();}
+});
+
+test('R1 mismatched topology or manifest identity is retained as conflict and cannot bind; readiness stays separate',{
+  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
+},async()=>{
+  const f=await createDiscoveryFixture();try{
+    const binding=(await f.createBinding()).json().binding;
+    const url=`${f.connections}/${f.connection.id}`;
+    const initial=(await f.api('GET',url)).json();
+    assert.equal(initial.readiness.configurationValid,true);assert.equal(initial.readiness.connectivityStatus,'NOT_RUN');
+    assert.equal(initial.readiness.identityState,'NOT_OBSERVED');assert.equal(initial.readiness.lastCheckedAt,null);
+    const preflight=await f.api('POST',`${url}/preflight`,{expectedRevision:'1',reason:'Validate configuration without connection'});
+    assert.equal(preflight.statusCode,200);assert.equal(preflight.json().readiness.state,'PREFLIGHT_PASSED');
+    assert.equal(preflight.json().readiness.connectivityStatus,'NOT_RUN');
+    for(const raw of [
+      {identity:{...fixtureIdentity,cdb:false,containerId:'0',containerGuid:null,containerDbid:fixtureIdentity.dbid}},
+      {identity:fixtureIdentity,limitations:['IDENTITY_MISMATCH']},
+    ]){
+      f.runtime.run=async()=>({status:'OBSERVED',schemas:[{owner:'APP',accessible:true}],provenance:'FIXTURE',...raw});
+      const observed=(await f.api('POST',`${url}/discover`,{reason:'Record incorrect identity safely'})).json().observation;
+      assert.equal(observed.identityState,'CONFLICT');assert.equal(observed.currentness,'CONFLICT');assert.ok(observed.limitations.includes('IDENTITY_MISMATCH'));
+      const response=await f.api('POST',`${f.base}/target-bindings/${binding.bindingId}/observe`,{connectionId:f.connection.id,observationId:observed.id,
+        expectedIdentityDigest:observed.identityDigest,expectedBindingRevision:'1',expectedAssignmentRevision:'1',owner:'APP',reason:'Reject conflicting observation'});
+      assert.equal(response.statusCode,409,response.body);assert.equal(response.json().error,'IDENTITY_MISMATCH');
+      const readiness=(await f.api('GET',url)).json().readiness;
+      assert.equal(readiness.configurationValid,true);assert.equal(readiness.identityState,'CONFLICT');assert.notEqual(readiness.state,'CONNECTED_VERIFIED');
+      assert.ok(readiness.lastCheckedAt);
+    }
+    const acceptance={authorizedLabId:'unit-contract-scope',acceptedAt:'2026-10-12T00:00:00.000Z',evidenceDigest:'a'.repeat(64),
+      expectedIdentityDigest:evidenceDigest(fixtureIdentity),manifestDigest:'b'.repeat(64),targetConfigDigest:'c'.repeat(64),schemaOwners:['OTHER']};
+    // Trusted-runtime contract simulation only; no Oracle connection or live acceptance.
+    f.runtime.run=async()=>({status:'OBSERVED',identity:fixtureIdentity,schemas:[{owner:'APP',accessible:true},{owner:'OTHER',accessible:true}],provenance:'ORACLE_READ_ONLY',verificationAcceptance:acceptance});
+    const scoped=(await f.api('POST',`${url}/discover`,{reason:'Accepted scope excludes this assignment'})).json().observation;
+    assert.deepEqual(scoped.schemas,[{owner:'APP',accessible:true}]);assert.deepEqual(scoped.verificationAcceptance.schemaOwners,[]);
+    const scopeReadiness=(await f.api('GET',url)).json().readiness;
+    assert.equal(scopeReadiness.identityState,'OBSERVED');assert.equal(scopeReadiness.state,'CONNECTED');
+    const denied=await f.api('POST',`${f.base}/target-bindings/${binding.bindingId}/verify`,{connectionId:f.connection.id,observationId:scoped.id,
+      expectedIdentityDigest:scoped.identityDigest,expectedBindingRevision:'1',expectedAssignmentRevision:'1',owner:'APP',reason:'Other owners cannot inherit acceptance'});
+    assert.equal(denied.statusCode,409,denied.body);assert.equal(denied.json().error,'LIVE_VERIFICATION_UNACCEPTED');
+    await f.restart();
+    assert.equal((await f.api('GET',`${url}/observations`)).json().observations.length,3);
+    assert.equal((await f.api('GET',`${f.base}/target-bindings/${binding.bindingId}`)).json().binding.bindingRevision,'1');
+    assert.equal(Number((await f.db.sql`SELECT count(*)::int AS n FROM sf_target_identity_evidence WHERE project_id=${f.project.id}`)[0].n),0);
   }finally{await f.close();}
 });
