@@ -1,3 +1,4 @@
+import { registerSchemaBaselines } from '../schema-baselines/api.ts';
 import { randomUUID } from 'node:crypto';
 import { guardMutationAuthority } from '../database/mutation-authority.ts';
 import { acquireTargetLocks } from '../targets/locks.ts';
@@ -81,6 +82,7 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
       throw e;
     }
   });
+  registerSchemaBaselines({sql,route,guard,connection,audited,runtime,running,deadline});
   route('get',`${base}/database-connections`,async(req:any)=>sql.begin(async(tx:any)=>{
     const canManage=await guard(tx,req);
     if(Object.keys(req.query).some(k=>!['after','search','engine','environment','status'].includes(k)) || req.query.after!==undefined && !uuid(req.query.after)

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import os from 'node:os';
 import path from 'node:path';
 import { exactOracleIdentity } from '../packages/connectivity/evidence.mjs';
-import { createOracleDiscoveryRuntime, oracleDiscoverySql } from '../packages/connectivity/oracle.mjs';
+import { createOracleDiscoveryRuntime, oracleDiscoverySql, oracleSchemaSql } from '../packages/connectivity/oracle.mjs';
 
 const target={engine:'oracle',host:'127.0.0.1',port:1521,service:'FREEPDB1',transport:'TCP',username:'APP',credentialRef:'app-password'};
 const identityRows={
@@ -156,4 +156,48 @@ test('TCPS uses pinned destinations with explicit strong certificate DN matching
 test('expired authorization rejects read-only probes before connecting',async t=>{
   const f=await fixture(t,{customManifest:{expiresAt:'2000-01-01T00:00:00.000Z'}});
   assert.equal((await f.runtime.run(target,'TEST')).status,'UNAUTHORIZED');assert.equal(f.calls.length,0);
+});
+
+test('SCHEMA collection uses bounded fixed metadata reads and excludes volatile sequence state',async t=>{
+  const rows={...identityRows,
+    [oracleSchemaSql.tables]:[{OWNER:'APP',NAME:'Orders',TABLESPACE_NAME:'USERS',TEMPORARY:'N',PARTITIONED:'N'}],
+    [oracleSchemaSql.columns]:[{OWNER:'APP',NAME:'Orders',COLUMN_NAME:'Id',COLUMN_ID:1,DATA_TYPE:'NUMBER',NULLABLE:'N'}],
+    [oracleSchemaSql.constraints]:[],[oracleSchemaSql.constraintColumns]:[],
+    [oracleSchemaSql.views]:[],
+    [oracleSchemaSql.sequences]:[{OWNER:'APP',NAME:'OrderSeq',INCREMENT_BY:1,LAST_NUMBER:999,CACHE_SIZE:20}],
+    [oracleSchemaSql.indexes]:[],[oracleSchemaSql.indexColumns]:[],[oracleSchemaSql.dependencies]:[]};
+  const f=await fixture(t,{rows}); const result=await f.runtime.run(target,'SCHEMA',{owner:'APP'});
+  assert.equal(result.schema.owner,'APP');assert.equal(result.schema.coverage.TABLE,'COMPLETE');
+  assert.deepEqual(result.schema.objects.map(o=>[o.type,o.name]),[['SEQUENCE','OrderSeq'],['TABLE','Orders']]);
+  assert.equal('last_number' in result.schema.objects.find(o=>o.type==='SEQUENCE').definition,false);
+  const queries=f.calls.filter(c=>c.sql);
+  assert.ok(queries.every(c=>/^\s*SELECT\b/i.test(c.sql)));
+  assert.ok(queries.every(c=>c.opts.maxRows<=2001));
+  assert.ok(queries.filter(c=>Object.values(oracleSchemaSql).includes(c.sql)).every(c=>c.binds.owner==='APP'));
+  assert.ok(result.schema.limitations.includes('MULTI_QUERY_CONSISTENCY_UNGUARANTEED'));
+  assert.equal(result.provenance,'FIXTURE');
+});
+
+test('SCHEMA requires explicit owner and marks foreign owner coverage partial',async t=>{
+  const f=await fixture(t);assert.equal((await f.runtime.run(target,'SCHEMA')).status,'MISCONFIGURED');
+  const result=await f.runtime.run(target,'SCHEMA',{owner:'OTHER'});assert.equal(result.schema.coverage.TABLE,'PARTIAL');
+});
+
+test('aborted SCHEMA operation returns sanitized timeout before opening a connection',async t=>{
+  const f=await fixture(t);const controller=new AbortController();controller.abort();
+  const result=await f.runtime.run(target,'SCHEMA',{owner:'APP',signal:controller.signal});
+  assert.equal(result.status,'TIMEOUT');assert.equal(result.schema,undefined);assert.equal(f.calls.length,0);
+});
+
+test('SCHEMA retains CHECK predicates and referential enforcement semantics',async t=>{
+  const rows={...identityRows,[oracleSchemaSql.tables]:[{OWNER:'APP',NAME:'Orders'}],
+    [oracleSchemaSql.columns]:[],[oracleSchemaSql.constraints]:[{OWNER:'APP',NAME:'Orders',CONSTRAINT_NAME:'CK',CONSTRAINT_TYPE:'C',SEARCH_CONDITION:'Id > 0',VALIDATED:'VALIDATED',DELETE_RULE:null}],
+    [oracleSchemaSql.constraintColumns]:[],[oracleSchemaSql.views]:[],[oracleSchemaSql.sequences]:[],[oracleSchemaSql.indexes]:[],[oracleSchemaSql.indexColumns]:[],[oracleSchemaSql.dependencies]:[]};
+  const f=await fixture(t,{rows});
+  const before=(await f.runtime.run(target,'SCHEMA',{owner:'APP'})).schema;
+  rows[oracleSchemaSql.constraints][0].SEARCH_CONDITION='Id > 10';
+  const after=(await f.runtime.run(target,'SCHEMA',{owner:'APP'})).schema;
+  assert.equal(before.objects[0].definition.constraints[0].search_condition,'Id > 0');
+  assert.notEqual(before.objects[0].checksum,after.objects[0].checksum);
+  assert.match(oracleSchemaSql.constraints,/SEARCH_CONDITION/);assert.match(oracleSchemaSql.constraints,/DELETE_RULE/);
 });

@@ -7,6 +7,7 @@ import dns from 'node:dns/promises';
 import { fork } from 'node:child_process';
 import oracledb from 'oracledb';
 import { exactOracleIdentity, evidenceDigest, acceptedOracleObservation } from './evidence.mjs';
+import { normalizeSchema } from '../schema-baselines/contracts.mjs';
 
 const LIMITATIONS = Object.freeze({
   MANIFEST: 'ENDPOINT_NOT_AUTHORIZED', DESTINATION: 'ENDPOINT_NOT_AUTHORIZED', CREDENTIAL: 'SECRET_UNAVAILABLE',
@@ -20,6 +21,17 @@ const SQL = Object.freeze({
   container: `SELECT TO_CHAR(CON_ID) AS container_id, TO_CHAR(DBID) AS container_dbid, RAWTOHEX(GUID) AS container_guid, NAME AS container_name FROM V$CONTAINERS WHERE CON_ID = SYS_CONTEXT('USERENV','CON_ID')`,
   version: 'SELECT BANNER AS version FROM V$VERSION WHERE ROWNUM = 1',
   schemas: `SELECT U.USERNAME AS owner, CASE WHEN EXISTS (SELECT 1 FROM ALL_OBJECTS O WHERE O.OWNER = U.USERNAME) THEN 1 ELSE 0 END AS has_visible_object FROM ALL_USERS U ORDER BY U.USERNAME`,
+});
+export const oracleSchemaSql = Object.freeze({
+  tables: `SELECT OWNER, TABLE_NAME AS NAME, TABLESPACE_NAME, TEMPORARY, PARTITIONED FROM ALL_TABLES WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY TABLE_NAME`,
+  columns: `SELECT OWNER, TABLE_NAME AS NAME, COLUMN_NAME, TO_CHAR(COLUMN_ID) AS COLUMN_ID, DATA_TYPE, TO_CHAR(DATA_LENGTH) AS DATA_LENGTH, TO_CHAR(DATA_PRECISION) AS DATA_PRECISION, TO_CHAR(DATA_SCALE) AS DATA_SCALE, TO_CHAR(CHAR_LENGTH) AS CHAR_LENGTH, CHAR_USED, NULLABLE, DATA_DEFAULT FROM ALL_TAB_COLUMNS WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY TABLE_NAME, COLUMN_ID`,
+  constraints: `SELECT OWNER, TABLE_NAME AS NAME, CONSTRAINT_NAME, CONSTRAINT_TYPE, STATUS, DEFERRABLE, DEFERRED, R_OWNER, R_CONSTRAINT_NAME, SEARCH_CONDITION, DELETE_RULE, VALIDATED, RELY FROM ALL_CONSTRAINTS WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY TABLE_NAME, CONSTRAINT_NAME`,
+  constraintColumns: `SELECT OWNER, TABLE_NAME AS NAME, CONSTRAINT_NAME, COLUMN_NAME, POSITION FROM ALL_CONS_COLUMNS WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY TABLE_NAME, CONSTRAINT_NAME, POSITION`,
+  views: `SELECT OWNER, VIEW_NAME AS NAME, TEXT FROM ALL_VIEWS WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY VIEW_NAME`,
+  sequences: `SELECT SEQUENCE_OWNER AS OWNER, SEQUENCE_NAME AS NAME, TO_CHAR(MIN_VALUE) AS MIN_VALUE, TO_CHAR(MAX_VALUE) AS MAX_VALUE, TO_CHAR(INCREMENT_BY) AS INCREMENT_BY, CYCLE_FLAG, ORDER_FLAG, TO_CHAR(CACHE_SIZE) AS CACHE_SIZE, SCALE_FLAG, EXTEND_FLAG FROM ALL_SEQUENCES WHERE SEQUENCE_OWNER = :owner AND ROWNUM <= 2001 ORDER BY SEQUENCE_NAME`,
+  indexes: `SELECT OWNER, TABLE_NAME, INDEX_NAME AS NAME, INDEX_TYPE, UNIQUENESS, STATUS, PARTITIONED FROM ALL_INDEXES WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY INDEX_NAME`,
+  indexColumns: `SELECT INDEX_OWNER AS OWNER, TABLE_NAME, INDEX_NAME AS NAME, COLUMN_NAME, COLUMN_POSITION, DESCEND FROM ALL_IND_COLUMNS WHERE INDEX_OWNER = :owner AND ROWNUM <= 2001 ORDER BY INDEX_NAME, COLUMN_POSITION`,
+  dependencies: `SELECT OWNER, NAME, TYPE, REFERENCED_OWNER, REFERENCED_NAME, REFERENCED_TYPE, DEPENDENCY_TYPE FROM ALL_DEPENDENCIES WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY NAME, REFERENCED_OWNER, REFERENCED_NAME`,
 });
 const OUTPUT_STATUSES = ['CONNECTED','OBSERVED','PARTIAL','UNREACHABLE','UNAUTHORIZED','MISCONFIGURED','TIMEOUT','UNAVAILABLE'];
 const NUMERIC_ERROR = /^(ORA-01017|ORA-01031|ORA-00942|ORA-01045|ORA-28000|ORA-28001|NJS-518|NJS-530)$/;
@@ -171,7 +183,7 @@ export async function probeOracleSocketGuard({pinnedIps,port,targetHost,targetPo
   } finally { socket.destroy(); restore(); }
 }
 
-async function isolatedRun({manifestPath,secretDirectory,connection,operation,timeoutMs,signal}) {
+async function isolatedRun({manifestPath,secretDirectory,connection,operation,timeoutMs,signal,owner}) {
   const childPath=fileURLToPath(new URL('./oracle-child.mjs',import.meta.url));
   return new Promise(resolve=>{
     let done=false, message=null, timedOut=false;
@@ -183,19 +195,20 @@ async function isolatedRun({manifestPath,secretDirectory,connection,operation,ti
     signal?.addEventListener('abort',abort,{once:true});
     child.on('message',m=>{message=m;});
     child.on('error',()=>{child.kill('SIGKILL');});
-    child.on('exit',code=>finish(timedOut?safeResult('TIMEOUT'):code===0&&message?safeResult(message.status,message.limitations,message.schemas,message.identity,message.provenance,message.verificationAcceptance):safeResult('UNAVAILABLE',[LIMITATIONS.DISCOVERY])));
-    child.send({manifestPath,secretDirectory,connection,operation,timeoutMs});
+    child.on('exit',code=>finish(timedOut?safeResult('TIMEOUT'):code===0&&message?message:safeResult('UNAVAILABLE',[LIMITATIONS.DISCOVERY])));
+    child.send({manifestPath,secretDirectory,connection,operation,timeoutMs,owner});
   });
 }
 
 /** This runtime is opt-in. A secret-free, OS-owned authorization manifest gates each exact endpoint. */
 export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, driver, timeoutMs = 20000, isolated = false } = {}) {
   const selectedDriver=driver ?? oracledb; const injected=driver!==undefined;
-  const runtime={ async run(connection, operation, { signal } = {}) {
-    if (!['TEST','DISCOVER'].includes(operation)) return safeResult('MISCONFIGURED',[LIMITATIONS.MANIFEST]);
+  const runtime={ async run(connection, operation, { signal, owner } = {}) {
+    if (!['TEST','DISCOVER','SCHEMA'].includes(operation)) return safeResult('MISCONFIGURED',[LIMITATIONS.MANIFEST]);
+    if(operation==='SCHEMA' && (typeof owner!=='string' || !owner.length || Buffer.byteLength(owner,'utf8')>128 || /[\u0000-\u001f\u007f]/.test(owner))) return safeResult('MISCONFIGURED',[LIMITATIONS.MANIFEST]);
     if (!Number.isInteger(timeoutMs) || timeoutMs < 1000 || timeoutMs > 30000) return safeResult('MISCONFIGURED',[LIMITATIONS.MANIFEST]);
     if (signal?.aborted) return safeResult('TIMEOUT');
-    if (!isolated && !injected) return isolatedRun({manifestPath,secretDirectory,connection,operation,timeoutMs,signal});
+    if (!isolated && !injected) return isolatedRun({manifestPath,secretDirectory,connection,operation,timeoutMs,signal,owner});
     const timeout = new AbortController(); let timedOut = false;
     const timer = setTimeout(() => { timedOut = true; timeout.abort(); }, timeoutMs); timer.unref?.();
     const abort = () => timeout.abort(); signal?.addEventListener('abort',abort,{once:true});
@@ -236,7 +249,50 @@ export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, dr
       const ownSchemaObserved=nonEmpty(sessionUser) && schemaRows.some(s=>s.owner===sessionUser && s.accessible===true);
       const onlyVisibilityLimited=limitations.every(code=>code===LIMITATIONS.SCHEMA_VISIBILITY);
       const accepted=isolated && !injected && ident && ownSchemaObserved && onlyVisibilityLimited ? authorization.liveAcceptance : null;
-      return safeResult(status,limitations,schemaRows,ident,injected?'FIXTURE':'ORACLE_READ_ONLY',accepted);
+      if(operation!=='SCHEMA') return safeResult(status,limitations,schemaRows,ident,injected?'FIXTURE':'ORACLE_READ_ONLY',accepted);
+      const schemaLimitations=['MULTI_QUERY_CONSISTENCY_UNGUARANTEED'];
+      const coverage=Object.fromEntries(['TABLE','VIEW','SEQUENCE','INDEX','DEPENDENCY'].map(type=>[type,'UNAVAILABLE']));
+      const schemaObjects=[];
+      const requestedOwner=owner;
+      if(!ident || !nonEmpty(sessionUser)) schemaLimitations.push('IDENTITY_INCOMPLETE');
+      if(requestedOwner!==sessionUser) schemaLimitations.push('FOREIGN_OWNER_VISIBILITY_PARTIAL');
+      const query=async name=>{
+        try { const result=await conn.execute(oracleSchemaSql[name],{owner:requestedOwner},{autoCommit:false,outFormat:selectedDriver.OUT_FORMAT_OBJECT,maxRows:2001,fetchArraySize:2001});
+          if(!Array.isArray(result?.rows)) return {rows:[],ok:false,truncated:false};
+          return {rows:result.rows.slice(0,2000).map(row),ok:true,truncated:result.rows.length>2000};
+        } catch { return {rows:[],ok:false,truncated:false}; }
+      };
+      const metadata={};
+      for(const name of ['tables','columns','constraints','constraintColumns','views','sequences','indexes','indexColumns','dependencies']) metadata[name]=await query(name);
+      const {tables,columns,constraints,constraintColumns,views,sequences,indexes,indexColumns,dependencies}=metadata;
+      for(const [kind,results] of [['TABLE',[tables,columns,constraints,constraintColumns]],['VIEW',[views]],['SEQUENCE',[sequences]],['INDEX',[indexes,indexColumns]],['DEPENDENCY',[dependencies]]]) {
+        const ok=results.every(r=>r.ok), truncated=results.some(r=>r.truncated);
+        coverage[kind]=ok&&!truncated&&requestedOwner===sessionUser?'COMPLETE':ok?'PARTIAL':'UNAVAILABLE';
+        if(truncated) schemaLimitations.push(`${kind}_ROW_LIMIT_EXCEEDED`);
+        if(!ok) schemaLimitations.push(`${kind}_QUERY_UNAVAILABLE`);
+      }
+      if(constraints.rows.some(c=>c.constraint_type==='C' && typeof c.search_condition!=='string')) {coverage.TABLE='PARTIAL';schemaLimitations.push('CONSTRAINT_PREDICATE_UNAVAILABLE');}
+      const group=(rows,nameField)=>{const out=new Map();for(const r of rows){const n=r[nameField];if(typeof n!=='string')continue;const list=out.get(n)??[];list.push(r);out.set(n,list);}return out;};
+      const colGroups=group(columns.rows,'name'), conGroups=group(constraints.rows,'name'), conColGroups=group(constraintColumns.rows,'name');
+      const consFor=table=>[...(conGroups.get(table)??[])].map(c=>({...c,columns:(conColGroups.get(c.constraint_name)??[]).map(x=>({name:x.column_name,position:x.position}))}));
+      const indexGroups=group(indexColumns.rows,'name');
+      const tableNames=new Set(tables.rows.map(r=>r.name).filter(x=>typeof x==='string'));
+      for(const tableName of tableNames) schemaObjects.push({owner:requestedOwner,type:'TABLE',name:tableName,definition:{...tables.rows.find(r=>r.name===tableName),columns:(colGroups.get(tableName)??[]).map(({owner:_,name:__,...c})=>c),constraints:consFor(tableName)}});
+      for(const view of views.rows) if(typeof view.name==='string') {
+        const textAvailable=typeof view.text==='string';
+        schemaObjects.push({owner:requestedOwner,type:'VIEW',name:view.name,definition:{text:textAvailable?view.text.slice(0,65536):null,textComplete:textAvailable&&view.text.length<=65536}});
+        if(!textAvailable){coverage.VIEW='PARTIAL';schemaLimitations.push('VIEW_TEXT_UNAVAILABLE');}
+      }
+      if(views.ok&&views.rows.some(v=>typeof v.text==='string'&&v.text.length>65536)){coverage.VIEW='PARTIAL';schemaLimitations.push('VIEW_TEXT_TRUNCATED');}
+      for(const sequence of sequences.rows) if(typeof sequence.name==='string') {const {last_number:_,...definition}=sequence;schemaObjects.push({owner:requestedOwner,type:'SEQUENCE',name:sequence.name,definition});}
+      for(const index of indexes.rows) if(typeof index.name==='string') {
+        const cols=indexGroups.get(index.name)??[]; const expression=cols.some(c=>String(c.column_name??'').startsWith('SYS_NC'))||String(index.index_type??'').includes('FUNCTION-BASED');
+        schemaObjects.push({owner:requestedOwner,type:'INDEX',name:index.name,definition:{...index,columns:expression?null:cols.map(({owner:_,name:__,...c})=>c),expressionKnown:!expression}});
+        if(expression&&coverage.INDEX==='COMPLETE'){coverage.INDEX='PARTIAL';schemaLimitations.push('INDEX_EXPRESSION_UNAVAILABLE');}
+      }
+      for(const dependency of dependencies.rows) if(typeof dependency.name==='string') schemaObjects.push({owner:requestedOwner,type:'DEPENDENCY',name:JSON.stringify([dependency.name,dependency.type,dependency.referenced_owner,dependency.referenced_name,dependency.referenced_type,dependency.dependency_type]),definition:dependency});
+      const normalized=normalizeSchema({owner:requestedOwner,objects:schemaObjects,coverage,limitations:schemaLimitations},requestedOwner);
+      return {...safeResult(schemaLimitations.length?'PARTIAL':'OBSERVED',limitations,schemaRows,ident,injected?'FIXTURE':'ORACLE_READ_ONLY',accepted),schema:normalized};
     } catch (e) {
       const code=errCode(e);
       if (timedOut || signal?.aborted) return safeResult('TIMEOUT');

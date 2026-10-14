@@ -9,6 +9,6 @@ process.on('message', async request => {
     return;
   }
   const runtime=createOracleDiscoveryRuntime({manifestPath:request.manifestPath,secretDirectory:request.secretDirectory,timeoutMs:request.timeoutMs,isolated:true});
-  const result=await runtime.run(request.connection,request.operation);
+  const result=await runtime.run(request.connection,request.operation,{owner:request.owner});
   process.send(result,()=>process.exit(0));
 });

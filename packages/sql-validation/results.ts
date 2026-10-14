@@ -11,18 +11,27 @@ export const VALIDATION_PROFILE = 'kelryvo-schema-review-v1';
 const hash = (value: string) => createHash('sha256').update(value).digest('hex');
 export const validationFailure = (code: string) => Object.assign(new Error(code), {productCode:code,validationStatus:409});
 
-/** Only owner visibility is present in Phase 3. Object absence is never inferred. */
+/** Owner visibility and immutable schema observations are distinct evidence scopes. */
 export async function readSchemaEvidence(tx: any, projectId: string, target: any) {
-  if (!target.observationDigest) return {observationId:null,evidenceDigest:null,identityDigest:null,provenance:'MANUAL_REFERENCE',
+  let metadata:any={observationId:null,evidenceDigest:null,identityDigest:null,provenance:'MANUAL_REFERENCE',
     observedAt:null,expiresAt:null,owner:target.exactOwner,accessible:null,completeness:'NOT_OBSERVED',objects:'NOT_OBSERVED'};
-  const e = (await tx`SELECT e.digest,e.identity_digest,e.observation_id,e.exact_owner,o.provenance,o.observed_at,o.expires_at,
-    o.schemas FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id
-    WHERE e.digest=${target.observationDigest} AND e.project_id=${projectId}`)[0];
-  if (!e || e.exact_owner !== target.exactOwner) throw validationFailure('VALIDATION_EVIDENCE_UNAVAILABLE');
-  return {observationId:e.observation_id,evidenceDigest:e.digest,identityDigest:e.identity_digest,provenance:e.provenance,
-    observedAt:new Date(e.observed_at).toISOString(),expiresAt:new Date(e.expires_at).toISOString(),
-    owner:e.exact_owner,accessible:e.schemas.find((s:any)=>s.owner===e.exact_owner)?.accessible ?? null,
-    completeness:'OWNER_VISIBILITY_ONLY',objects:'NOT_OBSERVED'};
+  if(target.observationDigest) {
+    const e = (await tx`SELECT e.digest,e.identity_digest,e.observation_id,e.exact_owner,o.provenance,o.observed_at,o.expires_at,
+      o.schemas FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id
+      WHERE e.digest=${target.observationDigest} AND e.project_id=${projectId}`)[0];
+    if (!e || e.exact_owner !== target.exactOwner) throw validationFailure('VALIDATION_EVIDENCE_UNAVAILABLE');
+    metadata={observationId:e.observation_id,evidenceDigest:e.digest,identityDigest:e.identity_digest,provenance:e.provenance,
+      observedAt:new Date(e.observed_at).toISOString(),expiresAt:new Date(e.expires_at).toISOString(),
+      owner:e.exact_owner,accessible:e.schemas.find((s:any)=>s.owner===e.exact_owner)?.accessible ?? null,
+      completeness:'OWNER_VISIBILITY_ONLY',objects:'NOT_OBSERVED'};
+  }
+  const s=(await tx`SELECT id,content_digest,identity_digest,provenance,observed_at,live_accepted,schema->'coverage' AS coverage,
+    schema->'limitations' AS limitations,jsonb_array_length(schema->'objects') AS object_count
+    FROM sf_schema_snapshots WHERE project_id=${projectId} AND binding_id=${target.bindingId}
+    AND binding_revision=${target.bindingRevision}::bigint AND owner=${target.exactOwner} ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
+  return {...metadata,schemaSnapshot:s?{id:s.id,contentDigest:s.content_digest,identityDigest:s.identity_digest,
+    provenance:s.provenance,observedAt:new Date(s.observed_at).toISOString(),liveAccepted:s.live_accepted,
+    coverage:s.coverage,limitations:s.limitations,objectCount:s.object_count}:null};
 }
 
 export async function buildValidation(release: any, project: any, target: any, metadata: any) {
@@ -46,7 +55,7 @@ export async function buildValidation(release: any, project: any, target: any, m
   const findings: any[] = [];
   if (release.validation_status !== 'VALID') findings.push({code:'SYNTAX_NOT_VALID',severity:'BLOCKING',rationale:'The retained parser result does not establish valid Oracle syntax.'});
   if (metadata.accessible !== true) findings.push({code:'SCHEMA_VISIBILITY_UNVERIFIED',severity:'UNKNOWN',rationale:'The target schema has no current observed visibility evidence.'});
-  findings.push({code:'OBJECT_METADATA_UNAVAILABLE',severity:'UNKNOWN',rationale:'Discovery records schema-owner visibility only. Existing objects, columns, constraints and privileges were not observed.'});
+  findings.push(metadata.schemaSnapshot ? {code:'SCHEMA_STRUCTURE_OBSERVED',severity:'UNKNOWN',rationale:`Immutable schema snapshot ${metadata.schemaSnapshot.id} provides structural context (${metadata.schemaSnapshot.provenance}). Visibility and collection consistency limitations remain; Oracle compilation and privileges are unverified.`} : {code:'OBJECT_METADATA_UNAVAILABLE',severity:'UNKNOWN',rationale:'No object snapshot is retained. Existing objects, columns, constraints and privileges were not observed.'});
   const blocking=findings.some(f=>f.severity==='BLOCKING') || review.some((s:any)=>s.findings.some((f:any)=>f.severity==='BLOCKING'));
   const targetFacts=publicTarget(target);
   // Explicit selection avoids timestamps/currentness that would make identical input nondeterministic.
@@ -110,5 +119,14 @@ export async function validationCurrentness(tx:any,result:any) {
   if(!target)return {state:'UNKNOWN',reasons:['TARGET_UNAVAILABLE']};
   if(target.bindingRevision!==r.target.bindingRevision)return {state:'STALE',reasons:['BINDING_SUPERSEDED']};
   if(target.sourceBindingGeneration!==r.sourceBindingGeneration)return {state:'STALE',reasons:['SOURCE_CHANGED']};
+  if(Object.hasOwn(r.metadata,'schemaSnapshot')) {
+    const snapshot=r.metadata.schemaSnapshot;
+    const changed=(await tx`SELECT 1 FROM sf_schema_snapshots s WHERE s.project_id=${r.projectId} AND s.binding_id=${r.target.bindingId}
+      AND s.binding_revision=${r.target.bindingRevision}::bigint
+      AND ((${snapshot?.id??null}::uuid IS NULL AND s.observed_at>${result.createdAt}::timestamptz)
+        OR (${snapshot?.id??null}::uuid IS NOT NULL AND (s.observed_at,s.id)>(SELECT observed_at,id FROM sf_schema_snapshots WHERE id=${snapshot?.id??null}::uuid)))
+      AND (s.content_digest IS DISTINCT FROM ${snapshot?.contentDigest??null} OR s.identity_digest IS DISTINCT FROM ${snapshot?.identityDigest??null}) LIMIT 1`)[0];
+    if(changed)return {state:'STALE',reasons:['SCHEMA_OBSERVATION_CHANGED']};
+  }
   return checkTargetCurrentness(tx,r.projectId,target,r.sourceBindingGeneration);
 }

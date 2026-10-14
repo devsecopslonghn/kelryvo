@@ -1,3 +1,4 @@
+import { retainPlanSchema } from '../../packages/schema-baselines/store.ts';
 import { registerSourceComparison, readPlanComparison } from '../../packages/governance/source-comparison.ts';
 import {registerSqlWorkspace} from '../../packages/sql-workspace/api.ts';
 import {loadWorkspaceReleaseOrigins,loadWorkspaceReleaseOrigin} from '../../packages/migrations/workspace-release-origin.ts';
@@ -1079,6 +1080,7 @@ export function createApp(options: {
         const rows = await tx`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,items,offline_intent_envelope,offline_intent_digest,source_binding_generation)
           VALUES(${p.id},${ORG},${r.id},${profile.id},${req.actor.id},${tx.json(items)},${offlineIntent.envelope},${offlineIntent.digest},${p.source_binding_generation}::bigint) RETURNING *,source_binding_generation::text AS source_binding_generation`;
         const plan = rows[0];
+        await retainPlanSchema(tx,plan,boundTarget);
         await tx`INSERT INTO sf_history ${tx(items.map((item) => ({
           project_id: p.id,
           plan_id: plan.id,
