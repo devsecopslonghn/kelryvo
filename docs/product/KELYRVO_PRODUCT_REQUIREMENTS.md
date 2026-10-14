@@ -110,6 +110,8 @@ Offline product development is eligible independently of Oracle acceptance. The 
 | O2 — concurrent multi-file reconciliation | Improve the existing revision-conflict workflow using saved base, local edits and latest remote manifest. Depends on existing immutable file IDs and optimistic revision updates. | Non-overlapping edits/additions are preserved; overlapping edits, removals and path conflicts require explicit choices. No automatic write or silent file loss; explicit save rechecks the latest revision. API/database/browser tests cover concurrent changes, history, access and unsaved navigation. |
 | O3 — schema-to-history target context | Carry the selected exact binding from schema baselines into existing migration history filtering and cursor pagination. | Browser navigation selects the same target, excludes other targets and retains scoped pagination. Direct history navigation still offers all targets. Existing project isolation, cursor/filter integrity and historical intent semantics remain enforced. |
 
+[O1 PR #100](https://github.com/devsecopslonghn/kelryvo/pull/100) retains the reviewed source, focused local verification and hosted integration/security gates. O2 is the next selected offline outcome; R1/R2 live acceptance remains NOT_RUN independently of this sequence.
+
 Previously proposed target-binding and project-target milestones are delivered offline; improve existing modules rather than building parallel planners, ledgers or tracking systems. R1 product integration is implemented with local acceptance; the live entry gate below remains open.
 
 | Order | Bounded milestone and value | Dependencies / exit criteria |
