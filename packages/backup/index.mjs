@@ -417,7 +417,9 @@ export async function restorePrivateBackup({ configPath, databaseUrl, backupDire
       await sql`ALTER TABLE sf_execution_reconciliations DISABLE TRIGGER sf_execution_reconciliations_binding_insert`;
       await sql`ALTER TABLE sf_execution_reconciliation_decisions DISABLE TRIGGER sf_execution_reconciliation_decisions_binding_insert`;
     }
+    if(schemaBaselines) await sql`ALTER TABLE sf_schema_snapshots DISABLE TRIGGER sf_schema_snapshots_scope`;
     runDocker(toolArgs('pg_restore',stagingDirectory,'/backup/metadata.pgdump',databaseUrl,config).slice(0,-2).concat(['--exit-on-error','--single-transaction','--dbname',`postgresql://${encodeURIComponent(decodeURIComponent(base.username))}@127.0.0.1:${base.port||'5432'}/${dbName}`,'/backup/metadata.pgdump']),toolEnv(config));
+    if(schemaBaselines) await sql`ALTER TABLE sf_schema_snapshots ENABLE TRIGGER sf_schema_snapshots_scope`;
     if (managed) {
       await sql`ALTER TABLE sf_profiles ENABLE TRIGGER sf_profiles_revision_capture`;
       await sql`ALTER TABLE sf_database_connections ENABLE TRIGGER sf_database_connections_revision_capture`;

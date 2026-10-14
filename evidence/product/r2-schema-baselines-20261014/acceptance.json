@@ -1,8 +1,8 @@
 {
   "milestone": "Kelryvo R2 schema baseline and drift product integration",
-  "recordedAt": "2026-10-14T05:06:27.103805+00:00",
+  "recordedAt": "2026-10-14T05:15:07.943704+00:00",
   "implementationBase": "7d36e576ba48219ed10fa1f21bf1cf9135d20a58",
-  "reviewedImplementationPatchSha256": "ee50e344cca0a7799dbc67c29363bd2e91616dd17cc89653c31e7b215ae12e6d",
+  "reviewedImplementationPatchSha256": "173dd776e1adf10619f0ba173c81973b96288bdf00c2c562048fc59e01f7b9f4",
   "patchScope": "complete staged implementation diff from implementationBase excluding this acceptance record and screenshot",
   "checks": [
     {
@@ -51,7 +51,7 @@
         "skipped": 0,
         "cancelled": 0
       },
-      "scope": "native snapshot/baseline/plan restore and R1 exact-schema backup upgrade under immutable RESTORE_HOLD; direct worker tool execution verified both cases"
+      "scope": "native immutable snapshot/baseline/plan restoration; R1 exact-schema upgrade; historical snapshot retained after later connection-route edit; insert scope guard re-enabled before recovery HOLD; 2/2 direct worker verification"
     },
     {
       "command": "node --test tests/schema-baselines.test.mjs tests/oracle-discovery.test.mjs",

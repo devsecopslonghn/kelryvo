@@ -16,7 +16,7 @@ const ORG='00000000-0000-4000-8000-000000000001';
 test('schema snapshots, baselines, and plan evidence survive native backup restore under immutable recovery hold',{skip:!enabled,timeout:180_000},async()=>{
   let stage='fixture';const fixture=await createTargetWorkflowFixture();
   const root=await mkdtemp(join(process.cwd(),'.cache','schema-backup-'));
-  let restoredSql,restoredName;
+  let restoredSql,restoredName,newRouteId;
   try {
     stage='schema initialize';await chmod(root,0o700);
     await fixture.db.sql.begin(tx=>initializeSchemaBaselines(tx));
@@ -39,6 +39,18 @@ test('schema snapshots, baselines, and plan evidence survive native backup resto
     const plan=planResponse.json().plan;
     const planEvidence=(await fixture.db.sql`SELECT snapshot_id,snapshot_digest FROM sf_plan_schema_evidence WHERE plan_id=${plan.id}`)[0];
     assert.equal(planEvidence.snapshot_id,snapshotId);assert.equal(planEvidence.snapshot_digest,schema.contentDigest);
+    await fixture.db.sql`INSERT INTO sf_workspace_database_grants(organization_id,actor_id,operator_os_uid)
+      VALUES(${ORG},${fixture.actors[0].id},${process.getuid?.()??0})`;
+    const edited=await fixture.api('POST',`/api/projects/${fixture.project.id}/database-connections/${connectionId}/configuration`,{
+      expectedRevision:'1',name:'Retargeted schema fixture connection',description:'route changed after schema snapshot',
+      host:'schema-backup-updated.example.invalid',port:1521,service:'SCHEMABACKUP2',serviceKind:'SERVICE_NAME',username:'APP',
+      credentialRef:'vault://local/schema-backup',reason:'retain prior schema observation across connection revision',
+    });
+    assert.equal(edited.statusCode,200,edited.body);
+    newRouteId=edited.json().connection.routeId;
+    assert.notEqual(newRouteId,target.route_id,'the supported configuration path creates a new route revision');
+    assert.equal((await fixture.db.sql`SELECT route_id FROM sf_schema_snapshots WHERE id=${snapshotId}`)[0].route_id,target.route_id,
+      'the retained snapshot keeps its exact historical route');
     for(const [table,column] of [['sf_schema_snapshots','reason'],['sf_schema_baselines','reason'],['sf_plan_schema_evidence','target_created_at']]) {
       await assert.rejects(()=>fixture.db.sql.unsafe(`UPDATE ${table} SET ${column}=${column} WHERE true`));
       await assert.rejects(()=>fixture.db.sql.unsafe(`DELETE FROM ${table} WHERE true`));
@@ -59,6 +71,11 @@ test('schema snapshots, baselines, and plan evidence survive native backup resto
     stage='restored evidence assertion';
     const restoredEvidence=await restoredSql`SELECT plan_id,snapshot_id,snapshot_digest FROM sf_plan_schema_evidence`;
     assert.equal(restoredEvidence.length,1);assert.equal(restoredEvidence[0].plan_id,plan.id);assert.equal(restoredEvidence[0].snapshot_id,snapshotId);assert.equal(restoredEvidence[0].snapshot_digest,schema.contentDigest);
+    const restoredConnection=(await restoredSql`SELECT route_id,revision::text AS revision FROM sf_database_connections WHERE id=${connectionId}`)[0];
+    assert.equal(restoredConnection.route_id,newRouteId);assert.equal(restoredConnection.revision,'2');
+    await assert.rejects(()=>restoredSql`INSERT INTO sf_schema_snapshots(id,organization_id,project_id,binding_id,binding_revision,assignment_revision,stream_id,route_id,connection_id,connection_revision,owner,identity,identity_digest,schema,content_digest,provenance,live_accepted,verification_acceptance,actor_id,reason)
+      SELECT gen_random_uuid(),organization_id,project_id,binding_id,binding_revision,assignment_revision,stream_id,route_id,connection_id,connection_revision,owner,identity,identity_digest,schema,content_digest,provenance,live_accepted,verification_acceptance,actor_id,reason FROM sf_schema_snapshots WHERE id=${snapshotId}`,
+    /schema snapshot target scope mismatch/,'the schema snapshot insert scope guard is re-enabled after restore');
     stage='recovery hold assertion';
     const state=(await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0];
     assert.equal(state.state,'RESTORE_HOLD');
