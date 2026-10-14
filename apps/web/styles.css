@@ -299,6 +299,11 @@ pre code {
   font-weight: 600;
 }
 
+.sidebar-project-pill strong {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
 .workspace-label {
   color: var(--nav-muted);
   font-size: 10px;
@@ -418,13 +423,15 @@ pre code {
 }
 
 .topbar {
-  height: 60px;
+  min-height: 60px;
   border-bottom: 1px solid var(--line);
   background: var(--bg-surface);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 36px;
+  flex-wrap: wrap;
+  gap: 8px;
   position: sticky;
   top: 0;
   z-index: 15;
@@ -433,6 +440,8 @@ pre code {
 
 .topbar-breadcrumbs {
   display: flex;
+  flex: 1;
+  min-width: 0;
   align-items: center;
   flex-wrap: wrap;
   gap: 2px;
@@ -462,6 +471,8 @@ pre code {
 .topbar strong {
   font-weight: 600;
   color: var(--ink);
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .topbar-right {
@@ -620,6 +631,7 @@ pre code {
   letter-spacing: -0.015em;
   margin: 0 0 6px;
   color: var(--ink);
+  overflow-wrap: anywhere;
 }
 
 .panel h3 {
@@ -653,6 +665,10 @@ pre code {
   margin-bottom: 16px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--line);
+}
+
+.panel-heading > div {
+  min-width: 0;
 }
 
 .panel-heading h2,
@@ -773,6 +789,7 @@ pre code {
   font-size: 13.5px;
   font-weight: 600;
   color: var(--ink);
+  overflow-wrap: anywhere;
 }
 
 .project-copy small {
@@ -3402,7 +3419,8 @@ td code {
     padding: 0 24px;
   }
   .workspace-grid,
-  .governance-meta-grid {
+  .governance-meta-grid,
+  .records-grid {
     grid-template-columns: 1fr;
   }
   .project-kpi-strip {
@@ -3450,20 +3468,26 @@ td code {
   .sidebar .brand {
     padding: 0 4px;
     font-size: 15px;
-    margin-right: auto;
+    width: 100%;
+    margin-bottom: 8px;
   }
   .brand-subtitle,
   .sidebar-project-pill,
-  .workspace-label,
-  .sidebar-bottom {
+  .workspace-label {
     display: none;
   }
+  .sidebar-bottom {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px 4px 0;
+  }
   .nav-item {
-    font-size: 0;
-    width: 34px;
+    font-size: 12px;
+    width: auto;
+    max-width: 100%;
     min-height: 34px;
-    justify-content: center;
-    padding: 0;
+    padding: 6px 8px;
+    gap: 6px;
   }
   .nav-item span {
     font-size: 15px;
@@ -3600,8 +3624,12 @@ td code {
 }
 
 .topbar-project-badge {
-  display: inline-flex;
-  align-items: center;
+  display: block;
+  min-width: 0;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   margin-left: 6px;
   padding: 3px 10px;
   border-radius: 999px;
