@@ -6,16 +6,17 @@ import net from 'node:net';
 import dns from 'node:dns/promises';
 import { fork } from 'node:child_process';
 import oracledb from 'oracledb';
+import { exactOracleIdentity, evidenceDigest, acceptedOracleObservation } from './evidence.mjs';
 
 const LIMITATIONS = Object.freeze({
   MANIFEST: 'ENDPOINT_NOT_AUTHORIZED', DESTINATION: 'ENDPOINT_NOT_AUTHORIZED', CREDENTIAL: 'SECRET_UNAVAILABLE',
   PERMISSION: 'INSUFFICIENT_METADATA_PRIVILEGES', SCHEMA_VISIBILITY: 'SCHEMA_VISIBILITY_LIMITED', SCHEMAS: 'INVENTORY_TRUNCATED',
-  IDENTITY: 'IDENTITY_INCOMPLETE', DISCOVERY: 'RUNTIME_UNAVAILABLE', ROOT: 'ROOT_CONTAINER_UNSUPPORTED',
+  IDENTITY: 'IDENTITY_INCOMPLETE', MISMATCH: 'IDENTITY_MISMATCH', DISCOVERY: 'RUNTIME_UNAVAILABLE', ROOT: 'ROOT_CONTAINER_UNSUPPORTED',
 });
 const SQL = Object.freeze({
   test: 'SELECT 1 AS ok FROM SYS.DUAL',
   database: `SELECT TO_CHAR(DBID) AS dbid, DB_UNIQUE_NAME AS db_unique_name, TO_CHAR(RESETLOGS_CHANGE#) AS resetlogs_change, CDB AS cdb FROM V$DATABASE`,
-  session: `SELECT SYS_CONTEXT('USERENV','CON_ID') AS container_id, SYS_CONTEXT('USERENV','CON_NAME') AS container_name, SYS_CONTEXT('USERENV','SERVICE_NAME') AS service_name FROM SYS.DUAL`,
+  session: `SELECT SYS_CONTEXT('USERENV','CON_ID') AS container_id, SYS_CONTEXT('USERENV','CON_NAME') AS container_name, SYS_CONTEXT('USERENV','SERVICE_NAME') AS service_name, SYS_CONTEXT('USERENV','SESSION_USER') AS session_user FROM SYS.DUAL`,
   container: `SELECT TO_CHAR(CON_ID) AS container_id, TO_CHAR(DBID) AS container_dbid, RAWTOHEX(GUID) AS container_guid, NAME AS container_name FROM V$CONTAINERS WHERE CON_ID = SYS_CONTEXT('USERENV','CON_ID')`,
   version: 'SELECT BANNER AS version FROM V$VERSION WHERE ROWNUM = 1',
   schemas: `SELECT U.USERNAME AS owner, CASE WHEN EXISTS (SELECT 1 FROM ALL_OBJECTS O WHERE O.OWNER = U.USERNAME) THEN 1 ELSE 0 END AS has_visible_object FROM ALL_USERS U ORDER BY U.USERNAME`,
@@ -46,7 +47,7 @@ function validatedAcceptance(value) {
 function safeResult(status, limitations = [], schemas = [], identity = null, provenance = 'UNAVAILABLE', verificationAcceptance = null) {
   if (!OUTPUT_STATUSES.includes(status)) status = 'UNAVAILABLE';
   return { status, identity, schemas: schemas.slice(0, 501), limitations: [...new Set(limitations)].filter(x => Object.values(LIMITATIONS).includes(x)), provenance,
-    verificationAcceptance:provenance==='ORACLE_READ_ONLY'?validatedAcceptance(verificationAcceptance):null };
+    verificationAcceptance:provenance==='ORACLE_READ_ONLY' && acceptedOracleObservation(identity,verificationAcceptance)?verificationAcceptance:null };
 }
 
 async function readSecureJson(file, { maxBytes = 65536, directory = false } = {}) {
@@ -86,16 +87,26 @@ async function authorize(manifestPath, secretDirectory, c) {
   try { manifest = await readSecureJson(manifestPath); } catch { return null; }
   if (manifest?.readOnly !== true || manifest?.disposable !== true || !cleanText(manifest?.authorizationId)
       || !/^[A-Za-z0-9_.:-]{1,128}$/.test(manifest.authorizationId)
+      || typeof manifest.expiresAt!=='string' || manifest.expiresAt.length>24 || !Number.isFinite(Date.parse(manifest.expiresAt))
+      || new Date(manifest.expiresAt).toISOString()!==manifest.expiresAt || Date.parse(manifest.expiresAt)<=Date.now()
       || !Array.isArray(manifest.targets) || manifest.targets.length > 64
-      || Object.keys(manifest).some(k=>!['readOnly','disposable','authorizationId','targets'].includes(k))) return null;
+      || Object.keys(manifest).some(k=>!['readOnly','disposable','authorizationId','expiresAt','targets'].includes(k))) return null;
   const matches=manifest.targets.filter(x=>entryMatches(x,c));
   if (matches.length>1) return null;
   const e=matches[0];
-  if (e && Object.keys(e).some(k=>!['engine','host','port','service','transport','username','credentialRef','pinnedIps','secretFile','liveAcceptance'].includes(k))) return null;
+  if (e && Object.keys(e).some(k=>!['engine','host','port','service','transport','username','credentialRef','pinnedIps','secretFile','liveAcceptance','expectedIdentity','acceptedSchemaOwners','serverCertificateDN'].includes(k))) return null;
   if (!e || !Array.isArray(e.pinnedIps) || !e.pinnedIps.length || e.pinnedIps.length > 16
       || e.pinnedIps.some(ip => net.isIP(ip) === 0) || !/^[A-Za-z0-9_.-]{1,128}$/.test(e.secretFile)) return null;
+  if(e.serverCertificateDN!==undefined && (normalizedTransport(c.transport)!=='tcps' || !nonEmpty(e.serverCertificateDN)))return null;
   const liveAcceptance=e.liveAcceptance===undefined?null:validatedAcceptance(e.liveAcceptance);
   if(e.liveAcceptance!==undefined && !liveAcceptance)return null;
+  const expectedIdentity=e.expectedIdentity===undefined?null:exactOracleIdentity(e.expectedIdentity);
+  if(e.expectedIdentity!==undefined && (!expectedIdentity || Object.keys(expectedIdentity).sort().join(',')!==Object.keys(e.expectedIdentity).sort().join(',')) || liveAcceptance && !expectedIdentity)return null;
+  const schemaOwners=e.acceptedSchemaOwners;
+  if((schemaOwners!==undefined || liveAcceptance) && (!Array.isArray(schemaOwners) || !schemaOwners.length || schemaOwners.length>500
+    || schemaOwners.some(owner=>!nonEmpty(owner) || owner.length>128) || new Set(schemaOwners).size!==schemaOwners.length))return null;
+  const acceptance=liveAcceptance ? {...liveAcceptance,expectedIdentityDigest:evidenceDigest(expectedIdentity),manifestDigest:evidenceDigest(manifest),
+    targetConfigDigest:evidenceDigest({engine:c.engine,host:c.host,port:c.port,service:c.service,transport:normalizedTransport(c.transport),username:c.username,credentialRef:c.credentialRef}),schemaOwners:[...schemaOwners]} : null;
   let ipList;
   if (net.isIP(c.host)) ipList = [{ address:c.host }];
   else { try { ipList = await dns.lookup(c.host, { all:true, verbatim:true }); } catch { return { destination:false }; } }
@@ -110,7 +121,7 @@ async function authorize(manifestPath, secretDirectory, c) {
       if (!st.isFile() || !secureMode(st.mode) || st.size > 8192 || (st.uid !== process.getuid?.() && st.uid !== 0)) return null;
       const password = (await handle.readFile({encoding:'utf8'})).replace(/[\r\n]+$/, '');
       if (!password || password.length > 4096 || /[\u0000\r\n]/.test(password)) return null;
-      return { destination:true, password, pinnedIps:e.pinnedIps, liveAcceptance };
+      return { destination:true, password, pinnedIps:e.pinnedIps, liveAcceptance:acceptance, expectedIdentity, serverCertificateDN:e.serverCertificateDN };
     } finally { await handle.close(); }
   } catch { return { credential:false }; }
 }
@@ -200,11 +211,12 @@ export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, dr
       const pinnedAddress=net.isIP(authorization.pinnedIps[0])===6?`[${authorization.pinnedIps[0]}]`:authorization.pinnedIps[0];
       const connectString = `${transport==='tcps'?'tcps://':''}${pinnedAddress}:${connection.port}/${connection.service}`;
       const callBudget = Math.max(250, Math.floor(timeoutMs/8));
-      conn = await selectedDriver.getConnection({ user:connection.username, password:authorization.password, connectString, connectTimeout:Math.min(5,Math.floor(timeoutMs/1000)), transportConnectTimeout:Math.min(5,Math.floor(timeoutMs/1000)) });
+      conn = await selectedDriver.getConnection({ user:connection.username, password:authorization.password, connectString, connectTimeout:Math.min(5,Math.floor(timeoutMs/1000)), transportConnectTimeout:Math.min(5,Math.floor(timeoutMs/1000)),
+        ...(transport==='tcps'?{sslServerDNMatch:true,sslAllowWeakDNMatch:false,...(authorization.serverCertificateDN?{sslServerCertDN:authorization.serverCertificateDN}:{})}:{}) });
       conn.callTimeout = callBudget;
       const test = one(await conn.execute(SQL.test,{}, { autoCommit:false, outFormat:selectedDriver.OUT_FORMAT_OBJECT, maxRows:1 }));
       if (!test || Number(test.ok) !== 1) return safeResult('UNAVAILABLE',[LIMITATIONS.DISCOVERY]);
-      if (operation === 'TEST') return safeResult('CONNECTED',[],[],null,'ORACLE_READ_ONLY');
+      if (operation === 'TEST') return safeResult('CONNECTED',[],[],null,injected?'FIXTURE':'ORACLE_READ_ONLY');
       let db, session, container, version, schemas;
       const run = async (sql, binds = {}, maxRows = 501) => conn.execute(sql,binds,{ autoCommit:false,outFormat:selectedDriver.OUT_FORMAT_OBJECT,maxRows,fetchArraySize:501 });
       const read = async (sql, maxRows=1) => { try { return await run(sql,{},maxRows); } catch { return null; } };
@@ -215,14 +227,16 @@ export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, dr
       if (!db || !session || !version) limitations.push(LIMITATIONS.PERMISSION);
       if (!ident && parsed.root) limitations.push(LIMITATIONS.ROOT);
       else if (!ident) limitations.push(LIMITATIONS.IDENTITY);
-      const schemaRows=Array.isArray(schemas?.rows) ? schemas.rows.slice(0,501).map(row).filter(x=>nonEmpty(x.owner)).map(x=>({ owner:x.owner, accessible:x.owner===connection.username ? true : Number(x.has_visible_object)===1 ? true : null })) : [];
+      if (ident && authorization.expectedIdentity && evidenceDigest(exactOracleIdentity(ident))!==evidenceDigest(authorization.expectedIdentity)) limitations.push(LIMITATIONS.MISMATCH);
+      const sessionUser=one(session)?.session_user;
+      const schemaRows=Array.isArray(schemas?.rows) ? schemas.rows.slice(0,501).map(row).filter(x=>nonEmpty(x.owner)).map(x=>({ owner:x.owner, accessible:x.owner===sessionUser ? true : Number(x.has_visible_object)===1 ? true : null })) : [];
       if (!schemas || schemaRows.some(s=>s.accessible === null)) limitations.push(LIMITATIONS.SCHEMA_VISIBILITY);
       if (schemaRows.length > 500) { schemaRows.length=500; limitations.push(LIMITATIONS.SCHEMAS); }
       const status = ident && !limitations.length ? 'OBSERVED' : 'PARTIAL';
-      const ownSchemaObserved=schemaRows.some(s=>s.owner===connection.username && s.accessible===true);
+      const ownSchemaObserved=nonEmpty(sessionUser) && schemaRows.some(s=>s.owner===sessionUser && s.accessible===true);
       const onlyVisibilityLimited=limitations.every(code=>code===LIMITATIONS.SCHEMA_VISIBILITY);
       const accepted=isolated && !injected && ident && ownSchemaObserved && onlyVisibilityLimited ? authorization.liveAcceptance : null;
-      return safeResult(status,limitations,schemaRows,ident,'ORACLE_READ_ONLY',accepted);
+      return safeResult(status,limitations,schemaRows,ident,injected?'FIXTURE':'ORACLE_READ_ONLY',accepted);
     } catch (e) {
       const code=errCode(e);
       if (timedOut || signal?.aborted) return safeResult('TIMEOUT');

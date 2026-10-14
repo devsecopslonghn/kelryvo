@@ -1,6 +1,7 @@
 import { guardMutationAuthority } from '../database/mutation-authority.ts';
 import { ORG } from '../targets/index.ts';
 import { credentialAlias } from '../targets/public.mjs';
+import { acceptedOracleObservation } from './evidence.mjs';
 
 const uuid=(v:any)=>typeof v==='string' && /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][0-9a-f]{3}-[a-f0-9]{12}$/i.test(v);
 const revision=(v:any)=>typeof v==='string' && /^[1-9][0-9]{0,18}$/.test(v) && BigInt(v)<9223372036854775807n;
@@ -23,7 +24,7 @@ export async function profilePlanCurrent(tx:any,planId:string) {
   return !!(r?.current && r.enabled && !r.retired_at && r.service_kind==='SERVICE_NAME');
 }
 
-export async function connectionReadiness(tx:any,c:any,kind:string) {
+export async function connectionReadiness(tx:any,c:any,kind:string,projectId?:string) {
   const metadata=kind==='DISCOVERY'
     ? !!(await tx`SELECT 1 FROM sf_reference_services r JOIN sf_reference_containers t ON t.id=r.container_id
         WHERE r.id=${c.route_id} AND t.id=${c.container_id} AND t.kind IN ('PDB','NON_CDB')`)[0]
@@ -35,13 +36,23 @@ export async function connectionReadiness(tx:any,c:any,kind:string) {
     {code:'REVISION_CURRENT',passed:BigInt(c.revision)>0n},{code:'LIFECYCLE_ELIGIBLE',passed:c.enabled && !c.retired_at}];
   const stored=(await tx`SELECT state FROM sf_connection_preflights WHERE kind=${kind} AND resource_id=${c.id} AND revision=${c.revision}
     ORDER BY created_at DESC,id DESC LIMIT 1`)[0];
-  const observed=kind==='DISCOVERY' && (await tx`SELECT status,provenance,expires_at>clock_timestamp() AS fresh FROM sf_database_observations
+  const observed=kind==='DISCOVERY' && (await tx`SELECT status,provenance,observed_at,limitations,expires_at>clock_timestamp() AS fresh FROM sf_database_observations
     WHERE connection_id=${c.id} AND connection_revision=${c.revision} ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
+  const discovery=kind==='DISCOVERY' && (await tx`SELECT identity,schemas,verification_acceptance,limitations,provenance,expires_at>clock_timestamp() AS fresh
+    FROM sf_database_observations WHERE connection_id=${c.id} AND connection_revision=${c.revision} AND operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
+  const assigned=kind==='DISCOVERY' && projectId ? await tx`SELECT s.exact_owner FROM sf_reference_schemas s JOIN sf_reference_assignments a ON a.schema_id=s.id
+    WHERE s.container_id=${c.container_id} AND a.project_id=${projectId} AND a.closed_at IS NULL` : [];
+  const identityAccepted=discovery?.provenance==='ORACLE_READ_ONLY' && discovery.limitations.every((code:string)=>code==='SCHEMA_VISIBILITY_LIMITED')
+    && assigned.some((r:any)=>acceptedOracleObservation(discovery.identity,discovery.verification_acceptance,r.exact_owner)
+      && discovery.schemas.some((s:any)=>s.owner===r.exact_owner && s.accessible===true));
   const eligible=checks.every(check=>check.passed);
-  const verified=eligible && observed?.fresh && observed.provenance==='ORACLE_READ_ONLY' && ['CONNECTED','OBSERVED','PARTIAL'].includes(observed.status);
+  const connected=eligible && observed?.fresh && observed.provenance==='ORACLE_READ_ONLY' && ['CONNECTED','OBSERVED','PARTIAL'].includes(observed.status);
+  const verified=connected && discovery?.fresh && identityAccepted;
   const failed=observed?.fresh && ['UNREACHABLE','UNAUTHORIZED','MISCONFIGURED','TIMEOUT'].includes(observed.status);
-  return {state:verified?'CONNECTED_VERIFIED':!eligible || failed?'FAILED':observed && !['CONNECTED','OBSERVED','PARTIAL'].includes(observed.status)?'UNVERIFIED':stored?.state==='PREFLIGHT_PASSED'?'PREFLIGHT_PASSED':'CONFIGURED',
-    checks,limitations:[...(metadata?[]:['TARGET_METADATA_REQUIRES_OPERATOR_CONFIGURATION']),
+  return {state:verified?'CONNECTED_VERIFIED':!eligible || failed?'FAILED':connected?'CONNECTED':observed && !['CONNECTED','OBSERVED','PARTIAL'].includes(observed.status)?'UNVERIFIED':stored?.state==='PREFLIGHT_PASSED'?'PREFLIGHT_PASSED':'CONFIGURED',
+    configurationValid:eligible,connectivityStatus:observed ? observed.fresh ? observed.status : 'STALE' : 'NOT_RUN',lastCheckedAt:observed?.observed_at??null,
+    identityState:!discovery?'NOT_OBSERVED':discovery.limitations.includes('IDENTITY_MISMATCH')?'CONFLICT':!eligible || !discovery.fresh?'STALE':!discovery.identity?'UNKNOWN':identityAccepted?'VERIFIED':'OBSERVED',
+    checks,limitations:[...(observed?.limitations??[]),...(metadata?[]:['TARGET_METADATA_REQUIRES_OPERATOR_CONFIGURATION']),
       ...(c.service_kind==='SID'?['SID_RUNTIME_UNSUPPORTED']:[]),'PREFLIGHT_DOES_NOT_CONNECT_TO_ORACLE',
       ...(verified?[]:['ORACLE_ACCESS_UNVERIFIED','CREDENTIAL_REFERENCE_REQUIRES_TRUSTED_OPERATOR'])]};
 }
@@ -103,7 +114,7 @@ export function registerConnectionManagement(app:any,{sql,authenticate}:any) {
         ? await tx`SELECT id,name FROM sf_environments WHERE project_id=${req.params.projectId}`
         : await tx`SELECT id,environment AS name FROM sf_reference_containers WHERE id=${c.container_id}`;
       return {connection:publicConnection(c,kind),revisions:rows.map((r:any)=>({...publicConnection(r.configuration,kind),createdAt:r.created_at})),
-        readiness:await connectionReadiness(tx,c,kind),canManage,related:{projects:[{id:req.params.projectId,name:project.name}],schemas,environments}};
+        readiness:await connectionReadiness(tx,c,kind,req.params.projectId),canManage,related:{projects:[{id:req.params.projectId,name:project.name}],schemas,environments}};
     });
     for(const operation of ['configuration','lifecycle','preflight']) route('post',`${base}/${operation}`,async(tx:any,req:any)=>{
       const b=req.body;
@@ -113,7 +124,7 @@ export function registerConnectionManagement(app:any,{sql,authenticate}:any) {
       const {c}=await guard(tx,req,true);
       if(String(c.revision)!==b.expectedRevision)throw fail('CONNECTION_REVISION_CONFLICT');
       if(operation==='preflight'){
-        const readiness=await connectionReadiness(tx,c,kind),passed=readiness.checks.every(check=>check.passed);
+        const readiness=await connectionReadiness(tx,c,kind,req.params.projectId),passed=readiness.checks.every(check=>check.passed);
         await tx`INSERT INTO sf_connection_preflights(kind,resource_id,revision,state,checks,actor_id,reason)
           VALUES(${kind},${c.id},${c.revision},${passed?'PREFLIGHT_PASSED':'FAILED'},${tx.json(readiness.checks)},${req.actor.id},${b.reason.trim()})`;
         await audit(tx,req,c,'CONNECTION_PREFLIGHT_CHECKED',{state:passed?'PREFLIGHT_PASSED':'FAILED'});

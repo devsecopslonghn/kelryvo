@@ -1,6 +1,7 @@
 import { acquireTargetLocks } from './locks.ts';
 import { randomUUID } from 'node:crypto';
 import { initializeTargetSchema as initializeTargetSchemaTx } from './schema.ts';
+import { acceptedOracleObservation } from '../connectivity/evidence.mjs';
 
 export const ORG = '00000000-0000-4000-8000-000000000001';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -472,13 +473,16 @@ export async function checkTargetCurrentness(tx: any, projectId: string, target:
   }
   if(target.identityState!=='PROVISIONAL' && target.observationDigest) {
     const evidence=(await tx`SELECT e.identity_digest,e.observation_id,e.assignment_revision::text AS assignment_revision,e.assignment_id,e.route_id,
-      o.expires_at>clock_timestamp() AS fresh,c.retired_at,c.enabled,c.revision IS DISTINCT FROM o.connection_revision AS connection_changed,
+      o.identity,o.provenance,o.verification_acceptance,o.limitations,o.expires_at>clock_timestamp() AS fresh,c.retired_at,c.enabled,c.revision IS DISTINCT FROM o.connection_revision AS connection_changed,
       (SELECT id FROM sf_database_observations latest WHERE latest.connection_id=e.connection_id AND latest.operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1) AS latest_observation_id,
       (SELECT identity_digest FROM sf_database_observations latest WHERE latest.connection_id=e.connection_id AND latest.operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1) AS latest_identity
       FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id JOIN sf_database_connections c ON c.id=e.connection_id
       WHERE e.digest=${target.observationDigest} AND e.project_id=${projectId}`)[0];
     if(!evidence)reasons.push('INTEGRITY_UNAVAILABLE');
     else {
+      if(evidence.limitations.includes('IDENTITY_MISMATCH'))reasons.push('OBSERVATION_CONFLICT');
+      if(target.identityState==='VERIFIED' && (evidence.provenance!=='ORACLE_READ_ONLY' || !acceptedOracleObservation(evidence.identity,evidence.verification_acceptance,target.exactOwner)
+        || evidence.limitations.some((code:string)=>code!=='SCHEMA_VISIBILITY_LIMITED')))reasons.push('LIVE_VERIFICATION_UNACCEPTED');
       if(!evidence.fresh)reasons.push('OBSERVATION_STALE');
       if(evidence.retired_at)reasons.push('CONNECTION_RETIRED');
       if(evidence.connection_changed || !evidence.enabled)reasons.push('CONNECTION_REVISION_CHANGED');
