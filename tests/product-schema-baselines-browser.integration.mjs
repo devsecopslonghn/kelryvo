@@ -147,3 +147,67 @@ test('schema navigation scopes migration history to the exact binding and preser
     assert.deepEqual(errors,[]);assert.equal(Number((await f.db.sql`SELECT count(*)::integer AS count FROM sf_execution_jobs`)[0].count),0);
   }finally{await browser?.close();await f.close();}
 });
+
+test('browser filters bounded retained objects without changing evidence and distinguishes same-named comparison references',{
+  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:180000,
+},async()=>{
+  const f=await createSchemaFixture();let browser;
+  try {
+    const objects=[...Array.from({length:995},(_,i)=>object(`Table_${String(i).padStart(4,'0')}`)),
+      object('Orders'),object('orders'),object('Orders_%','VIEW',{text:'SELECT Id FROM Orders'}),
+      object('Empty%[]'),object('SequenceForOrders','SEQUENCE',{increment:'1'})];
+    f.setSchema({owner:'APP',objects,coverage:{...completeCoverage,VIEW:'PARTIAL'},limitations:['MULTI_QUERY_CONSISTENCY_UNGUARANTEED']});
+    const first=(await f.observe()).json().snapshot;
+    assert.equal(first.schema.objects.length,1000);const original=JSON.stringify(first.schema);
+    f.setSchema({owner:'APP',objects:objects.map(row=>row.name==='SequenceForOrders'?object('SequenceForOrders','SEQUENCE',{increment:'2'}):row),
+      coverage:{...completeCoverage,VIEW:'PARTIAL'},limitations:['MULTI_QUERY_CONSISTENCY_UNGUARANTEED']});
+    const second=(await f.observe()).json().snapshot;
+    assert.equal((await f.api('POST',`${f.base}/schema-baselines`,{snapshotId:second.id,name:'Shared expected',reason:'Second immutable reference'})).statusCode,201);
+    browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+    const signIn=async actor=>{await page.goto(f.currentUrl());await page.getByLabel('Local access token').fill(actor.token);
+      await page.getByRole('button',{name:'Continue',exact:true}).click();await page.getByLabel('Sign out').waitFor();
+      await page.getByRole('button',{name:/Projects/}).click();await page.locator('.project-row').filter({hasText:f.project.name}).click();
+      await page.getByRole('button',{name:/Schema baselines & drift/}).click();};
+    await signIn(f.actors[0]);const schema=page.getByRole('region',{name:'Schema baselines and drift'});
+    await schema.locator('.schema-snapshot-list').getByRole('button',{name:first.id,exact:true}).click();
+    const snapshot=page.getByRole('region',{name:'Schema snapshot detail'});await snapshot.getByText('Showing 1000 of 1000 retained objects.',{exact:true}).waitFor();
+    const search=snapshot.getByLabel('Search retained objects'),type=snapshot.getByLabel('Filter retained objects by type'),rows=snapshot.locator('tbody tr');
+    await search.fill('aPp.OrDeRs');await snapshot.getByText('Showing 3 of 1000 retained objects.',{exact:true}).waitFor();
+    await type.selectOption('TABLE');await snapshot.getByText('Showing 2 of 1000 retained objects.',{exact:true}).waitFor();
+    assert.deepEqual(await rows.locator('td:nth-child(3)').allTextContents(),['Orders','orders']);
+    await rows.first().getByText('Definition and metadata',{exact:true}).click();
+    const orders=first.schema.objects.find(row=>row.name==='Orders');assert.ok((await rows.first().innerText()).includes(orders.checksum));assert.match(await rows.first().innerText(),/NUMBER/);
+    await search.fill('Orders_%');await snapshot.getByText('Showing 0 of 1000 retained objects.',{exact:true}).waitFor();
+    await snapshot.getByText('No retained objects match these filters. This filtered view does not establish schema absence.',{exact:true}).waitFor();
+    await type.selectOption('ALL');await snapshot.getByText('Showing 1 of 1000 retained objects.',{exact:true}).waitFor();assert.equal(await rows.locator('td:nth-child(3)').innerText(),'Orders_%');
+    await snapshot.getByRole('button',{name:'Clear object filters',exact:true}).click();await snapshot.getByText('Showing 1000 of 1000 retained objects.',{exact:true}).waitFor();
+    await search.fill('orders');await type.selectOption('TABLE');
+    await snapshot.getByLabel('Baseline name').fill('Shared expected');await snapshot.getByLabel('Capture reason').fill('Capture entire retained snapshot while the view is filtered');
+    const captureRequest=page.waitForRequest(r=>r.method()==='POST'&&r.url().endsWith('/schema-baselines'));
+    await snapshot.getByRole('button',{name:'Capture immutable baseline',exact:true}).click();assert.equal((await captureRequest).postDataJSON().snapshotId,first.id);
+    const references=schema.getByLabel('Expected reference');await references.locator('option').filter({hasText:'Baseline · Shared expected'}).filter({hasText:first.id}).waitFor({state:'attached'});
+    const baselineLabels=await references.locator('option').filter({hasText:'Baseline · Shared expected'}).allTextContents();
+    assert.equal(baselineLabels.length,2);assert.notEqual(baselineLabels[0],baselineLabels[1]);assert.ok(baselineLabels.some(label=>label.includes(first.id)));assert.ok(baselineLabels.some(label=>label.includes(second.id)));
+    assert.match(baselineLabels[0],/\d{4}-\d{2}-\d{2}T/);
+    assert.ok((await references.locator('option').filter({hasText:'Snapshot ·'}).allTextContents()).some(label=>label.includes(first.id)));
+    const comparison=schema.getByRole('region',{name:'Compare schema snapshots'});
+    await comparison.getByLabel('Observed snapshot').selectOption(second.id);
+    for(const expectedId of [first.id,second.id]) {
+      await references.selectOption(expectedId);const response=page.waitForResponse(r=>r.url().includes(`/schema-comparison?expected=${expectedId}&observed=${second.id}`));
+      await comparison.getByRole('button',{name:'Compare',exact:true}).click();const body=await (await response).json();
+      assert.equal(body.expected.id,expectedId);assert.equal(body.observed.id,second.id);assert.equal(body.executionAuthority,false);
+      await comparison.getByText(expectedId,{exact:true}).first().waitFor();assert.match(await comparison.innerText(),/UNVERIFIED|MULTI_QUERY/);
+    }
+    // Snapshot changes start a fresh view, even when the previous table was filtered.
+    await schema.locator('.schema-snapshot-list').getByRole('button',{name:first.id,exact:true}).click();await snapshot.waitFor();
+    await snapshot.getByLabel('Search retained objects').fill('orders');await snapshot.getByLabel('Filter retained objects by type').selectOption('VIEW');
+    await schema.locator('.schema-snapshot-list').getByRole('button',{name:second.id,exact:true}).click();await snapshot.getByText('Showing 1000 of 1000 retained objects.',{exact:true}).waitFor();
+    assert.equal(await snapshot.getByLabel('Search retained objects').inputValue(),'');assert.equal(await snapshot.getByLabel('Filter retained objects by type').inputValue(),'ALL');
+    await snapshot.getByLabel('Search retained objects').fill('orders');await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+    assert.equal(JSON.stringify((await f.api('GET',`${f.base}/schema-snapshots/${first.id}`)).json().snapshot.schema),original);
+    const baselines=(await f.api('GET',`${f.base}/target-bindings/${f.binding.bindingId}/schema`)).json().baselines;
+    assert.equal(baselines.length,2);assert.ok(baselines.some(row=>row.snapshotId===first.id));assert.ok(baselines.some(row=>row.snapshotId===second.id));
+    assert.equal((await f.api('GET',`${f.base}/schema-snapshots/${first.id}`,undefined,f.actors[2])).statusCode,404);
+    assert.deepEqual(errors,[]);assert.equal(Number((await f.db.sql`SELECT count(*)::integer AS count FROM sf_execution_jobs`)[0].count),0);
+  }finally{await browser?.close();await f.close();}
+});
