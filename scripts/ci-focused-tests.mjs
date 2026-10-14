@@ -62,7 +62,8 @@ export function selectFocusedTests(paths) {
 export async function runFocusedTests(files, env = process.env) {
   if (!Array.isArray(files) || !files.length || files.some(file => !allFiles.has(file) || !existsSync(file))) throw new Error('Invalid focused test selection');
   if (!env.SCHEMAFORGE_TEST_DATABASE_URL || env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS !== '1'
-      || !existsSync('experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar')) throw new Error('Focused tests require PostgreSQL and the built parser');
+      || !existsSync('experiments/db-devops-wp0/antlr-helper/target/schemaforge-antlr-parser.jar')
+      || !existsSync('dist/web/index.html') || !existsSync('dist/web/app.js')) throw new Error('Focused tests require PostgreSQL, the built parser and web bundle');
   const { prepareDemoRepository } = await import('./local-resources.mjs');
   const demo = await prepareDemoRepository();
   console.log(`Focused tests: ${files.join(', ')}`);

@@ -27,11 +27,24 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
       - id: select
         name: Select affected security and data boundaries
         run: node scripts/ci-focused-tests.mjs
         env:
           CI_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+      - if: steps.select.outputs.needed == 'true'
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - if: steps.select.outputs.needed == 'true'
+        run: npm run build:web
+      - if: steps.select.outputs.needed == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: focused-web-${{ github.sha }}-${{ github.run_attempt }}
+          path: dist/web
+          if-no-files-found: error
+          retention-days: 1
 
   focused:
     needs: changes
@@ -66,9 +79,13 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci --ignore-scripts --no-audit --no-fund
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: focused-web-${{ github.sha }}-${{ github.run_attempt }}
+          path: dist/web
       - run: npm run parser:antlr:prepare
       - run: npm run parser:antlr:build
-      - name: Run selected PostgreSQL or parser tests (no browser rebuild)
+      - name: Run selected PostgreSQL or parser tests with the shared web build
         run: node scripts/ci-focused-tests.mjs --run
         env:
           CI_TEST_FILES: ${{ toJSON(matrix.files) }}
