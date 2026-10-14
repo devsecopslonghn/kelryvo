@@ -216,8 +216,8 @@ export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, dr
     try {
       const authorization = await authorize(manifestPath, secretDirectory, connection);
       if (!authorization) return safeResult('UNAUTHORIZED',[LIMITATIONS.MANIFEST]);
-      if (!authorization.destination) return safeResult('UNAUTHORIZED',[LIMITATIONS.DESTINATION]);
       if (authorization.credential===false) return safeResult('UNAUTHORIZED',[LIMITATIONS.CREDENTIAL]);
+      if (!authorization.destination) return safeResult('UNAUTHORIZED',[LIMITATIONS.DESTINATION]);
       if (selectedDriver?.versionString !== '7.0.1' || selectedDriver?.thin !== true || typeof selectedDriver.getConnection !== 'function') return safeResult('UNAVAILABLE',[LIMITATIONS.DISCOVERY]);
       if (isolated) restoreSocketAllowlist=installSocketAllowlist(authorization.pinnedIps,connection.port);
       const transport=normalizedTransport(connection.transport);
