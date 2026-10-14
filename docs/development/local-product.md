@@ -1491,6 +1491,14 @@ the search and status filters and reset the cursor traversal.
 
 R2 extends the same opt-in Oracle discovery adapter. The default runtime returns unavailable evidence. `SCHEMA` is an internal runtime operation with a bound exact owner, using only fixed SELECTs against `ALL_TABLES`, `ALL_TAB_COLUMNS`, `ALL_CONSTRAINTS`, `ALL_CONS_COLUMNS`, `ALL_VIEWS`, `ALL_SEQUENCES`, `ALL_INDEXES`, `ALL_IND_COLUMNS` and `ALL_DEPENDENCIES`. The existing endpoint manifest, child-process timeout, pinned network destinations, transport checks and discovery-secret boundary apply. A configured runtime is not accepted Oracle evidence.
 
+The snapshot detail table supports local literal owner/name search and type filtering over
+the bounded retained objects. Counts describe the filtered view; no matches do not establish
+schema absence. Clearing restores every retained object, and opening a different snapshot
+resets the filters. Expanded definitions show their retained object SHA-256. Baseline capture
+uses the entire selected snapshot regardless of the view filters. Comparison choices distinguish
+named baselines from raw observations with timestamps and full snapshot IDs, including when
+names repeat; comparison identity remains the retained snapshot.
+
 Collection limits are 2,001 fetched rows per query (2,000 retained), 1,000 normalized objects and roughly 1 MiB of object payload. API collection has a deadline of at most ten seconds and at most two in-flight discovery operations per application; the same connection cannot overlap. Object/byte bounds, unsupported definitions, partition definitions, privileges and owner visibility downgrade completeness. Only the session's exact owner can have complete dictionary visibility. Multi-query collection explicitly lacks a catalog consistency witness; comparison remains UNVERIFIED even when all queries succeeded. Sequence values exclude volatile `LAST_NUMBER`. CHECK expressions and column defaults are structural evidence; no DDL or user SQL is executed.
 
 Project-scoped APIs:
