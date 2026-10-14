@@ -1357,6 +1357,16 @@ part of connection management.
 
 ## Schema-aware SQL validation and planning
 
+New validation reports include per-statement `catalogReferences`: exact owner/name/role,
+retained snapshot ID, observation state, and matching object types/checksums. These are
+structural observations only; missing matches stay `UNKNOWN`, foreign owners are
+`OUT_OF_SCOPE`, an observed identity mismatch is `IDENTITY_MISMATCH`, and statements
+with database links use `LINK_SCOPE_UNVERIFIED` and withhold local matches. Coverage,
+provenance and limitations remain in the retained snapshot summary. Object definitions
+and unrelated catalog objects are excluded from validation records. `objectCheck` and
+Oracle semantics remain unverified; the fields grant no execution authority and do not
+simulate statement order. Historical reports without this field remain readable.
+
 Inspect a retained release under **Releases**, choose **Validation target**, and select
 **Validate against target**. The API verifies retained source bytes, reuses the pinned
 Oracle parser and records deterministic, immutable validation evidence. The result
