@@ -1,51 +1,16 @@
-# schemaForge (SchemaForge, provisional)
+# Kelryvo
 
-SchemaForge is a source-available, self-hosted Database DevOps platform, free for internal use,
-for centralized database management, Git-driven schema migrations, approvals, audit and
-reliable execution. Oracle-first, multi-database-ready is the product goal.
+Kelryvo is a self-hosted, Oracle-first Database DevOps platform. The runnable product combines a TypeScript/Fastify API, React browser app and PostgreSQL metadata.
 
-The repository contains a runnable local governance application: a TypeScript/Fastify API,
-React web app and persistent PostgreSQL metadata. Manage projects/environments and
-credential-reference profiles, import local Git releases, validate SQL with the existing
-ANTLR parser, prepare offline candidate plans, approve/reject independently, and inspect
-audit and migration history. Approved plans can create durable deployment requests;
-the coordinator safety kernel is tested with UNIT adapters. Oracle migration execution
-remains `NOT_EXECUTED` without an authorized target and trusted worker.
-The [controlled execution guide](docs/development/controlled-execution.md) covers
-live governance preflight, target-bound worker admission, statement history,
-durable HOLD evidence and independent reconciliation review. Oracle runtime
-acceptance remains unverified and HOLD never enables automatic replay.
-The [runtime readiness guide](docs/development/runtime-readiness.md) documents secure
-local startup, fixed lifecycle diagnostics and continuous HTTPS browser acceptance.
-The [disposable Oracle suite](docs/development/oracle-acceptance.md) records the
-remaining authorization and live-evidence requirements.
-The SQL Workspace saves project and target-scoped drafts with immutable revisions,
-compares saved SQL, and reuses offline syntax and risk review. Unsaved editor context survives
-project tabs; save or explicit discard protects draft/project changes. Release preparation
-retries reuse verified immutable source. Plan review matches exact statements across
-reordering, labels ambiguous replacements, and attaches immutable candidate statement refs.
-Preparing a release creates an isolated authored Git snapshot; it does not commit to the bound repository. Existing
-immutable plans, independent approvals and request controls remain in force. Migration
-history consolidates recorded plans, decisions, requests, ledger entries and audit facts
-with filtering and links to retained source and statement evidence. Historical events and
-current plan/request status are labelled separately; stable cursors preserve page position
-while current totals and status filters reflect live metadata. Selected object IDs
-survive refresh in the URL; SQL and credentials are not written to browser storage.
-The engineering foundation and all WP0 experiments/evidence remain preserved.
-Database instances & connections manages deployment profiles and discovery connections
-with revision history, credential aliases, offline preflight and reasoned lifecycle actions.
-Configuration changes invalidate dependent plans without changing retained approvals or
-target facts. [Connection management](docs/development/local-product.md#database-connection-management)
-documents permissions, API contracts and Oracle verification limits.
-Independently authored code is licensed under [PolyForm Shield 1.0.0](LICENSE): internal
-use is permitted; using it to provide competing products/services is restricted by the
-license. Noncompeting paid consulting/support is not categorically prohibited.
-Third-party components retain their own grants and notices. See
-[license scope and provisional naming](docs/product/license-and-naming.md).
+**Start with [product requirements, current capabilities and roadmap](docs/product/KELYRVO_PRODUCT_REQUIREMENTS.md).** It is the authoritative product document, reconciled through Phase 14 PR #93. The [next-session entry](docs/implementation/CURRENT.md) links the implementation and safety guides.
+
+Today you can configure projects, environments and revisioned connections; manage assigned schema targets; import immutable local Git releases or author SQL drafts; validate and compare SQL offline; prepare target-bound plans; review independently; request/cancel deployment; and inspect retained audit/history and checksummed records. Backups, restore hold, secure HTTPS sessions and reproducible local source installation are integrated.
+
+Live Oracle connectivity, discovery and DDL execution remain **unverified**. Configuration preflight and fixture/synthetic evidence never certify Oracle effects. Without separately authorized target evidence and trusted worker installation, requests stay non-executable. The next milestone is verified **read-only Oracle onboarding**, with its explicit entry gate and acceptance criteria in the roadmap.
 
 ## Development
 
-Install Node 22.23.3 and Python 3.11+ (for native TOML validation), then:
+Use Node 22.23.3, npm 10.9.9 and Python 3.11+:
 
 ```sh
 npm ci --ignore-scripts --no-audit --no-fund
@@ -54,83 +19,45 @@ npm run status
 npm run next
 ```
 
-After dependency installation, no database credentials or network are needed for checks.
-`npm run check:fast` runs the same offline gates with one source scan. See the
-[testing guide](docs/development/testing.md) for focused reruns, CI tiers,
-measured timings and deliberately consolidated acceptance coverage.
-They verify authored source, JSON formatting, immutable input digests, tracker invariants,
-offline preflight, dependency imports/compiler behavior and candidate protocol contracts.
-The build checks authored source and API types, and bundles the React application.
-[CONTRIBUTING.md](CONTRIBUTING.md) documents conventions and CI limits.
+Offline checks need no database credentials; optional database/parser cases may skip. [Testing guidance](docs/development/testing.md) explains full PostgreSQL/API, Chromium and source-installation acceptance. Tracker status preserves original catalog acceptance and must not be read as a delivered-feature percentage.
 
 ## Run locally
 
-Requires Node 22.23.3, Git, Docker and Linux x64 (the pinned parser preparation target).
-From the repository root:
+Requires Git, Docker and Linux x64 for the pinned parser preparation:
 
 ```sh
-npm ci --ignore-scripts --no-audit --no-fund
 npm run local:prepare
 npm run dev
 ```
 
-Open **http://127.0.0.1:4317**. The API serves the built web app at the same origin.
-Preparation explicitly obtains pinned public parser tools and the PostgreSQL image;
-repeat preparation preserves existing parser inputs. Startup creates an isolated local
-metadata container on port 55432 and persistent Docker volume, a two-file demo Git
-repository, and private local tokens in `.cache/local-product/config.json` (mode 0600).
-Explicitly activate project membership and grant the intended actors before project writes;
-follow the operator steps in the guide below. Use `developerToken` to prepare a candidate,
-then sign out and use `approverToken` to approve or reject it. HTTP mode retains the bearer
-in browser memory. Target credentials are references only.
+Open **http://127.0.0.1:4317**. Preparation obtains pinned parser tools and the PostgreSQL image. Startup uses isolated local metadata on port 55432, a persistent Docker volume, a demo Git repository and private local tokens in `.cache/local-product/config.json` (0600). Explicitly activate membership and grant actors before project writes. Use separate developer and approver identities; HTTP mode keeps the bearer in browser memory. Target credentials remain references.
 
-For HTTPS browser sessions, provide a client-trusted certificate for the loopback address
-and its private key using the documented private file permissions:
+For secure browser sessions, supply a trusted loopback certificate/private key with the private permissions documented in the [local product guide](docs/development/local-product.md):
 
 ```sh
 npm run dev -- --tls-cert /absolute/private/tls/server-chain.pem --tls-key /absolute/private/tls/server-key.pem
 ```
 
-Open **https://127.0.0.1:4317**. Sign-in exchanges the named local credential for a
-revocable Secure/HttpOnly cookie with CSRF protection and idle/absolute expiry. The bearer
-is then cleared from browser state. OS credential rotation/revocation invalidates derived
-sessions, and metadata restore retains a persistent execution hold.
+Open **https://127.0.0.1:4317**. HTTPS uses revocable Secure/HttpOnly cookies, CSRF protection and expiry. The guide covers operator provisioning, API contracts, workflow, shutdown and current boundaries. No startup command authorizes Oracle access.
 
-[The demonstration and API guide](docs/development/local-product.md) walks through the
-workflow, persistence, tests, local shutdown and current product boundaries.
-
-## Repository
+## Repository guide
 
 | Path | Purpose |
 | --- | --- |
-| `docs/inputs/` | Hashed, immutable design snapshot from DB-Research |
-| `docs/product/`, `docs/architecture/`, `docs/decisions/` | Product decisions and boundaries |
-| `docs/product/KELYRVO_PRODUCT_REQUIREMENTS.md` | Reconciled Kelryvo product behavior, domain contracts, acceptance criteria, and roadmap |
-| `docs/product/KELYRVO_UI_UX_DESIGN_SPECIFICATION.md` | Screen-level behavior, shared states, design tokens, accessibility, and responsive rules |
-| `docs/implementation/` | 220-feature tracker, backlog, ownership, acceptance and session state |
-| `.codex/agents/` | Six native specialist TOML definitions |
-| `experiments/db-devops-wp0/` | Isolated offline feasibility code and lab contract |
-| `scripts/`, `tests/` | Working local tooling and regression checks |
-| `evidence/` | Actual sanitized append-only local observations |
-| `.github/workflows/` | Offline checks; no publishing or deployment |
+| [Product requirements](docs/product/KELYRVO_PRODUCT_REQUIREMENTS.md) | Current state, stable requirement IDs, remaining backlog, priority and acceptance criteria |
+| [Architecture contracts](docs/architecture/KELYRVO_ARCHITECTURE_DECISIONS.md) | Ownership, target identity, migration safety and compatibility decisions |
+| [UI conventions](docs/product/KELYRVO_UI_UX_DESIGN_SPECIFICATION.md) | Shared interactions and accessibility requirements |
+| `docs/development/` | Concrete API, test, runtime, release and Oracle acceptance guides |
+| [Retained tracker](docs/implementation/tracking.md) | Original catalog/task contracts, immutable evidence references and Oracle case gates |
+| `apps/api`, `apps/web`, `apps/worker`, `packages/` | Product implementation |
+| `scripts/`, `tests/`, `.github/workflows/` | Tooling and local/hosted acceptance |
+| `docs/decisions/`, `docs/dependencies/` | Decision history, pinned dependencies, licenses and notices |
+| `docs/inputs/`, `experiments/db-devops-wp0/`, `evidence/` | Immutable historical inputs, isolated feasibility harness and append-only observations |
 
-Working product modules live in `apps/api`, `apps/web`, `packages/database` and
-`packages/migrations`; deployment packages follow their operating acceptance. [Architecture boundaries](docs/architecture/boundaries.md) records their
-intended locations. DB-Research stays the source of original research; this repository is
-the source of product implementation. Only the pinned Apache-2.0 PL/SQL grammar sources are vendored; restricted vendor code,
-branding and UI assets are excluded.
+Historical MVP, Phase 1 and design handoff documents are dated references, not active work queues. Git history preserves removed obsolete planning. Keep original evidence and safety contracts intact.
 
-## Continue development
+[CONTRIBUTING.md](CONTRIBUTING.md) covers contribution and CI rules. [Controlled execution](docs/development/controlled-execution.md), [runtime operations](docs/development/runtime-readiness.md) and the [disposable Oracle suite](docs/development/oracle-acceptance.md) describe separate live gates. Never automatically replay ambiguous DDL.
 
-Read [current state](docs/implementation/CURRENT.md), [tracking rules](docs/implementation/tracking.md)
-and [agent configuration](docs/implementation/agents.md), then select the next unblocked
-bounded task. Phase 0 precedes WP0 acceptance; all 63 Oracle feasibility cases remain
-separate from product features. PRODUCT scheduling proceeds independently of Oracle VALIDATION. Original feature/WP0
-acceptance dependencies remain unchanged; local product evidence does not pass Oracle gates.
+Independently authored code uses [PolyForm Shield 1.0.0](LICENSE); third-party grants/notices remain separate. See [license scope and provisional naming](docs/product/license-and-naming.md) and [dependency evidence](docs/dependencies/LICENSE-EVIDENCE.md). Internal behavioral research is not publication material.
 
-The [WP0 preflight](experiments/db-devops-wp0/README.md) reports missing lab inputs without
-connecting to a database. Disposable 19c and 21c targets require explicit authorization,
-entitlement, identities, grants, fault permissions, scoped credential references and
-offline artifact review. An example profile is not authority to use any database.
-
-Build a reproducible local source installation bundle with `npm run release:local -- --output /absolute/existing-parent/new-release-directory`. The [local release guide](docs/development/local-release.md) covers trusted checksums, fresh installation, included notices and end-to-end acceptance. Actual Oracle execution remains unvalidated.
+Build a reproducible local source bundle with `npm run release:local -- --output /absolute/existing-parent/new-release-directory`; follow the [local release guide](docs/development/local-release.md). Publishing or deploying requires explicit task authorization.

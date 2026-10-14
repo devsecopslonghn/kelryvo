@@ -1,142 +1,17 @@
-# Initial architecture boundaries
+# Product module boundaries
 
-The imported ADR-I01 through ADR-I14 and data contracts are design inputs. Phase 0 accepts
-their safety boundaries; it does not accept an execution architecture or certify a driver.
+[Architecture and safety contracts](KELYRVO_ARCHITECTURE_DECISIONS.md) defines the domain and execution invariants. [Product requirements and roadmap](../product/KELYRVO_PRODUCT_REQUIREMENTS.md) defines current capability and remaining work. This map replaces the initial proposed module layout; historical details remain in Git and the decision log.
 
-The proposed control plane is a modular TypeScript API with PostgreSQL metadata. A separate
-worker owns admitted Oracle execution and owner-scoped credential resolution. The API must
-not possess application writer secrets. A React UI uses the same-origin API and working PostgreSQL-backed flows.
-The owner-approved local PRODUCT slice uses TypeScript/Fastify, React, existing Postgres.js
-and pinned ANTLR offline validation; it carries no Oracle execution entry point. Kubernetes/OpenShift delivery follows later operating acceptance.
+| Area | Current responsibility |
+| --- | --- |
+| `apps/api` | Same-origin Fastify API, current human/project authority and workflow composition. No Oracle deployment-writer secrets. |
+| `apps/web` | React project workflow and truthful offline/observed/synthetic/runtime evidence states. |
+| `apps/worker` | Separately installed execution service, supervisor, private provider/host and metadata-only expiry recovery. Live Oracle behavior is not accepted. |
+| `packages/database`, `packages/targets`, `packages/catalog-reference` | PostgreSQL metadata, identity/grants, workspace references, assignment intervals, versioned target bindings and currentness. |
+| `packages/connectivity` | Revisioned connection management and bounded, purpose-separated opt-in read-only discovery. Default runtime unavailable; fixtures never certify identity. |
+| `packages/migrations`, `packages/sql-workspace`, `packages/sql-validation` | Retained Git/authored source, pinned parser, immutable intent, SQL revisions and bounded offline scope/risk evidence. |
+| `packages/governance`, `packages/execution`, `packages/migration-history`, `packages/audit` | Independent review, durable requests/attempts/receipts/reconciliation and retained evidence projections. |
+| `packages/backup`, `packages/runtime`, `packages/observability` | Exact-schema backup/restore generation hold, private startup configuration and bounded runtime diagnostics. |
+| `experiments/db-devops-wp0` | Isolated feasibility harness and stricter Oracle validation contracts; not a second product runtime. |
 
-WP0 experiments live under `experiments/db-devops-wp0/`. Foundation tooling uses Node's
-standard library and carries no third-party runtime dependency. This is a tooling choice,
-not selection of the product's Oracle worker language or framework. Create API/web/database code with working product slices and local acceptance.
-Worker and Helm deployment stay behind their actual runtime/operating acceptance.
-
-Later code locations are `apps/api`, `apps/web`, `apps/worker`, `packages/contracts`,
-`packages/database`, `packages/oracle` and `deploy/helm`. Create each only with working code
-and appropriate acceptance checks. Shared immutable release/approval/target identity
-contracts remain owned by the orchestrator.
-
-Candidate Node Thin connectivity and a driver-free mature Flyway Apache parser helper
-remain WP0-T02/T03 proof targets. No custom Oracle grammar or semicolon/regex splitter is
-permitted. Oracle DDL result ambiguity always requires HOLD and observation; no receipt
-absence, timeout, central lease or parser success proves safe automatic replay.
-
-Disposable Oracle targets require explicit identity, entitlement, scoped actions and
-teardown authority. Offline tests cannot prove grants, locks, compiler state, target
-effects, restoration, API authorization or production capacity.
-
-Development scheduling and original acceptance dependencies are separate (SF-D008).
-The local product uses one server-owned organization, private named local bearer identities,
-allowlisted read-only local Git repositories and loopback binding. It stores only target
-credential references; no target credentials are resolved. Offline candidate plans retain
-NOT_OBSERVED target history and NOT_EXECUTED migration states. They are reviewable proposals,
-not reconciled executable plans or verified Oracle compatibility. See
-[local product operation](../development/local-product.md).
-
-Shared target references use a separate organization-owned metadata catalog. Only the
-trusted local OS operator registers manual database/container/service/schema references
-and changes their project ownership; project credentials provide scoped read access.
-These references retain manual provenance and provisional identity. Registration UUIDs,
-declared environments and exact owner names are not observed Oracle identities or DBA
-attestations. Ownership changes preserve assignment history and existing project facts.
-Legacy connection profiles and offline plans remain separate; attaching a reference to
-an executable target requires verified identity, scoped credentials, assignment revisions
-and the worker's actual authorization and history checks.
-
-The bounded T31 approval-withdrawal contract keeps the original approval immutable and
-appends a linked revocation while projecting the plan lifecycle as REVOKED. New approvals
-have a server-issued reference linked to their approval audit; legacy NULL references are
-explicit and never inferred from history. Withdrawal requires a current independent
-approver, explicit project membership and an active project after lifecycle serialization.
-It can remove authority from stale or damaged offline content without rewriting the
-release, intent or NOT_EXECUTED/NOT_OBSERVED history. Corrections create a fresh release
-and plan. Deployment requests are durable and remain `WAITING_VALIDATION` while target
-history and validity evidence are unavailable. The separate coordinator accepts only an
-admitted immutable job through scoped trusted ports, requires a canonical target mutex and
-durable ordered receipts, and holds on ambiguity without automatic replay. Synthetic ports
-are UNIT-only and do not attest Oracle execution, production worker isolation or target identity.
-The PostgreSQL admission-proof row is an immutable expected-binding record, not an execution
-permission by itself. It cannot establish current target identity, history, mutex ownership,
-validity or central evidence. The restricted worker admission producer requires explicitly installed host/session
-capabilities for live attestations. The private protected-ledger foundation is unactivated;
-no deployable validated Oracle host is included here. Receipt and validity projections must match the recorded
-expected digests, while the kernel rechecks the live trusted ports before dispatch and finish.
-If a claim or HOLD projection fails without commit confirmation, the kernel reports
-`HOLD_PERSISTENCE_PENDING` for operator recovery; it does not claim that HOLD was durably
-recorded. A restarted worker may only project an expired attempt to HOLD under the job lock,
-and only when both terminal projections commit; it never renews or replays the attempt.
-
-Private metadata restore creates a new metadata generation in persistent `RESTORE_HOLD`.
-The archive never restores the current-generation pointer; a private destination marker makes
-startup fail closed if restore is interrupted before the new pointer commits. Both production
-and explicitly UNIT coordinator stores require the current generation to be ACTIVE before a
-claim or attempt mutation. Restore appends HOLD projections for waiting/admitted jobs and
-claimed attempts, revokes restored credentials, and preserves prior audit, event and receipt
-history. The UI can read retained history with freshly rotated local tokens but cannot clear
-the hold. No API endpoint observes Oracle state or releases recovery hold.
-
-New offline plans bind the complete pinned-parser statement identity in format 2, including
-ordered file/global ordinals, UTF-8 source ranges and source/execution digests. Approval
-and deployment request verify that sequence against one bounded retained snapshot.
-Historical format-1 envelopes and file-only approvals remain immutable and readable;
-execution requests require a fresh format-2 plan and independent approval. The scoped
-paged identity view provides offline review evidence only. These digests and readiness
-labels never substitute for current target history, trusted host, mutex or dispatch
-permit. The worker bridge can admit only with installed host capabilities; the API and
-default local startup retain request-only behavior.
-
-
-`apps/worker/run-request.ts` holds the host session/mutex/dispatch permit continuously
-through observation, atomic proof/admission/initial-claim commit, statement dispatch and
-terminal projection. Catalog declaration advisory serialization precedes schema assignment and global governance serialization
-and plan/project/job row locks. Each dispatch rechecks active metadata generation, original
-presenting credential (including browser parent and expiry), explicit membership/deploy grant,
-independent approval, source binding, profile, exact retained content and host permit.
-The dispatch check and target call share a transaction holding those authority locks;
-successful terminal evidence/projection also commit under the checked locks. In-flight
-revocation waits for the current call and prevents a subsequent statement. Host calls must
-be bounded and must never await a governance mutation blocked by their own dispatch guard.
-History protocol1 requires an attested ordered ledger of complete APPLIED migration files.
-EMPTY selects the complete approved sequence; APPLIED_PREFIX selects only its approved
-suffix; EXACT_APPLIED selects a witnessed NOOP. Match every applied path/version/source
-checksum and per-file statement identity against the complete immutable approval. A
-changed, reordered, unknown or partial file, missing ledger, or lost history witness
-records terminal HOLD before creating admission or an attempt. Prior unresolved central
-attempts on the same assignment/canonical target veto admission even with a reported
-applied prefix; central evidence completion is checked before every admission. NOOP still needs
-postconditions and central evidence. Unknown effects, receipt gaps or revoked authority
-produce HOLD. A lost admission COMMIT acknowledgment is unresolved until explicit expiry
-recovery; it never becomes an undispatched decline or a new dispatch claim. UNIT hosts require
-an explicit option and remain UNIT_SYNTHETIC. Historical requests missing presenting credential
-identity remain readable but cannot be promoted automatically. No new target reconciliation
-or recovery-release authority is inferred from these metadata contracts.
-
-Protected target-ledger storage accepts only a supplied private owner connection, separate
-from the application writer. It atomically records each complete approved file plan before
-STARTED, links later ACK facts and permits APPLIED only after every ordered statement ACK.
-Unknown commit poisons the capability and never retries. Its raw UNINITIALIZED state is
-an absent partition, not proof of an empty target; host must independently verify adoption
-or an explicit reviewed baseline. Raw IN_FLIGHT/UNTRUSTED/null always require HOLD.
-Head-row locks serialize append transactions only; physical target mutex and dispatch
-authority remain separate continuous host obligations. Stable physical-key/identity
-partitioning survives catalog reassignment. Checksums never attest owner integrity or SQL
-effects. The SQL install artifact has no automatic bootstrap/grants; no Oracle installation,
-connection, runtime promotion or deployed-worker isolation acceptance is claimed.
-
-The restricted Oracle host adapter receives an independently installed writer-purpose
-permit and two dedicated private sessions. It reuses the worker admission/authority and
-central divergence veto; API startup does not install it. A protected definer-rights mutex
-cover on the same writer session retains the lock across DDL commits. A private nonce
-prevents migration SQL from releasing the host's lock; continuity checks use CONVERT,
-never REQUEST/reacquisition. Application writer privileges must exclude direct/inherited
-DBMS_LOCK, ANY-object mutation and protected owner access. Each target file plan and
-STARTED commit precede dispatch; ordered writer acknowledgments precede target ACK/APPLIED.
-Unknown driver/commit/continuity facts HOLD without replay. Provider callbacks retain both
-physical sessions through worker completion, drain outstanding operations, then retire them.
-Attested GUID/route/TLS/owner/grants, writer permit claims, empty-target adoption,
-postconditions and central completion remain privileged installation obligations. There
-is no credential resolver, deployed provider, automatic bootstrap, baseline adoption or
-Oracle runtime acceptance in this adapter increment.
+The API may dispatch only the separately authorized read-only discovery capability. Only the trusted worker can receive deployment-writer capabilities after the independent runtime gates. Manual references and local checks cannot cross that boundary. [Local product contracts](../development/local-product.md) describes the concrete APIs and operator installation paths.

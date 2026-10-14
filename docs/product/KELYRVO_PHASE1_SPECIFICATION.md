@@ -1,6 +1,6 @@
-# Kelryvo Phase 1 — Product specification
+# Historical Phase 1 implementation contract
 
-Status: implementation-ready **offline vertical slice**, 2026-10-12. Scope is exactly (1) Project and Access Management, (2) Instance, Database and Schema Management, (3) Database Change Management. This document is normative for this increment; it does not authorize implementation, deployment or Oracle access in this specification task.
+Historical design baseline, 2026-10-12. Target binding and the offline vertical slice have since been implemented. This retained protocol reference is not a work queue; current status, requirements and acceptance priorities live in [Product requirements](KELYRVO_PRODUCT_REQUIREMENTS.md). Original proposed API details below must be checked against current source and [local product contracts](../development/local-product.md). Scope is exactly (1) Project and Access Management, (2) Instance, Database and Schema Management, (3) Database Change Management. This document recorded the design for that increment; it does not authorize implementation, deployment or Oracle access in this specification task.
 
 This specification defines independently authored Kelryvo product behavior. Existing-source statements below refer to the Kelryvo code baseline, not new test or live-system claims. For this increment, these contracts take precedence over overlapping proposals in the earlier requirements/UI documents; unrelated backlog and established safety invariants remain unchanged. Mandatory licenses, copyright notices and dependency attribution remain in their established notice files.
 

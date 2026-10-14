@@ -51,6 +51,24 @@ test('persisted tracker state validates without assuming initial statuses', () =
   assert.deepEqual(validateState(persistedState()), []);
 });
 
+test('CLI distinguishes catalog acceptance from delivered capability and reports the gated roadmap priority', () => {
+  const run = command => {
+    const result = spawnSync(process.execPath, ['scripts/tracker.mjs', command], { cwd: root, encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stderr);
+    return JSON.parse(result.stdout);
+  };
+  const status = run('status');
+  assert.match(status.scope, /not delivered capability counts/);
+  assert.ok(fs.existsSync(path.join(root, status.product_source_of_truth)));
+  const next = run('next');
+  assert.deepEqual(next.eligible_tasks, []);
+  assert.equal(next.roadmap_priority.status, 'BLOCKED_EXTERNAL');
+  const requirements = next.roadmap_priority.requirements.split('#')[0];
+  assert.equal(requirements, status.product_source_of_truth);
+  assert.ok(next.blockers.some(reason => /authorization/.test(reason)));
+  assert.deepEqual(selectNext(persistedState()), []);
+});
+
 test('catalog and plan IDs are retained with original dependency links', () => {
   const s = fullState();
   assert.equal(s.features.features.length, 220);

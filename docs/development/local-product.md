@@ -1206,7 +1206,7 @@ HTTPS mutations require the session CSRF proof and same origin.
 ## Database instances and profile retirement
 
 Open **Database instances** to inspect the selected project's environments, Oracle
-endpoints, usernames and credential references. **Configure project connections** opens
+endpoints, usernames and safe credential aliases. **Configure project connections** opens
 the existing environment/profile forms in Projects. **Inspect assigned instance
 references** opens the provisional database/container/service/schema catalog. The trusted
 operator maintains those declarations and assignments using the inventory commands;
@@ -1218,8 +1218,7 @@ selector and rejected for new plans, approval, new deployment requests and worke
 admission of previously queued requests. Rejection, withdrawal and cancellation remain
 available under their existing permissions. An admitted request blocks retirement until
 its controlled recovery completes; retirement never interrupts or silently replays it.
-Use revisioned connection management below to change an endpoint or credential reference. No connection
-test, secret resolution or Oracle call is introduced.
+Use [revisioned connection management](#database-connection-management) to change an endpoint or credential reference. Configuration and retirement do not make Oracle calls; the separately authorized read-only discovery runtime below has its own live entry gate.
 
 `POST /api/projects/:projectId/profiles/:id/retire` accepts only `{ "reason": "..." }`.
 Retirement is idempotent, transactionally rechecks membership/credential authority,
@@ -1239,7 +1238,7 @@ the operator revokes a grant or credential while a Git import is parsing, its la
 write returns scoped 404 or 401 and persists neither release nor release-audit facts.
 Browser parent-session validation remains required; a project creation receipt never
 grants implicit membership. Read-only bootstrap compatibility remains unchanged.
-# Read-only database connectivity and discovery
+## Read-only database connectivity and discovery
 
 Database instances & connections uses durable application APIs to register manual workspace infrastructure and project-scoped read-only connections, test connectivity, discover assigned schemas, inspect observation history, and append observed or verified target binding revisions. Existing deployment profiles and offline plans remain available. Configuration changes append revisions; history is never removed.
 

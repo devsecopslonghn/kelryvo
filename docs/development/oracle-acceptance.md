@@ -1,8 +1,8 @@
 # Disposable Oracle execution acceptance
 
-Phase 6 live Oracle acceptance is **NOT_RUN**. Fixture discovery, UNIT_SYNTHETIC
+Live Oracle execution acceptance is **NOT_RUN** as of the Phase 14 source baseline. Fixture discovery, UNIT_SYNTHETIC
 workers, PostgreSQL tests and browser screenshots do not establish Oracle effects.
-No Oracle lab manifest or migration-execution authorization was supplied for this phase.
+This documentation consolidation supplies no Oracle lab manifest or migration-execution authorization. Read-only onboarding is the next milestone in the [product roadmap](../product/KELYRVO_PRODUCT_REQUIREMENTS.md#prioritized-roadmap); discovery permission cannot authorize this execution suite.
 
 This bounded suite uses the existing Oracle provider, target ledger and session
 mutex. It introduces no deployment infrastructure. The lab owner supplies the
