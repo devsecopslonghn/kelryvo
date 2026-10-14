@@ -24,14 +24,14 @@ const SQL = Object.freeze({
 });
 export const oracleSchemaSql = Object.freeze({
   tables: `SELECT OWNER, TABLE_NAME AS NAME, TABLESPACE_NAME, TEMPORARY, PARTITIONED FROM ALL_TABLES WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY TABLE_NAME`,
-  columns: `SELECT OWNER, TABLE_NAME AS NAME, COLUMN_NAME, TO_CHAR(COLUMN_ID) AS COLUMN_ID, DATA_TYPE, TO_CHAR(DATA_LENGTH) AS DATA_LENGTH, TO_CHAR(DATA_PRECISION) AS DATA_PRECISION, TO_CHAR(DATA_SCALE) AS DATA_SCALE, TO_CHAR(CHAR_LENGTH) AS CHAR_LENGTH, CHAR_USED, NULLABLE, DATA_DEFAULT FROM ALL_TAB_COLUMNS WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY TABLE_NAME, COLUMN_ID`,
+  columns: `SELECT OWNER, TABLE_NAME AS NAME, COLUMN_NAME, TO_CHAR(COLUMN_ID) AS COLUMN_ID, DATA_TYPE, DATA_TYPE_OWNER, TO_CHAR(DATA_LENGTH) AS DATA_LENGTH, TO_CHAR(DATA_PRECISION) AS DATA_PRECISION, TO_CHAR(DATA_SCALE) AS DATA_SCALE, TO_CHAR(CHAR_LENGTH) AS CHAR_LENGTH, CHAR_USED, NULLABLE, DATA_DEFAULT FROM ALL_TAB_COLUMNS WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY TABLE_NAME, COLUMN_ID`,
   constraints: `SELECT OWNER, TABLE_NAME AS NAME, CONSTRAINT_NAME, CONSTRAINT_TYPE, STATUS, DEFERRABLE, DEFERRED, R_OWNER, R_CONSTRAINT_NAME, SEARCH_CONDITION, DELETE_RULE, VALIDATED, RELY FROM ALL_CONSTRAINTS WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY TABLE_NAME, CONSTRAINT_NAME`,
-  constraintColumns: `SELECT OWNER, TABLE_NAME AS NAME, CONSTRAINT_NAME, COLUMN_NAME, POSITION FROM ALL_CONS_COLUMNS WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY TABLE_NAME, CONSTRAINT_NAME, POSITION`,
+  constraintColumns: `SELECT X.OWNER, X.TABLE_NAME AS NAME, X.CONSTRAINT_NAME, X.COLUMN_NAME, X.POSITION, F.R_OWNER AS REFERENCED_OWNER, R.TABLE_NAME AS REFERENCED_TABLE, R.COLUMN_NAME AS REFERENCED_COLUMN FROM ALL_CONS_COLUMNS X JOIN ALL_CONSTRAINTS F ON F.OWNER=X.OWNER AND F.CONSTRAINT_NAME=X.CONSTRAINT_NAME LEFT JOIN ALL_CONS_COLUMNS R ON R.OWNER=F.R_OWNER AND R.CONSTRAINT_NAME=F.R_CONSTRAINT_NAME AND R.POSITION=X.POSITION WHERE X.OWNER = :owner AND ROWNUM <= 2001 ORDER BY X.TABLE_NAME, X.CONSTRAINT_NAME, X.POSITION`,
   views: `SELECT OWNER, VIEW_NAME AS NAME, TEXT FROM ALL_VIEWS WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY VIEW_NAME`,
   sequences: `SELECT SEQUENCE_OWNER AS OWNER, SEQUENCE_NAME AS NAME, TO_CHAR(MIN_VALUE) AS MIN_VALUE, TO_CHAR(MAX_VALUE) AS MAX_VALUE, TO_CHAR(INCREMENT_BY) AS INCREMENT_BY, CYCLE_FLAG, ORDER_FLAG, TO_CHAR(CACHE_SIZE) AS CACHE_SIZE, SCALE_FLAG, EXTEND_FLAG FROM ALL_SEQUENCES WHERE SEQUENCE_OWNER = :owner AND ROWNUM <= 2001 ORDER BY SEQUENCE_NAME`,
   indexes: `SELECT OWNER, TABLE_NAME, INDEX_NAME AS NAME, INDEX_TYPE, UNIQUENESS, STATUS, PARTITIONED FROM ALL_INDEXES WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY INDEX_NAME`,
   indexColumns: `SELECT INDEX_OWNER AS OWNER, TABLE_NAME, INDEX_NAME AS NAME, COLUMN_NAME, COLUMN_POSITION, DESCEND FROM ALL_IND_COLUMNS WHERE INDEX_OWNER = :owner AND ROWNUM <= 2001 ORDER BY INDEX_NAME, COLUMN_POSITION`,
-  dependencies: `SELECT OWNER, NAME, TYPE, REFERENCED_OWNER, REFERENCED_NAME, REFERENCED_TYPE, DEPENDENCY_TYPE FROM ALL_DEPENDENCIES WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY NAME, REFERENCED_OWNER, REFERENCED_NAME`,
+  dependencies: `SELECT OWNER, NAME, TYPE, REFERENCED_OWNER, REFERENCED_NAME, REFERENCED_TYPE, REFERENCED_LINK_NAME, DEPENDENCY_TYPE FROM ALL_DEPENDENCIES WHERE OWNER = :owner AND ROWNUM <= 2001 ORDER BY NAME, REFERENCED_OWNER, REFERENCED_NAME`,
 });
 const OUTPUT_STATUSES = ['CONNECTED','OBSERVED','PARTIAL','UNREACHABLE','UNAUTHORIZED','MISCONFIGURED','TIMEOUT','UNAVAILABLE'];
 const NUMERIC_ERROR = /^(ORA-01017|ORA-01031|ORA-00942|ORA-01045|ORA-28000|ORA-28001|NJS-518|NJS-530)$/;
@@ -273,14 +273,18 @@ export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, dr
       }
       if(constraints.rows.some(c=>c.constraint_type==='C' && typeof c.search_condition!=='string')) {coverage.TABLE='PARTIAL';schemaLimitations.push('CONSTRAINT_PREDICATE_UNAVAILABLE');}
       const group=(rows,nameField)=>{const out=new Map();for(const r of rows){const n=r[nameField];if(typeof n!=='string')continue;const list=out.get(n)??[];list.push(r);out.set(n,list);}return out;};
-      const colGroups=group(columns.rows,'name'), conGroups=group(constraints.rows,'name'), conColGroups=group(constraintColumns.rows,'name');
-      const consFor=table=>[...(conGroups.get(table)??[])].map(c=>({...c,columns:(conColGroups.get(c.constraint_name)??[]).map(x=>({name:x.column_name,position:x.position}))}));
+      if(tables.rows.some(t=>t.partitioned==='YES')) {coverage.TABLE='PARTIAL';schemaLimitations.push('PARTITION_DEFINITIONS_UNAVAILABLE');}
+      if(indexes.rows.some(i=>i.partitioned==='YES')) {coverage.INDEX='PARTIAL';schemaLimitations.push('PARTITION_DEFINITIONS_UNAVAILABLE');}
+      if(coverage.VIEW!=='UNAVAILABLE' && (!constraints.ok || !constraintColumns.ok || constraints.truncated || constraintColumns.truncated))coverage.VIEW='PARTIAL';
+      const colGroups=group(columns.rows,'name'), conGroups=group(constraints.rows,'name'), conColGroups=group(constraintColumns.rows,'constraint_name');
+      const consFor=table=>[...(conGroups.get(table)??[])].map(c=>({...c,columns:(conColGroups.get(c.constraint_name)??[]).map(x=>({name:x.column_name,position:x.position,...(c.constraint_type==='R'?{referencedOwner:x.referenced_owner??c.r_owner,referencedTable:x.referenced_table??null,referencedColumn:x.referenced_column??null}:{})}))}));
+      if(constraints.rows.some(c=>c.constraint_type==='R' && (!(conColGroups.get(c.constraint_name)?.length) || conColGroups.get(c.constraint_name).some(x=>!x.referenced_table || !x.referenced_column)))) {coverage.TABLE='PARTIAL';schemaLimitations.push('FK_REFERENCE_UNAVAILABLE');}
       const indexGroups=group(indexColumns.rows,'name');
       const tableNames=new Set(tables.rows.map(r=>r.name).filter(x=>typeof x==='string'));
       for(const tableName of tableNames) schemaObjects.push({owner:requestedOwner,type:'TABLE',name:tableName,definition:{...tables.rows.find(r=>r.name===tableName),columns:(colGroups.get(tableName)??[]).map(({owner:_,name:__,...c})=>c),constraints:consFor(tableName)}});
       for(const view of views.rows) if(typeof view.name==='string') {
         const textAvailable=typeof view.text==='string';
-        schemaObjects.push({owner:requestedOwner,type:'VIEW',name:view.name,definition:{text:textAvailable?view.text.slice(0,65536):null,textComplete:textAvailable&&view.text.length<=65536}});
+        schemaObjects.push({owner:requestedOwner,type:'VIEW',name:view.name,definition:{text:textAvailable?view.text.slice(0,65536):null,textComplete:textAvailable&&view.text.length<=65536,constraints:consFor(view.name)}});
         if(!textAvailable){coverage.VIEW='PARTIAL';schemaLimitations.push('VIEW_TEXT_UNAVAILABLE');}
       }
       if(views.ok&&views.rows.some(v=>typeof v.text==='string'&&v.text.length>65536)){coverage.VIEW='PARTIAL';schemaLimitations.push('VIEW_TEXT_TRUNCATED');}
@@ -290,7 +294,7 @@ export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, dr
         schemaObjects.push({owner:requestedOwner,type:'INDEX',name:index.name,definition:{...index,columns:expression?null:cols.map(({owner:_,name:__,...c})=>c),expressionKnown:!expression}});
         if(expression&&coverage.INDEX==='COMPLETE'){coverage.INDEX='PARTIAL';schemaLimitations.push('INDEX_EXPRESSION_UNAVAILABLE');}
       }
-      for(const dependency of dependencies.rows) if(typeof dependency.name==='string') schemaObjects.push({owner:requestedOwner,type:'DEPENDENCY',name:JSON.stringify([dependency.name,dependency.type,dependency.referenced_owner,dependency.referenced_name,dependency.referenced_type,dependency.dependency_type]),definition:dependency});
+      for(const dependency of dependencies.rows) if(typeof dependency.name==='string') schemaObjects.push({owner:requestedOwner,type:'DEPENDENCY',name:JSON.stringify([dependency.name,dependency.type,dependency.referenced_owner,dependency.referenced_name,dependency.referenced_type,dependency.referenced_link_name,dependency.dependency_type]),definition:dependency});
       const normalized=normalizeSchema({owner:requestedOwner,objects:schemaObjects,coverage,limitations:schemaLimitations},requestedOwner);
       return {...safeResult(schemaLimitations.length?'PARTIAL':'OBSERVED',limitations,schemaRows,ident,injected?'FIXTURE':'ORACLE_READ_ONLY',accepted),schema:normalized};
     } catch (e) {

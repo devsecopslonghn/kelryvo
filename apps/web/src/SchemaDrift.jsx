@@ -32,7 +32,7 @@ export default function SchemaDrift({ token, projectId, planId, bindingId, reque
     <div className="panel-heading"><div><h3>Schema drift context</h3><p>Retained schema evidence for the selected target and migration stream.</p></div><button className="secondary" type="button" onClick={() => void load()} disabled={busy}>{busy ? 'Refreshing…' : 'Refresh drift'}</button></div>
     {busy && <p role="status">Loading schema drift evidence…</p>}{error && <p className="banner warning" role="alert">{error}</p>}
     {value && <>
-      <p role="status"><strong>{comparison.state || 'UNVERIFIED'}</strong> · {comparison.summary ? `${summary.added} added · ${summary.removed} removed · ${summary.modified} modified · ${summary.unverified} unverified` : 'No comparison is available.'}</p>
+      <p role="status"><strong>{planId ? (comparison.state || 'UNVERIFIED') : `Schema comparison · ${comparison.state || 'UNVERIFIED'}`}</strong> · {comparison.summary ? `${summary.added} added · ${summary.removed} removed · ${summary.modified} modified · ${summary.unverified} unverified` : 'No comparison is available.'}</p>
       <p>Added: {summary.added ?? '—'} · removed: {summary.removed ?? '—'} · modified: {summary.modified ?? '—'} · unverified: {summary.unverified ?? '—'}</p>
       <p className="muted">Latest observation evidence is shown with its provenance. It does not grant execution authority or establish current live database state.</p>
       <dl className="target-facts">

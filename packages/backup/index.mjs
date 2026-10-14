@@ -364,6 +364,7 @@ export async function restorePrivateBackup({ configPath, databaseUrl, backupDire
   await ensureToolchain();
   const listing=runDocker(toolArgs('pg_restore',stagingDirectory,'/backup/metadata.pgdump',databaseUrl,config),toolEnv(config));
   const preManagement=manifest.schema.signature===PRE_MANAGEMENT_SCHEMA_SIGNATURE;
+  const preSchemaBaselines=manifest.schema.signature===PRE_SCHEMA_BASELINE_SCHEMA_SIGNATURE;
   const schemaBaselines=manifest.schema.signature===SCHEMA_SIGNATURE;
   const managed=manifest.schema.signature===SCHEMA_SIGNATURE || manifest.schema.signature===PRE_SCHEMA_BASELINE_SCHEMA_SIGNATURE;
   const archivePreManagement=JSON.stringify(manifest.schema.tables)===JSON.stringify(PRE_MANAGEMENT_TABLES);
@@ -433,9 +434,9 @@ export async function restorePrivateBackup({ configPath, databaseUrl, backupDire
       if(JSON.stringify(restoredSchema)!==JSON.stringify(manifest.schema)) throw fail();
       await initializeDatabase(sql,{initializeMetadata:false});
       await inventory(sql);
-    } else if (legacy || phase2 || phase3 || phase4 || phase5 || preManagement) {
+    } else if (legacy || phase2 || phase3 || phase4 || phase5 || preManagement || preSchemaBaselines) {
       await initializeDatabase(sql,{initializeMetadata:false});
-      if(preManagement) await inventory(sql);
+      if(preManagement || preSchemaBaselines) await inventory(sql);
     }
     // Trusted OS-only fault injection, matching the credential lifecycle test boundary.
     if(interruptAt === 'after-import') process.kill(process.pid,'SIGKILL');

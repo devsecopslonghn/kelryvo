@@ -1,18 +1,18 @@
 {
   "milestone": "Kelryvo R2 schema baseline and drift product integration",
-  "recordedAt": "2026-10-14T04:50:35.089692+00:00",
+  "recordedAt": "2026-10-14T05:06:27.103805+00:00",
   "implementationBase": "7d36e576ba48219ed10fa1f21bf1cf9135d20a58",
-  "reviewedImplementationPatchSha256": "7c4a2b711cae4566d9f1b9d04330b6b514b546efa3e79b295cd2359668a043a3",
-  "patchScope": "staged implementation, tests and documentation before this acceptance record and screenshot",
+  "reviewedImplementationPatchSha256": "ee50e344cca0a7799dbc67c29363bd2e91616dd17cc89653c31e7b215ae12e6d",
+  "patchScope": "complete staged implementation diff from implementationBase excluding this acceptance record and screenshot",
   "checks": [
     {
       "command": "npm run check",
       "result": "PASS",
       "counts": {
-        "tests": 530,
-        "pass": 406,
+        "tests": 533,
+        "pass": 408,
         "fail": 0,
-        "skipped": 124,
+        "skipped": 125,
         "cancelled": 0
       },
       "scope": "source/type/web build, tracker, formatting, unit tests and pinned dependency/license gates"
@@ -45,30 +45,66 @@
       "command": "node scripts/test-product.mjs --file tests/product-schema-backup.test.mjs",
       "result": "PASS",
       "counts": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "scope": "native snapshot/baseline/plan restore and R1 exact-schema backup upgrade under immutable RESTORE_HOLD; direct worker tool execution verified both cases"
+    },
+    {
+      "command": "node --test tests/schema-baselines.test.mjs tests/oracle-discovery.test.mjs",
+      "result": "PASS",
+      "counts": {
+        "tests": 32,
+        "pass": 32,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "scope": "pure structural comparison and injected SELECT-only Oracle driver; zero live Oracle connections"
+    },
+    {
+      "command": "node scripts/test-product.mjs --file tests/product-phase7-persistence.test.mjs",
+      "result": "PASS",
+      "counts": {
+        "tests": 3,
+        "pass": 3,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "scope": "native SQL/source attribution persistence and historical backup upgrades; direct worker tool execution"
+    },
+    {
+      "command": "node scripts/test-product.mjs --browser --file tests/product-sql-validation-browser.integration.mjs",
+      "result": "PASS",
+      "counts": {
         "tests": 1,
         "pass": 1,
         "fail": 0,
         "skipped": 0,
         "cancelled": 0
       },
-      "scope": "native PostgreSQL snapshot/baseline/plan evidence backup/restore and immutable RESTORE_HOLD"
+      "scope": "complete retained validation and independent-review browser compatibility"
     },
     {
-      "command": "node --test tests/schema-baselines.test.mjs tests/oracle-discovery.test.mjs",
+      "command": "node scripts/test-product.mjs --browser --file tests/product-phase6-workflow-browser.integration.mjs",
       "result": "PASS",
       "counts": {
-        "tests": 30,
-        "pass": 30,
+        "tests": 1,
+        "pass": 1,
         "fail": 0,
         "skipped": 0,
         "cancelled": 0
       },
-      "scope": "pure structural comparison and injected SELECT-only Oracle driver; zero live Oracle connections"
+      "scope": "HTTPS onboarding, SQL validation, approval, readiness, request and durable audit journey"
     }
   ],
   "independentReview": {
     "result": "PASS",
-    "scope": "working implementation diff; CHECK-predicate and PostgreSQL microsecond precision findings fixed and regression tested; exact-head review required before integration"
+    "scope": "working diff and compatibility corrections reviewed without remaining blockers; exact final head checked before integration"
   },
   "security": {
     "newCredentialPatternMatches": 0,
@@ -86,7 +122,7 @@
   "boundaries": [
     "Controlled fixtures cannot certify live target identity or live drift.",
     "Multi-query Oracle catalog consistency is unverified; missing/inaccessible objects never imply absence.",
-    "Function-based index expressions and foreign-owner completeness remain partial.",
+    "Function-based index expressions, partition definitions and foreign-owner completeness remain partial.",
     "Schema observations do not grant worker authority or certify Oracle compilation."
   ],
   "browserScreenshot": {

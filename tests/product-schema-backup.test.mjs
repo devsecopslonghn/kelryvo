@@ -4,9 +4,11 @@ import { randomBytes, randomUUID } from 'node:crypto';
 import { chmod, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import postgres from 'postgres';
-import { createPrivateBackup, restorePrivateBackup } from '../packages/backup/index.mjs';
+import { createPrivateBackup, restorePrivateBackup, inventory } from '../packages/backup/index.mjs';
 import { initializeSchemaBaselines } from '../packages/schema-baselines/schema.mjs';
 import { createTargetWorkflowFixture } from './helpers/target-workflow-fixture.mjs';
+import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { initializeDatabase } from '../packages/database/index.ts';
 
 const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS==='1';
 const ORG='00000000-0000-4000-8000-000000000001';
@@ -67,6 +69,42 @@ test('schema snapshots, baselines, and plan evidence survive native backup resto
   finally {
     if(restoredSql)await restoredSql.end({timeout:2});
     await fixture.close();
+    if(restoredName){const admin=postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});try{await admin.unsafe(`DROP DATABASE IF EXISTS "${restoredName}" WITH (FORCE)`);}finally{await admin.end({timeout:2});}}
+    await rm(root,{recursive:true,force:true});
+  }
+});
+
+test('R1 management backup upgrades to current schema under RESTORE_HOLD with empty baseline tables',{skip:!enabled,timeout:180_000},async()=>{
+  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeSchemaBaselines:false})});
+  const root=await mkdtemp(join(process.cwd(),'.cache','r1-schema-backup-'));
+  let restoredSql,restoredName;
+  try {
+    await chmod(root,0o700);
+    const secret=randomBytes(32).toString('hex'),configPath=join(root,'operator-config.json');
+    await writeFile(configPath,`${JSON.stringify({databasePassword:secret,developerToken:'1'.repeat(64),approverToken:'2'.repeat(64)})}\n`,{mode:0o600});
+    const databaseUrl=new URL(source.databaseUrl);databaseUrl.password=secret;
+    const org=ORG,actor='r1-schema-backup-author';
+    await source.sql`INSERT INTO sf_local_actors(id,organization_id,role,display_name) VALUES(${actor},${org},'developer','R1 retained author')`;
+    const project=(await source.sql`INSERT INTO sf_projects(organization_id,name) VALUES(${org},'R1 schema restore project') RETURNING id`)[0];
+    const environment=(await source.sql`INSERT INTO sf_environments(organization_id,project_id,name) VALUES(${org},${project.id},'DEV') RETURNING id`)[0];
+    const profile=(await source.sql`INSERT INTO sf_profiles(organization_id,project_id,environment_id,name,engine,host,port,service,username,credential_ref)
+      VALUES(${org},${project.id},${environment.id},'R1 profile','oracle','r1-schema.example.invalid',1521,'R1SERVICE','APP','vault://local/r1-schema') RETURNING id`)[0];
+    const release=(await source.sql`INSERT INTO sf_releases(organization_id,project_id,repository_id,commit_id,object_format,folder,manifest_digest,validation_status,parser_profile,files)
+      VALUES(${org},${project.id},'r1-schema-repository',${'a'.repeat(40)},'sha1','migrations',${'b'.repeat(64)},'VALID','r1-schema-parser','[]'::jsonb) RETURNING id`)[0];
+    const plan=(await source.sql`INSERT INTO sf_plans(organization_id,project_id,release_id,profile_id,author_id,items)
+      VALUES(${org},${project.id},${release.id},${profile.id},${actor},'[]'::jsonb) RETURNING id`)[0];
+    const plansBefore=(await source.sql`SELECT coalesce(jsonb_agg(to_jsonb(p) ORDER BY p.id),'[]'::jsonb)::text AS rows FROM sf_plans p`)[0].rows;
+    assert.equal((await inventory(source.sql)).signature,'f8e0d47aa6e8f1c5c1a21cbbc5ff8550222edfe7791f312a965172547d438ab1');
+    const backupDirectory=join(root,'backup'),witnessPath=join(root,'witness.json');
+    await createPrivateBackup({configPath,databaseUrl:databaseUrl.toString(),destination:backupDirectory,witnessPath});
+    const restored=await restorePrivateBackup({configPath,databaseUrl:databaseUrl.toString(),backupDirectory,witnessPath});
+    restoredName=restored.databaseName;restoredSql=postgres(restored.databaseUrl,{max:2,onnotice:()=>{}});
+    assert.equal((await inventory(restoredSql)).signature,'9e4c70ac76caf62e3bec6a5db5f920735e480f689a76a59a2f1ba8b233d9c87e');
+    assert.equal((await restoredSql`SELECT coalesce(jsonb_agg(to_jsonb(p) ORDER BY p.id),'[]'::jsonb)::text AS rows FROM sf_plans p`)[0].rows,plansBefore);
+    for(const table of ['sf_schema_snapshots','sf_schema_baselines','sf_plan_schema_evidence']) assert.equal((await restoredSql`SELECT count(*)::int AS n FROM ${restoredSql(table)}`)[0].n,0);
+    assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
+  } finally {
+    await restoredSql?.end({timeout:2});await source.close();
     if(restoredName){const admin=postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});try{await admin.unsafe(`DROP DATABASE IF EXISTS "${restoredName}" WITH (FORCE)`);}finally{await admin.end({timeout:2});}}
     await rm(root,{recursive:true,force:true});
   }

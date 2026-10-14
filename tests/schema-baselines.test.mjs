@@ -67,3 +67,9 @@ test('hashing normalized wrappers does not reject valid bounded nested definitio
   const value=normalizeSchema({coverage,objects:[{owner:'APP',type:'TABLE',name:'Nested',definition}]},'APP');
   assert.equal(value.objects.length,1);assert.match(value.contentDigest,/^[a-f0-9]{64}$/);
 });
+
+test('malformed object inventories or unknown diagnostics cannot establish complete absence',()=>{
+  const malformed=normalizeSchema({coverage,objects:'unavailable'},'APP');assert.equal(malformed.coverage.TABLE,'PARTIAL');
+  const unknown=normalizeSchema({coverage,objects:[],limitations:['UNRECOGNIZED_VISIBILITY_FAILURE']},'APP');
+  assert.equal(compareSchemas(snapshot('APP',[]),{owner:'APP',identityDigest:'a'.repeat(64),schema:unknown}).state,'UNVERIFIED');
+});

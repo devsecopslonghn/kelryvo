@@ -201,3 +201,25 @@ test('SCHEMA retains CHECK predicates and referential enforcement semantics',asy
   assert.notEqual(before.objects[0].checksum,after.objects[0].checksum);
   assert.match(oracleSchemaSql.constraints,/SEARCH_CONDITION/);assert.match(oracleSchemaSql.constraints,/DELETE_RULE/);
 });
+
+test('SCHEMA groups primary, unique and foreign-key columns by exact constraint identity and retains references',async t=>{
+  const rows={...identityRows,[oracleSchemaSql.tables]:[{OWNER:'APP',NAME:'Orders'}],
+    [oracleSchemaSql.columns]:[],[oracleSchemaSql.constraints]:[
+      {OWNER:'APP',NAME:'Orders',CONSTRAINT_NAME:'PK_Orders',CONSTRAINT_TYPE:'P'},
+      {OWNER:'APP',NAME:'Orders',CONSTRAINT_NAME:'UQ_Orders',CONSTRAINT_TYPE:'U'},
+      {OWNER:'APP',NAME:'Orders',CONSTRAINT_NAME:'FK_Customer',CONSTRAINT_TYPE:'R',R_OWNER:'CustomerOwner',R_CONSTRAINT_NAME:'PK_Customer'}],
+    [oracleSchemaSql.constraintColumns]:[
+      {OWNER:'APP',NAME:'Orders',CONSTRAINT_NAME:'PK_Orders',COLUMN_NAME:'Id',POSITION:1},
+      {OWNER:'APP',NAME:'Orders',CONSTRAINT_NAME:'UQ_Orders',COLUMN_NAME:'Code',POSITION:1},
+      {OWNER:'APP',NAME:'Orders',CONSTRAINT_NAME:'FK_Customer',COLUMN_NAME:'CustomerId',POSITION:1,REFERENCED_OWNER:'CustomerOwner',REFERENCED_TABLE:'Customers',REFERENCED_COLUMN:'Id'}],
+    [oracleSchemaSql.views]:[],[oracleSchemaSql.sequences]:[],[oracleSchemaSql.indexes]:[],[oracleSchemaSql.indexColumns]:[],[oracleSchemaSql.dependencies]:[]};
+  const f=await fixture(t,{rows});const before=(await f.runtime.run(target,'SCHEMA',{owner:'APP'})).schema;
+  const cons=before.objects[0].definition.constraints;
+  assert.equal(cons.find(c=>c.constraint_name==='PK_Orders').columns[0].name,'Id');
+  assert.equal(cons.find(c=>c.constraint_name==='UQ_Orders').columns[0].name,'Code');
+  assert.deepEqual({...cons.find(c=>c.constraint_name==='FK_Customer').columns[0]},{name:'CustomerId',position:1,referencedOwner:'CustomerOwner',referencedTable:'Customers',referencedColumn:'Id'});
+  rows[oracleSchemaSql.constraintColumns][0].COLUMN_NAME='Code';
+  const after=(await f.runtime.run(target,'SCHEMA',{owner:'APP'})).schema;assert.notEqual(before.objects[0].checksum,after.objects[0].checksum);
+  rows[oracleSchemaSql.constraintColumns][2].REFERENCED_COLUMN=null;
+  const missing=(await f.runtime.run(target,'SCHEMA',{owner:'APP'})).schema;assert.equal(missing.coverage.TABLE,'PARTIAL');assert.ok(missing.limitations.includes('FK_REFERENCE_UNAVAILABLE'));
+});
