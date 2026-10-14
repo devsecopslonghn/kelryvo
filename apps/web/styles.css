@@ -31,7 +31,7 @@
   --nav-surface: #1e293b;
   --nav-border: #1e293b;
   --nav-text: #cbd5e1;
-  --nav-muted: #64748b;
+  --nav-muted: #94a3b8;
 
   /* Semantic Status Tokens */
   --good-bg: #ecfdf5;
@@ -104,7 +104,7 @@
   --nav-surface: #0f172a;
   --nav-border: #1e293b;
   --nav-text: #cbd5e1;
-  --nav-muted: #64748b;
+  --nav-muted: #94a3b8;
 
   --good-bg: rgba(16, 185, 129, 0.14);
   --good-text: #6ee7b7;
@@ -300,7 +300,7 @@ pre code {
 }
 
 .workspace-label {
-  color: #64748b;
+  color: var(--nav-muted);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.09em;
@@ -3245,7 +3245,7 @@ td code {
   gap: 10px;
 }
 
-.art-pipeline-step {
+.art-step {
   background: rgba(30, 41, 59, 0.75);
   border: 1px solid rgba(148, 163, 184, 0.16);
   border-radius: var(--radius-sm);
@@ -3254,7 +3254,7 @@ td code {
   color: #e2e8f0;
 }
 
-.art-pipeline-step span {
+.art-step span {
   display: block;
   font-family: var(--font-mono);
   font-size: 10px;
@@ -3360,6 +3360,31 @@ td code {
   overflow-wrap: anywhere;
   max-width: 100%;
   text-align: left;
+}
+
+.sidebar {
+  padding: 16px 12px;
+  gap: 2px;
+  scrollbar-width: thin;
+}
+
+.sidebar .brand {
+  padding: 4px 6px 10px;
+  margin-bottom: 4px;
+}
+
+.sidebar-project-pill {
+  padding: 7px 10px;
+  margin: 0 4px 4px;
+}
+
+.workspace-label {
+  margin: 10px 8px 3px;
+}
+
+.nav-item {
+  padding: 7px 10px;
+  font-size: 13px;
 }
 
 /* Responsive Breakpoints */
@@ -3539,7 +3564,7 @@ td code {
 }
 
 .meta-sep {
-  color: var(--ink-subtle);
+  color: var(--muted);
   font-weight: 700;
 }
 
@@ -3554,7 +3579,7 @@ td code {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--sidebar-muted);
+  color: var(--nav-muted);
 }
 
 .project-create {
@@ -3565,31 +3590,6 @@ td code {
 
 .project-create .wide-input {
   grid-column: 1 / -1;
-}
-
-.sidebar {
-  padding: 16px 12px;
-  gap: 2px;
-  scrollbar-width: thin;
-}
-
-.sidebar .brand {
-  padding: 4px 6px 10px;
-  margin-bottom: 4px;
-}
-
-.sidebar-project-pill {
-  padding: 7px 10px;
-  margin: 0 4px 4px;
-}
-
-.workspace-label {
-  margin: 10px 8px 3px;
-}
-
-.nav-item {
-  padding: 7px 10px;
-  font-size: 13px;
 }
 
 .topbar-breadcrumbs {
@@ -3605,11 +3605,11 @@ td code {
   margin-left: 6px;
   padding: 3px 10px;
   border-radius: 999px;
-  background: var(--surface-muted);
+  background: var(--bg-subtle);
   border: 1px solid var(--line);
   font-size: 12px;
   font-weight: 600;
-  color: var(--ink-soft);
+  color: var(--text-secondary);
 }
 
 .draft-reconciliation label {
