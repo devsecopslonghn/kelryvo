@@ -7,12 +7,22 @@ export default function MigrationHistory({ projectId, detail, token, request, ta
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [query, setQuery] = useState(()=>{const id=new URLSearchParams(location.search).get('historyPlan');return /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(id || '')?id:'';});
-  const [targetId, setTargetId] = useState('ALL');
+  const initialTarget = useRef(new URLSearchParams(location.search).get('historyTarget'));
+  const [targetId, setTargetId] = useState(() => /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(initialTarget.current || '') ? initialTarget.current.toLowerCase() : 'ALL');
   const [status, setStatus] = useState('ALL');
   const [selectedJob, setSelectedJob] = useState(null);
   const contextEpoch = useRef(0);
   const detailSequence = useRef(0);
   const initialRequest = useRef(new URLSearchParams(location.search).get('historyJob'));
+
+  // Consume only the schema navigation handoff. Ordinary history opens remain unfiltered.
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.has('historyTarget') && params.get('historyTarget') === initialTarget.current) {
+      params.delete('historyTarget');
+      history.replaceState(null, '', `${location.pathname}${params.size ? `?${params}` : ''}${location.hash}`);
+    }
+  }, []);
 
   useEffect(() => {
     setPageData(null);
