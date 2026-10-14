@@ -7,6 +7,7 @@ import { MAX_STDOUT_BYTES } from '../../experiments/db-devops-wp0/parser-envelop
 import { MAX_RELEASE_BYTES, MAX_RELEASE_FILES } from '../../experiments/db-devops-wp0/parser-release.mjs';
 import { verifyOfflinePlanIntent } from '../migrations/offline-plan-intent.mjs';
 import { checkTargetCurrentness } from '../targets/index.ts';
+import { profilePlanCurrent } from '../connectivity/management.ts';
 import { validationForIntent, validationCurrentness } from '../sql-validation/results.ts';
 import { acquireTargetLocks } from '../targets/locks.ts';
 
@@ -139,7 +140,7 @@ export async function readExecutionRequest(tx: any, jobId: string, admitted = fa
     FOR SHARE OF p,e`)[0];
   const preflight = await preflightRetainedRelease(tx, { id: plan.release_id, organizationId: ORG,
     projectId: project.id, repositoryId: project.source_repository_id, folder: project.source_folder });
-  if (!profile || !profile.credential_ref || !preflight.valid) return null;
+  if (!profile || !profile.credential_ref || !preflight.valid || !await profilePlanCurrent(tx,plan.id)) return null;
   let executionTarget = null;
   if (intent.target) {
     const target = {...intent.target,profileId:intent.profileId,environmentId:intent.environmentId,
