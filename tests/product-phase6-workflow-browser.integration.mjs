@@ -47,7 +47,9 @@ test('HTTPS browser completes registration through discovery, SQL review, indepe
     assert.deepEqual(await page.evaluate(() => [localStorage.length, sessionStorage.length]), [0, 0]);
     assert.equal(await page.evaluate(async () => (await fetch('/api/session/logout', {method: 'POST'})).status), 403);
 
+    const openLegacyTools = async () => { const details = page.locator('details.advanced-instance-tools'); if (!(await details.evaluate(element => element.open))) await details.locator(':scope > summary').click(); };
     await page.getByRole('button', {name: /Database instances/}).click();
+    await openLegacyTools();
     const discovery = page.getByRole('region', {name: 'Database connection discovery'});
     const instance = discovery.locator('details').filter({hasText: 'Register a database instance'});
     await instance.getByLabel('Instance name').fill('Phase 6 disposable reference');
@@ -90,6 +92,7 @@ test('HTTPS browser completes registration through discovery, SQL review, indepe
     assert.ok(binding);
 
     await page.getByRole('button', {name: /Database instances/}).click();
+    await openLegacyTools();
     const connectionForm = discovery.locator('details').filter({hasText: 'Register a project connection'});
     await connectionForm.getByLabel('Assigned infrastructure').selectOption(assignment.id);
     await connectionForm.getByLabel('Connection name').fill('Phase 6 read-only discovery');

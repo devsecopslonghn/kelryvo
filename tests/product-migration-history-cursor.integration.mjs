@@ -99,7 +99,7 @@ test('migration history cursors remain stable across ties and writes and expose 
     const tiedAt = '2020-01-01T00:00:00.123456Z';
     for (let index = 0; index < 31; index++) {
       await database.sql`INSERT INTO sf_history(project_id,plan_id,version,path,sha256,status,created_at)
-        VALUES(${project.id},${plan.id},${String(index + 1)},${`migrations/V${String(index + 1).padStart(3, '0')}__tie.sql`},${String(index).padStart(64, 'd')},'NOT_EXECUTED',${tiedAt}::timestamptz)`;
+        VALUES(${project.id},${plan.id},${String(index + 1)},${`migrations/V${String(index + 1).padStart(3, '0')}__tie.sql`},${String(index).padStart(64, 'd')},'NOT_EXECUTED',${tiedAt}::text::timestamptz)`;
     }
 
     const jobId = randomUUID(), approvalReference = randomUUID();
@@ -122,6 +122,7 @@ test('migration history cursors remain stable across ties and writes and expose 
     assert.equal(first.status, 200);
     assert.equal(first.body.items.length, 25);
     assert.ok(first.body.nextCursor);
+    assert.ok(first.body.items.some(item=>item.kind==='migration' && item.at.includes('.123456')), 'fixture retains PostgreSQL microseconds without driver rounding');
     assert.equal(first.body.total, 34);
     const planEvents = await api(`${base}?q=${plan.id}`);
     const planEvent = planEvents.body.items.find(item => item.id === `plan:${plan.id}`);

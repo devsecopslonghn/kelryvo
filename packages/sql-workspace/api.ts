@@ -8,19 +8,14 @@ import { buildValidation, readSchemaEvidence, validationFailure } from '../sql-v
 import { prepareAuthoredSnapshot } from '../migrations/authored-snapshot.mjs';
 import { preflightHistoricalRelease } from '../migrations/retained-release-preflight.mjs';
 import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs';
+import { migrationFileVersion, compareMigrationFiles } from './contracts.mjs';
 
 const MAX_SQL_BYTES = 1_048_576;
 const MAX_DRAFT_FILES = 128;
 const uuid = (value: any) => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 const revision = (value: any) => typeof value === 'string' && /^[1-9][0-9]{0,18}$/.test(value) && BigInt(value) <= 9223372036854775807n;
 const hash = (value: string) => createHash('sha256').update(value, 'utf8').digest('hex');
-const fileVersion = (path: string) => {
-  const match = /^V(\d+(?:[._]\d+)*)__[A-Za-z0-9_-]+\.sql$/.exec(path);
-  if (!match) return null;
-  const parts = match[1].split(/[._]/).map(part => BigInt(part).toString());
-  while (parts.length > 1 && parts.at(-1) === '0') parts.pop();
-  return parts.join('.');
-};
+const fileVersion = migrationFileVersion;
 const aggregateFilesHash = (files: any[]) => hash(JSON.stringify(files.map(file => ({
   id: file.id, path: file.path, version: file.version, order: file.order, sha256: file.sha256,
 }))));
@@ -61,11 +56,7 @@ const normalizeFiles = (input: any, requireIds = false, stored = false) => {
     ids.add(id); paths.add(entry.path); versions.add(version);
     files.push({ id, path: entry.path, version, order: 0, sql: entry.sql, sha256 });
   }
-  files.sort((a,b) => {
-    const av=a.version.split('.').map(BigInt),bv=b.version.split('.').map(BigInt);
-    for(let i=0;i<Math.max(av.length,bv.length);i++){const x=av[i]??0n,y=bv[i]??0n;if(x!==y)return x<y?-1:1;}
-    return a.path.localeCompare(b.path);
-  });
+  files.sort(compareMigrationFiles);
   files.forEach((file,index)=>file.order=index);
   return files;
 };
@@ -269,6 +260,33 @@ export function registerSqlWorkspace(app: any, { sql, authenticate, releaseParse
             WHERE id=${req.query.after??null}::uuid AND project_id=${req.params.projectId} AND organization_id=${ORG}))
         ORDER BY updated_at DESC,id DESC LIMIT 51`;
       return { drafts: await Promise.all(rows.slice(0,50).map((row: any) => mapDraft(tx, row, false, project))),nextCursor:rows.length>50?rows[49].id:null };
+    });
+  });
+
+  route('get', '/api/projects/:projectId/releases/:releaseId/draft-origin', async (req: any) => {
+    if (!uuid(req.params.projectId) || !uuid(req.params.releaseId) || Object.keys(req.query || {}).length) throw fail('NOT_FOUND',404);
+    return sql.begin(async (tx: any) => {
+      const project=await readGuard(tx,req);
+      const origin=(await tx`SELECT o.draft_id,o.draft_revision::text AS draft_revision,o.draft_sha256,o.draft_manifest_version,
+        o.source_binding_generation::text AS source_binding_generation
+        FROM sf_sql_workspace_releases o JOIN sf_releases r ON r.id=o.release_id AND r.project_id=o.project_id
+        WHERE o.release_id=${req.params.releaseId} AND o.project_id=${project.id} AND o.organization_id=${ORG} AND r.organization_id=${ORG} FOR SHARE OF o,r`)[0];
+      if(!origin)throw fail('NOT_FOUND',404);
+      const bounds=await preflightHistoricalRelease(tx,{id:req.params.releaseId,projectId:project.id,organizationId:ORG});
+      if(!bounds.valid)throw fail('RELEASE_INTEGRITY_FAILED',409);
+      const release=(await tx`SELECT * FROM sf_releases WHERE id=${req.params.releaseId} AND project_id=${project.id} AND organization_id=${ORG}`)[0];
+      const row=await draftRow(tx,project.id,origin.draft_id);
+      if(!row)throw fail('DRAFT_INTEGRITY_FAILED',409);
+      const historical=await revisionRow(tx,row.id,project.id,origin.draft_revision);
+      // Verify historical folder/repository facts, independently of today's source binding.
+      if(historical.sha256!==origin.draft_sha256 || !releaseMatchesDraft(release,
+        {source_repository_id:release.repository_id,source_folder:release.folder},historical,origin))throw fail('RELEASE_INTEGRITY_FAILED',409);
+      return {origin:{projectId:project.id,releaseId:release.id,manifestDigest:release.manifest_digest,draftId:row.id,
+        draftRevision:origin.draft_revision,draftSha256:origin.draft_sha256,manifestVersion:origin.draft_manifest_version,
+        currentRevision:row.revision,sourceBindingCurrent:project.source_binding_generation===origin.source_binding_generation
+          && project.source_repository_id===release.repository_id && project.source_folder===release.folder,
+        files:historical.files.map((file:any,index:number)=>({draftFileId:file.id,draftPath:file.path,
+          releasePath:release.files[index].path,sha256:file.sha256}))}};
     });
   });
 

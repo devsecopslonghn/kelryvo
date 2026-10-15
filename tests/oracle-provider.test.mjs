@@ -9,9 +9,9 @@ function fixture({installedOverrides={},connectionOverrides={},connectionFactory
   const request={jobId:randomUUID(),planId:randomUUID(),approvalReference:randomUUID(),intentDigest:hash('intent'),
     profile:{engine:'oracle',username:'APP',service:'SERVICE'},migrations:[{path:'V1.sql',version:'1',sha256:hash('file'),
       statementManifestDigest:hash('manifest'),statementDigests:[hash('stmt')]}],statementDigests:[hash('stmt')]};
-  const events=[],connections=[]; let authCount=0;
+  const events=[],connections=[],authorizedRequests=[]; let authCount=0;
   const installed={scope:'UNIT_SYNTHETIC',workerId:'unit-worker',authorize:async r=>{
-    events.push('authorize');authCount++;
+    events.push('authorize');authorizedRequests.push(r);authCount++;
     return {scope:'UNIT_SYNTHETIC',action:'EXECUTE_APPROVED_MIGRATIONS',workerId:'unit-worker',jobId:r.jobId,planId:r.planId,
       intentDigest:r.intentDigest,approvalReference:r.approvalReference,
       profileDigest:executionDigest(Object.fromEntries(Object.entries(r.profile).sort(([a],[b])=>a.localeCompare(b)))),
@@ -25,7 +25,7 @@ function fixture({installedOverrides={},connectionOverrides={},connectionFactory
     events.push('connect:'+opts.connectString);const c={callTimeout:0,closed:0,execute:async()=>{events.push('execute');},
       commit:async()=>{},rollback:async()=>{},close:async()=>{c.closed++;events.push('close:'+opts.connectString);},...connectionOverrides};connections.push(c);return c;
   })});
-  return {provider,request,events,connections,...overrides};
+  return {provider,request,events,connections,authorizedRequests,...overrides};
 }
 
 test('authorizes exact purpose and request before resolving routes or opening two bounded sessions',async()=>{
@@ -38,6 +38,54 @@ test('authorizes exact purpose and request before resolving routes or opening tw
   assert.equal(f.connections.every(c=>c.closed===1),true);
   assert.equal(f.events.includes('execute'),false);
   assert.equal(raw.writer.closed,1);
+});
+
+test('preserves the immutable governed execution target through authorization and target binding',async()=>{
+  const target={assignmentId:randomUUID(),expectedIdentityDigest:hash('target-identity'),exactOwner:'APP',
+    bindingId:randomUUID(),bindingRevision:4,streamId:randomUUID(),lineageId:randomUUID(),migrationNamespace:'schema-a'};
+  const seen=[];
+  const f=fixture({installedOverrides:{bindTarget:async(request,_permit,writer,ledgerOwner,ledgerOwnerName)=>{
+    seen.push(request.executionTarget);
+    return {writer,ledgerOwner,ledgerOwnerName,attest:async()=>null,verifyEmptyTarget:async()=>false,
+      claimDispatch:async()=>null,verifyPostconditions:async()=>false,centralEvidenceComplete:async()=>false};
+  }}});
+  f.request.executionTarget=target;
+  const permit=await f.provider.authorize(f.request);
+  assert.deepEqual(seen,[]);
+  assert.deepEqual(f.authorizedRequests[0].executionTarget,target);
+  assert.notEqual(f.authorizedRequests[0].executionTarget,target);
+  assert.equal(Object.isFrozen(f.authorizedRequests[0].executionTarget),true);
+  await f.provider.withTarget(f.request,permit,async()=>{});
+  assert.deepEqual(seen,[target]);
+  assert.notEqual(seen[0],target);
+  assert.equal(Object.isFrozen(seen[0]),true);
+  assert.equal(seen[0],f.authorizedRequests[0].executionTarget);
+});
+
+test('rejects non-finite target fields before authorization or private route resolution',async()=>{
+  for(const value of [NaN,Infinity,-Infinity]){
+    const f=fixture();
+    f.request.executionTarget={assignmentId:randomUUID(),expectedIdentityDigest:hash('identity'),exactOwner:'APP',bindingRevision:value};
+    assert.equal(await f.provider.authorize(f.request),null);
+    assert.deepEqual(f.events,[]);
+  }
+});
+
+test('rejects malformed or changed execution targets before resolving private routes',async()=>{
+  const malformed=fixture();
+  const bad={assignmentId:randomUUID(),expectedIdentityDigest:hash('identity'),exactOwner:'APP'};
+  Object.defineProperty(bad,'lineageId',{enumerable:true,get(){throw Error('must not evaluate accessor');}});
+  malformed.request.executionTarget=bad;
+  assert.equal(await malformed.provider.authorize(malformed.request),null);
+  assert.equal(malformed.events.includes('resolve'),false);
+
+  const changed=fixture();
+  changed.request.executionTarget={assignmentId:randomUUID(),expectedIdentityDigest:hash('identity'),exactOwner:'APP'};
+  const permit=await changed.provider.authorize(changed.request);
+  changed.request.executionTarget.exactOwner='OTHER';
+  await assert.rejects(changed.provider.withTarget(changed.request,permit,async()=>{}),
+    error=>error.message==='Oracle target capability unavailable');
+  assert.equal(changed.events.includes('resolve'),false);
 });
 
 test('denies wrong request, copied forged authority, wrong purpose, reuse, and overlapping invocation',async()=>{

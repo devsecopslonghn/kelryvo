@@ -36,6 +36,8 @@ export function oracleHostFixture(options={}) {
       },execute:async(sql,binds,configuration)=>{
         assert.equal(writer.closed,false,'provider retains physical writer until worker settles');
         if (sql===oracleHostIdentitySql) return { rows:[structuredClone(writer.identity)] };
+        if(sql.startsWith('ALTER SESSION SET CURRENT_SCHEMA = ')) { writer.identity.SCHEMA_NAME=sql.slice(sql.indexOf('=')+1).trim().slice(1,-1).replaceAll('""','"');return {}; }
+        if(sql.startsWith('SELECT OBJECT_TYPE FROM SYS.ALL_OBJECTS')) return {rows:options.existingTable===false?[]:[{OBJECT_TYPE:options.existingTableType??'TABLE'}]};
         if (sql.startsWith('BEGIN SF_OWNER.SF_TARGET_MUTEX.')) {
           writer.lockCalls.push(sql);
           assert.equal(configuration.autoCommit,false);
@@ -52,7 +54,8 @@ export function oracleHostFixture(options={}) {
           return { outBinds:{ result:0 } };
         }
         assert.ok(writer.lock,'writer SQL requires same-session mutex');
-        const state=await createOracleTargetLedger(owner).read(id);
+        const runtimeId=oracleTargetLedgerId({...binding,...(request.executionTarget?.credentialMode==='INSTANCE_MASTER'?{credentialMode:'INSTANCE_MASTER',streamId:request.executionTarget.streamId}:{})});
+        const state=await createOracleTargetLedger(owner).read(runtimeId);
         assert.equal(state.ledgerState,'IN_FLIGHT');assert.equal(state.startedFiles.at(-1).statementStates.at(-1),'STARTED');
         if (beforeDispatch) await beforeDispatch(sql,request,writer,state);
         calls.push(sql);

@@ -2,11 +2,19 @@
 
 Kelryvo is a self-hosted, Oracle-first Database DevOps platform. The runnable product combines a TypeScript/Fastify API, React browser app and PostgreSQL metadata.
 
-**Start with [product requirements, current capabilities and roadmap](docs/product/KELYRVO_PRODUCT_REQUIREMENTS.md).** It is the authoritative product document, reconciled through Phase 14 PR #93. The [next-session entry](docs/implementation/CURRENT.md) links the implementation and safety guides.
+**Start with [product requirements, current capabilities and roadmap](docs/product/KELYRVO_PRODUCT_REQUIREMENTS.md).** It is the authoritative product document, including the instance master credential architecture. The [next-session entry](docs/implementation/CURRENT.md) links the implementation and safety guides.
 
-Today you can configure projects, environments and revisioned connections; manage assigned schema targets; import immutable local Git releases or author SQL drafts; validate and compare SQL offline; prepare target-bound plans; review independently; request/cancel deployment; and inspect retained audit/history and checksummed records. Backups, restore hold, secure HTTPS sessions and reproducible local source installation are integrated.
+Connect one Oracle instance credential reference, discover schemas and assign several
+of them to a project. Author or import SQL, validate scope, prepare a retained plan,
+obtain independent approval, execute through the trusted worker and inspect immutable
+history and audit. Credential changes stale old authority without rewriting evidence.
 
-Live Oracle connectivity, discovery and DDL execution remain **unverified**. Configuration preflight and fixture/synthetic evidence never certify Oracle effects. Without separately authorized target evidence and trusted worker installation, requests stay non-executable. The next milestone is verified **read-only Oracle onboarding**, with its explicit entry gate and acceptance criteria in the roadmap.
+Automatic SQL is restricted to a conservative schema DDL subset; approval cannot
+override scope denial. Live Oracle evidence is limited to the explicitly attested
+disposable Oracle Free PDB lab and tested statements. Production installation, other
+versions/topologies and the full fault/recovery matrix require separate acceptance.
+The API alone cannot install execution authority. See the product requirements and
+[Oracle acceptance guide](docs/development/oracle-acceptance.md) for exact boundaries.
 
 ## Development
 

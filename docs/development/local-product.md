@@ -1,5 +1,40 @@
 # Local SchemaForge product
 
+## Instance onboarding
+
+Use **Database instances & connections** to connect a master credential reference,
+discover schemas, assign one or more exact owners to a project environment and verify
+each target. Workspace database management plus current project access is required for
+registration, reuse and assignment. Project membership alone does not grant this authority.
+The master secret stays in the external resolver; the UI accepts a reference, never a
+password. The discovery child performs fixed bounded SELECTs even when its account also
+has migration privileges. Its accepted manifest explicitly bounds exact owner scopes.
+
+The existing `/api/projects/:projectId` namespace adds:
+
+- `POST /database-instances/master`: name, containerName, kind, environment, host, port,
+  service, transport, username, credentialRef, reason. This registers no guessed schema.
+- `GET /database-instances/master`: bounded available workspace masters for managers.
+- `POST /database-instances/attach`: connectionId, reason; association only, no transfer.
+- `POST /database-connections/:connectionId/assign-schemas`: observationId,
+  expectedConnectionRevision, owners (1–50 exact names), environmentId, reason. Requires
+  the latest fresh discovery and confirmed owner visibility. It creates provisional
+  target options/bindings and a derived profile linked to the exact master revision.
+
+Use existing discover/target verify, SQL Workspace, validation, plan, decision and
+execution-request endpoints after assignment. Verification requires accepted live evidence;
+fixtures remain provisional. Master lifecycle/configuration stays on the existing connection
+management routes. Derived profiles reject independent edits with INSTANCE_PROFILE_MANAGED.
+After master changes, discover and assign/rebind afresh before a new independent review.
+Advanced and legacy connection tools retain historical profiles and evidence.
+
+The worker rechecks conservative schema scope independently of approval. Scalar table
+creation/add-column and simple indexes are supported; dynamic/procedural/admin SQL,
+expressions, DML and synonym targets cannot execute automatically. Master account privileges
+are installed explicitly; no DBA account or data-query capability is implied. The protected
+ledger/mutex installation still uses its internal authority and must attest grants, physical
+identity, external-change exclusion and postconditions before dispatch.
+
 ## Target-bound offline governance
 
 Select a granted project, open **Project targets**, and explicitly choose an active schema
@@ -8,8 +43,8 @@ appends immutable revision evidence. Import a retained SQL release under **Relea
 choose the binding, and select **Prepare target-bound plan**. The plan retains format-3
 source and target facts. A different authorized approver reviews the saved facts; a current
 project member with a separate deploy grant can then request deployment. Requests remain
-`WAITING_VALIDATION`; format-3 evidence cannot enter worker admission. No Oracle SQL is
-executed by this workflow. Requests, decisions, history and audit remain available after restart.
+`WAITING_VALIDATION` until a separately installed trusted worker accepts the current target,
+source, scope, history and runtime authority. API requests alone execute no Oracle SQL. Requests, decisions, history and audit remain available after restart.
 
 The trusted local inventory CLI adds `target-option` alongside `declare`/`assign`/`release`.
 It uses the same private `--config` and local metadata URL authority. Required flags are
@@ -1357,6 +1392,31 @@ part of connection management.
 
 ## Schema-aware SQL validation and planning
 
+Authored release inspection and retained validation findings offer **Open originating
+draft**. The read-only `GET /api/projects/:projectId/releases/:releaseId/draft-origin`
+route rechecks membership and verifies the retained release against its exact historical
+draft revision before returning IDs, digests and file mappings. Ordinary Git imports
+have no authored origin. Historical origin reads remain available after source-binding
+changes and project archive; write authority remains governed by the existing draft APIs.
+
+The workspace opens the current draft, labels the originating historical revision, and
+focuses the matching immutable file ID. It selects historical UTF-8 statement positions
+only when the current file checksum still matches the release. Changed or removed files
+show a warning; removed files are not restored automatically. Unsaved edits block origin
+navigation, and stale responses cannot replace another project or session. Corrections
+require an explicit save, a new release, fresh validation and independent approval.
+Earlier releases, findings and decisions retain their original meaning.
+
+New validation reports include per-statement `catalogReferences`: exact owner/name/role,
+retained snapshot ID, observation state, and matching object types/checksums. These are
+structural observations only; missing matches stay `UNKNOWN`, foreign owners are
+`OUT_OF_SCOPE`, an observed identity mismatch is `IDENTITY_MISMATCH`, and statements
+with database links use `LINK_SCOPE_UNVERIFIED` and withhold local matches. Coverage,
+provenance and limitations remain in the retained snapshot summary. Object definitions
+and unrelated catalog objects are excluded from validation records. `objectCheck` and
+Oracle semantics remain unverified; the fields grant no execution authority and do not
+simulate statement order. Historical reports without this field remain readable.
+
 Inspect a retained release under **Releases**, choose **Validation target**, and select
 **Validate against target**. The API verifies retained source bytes, reuses the pinned
 Oracle parser and records deterministic, immutable validation evidence. The result
@@ -1414,8 +1474,14 @@ both manifest generations and source attribution, and restore retains recovery H
 The editor applies the saved name returned by the API, preserves its current content
 when a file response is incomplete, and clears comparisons when the selected revisions
 change. Revision conflicts preserve local edits while the user inspects the latest saved
-revision and explicitly keeps or discards them; keeping edits requires a subsequent
-revision-checked save. File removal can be undone, and dirty drafts block project changes,
+revision. Reconciliation compares the cached saved base, local editor and latest manifest
+by immutable file ID: independent file changes are combined, while overlapping edits,
+renames, removals, names and targets require explicit choices. SQL text is never merged.
+Duplicate filenames or canonical migration versions, file-count and SQL-size limits block
+applying the result until resolved. Explicitly excluded files survive in prior revisions.
+**Apply reconciliation to editor** stages the result without a write; **Save draft** uses
+the latest expected revision. Another concurrent save produces a new conflict and retains
+the staged edits for another inspection. File removal can be undone, and dirty drafts block project changes,
 refresh and manual sign-out. The workspace displays active files, per-file unsaved changes
 and the current lifecycle stage with guidance for the next action.
 
@@ -1450,11 +1516,23 @@ status changes can change filter membership. Refresh starts a new traversal. Leg
 clients remain compatible. HOLD rows expose the latest attributed transition, attempt and
 receipt count; request details retain the full paginated event/recovery timeline and
 execution evidence. Request permalinks restore that authorized context after restart.
+Opening history from schema baselines applies that exact target binding as the initial
+filter and clears an earlier plan/request permalink. The handoff is consumed once;
+ordinary history navigation starts with all targets. Manual target changes preserve
+the search and status filters and reset the cursor traversal.
 
 
 ## Schema snapshots, baselines and drift
 
 R2 extends the same opt-in Oracle discovery adapter. The default runtime returns unavailable evidence. `SCHEMA` is an internal runtime operation with a bound exact owner, using only fixed SELECTs against `ALL_TABLES`, `ALL_TAB_COLUMNS`, `ALL_CONSTRAINTS`, `ALL_CONS_COLUMNS`, `ALL_VIEWS`, `ALL_SEQUENCES`, `ALL_INDEXES`, `ALL_IND_COLUMNS` and `ALL_DEPENDENCIES`. The existing endpoint manifest, child-process timeout, pinned network destinations, transport checks and discovery-secret boundary apply. A configured runtime is not accepted Oracle evidence.
+
+The snapshot detail table supports local literal owner/name search and type filtering over
+the bounded retained objects. Counts describe the filtered view; no matches do not establish
+schema absence. Clearing restores every retained object, and opening a different snapshot
+resets the filters. Expanded definitions show their retained object SHA-256. Baseline capture
+uses the entire selected snapshot regardless of the view filters. Comparison choices distinguish
+named baselines from raw observations with timestamps and full snapshot IDs, including when
+names repeat; comparison identity remains the retained snapshot.
 
 Collection limits are 2,001 fetched rows per query (2,000 retained), 1,000 normalized objects and roughly 1 MiB of object payload. API collection has a deadline of at most ten seconds and at most two in-flight discovery operations per application; the same connection cannot overlap. Object/byte bounds, unsupported definitions, partition definitions, privileges and owner visibility downgrade completeness. Only the session's exact owner can have complete dictionary visibility. Multi-query collection explicitly lacks a catalog consistency witness; comparison remains UNVERIFIED even when all queries succeeded. Sequence values exclude volatile `LAST_NUMBER`. CHECK expressions and column defaults are structural evidence; no DDL or user SQL is executed.
 

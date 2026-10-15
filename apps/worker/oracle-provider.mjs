@@ -42,8 +42,16 @@ function snapshotRequest(input) {
       total+=m.statementDigests.length;if(total>MAX_PLAN_STATEMENTS) throw reject();
       return privateSnapshot(m);
     });
+    const executionTarget=input.executionTarget;
+    if(executionTarget!==undefined&&(!isRecord(executionTarget)||!executionUuid(executionTarget.assignmentId)
+        ||!DIGEST.test(executionTarget.expectedIdentityDigest??'')||typeof executionTarget.exactOwner!=='string'
+        ||executionTarget.exactOwner.length<1||executionTarget.exactOwner.length>128
+        ||Object.values(executionTarget).some(value=>value!==null&&(!['string','number','boolean'].includes(typeof value)
+          ||typeof value==='number'&&!Number.isFinite(value)))
+        ||JSON.stringify(executionTarget).length>8192))return null;
     const copy={jobId:input.jobId,planId:input.planId,approvalReference:input.approvalReference,intentDigest:input.intentDigest,
-      profile:privateSnapshot(input.profile),migrations,statementDigests:privateSnapshot(input.statementDigests)};
+      profile:privateSnapshot(input.profile),migrations,statementDigests:privateSnapshot(input.statementDigests),
+      ...(executionTarget!==undefined?{executionTarget:privateSnapshot(executionTarget)}:{})};
     if(executionDigest(migrations.flatMap(m=>m.statementDigests))!==executionDigest(copy.statementDigests)) return null;
     return deepFreeze(copy);
   } catch { return null; }

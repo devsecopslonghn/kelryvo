@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-15T03:04:53.836051+00:00",
+  "status": "IN_PROGRESS",
+  "sourceCommit": "1e133715f964b5abc9210a082487cd1e15c07143",
+  "supersedesStatusOnly": "r3-checkpoint.json; historical artifacts retained unchanged",
+  "oracleVariant": {
+    "version": "Oracle AI Database 26ai Free 23.26.3.0.0",
+    "topology": "CDB/PDB",
+    "transport": "private TCP",
+    "doesNotCertify": "19c/21c TCPS or production operation"
+  },
+  "checkpointVerification": {
+    "originalV1": "VERIFIED_SUCCESS; two acknowledged CREATE TABLE effects independently reobserved",
+    "originalV2": "VERIFIED_SUCCESS; only two new statements, V1 chain preserved",
+    "originalNOOP": "HOLD retained; corrected private harness state gate tested on fresh independently accepted lineage"
+  },
+  "freshR3": {
+    "v1": "VERIFIED_SUCCESS, two statement receipts",
+    "v2": "VERIFIED_SUCCESS, two new receipts and preserved V1",
+    "noop": "NOOP, zero statement STARTED/ACK/receipts and unchanged target ledger",
+    "browserAuthoredRequest": "NOOP after independent installation review; same zero-dispatch and unchanged ledger checks"
+  },
+  "browser": {
+    "realApplication": true,
+    "requestJourney": [
+      "project selection",
+      "two-file SQL authoring",
+      "target validation",
+      "immutable plan",
+      "assigned independent reviewer",
+      "separate approver approval",
+      "separate deployer request",
+      "installed real Oracle worker NOOP",
+      "consolidated history",
+      "audit reload"
+    ],
+    "schemaJourney": "Two actual four-table observations, immutable baseline and comparison; baseline retained after reload/reselection",
+    "comparisonState": "UNVERIFIED",
+    "limitations": [
+      "Foreign-owner visibility remains partial",
+      "Multi-query consistency is not certified",
+      "No inferred absence or verified no-drift claim"
+    ]
+  },
+  "oaResults": {
+    "OA01": {
+      "status": "NOT_RUN",
+      "verifiedSubset": "Exact identity and correct owner observed; explicitly mismatched governed writer route pending"
+    },
+    "OA02": {
+      "status": "PASS",
+      "scope": "Purpose-separated grants, denial probes and private resolver isolation"
+    },
+    "OA03": {
+      "status": "PASS",
+      "scope": "Actual V1/V2 ordered bytes, target/central receipt chain"
+    },
+    "OA04": {
+      "status": "PASS",
+      "scope": "Independent marker/object observations show commits preceding successful and ORA-00955 DDL survive same-session rollback"
+    },
+    "OA05": {
+      "status": "NOT_RUN",
+      "verifiedSubset": "Real session mutex excludes second writer across COMMIT; governed alias concurrency pending",
+      "preparation": "Fresh fixture purpose/reader qualification passed; actual alias probe retained two concurrently open discovery sessions with distinct IDs and the same full physical identity. Separate direct observer confirmed zero writer sessions. Two governed writer candidates and actual mutex concurrency remain pending."
+    },
+    "OA06": {
+      "status": "PASS",
+      "scope": "Real owned-child stops after first durable STARTED claim and after statement1 ACK plus second durable claim; independent Oracle/central observations and native expired-lease recovery preserve ledger, receipts, original events and generation1 under HOLD. Both private controllers had recorded failures; no worker was rerun.",
+      "controllerLimitations": "Case2 post-recovery Result/Array assertion failed after native HOLD; case1 admitted-check API startup blocked on frozen transaction relation lock, root canceled only identified own initializer and reaped child. Neither original failed journal was rewritten."
+    },
+    "OA07": {
+      "status": "FAIL",
+      "safetySubclaim": "PASS: approved statement-1 response loss left T1 present, T2 absent, target IN_FLIGHT with only ordinal1 STARTED, central job/attempt HOLD, zero receipts and no replay. Separate independently reviewed read-only post-fault verification preserved exact native target and central state.",
+      "failure": "Worker reported HOLD_PERSISTENCE_PENDING after host cleanup threw although HOLD was durable; original controller FAIL and one-shot journal retained unchanged.",
+      "remediation": "PR111 merged with exact-claim durable HOLD verification and PostgreSQL regression; no replay of the ambiguous request."
+    },
+    "OA08": {
+      "status": "PASS",
+      "scope": "Actual ambiguous admitted HOLD reconciliation while the canonical Oracle stream mutex is held: two separate writer sessions decline; self-review is denied; independent RETAIN_HOLD and application restart preserve the lock, central event/receipt snapshots, target ledger and objects. Only the owned holder explicitly releases its lock after verification.",
+      "oracleDdlCalls": 0,
+      "oracleDmlCalls": 0
+    },
+    "OA09": {
+      "status": "NOT_RUN",
+      "verifiedSubset": "Actual queued, admitted-after-reaping, and held request exact key repeats original; changed payload/new key rejected with unchanged job/attempt/receipt counts. V1/V2 and successful fresh NOOP retained. Incompatible-history case pending."
+    },
+    "OA10": {
+      "status": "PASS",
+      "scope": "Native execution-metadata archive and separate restore preserve V1/V2/NOOP joined evidence, restored queued request HOLD, witness/predecessor and immutable prior audit; actual installed provider gate performs zero authority/route/target calls"
+    }
+  },
+  "r4": {
+    "status": "PARTIAL",
+    "verified": [
+      "Application and worker restart durability",
+      "Supervised children REAPED with terminal receipts",
+      "Execution metadata backup/restore and persistent RESTORE_HOLD",
+      "Source remains ACTIVE and unchanged through restore",
+      "Restored copied queued request HOLD while source later legitimately completes NOOP",
+      "Two actual restored application startups preserve RESTORE_HOLD, copied request HOLD and revoked credential set; old token rejected",
+      "Actual post-statement-1 worker interruption and metadata-only expired-lease HOLD preserve target checksum, original central event prefix, one receipt and generation 1",
+      "Before-first-migration-call owned interruption: independent observer sees anchor only and STARTED1 IN_FLIGHT ledger; native expired-lease recovery to HOLD preserves checksum/sequence, original events, zero receipts and generation1",
+      "Admitted ambiguous-DDL HOLD reconciliation and independent RETAIN_HOLD decision survive application restart without central execution evidence changes",
+      "Live held canonical mutex remains held through reconciliation and application restart; independent contenders decline, target/central evidence unchanged",
+      "Lost acknowledgment safety: T1 exists, T2 absent, STARTED1 retained under durable HOLD, no receipts/replay; worker reporting defect disclosed and fixed separately"
+    ],
+    "remaining": [
+      "Governed alias concurrency and mismatch admission coverage",
+      "OA07 historical full-case FAIL retained; corrected future behavior covered by PostgreSQL regression, not by replay"
+    ]
+  },
+  "delivery": {
+    "uiPR": "https://github.com/devsecopslonghn/kelryvo/pull/109",
+    "mergeCommit": "27fbaecb6f213b306adf904da854ebf117c37536",
+    "verification": "584 full local checks passed; required hosted checks passed before merge",
+    "holdReportingFix": {
+      "pr": "https://github.com/devsecopslonghn/kelryvo/pull/111",
+      "mergeCommit": "1e133715f964b5abc9210a082487cd1e15c07143",
+      "verification": "Full local check passed with configured Java; hosted PostgreSQL regression 13 passed, zero failed/skipped; required CI passed and independent review accepted."
+    }
+  },
+  "provenanceLimitations": [
+    "Fresh V2 raw installation probe was accidentally overwritten during NOOP preparation; its original digest, independent acceptance and independent effect observations remain. Incident retained; current replacement is not claimed to match original bytes.",
+    "OA04 first attempt stopped on read-only identity alias error before any mutation; fresh approved attempt2 passed.",
+    "Read-only/UI harness failures remain retained; resume used existing snapshots/baseline without repeating capture.",
+    "During OA06 static preparation, a helper imported a provisioning entry point without the required independent review. Forty-nine provisioning operations were acknowledged before a harness identity-shape assertion stopped the script. Four isolated purpose principals, a writer anchor and seven ledger/mutex objects are retained and quarantined; no migration worker ran. Independent read-only inspection matched identity, narrow grants, empty target ledger, valid scoped objects and no residual owned sessions. This is a gate incident, not OA06 acceptance; provisioner was not replayed.",
+    "Case2 recovery controller failed after native recovery because PostgreSQL Result-array type differed from sliced Array. Job and attempt were independently confirmed HOLD with unchanged original values, ledger checksum and generation. First recovery terminal receipt was not persisted before the false assertion; STARTED journal and failure log retained. Recovery was not rerun; corrected future comparison passed a real PostgreSQL read-only regression.",
+    "Case1 frozen-barrier API checker ran native metadata initialization, which waited on an owned worker transaction relation lock. Root canceled only the identified initializer backend; controller STOPPED_NO_REPLAY and REAPED without terminal receipt. Independent Oracle/central observations and native recovery passed. A separate createApp API check without initialization passed admitted-state idempotency after child reaping; no worker was rerun.",
+    "OA07 wire qualification first run stopped at a read-only baseline assertion before relay or writer creation. The one-shot failure remains retained; no CREATE or DROP was attempted. Independent diagnosis and a corrected installation are required before the first wire SQL.",
+    "Case1 native expiry recovery returned HOLD with a REAPED terminal receipt and a separately persisted PASS recovery result. The exclusive recovery-once guard journal remains STARTED by the controller implementation; it was not rewritten. Independent post-recovery verification confirms the lifecycle kernel outcome; the separate result supplies the actual terminal receipt.",
+    "OA07 wire baseline failure was traced to a private helper asserting NETWORK_PROTOCOL despite not selecting that column. The corrected shared observer passed actual read-only qualification before first CREATE. The prior failed one-shot remains unchanged; the separate wire attempt then passed with independently observed CREATE and conditional cleanup. API setup subsequently corrected private helper missing randomBytes and preserved a pre-existing parser source directory by creating a separate API source; the reserved metadata database was verified empty before resuming.",
+    "Unexecuted private network-fault observer used unqualified protected ledger table names on the observer schema; source review found the issue before fault execution. A separately pinned read-only schema-qualified observer and renewed installation acceptance are required. No fault run or migration DDL was performed to diagnose this defect.",
+    "A private local PostgreSQL test credential was printed by a sub-agent. The stored role password and 12 active private connector references were replaced; exact original bytes were archived privately, database inventory was preserved, and product diff/PR/private-cache tracking checks found no publication. Existing loopback test-server host authentication uses trust, so password rejection is not claimed. No Oracle credential was involved."
+  ],
+  "labSafeToDelete": false,
+  "labRetentionReason": "Remaining real fault/concurrency/identity acceptance; original HOLD and owned fixtures/evidence retained",
+  "privateEvidenceSha256": {
+    "originalV1Execution": "fed55ddefc73d48e5e84ec1b02da7b2f54fd3fb730d5cb0ea197c6835c64d245",
+    "originalV2Execution": "9c8744fc93faf0546a2562185c035b7921eb83dd495009f28e31230decc54500",
+    "freshV1Effects": "cce3db834d9a0149fe8ce3020209812e736cb9db0db923bf3cea451cd12087f3",
+    "freshV2Effects": "c5d367883b268cb15df747c4499ec26c72891d352a5a76041b3e2eb9663cd75b",
+    "freshNOOPEffects": "68eae51919708b53ae7b6628aed730b8ce6bef32a58c39abfa99b0c36a8dcfb6",
+    "browserAuthoredRequest": "396e84da947866d10b910c021a5df1a7e75f2fac9bde7bec6fbdc7910cffddbe",
+    "browserRequestNOOPEffects": "4b2aea0fe8bc80b8eb2b3df5d453b4ef441001df7a227482ef3d550284485e04",
+    "browserWorkerReview": "c4c47ef0aa264a99fd3893448dac91d66feded40a16dfef092a21d2db6a86878",
+    "implicitCommitEffects": "982ecd8a365aa73c7e9f0e60f431d67cb426d81ed2f79c411f88c71e0e3e9348",
+    "metadataRecovery": "ff58c6f49ea6363106356e388e0a6ee9cb41039d678fcf6951c829c75afbf8d6",
+    "metadataRecoveryReview": "49d379cf797c89b0e8e765a95bfdfc8e76635a1dd1c2f9ae2bd03dd144a128e0",
+    "schemaBaselineCapture": "03314fbce7d43f0122f89257be2cffba8608c26fe59bdd6a15ce5dc0b1e39bc5",
+    "schemaBaselineComparisonAndReload": "9bfc97b55b3bb121a78b282c9e1b5c079d4fc9996231b63ce56c232a1d7360f5",
+    "temporaryReadGrantRevocation": "9ba5d0adda7acf46f864f67c73e3a81c78e1bd2376af6fa87a2422ea67e3ce19",
+    "evidenceRetentionIncident": "1e2a969ebbabd899b8089c5b29a086406a301fa16d36f78688ee017a9eee375b",
+    "oa06GateIncident": "c396edd95496830460a405078090160b5b67a19dd9adfc5ade0297bc7430d9c8",
+    "oa06IncidentIndependentObservation": "b5ffb7c22117a91104c9690cb45599564e9477906c7c79b3baeb8c88f62e083e",
+    "restoredAppRestartAuthentication": "747b50d9971921fcfbecacefd68d504e40452d42633fac78c6c95775715fb5f0",
+    "case2Interruption": "42eebb3696ca0939ca2435bce4e8eea3fac02c1a10c259dbe92d20481abd1f22",
+    "case2BoundaryObservation": "b6ed9bd099c97e23c0df085c7097f740148bb7046874f1e1478e6b968da1a8f1",
+    "case2RecoveryIndependentVerification": "f5638aeeaaba71aac6c08dca43a6076118589f10bbf75e0f650ad78d39f4e8ed",
+    "recoveryControllerRegression": "d9bdfab96d59014ee6686df1252c0eb84e4754cebbb09cbc117e7845abc1c03a",
+    "retainedCheckpointDigestReverification": "822ea1cf958922f2a05e5d7be0b67dd77de2f50a74e85e7b93f82ca82c3c4833",
+    "ambiguousHoldReconciliationRestart": "e008d9659cc0bc5e9787b08db1a0e08f7d9e26bc97c31dd9f5fda9edb506e86d",
+    "queuedIdempotency": "2a6a882ddbfc0346260fc2567830a0fddacdd5c3facb7a07328f6901a8d07243",
+    "admittedIdempotencyAfterReap": "c55bded2689ef27c4c32b1f511a976d8571ceb603942c450f31808741607e69d",
+    "case1Interruption": "fc233abaded24c6162a9a3ab2337dcf78e2de0ece7ff7235e64ac9df899cfc46",
+    "case1BoundaryObservation": "674415076293685e73514222eea83aecc73cd9a2bd5b7ebf674b3f93452e51ab",
+    "case1PostAPIBoundaryObservation": "104c312db6fe6e556b1cee01d154116b9799ddddadb4f7f39e28496905203847",
+    "case1NativeRecovery": "c212e54f2c0c3e637415f241d5501e0e8eb6ff651072556745b740982b5320ae",
+    "case1RecoveryIndependentVerification": "5285bebf263d44261d3df4526ab319c9ec7b24268f9bd592e3f810eb3b0a4393",
+    "case1OwnBlockedInitializerCancellation": "0a08124870611c1e6187900d684bff5846a7f6d9c19e4e8687f618344db488fd",
+    "oa07WireQualification": "a3434f5006093bac1e832cd60886560f2854cac455a5a55e4e6fbda854d78a7b",
+    "oa07NativeReaderAcceptance": "dc118e0222d3bb5ed8e760554bf77f5043b841209b83d5d6670103cebd676520",
+    "oa07APISetupEmptyMetadataProof": "27e31f976d0e41d4c01f963707f627ef9ba5be61564c26211691e69c9f9b60fc",
+    "oa05PurposeQualification": "2f9194dbdaf1b3efed3ba07a7221884d641b129a9e4a6ef7db14b7c97a7f42d5",
+    "oa05IsolatedNativeReader": "d2e9fa64bc72b7b579b218cd3a9ad560ac41d035a327fe8218caf37c1fff4187",
+    "oa07GovernedRequestContext": "c22236a19a22ec403b0e7042c08117f4278f2275e884a318c7e0835471124884",
+    "oa07FreshOracleEmptyFootprint": "751b143cc0cca3359fdf593a17d59008ddeb136b7f1c36e25acf5e47680a4c58",
+    "oa07VerifiedBindingGeneration": "6063f2b1ce3c0e0eaa811461d80280224922e316d0cd9d4ed2de316f55d7ed8f",
+    "oa05AliasNativeReader": "fa8ee61ce03e04dbaa56123cc91520fef68a473f0adaef827aad6de9710d689d",
+    "oa05ActualConcurrentAliasReaders": "c367e59b906679a06ac459d81c0f2006caa02be7ad3482d214e403f3faf2aa76",
+    "oa07SafeUnattemptedCancellation": "d6aaddcfdafe100591a502913bf652e016f8acc8338ac19dccbe706345e1b6ab",
+    "oa07TechnicalIdentityRenewal": "1c1b0d9835f551ec67c53a72b4416a05f497b99c316be851b956b9ab365e2ebd",
+    "oa07CurrentPurposeRoleQualification": "2d48cc5944a7118f270d3282f1f9b907fc61abbf21ea8aff8f4c9cdb2faabc7b",
+    "oa07RenewedGovernedRequest": "5df141258878ceb2f17710e20a30f3584c82769f8084585d3a09fe32b85fe730",
+    "oa07RenewedBindingEmptyFootprint": "6cb034b131424eda2132a1d8fae78016e153df7af77b5ac2b718aa1581e5b105",
+    "oa07RenewedPurposeQualification": "f26cd726b78404d6499e6a8e15df44a4c152d3311265d7c59a422503754c1c1d",
+    "oa08HeldMutexReconciliation": "f2eff174c68fc7a012fce62baa3c5e070869c609a6445e0a8892a35de9c034f9",
+    "oa08IndependentReview": "f0004fd3ced8bb98245efe29e9ca3cd33ebedda7c97052c7ca3283224fdcbf92",
+    "oa07ResumedUnchangedFailureState": "c2d54dffb6968112b2c8240b5a56c774eaf90a5d3c35b83e1b040cc763c28e48",
+    "oa07ActualFaultController": "689d66cb593f14938626ce47ecd663580a94d23b2a4585db8ce4cbcfe15d02e3",
+    "oa07PostfaultIndependentReadOnly": "6f3efc9cd0440da87796ed45e4b49eda1449271e01f3dfac09b6415058647b56"
+  },
+  "archiveSha256": "cd364c0e03a9f0780af43df3a936eee5f525ca159c5c59f03b4807af875f1231"
+}

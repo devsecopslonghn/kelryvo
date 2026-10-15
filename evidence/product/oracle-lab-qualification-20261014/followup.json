@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Purpose-separated Oracle reader and identity-bound partial baseline/drift follow-up; governed execution pending",
+  "recordedAt": "2026-10-14T14:44:57.281Z",
+  "testedSource": "36e6cf6",
+  "environment": {
+    "database": "Oracle AI Database 26ai Free",
+    "actualVersion": "23.26.3.0.0",
+    "topology": "CDB_PDB",
+    "transport": "Owner-approved private TCP variant",
+    "labReused": true,
+    "labDeleted": false,
+    "kubernetesResourcesMutated": false,
+    "pvcFreeBytes": 973979648
+  },
+  "authorization": {
+    "ownerAuthorizedPurposeAccountCreationAndScopedGrants": true,
+    "existingApplicationPrivilegesUnchanged": true,
+    "privateOwnerScopeAndExactIdentityRetained": true,
+    "discoveryIndependentAdapterAcceptance": "ACCEPTED_WITHIN_SCOPE",
+    "acceptedOwnerScopeCount": 3,
+    "acceptedServiceRouteVariants": 2,
+    "wholeMigrationInstallationAccepted": false
+  },
+  "liveResults": {
+    "purposeQualification": {
+      "status": "QUALIFIED_PENDING_INDEPENDENT_ACCEPTANCE",
+      "checks": [
+        {
+          "name": "purpose_principals_have_exact_system_privileges_and_separate_sessions",
+          "status": "PASS"
+        },
+        {
+          "name": "discovery_cannot_create_own_or_foreign_objects_or_read_hidden_fixture",
+          "status": "PASS"
+        },
+        {
+          "name": "observer_cannot_create_or_change_ledger",
+          "status": "PASS"
+        },
+        {
+          "name": "writer_cannot_read_ledger_or_call_unrestricted_dbms_lock",
+          "status": "PASS"
+        },
+        {
+          "name": "live_ledger_immutable_trigger_rejects_update",
+          "status": "PASS"
+        },
+        {
+          "name": "live_mutex_excludes_second_session_and_survives_commit",
+          "status": "PASS"
+        },
+        {
+          "name": "own_writer_anchor_prepared_for_scoped_discovery",
+          "status": "PASS"
+        },
+        {
+          "name": "reader_observes_exact_real_identity_and_authorized_owners_without_acceptance",
+          "status": "PASS"
+        },
+        {
+          "name": "independent_observer_reads_exact_grants_and_valid_installation_objects",
+          "status": "PASS"
+        }
+      ],
+      "scope": "Four distinct purpose sessions; exact system privileges, scoped negative permission probes, ledger immutability, real mutex exclusion/commit/release, fixed-SELECT identity/grants. Direct fixture DDL is not migration evidence."
+    },
+    "positiveApiBrowser": {
+      "status": "PASS_R1_R2_BOUNDED",
+      "checks": [
+        {
+          "name": "r1_registered_connection_real_test_and_secret_redaction",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_actual_full_identity_pdb_owners_and_independent_adapter_acceptance",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_observe_verify_new_revisions_wrong_digest_and_stale_revision_denied",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_observation_and_identity_evidence_are_immutable",
+          "status": "PASS"
+        },
+        {
+          "name": "r2_live_partial_foreign_owner_snapshot_hidden_fixture_not_inferred_absent",
+          "status": "PASS"
+        },
+        {
+          "name": "r2_named_baseline_stable_metadata_comparison_preserves_unknown",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_r2_live_schema_retained_in_plan_independent_approval",
+          "status": "PASS"
+        },
+        {
+          "name": "r2_snapshots_and_named_baselines_immutable",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_browser_actual_reader_observations_render",
+          "status": "PASS"
+        },
+        {
+          "name": "r4_live_verified_binding_and_schema_evidence_survive_app_restart",
+          "status": "PASS"
+        },
+        {
+          "name": "read_only_acceptance_created_zero_execution_jobs",
+          "status": "PASS"
+        }
+      ]
+    },
+    "driftApiBrowser": {
+      "status": "PASS_R1_R2_DRIFT_BOUNDED",
+      "checks": [
+        {
+          "name": "r1_registered_connection_real_test_and_secret_redaction",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_actual_full_identity_pdb_owners_and_independent_adapter_acceptance",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_observe_verify_new_revisions_wrong_digest_and_stale_revision_denied",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_observation_and_identity_evidence_are_immutable",
+          "status": "PASS"
+        },
+        {
+          "name": "r2_live_partial_foreign_owner_snapshot_hidden_fixture_not_inferred_absent",
+          "status": "PASS"
+        },
+        {
+          "name": "r2_named_baseline_stable_metadata_comparison_preserves_unknown",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_r2_live_schema_retained_in_plan_independent_approval",
+          "status": "PASS"
+        },
+        {
+          "name": "r2_snapshots_and_named_baselines_immutable",
+          "status": "PASS"
+        },
+        {
+          "name": "r2_actual_alter_and_added_object_yield_modified_and_unknown_under_partial_coverage",
+          "status": "PASS"
+        },
+        {
+          "name": "r2_real_drift_invalidates_approved_plan_and_blocks_request",
+          "status": "PASS"
+        },
+        {
+          "name": "r2_reverted_structure_keeps_old_approval_stale_and_absence_unknown",
+          "status": "PASS"
+        },
+        {
+          "name": "r2_real_snapshot_and_named_baseline_histories_paginate_without_loss",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_browser_actual_reader_observations_render",
+          "status": "PASS"
+        },
+        {
+          "name": "r4_live_verified_binding_and_schema_evidence_survive_app_restart",
+          "status": "PASS"
+        },
+        {
+          "name": "read_only_acceptance_created_zero_execution_jobs",
+          "status": "PASS"
+        }
+      ],
+      "snapshotCount": 51,
+      "namedBaselineCount": 101,
+      "changeComparison": {
+        "state": "UNVERIFIED",
+        "summary": {
+          "added": 0,
+          "removed": 0,
+          "modified": 1,
+          "unverified": 1
+        }
+      },
+      "revertedComparison": {
+        "state": "UNVERIFIED",
+        "summary": {
+          "added": 0,
+          "removed": 0,
+          "modified": 1,
+          "unverified": 1
+        }
+      },
+      "fixtureChangeStatements": 3,
+      "fixtureRestoreStatements": 2
+    },
+    "independentReader": {
+      "status": "ACCEPTED_WITHIN_SCOPE",
+      "checkCount": 19,
+      "scope": "Actual isolated pinned read-only driver; exact identity, route, expiry and purpose grants. PARTIAL solely for visibility outside accepted owner scope."
+    },
+    "failureMatrix": {
+      "status": "PASS_R1_BOUNDED_FAILURES",
+      "testedSource": "45ef1df",
+      "checks": [
+        {
+          "name": "r1_registered_connection_real_test_and_secret_redaction",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_actual_full_identity_pdb_owners_and_independent_adapter_acceptance",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_observe_verify_new_revisions_wrong_digest_and_stale_revision_denied",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_missing_private_secret_returns_safe_diagnostics",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_real_identity_compared_to_wrong_expected_version_cannot_verify",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_good_reader_still_connects_after_negative_probe",
+          "status": "PASS"
+        },
+        {
+          "name": "r1_failure_matrix_creates_zero_execution_jobs",
+          "status": "PASS"
+        }
+      ],
+      "wrongPasswordCase": {
+        "name": "r1_real_invalid_password_rejected_in_one_bounded_attempt",
+        "status": "PASS"
+      },
+      "wrongPasswordAttempts": 1,
+      "scope": "First run retained FAIL after reproducing missing-secret diagnostic bug. Wrong-password assertion passed there. Follow-up ran only remaining failures after fix; valid reader connectivity confirmed. No wrong-password retry."
+    }
+  },
+  "defect": {
+    "problem": "Private provider dropped retained executionTarget before installed authorization and binding",
+    "fix": "Preserve detached frozen target; reject target changes and non-finite numeric facts before private route resolution",
+    "pr": "https://github.com/devsecopslonghn/kelryvo/pull/105",
+    "mergeCommit": "f0a1fe2e843ca9810e15fc34acf13d25a665ecd4",
+    "independentReview": "PASS",
+    "focusedTests": {
+      "pass": 62,
+      "fail": 0
+    },
+    "check": {
+      "tests": 554,
+      "pass": 426,
+      "fail": 0,
+      "skipped": 128
+    }
+  },
+  "boundaries": {
+    "R1": "Accepted full identity and scoped reader positive API/browser workflow passed; complete negative and operational matrix remains incomplete",
+    "R2": "Identity-bound real partial snapshots, named baselines, actual structural changes, permanent plan staleness and pagination passed; complete visibility/concurrency/browser matrix remains incomplete",
+    "R3": "NOT_RUN as governed Oracle migration; reviewed execution installation and real dispatch evidence pending",
+    "R4": "Live verified reader/baseline evidence survives application restart; Oracle worker/fault/recovery matrix pending",
+    "OA01_OA10": "Complete cases NOT_RUN; qualification subsets above do not certify whole contracts",
+    "uncertainDdlReplayed": false
+  },
+  "fixtureState": {
+    "initialCollectorFixtures": "Removed in initial phase",
+    "followupAppFixtures": "Two explicitly scoped discovery tables retained; controlled drift restored with acknowledged DDL",
+    "freshWorkerSchema": "Whole schema observed empty after removing its one temporary discovery anchor; no worker DDL executed",
+    "labDeletionRecommendation": "Retain for remaining acceptance; owner deletes after final review"
+  },
+  "harnessCorrections": [
+    {
+      "kind": "FAIL_HARNESS",
+      "cause": "Positive API harness compared normalized product identity with operator-only topology field; corrected exact tuple comparison",
+      "productDefect": false
+    },
+    {
+      "kind": "FAIL_ENVIRONMENT",
+      "cause": "Full local check initially lacked configured JDK; rerun with installed JDK passed",
+      "productDefect": false
+    },
+    {
+      "kind": "FAIL_HARNESS",
+      "cause": "Private R3 setup expected fields absent from binding API projection, used a wrong reviewer route and initially omitted pinned JDK configuration; recovered retained metadata and prepared a request without worker execution",
+      "productDefect": false
+    }
+  ],
+  "privateEvidence": {
+    "policy": "Raw routes, owners, identities, grants, SQL, manifests, credentials and logs remain private",
+    "digests": {
+      "purposeQualification": "3ffe9f417a1fd230b8e527b000765dc1f716b1d69833a50903cb0f2dd1cacef3",
+      "independentReader": "88f486425dcc08cd3c7304a5819a1238ba83e310df1264e126bc7eb357f16c46",
+      "positiveApiBrowser": "14dee67cba3cc2e89e44c44070562279292ab300709a54eda09344f2d611be4f",
+      "driftApiBrowser": "24e30916c1473a956c6e0b2ce1040f5622c4cffc033c9e3efa937eb95913337a",
+      "wholeWriterEmpty": "4a55b1ad84c04c027032ba6042d8a8394e3eca755daa5f46e87a419023259e0c",
+      "failureMatrix": "66a31808ee3b93c8e7dc643e151a834825e5b4271a9c01900b36074ac9c20e18",
+      "reproducedMissingSecretFailure": "021408d5fd774e56b42d74bd99b7ba661924cba7fc5696542ca4019c25f7f14d"
+    }
+  },
+  "additionalDefect": {
+    "problem": "Missing private discovery Secret was reported as an unauthorized endpoint after route authorization had passed",
+    "fix": "Classify explicit credential-resolution failure before missing destination marker",
+    "pr": "https://github.com/devsecopslonghn/kelryvo/pull/106",
+    "mergeCommit": "e00f4d48098bb98d3edf7d8d76f7063da71d500b",
+    "independentReview": "PASS",
+    "focusedTests": {
+      "pass": 23,
+      "fail": 0
+    },
+    "check": {
+      "tests": 556,
+      "pass": 428,
+      "fail": 0,
+      "skipped": 128
+    }
+  }
+}

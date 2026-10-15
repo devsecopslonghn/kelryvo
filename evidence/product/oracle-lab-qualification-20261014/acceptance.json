@@ -1,0 +1,324 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Kelryvo real Oracle lab qualification; full acceptance incomplete",
+  "recordedAt": "2026-10-14T13:31:18.809Z",
+  "testedSource": "0e2191dd50aaa8714e8dc8bf8cedab0d8f728723",
+  "environment": {
+    "database": "Oracle AI Database 26ai Free",
+    "actualVersion": "23.26.3.0.0",
+    "topology": "CDB_PDB",
+    "transport": "Owner-approved private TCP lab variant",
+    "access": "Existing ClusterIP via loopback-only kubectl port-forward",
+    "databaseProvisioned": false,
+    "kubernetesResourcesMutated": false,
+    "operatorIdentity": "Existing privileged operator, used separately for fixed-SELECT identity and owner-bound metadata",
+    "applicationIdentity": "Existing dedicated application schema; privileges unchanged",
+    "privateManifestsRetained": true,
+    "liveAcceptanceAttested": false,
+    "pvcClaimBytes": 4294967296,
+    "pvcFreeBytesBefore": 973979648,
+    "pvcFreeBytesAfter": 973979648,
+    "fixtureFreeFloorBytes": 536870912
+  },
+  "qualification": {
+    "operatorFullIdentityObserved": true,
+    "applicationConnectivity": "CONNECTED",
+    "applicationDiscovery": "PARTIAL",
+    "applicationIdentityState": "UNKNOWN",
+    "applicationIdentityComplete": false,
+    "missingApplicationMetadataAccess": [
+      "SELECT ON SYS.V_$DATABASE",
+      "SELECT ON SYS.V_$CONTAINERS"
+    ],
+    "applicationDdlPrivilegesObserved": true,
+    "leastPrivilegeDiscoveryAccepted": false,
+    "applicationPrivilegesUnchanged": true,
+    "applicationObjectInventoryMatchesInitialState": true
+  },
+  "liveResults": {
+    "collector": {
+      "status": "PASS_COLLECTOR_ONLY",
+      "checks": [
+        {
+          "name": "own_empty_schema_metadata",
+          "status": "PASS"
+        },
+        {
+          "name": "tables_columns_defaults_checks",
+          "status": "PASS"
+        },
+        {
+          "name": "foreign_key_target_columns",
+          "status": "PASS"
+        },
+        {
+          "name": "view_sequence_index_dependency",
+          "status": "PASS"
+        },
+        {
+          "name": "descending_index_expression_stays_partial",
+          "status": "PASS"
+        },
+        {
+          "name": "quoted_case_identity",
+          "status": "PASS"
+        },
+        {
+          "name": "repeat_snapshot_digest",
+          "status": "PASS"
+        },
+        {
+          "name": "real_added_removed_modified_metadata",
+          "status": "PASS"
+        },
+        {
+          "name": "unknown_identity_cannot_compare",
+          "status": "PASS"
+        },
+        {
+          "name": "operator_partial_visibility_comparison",
+          "status": "PASS"
+        }
+      ],
+      "acknowledgedFixtureDdl": 16,
+      "cleanup": "COMPLETE",
+      "comparison": {
+        "state": "UNVERIFIED",
+        "summary": {
+          "added": 0,
+          "removed": 0,
+          "modified": 2,
+          "unverified": 3
+        },
+        "limitations": [
+          "INCOMPLETE_METADATA_COVERAGE",
+          "MULTI_QUERY_CONSISTENCY_UNGUARANTEED",
+          "OBJECT_ABSENCE_UNVERIFIED"
+        ]
+      },
+      "scope": "Direct own-prefix fixture preparation and real fixed-SELECT collectors; not governed migration execution"
+    },
+    "application": {
+      "status": "PASS_PARTIAL_WORKFLOW_ONLY",
+      "checks": [
+        {
+          "name": "real_api_connection_registration_and_test",
+          "status": "PASS"
+        },
+        {
+          "name": "real_api_missing_grants_retained_without_identity_fabrication",
+          "status": "PASS"
+        },
+        {
+          "name": "real_observation_history_immutable",
+          "status": "PASS"
+        },
+        {
+          "name": "real_partial_observation_cannot_bind_or_verify",
+          "status": "PASS"
+        },
+        {
+          "name": "real_schema_baseline_keeps_unknown_comparison",
+          "status": "PASS"
+        },
+        {
+          "name": "real_unverified_schema_context_retained_for_independent_review",
+          "status": "PASS"
+        },
+        {
+          "name": "real_browser_displays_partial_identity_diagnostics",
+          "status": "PASS"
+        },
+        {
+          "name": "real_observations_baselines_browser_survive_application_restart",
+          "status": "PASS"
+        },
+        {
+          "name": "no_execution_jobs_persisted",
+          "status": "PASS"
+        },
+        {
+          "name": "real_observation_metadata_backup_restore_immutable_under_hold",
+          "status": "PASS"
+        }
+      ],
+      "scope": "Actual API/Chromium using application fixed-SELECT runtime, PostgreSQL and parser; privileged operator not installed in API. Missing identity remains unavailable, baseline comparison INCOMPARABLE, zero persisted execution jobs, native metadata restore under HOLD."
+    }
+  },
+  "acceptance": {
+    "R1": "PARTIAL: live connectivity and negative permission workflow; accepted verified identity NOT_RUN",
+    "R2": "PARTIAL: real collector and unavailable-identity baselines; accepted complete baseline/drift workflow NOT_RUN",
+    "R3": "NOT_RUN: no installed execution authority or governed Oracle DDL",
+    "R4": "PARTIAL: actual observation metadata restart/backup/restore; Oracle worker/fault recovery NOT_RUN",
+    "OA01_OA10": {
+      "OA01": {
+        "status": "NOT_RUN",
+        "scope": "Complete governed execution contract; qualification subsets are reported separately"
+      },
+      "OA02": {
+        "status": "NOT_RUN",
+        "scope": "Complete governed execution contract; qualification subsets are reported separately"
+      },
+      "OA03": {
+        "status": "NOT_RUN",
+        "scope": "Complete governed execution contract; qualification subsets are reported separately"
+      },
+      "OA04": {
+        "status": "NOT_RUN",
+        "scope": "Complete governed execution contract; qualification subsets are reported separately"
+      },
+      "OA05": {
+        "status": "NOT_RUN",
+        "scope": "Complete governed execution contract; qualification subsets are reported separately"
+      },
+      "OA06": {
+        "status": "NOT_RUN",
+        "scope": "Complete governed execution contract; qualification subsets are reported separately"
+      },
+      "OA07": {
+        "status": "NOT_RUN",
+        "scope": "Complete governed execution contract; qualification subsets are reported separately"
+      },
+      "OA08": {
+        "status": "NOT_RUN",
+        "scope": "Complete governed execution contract; qualification subsets are reported separately"
+      },
+      "OA09": {
+        "status": "NOT_RUN",
+        "scope": "Complete governed execution contract; qualification subsets are reported separately"
+      },
+      "OA10": {
+        "status": "NOT_RUN",
+        "scope": "Complete governed execution contract; qualification subsets are reported separately"
+      }
+    }
+  },
+  "localRegression": [
+    {
+      "command": "npm run check",
+      "status": "PASS",
+      "counts": {
+        "tests": 550,
+        "pass": 415,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 135
+      },
+      "scope": "Offline source/type/build/tracker/format/unit/dependency gates; conditional integration skips retained"
+    },
+    {
+      "command": "npm run parser:antlr:test",
+      "status": "PASS",
+      "counts": {
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "command": "node --test --test-concurrency=2 tests/product-database-discovery.test.mjs tests/product-schema-baselines.test.mjs tests/product-schema-backup.test.mjs tests/product-execution-service.test.mjs tests/product-execution-reconciliation.test.mjs tests/product-metadata-recovery.test.mjs",
+      "status": "PASS",
+      "counts": {
+        "tests": 33,
+        "pass": 33,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "scope": "Real isolated PostgreSQL/parser; Oracle fixtures, not live effects"
+    },
+    {
+      "command": "node --test --test-concurrency=2 tests/product-controlled-execution.test.mjs tests/product-execution-readiness.test.mjs tests/product-sql-validation.test.mjs tests/product-backup-restore.test.mjs",
+      "status": "PASS",
+      "counts": {
+        "tests": 29,
+        "pass": 29,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "scope": "Real isolated PostgreSQL/parser; synthetic Oracle execution"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/product-database-discovery-browser.integration.mjs tests/product-schema-baselines-browser.integration.mjs tests/product-backup-restore-browser.integration.mjs",
+      "status": "PASS",
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "scope": "Chromium with real PostgreSQL and controlled Oracle/UI fixtures"
+    }
+  ],
+  "harnessCorrections": [
+    {
+      "attempt": "First collector fixture run",
+      "result": "FAIL_HARNESS",
+      "cause": "Expected ordinary columns for a descending index; real Oracle reports FUNCTION-BASED NORMAL. Existing documented partial/expression handling was correct.",
+      "acknowledgedFixtureDdl": 11,
+      "cleanup": "COMPLETE",
+      "productDefect": false
+    },
+    {
+      "attempt": "First live application run",
+      "result": "FAIL_HARNESS",
+      "cause": "Fixture helper selected its original assignment for the newly registered live binding; corrected explicit assignment ID.",
+      "productDefect": false
+    },
+    {
+      "attempt": "Second live application run",
+      "result": "FAIL_HARNESS",
+      "cause": "Assertion expected raw code/alternate wording; browser correctly rendered safe metadata-permission diagnostics.",
+      "productDefect": false
+    },
+    {
+      "attempt": "Local PostgreSQL preparation",
+      "result": "FAIL_ENVIRONMENT",
+      "cause": "Membership/backup test fixtures use randomized operator passwords and require the isolated trust-authenticated test service used by CI. Re-ran on a new loopback-only disposable test service; no existing PostgreSQL or Oracle authentication changed.",
+      "productDefect": false
+    }
+  ],
+  "confirmedProductDefects": [],
+  "productImplementationChanged": false,
+  "remainingGates": [
+    "Purpose-separated least-privilege discovery identity and approved metadata grants; preserve existing application grants",
+    "Independently accepted exact-target discovery evidence; no self-issued liveAcceptance",
+    "Private writer/ledger/mutex/bootstrap/observer installation and grant evidence",
+    "Reviewed Free-version execution acceptance requirements; existing 19c/21c TCPS WP0 contract unchanged",
+    "Explicit owned-session/proxy fault scope before fault cases"
+  ],
+  "safety": {
+    "apiDiscoveryPasswordResolvedOnlyByFixedSelectChild": true,
+    "privilegedOperatorInstalledInApi": false,
+    "grantsChanged": false,
+    "unrelatedObjectsTouched": false,
+    "fixtureObjectsRemaining": 0,
+    "labDeleted": false,
+    "labDeletionRecommendation": "Retain for remaining acceptance; do not delete as part of this task",
+    "faultsInjected": false,
+    "uncertainDdlReplayed": false
+  },
+  "review": {
+    "independentSecurityCorrectnessReview": "No demonstrated product defect; privileged operator kept separate; public claims limited to partial qualification. Writer-dispatch assertion label narrowed to zero persisted execution jobs."
+  },
+  "privateEvidence": {
+    "rawOracleIdentityRoutesSqlManifestsCredentialsAndBackups": "Retained privately; excluded from Git",
+    "sourceDigests": {
+      "qualification": "172648ef6b07760bd82aabd137bc022ed8804de99a0b0af9aba297641ab8950b",
+      "operatorIdentity": "d801adcc4742b672e83f9db6f9f2ce2b7e8dcf8e1dadf61ce7995691e552c8ef",
+      "collectorFinalRun": "f6ce02a48380710bca45089aa634b72656905557889d4bfb4664c9afa8136760",
+      "applicationFinalRun": "7a3b7311a1a4edf4196253e394987e38c81f259f24d7e6dc04835c5c66a71791",
+      "finalState": "96dcebeee59aa048d243f578da375a259cbbe2caed3fc65a7c52b0520eb84ea9"
+    },
+    "logDigests": {
+      "standardCheck": "fdc1e6c2159a09255b142931263adf81a88d5eef15f40e8df10c5064f2085818",
+      "localApi": "d1b288d43127e9d7178e1c51ccf6f1aa296b2041e901e5e9dbe64efd0d31fc88",
+      "workflowApi": "52e0eabfb44f48f2642ee31028b5f8bd8efa3d2a836c23484bf18ce4587e16b9",
+      "browser": "0508f3420b6a979d48854e30621b76596fe632f069a41c8d9a446bec51ca0847"
+    }
+  }
+}

@@ -1,8 +1,10 @@
+import { assessOracleSchemaScope } from '../execution/schema-scope.mjs';
 import { createHash } from 'node:crypto';
 import { previewRetainedStatements } from '../migrations/statement-preview.mjs';
 import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs';
 import { MAX_PLAN_STATEMENTS } from '../migrations/offline-plan-intent.mjs';
 import { REVIEW_PROFILE, reviewSqlStatements } from './review.mjs';
+import { catalogContext } from './catalog-context.mjs';
 import { publicTarget } from '../targets/public.mjs';
 import { loadBindingTarget, checkTargetCurrentness } from '../targets/index.ts';
 
@@ -26,12 +28,14 @@ export async function readSchemaEvidence(tx: any, projectId: string, target: any
       completeness:'OWNER_VISIBILITY_ONLY',objects:'NOT_OBSERVED'};
   }
   const s=(await tx`SELECT id,content_digest,identity_digest,provenance,observed_at,live_accepted,schema->'coverage' AS coverage,
-    schema->'limitations' AS limitations,jsonb_array_length(schema->'objects') AS object_count
+    schema->'limitations' AS limitations,jsonb_array_length(schema->'objects') AS object_count,
+    (SELECT jsonb_agg(jsonb_build_object('owner',o->>'owner','name',o->>'name','type',o->>'type','checksum',o->>'checksum') ORDER BY o->>'type',o->>'name')
+      FROM jsonb_array_elements(schema->'objects') o) AS objects
     FROM sf_schema_snapshots WHERE project_id=${projectId} AND binding_id=${target.bindingId}
     AND binding_revision=${target.bindingRevision}::bigint AND owner=${target.exactOwner} ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
   return {...metadata,schemaSnapshot:s?{id:s.id,contentDigest:s.content_digest,identityDigest:s.identity_digest,
     provenance:s.provenance,observedAt:new Date(s.observed_at).toISOString(),liveAccepted:s.live_accepted,
-    coverage:s.coverage,limitations:s.limitations,objectCount:s.object_count}:null};
+    coverage:s.coverage,limitations:s.limitations,objectCount:s.object_count,objects:s.objects??[]}:null};
 }
 
 export async function buildValidation(release: any, project: any, target: any, metadata: any) {
@@ -51,8 +55,17 @@ export async function buildValidation(release: any, project: any, target: any, m
       }
     }
   }
-  const review=reviewSqlStatements(statements,target.exactOwner,target.engine);
+  const review=catalogContext(reviewSqlStatements(statements,target.exactOwner,target.engine),target.exactOwner,metadata.schemaSnapshot,metadata.identityDigest);
+  // Retain only referenced object summaries, not the entire catalog or object definitions.
+  if(metadata.schemaSnapshot) {
+    const {objects,...snapshot}=metadata.schemaSnapshot;
+    metadata={...metadata,schemaSnapshot:snapshot};
+  }
   const findings: any[] = [];
+  for (const statement of statements) {
+    const scope=assessOracleSchemaScope(statement.sourceSql,target.exactOwner);
+    if(!scope.eligible) { findings.push({code:scope.code,severity:'BLOCKING',rationale:`Statement ${statement.ordinal} is outside the automatic execution subset. Only scoped scalar CREATE TABLE, ALTER TABLE ADD columns and simple local indexes are supported. Approval cannot override this policy.`}); break; }
+  }
   if (release.validation_status !== 'VALID') findings.push({code:'SYNTAX_NOT_VALID',severity:'BLOCKING',rationale:'The retained parser result does not establish valid Oracle syntax.'});
   if (metadata.accessible !== true) findings.push({code:'SCHEMA_VISIBILITY_UNVERIFIED',severity:'UNKNOWN',rationale:'The target schema has no current observed visibility evidence.'});
   findings.push(metadata.schemaSnapshot ? {code:'SCHEMA_STRUCTURE_OBSERVED',severity:'UNKNOWN',rationale:`Immutable schema snapshot ${metadata.schemaSnapshot.id} provides structural context (${metadata.schemaSnapshot.provenance}). Visibility and collection consistency limitations remain; Oracle compilation and privileges are unverified.`} : {code:'OBJECT_METADATA_UNAVAILABLE',severity:'UNKNOWN',rationale:'No object snapshot is retained. Existing objects, columns, constraints and privileges were not observed.'});

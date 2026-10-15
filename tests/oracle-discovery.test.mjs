@@ -27,8 +27,28 @@ async function fixture(t, { rows=identityRows, customManifest={} }={}) {
       if(rows instanceof Error)throw rows; const data=rows[sql]; if(data instanceof Error)throw data; return {rows:data??[]};},async close(){calls.push({close:true});}};
   }};
   t.after(()=>rm(dir,{recursive:true,force:true}));
-  return {runtime:createOracleDiscoveryRuntime({manifestPath,secretDirectory:secrets,driver,timeoutMs:3000}),calls};
+  return {runtime:createOracleDiscoveryRuntime({manifestPath,secretDirectory:secrets,driver,timeoutMs:3000}),calls,secrets};
 }
+
+test('missing private secret is diagnosed separately from endpoint authorization without connecting',async t=>{
+  const f=await fixture(t,{customManifest:{targets:[{...target,pinnedIps:['127.0.0.1'],secretFile:'missing-password'}]}});
+  const result=await f.runtime.run(target,'TEST');
+  assert.equal(result.status,'UNAUTHORIZED');assert.deepEqual(result.limitations,['SECRET_UNAVAILABLE']);
+  assert.equal(result.identity,null);assert.deepEqual(f.calls,[]);
+  assert.doesNotMatch(JSON.stringify(result),/missing-password|secret-value|oracle-discovery-/);
+  const unauthorized=await f.runtime.run({...target,host:'192.0.2.5'},'TEST');
+  assert.deepEqual(unauthorized.limitations,['ENDPOINT_NOT_AUTHORIZED']);assert.deepEqual(f.calls,[]);
+  const unpinned=await fixture(t,{customManifest:{targets:[{...target,pinnedIps:['192.0.2.5'],secretFile:'missing-password'}]}});
+  const routeFailure=await unpinned.runtime.run(target,'TEST');
+  assert.deepEqual(routeFailure.limitations,['ENDPOINT_NOT_AUTHORIZED']);assert.deepEqual(unpinned.calls,[]);
+});
+
+test('missing private secret directory returns secret diagnostics before opening a driver connection',async t=>{
+  const f=await fixture(t);await rm(f.secrets,{recursive:true});
+  const result=await f.runtime.run(target,'DISCOVER');
+  assert.equal(result.status,'UNAUTHORIZED');assert.deepEqual(result.limitations,['SECRET_UNAVAILABLE']);
+  assert.deepEqual(f.calls,[]);assert.equal(result.identity,null);
+});
 
 test('discovers explicit full Oracle identity with read-only fixed SQL and no secret in result',async t=>{
   const f=await fixture(t); const result=await f.runtime.run(target,'DISCOVER');

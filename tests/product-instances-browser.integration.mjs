@@ -14,6 +14,8 @@ test('browser discovers instance configuration, retires a profile and keeps reta
     await page.getByRole('heading', { name: f.project.name, exact: true }).waitFor();
     await page.getByRole('button', { name: /Database instances/ }).click();
     await page.getByRole('heading', { name: 'Database instances & connections', exact: true }).waitFor();
+    const advanced = page.locator('details.advanced-instance-tools');
+    if (!(await advanced.evaluate(element => element.open))) await advanced.locator(':scope > summary').click();
     await page.getByLabel('I understand retirement is permanent').check();
     await page.getByLabel(`Retirement reason for ${f.profile.name}`).fill('Use a replacement connection');
     await page.getByRole('button', { name: `Retire profile ${f.profile.name}`, exact: true }).click();
@@ -30,6 +32,7 @@ test('browser discovers instance configuration, retires a profile and keeps reta
     assert.equal(await page.getByRole('button', { name: 'Approve plan', exact: true }).isDisabled(), true);
     assert.equal(await page.getByRole('button', { name: 'Reject plan', exact: true }).isDisabled(), false);
     await page.getByRole('button', { name: /Database instances/ }).click();
+    if (!(await advanced.evaluate(element => element.open))) await advanced.locator(':scope > summary').click();
     assert.equal(await page.getByRole('button', { name: /^Retire profile/ }).count(), 0);
   } finally { await browser?.close(); await f.close(); }
 });

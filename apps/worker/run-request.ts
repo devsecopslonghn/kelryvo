@@ -6,7 +6,7 @@ import { reconcileCompletedHistory } from '../../packages/execution/history-reco
 import { acquireTargetLocks } from '../../packages/targets/locks.ts';
 import { executionUuid, executionDigest, snapshotObservation, readExecutionRequest, materializeExecutionRequest,
   acquireExecutionTarget, lockExecutionTarget, commitExecutionAdmission, holdUntrustedHistory,
-  targetRequestConflict,
+  targetRequestConflict, executionContainerConflict,
   type AdmissionScope, type TargetObservation, type MigrationIdentity } from '../../packages/execution/admission.ts';
 
 export type ExecutionTargetSession = {
@@ -47,7 +47,7 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
       if (!executionUuid(jobId)) return 'ADMISSION_DECLINED' as const;
       let admitted = false;
       let operationStore = store;
-      const recovery: { claim?: { generation: number; lease: string } } = {};
+      const recovery: { claim?: { attemptId: string; generation: number; lease: string } } = {};
       try {
         const candidate = await sql.begin(async (tx: any) => {
           const hint = (await tx`SELECT plan_id FROM sf_execution_jobs WHERE id=${jobId}`)[0];
@@ -104,10 +104,11 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
                   OR ${candidate.executionTarget?.streamId ?? null}::text IS NOT NULL
                     AND proof.host_binding->>'streamId'=${candidate.executionTarget?.streamId ?? null}) AND prior.id<>${jobId}
                 AND prior.state IN ('ADMITTED','HOLD') LIMIT 1`)[0]) { historyLost = true; return null; }
+            if(await executionContainerConflict(tx,candidate)) { historyLost=true;return null; }
             if (candidate.executionTarget && await targetRequestConflict(tx,candidate.project.id,candidate.executionTarget.streamId,jobId,true)) {
               historyLost=true; return null;
             }
-            if (!await reconcileCompletedHistory(tx,observation)) { historyLost = true; return null; }
+            if (!await reconcileCompletedHistory(tx,observation,candidate.executionTarget?.credentialMode==='INSTANCE_MASTER' ? candidate.executionTarget.streamId : undefined)) { historyLost = true; return null; }
             try {
               if (await session.current(observation) !== true) { historyLost = true; return null; }
             } catch { historyLost = true; return null; }
@@ -219,6 +220,23 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
         if (recovery.claim) {
           try {
             if (await operationStore.finish(jobId,recovery.claim.generation,recovery.claim.lease,'HOLD')) return 'HOLD' as const;
+            // A host may throw during cleanup after its callback already committed
+            // HOLD. Confirm both durable projections belong to this exact claim
+            // before reporting that terminal result; uncertainty stays pending.
+            const persisted = (await sql`SELECT j.state AS job_state,a.state AS attempt_state,a.generation,
+                a.lease_owner,a.lease_token,
+                (SELECT e.phase FROM sf_execution_attempt_events e WHERE e.attempt_id=a.id ORDER BY e.revision DESC LIMIT 1) AS attempt_phase,
+                (SELECT e.to_state FROM sf_execution_job_events e WHERE e.job_id=j.id ORDER BY e.revision DESC LIMIT 1) AS job_event_state,
+                (SELECT e.actor_id FROM sf_execution_job_events e WHERE e.job_id=j.id ORDER BY e.revision DESC LIMIT 1) AS job_event_actor
+              FROM sf_execution_jobs j JOIN sf_execution_attempts a ON a.job_id=j.id
+              WHERE j.id=${jobId} AND a.id=${recovery.claim.attemptId} AND a.job_id=${jobId}
+                AND a.generation=${recovery.claim.generation} AND a.lease_token=${recovery.claim.lease}
+                AND a.lease_owner=${workerId}`)[0];
+            if (persisted?.job_state === 'HOLD' && persisted.attempt_state === 'HOLD'
+                && Number(persisted.generation) === recovery.claim.generation
+                && persisted.lease_owner === workerId && persisted.lease_token === recovery.claim.lease
+                && persisted.attempt_phase === 'HOLD' && persisted.job_event_state === 'HOLD'
+                && persisted.job_event_actor === workerId) return 'HOLD' as const;
           } catch { /* Uncertain persistence stays pending until explicit expiry recovery. */ }
         }
         return admitted ? 'HOLD_PERSISTENCE_PENDING' as const : 'ADMISSION_DECLINED' as const;

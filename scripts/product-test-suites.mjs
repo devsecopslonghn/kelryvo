@@ -8,7 +8,7 @@ export const PRODUCT_API_FILES = Object.freeze([
   'tests/product-execution-reconciliation.test.mjs', 'tests/product-phase5-backup.test.mjs',
   'tests/product-target-bindings.test.mjs', 'tests/product-database-discovery.test.mjs',
   'tests/product-sql-validation.test.mjs', 'tests/product-target-workflow.test.mjs',
-  'tests/product-mutation-authority.test.mjs', 'tests/product-profile-lifecycle.test.mjs', 'tests/product-connection-management.test.mjs',
+  'tests/product-mutation-authority.test.mjs', 'tests/product-profile-lifecycle.test.mjs', 'tests/product-connection-management.test.mjs', 'tests/product-instance-master.test.mjs',
   'tests/product-account.test.mjs', 'tests/product-secure-sessions.test.mjs',
   'tests/product-membership.test.mjs', 'tests/product-credential-lifecycle.test.mjs',
   'tests/product-container-credentials.test.mjs', 'tests/product-api.test.mjs',
@@ -27,7 +27,7 @@ export const PRODUCT_API_FILES = Object.freeze([
   'tests/product-reviewer-assignment.test.mjs', 'tests/product-schema-reference.test.mjs',
   'tests/product-approval-revocation.test.mjs', 'tests/product-mvp-workflow.test.mjs',
   'tests/product-execution-jobs.test.mjs', 'tests/product-execution-history.test.mjs',
-  'tests/product-controlled-execution.test.mjs', 'tests/product-incremental-migrations.test.mjs',
+  'tests/product-controlled-execution.test.mjs', 'tests/product-incremental-migrations.test.mjs', 'tests/product-execution-container.test.mjs',
   'tests/product-oracle-host.test.mjs', 'tests/product-worker-supervision.test.mjs',
   'tests/product-backup-restore.test.mjs', 'tests/product-installed-worker-factory.test.mjs',
   'tests/product-installed-expiry-recovery.test.mjs', 'tests/product-metadata-recovery.test.mjs',
@@ -35,6 +35,7 @@ export const PRODUCT_API_FILES = Object.freeze([
 ]);
 
 export const PRODUCT_BROWSER_FILES = Object.freeze([
+  'tests/product-theme-browser.integration.mjs',
   'tests/product-schema-baselines-browser.integration.mjs',
   'tests/product-migration-analysis-browser.integration.mjs',
   'tests/product-phase8-workflow-browser.integration.mjs',
@@ -47,7 +48,7 @@ export const PRODUCT_BROWSER_FILES = Object.freeze([
   'tests/product-database-discovery-browser.integration.mjs',
   'tests/product-sql-validation-browser.integration.mjs',
   'tests/product-instances-browser.integration.mjs',
-  'tests/product-connection-management-browser.integration.mjs',
+  'tests/product-connection-management-browser.integration.mjs', 'tests/product-instance-master-browser.integration.mjs',
   'tests/product-account-browser.integration.mjs',
   'tests/product-secure-sessions-browser.integration.mjs',
   'tests/product-membership-browser.integration.mjs',

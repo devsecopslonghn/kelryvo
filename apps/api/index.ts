@@ -1048,6 +1048,7 @@ export function createApp(options: {
           CASE WHEN char_length(name) BETWEEN 1 AND 200 THEN name END AS name FROM sf_environments WHERE id=${profile.environment_id}
           AND project_id=${p.id} AND organization_id=${ORG} FOR SHARE`)[0];
         if (!releaseBounds || !profile) return { error: [2,3].includes(b.intentVersion) ? "NOT_FOUND" : "INVALID_REFERENCE" };
+        if(!boundTarget && (await tx`SELECT 1 FROM sf_instance_profile_sources WHERE profile_id=${profile.id}`)[0])return {error:'INSTANCE_SCHEMA_TARGET_REQUIRED'};
         if (profile.retired_at) return { error: 'PROFILE_RETIRED' };
         if (!profile.enabled || profile.service_kind!=='SERVICE_NAME') return { error: 'CONNECTION_INELIGIBLE' };
         if (!p.source_repository_id || !validMigrationFolder(p.source_folder)
@@ -1106,6 +1107,7 @@ export function createApp(options: {
         await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id) VALUES(${p.id},${ORG},${req.actor.id},'PLAN_CREATED',${plan.id})`;
         return { plan };
       });
+      if (outcome.error === 'INSTANCE_SCHEMA_TARGET_REQUIRED') return fail(reply,409,outcome.error);
       if (outcome.error === 'TARGET_REVISION_CONFLICT') return fail(reply, 409, outcome.error);
       if (outcome.error === 'FRESH_VALIDATION_REQUIRED') return fail(reply,409,outcome.error);
       if (outcome.error === 'METADATA_RESTORE_HOLD') return fail(reply,409,outcome.error);
