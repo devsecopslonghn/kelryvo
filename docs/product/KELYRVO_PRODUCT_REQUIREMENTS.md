@@ -23,7 +23,7 @@ The baseline candidate for PR #93 (`60dd5a2`) passed the full hosted API, browse
 
 | Capability | Assessment and practical limits | Implementation / acceptance anchors |
 | --- | --- | --- |
-| Access, projects and environments | Delivered offline: fixed human roles, explicit project/deploy grants, independent approval, archive/read-only history, own-session management, HTTPS cookie/CSRF/expiry. Provisioning stays with the trusted OS operator; no invitations, SSO or app administrator. | `packages/database/{project-membership,browser-sessions,account}.ts`; `apps/web/src/Account.jsx`; `tests/product-membership.test.mjs`, `tests/product-secure-sessions.test.mjs` |
+| Authentication, access and environments | Implemented with local PostgreSQL/API and Chromium verification: generated private initial admin password, required password change, Argon2id local login, administrator recovery, LDAP/AD configuration, OIDC code/PKCE SSO, controlled provisioning/group mapping, user/group/project/environment role administration and immutable identity audit. HTTPS cookie/CSRF/expiry and legacy actor/grant migration are preserved. Environment policy defaults to independent approval and requires explicit configuration for direct authorization. | `packages/identity/`; `apps/web/src/{Account,IdentityAdmin}.jsx`; `tests/product-identity*.mjs`; `tests/product-secure-sessions.test.mjs` |
 | Instances and connections | Delivered API/browser and bounded live master workflow: one external master reference per Oracle PDB/non-CDB, connection before assignment, multi-schema discovery/assignment, derived immutable deployment profiles, instance reuse and authorized legacy discovery connections, endpoint validation, Service Name/SID metadata, private credential aliases, immutable revisions, filtering, reasoned enable/disable/retire and offline preflight. SID deployment eligibility is blocked; preflight never proves connectivity. Edits invalidate dependent authority while retaining old plans/decisions. | `packages/connectivity/{instances,management,api}.ts`, `packages/database/profile-lifecycle.ts`; `apps/web/src/{InstanceOnboarding,Instances,Connections,ConnectionConfiguration}.jsx`; `tests/product-instance-master.test.mjs`, `tests/product-instance-master-browser.integration.mjs`, `tests/product-connection-management.test.mjs` |
 | Inventory, schema ownership and targets | Delivered API/browser and bounded live multi-schema assignment: discovered or manual workspace catalog, multiple assigned schemas per project, single active project assignment per exact owner, revisioned transfer/release, project target bindings, explicit environment/route/policy/principal facts and stale-plan display. Assignment requires explicit workspace database management authority and current project access; project membership alone cannot allocate infrastructure. Declared lineage is provisional. | `packages/catalog-reference/`, `packages/targets/`; `apps/web/src/ProjectTargets.jsx`; `tests/product-target-bindings.test.mjs`, `tests/product-target-workflow-browser.integration.mjs` |
 | Oracle connectivity and identity discovery | R1 product integration implemented; live qualification PARTIAL (2026-10-14), full acceptance incomplete: bounded opt-in read-only adapter, expiring authorization, exact attested database/container/service/version comparison, retained observations and historical binding evidence. Configuration validity, connectivity and accepted identity are separate. Mismatches block binding; fixtures cannot certify identity. Default runtime is unavailable; accepted exact-target live evidence is required for verification. Discovery lists visible owners; it is not a complete schema/object snapshot. | `packages/connectivity/{oracle.mjs,api.ts,evidence.mjs}`; `apps/web/src/Connections.jsx`; `tests/oracle-discovery.test.mjs`, `tests/product-database-discovery.test.mjs`; [runtime contract](../development/local-product.md#read-only-database-connectivity-and-discovery) |
@@ -68,6 +68,36 @@ truthful fixture denial, reuse, persistence and mobile layout. [Master workflow 
 
 Qualification is limited to the recorded Oracle Free CDB/PDB TCP variant and scalar CREATE TABLE statements. ALTER TABLE ADD and CREATE INDEX have fixture coverage and require additional live installation acceptance. The pinned parser can reject otherwise valid Oracle forms, including some trailing-comment layouts; rejected SQL remains blocked. This does not qualify production, other topologies or the complete fault/recovery matrix.
 
+
+## Authentication and identity verification
+
+The identity implementation uses maintained `@node-rs/argon2`, `ldapts` and
+`openid-client` libraries. A fresh container/local runtime bootstraps `admin`
+without manually issuing access tokens. Initial/recovery credentials are random,
+written only to owner-private files, and require password change. Production
+provider credentials are mounted secret references in a directory separate from
+metadata and database writer secrets. Existing actor IDs, grants, plans and audit
+records are retained; managed authorization projects explicit assignments into the
+existing membership/deployment gates.
+
+`tests/product-identity.test.mjs` verifies bootstrap, hash storage, forced change,
+session invalidation, user disable/enable, last-administrator protection, recovery,
+groups and controlled external-subject provisioning. The real Chromium workflow in
+`tests/product-identity-browser.integration.mjs` covers administration, access
+assignment, password change and restart. Existing account/session browser tests
+also pass. `tests/product-identity-policies.test.mjs` verifies default independent
+approval, explicit direct authorization, policy tightening, scoped review/read
+boundaries and worker rejection after user disable or deployment-role revocation.
+
+`tests/product-identity-providers.integration.mjs` uses disposable pinned OpenLDAP
+and Keycloak services with verified TLS. It exercises real bind/search/groups,
+wrong passwords, filter escaping and ambiguous matches; signed OIDC tokens,
+PKCE, state/nonce rejection; and full Kelryvo LDAP/OIDC login, browser session,
+provider disable and controlled provisioning. Native identity backup plus legacy/Phase 2/3/4/5/10 and pre-instance restore tests preserve their accepted schemas under RESTORE_HOLD and invalidate restored credentials. The protocol compatibility supports
+AD's binary objectGUID and a tenant-specific Entra OIDC issuer; an actual AD domain
+or Entra tenant is not part of the disposable acceptance environment. No Oracle
+connection or migration execution is needed to establish identity acceptance.
+
 ## Authoritative requirement outcomes
 
 Stable FR identifiers are retained from earlier reconciliation. The original standalone functional specification is absent, so these are the adopted Kelryvo outcomes, not purported quotations. The 220 research IDs and original criteria remain in the legacy tracker. The capability table above supplies implementation evidence; this table supplies required behavior without a second progress count.
@@ -75,7 +105,7 @@ Stable FR identifiers are retained from earlier reconciliation. The original sta
 | ID | Required outcome / remaining boundary |
 | --- | --- |
 | FR-001 | One private server-owned workspace; multi-tenancy deferred. |
-| FR-002 | Fixed developer/approver roles, explicit project and separate deploy grants; reject self-approval and recheck current authority. |
+| FR-002 | Local username/password and configured LDAP/OIDC identities share secure sessions. Bootstrap `admin` with a generated private password and forced change; support disabled accounts and audited operator recovery. Workspace administrators manage users/groups and explicit viewer/developer/approver/deployer/owner roles scoped to projects or environments. Preserve legacy actors/grants and recheck current authority at API and worker checkpoints. |
 | FR-003 | Machine identities and public automation clients deferred. |
 | FR-004 | Workspace owns physical inventory; project target views derive from schema assignments. |
 | FR-005 | One external master credential reference per registered Oracle PDB/non-CDB, reused for discovery and migration across assigned schemas. Purpose-restricted processes and internal ledger authority remain separate; API/browser never receive secrets. Legacy separate credentials remain readable. |
@@ -91,7 +121,7 @@ Stable FR identifiers are retained from earlier reconciliation. The original sta
 | FR-015 | Plans/approvals bind exact assignment, binding, configuration, identity, policy, environment, stream and statement revisions. |
 | FR-016 | Review retained source, digests, scope/risk/dependency findings and target evidence; surface unknown/conflicting facts. |
 | FR-017 | Immutable plan and durable execution request are separate objects; no general business-issue subsystem required. |
-| FR-018 | One independent human approval; configurable routes/multi-stage approval deferred. |
+| FR-018 | Environment approval requirements are explicit configuration, independent by default for every environment name. For direct deployment, an author with developer/owner permission records a retained authorization under a policy with approval disabled. Prevent self-approval whenever independent approval is required; tightening policy invalidates queued self-authorized requests. Multi-stage routes remain deferred. |
 | FR-019 | Request requires approved current plan and deploy grant; it does not grant worker execution authority. |
 | FR-020 | Only a separately installed trusted worker may resolve writer secrets and execute after target/runtime acceptance. |
 | FR-021 | Serialize per verified PDB/non-CDB; actual mutex continuity and session-loss behavior require Oracle evidence. |
@@ -183,7 +213,7 @@ The original R2 evidence above was offline. **Initial live qualification: PARTIA
 
 ### Later backlog, deliberately unscheduled
 
-Remote Git providers and automation, SSO/invitations/machine identities, advanced approval/promotion policy, further editor convenience, signed/general evidence export and retention, query/data access, non-Oracle engines and broader Oracle topology remain unscheduled beyond the bounded offline outcomes above. Each needs a justified requirement, dependencies and objective acceptance slice before implementation; none is a hidden dependency of the current offline product.
+Remote Git providers and automation, invitations/machine identities, advanced approval/promotion policy, further editor convenience, signed/general evidence export and retention, query/data access, non-Oracle engines and broader Oracle topology remain unscheduled beyond the bounded offline outcomes above. Each needs a justified requirement, dependencies and objective acceptance slice before implementation; none is a hidden dependency of the current offline product.
 
 ## Cleanup and historical boundaries
 

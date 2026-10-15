@@ -1,7 +1,7 @@
 import { randomBytes, randomUUID } from 'node:crypto';
 import { constants } from 'node:fs';
-import { mkdir, open } from 'node:fs/promises';
-import { dirname, isAbsolute } from 'node:path';
+import { mkdir, open, lstat } from 'node:fs/promises';
+import { dirname, isAbsolute, parse, sep, join } from 'node:path';
 import { hash, verify, Algorithm } from '@node-rs/argon2';
 import { LOCAL_ORGANIZATION as ORG, tokenDigest } from '../database/local-credentials.ts';
 import { cookieValue, csrf, sessionCookie } from '../database/browser-sessions.ts';
@@ -27,6 +27,10 @@ export async function actorIdentity(sql: any, actor: any) {
 export async function privatePasswordFile(filename: string, create = true) {
   if (!isAbsolute(filename)) throw identityError('PRIVATE_PASSWORD_FILE_REQUIRED');
   await mkdir(dirname(filename), {recursive:true,mode:0o700});
+  let cursor=parse(filename).root;
+  for(const part of dirname(filename).slice(cursor.length).split(sep).filter(Boolean)){cursor=join(cursor,part);if((await lstat(cursor)).isSymbolicLink())throw identityError('PRIVATE_PASSWORD_FILE_REQUIRED');}
+  const directory=await lstat(dirname(filename));
+  if(directory.uid!==(process.geteuid?.()??process.getuid?.()??0)||(directory.mode&0o777)!==0o700)throw identityError('PRIVATE_PASSWORD_FILE_REQUIRED');
   let file, created = false;
   try { file = await open(filename,constants.O_RDWR|constants.O_CREAT|constants.O_EXCL|constants.O_NOFOLLOW,0o600); created = true; }
   catch (error: any) { if (error.code !== 'EEXIST' || !create) throw error; file = await open(filename,constants.O_RDONLY|constants.O_NOFOLLOW); }
@@ -49,6 +53,8 @@ export async function bootstrapAdministrator(sql: any, passwordFile: string) {
   await sql.begin(async (tx: any) => {
     await lockIdentity(tx);
     if ((await tx`SELECT 1 FROM sf_identity_users WHERE workspace_role='admin' LIMIT 1`)[0]) return;
+    const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0];
+    if(gate?.state!=='ACTIVE')throw identityError('METADATA_RESTORE_HOLD');
     if ((await tx`SELECT 1 FROM sf_identity_users WHERE username='admin'`)[0]) throw identityError('ADMIN_RECOVERY_REQUIRED');
     const password = await privatePasswordFile(passwordFile);
     const id = `user:${randomUUID()}`;
@@ -86,9 +92,20 @@ export async function issueIdentitySession(tx: any, req: any, actor: any, method
 /** Existing operator-owned grants are retained; only identity-managed projections are replaced.
  * All callers hold the governance lock, shared with API/worker authority checkpoints. */
 export async function synchronizeAccess(tx: any) {
-  await tx`UPDATE sf_project_grants SET revoked_at=clock_timestamp(),revoke_os_uid=0 WHERE identity_managed AND revoked_at IS NULL`;
-  await tx`UPDATE sf_project_deploy_grants SET revoked_at=clock_timestamp(),revoke_os_uid=0 WHERE identity_managed AND revoked_at IS NULL`;
   await tx.unsafe(`
+    WITH effective AS (
+      SELECT DISTINCT a.project_id,u.actor_id,a.role FROM sf_identity_assignments a JOIN sf_identity_users u
+      ON (a.subject_type='USER' AND a.subject_id=u.actor_id) OR (a.subject_type='GROUP' AND EXISTS(
+        SELECT 1 FROM sf_identity_group_members m WHERE m.group_id::text=a.subject_id AND m.actor_id=u.actor_id))
+    ) UPDATE sf_project_grants g SET revoked_at=clock_timestamp(),revoke_os_uid=0 WHERE g.identity_managed AND g.revoked_at IS NULL
+      AND NOT EXISTS(SELECT 1 FROM effective e WHERE e.project_id=g.project_id AND e.actor_id=g.actor_id);
+    WITH effective AS (
+      SELECT DISTINCT a.project_id,u.actor_id FROM sf_identity_assignments a JOIN sf_identity_users u
+      ON (a.subject_type='USER' AND a.subject_id=u.actor_id) OR (a.subject_type='GROUP' AND EXISTS(
+        SELECT 1 FROM sf_identity_group_members m WHERE m.group_id::text=a.subject_id AND m.actor_id=u.actor_id))
+      WHERE a.role IN ('deployer','owner')
+    ) UPDATE sf_project_deploy_grants g SET revoked_at=clock_timestamp(),revoke_os_uid=0 WHERE g.identity_managed AND g.revoked_at IS NULL
+      AND NOT EXISTS(SELECT 1 FROM effective e WHERE e.project_id=g.project_id AND e.actor_id=g.actor_id);
     WITH effective AS (
       SELECT DISTINCT a.project_id,u.actor_id FROM sf_identity_assignments a JOIN sf_identity_users u
       ON (a.subject_type='USER' AND a.subject_id=u.actor_id) OR (a.subject_type='GROUP' AND EXISTS(
@@ -107,9 +124,9 @@ export async function synchronizeAccess(tx: any) {
   `);
 }
 
-export async function projectRoles(sql: any, actorId: string, projectId: string): Promise<string[] | null> {
+export async function projectRoles(sql: any, actorId: string, projectId: string, environmentId: string | null = null): Promise<string[] | null> {
   if (!(await sql`SELECT 1 FROM sf_identity_users WHERE actor_id=${actorId}`)[0]) return null;
-  return (await sql`SELECT DISTINCT a.role FROM sf_identity_assignments a WHERE a.project_id=${projectId}
+  return (await sql`SELECT DISTINCT a.role FROM sf_identity_assignments a WHERE a.project_id=${projectId} AND (a.environment_id IS NULL OR a.environment_id=${environmentId})
     AND ((a.subject_type='USER' AND a.subject_id=${actorId}) OR (a.subject_type='GROUP' AND EXISTS(
       SELECT 1 FROM sf_identity_group_members m WHERE m.actor_id=${actorId} AND m.group_id::text=a.subject_id)))`).map((r: any)=>r.role);
 }

@@ -1,7 +1,7 @@
 import { environmentPolicy, approvalSatisfied } from '../../packages/identity/approvals.ts';
 import { registerIdentity } from '../../packages/identity/api.ts';
 import { authorizeIdentity } from '../../packages/identity/authorization.ts';
-import { actorIdentity, synchronizeAccess } from '../../packages/identity/core.ts';
+import { actorIdentity, projectRoles, synchronizeAccess } from '../../packages/identity/core.ts';
 import { retainPlanSchema } from '../../packages/schema-baselines/store.ts';
 import { registerSourceComparison, readPlanComparison } from '../../packages/governance/source-comparison.ts';
 import {registerSqlWorkspace} from '../../packages/sql-workspace/api.ts';
@@ -170,7 +170,7 @@ export function createApp(options: {
     if(!req.actor){fail(reply,401,"UNAUTHENTICATED");return;}
     const requestPath = req.url.split('?')[0];
     const projectScoped = (requestPath === '/api/projects' && req.method !== 'GET') || requestPath.startsWith('/api/projects/') || requestPath.startsWith('/api/releases/')
-      || requestPath.startsWith('/api/plans/');
+      || requestPath.startsWith('/api/plans/') || requestPath.startsWith('/api/execution-jobs/');
     req.projectScopedMutation = projectScoped && req.method !== 'GET';
     const accessMode = await projectAccessMode(sql);
     if (projectScoped && req.method !== 'GET' && accessMode === 'BOOTSTRAP_REQUIRED') {
@@ -178,13 +178,15 @@ export function createApp(options: {
       return;
     }
     if (projectScoped && requestPath !== '/api/projects' && accessMode === 'ENFORCED') {
-      if ((requestPath.startsWith('/api/releases/') || requestPath.startsWith('/api/plans/')) && !uuid(req.params?.id)) {
+      if ((requestPath.startsWith('/api/releases/') || requestPath.startsWith('/api/plans/') || requestPath.startsWith('/api/execution-jobs/')) && !uuid(req.params?.id)) {
         fail(reply, 404, 'NOT_FOUND');
         return;
       }
       let projectId = req.params?.projectId ?? req.params?.id;
       if (requestPath.startsWith('/api/releases/')) {
         projectId = (await sql`SELECT project_id FROM sf_releases WHERE id=${req.params?.id} AND organization_id=${ORG}`)[0]?.project_id;
+      } else if (requestPath.startsWith('/api/execution-jobs/')) {
+        projectId = (await sql`SELECT project_id FROM sf_execution_jobs WHERE id=${req.params?.id} AND organization_id=${ORG}`)[0]?.project_id;
       } else if (requestPath.startsWith('/api/plans/')) {
         projectId = (await sql`SELECT project_id FROM sf_plans WHERE id=${req.params?.id} AND organization_id=${ORG}`)[0]?.project_id;
       }
@@ -244,9 +246,10 @@ export function createApp(options: {
     if (!row || row.archived_at) throw Object.assign(new Error('PROJECT_ARCHIVED'), { productCode: 'PROJECT_ARCHIVED' });
   };
 
-  const mapCurrentPlan = async (tx: any, row: any) => {
+  const mapCurrentPlan = async (tx: any, row: any, actorId: string) => {
     const mapped: any = mapPlan(row);
     mapped.approvalPolicy=await environmentPolicy(tx,row.profile_id);
+    mapped.identityRoles=await projectRoles(tx,actorId,row.project_id,mapped.approvalPolicy.id??null);
     if (mapped.retainedTarget) mapped.currentness = await checkTargetCurrentness(tx, row.project_id, mapped.retainedTarget);
     if (!await profilePlanCurrent(tx,row.id)) mapped.currentness={state:'STALE',reasons:[...(mapped.currentness?.reasons || []),'CONNECTION_REVISION_CHANGED'],checkedAt:new Date().toISOString()};
     if(mapped.offlineIntent?.validation){
@@ -331,7 +334,7 @@ export function createApp(options: {
         CASE WHEN isfinite(p.created_at) AND p.created_at >= '0001-01-01 00:00:00+00'::timestamptz
               AND p.created_at < '10000-01-01 00:00:00+00'::timestamptz
           THEN to_char(p.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') END AS created_at_utc,
-        p.status,(${req.actor.role === 'approver'} AND p.author_id<>${req.actor.id}
+        p.status,(sf_identity_can_review(${req.actor.id},p.project_id,(SELECT environment_id FROM sf_profiles WHERE id=p.profile_id)) AND p.author_id<>${req.actor.id}
           AND (p.reviewer_id IS NULL OR p.reviewer_id=${req.actor.id})) AS eligible
       FROM sf_plans p
       JOIN sf_projects pr ON pr.id=p.project_id AND pr.organization_id=p.organization_id AND pr.archived_at IS NULL
@@ -339,8 +342,11 @@ export function createApp(options: {
         AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL
       LEFT JOIN sf_local_actors a ON a.id=p.author_id AND a.organization_id=p.organization_id
       WHERE p.organization_id=${ORG} AND p.status='PENDING_APPROVAL'
+        AND (NOT ${!!req.actor.username} OR EXISTS(SELECT 1 FROM sf_identity_assignments access WHERE access.project_id=p.project_id
+          AND (access.environment_id IS NULL OR access.environment_id=(SELECT environment_id FROM sf_profiles WHERE id=p.profile_id))
+          AND ((access.subject_type='USER' AND access.subject_id=${req.actor.id}) OR (access.subject_type='GROUP' AND EXISTS(SELECT 1 FROM sf_identity_group_members gm WHERE gm.actor_id=${req.actor.id} AND gm.group_id::text=access.subject_id)))))
         AND (${scope}='ALL' OR (${scope}='MINE' AND p.author_id=${req.actor.id})
-          OR (${scope}='ELIGIBLE' AND ${req.actor.role === 'approver'} AND p.author_id<>${req.actor.id}
+          OR (${scope}='ELIGIBLE' AND sf_identity_can_review(${req.actor.id},p.project_id,(SELECT environment_id FROM sf_profiles WHERE id=p.profile_id)) AND p.author_id<>${req.actor.id}
             AND (p.reviewer_id IS NULL OR p.reviewer_id=${req.actor.id})))
         AND (${position?.createdAt ?? null}::text::timestamptz IS NULL OR (p.created_at,p.id)<(${position?.createdAt ?? null}::text::timestamptz,${position?.id ?? null}::uuid))
       ORDER BY p.created_at DESC,p.id DESC LIMIT ${limit + 1}`;
@@ -490,7 +496,7 @@ export function createApp(options: {
           createdAt: r.created_at,
         })),
         plans: await Promise.all(plans.map(async (r: any) => {
-          return mapCurrentPlan(sql,r);
+          return mapCurrentPlan(sql,r,req.actor.id);
         })),
         comments: comments.map(mapComment),
         canDeploy: deploymentGrant.length > 0,
@@ -1120,7 +1126,7 @@ export function createApp(options: {
       if (outcome.error === "RELEASE_NOT_PLANNABLE") return fail(reply, 409, "RELEASE_NOT_PLANNABLE");
       if (outcome.error === "SOURCE_BINDING_INVALID") return fail(reply, 409, "SOURCE_BINDING_INVALID");
       if (outcome.error === "SOURCE_BINDING_MISMATCH") return fail(reply, 409, "SOURCE_BINDING_MISMATCH");
-      return reply.code(201).send({ plan: await mapCurrentPlan(sql, outcome.plan) });
+      return reply.code(201).send({ plan: await mapCurrentPlan(sql, outcome.plan,req.actor.id) });
     },
   );
   app.get('/api/projects/:projectId/plans/:id/statement-envelope', { preHandler: authenticate }, async (req: any, reply: any) => {
@@ -1266,7 +1272,7 @@ export function createApp(options: {
     if (p.archived_at) return fail(reply, 409, 'PROJECT_ARCHIVED');
     if (p.status !== 'PENDING_APPROVAL') return fail(reply, 409, 'PLAN_NOT_PENDING');
     const rows = await sql`SELECT a.id,a.display_name AS name FROM sf_project_grants g
-      JOIN sf_local_actors a ON a.id=g.actor_id AND a.organization_id=g.organization_id AND sf_identity_can_review(a.id,g.project_id)
+      JOIN sf_local_actors a ON a.id=g.actor_id AND a.organization_id=g.organization_id AND sf_identity_can_review(a.id,g.project_id,${req.scopeEnvironmentId??null}::uuid)
       WHERE g.project_id=${req.params.projectId} AND g.organization_id=${ORG} AND g.revoked_at IS NULL AND a.id<>${p.author_id}
         AND char_length(a.id) BETWEEN 1 AND 200 AND char_length(a.display_name) BETWEEN 1 AND 200
         AND EXISTS (SELECT 1 FROM sf_local_credentials c WHERE c.actor_id=a.id AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp())
@@ -1294,15 +1300,15 @@ export function createApp(options: {
           AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
           AND EXISTS(SELECT 1 FROM sf_project_access_mode m WHERE m.organization_id=${ORG} AND m.mode='ENFORCED')
           AND EXISTS(SELECT 1 FROM sf_project_grants g WHERE g.project_id=${plan.project_id} AND g.actor_id=a.id AND g.revoked_at IS NULL)`)[0];
-      const canAssign = credential && (req.actor.id === plan.author_id || (credential.role === 'approver' && req.actor.id === plan.reviewer_id));
-      const canClaim = credential?.role === 'approver' && plan.reviewer_id === null && req.actor.id !== plan.author_id && b.reviewerId === req.actor.id;
+      const canAssign = credential && (req.actor.id === plan.author_id || ((req.actor.username?req.actor.role:credential.role) === 'approver' && req.actor.id === plan.reviewer_id));
+      const canClaim = credential && (req.actor.username?req.actor.role:credential.role) === 'approver' && plan.reviewer_id === null && req.actor.id !== plan.author_id && b.reviewerId === req.actor.id;
       if (!credential || (!canAssign && !canClaim)) return { error: 'REVIEWER_ASSIGNMENT_DENIED' };
       if (plan.status !== 'PENDING_APPROVAL') return { error: 'PLAN_NOT_PENDING' };
       if (plan.revision !== b.expectedRevision) return { error: 'REVISION_CONFLICT' };
       if (b.reviewerId === plan.author_id) return { error: 'INVALID_REVIEWER' };
       if (b.reviewerId !== null) {
         const eligible = (await tx`SELECT 1 FROM sf_local_actors a JOIN sf_project_grants g ON g.actor_id=a.id AND g.organization_id=a.organization_id
-          WHERE a.id=${b.reviewerId} AND a.organization_id=${ORG} AND sf_identity_can_review(a.id,${plan.project_id})
+          WHERE a.id=${b.reviewerId} AND a.organization_id=${ORG} AND sf_identity_can_review(a.id,${plan.project_id},${req.scopeEnvironmentId??null}::uuid)
           AND char_length(a.id) BETWEEN 1 AND 200 AND char_length(a.display_name) BETWEEN 1 AND 200
           AND g.project_id=${plan.project_id} AND g.revoked_at IS NULL
           AND EXISTS(SELECT 1 FROM sf_project_access_mode m WHERE m.organization_id=${ORG} AND m.mode='ENFORCED')
@@ -1364,7 +1370,7 @@ export function createApp(options: {
         const direct=!policy.approvalRequired && b.decision==='APPROVE' && p.author_id===req.actor.id
           && (!req.actor.username || req.identityRoles?.some((r: string)=>['developer','owner'].includes(r)));
         let denialReason: string | undefined;
-        if (!currentActor || !direct && !(await tx`SELECT sf_identity_can_review(${req.actor.id},${p.project_id}) AS allowed`)[0]?.allowed) denialReason = 'APPROVER_REQUIRED';
+        if (!currentActor || !direct && !(await tx`SELECT sf_identity_can_review(${req.actor.id},${p.project_id},${policy.id}::uuid) AS allowed`)[0]?.allowed) denialReason = 'APPROVER_REQUIRED';
         else if (p.status !== 'PENDING_APPROVAL') denialReason = 'DECISION_ALREADY_RECORDED';
         else if (p.author_id === req.actor.id && policy.approvalRequired && policy.independentApproval) denialReason = 'SELF_APPROVAL_DENIED';
         else if (!direct && p.reviewer_id && p.reviewer_id !== req.actor.id) denialReason = 'REVIEWER_ASSIGNMENT_REQUIRED';
@@ -1468,7 +1474,7 @@ export function createApp(options: {
           execution,history_status,planning_scope,approval_reference,source_binding_generation::text AS source_binding_generation,
           CASE WHEN octet_length(offline_intent_envelope) <= ${MAX_STDOUT_BYTES} THEN offline_intent_envelope END AS offline_intent_envelope,
           CASE WHEN char_length(offline_intent_digest) = 64 THEN offline_intent_digest END AS offline_intent_digest`;
-        if(b.decision==='APPROVE') await tx`INSERT INTO sf_plan_policy_decisions(plan_id,approval_reference,environment_id,approval_required,independent_approval) VALUES(${p.id},${approvalReference},${policy.id},${policy.approvalRequired},${policy.independentApproval})`;
+        if(b.decision==='APPROVE' && (!policy.approvalRequired || !policy.independentApproval)) await tx`INSERT INTO sf_plan_policy_decisions(plan_id,approval_reference,environment_id,approval_required,independent_approval) VALUES(${p.id},${approvalReference},${policy.id},${policy.approvalRequired},${policy.independentApproval})`;
         if (b.decision === 'APPROVE') await tx`INSERT INTO sf_audit(id,project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${approvalReference},${p.project_id},${ORG},${req.actor.id},'PLAN_APPROVED',${p.id},${tx.json({ reason: b.reason, approvalReference, approvalPolicy:policy, direct, ...comparisonFacts })})`;
         else await tx`INSERT INTO sf_audit(project_id,organization_id,actor_id,action,resource_id,facts) VALUES(${p.project_id},${ORG},${req.actor.id},'PLAN_REJECTED',${p.id},${tx.json({ reason: b.reason, ...comparisonFacts })})`;
         return rows[0];
@@ -1482,7 +1488,7 @@ export function createApp(options: {
       if (result === 'PLAN_APPROVAL_INTEGRITY_FAILED') return fail(reply, 409, 'PLAN_APPROVAL_INTEGRITY_FAILED');
       if (result === 'FRESH_PLAN_REQUIRED') return fail(reply, 409, 'FRESH_PLAN_REQUIRED');
       if (result === 'PROFILE_RETIRED') return fail(reply, 409, 'PROFILE_RETIRED');
-      return { plan: await mapCurrentPlan(sql, result) };
+      return { plan: await mapCurrentPlan(sql, result,req.actor.id) };
     },
   );
   app.post(
@@ -1521,7 +1527,7 @@ export function createApp(options: {
             AND approval_reference=${plan.approval_reference} LIMIT 1`)[0];
         let denial: string | undefined;
         if (project.archived_at) denial = 'PROJECT_ARCHIVED';
-        else if (live.role !== 'approver') denial = 'APPROVER_REQUIRED';
+        else if (!(await tx`SELECT sf_identity_can_review(${req.actor.id},${plan.project_id},${req.scopeEnvironmentId??null}::uuid) AS allowed`)[0]?.allowed) denial = 'APPROVER_REQUIRED';
         else if (!text(plan.author_id) || plan.author_id === live.id) denial = 'SELF_APPROVAL_DENIED';
         else if (plan.status !== 'APPROVED' || plan.decision !== 'APPROVE') denial = 'PLAN_NOT_WITHDRAWABLE';
         else if (approvalRevocation) denial = 'APPROVAL_ALREADY_REVOKED';

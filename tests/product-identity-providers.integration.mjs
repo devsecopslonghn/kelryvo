@@ -52,11 +52,15 @@ test('LDAP and OIDC providers complete real disposable authentication flows', { 
   const browser = await chromium.launch({ headless: true });
   t.after(() => browser.close());
   const authorize = async () => {
-    const flow = started.flow;
+    const { flow } = runTrustedNode(lab.cert, `
+      import { oidcStart } from ${JSON.stringify(adapterUrl)};
+      console.log(JSON.stringify({ flow: await oidcStart(${JSON.stringify(oidcConfig)}, 'oidc-integration-only-secret') }));
+    `);
     const context = await browser.newContext({ ignoreHTTPSErrors: true });
     const page = await context.newPage();
     let callbackUrl;
-    await page.route(`${lab.callback}**`, async route => {
+    page.on('request', request => { if (request.url().startsWith(lab.callback)) callbackUrl = request.url(); });
+    await page.route('**/api/auth/oidc/main/callback**', async route => {
       callbackUrl = route.request().url();
       await route.fulfill({ status: 200, contentType: 'text/html', body: '<title>Callback received</title>' });
     });
@@ -98,4 +102,9 @@ test('LDAP and OIDC providers complete real disposable authentication flows', { 
   `);
   assert.equal(rejectedNonce.rejected, true);
   assert.doesNotMatch(rejectedNonce.message, /secret|token|client/i);
+  if(process.env.SCHEMAFORGE_TEST_DATABASE_URL){
+    const applicationHelper=new URL('./helpers/identity-application-flow.mjs',import.meta.url).href;
+    const result=runTrustedNode(lab.cert,`import { exerciseIdentityApplication } from ${JSON.stringify(applicationHelper)}; console.log(JSON.stringify(await exerciseIdentityApplication(${JSON.stringify({root:lab.root,cert:lab.cert,key:lab.key,ldapPort:lab.ldapPort,ldapBase:lab.ldapBase,issuer:lab.issuer,applicationPort:lab.applicationPort})})));`,60_000);
+    assert.deepEqual(result,{ldap:true,oidc:true,groups:true,providerRevocation:true,controlledProvisioning:true});
+  }
 });

@@ -47,7 +47,7 @@ try {
   const app = await startProduct({ databaseUrl, actors: [
     { id: 'local-developer', name: 'Local developer', role: 'developer', token: config.developerToken },
     { id: 'local-approver', name: 'Local approver', role: 'approver', token: config.approverToken },
-  ], identity:{bootstrapPasswordFile:path.join(localDirectory,'bootstrap-admin.json'),secretDirectory:localDirectory}, repositories: [
+  ], identity:{bootstrapPasswordFile:path.join(localDirectory,'bootstrap-admin.json'),secretDirectory:path.join(localDirectory,'identity-secrets')}, repositories: [
     { id: 'demo', name: 'Local migration demo', path: repository },
     ...configuredRepositories,
   ], tls, discoveryRuntime });

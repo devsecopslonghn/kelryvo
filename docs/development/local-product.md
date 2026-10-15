@@ -115,20 +115,19 @@ Linux x64, Node 22.23.3, Docker and Git are required. Docker's local Unix socket
 ignore remote Docker environment/context selection, and do not change saved contexts.
 ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the API/web server.
 
-1. Open `http://127.0.0.1:4317`. Read the private local
-   `.cache/local-product/config.json` and sign in with `developerToken`. New and upgraded
-   metadata databases start read-only in `BOOTSTRAP_REQUIRED`; review existing projects in
-   the UI and inspect their IDs and grant coverage with the local operator's `status` command.
-2. Before project writes, explicitly grant every existing project to at least one intended
-   local actor, then activate membership. On an empty database, explicitly activate without
-   grants. For example, use `grant PROJECT_UUID local-developer CONFIG` for each covered
-   project, then `activate CONFIG`. The configured fixed actors are `local-developer` and
-   `local-approver`; no project creator or audit author is granted automatically.
-3. Create a project; it returns a creation receipt only. Find its ID with `status`, grant the
-   intended existing actors (for example, both fixed actors), then select **Refresh workspace**
-   in the UI and open the assigned project. Only then create a Development environment and
-   add an Oracle connection profile with
-   host `oracle.example.invalid`, service `DEV`, username `APP`, port 1521 and credential
+1. Open `https://127.0.0.1:4317`, trusting the installation-specific certificate at
+   `.cache/local-product/tls/server.crt` (or supply your own TLS files). Read the
+   owner-private `.cache/local-product/bootstrap-admin.json`, sign in as `admin`
+   and change the generated initial password. See [identity operations](containers.md#authentication-and-identity)
+   for provider secrets and emergency recovery.
+2. In **Identity administration**, create intended users/groups and assign explicit
+   project and environment roles. LDAP/OIDC provisioning and group mappings are
+   disabled until configured. Existing fixed token actors and their grants remain
+   compatible through the operator workflows below; normal login needs no token.
+3. Create a project as a workspace administrator; creation explicitly assigns that
+   managed actor owner access. Assign an independent reviewer and deployment roles.
+   Create a Development environment and an Oracle connection profile with host
+   `oracle.example.invalid`, service `DEV`, username `APP`, port 1521 and credential
    reference `vault://local/dev/app`. This records configuration without resolving secrets.
 4. Open Releases, select the project and save its source binding to **Local migration demo**
    and folder `migrations`. Retain ref `HEAD`, select a listed branch or commit-resolving tag,
@@ -161,7 +160,7 @@ ports 4317 and 55432 must be free. PostgreSQL binds only 127.0.0.1, as does the 
    Eligible means the fixed approver role with requester exclusion only; it does not attest to
    source integrity or execution readiness. Open a row to review that exact plan in Plans & review. The inbox is read-only and excludes
    archived projects.
-7. Sign out, sign in with `approverToken`, and open Plans & review. Record a reason and
+7. Sign out, sign in with the assigned reviewer account, and open Plans & review. Record a reason and
    approve or reject. Each selected plan shows its retained author ID as text and its server
    creation timestamp. An approver who authored a pending plan sees fixed independent-review
    feedback and disabled decision controls; a missing or malformed author ID keeps decisions
@@ -335,7 +334,7 @@ The API is a single-organization local service with server-configured named deve
 approver identities. Bearer tokens are randomly generated, private at rest, never stored
 by the browser, and mapped to identities on the server. Caller actor IDs and unexpected
 properties are rejected. Origin checks, fixed error codes and a same-origin CSP apply.
-HTTP mode retains local bearer authentication. HTTPS mode adds the bounded browser session lifecycle described below; multi-tenant/provider login and deployed worker transport remain unverified.
+The default local CLI now uses HTTPS and managed identity login. Explicit HTTP API fixtures retain legacy bearer authentication. LDAP/OIDC and the bounded HTTPS session lifecycle are implemented; multi-tenancy remains deferred.
 
 Local identities are persisted in PostgreSQL with a SHA-256 bearer digest and a fixed
 24-hour expiry measured from database issuance time. Startup seeds an identity and its
@@ -724,10 +723,10 @@ must be regular, singly linked, owned by the current OS user, mode 0600, beneath
 SAN and a chain trusted by the client. Provision and renew them through your authorized
 certificate authority. Startup validates TLS material before starting metadata services;
 invalid material fails with fixed diagnostics. Native TLS requires version 1.2 or newer.
-Do not bypass client certificate validation. Existing HTTP loopback startup remains a
-local bearer mode; cookie login cannot be enabled by forwarding headers or plaintext.
+Do not bypass client certificate validation. Explicit HTTP API fixtures retain legacy
+bearer mode; cookie login cannot be enabled by forwarding headers or plaintext.
 
-In HTTPS mode, the sign-in form exchanges the private named LOCAL credential through
+The advanced legacy token form exchanges a private named LOCAL credential through
 `POST /api/session` for a random BROWSER child credential. Only its digest is retained in
 PostgreSQL. The original access token is cleared from application state. The browser
 stores the session in a `__Host-schemaforge` Secure, HttpOnly, SameSite=Strict cookie,

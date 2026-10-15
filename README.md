@@ -38,9 +38,9 @@ npm run local:prepare
 npm run dev
 ```
 
-Open **http://127.0.0.1:4317**. Preparation obtains pinned parser tools and the PostgreSQL image. Startup uses isolated local metadata on port 55432, a persistent Docker volume, a demo Git repository and private local tokens in `.cache/local-product/config.json` (0600). Explicitly activate membership and grant actors before project writes. Use separate developer and approver identities; HTTP mode keeps the bearer in browser memory. Target credentials remain references.
+Open **https://127.0.0.1:4317**. Startup creates an installation-specific local certificate and a random initial `admin` password in the owner-private `.cache/local-product/bootstrap-admin.json`. Trust `.cache/local-product/tls/server.crt`, retrieve the password through your private operator channel, sign in as `admin` and change it. Use **Identity administration** to create users/groups and assign project and environment roles. Projects created by managed administrators explicitly grant them owner access; independent approval remains the default. Preparation obtains pinned parser tools and the PostgreSQL image; target database credentials remain references.
 
-For secure browser sessions, supply a trusted loopback certificate/private key with the private permissions documented in the [local product guide](docs/development/local-product.md):
+To use your own trusted loopback certificate instead of the generated local certificate, supply its certificate/private key with the private permissions documented in the [local product guide](docs/development/local-product.md):
 
 ```sh
 npm run dev -- --tls-cert /absolute/private/tls/server-chain.pem --tls-key /absolute/private/tls/server-key.pem

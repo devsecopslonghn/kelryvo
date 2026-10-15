@@ -59,7 +59,7 @@ export async function loadContainerConfig(env = process.env) {
       key: await readContainerSecret(root, 'tls.key', 128 * 1024) };
     createSecureContext({ ...tls, minVersion: 'TLSv1.2' });
     return { databaseUrl, host, port: Number(portText), tls,
-      identity: { bootstrapPasswordFile: env.KELRYVO_BOOTSTRAP_PASSWORD_FILE ?? '/var/lib/kelryvo/identity/bootstrap-admin.json', secretDirectory: root },
+      identity: { bootstrapPasswordFile: env.KELRYVO_BOOTSTRAP_PASSWORD_FILE ?? '/var/lib/kelryvo/identity/bootstrap-admin.json', secretDirectory: env.KELRYVO_IDENTITY_SECRET_DIR ?? '/run/kelryvo/identity-secrets' },
       actors: tokenFiles[0] ? [
         { id: 'kelryvo-developer', name: 'Kelryvo developer', role: 'developer', token: developerToken },
         { id: 'kelryvo-approver', name: 'Kelryvo approver', role: 'approver', token: approverToken },

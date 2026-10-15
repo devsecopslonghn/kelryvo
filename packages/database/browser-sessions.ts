@@ -100,6 +100,7 @@ export function registerBrowserSessions(app: any, { sql, authenticate, seed, ena
     await sql.begin(async (tx: any) => {
       await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
       await tx`UPDATE sf_local_credentials SET revoked_at=clock_timestamp() WHERE id=${req.browserSession.id} AND revoked_at IS NULL`;
+      await tx`INSERT INTO sf_identity_audit(actor_id,action,subject_id) VALUES(${req.actor.id},'LOGOUT',${req.actor.id})`;
     });
     reply.header('Set-Cookie', `${COOKIE}=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0`);
     return reply.code(204).send();

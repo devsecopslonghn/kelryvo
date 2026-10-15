@@ -28,7 +28,7 @@ const waitFor = async (check, timeout = 120_000) => {
 };
 const docker = (...args) => run('docker', args, { maxBuffer: 4 * 1024 * 1024 });
 
-export async function createIdentityProviderLab() {
+export async function createIdentityProviderLab({ includeOidc = true } = {}) {
   docker('info');
   const root = await mkdtemp(path.join(tmpdir(), 'kelryvo-identity-integration-'));
   const certDir = path.join(root, 'tls');
@@ -54,7 +54,7 @@ export async function createIdentityProviderLab() {
       '-e', 'LDAP_TLS_CA_CRT_FILENAME=tls.crt', '-e', 'LDAP_TLS_VERIFY_CLIENT=never',
       '-e', 'LDAP_TLS_DH_PARAM_FILENAME=dhparam.pem',
       '-v', `${certDir}:/container/service/slapd/assets/certs`,
-      'osixia/openldap:1.5.0');
+      'osixia/openldap:1.5.0@sha256:18742e9c449c9c1afe129d3f2f3ee15fb34cc43e5f940a20f3399728f41d7c28');
     containers.push(ldapName);
     const ldapPort = docker('port', ldapName, '636/tcp').split(':').at(-1);
     const ldapBase = 'dc=example,dc=test';
@@ -80,18 +80,25 @@ export async function createIdentityProviderLab() {
     await writeFile(duplicateLdif, [`dn: cn=alice-second,ou=people,${ldapBase}`, 'objectClass: inetOrgPerson',
       'cn: Alice Second', 'sn: Second', 'uid: alice', 'userPassword: second-integration-password', ''].join('\n'));
 
-    const keycloakPort = await freePort();
+    let keycloakPort, issuer, callback;
+    const applicationPort=await freePort();
+    if (includeOidc) {
+    keycloakPort = await freePort();
     const realmPath = path.join(root, 'kelryvo-test-realm.json');
-    const issuer = `https://localhost:${keycloakPort}/realms/kelryvo-test`;
-    const callback = `https://localhost:${keycloakPort}/api/auth/oidc/main/callback`;
+    issuer = `https://localhost:${keycloakPort}/realms/kelryvo-test`;
+    callback = `https://localhost:${keycloakPort}/api/auth/oidc/main/callback`;
     const realm = {
       realm: 'kelryvo-test', enabled: true, sslRequired: 'none', registrationAllowed: false,
       clients: [{ clientId: 'kelryvo-integration', name: 'Kelryvo integration fixture', enabled: true,
         protocol: 'openid-connect', publicClient: false, secret: 'oidc-integration-only-secret', standardFlowEnabled: true,
-        directAccessGrantsEnabled: false, redirectUris: [callback], webOrigins: [`https://localhost:${keycloakPort}`],
-        defaultClientScopes: ['profile', 'email', 'groups'] }],
+        directAccessGrantsEnabled: false, redirectUris: [callback,`https://localhost:${applicationPort}/*`], webOrigins: [`https://localhost:${keycloakPort}`],
+        defaultClientScopes: ['profile', 'email'], protocolMappers: [{ name: 'groups', protocol: 'openid-connect',
+          protocolMapper: 'oidc-group-membership-mapper', consentRequired: false,
+          config: { 'full.path': 'false', 'id.token.claim': 'true', 'access.token.claim': 'false',
+            'userinfo.token.claim': 'true', 'claim.name': 'groups' } }] }],
       groups: [{ name: 'release-approvers', path: '/release-approvers' }],
-      users: [{ username: 'oidc-alice', enabled: true, emailVerified: true, firstName: 'Alice', lastName: 'OIDC',
+      users: [{ username: 'oidc-alice', enabled: true, email: 'oidc-alice@example.test', emailVerified: true,
+        firstName: 'Alice', lastName: 'OIDC', requiredActions: [],
         groups: ['/release-approvers'], credentials: [{ type: 'password', value: 'oidc-alice-integration-password', temporary: false }] }],
     };
     await writeFile(realmPath, JSON.stringify(realm));
@@ -100,14 +107,15 @@ export async function createIdentityProviderLab() {
       '-e', 'KC_BOOTSTRAP_ADMIN_USERNAME=admin', '-e', 'KC_BOOTSTRAP_ADMIN_PASSWORD=integration-admin-only',
       '-e', `KC_HOSTNAME=https://localhost:${keycloakPort}`, '-e', 'KC_HOSTNAME_STRICT=false', '-e', 'KC_HTTP_ENABLED=false',
       '-v', `${keycloakCertDir}:/opt/keycloak/conf/tls:ro`, '-v', `${realmPath}:/opt/keycloak/data/import/kelryvo-test-realm.json:ro`,
-      'quay.io/keycloak/keycloak:26.3.3', 'start-dev', '--https-certificate-file=/opt/keycloak/conf/tls/tls.crt',
+      'quay.io/keycloak/keycloak:26.3.3@sha256:6a7217a100bd3e5de4063a27a538ef999a3c5a88c4b4ec0ffc0a642aee7b2597', 'start-dev', '--https-certificate-file=/opt/keycloak/conf/tls/tls.crt',
       '--https-certificate-key-file=/opt/keycloak/conf/tls/tls.key', '--https-port=8443', '--import-realm');
     containers.push(keycloakName);
     await waitFor(async () => {
-      const result = spawnSync('curl', ['--silent', '--show-error', '--fail', '--insecure', `${issuer}/.well-known/openid-configuration`], { encoding: 'utf8' });
+      const result = spawnSync('curl', ['--silent', '--show-error', '--fail', '--cacert',path.join(keycloakCertDir,'tls.crt'), `${issuer}/.well-known/openid-configuration`], { encoding: 'utf8' });
       return result.status === 0 && JSON.parse(result.stdout).issuer === issuer;
     }, 180_000);
-    return { root, cert, key, ldapPort: Number(ldapPort), ldapBase, issuer, callback, keycloakPort,
+    }
+    return { root, cert:path.join(keycloakCertDir,'tls.crt'), key:path.join(keycloakCertDir,'tls.key'), ldapPort: Number(ldapPort), ldapBase, issuer, callback, keycloakPort, applicationPort,
       addAmbiguousLdapEntry: async () => {
         docker('cp', duplicateLdif, `${ldapName}:/tmp/duplicate.ldif`);
         docker('exec', ldapName, 'ldapadd', '-x', '-H', 'ldaps://localhost', '-D', `cn=admin,${ldapBase}`,
@@ -126,9 +134,9 @@ export async function createIdentityProviderLab() {
   }
 }
 
-export function runTrustedNode(caFile, source) {
+export function runTrustedNode(caFile, source, timeout=30_000) {
   const result = spawnSync(process.execPath, ['--input-type=module', '-e', source], {
-    encoding: 'utf8', timeout: 30_000, env: { ...process.env, NODE_EXTRA_CA_CERTS: caFile },
+    encoding: 'utf8', timeout, env: { ...process.env, NODE_EXTRA_CA_CERTS: caFile },
   });
   if (result.status !== 0) throw new Error(`Identity provider client failed: ${(result.stderr || result.stdout || '').slice(0, 2000)}`);
   return JSON.parse(result.stdout);

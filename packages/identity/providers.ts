@@ -64,7 +64,7 @@ export async function loadProviderSecret(provider: any, root: string) {
   if (!provider || !secretPattern.test(provider.secretRef) || !text(root, 4096)) throw invalid();
   const name = provider.secretRef.slice('secret://'.length);
   if (!/^[a-z0-9.-]+$/.test(name)) throw invalid();
-  try { return (await readContainerSecret(root, name, 16 * 1024)).toString('utf8').trim(); }
+  try { return (await readContainerSecret(root, name, 16 * 1024)).toString('utf8').replace(/\r?\n$/, ''); }
   catch { throw invalid(); }
 }
 
@@ -75,7 +75,7 @@ const closeLdap = async (client: any) => { try { await client.unbind(); } catch 
 const entryAttribute = (entry: any, key: string) => {
   const item = Object.keys(entry).find(name => name.toLowerCase() === key.toLowerCase());
   const value = item ? entry[item] : undefined;
-  return Array.isArray(value) && value.length === 1 ? value[0] : value;
+  return Array.isArray(value) ? value.length === 1 ? value[0] : value.length === 0 ? undefined : value : value;
 };
 const stringAttribute = (value: any) => Buffer.isBuffer(value) ? value.toString('utf8') : value;
 
@@ -89,7 +89,7 @@ export async function ldapIdentity(config: any, secret: string, password: string
     await client.bind(config.bindDN, secret);
     const filter = config.userFilter.replace('{{username}}', ldapEscape(username));
     const result = await client.search(config.baseDN, { scope: 'sub', filter, sizeLimit: 2, timeLimit: 5,
-      attributes: ['entryUUID', 'objectGUID', 'distinguishedName', config.usernameAttribute, 'displayName', 'cn', config.groupAttribute] });
+      explicitBufferAttributes: ['objectGUID'], attributes: ['entryUUID', 'objectGUID', 'distinguishedName', config.usernameAttribute, 'displayName', 'cn', config.groupAttribute] });
     if (result.searchEntries?.length !== 1) throw invalid();
     const entry = result.searchEntries[0];
     const dn = stringAttribute(entryAttribute(entry, 'dn') ?? entryAttribute(entry, 'distinguishedName'));

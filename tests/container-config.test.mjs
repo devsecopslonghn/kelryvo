@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, writeFile, symlink, chmod, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, symlink, chmod, rm, unlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
@@ -27,6 +27,10 @@ test('projected Secret files support external metadata, fixed distinct roles and
     await assert.rejects(loadContainerConfig({ KELRYVO_SECRET_DIR: root }), /^Error: Container configuration unavailable$/);
     await assert.rejects(loadContainerConfig({ KELRYVO_SECRET_DIR: root, KELRYVO_PORT: '65536' }));
     await assert.rejects(loadContainerConfig({ KELRYVO_SECRET_DIR: root, KELRYVO_BIND_HOST: 'private.example.invalid' }));
+    await unlink(path.join(root,'developer-token'));await unlink(path.join(root,'approver-token'));
+    const fresh=await loadContainerConfig({KELRYVO_SECRET_DIR:root});
+    assert.deepEqual(fresh.actors,[]);assert.equal(fresh.identity.bootstrapPasswordFile,'/var/lib/kelryvo/identity/bootstrap-admin.json');
+    assert.equal(fresh.identity.secretDirectory,'/run/kelryvo/identity-secrets');
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 

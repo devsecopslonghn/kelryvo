@@ -2,7 +2,7 @@ import { randomBytes, randomUUID } from 'node:crypto';
 import { LOCAL_ORGANIZATION as ORG, tokenDigest } from '../database/local-credentials.ts';
 import { guardBrowserMutation, sameOrigin } from '../database/browser-sessions.ts';
 import { actorIdentity, auditIdentity, identityError, issueIdentitySession, lockIdentity, passwordHash, passwordMatches,
-  projectRoles, revokeActorSessions, synchronizeAccess, validPassword, validUsername } from './core.ts';
+  revokeActorSessions, synchronizeAccess, validPassword, validUsername } from './core.ts';
 import { ldapIdentity, loadProviderSecret, oidcFinish, oidcStart, testProvider, validateProvider } from './providers.ts';
 
 const uuid = (v: any) => typeof v === 'string' && /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(v);
@@ -13,11 +13,13 @@ const providerData = (row: any) => ({...row.config,secretRef:row.secret_ref,type
 const userFields = (u: any) => ({id:u.actor_id,username:u.username,name:u.display_name,role:u.role,workspaceRole:u.workspace_role,disabled:u.disabled,mustChangePassword:u.must_change_password});
 
 async function throttle(sql: any, username: string, ip: string) {
-  // Shared database counters survive API restarts and protect multi-replica installations.
+  // Shared counters survive restarts. Per-user limits are also bound to the source IP
+  // so an unauthenticated remote client cannot lock an account for other networks.
+  const userKey=`user:${tokenDigest(username+'\0'+ip)}`;
   const admitted = await sql.begin(async (tx: any) => {
     await tx`DELETE FROM sf_identity_login_limits WHERE window_start<clock_timestamp()-interval '1 hour'`;
     let allowed = true;
-    for (const [key,max] of [[`user:${tokenDigest(username)}`,10],[`ip:${tokenDigest(ip)}`,100]] as const) {
+    for (const [key,max] of [[userKey,10],[`ip:${tokenDigest(ip)}`,100]] as const) {
       const row = (await tx`INSERT INTO sf_identity_login_limits(key,failures) VALUES(${key},1)
         ON CONFLICT(key) DO UPDATE SET failures=CASE WHEN sf_identity_login_limits.window_start<clock_timestamp()-interval '15 minutes'
           THEN 1 ELSE sf_identity_login_limits.failures+1 END,
@@ -30,7 +32,7 @@ async function throttle(sql: any, username: string, ip: string) {
   if (!admitted) throw identityError('RATE_LIMITED',429);
 }
 
-async function provisionExternal(tx: any, provider: any, identity: any) {
+export async function provisionExternal(tx: any, provider: any, identity: any) {
   let link = (await tx`SELECT actor_id FROM sf_external_identities WHERE provider_id=${provider.id} AND subject=${identity.subject}`)[0];
   if (!link) {
     if (provider.config.provisioning !== 'AUTO') throw identityError('UNAUTHENTICATED',401);
@@ -111,9 +113,10 @@ export function registerIdentity(app: any, {sql,authenticate,seed,identity}: any
         }
         return issueIdentitySession(tx,req,actor,provider?'LDAP':'PASSWORD',provider?.id ?? null);
       });
+      await sql`DELETE FROM sf_identity_login_limits WHERE key=${`user:${tokenDigest(`${b.providerId ?? 'local'}:${username}`+'\0'+req.ip)}`}`;
       return deliver(reply,session);
     } catch {
-      await auditIdentity(sql,null,'LOGIN_FAILED',null,{method:b.providerId?'LDAP':'PASSWORD'});
+      await auditIdentity(sql,null,'LOGIN_FAILED',user?.id??null,{method:b.providerId?'LDAP':'PASSWORD',usernameDigest:tokenDigest(username),providerId:uuid(b.providerId)?b.providerId:null});
       throw identityError('UNAUTHENTICATED',401);
     }
   });
@@ -128,6 +131,8 @@ export function registerIdentity(app: any, {sql,authenticate,seed,identity}: any
     const digest=await passwordHash(req.body.newPassword);
     const session=await sql.begin(async(tx: any)=>{
       await lockIdentity(tx);await guardBrowserMutation(tx,req);
+      const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0];
+      if(gate?.state!=='ACTIVE')throw identityError('METADATA_RESTORE_HOLD',409);
       const updated=await tx`UPDATE sf_identity_users SET password_hash=${digest},must_change_password=false,version=version+1
         WHERE actor_id=${req.actor.id} AND version=${user.version} RETURNING actor_id`;
       if(!updated.length)throw identityError('UNAUTHENTICATED',401);
@@ -218,7 +223,8 @@ export function registerIdentity(app: any, {sql,authenticate,seed,identity}: any
     });
   });
   app.get('/api/admin/groups',{preHandler:admin},async()=>({groups:await sql`SELECT g.id,g.name,
-    COALESCE((SELECT jsonb_agg(DISTINCT m.actor_id) FROM sf_identity_group_members m WHERE m.group_id=g.id),'[]'::jsonb) AS "memberIds"
+    COALESCE((SELECT jsonb_agg(DISTINCT m.actor_id) FROM sf_identity_group_members m WHERE m.group_id=g.id AND m.source='MANUAL'),'[]'::jsonb) AS "memberIds",
+    COALESCE((SELECT jsonb_agg(DISTINCT m.actor_id) FROM sf_identity_group_members m WHERE m.group_id=g.id AND m.source<>'MANUAL'),'[]'::jsonb) AS "managedMemberIds"
     FROM sf_identity_groups g ORDER BY g.name`}));
   app.post('/api/admin/groups',{preHandler:admin},async(req: any)=>{
     requireBody(req.body,['name']);if(!label(req.body.name))throw identityError('INVALID_REQUEST');
@@ -238,16 +244,18 @@ export function registerIdentity(app: any, {sql,authenticate,seed,identity}: any
     });
   });
   app.get('/api/admin/access',{preHandler:admin},async()=>({projects:await sql`SELECT id,name FROM sf_projects WHERE organization_id=${ORG} AND archived_at IS NULL ORDER BY name`,
-    assignments:await sql`SELECT id,subject_type AS "subjectType",subject_id AS "subjectId",project_id AS "projectId",role FROM sf_identity_assignments ORDER BY project_id,subject_id`}));
+    environments:await sql`SELECT id,name,project_id AS "projectId" FROM sf_environments WHERE organization_id=${ORG}`,
+    assignments:await sql`SELECT id,subject_type AS "subjectType",subject_id AS "subjectId",project_id AS "projectId",environment_id AS "environmentId",role FROM sf_identity_assignments ORDER BY project_id,subject_id`}));
   app.post('/api/admin/access',{preHandler:admin},async(req: any)=>{
-    const b=req.body;requireBody(b,['subjectType','subjectId','projectId','role']);
+    const b=req.body;requireBody(b,['subjectType','subjectId','projectId','role','environmentId']);
     if(!['USER','GROUP'].includes(b.subjectType)||typeof b.subjectId!=='string'||b.subjectId.length>200||!uuid(b.projectId)
-      ||!['viewer','developer','approver','deployer','owner'].includes(b.role))throw identityError('INVALID_REQUEST');
+      ||b.environmentId!==undefined&&b.environmentId!==null&&!uuid(b.environmentId)||!['viewer','developer','approver','deployer','owner'].includes(b.role))throw identityError('INVALID_REQUEST');
     return mutation(req,async(tx: any)=>{
       const found=b.subjectType==='USER' ? await tx`SELECT 1 FROM sf_identity_users WHERE actor_id=${b.subjectId}`
         : uuid(b.subjectId)?await tx`SELECT 1 FROM sf_identity_groups WHERE id=${b.subjectId}`:[];
       if(!found.length || !(await tx`SELECT 1 FROM sf_projects WHERE id=${b.projectId} AND organization_id=${ORG} AND archived_at IS NULL`)[0])throw identityError('INVALID_REQUEST');
-      const row=(await tx`INSERT INTO sf_identity_assignments(subject_type,subject_id,project_id,role) VALUES(${b.subjectType},${b.subjectId},${b.projectId},${b.role}) RETURNING id`)[0];
+      if(b.environmentId && !(await tx`SELECT 1 FROM sf_environments WHERE id=${b.environmentId} AND project_id=${b.projectId}`)[0])throw identityError('INVALID_REQUEST');
+      const row=(await tx`INSERT INTO sf_identity_assignments(subject_type,subject_id,project_id,role,environment_id) VALUES(${b.subjectType},${b.subjectId},${b.projectId},${b.role},${b.environmentId??null}) RETURNING id`)[0];
       await synchronizeAccess(tx);await auditIdentity(tx,req.actor.id,'ROLE_ASSIGNED',row.id,b);return row;
     });
   });

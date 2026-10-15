@@ -70,7 +70,7 @@ export function createExecutionJobStore(sql: any, workerId: string, options: { a
             AND membership.actor_id=actor.id AND membership.revoked_at IS NULL
           JOIN sf_project_deploy_grants deployer ON deployer.project_id=p.project_id AND deployer.organization_id=p.organization_id
             AND deployer.actor_id=actor.id AND deployer.revoked_at IS NULL
-          WHERE p.id=${job.plan_id} AND p.project_id=${job.project_id} AND p.status='APPROVED' AND p.decision='APPROVE' AND sf_plan_approval_satisfied(p.id)
+          WHERE p.id=${job.plan_id} AND p.project_id=${job.project_id} AND p.status='APPROVED' AND p.decision='APPROVE' AND sf_plan_approval_satisfied(p.id) AND sf_identity_can_deploy(actor.id,p.project_id,profile.environment_id)
             AND p.approval_reference=${job.approval_reference} AND p.offline_intent_digest=${job.intent_digest}
             AND p.execution='NOT_EXECUTED' AND p.history_status='NOT_OBSERVED' AND pr.archived_at IS NULL
             AND (p.planning_scope='TRUSTED_VALIDATED' OR (${allowUnitSynthetic} AND p.planning_scope='UNIT_SYNTHETIC'))

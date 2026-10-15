@@ -92,7 +92,7 @@ test('schema snapshots, baselines, and plan evidence survive native backup resto
 });
 
 test('R1 management backup upgrades to current schema under RESTORE_HOLD with empty baseline tables',{skip:!enabled,timeout:180_000},async()=>{
-  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeSchemaBaselines:false,initializeInstanceSchema:false})});
+  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeIdentity:false,initializeSchemaBaselines:false,initializeInstanceSchema:false})});
   const root=await mkdtemp(join(process.cwd(),'.cache','r1-schema-backup-'));
   let restoredSql,restoredName;
   try {
@@ -116,7 +116,7 @@ test('R1 management backup upgrades to current schema under RESTORE_HOLD with em
     await createPrivateBackup({configPath,databaseUrl:databaseUrl.toString(),destination:backupDirectory,witnessPath});
     const restored=await restorePrivateBackup({configPath,databaseUrl:databaseUrl.toString(),backupDirectory,witnessPath});
     restoredName=restored.databaseName;restoredSql=postgres(restored.databaseUrl,{max:2,onnotice:()=>{}});
-    assert.equal((await inventory(restoredSql)).signature,'3c55e5886d0ef6706851d7d8647ec44b11318a4b58d8a52f4b1c1a482c043822');
+    assert.equal((await inventory(restoredSql)).signature,'fea20b240523c0ad0556f101d96040730a58a0f64a7fe17610b9bcc0e167f010');
     assert.equal((await restoredSql`SELECT coalesce(jsonb_agg(to_jsonb(p) ORDER BY p.id),'[]'::jsonb)::text AS rows FROM sf_plans p`)[0].rows,plansBefore);
     for(const table of ['sf_schema_snapshots','sf_schema_baselines','sf_plan_schema_evidence']) assert.equal((await restoredSql`SELECT count(*)::int AS n FROM ${restoredSql(table)}`)[0].n,0);
     assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');

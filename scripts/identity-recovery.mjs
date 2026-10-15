@@ -1,5 +1,8 @@
 import postgres from 'postgres';
 import { resolve } from 'node:path';
+import { parseArgs } from 'node:util';
+import { authorizeLocalMetadataUrl, readPrivateLocalConfig } from './local-operator-config.mjs';
+import { localDatabaseUrl } from './local-resources.mjs';
 import { pathToFileURL } from 'node:url';
 import { containerDatabaseUrl } from '../packages/runtime/container-config.mjs';
 import { auditIdentity, identityError, lockIdentity, passwordHash, privatePasswordFile, revokeActorSessions } from '../packages/identity/core.ts';
@@ -23,8 +26,15 @@ export async function recoverAdministrator(sql, {passwordFile,reason}) {
 if(process.argv[1]&&pathToFileURL(resolve(process.argv[1])).href===import.meta.url){
   let sql;
   try{
-    const [passwordFile,reason,...extra]=process.argv.slice(2);if(extra.length)throw new Error();
-    sql=postgres(await containerDatabaseUrl(process.env.KELRYVO_SECRET_DIR??'/run/kelryvo/secrets'),{max:1,onnotice:()=>{}});
+    const {values,positionals}=parseArgs({options:{local:{type:'boolean'},config:{type:'string'}},allowPositionals:true,strict:true});
+    const [passwordFile,reason,...extra]=positionals;if(extra.length||!passwordFile||!reason||values.config&&!values.local)throw new Error();
+    let databaseUrl;
+    if(values.local){
+      const configPath=resolve(values.config??'.cache/local-product/config.json');
+      databaseUrl=localDatabaseUrl(await readPrivateLocalConfig(configPath));
+      await authorizeLocalMetadataUrl(configPath,databaseUrl);
+    }else databaseUrl=await containerDatabaseUrl(process.env.KELRYVO_SECRET_DIR??'/run/kelryvo/secrets');
+    sql=postgres(databaseUrl,{max:1,onnotice:()=>{}});
     await recoverAdministrator(sql,{passwordFile,reason});
     process.stdout.write('Administrator recovered. Retrieve the new private password file through the authorized operator channel.\n');
   }catch{process.stderr.write('Administrator recovery unavailable. Check metadata, reason and a new absolute private output path.\n');process.exitCode=1;}

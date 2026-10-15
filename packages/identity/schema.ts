@@ -21,8 +21,11 @@ export async function initializeIdentity(tx: any) {
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), subject_type text NOT NULL CHECK(subject_type IN ('USER','GROUP')),
       subject_id text NOT NULL, project_id uuid NOT NULL REFERENCES sf_projects(id),
       role text NOT NULL CHECK(role IN ('viewer','developer','approver','deployer','owner')),
-      UNIQUE(subject_type,subject_id,project_id,role)
+      environment_id uuid, FOREIGN KEY(environment_id,project_id) REFERENCES sf_environments(id,project_id)
     );
+    ALTER TABLE sf_identity_assignments ADD COLUMN IF NOT EXISTS environment_id uuid;
+    ALTER TABLE sf_identity_assignments DROP CONSTRAINT IF EXISTS sf_identity_assignments_subject_type_subject_id_project_id_role_key;
+    CREATE UNIQUE INDEX IF NOT EXISTS sf_identity_assignments_scope ON sf_identity_assignments(subject_type,subject_id,project_id,role,environment_id) NULLS NOT DISTINCT;
     ALTER TABLE sf_project_grants ADD COLUMN IF NOT EXISTS identity_managed boolean NOT NULL DEFAULT false;
     ALTER TABLE sf_project_deploy_grants ADD COLUMN IF NOT EXISTS identity_managed boolean NOT NULL DEFAULT false;
     CREATE TABLE IF NOT EXISTS sf_identity_providers (
@@ -71,12 +74,20 @@ export async function initializeIdentity(tx: any) {
             AND NOT (d.approval_required AND d.independent_approval) AND NOT (e.approval_required AND e.independent_approval)))
           AND NOT EXISTS(SELECT 1 FROM sf_plan_approval_revocations r WHERE r.plan_id=p.id))
     $$;
-    CREATE OR REPLACE FUNCTION sf_identity_can_review(actor text,project uuid) RETURNS boolean LANGUAGE sql STABLE AS $$
+    DROP FUNCTION IF EXISTS sf_identity_can_review(text,uuid);
+    CREATE OR REPLACE FUNCTION sf_identity_can_review(actor text,project uuid,environment uuid DEFAULT NULL) RETURNS boolean LANGUAGE sql STABLE AS $$
       SELECT CASE WHEN EXISTS(SELECT 1 FROM sf_identity_users u WHERE u.actor_id=actor)
-      THEN EXISTS(SELECT 1 FROM sf_identity_assignments a WHERE a.project_id=project AND a.role IN ('approver','owner')
+      THEN EXISTS(SELECT 1 FROM sf_identity_assignments a WHERE a.project_id=project AND a.role IN ('approver','owner') AND (a.environment_id IS NULL OR a.environment_id=environment)
         AND ((a.subject_type='USER' AND a.subject_id=actor) OR (a.subject_type='GROUP' AND EXISTS(
           SELECT 1 FROM sf_identity_group_members m WHERE m.actor_id=actor AND m.group_id::text=a.subject_id))))
       ELSE EXISTS(SELECT 1 FROM sf_local_actors a WHERE a.id=actor AND a.role='approver' AND NOT a.disabled) END
+    $$;
+    CREATE OR REPLACE FUNCTION sf_identity_can_deploy(actor text,project uuid,environment uuid) RETURNS boolean LANGUAGE sql STABLE AS $$
+      SELECT NOT EXISTS(SELECT 1 FROM sf_identity_users u WHERE u.actor_id=actor) OR EXISTS(
+        SELECT 1 FROM sf_identity_assignments a WHERE a.project_id=project AND a.role IN ('deployer','owner')
+          AND (a.environment_id IS NULL OR a.environment_id=environment)
+          AND ((a.subject_type='USER' AND a.subject_id=actor) OR (a.subject_type='GROUP' AND EXISTS(
+            SELECT 1 FROM sf_identity_group_members m WHERE m.actor_id=actor AND m.group_id::text=a.subject_id))))
     $$;
     CREATE OR REPLACE FUNCTION sf_identity_actor_enabled(actor text) RETURNS boolean LANGUAGE sql STABLE AS $$
       SELECT EXISTS(SELECT 1 FROM sf_local_actors a WHERE a.id=actor AND NOT a.disabled)
