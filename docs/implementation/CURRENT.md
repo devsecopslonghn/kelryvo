@@ -8,6 +8,8 @@ mandatory independent approval and conservative execution-side SQL scope enforce
 The primary browser journey is Connect → Discover → Assign → Author → Validate → Plan →
 Review → Execute → History. Reuse the current components and preserve legacy evidence.
 
+[PR #112](https://github.com/devsecopslonghn/kelryvo/pull/112) delivers this architecture. [Bounded real Oracle acceptance](../../evidence/product/instance-master-workflow-20261015/acceptance.json) records two schema V1 executions, a V2 suffix, a browser-authored no-op and independent history/audit verification; its explicit SQL and topology limits remain in force.
+
 Acceptance is version, topology, statement and source specific. Consult the product
 requirements and retained Oracle acceptance before claiming a new runtime capability.
 Existing HOLDs remain retained; never replay uncertain DDL or delete the Oracle lab.

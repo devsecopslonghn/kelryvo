@@ -1,0 +1,213 @@
+{
+  "format": 1,
+  "status": "PASS",
+  "acceptedAt": "2026-10-15T09:34:06.484Z",
+  "scope": "BOUNDED_ORACLE_INSTANCE_MASTER_PRODUCT_WORKFLOW",
+  "implementation": {
+    "pullRequest": "https://github.com/devsecopslonghn/kelryvo/pull/112",
+    "reviewedHead": "8769fe847c39ffb1bb3627e4d06a241609ee6ba5",
+    "mergeCommit": "9a5f677219ae43eaf1201d32df9aa551095481ad",
+    "mergedAt": "2026-10-15T09:42:17Z",
+    "independentSourceReview": "PASS"
+  },
+  "sources": {
+    "twoSchemaV1": "79b5c82e967f2a861cca9d08b82e9eaf9454bd67",
+    "incrementalV2": "af90faf9cca26dafc867747e728cff1b4d8dade1",
+    "browserAuthoredNoop": "7e4f09eb7f81b40b9304ae326b1abb2eb24369c0",
+    "runtimeTreeUnchangedAfterNoop": true
+  },
+  "runtime": {
+    "status": "PASS",
+    "at": "2026-10-15T09:34:06.484Z",
+    "observer": "OWNER_AUTHORIZED_OPERATOR_FIXED_SELECTS",
+    "observerSourceSha256": "0621e9c0de8770ed8ed33806a765571b4f3e02dcd4b74cd1425ddc101a4b1a9a",
+    "oracleVersion": "Oracle AI Database 26ai Free Release 23.26.3.0.0 - Develop, Learn, and Run for Free",
+    "topology": "single disposable CDB PDB over owner-authorized TCP",
+    "jobs": [
+      "VERIFIED_SUCCESS",
+      "VERIFIED_SUCCESS",
+      "VERIFIED_SUCCESS",
+      "NOOP"
+    ],
+    "counts": {
+      "proofs": 4,
+      "attempts": 4,
+      "receipts": 3
+    },
+    "schemaObjectCounts": [
+      2,
+      1
+    ],
+    "ledgerSequences": [
+      10,
+      5
+    ],
+    "ledgerChecksums": [
+      "daeefbd9183c25eaad33759764cb39cada9e69b3a5bd0df5439e068b2f94acb7",
+      "a6ea03636832aed43d3efe91f9c995b245dbbf07b8a9798d8cd60293982d7a4a"
+    ],
+    "appliedMigrations": [
+      2,
+      1
+    ],
+    "originalHoldPreserved": true,
+    "earlierV1EffectAndLedgerPreserved": true,
+    "retainedOriginalSchemaObjectCounts": [
+      0,
+      1
+    ],
+    "masterCredentials": 1,
+    "masterSystemPrivilegeCount": 4,
+    "masterRoles": 0,
+    "browser": {
+      "restartHistory": true,
+      "reauthenticatedAfterHTTPReload": true,
+      "audit": true,
+      "executionRecordDownload": true,
+      "mobileNoOverflow": true,
+      "errors": 0
+    },
+    "applicationSqlEffects": 3,
+    "noopSqlEffects": 0
+  },
+  "product": {
+    "oneExternalMasterReference": true,
+    "oneProjectMultipleSchemas": true,
+    "sameDerivedProfile": true,
+    "distinctSchemaStreams": true,
+    "independentApprover": true,
+    "separateDeployer": true,
+    "browser": {
+      "liveDiscovery": true,
+      "assigned": 2,
+      "verified": 2,
+      "mobileNoOverflow": true,
+      "errors": 0,
+      "authorTwoFiles": true,
+      "syntaxReview": true,
+      "validation": true,
+      "format4Plan": true,
+      "independentReview": true,
+      "separateDeployerRequest": true
+    },
+    "scopeEnforcedDuringValidationMaterializationAndDispatch": true,
+    "unsafeApprovedSQLCoverage": "API_AND_UNIT_DENIAL_TESTS_NO_ORACLE_DISPATCH"
+  },
+  "verification": {
+    "localCheck": {
+      "command": "npm run check",
+      "passed": 451,
+      "failed": 0,
+      "optionalServiceCasesSkipped": 131
+    },
+    "focusedBrowserTests": {
+      "passed": 8,
+      "failed": 0
+    },
+    "discoveryDenialBrowserTest": {
+      "passed": 1,
+      "backendStatus": 409,
+      "backendError": "LIVE_VERIFICATION_UNACCEPTED"
+    },
+    "hosted": [
+      {
+        "name": "Offline WP0 checks",
+        "source": "8769fe847c39ffb1bb3627e4d06a241609ee6ba5",
+        "status": "PASS",
+        "url": "https://github.com/devsecopslonghn/kelryvo/actions/runs/38714125108"
+      },
+      {
+        "name": "Kelryvo focused acceptance",
+        "source": "8769fe847c39ffb1bb3627e4d06a241609ee6ba5",
+        "status": "PASS",
+        "url": "https://github.com/devsecopslonghn/kelryvo/actions/runs/38714125013"
+      },
+      {
+        "name": "Kelryvo OCI verification and publication",
+        "source": "8769fe847c39ffb1bb3627e4d06a241609ee6ba5",
+        "status": "PASS",
+        "url": "https://github.com/devsecopslonghn/kelryvo/actions/runs/38714124988"
+      },
+      {
+        "name": "Offline ANTLR parser acceptance",
+        "source": "8769fe847c39ffb1bb3627e4d06a241609ee6ba5",
+        "status": "PASS",
+        "url": "https://github.com/devsecopslonghn/kelryvo/actions/runs/38714142929"
+      },
+      {
+        "name": "Kelryvo full product regression",
+        "source": "8769fe847c39ffb1bb3627e4d06a241609ee6ba5",
+        "status": "PASS",
+        "url": "https://github.com/devsecopslonghn/kelryvo/actions/runs/38714142557"
+      }
+    ]
+  },
+  "preservation": {
+    "historicalLabAndEvidenceRetained": true,
+    "originalPreAdmissionHoldRetained": true,
+    "earlierV1TableAndLedgerRetained": true,
+    "noAutomaticReplay": true,
+    "existingAccountPrivilegesUnchanged": true
+  },
+  "limits": [
+    "Live qualification is one disposable Oracle AI Database 26ai Free 23.26.3 CDB/PDB over explicitly authorized TCP. It does not extend the original WP0 TCPS 19c/21c contract.",
+    "Real automatic DDL in this acceptance is scalar CREATE TABLE. ALTER TABLE ADD and CREATE INDEX have code and fixture coverage; additional live installation qualification is required.",
+    "The pinned parser and complete scope grammar must both accept exact SQL. Procedural/dynamic SQL, expressions, CTAS, DML, cross-schema and administrative SQL remain blocked after approval. Some otherwise valid Oracle syntax remains unsupported.",
+    "A trusted installation must attest identity, effective privileges, protected ledger/mutex and postconditions, and exclude unreviewed DDL triggers and concurrent external DDL. API configuration alone grants no Oracle execution authority.",
+    "RAC, Data Guard, production installation and the complete lost-acknowledgment/fault/recovery matrix are not qualified by this acceptance."
+  ],
+  "privateArtifactDigests": [
+    {
+      "name": "manifest-current.json",
+      "sha256": "7045c6ef052a677d2f84b2962aabdb857c47ab08369ee4b07971c5cb4ce97a1d"
+    },
+    {
+      "name": "extension-setup.json",
+      "sha256": "b130ea97569f80e72627b8587fcb1904112f7f50e5fa7ce861f6959e2c95c6b3"
+    },
+    {
+      "name": "current-prepare.log",
+      "sha256": "e2dd36d251cfbfc0b3e68401ecfd1ea8d356bfd536afea63173cb0f6b8869f86"
+    },
+    {
+      "name": "execute-v1-results.json",
+      "sha256": "2d55df790e3258755c0e04b9a623e8ce872887e9616bafdf5de1c51e9f64f299"
+    },
+    {
+      "name": "execute-v2-results.json",
+      "sha256": "24ece1025ef319656087c4319791719298e307fa0885f3ad33298323079eb5af"
+    },
+    {
+      "name": "execute-noop-results.json",
+      "sha256": "4d62f1484452762455cedeae8ada8ffe963c190d8581bee0c2b859e7a0ffecfa"
+    },
+    {
+      "name": "current-observation.json",
+      "sha256": "d831ef36d87720c1e9e69a6a917f2d8652cd850c23bbfa3f2b17aa920c9ee30f"
+    },
+    {
+      "name": "current-source.json",
+      "sha256": "d2467f350efba9441dc72fb8b4ea7e1df3e6451983c878d5d84e405c284f0c08"
+    },
+    {
+      "name": "current-source-v2.json",
+      "sha256": "5c87ed39321f4fe900ec1d298ff626a8687dd44178cb44db9359e9ab4a30710b"
+    },
+    {
+      "name": "current-source-noop.json",
+      "sha256": "125a68b7853a00d6c6beb1b1b243b3a5e60741c07ad07c1922751a7c93665f42"
+    },
+    {
+      "name": "failed-execution-observation.json",
+      "sha256": "cd783ffcac2d7d9d69e6c83d409cebfb34a7c6db8d87186b841065c0a148f2d1"
+    },
+    {
+      "name": "oracle-authority.mjs",
+      "sha256": "8387010dd7b2183d74da3a2910cfaf8d69705f32588a557519537fc50cb274aa"
+    },
+    {
+      "name": "central-observer.mjs",
+      "sha256": "bd9dd9798819fee3e91e00406efc8bf928191ea8370680345ec6a8edb8d8dcbd"
+    }
+  ]
+}
