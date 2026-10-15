@@ -62,6 +62,7 @@ export function registerAccount(app: any, { sql, authenticate }: any) {
         await tx`UPDATE sf_local_credentials SET revoked_at=clock_timestamp() WHERE id=${session.id}`;
         await tx`INSERT INTO sf_account_audit(organization_id,actor_id,session_id,action)
           VALUES(${ORG},${req.actor.id},${session.id},'SESSION_REVOKED')`;
+        await tx`INSERT INTO sf_identity_audit(actor_id,action,subject_id,facts) VALUES(${req.actor.id},'SESSION_REVOKED',${req.actor.id},${tx.json({sessionId:session.id})})`;
       }
       return true;
     });

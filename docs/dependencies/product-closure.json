@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "scope": "Local PRODUCT runtime and Linux x64 development tools; no production distribution approval",
-  "package_lock_sha256": "5f0eb98ef2b51882c79c64d3f9ffaadba7124844e081f303d1f7231796448866",
+  "package_lock_sha256": "217679784f4d197290aaaf079134ddf26927467e7eac1c645e86f5b8a6f4cf00",
   "notice_path": "docs/dependencies/product-NOTICES.txt",
-  "notice_sha256": "ca13834dbe6b15ae89c36d6f84c54b58e31ea8278d13374ec663056f78098f31",
+  "notice_sha256": "b27767b4b015bbbb337fbeef4a4e6e9134546dc371a7583fa5b920c7239cde90",
   "unknown_required_grants": 0,
   "packages": [
     {
@@ -327,6 +327,202 @@
       ]
     },
     {
+      "path": "node_modules/@node-rs/argon2",
+      "name": "@node-rs/argon2",
+      "version": "2.2.2",
+      "integrity": "sha512-NtdlPPWtR5U4BxX5EGJYza+UklNaoWORmkaKCMqf/nyKeXWKVwNt8KfQoRpNT7OB1DcEwmePafO4wZyW+sbfCQ==",
+      "license": "MIT",
+      "scope": "RUNTIME",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-android-arm-eabi",
+      "name": "@node-rs/argon2-android-arm-eabi",
+      "version": "2.2.2",
+      "integrity": "sha512-c11BOrPLBWNC1cDyzGB+Bil+flmxfZbB2hv8EhcobmAsFKMyqkHPNhUY4qhcjv1U+4+Vmw4G8H+l224iO2g/Dw==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-android-arm64",
+      "name": "@node-rs/argon2-android-arm64",
+      "version": "2.2.2",
+      "integrity": "sha512-dpMYIoxhN/wY6hFH+3MM5kQErcH3luMekkszbkDF3NKqhB1kFRntkOLDpFY87oItBSHJrsoYkXC3vBRhjYoCjQ==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-darwin-arm64",
+      "name": "@node-rs/argon2-darwin-arm64",
+      "version": "2.2.2",
+      "integrity": "sha512-vxVAXcIG0iiHizkCuImmzVhOFsRnU4Z79xiOxdISLyI+QhOAWbbTaVSXw0PNfThB3zAdkzzDJ/WWu52Hs/qHGg==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-darwin-x64",
+      "name": "@node-rs/argon2-darwin-x64",
+      "version": "2.2.2",
+      "integrity": "sha512-r7GbSFpFZZ9EAV9cvIm9prUjOupK7QQXTyP+FJ6bWSMq0h+qRDBlUOXQXduDIIrLEGoBVelixKUtf4ksZ0ljoQ==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-freebsd-x64",
+      "name": "@node-rs/argon2-freebsd-x64",
+      "version": "2.2.2",
+      "integrity": "sha512-AmWxDSmQgprilD6NX3jmxCgcDvWAW7kGJnnWQo+0qav6nfMXdPZYgSezK/skmw1GBWipr4yZMIUzpeNHnVpMxg==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-linux-arm-gnueabihf",
+      "name": "@node-rs/argon2-linux-arm-gnueabihf",
+      "version": "2.2.2",
+      "integrity": "sha512-M1gnPBTr9GFeEUWkQ53qCJeTsX03C3kcUeHnDbN7dU2xkI58wMP4Z1sEBN7WmKJ/fTHYEgti4truz7r4A82DLg==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-linux-arm64-gnu",
+      "name": "@node-rs/argon2-linux-arm64-gnu",
+      "version": "2.2.2",
+      "integrity": "sha512-4CYDlIdITlLSVcAXYUtEoGUahRaayPXM+4Rcfg3BZx9WGi6UB8HUycs6GNMTPYXV5kVXCpyE2u1HmYUpgmIzOQ==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-linux-arm64-musl",
+      "name": "@node-rs/argon2-linux-arm64-musl",
+      "version": "2.2.2",
+      "integrity": "sha512-FYlfj3XgQ1xrx6HzQbKbUcKiYMG/3iSi/X81KyhHaItTJ7vZlMwrbVLl9yqDmvotKUF6VjrhrlZ8KRbbzchseA==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-linux-x64-gnu",
+      "name": "@node-rs/argon2-linux-x64-gnu",
+      "version": "2.2.2",
+      "integrity": "sha512-ULXLs8UFYZANlwiROM7AeccxZndr2Xk3IstADq3jAUhnwV2W75mxMBTABUZ+7AdKRhPLOrxU77OgnMWlDkYJQg==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-linux-x64-musl",
+      "name": "@node-rs/argon2-linux-x64-musl",
+      "version": "2.2.2",
+      "integrity": "sha512-zgjIwc9TyGodn62vGc+36DGwFqVV5e7L8Ptd2FQWuBxe5aFrcFxvtDGn1/qfYwoHLv09utgtR+RBAPCXepWG3Q==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-win32-arm64-msvc",
+      "name": "@node-rs/argon2-win32-arm64-msvc",
+      "version": "2.2.2",
+      "integrity": "sha512-3nLhvLie/ec5xfxUBXXqGMb7oGeqF+YXrcGckqaTaGkPtOBozho0Kh2IuP/zi9BcOriirTG2LW3gtIOfpuh+mQ==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-win32-ia32-msvc",
+      "name": "@node-rs/argon2-win32-ia32-msvc",
+      "version": "2.2.2",
+      "integrity": "sha512-6RJKD6cFl7UeiYJLjRsXPywVXSFSaSDdr6xGpztNDV31QHCEecWnsnNmKxzi4gVpln2F9XeWEtIgM4Nqw1hLbA==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
+      "path": "node_modules/@node-rs/argon2-win32-x64-msvc",
+      "name": "@node-rs/argon2-win32-x64-msvc",
+      "version": "2.2.2",
+      "integrity": "sha512-dQOO9S4QKBaVul0Uyk/2quJc/OBeHNZRJP+GZZTy1A5kYIaAfIJGHUYLY6oFoAlcuLIkdFouLaHX3fCl8tZm/w==",
+      "license": "MIT",
+      "scope": "OPTIONAL_RUNTIME_PLATFORM",
+      "license_sources": [
+        "node_modules/@node-rs/argon2/LICENSE"
+      ],
+      "license_sha256": [
+        "c748f2e7f93fadae76fcb1ccf6b4199e2a4013611871b5fa61000d11a50011c7"
+      ]
+    },
+    {
       "path": "node_modules/@pinojs/redact",
       "name": "@pinojs/redact",
       "version": "0.4.0",
@@ -630,6 +826,20 @@
       ]
     },
     {
+      "path": "node_modules/jose",
+      "name": "jose",
+      "version": "6.2.12",
+      "integrity": "sha512-9NiFmJEex0sy2Dk58j2UGBSHgUs2ypF9eZSu4L6vjOX3Dp96Sw1F3uL+H+D1sx02jZZdzUT0HgvCy59CuvXcWw==",
+      "license": "MIT",
+      "scope": "RUNTIME",
+      "license_sources": [
+        "node_modules/jose/LICENSE.md"
+      ],
+      "license_sha256": [
+        "8078b0829d6c3e9ecde2f003e1966e4cad3efc6e7a640efbab0313cc166b1af1"
+      ]
+    },
+    {
       "path": "node_modules/json-schema-ref-resolver",
       "name": "json-schema-ref-resolver",
       "version": "3.0.0",
@@ -655,6 +865,20 @@
       ],
       "license_sha256": [
         "7bf9b2de73a6b356761c948d0e9eeb4be6c1270bd04c79cd489c1e400ffdfc1a"
+      ]
+    },
+    {
+      "path": "node_modules/ldapts",
+      "name": "ldapts",
+      "version": "9.2.0",
+      "integrity": "sha512-5mDg3OT5fDP9DUXga9dCLW8cMW24OTOKT4pv/Qj+f2zCV3qxb+gkZLCzMAqzVTOANoycidKkYpPvkclUQU2aXw==",
+      "license": "MIT",
+      "scope": "RUNTIME",
+      "license_sources": [
+        "node_modules/ldapts/LICENSE"
+      ],
+      "license_sha256": [
+        "401092c9637d17daacf5b4a33b5498de28664b2b0820565ba66f42c454a9da42"
       ]
     },
     {
@@ -686,6 +910,20 @@
       ]
     },
     {
+      "path": "node_modules/oauth4webapi",
+      "name": "oauth4webapi",
+      "version": "3.8.8",
+      "integrity": "sha512-8N28E+a/oxfXWBgOMt+ZP/JUf/XR+IFbvkAEPP3gznXOMv9BpAAwiIj0TFNz3tGTPc0ZQ8zmWBNgN1nAys0gng==",
+      "license": "MIT",
+      "scope": "RUNTIME",
+      "license_sources": [
+        "node_modules/oauth4webapi/LICENSE.md"
+      ],
+      "license_sha256": [
+        "81e7b4b0196e8caa43cf243131512e5e4ab04fc312623335e783abae6ff46d79"
+      ]
+    },
+    {
       "path": "node_modules/on-exit-leak-free",
       "name": "on-exit-leak-free",
       "version": "2.1.2",
@@ -697,6 +935,20 @@
       ],
       "license_sha256": [
         "47404ffc18f1267832bc0623857871de5a3a93ebb19693f5e1b963af91fab54b"
+      ]
+    },
+    {
+      "path": "node_modules/openid-client",
+      "name": "openid-client",
+      "version": "6.8.8",
+      "integrity": "sha512-ZsucJA5Ad04Uv7YN4ql+s4GXNmb9uAYQwyJTsJx7CH/MX3JZioLE2pVKi1SC+YrbSLA4Px3Gi30dMjgOZtb6pA==",
+      "license": "MIT",
+      "scope": "RUNTIME",
+      "license_sources": [
+        "node_modules/openid-client/LICENSE.md"
+      ],
+      "license_sha256": [
+        "14c5cc0dc21f44add6d88a5621c65813d40bf382550c978430096db3df0cf68c"
       ]
     },
     {
@@ -1041,6 +1293,21 @@
       "license_sha256": [
         "c372ef2fa1dfcb124ed807609751e75e3a009f108c5724916b489288fcb88a0c"
       ]
+    },
+    {
+      "path": "node_modules/strict-event-emitter-types",
+      "name": "strict-event-emitter-types",
+      "version": "2.0.0",
+      "integrity": "sha512-Nk/brWYpD85WlOgzw5h173aci0Teyv8YdIAEtV+N88nDB0dLlazZyJMIsN6eo1/AR61l+p6CJTG1JIyFaoNEEA==",
+      "license": "ISC",
+      "scope": "RUNTIME",
+      "license_sources": [
+        "node_modules/strict-event-emitter-types/package.json"
+      ],
+      "license_sha256": [
+        "d60305828d5e7d2e46e9e304211e251872808ed5e86904acd09f27d8193bf281"
+      ],
+      "evidence_note": "ISC declared by package author in pinned published package.json; upstream does not supply a standalone license file. Type-only dependency."
     },
     {
       "path": "node_modules/thread-stream",

@@ -25,3 +25,24 @@ export async function readPrivateTls(certFile, keyFile) {
   createSecureContext(tls);
   return tls;
 }
+
+/** Private, installation-specific development certificate. Production supplies its own TLS Secret. */
+export async function ensureLocalTls(directory) {
+  const { mkdtemp, rename, rm, chmod, mkdir } = await import('node:fs/promises');
+  const { spawnSync } = await import('node:child_process');
+  await mkdir(path.dirname(directory), {recursive:true,mode:0o700});
+  try { await lstat(directory); }
+  catch (error) {
+    if(error.code!=='ENOENT')throw error;
+    const temporary=await mkdtemp(`${directory}-`);
+    try {
+      const generated=spawnSync('openssl',['req','-x509','-newkey','rsa:3072','-nodes','-sha256','-days','365',
+        '-subj','/CN=Kelryvo local development','-addext','subjectAltName=IP:127.0.0.1,DNS:localhost',
+        '-keyout',path.join(temporary,'server.key'),'-out',path.join(temporary,'server.crt')],{stdio:'ignore',timeout:30000});
+      if(generated.status!==0)throw new Error('Local TLS generation unavailable');
+      await chmod(path.join(temporary,'server.key'),0o600);await chmod(path.join(temporary,'server.crt'),0o600);
+      try { await rename(temporary,directory); } catch(error) { if(!['EEXIST','ENOTEMPTY'].includes(error.code))throw error; }
+    }finally{await rm(temporary,{recursive:true,force:true});}
+  }
+  return readPrivateTls(path.join(directory,'server.crt'),path.join(directory,'server.key'));
+}

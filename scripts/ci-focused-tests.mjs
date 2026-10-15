@@ -7,8 +7,8 @@ import { PRODUCT_API_FILES } from './product-test-suites.mjs';
 // Small real PostgreSQL suites guard each trust/data boundary. Common API,
 // database, dependency and test-harness changes select every boundary.
 export const FOCUSED_SUITES = Object.freeze({
-  security: ['product-mutation-authority', 'product-secure-sessions', 'product-membership', 'product-credential-lifecycle'],
-  integrity: ['product-database', 'product-release-integrity', 'product-schema-backup'],
+  security: ['product-identity','product-identity-policies','product-mutation-authority', 'product-secure-sessions', 'product-membership', 'product-credential-lifecycle'],
+  integrity: ['product-identity-backup','product-database', 'product-release-integrity', 'product-schema-backup'],
   governance: ['product-approval-integrity', 'product-approval-revocation', 'product-protected-source-binding', 'product-plan-record'],
   execution: ['product-execution-readiness', 'product-execution-reconciliation', 'product-worker-supervision'],
   schema: ['product-schema-baselines', 'product-database-discovery'],

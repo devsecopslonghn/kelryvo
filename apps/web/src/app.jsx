@@ -18,6 +18,7 @@ import ExecutionRequestsHistory from './ExecutionRequestsHistory.jsx';
 import { Account } from './Account.jsx';
 import { Instances } from './Instances.jsx';
 import { mergeExecutionJobWindow, terminalExecutionStates } from './executionJobs.js';
+import { IdentityAdmin } from './IdentityAdmin.jsx';
 
 const productName = process.env.SCHEMAFORGE_PRODUCT_NAME;
 
@@ -134,7 +135,7 @@ async function validateStatementPreview(preview, source, releaseId, filePath) {
 }
 const explain = (error) => errorCopy[error.message] || 'The request could not be completed. Check the connection and try again.';
 const fmt = (date) => date ? new Date(date).toLocaleString() : '—';
-const pageTitles = { schema: 'Schema baselines & drift', workspace: 'Projects', instances: 'Database instances & connections', references: 'Schema references', targets: 'Project targets', sql: 'SQL Workspace', history: 'Migration history', release: 'Release intake', review: 'Plan review', inbox: 'Review inbox', records: 'Audit & history', account: 'Account & access' };
+const pageTitles = { schema: 'Schema baselines & drift', workspace: 'Projects', instances: 'Database instances & connections', references: 'Schema references', targets: 'Project targets', sql: 'SQL Workspace', history: 'Migration history', release: 'Release intake', review: 'Plan review', inbox: 'Review inbox', records: 'Audit & history', account: 'Account & access', identity: 'Identity administration' };
 const decisionClass = (status) => ({ APPROVED: 'good', REVOKED: 'bad', REJECTED: 'bad' }[status] || 'pending');
 const planMarkerClass = (status) => ({ APPROVED: 'green', REVOKED: 'red', REJECTED: 'red' }[status] || '');
 const retainedAuthorId = (plan) => typeof plan?.authorId === 'string' && plan.authorId.length <= 200 && plan.authorId.trim().length > 0 ? plan.authorId : null;
@@ -355,6 +356,11 @@ function App() {
   const [workflowTarget,setWorkflowTarget] = useState(initialWorkflow.current.target || '');
   const [workflowDraft,setWorkflowDraft] = useState(initialWorkflow.current.draft || '');
   const [tokenInput, setTokenInput] = useState('');
+  const [username, setUsername] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
+  const [loginMode, setLoginMode] = useState('password');
+  const [loginProviderId, setLoginProviderId] = useState('');
+  const [providers, setProviders] = useState([]);
   const [token, setToken] = useState('');
   const tokenRef = useRef(token);
   tokenRef.current = token;
@@ -721,20 +727,32 @@ function App() {
     }
   };
 
-  const connect = async (event) => {
+  const connect = async (event, mode = loginMode) => {
     event.preventDefault(); browserSessionEpoch += 1; inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' }); setBusy(true); setError(''); setNotice('');
     try {
       const secure = location.protocol === 'https:';
-      const session = await json('/api/session', tokenInput.trim(), secure ? { method: 'POST', credentials: 'same-origin' } : {});
+      const session = mode === 'token'
+        ? await json('/api/session', tokenInput.trim(), { method: secure ? 'POST' : 'GET', credentials: secure ? 'same-origin' : 'omit' })
+        : await json('/api/auth/login', '', { method: 'POST', credentials: 'same-origin', body: JSON.stringify({ username: username.trim(), password: passwordInput, ...(loginProviderId ? { providerId: loginProviderId } : {}) }) });
       const who = session.actor || session;
       if (!who?.role) throw new Error('UNAUTHORIZED');
-      const active = secure ? `session:${session.csrfToken}` : tokenInput.trim();
-      setToken(active); setActor(who); setTokenInput('');
-      await refresh(active, projectId);
-      setNotice(`Signed in as ${who.name || who.id || who.role}.`);
+      if (mode === 'token' && !secure) {
+        setToken(tokenInput.trim()); setActor(who); setTokenInput('');
+        await refresh(tokenInput.trim(), projectId);
+        setNotice(`Signed in as ${who.name || who.id || who.role}.`);
+        return;
+      }
+      if (!session.csrfToken) throw new Error('UNAUTHORIZED');
+      const active = `session:${session.csrfToken}`;
+      setToken(active); setActor(who); setTokenInput(''); setPasswordInput('');
+      if (who.mustChangePassword) { clearProjectState(); setTab('account'); }
+      else await refresh(active, projectId);
+      setNotice(who.mustChangePassword ? 'Change your initial password to continue.' : `Signed in as ${who.name || who.username || who.id || who.role}.`);
     } catch (e) { setError(explain(e)); }
     finally { setBusy(false); }
   };
+
+  useEffect(() => { fetch('/api/auth/providers', { credentials: 'same-origin' }).then(r => r.ok ? r.json() : { providers: [] }).then(result => setProviders(result.providers || [])).catch(() => setProviders([])); }, []);
 
   useEffect(() => {
     if (location.protocol !== 'https:') return;
@@ -878,15 +896,26 @@ function App() {
     setDecisionReason('');
     setRevocationReason('');
   };
-  const isApprover = /approv/i.test(actor?.role || '');
+  const effectiveProjectRoles = detail?.identityRoles === null || detail?.identityRoles === undefined
+    ? [actor?.role].filter(Boolean).map(role => role === 'admin' ? 'owner' : role)
+    : detail.identityRoles;
+  const hasProjectRole = role => effectiveProjectRoles.includes(role);
+  const selectedPlanRoles=Array.isArray(plan?.identityRoles)?plan.identityRoles:effectiveProjectRoles;
+  const hasPlanRole=role=>selectedPlanRoles.includes(role);
+  const isApprover = hasPlanRole('approver') || hasPlanRole('owner');
+  const isDeveloper = hasProjectRole('developer') || hasProjectRole('owner');
   const planAuthorId = retainedAuthorId(plan);
   const planCreatedAt = retainedPlanTime(plan?.createdAt);
   const authorFactsAvailable = Boolean(projectLoaded && planAuthorId);
   const isPlanAuthor = Boolean(authorFactsAvailable && actor?.id === planAuthorId);
-  const canReviewPlan = Boolean(isApprover && authorFactsAvailable && !isPlanAuthor && (!plan?.reviewerId || plan.reviewerId === actor?.id));
+  const canDirectApprove = Boolean(plan?.approvalPolicy?.approvalRequired === false && isPlanAuthor
+    && (hasPlanRole('developer') || hasPlanRole('owner')));
+  const canReviewPlan = Boolean(isApprover && authorFactsAvailable
+    && (!isPlanAuthor || plan?.approvalPolicy?.approvalRequired === true && plan?.approvalPolicy?.independentApproval === false)
+    && (!plan?.reviewerId || plan.reviewerId === actor?.id));
   const canWithdrawApproval = Boolean(isApprover && authorFactsAvailable && !isPlanAuthor);
-  const canArchive = actor?.role === 'developer';
-  const canBindSource = actor?.role === 'developer';
+  const canArchive = Array.isArray(detail?.identityRoles)?hasProjectRole('owner'):isDeveloper;
+  const canBindSource = Array.isArray(detail?.identityRoles)?hasProjectRole('owner'):isDeveloper;
   const selectedProject = projects.find((item) => item.id === projectId);
   const archivedAt = selectedProject?.archivedAt || detail?.project?.archivedAt || null;
   const isArchived = Boolean(archivedAt);
@@ -1561,7 +1590,13 @@ function App() {
       clearProjectState(); void refresh(expectedToken, expectedProject);
     }
   };
-  const model = { openOriginatingDraft, openSchema:bindingId=>{setWorkflowTarget(bindingId);setTab('schema');}, openHistoryPlan, openHistoryRelease, openMigrationHistory, requestedComparison, setRequestedComparison, selectedComparison, setSelectedComparison, token, actor, accessMode, metadataRecovery, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, schemaPlanCreated, loadPlanTargets, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, refreshExecutionJobs, requestExecution, cancelExecution, historyEpoch, isCurrentExecutionHistory, loseExecutionHistoryAccess };
+  const passwordChanged=session=>{
+    browserSessionEpoch+=1;sessionEpoch.current+=1;refreshSequence.current+=1;
+    const active=`session:${session.csrfToken}`;tokenRef.current=active;
+    setToken(active);setActor(session.actor);setError('');setNotice('Password updated.');
+    if(actor.mustChangePassword)void refresh(active,projectId);
+  };
+  const model = { hasPlanRole, openOriginatingDraft, openSchema:bindingId=>{setWorkflowTarget(bindingId);setTab('schema');}, openHistoryPlan, openHistoryRelease, openMigrationHistory, requestedComparison, setRequestedComparison, selectedComparison, setSelectedComparison, token, actor, accessMode, metadataRecovery, readOnlyBootstrap: accessMode === 'BOOTSTRAP_REQUIRED', projects, projectId, selectProject, setRelease: selectRelease, setSelectedPlan: selectPlan, setDecisionReason, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, projectForm, setProjectForm, busy, navigateDuringWithdrawal, createProject, detail, environmentName, setEnvironmentName, createEnvironment, profileForm, setProfileForm, createProfile, releaseForm, setReleaseForm, repositories, importRelease, release, makePlan, schemaPlanCreated, loadPlanTargets, plans, plan, planStatus, filterPlans, auditAction, setAuditAction: changeAuditAction, auditActions, filteredAudit, auditPage, auditLoading, auditPageError, loadOlderAudit: () => loadAuditPage(true), reloadAudit, isApprover, isDeveloper, canDirectApprove, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, decisionReason, decide, fmt, canArchive, isArchived, archivedAt, archiveReason, setArchiveReason, archiveProject, inspectRelease, planSource, inspectPlanSource, statementPreview, requestStatementPreview, releaseComparison, compareReleases, invalidateReleaseComparison, reopenCommentEvidence, sourceForm, setSourceForm, sourceBinding, boundRepository, projectLoaded, canBindSource, saveSourceBinding, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, gitRefs, gitRefsLoading, gitRefsError, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, inboxScope, changeInboxScope, inboxPage, loadInbox, openInboxPlan, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, refreshExecutionJobs, requestExecution, cancelExecution, historyEpoch, isCurrentExecutionHistory, loseExecutionHistoryAccess };
 
   if (!actor) return <main className="login-shell">
     <div className="login-card">
@@ -1571,12 +1606,18 @@ function App() {
       </div>
       <p className="eyebrow">DATABASE CHANGE GOVERNANCE</p>
       <h1>Make every change reviewable.</h1>
-      <p className="muted">Sign in with a local access token to manage projects, validate Oracle schema changes, review migration releases, and record immutable governance decisions.</p>
-      <form onSubmit={connect} className="stack login-form">
-        <label htmlFor="access-token">Local access token</label>
-        <input id="access-token" aria-label="Local access token" type="password" autoComplete="off" value={tokenInput} onChange={(e) => setTokenInput(e.target.value)} required />
-        <button className="primary" type="submit" disabled={busy}>{busy ? 'Connecting…' : 'Continue'}</button>
+      <p className="muted">Sign in with your Kelryvo account or your organization’s identity provider.</p>
+      <form onSubmit={event=>connect(event,'password')} className="stack login-form">
+        <label htmlFor="login-username">Username</label><input id="login-username" autoComplete="username" value={username} onChange={e=>setUsername(e.target.value)} required />
+        <label htmlFor="login-password">Password</label><input id="login-password" type="password" autoComplete="current-password" value={passwordInput} onChange={e=>setPasswordInput(e.target.value)} required />
+        {providers.some(p=>p.type==='LDAP')&&<label htmlFor="login-provider">Directory<select id="login-provider" value={loginProviderId} onChange={e=>setLoginProviderId(e.target.value)}><option value="">Local account</option>{providers.filter(p=>p.type==='LDAP').map(p=><option key={p.id} value={p.id}>{p.name}</option>)}</select></label>}
+        <button className="primary" type="submit" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</button>
       </form>
+      <details className="identity-token-login" open><summary>Advanced local access token</summary><form onSubmit={event=>connect(event,'token')} className="stack login-form"><label htmlFor="access-token">Local access token</label><input id="access-token" aria-label="Local access token" type="password" autoComplete="off" value={tokenInput} onChange={(e) => setTokenInput(e.target.value)} required /><button className="primary" type="submit" disabled={busy}>{busy ? 'Connecting…' : 'Continue'}</button></form></details>
+      <div className="identity-login-options">
+        {providers.filter(p=>p.type==='OIDC').map(p=><a className="secondary" key={p.id} href={`/api/auth/oidc/${encodeURIComponent(p.id)}/start`}>Continue with {p.name}</a>)}
+      </div>
+      {providers.filter(p=>p.type==='LDAP').map(p=><p className="fine-print" key={p.id}>{p.name} users can sign in with their username and password.</p>)}
       {error && <p className="banner error" role="alert">{error}</p>}
       <p className="fine-print">{location.protocol === 'https:' ? 'Sign-in creates a secure browser session. Sessions expire after 30 minutes idle or 8 hours; sign out revokes this session.' : 'Your token is kept in memory for this tab and is never saved in browser storage.'}</p>
     </div>
@@ -1586,6 +1627,7 @@ function App() {
   return <div className="app-shell">
     <aside className="sidebar">
       <a className="brand" href="#workspace" aria-label={`${productName} workspace`}><span className="brand-mark">{productName[0]}</span><span className="brand-copy"><span className="brand-title">{productName === 'SchemaForge' ? <>Schema<span className="brand-light">Forge</span></> : productName}</span><span className="brand-subtitle">Oracle Database DevOps</span></span></a>
+      {actor.mustChangePassword ? <p className="workspace-label">SET YOUR INITIAL PASSWORD TO CONTINUE</p> : <>
       {selectedProject && <div className="sidebar-project-pill"><span className="sidebar-project-label">Active Project</span><strong>{selectedProject.name}</strong></div>}
       <div className="workspace-label">WORKSPACE &amp; INFRASTRUCTURE</div>
       <button type="button" className={`nav-item ${tab === 'workspace' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('workspace'); }}><span>▦</span> Projects</button>
@@ -1603,6 +1645,8 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('records'); }}><span>≡</span> Audit &amp; history</button>
       <div className="workspace-label">IDENTITY</div>
       <button type="button" className={`nav-item ${tab === 'account' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('account'); }}><span>◎</span> Account &amp; access</button>
+      {actor.workspaceRole === 'admin' && <button type="button" className={`nav-item ${tab === 'identity' ? 'active' : ''}`} onClick={()=>setTab('identity')}><span>⚙</span> Identity administration</button>}
+      </>}
     <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={async () => { if (workspaceDirty) {setNotice('Save or discard unsaved SQL edits before signing out.');setTab('sql');return;} if (token.startsWith('session:')) { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; inboxSequence.current += 1; executionContextEpoch.current += 1; try { await json('/api/session/logout', token, { method: 'POST' }); } catch (e) { if (e.message !== 'UNAUTHENTICATED') { setBusy(false); setError('Sign out failed. Retry to revoke this session.'); return; } } } executionContextEpoch.current += 1; executionKeys.current.clear(); executionEventSequence.current += 1; setExecutionEvents({}); setExecutionReason(''); browserSessionEpoch += 1; inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' }); sessionEpoch.current += 1; withdrawalContextEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; invalidateReleaseComparison(); statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setRevocationReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setNavigateDuringWithdrawal(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
@@ -1611,27 +1655,28 @@ function App() {
       {accessMode === 'BOOTSTRAP_REQUIRED' && <div className="banner warning" role="status">Bootstrap required · project access is read-only until the local OS operator grants access and activates membership.</div>}
       {metadataRecovery.state === 'RESTORE_HOLD' && <div className="banner warning recovery-hold" role="status" data-recovery-state="RESTORE_HOLD"><strong>Metadata restore recovery hold</strong><span>Historical records are available for review. Deployment requests and cancellation are disabled while an external operator reviews the restored metadata and target evidence.</span></div>}
       <div className="content">
-        {tab === 'account' && <Account key={token} token={token} api={json} />}
+        {actor.mustChangePassword ? <Account key={token} token={token} api={json} actor={actor} onPasswordChanged={passwordChanged} requiredChange /> : <>{tab === 'account' && <Account key={token} token={token} api={json} actor={actor} onPasswordChanged={passwordChanged} />}
+        {tab === 'identity' && actor.workspaceRole === 'admin' && <IdentityAdmin token={token} api={json} />}
         {tab === 'instances' && <Instances key={`${token}:${projectId}`} token={token} projectId={projectId} detail={detail} api={json} actor={actor} accessMode={accessMode} metadataRecovery={metadataRecovery}
           onRefresh={() => refresh(token, projectId)} onConfigure={() => setTab('workspace')} onReferences={() => setTab('references')}
           onMissing={() => { clearProjectState(); void refresh(token, projectId); }} />}
         {tab === 'workspace' && <WorkspaceScreen model={model} />}
         {tab === 'references' && projectId && <SchemaReferences key={`${token}:${projectId}`} token={token} projectId={projectId} onTargets={()=>setTab('targets')} onMissing={()=>{clearProjectState();void refresh(token,projectId);}} />}
         {tab === 'references' && !projectId && <div className="empty-state"><strong>Select a project first</strong><span>Choose an assigned project from Projects, then open Schema references.</span><button type="button" className="text-button" onClick={()=>setTab('workspace')}>Go to Projects →</button></div>}
-        {tab === 'schema' && projectLoaded && <SchemaBaselines key={`${token}:${projectId}`} token={token} projectId={projectId} bindings={detail.targetBindings || []} initialBindingId={workflowTarget} hasMoreTargets={!!detail.targetBindingsNextCursor} onLoadTargets={loadPlanTargets} request={json} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE' || actor.role !== 'developer'} onWorkspace={bindingId=>{setWorkflowTarget(bindingId);setTab('sql');}} onPlans={bindingId=>{setWorkflowTarget(bindingId);const matching=(detail.plans || []).find(p=>p.retainedTarget?.bindingId===bindingId);if(matching){selectPlan(matching.id);setTab('review');}else setTab('release');}} onHistory={bindingId=>openMigrationHistory(null,null,bindingId)} onMissing={()=>{clearProjectState();void refresh(token,projectId);}}/>}
+        {tab === 'schema' && projectLoaded && <SchemaBaselines key={`${token}:${projectId}`} token={token} projectId={projectId} bindings={detail.targetBindings || []} initialBindingId={workflowTarget} hasMoreTargets={!!detail.targetBindingsNextCursor} onLoadTargets={loadPlanTargets} request={json} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE' || !isDeveloper} onWorkspace={bindingId=>{setWorkflowTarget(bindingId);setTab('sql');}} onPlans={bindingId=>{setWorkflowTarget(bindingId);const matching=(detail.plans || []).find(p=>p.retainedTarget?.bindingId===bindingId);if(matching){selectPlan(matching.id);setTab('review');}else setTab('release');}} onHistory={bindingId=>openMigrationHistory(null,null,bindingId)} onMissing={()=>{clearProjectState();void refresh(token,projectId);}}/>}
         {tab === 'schema' && !projectLoaded && <p role="status">Select a project to inspect schema baselines and drift.</p>}
         {tab === 'targets' && projectLoaded && <ProjectTargets key={`${token}:${projectId}`} token={token} projectId={projectId} detail={detail} actor={actor} request={json} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE'} onSaved={() => refresh(token, projectId)} onPrepare={() => setTab('release')} onWorkspace={bindingId=>{setWorkflowTarget(bindingId);setTab('sql');}} onMissing={() => {clearProjectState(); void refresh(token, projectId);}}/>}
         {tab === 'targets' && !projectLoaded && <p role="status">Select a project to inspect its targets.</p>}
         {projectLoaded && (tab === 'sql' || workspaceContext === `${token}:${projectId}`) && <div hidden={tab !== 'sql'}><SqlWorkspace key={`${token}:${projectId}`} token={token} projectId={projectId} projectName={detail.project.name} bindings={detail.targetBindings || []} request={json}
           sourceBindingGeneration={detail.project.sourceBinding?.generation} initialBindingId={workflowTarget} initialDraftId={workflowDraft} onBindingSelected={setWorkflowTarget} onDraftSelected={setWorkflowDraft}
           onDirtyChange={setWorkspaceDirty} sourceCorrection={sourceCorrection}
-          onReleasePrepared={workspaceReleasePrepared} onOpenRelease={openHistoryRelease} onPlan={schemaPlanCreated} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE' || actor.role !== 'developer'}/></div>}
+          onReleasePrepared={workspaceReleasePrepared} onOpenRelease={openHistoryRelease} onPlan={schemaPlanCreated} readOnly={busy || isArchived || accessMode !== 'ENFORCED' || metadataRecovery.state !== 'ACTIVE' || !isDeveloper}/></div>}
         {tab === 'history' && projectLoaded && <MigrationHistory key={`${token}:${projectId}`} projectId={projectId} detail={detail} token={token} request={json} targets={detail.targetBindings || []} onOpenPlan={openHistoryPlan} onOpenRelease={openHistoryRelease} formatTime={fmt}/>}
         {['sql','history'].includes(tab) && !projectLoaded && <div className="empty-state"><strong>Select an authorized project</strong><button className="secondary" onClick={()=>setTab('workspace')}>Go to Projects</button></div>}
         {tab === 'release' && <ReleaseScreen model={model} />}
         {tab === 'review' && <ReviewScreen model={model} />}
         {tab === 'inbox' && <ReviewInboxScreen model={model} />}
-        {tab === 'records' && <RecordsScreen model={model} />}
+        {tab === 'records' && <RecordsScreen model={model} />}</>}
       </div>
       <footer className="footer"><span>{productName} <span className="footer-sep">·</span> Governance workspace</span><span>Local time · {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></footer>
     </main>
@@ -1759,14 +1804,14 @@ function ReleaseScreen({ model }) {
 
           {scopedRelease && <SchemaValidation onCorrectSource={scopedRelease.sourceKind==='AUTHORED_SQL_WORKSPACE'?(path,statement)=>model.openOriginatingDraft(scopedRelease.id,path,statement):null} onOpenSource={(path,ordinal,statement)=>model.requestStatementPreview(scopedRelease.id,path,'',validationSourceReference(scopedRelease,path,statement))} key={`${token}:${projectId}:${scopedRelease.id}`} token={token} projectId={projectId} release={scopedRelease}
             bindings={detail?.targetBindings || []} request={json} onPlan={model.schemaPlanCreated}
-            readOnly={readOnlyBootstrap || isArchived || model.actor?.role!=='developer' || model.metadataRecovery.state!=='ACTIVE'}/>}
+            readOnly={readOnlyBootstrap || isArchived || !model.isDeveloper || model.metadataRecovery.state!=='ACTIVE'}/>}
           {scopedRelease?.validationStatus==='VALID' && <section className="panel legacy-planning"><h3>Compatibility planning</h3><p>These workflows retain earlier offline plan formats without schema-aware validation evidence.</p><form className="plan-form" inert={readOnlyBootstrap} onSubmit={makePlan}><label>Project target binding<select name="bindingId" aria-label="Project target binding" required disabled={busy || isArchived}><option value="">Choose an explicit target</option>{(detail?.targetBindings || []).map(binding => {const t = binding.retainedTarget || binding.target || binding; return <option key={binding.id || t.bindingId} value={binding.id || t.bindingId}>{t.exactOwner} · {t.environmentName || t.environmentId} · revision {t.bindingRevision || binding.revision}</option>;})}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.targetBindings?.length}>Prepare target-bound plan</button>{detail?.targetBindingsNextCursor && <button type="button" className="secondary" disabled={busy} onClick={model.loadPlanTargets}>Load more planning targets</button>}<button type="button" className="text-button" onClick={() => model.setTab('targets')}>Open project targets →</button><span className="offline-note">Exact target and revisions are retained. No Oracle execution.</span></form><details open><summary>Legacy unbound planning</summary><form className="plan-form" inert={readOnlyBootstrap} onSubmit={makePlan}><label>Target connection profile<select name="profileId" aria-label="Target connection profile" required disabled={busy || isArchived}><option value="">Choose profile</option>{(detail?.profiles || []).filter(profile => !profile.retiredAt).map((profile) => <option key={profile.id} value={profile.id}>{profile.name} · {profile.host}/{profile.service}</option>)}</select></label><button type="submit" className="primary" disabled={busy || isArchived || !detail?.profiles?.some(profile => !profile.retiredAt)}>Prepare offline plan</button><span className="offline-note">This creates a legacy unbound review candidate. It does not connect to Oracle.</span></form></details></section>}
   </>;
 }
 
 
 function ReviewScreen({ model }) {
-  const { openHistoryPlan, openHistoryRelease, openMigrationHistory, token, projectId, metadataRecovery, readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview, actor, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, refreshExecutionJobs, requestExecution, cancelExecution } = model;
+  const { canDirectApprove, hasPlanRole, openHistoryPlan, openHistoryRelease, openMigrationHistory, token, projectId, metadataRecovery, readOnlyBootstrap, plans, detail, plan, planStatus, filterPlans, isApprover, canReviewPlan, canWithdrawApproval, isPlanAuthor, authorFactsAvailable, planAuthorId, planCreatedAt, setTab, setSelectedPlan, decisionReason, setDecisionReason, busy, decide, fmt, isArchived, commentBody, setCommentBody, commentEvidence, toggleCommentEvidence, addComment, planSource, inspectPlanSource, repositories, projectLoaded, canPrepareNewPlan, prepareNewPlan, selectedNeedsFreshPlan, requestStatementPreview, reopenCommentEvidence, statementPreview, actor, reviewerChoices, reviewerChoice, setReviewerChoice, reviewerMessage, assignReviewer, revocationReason, setRevocationReason, revokeApproval, executionReason, setExecutionReason, executionEvents, loadExecutionEvents, refreshExecutionJobs, requestExecution, cancelExecution } = model;
   const scopedProfiles = projectLoaded && Array.isArray(detail?.profiles) ? detail.profiles : [];
   const scopedEnvironments = projectLoaded && Array.isArray(detail?.environments) ? detail.environments : [];
   const targetProfile = typeof plan?.profileId === 'string'
@@ -1849,10 +1894,10 @@ function ReviewScreen({ model }) {
                 <section className="panel source-generation" aria-label="Protected source generation"><h3>Protected source configuration</h3><p>Current project binding generation: <code>{validBindingGeneration(detail.project.sourceBinding?.generation) ? detail.project.sourceBinding.generation : 'Unavailable'}</code></p><p>Captured by this plan: <code>{validBindingGeneration(plan.sourceBindingGeneration) ? plan.sourceBindingGeneration : 'Unavailable'}</code></p></section>
                 {plan.status === 'PENDING_APPROVAL' && selectedNeedsFreshPlan && <div className="prepare-new-plan" role="region" aria-label="Fresh plan required"><p className="banner warning">This pending plan’s retained source, binding or intent facts are missing, stale or unverifiable. Prepare a fresh plan from the current protected repository and migration folder before approval or attaching statement references. You can import the current bound commit without editing SQL; the original plan and review history remain unchanged.</p>{canPrepareNewPlan && <button type="button" className="primary" onClick={prepareNewPlan} disabled={busy || readOnlyBootstrap}>Prepare fresh plan</button>}</div>}
                 {targetProfile?.retiredAt && <p className="banner warning" role="status">This target profile is retired. Existing records remain readable; prepare a fresh plan with an active profile.</p>}
-                {isApprover && plan.status === 'PENDING_APPROVAL' && <div className="decision-box" inert={readOnlyBootstrap}><label htmlFor="decision-reason">Decision reason</label><textarea id="decision-reason" value={decisionReason} onChange={(e) => setDecisionReason(e.target.value)} placeholder="Record why this candidate is approved or rejected" required disabled={isArchived}/><div><button type="button" className="danger-button" onClick={() => decide('REJECT')} disabled={busy || isArchived || !canReviewPlan || plan.retainedTarget && plan.currentness?.state !== 'CURRENT' || !decisionReason.trim()}>Reject plan</button><button type="button" className="primary" onClick={() => decide('APPROVE')} disabled={busy || isArchived || !canReviewPlan || targetProfile?.retiredAt || selectedNeedsFreshPlan || plan.retainedTarget && plan.currentness?.state !== 'CURRENT' || !decisionReason.trim()}>Approve plan</button></div>
-                  {isPlanAuthor ? <p className="banner warning">You authored this plan. Another approver must review it independently.</p> : !authorFactsAvailable ? <p className="banner warning">Requester information is unavailable. Refresh the project to retrieve retained plan facts.</p> : null}
-                  <small>Approval records governance only. It does not authorize or perform execution in this product.</small></div>}
-                {!isApprover && plan.status === 'PENDING_APPROVAL' && <p className="banner warning">Awaiting an approver. Your current role can prepare plans but cannot decide them.</p>}
+                {(isApprover || canDirectApprove) && plan.status === 'PENDING_APPROVAL' && <div className="decision-box" inert={readOnlyBootstrap}><label htmlFor="decision-reason">Decision reason</label><textarea id="decision-reason" value={decisionReason} onChange={(e) => setDecisionReason(e.target.value)} placeholder="Record why this candidate is approved or rejected" required disabled={isArchived}/><div>{canReviewPlan && <button type="button" className="danger-button" onClick={() => decide('REJECT')} disabled={busy || isArchived || plan.retainedTarget && plan.currentness?.state !== 'CURRENT' || !decisionReason.trim()}>Reject plan</button>}<button type="button" className="primary" onClick={() => decide('APPROVE')} disabled={busy || isArchived || !(canReviewPlan || canDirectApprove) || targetProfile?.retiredAt || selectedNeedsFreshPlan || plan.retainedTarget && plan.currentness?.state !== 'CURRENT' || !decisionReason.trim()}>{canDirectApprove && !canReviewPlan ? 'Authorize direct deployment' : 'Approve plan'}</button></div>
+                  {isPlanAuthor && plan.approvalPolicy?.approvalRequired !== false && plan.approvalPolicy?.independentApproval !== false ? <p className="banner warning">You authored this plan. Another approver must review it independently.</p> : !authorFactsAvailable ? <p className="banner warning">Requester information is unavailable. Refresh the project to retrieve retained plan facts.</p> : null}
+                  <small>{canDirectApprove && !canReviewPlan ? 'This environment allows direct deployment after an authorized author records this decision. Deployment still requires runtime readiness and deployer permission.' : 'Approval records governance only. It does not perform execution in this product.'}</small></div>}
+                {!isApprover && !canDirectApprove && plan.status === 'PENDING_APPROVAL' && <p className="banner warning">Awaiting an approver. Your project role cannot decide this plan.</p>}
                 {(plan.status === 'APPROVED' || (detail.executionJobs || []).some(job => job.planId === plan.id)) && <section className="panel execution-jobs" aria-label="Deployment requests">
                   <h3>Deployment request</h3>
                   <p>Requests stay queued while target history or validation is unavailable. Queue status is local product state and does not confirm target effects or Oracle verification.</p>
@@ -1873,7 +1918,7 @@ function ReviewScreen({ model }) {
                     <button type="button" className="secondary" onClick={() => void loadExecutionEvents(job)}>View job events</button>
                     <ExecutionHistory key={`${projectId}:${plan.id}:${job.id}:${job.revision}:${token}`} job={job} projectId={projectId} token={token} request={json} formatTime={fmt}/>
                     {job.state==='HOLD' && <ExecutionReconciliation key={`${job.id}:${job.revision}:${token}:${model.historyEpoch.refresh}`} job={job} projectId={projectId} token={token} request={json}
-                      isDeployer={detail.canDeploy && !isArchived && metadataRecovery.state==='ACTIVE'} isApprover={isApprover && !isArchived && metadataRecovery.state==='ACTIVE'}
+                      isDeployer={(plan.identityRoles===null||plan.identityRoles===undefined?detail.canDeploy:hasPlanRole('deployer')||hasPlanRole('owner')) && !isArchived && metadataRecovery.state==='ACTIVE'} isApprover={isApprover && !isArchived && metadataRecovery.state==='ACTIVE'}
                       actorId={actor?.id} planAuthorId={planAuthorId}
                       isCurrent={() => model.isCurrentExecutionHistory(projectId,plan.id,token)}/>}
                     {(executionEvents[job.id] || []).length > 0 && <ol aria-label={`Events for job ${job.id}`}>

@@ -80,7 +80,12 @@ try {
   stage = 'app startup'; await wait();
   assert.equal(docker('image', 'inspect', '--format', '{{.Config.User}}', appImage), '10001:10001');
   const operator = async (...args) => docker('exec', app, 'node', 'scripts/container-membership.mjs', ...args);
-  await operator('activate');
+  // Identity bootstrap activates enforcement without granting existing projects.
+  // Read the initial credential only into this private, disposable test process.
+  const administrator = JSON.parse(docker('exec', app, 'node', '-e',
+    "const fs=require('node:fs');const p='/var/lib/kelryvo/identity/bootstrap-admin.json';const s=fs.statSync(p);if((s.mode&511)!==384||s.uid!==process.getuid())process.exit(1);process.stdout.write(fs.readFileSync(p,'utf8'))"));
+  administrator.newPassword = randomBytes(32).toString('base64url');
+  privateValues.push(administrator.password, administrator.newPassword);
   stage = 'HTTPS governance workflow';
   const rotate = async (identity, token) => {
     privateValues.push(token);
@@ -91,7 +96,7 @@ try {
     assert.match(docker('exec', app, 'node', 'scripts/container-credentials.mjs', 'rotate', identity), /previous authority retired and audited/);
     assert.match(docker('exec', app, 'node', 'scripts/container-credentials.mjs', 'rotate', identity), /expiry unchanged/);
   };
-  const result = await smokeGovernance({ origin, ca, tokens, operator, rotate, onStep: step => { stage = step; } });
+  const result = await smokeGovernance({ origin, ca, tokens, administrator, operator, rotate, onStep: step => { stage = step; } });
   stage = 'graceful restart and retained metadata';
   docker('stop', '--time', '30', app);
   assert.equal(docker('inspect', '--format', '{{.State.ExitCode}}', app), '0');
@@ -124,7 +129,7 @@ try {
   process.exitCode = 1;
 } finally {
   for (const name of [app, pg]) {
-    try { if (docker('inspect', '--format', '{{index .Config.Labels "dev.kelryvo.test"}}', name) === owner) docker('rm', '--force', name); } catch { /* own absent fixture */ }
+    try { if (docker('inspect', '--format', '{{index .Config.Labels "dev.kelryvo.test"}}', name) === owner) docker('rm', '--force', '--volumes', name); } catch { /* own absent fixture */ }
   }
   for (const network of [owner, httpNetwork]) {
     try { if (docker('network', 'inspect', '--format', '{{index .Labels "dev.kelryvo.test"}}', network) === owner) docker('network', 'rm', network); }

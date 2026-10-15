@@ -16,8 +16,8 @@ certify general public distribution or Oracle runtime behavior.
 The app serves the existing React/Fastify product as Kelryvo. It runs as UID 10001,
 uses port 8443 and defaults to `KELRYVO_BIND_HOST=0.0.0.0`. `KELRYVO_PORT` accepts
 1–65535. Mount a read-only Secret at `/run/kelryvo/secrets`, or set the absolute
-`KELRYVO_SECRET_DIR`. Required files are `database-url`, `developer-token`,
-`approver-token`, `tls.crt` and `tls.key`. The database URL must identify external
+`KELRYVO_SECRET_DIR`. Required files are `database-url`, `tls.crt` and `tls.key`.
+Legacy `developer-token` and `approver-token` files are optional as a pair. The database URL must identify external
 PostgreSQL with a database, user and password; it is never logged. Actor tokens
 must be distinct 64-character lowercase hex values. Projected Kubernetes Secret
 links are resolved within their mount; escaping, writable or oversized files are
@@ -43,8 +43,8 @@ authorize durable deployment requests with `deploy-grant PROJECT_UUID kelryvo-de
 and withdraw that capability with `deploy-revoke PROJECT_UUID kelryvo-developer`.
 Project access alone does not permit deployment requests; these commands preserve the
 actor's fixed role and do not enable the worker or authorize Oracle execution. All effects
-use the existing serialized membership operator and retained audit. Startup never
-creates implicit grants or resets revoked credentials. Store and deliver actor tokens
+use the existing serialized membership operator and retained audit. Legacy actor startup never
+creates project grants or resets revoked credentials. Store and deliver actor tokens
 through private operator channels; do not put them in chart values, logs or Git.
 
 Actor credentials retain their existing 24-hour lifetime. To rotate a fixed actor,
@@ -55,7 +55,7 @@ checks and private input. Wait for the projected Secret to update, then run
 pod. Only this explicit operator action adopts the desired token. It atomically retires
 the actor's previous local/browser credentials, records immutable metadata revocation
 evidence/audit and issues a new 24-hour credential. It preserves memberships, roles,
-plans and history. The API has no credential-management route.
+plans and history. Identity-managed accounts use the administration UI; fixed legacy actors retain this operator lifecycle.
 
 If interrupted before the transaction commits, retry with the same projected desired
 token; prior database authority remains unchanged. After commit, retry is a no-op and
@@ -159,3 +159,64 @@ The dedicated `kelryvo-helm-chart` repository owns deployment configuration and
 pinned published image digests. Kubernetes/PVC/public browser verification remains
 separate from container verification. This delivery work changes no Argo CD or
 Kubernetes resources and authorizes no Oracle execution.
+
+## Authentication and identity
+
+Fresh installations bootstrap a local `admin` account. Mount a private writable
+volume at `/var/lib/kelryvo/identity` owned by UID 10001 with mode 0700. The API
+writes a random initial password to `bootstrap-admin.json` with mode 0600 and
+never prints it. An authorized namespace/OS operator retrieves that file through
+a private channel. Login uses HTTPS; the first session permits only password
+change and sign-out. The initial password stops working after that change.
+`KELRYVO_BOOTSTRAP_PASSWORD_FILE` may select another absolute private path.
+Startup preserves an existing administrator, credentials and authorization data.
+
+Only `database-url`, `tls.crt` and `tls.key` are required in the application Secret.
+The legacy `developer-token` and `approver-token` files are optional as a pair and
+retain their existing lifecycle when supplied. Normal users need no bearer token.
+New workspaces activate project membership enforcement during administrator
+bootstrap. Administrators create users/groups and assign project roles through
+Identity administration; creating a project explicitly assigns its creator owner
+access. Environment-scoped assignments restrict deployment permissions to that
+environment. Every environment defaults to independent approval, regardless of
+its name. Direct deployment requires an explicit environment policy change and a
+retained authorization decision; changing policy back blocks queued self-authorized
+execution. Existing schema scope, target validation and runtime gates still apply.
+
+Mount LDAP service passwords and OIDC client secrets in a **separate** read-only
+Secret directory `/run/kelryvo/identity-secrets` (override with
+`KELRYVO_IDENTITY_SECRET_DIR`). Provider configuration accepts `secret://filename`
+references and never returns secret values. Do not put metadata, Oracle writer or
+TLS private keys in that mount. Configure trusted corporate CAs using
+`NODE_EXTRA_CA_CERTS`; certificate verification remains enabled. LDAP requires
+LDAPS or StartTLS, a bounded single-user search, stable entryUUID/objectGUID and
+an explicit group mapping. OIDC uses discovery, authorization code with PKCE,
+state and nonce checks, and the configured HTTPS callback on the application
+origin. New-provider callback configuration may use
+`https://YOUR_HOST/api/auth/oidc/{id}/callback`; save the provider, then register its
+resolved callback in the provider. Auto-provisioning is off unless explicitly
+configured; external subjects never auto-link to local accounts by email/name.
+Workspace administrator status is assigned locally, never by provider claims.
+
+For emergency administrator recovery, an authorized OS operator with access to
+the metadata Secret runs `node scripts/identity-recovery.mjs ABSOLUTE_NEW_FILE
+"reason for emergency recovery"`. The output path must be new, in a directory
+owned by that operator with mode 0700. Recovery generates a new random password,
+revokes all administrator credentials/sessions, records immutable operator audit,
+and requires password change. It rejects RESTORE_HOLD. It never grants worker or
+Oracle authority. Retain the private identity volume and provider Secret mount
+through restart; application state lives in PostgreSQL.
+
+Local `npm run dev` generates a private installation-specific HTTPS certificate
+and bootstrap password under `.cache/local-product`. Trust
+`.cache/local-product/tls/server.crt` for local development, or supply the existing
+`--tls-cert` / `--tls-key` options. Production uses its managed TLS certificate.
+
+For the local development installation, use the same recovery command with `--local`
+(and optional `--config ABSOLUTE_PRIVATE_CONFIG`). It validates the existing private
+local configuration and loopback metadata URL without starting services or creating
+credentials. After changing the initial password, the bootstrap file contains an
+invalid credential; the operator may remove it from the private identity volume.
+Keep project-wide viewer access explicit when adding narrower environment roles: shared
+project/source pages require a project-wide role, while environment roles authorize
+only resources with that persisted environment.

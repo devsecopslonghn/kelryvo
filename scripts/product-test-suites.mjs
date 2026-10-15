@@ -1,4 +1,5 @@
 export const PRODUCT_API_FILES = Object.freeze([
+  'tests/product-identity.test.mjs','tests/product-identity-policies.test.mjs','tests/product-identity-backup.test.mjs',
   'tests/product-schema-baselines.test.mjs', 'tests/product-schema-backup.test.mjs',
   'tests/product-migration-analysis.test.mjs',
   'tests/product-migration-history-cursor.integration.mjs', 'tests/product-plan-comparison.test.mjs',
@@ -35,6 +36,7 @@ export const PRODUCT_API_FILES = Object.freeze([
 ]);
 
 export const PRODUCT_BROWSER_FILES = Object.freeze([
+  'tests/product-identity-browser.integration.mjs',
   'tests/product-theme-browser.integration.mjs',
   'tests/product-schema-baselines-browser.integration.mjs',
   'tests/product-migration-analysis-browser.integration.mjs',

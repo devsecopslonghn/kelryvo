@@ -1,0 +1,98 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { randomBytes, randomUUID } from 'node:crypto';
+import { chmod, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import postgres from 'postgres';
+import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
+import { createPrivateBackup, restorePrivateBackup, inventory } from '../packages/backup/index.mjs';
+import { browserAuthentication } from '../packages/database/browser-sessions.ts';
+import { authenticateLocalToken } from '../packages/database/local-credentials.ts';
+import { issueIdentitySession, passwordHash } from '../packages/identity/core.ts';
+import { tokenDigest } from '../packages/database/local-credentials.ts';
+
+const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS==='1';
+
+test('identity tables and credentials survive native restore under RESTORE_HOLD',{skip:!enabled,timeout:180_000},async()=>{
+  const source=await openIsolatedProductDatabase();
+  const root=await mkdtemp(join(process.cwd(),'.cache','identity-backup-'));
+  const backupDirectory=join(root,'identity-backup'), witnessPath=join(root,'identity-witness.json');
+  const configPath=join(root,'operator-config.json');
+  const databasePassword=randomBytes(32).toString('hex');
+  const databaseUrl=new URL(source.databaseUrl);databaseUrl.password=databasePassword;
+  let restored, restoredSql;
+  try {
+    await chmod(root,0o700);
+    await writeFile(configPath,`${JSON.stringify({databasePassword,developerToken:'1'.repeat(64),approverToken:'2'.repeat(64)})}\n`,{mode:0o600});
+    const actor={id:'identity-archive-user',name:'Identity archive user',role:'developer',token:randomBytes(32).toString('hex')};
+    const projectId=randomUUID();
+    await source.sql`INSERT INTO sf_local_actors(id,organization_id,role,display_name) VALUES(${actor.id},'00000000-0000-4000-8000-000000000001',${actor.role},${actor.name})`;
+    await source.sql`INSERT INTO sf_local_credentials(actor_id,token_sha256,issued_at,expires_at)
+      VALUES(${actor.id},${tokenDigest(actor.token)},clock_timestamp(),clock_timestamp()+interval '24 hours')`;
+    await source.sql`INSERT INTO sf_projects(id,organization_id,name) VALUES(${projectId},'00000000-0000-4000-8000-000000000001','Identity backup project')`;
+    const operatorUid=process.geteuid?.()??process.getuid();
+    await source.sql`INSERT INTO sf_project_grants(organization_id,project_id,actor_id,grant_os_uid)
+      VALUES('00000000-0000-4000-8000-000000000001',${projectId},${actor.id},${operatorUid})`;
+    await source.sql`INSERT INTO sf_project_deploy_grants(organization_id,project_id,actor_id,grant_os_uid)
+      VALUES('00000000-0000-4000-8000-000000000001',${projectId},${actor.id},${operatorUid})`;
+    const passwordDigest=await passwordHash('identity-backup-test-password-with-entropy');
+    const groupId=randomUUID(), providerId=randomUUID();
+    await source.sql`INSERT INTO sf_identity_users(actor_id,username,workspace_role,password_hash,must_change_password)
+      VALUES(${actor.id},'archive-user','member',${passwordDigest},true)`;
+    await source.sql`INSERT INTO sf_identity_groups(id,name) VALUES(${groupId},'Archive approvers')`;
+    await source.sql`INSERT INTO sf_identity_group_members(group_id,actor_id,source) VALUES(${groupId},${actor.id},'MANUAL')`;
+    await source.sql`INSERT INTO sf_identity_assignments(subject_type,subject_id,project_id,role)
+      VALUES('GROUP',${groupId},${projectId},'approver')`;
+    await source.sql`INSERT INTO sf_identity_providers(id,name,type,enabled,config,secret_ref)
+      VALUES(${providerId},'Archive OIDC','OIDC',true,'{"issuer":"https://identity.example.test","clientId":"kelryvo"}'::jsonb,'secret://oidc/archive')`;
+    await source.sql`INSERT INTO sf_external_identities(provider_id,subject,actor_id)
+      VALUES(${providerId},'stable-subject-1',${actor.id})`;
+    await source.sql`INSERT INTO sf_identity_audit(actor_id,action,subject_id,facts)
+      VALUES(${actor.id},'BACKUP_TEST','archive-user','{"source":"product test"}'::jsonb)`;
+    await source.sql`INSERT INTO sf_identity_login_limits(key,failures) VALUES('archive-user',2)`;
+
+    const session=await source.sql.begin(tx=>issueIdentitySession(tx,{headers:{}},{...actor},'PASSWORD'));
+    const sessionToken=session.cookie.match(/__Host-schemaforge=([a-f0-9]{64})/)[1];
+    const credentials=(await source.sql`SELECT id,credential_kind,parent_credential_id,auth_method FROM sf_local_credentials
+      WHERE actor_id=${actor.id} ORDER BY issued_at,id`).map(row=>({...row}));
+    assert.ok(credentials.some(row=>row.credential_kind==='BROWSER'));
+    assert.ok(credentials.some(row=>row.auth_method==='PASSWORD'));
+    const retainedTables=['sf_identity_users','sf_identity_groups','sf_identity_group_members','sf_identity_assignments',
+      'sf_identity_providers','sf_external_identities','sf_identity_audit','sf_identity_login_limits','sf_project_grants','sf_project_deploy_grants'];
+    const before=Object.fromEntries(await Promise.all(retainedTables.map(async table=>[table,JSON.stringify(await source.sql.unsafe(`SELECT * FROM ${table} ORDER BY 1`))])));
+
+    const backup=await createPrivateBackup({configPath,databaseUrl:databaseUrl.toString(),destination:backupDirectory,witnessPath});
+    assert.match(backup.archiveSha256,/^[a-f0-9]{64}$/);
+    const restoredInfo=await restorePrivateBackup({configPath,databaseUrl:databaseUrl.toString(),backupDirectory,witnessPath});
+    restored=restoredInfo;
+    restoredSql=postgres(restored.databaseUrl,{max:3,onnotice:()=>{}});
+
+    assert.equal((await inventory(restoredSql)).signature,(await inventory(source.sql)).signature);
+    for(const table of retainedTables) assert.equal(JSON.stringify(await restoredSql.unsafe(`SELECT * FROM ${table} ORDER BY 1`)),before[table],`${table} retained exactly`);
+    const user=(await restoredSql`SELECT username,workspace_role,password_hash,must_change_password FROM sf_identity_users WHERE actor_id=${actor.id}`)[0];
+    assert.equal(user.username,'archive-user');
+    assert.equal(user.workspace_role,'member');
+    assert.equal(user.password_hash,passwordDigest);
+    assert.equal(user.must_change_password,true);
+    assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_identity_assignments WHERE subject_id=${groupId} AND role='approver'`)[0].n,1);
+    assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_identity_providers WHERE id=${providerId} AND secret_ref='secret://oidc/archive'`)[0].n,1);
+
+    const restoredCredentials=await restoredSql`SELECT id,token_sha256,credential_kind,parent_credential_id,revoked_at FROM sf_local_credentials WHERE actor_id=${actor.id}`;
+    assert.ok(restoredCredentials.length>=credentials.length);
+    assert.ok(restoredCredentials.every(row=>row.revoked_at!==null),'restore revokes every pre-restore local, parent and browser credential');
+    assert.equal(await authenticateLocalToken(restoredSql,actor.token),null,'previous bearer credential cannot authenticate');
+    const oldCookieRequest={method:'GET',url:'/api/session',headers:{cookie:`__Host-schemaforge=${sessionToken}`},raw:{socket:{encrypted:true}}};
+    assert.equal(await browserAuthentication(restoredSql,oldCookieRequest),null,'previous browser cookie cannot authenticate');
+    const gate=(await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0];
+    assert.equal(gate.state,'RESTORE_HOLD');
+  } finally {
+    if(restoredSql) await restoredSql.end({timeout:2});
+    await source.close();
+    if(restored) {
+      const admin=postgres(process.env.SCHEMAFORGE_TEST_DATABASE_URL,{max:1,onnotice:()=>{}});
+      try { await admin.unsafe(`DROP DATABASE IF EXISTS "${restored.databaseName}" WITH (FORCE)`); }
+      finally { await admin.end({timeout:2}); }
+    }
+    await rm(root,{recursive:true,force:true});
+  }
+});

@@ -67,8 +67,8 @@ export async function createBackupProductFixture({initialize}={}) {
     await source.sql`INSERT INTO sf_reference_schemas(id,organization_id,container_id,exact_owner) VALUES(${schema},${ORG},${container},'RECOVERY_UNIT_OWNER')`;
     await source.sql`INSERT INTO sf_reference_assignments(id,organization_id,schema_id,project_id,reason,operator_os_uid) VALUES(${assignment},${ORG},${schema},${project.id},'UNIT retained metadata assignment',0)`;
     const unitPlan=randomUUID(),proofDigest=hash('UNIT_SYNTHETIC_BACKUP_PROOF');
-    await source.sql`INSERT INTO sf_plans(id,project_id,organization_id,release_id,profile_id,author_id,status,decision,approval_reference,items,offline_intent_digest,planning_scope,source_binding_generation)
-      SELECT ${unitPlan},project_id,organization_id,release_id,profile_id,author_id,'APPROVED','APPROVE',${randomUUID()},items,offline_intent_digest,'UNIT_SYNTHETIC',source_binding_generation FROM sf_plans WHERE id=${plan.id}`;
+    await source.sql`INSERT INTO sf_plans(id,project_id,organization_id,release_id,profile_id,author_id,status,decision,approval_reference,items,offline_intent_digest,planning_scope,source_binding_generation,decided_by,decided_by_name,decided_at,decision_reason)
+      SELECT ${unitPlan},project_id,organization_id,release_id,profile_id,author_id,'APPROVED','APPROVE',${randomUUID()},items,offline_intent_digest,'UNIT_SYNTHETIC',source_binding_generation,decided_by,decided_by_name,decided_at,decision_reason FROM sf_plans WHERE id=${plan.id}`;
     const p=(await source.sql`SELECT approval_reference,offline_intent_digest FROM sf_plans WHERE id=${unitPlan}`)[0];
     const profileFacts=(await source.sql`SELECT engine,host,port,service,username FROM sf_profiles WHERE id=${profile.id}`)[0];
     const generation=(await source.sql`SELECT source_binding_generation FROM sf_projects WHERE id=${project.id}`)[0].source_binding_generation;

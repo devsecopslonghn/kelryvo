@@ -2,18 +2,19 @@ import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import { tokenDigest } from './local-credentials.ts';
 
 const COOKIE = '__Host-schemaforge';
+export const sessionCookie = (token: string) => `${COOKIE}=${token}; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=28800`;
 const ORG = '00000000-0000-4000-8000-000000000001';
-const cookieValue = (req: any) => {
+export const cookieValue = (req: any) => {
   const values = String(req.headers.cookie ?? '').split(';').map(value => value.trim())
     .filter(value => value.startsWith(`${COOKIE}=`));
   const token = values.length === 1 ? values[0].slice(COOKIE.length + 1) : '';
   return /^[a-f0-9]{64}$/.test(token) ? token : '';
 };
-const csrf = (token: string) => createHash('sha256').update('schemaforge-browser-csrf-v1\0').update(token).digest('hex');
+export const csrf = (token: string) => createHash('sha256').update('schemaforge-browser-csrf-v1\0').update(token).digest('hex');
 const equal = (a: unknown, b: string) => typeof a === 'string' && /^[a-f0-9]{64}$/.test(a)
   && timingSafeEqual(Buffer.from(a, 'hex'), Buffer.from(b, 'hex'));
 const error = (code: string) => Object.assign(new Error(code), { productCode: code });
-const sameOrigin = (req: any) => {
+export const sameOrigin = (req: any) => {
   if (!req.raw.socket.encrypted || typeof req.headers.origin !== 'string') return false;
   try { const origin = new URL(req.headers.origin);
     return origin.origin === req.headers.origin && origin.protocol === 'https:' && origin.host === req.headers.host;
@@ -26,7 +27,7 @@ const live = async (sql: any, digest: string, lock = false) => (await sql`
   WHERE c.token_sha256=${digest} AND c.credential_kind='BROWSER' AND p.credential_kind='LOCAL'
     AND c.revoked_at IS NULL AND p.revoked_at IS NULL
     AND c.expires_at>clock_timestamp() AND c.absolute_expires_at>clock_timestamp() AND p.expires_at>clock_timestamp()
-    AND a.organization_id=${ORG} AND a.role IN ('developer','approver')
+    AND NOT a.disabled AND a.organization_id=${ORG} AND a.role IN ('developer','approver')
   ${lock ? sql`FOR SHARE OF c,p,a` : sql``}`)[0];
 
 export async function browserAuthentication(sql: any, req: any) {
@@ -79,7 +80,7 @@ export function registerBrowserSessions(app: any, { sql, authenticate, seed, ena
       const parent = (await tx`SELECT c.id,c.expires_at,a.id AS actor_id,a.display_name AS name,a.role
         FROM sf_local_credentials c JOIN sf_local_actors a ON a.id=c.actor_id
         WHERE c.token_sha256=${tokenDigest(token)} AND c.credential_kind='LOCAL' AND c.revoked_at IS NULL
-          AND c.expires_at>clock_timestamp() AND a.organization_id=${ORG} FOR SHARE OF c,a`)[0];
+          AND c.expires_at>clock_timestamp() AND NOT a.disabled AND c.auth_method='TOKEN' AND a.organization_id=${ORG} FOR SHARE OF c,a`)[0];
       if (!parent) return null;
       const old = cookieValue(req);
       if (old) await tx`UPDATE sf_local_credentials SET revoked_at=clock_timestamp()
@@ -99,6 +100,7 @@ export function registerBrowserSessions(app: any, { sql, authenticate, seed, ena
     await sql.begin(async (tx: any) => {
       await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
       await tx`UPDATE sf_local_credentials SET revoked_at=clock_timestamp() WHERE id=${req.browserSession.id} AND revoked_at IS NULL`;
+      await tx`INSERT INTO sf_identity_audit(actor_id,action,subject_id) VALUES(${req.actor.id},'LOGOUT',${req.actor.id})`;
     });
     reply.header('Set-Cookie', `${COOKIE}=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0`);
     return reply.code(204).send();

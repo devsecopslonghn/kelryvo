@@ -19,7 +19,7 @@ function boundPlanIntent(plan:any,projectId:string){
     requesterId:plan.author_id,releaseId:plan.release_id,profileId:plan.profile_id});
 }
 
-export async function initializeExecutionReconciliation(sql:any,{installBindingGuards=true}: {installBindingGuards?:boolean}={}){
+export async function initializeExecutionReconciliation(sql:any,{installBindingGuards=true,identityEnabled=true}: {installBindingGuards?:boolean;identityEnabled?:boolean}={}){
   const install=async(tx:any)=>tx.unsafe(`
     CREATE TABLE IF NOT EXISTS sf_execution_reconciliations (
       id uuid PRIMARY KEY, job_id uuid NOT NULL, organization_id uuid NOT NULL, project_id uuid NOT NULL, plan_id uuid NOT NULL,
@@ -103,7 +103,7 @@ export async function initializeExecutionReconciliation(sql:any,{installBindingG
           OR v_project.organization_id IS DISTINCT FROM NEW.organization_id OR v_project.archived_at IS NOT NULL
           OR v_job.state IS DISTINCT FROM 'HOLD' OR v_job.revision IS DISTINCT FROM NEW.job_revision
           OR v_submission.job_revision IS DISTINCT FROM NEW.job_revision
-          OR v_actor.role IS DISTINCT FROM 'approver'
+          ${identityEnabled ? 'OR NOT sf_identity_can_review(NEW.reviewer_id,NEW.project_id,(SELECT environment_id FROM sf_profiles WHERE id=v_plan.profile_id))' : "OR v_actor.role IS DISTINCT FROM 'approver'"}
           OR NEW.reviewer_id IN (v_submission.submitter_id,v_job.requester_id,v_plan.author_id)
           OR v_grant.id IS NULL THEN
           RAISE EXCEPTION 'execution reconciliation decision must independently review the current held submission';
@@ -230,7 +230,7 @@ export function registerExecutionReconciliation(app:any,{sql,authenticate}:any){
       req.scopedProjectId=identity.project_id;
       await acquireTargetLocks(tx,{planId:identity.plan_id});
       await guardMutationAuthority(tx,req);
-      const plan=(await tx`SELECT id,author_id,release_id,profile_id,offline_intent_digest AS intent_digest,
+      const plan=(await tx`SELECT id,author_id,release_id,profile_id,(SELECT environment_id FROM sf_profiles WHERE id=sf_plans.profile_id) AS environment_id,offline_intent_digest AS intent_digest,
         approval_reference,CASE WHEN octet_length(offline_intent_envelope)<=${MAX_STDOUT_BYTES} THEN offline_intent_envelope END AS intent_envelope
         FROM sf_plans WHERE id=${identity.plan_id} AND project_id=${identity.project_id} FOR SHARE`)[0];
       const project=(await tx`SELECT id,archived_at FROM sf_projects WHERE id=${identity.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
@@ -248,7 +248,7 @@ export function registerExecutionReconciliation(app:any,{sql,authenticate}:any){
       if(!membership)return null;
       const gate=(await tx`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF c,g`)[0];
       if(gate?.state!=='ACTIVE')throw responseError('METADATA_RESTORE_HOLD');
-      if(actor?.role!=='approver')throw responseError('APPROVER_REQUIRED',403);
+      if(!actor || !(await tx`SELECT sf_identity_can_review(${req.actor.id},${identity.project_id},${plan.environment_id}) AS allowed`)[0]?.allowed)throw responseError('APPROVER_REQUIRED',403);
       if(project.archived_at)throw responseError('PROJECT_ARCHIVED');
       if(job.state!=='HOLD')throw responseError('JOB_NOT_ON_HOLD');
       if(String(job.revision)!==String(b.expectedRevision))throw responseError('REVISION_CONFLICT');

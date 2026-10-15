@@ -1,6 +1,6 @@
 import { constants } from 'node:fs';
 import { parseArgs } from 'node:util';
-import { readPrivateTls } from './local-tls.mjs';
+import { readPrivateTls, ensureLocalTls } from './local-tls.mjs';
 import { access, open } from 'node:fs/promises';
 import path from 'node:path';
 import { localConfiguration, localDatabaseUrl, startLocalPostgres, prepareDemoRepository } from './local-resources.mjs';
@@ -14,9 +14,9 @@ try {
   catch { throw new LocalRepositoryError('INVALID_STARTUP_ARGUMENTS'); }
   const restored=!!values.restored;
   if (restored && values.repository?.length || !!values['tls-cert'] !== !!values['tls-key']) throw new Error('invalid startup options');
-  const tls = values['tls-cert'] ? await readPrivateTls(values['tls-cert'], values['tls-key']) : undefined;
   const requestedRepositories = parseLocalRepositoryArguments((values.repository ?? []).flatMap(value => ['--repository', value]));
   const configuredRepositories = await resolveLocalRepositories(requestedRepositories);
+  const tls = values['tls-cert'] ? await readPrivateTls(values['tls-cert'], values['tls-key']) : await ensureLocalTls(path.join(localDirectory,'tls'));
   if (!process.env.SCHEMAFORGE_JAVA_HOME) {
     try { await access('.cache/licenses/runtime/temurin/bin/java');
       process.env.SCHEMAFORGE_JAVA_HOME = path.resolve('.cache/licenses/runtime/temurin'); }
@@ -47,12 +47,13 @@ try {
   const app = await startProduct({ databaseUrl, actors: [
     { id: 'local-developer', name: 'Local developer', role: 'developer', token: config.developerToken },
     { id: 'local-approver', name: 'Local approver', role: 'approver', token: config.approverToken },
-  ], repositories: [
+  ], identity:{bootstrapPasswordFile:path.join(localDirectory,'bootstrap-admin.json'),secretDirectory:path.join(localDirectory,'identity-secrets')}, repositories: [
     { id: 'demo', name: 'Local migration demo', path: repository },
     ...configuredRepositories,
   ], tls, discoveryRuntime });
   console.log(`SchemaForge: ${tls ? 'https' : 'http'}://127.0.0.1:4317`);
-  console.log('Local bearer tokens: .cache/local-product/config.json (private local file).');
+  console.log('Initial administrator: admin. Retrieve the generated password from .cache/local-product/bootstrap-admin.json through your private operator channel.');
+  console.log('Local HTTPS uses an installation-specific certificate: .cache/local-product/tls/server.crt.');
   console.log('Target execution: NOT_EXECUTED; Oracle validation: BLOCKED.');
   const close = async () => { await app.close(); process.exitCode = 0; };
   process.once('SIGINT', close); process.once('SIGTERM', close);

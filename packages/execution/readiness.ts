@@ -1,3 +1,4 @@
+import { approvalSatisfied } from '../identity/approvals.ts';
 /** Read-only governance readiness. This endpoint never connects to a target. */
 import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs';
 import { preflightRetainedRelease } from '../migrations/retained-release-preflight.mjs';
@@ -62,7 +63,7 @@ export function registerExecutionReadiness(app: any, sql: any, authenticate: any
           WHERE organization_id=${organizationId} AND project_id=${plan.project_id} AND plan_id=${plan.id}
             AND approval_reference=${plan.approval_reference} LIMIT 1`)[0] : null;
         const independentApproval = intent && plan.status === 'APPROVED' && plan.decision === 'APPROVE'
-          && uuid(plan.approval_reference) && typeof plan.decided_by === 'string' && plan.decided_by !== plan.author_id && !revocation;
+          && uuid(plan.approval_reference) && typeof plan.decided_by === 'string' && await approvalSatisfied(tx,plan.id) && !revocation;
         checks.push(check('INDEPENDENT_APPROVAL_CURRENT', independentApproval ? 'PASS' : 'BLOCKED'));
         checks.push(check('PLAN_EXECUTION_STATE', plan.execution === 'NOT_EXECUTED' && plan.history_status === 'NOT_OBSERVED'
           && plan.planning_scope === 'OFFLINE_CANDIDATE' ? 'PASS' : 'BLOCKED'));

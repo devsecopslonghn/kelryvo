@@ -29,7 +29,7 @@ export async function readVerifiedPublicPlanRecord(tx: any, planId: string, proj
   if (!intent || !['PENDING_APPROVAL', 'APPROVED', 'REJECTED', 'REVOKED'].includes(p.status)) throw unavailable();
   const decided = p.status !== 'PENDING_APPROVAL', approved = ['APPROVED', 'REVOKED'].includes(p.status);
   if (decided && (p.decision !== (approved ? 'APPROVE' : 'REJECT')
-      || typeof p.decidedBy !== 'string' || p.decidedBy === p.authorId || !p.decidedAt
+      || typeof p.decidedBy !== 'string' || p.decidedBy === p.authorId && !(await tx`SELECT 1 FROM sf_plan_policy_decisions WHERE plan_id=${p.id} AND approval_reference=${p.approvalReference} AND NOT(approval_required AND independent_approval)`)[0] || !p.decidedAt
       || typeof p.decisionReason !== 'string' || !p.decisionReason.trim()
       || approved && !uuid(p.approvalReference))) throw unavailable();
   if (!decided && [p.decision, p.decisionReason, p.decidedBy, p.decidedAt, p.approvalReference].some(v => v !== null)) throw unavailable();

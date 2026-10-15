@@ -28,7 +28,7 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
     const grant=(await tx`SELECT 1 FROM sf_project_grants WHERE organization_id=${ORG} AND project_id=${req.params.projectId} AND actor_id=${req.actor.id} AND revoked_at IS NULL`)[0];
     if(!grant) throw fail('NOT_FOUND',404);
     const project=(await tx`SELECT archived_at FROM sf_projects WHERE id=${req.params.projectId} AND organization_id=${ORG}`)[0];
-    const canManage=!!(await tx`SELECT 1 FROM sf_workspace_database_grants WHERE organization_id=${ORG} AND actor_id=${req.actor.id} AND revoked_at IS NULL`)[0] && req.actor.role==='developer';
+    const canManage=(req.actor.workspaceRole==='admin' || !!(await tx`SELECT 1 FROM sf_workspace_database_grants WHERE organization_id=${ORG} AND actor_id=${req.actor.id} AND revoked_at IS NULL`)[0]) && req.actor.role==='developer';
     if(manage){
       if(!canManage) throw fail('DATABASE_MANAGEMENT_REQUIRED',403);
       if(!project || project.archived_at) throw fail('PROJECT_ARCHIVED');
