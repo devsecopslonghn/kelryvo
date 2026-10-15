@@ -94,6 +94,14 @@ test('modern retained target completions reconcile format-3 and format-4 intents
       const intactCopy=await copyWitness('intact',proof.host_binding.targetBindingDigest);
       assert.equal(await reconcile(intactCopy),true,
         'the complete copied attempt remains a positive control for binding-digest validation');
+      const targetEvidence=(await f.db.sql`SELECT o.provenance,o.verification_acceptance
+        FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id
+        WHERE e.digest=${intent.target.observationDigest} LIMIT 2`)[0];
+      const historicalLegacyDigest=hash({...intent.target,expectedIdentityDigest:proof.target_identity_digest,
+        evidenceProvenance:targetEvidence.provenance,liveVerificationAccepted:Boolean(targetEvidence.verification_acceptance)});
+      const historicalLegacy=await copyWitness('historical-legacy-format',historicalLegacyDigest);
+      assert.equal(await reconcile(historicalLegacy),true,
+        'an exact pre-physical-key legacy binding remains a valid retained history witness');
       const corruptCopy=await copyWitness('corrupt',hash('corrupt saved target binding'));
       assert.equal(await reconcile(corruptCopy),false,
         'a complete witness with a corrupted saved target-binding digest is rejected');

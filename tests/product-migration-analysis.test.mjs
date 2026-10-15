@@ -64,7 +64,7 @@ test('migration analysis reads verified worker receipts, serves stable SQL pages
     assert.equal(body.executionAuthority, false);
     assert.equal(body.oracleAcceptance, 'NOT_RUN');
     assert.equal(body.liveTargetState, 'UNVERIFIED');
-    assert.equal(body.decision, 'NOOP_CANDIDATE');
+    assert.equal(body.decision, 'NOOP_CANDIDATE', JSON.stringify(body.findings));
     assert.equal(body.statementCount, materialized.statements.length);
     assert.equal(body.migrations.length, 1);
     assert.equal(body.migrations[0].status, 'COMPLETED');

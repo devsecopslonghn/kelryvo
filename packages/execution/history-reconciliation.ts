@@ -5,6 +5,7 @@ import { verifyOfflinePlanIntent, MAX_PLAN_STATEMENTS } from '../migrations/offl
 import { MAX_STDOUT_BYTES } from '../../experiments/db-devops-wp0/parser-envelope.mjs';
 import { MAX_RELEASE_FILES } from '../../experiments/db-devops-wp0/parser-release.mjs';
 import { approvedMigrationIdentities } from './pending-migrations.mjs';
+import { expectedTargetBindingDigests } from './target-binding-digests.mjs';
 import { executionDigest, type TargetObservation, type MigrationIdentity } from './admission.ts';
 
 const sameMigration = (a: MigrationIdentity, b: MigrationIdentity) => a && b
@@ -63,16 +64,17 @@ export async function reconcileCompletedHistory(tx: any, observation: TargetObse
       if (binding.targetBindingId !== intent.target.bindingId
           || binding.targetBindingRevision !== intent.target.bindingRevision || binding.streamId !== intent.target.streamId
           || binding.migrationNamespace !== intent.target.migrationNamespace) return false;
-      const targetEvidence=await tx`SELECT e.identity_digest,o.provenance,o.verification_acceptance
+      const targetEvidence=await tx`SELECT e.identity,e.identity_digest,o.provenance,o.verification_acceptance,
+          source.connection_id AS source_connection_id,c.credential_mode
         FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id
+        LEFT JOIN sf_instance_profile_sources source ON source.profile_id=${intent.profileId}
+        LEFT JOIN sf_database_connections c ON c.id=source.connection_id
         WHERE e.digest=${intent.target.observationDigest} AND e.organization_id=${prior.organization_id}
           AND e.project_id=${prior.project_id} AND e.assignment_id=${intent.target.assignmentId}
           AND e.assignment_revision::text=${intent.target.assignmentRevision} AND e.route_id=${intent.target.routeId}
           AND e.exact_owner=${intent.target.exactOwner} LIMIT 2`;
       if (targetEvidence.length !== 1 || targetEvidence[0].identity_digest !== prior.target_identity_digest
-          || binding.targetBindingDigest !== executionDigest({ ...intent.target,
-            expectedIdentityDigest:targetEvidence[0].identity_digest,evidenceProvenance:targetEvidence[0].provenance,
-            liveVerificationAccepted:Boolean(targetEvidence[0].verification_acceptance) })) return false;
+          || !expectedTargetBindingDigests(intent,targetEvidence[0]).includes(binding.targetBindingDigest)) return false;
     } else if (['targetBindingId','targetBindingRevision','targetBindingDigest','streamId','migrationNamespace']
       .some(key => Object.hasOwn(binding,key))) return false;
     const migrations = approvedMigrationIdentities(intent);
