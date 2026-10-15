@@ -47,18 +47,23 @@ export async function loadContainerConfig(env = process.env) {
     const portText = env.KELRYVO_PORT ?? '8443';
     if (!isIP(host) || !/^[1-9][0-9]{0,4}$/.test(portText) || Number(portText) > 65535) throw unavailable();
     const databaseUrl = await containerDatabaseUrl(root);
-    const developerToken = (await readContainerSecret(root, 'developer-token')).toString('utf8').trim();
-    const approverToken = (await readContainerSecret(root, 'approver-token')).toString('utf8').trim();
-    if (![developerToken, approverToken].every(value => /^[a-f0-9]{64}$/.test(value))
-        || developerToken === approverToken) throw unavailable();
+    const tokenFiles = await Promise.all(['developer-token','approver-token'].map(async name => {
+      try { await lstat(path.join(root,name)); return true; } catch(error) { if(error.code==='ENOENT') return false; throw error; }
+    }));
+    if(tokenFiles[0]!==tokenFiles[1]) throw unavailable();
+    const developerToken = tokenFiles[0] ? (await readContainerSecret(root, 'developer-token')).toString('utf8').trim() : undefined;
+    const approverToken = tokenFiles[1] ? (await readContainerSecret(root, 'approver-token')).toString('utf8').trim() : undefined;
+    if (tokenFiles[0] && (![developerToken, approverToken].every(value => /^[a-f0-9]{64}$/.test(value))
+        || developerToken === approverToken)) throw unavailable();
     const tls = { cert: await readContainerSecret(root, 'tls.crt', 128 * 1024),
       key: await readContainerSecret(root, 'tls.key', 128 * 1024) };
     createSecureContext({ ...tls, minVersion: 'TLSv1.2' });
     return { databaseUrl, host, port: Number(portText), tls,
-      actors: [
+      identity: { bootstrapPasswordFile: env.KELRYVO_BOOTSTRAP_PASSWORD_FILE ?? '/var/lib/kelryvo/identity/bootstrap-admin.json', secretDirectory: root },
+      actors: tokenFiles[0] ? [
         { id: 'kelryvo-developer', name: 'Kelryvo developer', role: 'developer', token: developerToken },
         { id: 'kelryvo-approver', name: 'Kelryvo approver', role: 'approver', token: approverToken },
-      ],
+      ] : [],
       repositories: [{ id: 'demo', name: 'Kelryvo migration demo', path: path.resolve('repositories/demo') }],
     };
   } catch { throw unavailable(); }

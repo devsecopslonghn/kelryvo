@@ -18,6 +18,7 @@ import ExecutionRequestsHistory from './ExecutionRequestsHistory.jsx';
 import { Account } from './Account.jsx';
 import { Instances } from './Instances.jsx';
 import { mergeExecutionJobWindow, terminalExecutionStates } from './executionJobs.js';
+import { IdentityAdmin } from './IdentityAdmin.jsx';
 
 const productName = process.env.SCHEMAFORGE_PRODUCT_NAME;
 
@@ -134,7 +135,7 @@ async function validateStatementPreview(preview, source, releaseId, filePath) {
 }
 const explain = (error) => errorCopy[error.message] || 'The request could not be completed. Check the connection and try again.';
 const fmt = (date) => date ? new Date(date).toLocaleString() : '—';
-const pageTitles = { schema: 'Schema baselines & drift', workspace: 'Projects', instances: 'Database instances & connections', references: 'Schema references', targets: 'Project targets', sql: 'SQL Workspace', history: 'Migration history', release: 'Release intake', review: 'Plan review', inbox: 'Review inbox', records: 'Audit & history', account: 'Account & access' };
+const pageTitles = { schema: 'Schema baselines & drift', workspace: 'Projects', instances: 'Database instances & connections', references: 'Schema references', targets: 'Project targets', sql: 'SQL Workspace', history: 'Migration history', release: 'Release intake', review: 'Plan review', inbox: 'Review inbox', records: 'Audit & history', account: 'Account & access', identity: 'Identity administration' };
 const decisionClass = (status) => ({ APPROVED: 'good', REVOKED: 'bad', REJECTED: 'bad' }[status] || 'pending');
 const planMarkerClass = (status) => ({ APPROVED: 'green', REVOKED: 'red', REJECTED: 'red' }[status] || '');
 const retainedAuthorId = (plan) => typeof plan?.authorId === 'string' && plan.authorId.length <= 200 && plan.authorId.trim().length > 0 ? plan.authorId : null;
@@ -354,6 +355,11 @@ function App() {
   const [workflowTarget,setWorkflowTarget] = useState(initialWorkflow.current.target || '');
   const [workflowDraft,setWorkflowDraft] = useState(initialWorkflow.current.draft || '');
   const [tokenInput, setTokenInput] = useState('');
+  const [username, setUsername] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
+  const [loginMode, setLoginMode] = useState('password');
+  const [loginProviderId, setLoginProviderId] = useState('');
+  const [providers, setProviders] = useState([]);
   const [token, setToken] = useState('');
   const tokenRef = useRef(token);
   tokenRef.current = token;
@@ -722,16 +728,28 @@ function App() {
     event.preventDefault(); browserSessionEpoch += 1; inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' }); setBusy(true); setError(''); setNotice('');
     try {
       const secure = location.protocol === 'https:';
-      const session = await json('/api/session', tokenInput.trim(), secure ? { method: 'POST', credentials: 'same-origin' } : {});
+      const session = loginMode === 'token'
+        ? await json('/api/session', tokenInput.trim(), { method: 'POST', credentials: secure ? 'same-origin' : 'omit' })
+        : await json('/api/auth/login', '', { method: 'POST', credentials: 'same-origin', body: JSON.stringify({ username: username.trim(), password: passwordInput, ...(loginProviderId ? { providerId: loginProviderId } : {}) }) });
       const who = session.actor || session;
       if (!who?.role) throw new Error('UNAUTHORIZED');
-      const active = secure ? `session:${session.csrfToken}` : tokenInput.trim();
-      setToken(active); setActor(who); setTokenInput('');
-      await refresh(active, projectId);
-      setNotice(`Signed in as ${who.name || who.id || who.role}.`);
+      if (loginMode === 'token' && !secure) {
+        setToken(tokenInput.trim()); setActor(who); setTokenInput('');
+        await refresh(tokenInput.trim(), projectId);
+        setNotice(`Signed in as ${who.name || who.id || who.role}.`);
+        return;
+      }
+      if (!session.csrfToken) throw new Error('UNAUTHORIZED');
+      const active = `session:${session.csrfToken}`;
+      setToken(active); setActor(who); setTokenInput(''); setPasswordInput('');
+      if (who.mustChangePassword) { clearProjectState(); setTab('account'); }
+      else await refresh(active, projectId);
+      setNotice(who.mustChangePassword ? 'Change your initial password to continue.' : `Signed in as ${who.name || who.username || who.id || who.role}.`);
     } catch (e) { setError(explain(e)); }
     finally { setBusy(false); }
   };
+
+  useEffect(() => { fetch('/api/auth/providers', { credentials: 'same-origin' }).then(r => r.ok ? r.json() : { providers: [] }).then(result => setProviders(result.providers || [])).catch(() => setProviders([])); }, []);
 
   useEffect(() => {
     if (location.protocol !== 'https:') return;
@@ -1563,12 +1581,17 @@ function App() {
       </div>
       <p className="eyebrow">DATABASE CHANGE GOVERNANCE</p>
       <h1>Make every change reviewable.</h1>
-      <p className="muted">Sign in with a local access token to manage projects, validate Oracle schema changes, review migration releases, and record immutable governance decisions.</p>
-      <form onSubmit={connect} className="stack login-form">
-        <label htmlFor="access-token">Local access token</label>
-        <input id="access-token" aria-label="Local access token" type="password" autoComplete="off" value={tokenInput} onChange={(e) => setTokenInput(e.target.value)} required />
-        <button className="primary" type="submit" disabled={busy}>{busy ? 'Connecting…' : 'Continue'}</button>
-      </form>
+      <p className="muted">Sign in with your Kelryvo account or your organization’s identity provider.</p>
+      {loginMode === 'password' ? <form onSubmit={connect} className="stack login-form">
+        <label htmlFor="login-username">Username</label><input id="login-username" autoComplete="username" value={username} onChange={e=>setUsername(e.target.value)} required />
+        <label htmlFor="login-password">Password</label><input id="login-password" type="password" autoComplete="current-password" value={passwordInput} onChange={e=>setPasswordInput(e.target.value)} required />
+        {providers.filter(p=>p.type==='LDAP').length>1&&<label htmlFor="login-provider">Directory<select id="login-provider" value={loginProviderId} onChange={e=>setLoginProviderId(e.target.value)}><option value="">Choose directory</option>{providers.filter(p=>p.type==='LDAP').map(p=><option key={p.id} value={p.id}>{p.name}</option>)}</select></label>}
+        <button className="primary" type="submit" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</button>
+      </form> : <form onSubmit={connect} className="stack login-form"><label htmlFor="access-token">Local access token</label><input id="access-token" aria-label="Local access token" type="password" autoComplete="off" value={tokenInput} onChange={(e) => setTokenInput(e.target.value)} required /><button className="primary" type="submit" disabled={busy}>{busy ? 'Connecting…' : 'Continue'}</button></form>}
+      <div className="identity-login-options"><button type="button" className="text-button" onClick={()=>setLoginMode(loginMode==='password'?'token':'password')}>{loginMode==='password'?'Use a local access token':'Use username and password'}</button>
+        {providers.filter(p=>p.type==='OIDC').map(p=><a className="secondary" key={p.id} href={`/api/auth/oidc/${encodeURIComponent(p.id)}/start`}>Continue with {p.name}</a>)}
+      </div>
+      {providers.filter(p=>p.type==='LDAP').map(p=><p className="fine-print" key={p.id}>{p.name} users can sign in with their username and password.</p>)}
       {error && <p className="banner error" role="alert">{error}</p>}
       <p className="fine-print">{location.protocol === 'https:' ? 'Sign-in creates a secure browser session. Sessions expire after 30 minutes idle or 8 hours; sign out revokes this session.' : 'Your token is kept in memory for this tab and is never saved in browser storage.'}</p>
     </div>
@@ -1595,6 +1618,7 @@ function App() {
       <button type="button" className={`nav-item ${tab === 'records' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('records'); }}><span>≡</span> Audit &amp; history</button>
       <div className="workspace-label">IDENTITY</div>
       <button type="button" className={`nav-item ${tab === 'account' ? 'active' : ''}`} onClick={() => { inboxSequence.current += 1; setTab('account'); }}><span>◎</span> Account &amp; access</button>
+      {actor.workspaceRole === 'admin' && <button type="button" className={`nav-item ${tab === 'identity' ? 'active' : ''}`} onClick={()=>setTab('identity')}><span>⚙</span> Identity administration</button>}
     <div className="sidebar-bottom"><div className="user-avatar">{(actor.name || actor.role || 'U').slice(0, 1).toUpperCase()}</div><div className="user-meta"><strong>{actor.name || actor.id || 'Signed in'}</strong><small>{actor.role}</small></div><button type="button" className="icon-button" aria-label="Sign out" title="Sign out" onClick={async () => { if (workspaceDirty) {setNotice('Save or discard unsaved SQL edits before signing out.');setTab('sql');return;} if (token.startsWith('session:')) { browserSessionEpoch += 1; sessionEpoch.current += 1; refreshSequence.current += 1; inboxSequence.current += 1; executionContextEpoch.current += 1; try { await json('/api/session/logout', token, { method: 'POST' }); } catch (e) { if (e.message !== 'UNAUTHENTICATED') { setBusy(false); setError('Sign out failed. Retry to revoke this session.'); return; } } } executionContextEpoch.current += 1; executionKeys.current.clear(); executionEventSequence.current += 1; setExecutionEvents({}); setExecutionReason(''); browserSessionEpoch += 1; inboxSequence.current += 1; setInboxPage({ plans: [], nextCursor: null, loading: false, error: '' }); sessionEpoch.current += 1; withdrawalContextEpoch.current += 1; refreshSequence.current += 1; planSourceSequence.current += 1; invalidateReleaseComparison(); statementPreviewSequence.current += 1; setStatementPreview(null); setPlanSource(null); setFreshPlanRequired(null); activeProjectId.current = ''; activeSelectedReleaseId.current = ''; currentSourceContext.current = null; setActor(null); setToken(''); setTokenInput(''); setDetail(null); setProjects([]); setRepositories([]); setProjectId(''); setRelease(null); setSelectedPlan(''); setPlanStatus('ALL'); setAuditAction('ALL'); setDecisionReason(''); setRevocationReason(''); setCommentBody(''); setCommentEvidence([]); setSourceForm({ repositoryId: '', folder: 'migrations' }); setReleaseForm({ repositoryId: '', commit: 'HEAD', folder: 'migrations' }); setBusy(false); setNavigateDuringWithdrawal(false); setError(''); setNotice(''); }}>↗</button></div>
     </aside>
     <main className="main-area">
@@ -1603,7 +1627,8 @@ function App() {
       {accessMode === 'BOOTSTRAP_REQUIRED' && <div className="banner warning" role="status">Bootstrap required · project access is read-only until the local OS operator grants access and activates membership.</div>}
       {metadataRecovery.state === 'RESTORE_HOLD' && <div className="banner warning recovery-hold" role="status" data-recovery-state="RESTORE_HOLD"><strong>Metadata restore recovery hold</strong><span>Historical records are available for review. Deployment requests and cancellation are disabled while an external operator reviews the restored metadata and target evidence.</span></div>}
       <div className="content">
-        {tab === 'account' && <Account key={token} token={token} api={json} />}
+        {actor.mustChangePassword ? <Account key={token} token={token} api={json} actor={actor} onPasswordChanged={session=>{const active=`session:${session.csrfToken}`;setToken(active);setActor(session.actor);setError('');setNotice('Password updated.');void refresh(active,projectId);}} requiredChange /> : <>{tab === 'account' && <Account key={token} token={token} api={json} actor={actor} onPasswordChanged={session=>{const active=`session:${session.csrfToken}`;setToken(active);setActor(session.actor);setNotice('Password updated.');}} />}
+        {tab === 'identity' && actor.workspaceRole === 'admin' && <IdentityAdmin token={token} api={json} />}
         {tab === 'instances' && <Instances key={`${token}:${projectId}`} token={token} projectId={projectId} detail={detail} api={json} actor={actor} accessMode={accessMode} metadataRecovery={metadataRecovery}
           onRefresh={() => refresh(token, projectId)} onConfigure={() => setTab('workspace')} onReferences={() => setTab('references')}
           onMissing={() => { clearProjectState(); void refresh(token, projectId); }} />}
@@ -1623,7 +1648,7 @@ function App() {
         {tab === 'release' && <ReleaseScreen model={model} />}
         {tab === 'review' && <ReviewScreen model={model} />}
         {tab === 'inbox' && <ReviewInboxScreen model={model} />}
-        {tab === 'records' && <RecordsScreen model={model} />}
+        {tab === 'records' && <RecordsScreen model={model} />}</>}
       </div>
       <footer className="footer"><span>{productName} <span className="footer-sep">·</span> Governance workspace</span><span>Local time · {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></footer>
     </main>

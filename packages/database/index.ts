@@ -1,3 +1,4 @@
+import { initializeIdentity } from '../identity/schema.ts';
 import { initializeSchemaBaselines } from '../schema-baselines/schema.mjs';
 import { initializeSqlWorkspaceSchema } from '../sql-workspace/schema.mjs';
 import { initializeTargetSchema } from '../targets/schema.ts';
@@ -480,6 +481,7 @@ export async function initializeDatabase(sql: any, options: { initializeSchemaBa
       CREATE TRIGGER sf_execution_receipts_immutable BEFORE UPDATE OR DELETE ON sf_execution_receipts
       FOR EACH ROW EXECUTE FUNCTION sf_reject_execution_event_mutation(); END IF; END $$;
     `);
+    await initializeIdentity(tx);
     if (options.initializeReconciliation !== false) await initializeExecutionReconciliation(tx, { installBindingGuards: options.installReconciliationBindingGuards !== false });
     if (options.initializeTargets !== false) await initializeTargetSchema(tx);
     if (options.initializeTargets !== false && options.initializeConnectivity !== false) await initializeConnectivitySchema(tx);

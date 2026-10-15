@@ -63,14 +63,14 @@ export function createExecutionJobStore(sql: any, workerId: string, options: { a
           JOIN sf_execution_admission_proofs proof ON proof.job_id=${job.id} AND proof.project_id=p.project_id AND proof.plan_id=p.id
           JOIN sf_profiles profile ON profile.id=p.profile_id AND profile.project_id=p.project_id
           JOIN sf_releases release ON release.id=p.release_id AND release.project_id=p.project_id
-          JOIN sf_local_actors actor ON actor.id=proof.authorized_actor_id AND actor.organization_id=p.organization_id AND actor.role=proof.authorized_actor_role
+          JOIN sf_local_actors actor ON actor.id=proof.authorized_actor_id AND actor.organization_id=p.organization_id AND actor.role=proof.authorized_actor_role AND NOT actor.disabled
           JOIN sf_local_credentials credential ON credential.id=proof.authorized_credential_id AND credential.actor_id=actor.id
             AND credential.revoked_at IS NULL AND credential.expires_at>clock_timestamp()
           JOIN sf_project_grants membership ON membership.project_id=p.project_id AND membership.organization_id=p.organization_id
             AND membership.actor_id=actor.id AND membership.revoked_at IS NULL
           JOIN sf_project_deploy_grants deployer ON deployer.project_id=p.project_id AND deployer.organization_id=p.organization_id
             AND deployer.actor_id=actor.id AND deployer.revoked_at IS NULL
-          WHERE p.id=${job.plan_id} AND p.project_id=${job.project_id} AND p.status='APPROVED' AND p.decision='APPROVE'
+          WHERE p.id=${job.plan_id} AND p.project_id=${job.project_id} AND p.status='APPROVED' AND p.decision='APPROVE' AND sf_plan_approval_satisfied(p.id)
             AND p.approval_reference=${job.approval_reference} AND p.offline_intent_digest=${job.intent_digest}
             AND p.execution='NOT_EXECUTED' AND p.history_status='NOT_OBSERVED' AND pr.archived_at IS NULL
             AND (p.planning_scope='TRUSTED_VALIDATED' OR (${allowUnitSynthetic} AND p.planning_scope='UNIT_SYNTHETIC'))

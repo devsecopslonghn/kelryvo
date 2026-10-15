@@ -10,5 +10,5 @@ export async function actorHasProjectGrant(sql: any, actorId: string, projectId:
     JOIN sf_local_actors a ON a.id=g.actor_id AND a.organization_id=g.organization_id
     JOIN sf_local_credentials c ON c.actor_id=a.id AND c.revoked_at IS NULL AND c.expires_at > clock_timestamp()
     WHERE g.organization_id=${LOCAL_ORGANIZATION} AND g.project_id=${projectId} AND g.actor_id=${actorId}
-      AND g.revoked_at IS NULL AND a.role IN ('developer','approver') LIMIT 1`)[0];
+      AND NOT a.disabled AND g.revoked_at IS NULL AND a.role IN ('developer','approver') LIMIT 1`)[0];
 }

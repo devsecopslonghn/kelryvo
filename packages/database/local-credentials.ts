@@ -24,5 +24,5 @@ export async function seedLocalActors(sql: any, actors: Array<{id:string;name:st
 
 export async function authenticateLocalToken(sql: any, token: string) {
   const digest = tokenDigest(token);
-  return (await sql`SELECT a.id,a.display_name AS name,a.role FROM sf_local_credentials c JOIN sf_local_actors a ON a.id=c.actor_id WHERE c.token_sha256=${digest} AND a.organization_id=${LOCAL_ORGANIZATION} AND a.role IN ('developer','approver') AND c.credential_kind='LOCAL' AND c.revoked_at IS NULL AND c.expires_at > clock_timestamp()`)[0] ?? null;
+  return (await sql`SELECT a.id,a.display_name AS name,a.role FROM sf_local_credentials c JOIN sf_local_actors a ON a.id=c.actor_id WHERE c.token_sha256=${digest} AND a.organization_id=${LOCAL_ORGANIZATION} AND a.role IN ('developer','approver') AND NOT a.disabled AND c.auth_method='TOKEN' AND c.credential_kind='LOCAL' AND c.revoked_at IS NULL AND c.expires_at > clock_timestamp()`)[0] ?? null;
 }

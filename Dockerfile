@@ -57,6 +57,8 @@ LABEL org.opencontainers.image.source="https://github.com/devsecopslonghn/kelryv
 FROM runtime AS app
 COPY --from=build /opt/kelryvo/dist/web ./dist/web
 COPY --from=build --chown=10001:10001 /opt/kelryvo/.cache/local-product/demo-repository ./repositories/demo
+RUN install -d -m 0700 -o 10001 -g 10001 /var/lib/kelryvo/identity
+VOLUME ["/var/lib/kelryvo/identity"]
 USER 10001:10001
 EXPOSE 8443
 ENTRYPOINT ["node", "apps/api/container-main.mjs"]

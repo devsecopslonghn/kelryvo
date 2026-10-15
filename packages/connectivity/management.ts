@@ -70,7 +70,7 @@ export function registerConnectionManagement(app:any,{sql,authenticate}:any) {
       if(!(await tx`SELECT 1 FROM sf_project_grants WHERE project_id=${req.params.projectId} AND organization_id=${ORG} AND actor_id=${req.actor.id} AND revoked_at IS NULL`)[0])throw fail('NOT_FOUND',404);
       const project=(await tx`SELECT name,archived_at FROM sf_projects WHERE id=${req.params.projectId} AND organization_id=${ORG} FOR UPDATE`)[0];
       if(!project)throw fail('NOT_FOUND',404);
-      const workspaceGrant=kind==='DEPLOY' || !!(await tx`SELECT 1 FROM sf_workspace_database_grants WHERE organization_id=${ORG} AND actor_id=${req.actor.id} AND revoked_at IS NULL`)[0];
+      const workspaceGrant=req.actor.workspaceRole==='admin' || kind==='DEPLOY' || !!(await tx`SELECT 1 FROM sf_workspace_database_grants WHERE organization_id=${ORG} AND actor_id=${req.actor.id} AND revoked_at IS NULL`)[0];
       const canManage=req.actor.role==='developer' && workspaceGrant && !project.archived_at;
       if(manage){
         if(!workspaceGrant)throw fail('DATABASE_MANAGEMENT_REQUIRED',403);

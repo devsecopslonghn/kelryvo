@@ -100,7 +100,7 @@ export async function readExecutionRequest(tx: any, jobId: string, admitted = fa
     CASE WHEN jsonb_typeof(items)='array' AND octet_length(items::text)<=${MAX_STDOUT_BYTES} THEN items END AS items
     FROM sf_plans WHERE id=${identity.plan_id} AND organization_id=${ORG}
       AND status='APPROVED' AND decision='APPROVE' AND execution='NOT_EXECUTED'
-      AND decided_by IS NOT NULL AND decided_by<>author_id
+      AND sf_plan_approval_satisfied(id)
       AND history_status='NOT_OBSERVED' AND planning_scope='OFFLINE_CANDIDATE'
       AND NOT EXISTS(SELECT 1 FROM sf_plan_approval_revocations r WHERE r.plan_id=sf_plans.id) FOR SHARE`)[0];
   if (!plan || !plan.envelope || !Array.isArray(plan.items) || !plan.approval_reference) return null;
@@ -121,7 +121,7 @@ export async function readExecutionRequest(tx: any, jobId: string, admitted = fa
     JOIN sf_project_grants member ON member.actor_id=a.id AND member.project_id=${project.id} AND member.revoked_at IS NULL
     JOIN sf_project_deploy_grants deployer ON deployer.actor_id=a.id AND deployer.project_id=${project.id} AND deployer.revoked_at IS NULL
     WHERE c.id=${job.request_credential_id} AND c.actor_id=${job.requester_id} AND a.organization_id=${ORG}
-      AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
+      AND NOT a.disabled AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
       AND (c.credential_kind='LOCAL' OR (c.credential_kind='BROWSER' AND c.absolute_expires_at>clock_timestamp()
         AND EXISTS(SELECT 1 FROM sf_local_credentials parent WHERE parent.id=c.parent_credential_id
           AND parent.actor_id=c.actor_id AND parent.credential_kind='LOCAL' AND parent.revoked_at IS NULL
