@@ -37,7 +37,7 @@ test('Phase 8 journey authors ordered multi-file SQL and retains plan-bound comp
     await workspace.getByRole('button',{name:'New draft',exact:true}).click();
     await workspace.getByRole('button',{name:'Save draft',exact:true}).waitFor();
     await workspace.getByLabel('SQL draft name').fill('Phase 8 reviewed SQL');
-    const source='CREATE TABLE phase8_authored (id NUMBER PRIMARY KEY);\n';
+    const source='CREATE TABLE phase8_authored (id NUMBER);\n';
     await workspace.getByLabel('SQL editor').fill(source);
     await workspace.getByRole('button',{name:'Add SQL file',exact:true}).click();
     await workspace.getByLabel('Migration filename').fill('V2__indexes.sql');
@@ -86,7 +86,7 @@ test('Phase 8 journey authors ordered multi-file SQL and retains plan-bound comp
     assert.ok((await reviewed.json()).preview.statements.some(s=>s.classification==='CREATE_TABLE'));
     await workspace.getByText('CREATE_TABLE',{exact:true}).waitFor();
     await workspace.getByRole('button',{name:'Validate against target',exact:true}).click();
-    await workspace.getByRole('region',{name:'SQL target validation'}).getByText('UNVERIFIED',{exact:true}).waitFor();
+    await workspace.getByRole('region',{name:'SQL target validation'}).getByText(/UNVERIFIED/).waitFor();
     await page.screenshot({path:`${output}/01-saved-validated-workspace.png`,fullPage:true});
     await page.setViewportSize({width:390,height:844});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'SQL workspace remains usable on a narrow viewport');

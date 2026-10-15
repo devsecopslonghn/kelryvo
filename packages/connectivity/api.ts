@@ -1,3 +1,4 @@
+import { registerInstances } from './instances.ts';
 import { registerSchemaBaselines } from '../schema-baselines/api.ts';
 import { randomUUID } from 'node:crypto';
 import { guardMutationAuthority } from '../database/mutation-authority.ts';
@@ -5,6 +6,7 @@ import { acquireTargetLocks } from '../targets/locks.ts';
 import { configureTargetOption, createTargetBinding, getTargetBinding, ORG } from '../targets/index.ts';
 import { declareReference, assignReference } from '../catalog-reference/index.mjs';
 import { normalizeObservation, evidenceDigest, acceptedOracleObservation } from './evidence.mjs';
+import { instanceIdentityCurrent } from './instance-identity.mjs';
 import { credentialAlias } from '../targets/public.mjs';
 import { publicConnection, connectionReadiness, validDescription, validServiceKind } from './management.ts';
 
@@ -45,17 +47,18 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
     if(!uuid(req.params.connectionId)) throw fail('NOT_FOUND',404);
     const c=(await tx`SELECT c.* FROM sf_database_connections c JOIN sf_database_connection_projects p ON p.connection_id=c.id AND p.organization_id=c.organization_id
       WHERE c.id=${req.params.connectionId} AND c.organization_id=${ORG} AND p.project_id=${req.params.projectId}
-      AND EXISTS(SELECT 1 FROM sf_reference_assignments a JOIN sf_reference_schemas s ON s.id=a.schema_id
-        WHERE a.project_id=p.project_id AND a.closed_at IS NULL AND s.container_id=c.container_id)`)[0];
+      AND (c.credential_mode='INSTANCE_MASTER' AND EXISTS(SELECT 1 FROM sf_workspace_database_grants g WHERE g.organization_id=c.organization_id AND g.actor_id=${req.actor.id} AND g.revoked_at IS NULL) OR EXISTS(SELECT 1 FROM sf_reference_assignments a JOIN sf_reference_schemas s ON s.id=a.schema_id
+        WHERE a.project_id=p.project_id AND a.closed_at IS NULL AND s.container_id=c.container_id))`)[0];
     if(!c) throw fail('NOT_FOUND',404);return c;
   };
-  const observation=async(tx:any,o:any,projectId:string)=>{
+  const observation=async(tx:any,o:any,projectId:string,manage=false)=>{
     if(!o)return null;
     const owners=await tx`SELECT s.exact_owner FROM sf_reference_schemas s JOIN sf_reference_assignments a ON a.schema_id=s.id
       JOIN sf_database_connections c ON c.container_id=s.container_id WHERE c.id=${o.connection_id} AND a.project_id=${projectId} AND a.closed_at IS NULL`;
     const allowed=new Set(owners.map((r:any)=>r.exact_owner));
     const latest=(await tx`SELECT id,identity_digest,status FROM sf_database_observations WHERE connection_id=${o.connection_id} AND operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
-    const config=(await tx`SELECT revision,enabled,retired_at FROM sf_database_connections WHERE id=${o.connection_id}`)[0];
+    const config=(await tx`SELECT revision,enabled,retired_at,credential_mode FROM sf_database_connections WHERE id=${o.connection_id}`)[0];
+    const fullScope=manage && config?.credential_mode==='INSTANCE_MASTER';
     const expired=Number(new Date(o.expires_at))<=Date.now() || String(config?.revision)!==String(o.connection_revision) || !config?.enabled || !!config?.retired_at;
     const superseded=o.operation==='DISCOVER' && latest?.id!==o.id;
     const accepted=(await tx`SELECT identity_digest FROM sf_target_identity_evidence WHERE connection_id=${o.connection_id} AND project_id=${projectId} ORDER BY created_at DESC,digest DESC LIMIT 1`)[0];
@@ -63,16 +66,16 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
     const unavailable=!!(o.identity_digest && latest && !latest.identity_digest);
     return {id:o.id,operation:o.operation,status:o.status,identity:o.identity,identityDigest:o.identity_digest,
       identityState:conflict?'CONFLICT':expired || superseded?'STALE':o.identity_digest?'OBSERVED':'UNKNOWN',
-      schemas:(o.schemas ?? []).filter((s:any)=>allowed.has(s.owner)),limitations:o.limitations,provenance:o.provenance,
-      verificationAcceptance:o.verification_acceptance?{...o.verification_acceptance,...(Array.isArray(o.verification_acceptance.schemaOwners)?{schemaOwners:o.verification_acceptance.schemaOwners.filter((owner:string)=>allowed.has(owner))}:{})}:null,
+      schemas:(o.schemas ?? []).filter((s:any)=>fullScope || allowed.has(s.owner)),limitations:o.limitations,provenance:o.provenance,
+      verificationAcceptance:o.verification_acceptance?{...o.verification_acceptance,...(Array.isArray(o.verification_acceptance.schemaOwners)?{schemaOwners:o.verification_acceptance.schemaOwners.filter((owner:string)=>fullScope || allowed.has(owner))}:{})}:null,
       observedAt:o.observed_at,expiresAt:o.expires_at,currentness:conflict?'CONFLICT':expired || superseded?'STALE':unavailable?'UNKNOWN':o.identity_digest?'CURRENT':'UNKNOWN'};
   };
-  const projectConnection=async(tx:any,c:any,projectId:string)=>{
+  const projectConnection=async(tx:any,c:any,projectId:string,manage=false)=>{
     const latest=(await tx`SELECT * FROM sf_database_observations WHERE connection_id=${c.id} ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
     const container=(await tx`SELECT environment FROM sf_reference_containers WHERE id=${c.container_id}`)[0];
     return {...publicConnection({...c,environment:container?.environment},'DISCOVERY'),readiness:await connectionReadiness(tx,c,'DISCOVERY',projectId),id:c.id,name:c.name,engine:c.engine,containerId:c.container_id,host:c.host,port:c.port,service:c.service,
       transport:c.transport,username:c.username,credentialAlias:credentialAlias(c.id),retiredAt:c.retired_at,
-      latestObservation:await observation(tx,latest,projectId)};
+      latestObservation:await observation(tx,latest,projectId,manage)};
   };
   const route=(method:string,path:string,fn:any)=>app[method](path,{preHandler:authenticate},async(req:any,reply:any)=>{
     reply.header('Cache-Control','no-store');
@@ -83,6 +86,7 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
     }
   });
   registerSchemaBaselines({sql,route,guard,connection,audited,runtime,running,deadline});
+  registerInstances({sql,route,guard,connection,audited,projectConnection});
   route('get',`${base}/database-connections`,async(req:any)=>sql.begin(async(tx:any)=>{
     const canManage=await guard(tx,req);
     if(Object.keys(req.query).some(k=>!['after','search','engine','environment','status'].includes(k)) || req.query.after!==undefined && !uuid(req.query.after)
@@ -97,12 +101,12 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
       AND (${req.query.engine??null}::text IS NULL OR c.engine=${req.query.engine??null})
       AND (${req.query.environment??null}::text IS NULL OR t.environment=${req.query.environment??null})
       AND (${req.query.status??null}::text IS NULL OR CASE WHEN c.retired_at IS NOT NULL THEN 'RETIRED' WHEN c.enabled THEN 'ENABLED' ELSE 'DISABLED' END=${req.query.status??null})
-      AND EXISTS(SELECT 1 FROM sf_reference_schemas s JOIN sf_reference_assignments a ON a.schema_id=s.id WHERE s.container_id=c.container_id AND a.project_id=p.project_id AND a.closed_at IS NULL)
+      AND (c.credential_mode='INSTANCE_MASTER' AND ${canManage} OR EXISTS(SELECT 1 FROM sf_reference_schemas s JOIN sf_reference_assignments a ON a.schema_id=s.id WHERE s.container_id=c.container_id AND a.project_id=p.project_id AND a.closed_at IS NULL))
       ORDER BY c.id LIMIT 51`;
     const refs=await tx`SELECT a.id AS "assignmentId",s.exact_owner AS owner,c.id AS "containerId",c.name AS "containerName",r.id AS "routeId",r.host,r.port,r.service,r.transport
       FROM sf_reference_assignments a JOIN sf_reference_schemas s ON s.id=a.schema_id JOIN sf_reference_containers c ON c.id=s.container_id
       JOIN sf_reference_services r ON r.container_id=c.id WHERE a.organization_id=${ORG} AND a.project_id=${req.params.projectId} AND a.closed_at IS NULL ORDER BY a.id,r.id LIMIT 501`;
-    return {connections:await Promise.all(rows.slice(0,50).map((c:any)=>projectConnection(tx,c,req.params.projectId))),
+    return {connections:await Promise.all(rows.slice(0,50).map((c:any)=>projectConnection(tx,c,req.params.projectId,canManage))),
       nextCursor:rows.length>50?rows[49].id:null,canManage,infrastructure:refs.slice(0,500),infrastructureTruncated:refs.length>500,engineCapabilities:caps};
   }));
   route('get',`${base}/target-identity-evidence/:digest`,async(req:any)=>sql.begin(async(tx:any)=>{
@@ -166,11 +170,11 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
     });
   });
   route('get',`${base}/database-connections/:connectionId/observations`,async(req:any)=>sql.begin(async(tx:any)=>{
-    await guard(tx,req);const c=await connection(tx,req);
+    const canManage=await guard(tx,req);const c=await connection(tx,req);
     if(Object.keys(req.query).some(k=>k!=='after') || req.query.after!==undefined && !uuid(req.query.after))throw fail('INVALID_REQUEST',400);
     const rows=await tx`SELECT * FROM sf_database_observations WHERE connection_id=${c.id}
       AND (${req.query.after??null}::uuid IS NULL OR id<${req.query.after??null}::uuid) ORDER BY id DESC LIMIT 51`;
-    return {observations:await Promise.all(rows.slice(0,50).map((o:any)=>observation(tx,o,req.params.projectId))),nextCursor:rows.length>50?rows[49].id:null};
+    return {observations:await Promise.all(rows.slice(0,50).map((o:any)=>observation(tx,o,req.params.projectId,canManage))),nextCursor:rows.length>50?rows[49].id:null};
   }));
   for(const [suffix,operation] of [['test','TEST'],['discover','DISCOVER']])route('post',`${base}/database-connections/:connectionId/${suffix}`,async(req:any,reply:any)=>{
     if(!body(req.body,['reason']) || !text(req.body.reason))throw fail('INVALID_REQUEST',400);
@@ -181,23 +185,28 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
     else if(!runtime)raw={status:'UNAVAILABLE',provenance:'UNAVAILABLE',limitations:['RUNTIME_UNAVAILABLE']};
     else {
       running.add(c.id);const controller=new AbortController();let timer:any;
-      const work=Promise.resolve().then(()=>runtime.run({id:c.id,engine:c.engine,host:c.host,port:c.port,service:c.service,transport:c.transport,username:c.username,credentialRef:c.credential_ref},operation,{signal:controller.signal}));
+      const work=Promise.resolve().then(()=>runtime.run({id:c.id,engine:c.engine,host:c.host,port:c.port,service:c.service,transport:c.transport,username:c.username,credentialRef:c.credential_ref,credentialMode:c.credential_mode},operation,{signal:controller.signal}));
       work.then(()=>running.delete(c.id),()=>running.delete(c.id));
       try{raw=await Promise.race([work,new Promise(resolve=>{timer=setTimeout(()=>{controller.abort();resolve({status:'TIMEOUT',provenance:'UNAVAILABLE'});},deadline);})]);}
       catch{raw={status:'UNAVAILABLE',provenance:'UNAVAILABLE'};}finally{clearTimeout(timer);}
     }
     const normalized=normalizeObservation(raw,operation);
     const result=await sql.begin(async(tx:any)=>{
+      if(operation==='DISCOVER')await tx`SELECT pg_advisory_xact_lock(hashtextextended(${ORG},31))`;
       await guard(tx,req,true);const current=await connection(tx,req);if(current.retired_at)throw fail('CONNECTION_RETIRED');
       if(String(current.revision)!==String(c.revision) || !current.enabled)throw fail('CONNECTION_REVISION_CONFLICT');
       const container=(await tx`SELECT kind FROM sf_reference_containers WHERE id=${c.container_id}`)[0];
       if(normalized.identity && (normalized.identity.cdb ? container?.kind!=='PDB' : container?.kind!=='NON_CDB')){
         normalized.status='PARTIAL';normalized.limitations.push('IDENTITY_MISMATCH');normalized.verificationAcceptance=null;
       }
+      if(operation==='DISCOVER' && current.credential_mode==='INSTANCE_MASTER' && normalized.identity
+        && !await instanceIdentityCurrent(tx,current.container_id,normalized.identity)){
+        normalized.status='PARTIAL';normalized.limitations.push('IDENTITY_MISMATCH');normalized.verificationAcceptance=null;
+      }
       const o=(await tx`INSERT INTO sf_database_observations(organization_id,connection_id,operation,status,identity,identity_digest,schemas,limitations,provenance,verification_acceptance,actor_id,connection_revision)
         VALUES(${ORG},${c.id},${operation},${normalized.status},${normalized.identity?tx.json(normalized.identity):null},${normalized.identityDigest},${tx.json(normalized.schemas)},${tx.json(normalized.limitations)},${normalized.provenance},${normalized.verificationAcceptance?tx.json(normalized.verificationAcceptance):null},${req.actor.id},${c.revision}) RETURNING *`)[0];
       await audited(tx,req,operation==='TEST'?'CONNECTIVITY_TESTED':'DATABASE_DISCOVERED',c.id,{observationId:o.id,status:o.status,identityDigest:o.identity_digest});
-      return {observation:await observation(tx,o,req.params.projectId)};
+      return {observation:await observation(tx,o,req.params.projectId,true)};
     });return reply.code(201).send(result);
   });
   for(const [suffix,state] of [['observe','OBSERVED'],['verify','VERIFIED']])route('post',`${base}/target-bindings/:bindingId/${suffix}`,async(req:any,reply:any)=>{
@@ -206,6 +215,7 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
       || !uuid(req.params.bindingId) || !uuid(b.connectionId) || !uuid(b.observationId) || !/^[a-f0-9]{64}$/.test(b.expectedIdentityDigest??'')
       || !revision(b.expectedBindingRevision) || !revision(b.expectedAssignmentRevision) || !text(b.owner,128) || !text(b.reason))throw fail('INVALID_REQUEST',400);
     const result=await sql.begin(async(tx:any)=>{
+      await tx`SELECT pg_advisory_xact_lock(hashtextextended(${ORG},31))`;
       await acquireTargetLocks(tx,{bindingId:req.params.bindingId});await guard(tx,req,true);
       const c=await connection(tx,{...req,params:{...req.params,connectionId:b.connectionId}});
       const detail=await getTargetBinding(tx,req.params.projectId,req.params.bindingId),binding=detail?.binding;
@@ -215,6 +225,7 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
       if(!o)throw fail('NOT_FOUND',404);
       if(!o.fresh || c.retired_at || !c.enabled || String(c.revision)!==String(o.connection_revision))throw fail('DISCOVERY_STALE');
       if(!o.identity_digest || o.identity_digest!==b.expectedIdentityDigest || !['OBSERVED','PARTIAL'].includes(o.status) || o.limitations.includes('IDENTITY_MISMATCH'))throw fail('IDENTITY_MISMATCH');
+      if(c.credential_mode==='INSTANCE_MASTER' && !await instanceIdentityCurrent(tx,c.container_id,o.identity))throw fail('INSTANCE_PHYSICAL_IDENTITY_CONFLICT');
       const latest=(await tx`SELECT id FROM sf_database_observations WHERE connection_id=${c.id} AND operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
       if(latest?.id!==o.id)throw fail('DISCOVERY_CONFLICT');
       if(binding.exactOwner!==b.owner || binding.routeId!==c.route_id)throw fail('IDENTITY_MISMATCH');

@@ -20,6 +20,8 @@ test('browser creates and revises a deployment profile, shows offline readiness,
     await page.getByRole('button', { name: /Database instances/ }).click();
     const heading = page.getByRole('heading', { name: 'Database instances & connections', exact: true });
     await heading.waitFor();
+    const advanced = page.locator('details.advanced-instance-tools');
+    if (!(await advanced.evaluate(element => element.open))) await advanced.locator(':scope > summary').click();
 
     const profileForm = page.locator('details.connection-form').filter({ hasText: 'Create deployment profile' });
     await profileForm.locator('summary').click();

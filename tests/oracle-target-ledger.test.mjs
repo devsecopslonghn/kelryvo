@@ -207,3 +207,13 @@ test('physical-target ledger partition survives assignment changes and separates
   assert.notEqual(oracleTargetLedgerId(binding),oracleTargetLedgerId({ ...binding,targetIdentityDigest:digest('changed physical identity') }));
   assert.equal(oracleTargetLedgerId({ ...binding,targetKey:"x' OR 1=1 --" }),null);
 });
+
+test('instance master streams have independent ledger partitions while preserving legacy IDs',()=>{
+  const binding={targetKey:'unit:shared-pdb',targetIdentityDigest:'a'.repeat(64)};
+  const first={...binding,credentialMode:'INSTANCE_MASTER',streamId:'11111111-1111-4111-8111-111111111111'};
+  const second={...first,streamId:'22222222-2222-4222-8222-222222222222'};
+  assert.notEqual(oracleTargetLedgerId(first),oracleTargetLedgerId(second));
+  assert.notEqual(oracleTargetLedgerId(first),oracleTargetLedgerId(binding));
+  assert.equal(oracleTargetLedgerId({...first,targetIdentityDigest:'b'.repeat(64),targetKey:'unit:canonical-physical'}),oracleTargetLedgerId(first),'observation or mutex-key refresh cannot reset stream history');
+  assert.equal(oracleTargetLedgerId({...first,streamId:undefined}),null);
+});

@@ -1,3 +1,4 @@
+import { assessOracleSchemaScope } from '../execution/schema-scope.mjs';
 import { createHash } from 'node:crypto';
 import { previewRetainedStatements } from '../migrations/statement-preview.mjs';
 import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs';
@@ -61,6 +62,10 @@ export async function buildValidation(release: any, project: any, target: any, m
     metadata={...metadata,schemaSnapshot:snapshot};
   }
   const findings: any[] = [];
+  for (const statement of statements) {
+    const scope=assessOracleSchemaScope(statement.sourceSql,target.exactOwner);
+    if(!scope.eligible) { findings.push({code:scope.code,severity:'BLOCKING',rationale:`Statement ${statement.ordinal} is outside the automatic execution subset. Only scoped scalar CREATE TABLE, ALTER TABLE ADD columns and simple local indexes are supported. Approval cannot override this policy.`}); break; }
+  }
   if (release.validation_status !== 'VALID') findings.push({code:'SYNTAX_NOT_VALID',severity:'BLOCKING',rationale:'The retained parser result does not establish valid Oracle syntax.'});
   if (metadata.accessible !== true) findings.push({code:'SCHEMA_VISIBILITY_UNVERIFIED',severity:'UNKNOWN',rationale:'The target schema has no current observed visibility evidence.'});
   findings.push(metadata.schemaSnapshot ? {code:'SCHEMA_STRUCTURE_OBSERVED',severity:'UNKNOWN',rationale:`Immutable schema snapshot ${metadata.schemaSnapshot.id} provides structural context (${metadata.schemaSnapshot.provenance}). Visibility and collection consistency limitations remain; Oracle compilation and privileges are unverified.`} : {code:'OBJECT_METADATA_UNAVAILABLE',severity:'UNKNOWN',rationale:'No object snapshot is retained. Existing objects, columns, constraints and privileges were not observed.'});

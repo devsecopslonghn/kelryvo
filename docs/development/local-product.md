@@ -1,5 +1,40 @@
 # Local SchemaForge product
 
+## Instance onboarding
+
+Use **Database instances & connections** to connect a master credential reference,
+discover schemas, assign one or more exact owners to a project environment and verify
+each target. Workspace database management plus current project access is required for
+registration, reuse and assignment. Project membership alone does not grant this authority.
+The master secret stays in the external resolver; the UI accepts a reference, never a
+password. The discovery child performs fixed bounded SELECTs even when its account also
+has migration privileges. Its accepted manifest explicitly bounds exact owner scopes.
+
+The existing `/api/projects/:projectId` namespace adds:
+
+- `POST /database-instances/master`: name, containerName, kind, environment, host, port,
+  service, transport, username, credentialRef, reason. This registers no guessed schema.
+- `GET /database-instances/master`: bounded available workspace masters for managers.
+- `POST /database-instances/attach`: connectionId, reason; association only, no transfer.
+- `POST /database-connections/:connectionId/assign-schemas`: observationId,
+  expectedConnectionRevision, owners (1–50 exact names), environmentId, reason. Requires
+  the latest fresh discovery and confirmed owner visibility. It creates provisional
+  target options/bindings and a derived profile linked to the exact master revision.
+
+Use existing discover/target verify, SQL Workspace, validation, plan, decision and
+execution-request endpoints after assignment. Verification requires accepted live evidence;
+fixtures remain provisional. Master lifecycle/configuration stays on the existing connection
+management routes. Derived profiles reject independent edits with INSTANCE_PROFILE_MANAGED.
+After master changes, discover and assign/rebind afresh before a new independent review.
+Advanced and legacy connection tools retain historical profiles and evidence.
+
+The worker rechecks conservative schema scope independently of approval. Scalar table
+creation/add-column and simple indexes are supported; dynamic/procedural/admin SQL,
+expressions, DML and synonym targets cannot execute automatically. Master account privileges
+are installed explicitly; no DBA account or data-query capability is implied. The protected
+ledger/mutex installation still uses its internal authority and must attest grants, physical
+identity, external-change exclusion and postconditions before dispatch.
+
 ## Target-bound offline governance
 
 Select a granted project, open **Project targets**, and explicitly choose an active schema
@@ -8,8 +43,8 @@ appends immutable revision evidence. Import a retained SQL release under **Relea
 choose the binding, and select **Prepare target-bound plan**. The plan retains format-3
 source and target facts. A different authorized approver reviews the saved facts; a current
 project member with a separate deploy grant can then request deployment. Requests remain
-`WAITING_VALIDATION`; format-3 evidence cannot enter worker admission. No Oracle SQL is
-executed by this workflow. Requests, decisions, history and audit remain available after restart.
+`WAITING_VALIDATION` until a separately installed trusted worker accepts the current target,
+source, scope, history and runtime authority. API requests alone execute no Oracle SQL. Requests, decisions, history and audit remain available after restart.
 
 The trusted local inventory CLI adds `target-option` alongside `declare`/`assign`/`release`.
 It uses the same private `--config` and local metadata URL authority. Required flags are

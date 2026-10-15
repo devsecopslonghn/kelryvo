@@ -59,9 +59,13 @@ test('modern retained target completions reconcile format-3 and format-4 intents
       const approvals=approvedMigrationIdentities(intent);
       ledger.push(...approvals.map(row=>({...row,outcome:'APPLIED',approvalReference:originalIntent.approval_reference,intentDigest:originalIntent.offline_intent_digest})));
       const matching={scope,targetKey,targetIdentityDigest:f.observation.identityDigest,appliedMigrations:ledger};
-      const reconcile=observation=>f.db.sql.begin(async tx=>{await acquireTargetLocks(tx,{planId:plan.id});return reconcileCompletedHistory(tx,observation);});
+      const reconcile=(observation,streamId)=>f.db.sql.begin(async tx=>{await acquireTargetLocks(tx,{planId:plan.id});return reconcileCompletedHistory(tx,observation,streamId);});
       assert.equal(await reconcile(matching),true,
         'a completed modern intent plus its actual retained target evidence is a witness');
+      assert.equal(await reconcile({...matching,appliedMigrations:[]},randomUUID()),true,
+        'a separate schema stream on the same physical target has independent completion reconciliation');
+      assert.equal(await reconcile({...matching,appliedMigrations:[]}),false,
+        'legacy physical-target reconciliation cannot ignore an existing physical-target completion');
       assert.equal(await reconcile({...matching,targetIdentityDigest:hash('different physical target')}),false,
         'a saved binding cannot witness effects on a different target identity');
       const copyWitness=async(targetSuffix,targetBindingDigest)=>{
@@ -90,6 +94,14 @@ test('modern retained target completions reconcile format-3 and format-4 intents
       const intactCopy=await copyWitness('intact',proof.host_binding.targetBindingDigest);
       assert.equal(await reconcile(intactCopy),true,
         'the complete copied attempt remains a positive control for binding-digest validation');
+      const targetEvidence=(await f.db.sql`SELECT o.provenance,o.verification_acceptance
+        FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id
+        WHERE e.digest=${intent.target.observationDigest} LIMIT 2`)[0];
+      const historicalLegacyDigest=hash({...intent.target,expectedIdentityDigest:proof.target_identity_digest,
+        evidenceProvenance:targetEvidence.provenance,liveVerificationAccepted:Boolean(targetEvidence.verification_acceptance)});
+      const historicalLegacy=await copyWitness('historical-legacy-format',historicalLegacyDigest);
+      assert.equal(await reconcile(historicalLegacy),true,
+        'an exact pre-physical-key legacy binding remains a valid retained history witness');
       const corruptCopy=await copyWitness('corrupt',hash('corrupt saved target binding'));
       assert.equal(await reconcile(corruptCopy),false,
         'a complete witness with a corrupted saved target-binding digest is rejected');

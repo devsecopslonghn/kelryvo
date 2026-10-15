@@ -242,7 +242,7 @@ export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, dr
       else if (!ident) limitations.push(LIMITATIONS.IDENTITY);
       if (ident && authorization.expectedIdentity && evidenceDigest(exactOracleIdentity(ident))!==evidenceDigest(authorization.expectedIdentity)) limitations.push(LIMITATIONS.MISMATCH);
       const sessionUser=one(session)?.session_user;
-      const schemaRows=Array.isArray(schemas?.rows) ? schemas.rows.slice(0,501).map(row).filter(x=>nonEmpty(x.owner)).map(x=>({ owner:x.owner, accessible:x.owner===sessionUser ? true : Number(x.has_visible_object)===1 ? true : null })) : [];
+      const schemaRows=Array.isArray(schemas?.rows) ? schemas.rows.slice(0,501).map(row).filter(x=>nonEmpty(x.owner)).map(x=>({ owner:x.owner, accessible:x.owner===sessionUser || isolated && !injected && connection.credentialMode==='INSTANCE_MASTER' && authorization.liveAcceptance?.schemaOwners.includes(x.owner) ? true : Number(x.has_visible_object)===1 ? true : null })) : [];
       if (!schemas || schemaRows.some(s=>s.accessible === null)) limitations.push(LIMITATIONS.SCHEMA_VISIBILITY);
       if (schemaRows.length > 500) { schemaRows.length=500; limitations.push(LIMITATIONS.SCHEMAS); }
       const status = ident && !limitations.length ? 'OBSERVED' : 'PARTIAL';

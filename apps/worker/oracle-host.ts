@@ -3,13 +3,13 @@ import { createHash } from 'node:crypto';
 import { TextDecoder } from 'node:util';
 import type { ExecutionHost, ExecutionTargetSession } from './run-request.ts';
 import { executionDigest, executionUuid, type AdmissionScope, type TargetObservation } from '../../packages/execution/admission.ts';
-import { createOracleTargetLedger, oracleTargetLedgerId } from '../../packages/execution/oracle-target-ledger.mjs';
+import { createOracleTargetLedger, oracleTargetLedgerId, oracleV1InstanceStreamLedgerIds } from '../../packages/execution/oracle-target-ledger.mjs';
 import { createOracleTargetMutex } from '../../packages/execution/oracle-target-mutex.mjs';
 import { selectPendingMigrations } from '../../packages/execution/pending-migrations.mjs';
 import { compareVersions } from '../../packages/migrations/import-release.mjs';
 import { MAX_RELEASE_FILES } from '../../experiments/db-devops-wp0/parser-release.mjs';
 import { MAX_PLAN_STATEMENTS } from '../../packages/migrations/offline-plan-intent.mjs';
-import { executeApprovedOracleStatement, pinnedOracleThinDriverAvailable, readOracleSessionIdentity as readIdentity } from '../../packages/execution/oracle-driver.mjs';
+import { executeApprovedOracleStatement, setOracleSchemaContext, verifyOracleStatementScope, pinnedOracleThinDriverAvailable, readOracleSessionIdentity as readIdentity } from '../../packages/execution/oracle-driver.mjs';
 export { oracleHostIdentitySql } from '../../packages/execution/oracle-driver.mjs';
 
 export type OracleHostRequest = Parameters<ExecutionHost['withTarget']>[0];
@@ -83,6 +83,9 @@ function snapshotRequest(input: OracleHostRequest): OracleHostRequest | null {
         || !executionUuid(executionTarget.assignmentId) || !digest(executionTarget.expectedIdentityDigest)
         || typeof executionTarget.exactOwner !== 'string' || executionTarget.exactOwner.length < 1
         || executionTarget.exactOwner.length > 128 || JSON.stringify(executionTarget).length > 8192
+        || executionTarget.credentialMode==='INSTANCE_MASTER' && (!executionUuid(executionTarget.streamId)
+          || !executionUuid(executionTarget.lineageId) || typeof executionTarget.physicalTargetKey!=='string'
+          || !/^oracle-container-v1:[a-f0-9]{64}$/.test(executionTarget.physicalTargetKey))
         || Object.values(executionTarget).some(v => v !== null && (!['string','number','boolean'].includes(typeof v)
           || typeof v === 'number' && !Number.isFinite(v))))) return null;
     return Object.freeze({ jobId:input.jobId,planId:input.planId,approvalReference:input.approvalReference,intentDigest:input.intentDigest,
@@ -152,6 +155,7 @@ export function createRestrictedOracleHost(installed: InstalledOracleHost, optio
         targetPromise=(async () => {
         if (!target || target.writer===target.ledgerOwner || typeof target.ledgerOwnerName!=='string'
             || !OWNER.test(target.ledgerOwnerName) || target.ledgerOwnerName===request.profile.username
+            || target.ledgerOwnerName===request.executionTarget?.exactOwner
             || !['attest','verifyEmptyTarget','claimDispatch','verifyPostconditions','centralEvidenceComplete'].every(k => typeof target[k as keyof InstalledOracleTarget]==='function'))
           return decline();
         let poisoned=false,busy=false,ended=false,operationPending: Promise<any> | null=null,observation: TargetObservation | null=null,expected: any=null;
@@ -194,23 +198,42 @@ export function createRestrictedOracleHost(installed: InstalledOracleHost, optio
         };
         try {
           const initial=snapshotAttestation(await target.attest(request,permit),permit);
-          if (!initial || initial.expected.serviceName!==request.profile.service || Date.now()>=permit.expiresAt
+          if (!initial || initial.expected.serviceName.toLowerCase()!==String(request.profile.service).toLowerCase() || Date.now()>=permit.expiresAt
               || request.executionTarget && (initial.targetAssignmentId !== request.executionTarget.assignmentId
-                || initial.targetIdentityDigest !== request.executionTarget.expectedIdentityDigest)) return decline();
+                || initial.targetIdentityDigest !== request.executionTarget.expectedIdentityDigest
+                || request.executionTarget.credentialMode==='INSTANCE_MASTER' && (typeof request.executionTarget.physicalTargetKey!=='string'
+                  || !/^oracle-container-v1:[a-f0-9]{64}$/.test(request.executionTarget.physicalTargetKey) || initial.targetKey!==request.executionTarget.physicalTargetKey))) return decline();
           witness=initial;
+          if(request.executionTarget?.exactOwner && request.executionTarget.exactOwner!==request.profile.username)
+            await setOracleSchemaContext(target.writer,request.executionTarget.exactOwner);
           writerIdentity=await readIdentity(target.writer,request.profile.username as string,witness.expected,request.executionTarget?.exactOwner as string | undefined);
           ownerIdentity=await readIdentity(target.ledgerOwner,target.ledgerOwnerName,witness.expected);
           if (!writerIdentity || !ownerIdentity) return decline();
           mutex=await createOracleTargetMutex(target.writer,{ owner:target.ledgerOwnerName }).acquire(witness.targetKey);
           if (!mutex) return decline();
           ledger=createOracleTargetLedger(target.ledgerOwner);
-          targetId=oracleTargetLedgerId(witness)!;
+          targetId=oracleTargetLedgerId({...witness,...(request.executionTarget?.credentialMode==='INSTANCE_MASTER'
+            ? {credentialMode:'INSTANCE_MASTER',streamId:request.executionTarget.streamId}: {})})!;
+          if(!targetId)return decline();
           const session: ExecutionTargetSession=Object.freeze({ scope,
             observe:async () => {
               const result=await guard<TargetObservation | null>(null,async () => {
                 if (observation || !await live()) return null;
                 const raw=await ledger.read(targetId);
                 if (!raw || !['UNINITIALIZED','EMPTY','COMPLETE'].includes(raw.ledgerState) || raw.startedFiles.length) return null;
+                if(!raw.appliedMigrations.length && request.executionTarget?.credentialMode==='INSTANCE_MASTER') {
+                  const priorV1Ids=oracleV1InstanceStreamLedgerIds({targetKey:witness.targetKey,
+                    lineageId:request.executionTarget.lineageId,streamId:request.executionTarget.streamId});
+                  if(!priorV1Ids)return null;
+                  for(const priorId of priorV1Ids) {
+                    const prior=await ledger.read(priorId);
+                    if(!prior || !['UNINITIALIZED','EMPTY'].includes(prior.ledgerState)
+                        || prior.appliedMigrations.length || prior.startedFiles.length || prior.sequence!==0)return null;
+                  }
+                  const legacy=await ledger.read(oracleTargetLedgerId(witness));
+                  if(!legacy || !['UNINITIALIZED','EMPTY'].includes(legacy.ledgerState)
+                    || legacy.appliedMigrations.length || legacy.startedFiles.length || legacy.sequence!==0)return null;
+                }
                 // Neither an absent partition nor an empty ledger proves an empty application schema.
                 if (!raw.appliedMigrations.length && await target.verifyEmptyTarget(request,permit)!==true || !await live()) return null;
                 const applied=raw.appliedMigrations.length;
@@ -243,6 +266,7 @@ export function createRestrictedOracleHost(installed: InstalledOracleHost, optio
                 if (!copy?.length || copy.length>8*1024*1024 || inflight || !statement
                     || createHash('sha256').update(copy).digest('hex')!==statement.digest || !await current()) { poisoned=true;return 'UNKNOWN'; }
                 const text=new TextDecoder('utf-8',{ fatal:true }).decode(copy);
+                if (!await verifyOracleStatementScope(target.writer,text,request.executionTarget?.exactOwner ?? request.profile.username) || !await current()) { poisoned=true;return 'UNKNOWN'; }
                 let model=structuredClone(expected);
                 if (statement.fileStatementOrdinal===1) {
                   model.ledgerState='IN_FLIGHT';model.sequence+=1+statement.file.statementDigests.length;

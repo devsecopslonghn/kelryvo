@@ -5,6 +5,7 @@ import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs
 import { preflightRetainedRelease } from '../migrations/retained-release-preflight.mjs';
 import { approvedMigrationIdentities } from './pending-migrations.mjs';
 import { approvedHistoryContext } from './history-context.mjs';
+import { expectedTargetBindingDigests } from './target-binding-digests.mjs';
 import { reviewSqlStatements } from '../sql-validation/review.mjs';
 import { publicTarget } from '../targets/public.mjs';
 import { checkTargetCurrentness } from '../targets/index.ts';
@@ -91,16 +92,17 @@ async function verifiedPrior(tx: any, prior: any, currentIntent: any, candidateI
       || intent.target.streamId !== currentIntent.target.streamId
       || intent.target.exactOwner !== currentIntent.target.exactOwner
       || intent.target.migrationNamespace !== currentIntent.target.migrationNamespace) return null;
-  const targetEvidence = await tx`SELECT e.identity_digest,o.provenance,o.verification_acceptance
+  const targetEvidence = await tx`SELECT e.identity,e.identity_digest,o.provenance,o.verification_acceptance,
+      source.connection_id AS source_connection_id,c.credential_mode
     FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id
+    LEFT JOIN sf_instance_profile_sources source ON source.profile_id=${intent.profileId}
+    LEFT JOIN sf_database_connections c ON c.id=source.connection_id
     WHERE e.digest=${intent.target.observationDigest} AND e.organization_id=${prior.organization_id}
       AND e.project_id=${prior.project_id} AND e.assignment_id=${intent.target.assignmentId}
       AND e.assignment_revision::text=${intent.target.assignmentRevision}
       AND e.route_id=${intent.target.routeId} AND e.exact_owner=${intent.target.exactOwner} LIMIT 2`;
   if (targetEvidence.length !== 1 || targetEvidence[0].identity_digest !== proof.target_identity_digest
-      || digest({ ...intent.target, expectedIdentityDigest: targetEvidence[0].identity_digest,
-        evidenceProvenance: targetEvidence[0].provenance,
-        liveVerificationAccepted: Boolean(targetEvidence[0].verification_acceptance) }) !== proof.host_binding?.targetBindingDigest) return null;
+      || !expectedTargetBindingDigests(intent,targetEvidence[0]).includes(proof.host_binding?.targetBindingDigest)) return null;
   const context = approvedHistoryContext({ ...prior,
     job_admission_statement_count: prior.job_admission_statement_count });
   if (!context || context.pendingStatementCount < 1 || context.totalApprovedStatements > MAX_PLAN_STATEMENTS) return null;
@@ -223,16 +225,18 @@ export function registerMigrationAnalysis(app: any, sql: any, authenticate: any)
         const reviewByOrdinal = new Map(reviews.map((r: any) => [r.ordinal, r]));
         const migrations = approvedMigrationIdentities(intent);
         const target = intent.target;
-        const targetProof = intent.target ? (await tx`SELECT e.identity_digest,o.provenance,o.verification_acceptance
+        const targetProof = intent.target ? (await tx`SELECT e.identity,e.identity_digest,o.provenance,o.verification_acceptance,
+          source.connection_id AS source_connection_id,c.credential_mode
           FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id
+          LEFT JOIN sf_instance_profile_sources source ON source.profile_id=${intent.profileId}
+          LEFT JOIN sf_database_connections c ON c.id=source.connection_id
           WHERE e.digest=${intent.target.observationDigest} AND e.organization_id=${ORG} AND e.project_id=${projectId}
             AND e.assignment_id=${intent.target.assignmentId} AND e.assignment_revision::text=${intent.target.assignmentRevision}
             AND e.route_id=${intent.target.routeId} AND e.exact_owner=${intent.target.exactOwner} LIMIT 2`) : [];
-        const candidateTargetDigest = targetProof.length === 1 ? digest({ ...intent.target,
-          expectedIdentityDigest: targetProof[0].identity_digest, evidenceProvenance: targetProof[0].provenance,
-          liveVerificationAccepted: Boolean(targetProof[0].verification_acceptance) }) : null;
+        const candidateTargetVerifiedEvidence = targetProof.length === 1
+          && expectedTargetBindingDigests(intent,targetProof[0]).length > 0;
         let targetCurrent = false;
-        if (intent.target && targetProof.length === 1) {
+        if (intent.target && candidateTargetVerifiedEvidence) {
           try {
             const current = await checkTargetCurrentness(tx, projectId, { ...intent.target, profileId: intent.profileId,
               profileName: intent.profileName, environmentId: intent.environmentId, environmentName: intent.environmentName },
@@ -245,8 +249,8 @@ export function registerMigrationAnalysis(app: any, sql: any, authenticate: any)
         let priorRows: any[] = [];
         let holds: any[] = [];
         let holdScanOverflow = false;
-        const currentTargetVerified = Boolean(candidateTargetDigest) && targetCurrent && profileCurrent;
-        if (target && targetProof.length === 1 && candidateTargetDigest && currentTargetVerified) {
+        const currentTargetVerified = candidateTargetVerifiedEvidence && targetCurrent && profileCurrent;
+        if (target && candidateTargetVerifiedEvidence && currentTargetVerified) {
           priorRows = await tx`SELECT proof.job_id,proof.organization_id,proof.project_id,proof.plan_id,proof.scope,
             proof.approval_reference,proof.intent_digest,proof.source_manifest_digest,proof.profile_id,proof.target_identity_digest,
             proof.host_binding,proof.history_snapshot_digest,proof.mutex_authority_digest,proof.validity_digest,proof.central_evidence_digest,
@@ -302,7 +306,7 @@ export function registerMigrationAnalysis(app: any, sql: any, authenticate: any)
         if (historyMismatch) findings.push({ code: holds.length ? 'RETAINED_HOLD_PRESENT' : 'RETAINED_HISTORY_UNCERTAIN', status: 'BLOCKED',
           message: holds.length ? 'A retained HOLD exists for this migration stream.' : 'Retained history is incomplete, divergent, or exceeds the bounded comparison.' });
         const projected = projectMigrationHistory(migrations, historyByMigration, historyMismatch,
-          Boolean(candidateTargetDigest) && (intent.format < 3 || currentTargetVerified));
+          candidateTargetVerifiedEvidence && (intent.format < 3 || currentTargetVerified));
         findings.push(...projected.findings);
         const rows = projected.migrations;
         const analysisBasis = { base, findings, migrations: rows, statementCount: statements.length };

@@ -1,3 +1,4 @@
+import { assessOracleSchemaScope } from './schema-scope.mjs';
 import { createHash } from 'node:crypto';
 import { verifyOfflinePlanIntent, MAX_PLAN_STATEMENTS } from '../migrations/offline-plan-intent.mjs';
 import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs';
@@ -34,6 +35,8 @@ export async function materializeApprovedStatements(release, envelope, digest, e
       for (const [index, statement] of parsed.statements.entries()) {
         if (!(statement.executionBytes instanceof Uint8Array) || !statement.executionBytes.length
             || hash(statement.executionBytes) !== statement.executionSha256) return null;
+        const owner=intent.target?.exactOwner ?? intent.username;
+        if (!assessOracleSchemaScope(new TextDecoder('utf-8',{fatal:true}).decode(statement.executionBytes),owner).eligible) return null;
         identities.push({ ordinal: identities.length + 1, path: file.path, fileOrdinal: index + 1,
           startByte: statement.startByte, endByte: statement.endByte,
           sourceSha256: statement.sourceSha256, executionSha256: statement.executionSha256 });

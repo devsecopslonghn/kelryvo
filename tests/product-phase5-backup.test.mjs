@@ -83,6 +83,7 @@ test('Phase 5 native backup retains reconciliation evidence and decision; restor
 });
 
 for (const prior of [
+  { phase: 'current before instance schema', options: { initializeInstanceSchema: false }, signature: '9e4c70ac76caf62e3bec6a5db5f920735e480f689a76a59a2f1ba8b233d9c87e' },
   { phase: 4, options: { initializeReconciliation: false, initializeConnectionManagement:false }, signature: 'c571e10e7f1090403a68d2370eff35b17eb15776ae8f1bb166a404961f6cb1cf' },
   { phase: 10, options: { installReconciliationBindingGuards: false, initializeConnectionManagement:false }, signature: 'd36aeb9ad7393e063c153da5c4ee5250fd9d1a081953b95b978c1ba33cb6e599' },
 ]) test(`Phase ${prior.phase} native backup inventory restores and upgrades to current reconciliation guards`, {
@@ -115,6 +116,9 @@ for (const prior of [
       WHERE tgname IN ('sf_execution_reconciliations_binding_insert','sf_execution_reconciliation_decisions_binding_insert') AND tgenabled='O'`)[0].n, 2);
     assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g
       ON g.id=c.generation_id WHERE c.singleton`)[0].state, 'RESTORE_HOLD');
+    assert.equal((await restoredSql`SELECT to_regclass('sf_instance_profile_sources') IS NOT NULL AS present`)[0].present, true);
+    assert.equal((await restoredSql`SELECT column_default FROM information_schema.columns
+      WHERE table_name='sf_database_connections' AND column_name='credential_mode'`)[0].column_default, "'LEGACY_SEPARATE'::text");
   } finally {
     await restoredSql?.end({ timeout: 2 });
     await source.close();

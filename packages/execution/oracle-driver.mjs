@@ -1,4 +1,5 @@
 import oracledb from 'oracledb';
+import { assessOracleSchemaScope } from './schema-scope.mjs';
 
 const fields=['session_user','schema_name','database_name','container_name','container_id','service_name','session_id','proxy_user'];
 export const oracleHostIdentitySql = `SELECT SYS_CONTEXT('USERENV','SESSION_USER') AS session_user,
@@ -9,6 +10,28 @@ export const oracleHostIdentitySql = `SELECT SYS_CONTEXT('USERENV','SESSION_USER
 export const pinnedOracleThinDriverAvailable = () => oracledb.versionString==='7.0.1' && oracledb.thin===true;
 const bounded = c => c && ['execute','commit','rollback'].every(k => typeof c[k]==='function')
   && Number.isInteger(c.callTimeout) && c.callTimeout>=1 && c.callTimeout<=30000;
+
+/** Installation-owned session setup, never authored SQL or a permission grant. */
+export async function setOracleSchemaContext(connection, owner) {
+  if (!pinnedOracleThinDriverAvailable() || !bounded(connection) || typeof owner!=='string'
+      || !owner.length || Buffer.byteLength(owner,'utf8')>128 || /[\u0000-\u001f\u007f]/.test(owner)) throw new Error('Oracle schema context unavailable');
+  await connection.execute(`ALTER SESSION SET CURRENT_SCHEMA = "${owner.replaceAll('"','""')}"`,[],{autoCommit:false});
+}
+
+/** Existing objects must be physical local tables, never synonym resolution.
+ * The installation must exclude concurrent external DDL during dispatch.
+ */
+export async function verifyOracleStatementScope(connection,text,owner) {
+  if (!bounded(connection)) return false;
+  const scope=assessOracleSchemaScope(text,owner);
+  if (!scope.eligible) return false;
+  if (scope.existingTable) {
+    const result=await connection.execute(`SELECT OBJECT_TYPE FROM SYS.ALL_OBJECTS WHERE OWNER = :owner AND OBJECT_NAME = :name AND SUBOBJECT_NAME IS NULL`,
+      scope.existingTable,{autoCommit:false,outFormat:oracledb.OUT_FORMAT_OBJECT,maxRows:2});
+    return Array.isArray(result?.rows) && result.rows.length===1 && result.rows[0].OBJECT_TYPE==='TABLE';
+  }
+  return true;
+}
 
 /** Reads only from the supplied dedicated session. Physical GUID/TLS/grant attestation is separate. */
 export async function readOracleSessionIdentity(connection,owner,expected,schemaOwner=owner) {

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Connections } from './Connections.jsx';
 import { CONNECTION_PATTERNS, ConnectionConfiguration } from './ConnectionConfiguration.jsx';
+import { InstanceOnboarding } from './InstanceOnboarding.jsx';
 
 export function Instances({ token, projectId, detail, api, actor, accessMode, metadataRecovery, onRefresh, onConfigure, onReferences, onMissing }) {
   const [error, setError] = useState(''), [busy, setBusy] = useState(false), [reasons, setReasons] = useState({});
@@ -42,6 +43,9 @@ export function Instances({ token, projectId, detail, api, actor, accessMode, me
   };
   return <section aria-label="Database instances and connections">
     <div className="page-heading"><div><p className="eyebrow">DATABASE MANAGEMENT</p><h1>Database instances &amp; connections</h1><p className="muted">{loaded ? detail.project.name : 'Choose a project to inspect its connections.'}</p></div></div>
+    <InstanceOnboarding token={token} projectId={projectId} detail={detail} api={api} actor={actor} accessMode={accessMode}
+      metadataRecovery={metadataRecovery} onRefresh={onRefresh} onMissing={onMissing}/>
+    <details className="advanced-instance-tools"><summary>Advanced and legacy connection tools</summary>
     <section className="panel"><h2>Project connections</h2>
       <p>Deployment profiles retain configuration and credential aliases. Use the read-only connections below to inspect connectivity evidence.</p>
       <button type="button" className="secondary" disabled={busy} onClick={onConfigure}>Configure project connections</button>
@@ -81,5 +85,6 @@ export function Instances({ token, projectId, detail, api, actor, accessMode, me
       </article>)}
     </section>
     {loaded && <Connections token={token} projectId={projectId} api={api} detail={detail} onChanged={onRefresh} readOnly={detail.project.archivedAt || accessMode !== 'ENFORCED' || metadataRecovery?.state && metadataRecovery.state !== 'ACTIVE'}/>}
+    </details>
   </section>;
 }

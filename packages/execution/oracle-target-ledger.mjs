@@ -201,6 +201,20 @@ export function createOracleTargetLedger(connection) {
 export function oracleTargetLedgerId(binding) {
   if (!binding || typeof binding.targetKey!=='string' || !KEY.test(binding.targetKey)
       || typeof binding.targetIdentityDigest!=='string' || !DIGEST.test(binding.targetIdentityDigest)) return null;
+  if(binding.credentialMode==='INSTANCE_MASTER') {
+    if(typeof binding.streamId!=='string' || !UUID.test(binding.streamId))return null;
+    return hash(['INSTANCE_SCHEMA_STREAM_V2',binding.streamId]);
+  }
   return hash([binding.targetKey,binding.targetIdentityDigest]);
+}
+/** Partitions used by the pre-release V1 instance-stream ledger. Keep these
+ * readable so a new V2 stream cannot mistake retained V1 effects for empty. */
+export function oracleV1InstanceStreamLedgerIds(binding) {
+  if (!binding || typeof binding.streamId!=='string' || !UUID.test(binding.streamId)) return null;
+  const keys = new Set();
+  if (typeof binding.targetKey==='string' && KEY.test(binding.targetKey)) keys.add(binding.targetKey);
+  if (typeof binding.lineageId==='string' && UUID.test(binding.lineageId)) keys.add(`oracle-lineage-v1:${binding.lineageId}`);
+  if (!keys.size) return null;
+  return Object.freeze([...keys].map(key=>hash(['INSTANCE_SCHEMA_STREAM_V1',key,binding.streamId])));
 }
 export const oracleTargetLedgerSql=SQL;

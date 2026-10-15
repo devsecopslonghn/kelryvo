@@ -5,6 +5,7 @@ import { verifyOfflinePlanIntent, MAX_PLAN_STATEMENTS } from '../migrations/offl
 import { MAX_STDOUT_BYTES } from '../../experiments/db-devops-wp0/parser-envelope.mjs';
 import { MAX_RELEASE_FILES } from '../../experiments/db-devops-wp0/parser-release.mjs';
 import { approvedMigrationIdentities } from './pending-migrations.mjs';
+import { expectedTargetBindingDigests } from './target-binding-digests.mjs';
 import { executionDigest, type TargetObservation, type MigrationIdentity } from './admission.ts';
 
 const sameMigration = (a: MigrationIdentity, b: MigrationIdentity) => a && b
@@ -12,14 +13,18 @@ const sameMigration = (a: MigrationIdentity, b: MigrationIdentity) => a && b
   && a.statementManifestDigest === b.statementManifestDigest
   && JSON.stringify(a.statementDigests) === JSON.stringify(b.statementDigests);
 
-export async function reconcileCompletedHistory(tx: any, observation: TargetObservation) {
-  // A catalog reassignment cannot erase the immutable history of the same
-  // canonical target. UNIT evidence can never attest TRUSTED_VALIDATED effects.
+export async function reconcileCompletedHistory(tx: any, observation: TargetObservation, streamId?: string) {
+  if (streamId !== undefined && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(streamId)) return false;
+  // Schema streams retain history across route aliases and target-key upgrades.
+  // Legacy observations have no stream id and retain canonical target-key scope.
+  // UNIT evidence can never attest TRUSTED_VALIDATED effects.
   // NOOPs create no effects: check their minimum prefix without counting every
   // fresh approval of identical already-applied source against the effect limit.
   if ((await tx`SELECT 1 FROM sf_execution_admission_proofs proof JOIN sf_execution_jobs job ON job.id=proof.job_id
     WHERE proof.organization_id='00000000-0000-4000-8000-000000000001'
-      AND proof.host_binding->>'targetKey'=${observation.targetKey} AND job.state='NOOP'
+      AND (((${streamId ?? null}::uuid IS NOT NULL) AND proof.host_binding->>'streamId'=${streamId ?? null})
+        OR ((${streamId ?? null}::uuid IS NULL) AND proof.host_binding->>'targetKey'=${observation.targetKey}))
+      AND job.state='NOOP'
       AND (proof.scope<>${observation.scope} OR proof.target_identity_digest<>${observation.targetIdentityDigest}
         OR proof.host_binding->'historyFormat' IS DISTINCT FROM '1'::jsonb
         OR CASE WHEN jsonb_typeof(proof.host_binding->'appliedMigrationCount')='number'
@@ -37,7 +42,8 @@ export async function reconcileCompletedHistory(tx: any, observation: TargetObse
     FROM sf_execution_admission_proofs proof JOIN sf_execution_jobs job ON job.id=proof.job_id
     JOIN sf_plans plan ON plan.id=proof.plan_id
     WHERE proof.organization_id='00000000-0000-4000-8000-000000000001'
-      AND proof.host_binding->>'targetKey'=${observation.targetKey}
+      AND (((${streamId ?? null}::uuid IS NOT NULL) AND proof.host_binding->>'streamId'=${streamId ?? null})
+        OR ((${streamId ?? null}::uuid IS NULL) AND proof.host_binding->>'targetKey'=${observation.targetKey}))
       AND job.state='VERIFIED_SUCCESS'
     ORDER BY proof.intent_digest,proof.created_at DESC
     LIMIT ${MAX_RELEASE_FILES + 1}`;
@@ -58,16 +64,17 @@ export async function reconcileCompletedHistory(tx: any, observation: TargetObse
       if (binding.targetBindingId !== intent.target.bindingId
           || binding.targetBindingRevision !== intent.target.bindingRevision || binding.streamId !== intent.target.streamId
           || binding.migrationNamespace !== intent.target.migrationNamespace) return false;
-      const targetEvidence=await tx`SELECT e.identity_digest,o.provenance,o.verification_acceptance
+      const targetEvidence=await tx`SELECT e.identity,e.identity_digest,o.provenance,o.verification_acceptance,
+          source.connection_id AS source_connection_id,c.credential_mode
         FROM sf_target_identity_evidence e JOIN sf_database_observations o ON o.id=e.observation_id
+        LEFT JOIN sf_instance_profile_sources source ON source.profile_id=${intent.profileId}
+        LEFT JOIN sf_database_connections c ON c.id=source.connection_id
         WHERE e.digest=${intent.target.observationDigest} AND e.organization_id=${prior.organization_id}
           AND e.project_id=${prior.project_id} AND e.assignment_id=${intent.target.assignmentId}
           AND e.assignment_revision::text=${intent.target.assignmentRevision} AND e.route_id=${intent.target.routeId}
           AND e.exact_owner=${intent.target.exactOwner} LIMIT 2`;
       if (targetEvidence.length !== 1 || targetEvidence[0].identity_digest !== prior.target_identity_digest
-          || binding.targetBindingDigest !== executionDigest({ ...intent.target,
-            expectedIdentityDigest:targetEvidence[0].identity_digest,evidenceProvenance:targetEvidence[0].provenance,
-            liveVerificationAccepted:Boolean(targetEvidence[0].verification_acceptance) })) return false;
+          || !expectedTargetBindingDigests(intent,targetEvidence[0]).includes(binding.targetBindingDigest)) return false;
     } else if (['targetBindingId','targetBindingRevision','targetBindingDigest','streamId','migrationNamespace']
       .some(key => Object.hasOwn(binding,key))) return false;
     const migrations = approvedMigrationIdentities(intent);
