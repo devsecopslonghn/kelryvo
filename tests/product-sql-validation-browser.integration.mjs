@@ -36,7 +36,7 @@ test('browser selects retained SQL, validates target, reviews unknowns, creates 
     await validation.getByRole('button',{name:'Create immutable plan',exact:true}).click();
     await page.getByRole('region',{name:'Retained SQL validation'}).getByText('CREATE_TABLE',{exact:true}).waitFor();
     const planId=await page.locator('.plan-option.selected').getAttribute('data-plan-id');
-    const saved=(await f.api('GET',f.base)).json().plans.find(p=>p.id===planId);assert.equal(saved.offlineIntent.format,4);
+    const saved=(await f.api('GET',f.base)).json().plans.find(p=>p.id===planId);assert.equal(saved.offlineIntent.format,5);
     assert.equal(await page.getByRole('button',{name:'Approve plan',exact:true}).count(),0);
     await page.getByLabel('Sign out').click();await signIn(f.actors[1]);
     await page.getByRole('button',{name:/Plans & review/}).click();await page.locator(`.plan-option[data-plan-id="${planId}"]`).click();

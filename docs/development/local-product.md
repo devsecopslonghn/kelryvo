@@ -1437,8 +1437,8 @@ absent. Provisional targets retain **NOT_OBSERVED** metadata and do not become v
 Other engines are unsupported. Actual Oracle semantic acceptance still requires a
 separately authorized disposable lab; fixtures cannot establish it.
 
-**Create immutable plan** binds the validation ID and digest in a format-4 intent alongside
-exact release bytes, statement hashes and target facts. The independent approver sees the
+**Create immutable plan** binds the validation ID and digest in a format-5 intent with
+the environment review policy, exact release bytes, statement hashes and target facts. The independent approver sees the
 same findings and metadata limitations in **Plans & review** and the downloadable plan
 record. Blocking findings cannot create a schema-aware plan. An unverified semantic outcome
 may produce an offline review candidate; it never grants execution authority. Superseded or
@@ -1545,3 +1545,34 @@ Project-scoped APIs:
 - `GET /api/projects/:projectId/plans/:planId/schema-drift`: latest baseline/observation comparison and the plan's retained snapshot, without execution authority.
 
 Read access follows current project membership, including archived history. Observation and baseline capture require a developer with workspace database-management authority and active metadata. Baselines and snapshots have no update/delete API. An updated expectation is another named capture. Plans and validations retain immutable schema references; later changed schema facts require fresh validation/planning and cannot restore old approval authority. Legacy plans without schema association preserve their original contract. SQL validation and Oracle compilation remain unverified even when structural observations are present.
+
+
+## Revisioned environment approval policies
+
+In **Identity administration → Environment approval policies**, classify the environment
+as DEV, SIT, or Controlled, select its review requirements, enter a reason, and save.
+An environment named DEV still requires independent review until explicitly classified.
+Controlled environments always require a separate reviewer. DEV/SIT can allow the author
+with current developer/owner permission to record **Policy authorization**; the separate
+deployment permission and all worker admission gates remain required. **View policy
+history** shows retained revisions, reasons and actors with older-page navigation.
+
+New plans use format 5 and retain `reviewPolicy` (`revision`, `stage`,
+`approvalRequired`, `independentApproval`) in the checksummed intent and downloaded record.
+Plans & review shows that retained policy and whether it is still current. Any policy
+change requires fresh plans, even when earlier settings are restored. Old evidence is
+preserved. The original requester with current project membership can cancel a stale waiting
+request from deployment requests before preparing its replacement. Admitted or held work prevents policy edits.
+
+Administrator browser sessions use these endpoints (same-origin cookie/CSRF rules apply):
+
+- `GET /api/admin/policies` returns environments with current revision, classification and effective flags.
+- `PUT /api/admin/policies/:id` requires exactly `stage`, `approvalRequired`, `independentApproval`, `expectedRevision` (canonical positive decimal string), and a nonempty `reason` of at most 2000 characters. It returns `revision` and `changed`. Stale revisions return `409 POLICY_REVISION_CONFLICT`; controlled waivers return `409 CONTROLLED_APPROVAL_REQUIRED`; admitted/held work returns `409 ENVIRONMENT_EXECUTION_ACTIVE`.
+- `GET /api/admin/policies/:id/history?after=<revision>` returns at most 50 descending retained revisions and `nextCursor`. History is immutable; database operator updates have separate provenance.
+
+Native backups include policy history and plan snapshots. Restoring the earlier identity
+schema first verifies/imports its exact original generation, then upgrades additively
+under `RESTORE_HOLD`. Old optional flags remain historical data; unclassified effective
+policy requires independent review. Format 1–4 records remain readable without rewriting
+their bytes or upgrading their execution authority. Local PostgreSQL and Chromium checks
+verify this policy behavior; no new Oracle runtime acceptance is claimed for format 5.

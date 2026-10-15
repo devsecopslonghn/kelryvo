@@ -1,4 +1,4 @@
-import { approvalSatisfied } from '../identity/approvals.ts';
+import { approvalSatisfied, planPolicyCurrent } from '../identity/approvals.ts';
 /** Read-only governance readiness. This endpoint never connects to a target. */
 import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs';
 import { preflightRetainedRelease } from '../migrations/retained-release-preflight.mjs';
@@ -64,13 +64,14 @@ export function registerExecutionReadiness(app: any, sql: any, authenticate: any
             AND approval_reference=${plan.approval_reference} LIMIT 1`)[0] : null;
         const independentApproval = intent && plan.status === 'APPROVED' && plan.decision === 'APPROVE'
           && uuid(plan.approval_reference) && typeof plan.decided_by === 'string' && await approvalSatisfied(tx,plan.id) && !revocation;
+        checks.push(check('REVIEW_POLICY_CURRENT',await planPolicyCurrent(tx,plan.id)?'PASS':'BLOCKED'));
         checks.push(check('INDEPENDENT_APPROVAL_CURRENT', independentApproval ? 'PASS' : 'BLOCKED'));
         checks.push(check('PLAN_EXECUTION_STATE', plan.execution === 'NOT_EXECUTED' && plan.history_status === 'NOT_OBSERVED'
           && plan.planning_scope === 'OFFLINE_CANDIDATE' ? 'PASS' : 'BLOCKED'));
 
         const projectCurrent = !plan.archived_at && plan.source_repository_id && plan.source_folder
           && String(plan.source_binding_generation) === String(plan.project_source_generation)
-          && (intent?.format < 3 || intent?.target?.sourceBindingGeneration === plan.project_source_generation);
+          && (!intent?.target || intent.target.sourceBindingGeneration === plan.project_source_generation);
         let sourceCurrent = false;
         if (intent && projectCurrent) {
           const bounds = await preflightRetainedRelease(tx, { id: plan.release_id, projectId: plan.project_id,
@@ -101,8 +102,8 @@ export function registerExecutionReadiness(app: any, sql: any, authenticate: any
           && JSON.parse(plan.envelope)[19] === profile.credential_ref);
         checks.push(check('PROFILE_CURRENT', profileCurrent ? 'PASS' : 'BLOCKED'));
 
-        let targetStatus: Status = intent?.format === 2 ? 'UNVERIFIED' : 'BLOCKED';
-        if (intent?.format >= 3 && profileCurrent && projectCurrent) {
+        let targetStatus: Status = intent && !intent.target ? 'UNVERIFIED' : 'BLOCKED';
+        if (intent?.target && profileCurrent && projectCurrent) {
           try {
             const currentness = await checkTargetCurrentness(tx, plan.project_id, { ...intent.target,
               profileId: intent.profileId, profileName: intent.profileName,
@@ -134,7 +135,7 @@ export function registerExecutionReadiness(app: any, sql: any, authenticate: any
           AND project_id=${plan.project_id} AND plan_id=${plan.id}
           AND state IN ('WAITING_VALIDATION','ADMITTED','HOLD') ORDER BY created_at DESC,id DESC LIMIT 10`;
         const activeStates = active.map((row: any) => row.state);
-        checks.push(check('NO_ACTIVE_OR_HELD_REQUEST', intent?.format >= 3
+        checks.push(check('NO_ACTIVE_OR_HELD_REQUEST', intent?.target
           ? await targetRequestConflict(tx,plan.project_id,intent.target.streamId) ? 'BLOCKED' : 'PASS'
           : activeStates.length ? 'UNVERIFIED' : 'PASS'));
         checks.push(check('TARGET_HISTORY_AVAILABLE', 'UNVERIFIED'));

@@ -25,6 +25,22 @@ const target = {
   createdAt: '2026-10-12T05:00:00.000Z', sourceBindingGeneration: '5',
 };
 
+test('format 5 binds review policy without rewriting formats 1-4 or losing source/target/validation facts',()=>{
+  const statements=[{ordinal:1,path:base.items[0].path,fileOrdinal:1,startByte:0,endByte:10,sourceSha256:'d'.repeat(64),executionSha256:'e'.repeat(64)}];
+  const reviewPolicy={revision:'2',stage:'DEV',approvalRequired:false,independentApproval:true};
+  for(const extra of [{},{target},{target,validation:{id:'20000000-0000-4000-8000-000000000001',digest:'f'.repeat(64)}}]){
+    const original=encodeOfflinePlanIntent({...base,statements,...extra});
+    const encoded=encodeOfflinePlanIntent({...base,statements,...extra,reviewPolicy});assert.ok(encoded);
+    const parsed=verifyOfflinePlanIntent(encoded.envelope,encoded.digest);assert.equal(parsed.format,5);assert.deepEqual(parsed.reviewPolicy,reviewPolicy);
+    assert.deepEqual(parsed.target,extra.target);assert.deepEqual(parsed.validation,extra.validation);
+    assert.deepEqual(parsed.statements,statements);assert.notEqual(encoded.digest,original.digest);
+    assert.ok(verifyOfflinePlanIntent(original.envelope,original.digest),'historical bytes keep their original format');
+    assert.notEqual(encoded.digest,encodeOfflinePlanIntent({...base,statements,...extra,reviewPolicy:{...reviewPolicy,revision:'3'}}).digest);
+  }
+  for(const patch of [{stage:'CONTROLLED'},{stage:'UNCLASSIFIED'},{revision:'0'},{revision:'02'},{revision:'9223372036854775808'},{stage:'PROD'},{approvalRequired:'false'},{extra:true}])
+    assert.equal(encodeOfflinePlanIntent({...base,statements,reviewPolicy:{...reviewPolicy,...patch}}),null);
+});
+
 test('format 4 binds exact validation evidence and preserves older canonical formats',()=>{
   const statements=[{ordinal:1,path:base.items[0].path,fileOrdinal:1,startByte:0,endByte:10,sourceSha256:'d'.repeat(64),executionSha256:'e'.repeat(64)}];
   const validation={id:'20000000-0000-4000-8000-000000000001',digest:'f'.repeat(64)};

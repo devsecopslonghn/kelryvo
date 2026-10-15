@@ -54,7 +54,7 @@ export async function reconcileCompletedHistory(tx: any, observation: TargetObse
     const intent = verifyOfflinePlanIntent(prior.envelope, prior.intent_digest, {
       organizationId:prior.organization_id,projectId:prior.project_id,manifestDigest:prior.source_manifest_digest,
       profileId:prior.profile_id });
-    if (!intent || ![2,3,4].includes(intent.format) || prior.scope !== observation.scope
+    if (!intent || ![2,3,4,5].includes(intent.format) || prior.scope !== observation.scope
         || prior.target_identity_digest !== observation.targetIdentityDigest
         || prior.approval_reference !== prior.plan_approval_reference || prior.intent_digest !== prior.plan_intent_digest
         || !binding || binding.historyFormat !== 1 || !Number.isSafeInteger(binding.appliedMigrationCount)

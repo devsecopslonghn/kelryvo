@@ -117,6 +117,15 @@ export function encodeOfflinePlanIntent(facts) {
     row[0]=4;
     row.push([facts.validation.id,facts.validation.digest]);
   }
+  if (facts.reviewPolicy !== undefined) {
+    const p=facts.reviewPolicy;
+    if(row[0]<2 || !p || Object.keys(p).sort().join(',')!=='approvalRequired,independentApproval,revision,stage'
+      || !revision(p.revision) || p.revision==='0' || !['UNCLASSIFIED','DEV','SIT','CONTROLLED'].includes(p.stage)
+      || typeof p.approvalRequired!=='boolean' || typeof p.independentApproval!=='boolean'
+      || ['UNCLASSIFIED','CONTROLLED'].includes(p.stage) && (!p.approvalRequired || !p.independentApproval))return null;
+    const baseFormat=row[0];row[0]=5;
+    row.push([baseFormat,p.revision,p.stage,p.approvalRequired,p.independentApproval]);
+  }
   const envelope = JSON.stringify(row);
   if (Buffer.byteLength(envelope, 'utf8') > MAX_STDOUT_BYTES) return null;
   return { envelope, digest: hash(Buffer.from(envelope, 'utf8')) };
@@ -127,9 +136,14 @@ export function verifyOfflinePlanIntent(envelope, digest, expected) {
     if (typeof envelope !== 'string' || Buffer.byteLength(envelope, 'utf8') > MAX_STDOUT_BYTES
       || !/^[a-f0-9]{64}$/.test(digest ?? '') || hash(Buffer.from(envelope, 'utf8')) !== digest) return null;
     const row = JSON.parse(envelope);
-    if (!Array.isArray(row) || ![1, 2, 3, 4].includes(row[0]) || row.length !== (row[0] === 1 ? 21 : row[0] === 2 ? 22 : row[0] === 3 ? 23 : 24)
+    if (!Array.isArray(row) || ![1, 2, 3, 4, 5].includes(row[0])
         || JSON.stringify(row) !== envelope) return null;
-    const [version, organizationId, projectId, requesterId, releaseId, commit, objectFormat, folder, parserProfile,
+    const format=row[0],rawPolicy=format===5?row.at(-1):null;
+    if(format===5 && (!Array.isArray(rawPolicy) || rawPolicy.length!==5 || ![2,3,4].includes(rawPolicy[0])))return null;
+    const version=format===5?rawPolicy[0]:format;
+    if(row.length!==(version===1?21:version===2?22:version===3?23:24)+(format===5?1:0))return null;
+    const reviewPolicy=format===5?{revision:rawPolicy[1],stage:rawPolicy[2],approvalRequired:rawPolicy[3],independentApproval:rawPolicy[4]}:undefined;
+    const [, organizationId, projectId, requesterId, releaseId, commit, objectFormat, folder, parserProfile,
       manifestDigest, profileId, profileName, environmentId, environmentName, engine, host, port, service, username, credentialRef,
       rawItems, rawStatements, rawTarget, rawValidation] = row;
     if (!Array.isArray(rawItems) || !rawItems.length || rawItems.length > MAX_RELEASE_FILES
@@ -144,13 +158,13 @@ export function verifyOfflinePlanIntent(envelope, digest, expected) {
     const validation = version === 4 ? {id:rawValidation[0],digest:rawValidation[1]} : undefined;
     const encoded = encodeOfflinePlanIntent({ organizationId, projectId, requesterId, releaseId, commit, objectFormat, folder,
       parserProfile, manifestDigest, profileId, profileName, environmentId, environmentName, engine, host, port, service,
-      username, credentialRef, statements, target, validation,
+      username, credentialRef, statements, target, validation, reviewPolicy,
       items: rawItems?.map((item) => Array.isArray(item) ? ({ path: item[0], version: item[1], sha256: item[2] }) : null) });
     if (!encoded || encoded.envelope !== envelope) return null;
-    const publicFacts = { format: version, digest, organizationId, projectId, releaseId, commit, objectFormat, folder, parserProfile, manifestDigest,
+    const publicFacts = { format, digest, organizationId, projectId, releaseId, commit, objectFormat, folder, parserProfile, manifestDigest,
       requesterId, profileId, profileName, environmentId, environmentName, engine, host, port, service, username,
       items: rawItems.map(([path, version, sha256]) => ({ path, version, sha256 })),
-      ...(version >= 2 ? { statements } : {}), ...(version >= 3 ? { target } : {}), ...(version === 4 ? {validation} : {}) };
+      ...(version >= 2 ? { statements } : {}), ...(version >= 3 ? { target } : {}), ...(version === 4 ? {validation} : {}),...(reviewPolicy?{reviewPolicy}:{}) };
     if (expected && Object.entries(expected).some(([key, value]) => JSON.stringify(publicFacts[key]) !== JSON.stringify(value))) return null;
     return publicFacts;
   } catch { return null; }

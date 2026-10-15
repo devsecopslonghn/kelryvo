@@ -1,5 +1,6 @@
+import {initializeReviewPolicies} from './review-policy-schema.ts';
 /** Additive identity migration: actor IDs and historical grants are retained. */
-export async function initializeIdentity(tx: any) {
+export async function initializeIdentity(tx: any, reviewPolicyVersion: 1 | 2 = 2) {
   await tx.unsafe(`
     ALTER TABLE sf_local_actors ADD COLUMN IF NOT EXISTS disabled boolean NOT NULL DEFAULT false;
     ALTER TABLE sf_local_credentials ADD COLUMN IF NOT EXISTS auth_method text NOT NULL DEFAULT 'TOKEN';
@@ -93,4 +94,5 @@ export async function initializeIdentity(tx: any) {
       SELECT EXISTS(SELECT 1 FROM sf_local_actors a WHERE a.id=actor AND NOT a.disabled)
     $$;
   `);
+  if(reviewPolicyVersion===2)await initializeReviewPolicies(tx);
 }

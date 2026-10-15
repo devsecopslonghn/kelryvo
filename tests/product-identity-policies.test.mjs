@@ -4,33 +4,54 @@ import { randomUUID } from 'node:crypto';
 import { statementEnvelopeFixture } from './helpers/statement-envelope-fixture.mjs';
 import { readExecutionRequest } from '../packages/execution/admission.ts';
 
-test('approval policy is explicit, retained and enforced at API and worker checkpoints',{skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000},async()=>{
+test('approval policy revisions bind immutable intent, default closed and never revive after change-and-restore',{skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000},async()=>{
  const f=await statementEnvelopeFixture({firstStatementCount:1,includeSecond:false});
  try {
-  const sql=f.db.sql;
-  // An environment called DEV still requires independent review until an administrator configures otherwise.
-  await sql`UPDATE sf_environments SET name='DEV' WHERE id=${f.profile.environmentId}`;
-  const plan=await f.makePlan();
-  let result=await f.api('POST',`/api/plans/${plan.id}/decision`,{decision:'APPROVE',reason:'Self decision denied by default'},f.actors[0]);
-  assert.equal(result.statusCode,403);
-  await sql`UPDATE sf_environments SET approval_required=false,independent_approval=false WHERE id=(SELECT environment_id FROM sf_profiles WHERE id=${f.profile.id})`;
-  result=await f.api('POST',`/api/plans/${plan.id}/decision`,{decision:'APPROVE',reason:'Explicit direct deployment authorization'},f.actors[0]);
-  assert.equal(result.statusCode,200,result.body);assert.equal(result.json().plan.decidedBy,f.actors[0].id);
+  const sql=f.db.sql,env=f.profile.environmentId;
+  await sql`UPDATE sf_environments SET name='DEV' WHERE id=${env}`;
+  const decision=(plan,actor=f.actors[0])=>f.api('POST',`/api/plans/${plan.id}/decision`,{decision:'APPROVE',reason:'Review retained policy authority'},actor);
+  const original=await f.makePlan();assert.equal(original.offlineIntent.format,5);
+  assert.deepEqual(original.offlineIntent.reviewPolicy,{revision:'1',stage:'UNCLASSIFIED',approvalRequired:true,independentApproval:true});
+  assert.equal((await decision(original)).statusCode,403,'name alone cannot waive review');
+  await sql`UPDATE sf_environments SET approval_stage='DEV',approval_required=false,independent_approval=false WHERE id=${env}`;
+  assert.equal((await decision(original)).json().error,'FRESH_PLAN_REQUIRED');
+  const plan=await f.makePlan();assert.equal(plan.approvalPolicy.revision,'2');assert.equal(plan.approvalPolicy.stage,'DEV');
+  const result=await decision(plan);assert.equal(result.statusCode,200,result.body);assert.equal(result.json().plan.decisionMethod,'POLICY_AUTHORIZATION');
   assert.equal((await sql`SELECT sf_plan_approval_satisfied(${plan.id}) AS ok`)[0].ok,true);
-  await assert.rejects(sql`UPDATE sf_plan_policy_decisions SET independent_approval=true WHERE plan_id=${plan.id}`);
+  await assert.rejects(sql`UPDATE sf_plan_review_policies SET revision=1 WHERE plan_id=${plan.id}`,/immutable/);
+  await assert.rejects(sql`UPDATE sf_environment_policy_revisions SET stage='CONTROLLED' WHERE environment_id=${env}`,/immutable/);
+  await assert.rejects(sql`UPDATE sf_plan_policy_decisions SET independent_approval=true WHERE plan_id=${plan.id}`,/immutable/);
+  await assert.rejects(sql`UPDATE sf_environments SET approval_stage='CONTROLLED' WHERE id=${env}`,'controlled environments cannot waive review');
   await f.membership.deployGrant(f.project.id,f.actors[0].id);
-  const queued=await f.api('POST',`/api/plans/${plan.id}/execution`,{idempotencyKey:randomUUID(),reason:'Explicitly configured direct request'});
+  const queued=await f.api('POST',`/api/plans/${plan.id}/execution`,{idempotencyKey:randomUUID(),reason:'Explicit DEV author authorization'});
   assert.equal(queued.statusCode,201,queued.body);
   const job=queued.json().job.id;
   const candidate=()=>sql.begin(async tx=>{await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;return readExecutionRequest(tx,job);});
-  assert.ok(await candidate(),'worker accepts explicitly configured direct plan authority');
-  await sql`UPDATE sf_environments SET approval_required=true,independent_approval=true WHERE id=(SELECT environment_id FROM sf_profiles WHERE id=${f.profile.id})`;
-  assert.equal((await sql`SELECT sf_plan_approval_satisfied(${plan.id}) AS ok`)[0].ok,false);
-  assert.equal(await candidate(),null,'tightened policy invalidates queued self-authorized execution');
-  // Existing independent approvals continue to work after policy tightening.
-  const independent=await f.makePlan();
-  assert.equal((await f.api('POST',`/api/plans/${independent.id}/decision`,{decision:'APPROVE',reason:'Independent retained review'},f.actors[1])).statusCode,200);
+  assert.ok(await candidate(),'worker accepts the same immutable policy snapshot');
+  await sql`UPDATE sf_environments SET approval_stage='CONTROLLED',approval_required=true,independent_approval=true WHERE id=${env}`;
+  assert.equal(await candidate(),null,'policy change invalidates a queued authorization');
+  assert.equal((await f.api('GET',f.base)).json().plans.find(p=>p.id===plan.id).currentness.state,'STALE');
+  const independent=await f.makePlan();assert.equal((await decision(independent)).statusCode,403);
+  assert.equal((await decision(independent,f.actors[1])).statusCode,200);
   assert.equal((await sql`SELECT sf_plan_approval_satisfied(${independent.id}) AS ok`)[0].ok,true);
+  await sql`UPDATE sf_environments SET approval_stage='DEV',approval_required=false,independent_approval=false WHERE id=${env}`;
+  assert.equal(await candidate(),null,'restoring original flags cannot revive old queued work');
+  assert.equal((await sql`SELECT sf_plan_approval_satisfied(${independent.id}) AS ok`)[0].ok,false,'even independent approval retains its exact policy revision');
+  const readiness=await f.api('GET',`/api/plans/${plan.id}/execution-readiness`);assert.equal(readiness.statusCode,200,readiness.body);
+  assert.equal(readiness.json().checks.find(c=>c.code==='REVIEW_POLICY_CURRENT').status,'BLOCKED');
+  const request=await f.api('POST',`/api/plans/${plan.id}/execution`,{idempotencyKey:randomUUID(),reason:'Cannot reuse old policy'});
+  assert.equal(request.json().error,'FRESH_PLAN_REQUIRED');
+  const record=await f.api('GET',`${f.base}/plans/${plan.id}/record`);assert.equal(record.statusCode,200,record.body);
+  const saved=JSON.parse(record.json().record);assert.equal(saved.retainedIntent.reviewPolicy.revision,'2');assert.equal(saved.plan.decisionMethod,'POLICY_AUTHORIZATION');
+  const cancelled=await f.api('POST',`/api/execution-jobs/${job}/cancel`,{expectedRevision:0});
+  assert.equal(cancelled.statusCode,200,cancelled.body);assert.equal(cancelled.json().job.state,'CANCELLED');
+  const fresh=await f.makePlan();assert.equal(fresh.offlineIntent.reviewPolicy.revision,'4');
+  assert.equal((await decision(fresh)).statusCode,200);
+  const replacement=await f.api('POST',`/api/plans/${fresh.id}/execution`,{idempotencyKey:randomUUID(),reason:'Fresh plan after explicit cancellation'});
+  assert.equal(replacement.statusCode,201,replacement.body);
+  assert.ok(await sql.begin(async tx=>{await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;return readExecutionRequest(tx,replacement.json().job.id);}));
+  await f.restart();assert.equal((await f.api('GET',`${f.base}/plans/${plan.id}/record`)).statusCode,200);
+  assert.equal((await f.db.sql`SELECT sf_plan_approval_satisfied(${plan.id}) AS ok`)[0].ok,false);
  }finally{await f.close();}
 });
 

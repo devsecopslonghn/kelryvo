@@ -41,7 +41,7 @@ test('target-bound plans retain immutable format-3 evidence and fail closed acro
     const planResponse = await makePlan(binding);
     assert.equal(planResponse.statusCode, 201, planResponse.body);
     const plan = planResponse.json().plan;
-    assert.equal(plan.offlineIntent.format, 3);
+    assert.equal(plan.offlineIntent.format, 5);
     const target = plan.offlineIntent.target ?? plan.retainedTarget;
     assert.equal(target.bindingId, binding.bindingId);
     assert.equal(target.assignmentId, assignment.id);
@@ -166,7 +166,7 @@ test('target-bound plans retain immutable format-3 evidence and fail closed acro
     await f.restart();
     const persisted = await f.api('GET', `/api/projects/${f.project.id}`);
     assert.equal(persisted.statusCode, 200);
-    assert.ok(persisted.json().plans.some((item) => item.id === requestPlan.id && item.offlineIntent.format === 3));
+    assert.ok(persisted.json().plans.some((item) => item.id === requestPlan.id && item.offlineIntent.format === 5));
     assert.ok(persisted.json().history.some((row) => row.planId === requestPlan.id));
     const auditAfterRestart = await db.sql`SELECT action FROM sf_audit WHERE project_id=${f.project.id} ORDER BY created_at,id`;
     assert.deepEqual(auditAfterRestart.map((row) => row.action), auditBeforeRestart.map((row) => row.action));

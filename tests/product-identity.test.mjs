@@ -53,7 +53,18 @@ test('password identity bootstrap, sessions, RBAC, group access, recovery and mi
   assert.equal((await req(`/api/projects/${projectId}/environments`,{name:'cannot'},member)).status,403);
   assert.equal((await req(`/api/projects/${projectId}/environments`,{name:'PROD'},admin)).status,201);
   const policies=(await req('/api/admin/policies',undefined,admin)).body.environments;assert.equal(policies[0].approvalRequired,true);assert.equal(policies[0].independentApproval,true);
-  assert.equal((await req(`/api/admin/policies/${policies[0].id}`,{approvalRequired:false,independentApproval:false},admin,'PUT')).status,200);
+  assert.equal((await req(`/api/admin/policies/${policies[0].id}`,{stage:'DEV',approvalRequired:false,independentApproval:false,expectedRevision:policies[0].revision,reason:'Explicit development policy'},admin,'PUT')).status,200);
+  const unchanged=await req(`/api/admin/policies/${policies[0].id}`,{stage:'DEV',approvalRequired:false,independentApproval:false,expectedRevision:'2',reason:'Confirm existing development policy'},admin,'PUT');
+  assert.equal(unchanged.status,200);assert.deepEqual(unchanged.body,{ok:true,revision:'2',changed:false});
+  const policyBody={stage:'CONTROLLED',approvalRequired:false,independentApproval:false,expectedRevision:'2',reason:'Cannot waive controlled review'};
+  assert.equal((await req(`/api/admin/policies/${policies[0].id}`,policyBody,admin,'PUT')).status,409);
+  assert.equal((await req(`/api/admin/policies/${policies[0].id}`,{...policyBody,stage:'SIT',expectedRevision:'1'},admin,'PUT')).status,409,'stale policy editor cannot overwrite revision 2');
+  assert.equal((await req(`/api/admin/policies/${policies[0].id}`,{...policyBody,stage:'SIT',reason:''},admin,'PUT')).status,400);
+  assert.equal((await req(`/api/admin/policies/${policies[0].id}`,{...policyBody,stage:'SIT'},member,'PUT')).status,403);
+  const history=await req(`/api/admin/policies/${policies[0].id}/history`,undefined,admin);
+  assert.equal(history.status,200);assert.deepEqual(history.body.revisions.map(r=>r.revision),['2','1']);
+  assert.equal(history.body.revisions[0].actorId,admin.actor.id);assert.equal(history.body.revisions[0].reason,'Explicit development policy');
+
   assert.equal((await req(`/api/admin/groups/${group.id}/members`,{memberIds:[]},admin,'PUT')).status,200);
   assert.equal((await req(`/api/projects/${projectId}`,undefined,member)).status,404);
   assert.equal((await req(`/api/admin/users/${encodeURIComponent(memberId)}`,{disabled:true},admin,'PATCH')).status,200);

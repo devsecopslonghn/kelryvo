@@ -11,7 +11,7 @@ test('complete statement approval survives restart, pages by exact digest, denie
   const f = await statementEnvelopeFixture();
   try {
     const plan = await f.makePlan();
-    assert.equal(plan.offlineIntent.format, 2); assert.equal(plan.offlineIntent.statementCount, 57);
+    assert.equal(plan.offlineIntent.format, 5); assert.equal(plan.offlineIntent.statementCount, 57);
     assert.ok(plan.executionReadiness.blockers.includes('TARGET_HISTORY_UNAVAILABLE'));
     assert.equal(plan.executionReadiness.executionAuthority, false);
     const route = `${f.base}/plans/${plan.id}/statement-envelope`;
@@ -57,12 +57,21 @@ test('complete statement approval survives restart, pages by exact digest, denie
     await f.db.sql`UPDATE sf_plans SET offline_intent_envelope=${original.offline_intent_envelope},offline_intent_digest=${original.offline_intent_digest} WHERE id=${plan.id}`;
     const requested = await f.api('POST', `/api/plans/${plan.id}/execution`, { idempotencyKey: 'valid-stream-request-0001', reason: 'Wait for actual target evidence' });
     assert.equal(requested.statusCode, 201); assert.equal(requested.json().job.state, 'WAITING_VALIDATION');
-    // Simulate an existing format-1 plan; no application migration rewrites these bytes.
-    const legacy = await f.makePlan();
-    const legacyOriginal = (await f.db.sql`SELECT offline_intent_envelope FROM sf_plans WHERE id=${legacy.id}`)[0];
-    const old = JSON.parse(legacyOriginal.offline_intent_envelope).slice(0, 21); old[0] = 1;
-    const oldEnvelope = JSON.stringify(old);
-    await f.db.sql`UPDATE sf_plans SET offline_intent_envelope=${oldEnvelope},offline_intent_digest=${hash(oldEnvelope)} WHERE id=${legacy.id}`;
+    // Create a pre-upgrade format-1 plan so its immutable policy capture is
+    // consistent with the legacy bytes from the moment the row is inserted.
+    const seed = await f.makePlan();
+    const seedEnvelope=(await f.db.sql`SELECT offline_intent_envelope FROM sf_plans WHERE id=${seed.id}`)[0].offline_intent_envelope;
+    const old=JSON.parse(seedEnvelope).slice(0,21); old[0]=1;
+    const oldEnvelope=JSON.stringify(old),oldDigest=hash(oldEnvelope);
+    assert.ok(verifyOfflinePlanIntent(oldEnvelope,oldDigest));
+    const legacyId=randomUUID();
+    await f.db.sql`INSERT INTO sf_plans(id,project_id,organization_id,release_id,profile_id,author_id,status,items,
+        offline_intent_envelope,offline_intent_digest,planning_scope,source_binding_generation)
+      SELECT ${legacyId},project_id,organization_id,release_id,profile_id,author_id,'PENDING_APPROVAL',items,
+        ${oldEnvelope},${oldDigest},planning_scope,source_binding_generation
+      FROM sf_plans WHERE id=${seed.id}`;
+    assert.equal(JSON.parse((await f.db.sql`SELECT offline_intent_envelope FROM sf_plans WHERE id=${legacyId}`)[0].offline_intent_envelope)[0],1);
+    const legacy={...seed,id:legacyId};
     await f.restart();
     const detail = (await f.api('GET', f.base)).json();
     const legacyRead = detail.plans.find(p => p.id === legacy.id), v2Read = detail.plans.find(p => p.id === plan.id);
@@ -75,6 +84,6 @@ test('complete statement approval survives restart, pages by exact digest, denie
     const legacyRequest = await f.api('POST', `/api/plans/${legacy.id}/execution`, { idempotencyKey: 'legacy-files-request-0001', reason: 'Cannot bind statements with an old approval' });
     assert.equal(legacyRequest.statusCode, 409); assert.equal(legacyRequest.json().error, 'STATEMENT_APPROVAL_REQUIRED');
     assert.deepEqual(await snapshot(), beforeLegacyRequest);
-    const fresh = await f.makePlan(); assert.equal(fresh.offlineIntent.format, 2); assert.notEqual(fresh.id, legacy.id); assert.equal(fresh.status, 'PENDING_APPROVAL');
+    const fresh = await f.makePlan(); assert.equal(fresh.offlineIntent.format, 5); assert.notEqual(fresh.id, legacy.id); assert.equal(fresh.status, 'PENDING_APPROVAL');
   } finally { await f.close(); }
 });

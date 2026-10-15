@@ -134,7 +134,7 @@ export async function readExecutionRequest(tx: any, jobId: string, admitted = fa
   const intent = verifyOfflinePlanIntent(plan.envelope,plan.offline_intent_digest,{
     organizationId:ORG,projectId:plan.project_id,requesterId:plan.author_id,
     releaseId:plan.release_id,profileId:plan.profile_id });
-  if (!intent || ![2,3,4].includes(intent.format)) return null;
+  if (!intent || ![2,3,4,5].includes(intent.format)) return null;
   const project = (await tx`SELECT id,source_repository_id,source_folder,source_binding_generation::text
     FROM sf_projects WHERE id=${plan.project_id} AND organization_id=${ORG} AND archived_at IS NULL FOR SHARE`)[0];
   if (!project || project.source_binding_generation !== plan.source_binding_generation) return null;
