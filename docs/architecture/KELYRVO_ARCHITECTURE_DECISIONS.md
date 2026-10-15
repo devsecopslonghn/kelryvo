@@ -106,10 +106,14 @@ Internal ledger and observation authorities remain installation-owned, isolated 
 API/browser, rather than additional application credentials users must manage.
 
 Automatic dispatch requires both the pinned Oracle parser and a complete conservative
-scope grammar: scalar CREATE TABLE, scalar ALTER TABLE ADD columns and simple local
-CREATE INDEX. Expressions, CTAS, dynamic/procedural SQL, DML, triggers, synonyms,
-database links, grants/admin and all other syntax are blocked. Literal defaults and
-NOT NULL are supported; constraints and richer expressions need later scoped acceptance.
+scope grammar: scalar CREATE TABLE, scalar ALTER TABLE ADD columns or one table constraint,
+and simple local CREATE INDEX. Tables accept inline/out-of-line PRIMARY KEY and UNIQUE,
+named NOT NULL and bounded CHECK conditions on local columns and scalar literals. CHECK
+supports comparisons, IS NULL, IN, BETWEEN and boolean AND/OR/NOT with bounded nesting;
+it never admits calls, qualified operands, subqueries or arbitrary expressions. Foreign
+keys, custom constraint state/index clauses, CTAS, dynamic/procedural SQL, DML, triggers,
+synonyms, database links and grants/admin remain blocked. Literal defaults remain supported.
+Constraint forms have offline/synthetic coverage only until separately accepted on Oracle.
 Validation surfaces the block, materialization rejects unsafe approved bytes before
 opening Oracle, and the held writer rechecks immediately before ledger START/dispatch.
 Existing-table operations require an exact-owner physical TABLE catalog match and never

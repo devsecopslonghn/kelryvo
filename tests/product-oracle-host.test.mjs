@@ -9,7 +9,7 @@ import { declareReference,assignReference } from '../packages/catalog-reference/
 import { createExecutionWorker } from '../apps/worker/run-request.ts';
 import { readExecutionRequest,materializeExecutionRequest } from '../packages/execution/admission.ts';
 
-test('protected Oracle host adapter integrates real Git approval, pending-only worker and durable central history',{
+test('protected Oracle host adapter integrates constrained Git SQL, approval, pending-only worker and durable central history',{
   skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:300000,
 },async t=>{
   const f=await statementEnvelopeFixture({ firstStatementCount:2,firstFile:'V1__first.sql',includeSecond:false });
@@ -39,11 +39,18 @@ test('protected Oracle host adapter integrates real Git approval, pending-only w
     };
     const state=async id=>(await sql`SELECT state FROM sf_execution_jobs WHERE id=${id}`)[0].state;
     const attempts=async id=>(await sql`SELECT count(*)::int AS n FROM sf_execution_attempts WHERE job_id=${id}`)[0].n;
-    const v1=await f.makePlan();await approve(v1);
+    const constrainedSource='CREATE TABLE envelope_0 (id NUMBER PRIMARY KEY, label VARCHAR2(20), amount NUMBER CHECK (amount >= 0));\n'
+      +'ALTER TABLE envelope_0 ADD CONSTRAINT envelope_uq UNIQUE (label,id);\n';
+    await writeFile(path.join(f.repo,'migrations/V1__first.sql'),constrainedSource);
+    f.git('add','migrations');f.git('commit','-m','Constrained table migration');
+    const constrainedRelease=await f.api('POST',`${f.base}/releases`,{repositoryId:'statement-repo',commit:'HEAD',folder:'migrations'});
+    assert.equal(constrainedRelease.statusCode,201,constrainedRelease.body);
+    const v1=await f.makePlan(constrainedRelease.json().release.id);await approve(v1);
     const originalApproval=(await sql`SELECT approval_reference FROM sf_plans WHERE id=${v1.id}`)[0].approval_reference;
     const first=await request(v1),h=await host();
     await t.test('V1 completes with ordered target and central receipts',async()=>{
       assert.equal(await h.worker.runWaitingRequest(first),'VERIFIED_SUCCESS');assert.equal(h.calls.length,2);
+      assert.match(h.calls[0],/PRIMARY KEY/);assert.match(h.calls[1],/ADD CONSTRAINT envelope_uq UNIQUE/);
       const ledger=await h.read();assert.equal(ledger.ledgerState,'COMPLETE');assert.equal(ledger.appliedMigrations.length,1);
       assert.equal(ledger.appliedMigrations[0].approvalReference,originalApproval);
       assert.equal((await sql`SELECT count(*)::int AS n FROM sf_execution_receipts WHERE job_id=${first}`)[0].n,2);

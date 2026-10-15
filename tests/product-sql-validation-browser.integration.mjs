@@ -10,6 +10,7 @@ test('browser selects retained SQL, validates target, reviews unknowns, creates 
 },async()=>{
   const f=await createValidationFixture();let browser;
   try{
+    await f.importSql('CREATE TABLE target_constraints (id NUMBER CONSTRAINT target_pk PRIMARY KEY, code VARCHAR2(40) UNIQUE, amount NUMBER CHECK (amount >= 0));\nALTER TABLE target_constraints ADD CONSTRAINT amount_ck CHECK (amount BETWEEN 0 AND 1000);\n');
     const originalRelease=f.release;
     browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];
     page.on('pageerror',e=>errors.push(e.message));
@@ -22,7 +23,7 @@ test('browser selects retained SQL, validates target, reviews unknowns, creates 
       await page.locator(`.release-result[data-inspected-release-id="${release.id}"]`).waitFor();};
     await signIn(f.actors[0]);await inspectRelease(f.release);
     await page.locator('.release-result .sql-preview summary').first().click();
-    await page.getByText('CREATE TABLE target_workflow (id NUMBER);',{exact:false}).first().waitFor();
+    await page.getByText('CREATE TABLE target_constraints (id NUMBER CONSTRAINT target_pk PRIMARY KEY,',{exact:false}).first().waitFor();
     const validation=page.getByRole('region',{name:'Validate SQL against target'});
     await validation.getByLabel('Validation target').selectOption(f.binding.bindingId);
     await validation.getByRole('button',{name:'Validate against target',exact:true}).click();
@@ -30,6 +31,10 @@ test('browser selects retained SQL, validates target, reviews unknowns, creates 
     await validation.getByText('UNVERIFIED',{exact:true}).waitFor();
     await validation.getByText('Schema owner visibility only',{exact:true}).waitFor();
     assert.match(await validation.innerText(),/Object existence and Oracle semantics remain unverified/);
+    const automaticScope=validation.getByRole('region',{name:'Automatic SQL scope'});
+    assert.match(await automaticScope.innerText(),/PRIMARY KEY.*TARGET_PK/s);
+    assert.match(await automaticScope.innerText(),/UNIQUE.*CHECK/s);
+    assert.equal(await automaticScope.getByText('Within supported scope',{exact:true}).count(),2);
     await page.setViewportSize({width:390,height:844});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
     await page.setViewportSize({width:1440,height:1100});
@@ -41,12 +46,14 @@ test('browser selects retained SQL, validates target, reviews unknowns, creates 
     await page.getByLabel('Sign out').click();await signIn(f.actors[1]);
     await page.getByRole('button',{name:/Plans & review/}).click();await page.locator(`.plan-option[data-plan-id="${planId}"]`).click();
     const retained=page.getByRole('region',{name:'Retained SQL validation'});await retained.getByText('CREATE_TABLE',{exact:true}).waitFor();
+    assert.match(await retained.getByRole('region',{name:'Automatic SQL scope'}).innerText(),/PRIMARY KEY.*TARGET_PK/s);
     await page.getByLabel('Decision reason').fill('Reviewed schema evidence, SQL risks and explicitly unverified object semantics');
     await page.getByRole('button',{name:'Approve plan',exact:true}).click();await page.getByRole('region',{name:'Decision record'}).waitFor();
     const downloading=page.waitForEvent('download');await page.getByRole('button',{name:'Download plan record',exact:true}).click();
     const download=await downloading,bundle=JSON.parse(await readFile(await download.path(),'utf8'));
     assert.equal(createHash('sha256').update(bundle.record).digest('hex'),bundle.sha256);
     assert.equal(JSON.parse(bundle.record).retainedIntent.schemaValidation.digest,saved.offlineIntent.validation.digest);
+    assert.equal(JSON.parse(bundle.record).retainedIntent.schemaValidation.report.statements[0].automaticScope.constraints[0].type,'PRIMARY_KEY');
     assert.doesNotMatch(bundle.record,/vault:\/\/|secret:\/\/|privatePrincipalRef|sourceSql/);
     await page.getByLabel('Sign out').click();await signIn(f.actors[0]);await f.importSql('DROP TABLE EVIL.forbidden_object;');
     await page.getByRole('button',{name:'Refresh workspace',exact:true}).click();await inspectRelease(f.release);

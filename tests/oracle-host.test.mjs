@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash,randomUUID } from 'node:crypto';
 import { createRestrictedOracleHost } from '../apps/worker/oracle-host.ts';
 import { snapshotObservation,executionDigest } from '../packages/execution/admission.ts';
-import { createOracleTargetLedger,oracleV1InstanceStreamLedgerIds } from '../packages/execution/oracle-target-ledger.mjs';
+import { createOracleTargetLedger,oracleTargetLedgerId,oracleV1InstanceStreamLedgerIds } from '../packages/execution/oracle-target-ledger.mjs';
 import { oracleHostFixture } from './helpers/oracle-host-fixture.mjs';
 
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -40,7 +40,11 @@ test('even approved bytes cannot dispatch unscopable SQL or synonym targets',asy
   for(const sql of ['CREATE TABLE FOREIGN.t (id NUMBER)',
     "BEGIN EXECUTE IMMEDIATE 'CREATE TABLE APP.t (id NUMBER)'; END;",
     'CREATE TABLE t AS SELECT * FROM FOREIGN.s','INSERT INTO example VALUES (1)',
-    'ALTER SESSION SET CURRENT_SCHEMA = FOREIGN','CREATE TRIGGER trg BEFORE INSERT ON t BEGIN NULL; END;']) {
+    'ALTER SESSION SET CURRENT_SCHEMA = FOREIGN','CREATE TRIGGER trg BEFORE INSERT ON t BEGIN NULL; END;',
+    'ALTER TABLE example ADD CONSTRAINT pk PRIMARY KEY (id) USING INDEX FOREIGN.idx',
+    'ALTER TABLE example ADD CHECK (FOREIGN.check_fn(id) = 1)',
+    'ALTER TABLE example ADD FOREIGN KEY (id) REFERENCES FOREIGN.parent(id)',
+    'ALTER TABLE example ADD CHECK (id > 0) DISABLE']) {
     await t.test(sql,async()=>{
       const f=oracleHostFixture();const input=request([migration('1',[sql])]);
       await f.host().withTarget(input,async s=>{
@@ -51,12 +55,40 @@ test('even approved bytes cannot dispatch unscopable SQL or synonym targets',asy
     });
   }
   for(const existingTableType of ['SYNONYM','VIEW']) {
-    const sql='ALTER TABLE example ADD label VARCHAR2(40)',f=oracleHostFixture({existingTableType});
-    await f.host().withTarget(request([migration('1',[sql])]),async s=>{
-      await s.observe();const before=await f.read();assert.equal(await s.execute(Buffer.from(sql)),'UNKNOWN');
-      assert.deepEqual(await f.read(),before);
-    });assert.equal(f.calls.length,0);
+    for(const sql of ['ALTER TABLE example ADD label VARCHAR2(40)',
+      'ALTER TABLE example ADD CONSTRAINT example_pk PRIMARY KEY (id)',
+      'ALTER TABLE example ADD CHECK (id > 0)']) {
+      const f=oracleHostFixture({existingTableType});
+      await f.host().withTarget(request([migration('1',[sql])]),async s=>{
+        await s.observe();const before=await f.read();assert.equal(await s.execute(Buffer.from(sql)),'UNKNOWN');
+        assert.deepEqual(await f.read(),before);
+      });assert.equal(f.calls.length,0);
+    }
   }
+});
+
+test('scoped declarative constraints retain exact bytes, receipts and pending-only history under the held writer mutex',async()=>{
+  const texts=[
+    'CREATE TABLE example (id NUMBER CONSTRAINT example_pk PRIMARY KEY, code VARCHAR2(20) UNIQUE, amount NUMBER CHECK (amount >= 0))',
+    'ALTER TABLE example ADD CONSTRAINT amount_ck CHECK (amount BETWEEN 0 AND 1000)',
+    'ALTER TABLE example ADD (tenant NUMBER NOT NULL)',
+  ];
+  const assignment=randomUUID(),streamId=randomUUID(),lineageId=randomUUID();
+  const f=oracleHostFixture({assignment,targetKey:'oracle-container-v1:'+hash('constrained master target'),
+    attest:(witness,_request,writer)=>{writer.identity.SESSION_USER='MIGRATION_MASTER';return witness;}}),first=migration('1',texts);
+  const masterRequest=files=>{const r=request(files);r.profile.username='MIGRATION_MASTER';
+    r.executionTarget={assignmentId:assignment,expectedIdentityDigest:f.binding.targetIdentityDigest,exactOwner:'APP',
+      credentialMode:'INSTANCE_MASTER',streamId,lineageId,physicalTargetKey:f.binding.targetKey};return r;};
+  const read=()=>createOracleTargetLedger(f.owner).read(oracleTargetLedgerId({...f.binding,credentialMode:'INSTANCE_MASTER',streamId}));
+  await run(f.host(),masterRequest([first]),texts);
+  assert.deepEqual(f.calls,texts);
+  assert.equal((await read()).appliedMigrations.length,1);
+  const next=['ALTER TABLE example ADD CONSTRAINT tenant_code_uq UNIQUE (tenant,code)'];
+  await run(f.host(),masterRequest([first,migration('2',next)]),next);
+  assert.deepEqual(f.calls,[...texts,...next]);
+  assert.equal((await read()).appliedMigrations.length,2);
+  await run(f.host(),masterRequest([first,migration('2',next)]),[]);
+  assert.equal(f.calls.length,4,'a witnessed no-op must not replay constrained DDL');
 });
 
 test('target-bound host verifies the deployment login and exact schema owner independently',async()=>{

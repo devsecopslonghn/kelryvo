@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {randomUUID} from 'node:crypto';
+import {randomUUID,createHash} from 'node:crypto';
 import {createValidationFixture} from './helpers/schema-validation-fixture.mjs';
 import {createTargetWorkflowFixture} from './helpers/target-workflow-fixture.mjs';
 import {verifyOfflinePlanIntent} from '../packages/migrations/offline-plan-intent.mjs';
@@ -55,6 +55,10 @@ test('schema-aware validation is deterministic, immutable, scoped and restart-du
     assert.equal(v.report.metadata.completeness,'OWNER_VISIBILITY_ONLY');assert.equal(v.report.metadata.objects,'NOT_OBSERVED');
     assert.equal(v.report.capabilities.semantics,'UNVERIFIED');assert.equal(v.report.statements[0].classification,'CREATE_TABLE');
     assert.equal(v.report.statements[0].objectCheck,'UNKNOWN');assert.equal(v.report.statements[0].schemaCheck,'MATCH');
+    const historical=structuredClone(v.report);
+    for(const statement of historical.statements)delete statement.automaticScope;
+    const historicalEnvelope=JSON.stringify(historical),historicalDigest=createHash('sha256').update(historicalEnvelope).digest('hex');
+    assert.deepEqual(verifyValidation(historicalEnvelope,historicalDigest),historical,'prior validation envelopes remain readable without automaticScope');
     assert.doesNotMatch(response.body,/vault:\/\/|secret:\/\/|privatePrincipalRef|sourceSql|FOREIGN_PRIVATE/);
     const repeated=await f.validate();assert.equal(repeated.statusCode,200);assert.equal(repeated.json().validation.id,v.id);assert.equal(repeated.json().validation.digest,v.digest);
     assert.equal(Number((await f.db.sql`SELECT count(*)::int AS n FROM sf_audit WHERE action='SQL_VALIDATED' AND project_id=${f.project.id}`)[0].n),1);
@@ -109,6 +113,50 @@ test('incorrect syntax, cross-schema and database-link policy violations remain 
     assert.ok(unknown.report.statements[0].findings.some(f=>f.severity==='HIGH'));
     await f.importSql("BEGIN EXECUTE IMMEDIATE 'DROP TABLE arbitrary'; END;\n/\n");
     const unsupported=(await f.validate()).json().validation;assert.equal(unsupported.report.outcome,'BLOCKED');assert.equal((await f.makeSchemaPlan(unsupported)).statusCode,409,'independent approval cannot override dynamic SQL scope denial');assert.equal(unsupported.report.statements[0].schemaCheck,'UNVERIFIED');
+  }finally{await f.close();}
+});
+
+test('table constraints flow through retained Git, validation, independent review, request and exact worker materialization', {skip:!enabled,timeout:120000},async()=>{
+  const f=await createValidationFixture();try{
+    const source='CREATE TABLE target_constraints (id NUMBER CONSTRAINT target_pk PRIMARY KEY, code VARCHAR2(40) UNIQUE, amount NUMBER CHECK (amount >= 0));\n'
+      +'ALTER TABLE target_constraints ADD CONSTRAINT amount_ck CHECK (amount BETWEEN 0 AND 1000);\n'
+      +'ALTER TABLE target_constraints ADD CONSTRAINT code_id_uq UNIQUE (code,id);\n';
+    await f.importSql(source);
+    assert.equal(f.release.validationStatus,'VALID');
+    const response=await f.validate();assert.equal(response.statusCode,201,response.body);
+    const v=response.json().validation;
+    assert.equal(v.report.outcome,'UNVERIFIED','scope is not semantic or runtime acceptance');
+    assert.ok(v.report.statements.every(s=>s.automaticScope.eligible));
+    assert.deepEqual(v.report.statements.flatMap(s=>s.automaticScope.constraints.map(c=>c.type)),['PRIMARY_KEY','UNIQUE','CHECK','CHECK','UNIQUE']);
+    const prepared=await f.makeSchemaPlan(v);assert.equal(prepared.statusCode,201,prepared.body);
+    const plan=prepared.json().plan;
+    assert.equal((await f.decide(plan,f.actors[0])).statusCode,403);
+    assert.equal((await f.decide(plan)).statusCode,200);
+    await f.membership.grant(f.project.id,f.actors[2].id);await f.membership.deployGrant(f.project.id,f.actors[2].id);
+    const request=await f.api('POST',`/api/plans/${plan.id}/execution`,{idempotencyKey:randomUUID(),reason:'Review constrained tables',
+      expectedIntentDigest:plan.offlineIntent.digest,expectedAssignmentRevision:plan.retainedTarget.assignmentRevision,
+      expectedBindingRevision:plan.retainedTarget.bindingRevision},f.actors[2]);
+    assert.equal(request.statusCode,201,request.body);assert.equal(request.json().job.state,'WAITING_VALIDATION');
+    const retained=(await f.db.sql`SELECT offline_intent_envelope,offline_intent_digest FROM sf_plans WHERE id=${plan.id}`)[0];
+    const release=(await f.db.sql`SELECT * FROM sf_releases WHERE id=${f.release.id}`)[0];
+    const materialized=await materializeApprovedStatements(release,retained.offline_intent_envelope,retained.offline_intent_digest,{});
+    assert.ok(materialized);assert.equal(materialized.statements.length,3);
+    assert.deepEqual(materialized.statements.map(s=>Buffer.from(s.bytes).toString('utf8').trim()),source.trim().split(';\n').map(s=>s.replace(/;$/,'').trim()));
+    const record=await f.api('GET',`${f.base}/plans/${plan.id}/record`);assert.equal(record.statusCode,200,record.body);
+    assert.deepEqual(JSON.parse(record.json().record).retainedIntent.schemaValidation.report.statements.map(s=>s.automaticScope),v.report.statements.map(s=>s.automaticScope));
+    for(const unsafe of [
+      'ALTER TABLE target_constraints ADD CHECK (EVIL.check_fn(id) = 1);',
+      'ALTER TABLE target_constraints ADD PRIMARY KEY (id) USING INDEX EVIL.idx;',
+      'ALTER TABLE target_constraints ADD UNIQUE (id) DISABLE;',
+    ]){
+      await f.importSql(unsafe);
+      const denied=await f.validate();assert.equal(denied.statusCode,201,denied.body);
+      assert.equal(denied.json().validation.report.outcome,'BLOCKED');
+      assert.equal((await f.makeSchemaPlan(denied.json().validation)).statusCode,409);
+    }
+    await f.restart();
+    const read=await f.api('GET',`${f.base}/validations/${v.id}`);assert.equal(read.statusCode,200,read.body);assert.equal(read.json().validation.digest,v.digest);
+    assert.equal((await f.db.sql`SELECT count(*)::int AS n FROM sf_execution_attempts`)[0].n,0,'fixture target must never obtain live execution authority');
   }finally{await f.close();}
 });
 
