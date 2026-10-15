@@ -46,7 +46,7 @@ The Kelryvo target-lineage ID is an operator-controlled surrogate with immutable
 
 A route revision names exactly one intended Kelryvo target lineage and an explicit set of allowed Oracle destinations for the accepted single-instance topology. A route that can resolve to unrelated target lineages is not executable. Connection-time service and actual destination observations are required; endpoint equality is never identity proof. RAC and Data Guard member sets are rejected in the initial scope.
 
-For a **non-CDB**, the observation should include `DBID`, `DB_NAME`, `DB_UNIQUE_NAME`, database incarnation/resetlogs facts, database role/open mode, exact schema owner, service, and server version. For a **CDB/PDB**, include the CDB identity, PDB GUID and PDB DBID where available, parent CDB identity, container name for diagnostics, role/open mode, exact owner, service, and server version. `CON_ID` is a runtime/container-local observation, not a durable PDB key. The current session query in `packages/execution/oracle-driver.mjs` checks session user/current schema, `DB_UNIQUE_NAME`, `CON_NAME`, `CON_ID`, service, session ID, and proxy user; it does not itself read DBID or PDB GUID. `apps/worker/oracle-host.ts` delegates the physical identity/GUID/TLS/grant proof to the privileged installation's `attest` capability. No such installation is accepted or Oracle-validated here.
+For a **non-CDB**, the observation should include `DBID`, `DB_NAME`, `DB_UNIQUE_NAME`, database incarnation/resetlogs facts, database role/open mode, exact schema owner, service, and server version. For a **CDB/PDB**, include the CDB identity, PDB GUID and PDB DBID where available, parent CDB identity, container name for diagnostics, role/open mode, exact owner, service, and server version. `CON_ID` is a runtime/container-local observation, not a durable PDB key. The current session query in `packages/execution/oracle-driver.mjs` checks session user/current schema, `DB_UNIQUE_NAME`, `CON_NAME`, `CON_ID`, service, session ID, and proxy user; it does not itself read DBID or PDB GUID. `apps/worker/oracle-host.ts` delegates the physical identity/GUID/TLS/grant proof to the privileged installation's `attest` capability. Bounded disposable-lab installations have source-specific Oracle acceptance; this does not certify a general production installation.
 
 Oracle documentation distinguishes DBID and Data Guard `DB_UNIQUE_NAME`; Data Guard members can share DBID while using distinct unique names. RAC instances share one database identity while services route sessions among instances. PDBs have GUIDs; documented PDB clone operations assign a new GUID. These distinctions support the model but do not establish Kelryvo's adapter correctness. See [Oracle DB_UNIQUE_NAME](https://docs.oracle.com/en/database/oracle/oracle-database/26/refrn/DB_UNIQUE_NAME.html), [Data Guard database identity](https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/reporting-rman-operations.html), [RAC services](https://docs.oracle.com/en/database/oracle/oracle-database/21/rilin/database-services-for-an-oracle-rac-database.html), and [PDB clone identity](https://docs.oracle.com/en/database/oracle/oracle-database/21/multi/multitenant-administrators-guide.pdf).
 
@@ -73,7 +73,7 @@ Cloning, restore, switchover, and relocation require event records that identify
 - A physical non-CDB/PDB may host many schemas. Each schema has zero or one active project assignment. No assignment means no project plan can select that schema.
 - An active assignment belongs to exactly one project, one Kelryvo schema resource, and a bounded interval. Transfer closes it; it does not edit its project ID.
 - Each route/config revision targets one logical lineage for a single-instance non-CDB or CDB/PDB and binds to an allowed destination. RAC and Data Guard member sets are rejected in the initial scope; future support requires a separate topology/fencing specification and lab acceptance.
-- An active assignment has exactly one current target binding. A binding has one project environment, one target-lineage/identity observation state, one route/config revision, one allowed SQL scope policy revision, and one purpose-specific execution principal reference.
+- An active assignment has exactly one current target binding. A binding has one project environment, one target-lineage/identity observation state, one route/config revision, one allowed SQL scope policy revision, and one instance master credential revision used through purpose-restricted discovery and execution capabilities.
 - A schema cannot be active in two project environments simultaneously. Environment reclassification creates a new binding revision, not a second live assignment. There is one canonical environment per target binding; aliases and rollout waves are deferred.
 - Binding change, target mismatch, credential/principal change, policy change, or assignment revision change invalidates pending approvals/requests for execution. Previously approved immutable facts remain readable and are marked stale; no automatic reapproval.
 - Only workspace operator authority registers physical resources/routes and creates/transfers assignments. Project membership permits project workflow and visibility; it grants no Oracle privileges. Keep this authority on the trusted local OS operator path; a web operator role is deferred until its authentication boundary is separately defined.
@@ -84,9 +84,47 @@ Cloning, restore, switchover, and relocation require event records that identify
 
 An assignment does not grant DDL privileges. It scopes project governance and selected schema identity. Execution authority is independently granted to an installed worker permit and Oracle execution principal, with least privilege and verified effective grants. The principal/user must be bound in the plan's approved digest and observed session (`SESSION_USER`, `CURRENT_SCHEMA`, `PROXY_USER` plus install-attested grants). `CURRENT_SCHEMA` alone does not prove object privileges.
 
-Initial execution scope is **one assigned schema only**. Allow only parser-produced operations whose resolved object owners are the assigned exact-case schema; reject unresolved or dynamic owner resolution. Reject cross-schema object changes, `ANY`-scope DDL, public/common objects, database/CDB/PDB administration, users/roles/grants, database links, directories, tablespaces, jobs, `ALTER SYSTEM`, and all CDB-root/common-user operations. No cross-schema or database-level exception is part of this product baseline. A full-DBA or shared-schema executor is prohibited.
+A project may own multiple assigned schemas. Each migration plan and stream targets **one assigned exact schema**, using the instance master credential. Allow only parser-produced operations whose resolved object owners are the assigned exact-case schema; reject unresolved or dynamic owner resolution. Reject cross-schema object changes, `ANY`-scope DDL, public/common objects, database/CDB/PDB administration, users/roles/grants, database links, directories, tablespaces, jobs, `ALTER SYSTEM`, and all CDB-root/common-user operations. No cross-schema or database-level exception is part of this product baseline. SYS/SYSTEM, common and protected Oracle owners are prohibited. A master account may have the explicitly attested DDL privileges needed for assigned schemas; full DBA authority is unnecessary. The fixed SELECT discovery process and the approved-statement worker restrict operations independently of the account's grants. CURRENT_SCHEMA is name resolution, never a security boundary.
 
-No Oracle grants/roles, proxy authentication, parser completeness, or privilege inventory is validated in this review. The initial SQL policy is fail-closed: parser or owner-resolution uncertainty is unverified and blocks admission; only exact-schema scope is eligible for future acceptance. Oracle principal privilege checks and install-specific writer/ledger separation remain `BLOCKED_EXTERNAL` until runtime proof.
+Historical purpose-separated-account evidence remains dated evidence; it does not constrain new instance onboarding to multiple user-managed credentials. The initial SQL policy is fail-closed: parser or owner-resolution uncertainty is unverified and blocks admission; only exact-schema scope is eligible for future acceptance. Oracle principal privilege checks and install-specific writer/ledger separation remain `BLOCKED_EXTERNAL` until runtime proof.
+
+## Instance master credential model (2026-10-15)
+
+One workspace connection per registered Oracle PDB/non-CDB holds the active master
+credential **reference**. The secret remains in the private runtime resolver. Connect
+before declaring schemas, discover exact owners, then let a workspace database manager
+assign several accessible owners to a granted project. Reusing an instance in another
+project appends a connection association; it never transfers schema ownership. Ordinary
+project members see only assigned owners. Unsupported SID/root/topologies remain gated.
+
+Deployment profiles are derived immutable credential snapshots linked to the exact
+instance revision, retaining compatibility with existing plan formats. Users configure
+one credential, not a credential per schema or purpose. Master configuration/lifecycle
+changes permanently stale dependent profiles/plans, including change-and-restore.
+Legacy separate profiles and old plans remain readable; automatic conversion is absent.
+Internal ledger and observation authorities remain installation-owned, isolated from
+API/browser, rather than additional application credentials users must manage.
+
+Automatic dispatch requires both the pinned Oracle parser and a complete conservative
+scope grammar: scalar CREATE TABLE, scalar ALTER TABLE ADD columns and simple local
+CREATE INDEX. Expressions, CTAS, dynamic/procedural SQL, DML, triggers, synonyms,
+database links, grants/admin and all other syntax are blocked. Literal defaults and
+NOT NULL are supported; constraints and richer expressions need later scoped acceptance.
+Validation surfaces the block, materialization rejects unsafe approved bytes before
+opening Oracle, and the held writer rechecks immediately before ledger START/dispatch.
+Existing-table operations require an exact-owner physical TABLE catalog match and never
+follow synonyms. The trusted installation must exclude concurrent external DDL and
+unreviewed database/schema DDL triggers; the application mutex does not fence other tools.
+
+Oracle service names are case insensitive; configured route spelling may differ only in case from the attested observed service. The full observed identity remains exact ([Oracle service naming](https://docs.oracle.com/en/database/oracle/oracle-database/26/cncpt/CDBs-and-PDBs.html)).
+
+The writer verifies the login separately from the assigned CURRENT_SCHEMA on its
+dedicated session. A safely quoted installation-owned ALTER SESSION sets only that
+context. Master ledgers use stable stream partitions; the mutex remains physical-container
+wide. Reconciliation scopes completed history to the stream, while HOLD/in-flight vetoes
+remain conservative. Existing physical ledger keys remain unchanged. An empty master
+partition cannot ignore retained legacy history or adopt a nonempty target; explicit
+history adoption remains outside this automatic workflow.
 
 ## Migration stream continuity and baseline
 

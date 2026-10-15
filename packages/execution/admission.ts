@@ -151,7 +151,8 @@ export async function readExecutionRequest(tx: any, jobId: string, admitted = fa
       JOIN sf_database_observations o ON o.id=e.observation_id WHERE e.digest=${intent.target.observationDigest}
         AND e.project_id=${project.id} AND e.assignment_id=${intent.target.assignmentId}`)[0];
     if (!evidence || !/^[a-f0-9]{64}$/.test(evidence.identity_digest)) return null;
-    executionTarget = Object.freeze({...intent.target,expectedIdentityDigest:evidence.identity_digest,
+    const source=(await tx`SELECT c.credential_mode FROM sf_instance_profile_sources s JOIN sf_database_connections c ON c.id=s.connection_id WHERE s.profile_id=${profile.id}`)[0];
+    executionTarget = Object.freeze({...intent.target,...(source?{credentialMode:source.credential_mode}:{}),expectedIdentityDigest:evidence.identity_digest,
       evidenceProvenance:evidence.provenance,liveVerificationAccepted:Boolean(evidence.verification_acceptance)});
     if (intent.validation) {
       try {

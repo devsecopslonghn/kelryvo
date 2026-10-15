@@ -1,3 +1,4 @@
+import { instanceProfileCurrent } from './instance-current.ts';
 import { guardMutationAuthority } from '../database/mutation-authority.ts';
 import { ORG } from '../targets/index.ts';
 import { credentialAlias } from '../targets/public.mjs';
@@ -14,14 +15,15 @@ export function publicConnection(c:any,kind:string) {
     username:c.username,environmentId:c.environment_id,environment:c.environment,containerId:c.container_id,routeId:c.route_id,
     transport:c.transport,description:c.description,revision:String(c.revision),enabled:c.enabled,purpose:kind,
     status:c.retired_at?'RETIRED':c.enabled?'ENABLED':'DISABLED',credentialAlias:credentialAlias(c.id),
-    credentialConfigured:!!c.credential_ref,createdAt:c.created_at,retiredAt:c.retired_at,retirementReason:c.retirement_reason};
+    credentialConfigured:!!c.credential_ref,credentialMode:c.credential_mode??'LEGACY_SEPARATE',createdAt:c.created_at,retiredAt:c.retired_at,retirementReason:c.retirement_reason};
 }
 
 /** A changed-and-restored configuration must never revive earlier approvals. */
 export async function profilePlanCurrent(tx:any,planId:string) {
   const r=(await tx`SELECT p.enabled,p.service_kind,p.retired_at,p.revision=s.revision AS current
     FROM sf_connection_plan_revisions s JOIN sf_profiles p ON p.id=s.profile_id WHERE s.plan_id=${planId}`)[0];
-  return !!(r?.current && r.enabled && !r.retired_at && r.service_kind==='SERVICE_NAME');
+  const source=(await tx`SELECT profile_id FROM sf_instance_profile_sources WHERE profile_id=(SELECT profile_id FROM sf_connection_plan_revisions WHERE plan_id=${planId})`)[0];
+  return (!source || await instanceProfileCurrent(tx,source.profile_id)) && !!(r?.current && r.enabled && !r.retired_at && r.service_kind==='SERVICE_NAME');
 }
 
 export async function connectionReadiness(tx:any,c:any,kind:string,projectId?:string) {
@@ -82,9 +84,10 @@ export function registerConnectionManagement(app:any,{sql,authenticate}:any) {
         ? (await tx`SELECT * FROM sf_profiles WHERE id=${req.params.connectionId} AND project_id=${req.params.projectId} AND organization_id=${ORG} FOR UPDATE`)[0]
         : (await tx`SELECT c.* FROM sf_database_connections c JOIN sf_database_connection_projects p ON p.connection_id=c.id
             WHERE c.id=${req.params.connectionId} AND c.organization_id=${ORG} AND p.project_id=${req.params.projectId}
-            AND EXISTS(SELECT 1 FROM sf_reference_schemas s JOIN sf_reference_assignments a ON a.schema_id=s.id
-              WHERE s.container_id=c.container_id AND a.project_id=p.project_id AND a.closed_at IS NULL) FOR UPDATE OF c`)[0];
+            AND (c.credential_mode='INSTANCE_MASTER' AND ${workspaceGrant} OR EXISTS(SELECT 1 FROM sf_reference_schemas s JOIN sf_reference_assignments a ON a.schema_id=s.id
+              WHERE s.container_id=c.container_id AND a.project_id=p.project_id AND a.closed_at IS NULL)) FOR UPDATE OF c`)[0];
       if(!c)throw fail('NOT_FOUND',404);
+      if(manage && kind==='DEPLOY' && (await tx`SELECT 1 FROM sf_instance_profile_sources WHERE profile_id=${c.id}`)[0])throw fail('INSTANCE_PROFILE_MANAGED');
       if(kind==='DISCOVERY')c.environment=(await tx`SELECT environment FROM sf_reference_containers WHERE id=${c.container_id}`)[0]?.environment;
       return {c,canManage,project};
     };

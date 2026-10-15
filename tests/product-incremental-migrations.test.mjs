@@ -59,9 +59,13 @@ test('modern retained target completions reconcile format-3 and format-4 intents
       const approvals=approvedMigrationIdentities(intent);
       ledger.push(...approvals.map(row=>({...row,outcome:'APPLIED',approvalReference:originalIntent.approval_reference,intentDigest:originalIntent.offline_intent_digest})));
       const matching={scope,targetKey,targetIdentityDigest:f.observation.identityDigest,appliedMigrations:ledger};
-      const reconcile=observation=>f.db.sql.begin(async tx=>{await acquireTargetLocks(tx,{planId:plan.id});return reconcileCompletedHistory(tx,observation);});
+      const reconcile=(observation,streamId)=>f.db.sql.begin(async tx=>{await acquireTargetLocks(tx,{planId:plan.id});return reconcileCompletedHistory(tx,observation,streamId);});
       assert.equal(await reconcile(matching),true,
         'a completed modern intent plus its actual retained target evidence is a witness');
+      assert.equal(await reconcile({...matching,appliedMigrations:[]},randomUUID()),true,
+        'a separate schema stream on the same physical target has independent completion reconciliation');
+      assert.equal(await reconcile({...matching,appliedMigrations:[]}),false,
+        'legacy physical-target reconciliation cannot ignore an existing physical-target completion');
       assert.equal(await reconcile({...matching,targetIdentityDigest:hash('different physical target')}),false,
         'a saved binding cannot witness effects on a different target identity');
       const copyWitness=async(targetSuffix,targetBindingDigest)=>{

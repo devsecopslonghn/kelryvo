@@ -201,6 +201,10 @@ export function createOracleTargetLedger(connection) {
 export function oracleTargetLedgerId(binding) {
   if (!binding || typeof binding.targetKey!=='string' || !KEY.test(binding.targetKey)
       || typeof binding.targetIdentityDigest!=='string' || !DIGEST.test(binding.targetIdentityDigest)) return null;
+  if(binding.credentialMode==='INSTANCE_MASTER') {
+    if(typeof binding.streamId!=='string' || !UUID.test(binding.streamId))return null;
+    return hash(['INSTANCE_SCHEMA_STREAM_V1',binding.targetKey,binding.streamId]);
+  }
   return hash([binding.targetKey,binding.targetIdentityDigest]);
 }
 export const oracleTargetLedgerSql=SQL;

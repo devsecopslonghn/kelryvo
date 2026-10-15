@@ -1,8 +1,8 @@
 # Kelryvo product requirements, state and roadmap
 
-This is the source of truth for product direction, delivered capability and the remaining backlog. Baseline: master `7d36e57`, including R1 PR #95; R2 schema baseline changes assessed 2026-10-14. This document records delivered product behavior and its evidence boundaries; it does not certify the current deployment.
+This is the source of truth for product direction, delivered capability and the remaining backlog. Architecture alignment baseline: master `2cdab24` (PRs through #111), reassessed 2026-10-15 for one instance credential and multiple project schemas. This document records delivered product behavior and its evidence boundaries; it does not certify the current deployment.
 
-Kelryvo is a self-hosted, Oracle-first Database DevOps platform. Its usable product today is an integrated **offline change-governance workflow**: configure project targets, retain Git or authored SQL, validate and compare it, prepare immutable plans, obtain independent approval, request deployment and inspect durable evidence. Real Oracle discovery has bounded, independently accepted live evidence on one owner-approved lab variant; full discovery/schema acceptance and governed execution remain incomplete.
+Kelryvo is a self-hosted, Oracle-first Database DevOps platform. Its primary workflow is **Connect Instance → Discover Schemas → Assign to Project → Author SQL → Validate → Plan → Independent Review → Execute → History & Audit**. Projects may own multiple schemas; each migration stream targets one assigned exact schema through the instance master credential. Real Oracle discovery has bounded, independently accepted live evidence on one owner-approved lab variant; full discovery/schema acceptance and governed execution remain incomplete.
 
 ## Start here and maintain one backlog
 
@@ -25,7 +25,7 @@ The baseline candidate for PR #93 (`60dd5a2`) passed the full hosted API, browse
 | --- | --- | --- |
 | Access, projects and environments | Delivered offline: fixed human roles, explicit project/deploy grants, independent approval, archive/read-only history, own-session management, HTTPS cookie/CSRF/expiry. Provisioning stays with the trusted OS operator; no invitations, SSO or app administrator. | `packages/database/{project-membership,browser-sessions,account}.ts`; `apps/web/src/Account.jsx`; `tests/product-membership.test.mjs`, `tests/product-secure-sessions.test.mjs` |
 | Instances and connections | Delivered offline: deployment profiles and authorized discovery connections, endpoint validation, Service Name/SID metadata, private credential aliases, immutable revisions, filtering, reasoned enable/disable/retire and offline preflight. SID deployment eligibility is blocked; preflight never proves connectivity. Edits invalidate dependent authority while retaining old plans/decisions. | `packages/connectivity/{management,api}.ts`, `packages/database/profile-lifecycle.ts`; `apps/web/src/{Instances,Connections,ConnectionConfiguration}.jsx`; `tests/product-connection-management.test.mjs`, `tests/product-connection-management-browser.integration.mjs` |
-| Inventory, schema ownership and targets | Delivered offline: manual workspace catalog, single active project assignment per exact owner, revisioned transfer/release, project target bindings, explicit environment/route/policy/principal facts and stale-plan display. Operator provisioning and assignment remain outside ordinary web authority. Declared lineage is provisional. | `packages/catalog-reference/`, `packages/targets/`; `apps/web/src/ProjectTargets.jsx`; `tests/product-target-bindings.test.mjs`, `tests/product-target-workflow-browser.integration.mjs` |
+| Inventory, schema ownership and targets | Delivered offline: manual workspace catalog, single active project assignment per exact owner, revisioned transfer/release, project target bindings, explicit environment/route/policy/principal facts and stale-plan display. Assignment requires explicit workspace database management authority and current project access; project membership alone cannot allocate infrastructure. Declared lineage is provisional. | `packages/catalog-reference/`, `packages/targets/`; `apps/web/src/ProjectTargets.jsx`; `tests/product-target-bindings.test.mjs`, `tests/product-target-workflow-browser.integration.mjs` |
 | Oracle connectivity and identity discovery | R1 product integration implemented; live qualification PARTIAL (2026-10-14), full acceptance incomplete: bounded opt-in read-only adapter, expiring authorization, exact attested database/container/service/version comparison, retained observations and historical binding evidence. Configuration validity, connectivity and accepted identity are separate. Mismatches block binding; fixtures cannot certify identity. Default runtime is unavailable; accepted exact-target live evidence is required for verification. Discovery lists visible owners; it is not a complete schema/object snapshot. | `packages/connectivity/{oracle.mjs,api.ts,evidence.mjs}`; `apps/web/src/Connections.jsx`; `tests/oracle-discovery.test.mjs`, `tests/product-database-discovery.test.mjs`; [runtime contract](../development/local-product.md#read-only-database-connectivity-and-discovery) |
 | Schema baselines and drift | R2 product integration delivered offline: immutable, checksummed target/connection/stream-bound snapshots; named baselines; paginated history and expected/observed comparison with unambiguous retained references. Retained object browsing includes literal owner/name and type filters with visible counts. Exact owner/object identities, coverage and provenance remain visible. Schema changes stale dependent plans and validation without rewriting old approvals. Partial/unsupported/multi-query observations cannot establish absent drift. Real collector/partial workflow qualification is recorded below; full Oracle baseline/drift acceptance remains incomplete. | `packages/schema-baselines/`; `apps/web/src/{SchemaBaselines,SchemaDrift}.jsx`; `tests/{schema-baselines,product-schema-baselines,product-schema-backup}.test.mjs`; `tests/product-schema-baselines-browser.integration.mjs` |
 | Git releases and retained SQL | Delivered offline: allowlisted local repositories, project folder binding, branch/tag/commit import, immutable retained source/digests, parser results, statement preview and comparison. No remote provider authentication, webhook or push to the bound repository. | `packages/migrations/`; `apps/web/src/app.jsx`; `tests/product-mvp-workflow-browser.integration.mjs`, `tests/product-statement-preview.test.mjs` |
@@ -37,6 +37,37 @@ The baseline candidate for PR #93 (`60dd5a2`) passed the full hosted API, browse
 | Audit, migration history and downloads | Delivered offline: scoped filtered/paged audit and consolidated plan/decision/request/ledger history, stable cursors, retained source/statement links, checksummed plan/request records. Historical events and current statuses are labeled separately. Checksums are integrity evidence, not signatures or proof SQL ran. | `packages/{migration-history,audit}/`, `packages/{governance,execution}/`; `apps/web/src/{MigrationHistory,PlanRecord,ExecutionRecord}.jsx`; `tests/product-migration-history-cursor.integration.mjs` |
 | Install, operate and preserve metadata | Delivered local source bundle, parser/dependency notices, OCI verification and runtime diagnostics; native backup/compatible restore retain evidence under a new generation and persistent RESTORE_HOLD. Real execution-metadata backup/restore preserved V1/V2/NOOP and held a restored queued request before any Oracle provider call. Real interrupted workers recovered to HOLD without replay; lost-acknowledgment acceptance and deployed disaster recovery remain unverified. | `packages/backup/`, `packages/observability/`, `scripts/local-release.mjs`; `tests/product-backup-restore.test.mjs`, `tests/product-local-release.integration.mjs`; [runtime guide](../development/runtime-readiness.md) |
 
+## Master credential alignment, 2026-10-15
+
+The primary Instances screen connects one master reference before schema assignment,
+discovers exact owners, selects several owners and a project environment, and records
+separate retained bindings. Existing workspace instances can be attached to another
+project without entering another credential or transferring schema ownership. Advanced
+legacy tools and historical configurations remain available. Credential rotation,
+disabling and retirement invalidate dependent plans permanently; derived deployment
+profiles cannot be independently edited to bypass the instance reference.
+
+Scope is enforced in validation, worker materialization and immediately before dispatch.
+The supported automatic subset is scalar CREATE TABLE, scalar ALTER TABLE ADD and simple
+local indexes, with literal defaults/NOT NULL. Dynamic SQL, procedural blocks, CTAS,
+expressions, DML, foreign owners, database links, triggers, synonyms and administrative
+operations remain blocked after approval. Existing objects must match exact physical
+tables rather than synonyms. A trusted installation excludes concurrent external changes
+and unreviewed DDL triggers; Oracle CURRENT_SCHEMA supplies context, not privileges.
+
+Each plan targets one schema stream; users switch the assigned target to manage another
+schema with the same master. Target history uses stable stream partitions and completed
+history reconciles within its stream. Container-wide mutex and ambiguity/HOLD protection
+remain. Old ledger keys/history are retained, and an empty new partition cannot discard
+legacy history or adopt a nonempty schema automatically. Native backups preserve the
+new source links and upgrade previous schemas under the existing RESTORE_HOLD contract.
+
+PostgreSQL/API and Chromium acceptance exercise connection before assignment, two owner
+bindings with one credential, project isolation, independent approval, revision staleness,
+truthful fixture denial, reuse, persistence and mobile layout. Real Oracle observations
+and executions are reported separately in the alignment acceptance evidence; these do
+not extend support to untested versions, topologies, SQL forms or fault/recovery cases.
+
 ## Authoritative requirement outcomes
 
 Stable FR identifiers are retained from earlier reconciliation. The original standalone functional specification is absent, so these are the adopted Kelryvo outcomes, not purported quotations. The 220 research IDs and original criteria remain in the legacy tracker. The capability table above supplies implementation evidence; this table supplies required behavior without a second progress count.
@@ -47,9 +78,9 @@ Stable FR identifiers are retained from earlier reconciliation. The original sta
 | FR-002 | Fixed developer/approver roles, explicit project and separate deploy grants; reject self-approval and recheck current authority. |
 | FR-003 | Machine identities and public automation clients deferred. |
 | FR-004 | Workspace owns physical inventory; project target views derive from schema assignments. |
-| FR-005 | Secrets stay external; safe aliases in project/browser responses; discovery and writer purposes remain separate. |
+| FR-005 | One external master credential reference per registered Oracle PDB/non-CDB, reused for discovery and migration across assigned schemas. Purpose-restricted processes and internal ledger authority remain separate; API/browser never receive secrets. Legacy separate credentials remain readable. |
 | FR-006 | Discovery appends immutable observations, preserves manual facts and labels visibility/provenance. Live Oracle acceptance remains required. |
-| FR-007 | One active project per exact schema owner; revisioned transfer preserves streams and history and blocks unsafe active/ambiguous work. |
+| FR-007 | One project may manage multiple schemas; one active project per exact schema owner; revisioned transfer preserves streams and history and blocks unsafe active/ambiguous work. |
 | FR-008 | Project archive cannot delete physical inventory. Inventory lifecycle remains workspace/operator-owned. |
 | FR-009 | Immutable object snapshots and structural comparison are implemented. Limited visibility or collection consistency means UNVERIFIED; owner discovery remains a separate evidence scope. Live Oracle acceptance is pending. |
 | FR-010 | Archive preserves read access and history; normal project purge/restore deferred. |
@@ -74,7 +105,7 @@ Stable FR identifiers are retained from earlier reconciliation. The original sta
 | FR-029 | Preserve private `/api` compatibility and historical formats additively; no general public API guarantee. |
 | FR-030 | Inbound/outbound webhooks deferred. |
 | FR-031 | Observed Oracle identity stays separate from local UUIDs/routes and must pass exact-target acceptance. |
-| FR-032 | Exact schema scope and purpose-specific principal are bound to intent; assignment never grants Oracle privileges. |
+| FR-032 | Exact schema scope and master credential revision are bound through retained target/profile intent. Currentness rechecks the instance revision. Assignment never grants Oracle privileges; approval cannot override scope denial. |
 | FR-033 | Lost response, lock/session continuity, receipt or uncertain DDL produces HOLD; no automatic takeover/replay. |
 | FR-034 | Preserve parsed dependencies; unknown object/dependency visibility stays unresolved. Semantic completion depends on catalog observation. |
 | FR-035 | Accept single-instance non-CDB and CDB/PDB independently by version/topology. RAC, Data Guard, clone/refresh, restore automation and relocation execution deferred. |

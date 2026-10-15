@@ -12,7 +12,8 @@ const sameMigration = (a: MigrationIdentity, b: MigrationIdentity) => a && b
   && a.statementManifestDigest === b.statementManifestDigest
   && JSON.stringify(a.statementDigests) === JSON.stringify(b.statementDigests);
 
-export async function reconcileCompletedHistory(tx: any, observation: TargetObservation) {
+export async function reconcileCompletedHistory(tx: any, observation: TargetObservation, streamId?: string) {
+  if (streamId !== undefined && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(streamId)) return false;
   // A catalog reassignment cannot erase the immutable history of the same
   // canonical target. UNIT evidence can never attest TRUSTED_VALIDATED effects.
   // NOOPs create no effects: check their minimum prefix without counting every
@@ -20,6 +21,7 @@ export async function reconcileCompletedHistory(tx: any, observation: TargetObse
   if ((await tx`SELECT 1 FROM sf_execution_admission_proofs proof JOIN sf_execution_jobs job ON job.id=proof.job_id
     WHERE proof.organization_id='00000000-0000-4000-8000-000000000001'
       AND proof.host_binding->>'targetKey'=${observation.targetKey} AND job.state='NOOP'
+      AND (${streamId ?? null}::uuid IS NULL OR proof.host_binding->>'streamId'=${streamId ?? null})
       AND (proof.scope<>${observation.scope} OR proof.target_identity_digest<>${observation.targetIdentityDigest}
         OR proof.host_binding->'historyFormat' IS DISTINCT FROM '1'::jsonb
         OR CASE WHEN jsonb_typeof(proof.host_binding->'appliedMigrationCount')='number'
@@ -38,6 +40,7 @@ export async function reconcileCompletedHistory(tx: any, observation: TargetObse
     JOIN sf_plans plan ON plan.id=proof.plan_id
     WHERE proof.organization_id='00000000-0000-4000-8000-000000000001'
       AND proof.host_binding->>'targetKey'=${observation.targetKey}
+      AND (${streamId ?? null}::uuid IS NULL OR proof.host_binding->>'streamId'=${streamId ?? null})
       AND job.state='VERIFIED_SUCCESS'
     ORDER BY proof.intent_digest,proof.created_at DESC
     LIMIT ${MAX_RELEASE_FILES + 1}`;

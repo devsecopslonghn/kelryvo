@@ -8,8 +8,8 @@ import { oracleHostFixture } from './helpers/oracle-host-fixture.mjs';
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const migration=(version,sqls)=>({ path:`migrations/V${version}__change.sql`,version,sha256:hash(JSON.stringify(sqls)),
   statementManifestDigest:hash(JSON.stringify(sqls.map(hash))),statementDigests:sqls.map(hash) });
-const v1=['-- café retained\nCREATE TABLE example (id NUMBER)','INSERT INTO example VALUES (1)'];
-const v2=['CREATE TABLE later (id NUMBER)','INSERT INTO later VALUES (2)'];
+const v1=['-- café retained\nCREATE TABLE example (id NUMBER)','CREATE TABLE example_detail (id NUMBER)'];
+const v2=['CREATE TABLE later (id NUMBER)','CREATE TABLE later_detail (id NUMBER)'];
 const request=(files=[migration('1',v1)])=>({ jobId:randomUUID(),planId:randomUUID(),approvalReference:randomUUID(),intentDigest:hash('approved UNIT intent'),
   profile:{ engine:'oracle',username:'APP',service:'UNIT',host:'oracle.example.invalid',port:1521,credential_ref:'vault://unit/writer' },
   migrations:files,statementDigests:files.flatMap(m=>m.statementDigests) });
@@ -27,6 +27,29 @@ const run=async(host,input,texts)=>host.withTarget(input,async s=>{
   return observation;
 });
 
+test('even approved bytes cannot dispatch unscopable SQL or synonym targets',async t=>{
+  for(const sql of ['CREATE TABLE FOREIGN.t (id NUMBER)',
+    "BEGIN EXECUTE IMMEDIATE 'CREATE TABLE APP.t (id NUMBER)'; END;",
+    'CREATE TABLE t AS SELECT * FROM FOREIGN.s','INSERT INTO example VALUES (1)',
+    'ALTER SESSION SET CURRENT_SCHEMA = FOREIGN','CREATE TRIGGER trg BEFORE INSERT ON t BEGIN NULL; END;']) {
+    await t.test(sql,async()=>{
+      const f=oracleHostFixture();const input=request([migration('1',[sql])]);
+      await f.host().withTarget(input,async s=>{
+        await s.observe();const before=await f.read();
+        assert.equal(await s.execute(Buffer.from(sql)),'UNKNOWN');
+        assert.deepEqual(await f.read(),before,'scope denial writes no target ledger events');
+      });assert.equal(f.calls.length,0);assert.equal(f.claims.length,0);
+    });
+  }
+  for(const existingTableType of ['SYNONYM','VIEW']) {
+    const sql='ALTER TABLE example ADD label VARCHAR2(40)',f=oracleHostFixture({existingTableType});
+    await f.host().withTarget(request([migration('1',[sql])]),async s=>{
+      await s.observe();const before=await f.read();assert.equal(await s.execute(Buffer.from(sql)),'UNKNOWN');
+      assert.deepEqual(await f.read(),before);
+    });assert.equal(f.calls.length,0);
+  }
+});
+
 test('target-bound host verifies the deployment login and exact schema owner independently',async()=>{
   const assignment=randomUUID();
   const f=oracleHostFixture({assignment,attest:(witness,_request,writer)=>{
@@ -38,12 +61,20 @@ test('target-bound host verifies the deployment login and exact schema owner ind
   input.executionTarget={assignmentId:assignment,expectedIdentityDigest:f.binding.targetIdentityDigest,exactOwner:'APP'};
   await run(f.host(),input,v1);assert.deepEqual(f.calls,v1);
   const wrong=oracleHostFixture({assignment,attest:(witness,_request,writer)=>{
-    writer.identity.SESSION_USER='DEPLOYER';return witness;
+    writer.identity.SESSION_USER='DEPLOYER';writer.identity.SCHEMA_NAME='APP';return witness;
   }});
   const wrongInput=request();wrongInput.profile.username='DEPLOYER';
   wrongInput.executionTarget={assignmentId:assignment,expectedIdentityDigest:wrong.binding.targetIdentityDigest,exactOwner:'OTHER_SCHEMA'};
   await wrong.host().withTarget(wrongInput,s=>assert.rejects(s.observe(),/unavailable/));
   assert.equal(wrong.calls.length,0);
+});
+
+test('configured Oracle service spelling may differ in case while observed identity remains exact',async()=>{
+  const f=oracleHostFixture(),input=request();input.profile.service='unit';
+  await run(f.host(),input,v1);assert.deepEqual(f.calls,v1);
+  const other=oracleHostFixture(),wrong=request();wrong.profile.service='OTHER';
+  await other.host().withTarget(wrong,s=>assert.rejects(s.observe(),/unavailable/));
+  assert.equal(other.calls.length,0);
 });
 
 test('non-finite target facts are declined before invoking the installed provider',async()=>{
@@ -54,6 +85,16 @@ test('non-finite target facts are declined before invoking the installed provide
     await f.host().withTarget(input,s=>assert.rejects(s.observe(),/unavailable/));
     assert.equal(f.providers.length,0);assert.equal(f.calls.length,0);
   }
+});
+
+test('master stream adoption cannot reset retained legacy history even when the schema is reported empty',async()=>{
+  const assignment=randomUUID(),f=oracleHostFixture({assignment});
+  await run(f.host(),request(),v1);
+  const before=await f.read(),input=request();
+  input.executionTarget={assignmentId:assignment,expectedIdentityDigest:f.binding.targetIdentityDigest,exactOwner:'APP',
+    credentialMode:'INSTANCE_MASTER',streamId:randomUUID()};
+  await f.host().withTarget(input,s=>assert.rejects(s.observe(),/unavailable/));
+  assert.deepEqual(await f.read(),before);assert.deepEqual(f.calls,v1);
 });
 
 test('protected host records exact approved bytes and only later pending files across sessions and reassignment',async()=>{

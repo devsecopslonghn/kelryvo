@@ -1,3 +1,4 @@
+import { instanceProfileCurrent } from '../connectivity/instance-current.ts';
 import { schemaPlanChanged } from '../schema-baselines/store.ts';
 import { acquireTargetLocks } from './locks.ts';
 import { randomUUID } from 'node:crypto';
@@ -91,7 +92,7 @@ export async function configureTargetOption(tx: any, input: any) {
     WHERE p.id=${input.profileId} AND p.project_id=${input.projectId} AND p.retired_at IS NULL FOR UPDATE OF p`)[0];
   const route = (await tx`SELECT r.* FROM sf_reference_services r
     WHERE r.id=${input.routeId} AND r.organization_id=${ORG} FOR UPDATE`)[0];
-  if (!profile || !profile.enabled || profile.service_kind!=='SERVICE_NAME' || profile.environment_id !== input.environmentId || !route || route.container_id !== schema.container_id
+  if (!profile || !await instanceProfileCurrent(tx,profile.id) || !profile.enabled || profile.service_kind!=='SERVICE_NAME' || profile.environment_id !== input.environmentId || !route || route.container_id !== schema.container_id
       || Number(input.routeConfigRevision) !== 1
       || profile.host.toLowerCase() !== route.host.toLowerCase() || Number(profile.port) !== Number(route.port)
       || profile.service !== route.service || profile.username !== input.principalUsername
@@ -467,6 +468,7 @@ export async function checkTargetCurrentness(tx: any, projectId: string, target:
     if (asRevision(current.option_revision) !== target.targetOptionRevision || !current.enabled) reasons.push('OPTION_SUPERSEDED');
     if (current.environment_name !== (target.environmentName ?? target.env?.name)) reasons.push('ENVIRONMENT_CHANGED');
     if (current.retired_at) reasons.push('POLICY_CHANGED');
+    if (!await instanceProfileCurrent(tx,target.profileId)) reasons.push('INSTANCE_REVISION_CHANGED');
     if (current.profile_changed) reasons.push('PROFILE_CHANGED');
     if (current.profile_revision_changed || !current.profile_enabled || current.service_kind!=='SERVICE_NAME') reasons.push('CONNECTION_REVISION_CHANGED');
     if (target.sourceBindingGeneration === undefined

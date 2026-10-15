@@ -9,7 +9,7 @@ import { selectPendingMigrations } from '../../packages/execution/pending-migrat
 import { compareVersions } from '../../packages/migrations/import-release.mjs';
 import { MAX_RELEASE_FILES } from '../../experiments/db-devops-wp0/parser-release.mjs';
 import { MAX_PLAN_STATEMENTS } from '../../packages/migrations/offline-plan-intent.mjs';
-import { executeApprovedOracleStatement, pinnedOracleThinDriverAvailable, readOracleSessionIdentity as readIdentity } from '../../packages/execution/oracle-driver.mjs';
+import { executeApprovedOracleStatement, setOracleSchemaContext, verifyOracleStatementScope, pinnedOracleThinDriverAvailable, readOracleSessionIdentity as readIdentity } from '../../packages/execution/oracle-driver.mjs';
 export { oracleHostIdentitySql } from '../../packages/execution/oracle-driver.mjs';
 
 export type OracleHostRequest = Parameters<ExecutionHost['withTarget']>[0];
@@ -194,23 +194,32 @@ export function createRestrictedOracleHost(installed: InstalledOracleHost, optio
         };
         try {
           const initial=snapshotAttestation(await target.attest(request,permit),permit);
-          if (!initial || initial.expected.serviceName!==request.profile.service || Date.now()>=permit.expiresAt
+          if (!initial || initial.expected.serviceName.toLowerCase()!==String(request.profile.service).toLowerCase() || Date.now()>=permit.expiresAt
               || request.executionTarget && (initial.targetAssignmentId !== request.executionTarget.assignmentId
                 || initial.targetIdentityDigest !== request.executionTarget.expectedIdentityDigest)) return decline();
           witness=initial;
+          if(request.executionTarget?.exactOwner && request.executionTarget.exactOwner!==request.profile.username)
+            await setOracleSchemaContext(target.writer,request.executionTarget.exactOwner);
           writerIdentity=await readIdentity(target.writer,request.profile.username as string,witness.expected,request.executionTarget?.exactOwner as string | undefined);
           ownerIdentity=await readIdentity(target.ledgerOwner,target.ledgerOwnerName,witness.expected);
           if (!writerIdentity || !ownerIdentity) return decline();
           mutex=await createOracleTargetMutex(target.writer,{ owner:target.ledgerOwnerName }).acquire(witness.targetKey);
           if (!mutex) return decline();
           ledger=createOracleTargetLedger(target.ledgerOwner);
-          targetId=oracleTargetLedgerId(witness)!;
+          targetId=oracleTargetLedgerId({...witness,...(request.executionTarget?.credentialMode==='INSTANCE_MASTER'
+            ? {credentialMode:'INSTANCE_MASTER',streamId:request.executionTarget.streamId}: {})})!;
+          if(!targetId)return decline();
           const session: ExecutionTargetSession=Object.freeze({ scope,
             observe:async () => {
               const result=await guard<TargetObservation | null>(null,async () => {
                 if (observation || !await live()) return null;
                 const raw=await ledger.read(targetId);
                 if (!raw || !['UNINITIALIZED','EMPTY','COMPLETE'].includes(raw.ledgerState) || raw.startedFiles.length) return null;
+                if(!raw.appliedMigrations.length && request.executionTarget?.credentialMode==='INSTANCE_MASTER') {
+                  const legacy=await ledger.read(oracleTargetLedgerId(witness));
+                  if(!legacy || !['UNINITIALIZED','EMPTY'].includes(legacy.ledgerState)
+                    || legacy.appliedMigrations.length || legacy.startedFiles.length || legacy.sequence!==0)return null;
+                }
                 // Neither an absent partition nor an empty ledger proves an empty application schema.
                 if (!raw.appliedMigrations.length && await target.verifyEmptyTarget(request,permit)!==true || !await live()) return null;
                 const applied=raw.appliedMigrations.length;
@@ -243,6 +252,7 @@ export function createRestrictedOracleHost(installed: InstalledOracleHost, optio
                 if (!copy?.length || copy.length>8*1024*1024 || inflight || !statement
                     || createHash('sha256').update(copy).digest('hex')!==statement.digest || !await current()) { poisoned=true;return 'UNKNOWN'; }
                 const text=new TextDecoder('utf-8',{ fatal:true }).decode(copy);
+                if (!await verifyOracleStatementScope(target.writer,text,request.executionTarget?.exactOwner ?? request.profile.username) || !await current()) { poisoned=true;return 'UNKNOWN'; }
                 let model=structuredClone(expected);
                 if (statement.fileStatementOrdinal===1) {
                   model.ledgerState='IN_FLIGHT';model.sequence+=1+statement.file.statementDigests.length;

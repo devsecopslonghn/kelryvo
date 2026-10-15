@@ -36,6 +36,8 @@ export function oracleHostFixture(options={}) {
       },execute:async(sql,binds,configuration)=>{
         assert.equal(writer.closed,false,'provider retains physical writer until worker settles');
         if (sql===oracleHostIdentitySql) return { rows:[structuredClone(writer.identity)] };
+        if(sql.startsWith('ALTER SESSION SET CURRENT_SCHEMA = ')) { writer.identity.SCHEMA_NAME=sql.slice(sql.indexOf('=')+1).trim().slice(1,-1).replaceAll('""','"');return {}; }
+        if(sql.startsWith('SELECT OBJECT_TYPE FROM SYS.ALL_OBJECTS')) return {rows:options.existingTable===false?[]:[{OBJECT_TYPE:options.existingTableType??'TABLE'}]};
         if (sql.startsWith('BEGIN SF_OWNER.SF_TARGET_MUTEX.')) {
           writer.lockCalls.push(sql);
           assert.equal(configuration.autoCommit,false);

@@ -107,7 +107,7 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
             if (candidate.executionTarget && await targetRequestConflict(tx,candidate.project.id,candidate.executionTarget.streamId,jobId,true)) {
               historyLost=true; return null;
             }
-            if (!await reconcileCompletedHistory(tx,observation)) { historyLost = true; return null; }
+            if (!await reconcileCompletedHistory(tx,observation,candidate.executionTarget?.credentialMode==='INSTANCE_MASTER' ? candidate.executionTarget.streamId : undefined)) { historyLost = true; return null; }
             try {
               if (await session.current(observation) !== true) { historyLost = true; return null; }
             } catch { historyLost = true; return null; }

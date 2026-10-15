@@ -12,8 +12,9 @@ test('browser registers infrastructure and connection, tests/discovers fixture m
     const plan=(await f.makePlan(binding)).json().plan;
     browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];
     page.on('pageerror',e=>errors.push(e.message));
+    const openAdvanced=async()=>{const details=page.locator('details.advanced-instance-tools');if(!(await details.evaluate(element=>element.open)))await details.locator(':scope > summary').click();};
     const signIn=async()=>{await page.goto(f.currentUrl());await page.getByLabel('Local access token').fill(f.actors[0].token);await page.getByRole('button',{name:'Continue',exact:true}).click();await page.getByLabel('Sign out').waitFor();
-      await page.getByRole('button',{name:/Projects/}).click();await page.locator('.project-row').filter({hasText:f.project.name}).click();await page.getByRole('button',{name:/Database instances/}).click();};
+      await page.getByRole('button',{name:/Projects/}).click();await page.locator('.project-row').filter({hasText:f.project.name}).click();await page.getByRole('button',{name:/Database instances/}).click();await openAdvanced();};
     await signIn();const discovery=page.getByRole('region',{name:'Database connection discovery'});
     const instance=discovery.locator('details').filter({hasText:'Register a database instance'});
     await instance.getByLabel('Instance name').fill('Browser manual instance');await instance.getByLabel('Container name').fill('Browser manual PDB');
@@ -72,7 +73,7 @@ test('browser registers infrastructure and connection, tests/discovers fixture m
     assert.match(await retainedIdentity.innerText(),/0123456789ABCDEF0123456789ABCDEF/);
     const currentness=(await f.api('GET',`${f.base}/target-bindings/${binding.bindingId}`)).json().currentness;
     assert.ok(currentness.reasons.includes('OBSERVATION_SUPERSEDED'));
-    await page.getByRole('button',{name:/Database instances/}).click();
+    await page.getByRole('button',{name:/Database instances/}).click();await openAdvanced();
     await persisted.getByLabel('Project target binding').selectOption(binding.bindingId);
     await persisted.getByLabel('Observed schema owner').selectOption('APP');
     await persisted.getByLabel('Reason',{exact:true}).fill('Bind renewed exact observation after supersession');
@@ -90,7 +91,7 @@ test('browser registers infrastructure and connection, tests/discovers fixture m
     assert.equal(await page.locator('.timeline-row').filter({hasText:'TARGET_OBSERVED'}).count(),2);
     assert.deepEqual(errors,[]);
     const records=await f.db.sql`SELECT identity_state FROM sf_target_identity_evidence WHERE project_id=${f.project.id}`;assert.deepEqual(records.map(r=>r.identity_state),['OBSERVED','OBSERVED']);
-    await page.getByRole('button',{name:/Database instances/}).click();await persisted.waitFor();
+    await page.getByRole('button',{name:/Database instances/}).click();await openAdvanced();await persisted.waitFor();
     await f.membership.revoke(f.project.id,f.actors[0].id);
     await persisted.getByRole('button',{name:'Load observation history',exact:true}).click();
     await discovery.getByRole('alert').waitFor();assert.equal(await discovery.locator('.connection-card').count(),0);

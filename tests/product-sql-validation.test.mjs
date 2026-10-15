@@ -108,7 +108,7 @@ test('incorrect syntax, cross-schema and database-link policy violations remain 
     const unknown=(await f.validate()).json().validation;assert.equal(unknown.report.outcome,'UNVERIFIED');assert.equal(unknown.report.statements[0].objectCheck,'UNKNOWN');
     assert.ok(unknown.report.statements[0].findings.some(f=>f.severity==='HIGH'));
     await f.importSql("BEGIN EXECUTE IMMEDIATE 'DROP TABLE arbitrary'; END;\n/\n");
-    const unsupported=(await f.validate()).json().validation;assert.equal(unsupported.report.outcome,'UNVERIFIED');assert.equal(unsupported.report.statements[0].schemaCheck,'UNVERIFIED');
+    const unsupported=(await f.validate()).json().validation;assert.equal(unsupported.report.outcome,'BLOCKED');assert.equal((await f.makeSchemaPlan(unsupported)).statusCode,409,'independent approval cannot override dynamic SQL scope denial');assert.equal(unsupported.report.statements[0].schemaCheck,'UNVERIFIED');
   }finally{await f.close();}
 });
 
