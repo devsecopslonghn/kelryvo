@@ -27,7 +27,7 @@ export const PRODUCT_API_FILES = Object.freeze([
   'tests/product-reviewer-assignment.test.mjs', 'tests/product-schema-reference.test.mjs',
   'tests/product-approval-revocation.test.mjs', 'tests/product-mvp-workflow.test.mjs',
   'tests/product-execution-jobs.test.mjs', 'tests/product-execution-history.test.mjs',
-  'tests/product-controlled-execution.test.mjs', 'tests/product-incremental-migrations.test.mjs',
+  'tests/product-controlled-execution.test.mjs', 'tests/product-incremental-migrations.test.mjs', 'tests/product-execution-container.test.mjs',
   'tests/product-oracle-host.test.mjs', 'tests/product-worker-supervision.test.mjs',
   'tests/product-backup-restore.test.mjs', 'tests/product-installed-worker-factory.test.mjs',
   'tests/product-installed-expiry-recovery.test.mjs', 'tests/product-metadata-recovery.test.mjs',

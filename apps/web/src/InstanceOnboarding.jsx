@@ -7,6 +7,7 @@ const protectedSchema = owner => !isOracleApplicationOwner(owner);
 const explanations = {
   DATABASE_MANAGEMENT_REQUIRED: 'Instance onboarding requires the workspace database management grant.',
   INSTANCE_MASTER_ALREADY_CONFIGURED: 'This Oracle container already has a master credential. Select the existing instance below.',
+  INSTANCE_PHYSICAL_IDENTITY_CONFLICT: 'This physical Oracle database is already registered through another route, or this instance now resolves to a different database. Use the original instance and review its retained identity.',
   INSTANCE_REFERENCE_CONFLICT: 'This endpoint is already registered with a different container identity. Check the host, port, service and container kind.',
   SCHEMA_ALREADY_ASSIGNED: 'At least one selected schema is already assigned to another project. Remove it or ask the workspace owner to transfer it.',
   CONNECTION_REVISION_CONFLICT: 'The instance configuration changed. Refresh the instance list and discover schemas again.',

@@ -6,6 +6,7 @@ import { acquireTargetLocks } from '../targets/locks.ts';
 import { configureTargetOption, createTargetBinding, getTargetBinding, ORG } from '../targets/index.ts';
 import { declareReference, assignReference } from '../catalog-reference/index.mjs';
 import { normalizeObservation, evidenceDigest, acceptedOracleObservation } from './evidence.mjs';
+import { instanceIdentityCurrent } from './instance-identity.mjs';
 import { credentialAlias } from '../targets/public.mjs';
 import { publicConnection, connectionReadiness, validDescription, validServiceKind } from './management.ts';
 
@@ -191,10 +192,15 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
     }
     const normalized=normalizeObservation(raw,operation);
     const result=await sql.begin(async(tx:any)=>{
+      if(operation==='DISCOVER')await tx`SELECT pg_advisory_xact_lock(hashtextextended(${ORG},31))`;
       await guard(tx,req,true);const current=await connection(tx,req);if(current.retired_at)throw fail('CONNECTION_RETIRED');
       if(String(current.revision)!==String(c.revision) || !current.enabled)throw fail('CONNECTION_REVISION_CONFLICT');
       const container=(await tx`SELECT kind FROM sf_reference_containers WHERE id=${c.container_id}`)[0];
       if(normalized.identity && (normalized.identity.cdb ? container?.kind!=='PDB' : container?.kind!=='NON_CDB')){
+        normalized.status='PARTIAL';normalized.limitations.push('IDENTITY_MISMATCH');normalized.verificationAcceptance=null;
+      }
+      if(operation==='DISCOVER' && current.credential_mode==='INSTANCE_MASTER' && normalized.identity
+        && !await instanceIdentityCurrent(tx,current.container_id,normalized.identity)){
         normalized.status='PARTIAL';normalized.limitations.push('IDENTITY_MISMATCH');normalized.verificationAcceptance=null;
       }
       const o=(await tx`INSERT INTO sf_database_observations(organization_id,connection_id,operation,status,identity,identity_digest,schemas,limitations,provenance,verification_acceptance,actor_id,connection_revision)
@@ -209,6 +215,7 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
       || !uuid(req.params.bindingId) || !uuid(b.connectionId) || !uuid(b.observationId) || !/^[a-f0-9]{64}$/.test(b.expectedIdentityDigest??'')
       || !revision(b.expectedBindingRevision) || !revision(b.expectedAssignmentRevision) || !text(b.owner,128) || !text(b.reason))throw fail('INVALID_REQUEST',400);
     const result=await sql.begin(async(tx:any)=>{
+      await tx`SELECT pg_advisory_xact_lock(hashtextextended(${ORG},31))`;
       await acquireTargetLocks(tx,{bindingId:req.params.bindingId});await guard(tx,req,true);
       const c=await connection(tx,{...req,params:{...req.params,connectionId:b.connectionId}});
       const detail=await getTargetBinding(tx,req.params.projectId,req.params.bindingId),binding=detail?.binding;
@@ -218,6 +225,7 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
       if(!o)throw fail('NOT_FOUND',404);
       if(!o.fresh || c.retired_at || !c.enabled || String(c.revision)!==String(o.connection_revision))throw fail('DISCOVERY_STALE');
       if(!o.identity_digest || o.identity_digest!==b.expectedIdentityDigest || !['OBSERVED','PARTIAL'].includes(o.status) || o.limitations.includes('IDENTITY_MISMATCH'))throw fail('IDENTITY_MISMATCH');
+      if(c.credential_mode==='INSTANCE_MASTER' && !await instanceIdentityCurrent(tx,c.container_id,o.identity))throw fail('INSTANCE_PHYSICAL_IDENTITY_CONFLICT');
       const latest=(await tx`SELECT id FROM sf_database_observations WHERE connection_id=${c.id} AND operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
       if(latest?.id!==o.id)throw fail('DISCOVERY_CONFLICT');
       if(binding.exactOwner!==b.owner || binding.routeId!==c.route_id)throw fail('IDENTITY_MISMATCH');

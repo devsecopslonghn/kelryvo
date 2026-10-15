@@ -1,3 +1,4 @@
+import { physicalOracleTargetKey } from '../connectivity/instance-identity.mjs';
 /** Worker-only admission producer. API credentials cannot install host capabilities. */
 import { createHash, randomUUID } from 'node:crypto';
 import { preflightRetainedRelease } from '../migrations/retained-release-preflight.mjs';
@@ -35,6 +36,32 @@ export async function targetRequestConflict(tx: any, projectId: string, streamId
   return rows.some((row: any) => {
     const prior = verifyOfflinePlanIntent(row.envelope,row.offline_intent_digest,{organizationId:ORG,projectId:row.project_id});
     return !prior || (prior.target ? prior.target.streamId === streamId : row.project_id === projectId);
+  });
+}
+
+/** Mixed legacy/master installations must also serialize known container identity.
+ * Unknown legacy physical scope is a veto while a master workflow is active.
+ */
+export async function executionContainerConflict(tx:any,candidate:any) {
+  const target=candidate.executionTarget;
+  const own=(await tx`SELECT s.container_id FROM sf_reference_assignments a JOIN sf_reference_schemas s ON s.id=a.schema_id
+    WHERE a.id=${target?.assignmentId??null}::uuid`)[0];
+  const rows=await tx`SELECT s.container_id,e.identity,
+    EXISTS(SELECT 1 FROM sf_instance_profile_sources source WHERE source.profile_id=proof.profile_id) AS master
+    FROM sf_execution_admission_proofs proof JOIN sf_execution_jobs job ON job.id=proof.job_id
+    LEFT JOIN sf_reference_assignments a ON a.id=proof.target_assignment_id
+    LEFT JOIN sf_reference_schemas s ON s.id=a.schema_id
+    LEFT JOIN sf_target_binding_revisions br ON br.binding_id::text=proof.host_binding->>'targetBindingId'
+      AND br.revision::text=proof.host_binding->>'targetBindingRevision'
+    LEFT JOIN sf_target_identity_evidence e ON e.digest=br.observation_digest
+    WHERE proof.organization_id=${ORG} AND job.state IN ('ADMITTED','HOLD') AND job.id<>${candidate.job.id} LIMIT 1001`;
+  if(rows.length>1000)return true;
+  const master=target?.credentialMode==='INSTANCE_MASTER';
+  return rows.some((r:any)=>{
+    const key=physicalOracleTargetKey(r.identity);
+    return own && r.container_id===own.container_id
+      || key && target?.physicalTargetKey && key===target.physicalTargetKey
+      || master && !key || r.master && !target?.physicalTargetKey;
   });
 }
 export type MigrationIdentity = Readonly<{ path: string; version: string; sha256: string;
@@ -141,18 +168,21 @@ export async function readExecutionRequest(tx: any, jobId: string, admitted = fa
   const preflight = await preflightRetainedRelease(tx, { id: plan.release_id, organizationId: ORG,
     projectId: project.id, repositoryId: project.source_repository_id, folder: project.source_folder });
   if (!profile || !profile.credential_ref || !preflight.valid || !await profilePlanCurrent(tx,plan.id)) return null;
+  if(!intent.target && (await tx`SELECT 1 FROM sf_instance_profile_sources WHERE profile_id=${profile.id}`)[0])return null;
   let executionTarget = null;
   if (intent.target) {
     const target = {...intent.target,profileId:intent.profileId,environmentId:intent.environmentId,
       environmentName:intent.environmentName};
     if ((await checkTargetCurrentness(tx,project.id,target,project.source_binding_generation)).state !== 'CURRENT'
         || intent.target.identityState === 'PROVISIONAL') return null;
-    const evidence = (await tx`SELECT e.identity_digest,o.provenance,o.verification_acceptance FROM sf_target_identity_evidence e
+    const evidence = (await tx`SELECT e.identity,e.identity_digest,o.provenance,o.verification_acceptance FROM sf_target_identity_evidence e
       JOIN sf_database_observations o ON o.id=e.observation_id WHERE e.digest=${intent.target.observationDigest}
         AND e.project_id=${project.id} AND e.assignment_id=${intent.target.assignmentId}`)[0];
     if (!evidence || !/^[a-f0-9]{64}$/.test(evidence.identity_digest)) return null;
     const source=(await tx`SELECT c.credential_mode FROM sf_instance_profile_sources s JOIN sf_database_connections c ON c.id=s.connection_id WHERE s.profile_id=${profile.id}`)[0];
-    executionTarget = Object.freeze({...intent.target,...(source?{credentialMode:source.credential_mode}:{}),expectedIdentityDigest:evidence.identity_digest,
+    const physicalTargetKey=physicalOracleTargetKey(evidence.identity);
+    if(source?.credential_mode==='INSTANCE_MASTER' && !physicalTargetKey)return null;
+    executionTarget = Object.freeze({...intent.target,...(source?{credentialMode:source.credential_mode}:{}),...(physicalTargetKey?{physicalTargetKey}:{}),expectedIdentityDigest:evidence.identity_digest,
       evidenceProvenance:evidence.provenance,liveVerificationAccepted:Boolean(evidence.verification_acceptance)});
     if (intent.validation) {
       try {

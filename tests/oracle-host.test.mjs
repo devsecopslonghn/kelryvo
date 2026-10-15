@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash,randomUUID } from 'node:crypto';
 import { createRestrictedOracleHost } from '../apps/worker/oracle-host.ts';
 import { snapshotObservation,executionDigest } from '../packages/execution/admission.ts';
+import { createOracleTargetLedger,oracleV1InstanceStreamLedgerIds } from '../packages/execution/oracle-target-ledger.mjs';
 import { oracleHostFixture } from './helpers/oracle-host-fixture.mjs';
 
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -10,6 +11,14 @@ const migration=(version,sqls)=>({ path:`migrations/V${version}__change.sql`,ver
   statementManifestDigest:hash(JSON.stringify(sqls.map(hash))),statementDigests:sqls.map(hash) });
 const v1=['-- café retained\nCREATE TABLE example (id NUMBER)','CREATE TABLE example_detail (id NUMBER)'];
 const v2=['CREATE TABLE later (id NUMBER)','CREATE TABLE later_detail (id NUMBER)'];
+const applyLedgerFile=async(ledger,targetId,file)=>{
+  assert.equal(await ledger.startFile(targetId,file),'ACKNOWLEDGED');
+  for(let i=0;i<file.statementDigests.length;i++){
+    assert.equal(await ledger.startStatement(targetId,1,i+1,file.statementDigests[i]),'ACKNOWLEDGED');
+    assert.equal(await ledger.acknowledgeStatement(targetId,1,i+1,file.statementDigests[i]),'ACKNOWLEDGED');
+  }
+  assert.equal(await ledger.completeFile(targetId,1),'ACKNOWLEDGED');
+};
 const request=(files=[migration('1',v1)])=>({ jobId:randomUUID(),planId:randomUUID(),approvalReference:randomUUID(),intentDigest:hash('approved UNIT intent'),
   profile:{ engine:'oracle',username:'APP',service:'UNIT',host:'oracle.example.invalid',port:1521,credential_ref:'vault://unit/writer' },
   migrations:files,statementDigests:files.flatMap(m=>m.statementDigests) });
@@ -88,13 +97,49 @@ test('non-finite target facts are declined before invoking the installed provide
 });
 
 test('master stream adoption cannot reset retained legacy history even when the schema is reported empty',async()=>{
-  const assignment=randomUUID(),f=oracleHostFixture({assignment});
+  const assignment=randomUUID(),f=oracleHostFixture({assignment,targetKey:'oracle-container-v1:'+hash('unit-physical')});
   await run(f.host(),request(),v1);
   const before=await f.read(),input=request();
   input.executionTarget={assignmentId:assignment,expectedIdentityDigest:f.binding.targetIdentityDigest,exactOwner:'APP',
-    credentialMode:'INSTANCE_MASTER',streamId:randomUUID()};
+    credentialMode:'INSTANCE_MASTER',streamId:randomUUID(),lineageId:randomUUID(),physicalTargetKey:f.binding.targetKey};
   await f.host().withTarget(input,s=>assert.rejects(s.observe(),/unavailable/));
   assert.deepEqual(await f.read(),before);assert.deepEqual(f.calls,v1);
+});
+
+test('master host requires the canonical physical mutex key and independent stream ledgers',async()=>{
+  const assignment=randomUUID(),key='oracle-container-v1:'+hash('canonical-pdb'),f=oracleHostFixture({assignment,targetKey:key});
+  const first=request(),second=request();
+  for(const input of [first,second])input.executionTarget={assignmentId:assignment,expectedIdentityDigest:f.binding.targetIdentityDigest,
+    exactOwner:'APP',credentialMode:'INSTANCE_MASTER',streamId:randomUUID(),lineageId:randomUUID(),physicalTargetKey:key};
+  assert.equal((await run(f.host(),first,v1)).historyState,'EMPTY');
+  assert.equal((await run(f.host(),second,v1)).historyState,'EMPTY','a different schema stream cannot inherit prior applied files');
+  assert.equal((await run(f.host(),first,[])).historyState,'EXACT_APPLIED');
+  const bad=oracleHostFixture({assignment}),input=request();
+  input.executionTarget={...first.executionTarget,expectedIdentityDigest:bad.binding.targetIdentityDigest};
+  await bad.host().withTarget(input,s=>assert.rejects(s.observe(),/unavailable/));assert.equal(bad.calls.length,0);
+});
+
+test('master V2 stream refuses retained prerelease V1 lineage and canonical partitions',async t=>{
+  for(const partition of ['lineage','canonical'])await t.test(partition,async()=>{
+    const assignment=randomUUID(),key='oracle-container-v1:'+hash(`v1-${partition}`),lineageId=randomUUID(),streamId=randomUUID();
+    const f=oracleHostFixture({assignment,targetKey:key}),input=request();
+    input.executionTarget={assignmentId:assignment,expectedIdentityDigest:f.binding.targetIdentityDigest,exactOwner:'APP',
+      credentialMode:'INSTANCE_MASTER',streamId,lineageId,physicalTargetKey:key};
+    const oldKey=partition==='lineage'?`oracle-lineage-v1:${lineageId}`:key;
+    const [oldId]=oracleV1InstanceStreamLedgerIds({targetKey:oldKey,streamId});
+    const file={...input.migrations[0],approvalReference:input.approvalReference,intentDigest:input.intentDigest};
+    await applyLedgerFile(createOracleTargetLedger(f.owner),oldId,file);
+    assert.equal((await createOracleTargetLedger(f.owner).read(oldId)).ledgerState,'COMPLETE');
+    await f.host().withTarget(input,s=>assert.rejects(s.observe(),/unavailable/));
+    assert.equal(f.calls.length,0,'retained V1 effects prevent treating a fresh V2 partition as empty');
+  });
+});
+
+test('installed ledger owner is never an application migration target',async()=>{
+  const assignment=randomUUID(),f=oracleHostFixture({assignment}),input=request();
+  input.executionTarget={assignmentId:assignment,expectedIdentityDigest:f.binding.targetIdentityDigest,exactOwner:'SF_OWNER'};
+  await f.host().withTarget(input,s=>assert.rejects(s.observe(),/unavailable/));
+  assert.equal(f.calls.length,0);assert.equal(f.owner.commits,0);
 });
 
 test('protected host records exact approved bytes and only later pending files across sessions and reassignment',async()=>{

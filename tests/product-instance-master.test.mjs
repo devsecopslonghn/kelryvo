@@ -24,6 +24,8 @@ test('one instance credential discovers before assignment and serves multiple in
     const [p]=await f.db.sql`SELECT p.* FROM sf_profiles p WHERE p.id=${bindings[0].profileId}`;
     assert.equal(p.username,body.username);assert.equal(p.credential_ref,body.credentialRef);
     assert.equal(await instanceProfileCurrent(f.db.sql,p.id),true);
+    r=await f.api('POST',`${f.base}/plans`,{releaseId:f.release.id,profileId:p.id});
+    assert.equal(r.statusCode,409);assert.equal(r.json().error,'INSTANCE_SCHEMA_TARGET_REQUIRED');
     const planResponse=await f.api('POST',`${f.base}/plans`,{intentVersion:2,releaseId:f.release.id,assignmentId:bindings[0].assignmentId,
       expectedAssignmentRevision:bindings[0].assignmentRevision,targetBindingId:bindings[0].bindingId,expectedBindingRevision:bindings[0].bindingRevision});
     assert.equal(planResponse.statusCode,201,planResponse.body);const plan=planResponse.json().plan;
@@ -48,5 +50,15 @@ test('one instance credential discovers before assignment and serves multiple in
     await f.api('POST',`${path}/lifecycle`,{expectedRevision:'2',action:'ENABLE',reason:'Resume master with fresh authority'});
     assert.equal(await instanceProfileCurrent(f.db.sql,p.id),false,'away-and-back does not revive previous authority');
     await assert.rejects(f.db.sql`UPDATE sf_instance_profile_sources SET connection_revision=3 WHERE profile_id=${p.id}`,/immutable/);
+    r=await f.api('POST',`${path}/lifecycle`,{expectedRevision:'3',action:'RETIRE',reason:'Retire original route'});assert.equal(r.statusCode,200,r.body);
+    const alias={...body,name:'Aliased instance',host:'master-alias.example.invalid',service:'TARGETSVC_ALIAS'};
+    r=await f.api('POST',`${f.base}/database-instances/master`,alias);assert.equal(r.statusCode,201,r.body);
+    const aliasConnection=r.json().connection,aliasPath=`${f.connections}/${aliasConnection.id}`;
+    assert.notEqual(aliasConnection.containerId,c.containerId,'route alias is a distinct catalog route');
+    r=await f.api('POST',`${aliasPath}/discover`,{reason:'Check retired physical identity claim'});assert.equal(r.statusCode,201,r.body);
+    const aliasObservation=r.json().observation;
+    assert.ok(aliasObservation.limitations.includes('IDENTITY_MISMATCH'),'retired master history still claims its physical container');
+    r=await f.api('POST',`${aliasPath}/assign-schemas`,{...assign,observationId:aliasObservation.id,expectedConnectionRevision:'1'});
+    assert.equal(r.statusCode,409);assert.equal(r.json().error,'INSTANCE_PHYSICAL_IDENTITY_CONFLICT');
   } finally {await f.close();}
 });

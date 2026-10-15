@@ -6,7 +6,7 @@ import { reconcileCompletedHistory } from '../../packages/execution/history-reco
 import { acquireTargetLocks } from '../../packages/targets/locks.ts';
 import { executionUuid, executionDigest, snapshotObservation, readExecutionRequest, materializeExecutionRequest,
   acquireExecutionTarget, lockExecutionTarget, commitExecutionAdmission, holdUntrustedHistory,
-  targetRequestConflict,
+  targetRequestConflict, executionContainerConflict,
   type AdmissionScope, type TargetObservation, type MigrationIdentity } from '../../packages/execution/admission.ts';
 
 export type ExecutionTargetSession = {
@@ -104,6 +104,7 @@ export function createExecutionWorker(sql: any, host: ExecutionHost, options: { 
                   OR ${candidate.executionTarget?.streamId ?? null}::text IS NOT NULL
                     AND proof.host_binding->>'streamId'=${candidate.executionTarget?.streamId ?? null}) AND prior.id<>${jobId}
                 AND prior.state IN ('ADMITTED','HOLD') LIMIT 1`)[0]) { historyLost = true; return null; }
+            if(await executionContainerConflict(tx,candidate)) { historyLost=true;return null; }
             if (candidate.executionTarget && await targetRequestConflict(tx,candidate.project.id,candidate.executionTarget.streamId,jobId,true)) {
               historyLost=true; return null;
             }

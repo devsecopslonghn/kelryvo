@@ -214,6 +214,6 @@ test('instance master streams have independent ledger partitions while preservin
   const second={...first,streamId:'22222222-2222-4222-8222-222222222222'};
   assert.notEqual(oracleTargetLedgerId(first),oracleTargetLedgerId(second));
   assert.notEqual(oracleTargetLedgerId(first),oracleTargetLedgerId(binding));
-  assert.equal(oracleTargetLedgerId({...first,targetIdentityDigest:'b'.repeat(64)}),oracleTargetLedgerId(first),'observation refresh cannot reset stream history');
+  assert.equal(oracleTargetLedgerId({...first,targetIdentityDigest:'b'.repeat(64),targetKey:'unit:canonical-physical'}),oracleTargetLedgerId(first),'observation or mutex-key refresh cannot reset stream history');
   assert.equal(oracleTargetLedgerId({...first,streamId:undefined}),null);
 });

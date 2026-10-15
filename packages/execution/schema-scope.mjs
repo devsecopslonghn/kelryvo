@@ -14,7 +14,7 @@ const PROTECTED_OWNERS = new Set([
   'WMSYS', 'XDB', 'XS$NULL',
 ]);
 const protectedOwner = owner => PROTECTED_OWNERS.has(owner.toUpperCase())
-  || /^(?:C##|SYS|ORA\$)/i.test(owner);
+  || /^(?:C##|SYS|ORA\$|APEX_|ORDS_)/i.test(owner);
 
 function lex(sql) {
   if (typeof sql !== 'string' || !sql.length || sql.length > MAX_SQL) return null;

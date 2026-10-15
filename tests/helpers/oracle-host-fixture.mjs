@@ -54,7 +54,8 @@ export function oracleHostFixture(options={}) {
           return { outBinds:{ result:0 } };
         }
         assert.ok(writer.lock,'writer SQL requires same-session mutex');
-        const state=await createOracleTargetLedger(owner).read(id);
+        const runtimeId=oracleTargetLedgerId({...binding,...(request.executionTarget?.credentialMode==='INSTANCE_MASTER'?{credentialMode:'INSTANCE_MASTER',streamId:request.executionTarget.streamId}:{})});
+        const state=await createOracleTargetLedger(owner).read(runtimeId);
         assert.equal(state.ledgerState,'IN_FLIGHT');assert.equal(state.startedFiles.at(-1).statementStates.at(-1),'STARTED');
         if (beforeDispatch) await beforeDispatch(sql,request,writer,state);
         calls.push(sql);

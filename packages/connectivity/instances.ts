@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
 import { validateReferenceDeclaration, assignReference } from '../catalog-reference/index.mjs';
 import { configureTargetOption, createTargetBinding, ORG } from '../targets/index.ts';
 import { publicConnection } from './management.ts';
+import { instanceIdentityCurrent } from './instance-identity.mjs';
 
 const uuid=(v:any)=>typeof v==='string' && /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(v);
 const text=(v:any,n=2000)=>typeof v==='string' && !!v.trim() && v.length<=n && !/[\u0000-\u001f\u007f]/.test(v);
@@ -82,6 +83,7 @@ export function registerInstances({sql,route,guard,connection,audited,projectCon
       const o=(await tx`SELECT *,expires_at>clock_timestamp() AS fresh FROM sf_database_observations WHERE id=${b.observationId} AND connection_id=${c.id} AND operation='DISCOVER'`)[0];
       const latest=(await tx`SELECT id FROM sf_database_observations WHERE connection_id=${c.id} AND operation='DISCOVER' ORDER BY observed_at DESC,id DESC LIMIT 1`)[0];
       if(!o?.fresh || o.id!==latest?.id || String(o.connection_revision)!==String(c.revision))throw fail('DISCOVERY_STALE');
+      if(!o.identity || !await instanceIdentityCurrent(tx,c.container_id,o.identity))throw fail('INSTANCE_PHYSICAL_IDENTITY_CONFLICT');
       if(!o.identity_digest || o.limitations.includes('IDENTITY_MISMATCH') || b.owners.some((owner:string)=>!o.schemas.some((s:any)=>s.owner===owner && s.accessible===true)))throw fail('SCHEMA_ACCESS_UNVERIFIED');
       let profile=(await tx`SELECT p.* FROM sf_instance_profile_sources s JOIN sf_profiles p ON p.id=s.profile_id
         WHERE s.connection_id=${c.id} AND s.connection_revision=${c.revision} AND p.project_id=${req.params.projectId}
