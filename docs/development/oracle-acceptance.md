@@ -186,9 +186,16 @@ self-review was denied. Application restart preserved the decision and held mute
 Central events/receipts, target ledger and objects remained unchanged; no Oracle DDL
 or DML ran. Only the owned holder explicitly released its mutex after verification.
 
-OA01, OA05, OA07 and OA09 remain incomplete as full cases. R4 remains partial pending
-lost acknowledgment, governed alias concurrency, mismatched route and incompatible
-history coverage. The lab must remain intact. The continuation also discloses
+OA07 executed the approved lost-ack fault once: the target remained IN_FLIGHT with only
+statement 1 STARTED, T1 exists, T2 is absent, and central job/attempt are HOLD with
+zero receipts. Independent read-only verification passed. The original controller
+result remains FAIL because cleanup caused a false HOLD_PERSISTENCE_PENDING report.
+PR [111](https://github.com/devsecopslonghn/kelryvo/pull/111) fixes that reporting
+defect with a PostgreSQL regression; the ambiguous request was never replayed.
+
+OA01, OA05 and OA09 remain incomplete as full cases. R4 remains partial pending
+governed alias concurrency, mismatched route and incompatible history coverage,
+with the original OA07 full-case failure disclosed. The lab must remain intact. The continuation also discloses
 one lost fresh V2 raw installation-probe artifact: original digests, independent
 acceptance and effect observations remain, but the replacement is not original bytes.
 

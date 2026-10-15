@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-10-15T00:08:16.690604+00:00",
+  "recordedAt": "2026-10-15T03:04:53.836051+00:00",
   "status": "IN_PROGRESS",
-  "sourceCommit": "27fbaecb6f213b306adf904da854ebf117c37536",
+  "sourceCommit": "1e133715f964b5abc9210a082487cd1e15c07143",
   "supersedesStatusOnly": "r3-checkpoint.json; historical artifacts retained unchanged",
   "oracleVariant": {
     "version": "Oracle AI Database 26ai Free 23.26.3.0.0",
@@ -71,8 +71,10 @@
       "controllerLimitations": "Case2 post-recovery Result/Array assertion failed after native HOLD; case1 admitted-check API startup blocked on frozen transaction relation lock, root canceled only identified own initializer and reaped child. Neither original failed journal was rewritten."
     },
     "OA07": {
-      "status": "NOT_RUN",
-      "preparation": "Wire qualification retained. Both prior unattempted governed requests are CANCELLED with zero attempts/receipts. Fresh resumed read-only inspection confirmed anchor-only writer schema, zero writer sessions and uninitialized ledger. Corrected controller passes offline Java/environment checks; refreshed binding/request and independent installation review remain pending. No migration fault executed."
+      "status": "FAIL",
+      "safetySubclaim": "PASS: approved statement-1 response loss left T1 present, T2 absent, target IN_FLIGHT with only ordinal1 STARTED, central job/attempt HOLD, zero receipts and no replay. Separate independently reviewed read-only post-fault verification preserved exact native target and central state.",
+      "failure": "Worker reported HOLD_PERSISTENCE_PENDING after host cleanup threw although HOLD was durable; original controller FAIL and one-shot journal retained unchanged.",
+      "remediation": "PR111 merged with exact-claim durable HOLD verification and PostgreSQL regression; no replay of the ambiguous request."
     },
     "OA08": {
       "status": "PASS",
@@ -101,17 +103,23 @@
       "Actual post-statement-1 worker interruption and metadata-only expired-lease HOLD preserve target checksum, original central event prefix, one receipt and generation 1",
       "Before-first-migration-call owned interruption: independent observer sees anchor only and STARTED1 IN_FLIGHT ledger; native expired-lease recovery to HOLD preserves checksum/sequence, original events, zero receipts and generation1",
       "Admitted ambiguous-DDL HOLD reconciliation and independent RETAIN_HOLD decision survive application restart without central execution evidence changes",
-      "Live held canonical mutex remains held through reconciliation and application restart; independent contenders decline, target/central evidence unchanged"
+      "Live held canonical mutex remains held through reconciliation and application restart; independent contenders decline, target/central evidence unchanged",
+      "Lost acknowledgment safety: T1 exists, T2 absent, STARTED1 retained under durable HOLD, no receipts/replay; worker reporting defect disclosed and fixed separately"
     ],
     "remaining": [
-      "Lost acknowledgment UNKNOWN/HOLD",
-      "Governed alias concurrency and mismatch admission coverage"
+      "Governed alias concurrency and mismatch admission coverage",
+      "OA07 historical full-case FAIL retained; corrected future behavior covered by PostgreSQL regression, not by replay"
     ]
   },
   "delivery": {
     "uiPR": "https://github.com/devsecopslonghn/kelryvo/pull/109",
     "mergeCommit": "27fbaecb6f213b306adf904da854ebf117c37536",
-    "verification": "584 full local checks passed; required hosted checks passed before merge"
+    "verification": "584 full local checks passed; required hosted checks passed before merge",
+    "holdReportingFix": {
+      "pr": "https://github.com/devsecopslonghn/kelryvo/pull/111",
+      "mergeCommit": "1e133715f964b5abc9210a082487cd1e15c07143",
+      "verification": "Full local check passed with configured Java; hosted PostgreSQL regression 13 passed, zero failed/skipped; required CI passed and independent review accepted."
+    }
   },
   "provenanceLimitations": [
     "Fresh V2 raw installation probe was accidentally overwritten during NOOP preparation; its original digest, independent acceptance and independent effect observations remain. Incident retained; current replacement is not claimed to match original bytes.",
@@ -123,7 +131,8 @@
     "OA07 wire qualification first run stopped at a read-only baseline assertion before relay or writer creation. The one-shot failure remains retained; no CREATE or DROP was attempted. Independent diagnosis and a corrected installation are required before the first wire SQL.",
     "Case1 native expiry recovery returned HOLD with a REAPED terminal receipt and a separately persisted PASS recovery result. The exclusive recovery-once guard journal remains STARTED by the controller implementation; it was not rewritten. Independent post-recovery verification confirms the lifecycle kernel outcome; the separate result supplies the actual terminal receipt.",
     "OA07 wire baseline failure was traced to a private helper asserting NETWORK_PROTOCOL despite not selecting that column. The corrected shared observer passed actual read-only qualification before first CREATE. The prior failed one-shot remains unchanged; the separate wire attempt then passed with independently observed CREATE and conditional cleanup. API setup subsequently corrected private helper missing randomBytes and preserved a pre-existing parser source directory by creating a separate API source; the reserved metadata database was verified empty before resuming.",
-    "Unexecuted private network-fault observer used unqualified protected ledger table names on the observer schema; source review found the issue before fault execution. A separately pinned read-only schema-qualified observer and renewed installation acceptance are required. No fault run or migration DDL was performed to diagnose this defect."
+    "Unexecuted private network-fault observer used unqualified protected ledger table names on the observer schema; source review found the issue before fault execution. A separately pinned read-only schema-qualified observer and renewed installation acceptance are required. No fault run or migration DDL was performed to diagnose this defect.",
+    "A private local PostgreSQL test credential was printed by a sub-agent. The stored role password and 12 active private connector references were replaced; exact original bytes were archived privately, database inventory was preserved, and product diff/PR/private-cache tracking checks found no publication. Existing loopback test-server host authentication uses trust, so password rejection is not claimed. No Oracle credential was involved."
   ],
   "labSafeToDelete": false,
   "labRetentionReason": "Remaining real fault/concurrency/identity acceptance; original HOLD and owned fixtures/evidence retained",
@@ -178,7 +187,9 @@
     "oa07RenewedPurposeQualification": "f26cd726b78404d6499e6a8e15df44a4c152d3311265d7c59a422503754c1c1d",
     "oa08HeldMutexReconciliation": "f2eff174c68fc7a012fce62baa3c5e070869c609a6445e0a8892a35de9c034f9",
     "oa08IndependentReview": "f0004fd3ced8bb98245efe29e9ca3cd33ebedda7c97052c7ca3283224fdcbf92",
-    "oa07ResumedUnchangedFailureState": "c2d54dffb6968112b2c8240b5a56c774eaf90a5d3c35b83e1b040cc763c28e48"
+    "oa07ResumedUnchangedFailureState": "c2d54dffb6968112b2c8240b5a56c774eaf90a5d3c35b83e1b040cc763c28e48",
+    "oa07ActualFaultController": "689d66cb593f14938626ce47ecd663580a94d23b2a4585db8ce4cbcfe15d02e3",
+    "oa07PostfaultIndependentReadOnly": "6f3efc9cd0440da87796ed45e4b49eda1449271e01f3dfac09b6415058647b56"
   },
   "archiveSha256": "cd364c0e03a9f0780af43df3a936eee5f525ca159c5c59f03b4807af875f1231"
 }
