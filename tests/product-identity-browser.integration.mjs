@@ -44,6 +44,7 @@ test('fresh administrator can bootstrap, manage identity, change password and re
     const page = await context.newPage();
     page.on('pageerror', e => errors.push(e.message));
     await page.goto(base());
+    await page.clock.install();
     await signIn(page, 'admin', bootstrap.password);
     await page.getByRole('heading', { name: 'Set your password', exact: true }).waitFor();
     await page.getByLabel('Current password').fill(bootstrap.password);
@@ -96,8 +97,18 @@ test('fresh administrator can bootstrap, manage identity, change password and re
     await page.getByLabel('Current password').fill(newPassword);
     await page.getByLabel('New password', { exact: true }).fill(newPassword + 'x');
     await page.getByLabel('Confirm new password').fill(newPassword + 'x');
+    let staleRecovery, observed;
+    const recoveryObserved=new Promise(resolve=>{observed=resolve;});
+    const holdRecovery=route=>{if(!staleRecovery){staleRecovery=route;observed();}else return route.continue();};
+    await page.route('**/api/recovery/status',holdRecovery);
+    await page.clock.fastForward(15001);await recoveryObserved;
     await page.getByRole('button', { name: 'Update password' }).click();
     await page.getByRole('status').filter({ hasText: 'Password updated.' }).waitFor();
+    const stale=await staleRecovery.fetch();assert.equal(stale.status(),401,'in-flight request retains the now-revoked cookie');
+    await Promise.all([page.waitForResponse(response=>response.url().endsWith('/api/recovery/status')&&response.status()===401),staleRecovery.fulfill({response:stale})]);
+    await page.unroute('**/api/recovery/status',holdRecovery);
+    await page.getByRole('button', { name: 'Identity administration' }).waitFor();
+    assert.equal(await page.getByText('Your session expired. Sign in again.',{exact:true}).count(),0,'delayed old-session denial cannot sign out the replacement session');
     await page.reload();
     await page.getByRole('button', { name: 'Identity administration' }).waitFor();
 
