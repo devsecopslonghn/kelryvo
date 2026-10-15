@@ -36,6 +36,90 @@ test('returns exact physical target and existing-table identities for worker met
   no('CREATE INDEX local_ix ON EVIL.app_local_synonym (id)');
 });
 
+test('allows inline and composite named keys with exact quoted identities', () => {
+  yes('CREATE TABLE widget (id NUMBER PRIMARY KEY, name VARCHAR2(100))');
+  const result=yes('CREATE TABLE APP.orders (id NUMBER CONSTRAINT orders_nn NOT NULL, "Code" VARCHAR2(40) UNIQUE, tenant NUMBER, CONSTRAINT orders_pk PRIMARY KEY (tenant,id))');
+  assert.deepEqual(result.constraints,[
+    {type:'NOT_NULL',name:'ORDERS_NN',columns:['ID']},
+    {type:'UNIQUE',name:null,columns:['Code']},
+    {type:'PRIMARY_KEY',name:'ORDERS_PK',columns:['TENANT','ID']},
+  ]);
+  yes('CREATE TABLE orders (CONSTRAINT orders_pk PRIMARY KEY (id), id NUMBER, code VARCHAR2(10), UNIQUE (code,id))');
+  yes('ALTER TABLE APP.orders ADD CONSTRAINT orders_pk PRIMARY KEY (id,tenant)');
+  yes('ALTER TABLE "APP"."Table" ADD UNIQUE ("Code")');
+  yes('ALTER TABLE orders ADD (code VARCHAR2(20) CONSTRAINT orders_uq UNIQUE, active NUMBER NOT NULL)');
+  assert.deepEqual(yes('ALTER TABLE orders ADD CONSTRAINT orders_pk PRIMARY KEY (id)').existingTable,{owner:'APP',name:'ORDERS'});
+});
+
+test('allows bounded pure CHECK predicates without executable expressions', () => {
+  for(const sql of [
+    'CREATE TABLE orders (id NUMBER CHECK (id >= 0), amount NUMBER CONSTRAINT amount_ck CHECK (amount BETWEEN -100.5 AND 999))',
+    "CREATE TABLE orders (state VARCHAR2(20) CHECK (state IN ('OPEN','CLOSED','it''s data; @link')))",
+    'CREATE TABLE orders (lo NUMBER, hi NUMBER, CONSTRAINT range_ck CHECK (lo < hi AND NOT (lo < 0 OR hi IS NULL)))',
+    'ALTER TABLE orders ADD CHECK (state NOT IN (1,2) OR value IS NOT NULL)',
+    'ALTER TABLE orders ADD CONSTRAINT amount_ck CHECK (amount NOT BETWEEN 1 AND 2 AND amount != 5 AND amount <> 9)',
+    'CREATE TABLE orders ("select" NUMBER CHECK ("select" = 1), "CURRENT_DATE" NUMBER CHECK ("CURRENT_DATE" = 2))',
+    'CREATE TABLE orders (id NUMBER CHECK (1=1))',
+  ])yes(sql);
+  assert.deepEqual(yes('ALTER TABLE orders ADD CONSTRAINT "valid range" CHECK (lo <= hi)').constraints,
+    [{type:'CHECK',name:'valid range',columns:['LO','HI']}]);
+});
+
+test('rejects constraint scope escapes, executable expressions and custom state/index clauses', () => {
+  for(const sql of [
+    'CREATE TABLE orders (id NUMBER REFERENCES FOREIGN.t(id))',
+    'CREATE TABLE orders (id NUMBER, FOREIGN KEY (id) REFERENCES APP.t(id))',
+    'ALTER TABLE FOREIGN.orders ADD PRIMARY KEY (id)',
+    'ALTER TABLE orders ADD CONSTRAINT FOREIGN.pk PRIMARY KEY (id)',
+    'ALTER TABLE orders ADD CONSTRAINT pk PRIMARY KEY (id) USING INDEX FOREIGN.idx',
+    'ALTER TABLE orders ADD PRIMARY KEY (id) USING INDEX (CREATE INDEX FOREIGN.idx ON APP.orders(id))',
+    'ALTER TABLE orders ADD UNIQUE (id) DISABLE',
+    'ALTER TABLE orders ADD CHECK (id > 0) ENABLE NOVALIDATE',
+    'ALTER TABLE orders ADD PRIMARY KEY (id) DEFERRABLE INITIALLY DEFERRED',
+    'ALTER TABLE orders ADD CHECK (FOREIGN.fn(id) = 1)',
+    'ALTER TABLE orders ADD CHECK (local_fn(id) = 1)',
+    'ALTER TABLE orders ADD CHECK (id IN (SELECT id FROM FOREIGN.t))',
+    'ALTER TABLE orders ADD CHECK (APP.orders.id > 0)',
+    'ALTER TABLE orders ADD CHECK (id > sequence_name.NEXTVAL)',
+    'ALTER TABLE orders ADD CHECK (id > value@remote)',
+    'ALTER TABLE orders ADD CHECK (id + 1 > 0)',
+    'ALTER TABLE orders ADD CHECK (-id > 0)',
+    "ALTER TABLE orders ADD CHECK (SYS_CONTEXT('USERENV','SESSION_USER') = 'APP')",
+    'ALTER TABLE orders ADD CHECK (id > SYSDATE)',
+    'ALTER TABLE orders ADD CHECK (id > DBTIMEZONE)',
+    'ALTER TABLE orders ADD CHECK (id > CURRVAL)',
+    'ALTER TABLE orders ADD PRIMARY KEY (id); DROP TABLE FOREIGN.t',
+    'ALTER TABLE orders ADD CHECK (id > 0) OR 1=1',
+  ])no(sql);
+});
+
+test('rejects malformed constraints, duplicate keys and unknown or case-confused create columns', () => {
+  for(const sql of [
+    'CREATE TABLE orders (id NUMBER, PRIMARY KEY ())',
+    'CREATE TABLE orders (id NUMBER, PRIMARY KEY (id,id))',
+    'CREATE TABLE orders (id NUMBER PRIMARY KEY, code NUMBER PRIMARY KEY)',
+    'CREATE TABLE orders (id NUMBER CONSTRAINT same UNIQUE, code NUMBER CONSTRAINT SAME UNIQUE)',
+    'CREATE TABLE orders (id NUMBER, PRIMARY KEY (missing))',
+    'CREATE TABLE orders ("Id" NUMBER, UNIQUE (id))',
+    'CREATE TABLE orders (id NUMBER CHECK (other > 1), other NUMBER)',
+    'CREATE TABLE orders (id NUMBER, CHECK (missing > 1))',
+    'CREATE TABLE orders (id NUMBER CONSTRAINT missing_kind)',
+    'CREATE TABLE orders (id NUMBER CHECK (id >))',
+    'CREATE TABLE orders (id NUMBER CHECK (id IN ()))',
+    'CREATE TABLE orders (id NUMBER CHECK (id NOT = 1))',
+    'CREATE TABLE orders (id NUMBER CHECK (id ! 1))',
+    'CREATE TABLE orders (id NUMBER CHECK (id BETWEEN 1 OR 2))',
+    'CREATE TABLE orders (id NUMBER CHECK (id = 1),)',
+    'ALTER TABLE orders ADD (PRIMARY KEY (id))',
+    'ALTER TABLE orders ADD CONSTRAINT pk PRIMARY KEY (id) /* unclosed',
+    `ALTER TABLE orders ADD PRIMARY KEY (${Array.from({length:33},(_,i)=>`c${i}`).join(',')})`,
+    `ALTER TABLE orders ADD CHECK (${'('.repeat(34)}id>0${')'.repeat(34)})`,
+    `ALTER TABLE orders ADD CHECK (${'NOT '.repeat(34)}id>0)`,
+  ])no(sql);
+  const n='a'.repeat(128);yes(`CREATE TABLE orders ("${n}" NUMBER PRIMARY KEY)`);
+  no(`CREATE TABLE orders ("${n}a" NUMBER PRIMARY KEY)`);
+});
+
 test('rejects foreign owners, case-confused quoted owners, and database links', () => {
   no('CREATE TABLE EVIL.orders (id NUMBER)');
   no('ALTER TABLE EVIL.orders ADD x NUMBER');

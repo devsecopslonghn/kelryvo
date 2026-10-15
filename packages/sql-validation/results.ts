@@ -1,4 +1,4 @@
-import { assessOracleSchemaScope } from '../execution/schema-scope.mjs';
+import { assessOracleSchemaScope, ORACLE_SCHEMA_SCOPE_PROFILE } from '../execution/schema-scope.mjs';
 import { createHash } from 'node:crypto';
 import { previewRetainedStatements } from '../migrations/statement-preview.mjs';
 import { verifyRetainedRelease } from '../migrations/verify-retained-release.mjs';
@@ -62,10 +62,12 @@ export async function buildValidation(release: any, project: any, target: any, m
     metadata={...metadata,schemaSnapshot:snapshot};
   }
   const findings: any[] = [];
-  for (const statement of statements) {
+  const automaticScopes = statements.map(statement => {
     const scope=assessOracleSchemaScope(statement.sourceSql,target.exactOwner);
-    if(!scope.eligible) { findings.push({code:scope.code,severity:'BLOCKING',rationale:`Statement ${statement.ordinal} is outside the automatic execution subset. Only scoped scalar CREATE TABLE, ALTER TABLE ADD columns and simple local indexes are supported. Approval cannot override this policy.`}); break; }
-  }
+    return {profile:ORACLE_SCHEMA_SCOPE_PROFILE,eligible:scope.eligible,code:scope.code,constraints:'constraints' in scope?scope.constraints:[]};
+  });
+  const blockedIndex=automaticScopes.findIndex(scope=>!scope.eligible);
+  if(blockedIndex>=0) findings.push({code:automaticScopes[blockedIndex].code,severity:'BLOCKING',rationale:`Statement ${statements[blockedIndex].ordinal} is outside the automatic execution subset. Scoped scalar tables, ADD columns or PRIMARY KEY/UNIQUE/bounded CHECK constraints and simple local indexes are supported. CHECK allows local columns, scalar literals, comparisons, IS NULL, IN, BETWEEN and AND/OR/NOT only. Foreign keys, function calls, procedural SQL and custom constraint state/index clauses remain blocked. Approval cannot override this policy.`});
   if (release.validation_status !== 'VALID') findings.push({code:'SYNTAX_NOT_VALID',severity:'BLOCKING',rationale:'The retained parser result does not establish valid Oracle syntax.'});
   if (metadata.accessible !== true) findings.push({code:'SCHEMA_VISIBILITY_UNVERIFIED',severity:'UNKNOWN',rationale:'The target schema has no current observed visibility evidence.'});
   findings.push(metadata.schemaSnapshot ? {code:'SCHEMA_STRUCTURE_OBSERVED',severity:'UNKNOWN',rationale:`Immutable schema snapshot ${metadata.schemaSnapshot.id} provides structural context (${metadata.schemaSnapshot.provenance}). Visibility and collection consistency limitations remain; Oracle compilation and privileges are unverified.`} : {code:'OBJECT_METADATA_UNAVAILABLE',severity:'UNKNOWN',rationale:'No object snapshot is retained. Existing objects, columns, constraints and privileges were not observed.'});
@@ -83,7 +85,7 @@ export async function buildValidation(release: any, project: any, target: any, m
     syntax:release.validation_status==='VALID'?'VALID':'INVALID_OR_UNAVAILABLE',
     outcome:blocking?'BLOCKED':'UNVERIFIED',policy:{id:target.policyId,revision:target.policyRevision,
       decision:blocking?'BLOCKED':'INDEPENDENT_REVIEW_REQUIRED',executionAuthority:false},
-    findings,statements:review.map((s:any,index:number)=>({...identities[index],...s}))};
+    findings,statements:review.map((s:any,index:number)=>({...identities[index],...s,automaticScope:automaticScopes[index]}))};
   const envelope=JSON.stringify(report);
   if(Buffer.byteLength(envelope)>MAX_VALIDATION_BYTES)throw validationFailure('VALIDATION_TOO_LARGE');
   return {envelope,digest:hash(envelope),report};

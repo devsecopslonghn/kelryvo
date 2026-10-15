@@ -49,9 +49,12 @@ profiles cannot be independently edited to bypass the instance reference.
 
 Scope is enforced in validation, worker materialization and immediately before dispatch.
 The supported automatic subset is scalar CREATE TABLE, scalar ALTER TABLE ADD and simple
-local indexes, with literal defaults/NOT NULL. Dynamic SQL, procedural blocks, CTAS,
-expressions, DML, foreign owners, database links, triggers, synonyms and administrative
-operations remain blocked after approval. Existing objects must match exact physical
+local indexes, with literal defaults/NOT NULL. The table-constraint increment below extends
+offline eligibility to PRIMARY KEY, UNIQUE and bounded CHECK, including named inline and
+table-level constraints and ALTER TABLE ADD of one constraint. Dynamic SQL, procedural
+blocks, CTAS, arbitrary expressions, foreign keys, custom constraint state/index clauses,
+DML, foreign owners, database links, triggers, synonyms and administrative operations remain
+blocked after approval. Existing objects must match exact physical
 tables rather than synonyms. A trusted installation excludes concurrent external changes
 and unreviewed DDL triggers; Oracle CURRENT_SCHEMA supplies context, not privileges.
 
@@ -66,7 +69,30 @@ PostgreSQL/API and Chromium acceptance exercise connection before assignment, tw
 bindings with one credential, project isolation, independent approval, revision staleness,
 truthful fixture denial, reuse, persistence and mobile layout. [Master workflow acceptance](../../evidence/product/instance-master-workflow-20261015/acceptance.json) records two real schema V1 executions, a V2 suffix and a browser-authored witnessed no-op: four proofs/attempts, three receipts and target histories of two and one applied migrations. The browser exercised authoring two files, syntax review, validation, a format-4 plan, independent approval, a separate deployer request, restart history, audit and record download. Independent fixed SELECTs through the original authorized operator checked Oracle objects, ledger chains and unchanged master grants. The original HOLD, earlier V1 effect and all historical lab evidence remain retained.
 
-Qualification is limited to the recorded Oracle Free CDB/PDB TCP variant and scalar CREATE TABLE statements. ALTER TABLE ADD and CREATE INDEX have fixture coverage and require additional live installation acceptance. The pinned parser can reject otherwise valid Oracle forms, including some trailing-comment layouts; rejected SQL remains blocked. This does not qualify production, other topologies or the complete fault/recovery matrix.
+Qualification is limited to the recorded Oracle Free CDB/PDB TCP variant and scalar CREATE TABLE statements. ALTER TABLE ADD, CREATE INDEX and the table-constraint increment have fixture coverage and require additional live installation acceptance. The pinned parser can reject otherwise valid Oracle forms, including some trailing-comment layouts; rejected SQL remains blocked. This does not qualify production, other topologies or the complete fault/recovery matrix.
+
+### Declarative table constraints increment
+
+The bundled starting migration uses PRIMARY KEY. It must pass the same exact-owner scope
+policy as user-authored SQL rather than require removal of its key. The shared validation,
+materialization and writer allowlist now handles inline and composite PRIMARY KEY/UNIQUE,
+named NOT NULL and bounded CHECK constraints. CHECK supports scalar literals/local columns,
+comparisons, IS [NOT] NULL, [NOT] IN, [NOT] BETWEEN and boolean AND/OR/NOT; nesting is bounded
+and key lists contain at most 32 distinct columns. CREATE checks declared exact-case column
+names. ALTER retains the exact physical-table guard. Functions, subqueries, external names,
+foreign keys and custom constraint state/index clauses remain ineligible.
+
+Validation retains each statement's scope result and constraint identities for SQL review,
+independent plan approval and record downloads. Original reports and approvals remain
+readable without alteration. The increment reuses existing immutable validation/plan
+storage and the worker's exact parser-produced bytes, target mutex, stream ledger and
+receipt protocol; no new execution authority or recovery path is introduced. Local
+verification passed `npm run check` (460 passed, 132 unconfigured database skips), the
+PostgreSQL validation suite (9 passed, no skips), constrained worker integration (6 passed,
+no skips), the historical-envelope regression and Chromium review/download/restart/mobile
+acceptance. Scope/host unit coverage includes 73 passing tests. Independent source review
+found no blocking issue. Hosted review status is reported by the feature PR; live Oracle
+constraint acceptance has not run, and deployment remains separately authorized.
 
 ## Authoritative requirement outcomes
 
@@ -91,7 +117,7 @@ Stable FR identifiers are retained from earlier reconciliation. The original sta
 | FR-015 | Plans/approvals bind exact assignment, binding, configuration, identity, policy, environment, stream and statement revisions. |
 | FR-016 | Review retained source, digests, scope/risk/dependency findings and target evidence; surface unknown/conflicting facts. |
 | FR-017 | Immutable plan and durable execution request are separate objects; no general business-issue subsystem required. |
-| FR-018 | One independent human approval; configurable routes/multi-stage approval deferred. |
+| FR-018 | Configurable approval per explicitly classified environment: DEV/SIT may opt out, controlled environments require independent review. Current implementation requires one independent human approval everywhere; environment policy is the next functional gap. Multi-stage routes/promotion remain separate. |
 | FR-019 | Request requires approved current plan and deploy grant; it does not grant worker execution authority. |
 | FR-020 | Only a separately installed trusted worker may resolve writer secrets and execute after target/runtime acceptance. |
 | FR-021 | Serialize per verified PDB/non-CDB; actual mutex continuity and session-loss behavior require Oracle evidence. |
@@ -143,7 +169,17 @@ Offline product development is eligible independently of Oracle acceptance. The 
 | **O4 — retained schema object browsing delivered offline** | Add literal owner/name search and type filtering to the existing bounded immutable snapshot object table. Reuse the full retained payload; no new endpoint, storage or Oracle operation. | PostgreSQL/API and Chromium acceptance passed with 1,000 mixed-type retained objects: literal owner/name and type filtering, visible/total counts, truthful no-match state, clearing and snapshot-switch resets. Expanded definitions retain exact case-sensitive identities and checksums. Filtered capture/comparison keep full immutable snapshot IDs/content, partial coverage and provenance. `tests/product-schema-baselines-browser.integration.mjs` retains the journey; hosted gates remain required before merge. |
 | **O5 — unambiguous comparison references delivered offline** | Distinguish named baselines and raw snapshots in the existing expected-reference selector, including duplicate baseline names. Reuse retained snapshot IDs/timestamps. | PostgreSQL/API and Chromium acceptance passed for same-named baselines on distinct snapshots: source type, timestamps and full snapshot IDs distinguish labels; each choice submits the exact expected/observed IDs and displays retained identities. Existing authorization, UNVERIFIED partial-coverage semantics and immutable baseline records remain enforced. `tests/product-schema-baselines.test.mjs` and `tests/product-schema-baselines-browser.integration.mjs` retain the cases; hosted gates remain required before merge. |
 
-[O1 PR #100](https://github.com/devsecopslonghn/kelryvo/pull/100), [O2 PR #101](https://github.com/devsecopslonghn/kelryvo/pull/101) and [O3 PR #102](https://github.com/devsecopslonghn/kelryvo/pull/102) retain the reviewed source, focused local verification and passing hosted integration/security gates. The current bounded offline sequence is implemented. Inspection of the existing schema, SQL, release, governed review and history workflows found no further justified bounded gap in the current requirements. The owner-authorized Oracle Free TCP qualification below has run; R1/R2 full live acceptance remains incomplete, and R3/R4 require accepted runtime evidence and purpose-separated authorities. Broader capabilities below remain unscheduled until their requirements and dependencies are established.
+[O1 PR #100](https://github.com/devsecopslonghn/kelryvo/pull/100), [O2 PR #101](https://github.com/devsecopslonghn/kelryvo/pull/101) and [O3 PR #102](https://github.com/devsecopslonghn/kelryvo/pull/102) retain the reviewed source, focused local verification and passing hosted integration/security gates. That bounded offline sequence is implemented. The continuous-development direction now prioritizes practical Oracle SQL compatibility and explicit environment approval policies. The table-constraint increment above addresses the bundled migration's blocked PRIMARY KEY; environment policy follows it. The owner-authorized Oracle Free TCP qualification below has run; R1/R2 full live acceptance remains incomplete, and R3/R4 require accepted runtime evidence and purpose-separated authorities. Broader capabilities below remain unscheduled until their requirements and dependencies are established.
+
+The next functional milestone is revisioned environment approval policy. It must classify
+DEV/SIT versus controlled environments explicitly, restrict policy administration to current
+authorized governance actors, bind the policy snapshot into new immutable plan intent and
+distinguish a policy waiver from human approval. Policy changes must permanently stale
+earlier authority, including change-and-restore; readiness, request and worker admission
+must recheck policy before dispatch. Controlled environments retain independent approval,
+all targets retain separate deploy/runtime gates, and existing envelopes/decisions remain
+readable under their original rules. Complete PostgreSQL/API/browser and worker acceptance
+is required before this milestone is delivered.
 
 Previously proposed target-binding and project-target milestones are delivered offline; improve existing modules rather than building parallel planners, ledgers or tracking systems. R1 product integration is implemented with local acceptance and partial live qualification; its remaining live gates below remain open.
 

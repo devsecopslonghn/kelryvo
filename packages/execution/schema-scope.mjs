@@ -3,7 +3,8 @@
  * complete grammar; it is independent of the descriptive SQL reviewer.
  */
 const reject = (code = 'SCHEMA_SQL_UNSUPPORTED') => ({ eligible: false, code });
-const accept = (target, existingTable = null) => ({ eligible: true, code: 'SCHEMA_SQL_ALLOWED', target, existingTable });
+const accept = (target, existingTable = null, constraints = []) => ({ eligible: true, code: 'SCHEMA_SQL_ALLOWED', target, existingTable, constraints });
+export const ORACLE_SCHEMA_SCOPE_PROFILE = 'kelryvo-static-table-constraints-v1';
 const MAX_SQL = 200_000;
 const MAX_TOKENS = 20_000;
 const PROTECTED_OWNERS = new Set([
@@ -60,6 +61,11 @@ function lex(sql) {
       let j = i + 1; while (j < sql.length && /[0-9]/.test(sql[j])) j++;
       if (sql[j] === '.') { j++; const fraction = j; while (j < sql.length && /[0-9]/.test(sql[j])) j++; if (j === fraction) return null; }
       out.push({ type: 'number', value: sql.slice(i, j) }); i = j;
+    } else if ('=<>!'.includes(c)) {
+      const pair = sql.slice(i, i + 2);
+      const value = ['<=', '>=', '<>', '!='].includes(pair) ? pair : c;
+      if (value === '!') return null;
+      out.push({ type: 'operator', value }); i += value.length;
     } else if ('(),.;+'.includes(c) || c === '-') {
       out.push({ type: 'punct', value: c }); i++;
     } else return null;
@@ -75,7 +81,8 @@ function parser(tokens, exactOwner) {
   const take = value => { if (!peek(value)) return false; i++; return true; };
   const id = () => {
     const t = tokens[i]; if (t?.type !== 'word' && t?.type !== 'id') return null;
-    i++; return t.type === 'word' ? t.value : t.value;
+    if (!t.value.length || new TextEncoder().encode(t.value).length > 128 || /[\u0000-\u001f\u007f]/.test(t.value)) return null;
+    i++; return t.value;
   };
   const name = () => {
     const first = id(); if (first == null) return null;
@@ -107,29 +114,112 @@ function parser(tokens, exactOwner) {
   const literal = () => {
     const t = tokens[i];
     if (t?.type === 'number' || t?.type === 'string' || t?.type === 'word' && t.value === 'NULL') { i++; return true; }
-    if (take('-')) { const n = tokens[i]; if (n?.type !== 'number') return false; i++; return true; }
+    if (peek('-') && tokens[i + 1]?.type === 'number') { i += 2; return true; }
     return false;
+  };
+  const constraints = [], constraintNames = new Set();
+  let primaryKey = false;
+  const keyColumns = () => {
+    if (!take('(')) return null;
+    const names = [], seen = new Set();
+    do {
+      const n = id(); if (n == null || seen.has(n)) return null;
+      seen.add(n); names.push(n); if (names.length > 32) return null;
+    } while (take(','));
+    return take(')') ? names : null;
+  };
+  // Pure scalar conditions only: no calls, qualified identifiers, subqueries,
+  // pseudo-columns or expression evaluation that can invoke stored code.
+  const checkColumns = () => {
+    const refs = new Set();
+    const operand = () => {
+      if (literal()) return true;
+      const t = tokens[i];
+      if (t?.type === 'word' && ['SELECT','SYSDATE','SYSTIMESTAMP','CURRENT_DATE','CURRENT_TIMESTAMP',
+        'DBTIMEZONE','LOCALTIMESTAMP','SESSIONTIMEZONE','CURRVAL','NEXTVAL','USER','CURRENT_USER',
+        'SESSION_USER','LEVEL','ROWID','ROWNUM','UID','ORA_ROWSCN'].includes(t.value)) return false;
+      const n = id(); if (n == null) return false; refs.add(n); return true;
+    };
+    const predicate = () => {
+      if (!operand()) return false;
+      if (take('IS')) { take('NOT'); return take('NULL'); }
+      const negated = take('NOT');
+      if (take('IN')) {
+        if (!take('(') || !literal()) return false;
+        while (take(',')) if (!literal()) return false;
+        return take(')');
+      }
+      if (take('BETWEEN')) return literal() && take('AND') && literal();
+      if (negated || tokens[i]?.type !== 'operator') return false;
+      i++; return operand();
+    };
+    const factor = depth => {
+      if (depth > 32) return false;
+      let negations = 0;
+      while (take('NOT')) if (++negations > 32) return false;
+      if (take('(')) return condition(depth + 1) && take(')');
+      return predicate();
+    };
+    const conjunction = depth => {
+      if (!factor(depth)) return false;
+      while (take('AND')) if (!factor(depth)) return false;
+      return true;
+    };
+    const condition = depth => {
+      if (!conjunction(depth)) return false;
+      while (take('OR')) if (!conjunction(depth)) return false;
+      return true;
+    };
+    return take('(') && condition(0) && take(')') ? [...refs] : null;
+  };
+  const constraintStart = () => ['CONSTRAINT','PRIMARY','UNIQUE','CHECK','NOT','NULL'].some(peek);
+  const constraint = (inlineColumn = null) => {
+    let constraintName = null, kind, refs;
+    if (take('CONSTRAINT')) {
+      constraintName = id();
+      if (constraintName == null || constraintNames.has(constraintName)) return false;
+      constraintNames.add(constraintName);
+    }
+    if (take('PRIMARY')) {
+      if (!take('KEY') || primaryKey) return false;
+      primaryKey = true; kind = 'PRIMARY_KEY';
+    } else if (take('UNIQUE')) kind = 'UNIQUE';
+    else if (take('CHECK')) { kind = 'CHECK'; refs = checkColumns(); }
+    else if (inlineColumn != null && take('NOT')) { if (!take('NULL')) return false; kind = 'NOT_NULL'; }
+    else if (inlineColumn != null && take('NULL')) kind = 'NULL';
+    else return false;
+    if (kind === 'PRIMARY_KEY' || kind === 'UNIQUE') refs = inlineColumn == null ? keyColumns() : [inlineColumn];
+    if (kind === 'NOT_NULL' || kind === 'NULL') refs = [inlineColumn];
+    if (!refs || inlineColumn != null && refs.some(n => n !== inlineColumn)) return false;
+    constraints.push({ type: kind, name: constraintName, columns: refs });
+    return true;
   };
   const column = () => {
     const columnName = id();
     if (columnName == null || !type()) return null;
     if (take('DEFAULT') && !literal()) return false;
-    if (take('NOT')) { if (!take('NULL')) return false; }
+    while (constraintStart()) if (!constraint(columnName)) return false;
     return columnName;
   };
-  const columns = () => {
+  const columns = (creating = false) => {
     if (!take('(')) return false;
     const seen = new Set();
-    const first = column(); if (typeof first !== 'string') return false; seen.add(first);
-    while (take(',')) { const next = column(); if (typeof next !== 'string' || seen.has(next)) return false; seen.add(next); }
-    return take(')');
+    do {
+      if (['CONSTRAINT','PRIMARY','UNIQUE','CHECK'].some(peek)) {
+        if (!creating || !constraint()) return false;
+      } else {
+        const n = column(); if (typeof n !== 'string' || seen.has(n)) return false; seen.add(n);
+      }
+    } while (take(','));
+    return take(')') && seen.size > 0
+      && (!creating || constraints.every(c => c.columns.every(n => seen.has(n))));
   };
   if (take('CREATE')) {
     const unique = take('UNIQUE');
     if (take('TABLE')) {
       if (unique) return false;
-      const target = name(); if (!local(target) || !columns()) return false;
-      return i === tokens.length ? accept({ owner: exactOwner, name: target.name, objectType: 'TABLE', operation: 'CREATE' }) : false;
+      const target = name(); if (!local(target) || !columns(true)) return false;
+      return i === tokens.length ? accept({ owner: exactOwner, name: target.name, objectType: 'TABLE', operation: 'CREATE' }, null, constraints) : false;
     }
     if (take('INDEX')) {
       const index = name(); if (!local(index) || !take('ON')) return false;
@@ -144,10 +234,11 @@ function parser(tokens, exactOwner) {
   if (take('ALTER')) {
     if (!take('TABLE')) return false;
     const target = name(); if (!local(target) || !take('ADD')) return false;
-    if (peek('(')) { if (!columns()) return false; }
+    if (['CONSTRAINT','PRIMARY','UNIQUE','CHECK'].some(peek)) { if (!constraint()) return false; }
+    else if (peek('(')) { if (!columns()) return false; }
     else if (typeof column() !== 'string') return false;
     return i === tokens.length ? accept({ owner: exactOwner, name: target.name, objectType: 'TABLE', operation: 'ALTER' },
-      { owner: exactOwner, name: target.name }) : false;
+      { owner: exactOwner, name: target.name }, constraints) : false;
   }
   return false;
 }

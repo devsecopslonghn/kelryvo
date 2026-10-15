@@ -29,11 +29,23 @@ After master changes, discover and assign/rebind afresh before a new independent
 Advanced and legacy connection tools retain historical profiles and evidence.
 
 The worker rechecks conservative schema scope independently of approval. Scalar table
-creation/add-column and simple indexes are supported; dynamic/procedural/admin SQL,
-expressions, DML and synonym targets cannot execute automatically. Master account privileges
+creation/add-column, inline or table-level PRIMARY KEY/UNIQUE, bounded CHECK, named NOT NULL
+and simple indexes are supported. ALTER TABLE ADD accepts one table constraint or scalar
+columns with inline constraints. CHECK accepts local columns and scalar literals with
+comparisons, IS [NOT] NULL, [NOT] IN, [NOT] BETWEEN and AND/OR/NOT; nesting is bounded.
+Foreign keys, function calls, custom constraint state/index clauses, dynamic/procedural/admin
+SQL, arbitrary expressions, DML and synonym targets cannot execute automatically. Master account privileges
 are installed explicitly; no DBA account or data-query capability is implied. The protected
 ledger/mutex installation still uses its internal authority and must attest grants, physical
 identity, external-change exclusion and postconditions before dispatch.
+
+New SQL validation reports retain each statement's automatic scope profile/result and exact
+constraint type/name/column identities. SQL validation and plan review display those facts,
+and plan-record downloads preserve them. Earlier validation envelopes remain readable with
+their original findings. Scope eligibility grants no execution authority and does not prove
+Oracle constraint semantics or existing-data validity. Table constraints have offline
+PostgreSQL/Git/parser/browser and synthetic worker coverage; live Oracle acceptance for
+these new forms has not run. Existing approvals, target evidence and installation gates remain required.
 
 ## Target-bound offline governance
 
