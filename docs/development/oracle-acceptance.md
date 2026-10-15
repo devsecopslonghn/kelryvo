@@ -1,9 +1,10 @@
 # Disposable Oracle execution acceptance
 
-Live Oracle execution acceptance is **BLOCKED as a complete program**. Retained V1
-and V2 governed executions passed with independently observed Oracle effects; NOOP
-ended in a pre-admission HOLD caused by the private authority adapter. The checkpoint
-recovery below supersedes earlier NOT_RUN execution status. Fixture discovery,
+Live Oracle execution acceptance is **IN PROGRESS as a complete program**. Retained V1
+and V2 governed executions passed with independently observed Oracle effects. A fresh,
+independently accepted lineage now also passes NOOP; the original pre-admission HOLD
+is retained. The continuation below supersedes earlier status without rewriting its
+historical evidence. Fixture discovery,
 UNIT_SYNTHETIC workers and PostgreSQL tests do not establish Oracle migration effects.
 
 This bounded suite uses the existing Oracle provider, target ledger and session
@@ -138,6 +139,80 @@ Continuation requires an owner/operator-reviewed disposition that respects retai
 HOLD, fresh installation acceptance and separately attested fixture/fault scope.
 The lab is **not safe to delete for acceptance completion**. No Oracle infrastructure
 was changed or deleted; observed free PVC capacity remains 929 MiB, above the 512 MiB floor.
+
+## Integrated lifecycle continuation on 2026-10-14
+
+[Continuation evidence](../../evidence/product/oracle-lab-qualification-20261014/lifecycle-continuation.json)
+records a fresh, independently qualified installation on the same authorized lab.
+V1/V2 succeeded with two receipts each. Both the fresh NOOP and a browser-authored
+request completed NOOP with zero statement starts, acknowledgments or receipts;
+the four tables and complete target ledger remained unchanged. Original successful
+effects and the original HOLD were preserved.
+
+The redesigned UI delivered in [PR #109](https://github.com/devsecopslonghn/kelryvo/pull/109)
+ran against actual Oracle-backed metadata: two-file SQL authoring, target validation,
+immutable planning, assigned independent approval, separate deployer submission,
+installed worker execution, history and audit. Two actual four-table observations
+and an immutable browser-captured baseline were retained. Comparison remained
+UNVERIFIED because foreign-owner visibility and multi-query consistency are partial.
+The baseline survived reload and project reselection. Temporary scoped SELECT grants
+were revoked after observation.
+
+OA04 passed in a separate approved fixture: markers preceding both successful DDL
+and one ORA-00955 response remained visible after same-session rollback. Different
+observer/operator sessions independently recorded rows and object state. The first
+attempt stopped before mutation on a harness identity alias error; its evidence remains.
+
+OA10 passed using the supported disposable metadata naming contract. A native archive
+of V1/V2/NOOP and the genuinely queued browser request restored to a separate database.
+Joined evidence, prior audit rows, witness and predecessor links survived. The restored
+generation remains RESTORE_HOLD and its queued copy became HOLD. Actual installed
+worker gates declined all restored requests before any Oracle authority, route or
+target call. Independent read-only verification matched archive and witness hashes.
+The source was unchanged through restore and subsequently completed the browser NOOP.
+
+OA06 now has real interruption and recovery evidence at both durable claim boundaries.
+Independent observations retained an IN_FLIGHT ledger and the original central event
+prefix; native lease expiry held each job and attempt at generation 1 without replay.
+The first boundary retained zero migration receipts; the second retained one acknowledgment
+and receipt. Both private controllers recorded failures, preserved below. Actual
+queued, admitted and held API idempotency checks passed. An ambiguous admitted HOLD
+was independently reviewed and retained through application restart with no retry
+or execution authority.
+
+OA08 also passed on 2026-10-15 with the exact interrupted stream mutex held.
+Separate actual writer sessions declined both before and after independent RETAIN_HOLD;
+self-review was denied. Application restart preserved the decision and held mutex.
+Central events/receipts, target ledger and objects remained unchanged; no Oracle DDL
+or DML ran. Only the owned holder explicitly released its mutex after verification.
+
+OA01, OA05, OA07 and OA09 remain incomplete as full cases. R4 remains partial pending
+lost acknowledgment, governed alias concurrency, mismatched route and incompatible
+history coverage. The lab must remain intact. The continuation also discloses
+one lost fresh V2 raw installation-probe artifact: original digests, independent
+acceptance and effect observations remain, but the replacement is not original bytes.
+
+OA06 preparation also exposed a review-gate incident: a helper imported an executable
+provisioning entry point before independent review. Its isolated accounts, anchor and
+ledger/mutex objects were created and retained; no migration worker ran. All logged
+operations were acknowledged before an identity-shape assertion stopped preparation.
+Independent read-only inspection confirmed the expected identity, narrow grants,
+empty ledger, scoped valid objects and no residual owned sessions. The incident remains
+unaccepted and the provisioner has not been replayed. A fresh read-only qualification
+and independently reviewed future installation permitted the first-boundary worker
+test; this does not retroactively approve the bootstrap incident.
+
+The second-boundary recovery controller failed after native HOLD because its check
+compared PostgreSQL Result and Array prototypes. Independent reads verified unchanged
+values, ledger checksum and generation. Its original STARTED journal and missing
+terminal receipt remain disclosed; recovery was not rerun. The first-boundary API
+checker attempted metadata initialization while a worker transaction held a relation
+lock. Only the identified owned initializer query was canceled; the supervisor reaped
+the exact child and retained STOPPED_NO_REPLAY. A separate API check using the existing
+schema passed admitted-state idempotency after reaping. Independent before/after
+Oracle observations and native expired-lease recovery passed without a worker rerun.
+The first native recovery also retained a separate PASS result and REAPED terminal
+receipt; its exclusive one-shot guard journal remains STARTED and was not rewritten.
 
 ## Entry gate
 
