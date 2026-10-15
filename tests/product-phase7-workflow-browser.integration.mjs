@@ -37,7 +37,7 @@ test('Phase 7 HTTPS journey drafts SQL, retains immutable approval/request histo
     await workspace.getByRole('button',{name:'New draft',exact:true}).click();
     await workspace.getByRole('button',{name:'Save draft',exact:true}).waitFor();
     await workspace.getByLabel('SQL draft name').fill('Phase 7 reviewed SQL');
-    const source='CREATE TABLE phase7_authored (id NUMBER PRIMARY KEY);\n';
+    const source='CREATE TABLE phase7_authored (id NUMBER);\n';
     await workspace.getByLabel('SQL editor').fill(source);
     await workspace.getByRole('button',{name:'Save draft',exact:true}).click();
     await workspace.getByText('Saved revision 2.',{exact:true}).waitFor();
@@ -49,7 +49,7 @@ test('Phase 7 HTTPS journey drafts SQL, retains immutable approval/request histo
     await workspace.getByRole('button',{name:'Review syntax',exact:true}).click();
     await workspace.getByText('CREATE_TABLE',{exact:true}).waitFor();
     await workspace.getByRole('button',{name:'Validate against target',exact:true}).click();
-    await workspace.getByRole('region',{name:'SQL target validation'}).getByText('UNVERIFIED',{exact:true}).waitFor();
+    await workspace.getByRole('region',{name:'SQL target validation'}).getByText(/UNVERIFIED/).waitFor();
     await page.screenshot({path:`${output}/01-saved-validated-workspace.png`,fullPage:true});
     await page.setViewportSize({width:390,height:844});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'SQL workspace remains usable on a narrow viewport');

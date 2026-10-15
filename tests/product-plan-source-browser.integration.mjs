@@ -108,7 +108,7 @@ test('retained source preview verifies UTF-8 byte facts and discards a delayed r
     await delay.started;
     await page.getByRole('button', { name: /Projects/ }).click();
     await page.locator('.project-row').filter({ hasText: otherProject.name }).click();
-    await page.getByText(otherProject.name, { exact: true }).waitFor();
+    await page.getByRole('complementary').getByText(otherProject.name, { exact: true }).waitFor();
     delay.release(); await projectResponse;
     assert.equal(await page.locator('.statement-preview-result').count(), 0, 'a prior project preview is discarded');
 

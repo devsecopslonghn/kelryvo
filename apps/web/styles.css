@@ -2941,6 +2941,14 @@ td code {
   margin: 16px 0;
 }
 
+.validation-history > button {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
 .validation-history h4 {
   flex-basis: 100%;
   margin: 0 0 4px;
