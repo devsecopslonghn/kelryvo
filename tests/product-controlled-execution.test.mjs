@@ -145,6 +145,21 @@ test('approved Git request reaches controlled worker/history; uncertainty and re
         assert.equal(await h.worker.runWaitingRequest(id),'ADMISSION_DECLINED'); assert.equal(h.calls.length,expectedCalls);
       }
     });
+    await t.test('reports an already committed HOLD when host cleanup throws after the callback',async()=>{
+      const id=await request(),h=host({ outcome:'UNKNOWN',escape:true });
+      assert.equal(await h.worker.runWaitingRequest(id),'HOLD');
+      assert.equal(h.calls.length,1);
+      assert.equal(await jobState(id),'HOLD');
+      assert.deepEqual(await counts(id),{ proofs:1,attempts:1,receipts:0 });
+      const terminal=(await sql`SELECT j.state AS job_state,a.state AS attempt_state,a.generation,a.lease_owner,
+          (SELECT e.phase FROM sf_execution_attempt_events e WHERE e.attempt_id=a.id ORDER BY e.revision DESC LIMIT 1) AS attempt_phase,
+          (SELECT e.to_state FROM sf_execution_job_events e WHERE e.job_id=j.id ORDER BY e.revision DESC LIMIT 1) AS job_event_state,
+          (SELECT e.actor_id FROM sf_execution_job_events e WHERE e.job_id=j.id ORDER BY e.revision DESC LIMIT 1) AS job_event_actor
+        FROM sf_execution_jobs j JOIN sf_execution_attempts a ON a.job_id=j.id WHERE j.id=${id}`)[0];
+      assert.deepEqual({ ...terminal,generation:Number(terminal.generation) },
+        { job_state:'HOLD',attempt_state:'HOLD',generation:1,lease_owner:'unit-controlled-worker',
+          attempt_phase:'HOLD',job_event_state:'HOLD',job_event_actor:'unit-controlled-worker' });
+    });
     await t.test('grant/source/assignment mutation before admission leaves no proof; revocation after an effect stops',async()=>{
       const id=await request(),h=host({ beforeObservation:()=>f.membership.deployRevoke(f.project.id,f.actors[0].id) });
       assert.equal(await h.worker.runWaitingRequest(id),'ADMISSION_DECLINED'); assert.deepEqual(await counts(id),{ proofs:0,attempts:0,receipts:0 });
