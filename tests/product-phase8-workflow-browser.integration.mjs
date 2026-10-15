@@ -123,7 +123,7 @@ test('Phase 8 journey authors ordered multi-file SQL and retains plan-bound comp
     await planning.click();
     const planId=await page.locator('.plan-option.selected').getAttribute('data-plan-id');assert.ok(planId);
     const plan=(await f.api('GET',f.base)).json().plans.find(p=>p.id===planId);
-    assert.equal(plan.offlineIntent.format,4);
+    assert.equal(plan.offlineIntent.format,5);
     const release=(await f.api('GET',`/api/releases/${plan.releaseId}`)).json().release;
     assert.equal(release.sourceKind,'AUTHORED_SQL_WORKSPACE');assert.equal(release.draftId,draftId);
     assert.equal(release.files[0].content,source);

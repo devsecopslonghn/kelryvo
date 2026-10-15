@@ -9,8 +9,9 @@ a deployment request. The download is also available when inspecting events in
 project membership. Archived projects and metadata under RESTORE_HOLD remain
 readable; the download grants no new authority and changes no retained state.
 
-The bundle has `{format: 1, algorithm: "sha256", record: "<JSON string>", sha256}`.
-Its single metadata snapshot joins the saved public plan intent, original approval
+The bundle has `{format: 1 | 2, algorithm: "sha256", record: "<JSON string>", sha256}`.
+The record follows the plan record format for profile-only or target-bound intent,
+including format-5 review policy when retained. Its single metadata snapshot joins the saved public plan intent, original approval
 and any withdrawal with request events, attempts, statement events and receipt
 digests. It preserves the recorded request state and admission scope, including
 `UNIT_SYNTHETIC`. It excludes SQL, credential references, private admission data,

@@ -60,6 +60,7 @@ export async function readVerifiedPublicPlanRecord(tx: any, planId: string, proj
     plan: { id: p.id, projectId: p.projectId, authorId: p.authorId, createdAt: p.createdAt,
       sourceBindingGeneration: p.sourceBindingGeneration, status: p.status, decision: p.decision,
       decisionReason: p.decisionReason, decidedBy: p.decidedBy, decidedByName: p.decidedByName,
+      decisionMethod:p.decision!=='APPROVE'?null:p.decidedBy!==p.authorId?'INDEPENDENT_APPROVAL':intent.reviewPolicy?.approvalRequired===false?'POLICY_AUTHORIZATION':'REVIEW_APPROVAL',
       decidedAt: p.decidedAt, approvalReference: p.approvalReference, revocation: revocationRow?.snapshot ?? null },
     retainedIntent: {...publicIntent(intent),...(sourceComparisons.length ? {sourceComparisons} : {}),...(sourceOrigin.sourceKind==='AUTHORED_SQL_WORKSPACE'?{sourceOrigin}:{}),...(targetObservation ? {targetObservation} : {}),...(schemaValidation ? {schemaValidation} : {}),...(schemaObservation ? {schemaObservation} : {})},
   };
@@ -77,7 +78,7 @@ export function registerPlanRecord(app: any, { sql, authenticate }: any) {
         const verified = await readVerifiedPublicPlanRecord(tx, req.params.id, req.params.projectId);
         if (!verified) return null;
         const { plan, retainedIntent } = verified;
-        const record = JSON.stringify({ format: retainedIntent.format >= 3 ? 2 : 1, kind: 'KELRYVO_PLAN_RECORD', scope: 'OFFLINE_GOVERNANCE',
+        const record = JSON.stringify({ format: retainedIntent.target ? 2 : 1, kind: 'KELRYVO_PLAN_RECORD', scope: 'OFFLINE_GOVERNANCE',
           exportedAt: new Date().toISOString(), executionAuthority: false, targetEffects: 'NOT_ATTESTED',
           plan, retainedIntent,
           limitations: ['Checksum detects changes only against a separately trusted digest; it is not a signature.',
@@ -85,7 +86,7 @@ export function registerPlanRecord(app: any, { sql, authenticate }: any) {
             'Source SQL, credentials, execution jobs and receipts are not included.',
             'Target observations are retained metadata at the recorded time; they do not attest current connectivity or database effects.'] });
         if (Buffer.byteLength(record) > 2 * MAX_STDOUT_BYTES) throw unavailable();
-        return { format: retainedIntent.format >= 3 ? 2 : 1, algorithm: 'sha256', record, sha256: createHash('sha256').update(record, 'utf8').digest('hex') };
+        return { format: retainedIntent.target ? 2 : 1, algorithm: 'sha256', record, sha256: createHash('sha256').update(record, 'utf8').digest('hex') };
       });
       if (!outcome) return reply.code(404).send({ error: 'NOT_FOUND' });
       return reply.header('Content-Disposition', `attachment; filename="kelryvo-plan-${req.params.id}.json"`).send(outcome);

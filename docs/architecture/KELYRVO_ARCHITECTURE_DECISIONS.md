@@ -15,8 +15,8 @@ These decisions constrain implementation. [Product requirements and roadmap](../
 | Migration continuity | Stream identity follows lineage + exact owner + namespace, not project, profile, service or runtime member. Transfer cannot reset or clone applied authority. Live stream/adoption/baseline semantics still need acceptance. |
 | Serialization | Serialize initial DDL per verified PDB/non-CDB across all projects/schemas, with a continuously held writer-session mutex and central governance locks. Conservative serialization trades throughput for safety. CDB-root and cross-schema administration are excluded. |
 | Lifecycle and recovery | Reasoned configuration disable/retire and schema transfer preserve history and in-flight safety. Uncertain execution remains HOLD; no automatic replay or API clear-HOLD authority. Project archive retains reads and blocks new workflow writes. |
-| Authorization | Fixed human developer/approver identities, trusted OS provisioning, current project grants and separate deploy grant. Independent approval is required. No inferred creator/admin/machine authority. |
-| Deferred trust boundaries | Multi-tenancy, app-admin/invitations/SSO, machine identities, arbitrary query/data access, external Git/webhooks and broader Oracle topology require separately scoped contracts; none is implied by offline governance. |
+| Authorization | Fixed human developer/approver identities, trusted OS provisioning, current project grants and separate deploy grant. Independent approval is required for CONTROLLED and UNCLASSIFIED environments. Explicit DEV/SIT policy may allow author authorization; administrator status alone grants no project execution authority. |
+| Deferred trust boundaries | Multi-tenancy, invitations, machine identities, arbitrary query/data access, external Git/webhooks and broader Oracle topology require separately scoped contracts; none is implied by offline governance. |
 
 ## Compatibility and migration invariants
 
@@ -27,6 +27,34 @@ These decisions constrain implementation. [Product requirements and roadmap](../
 - No migration step may mark a plan executed or history observed without independently verified target evidence.
 - Preserve the single-active-project-per-schema invariant. Transfers close the prior assignment and create a new interval with optimistic revision checks and audit.
 - Keep execution admission disabled until approved target binding, credential resolution, worker installation, physical identity, history, and lock contracts pass their separate acceptance gates.
+
+## Environment review policy
+
+Environment names do not classify execution authority. Existing and new environments
+start `UNCLASSIFIED` with effective independent review, even if an older installation
+stored optional flags. An administrator explicitly selects `DEV`, `SIT`, or `CONTROLLED`.
+Controlled policy requires both review and independence; DEV/SIT may configure them.
+Updates require a reason and exact expected revision, serialize with admission, append
+immutable history, and reject changes during `ADMITTED` or `HOLD` work. No-op saves retain
+the revision. Trusted database changes also advance the revision and retain provenance.
+
+New format-5 intent preserves the existing statement/target/validation slots and appends
+`[baseFormat, revision, stage, approvalRequired, independentApproval]`, where base format
+is 2, 3, or 4. The digest binds this tuple. Plan-time policy evidence is immutable;
+review, request, admission and worker checks require the same current revision. Every
+change invalidates prior authority permanently, including a return to earlier settings.
+A policy authorization retains its own decision method and does not represent a second
+human's approval. All other deploy, target, scope, history and recovery gates still apply.
+
+Formats 1–4 retain their original canonical bytes and remain readable. Pre-upgrade plans
+without a policy snapshot can retain independent approval only while the environment
+remains at its initial unclassified revision; old self-authorizations cannot inherit a
+waiver. Newly inserted historical formats capture independent requirements and cannot
+inherit a waiver absent from their digest. A stale waiting request may be explicitly
+cancelled by its original requester with current project membership using the existing
+revision-checked API; then a fresh plan/request can replace it. Policy edits do not erase requests or decisions. Native backup retains both policy
+history and plan snapshots; historical identity archives validate against their original
+schema before additive upgrade under `RESTORE_HOLD`.
 
 ## Oracle identity contract and topology handling
 

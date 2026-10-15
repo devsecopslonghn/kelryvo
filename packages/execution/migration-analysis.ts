@@ -88,7 +88,7 @@ async function verifiedPrior(tx: any, prior: any, currentIntent: any, candidateI
       || proof.target_identity_digest !== candidateIdentityDigest) return null;
   const intent = verifyOfflinePlanIntent(prior.envelope, prior.intent_digest, { organizationId: prior.organization_id,
     projectId: prior.project_id, releaseId: prior.plan_release_id, manifestDigest: prior.source_manifest_digest, profileId: prior.profile_id });
-  if (!intent || ![2, 3, 4].includes(intent.format) || !intent.target || !currentIntent.target
+  if (!intent || ![2, 3, 4, 5].includes(intent.format) || !intent.target || !currentIntent.target
       || intent.target.streamId !== currentIntent.target.streamId
       || intent.target.exactOwner !== currentIntent.target.exactOwner
       || intent.target.migrationNamespace !== currentIntent.target.migrationNamespace) return null;
@@ -175,7 +175,7 @@ export function registerMigrationAnalysis(app: any, sql: any, authenticate: any)
           message: sourceOk ? 'The retained release matches the plan source identity.' : 'The retained source or plan identity could not be verified.' });
         const projectSourceCurrent = !plan.archived_at && plan.source_repository_id === plan.repository_id
           && plan.source_folder === plan.folder && String(plan.source_binding_generation) === String(plan.project_source_generation)
-          && (intent.format < 3 || intent.target?.sourceBindingGeneration === plan.project_source_generation);
+          && (!intent.target || intent.target.sourceBindingGeneration === plan.project_source_generation);
         findings.push({ code: 'PROTECTED_SOURCE_CURRENT', status: projectSourceCurrent ? 'PASS' : 'BLOCKED',
           message: projectSourceCurrent ? 'The project still points to this protected source binding.' : 'The project source binding changed or the project was archived.' });
         if (intent.format < 2 || !intent.statements) {
@@ -306,7 +306,7 @@ export function registerMigrationAnalysis(app: any, sql: any, authenticate: any)
         if (historyMismatch) findings.push({ code: holds.length ? 'RETAINED_HOLD_PRESENT' : 'RETAINED_HISTORY_UNCERTAIN', status: 'BLOCKED',
           message: holds.length ? 'A retained HOLD exists for this migration stream.' : 'Retained history is incomplete, divergent, or exceeds the bounded comparison.' });
         const projected = projectMigrationHistory(migrations, historyByMigration, historyMismatch,
-          candidateTargetVerifiedEvidence && (intent.format < 3 || currentTargetVerified));
+          candidateTargetVerifiedEvidence && (!intent.target || currentTargetVerified));
         findings.push(...projected.findings);
         const rows = projected.migrations;
         const analysisBasis = { base, findings, migrations: rows, statementCount: statements.length };

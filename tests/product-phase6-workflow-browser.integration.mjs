@@ -125,7 +125,7 @@ test('HTTPS browser completes registration through discovery, SQL review, indepe
     await validation.getByRole('button', {name: 'Create immutable plan', exact: true}).click();
     const planId = await page.locator('.plan-option.selected').getAttribute('data-plan-id');
     const plan = (await f.api('GET', f.base)).json().plans.find(p => p.id === planId);
-    assert.equal(plan.offlineIntent.format, 4);
+    assert.equal(plan.offlineIntent.format, 5);
     assert.equal((await page.locator('body').innerText()).includes(f.credentialRef), false, 'secret references never appear in the rendered workflow');
     const deniedDecision = await f.api('POST', `/api/plans/${planId}/decision`, {decision: 'APPROVE', reason: 'developer cannot decide'});
     assert.equal(deniedDecision.statusCode, 403);

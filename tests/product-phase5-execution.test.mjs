@@ -49,7 +49,7 @@ test('Phase 5 schema-validated intent travels through durable admission, stateme
     const duplicate=await f.api('POST',`/api/plans/${p.plan.id}/execution`,{...p.body,idempotencyKey:randomUUID()});
     assert.equal(duplicate.statusCode,409);assert.equal(duplicate.json().error,'EXECUTION_ALREADY_PENDING');
     const candidate=await f.db.sql.begin(async tx=>{await acquireTargetLocks(tx,{planId:p.plan.id});return readExecutionRequest(tx,job.id);});
-    const expected=await materializeExecutionRequest(candidate);assert.equal(expected.intent.format,4);
+    const expected=await materializeExecutionRequest(candidate);assert.equal(expected.intent.format,5);
     assert.equal(expected.intent.username,'DEPLOYER');assert.equal(expected.intent.target.exactOwner,'APP');
     const h=host(f),outcomes=await Promise.all([h.worker.runWaitingRequest(job.id),h.worker.runWaitingRequest(job.id)]);
     assert.deepEqual(outcomes.sort(),['ADMISSION_DECLINED','VERIFIED_SUCCESS']);

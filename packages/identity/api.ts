@@ -292,12 +292,46 @@ export function registerIdentity(app: any, {sql,authenticate,seed,identity}: any
     await auditIdentity(sql,req.actor.id,'PROVIDER_TESTED',p.id,{ok:result.ok});return result;
   });
   app.get('/api/admin/policies',{preHandler:admin},async()=>({environments:await sql`SELECT e.id,e.name,e.project_id AS "projectId",p.name AS "projectName",
-    e.approval_required AS "approvalRequired",e.independent_approval AS "independentApproval" FROM sf_environments e JOIN sf_projects p ON p.id=e.project_id WHERE p.organization_id=${ORG} ORDER BY p.name,e.name`}));
+    e.approval_stage AS stage,e.review_policy_revision::text AS revision,
+    CASE WHEN e.approval_stage='UNCLASSIFIED' THEN true ELSE e.approval_required END AS "approvalRequired",
+    CASE WHEN e.approval_stage='UNCLASSIFIED' THEN true ELSE e.independent_approval END AS "independentApproval"
+    FROM sf_environments e JOIN sf_projects p ON p.id=e.project_id WHERE p.organization_id=${ORG} ORDER BY p.name,e.name`}));
+  app.get('/api/admin/policies/:id/history',{preHandler:admin},async(req: any)=>{
+    const after=req.query?.after;
+    if(!uuid(req.params.id) || Object.keys(req.query??{}).some(k=>k!=='after')
+      || after!==undefined && (typeof after!=='string' || !/^[1-9][0-9]{0,18}$/.test(after) || BigInt(after)>9223372036854775807n))throw identityError('INVALID_REQUEST');
+    if(!(await sql`SELECT 1 FROM sf_environments WHERE id=${req.params.id} AND organization_id=${ORG}`)[0])throw identityError('NOT_FOUND',404);
+    const rows=await sql`SELECT revision::text,stage,approval_required AS "approvalRequired",independent_approval AS "independentApproval",
+      actor_id AS "actorId",reason,created_at AS "createdAt" FROM sf_environment_policy_revisions
+      WHERE environment_id=${req.params.id} AND (${after??null}::bigint IS NULL OR revision<${after??null}::bigint)
+      ORDER BY revision DESC LIMIT 51`;
+    return {revisions:rows.slice(0,50),nextCursor:rows.length>50?rows[49].revision:null};
+  });
   app.put('/api/admin/policies/:id',{preHandler:admin},async(req: any)=>{
-    requireBody(req.body,['approvalRequired','independentApproval']);if(!uuid(req.params.id)||typeof req.body.approvalRequired!=='boolean'||typeof req.body.independentApproval!=='boolean')throw identityError('INVALID_REQUEST');
+    const b=req.body,keys=['stage','approvalRequired','independentApproval','expectedRevision','reason'];
+    requireBody(b,keys);
+    if(!uuid(req.params.id) || Object.keys(b).length!==keys.length || !['DEV','SIT','CONTROLLED'].includes(b.stage)
+      || typeof b.approvalRequired!=='boolean' || typeof b.independentApproval!=='boolean' || typeof b.expectedRevision!=='string'
+      || !/^[1-9][0-9]{0,18}$/.test(b.expectedRevision) || BigInt(b.expectedRevision)>9223372036854775807n
+      || typeof b.reason!=='string' || !b.reason.trim() || b.reason.length>2000 || /[\u0000-\u001f\u007f-\u009f]/.test(b.reason)
+      || !b.reason.isWellFormed())throw identityError('INVALID_REQUEST');
+    if(b.stage==='CONTROLLED' && (!b.approvalRequired || !b.independentApproval))throw identityError('CONTROLLED_APPROVAL_REQUIRED',409);
     return mutation(req,async(tx: any)=>{
-      const rows=await tx`UPDATE sf_environments SET approval_required=${req.body.approvalRequired},independent_approval=${req.body.independentApproval} WHERE id=${req.params.id} AND organization_id=${ORG} RETURNING id`;
-      if(!rows.length)throw identityError('NOT_FOUND',404);await auditIdentity(tx,req.actor.id,'APPROVAL_POLICY_CHANGED',req.params.id,req.body);return {ok:true};
+      const e=(await tx`SELECT e.*,p.archived_at FROM sf_environments e JOIN sf_projects p ON p.id=e.project_id
+        WHERE e.id=${req.params.id} AND e.organization_id=${ORG} FOR UPDATE OF e`)[0];
+      if(!e)throw identityError('NOT_FOUND',404);
+      if(e.archived_at)throw identityError('PROJECT_ARCHIVED',409);
+      if(String(e.review_policy_revision)!==b.expectedRevision)throw identityError('POLICY_REVISION_CONFLICT',409);
+      if(e.approval_stage===b.stage && e.approval_required===b.approvalRequired && e.independent_approval===b.independentApproval)
+        return {ok:true,revision:String(e.review_policy_revision),changed:false};
+      if(b.expectedRevision==='9223372036854775807')throw identityError('POLICY_REVISION_EXHAUSTED',409);
+      if((await tx`SELECT 1 FROM sf_execution_jobs j JOIN sf_plans p ON p.id=j.plan_id JOIN sf_profiles profile ON profile.id=p.profile_id
+        WHERE profile.environment_id=${e.id} AND j.state IN ('ADMITTED','HOLD') LIMIT 1`)[0])throw identityError('ENVIRONMENT_EXECUTION_ACTIVE',409);
+      await tx`SELECT set_config('kelryvo.review_policy_actor',${req.actor.id},true),set_config('kelryvo.review_policy_reason',${b.reason.trim()},true)`;
+      const row=(await tx`UPDATE sf_environments SET approval_stage=${b.stage},approval_required=${b.approvalRequired},independent_approval=${b.independentApproval}
+        WHERE id=${e.id} RETURNING review_policy_revision::text AS revision`)[0];
+      await auditIdentity(tx,req.actor.id,'APPROVAL_POLICY_CHANGED',e.id,{...b,revision:row.revision,reason:b.reason.trim()});
+      return {ok:true,revision:row.revision,changed:true};
     });
   });
   app.get('/api/admin/audit',{preHandler:admin},async(req: any)=>{

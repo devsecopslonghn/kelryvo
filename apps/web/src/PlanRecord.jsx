@@ -14,14 +14,14 @@ export default function PlanRecord({ projectId, planId, token, request }) {
       const payload = typeof record?.record === 'string' ? JSON.parse(record.record) : null;
       const intent = payload?.retainedIntent;
       const target = intent?.target;
-      const validFormat = record?.format === 1 && [1, 2].includes(intent?.format)
-        || record?.format === 2 && [3,4].includes(intent?.format) && target && typeof target === 'object'
+      const validFormat = record?.format === 1 && [1, 2, 5].includes(intent?.format) && !target
+        || record?.format === 2 && [3,4,5].includes(intent?.format) && target && typeof target === 'object'
           && typeof target.exactOwner === 'string' && typeof target.migrationNamespace === 'string'
           && typeof target.bindingId === 'string' && typeof target.bindingRevision === 'string'
           && ['PROVISIONAL','OBSERVED','VERIFIED'].includes(target.identityState) && typeof target.routeAlias === 'string'
           && !Object.hasOwn(target, 'privatePrincipalRef') && !Object.hasOwn(target, 'credentialRef');
       if (!validFormat) throw new Error('RECORD_UNAVAILABLE');
-      setSavedTarget(intent.format >= 3 ? {
+      setSavedTarget(target ? {
         exactOwner: target.exactOwner,
         migrationNamespace: target.migrationNamespace,
         bindingId: target.bindingId,

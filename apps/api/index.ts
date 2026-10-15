@@ -1,4 +1,4 @@
-import { environmentPolicy, approvalSatisfied } from '../../packages/identity/approvals.ts';
+import { environmentPolicy, approvalSatisfied, planReviewPolicy, planPolicyCurrent, planPolicyIntentMatches, reviewPolicyTuple } from '../../packages/identity/approvals.ts';
 import { registerIdentity } from '../../packages/identity/api.ts';
 import { authorizeIdentity } from '../../packages/identity/authorization.ts';
 import { actorIdentity, projectRoles, synchronizeAccess } from '../../packages/identity/core.ts';
@@ -248,7 +248,9 @@ export function createApp(options: {
 
   const mapCurrentPlan = async (tx: any, row: any, actorId: string) => {
     const mapped: any = mapPlan(row);
-    mapped.approvalPolicy=await environmentPolicy(tx,row.profile_id);
+    mapped.approvalPolicy=await planReviewPolicy(tx,row.id);
+    mapped.approvalPolicy.current=await planPolicyCurrent(tx,row.id);
+    mapped.decisionMethod=row.decision!=='APPROVE'?null:row.decided_by!==row.author_id?'INDEPENDENT_APPROVAL':mapped.approvalPolicy.approvalRequired?'REVIEW_APPROVAL':'POLICY_AUTHORIZATION';
     mapped.identityRoles=await projectRoles(tx,actorId,row.project_id,mapped.approvalPolicy.id??null);
     if (mapped.retainedTarget) mapped.currentness = await checkTargetCurrentness(tx, row.project_id, mapped.retainedTarget);
     if (!await profilePlanCurrent(tx,row.id)) mapped.currentness={state:'STALE',reasons:[...(mapped.currentness?.reasons || []),'CONNECTION_REVISION_CHANGED'],checkedAt:new Date().toISOString()};
@@ -256,6 +258,7 @@ export function createApp(options: {
       try { await validationForIntent(tx,verifyOfflinePlanIntent(row.offline_intent_envelope,row.offline_intent_digest)); }
       catch { mapped.currentness={state:'UNKNOWN',reasons:['VALIDATION_EVIDENCE_UNAVAILABLE'],checkedAt:new Date().toISOString()}; }
     }
+    if(!mapped.approvalPolicy.current)mapped.currentness={state:'STALE',reasons:[...(mapped.currentness?.reasons || []),'REVIEW_POLICY_CHANGED'],checkedAt:new Date().toISOString()};
     return mapped;
   };
 
@@ -1087,7 +1090,8 @@ export function createApp(options: {
             || (await validationCurrentness(tx,validation)).state!=='CURRENT')return {error:'FRESH_VALIDATION_REQUIRED'};
           validationRef={id:validation.id,digest:validation.digest};
         }
-        const offlineIntent = environment && encodeOfflinePlanIntent({ organizationId: ORG, projectId: p.id,
+        const creationPolicy=await environmentPolicy(tx,profile.id);
+        const offlineIntent = environment && encodeOfflinePlanIntent({reviewPolicy:reviewPolicyTuple(creationPolicy), organizationId: ORG, projectId: p.id,
           requesterId: req.actor.id, releaseId: r.id, commit: r.commit_id, objectFormat: r.object_format,
           folder: r.folder, parserProfile: r.parser_profile, manifestDigest: r.manifest_digest,
           profileId: profile.id, profileName: profile.name, environmentId: environment.id,
@@ -1143,7 +1147,7 @@ export function createApp(options: {
     const intent = verifyOfflinePlanIntent(plan.envelope, plan.digest, { organizationId: ORG, projectId: plan.project_id,
       requesterId: plan.author_id, releaseId: plan.release_id, profileId: plan.profile_id });
     if (!intent || q.intentDigest !== intent.digest) return fail(reply, 409, 'FRESH_PLAN_REQUIRED');
-    if (![2,3,4].includes(intent.format) || !Array.isArray(intent.statements)) return fail(reply, 409, 'STATEMENT_APPROVAL_REQUIRED');
+    if (![2,3,4,5].includes(intent.format) || !Array.isArray(intent.statements)) return fail(reply, 409, 'STATEMENT_APPROVAL_REQUIRED');
     if (after > intent.statements.length) return fail(reply, 400, 'INVALID_REQUEST');
     const statements = intent.statements.slice(after, after + 50);
     return { format: 2, intentDigest: intent.digest, offline: true, executionAuthority: false,
@@ -1366,7 +1370,11 @@ export function createApp(options: {
             AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
             AND EXISTS(SELECT 1 FROM sf_project_access_mode m WHERE m.organization_id=${ORG} AND m.mode='ENFORCED')
             AND EXISTS(SELECT 1 FROM sf_project_grants g WHERE g.project_id=${p.project_id} AND g.actor_id=a.id AND g.revoked_at IS NULL)`)[0];
-        const policy=await environmentPolicy(tx,p.profile_id);
+        const retainedIntent = verifyOfflinePlanIntent(p.offline_intent_envelope, p.offline_intent_digest, {organizationId:ORG, projectId:p.project_id, requesterId:p.author_id, releaseId:p.release_id, profileId:p.profile_id});
+        if (!retainedIntent && (b.expectedIntentDigest !== undefined || /^\[[345],/.test(p.offline_intent_envelope ?? ''))) return 'PLAN_APPROVAL_INTEGRITY_FAILED';
+        if(!await planPolicyIntentMatches(tx,p.id,p.offline_intent_digest))return 'PLAN_APPROVAL_INTEGRITY_FAILED';
+        const policy=await planReviewPolicy(tx,p.id);
+        if(!await planPolicyCurrent(tx,p.id))return 'FRESH_PLAN_REQUIRED';
         const direct=!policy.approvalRequired && b.decision==='APPROVE' && p.author_id===req.actor.id
           && (!req.actor.username || req.identityRoles?.some((r: string)=>['developer','owner'].includes(r)));
         let denialReason: string | undefined;
@@ -1379,15 +1387,13 @@ export function createApp(options: {
             VALUES(${p.project_id},${ORG},${req.actor.id},'PLAN_DECISION_DENIED',${p.id},${tx.json({ denialReason })})`;
           return denialReason;
         }
-        const retainedIntent = verifyOfflinePlanIntent(p.offline_intent_envelope, p.offline_intent_digest, {organizationId:ORG, projectId:p.project_id, requesterId:p.author_id, releaseId:p.release_id, profileId:p.profile_id});
-        if (!retainedIntent && (b.expectedIntentDigest !== undefined || /^\[[34],/.test(p.offline_intent_envelope ?? ''))) return 'PLAN_APPROVAL_INTEGRITY_FAILED';
-        if (retainedIntent && retainedIntent.format >= 3) {
+        if (retainedIntent?.target) {
           if (b.expectedIntentDigest !== retainedIntent.digest || b.expectedAssignmentRevision !== retainedIntent.target?.assignmentRevision || b.expectedBindingRevision !== retainedIntent.target?.bindingRevision) return 'FRESH_PLAN_REQUIRED';
           const currentness = await checkTargetCurrentness(tx, p.project_id, {...retainedIntent.target,profileId:retainedIntent.profileId,environmentId:retainedIntent.environmentId,environmentName:retainedIntent.environmentName}, currentProject.source_binding_generation);
           if (currentness.state !== 'CURRENT') return 'FRESH_PLAN_REQUIRED';
           if(retainedIntent.validation)await validationForIntent(tx,retainedIntent);
         } else if ([b.expectedIntentDigest,b.expectedAssignmentRevision,b.expectedBindingRevision].some(v => v !== undefined)) return 'FRESH_PLAN_REQUIRED';
-        if (b.decision === 'APPROVE' || retainedIntent?.format >= 3) {
+        if (b.decision === 'APPROVE' || retainedIntent?.target) {
           const target = (await tx`SELECT retired_at FROM sf_profiles WHERE id=${p.profile_id}
             AND project_id=${p.project_id} AND organization_id=${ORG} FOR SHARE`)[0];
           if (target?.retired_at) return 'PROFILE_RETIRED';
@@ -1633,7 +1639,7 @@ export function createApp(options: {
           // Recover a durable request without admitting new work against changed target facts.
           const frozen = (await tx`SELECT offline_intent_envelope FROM sf_plans WHERE id=${plan.id}`)[0];
           const original = verifyOfflinePlanIntent(frozen?.offline_intent_envelope, plan.offline_intent_digest);
-          if (old.payload_digest !== bodyDigest || !original || original.format >= 3 &&
+          if (old.payload_digest !== bodyDigest || !original || original.target &&
               (b.expectedIntentDigest !== original.digest || b.expectedAssignmentRevision !== original.target?.assignmentRevision
                 || b.expectedBindingRevision !== original.target?.bindingRevision)) return { error: 'IDEMPOTENCY_CONFLICT' };
           await guardMutationAuthority(tx, req);
@@ -1665,10 +1671,12 @@ export function createApp(options: {
         const retainedValid = retained && verifyRetainedRelease(retained);
         const sourceItemsMatch = Boolean(retainedValid && intent && Array.isArray(retained.files)
           && JSON.stringify(retained.files.map((item: any) => ({ path:item.path,version:item.version,sha256:item.sha256 }))) === JSON.stringify(intent.items));
-        const sourceStatementsMatch = [2,3,4].includes(intent?.format) && sourceItemsMatch
+        const sourceStatementsMatch = [2,3,4,5].includes(intent?.format) && sourceItemsMatch
           && JSON.stringify(await collectRetainedStatementIdentity(retained)) === JSON.stringify(intent?.statements);
         let denial = project?.archived_at ? 'PROJECT_ARCHIVED' : !deployer ? 'DEPLOY_PERMISSION_REQUIRED'
           : approvalRevocation ? 'APPROVAL_REVOKED'
+          : !await planPolicyIntentMatches(tx,plan.id,plan.offline_intent_digest) ? 'PLAN_NOT_REQUESTABLE'
+          : !await planPolicyCurrent(tx,plan.id) ? 'FRESH_PLAN_REQUIRED'
           : !await approvalSatisfied(tx,plan.id) ? 'PLAN_NOT_APPROVED'
           : intent?.format === 1 ? 'STATEMENT_APPROVAL_REQUIRED'
           : !plan.offline_intent_digest || !intent || !profile || !retainedValid || !sourceItemsMatch || !sourceStatementsMatch
@@ -1679,7 +1687,7 @@ export function createApp(options: {
             || intent.releaseId !== retained.id || intent.commit !== retained.commit_id || intent.objectFormat !== retained.object_format
             || intent.folder !== retained.folder || intent.manifestDigest !== retained.manifest_digest || intent.parserProfile !== retained.parser_profile
             || plan.execution !== 'NOT_EXECUTED' || plan.history_status !== 'NOT_OBSERVED' || plan.planning_scope !== 'OFFLINE_CANDIDATE' ? 'PLAN_NOT_REQUESTABLE' : null;
-        if (!denial && intent && intent.format >= 3) {
+        if (!denial && intent?.target) {
           const currentness = await checkTargetCurrentness(tx, plan.project_id, {...intent.target,profileId:intent.profileId,environmentId:intent.environmentId,environmentName:intent.environmentName}, project.source_binding_generation);
           if (currentness.state !== 'CURRENT') denial = 'FRESH_PLAN_REQUIRED';
           if (b.expectedIntentDigest !== intent.digest || b.expectedAssignmentRevision !== intent.target?.assignmentRevision || b.expectedBindingRevision !== intent.target?.bindingRevision) denial = 'FRESH_PLAN_REQUIRED';
@@ -1779,7 +1787,7 @@ export function createApp(options: {
     if (['TARGET_REVISION_CONFLICT','TARGET_OPTION_INELIGIBLE','FRESH_PLAN_REQUIRED','METADATA_RESTORE_HOLD'].includes(error?.productCode)) return fail(reply, 409, error.productCode);
     if (['COMPARISON_STALE','COMPARISON_UNAVAILABLE'].includes(error?.productCode)) return fail(reply, 409, error.productCode);
     if (['FORBIDDEN','PASSWORD_CHANGE_REQUIRED','HTTPS_REQUIRED','ORIGIN_REJECTED'].includes(error?.productCode)) return fail(reply,403,error.productCode);
-    if (error?.productCode === 'LAST_ADMIN_REQUIRED') return fail(reply,409,error.productCode);
+    if (['LAST_ADMIN_REQUIRED','CONTROLLED_APPROVAL_REQUIRED','POLICY_REVISION_CONFLICT','POLICY_REVISION_EXHAUSTED','ENVIRONMENT_EXECUTION_ACTIVE'].includes(error?.productCode)) return fail(reply,409,error.productCode);
     if (error?.productCode === 'INVALID_REQUEST') return fail(reply, 400, error.productCode);
     if (error?.code === "23503") return fail(reply, 400, "INVALID_REFERENCE");
     if (error?.code === "23505") return fail(reply, 409, "CONFLICT");
@@ -1838,11 +1846,12 @@ function mapPlan(r: any) {
     historyStatus: r.history_status,
     planningScope: r.planning_scope,
     retainedTarget: offlineIntent?.target ? {...publicTarget(offlineIntent.target),profileId:offlineIntent.profileId,environmentId:offlineIntent.environmentId,environmentName:offlineIntent.environmentName} : null,
-    currentness: {state:offlineIntent && offlineIntent.format < 3 ? 'LEGACY_UNBOUND' : 'UNKNOWN', reasons:offlineIntent && offlineIntent.format < 3 ? [] : ['INTEGRITY_UNAVAILABLE'], checkedAt:offlineIntent?.format >= 3 ? new Date().toISOString() : null},
+    currentness: {state:offlineIntent && !offlineIntent.target ? 'LEGACY_UNBOUND' : 'UNKNOWN', reasons:offlineIntent && !offlineIntent.target ? [] : ['INTEGRITY_UNAVAILABLE'], checkedAt:offlineIntent?.target ? new Date().toISOString() : null},
     offlineIntent: offlineIntent ? {
       format: offlineIntent.format, digest: offlineIntent.digest,
       ...(offlineIntent.target ? {target:publicTarget(offlineIntent.target)} : {}),
       ...(offlineIntent.validation ? {validation:offlineIntent.validation} : {}),
+      ...(offlineIntent.reviewPolicy ? {reviewPolicy:offlineIntent.reviewPolicy} : {}),
       profileId: offlineIntent.profileId, profileName: offlineIntent.profileName,
       environmentId: offlineIntent.environmentId, environmentName: offlineIntent.environmentName,
       engine: offlineIntent.engine, host: offlineIntent.host, port: offlineIntent.port,

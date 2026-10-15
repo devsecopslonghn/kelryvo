@@ -25,7 +25,7 @@ export async function materializeApprovedStatements(release, envelope, digest, e
       releaseId: snapshot.id, commit: snapshot.commit_id, objectFormat: snapshot.object_format,
       folder: snapshot.folder, parserProfile: snapshot.parser_profile, manifestDigest: snapshot.manifest_digest,
       items: snapshot.files.map(({ path, version, sha256 }) => ({ path, version, sha256 })) });
-    if (!intent || ![2,3,4].includes(intent.format)) return null;
+    if (!intent || ![2,3,4,5].includes(intent.format)) return null;
     const statements = [], identities = [];
     for (const file of snapshot.files) {
       const parsed = await runParser(Buffer.from(file.content, 'utf8'));

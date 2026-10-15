@@ -62,7 +62,7 @@ test('schema-aware validation is deterministic, immutable, scoped and restart-du
     assert.equal((await f.api('GET',`${f.foreignBase}/validations/${v.id}`)).statusCode,404);
     assert.equal((await f.makeSchemaPlan(v,f.actors[0],{expectedValidationDigest:'f'.repeat(64)})).statusCode,409);
     const prepared=await f.makeSchemaPlan(v);assert.equal(prepared.statusCode,201,prepared.body);const plan=prepared.json().plan;
-    assert.equal(plan.offlineIntent.format,4);assert.deepEqual(plan.offlineIntent.validation,{id:v.id,digest:v.digest});
+    assert.equal(plan.offlineIntent.format,5);assert.deepEqual(plan.offlineIntent.validation,{id:v.id,digest:v.digest});
     assert.equal((await f.decide(plan)).statusCode,200);
     const selfResponse=await f.makeSchemaPlan(v,f.actors[1]);assert.equal(selfResponse.statusCode,201,selfResponse.body);
     assert.equal((await f.decide(selfResponse.json().plan,f.actors[1])).statusCode,403);
@@ -73,7 +73,7 @@ test('schema-aware validation is deterministic, immutable, scoped and restart-du
     // Materialization reproduces reviewed bytes; it grants no worker/target authority.
     const releaseRow=(await f.db.sql`SELECT * FROM sf_releases WHERE id=${f.release.id}`)[0];
     const materialized=await materializeApprovedStatements(releaseRow,retained.offline_intent_envelope,retained.offline_intent_digest,{});
-    assert.equal(materialized.intent.format,4);
+    assert.equal(materialized.intent.format,5);
     assert.equal(materialized.statements.length,intent.statements.length);
     await f.restart();
     const persisted=await f.api('GET',`${f.base}/validations/${v.id}`);assert.equal(persisted.statusCode,200,persisted.body);assert.equal(persisted.json().validation.digest,v.digest);

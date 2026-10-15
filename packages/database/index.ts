@@ -8,7 +8,7 @@ import { initializeInstanceSchema } from '../connectivity/instance-schema.mjs';
 import { initializeValidationSchema } from '../sql-validation/schema.mjs';
 import { initializeExecutionReconciliation } from '../execution/reconciliation.ts';
 /** Idempotent schema for the local, single-organization product slice. */
-export async function initializeDatabase(sql: any, options: { initializeSchemaBaselines?: boolean; initializeConnectionManagement?: boolean; initializeInstanceSchema?: boolean; initializeMetadata?: boolean; initializeIdentity?: boolean; initializeTargets?: boolean; initializeConnectivity?: boolean; initializeValidation?: boolean; initializeSqlWorkspace?: boolean; sqlWorkspaceVersion?: 1 | 2; initializeReconciliation?: boolean; installRetainedEvidenceGuards?: boolean; installReconciliationBindingGuards?: boolean } = {}): Promise<void> {
+export async function initializeDatabase(sql: any, options: { initializeSchemaBaselines?: boolean; initializeConnectionManagement?: boolean; initializeInstanceSchema?: boolean; initializeMetadata?: boolean; initializeIdentity?: boolean; identityReviewPolicyVersion?: 1 | 2; initializeTargets?: boolean; initializeConnectivity?: boolean; initializeValidation?: boolean; initializeSqlWorkspace?: boolean; sqlWorkspaceVersion?: 1 | 2; initializeReconciliation?: boolean; installRetainedEvidenceGuards?: boolean; installReconciliationBindingGuards?: boolean } = {}): Promise<void> {
   await sql.begin(async (tx: any) => {
     // Test files and local startup callers can initialize the same schema at once.
     // IF NOT EXISTS still races while PostgreSQL creates the backing catalog type.
@@ -482,7 +482,7 @@ export async function initializeDatabase(sql: any, options: { initializeSchemaBa
       CREATE TRIGGER sf_execution_receipts_immutable BEFORE UPDATE OR DELETE ON sf_execution_receipts
       FOR EACH ROW EXECUTE FUNCTION sf_reject_execution_event_mutation(); END IF; END $$;
     `);
-    if (options.initializeIdentity !== false) await initializeIdentity(tx);
+    if (options.initializeIdentity !== false) await initializeIdentity(tx,options.identityReviewPolicyVersion ?? 2);
     if (options.initializeReconciliation !== false) await initializeExecutionReconciliation(tx, { installBindingGuards: options.installReconciliationBindingGuards !== false, identityEnabled: options.initializeIdentity !== false });
     if (options.initializeTargets !== false) await initializeTargetSchema(tx);
     if (options.initializeTargets !== false && options.initializeConnectivity !== false) await initializeConnectivitySchema(tx);

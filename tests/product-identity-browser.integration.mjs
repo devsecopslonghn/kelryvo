@@ -166,14 +166,54 @@ test('managed author uses explicit environment policy in the browser before dire
   assert.equal(await page.getByRole('button',{name:'Approve plan',exact:true}).isDisabled(),true);
   await page.getByRole('button',{name:'Identity administration'}).click();
   const policy=page.getByLabel('Approval required for Local',{exact:true});await policy.waitFor();assert.equal(await policy.isChecked(),true);
-  await Promise.all([page.waitForResponse(r=>r.url().includes('/api/admin/policies/')&&r.request().method()==='PUT'&&r.status()===200),policy.uncheck()]);
-  await page.goto(location);await page.reload();await page.getByLabel('Decision reason').fill('Explicit direct authorization after environment policy change');
+  await page.getByLabel('Classification for Local',{exact:true}).selectOption('DEV');
+  await policy.uncheck();await page.getByLabel('Policy change reason for Local').fill('Allow authorized authors in explicit DEV');
+  await Promise.all([page.waitForResponse(r=>r.url().includes('/api/admin/policies/')&&r.request().method()==='PUT'&&r.status()===200),page.getByRole('button',{name:'Save policy',exact:true}).click()]);
+  await page.getByRole('button',{name:'View policy history',exact:true}).click();
+  await page.getByRole('region',{name:'Policy history for Local'}).getByText(/Revision 2 · DEV/).waitFor();
+  await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+  await page.setViewportSize({width:1440,height:1050});
+  await page.goto(location);await page.reload();
+  await page.getByRole('region',{name:'Retained environment approval policy'}).getByText(/Environment policy changed/).waitFor();
+  assert.equal(await page.getByRole('button',{name:'Approve plan',exact:true}).isDisabled(),true,'old default intent cannot acquire new optional authority');
+  const fresh=await req(`${f.base}/plans`,{releaseId:f.release.id,profileId:f.profile.id},admin);assert.equal(fresh.status,201,JSON.stringify(fresh.body));
+  const directPlan=fresh.body.plan;assert.equal(directPlan.offlineIntent.reviewPolicy.revision,'2');
+  const directLocation=`${base}/#page=review&project=${f.project.id}&plan=${directPlan.id}`;
+  await page.goto(directLocation);await page.reload();await page.getByLabel('Decision reason').fill('Explicit direct authorization bound to retained DEV policy');
   const authorize=page.getByRole('button',{name:'Authorize direct deployment',exact:true});await authorize.waitFor();
+  assert.equal(await page.getByText('Retained offline intent is unavailable.',{exact:false}).count(),0);
+  await page.getByRole('region',{name:'Incremental migration preview'}).waitFor();
   assert.equal(await authorize.isEnabled(),true);await authorize.click();
   await page.waitForFunction(()=>!document.querySelector('#decision-reason'));
-  const retained=(await f.db.sql`SELECT status,decided_by FROM sf_plans WHERE id=${plan.id}`)[0];
+  const retained=(await f.db.sql`SELECT status,decided_by FROM sf_plans WHERE id=${directPlan.id}`)[0];
   assert.equal(retained.status,'APPROVED');assert.equal(retained.decided_by,admin.actor.id);
-  assert.equal((await f.db.sql`SELECT approval_required FROM sf_plan_policy_decisions WHERE plan_id=${plan.id}`)[0].approval_required,false);
+  assert.equal((await f.db.sql`SELECT approval_required FROM sf_plan_policy_decisions WHERE plan_id=${directPlan.id}`)[0].approval_required,false);
+  await page.getByRole('region',{name:'Decision record'}).getByRole('heading',{name:'Policy authorization',exact:true}).waitFor();
+  await page.getByLabel('Request reason',{exact:true}).fill('Queue reviewed DEV policy intent');
+  assert.equal(await page.getByRole('button',{name:'Request deployment',exact:true}).isEnabled(),true);
+  const downloading=page.waitForEvent('download');await page.getByRole('button',{name:'Download plan record',exact:true}).click();
+  const exported=JSON.parse(await readFile(await (await downloading).path(),'utf8'));
+  assert.equal(JSON.parse(exported.record).retainedIntent.reviewPolicy.stage,'DEV');
+  await page.getByRole('button',{name:'Identity administration'}).click();
+  await page.getByLabel('Classification for Local',{exact:true}).selectOption('CONTROLLED');
+  assert.equal(await page.getByLabel('Approval required for Local',{exact:true}).isDisabled(),true);
+  assert.equal(await page.getByLabel('Independent approval for Local',{exact:true}).isChecked(),true);
+  await page.getByLabel('Policy change reason for Local').fill('Control subsequent deployments independently');
+  await Promise.all([page.waitForResponse(r=>r.url().includes('/api/admin/policies/')&&r.request().method()==='PUT'&&r.status()===200),page.getByRole('button',{name:'Save policy',exact:true}).click()]);
+  await page.goto(directLocation);await page.reload();
+  await page.getByRole('region',{name:'Retained environment approval policy'}).getByText(/Environment policy changed/).waitFor();
+  assert.equal((await f.db.sql`SELECT sf_plan_approval_satisfied(${directPlan.id}) AS ok`)[0].ok,false);
+  // Persisted synthetic job states exercise the policy edit gate without Oracle dispatch.
+  const {randomUUID}=await import('node:crypto');const jobId=randomUUID();
+  await f.db.sql`INSERT INTO sf_execution_jobs(id,organization_id,project_id,plan_id,approval_reference,intent_digest,requester_id,idempotency_key,payload_digest,reason,state,admission_scope,admission_statement_count,readiness)
+    SELECT ${jobId},organization_id,project_id,id,approval_reference,offline_intent_digest,author_id,${randomUUID()},offline_intent_digest,'UNIT policy edit gate','ADMITTED','UNIT_SYNTHETIC',1,'TARGET_HISTORY_UNAVAILABLE'
+    FROM sf_plans WHERE id=${directPlan.id}`;
+  for(const state of ['ADMITTED','HOLD']) {
+    if(state==='HOLD')await f.db.sql`UPDATE sf_execution_jobs SET state='HOLD',revision=revision+1 WHERE id=${jobId}`;
+    const blocked=await req(`/api/admin/policies/${f.profile.environmentId}`,{stage:'SIT',approvalRequired:false,independentApproval:false,expectedRevision:'3',reason:'Must preserve active deployment policy'},admin,'PUT');
+    assert.equal(blocked.status,409,JSON.stringify(blocked.body));assert.equal(blocked.body.error,'ENVIRONMENT_EXECUTION_ACTIVE');
+  }
+  assert.equal((await f.db.sql`SELECT review_policy_revision::text AS revision FROM sf_environments WHERE id=${f.profile.environmentId}`)[0].revision,'3');
   assert.deepEqual(errors,[]);
  }finally{await browser?.close();await app?.close();await tls.close();await f.close();await rm(dir,{recursive:true,force:true});}
 });
