@@ -4,7 +4,7 @@ import { randomBytes } from 'node:crypto';
 
 // Reused for the actual OCI runtime and the authorized public deployment.
 // Caller supplies private credentials in memory. No request/response bodies are logged.
-export async function smokeGovernance({ origin, ca, tokens, operator, rotate, onStep = () => {} }) {
+export async function smokeGovernance({ origin, ca, tokens, administrator, operator, rotate, onStep = () => {} }) {
   const request = (method, route, payload, session, extra = {}) => new Promise((resolve, reject) => {
     const bytes = payload === undefined ? undefined : Buffer.from(JSON.stringify(payload));
     const req = https.request(new URL(route, origin), { method, ca, timeout: 30_000,
@@ -28,12 +28,30 @@ export async function smokeGovernance({ origin, ca, tokens, operator, rotate, on
   assert.equal((await request('GET', '/api/livez')).body.status, 'alive');
   assert.equal((await request('GET', '/api/readyz')).body.targetAvailability, 'UNVERIFIED');
   assert.equal((await request('GET', '/api/projects')).status, 401);
-  const login = async token => {
-    const res = await request('POST', '/api/session', undefined, undefined, { origin, authorization: `Bearer ${token}` });
+  const sessionFrom = res => {
     assert.equal(res.status, 200);
     const cookie = res.headers['set-cookie']?.[0];
     assert.match(cookie, /; Secure; HttpOnly; SameSite=Strict/);
     return { cookie: cookie.split(';')[0], csrfToken: res.body.csrfToken };
+  };
+  let adminSession;
+  if (administrator) {
+    onStep('initial administrator and mandatory password change');
+    const initial = await request('POST', '/api/auth/login', { username: administrator.username, password: administrator.password }, undefined, { origin });
+    adminSession = sessionFrom(initial);
+    assert.equal(initial.body.actor.mustChangePassword, true);
+    assert.equal((await request('GET', '/api/admin/users', undefined, adminSession)).status, 403);
+    const changed = await request('POST', '/api/account/password', { currentPassword: administrator.password, newPassword: administrator.newPassword }, adminSession);
+    const previous = adminSession;
+    adminSession = sessionFrom(changed);
+    assert.equal(changed.body.actor.mustChangePassword, false);
+    assert.equal((await request('GET', '/api/session', undefined, previous)).status, 401);
+    assert.equal((await request('POST', '/api/auth/login', { username: administrator.username, password: administrator.password }, undefined, { origin })).status, 401);
+    assert.equal((await request('GET', '/api/admin/users', undefined, adminSession)).status, 200);
+  }
+  const login = async token => {
+    const res = await request('POST', '/api/session', undefined, undefined, { origin, authorization: `Bearer ${token}` });
+    return sessionFrom(res);
   };
   onStep('secure login');
   let developer = await login(tokens.developer);
@@ -137,6 +155,10 @@ export async function smokeGovernance({ origin, ca, tokens, operator, rotate, on
   }
   return { projectId, planId, releaseId: imported.body.release.id, validation: 'VALID', decision: 'APPROVED', execution: 'NOT_EXECUTED',
     verify: async () => {
+      if (adminSession) {
+        assert.equal((await request('GET', '/api/admin/users', undefined, adminSession)).status, 200);
+        assert.equal((await request('POST', '/api/auth/login', { username: administrator.username, password: administrator.newPassword }, undefined, { origin })).status, 200);
+      }
       const after = await request('GET', base, undefined, developer);
       assert.equal(after.status, 200);
       const retainedPlan = after.body.plans.find(item => item.id === planId);

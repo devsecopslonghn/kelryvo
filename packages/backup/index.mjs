@@ -148,7 +148,10 @@ async function assertPinnedLocalPostgres(port) {
     const value=runDocker(['container','inspect','--format',
       '{{.Config.Image}}|{{.Image}}|{{.State.Running}}|{{json .NetworkSettings.Ports}}',id]).trim();
     const [image,imageDigest,running,ports]=value.split('|');
-    if(image===PG_IMAGE.split('@')[0] && imageDigest===imageId && running==='true') {
+    // Docker preserves the image reference passed at container creation. Local
+    // resources may use the tag while CI service containers use the digest ref.
+    // In both cases require the running image ID to match the pinned digest.
+    if((image===PG_IMAGE || image===PG_IMAGE.split('@')[0]) && imageDigest===imageId && running==='true') {
       let bindings; try { bindings=JSON.parse(ports); } catch { throw fail(); }
       const host=(bindings['5432/tcp']??[]).filter(item=>item.HostIp==='127.0.0.1' && item.HostPort===String(port));
       if(host.length) matches.push(id);
