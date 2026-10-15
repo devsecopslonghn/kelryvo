@@ -36,7 +36,10 @@ test('browser registers infrastructure and connection, tests/discovers fixture m
     assert.doesNotMatch(await card.innerText(),/FOREIGN_PRIVATE|secret:\/\/|fixture-private-password/);
     await card.getByLabel('Project target binding').selectOption(binding.bindingId);await card.getByLabel('Observed schema owner').selectOption('APP');
     await card.getByRole('button',{name:'Verify target',exact:true}).waitFor({state:'visible'});
-    await card.getByLabel('Reason',{exact:true}).fill('Verify fixture must remain unaccepted');assert.equal(await card.getByRole('button',{name:'Verify target',exact:true}).isEnabled(),true);await card.getByRole('button',{name:'Verify target',exact:true}).click();
+    await card.getByLabel('Reason',{exact:true}).fill('Verify fixture must remain unaccepted');
+    const verifying=page.waitForResponse(response=>response.url().endsWith(`/target-bindings/${binding.bindingId}/verify`)&&response.request().method()==='POST');
+    await card.getByRole('button',{name:'Verify target',exact:true}).click();
+    const verification=await verifying;assert.equal(verification.status(),409);assert.equal((await verification.json()).error,'LIVE_VERIFICATION_UNACCEPTED');
     await discovery.getByRole('alert').filter({hasText:'accepted live evidence'}).waitFor();
     await card.getByRole('button',{name:'Record observed target',exact:true}).click();await discovery.getByRole('status').filter({hasText:'Observed target recorded'}).waitFor();
     const observedBinding=(await f.api('GET',`${f.base}/target-bindings/${binding.bindingId}`)).json().binding;
