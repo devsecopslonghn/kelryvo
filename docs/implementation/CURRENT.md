@@ -47,14 +47,22 @@ on `ee44f6f`: killing UID 10002 after the central STARTED event but before nativ
 stops the container; lease recovery retains HOLD, one attempt and zero receipts. Oracle
 has no application objects and retains its three ledger events unchanged after another
 app recreate. Both browser roles can inspect and download the held records. Execution
-is disabled again; after-acknowledgment interruption and real lost-ack remain pending.
+is disabled again; the after-acknowledgment evidence follows below and real lost-ack remains pending.
 The [first after-acknowledgment attempt](../../evidence/product/unified-oracle-20261023/interrupt-after-first-failed-ee44f6f.json)
 is retained as FAIL: the private fault operator stopped on a transient old/new Pod list
 before sending SIGKILL. The fixed pause expired after CREATE TABLE was acknowledged;
 ALTER ADD never reached its native writer. HOLD, one receipt, the ID-only table and six
 ledger events survive controlled app recreation and both roles can download the records.
 This verifies retained partial state, not the intended process-interruption boundary.
-Preserve this request/PDB; another fault attempt requires a fresh target.
+Preserve this failed request/PDB. A [fresh qualified PDB](../../evidence/product/unified-oracle-20261023/fault-retry-pdb-preparation.json)
+now has [after-first-ACK interruption evidence](../../evidence/product/unified-oracle-20261023/interrupt-after-first-ee44f6f.json)
+on the same `ee44f6f` image. The corrected operator verifies a live watcher and the
+reviewed mounted modules before opt-in, tolerates terminating old Pods, then confirms
+one receipt and the ID-only table before killing UID 10002. The container exits 1;
+lease expiry retains HOLD, one attempt and one receipt. Oracle metadata and all six
+ledger rows are identical before the kill, after automatic restart and after another
+controlled app recreate; both roles retain history downloads. Execution is disabled.
+These two bounded interruption cases do not qualify lost-ack or full pilot acceptance.
 
 The same `a4dbb8d` image also passed [Docker Compose governance and persistence](../../evidence/product/unified-oracle-20261023/compose.json)
 with external disposable PostgreSQL, HTTPS, independent approval, credential rotation,

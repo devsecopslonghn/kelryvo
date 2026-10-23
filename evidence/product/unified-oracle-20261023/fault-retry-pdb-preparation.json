@@ -1,0 +1,38 @@
+{
+  "status": "PASS_FRESH_RETRY_PDB_PREPARATION_ONLY",
+  "at": "2026-10-23T18:28:55.444543+00:00",
+  "pdb": "KP_INT_AFTER2",
+  "pdbGuid": "5E8707C9CBFF221DE0638101F40A1CF5",
+  "pdbContainerId": 8,
+  "nativeQualification": "PASS_NATIVE_SINGLE_RETRY_PDB_PURPOSE_ACCOUNT_QUALIFICATION_V2",
+  "existingPdbsPreserved": [
+    "FREEPDB1",
+    "KELRYVOPDB",
+    "KP_INT_BEFORE",
+    "KP_INT_AFTER",
+    "KP_LOST_ACK"
+  ],
+  "newClusterResources": 0,
+  "capacityGate": {
+    "availableBytes": 14724976640,
+    "requiredBytesIncludingReserve": 8232501248,
+    "userPdbCountAfter": 6
+  },
+  "masterAccountRoleGrants": 0,
+  "protectedLedgerMutationDenied": 20091,
+  "mutexExclusionAcrossCommit": true,
+  "discovery": "CONNECTED; PARTIAL visibility; accepted scope KP_FAULT_A/B only",
+  "governedExecution": "NOT_RUN",
+  "reason": "Fresh target for a reviewed after-first interruption following retained failed operator attempt; no prior HOLD replay or cleanup.",
+  "privateEvidenceSha256": {
+    "pdb-write-authorization.json": "4bf25f3ac12c94b925eb4612d8b7c88af60505a2e74ee215bed980ed2e28a635",
+    "phases/KP_INT_AFTER2.create-completed.json": "bebc29bc9a7e9bab29319ff39c0b767c1adf3dd83b728d7509728548339ba28d",
+    "phases/KP_INT_AFTER2.bootstrap-completed.json": "26d24ee76b87929aea89a8147f823079aaead2fde20c11c4d571b9fca91ff7d5",
+    "phases/qualification-completed.json": "1132f004bc9984a9de7e0f8ab10fc13d21fc17f08c5ca317a458bae707eef384",
+    "native-qualification/approval-v2.json": "146f0de955e71d1775356c72447a5e3c87b2c2c5527c83cf39128b5e1e31a11f",
+    "native-qualification/qualification-v2.private.json": "2648aad13664756690a296843b6d6598744b1fa3cba22641dd25b28b9e5044bc",
+    "int-after/discovery-review.json": "b82be0f7003483f9d977c717c6b17b39a5624572d18e2d303cf4f5bbb53d9f0a",
+    "int-after/deployed-discovery-initial.json": "a3855aff87664d51de271106a9f1693ef14ce167290d5bfb49678414fdb9fd97"
+  },
+  "pilotComplete": false
+}

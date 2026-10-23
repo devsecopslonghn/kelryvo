@@ -1,0 +1,122 @@
+{
+  "status": "PASS_BOUNDED_INTERRUPT_AFTER_FIRST_ACK",
+  "at": "2026-10-23T18:36:16.759577+00:00",
+  "runtimeSource": "ee44f6fc5ddaecddd46dbc489ec209d7f4a57eb9",
+  "image": "longhn0710t/kelryvo-pilot@sha256:9d20926ca5d77eb880de460a02f2394e632a2f8baa885d6a97c49b9d2c2e28db",
+  "oraclePdb": "KP_INT_AFTER2",
+  "oraclePdbGuid": "5E8707C9CBFF221DE0638101F40A1CF5",
+  "projectId": "238e38b3-46a2-4e79-8d10-fb9445088820",
+  "planId": "c78f9aea-32b8-4164-b60a-7cc147e68cb8",
+  "jobId": "b7a44454-93ff-4f97-bf7a-08ffb2dbae44",
+  "statementDigests": [
+    "436335e749f08b6a66be037aef14f86a52e98081012f4d79e55e733fe9a6d992",
+    "d2204b1829d9280e7454686096f5dfded5c7df7f78e795a706293fdd8493c861"
+  ],
+  "approvedScope": "One independently approved two-statement migration: CREATE TABLE then ALTER TABLE ADD on KP_FAULT_A. Fixed wrapper pauses before statement two native dispatch.",
+  "beforeFault": {
+    "nativeDdlCalls": 1,
+    "centralReceipts": 1,
+    "centralFirstStatement": "ACKNOWLEDGED",
+    "centralSecondStatement": "STARTED",
+    "independentOracleTable": "KP_FAULT_A.KP_TABLE",
+    "independentOracleColumns": [
+      "ID"
+    ],
+    "independentObserverBeforeSignal": true,
+    "targetLedgerRows": 6,
+    "targetSecondStatementAcknowledged": false
+  },
+  "interruption": {
+    "signal": "SIGKILL",
+    "roleUid": 10002,
+    "roleProcessSession": 18,
+    "markerReadyAt": "2026-10-23T18:33:15.874Z",
+    "observerAt": "2026-10-23T18:33:17.547Z",
+    "signalAt": "2026-10-23T18:33:17.660587+00:00",
+    "readyToSignalSeconds": 1.786587,
+    "wholeContainerExitCode": 1,
+    "automaticContainerRestarts": 1,
+    "essentialRoleRestartInsideContainer": false
+  },
+  "recovery": {
+    "jobState": "HOLD",
+    "attemptState": "HOLD",
+    "reasonCode": "LEASE_EXPIRED_UNKNOWN",
+    "attemptId": "3bd7968c-9ec3-4a4c-8ba1-7041c2d5735e",
+    "attemptGeneration": 1,
+    "attempts": 1,
+    "centralReceipts": 1,
+    "stableHoldObservations": 3,
+    "oracleColumns": [
+      "ID"
+    ],
+    "oracleLedgerHeadSequence": 6,
+    "oracleLedgerEvents": [
+      "FILE_STARTED",
+      "STATEMENT_PLANNED",
+      "STATEMENT_PLANNED",
+      "STATEMENT_STARTED",
+      "STATEMENT_ACKNOWLEDGED",
+      "STATEMENT_STARTED"
+    ],
+    "secondNativeStatementDispatched": false,
+    "targetBeforeKillEqualsAfterAutomaticAndControlledRestarts": true,
+    "centralHeldSnapshotUnchangedAfterControlledRecreate": true,
+    "browserRoles": [
+      "developer",
+      "approver"
+    ],
+    "checksummedRecordDownloads": 4,
+    "sqlReplayed": false,
+    "holdCleared": false
+  },
+  "operatorCorrection": {
+    "priorFailedAttempt": "interrupt-after-first-failed-ee44f6f.json",
+    "priorPdbAndHeldRequestPreserved": true,
+    "freshTarget": "fault-retry-pdb-preparation.json",
+    "recreatePodTransitionHandled": true,
+    "liveWatcherPidStarttimePathAndHashCheckedBeforeEnable": true,
+    "actualMountedInstallationModuleHashesCheckedBeforeEnable": true,
+    "localBoundaryTests": 14
+  },
+  "afterCase": {
+    "executionEnabled": false,
+    "argoAutoSync": false,
+    "heldRequestAndPdbRetained": true
+  },
+  "limitations": [
+    "This covers the after-first-ACK interruption boundary with two approved statements on one schema. It does not qualify lost network acknowledgment, reconciliation, alias concurrency or all OA01\u2013OA10.",
+    "Earlier failed fault operator run remains FAIL on its original PDB. Its held request was not retried.",
+    "Final Docker/Helm Oracle parity and full pilot acceptance remain incomplete."
+  ],
+  "privateEvidenceSha256": {
+    "template-review.json": "00b57776dc56bddbd011bf5832f2e221577c72e4321acd56d1ec0b5bd200af78",
+    "installation-review.json": "084319b9d1acaf8b9fad80169553b7b1cfd2574f47e87e0d0855e9e3f13cde50",
+    "installation-after-first.candidate.json": "623016622f79e9d8168536c20b1a60216fc056dcfc257c7968d1e4bf6079857a",
+    "request-after-first.json": "260bee08cc83e8c844455bef6139187dffdca992fb8a9e64194b08ed9d2d7cad",
+    "fault-policy.json": "40c482d8187f91c81e2023fd931b74748a14ceae321992592c0d120c4701758a",
+    "root-fault-review.json": "d08b0a9a22a2a04fb4f87ca2a9d1290a807cfa138ac9daeacad79b7503acc88b",
+    "case.json": "192e79d255d05a7651f2fc6251767b2af9a81745a28f13ad8b53dea36c1378ed",
+    "preflight-after-first.json": "1bac8fbae9765b36da7097256499bddfd527da432887dba3f0a6689d694d23db",
+    "watcher-ready.json": "c7722ab95bf4077c6be964e0315ff14d8276abe065cf9acd393c459f2d9c6d2d",
+    "enable-intent.private.json": "c8a1438ffa60b4161ca89204e379fd1dccdd9cc90e3c891996d0def4fbbcc4e7",
+    "fault-interrupt.log": "5ed59a2d5a020982c03b24adac793b02913cd77c3664989119514f17c17ba70e",
+    "fault-ready-captured.private.json": "d0ee65fa7a45fef8abad1b4049fa2ba935eadafcf710ff7a5654d757994c494f",
+    "fault-kill-request.private.json": "31943c1d4ced2420a18674b8e4a4228b51ce39734f1343160c00914c20680ea9",
+    "oracle-ready.json": "c65611e98dfed0ce8e6b72b79371f5904feb7888af87be5f1cfa59537ad4ef74",
+    "fault-hold-result.private.json": "9b481b0c17e0a7cad3db77fb0d5a865ae1a2e621542886065dec08cdd523ee05",
+    "recovery-automatic.json": "25421aa56a4558d0085c4de60838b99ac26f6bc413300235362e52addd84e191",
+    "recovery-reason.json": "1a1faf71f5a0ed603cef9ce4b04ef32f531fe0d76e5bd0a8a84100da1851046e",
+    "oracle-before-enable.json": "b3b44ee900561828ced3f883b01bea4e32115cd5e678b7828908d7331b7184ca",
+    "oracle-after.json": "81d62c49519b8595e750c9a63f4098ea75a41e441562ddc26ab6151a0e3d8975",
+    "oracle-after-restart.json": "b045e58170c6044d249ace2957f682a5c4212451325843f795e757aebd42e9cd",
+    "oracle-restart-comparison.json": "5d17f45a3d6358e9706b54fefb7ff3f0fb0881e8f98fcdcbfde36fe312a1cb99",
+    "recovery-before-recreate.json": "98e77b5e5ead2659efd3f441cc2fcd390891acde14be8c47c40bc125f4d8556d",
+    "recovery-after-recreate.json": "4750439c267462f8c8f976cb2197a08adde9f8b07de6bcc15a22ae66574364dd",
+    "browser-held-history.json": "dd15b233bfcea8dd7aca1bd14e7355c6335ac80d6b1f421c4c3cdd098f62fbae",
+    "execution-disabled-after-first.json": "6d1a545170ffd2a06c7921346ba0fc209de2df4feb6372d10bce42bcb42ba977",
+    "runtime-disabled-final.json": "6b3bf123166981a5430ef437af35ea1d39038d2544a20eac46e4e5ebb5a7b6f0",
+    "fault-acceptance-review.json": "7860fe90af749f224b8aa3bbe0e0d9376221ae7c6bee7ff2d1a2bd06b659a87c"
+  },
+  "pilotComplete": false
+}

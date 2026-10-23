@@ -68,6 +68,14 @@ events persist after an app recreate. Both roles retain checksummed history down
 These partial-state checks do not qualify the intended after-first SIGKILL boundary.
 The failed request and PDB remain untouched; execution is disabled again.
 
+The [fresh-PDB after-first-ACK interruption](../../evidence/product/unified-oracle-20261023/interrupt-after-first-ee44f6f.json)
+now passes on `ee44f6f`. Before SIGKILL, the observer records the ID-only table while
+central and target journals retain acknowledgment 1 and STARTED 2. The whole container
+exits 1; expiry recovers HOLD with one attempt and one receipt. Exact target state and
+held central state survive automatic restart and controlled app recreation; both roles
+retain history downloads. The old failed request remains unchanged. This closes the
+two recorded OA06 interruption boundaries only, not the full fault/recovery program.
+
 ## Live qualification on 2026-10-14
 
 The initial phase below predates the purpose-separated follow-up. Its unchanged-grant
