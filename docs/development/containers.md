@@ -61,7 +61,11 @@ mutation and execution HOLD checks remain intact. SIGTERM/SIGINT drain Fastify a
 PostgreSQL pool; shutdown exceeding 25 seconds exits unsuccessfully.
 
 Membership remains deny by default. An authorized pod/OS operator may run
-`node scripts/container-membership.mjs activate` for a fresh empty organization,
+`node scripts/container-membership.mjs database-grant kelryvo-developer` to grant
+workspace database management for Connect/Discover/Assign;
+`database-revoke kelryvo-developer` revokes it. This permission is separate from project
+membership and deployment grants and is audited through the existing operator contract.
+Use `node scripts/container-membership.mjs activate` for a fresh empty organization,
 then `grant PROJECT_UUID kelryvo-developer` and `grant PROJECT_UUID kelryvo-approver`
 for an explicitly selected project. The same command supports `revoke`. Separately
 authorize durable deployment requests with `deploy-grant PROJECT_UUID kelryvo-developer`,

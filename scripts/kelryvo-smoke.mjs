@@ -54,6 +54,11 @@ export async function smokeGovernance({ origin, ca, tokens, operator, rotate, on
   assert.equal((await request('GET', base, undefined, approver)).status, 404);
   await operator('grant', projectId, 'kelryvo-developer');
   await operator('grant', projectId, 'kelryvo-approver');
+  onStep('explicit workspace database provisioning');
+  await operator('database-grant', 'kelryvo-developer');
+  const databaseAccess = await request('GET', `${base}/database-connections`, undefined, developer);
+  assert.equal(databaseAccess.status, 200);
+  assert.equal(databaseAccess.body.canManage, true);
   onStep('environment and profile');
   const environment = await request('POST', `${base}/environments`, { name: 'Offline DEV' }, developer);
   assert.equal(environment.status, 201);

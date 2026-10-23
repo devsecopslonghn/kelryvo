@@ -27,10 +27,13 @@ paused in both live configuration and the chart source. The accepted development
 is `values.development.yaml` in the chart repository; it is separate from gated release
 publication. Do not re-enable sync against the old master/image while the pilot is incomplete.
 
-Remaining external inputs: the current owner-attested Oracle lab manifest and reviewed
-private installation for the new runtime, including explicit CREATE/ALTER ADD/INDEX and
-fault scopes. No current private manifest was found in this checkout. Keep execution and
-discovery disabled, all new-runtime Oracle cases NOT_RUN, and retain the historical lab.
+The owner subsequently authorized a new disposable Oracle Free 23.26.3 lab and bounded
+pilot SQL/fault tests on 2026-10-23. The private authorization and observed identity are
+retained outside Git. The new lab is ready on a Longhorn-compatible worker with a retained
+20 GiB PVC; direct identity, scoped grants, protected ledger denials and cross-COMMIT mutex
+probes passed. These probes do not qualify governed execution. The reviewed private
+installation, actual one-container discovery/execution, OA01–OA10 and remaining operational
+acceptance are in progress. Argo stays paused; preserve the historical lab evidence.
 
 [PR #112](https://github.com/devsecopslonghn/kelryvo/pull/112) and [its bounded real
 Oracle acceptance](../../evidence/product/instance-master-workflow-20261015/acceptance.json)

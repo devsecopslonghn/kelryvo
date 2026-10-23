@@ -237,7 +237,9 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
     <div className="panel-heading"><div><p className="eyebrow">ORACLE INSTANCE</p><h2>Connect, discover, and assign schemas</h2><p>One master credential reference serves discovery and authorized schema onboarding. Discovery checks connectivity; passwords are never entered or returned here.</p></div>
       <button type="button" className="secondary" disabled={busy} onClick={() => void reload(epoch.current)}>Refresh</button></div>
     {metadataRecovery?.state && metadataRecovery.state !== 'ACTIVE' && <p className="banner warning" role="status">Metadata recovery is {metadataRecovery.state}. Instance changes are disabled.</p>}
-    {dataScope === scope && rawData?.canManage === false && <p className="banner warning" role="status">Instance onboarding is unavailable for your current access. Existing connection evidence remains readable.</p>}
+    {dataScope === scope && rawData?.canManage === false && <p className="banner warning" role="status">{actor?.role === 'developer'
+      ? 'Your account needs workspace database-management permission to connect, discover, or assign schemas. Ask the operator to grant this permission.'
+      : 'A developer with workspace database-management permission can connect, discover, and assign schemas.'} Existing connection evidence remains readable.</p>}
     {error && <p className="banner error" role="alert">{error}</p>}
     {notice && <p className="banner success" role="status">{notice}</p>}
     {!rawData && !error && <p role="status">Loading Oracle instances…</p>}
