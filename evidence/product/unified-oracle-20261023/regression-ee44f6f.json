@@ -1,0 +1,69 @@
+{
+  "status": "PASS_EXACT_SOURCE_LOCAL_REGRESSION",
+  "at": "2026-10-23T16:59:06.585688+00:00",
+  "source": "ee44f6fc5ddaecddd46dbc489ec209d7f4a57eb9",
+  "image": "longhn0710t/kelryvo-pilot@sha256:9d20926ca5d77eb880de460a02f2394e632a2f8baa885d6a97c49b9d2c2e28db",
+  "localImageId": "sha256:99896e88dd9b0f00732fe90a90980d56d062ace3f2c14690a4163769fa28be36",
+  "architecture": "amd64",
+  "checks": {
+    "check": {
+      "tests": 616,
+      "pass": 482,
+      "fail": 0,
+      "skipped": 134
+    },
+    "api": {
+      "tests": 202,
+      "pass": 202,
+      "fail": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "tests": 55,
+      "pass": 55,
+      "fail": 0,
+      "skipped": 0
+    },
+    "release": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "sourceReleaseWorkflowTests": 25,
+  "containerSmoke": {
+    "status": "PASS",
+    "scope": "LOCAL_OCI_POSTGRESQL",
+    "network": "HOST_LOOPBACK",
+    "architecture": "amd64",
+    "login": "Secure cookie and CSRF enforced",
+    "gitValidation": "VALID",
+    "approval": "APPROVED",
+    "history": "NOT_EXECUTED",
+    "credentialRotation": "PASS_WITHOUT_EXPIRY_EXTENSION_OR_RESURRECTION",
+    "restartPersistence": "PASS",
+    "gracefulExit": 0,
+    "runtimeIsolation": "PASS_API_UID10001_EXECUTION_UID10002_SUPERVISOR_CAP_KILL_ONLY",
+    "sourceSecrets": "ROOT_0400",
+    "childFailure": "CONTAINER_EXITED_WITHOUT_RESTART",
+    "runtimeNotices": {
+      "debianPackages": 115,
+      "jdkFiles": 38
+    },
+    "oracleRuntimeVerified": false
+  },
+  "optionalSkips": "Generic check skips optional integration fixtures; full API, browser and frozen-source release ran separately without skips.",
+  "remoteManifestAndEntrypointRevisionVerified": true,
+  "hostedCi": "NOT_RUN_OWNER_AUTHORIZED_DEVELOPMENT_PATH",
+  "argoAutomaticSync": false,
+  "oracleFaultAcceptance": "INCOMPLETE",
+  "pilotComplete": false,
+  "privateLogSha256": {
+    "check-ee44f6f.log": "a5a16d3ff308fd8e6cd1abcbfff822290bf51299e4f87087e9421439cfb00a79",
+    "api-ee44f6f.log": "d1f8cd41c6a4c6c24b85af91d9245fc7f8f6cb95fb041fb1168c8f1788050d05",
+    "browser-ee44f6f.log": "33f83ac932e476794bdf5326d90c56ebe2d71716b3cab86bda95a86f02140d92",
+    "release-ee44f6f.log": "47b964b1944af77086a92c7833575a388b8917247dbd1929498947161e8d7b21",
+    "smoke-ee44f6f.log": "abe6d44523dc3c1b6e565ed5f0fca66de55c22cc79836d9158209868e53ae9c0"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "status": "PASS_ISOLATED_FAULT_PDB_PREPARATION_ONLY",
+  "at": "2026-10-23T16:58:26.916784+00:00",
+  "oracleImage": "gvenzl/oracle-free:23.26.3@sha256:7ed34d0ade89c91a553c9cbe9d42457c758fa29a762aaaa3137541ff30a2d1cb",
+  "namespace": "kelryvo-oracle-lab",
+  "topology": "Three fresh PDB$SEED copies in the existing owned Free CDB; no additional Pod/PVC.",
+  "createdPdbs": [
+    {
+      "pdb": "KP_INT_BEFORE",
+      "guid": "5E85BF7E225DFC95E0638101F40A2F5B",
+      "identityMatched": true,
+      "exactSystemSchemaObjectGrantClosure": true,
+      "applicationSchemasEmpty": true,
+      "protectedObjectsValid": true,
+      "enabledTriggerClosureExact": true,
+      "sourceTextMatches": {
+        "SF_TARGET_LEDGER_EVENTS_IMMUTABLE:TRIGGER": true,
+        "SF_TARGET_MUTEX:PACKAGE": true,
+        "SF_TARGET_MUTEX:PACKAGE BODY": true
+      }
+    },
+    {
+      "pdb": "KP_INT_AFTER",
+      "guid": "5E85C0EDFC6CFCDDE0638101F40A8B3B",
+      "identityMatched": true,
+      "exactSystemSchemaObjectGrantClosure": true,
+      "applicationSchemasEmpty": true,
+      "protectedObjectsValid": true,
+      "enabledTriggerClosureExact": true,
+      "sourceTextMatches": {
+        "SF_TARGET_LEDGER_EVENTS_IMMUTABLE:TRIGGER": true,
+        "SF_TARGET_MUTEX:PACKAGE": true,
+        "SF_TARGET_MUTEX:PACKAGE BODY": true
+      }
+    },
+    {
+      "pdb": "KP_LOST_ACK",
+      "guid": "5E85C2720FA8FD31E0638101F40A326E",
+      "identityMatched": true,
+      "exactSystemSchemaObjectGrantClosure": true,
+      "applicationSchemasEmpty": true,
+      "protectedObjectsValid": true,
+      "enabledTriggerClosureExact": true,
+      "sourceTextMatches": {
+        "SF_TARGET_LEDGER_EVENTS_IMMUTABLE:TRIGGER": true,
+        "SF_TARGET_MUTEX:PACKAGE": true,
+        "SF_TARGET_MUTEX:PACKAGE BODY": true
+      }
+    }
+  ],
+  "preservation": "Original failed/HOLD PDB and successful R2 PDB retained with their original GUIDs. No old PDB was cloned, dropped or replayed.",
+  "bootstrap": "Purpose-separated master/ledger/observer, five NO AUTHENTICATION schema owners, locked PDB admin and bounded 32MiB USERS autoextend to 1GiB; exact grant/object/source closure checked read-only.",
+  "governedMigrationExecution": "NOT_RUN",
+  "priorCheckerFailuresPreserved": [
+    {
+      "status": "FAIL_CHECKER_FORMATTING",
+      "cause": "SQLPlus TAB ON formatted stored spaces as tabs; SET TAB OFF capture matches exact reviewed source."
+    },
+    {
+      "status": "FAIL_CHECKER_TRIGGER_ASSUMPTION",
+      "cause": "Internal GSMADMIN_INTERNAL.GSMLOGOFF event exists alongside the ledger trigger; final checker requires the exact two-trigger closure recorded in R2 and rejects changed or extra triggers."
+    }
+  ],
+  "pilotComplete": false,
+  "privateEvidenceSha256": {
+    "qualification-completed.json": "cfb2d5eb94dd0640be8dbfd9ec8bc5798ddd188e9297aaba760ccbe0e864799d",
+    "pdb-write-authorization.json": "4400486f14a48388031b0fe6ead9542066f8e4dcbaa7674fde1d30a389fbd7ef",
+    "readonly-qualification-approval-v2.json": "cb5f183c0a277108c0c9a32ac20070886d9e148bd5d2153c66add051f49ebd07",
+    "qualify_pdbs_tab_off_v2.py": "246adb9011151ae0418ad750d52b94f9a186a5afb1d358f6c1f9a1e89f2537cf",
+    "qualification-v2-local-tests.json": "d25dda99e07a293bfcbeee0ff2dd77fd5a2632d09917a727759fb6ae52e786fa"
+  }
+}

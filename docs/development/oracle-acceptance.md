@@ -42,7 +42,11 @@ DDL commit behavior. No DML support is inferred.
 This is a bounded success sequence, not full OA01–OA10 or pilot acceptance. Mismatched
 identity, governed unsafe SQL, route-alias concurrency, interruption, real lost-ack,
 ambiguous reconciliation, the remaining incompatible-history matrix and managed
-PostgreSQL witnessed restore still require current-source evidence. Discovery and schema
+PostgreSQL operational parity still require current-source evidence. A newer `ee44f6f`
+[managed restore and historical-read proof](../../evidence/product/unified-oracle-20261023/managed-restore-ee44f6f.json)
+preserves exact metadata in a new owned PostgreSQL database, keeps RESTORE_HOLD after
+restart, revokes old tokens and blocks writes without an Oracle installation. It does
+not exercise recovery of interrupted Oracle DDL or a live metadata cutover. Discovery and schema
 snapshots with incomplete visibility remain PARTIAL/UNKNOWN/UNVERIFIED. Earlier sections
 below retain their original source-specific outcomes, including failures.
 

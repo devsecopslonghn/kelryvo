@@ -1,0 +1,46 @@
+{
+  "status": "PASS_APP_IMAGE_UPGRADE_AND_RETAINED_HISTORY",
+  "at": "2026-10-23T16:57:30.779751+00:00",
+  "source": "ee44f6fc5ddaecddd46dbc489ec209d7f4a57eb9",
+  "image": "longhn0710t/kelryvo-pilot@sha256:9d20926ca5d77eb880de460a02f2394e632a2f8baa885d6a97c49b9d2c2e28db",
+  "chartSource": "8978e3f",
+  "applicationContainers": 1,
+  "replicas": 1,
+  "strategy": "Recreate",
+  "executionEnabled": false,
+  "discoveryEnabled": true,
+  "argoAutoSync": false,
+  "retainedBusinessTables": 21,
+  "retainedCounts": {
+    "sf_plans": 18,
+    "sf_execution_jobs": 17,
+    "sf_execution_receipts": 7,
+    "sf_history": 28
+  },
+  "resourceIdentitiesPreserved": [
+    "statefulset/kelryvo-postgresql",
+    "pod/kelryvo-postgresql-0",
+    "pvc/kelryvo-postgresql-data",
+    "service/kelryvo-postgresql",
+    "service/kelryvo-app"
+  ],
+  "publicHttpsBrowserRoles": [
+    "developer",
+    "approver"
+  ],
+  "historicalRecordPairsCompared": 12,
+  "downloadsCompared": 24,
+  "historyChecksumsUnchanged": true,
+  "newOracleDdlExecution": "NOT_RUN",
+  "limitations": [
+    "This upgrade preserves the earlier a4-bound Oracle results; it does not qualify Oracle DDL/fault execution on ee44f6f.",
+    "Argo remains paused against the old desired revision.",
+    "No PostgreSQL cutover, image upgrade or PVC replacement was performed."
+  ],
+  "privateEvidenceSha256": {
+    "upgrade-ee44f6f-completed.json": "7b15bc067334180310446dd47ab3e54b88a2970cb8ed56aa2d890fd717da3a69",
+    "before-upgrade-ee44f6f.json": "542b71ee7f4aa8df247ba37fa4fd516861eb2f4a335e18c50fd30e1ca1231eb7",
+    "after-upgrade-ee44f6f.json": "2b0a463b39199b319348c587eb8a9c7a5c80ba4d9c17b828a37d335e5854de37",
+    "history-after.json": "df89bf77d3dbc0b4d23f73e3a288914fd78814115918fcc8cdb5578dbaa428f4"
+  }
+}

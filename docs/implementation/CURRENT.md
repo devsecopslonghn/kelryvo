@@ -27,11 +27,26 @@ paused in both live configuration and the chart source. The accepted development
 is `values.development.yaml` in the chart repository; it is separate from gated release
 publication. Do not re-enable sync against the old master/image while the pilot is incomplete.
 
+The latest development candidate is source `ee44f6f`: [exact-source regression](../../evidence/product/unified-oracle-20261023/regression-ee44f6f.json)
+passes 202 API and 55 browser tests plus frozen-source release and local OCI isolation.
+Its [guarded app upgrade](../../evidence/product/unified-oracle-20261023/upgrade-ee44f6f.json)
+preserves all 21 observed business tables, PostgreSQL/PVC/Service identities and 24
+historical record downloads across both browser roles. Execution remains disabled;
+Oracle results below remain bound to their earlier image until repeated on the new one.
+A [witnessed managed PostgreSQL restore](../../evidence/product/unified-oracle-20261023/managed-restore-ee44f6f.json)
+using the exact new operator and image preserves all 21 compared business tables in a new
+owned database. Root-recovered developer/approver access reads historical records while
+old credentials fail; restart retains RESTORE_HOLD and mutation denial. No Oracle writer
+is installed in that restored app. This qualifies historical read access under HOLD,
+not restored-cluster cutover or recovery of interrupted Oracle execution.
+[Three fresh fault PDBs](../../evidence/product/unified-oracle-20261023/fault-pdb-preparation.json)
+are provisioned and qualified in the existing lab; no governed migration has run in them.
+
 The same `a4dbb8d` image also passed [Docker Compose governance and persistence](../../evidence/product/unified-oracle-20261023/compose.json)
 with external disposable PostgreSQL, HTTPS, independent approval, credential rotation,
 restart and recreate. The corrected workstation override binds only to loopback; the
 initial all-interface fixture is explicitly retained as invalid evidence. Compose Oracle
-execution and runtime on restored Oracle metadata remain unverified.
+execution remains unverified; the newer candidate has the bounded restored metadata proof above.
 
 The owner subsequently authorized a new disposable Oracle Free 23.26.3 lab and bounded
 pilot SQL/fault tests on 2026-10-23. The private authorization and observed identity are
