@@ -758,6 +758,26 @@ custody locations. External PostgreSQL installations and automatic deployment cu
 are outside this adapter's support scope. This operator path still requires a fresh
 deployed restore acceptance run; local fixture tests do not certify it.
 
+For a separate recovered application container, provision fresh desired developer and
+approver tokens in its root-owned source Secret and keep discovery and execution disabled.
+Start it against the new restore database using the same application image; do not change
+the live application's database URL. The trusted root operator can then adopt each fresh
+token for historical reads:
+
+```sh
+docker compose exec --user 0:0 kelryvo node scripts/container-credentials.mjs recover developer
+docker compose exec --user 0:0 kelryvo node scripts/container-credentials.mjs recover approver
+```
+
+`recover` accepts only the generated restore database name, the current witnessed
+`RESTORE_HOLD` generation and its matching immutable audit/owner evidence. It preserves
+existing actor roles and grants, rejects retired tokens, and never changes the generation
+or releases HOLD. Repeating the same active desired token does not extend its expiry.
+Ordinary `rotate` still requires ACTIVE metadata. Existing tokens stay revoked; fresh
+recovery credentials permit historical reads while metadata mutations and execution
+claims remain blocked. `/api/livez` can serve while `/api/readyz` reports the recovery
+hold; that response must not be interpreted as permission to execute.
+
 ## HTTPS browser sessions
 
 Start the existing local product with operator-provided TLS material:
