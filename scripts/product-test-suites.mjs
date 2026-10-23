@@ -29,7 +29,7 @@ export const PRODUCT_API_FILES = Object.freeze([
   'tests/product-execution-jobs.test.mjs', 'tests/product-execution-history.test.mjs',
   'tests/product-controlled-execution.test.mjs', 'tests/product-incremental-migrations.test.mjs', 'tests/product-execution-container.test.mjs',
   'tests/product-oracle-host.test.mjs', 'tests/product-worker-supervision.test.mjs',
-  'tests/product-backup-restore.test.mjs', 'tests/product-installed-worker-factory.test.mjs',
+  'tests/product-backup-restore.test.mjs', 'tests/product-managed-backup.test.mjs', 'tests/product-installed-worker-factory.test.mjs',
   'tests/product-installed-expiry-recovery.test.mjs', 'tests/product-metadata-recovery.test.mjs',
   'tests/product-execution-service.test.mjs',
 ]);

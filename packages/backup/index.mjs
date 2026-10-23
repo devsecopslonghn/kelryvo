@@ -19,6 +19,9 @@ const MAX_MANIFEST_BYTES = 512 * 1024;
 const uid = () => process.geteuid?.() ?? process.getuid();
 const fail = () => new Error('Local backup or restore failed; inspect private operator state and retry.');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+const canonical = value => Array.isArray(value) ? `[${value.map(canonical).join(',')}]`
+  : value&&typeof value==='object' ? `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${canonical(value[key])}`).join(',')}}`
+    : JSON.stringify(value);
 const PHASE2_TABLES = [
   'sf_organizations','sf_local_actors','sf_local_credentials','sf_account_audit','sf_projects','sf_project_access_mode','sf_project_grants',
   'sf_project_operator_audit','sf_environments','sf_profiles','sf_releases','sf_plans','sf_audit',
@@ -283,9 +286,8 @@ async function ensureToolchain() {
   if (!/^pg_dump \(PostgreSQL\) 17\.10(?: \([^\n]+\))?\n?$/.test(version)) throw fail();
 }
 
-/** Create a new private backup directory and independent operator witness. */
-export async function createPrivateBackup({ configPath, databaseUrl, destination, witnessPath }) {
-  const config = await authorizeLocalMetadataUrl(configPath, databaseUrl);
+async function createPrivateBackupWithBackend({ config, databaseUrl, destination, witnessPath,
+  assertTarget, expectedServerVersion = 170010, expectedDatabaseIdentity = null, managedTarget = null }) {
   if (!destination || !witnessPath) throw fail();
   const dir = path.resolve(destination), witness = path.resolve(witnessPath);
   if(/[,:\n]/.test(dir) || /[,:\n]/.test(witness)) throw fail();
@@ -296,8 +298,14 @@ export async function createPrivateBackup({ configPath, databaseUrl, destination
   const sql = postgres(databaseUrl, { max:1, onnotice:()=>{} });
   let made = false;
   try {
-    await assertPinnedLocalPostgres(new URL(databaseUrl).port);
-    if(Number((await sql`SELECT current_setting('server_version_num')::int AS version`)[0]?.version)!==170010) throw fail();
+    await assertTarget(databaseUrl);
+    if(Number((await sql`SELECT current_setting('server_version_num')::int AS version`)[0]?.version)!==expectedServerVersion) throw fail();
+    if(expectedDatabaseIdentity) {
+      const identity=(await sql`SELECT current_database() AS database,current_user AS role,pg_get_userbyid(datdba) AS owner
+        FROM pg_database WHERE datname=current_database()`)[0];
+      if(identity?.database!==expectedDatabaseIdentity.database||identity?.role!==expectedDatabaseIdentity.role
+        ||identity?.owner!==expectedDatabaseIdentity.owner)throw fail();
+    }
     await ensureToolchain();
     await mkdir(dir, { mode:0o700 }); made = true;
     await chmod(dir,0o700);
@@ -320,6 +328,7 @@ export async function createPrivateBackup({ configPath, databaseUrl, destination
       await chmod(archivePath,0o600);
       archiveBytes=await privateFile(archivePath,MAX_ARCHIVE_BYTES);
     });
+    await assertTarget(databaseUrl);
     const witnessId = randomUUID();
     const manifest = { format:BACKUP_FORMAT, createdAt:new Date().toISOString(), sourceDatabase:decodeURIComponent(new URL(databaseUrl).pathname.slice(1)),
       metadataGeneration:state.id, checkpoint:state.checkpoint, schema, witnessId,
@@ -329,7 +338,7 @@ export async function createPrivateBackup({ configPath, databaseUrl, destination
     if(JSON.stringify((await readdir(dir)).sort())!==JSON.stringify(['manifest.json','metadata.pgdump'])) throw fail();
     const manifestBytes = await privateFile(manifestPath,MAX_MANIFEST_BYTES);
     const witnessValue = { format:BACKUP_FORMAT, witnessId, manifestSha256:sha(manifestBytes), archiveSha256:manifest.archive.sha256,
-      metadataGeneration:state.id, checkpoint:state.checkpoint };
+      metadataGeneration:state.id, checkpoint:state.checkpoint, ...(managedTarget ? {managedTarget} : {}) };
     await syncPath(archivePath);await syncPath(manifestPath);await syncPath(dir);
     await writeFile(witness,json(witnessValue),{mode:0o600,flag:'wx'});
     await syncPath(witness);await syncPath(path.dirname(witness));
@@ -340,10 +349,53 @@ export async function createPrivateBackup({ configPath, databaseUrl, destination
   } finally { await sql.end({timeout:2}); }
 }
 
-/** Restore only after validating all private inputs; the destination name is invocation-generated. */
-export async function restorePrivateBackup({ configPath, databaseUrl, backupDirectory, witnessPath, destinationDatabase, interruptAt }) {
+/** Local-only backup boundary retained for Compose/development. */
+export async function createPrivateBackup({ configPath, databaseUrl, destination, witnessPath }) {
+  const config = await authorizeLocalMetadataUrl(configPath, databaseUrl);
+  return createPrivateBackupWithBackend({config,databaseUrl,destination,witnessPath,
+    assertTarget:async url=>assertPinnedLocalPostgres(new URL(url).port)});
+}
+
+function managedLoopbackUrl(port, username, password) {
+  if(!/^([1-9][0-9]{0,4})$/.test(String(port))||Number(port)>65535
+    ||!['kelryvo','postgres'].includes(username)||typeof password!=='string'||!/^([a-f0-9]{64})$/.test(password))throw fail();
+  const url=new URL(`postgres://${username}@127.0.0.1:${port}/kelryvo`);url.password=password;return url.toString();
+}
+
+const MANAGED_TARGET_KEYS=['apiServer','clusterCaSha256','context','database','format','image','imageId','namespace','podUid','pv','pvUid',
+  'pvcUid','secretUid','serverVersionNum','serviceUid','statefulSetUid'];
+function validateManagedTarget(target) {
+  if(!target||Array.isArray(target)||Object.keys(target).sort().join(',')!==MANAGED_TARGET_KEYS.slice().sort().join(',')
+    ||target.format!=='kelryvo-managed-postgresql-v1'||target.context!=='k8s-admin-public'||target.namespace!=='kelryvo'
+    ||!/^https:\/\//.test(target.apiServer)||!/^([a-f0-9]{64})$/.test(target.clusterCaSha256)||target.database!=='kelryvo'
+    ||target.image!==PG_IMAGE||typeof target.imageId!=='string'||target.imageId.length>512
+    ||!target.imageId.includes(`@${PG_IMAGE.split('@')[1]}`)
+    ||typeof target.pv!=='string'||!/^[a-z0-9][a-z0-9.-]{0,252}$/.test(target.pv)
+    ||target.serverVersionNum!==170010
+    ||['podUid','pvUid','pvcUid','secretUid','serviceUid','statefulSetUid'].some(key=>!/^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(target[key]??'')))throw fail();
+  return target;
+}
+function validateManagedTargetOrNull(target) { return target===null?null:validateManagedTarget(target); }
+export function managedBackupTargetsCompatible(source,target) {
+  const a=validateManagedTarget(source),b=validateManagedTarget(target);
+  const stable=value=>Object.fromEntries(Object.entries(value).filter(([key])=>!['podUid','secretUid'].includes(key)));
+  return canonical(stable(a))===canonical(stable(b));
+}
+
+/** Trusted operator-only managed PostgreSQL backup. Caller must pin the Kubernetes target. */
+export async function createManagedPostgresBackup({port,appPassword,destination,witnessPath,managedTarget,assertTarget}) {
+  validateManagedTarget(managedTarget);
+  if(typeof assertTarget!=='function')throw fail();
+  const databaseUrl=managedLoopbackUrl(port,'kelryvo',appPassword);
+  return createPrivateBackupWithBackend({config:{databasePassword:appPassword},databaseUrl,destination,witnessPath,
+    assertTarget,expectedDatabaseIdentity:{database:'kelryvo',role:'kelryvo',owner:'kelryvo'},managedTarget});
+}
+
+async function restorePrivateBackupWithBackend({ config, databaseUrl, restoreDatabaseUrl=databaseUrl, archiveOwner,
+  backupDirectory, witnessPath, destinationDatabase, interruptAt, assertTarget, expectedServerVersion=170010,
+  expectedDatabaseIdentity=null, managedTarget=null }) {
   if(interruptAt !== undefined && interruptAt !== 'after-import') throw fail();
-  const config = await authorizeLocalMetadataUrl(configPath,databaseUrl);
+  const serverIdentity=validateManagedTargetOrNull(managedTarget);
   const dir=path.resolve(backupDirectory), witness=path.resolve(witnessPath);
   if(/[,:\n]/.test(dir) || /[,:\n]/.test(witness)) throw fail();
   await noSymlinkPath(dir); await noSymlinkPath(witness); await ensurePrivateDirectory(dir); await ensurePrivateDirectory(path.dirname(witness));
@@ -354,24 +406,35 @@ export async function restorePrivateBackup({ configPath, databaseUrl, backupDire
   const witnessBytes=await privateFile(witness,16*1024);
   let manifest, external;
   try { manifest=JSON.parse(manifestBytes); external=JSON.parse(witnessBytes); } catch { throw fail(); }
+  const witnessKeys=Object.keys(external).sort().join(',');
+  const baseWitnessKeys=['archiveSha256','checkpoint','format','manifestSha256','metadataGeneration','witnessId'];
   if (!exactManifest(manifest) || manifest.archive.file!=='metadata.pgdump' || manifest.archive.bytes!==archiveBytes.length
       || sha(archiveBytes)!==manifest.archive.sha256
-      || Object.keys(external).sort().join(',')!=='archiveSha256,checkpoint,format,manifestSha256,metadataGeneration,witnessId'
+      || witnessKeys!==[...baseWitnessKeys,...(serverIdentity?['managedTarget']:[])].sort().join(',')
       || external.format!==BACKUP_FORMAT || external.witnessId!==manifest.witnessId
       || external.manifestSha256!==sha(manifestBytes) || external.archiveSha256!==manifest.archive.sha256
-      || external.metadataGeneration!==manifest.metadataGeneration || external.checkpoint!==manifest.checkpoint) throw fail();
+      || external.metadataGeneration!==manifest.metadataGeneration || external.checkpoint!==manifest.checkpoint
+      || serverIdentity&&!managedBackupTargetsCompatible(external.managedTarget,serverIdentity)) throw fail();
   const stagingDirectory=path.join(path.dirname(dir),`.sf-restore-stage-${randomUUID()}`);
   await mkdir(stagingDirectory,{mode:0o700}); await chmod(stagingDirectory,0o700); await ensurePrivateDirectory(stagingDirectory);
   const stagedArchive=path.join(stagingDirectory,'metadata.pgdump');
   try {
   await writeFile(stagedArchive,archiveBytes,{mode:0o600,flag:'wx'});
   await chmod(stagedArchive,0o600);
-  await assertPinnedLocalPostgres(new URL(databaseUrl).port);
+  await assertTarget(databaseUrl);
   const server=postgres(databaseUrl,{max:1,onnotice:()=>{}});
-  try { if(Number((await server`SELECT current_setting('server_version_num')::int AS version`)[0]?.version)!==170010) throw fail(); }
+  try {
+    if(Number((await server`SELECT current_setting('server_version_num')::int AS version`)[0]?.version)!==expectedServerVersion) throw fail();
+    if(expectedDatabaseIdentity) {
+      const identity=(await server`SELECT current_database() AS database,current_user AS role,pg_get_userbyid(datdba) AS owner
+        FROM pg_database WHERE datname=current_database()`)[0];
+      if(identity?.database!==expectedDatabaseIdentity.database||identity?.role!==expectedDatabaseIdentity.role
+        ||identity?.owner!==expectedDatabaseIdentity.owner)throw fail();
+    }
+  }
   finally { await server.end({timeout:2}); }
   await ensureToolchain();
-  const listing=runDocker(toolArgs('pg_restore',stagingDirectory,'/backup/metadata.pgdump',databaseUrl,config),toolEnv(config));
+  const listing=runDocker(toolArgs('pg_restore',stagingDirectory,'/backup/metadata.pgdump',restoreDatabaseUrl,config),toolEnv(config));
   const preManagement=manifest.schema.signature===PRE_MANAGEMENT_SCHEMA_SIGNATURE;
   const preSchemaBaselines=manifest.schema.signature===PRE_SCHEMA_BASELINE_SCHEMA_SIGNATURE;
   const preInstanceSchema=manifest.schema.signature===PRE_INSTANCE_SCHEMA_SIGNATURE;
@@ -379,17 +442,19 @@ export async function restorePrivateBackup({ configPath, databaseUrl, backupDire
   const managed=schemaBaselines || manifest.schema.signature===PRE_SCHEMA_BASELINE_SCHEMA_SIGNATURE;
   const archivePreManagement=JSON.stringify(manifest.schema.tables)===JSON.stringify(PRE_MANAGEMENT_TABLES);
   const archiveSchemaBaselines=JSON.stringify(manifest.schema.tables)===JSON.stringify(TABLES) || JSON.stringify(manifest.schema.tables)===JSON.stringify(PRE_INSTANCE_SCHEMA_TABLES);
-  validateArchiveList(listing,decodeURIComponent(new URL(databaseUrl).username),{legacy:manifest.schema.signature===LEGACY_SCHEMA_SIGNATURE,phase2:manifest.schema.signature===PHASE2_SCHEMA_SIGNATURE,phase3:manifest.schema.signature===PHASE3_SCHEMA_SIGNATURE,phase4:manifest.schema.signature===PHASE4_SCHEMA_SIGNATURE,phase5:manifest.schema.signature===PHASE5_SCHEMA_SIGNATURE,preManagement:archivePreManagement,preInstanceSchema,schemaBaselines:archiveSchemaBaselines});
+  validateArchiveList(listing,archiveOwner??decodeURIComponent(new URL(databaseUrl).username),{legacy:manifest.schema.signature===LEGACY_SCHEMA_SIGNATURE,phase2:manifest.schema.signature===PHASE2_SCHEMA_SIGNATURE,phase3:manifest.schema.signature===PHASE3_SCHEMA_SIGNATURE,phase4:manifest.schema.signature===PHASE4_SCHEMA_SIGNATURE,phase5:manifest.schema.signature===PHASE5_SCHEMA_SIGNATURE,preManagement:archivePreManagement,preInstanceSchema,schemaBaselines:archiveSchemaBaselines});
   const dbName=destinationDatabase ?? `sf_product_restore_${randomUUID().replaceAll('-','')}`;
   if (!/^sf_product_restore_[a-f0-9]{32}$/.test(dbName) || dbName===manifest.sourceDatabase) throw fail();
-  const base=new URL(databaseUrl); const targetUrl=new URL(databaseUrl); targetUrl.pathname=`/${dbName}`;
+  const targetUrl=new URL(restoreDatabaseUrl); targetUrl.pathname=`/${dbName}`;
+  const targetOwner=decodeURIComponent(targetUrl.username);
+  if(!/^[a-z_][a-z0-9_]{0,62}$/.test(targetOwner))throw fail();
   const admin=postgres(databaseUrl,{max:1,onnotice:()=>{}}); let adminClosed=false, created=false, createdOid, sql;
   const ownerId=randomUUID();
   try {
     const existing=await admin`SELECT 1 FROM pg_database WHERE datname=${dbName}`;
     if (existing.length) throw fail();
-    await admin.unsafe(`CREATE DATABASE "${dbName}"`); created=true;
-    createdOid=(await admin`SELECT oid::text AS oid FROM pg_database WHERE datname=${dbName} AND datdba=(SELECT oid FROM pg_roles WHERE rolname=current_user)`)[0]?.oid;
+    await admin.unsafe(`CREATE DATABASE "${dbName}" OWNER "${targetOwner}"`); created=true;
+    createdOid=(await admin`SELECT oid::text AS oid FROM pg_database WHERE datname=${dbName} AND datdba=(SELECT oid FROM pg_roles WHERE rolname=${targetOwner})`)[0]?.oid;
     if(!createdOid) throw fail();
     await admin.end({timeout:2}); adminClosed=true;
     sql=postgres(targetUrl.toString(),{max:2,onnotice:()=>{}});
@@ -429,7 +494,8 @@ export async function restorePrivateBackup({ configPath, databaseUrl, backupDire
       await sql`ALTER TABLE sf_execution_reconciliation_decisions DISABLE TRIGGER sf_execution_reconciliation_decisions_binding_insert`;
     }
     if(schemaBaselines) await sql`ALTER TABLE sf_schema_snapshots DISABLE TRIGGER sf_schema_snapshots_scope`;
-    runDocker(toolArgs('pg_restore',stagingDirectory,'/backup/metadata.pgdump',databaseUrl,config).slice(0,-2).concat(['--exit-on-error','--single-transaction','--dbname',`postgresql://${encodeURIComponent(decodeURIComponent(base.username))}@127.0.0.1:${base.port||'5432'}/${dbName}`,'/backup/metadata.pgdump']),toolEnv(config));
+    const restoreConfig={databasePassword:decodeURIComponent(targetUrl.password)};
+    runDocker(toolArgs('pg_restore',stagingDirectory,'/backup/metadata.pgdump',targetUrl.toString(),restoreConfig).slice(0,-2).concat(['--exit-on-error','--single-transaction','--dbname',`postgresql://${encodeURIComponent(targetOwner)}@127.0.0.1:${targetUrl.port||'5432'}/${dbName}`,'/backup/metadata.pgdump']),toolEnv(restoreConfig));
     if(schemaBaselines) await sql`ALTER TABLE sf_schema_snapshots ENABLE TRIGGER sf_schema_snapshots_scope`;
     if (managed) {
       await sql`ALTER TABLE sf_profiles ENABLE TRIGGER sf_profiles_revision_capture`;
@@ -484,6 +550,7 @@ export async function restorePrivateBackup({ configPath, databaseUrl, backupDire
           VALUES(${randomUUID()},'CREDENTIAL_REVOKE',${generation},${credential.id},${credential.token_sha256},${uid()})`;
       }
     });
+    await assertTarget(databaseUrl);
     return { databaseUrl:targetUrl.toString(), databaseName:dbName };
   } catch (error) {
     if (sql) await sql.end({timeout:2}).catch(()=>{});
@@ -496,7 +563,7 @@ export async function restorePrivateBackup({ configPath, databaseUrl, backupDire
         try { owned=(await target`SELECT 1 FROM sf_metadata_restore_owners WHERE id=${ownerId}`).length===1; }
         catch { /* no ownership proof, so leave the inaccessible database in place */ }
         finally { await target.end({timeout:2}).catch(()=>{}); }
-        const identity=(await cleanup`SELECT oid::text AS oid FROM pg_database WHERE datname=${dbName} AND datdba=(SELECT oid FROM pg_roles WHERE rolname=current_user)`)[0];
+        const identity=(await cleanup`SELECT oid::text AS oid FROM pg_database WHERE datname=${dbName} AND datdba=(SELECT oid FROM pg_roles WHERE rolname=${targetOwner})`)[0];
         if(owned && identity?.oid===createdOid) await cleanup.unsafe(`DROP DATABASE "${dbName}" WITH (FORCE)`);
       } catch { /* inaccessible or replaced destination is left untouched */ }
       finally { await cleanup.end({timeout:2}); }
@@ -504,4 +571,23 @@ export async function restorePrivateBackup({ configPath, databaseUrl, backupDire
     throw error instanceof Error && error.message.startsWith('Local backup') ? error : fail();
   } finally { if(sql) await sql.end({timeout:2}).catch(()=>{}); }
   } finally { await rm(stagingDirectory,{recursive:true,force:true}).catch(()=>{}); }
+}
+
+/** Local-only restore boundary retained for Compose/development. */
+export async function restorePrivateBackup({ configPath,databaseUrl,backupDirectory,witnessPath,destinationDatabase,interruptAt }) {
+  const config=await authorizeLocalMetadataUrl(configPath,databaseUrl);
+  return restorePrivateBackupWithBackend({config,databaseUrl,backupDirectory,witnessPath,destinationDatabase,interruptAt,
+    assertTarget:async url=>assertPinnedLocalPostgres(new URL(url).port)});
+}
+
+/** Restore a managed PostgreSQL backup to a new database owned by the app role. */
+export async function restoreManagedPostgresBackup({port,appPassword,adminPassword,backupDirectory,witnessPath,
+  managedTarget,assertTarget}) {
+  validateManagedTarget(managedTarget);
+  if(typeof assertTarget!=='function')throw fail();
+  const databaseUrl=managedLoopbackUrl(port,'postgres',adminPassword);
+  const restoreDatabaseUrl=managedLoopbackUrl(port,'kelryvo',appPassword);
+  return restorePrivateBackupWithBackend({config:{databasePassword:adminPassword},databaseUrl,restoreDatabaseUrl,
+    archiveOwner:'kelryvo',backupDirectory,witnessPath,managedTarget,assertTarget,
+    expectedDatabaseIdentity:{database:'kelryvo',role:'postgres',owner:'kelryvo'}});
 }
