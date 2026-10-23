@@ -60,6 +60,14 @@ recreate. Both browser roles download valid held records. This does not cover a 
 after the first acknowledged statement, lost acknowledgment, reconciliation or the
 full recovery matrix. The held request and PDB remain intact; execution is disabled.
 
+The [after-first-statement fault attempt](../../evidence/product/unified-oracle-20261023/interrupt-after-first-failed-ee44f6f.json)
+remains FAIL: its private operator rejected the transient old/new Pod list during
+Recreate and sent no signal. The bounded wrapper timed out before native ALTER ADD;
+CREATE TABLE has one receipt, the target retains only ID, and HOLD plus all six ledger
+events persist after an app recreate. Both roles retain checksummed history downloads.
+These partial-state checks do not qualify the intended after-first SIGKILL boundary.
+The failed request and PDB remain untouched; execution is disabled again.
+
 ## Live qualification on 2026-10-14
 
 The initial phase below predates the purpose-separated follow-up. Its unchanged-grant

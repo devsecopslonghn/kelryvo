@@ -48,6 +48,13 @@ stops the container; lease recovery retains HOLD, one attempt and zero receipts.
 has no application objects and retains its three ledger events unchanged after another
 app recreate. Both browser roles can inspect and download the held records. Execution
 is disabled again; after-acknowledgment interruption and real lost-ack remain pending.
+The [first after-acknowledgment attempt](../../evidence/product/unified-oracle-20261023/interrupt-after-first-failed-ee44f6f.json)
+is retained as FAIL: the private fault operator stopped on a transient old/new Pod list
+before sending SIGKILL. The fixed pause expired after CREATE TABLE was acknowledged;
+ALTER ADD never reached its native writer. HOLD, one receipt, the ID-only table and six
+ledger events survive controlled app recreation and both roles can download the records.
+This verifies retained partial state, not the intended process-interruption boundary.
+Preserve this request/PDB; another fault attempt requires a fresh target.
 
 The same `a4dbb8d` image also passed [Docker Compose governance and persistence](../../evidence/product/unified-oracle-20261023/compose.json)
 with external disposable PostgreSQL, HTTPS, independent approval, credential rotation,
