@@ -1,8 +1,9 @@
 # Disposable Oracle execution acceptance
 
 The unified container is a new runtime qualification boundary. Its local and deployed
-metadata/browser acceptance does not qualify Oracle: OA01–OA10 remain **NOT_RUN for
-that runtime** until an owner-attested installation and exact SQL/fault scope are supplied.
+metadata/browser acceptance alone does not qualify Oracle. The owner-attested installation
+now has bounded governed DDL evidence below; the complete OA01–OA10 program remains
+incomplete until its remaining SQL/fault and recovery cases are observed.
 The dated results below remain valid only for their recorded sources and installations.
 The current cases use one external instance master reference, purpose-restricted processes
 and a separate protected ledger; historical separate-account results are not rewritten.
@@ -19,6 +20,31 @@ mutex. It introduces no deployment infrastructure. The lab owner supplies the
 attested scope; a database operator prepares isolated disposable schemas and
 accounts; an independent reviewer evaluates retained evidence. The application
 operator installs the private trusted worker only after these prerequisites pass.
+
+## Unified runtime: bounded acceptance on 2026-10-23
+
+The [new governed DDL evidence](../../evidence/product/unified-oracle-20261023/governed-ddl.json)
+is tied to source `a4dbb8d` and image digest `01018b1d9cc464dd3f6ea0125e748c55e2bf0690fcea94b565f728272ba6fce4`.
+It covers two assigned schemas using one master reference: browser-authored and independently
+approved CREATE TABLE V1, ALTER TABLE ADD plus CREATE INDEX V2, and NOOP. The six DDL
+acknowledgments have six central receipts, and direct Oracle observation confirms the
+expected columns, valid indexes and complete ledger sequences. NOOP adds no statement
+starts or receipts and leaves target metadata and ledger events unchanged. Both browser
+roles retain identical downloadable record facts after application restart.
+
+The [initial failed V1](../../evidence/product/unified-oracle-20261023/initial-held-v1.json)
+and its two HOLD requests remain preserved in the original PDB. The successful run uses a
+fresh owned PDB; no held SQL was replayed. The separate
+[implicit-commit fixture](../../evidence/product/unified-oracle-20261023/implicit-commit.json)
+retains both the failed parse-time assumption and the observed successful/runtime-failed
+DDL commit behavior. No DML support is inferred.
+
+This is a bounded success sequence, not full OA01–OA10 or pilot acceptance. Mismatched
+identity, governed unsafe SQL, route-alias concurrency, interruption, real lost-ack,
+ambiguous reconciliation, the remaining incompatible-history matrix and managed
+PostgreSQL witnessed restore still require current-source evidence. Discovery and schema
+snapshots with incomplete visibility remain PARTIAL/UNKNOWN/UNVERIFIED. Earlier sections
+below retain their original source-specific outcomes, including failures.
 
 ## Live qualification on 2026-10-14
 

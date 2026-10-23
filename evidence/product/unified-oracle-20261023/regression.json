@@ -1,0 +1,71 @@
+{
+  "status": "PASS_LOCAL_REGRESSION_ORACLE_SEPARATE",
+  "at": "2026-10-23T09:12:02.490776+00:00",
+  "runtimeSource": "a4dbb8dad9b2d134a5ddab87553ee259a09bbbc6",
+  "runtimeImage": "longhn0710t/kelryvo-pilot@sha256:01018b1d9cc464dd3f6ea0125e748c55e2bf0690fcea94b565f728272ba6fce4",
+  "checks": {
+    "npmRunCheck": {
+      "tests": 593,
+      "pass": 462,
+      "fail": 0,
+      "skipped": 131
+    },
+    "browser": {
+      "tests": 55,
+      "pass": 55,
+      "fail": 0,
+      "skipped": 0
+    },
+    "freshSourceRelease": {
+      "outer": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0
+      },
+      "workflowTests": 25,
+      "source": "a4dbb8dad9b2d134a5ddab87553ee259a09bbbc6",
+      "oracle": "UNVALIDATED"
+    },
+    "api": {
+      "source": "0a2d78006ba8220a205fe5c8c37d499f7fab2b62",
+      "tests": 199,
+      "pass": 199,
+      "fail": 0,
+      "skipped": 0,
+      "scope": "Backend unchanged by following UI-only refresh commit; original exact-source result retained."
+    },
+    "containerSmoke": {
+      "status": "PASS",
+      "scope": "LOCAL_OCI_POSTGRESQL",
+      "network": "HOST_LOOPBACK",
+      "architecture": "amd64",
+      "login": "Secure cookie and CSRF enforced",
+      "gitValidation": "VALID",
+      "approval": "APPROVED",
+      "history": "NOT_EXECUTED",
+      "credentialRotation": "PASS_WITHOUT_EXPIRY_EXTENSION_OR_RESURRECTION",
+      "restartPersistence": "PASS",
+      "gracefulExit": 0,
+      "runtimeIsolation": "PASS_API_UID10001_EXECUTION_UID10002_SUPERVISOR_CAP_KILL_ONLY",
+      "sourceSecrets": "ROOT_0400",
+      "childFailure": "CONTAINER_EXITED_WITHOUT_RESTART",
+      "runtimeNotices": {
+        "debianPackages": 115,
+        "jdkFiles": 38
+      },
+      "oracleRuntimeVerified": false
+    }
+  },
+  "optionalSkips": "Generic npm check skips optional integration cases; full API/browser/source-release ran separately without skips.",
+  "hostedCI": "NOT_RUN_OWNER_AUTHORIZED_DEVELOPMENT_PATH",
+  "automaticSync": "DISABLED",
+  "pilotComplete": false,
+  "privateLogDigests": {
+    "check-refresh-verification.log": "5a7d83446e0092dfab71a40590c8597b362fcd37ce1975f7b2fba0edb9ebc68b",
+    "regression-refresh-browser.log": "86aa32842956aeb5910a0dedb208deaa16d2daef9a5301e58e0260e3818bd9d7",
+    "regression-refresh-release.log": "44d2a66a5d4e676e298bc700f41c7e72694c03a28fb6ea0743c1f1b2c2f7ee12",
+    "regression-product.log": "e4a3ced0407f145dd07d63d0c4b979f87ded9b9091395714155dabd1f1fd4137",
+    "smoke-refresh.log": "abe6d44523dc3c1b6e565ed5f0fca66de55c22cc79836d9158209868e53ae9c0"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "status": "FAIL_RETAINED_HOLD",
+  "case": "INITIAL_GOVERNED_V1_PRIVATE_POSTCONDITION_ADAPTER",
+  "source": "a4dbb8dad9b2d134a5ddab87553ee259a09bbbc6",
+  "image": "longhn0710t/kelryvo-pilot@sha256:01018b1d9cc464dd3f6ea0125e748c55e2bf0690fcea94b565f728272ba6fce4",
+  "at": "2026-10-23T08:55:17.828973Z",
+  "observed": {
+    "approvedSchemaPlans": 2,
+    "admittedAttempts": 1,
+    "oracleStatementAcknowledgments": 1,
+    "centralReceipts": 1,
+    "oracleLedgerSequence": 5,
+    "oracleLedgerState": "COMPLETE",
+    "physicalTablesCreated": 1,
+    "verifiedSuccessJobs": 0,
+    "heldJobs": 2,
+    "replayedStatements": 0
+  },
+  "cause": {
+    "component": "private installation postcondition query",
+    "oracleCode": 1745,
+    "detail": "Reserved bind name :table in postcondition SELECT was rejected. Renamed to :tableName; exact function rechecked read-only against existing and absent tables."
+  },
+  "preservation": {
+    "oldPDBRetained": true,
+    "PVCUnchanged": true,
+    "heldJobsUnchanged": true,
+    "ledgerAndReceiptsUnchanged": true,
+    "oldPendingStaleJobsCancelledThroughAPI": 2,
+    "freshQualificationUsesNewOwnedPDB": true
+  },
+  "scope": "This is a FAIL, not governed Oracle acceptance. No failed or held request was retried or cleared.",
+  "privateEvidenceDigests": {
+    "held-v1-target-observation.json": "b73e462114c4dcaec6c18e37f67d622c3a8b1056f88d5d00be0986ce90951af2",
+    "postconditions-diagnostic.json": "105d9a1d5a6eee8bb55eafe92cb29986a98522ce73e0822336927e290b94b5ec",
+    "postconditions-fixed-test.json": "e80aaf4338ba100e8e46db689cbce2c2a8a0f776fa1142d957c28a5995f62f2d",
+    "installation-review-v1-r2.json": "8d3044b53762288d9a2939af0df3afea97566d863849f72c6679d88e273e33c9",
+    "stale-v1-preserved.json": "293171c5521947cb2345967fc0ef64f68d93124d21051a9b3985abf88a1e7eb5"
+  }
+}

@@ -32,16 +32,32 @@ pilot SQL/fault tests on 2026-10-23. The private authorization and observed iden
 retained outside Git. The new lab is ready on a Longhorn-compatible worker with a retained
 20 GiB PVC; direct identity, scoped grants, protected ledger denials and cross-COMMIT mutex
 probes passed. These probes do not qualify governed execution. The reviewed private
-installation, actual one-container discovery/execution, OA01–OA10 and remaining operational
-acceptance are in progress. Argo stays paused; preserve the historical lab evidence.
+installation now has [bounded governed acceptance](../../evidence/product/unified-oracle-20261023/governed-ddl.json)
+on source `a4dbb8d` and its pinned development image: two schema V1 CREATE TABLE runs,
+two V2 suffix runs (ALTER ADD and CREATE INDEX), then two NOOP requests. The six DDL
+acknowledgments have central receipts; Oracle ledger heads are 13 for each schema.
+NOOP leaves object metadata and every ledger event unchanged. Both browser roles can
+inspect and download the retained records before and after app restart. These bounded
+results do not complete OA01–OA10 or operational acceptance. Argo stays paused; preserve
+the historical lab evidence.
+
+The first governed unified-runtime V1 run is retained as
+[FAIL/HOLD](../../evidence/product/unified-oracle-20261023/initial-held-v1.json):
+one real table effect, a complete target ledger and one central receipt were observed,
+but a private postcondition SELECT used an Oracle-reserved bind name and final validity
+could not be verified. Both held requests and all evidence remain unchanged. The bind
+was corrected and rechecked read-only. A fresh owned PDB in the same lab completed the bounded
+V1/V2/NOOP sequence; the failed PDB remains intact. No HOLD is cleared and no uncertain SQL is replayed.
 
 [PR #112](https://github.com/devsecopslonghn/kelryvo/pull/112) and [its bounded real
 Oracle acceptance](../../evidence/product/instance-master-workflow-20261015/acceptance.json)
 remain historical source-specific evidence: two schema V1 executions, a V2 suffix, a
 browser-authored no-op and independent history/audit verification. That evidence covers
 the recorded CREATE TABLE statements only. The current source policy also recognizes
-scalar ALTER TABLE ADD and simple CREATE INDEX, but those forms have no live acceptance;
-all Oracle acceptance for the unified runtime source remains **NOT_RUN**.
+scalar ALTER TABLE ADD and simple CREATE INDEX. The new source-specific acceptance above
+covers those exact forms on Oracle Free 23.26.3; fault, identity-negative, concurrency,
+unsafe-dispatch and managed backup/restore cases remain incomplete. Snapshot coverage
+remains PARTIAL/UNKNOWN where the observer has not established complete visibility.
 
 For an owner-authorized development image test, use a temporary Docker Hub tag tied to
 the exact source revision while Argo CD auto-sync for the Kelryvo application is paused.
