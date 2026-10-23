@@ -62,17 +62,19 @@ test('local startup refuses symlinked directories/configs without chmod or readi
   await isolated(async (directory, { localConfiguration, localDirectory }) => {
     const external = path.join(directory, 'external');
     await mkdir(external, { mode: 0o755 });
+    const externalMode = (await stat(external)).mode & 0o777;
     await mkdir(path.join(directory, '.cache'));
     await symlink(external, localDirectory);
     await assert.rejects(localConfiguration(), /symlinks/);
-    assert.equal((await stat(external)).mode & 0o777, 0o755);
+    assert.equal((await stat(external)).mode & 0o777, externalMode);
     await rm(localDirectory);
     await mkdir(localDirectory);
     const externalFile = path.join(external, 'config.json');
     await writeFile(externalFile, '{}', { mode: 0o644 });
+    const externalFileMode = (await stat(externalFile)).mode & 0o777;
     await symlink(externalFile, path.join(localDirectory, 'config.json'));
     await assert.rejects(localConfiguration(), /symlinks/);
-    assert.equal((await stat(externalFile)).mode & 0o777, 0o644);
+    assert.equal((await stat(externalFile)).mode & 0o777, externalFileMode);
   });
 });
 
