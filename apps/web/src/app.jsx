@@ -1826,7 +1826,7 @@ function ReviewScreen({ model }) {
                 {retainedIntentAvailable && intent.format >= 2 && <StatementEnvelope key={`${token}:${projectId}:${plan.id}:${intent.digest}`} token={token} projectId={projectId} planId={plan.id} intentDigest={intent.digest}/>}
                 {retainedIntentAvailable && intent.format === 1 && <p className="banner warning">This legacy plan binds files only. Prepare a new plan and obtain a new approval to bind the complete statement sequence; its existing history remains unchanged.</p>}
                 <section className="panel" aria-label="Execution readiness"><h3>Execution readiness</h3>
-                  <p>Target history, trusted worker admission, canonical target mutex and dispatch permits are unavailable. Requests remain waiting for validation.</p>
+                  <p>Queued requests must pass target verification before execution. Check deployment request history below for the current state and recorded results.</p>
                   {plan.status !== 'APPROVED' && <p>An independent approval is required.</p>}
                   {(!retainedIntentAvailable || intent.format === 1) && <p>A valid statement-bound plan requires fresh preparation and approval.</p>}
                 </section>

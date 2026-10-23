@@ -156,7 +156,8 @@ test('HTTPS browser completes registration through discovery, SQL review, indepe
     await page.getByRole('button', {name: 'Refresh workspace', exact: true}).click();
     await readiness.getByRole('button', {name: 'Refresh readiness', exact: true}).click();
     await readiness.getByText('Governance checks allow a deployment request to be queued.', {exact: true}).waitFor();
-    assert.match(await readiness.innerText(), /Oracle acceptance: not run/);
+    assert.match(await readiness.innerText(), /Queue eligibility does not authorize SQL execution/);
+    assert.doesNotMatch(await readiness.innerText(), /Oracle acceptance: not run/);
     await page.getByLabel('Request reason').fill('Phase 6 durable request without Oracle authority');
     const requesting = page.waitForResponse(r => r.url().endsWith(`/plans/${planId}/execution`) && r.request().method() === 'POST');
     await page.getByRole('button', {name: 'Request deployment', exact: true}).click();

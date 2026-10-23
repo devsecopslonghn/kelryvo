@@ -84,7 +84,7 @@ export default function ExecutionReadiness({ planId, projectId, token, request, 
       {result.activeJobs.length > 0 && (result.checks.find(row => row.code === 'NO_ACTIVE_OR_HELD_REQUEST')?.status === 'BLOCKED'
         ? <p className="banner warning">Requests in {result.activeJobs.map(human).join(', ')} state block another request. Inspect retained events and evidence before retrying. HOLD is not cleared by this check.</p>
         : <p className="banner warning">A request in {result.activeJobs.map(human).join(', ')} state already exists. Review its events before retrying; this legacy plan remains eligible to queue another request. HOLD is not cleared by this check.</p>)}
-      <p className="banner warning">Oracle acceptance: not run. Target history, trusted worker admission, target locking, and the execution permit remain unverified. Queue eligibility does not mean the plan can execute.</p>
+      <p className="banner warning">Queue eligibility does not authorize SQL execution. Inspect deployment request history for recorded admission and execution results.</p>
     </>}
   </section>;
 }
