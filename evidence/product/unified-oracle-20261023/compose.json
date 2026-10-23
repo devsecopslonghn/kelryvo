@@ -1,0 +1,93 @@
+{
+  "status": "PASS_DOCKER_COMPOSE_LOCAL_GOVERNANCE_AND_PERSISTENCE",
+  "at": "2026-10-23",
+  "source": "a4dbb8dad9b2d134a5ddab87553ee259a09bbbc6",
+  "image": "longhn0710t/kelryvo-pilot@sha256:01018b1d9cc464dd3f6ea0125e748c55e2bf0690fcea94b565f728272ba6fce4",
+  "compose": {
+    "version": "Docker Compose v5.6.1",
+    "serviceCount": 1,
+    "applicationContainers": 1,
+    "postgresqlInsideApplicationService": false,
+    "postgresqlFixture": "Separate disposable PostgreSQL 17.10 container; no shared database touched",
+    "entrypoint": "/opt/kelryvo/bin/kelryvo-runtime",
+    "executionEnabled": false,
+    "discoveryEnabled": false,
+    "readOnlyRoot": true,
+    "sourceSecretMount": "read-only; root-owned mode 0400 inputs",
+    "capabilities": {
+      "drop": ["ALL"],
+      "add": ["CHOWN", "SETUID", "SETGID", "KILL"],
+      "observedProcesses": {
+        "supervisor": "PID 1; CAP_KILL only",
+        "api": "UID 10001; no effective capabilities",
+        "execution": "UID 10002; no effective capabilities"
+      }
+    },
+    "resourceLimits": {
+      "memoryBytes": 805306368,
+      "cpus": 1
+    },
+    "localNetworkOverride": {
+      "mode": "host",
+      "bindAddress": "127.0.0.1",
+      "liveListener": "127.0.0.1:55443",
+      "wildcardListener": false,
+      "reason": "Local Docker bridge forwarding is blocked by the host firewall; no firewall rule was changed"
+    }
+  },
+  "checks": {
+    "httpsReadiness": "PASS before and after restart",
+    "secureSessionsAndCsrf": "PASS",
+    "projectAndMigrationPlan": "PASS",
+    "independentApprovalAndSelfApprovalDenial": "PASS",
+    "workspaceDatabaseGrantAndSeparateDeployGrant": "PASS",
+    "durableRequestCancellationBeforeDispatch": "PASS",
+    "actorCredentialRotation": {
+      "desiredSecretAdopted": true,
+      "priorCredentialRevocationRecordedInImmutableOperatorLedger": true,
+      "desiredCredentialAccepted": true,
+      "idempotentRetryDidNotExtendExpiry": true
+    },
+    "historyAndAuditAfterRestart": "PASS",
+    "historyAndAuditAfterForceRecreate": "PASS",
+    "exactBusinessRecordSnapshotsUnchanged": [
+      "plans and approvals",
+      "history",
+      "execution jobs",
+      "execution job events",
+      "audit"
+    ],
+    "gracefulSigtermShutdownAndStartup": "PASS",
+    "actualLoopbackListenerAfterRestart": "PASS"
+  },
+  "execution": {
+    "jobState": "CANCELLED",
+    "oracleExecution": false,
+    "oracleReceipts": 0
+  },
+  "limitations": {
+    "oracleRuntimeVerified": false,
+    "restoreRuntimeVerified": false,
+    "browserWorkflowRunInCompose": false,
+    "executionAndDiscoveryRemainDisabled": true
+  },
+  "initialAttempt": {
+    "status": "HOST_BIND_ALL_INTERFACES_FIXTURE_INVALID",
+    "detail": "The first host-network override retained KELRYVO_BIND_HOST=0.0.0.0 after removing Compose's loopback port mapping. The API therefore bound all host interfaces. That fixture is invalid acceptance evidence; its application and disposable PostgreSQL containers were stopped and removed and its temporary credentials were deleted.",
+    "recordRetained": true,
+    "correctedRunRetainedSeparately": true,
+    "correctedRunAddress": "127.0.0.1"
+  },
+  "privateEvidenceSha256": {
+    "acceptance.json": "c636e0f1ebc169f60bac21ce871892a4cac7be1c860313fcc6a4c4ce69cb009c",
+    "compose-config-acceptance.json": "b2596b084512f5e25fb43a0e4efc09d488a7381301a28a60271b97c82efd6604",
+    "lifecycle.json": "e129f950ddb5fb3002cc78b0dde62becfedf643eb7e4fc2dd8d599c5cd903b11",
+    "final-readiness.json": "d0a594e03108bac5ddcbe31c29fc1234f4b7929c956fe54936f8368179a0ca85",
+    "runtime-isolation.json": "5b01327b2697954ac4133c0fc0134d98b1e548637bb155df8b810dbab0f30a77",
+    "compose-rendered.json": "9da17c1bcfb7dd892719daf8c25eb85c638b61d8e3a425cdbbb14a03b1b6136a",
+    "acceptance-initial-unreviewed.json": "e486866cbd125ce053bd103f81e3c5d87329dbed884881c86eeea4ef2bbe4fcf",
+    "acceptance-initial-attempt-disposition.json": "93910f0d97a6f8e6e635698e156c1353cfe8ddde46bfbb21c87cdc3fc5b52787",
+    "run-compose-acceptance.mjs": "754f44f7879e6d8f20f54aabab328f2fc4b19f457bc06a19c7ebdd0081dd10ed",
+    "continue-compose-acceptance.mjs": "f8b2085e28137dd42bd576e8f6c21ba30348204b832d2382e46461bd960ad768"
+  }
+}

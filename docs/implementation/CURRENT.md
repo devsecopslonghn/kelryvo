@@ -27,6 +27,12 @@ paused in both live configuration and the chart source. The accepted development
 is `values.development.yaml` in the chart repository; it is separate from gated release
 publication. Do not re-enable sync against the old master/image while the pilot is incomplete.
 
+The same `a4dbb8d` image also passed [Docker Compose governance and persistence](../../evidence/product/unified-oracle-20261023/compose.json)
+with external disposable PostgreSQL, HTTPS, independent approval, credential rotation,
+restart and recreate. The corrected workstation override binds only to loopback; the
+initial all-interface fixture is explicitly retained as invalid evidence. Compose Oracle
+execution and runtime on restored Oracle metadata remain unverified.
+
 The owner subsequently authorized a new disposable Oracle Free 23.26.3 lab and bounded
 pilot SQL/fault tests on 2026-10-23. The private authorization and observed identity are
 retained outside Git. The new lab is ready on a Longhorn-compatible worker with a retained
