@@ -83,6 +83,20 @@ test('managed backup owner/admin split restores into a new app-owned RESTORE_HOL
     await source`WITH issue AS (SELECT clock_timestamp() AS issued_at)
       INSERT INTO sf_local_credentials(id,actor_id,token_sha256,issued_at,expires_at)
       SELECT ${uid()},'managed-native-developer',${tokenHash},issued_at,issued_at+interval '24 hours' FROM issue`;
+    const org='00000000-0000-4000-8000-000000000001';
+    const project=(await source`INSERT INTO sf_projects(organization_id,name) VALUES(${org},'Backup restore history fixture') RETURNING id`)[0];
+    const environment=(await source`INSERT INTO sf_environments(project_id,organization_id,name)
+      VALUES(${project.id},${org},'Fixture') RETURNING id`)[0];
+    const profile=(await source`INSERT INTO sf_profiles(project_id,organization_id,environment_id,name,engine,host,port,service,username,credential_ref)
+      VALUES(${project.id},${org},${environment.id},'Fixture','oracle','localhost',1521,'DEV','APP','vault://fixture') RETURNING id`)[0];
+    const release=(await source`INSERT INTO sf_releases(project_id,organization_id,repository_id,commit_id,object_format,folder,manifest_digest,
+      validation_status,parser_profile,files) VALUES(${project.id},${org},'fixture-repository',${'a'.repeat(40)},'sha1','migrations',${'b'.repeat(64)},
+      'VALID','fixture','[]'::jsonb) RETURNING id`)[0];
+    const approvalReference=uid();
+    const plan=(await source`INSERT INTO sf_plans(project_id,organization_id,release_id,profile_id,author_id,approval_reference,items)
+      VALUES(${project.id},${org},${release.id},${profile.id},'managed-native-developer',${approvalReference},'[]'::jsonb) RETURNING id`)[0];
+    await source`INSERT INTO sf_plan_approval_revocations(organization_id,project_id,plan_id,approval_reference,actor_id,actor_name,reason)
+      VALUES(${org},${project.id},${plan.id},${approvalReference},'managed-native-developer','Fixture approver','Restore regression fixture')`;
     const generationBefore=(await source`SELECT generation_id FROM sf_metadata_current WHERE singleton`)[0].generation_id;
     const owner=managedTarget(),assertNativeTarget=async value=>{
       const url=new URL(value);
@@ -121,12 +135,49 @@ test('managed backup owner/admin split restores into a new app-owned RESTORE_HOL
       WHERE actor_id='managed-native-developer' AND revoked_at IS NOT NULL`)[0].count,1);
     assert.equal((await restored`SELECT count(*)::int AS count FROM sf_metadata_credentials_revoked
       WHERE token_sha256=${tokenHash}`)[0].count,1);
+    assert.equal((await restored`SELECT count(*)::int AS count FROM sf_plan_approval_revocations
+      WHERE plan_id=${plan.id} AND approval_reference=${approvalReference}`)[0].count,1);
+    assert.equal((await restored`SELECT tgenabled FROM pg_trigger WHERE tgname='sf_plan_approval_revocations_reference_match'
+      AND tgrelid='public.sf_plan_approval_revocations'::regclass`)[0].tgenabled,'O','restore re-enables the reference guard');
     assert.equal((await restored`SELECT count(*)::int AS count FROM sf_execution_jobs
       WHERE state IN ('QUEUED','ADMITTED','CLAIMED')`)[0].count,0);
     assert.equal((await source`SELECT generation_id FROM sf_metadata_current WHERE singleton`)[0].generation_id,generationBefore,
       'source metadata generation remains unchanged');
     assert.equal((await source`SELECT revoked_at FROM sf_local_credentials WHERE token_sha256=${tokenHash}`)[0].revoked_at,null,
       'source credentials remain unchanged');
+
+    // Build a deliberately malformed but FK-compatible historical revocation.
+    // This is confined to this disposable fixture and exercises the restore-side
+    // binding check; production history and the first witnessed restore stay intact.
+    await source`ALTER TABLE sf_plan_approval_revocations DISABLE TRIGGER sf_plan_approval_revocations_immutable`;
+    try {
+      await source`UPDATE sf_plan_approval_revocations SET approval_reference=NULL WHERE plan_id=${plan.id}`;
+    } finally {
+      await source`ALTER TABLE sf_plan_approval_revocations ENABLE TRIGGER sf_plan_approval_revocations_immutable`;
+    }
+    const malformedSource=(await source`SELECT r.approval_reference,p.approval_reference AS plan_reference
+      FROM sf_plan_approval_revocations r JOIN sf_plans p ON p.id=r.plan_id WHERE r.plan_id=${plan.id}`)[0];
+    assert.equal(malformedSource.approval_reference,null);assert.equal(malformedSource.plan_reference,approvalReference);
+    const malformedBackupDirectory=path.join(root,'backup-malformed-history');
+    const malformedWitnessPath=path.join(root,'witness-malformed-history.json');
+    await createManagedPostgresBackup({port,appPassword,destination:malformedBackupDirectory,witnessPath:malformedWitnessPath,
+      managedTarget:owner,assertTarget:assertNativeTarget});
+    const destinationsBeforeMalformedRestore=await restoreDatabaseCount();
+    const preservedHold=(await restored`SELECT g.id,g.state,g.witness_id FROM sf_metadata_current c
+      JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0];
+    await assert.rejects(()=>restoreManagedPostgresBackup({port,appPassword,adminPassword,
+      backupDirectory:malformedBackupDirectory,witnessPath:malformedWitnessPath,managedTarget:owner,assertTarget:assertNativeTarget}));
+    assert.equal(await restoreDatabaseCount(),destinationsBeforeMalformedRestore,
+      'malformed archive fails closed and only its newly owned destination is removed');
+    assert.deepEqual((await restored`SELECT g.id,g.state,g.witness_id FROM sf_metadata_current c
+      JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0],preservedHold,
+      'failed restore leaves the earlier witnessed RESTORE_HOLD database unchanged');
+    assert.equal((await restored`SELECT count(*)::int AS count FROM sf_plan_approval_revocations
+      WHERE plan_id=${plan.id} AND approval_reference=${approvalReference}`)[0].count,1);
+    assert.deepEqual((await source`SELECT r.approval_reference,p.approval_reference AS plan_reference
+      FROM sf_plan_approval_revocations r JOIN sf_plans p ON p.id=r.plan_id WHERE r.plan_id=${plan.id}`)[0],malformedSource,
+      'failed restore leaves the deliberately malformed source fixture unchanged');
+    assert.equal((await source`SELECT generation_id FROM sf_metadata_current WHERE singleton`)[0].generation_id,generationBefore);
   }finally{
     await cleanup();containerCreated=false;admin=source=restored=null;
   }

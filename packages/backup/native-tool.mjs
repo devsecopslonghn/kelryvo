@@ -5,6 +5,20 @@ const fail=code=>Object.assign(new Error('Native backup tool failed.'),{code});
 const DOCKER='/usr/bin/docker';
 const DOCKER_HOST='unix:///var/run/docker.sock';
 const maxOutputBytes=4*1024*1024;
+function postgresFailure(stderr) {
+  const sqlstate=stderr.match(/SQL state:\s*([0-9A-Z]{5})\b|SQLSTATE\s*([0-9A-Z]{5})\b/i);
+  if(sqlstate)return `KELRYVO_TOOL_SQLSTATE_${(sqlstate[1]??sqlstate[2]).toUpperCase()}`;
+  if(/relation\s+"(?:[^"]|"")+?"\s+does not exist/i.test(stderr))return 'KELRYVO_TOOL_SQLSTATE_42P01';
+  const rules=[
+    [/permission denied/i,'PERMISSION_DENIED'],[/must be owner/i,'OWNER_REQUIRED'],
+    [/duplicate key value|violates unique constraint/i,'UNIQUE_VIOLATION'],
+    [/violates foreign key constraint/i,'FOREIGN_KEY_VIOLATION'],[/violates check constraint/i,'CHECK_VIOLATION'],
+    [/not-null constraint|null value in column/i,'NOT_NULL_VIOLATION'],
+    [/does not exist/i,'MISSING_OBJECT'],[/already exists/i,'OBJECT_EXISTS'],
+  ];
+  const match=rules.find(([pattern])=>pattern.test(stderr));
+  return match?`KELRYVO_TOOL_PG_${match[1]}`:'KELRYVO_TOOL_FAILED';
+}
 
 function cleanupContainer(name,{spawnProcess,env,timeout,grace}) {
   return new Promise(resolve=>{
@@ -57,7 +71,7 @@ export function runDockerTool(args,{env={},timeout=120_000,spawnProcess=spawn,ou
     let main;
     try{main=spawnProcess(DOCKER,['--host',DOCKER_HOST,...commandArgs],{env:safeEnv,stdio:['ignore','pipe','pipe'],windowsHide:true});}
     catch{return reject(fail('KELRYVO_TOOL_START'));}
-    let output=Buffer.alloc(0),outputBytes=0,mainClosed=false,mainError=false;
+    let output=Buffer.alloc(0),outputBytes=0,stderr='',stderrBytes=0,mainClosed=false,mainError=false;
     let done=false,stopping=false,cleanupCertain=true,stopFailure='KELRYVO_TOOL_ABORTED';
     let mainKillTimer=null,operationTimer=null;
     const conclude=(error)=>{
@@ -97,14 +111,18 @@ export function runDockerTool(args,{env={},timeout=120_000,spawnProcess=spawn,ou
       if(outputBytes>outputLimit){stop();return;}
       output=Buffer.concat([output,bytes],outputBytes);
     });
-    main.stderr?.resume?.();
+    main.stderr?.on('data',chunk=>{
+      const bytes=Buffer.isBuffer(chunk)?chunk:Buffer.from(chunk);stderrBytes+=bytes.byteLength;
+      if(stderr.length<65_536)stderr+=bytes.toString('utf8').slice(0,65_536-stderr.length);
+    });
     main.once('error',()=>{mainError=true;mainClosed=true;clearTimeout(mainKillTimer);if(!stopping)conclude('KELRYVO_TOOL_START');else finishStop();});
     main.once('close',code=>{
       mainClosed=true;clearTimeout(mainKillTimer);
       if(stopping){finishStop();return;}
       if(mainError||code!==0){
-        if(name){stop('KELRYVO_TOOL_FAILED');return;}
-        conclude('KELRYVO_TOOL_FAILED');
+        const failure=stderrBytes===Buffer.byteLength(stderr)?postgresFailure(stderr):'KELRYVO_TOOL_FAILED';
+        if(name){stop(failure);return;}
+        conclude(failure);
       }
       else conclude(null);
     });

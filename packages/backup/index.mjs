@@ -146,6 +146,10 @@ function runDockerAsync(args,env={},timeout=120_000) {
     ||process.env.DOCKER_TLS_VERIFY||process.env.DOCKER_CERT_PATH)return Promise.reject(fail());
   return runDockerTool(args,{env,timeout}).catch(error=>{
     if(error?.code==='KELRYVO_TOOL_CLEANUP_UNCERTAIN')throw fail('tool-cleanup-uncertain');
+    const sqlstate=typeof error?.code==='string'&&error.code.match(/^KELRYVO_TOOL_SQLSTATE_([0-9A-Z]{5})$/);
+    if(sqlstate)throw fail(`sqlstate-${sqlstate[1]}`);
+    const pgClass=typeof error?.code==='string'&&error.code.match(/^KELRYVO_TOOL_PG_([A-Z0-9_.]+)$/);
+    if(pgClass)throw fail(`postgres-${pgClass[1]}`);
     throw fail();
   });
 }
@@ -434,10 +438,11 @@ async function restorePrivateBackupWithBackend({ config, databaseUrl, restoreDat
   const stagingDirectory=path.join(path.dirname(dir),`.sf-restore-stage-${randomUUID()}`);
   await mkdir(stagingDirectory,{mode:0o700}); await chmod(stagingDirectory,0o700); await ensurePrivateDirectory(stagingDirectory);
   const stagedArchive=path.join(stagingDirectory,'metadata.pgdump');
+  let phase='stage-archive';
   try {
   await writeFile(stagedArchive,archiveBytes,{mode:0o600,flag:'wx'});
   await chmod(stagedArchive,0o600);
-  await assertTarget(databaseUrl);
+  phase='validate-source';await assertTarget(databaseUrl);
   const server=postgres(databaseUrl,{max:1,onnotice:()=>{}});
   try {
     if(Number((await server`SELECT current_setting('server_version_num')::int AS version`)[0]?.version)!==expectedServerVersion) throw fail();
@@ -449,7 +454,8 @@ async function restorePrivateBackupWithBackend({ config, databaseUrl, restoreDat
     }
   }
   finally { await server.end({timeout:2}); }
-  await ensureToolchain();
+  phase='toolchain';await ensureToolchain();
+  phase='archive-list';
   const listing=await runDockerAsync(toolArgs('pg_restore',stagingDirectory,'/backup/metadata.pgdump',restoreDatabaseUrl,config),toolEnv(config));
   const preManagement=manifest.schema.signature===PRE_MANAGEMENT_SCHEMA_SIGNATURE;
   const preSchemaBaselines=manifest.schema.signature===PRE_SCHEMA_BASELINE_SCHEMA_SIGNATURE;
@@ -465,8 +471,9 @@ async function restorePrivateBackupWithBackend({ config, databaseUrl, restoreDat
   const targetOwner=decodeURIComponent(targetUrl.username);
   if(!/^[a-z_][a-z0-9_]{0,62}$/.test(targetOwner))throw fail();
   const admin=postgres(databaseUrl,{max:1,onnotice:()=>{}}); let adminClosed=false, created=false, createdOid, sql;
-  const ownerId=randomUUID();
+  const ownerId=randomUUID();let approvalRevocationGuardDisabled=false;
   try {
+    phase='create-database';
     const existing=await admin`SELECT 1 FROM pg_database WHERE datname=${dbName}`;
     if (existing.length) throw fail();
     await admin.unsafe(`CREATE DATABASE "${dbName}" OWNER "${targetOwner}"`); created=true;
@@ -475,6 +482,7 @@ async function restorePrivateBackupWithBackend({ config, databaseUrl, restoreDat
     await admin.end({timeout:2}); adminClosed=true;
     sql=postgres(targetUrl.toString(),{max:2,onnotice:()=>{}});
     const { initializeDatabase }=await import('../database/index.ts');
+    phase='ownership-marker';
     await sql.unsafe('CREATE TABLE sf_metadata_restore_owners (id uuid PRIMARY KEY, operator_os_uid integer NOT NULL, created_at timestamptz NOT NULL DEFAULT clock_timestamp())');
     await sql`INSERT INTO sf_metadata_restore_owners(id,operator_os_uid) VALUES(${ownerId},${uid()})`;
     const legacy = manifest.schema.signature === LEGACY_SCHEMA_SIGNATURE;
@@ -485,6 +493,7 @@ async function restorePrivateBackupWithBackend({ config, databaseUrl, restoreDat
     const phase7 = manifest.schema.signature === PHASE7_SCHEMA_SIGNATURE;
     const preImmutability = manifest.schema.signature === PRE_IMMUTABILITY_SCHEMA_SIGNATURE;
     const preReconciliation = manifest.schema.signature === PRE_RECONCILIATION_SCHEMA_SIGNATURE;
+    phase='initialize-schema';
     await initializeDatabase(sql,{initializeMetadata:false,initializeSqlWorkspace:!legacy && !phase2 && !phase3 && !phase4 && !phase5,sqlWorkspaceVersion:phase7?1:2,initializeValidation:!legacy && !phase2 && !phase3,initializeConnectivity:!legacy && !phase2,
       initializeReconciliation:!legacy && !phase2 && !phase3 && !phase4,installRetainedEvidenceGuards:!preImmutability && !phase7,
       installReconciliationBindingGuards:manifest.schema.signature===SCHEMA_SIGNATURE || manifest.schema.signature===PRE_INSTANCE_SCHEMA_SIGNATURE || manifest.schema.signature===PRE_SCHEMA_BASELINE_SCHEMA_SIGNATURE || preManagement,
@@ -492,10 +501,12 @@ async function restorePrivateBackupWithBackend({ config, databaseUrl, restoreDat
       initializeInstanceSchema:!preInstanceSchema && manifest.schema.signature===SCHEMA_SIGNATURE,
       ...(legacy ? {initializeTargets:false} : {})});
     if(schemaBaselines) await sql.begin(tx=>initializeSchemaBaselines(tx));
+    phase='validate-preimport-schema';
     const schema=await inventory(sql,{legacy,phase2,phase3,phase4,phase5,phase7,preManagement:archivePreManagement,preInstanceSchema,schemaBaselines:archiveSchemaBaselines});
     if (JSON.stringify(schema)!==JSON.stringify(manifest.schema)) throw fail();
     // These two immutable bootstrap rows are seeded by initialization. Their fixed values are
     // recreated before restore; all mutable catalog and lifecycle facts come from the snapshot.
+    phase='prepare-import';
     await sql`DELETE FROM sf_project_access_mode WHERE organization_id='00000000-0000-4000-8000-000000000001'`;
     // Historical evidence may predate current authority/revisions. Only the new
     // insert checks are suspended inside this operator-owned, unpublished restore
@@ -509,10 +520,26 @@ async function restorePrivateBackupWithBackend({ config, databaseUrl, restoreDat
       await sql`ALTER TABLE sf_execution_reconciliations DISABLE TRIGGER sf_execution_reconciliations_binding_insert`;
       await sql`ALTER TABLE sf_execution_reconciliation_decisions DISABLE TRIGGER sf_execution_reconciliation_decisions_binding_insert`;
     }
+    const approvalRevocationGuard=await sql`SELECT 1 FROM pg_trigger
+      WHERE tgname='sf_plan_approval_revocations_reference_match'
+        AND tgrelid=to_regclass('public.sf_plan_approval_revocations') AND NOT tgisinternal`;
+    if(approvalRevocationGuard.length){
+      await sql`ALTER TABLE public.sf_plan_approval_revocations DISABLE TRIGGER sf_plan_approval_revocations_reference_match`;
+      approvalRevocationGuardDisabled=true;
+    }
     if(schemaBaselines) await sql`ALTER TABLE sf_schema_snapshots DISABLE TRIGGER sf_schema_snapshots_scope`;
     const restoreConfig={databasePassword:decodeURIComponent(targetUrl.password)};
-    await runDockerAsync(toolArgs('pg_restore',stagingDirectory,'/backup/metadata.pgdump',targetUrl.toString(),restoreConfig).slice(0,-2).concat(['--exit-on-error','--single-transaction','--dbname',`postgresql://${encodeURIComponent(targetOwner)}@127.0.0.1:${targetUrl.port||'5432'}/${dbName}`,'/backup/metadata.pgdump']),toolEnv(restoreConfig));
+    phase='archive-import';
+    await runDockerAsync(toolArgs('pg_restore',stagingDirectory,'/backup/metadata.pgdump',targetUrl.toString(),restoreConfig).slice(0,-2).concat(['--exit-on-error','--verbose','--single-transaction','--dbname',`postgresql://${encodeURIComponent(targetOwner)}@127.0.0.1:${targetUrl.port||'5432'}/${dbName}`,'/backup/metadata.pgdump']),toolEnv(restoreConfig));
     if(schemaBaselines) await sql`ALTER TABLE sf_schema_snapshots ENABLE TRIGGER sf_schema_snapshots_scope`;
+    if(approvalRevocationGuardDisabled){
+      const mismatches=await sql`SELECT 1 FROM public.sf_plan_approval_revocations r
+        LEFT JOIN public.sf_plans p ON p.id=r.plan_id AND p.organization_id=r.organization_id
+        WHERE p.id IS NULL OR p.approval_reference IS DISTINCT FROM r.approval_reference LIMIT 1`;
+      if(mismatches.length)throw fail();
+      await sql`ALTER TABLE public.sf_plan_approval_revocations ENABLE TRIGGER sf_plan_approval_revocations_reference_match`;
+      approvalRevocationGuardDisabled=false;
+    }
     if (managed) {
       await sql`ALTER TABLE sf_profiles ENABLE TRIGGER sf_profiles_revision_capture`;
       await sql`ALTER TABLE sf_database_connections ENABLE TRIGGER sf_database_connections_revision_capture`;
@@ -521,6 +548,7 @@ async function restorePrivateBackupWithBackend({ config, databaseUrl, restoreDat
     if (managed || preManagement) {
       await sql`ALTER TABLE sf_execution_reconciliations ENABLE TRIGGER sf_execution_reconciliations_binding_insert`;
       await sql`ALTER TABLE sf_execution_reconciliation_decisions ENABLE TRIGGER sf_execution_reconciliation_decisions_binding_insert`;
+      phase='validate-import-schema';
       const restoredSchema=await inventory(sql,{preManagement,preInstanceSchema,schemaBaselines:!preInstanceSchema && schemaBaselines});
       if(JSON.stringify(restoredSchema)!==JSON.stringify(manifest.schema)) throw fail();
     }
@@ -535,6 +563,7 @@ async function restorePrivateBackupWithBackend({ config, databaseUrl, restoreDat
     }
     // Trusted OS-only fault injection, matching the credential lifecycle test boundary.
     if(interruptAt === 'after-import') process.kill(process.pid,'SIGKILL');
+    phase='install-restore-hold';
     await sql.begin(async tx=>{
       const previous=(await tx`SELECT id FROM sf_metadata_generations WHERE id=${manifest.metadataGeneration} FOR SHARE`)[0];
       const current=(await tx`SELECT generation_id FROM sf_metadata_current WHERE singleton FOR UPDATE`)[0];
@@ -566,7 +595,7 @@ async function restorePrivateBackupWithBackend({ config, databaseUrl, restoreDat
           VALUES(${randomUUID()},'CREDENTIAL_REVOKE',${generation},${credential.id},${credential.token_sha256},${uid()})`;
       }
     });
-    await assertTarget(databaseUrl);
+    phase='final-source-check';await assertTarget(databaseUrl);
     return { databaseUrl:targetUrl.toString(), databaseName:dbName };
   } catch (error) {
     if (sql) await sql.end({timeout:2}).catch(()=>{});
@@ -584,7 +613,11 @@ async function restorePrivateBackupWithBackend({ config, databaseUrl, restoreDat
       } catch { /* inaccessible or replaced destination is left untouched */ }
       finally { await cleanup.end({timeout:2}); }
     }
-    throw error instanceof Error && error.message.startsWith('Local backup') ? error : fail();
+    if(error?.code==='KELRYVO_BACKUP_TOOL_CLEANUP_UNCERTAIN')throw error;
+    const pgDiagnostic=typeof error?.code==='string'&&error.code.match(/^KELRYVO_BACKUP_(?:SQLSTATE|POSTGRES)_([A-Z0-9_.]+)$/);
+    if(pgDiagnostic)throw fail(`restore-${phase}-${pgDiagnostic[1]}`);
+    const sqlstate=typeof error?.code==='string'&&error.code.match(/^KELRYVO_BACKUP_SQLSTATE_([0-9A-Z]{5})$/);
+    throw fail(`restore-${phase}${sqlstate?`-${sqlstate[1]}`:''}`);
   } finally { if(sql) await sql.end({timeout:2}).catch(()=>{}); }
   } finally { await rm(stagingDirectory,{recursive:true,force:true}).catch(()=>{}); }
 }

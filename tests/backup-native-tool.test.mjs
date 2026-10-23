@@ -93,6 +93,21 @@ test('native Docker runner fails closed on spawn errors and nonzero non-run exit
   await assert.rejects(result,error=>error.code==='KELRYVO_TOOL_FAILED');
 });
 
+test('native Docker runner exposes only PostgreSQL SQLSTATE or fixed error categories',async()=>{
+  for(const [stderr,expected] of [
+    ['ERROR: permission denied for schema public\nSQL state: 42501\n','KELRYVO_TOOL_SQLSTATE_42501'],
+    ['pg_restore: error: ERROR: relation "public.sf_example" does not exist\n','KELRYVO_TOOL_SQLSTATE_42P01'],
+  ]) {
+    const main=new Child({exitCode:1}),cleanup=new Child();
+    const result=runDockerTool(['run','--entrypoint','pg_restore'],{spawnProcess:(file,args)=>{
+      if(args.includes('rm'))queueMicrotask(()=>cleanup.emit('close',0,null));
+      else main.stderr.end(stderr,()=>setImmediate(()=>main.emit('close',1,null)));
+      return args.includes('rm')?cleanup:main;
+    }});
+    await assert.rejects(result,error=>{assert.equal(error.code,expected);return true;});
+  }
+});
+
 // A later container cleanup result must not erase uncertainty about the CLI process.
 test('native runner retains main-process uncertainty after successful delayed container cleanup',async()=>{
   const main=new Child({autoClose:false}),cleanup=new Child({autoClose:false});
