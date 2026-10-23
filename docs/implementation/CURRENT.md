@@ -18,6 +18,20 @@ replay is allowed. Docker Compose and Helm use the same image and runtime config
 with PostgreSQL outside the application container. This candidate is not yet an accepted
 Oracle runtime or completed pilot.
 
+The [2026-10-23 unified runtime acceptance](../../evidence/product/unified-runtime-20261023/acceptance.json)
+records source `3ea8859`: 199 PostgreSQL/API tests, 55 Chromium tests, fresh-source
+installation, AMD64 container isolation and owner-authorized public deployment acceptance.
+The development image passed role login, review/downloads, mobile layout and app restart;
+original metadata and PostgreSQL/PVC identities were preserved. Argo automatic sync is
+paused in both live configuration and the chart source. The accepted development overlay
+is `values.development.yaml` in the chart repository; it is separate from gated release
+publication. Do not re-enable sync against the old master/image while the pilot is incomplete.
+
+Remaining external inputs: the current owner-attested Oracle lab manifest and reviewed
+private installation for the new runtime, including explicit CREATE/ALTER ADD/INDEX and
+fault scopes. No current private manifest was found in this checkout. Keep execution and
+discovery disabled, all new-runtime Oracle cases NOT_RUN, and retain the historical lab.
+
 [PR #112](https://github.com/devsecopslonghn/kelryvo/pull/112) and [its bounded real
 Oracle acceptance](../../evidence/product/instance-master-workflow-20261015/acceptance.json)
 remain historical source-specific evidence: two schema V1 executions, a V2 suffix, a
@@ -30,7 +44,8 @@ For an owner-authorized development image test, use a temporary Docker Hub tag t
 the exact source revision while Argo CD auto-sync for the Kelryvo application is paused.
 Keep that direct test separate from the existing source-gated, immutable GHCR publication
 and product-release path. Do not merge or waive required CI/review checks to perform the
-test. Resume the saved Argo behavior after the authorized test window.
+test. Resume the saved Argo behavior only after the pilot is complete and the desired
+source/image have been reconciled through review.
 
 Acceptance is version, topology, statement and source specific. Consult the product
 requirements and retained Oracle acceptance before claiming a new runtime capability.

@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "scope": "ORIGINAL_DEPLOYED_METADATA_BYTE_COMPARISON_AFTER_UNIFIED_RESTART",
+  "tables": [
+    {
+      "table": "sf_plans",
+      "retainedRows": 5,
+      "sha256": "1d6e72dbcfef128419437097cdbb0d0f7cba4fded768ff8c2f7372c41643b2d2",
+      "unchanged": true
+    },
+    {
+      "table": "sf_history",
+      "retainedRows": 10,
+      "sha256": "646049ddde90475387361bf9d2eea3b84dbbf39a483881e31a93fee0975b2d0c",
+      "unchanged": true
+    },
+    {
+      "table": "sf_execution_jobs",
+      "retainedRows": 4,
+      "sha256": "c943281fc8bd8a564007f7eee6d24c201c1cc4174d6746f9d1199c0d2e0409bc",
+      "unchanged": true
+    },
+    {
+      "table": "sf_audit",
+      "retainedRows": 58,
+      "sha256": "8047a1b4f291cb31abf8f51af8ba569618c0448bfb62242d2124f21caa1540be",
+      "unchanged": true
+    }
+  ],
+  "oracleCalls": 0
+}

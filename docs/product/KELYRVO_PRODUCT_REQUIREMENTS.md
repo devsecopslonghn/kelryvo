@@ -17,6 +17,16 @@ The [legacy tracker](../implementation/tracking.md) preserves the 220 original f
 
 ## Current product and evidence
 
+The unified container at source `3ea8859` has [bounded local and deployed acceptance](../../evidence/product/unified-runtime-20261023/acceptance.json):
+one image/entrypoint for Docker and Helm, separate unprivileged API/execution roles,
+199 API tests, 55 browser tests and fresh-source installation passed. Owner-authorized
+AMD64 Kubernetes acceptance passed secure role login, review/downloads, mobile layout
+and restart with unchanged original metadata and PostgreSQL/PVC identity. This uses a
+temporary Docker Hub development image with Argo auto-sync paused, not a gated release.
+Oracle discovery/execution remain disabled and new-runtime Oracle acceptance is NOT_RUN
+pending the current attested lab/installation and SQL/fault scope. Historical Oracle
+results below do not qualify this new runtime or the additional ALTER ADD/INDEX forms.
+
 **Delivered offline** means connected backend/database/browser behavior with local PostgreSQL/Git/parser/Chromium acceptance coverage and retained or hosted passing results. **Partial** means usable facets exist but a material requirement remains. **Unverified runtime** means code and fixture/synthetic tests exist without the relevant live Oracle evidence. No status below claims all original catalog criteria passed.
 
 The current packaging work is a **single-image runtime candidate**, not a completed pilot.
