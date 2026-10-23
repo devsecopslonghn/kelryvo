@@ -128,6 +128,7 @@ test('managed port-forward targets the pinned Pod on loopback only and terminate
     argsSeen.push(program,args);child=new Child();setTimeout(()=>child.stderr.write('Forwarding from 127.0.0.1:41731 -> 5432\n'),5);return child;
   }});
   assert.equal(forward.port,41731);assert.equal(argsSeen[0],'kubectl');
+  assert.ok(argsSeen[1].includes('--request-timeout=0'));
   assert.ok(argsSeen[1].includes('pod/kelryvo-postgresql-0'));assert.ok(argsSeen[1].includes('--address'));
   assert.ok(argsSeen[1].includes('127.0.0.1'));assert.ok(argsSeen[1].includes(':5432'));
   await forward.stop();assert.equal(child.signalCode,'SIGTERM');
@@ -147,4 +148,29 @@ test('managed backup restore compatibility survives Pod replacement and Secret r
   assert.equal(managedBackupTargetsCompatible(target,{...target,podUid:uid(),secretUid:uid()}),true);
   assert.equal(managedBackupTargetsCompatible(target,{...target,pvUid:uid()}),false);
   assert.equal(managedBackupTargetsCompatible(target,{...target,apiServer:'https://other.example.test'}),false);
+});
+
+test('managed tunnel reports uncertainty if its own child cannot be reaped',async()=>{
+  const f=fixture();
+  class StuckChild extends EventEmitter{
+    constructor(){super();this.stdout=new PassThrough();this.stderr=new PassThrough();this.pid=123;this.exitCode=null;this.signalCode=null;this.kills=[];}
+    kill(signal){this.kills.push(signal);return true;}
+    unref(){this.unreferenced=true;}
+  }
+  let child;
+  const forward=await startManagedPostgresPortForward(f.config,{command:f.command,stopTimeoutMs:5,spawnProcess:()=>{
+    child=new StuckChild();setTimeout(()=>child.stderr.write('Forwarding from 127.0.0.1:41731 -> 5432\n'),1);return child;
+  }});
+  const rejected=()=>assert.rejects(forward.stop(),error=>error.code==='KELRYVO_BACKUP_TUNNEL_CLEANUP_UNCERTAIN');
+  await rejected();await rejected();assert.deepEqual(child.kills,['SIGTERM','SIGKILL']);assert.equal(child.unreferenced,true);
+});
+
+test('managed tunnel handles a missing executable without an unhandled error',async()=>{
+  const f=fixture();
+  class MissingChild extends EventEmitter{
+    constructor(){super();this.stdout=new PassThrough();this.stderr=new PassThrough();this.exitCode=null;this.signalCode=null;}
+  }
+  await assert.rejects(startManagedPostgresPortForward(f.config,{command:f.command,stopTimeoutMs:5,spawnProcess:()=>{
+    const child=new MissingChild();queueMicrotask(()=>child.emit('error',new Error('fixture spawn unavailable')));return child;
+  }}),/Managed PostgreSQL backup operator failed/);
 });

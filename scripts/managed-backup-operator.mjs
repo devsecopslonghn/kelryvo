@@ -182,31 +182,45 @@ export async function verifyManagedPostgresTarget(config,{command=run,includeCre
   }catch{throw fail();}
 }
 
-export async function startManagedPostgresPortForward(config,{spawnProcess=spawn,command=run,timeoutMs=20_000}={}) {
-  const child=spawnProcess('kubectl',['--context',CONTEXT,'--request-timeout=10s','-n',NAMESPACE,'port-forward','--address','127.0.0.1',`pod/${POD}`,':5432'],
+export async function startManagedPostgresPortForward(config,{spawnProcess=spawn,command=run,timeoutMs=20_000,stopTimeoutMs=3_000}={}) {
+  if(!Number.isSafeInteger(timeoutMs)||timeoutMs<1||!Number.isSafeInteger(stopTimeoutMs)||stopTimeoutMs<1)throw fail();
+  // A forwarding stream outlives individual bounded API reads. Its parent owns
+  // both its startup deadline and confirmed shutdown; no request deadline cuts a dump short.
+  const child=spawnProcess('kubectl',['--context',CONTEXT,'--request-timeout=0','-n',NAMESPACE,'port-forward','--address','127.0.0.1',`pod/${POD}`,':5432'],
     {stdio:['ignore','pipe','pipe'],windowsHide:true});
-  let captured='',port=null,closed=false;
+  let captured='',port=null,ended=false,startError=false,closing;
+  child.once('exit',()=>{ended=true;});
+  child.on('error',()=>{startError=true;if(!child.pid)ended=true;});
+  const alive=()=>!ended&&child.exitCode===null&&child.signalCode===null;
   const onData=chunk=>{
     captured=(captured+chunk.toString('utf8')).slice(-8192);
     const match=captured.match(/Forwarding from 127\.0\.0\.1:([0-9]+) -> 5432/);
     if(match)port=Number(match[1]);
   };
   child.stdout.on('data',onData);child.stderr.on('data',onData);
-  const waitExit=ms=>Promise.race([new Promise(resolve=>{
-    if(child.exitCode!==null||child.signalCode!==null)resolve();else child.once('exit',resolve);
-  }),new Promise(resolve=>setTimeout(resolve,ms))]);
-  const stop=async()=>{
-    if(closed)return;closed=true;
-    if(child.exitCode===null&&child.signalCode===null)child.kill('SIGTERM');
-    await waitExit(3000);
-    if(child.exitCode===null&&child.signalCode===null){child.kill('SIGKILL');await waitExit(3000);}
-  };
+  const waitExit=ms=>new Promise(resolve=>{
+    if(!alive()){resolve();return;}
+    const finish=()=>{clearTimeout(timer);child.off('exit',finish);resolve();};
+    const timer=setTimeout(finish,ms);child.once('exit',finish);
+  });
+  const stop=()=>closing??=(async()=>{
+    if(alive())try{child.kill('SIGTERM');}catch{}
+    await waitExit(stopTimeoutMs);
+    if(alive()){
+      try{child.kill('SIGKILL');}catch{}
+      await waitExit(stopTimeoutMs);
+    }
+    if(alive()){
+      child.unref?.();child.stdout.destroy();child.stderr.destroy();
+      throw Object.assign(fail(),{code:'KELRYVO_BACKUP_TUNNEL_CLEANUP_UNCERTAIN'});
+    }
+  })();
   const started=Date.now();
   while(!port&&Date.now()-started<timeoutMs){
-    if(child.exitCode!==null||child.signalCode!==null)throw fail();
+    if(startError||!alive()){await stop();throw fail();}
     await new Promise(resolve=>setTimeout(resolve,50));
   }
-  if(!port){await stop();throw fail();}
+  if(!port||startError){await stop();throw fail();}
   try{await verifyManagedPostgresTarget(config,{command});}catch{await stop();throw fail();}
   return {port,stop};
 }
@@ -257,5 +271,8 @@ if(process.argv[1]&&path.resolve(process.argv[1])===path.resolve(new URL(import.
     if(options.action==='backup')process.stdout.write(`Managed PostgreSQL backup complete. Witness ${result.witnessId}; archive SHA-256 ${result.archiveSha256}.\n`);
     else process.stdout.write(`Metadata restored into ${result.databaseName}; RESTORE_HOLD active. The live application database and PVC were not changed.\n`);
     }
-  }catch{process.stderr.write('Managed PostgreSQL backup operator failed.\n');process.exitCode=1;}
+  }catch(error){
+    const phase=typeof error?.code==='string'&&/^KELRYVO_BACKUP_[A-Z0-9_]+$/.test(error.code)?` (${error.code})`:'';
+    process.stderr.write(`Managed PostgreSQL backup operator failed${phase}.\n`);process.exitCode=1;
+  }
 }
