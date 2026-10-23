@@ -50,6 +50,16 @@ not exercise recovery of interrupted Oracle DDL or a live metadata cutover. Disc
 snapshots with incomplete visibility remain PARTIAL/UNKNOWN/UNVERIFIED. Earlier sections
 below retain their original source-specific outcomes, including failures.
 
+The newer [before-first-DDL interruption proof](../../evidence/product/unified-oracle-20261023/interrupt-before-first-ee44f6f.json)
+qualifies one OA06 boundary on `ee44f6f`. An independently approved request reaches
+central/target STARTED evidence, then the operator kills the essential execution role
+while the fixed wrapper reports zero native DDL calls. The whole container exits;
+lease expiry retains HOLD and one attempt with no receipt. An independent observer sees
+no application objects, and the same three target-ledger events survive another app
+recreate. Both browser roles download valid held records. This does not cover a kill
+after the first acknowledged statement, lost acknowledgment, reconciliation or the
+full recovery matrix. The held request and PDB remain intact; execution is disabled.
+
 ## Live qualification on 2026-10-14
 
 The initial phase below predates the purpose-separated follow-up. Its unchanged-grant

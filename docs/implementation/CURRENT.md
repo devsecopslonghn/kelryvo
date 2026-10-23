@@ -31,8 +31,9 @@ The latest development candidate is source `ee44f6f`: [exact-source regression](
 passes 202 API and 55 browser tests plus frozen-source release and local OCI isolation.
 Its [guarded app upgrade](../../evidence/product/unified-oracle-20261023/upgrade-ee44f6f.json)
 preserves all 21 observed business tables, PostgreSQL/PVC/Service identities and 24
-historical record downloads across both browser roles. Execution remains disabled;
-Oracle results below remain bound to their earlier image until repeated on the new one.
+historical record downloads across both browser roles. Execution remains disabled.
+The successful V1/V2/NOOP Oracle results below remain bound to their earlier image
+until repeated on the new one.
 A [witnessed managed PostgreSQL restore](../../evidence/product/unified-oracle-20261023/managed-restore-ee44f6f.json)
 using the exact new operator and image preserves all 21 compared business tables in a new
 owned database. Root-recovered developer/approver access reads historical records while
@@ -40,7 +41,13 @@ old credentials fail; restart retains RESTORE_HOLD and mutation denial. No Oracl
 is installed in that restored app. This qualifies historical read access under HOLD,
 not restored-cluster cutover or recovery of interrupted Oracle execution.
 [Three fresh fault PDBs](../../evidence/product/unified-oracle-20261023/fault-pdb-preparation.json)
-are provisioned and qualified in the existing lab; no governed migration has run in them.
+are provisioned and qualified in the existing lab. The first PDB now has a
+[bounded before-first-DDL interruption proof](../../evidence/product/unified-oracle-20261023/interrupt-before-first-ee44f6f.json)
+on `ee44f6f`: killing UID 10002 after the central STARTED event but before native DDL
+stops the container; lease recovery retains HOLD, one attempt and zero receipts. Oracle
+has no application objects and retains its three ledger events unchanged after another
+app recreate. Both browser roles can inspect and download the held records. Execution
+is disabled again; after-acknowledgment interruption and real lost-ack remain pending.
 
 The same `a4dbb8d` image also passed [Docker Compose governance and persistence](../../evidence/product/unified-oracle-20261023/compose.json)
 with external disposable PostgreSQL, HTTPS, independent approval, credential rotation,

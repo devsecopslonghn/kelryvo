@@ -1,0 +1,89 @@
+{
+  "status": "PASS_BOUNDED_INTERRUPT_BEFORE_FIRST_DDL",
+  "at": "2026-10-23T17:52:14.602322+00:00",
+  "runtimeSource": "ee44f6fc5ddaecddd46dbc489ec209d7f4a57eb9",
+  "image": "longhn0710t/kelryvo-pilot@sha256:9d20926ca5d77eb880de460a02f2394e632a2f8baa885d6a97c49b9d2c2e28db",
+  "oraclePdb": "KP_INT_BEFORE",
+  "oraclePdbGuid": "5E85BF7E225DFC95E0638101F40A2F5B",
+  "projectId": "2381acea-4f49-4297-916b-9ce973e18d36",
+  "planId": "07f5ff30-842e-4a9a-bb65-3c48070ac51d",
+  "jobId": "c38ca21f-c3ea-434b-92e9-0e4055c03e03",
+  "statementDigest": "436335e749f08b6a66be037aef14f86a52e98081012f4d79e55e733fe9a6d992",
+  "approvedScope": "One independently approved CREATE TABLE on assigned KP_FAULT_A using the sole master reference for this PDB. Fixed installation pauses immediately before native DDL dispatch.",
+  "beforeFault": {
+    "independentOracleObjects": 0,
+    "independentOracleLedgerHeads": 0,
+    "independentOracleLedgerEvents": 0,
+    "restrictedHostPreflight": "TRUSTED_VALIDATED/EMPTY; writerStatements=0",
+    "centralStatementEvent": "STARTED",
+    "attempts": 1,
+    "centralReceipts": 0,
+    "nativeDdlExecuteCalls": 0
+  },
+  "interruption": {
+    "signal": "SIGKILL",
+    "roleUid": 10002,
+    "roleProcessSession": 18,
+    "markerReadyAt": "2026-10-23T17:36:34.213Z",
+    "signalAt": "2026-10-23T17:36:35.968709+00:00",
+    "readyToSignalSeconds": 1.755709,
+    "wholeContainerExitCode": 1,
+    "automaticContainerRestarts": 1,
+    "essentialRoleRestartInsideContainer": false
+  },
+  "recovery": {
+    "jobState": "HOLD",
+    "attemptState": "HOLD",
+    "reasonCode": "LEASE_EXPIRED_UNKNOWN",
+    "attemptGeneration": 1,
+    "attempts": 1,
+    "centralReceipts": 0,
+    "oracleApplicationObjects": 0,
+    "oracleLedgerHeadSequence": 3,
+    "oracleLedgerEvents": [
+      "FILE_STARTED",
+      "STATEMENT_PLANNED",
+      "STATEMENT_STARTED"
+    ],
+    "oracleAcknowledgements": 0,
+    "additionalAppRecreateWithExecutionEnabled": "PASS same held request/attempt/events; target objects and all ledger rows unchanged",
+    "browserRoles": [
+      "developer",
+      "approver"
+    ],
+    "checksummedRecordDownloads": 4,
+    "sqlReplayed": false,
+    "holdCleared": false
+  },
+  "afterCase": {
+    "executionEnabled": false,
+    "argoAutoSync": false,
+    "heldRequestAndPdbRetained": true
+  },
+  "priorRequest": "An earlier independently approved request was cancelled through the API before any attempt as discovery expired during review; its candidate/review/preflight and cancellation remain retained. No held request was retried.",
+  "limitations": [
+    "This proves interruption before the first native DDL only. Interruption after an acknowledged DDL and real lost-ack remain pending.",
+    "No claim of complete OA01\u2013OA10, final Docker/Helm Oracle parity or pilot acceptance.",
+    "The private watcher field readyToSignalMs includes startup polling; this record computes pause-to-signal latency from actual marker and signal timestamps."
+  ],
+  "privateEvidenceSha256": {
+    "installation-review.json": "416b2a49f5f25c3e1663e242db58bd0f976d7b1b9aba1bc72536489adce4a346",
+    "installation-before-first.candidate.json": "3117538621467b9b2ecfb85370850fa2947401df107dd0380659ccf8cf5a950e",
+    "request-before-first.json": "dc8b2f72e066723b54cb140eb3b0f69787184055511acf1c58161d090e481c60",
+    "fault-policy.json": "4503d0ca52b7affeefb29e1c6fd26c43f3c66aef484be1fbe9906ef959ebf522",
+    "preflight.json": "5954183a5c73d11a3183e45571167542f9789a57b4e2b2c484e34e132cc46df6",
+    "fault-ready-captured.private.json": "c366999972c6b21f5d1ccfcf267c3c97a638b7e317144ca2e7aeebffa0fda0bb",
+    "fault-kill-request.private.json": "aacfc8ad17023e7091e9d6e2d55b9bd48e1dd6c4bba6329412a232e4cbab9874",
+    "container-and-recovery.json": "aa39ea91542752329bd4ed1613881a09eba2df042963637fcdfd2b9389434083",
+    "fault-hold-result.private.json": "35908894011cebec6b2bf16b7083dc94f2abd36cc28cd4ef757894d95f957d50",
+    "oracle-before-enable.json": "6202c4360ed12d79c5b2241cff1b0bbf739011c018537335ed62705a4730cf14",
+    "oracle-after.json": "7ef90388bdf75d5c5fa3fe440d4beecac165536a64f437d35dba3e1da0a1f588",
+    "oracle-after-restart.json": "20fbb308f625cad8e89170fa339b593ac0271f6d8dec65a544beea941b45fb88",
+    "oracle-restart-comparison.json": "df9d0d6004934c6e56e5e1d850f40d49a865cdbbf33a7d089845de2051232839",
+    "after-controlled-restart.json": "8d569af5f0fc86d9c559e8e528d0d35ae47676eff236229720def832903d3b87",
+    "browser-held-history.json": "34824552f934f7d1364fdee2021296101f8c2b9003af27e570ce83652fe3a1f9",
+    "execution-disabled.json": "f8e0ee473512be22b4f971495dc2f7f3b7fa86975b9505e0e92e6c911be8b165",
+    "fault-acceptance-review.json": "2b0798073f52d8fea50fef4c2147c1d4acd1eb86b9294891a989d255102dffde"
+  },
+  "pilotComplete": false
+}
