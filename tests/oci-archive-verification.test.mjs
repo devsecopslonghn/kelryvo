@@ -12,20 +12,21 @@ import { SOURCE_REPOSITORY } from '../scripts/container-publication-gate.mjs';
 
 const SHA = 'a'.repeat(40);
 const labels = { 'org.opencontainers.image.revision': SHA, 'org.opencontainers.image.source': `https://github.com/${SOURCE_REPOSITORY}` };
-const roleConfig = image => ({ User: image === 'app' ? '10001:10001' : '10002:10002', Entrypoint: ['node', image === 'app' ? 'apps/api/container-main.mjs' : 'apps/worker/execution-service-main.mjs'] });
+const roleConfig = () => ({ User: '0:0', Entrypoint: ['/opt/kelryvo/bin/kelryvo-runtime'] });
 const digest = bytes => `sha256:${createHash('sha256').update(bytes).digest('hex')}`;
 
 async function fixture(t, { missing, badRole, wrongSource, corruptLayer, wrongSize, exportedAt } = {}) {
   const root = await mkdtemp(join(tmpdir(), 'kelryvo-oci-verification-'));
   t.after(() => rm(root, { recursive: true, force: true }));
   const expected = {};
-  for (const image of ['app', 'worker']) for (const architecture of ['amd64', 'arm64']) {
+  for (const image of ['app']) for (const architecture of ['amd64', 'arm64']) {
     if (missing === `${image}-${architecture}`) continue;
     const directory = join(root, `${image}-${architecture}`), blobs = join(directory, 'blobs', 'sha256');
     await mkdir(blobs, { recursive: true });
-    const configImage = badRole === `${image}-${architecture}` ? (image === 'app' ? 'worker' : 'app') : image;
+    const invalidRole = badRole === `${image}-${architecture}`;
     const imageLabels = wrongSource === `${image}-${architecture}` ? { ...labels, 'org.opencontainers.image.revision': 'b'.repeat(40) } : labels;
-    const config = Buffer.from(JSON.stringify({ architecture, os: 'linux', config: { Labels: imageLabels, ...roleConfig(configImage) } }));
+    const config = Buffer.from(JSON.stringify({ architecture, os: 'linux', config: { Labels: imageLabels,
+      ...(invalidRole ? { User: '10001:10001', Entrypoint: ['node', 'apps/api/container-main.mjs'] } : roleConfig()) } }));
     const configDigest = digest(config);
     const layer = Buffer.from(`layer:${image}:${architecture}`), layerDigest = digest(layer);
     const layerSize = layer.length + (wrongSize === `${image}-${architecture}` ? 1 : 0);
@@ -57,7 +58,7 @@ function checked(file, args) {
 test('assembly creates a single named multi-platform OCI index and preserves child digests and sizes', async t => {
   const { root, expected } = await fixture(t);
   const assembled = await assembleOCIArchives(root, SHA);
-  for (const image of ['app', 'worker']) {
+  for (const image of ['app']) {
     const actual = verifyOCIArchive(assembled[image], SHA, image);
     for (const architecture of ['amd64', 'arm64']) {
       const source = expected[`${image}-${architecture}`], platform = actual.platforms[architecture];
@@ -79,7 +80,7 @@ test('re-exporting identical tested platforms preserves index digests despite ex
   const retry = await fixture(t, { exportedAt: '2026-10-14T06:31:09Z' });
   const a = await assembleOCIArchives(first.root, SHA);
   const b = await assembleOCIArchives(retry.root, SHA);
-  for (const image of ['app', 'worker']) {
+  for (const image of ['app']) {
     const original = verifyOCIArchive(a[image], SHA, image);
     const rebuilt = verifyOCIArchive(b[image], SHA, image);
     assert.deepEqual(rebuilt.platforms, original.platforms);
@@ -101,10 +102,10 @@ test('skopeo can select and copy the assembled archive as one multi-platform ima
 });
 
 test('missing platforms, wrong role or revision, tampered blobs, and wrong descriptor sizes fail closed', async t => {
-  const missing = await fixture(t, { missing: 'worker-arm64' });
+  const missing = await fixture(t, { missing: 'app-arm64' });
   await assert.rejects(assembleOCIArchives(missing.root, SHA));
 
-  for (const options of [{ badRole: 'app-amd64' }, { wrongSource: 'worker-arm64' }, { corruptLayer: 'app-arm64' }, { wrongSize: 'worker-amd64' }]) {
+  for (const options of [{ badRole: 'app-amd64' }, { wrongSource: 'app-arm64' }, { corruptLayer: 'app-arm64' }, { wrongSize: 'app-amd64' }]) {
     const bad = await fixture(t, options);
     await assert.rejects(assembleOCIArchives(bad.root, SHA));
   }

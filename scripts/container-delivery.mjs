@@ -5,7 +5,7 @@ import { pathToFileURL } from 'node:url';
 import { githubApi, isDigest, isSha, requirePublication } from './container-publication-gate.mjs';
 import { verifyOCIArchive, verifyConfig } from './oci-archive-verification.mjs';
 
-export const IMAGES = ['app', 'worker'];
+export const IMAGES = ['app'];
 export function imageRepository(image) {
   if (!IMAGES.includes(image)) throw new Error('Invalid image role');
   return `ghcr.io/devsecopslonghn/kelryvo-${image}`;
@@ -124,7 +124,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       registry: (image, ...args) => readers[image](...args),
       push: (_image, ref, archive) => command('skopeo', ['copy', '--all', '--preserve-digests', `oci-archive:${archive}`, `docker://${ref}`], { stdio: 'inherit' }),
     });
-    await appendFile(env.GITHUB_OUTPUT, `sha=${result.sha}\ntag=${result.tag}\napp=${result.app}\nworker=${result.worker}\n`);
+    await appendFile(env.GITHUB_OUTPUT, `sha=${result.sha}\ntag=${result.tag}\napp=${result.app}\n`);
     await appendFile(env.GITHUB_STEP_SUMMARY, `Verified source: ${result.sha}\n\n${IMAGES.map(image => `- ${imageRepository(image)}:${result.tag} → ${result[image]}`).join('\n')}\n`);
   } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

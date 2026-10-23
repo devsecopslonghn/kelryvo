@@ -293,7 +293,7 @@ function StatementEnvelope({ token, projectId, planId, intentDigest }) {
   };
   useEffect(() => { void load(); return () => { sequence.current++; }; }, [token, projectId, planId, intentDigest]);
   return <section aria-label="Bound statement sequence" className="panel">
-    <h3>Bound statement sequence</h3><p>Ordered identities retained in this plan’s approval digest. Offline parser evidence; target history and execution authority are unavailable.</p>
+    <h3>Bound statement sequence</h3><p>Ordered identities retained in this plan’s approval digest. Parser validation does not establish target history or execution authority. Check execution readiness for the current target.</p>
     {error && <p className="banner error" role="alert">{error}</p>}
     {loading && <p role="status">Loading statement identities…</p>}
     {!!rows.length && <div className="file-table-wrap"><table><thead><tr><th>Order</th><th>Migration</th><th>File statement</th><th>Source bytes</th><th>Source SHA-256</th><th>Execution SHA-256</th></tr></thead><tbody>

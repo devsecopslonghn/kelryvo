@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends git ca-certific
 WORKDIR /opt/kelryvo
 
 FROM base AS build
+RUN apt-get update && apt-get install -y --no-install-recommends gcc libc6-dev \
+    && rm -rf /var/lib/apt/lists/*
 ARG TARGETARCH
 RUN node -e "if ({x64:'amd64',arm64:'arm64'}[process.arch] !== '${TARGETARCH}') process.exit(1)"
 COPY package.json package-lock.json ./
@@ -20,6 +22,9 @@ RUN node scripts/container-source-archives.mjs
 ENV SCHEMAFORGE_JAVA_HOME=/opt/kelryvo/.cache/antlr/temurin
 RUN node scripts/antlr-build.mjs
 COPY . .
+RUN mkdir -p dist/bin && gcc -std=c11 -O2 -Wall -Wextra -Werror \
+    -D_FORTIFY_SOURCE=2 -fstack-protector-strong -fPIE -pie -Wl,-z,relro,-z,now \
+    apps/runtime/launcher.c -o dist/bin/kelryvo-runtime
 RUN SCHEMAFORGE_PRODUCT_NAME=Kelryvo node scripts/build-web.mjs
 RUN GIT_AUTHOR_DATE=2000-01-01T00:00:00Z GIT_COMMITTER_DATE=2000-01-01T00:00:00Z \
     node --input-type=module -e "import {prepareDemoRepository} from './scripts/local-resources.mjs'; await prepareDemoRepository();"
@@ -55,13 +60,10 @@ LABEL org.opencontainers.image.source="https://github.com/devsecopslonghn/kelryv
       org.opencontainers.image.licenses="PolyForm-Shield-1.0.0"
 
 FROM runtime AS app
+COPY --from=build /opt/kelryvo/dist/bin/kelryvo-runtime ./bin/kelryvo-runtime
 COPY --from=build /opt/kelryvo/dist/web ./dist/web
 COPY --from=build --chown=10001:10001 /opt/kelryvo/.cache/local-product/demo-repository ./repositories/demo
-USER 10001:10001
+# Bootstrap alone uses root; API/execution children have distinct unprivileged UIDs.
+USER 0:0
 EXPOSE 8443
-ENTRYPOINT ["node", "apps/api/container-main.mjs"]
-
-FROM runtime AS worker
-USER 10002:10002
-# No installation or credentials are built in. Missing trusted installation fails closed.
-ENTRYPOINT ["node", "apps/worker/execution-service-main.mjs"]
+ENTRYPOINT ["/opt/kelryvo/bin/kelryvo-runtime"]

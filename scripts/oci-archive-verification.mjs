@@ -8,8 +8,7 @@ import { isSha } from './container-publication-gate.mjs';
 const SOURCE = 'https://github.com/devsecopslonghn/kelryvo';
 const PLATFORMS = ['amd64', 'arm64'];
 const ROLE_CONFIG = {
-  app: { user: '10001:10001', entrypoint: ['node', 'apps/api/container-main.mjs'] },
-  worker: { user: '10002:10002', entrypoint: ['node', 'apps/worker/execution-service-main.mjs'] },
+  app: { user: '0:0', entrypoint: ['/opt/kelryvo/bin/kelryvo-runtime'] },
 };
 async function execFile(file, args, options = {}) {
   const child = spawnSync(file, args, { timeout: 120_000, ...options, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 });
@@ -48,7 +47,7 @@ export function verifyConfig(config, sha, architecture, image) {
 }
 
 export function verifyOCIArchive(archive, sha, image, { read = spawnSync } = {}) {
-  if (!archive || !isSha(sha) || !['app', 'worker'].includes(image)) throw new Error('Invalid OCI archive identity');
+  if (!archive || !isSha(sha) || image !== 'app') throw new Error('Invalid OCI archive identity');
   const layout = readTarJson(archive, 'oci-layout', read);
   if (layout?.['imageLayoutVersion'] !== '1.0.0') throw new Error('Expected an OCI image layout archive');
   const rootBytes = readTarBytes(archive, 'index.json', read);
@@ -97,7 +96,7 @@ function archiveIndex(archive, read) {
 }
 
 export function verifyOCIPlatformArchive(archive, sha, image, architecture, { read = spawnSync } = {}) {
-  if (!archive || !isSha(sha) || !['app', 'worker'].includes(image) || !PLATFORMS.includes(architecture)) throw new Error('Invalid OCI archive identity');
+  if (!archive || !isSha(sha) || image !== 'app' || !PLATFORMS.includes(architecture)) throw new Error('Invalid OCI archive identity');
   let index = archiveIndex(archive, read);
   if (!index.manifests.some(item => item.platform)) {
     if (index.manifests.length !== 1 || !digestPattern.test(index.manifests[0].digest)) throw new Error('Expected one platform image in OCI archive');
@@ -131,7 +130,7 @@ export async function assembleOCIArchives(directory, sha) {
   const temporary = await mkdtemp(join(tmpdir(), 'kelryvo-oci-'));
   try {
     await mkdir(outputDirectory, { recursive: true });
-    for (const image of ['app', 'worker']) {
+    for (const image of ['app']) {
       const manifests = [];
       for (const architecture of PLATFORMS) {
         const source = join(root, `${image}-${architecture}.tar`);
@@ -165,5 +164,5 @@ export async function assembleOCIArchives(directory, sha) {
       verifyOCIArchive(dest, sha, image);
     }
   } finally { await rm(temporary, { recursive: true, force: true }); }
-  return { app: join(outputDirectory, 'kelryvo-app.tar'), worker: join(outputDirectory, 'kelryvo-worker.tar') };
+  return { app: join(outputDirectory, 'kelryvo-app.tar') };
 }

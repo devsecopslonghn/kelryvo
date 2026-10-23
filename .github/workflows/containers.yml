@@ -38,7 +38,7 @@ jobs:
       - name: Install OCI transfer tool
         run: sudo apt-get update -qq && sudo apt-get install -y skopeo
       - run: mkdir -p dist/oci
-      - name: Build app and cache shared build/runtime stages
+      - name: Build the unified app image
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
           context: .
@@ -51,19 +51,13 @@ jobs:
           cache-from: type=gha,scope=kelryvo-${{ matrix.arch }}
           # Cache writes are performance-only and reserved for trusted master.
           cache-to: ${{ github.event_name == 'push' && format('type=gha,scope=kelryvo-{0},mode=max,ignore-error=true,timeout=2m', matrix.arch) || '' }}
-      # BuildKit reuses the identical shared stages from the preceding app build.
-      - name: Build worker from the shared native stages
-        env:
-          TARGET_ARCH: ${{ matrix.arch }}
-        run: docker buildx build --platform "linux/$TARGET_ARCH" --build-arg KELRYVO_REVISION="$GITHUB_SHA" --target worker --provenance=false --sbom=false --output "type=oci,dest=dist/oci/worker-$TARGET_ARCH.tar" .
       - name: Smoke-test the exact platform artifacts
         env:
           TARGET_ARCH: ${{ matrix.arch }}
         run: |
           set -euo pipefail
           skopeo copy "oci-archive:dist/oci/app-$TARGET_ARCH.tar" docker-daemon:kelryvo-app:test
-          skopeo copy "oci-archive:dist/oci/worker-$TARGET_ARCH.tar" docker-daemon:kelryvo-worker:test
-          node scripts/test-containers.mjs kelryvo-app:test kelryvo-worker:test "$TARGET_ARCH"
+          node scripts/test-containers.mjs kelryvo-app:test "$TARGET_ARCH"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: platform-images-${{ github.sha }}-${{ github.run_attempt }}-${{ matrix.arch }}
