@@ -90,7 +90,7 @@ export default function MigrationAnalysis({ projectId, planId, releaseId, intent
         const attention = result.migrations.filter(m => ['BLOCKED', 'UNVERIFIABLE'].includes(m.status)).length;
         return <p className="migration-prefix-summary" aria-label="Migration sequence summary"><strong>Sequence summary:</strong> {completedPrefix} completed migration{completedPrefix === 1 ? '' : 's'} at the retained-evidence prefix; {pendingSuffix} pending migration{pendingSuffix === 1 ? '' : 's'} after that prefix; {attention} blocked or unverifiable.</p>;
       })()}
-      <p className="banner warning">Retained metadata does not attest current database effects or live drift. Completed evidence may support a NOOP only after the worker independently verifies the exact target and its ledger. Pending rows do not authorize replay. Oracle acceptance: not run.</p>
+      <p className="banner warning">Retained metadata does not attest current database effects or live drift. Completed evidence may support a NOOP only after the worker independently verifies the exact target and its ledger. Pending rows do not authorize replay.</p>
       <dl className="target-facts"><div><dt>Release</dt><dd><code>{result.releaseId}</code></dd></div>
         <div><dt>Source manifest</dt><dd><code>{result.manifestDigest}</code></dd></div>
         <div><dt>Plan intent</dt><dd><code>{result.intentDigest}</code></dd></div>

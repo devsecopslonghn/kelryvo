@@ -9,13 +9,13 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const manifestName = 'release-manifest.json';
 const helperTarget = 'experiments/db-devops-wp0/antlr-helper/target';
-const scripts = new Set(['antlr-build','antlr-prepare','build-web','check-source','local-backup-operator',
+const scripts = new Set(['antlr-build','antlr-prepare','build-web','check-source','local-backup-operator','managed-backup-operator',
   'local-credential-operator','local-dev','local-inventory-operator','local-membership-operator',
   'local-operator-config','local-prepare','local-repositories','local-resources','local-tls',
   'product-dependencies','release-acceptance','local-release']);
 const tests = new Set(['product-phase7-workflow-browser.integration.mjs','product-phase6-workflow-browser.integration.mjs','product-target-bindings.test.mjs','product-target-workflow.test.mjs','product-target-workflow-browser.integration.mjs','offline-plan-intent.test.mjs','product-mvp-workflow.test.mjs','product-mvp-workflow-browser.integration.mjs',
   'product-secure-sessions-browser.integration.mjs','product-release-acceptance.integration.mjs',
-  'product-account.test.mjs','product-account-browser.integration.mjs',
+  'product-account.test.mjs','product-account-browser.integration.mjs','managed-backup-operator.test.mjs',
   'product-profile-lifecycle.test.mjs','product-instances-browser.integration.mjs','product-mutation-authority.test.mjs']);
 const fixed = new Set(['LICENSE','NOTICE','.nvmrc','package.json','package-lock.json','tsconfig.json',
   'docs/development/local-product.md','docs/development/local-release.md','docs/development/controlled-execution.md','docs/development/runtime-readiness.md','docs/development/oracle-acceptance.md','docs/product/license-and-naming.md',

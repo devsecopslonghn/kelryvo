@@ -6,13 +6,13 @@ async function main(args) {
   const [action, directory, sha] = args;
   if (action === 'assemble') {
     const result = await assembleOCIArchives(directory, sha);
-    console.log(`Verified and assembled app and worker OCI indexes in ${resolve(directory)}`);
+    console.log(`Verified and assembled the app OCI index in ${resolve(directory)}`);
     return result;
   }
   if (action === 'verify') {
     const root = resolve(directory);
-    for (const image of ['app', 'worker']) verifyOCIArchive(resolve(root, `kelryvo-${image}.tar`), sha, image);
-    console.log('Verified app and worker OCI indexes for linux/amd64 and linux/arm64');
+    verifyOCIArchive(resolve(root, 'kelryvo-app.tar'), sha, 'app');
+    console.log('Verified the app OCI index for linux/amd64 and linux/arm64');
     return;
   }
   throw new Error('Usage: node scripts/container-oci.mjs assemble|verify <directory> <source-sha>');

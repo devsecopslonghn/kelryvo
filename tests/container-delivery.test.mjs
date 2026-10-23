@@ -5,18 +5,18 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { sourceRevision, publicationGate, githubApi, SOURCE_REPOSITORY, CODEQL_JOBS, REQUIRED_WORKFLOWS } from '../scripts/container-publication-gate.mjs';
-import { publishImages, verifyImage, registryReader, command } from '../scripts/container-delivery.mjs';
+import { publishImages, verifyImage, registryReader, command, IMAGES, imageRepository } from '../scripts/container-delivery.mjs';
 import { updateValues, promoteHelm } from '../scripts/helm-promotion.mjs';
 
-const SHA = 'a'.repeat(40), OLD = 'b'.repeat(40), APP = `sha256:${'1'.repeat(64)}`, WORKER = `sha256:${'2'.repeat(64)}`;
+const SHA = 'a'.repeat(40), OLD = 'b'.repeat(40), APP = `sha256:${'1'.repeat(64)}`, OLD_DIGEST = `sha256:${'2'.repeat(64)}`;
 const CONFIG = `sha256:${'3'.repeat(64)}`;
 const labels = { 'org.opencontainers.image.revision': SHA, 'org.opencontainers.image.source': `https://github.com/${SOURCE_REPOSITORY}` };
-const roleConfig = image => ({ User: image === 'app' ? '10001:10001' : '10002:10002', Entrypoint: ['node', image === 'app' ? 'apps/api/container-main.mjs' : 'apps/worker/execution-service-main.mjs'] });
+const roleConfig = () => ({ User: '0:0', Entrypoint: ['/opt/kelryvo/bin/kelryvo-runtime'] });
 const remote = (digest, image = 'app') => ({ digest, platforms: Object.fromEntries(['amd64', 'arm64'].map((arch, index) => [arch, {
   digest: `sha256:${String(index + 4).repeat(64)}`, configDigest: index ? `sha256:${'5'.repeat(64)}` : CONFIG,
-  config: { architecture: arch, os: 'linux', config: { Labels: labels, ...roleConfig(image) } },
+  config: { architecture: arch, os: 'linux', config: { Labels: labels, ...roleConfig() } },
 }])) });
-const verifiedArchive = (_archive, sha, image) => ({ image, digest: image === 'app' ? APP : WORKER, platforms: Object.fromEntries(['amd64', 'arm64'].map((arch, index) => [arch, {
+const verifiedArchive = (_archive, sha, image) => ({ image, digest: APP, platforms: Object.fromEntries(['amd64', 'arm64'].map((arch, index) => [arch, {
   digest: `sha256:${String(index + 4).repeat(64)}`, configDigest: index ? `sha256:${'5'.repeat(64)}` : CONFIG,
 }])) });
 const hash = value => `sha256:${createHash('sha256').update(value).digest('hex')}`;
@@ -56,25 +56,30 @@ test('API credential errors have actionable fixed diagnostics without response/t
   await assert.rejects(api('git/ref/heads/master'), error => /HTTP 403.*permissions/.test(error.message) && !error.message.includes('sensitive-token'));
   assert.throws(() => githubApi(''), /Missing GitHub credential/);
 });
-test('publication failure never returns a promotable digest pair; partial retries reuse verified app index', async () => {
+test('the sole published repository is the unified app image', () => {
+  assert.deepEqual(IMAGES, ['app']);
+  assert.equal(imageRepository('app'), 'ghcr.io/devsecopslonghn/kelryvo-app');
+  assert.throws(() => imageRepository('worker'), /Invalid image role/);
+});
+test('publication uses only the verified app image and retries reuse its immutable index', async () => {
   const registry = new Map(); let pushes = 0;
   const options = { sha: SHA, run: '4', attempt: '2', gate: async () => {}, archives: image => `${image}.tar`, verifyArchive: verifiedArchive,
-    registry: async image => registry.get(image), push: async image => { pushes++; if (image === 'worker') throw new Error('worker publication failed'); registry.set(image, remote(APP, image)); } };
-  await assert.rejects(publishImages(options), /worker publication failed/);
-  assert.equal(registry.has('worker'), false);
-  const result = await publishImages({ ...options, push: async image => { pushes++; registry.set(image, remote(image === 'app' ? APP : WORKER, image)); } });
-  assert.deepEqual([result.app, result.worker], [APP, WORKER]);
-  assert.equal(pushes, 3);
-  await publishImages(options); // both exist; no additional pushes
-  assert.equal(pushes, 3);
+    registry: async image => registry.get(image), push: async image => { pushes++; registry.set(image, remote(APP, image)); } };
+  const result = await publishImages(options);
+  assert.equal(result.app, APP);
+  assert.equal('worker' in result, false);
+  assert.deepEqual([...registry.keys()], ['app']);
+  assert.equal(pushes, 1);
+  await publishImages(options); // the immutable app image already exists
+  assert.equal(pushes, 1);
 });
-test('stale source, invalid worker archive and replaced registry tags block publication', async () => {
+test('stale source, invalid app archive and replaced registry tags block publication', async () => {
   let pushes = 0;
   const options = { sha: SHA, run: '4', attempt: '2', gate: async () => { throw new Error('superseded'); }, archives: image => `${image}.tar`, verifyArchive: verifiedArchive,
     registry: async () => undefined, push: async () => pushes++ };
   await assert.rejects(publishImages(options), /superseded/);
-  await assert.rejects(publishImages({ ...options, verifyArchive: (archive, sha, image) => { if (image === 'worker') throw new Error('bad worker archive'); return verifiedArchive(archive, sha); } }), /bad worker archive/);
-  await assert.rejects(publishImages({ ...options, gate: async () => {}, registry: async () => ({ ...remote(APP), platforms: { ...remote(APP).platforms, arm64: { ...remote(APP).platforms.arm64, configDigest: WORKER } } }) }), /verified source/);
+  await assert.rejects(publishImages({ ...options, verifyArchive: () => { throw new Error('bad app archive'); } }), /bad app archive/);
+  await assert.rejects(publishImages({ ...options, gate: async () => {}, registry: async () => ({ ...remote(APP), platforms: { ...remote(APP).platforms, arm64: { ...remote(APP).platforms.arm64, configDigest: OLD_DIGEST } } }) }), /verified source/);
   assert.equal(pushes, 0);
   assert.throws(() => verifyImage({ ...remote(APP), platforms: { ...remote(APP).platforms, arm64: { ...remote(APP).platforms.arm64, config: { architecture: 'amd64', os: 'linux', config: { Labels: labels, ...roleConfig('app') } } } } }, SHA, undefined, 'app'), /verified source/);
   assert.throws(() => verifyImage(remote(APP), SHA, undefined, 'worker'), /verified source/);
@@ -102,14 +107,14 @@ test('registry verifies actual two-platform index and configuration hashes/sourc
   await assert.rejects(denied('tag', true), /HTTP 403/);
 });
 
-const values = `app:\n  image:\n    repository: ghcr.io/devsecopslonghn/kelryvo-app\n    digest: ${WORKER}\nworker:\n  replicas: 0\n  image:\n    repository: ghcr.io/devsecopslonghn/kelryvo-worker\n    digest: ${APP}\npostgresql:\n  secretName: keep-private\n`;
-const digests = { app: APP, worker: WORKER };
-test('values mutation preserves every byte outside the two digest scalars', () => {
+const values = `image:\n  repository: ghcr.io/devsecopslonghn/kelryvo-app\n  digest: ${OLD_DIGEST}\npostgresql:\n  secretName: keep-private\n`;
+const digests = { app: APP };
+test('values mutation preserves every byte outside the unified image digest scalar', () => {
   const after = updateValues(values, digests);
-  assert.equal(after, values.replace(`digest: ${WORKER}`, `digest: ${APP}`).replace(`worker:\n  replicas: 0\n  image:\n    repository: ghcr.io/devsecopslonghn/kelryvo-worker\n    digest: ${APP}`, `worker:\n  replicas: 0\n  image:\n    repository: ghcr.io/devsecopslonghn/kelryvo-worker\n    digest: ${WORKER}`));
+  assert.equal(after, values.replace(OLD_DIGEST, APP));
   assert.equal(updateValues(after, digests), after);
-  assert.throws(() => updateValues(values, { app: APP }), /Both verified/);
-  assert.throws(() => updateValues(values.replace('worker:', 'other:'), digests), /exactly/);
+  assert.throws(() => updateValues(values, {}), /app image digest/);
+  assert.throws(() => updateValues(values.replace('image:', 'containerImage:'), digests), /exactly/);
 });
 async function promotionFixture(t, { previous, before = values, protectedBranch = false, compare = 'ahead', validationFails = false, concurrent = false, orphan = false, oldPr = false } = {}) {
   const directory = await mkdtemp(join(tmpdir(), 'kelryvo-promotion-'));
@@ -140,13 +145,14 @@ async function promotionFixture(t, { previous, before = values, protectedBranch 
     validate: async () => { if (validationFails) throw new Error('chart validation failed'); } };
   return { options, mutations, base };
 }
-test('validated promotion writes only values and records both digests/source with a non-forced ref update', async t => {
+test('validated promotion writes only values and records app digest/source with a non-forced ref update', async t => {
   const { options, mutations, base } = await promotionFixture(t);
   const result = await promoteHelm(options);
   assert.equal(result.status, 'promoted');
   assert.deepEqual(mutations[0].body.tree.map(item => item.path), ['values.yaml']);
   assert.deepEqual(mutations[1].body.parents, [base]);
   assert.match(mutations[1].body.message, new RegExp(`Kelryvo-Source-SHA: ${SHA}`));
+  assert.match(mutations[1].body.message, new RegExp(`Kelryvo-App-Digest: ${APP}`));
   assert.deepEqual(mutations.at(-1).body, { sha: SHA, force: false });
 });
 test('failed chart validation, stale source and missing digest never create Helm commits', async t => {
@@ -156,7 +162,7 @@ test('failed chart validation, stale source and missing digest never create Helm
     assert.equal(mutations.length, 0);
   }
   const { options, mutations } = await promotionFixture(t);
-  await assert.rejects(promoteHelm({ ...options, digests: { app: APP } }), /missing image digest/);
+  await assert.rejects(promoteHelm({ ...options, digests: { app: 'invalid' } }), /missing image digest/);
   await assert.rejects(promoteHelm({ ...options, gate: async () => { throw new Error('failed master'); } }), /failed master/);
   assert.equal(mutations.length, 0);
 });
@@ -177,13 +183,15 @@ test('concurrent Helm writes are rejected and protected master produces a narrow
   assert.equal(protectedChart.mutations.some(item => item.route === 'git/refs/heads/master'), false);
   assert.equal(protectedChart.mutations.at(-1).body.base, 'master');
 });
-test('workflow grants publication permission only after gates and promotion depends on both outputs', async () => {
+test('workflow preserves publication gates and promotes only after verified app publication', async () => {
   const workflow = await readFile(new URL('../.github/workflows/delivery.yml', import.meta.url), 'utf8');
   assert.match(workflow, /workflow_run:/);
   assert.match(workflow, /github.repository == 'devsecopslonghn\/kelryvo'/);
   assert.match(workflow, /types: \[completed\]/);
   assert.match(workflow, /cancel-in-progress: false/);
   assert.match(workflow, /needs: \[gate, publish\]/);
+  assert.match(workflow, /APP_DIGEST: \$\{\{ needs\.publish\.outputs\.app \}\}/);
+  assert.doesNotMatch(workflow, /WORKER_DIGEST|outputs\.worker/);
   assert.match(workflow, /if: needs.gate.outputs.ready == 'true'/);
   assert.match(workflow, /repository: devsecopslonghn\/kelryvo-helm-chart/);
   assert.match(workflow, /token: \$\{\{ secrets.GITOPS_TOKEN \}\}/);

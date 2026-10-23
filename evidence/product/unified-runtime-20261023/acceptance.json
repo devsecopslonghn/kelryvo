@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "status": "PARTIAL_PILOT_NOT_COMPLETE",
+  "recordedAt": "2026-10-23T03:41:47.683902+00:00",
+  "scope": "OWNER_AUTHORIZED_UNIFIED_RUNTIME_DEVELOPMENT_ACCEPTANCE_WITHOUT_ORACLE",
+  "source": "3ea885912fc746cc04b357590df2b722596c9ace",
+  "image": "longhn0710t/kelryvo-pilot@sha256:faf1c0f34861b09a4d8d19b959076ca1c8a66a1a136d52580bb417ce7f0993b4",
+  "tag": "longhn0710t/kelryvo-pilot:dev-3ea885912fc7-20261023T031535Z",
+  "architecture": "amd64",
+  "deploymentURL": "https://kelryvo.apps.drgdevlab.com",
+  "toolchain": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "oracledb": "7.0.1",
+    "parserJDK": "21.0.12.1+1",
+    "testPostgreSQL": "17.10"
+  },
+  "checks": {
+    "npmRunCheck": {
+      "status": "PASS",
+      "tests": 593,
+      "pass": 462,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 131,
+      "todo": 0,
+      "skipExplanation": "Optional integration cases in the generic check invocation; mandatory API, browser and source-release suites were run separately without skips."
+    },
+    "postgresqlAPI": {
+      "status": "PASS",
+      "passed": 199,
+      "failed": 0,
+      "skipped": 0
+    },
+    "chromium": {
+      "status": "PASS",
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0
+    },
+    "freshSourceRelease": {
+      "status": "PASS",
+      "outerTests": 1,
+      "workflowTests": 25,
+      "failed": 0,
+      "skipped": 0,
+      "source": "3ea885912fc746cc04b357590df2b722596c9ace",
+      "oracle": "UNVALIDATED"
+    },
+    "container": {
+      "status": "PASS",
+      "record": "container-smoke.json",
+      "source": "3ea885912fc746cc04b357590df2b722596c9ace",
+      "network": "HOST_LOOPBACK",
+      "ordinaryHostUser": true
+    },
+    "composeConfiguration": {
+      "status": "PASS",
+      "deployment": "NOT_RUN",
+      "sameImageContainerSmoke": "PASS"
+    },
+    "helm": {
+      "status": "PASS",
+      "checks": [
+        "strict lint",
+        "default and enabled-mode rendering",
+        "negative configuration checks",
+        "development overlay",
+        "PostgreSQL/PVC retention",
+        "paused Argo policy"
+      ],
+      "implementationCommit": "434957787498040312ae8a1f7010fe49d8cf2b0b",
+      "developmentValuesSHA256": "eb1f98202e1da2c19cdf1fb4818f0266fd06fc4c89c41c7150eec516b4f6e15c"
+    },
+    "independentReview": {
+      "status": "PASS_WITH_LIMITATIONS",
+      "runtime": "Read-only source review; no safety-boundary defects found; Oracle acceptance remains unverified.",
+      "chart": "Read-only review passed; stale acceptance prose corrected and image/pull-secret assertions added after review."
+    },
+    "remoteRegistry": {
+      "status": "PASS",
+      "manifestDigestVerified": true,
+      "sourceLabelVerified": true,
+      "entrypoint": "/opt/kelryvo/bin/kelryvo-runtime",
+      "bootstrapUser": "0:0"
+    },
+    "deployedWorkflow": {
+      "status": "PASS",
+      "record": "deployed-unified-acceptance.json"
+    },
+    "originalMetadata": {
+      "status": "PASS",
+      "record": "deployed-original-evidence-preservation.json"
+    },
+    "finalDeployedState": {
+      "status": "PASS",
+      "record": "deployed-final-state.json"
+    }
+  },
+  "operations": {
+    "automaticSync": "DISABLED",
+    "reenableCondition": "Pilot complete and desired source/image reconciled through review; never resume against the old master/image.",
+    "executionEnabled": false,
+    "discoveryEnabled": false,
+    "historicalWorker": "Existing zero-replica Deployment retained; no worker Pod runs.",
+    "postgresqlAndPVC": "Existing identities preserved; no resource or data deletion.",
+    "backupSHA256": "0e1eebf5407596653426c0c8312935c7bd18a3bc8fb6cb53b39171be3528a3dd",
+    "credentials": "Private operator files only; not included in evidence."
+  },
+  "oracleAcceptance": {
+    "status": "NOT_RUN",
+    "cases": {
+      "OA01": "NOT_RUN",
+      "OA02": "NOT_RUN",
+      "OA03": "NOT_RUN",
+      "OA04": "NOT_RUN",
+      "OA05": "NOT_RUN",
+      "OA06": "NOT_RUN",
+      "OA07": "NOT_RUN",
+      "OA08": "NOT_RUN",
+      "OA09": "NOT_RUN",
+      "OA10": "NOT_RUN"
+    },
+    "oracleCalls": 0,
+    "requiredInputs": [
+      "Current owner-attested disposable-lab manifest",
+      "Reviewed private installation for one master credential reference",
+      "Explicit CREATE TABLE / ALTER TABLE ADD / CREATE INDEX and fault-test scope"
+    ],
+    "historicalEvidence": "Preserved and source-specific; not carried forward as unified-runtime acceptance.",
+    "unknownSnapshotCoverage": "UNKNOWN/UNVERIFIED"
+  },
+  "limitations": [
+    "Complete pilot acceptance remains pending Oracle qualification and associated recovery cases.",
+    "No live Oracle connection, writer call or fault injection was performed.",
+    "ARM64 image was not locally built or tested; existing multi-architecture CI gates remain.",
+    "Host firewall blocks bridge forwarding; local Docker smoke used explicitly local-only host-loopback mode. CI bridge mode is unchanged and was not run here.",
+    "Compose was configuration-checked; same-image Docker smoke and deployed Helm acceptance passed, but full Compose operational qualification remains pending.",
+    "Deployed metadata backup and preservation were verified; no claim of deployed disaster-recovery restore qualification.",
+    "Hosted CI and gated release publication were not run for this owner-authorized development path; no release or merge gate is waived.",
+    "Argo remains paused and Oracle remains disabled until remaining acceptance is completed."
+  ],
+  "privateLogDigests": {
+    "final-check.log": "577c041623f1dd2dbc130cd7ba1eb363da45e9d830fac33f0d88ec033610248a",
+    "product-full.log": "a93121bb03d5280a57b34c0d70c9b6a1780d3e4a5028a65a1bed6c2e3530f6a0",
+    "browser-full.log": "716d0bfadb60d2259994ba8574cf65319308de612943c067e9c640ea8fc7545d",
+    "release-full.log": "8e02b56bb689f15fe75714b736113cd36238fab7f4252d3da31ed82797f94c3c",
+    "unified-focused.log": "5318f096f4237fdd8e278d8f7726bee6043df9205d7a531413ae31b3d7e557b8",
+    "docker/smoke-frozen.log": "abe6d44523dc3c1b6e565ed5f0fca66de55c22cc79836d9158209868e53ae9c0",
+    "deployed-acceptance.log": "844c906a3beae39ac152d66e62153ff68b5dcd015dae9f0d4c7a27c7166086e1"
+  }
+}

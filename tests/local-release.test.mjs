@@ -49,11 +49,14 @@ test('local source bundle is reproducible, excludes private/research inputs, pre
     const manifest=await verifyLocalRelease(unpack);
     assert.equal(manifest.oracleRuntime,'UNVALIDATED');assert.equal(manifest.bundledExternalBinaries,false);
     assert.equal(manifest.files.some(f=>/\.cache|node_modules|docs\/inputs|evidence\/|\.git\//.test(f.path)),false);
+    assert.equal(manifest.files.some(f=>f.path==='scripts/managed-backup-operator.mjs'),true);
     assert.match(await readFile(path.join(unpack,'LICENSE'),'utf8'),/PolyForm Shield/);
     assert.ok(manifest.notices.includes('experiments/db-devops-wp0/antlr-helper/notices/NOTICE.txt'));
     const pkg=JSON.parse(await readFile(path.join(unpack,'package.json')));
     assert.equal(pkg.private,true);assert.ok(pkg.scripts['release:acceptance']);assert.equal(pkg.scripts.check,undefined);
     assert.equal(selectedReleasePath('tests/product-phase7-workflow-browser.integration.mjs'),true);
+    assert.equal(selectedReleasePath('scripts/managed-backup-operator.mjs'),true);
+    assert.equal(selectedReleasePath('tests/managed-backup-operator.test.mjs'),true);
     assert.equal(selectedReleasePath('tests/product-phase6-workflow-browser.integration.mjs'),true);
     assert.equal(selectedReleasePath('docs/inputs/db-research/private.md'),false);
     await assert.rejects(buildLocalRelease({ repositoryRoot:repo,outputDirectory:path.join(temp,'a') }),/EEXIST/);

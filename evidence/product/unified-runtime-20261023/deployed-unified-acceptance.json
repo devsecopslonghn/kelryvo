@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "scope": "OWNER_AUTHORIZED_DEPLOYED_UNIFIED_CONTAINER_NO_ORACLE",
+  "at": "2026-10-23T03:27:17.409Z",
+  "source": "3ea885912fc746cc04b357590df2b722596c9ace",
+  "image": "longhn0710t/kelryvo-pilot@sha256:faf1c0f34861b09a4d8d19b959076ca1c8a66a1a136d52580bb417ce7f0993b4",
+  "architecture": "amd64",
+  "projectId": "aae6a03e-3eb0-48e8-8bee-f5751d0530a9",
+  "planId": "96c6ca62-04a2-4931-8bcd-ecaf7ba4d6a1",
+  "releaseId": "17e9f16c-2ce2-4e7a-8d62-219cb095b831",
+  "governance": {
+    "validation": "VALID",
+    "decision": "APPROVED",
+    "execution": "NOT_EXECUTED",
+    "independentApproval": true,
+    "csrfAndOriginDenials": true,
+    "separateDeployGrant": true,
+    "cancellationWithoutDispatch": true,
+    "ownSessionRevocation": true,
+    "profileRetirement": true
+  },
+  "browser": [
+    {
+      "role": "developer",
+      "secureCookies": true,
+      "browserStorageEmpty": true,
+      "recordDownload": true,
+      "mobileNoOverflow": true,
+      "pageErrors": 0
+    },
+    {
+      "role": "approver",
+      "secureCookies": true,
+      "browserStorageEmpty": true,
+      "recordDownload": true,
+      "mobileNoOverflow": true,
+      "pageErrors": 0
+    }
+  ],
+  "restartSessionsAndHistory": true,
+  "postgresAndPVCIdentitiesPreserved": true,
+  "automaticSync": "DISABLED",
+  "oracleRuntimeVerified": false
+}

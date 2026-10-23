@@ -1,5 +1,13 @@
 # Disposable Oracle execution acceptance
 
+The unified container is a new runtime qualification boundary. Its local and deployed
+metadata/browser acceptance alone does not qualify Oracle. The owner-attested installation
+now has bounded governed DDL evidence below; the complete OA01–OA10 program remains
+incomplete until its remaining SQL/fault and recovery cases are observed.
+The dated results below remain valid only for their recorded sources and installations.
+The current cases use one external instance master reference, purpose-restricted processes
+and a separate protected ledger; historical separate-account results are not rewritten.
+
 Live Oracle execution acceptance is **IN PROGRESS as a complete program**. Retained V1
 and V2 governed executions passed with independently observed Oracle effects. A fresh,
 independently accepted lineage now also passes NOOP; the original pre-admission HOLD
@@ -12,6 +20,61 @@ mutex. It introduces no deployment infrastructure. The lab owner supplies the
 attested scope; a database operator prepares isolated disposable schemas and
 accounts; an independent reviewer evaluates retained evidence. The application
 operator installs the private trusted worker only after these prerequisites pass.
+
+## Unified runtime: bounded acceptance on 2026-10-23
+
+The [new governed DDL evidence](../../evidence/product/unified-oracle-20261023/governed-ddl.json)
+is tied to source `a4dbb8d` and image digest `01018b1d9cc464dd3f6ea0125e748c55e2bf0690fcea94b565f728272ba6fce4`.
+It covers two assigned schemas using one master reference: browser-authored and independently
+approved CREATE TABLE V1, ALTER TABLE ADD plus CREATE INDEX V2, and NOOP. The six DDL
+acknowledgments have six central receipts, and direct Oracle observation confirms the
+expected columns, valid indexes and complete ledger sequences. NOOP adds no statement
+starts or receipts and leaves target metadata and ledger events unchanged. Both browser
+roles retain identical downloadable record facts after application restart.
+
+The [initial failed V1](../../evidence/product/unified-oracle-20261023/initial-held-v1.json)
+and its two HOLD requests remain preserved in the original PDB. The successful run uses a
+fresh owned PDB; no held SQL was replayed. The separate
+[implicit-commit fixture](../../evidence/product/unified-oracle-20261023/implicit-commit.json)
+retains both the failed parse-time assumption and the observed successful/runtime-failed
+DDL commit behavior. No DML support is inferred.
+
+This is a bounded success sequence, not full OA01–OA10 or pilot acceptance. Mismatched
+identity, governed unsafe SQL, route-alias concurrency, interruption, real lost-ack,
+ambiguous reconciliation, the remaining incompatible-history matrix and managed
+PostgreSQL operational parity still require current-source evidence. A newer `ee44f6f`
+[managed restore and historical-read proof](../../evidence/product/unified-oracle-20261023/managed-restore-ee44f6f.json)
+preserves exact metadata in a new owned PostgreSQL database, keeps RESTORE_HOLD after
+restart, revokes old tokens and blocks writes without an Oracle installation. It does
+not exercise recovery of interrupted Oracle DDL or a live metadata cutover. Discovery and schema
+snapshots with incomplete visibility remain PARTIAL/UNKNOWN/UNVERIFIED. Earlier sections
+below retain their original source-specific outcomes, including failures.
+
+The newer [before-first-DDL interruption proof](../../evidence/product/unified-oracle-20261023/interrupt-before-first-ee44f6f.json)
+qualifies one OA06 boundary on `ee44f6f`. An independently approved request reaches
+central/target STARTED evidence, then the operator kills the essential execution role
+while the fixed wrapper reports zero native DDL calls. The whole container exits;
+lease expiry retains HOLD and one attempt with no receipt. An independent observer sees
+no application objects, and the same three target-ledger events survive another app
+recreate. Both browser roles download valid held records. This does not cover a kill
+after the first acknowledged statement, lost acknowledgment, reconciliation or the
+full recovery matrix. The held request and PDB remain intact; execution is disabled.
+
+The [after-first-statement fault attempt](../../evidence/product/unified-oracle-20261023/interrupt-after-first-failed-ee44f6f.json)
+remains FAIL: its private operator rejected the transient old/new Pod list during
+Recreate and sent no signal. The bounded wrapper timed out before native ALTER ADD;
+CREATE TABLE has one receipt, the target retains only ID, and HOLD plus all six ledger
+events persist after an app recreate. Both roles retain checksummed history downloads.
+These partial-state checks do not qualify the intended after-first SIGKILL boundary.
+The failed request and PDB remain untouched; execution is disabled again.
+
+The [fresh-PDB after-first-ACK interruption](../../evidence/product/unified-oracle-20261023/interrupt-after-first-ee44f6f.json)
+now passes on `ee44f6f`. Before SIGKILL, the observer records the ID-only table while
+central and target journals retain acknowledgment 1 and STARTED 2. The whole container
+exits 1; expiry recovers HOLD with one attempt and one receipt. Exact target state and
+held central state survive automatic restart and controlled app recreation; both roles
+retain history downloads. The old failed request remains unchanged. This closes the
+two recorded OA06 interruption boundaries only, not the full fault/recovery program.
 
 ## Live qualification on 2026-10-14
 
@@ -254,13 +317,18 @@ Required private inputs and evidence:
 - Exact observed DBID, DB unique name, resetlogs incarnation, CDB flag, container
   ID/GUID/DBID, PDB name, service and version, plus exact schema owner and deployment
   login. Compare observed values against the attested route before any execution.
-- Separate opaque discovery, deployment writer, ledger owner and bootstrap/observer
-  references; purpose-scoped grants and denied-operation results. Writer and ledger
-  must use separate physical sessions. API processes must have no writer secrets.
+- One external instance master reference reused for fixed discovery reads and approved
+  exact-schema DDL, with its exact effective grants attested. The API has no access to
+  its secret; discovery crosses the bounded internal Unix socket. Ledger/bootstrap/observer
+  references remain installation-owned. Purpose-restricted discovery, writer and ledger
+  capabilities stay separate; writer and ledger use distinct physical sessions.
 - Allowlisted disposable objects, maximum statement count, byte/checksum manifest,
   retained plan/approval, migration namespace/lineage, execution permit lifetime,
   approved interruption points and exclusive test ownership. Use two migrations of
-  at most two simple CREATE TABLE statements each, with a unique run prefix.
+  at most two supported statements each, with a unique run prefix. Start with scalar
+  CREATE TABLE; separately authorize scalar ALTER TABLE ADD and simple CREATE INDEX
+  before qualifying those forms. Existing-table operations require exact-owner physical
+  table witnesses; unsupported SQL, synonyms and foreign owners remain blocked.
 - Narrow ledger/mutex bootstrap permission for the existing SQL in
   `apps/worker/oracle/`; permission for DBMS_LOCK and separate observer access.
   No global DBA/SYSDBA or broad ANY grants as a substitute for missing privileges.
@@ -279,11 +347,11 @@ cases begin as NOT_RUN; change a status only after the listed live observations.
 
 | Case | Action within authorized lab scope | Required observable result |
 | --- | --- | --- |
-| OA01 identity | Discover with least-privilege account; compare full identity tuple and exact owner; try an explicitly allowlisted mismatched route | Correct route retained; mismatch blocks admission with zero writer statement calls; identity evidence tied to manifest digest |
-| OA02 purpose isolation | Inspect narrow grants and use allowlisted negative read/write probes for discovery and writer accounts | Discovery cannot execute migration DDL; writer cannot acquire unapproved schema/ledger authority; API has no resolver access to writer references |
-| OA03 ordering/checksum | Independently approve the two bounded migrations and execute through the installed worker | Materialized parser order and checksums match approved bytes; durable STARTED precedes each call; acknowledged effects and receipts match both target and central journals |
+| OA01 identity | Discover through the bounded master runtime; compare full identity tuple and exact owner; try an explicitly allowlisted mismatched route | Correct route retained; mismatch blocks admission with zero writer statement calls; identity evidence tied to manifest digest |
+| OA02 purpose isolation | Inspect attested master grants, separate process/session capabilities, cross-UID secret/proc denial and negative discovery/SQL-scope probes | API cannot read the master secret; discovery admits only fixed SELECT operations; approved unsafe/foreign-owner SQL cannot dispatch; writer has no unapproved protected-ledger authority. The master account's DDL grants do not turn discovery into a writer |
+| OA03 ordering/checksum | Independently approve the bounded CREATE/ALTER ADD/INDEX migrations explicitly included in the manifest and execute through the internal installed worker | Materialized parser order and checksums match approved bytes; durable STARTED precedes each call; exact-owner physical effects and receipts match both target and central journals; unsupported forms stay blocked |
 | OA04 implicit commit | In a separate disposable fixture, place an approved uncommitted marker before successful DDL, then roll back the same session; repeat with an approved failing DDL | Independent observer records actual Oracle commit behavior and object/marker state; no rollback promise or inference from a failed DDL response |
-| OA05 stream mutex | Request the same physical stream through two allowlisted route aliases and isolated workers | At most one writer enters; canonical mutex spans DDL implicit commits on the same writer session; second admission/dispatch cannot overlap |
+| OA05 stream mutex | Request an accepted physical container through two allowlisted route aliases and independently installed test workers, including distinct assigned schema streams | At most one writer enters the container; canonical mutex spans DDL implicit commits on the same writer session; stream partitions retain their own history and second dispatch cannot overlap |
 | OA06 interruption | Stop only the owned worker after STARTED and once after confirmed statement 1 before statement 2 | Confirm child/session termination and target observations; expiry recovery retains uncertainty in HOLD; no statement 2 dispatch or automatic reclaim/replay |
 | OA07 network failure | Fault only the approved proxy/session during DDL or receipt acknowledgement | Lost acknowledgement is UNKNOWN/HOLD even if object exists; independent ledger/object inspection preserved; no reconnect-and-retry of the ambiguous statement |
 | OA08 reconciliation | Submit externally retained target observations/ledger digest and review as a distinct approver | Evidence and independent decision survive restart; self-review denied; HOLD, retryEligible=false and executionAuthority=false persist; review does not release mutex or infer effects |

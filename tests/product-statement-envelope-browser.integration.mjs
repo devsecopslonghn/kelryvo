@@ -28,7 +28,8 @@ test('review shows the complete paged statement envelope, explicit readiness and
     await sequence.getByRole('button', { name: 'Load more statement identities' }).click();
     await sequence.locator('tbody tr').nth(56).waitFor(); assert.equal(await sequence.locator('tbody tr').count(), 57);
     assert.match(await sequence.locator('tbody tr').nth(55).innerText(), /V10__second/);
-    assert.match(await page.getByRole('region', { name: 'Execution readiness' }).innerText(), /Target history.*unavailable/s);
+    assert.match(await page.getByRole('region', { name: 'Execution readiness' }).innerText(), /Queued requests must pass target verification before execution/);
+    assert.doesNotMatch(await page.getByRole('region', { name: 'Execution readiness' }).innerText(), /Requests remain waiting|Target history.*unavailable/s);
     assert.doesNotMatch(await page.locator('body').innerText(), /vault:\/\//);
     assert.deepEqual(await f.db.sql`SELECT * FROM sf_audit ORDER BY id`, before, 'reviewing pages does not mutate governance');
     await page.locator(`[data-plan-id="${legacy.id}"]`).click();

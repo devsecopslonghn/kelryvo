@@ -1,0 +1,53 @@
+{
+  "status": "PASS_NATIVE_ALL_THREE_PURPOSE_ACCOUNT_QUALIFICATION_V2",
+  "completedAt": "2026-10-23T17:13:24.869Z",
+  "pdbs": [
+    {
+      "pdb": "KP_INT_BEFORE",
+      "status": "PASS_NATIVE_PURPOSE_ACCOUNT_QUALIFICATION",
+      "guid": "5E85BF7E225DFC95E0638101F40A2F5B",
+      "identityDigest": "849cf344a26da12a47586b2ec15701c865470d36d1bb11ba78d9727f3ad30efd",
+      "masterRoles": 0,
+      "ledgerMutationDenied": 20091,
+      "mutexExcludesSecondMasterSessionAcrossCommit": true
+    },
+    {
+      "pdb": "KP_INT_AFTER",
+      "status": "PASS_NATIVE_PURPOSE_ACCOUNT_QUALIFICATION",
+      "guid": "5E85C0EDFC6CFCDDE0638101F40A8B3B",
+      "identityDigest": "52f207e860216146d927a7e34aedc936f3db3c8ed84d7932cbffb6f6df07e398",
+      "masterRoles": 0,
+      "ledgerMutationDenied": 20091,
+      "mutexExcludesSecondMasterSessionAcrossCommit": true
+    },
+    {
+      "pdb": "KP_LOST_ACK",
+      "status": "PASS_NATIVE_PURPOSE_ACCOUNT_QUALIFICATION",
+      "guid": "5E85C2720FA8FD31E0638101F40A326E",
+      "identityDigest": "a4d9edf7e678f28abf8d22e5a36dd28dd0b95ddfd6370a94ebbcbd6b58ad0f9e",
+      "masterRoles": 0,
+      "ledgerMutationDenied": 20091,
+      "mutexExcludesSecondMasterSessionAcrossCommit": true
+    }
+  ],
+  "scope": "Purpose-account identity, fixed grant/account/source/trigger closure, empty application schemas, protected ledger denials and cross-COMMIT mutex exclusion.",
+  "applicationDdl": "NOT_RUN",
+  "applicationDml": "NOT_RUN",
+  "protectedLedgerProbe": "Zero-row UPDATE rejected by immutable ledger trigger with ORA-20091 in each PDB.",
+  "governedMigration": "NOT_RUN",
+  "priorFailureRetained": {
+    "stage": "grants",
+    "cause": "Native checker compared canonical-sorted account rows to USERNAME-ordered expected rows. Read-only diagnostic proved equal row contents.",
+    "oracleWritesReached": false
+  },
+  "checkFix": "Compare complete multisets using the same canonical sort; extras and duplicates remain rejected. Raw source TEXT retained for installation hashes.",
+  "privateEvidenceSha256": {
+    "qualification-v2.private.json": "96210d932b82b85ef634ebccf37ab0118577669591de2686b70a6bc11d9d8671",
+    "probe-v2.mjs": "d3eaaeb4497fc9ac615f4099d0b9448657835d7f85cf59a9559a7399d3eea1fc",
+    "approval-v2.json": "b219238735d5435bbe0b26e0b9b8029333549ea5d0834b60ec3b9c20e5be320f",
+    "native-probe.private.log": "aaef86cfc4e6a1966889bde86cd61f6c7b810faacc5a5da096a0e48dd13d757c",
+    "grant-diagnostic.private.json": "d60eac87485cebc7cc562706453659bbe1b60efde6f37f52fb1bdd2c76aabd0b",
+    "local-check-v2.private.json": "1b89c4875e9a6ddaa1228d8a7aa86f7c851e2c2688e705c2276f627c5c5b5a12"
+  },
+  "pilotComplete": false
+}

@@ -16,7 +16,38 @@ These decisions constrain implementation. [Product requirements and roadmap](../
 | Serialization | Serialize initial DDL per verified PDB/non-CDB across all projects/schemas, with a continuously held writer-session mutex and central governance locks. Conservative serialization trades throughput for safety. CDB-root and cross-schema administration are excluded. |
 | Lifecycle and recovery | Reasoned configuration disable/retire and schema transfer preserve history and in-flight safety. Uncertain execution remains HOLD; no automatic replay or API clear-HOLD authority. Project archive retains reads and blocks new workflow writes. |
 | Authorization | Fixed human developer/approver identities, trusted OS provisioning, current project grants and separate deploy grant. Independent approval is required. No inferred creator/admin/machine authority. |
+| Container runtime candidate | Docker and Helm use one OCI application image and one native PID 1 entrypoint. Root bootstrap stages root-owned source credentials, then runs API UID 10001 and internal execution/discovery UID 10002 without effective capabilities. This is a packaging/runtime contract, not Oracle acceptance. |
 | Deferred trust boundaries | Multi-tenancy, app-admin/invitations/SSO, machine identities, arbitrary query/data access, external Git/webhooks and broader Oracle topology require separately scoped contracts; none is implied by offline governance. |
+
+### Unified application runtime candidate (2026-10-23)
+
+The unified runtime is the current source candidate. Its container image includes the API,
+browser assets, execution service and discovery adapter. Docker Compose and Helm use the
+same image, root entrypoint, flags, private installation contract and external PostgreSQL
+metadata database. There is no separately published or deployed worker image.
+
+The native root PID 1 has only the container-granted bootstrap capabilities needed to
+prepare private directories and drop child privileges. After staging, it retains only
+`CAP_KILL`; the API runs as UID 10001 and the internal execution/discovery process as UID
+10002 with empty effective capability sets. API credentials are staged to the API-only
+directory. Execution credentials and installation modules are staged to the execution-
+only directory. The API cannot select modules, paths, credentials or operations through
+the IPC channel.
+
+Discovery is restricted to fixed `TEST`, `DISCOVER` and `SCHEMA` calls over a private
+Unix socket. It accepts neither arbitrary SQL nor credential or module-path input.
+Execution remains disabled by default and consumes only durable PostgreSQL requests
+through the fixed trusted installation. Failure of either essential child stops PID 1
+and therefore the container. No child restart loop or automatic request replay is
+allowed; an expired lease remains subject to the existing HOLD and reconciliation rules.
+
+This describes the source contract, not an accepted deployment. The unified runtime's
+live Oracle acceptance is **NOT_RUN**. Historical PR #112 evidence remains attached to
+its exact earlier source and proves the tested CREATE TABLE statements only. The source
+policy supports scalar CREATE TABLE, scalar ALTER TABLE ADD and simple CREATE INDEX;
+ALTER TABLE ADD and CREATE INDEX still need live acceptance in the unified runtime.
+The existing browser workflow remains the product interface; runtime packaging does not
+authorize a workflow redesign or a broader SQL policy.
 
 ## Compatibility and migration invariants
 
@@ -26,7 +57,7 @@ These decisions constrain implementation. [Product requirements and roadmap](../
 - Existing schema assignment intervals remain authoritative for their recorded dates. New environment, target identity, or credential-purpose fields require additive migration and explicit backfill status.
 - No migration step may mark a plan executed or history observed without independently verified target evidence.
 - Preserve the single-active-project-per-schema invariant. Transfers close the prior assignment and create a new interval with optimistic revision checks and audit.
-- Keep execution admission disabled until approved target binding, credential resolution, worker installation, physical identity, history, and lock contracts pass their separate acceptance gates.
+- Keep execution admission disabled until approved target binding, credential resolution, private installation, physical identity, history, and lock contracts pass their separate acceptance gates.
 
 ## Oracle identity contract and topology handling
 
@@ -151,16 +182,16 @@ Baseline read APIs/metadata and operator views may be implemented offline, but b
 
 ## Execution, locking, fencing, and ambiguous outcomes
 
-### Lock model and worker lifecycle
+### Lock model and execution process lifecycle
 
 1. **Metadata serialization:** retain PostgreSQL advisory/row locks around assignment, binding, grant, approval, request, and attempt transitions. Lock order must be documented and consistent: inventory/catalog serialization, physical assignment scope, global governance, then project/job rows.
 2. **Physical serialization:** initial DDL lock is one exclusive lock per attested PDB/non-CDB. This serializes different project schemas sharing the same container. Database/CDB administration and cross-schema operations are rejected. PDB/non-CDB-wide serialization remains the default; lock narrowing is outside the initial scope.
 3. **Oracle mutex:** private definer-rights `DBMS_LOCK` cover on the dedicated writer connection; acquire once with a private nonce and `release_on_commit=FALSE`; continuously prove current ownership using the existing handle (`CONVERT`), never reacquire after loss. Keep the same physical session through target identity checks, DDL, and receipt/cleanup. The protected ledger writer remains a different principal/connection. The application writer must have no direct/inherited DBMS_LOCK or broad/protected-ledger DML privileges. The master may hold only explicitly attested application DDL privileges. Oracle ANY DDL grants are broader than project scope: automatic execution relies on the complete exact-scope grammar, protected-ledger-owner veto, immutable central evidence and trusted installation controls against external DDL. The definer-rights cover supplies only the constrained mutex capability. Protected ledger head-row locks serialize append transactions, not Oracle DDL. Unknown commit poisons that capability without retry.
 4. **Permit and fencing:** the installed short-lived write permit binds worker/job/plan/approval/intent/profile/statement digests and expires. The metadata claim uses immutable attempt generation and lease token. These fence central state writes but Oracle does not consume a generic Kelryvo fencing number. The actual non-overlap guard is the held Oracle session mutex plus one-use dispatch permit and private host-side continuity check. A lost mutex/session permanently poisons that operation; token renewal/reacquisition is not allowed.
-5. **Restart/lease recovery:** a worker restart never reclaims an admitted attempt. Expired metadata lease projects `HOLD` only and creates no new attempt or Oracle call. If session termination or lock release cannot be established, retain HOLD. A later migration cannot start on the same target stream while any prior attempt has unresolved central or target-ledger state.
+5. **Restart/lease recovery:** an execution-process or container restart never reclaims an admitted attempt. Essential child loss stops the container. Expired metadata lease projects `HOLD` only and creates no new attempt or Oracle call. If session termination or lock release cannot be established, retain HOLD. A later migration cannot start on the same target stream while any prior attempt has unresolved central or target-ledger state.
 6. **RAC/Data Guard:** same PDB-wide mutex must be proven across RAC instances. Data Guard members are separate databases; a DBMS_LOCK on one member does not fence another member. Data Guard write failover is unsupported until old-primary fencing and cross-member leadership/lock design are validated.
 
-Current source supports portions of this contract: `packages/execution/oracle-target-mutex.mjs` uses one same-session lock, nonce, and no reacquisition; `apps/worker/oracle-host.ts` re-attests identity and mutex through dispatch; `packages/database/index.ts` records immutable attempts/receipts; `packages/execution/postgres-jobs.ts` moves expired claims to HOLD; `apps/worker/run-request.ts` recovers expiry without replay; and `packages/execution/oracle-target-ledger.mjs` preserves ordered target history. Generic installations remain runtime-unvalidated; the recorded master workflow acceptance is bounded to its lab, source revisions and SQL forms. The existing target observation identity is installed/privileged and cannot be inferred from ordinary API metadata.
+Current source supports portions of this contract: `packages/execution/oracle-target-mutex.mjs` uses one same-session lock, nonce, and no reacquisition; `apps/worker/oracle-host.ts` re-attests identity and mutex through dispatch; `packages/database/index.ts` records immutable attempts/receipts; `packages/execution/postgres-jobs.ts` moves expired claims to HOLD; `apps/worker/run-request.ts` recovers expiry without replay; and `packages/execution/oracle-target-ledger.mjs` preserves ordered target history. The single-image native runtime wiring is a new source candidate and has no Oracle acceptance yet. Generic installations remain runtime-unvalidated; the recorded PR #112 acceptance is bounded to its source, lab, and CREATE TABLE statements. The existing target observation identity is installed/privileged and cannot be inferred from ordinary API metadata.
 
 ### DDL, ledger, connection loss, and external change
 

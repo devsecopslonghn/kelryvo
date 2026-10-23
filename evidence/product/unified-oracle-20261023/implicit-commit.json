@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "case": "OA04_ORACLE_IMPLICIT_COMMIT_OPERATOR_FIXTURE",
+  "at": "2026-10-23T08:45:04.164Z",
+  "oracleVersion": "23.26.3.0.0",
+  "successDDLCommittedPriorMarker": true,
+  "runtimeFailedDDLCommittedPriorMarker": true,
+  "parseTimeDuplicateColumnFailureDidNotCommitPriorMarker": true,
+  "failedDDLOracleCode": 1758,
+  "successfulTableObserved": true,
+  "successCaseRetainedFromFirstRun": true,
+  "failedColumnAbsent": true,
+  "productDMLSupport": false,
+  "scope": "Owned KP_COMMIT fixture only; no governed migration acceptance implied.",
+  "initialFixtureRun": "FAIL_RETAINED: duplicate-column parse-time error did not commit the prior marker. The continuation used a syntactically valid ALTER ADD that failed during execution; both observations are retained.",
+  "privateEvidenceDigests": {
+    "implicit-commit-failure.private.log": "b7915929238172109e999dac1358940d4c94069ceb22726d9c2b223170c866c3",
+    "implicit-commit-r2.json": "fdf4ef15e30081bab0b65d81b9549b71dcc269f0a61077f1141ad1113740ba29",
+    "implicit-commit.mjs": "15d72b290f4665f97fe1725d1b4915200642d0b09c5a562f27915b6d656ae496",
+    "implicit-commit-continuation.mjs": "37294720ea16571ff8d04432db54fd4cb7e6cc00733869a5394ab02868786c87"
+  }
+}

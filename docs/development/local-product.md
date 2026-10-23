@@ -709,6 +709,75 @@ This creates no target observation or Oracle evidence. RESTORE_HOLD remains unti
 independent operator reconciliation outside the application; this product slice has no
 hold-release interface.
 
+### Managed Helm PostgreSQL backup
+
+The local commands above support only the pinned loopback Docker PostgreSQL. They do not
+back up the PostgreSQL Service used by Helm. For the in-cluster Helm database, a trusted
+Kubernetes operator can use the separate managed adapter. The operator first creates a
+private directory and records the exact API server/CA, StatefulSet, Service, Pod, PVC,
+backing PV, Secret, and runtime image IDs without changing cluster resources:
+
+```sh
+mkdir -m 700 /absolute/private/kelryvo-managed-backup
+mkdir -m 700 /absolute/private/kelryvo-managed-backup-witness
+node scripts/managed-backup-operator.mjs attest \
+  --output /absolute/private/kelryvo-managed-backup/attestation.json
+node scripts/managed-backup-operator.mjs backup \
+  --config /absolute/private/kelryvo-managed-backup/attestation.json \
+  --destination /absolute/private/kelryvo-managed-backup/run-01 \
+  --witness /absolute/private/kelryvo-managed-backup-witness/run-01.json
+node scripts/managed-backup-operator.mjs restore \
+  --config /absolute/private/kelryvo-managed-backup/attestation.json \
+  --backup /absolute/private/kelryvo-managed-backup/run-01 \
+  --witness /absolute/private/kelryvo-managed-backup-witness/run-01.json
+```
+
+If the Pod is recreated or the Secret is rotated, create another attestation with a new
+output filename and use it for the next backup or restore. A stale attestation is rejected.
+Retain the original backup witness: it keeps the original Pod and Secret IDs while restore
+checks the fresh attestation against the same cluster, StatefulSet, Service, storage,
+image and database. Changes to those stable identities require a separate reviewed recovery
+procedure; replacing the Pod or Secret does not make another database an eligible target.
+
+The command requires the current Kubernetes context to be `k8s-admin-public` and pins
+the `kelryvo` namespace's `kelryvo-postgresql` StatefulSet and Service, the exact ready
+Pod and endpoint, the `kelryvo-postgresql-data` PVC and bound PV, and the
+`kelryvo-postgresql` Secret. It reads `app-password` and `admin-password` only in operator
+memory, then connects through a loopback-only port-forward to the pinned Pod. It checks
+the live PostgreSQL server version and the pinned `pg_dump`/`pg_restore` client before
+starting. No DSN or credential is accepted on the command line. The operator identity
+needs read access to those named Kubernetes objects, Secret access, and Pod port-forward;
+the application container receives no extra Secret or backup endpoint.
+
+The restore uses the dedicated `postgres` credential to create a new
+`sf_product_restore_<uuid>` database owned by `kelryvo`, then runs the existing schema
+verification, witnessed import, credential revocation, audit, and `RESTORE_HOLD` flow
+as the app owner. It reports the new database name and never changes the live database
+URL, Deployment, StatefulSet, PVC, or PV. Keep the archive and witness in separate private
+custody locations. External PostgreSQL installations and automatic deployment cutover
+are outside this adapter's support scope. This operator path still requires a fresh
+deployed restore acceptance run; local fixture tests do not certify it.
+
+For a separate recovered application container, provision fresh desired developer and
+approver tokens in its root-owned source Secret and keep discovery and execution disabled.
+Start it against the new restore database using the same application image; do not change
+the live application's database URL. The trusted root operator can then adopt each fresh
+token for historical reads:
+
+```sh
+docker compose exec --user 0:0 kelryvo node scripts/container-credentials.mjs recover developer
+docker compose exec --user 0:0 kelryvo node scripts/container-credentials.mjs recover approver
+```
+
+`recover` accepts only the generated restore database name, the current witnessed
+`RESTORE_HOLD` generation and its matching immutable audit/owner evidence. It preserves
+existing actor roles and grants, rejects retired tokens, and never changes the generation
+or releases HOLD. Repeating the same active desired token does not extend its expiry.
+Ordinary `rotate` still requires ACTIVE metadata. Existing tokens stay revoked; fresh
+recovery credentials permit historical reads while metadata mutations and execution
+claims remain blocked. `/api/livez` can serve while `/api/readyz` reports the recovery
+hold; that response must not be interpreted as permission to execute.
+
 ## HTTPS browser sessions
 
 Start the existing local product with operator-provided TLS material:

@@ -1,0 +1,168 @@
+{
+  "status": "PASS_BOUNDED_THREE_DDL_V1_V2_NOOP",
+  "at": "2026-10-23T10:09:00.443454+00:00",
+  "source": "a4dbb8dad9b2d134a5ddab87553ee259a09bbbc6",
+  "image": "longhn0710t/kelryvo-pilot@sha256:01018b1d9cc464dd3f6ea0125e748c55e2bf0690fcea94b565f728272ba6fce4",
+  "topology": "Helm one application container; external retained PostgreSQL; Oracle Free 23.26.3 lab",
+  "scope": {
+    "schemaOwners": [
+      "KP_A",
+      "KP_B"
+    ],
+    "forms": [
+      "CREATE TABLE",
+      "ALTER TABLE ADD scalar column",
+      "CREATE INDEX simple single-column"
+    ],
+    "masterCredentialReferences": 1,
+    "executionDecisions": "Independent approver; self approval denied",
+    "schemaSnapshotCoverage": "PARTIAL; absent evidence remains UNKNOWN/UNVERIFIED",
+    "oracleConfiguration": "Single-instance Free; no RAC/Data Guard qualification"
+  },
+  "target": {
+    "pdb": "KELRYVOPDB",
+    "identityDigest": "a7188df14991d108ba26c0e281b78fcc9ac9879415a67575297a29fb32fa93b6",
+    "guid": "5E7F497A0818481CE0638101F40AFB86"
+  },
+  "results": [
+    {
+      "phase": "V1",
+      "owner": "KP_A",
+      "planId": "9f7c46e7-0b20-43f7-96f0-3af25503f86d",
+      "jobId": "e3d3424e-1012-4bc9-83bd-3f231c9ff3c9",
+      "state": "VERIFIED_SUCCESS",
+      "newStatementCallsAcknowledged": 1,
+      "centralReceipts": 1,
+      "appliedBeforeRequest": 0,
+      "approvedStatements": 1,
+      "pendingStatements": 1
+    },
+    {
+      "phase": "V1",
+      "owner": "KP_B",
+      "planId": "a38bfd13-ab5d-4c3a-a801-1f262adb361b",
+      "jobId": "656ff67a-4079-477c-866f-fc10b7f24fc8",
+      "state": "VERIFIED_SUCCESS",
+      "newStatementCallsAcknowledged": 1,
+      "centralReceipts": 1,
+      "appliedBeforeRequest": 0,
+      "approvedStatements": 1,
+      "pendingStatements": 1
+    },
+    {
+      "phase": "V2",
+      "owner": "KP_A",
+      "planId": "feff9cba-dcb2-4495-82f6-dad97366f916",
+      "jobId": "cea84605-d771-4f14-9a81-baeaedc6b4dd",
+      "state": "VERIFIED_SUCCESS",
+      "newStatementCallsAcknowledged": 2,
+      "centralReceipts": 2,
+      "appliedBeforeRequest": 1,
+      "approvedStatements": 3,
+      "pendingStatements": 2
+    },
+    {
+      "phase": "V2",
+      "owner": "KP_B",
+      "planId": "0084f06e-cc9d-4458-a787-341c48f3b3fb",
+      "jobId": "c358afcc-5009-47df-b643-27d0f505bd30",
+      "state": "VERIFIED_SUCCESS",
+      "newStatementCallsAcknowledged": 2,
+      "centralReceipts": 2,
+      "appliedBeforeRequest": 1,
+      "approvedStatements": 3,
+      "pendingStatements": 2
+    },
+    {
+      "phase": "NOOP",
+      "owner": "KP_A",
+      "planId": "7c48765f-2b95-4ced-8643-3b9028f5c189",
+      "jobId": "8c6fbebe-e01e-460e-80ca-66d274cbe9a2",
+      "state": "NOOP",
+      "newStatementCallsAcknowledged": 0,
+      "centralReceipts": 0,
+      "appliedBeforeRequest": 3,
+      "approvedStatements": 3,
+      "pendingStatements": 0
+    },
+    {
+      "phase": "NOOP",
+      "owner": "KP_B",
+      "planId": "226c1f0e-a726-4f63-a2c8-72c3101c10ab",
+      "jobId": "8605e815-130a-422b-b10b-2358cec5a24b",
+      "state": "NOOP",
+      "newStatementCallsAcknowledged": 0,
+      "centralReceipts": 0,
+      "appliedBeforeRequest": 3,
+      "approvedStatements": 3,
+      "pendingStatements": 0
+    }
+  ],
+  "oracle": {
+    "validTables": 2,
+    "validIndexes": 2,
+    "columnsPerTable": [
+      "ID NUMBER(10) NOT NULL",
+      "LABEL VARCHAR2(40)"
+    ],
+    "ledgerHeadSequences": [
+      13,
+      13
+    ],
+    "ledgerEvents": 26,
+    "acknowledgedDDLStatements": 6,
+    "centralReceipts": 6,
+    "noopLedgerAndMetadataUnchanged": true
+  },
+  "browser": {
+    "journey": "Connect/Discover/Assign/Author/Validate/Plan/Review/Request/History",
+    "actors": [
+      "developer",
+      "approver"
+    ],
+    "historyRecordsComparedAcrossAppRestart": 12,
+    "browserDownloads": 24,
+    "recordComparison": "Exact retained record facts; only export timestamp excluded",
+    "checksumsVerified": true
+  },
+  "requestIdempotency": {
+    "queuedExactKeyReturnsOriginal": true,
+    "changedPayload": "IDEMPOTENCY_CONFLICT",
+    "replacementKeyWhilePending": "EXECUTION_ALREADY_PENDING"
+  },
+  "preservation": {
+    "initialFailedPDB": "FREEPDB1 retained",
+    "heldRequestsCleared": 0,
+    "heldRequestsReplayed": 0,
+    "previousFailEvidence": "initial-held-v1.json",
+    "oldLedgerObjectsAndEventsUnchanged": true
+  },
+  "remaining": {
+    "OA01": "Mismatched route negative case not run",
+    "OA02": "Governed unsafe/foreign-owner SQL negatives still required",
+    "OA03": "Supported DDL ordering passed; out-of-scope negative dispatch still required",
+    "OA04": "Separate implicit-commit fixture in implicit-commit.json",
+    "OA05": "Governed route-alias concurrency not run",
+    "OA06": "Required worker interruptions not run",
+    "OA07": "Actual lost-ack network fault not run",
+    "OA08": "Ambiguous-effect reconciliation not run",
+    "OA09": "NOOP and queued idempotency passed; full held/incompatible-history matrix incomplete",
+    "OA10": "Managed PostgreSQL witnessed restore and runtime recovery incomplete"
+  },
+  "pilotComplete": false,
+  "argoAutomaticSync": "DISABLED",
+  "privateEvidenceSha256": {
+    "live-v1.json": "4094195bd3e22fd9ba0147e44bc4297ff767ec55db095f47983ebef376dceb80",
+    "live-v2.json": "454ca170ce35800d8d6a0266394786a9b85301eef8405bbed9e67b74cb94bae6",
+    "live-noop.json": "1d9be7130d2d9248467d3d1b546303f32f250f7354429491629aaf301205d3d3",
+    "v1-target-observation.json": "f9f9508e5746a258ee27a55fe061a0dd7d1bb75f0bae2131b5d2ddd7e5a1bcb4",
+    "v2-target-observation.json": "fdcda4ba4071130ef90671baf48c942e0c1f38ae3ebbf5f58ce4490b49d14a19",
+    "noop-target-observation.json": "2972c697432b3d34b6d66358b9853dd35fca52872d361add215736c866654d33",
+    "history-before.json": "402763088c58cf9b7513e2af08e15935a461ffce7c02b1fc47ae6eda51b8b776",
+    "history-after.json": "47c9bfa71bff7d9185466052bb8c1b2b8e7d2c161e5298ed5d3f4d7e2f068a5c",
+    "idempotency-noop-queued.json": "99805e4cc7e4a046bed62fd583a524de5fa2d7211421f9180f3d8de590e70f76",
+    "installation-review-v1.json": "beeb08f0e7921b29b288a0ad27e3f6019c88a39f3167d54e4bf178f0530095a2",
+    "installation-review-v2.json": "800af640a20ee0b52d7da742b03b4b1ed2ddff2bb7de4ce5ab51dd2438dd21a2",
+    "installation-review-noop.json": "80f5961e557b0f0032177600d6968797e2042205391a1ecf14bbf512f9ba56a6"
+  }
+}

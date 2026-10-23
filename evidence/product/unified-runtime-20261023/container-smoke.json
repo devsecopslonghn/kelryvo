@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "scope": "LOCAL_OCI_POSTGRESQL",
+  "network": "HOST_LOOPBACK",
+  "architecture": "amd64",
+  "login": "Secure cookie and CSRF enforced",
+  "gitValidation": "VALID",
+  "approval": "APPROVED",
+  "history": "NOT_EXECUTED",
+  "credentialRotation": "PASS_WITHOUT_EXPIRY_EXTENSION_OR_RESURRECTION",
+  "restartPersistence": "PASS",
+  "gracefulExit": 0,
+  "runtimeIsolation": "PASS_API_UID10001_EXECUTION_UID10002_SUPERVISOR_CAP_KILL_ONLY",
+  "sourceSecrets": "ROOT_0400",
+  "childFailure": "CONTAINER_EXITED_WITHOUT_RESTART",
+  "runtimeNotices": {
+    "debianPackages": 115,
+    "jdkFiles": 38
+  },
+  "oracleRuntimeVerified": false
+}

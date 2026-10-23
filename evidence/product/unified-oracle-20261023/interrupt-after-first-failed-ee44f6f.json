@@ -1,0 +1,81 @@
+{
+  "status": "FAIL_INTENDED_AFTER_FIRST_SIGKILL_NOT_REACHED",
+  "at": "2026-10-23T18:16:04.454603+00:00",
+  "runtimeSource": "ee44f6fc5ddaecddd46dbc489ec209d7f4a57eb9",
+  "image": "longhn0710t/kelryvo-pilot@sha256:9d20926ca5d77eb880de460a02f2394e632a2f8baa885d6a97c49b9d2c2e28db",
+  "oraclePdb": "KP_INT_AFTER",
+  "oraclePdbGuid": "5E85C0EDFC6CFCDDE0638101F40A8B3B",
+  "projectId": "0addab30-fa0a-487c-be6e-60134bec4375",
+  "planId": "5afc3849-ed93-4b6b-94c7-f9a36b26e96e",
+  "jobId": "2c233bb4-d760-4286-81a9-809e7a5f359c",
+  "statementDigests": [
+    "436335e749f08b6a66be037aef14f86a52e98081012f4d79e55e733fe9a6d992",
+    "d2204b1829d9280e7454686096f5dfded5c7df7f78e795a706293fdd8493c861"
+  ],
+  "intendedFault": "Kill essential execution session after first acknowledged CREATE TABLE and before second native ALTER TABLE ADD call.",
+  "failure": {
+    "component": "Private test operator",
+    "reason": "Runtime inspection rejected a transient two-Pod list during Recreate (old terminating Pod plus replacement).",
+    "operatorStoppedBeforeSignal": true,
+    "signalSent": false,
+    "wholeContainerFailureInduced": false,
+    "initialWatcherLogRetained": true
+  },
+  "observedOutcome": {
+    "jobState": "HOLD",
+    "attempts": 1,
+    "attemptGeneration": 1,
+    "centralReceipts": 1,
+    "firstStatementAcknowledged": true,
+    "secondStatementAcknowledged": false,
+    "faultWrapper": "Fixed 18-second pause expired without release; second native statement was never called.",
+    "oracleApplicationObjects": 1,
+    "table": "KP_FAULT_A.KP_TABLE",
+    "columns": [
+      "ID"
+    ],
+    "oracleLedgerHeadSequence": 6,
+    "oracleLedgerEvents": [
+      "FILE_STARTED",
+      "STATEMENT_PLANNED",
+      "STATEMENT_PLANNED",
+      "STATEMENT_STARTED",
+      "STATEMENT_ACKNOWLEDGED",
+      "STATEMENT_STARTED"
+    ],
+    "controlledAppRecreateWithExecutionEnabled": "PASS exact held central snapshot, object metadata and ledger rows unchanged",
+    "browserHistory": "PASS developer and approver see HOLD and one retained receipt; four valid checksummed record downloads",
+    "automaticReplayObserved": false
+  },
+  "afterCase": {
+    "executionEnabled": false,
+    "argoAutoSync": false,
+    "heldRequestAndPdbRetained": true
+  },
+  "limitations": [
+    "This is a retained failed fault-injection attempt, not OA06 after-first interruption acceptance. No essential process was killed.",
+    "Post-failure observer proves a partial target and HOLD durability; it does not establish the intended in-window kill boundary.",
+    "Fresh target and corrected, independently reviewed operator are required for another actual interruption. Existing request will not be replayed."
+  ],
+  "privateEvidenceSha256": {
+    "installation-review.json": "cef3e1708c09ce44ab6e1a2a3b8e1546c9f1f84b9108fce00f18b6d92688738e",
+    "installation-after-first.candidate.json": "2dcee35265b41dd84526e72a6529d6b16871e346063346095dd1ffff338c1ca2",
+    "request-after-first.json": "95a22550ab8b9710fd97804dd162be814424fa2601b518e940b21dacbaccd3c4",
+    "fault-policy.json": "d31d71df581eeaa39f9fb1e6b009ee154c2b1bc2a8aec37acfc648e0a5361009",
+    "root-fault-review.json": "f6029d156970a6b2635ac1d444d627aa92c61dddba9f90e8b8650b79e7711a44",
+    "preflight-after-first.json": "30b2fade61a83921d62a08fdada8e83ef8a48334c8bfb03f67cf743a7cb5da9a",
+    "fault-interrupt.log": "ae28339647b1457c10e16c634adcb028df34b32df187d8d573245ca3ba6667ed",
+    "watcher-failure-current-state.json": "b83874c4a3f806926e0d0fbe0b3db7c4e8b9e176d2b8864243fd73f0346e2b11",
+    "oracle-before.json": "bdc12519979bb1e31023cb4f45633456acd5d2b9c6e54fd3fcbf53cdd96d9014",
+    "oracle-after.json": "78f073117fd02313af138685323723616e174713f95b4214158c1eba3c42e852",
+    "oracle-after-restart.json": "fbff3237a1fe96bcdc480722ca84a7d328b12cd163a99dbcd81c069ebab877bb",
+    "oracle-restart-comparison.json": "3ec2834a2ccf53aa434662f68c54ad1898f0ad2789fcfcad645668adbe51e5c1",
+    "recovery-before-recreate.json": "d0b1e20594cfac5e878e4ea1ea3abd41bfe19d707ae7bd09bb42d229b41849c4",
+    "recovery-after-recreate.json": "a5136795c8211552300c1e3910181bf096e84de42febc0443ed9536ebe97c7ce",
+    "browser-held-history.json": "21c2b1d899e725d759e757aea01e6a092496011f47b45bb98cc4d72cb995ccb7",
+    "execution-disabled-after-first.json": "d2602a6835e29d478a35b12a4a322615ecf9f4884cda233d4683355299646e72",
+    "runtime-disabled-final.json": "75835c304e1dbaac73d9826031fbce24747e81b818949f07b6929c733ba83d7c",
+    "failure-acceptance-review.json": "e410679d05f31b8b8d476a3eb7f6267a2a9d4d5aea4ed6ef9c00a8cd82a38673"
+  },
+  "pilotComplete": false
+}

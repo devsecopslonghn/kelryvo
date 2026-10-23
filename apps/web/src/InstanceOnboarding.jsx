@@ -237,7 +237,9 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
     <div className="panel-heading"><div><p className="eyebrow">ORACLE INSTANCE</p><h2>Connect, discover, and assign schemas</h2><p>One master credential reference serves discovery and authorized schema onboarding. Discovery checks connectivity; passwords are never entered or returned here.</p></div>
       <button type="button" className="secondary" disabled={busy} onClick={() => void reload(epoch.current)}>Refresh</button></div>
     {metadataRecovery?.state && metadataRecovery.state !== 'ACTIVE' && <p className="banner warning" role="status">Metadata recovery is {metadataRecovery.state}. Instance changes are disabled.</p>}
-    {dataScope === scope && rawData?.canManage === false && <p className="banner warning" role="status">Instance onboarding is unavailable for your current access. Existing connection evidence remains readable.</p>}
+    {dataScope === scope && rawData?.canManage === false && <p className="banner warning" role="status">{actor?.role === 'developer'
+      ? 'Your account needs workspace database-management permission to connect, discover, or assign schemas. Ask the operator to grant this permission.'
+      : 'A developer with workspace database-management permission can connect, discover, and assign schemas.'} Existing connection evidence remains readable.</p>}
     {error && <p className="banner error" role="alert">{error}</p>}
     {notice && <p className="banner success" role="status">{notice}</p>}
     {!rawData && !error && <p role="status">Loading Oracle instances…</p>}
@@ -301,13 +303,13 @@ export function InstanceOnboarding({ token, projectId, detail, api, actor, acces
       </article>}
       {relevantBindings.length > 0 && <section className="instance-bindings" aria-label="Assigned schema bindings">
         <h3>Verify assigned schemas</h3>
-        <p>Verification uses the current discovery observation. A successful schema assignment alone does not confirm live target identity.</p>
+        <p>Verification uses the current discovery observation. A successful schema assignment alone does not confirm live target identity. Refreshing verification creates a new binding revision; prepare and independently review fresh plans afterward.</p>
         {relevantBindings.map(binding => <article className="schema-reference-card" key={binding.bindingId} data-binding-id={binding.bindingId}>
           <h4>{binding.exactOwner} <span className={`status-pill ${binding.identityState === 'VERIFIED' ? 'good' : 'warn'}`}>{binding.identityState || 'PROVISIONAL'}</span></h4>
           <p>Environment: {binding.environmentName || environments.find(env => env.id === binding.environmentId)?.name || 'Unknown'} · Binding revision {binding.bindingRevision} · Assignment revision {binding.assignmentRevision}</p>
           {binding.identityState === 'VERIFIED' && <p role="status">Live identity verification is retained for this binding.</p>}
-          {binding.identityState !== 'VERIFIED' && <button type="button" className="secondary" disabled={busy || !manageable || !selected || !currentObservation?.identityDigest || !reason.trim()}
-            onClick={() => verify(binding)}>Verify {binding.exactOwner}</button>}
+          <button type="button" className="secondary" disabled={busy || !manageable || !selected || !currentObservation?.identityDigest || !reason.trim()}
+            onClick={() => verify(binding)}>{binding.identityState === 'VERIFIED' ? `Refresh ${binding.exactOwner} verification` : `Verify ${binding.exactOwner}`}</button>
         </article>)}
       </section>}
       {connectionCursor && <button type="button" className="secondary" disabled={busy} onClick={() => void load(epoch.current, connectionCursor, true)}>Load more instances</button>}

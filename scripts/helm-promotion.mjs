@@ -4,22 +4,21 @@ import { pathToFileURL } from 'node:url';
 import { githubApi, HELM_REPOSITORY, isDigest, isSha, requirePublication } from './container-publication-gate.mjs';
 import { IMAGES, registryReader, verifyImage, command, imageRepository, imageTag } from './container-delivery.mjs';
 
-// Preserve every byte except the two digest scalars; reject unfamiliar layouts.
+// Preserve every byte except the unified image digest scalar.
 export function updateValues(source, digests) {
-  if (IMAGES.some(image => !isDigest(digests[image]))) throw new Error('Both verified SHA-256 image digests are required');
-  let section, imageBlock = false;
-  const seen = new Set();
+  if (!isDigest(digests.app)) throw new Error('A verified SHA-256 app image digest is required');
+  let inImageSection = false;
+  let seen = 0;
   const output = source.split('\n').map(line => {
-    if (/^\S/.test(line) && !line.startsWith('#')) { section = line.match(/^(app|worker):\s*$/)?.[1]; imageBlock = false; }
-    if (/^  \S/.test(line)) imageBlock = line === '  image:';
-    if (section && imageBlock && /^    digest:/.test(line)) {
-      if (seen.has(section) || !/^    digest: sha256:[a-f0-9]{64}$/.test(line)) throw new Error('Unsupported chart digest layout');
-      seen.add(section);
-      return `    digest: ${digests[section]}`;
+    if (/^\S/.test(line) && !line.startsWith('#')) inImageSection = /^image:\s*$/.test(line);
+    if (inImageSection && /^  digest:/.test(line)) {
+      if (seen || !/^  digest: sha256:[a-f0-9]{64}$/.test(line)) throw new Error('Unsupported chart digest layout');
+      seen++;
+      return `  digest: ${digests.app}`;
     }
     return line;
   }).join('\n');
-  if (seen.size !== 2) throw new Error('Chart must contain exactly app.image.digest and worker.image.digest');
+  if (seen !== 1) throw new Error('Chart must contain exactly image.digest');
   return output;
 }
 
@@ -99,7 +98,7 @@ export async function promoteHelm({ api, sourceApi, sha, digests, directory, val
   const tree = await api('git/trees', 'POST', { base_tree: commit.tree.sha,
     tree: [{ path: 'values.yaml', mode: '100644', type: 'blob', content: after }] });
   const created = await api('git/commits', 'POST', { tree: tree.sha, parents: [base],
-    message: `Promote verified Kelryvo images ${sha.slice(0, 12)}\n\nKelryvo-Source-SHA: ${sha}\nKelryvo-App-Digest: ${digests.app}\nKelryvo-Worker-Digest: ${digests.worker}` });
+    message: `Promote verified Kelryvo app image ${sha.slice(0, 12)}\n\nKelryvo-Source-SHA: ${sha}\nKelryvo-App-Digest: ${digests.app}` });
   await gate();
   if (branch.protected) {
     // Never grant a bypass or merge a protected promotion automatically.
@@ -107,7 +106,7 @@ export async function promoteHelm({ api, sourceApi, sha, digests, directory, val
     const pr = await api('pulls', 'POST', { head, base: 'master',
       draft: true,
       title: `Promote verified Kelryvo images ${sha.slice(0, 12)}`,
-      body: `Both immutable image digests belong to verified source ${sha}. Only app.image.digest and worker.image.digest change. Strict Helm lint, chart security checks and template validation passed.\n\nApp: ${digests.app}\nWorker: ${digests.worker}\n\nRecheck that this source is current before merging; repository review and CI policies apply.` });
+      body: `The immutable application image digest belongs to verified source ${sha}. Only image.digest changes. Strict Helm lint, chart security checks and template validation passed.\n\nApp: ${digests.app}\n\nRecheck that this source is current before merging; repository review and CI policies apply.` });
     return { status: 'pull-request', url: pr.html_url };
   }
   // A non-forced ref update rejects a concurrent Helm commit because this
@@ -123,7 +122,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     const gate = () => requirePublication(sourceApi, env.SOURCE_SHA);
     await gate();
     const tag = imageTag(env.SOURCE_SHA, env.OCI_RUN, env.OCI_ATTEMPT);
-    const digests = { app: env.APP_DIGEST, worker: env.WORKER_DIGEST };
+    const digests = { app: env.APP_DIGEST };
     for (const image of IMAGES) {
       const reader = await registryReader(image, env.GITHUB_ACTOR, env.GITHUB_TOKEN);
       const remote = await reader(digests[image]);

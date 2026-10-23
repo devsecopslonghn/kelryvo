@@ -3,9 +3,12 @@ import { fileURLToPath } from 'node:url';
 import { loadContainerConfig } from '../../packages/runtime/container-config.mjs';
 import { startProduct } from './server.ts';
 import { writeRuntimeEvent } from '../../packages/observability/runtime-events.mjs';
+import { Socket } from 'node:net';
+import { closeSync, writeSync } from 'node:fs';
+import { createDiscoveryClient } from '../../packages/runtime/discovery-ipc.mjs';
 
 export async function runContainer({ configure = loadContainerConfig, start = startProduct, emit = writeRuntimeEvent, shutdownTimeoutMs = 25_000 } = {}) {
-  let app, closing, stopping = false, deadline, reportedFailure = false;
+  let app, bridge, closing, stopping = false, deadline, reportedFailure = false;
   const log = event => { if (event.event === 'startup' && event.state === 'failed') reportedFailure = true; emit(event); };
   const stop = () => {
     if (!stopping) {
@@ -13,7 +16,7 @@ export async function runContainer({ configure = loadContainerConfig, start = st
       log({ event: 'shutdown', state: 'started' });
       deadline = setTimeout(() => { log({ event: 'shutdown', state: 'timeout', code: 'shutdown_unavailable' }); process.exit(1); }, shutdownTimeoutMs);
     }
-    if (app && !closing) closing = Promise.resolve().then(() => app.close()).then(() => log({ event: 'shutdown', state: 'complete' }), () => {
+    if (app && !closing) closing = Promise.resolve().then(() => { bridge?.close(); return app.close(); }).then(() => log({ event: 'shutdown', state: 'complete' }), () => {
       log({ event: 'shutdown', state: 'failed', code: 'shutdown_unavailable' }); process.exit(1);
     }).finally(() => {
       clearTimeout(deadline);
@@ -27,11 +30,19 @@ export async function runContainer({ configure = loadContainerConfig, start = st
     try { config = await configure(); }
     catch { log({ event: 'startup', state: 'failed', code: 'configuration_unavailable' }); throw new Error('Container startup unavailable'); }
     if (stopping) return;
+    if (process.env.KELRYVO_DISCOVERY_FD !== undefined) {
+      if (process.env.KELRYVO_DISCOVERY_FD !== '3' || process.getuid?.() !== 10001) throw new Error('Container startup unavailable');
+      bridge = createDiscoveryClient(new Socket({ fd: 3, readable: true, writable: true }));
+      config.discoveryRuntime = bridge;
+    }
     app = await start(config, log);
     if (stopping) { stop(); await closing; return; }
     log({ event: 'startup', state: 'ready' });
-    process.stdout.write('Kelryvo API ready; target execution unavailable.\n');
+    if (process.env.KELRYVO_READY_FD === '4') { writeSync(4, Buffer.from([1])); closeSync(4); }
+    process.stdout.write('Kelryvo API ready; inspect target execution readiness before requesting a deployment.\n');
   } catch {
+    bridge?.close();
+    if (process.env.KELRYVO_READY_FD === '4') { try { closeSync(4); } catch { /* already notified */ } }
     if (!reportedFailure) log({ event: 'startup', state: 'failed', code: 'startup_unavailable' });
     clearTimeout(deadline);
     process.off('SIGTERM', stop); process.off('SIGINT', stop);

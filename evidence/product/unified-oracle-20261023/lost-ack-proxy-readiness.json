@@ -1,0 +1,52 @@
+{
+  "status": "PASS_OWNED_PROXY_READONLY_ROUTE_ONLY",
+  "at": "2026-10-23T23:06:55.499337+00:00",
+  "runtimeSource": "ee44f6fc5ddaecddd46dbc489ec209d7f4a57eb9",
+  "image": "longhn0710t/kelryvo-pilot@sha256:9d20926ca5d77eb880de460a02f2394e632a2f8baa885d6a97c49b9d2c2e28db",
+  "proxy": {
+    "namespace": "kelryvo-oracle-lab",
+    "deployment": "oracle-fault-proxy",
+    "replicas": 1,
+    "containers": 1,
+    "uid": 10002,
+    "effectiveCapabilities": 0,
+    "serviceType": "ClusterIP",
+    "port": 1522,
+    "fixedUpstream": "oracle-free.kelryvo-oracle-lab.svc.cluster.local:1521",
+    "noDatabaseCredentialsMounted": true,
+    "control": "Fixed operator files PASS/BUFFER/CUT; no network control endpoint"
+  },
+  "route": {
+    "pdb": "KP_LOST_ACK",
+    "pdbGuid": "5E85C2720FA8FD31E0638101F40A326E",
+    "sessionUser": "KP_MASTER",
+    "observedFromApplicationRoleUid": 10002,
+    "acceptedConnections": 1,
+    "oracleResponseBytesObserved": 5592,
+    "oracleWrites": 0,
+    "bufferedBytes": 0,
+    "cutConnections": 0,
+    "upstreamErrors": 0,
+    "proxyAfter": "PASS/inactive"
+  },
+  "discovery": "CONNECTED; PARTIAL schema coverage remains explicit",
+  "applicationExecutionEnabled": false,
+  "argoAutoSync": false,
+  "limitations": [
+    "This is proxy and read-only route readiness, not a lost-ack fault, writer-installation qualification or pilot acceptance.",
+    "Only one manually scoped native identity SELECT traversed the proxy; governed writer routing must be verified during actual installed preflight.",
+    "The proxy is a disposable lab fixture separate from the one-container application; it is not a required production service."
+  ],
+  "privateEvidenceSha256": {
+    "proxy-deploy-review.json": "2a04972633f6a8451c7357f35baecbce7d4bdf22384e497dc422ebffe2532a7e",
+    "proxy-ready.json": "57fd11715850be444d16dc919d67a925339a30f3407f8bd99777f24f4ddc8ad7",
+    "proxy-route-probe-review.json": "007bf1e7961d99c8ac4a3410afae462bed8aea144b9395231a06e5f3184bc84d",
+    "probe-proxy-route.py": "a6d712cd0670124105761b5a62665a39cc63b6d7ce2eb121d429ee10fab30516",
+    "proxy-route-probe.json": "b77f2cac80fc1fb12bd5c89a5a99f9dfa4fdc9f4e6e4ee99e46043a77dd15523",
+    "proxy-route-review.json": "be80cb45a3e2af160f81a51b53108c2225a73530eee913ecf5d3f841fe41284f",
+    "discovery-review.json": "ef51a4520775c9fa3e99cd07492306f129cacda693f5738fb67735927f70ad94",
+    "deployed-discovery-initial.json": "d85a21976a37bf8c44775b0e844620dfe1fbef5e38525acf82e9770a15b6a927",
+    "proxy-runtime-isolation.json": "46f6ed424d532e84f3568e762389a9c1f19d98115e643c1b648703a41fb784bd"
+  },
+  "pilotComplete": false
+}

@@ -1,9 +1,12 @@
 # Non-production runtime and Phase 6 acceptance
 
-Use the existing [source installation](local-release.md) or
-[app/worker containers](containers.md). No external deployment or infrastructure
-change is part of Phase 6. Authorized live Oracle execution remains **NOT_RUN**
-under the [Oracle acceptance suite](oracle-acceptance.md).
+Use the existing [source installation](local-release.md) or the unified
+[application container](containers.md). No external deployment or infrastructure
+change is part of Phase 6. Authorized live Oracle execution remains **NOT_RUN** for
+the unified runtime under the [Oracle acceptance suite](oracle-acceptance.md).
+Prior browser, API and Oracle fixture evidence remains historical evidence for the
+source and container revisions on which it was recorded; it does not establish
+acceptance of a newly built unified image.
 
 ## Reproduce the runtime
 
@@ -16,20 +19,31 @@ private files following [local-product.md](local-product.md). This starts the re
 HTTPS server, initializes metadata, and preserves its owned PostgreSQL volume.
 Never remove an existing metadata volume to resolve startup failure.
 
-For deployment-equivalent container validation:
+For deployment-equivalent container validation, build the single application image
+for the target architecture and pass that image and architecture to the smoke harness:
 
 ```sh
 docker build --platform linux/amd64 --target app --tag kelryvo-app:local .
-docker build --platform linux/amd64 --target worker --tag kelryvo-worker:local .
-node scripts/test-containers.mjs kelryvo-app:local kelryvo-worker:local
+node scripts/test-containers.mjs kelryvo-app:local linux/amd64
 ```
 
-The existing harness creates owned disposable Docker fixtures, uses TLS,
-read-only app storage, non-root users, dropped capabilities and private secret
-mounts, then verifies governed API operations and app restart persistence. It
-rejects a worker without its private installation. Application writer secrets
-and live Oracle hosts are absent. A completed test removes its owned fixtures;
-normal local runtime persistence uses the existing local volume.
+The harness creates owned disposable Docker fixtures and checks the unified image
+entrypoint, root-only source Secrets, bootstrap staging, API UID 10001, execution UID
+10002, zero child capabilities and the supervisor's reduced capability set. It uses
+a read-only root filesystem, the same capability set as Compose and private tmpfs
+mounts. It verifies fail-closed startup without source configuration or a requested
+private installation, governed API operations, explicit credential restaging,
+restart persistence and container termination after essential child loss. Application
+writer installations and live Oracle hosts are absent. A completed test removes its
+owned fixtures. In Compose use, PostgreSQL stays outside the app container and keeps
+its independently managed metadata storage.
+
+The local Compose deployment is described in [containers.md](containers.md). It
+requires a pinned `kelryvo-app` image and a pre-provisioned root-owned Secret directory
+containing PostgreSQL URL, actor tokens and TLS files. Compose does not provision or
+delete PostgreSQL data. Execution and discovery default off; enabling either requires
+an explicitly mounted private installation. There is no automatic restart after a
+runtime child failure, so inspect retained history and the database before restarting.
 
 Container configuration uses the private Secret references documented in
 [containers.md](containers.md). Do not put tokens, database URLs, TLS keys or
@@ -60,6 +74,8 @@ and optional `code` fields. For example:
 Lifecycle states are startup `started`, `ready`, `failed` and shutdown `started`,
 `complete`, `failed`, `timeout`. SIGINT/SIGTERM drain the app and PostgreSQL pool;
 failed shutdown or expiration of the existing 25-second deadline exits nonzero.
+The unified PID 1 also exits unsuccessfully if either essential child exits; it never
+restarts the API or execution process and never replays an interrupted request.
 Arbitrary exception messages, SQL, paths and secrets are excluded. API request
 logging stays disabled to avoid recording bearer/session credentials.
 
@@ -67,9 +83,11 @@ logging stays disabled to avoid recording bearer/session credentials.
 read availability and returns 503 when unavailable. A restored database can report
 RESTORE_HOLD as ready for historical reads while writes and execution remain
 blocked. `targetAvailability: UNVERIFIED` is not evidence of Oracle connectivity.
-After interruption, the existing expiry recovery and generation-bound worker
-supervisor preserve ambiguity; they do not replay DDL. Keep workers disabled until
-the private trusted installation and separately authorized Oracle acceptance exist.
+After interruption, the existing expiry recovery and generation-bound internal
+execution supervisor preserve ambiguity; they do not replay DDL. Keep execution and
+discovery disabled until their private installations are reviewed. Oracle execution
+also requires separate explicit authorization and an accepted runtime-specific lab
+result.
 
 ## Reproduce acceptance
 

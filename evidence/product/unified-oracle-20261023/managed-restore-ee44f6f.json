@@ -1,0 +1,79 @@
+{
+  "status": "PASS_BOUNDED_WITNESSED_MANAGED_RESTORE_AND_RUNTIME_HOLD",
+  "at": "2026-10-23T17:01:41.975054+00:00",
+  "restoreOperatorSource": "ee44f6fc5ddaecddd46dbc489ec209d7f4a57eb9",
+  "runtimeSource": "ee44f6fc5ddaecddd46dbc489ec209d7f4a57eb9",
+  "image": "longhn0710t/kelryvo-pilot@sha256:9d20926ca5d77eb880de460a02f2394e632a2f8baa885d6a97c49b9d2c2e28db",
+  "localImageId": "sha256:99896e88dd9b0f00732fe90a90980d56d062ace3f2c14690a4163769fa28be36",
+  "backupSource": "6f26dec9836ecc03c0884a73f7ae05dded781363",
+  "backup": {
+    "manifestSha256": "a8e413b945456b53bcbfe7bdb8ecc51cd53e4017bcff82cf704c5e3e95d6eb3a",
+    "archiveSha256": "1d27c220d606ee6608fe7517621a58394003f2c9959355537ba7ec5098fd4b9b",
+    "witnessSha256": "326f0e33b5bc46b3bfb6bfe94f2960ac79bc2abc53c9e83c46d9d0d97a8a08ca",
+    "witnessId": "541b0de0-f077-40e7-af62-a442a5bf5349",
+    "sourceBackupRevision": "6f26dec"
+  },
+  "sourceModules": {
+    "packages/backup/index.mjs": "30f4cb3aacb0ec90edf00e188ee355a82beec580a395b340fb313ed8210a6eef",
+    "scripts/managed-backup-operator.mjs": "e78beb8324e4bdec471541125da11c5adcda8ec07c11ed63fdfc371dbbcd3f17"
+  },
+  "metadataTarget": "Existing owner-authorized Kubernetes PostgreSQL17.10, original source database and retained PVC unchanged. Restore creates a new uniquely owned database; no application cutover.",
+  "nativeTools": "pg_dump/pg_restore in positively-owned bounded Docker tool containers through a loopback-only verified Kubernetes port-forward.",
+  "restoreDurationMs": 36724,
+  "restoredBusinessTablesExact": 21,
+  "sourceBusinessTablesUnchanged": 21,
+  "restoredCounts": {
+    "sf_plans": 18,
+    "sf_plan_approval_revocations": 1,
+    "sf_execution_jobs": 17,
+    "sf_execution_receipts": 7,
+    "sf_history": 28
+  },
+  "credentialRecovery": "Root-only fresh credentials for existing fixed actors under persistent witnessed RESTORE_HOLD; restored source credentials revoked.",
+  "oldActorCredentialsHttpStatus": {
+    "developerToken": 401,
+    "approverToken": 401
+  },
+  "bothRoles": {
+    "planRecordsRead": 8,
+    "executionRecordsRead": 8,
+    "recordChecksumsValid": true,
+    "stableRecordFactsAfterRestart": true,
+    "migrationHistoryFirstPageItems": 25,
+    "migrationHistoryReportedTotal": 130,
+    "historyFirstPageAndTotalStableAfterRestart": true,
+    "historyAllPagesCompared": false
+  },
+  "readinessAfterRestart": {
+    "status": 200,
+    "metadata": "RESTORE_HOLD",
+    "targetAvailability": "UNVERIFIED"
+  },
+  "mutationDenied": {
+    "status": 409,
+    "error": "METADATA_RESTORE_HOLD"
+  },
+  "oracleWriterCalls": 0,
+  "oracleInstallationMounted": false,
+  "restoreHoldCleared": false,
+  "priorFailuresPreserved": [
+    "Initial native pg_dump tunnel/client timeout without a valid backup archive.",
+    "Initial restore failed while the historical approval revocation guard used an empty search_path; ee44f6f validates qualified references and re-enables the insert guard in the unpublished restored database.",
+    "An early restart comparison included changing exportedAt fields; stable record facts were then compared across a separate restart."
+  ],
+  "limits": [
+    "Local Docker runtime reads restored cluster metadata; no restored-cluster app cutover was performed.",
+    "This does not qualify interrupted Oracle execution, target ambiguity reconciliation, final Compose/Helm Oracle parity, or full pilot disaster recovery.",
+    "The history browser/API comparison covers the first page and reported total; exact native rows in all 21 business tables were independently compared."
+  ],
+  "pilotComplete": false,
+  "privateEvidenceSha256": {
+    "restore-proof.private.json": "eb599205b1df7d66a500687817fd8ffe9889c4b9183733578f045248cc08ac21",
+    "api-evidence.private.json": "c843f7d69fc73eec297f9208f8c2dd0d33fea88e0ff728c5fb716135cda6cbd4",
+    "source-compare.private.json": "f27960b4fe8b4ec16902a6d1f87eda83091d00f7c977ed4a5d7c0b0a38980138",
+    "records-before.private.json": "4260832c8c3326ca5a2d6553dc91d938e06d73aed563dec34ca5a0cbcd26bb45",
+    "records-after.private.json": "7a7a8c6f706e1027c2011c26e6cfbd6f07be7d29cb77ead20cdda5bcaa10e1b0",
+    "restored-business-compare.private.json": "7bb82c4a22f4d24d91754f9feb8d235e854bcc309d6791783378d4bb63f83786",
+    "canonical-restored-business.json": "52664a8f1700051deb491727927c43f5c86568fc8a7f75d11b0b5dc1ac514945"
+  }
+}
