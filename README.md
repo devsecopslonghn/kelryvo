@@ -32,6 +32,10 @@ Offline checks need no database credentials; optional database/parser cases may 
 
 ## Run locally
 
+For the unified pilot runtime, use the [single-container Docker/Compose guide](docs/development/containers.md).
+Docker and Helm use the same image and `/opt/kelryvo/bin/kelryvo-runtime` entrypoint;
+PostgreSQL remains external. The commands below start the offline source-development server.
+
 Requires Git, Docker and Linux x64 for the pinned parser preparation:
 
 ```sh

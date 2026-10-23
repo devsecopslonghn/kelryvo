@@ -1,6 +1,6 @@
 import { execFileSync, spawnSync } from 'node:child_process';
 import { randomUUID, randomBytes } from 'node:crypto';
-import { mkdtemp, mkdir, writeFile, readFile, chmod, rm, readdir, stat } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, readFile, chmod, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import https from 'node:https';
@@ -65,7 +65,7 @@ async function releaseSourceSecrets(image) {
   const uid = process.getuid(), gid = process.getgid();
   docker('run', '--rm', '--network', 'none', '--user', '0:0', '--cap-drop=ALL', '--cap-add=CHOWN',
     '--entrypoint', 'node', '--mount', `type=bind,src=${secrets},dst=/secrets`, image, '-e',
-    `const fs=require('node:fs'),p=require('node:path');for(const n of fs.readdirSync('/secrets')){const f=p.join('/secrets',n);fs.chownSync(f,${uid},${gid});fs.chmodSync(f,0o600);}fs.chownSync('/secrets',${uid},${gid});fs.chmodSync('/secrets',0o700);`);
+    `const fs=require('node:fs'),p=require('node:path');for(const n of fs.readdirSync('/secrets')){const f=p.join('/secrets',n);fs.chmodSync(f,0o600);fs.chownSync(f,${uid},${gid});}fs.chmodSync('/secrets',0o700);fs.chownSync('/secrets',${uid},${gid});`);
 }
 
 async function rotateDesiredSecret(identity, token, image) {
@@ -107,8 +107,10 @@ try {
     '-addext', 'subjectAltName=IP:127.0.0.1,DNS:localhost', '-keyout', path.join(secrets, 'tls.key'), '-out', path.join(secrets, 'tls.crt')], { stdio: 'ignore' });
   const ca = await readFile(path.join(secrets, 'tls.crt'));
   await rootOwnSourceSecrets(appImage);
-  const sourceStats = await Promise.all((await readdir(secrets)).map(async name => stat(path.join(secrets, name))));
-  assert.ok(sourceStats.every(item => item.uid === 0 && item.gid === 0 && (item.mode & 0o777) === 0o400));
+  stage = 'protected source permissions';
+  assert.equal(docker('run', '--rm', '--network', 'none', '--read-only', '--cap-drop=ALL', '--entrypoint', 'node',
+    '--mount', `type=bind,src=${secrets},dst=/secrets,readonly`, appImage, '-e',
+    "const fs=require('node:fs');process.stdout.write(String(fs.readdirSync('/secrets').every(n=>{const s=fs.statSync('/secrets/'+n);return s.uid===0&&s.gid===0&&(s.mode&0o777)===0o400;})));"), 'true');
 
   stage = 'missing source configuration fails closed';
   assertContainerFails(['run', '--rm', '--network', 'none', ...runtimeSecurity,
