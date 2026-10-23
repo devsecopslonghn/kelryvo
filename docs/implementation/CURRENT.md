@@ -62,7 +62,12 @@ one receipt and the ID-only table before killing UID 10002. The container exits 
 lease expiry retains HOLD, one attempt and one receipt. Oracle metadata and all six
 ledger rows are identical before the kill, after automatic restart and after another
 controlled app recreate; both roles retain history downloads. Execution is disabled.
-These two bounded interruption cases do not qualify lost-ack or full pilot acceptance.
+These two bounded interruption cases do not qualify lost-ack or full pilot acceptance. A
+[lab-only proxy route proof](../../evidence/product/unified-oracle-20261023/lost-ack-proxy-readiness.json)
+now verifies the fixed TCP proxy and one read-only Oracle identity query from the app's
+execution UID. The proxy starts in PASS with no buffered response or cut; this prepares
+network-fault testing and is not lost-ack acceptance. It is a separate lab fixture,
+not an application worker or production deployment requirement.
 
 The same `a4dbb8d` image also passed [Docker Compose governance and persistence](../../evidence/product/unified-oracle-20261023/compose.json)
 with external disposable PostgreSQL, HTTPS, independent approval, credential rotation,
