@@ -47,7 +47,8 @@ on `ee44f6f`: killing UID 10002 after the central STARTED event but before nativ
 stops the container; lease recovery retains HOLD, one attempt and zero receipts. Oracle
 has no application objects and retains its three ledger events unchanged after another
 app recreate. Both browser roles can inspect and download the held records. Execution
-is disabled again; the after-acknowledgment evidence follows below and real lost-ack remains pending.
+is disabled again; the after-acknowledgment evidence follows below, followed by the
+retained real lost-ack controller FAIL.
 The [first after-acknowledgment attempt](../../evidence/product/unified-oracle-20261023/interrupt-after-first-failed-ee44f6f.json)
 is retained as FAIL: the private fault operator stopped on a transient old/new Pod list
 before sending SIGKILL. The fixed pause expired after CREATE TABLE was acknowledged;
@@ -68,6 +69,26 @@ now verifies the fixed TCP proxy and one read-only Oracle identity query from th
 execution UID. The proxy starts in PASS with no buffered response or cut; this prepares
 network-fault testing and is not lost-ack acceptance. It is a separate lab fixture,
 not an application worker or production deployment requirement.
+
+The [2026-10-24 lost-ack attempt](../../evidence/product/unified-oracle-20261023/lost-ack-failed-ee44f6f.json)
+on `ee44f6f` remains **FAIL**. Its installed no-dispatch preflight observes the writer
+through the proxy while ledger/observer sessions stay direct. During the actual case,
+one native CREATE takes effect, 68 upstream response bytes are withheld, and fail-closed
+cleanup cuts the session once without releasing bytes. The private controller rejects
+its historical BUFFER baseline as stale before its successful CUT path; post-cut native
+rejection status is not captured. Do not infer the exact cause of HOLD from its timestamp.
+The job retains one attempt, zero receipts and HOLD. The ID-only table, head checksum and
+all three unacknowledged ledger events remain identical across the cut and a controlled
+app recreate; both roles download matching retained records. Execution is disabled,
+Argo stays paused, and the proxy remains CUT with cumulative counters preserved.
+The closed-session buffered-byte diagnostic remains 68; there is no active session.
+Never replay this request or PDB. A corrected operator, fresh target and new independent
+approval are required to qualify another fault case. Full pilot acceptance remains incomplete.
+A [fresh retry PDB](../../evidence/product/unified-oracle-20261023/lost-ack-retry-pdb-preparation.json)
+now has source-bound metadata and native purpose-account qualification, including exact
+grants/quotas, service identity, protected-ledger denial and cross-COMMIT mutex exclusion.
+The earlier held target's object and complete journal remain unchanged. Application
+installation and governed retry execution on the new target remain NOT_RUN.
 
 The same `a4dbb8d` image also passed [Docker Compose governance and persistence](../../evidence/product/unified-oracle-20261023/compose.json)
 with external disposable PostgreSQL, HTTPS, independent approval, credential rotation,

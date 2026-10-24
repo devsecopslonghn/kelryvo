@@ -23,6 +23,17 @@ operator installs the private trusted worker only after these prerequisites pass
 
 ## Unified runtime: bounded acceptance on 2026-10-23
 
+The [2026-10-24 real lost-ack attempt](../../evidence/product/unified-oracle-20261023/lost-ack-failed-ee44f6f.json)
+on `ee44f6f` is retained as **FAIL**, including its successful installed split-route
+preflight and the actual response withholding/fail-closed cut. A historical BUFFER
+snapshot incorrectly fails the controller's five-second freshness check. One CREATE
+effect and three unacknowledged target events persist with central HOLD, one attempt
+and zero receipts; both roles retain checksummed downloads across app recreation.
+No post-cut native-driver rejection was captured, so complete OA07 is unproven.
+Preserve the held request, Oracle state and proxy counters. Never run it again.
+The next fault needs a corrected independently reviewed controller, fresh target and
+new independent plan approval, with explicit native-rejection and cut-before-HOLD evidence.
+
 The [new governed DDL evidence](../../evidence/product/unified-oracle-20261023/governed-ddl.json)
 is tied to source `a4dbb8d` and image digest `01018b1d9cc464dd3f6ea0125e748c55e2bf0690fcea94b565f728272ba6fce4`.
 It covers two assigned schemas using one master reference: browser-authored and independently

@@ -1,0 +1,136 @@
+{
+  "status": "FAIL_LOST_ACK_CONTROLLER_HISTORICAL_BASELINE_STALENESS",
+  "at": "2026-10-24T00:32:21.835768+00:00",
+  "runtimeSource": "ee44f6fc5ddaecddd46dbc489ec209d7f4a57eb9",
+  "sourceRepositoryHead": "6c45fd0ca7e49d14a5344c0dba9b2771fec3c9b3",
+  "image": "longhn0710t/kelryvo-pilot@sha256:9d20926ca5d77eb880de460a02f2394e632a2f8baa885d6a97c49b9d2c2e28db",
+  "oraclePdb": "KP_LOST_ACK",
+  "oraclePdbGuid": "5E85C2720FA8FD31E0638101F40A326E",
+  "projectId": "5fdeaf09-24ce-44a3-b76e-d375a3ef8762",
+  "planId": "6f33b65c-2b2d-4712-8dc8-ec3a21fada1a",
+  "jobId": "11a156cf-66ee-47a9-b576-ca8c1b5d731e",
+  "statementDigests": [
+    "deb6aac79b269d08516aaa21b0e9102d923dfbb85d0e88afc678ebe4b1537c87"
+  ],
+  "preparation": {
+    "freshDiscovery": "CONNECTED; PARTIAL schema coverage retained",
+    "independentBrowserApproval": true,
+    "selfApprovalDenied": true,
+    "restrictedInstalledPreflight": "PASS; native driver peers show writer via fixed proxy and ledger/observer direct; zero migration dispatches",
+    "mountedRuntimeBytes": "PASS exact 12 staged files under UID10002; no initial fault markers",
+    "expiredUnclaimedRequest": {
+      "jobId": "90691e1d-c8ed-41f9-bc25-91468f7de83b",
+      "state": "CANCELLED",
+      "attempts": 0,
+      "receipts": 0,
+      "neverDispatched": true
+    }
+  },
+  "failure": {
+    "component": "Private fault operator",
+    "reason": "request_cut applies the five-second live-status check to its immutable pre-release BUFFER baseline, which is about 7.4 seconds old at the decision. The current held-response snapshot is fresh.",
+    "originalResultRetained": true,
+    "failClosedCutRan": true,
+    "successfulProtocolCutPathReached": false,
+    "nativeDriverRejectionStatusCaptured": false,
+    "noSyntheticDriverErrorOrSqlRetry": true
+  },
+  "observedOutcome": {
+    "nativeWriterDispatchCounter": 1,
+    "priorAcknowledgedWriterCalls": 0,
+    "upstreamBytesHeldBeforeCut": 68,
+    "releasedBytes": 0,
+    "writerSessionsBeyondReviewedBaseline": 1,
+    "proxyCutCountDelta": 1,
+    "proxyUpstreamErrors": 0,
+    "proxyBufferOverflow": false,
+    "jobState": "HOLD",
+    "attempts": 1,
+    "attemptGeneration": 1,
+    "centralReceipts": 0,
+    "oracleApplicationObjects": 1,
+    "columns": [
+      "ID"
+    ],
+    "oracleLedgerHeadSequence": 3,
+    "oracleLedgerEvents": [
+      "FILE_STARTED",
+      "STATEMENT_PLANNED",
+      "STATEMENT_STARTED"
+    ],
+    "oracleAcknowledgments": 0,
+    "nativeDriverRejectionCause": "NOT_PROVEN: no post-cut wrapper rejection status was retained. HOLD timestamp alone cannot settle exact socket-close ordering.",
+    "objectColumnsHeadAndAllLedgerEventsExactlyEqual": [
+      "beforeCut",
+      "afterCutAndExecutionDisableRecreate",
+      "afterAnotherControlledRecreate"
+    ],
+    "centralExactHoldSnapshotPreservedAcrossControlledRecreate": true,
+    "browserHistory": {
+      "roles": 2,
+      "checksummedDownloadsBeforeControlledRecreate": 4,
+      "checksummedDownloadsAfterControlledRecreate": 4,
+      "normalizedRecordsExactlyEqualAcrossRecreate": true,
+      "receiptsInExecutionRecords": 0
+    },
+    "automaticReplayObserved": false
+  },
+  "afterCase": {
+    "executionEnabled": false,
+    "argoAutoSync": false,
+    "proxyMode": "CUT",
+    "proxyActiveSession": false,
+    "proxyHistoricalBufferedByteDiagnostic": 68,
+    "proxyCountersReset": false,
+    "heldRequestAndOracleObjectsRetained": true,
+    "holdCleared": false
+  },
+  "limitations": [
+    "Retained controller FAIL; this does not qualify complete OA07 or the pilot.",
+    "One real CREATE effect and response withholding/cut were observed, but the controller failed before its successful cut decision and post-cut native-error capture.",
+    "No SIGKILL or app crash is claimed; gate=false caused app recreation.",
+    "The post-cut bufferedBytes68 field is the closed-session diagnostic: proxy closeSession clears the buffer array and active session; no response bytes were released. The fixture remains CUT.",
+    "A corrected independently reviewed operator, fresh target and new independently approved request are required for another fault case. Never replay this held request/PDB.",
+    "V2 local controller/protocol checks are preparation only and grant no execution authority.",
+    "Current-image positive matrix, OA01/OA05/OA08/OA09 and full Docker/Helm/operational recovery acceptance remain incomplete."
+  ],
+  "privateEvidenceSha256": {
+    "installation-review.json": "3f1e7b8f77699deba9c7a662496d6e61d74261eeb24d776510fa2d058b6cf61b",
+    "request.json": "0a6ee1a66f8d6c2162dfdfe5ebf8bd14e242ac2f92841b022a997764a0283a24",
+    "candidate.json": "a3b992343736701f4cb0d1b4845fd476d97148c8f9de7ab3ce71550a6bc650c9",
+    "policy.json": "6875698e1bc358530752f394a151b4610f06f8ddd1c856a9934a443d443d654e",
+    "preflight.json": "d93a3d915b9aff32d5ef72c56d0482e7e7ea8d8294324ea0d60a10ba1c92c974",
+    "mounted-runtime-check.json": "d5a7fa6eb0ac80d7f8f091f4b49b931e2f282832bb64cfe4097bfe8f88eeebf7",
+    "root-final-fault-review.json": "ffda6697abf31029a87404eac6fdbb7add1d1c48c2d8d6f2f63afa1685932e4a",
+    "oracle-pre-enable-before.json": "9f5f8a237936ffc5a4ee7b4c3a4cbabe3df30eb13ea7128bee6f227f18ccfcd8",
+    "oracle-ready.json": "763af9d4c8d4256f63b1700d0e3c56c2a948dd6c9f89a66c5b7fdc71022e59be",
+    "oracle-after.json": "b2e4b2429dce28e54983815521e7d3721b06ead0af3d9882968d98211af28ebf",
+    "oracle-after-restart.json": "af8ec28f04abf6cacb7b2333189be4a673ad2b6bb7bc5a01d40cc7ef870e9489",
+    "oracle-preservation.json": "ffb0d8fffe7340ebfda6805c4b32dd878df92f334cb40bc3ae668728c7d6a629",
+    "central-after-controller-failure.json": "5ab1591c7d2aa267e90678aaeda3b8cb6f45ef3491343f572892cb17e783d9e7",
+    "central-after-controlled-recreate.json": "acb820b6c0bc52af3c22b02555c47a917c02176e8ce2c9765556f9f5772af9d2",
+    "lost-ack-failure.private.json": "4b2a794db6e054158f03bb62bb7b1a82b814ddfe9a179472977700f502963118",
+    "browser-held-history-before-restart.json": "ef0860c272e2e33b5f1407c38a1b9a077f4d29cf4abe2547d24ddcfcba267d90",
+    "browser-held-history-after-restart.json": "01bd16f4e2c3f4dc9d5e25483c43e861641ae0696939ad614c8ffb309fb76d39",
+    "final-live-preservation.json": "447f3e3dcbcf28852f5443b5b412e614abf165cb46ecb144e5037cfcf6d3ea69",
+    "controller-observation-0001.json": "b56ac8ec08d0428ab21c106b6338c507a57ce5e9fa15da773aaf1af77cf0514b",
+    "controller-observation-0002.json": "24868bd74b31f9bca55dc6a50d04bb610ed008e15dec73064d172f105444f556",
+    "controller-observation-0003.json": "874e8a14f26feb053b5a5aa629c1febd09a2ab02acb77c761bdc5154861c4686",
+    "controller-observation-0004.json": "b5c90b83753f0bc295049a9202c76f9f56a4bba88e4d88e26e2a695091f84fc8",
+    "controller-observation-0005.json": "5aa40d1e783b7546c3fc835191b02648771840994610ccc3fe96063b4b85ab84",
+    "controller-observation-0006.json": "94a68f8caa4e10bf9d92803200cc9214f23f9b34aea4aa2b3992372a12bb0ffe",
+    "controller-observation-0007.json": "681b36899a7b91f12b1af32f6a214a70a53f55dab566062e36678ab5cf87b547",
+    "controller-observation-0008.json": "d0868162038fbd4da3a51e0b7a45e99240b61ee0b4884a2d2c9db8e4713b50b5",
+    "controller-observation-0009.json": "633566123cb438f51d7830ded8a9393f9feed74a73edd9d42dab0b91c5e8ed26",
+    "controller-observation-0010.json": "beecf40fa4b0f133ac0dc5bddb8c43fcdb7372f8913b464044a116fc1bbe0cab",
+    "controller-observation-0011.json": "e0d3d63e4c5420505e20c1ecaf63da3e7f2b02e095f2a642818611036cf3b09d"
+  },
+  "privateExecutedSourceSha256": {
+    "case.json": "7296dd6ec8734f9ba7a668cb0aeaa946ed8af851521444d967b0f5a4ef7f4bcf",
+    "lost-ack-operator.py": "56411ade359b655381f1e9a61b1c477ab5ed79b152f59797d77009def3d1b25f",
+    "operator_protocol.py": "aaf1fcec77e257aa970e1c22dc36c4a4a1636f6b3985129ba4bbb466560a3a8e",
+    "lost-ack-authority.mjs": "2a20c150ab1c6d8466859aa928f1225cafbc79925fb01451531ecd5e3bd08ae0",
+    "template-review-final-20261024.json": "605a124bd5b44aecdd8b83e94f5075b00a07fa085503d0eb98f38fb8865628ac"
+  },
+  "pilotComplete": false
+}
