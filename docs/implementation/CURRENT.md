@@ -84,6 +84,11 @@ Argo stays paused, and the proxy remains CUT with cumulative counters preserved.
 The closed-session buffered-byte diagnostic remains 68; there is no active session.
 Never replay this request or PDB. A corrected operator, fresh target and new independent
 approval are required to qualify another fault case. Full pilot acceptance remains incomplete.
+A [fresh retry PDB](../../evidence/product/unified-oracle-20261023/lost-ack-retry-pdb-preparation.json)
+now has source-bound metadata and native purpose-account qualification, including exact
+grants/quotas, service identity, protected-ledger denial and cross-COMMIT mutex exclusion.
+The earlier held target's object and complete journal remain unchanged. Application
+installation and governed retry execution on the new target remain NOT_RUN.
 
 The same `a4dbb8d` image also passed [Docker Compose governance and persistence](../../evidence/product/unified-oracle-20261023/compose.json)
 with external disposable PostgreSQL, HTTPS, independent approval, credential rotation,
