@@ -1,0 +1,27 @@
+{
+  "format": "kelryvo-independent-outcome-review-correction-v1",
+  "recordedAt": "2026-10-25T04:16:50.877Z",
+  "originalReviewPath": ".cache/stitch-design-refinement-20261025/delivery-outcome-review.json",
+  "originalReviewSha256": "8f676519c2b138b3327c3f270259f70b4434390496bc420f8678a75ef4f49d7e",
+  "publicAcceptancePath": "evidence/product/ui-sign-in-refinement-20261025/acceptance.json",
+  "publicAcceptanceSha256": "289d72f7a4111f14a8e7a75e302e0dbe6412824b0cb688851f8e9acb34405f91",
+  "verifiedSourceBindings": {
+    "contextManifestSha256": "db71f22cecd938fd63433e0fc6721543d598dc996e3e3f0ae5b7fdd021499ff7",
+    "sourceEvidenceSha256": "83297c181980fa1205eaafeaa716e3056d0702fc10b81fc64e95fb3304f10eb4",
+    "upgradeScopeSha256": "d4fade66af51fcb83abfe159f83e6d3eeb037b1e5067676be4470785438a1ba8",
+    "contextTreeSha256": "bf06fc9c504eab36a6799e26cb940beb07079c6dce30029aaa4462ac2728ba5c",
+    "publicRecordContextTreeSha256": "bf06fc9c504eab36a6799e26cb940beb07079c6dce30029aaa4462ac2728ba5c",
+    "upgradeScopeContextTreeSha256": "bf06fc9c504eab36a6799e26cb940beb07079c6dce30029aaa4462ac2728ba5c",
+    "contextManifestFileCount": 213,
+    "contextManifestFilesMatch": true
+  },
+  "fieldCorrection": {
+    "field": "contextTreeSha256",
+    "incorrectValue": "bf06fc9c504eab36a6799e26cb940beb07079c6dce30029aaa4462c2728ba5c",
+    "correctValue": "bf06fc9c504eab36a6799e26cb940beb07079c6dce30029aaa4462ac2728ba5c",
+    "reason": "The original review omitted one character in this descriptive provenance field. The source evidence, image scope, public acceptance and all 213 frozen context file hashes agree on the corrected digest."
+  },
+  "otherClaimsAndEvidence": "UNCHANGED_AND_REVALIDATED",
+  "validation": "All original privateEvidenceSha256, additionalEvidenceSha256 and screenshot hashes match the public acceptance record and files; qualification, deployment, preservation, auth, visual, and browser-history evidence remain unchanged. The original review and public acceptance file were not modified.",
+  "outcome": "PASS_BOUNDED_UI_REFINEMENT_OUTCOME_REMAINS_SUPPORTED"
+}

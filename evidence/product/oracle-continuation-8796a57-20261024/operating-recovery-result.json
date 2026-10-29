@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "nativeManagedBackupRestore": true,
+  "archiveSha256": "d8fc4f70cf547e92f1f38178954d7ca55ea63f6ab5e2ca48cc9df0b010d97eab",
+  "sourceTableCount": 59,
+  "sourceTablesChanged": [],
+  "restoredTableCount": 59,
+  "restoredTablesExactlyEqual": 53,
+  "expectedRecoveryLifecycleTablesChanged": [
+    "sf_local_credentials",
+    "sf_metadata_credentials_revoked",
+    "sf_metadata_current",
+    "sf_metadata_generations",
+    "sf_metadata_operator_audit",
+    "sf_metadata_restore_owners"
+  ],
+  "generationState": "RESTORE_HOLD",
+  "restoredLostAckState": "HOLD",
+  "sourceDatabaseAndPvcUnchanged": true,
+  "restoredWriterInstalled": false,
+  "restoredDatabaseName": "sf_product_restore_f1c211a576944f48b4ee2542fbbed6e7",
+  "cutoverPerformed": false
+}

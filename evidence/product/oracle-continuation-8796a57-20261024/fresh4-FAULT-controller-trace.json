@@ -1,0 +1,394 @@
+[
+  {
+    "label": "proxy_before_enable",
+    "observedAt": "2026-10-24T12:14:46.820146+00:00",
+    "monotonicNs": 25626102408511,
+    "value": {
+      "podUid": "4b347bb7-7ba1-4fba-a854-53d419f4b338",
+      "observedAt": "2026-10-24T12:14:47.533Z",
+      "status": {
+        "mode": "PASS",
+        "listening": true,
+        "active": false,
+        "bufferedBytes": 0,
+        "acceptedConnections": 8,
+        "rejectedConnections": 0,
+        "cutConnections": 0,
+        "upstreamErrors": 0,
+        "capturedOracleBytes": 123831,
+        "releasedOracleBytes": 0,
+        "bufferOverflow": false,
+        "updatedAt": "2026-10-24T12:14:47.415Z"
+      }
+    }
+  },
+  {
+    "label": "empty_fresh_fault_schema",
+    "observedAt": "2026-10-24T12:14:47.613829+00:00",
+    "monotonicNs": 25626896098046,
+    "value": [
+      "GUID|5E95FDD6F58AC1FEE0638101F40A1707"
+    ]
+  },
+  {
+    "label": "pinned_runtime",
+    "observedAt": "2026-10-24T12:14:49.292663+00:00",
+    "monotonicNs": 25628574926965,
+    "value": {
+      "name": "kelryvo-app-7bb9cffb8d-wlm8d",
+      "uid": "8764702e-c7cd-4ea3-bb26-f0158f4e1915",
+      "image": "longhn0710t/kelryvo-pilot@sha256:cd46b7c5e95fd02896dc0877196a2190d886da1a3ff571561b5d2c012b2e3398"
+    }
+  },
+  {
+    "label": "writer_paused_before_native_call",
+    "observedAt": "2026-10-24T12:14:59.992770+00:00",
+    "monotonicNs": 25639275033480,
+    "value": {
+      "observedAt": "2026-10-24T12:15:00.782Z",
+      "ready": {
+        "format": 2,
+        "jobId": "28fdcb9b-6f82-4ae8-8615-37285d765bdd",
+        "planId": "b4b0ea05-b9b4-46c5-86e2-d0cf8d2b80f5",
+        "exactOwner": "KP_FAULT_B",
+        "statementDigests": [
+          "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd"
+        ],
+        "pauseBeforeOrdinal": 1,
+        "statementDigest": "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd",
+        "mode": "LOST_ACK",
+        "stage": "BEFORE_PROXY_BUFFER",
+        "counters": {
+          "matchingStatementCalls": 1,
+          "nativeWriterExecuteCalls": 0,
+          "priorAcknowledgedWriterCalls": 0,
+          "pausedBeforeOrdinal": 1
+        },
+        "readyAt": "2026-10-24T12:15:00.215Z",
+        "nonceSha256": "afdf792fcccb76e5f2f8cf6933b5a1eb9bf4b8779eb22ae737678728949e0514"
+      },
+      "status": {
+        "format": 2,
+        "jobId": "28fdcb9b-6f82-4ae8-8615-37285d765bdd",
+        "planId": "b4b0ea05-b9b4-46c5-86e2-d0cf8d2b80f5",
+        "exactOwner": "KP_FAULT_B",
+        "statementDigests": [
+          "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd"
+        ],
+        "mode": "LOST_ACK",
+        "stage": "READY",
+        "counters": {
+          "matchingStatementCalls": 1,
+          "nativeWriterExecuteCalls": 0,
+          "priorAcknowledgedWriterCalls": 0,
+          "pausedBeforeOrdinal": 1
+        },
+        "updatedAt": "2026-10-24T12:15:00.216Z"
+      }
+    }
+  },
+  {
+    "label": "central_admitted_at_native_pause",
+    "observedAt": "2026-10-24T12:15:00.592926+00:00",
+    "monotonicNs": 25639875191286,
+    "value": {
+      "observedAt": "2026-10-24T12:15:01.376Z",
+      "rows": [
+        {
+          "state": "ADMITTED",
+          "attempt_state": "CLAIMED",
+          "lease_until": "2026-10-24T12:15:27.574Z",
+          "database_now": "2026-10-24T12:15:01.371Z",
+          "seconds_remaining": 26.203272
+        }
+      ]
+    }
+  },
+  {
+    "label": "set_buffer",
+    "observedAt": "2026-10-24T12:15:01.624756+00:00",
+    "monotonicNs": 25640907022927,
+    "value": {
+      "at": "2026-10-24T12:15:02.413Z",
+      "mode": "BUFFER"
+    }
+  },
+  {
+    "label": "immutable_buffer_baseline",
+    "observedAt": "2026-10-24T12:15:02.424266+00:00",
+    "monotonicNs": 25641706527620,
+    "value": {
+      "podUid": "4b347bb7-7ba1-4fba-a854-53d419f4b338",
+      "observedAt": "2026-10-24T12:15:03.211Z",
+      "status": {
+        "mode": "BUFFER",
+        "listening": true,
+        "active": true,
+        "bufferedBytes": 0,
+        "acceptedConnections": 9,
+        "rejectedConnections": 0,
+        "cutConnections": 0,
+        "upstreamErrors": 0,
+        "capturedOracleBytes": 145114,
+        "releasedOracleBytes": 0,
+        "bufferOverflow": false,
+        "updatedAt": "2026-10-24T12:15:02.966Z"
+      }
+    }
+  },
+  {
+    "label": "one_use_release_written",
+    "observedAt": "2026-10-24T12:15:02.887872+00:00",
+    "monotonicNs": 25642170137679,
+    "value": {
+      "releasedAt": "2026-10-24T12:15:03.677Z",
+      "uid": 10002
+    }
+  },
+  {
+    "label": "native_response_withheld",
+    "observedAt": "2026-10-24T12:15:03.734245+00:00",
+    "monotonicNs": 25643016506511,
+    "value": {
+      "podUid": "4b347bb7-7ba1-4fba-a854-53d419f4b338",
+      "observedAt": "2026-10-24T12:15:04.521Z",
+      "status": {
+        "mode": "BUFFER",
+        "listening": true,
+        "active": true,
+        "bufferedBytes": 68,
+        "acceptedConnections": 9,
+        "rejectedConnections": 0,
+        "cutConnections": 0,
+        "upstreamErrors": 0,
+        "capturedOracleBytes": 145182,
+        "releasedOracleBytes": 0,
+        "bufferOverflow": false,
+        "updatedAt": "2026-10-24T12:15:04.465Z"
+      }
+    }
+  },
+  {
+    "label": "independent_table_effect_before_cut",
+    "observedAt": "2026-10-24T12:15:04.338998+00:00",
+    "monotonicNs": 25643621264809,
+    "value": [
+      "GUID|5E95FDD6F58AC1FEE0638101F40A1707",
+      "COLUMN|KELRYVO_LOST_ACK_T|ID|NUMBER|1",
+      "OBJECT|TABLE|KELRYVO_LOST_ACK_T"
+    ]
+  },
+  {
+    "label": "native_pending_before_cut",
+    "observedAt": "2026-10-24T12:15:04.790537+00:00",
+    "monotonicNs": 25644072802802,
+    "value": {
+      "observedAt": "2026-10-24T12:15:05.579Z",
+      "ready": {
+        "format": 2,
+        "jobId": "28fdcb9b-6f82-4ae8-8615-37285d765bdd",
+        "planId": "b4b0ea05-b9b4-46c5-86e2-d0cf8d2b80f5",
+        "exactOwner": "KP_FAULT_B",
+        "statementDigests": [
+          "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd"
+        ],
+        "pauseBeforeOrdinal": 1,
+        "statementDigest": "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd",
+        "mode": "LOST_ACK",
+        "stage": "BEFORE_PROXY_BUFFER",
+        "counters": {
+          "matchingStatementCalls": 1,
+          "nativeWriterExecuteCalls": 0,
+          "priorAcknowledgedWriterCalls": 0,
+          "pausedBeforeOrdinal": 1
+        },
+        "readyAt": "2026-10-24T12:15:00.215Z",
+        "nonceSha256": "afdf792fcccb76e5f2f8cf6933b5a1eb9bf4b8779eb22ae737678728949e0514"
+      },
+      "status": {
+        "format": 2,
+        "jobId": "28fdcb9b-6f82-4ae8-8615-37285d765bdd",
+        "planId": "b4b0ea05-b9b4-46c5-86e2-d0cf8d2b80f5",
+        "exactOwner": "KP_FAULT_B",
+        "statementDigests": [
+          "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd"
+        ],
+        "mode": "LOST_ACK",
+        "stage": "LOST_ACK_NATIVE_EXECUTE_PENDING",
+        "counters": {
+          "matchingStatementCalls": 1,
+          "nativeWriterExecuteCalls": 1,
+          "priorAcknowledgedWriterCalls": 0,
+          "pausedBeforeOrdinal": 1
+        },
+        "updatedAt": "2026-10-24T12:15:03.692Z"
+      },
+      "lostAckReady": {
+        "format": 2,
+        "jobId": "28fdcb9b-6f82-4ae8-8615-37285d765bdd",
+        "planId": "b4b0ea05-b9b4-46c5-86e2-d0cf8d2b80f5",
+        "statementDigest": "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd",
+        "stage": "AWAITING_REAL_PROXY_BUFFER_AND_CUT",
+        "counters": {
+          "matchingStatementCalls": 1,
+          "nativeWriterExecuteCalls": 0,
+          "priorAcknowledgedWriterCalls": 0,
+          "pausedBeforeOrdinal": 1
+        },
+        "nonceSha256": "afdf792fcccb76e5f2f8cf6933b5a1eb9bf4b8779eb22ae737678728949e0514"
+      }
+    }
+  },
+  {
+    "label": "unexpired_central_lease_before_cut",
+    "observedAt": "2026-10-24T12:15:05.393191+00:00",
+    "monotonicNs": 25644675469350,
+    "value": {
+      "observedAt": "2026-10-24T12:15:06.175Z",
+      "rows": [
+        {
+          "state": "ADMITTED",
+          "attempt_state": "CLAIMED",
+          "lease_until": "2026-10-24T12:15:27.574Z",
+          "database_now": "2026-10-24T12:15:06.169Z",
+          "seconds_remaining": 21.404629
+        }
+      ]
+    }
+  },
+  {
+    "label": "cut_requested",
+    "observedAt": "2026-10-24T12:15:06.716115+00:00",
+    "monotonicNs": 25645998379208,
+    "value": {
+      "at": "2026-10-24T12:15:07.416Z",
+      "mode": "CUT"
+    }
+  },
+  {
+    "label": "cut_confirmed",
+    "observedAt": "2026-10-24T12:15:07.516828+00:00",
+    "monotonicNs": 25646799090007,
+    "value": {
+      "podUid": "4b347bb7-7ba1-4fba-a854-53d419f4b338",
+      "observedAt": "2026-10-24T12:15:08.218Z",
+      "status": {
+        "mode": "CUT",
+        "listening": true,
+        "active": false,
+        "bufferedBytes": 68,
+        "acceptedConnections": 9,
+        "rejectedConnections": 0,
+        "cutConnections": 1,
+        "upstreamErrors": 0,
+        "capturedOracleBytes": 145182,
+        "releasedOracleBytes": 0,
+        "bufferOverflow": false,
+        "updatedAt": "2026-10-24T12:15:08.010Z"
+      }
+    }
+  },
+  {
+    "label": "actual_native_driver_rejection",
+    "observedAt": "2026-10-24T12:15:07.999545+00:00",
+    "monotonicNs": 25647281810465,
+    "value": {
+      "observedAt": "2026-10-24T12:15:08.787Z",
+      "ready": {
+        "format": 2,
+        "jobId": "28fdcb9b-6f82-4ae8-8615-37285d765bdd",
+        "planId": "b4b0ea05-b9b4-46c5-86e2-d0cf8d2b80f5",
+        "exactOwner": "KP_FAULT_B",
+        "statementDigests": [
+          "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd"
+        ],
+        "pauseBeforeOrdinal": 1,
+        "statementDigest": "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd",
+        "mode": "LOST_ACK",
+        "stage": "BEFORE_PROXY_BUFFER",
+        "counters": {
+          "matchingStatementCalls": 1,
+          "nativeWriterExecuteCalls": 0,
+          "priorAcknowledgedWriterCalls": 0,
+          "pausedBeforeOrdinal": 1
+        },
+        "readyAt": "2026-10-24T12:15:00.215Z",
+        "nonceSha256": "afdf792fcccb76e5f2f8cf6933b5a1eb9bf4b8779eb22ae737678728949e0514"
+      },
+      "status": {
+        "format": 2,
+        "jobId": "28fdcb9b-6f82-4ae8-8615-37285d765bdd",
+        "planId": "b4b0ea05-b9b4-46c5-86e2-d0cf8d2b80f5",
+        "exactOwner": "KP_FAULT_B",
+        "statementDigests": [
+          "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd"
+        ],
+        "mode": "LOST_ACK",
+        "stage": "NATIVE_DRIVER_REJECTED_AFTER_RELEASE",
+        "counters": {
+          "matchingStatementCalls": 1,
+          "nativeWriterExecuteCalls": 1,
+          "priorAcknowledgedWriterCalls": 0,
+          "pausedBeforeOrdinal": 1
+        },
+        "updatedAt": "2026-10-24T12:15:07.461Z"
+      },
+      "lostAckReady": {
+        "format": 2,
+        "jobId": "28fdcb9b-6f82-4ae8-8615-37285d765bdd",
+        "planId": "b4b0ea05-b9b4-46c5-86e2-d0cf8d2b80f5",
+        "statementDigest": "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd",
+        "stage": "AWAITING_REAL_PROXY_BUFFER_AND_CUT",
+        "counters": {
+          "matchingStatementCalls": 1,
+          "nativeWriterExecuteCalls": 0,
+          "priorAcknowledgedWriterCalls": 0,
+          "pausedBeforeOrdinal": 1
+        },
+        "nonceSha256": "afdf792fcccb76e5f2f8cf6933b5a1eb9bf4b8779eb22ae737678728949e0514"
+      }
+    }
+  },
+  {
+    "label": "central_hold",
+    "observedAt": "2026-10-24T12:15:08.197835+00:00",
+    "monotonicNs": 25647480093399,
+    "value": {
+      "id": "28fdcb9b-6f82-4ae8-8615-37285d765bdd",
+      "projectId": "e0487a66-1e06-4525-8146-3ffc86708bd7",
+      "planId": "b4b0ea05-b9b4-46c5-86e2-d0cf8d2b80f5",
+      "approvalReference": "c236ebfa-c243-4aac-a6f9-26edc60b45fa",
+      "intentDigest": "133e1948bcf46d6d1cf031bcb5e5d6c742ead8ea5de06cb9051e489acce41513",
+      "requesterId": "kelryvo-developer",
+      "reason": "Owner-authorized FAULT on fresh KP_LOST_ACK4; fixed reviewed installation required before dispatch",
+      "state": "HOLD",
+      "readiness": {
+        "status": "ADMISSION_VALIDATED",
+        "executable": false
+      },
+      "revision": 2,
+      "createdAt": "2026-10-24T12:14:14.353Z",
+      "updatedAt": "2026-10-24T12:15:07.469Z"
+    }
+  },
+  {
+    "label": "controller_complete",
+    "observedAt": "2026-10-24T12:15:09.132759+00:00",
+    "monotonicNs": 25648415023684,
+    "value": {
+      "status": "PASS",
+      "statementNativeCalls": 1,
+      "priorAcknowledgedWriterCalls": 0,
+      "automaticReplay": false
+    }
+  },
+  {
+    "label": "final_fail_closed_cut",
+    "observedAt": "2026-10-24T12:15:09.921685+00:00",
+    "monotonicNs": 25649203949367,
+    "value": {
+      "at": "2026-10-24T12:15:10.710Z",
+      "mode": "CUT"
+    }
+  }
+]

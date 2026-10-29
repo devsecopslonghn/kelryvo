@@ -34,6 +34,9 @@ test('HTTPS browser sessions enforce trust, cookie, CSRF, retry and expiry bound
     const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
     page.on('pageerror', error => errors.push(error.message));
     const signIn = async actor => {
+      await page.getByRole('region', { name: 'Password sign in', exact: true }).waitFor();
+      const recovery = page.locator('details.login-recovery');
+      if (await recovery.count() && !(await recovery.evaluate(element => element.open))) await recovery.locator('summary').click();
       await page.getByLabel('Local access token').fill(actor.token);
       await page.getByRole('button', { name: 'Continue', exact: true }).click();
       await page.getByLabel('Sign out').waitFor();
@@ -44,7 +47,7 @@ test('HTTPS browser sessions enforce trust, cookie, CSRF, retry and expiry bound
     assert.ok(cookie && cookie.secure && cookie.httpOnly && cookie.sameSite === 'Strict' && cookie.path === '/');
     assert.equal(await page.evaluate(() => document.cookie.includes('__Host-schemaforge')), false);
     assert.deepEqual(await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length })), { local: 0, session: 0 });
-    assert.equal((await page.locator('.role-pill').innerText()).toLowerCase(), 'approver');
+    assert.equal((await page.locator('.user-meta small').innerText()).toLowerCase(), 'approver');
     const session = await page.evaluate(async () => (await fetch('/api/session')).json());
     assert.ok(session.csrfToken);
     assert.equal(await page.evaluate(async () => (await fetch('/api/session/logout', { method: 'POST' })).status), 403,
@@ -55,6 +58,9 @@ test('HTTPS browser sessions enforce trust, cookie, CSRF, retry and expiry bound
     await page.getByText('Sign out failed. Retry to revoke this session.').waitFor();
     assert.equal(await page.getByLabel('Sign out').count(), 1);
     await page.getByLabel('Sign out').click();
+    await page.getByRole('region', { name: 'Password sign in', exact: true }).waitFor();
+    const recovery = page.locator('details.login-recovery');
+    if (await recovery.count() && !(await recovery.evaluate(element => element.open))) await recovery.locator('summary').click();
     await page.getByLabel('Local access token').waitFor();
     assert.equal((await tlsRequest(base, cert.ca, '/api/session', { headers: { cookie: `__Host-schemaforge=${cookie.value}` } })).status, 401);
     assert.ok((await database.sql`SELECT revoked_at FROM sf_local_credentials WHERE token_sha256=${tokenDigest(cookie.value)}`)[0].revoked_at);

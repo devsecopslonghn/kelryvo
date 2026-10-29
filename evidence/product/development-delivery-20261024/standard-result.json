@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "logSha256": "541dce8240327b9d9a8ce3b4bd6aae8f091f718c3f4ad34ada8819c131c96f2f",
+  "logBytes": 143859,
+  "privateLog": ".cache/delivery-build/standard.log",
+  "count": null,
+  "failed": 0
+}

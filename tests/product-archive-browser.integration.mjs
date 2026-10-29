@@ -1,3 +1,4 @@
+import { openCompatibilityPlanning } from './helpers/ui-disclosures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes, randomUUID } from 'node:crypto';
@@ -73,9 +74,11 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     await page.locator('.project-row').filter({ hasText: projectName }).click();
     await page.getByRole('heading', { name: projectName, exact: true }).waitFor();
 
+    await page.locator('.danger-zone > summary').click();
     await page.getByLabel('Archive reason').fill('Archived after local governance review.');
     await page.getByRole('button', { name: 'Archive project', exact: true }).click();
     await page.locator('.archive-notice').getByText('Project archived', { exact: true }).waitFor();
+    await page.locator('.project-setup-details > summary').click();
     assert.equal(await page.getByLabel('Environment name').isDisabled(), true);
     await page.getByText('Connection profile form unavailable', { exact: true }).click();
     assert.equal(await page.getByLabel('Profile name', { exact: true }).isDisabled(), true);
@@ -88,6 +91,8 @@ test('browser archives a project and keeps its releases, plan, audit, and histor
     await page.getByText('Preview SQL · migrations/V001__create_widget.sql', { exact: true }).click();
     assert.ok((await page.locator('.sql-preview pre').first().innerText()).includes('CREATE TABLE widget'));
     assert.equal(await page.getByRole('button', { name: 'Import and validate', exact: true }).isDisabled(), true);
+    await openCompatibilityPlanning(page);
+    await openCompatibilityPlanning(page, { legacy: true });
     assert.equal(await page.getByRole('button', { name: 'Prepare offline plan', exact: true }).isDisabled(), true);
 
     await page.getByRole('button', { name: /Audit & history/ }).click();

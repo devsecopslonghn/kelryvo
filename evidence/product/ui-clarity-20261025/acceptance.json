@@ -1,0 +1,135 @@
+{
+  "format": 1,
+  "kind": "KELRYVO_UI_CLARITY_DEVELOPMENT_DELIVERY",
+  "recordedAt": "2026-10-24T20:05:09.307183+00:00",
+  "status": "PASS_BOUNDED_UI_DELIVERY",
+  "origin": "https://kelryvo.apps.drgdevlab.com",
+  "source": {
+    "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+    "contextTreeSha256": "98357aac15b8f461791b5be53cf3afc5bc4ab6a6633a48ce42506c1122ff63be",
+    "canonicalCommitCreated": false,
+    "runtimeChangeScope": [
+      "apps/web/src/Account.jsx",
+      "apps/web/src/IdentityProviders.jsx",
+      "apps/web/src/SqlWorkspace.jsx",
+      "apps/web/src/app.jsx",
+      "apps/web/styles.css"
+    ],
+    "backendWorkerAndAuthenticationBytesUnchangedFromPriorImage": true
+  },
+  "image": {
+    "image": "longhn0710t/kelryvo-pilot@sha256:d97136fe5fd8e7074c8cc9304f03ea293efb5463ac0f44e35cb8c0c97c3bba74",
+    "tag": "dev-worktree-98357aac15b8-20261024T200145Z",
+    "digest": "sha256:d97136fe5fd8e7074c8cc9304f03ea293efb5463ac0f44e35cb8c0c97c3bba74",
+    "platformDigest": "sha256:38ca8238aa41b9afa7cecb401dd14ab666614363fc934c689997e87eb387c865",
+    "configDigest": "sha256:238def92a81a6ce27e3524e33a5c3a10593d03b0cde34f17afc624ad5b99949f",
+    "anonymousVerification": "PASS",
+    "anonymousDigestPull": "PASS"
+  },
+  "design": {
+    "reference": "Google Stitch MCP generated Projects concept using fictional data",
+    "implementation": "Existing React/CSS and original inline SVG icons; generated code was not imported",
+    "changes": [
+      "Grouped navigation and one project switcher",
+      "Responsive mobile navigation drawer with Escape and backdrop dismissal",
+      "Searchable bounded project list, project overview and primary SQL action",
+      "Project setup, archive and technical provenance in explicit disclosures",
+      "SQL editor before secondary evidence and revision comparison",
+      "Account summaries and explicit identity-provider editing",
+      "Local password primary; token recovery secondary on HTTPS"
+    ]
+  },
+  "validation": {
+    "standardCheck": {
+      "tests": 642,
+      "pass": 491,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 151
+    },
+    "browser": {
+      "fullRun": {
+        "tests": 58,
+        "pass": 45,
+        "fail": 12,
+        "cancelled": 1,
+        "skipped": 0
+      },
+      "finalCoveredCases": 58,
+      "allInOneGreenFullBrowserRunClaimed": false,
+      "unresolvedCases": [],
+      "method": "Retained full run plus exact-name successful reruns after UI interaction fixture corrections"
+    },
+    "themeAndNavigation": "13 destinations; light/dark; 1440/720/390px; project search and disclosure checks",
+    "visualScreens": 9,
+    "visualPageErrors": 0,
+    "visualHorizontalOverflow": false,
+    "exactImageOCI": "PASS",
+    "anonymousRegistryPull": "PASS",
+    "exactLiveWebAssetHashes": "PASS",
+    "liveAuthenticationChecks": 18,
+    "liveMethods": [
+      "LOCAL",
+      "LDAPS",
+      "OIDC"
+    ],
+    "privateCredentialContextScan": "PASS"
+  },
+  "dataPreservation": {
+    "all68TablesExactlyUnchangedAcrossUpgrade": true,
+    "stablePersistentResourceUIDs": true,
+    "businessTablesUnchangedAfterLiveAuth": 64,
+    "expectedAuthTablesChanged": [
+      "sf_external_session_roots",
+      "sf_identity_audit",
+      "sf_local_credentials",
+      "sf_oidc_attempts"
+    ],
+    "plansJobsHistoryHoldsRolesGrantsAndConfigurationUnchanged": true,
+    "privateBackupCreated": true,
+    "restorePerformed": false,
+    "apiCannotReadOracleWriterSecret": true
+  },
+  "runtime": {
+    "executionEnabled": false,
+    "discoveryEnabled": true,
+    "installationSecretChanged": false,
+    "argoAutomaticSync": false
+  },
+  "retainedFailures": [
+    "Full browser run retained obsolete token recovery, mobile navigation, hidden metadata and text assertions; corrected exact cases passed on final runtime",
+    "One standard-check run exposed an old negative-signature fixture changing only a base64url padding character; corrected fixture flips an actual signature byte; final standard check passed"
+  ],
+  "limitations": [
+    "This development image does not establish new native Oracle acceptance",
+    "Remaining Oracle pilot cases are still incomplete; existing HOLDs and undispatched B request were preserved",
+    "No hosted CI, canonical signed commit, Git push, merge or gated release is claimed",
+    "Mobile project selection keeps the navigation drawer open until a destination, backdrop or Escape is used"
+  ],
+  "privateEvidenceSha256": {
+    "verification.json": "3a0ee0a642c19d96bafdb7addab51816ec33ea06b036a738638d19210718bf2d",
+    "independent-ui-review.json": "e62eb1094f3e15ca4db19febe3fa5212b0ea1d5360e54c13d2f6e0572a6b084d",
+    "image/source.json": "c6c0008622ff524724efd97ee94266b709ac5196a0348e98642f98c8e84c0915",
+    "image/context-manifest.json": "919e3ff0bc6c10d4345fd1e80db162b4defac05cb1750b446302edfa235d98f7",
+    "image/image.json": "77d81a6344a2b3c3dbfedc9c03bbd84b0127f3440ff68e9634f77a362196e137",
+    "image/publication.json": "0830239c38e530d9d80f573f3c9354d931bab59632cd15b68aecfe9f08c7b723",
+    "image/container-acceptance.json": "425fb0c37136b03cec777fc3584e3ef9a3449eb980fd9f2e6782d2d115f5471f",
+    "secret-scan.json": "adc83f9d577c6fd6ea19c0bfb7991e50693c3e2aee2b2ae112a63bbbf0245bf0",
+    "upgrade-result.json": "06de1e44160c7539f53817e4f5932b382940d01d081b384c51da61ce73fed7b9",
+    "live-web-source-verification.json": "150b772c39dabe780db6407e0cb8db19e1b0f9ce17a781e4ee5aa5774c7e2d82",
+    "live-identity-ui-result.json": "16f386f8cc1e67f10ed779dbbb4bb56aa1e9f0d73eb6f4f0fe6dc794fe03573a",
+    "post-live-preservation.json": "c04224df1f48518e892f95594df51fea49fed4317d1de4b32c1fdd1904a9d8a3",
+    "review-shots-final/review.private.json": "f79fff7d69fc5aa1329153de4de63bb9a79f5eb3fa8468ea9455f2f957f3057c",
+    "pre-upgrade-backup/manifest.json": "b4c13f2d4b16f06687e10f05e1ed0024de177b46a69a16219d93d7b2918c66fb",
+    "pre-upgrade-backup-witness.json": "2d7da37d53554f9322d0cd1a8c8bfdce0c44f1d1acd38516c7547625250e6a88",
+    "post-live-auth-tables.private.json": "b7cf8ef9afd21d11e8ce31c8f35415ff92b11ff59a5dee1bfed9faa43d092cae",
+    "before-upgrade.private.json": "4fa0a4499cecf4df56d376b50373725c218878b6ce2eb89ecaaabb49ffcf04e3"
+  },
+  "screenshots": {
+    "desktop-projects.png": "8b62475be41691c666a3ea5360eb8229be3a95b0eb527bd66e1becbf63eb5966",
+    "mobile-projects.png": "9adb8b0e03f6f89d2dddcda743b43908bf210bd287e6f615f90428c6eecf3da3",
+    "desktop-providers.png": "95fe114bfecebe60d3745c6857dbb897f27d00a8f12b5fc1b4067d4f634e97a1",
+    "desktop-sql.png": "38891c34c975df278e97aecb743c4e764298030a8de59db278a1f42143b7496c",
+    "desktop-account.png": "d644b271763faf5cd3be42be6f4da30381ffce76b1df2e9cc21d19953866af76"
+  }
+}

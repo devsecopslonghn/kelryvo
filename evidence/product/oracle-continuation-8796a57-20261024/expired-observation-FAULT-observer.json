@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "label": "FAULT",
+  "freshStateSha256": "5719f0267e9ea1d3b8bb97ee07e52801e521ec5863e7a2882aca75ee77b358d9",
+  "targetJournalEvents": 26,
+  "targetHeads": 2,
+  "originalHeldTargetUnchanged": true
+}

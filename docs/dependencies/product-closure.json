@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "scope": "Local PRODUCT runtime and Linux x64 development tools; no production distribution approval",
-  "package_lock_sha256": "5f0eb98ef2b51882c79c64d3f9ffaadba7124844e081f303d1f7231796448866",
+  "package_lock_sha256": "863288b384e3fedc29724c4f4776ed8f3a81997166374b13c9e0c833d35b04ce",
   "notice_path": "docs/dependencies/product-NOTICES.txt",
-  "notice_sha256": "ca13834dbe6b15ae89c36d6f84c54b58e31ea8278d13374ec663056f78098f31",
+  "notice_sha256": "30fe97cb23939c8f88d9d3652741bf54aa65af27d184510a55fd50c55a4b1fde",
   "unknown_required_grants": 0,
   "packages": [
     {
@@ -630,6 +630,14 @@
       ]
     },
     {
+      "path": "node_modules/jose",
+      "version": "6.2.13",
+      "integrity": "sha512-7TIg10ZE1x82YediN+lcrPNvGMKge9yFHQD+Qho/b8y2adfugU3AsvvHfxV0fzyFllT6l9xCjf4RWY9g/Z9PJQ==",
+      "license": "MIT",
+      "scope": "RUNTIME",
+      "license_source": "node_modules/jose/LICENSE.md"
+    },
+    {
       "path": "node_modules/json-schema-ref-resolver",
       "name": "json-schema-ref-resolver",
       "version": "3.0.0",
@@ -656,6 +664,14 @@
       "license_sha256": [
         "7bf9b2de73a6b356761c948d0e9eeb4be6c1270bd04c79cd489c1e400ffdfc1a"
       ]
+    },
+    {
+      "path": "node_modules/ldapts",
+      "version": "9.2.0",
+      "integrity": "sha512-5mDg3OT5fDP9DUXga9dCLW8cMW24OTOKT4pv/Qj+f2zCV3qxb+gkZLCzMAqzVTOANoycidKkYpPvkclUQU2aXw==",
+      "license": "MIT",
+      "scope": "RUNTIME",
+      "license_source": "node_modules/ldapts/LICENSE"
     },
     {
       "path": "node_modules/light-my-request",
@@ -686,6 +702,14 @@
       ]
     },
     {
+      "path": "node_modules/oauth4webapi",
+      "version": "3.8.8",
+      "integrity": "sha512-8N28E+a/oxfXWBgOMt+ZP/JUf/XR+IFbvkAEPP3gznXOMv9BpAAwiIj0TFNz3tGTPc0ZQ8zmWBNgN1nAys0gng==",
+      "license": "MIT",
+      "scope": "RUNTIME",
+      "license_source": "node_modules/oauth4webapi/LICENSE.md"
+    },
+    {
       "path": "node_modules/on-exit-leak-free",
       "name": "on-exit-leak-free",
       "version": "2.1.2",
@@ -698,6 +722,14 @@
       "license_sha256": [
         "47404ffc18f1267832bc0623857871de5a3a93ebb19693f5e1b963af91fab54b"
       ]
+    },
+    {
+      "path": "node_modules/openid-client",
+      "version": "6.8.8",
+      "integrity": "sha512-ZsucJA5Ad04Uv7YN4ql+s4GXNmb9uAYQwyJTsJx7CH/MX3JZioLE2pVKi1SC+YrbSLA4Px3Gi30dMjgOZtb6pA==",
+      "license": "MIT",
+      "scope": "RUNTIME",
+      "license_source": "node_modules/openid-client/LICENSE.md"
     },
     {
       "path": "node_modules/oracledb",
@@ -1041,6 +1073,14 @@
       "license_sha256": [
         "c372ef2fa1dfcb124ed807609751e75e3a009f108c5724916b489288fcb88a0c"
       ]
+    },
+    {
+      "path": "node_modules/strict-event-emitter-types",
+      "version": "2.0.0",
+      "integrity": "sha512-Nk/brWYpD85WlOgzw5h173aci0Teyv8YdIAEtV+N88nDB0dLlazZyJMIsN6eo1/AR61l+p6CJTG1JIyFaoNEEA==",
+      "license": "ISC",
+      "scope": "RUNTIME",
+      "license_source": "node_modules/strict-event-emitter-types/package.json"
     },
     {
       "path": "node_modules/thread-stream",

@@ -1,0 +1,165 @@
+{
+  "format": 1,
+  "kind": "KELRYVO_UI_SIGN_IN_REFINEMENT_DEVELOPMENT_DELIVERY",
+  "recordedAt": "2026-10-25T04:13:20.571116+00:00",
+  "status": "PASS_BOUNDED_UI_REFINEMENT_DELIVERY",
+  "origin": "https://kelryvo.apps.drgdevlab.com",
+  "source": {
+    "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+    "contextTreeSha256": "bf06fc9c504eab36a6799e26cb940beb07079c6dce30029aaa4462ac2728ba5c",
+    "revisionLabel": "worktree-sha256:bf06fc9c504eab36a6799e26cb940beb07079c6dce30029aaa4462ac2728ba5c",
+    "canonicalCommitCreated": false,
+    "runtimeChangeScope": [
+      "apps/web/src/ExternalSignIn.jsx",
+      "apps/web/src/PasswordLogin.jsx",
+      "apps/web/src/SqlWorkspace.jsx",
+      "apps/web/src/app.jsx",
+      "apps/web/styles.css"
+    ],
+    "other208BuildInputsIncludingBackendAuthAndWorkerUnchanged": true
+  },
+  "image": {
+    "image": "longhn0710t/kelryvo-pilot@sha256:7720529b069858f8d6c5e335d3ec7559dbd4a7ebeccd21443fd8a894f5eed4cd",
+    "tag": "dev-worktree-bf06fc9c504e-20261025T013542Z",
+    "digest": "sha256:7720529b069858f8d6c5e335d3ec7559dbd4a7ebeccd21443fd8a894f5eed4cd",
+    "platformDigest": "sha256:838aa86ffce58fe2b7e8937a6d281d30898ce299d98c14f9624f15eb908d8781",
+    "configDigest": "sha256:92d80198848b3a6eb7f3471e8150d8a1de23b7607b2ab95952f9f81b89b2e627",
+    "anonymousVerification": "PASS",
+    "anonymousDigestPull": "PASS"
+  },
+  "design": {
+    "reference": "Two private MCP Stitch concepts generated using fictional data and shared DESIGN.md",
+    "implementation": "Existing React/CSS; generated runtime code/assets were not imported",
+    "changes": [
+      "Single-column sign-in with local username/password first",
+      "Optional configured LDAP/OIDC methods in a compact separate group",
+      "Secondary first-setup, token recovery and expandable session information",
+      "Removed the large decorative story panel and repeated sign-in headings",
+      "Exactly one primary SQL toolbar action across unsaved, saved and prepared-release states",
+      "Readable dark-mode links and44px sign-in controls"
+    ]
+  },
+  "validation": {
+    "standardCheck": {
+      "tests": 642,
+      "pass": 491,
+      "fail": 0,
+      "skipped": 151
+    },
+    "selectedBrowserWorkflowCases": 6,
+    "allInOneFullBrowserRunClaimed": false,
+    "finalSourceAuthBrowserCases": 2,
+    "finalSourcePrimaryActionStateCheck": true,
+    "localVisualCaptures": 14,
+    "liveVisualCaptures": 6,
+    "liveVisualErrors": 0,
+    "liveVisualHorizontalOverflow": false,
+    "actualImageOCI": "PASS",
+    "anonymousRegistryPull": "PASS",
+    "exactLiveWebAssetHashes": {
+      "app.js": "43fcd33702eeae8d649e1e375b52e13eaaf385ac7ade6172af1573fcc7abaa1a",
+      "styles.css": "1de31bbb10a27451e67be6297a125f3b735406d5cd2ba6d85971284da5876b30",
+      "index.html": "de326fcc6fb7b90fdcd8b22c374a9950b8667c6a3a9ca6953e580de4fa597398"
+    },
+    "liveAuthenticationChecks": 18,
+    "liveMethods": [
+      "LOCAL",
+      "LDAPS",
+      "OIDC"
+    ],
+    "liveHistoryCases": 4,
+    "twoRoleHistoryRecordsEqualExceptExportTime": true,
+    "privateContextScan": {
+      "files": 213,
+      "protectedValues": 13,
+      "matches": 0
+    }
+  },
+  "dataPreservation": {
+    "all68TablesExactlyUnchangedAcrossUpgrade": true,
+    "stablePersistentResourceUIDs": true,
+    "wholeInstallationSecretDataUnchanged": true,
+    "unchangedBusinessTablesAfterLiveSignins": 64,
+    "changedAuthTables": [
+      "sf_external_session_roots",
+      "sf_identity_audit",
+      "sf_local_credentials",
+      "sf_oidc_attempts"
+    ],
+    "plansJobsHoldsRolesGrantsHistoryUnchanged": true,
+    "totalHolds": 11,
+    "privateBackupCreated": true,
+    "restorePerformed": false,
+    "apiUid10001CannotReadOracleWriterSecret": true
+  },
+  "oracle": {
+    "latestBoundedNativeCase": "evidence/product/oracle-incompatible-history-20261025/acceptance.json",
+    "newImageQualification": {
+      "status": "PASS_NONEMPTY_CURRENT_IMAGE_QUALIFICATION",
+      "at": "2026-10-25T04:12:23.504867+00:00",
+      "purposeIdentitiesViaBothRoutes": 6,
+      "applicationOwnersObserved": 5,
+      "objects": 8,
+      "ledgerEvents": 48,
+      "ledgerHeads": 4,
+      "historicalPDBsUnchanged": 4,
+      "applicationDdlCalls": 0,
+      "applicationDmlCalls": 0,
+      "all68MetadataTablesUnchanged": true
+    },
+    "newGovernedNativeExecutionOnThisImageClaimed": false
+  },
+  "runtime": {
+    "httpsStatus": 200,
+    "metadata": "ACTIVE",
+    "executionEnabled": false,
+    "discoveryEnabled": true,
+    "selectedInstallationSecret": "kelryvo-oracle-concurrency-20261025",
+    "argoAutoSync": false
+  },
+  "retainedFailures": [
+    "Initial backup command failed its local Docker toolchain precheck before creating a destination or witness; the same-UID Docker-group invocation completed the backup.",
+    "Initial upgrade preparation rejected a draft assertion about the outcome-review format before infrastructure calls; corrected code verifies the actual PASS artifact and exact hashes.",
+    "Initial browser history verifier waited for an empty attempt list to be visible; its retained FAIL was followed by a separate readonly rerun that checked attachment and the explicit no-attempt message. No native work was replayed."
+  ],
+  "limitations": [
+    "Selected local browser coverage and exact-image/live acceptance are bounded; no all-in-one full58-case browser run is claimed for this refinement.",
+    "The governed OA09 mismatch case ran on the preceding image; this image adds exact source/core-byte equality and fresh live SELECT-only qualification, not new governed execution acceptance.",
+    "Full OA01/OA02/OA09 matrices, distinct-installed-worker-ID OA05 variant and remaining R1/R2 visibility/browser matrices remain incomplete.",
+    "Oracle19c/21c/TCPS,production use,hosted CI,canonical signed commit,Git push,merge and a gated release remain unqualified."
+  ],
+  "privateEvidenceSha256": {
+    "verification.json": "fd3bb65646131c0bc5d8294fb515fa4c4938579ee0673fdc4530dee1f0ae959a",
+    "independent-ui-review.json": "2cf6886690225015c51796dadbb44559e9def99e3041e6183bbe997aa62f8a73",
+    "image/source.json": "83297c181980fa1205eaafeaa716e3056d0702fc10b81fc64e95fb3304f10eb4",
+    "image/context-manifest.json": "db71f22cecd938fd63433e0fc6721543d598dc996e3e3f0ae5b7fdd021499ff7",
+    "image/image.json": "86da8050980c4c4372d3ef2070fc0ec9bc9cc3720af83b983d5b39a785c535c3",
+    "image/container-acceptance.json": "4582902fe0b27b0c1272f20f1c8cf0e83d7179d9a1e38435b07a6402d9368e1d",
+    "image/secret-scan.json": "bcc585cbca325a1f9bd2841eaac33857b1d4ae825f02ab02aa974d5285299475",
+    "image/publication.json": "4b7cb30228301ff94e1cf259aa94a1c9fa3d0eab6ba2dc1cbf907e093de43716",
+    "image/pre-upgrade-backup/manifest.json": "093bc699e96e2cdd49912bd4a263ea976e274d306a1a3993738d13f6ed120fd9",
+    "image/pre-upgrade-backup-witness.json": "7738e08b136f9decf7f173c41756334c313724f3851ac8f7a8a3dc4d62a23472",
+    "image/upgrade-case-1/scope.json": "d4fade66af51fcb83abfe159f83e6d3eeb037b1e5067676be4470785438a1ba8",
+    "image/upgrade-case-1/review.json": "c08894209e0954314624492c390e7b5073e9e05adf491cc1c8f06f7651a8aee0",
+    "image/upgrade-case-1/lab-manifest.json": "51d352bdbbb9f074b040ff00b3654f3fddec745407ba8e23cfa38f84a204990d",
+    "image/upgrade-case-1/deploy-result.json": "4b8cb86fa6a635ca3460f9e92bf95d8dcfe38f57dfbc0dabb0862fb7eecbc895",
+    "image/upgrade-case-1/metadata-before.private.json": "f05a933c1f8abd6d38507307421a59c25246538d0e89017cf74b774ba6627f9a",
+    "image/upgrade-case-1/metadata-after.private.json": "f05a933c1f8abd6d38507307421a59c25246538d0e89017cf74b774ba6627f9a",
+    "live-web-source-verification.json": "3756a5f4e63ec8b42e692b8f259f7c99b635c0617b60c5b9d8a8f1459947b41c",
+    "live-identity-ui-result.json": "085116ac319d9f8d1eb803227cd2650bfccb77fb11e3fa5f56ce945627690967",
+    "post-live-preservation.json": "b9e3627f03fc391130b913dff2ac2dafac3c90b1372af0fa75a3956ab15afa58",
+    "post-live-tables.private.json": "f53e4ff2141e653a5ec01c9faddf253b52fa9704190fa00f69566c9191a32093",
+    "live-login-visual.json": "d4fcfda8f9795a2eae83bdfccca845cd425318062eb274f31dd4f77b15a57f4b"
+  },
+  "additionalEvidenceSha256": {
+    "historyResult": "2a2ea25f353f7fd9f811f745d1d5baee4703f01a9b521d4c1705e28af5412e2a",
+    "qualificationResult": "73b0ed1eeaf879b3200de76779ff3ebc08bdb3d524a867a63e65e3744e07e7a5",
+    "qualificationScope": "fb63ba8c3a4ca77e5ddbc841ee63d14783af62231f2501493ef896542774b251",
+    "qualificationReview": "d5a97de6e5843164bd5ca956c1c695c49443f86f35d424b2240d8a78633867ab"
+  },
+  "screenshots": {
+    "1440-light-login.png": "64042d60a406a20b77f8ff543936b58f708caccda067a81aac5052a8d9ad2b24",
+    "390-light-login.png": "0365b782880c3b87861696ff62ee650c953deb225be93d9af10c18c46f86a379",
+    "390-dark-directory.png": "85123fe38420ec277c5fe6558a62724c4e2e6ee32ce3d4f35b9784dd34cef582"
+  }
+}

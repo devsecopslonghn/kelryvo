@@ -68,11 +68,13 @@ function validLimit(value, fallback, maximum) {
 }
 
 /** Client for the private discovery socket inherited by the API process. */
-export function createDiscoveryClient(socket, { timeoutMs = 10_000, maxPending = 2, requestLimit = REQUEST_LIMIT, responseLimit = RESPONSE_LIMIT } = {}) {
+export function createDiscoveryClient(socket, { timeoutMs = 10_000, schemaTimeoutMs = timeoutMs,
+  maxPending = 2, requestLimit = REQUEST_LIMIT, responseLimit = RESPONSE_LIMIT } = {}) {
   const limit = validLimit(maxPending, 2, 32);
   const requestBytes = validLimit(requestLimit, REQUEST_LIMIT, REQUEST_LIMIT);
   const responseBytes = validLimit(responseLimit, RESPONSE_LIMIT, RESPONSE_LIMIT);
   if (!(socket instanceof net.Socket) || !Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 120_000
+      || !Number.isInteger(schemaTimeoutMs) || schemaTimeoutMs < 1 || schemaTimeoutMs > 120_000
       || !limit || !requestBytes || !responseBytes) throw new TypeError('Invalid discovery IPC configuration');
   const pending = new Map();
   let buffer = Buffer.alloc(0), closed = false;
@@ -136,7 +138,7 @@ export function createDiscoveryClient(socket, { timeoutMs = 10_000, maxPending =
           sendFrame(socket, { version: VERSION, id: request.id, cancel: true }, requestBytes);
           finish(request.id, unavailable('TIMEOUT'));
         };
-        item.timer = setTimeout(item.abort, timeoutMs);
+        item.timer = setTimeout(item.abort, operation === 'SCHEMA' ? schemaTimeoutMs : timeoutMs);
         item.timer.unref?.();
         pending.set(request.id, item);
         signal?.addEventListener('abort', item.abort, { once: true });

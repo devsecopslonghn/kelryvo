@@ -50,6 +50,21 @@ test('incomplete, mismatched, unavailable and concurrent schema observations nev
   }finally{await f.close();}
 });
 
+test('SCHEMA API timeout can be extended independently while an explicit short discovery timeout remains the fallback',opts,async()=>{
+  const extended=await createSchemaFixture({discoveryTimeoutMs:80,discoverySchemaTimeoutMs:1000});
+  try{
+    extended.setMode('OBSERVED');extended.setDelay(220);const response=await extended.observe();
+    assert.equal(response.statusCode,201,response.body);assert.equal(response.json().snapshot.coverage.TABLE,'COMPLETE');
+  }finally{await extended.close();}
+
+  const inherited=await createSchemaFixture({discoveryTimeoutMs:80});
+  try{
+    inherited.setMode('OBSERVED');inherited.setDelay(220);const response=await inherited.observe();
+    assert.equal(response.statusCode,201,response.body);
+    assert.equal(response.json().snapshot.coverage.TABLE,'UNAVAILABLE');
+  }finally{await inherited.close();}
+});
+
 test('plans retain schema evidence; structural changes stale approvals permanently while new plans retain fresh snapshots',opts,async()=>{
   const f=await createSchemaFixture();try{
     const s=(await f.observe()).json().snapshot;await f.baseline(s);

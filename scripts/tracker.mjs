@@ -1651,7 +1651,12 @@ export function validateState(s) {
 
 function formatStatus(s) {
   const counts = (items) => Object.fromEntries([...new Set(items.map((x) => x.status))].sort(compareStrings).map((status) => [status, items.filter((x) => x.status === status).length]));
-  return { scope: 'Original catalog/task acceptance; not delivered capability counts', product_source_of_truth: s.milestone.product_source_of_truth ?? null, features: s.features.features.length, feature_status: counts(s.features.features), work_items: s.tasks.tasks.length, work_status: counts(s.tasks.tasks), wp0_cases: s.tests.cases.length, oracle_cells: 'BLOCKED pending authorized lab manifest' };
+  return { scope: 'Original catalog/task acceptance; not delivered capability counts', product_source_of_truth: s.milestone.product_source_of_truth ?? null, features: s.features.features.length, feature_status: counts(s.features.features), work_items: s.tasks.tasks.length, work_status: counts(s.tasks.tasks), wp0_cases: s.tests.cases.length,
+    oracle_lab_authorized: s.milestone.oracle_lab_authorized === true,
+    oracle_lab_authorization_scope: s.milestone.oracle_lab_authorization_scope ?? null,
+    oracle_cells: s.milestone.oracle_lab_authorized === true
+      ? 'Original Oracle 19c/21c cells remain unverified; scoped lab authorization is separate'
+      : 'BLOCKED pending authorized lab manifest' };
 }
 export function selectNext(s) {
   const all = [...s.tasks.tasks, ...s.features.features];

@@ -1,0 +1,70 @@
+{
+  "status": "PASS_BOUNDED_NON_PRODUCTION_APPLICATION_DELIVERY",
+  "at": "2026-10-24T16:35:38.165267+00:00",
+  "url": "https://kelryvo.apps.drgdevlab.com",
+  "image": "longhn0710t/kelryvo-pilot@sha256:b5a6add6f97d238130ed5a826dbe6eba293a45132f513742a0d8095064e87279",
+  "sourceRevision": "worktree-sha256:6c5d4a8fdaa390246827fea22b9910b7050fe2a406a9e7fb78dcfb9c816467e6",
+  "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+  "canonicalGitRelease": false,
+  "localChecks": {
+    "standard": "PASS",
+    "api": {
+      "pass": 202,
+      "fail": 0
+    },
+    "browser": {
+      "pass": 56,
+      "fail": 0
+    },
+    "exactImageOCI": "PASS",
+    "anonymousRegistryVerification": "PASS",
+    "chartRenderContracts": "PASS"
+  },
+  "deployment": {
+    "status": "PASS",
+    "unchangedMetadataTables": 59,
+    "stablePersistentResourceIdentities": true,
+    "executionEnabled": false,
+    "discoveryEnabled": true,
+    "argoAutomaticSync": false
+  },
+  "liveBrowser": {
+    "mobile390": "PASS",
+    "governedV3": {
+      "jobId": "162d88ad-b718-460c-a444-b0a8b3a0022d",
+      "state": "VERIFIED_SUCCESS",
+      "attempts": 1,
+      "receipts": 1
+    },
+    "observedSchemaChange": {
+      "modifiedObjects": 1,
+      "comparison": "UNVERIFIED",
+      "noExecutionJobCreated": true
+    }
+  },
+  "onboardingLifecycle": "BOUNDED_PASS_BINDING_ALREADY_STALE_BEFORE_CYCLE",
+  "unsafeSQL": "FIVE_VALIDATION_DENIALS_NO_GOVERNED_DISPATCH",
+  "existingLostAckHolds": "PRESERVED_NO_REPLAY_PROXY_CUT",
+  "remainingAcceptance": [
+    "Full R1/R2 visibility and lifecycle matrices",
+    "Governed OA01/OA02 negative dispatch",
+    "OA05 route-alias worker concurrency (private harness initialization failed)",
+    "OA09 incompatible-history matrices",
+    "Original Oracle19c/21c acceptance; Free23.26.3 does not qualify these versions",
+    "TCPS and additional platform/production acceptance",
+    "Signed canonical source publication and hosted gated release CI"
+  ],
+  "scope": "Owner-authorized dedicated lab; working development app with retained failures and explicit incomplete pilot coverage",
+  "liveAdditionalSchemas": {
+    "KP_B": "VERIFIED_SUCCESS",
+    "KP_COMMIT": "VERIFIED_SUCCESS",
+    "oneReceiptEach": true,
+    "queue": "NORMAL_INSTALLED_EXECUTION_NO_CONCURRENCY_CLAIM"
+  },
+  "finalOracleObservation": {
+    "targetJournalEvents": 28,
+    "targetHeads": 3,
+    "olderHeldTargetsUnchanged": true
+  },
+  "historyRoleComparisons": 14
+}

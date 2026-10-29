@@ -1,0 +1,169 @@
+{
+  "format": 1,
+  "kind": "KELRYVO_SCHEMA_UI_DEVELOPMENT_DELIVERY",
+  "status": "PARTIAL_DELIVERY_SCHEMA_RELOAD_FAILED",
+  "recordedAt": "2026-10-25T07:13:22.939474+00:00",
+  "origin": "https://kelryvo.apps.drgdevlab.com",
+  "image": "longhn0710t/kelryvo-pilot@sha256:1945dc939a66e81d30b17b23fc29d217afc7d9cc8b50764ecaff328827f4d37b",
+  "tag": "dev-worktree-c50401bf6172-20261025T064801Z",
+  "contextTreeSha256": "c50401bf61721a2d76d82733cc8f8994fe7fdcf455bb2c00715bd4f262cae517",
+  "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+  "sourceScope": [
+    "apps/web/src/SchemaBaselines.jsx",
+    "apps/web/styles.css"
+  ],
+  "other211BuildInputsIdenticalToPrior": true,
+  "publication": {
+    "anonymousVerification": "PASS",
+    "anonymousDigestPull": "PASS",
+    "coldOCI": "PASS"
+  },
+  "rollout": {
+    "all68TablesExactlyPreserved": true,
+    "snapshotsPreserved": 4,
+    "baselinesPreserved": 1,
+    "jobs": 50,
+    "holds": 11,
+    "persistentResourceUIDsPreserved": true,
+    "wholeInstallationSecretUnchanged": true,
+    "apiCannotReadWriterSecrets": true,
+    "originalReportingLiteralSnapshots": 3,
+    "separateVerifiedCountCorrection": 4
+  },
+  "authentication": {
+    "checks": 18,
+    "pass": 18,
+    "methods": [
+      "LOCAL",
+      "LDAPS",
+      "OIDC"
+    ]
+  },
+  "nativeCollector": {
+    "image": "longhn0710t/kelryvo-pilot@sha256:00d27393e7917a9af0818f54f58d42637c183183b7f9fcda2e33768df940e92c",
+    "acceptedAt": "2026-10-25T06:55:44.902Z",
+    "snapshotId": "dcbb7619-c54b-4d67-8091-cbe475f388fd",
+    "owner": "KP_B",
+    "provenance": "ORACLE_READ_ONLY",
+    "liveAccepted": true,
+    "coverage": {
+      "VIEW": "PARTIAL",
+      "INDEX": "PARTIAL",
+      "TABLE": "PARTIAL",
+      "SEQUENCE": "PARTIAL",
+      "DEPENDENCY": "PARTIAL"
+    },
+    "limitations": [
+      "FOREIGN_OWNER_VISIBILITY_PARTIAL",
+      "MULTI_QUERY_CONSISTENCY_UNGUARANTEED"
+    ],
+    "queryUnavailableReported": false,
+    "comparison": {
+      "apiHttpStatus": 200,
+      "expectedSnapshotId": "c601a652-b194-4dd4-aaea-4db2c294d173",
+      "observedSnapshotId": "dcbb7619-c54b-4d67-8091-cbe475f388fd",
+      "state": "UNVERIFIED",
+      "summary": {
+        "added": 0,
+        "removed": 0,
+        "modified": 0,
+        "unverified": 0
+      },
+      "limitations": [
+        "INCOMPLETE_METADATA_COVERAGE",
+        "MULTI_QUERY_CONSISTENCY_UNGUARANTEED"
+      ],
+      "changeCount": 0,
+      "absenceOfDriftEstablished": false
+    },
+    "oldRowsIn68TablesRetained": true,
+    "oldThreeSnapshotsAndBaselineRetained": true,
+    "newJobs": 0,
+    "ddl": 0,
+    "dml": 0,
+    "currentUiImageNativeObservationClaimed": false
+  },
+  "liveUi": {
+    "originalAttempt": "FAIL_RETAINED",
+    "roleReached": "developer",
+    "nativeRecordsAndComparisonReached": true,
+    "fourThemeViewportScreenshotsCaptured": true,
+    "failure": "Schema view lost after full-page reload",
+    "sourceCause": "schema omitted from workflowLocation.js page allowlist",
+    "forbiddenApiMutations": 0,
+    "browserPageErrors": 0,
+    "fix": "Three-file navigation fix implemented locally; source review passed; next image/browser acceptance in progress"
+  },
+  "postLivePreservation": {
+    "status": "PASS_POST_LIVE_BUSINESS_PRESERVATION",
+    "at": "2026-10-25T07:10:03.599382+00:00",
+    "businessTablesExactlyUnchanged": 64,
+    "changedAuthTables": [
+      "sf_external_session_roots",
+      "sf_identity_audit",
+      "sf_local_credentials",
+      "sf_oidc_attempts"
+    ],
+    "states": {
+      "CANCELLED": 18,
+      "HOLD": 11,
+      "NOOP": 5,
+      "VERIFIED_SUCCESS": 16
+    },
+    "target": {
+      "snapshots": 4,
+      "baselines": 1
+    },
+    "metadataArtifactSha256": "e88bd73f904925fcc345413184f50c48b5bf8a87b8dc64bd318a383fcb9bbb72",
+    "browserCredentialsCreated": 7,
+    "browserCredentialsStillActive": 0,
+    "includesFailedReadonlyUIAttempt": true,
+    "nativeOracleObservationPerformed": false
+  },
+  "runtime": {
+    "executionEnabled": false,
+    "discoveryEnabled": true,
+    "argoAutoSync": false
+  },
+  "screenshots": {
+    "1440-dark.png": "695d05908f7a26991c0799e641c8c105eb424c578207a84a5ce3c517b14a3ff6",
+    "1440-light.png": "9b1b34d4588c5b411c2004cfb9e9051f354ab56f3f7c14db5b78ac0d3d35e10d",
+    "390-dark.png": "3e70734a46514785029b3381adbf12ae19d87f2c93c5a84262567299a52221f9",
+    "390-light.png": "f0ea9d5e927fdfcd403e8299121ee1a901e0d0e3fb18b3b09c01f43208ca45ea"
+  },
+  "privateEvidenceSha256": {
+    ".cache/schema-ui-delivery-20261025/image/source.json": "8b08108abf845cc47a07838e513d0b0576c071f0fb5fb7eb9779f208e2067f89",
+    ".cache/schema-ui-delivery-20261025/image/context-manifest.json": "c6f61a4e3b8fbec742efe77f6f8aed3552edbbeb5de1e3ab236ee5e39e68723f",
+    ".cache/schema-ui-delivery-20261025/image/image.json": "0fd2e6e4f142138077ce9a112c151f2ba0ffabc5e327846359061ea4d51a2449",
+    ".cache/schema-ui-delivery-20261025/image/publication.json": "ade0489c9ac9021e947e81b1c2102628a3b962d0e7af234df61ab01f93e0c6b7",
+    ".cache/schema-ui-delivery-20261025/image/container-acceptance.json": "f39ff3540913af56d97003e5b2a678d9ce957d4ceb6d1a98054d77d98fa8681e",
+    ".cache/schema-ui-delivery-20261025/image/secret-scan.json": "c090edae4dbf9d5aeeedd3993bf76313994dbd8a8278587015d4350e625a2c98",
+    ".cache/schema-ui-delivery-20261025/verification.json": "6c00d82d68f43813528e659746615506c004772b9e195c109f11ffe03ed880a8",
+    ".cache/schema-ui-delivery-20261025/independent-review.json": "9f2ed81ad0c09ca6762860d76618e96fb51a69de718338d4765fd49654fc2183",
+    ".cache/schema-ui-delivery-20261025/image/upgrade-case-1/scope.json": "b802502bcb5a71692e6034fdc4db4105d22aafe24a9e337b2045e13f2f360313",
+    ".cache/schema-ui-delivery-20261025/image/upgrade-case-1/review.json": "d4a6730fa78ecd509a4746518ae49272daabbd790a85c793bf5f6b5a54b909bc",
+    ".cache/schema-ui-delivery-20261025/image/upgrade-case-1/deploy-result.json": "7be16995222829c1f9bf8815fb374f17e44c708bc8ce294dcdf8c86f0c4f70bb",
+    ".cache/schema-ui-delivery-20261025/image/upgrade-case-1/metadata-after.private.json": "2ad5a995cc79c4403a6fcb59efb2f39dc3410236a09ead45669c48b25ca33a25",
+    ".cache/schema-ui-delivery-20261025/image/upgrade-case-1/result-count-correction.json": "0702a3dae9f4e0f99542d08e2d0bd5621c2c59d5d0d0e39df524bcfd16570eb5",
+    ".cache/schema-ui-delivery-20261025/image/upgrade-case-1/outcome-review.json": "5f70062bc468eac0c6b4a459e82cbbf4363a60f38e221544874bd0945492c891",
+    ".cache/schema-ui-delivery-20261025/live-web-source-verification.json": "0d49ada736685ff18f8be58698508b0ab651520c63669d8de36b7593cdad803d",
+    ".cache/schema-ui-delivery-20261025/live-identity-ui-result.json": "4a284d2bd948ca4c2f260645a56d4a3ebc1d64624ca05cc22322744803b483e4",
+    ".cache/schema-ui-delivery-20261025/live-schema-ui.mjs": "64a86cd6b668df7275dc1c204fdfb978cc36c07801061f8343befc8677a8479e",
+    ".cache/schema-ui-delivery-20261025/live-schema-ui-failure.json": "8feb4ced32eeaef133e23523da3c1ff1c5582dc2fc0c5c3fd9deea254e4bc2a7",
+    ".cache/schema-ui-delivery-20261025/post-live-preservation.json": "2dbefac6280dc157d19065bd7f9077d5d8bb2b78f0b1e23981ce54e9b4bb271d",
+    ".cache/schema-ui-delivery-20261025/image/pre-upgrade-backup/manifest.json": "a46456f8f13408294eb3dba668ef534ba7b98934b29f7e811b84689548218190",
+    ".cache/schema-ui-delivery-20261025/image/pre-upgrade-backup-witness.json": "fa76adb66f43a673b943a1a95634e5fcb82d94b876520cd51286ee21f05fde4d",
+    ".cache/schema-deadline-delivery-20261025/schema-acceptance/result.private.json": "666ae8d7157e56c284d1491ba3e4635ae8e5b767d9e3bc5be009d96aa3dc9e6f",
+    ".cache/schema-deadline-delivery-20261025/schema-acceptance/scope.json": "facebe89c6bae75ad576d024cbf80b9bef8f84d07365d7e08bb03822e3fb2a93",
+    ".cache/schema-deadline-delivery-20261025/schema-acceptance/review.json": "8b7d71fef473410ef60024ee5395bb1d1386bd301ee0488beee4a1310c3cecad",
+    ".cache/schema-deadline-delivery-20261025/schema-acceptance/outcome-review.json": "1a3327902068c8b31f94098dfe5d05852f35baad4033663c71c541f8ed28499b",
+    ".cache/schema-deadline-delivery-20261025/schema-acceptance/metadata-after.private.json": "104e6abf2eeadf3f9567ad497074906a7e23207e7e1726d2c83c73f7ced5640b",
+    ".cache/schema-deadline-delivery-20261025/schema-acceptance/rows-after.private.json": "16c0f45d3cfff01b30863b1286c36f2e41415931d15a2a200be8172715e8732e"
+  },
+  "limitations": [
+    "Full R1/R2/OA matrices remain open; no absence of drift is established",
+    "Retained read-only UI case failed after reload; this image is not claimed as complete UI acceptance",
+    "No canonical signed commit, Git push, hosted CI, merge or gated release claimed",
+    "Original rollout report contains a stale literal count of 3; independent before/after reconstruction and linked correction verify 4 snapshots"
+  ]
+}

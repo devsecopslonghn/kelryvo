@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "at": "2026-10-24T16:22:55.425891+00:00",
+  "image": "longhn0710t/kelryvo-pilot@sha256:b5a6add6f97d238130ed5a826dbe6eba293a45132f513742a0d8095064e87279",
+  "source": "worktree-sha256:6c5d4a8fdaa390246827fea22b9910b7050fe2a406a9e7fb78dcfb9c816467e6",
+  "tableCount": 59,
+  "changedTables": [],
+  "stableIdentitiesPreserved": true,
+  "executionEnabled": false,
+  "discoveryEnabled": true,
+  "argoAutoSync": false,
+  "livez": {
+    "status": 200,
+    "body": {
+      "status": "alive"
+    }
+  },
+  "readyz": {
+    "status": 200,
+    "body": {
+      "status": "ready",
+      "metadata": "ACTIVE",
+      "targetAvailability": "UNVERIFIED"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "format": 1,
+  "status": "PASS_POST_HISTORY_RUNTIME_AND_PRESERVATION",
+  "at": "2026-10-24T21:03:58.268745+00:00",
+  "image": "longhn0710t/kelryvo-pilot@sha256:d97136fe5fd8e7074c8cc9304f03ea293efb5463ac0f44e35cb8c0c97c3bba74",
+  "metadata": "ACTIVE",
+  "publicExecutionEnabled": false,
+  "discoveryEnabled": true,
+  "allJobPlanJournalAndHoldFactsUnchangedAfterTwoRoleBrowserReads": true,
+  "historicalHolds": 10,
+  "metadataTablesChangedAfterNative": [
+    "sf_local_credentials"
+  ],
+  "reason": "Expected local password sign-in, browser activity and logout for evidence exports/history acceptance",
+  "preservationScope": "Exact PostgreSQL journal snapshots and whole-table hashes; Oracle catalog/ledger observations are recorded separately in native acceptance",
+  "sourceSha256": {
+    "current-runtime.json": "b082c68b61d473849498dafa0509a0d7b5681dadf4681cffb8b6f11122044307",
+    "journal-after-native.private.json": "0de6278485df0219a3e437a051ac187547b62a6c5141ac315f43e9b9e395c770",
+    "journal-final-history.private.json": "0de6278485df0219a3e437a051ac187547b62a6c5141ac315f43e9b9e395c770",
+    "metadata-after.private.json": "13cf0cff47a831980bbf7fed98958632a9d23443e1237487db6c20b75be2982e",
+    "metadata-final-history.private.json": "fec870802c83479e594bc02560da2091ff873c0f5fd9e4f7c451e2da7feeea30"
+  }
+}

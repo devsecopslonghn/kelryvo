@@ -1,0 +1,97 @@
+{
+  "status": "PASS",
+  "separateBrowserContexts": true,
+  "checksumVerified": true,
+  "rawSecretsAbsent": true,
+  "reconciliationId": null,
+  "outputs": {
+    "developer": {
+      "A_V1": {
+        "state": "VERIFIED_SUCCESS",
+        "attempts": 1,
+        "receipts": 1,
+        "factsSha256": "7eee91a22cbf8667fb62d7fe9316b20b940c7d2075c19f8004d9c7a9c01cca6c"
+      },
+      "A_V2": {
+        "state": "VERIFIED_SUCCESS",
+        "attempts": 1,
+        "receipts": 2,
+        "factsSha256": "6e5bf31515977292ef84c287de6a2d363e734b32af2d6dcca76d1af9a1b0cad4"
+      },
+      "A_NOOP": {
+        "state": "NOOP",
+        "attempts": 1,
+        "receipts": 0,
+        "factsSha256": "a9d783b42a212623b66507881312692b485650434e0a0f9da9b9831c80362e5b"
+      },
+      "B_V1": {
+        "state": "VERIFIED_SUCCESS",
+        "attempts": 1,
+        "receipts": 1,
+        "factsSha256": "40ffe403c58a0cd651a3490abdb4b5c748f7e32a2fdfce3be258876e733d43c5"
+      },
+      "B_V2": {
+        "state": "VERIFIED_SUCCESS",
+        "attempts": 1,
+        "receipts": 2,
+        "factsSha256": "cb37011e77f227f6defc27ce5f491b1cf451588fef3319ddaf6c22070d36e065"
+      },
+      "B_NOOP": {
+        "state": "NOOP",
+        "attempts": 1,
+        "receipts": 0,
+        "factsSha256": "aaf5663c62c69f7d7c7e7d53180f53b53a081a02d1de5d49052c01d2d3515883"
+      },
+      "FAULT_BEFORE_NATIVE": {
+        "state": "HOLD",
+        "attempts": 1,
+        "receipts": 0,
+        "factsSha256": "595add1bcb9ad6a56bbe5077c3a7125d81df59dc91d2e015dcdd2f3f03c5452e"
+      }
+    },
+    "approver": {
+      "A_V1": {
+        "state": "VERIFIED_SUCCESS",
+        "attempts": 1,
+        "receipts": 1,
+        "factsSha256": "7eee91a22cbf8667fb62d7fe9316b20b940c7d2075c19f8004d9c7a9c01cca6c"
+      },
+      "A_V2": {
+        "state": "VERIFIED_SUCCESS",
+        "attempts": 1,
+        "receipts": 2,
+        "factsSha256": "6e5bf31515977292ef84c287de6a2d363e734b32af2d6dcca76d1af9a1b0cad4"
+      },
+      "A_NOOP": {
+        "state": "NOOP",
+        "attempts": 1,
+        "receipts": 0,
+        "factsSha256": "a9d783b42a212623b66507881312692b485650434e0a0f9da9b9831c80362e5b"
+      },
+      "B_V1": {
+        "state": "VERIFIED_SUCCESS",
+        "attempts": 1,
+        "receipts": 1,
+        "factsSha256": "40ffe403c58a0cd651a3490abdb4b5c748f7e32a2fdfce3be258876e733d43c5"
+      },
+      "B_V2": {
+        "state": "VERIFIED_SUCCESS",
+        "attempts": 1,
+        "receipts": 2,
+        "factsSha256": "cb37011e77f227f6defc27ce5f491b1cf451588fef3319ddaf6c22070d36e065"
+      },
+      "B_NOOP": {
+        "state": "NOOP",
+        "attempts": 1,
+        "receipts": 0,
+        "factsSha256": "aaf5663c62c69f7d7c7e7d53180f53b53a081a02d1de5d49052c01d2d3515883"
+      },
+      "FAULT_BEFORE_NATIVE": {
+        "state": "HOLD",
+        "attempts": 1,
+        "receipts": 0,
+        "factsSha256": "595add1bcb9ad6a56bbe5077c3a7125d81df59dc91d2e015dcdd2f3f03c5452e"
+      }
+    }
+  }
+}

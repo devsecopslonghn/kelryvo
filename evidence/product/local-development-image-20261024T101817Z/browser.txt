@@ -1,0 +1,555 @@
+
+> schemaforge-local-development@0.0.0 test:browser
+> npm run build:web && node scripts/test-product.mjs --browser
+
+
+> schemaforge-local-development@0.0.0 build:web
+> node scripts/build-web.mjs
+
+Web application built in dist/web.
+Browser product tests: 46 files. Debug one file: node scripts/test-product.mjs --browser --file <product-test-file>
+TAP version 13
+# Subtest: browser discovers account access and revokes another session while preserving its own session
+ok 1 - browser discovers account access and revokes another session while preserving its own session
+  ---
+  duration_ms: 1112.189293
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: browser shows fixed approval integrity feedback and preserves pending plan for rejection
+ok 2 - browser shows fixed approval integrity feedback and preserves pending plan for rejection
+  ---
+  duration_ms: 7072.238727
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser preserves immutable approval display and drops a held withdrawal response after project ABA
+ok 3 - browser preserves immutable approval display and drops a held withdrawal response after project ABA
+  ---
+  duration_ms: 23706.526183
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Browser archive workflow and archived project records remained readable after API restart.
+# Subtest: browser archives a project and keeps its releases, plan, audit, and history readable
+ok 4 - browser archives a project and keeps its releases, plan, audit, and history readable
+  ---
+  duration_ms: 7501.753354
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: audit action filters preserve project scope, server order, archived reads and read-only records
+ok 5 - audit action filters preserve project scope, server order, archived reads and read-only records
+  ---
+  duration_ms: 7489.93422
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: Records pages retained audit history, resets contexts, and clears delayed or revoked results
+ok 6 - Records pages retained audit history, resets contexts, and clears delayed or revoked results
+  ---
+  duration_ms: 2229.269615
+  type: 'test'
+  ...
+# Subtest: restored workspace requires fresh credentials and keeps request controls in RESTORE_HOLD
+ok 7 - restored workspace requires fresh credentials and keeps request controls in RESTORE_HOLD
+  ---
+  duration_ms: 781.891336
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser ignores a committed source-binding response after project and session change
+ok 8 - browser ignores a committed source-binding response after project and session change
+  ---
+  duration_ms: 1972.7375
+  type: 'test'
+  ...
+# Source binding write committed; delaying only its browser response
+# Subtest: comment review UI keeps evidence, author history and drafts scoped without backend setup
+ok 9 - comment review UI keeps evidence, author history and drafts scoped without backend setup
+  ---
+  duration_ms: 1935.679773
+  type: 'test'
+  ...
+# Subtest: a source generation change clears attached evidence and discards an older preview response
+ok 10 - a source generation change clears attached evidence and discards an older preview response
+  ---
+  duration_ms: 767.816861
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser creates and revises a deployment profile, shows offline readiness, filters discovery connections, retires with confirmation and fits mobile
+ok 11 - browser creates and revises a deployment profile, shows offline readiness, filters discovery connections, retires with confirmation and fits mobile
+  ---
+  duration_ms: 4180.882486
+  type: 'test'
+  ...
+# Subtest: browser clears a revoked session and ignores a delayed 401 from an earlier session epoch
+ok 12 - browser clears a revoked session and ignores a delayed 401 from an earlier session epoch
+  ---
+  duration_ms: 782.187827
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# Subtest: browser registers infrastructure and connection, tests/discovers fixture metadata, records observed targets and keeps live verification unavailable after restart
+ok 13 - browser registers infrastructure and connection, tests/discovers fixture metadata, records observed targets and keeps live verification unavailable after restart
+  ---
+  duration_ms: 11479.416898
+  type: 'test'
+  ...
+# Subtest: execution history labels paged synthetic receipts and preserves HOLD uncertainty without stale session data
+ok 14 - execution history labels paged synthetic receipts and preserves HOLD uncertainty without stale session data
+  ---
+  duration_ms: 1249.543641
+  type: 'test'
+  ...
+# Subtest: older request pages keep independent events through live polling and clear on access revocation
+ok 15 - older request pages keep independent events through live polling and clear on access revocation
+  ---
+  duration_ms: 853.164809
+  type: 'test'
+  ...
+# Subtest: deployment request retry is idempotent and stale job events cannot replace cancellation state
+ok 16 - deployment request retry is idempotent and stale job events cannot replace cancellation state
+  ---
+  duration_ms: 1285.044507
+  type: 'test'
+  ...
+# Subtest: plan and execution record downloads validate saved facts and fence an obsolete export
+ok 17 - plan and execution record downloads validate saved facts and fence an obsolete export
+  ---
+  duration_ms: 1651.232914
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+ok 18 - release intake selects scoped Git refs, preserves manual HEAD, and ignores stale ref responses
+  ---
+  duration_ms: 2874.598967
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser onboards one master Oracle credential across multiple project schemas without claiming fixture evidence is live
+ok 19 - browser onboards one master Oracle credential across multiple project schemas without claiming fixture evidence is live
+  ---
+  duration_ms: 3916.967174
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: browser discovers instance configuration, retires a profile and keeps retained plans readable
+ok 20 - browser discovers instance configuration, retires a profile and keeps retained plans readable
+  ---
+  duration_ms: 4363.73295
+  type: 'test'
+  ...
+# grant complete
+# ENFORCED
+# grant complete
+# revoke complete
+# revoke complete
+# Subtest: browser keeps bootstrap read-only, shows creation receipt without loading it, and clears revoked selection
+ok 21 - browser keeps bootstrap read-only, shows creation receipt without loading it, and clears revoked selection
+  ---
+  duration_ms: 3061.252598
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: incremental review presents ordered SQL and evidence limits, pages consistently and discards stale plan responses
+ok 22 - incremental review presents ordered SQL and evidence limits, pages consistently and discards stale plan responses
+  ---
+  duration_ms: 16953.588896
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Migration history API preserved project membership, exact target scoping, filtering, pagination, and denied access.
+# Subtest: migration history is project and target scoped, searchable, paginated, and rejects denied or stale access
+ok 23 - migration history is project and target scoped, searchable, paginated, and rejects denied or stale access
+  ---
+  duration_ms: 1859.465833
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+ok 24 - Chromium completes Git intake through inbox approval, independent withdrawal, recovery and audit
+  ---
+  duration_ms: 21231.452666
+  type: 'test'
+  ...
+# Subtest: HOLD review UI accepts digest references, blocks retry and requires an independent approver
+ok 25 - HOLD review UI accepts digest references, blocks retry and requires an independent approver
+  ---
+  duration_ms: 1533.013847
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# Subtest: HTTPS browser completes registration through discovery, SQL review, independent approval, readiness, request and durable audit
+ok 26 - HTTPS browser completes registration through discovery, SQL review, independent approval, readiness, request and durable audit
+  ---
+  duration_ms: 12679.094671
+  type: 'test'
+  ...
+# Signed out and closed browser client before HTTPS service restart
+# HTTPS service restarted; reading retained request and audit
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# Subtest: Phase 7 HTTPS journey drafts SQL, retains immutable approval/request history and restores authorized context after restart
+ok 27 - Phase 7 HTTPS journey drafts SQL, retains immutable approval/request history and restores authorized context after restart
+  ---
+  duration_ms: 19621.684619
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# Subtest: Phase 8 journey authors ordered multi-file SQL and retains plan-bound comparison, approval and request evidence after restart
+ok 28 - Phase 8 journey authors ordered multi-file SQL and retains plan-bound comparison, approval and request evidence after restart
+  ---
+  duration_ms: 42776.730731
+  type: 'test'
+  ...
+# Subtest: review renders frozen intent safely, separately from current configuration, and clears context
+ok 29 - review renders frozen intent safely, separately from current configuration, and clears context
+  ---
+  duration_ms: 1375.276365
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser shows retained plan requester facts and blocks author decisions
+ok 30 - browser shows retained plan requester facts and blocks author decisions
+  ---
+  duration_ms: 16273.660163
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+ok 31 - browser prepares a fresh plan from a new commit after rejection and fails closed by project state
+  ---
+  duration_ms: 21222.405986
+  type: 'test'
+  ...
+# Subtest: retained source preview verifies UTF-8 byte facts and discards a delayed result after plan change
+ok 32 - retained source preview verifies UTF-8 byte facts and discards a delayed result after plan change
+  ---
+  duration_ms: 1790.133584
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: plan review shows only its matching current project profile and environment
+ok 33 - plan review shows only its matching current project profile and environment
+  ---
+  duration_ms: 20756.437143
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+ok 34 - review recovers a stale pending plan through T18 intake and keeps guidance scoped to the selected session
+  ---
+  duration_ms: 12273.491546
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser compares explicitly selected retained releases and discards a late result after pair changes
+ok 35 - browser compares explicitly selected retained releases and discards a late result after pair changes
+  ---
+  duration_ms: 9378.550588
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: browser gives fixed feedback when a retained release fails integrity verification
+ok 36 - browser gives fixed feedback when a retained release fails integrity verification
+  ---
+  duration_ms: 3927.340881
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+ok 37 - release inspection shows persisted provenance and retained SQL after Git becomes unavailable and project archives
+  ---
+  duration_ms: 4638.765375
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: browser inbox handles delayed scopes, exact plan navigation and grant revocation between pages
+ok 38 - browser inbox handles delayed scopes, exact plan navigation and grant revocation between pages
+  ---
+  duration_ms: 1759.726652
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: review assignment controls and Assigned to me filter follow scoped plan state
+ok 39 - review assignment controls and Assigned to me filter follow scoped plan state
+  ---
+  duration_ms: 5559.055772
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: browser observes exact schema, captures immutable baseline, compares structure, opens plans and history and retains data after restart
+ok 40 - browser observes exact schema, captures immutable baseline, compares structure, opens plans and history and retains data after restart
+  ---
+  duration_ms: 18278.344193
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser retains exact object reference observations through validation, plan review, downloads and restart
+ok 41 - browser retains exact object reference observations through validation, plan review, downloads and restart
+  ---
+  duration_ms: 10075.722745
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: schema navigation scopes migration history to the exact binding and preserves manual filters and scoped cursors
+ok 42 - schema navigation scopes migration history to the exact binding and preserves manual filters and scoped cursors
+  ---
+  duration_ms: 25224.796665
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser filters bounded retained objects without changing evidence and distinguishes same-named comparison references
+ok 43 - browser filters bounded retained objects without changing evidence and distinguishes same-named comparison references
+  ---
+  duration_ms: 3934.887682
+  type: 'test'
+  ...
+# Subtest: schema-reference view labels provisional identity and drops a delayed session response
+ok 44 - schema-reference view labels provisional identity and drops a delayed session response
+  ---
+  duration_ms: 804.82507
+  type: 'test'
+  ...
+# Subtest: schema references follow project context and clear after grant revocation
+ok 45 - schema references follow project context and clear after grant revocation
+  ---
+  duration_ms: 1146.476349
+  type: 'test'
+  ...
+# Subtest: schema estate groups loaded pages and preserves omitted-service warnings
+ok 46 - schema estate groups loaded pages and preserves omitted-service warnings
+  ---
+  duration_ms: 1088.375809
+  type: 'test'
+  ...
+# Subtest: HTTPS browser sessions enforce trust, cookie, CSRF, retry and expiry boundaries
+ok 47 - HTTPS browser sessions enforce trust, cookie, CSRF, retry and expiry boundaries
+  ---
+  duration_ms: 1245.778018
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser selects retained SQL, validates target, reviews unknowns, creates immutable plan, independently approves and retains evidence after restart
+ok 48 - browser selects retained SQL, validates target, reviews unknowns, creates immutable plan, independently approves and retains evidence after restart
+  ---
+  duration_ms: 14144.046367
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: browser reconciles independent file changes, repeated concurrent revisions and explicit version collisions without automatic writes
+ok 49 - browser reconciles independent file changes, repeated concurrent revisions and explicit version collisions without automatic writes
+  ---
+  duration_ms: 3730.824577
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: authored review corrections focus exact saved SQL, preserve unsaved edits, and create fresh independently reviewed candidates
+ok 50 - authored review corrections focus exact saved SQL, preserve unsaved edits, and create fresh independently reviewed candidates
+  ---
+  duration_ms: 26498.389441
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: SQL workspace drops stale analysis and surfaces optimistic revision conflicts in the browser
+ok 51 - SQL workspace drops stale analysis and surfaces optimistic revision conflicts in the browser
+  ---
+  duration_ms: 7877.958081
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: review shows the complete paged statement envelope, explicit readiness and legacy reapproval without stale results
+ok 52 - review shows the complete paged statement envelope, explicit readiness and legacy reapproval without stale results
+  ---
+  duration_ms: 10301.102558
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: status filters preserve scoped ordered plans, drafts, history and archived reads
+ok 53 - status filters preserve scoped ordered plans, drafts, history and archived reads
+  ---
+  duration_ms: 13496.717397
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: release planning loads target bindings beyond the first bounded page
+ok 54 - release planning loads target bindings beyond the first bounded page
+  ---
+  duration_ms: 5654.635468
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: themes preserve project navigation, readable mobile actions and session cleanup across responsive layouts
+ok 55 - themes preserve project navigation, readable mobile actions and session cleanup across responsive layouts
+  ---
+  duration_ms: 8401.233444
+  type: 'test'
+  ...
+1..55
+# tests 55
+# suites 0
+# pass 55
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 474508.670617

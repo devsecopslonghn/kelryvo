@@ -1,8 +1,27 @@
 # Local SchemaForge product
 
+## Workspace navigation
+
+Choose the active project in the sidebar. Work contains Projects, SQL Workspace,
+Releases, Plans & review and the cross-project Review inbox. Database contains
+Connections, project targets, schema baselines and references; History contains
+migration history and the audit log. On mobile, open the navigation menu in the
+top bar; choosing a destination, tapping the backdrop or pressing Escape closes it.
+
+Projects has a searchable list and a selected-project overview. Open New project
+to create a project, Project setup to manage environments/profiles, and Archive
+project for its separate destructive form. SQL workspace keeps editing and its
+next step visible; identifiers, revision comparison and schema drift have explicit
+disclosures. Review retains separate decision, execution and currentness states.
+Technical metadata remains available through its detail controls. Identity providers
+starts with configured providers; use Add or Configure to open its editor.
+
+Local username/password remains the primary HTTPS sign-in. Optional LDAP/SSO choices
+are secondary, and operator-token recovery is under Operator access & recovery.
+
 ## Instance onboarding
 
-Use **Database instances & connections** to connect a master credential reference,
+Use **Connections** (Database instances & connections) to connect a master credential reference,
 discover schemas, assign one or more exact owners to a project environment and verify
 each target. Workspace database management plus current project access is required for
 registration, reuse and assignment. Project membership alone does not grant this authority.
@@ -335,7 +354,7 @@ The API is a single-organization local service with server-configured named deve
 approver identities. Bearer tokens are randomly generated, private at rest, never stored
 by the browser, and mapped to identities on the server. Caller actor IDs and unexpected
 properties are rejected. Origin checks, fixed error codes and a same-origin CSP apply.
-HTTP mode retains local bearer authentication. HTTPS mode adds the bounded browser session lifecycle described below; multi-tenant/provider login and deployed worker transport remain unverified.
+HTTP mode retains local bearer authentication. HTTPS mode adds the bounded browser session lifecycle described below. Optional OIDC/LDAPS sign-in has isolated API/browser acceptance; live IdP/directory interoperability and deployed worker transport remain unverified.
 
 Local identities are persisted in PostgreSQL with a SHA-256 bearer digest and a fixed
 24-hour expiry measured from database issuance time. Startup seeds an identity and its
@@ -779,6 +798,127 @@ claims remain blocked. `/api/livez` can serve while `/api/readyz` reports the re
 hold; that response must not be interpreted as permission to execute.
 
 ## HTTPS browser sessions
+
+HTTPS now supports local username/password sign-in. The initial identities are still
+operator-provisioned `local-developer` / `local-approver` locally and
+`kelryvo-developer` / `kelryvo-approver` in the container. There is no default password,
+public signup or application superuser. The infrastructure owner retains trusted
+operator control; a local login does not grant a new role or project access.
+
+At the sign-in page choose **First time here? Set up your account**, select a username
+and a unique 15–128 character passphrase, confirm it, and supply the current token for
+that existing actor. Setup succeeds once per actor; use different usernames and browser
+profiles for developer and approver. Subsequent visits use username/password. The separate
+**Operator access & recovery** form preserves the existing token login. Local password
+sign-in remains primary; enabled, explicitly mapped LDAP and OIDC providers appear under
+**Other sign-in methods** as optional choices. OIDC is the SSO protocol in this slice;
+SAML is not implemented. LDAP accepts LDAPS on port 636 only. A provider is not offered
+until it is configured, enabled, and has an active mapping to an existing local actor.
+The public `/api/auth/methods` response lists those available choices; `firstSetup` means
+proof-bound setup is supported, not that the database is empty or a specific account is
+unconfigured. It does not enumerate local accounts.
+
+Passwords use salted Node scrypt (`scrypt-v1`, N=32768/r=8/p=3, 64-byte output), with
+bounded hashing concurrency and login-specific rate limits. Password bytes, hashes and
+internal root tokens are never returned by account/session APIs. The implementation uses
+[OWASP's scrypt guidance](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
+and [Node's crypto API](https://nodejs.org/download/release/v22.15.0/docs/api/crypto.html).
+Passwords authenticate the same immutable actor; they do not change membership or
+independent approval. Account & access shows the local username and supports password
+change with current-password proof, signing out existing browser sessions.
+
+An account retains its original LOCAL credential as a revocation anchor. That token's
+24-hour expiry alone does not expire the password; explicitly revoking/rotating the
+anchor disables password access until an audited operator reset. Each password login
+mints a private, non-bearer PASSWORD parent with a 24-hour lifetime and the existing
+BROWSER child with a maximum 8-hour/30-minute idle lifetime. These roots never enter
+the local-token rotation journal. Login rechecks the exact verified hash, enabled state,
+anchor and ACTIVE metadata under the shared lifecycle lock; a concurrent reset/disable
+cannot issue old authority. Restore retains hashes privately but revokes all credentials
+including anchors; password login cannot mint authority in RESTORE_HOLD. Deliberate
+historical recovery remains the existing witnessed operator-token workflow.
+
+Trusted local operators can run `npm run local:password -- reset developer` or
+`disable developer` (also `approver`), with `SCHEMAFORGE_LOCAL_DATABASE_URL` and the
+private `SCHEMAFORGE_LOCAL_CONFIG` selected as for other local operators. Reset reads
+JSON with exactly `username` and `password` from standard input; disable reads no body.
+Use a private mode0600 input file or secure pipe, never password arguments or shell history.
+The existing metadata schema must already be initialized and a current live LOCAL token
+must exist for reset. Reset/disable is transactional and audited; it revokes PASSWORD
+parents and all browser sessions while preserving grants and history. It cannot clear
+restore HOLD or silently revive a revoked anchor.
+
+In Kubernetes the trusted root operator runs `node scripts/container-password.mjs reset
+developer` or `disable developer` inside the app Pod. Supply reset JSON through private
+stdin with `kubectl exec -i`; no writer/Oracle credentials are involved. If the fallback
+LOCAL credential has expired, use the existing token rotation operator first, then reset
+the password account explicitly. There are no public password-recovery or user-management
+endpoints. Set/reset/disable is not delegated to an approver by its application role.
+
+### Optional LDAP and OIDC sign-in
+
+Identity provider administration is a separate capability, not an application role.
+Only the trusted OS operator can grant or revoke it for an existing developer or
+approver; the grant does not change that actor's role, project membership, deploy grant,
+or approval authority. Local mode uses:
+
+```sh
+npm run local:identity-admin -- grant developer
+npm run local:identity-admin -- revoke developer
+```
+
+The command uses the selected private local config and database URL, records the OS UID
+in the identity audit, and accepts only `developer` or `approver`. In the container, the
+trusted root operator uses `node scripts/container-identity-admin.mjs grant developer`
+or `revoke developer` inside the app Pod. These commands update only the explicit
+identity-configuration capability.
+
+The configuration screen selects a trusted route and secret reference; it never accepts
+or returns a route endpoint's secret value. Provider creation starts disabled. An
+administrator must first map the provider's immutable external subject to an existing
+local actor, then edit the provider to enable sign-in. No just-in-time account creation,
+email/name auto-linking, directory-group role mapping, or claim-based grant assignment
+is supported. The mapping is anchored to that actor's existing LOCAL credential.
+Disabling or revising a provider, revoking its mapping, or revoking the anchor invalidates
+the corresponding external sessions. Local password and token recovery remain separate.
+
+For local development, `SCHEMAFORGE_IDENTITY_CONFIG` names an optional private JSON
+runtime file; without it, local password/token sign-in remains available and no external
+provider is advertised. It must be a regular singly linked file, owned by root or the current OS
+user, with no group/other permissions and at most 128 KiB. It has `format: 1`, the
+application's HTTPS `publicOrigin`, a 64-character hexadecimal encryption `key`, a
+`routes` array (at most 20), and a `secrets` object keyed by opaque reference. Each
+route has a unique lowercase ID, `kind`, pinned IP addresses, secret-reference aliases,
+and optional CA material. OIDC routes specify an HTTPS issuer `origin` and allowed
+`issuerPrefix`; LDAP routes specify a DNS `host`, `transport: "LDAPS"`, `port: 636`,
+allowed `baseDNs` and service `bindDNs`. Keep raw secret values only in the private
+`secrets` object; provider records and API projections retain references, not values.
+The API will not return the encryption key, pinned IPs, CA bytes, or secret values.
+
+OIDC uses the authorization-code flow with PKCE, state, nonce, a fixed HTTPS callback,
+and short-lived encrypted browser flow state. LDAP uses verified TLS, a trusted pinned
+destination, a fixed search base/service bind and the immutable `entryUUID` subject;
+StartTLS, LDAP on port 389, SAML, and group-to-role mapping are outside this slice.
+Both paths resolve only an explicit subject mapping and mint the existing browser
+session for that existing actor. They require ACTIVE metadata and cannot authenticate
+through a restore HOLD. The browser acceptance test uses isolated PostgreSQL, HTTPS,
+Chromium, and deterministic provider adapters to verify mapping, rejected credentials,
+OIDC callback/session behavior, and session issuance. It does not establish connectivity
+or interoperability with a live IdP or directory by itself. Separate
+[2026-10-25 lab acceptance](../../evidence/product/local-identity-auth-20261025/acceptance.json)
+now verifies real Keycloak OIDC and OpenLDAP LDAPS for both fixed roles, before and after
+app restart, on the owner-authorized Kubernetes lab. It also verifies provider UI connection
+tests, ordinary approver configuration denial and rejected LDAP credentials. Other providers
+still require separate interoperability evidence. The lab's private runtime routing and
+Cilium policy are infrastructure configuration; they do not relax TLS validation.
+
+The identity schema extends the password-auth backup signature
+`518bd10fec0b910f10f98ce2a5c0ab7963c0001b74f817dde9c8aae36000907a` to current
+signature `b05328c7871f15422bf50592bc1a19d28dc962159f18ce50634666a3f31f8c70`.
+Current backups preserve provider revisions, explicit mappings, capability grants and
+identity audit history. Exact password-auth historical backups remain recognized and
+restorable under the existing recovery rules; restoring them does not silently discard
+their retained password data or clear a restore HOLD.
 
 Start the existing local product with operator-provided TLS material:
 

@@ -1,3 +1,4 @@
+import { openCompatibilityPlanning } from './helpers/ui-disclosures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes, randomUUID } from 'node:crypto';
@@ -111,6 +112,7 @@ test('browser preserves immutable approval display and drops a held withdrawal r
     await page.route(environmentPath,heldEnvironment);
     const environmentBrowserResponse=page.waitForResponse(response=>response.url().endsWith(`${base}/environments`)
       && response.request().method()==='POST');
+    if (!await page.getByLabel('Environment name').isVisible()) await page.locator('.project-setup-details > summary').click();
     await page.getByLabel('Environment name').fill('Concurrent context write');
     await page.getByRole('button',{ name:'＋ Add',exact:true }).click();
     await environmentHeld;
@@ -135,8 +137,11 @@ test('browser preserves immutable approval display and drops a held withdrawal r
     await page.getByRole('button',{ name:'Prepare new plan' }).click();
     await page.getByRole('heading',{ name:'Import a release' }).waitFor();
     await page.getByRole('button',{ name:'Import and validate' }).click();
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByRole('button',{ name:'Prepare offline plan' }).waitFor();
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByLabel('Target connection profile').selectOption(profile.id);
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByRole('button',{ name:'Prepare offline plan' }).click();
     await page.getByRole('button',{ name:/Plans & review/ }).click();
     await page.getByLabel('Plan status').selectOption('ALL');

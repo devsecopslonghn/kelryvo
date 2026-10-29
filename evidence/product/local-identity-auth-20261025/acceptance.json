@@ -1,0 +1,338 @@
+{
+  "format": "kelryvo-local-identity-auth-acceptance-v1",
+  "status": "BOUNDED_NON_PRODUCTION_ACCEPTANCE",
+  "at": "2026-10-24T18:06:59.252075+00:00",
+  "url": "https://kelryvo.apps.drgdevlab.com",
+  "source": {
+    "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+    "contextTreeSha256": "0afe074f570ac489adfb2fcd546bc6e86f08c60fca00d1d85367ecc8e0498bfd",
+    "revisionLabel": "worktree-sha256:0afe074f570ac489adfb2fcd546bc6e86f08c60fca00d1d85367ecc8e0498bfd",
+    "canonicalGitCommitCreated": false,
+    "sourceOrGitPush": false,
+    "gatedRelease": false,
+    "hostedCIClaimed": false
+  },
+  "image": {
+    "reference": "longhn0710t/kelryvo-pilot@sha256:c7d6faaecb9144c45d68701b9e26793deb64762f84736a6a2acd1cea2ded7f89",
+    "developmentTag": "dev-worktree-0afe074f570a-20261024T175603Z",
+    "indexDigest": "sha256:c7d6faaecb9144c45d68701b9e26793deb64762f84736a6a2acd1cea2ded7f89",
+    "platformDigest": "sha256:f4cea8c680688d307f9dfc16520d888eae87eaf7de083ef34ce82e06e0854935",
+    "configDigest": "sha256:758d538d8ddcd7b03126d1641f4af5e33127a90151432a70b84d3e6a588e5aab",
+    "architecture": "linux/amd64",
+    "coldBuild": true,
+    "anonymousManifestAndDigestPull": "PASS"
+  },
+  "implemented": [
+    "Local username/password remains primary; existing one-time proof-bound setup, password change and audited operator reset/disable retained",
+    "Optional real OIDC authorization-code/PKCE login and verified LDAPS636 login with configuration UI",
+    "OS-granted identity-configuration capability distinct from fixed developer/approver roles",
+    "Explicit immutable provider-subject mapping to existing actor and existing project/deploy grants; no automatic user or role provisioning",
+    "Provider revision/disable, mapping unlink, LOCAL anchor revoke and metadata generation invalidate external authority",
+    "One-use five-minute browser-bound encrypted OIDC flow, nonce/state and cryptographically verified issuer/audience/signature",
+    "Private OS-managed endpoint/CA/pin/secret references; API projections and audit contain no raw provider secrets"
+  ],
+  "checks": {
+    "standard": {
+      "tests": 642,
+      "pass": 491,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 151
+    },
+    "apiFullRun": {
+      "tests": 217,
+      "pass": 217,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "browser": {
+      "fullRun": {
+        "tests": 58,
+        "pass": 57,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "finalCoveredCases": 58,
+      "initialFailure": "Theme navigation fixture expected12 destinations; new Identity providers destination is13th. Final rerun validates all13 destinations in light/dark at1440/720/390px.",
+      "finalSourceRerunJoin": {
+        "themes preserve project navigation, readable mobile actions and session cleanup across responsive layouts": "theme-browser-final.log"
+      },
+      "allInOneGreenFullBrowserRunClaimed": false,
+      "unresolvedCases": []
+    },
+    "focusedApiAuthority": {
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "backupCompatibility": {
+      "tests": 16,
+      "pass": 16,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "runtimeOwnership": {
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "actualOCIIsolationAndIdentitySecretStaging": "PASS",
+    "realLdapsAdapterTlsAndReadonlyServiceBoundary": "PASS",
+    "realPublicBrowserBeforeRestart": {
+      "format": "kelryvo-live-identity-ui-v1",
+      "status": "PASS",
+      "origin": "https://kelryvo.apps.drgdevlab.com",
+      "checks": [
+        {
+          "check": "local-developer-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "developer-ldap-provider-test",
+          "status": "PASS"
+        },
+        {
+          "check": "developer-oidc-provider-test",
+          "status": "PASS"
+        },
+        {
+          "check": "local-developer-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "local-approver-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "approver-provider-configuration-denied",
+          "status": "PASS"
+        },
+        {
+          "check": "local-approver-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-developer-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-developer-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-approver-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "approver-provider-configuration-denied",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-approver-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "oidc-developer-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "oidc-developer-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "oidc-approver-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "approver-provider-configuration-denied",
+          "status": "PASS"
+        },
+        {
+          "check": "oidc-approver-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-invalid-password-generic-denial",
+          "status": "PASS"
+        }
+      ],
+      "completedAt": "2026-10-24T18:04:19.810Z"
+    },
+    "realPublicBrowserAfterRestart": {
+      "format": "kelryvo-live-identity-ui-v1",
+      "status": "PASS",
+      "origin": "https://kelryvo.apps.drgdevlab.com",
+      "checks": [
+        {
+          "check": "local-developer-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "developer-ldap-provider-test",
+          "status": "PASS"
+        },
+        {
+          "check": "developer-oidc-provider-test",
+          "status": "PASS"
+        },
+        {
+          "check": "local-developer-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "local-approver-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "approver-provider-configuration-denied",
+          "status": "PASS"
+        },
+        {
+          "check": "local-approver-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-developer-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-developer-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-approver-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "approver-provider-configuration-denied",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-approver-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "oidc-developer-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "oidc-developer-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "oidc-approver-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "approver-provider-configuration-denied",
+          "status": "PASS"
+        },
+        {
+          "check": "oidc-approver-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-invalid-password-generic-denial",
+          "status": "PASS"
+        }
+      ],
+      "completedAt": "2026-10-24T18:06:04.242Z"
+    },
+    "localPasswordAccountsPreserved": true
+  },
+  "dataPreservation": {
+    "guardedUpgrade": {
+      "all61OriginalTablesPreserved": true,
+      "sevenNewIdentityTablesInitiallyEmpty": true,
+      "persistentResourceUIDsPreserved": true
+    },
+    "afterProviderConfigurationAndSixLogins": {
+      "status": "PASS",
+      "at": "2026-10-24T18:04:50.087717+00:00",
+      "unchangedOriginalTables": 60,
+      "expectedAuthenticationCredentialTableChanged": "sf_local_credentials",
+      "localPasswordAccountsAndHashesPreserved": true,
+      "fixedActorsRolesPreserved": true,
+      "projectAndDeployGrantsPreserved": true,
+      "oldImmutableHistoryAndHoldsPreserved": true
+    },
+    "restart": {
+      "status": "PASS",
+      "image": "longhn0710t/kelryvo-pilot@sha256:c7d6faaecb9144c45d68701b9e26793deb64762f84736a6a2acd1cea2ded7f89",
+      "executionEnabled": false,
+      "metadataTableCount": 68,
+      "allMetadataRowsUnchangedAcrossRestart": true,
+      "stableResourceUidsPreserved": true,
+      "roleRecordComparisons": 14,
+      "historicalRecordFactsUnchanged": true,
+      "lostAckHoldPreserved": true,
+      "passwordAccountsPreserved": true,
+      "identityProvidersMappingsAndAuditPreserved": true,
+      "readyz": {
+        "status": "ready",
+        "metadata": "ACTIVE",
+        "targetAvailability": "UNVERIFIED"
+      }
+    },
+    "witnessedPreUpgradeBackup": {
+      "status": "PASS",
+      "at": "2026-10-24T17:43:33.235218+00:00",
+      "schemaSignature": "518bd10fec0b910f10f98ce2a5c0ab7963c0001b74f817dde9c8aae36000907a",
+      "archiveSha256": "7f1897118dad4ea7bf66579590f3eb73bbef7cb55fbc2826b6d40eef9184afca",
+      "manifestSha256": "d1c74442d7dcd99b4c2ec238fcd2d6248742de3248a6d44d72d46101d71aded3",
+      "witnessSha256": "3a35d34b59108e3677993dfccf0e986d6a2f99c76bb825daa71e7f24f478cb59",
+      "sourcePreserved": true,
+      "restorePerformed": false
+    },
+    "populatedNewAndHistoricalPasswordSchemaRestoreTests": "PASS; immutable identity/password history retained, all copied credentials revoked, RESTORE_HOLD preserved"
+  },
+  "lab": {
+    "executionEnabled": false,
+    "discoveryEnabled": true,
+    "targetAvailability": "UNVERIFIED",
+    "argoAutomaticSync": false,
+    "identityFixtures": "Dedicated Kelryvo realm/client/two IdP users and separate persistent LDAPS namespace; pre-existing realms and directory untouched",
+    "internalOidcRouting": "Verified TLS through OS-managed private hostname routing and app-only HTTPS policy to the existing Cilium control-plane ingress identity; no global Cilium configuration change"
+  },
+  "securityEvent": {
+    "disposableLdapUserPasswordsRotatedBeforeAcceptance": true,
+    "immutableDirectorySubjectsPreserved": true,
+    "existingLocalCredentialsAffected": false
+  },
+  "limitations": [
+    "Non-production development worktree image; no signed canonical commit, source-install qualification, hosted CI or gated release claim",
+    "Fixed operator-provisioned local actors only; public signup, invitations and general user-management UI not implemented",
+    "SSO is OIDC; SAML, StartTLS/LDAP389, AD-specific subject mapping and groups-to-role provisioning not accepted",
+    "Only the configured dedicated Keycloak/OpenLDAP lab providers accepted; other providers require their own interoperability tests",
+    "Full Oracle OA01/OA02/OA05/OA09 and R1/R2 visibility matrices remain incomplete; historical native acceptance does not transfer to changed authentication/admission source",
+    "Current identity routing is lab-specific; retain its private runtime configuration and explicit Cilium policy when changing infrastructure"
+  ],
+  "retainedPrivateArtifactSha256": {
+    "verification.json": "86523db8122fa38b90ce5d8beac02daa79d2f715377a874f786ecda1b720e3c9",
+    "image/source.json": "a821313ba12abeebc036e6bd1d94339d5d50397a7656660a6788440055bc07ff",
+    "image/context-manifest.json": "ff6c0bb97e48f929b82243edc311fde61f7d995cff6fe89705f48c024385cef2",
+    "image/image.json": "3ef2d7c11c560d0f45cac5da98e5b1c6292251bf10162b6e58d90cfdc28a7128",
+    "image/container-acceptance.json": "164ed1e3736834305318309ad2a157af299b9d6dadb6150d081440459e759202",
+    "image/publication.json": "e8f8a3186fb783cd9043e37638ce4c0c9f7aa0c8989c0597ec4b0bd0ad9b075f",
+    "pre-upgrade-backup-result.json": "d11a14c5c82ba0663f90c6294359dbb45ff78cfb71a059a3d3aaae0ef95257ab",
+    "upgrade-result.json": "ca119d676cf9993cb17fd77974d325c63984326a3fee2c1580a5d348825f2f09",
+    "private-idp-route-result.json": "f96b1f8137672c5153bd9d7602bc44af5d03f1a78ed5dabc0eb33d1fa5cdd597",
+    "live-provider-configuration.json": "136d6c0923464a6ce4c7eb7e73ad2a0d9e4c7baac1bff8412abc8721e82fb90b",
+    "live-identity-ui-before-restart-result.json": "c651236d692122910e4eb4a62c26b28245eb4d065cb0b8db823407ce87e26207",
+    "live-identity-ui-result.json": "a83aaad78c5bf1c8d228737fe9f6678ca9af3987897b3e567594fa09acce24c6",
+    "restart-result.json": "c05ce825fbd51bbe04591055ff7a822f57c0e71e8fd15b226a086543391c295e",
+    "original-data-after-login.json": "5c66478a5da4ef1b50eac49c006fb32d6cd9d323574264a707e8ff23d6b20b18",
+    "real-ldaps-adapter-acceptance.json": "afcd5670848693ca894621062ee422b3d3d0e46b1600a6d4054d219d032f9da0",
+    "oci-identity-staging.json": "e7cc2888c7907059ce51bce61bbf336dae0d067f535925f70f18ca38ba7ae8fd",
+    "ldap-exposure-rotation.json": "5cbbe51c1be14c1348e00c806ba4e308e2adf22cceab08cc848215ab0a1cc4c3",
+    "secret-scan.json": "ca5fe12fe982bb0b4edee6caad8c38fa02a1fb7fbd9c4bb1f358604d75914038"
+  },
+  "rawSecretsPublished": false
+}

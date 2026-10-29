@@ -1,0 +1,400 @@
+{
+  "format": 1,
+  "kind": "KELRYVO_CURRENT_UI_IMAGE_BOUNDED_ORACLE_OA05_ACCEPTANCE",
+  "recordedAt": "2026-10-24T20:58:51.125681+00:00",
+  "status": "PASS_BOUNDED_CURRENT_SOURCE_OA05",
+  "image": "longhn0710t/kelryvo-pilot@sha256:d97136fe5fd8e7074c8cc9304f03ea293efb5463ac0f44e35cb8c0c97c3bba74",
+  "contextTreeSha256": "98357aac15b8f461791b5be53cf3afc5bc4ab6a6633a48ce42506c1122ff63be",
+  "applicationUrl": "https://kelryvo.apps.drgdevlab.com",
+  "source": "Retained dirty worktree development image; no new product runtime changes in this continuation",
+  "qualification": {
+    "status": "PASS_NONEMPTY_CURRENT_IMAGE_QUALIFICATION",
+    "at": "2026-10-24T20:52:50.621925+00:00",
+    "scopeSha256": "180cfa269b615d1fb15b5eaab73bdcdea5ac3d07f83789f36253446cf7bad67c",
+    "reviewSha256": "85483607f53a8208d738e40dee82e6484602b1cc26d803e66901c1a72b46a0d7",
+    "manifestSha256": "410eb3de96b647ff06644a18fb9b66471ac82aa5404cf32d0116118c1cb98701",
+    "image": "longhn0710t/kelryvo-pilot@sha256:d97136fe5fd8e7074c8cc9304f03ea293efb5463ac0f44e35cb8c0c97c3bba74",
+    "contextTreeSha256": "98357aac15b8f461791b5be53cf3afc5bc4ab6a6633a48ce42506c1122ff63be",
+    "purposeQualificationSha256": "70ac9e4ae6d1594ec6ec25c0476503ba4074b17dad0d264c6fce8fb33d301fd2",
+    "exactPurposeIdentitiesViaBothRoutes": 6,
+    "applicationOwnersObserved": 5,
+    "objects": 4,
+    "ledgerEvents": 28,
+    "ledgerHeads": 3,
+    "heldHistoricalPDBsUnchanged": 4,
+    "all68MetadataTablesUnchanged": true,
+    "currentAndHistoricalOracleContentsUnchanged": true,
+    "applicationDdlCalls": 0,
+    "applicationDmlCalls": 0,
+    "executionEnabled": false,
+    "nativeMigrationAcceptanceClaimed": false
+  },
+  "discovery": {
+    "at": "2026-10-24T20:54:03.140897+00:00",
+    "status": "PARTIAL",
+    "verifiedBindings": 5,
+    "priorCredentialRowsUnchanged": true,
+    "historicalPlansJobsHoldsUnchanged": true
+  },
+  "browserPreparation": {
+    "status": "PASS",
+    "cases": 2,
+    "localDeveloperAuthor": true,
+    "distinctLocalApprover": true,
+    "newPlansApprovalsAndRequests": true
+  },
+  "native": {
+    "at": "2026-10-24T20:58:29.685118+00:00",
+    "jobs": {
+      "B_V2": {
+        "jobId": "24d39549-20d3-42c0-bb41-e8b560103f6e",
+        "planId": "9683f65a-cd45-40ff-a482-25d473ba7e96",
+        "owner": "KP_B",
+        "pendingStatementDigest": "bc56ed78757ec02076eeeffcd6faa5324cbad2c8e6f255581d347e0bad77b4f6"
+      },
+      "C_V2": {
+        "jobId": "d4ff0fbf-dd36-4582-96b9-28a42b0fc3d9",
+        "planId": "9b3acead-c368-4c34-8c03-01e90d2ce379",
+        "owner": "KP_COMMIT",
+        "pendingStatementDigest": "8f82d2f03cdfe5ec9372c77c732b263aef9b3cc56a286976a325658d87910bd1"
+      }
+    },
+    "workerResults": {
+      "B_V2": "VERIFIED_SUCCESS",
+      "C_V2": "VERIFIED_SUCCESS"
+    },
+    "routeAliases": {
+      "B_V2": "pinned service DNS",
+      "C_V2": "pinned Service ClusterIP",
+      "probe": "pinned Service ClusterIP"
+    },
+    "writerSqlCounters": {
+      "B_V2": 1,
+      "C_V2": 1,
+      "B_V2Mutex": [
+        {
+          "operation": "ACQUIRE_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "RELEASE_LOCK",
+          "status": 0
+        }
+      ],
+      "B_V2AcquireStatus": 0,
+      "B_V2CurrentAfterNativeAckStatus": 0,
+      "B_V2ReleaseStatus": 0,
+      "B_V2CommitAcknowledgedAfterGate": true,
+      "B_V2CommitBeforeMutexRelease": true,
+      "C_V2Mutex": [
+        {
+          "operation": "ACQUIRE_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "CURRENT_LOCK",
+          "status": 0
+        },
+        {
+          "operation": "RELEASE_LOCK",
+          "status": 0
+        }
+      ],
+      "C_V2CommitBeforeMutexRelease": true,
+      "rejectedSqlCalls": {
+        "B_V2": 0,
+        "C_V2": 0
+      }
+    },
+    "nativeProbeMutexBusy": true,
+    "probeSessionDistinct": true,
+    "sameWriterSessionAcrossImplicitCommit": true,
+    "secondWorkerPostgresAdvisoryWaitObserved": true,
+    "secondWorkerNativeMutexRejectionClaimed": false,
+    "historicalHoldsUnchanged": 10,
+    "historicalPlansJobsAndJournalRowsPreserved": true,
+    "fourHistoricalPdbsUnchanged": true,
+    "applicationObjectsBefore": 4,
+    "applicationObjectsAfter": 6,
+    "ledgerEventsBefore": 28,
+    "ledgerEventsAfter": 38,
+    "ledgerHeads": 3,
+    "oneAttemptOnePendingV2ReceiptPerJob": true,
+    "appliedV1NotReplayed": true,
+    "metadataTablesUnchanged": 61,
+    "changedMetadataTables": [
+      "sf_audit",
+      "sf_execution_admission_proofs",
+      "sf_execution_attempt_events",
+      "sf_execution_attempts",
+      "sf_execution_job_events",
+      "sf_execution_jobs",
+      "sf_execution_receipts"
+    ],
+    "workerTopology": {
+      "distinctProcesses": true,
+      "installedWorkerIds": {
+        "B_V2": "kelryvo-oracle-pilot",
+        "C_V2": "kelryvo-oracle-pilot"
+      },
+      "sharedReviewedInstallation": true
+    }
+  },
+  "retainedFailures": [
+    "Initial metadata preparation rejected pre-restart Pod UID before Oracle or Secret changes; separate successor-pod attestation was independently reviewed",
+    "Case2 reached no-DDL preflight then private parent rejected valid UUID input before driver imports or child spawn; all journal snapshots identical; original command remains FAIL; both requests normally cancelled preserving plans",
+    "Case3 child omitted the pinned Java parser path and B declined admission, C never started; recovered artifacts and guarded observations prove zero SQL and exact before/after journals, all68 metadata tables and Oracle contents; original command remains FAIL; both requests cancelled normally",
+    "An offline-only UI2 candidate added an execution guard that would skip main under --eval; independently rejected and never authorized or run against Oracle; UI3 only fixes the UUID regex"
+  ],
+  "executionEnabled": false,
+  "discoveryEnabled": true,
+  "limitations": [
+    "This is bounded Oracle Free TCP evidence on the exact recorded image/identity, not production qualification",
+    "Both worker processes use the same reviewed installation and installed worker ID; a separately installed distinct-worker-ID variant is not qualified. This bounded case does not close the entire OA05 matrix.",
+    "OA01 mismatched-route, OA02 unsafe governed dispatch, OA09 incompatible-history and the complete R1/R2 visibility/browser matrices remain incomplete",
+    "Oracle 19c/21c and TCPS remain unqualified; retain existing BLOCKED results",
+    "No canonical source commit, Git push, source-install gate, hosted CI or gated release is claimed"
+  ],
+  "privateArtifactSha256": {
+    "native-ui-case-4/scope.json": "61a4086ce70568e0f88c31cc37b117bd9df5280e263893d635cbe83e709d3d24",
+    "native-ui-case-4/review.json": "d2564375538d504f7c1f2bb11cf7c40a371f671336a8dbf54343070803ed3787",
+    "native-ui-case-4/external-review.json": "8b9d4234ac081b7964883ecc817dddc037c67386869e498a7ac30325328caad6",
+    "native-ui-case-4/installation.json": "9d0f3a85b84d23f567ac4c4a1e3f80f60ebeadebe17df7e37f325f648a959f7d",
+    "native-ui-case-4/disposable-lab-manifest.json": "a0583c322cf6b942df261c53e54d8afe5d8f7d6d40e635fd641ca47af321cbfa",
+    "native-ui-case-4/result.json": "623c443bef43c72ce260a57b6a577ea19c768872619b810c8f085cf2f625d67e",
+    "native-ui-case-4/summary.json": "5c82b108cb66f7dabba068554fe8a208897c9c0af7d988f422c0cbffdaf1e70a",
+    "native-ui-case-4/B_V2-execution-record.json": "6641567b1ad8bcaf1c77da4305fe804cc75b6ace8423870eb35d2ad7c3a6d5b5",
+    "native-ui-case-4/C_V2-execution-record.json": "9ed091f4f3452f561e852727ac18d45b43df805c6c58edc657d57491baf3ec1b",
+    "native-ui-case-4/journal-before-native.private.json": "310f5873c380f5d927bc465787e19af7600689a4ff60f2b4169019bd06367dfc",
+    "native-ui-case-4/journal-after-native.private.json": "0de6278485df0219a3e437a051ac187547b62a6c5141ac315f43e9b9e395c770",
+    "native-ui-case-4/oracle-before.private.stdout": "5a6df959ca209370ac94ed4597bee6f044d649f719a4188b73070502838b5d95",
+    "native-ui-case-4/oracle-after.private.stdout": "77ec9c282f72a9a50ccb26c5c89f8053dc922da99874f9b97723049dccbf4f4c",
+    "native-ui-case-4/parent.stdout": "e58339e935cdfe87554e161515c86e8e6c1fdbb4c8cff93fe7519cfe4ef83f68",
+    "native-ui-case-4/runtime-artifacts.private.tar.gz": "d2112912ab6a1e67bd524ebb2411afa21124443fe358d86ce3e8f4e3baa6026d",
+    "qualification-ui-3/qualification-result.json": "0788ad456c7d5b6c3825c4941560d9c561775da629b3fdada9336a8484cff1e8",
+    "qualification-ui-3/qualification-review.json": "85483607f53a8208d738e40dee82e6484602b1cc26d803e66901c1a72b46a0d7",
+    "discovery-ui-3/result.json": "d16f9adb603270096f19119311547de17d97ef7b44be8491e065516147fea37d",
+    "discovery-ui-3/review.json": "d7291376ce1661131d1ef002b7389896dd5bd963af455003503fe065ff2d31e5",
+    "browser-cases-ui-3/browser-cases.result.private.json": "d67d3e7cc1a42da32bf27dd114d81bcbe4e22e84f90b58fefedf95e873f57f32",
+    "harness-ui4-root-review.json": "6fdb61460757b717eec5037b53290493383a178cd8dccb065b556a3a8d176193",
+    "harness-ui4-env-root.log": "7cea2ca9d3fd8b7f7ffd4c7b2ad6c70fcf53c8010f2db1d82e3eef2e428b16b9",
+    "native-ui-case-2/verified-input-rejection.json": "b7fcb12585bdbcae9397e794bbb23ae21d67ae8144f333c35a55fa24c077a801",
+    "native-ui-case-3/verified-declined-outcome.json": "e7387b1042b3e1e27d7bbce8bfda678a21e0cc8c99d2a94a542570f9c5557953",
+    "native-ui-case-3/request-parser-environment-diagnostic.json": "1c830d1540dba08dcab92137cf0bee4654ad0642afe21b63fe34c7d639618c82",
+    "harness-ui4-external-review.json": "1699f400d677f096d04db300d973de8ae16f8a520e5e1140db68a602319a62b1"
+  },
+  "sourceHead": "8796a57ddb283b8197481babab382fafb6548801",
+  "runtimeDeliveryEvidence": "evidence/product/ui-clarity-20261025/acceptance.json"
+}

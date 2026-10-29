@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "viewport": 390,
+  "documentWidth": 390,
+  "warningRows": [
+    {
+      "text": "INCOMPLETE_METADATA_COVERAGE",
+      "client": 200,
+      "scroll": 200,
+      "right": 303
+    },
+    {
+      "text": "MULTI_QUERY_CONSISTENCY_UNGUARANTEED",
+      "client": 200,
+      "scroll": 200,
+      "right": 303
+    }
+  ],
+  "image": "longhn0710t/kelryvo-pilot@sha256:b5a6add6f97d238130ed5a826dbe6eba293a45132f513742a0d8095064e87279"
+}

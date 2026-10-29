@@ -112,6 +112,7 @@ test('migration history is project and target scoped, searchable, paginated, and
     await executionRegion.waitFor();
     firstPermalinkRead.release();
     await executionRegion.locator('ol li').getByText('HOLD', { exact: true }).waitFor();
+    await page.waitForFunction(() => document.querySelector('.migration-history-explorer .count-pill')?.textContent === '34 records');
     assert.equal(await page.locator('.migration-history-explorer .count-pill').textContent(), '34 records');
 
     const reloadPermalinkRead = blockNextExecutionRead();

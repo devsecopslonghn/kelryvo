@@ -1,0 +1,42 @@
+{
+  "format": "kelryvo-independent-idempotency-outcome-review-v1",
+  "decision": "PASS_BOUNDED_RETAINED_JOB_IDEMPOTENCY_REVIEW",
+  "reviewedAt": "2026-10-25T04:28:50Z",
+  "caseScopeSha256": "4885b4e46f2a14e07cfe2c109e2f79df060ae6e86906a80c3c4dddd5018e8a92",
+  "operatorSha256": "be51a9ed0c1c4f18d9a8a2f867654bfb1afe5da6dabff869629cfb46239959bc",
+  "resultSha256": "d7602f90084c290447fdf68ba363625d7a5da39e54b635a7d620b6e5940c0f18",
+  "approvalReviewSha256": "07b40743b9b9f29180b8a864b19d69df2c8d7a4ba4f5243bb2086517f3cb2857",
+  "artifactSha256": {
+    "prepare.py": "360c645190382e2e42779ecaa735833ff793d0eeccccb8d35e8b5f5e65ef3ed7",
+    "client.py": "24a6019a61bb8c60c2cb4c1110f8ec63face4bcf62fd0418d43df9a2a52080fa",
+    "snapshot.cjs": "4d893cfb9941e5d20469c1493dc594676a7cda932e8f423acdd9000a98888be1",
+    "metadata-snapshot.cjs": "07e5745e03ba386a865ae724198f3776fbd0c6556f5fdacb1860fb51dd41cb72",
+    "baseline.private.json": "44aada97ff0d6cff5f6ac46b6fad194f5c0d7b9248513bbadcf77f23d737a756",
+    "metadata-before.private.json": "f53e4ff2141e653a5ec01c9faddf253b52fa9704190fa00f69566c9191a32093",
+    "after.private.json": "00e098cd64200d741e688cb983949fd162549b34f75bad602ef415ddcb33123b",
+    "metadata-after.private.json": "dd05f29cb140560829b50f416c02d726077a804efa41bb400e4a570a4fe1b719",
+    "http-operations.jsonl": "81dd975ec8a4ece8a1f0616e47ec5c4d25ff06a643f2676fc55b2640d588bafb",
+    "lab-manifest.json": "c55efedea6bd1b4cf234c427ebfec16944080994166f4490ee1c64e6b4510c0b"
+  },
+  "verified": {
+    "probeCount": 25,
+    "httpLogCount": 29,
+    "httpLogBreakdown": "25 probes, 2 session reads, 2 logouts",
+    "metadataTablesBeforeAndAfter": 68,
+    "unchangedNonCredentialTables": 67,
+    "retainedJobsUnchanged": true,
+    "historicalHoldCountUnchanged": 11,
+    "metadataGenerationUnchanged": true,
+    "priorCredentialRowsUnchanged": true,
+    "newCredentialRows": "2 PASSWORD roots and 2 revoked BROWSER children",
+    "newJobsEventsAttemptsProofsReceiptsOrAudits": 0,
+    "oracleCallsByHarness": 0,
+    "newDispatch": false
+  },
+  "findings": [],
+  "limitations": [
+    "The new-key case only establishes FRESH_PLAN_REQUIRED for an expired retained observation; the current HOLD-stream replacement gate remains untested.",
+    "WAITING_VALIDATION and ADMITTED live-state probes remain incomplete.",
+    "This outcome applies only to the bounded retained-job idempotency probes; it makes no native execution or broader Oracle acceptance claim."
+  ]
+}

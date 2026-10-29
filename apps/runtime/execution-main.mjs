@@ -12,7 +12,7 @@ export async function runExecutionRuntime({ socket, env = process.env } = {}) {
   const flags = runtimeFlags(env);
   const installation = '/run/kelryvo/runtime/execution';
   const runtime = flags.discovery ? createOracleDiscoveryRuntime({
-    manifestPath: path.join(installation, 'discovery-manifest.json'), secretDirectory: installation, timeoutMs: 8000,
+    manifestPath: path.join(installation, 'discovery-manifest.json'), secretDirectory: installation, timeoutMs: 8000, schemaTimeoutMs: 30_000,
   }) : { run: async () => ({ status: 'UNAVAILABLE', provenance: 'UNAVAILABLE', limitations: ['RUNTIME_UNAVAILABLE'] }) };
   const bridge = serveDiscovery(socket, runtime);
   const stop = () => { bridge.close(); };

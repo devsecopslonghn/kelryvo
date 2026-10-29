@@ -17,7 +17,125 @@ The [legacy tracker](../implementation/tracking.md) preserves the 220 original f
 
 ## Current product and evidence
 
-The unified container at source `3ea8859` has [bounded local and deployed acceptance](../../evidence/product/unified-runtime-20261023/acceptance.json):
+**Latest bounded Oracle evidence, 2026-10-28:**
+[Reviewed D6 continuation](../../evidence/product/oracle-delivery6-currentness-20261026/continuation-20261027.json)
+records one real V1/V2 seed with two KP_B tables, ten ledger events, two applied
+migrations and two central receipts. Its original operator failure remains retained;
+a separate independent read-only review accepted the actual effect and preservation
+of all 68 metadata tables, 12 HOLDs and 129 protected old-PDB witness rows. Native
+receipt digests include an unretained dispatch UUID: their preimages were not
+independently recomputed, and they are distinct from Oracle ledger receipt digests.
+The later independently reviewed D6 ADMITTED/NOOP case passed all four live API
+probes before gate release, then finished NOOP with zero application SQL or ledger
+writes. A fresh full audit preserves 58 jobs (23 CANCELLED, 12 HOLD, 6 NOOP,
+17 VERIFIED_SUCCESS), 868 credential projections, all 68 metadata tables and 129 old
+Oracle witness rows, with no WAITING/ADMITTED. The two seeded migrations and ten
+ledger rows remain unchanged. Full Oracle topology, SQL/fault/recovery matrices and
+the driver DNS connect-string path remain unqualified; this is one bounded lab case.
+Use [the current session entry](../implementation/CURRENT.md) for expiring authorities
+and the required separately reviewed currentness refresh; never replay the seed.
+
+**Historical Oracle attempt, 2026-10-25 12:05 UTC:**
+[Two retained ADMITTED cases](../../evidence/product/oracle-admitted-attempt-20261025/acceptance.json)
+have independently reviewed preservation, not successful probe/NOOP acceptance. One
+request ended CANCELLED before staging; another reached a real zero-pending admission
+after an EXACT_APPLIED preflight, then failed its controller gate and was recovered to
+retained HOLD through a reviewed PostgreSQL-only operation. The old 52 jobs, 11 HOLDs,
+four snapshots, baseline and Oracle 8/48/4 state remain; current totals are 53 jobs with
+12 HOLDs and no WAITING/ADMITTED. Both cases' browser children are revoked. Image
+`557c7d47…` is unchanged and execution stays off. KP_DELIVERY5 is held; further native
+work requires a fresh qualified target and new approvals. Controller cause, live four-probe
+acceptance, full OA09 and the remaining matrices stay open; consult CURRENT before acting.
+
+**Fresh target bootstrap, 2026-10-26 local:**
+[KP_DELIVERY6 bootstrap and preservation](../../evidence/product/oracle-delivery6-bootstrap-20261026/acceptance.json)
+passed one independently reviewed operation. D6 is empty with 56 segregated purpose
+grants; all prior PDB identities/recorded witnesses, 68 metadata tables, 802 credential
+projections, 53 jobs and infrastructure were preserved. Image and execution-off state
+are unchanged. This bootstrap result does not qualify later operations; read-only
+purpose qualification passed subsequently as recorded below. Onboarding, governed
+V1/V2 and the fresh ADMITTED/NOOP case remain open.
+
+**D6 purpose qualification, 2026-10-25 23:08 UTC:**
+[Read-only acceptance](../../evidence/product/oracle-delivery6-readonly-20261026/acceptance.json)
+passed six purpose-account connections, the full 56-grant closure including the ledger
+negative check, protected source and empty application/ledger state. All 68 metadata
+tables, 802 credential projections, 53 jobs/12 HOLDs and recorded old Oracle witnesses
+remain exact. DNS resolved to the pinned IP and both aliases connected by IP; the driver
+DNS connect-string path is unqualified. Discovery/onboarding, governed V1/V2,
+ADMITTED/NOOP and full acceptance matrices remain open. Historical reviews have expired;
+further actions need their own current attestation and independent approval.
+
+**D6 discovery repair, 2026-10-26 01:54 UTC:**
+[Independent configuration and preservation proof](../../evidence/product/oracle-delivery6-discovery-repair-20261026/acceptance.json)
+records the corrected canonical acceptance timestamp and a new D6-only discovery
+window. The same-image restart preserved all 68 metadata tables, 810 credential
+projections, 53 jobs/12 HOLDs and the other twelve Secret values. No Oracle connection
+or API mutation occurred. Native execution authority remains expired; schema onboarding,
+governed migrations, ADMITTED/NOOP and the full matrices remain open.
+
+**D6 schema onboarding, 2026-10-26 01:58 UTC:**
+[Independent live onboarding proof](../../evidence/product/oracle-delivery6-onboarding-20261026/acceptance.json)
+records one actual read-only discovery, five explicit schema assignments and five
+VERIFIED bindings. Discovery remains PARTIAL outside the five accepted owners.
+All prior rows across 68 tables, 53 jobs/12 HOLDs and old target snapshots/history
+are preserved. The two logins added four credential projections (810 to 814), with
+both new browser children revoked. No Oracle DDL/DML or worker dispatch occurred.
+Governed D6 migrations and ADMITTED/NOOP remain open.
+
+**Latest bounded delivery, 2026-10-25 07:26 UTC:**
+[Schema navigation and UI acceptance](../../evidence/product/schema-route-delivery-20261025/acceptance.json)
+records image `557c7d47…`, the Stitch-guided schema layout and the three-file fix that
+preserves Schema and its exact selected target after reload. Two-role real HTTPS viewing,
+comparison and reload passed, with four desktop/mobile light/dark screenshots and 18
+local/LDAPS/OIDC checks. The reviewed image-only rollout preserved all 68 metadata tables,
+four snapshots, one baseline, 50 jobs and 11 HOLDs. All 64 business tables remain unchanged
+after the browser checks; all eight new browser children are revoked. Standard checks
+passed 494 tests with 152 skips; six schema/theme cases, a focused route regression,
+cold OCI isolation, anonymous digest pull and exact live assets passed.
+The preceding `00d27393…` collector passed one exact-identity KP_B schema read without
+query-unavailable limitations. Coverage remains PARTIAL and comparison UNVERIFIED;
+this image-only delivery performs no new Oracle observation or governed execution.
+The earlier `1945dc93…` reload failure and corrected HTTP-fixture regression failure
+remain retained. Full R1/R2/OA acceptance and absence of drift are not established. See
+[the current entry](../implementation/CURRENT.md) before reusing any private case.
+
+[Fresh current-image SELECT-only qualification](../../evidence/product/schema-route-readonly-20261025/acceptance.json)
+then passed at 07:37 UTC: six purpose identities via DNS/IP, eight application objects,
+48 ledger events/four heads and four historical PDBs preserved. Saved PostgreSQL
+before/after snapshots match all 68 tables; independent outcome review passed.
+This performs no new catalog/schema observation or migration, renews no expired
+installation authority, and leaves the full acceptance matrices open.
+
+[Queued request idempotency on the delivered image](../../evidence/product/oracle-queued-idempotency-20261025/acceptance.json)
+passed at 07:52 UTC after fresh read-only discovery verified five existing bindings.
+Twelve real API probes cover exact retries, changed payload/key/cross-plan conflicts,
+authorization and revision checks, and cancellation. One new independently approved
+plan/request was created; the request ended CANCELLED revision 1 without admission,
+attempts, receipts or Oracle SQL. Independent comparison retains all 4,017 prior rows
+across 68 tables. At that checkpoint totals were 51 jobs, including 11 unchanged HOLDs, four snapshots
+and one baseline; both new browser children are revoked. A final live PostgreSQL read
+matches the saved result. Discovery's separate credential row-preservation assertion
+cannot be reconstructed from its saved aggregate hashes; the queued case does retain
+and independently compare its credential rows. At that checkpoint ADMITTED and the
+full matrices remained open; the latest D6 evidence above now covers the bounded
+ADMITTED/NOOP case. Full OA/R1/R2 acceptance remains incomplete. No new runtime image
+or writer authority was needed for that queued case.
+
+
+The earlier [identity development delivery](../../evidence/product/local-identity-auth-20261025/acceptance.json)
+is worktree `0afe074f…` based on `8796a57`, Docker Hub digest `c7d6faae…`.
+Local password remains primary; optional configured OIDC SSO and verified LDAPS636
+passed real public-browser login for both fixed roles before and after restart. Standard
+checks, all 217 API cases, all 58 final browser cases and exact-image isolation passed;
+the browser evidence retains one historical navigation-count failure and its corrected
+final-source rerun. Every original metadata row was retained through upgrade; all 68 tables
+and 14 historical record comparisons were unchanged across restart. This is owner-authorized
+non-production acceptance, with no canonical signed commit, hosted CI or gated release claim.
+Oracle execution stays disabled; discovery is enabled but target availability is UNVERIFIED.
+The changed authentication/admission source does not inherit historical native qualification.
+
+The historical unified container at source `3ea8859` has [bounded local and deployed acceptance](../../evidence/product/unified-runtime-20261023/acceptance.json):
 one image/entrypoint for Docker and Helm, separate unprivileged API/execution roles,
 199 API tests, 55 browser tests and fresh-source installation passed. Owner-authorized
 AMD64 Kubernetes acceptance passed secure role login, review/downloads, mobile layout
@@ -35,24 +153,24 @@ internal execution/discovery UID 10002. The processes exchange only fixed intern
 operations; application migration work continues through durable PostgreSQL requests.
 The current SQL policy admits scalar `CREATE TABLE`, scalar `ALTER TABLE ADD` and simple
 `CREATE INDEX`, but Oracle evidence does not transfer between source revisions: historical
-PR #112 evidence accepts only its tested `CREATE TABLE` statements. Oracle acceptance of
-the unified runtime is **NOT_RUN**. Keep the existing browser workflow and improve its
-context, blockers and next steps without redesigning the interface.
+PR #112 evidence accepts only its tested `CREATE TABLE` statements. Full Oracle acceptance of
+the unified runtime remains **IN PROGRESS**; use the dated bounded evidence above and
+the current delivery entry for source-specific results.
 
 The baseline candidate for PR #93 (`60dd5a2`) passed the full hosted API, browser, frozen-source release, parser, foundation, both OCI platforms and security checks. These suites use disposable metadata and fixtures, not Oracle. See [PR #93 checks and acceptance scope](https://github.com/devsecopslonghn/kelryvo/pull/93). Earlier retained runs include [runtime journey](../../evidence/product/phase6-runtime-acceptance-20261013/acceptance.json), [SQL workspace](../../evidence/product/phase7-product-workspace-20261013/acceptance.json) and [workflow hardening](../../evidence/product/phase9-hardening-20261013/acceptance.json). They establish their recorded source/date only; final consolidation checks are reported by its PR.
 
 | Capability | Assessment and practical limits | Implementation / acceptance anchors |
 | --- | --- | --- |
-| Access, projects and environments | Delivered offline: fixed human roles, explicit project/deploy grants, independent approval, archive/read-only history, own-session management, HTTPS cookie/CSRF/expiry. Provisioning stays with the trusted OS operator; no invitations, SSO or app administrator. | `packages/database/{project-membership,browser-sessions,account}.ts`; `apps/web/src/Account.jsx`; `tests/product-membership.test.mjs`, `tests/product-secure-sessions.test.mjs` |
+| Access, projects and environments | Fixed human roles, explicit project/deploy grants, independent approval, archive/read-only history, own-session management and HTTPS cookie/CSRF/expiry. Local username/password remains primary; proof-bound setup extends an existing identity. Optional OIDC SSO and LDAPS sign-in require an explicit OS-granted identity-configuration capability and exact subject-to-existing-actor mapping. Provider claims/groups never assign roles or grants; no JIT provisioning, invitations, or application superuser. Provider change/disable, mapping revocation, and anchor revocation invalidate external sessions. Real Keycloak/OpenLDAP lab interoperability is accepted for both roles before/after restart; other providers remain unqualified. | `packages/database/{project-membership,browser-sessions,password-auth,account}.ts`, `packages/identity/`; `apps/web/src/{PasswordLogin,ExternalSignIn,IdentityProviders,Account}.jsx`; `tests/product-password-auth.test.mjs`, `tests/product-password-auth-browser.integration.mjs`, `tests/product-identity-providers-browser.integration.mjs`, existing membership/session suites |
 | Instances and connections | Delivered API/browser and bounded live master workflow: one external master reference per Oracle PDB/non-CDB, connection before assignment, multi-schema discovery/assignment, derived immutable deployment profiles, instance reuse and authorized legacy discovery connections, endpoint validation, Service Name/SID metadata, private credential aliases, immutable revisions, filtering, reasoned enable/disable/retire and offline preflight. SID deployment eligibility is blocked; preflight never proves connectivity. Edits invalidate dependent authority while retaining old plans/decisions. | `packages/connectivity/{instances,management,api}.ts`, `packages/database/profile-lifecycle.ts`; `apps/web/src/{InstanceOnboarding,Instances,Connections,ConnectionConfiguration}.jsx`; `tests/product-instance-master.test.mjs`, `tests/product-instance-master-browser.integration.mjs`, `tests/product-connection-management.test.mjs` |
 | Inventory, schema ownership and targets | Delivered API/browser and bounded live multi-schema assignment: discovered or manual workspace catalog, multiple assigned schemas per project, single active project assignment per exact owner, revisioned transfer/release, project target bindings, explicit environment/route/policy/principal facts and stale-plan display. Assignment requires explicit workspace database management authority and current project access; project membership alone cannot allocate infrastructure. Declared lineage is provisional. | `packages/catalog-reference/`, `packages/targets/`; `apps/web/src/ProjectTargets.jsx`; `tests/product-target-bindings.test.mjs`, `tests/product-target-workflow-browser.integration.mjs` |
-| Oracle connectivity and identity discovery | R1 product integration implemented; live qualification PARTIAL (2026-10-14), full acceptance incomplete: bounded opt-in read-only adapter, expiring authorization, exact attested database/container/service/version comparison, retained observations and historical binding evidence. This qualification is evidence for its recorded source only. The unified runtime's discovery integration is a new candidate and remains NOT_RUN; configuration validity, connectivity and accepted identity are separate. Mismatches block binding; fixtures cannot certify identity. Discovery lists visible owners; it is not a complete schema/object snapshot. | `packages/connectivity/{oracle.mjs,api.ts,evidence.mjs}`; `apps/web/src/Connections.jsx`; `tests/oracle-discovery.test.mjs`, `tests/product-database-discovery.test.mjs`; [runtime contract](../development/local-product.md#read-only-database-connectivity-and-discovery) |
+| Oracle connectivity and identity discovery | R1 product integration implemented; live qualification PARTIAL (2026-10-14), full acceptance incomplete: bounded opt-in read-only adapter, expiring authorization, exact attested database/container/service/version comparison, retained observations and historical binding evidence. This qualification is evidence for its recorded source only. Bounded unified-runtime read-only qualification and catalog/binding refreshes are retained for their recorded image and source; the full R1 matrix remains incomplete. Configuration validity, connectivity and accepted identity are separate. Mismatches block binding; fixtures cannot certify identity. Discovery lists visible owners; it is not a complete schema/object snapshot. | `packages/connectivity/{oracle.mjs,api.ts,evidence.mjs}`; `apps/web/src/Connections.jsx`; `tests/oracle-discovery.test.mjs`, `tests/product-database-discovery.test.mjs`; [runtime contract](../development/local-product.md#read-only-database-connectivity-and-discovery) |
 | Schema baselines and drift | R2 product integration delivered offline: immutable, checksummed target/connection/stream-bound snapshots; named baselines; paginated history and expected/observed comparison with unambiguous retained references. Retained object browsing includes literal owner/name and type filters with visible counts. Exact owner/object identities, coverage and provenance remain visible. Schema changes stale dependent plans and validation without rewriting old approvals. Partial/unsupported/multi-query observations cannot establish absent drift. Real collector/partial workflow qualification is recorded below; full Oracle baseline/drift acceptance remains incomplete. | `packages/schema-baselines/`; `apps/web/src/{SchemaBaselines,SchemaDrift}.jsx`; `tests/{schema-baselines,product-schema-baselines,product-schema-backup}.test.mjs`; `tests/product-schema-baselines-browser.integration.mjs` |
 | Git releases and retained SQL | Delivered offline: allowlisted local repositories, project folder binding, branch/tag/commit import, immutable retained source/digests, parser results, statement preview and comparison. No remote provider authentication, webhook or push to the bound repository. | `packages/migrations/`; `apps/web/src/app.jsx`; `tests/product-mvp-workflow-browser.integration.mjs`, `tests/product-statement-preview.test.mjs` |
 | SQL Workspace | Delivered offline: project/target-scoped multi-file migration drafts and immutable manifest revisions, saved SQL comparison, offline syntax/risk review, protected unsaved context and idempotent authored-release preparation into an isolated Git snapshot. Authored release/review findings reopen the verified originating draft, distinguish historical source from its current revision and require fresh candidates after explicit edits. Partial editor: no query/data execution, semantic compilation or autocomplete. | `packages/sql-workspace/`, `packages/migrations/authored-snapshot.mjs`; `apps/web/src/SqlWorkspace.jsx`; `tests/product-multifile-sql-workspace.test.mjs`, `tests/product-sql-workspace-browser.integration.mjs` |
 | Schema-aware validation and migration analysis | Partial: retained parser/statement checks, exact-owner scope policy, risk/findings, dependency and ordered pending-migration analysis tied to source/target revisions. Exact-name SQL references now show retained snapshot object types/checksums in validation and plan review; missing matches stay UNKNOWN, identity mismatches and database-link ambiguity withhold matches. General object existence, dependency completeness and Oracle semantic validity remain unverified. Offline VALID does not mean executable. | `packages/sql-validation/`, `packages/execution/migration-analysis.ts`; `apps/web/src/{SchemaValidation,MigrationAnalysis}.jsx`; `tests/product-sql-validation.test.mjs`, `tests/product-sql-validation-browser.integration.mjs`, `tests/sql-validation-catalog.test.mjs`, `tests/product-schema-baselines-browser.integration.mjs` |
 | Plans and independent review | Delivered API/browser and demonstrated in the live master workflow: format-3 target envelopes and format-4 validation-bound envelopes, retained statement/source/target facts, optimistic currentness, reviewer inbox/routing, comments with exact statement refs, approval/rejection, fresh-plan correction and approval withdrawal. Changed source/configuration never rewrites old intent or revives old authority. | `packages/targets/`, `packages/migrations/offline-plan-intent.mjs`, `packages/governance/`; `apps/web/src/{PlanRecord,PlanSourceComparison}.jsx`; `tests/product-target-bindings.test.mjs`, `tests/product-comments.test.mjs` |
-| Deployment requests and execution safety | The request workflow and supervised execution code are implemented. Historical Oracle V1/V2/NOOP evidence belongs to PR #112's recorded source only; it does not accept the unified runtime candidate. The candidate runs an internal execution role at UID 10002, with no separate worker image. Current `ee44f6f` evidence qualifies bounded before-first native DDL and after-first-ACK interruptions, with lease expiry to HOLD and no replay after container/app restarts. The earlier after-first operator failure remains retained under HOLD on its original PDB. The [2026-10-24 lost-ack controller FAIL](../../evidence/product/unified-oracle-20261023/lost-ack-failed-ee44f6f.json) retains one real CREATE effect, withheld response bytes, one fail-closed cut, HOLD/one attempt/zero receipts and unchanged Oracle journals/history across app recreation. Post-cut native rejection was not captured; complete lost-ack and current-runtime fault acceptance remain incomplete. Preserve that held request and use a fresh target for another case. Real interruption and held-mutex reconciliation passed in their recorded scope; alias concurrency and lost-acknowledgment acceptance remain incomplete. Requests stay WAITING_VALIDATION without a current trusted installation, target evidence and authority. No automatic ambiguous replay. | `packages/execution/`, `apps/runtime/`, `apps/worker/`; `apps/web/src/{ExecutionReadiness,ExecutionHistory}.jsx`; `tests/product-execution-readiness.test.mjs`, `tests/product-installed-worker-factory.test.mjs` |
+| Deployment requests and execution safety | The request workflow and supervised execution code are implemented. The latest unchanged unified image has independently accepted D6 V1/V2 effects (with the original operator failure retained) and a live ADMITTED/NOOP case: four API probes saved before gate release, zero pending statements, no application SQL or ledger writes, complete metadata/Oracle preservation and revoked browser children. This qualifies one bounded installation and does not establish full OA/R1/R2 or fault/topology acceptance. The candidate runs an internal execution role at UID 10002, with no separate worker image. Dated `ee44f6f` evidence qualifies bounded before-first native DDL and after-first-ACK interruptions, with lease expiry to HOLD and no replay after container/app restarts. The earlier after-first operator failure remains retained under HOLD on its original PDB. The [2026-10-24 lost-ack controller FAIL](../../evidence/product/unified-oracle-20261023/lost-ack-failed-ee44f6f.json) retains one real CREATE effect, withheld response bytes, one fail-closed cut, HOLD/one attempt/zero receipts and unchanged Oracle journals/history across app recreation. Post-cut native rejection was not captured; complete lost-ack and current-runtime fault acceptance remain incomplete. Preserve that held request and use a fresh target for another case. Real interruption and held-mutex reconciliation passed in their recorded scope; alias concurrency and lost-acknowledgment acceptance remain incomplete. Requests stay WAITING_VALIDATION without a current trusted installation, target evidence and authority. No automatic ambiguous replay. | `packages/execution/`, `apps/runtime/`, `apps/worker/`; `apps/web/src/{ExecutionReadiness,ExecutionHistory}.jsx`; `tests/product-execution-readiness.test.mjs`, `tests/product-installed-worker-factory.test.mjs` |
 | HOLD reconciliation | Partial: immutable evidence capture, independent governance review and history reconciliation UI/API exist; actual target/ledger/object witnesses and approved recovery remain external. This does not provide an app button that clears restore hold or authorizes retry. | `packages/execution/{reconciliation,history-reconciliation}.ts`; `apps/web/src/ExecutionReconciliation.jsx`; `tests/product-execution-reconciliation.test.mjs` |
 | Audit, migration history and downloads | Delivered offline: scoped filtered/paged audit and consolidated plan/decision/request/ledger history, stable cursors, retained source/statement links, checksummed plan/request records. Historical events and current statuses are labeled separately. Checksums are integrity evidence, not signatures or proof SQL ran. | `packages/{migration-history,audit}/`, `packages/{governance,execution}/`; `apps/web/src/{MigrationHistory,PlanRecord,ExecutionRecord}.jsx`; `tests/product-migration-history-cursor.integration.mjs` |
 | Install, operate and preserve metadata | Local source bundle, parser/dependency notices, OCI verification and runtime diagnostics are implemented; native backup/compatible restore retain evidence under a new generation and persistent RESTORE_HOLD. Historical backup/restore and interrupted-worker results remain bound to their recorded source. The unified `ee44f6f` image has exact-source API/browser/OCI and app-upgrade evidence; witnessed managed PostgreSQL restore preserves 21 business tables and historical access under persistent HOLD in a separate owned database. Interrupted Oracle recovery, final deployment parity and full pilot disaster recovery remain unverified. See [bounded restore evidence](../../evidence/product/unified-oracle-20261023/managed-restore-ee44f6f.json). | `packages/backup/`, `packages/observability/`, `apps/runtime/`, `scripts/local-release.mjs`; `tests/product-backup-restore.test.mjs`, `tests/product-local-release.integration.mjs`; [runtime guide](../development/runtime-readiness.md) |
@@ -86,7 +204,7 @@ PostgreSQL/API and Chromium acceptance exercise connection before assignment, tw
 bindings with one credential, project isolation, independent approval, revision staleness,
 truthful fixture denial, reuse, persistence and mobile layout. [Master workflow acceptance](../../evidence/product/instance-master-workflow-20261015/acceptance.json) records two real schema V1 executions, a V2 suffix and a browser-authored witnessed no-op: four proofs/attempts, three receipts and target histories of two and one applied migrations. The browser exercised authoring two files, syntax review, validation, a format-4 plan, independent approval, a separate deployer request, restart history, audit and record download. Independent fixed SELECTs through the original authorized operator checked Oracle objects, ledger chains and unchanged master grants. The original HOLD, earlier V1 effect and all historical lab evidence remain retained.
 
-The historical master workflow qualification above covers scalar CREATE TABLE in its recorded Oracle Free CDB/PDB TCP variant. Later [unified runtime evidence](../../evidence/product/unified-oracle-20261023/governed-ddl.json) covers CREATE TABLE, scalar ALTER TABLE ADD and simple CREATE INDEX on source `a4dbb8d`, including two-schema V1/V2/NOOP. These Oracle cases still require repetition on the current `ee44f6f` image. The pinned parser can reject otherwise valid Oracle forms, including some trailing-comment layouts; rejected SQL remains blocked. This does not qualify production, other topologies or the complete fault/recovery matrix.
+The historical master workflow qualification above covers scalar CREATE TABLE in its recorded Oracle Free CDB/PDB TCP variant. Later [unified runtime evidence](../../evidence/product/unified-oracle-20261023/governed-ddl.json) covers CREATE TABLE, scalar ALTER TABLE ADD and simple CREATE INDEX on source `a4dbb8d`, including two-schema V1/V2/NOOP. Those historical records do not establish full Oracle acceptance on subsequent images; use the latest bounded delivery records and explicit remaining gates below. The pinned parser can reject otherwise valid Oracle forms, including some trailing-comment layouts; rejected SQL remains blocked. This does not qualify production, other topologies or the complete fault/recovery matrix.
 
 ## Authoritative requirement outcomes
 
@@ -174,6 +292,70 @@ Previously proposed target-binding and project-target milestones are delivered o
 | R3 — controlled Oracle migration pilot | Demonstrate the existing approval → request → trusted worker → actual target effect → retained history/reconciliation workflow on one disposable accepted topology. Reuse worker, ledger, mutex and governance implementation. | R1/R2 evidence, reviewed purpose-separated installation, enforced external-change window, separately authorized DDL/fault/teardown. Pass [OA01–OA10](../development/oracle-acceptance.md) and controlled reconciliation gates, including V1/V2/NOOP, ambiguity/HOLD/no replay, identity/currentness and independent recovery. No production enablement is implied. |
 | R4 — operating acceptance for an eligible pilot release | Make the accepted workflow installable and recoverable with truthful readiness and support limits. | R3; prove private secret isolation, process/orphan containment, restart, backup/restore and disaster recovery in the intended non-production runtime. Retain exact image/source identity, notices and operator witnesses. Publication/deployment each require task authorization and existing gates. |
 
+The [2026-10-24 current-source lab continuation](../../evidence/product/oracle-continuation-8796a57-20261024/acceptance.json)
+records the owner-authorized `8796a57` deployment, two schema V1/V2/NOOP streams and
+six real receipts, plus one fresh-PDB lost-ack case with observed table effect,
+withheld response/cut, native rejection and retained HOLD without replay. Independent
+HOLD reconciliation, two-role historical reads and managed restore/restart checks are
+bounded evidence. Full R1/R2 visibility matrices and OA01/OA02/OA05/OA09 gates remain
+open; Oracle Free evidence does not qualify Oracle 19c/21c or production use.
+
+The later [current UI-image concurrency case](../../evidence/product/oracle-ui-image-concurrency-20261025/acceptance.json)
+passed two independently approved pending V2 migrations in distinct worker processes,
+with native mutex continuity across DDL implicit commit, a positive PostgreSQL wait witness,
+no SQL overlap and preserved historical HOLDs. This is a bounded shared-installation result;
+the distinct-installation variant and full OA05/R1/R2 matrices remain open.
+
+The later [incompatible applied-history case](../../evidence/product/oracle-incompatible-history-20261025/acceptance.json)
+seeded an isolated stream and held a distinct approved V2 checksum mismatch before
+admission, with zero application SQL, ledger writes, attempts or receipts. Existing
+history and all old HOLDs were preserved. [Sign-in UI delivery](../../evidence/product/ui-sign-in-refinement-20261025/acceptance.json)
+then preserved all 68 metadata tables across an image-only upgrade and passed real
+local/LDAP/OIDC sign-in, two-role history/download checks and fresh SELECT-only Oracle
+qualification on the new image. Full OA09 state/idempotency, governed OA01/OA02,
+distinct-installation OA05 and R1/R2 visibility/browser matrices remain open.
+
+[Retained request idempotency](../../evidence/product/oracle-retained-idempotency-20261025/acceptance.json)
+adds 25 actual authenticated API probes on the latest image. Exact retries return the
+original successful, cancelled or held job; changed payloads and cross-plan key reuse
+are rejected. HOLD cancellation and an approver without deploy permission are denied.
+All 67 non-credential metadata tables, every prior credential row and all 11 HOLDs
+remain unchanged; only four new login credentials were added, with browser children
+revoked. The stale-plan new-key probe returned FRESH_PLAN_REQUIRED and does not prove
+the separate current-plan held-stream veto. No Oracle calls or new dispatch occurred.
+
+[Current held-stream veto](../../evidence/product/oracle-current-hold-veto-20261025/acceptance.json)
+then used the same retained release with a current binding and new metadata/parser
+validation, immutable plan and separate approver. Readiness had only
+NO_ACTIVE_OR_HELD_REQUEST blocked; the UI disabled Request deployment and the API
+returned 409 EXECUTION_ALREADY_PENDING without creating a job. All prior row hashes
+in all 68 tables remain; seven tables gained only the scoped plan/validation/audit/login
+records and all 11 HOLDs are unchanged. Both new browser children were revoked.
+The original browser command remains FAIL: its preservation allowlist omitted the
+normal connection-plan record and its aggregate sorting differed from PostgreSQL.
+Independent read-only reconstruction proved the row preservation and both ordering
+hashes; the application mutations were not replayed. No native Oracle validation or
+worker dispatch occurred. At that checkpoint WAITING/ADMITTED variants were open;
+the later queued case above covers WAITING only. ADMITTED and the full matrices remain open.
+
+[Native schema baseline browser acceptance](../../evidence/product/oracle-schema-baseline-ui-20261025/acceptance.json)
+passed at 04:58 UTC on the delivered image: two exact-identity KP_B snapshots, one
+immutable baseline, real comparison, developer/approver history after browser reload,
+and 390px layout without overflow. Both snapshots are live accepted and retain the
+same two observed table identities. TABLE coverage is UNAVAILABLE with
+TABLE_QUERY_UNAVAILABLE; comparison remains UNVERIFIED with incomplete-coverage and
+multi-query-consistency limitations. Zero observed differences does not establish no drift.
+All old rows in all 68 metadata tables and all 11 HOLDs remain; only the five scoped
+audit/login/snapshot/baseline tables gained rows. No DDL/DML, new jobs or worker dispatch.
+The first attempt failed on an overly strict select-label locator before any native
+snapshot; its FAIL and zero-effect proof remain. Three failed/diagnostic browser children
+were verified revoked. The successful case is private `r2-schema-ui2`, following
+`qualification-r2-ui-1` and `discovery-r2-ui-2` (five bindings at revision 18).
+The D2 operator completed within all deadlines but lacks an immediate expiry recheck
+before Secret CAS; add that guard to any future newly reviewed operator, preserving
+these original bytes. Next gaps are the unavailable table query and duplicate drift
+summary display; the full R1/R2/OA matrices above remain open.
+
 ### R1 selected-work acceptance
 
 R1 code reuses existing persistence and APIs: observations/acceptance append to existing immutable tables, configuration/binding revisions preserve plans and review meaning, and old unbound acceptance remains readable while failing new verified eligibility. UI scopes candidate bindings to the assigned container, route and exact accessible owner and presents observation history, permissions, timeout and mismatch diagnostics. Read-only manifests now require expiry; accepted evidence binds the complete target tuple, exact accepted owner scope and manifest/configuration digests. Project readiness cannot inherit another owner’s acceptance. Discovery uses the authenticated session's exact owner and preserves TCPS certificate verification with an optional attested server DN.
@@ -203,7 +385,7 @@ The original R2 evidence above was offline. **Initial live qualification: PARTIA
 
 ### Later backlog, deliberately unscheduled
 
-Remote Git providers and automation, SSO/invitations/machine identities, advanced approval/promotion policy, further editor convenience, signed/general evidence export and retention, query/data access, non-Oracle engines and broader Oracle topology remain unscheduled beyond the bounded offline outcomes above. Each needs a justified requirement, dependencies and objective acceptance slice before implementation; none is a hidden dependency of the current offline product.
+Remote Git providers and automation, additional federation protocols (including SAML), invitations and machine identities, advanced approval/promotion policy, further editor convenience, signed/general evidence export and retention, query/data access, non-Oracle engines and broader Oracle topology remain unscheduled beyond the bounded offline outcomes above. The implemented OIDC/LDAPS paths are optional; only the configured Keycloak/OpenLDAP lab variant has live interoperability acceptance. Each additional scope needs a justified requirement, dependencies and objective acceptance slice; none is a hidden dependency of the current offline product.
 
 ## Cleanup and historical boundaries
 

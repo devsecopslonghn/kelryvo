@@ -45,7 +45,7 @@ Keep the existing `/` application shell and page selection. Screen IDs below are
 
 ### S01 — Sign in and workspace shell (module 1)
 
-Fields: password-masked local access token; current actor ID/name/fixed role; selected project; bootstrap/restore banner. Actions: Continue, project selection, page navigation, Refresh, Sign out. HTTPS uses existing Secure/HttpOnly/SameSite cookie and CSRF; local HTTP development keeps bearer only in memory. POST `/api/session`, GET `/api/session`, POST `/api/session/logout`, GET `/api/recovery/status`. Invalid/expired credential gives generic 401; clear all protected content. Bootstrap has no workflow mutations. Do not expand the existing bootstrap resource projection in new endpoints: targets/options return no protected rows until access is ENFORCED.
+Fields: HTTPS username/password as the primary path; proof-bound first setup with operator-issued token, username and confirmed password; separate password-masked operator access/recovery token; optional enabled OIDC and LDAPS provider choices; current actor ID/name/fixed role; selected project; bootstrap/restore banner. Actions: Sign in, Create local login, optional organization-provider sign-in, token Continue, project selection, page navigation, Refresh, Sign out. First setup binds the existing operator-provisioned actor and can succeed once; it never creates an application administrator or grants project/deployment rights. HTTPS uses Secure/HttpOnly/SameSite cookie and CSRF; local HTTP development keeps bearer only in memory and does not accept passwords. POST `/api/session` accepts either username/password JSON or the existing bearer exchange; GET `/api/session`, POST `/api/session/logout`, POST `/api/auth/setup`, GET `/api/auth/methods`, GET `/api/recovery/status`. OIDC uses a fixed callback, code+PKCE, state and nonce; LDAP is verified LDAPS on port 636. Both require an explicit subject mapping to an existing actor. Invalid credentials give generic 401; clear protected content when current session authority is lost. Password and external sign-in require ACTIVE metadata and cannot recreate restored authority under HOLD. Bootstrap has no workflow mutations. Do not expand the existing bootstrap resource projection in new endpoints: targets/options return no protected rows until access is ENFORCED. SAML is outside this contract; live interoperability requires provider-specific evidence.
 
 ### S02 — Projects and project settings (module 1)
 
@@ -53,7 +53,7 @@ List: name, description, active/archived state, retained ID. Detail: source bind
 
 ### S03 — Account and access (module 1)
 
-Fields: own project grants and separate deploy capability; own session IDs, issued time, idle/absolute expiry and current-session flag. Actions: refresh, revoke another own browser session; for the current session use Sign out. The revoke endpoint returns 409 `CURRENT_SESSION_USE_SIGN_OUT` on current-session ID. GET `/api/account/access`, GET `/api/account/sessions`, POST `/api/account/sessions/:id/revoke` (no body). No other actor's token/grants, editable IAM or invitations. Render grant changes on next authorized request. An empty project list provides OS-operator provisioning guidance, not a grant button. Retain existing membership/session suites.
+Fields: own local username/setup/disabled status, own project grants and separate deploy capability; own session IDs, issued time, idle/absolute expiry and current-session flag. HTTPS local accounts can change password with current-password proof, which revokes PASSWORD parents and browser sessions; no role/grant edits. GET `/api/account/login`, POST `/api/account/password` with exactly `currentPassword`/`newPassword`; no hashes, salts or credential references are returned. Actions: refresh, revoke another own browser session; for the current session use Sign out. The revoke endpoint returns 409 `CURRENT_SESSION_USE_SIGN_OUT` on current-session ID. GET `/api/account/access`, GET `/api/account/sessions`, POST `/api/account/sessions/:id/revoke` (no body). No other actor's token/grants, editable IAM or invitations. Render grant changes on next authorized request. An empty project list provides OS-operator provisioning guidance, not a grant button. Retain existing membership/session suites.
 
 ### S04 — Instance and connection context (module 2)
 
@@ -122,9 +122,39 @@ Detail fields: request ID/state/revision/reason/requester/time, plan/approval/di
 
 Fields: immutable action/time/actor/resource/context/reason, plan/source/target digests, review and request linkage. Use GET `/api/projects/:id/audit` and selected-plan request/attempt history. Offline migration rows remain NOT_EXECUTED/NOT_OBSERVED. Downloads retain bounded no-store checksummed JSON attachments: GET `/api/projects/:projectId/plans/:id/record` and GET `/api/execution-jobs/:id/record`. Show export time/scope, checksum-not-signature explanation, and current revocation limits. Add public format-3 target fields through versioned record projection; do not expose private credential refs or silently alter old export verification. Archived projects remain readable; current grant is always required. No generic whole-estate export or new retention policy.
 
+### S13 — Optional identity-provider configuration (current extension)
+
+This extension adds optional organization sign-in while local username/password remains
+the primary sign-in and token access remains recovery. The provider page is available only
+to an existing actor with an explicit identity-configuration capability granted by the
+trusted OS operator. That capability does not imply an application role or project/deploy
+grant. Fields: provider name/type, trusted route choice, issuer/client ID or LDAP base
+and bind identity, secret-reference selection, immutable subject mapping to an existing
+developer/approver, revision, enabled status, and reason. Secret values are configured in
+the private runtime file; the UI and API only read and store their references. Actions:
+create disabled provider, test connection, look up LDAP subject, link/unlink an existing
+actor, then edit to enable/disable. Route and OIDC issuer are fixed after creation; use
+a new provider for another trusted source. No JIT users, email/name auto-linking,
+claim/group-to-role assignment, or privilege changes are supported. Provider revision,
+disable, mapping revocation, or anchor revocation invalidates external browser sessions.
+
+OIDC is authorization-code with PKCE, state, nonce and a fixed HTTPS callback. LDAP is
+verified LDAPS on 636 with fixed trusted routes and `entryUUID` as the immutable subject;
+SAML and LDAP StartTLS/389 are outside the accepted scope. The configured Keycloak/OpenLDAP lab has separate live interoperability evidence; other providers remain unqualified.
+Relevant endpoints: GET `/api/identity/access`, GET/POST `/api/identity/providers`,
+PATCH `/api/identity/providers/:id`, GET/POST
+`/api/identity/providers/:id/mappings`, POST
+`/api/identity/providers/:id/mappings/:mid/revoke`, POST
+`/api/identity/providers/:id/test`, POST
+`/api/identity/providers/:id/lookup`, GET `/api/auth/methods`, POST
+`/api/auth/ldap/:id/session`, POST `/api/auth/oidc/:id/start`, and GET
+`/api/auth/oidc/callback`. The browser acceptance uses isolated PostgreSQL and test
+provider adapters; it verifies application mapping/session behavior, not a live IdP or
+directory connection.
+
 ## API and data contracts shared by the modules
 
-Existing API baseline: `apps/api/index.ts`, `packages/database/{browser-sessions,account,project-membership,mutation-authority,profile-lifecycle}.ts`; data schema `packages/database/index.ts`; catalog lifecycle `packages/catalog-reference/index.mjs`. New APIs above are **proposed**, not present in that baseline.
+Existing API baseline: `apps/api/index.ts`, `packages/database/{browser-sessions,account,project-membership,mutation-authority,profile-lifecycle}.ts`, `packages/identity/`; data schema `packages/database/index.ts`; catalog lifecycle `packages/catalog-reference/index.mjs`. Target-binding APIs in this historical proposal must still be checked against current source. The local password and optional OIDC/LDAPS endpoints, identity configuration UI, and OS-granted capability are implemented; the configured Keycloak/OpenLDAP lab passed real public-browser acceptance before and after restart; see `evidence/product/local-identity-auth-20261025/acceptance.json`.
 
 Binding POST input (only these fields): `assignmentId`, `expectedAssignmentRevision`, `environmentId`, `targetOptionId`, `expectedTargetOptionRevision`, `bindingId` (optional only on first create), `expectedBindingRevision`, `reason`. On first create omit bindingId and expect `"0"`; on replacement supply existing bindingId and current revision. Reject unknown fields. Never use client-selected project/workspace/owner/endpoint/private refs as authority.
 

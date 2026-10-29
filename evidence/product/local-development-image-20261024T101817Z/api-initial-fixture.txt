@@ -1,0 +1,36 @@
+
+> schemaforge-local-development@0.0.0 test:product
+> node scripts/test-product.mjs
+
+API product tests: 69 files. Debug one file: node scripts/test-product.mjs --file <product-test-file>
+TAP version 13
+# Subtest: account sessions and grants are self-scoped, revocation is durable, CSRF-protected and audited
+ok 1 - account sessions and grants are self-scoped, revocation is durable, CSRF-protected and audited
+  ---
+  duration_ms: 622.972727
+  type: 'test'
+  ...
+# Subtest: API quota runs before authentication and metadata, spans routes, and ignores spoofed forwarding headers
+ok 2 - API quota runs before authentication and metadata, spans routes, and ignores spoofed forwarding headers
+  ---
+  duration_ms: 1191.288319
+  type: 'test'
+  ...
+# Subtest: API readiness observes actual metadata HOLD and absence while liveness survives metadata outage
+ok 3 - API readiness observes actual metadata HOLD and absence while liveness survives metadata outage
+  ---
+  duration_ms: 165.697209
+  type: 'test'
+  ...
+# Subtest: metadata readiness has a separate bounded quota and cannot exhaust business API or liveness
+ok 4 - metadata readiness has a separate bounded quota and cannot exhaust business API or liveness
+  ---
+  duration_ms: 231.958733
+  type: 'test'
+  ...
+# Subtest: unauthenticated clients are limited and rotating addresses inside one IPv6 subnet cannot evade the quota
+ok 5 - unauthenticated clients are limited and rotating addresses inside one IPv6 subnet cannot evade the quota
+  ---
+  duration_ms: 217.195393
+  type: 'test'
+  ...

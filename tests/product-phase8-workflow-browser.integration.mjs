@@ -1,3 +1,4 @@
+import { openTokenRecovery } from './helpers/ui-disclosures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
@@ -19,7 +20,7 @@ test('Phase 8 journey authors ordered multi-file SQL and retains plan-bound comp
     };
     const signIn=async(actor,hash='')=>{
       await page.goto(`https://127.0.0.1:${f.app.server.address().port}/${hash}`);
-      await page.getByLabel('Local access token').fill(actor.token);
+      await openTokenRecovery(page); await page.getByLabel('Local access token').fill(actor.token);
       await page.getByRole('button',{name:'Continue',exact:true}).click();
       await page.getByLabel('Sign out').waitFor();
     };
@@ -27,7 +28,7 @@ test('Phase 8 journey authors ordered multi-file SQL and retains plan-bound comp
       await page.getByRole('button',{name:/Projects/}).first().click();
       await page.locator('.project-row').filter({hasText:f.project.name}).click();
     };
-    const logout=async()=>{await page.getByLabel('Sign out').click();await page.getByLabel('Local access token').waitFor();};
+    const logout=async()=>{await page.getByLabel('Sign out').click();await openTokenRecovery(page); await page.getByLabel('Local access token').waitFor();};
     await launch();await signIn(f.actors[0]);await selectProject();
     await page.getByRole('button',{name:/Project targets/}).click();
     await page.getByRole('button',{name:'Inspect binding',exact:true}).click();
@@ -115,6 +116,7 @@ test('Phase 8 journey authors ordered multi-file SQL and retains plan-bound comp
     await page.unroute(validationPattern);
     const preparedReleaseId=new URLSearchParams(new URL(page.url()).hash.slice(1)).get('release');assert.ok(preparedReleaseId);
     await page.reload();
+    await workspace.getByText('Draft and release details',{exact:true}).click();
     await workspace.getByText(preparedReleaseId,{exact:true}).waitFor();
     planning=workspace.getByRole('button',{name:'Create immutable plan',exact:true});
     assert.equal(await planning.isDisabled(),true,'reload restores release identity but requires fresh validation eligibility');

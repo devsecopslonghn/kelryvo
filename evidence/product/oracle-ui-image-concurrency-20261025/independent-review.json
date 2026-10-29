@@ -1,0 +1,17 @@
+{
+  "format": 1,
+  "decision": "PASS_BOUNDED_OA05_EVIDENCE_REVIEW",
+  "reviewedAt": "2026-10-24T21:01:27.449Z",
+  "acceptanceSha256": "72f03f307a151d8388ed8031397d4cd4a8756f3a6399ffcd80f2e30a7d4d24c4",
+  "privateOutcomeReviewSha256": "9d1143170cc5e66523733cbe51cb90d3d8c3c10f56ccd7b30657ee02596541c5",
+  "findings": [
+    "The public acceptance checksum and each of its 26 listed private artifact hashes verify. Both execution records have valid content hashes and bind the exact fresh job/plan/approval IDs, full two-statement manifests, one applied V1 prefix and one pending V2 statement, exactly one VERIFIED_SUCCESS attempt and receipt, and STARTED/ACKNOWLEDGED events for only the pending V2 digest.",
+    "Retained harness events show B ACK_READY before gate release, then explicit writer commit before mutex release. A separate pinned probe on a distinct identified session returned busy status 1; B current-lock checks remained successful after its DDL implicit commit. C committed before its mutex release. The evidence does not claim a C Oracle mutex rejection; the independent PostgreSQL activity witness records C waiting on an advisory lock, with no overlapping native calls.",
+    "Before/after PostgreSQL snapshots preserve all old plans, old jobs, historical HOLDs, and pre-existing journal rows. Only the two scoped jobs transition from WAITING_VALIDATION to VERIFIED_SUCCESS; each adds one attempt and one receipt. Oracle outputs preserve prior target objects/columns/indexes and ledger events, append two tables and ten events, retain three heads, and match all four historical PDB outputs exactly. Of 68 application metadata tables, 61 remain unchanged and seven are the expected execution/audit tables.",
+    "Public limitations accurately state that the two distinct worker processes shared the reviewed installation and worker ID; the distinct-worker-ID variant and other OA05 cases remain unqualified. Oracle 19c/21c and TCPS remain unqualified. No canonical source commit, push, hosted CI, or gated release is claimed. The public artifact contains bounded results and hashes, not credentials."
+  ],
+  "limitations": [
+    "This is a read-only review of retained artifacts; no live calls or replay were made.",
+    "Evidence supports this bounded Oracle Free TCP case only and does not close the complete OA05 matrix or authorize another run. The distinct installed-worker-ID variant remains unqualified."
+  ]
+}

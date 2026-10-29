@@ -1,0 +1,65 @@
+{
+  "status": "PASS_BOUNDED_R2_PARTIAL_SCHEMA_COMPARISON_REVIEW",
+  "reviewedAt": "2026-10-25T04:59:37Z",
+  "scopeSha256": "f777dd971938c0f3e7c8e5ffddf689f751a2017223fc7605ecab6a719452b653",
+  "operatorSha256": "5cef017a8283b0890287ce410187b8e028e5d7cbdb9f7285b1101a464c76f998",
+  "manifestSha256": "4807fa68f177d340424e38cbf0709945ef6bce38f718c3d6f8825dece71afa9f",
+  "resultSha256": "d1c46fb306d73dcc48b785ded2a1dc0928182c1216b4ec1b25bdbb3b5670a764",
+  "sourceSha256": {
+    "prepare.py": "39cde4c3578925b080f1f5c311e35a26ab1e448c0b391754ccf23eb7acaf7690",
+    "metadata-snapshot.cjs": "8cc7f1521b82d5c350fe23292507f0a7e16c5c6838d88f07d294303b91fa9fe2",
+    "source-probe.cjs": "9eda92fcbb763091b495278ca4d209df5df58fa257ebab1889c76fa3d0b9eec6"
+  },
+  "verified": {
+    "image": "longhn0710t/kelryvo-pilot@sha256:7720529b069858f8d6c5e335d3ec7559dbd4a7ebeccd21443fd8a894f5eed4cd",
+    "snapshots": 2,
+    "baselineCount": 1,
+    "snapshotOwner": "KP_B",
+    "identityDigest": "5f1bf1581547a9341761f304df87a4edb6d0a24f2caee44f1ee7cdd86f930385",
+    "schemaObjects": ["KP_B.KELRYVO_MUTEX_B_T", "KP_B.KELRYVO_PILOT_T"],
+    "bothSnapshotsLiveAccepted": true,
+    "sameContentDigest": true,
+    "comparison": {
+      "status": "UNVERIFIED",
+      "summary": {"added": 0, "removed": 0, "modified": 0, "unverified": 0},
+      "limitations": ["INCOMPLETE_METADATA_COVERAGE", "MULTI_QUERY_CONSISTENCY_UNGUARANTEED"],
+      "absenceOfDriftEstablished": false
+    },
+    "catalogPreservation": {
+      "tables": 68,
+      "existingRowHashMultisetsRetained": true,
+      "onlyTablesWithAdditions": {
+        "sf_audit": 3,
+        "sf_database_connection_audit": 3,
+        "sf_local_credentials": 4,
+        "sf_schema_baselines": 1,
+        "sf_schema_snapshots": 2
+      },
+      "holdsBeforeAndAfter": 11,
+      "pendingJobsAfter": 0,
+      "newJobs": 0,
+      "OracleDDL": 0,
+      "OracleDML": 0
+    },
+    "browser": {
+      "developerAndApproverHistoryRead": true,
+      "approverObserveControlAbsent": true,
+      "explicitLogouts": 2,
+      "horizontalOverflowAt390px": false,
+      "pageErrors": 0,
+      "desktopScreenshotSha256": "db8e8f6c6ced1629cc8265ec7b3d5674511e646f486abf6254ca7fcdeccd3191",
+      "mobileScreenshotSha256": "0f6cb32f1732d83942be9f1225c11b355b22b497b40c45dd70abab4c95861a64"
+    }
+  },
+  "findings": [
+    {
+      "severity": "LOW",
+      "description": "The Latest drift banner displays the same zero-count summary twice in the captured UI."
+    }
+  ],
+  "limitations": [
+    "Schema coverage is partial: TABLE is UNAVAILABLE, and the comparison is UNVERIFIED; this evidence does not establish no drift.",
+    "The first R2 attempt failed before native schema calls because the exact accessible-label locator matched no control. Its retained preservation evidence shows zero snapshots and baselines; it was not replayed. Read-only diagnosis justified relaxing the three selectors in v2.",
+    "D2's reviewed runner lacked an immediate expiry check before its Secret CAS. The run completed at 04:57:02Z, within the approved D2 and parent qualification windows; no late action was found."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "records": [
+    {
+      "case": "A_V1",
+      "jobId": "38b50a1d-8435-42ed-b2c7-acc0215ea29e",
+      "state": "VERIFIED_SUCCESS",
+      "recordSha256": "a02d56d9290c3c3ee90d447ebac9fe43ec4f7c1772ab93a306ebb565490eee20",
+      "roles": [
+        "developer",
+        "approver"
+      ],
+      "recordsMatchExceptExportedAt": true,
+      "factsSha256": "f37215b85a97483ce43a2530ccb1a4e212bee5e103afe7f493b478c6be3f54a2"
+    },
+    {
+      "case": "A_V2",
+      "jobId": "260adaa2-bd6e-47c6-b373-2065249cd04e",
+      "state": "VERIFIED_SUCCESS",
+      "recordSha256": "53491a6edfeef91167083013cc08edb2548884d7434d6d2062e65798910214b2",
+      "roles": [
+        "developer",
+        "approver"
+      ],
+      "recordsMatchExceptExportedAt": true,
+      "factsSha256": "6d749ae27641fe8545959a5e5014a5b74d1e59558e85037bc0b657b0969cfe2e"
+    },
+    {
+      "case": "A_NOOP",
+      "jobId": "08218721-1112-4e3d-8067-e558e312a94f",
+      "state": "NOOP",
+      "recordSha256": "213d12fe982d1c459085d73e10193d61558917a3f70a0c2b1fa9918dfaaa1bff",
+      "roles": [
+        "developer",
+        "approver"
+      ],
+      "recordsMatchExceptExportedAt": true,
+      "factsSha256": "6c214a132612363656d9fa6b7784579d8f8b887f4d9c9aad59f953fa7e04e69f"
+    },
+    {
+      "case": "A_V3",
+      "jobId": "162d88ad-b718-460c-a444-b0a8b3a0022d",
+      "state": "VERIFIED_SUCCESS",
+      "recordSha256": "b024c702817af1abf715727f000c3d288cf5102baca43e2a74109e5c2b511f76",
+      "roles": [
+        "developer",
+        "approver"
+      ],
+      "recordsMatchExceptExportedAt": true,
+      "factsSha256": "5a8cde9877adb9d607ca8d8c42657d83f1775962250d9c2e54bda0fc4f4f91b9"
+    },
+    {
+      "case": "B_V1",
+      "jobId": "812bd77d-0c6e-4380-bd06-97dadecba225",
+      "state": "VERIFIED_SUCCESS",
+      "recordSha256": "61b2127a488488174058376f9d223c29f9f0286faa109b29c8e82bde20a899fa",
+      "roles": [
+        "developer",
+        "approver"
+      ],
+      "recordsMatchExceptExportedAt": true,
+      "factsSha256": "855c09e0225595fe2bdbd530b9b2512985ae5c4f8f6006047b06a927bea83197"
+    },
+    {
+      "case": "C_V1",
+      "jobId": "4f2d4590-4108-4cea-9ce2-0a1016700c7b",
+      "state": "VERIFIED_SUCCESS",
+      "recordSha256": "b5d2731bb2b43f02ede70f164cba6d51cf0ce5e9ede4bdcec29af716cbb6d320",
+      "roles": [
+        "developer",
+        "approver"
+      ],
+      "recordsMatchExceptExportedAt": true,
+      "factsSha256": "ff64e538eb8d4305a4640de64a8e40963815dd292b28a7198669efd1e7cff316"
+    },
+    {
+      "case": "PRESERVED_LOST_ACK4",
+      "jobId": "28fdcb9b-6f82-4ae8-8615-37285d765bdd",
+      "state": "HOLD",
+      "recordSha256": "f778f0e5f28c51411f1a3ba14bf770bcc371e1b5d24ea65f5e6ecbb9c6de3ee0",
+      "roles": [
+        "developer",
+        "approver"
+      ],
+      "recordsMatchExceptExportedAt": true,
+      "factsSha256": "6b1c10c4198b6d81a8175a51c6779dd74d6fc5c22bd1888dc8c9051631674f13"
+    }
+  ],
+  "comparisons": 14,
+  "scope": "ACTUAL_PUBLIC_HTTPS_CURRENT_DEVELOPMENT_IMAGE"
+}

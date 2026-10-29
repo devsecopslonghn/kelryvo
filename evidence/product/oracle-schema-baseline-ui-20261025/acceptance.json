@@ -1,0 +1,234 @@
+{
+  "format": 1,
+  "kind": "KELRYVO_NATIVE_SCHEMA_BASELINE_BROWSER_ACCEPTANCE",
+  "status": "PASS_BOUNDED_PARTIAL_COMPARISON",
+  "recordedAt": "2026-10-25T05:00:39.255660+00:00",
+  "image": "longhn0710t/kelryvo-pilot@sha256:7720529b069858f8d6c5e335d3ec7559dbd4a7ebeccd21443fd8a894f5eed4cd",
+  "contextTreeSha256": "bf06fc9c504eab36a6799e26cb940beb07079c6dce30029aaa4462ac2728ba5c",
+  "owner": "KP_B",
+  "bindingId": "680ec085-884c-4178-8b33-79e55de29d2b",
+  "bindingRevision": "18",
+  "snapshotRecords": [
+    {
+      "id": "c601a652-b194-4dd4-aaea-4db2c294d173",
+      "owner": "KP_B",
+      "identity": {
+        "cdb": true,
+        "dbid": "1514744796",
+        "engine": "oracle",
+        "version": "Oracle AI Database 26ai Free Release 23.26.3.0.0 - Develop, Learn, and Run for Free",
+        "containerId": "12",
+        "serviceName": "kp_delivery5",
+        "dbUniqueName": "FREE",
+        "containerDbid": "3868478698",
+        "containerGuid": "5E980853A591FAEDE0638101F40AA993",
+        "containerName": "KP_DELIVERY5",
+        "resetlogsChange": "2084882"
+      },
+      "identityDigest": "5f1bf1581547a9341761f304df87a4edb6d0a24f2caee44f1ee7cdd86f930385",
+      "contentDigest": "049152f8b137d3b69bb39e01280f048f94b42c391870d1a982c63b2da39a378b",
+      "provenance": "ORACLE_READ_ONLY",
+      "liveAccepted": true,
+      "coverage": {
+        "VIEW": "PARTIAL",
+        "INDEX": "PARTIAL",
+        "TABLE": "UNAVAILABLE",
+        "SEQUENCE": "PARTIAL",
+        "DEPENDENCY": "PARTIAL"
+      },
+      "limitations": [
+        "FOREIGN_OWNER_VISIBILITY_PARTIAL",
+        "MULTI_QUERY_CONSISTENCY_UNGUARANTEED",
+        "TABLE_QUERY_UNAVAILABLE"
+      ],
+      "objectCount": 2,
+      "bindingId": "680ec085-884c-4178-8b33-79e55de29d2b",
+      "bindingRevision": "18",
+      "assignmentRevision": "1",
+      "streamId": "28160e92-c7b0-440f-8f17-0a1dd24d5255",
+      "routeId": "9373c798-a3c3-417d-bb7e-b9005741652b",
+      "objects": [
+        {
+          "owner": "KP_B",
+          "type": "TABLE",
+          "name": "KELRYVO_MUTEX_B_T",
+          "checksum": "4592ecf1b830acd7261d3842e9daa269263bcf0418455c03bc5b55c6f5298b61"
+        },
+        {
+          "owner": "KP_B",
+          "type": "TABLE",
+          "name": "KELRYVO_PILOT_T",
+          "checksum": "b25e51792b1ce35011fe46b77095d118592fe8b5543e6c83a87bcc5cfd1dae84"
+        }
+      ]
+    },
+    {
+      "id": "9e871b14-add9-483e-bd89-2332dacc4897",
+      "owner": "KP_B",
+      "identity": {
+        "cdb": true,
+        "dbid": "1514744796",
+        "engine": "oracle",
+        "version": "Oracle AI Database 26ai Free Release 23.26.3.0.0 - Develop, Learn, and Run for Free",
+        "containerId": "12",
+        "serviceName": "kp_delivery5",
+        "dbUniqueName": "FREE",
+        "containerDbid": "3868478698",
+        "containerGuid": "5E980853A591FAEDE0638101F40AA993",
+        "containerName": "KP_DELIVERY5",
+        "resetlogsChange": "2084882"
+      },
+      "identityDigest": "5f1bf1581547a9341761f304df87a4edb6d0a24f2caee44f1ee7cdd86f930385",
+      "contentDigest": "049152f8b137d3b69bb39e01280f048f94b42c391870d1a982c63b2da39a378b",
+      "provenance": "ORACLE_READ_ONLY",
+      "liveAccepted": true,
+      "coverage": {
+        "VIEW": "PARTIAL",
+        "INDEX": "PARTIAL",
+        "TABLE": "UNAVAILABLE",
+        "SEQUENCE": "PARTIAL",
+        "DEPENDENCY": "PARTIAL"
+      },
+      "limitations": [
+        "FOREIGN_OWNER_VISIBILITY_PARTIAL",
+        "MULTI_QUERY_CONSISTENCY_UNGUARANTEED",
+        "TABLE_QUERY_UNAVAILABLE"
+      ],
+      "objectCount": 2,
+      "bindingId": "680ec085-884c-4178-8b33-79e55de29d2b",
+      "bindingRevision": "18",
+      "assignmentRevision": "1",
+      "streamId": "28160e92-c7b0-440f-8f17-0a1dd24d5255",
+      "routeId": "9373c798-a3c3-417d-bb7e-b9005741652b",
+      "objects": [
+        {
+          "owner": "KP_B",
+          "type": "TABLE",
+          "name": "KELRYVO_MUTEX_B_T",
+          "checksum": "4592ecf1b830acd7261d3842e9daa269263bcf0418455c03bc5b55c6f5298b61"
+        },
+        {
+          "owner": "KP_B",
+          "type": "TABLE",
+          "name": "KELRYVO_PILOT_T",
+          "checksum": "b25e51792b1ce35011fe46b77095d118592fe8b5543e6c83a87bcc5cfd1dae84"
+        }
+      ]
+    }
+  ],
+  "baseline": {
+    "id": "ade7f492-8b66-40f8-8c88-55a9bc5c6545",
+    "name": "R2 KP_B current-image read-only baseline 20261025",
+    "snapshotId": "c601a652-b194-4dd4-aaea-4db2c294d173",
+    "createdAt": "2026-10-25T04:58:09.746Z"
+  },
+  "comparison": {
+    "status": "UNVERIFIED",
+    "summary": {
+      "added": 0,
+      "removed": 0,
+      "modified": 0,
+      "unverified": 0
+    },
+    "changeCount": 0,
+    "expectedSnapshotId": "c601a652-b194-4dd4-aaea-4db2c294d173",
+    "observedSnapshotId": "9e871b14-add9-483e-bd89-2332dacc4897",
+    "limitations": [
+      "INCOMPLETE_METADATA_COVERAGE",
+      "MULTI_QUERY_CONSISTENCY_UNGUARANTEED"
+    ],
+    "absenceOfDriftEstablished": false
+  },
+  "preservation": {
+    "tableCount": 68,
+    "allExistingRowsRetained": true,
+    "appendedRows": {
+      "sf_audit": 3,
+      "sf_database_connection_audit": 3,
+      "sf_local_credentials": 4,
+      "sf_schema_baselines": 1,
+      "sf_schema_snapshots": 2
+    },
+    "priorHolds": 11,
+    "jobsCreated": 0,
+    "oracleDdlCalls": 0,
+    "oracleDmlCalls": 0,
+    "workerDispatch": false,
+    "explicitLogouts": 2
+  },
+  "browser": {
+    "developerAndApproverHistoryRead": true,
+    "approverObserveControlAbsent": true,
+    "explicitLogouts": 2,
+    "horizontalOverflowAt390px": false,
+    "pageErrors": 0,
+    "desktopScreenshotSha256": "db8e8f6c6ced1629cc8265ec7b3d5674511e646f486abf6254ca7fcdeccd3191",
+    "mobileScreenshotSha256": "0f6cb32f1732d83942be9f1225c11b355b22b497b40c45dd70abab4c95861a64"
+  },
+  "firstAttempt": {
+    "status": "FAIL_PRESERVED_BEFORE_NATIVE_SCHEMA",
+    "effect": "Two login credential rows only; zero native snapshots/baselines; all old rows and 11 HOLDs retained.",
+    "diagnosis": "Exact select labels did not match option-containing labels; the field and permission were present. Three selectors corrected for separately reviewed case v2.",
+    "originalDiagnosticBug": "v1 diagnostic passed an undefined bindingId for one GET; corrected diagnostic v2 returned200 CURRENT canManage=true. No product404 defect is claimed.",
+    "diagnosticBrowserChildrenCreatedAndRevoked": 3,
+    "privateEvidenceSha256": {
+      "failure.private.json": "57af13685164956f37b8d587774f2b35fcd8059b1afce21ae0ab72d74e6d24d0",
+      "failure-preservation.json": "daea625e22ceeeaee8f739e112d8b2f419d61d1d09d8ed7704cf3f3819ec3bb8",
+      "diagnose-ui.result.private.json": "621c5d984343e089f8f016cc3edbaecba93692207157bbcf5da5b74b16b69d2e",
+      "diagnose-ui-v2.result.private.json": "c7ff02c32f383735323c29bd4f4ba9867024c8325c1e34ccdd6f0431740e5269",
+      "failure-diagnostic-session-revocation.json": "604c7fd70dcc30c3822ee13ad3a4f56c53ba5363606cf8c3ba57b1f759bbf7f0"
+    }
+  },
+  "operatorLimitation": "D2 completed within all scope/review/parent times, but lacks an immediate expiry recheck before Secret CAS. Retain original reviewed bytes; add this guard to any future newly reviewed operator.",
+  "limitations": [
+    "Schema coverage is partial: TABLE is UNAVAILABLE, and the comparison is UNVERIFIED; this evidence does not establish no drift.",
+    "The first R2 attempt failed before native schema calls because the exact accessible-label locator matched no control. Its retained preservation evidence shows zero snapshots and baselines; it was not replayed. Read-only diagnosis justified relaxing the three selectors in v2.",
+    "D2's reviewed runner lacked an immediate expiry check before its Secret CAS. The run completed at 04:57:02Z, within the approved D2 and parent qualification windows; no late action was found.",
+    "Only a bounded read-only Oracle Free variant and native partial schema comparison are established. Full R1/R2 visibility, OA01/OA02/OA05 distinct installations and full OA09 state/history matrices remain open.",
+    "No governed native migration is claimed on this UI image."
+  ],
+  "privateEvidenceSha256": {
+    "scope.json": "f777dd971938c0f3e7c8e5ffddf689f751a2017223fc7605ecab6a719452b653",
+    "review.json": "6b4aebdc106757280bdbd47f540bc1806477359f9512fa5498cf860e67cb1349",
+    "result.private.json": "d1c46fb306d73dcc48b785ded2a1dc0928182c1216b4ec1b25bdbb3b5670a764",
+    "metadata-before.private.json": "b5fdf7d95f26b069f19c3e4c966ea85e7e0cf39b2722d47e3f3948f7717c6080",
+    "rows-before.private.json": "89670b92fbf6c9190107cfcf2e03470f86a9f49e3777ec73928abe998e6581e1",
+    "metadata-after.private.json": "80844e8b9fcd3037b5bd048958080858e5bc2c863ba36452a015912cd489d1c8",
+    "rows-after.private.json": "4f25269bb2efca06524f39be5c5a52f525685171d4c9a17c1542817e10492b4e",
+    "r2-schema-ui1.mjs": "5cef017a8283b0890287ce410187b8e028e5d7cbdb9f7285b1101a464c76f998",
+    "metadata-snapshot.cjs": "8cc7f1521b82d5c350fe23292507f0a7e16c5c6838d88f07d294303b91fa9fe2",
+    "source-probe.cjs": "9eda92fcbb763091b495278ca4d209df5df58fa257ebab1889c76fa3d0b9eec6",
+    "outcome-review.json": "96d94e5ae25df51867607e326fa79c0597d2ab67140a646414d6625f17eae35c"
+  },
+  "parentSourceSha256": {
+    "prepare.py": "39cde4c3578925b080f1f5c311e35a26ab1e448c0b391754ccf23eb7acaf7690",
+    "browserHarnessSha256": "5cef017a8283b0890287ce410187b8e028e5d7cbdb9f7285b1101a464c76f998",
+    "metadataHelperSha256": "8cc7f1521b82d5c350fe23292507f0a7e16c5c6838d88f07d294303b91fa9fe2",
+    "sourceProbeSha256": "9eda92fcbb763091b495278ca4d209df5df58fa257ebab1889c76fa3d0b9eec6",
+    "scenarioSha256": "9d74079473161f8acf03df4808d8c2201581e16f8ab3f4224e876b91f10ce587",
+    "discoveryClientSha256": "24a6019a61bb8c60c2cb4c1110f8ec63face4bcf62fd0418d43df9a2a52080fa",
+    "qualification": {
+      "qualification-result.json": "4ca9fddf7a6cad309e28f0b4847946df4f6b8461b297624d7fcb0d37e624f827",
+      "qualification-review.json": "dfbaf1b715b075524a5ce67caee718aa581db0fc0cdf70b092a916823f725eb2",
+      "qualification-scope.json": "e4ce2162f69c8256aa71e97f3597d0a6ab966e85033cf7e67740dc63e053c839",
+      "disposable-lab-manifest.json": "49b5d08d6753ff8554a0bed5aa1288501281883b37c3d73ea6d76a95c1c5a0ca",
+      "run-qualification.py": "9ec573a6dc532199041bdc87d05ab1a0278d8334bd4e4829cf22688d94dfe404",
+      "qualify-nonempty.mjs": "9cf8ee9224920ec21266e21663a762e5f932bfbca1b74ced02e15c063c5d5fe3",
+      "observe-all-five-and-held.sql": "b496a85c0e3316d6d2f377ce7a196bbd82d5924366480b8200cfc02b948f261d",
+      "metadata-snapshot.cjs": "07e5745e03ba386a865ae724198f3776fbd0c6556f5fdacb1860fb51dd41cb72",
+      "installed-source-digests.json": "5d18f6ccf9a42dc4e7d129132df7997937caf85d5238215ff07b65df143faa15"
+    },
+    "discovery": {
+      "result.json": "ced852c53d2e2767ffe1ffe642def2f8c9feb65f83c4ae0bf1a7634c15169d71",
+      "review.json": "b39bd1a5ccb4b86bf81e8accfa8c44f723f2986fca314e96e6390726cc972103",
+      "scope.json": "2951be78fb88d158cbea03fabc86f327dce17bda07ff63232c34337cda62a286",
+      "discovery-manifest.json": "37959808d6cf2d95693a882c735184b286b8d5737e5c996220b8c0ea0cceedd5",
+      "disposable-lab-manifest.json": "476bbbacd6bc621325e812cc2447f30818edcd6af3143146f2d3fcd0abd7b865",
+      "installed-after.private.json": "74e4d8a6a20524c4dfd27f7ae18d9839fd8e564666664caaee261ad75641dcd5",
+      "run.py": "d93db30352c9449d032e9cb5c8974563b040556a9ae5f9e523fb6d590a34e5f7",
+      "metadata-snapshot.cjs": "07e5745e03ba386a865ae724198f3776fbd0c6556f5fdacb1860fb51dd41cb72",
+      "catalog-row-snapshot.cjs": "8a784414bdaa20a4938786bc0034e0139cd4fad9b675bc9cb302b690be0a2623",
+      "catalog-preservation.py": "4028320d36bc48f703d4d4d240d049fdbc784c01c1af2133e5fccf7f234da7b0"
+    }
+  }
+}

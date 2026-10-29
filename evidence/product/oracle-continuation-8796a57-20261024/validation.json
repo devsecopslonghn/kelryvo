@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "scope": "LOCAL_TRACKER_AND_DOCUMENTATION_FINAL_VALIDATION",
+  "deployedApplicationSource": "8796a57ddb283b8197481babab382fafb6548801",
+  "applicationAndWorkerCodeChanged": false,
+  "workingTreeTrackerChanges": {
+    "scripts/tracker.mjs": "195dbc928ca4e0d1642fab3e8d4165f0f3c6e4c9e8b2f2a609adbaea5c11dc9f",
+    "tests/tracker.test.mjs": "accb9955e69acff838f4203f3cf52f70abcd8a83f59d1fd928ef9bfb12ed7703",
+    "docs/implementation/milestone.json": "9332bda0e49c6680ec2c516c94c98765ede12b4a121a78b1d7b049c5d9fee41c"
+  },
+  "npmRunCheck": {
+    "tests": 616,
+    "pass": 481,
+    "fail": 0,
+    "skipped": 135
+  },
+  "initialRun": {
+    "failures": 10,
+    "causes": [
+      "Git fixture commits inherited unavailable global signing configuration",
+      "Pinned local JDK not selected for ANTLR helpers",
+      "CLI regression assertion hard-coded the obsolete BLOCKED_EXTERNAL milestone"
+    ],
+    "rawDiagnostics": "Private final-npm-check stdout/stderr retained"
+  },
+  "fixtureOnlyEnvironment": {
+    "GIT_CONFIG_COUNT": "1",
+    "GIT_CONFIG_KEY_0": "commit.gpgsign",
+    "GIT_CONFIG_VALUE_0": "false",
+    "SCHEMAFORGE_JAVA_HOME": "Pinned local Temurin 21.0.12.1+1"
+  },
+  "globalCommitSigningUnchanged": true,
+  "privateFaultProtocolTests": 11,
+  "helmChartChecks": "PASS",
+  "publicRegistryAndLiveImageUnchanged": "Exact digest cd46b7c5e95fd02896dc0877196a2190d886da1a3ff571561b5d2c012b2e3398; host tracker/docs updates are separate local changes",
+  "fullOraclePilot": "INCOMPLETE; preserve scoped remaining gates"
+}

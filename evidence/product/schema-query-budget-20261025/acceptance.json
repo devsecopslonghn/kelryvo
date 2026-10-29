@@ -1,0 +1,790 @@
+{
+  "format": 1,
+  "status": "PARTIAL_DELIVERY_NATIVE_SCHEMA_FAILED",
+  "recordedAt": "2026-10-25T05:41:05.269510+00:00",
+  "url": "https://kelryvo.apps.drgdevlab.com",
+  "publication": {
+    "at": "2026-10-25T05:16:19.952559+00:00",
+    "scope": "FROZEN_LOCAL_COLD_DEVELOPMENT_IMAGE_ONLY",
+    "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+    "workingTreeClean": false,
+    "contextTreeSha256": "62c55e6241b49921cc5a46e26af10ad93c919db54e9b06914ea848fbc88406c4",
+    "revisionLabel": "worktree-sha256:62c55e6241b49921cc5a46e26af10ad93c919db54e9b06914ea848fbc88406c4",
+    "archiveSha256": "d8fead76da11d35c4080a5f6dd3c19dae791c34bfd04fe18cca70c48866b62d7",
+    "fileCount": 213,
+    "contextChangesFromPrior": [
+      "apps/web/src/SchemaBaselines.jsx",
+      "packages/connectivity/oracle.mjs"
+    ],
+    "nonSchemaBuildInputsIdenticalToPrior": true,
+    "localImage": "kelryvo-schema:62c55e6241b4",
+    "gatedRelease": false,
+    "sourceSigningOverride": false,
+    "sourceOrGitPush": false,
+    "publishOrDeploy": false,
+    "publishedAt": "2026-10-25T05:20:40.844915+00:00",
+    "repository": "longhn0710t/kelryvo-pilot",
+    "tag": "dev-worktree-62c55e6241b4-20261025T051954Z",
+    "image": "longhn0710t/kelryvo-pilot@sha256:66ba95d116fd414776e9b1ecca5b1851e23ae626f66355b0725c0199ae0ccf98",
+    "digest": "sha256:66ba95d116fd414776e9b1ecca5b1851e23ae626f66355b0725c0199ae0ccf98",
+    "platformDigest": "sha256:74e3ad2f6ec22e940f72049b43ef14d6dabffe81b97aba85f1775067656cc3be",
+    "configDigest": "sha256:be9fad2011f1ba4a7b8c69da8d0fc7b19079f0dbe3ba876b8067ff1b4adfc0eb",
+    "anonymousVerification": "PASS",
+    "anonymousDigestPull": "PASS",
+    "localOCI": "PASS"
+  },
+  "localVerification": {
+    "status": "PASS",
+    "contextTreeSha256": "62c55e6241b49921cc5a46e26af10ad93c919db54e9b06914ea848fbc88406c4",
+    "standardCheck": {
+      "pass": 492,
+      "fail": 0,
+      "skipped": 151,
+      "total": 643,
+      "javaHome": "project pinned Temurin",
+      "temporaryTestFixtureGitSigningDisabled": true,
+      "canonicalSourceSigningOverride": false
+    },
+    "schemaBrowser": {
+      "pass": 5,
+      "fail": 0,
+      "skipped": 0,
+      "scope": "local PostgreSQL/Chromium fixtures on changed banner source; not nativeOracle"
+    },
+    "logs": {
+      "standardCheck": {
+        "path": ".cache/oracle-concurrency-20261025/schema-budget-check.log",
+        "sha256": "54a0135e04219432a4815538438cfd23985cb573f16d610fb3ab82e31aa01060"
+      },
+      "schemaBrowser": {
+        "path": ".cache/oracle-concurrency-20261025/schema-banner-browser.log",
+        "sha256": "2d336548b7b14946650b4e39f2706d28bc262db55dedd48bf5b105bc1462df41"
+      }
+    },
+    "deployed": false,
+    "nativeDiagnosticEvidence": "evidence/product/oracle-schema-query-timeout-20261025/acceptance.json",
+    "independentSourceReviewSha256": "c9695234a13e393e3926ef28848c6bb13ece1df94f0b3d8a0e61f3f299e9cdeb"
+  },
+  "rollout": {
+    "status": "PASS_IMAGE_ONLY_SCHEMA_BUDGET_UPGRADE",
+    "at": "2026-10-25T05:26:47.825451+00:00",
+    "image": "longhn0710t/kelryvo-pilot@sha256:66ba95d116fd414776e9b1ecca5b1851e23ae626f66355b0725c0199ae0ccf98",
+    "imageDigest": "sha256:66ba95d116fd414776e9b1ecca5b1851e23ae626f66355b0725c0199ae0ccf98",
+    "contextTreeSha256": "62c55e6241b49921cc5a46e26af10ad93c919db54e9b06914ea848fbc88406c4",
+    "oldPodUid": "3ff4ac88-faa7-4b01-a757-17c79c043563",
+    "newPodUid": "75fc7d7e-accc-4fe3-a136-eb7d9bb5ba5a",
+    "all68MetadataTablesExactlyPreserved": true,
+    "targetSnapshotsPreserved": 2,
+    "targetBaselinesPreserved": 1,
+    "holdsPreserved": 11,
+    "jobsPreserved": 50,
+    "persistentResourceUIDsPreserved": true,
+    "installationSecretUnchanged": true,
+    "apiUid10001SecretReadDenied": true,
+    "executionEnabled": false,
+    "discoveryEnabled": true,
+    "argoAutoSync": false,
+    "httpsStatus": 200,
+    "metadata": "ACTIVE",
+    "oracleConnectionsMade": false,
+    "oracleMutationClaimed": false,
+    "scopeSha256": "5e9e52e33edaca09ed6d16c73892b5688c789662ef5cbc036873e27af78ec1ea",
+    "reviewSha256": "9c25540bdc5f92e72bed3fe2e516d10c97222260109268ac9834670f63386032",
+    "imageOnlyMutation": true
+  },
+  "rolloutIndependentReview": {
+    "status": "PASS_IMAGE_ONLY_SCHEMA_BUDGET_UPGRADE_REVIEW",
+    "reviewedAt": "2026-10-25T05:27:22Z",
+    "scopeSha256": "5e9e52e33edaca09ed6d16c73892b5688c789662ef5cbc036873e27af78ec1ea",
+    "reviewSha256": "9c25540bdc5f92e72bed3fe2e516d10c97222260109268ac9834670f63386032",
+    "resultSha256": "48a60d21c0b661542d1e7855d9182fbf10c4952df1e7ee284f7c6e7b6c2eabb4",
+    "prepareOperatorSha256": "96da5d9544f7d4cc7da09c564a8ff304c681f8149aa33efe94bcf965b914874a",
+    "deployOperatorSha256": "9615d9e823ad2d157a3f0e878214a0d14e7cab061074688e2d4314759a3760f5",
+    "findings": [],
+    "verified": {
+      "image": "longhn0710t/kelryvo-pilot@sha256:66ba95d116fd414776e9b1ecca5b1851e23ae626f66355b0725c0199ae0ccf98",
+      "contextTreeSha256": "62c55e6241b49921cc5a46e26af10ad93c919db54e9b06914ea848fbc88406c4",
+      "podUid": "75fc7d7e-accc-4fe3-a136-eb7d9bb5ba5a",
+      "preservation": "Operator assertions report 68 metadata tables, 50 jobs including 11 HOLD, 2 target snapshots and 1 baseline preserved",
+      "deployment": "Image-only change; execution disabled; discovery enabled; Argo autosync remained disabled",
+      "secrets": "Installation Secret unchanged; API UID direct reads of execution secrets denied",
+      "readiness": "HTTPS 200, metadata ACTIVE",
+      "oracle": "No Oracle connection or mutation claimed",
+      "case1": "Failed before deployment marker or patch; retained as PRECHECK_FAILED_NO_PATCH"
+    },
+    "limitations": [
+      "This verifies the scoped image rollout and operator preservation assertions. Post-rollout row snapshots were not saved separately, so those assertions are not independently reconstructed from a retained after-snapshot artifact.",
+      "This does not establish native Oracle runtime acceptance or verified schema drift."
+    ]
+  },
+  "postRolloutAssets": {
+    "status": "PASS_EXACT_LIVE_WEB_SOURCE",
+    "at": "2026-10-25T05:27:07.059046+00:00",
+    "image": "longhn0710t/kelryvo-pilot@sha256:66ba95d116fd414776e9b1ecca5b1851e23ae626f66355b0725c0199ae0ccf98",
+    "appPodUid": "75fc7d7e-accc-4fe3-a136-eb7d9bb5ba5a",
+    "sha256": {
+      "app.js": "47dc60df22a38f57e56dcb15c9d10224cb23b259095b88d97a15cf4f57ea4726",
+      "styles.css": "1de31bbb10a27451e67be6297a125f3b735406d5cd2ba6d85971284da5876b30",
+      "index.html": "de326fcc6fb7b90fdcd8b22c374a9950b8667c6a3a9ca6953e580de4fa597398"
+    },
+    "httpsVerified": true,
+    "executionEnabled": false,
+    "discoveryEnabled": true
+  },
+  "liveIdentity": {
+    "format": "kelryvo-live-identity-ui-v1",
+    "status": "PASS",
+    "origin": "https://kelryvo.apps.drgdevlab.com",
+    "checks": [
+      {
+        "check": "local-developer-signin-session",
+        "status": "PASS"
+      },
+      {
+        "check": "developer-ldap-provider-test",
+        "status": "PASS"
+      },
+      {
+        "check": "developer-oidc-provider-test",
+        "status": "PASS"
+      },
+      {
+        "check": "local-developer-local-primary-after-logout",
+        "status": "PASS"
+      },
+      {
+        "check": "local-approver-signin-session",
+        "status": "PASS"
+      },
+      {
+        "check": "approver-provider-configuration-denied",
+        "status": "PASS"
+      },
+      {
+        "check": "local-approver-local-primary-after-logout",
+        "status": "PASS"
+      },
+      {
+        "check": "ldap-developer-signin-session",
+        "status": "PASS"
+      },
+      {
+        "check": "ldap-developer-local-primary-after-logout",
+        "status": "PASS"
+      },
+      {
+        "check": "ldap-approver-signin-session",
+        "status": "PASS"
+      },
+      {
+        "check": "approver-provider-configuration-denied",
+        "status": "PASS"
+      },
+      {
+        "check": "ldap-approver-local-primary-after-logout",
+        "status": "PASS"
+      },
+      {
+        "check": "oidc-developer-signin-session",
+        "status": "PASS"
+      },
+      {
+        "check": "oidc-developer-local-primary-after-logout",
+        "status": "PASS"
+      },
+      {
+        "check": "oidc-approver-signin-session",
+        "status": "PASS"
+      },
+      {
+        "check": "approver-provider-configuration-denied",
+        "status": "PASS"
+      },
+      {
+        "check": "oidc-approver-local-primary-after-logout",
+        "status": "PASS"
+      },
+      {
+        "check": "ldap-invalid-password-generic-denial",
+        "status": "PASS"
+      }
+    ],
+    "completedAt": "2026-10-25T05:27:39.570Z"
+  },
+  "postIdentityPreservation": {
+    "status": "PASS_64_NON_AUTH_TABLES_EXACT",
+    "changedTables": [
+      "sf_external_session_roots",
+      "sf_identity_audit",
+      "sf_local_credentials",
+      "sf_oidc_attempts"
+    ],
+    "all64NonAuthTablesUnchanged": true,
+    "all50Jobs11HoldsAndR2SnapshotsBaselineUnchanged": true,
+    "image": "longhn0710t/kelryvo-pilot@sha256:66ba95d116fd414776e9b1ecca5b1851e23ae626f66355b0725c0199ae0ccf98",
+    "liveIdentityResultSha256": "4b39b0c536672c4d4bb8adac6684cde440441c53cfdd00d3462855a6473a99b4",
+    "beforeScopeSha256": "5e9e52e33edaca09ed6d16c73892b5688c789662ef5cbc036873e27af78ec1ea",
+    "snapshotHelperSha256": "54fad64860e3b8b562e7ce58dd4729591e75eea207414617b79d0a85d981f2dc"
+  },
+  "nativeSchemaFailure": {
+    "status": "FAIL_PRESERVED_NO_REPLAY",
+    "snapshot": {
+      "id": "4a776f2b-2da7-4046-b771-a245c8ccf7f6",
+      "owner": "KP_B",
+      "identityDigest": null,
+      "contentDigest": "a341be204d5709d3481b044a9635e4b49c502d5ccf7aff1eb8d80a9f9ac6dadc",
+      "provenance": "UNAVAILABLE",
+      "liveAccepted": false,
+      "coverage": {
+        "VIEW": "UNAVAILABLE",
+        "INDEX": "UNAVAILABLE",
+        "TABLE": "UNAVAILABLE",
+        "SEQUENCE": "UNAVAILABLE",
+        "DEPENDENCY": "UNAVAILABLE"
+      },
+      "limitations": [
+        "IDENTITY_INCOMPLETE",
+        "INVALID_OBJECT"
+      ],
+      "bindingId": "680ec085-884c-4178-8b33-79e55de29d2b",
+      "bindingRevision": "19",
+      "assignmentRevision": "1"
+    },
+    "failure": {
+      "format": "kelryvo-schema-budget-native-ui-acceptance-failure-v1",
+      "status": "FAIL",
+      "stage": "native-schema-read",
+      "errorName": "AssertionError",
+      "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'UNAVAILABLE'\n- 'ORACLE_READ_ONLY'\n",
+      "completedAt": "2026-10-25T05:34:57.015Z",
+      "stages": [
+        {
+          "stage": "developer-sign-in",
+          "at": "2026-10-25T05:34:44.424Z"
+        },
+        {
+          "stage": "native-schema-read",
+          "at": "2026-10-25T05:34:47.925Z"
+        }
+      ]
+    },
+    "preservation": {
+      "status": "FAIL_NATIVE_RUNTIME_SCHEMA_UNAVAILABLE_WITH_PRESERVATION_VERIFIED",
+      "all68PriorRowHashMultisetsRetained": true,
+      "appendedRows": {
+        "sf_audit": 1,
+        "sf_database_connection_audit": 1,
+        "sf_local_credentials": 2,
+        "sf_schema_snapshots": 1
+      },
+      "target": {
+        "snapshot_count": 3,
+        "snapshot_ids": [
+          "4a776f2b-2da7-4046-b771-a245c8ccf7f6",
+          "9e871b14-add9-483e-bd89-2332dacc4897",
+          "c601a652-b194-4dd4-aaea-4db2c294d173"
+        ],
+        "baseline_count": 1,
+        "baselines": [
+          {
+            "id": "ade7f492-8b66-40f8-8c88-55a9bc5c6545",
+            "snapshotId": "c601a652-b194-4dd4-aaea-4db2c294d173"
+          }
+        ]
+      },
+      "jobs": {
+        "total": 50,
+        "states": {
+          "CANCELLED": 18,
+          "HOLD": 11,
+          "NOOP": 5,
+          "VERIFIED_SUCCESS": 16
+        }
+      },
+      "newSnapshot": {
+        "id": "4a776f2b-2da7-4046-b771-a245c8ccf7f6",
+        "owner": "KP_B",
+        "identityDigest": null,
+        "contentDigest": "a341be204d5709d3481b044a9635e4b49c502d5ccf7aff1eb8d80a9f9ac6dadc",
+        "provenance": "UNAVAILABLE",
+        "liveAccepted": false,
+        "coverage": {
+          "VIEW": "UNAVAILABLE",
+          "INDEX": "UNAVAILABLE",
+          "TABLE": "UNAVAILABLE",
+          "SEQUENCE": "UNAVAILABLE",
+          "DEPENDENCY": "UNAVAILABLE"
+        },
+        "limitations": [
+          "IDENTITY_INCOMPLETE",
+          "INVALID_OBJECT"
+        ],
+        "bindingId": "680ec085-884c-4178-8b33-79e55de29d2b",
+        "bindingRevision": "19",
+        "assignmentRevision": "1"
+      },
+      "newBrowserChildRevoked": true,
+      "nativeSnapshotNotReplayed": true,
+      "failureStageSecondsApproximate": 9,
+      "OracleDDL": 0,
+      "OracleDML": 0
+    }
+  },
+  "queryTimingDiagnostic": {
+    "status": "PASS_READ_ONLY_QUERY_DIAGNOSTIC",
+    "at": "2026-10-25T05:39:27.890381+00:00",
+    "scopeSha256": "9ccb56aa7dd78519cf9b09bfa5433b00320b553cb1dc4796e97a4dd5713013e1",
+    "reviewSha256": "43a3414a5d8e068f8e37e6b8575aabb96d4e4717b7c58d29fa8517fb3d4c9412",
+    "diagnostic": {
+      "status": "ALL_OK",
+      "owner": "KP_B",
+      "operation": "READ_ONLY_SCHEMA_DIAGNOSTIC",
+      "identityVerified": true,
+      "identityResults": [
+        {
+          "query": "identity.database",
+          "status": "OK",
+          "rowCount": 1,
+          "durationMs": 34
+        },
+        {
+          "query": "identity.session",
+          "status": "OK",
+          "rowCount": 1,
+          "durationMs": 4
+        },
+        {
+          "query": "identity.container",
+          "status": "OK",
+          "rowCount": 1,
+          "durationMs": 8
+        },
+        {
+          "query": "identity.version",
+          "status": "OK",
+          "rowCount": 1,
+          "durationMs": 4
+        }
+      ],
+      "schemaQueries": [
+        {
+          "query": "tables",
+          "status": "OK",
+          "rowCount": 2,
+          "durationMs": 238,
+          "columns": [
+            {
+              "name": "OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "TABLESPACE_NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "TEMPORARY",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "PARTITIONED",
+              "type": "VARCHAR2"
+            }
+          ]
+        },
+        {
+          "query": "columns",
+          "status": "OK",
+          "rowCount": 2,
+          "durationMs": 116,
+          "columns": [
+            {
+              "name": "OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "COLUMN_NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "COLUMN_ID",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "DATA_TYPE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "DATA_TYPE_OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "DATA_LENGTH",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "DATA_PRECISION",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "DATA_SCALE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "CHAR_LENGTH",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "CHAR_USED",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "NULLABLE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "DATA_DEFAULT",
+              "type": "LONG"
+            }
+          ]
+        },
+        {
+          "query": "constraints",
+          "status": "OK",
+          "rowCount": 0,
+          "durationMs": 3735,
+          "columns": [
+            {
+              "name": "OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "CONSTRAINT_NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "CONSTRAINT_TYPE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "STATUS",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "DEFERRABLE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "DEFERRED",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "R_OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "R_CONSTRAINT_NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "SEARCH_CONDITION",
+              "type": "LONG"
+            },
+            {
+              "name": "DELETE_RULE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "VALIDATED",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "RELY",
+              "type": "VARCHAR2"
+            }
+          ]
+        },
+        {
+          "query": "constraintColumns",
+          "status": "OK",
+          "rowCount": 0,
+          "durationMs": 3047,
+          "columns": [
+            {
+              "name": "OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "CONSTRAINT_NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "COLUMN_NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "POSITION",
+              "type": "NUMBER"
+            },
+            {
+              "name": "REFERENCED_OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "REFERENCED_TABLE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "REFERENCED_COLUMN",
+              "type": "VARCHAR2"
+            }
+          ]
+        },
+        {
+          "query": "views",
+          "status": "OK",
+          "rowCount": 0,
+          "durationMs": 100,
+          "columns": [
+            {
+              "name": "OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "TEXT",
+              "type": "LONG"
+            }
+          ]
+        },
+        {
+          "query": "sequences",
+          "status": "OK",
+          "rowCount": 0,
+          "durationMs": 32,
+          "columns": [
+            {
+              "name": "OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "MIN_VALUE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "MAX_VALUE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "INCREMENT_BY",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "CYCLE_FLAG",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "ORDER_FLAG",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "CACHE_SIZE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "SCALE_FLAG",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "EXTEND_FLAG",
+              "type": "VARCHAR2"
+            }
+          ]
+        },
+        {
+          "query": "indexes",
+          "status": "OK",
+          "rowCount": 0,
+          "durationMs": 309,
+          "columns": [
+            {
+              "name": "OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "TABLE_NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "INDEX_TYPE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "UNIQUENESS",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "STATUS",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "PARTITIONED",
+              "type": "VARCHAR2"
+            }
+          ]
+        },
+        {
+          "query": "indexColumns",
+          "status": "OK",
+          "rowCount": 0,
+          "durationMs": 108,
+          "columns": [
+            {
+              "name": "OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "TABLE_NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "COLUMN_NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "COLUMN_POSITION",
+              "type": "NUMBER"
+            },
+            {
+              "name": "DESCEND",
+              "type": "VARCHAR2"
+            }
+          ]
+        },
+        {
+          "query": "dependencies",
+          "status": "OK",
+          "rowCount": 0,
+          "durationMs": 151,
+          "columns": [
+            {
+              "name": "OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "TYPE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "REFERENCED_OWNER",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "REFERENCED_NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "REFERENCED_TYPE",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "REFERENCED_LINK_NAME",
+              "type": "VARCHAR2"
+            },
+            {
+              "name": "DEPENDENCY_TYPE",
+              "type": "VARCHAR2"
+            }
+          ]
+        }
+      ],
+      "ddl": false,
+      "dml": false
+    },
+    "all68MetadataTablesUnchanged": true,
+    "currentAndFourHistoricalOracleContentsUnchanged": true,
+    "DDL": 0,
+    "DML": 0,
+    "jobsCreated": 0,
+    "infrastructureChanges": false,
+    "image": "longhn0710t/kelryvo-pilot@sha256:66ba95d116fd414776e9b1ecca5b1851e23ae626f66355b0725c0199ae0ccf98"
+  },
+  "diagnosticIndependentReview": {
+    "status": "PASS_READ_ONLY_QUERY_DIAGNOSTIC_REVIEW",
+    "resultSha256": "ae36357f3a0d5ee07e43205202b14497681bc71056a61f631f1f03c02d90c510",
+    "scopeSha256": "9ccb56aa7dd78519cf9b09bfa5433b00320b553cb1dc4796e97a4dd5713013e1",
+    "reviewSha256": "43a3414a5d8e068f8e37e6b8575aabb96d4e4717b7c58d29fa8517fb3d4c9412",
+    "reviewedAt": "2026-10-25T05:40:29Z",
+    "findings": [],
+    "verified": [
+      "All nine fixed KP_B schema queries and four identity queries returned OK for the pinned Oracle identity.",
+      "The before/after PostgreSQL metadata snapshots match across all 68 tables.",
+      "The before/after Oracle observer outputs match the retained baseline for the current and four historical PDBs."
+    ],
+    "limitations": [
+      "This diagnostic reports counts and column metadata, not result rows or complete catalog coverage.",
+      "The retained native UI acceptance failed: its snapshot is UNAVAILABLE. No UI acceptance pass is claimed.",
+      "I compared the retained UI case\u2019s before/after row snapshots: all prior rows across 68 tables remain; additions are 1 audit, 1 connection audit, 2 credential rows, and 1 schema snapshot."
+    ]
+  },
+  "limitations": [
+    "The SCHEMA per-call timeout change passed local tests and fixed query diagnostics but the end-to-end native UI case failed with an UNAVAILABLE snapshot. This record does not claim native collector acceptance.",
+    "Current metadata baseline is 50 jobs including11HOLDs,3KP_B snapshots includingoneUNAVAILABLErecord,1baseline. No oldrow or ambiguous request was replayed or cleared.",
+    "Rollout all68-table preservation was asserted by the reviewed operator, without a separately retained immediate after-snapshot. The later retained post-identity snapshot verifies all64 non-auth tables exact; nativefailure retention verifies everyprior row hash multiset across68tables.",
+    "The next implementation must supply SCHEMA-specific bounded deadlines through Oracle child, IPC and API; TEST/DISCOVER and explicit short overrides remain compatible.",
+    "No source signed commit, Git push, hosted CI, gated release or production qualification is claimed."
+  ],
+  "privateEvidenceSha256": {
+    "independent-review.json": "7078168a78f6b0fe474c7f024e0417d5bcc8ae17ed51e446bde51750d8bbf8ab",
+    "image/upgrade-case-1/scope.json": "47d900ec231a292dd80c7417f4b5e84237c1f7e8e7471a03da6e9a5f72a6e191",
+    "image/upgrade-case-1/review.json": "4c25fe6d5f2e6b1f5d641d4310618dd19d38c1aaed935f234ca19423e684d25e",
+    "image/upgrade-case-1/precheck-failure.json": "bdc16786d43b5f5dcf3502c6917aaa3ca735f50b406fcad0fec929d7334225ff",
+    "image/upgrade-case-2/scope.json": "5e9e52e33edaca09ed6d16c73892b5688c789662ef5cbc036873e27af78ec1ea",
+    "image/upgrade-case-2/review.json": "9c25540bdc5f92e72bed3fe2e516d10c97222260109268ac9834670f63386032",
+    "image/upgrade-case-2/deploy-result.json": "48a60d21c0b661542d1e7855d9182fbf10c4952df1e7ee284f7c6e7b6c2eabb4",
+    "metadata-after-live-identity.private.json": "6a5fed9478f49dbf834ba64ccdfa48736655e01cd05252087f50711f6d9265b8",
+    "schema-acceptance/scope.json": "7631e72a6f93247cc316d59446ac60c93d9ce04bc9559e5e3253f6572127c4fa",
+    "schema-acceptance/review.json": "d18f4fc765e8f76e9ac114e193a192a22339b41af4f8879ed765a93df4266e3c",
+    "schema-acceptance/state.private.json": "b7ade1135036113cbb290d273e0202db81cb76d8909766ae6c269e3857008ad7",
+    "schema-acceptance/failure.private.json": "8b3a5b96c0716925f321dbdc58b7469b07f219e8af01c815be208785c0b69b97",
+    "schema-acceptance/failure-preservation.json": "1c3aafca88513b93458d28e7d6fa986aaa37a2f74b8b29768f7d254e9a7c9975",
+    "schema-acceptance/metadata-before.private.json": "c2f7ca89efd17e9bfeca0e7fe91efbc67be6ecd8cdca8bf4cfe196a260268527",
+    "schema-acceptance/rows-before.private.json": "abee3200047311c8c3fa63ffe90ba8a4bac6ba3ae4f341917a6c4b95a2f0e547",
+    "schema-acceptance/metadata-failure-after.private.json": "40d7ccefcd607c364882afe9c071ce19370702832bae204670ab9273a8831ec8",
+    "schema-acceptance/rows-failure-after.private.json": "79d651b01ccac1ad6f42dd6a9b4fa5681ceafbcb45ebd0cb701fcd3afa2b141b"
+  }
+}

@@ -16,7 +16,12 @@ test('review renders frozen intent safely, separately from current configuration
   model.detail.plans.push(second);
   const fixture = await openBrowserUiFixture({ model });
   t.after(() => fixture.close());
-  const { page, signIn, selectReview } = fixture;
+  const { page, signIn } = fixture;
+  const selectReview = async plan => {
+    await fixture.selectReview(plan);
+    await page.getByText('Retained intent details',{exact:true}).click();
+    await page.getByText('Current configuration details',{exact:true}).click();
+  };
   try {
     await signIn(model.actors[1]); await selectReview();
     const intent = page.getByRole('region', { name: 'Retained offline intent' });

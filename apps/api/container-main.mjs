@@ -32,7 +32,7 @@ export async function runContainer({ configure = loadContainerConfig, start = st
     if (stopping) return;
     if (process.env.KELRYVO_DISCOVERY_FD !== undefined) {
       if (process.env.KELRYVO_DISCOVERY_FD !== '3' || process.getuid?.() !== 10001) throw new Error('Container startup unavailable');
-      bridge = createDiscoveryClient(new Socket({ fd: 3, readable: true, writable: true }));
+      bridge = createDiscoveryClient(new Socket({ fd: 3, readable: true, writable: true }), { schemaTimeoutMs: 32_000 });
       config.discoveryRuntime = bridge;
     }
     app = await start(config, log);

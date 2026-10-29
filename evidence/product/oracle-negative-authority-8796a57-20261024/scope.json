@@ -1,0 +1,34 @@
+{
+  "format": 1,
+  "recordedAt": "2026-10-24T13:57:57.838956+00:00",
+  "ownerAuthorization": "Owner explicitly clarified that the entire Kubernetes cluster and its backend are a dedicated test lab and delegated full lab infrastructure authority in this session.",
+  "context": "k8s-admin-public",
+  "namespace": "kelryvo-oracle-lab",
+  "oraclePod": "oracle-free-0",
+  "oraclePodUid": "602e2dd1-f72a-4c8c-8634-ae6703ece0ca",
+  "expectedIdentity": {
+    "engine": "oracle",
+    "dbid": "1514744796",
+    "dbUniqueName": "FREE",
+    "resetlogsChange": "2084882",
+    "cdb": true,
+    "containerId": "11",
+    "containerGuid": "5E95FDD6F58AC1FEE0638101F40A1707",
+    "containerDbid": "2217610210",
+    "containerName": "KP_LOST_ACK4",
+    "serviceName": "kp_lost_ack4",
+    "version": "Oracle AI Database 26ai Free Release 23.26.3.0.0 - Develop, Learn, and Run for Free"
+  },
+  "ownedMismatchPdb": "KP_LOST_ACK3",
+  "operations": [
+    "Actual installed authority negative capability checks without request admission",
+    "Fixed native SELECT identity checks on exact owned PDB3/PDB4 routes",
+    "Fixed purpose-account SELECT privilege denial checks",
+    "Observe preserved metadata and target journals"
+  ],
+  "applicationDdlAllowed": false,
+  "faultChangesAllowed": false,
+  "replayAllowed": false,
+  "preserveAllHolds": true,
+  "expiresAt": "2026-10-24T14:11:05.876712+00:00"
+}

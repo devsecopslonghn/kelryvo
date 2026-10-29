@@ -1,0 +1,11 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "acceptance.json": "63b18026ae9a66f6dd011999cf787f2ea5cac36467df0e356251ad5d2049d31a",
+    "screenshots/desktop-account.png": "d644b271763faf5cd3be42be6f4da30381ffce76b1df2e9cc21d19953866af76",
+    "screenshots/desktop-projects.png": "8b62475be41691c666a3ea5360eb8229be3a95b0eb527bd66e1becbf63eb5966",
+    "screenshots/desktop-providers.png": "95fe114bfecebe60d3745c6857dbb897f27d00a8f12b5fc1b4067d4f634e97a1",
+    "screenshots/desktop-sql.png": "38891c34c975df278e97aecb743c4e764298030a8de59db278a1f42143b7496c",
+    "screenshots/mobile-projects.png": "9adb8b0e03f6f89d2dddcda743b43908bf210bd287e6f615f90428c6eecf3da3"
+  }
+}

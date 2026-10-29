@@ -1,0 +1,97 @@
+{
+  "format": "kelryvo-delivery6-discovery-config-acceptance-v1",
+  "status": "PASS_D6_DISCOVERY_CONFIG_STAGE_ONLY",
+  "completedAt": "2026-10-25T23:41:49.851Z",
+  "image": "longhn0710t/kelryvo-pilot@sha256:557c7d47062355bcde3f259d3601254656b2464cf14267adead605da43ff90fc",
+  "target": {
+    "cdb": true,
+    "containerDbid": "3453530694",
+    "containerGuid": "5EB2C4026807E0F8E0638101F40A9278",
+    "containerId": "13",
+    "containerName": "KP_DELIVERY6",
+    "dbUniqueName": "FREE",
+    "dbid": "1514744796",
+    "engine": "oracle",
+    "resetlogsChange": "2084882",
+    "serviceName": "kp_delivery6",
+    "version": "Oracle AI Database 26ai Free Release 23.26.3.0.0 - Develop, Learn, and Run for Free"
+  },
+  "configuration": {
+    "canonicalManifestD6Only": true,
+    "expiresAt": "2026-10-26T00:24:35.660Z",
+    "oldD5ManifestArchivedByteIdentically": true,
+    "originalSecretKeyCount": 9,
+    "preservedOriginalKeyCount": 8,
+    "changedOrAddedKeyCount": 5,
+    "finalSecretKeyCount": 13,
+    "runtimeUid": 10002,
+    "apiUid10001CannotReadPrivateRuntimeFiles": true,
+    "sameImageSingletonRestart": true,
+    "successorPod": {
+      "name": "kelryvo-app-bd89c496b-gssjv",
+      "uid": "1926cab9-349c-42a2-9f0b-ac3f84535bc5"
+    }
+  },
+  "preservation": {
+    "all68MetadataTablesByteExact": true,
+    "credentialProjectionRows": 802,
+    "jobs": {
+      "states": {
+        "CANCELLED": 20,
+        "HOLD": 12,
+        "NOOP": 5,
+        "VERIFIED_SUCCESS": 16
+      },
+      "total": 53
+    },
+    "oldOracleInfrastructureUnchanged": true,
+    "automaticRetry": false
+  },
+  "execution": {
+    "oracleConnections": 0,
+    "oracleWrites": 0,
+    "applicationApiCalls": 0,
+    "metadataWrites": 0,
+    "publicExecutionEnabled": false,
+    "nativeInstallationRenewed": false,
+    "schemaBindingsOnboarded": false
+  },
+  "provenance": {
+    "scopeSha256": "adffdb146b9ed18d6a00c925f3679dad995b04e2690ead869e8113d8c62122f0",
+    "manifestSha256": "4bd40655e3310a765614dd88b15c680807243f07307791d88073607b2cd7f76b",
+    "operatorSha256": "227a52e50afafdf5c1c7990bb7a2be4d47cbfc03e6e51bfecdfb9b9df3a32c70",
+    "executionReviewSha256": "dc1bde8e81d3a916ade192eabf791f4c128a9b1dfc0b154d07db4ecaed10db04",
+    "resultSha256": "01e0bc0e68a028b897219d78167683c824e27d75adeb3f56555ef45303aa0edd",
+    "appBeforeSha256": "37bbbf048b8b114c406fe7d02cd3c934c9bb914999ce24c69f33c4b02e0e0660",
+    "appAfterSha256": "fcbacf2af846e2be76a1d8fd4f939f17734ff97a41086486731fd1f33f777f39",
+    "discoveryManifestSha256": "37ef63d0d9e33f49aad3741696f6fbb10109c18e913c225c4c24ec71b6b2ad58",
+    "archivedExpiredD5ManifestSha256": "3cc84a999f33573bc58142414dd4e1897db4f69b7d5244b962040150c18e0984",
+    "outcomeReviewSha256": "8fdc5d8f26dc9882012d439224c7ead1440e948a12fbbca97950556cc8fe155d"
+  },
+  "independentOutcome": {
+    "decision": "PASS_D6_DISCOVERY_CONFIG_STAGE_ONLY",
+    "reviewedBy": "/root/delivery6_stage_code_review",
+    "reviewedAt": "2026-10-25T23:47:58.951Z",
+    "independent": true
+  },
+  "checks": {
+    "actualInfrastructureMatchesRecordedAfter": true,
+    "onlyDeclaredSecretKeysAndRestartChanged": true,
+    "sameImageSingletonReplacement": true,
+    "metadataUnchanged": true,
+    "all68MetadataTables": true,
+    "all802CredentialRows": true,
+    "jobs53HOLD12": true,
+    "noWaitingOrAdmittedJobs": true,
+    "allEightPriorSecretKeysPreserved": true,
+    "d5ManifestArchivedByteIdentically": true,
+    "fiveMountedFilesUid10002Mode600CapabilityFree": true,
+    "apiUid10001Denied": true,
+    "currentReadOnlyInfrastructureAndPostgresRecheckMatches": true
+  },
+  "limitations": [
+    "This stages D6-only discovery configuration and proves the recorded metadata/infrastructure preservation. It does not establish product onboarding, migration execution, ADMITTED/NOOP or fault acceptance.",
+    "The successful earlier qualification is historical evidence. This stage used a separate current scope, manifest and independent review; no historical approval was renewed."
+  ],
+  "next": "Independently reviewed one-shot API onboarding of a new D6 project, one read-only DISCOVER and five verified owner bindings."
+}

@@ -1,0 +1,54 @@
+{
+  "status": "PASS_TWO_ROLE_OA09_HISTORY_AFTER_UI_UPGRADE",
+  "at": "2026-10-25T04:11:43.636Z",
+  "image": "longhn0710t/kelryvo-pilot@sha256:7720529b069858f8d6c5e335d3ec7559dbd4a7ebeccd21443fd8a894f5eed4cd",
+  "checks": [
+    {
+      "role": "developer",
+      "case": "SEED",
+      "jobId": "c728315c-91d9-4129-b927-45f3aa82783a",
+      "state": "VERIFIED_SUCCESS",
+      "attempts": 1,
+      "receipts": 2,
+      "recordSha256": "4157a59a49f6312007853a480a2d79e8a833493a01a5873c14fce91451965073",
+      "normalizedRecordSha256": "83529d09bb8437674620d44206d36c5765fd0e524bc197147c280eaaad022b2d",
+      "status": "PASS"
+    },
+    {
+      "role": "developer",
+      "case": "HISTORY_NEGATIVE",
+      "jobId": "bd5bf338-f106-44a0-91b2-d3a11e4010b6",
+      "state": "HOLD",
+      "attempts": 0,
+      "receipts": 0,
+      "recordSha256": "27dec1440b98006b6c28c86b17a5cedd46d128639ed438fa774cfac0f365ad99",
+      "normalizedRecordSha256": "6a132459f9abb2a5bf99ca3e1b4d89f77865e53045f48ce4c9598c2e7c046668",
+      "status": "PASS"
+    },
+    {
+      "role": "approver",
+      "case": "SEED",
+      "jobId": "c728315c-91d9-4129-b927-45f3aa82783a",
+      "state": "VERIFIED_SUCCESS",
+      "attempts": 1,
+      "receipts": 2,
+      "recordSha256": "ecdbfb21e6986cab70e2b25d3d47f5a4a73a51d9e250f469d428c848340d0a67",
+      "normalizedRecordSha256": "83529d09bb8437674620d44206d36c5765fd0e524bc197147c280eaaad022b2d",
+      "status": "PASS"
+    },
+    {
+      "role": "approver",
+      "case": "HISTORY_NEGATIVE",
+      "jobId": "bd5bf338-f106-44a0-91b2-d3a11e4010b6",
+      "state": "HOLD",
+      "attempts": 0,
+      "receipts": 0,
+      "recordSha256": "ccb46ddd07e40c72bf509a37c4ff5d4434f14da5cc153065d94392abb040e82e",
+      "normalizedRecordSha256": "6a132459f9abb2a5bf99ca3e1b4d89f77865e53045f48ce4c9598c2e7c046668",
+      "status": "PASS"
+    }
+  ],
+  "recordsMatchExceptExportedAt": true,
+  "oracleCalls": 0,
+  "executionRequests": 0
+}

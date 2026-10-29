@@ -61,11 +61,18 @@ test('CLI distinguishes catalog acceptance from delivered capability and reports
   assert.match(status.scope, /not delivered capability counts/);
   assert.ok(fs.existsSync(path.join(root, status.product_source_of_truth)));
   const next = run('next');
+  const milestone = read('milestone.json');
   assert.deepEqual(next.eligible_tasks, []);
-  assert.equal(next.roadmap_priority.status, 'BLOCKED_EXTERNAL');
+  assert.deepEqual(next.roadmap_priority, milestone.next_priority);
   const requirements = next.roadmap_priority.requirements.split('#')[0];
   assert.equal(requirements, status.product_source_of_truth);
-  assert.ok(next.blockers.some(reason => /authorization/.test(reason)));
+  assert.deepEqual(next.blockers, milestone.blockers);
+  assert.equal(status.oracle_lab_authorized, milestone.oracle_lab_authorized);
+  assert.deepEqual(status.oracle_lab_authorization_scope, milestone.oracle_lab_authorization_scope ?? null);
+  if (milestone.oracle_lab_authorized) {
+    assert.match(status.oracle_cells, /19c\/21c.*unverified/);
+    assert.doesNotMatch(status.oracle_cells, /pending authorized lab manifest/);
+  }
   assert.deepEqual(selectNext(persistedState()), []);
 });
 

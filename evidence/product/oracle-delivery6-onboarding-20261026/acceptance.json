@@ -1,0 +1,169 @@
+{
+  "format": "kelryvo-delivery6-onboarding-acceptance-v1",
+  "status": "PASS_D6_API_ONBOARDING_FINISH_LIMITED",
+  "completedAt": "2026-10-26T01:58:20.803Z",
+  "image": "longhn0710t/kelryvo-pilot@sha256:557c7d47062355bcde3f259d3601254656b2464cf14267adead605da43ff90fc",
+  "project": {
+    "id": "9d170611-af70-4a46-9ca9-3b7e89435c96",
+    "name": "Kelryvo Oracle Delivery 6 20261026-2",
+    "environmentId": "5094f471-f491-46b8-bab1-98575bf72936",
+    "connectionId": "46011931-e10f-42c0-b2c8-2a28f8257d8c"
+  },
+  "discovery": {
+    "calls": 1,
+    "status": "PARTIAL",
+    "provenance": "ORACLE_READ_ONLY",
+    "observedAt": "2026-10-26T01:57:04.012Z",
+    "expiresAt": "2026-10-26T02:12:04.012Z",
+    "schemaRows": 40,
+    "identity": {
+      "cdb": true,
+      "dbid": "1514744796",
+      "engine": "oracle",
+      "version": "Oracle AI Database 26ai Free Release 23.26.3.0.0 - Develop, Learn, and Run for Free",
+      "containerId": "13",
+      "serviceName": "kp_delivery6",
+      "dbUniqueName": "FREE",
+      "containerDbid": "3453530694",
+      "containerGuid": "5EB2C4026807E0F8E0638101F40A9278",
+      "containerName": "KP_DELIVERY6",
+      "resetlogsChange": "2084882"
+    },
+    "acceptedSchemaOwners": [
+      "KP_A",
+      "KP_B",
+      "KP_COMMIT",
+      "KP_FAULT_A",
+      "KP_FAULT_B"
+    ],
+    "limitations": [
+      "SCHEMA_VISIBILITY_LIMITED"
+    ]
+  },
+  "bindings": [
+    {
+      "owner": "KP_A",
+      "bindingId": "bb16a71b-719c-4dc0-9272-0a0d3a54b207",
+      "assignmentId": "ce813d3b-627a-4443-bdce-1b76ef106418",
+      "streamId": "6313ecf9-243f-4e9d-8792-d75437dcba21",
+      "identityState": "VERIFIED",
+      "bindingRevision": "2"
+    },
+    {
+      "owner": "KP_B",
+      "bindingId": "8d3d2305-1461-4a20-9265-6665f59ded0d",
+      "assignmentId": "0351804b-0d0f-41ea-88d4-9aa21be29419",
+      "streamId": "4dd31c2a-abab-4f5f-9e38-6cf4c2b01f4b",
+      "identityState": "VERIFIED",
+      "bindingRevision": "2"
+    },
+    {
+      "owner": "KP_COMMIT",
+      "bindingId": "208914b6-32a9-4cb1-911d-ef3513449284",
+      "assignmentId": "08e7ddcc-1a43-4537-b079-68599134fd87",
+      "streamId": "03577ba5-981c-449c-9fd2-2708bb648339",
+      "identityState": "VERIFIED",
+      "bindingRevision": "2"
+    },
+    {
+      "owner": "KP_FAULT_A",
+      "bindingId": "8f93ee1b-13dc-41bc-85ac-fd577755a27f",
+      "assignmentId": "be34c529-ee20-4a2b-b1e4-7e2581cbe4e7",
+      "streamId": "544bec40-73da-495f-9697-0f3680a024c7",
+      "identityState": "VERIFIED",
+      "bindingRevision": "2"
+    },
+    {
+      "owner": "KP_FAULT_B",
+      "bindingId": "6ded8e9c-c438-415f-a89e-bcaee529f7f1",
+      "assignmentId": "5f212f10-e12c-47ed-8b9b-9627e455c7e3",
+      "streamId": "60b6fd06-0a41-48f0-a285-71bb249e1fec",
+      "identityState": "VERIFIED",
+      "bindingRevision": "2"
+    }
+  ],
+  "execution": {
+    "httpCalls": 14,
+    "businessMutations": 7,
+    "oracleDdl": 0,
+    "oracleDml": 0,
+    "workerDispatch": false,
+    "executionEnabled": false,
+    "sessionsClosed": true
+  },
+  "preservation": {
+    "metadataTables": 68,
+    "allPriorRowsPreserved": true,
+    "exactPhaseDeltas": true,
+    "credentialRowsBefore": 810,
+    "credentialRowsAfter": 814,
+    "newPasswordRoots": 2,
+    "newBrowserChildren": 2,
+    "bothNewBrowserChildrenRevoked": true,
+    "jobs": {
+      "total": 53,
+      "states": {
+        "CANCELLED": 20,
+        "HOLD": 12,
+        "NOOP": 5,
+        "VERIFIED_SUCCESS": 16
+      }
+    },
+    "oldTargetSnapshotsAndBaselines": {
+      "snapshot_count": 4,
+      "snapshot_ids": [
+        "4a776f2b-2da7-4046-b771-a245c8ccf7f6",
+        "9e871b14-add9-483e-bd89-2332dacc4897",
+        "c601a652-b194-4dd4-aaea-4db2c294d173",
+        "dcbb7619-c54b-4d67-8091-cbe475f388fd"
+      ],
+      "baseline_count": 1,
+      "baselines": [
+        {
+          "id": "ade7f492-8b66-40f8-8c88-55a9bc5c6545",
+          "snapshotId": "c601a652-b194-4dd4-aaea-4db2c294d173"
+        }
+      ]
+    }
+  },
+  "provenance": {
+    "case": ".cache/private-lab/delivery6-onboarding-finish-20261026-1",
+    "scopeSha256": "92d72afdd567a3234910e015826978a4bb2a5e976de086814cc82677e33082aa",
+    "labManifestSha256": "a2c7370277d263764408f284507a94b1661f829c5932d55d8ad37da3e5478f9c",
+    "operatorSha256": "56fa452a94884e71ad2a366cf3a8e64a9387de1411564026b997a6e793e8d1f2",
+    "reviewSha256": "9e95dfbd0fbefeaa652cacaa9a7107b45e00bbf9e3d3807f00b6f12bf71b4940",
+    "resultSha256": "0dea763745b9e9b1dd874a57e038bc41d5003de09fcb3ef56430af3aaa9bae8c",
+    "appBeforeSha256": "da6c466f00e9883645aa5e9f6ee57b94caebc4de2b46794e9b36cd967bfea7ef",
+    "appAfterSha256": "463c4e7ece9d34b9a20af10af51b4a9488815d7304a349f79d62c5248d6c2fbc",
+    "outcomeReviewSha256": "19eafc099ba4887e2bff341027e6d5fffc4b23f96b219b89ef1870a1ecaaf727",
+    "matchingDeployedBackendSourceFiles": 111
+  },
+  "independentOutcome": {
+    "reviewerId": "/root/d6_finish_review",
+    "reviewedAt": "2026-10-26T01:59:48.264Z",
+    "independent": true,
+    "checks": {
+      "independentExecutionApprovalValidAtCompletion": true,
+      "fullCurrentReadOnlySnapshotMatchesAfter": true,
+      "allPriorRowsAcross68TablesRetained": true,
+      "jobs53AndHOLD12Unchanged": true,
+      "targetSnapshotsAndBaselinesUnchanged": true,
+      "credentialRows810To814": true,
+      "twoPasswordRootsRetained": true,
+      "twoBrowserChildrenRevoked": true,
+      "oneOracleReadOnlyDiscovery": true,
+      "fiveAcceptedOwnerSchemas": true,
+      "fiveVerifiedBindings": true,
+      "developerAndApproverLoggedOut": true,
+      "oracleDdl0": true,
+      "oracleDml0": true,
+      "workerDispatchFalse": true,
+      "exactly14HttpCallsOneDiscoverOneBulkAssignmentFiveVerifies": true
+    }
+  },
+  "remaining": [
+    "Governed D6 V1/V2 execution and ADMITTED/NOOP",
+    "Full visibility/browser/Oracle acceptance matrices",
+    "Production and original Oracle19c/21c topologies remain unqualified"
+  ]
+}

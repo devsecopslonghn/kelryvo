@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-24T16:09:27.258931+00:00",
+  "scope": "OWNER_AUTHORIZED_IMMUTABLE_WORKTREE_DEVELOPMENT_CANDIDATE",
+  "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+  "canonicalGitCommitCreated": false,
+  "workingTreeClean": false,
+  "contextTreeSha256": "6c5d4a8fdaa390246827fea22b9910b7050fe2a406a9e7fb78dcfb9c816467e6",
+  "revisionLabel": "worktree-sha256:6c5d4a8fdaa390246827fea22b9910b7050fe2a406a9e7fb78dcfb9c816467e6",
+  "archiveSha256": "b7acdb5a385dd08798c5a296dbda477533e56e48ec2c71f04e9c36bdb969a1df",
+  "fileCount": 199,
+  "runtimeSourceChanges": [
+    "apps/web/styles.css",
+    "scripts/tracker.mjs"
+  ],
+  "backendAndWorkerCodeIdenticalToBase": true,
+  "localImage": "kelryvo-delivery:6c5d4a8fdaa3",
+  "gatedRelease": false,
+  "sourceSigningOverride": false,
+  "sourceOrGitPush": false,
+  "archiveWithDirectories": "context-with-directories.tar",
+  "archiveWithDirectoriesSha256": "2cc09895feb5d2df85149c5ddaaeae57e7c3801f5ed34f8df4cf260fc0ab87c1",
+  "publishedAt": "2026-10-24T16:21:40.512562+00:00",
+  "repository": "longhn0710t/kelryvo-pilot",
+  "tag": "dev-worktree-6c5d4a8fdaa3-20261024T162059Z",
+  "image": "longhn0710t/kelryvo-pilot@sha256:b5a6add6f97d238130ed5a826dbe6eba293a45132f513742a0d8095064e87279",
+  "digest": "sha256:b5a6add6f97d238130ed5a826dbe6eba293a45132f513742a0d8095064e87279",
+  "platformDigest": "sha256:0f9cb6d3aaf66b2e70811f8eac775b6b00ae0f041963eb741d7005655083346c",
+  "configDigest": "sha256:765c4e469ff9ac25e8c8269fa29a902712adc5649f04b124d1083d4cf5d181fc",
+  "anonymousVerification": "PASS",
+  "anonymousDigestPull": "PASS",
+  "localOCI": "PASS"
+}

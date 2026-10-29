@@ -1,0 +1,170 @@
+{
+  "recorded_at": "2026-10-24T10:18:17.773028+00:00",
+  "scope": "OWNER_AUTHORIZED_LOCAL_BUILD_TEST_PUBLIC_DEVELOPMENT_IMAGE",
+  "source_commit": "8796a57ddb283b8197481babab382fafb6548801",
+  "source_worktree_clean_before_build_and_push": true,
+  "source_changes": false,
+  "publication": {
+    "source_commit": "8796a57ddb283b8197481babab382fafb6548801",
+    "image_id": "sha256:cd46b7c5e95fd02896dc0877196a2190d886da1a3ff571561b5d2c012b2e3398",
+    "architecture": "amd64",
+    "os": "linux",
+    "revision_label": "8796a57ddb283b8197481babab382fafb6548801",
+    "published_at": "2026-10-24T10:17:36.651152+00:00",
+    "repository": "longhn0710t/kelryvo-pilot",
+    "tag": "dev-8796a57ddb28-local-20261024T101702Z",
+    "image": "longhn0710t/kelryvo-pilot@sha256:cd46b7c5e95fd02896dc0877196a2190d886da1a3ff571561b5d2c012b2e3398",
+    "digest": "sha256:cd46b7c5e95fd02896dc0877196a2190d886da1a3ff571561b5d2c012b2e3398",
+    "config_digest": "sha256:66af23ead7b33dda7e5a7be4c461b38d2f53fd716f6df291e2a77a33512eeadc",
+    "anonymous_manifest_and_config_verification": "PASS",
+    "anonymous_digest_pull": "PASS",
+    "scope": "OWNER_AUTHORIZED_DEVELOPMENT_IMAGE_LINUX_AMD64",
+    "oracle_acceptance": "NOT_RUN",
+    "deployment": "NOT_RUN",
+    "gated_ghcr_release": "NOT_RUN"
+  },
+  "environment": {
+    "os": "AlmaLinux 10.2 x86_64",
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "docker": "29.9.2",
+    "jdk": "Temurin 21.0.12.1+1-LTS",
+    "playwright": "1.64.0",
+    "browser_note": "Playwright Ubuntu 24.04 fallback Chromium build executed on AlmaLinux; this is local acceptance only"
+  },
+  "check": {
+    "command": "npm run check",
+    "exit_code": 0,
+    "fixture_environment": {
+      "GIT_CONFIG_COUNT": "1",
+      "GIT_CONFIG_KEY_0": "commit.gpgsign",
+      "GIT_CONFIG_VALUE_0": "false"
+    },
+    "scope": "Fresh-checkout offline check; optional database/parser cases skipped as documented. Full prepared API/browser checks follow."
+  },
+  "acceptance": [
+    {
+      "stage": "api",
+      "command": [
+        "npm",
+        "run",
+        "test:product"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 832.452
+    },
+    {
+      "stage": "browser",
+      "command": [
+        "npm",
+        "run",
+        "test:browser"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 474.8
+    },
+    {
+      "stage": "release",
+      "command": [
+        "npm",
+        "run",
+        "test:release"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 133.131
+    },
+    {
+      "stage": "container",
+      "command": [
+        "node",
+        "scripts/test-containers.mjs",
+        "kelryvo-app:local",
+        "amd64"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 20.124
+    }
+  ],
+  "source_installation_workflows_passed": 25,
+  "tap_counts": {
+    "checks-initial.txt": {
+      "tests": 616,
+      "pass": 468,
+      "fail": 6,
+      "cancelled": 0,
+      "skipped": 142
+    },
+    "checks.log": {
+      "tests": 616,
+      "pass": 474,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 142
+    },
+    "api.txt": {
+      "tests": 202,
+      "pass": 202,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "browser.txt": {
+      "tests": 55,
+      "pass": 55,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "release.txt": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  "source_file_sha256": {
+    "Dockerfile": "989eae5882d0c01dcc3331d75847cef3b0ba6ab90ad399aa3e0e13629de4a3c0",
+    ".dockerignore": "89dc2403a4eeabc1b9cf3599937a3d37930d944a011533872f4006fb9b1a9b4c",
+    "compose.yaml": "dfb45f28331f55753f2d8e4b961c0327ab97c83078c48c710c354cc7bedfc57e",
+    "package.json": "cd1cc10ee3b52ea66c6cc574f1d59298757f32f61c63ee205b9d7c166e7dc839",
+    "package-lock.json": "5f0eb98ef2b51882c79c64d3f9ffaadba7124844e081f303d1f7231796448866",
+    "apps/runtime/launcher.c": "1fee4f6027a2c8855646aec8686900c397210c9284f9d2ebf21a867dc0b44798",
+    "scripts/test-containers.mjs": "8a0897deb2b73d10e92e18d38a05dad74458d2488674642b6081cc629e46e8f9"
+  },
+  "runtime_packaging": {
+    "architecture": "linux/amd64",
+    "revision_label_matches_source": true,
+    "private_local_state_and_research_evidence_directories_absent": true,
+    "licenses_and_notices": "Existing Docker build inventory and container acceptance passed"
+  },
+  "preserved_initial_observations": [
+    "Initial offline check: six Git promotion fixture failures inherited user commit.gpgsign=true without a signing key. Command-scoped fixture configuration resolved them; user Git configuration was preserved.",
+    "Initial parser build: path_missing without SCHEMAFORGE_JAVA_HOME. Retried successfully with the prepared pinned JDK absolute path.",
+    "Initial API fixture: aborted because its kelryvo PostgreSQL username was rejected by the existing local-operator allowlist. Replaced the owned fixture with the existing CI postgres role and trust authentication on an ephemeral loopback port. Full retry passed without changing product code or operator boundaries."
+  ],
+  "boundaries": {
+    "oracle_acceptance": "NOT_RUN",
+    "oracle_execution": "NOT_RUN",
+    "deployment": "NOT_RUN",
+    "gated_ghcr_publication": "NOT_RUN",
+    "hosted_ci": "NOT_RUN",
+    "arm64": "NOT_RUN",
+    "existing_oracle_holds_and_labs": "UNTOUCHED"
+  },
+  "log_sha256": {
+    "checks-initial.txt": "d2f780e4f83b9a19cc459db63110772f2c959ca55e0c9e2ef78bb0ce6594e8bb",
+    "checks.log": "a485748d7d879f501bfe3a2cf3844a7d4565f52ce5a550615f3a62b076b18ac0",
+    "build.txt": "2b0be7ef47bbe8c6522a89def17239dedcdf426f819eaf033eec72fa43100ab2",
+    "parser-prepare.txt": "dad4b30635530b049a48853c88e041bec1e597eddb86d7ba6833b4095dc74991",
+    "parser-build-initial.txt": "eddf2b08657572b13fbc0c3cc3d45c6603fd8352829e8a003848c0e2ab6022cd",
+    "parser-build.txt": "feb14400554134fd54b9789c5a2e2ffffb9f16d3807b1093f7d008a7f9da4a76",
+    "api-initial-fixture.txt": "10dbf349b72077e8b713eaee3063ccc4d9df0fd63fefd1c90a50871c4a4b4dba",
+    "api.txt": "d014de6475a93aa93602106e57182146665b679caeeeaa6bc7505dea4ab34795",
+    "browser.txt": "4bf3556831261fa78090a4c89c20fe64ce52b6b7398d10053a88686bd43d63be",
+    "release.txt": "f35400ff1314c0553969c83d85131442d8174323f7a85ad04433657c8dbc4f77",
+    "container.txt": "6dad973e48cdf9f5cdb98fbd7137ee7e9e88d8d2473e2a19b249e89fb9306ec2",
+    "push.txt": "5aecd4ace0fa4d1ddaa896fb89f62c133c4d94c0b7f9c760778d88222fe54cde",
+    "anonymous-pull.txt": "9c2453e55898c07be3f2dae0ec215951f0b16a833d945fa3e22b32640dc69f85"
+  }
+}

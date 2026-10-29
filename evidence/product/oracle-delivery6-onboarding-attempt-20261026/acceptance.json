@@ -1,0 +1,74 @@
+{
+  "format": "kelryvo-delivery6-onboarding-attempts-v1",
+  "status": "RETAINED_FAILURES_PRESERVATION_VERIFIED",
+  "completedAt": "2026-10-26T00:09:04Z",
+  "image": "longhn0710t/kelryvo-pilot@sha256:557c7d47062355bcde3f259d3601254656b2464cf14267adead605da43ff90fc",
+  "projectId": "9d170611-af70-4a46-9ca9-3b7e89435c96",
+  "environmentId": "5094f471-f491-46b8-bab1-98575bf72936",
+  "masterConnectionId": "46011931-e10f-42c0-b2c8-2a28f8257d8c",
+  "masterConnectionRevision": "1",
+  "attempts": [
+    {
+      "phase": "INITIAL_PROJECT_ONBOARDING",
+      "decision": "PASS_RETAINED_ONBOARDING_FAILURE_PRESERVATION_ONLY",
+      "finding": "The master-connection insert added one sf_connection_revisions row through the connection revision capture trigger. The reviewed ALLOWED_TABLES omitted this table, so the next pre-request preservation guard failed before the DISCOVER HTTP call. All old rows remain present; a new continuation must explicitly scope this one expected revision row and reuse the existing project/environment/master connection rather than recreate them.",
+      "failureSha256": "858703c92100f5ad6866a4b5ab9ebfb2304b2abccc0d7d924ecbd8a728ac6e90",
+      "independentOutcomeSha256": "1ffe4d168d00383ff5835fc9047453e22f08bc6b12f2f7b891085428e09496dc",
+      "credentialRowsAfter": 806,
+      "oracleConnections": 0,
+      "assignmentsCreated": 0
+    },
+    {
+      "phase": "DISCOVERY_CONTINUATION",
+      "decision": "PASS_RETAINED_D6_API_ONBOARDING_CONTINUATION_FAILURE_PRESERVATION_ONLY",
+      "finding": "The discovery API returned an UNAUTHORIZED observation before opening an Oracle connection. The pinned manifest's acceptedAt value is noncanonical for validatedAcceptance, which rejects it before the driver's getConnection call. No assignments or verifications ran.",
+      "failureSha256": "7720fe15ceb4d93f45c2af9f70332ab465069e7f605ce5ce89bc80f781098278",
+      "independentOutcomeSha256": "20241a41b4f86473b1ce8842773a6902d6ca555bcf48744880ecf1cf7083c230",
+      "observationId": "e93bbbc9-e0b3-4c64-8c9c-80c680e28a55",
+      "observationStatus": "UNAUTHORIZED",
+      "credentialRowsAfter": 810,
+      "oracleConnections": 0,
+      "assignmentsCreated": 0
+    }
+  ],
+  "preservation": {
+    "allPriorRowsAcross68MetadataTablesRetained": true,
+    "jobs": {
+      "total": 53,
+      "states": {
+        "CANCELLED": 20,
+        "HOLD": 12,
+        "NOOP": 5,
+        "VERIFIED_SUCCESS": 16
+      }
+    },
+    "allPriorJobsAttemptsReceiptsAndHistoryUnchanged": true,
+    "oldTargetSnapshotsAndBaselinesUnchanged": true,
+    "kubernetesInfrastructureUnchanged": true,
+    "browserChildrenRevoked": 4,
+    "passwordRootsRetained": 4
+  },
+  "current": {
+    "registeredProjectEnvironmentAndMaster": true,
+    "successfulDiscovery": false,
+    "verifiedSchemaBindings": 0,
+    "oracleDdlDml": 0,
+    "publicExecutionEnabled": false,
+    "nativeInstallationStillExpiredD5": true
+  },
+  "independentReview": {
+    "reviewedBy": "/root/delivery6_preparation_review",
+    "reviewedAt": "2026-10-26T00:09:04Z",
+    "independent": true,
+    "recording": "Final continuation verdict was returned as explicit JSON by the read-only reviewer and recorded by the parent with separate recorder provenance."
+  },
+  "provenance": {
+    "scopeSha256": "bac932b8793807763745ae9c8d92133d4cd71385c4c40b879f33af3df331a152",
+    "manifestSha256": "8656b88eab3fef0ba39ae557ec9cbe0092f22b6743b7043c1d6f40df6aa78846",
+    "operatorSha256": "dd03b0b879f87458288de7fcb8eb02635b8b55cea6f79e34359e57fc30dbde8d",
+    "executionReviewSha256": "442e04eb871e3d411eeabc3e0f1c979bf4982452aae9bf1b283ec8a800600dc0",
+    "appAfterFailureSha256": "40056a974a099af58e83698517f05338c2508bddef1550f901c767b13f9b72a7",
+    "actualObservationSha256": "eb93d637c5b2e174aa3a5a385708fc8215a4e435d6f218952c3da3e075cdbce9"
+  },
+  "next": "Repair only the D6 canonical discovery manifest under a fresh independent scope; test the actual production authorizer, then continue with existing project/master under a new reviewed case. Never replay either failed one-shot case."
+}

@@ -1,0 +1,81 @@
+{
+  "format": "kelryvo-independent-ui-refinement-outcome-review-v1",
+  "decision": "PASS_BOUNDED_UI_REFINEMENT_OUTCOME",
+  "reviewer": "independent outcome reviewer",
+  "reviewedAt": "2026-10-25T04:15:25.673Z",
+  "publicRecordPath": "evidence/product/ui-sign-in-refinement-20261025/acceptance.json",
+  "publicRecordSha256": "289d72f7a4111f14a8e7a75e302e0dbe6412824b0cb688851f8e9acb34405f91",
+  "image": "longhn0710t/kelryvo-pilot@sha256:7720529b069858f8d6c5e335d3ec7559dbd4a7ebeccd21443fd8a894f5eed4cd",
+  "contextTreeSha256": "bf06fc9c504eab36a6799e26cb940beb07079c6dce30029aaa4462c2728ba5c",
+  "evidenceSha256": {
+    "publicAcceptanceSha256": "289d72f7a4111f14a8e7a75e302e0dbe6412824b0cb688851f8e9acb34405f91",
+    "publicScreenshotsSha256": {
+      "1440-light-login.png": "64042d60a406a20b77f8ff543936b58f708caccda067a81aac5052a8d9ad2b24",
+      "390-light-login.png": "0365b782880c3b87861696ff62ee650c953deb225be93d9af10c18c46f86a379",
+      "390-dark-directory.png": "85123fe38420ec277c5fe6558a62724c4e2e6ee32ce3d4f35b9784dd34cef582"
+    },
+    "privateEvidenceSha256": {
+      "verification.json": "fd3bb65646131c0bc5d8294fb515fa4c4938579ee0673fdc4530dee1f0ae959a",
+      "independent-ui-review.json": "2cf6886690225015c51796dadbb44559e9def99e3041e6183bbe997aa62f8a73",
+      "image/source.json": "83297c181980fa1205eaafeaa716e3056d0702fc10b81fc64e95fb3304f10eb4",
+      "image/context-manifest.json": "db71f22cecd938fd63433e0fc6721543d598dc996e3e3f0ae5b7fdd021499ff7",
+      "image/image.json": "86da8050980c4c4372d3ef2070fc0ec9bc9cc3720af83b983d5b39a785c535c3",
+      "image/container-acceptance.json": "4582902fe0b27b0c1272f20f1c8cf0e83d7179d9a1e38435b07a6402d9368e1d",
+      "image/secret-scan.json": "bcc585cbca325a1f9bd2841eaac33857b1d4ae825f02ab02aa974d5285299475",
+      "image/publication.json": "4b7cb30228301ff94e1cf259aa94a1c9fa3d0eab6ba2dc1cbf907e093de43716",
+      "image/pre-upgrade-backup/manifest.json": "093bc699e96e2cdd49912bd4a263ea976e274d306a1a3993738d13f6ed120fd9",
+      "image/pre-upgrade-backup-witness.json": "7738e08b136f9decf7f173c41756334c313724f3851ac8f7a8a3dc4d62a23472",
+      "image/upgrade-case-1/scope.json": "d4fade66af51fcb83abfe159f83e6d3eeb037b1e5067676be4470785438a1ba8",
+      "image/upgrade-case-1/review.json": "c08894209e0954314624492c390e7b5073e9e05adf491cc1c8f06f7651a8aee0",
+      "image/upgrade-case-1/lab-manifest.json": "51d352bdbbb9f074b040ff00b3654f3fddec745407ba8e23cfa38f84a204990d",
+      "image/upgrade-case-1/deploy-result.json": "4b8cb86fa6a635ca3460f9e92bf95d8dcfe38f57dfbc0dabb0862fb7eecbc895",
+      "image/upgrade-case-1/metadata-before.private.json": "f05a933c1f8abd6d38507307421a59c25246538d0e89017cf74b774ba6627f9a",
+      "image/upgrade-case-1/metadata-after.private.json": "f05a933c1f8abd6d38507307421a59c25246538d0e89017cf74b774ba6627f9a",
+      "live-web-source-verification.json": "3756a5f4e63ec8b42e692b8f259f7c99b635c0617b60c5b9d8a8f1459947b41c",
+      "live-identity-ui-result.json": "085116ac319d9f8d1eb803227cd2650bfccb77fb11e3fa5f56ce945627690967",
+      "post-live-preservation.json": "b9e3627f03fc391130b913dff2ac2dafac3c90b1372af0fa75a3956ab15afa58",
+      "post-live-tables.private.json": "f53e4ff2141e653a5ec01c9faddf253b52fa9704190fa00f69566c9191a32093",
+      "live-login-visual.json": "d4fcfda8f9795a2eae83bdfccca845cd425318062eb274f31dd4f77b15a57f4b"
+    },
+    "additionalEvidenceSha256": {
+      "historyResult": "2a2ea25f353f7fd9f811f745d1d5baee4703f01a9b521d4c1705e28af5412e2a",
+      "qualificationResult": "73b0ed1eeaf879b3200de76779ff3ebc08bdb3d524a867a63e65e3744e07e7a5",
+      "qualificationScope": "fb63ba8c3a4ca77e5ddbc841ee63d14783af62231f2501493ef896542774b251",
+      "qualificationReview": "d5a97de6e5843164bd5ca956c1c695c49443f86f35d424b2240d8a78633867ab"
+    },
+    "qualificationObservationsSha256": {
+      "oracle-before.private.stdout": "39d4459c7462c203a17daaec44c73a2595e5025c6a1fa98253574c070a5b4e1d",
+      "oracle-after.private.stdout": "39d4459c7462c203a17daaec44c73a2595e5025c6a1fa98253574c070a5b4e1d",
+      "metadata-before.private.json": "f53e4ff2141e653a5ec01c9faddf253b52fa9704190fa00f69566c9191a32093",
+      "qualification.stdout": "96c618f0944b7d815bc0796f0765b281d8f4f9bdbabadcc1c8484132763a8f3f"
+    },
+    "browserHistorySha256": {
+      "result.json": "2a2ea25f353f7fd9f811f745d1d5baee4703f01a9b521d4c1705e28af5412e2a",
+      "developer-SEED-record.json": "cb5d0ad21520271e027d4164beeeae81704b58f47a14596b3f7df9b62165a3bc",
+      "approver-SEED-record.json": "142f4a7002881f000baddfe5f2da2e037d412231fb3ac8598fd86c104877d57a",
+      "developer-HISTORY_NEGATIVE-record.json": "e8837527359e69f2ba4e2cde876b2d8e8931ec5350a48d255ea24e8421f010f1",
+      "approver-HISTORY_NEGATIVE-record.json": "361193a2737a23488e41747581dffe16f26017f80f1e34dc7d1ba1bdea4e2be3"
+    },
+    "retainedInitialHistoryFailureSha256": "2c15d5174c0fbf62e82e893c5205f30c7e834f51c6c02b35d043c358840ff616",
+    "privateRunLogsSha256": {
+      "live-identity-ui.log": "76b40d65f79766220253fb59440e4ed7311cc3ecfe1708891c005dee935127a4",
+      "live-identity-ui-run.log": "f76a58addd97d8cbea1e21717db26670a8f33d9b0e946e8bf0567b943384d04b"
+    }
+  },
+  "verifiedClaims": [
+    "Frozen context manifest contains 213 files and every current file hash matches; the five declared runtime changes are confined to the named web UI files, with the other 208 build inputs unchanged. The published image digest and exact live app.js, styles.css and index.html hashes match the acceptance record.",
+    "The image-only deployment result is PASS for the exact pinned digest. Its bound review/scope records preserve all 68 metadata table digests across upgrade, whole installation Secret data and persistent resource UIDs; execution remains disabled, Argo auto-sync is off, the new pod is ready, HTTPS readiness is 200/ACTIVE, and the API UID cannot read the Oracle writer secret.",
+    "Live auth result contains 18 passing LOCAL, LDAP/LDAPS and OIDC checks for developer/approver paths, provider-config denial for approver, logout/local-primary behavior and generic invalid-password denial. The live visual result contains six captures across desktop/mobile and light/dark states, with no page errors or horizontal overflow and no sign-ins or Oracle calls; the three published screenshots are the hash-verified selected views inspected in this review.",
+    "Post-live table map differs from the pre-authentication baseline only in sf_external_session_roots, sf_identity_audit, sf_local_credentials and sf_oidc_attempts. The other 64 tables, including plans/jobs/HOLDs/roles/grants/history, match; all 68 remain intact across the upgrade itself.",
+    "Fresh current-image qualification passed with six purpose identities, eight current application objects, 48 ledger events and four heads; all four historical PDB observations are retained unchanged. The complete Oracle before/after outputs are byte-identical, and its 68-table PostgreSQL map equals the post-live baseline. It records zero application DDL/DML and claims no new governed native execution on this image.",
+    "Corrected two-role history browser result passes all four developer/approver \u00d7 seed/HOLD downloads. Envelope checksums validate; after removing only exportedAt, records match role-to-role. Seed has one attempt and two receipts; incompatible-history HOLD has zero attempts and zero receipts. The browser result reports zero Oracle calls and execution requests. The first verifier timeout is retained; the separate v2 verifier explicitly checks the empty-list message and attachments, with no replay.",
+    "Public claims are bounded: selected browser coverage is stated as selected, no full58 run is claimed, governed native mismatch testing is attributed to the preceding image, and the record explicitly leaves production, Oracle 19c/21c/TCPS, hosted CI, canonical signed commit, push/merge, gated release, and remaining qualification matrices unqualified."
+  ],
+  "findings": [],
+  "limitations": [
+    "This outcome review is based on cached, hash-verified evidence and safe screenshots; no live cluster, database, Oracle, or registry calls were made.",
+    "The acceptance record is a bounded development delivery. It does not establish a canonical signed commit, source push, hosted CI, gated release, production readiness, or qualification on Oracle 19c/21c/TCPS.",
+    "This image received fresh read-only Oracle qualification, not new governed execution or migration acceptance. The incompatible-history HOLD remains a HOLD and no native work was replayed during browser history review.",
+    "Browser coverage is selected and does not claim the full58 suite or the remaining OA01/OA02/OA09, OA05 variant, and R1/R2 matrices."
+  ]
+}

@@ -1,0 +1,2 @@
+STEP actual Compose network and app creation
+{"status":"FAIL","stage":"actual Compose network and app creation","code":"ERR_ASSERTION"}

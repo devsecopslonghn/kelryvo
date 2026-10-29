@@ -1,0 +1,52 @@
+{
+  "status": "PASS_D6_DISCOVERY_MANIFEST_RENEWAL_ONLY",
+  "acceptedScope": "D6 read-only discovery-manifest renewal and same-image singleton restart only",
+  "completedAt": "2026-10-26T14:29:15.774Z",
+  "independentReviewer": "root/d6_renewal_core_review",
+  "independentlyReviewedAt": "2026-10-26T14:30:44.079Z",
+  "manifestExpiresAt": "2026-10-26T22:25:56.220Z",
+  "manifestChangedFields": [
+    "authorizationId",
+    "expiresAt"
+  ],
+  "historicalTargetsAndAcceptanceUnchanged": true,
+  "oldManifestArchivedByteIdentically": true,
+  "secretKeys": 13,
+  "preservedOtherSecretValues": 12,
+  "metadataTables": 68,
+  "credentialProjectionRows": 822,
+  "jobs": 53,
+  "holds": 12,
+  "metadataAndOldHoldRowsUnchanged": true,
+  "image": "longhn0710t/kelryvo-pilot@sha256:557c7d47062355bcde3f259d3601254656b2464cf14267adead605da43ff90fc",
+  "readyPod": {
+    "name": "kelryvo-app-5588c9d649-kb8k8",
+    "uid": "af979de2-24a5-4643-9ac2-4a1c4a3f0e0e",
+    "specSha256": "359a5af5d894ba1436bfd20874bc317466f3aa594841826559e5e445ca5bc011",
+    "replicaSetUid": "a26500c2-e858-4c9a-892c-0c12ccbf4dc1"
+  },
+  "executionEnabled": false,
+  "discoveryEnabled": true,
+  "oracleConnections": 0,
+  "applicationApiCalls": 0,
+  "metadataWrites": 0,
+  "nativeInstallationChanged": false,
+  "nativeSeedAccepted": false,
+  "admittedNoopAccepted": false,
+  "artifactSha256": {
+    "operator-scope.json": "7382be37973b6a48cd20d80a959e74ec4ab09b8123f018955814c3d7ac67c491",
+    "disposable-lab-manifest.json": "7828581184a3368eefc14dfc2d9c639331f8f1a14299f937fba5b4d23e32c723",
+    "operator-review.json": "c40a30a45c75a575a4d4dfde217b5ed91114df316f90d16cbb8816d15258fd52",
+    "execution.started": "6a7d89c2e2a15c67989a48c073dfa3010f282bbebab6ff33a2e2cc9182cf91e1",
+    "app-before.private.json": "14f4d43bded694d12fd74e27400205820a08a293a3dc1d84562ab3c2bcb680d8",
+    "app-after.private.json": "28957a32be9ddecdcb882b088edb1fa2b5776213bea4ca59894885252b02e787",
+    "result.json": "3059ced6502d7056bf18d925266d6f393ea744cec28e07af64841b87b868b14c",
+    "outcome-review.json": "db31e90a2bfc88a70e17dbe8e430dd77c5a4b7abe6343b1af1326b2ae60e4cbc",
+    "old-discovery-manifest.json": "0a2b80ccb1f05a052981517dd7611beb906a99845ae4c687c59d5e22c048896b",
+    "discovery-manifest.json": "d5bb832785c1f7b81a0c9cf24a591b9a7f69c314f24ff60785abde0562d4015f"
+  },
+  "limitations": [
+    "No native D6 seed or ADMITTED/NOOP execution occurred.",
+    "This read-only scope expires at the recorded time; historical reviews and observations are not renewed."
+  ]
+}

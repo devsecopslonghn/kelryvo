@@ -1,0 +1,74 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "case": "unsupported-root",
+      "status": "PASS",
+      "httpStatus": 400,
+      "errorCode": "INVALID_REQUEST"
+    },
+    {
+      "case": "unsupported-sid",
+      "status": "PASS",
+      "httpStatus": 400,
+      "errorCode": "INVALID_REQUEST"
+    },
+    {
+      "case": "disabled-discovery-denial",
+      "status": "PASS",
+      "httpStatus": 409,
+      "errorCode": "CONNECTION_INELIGIBLE"
+    }
+  ],
+  "connectionRevisions": {
+    "original": "1",
+    "changed": "2",
+    "restored": "3"
+  },
+  "oldPlanAndHistoryIdentifiers": {
+    "planIds": [
+      "6a81eaa4-3a1d-4c4a-99d6-41e0b9d7aa28",
+      "88867a06-7146-45a7-b723-d69414f1fffd"
+    ],
+    "jobIds": [
+      "38b50a1d-8435-42ed-b2c7-acc0215ea29e"
+    ],
+    "historyIds": []
+  },
+  "workspaceGrantProbe": {
+    "status": "NOT_RUN",
+    "reason": "Optional container-membership operator was not invoked."
+  },
+  "executionGuard": {
+    "serviceExplicitlyDisabled": true,
+    "admittedJobs": 0,
+    "heldJobs": 0,
+    "observedJobCount": 1
+  },
+  "masterInventoryUnchanged": true,
+  "oldBindingCurrentnessBefore": {
+    "bbfae7b9-69c3-4b95-9452-d167969bcb15": "STALE"
+  },
+  "connectionRestoredEnabled": true,
+  "oldBindingCurrentnessAfter": {
+    "bbfae7b9-69c3-4b95-9452-d167969bcb15": "STALE"
+  },
+  "staleBindingsAfterCycle": true,
+  "oldPlanReadiness": {
+    "6a81eaa4-3a1d-4c4a-99d6-41e0b9d7aa28": {
+      "executable": false,
+      "requestEligible": false,
+      "targetConfigurationCurrent": "BLOCKED",
+      "independentApprovalCurrent": "BLOCKED"
+    },
+    "88867a06-7146-45a7-b723-d69414f1fffd": {
+      "executable": false,
+      "requestEligible": false,
+      "targetConfigurationCurrent": "BLOCKED",
+      "independentApprovalCurrent": "PASS"
+    }
+  },
+  "approvalRecordChangedByHarness": false,
+  "reapprovalAttempted": false,
+  "oldPlanBlockedByStaleTarget": true
+}

@@ -1,0 +1,27 @@
+{
+  "format": 1,
+  "at": "2026-10-24T12:11:05.874043+00:00",
+  "scope": "CREATE_FRESH_DISPOSABLE_PDB_FROM_SEED_AND_FIXED_PURPOSE_BOOTSTRAP",
+  "ownerAuthorizationSha256": "351c74b62bacf9631545c802961204aa7ee4736a4e69cf9ed819b794d6da4d10",
+  "context": "k8s-admin-public",
+  "namespace": "kelryvo-oracle-lab",
+  "oraclePodUid": "602e2dd1-f72a-4c8c-8634-ae6703ece0ca",
+  "pdb": "KP_LOST_ACK4",
+  "preserveAllExistingPdbs": true,
+  "dropExistingObjects": false,
+  "applicationSchemaOwners": [
+    "KP_A",
+    "KP_B",
+    "KP_COMMIT",
+    "KP_FAULT_A",
+    "KP_FAULT_B"
+  ],
+  "sourceGrantCount": 56,
+  "grantSourceSha256": "4f8d79857762c9014643ae7c66bb0b119224192ba93330b47c5b4da2e079a552",
+  "bootstrapSources": {
+    "apps/worker/oracle/target-ledger.sql": "e4690f995fdfb5ec7e290f68c22208f62d17f6db162bd73fda4cc3ddb8f587dc",
+    "apps/worker/oracle/target-mutex.sql": "ad5dbac6efcb2c2766b6da68b0f8e54b32b0856f688adc00da71c680751abd2e"
+  },
+  "capacityBefore": "Filesystem                                               1B-blocks       Used   Available Use% Mounted on\n/dev/longhorn/pvc-29c6d0e9-35d9-4deb-baf7-c4e7fb797b8e 20957446144 9089036288 11851632640  44% /opt/oracle/oradata\n",
+  "expiresAt": "2026-10-24T14:11:05.876712+00:00"
+}

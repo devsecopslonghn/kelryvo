@@ -1,0 +1,40 @@
+{
+  "status": "PASS_D6_API_CURRENTNESS_REFRESH_LIMITED",
+  "acceptedScope": "One read-only Oracle discovery and five existing schema-binding reverifications",
+  "completedAt": "2026-10-26T08:00:14.379Z",
+  "independentReview": {
+    "reviewerId": "/root/d6_adapter_review",
+    "reviewedAt": "2026-10-26T08:01:34.190Z"
+  },
+  "oracleDiscoveryCalls": 1,
+  "bindingVerifications": 5,
+  "newAssignments": 0,
+  "oracleDdl": 0,
+  "oracleDml": 0,
+  "workerDispatch": false,
+  "infrastructureChanged": false,
+  "metadataTables": 68,
+  "credentialProjectionRowsBefore": 814,
+  "credentialProjectionRowsAfter": 818,
+  "jobs": 53,
+  "holds": 12,
+  "priorRowsAndHoldsPreserved": true,
+  "browserChildrenRevoked": true,
+  "observationExpiresAt": "2026-10-26T08:13:30.371Z",
+  "nativeSeedAccepted": false,
+  "admittedNoopAccepted": false,
+  "artifactSha256": {
+    "operator-scope.json": "830fe9e6ca599006be0f837a0c65888006b09fb16b1ffd7478091be158f64f7a",
+    "disposable-lab-manifest.json": "ae52075e20b2a194f5a66bd83cf43fd9d0688ffdbc56ee60c6d2c8eb307c5ec7",
+    "operator-review.json": "5450ba8b03b2afd4402a7d73957db0fdc6caf257ef197f57f5b119b8d7bcc3f6",
+    "execution.started": "4f87b3097d479fc58a8df412f5e3e639eca8afc0b66417b0493b0fde64f84d35",
+    "app-before.private.json": "463c4e7ece9d34b9a20af10af51b4a9488815d7304a349f79d62c5248d6c2fbc",
+    "app-after.private.json": "839983afed95c258da7d597220ac59229128f2e448eecd6f066aa8475df24320",
+    "result.json": "8fe78ac1b15b317337e4a676062f75beb6a6cb435ed30250dc9e6f33fdbfe1f7",
+    "outcome-review.json": "fb0b98fcf75ff3445c9ac3fddbcf43ec6df414a3c2c0852a73a12797da2ba3e8"
+  },
+  "limitations": [
+    "Observation expiry must be checked against actual current time.",
+    "This does not qualify native migrations or ADMITTED/NOOP."
+  ]
+}

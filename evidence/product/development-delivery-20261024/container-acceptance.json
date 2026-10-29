@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-24T16:21:59.816318+00:00",
+  "command": [
+    "node",
+    "scripts/test-containers.mjs",
+    "sha256:b5a6add6f97d238130ed5a826dbe6eba293a45132f513742a0d8095064e87279",
+    "amd64"
+  ],
+  "imageId": "sha256:b5a6add6f97d238130ed5a826dbe6eba293a45132f513742a0d8095064e87279",
+  "tag": "kelryvo-delivery:6c5d4a8fdaa3",
+  "exitCode": 0,
+  "logSha256": "6dad973e48cdf9f5cdb98fbd7137ee7e9e88d8d2473e2a19b249e89fb9306ec2",
+  "browserRegressionTestSha256": "59327cf01c0bf5f09acc3b00103960ee7f76c6fe3198b72b64f6d305f6b88579"
+}

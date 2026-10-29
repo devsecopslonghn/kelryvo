@@ -130,7 +130,7 @@ test('Native backup preserves SQL revisions and release attribution, while resto
 test('Phase 13 native backup retains profiles and plans through exact-schema restore and connection revision upgrade',{
   skip:!enabled,timeout:120000,
 },async()=>{
-  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeConnectionManagement:false})});
+  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeConnectionManagement:false,initializePasswordAuth:false})});
   const directory=await mkdtemp(path.join(process.cwd(),'.cache','phase14-backup-compat-'));
   let restoredSql,restoredName;
   try {
@@ -153,7 +153,7 @@ test('Phase 13 native backup retains profiles and plans through exact-schema res
     await createPrivateBackup({configPath,databaseUrl,destination:backupDirectory,witnessPath});
     const restored=await restorePrivateBackup({configPath,databaseUrl,backupDirectory,witnessPath});
     restoredName=restored.databaseName;restoredSql=postgres(restored.databaseUrl,{max:2,onnotice:()=>{}});
-    assert.equal((await inspectBackupSchema(restoredSql)).signature,'3c55e5886d0ef6706851d7d8647ec44b11318a4b58d8a52f4b1c1a482c043822');
+    assert.equal((await inspectBackupSchema(restoredSql)).signature,'b05328c7871f15422bf50592bc1a19d28dc962159f18ce50634666a3f31f8c70');
     assert.equal(await tableSnapshot(restoredSql,'sf_plans'),planBefore,'old plan bytes and approval facts are retained');
     const retained=(await restoredSql`SELECT * FROM sf_profiles WHERE id=${profile.id}`)[0];
     for(const field of Object.keys(profile))assert.deepEqual(retained[field],profile[field],`original profile ${field} remains unchanged`);
@@ -175,7 +175,7 @@ test('Phase 13 native backup retains profiles and plans through exact-schema res
 test('A Phase 5 native backup restores without schema rewriting and then adds the Phase 7 tables under HOLD',{
   skip:!enabled,timeout:180000,
 },async()=>{
-  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeSqlWorkspace:false,installReconciliationBindingGuards:false,initializeConnectionManagement:false})});
+  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializeSqlWorkspace:false,installReconciliationBindingGuards:false,initializeConnectionManagement:false,initializePasswordAuth:false})});
   const directory=await mkdtemp(path.join(process.cwd(),'.cache','phase7-backup-compat-'));
   let restoredSql,restoredName,phase7RestoredSql,phase7RestoredName,preGuardRestoredSql,preGuardRestoredName;
   try {
@@ -193,7 +193,7 @@ test('A Phase 5 native backup restores without schema rewriting and then adds th
     assert.equal((await restoredSql`SELECT name FROM sf_projects WHERE id=${project.id}`)[0].name,'Preserved Phase 5 project');
     for(const table of SQL_WORKSPACE_TABLES)assert.equal(await tableSnapshot(restoredSql,table),'[]');
     assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
-    await initializeDatabase(source.sql,{sqlWorkspaceVersion:1,installReconciliationBindingGuards:false,initializeConnectionManagement:false});
+    await initializeDatabase(source.sql,{sqlWorkspaceVersion:1,installReconciliationBindingGuards:false,initializeConnectionManagement:false,initializePasswordAuth:false});
     await source.sql`DROP TRIGGER sf_audit_immutable ON sf_audit`;
     await source.sql`DROP TRIGGER sf_releases_immutable ON sf_releases`;
     await source.sql`DROP TRIGGER sf_history_immutable ON sf_history`;
@@ -208,7 +208,7 @@ test('A Phase 5 native backup restores without schema rewriting and then adds th
     assert.equal(upgradedColumn.column_name,'manifest_version','a previous Phase 7 backup is loaded into its exact old schema then upgraded');
     assert.equal((await phase7RestoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
 
-    await initializeDatabase(source.sql,{installReconciliationBindingGuards:false,initializeConnectionManagement:false});
+    await initializeDatabase(source.sql,{installReconciliationBindingGuards:false,initializeConnectionManagement:false,initializePasswordAuth:false});
     await source.sql`DROP TRIGGER sf_releases_immutable ON sf_releases`;
     await source.sql`DROP TRIGGER sf_history_immutable ON sf_history`;
     await source.sql`DROP TRIGGER sf_audit_immutable ON sf_audit`;

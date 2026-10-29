@@ -1,0 +1,29 @@
+{
+  "format": "kelryvo-independent-fresh-hold-veto-outcome-review-v1",
+  "decision": "APPROVE_BOUNDED_RECONSTRUCTION_ORIGINAL_COMMAND_FAIL_PRESERVED",
+  "scopeSha256": "bed63e4a51f6334dd8a5ee6e85388f068026d2d104676d75848d8940fcd88b31",
+  "reviewedAt": "2026-10-25T04:37:30Z",
+  "expiresAt": "2026-10-25T04:42:43.794Z",
+  "evidenceSha256": {
+    "supplemental.json": "0c0e3c05b3a1568bd0388f4c60484e4314274ee97e61bff1294e12747e699740",
+    "failure.private.json": "7bd6828d7c83c0a6467e85a6c28e6348773ebbfdd343da39baae7455f299c5ce",
+    "state.private.json": "4e2cc1f06c29506d23b9bb44cd2ea2bd5f6a32f520c022a30af6a98463acd558",
+    "metadata-before.private.json": "2f94f1b2d6b6bdde62f620edb4840bc669f2142c5cd8e4effd81608675717fda",
+    "metadata-after.private.json": "dd2dd5b8433e991c7e7acbc1309379f9119b148a49cef3f1041cd4999a90a77b",
+    "rows-before.private.json": "90a743426d498385b856d0f2d9dc60cd87a207c41064730681d5a52a7795fdcf",
+    "rows-after.private.json": "63a834f43353c80b8983ff3a45669dadfdc5f5bb1bc140e5a67557ae6079efd4",
+    "reconstruct-v2.py": "dc9d2ba5a385a6839150188210fb55df76b2cf8765c24980a6e72258515587cd",
+    "reconstruct-snapshot-v2.cjs": "65587857e0d8a6aff024326b189bb2e10e62cf1d9433daa093522f9f8187b90b"
+  },
+  "findings": [
+    "The one-shot browser command remains recorded as FAIL at its preservation check. Its table allowlist omitted the expected sf_connection_plan_revisions append; its sf_sql_draft_revisions aggregate differed because JavaScript sorting and PostgreSQL ordering differ. The retained per-row hash multisets match for that table.",
+    "Independent reconstruction confirms all 68 tables remain present and every pre-existing row hash remains. Only the seven documented tables gained rows; no old rows were removed or changed.",
+    "The new plan is approved by the distinct approver, remains NOT_EXECUTED, has no associated execution job, and the lab retains 11 HOLDs. Readiness has exactly NO_ACTIVE_OR_HELD_REQUEST blocked; request returns 409 EXECUTION_ALREADY_PENDING without a job.",
+    "Both newly created browser sessions were revoked. No Oracle calls or worker dispatch occurred."
+  ],
+  "limitations": [
+    "This approves the bounded reconstructed metadata outcome, not a green result from the original one-shot command.",
+    "Oracle runtime acceptance and worker admission remain unverified; no native Oracle validation, DDL/DML, or execution is claimed.",
+    "Do not rerun the one-shot harness or repeat its mutations."
+  ]
+}

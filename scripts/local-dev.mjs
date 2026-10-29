@@ -7,6 +7,7 @@ import { localConfiguration, localDatabaseUrl, startLocalPostgres, prepareDemoRe
 import { LocalRepositoryError, parseLocalRepositoryArguments, resolveLocalRepositories } from './local-repositories.mjs';
 import { localDirectory } from './local-resources.mjs';
 import { authorizeLocalMetadataUrl } from './local-operator-config.mjs';
+import { readIdentityRuntime } from '../packages/identity/runtime.mjs';
 
 try {
   let values;
@@ -15,6 +16,8 @@ try {
   const restored=!!values.restored;
   if (restored && values.repository?.length || !!values['tls-cert'] !== !!values['tls-key']) throw new Error('invalid startup options');
   const tls = values['tls-cert'] ? await readPrivateTls(values['tls-cert'], values['tls-key']) : undefined;
+  const identityRuntime = process.env.SCHEMAFORGE_IDENTITY_CONFIG ? await readIdentityRuntime(process.env.SCHEMAFORGE_IDENTITY_CONFIG) : undefined;
+  if (identityRuntime && !tls) throw new Error('Identity sign-in requires TLS');
   const requestedRepositories = parseLocalRepositoryArguments((values.repository ?? []).flatMap(value => ['--repository', value]));
   const configuredRepositories = await resolveLocalRepositories(requestedRepositories);
   if (!process.env.SCHEMAFORGE_JAVA_HOME) {
@@ -50,7 +53,7 @@ try {
   ], repositories: [
     { id: 'demo', name: 'Local migration demo', path: repository },
     ...configuredRepositories,
-  ], tls, discoveryRuntime });
+  ], tls, discoveryRuntime, identityRuntime });
   console.log(`SchemaForge: ${tls ? 'https' : 'http'}://127.0.0.1:4317`);
   console.log('Local bearer tokens: .cache/local-product/config.json (private local file).');
   console.log('Target execution: NOT_EXECUTED; Oracle validation: BLOCKED.');

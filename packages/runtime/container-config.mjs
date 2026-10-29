@@ -3,6 +3,7 @@ import { lstat, open, realpath } from 'node:fs/promises';
 import path from 'node:path';
 import { isIP } from 'node:net';
 import { createSecureContext } from 'node:tls';
+import { readIdentityRuntime } from '../identity/runtime.mjs';
 
 const unavailable = () => new Error('Container configuration unavailable');
 
@@ -54,7 +55,12 @@ export async function loadContainerConfig(env = process.env) {
     const tls = { cert: await readContainerSecret(root, 'tls.crt', 128 * 1024),
       key: await readContainerSecret(root, 'tls.key', 128 * 1024) };
     createSecureContext({ ...tls, minVersion: 'TLSv1.2' });
-    return { databaseUrl, host, port: Number(portText), tls,
+    let identityRuntime;
+    let identityPresent = true;
+    try { await lstat(path.join(root, 'identity-runtime.json')); }
+    catch (error) { if (error.code !== 'ENOENT') throw error; identityPresent = false; }
+    if (identityPresent) identityRuntime = await readIdentityRuntime(path.join(root, 'identity-runtime.json'));
+    return { databaseUrl, host, port: Number(portText), tls, identityRuntime,
       actors: [
         { id: 'kelryvo-developer', name: 'Kelryvo developer', role: 'developer', token: developerToken },
         { id: 'kelryvo-approver', name: 'Kelryvo approver', role: 'approver', token: approverToken },

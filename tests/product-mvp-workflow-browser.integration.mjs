@@ -1,3 +1,4 @@
+import { openCompatibilityPlanning } from './helpers/ui-disclosures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes, randomUUID } from 'node:crypto';
@@ -53,6 +54,7 @@ test('Chromium completes Git intake through inbox approval, independent withdraw
     await page.goto(url); await signIn(actors[0]);
     const projectName = `T32 browser project ${randomUUID()}`;
     const projectResponse = page.waitForResponse(response => response.url().endsWith('/api/projects') && response.request().method() === 'POST');
+    if (!await page.getByLabel('New project name').isVisible()) await page.locator('.create-project-disclosure > summary').click();
     await page.getByLabel('New project name').fill(projectName);
     await page.getByRole('button', { name: 'Create project', exact: true }).click();
     const receipt = (await (await projectResponse).json()).project;
@@ -60,6 +62,7 @@ test('Chromium completes Git intake through inbox approval, independent withdraw
     await page.getByLabel('Refresh workspace').click();
     await page.getByRole('button', { name: /Projects/ }).click();
     await page.locator('.project-row').filter({ hasText: projectName }).click();
+    await page.locator('.project-setup-details > summary').click();
     await page.getByLabel('Environment name').fill('Development'); await page.getByRole('button', { name: '＋ Add', exact: true }).click();
     await page.locator('.data-chip').filter({ hasText: 'Development' }).waitFor();
     await page.getByText('Add Oracle profile', { exact: true }).click();
@@ -84,7 +87,9 @@ test('Chromium completes Git intake through inbox approval, independent withdraw
       return release;
     };
     const newRelease = await importAt(commit2);
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByLabel('Target connection profile').selectOption({ label: 'Offline reference profile · oracle.example.invalid/DEV' });
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByRole('button', { name: 'Prepare offline plan', exact: true }).click();
     const planCard = page.locator('.plan-summary'); await planCard.waitFor();
     const planId = await planCard.locator('code').first().innerText();
@@ -136,8 +141,10 @@ test('Chromium completes Git intake through inbox approval, independent withdraw
     await page.getByRole('button', { name: /Releases/ }).click();
     const recoveryRelease = await importAt(commit3);
     assert.notEqual(recoveryRelease.id, newRelease.id);
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByLabel('Target connection profile').selectOption({ label: 'Offline reference profile · oracle.example.invalid/DEV' });
     const recoveryPlanResponse = page.waitForResponse(response => response.url().endsWith('/plans') && response.request().method() === 'POST');
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByRole('button', { name: 'Prepare offline plan' }).click();
     const recoveryPlan = await recoveryPlanResponse; assert.equal(recoveryPlan.status(), 201, await recoveryPlan.text());
     const newPlanId = (await recoveryPlan.json()).plan.id; assert.notEqual(newPlanId, planId);

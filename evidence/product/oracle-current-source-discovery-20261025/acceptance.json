@@ -1,0 +1,83 @@
+{
+  "format": 1,
+  "kind": "KELRYVO_CURRENT_SOURCE_BOUNDED_READONLY_DISCOVERY_ACCEPTANCE",
+  "recordedAt": "2026-10-24T19:27:48.834380+00:00",
+  "status": "VERIFIED_BOUNDED_READONLY_OUTCOME_WITH_RETAINED_OPERATOR_FAILURE",
+  "image": "longhn0710t/kelryvo-pilot@sha256:c7d6faaecb9144c45d68701b9e26793deb64762f84736a6a2acd1cea2ded7f89",
+  "contextTreeSha256": "0afe074f570ac489adfb2fcd546bc6e86f08c60fca00d1d85367ecc8e0498bfd",
+  "qualification": {
+    "status": "PASS_NONEMPTY_CURRENT_IMAGE_QUALIFICATION",
+    "at": "2026-10-24T19:00:55.018557+00:00",
+    "purposeIdentityChecks": 6,
+    "schemaOwners": 5,
+    "applicationObjects": 4,
+    "targetLedgerEvents": 28,
+    "targetLedgerHeads": 3,
+    "unchangedHistoricalPdbs": 4,
+    "unchangedMetadataTables": 68,
+    "applicationDdlCalls": 0,
+    "applicationDmlCalls": 0
+  },
+  "catalog": {
+    "at": "2026-10-24T19:24:16.176469+00:00",
+    "status": "VERIFIED_READONLY_DISCOVERY_AFTER_RETAINED_OPERATOR_ASSERTION_FAILURE",
+    "explicitDiscoveryCalls": 1,
+    "existingBindingsVerified": 5,
+    "bindingAssignmentStreamLineageIdentitiesPreserved": true,
+    "historicalPlansJobsHoldsUnchanged": true,
+    "priorCredentialRowsUnchanged": true,
+    "newNonBearerPasswordRoot": 1,
+    "newBrowserChildRevoked": 1,
+    "apiCallsNotReplayed": true,
+    "applicationDdlCalls": 0,
+    "infrastructureChanges": false
+  },
+  "retainedFailures": [
+    "A metadata observer was denied by the private file UID boundary before any API or Oracle call; corrected operator runs under its existing worker UID",
+    "The subsequent operator completed discovery and five verifies but failed an incorrect expected-credential-count assertion; independent read-only reconstruction verified the completed effects; original command remains FAIL",
+    "Browser preparation artifacts retain selector, response-envelope and status assertion failures; no native acceptance is inferred"
+  ],
+  "harness": {
+    "offlineTestsPassed": 7,
+    "nativeCaseStatus": "NOT_RUN",
+    "checks": [
+      "Applied V1 denied before driver",
+      "Only pending V2 may execute once",
+      "Actual ACK preserved on logging failure",
+      "Commit evidence follows actual commit",
+      "ACK gate validates pending digest and actual writer session IDs"
+    ],
+    "independentReviewSha256": "ba536e360891b98dac1216acfed4740bf0ca7892119fbab13279f44dde2a2690"
+  },
+  "executionEnabled": false,
+  "discoveryEnabled": true,
+  "limitations": [
+    "Read-only qualification and catalog evidence do not establish governed migrations or OA05 on this image",
+    "Current-source native OA01/OA02/OA05/OA09 matrices remain incomplete",
+    "No new image build, canonical signed commit, Git push, source-install gate, hosted CI or gated release is claimed"
+  ],
+  "privateEvidence": {
+    ".cache/oracle-concurrency-20261025/qualification-refresh-1/qualification-result.json": "2df51707d0af25b7c7696ba0049df799096413717a4894187b2d128b31346a63",
+    ".cache/oracle-concurrency-20261025/qualification-refresh-1/qualification-review.json": "ff0f5f18e9593df050fdddc0db6b831bb8b882248b3eb5c5f344e79a7f555647",
+    ".cache/oracle-concurrency-20261025/qualification-refresh-1/qualification-scope.json": "206ba4703a4ae6dc0b467df3166c871134acbc1af65a1f5373926f092fea1eda",
+    ".cache/oracle-concurrency-20261025/qualification-refresh-1/disposable-lab-manifest.json": "09e35eb8c02e5e66d8d994f52a802b24a9ec803dd5e42099c6b76d4a4da652e7",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-1/result.json": "8cdf99f11a65a1ec86f540f07a0f1da38e70f7308b36c90a3a83947dda88c9ba",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-1/review.json": "12176dd7f80994baba2fd083171d5a0c2ffd769f78ea8e67df9d56c874a122bd",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-1/scope.json": "d0e2d1671f2f7ef047118e0db427deb5adb81afe5751586c0356ccf60bef69eb",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-3/run.py": "49396d6cbea122978341565ba14f6263c3c64797cbc9189a5704df6296a7f05f",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-3/run.log": "f4d5d14ebbc6668a1be9087d0ab0617cd902e6a0a5b3c186215e09931399f8a8",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-3/scope.json": "18510918e87cad8e44852d492916b6694991b261f5ee160b5c33f7946a4ce42b",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-3/review.json": "7a5ebdd61a2e426b9c9472da2209e4369e474955359ae334aa3c9688e5fb78a1",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-3/disposable-lab-manifest.json": "81308e1d56478ec6cb76b684ccc4171ef5316d4e1743445b47a1a02e0f740274",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-3/verify-outcome.py": "8c0695f3755aa85c1ded627199b027d61a96f1aac6a87736ee5815099cf23dc0",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-3/verified-outcome.json": "a33147aa19a8c34b81ed4038f8268f3aae3905911a63774ed90494e5bfd0f68d",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-3/outcome-review.json": "1a651ca436a584ba5659b9d8fce51922c6e4566ca850c7d74f58a08bd7c4ff5a",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-3/metadata-before.private.json": "efb9800206d9a78691467967e082ed3b68edc37cf4d2cd1e61ea880d0804019d",
+    ".cache/oracle-concurrency-20261025/discovery-refresh-3/outcome-snapshot.private.json": "b3e17fa496272c0cf527a780f76a9a696a66f767c87f0884b6a8b7dc56315b93",
+    ".cache/oracle-concurrency-20261025/concurrency-parent-next.mjs": "1b3e72cf61cc087f9dc443e5d6becc95135ccc488eea29caea933bcde05082e3",
+    ".cache/oracle-concurrency-20261025/concurrency-child.mjs": "59034b2827906fe44fc22532246e5bf5ab93fb028547d17e5d1c21f96c995992",
+    ".cache/oracle-concurrency-20261025/harness-root-review.json": "ba536e360891b98dac1216acfed4740bf0ca7892119fbab13279f44dde2a2690",
+    ".cache/oracle-concurrency-20261025/harness-next-offline.test.mjs": "e396a34b63942557c6012cfb053fc5d14e4e95daa9e3cfcd2e96963a3bbc48e9",
+    ".cache/oracle-concurrency-20261025/harness-next-instrumentation.test.mjs": "c204a4000a66e63e69d0540885ca46310b18ab617821d3d8b01502cd5a90e0c6"
+  }
+}

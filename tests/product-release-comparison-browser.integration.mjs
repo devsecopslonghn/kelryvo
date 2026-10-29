@@ -62,6 +62,7 @@ test('browser compares explicitly selected retained releases and discards a late
       await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
       await page.locator(`.saved-release-row[data-release-id="${baseReleaseId}"]`).waitFor();
       await page.locator(`.saved-release-row[data-release-id="${releaseId}"]`).waitFor();
+      if (!await page.getByLabel('Base release').isVisible()) await page.locator('details > summary').getByText('Compare retained releases',{exact:true}).click();
       await page.getByLabel('Base release').selectOption(baseReleaseId);
       await page.getByLabel('Candidate release').selectOption(releaseId);
       await page.waitForFunction(([baseId, candidateId]) => document.querySelector('[aria-label="Base release"]').value === baseId

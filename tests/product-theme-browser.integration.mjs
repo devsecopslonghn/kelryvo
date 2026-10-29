@@ -27,12 +27,22 @@ test('themes preserve project navigation, readable mobile actions and session cl
   await page.getByLabel('Sign out').waitFor();
   await page.locator('.project-row').filter({ hasText: fixture.project.name }).click();
   await page.getByLabel('Project delivery metrics').waitFor();
+  assert.equal(await page.getByLabel('Environment name').isVisible(), false, 'project setup stays secondary until opened');
+  assert.equal(await page.getByLabel('Archive reason').isVisible(), false, 'destructive controls are not in the main workflow');
+  await page.getByLabel('Search projects').fill(fixture.project.name);
+  assert.equal(await page.locator('.project-row').count(), 1);
+  await page.getByLabel('Search projects').fill('no-matching-project-clarity-check');
+  await page.getByRole('status').filter({hasText:'No projects match your search.'}).waitFor();
+  await page.getByLabel('Search projects').fill('');
   await page.getByRole('button', { name: 'Configure targets →', exact: true }).click();
   await page.getByRole('heading', { name: 'Project targets', exact: true }).waitFor();
   const screenshots = '.cache/ui-redesign-delivery/screenshots';
   await mkdir(screenshots, { recursive: true });
   const nav = page.locator('.sidebar .nav-item');
-  assert.equal(await nav.count(), 12);
+  const openNavigation = async () => { if (await page.getByLabel('Open navigation', {exact:true}).isVisible() && !await nav.first().isVisible()) await page.getByLabel('Open navigation', {exact:true}).click(); };
+  const destinationCount = 13;
+  assert.equal(await nav.count(), destinationCount);
+  assert.match(await nav.last().innerText(), /Identity providers/);
   for (const width of [1440, 720, 390]) {
     await page.setViewportSize({ width, height: 960 });
     for (const theme of ['light', 'dark']) {
@@ -40,17 +50,20 @@ test('themes preserve project navigation, readable mobile actions and session cl
         await page.getByLabel('Toggle color theme').click();
       }
       assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), theme);
-      for (let index = 0; index < 12; index++) {
+      for (let index = 0; index < destinationCount; index++) {
+        await openNavigation();
         await nav.nth(index).click();
         await page.waitForFunction(() => !document.querySelector('[aria-label="Refresh workspace"]')?.disabled);
         assert.match(await nav.nth(index).getAttribute('class'), /active/);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true,
           `${theme}, ${width}px, ${await nav.nth(index).innerText()} fits the viewport`);
       }
+      await openNavigation();
       assert.equal(await page.getByLabel('Sign out').isVisible(), true);
       assert.ok(await nav.first().evaluate(node => parseFloat(getComputedStyle(node).fontSize)) >= 12,
         'navigation retains visible destination labels');
       assert.deepEqual(await page.evaluate(() => [localStorage.length, sessionStorage.length]), [0, 0]);
+      await openNavigation();
       await nav.first().click();
       await page.getByLabel('Project delivery metrics').waitFor();
       if (width === 1440 || width === 390) {
@@ -69,6 +82,7 @@ test('themes preserve project navigation, readable mobile actions and session cl
   assert.equal(created.statusCode, 201);
   await fixture.membership.grant(created.json().project.id, fixture.actors[0].id);
   await page.getByLabel('Refresh workspace').click();
+  await openNavigation();
   await nav.first().click();
   await page.locator('.project-row').filter({ hasText: name }).click();
   await page.getByRole('heading', { name, exact: true }).waitFor();
@@ -78,6 +92,7 @@ test('themes preserve project navigation, readable mobile actions and session cl
       `maximum-length project name fits at ${width}px`);
     assert.equal(await page.getByLabel('Toggle color theme').isVisible(), true);
   }
+  await openNavigation();
   await page.getByLabel('Sign out').click();
   await page.getByLabel('Local access token').waitFor();
   assert.equal(await nav.count(), 0);

@@ -1,0 +1,95 @@
+{
+  "format": "kelryvo-fresh-oracle-target-bootstrap-acceptance-v1",
+  "status": "PASS_BOOTSTRAP_AND_PRESERVATION_ONLY",
+  "completedAt": "2026-10-25T22:31:57.773170+00:00",
+  "image": "longhn0710t/kelryvo-pilot@sha256:557c7d47062355bcde3f259d3601254656b2464cf14267adead605da43ff90fc",
+  "contextTreeSha256": "87cc3018f28567877707bf59e107b06339a7b6957ec937ed9ba53f37df4b634d",
+  "ownerAuthorization": "Standing full dedicated test lab/backend authorization; a fresh scoped manifest and independent approval preceded the first Oracle connection",
+  "target": {
+    "containerDbid": "3453530694",
+    "containerGuid": "5EB2C4026807E0F8E0638101F40A9278",
+    "containerId": "13",
+    "containerName": "KP_DELIVERY6",
+    "serviceName": "kp_delivery6"
+  },
+  "bootstrap": {
+    "bootstrapAdminLocked": true,
+    "exactGrantCount": 56,
+    "grantClosureVerified": true,
+    "ledgerEvents": 0,
+    "ledgerHeads": 0,
+    "newApplicationObjects": 0,
+    "noAuthSchemaOwners": 5,
+    "protectedObjectsValid": 7,
+    "purposeUsersOpen": 3
+  },
+  "preservation": {
+    "allPriorPdbIdentitiesUnchanged": true,
+    "pdbCatalogRowsBefore": 11,
+    "pdbCatalogRowsAfter": 12,
+    "oldPdbWitnessRows": 129,
+    "oldWitnessBeforeAfterSha256": "39d4459c7462c203a17daaec44c73a2595e5025c6a1fa98253574c070a5b4e1d",
+    "all68MetadataTablesAndInfrastructureUnchanged": true,
+    "credentialProjectionRows": 802,
+    "jobs": {
+      "states": {
+        "CANCELLED": 20,
+        "HOLD": 12,
+        "NOOP": 5,
+        "VERIFIED_SUCCESS": 16
+      },
+      "total": 53
+    },
+    "kpBSnapshots": 4,
+    "kpBBaselines": 1
+  },
+  "storage": {
+    "pdbMaxBytes": 2147483648,
+    "usersMaxBytes": 536870912,
+    "freeBytesAfter": 8272957440,
+    "postRunMinimumFreeBytesExclusive": 6442450944
+  },
+  "execution": {
+    "singleInvocation": true,
+    "automaticRetry": false,
+    "applicationSql": 0,
+    "targetLedgerRowWrites": 0,
+    "kubernetesMutations": 0,
+    "metadataMutations": 0,
+    "publicExecutionEnabled": false,
+    "networkPurposeQualification": "NOT_RUN",
+    "governedMigrationAcceptance": "NOT_RUN_ON_D6",
+    "admittedNoopAcceptance": "NOT_RUN_ON_D6",
+    "fullOracleMatrices": "INCOMPLETE"
+  },
+  "provenance": {
+    "scopeSha256": "d70d52d5e2c986d0ba0c695814aa61408ab328de0a71c9b7ca422d457bafc325",
+    "manifestSha256": "1084e087b103687e0df589a0fd16d01adb414604354c208db0bd44f2bd32b554",
+    "operatorSha256": "4af27d0685caaad064deda9c7bad07a40cab1ef5d1b1248dd210f5564737e79a",
+    "executionReviewSha256": "f833f89c7b726996f46a047094cc0eaa7114faf1b0e4fbd1b9f347b7a712bb4c",
+    "resultSha256": "a25768cbc091dfaa54f0b859eb8c8030c1cba77ca8c72b80e7e1b9b42c76aa8d",
+    "outcomeReviewSha256": "bb82a1aac07f5e193a0d0d5d8023228f70e597ed5abc720e54365b25f90dcff0",
+    "inputArchiveIndexSha256": "b33e6c9181637fb539d476493f81a425641c4fe02cfe8e1c7e72a26126a81ff8"
+  },
+  "independentOutcomeReview": {
+    "decision": "PASS_FRESH_DELIVERY6_BOOTSTRAP_PRESERVATION_ONLY",
+    "reviewedBy": "/root/delivery6_preparation_review",
+    "reviewedAt": "2026-10-25T22:33:27.834435+00:00",
+    "independent": true,
+    "reviewerOracleConnectionMade": false
+  },
+  "offlineChecks": {
+    "standardPassed": 494,
+    "standardFailed": 0,
+    "standardSkipped": 152,
+    "privateOperatorBehaviorTests": "PASS",
+    "privateGeneratorTests": "PASS",
+    "oracleAcceptanceClaimedFromOfflineChecks": false
+  },
+  "limitations": [
+    "This proves one fresh KP_DELIVERY6 bootstrap and preservation of the checked app/infrastructure state, PDB catalog identities, and five recorded Oracle witnesses. It does not qualify a network connection to kp_delivery6 using the purpose credentials.",
+    "This is provisioning and preservation evidence only. Application network purpose qualification, governed migration/DDL acceptance, fault/recovery acceptance, and the ADMITTED idempotency/NOOP case remain unproven.",
+    "The reviewer did not connect to Oracle; the verdict relies on the operator-pinned SQL stdout/stderr, exact source and scope hashes, and current read-only app/infrastructure snapshot."
+  ],
+  "next": "Fresh SELECT-only purpose-account/route qualification, D6 discovery/onboarding and independently approved V1/V2 before the fresh ADMITTED idempotency/NOOP case; retain D5 and every HOLD"
+}

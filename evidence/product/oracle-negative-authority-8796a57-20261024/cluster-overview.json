@@ -1,0 +1,33 @@
+{
+  "observedAt": "2026-10-24T14:01:18.390336+00:00",
+  "context": "k8s-admin-public",
+  "scope": "WHOLE_CLUSTER_READ_ONLY_METADATA_INVENTORY",
+  "nodes": 3,
+  "readyNodes": 3,
+  "architectures": [
+    "amd64"
+  ],
+  "namespaces": 28,
+  "pods": 85,
+  "applicationDatabaseWorkloads": [
+    {
+      "namespace": "kelryvo-oracle-lab",
+      "pod": "oracle-free-0",
+      "container": "oracle",
+      "image": "gvenzl/oracle-free:23.26.3@sha256:7ed34d0ade89c91a553c9cbe9d42457c758fa29a762aaaa3137541ff30a2d1cb",
+      "phase": "Running",
+      "ready": true
+    },
+    {
+      "namespace": "kelryvo",
+      "pod": "kelryvo-postgresql-0",
+      "container": "postgresql",
+      "image": "postgres:17.10-bookworm@sha256:9b18b78397054fce88a9552e9d5a3ad5bb7fd258c5b3cc1c5028e46373d6ea8f",
+      "phase": "Running",
+      "ready": true
+    }
+  ],
+  "otherOwnedTestFixtureDetails": "Private topology only; no Secret or environment exports",
+  "privateTopologySha256": "580748dec1413292a1ece59b7f8313cb7570b2485625d4d7e4737f4d63c092ea",
+  "infrastructureChanged": false
+}

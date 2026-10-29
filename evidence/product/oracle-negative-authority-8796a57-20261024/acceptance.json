@@ -1,0 +1,24 @@
+{
+  "status": "PASS_BOUNDED_NEGATIVE_PROBES",
+  "at": "2026-10-24T14:00:22.302691+00:00",
+  "source": "8796a57ddb283b8197481babab382fafb6548801",
+  "applicationImage": "longhn0710t/kelryvo-pilot@sha256:cd46b7c5e95fd02896dc0877196a2190d886da1a3ff571561b5d2c012b2e3398",
+  "ownerAuthority": "Entire dedicated lab cluster and backend explicitly delegated for infrastructure testing; standing authority retained in existing resumption guidance",
+  "ownerAuthorityPrivateRecordSha256": "2d4a51d50fc1cb93303b57ec0a46e7e28cd483f2c608e59d8836c8f7826484dd",
+  "negativeCases": 6,
+  "actualWrongPdbWriterAndLedgerSessions": true,
+  "purposeReadDenials": "Writer cannot read protected ledger; ledger cannot read application table; observer reads all three held ledger events",
+  "nativeApplicationDdlCalls": 0,
+  "nativeMutationAttempts": 0,
+  "heldRequestReplayed": false,
+  "physicalStateAndAllPriorHeldJournalsUnchanged": true,
+  "heldJobState": "HOLD",
+  "heldAttemptCount": 1,
+  "heldReceipts": 0,
+  "fullGovernedOA01OA02": false,
+  "limitations": [
+    "Installed capability/read-only negative checks, not new governed request admission or complete OA01/OA02 matrices",
+    "No alias-concurrency, incompatible-history or complete catalog-visibility claim",
+    "No change to the existing CUT proxy or execution-disabled configuration"
+  ]
+}

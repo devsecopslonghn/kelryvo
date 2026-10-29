@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-24T16:09:27.258931+00:00",
+  "scope": "OWNER_AUTHORIZED_IMMUTABLE_WORKTREE_DEVELOPMENT_CANDIDATE",
+  "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+  "canonicalGitCommitCreated": false,
+  "workingTreeClean": false,
+  "contextTreeSha256": "6c5d4a8fdaa390246827fea22b9910b7050fe2a406a9e7fb78dcfb9c816467e6",
+  "revisionLabel": "worktree-sha256:6c5d4a8fdaa390246827fea22b9910b7050fe2a406a9e7fb78dcfb9c816467e6",
+  "archiveSha256": "b7acdb5a385dd08798c5a296dbda477533e56e48ec2c71f04e9c36bdb969a1df",
+  "fileCount": 199,
+  "runtimeSourceChanges": [
+    "apps/web/styles.css",
+    "scripts/tracker.mjs"
+  ],
+  "backendAndWorkerCodeIdenticalToBase": true,
+  "localImage": "kelryvo-delivery:6c5d4a8fdaa3",
+  "gatedRelease": false,
+  "sourceSigningOverride": false,
+  "sourceOrGitPush": false,
+  "archiveWithDirectories": "context-with-directories.tar",
+  "archiveWithDirectoriesSha256": "2cc09895feb5d2df85149c5ddaaeae57e7c3801f5ed34f8df4cf260fc0ab87c1"
+}

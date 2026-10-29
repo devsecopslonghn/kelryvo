@@ -73,6 +73,8 @@ export async function prepareRuntime({ env = process.env, runtimeRoot = '/run/ke
   const source = await sourceDirectory(env.KELRYVO_SECRET_DIR ?? '/run/kelryvo/secrets');
   const apiNames = ['database-url', 'developer-token', 'approver-token', 'tls.crt', 'tls.key'];
   const api = await Promise.all(apiNames.map(async name => ({ name, bytes: await readSource(source, name, name.startsWith('tls.') ? 131072 : 16384) })));
+  try { api.push({ name: 'identity-runtime.json', bytes: await readSource(source, 'identity-runtime.json', 131072) }); }
+  catch (error) { if (error.code !== 'ENOENT') throw error; }
   let installation = [];
   if (!apiOnly && (flags.execution || flags.discovery)) {
     const privateRoot = await sourceDirectory(env.KELRYVO_INSTALLATION_DIR ?? '/run/kelryvo/installation');

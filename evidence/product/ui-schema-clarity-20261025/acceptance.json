@@ -1,0 +1,96 @@
+{
+  "format": 1,
+  "kind": "KELRYVO_SCHEMA_UI_LOCAL_REFINEMENT",
+  "recordedAt": "2026-10-25T06:42:02.005130+00:00",
+  "status": "PASS_LOCAL_UI_ACCEPTANCE",
+  "published": false,
+  "deployed": false,
+  "design": {
+    "tool": "MCP Stitch",
+    "projectId": "2022083557388209049",
+    "screenId": "c8562142720f4696b0ea51f4173d9fed",
+    "reference": "DESIGN.md",
+    "generatedCodeImported": false,
+    "generatedDataImported": false,
+    "visualReview": "Local desktop and mobile screenshots inspected"
+  },
+  "changes": [
+    "Separated snapshot history, baseline history, inspection and comparison with section dividers",
+    "Prioritized observation times and baseline names; preserved complete record identifiers",
+    "Collapsed collection, baseline capture, identity/revisions and large retained comparison values",
+    "Grouped equal coverage states while retaining every reported type and status",
+    "Kept target owner, currentness, provenance, coverage and limitations visible",
+    "Improved title hierarchy, 44px controls, responsive layouts and dark-mode link contrast"
+  ],
+  "source": {
+    "comparedWithImage": "longhn0710t/kelryvo-pilot@sha256:00d27393e7917a9af0818f54f58d42637c183183b7f9fcda2e33768df940e92c",
+    "frozenInputs": 213,
+    "runtimeFilesChanged": [
+      "apps/web/src/SchemaBaselines.jsx",
+      "apps/web/styles.css"
+    ],
+    "otherFrozenInputsUnchanged": 211,
+    "sha256": {
+      "apps/web/src/SchemaBaselines.jsx": "0436be3a155978a5e2b350231f1c702e4495d847c5afd521c7cdd738dd09315d",
+      "apps/web/styles.css": "27953eecc74245d21b6e68ac371e511f6b8088ce9f4ca0a7a21448f7440c98c1",
+      "tests/product-schema-baselines-browser.integration.mjs": "d30e7d6703f13b463938747a9bf61f6ab9ddc5af24b6d75cc3ed87380ac25008",
+      "DESIGN.md": "2f688d1d94fd15ce9b87899cbff69b6fb4d5b7cf04d0ae5dd7b064753c699634"
+    }
+  },
+  "validation": {
+    "standardCheck": {
+      "tests": 646,
+      "pass": 494,
+      "fail": 0,
+      "skipped": 152,
+      "cancelled": 0
+    },
+    "schemaAndThemeBrowser": {
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "brandedVisualJourney": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "viewports": [
+      1440,
+      390
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "pageErrors": 0,
+    "horizontalPageOverflow": false,
+    "verified": [
+      "Observation, immutable capture, real fixture comparison and persistence after restart",
+      "Keyboard disclosure controls and full identity recovery",
+      "Read-only approver history/comparison with no collection/capture controls",
+      "Visible partial-coverage limitations, 1000-object filtering and exact comparison references",
+      "13 navigation destinations across responsive layouts and both themes"
+    ],
+    "logs": {
+      "check-final.log": "48cf9bbafff3445bd3d07cbe5b75c21150c89142ad49e56fc43d9387f5d09bc2",
+      "browser-final.log": "d5aba042ec0144244928a405cd29b9988d3b69f5ba1c4388e04bb3ecf77a25f9",
+      "branded-visual.log": "403289b84a45df3f0ba7981f57a96c91e4d89397e9180f0ad847c2e84323fa08"
+    }
+  },
+  "screenshots": {
+    "schema-1440-dark.png": "9f34e4a7ffa65b5105788f138741cbd88a30870f8d16766924000bec93b9a88f",
+    "schema-1440-light.png": "0d70a7d9c5b8456ba1b1c3e05f4b26bc0905636e34e9d05d262b6c0cb24c8c8f",
+    "schema-390-dark.png": "75574f8c0a32fdde4b439e9a42ef5ca71bad28acb1069670dee4be686ec393cf",
+    "schema-390-light.png": "55f98dcd98cd75633eaa93039c86eda7bfab1b8d6fa5e03f0e283f8ce607b6d8"
+  },
+  "limitations": [
+    "UI and PostgreSQL/browser fixtures only; no new native Oracle acceptance",
+    "This refinement is local and is not included in the current deployed image",
+    "No new registry image, deployment, Git commit, push or merge from this refinement"
+  ]
+}

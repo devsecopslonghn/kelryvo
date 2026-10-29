@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "at": "2026-10-24T17:05:53.452259+00:00",
+  "image": "longhn0710t/kelryvo-pilot@sha256:10101100593ce0a0a297efa678c977659850e734bc52cfa0ea82dc461ccd2368",
+  "source": "worktree-sha256:d8fc171784653afc0b27ed0572b84c8e97533b12e58c8741ff74c6c689b64830",
+  "tableCount": 61,
+  "changedTables": [],
+  "newEmptyTables": [
+    "sf_password_accounts",
+    "sf_password_audit"
+  ],
+  "stableIdentitiesPreserved": true,
+  "executionEnabled": false,
+  "discoveryEnabled": true,
+  "argoAutoSync": false,
+  "livez": {
+    "status": 200,
+    "body": {
+      "status": "alive"
+    }
+  },
+  "readyz": {
+    "status": 200,
+    "body": {
+      "status": "ready",
+      "metadata": "ACTIVE",
+      "targetAvailability": "UNVERIFIED"
+    }
+  }
+}

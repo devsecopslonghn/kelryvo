@@ -1,3 +1,4 @@
+import { openTokenRecovery } from './helpers/ui-disclosures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
@@ -29,7 +30,7 @@ test('HTTPS browser completes registration through discovery, SQL review, indepe
     await openBrowser();
     const signIn = async actor => {
       await page.goto(f.currentUrl());
-      await page.getByLabel('Local access token').fill(actor.token);
+      await openTokenRecovery(page); await page.getByLabel('Local access token').fill(actor.token);
       await page.getByRole('button', {name: 'Continue', exact: true}).click();
       await page.getByLabel('Sign out').waitFor();
       await page.getByRole('button', {name: /Projects/}).click();
@@ -38,7 +39,7 @@ test('HTTPS browser completes registration through discovery, SQL review, indepe
     };
     const logout = async () => {
       await page.getByLabel('Sign out').click();
-      await page.getByLabel('Local access token').waitFor();
+      await openTokenRecovery(page); await page.getByLabel('Local access token').waitFor();
     };
     for (const path of ['/api/livez', '/api/readyz']) assert.equal((await tlsRequest(f.currentUrl(), cert.ca, path, {agent: false})).status, 200);
     await signIn(f.actors[0]);

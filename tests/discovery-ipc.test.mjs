@@ -106,6 +106,32 @@ test('request timeout aborts the runtime and maps arbitrary exceptions to fixed 
   assert.doesNotMatch(JSON.stringify(result), /password|private/);
 });
 
+test('SCHEMA receives its configured longer IPC timeout and still cancels at that deadline', async t => {
+  const aborted=[];
+  let startDiscovery,startSchema;
+  const discoveryStarted=new Promise(resolve=>{startDiscovery=resolve;}),schemaStarted=new Promise(resolve=>{startSchema=resolve;});
+  const {client}=await pair(t,{run(_connection,operation,{signal}){
+    (operation==='SCHEMA'?startSchema:startDiscovery)();
+    return new Promise((_resolve,reject)=>signal.addEventListener('abort',()=>{aborted.push({operation,at:Date.now()});reject(new Error('private'));},{once:true}));
+  }},{clientOptions:{timeoutMs:30,schemaTimeoutMs:100}});
+  t.mock.timers.enable({apis:['setTimeout']});
+  const ordinary=client.run(target,'DISCOVER');
+  const schema=client.run(target,'SCHEMA',{owner:'APP'});
+  await Promise.all([discoveryStarted,schemaStarted]);
+  t.mock.timers.tick(30);
+  assert.equal((await ordinary).status,'TIMEOUT');
+  const flush=()=>new Promise(resolve=>setImmediate(resolve));
+  await flush();await flush();
+  assert.deepEqual(aborted.map(item=>item.operation),['DISCOVER']);
+  t.mock.timers.tick(69);await flush();
+  assert.deepEqual(aborted.map(item=>item.operation),['DISCOVER']);
+  t.mock.timers.tick(1);
+  assert.equal((await schema).status,'TIMEOUT');
+  await flush();await flush();
+  assert.equal(aborted.length,2);
+  assert.deepEqual(aborted.map(item=>item.operation),['DISCOVER','SCHEMA']);
+});
+
 test('maxPending bounds concurrent requests on both peers', async t => {
   let release;
   let calls = 0;

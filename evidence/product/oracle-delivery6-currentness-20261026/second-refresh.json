@@ -1,0 +1,41 @@
+{
+  "status": "PASS_D6_API_CURRENTNESS_REFRESH_LIMITED",
+  "acceptedScope": "Second read-only Oracle discovery and five existing-binding reverifications, retaining the accepted predecessor evidence",
+  "completedAt": "2026-10-26T09:07:46.883Z",
+  "independentReview": {
+    "reviewerId": "/root/d6_refresh5_review",
+    "reviewedAt": "2026-10-26T09:08:35.028Z"
+  },
+  "oracleDiscoveryCalls": 1,
+  "bindingVerifications": 5,
+  "newAssignments": 0,
+  "oracleDdl": 0,
+  "oracleDml": 0,
+  "workerDispatch": false,
+  "metadataTables": 68,
+  "credentialProjectionRowsBefore": 818,
+  "credentialProjectionRowsAfter": 822,
+  "jobs": 53,
+  "holds": 12,
+  "priorRowsAndHoldsPreserved": true,
+  "infrastructureChanged": false,
+  "browserChildrenRevoked": true,
+  "observationExpiresAt": "2026-10-26T09:20:53.100Z",
+  "nativeSeedAccepted": false,
+  "admittedNoopAccepted": false,
+  "artifactSha256": {
+    "operator-scope.json": "ef00084a1cc14510c805dd448dfc3e52612e1aab54cb068b3f753448fc15ae1d",
+    "disposable-lab-manifest.json": "5764a1c8ea2b13315d5f19f334ef6e9e12fbd2a071df266e6b877197be4b131f",
+    "operator-review.json": "9b0692ee869fd895ea8524503ed1cdd861e79421b3150e6bca2ccaaa387fb410",
+    "execution.started": "d0b336da325405c04b4fa85f62f9206b93a73c75eb65fe08d9bb8bc0d184a6a5",
+    "app-before.private.json": "839983afed95c258da7d597220ac59229128f2e448eecd6f066aa8475df24320",
+    "app-after.private.json": "14f4d43bded694d12fd74e27400205820a08a293a3dc1d84562ab3c2bcb680d8",
+    "result.json": "8a9c62f884cbad1034d47f97c561f394166f769717d9ee9239dbb09163e1c6fb",
+    "outcome-review.json": "4651622e1205368c144dac4e77e147830fde8d6b55924e46e570688dfde9df82",
+    "lineage.private.json": "ac68e9d30302451ea3e41d02d5bd8d4f10477a1d7c537c2485571df3faddf20e"
+  },
+  "limitations": [
+    "Observation and installed discovery-manifest authority have expired.",
+    "No D6 native stage, worker or migration was started."
+  ]
+}

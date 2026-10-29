@@ -201,16 +201,18 @@ async function isolatedRun({manifestPath,secretDirectory,connection,operation,ti
 }
 
 /** This runtime is opt-in. A secret-free, OS-owned authorization manifest gates each exact endpoint. */
-export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, driver, timeoutMs = 20000, isolated = false } = {}) {
+export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, driver, timeoutMs = 20000, schemaTimeoutMs = timeoutMs, isolated = false } = {}) {
   const selectedDriver=driver ?? oracledb; const injected=driver!==undefined;
   const runtime={ async run(connection, operation, { signal, owner } = {}) {
     if (!['TEST','DISCOVER','SCHEMA'].includes(operation)) return safeResult('MISCONFIGURED',[LIMITATIONS.MANIFEST]);
     if(operation==='SCHEMA' && (typeof owner!=='string' || !owner.length || Buffer.byteLength(owner,'utf8')>128 || /[\u0000-\u001f\u007f]/.test(owner))) return safeResult('MISCONFIGURED',[LIMITATIONS.MANIFEST]);
-    if (!Number.isInteger(timeoutMs) || timeoutMs < 1000 || timeoutMs > 30000) return safeResult('MISCONFIGURED',[LIMITATIONS.MANIFEST]);
+    const operationTimeoutMs=operation==='SCHEMA'?schemaTimeoutMs:timeoutMs;
+    if (!Number.isInteger(timeoutMs) || timeoutMs < 1000 || timeoutMs > 30000
+        || !Number.isInteger(schemaTimeoutMs) || schemaTimeoutMs < 1000 || schemaTimeoutMs > 30000) return safeResult('MISCONFIGURED',[LIMITATIONS.MANIFEST]);
     if (signal?.aborted) return safeResult('TIMEOUT');
-    if (!isolated && !injected) return isolatedRun({manifestPath,secretDirectory,connection,operation,timeoutMs,signal,owner});
+    if (!isolated && !injected) return isolatedRun({manifestPath,secretDirectory,connection,operation,timeoutMs:operationTimeoutMs,signal,owner});
     const timeout = new AbortController(); let timedOut = false;
-    const timer = setTimeout(() => { timedOut = true; timeout.abort(); }, timeoutMs); timer.unref?.();
+    const timer = setTimeout(() => { timedOut = true; timeout.abort(); }, operationTimeoutMs); timer.unref?.();
     const abort = () => timeout.abort(); signal?.addEventListener('abort',abort,{once:true});
     let conn, restoreSocketAllowlist;
     try {
@@ -223,8 +225,8 @@ export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, dr
       const transport=normalizedTransport(connection.transport);
       const pinnedAddress=net.isIP(authorization.pinnedIps[0])===6?`[${authorization.pinnedIps[0]}]`:authorization.pinnedIps[0];
       const connectString = `${transport==='tcps'?'tcps://':''}${pinnedAddress}:${connection.port}/${connection.service}`;
-      const callBudget = Math.max(250, Math.floor(timeoutMs/8));
-      conn = await selectedDriver.getConnection({ user:connection.username, password:authorization.password, connectString, connectTimeout:Math.min(5,Math.floor(timeoutMs/1000)), transportConnectTimeout:Math.min(5,Math.floor(timeoutMs/1000)),
+      const callBudget = Math.max(250, Math.floor(operationTimeoutMs/8));
+      conn = await selectedDriver.getConnection({ user:connection.username, password:authorization.password, connectString, connectTimeout:Math.min(5,Math.floor(operationTimeoutMs/1000)), transportConnectTimeout:Math.min(5,Math.floor(operationTimeoutMs/1000)),
         ...(transport==='tcps'?{sslServerDNMatch:true,sslAllowWeakDNMatch:false,...(authorization.serverCertificateDN?{sslServerCertDN:authorization.serverCertificateDN}:{})}:{}) });
       conn.callTimeout = callBudget;
       const test = one(await conn.execute(SQL.test,{}, { autoCommit:false, outFormat:selectedDriver.OUT_FORMAT_OBJECT, maxRows:1 }));
@@ -257,7 +259,11 @@ export function createOracleDiscoveryRuntime({ manifestPath, secretDirectory, dr
       if(!ident || !nonEmpty(sessionUser)) schemaLimitations.push('IDENTITY_INCOMPLETE');
       if(requestedOwner!==sessionUser) schemaLimitations.push('FOREIGN_OWNER_VISIBILITY_PARTIAL');
       const query=async name=>{
-        try { const result=await conn.execute(oracleSchemaSql[name],{owner:requestedOwner},{autoCommit:false,outFormat:selectedDriver.OUT_FORMAT_OBJECT,maxRows:2001,fetchArraySize:2001});
+        try {
+          // The fixed catalog joins need up to four seconds on the live target. The
+          // operation deadline still bounds the complete sequential inventory.
+          conn.callTimeout=Math.max(250,Math.min(4000,Math.floor(operationTimeoutMs/2)));
+          const result=await conn.execute(oracleSchemaSql[name],{owner:requestedOwner},{autoCommit:false,outFormat:selectedDriver.OUT_FORMAT_OBJECT,maxRows:2001,fetchArraySize:2001});
           if(!Array.isArray(result?.rows)) return {rows:[],ok:false,truncated:false};
           return {rows:result.rows.slice(0,2000).map(row),ok:true,truncated:result.rows.length>2000};
         } catch { return {rows:[],ok:false,truncated:false}; }

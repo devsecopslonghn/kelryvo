@@ -1,3 +1,4 @@
+import { openCompatibilityPlanning } from './helpers/ui-disclosures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
@@ -210,6 +211,7 @@ test('review recovers a stale pending plan through T18 intake and keeps guidance
 
     await page.getByRole('button', { name: 'Import and validate' }).click();
     await page.getByRole('heading', { name: `${commit.slice(0, 12)} · migrations` }).waitFor();
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByLabel('Target connection profile').selectOption(profile.id);
     const planUrl = `${url}/api/projects/${project.id}/plans`;
     let signalPlanRequest;
@@ -223,6 +225,7 @@ test('review recovers a stale pending plan through T18 intake and keeps guidance
       await route.fulfill({ response });
     });
     const heldPlanRequest = page.waitForRequest((request) => request.url() === planUrl && request.method() === 'POST', { timeout: 30_000 });
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByRole('button', { name: 'Prepare offline plan' }).click();
     await page.getByRole('button', { name: /Plans & review/ }).click();
     await heldPlanRequest;
