@@ -2,6 +2,22 @@ import { isIP } from 'node:net';
 import { constants } from 'node:fs';
 import { open } from 'node:fs/promises';
 const bad=()=>new Error('Identity runtime configuration unavailable');
+function validIssuerPrefix(prefix) {
+  if(typeof prefix!=='string'||prefix.length>1024||prefix[0]!=='/')return false;
+  if(prefix==='/')return true;
+  const segments=prefix.slice(1).split('/');
+  if(segments.at(-1)==='')segments.pop();
+  if(!segments.length)return false;
+  for(const segment of segments){
+    if(!segment||segment==='.'||segment==='..')return false;
+    for(let i=0;i<segment.length;i++){
+      const code=segment.charCodeAt(i);
+      if(!(code>=65&&code<=90)&&!(code>=97&&code<=122)&&!(code>=48&&code<=57)
+        &&code!==45&&code!==46&&code!==95&&code!==126)return false;
+    }
+  }
+  return true;
+}
 export function validateIdentityRuntime(value) {
   if(!value||value.format!==1||!Array.isArray(value.routes)||value.routes.length>20
     ||!/^[a-f0-9]{64}$/.test(value.key??'')||!value.secrets||Array.isArray(value.secrets))throw bad();
@@ -16,7 +32,7 @@ export function validateIdentityRuntime(value) {
     ids.add(r.id);
     if(r.kind==='OIDC'){
       const url=new URL(r.origin);
-      if(url.origin!==r.origin||url.protocol!=='https:'||typeof r.issuerPrefix!=='string'||r.issuerPrefix.length>1024||!/^\/(?:[A-Za-z0-9._~-]+\/?)*$/.test(r.issuerPrefix)||r.issuerPrefix.split('/').some(s=>s==='.'||s==='..'))throw bad();
+      if(url.origin!==r.origin||url.protocol!=='https:'||!validIssuerPrefix(r.issuerPrefix))throw bad();
     }else if(typeof r.host!=='string'||r.host.length>253||isIP(r.host)||!r.host.split('.').every(s=>/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i.test(s))||r.transport!=='LDAPS'||r.port!==636
       ||!Array.isArray(r.baseDNs)||!r.baseDNs.length||r.baseDNs.some(x=>typeof x!=='string'||!x||x.length>512)
       ||!Array.isArray(r.bindDNs)||!r.bindDNs.length||r.bindDNs.some(x=>typeof x!=='string'||!x||x.length>512))throw bad();

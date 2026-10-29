@@ -1,0 +1,72 @@
+name: Kelryvo verified Docker Hub publication
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: 'Explicit Docker Hub target: docker.io/namespace/repository'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kelryvo-dockerhub-master
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == 'devsecopslonghn/kelryvo' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      actions: read
+      security-events: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+      - id: gate
+        name: Require exact successful source CI and CodeQL
+        run: node scripts/container-publication-gate.mjs --require
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: verified-images-${{ github.sha }}-${{ steps.gate.outputs.oci_attempt }}
+          run-id: ${{ steps.gate.outputs.oci_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: dist/oci
+      - name: Install OCI transfer tool
+        run: sudo apt-get update -qq && sudo apt-get install -y skopeo
+      - name: Authenticate Docker Hub using a private temporary file
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          umask 077
+          test -n "$DOCKERHUB_USERNAME" && test -n "$DOCKERHUB_TOKEN"
+          printf '%s' "$DOCKERHUB_TOKEN" | skopeo login --authfile "$RUNNER_TEMP/kelryvo-dockerhub-auth.json" --username "$DOCKERHUB_USERNAME" --password-stdin docker.io
+      - name: Publish tested index and verify both platforms anonymously
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_SHA: ${{ github.sha }}
+          OCI_RUN: ${{ steps.gate.outputs.oci_run }}
+          OCI_ATTEMPT: ${{ steps.gate.outputs.oci_attempt }}
+          TARGET_REPOSITORY: ${{ inputs.repository }}
+        run: |
+          node scripts/publish-dockerhub.mjs --source-sha "$SOURCE_SHA" --oci-run "$OCI_RUN" --oci-attempt "$OCI_ATTEMPT" --archive dist/oci/kelryvo-app.tar --repository "$TARGET_REPOSITORY" --authfile "$RUNNER_TEMP/kelryvo-dockerhub-auth.json" --report "$RUNNER_TEMP/kelryvo-dockerhub-publication.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dockerhub-publication-${{ github.sha }}
+          path: ${{ runner.temp }}/kelryvo-dockerhub-publication.json
+          if-no-files-found: error
+      - if: always()
+        name: Remove the private registry session
+        run: rm -f "$RUNNER_TEMP/kelryvo-dockerhub-auth.json"
