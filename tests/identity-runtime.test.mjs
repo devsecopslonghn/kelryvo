@@ -29,6 +29,23 @@ test('private identity runtime accepts a trusted OIDC route and enforces issuer 
     issuer: 'https://attacker.example.test/realms/company' }), false);
 });
 
+test('OIDC issuer prefixes preserve valid paths and reject malformed or oversized paths linearly', () => {
+  const runtime = runtimeFixture();
+  for (const issuerPrefix of ['/', '/realms/company', '/a_b-~.x/', '/one/two-3', `/${'-'.repeat(1023)}`]) {
+    const validated = validateIdentityRuntime({ ...runtime,
+      routes: [{ ...runtime.routes[0], issuerPrefix }] });
+    assert.equal(validated.routes[0].issuerPrefix, issuerPrefix);
+  }
+  for (const issuerPrefix of ['', 'realms/company', '//company', '/realms//company', '/.', '/..',
+    '/contains space', '/contains?query', '/a/'.padEnd(1026, 'b'), `/${'-'.repeat(1022)}!`]) {
+    assert.throws(() => validateIdentityRuntime({ ...runtime,
+      routes: [{ ...runtime.routes[0], issuerPrefix }] }), /Identity runtime configuration unavailable/);
+  }
+  const adversarial = `/${'-'.repeat(100_000)}!`;
+  assert.throws(() => validateIdentityRuntime({ ...runtime,
+    routes: [{ ...runtime.routes[0], issuerPrefix: adversarial }] }), /Identity runtime configuration unavailable/);
+});
+
 test('public trusted-route metadata never returns secret values, CA contents, or pinned addresses', () => {
   const runtime = runtimeFixture();
   const exposed = publicRoutes(runtime);

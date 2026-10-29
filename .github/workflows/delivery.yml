@@ -25,6 +25,7 @@ jobs:
   gate:
     if: >-
       github.repository == 'devsecopslonghn/kelryvo' &&
+      vars.KELRYVO_DELIVERY_MODE == 'gitops' &&
       ((github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master') ||
        (github.event_name == 'workflow_run' &&
         (github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'dynamic') &&
