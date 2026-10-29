@@ -1,0 +1,431 @@
+{
+  "format": 1,
+  "status": "PASS_PAIRED_READ_ONLY_QUERY_DIAGNOSIS",
+  "oldImage": "longhn0710t/kelryvo-pilot@sha256:7720529b069858f8d6c5e335d3ec7559dbd4a7ebeccd21443fd8a894f5eed4cd",
+  "finding": "Identical fixed constraint queries fail with NJS-123 under a 1-second round-trip timeout and succeed under a separately reviewed 4-second timeout. Each successful constraint query takes approximately1.8seconds.",
+  "cases": {
+    "r2-table-query-diagnostic": {
+      "result": {
+        "status": "PASS_READ_ONLY_QUERY_DIAGNOSTIC",
+        "at": "2026-10-25T05:14:05.317665+00:00",
+        "scopeSha256": "c652287587539b203089884ce0b7c69a3c1dedf46a271cf91406db677a3f7f33",
+        "reviewSha256": "db9c15e2896d02607f840ee77115b023980e9df7d98a9cd1dbd49b05b23fc412",
+        "diagnostic": {
+          "status": "QUERY_ERRORS",
+          "owner": "KP_B",
+          "operation": "READ_ONLY_SCHEMA_DIAGNOSTIC",
+          "identityVerified": true,
+          "identityResults": [
+            {
+              "query": "identity.database",
+              "status": "OK",
+              "rowCount": 1,
+              "durationMs": 32
+            },
+            {
+              "query": "identity.session",
+              "status": "OK",
+              "rowCount": 1,
+              "durationMs": 3
+            },
+            {
+              "query": "identity.container",
+              "status": "OK",
+              "rowCount": 1,
+              "durationMs": 15
+            },
+            {
+              "query": "identity.version",
+              "status": "OK",
+              "rowCount": 1,
+              "durationMs": 7
+            }
+          ],
+          "schemaQueries": [
+            {
+              "query": "tables",
+              "status": "OK",
+              "rowCount": 2,
+              "durationMs": 151,
+              "columns": [
+                {
+                  "name": "OWNER",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "TABLESPACE_NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "TEMPORARY",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "PARTITIONED",
+                  "type": "VARCHAR2"
+                }
+              ]
+            },
+            {
+              "query": "columns",
+              "status": "OK",
+              "rowCount": 2,
+              "durationMs": 111,
+              "columns": [
+                {
+                  "name": "OWNER",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "COLUMN_NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "COLUMN_ID",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DATA_TYPE",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DATA_TYPE_OWNER",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DATA_LENGTH",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DATA_PRECISION",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DATA_SCALE",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "CHAR_LENGTH",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "CHAR_USED",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "NULLABLE",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DATA_DEFAULT",
+                  "type": "LONG"
+                }
+              ]
+            },
+            {
+              "query": "constraints",
+              "status": "ERROR",
+              "rowCount": null,
+              "durationMs": 1873,
+              "code": "NJS-123",
+              "errorNum": null
+            },
+            {
+              "query": "constraintColumns",
+              "status": "ERROR",
+              "rowCount": null,
+              "durationMs": 1285,
+              "code": "NJS-123",
+              "errorNum": null
+            }
+          ],
+          "ddl": false,
+          "dml": false
+        },
+        "all68MetadataTablesUnchanged": true,
+        "currentAndFourHistoricalOracleContentsUnchanged": true,
+        "DDL": 0,
+        "DML": 0,
+        "jobsCreated": 0,
+        "infrastructureChanges": false,
+        "image": "longhn0710t/kelryvo-pilot@sha256:7720529b069858f8d6c5e335d3ec7559dbd4a7ebeccd21443fd8a894f5eed4cd"
+      },
+      "privateEvidenceSha256": {
+        "scope.json": "c652287587539b203089884ce0b7c69a3c1dedf46a271cf91406db677a3f7f33",
+        "review.json": "db9c15e2896d02607f840ee77115b023980e9df7d98a9cd1dbd49b05b23fc412",
+        "run.py": "b364a94316ac227f5835041c7d568e760152be6c7f68aacbb5768250f3c3623e",
+        "oracle-table-query-diagnostic.mjs": "a2ea7af15b29b7db1974fe8e8dac49c209f87ba8d9ebcf29bddea99bc7dcde95",
+        "result.json": "f8c64738c06223ed4fea4b767ea4be03f2f2ad3bdd689fa80fe72bcf84e18d8f",
+        "outcome-review.json": "9323af3d27a89ff5be03eccb5bf8c0618e4a7bd9dfe67cec91a7fe51107e152e",
+        "oracle-before.private.stdout": "39d4459c7462c203a17daaec44c73a2595e5025c6a1fa98253574c070a5b4e1d",
+        "oracle-after.private.stdout": "39d4459c7462c203a17daaec44c73a2595e5025c6a1fa98253574c070a5b4e1d",
+        "metadata-before.private.json": "bb1a015f4a5b5a33f9bbd8fc6d706f2cd90085d913fd6e3ed695f766b1eb39d1",
+        "metadata-after.private.json": "bb1a015f4a5b5a33f9bbd8fc6d706f2cd90085d913fd6e3ed695f766b1eb39d1"
+      }
+    },
+    "r2-table-query-diagnostic-4s": {
+      "result": {
+        "status": "PASS_READ_ONLY_QUERY_DIAGNOSTIC",
+        "at": "2026-10-25T05:15:30.300391+00:00",
+        "scopeSha256": "92750c18a22bce861351b71a9b2cb6b5e75d0b86a5d240b5d85a29d466a19bdd",
+        "reviewSha256": "4e2c6f143961d897835dabdfbda478a0d2e7a73576e49d212065e74e918742f7",
+        "diagnostic": {
+          "status": "ALL_OK",
+          "owner": "KP_B",
+          "operation": "READ_ONLY_SCHEMA_DIAGNOSTIC",
+          "identityVerified": true,
+          "identityResults": [
+            {
+              "query": "identity.database",
+              "status": "OK",
+              "rowCount": 1,
+              "durationMs": 6
+            },
+            {
+              "query": "identity.session",
+              "status": "OK",
+              "rowCount": 1,
+              "durationMs": 2
+            },
+            {
+              "query": "identity.container",
+              "status": "OK",
+              "rowCount": 1,
+              "durationMs": 1
+            },
+            {
+              "query": "identity.version",
+              "status": "OK",
+              "rowCount": 1,
+              "durationMs": 1
+            }
+          ],
+          "schemaQueries": [
+            {
+              "query": "tables",
+              "status": "OK",
+              "rowCount": 2,
+              "durationMs": 167,
+              "columns": [
+                {
+                  "name": "OWNER",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "TABLESPACE_NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "TEMPORARY",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "PARTITIONED",
+                  "type": "VARCHAR2"
+                }
+              ]
+            },
+            {
+              "query": "columns",
+              "status": "OK",
+              "rowCount": 2,
+              "durationMs": 9,
+              "columns": [
+                {
+                  "name": "OWNER",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "COLUMN_NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "COLUMN_ID",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DATA_TYPE",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DATA_TYPE_OWNER",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DATA_LENGTH",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DATA_PRECISION",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DATA_SCALE",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "CHAR_LENGTH",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "CHAR_USED",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "NULLABLE",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DATA_DEFAULT",
+                  "type": "LONG"
+                }
+              ]
+            },
+            {
+              "query": "constraints",
+              "status": "OK",
+              "rowCount": 0,
+              "durationMs": 1783,
+              "columns": [
+                {
+                  "name": "OWNER",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "CONSTRAINT_NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "CONSTRAINT_TYPE",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "STATUS",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DEFERRABLE",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "DEFERRED",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "R_OWNER",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "R_CONSTRAINT_NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "SEARCH_CONDITION",
+                  "type": "LONG"
+                },
+                {
+                  "name": "DELETE_RULE",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "VALIDATED",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "RELY",
+                  "type": "VARCHAR2"
+                }
+              ]
+            },
+            {
+              "query": "constraintColumns",
+              "status": "OK",
+              "rowCount": 0,
+              "durationMs": 1764,
+              "columns": [
+                {
+                  "name": "OWNER",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "CONSTRAINT_NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "COLUMN_NAME",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "POSITION",
+                  "type": "NUMBER"
+                },
+                {
+                  "name": "REFERENCED_OWNER",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "REFERENCED_TABLE",
+                  "type": "VARCHAR2"
+                },
+                {
+                  "name": "REFERENCED_COLUMN",
+                  "type": "VARCHAR2"
+                }
+              ]
+            }
+          ],
+          "ddl": false,
+          "dml": false
+        },
+        "all68MetadataTablesUnchanged": true,
+        "currentAndFourHistoricalOracleContentsUnchanged": true,
+        "DDL": 0,
+        "DML": 0,
+        "jobsCreated": 0,
+        "infrastructureChanges": false,
+        "image": "longhn0710t/kelryvo-pilot@sha256:7720529b069858f8d6c5e335d3ec7559dbd4a7ebeccd21443fd8a894f5eed4cd"
+      },
+      "privateEvidenceSha256": {
+        "scope.json": "92750c18a22bce861351b71a9b2cb6b5e75d0b86a5d240b5d85a29d466a19bdd",
+        "review.json": "4e2c6f143961d897835dabdfbda478a0d2e7a73576e49d212065e74e918742f7",
+        "run.py": "b364a94316ac227f5835041c7d568e760152be6c7f68aacbb5768250f3c3623e",
+        "oracle-table-query-diagnostic.mjs": "2c73655895a2c234c07883cf92c65c0e1f3d463e12404abbbc41d31629f47f8f",
+        "result.json": "b74796c755261842825e0886ce50510e7e85c1a8b873ddd135411fd0b254a22d",
+        "outcome-review.json": "dd6cf7b8462359142bcdf0392e3d0a91b6c07bfeaa72d72de72995d688d2112e",
+        "oracle-before.private.stdout": "39d4459c7462c203a17daaec44c73a2595e5025c6a1fa98253574c070a5b4e1d",
+        "oracle-after.private.stdout": "39d4459c7462c203a17daaec44c73a2595e5025c6a1fa98253574c070a5b4e1d",
+        "metadata-before.private.json": "bb1a015f4a5b5a33f9bbd8fc6d706f2cd90085d913fd6e3ed695f766b1eb39d1",
+        "metadata-after.private.json": "bb1a015f4a5b5a33f9bbd8fc6d706f2cd90085d913fd6e3ed695f766b1eb39d1"
+      }
+    }
+  },
+  "limitations": [
+    "A diagnostic against the prior image does not establish acceptance of the changed application or a new deployment.",
+    "KP_B has no constraint rows in this fixture; full constraint/default/foreign-owner visibility remains unqualified.",
+    "Oracle/metadata baselines and all 11HOLDs preserved; noDDL/DML/jobs."
+  ]
+}

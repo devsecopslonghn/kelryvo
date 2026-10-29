@@ -1,0 +1,40 @@
+{
+  "format": 1,
+  "createdAt": "2026-10-24T12:14:45.209656+00:00",
+  "scope": "FRESH_SCHEMA_SINGLE_NATIVE_DDL_LOST_ACK",
+  "jobId": "28fdcb9b-6f82-4ae8-8615-37285d765bdd",
+  "planId": "b4b0ea05-b9b4-46c5-86e2-d0cf8d2b80f5",
+  "source": "8796a57ddb283b8197481babab382fafb6548801",
+  "containerName": "KP_LOST_ACK4",
+  "containerGuid": "5E95FDD6F58AC1FEE0638101F40A1707",
+  "oraclePodUid": "602e2dd1-f72a-4c8c-8634-ae6703ece0ca",
+  "owner": "KP_FAULT_B",
+  "objectAllowlist": [
+    "KELRYVO_LOST_ACK_T"
+  ],
+  "statementDigests": [
+    "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd"
+  ],
+  "maxNativeApplicationStatements": 1,
+  "faultActions": [
+    "PASS_TO_BUFFER_FOR_PAUSED_WRITER",
+    "WITHHOLD_ONE_NATIVE_RESPONSE",
+    "CUT_ONCE_WITHOUT_FLUSH"
+  ],
+  "maxWithheldBytes": 2097152,
+  "preserveAllOldHolds": true,
+  "replayPermitted": false,
+  "controllerSha256": "c34c87070d5558374fd52b25d8dd01c9d49d71582e2e9d10d29dff26377f5f9c",
+  "protocolSha256": "c1bd12eaffd6a282d76c564359ff95df60cbca4984d36d20dde1aa6be5ecbce0",
+  "protocolTestSha256": "95a6f805e0fd51b14c71539d53f6a60a6371670e512bdb12578522a8d3f1df29",
+  "ownerAuthorizationSha256": "8a4531e35d7f8b72536910a53e7415764419546e82978189f8313934e7888b87",
+  "qualificationSha256": "4821e44db26648f29d648b60d0c111d4862f92ff564715bca1a34c294b8ea76d",
+  "installedNoDispatchPreflightSha256": "4ec24c9c268c216399a5c5c0a03f77f900a463d52c69b399f2ccfcb75d11ba49",
+  "independentPlanApproval": {
+    "author": "kelryvo-developer",
+    "approver": "kelryvo-approver",
+    "approvalReference": "c236ebfa-c243-4aac-a6f9-26edc60b45fa"
+  },
+  "controllerReview": "SOURCE_AND_PROTOCOL_REGRESSION_CHECKS; NOT AN INDEPENDENT HUMAN REVIEW ATTESTATION",
+  "expiresAt": "2026-10-24T14:11:05.876712+00:00"
+}

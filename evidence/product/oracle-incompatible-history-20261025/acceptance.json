@@ -1,0 +1,109 @@
+{
+  "format": 1,
+  "kind": "KELRYVO_ISOLATED_INCOMPATIBLE_APPLIED_HISTORY_ACCEPTANCE",
+  "recordedAt": "2026-10-25T04:07:02.718749+00:00",
+  "status": "PASS_BOUNDED_OA09_NEGATIVE_CASE",
+  "origin": "https://kelryvo.apps.drgdevlab.com",
+  "nativeSource": {
+    "image": "longhn0710t/kelryvo-pilot@sha256:d97136fe5fd8e7074c8cc9304f03ea293efb5463ac0f44e35cb8c0c97c3bba74",
+    "contextTreeSha256": "98357aac15b8f461791b5be53cf3afc5bc4ab6a6633a48ce42506c1122ff63be",
+    "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+    "canonicalCommitCreated": false
+  },
+  "seed": {
+    "at": "2026-10-25T01:13:02.481998+00:00",
+    "jobId": "c728315c-91d9-4129-b927-45f3aa82783a",
+    "planId": "ed812a74-ef88-40c8-8502-e22d4967262c",
+    "owner": "KP_FAULT_A",
+    "status": "VERIFIED_SUCCESS",
+    "applicationStatements": 2,
+    "attempts": 1,
+    "receipts": 2,
+    "outcomeReviewSha256": "b04edccacbaa7a505b40131f1d7662e2f26ab23264ceb170b27726c219aff8db"
+  },
+  "negative": {
+    "at": "2026-10-25T01:37:33.634177+00:00",
+    "jobId": "bd5bf338-f106-44a0-91b2-d3a11e4010b6",
+    "planId": "5fa8fcf5-2a4d-4cc6-8a56-3b90a90de9d6",
+    "owner": "KP_FAULT_A",
+    "status": "HOLD",
+    "scope": "PRODUCT_REQUEST",
+    "reasonCode": "TARGET_HISTORY_UNTRUSTED",
+    "readiness": "TARGET_HISTORY_UNAVAILABLE",
+    "sameV1": true,
+    "sameV2PathAndVersion": true,
+    "changedV2FileManifestAndExecutionDigests": true,
+    "appliedMigrations": 2,
+    "seedIdentityPrefixMatches": 2,
+    "candidateIdentityPrefixMatches": 1,
+    "actualApplicationSqlAttempts": 0,
+    "actualApplicationSqlAcknowledgements": 0,
+    "targetLedgerWrites": 0,
+    "admissionProofs": 0,
+    "attempts": 0,
+    "receipts": 0,
+    "author": "kelryvo-developer",
+    "approver": "kelryvo-approver",
+    "independentApplicationApproval": true,
+    "independentNativeScopeReview": true,
+    "independentOutcomeReview": true
+  },
+  "preservation": {
+    "objects": 8,
+    "ledgerEvents": 48,
+    "ledgerHeads": 4,
+    "currentAndFourHistoricalPDBFactsExactlyUnchanged": true,
+    "oldPlansJobsAndAllJournalRowsPreserved": true,
+    "oldHolds": 10,
+    "newIsolatedHold": 1,
+    "totalHolds": 11,
+    "metadataTables": 68,
+    "changedTables": [
+      "sf_audit",
+      "sf_execution_job_events",
+      "sf_execution_jobs"
+    ],
+    "other65TablesUnchanged": true,
+    "otherBAndCInstallationTargetsUnchanged": true,
+    "publicExecutionEnabled": false,
+    "replayOrAutoRecovery": false
+  },
+  "qualification": {
+    "directory": "qualification-oa09-negative-2",
+    "resultSha256": "9fce1480d0e6f226348430c862683b5f64b383d600a600985505663924558c1b",
+    "discoveryDirectory": "discovery-oa09-negative-2",
+    "discoveryResultSha256": "9d0c775248ccbb926e8e4d8aaa2d39c30e0475c19884d04e9bf6e7ecc33ecbc0",
+    "fiveBindingsVerified": true
+  },
+  "retainedFailures": [
+    "Original seed metadata preparer rejected a missing explicit V1 postcondition before native execution; a versioned corrected preparer and independent exact review preceded the successful fresh seed.",
+    "An expired original browser seed request was normally cancelled with zero attempts/receipts; its plan/history remain retained.",
+    "No successful, cancelled or ambiguous native request was replayed."
+  ],
+  "limitations": [
+    "This is one exact applied-history mismatch case, not the complete OA09 history/idempotency matrix.",
+    "Native case ran on d97136fe/98357aac; the separately published UI image7720529b changes only five web files and has not acquired native acceptance from this record.",
+    "OA01/OA02 governed matrices, distinct-installed-worker-ID OA05 variant and remaining R1/R2 visibility/browser matrices remain open.",
+    "No 19c,21c,TCPS,hosted CI,canonical signed commit,Git push,merge or gated release acceptance is claimed."
+  ],
+  "privateEvidenceSha256": {
+    "scope.json": "615cc21f06344a26f9c924d66a0c2dc9149850d08cdc7c43f7138c6a5425fa73",
+    "review.json": "9d8ce3873056f2f489e2b42fd09bba64c4ccde045de907fa08bf40cd24d18549",
+    "outcome-review.json": "2542f4bc0e68885b412e053bf23426ca2b24c12174552ecc244a27cecb7a1010",
+    "result.json": "505ff52e2ba7be1d85a1a4ea136d59bed1824abb79cab1e9d54e114efcb02a54",
+    "summary.json": "c0cf447400284cb23e2a7f0b78e70b6d61b897314721338147b5ddd5330498ce",
+    "materialized.json": "3983d93aefb3699453960eceff58f00d4a6626990272319c94b84bbc5ce9b1f8",
+    "installation.json": "c0c16d4a84572c7f8a351e85e7aa2bcefe9d45ad64ff28231bd5efe59b7acf43",
+    "disposable-lab-manifest.json": "2ecd6275767a019e8e855b47cb55cc7428824b8e231cee5e16776429088f89d1",
+    "governance-facts.private.json": "541837a0ef1d583a8a7349a6fedde0bdc47f1c986e2fa9e215ac7418951b577e",
+    "oracle-before.private.stdout": "39d4459c7462c203a17daaec44c73a2595e5025c6a1fa98253574c070a5b4e1d",
+    "oracle-after.private.stdout": "39d4459c7462c203a17daaec44c73a2595e5025c6a1fa98253574c070a5b4e1d",
+    "journal-before.private.json": "068f2edfd360ae54295439a6211096842de8931dddd248b44f0e852b4d3b40ac",
+    "journal-after.private.json": "089ab5334379422d66fcaa7816ace63259fff63c3ba6e78a29616a876b620cff",
+    "metadata-before-stage.private.json": "88d57e1e0e5e430ef9586063a803ad69ad4d5e79de43b7979e5185465a63e599",
+    "metadata-after.private.json": "f05a933c1f8abd6d38507307421a59c25246538d0e89017cf74b774ba6627f9a",
+    "worker.stdout": "db3cbfc646bc2b58c4cf226e2f55c118ed472ce00e85a2b1a21c933b90d5f005",
+    "worker.stderr.private": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runtime-artifacts.private.tar.gz": "f15c6cb92c87ced06606de681fad902a04351097a672f40600c46f7d5e7ef0ec"
+  }
+}

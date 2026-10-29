@@ -5,13 +5,13 @@ import { initializeDatabase } from '../../packages/database/index.ts';
 import { resolve } from 'node:path';
 import { readFile } from 'node:fs/promises';
 
-export async function startProduct({ databaseUrl, actors, repositories, port = 4317, host = '127.0.0.1', tls, discoveryRuntime, discoveryTimeoutMs }: any, emitLifecycle: (event: any) => void = () => {}) {
+export async function startProduct({ databaseUrl, actors, repositories, port = 4317, host = '127.0.0.1', tls, identityRuntime, identityAdapters, discoveryRuntime, discoveryTimeoutMs, discoverySchemaTimeoutMs }: any, emitLifecycle: (event: any) => void = () => {}) {
   if (tls) createSecureContext({ ...tls, minVersion: 'TLSv1.2' });
   const sql = postgres(databaseUrl, { max: 5, connect_timeout: 5, onnotice: () => {} });
   let stage = 'metadata';
   try {
     await initializeDatabase(sql);
-    const app = createApp({ sql, actors, repositories, discoveryRuntime, discoveryTimeoutMs, https: tls ? { ...tls, minVersion: 'TLSv1.2' } : undefined });
+    const app = createApp({ sql, actors, repositories, identityRuntime, identityAdapters, discoveryRuntime, discoveryTimeoutMs, discoverySchemaTimeoutMs, https: tls ? { ...tls, minVersion: 'TLSv1.2' } : undefined });
     const web = resolve('dist/web');
     const files = new Map([
       ['/', ['index.html', 'text/html; charset=utf-8']],

@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "separateBrowserContexts": true,
+  "checksumVerified": true,
+  "rawSecretsAbsent": true,
+  "reconciliationId": "63e9ce7f-4e95-44ff-97a0-919a783837f6",
+  "outputs": {
+    "developer": {
+      "FAULT": {
+        "state": "HOLD",
+        "attempts": 1,
+        "receipts": 0,
+        "factsSha256": "95175536a0be478e2dc4346d90ab2fefa8d196f5c5734a8a2e9ab02317954b07"
+      }
+    },
+    "approver": {
+      "FAULT": {
+        "state": "HOLD",
+        "attempts": 1,
+        "receipts": 0,
+        "factsSha256": "95175536a0be478e2dc4346d90ab2fefa8d196f5c5734a8a2e9ab02317954b07"
+      }
+    }
+  }
+}

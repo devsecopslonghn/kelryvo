@@ -1,0 +1,14 @@
+{
+  "status": "INCONCLUSIVE_SOURCE_EQUALITY_DUE_TO_CONCURRENT_BROWSER_LOGIN",
+  "nativeBackup": "PASS",
+  "nativeRestore": "PASS",
+  "sourceDifference": [
+    {
+      "table": "sf_local_credentials",
+      "beforeRows": 456,
+      "afterRows": 458
+    }
+  ],
+  "reason": "Two new authenticated browser sessions were created during source comparison; retained source rows are preserved",
+  "restoreDatabaseRetained": "sf_product_restore_1003122cdf444b5b90abe44a9b57489b"
+}

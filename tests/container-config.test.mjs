@@ -20,8 +20,27 @@ test('projected Secret files support external metadata, fixed distinct roles and
     for (const name of [...Object.keys(values), 'tls.crt', 'tls.key']) await symlink(`..data/${name}`, path.join(root, name));
     const config = await loadContainerConfig({ KELRYVO_SECRET_DIR: root, KELRYVO_BIND_HOST: '::', KELRYVO_PORT: '9443' });
     assert.equal(config.databaseUrl, values['database-url']); assert.equal(config.host, '::'); assert.equal(config.port, 9443);
+    assert.equal(config.identityRuntime, undefined, 'identity providers remain optional for local account deployments');
     assert.deepEqual(config.actors.map(({ id, role }) => ({ id, role })), [
       { id: 'kelryvo-developer', role: 'developer' }, { id: 'kelryvo-approver', role: 'approver' }]);
+    const identityRuntime = { format: 1, publicOrigin: 'https://app.example.test', key: 'a'.repeat(64),
+      routes: [{ id: 'company-idp', kind: 'OIDC', origin: 'https://login.example.test', issuerPrefix: '/realms/company',
+        pinnedIPs: ['192.0.2.10'], secretRefs: ['oidc-secret'] }], secrets: { 'oidc-secret': 'private-client-secret' } };
+    const identityFile = path.join(root, 'identity-runtime.json');
+    await writeFile(identityFile, JSON.stringify(identityRuntime), { mode: 0o600 });
+    const withIdentity = await loadContainerConfig({ KELRYVO_SECRET_DIR: root });
+    assert.deepEqual(withIdentity.identityRuntime, identityRuntime);
+    await chmod(identityFile, 0o644);
+    await assert.rejects(loadContainerConfig({ KELRYVO_SECRET_DIR: root }), /^Error: Container configuration unavailable$/);
+    await chmod(identityFile, 0o600);
+    await writeFile(identityFile, JSON.stringify({ ...identityRuntime, format: 2 }));
+    await assert.rejects(loadContainerConfig({ KELRYVO_SECRET_DIR: root }), /^Error: Container configuration unavailable$/);
+    const externalIdentityFile = path.join(root, 'external-identity.json');
+    await writeFile(externalIdentityFile, JSON.stringify(identityRuntime), { mode: 0o600 });
+    await rm(identityFile);
+    await symlink(externalIdentityFile, identityFile);
+    await assert.rejects(loadContainerConfig({ KELRYVO_SECRET_DIR: root }), /^Error: Container configuration unavailable$/);
+    await rm(identityFile);
     await chmod(path.join(data, 'approver-token'), 0o600);
     await writeFile(path.join(data, 'approver-token'), values['developer-token']);
     await assert.rejects(loadContainerConfig({ KELRYVO_SECRET_DIR: root }), /^Error: Container configuration unavailable$/);

@@ -1,0 +1,203 @@
+{
+  "format": 1,
+  "kind": "KELRYVO_CURRENT_HOLD_VETO_ACCEPTANCE",
+  "status": "PASS_BOUNDED_RECONSTRUCTION_ORIGINAL_COMMAND_FAIL",
+  "recordedAt": "2026-10-25T04:37:59.656495+00:00",
+  "image": "longhn0710t/kelryvo-pilot@sha256:7720529b069858f8d6c5e335d3ec7559dbd4a7ebeccd21443fd8a894f5eed4cd",
+  "contextTreeSha256": "bf06fc9c504eab36a6799e26cb940beb07079c6dce30029aaa4462ac2728ba5c",
+  "case": {
+    "holdId": "bd5bf338-f106-44a0-91b2-d3a11e4010b6",
+    "owner": "KP_FAULT_A",
+    "streamId": "e5b9a423-c91e-4e96-a125-3822238ec52b",
+    "newPlan": {
+      "id": "8a1f3c97-c153-425c-851f-1080059cec47",
+      "release_id": "95f39803-9c5c-4c7c-92c8-178636cabd51",
+      "author_id": "kelryvo-developer",
+      "status": "APPROVED",
+      "decision": "APPROVE",
+      "decided_by": "kelryvo-approver",
+      "approval_reference": "72b77947-a09d-4a93-9298-a054fbced795",
+      "execution": "NOT_EXECUTED",
+      "history_status": "NOT_OBSERVED",
+      "planning_scope": "OFFLINE_CANDIDATE"
+    },
+    "bindingRevision": "16",
+    "discoveryObservationId": "d163ab7b-50e9-44fa-ba45-3bde4d2d4b5f",
+    "validation": {
+      "id": "4dd24d87-a488-4903-8864-a4aa1bdce84e",
+      "digest": "3e119a86d608c8936ab2c121a576cd77885bd6928e7608b43d71ed18cce33cc3",
+      "currentness": "CURRENT",
+      "bindingId": "0f385ee2-15d5-47e1-af9f-ca75bc502bd4",
+      "assignmentRevision": "1",
+      "bindingRevision": "16",
+      "policyDecision": "INDEPENDENT_REVIEW_REQUIRED",
+      "executionAuthority": false
+    },
+    "independentApproval": {
+      "status": "APPROVED",
+      "authorId": "kelryvo-developer",
+      "decidedBy": "kelryvo-approver",
+      "approvalReference": "72b77947-a09d-4a93-9298-a054fbced795",
+      "reviewerRevision": "0"
+    },
+    "readiness": {
+      "checks": [
+        {
+          "code": "METADATA_ACTIVE",
+          "status": "PASS"
+        },
+        {
+          "code": "IMMUTABLE_INTENT_VERIFIED",
+          "status": "PASS"
+        },
+        {
+          "code": "STATEMENT_BOUND_PLAN",
+          "status": "PASS"
+        },
+        {
+          "code": "INDEPENDENT_APPROVAL_CURRENT",
+          "status": "PASS"
+        },
+        {
+          "code": "PLAN_EXECUTION_STATE",
+          "status": "PASS"
+        },
+        {
+          "code": "PROTECTED_SOURCE_CURRENT",
+          "status": "PASS"
+        },
+        {
+          "code": "PROFILE_CURRENT",
+          "status": "PASS"
+        },
+        {
+          "code": "TARGET_CONFIGURATION_CURRENT",
+          "status": "PASS"
+        },
+        {
+          "code": "SCHEMA_VALIDATION_CURRENT",
+          "status": "PASS"
+        },
+        {
+          "code": "DEPLOY_AUTHORIZATION",
+          "status": "PASS"
+        },
+        {
+          "code": "NO_ACTIVE_OR_HELD_REQUEST",
+          "status": "BLOCKED"
+        },
+        {
+          "code": "TARGET_HISTORY_AVAILABLE",
+          "status": "UNVERIFIED"
+        },
+        {
+          "code": "TRUSTED_WORKER_ADMISSION",
+          "status": "UNVERIFIED"
+        },
+        {
+          "code": "CANONICAL_TARGET_MUTEX",
+          "status": "UNVERIFIED"
+        },
+        {
+          "code": "DISPATCH_PERMIT",
+          "status": "UNVERIFIED"
+        },
+        {
+          "code": "ORACLE_RUNTIME_ACCEPTANCE",
+          "status": "UNVERIFIED"
+        }
+      ],
+      "requestEligible": false,
+      "executionAuthority": false,
+      "oracleAcceptance": "NOT_RUN",
+      "executable": false,
+      "activeJobs": []
+    },
+    "deniedRequest": {
+      "status": 409,
+      "code": "EXECUTION_ALREADY_PENDING",
+      "returnedJob": false
+    }
+  },
+  "preservation": {
+    "metadataTables": 68,
+    "allPriorRowsUnchanged": true,
+    "appendedRows": {
+      "sf_audit": {
+        "added": 3,
+        "removedOrChanged": 0
+      },
+      "sf_connection_plan_revisions": {
+        "added": 1,
+        "removedOrChanged": 0
+      },
+      "sf_history": {
+        "added": 2,
+        "removedOrChanged": 0
+      },
+      "sf_local_credentials": {
+        "added": 4,
+        "removedOrChanged": 0
+      },
+      "sf_plan_schema_evidence": {
+        "added": 1,
+        "removedOrChanged": 0
+      },
+      "sf_plans": {
+        "added": 1,
+        "removedOrChanged": 0
+      },
+      "sf_sql_validations": {
+        "added": 1,
+        "removedOrChanged": 0
+      }
+    },
+    "newExecutionJobs": 0,
+    "holdsUnchanged": 11,
+    "newBrowserSessionsCreatedAndRevoked": 2,
+    "oracleCalls": 0,
+    "workerDispatch": false,
+    "infrastructureChanges": false,
+    "sqlDraftChanges": false,
+    "releaseChanges": false
+  },
+  "originalCommand": {
+    "status": "FAIL",
+    "stage": "verify-after-metadata-preservation-snapshots",
+    "explanation": [
+      "Plan creation appends sf_connection_plan_revisions; original allowlist omitted it.",
+      "sf_sql_draft_revisions has identical per-row hash multiset; preparer JS sort and after-helper PostgreSQL ORDER BY produced different aggregate hash ordering. No draft row changed."
+    ],
+    "rerun": false
+  },
+  "reconstruction": {
+    "status": "PASS_BOUNDED_CURRENT_HOLD_VETO_RECONSTRUCTION",
+    "aggregateOrderingHashes": {
+      "postgres": "ac8e437eb99ae92594a6d2e703fa41793d09c69bef3f4d8228001268db1e645a",
+      "javascript": "5707b056ec1c953459ecac9cc23a297ad5b01a53629cd711762b739a62d18912"
+    },
+    "independentOutcome": "APPROVE_BOUNDED_RECONSTRUCTION_ORIGINAL_COMMAND_FAIL_PRESERVED"
+  },
+  "limitations": [
+    "This approves the bounded reconstructed metadata outcome, not a green result from the original one-shot command.",
+    "Oracle runtime acceptance and worker admission remain unverified; no native Oracle validation, DDL/DML, or execution is claimed.",
+    "Do not rerun the one-shot harness or repeat its mutations.",
+    "The held-stream branch is verified with a current binding, metadata/parser validation and a distinct independently approved plan. This is not native Oracle schema validation.",
+    "WAITING/ADMITTED request-state variants, other OA09 history cases and the full R1/R2/OA01/OA02/OA05 matrices remain open."
+  ],
+  "privateEvidenceSha256": {
+    "scope.json": "bed63e4a51f6334dd8a5ee6e85388f068026d2d104676d75848d8940fcd88b31",
+    "review.json": "b03079c5a0959ae9938092ce5302d5adbd987e2827404e991da88e1ff175e046",
+    "fresh-hold-veto.mjs": "4939d6a9ee3efba449e1388105d78f5594898f0558d1988f25e5dd36ffa06ec3",
+    "failure.private.json": "7bd6828d7c83c0a6467e85a6c28e6348773ebbfdd343da39baae7455f299c5ce",
+    "state.private.json": "4e2cc1f06c29506d23b9bb44cd2ea2bd5f6a32f520c022a30af6a98463acd558",
+    "metadata-before.private.json": "2f94f1b2d6b6bdde62f620edb4840bc669f2142c5cd8e4effd81608675717fda",
+    "metadata-after.private.json": "dd2dd5b8433e991c7e7acbc1309379f9119b148a49cef3f1041cd4999a90a77b",
+    "rows-before.private.json": "90a743426d498385b856d0f2d9dc60cd87a207c41064730681d5a52a7795fdcf",
+    "rows-after.private.json": "63a834f43353c80b8983ff3a45669dadfdc5f5bb1bc140e5a67557ae6079efd4",
+    "reconstruct-snapshot-v2.cjs": "65587857e0d8a6aff024326b189bb2e10e62cf1d9433daa093522f9f8187b90b",
+    "supplemental.json": "0c0e3c05b3a1568bd0388f4c60484e4314274ee97e61bff1294e12747e699740",
+    "reconstruct-v2.py": "dc9d2ba5a385a6839150188210fb55df76b2cf8765c24980a6e72258515587cd",
+    "outcome-review.json": "1dc924740b8380e8496e0f89a5ea147928135d4d9ac3e269ba9c9334d60cdc4d"
+  }
+}

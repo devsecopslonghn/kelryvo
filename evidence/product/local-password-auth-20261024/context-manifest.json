@@ -1,0 +1,1058 @@
+{
+  "files": {
+    ".dockerignore": {
+      "sha256": "89dc2403a4eeabc1b9cf3599937a3d37930d944a011533872f4006fb9b1a9b4c",
+      "mode": "0o644",
+      "bytes": 540
+    },
+    "Dockerfile": {
+      "sha256": "989eae5882d0c01dcc3331d75847cef3b0ba6ab90ad399aa3e0e13629de4a3c0",
+      "mode": "0o644",
+      "bytes": 4281
+    },
+    "LICENSE": {
+      "sha256": "67530f8e9adfcc5d2e9d72b804500cebb7472ff84c34a6729a80a2a9be901ee6",
+      "mode": "0o644",
+      "bytes": 5748
+    },
+    "NOTICE": {
+      "sha256": "9cd891828604a45156726122036506c22cf14fa13796b1f2b73b677bfbce834e",
+      "mode": "0o644",
+      "bytes": 692
+    },
+    "apps/api/container-main.mjs": {
+      "sha256": "c3c9f5d9dd84b6364217fa0919d4a3f971302c6ecc7c855b0f512f60fd3bd33f",
+      "mode": "0o644",
+      "bytes": 3192
+    },
+    "apps/api/index.ts": {
+      "sha256": "592c105e191fbd96ebd58752353d55b6204e68444810fc1be40fe3a247327df4",
+      "mode": "0o644",
+      "bytes": 140248
+    },
+    "apps/api/server.ts": {
+      "sha256": "c86856d2df26758211747007889efb390d44d1e70e8b21f6ea082c77e0bc7613",
+      "mode": "0o644",
+      "bytes": 2500
+    },
+    "apps/runtime/bootstrap.mjs": {
+      "sha256": "778ea24ed3e623ffdb6c78899667351d058867fb00866e1eabaa3a4abba7977c",
+      "mode": "0o644",
+      "bytes": 4923
+    },
+    "apps/runtime/execution-main.mjs": {
+      "sha256": "85ea17aa7919047bdb846118cedfa48497a6fa0844c0903346174318a886fa30",
+      "mode": "0o644",
+      "bytes": 2050
+    },
+    "apps/runtime/launcher.c": {
+      "sha256": "1fee4f6027a2c8855646aec8686900c397210c9284f9d2ebf21a867dc0b44798",
+      "mode": "0o644",
+      "bytes": 6325
+    },
+    "apps/web/index.html": {
+      "sha256": "e57ba72492af171f7cb0a0aca62665fed0fcf683e0e243a404851616abfd3956",
+      "mode": "0o644",
+      "bytes": 496
+    },
+    "apps/web/src/Account.jsx": {
+      "sha256": "b8502c7e00534ca1b8b1e7d90e5cd7dae63ef1949c9023e97005f8b85afcaa77",
+      "mode": "0o644",
+      "bytes": 7258
+    },
+    "apps/web/src/ConnectionConfiguration.jsx": {
+      "sha256": "69f2eaaeee67233833f1d9576eebe5eed515f0b84499fef313dad7cdedcc3fe1",
+      "mode": "0o644",
+      "bytes": 13617
+    },
+    "apps/web/src/Connections.jsx": {
+      "sha256": "67f5edbf5d0894cec808d61adfeb338a10b1a332b61a4d7e1693f3889c59d73c",
+      "mode": "0o644",
+      "bytes": 34770
+    },
+    "apps/web/src/ExecutionHistory.jsx": {
+      "sha256": "5c43ba3c356e1023301cdad764c790256e2587dd4de2b6e21c4d9458d117d4a6",
+      "mode": "0o644",
+      "bytes": 7719
+    },
+    "apps/web/src/ExecutionReadiness.jsx": {
+      "sha256": "0b8564da87632a6a44a636760ea79ef39ab9c5f2d1d8779992736be4daf2e2cd",
+      "mode": "0o644",
+      "bytes": 6256
+    },
+    "apps/web/src/ExecutionReconciliation.jsx": {
+      "sha256": "d68ba62994f40ef00b432a79b0b62054ecadfeccc22f71bfda80adf42bcd070c",
+      "mode": "0o644",
+      "bytes": 8814
+    },
+    "apps/web/src/ExecutionRecord.jsx": {
+      "sha256": "b5dbb00294419be3e3e56f797e993067c07e88a2c0c772b1ff5e0aa8379c41c7",
+      "mode": "0o644",
+      "bytes": 2153
+    },
+    "apps/web/src/ExecutionRequestsHistory.jsx": {
+      "sha256": "8aada9ed1f6a1fe943f9ce116c7924a342842cfc3733b26968e3b4b35cb6ea38",
+      "mode": "0o644",
+      "bytes": 6934
+    },
+    "apps/web/src/InstanceOnboarding.jsx": {
+      "sha256": "284d606a82acb2b857c057e3cdc97ec0c4b42d5ccef2ba10758943666d808713",
+      "mode": "0o644",
+      "bytes": 26905
+    },
+    "apps/web/src/Instances.jsx": {
+      "sha256": "56414e6ae5bd4cbc6997d3c778c311db629099d432ddfecf3ed3d1f3bc7c4541",
+      "mode": "0o644",
+      "bytes": 11781
+    },
+    "apps/web/src/MigrationAnalysis.jsx": {
+      "sha256": "627beefaef21a8f1770ef24e57da2a098d0ee644b4e220a04d769c40e8ff7fcc",
+      "mode": "0o644",
+      "bytes": 11076
+    },
+    "apps/web/src/MigrationHistory.jsx": {
+      "sha256": "0fb835879ccc4d01b32cecab2de2b0974d1dae1bc452647096357e21a12caeea",
+      "mode": "0o644",
+      "bytes": 12296
+    },
+    "apps/web/src/PasswordLogin.jsx": {
+      "sha256": "d0fbfbfd600f7e1507416f685aa1caff33cfdfbe06acc70dfa7ad81b0c08ef78",
+      "mode": "0o644",
+      "bytes": 4594
+    },
+    "apps/web/src/PlanRecord.jsx": {
+      "sha256": "d1ec76406ba970bcf96b3fd427b43bd5b738120f595f9d24384de29db3320a1f",
+      "mode": "0o644",
+      "bytes": 3451
+    },
+    "apps/web/src/PlanSourceComparison.jsx": {
+      "sha256": "0ea487b753cddff8df23aacdce38303ca33346f19dd74240466531b799413e6d",
+      "mode": "0o644",
+      "bytes": 7232
+    },
+    "apps/web/src/ProjectTargets.jsx": {
+      "sha256": "af5b6c0664bbc865fe85aa4797fa499ed9a74bb12af6baa7f8caf4b12d326264",
+      "mode": "0o644",
+      "bytes": 11498
+    },
+    "apps/web/src/SchemaBaselines.jsx": {
+      "sha256": "ec36ff9fbc4c5271408b426c1a9eeae0e9433a73ab47948de3ff0c517c2d2396",
+      "mode": "0o644",
+      "bytes": 22800
+    },
+    "apps/web/src/SchemaDrift.jsx": {
+      "sha256": "30d11eeb8e2b883199ae15b492a149dd8602ac59878db19f9a2981779005c2d7",
+      "mode": "0o644",
+      "bytes": 5629
+    },
+    "apps/web/src/SchemaValidation.jsx": {
+      "sha256": "d31ea8db0bd74d57fddbb2d843156d2e2350de493eba70ad2949e8112c80f4ee",
+      "mode": "0o644",
+      "bytes": 10865
+    },
+    "apps/web/src/SqlWorkspace.jsx": {
+      "sha256": "b39a24d80c3fe11031936eed715adde78aec2522eb754364e2986b54491af73b",
+      "mode": "0o644",
+      "bytes": 40633
+    },
+    "apps/web/src/TargetIdentityEvidence.jsx": {
+      "sha256": "9159def31e40f72253736275723b27a6e758d97713eaee6fd67feb15e9084dc1",
+      "mode": "0o644",
+      "bytes": 2214
+    },
+    "apps/web/src/app.jsx": {
+      "sha256": "cb3775495fc263c3a555957eeada7b37eae3865ca7dc2cae1464005803f2fd97",
+      "mode": "0o644",
+      "bytes": 183734
+    },
+    "apps/web/src/executionJobs.js": {
+      "sha256": "7eae101538437fa3ed1f4313843f526646b88739ebc9ee830957b934c25163b2",
+      "mode": "0o644",
+      "bytes": 1116
+    },
+    "apps/web/src/workflowLocation.js": {
+      "sha256": "966ddabb46231bf2add342c89872935bbd0e0d1aed1ba4f7ba55a25f0e359091",
+      "mode": "0o644",
+      "bytes": 1017
+    },
+    "apps/web/styles.css": {
+      "sha256": "27406990dc5ca77c69f1db263432c836c699c1267855d026dfadb2dff8004dc8",
+      "mode": "0o644",
+      "bytes": 64821
+    },
+    "apps/worker/coordinator.ts": {
+      "sha256": "4d2f4ebed6b10db4bb6ca46699b9afbb3d0914568f00dd276bb2c282a67a31bc",
+      "mode": "0o644",
+      "bytes": 331
+    },
+    "apps/worker/execution-service-main.mjs": {
+      "sha256": "f67cfefb26a69ae2f31c32e0bc4edb097d46e78149c91c3bf738a6dcff7875fd",
+      "mode": "0o644",
+      "bytes": 2430
+    },
+    "apps/worker/execution-service.mjs": {
+      "sha256": "0c809652f5c4cf6e5278e85e015f0cee6e2dc26e7fd28638803c72c0b3b59ab4",
+      "mode": "0o644",
+      "bytes": 11894
+    },
+    "apps/worker/execution-worker-child.mjs": {
+      "sha256": "aa2536ea9deb5db1daeefd035e7b4d44078d7af0d8de2360bc64007d51e5684f",
+      "mode": "0o644",
+      "bytes": 415
+    },
+    "apps/worker/expiry-recovery-factory.mjs": {
+      "sha256": "d07ea29d0e92ae5bb1a3a8548e8905fad70c468d2e7886f94e3faf228b790ca0",
+      "mode": "0o644",
+      "bytes": 495
+    },
+    "apps/worker/installed-worker-factory.mjs": {
+      "sha256": "c96f75aa3914e8846d3d714550e7e184b5aa71c2fc9ca4685a6d484c7a01b7de",
+      "mode": "0o644",
+      "bytes": 8638
+    },
+    "apps/worker/oracle-host.ts": {
+      "sha256": "b034d1ec19f32bed295004e835281b30fedd18e49a13b36743350a496b9874b1",
+      "mode": "0o644",
+      "bytes": 27653
+    },
+    "apps/worker/oracle-provider.mjs": {
+      "sha256": "4d2d00848bba8f62943923691478ac7e0099cdf5b6470d38fa8555a48b8781f7",
+      "mode": "0o644",
+      "bytes": 11129
+    },
+    "apps/worker/oracle/target-ledger.sql": {
+      "sha256": "e4690f995fdfb5ec7e290f68c22208f62d17f6db162bd73fda4cc3ddb8f587dc",
+      "mode": "0o644",
+      "bytes": 2441
+    },
+    "apps/worker/oracle/target-mutex.sql": {
+      "sha256": "ad5dbac6efcb2c2766b6da68b0f8e54b32b0856f688adc00da71c680751abd2e",
+      "mode": "0o644",
+      "bytes": 3167
+    },
+    "apps/worker/run-request.ts": {
+      "sha256": "57ed0c2ca2e048d86aeed98b88b4596818a95a234f708fc702fe270edc1e58e9",
+      "mode": "0o644",
+      "bytes": 18621
+    },
+    "apps/worker/supervised-runner.mjs": {
+      "sha256": "f04ae6cfaac7818f3dd0a35b4631b733bdc3c8561431f00b1b595331f729d4ac",
+      "mode": "0o644",
+      "bytes": 2118
+    },
+    "apps/worker/supervisor-protocol.mjs": {
+      "sha256": "e6ce70e4bb116afe0f912fe13454f73b7ea68c073fcd77f67108b7a3f40ec2e4",
+      "mode": "0o644",
+      "bytes": 1831
+    },
+    "apps/worker/supervisor.mjs": {
+      "sha256": "38470e1f442d8adbc99a67f2fc6cae701e64876293e41b2b2933666bca28e9b5",
+      "mode": "0o644",
+      "bytes": 9625
+    },
+    "docs/dependencies/LICENSE-EVIDENCE.md": {
+      "sha256": "04fb6a84280001eb48038f3f2eceae2a2ff2962b8515829ceb8b67249f43360d",
+      "mode": "0o644",
+      "bytes": 6499
+    },
+    "docs/dependencies/antlr-parser-lock.json": {
+      "sha256": "bd5d0d824c52716ca2c3a722f12e60322a0ffb94f02964b0ac229add991fbb3b",
+      "mode": "0o644",
+      "bytes": 5400
+    },
+    "docs/dependencies/antlr-provenance.md": {
+      "sha256": "25208babd7813f81bcae20705f518bbc0b6e7cd755627582a2ae0bc0d8de1d95",
+      "mode": "0o644",
+      "bytes": 3225
+    },
+    "docs/dependencies/container-runtime.json": {
+      "sha256": "84b380ff2dfa6a2721fef6c5e77b7576d9d5ef07cb561a098512be60d94a5b50",
+      "mode": "0o644",
+      "bytes": 1543
+    },
+    "docs/dependencies/maven-build-cache-lock.json": {
+      "sha256": "7d5082a925d1a4c3ed818c0841b2fd773277dbd609b7260d1a9381b389de3e2a",
+      "mode": "0o644",
+      "bytes": 133967
+    },
+    "docs/dependencies/maven-build-plugin-closure.json": {
+      "sha256": "a019fc0c5018e4a833cac87eb18a8a7a6b2da57525ffa447c6a1ff021ef92704",
+      "mode": "0o644",
+      "bytes": 167472
+    },
+    "docs/dependencies/maven-runtime-closure.json": {
+      "sha256": "576ad9719ea605714c6fbf304886c938f52ed1351b905adbc0a29d08c95aa517",
+      "mode": "0o644",
+      "bytes": 19123
+    },
+    "docs/dependencies/node-npm-closure.json": {
+      "sha256": "10a1fba46f1b10dd2088001ebc372f7a6f4e4f56550145a034e1c8399842a271",
+      "mode": "0o644",
+      "bytes": 115122
+    },
+    "docs/dependencies/product-NOTICES.txt": {
+      "sha256": "ca13834dbe6b15ae89c36d6f84c54b58e31ea8278d13374ec663056f78098f31",
+      "mode": "0o644",
+      "bytes": 115901
+    },
+    "docs/dependencies/product-closure.json": {
+      "sha256": "328f6875bb24f1869cd4585ad3d8cc3890777681896d9b7d03d94cda6f3b426e",
+      "mode": "0o644",
+      "bytes": 40460
+    },
+    "docs/dependencies/third-party-notices.json": {
+      "sha256": "cc5c73bd02e16637cf7cd1849fc1cfee8a5d91ebaaa0bf4521ba623284001118",
+      "mode": "0o644",
+      "bytes": 49507
+    },
+    "experiments/db-devops-wp0/antlr-envelope.mjs": {
+      "sha256": "760ea849e7f9b8bd08a7f2dbce59569e7d2ae7e8499c61338e5de195cf27f02a",
+      "mode": "0o644",
+      "bytes": 3481
+    },
+    "experiments/db-devops-wp0/antlr-helper/grammar/PlSqlLexer.g4": {
+      "sha256": "fd82384ba3ba2f5a7b070a977cd77a05c01fefbfb52938d35dfaf472a2e6e59e",
+      "mode": "0o644",
+      "bytes": 119856
+    },
+    "experiments/db-devops-wp0/antlr-helper/grammar/PlSqlParser.g4": {
+      "sha256": "90c6cb500fec711ad7e1d3aa793638686f265e4ce1e02632e1eabd6fded502e3",
+      "mode": "0o644",
+      "bytes": 242251
+    },
+    "experiments/db-devops-wp0/antlr-helper/notices/ANTLR-BSD-3-Clause.txt": {
+      "sha256": "3db1fb3ee79a4b4f9918fc4d0f6133bf18a3cf787f126cd22f8aa9b862281c0c",
+      "mode": "0o644",
+      "bytes": 1480
+    },
+    "experiments/db-devops-wp0/antlr-helper/notices/Apache-2.0.txt": {
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "mode": "0o644",
+      "bytes": 11358
+    },
+    "experiments/db-devops-wp0/antlr-helper/notices/NOTICE.txt": {
+      "sha256": "9984aa4adef5fcf9ba0050baad431dfecbe8e4630a68d03c51dcfa66cb833f47",
+      "mode": "0o644",
+      "bytes": 901
+    },
+    "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/Main.java": {
+      "sha256": "7528676c77213259824f71505686aeadbc6136a0f5625b19b722a15cb306da11",
+      "mode": "0o644",
+      "bytes": 10339
+    },
+    "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/PlSqlLexerBase.java": {
+      "sha256": "a806d6ed05d269efc3aca4fe9debf2bab4d1c74767cfa1ff6b227db175732156",
+      "mode": "0o644",
+      "bytes": 552
+    },
+    "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser/PlSqlParserBase.java": {
+      "sha256": "235ca59b19294b9b8fac72621cbbeff1291b56f5e927367df54ba2a641990931",
+      "mode": "0o644",
+      "bytes": 2764
+    },
+    "experiments/db-devops-wp0/dependencies/smoke.mjs": {
+      "sha256": "325d1cd97fc2c1ffcba6deec075ca6b32fc17e1b20f84d34001603c612127a35",
+      "mode": "0o644",
+      "bytes": 1802
+    },
+    "experiments/db-devops-wp0/parser-envelope.mjs": {
+      "sha256": "b6bf3f73cd252ea04004e721c044b5ae67fd61d70334c72004e3bc93f1b428b4",
+      "mode": "0o644",
+      "bytes": 8579
+    },
+    "experiments/db-devops-wp0/parser-release.mjs": {
+      "sha256": "4e9a5358e71dbc19837b2ebc0c1f24ecebe47e95429c8fc58f47f34a242d3d29",
+      "mode": "0o644",
+      "bytes": 2845
+    },
+    "experiments/db-devops-wp0/preflight.mjs": {
+      "sha256": "6a518768f0c521d8cbca9e796ed3b505a1b2497c74c4d44b741e2caa4cf8b44e",
+      "mode": "0o644",
+      "bytes": 29751
+    },
+    "experiments/db-devops-wp0/thin-probe-plan.mjs": {
+      "sha256": "006d1c46a4d9f311a39188907275112ba8458363cd8ca5c55466cdf2f9ffdff3",
+      "mode": "0o644",
+      "bytes": 4215
+    },
+    "experiments/db-devops-wp0/thin-probe-protocol.mjs": {
+      "sha256": "7c97270ab3414b893da375a2d702f7e3e0bf91ba1013ed9234f515aa1941efd2",
+      "mode": "0o644",
+      "bytes": 3078
+    },
+    "experiments/db-devops-wp0/thin-probe-supervisor.mjs": {
+      "sha256": "1f9798decb670961c8438e8f44972baddccfe178343dcd13d047e5f26483e1e1",
+      "mode": "0o644",
+      "bytes": 6955
+    },
+    "experiments/db-devops-wp0/thin-probe-worker.mjs": {
+      "sha256": "7d5fa9a1b7527e6f3b940594694054c070fc9f8d08b17005f168ad3d30254185",
+      "mode": "0o644",
+      "bytes": 1360
+    },
+    "experiments/db-devops-wp0/thin-readonly-probe.mjs": {
+      "sha256": "becf3fb4123462dc2c68e7fc286823a4c16d169c2b91c89ddc7a0353b37ed87a",
+      "mode": "0o644",
+      "bytes": 21181
+    },
+    "package-lock.json": {
+      "sha256": "5f0eb98ef2b51882c79c64d3f9ffaadba7124844e081f303d1f7231796448866",
+      "mode": "0o644",
+      "bytes": 43411
+    },
+    "package.json": {
+      "sha256": "6f2999f81ab62f09e82323aad5bb04e85f181a60ff1a50d9c2c84e90586a70a8",
+      "mode": "0o644",
+      "bytes": 3380
+    },
+    "packages/audit/cursor.mjs": {
+      "sha256": "2021ef98e9def3cea292236b54cba3cda1ba43d20ae96955c5a27c7e994a21aa",
+      "mode": "0o644",
+      "bytes": 1803
+    },
+    "packages/backup/index.mjs": {
+      "sha256": "3686d52e071c1a468c6e6aec577d8cb6107f516045c0c1a11b42ff111dc83c3b",
+      "mode": "0o644",
+      "bytes": 59371
+    },
+    "packages/backup/native-tool.mjs": {
+      "sha256": "f755df92201f073bf7418c97ea27cf6d5aa417132c124741ad51123a037401b8",
+      "mode": "0o644",
+      "bytes": 6577
+    },
+    "packages/catalog-reference/index.mjs": {
+      "sha256": "4ce89a34fd6cbfeabbbc2cf1d25e85ff37a7cc1a8376652e07925ca0dbae31bb",
+      "mode": "0o644",
+      "bytes": 8198
+    },
+    "packages/connectivity/api.ts": {
+      "sha256": "8549a3e4914f896bdd46d171d9d4f76833d6a14374ddff69c82fcb24e12d257a",
+      "mode": "0o644",
+      "bytes": 27190
+    },
+    "packages/connectivity/evidence.mjs": {
+      "sha256": "114391e850c280861a5d8acd1b43cba1ddf60a7ba8f49c6a5f7867498856bf35",
+      "mode": "0o644",
+      "bytes": 4884
+    },
+    "packages/connectivity/instance-current.ts": {
+      "sha256": "2d4c02cc1388a58c0a37d42640cb181a15af1ebc31ff5c28a542fb083facc896",
+      "mode": "0o644",
+      "bytes": 1573
+    },
+    "packages/connectivity/instance-identity.mjs": {
+      "sha256": "d2a1d3c1ac66f62853a1e7aaa182ac7a10ee79b4a83b60a8c16b0592f7e43b38",
+      "mode": "0o644",
+      "bytes": 2895
+    },
+    "packages/connectivity/instance-schema.mjs": {
+      "sha256": "30014ab18ceb9e366355ae4a971d39692394a7b3bfb6b33ee86ceb46f7fbb674",
+      "mode": "0o644",
+      "bytes": 2769
+    },
+    "packages/connectivity/instances.ts": {
+      "sha256": "6f51268a337d967b83593230fa6249814672078ed93b93de5f6ba38acdf4ce5a",
+      "mode": "0o644",
+      "bytes": 11123
+    },
+    "packages/connectivity/management-schema.mjs": {
+      "sha256": "4a7ac0b86f7d4cc59e11f9bc24a33d8fddc0a445ca7df5a52c9b1f006f8a39e2",
+      "mode": "0o644",
+      "bytes": 6865
+    },
+    "packages/connectivity/management.ts": {
+      "sha256": "1bc56ed18792ce6d14e97863fb039477f4a0050dd64d220634b94b4c83dbefec",
+      "mode": "0o644",
+      "bytes": 17561
+    },
+    "packages/connectivity/oracle-child.mjs": {
+      "sha256": "400cf002dec5a471755db838b5dc1dcdece8955e4754df3591226b78f17a9d27",
+      "mode": "0o644",
+      "bytes": 738
+    },
+    "packages/connectivity/oracle.mjs": {
+      "sha256": "a092f3425035624e7bc78541604b4b3c68a5877d09e9a1cb30a96af45ed55ed7",
+      "mode": "0o644",
+      "bytes": 29098
+    },
+    "packages/connectivity/schema.mjs": {
+      "sha256": "8495c0471826298e7e7941778bf13ff0e94f3456db26fea3b039e2cf76a9eb06",
+      "mode": "0o644",
+      "bytes": 7586
+    },
+    "packages/database/account.ts": {
+      "sha256": "ab5e7dca0dafbdc5302095ea0a5dc2460652f0a889b8f6d87eb8c95c4f8e6576",
+      "mode": "0o644",
+      "bytes": 5709
+    },
+    "packages/database/browser-sessions.ts": {
+      "sha256": "f7681a70d2492702371a1f7aff1c75dd37498936baa0a75fa618518909dcbea3",
+      "mode": "0o644",
+      "bytes": 10081
+    },
+    "packages/database/container-credentials.ts": {
+      "sha256": "65f5d18cf10284c96772d153958800e551e5c1365a23e1f95e8c8fd7fde0ac45",
+      "mode": "0o644",
+      "bytes": 6741
+    },
+    "packages/database/index.ts": {
+      "sha256": "baa2344a3f0f6bad1d7be7aa59c94c65d01b00d738fc3a7fbdbb85d8664a89dc",
+      "mode": "0o644",
+      "bytes": 43408
+    },
+    "packages/database/local-credentials.ts": {
+      "sha256": "007879f37adf76bfd8432efe6e72c55e660c4cc1250c6c6c5bd9abce4c6afa1a",
+      "mode": "0o644",
+      "bytes": 2084
+    },
+    "packages/database/mutation-authority.ts": {
+      "sha256": "1e05ef72543f2fd246bc1cc83b5855c4369140f7bd5c6009726553db3554bdb9",
+      "mode": "0o644",
+      "bytes": 2198
+    },
+    "packages/database/password-auth.ts": {
+      "sha256": "8bb0f8f1a4dd2151d90e3aa8949f0186715f017bf5da72bbc1ab5ddf9400a5f8",
+      "mode": "0o644",
+      "bytes": 11663
+    },
+    "packages/database/profile-lifecycle.ts": {
+      "sha256": "6186dc11b74e569fe1af1fecbaf6c8f5c5603f08d764ec92a6cb7b14b442d9b4",
+      "mode": "0o644",
+      "bytes": 3719
+    },
+    "packages/database/project-membership.ts": {
+      "sha256": "0f0f6996308b9931cdeab53361921e86d8d9fbf5b2facc1b36c4097333d0c72e",
+      "mode": "0o644",
+      "bytes": 862
+    },
+    "packages/execution/admission.ts": {
+      "sha256": "614ff0f46a76a4808504d04892392d84fa98220d003694e629d355d85439a27a",
+      "mode": "0o644",
+      "bytes": 23273
+    },
+    "packages/execution/coordinator.ts": {
+      "sha256": "805e6b46b7d04782cf3b6b955a21337f0e685d4c7d2c8be288df04bb886f23b6",
+      "mode": "0o644",
+      "bytes": 5947
+    },
+    "packages/execution/history-context.mjs": {
+      "sha256": "346b27c49b73991f6825d4c2160b24f23b7932d060db3d068b34baae52cd3426",
+      "mode": "0o644",
+      "bytes": 5127
+    },
+    "packages/execution/history-reconciliation.ts": {
+      "sha256": "1b355bbfff5f19c2ae8ecc8f219138ff956dcd2afe5a8a049e66433f01982b2e",
+      "mode": "0o644",
+      "bytes": 10035
+    },
+    "packages/execution/history.ts": {
+      "sha256": "a5bda5435f511d1b1c044767239a9842d8e372dc8f553b5ee6c3ffce384f154a",
+      "mode": "0o644",
+      "bytes": 9270
+    },
+    "packages/execution/migration-analysis.ts": {
+      "sha256": "70b6c256ca165e34c703101e29376645de1e87a641cb1a7b28050b015bbb8649",
+      "mode": "0o644",
+      "bytes": 27335
+    },
+    "packages/execution/oracle-driver.mjs": {
+      "sha256": "5c6092834f58e75e0cf539c6d4fb15cca7f0f61e96a6d18a601649d07b59d79f",
+      "mode": "0o644",
+      "bytes": 3996
+    },
+    "packages/execution/oracle-target-ledger.mjs": {
+      "sha256": "969e9ff7c2748d7277d43d0609479368916b27bdc55c49f075049824f241fc28",
+      "mode": "0o644",
+      "bytes": 15268
+    },
+    "packages/execution/oracle-target-mutex.mjs": {
+      "sha256": "e088f46428e26b3ef9a442d5a1f0bfee544be5726c0dd688d6325d69bb6a983c",
+      "mode": "0o644",
+      "bytes": 4704
+    },
+    "packages/execution/pending-migrations.mjs": {
+      "sha256": "395b13c92251b85119709105266840e54bb59947263f5fc0483de9e4edaebbce",
+      "mode": "0o644",
+      "bytes": 3281
+    },
+    "packages/execution/postgres-jobs.ts": {
+      "sha256": "d7f872527822bd2ef88ec4339ffeb20cc50efeb9335b7ab4497dc0d120b2c326",
+      "mode": "0o644",
+      "bytes": 17065
+    },
+    "packages/execution/readiness.ts": {
+      "sha256": "0aa6adf3676ab3da482fec0c6db74062bd8f320c5f9d1991e1b47408c29e4793",
+      "mode": "0o644",
+      "bytes": 11084
+    },
+    "packages/execution/reconciliation.ts": {
+      "sha256": "6ee72df317f4d53b494c86600c071e10a23bda91853fa6416f4d54520fd983c1",
+      "mode": "0o644",
+      "bytes": 24745
+    },
+    "packages/execution/record.ts": {
+      "sha256": "feecf0e736f786756d40e34f3829955555db835bfac419478f5ddb48c067c69e",
+      "mode": "0o644",
+      "bytes": 14931
+    },
+    "packages/execution/schema-scope.mjs": {
+      "sha256": "79b1ed581430034759d5b4f5c2b6a5d532b61a1a775e6294a60c5624c5ce8962",
+      "mode": "0o644",
+      "bytes": 7917
+    },
+    "packages/execution/statements.mjs": {
+      "sha256": "c9739a2ec8e070f94136539b3f2cc515ff9c3225112303fd90d235f3e8415688",
+      "mode": "0o644",
+      "bytes": 3760
+    },
+    "packages/execution/target-binding-digests.mjs": {
+      "sha256": "c9ab53437596f0cc1d67bd677260cef5ade676d6961a6930bf886c528985c6bb",
+      "mode": "0o644",
+      "bytes": 1659
+    },
+    "packages/governance/plan-record.ts": {
+      "sha256": "039ae9230d36f3d0381e5d670905124586749f9d495d597e6452134ba213bcf9",
+      "mode": "0o644",
+      "bytes": 8436
+    },
+    "packages/governance/review-inbox-cursor.mjs": {
+      "sha256": "1ed42e181cb224c000efc0e4612b8a697550f7c8b36edff143a863cf85776b7c",
+      "mode": "0o644",
+      "bytes": 2141
+    },
+    "packages/governance/source-comparison.ts": {
+      "sha256": "ee07f0e678d77a81ca82c7c06ac3eff8875a5ed353728fc02f1cf8574ef5f58a",
+      "mode": "0o644",
+      "bytes": 13345
+    },
+    "packages/migration-history/api.ts": {
+      "sha256": "89b633e9f71b9b17dfe200b36f79a34d69102807eb5f53c93b5525d35f228763",
+      "mode": "0o644",
+      "bytes": 12933
+    },
+    "packages/migrations/authored-snapshot.mjs": {
+      "sha256": "d28935a771082de79b393295af1e9d53fee69a2f84d8973e100a6e7364521c0b",
+      "mode": "0o644",
+      "bytes": 6835
+    },
+    "packages/migrations/comment-evidence.mjs": {
+      "sha256": "e7ba96a9579937da0cf098d67e959230f78916ce534021cfaad8d3c948716f70",
+      "mode": "0o644",
+      "bytes": 3031
+    },
+    "packages/migrations/compare-retained-releases.mjs": {
+      "sha256": "f0a33a73c31811a52003e7757b4c01b25469a354711fa10f4baeb80ca7d02eb8",
+      "mode": "0o644",
+      "bytes": 1350
+    },
+    "packages/migrations/import-release.mjs": {
+      "sha256": "7206531894e78ad96f4386ffc1ba24db9ff3f5e2052ffb88b86d8e107bc7be9b",
+      "mode": "0o644",
+      "bytes": 6992
+    },
+    "packages/migrations/list-git-refs.mjs": {
+      "sha256": "2341aec071c58833f31ac986d980369c9248b6bbd2045aa6dd5af350694b630f",
+      "mode": "0o644",
+      "bytes": 3359
+    },
+    "packages/migrations/offline-plan-intent.mjs": {
+      "sha256": "a1684d9dd6540ed6e171df9c0e9f195e8ae9375cadd1c61848fda770ffd6bd9a",
+      "mode": "0o644",
+      "bytes": 11147
+    },
+    "packages/migrations/retained-release-preflight.mjs": {
+      "sha256": "fcb3c09649723cd9c94427b6a97d8ad8085d770e6e2229f5c76906b8254605e6",
+      "mode": "0o644",
+      "bytes": 14062
+    },
+    "packages/migrations/statement-identity.mjs": {
+      "sha256": "70fff3d2a9df176ce847d2bef9dfbfc98c4085aee41e2cf5f06ea31efc0ccab3",
+      "mode": "0o644",
+      "bytes": 235
+    },
+    "packages/migrations/statement-preview.mjs": {
+      "sha256": "5f0c29f4f2e63f2cf07172910dbc456c6cca651a043e4b041a77b57eaade8f80",
+      "mode": "0o644",
+      "bytes": 5137
+    },
+    "packages/migrations/verify-retained-release.mjs": {
+      "sha256": "f41b2efe99eeec5db4f720472f2e77f6d20c69975a3a0d34f394c60c60ab5581",
+      "mode": "0o644",
+      "bytes": 5615
+    },
+    "packages/migrations/workspace-release-origin.ts": {
+      "sha256": "32861a65217dccbef94ebf2421cb4d9186e68fa4824d8bc179592137a3bc1d0d",
+      "mode": "0o644",
+      "bytes": 1431
+    },
+    "packages/observability/health-probes.mjs": {
+      "sha256": "6aa9d0d01d32db9196361d57696666a261af2cd385f89ae06318372d6a865a82",
+      "mode": "0o644",
+      "bytes": 1461
+    },
+    "packages/observability/runtime-events.mjs": {
+      "sha256": "c9c8bbc8165212cbb0081a4b4fc129b8a9979dd7343a57f05e45cb863198f244",
+      "mode": "0o644",
+      "bytes": 816
+    },
+    "packages/runtime/container-config.mjs": {
+      "sha256": "30fe899e3e8c2444f64608bc7b624f96a0a5152020dd60ad5e394039f959fd81",
+      "mode": "0o644",
+      "bytes": 3459
+    },
+    "packages/runtime/discovery-ipc.mjs": {
+      "sha256": "b5d2c0174ac1e8bdff17c7725f0ddfd94ae7684932e25aadcc20d2d4f045610b",
+      "mode": "0o644",
+      "bytes": 10818
+    },
+    "packages/schema-baselines/api.ts": {
+      "sha256": "b84f21237a9fdbc4d0f8a57f43558c842c4867755b9e60fa2169678335194fdf",
+      "mode": "0o644",
+      "bytes": 10885
+    },
+    "packages/schema-baselines/contracts.mjs": {
+      "sha256": "4a2a731587ca9c55771611237cf22689eef229494ca618b82e5dded6cf35f925",
+      "mode": "0o644",
+      "bytes": 9144
+    },
+    "packages/schema-baselines/schema.mjs": {
+      "sha256": "efc37fcba8dac690d50c46515f65ad53e61f871127a4739a8ed4257b0b0c28f9",
+      "mode": "0o644",
+      "bytes": 4620
+    },
+    "packages/schema-baselines/store.ts": {
+      "sha256": "ac6cca03bda9a4b596bb4ae70d2579ac591cb5c6a7f5fde0756cb61c38a58594",
+      "mode": "0o644",
+      "bytes": 4002
+    },
+    "packages/sql-validation/api.ts": {
+      "sha256": "8601492f5b8c9047bd28be95ce4740ac5af9ac095b754eb5406684eee26d8839",
+      "mode": "0o644",
+      "bytes": 7830
+    },
+    "packages/sql-validation/catalog-context.mjs": {
+      "sha256": "be7ca5f973c322a995f67bf7cd4f5d998f308f53b67e126cb7992886648d2a9e",
+      "mode": "0o644",
+      "bytes": 1387
+    },
+    "packages/sql-validation/results.ts": {
+      "sha256": "95d89dedf9c6adf13f99877eef941cfa30c4ae0fdade0fa68eed139bef4fab72",
+      "mode": "0o644",
+      "bytes": 12125
+    },
+    "packages/sql-validation/review.mjs": {
+      "sha256": "e9eda8b849de92c36a08dbb0ca027be51b5133a5370923098c2604ec13d2ac05",
+      "mode": "0o644",
+      "bytes": 15034
+    },
+    "packages/sql-validation/schema.mjs": {
+      "sha256": "548e58375c950288b439e394b74c68c6436670194c38ac9e03086b197c6febf8",
+      "mode": "0o644",
+      "bytes": 1368
+    },
+    "packages/sql-workspace/api.ts": {
+      "sha256": "e31a36ae01f2b24456581ad86811d1edc3436fb45068abbac32c4222f0481ed8",
+      "mode": "0o644",
+      "bytes": 37400
+    },
+    "packages/sql-workspace/contracts.mjs": {
+      "sha256": "d9cddd4c6648bb4a3953300f126ecd8f00899baf4dd50698ccc6ff4c01b6e5a8",
+      "mode": "0o644",
+      "bytes": 7320
+    },
+    "packages/sql-workspace/schema.mjs": {
+      "sha256": "53ee27cb93b2616bc8263669d82c8b564627124ede4a28b819eb8d17044b59b6",
+      "mode": "0o644",
+      "bytes": 7483
+    },
+    "packages/targets/api.ts": {
+      "sha256": "1ab95a9d4c3311c7454ccd944b76095e651c410eecce9c9056486e04d40121ca",
+      "mode": "0o644",
+      "bytes": 4112
+    },
+    "packages/targets/index.ts": {
+      "sha256": "a8b1c745543606781b2aec16437a2dfcb303a300426f5e95f2821f4c85ad87a2",
+      "mode": "0o644",
+      "bytes": 39210
+    },
+    "packages/targets/locks.ts": {
+      "sha256": "a6ad41821f7b8775129f0381daaa419f4f9cc81723a8a1b6f0bcf18f7b7cc0e9",
+      "mode": "0o644",
+      "bytes": 1433
+    },
+    "packages/targets/public.mjs": {
+      "sha256": "c28c786a5e3a24a94a611e4984a0dee1b7ba5843b35004c78f616bd75130e24f",
+      "mode": "0o644",
+      "bytes": 454
+    },
+    "packages/targets/schema.ts": {
+      "sha256": "6d8ebd0b19d6e4a6185a6dc4742c672c4e97880601d3a62e5b8e549f6ec469c5",
+      "mode": "0o644",
+      "bytes": 16631
+    },
+    "scripts/antlr-build.mjs": {
+      "sha256": "b72c11fcf4aaf1ed6013db5a8412130cc4b5798083ce01793f9b9965c71f978a",
+      "mode": "0o644",
+      "bytes": 21734
+    },
+    "scripts/antlr-prepare.mjs": {
+      "sha256": "0e95795fad776f6c95e7f208da38c38e559b4cbea78f92966b85992e6d74ef83",
+      "mode": "0o644",
+      "bytes": 4668
+    },
+    "scripts/build-web.mjs": {
+      "sha256": "4721fe3833153e12f7751d0285a1b30afd0ea30a1138ee7a2a449ec208a22883",
+      "mode": "0o644",
+      "bytes": 975
+    },
+    "scripts/check-source.mjs": {
+      "sha256": "44c1dfc7ea7eeed6b27593a6717c5954780fbaa4a2ed235759b20fcd334e8753",
+      "mode": "0o644",
+      "bytes": 2195
+    },
+    "scripts/ci-focused-tests.mjs": {
+      "sha256": "8045abe7ba8ba7aafdd5a90f4960902f93735f3cf13ce5493db0c8e846b2dfa1",
+      "mode": "0o644",
+      "bytes": 5980
+    },
+    "scripts/container-credentials.mjs": {
+      "sha256": "eb19da97c3dcf561ec3827daf3161b1489424cb7bef2fb44e43215992063fc31",
+      "mode": "0o644",
+      "bytes": 1497
+    },
+    "scripts/container-delivery.mjs": {
+      "sha256": "ddab2c4cca66cbcadbb269a67a8fd041b2bc5daad6788a4b3be77d393ae0ff1f",
+      "mode": "0o644",
+      "bytes": 9062
+    },
+    "scripts/container-inventory.mjs": {
+      "sha256": "f6376ef9804c8af4b20864af2054cbf80ed28e1b95c94028f208a3c3d203d0b3",
+      "mode": "0o644",
+      "bytes": 1614
+    },
+    "scripts/container-membership.mjs": {
+      "sha256": "65db1ccfae1fbb566b4760b4e725b8d80275baa1716fda713ee654d1d8c8b485",
+      "mode": "0o644",
+      "bytes": 1467
+    },
+    "scripts/container-oci.mjs": {
+      "sha256": "c39e81ab2c00b66904b0df514e4ae8311f7ed1655690ad0f496c3e8948835629",
+      "mode": "0o644",
+      "bytes": 973
+    },
+    "scripts/container-password.mjs": {
+      "sha256": "2be3396c22e35109b619be242b4bf0e608bdbbbb5cf35d7df7cd7832e932fcf1",
+      "mode": "0o644",
+      "bytes": 1420
+    },
+    "scripts/container-publication-gate.mjs": {
+      "sha256": "502648f47e928449f29b43e9e40d29391ea67231ce593ace269a2454443816b7",
+      "mode": "0o644",
+      "bytes": 5765
+    },
+    "scripts/container-source-archives.mjs": {
+      "sha256": "1741a91bd0f5d40328f1b6d7328fea23f476556df75ff6c6ed3d75af84e01369",
+      "mode": "0o644",
+      "bytes": 1404
+    },
+    "scripts/dependency-artifacts.mjs": {
+      "sha256": "ad01db0cf4fe84fbdf116dec446df8c39dfec6370b3974d237b98cad4b44cbf8",
+      "mode": "0o644",
+      "bytes": 20573
+    },
+    "scripts/format-json.mjs": {
+      "sha256": "f0f8fb10e0be0642c32895bbf87fe30d1c3a0e812ad2a38bb31f866d29ef4718",
+      "mode": "0o644",
+      "bytes": 1070
+    },
+    "scripts/helm-promotion.mjs": {
+      "sha256": "6418b39510b7265f9a6d8fe1bf1976f7c84af29c1b894b31826315e15442568c",
+      "mode": "0o644",
+      "bytes": 8731
+    },
+    "scripts/jdk-platform.mjs": {
+      "sha256": "e41aa65535874d670a7f5c4d28d27773772dbbc8a8e0537d49ec0f4bd20ce9a8",
+      "mode": "0o644",
+      "bytes": 1295
+    },
+    "scripts/kelryvo-smoke.mjs": {
+      "sha256": "3355a843b22820a72c6624902c1cc5877f105ce1690fa9b7adb8cb94acf8fe26",
+      "mode": "0o644",
+      "bytes": 10976
+    },
+    "scripts/local-backup-operator.mjs": {
+      "sha256": "0ae35cd11f4d7829e9e303c067a10ae4306f1795c1b726435c2427e44fdc0e5e",
+      "mode": "0o644",
+      "bytes": 5822
+    },
+    "scripts/local-credential-operator.mjs": {
+      "sha256": "c3a99f46577a6bba190c9a6508d383e0907591a687ffdaac4b332667a16b272d",
+      "mode": "0o644",
+      "bytes": 15784
+    },
+    "scripts/local-dev.mjs": {
+      "sha256": "978dc6a4316b923b7fa0279a20c199e636d9f55aa24ec3e32fdd158fc3b8b785",
+      "mode": "0o644",
+      "bytes": 4520
+    },
+    "scripts/local-execution-recovery.mjs": {
+      "sha256": "1b1e6e8d221fc290316a5a1c92d9ddc113a6b096d5e85bdbb7de8bae046fdd82",
+      "mode": "0o644",
+      "bytes": 3543
+    },
+    "scripts/local-inventory-operator.mjs": {
+      "sha256": "6c9299642a14455cd8830a41835451913ba547dfb6184fad9a0dee6d7072c130",
+      "mode": "0o644",
+      "bytes": 6279
+    },
+    "scripts/local-membership-operator.mjs": {
+      "sha256": "fbc8050486e0a697c145557e8bc8e3dc331c9eb840ae3207a1ffc64ea68ab943",
+      "mode": "0o644",
+      "bytes": 11037
+    },
+    "scripts/local-operator-config.mjs": {
+      "sha256": "b4e990ac7856c20e475cbb83a4d81d76261e9d96ab1a31e6856778a42af726c6",
+      "mode": "0o644",
+      "bytes": 2557
+    },
+    "scripts/local-password-operator.mjs": {
+      "sha256": "b9f1c4c21752a22b92201172a3b22f78e55529d1610bee8a7bf399043ca79f3d",
+      "mode": "0o644",
+      "bytes": 1862
+    },
+    "scripts/local-prepare.mjs": {
+      "sha256": "e6e74a0039502d9c68fbee752a93d5d9f78c500eb1f9a86fc08e92399b21b9db",
+      "mode": "0o644",
+      "bytes": 1088
+    },
+    "scripts/local-release.mjs": {
+      "sha256": "4b4867adc50787918af3a27bb554d5d9f54852872999fa4e4cbce639044432f0",
+      "mode": "0o644",
+      "bytes": 13064
+    },
+    "scripts/local-repositories.mjs": {
+      "sha256": "3711aec8725e212604136e67da2afbfb0d1902b2d6ef4d84437c443b283d19bf",
+      "mode": "0o644",
+      "bytes": 3283
+    },
+    "scripts/local-resources.mjs": {
+      "sha256": "f22aa2824794c037343f31f51d3345f482068bf777c957e1ba746b43c45f0039",
+      "mode": "0o644",
+      "bytes": 7099
+    },
+    "scripts/local-tls.mjs": {
+      "sha256": "8424b99f92d0da2e8ab86145def321dc547eceb289ea39da08fd3cebf87fb511",
+      "mode": "0o644",
+      "bytes": 1430
+    },
+    "scripts/managed-backup-operator.mjs": {
+      "sha256": "e78beb8324e4bdec471541125da11c5adcda8ec07c11ed63fdfc371dbbcd3f17",
+      "mode": "0o644",
+      "bytes": 17766
+    },
+    "scripts/oci-archive-verification.mjs": {
+      "sha256": "b5eefdf92908c60798dea44a2b3e0cb0c769e2b5f3d81a13f967d5b83acc8298",
+      "mode": "0o644",
+      "bytes": 12115
+    },
+    "scripts/parser-build.mjs": {
+      "sha256": "c45aeaea29098be1236f7fdaed1bc2c23679b7889158d480dca7128de2759953",
+      "mode": "0o644",
+      "bytes": 5149
+    },
+    "scripts/parser-corpus.mjs": {
+      "sha256": "38526bf461ac96224da987ae90176e6e1c14a99279cb9cd9071071c7e3f425ce",
+      "mode": "0o644",
+      "bytes": 5587
+    },
+    "scripts/product-dependencies.mjs": {
+      "sha256": "f8db611a9b1a2ee9ffd1f6f402e304b24438faf15a486549baf7947e7a719041",
+      "mode": "0o644",
+      "bytes": 1175
+    },
+    "scripts/product-test-shards.mjs": {
+      "sha256": "72b251f42cfa1f07305fab596ea82896cdc4667a73e00d3b916b8a5d8239ec4e",
+      "mode": "0o644",
+      "bytes": 6554
+    },
+    "scripts/product-test-suites.mjs": {
+      "sha256": "259cfac74c0687a8a0a2442b71c26975740ac161e198e46065e89b5d1cb428ec",
+      "mode": "0o644",
+      "bytes": 9264
+    },
+    "scripts/record-checks.mjs": {
+      "sha256": "6dd2425f4be55dd61ccb3e5e6e4677570862e44d28690360a83f91c47e9fcde3",
+      "mode": "0o644",
+      "bytes": 2374
+    },
+    "scripts/release-acceptance.mjs": {
+      "sha256": "ae812f1fdd89b24343094f2a9253248b606ba4b68fca05a4f9d4ae7a1d1350f1",
+      "mode": "0o644",
+      "bytes": 2159
+    },
+    "scripts/test-containers.mjs": {
+      "sha256": "8a0897deb2b73d10e92e18d38a05dad74458d2488674642b6081cc629e46e8f9",
+      "mode": "0o644",
+      "bytes": 17389
+    },
+    "scripts/test-product.mjs": {
+      "sha256": "c7332d16ed05ea67b371b2ce4c9dd3c6cfd4d4b384d5f0cb2c3cfa0df23a5049",
+      "mode": "0o644",
+      "bytes": 3532
+    },
+    "scripts/thin-probe-plan.mjs": {
+      "sha256": "b0851409f0011bba5638a94327557cba0f703b2baca1ae2de7d5dee6e1336db2",
+      "mode": "0o644",
+      "bytes": 1495
+    },
+    "scripts/tracker.mjs": {
+      "sha256": "195dbc928ca4e0d1642fab3e8d4165f0f3c6e4c9e8b2f2a609adbaea5c11dc9f",
+      "mode": "0o644",
+      "bytes": 154150
+    },
+    "tsconfig.json": {
+      "sha256": "790e0a8b25daaf513774de39735e545a9ee1ad7b2ff8dde6ead70d897efa6620",
+      "mode": "0o644",
+      "bytes": 417
+    }
+  },
+  "directories": {
+    ".": "0o755",
+    "apps": "0o755",
+    "apps/api": "0o755",
+    "apps/runtime": "0o755",
+    "apps/web": "0o755",
+    "apps/web/src": "0o755",
+    "apps/worker": "0o755",
+    "apps/worker/oracle": "0o755",
+    "docs": "0o755",
+    "docs/dependencies": "0o755",
+    "experiments": "0o755",
+    "experiments/db-devops-wp0": "0o755",
+    "experiments/db-devops-wp0/antlr-helper": "0o755",
+    "experiments/db-devops-wp0/antlr-helper/grammar": "0o755",
+    "experiments/db-devops-wp0/antlr-helper/notices": "0o755",
+    "experiments/db-devops-wp0/antlr-helper/src": "0o755",
+    "experiments/db-devops-wp0/antlr-helper/src/local": "0o755",
+    "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge": "0o755",
+    "experiments/db-devops-wp0/antlr-helper/src/local/schemaforge/antlrparser": "0o755",
+    "experiments/db-devops-wp0/dependencies": "0o755",
+    "packages": "0o755",
+    "packages/audit": "0o755",
+    "packages/backup": "0o755",
+    "packages/catalog-reference": "0o755",
+    "packages/connectivity": "0o755",
+    "packages/database": "0o755",
+    "packages/execution": "0o755",
+    "packages/governance": "0o755",
+    "packages/migration-history": "0o755",
+    "packages/migrations": "0o755",
+    "packages/observability": "0o755",
+    "packages/runtime": "0o755",
+    "packages/schema-baselines": "0o755",
+    "packages/sql-validation": "0o755",
+    "packages/sql-workspace": "0o755",
+    "packages/targets": "0o755",
+    "scripts": "0o755"
+  }
+}

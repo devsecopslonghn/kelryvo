@@ -123,7 +123,9 @@ test('plan review shows only its matching current project profile and environmen
     };
     const selectPlan = async (plan) => {
       await page.locator(`.plan-option[data-plan-id="${plan.id}"]`).click();
-      await page.locator(`.configured-target[data-plan-target-id="${plan.id}"]`).waitFor();
+      const target=page.locator(`.configured-target[data-plan-target-id="${plan.id}"]`);
+      if (!await target.isVisible()) await page.getByText('Current configuration details',{exact:true}).click();
+      await target.waitFor();
     };
     const target = () => page.locator('.configured-target');
     await signIn();

@@ -1,3 +1,4 @@
+import { sessionParentAuthority } from '../identity/authority.ts';
 import { physicalOracleTargetKey } from '../connectivity/instance-identity.mjs';
 /** Worker-only admission producer. API credentials cannot install host capabilities. */
 import { createHash, randomUUID } from 'node:crypto';
@@ -151,11 +152,13 @@ export async function readExecutionRequest(tx: any, jobId: string, admitted = fa
       AND c.revoked_at IS NULL AND c.expires_at>clock_timestamp()
       AND (c.credential_kind='LOCAL' OR (c.credential_kind='BROWSER' AND c.absolute_expires_at>clock_timestamp()
         AND EXISTS(SELECT 1 FROM sf_local_credentials parent WHERE parent.id=c.parent_credential_id
-          AND parent.actor_id=c.actor_id AND parent.credential_kind='LOCAL' AND parent.revoked_at IS NULL
-          AND parent.expires_at>clock_timestamp()))) FOR SHARE OF a,c,member,deployer,mode`)[0];
+          AND parent.actor_id=c.actor_id AND parent.credential_kind IN ('LOCAL','PASSWORD','EXTERNAL') AND parent.revoked_at IS NULL
+          AND parent.expires_at>clock_timestamp()
+          AND ${sessionParentAuthority(tx,'parent')}))) FOR SHARE OF a,c,member,deployer,mode`)[0];
   if (authority?.credential_kind === 'BROWSER' && !(await tx`SELECT 1 FROM sf_local_credentials parent
     WHERE parent.id=${authority.parent_credential_id} AND parent.actor_id=${job.requester_id}
-      AND parent.credential_kind='LOCAL' AND parent.revoked_at IS NULL AND parent.expires_at>clock_timestamp() FOR SHARE`)[0]) return null;
+      AND parent.credential_kind IN ('LOCAL','PASSWORD','EXTERNAL') AND parent.revoked_at IS NULL AND parent.expires_at>clock_timestamp()
+      AND ${sessionParentAuthority(tx,'parent')} FOR SHARE`)[0]) return null;
   const generation = (await tx`SELECT g.id FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id
     WHERE c.singleton AND g.state='ACTIVE' FOR SHARE OF c,g`)[0];
   if (!authority || !generation) return null;

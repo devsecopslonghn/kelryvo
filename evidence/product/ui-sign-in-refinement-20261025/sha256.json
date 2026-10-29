@@ -1,0 +1,10 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "acceptance.json": "289d72f7a4111f14a8e7a75e302e0dbe6412824b0cb688851f8e9acb34405f91",
+    "independent-review.json": "8f676519c2b138b3327c3f270259f70b4434390496bc420f8678a75ef4f49d7e",
+    "screenshots/1440-light-login.png": "64042d60a406a20b77f8ff543936b58f708caccda067a81aac5052a8d9ad2b24",
+    "screenshots/390-dark-directory.png": "85123fe38420ec277c5fe6558a62724c4e2e6ee32ce3d4f35b9784dd34cef582",
+    "screenshots/390-light-login.png": "0365b782880c3b87861696ff62ee650c953deb225be93d9af10c18c46f86a379"
+  }
+}

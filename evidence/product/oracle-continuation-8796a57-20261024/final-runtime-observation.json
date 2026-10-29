@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "image": "longhn0710t/kelryvo-pilot@sha256:cd46b7c5e95fd02896dc0877196a2190d886da1a3ff571561b5d2c012b2e3398",
+  "executionEnabled": false,
+  "discoveryEnabled": true,
+  "metadataTableCount": 59,
+  "allMetadataRowsUnchangedAcrossRestart": true,
+  "stableResourceUidsPreserved": true,
+  "roleRecordComparisons": 16,
+  "checksummedRecordFactsUnchanged": true,
+  "reconciliationRetained": "RETAIN_HOLD",
+  "retryEligible": false,
+  "executionAuthority": false,
+  "installationSecret": "kelryvo-oracle-fresh-lost-ack4-20261024",
+  "readyz": {
+    "status": "ready",
+    "metadata": "ACTIVE",
+    "targetAvailability": "UNVERIFIED"
+  },
+  "appPodUid": "7e9f07c6-570f-4ad9-bb10-6d0ee1b8246f"
+}

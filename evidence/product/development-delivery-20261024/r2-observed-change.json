@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "bindingOwner": "KP_A",
+  "comparisonMode": "PRIOR_TO_FRESH",
+  "priorSnapshotId": "31cdecf7-8c00-4e4f-bf4f-4af2963e7610",
+  "stages": [
+    {
+      "stage": "read-only observation",
+      "status": "PASS",
+      "snapshotObjects": 2,
+      "liveAcceptanceNotEstablished": false,
+      "coverageSummary": "Coverage not rendered"
+    },
+    {
+      "stage": "object type and text filters",
+      "status": "PASS",
+      "selectedType": "INDEX"
+    },
+    {
+      "stage": "immutable baseline capture",
+      "status": "PASS",
+      "snapshotId": "6c4ff714-b025-433c-bb9f-3a593ea1bcc1"
+    },
+    {
+      "stage": "same-snapshot baseline comparison",
+      "status": "PASS"
+    }
+  ],
+  "executionJobsBefore": 4,
+  "executionJobsAfter": 4,
+  "snapshotId": "6c4ff714-b025-433c-bb9f-3a593ea1bcc1",
+  "baselineName": "R2 live 2026-10-24T16:27:59.708Z",
+  "baselineCaptureHttpStatus": 201,
+  "snapshotObservationHttpStatus": 201,
+  "comparison": {
+    "state": "UNVERIFIED",
+    "limitations": [
+      "INCOMPLETE_METADATA_COVERAGE",
+      "MULTI_QUERY_CONSISTENCY_UNGUARANTEED"
+    ],
+    "sameSnapshotCompared": false,
+    "expectedSnapshotId": "31cdecf7-8c00-4e4f-bf4f-4af2963e7610",
+    "observedSnapshotId": "6c4ff714-b025-433c-bb9f-3a593ea1bcc1",
+    "modifiedCount": 1,
+    "summary": "Compare snapshots Expected reference Choose reference Baseline · R2 live 2026-10-24T16:27:59.708Z · 2026-10-24T16:28:00.916Z · 6c4ff714-b025-433c-bb9f-3a593ea1bcc1 Baseline · R2 live 2026-10-24T16:23:11.786Z · 2026-10-24T16:23:12.984Z · 31cdecf7-8c00-4e4f-bf4f-4af2963e7610 Baseline · R2 live 2026-10-24T16:12:23.178Z · 2026-10-24T16:12:24.371Z · ec6dca48-0a1a-4117-8510-1095e96e4204 Baseline · R2 live 2026-10-24T14:48:47.479Z · 2026-10-24T14:48:48.564Z · b0a5e737-64be-434a-af63-b56c1c4f23b2 Snapshot · 2026-10-24T16:28:00.425Z · 6c4ff714-b025-433c-bb9f-3a593ea1bcc1 Snapshot · 2026-10-24T16:23:12.490Z · 31cdecf7-8c00-4e4f-bf4f-4af2963e7610 Snapshot · 2026-10-24T16:12:23.870Z · ec6dca48-0a1a-4117-8510-1095e96e4204 Snapshot · 2026-10-24T14:48:48.083Z · b0a5e737-64be-434a-af63-b56c1c4f23b2 Observed snapshot Choose snapshot 6c4ff714-b025-433c-bb9f-3a593ea1bcc1 · 2026-10-24T16:28:00.425Z 31cdecf7"
+  },
+  "navigation": {
+    "sqlWorkspace": "PASS",
+    "migrationHistory": "UNAVAILABLE"
+  }
+}

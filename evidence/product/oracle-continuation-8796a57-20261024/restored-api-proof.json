@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "transport": "PRODUCTION_API_INJECTION_AGAINST_REAL_MANAGED_RESTORE",
+  "apiUid": 10001,
+  "effectiveCapabilities": 0,
+  "generationState": "RESTORE_HOLD",
+  "reopenedApiInstances": 2,
+  "oldTokensDenied": true,
+  "executionRequestDenied": true,
+  "workerClaimDenied": true,
+  "writerInstalled": false,
+  "retainedCredentialFactsPreserved": true,
+  "historicalRecords": {
+    "bf9edeed-eaf1-4227-a1ca-8ad4e1c4601d": {
+      "state": "VERIFIED_SUCCESS",
+      "attempts": 1,
+      "receipts": 1,
+      "factsSha256": "7eee91a22cbf8667fb62d7fe9316b20b940c7d2075c19f8004d9c7a9c01cca6c"
+    },
+    "612b4dc1-e8fb-4c0b-9bde-3a4775704b00": {
+      "state": "VERIFIED_SUCCESS",
+      "attempts": 1,
+      "receipts": 2,
+      "factsSha256": "6e5bf31515977292ef84c287de6a2d363e734b32af2d6dcca76d1af9a1b0cad4"
+    },
+    "a3c6fa56-c509-4f32-a807-99ab7a07d84b": {
+      "state": "NOOP",
+      "attempts": 1,
+      "receipts": 0,
+      "factsSha256": "a9d783b42a212623b66507881312692b485650434e0a0f9da9b9831c80362e5b"
+    },
+    "6764290d-ec8e-4b53-be00-df96d06fa9e8": {
+      "state": "VERIFIED_SUCCESS",
+      "attempts": 1,
+      "receipts": 1,
+      "factsSha256": "40ffe403c58a0cd651a3490abdb4b5c748f7e32a2fdfce3be258876e733d43c5"
+    },
+    "de93ec6d-8bb7-43bb-8676-09bae575a807": {
+      "state": "VERIFIED_SUCCESS",
+      "attempts": 1,
+      "receipts": 2,
+      "factsSha256": "cb37011e77f227f6defc27ce5f491b1cf451588fef3319ddaf6c22070d36e065"
+    },
+    "4771ad87-626f-4063-b836-c81745e5d907": {
+      "state": "NOOP",
+      "attempts": 1,
+      "receipts": 0,
+      "factsSha256": "aaf5663c62c69f7d7c7e7d53180f53b53a081a02d1de5d49052c01d2d3515883"
+    },
+    "4225f5cc-b5a6-4e60-b341-8bcfcb4a3d31": {
+      "state": "HOLD",
+      "attempts": 1,
+      "receipts": 0,
+      "factsSha256": "595add1bcb9ad6a56bbe5077c3a7125d81df59dc91d2e015dcdd2f3f03c5452e"
+    },
+    "28fdcb9b-6f82-4ae8-8615-37285d765bdd": {
+      "state": "HOLD",
+      "attempts": 1,
+      "receipts": 0,
+      "factsSha256": "95175536a0be478e2dc4346d90ab2fefa8d196f5c5734a8a2e9ab02317954b07"
+    }
+  }
+}

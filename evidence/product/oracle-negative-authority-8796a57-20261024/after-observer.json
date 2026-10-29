@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "label": "after_negative",
+  "freshStateSha256": "22ee7c73446295ea2ed42e38373bc674668bd31d0f462b4de0ef373426fc2e6d",
+  "targetJournalEvents": 3,
+  "targetHeads": 1,
+  "originalHeldTargetUnchanged": true
+}

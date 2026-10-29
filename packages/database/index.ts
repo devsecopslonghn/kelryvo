@@ -6,8 +6,10 @@ import { initializeConnectionManagement } from '../connectivity/management-schem
 import { initializeInstanceSchema } from '../connectivity/instance-schema.mjs';
 import { initializeValidationSchema } from '../sql-validation/schema.mjs';
 import { initializeExecutionReconciliation } from '../execution/reconciliation.ts';
+import { initializePasswordAuthSchema } from './password-auth.ts';
+import { initializeIdentitySchema } from '../identity/schema.ts';
 /** Idempotent schema for the local, single-organization product slice. */
-export async function initializeDatabase(sql: any, options: { initializeSchemaBaselines?: boolean; initializeConnectionManagement?: boolean; initializeInstanceSchema?: boolean; initializeMetadata?: boolean; initializeTargets?: boolean; initializeConnectivity?: boolean; initializeValidation?: boolean; initializeSqlWorkspace?: boolean; sqlWorkspaceVersion?: 1 | 2; initializeReconciliation?: boolean; installRetainedEvidenceGuards?: boolean; installReconciliationBindingGuards?: boolean } = {}): Promise<void> {
+export async function initializeDatabase(sql: any, options: { initializeIdentityAuth?: boolean; initializePasswordAuth?: boolean; initializeSchemaBaselines?: boolean; initializeConnectionManagement?: boolean; initializeInstanceSchema?: boolean; initializeMetadata?: boolean; initializeTargets?: boolean; initializeConnectivity?: boolean; initializeValidation?: boolean; initializeSqlWorkspace?: boolean; sqlWorkspaceVersion?: 1 | 2; initializeReconciliation?: boolean; installRetainedEvidenceGuards?: boolean; installReconciliationBindingGuards?: boolean } = {}): Promise<void> {
   await sql.begin(async (tx: any) => {
     // Test files and local startup callers can initialize the same schema at once.
     // IF NOT EXISTS still races while PostgreSQL creates the backing catalog type.
@@ -512,5 +514,9 @@ export async function initializeDatabase(sql: any, options: { initializeSchemaBa
         SELECT gen_random_uuid(),'INITIALIZE',generation_id,0 FROM sf_metadata_current
         WHERE NOT EXISTS (SELECT 1 FROM sf_metadata_operator_audit WHERE action='INITIALIZE') ON CONFLICT DO NOTHING;
     `);
+    if (options.initializePasswordAuth !== false) {
+      await initializePasswordAuthSchema(tx);
+      if (options.initializeIdentityAuth !== false) await initializeIdentitySchema(tx);
+    }
   });
 }

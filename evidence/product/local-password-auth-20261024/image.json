@@ -1,0 +1,22 @@
+{
+  "image": "kelryvo-login:d8fc17178465",
+  "imageId": "sha256:10101100593ce0a0a297efa678c977659850e734bc52cfa0ea82dc461ccd2368",
+  "architecture": "amd64",
+  "labels": {
+    "dev.kelryvo.source.base-revision": "8796a57ddb283b8197481babab382fafb6548801",
+    "dev.kelryvo.source.context-sha256": "d8fc171784653afc0b27ed0572b84c8e97533b12e58c8741ff74c6c689b64830",
+    "org.opencontainers.image.licenses": "PolyForm-Shield-1.0.0",
+    "org.opencontainers.image.revision": "worktree-sha256:d8fc171784653afc0b27ed0572b84c8e97533b12e58c8741ff74c6c689b64830",
+    "org.opencontainers.image.source": "https://github.com/devsecopslonghn/kelryvo"
+  },
+  "coldBuild": true,
+  "descriptor": {
+    "mediaType": "application/vnd.oci.image.index.v1+json",
+    "digest": "sha256:10101100593ce0a0a297efa678c977659850e734bc52cfa0ea82dc461ccd2368",
+    "size": 856
+  },
+  "expectedIndexDigest": "sha256:10101100593ce0a0a297efa678c977659850e734bc52cfa0ea82dc461ccd2368",
+  "expectedPlatformDigest": "sha256:269ed3133d1b6c1db2c298bffec6bfe2b34c4b41a89b8c9c471e2d546d67a9c4",
+  "expectedConfigDigest": "sha256:2b6ba9686663846cac1a4a007412b544d01024f8fe2bd4f26c4afe0bc002d0e1",
+  "coldBuildLogSha256": "aa6e8a3caf2e0b4df6be2dec1ea8a59b9c22107de7a2a9b921ad137a930d4999"
+}

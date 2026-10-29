@@ -1,0 +1,34 @@
+{
+  "format": "kelryvo-public-retained-execution-summary-v1",
+  "originalFormat": 2,
+  "originalAlgorithm": "sha256",
+  "originalCanonicalSha256": "e2c3a06761dce3f9f2c1eefabb8f4c6aba30ff0590d47409e4b7c29c22fad582",
+  "originalFileSha256": "8e749de52f862657dd9eb12efbb156bb8f2601c18ada70e3d0324c59e2824bb7",
+  "rawExportPublished": false,
+  "withheldFields": [
+    "record"
+  ],
+  "withheldReason": "The canonical export contains private lab route configuration. Exact original bytes remain in private evidence; no source digest was rewritten.",
+  "summary": {
+    "job": {
+      "id": "162d88ad-b718-460c-a444-b0a8b3a0022d",
+      "projectId": "7006512b-f02b-4d8e-95aa-46a8689dcc2b",
+      "planId": "7410499a-fe94-4bcb-b346-5203fd2eecd2",
+      "state": "VERIFIED_SUCCESS",
+      "revision": "2",
+      "admissionScope": "TRUSTED_VALIDATED",
+      "admissionStatementCount": 1,
+      "intentDigest": "a4b3c87ad2e67ec8daa127770e36188501aa5ba326fb13f0a6ebe28567e87558"
+    },
+    "jobEventCount": 3,
+    "attempts": [
+      {
+        "id": "1f58321b-7f2b-4055-b0a4-aca5bf1637d3",
+        "generation": "1",
+        "state": "VERIFIED_SUCCESS",
+        "eventCount": 5,
+        "receiptCount": 1
+      }
+    ]
+  }
+}

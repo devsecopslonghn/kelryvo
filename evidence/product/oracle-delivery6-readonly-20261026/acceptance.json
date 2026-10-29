@@ -1,0 +1,93 @@
+{
+  "format": "kelryvo-delivery6-readonly-acceptance-v1",
+  "status": "PASS_DELIVERY6_READ_ONLY_QUALIFICATION",
+  "completedAt": "2026-10-25T23:08:43.166934+00:00",
+  "image": "longhn0710t/kelryvo-pilot@sha256:557c7d47062355bcde3f259d3601254656b2464cf14267adead605da43ff90fc",
+  "identity": {
+    "cdb": true,
+    "containerDbid": "3453530694",
+    "containerGuid": "5EB2C4026807E0F8E0638101F40A9278",
+    "containerId": "13",
+    "containerName": "KP_DELIVERY6",
+    "dbUniqueName": "FREE",
+    "dbid": "1514744796",
+    "engine": "oracle",
+    "resetlogsChange": "2084882",
+    "serviceName": "kp_delivery6",
+    "version": "Oracle AI Database 26ai Free Release 23.26.3.0.0 - Develop, Learn, and Run for Free"
+  },
+  "qualification": {
+    "purposeConnections": 6,
+    "principals": [
+      "KP_MASTER",
+      "KP_LEDGER",
+      "KP_OBSERVER"
+    ],
+    "routeAliases": [
+      "DNS",
+      "PINNED_IP"
+    ],
+    "driverDnsConnectStringPathQualified": false,
+    "allConnectionsUsedPinnedIp": true,
+    "grantCount": 56,
+    "grantDigest": "f011d2ddd31bb1d8b41f6765dc176fb1f09429f24a6c1ec7cfbacf7142429555",
+    "protectedWitnessDigest": "53163a2e8688d0474e8180dea964b68c4f6635460e826672810be0e229b274b1",
+    "applicationObjects": 0,
+    "ledgerEvents": 0,
+    "ledgerHeads": 0
+  },
+  "preservation": {
+    "all68MetadataTablesAndInfrastructureUnchanged": true,
+    "oldFivePdbWitnessRows": 129,
+    "pdbCatalogRows": 12,
+    "credentialProjectionRows": 802,
+    "jobs": 53,
+    "holds": 12
+  },
+  "execution": {
+    "applicationDdlCalls": 0,
+    "applicationDmlCalls": 0,
+    "ledgerWrites": 0,
+    "kubernetesMutations": 0,
+    "metadataMutations": 0,
+    "publicExecutionEnabled": false,
+    "oneShotNoRetry": true
+  },
+  "provenance": {
+    "scopeSha256": "2c6353106b98c91787ba5c303189d6257de790a1b1520e2133f0fbc37dc22f7a",
+    "manifestSha256": "9d95be3aab0323d56a50b3f0bf666818663d4e2e990728efa91eab522fe06c1e",
+    "operatorSha256": "26a09f7b3f57a7ace9554f3adfb5c670fea253ebb3e52a0be8e1b04a7ab62913",
+    "qualifierSha256": "29a2d23b8e7f0a7127db898eece06537702772987be9a751e218f805caf7cd35",
+    "executionReviewSha256": "4407b28769268f6d1c273b69f27aa544057221584e23faf0635b82a6dbb78673",
+    "resultSha256": "f7533ee8b8f1ec1e6fa4fc95cac5508100bc44a2394c332f986d1fd8f3620f5e",
+    "outcomeReviewSha256": "9ef7d4e9afeb5a23a23398e5122471d00dd7a6c5311c20d4eca889b7ef3b74cd"
+  },
+  "independentReview": {
+    "decision": "PASS_DELIVERY6_READ_ONLY_QUALIFICATION",
+    "independent": true,
+    "reviewedAt": "2026-10-25T23:11:27.715671+00:00",
+    "reviewedBy": "/root/delivery6_preparation_review"
+  },
+  "retainedFailures": [
+    {
+      "case": 6,
+      "failureSha256": "5bce7eb962eb2e32a0547b8d6f75562a5e3c914bba1da13e33e2d815df8dfa0c",
+      "outcomeReviewSha256": "d36800db3d78f48e7be57bbef073feb45caceed0fab59eb5b922ca2943d9615a",
+      "decision": "PASS_RETAINED_READ_ONLY_FAILURE_PRESERVATION_ONLY",
+      "automaticRetry": false
+    },
+    {
+      "case": 7,
+      "failureSha256": "fd2a91defd22b40edb4028e3279eec08a0bcb3a9e256952551c9d216c10dd4a8",
+      "outcomeReviewSha256": "4ff2828e57679307ac7b6f37a3a1decf0726e12ae297684369b9508057bb8cac",
+      "decision": "PASS_RETAINED_READ_ONLY_FAILURE_PRESERVATION_ONLY",
+      "automaticRetry": false
+    }
+  ],
+  "limitations": [
+    "DNS resolved to the pinned ClusterIP and the client connected by IP for both route aliases; the driver DNS connect-string path was not exercised.",
+    "This outcome qualifies D6 read-only purpose accounts and state preservation only. It does not qualify migrations, governed DDL, ADMITTED/NOOP, or fault/recovery.",
+    "Reviewer made no Oracle connection and performed no Kubernetes or metadata mutation."
+  ],
+  "next": "Fresh independently reviewed D6-only discovery configuration and onboarding, governed V1/V2 and ADMITTED/NOOP. Historical expired reviews authorize no new operation."
+}

@@ -1,3 +1,4 @@
+import { openCompatibilityPlanning } from './helpers/ui-disclosures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
@@ -27,6 +28,7 @@ test('release planning loads target bindings beyond the first bounded page', {
     await page.getByRole('button',{name:/Projects/}).click();await page.locator('.project-row').filter({hasText:f.project.name}).click();
     await page.getByRole('button',{name:/Releases/}).click();
     await page.locator(`.saved-release-row[data-release-id="${f.release.id}"]`).getByRole('button',{name:'Inspect files',exact:true}).click();
+    await openCompatibilityPlanning(page);
     const chooser=page.getByLabel('Project target binding');await chooser.waitFor();
     assert.equal(await chooser.locator('option').count(),51,'first page has 50 bindings plus placeholder');
     assert.equal(await chooser.locator(`option[value="${last.bindingId}"]`).count(),0);
@@ -35,6 +37,7 @@ test('release planning loads target bindings beyond the first bounded page', {
     await chooser.selectOption(last.bindingId);
     await page.getByRole('button',{name:'Prepare target-bound plan',exact:true}).click();
     await page.getByRole('region',{name:'Immutable target'}).waitFor();
+    await page.getByText('Binding identifiers and revisions',{exact:true}).click();
     await page.getByRole('region',{name:'Immutable target'}).getByText(last.bindingId,{exact:true}).waitFor();
   }finally{await browser?.close();await f.close();}
 });

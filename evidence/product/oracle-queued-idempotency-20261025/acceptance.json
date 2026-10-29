@@ -1,0 +1,257 @@
+{
+  "format": 1,
+  "kind": "KELRYVO_OA09_WAITING_IDEMPOTENCY_ACCEPTANCE",
+  "status": "PASS_BOUNDED_WAITING_IDEMPOTENCY",
+  "recordedAt": "2026-10-25T07:58:16.049155+00:00",
+  "origin": "https://kelryvo.apps.drgdevlab.com",
+  "image": "longhn0710t/kelryvo-pilot@sha256:557c7d47062355bcde3f259d3601254656b2464cf14267adead605da43ff90fc",
+  "contextTreeSha256": "87cc3018f28567877707bf59e107b06339a7b6957ec937ed9ba53f37df4b634d",
+  "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+  "newRuntimeSourceChanges": false,
+  "buildOrPublicationRequired": false,
+  "workflow": "Reuse unchanged retained KP_B V1 release, fresh validation, one new immutable plan, separate approver decision, one WAITING_VALIDATION request, conflict probes, cancellation.",
+  "case": {
+    "status": "PASS_BOUNDED_OA09_WAITING_IDEMPOTENCY",
+    "at": "2026-10-25T07:52:56.629391+00:00",
+    "image": "longhn0710t/kelryvo-pilot@sha256:557c7d47062355bcde3f259d3601254656b2464cf14267adead605da43ff90fc",
+    "scopeSha256": "1c6b36eb0790c3cb8025f15d3670ebb91b82e7c99f2dca5a74e3f468468d9f3d",
+    "reviewSha256": "172af689edc3dc271d89390993673e9fa31ef58713e47684f792e97b0490f7a7",
+    "jobId": "27ea3cb3-f1a3-44bf-9597-e01a212ccdee",
+    "planId": "2cce2cea-62de-4a3b-a3b8-7c89cdd2b0d4",
+    "checks": [
+      {
+        "case": "waiting_exact_retry",
+        "status": 200,
+        "error": null,
+        "role": "developer"
+      },
+      {
+        "case": "waiting_changed_reason",
+        "status": 409,
+        "error": "IDEMPOTENCY_CONFLICT",
+        "role": "developer"
+      },
+      {
+        "case": "waiting_changed_expectedIntentDigest",
+        "status": 409,
+        "error": "IDEMPOTENCY_CONFLICT",
+        "role": "developer"
+      },
+      {
+        "case": "waiting_changed_expectedAssignmentRevision",
+        "status": 409,
+        "error": "IDEMPOTENCY_CONFLICT",
+        "role": "developer"
+      },
+      {
+        "case": "waiting_changed_expectedBindingRevision",
+        "status": 409,
+        "error": "IDEMPOTENCY_CONFLICT",
+        "role": "developer"
+      },
+      {
+        "case": "waiting_new_key",
+        "status": 409,
+        "error": "EXECUTION_ALREADY_PENDING",
+        "role": "developer"
+      },
+      {
+        "case": "approver_without_deploy",
+        "status": 403,
+        "error": "DEPLOY_PERMISSION_REQUIRED",
+        "role": "approver"
+      },
+      {
+        "case": "cross_plan_key_reuse",
+        "status": 409,
+        "error": "IDEMPOTENCY_CONFLICT",
+        "role": "developer"
+      },
+      {
+        "case": "cancel_wrong_revision",
+        "status": 409,
+        "error": "STALE_OR_DISPATCHED",
+        "role": "developer"
+      },
+      {
+        "case": "approver_cancel_denied",
+        "status": 403,
+        "error": "FORBIDDEN",
+        "role": "approver"
+      },
+      {
+        "case": "cancelled_exact_retry",
+        "status": 200,
+        "error": null,
+        "role": "developer"
+      },
+      {
+        "case": "cancel_again_denied",
+        "status": 409,
+        "error": "STALE_OR_DISPATCHED",
+        "role": "developer"
+      }
+    ],
+    "allPriorRowsIn68TablesRetained": true,
+    "changedTables": [
+      "sf_audit",
+      "sf_connection_plan_revisions",
+      "sf_execution_job_events",
+      "sf_execution_jobs",
+      "sf_history",
+      "sf_local_credentials",
+      "sf_plan_schema_evidence",
+      "sf_plans",
+      "sf_sql_validations"
+    ],
+    "jobState": "CANCELLED",
+    "jobCount": 51,
+    "holds": 11,
+    "newAdmissions": 0,
+    "newAttempts": 0,
+    "newReceipts": 0,
+    "newBrowserChildrenRevoked": 2,
+    "oracleConnectionsMade": false,
+    "applicationDdl": 0,
+    "applicationDml": 0,
+    "admittedVariantCovered": false
+  },
+  "sourceReleaseId": "2b8ade22-f9da-45d5-9549-46166ca3a1e9",
+  "independentOutcomeReview": "PASS",
+  "independentRowHashReconstruction": "PASS",
+  "preservation": {
+    "all68TablesRetainPriorRows": true,
+    "priorRowHashCount": 4017,
+    "newRowHashCount": 4034,
+    "newRowsPerTable": {
+      "sf_audit": 5,
+      "sf_connection_plan_revisions": 1,
+      "sf_execution_job_events": 2,
+      "sf_execution_jobs": 1,
+      "sf_history": 1,
+      "sf_local_credentials": 4,
+      "sf_plan_schema_evidence": 1,
+      "sf_plans": 1,
+      "sf_sql_validations": 1
+    },
+    "oldJobsUnchanged": 50,
+    "currentJobs": {
+      "total": 51,
+      "states": {
+        "CANCELLED": 19,
+        "HOLD": 11,
+        "NOOP": 5,
+        "VERIFIED_SUCCESS": 16
+      }
+    },
+    "retainedSnapshots": 4,
+    "retainedBaselines": 1,
+    "newAdmissionProofs": 0,
+    "newAttempts": 0,
+    "newReceipts": 0,
+    "allPriorCredentialRowsRetained": 786,
+    "newPasswordRoots": 2,
+    "newBrowserChildrenRevoked": 2,
+    "finalLiveMetadataMatchesSavedOutcome": true
+  },
+  "finalJobAndLogout": {
+    "job": {
+      "id": "27ea3cb3-f1a3-44bf-9597-e01a212ccdee",
+      "state": "CANCELLED",
+      "revision": 1,
+      "proofs": 0,
+      "attempts": 0,
+      "receipts": 0
+    },
+    "events": [
+      {
+        "revision": 0,
+        "from_state": null,
+        "to_state": "WAITING_VALIDATION"
+      },
+      {
+        "revision": 1,
+        "from_state": "WAITING_VALIDATION",
+        "to_state": "CANCELLED"
+      }
+    ],
+    "browsers": {
+      "total": 2,
+      "unrevoked": 0
+    },
+    "at": "2026-10-25T07:56:34.461336+00:00",
+    "status": "PASS_FINAL_LIVE_QUEUE_PRESERVATION"
+  },
+  "parentDiscovery": {
+    "at": "2026-10-25T07:46:36.000904+00:00",
+    "status": "PASS_READONLY_DISCOVERY_REFRESH",
+    "observationId": "02c8e964-cba4-439c-b9f7-1e93c32aaa5a",
+    "observationStatus": "PARTIAL",
+    "verifiedExistingBindings": 5,
+    "bindingRevisionAfterRefresh": "21",
+    "identityDigestUnchanged": true,
+    "assignmentStreamLineageIdentitiesPreserved": true,
+    "wholeSecretExceptDiscoveryManifestUnchanged": true,
+    "sameImageRestartPreserved68MetadataTables": true,
+    "onlyAllowedCatalogAndCredentialTablesChanged": true,
+    "independentSavedCatalogReconstruction": "PASS",
+    "credentialPreservationEvidenceLimit": "Metadata snapshots preserve aggregate count/hash for sf_local_credentials (784→786), not per-row credential identities. The reviewed one-shot runner asserted every preexisting credential row unchanged and exactly two additions (PASSWORD root plus revoked BROWSER child); result records priorCredentialRowsUnchanged=true, but separate row-level before/after credential artifacts were not retained, so that assertion cannot be reconstructed independently from saved snapshots."
+  },
+  "qualification": "evidence/product/schema-route-readonly-20261025/acceptance.json",
+  "uiDelivery": "evidence/product/schema-route-delivery-20261025/acceptance.json",
+  "runtime": {
+    "executionEnabled": false,
+    "discoveryEnabled": true,
+    "argoAutoSync": false
+  },
+  "retainedPreparationFailure": {
+    "stage": "before authentication or API mutation",
+    "reason": "Public plan projection omits manifestDigest; retained release ID and exact SQL item checksums used with existing API integrity checks.",
+    "originalSourceAndProofsRetained": true,
+    "oracleConnections": 0
+  },
+  "privateEvidenceSha256": {
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/scope.json": "1c6b36eb0790c3cb8025f15d3670ebb91b82e7c99f2dca5a74e3f468468d9f3d",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/review.json": "172af689edc3dc271d89390993673e9fa31ef58713e47684f792e97b0490f7a7",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/disposable-lab-manifest.json": "23a51bfe03d3b1d709d72f73544a7685a894f131f79855c38918d999bb405828",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/run.py": "88e86652538322f3fa3a1dee19e3d2e5c8a14cf8e1f5a15ca0a454f5828b2178",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/prepare.py": "7728fe691a589adb99943927631f8bf8d71765642a04cc3506b6680267e11786",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/client.py": "24a6019a61bb8c60c2cb4c1110f8ec63face4bcf62fd0418d43df9a2a52080fa",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/metadata-snapshot.cjs": "6270c5a657c06b742b20320f527abf19b3765ad6e227feaeb579990da90e043e",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/before.private.json": "73cf86e18b7ca08236764bddc90f916591a069009888ff5b35cb127102d2d833",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/after.private.json": "bbe77f6dccb39b8686b1f4bd25a07c842b79bbd98d2c92229343c2312fdac0e4",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/result.json": "bb5213c950722fe502ebc738096607b7dfd968bd1ebc926d1b34b6129c26bfa7",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/outcome-review.json": "23e3a66316ab4e3142f42a25d327e9a6d8bb306ab6eb9c81cde67838112543c9",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/preservation-review.json": "040a1c58a4e6caad6bb29e4e167c5f19d8a666eb731f3819b804a860e9c08082",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/final-live-preservation.private.json": "bbe77f6dccb39b8686b1f4bd25a07c842b79bbd98d2c92229343c2312fdac0e4",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/final-job-and-logout.private.json": "3ea758b472a824abe47ecb601d627c26703e287715582218e3f9e42e569779b9",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/http-operations.jsonl": "fa07784289fe983cbc400a2768d08d14180a28b533426568ee3ff5e7a485f2db",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/queued-job.json": "0664d6197f5ed9ce1ec3d259df95e68f0975692d759ea64e53199ab508dacc7a",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/cancelled-job.json": "9a0764a8b3fb1dc47e14d4b851e8c8831f422ad0ae86e8b6ede637bda5ea9c31",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/validation.json": "306d627c966910babcec21b65407d0cc469afa534909db7b12dc5c3866defa42",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/plan.json": "dcae062497d1e5f2fc294af1eddc05d1fe460d0202f6a07eb151218e12dd39af",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/approval.json": "fb7a099f0fc44ee5ee51ec18adfa37f712a8b0158442eafa00c40c39676c2b01",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/readiness-before.json": "c22c74f2937605c00ab37f69c77c686bfaf28c530fe09001b8f145a3e0c5ec68",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/readiness-waiting.json": "6b13b8550b70e3c3a646462f9578aaf4238459ad2e853fbc3286994326443a0a",
+    ".cache/oracle-concurrency-20261025/oa09-queued-route-1/preparation-failure.json": "3cbd23da916c61d2df2126fc66545ceae30859d7a0bafe028f289a16b340b0a6",
+    ".cache/oracle-concurrency-20261025/discovery-schema-route-1/scope.json": "c2124f63b900fddef91f2aecbf8f535e4a027d8bfb0124b04621a14381853533",
+    ".cache/oracle-concurrency-20261025/discovery-schema-route-1/review.json": "560e716a857a841a32ad15cfff694a45517ee2b0bdacb3bcacdafa263dd44119",
+    ".cache/oracle-concurrency-20261025/discovery-schema-route-1/run.py": "c64f91b3353559654a0cd1d27cca78fc227c6b803b173658d70b35cbe02ce631",
+    ".cache/oracle-concurrency-20261025/discovery-schema-route-1/disposable-lab-manifest.json": "8a4d4a2df2cd5ec74222776a9286c80ccdaf5eb9653b6a90d8c046e99cb8e5dd",
+    ".cache/oracle-concurrency-20261025/discovery-schema-route-1/discovery-manifest.json": "9bab5afd1993b538c87aaae99e5c9fd834e9ca38b629455a7eeb09b283b1018c",
+    ".cache/oracle-concurrency-20261025/discovery-schema-route-1/result.json": "be16d347f9a0cd36a5b14cc7416306db49f9f3af952e2ab74942628d79c57a61",
+    ".cache/oracle-concurrency-20261025/discovery-schema-route-1/outcome-review.json": "2dec0b5d4ede75cc9d53085eb38831c5f45be00974579e01dd5b9725cc227e26",
+    ".cache/oracle-concurrency-20261025/discovery-schema-route-1/installed-after.private.json": "5964c79ad8506edacbf412dd2db654c5487d9bde7606d5f68ae40cc7e0574bb9",
+    ".cache/oracle-concurrency-20261025/discovery-schema-route-1/catalog-before.private.json": "36419357cf728997fdd53bbd122e30e4297716bfae578640b8a3caab2212ff7f",
+    ".cache/oracle-concurrency-20261025/discovery-schema-route-1/catalog-after.private.json": "b4ce736f72848b1e44d3095e3ca959560731361a42bc60488d74a776100c2e93",
+    ".cache/oracle-concurrency-20261025/discovery-schema-route-1/metadata-before.private.json": "2633c6c0f44e5d9f0810178559161e9e3a22967aae2edb874f23fb10b6383df4",
+    ".cache/oracle-concurrency-20261025/discovery-schema-route-1/metadata-after.private.json": "70ac1d2e9273dd7e0f057d81f80f80b9f24eb1bf449aa22a6ad054459c7f2d7f"
+  },
+  "limitations": [
+    "Covers queued WAITING_VALIDATION and cancelled request only; ADMITTED and full OA09 matrix remain open.",
+    "No new Oracle statement or migration was executed by this queue case. Last independent native read-only object/journal observation belongs to the separately recorded07:37qualification.",
+    "Discovery credential row-preservation and revocation were checked by reviewed operator assertions; separate before/after credential row files were not retained for independent reconstruction. Queue credential rows were independently reconstructed.",
+    "Existing expired installation/qualification/discovery reviews grant no further Oracle or writer access.",
+    "No canonical signed commit, source push, hosted CI, merge or gated release is claimed; current non-production image remains557c7d47."
+  ]
+}

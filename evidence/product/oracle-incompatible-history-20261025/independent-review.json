@@ -1,0 +1,124 @@
+{
+  "authorizationReviewSha256": "9d8ce3873056f2f489e2b42fd09bba64c4ccde045de907fa08bf40cd24d18549",
+  "decision": "PASS",
+  "evidenceSha256": {
+    "candidateInstallationSha256": "c0c16d4a84572c7f8a351e85e7aa2bcefe9d45ad64ff28231bd5efe59b7acf43",
+    "candidateLabManifestSha256": "2ecd6275767a019e8e855b47cb55cc7428824b8e231cee5e16776429088f89d1",
+    "caseApprovalSha256": "9d8ce3873056f2f489e2b42fd09bba64c4ccde045de907fa08bf40cd24d18549",
+    "caseResultSha256": "505ff52e2ba7be1d85a1a4ea136d59bed1824abb79cab1e9d54e114efcb02a54",
+    "caseScopeSha256": "615cc21f06344a26f9c924d66a0c2dc9149850d08cdc7c43f7138c6a5425fa73",
+    "governanceFactsSha256": "541837a0ef1d583a8a7349a6fedde0bdc47f1c986e2fa9e215ac7418951b577e",
+    "journalAfterSha256": "089ab5334379422d66fcaa7816ace63259fff63c3ba6e78a29616a876b620cff",
+    "journalBeforeSha256": "068f2edfd360ae54295439a6211096842de8931dddd248b44f0e852b4d3b40ac",
+    "materializedRequestSha256": "3983d93aefb3699453960eceff58f00d4a6626990272319c94b84bbc5ce9b1f8",
+    "metadataAfterSha256": "f05a933c1f8abd6d38507307421a59c25246538d0e89017cf74b774ba6627f9a",
+    "metadataBeforeSha256": "88d57e1e0e5e430ef9586063a803ad69ad4d5e79de43b7979e5185465a63e599",
+    "metadataSnapshotHelperSha256": "07e5745e03ba386a865ae724198f3776fbd0c6556f5fdacb1860fb51dd41cb72",
+    "observerSqlSha256": "b496a85c0e3316d6d2f377ce7a196bbd82d5924366480b8200cfc02b948f261d",
+    "operatorSha256": "a951f2bb84aa0d46ffc5a3b1a3f7bf21555a10ddd46556025e6b3c3121435291",
+    "oracleAfterSha256": "39d4459c7462c203a17daaec44c73a2595e5025c6a1fa98253574c070a5b4e1d",
+    "oracleBeforeSha256": "39d4459c7462c203a17daaec44c73a2595e5025c6a1fa98253574c070a5b4e1d",
+    "preparerSha256": "cde209578e114362c1e132ad59ec277981308536df9fdc97bea6bc031d2e156e",
+    "runtimeArtifactsTarSha256": "f15c6cb92c87ced06606de681fad902a04351097a672f40600c46f7d5e7ef0ec",
+    "seedBaseline": {
+      "installationSha256": "9e89ec30bb808a7da4b394dd83360063ae9b320e24838c0d0859798aed4239fd",
+      "journalAfterSha256": "47a8cd0214cd3a0a638605d902c6192d8a9299982ab27990f677b0acb5f1f00f",
+      "materializedSha256": "c7442893989edb7a90828bd31ca61ec61c5eab6fa8e0c0b617304bad72996758",
+      "resultSha256": "594d5bbf292def5e03458abcad2e9aa35379798fdf6e5dd71d943b80de9bd5b6"
+    },
+    "workerSourceSha256": "5c47af4c1d5260fba294387919920efbcbc969f0ab1e50dfa7370550b3699140",
+    "workerStderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "workerStdoutSha256": "db3cbfc646bc2b58c4cf226e2f55c118ed472ce00e85a2b1a21c933b90d5f005",
+    "workerSummarySha256": "c0cf447400284cb23e2a7f0b78e70b6d61b897314721338147b5ddd5330498ce"
+  },
+  "findings": [],
+  "format": "kelryvo-independent-oa09-negative-outcome-review-v1",
+  "jobId": "bd5bf338-f106-44a0-91b2-d3a11e4010b6",
+  "limitations": [
+    "This review covers only the isolated negative history mismatch case, not full OA09 completion.",
+    "The case ran on the image and context pinned by its scope (d97136fe\u2026 / 98357aac\u2026). It does not establish native acceptance for the separately published UI image 7720529b\u2026; that image was reported as not deployed.",
+    "This is retained artifact review; no live cluster/database state was queried by this reviewer."
+  ],
+  "outcome": "PASS_ISOLATED_OA09_INCOMPATIBLE_HISTORY_HOLD",
+  "owner": "KP_FAULT_A",
+  "planId": "5fa8fcf5-2a4d-4cc6-8a56-3b90a90de9d6",
+  "reviewedAt": "2026-10-25T01:38:39.124Z",
+  "scopeSha256": "615cc21f06344a26f9c924d66a0c2dc9149850d08cdc7c43f7138c6a5425fa73",
+  "verified": {
+    "allOtherPostgresTableHashesUnchanged": true,
+    "applicationSqlAcknowledgements": 0,
+    "applicationSqlAttempts": 0,
+    "applicationSqlExecuteSuccesses": 0,
+    "changedPostgresTableSet": [
+      "sf_audit",
+      "sf_execution_job_events",
+      "sf_execution_jobs"
+    ],
+    "currentOracleObjectsEventsHeads": {
+      "events": 48,
+      "heads": 4,
+      "objects": 8
+    },
+    "deniedApplicationSql": 0,
+    "governanceAudit": [
+      {
+        "action": "EXECUTION_HELD",
+        "facts": {
+          "reasonCode": "TARGET_HISTORY_UNTRUSTED",
+          "scope": "PRODUCT_REQUEST"
+        },
+        "resource_id": "bd5bf338-f106-44a0-91b2-d3a11e4010b6"
+      }
+    ],
+    "governanceEvents": [
+      {
+        "facts": {},
+        "from_state": null,
+        "reason": "OA09 negative history compatibility probe: fresh approved V2 differs from seeded applied V2; retain in WAITING_VALIDATION for separately reviewed history-gate run; public execution remains disabled.",
+        "revision": "0",
+        "to_state": "WAITING_VALIDATION"
+      },
+      {
+        "facts": {
+          "reasonCode": "TARGET_HISTORY_UNTRUSTED",
+          "scope": "PRODUCT_REQUEST"
+        },
+        "from_state": "WAITING_VALIDATION",
+        "reason": null,
+        "revision": "1",
+        "to_state": "HOLD"
+      }
+    ],
+    "historicalHoldCountAfter": 11,
+    "historicalHoldCountBefore": 10,
+    "historicalPdbFactsUnchanged": true,
+    "historyMismatch": {
+      "appliedMigrationCount": 2,
+      "candidateIdentityPrefixMatchCount": 1,
+      "expectedSeedHistoryPrefixMatchCount": 2,
+      "headChecksumSha256": "16875f9cea732defd70b83f86cc87bd793fa920d24cb2f5fa1635b31012e6141",
+      "ledgerRows": 10,
+      "ledgerState": "COMPLETE",
+      "rowsSha256": "6a4562ce4dfee341813d8f8b723cf99b9bc6798309a33dbc1febc8bbba3bc4c1",
+      "sequence": 10,
+      "v1Matches": true,
+      "v2Mismatch": true
+    },
+    "instrumentationFailure": false,
+    "ledgerPolicy": {
+      "next": 0,
+      "used": 0
+    },
+    "newAttemptReceiptAdmissionProof": false,
+    "noOracleErrorMarkers": true,
+    "oldHoldsPreserved": true,
+    "oracleBeforeEqualsAfter": true,
+    "postgresTableCount": 68,
+    "priorPlansJobsAndAllJournalRowsPreserved": true,
+    "publicExecutionEnabled": false,
+    "replayOrAutoRecovery": false,
+    "targetLedgerReadQueries": 2,
+    "targetLedgerWriteQueries": 0,
+    "worker": "Production installed worker returned SETTLED/HOLD, bound to exact request/job/plan and pinned worker source; runtime tar summary and events match copied summary."
+  }
+}

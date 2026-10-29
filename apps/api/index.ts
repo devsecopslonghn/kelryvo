@@ -1,3 +1,4 @@
+import { registerIdentity } from '../../packages/identity/api.ts';
 import { retainPlanSchema } from '../../packages/schema-baselines/store.ts';
 import { registerSourceComparison, readPlanComparison } from '../../packages/governance/source-comparison.ts';
 import {registerSqlWorkspace} from '../../packages/sql-workspace/api.ts';
@@ -99,8 +100,11 @@ export function createApp(options: {
   statementParser?: (source: Buffer) => Promise<any>;
   releaseParser?: (source: Buffer) => Promise<any>;
   https?: any;
+  identityRuntime?: any;
+  identityAdapters?: any;
   discoveryRuntime?: any;
   discoveryTimeoutMs?: number;
+  discoverySchemaTimeoutMs?: number;
 }) {
   const { sql, actors, repositories } = options;
   const statementParser = options.statementParser;
@@ -191,7 +195,10 @@ export function createApp(options: {
     });
   };
   registerTargets(app, { sql, authenticate });
-  registerConnectivity(app, {sql,authenticate,runtime:options.discoveryRuntime,timeoutMs:options.discoveryTimeoutMs});
+  const schemaTimeoutMs=options.discoverySchemaTimeoutMs
+    ?? (options.discoveryTimeoutMs===undefined?35_000:options.discoveryTimeoutMs);
+  registerConnectivity(app, {sql,authenticate,runtime:options.discoveryRuntime,timeoutMs:options.discoveryTimeoutMs,
+    schemaTimeoutMs});
   registerConnectionManagement(app, {sql,authenticate});
   registerSqlValidation(app,{sql,authenticate});
   registerSqlWorkspace(app,{sql,authenticate,releaseParser:options.releaseParser});
@@ -204,6 +211,7 @@ export function createApp(options: {
   registerExecutionRecord(app, { sql, authenticate });
   registerBrowserSessions(app, { sql, authenticate, seed, enabled: !!options.https });
   registerAccount(app, { sql, authenticate });
+  registerIdentity(app, {sql,authenticate,enabled:!!options.https,runtime:options.identityRuntime,adapters:options.identityAdapters});
   registerProfileLifecycle(app, { sql, authenticate });
   app.get('/api/recovery/status', { preHandler: authenticate }, async () => {
     const row = (await sql`SELECT g.id,g.state,g.predecessor_id,g.witness_id,g.created_at
@@ -1744,6 +1752,13 @@ export function createApp(options: {
     return { job: mapExecutionJob(result.job) };
   });
   app.setErrorHandler((error: any, _req: any, reply: any) => {
+    if(error?.productCode==='IDENTITY_ADMIN_REQUIRED')return fail(reply,403,error.productCode);
+    if(error?.productCode==='INVALID_IDENTITY_CONFIG')return fail(reply,400,error.productCode);
+    if(['IDENTITY_REVISION_CONFLICT','IDENTITY_SOURCE_IMMUTABLE','IDENTITY_MAPPING_REQUIRED','IDENTITY_ACTOR_UNAVAILABLE','IDENTITY_PROVIDER_LIMIT'].includes(error?.productCode))return fail(reply,409,error.productCode);
+    if (error?.productCode === 'AUTH_BUSY') return fail(reply, 429, 'AUTH_BUSY');
+    if (error?.productCode === 'AUTH_UNAVAILABLE') return fail(reply, 503, 'AUTH_UNAVAILABLE');
+    if (error?.productCode === 'PASSWORD_SETUP_UNAVAILABLE') return fail(reply, 409, 'PASSWORD_SETUP_UNAVAILABLE');
+    if (['INVALID_PASSWORD','INVALID_PASSWORD_SETUP','PASSWORD_NOT_ACCEPTED'].includes(error?.productCode)) return fail(reply, 400, error.productCode);
     if(error?.validationStatus)return fail(reply,409,error.productCode);
     if (error?.statusCode === 429) return fail(reply, 429, "RATE_LIMITED");
     if (error?.productCode === "UNAUTHENTICATED") return fail(reply, 401, "UNAUTHENTICATED");

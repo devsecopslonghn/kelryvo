@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "at": "2026-10-24T16:49:51.339979+00:00",
+  "schemaSignature": "3c55e5886d0ef6706851d7d8647ec44b11318a4b58d8a52f4b1c1a482c043822",
+  "archiveSha256": "16aa9252285fff58e03ed7b837110b745ebbce2404b32fc4a2957a2c8192b3a4",
+  "manifestSha256": "55b6a0f542a7df595ea93f9afb3c89c10d8af70f0b9535286c0810d683c74f9b",
+  "witnessSha256": "ed432eedb0069ed91a1e443e4d3ddf842ed73031be26bc6cbc991f0a6d720d4b",
+  "operatorFrozenSourceSha256": "e78beb8324e4bdec471541125da11c5adcda8ec07c11ed63fdfc371dbbcd3f17",
+  "sourcePreserved": true,
+  "restorePerformed": false
+}

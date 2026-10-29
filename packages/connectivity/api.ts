@@ -17,8 +17,9 @@ const fail=(code:string,status=409)=>Object.assign(new Error(code),{productCode:
 const body=(b:any,keys:string[])=>b && typeof b==='object' && !Array.isArray(b) && Object.keys(b).length===keys.length && keys.every(k=>Object.hasOwn(b,k));
 const caps=[{engine:'oracle',supported:true},{engine:'postgresql',supported:false},{engine:'mysql',supported:false}];
 
-export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs=10000}:any) {
+export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs=10000,schemaTimeoutMs=timeoutMs}:any) {
   const deadline=Math.max(25,Math.min(10000,timeoutMs)), running=new Set<string>();
+  const schemaDeadline=Math.max(25,Math.min(35000,Number.isFinite(schemaTimeoutMs)?schemaTimeoutMs:deadline));
   const base='/api/projects/:projectId';
   const guard=async(tx:any,req:any,manage=false)=>{
     if(!uuid(req.params.projectId)) throw fail('NOT_FOUND',404);
@@ -85,7 +86,7 @@ export function registerConnectivity(app:any,{sql,authenticate,runtime,timeoutMs
       throw e;
     }
   });
-  registerSchemaBaselines({sql,route,guard,connection,audited,runtime,running,deadline});
+  registerSchemaBaselines({sql,route,guard,connection,audited,runtime,running,deadline:schemaDeadline});
   registerInstances({sql,route,guard,connection,audited,projectConnection});
   route('get',`${base}/database-connections`,async(req:any)=>sql.begin(async(tx:any)=>{
     const canManage=await guard(tx,req);

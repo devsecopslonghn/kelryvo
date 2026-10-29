@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "image": "longhn0710t/kelryvo-pilot@sha256:10101100593ce0a0a297efa678c977659850e734bc52cfa0ea82dc461ccd2368",
+  "executionEnabled": false,
+  "metadataTableCount": 61,
+  "allMetadataRowsUnchangedAcrossRestart": true,
+  "stableResourceUidsPreserved": true,
+  "roleRecordComparisons": 14,
+  "historicalRecordFactsUnchanged": true,
+  "lostAckHoldPreserved": true,
+  "passwordAccountsPreserved": true,
+  "readyz": {
+    "status": "ready",
+    "metadata": "ACTIVE",
+    "targetAvailability": "UNVERIFIED"
+  }
+}

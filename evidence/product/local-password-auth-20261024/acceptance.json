@@ -1,0 +1,83 @@
+{
+  "status": "PASS_LOCAL_PASSWORD_SIGN_IN_ON_DEDICATED_LAB",
+  "at": "2026-10-24T17:09:56.908771+00:00",
+  "url": "https://kelryvo.apps.drgdevlab.com",
+  "image": "longhn0710t/kelryvo-pilot@sha256:10101100593ce0a0a297efa678c977659850e734bc52cfa0ea82dc461ccd2368",
+  "imageTag": "dev-worktree-d8fc17178465-20261024T170416Z",
+  "sourceRevision": "worktree-sha256:d8fc171784653afc0b27ed0572b84c8e97533b12e58c8741ff74c6c689b64830",
+  "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+  "capabilities": [
+    "HTTPS username/password sign-in for existing fixed-role actors",
+    "Proof-bound first setup; no anonymous signup or new administrator",
+    "Password change revokes existing browser sessions",
+    "Audited trusted-operator reset and disable with private stdin",
+    "Same-actor anchor revocation and ACTIVE metadata gate",
+    "Existing cookie/CSRF/logout/session management and recovery-token compatibility",
+    "Bounded scrypt/password-login workload and IPv6 subnet quota"
+  ],
+  "validation": {
+    "standardCheck": {
+      "tests": 625,
+      "pass": 481,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 144
+    },
+    "fullBrowser": {
+      "tests": 57,
+      "pass": 57,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "focusedAuth": {
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "apiFinalCoveredCases": 211,
+    "fullApiInitialFailedCases": 8,
+    "allEightCorrectedHistoricalFixturesRerun": true,
+    "allInOneGreenFullApiRunClaimed": false,
+    "exactImageOCI": "PASS",
+    "anonymousRegistry": "PASS",
+    "chartContracts": "PASS",
+    "chartLogSha256": "44cb8031d9952f133860a9b59768a7130bd111e85291197ce513e3f81288bb91",
+    "nativePopulatedPasswordBackupRestore": "PASS_HOLD_DENIES_LOGIN_NO_NEW_AUTHORITY"
+  },
+  "deployment": {
+    "existingMetadataTablesPreserved": 59,
+    "newTables": [
+      "sf_password_accounts",
+      "sf_password_audit"
+    ],
+    "stablePersistentResourceIdsPreserved": true,
+    "executionEnabled": false,
+    "discoveryEnabled": true,
+    "argoAutoSync": false
+  },
+  "live": {
+    "bothActorsFirstSetupAndPasswordLogin": "PASS",
+    "bothActorsLoginAfterAppRestart": "PASS",
+    "mobile390": "PASS",
+    "all61MetadataTablesUnchangedAcrossRestart": true,
+    "historicalRecordRoleComparisons": 14,
+    "priorLostAckHold": "PRESERVED"
+  },
+  "retainedFailedObservation": {
+    "event": "Initial approver historical download event timed out after successful password login",
+    "mutations": "Both first setups completed once; neither was repeated",
+    "followup": "Existing accounts signed in again; both downloads and matching checksums passed after workspace requests settled",
+    "exactTimeoutCause": "NOT_ASSERTED"
+  },
+  "limits": [
+    "LDAP/OIDC/SSO is not implemented",
+    "No application administrator, anonymous signup, invitations or arbitrary user provisioning",
+    "Developer/approver roles and existing grants unchanged",
+    "Development AMD64 worktree image; no canonical signed Git release, hosted CI or gated GHCR claim",
+    "Current Oracle case reviews expired; no new native Oracle acceptance claimed by this login delivery"
+  ],
+  "ownerAccess": "Private mode0600 .cache/private-lab/OWNER_ACCESS.txt on owner workstation; credentials excluded from evidence"
+}

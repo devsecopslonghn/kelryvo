@@ -34,6 +34,7 @@
     "build:web": "node scripts/build-web.mjs",
     "local:prepare": "node scripts/local-prepare.mjs",
     "local:credentials": "node scripts/local-credential-operator.mjs",
+    "local:password": "node scripts/local-password-operator.mjs",
     "local:backup-restore": "node scripts/local-backup-operator.mjs",
     "local:membership": "node scripts/local-membership-operator.mjs",
     "local:execution-recovery": "node scripts/local-execution-recovery.mjs",
@@ -45,11 +46,14 @@
     "test:browser:extended": "npm run build:web && node scripts/test-product.mjs --browser --extended",
     "dependencies:product": "node scripts/product-dependencies.mjs",
     "release:local": "node scripts/local-release.mjs build",
-    "test:release": "node --test tests/product-local-release.integration.mjs"
+    "test:release": "node --test tests/product-local-release.integration.mjs",
+    "local:identity-admin": "node scripts/local-identity-admin.mjs"
   },
   "dependencies": {
     "@fastify/rate-limit": "11.2.1",
     "fastify": "5.12.5",
+    "ldapts": "9.2.0",
+    "openid-client": "6.8.8",
     "oracledb": "7.0.1",
     "postgres": "3.4.9",
     "react": "19.3.0",

@@ -1,0 +1,61 @@
+[
+  {
+    "label": "proxy_before_enable",
+    "observedAt": "2026-10-24T11:55:29.758772+00:00",
+    "monotonicNs": 24469041035452,
+    "value": {
+      "podUid": "4b347bb7-7ba1-4fba-a854-53d419f4b338",
+      "observedAt": "2026-10-24T11:55:30.525Z",
+      "status": {
+        "mode": "PASS",
+        "listening": true,
+        "active": false,
+        "bufferedBytes": 0,
+        "acceptedConnections": 1,
+        "rejectedConnections": 0,
+        "cutConnections": 0,
+        "upstreamErrors": 0,
+        "capturedOracleBytes": 13511,
+        "releasedOracleBytes": 0,
+        "bufferOverflow": false,
+        "updatedAt": "2026-10-24T11:55:30.473Z"
+      }
+    }
+  },
+  {
+    "label": "empty_fresh_fault_schema",
+    "observedAt": "2026-10-24T11:55:30.553353+00:00",
+    "monotonicNs": 24469835618815,
+    "value": [
+      "GUID|5E8C72D67798B7C1E0638101F40A4013"
+    ]
+  },
+  {
+    "label": "pinned_runtime",
+    "observedAt": "2026-10-24T11:55:33.708608+00:00",
+    "monotonicNs": 24472990872539,
+    "value": {
+      "name": "kelryvo-app-d789469dd-gvg7w",
+      "uid": "c0e0605a-244c-48d4-9355-b33088fff395",
+      "image": "longhn0710t/kelryvo-pilot@sha256:cd46b7c5e95fd02896dc0877196a2190d886da1a3ff571561b5d2c012b2e3398"
+    }
+  },
+  {
+    "label": "controller_failed",
+    "observedAt": "2026-10-24T11:55:59.156403+00:00",
+    "monotonicNs": 24498438665013,
+    "value": {
+      "status": "FAIL",
+      "noReplay": true
+    }
+  },
+  {
+    "label": "final_fail_closed_cut",
+    "observedAt": "2026-10-24T11:55:59.945698+00:00",
+    "monotonicNs": 24499227964037,
+    "value": {
+      "at": "2026-10-24T11:56:00.711Z",
+      "mode": "CUT"
+    }
+  }
+]

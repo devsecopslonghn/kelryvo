@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "label": "FINAL_DELIVERY",
+  "freshStateSha256": "818596ded19fd062d0d4aa9312e052567d7889f6300102983cdac71c480ba11a",
+  "targetJournalEvents": 28,
+  "targetHeads": 3,
+  "originalHeldTargetUnchanged": true
+}

@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "purpose": "FRESH_TARGET_SELECT_ONLY_QUALIFICATION",
+  "uid": 10002,
+  "effectiveCapabilities": "0000000000000000",
+  "identity": {
+    "engine": "oracle",
+    "dbid": "1514744796",
+    "dbUniqueName": "FREE",
+    "resetlogsChange": "2084882",
+    "cdb": true,
+    "containerId": "9",
+    "containerGuid": "5E8C72D67798B7C1E0638101F40A4013",
+    "containerDbid": "1742759747",
+    "containerName": "KP_LOST_ACK2",
+    "serviceName": "kp_lost_ack2",
+    "version": "Oracle AI Database 26ai Free Release 23.26.3.0.0 - Develop, Learn, and Run for Free"
+  },
+  "driverServerVersionString": "23.26.3.0.0",
+  "grantDigest": "fb02cb59e6ec561f4e3617f7a17b414a8f5d8a4e7385d04f2c29387b51214e8a",
+  "protectedWitnessDigest": "dd72d3dcf274ba807736e42a36d49e929386790ac94296fd4937fc29bbd7bc31",
+  "applicationObjects": 0,
+  "ledgerEvents": 0,
+  "ledgerHeads": 0,
+  "applicationImage": "longhn0710t/kelryvo-pilot@sha256:cd46b7c5e95fd02896dc0877196a2190d886da1a3ff571561b5d2c012b2e3398"
+}

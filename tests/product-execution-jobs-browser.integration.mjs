@@ -126,7 +126,8 @@ test('deployment request retry is idempotent and stale job events cannot replace
     await projectQueueStartedPromise;
     await page.getByRole('button', { name: /Projects/ }).click();
     await page.locator('.project-row').filter({ hasText: otherProject.name }).click();
-    await page.locator('.topbar-project-badge').getByText(otherProject.name, { exact: true }).waitFor();
+    await page.waitForFunction(id => document.querySelector('[aria-label="Active project"]')?.value === id, otherProject.id);
+    assert.equal(await page.getByLabel('Active project').locator('option:checked').innerText(), otherProject.name);
     releaseProjectQueue(); await staleProjectRead;
     assert.equal(await page.locator('.execution-job').filter({ hasText: pollingJob.id }).count(), 0,
       'a held queue response from the prior project cannot repopulate its jobs');

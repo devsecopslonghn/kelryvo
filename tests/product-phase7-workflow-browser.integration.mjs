@@ -1,3 +1,4 @@
+import { openTokenRecovery } from './helpers/ui-disclosures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
@@ -19,7 +20,7 @@ test('Phase 7 HTTPS journey drafts SQL, retains immutable approval/request histo
     };
     const signIn=async(actor,hash='')=>{
       await page.goto(`https://127.0.0.1:${f.app.server.address().port}/${hash}`);
-      await page.getByLabel('Local access token').fill(actor.token);
+      await openTokenRecovery(page); await page.getByLabel('Local access token').fill(actor.token);
       await page.getByRole('button',{name:'Continue',exact:true}).click();
       await page.getByLabel('Sign out').waitFor();
     };
@@ -27,7 +28,7 @@ test('Phase 7 HTTPS journey drafts SQL, retains immutable approval/request histo
       await page.getByRole('button',{name:/Projects/}).first().click();
       await page.locator('.project-row').filter({hasText:f.project.name}).click();
     };
-    const logout=async()=>{await page.getByLabel('Sign out').click();await page.getByLabel('Local access token').waitFor();};
+    const logout=async()=>{await page.getByLabel('Sign out').click();await openTokenRecovery(page); await page.getByLabel('Local access token').waitFor();};
     await launch();await signIn(f.actors[0]);await selectProject();
     await page.getByRole('button',{name:/Project targets/}).click();
     await page.getByRole('button',{name:'Inspect binding',exact:true}).click();

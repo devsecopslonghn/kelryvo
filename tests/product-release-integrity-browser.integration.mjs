@@ -1,3 +1,4 @@
+import { openCompatibilityPlanning } from './helpers/ui-disclosures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes, randomUUID } from 'node:crypto';
@@ -55,7 +56,9 @@ test('browser gives fixed feedback when a retained release fails integrity verif
     const releaseRow = page.locator(`.saved-release-row[data-release-id="${releaseId}"]`);
     await releaseRow.waitFor();
     await releaseRow.getByRole('button', { name: 'Inspect files', exact: true }).click();
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByLabel('Target connection profile').selectOption(profile.id);
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByRole('button', { name: 'Prepare offline plan', exact: true }).click();
     const feedback = page.getByRole('alert');
     await feedback.waitFor();

@@ -1,0 +1,102 @@
+{
+  "format": "kelryvo-delivery6-discovery-repair-acceptance-v1",
+  "status": "PASS_D6_DISCOVERY_MANIFEST_REPAIR_ONLY",
+  "reviewedAt": "2026-10-26T01:54:36.364Z",
+  "image": "longhn0710t/kelryvo-pilot@sha256:557c7d47062355bcde3f259d3601254656b2464cf14267adead605da43ff90fc",
+  "target": {
+    "engine": "oracle",
+    "dbid": "1514744796",
+    "dbUniqueName": "FREE",
+    "resetlogsChange": "2084882",
+    "cdb": true,
+    "containerId": "13",
+    "containerGuid": "5EB2C4026807E0F8E0638101F40A9278",
+    "containerDbid": "3453530694",
+    "containerName": "KP_DELIVERY6",
+    "serviceName": "kp_delivery6",
+    "version": "Oracle AI Database 26ai Free Release 23.26.3.0.0 - Develop, Learn, and Run for Free"
+  },
+  "configuration": {
+    "d6Only": true,
+    "canonicalAcceptedAt": "2026-10-25T23:08:43.166Z",
+    "expiresAt": "2026-10-26T09:50:08.249Z",
+    "secretKeys": 13,
+    "otherSecretValuesUnchanged": 12,
+    "sameImageSingletonRestart": true,
+    "successorPod": {
+      "name": "kelryvo-app-bb4ddfc4c-bl2gm",
+      "uid": "5a301810-4a98-4b38-a07c-b60529ccf570"
+    },
+    "runtimeUid": 10002,
+    "runtimeMode": "600",
+    "apiUid10001Denied": true,
+    "nativeInstallationRenewed": false
+  },
+  "preservation": {
+    "metadataTables": 68,
+    "credentialProjectionRows": 810,
+    "jobs": {
+      "total": 53,
+      "states": {
+        "CANCELLED": 20,
+        "HOLD": 12,
+        "NOOP": 5,
+        "VERIFIED_SUCCESS": 16
+      }
+    },
+    "allPriorRowsPreserved": true,
+    "oracleConnections": 0,
+    "oracleWrites": 0,
+    "metadataWrites": 0,
+    "applicationApiCalls": 0,
+    "executionEnabled": false
+  },
+  "provenance": {
+    "case": ".cache/private-lab/delivery6-discovery-repair-20261026-3",
+    "scopeSha256": "4912411ade9de44969a43383b889b462b331fdcc54ccac50d04a0bdbbea6a01f",
+    "labManifestSha256": "97b947687cd46791203e12f3572040181277de82a3ae624d195daac4a1c12678",
+    "discoveryManifestSha256": "0a2b80ccb1f05a052981517dd7611beb906a99845ae4c687c59d5e22c048896b",
+    "operatorReviewSha256": "cf2cfb4bfd2b073e5f13f8314e5e546c4a698a276c42bf7c589eb81103c6ea0e",
+    "resultSha256": "a413f6c27395a1023e2cbe600aa98bcc1600fb8a810afdcf23813c16a8b1e441",
+    "outcomeReviewSha256": "9f10701b523123918ba1b6a40a9ea2e5ef6509c44884ba66cae32d913e68d461",
+    "appBeforeSha256": "40056a974a099af58e83698517f05338c2508bddef1550f901c767b13f9b72a7",
+    "appAfterSha256": "da6c466f00e9883645aa5e9f6ee57b94caebc4de2b46794e9b36cd967bfea7ef",
+    "sourceHashesSha256": "dda61cc1a90b5d21a718501a804d80a19faab94258622471ecebfa7e0cbaa9ce",
+    "archiveHashesSha256": "2b9e6cc5ba985f9203bc320d8c414708e8160708180450f8031a72f4660dcbbc"
+  },
+  "independentOutcome": {
+    "reviewerId": "/root/d6_repair_review",
+    "independent": true,
+    "checks": {
+      "currentFullSnapshotMatchesAfterArtifact": true,
+      "all68MetadataTablesPreserved": true,
+      "credentialProjectionRows810": true,
+      "jobs53AndHOLD12Preserved": true,
+      "same13SecretKeys": true,
+      "other12SecretValuesUnchanged": true,
+      "repairedManifestHashMatches": true,
+      "sameImageAndSingletonReady": true,
+      "newPodObserved": true,
+      "runtimeFilesFiveUID10002Mode600": true,
+      "apiUID10001Denied": true,
+      "executionDisabled": true,
+      "oracleConnections": 0,
+      "metadataWrites": 0,
+      "oracleWrites": 0
+    }
+  },
+  "retainedPreparations": {
+    "cases": [
+      1,
+      2
+    ],
+    "executed": false,
+    "reason": "Archive aliases resolved to an identical filename; exclusive write stopped preparation before approval or cluster mutation.",
+    "fix": "Deduplicate only byte-identical private regular archive files; reject modified content and symlinks."
+  },
+  "remaining": [
+    "Actual API discovery and five schema assignments/verification",
+    "Fresh governed D6 migrations and ADMITTED/NOOP",
+    "Full Oracle acceptance matrices"
+  ]
+}

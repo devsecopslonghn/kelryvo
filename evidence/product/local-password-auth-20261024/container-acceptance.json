@@ -1,0 +1,12 @@
+{
+  "imageId": "sha256:10101100593ce0a0a297efa678c977659850e734bc52cfa0ea82dc461ccd2368",
+  "tag": "kelryvo-login:d8fc17178465",
+  "command": [
+    "node",
+    "scripts/test-containers.mjs",
+    "sha256:10101100593ce0a0a297efa678c977659850e734bc52cfa0ea82dc461ccd2368",
+    "amd64"
+  ],
+  "exitCode": 0,
+  "logSha256": "6dad973e48cdf9f5cdb98fbd7137ee7e9e88d8d2473e2a19b249e89fb9306ec2"
+}

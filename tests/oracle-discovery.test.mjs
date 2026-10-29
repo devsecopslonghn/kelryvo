@@ -17,17 +17,19 @@ const identityRows={
   [oracleDiscoverySql.schemas]:[{OWNER:'APP',HAS_VISIBLE_OBJECT:1},{OWNER:'OTHER',HAS_VISIBLE_OBJECT:0}],
 };
 
-async function fixture(t, { rows=identityRows, customManifest={} }={}) {
+async function fixture(t, { rows=identityRows, customManifest={}, timeoutMs=3000, schemaTimeoutMs, slowSchemaQueries=[], minimumSchemaCallTimeout=0 }={}) {
   const dir=await mkdtemp(path.join(os.tmpdir(),'oracle-discovery-')); const secrets=path.join(dir,'secrets');
   await mkdir(secrets,{mode:0o700}); await writeFile(path.join(secrets,'app-password'),'secret-value\n',{mode:0o600});
   const manifest={readOnly:true,disposable:true,authorizationId:'test-authorization',expiresAt:new Date(Date.now()+3600000).toISOString(),targets:[{...target,pinnedIps:['127.0.0.1'],secretFile:'app-password'}],...customManifest};
   const manifestPath=path.join(dir,'manifest.json'); await writeFile(manifestPath,JSON.stringify(manifest),{mode:0o600});
   const calls=[]; const driver={versionString:'7.0.1',thin:true,OUT_FORMAT_OBJECT:1,async getConnection(config){
-    calls.push({connect:config}); return {callTimeout:0,async execute(sql,binds,opts){calls.push({sql,binds,opts}); if(sql===oracleDiscoverySql.test)return {rows:[{OK:1}]};
+    calls.push({connect:config}); return {callTimeout:0,async execute(sql,binds,opts){calls.push({sql,binds,opts,callTimeout:this.callTimeout}); if(sql===oracleDiscoverySql.test)return {rows:[{OK:1}]};
+      if(slowSchemaQueries.includes(sql)&&this.callTimeout<minimumSchemaCallTimeout)throw Object.assign(new Error('simulated round-trip timeout'),{code:'NJS-123'});
       if(rows instanceof Error)throw rows; const data=rows[sql]; if(data instanceof Error)throw data; return {rows:data??[]};},async close(){calls.push({close:true});}};
   }};
   t.after(()=>rm(dir,{recursive:true,force:true}));
-  return {runtime:createOracleDiscoveryRuntime({manifestPath,secretDirectory:secrets,driver,timeoutMs:3000}),calls,secrets};
+  const options={manifestPath,secretDirectory:secrets,driver,timeoutMs,...(schemaTimeoutMs===undefined?{}:{schemaTimeoutMs})};
+  return {runtime:createOracleDiscoveryRuntime(options),calls,secrets};
 }
 
 test('missing private secret is diagnosed separately from endpoint authorization without connecting',async t=>{
@@ -59,6 +61,7 @@ test('discovers explicit full Oracle identity with read-only fixed SQL and no se
   assert.equal(JSON.stringify(result).includes('secret-value'),false);
   assert.ok(f.calls.filter(c=>c.sql).every(c=>/^\s*SELECT\b/i.test(c.sql)));
   assert.ok(f.calls.some(c=>c.connect?.connectString==='127.0.0.1:1521/FREEPDB1'));
+  assert.ok(f.calls.filter(c=>c.sql).every(c=>c.callTimeout===375),'DISCOVER retains the existing one-eighth round-trip budget');
   assert.equal(f.calls.at(-1).close,true);
 });
 
@@ -196,6 +199,48 @@ test('SCHEMA collection uses bounded fixed metadata reads and excludes volatile 
   assert.ok(queries.filter(c=>Object.values(oracleSchemaSql).includes(c.sql)).every(c=>c.binds.owner==='APP'));
   assert.ok(result.schema.limitations.includes('MULTI_QUERY_CONSISTENCY_UNGUARANTEED'));
   assert.equal(result.provenance,'FIXTURE');
+});
+
+test('SCHEMA gives fixed metadata queries a half-operation round-trip budget without changing DISCOVER',async t=>{
+  const rows={...identityRows,
+    [oracleSchemaSql.tables]:[{OWNER:'APP',NAME:'Orders'}],
+    [oracleSchemaSql.columns]:[],
+    [oracleSchemaSql.constraints]:[],
+    [oracleSchemaSql.constraintColumns]:[],
+    [oracleSchemaSql.views]:[],[oracleSchemaSql.sequences]:[],[oracleSchemaSql.indexes]:[],
+    [oracleSchemaSql.indexColumns]:[],[oracleSchemaSql.dependencies]:[]};
+  const slowConstraints=[oracleSchemaSql.constraints,oracleSchemaSql.constraintColumns];
+  const f=await fixture(t,{rows,slowSchemaQueries:slowConstraints,minimumSchemaCallTimeout:1000});
+  const result=await f.runtime.run(target,'SCHEMA',{owner:'APP'});
+  assert.equal(result.schema.coverage.TABLE,'COMPLETE');
+  const metadataCalls=f.calls.filter(call=>Object.values(oracleSchemaSql).includes(call.sql));
+  assert.equal(metadataCalls.length,9);
+  assert.ok(metadataCalls.every(call=>call.callTimeout===1500));
+  assert.ok(f.calls.filter(call=>slowConstraints.includes(call.sql)).every(call=>call.callTimeout>=1000));
+
+  const discovery=await fixture(t,{rows,slowSchemaQueries:slowConstraints,minimumSchemaCallTimeout:1000});
+  const discovered=await discovery.runtime.run(target,'DISCOVER');
+  assert.equal(discovered.status,'PARTIAL');
+  assert.ok(discovery.calls.filter(call=>call.sql).every(call=>call.callTimeout===375));
+});
+
+test('SCHEMA uses the separately bounded 30-second runtime budget while TEST and DISCOVER retain eight seconds',async t=>{
+  const rows={...identityRows,
+    [oracleSchemaSql.tables]:[{OWNER:'APP',NAME:'Orders'}],[oracleSchemaSql.columns]:[],
+    [oracleSchemaSql.constraints]:[],[oracleSchemaSql.constraintColumns]:[],[oracleSchemaSql.views]:[],
+    [oracleSchemaSql.sequences]:[],[oracleSchemaSql.indexes]:[],[oracleSchemaSql.indexColumns]:[],[oracleSchemaSql.dependencies]:[]};
+  const slowConstraints=[oracleSchemaSql.constraints,oracleSchemaSql.constraintColumns];
+  const f=await fixture(t,{rows,timeoutMs:8000,schemaTimeoutMs:30_000,slowSchemaQueries:slowConstraints,minimumSchemaCallTimeout:3500});
+  const schema=await f.runtime.run(target,'SCHEMA',{owner:'APP'});
+  assert.equal(schema.schema.coverage.TABLE,'COMPLETE');
+  const schemaCalls=f.calls.filter(call=>Object.values(oracleSchemaSql).includes(call.sql));
+  assert.equal(schemaCalls.length,9);assert.ok(schemaCalls.every(call=>call.callTimeout===4000));
+  assert.ok(f.calls.filter(call=>call.sql&&!Object.values(oracleSchemaSql).includes(call.sql)).every(call=>call.callTimeout===3750));
+  const discovery=await f.runtime.run(target,'DISCOVER');assert.equal(discovery.status,'PARTIAL');
+  const ordinaryCalls=f.calls.filter(call=>call.sql&&!Object.values(oracleSchemaSql).includes(call.sql)).slice(-6);
+  assert.ok(ordinaryCalls.every(call=>call.callTimeout===1000));
+  const test=await f.runtime.run(target,'TEST');assert.equal(test.status,'CONNECTED');
+  assert.equal(f.calls.filter(call=>call.sql===oracleDiscoverySql.test).at(-1).callTimeout,1000);
 });
 
 test('SCHEMA requires explicit owner and marks foreign owner coverage partial',async t=>{

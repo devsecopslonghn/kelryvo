@@ -1,0 +1,199 @@
+{
+  "format": "kelryvo-current-source-readonly-acceptance-v1",
+  "status": "BOUNDED_READONLY_QUALIFICATION_AND_STAGE_ONLY",
+  "at": "2026-10-24T18:57:24.706756+00:00",
+  "url": "https://kelryvo.apps.drgdevlab.com",
+  "source": {
+    "image": "longhn0710t/kelryvo-pilot@sha256:c7d6faaecb9144c45d68701b9e26793deb64762f84736a6a2acd1cea2ded7f89",
+    "contextTreeSha256": "0afe074f570ac489adfb2fcd546bc6e86f08c60fca00d1d85367ecc8e0498bfd",
+    "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+    "runtimeSourceChangedInThisIncrement": false,
+    "newImageRequired": false,
+    "canonicalSourceCommitOrHostedCIClaimed": false
+  },
+  "nativeQualification": {
+    "observedAt": "2026-10-24T18:21:36.729483+00:00",
+    "target": "KP_DELIVERY5",
+    "topology": "Oracle Free23.26.3 TCP; existing non-empty preserved PDB",
+    "scopeReviewDecision": "ONLY_QUALIFICATION_APPROVED",
+    "purposeIdentitiesViaDnsAndPinnedIp": 6,
+    "purposeUID": 10002,
+    "effectiveCapabilities": "0000000000000000",
+    "schemaOwnersObserved": 5,
+    "applicationObjectsObserved": 4,
+    "targetLedgerEvents": 28,
+    "targetLedgerHeads": 3,
+    "historicalHeldPdbsComparedUnchanged": 4,
+    "all68MetadataTablesUnchanged": true,
+    "currentAndHistoricalOracleContentsUnchanged": true,
+    "applicationDdlCalls": 0,
+    "applicationDmlCalls": 0,
+    "fullNativeMigrationAcceptanceClaimed": false
+  },
+  "installationStage": {
+    "observedAt": "2026-10-24T18:29:12.295651+00:00",
+    "reviewDecision": "APPROVE_READONLY_STAGE",
+    "secretReference": "kelryvo-oracle-concurrency-20261025",
+    "publicExecutionEnabled": false,
+    "discoveryFlagEnabled": true,
+    "writerAuthority": "UNAVAILABLE_PENDING_NEW_CASE_REVIEW",
+    "all68MetadataTablesUnchanged": true,
+    "persistentResourceUIDsPreserved": true,
+    "apiUID10001WriterCredentialReadDenied": true,
+    "deploymentChange": "Existing installation Secret reference only; same image, flags and identity routing"
+  },
+  "afterStage": {
+    "auth": {
+      "format": "kelryvo-live-identity-ui-v1",
+      "status": "PASS",
+      "origin": "https://kelryvo.apps.drgdevlab.com",
+      "checks": [
+        {
+          "check": "local-developer-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "developer-ldap-provider-test",
+          "status": "PASS"
+        },
+        {
+          "check": "developer-oidc-provider-test",
+          "status": "PASS"
+        },
+        {
+          "check": "local-developer-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "local-approver-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "approver-provider-configuration-denied",
+          "status": "PASS"
+        },
+        {
+          "check": "local-approver-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-developer-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-developer-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-approver-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "approver-provider-configuration-denied",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-approver-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "oidc-developer-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "oidc-developer-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "oidc-approver-signin-session",
+          "status": "PASS"
+        },
+        {
+          "check": "approver-provider-configuration-denied",
+          "status": "PASS"
+        },
+        {
+          "check": "oidc-approver-local-primary-after-logout",
+          "status": "PASS"
+        },
+        {
+          "check": "ldap-invalid-password-generic-denial",
+          "status": "PASS"
+        }
+      ],
+      "completedAt": "2026-10-24T18:55:08.109Z"
+    },
+    "pendingWriterGate": {
+      "status": "PASS",
+      "uid": 10002,
+      "pendingWriterFactoryRejected": true,
+      "nativeConnectionCalls": 0,
+      "applicationDdlCalls": 0
+    },
+    "expiredDiscoveryGate": {
+      "status": "PASS",
+      "uid": 10002,
+      "discoveryScopeExpired": true,
+      "discoveryResult": "UNAUTHORIZED",
+      "nativeConnectionCalls": 0,
+      "testKind": "CURRENT_MOUNTED_MANIFEST_PRODUCT_AUTHORIZATION_GUARD_WITH_STUBBED_DRIVER"
+    },
+    "scopeState": "The qualification/discovery stage time windows have elapsed. No date was renewed. Fresh independent review is required before further native Oracle work."
+  },
+  "oa05Preparation": {
+    "freshVersion2HarnessImplemented": true,
+    "fullV1V2ManifestRetainedForAuthorization": true,
+    "nativeAllowlistOnlyPendingV2": true,
+    "appliedV1AndDuplicateNativeSqlRejectedOffline": true,
+    "commitRecordedOnlyAfterRealDriverAcknowledgement": true,
+    "offlineInstrumentationAndGuardTests": {
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "newBrowserCaseHarnessPrepared": true,
+    "newPlansOrExecutionRequestsCreated": false,
+    "nativeConcurrencyCaseRun": false,
+    "oldBv1Cv1RequestsReplayed": false,
+    "oldFailureCause": "UNKNOWN; preserved failure is not classified from a redacted scope placeholder"
+  },
+  "remaining": [
+    "Fresh independently reviewed source/target/catalog scope and new discovery/binding re-verification before preparing the two new governed requests",
+    "OA05 actual concurrent-worker DNS/IP/implicit-commit mutex case",
+    "OA01 identity-negative, OA02 unsafe governed-dispatch, OA09 incompatible-history and remaining R1/R2 visibility/browser matrices",
+    "Oracle19c/21c/TCPS and other topologies remain unqualified"
+  ],
+  "currentResourceConstraint": {
+    "reviewerWorkerReported": "Your workspace is out of credits",
+    "newReviewOrPermissionFabricated": false,
+    "userAskedToRestoreWorkspaceCredit": true,
+    "labInfrastructurePermissionAlreadyGranted": true
+  },
+  "privateArtifactSha256": {
+    "qualification-scope.json": "17f4ecb31885b7c78621a8f537bc90861403997355ab7f3f2780dc8ba909b74a",
+    "qualification-review.json": "b94abae854ccb4899e1aaeb2d41c9478e669300735649e2dac141f2cfcb35fba",
+    "disposable-lab-manifest.json": "257c8e612cc8735329f0c0f1e05f4002e1cf4c6f40d763a737201f3d49ad85ac",
+    "qualify-nonempty.mjs": "9cf8ee9224920ec21266e21663a762e5f932bfbca1b74ced02e15c063c5d5fe3",
+    "observe-all-five-and-held.sql": "b496a85c0e3316d6d2f377ce7a196bbd82d5924366480b8200cfc02b948f261d",
+    "qualification-result.json": "5f37cf1c95190ec3aeae6edcfd29ba63c34ab529fb51efbe0a1e41430bef2ab3",
+    "qualification.stdout": "8302e7ca12f3112ab92a1dfd30a3c19be7e622f141b2ba2d8e8c9c8ce6408502",
+    "oracle-before.private.stdout": "5a6df959ca209370ac94ed4597bee6f044d649f719a4188b73070502838b5d95",
+    "oracle-after.private.stdout": "5a6df959ca209370ac94ed4597bee6f044d649f719a4188b73070502838b5d95",
+    "readonly-stage-scope.json": "1c2062dfe7559ecaea54ee32a94f8099383db51b8e860a453d75343caf0cc179",
+    "readonly-stage-review.json": "aca7b3fa68788e01ccfcf2efb3d6eaaa089c03acdfa3d9041f2a820c7ebe48ea",
+    "readonly-stage-lab-manifest.json": "dd40f904d51fa8bd045b4d5cf25d3df438a531957df6263696380c7374f7ed83",
+    "readonly-stage-result.json": "a7d5e37e5e06f0e3d83f981c8cef141a42f360e4f9162a708c6e3730c86ffee3",
+    "concurrency-parent.mjs": "53e3751f01eeacdca9813d14b5f63b839bf1aa565797c2b53e7d04123c1a7767",
+    "concurrency-child.mjs": "59034b2827906fe44fc22532246e5bf5ab93fb028547d17e5d1c21f96c995992",
+    "harness-offline.test.mjs": "29b4b7123fb00dfb061770a96b690cadc1eb170ebd583472069551681f121918",
+    "harness-instrumentation.test.mjs": "6e85f84c8f8c2c4c2e68c5339110b1cf0bf38006d24c91f28ea2d19eeae0da66",
+    "harness-offline-final.log": "cec7a18044685cbb294d6398976d2c016c4d73a447c6fc9072824f5d02fdf90e",
+    "browser-cases.mjs": "9c087aecf403587182195a6ef5cfca5f9dbf11f12d6339ce8377b8b8b2216ae8",
+    "post-stage-auth-result.json": "405c54010133c7a6667fc4b4593e076097f7edab97b28a6ecf25bf01e8da87b9",
+    "pending-writer-denial.json": "66f2b70756b281ce9fd78032270c608031afa7d1652ca9b132f44c3913ec6646",
+    "expired-discovery-denial.json": "a6b416fdc7d95ec0b92f1d80618caa55e841c762096f712e400b2440cae0222d"
+  },
+  "rawSecretsPublished": false
+}

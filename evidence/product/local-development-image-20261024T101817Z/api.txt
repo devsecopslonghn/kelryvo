@@ -1,0 +1,1786 @@
+
+> schemaforge-local-development@0.0.0 test:product
+> node scripts/test-product.mjs
+
+API product tests: 69 files. Debug one file: node scripts/test-product.mjs --file <product-test-file>
+TAP version 13
+# Subtest: account sessions and grants are self-scoped, revocation is durable, CSRF-protected and audited
+ok 1 - account sessions and grants are self-scoped, revocation is durable, CSRF-protected and audited
+  ---
+  duration_ms: 601.000992
+  type: 'test'
+  ...
+# Subtest: API quota runs before authentication and metadata, spans routes, and ignores spoofed forwarding headers
+ok 2 - API quota runs before authentication and metadata, spans routes, and ignores spoofed forwarding headers
+  ---
+  duration_ms: 1256.019721
+  type: 'test'
+  ...
+# Subtest: API readiness observes actual metadata HOLD and absence while liveness survives metadata outage
+ok 3 - API readiness observes actual metadata HOLD and absence while liveness survives metadata outage
+  ---
+  duration_ms: 169.683491
+  type: 'test'
+  ...
+# Subtest: metadata readiness has a separate bounded quota and cannot exhaust business API or liveness
+ok 4 - metadata readiness has a separate bounded quota and cannot exhaust business API or liveness
+  ---
+  duration_ms: 238.769056
+  type: 'test'
+  ...
+# Subtest: unauthenticated clients are limited and rotating addresses inside one IPv6 subnet cannot evade the quota
+ok 5 - unauthenticated clients are limited and rotating addresses inside one IPv6 subnet cannot evade the quota
+  ---
+  duration_ms: 226.001901
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: product API persists a governed offline plan and never claims execution
+ok 6 - product API persists a governed offline plan and never claims execution
+  ---
+  duration_ms: 10398.453389
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+ok 7 - approval verifies locked retained release and ordered plan facts before writes; rejection remains available
+  ---
+  duration_ms: 16886.455374
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# grant complete
+# Subtest: approval withdrawal links immutable history and works after retained content corruption
+ok 8 - approval withdrawal links immutable history and works after retained content corruption
+  ---
+  duration_ms: 23721.361349
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: archival keeps immutable records readable and refuses further project work
+ok 9 - archival keeps immutable records readable and refuses further project work
+  ---
+  duration_ms: 2084.930158
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: an in-flight metadata write rechecks archival after acquiring the project lock
+ok 10 - an in-flight metadata write rechecks archival after acquiring the project lock
+  ---
+  duration_ms: 363.199511
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+ok 11 - scoped audit pages preserve exact PostgreSQL order, old actions, and membership checks
+  ---
+  duration_ms: 702.491906
+  type: 'test'
+  ...
+# Subtest: native metadata backup and witness-verified restore retain source and enter persistent hold
+ok 12 - native metadata backup and witness-verified restore retain source and enter persistent hold
+  ---
+  duration_ms: 3464.026154
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: native restore retains target option and binding evidence without projecting private principal refs
+ok 13 - native restore retains target option and binding evidence without projecting private principal refs
+  ---
+  duration_ms: 4847.545105
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: native restore preserves retained Git review history and UNIT receipts while revoking old authority
+ok 14 - native restore preserves retained Git review history and UNIT receipts while revoking old authority
+  ---
+  duration_ms: 22808.0956
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: SIGKILL after native import leaves restored approved queues unclaimable and startup refused
+ok 15 - SIGKILL after native import leaves restored approved queues unclaimable and startup refused
+  ---
+  duration_ms: 22869.066663
+  type: 'test'
+  ...
+# Subtest: native restore rejects damaged, unsupported, linked and untrusted inputs before destination creation
+ok 16 - native restore rejects damaged, unsupported, linked and untrusted inputs before destination creation
+  ---
+  duration_ms: 4380.511375
+  type: 'test'
+  ...
+# Subtest: exact legacy schema backup restores retained projects and migrates discovery under recovery HOLD
+ok 17 - exact legacy schema backup restores retained projects and migrates discovery under recovery HOLD
+  ---
+  duration_ms: 2460.994171
+  type: 'test'
+  ...
+# Subtest: exact Phase 2 schema backup restores retained projects and migrates discovery under recovery HOLD
+ok 18 - exact Phase 2 schema backup restores retained projects and migrates discovery under recovery HOLD
+  ---
+  duration_ms: 2540.417549
+  type: 'test'
+  ...
+# Subtest: exact Phase 3 schema backup restores retained projects and migrates discovery under recovery HOLD
+ok 19 - exact Phase 3 schema backup restores retained projects and migrates discovery under recovery HOLD
+  ---
+  duration_ms: 2680.303813
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: plan review comments are scoped, validated, durable, ordered, and serialized
+ok 20 - plan review comments are scoped, validated, durable, ordered, and serialized
+  ---
+  duration_ms: 1382.116203
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: connection management creates revisioned deployment profiles and enforces readiness, access, redaction and lifecycle
+ok 21 - connection management creates revisioned deployment profiles and enforces readiness, access, redaction and lifecycle
+  ---
+  duration_ms: 7715.735272
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: discovery connection configuration advances revisions without changing retained observation and denies cross-project mutation
+ok 22 - discovery connection configuration advances revisions without changing retained observation and denies cross-project mutation
+  ---
+  duration_ms: 7411.766688
+  type: 'test'
+  ...
+# Subtest: pod operator rotation retires local/browser authority, retains immutable revocation audit and bounds new expiry
+ok 23 - pod operator rotation retires local/browser authority, retains immutable revocation audit and bounds new expiry
+  ---
+  duration_ms: 185.095813
+  type: 'test'
+  ...
+# Subtest: pod credential rotation refuses expired, revoked, duplicate-role and malformed desired tokens
+ok 24 - pod credential rotation refuses expired, revoked, duplicate-role and malformed desired tokens
+  ---
+  duration_ms: 162.835504
+  type: 'test'
+  ...
+# Subtest: metadata HOLD rejects credential changes without retiring existing authority or adding rows
+ok 25 - metadata HOLD rejects credential changes without retiring existing authority or adding rows
+  ---
+  duration_ms: 153.170168
+  type: 'test'
+  ...
+# Subtest: trusted operator recovers only a witnessed restore credential and keeps RESTORE_HOLD
+ok 26 - trusted operator recovers only a witnessed restore credential and keeps RESTORE_HOLD
+  ---
+  duration_ms: 180.938067
+  type: 'test'
+  ...
+# Subtest: restore credential recovery rejects missing or mismatched owner marker
+ok 27 - restore credential recovery rejects missing or mismatched owner marker
+  ---
+  duration_ms: 139.835489
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: approved Git request reaches controlled worker/history; uncertainty and revoked authority never replay
+    # Subtest: explicit host boundary and complete immutable statement sequence
+    ok 1 - explicit host boundary and complete immutable statement sequence
+      ---
+      duration_ms: 10217.902414
+      type: 'test'
+      ...
+    # Subtest: exact applied history is a witnessed NOOP; partial/malformed history is held
+    ok 2 - exact applied history is a witnessed NOOP; partial/malformed history is held
+      ---
+      duration_ms: 33277.53967
+      type: 'test'
+      ...
+    # Subtest: unknown result, missing receipt, permit loss and invalid postconditions stop with HOLD
+    ok 3 - unknown result, missing receipt, permit loss and invalid postconditions stop with HOLD
+      ---
+      duration_ms: 16605.784551
+      type: 'test'
+      ...
+    # Subtest: reports an already committed HOLD when host cleanup throws after the callback
+    ok 4 - reports an already committed HOLD when host cleanup throws after the callback
+      ---
+      duration_ms: 3327.564125
+      type: 'test'
+      ...
+# deploy-revoke complete
+# deploy-grant complete
+# deploy-revoke complete
+# deploy-grant complete
+    # Subtest: grant/source/assignment mutation before admission leaves no proof; revocation after an effect stops
+    ok 5 - grant/source/assignment mutation before admission leaves no proof; revocation after an effect stops
+      ---
+      duration_ms: 13189.434967
+      type: 'test'
+      ...
+# deploy-revoke complete
+# deploy-grant complete
+    # Subtest: schema contention does not hold global governance and assignment/API work completes
+    ok 6 - schema contention does not hold global governance and assignment/API work completes
+      ---
+      duration_ms: 3336.273284
+      type: 'test'
+      ...
+    # Subtest: concurrent declaration service/schema locks serialize before execution and governance
+    ok 7 - concurrent declaration service/schema locks serialize before execution and governance
+      ---
+      duration_ms: 3528.360122
+      type: 'test'
+      ...
+# deploy-grant complete
+    # Subtest: revocation waits for the guarded target call and prevents the next statement
+    ok 8 - revocation waits for the guarded target call and prevents the next statement
+      ---
+      duration_ms: 3420.181664
+      type: 'test'
+      ...
+    # Subtest: lost admission COMMIT acknowledgement recovers expiry to HOLD without target calls or another claim
+    ok 9 - lost admission COMMIT acknowledgement recovers expiry to HOLD without target calls or another claim
+      ---
+      duration_ms: 4332.782774
+      type: 'test'
+      ...
+    # Subtest: legacy requests are read-only and browser child authority includes its parent lifecycle
+    ok 10 - legacy requests are read-only and browser child authority includes its parent lifecycle
+      ---
+      duration_ms: 3273.552113
+      type: 'test'
+      ...
+    # Subtest: credential revocation after possible effect preserves receipts and halts later dispatch
+    ok 11 - credential revocation after possible effect preserves receipts and halts later dispatch
+      ---
+      duration_ms: 3256.645334
+      type: 'test'
+      ...
+    # Subtest: restore generation stops dispatch and preserves unresolved metadata until recovery
+    ok 12 - restore generation stops dispatch and preserves unresolved metadata until recovery
+      ---
+      duration_ms: 6461.019719
+      type: 'test'
+      ...
+    1..12
+ok 28 - approved Git request reaches controlled worker/history; uncertainty and revoked authority never replay
+  ---
+  duration_ms: 114674.488071
+  type: 'test'
+  ...
+# Subtest: local credentials persist and recover real interrupted operator processes
+ok 29 - local credentials persist and recover real interrupted operator processes
+  ---
+  duration_ms: 1030.935691
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: database connections enforce workspace and project grants, preserve secrets and bounded failed discovery evidence
+ok 30 - database connections enforce workspace and project grants, preserve secrets and bounded failed discovery evidence
+  ---
+  duration_ms: 2670.860208
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: observed identities create immutable binding revisions, reject fixture verification, stale/conflicting evidence and reused approval
+ok 31 - observed identities create immutable binding revisions, reject fixture verification, stale/conflicting evidence and reused approval
+  ---
+  duration_ms: 9545.711945
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: superseding discovery invalidates schema visibility evidence, plans and approval authority even when physical identity matches
+ok 32 - superseding discovery invalidates schema visibility evidence, plans and approval authority even when physical identity matches
+  ---
+  duration_ms: 16142.702487
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: manual instance registration is authorized, unsupported engines and stale observations remain honest
+ok 33 - manual instance registration is authorized, unsupported engines and stale observations remain honest
+  ---
+  duration_ms: 2447.475123
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: native backup restores connection discovery and immutable target identity evidence under recovery HOLD
+ok 34 - native backup restores connection discovery and immutable target identity evidence under recovery HOLD
+  ---
+  duration_ms: 4766.536323
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: metadata recovery HOLD prevents connection and verification mutations without losing prior evidence
+ok 35 - metadata recovery HOLD prevents connection and verification mutations without losing prior evidence
+  ---
+  duration_ms: 2312.224133
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: R1 mismatched topology or manifest identity is retained as conflict and cannot bind; readiness stays separate
+ok 36 - R1 mismatched topology or manifest identity is retained as conflict and cannot bind; readiness stays separate
+  ---
+  duration_ms: 2643.782911
+  type: 'test'
+  ...
+# Subtest: concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+ok 37 - concurrent product schema initialization serializes DDL on a fresh PostgreSQL database
+  ---
+  duration_ms: 489.798218
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: terminal plan decisions retain reviewer snapshots and historical ID fallback
+ok 38 - terminal plan decisions retain reviewer snapshots and historical ID fallback
+  ---
+  duration_ms: 597.905849
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: active legacy execution history vetoes a master stream across catalog aliases and unknown physical identities
+    # Subtest: known physical identity
+    ok 1 - known physical identity
+      ---
+      duration_ms: 5780.543633
+      type: 'test'
+      ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+    # Subtest: unknown physical identity
+    ok 2 - unknown physical identity
+      ---
+      duration_ms: 5742.605598
+      type: 'test'
+      ...
+    1..2
+ok 39 - active legacy execution history vetoes a master stream across catalog aliases and unknown physical identities
+  ---
+  duration_ms: 11524.030779
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: scoped execution history is bounded, read only, restart durable and cannot replay ambiguous attempts
+ok 40 - scoped execution history is bounded, read only, restart durable and cannot replay ambiguous attempts
+  ---
+  duration_ms: 10793.743704
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: history labels pending V2 from the approved V1+V2 envelope even when V1 and V2 digests duplicate
+ok 41 - history labels pending V2 from the approved V1+V2 envelope even when V1 and V2 digests duplicate
+  ---
+  duration_ms: 14776.306675
+  type: 'test'
+  ...
+# Subtest: T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+ok 42 - T32 schema upgrades add execution scope constraints while retaining assignments and legacy NULL approval references
+  ---
+  duration_ms: 161.706047
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# grant complete
+# Subtest: durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+ok 43 - durable deployment requests are idempotent, scoped, withdrawable and membership revocation retires deploy grants
+  ---
+  duration_ms: 25247.497732
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: live readiness distinguishes queue eligibility from unverified Oracle runtime and blocks active requests
+ok 44 - live readiness distinguishes queue eligibility from unverified Oracle runtime and blocks active requests
+  ---
+  duration_ms: 7134.469863
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: HOLD reconciliation retains digest-only evidence with independent immutable review and no replay authority
+ok 45 - HOLD reconciliation retains digest-only evidence with independent immutable review and no replay authority
+  ---
+  duration_ms: 10757.790792
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: execution record exports a complete bounded synthetic journal without mutations or private metadata
+ok 46 - execution record exports a complete bounded synthetic journal without mutations or private metadata
+  ---
+  duration_ms: 10983.293347
+  type: 'test'
+  ...
+# Subtest: service rejects caller-selected capabilities, mixed scope and accessor bindings before connecting
+ok 47 - service rejects caller-selected capabilities, mixed scope and accessor bindings before connecting
+  ---
+  duration_ms: 3.027023
+  type: 'test'
+  ...
+# Subtest: metadata connection, generation and leader-session loss latch the service without reopening
+ok 48 - metadata connection, generation and leader-session loss latch the service without reopening
+  ---
+  duration_ms: 2.815509
+  type: 'test'
+  ...
+# Subtest: run loop stops on abort and closes its owned metadata session once
+ok 49 - run loop stops on abort and closes its owned metadata session once
+  ---
+  duration_ms: 20.215337
+  type: 'test'
+  ...
+# Subtest: service CLI rejects insecure installation files before importing them and uses fixed diagnostics
+ok 50 - service CLI rejects insecure installation files before importing them and uses fixed diagnostics
+  ---
+  duration_ms: 101.624794
+  type: 'test'
+  ...
+# Subtest: generation-bound supervised bootstrap closes a mismatched factory before any operation
+ok 51 - generation-bound supervised bootstrap closes a mismatched factory before any operation
+  ---
+  duration_ms: 74.472052
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: durable service discovers approved jobs, executes only V2 suffix and records a later NOOP without replay
+ok 52 - durable service discovers approved jobs, executes only V2 suffix and records a later NOOP without replay
+  ---
+  duration_ms: 38445.602297
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: service recovers expiry before dispatch, preserves history, and waits on unresolved live claims
+ok 53 - service recovers expiry before dispatch, preserves history, and waits on unresolved live claims
+  ---
+  duration_ms: 10593.266212
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: bounded FIFO pages pass an ineligible request without starving later approved work
+ok 54 - bounded FIFO pages pass an ineligible request without starving later approved work
+  ---
+  duration_ms: 9072.54702
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: service cleanup uncertainty preserves durable success and stops further dispatch until explicit restart
+ok 55 - service cleanup uncertainty preserves durable success and stops further dispatch until explicit restart
+  ---
+  duration_ms: 15426.342938
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: generation changes after dispatch fence stale receipt, HOLD and every durable attempt write
+    # Subtest: RECEIPT
+    ok 1 - RECEIPT
+      ---
+      duration_ms: 13494.221022
+      type: 'test'
+      ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+    # Subtest: HOLD
+    ok 2 - HOLD
+      ---
+      duration_ms: 13386.513571
+      type: 'test'
+      ...
+    1..2
+ok 56 - generation changes after dispatch fence stale receipt, HOLD and every durable attempt write
+  ---
+  duration_ms: 26881.805531
+  type: 'test'
+  ...
+# Subtest: service CLI boots on owned metadata, drains on SIGTERM, and releases leadership for restart
+ok 57 - service CLI boots on owned metadata, drains on SIGTERM, and releases leadership for restart
+  ---
+  duration_ms: 303.217876
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: leader connection loss terminates active migration before its second statement and preserves uncertainty
+ok 58 - leader connection loss terminates active migration before its second statement and preserves uncertainty
+  ---
+  duration_ms: 8758.926465
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: unknown child exit stops dispatch and retains leadership until the actual child is reaped
+ok 59 - unknown child exit stops dispatch and retains leadership until the actual child is reaped
+  ---
+  duration_ms: 8088.180323
+  type: 'test'
+  ...
+# Subtest: local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+ok 60 - local Git release imports in arbitrary-precision numeric order and preserves exact UTF-8 bytes and hashes
+  ---
+  duration_ms: 4789.044765
+  type: 'test'
+  ...
+# Subtest: resolved commits remain immutable after the source branch moves
+ok 61 - resolved commits remain immutable after the source branch moves
+  ---
+  duration_ms: 3215.21315
+  type: 'test'
+  ...
+# Subtest: leading-zero aliases and equivalent dotted versions are rejected as duplicates
+ok 62 - leading-zero aliases and equivalent dotted versions are rejected as duplicates
+  ---
+  duration_ms: 63.769603
+  type: 'test'
+  ...
+# Subtest: malformed refs and migration-folder traversal are rejected before Git lookup
+ok 63 - malformed refs and migration-folder traversal are rejected before Git lookup
+  ---
+  duration_ms: 20.849363
+  type: 'test'
+  ...
+# Subtest: symlinked migration entries and Git submodules are rejected
+ok 64 - symlinked migration entries and Git submodules are rejected
+  ---
+  duration_ms: 102.934967
+  type: 'test'
+  ...
+# Subtest: invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+ok 65 - invalid SQL makes the entire release unplannable while retaining explicit per-file observations
+  ---
+  duration_ms: 3175.306233
+  type: 'test'
+  ...
+# Subtest: the installed ANTLR helper parses actual imported SQL without a fake positive driver
+ok 66 - the installed ANTLR helper parses actual imported SQL without a fake positive driver
+  ---
+  duration_ms: 1631.940178
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: modern retained target completions reconcile format-3 and format-4 intents from captured identity evidence
+    # Subtest: intentVersion 2
+    ok 1 - intentVersion 2
+      ---
+      duration_ms: 12657.684183
+      type: 'test'
+      ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+    # Subtest: intentVersion 3
+    ok 2 - intentVersion 3
+      ---
+      duration_ms: 14334.512517
+      type: 'test'
+      ...
+    1..2
+ok 67 - modern retained target completions reconcile format-3 and format-4 intents from captured identity evidence
+  ---
+  duration_ms: 26993.30922
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: Git V1 then approved V2 executes only pending files; divergent or untrusted target history holds without replay
+ok 68 - Git V1 then approved V2 executes only pending files; divergent or untrusted target history holds without replay
+  ---
+  duration_ms: 95931.12025
+  type: 'test'
+  ...
+# Subtest: recovery factory requires a fixed, explicit UNIT binding and a valid owned metadata client
+ok 69 - recovery factory requires a fixed, explicit UNIT binding and a valid owned metadata client
+  ---
+  duration_ms: 1.174571
+  type: 'test'
+  ...
+# Subtest: the fixed recovery operation is one-use, rejects overlap, drains before close, and maps only no-op to decline
+ok 70 - the fixed recovery operation is one-use, rejects overlap, drains before close, and maps only no-op to decline
+  ---
+  duration_ms: 1.044631
+  type: 'test'
+  ...
+# Subtest: recovery cleanup failure propagates and metadata startup failure does not reopen
+ok 71 - recovery cleanup failure propagates and metadata startup failure does not reopen
+  ---
+  duration_ms: 0.456415
+  type: 'test'
+  ...
+# Subtest: metadata-only recovery needs no Oracle capabilities and cannot install execution
+ok 72 - metadata-only recovery needs no Oracle capabilities and cannot install execution
+  ---
+  duration_ms: 2.328929
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: a supervised child recovers only expired metadata and preserves retained execution evidence
+ok 73 - a supervised child recovers only expired metadata and preserves retained execution evidence
+  ---
+  duration_ms: 11452.546276
+  type: 'test'
+  ...
+# Subtest: factory rejects absent, malformed, production UNIT, and caller-selected metadata bindings
+ok 74 - factory rejects absent, malformed, production UNIT, and caller-selected metadata bindings
+  ---
+  duration_ms: 1.359052
+  type: 'test'
+  ...
+# Subtest: installation snapshot composes the real worker with one metadata handle and one request
+ok 75 - installation snapshot composes the real worker with one metadata handle and one request
+  ---
+  duration_ms: 1.520765
+  type: 'test'
+  ...
+# Subtest: binding snapshots read own data without invoking property hooks
+ok 76 - binding snapshots read own data without invoking property hooks
+  ---
+  duration_ms: 0.274869
+  type: 'test'
+  ...
+# Subtest: trusted bindings reject synthetic ports and invalid leases before acquisition
+ok 77 - trusted bindings reject synthetic ports and invalid leases before acquisition
+  ---
+  duration_ms: 1.242847
+  type: 'test'
+  ...
+# Subtest: close drains the active worker call before closing metadata and never retries it
+ok 78 - close drains the active worker call before closing metadata and never retries it
+  ---
+  duration_ms: 0.309332
+  type: 'test'
+  ...
+# Subtest: metadata startup and close failures propagate without reopening or retrying
+ok 79 - metadata startup and close failures propagate without reopening or retrying
+  ---
+  duration_ms: 0.386638
+  type: 'test'
+  ...
+# Subtest: unbound child factory entry remains unavailable
+ok 80 - unbound child factory entry remains unavailable
+  ---
+  duration_ms: 0.146463
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# deploy-grant complete
+# Subtest: installed UNIT factory executes approved work and declines terminal retry without replay
+ok 81 - installed UNIT factory executes approved work and declines terminal retry without replay
+  ---
+  duration_ms: 9128.810902
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: one instance credential discovers before assignment and serves multiple independently governed schema streams
+ok 82 - one instance credential discovers before assignment and serves multiple independently governed schema streams
+  ---
+  duration_ms: 6182.93923
+  type: 'test'
+  ...
+# Subtest: managed backup owner/admin split restores into a new app-owned RESTORE_HOLD database
+ok 83 - managed backup owner/admin split restores into a new app-owned RESTORE_HOLD database
+  ---
+  duration_ms: 6442.740979
+  type: 'test'
+  ...
+# Subtest: explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+ok 84 - explicit operator grants preserve bootstrap data and enforce current membership after activation and revoke
+  ---
+  duration_ms: 2370.954957
+  type: 'test'
+  ...
+# grant complete
+# grant complete
+# ENFORCED
+# Subtest: activation serializes with in-flight revocation and bootstrap creation stays denied
+ok 85 - activation serializes with in-flight revocation and bootstrap creation stays denied
+  ---
+  duration_ms: 340.365153
+  type: 'test'
+  ...
+# grant complete
+# Subtest: activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+ok 86 - activation waits for credential lifecycle serialization and refuses coverage after credential revocation
+  ---
+  duration_ms: 244.329042
+  type: 'test'
+  ...
+# Subtest: recovery operator rejects malformed commands and private routes without disclosing inputs
+ok 87 - recovery operator rejects malformed commands and private routes without disclosing inputs
+  ---
+  duration_ms: 698.619279
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: local operator discovers bounded expired metadata and recovers one selected attempt without replay
+ok 88 - local operator discovers bounded expired metadata and recovers one selected attempt without replay
+  ---
+  duration_ms: 10827.159296
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: migration analysis reads verified worker receipts, serves stable SQL pages, and remains read-only
+ok 89 - migration analysis reads verified worker receipts, serves stable SQL pages, and remains read-only
+  ---
+  duration_ms: 48003.860601
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: migration history authority reads tolerate browser session expiry refresh concurrent with its lock
+ok 90 - migration history authority reads tolerate browser session expiry refresh concurrent with its lock
+  ---
+  duration_ms: 396.463527
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: migration history cursors remain stable across ties and writes and expose scoped HOLD evidence
+ok 91 - migration history cursors remain stable across ties and writes and expose scoped HOLD evidence
+  ---
+  duration_ms: 538.447021
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: migration history resolves a verified target intent for filtered execution requests
+ok 92 - migration history resolves a verified target intent for filtered execution requests
+  ---
+  duration_ms: 9104.536954
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: concurrent draft saves retain both independently reconciled file edits and immutable prior revisions
+ok 93 - concurrent draft saves retain both independently reconciled file edits and immutable prior revisions
+  ---
+  duration_ms: 2886.073805
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: authored correction origin verifies immutable legacy and multi-file provenance, preserves approval, and rechecks access
+ok 94 - authored correction origin verifies immutable legacy and multi-file provenance, preserves approval, and rechecks access
+  ---
+  duration_ms: 25976.158939
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: authored correction origin verifies legacy source and fails closed on damaged provenance or retained bytes
+ok 95 - authored correction origin verifies legacy source and fails closed on damaged provenance or retained bytes
+  ---
+  duration_ms: 4117.182826
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: multi-file SQL drafts preserve immutable file identity, version order, isolation, conflicts, and exact release provenance
+ok 96 - multi-file SQL drafts preserve immutable file identity, version order, isolation, conflicts, and exact release provenance
+  ---
+  duration_ms: 15790.290173
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: a Git import loses membership authority before persisting parsed metadata
+ok 97 - a Git import loses membership authority before persisting parsed metadata
+  ---
+  duration_ms: 3900.038496
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: a Git import loses credential authority before persisting parsed metadata
+ok 98 - a Git import loses credential authority before persisting parsed metadata
+  ---
+  duration_ms: 3722.125842
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: overlapping operator revocation and API write serialize before project and identity locks
+ok 99 - overlapping operator revocation and API write serialize before project and identity locks
+  ---
+  duration_ms: 2111.667806
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: source binding rechecks developer eligibility after a queued role change
+ok 100 - source binding rechecks developer eligibility after a queued role change
+  ---
+  duration_ms: 2031.237616
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: combined local Git workflow retains review, withdrawal, manual references and restart state
+ok 101 - combined local Git workflow retains review, withdrawal, manual references and restart state
+  ---
+  duration_ms: 18626.801406
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: protected Oracle host adapter integrates real Git approval, pending-only worker and durable central history
+    # Subtest: V1 completes with ordered target and central receipts
+    ok 1 - V1 completes with ordered target and central receipts
+      ---
+      duration_ms: 1858.658515
+      type: 'test'
+      ...
+    # Subtest: V2 executes its suffix; restart and catalog reassignment preserve V1
+    ok 2 - V2 executes its suffix; restart and catalog reassignment preserve V1
+      ---
+      duration_ms: 10331.552144
+      type: 'test'
+      ...
+    # Subtest: missing target adoption and wrong write purpose HOLD before any attempt
+    ok 3 - missing target adoption and wrong write purpose HOLD before any attempt
+      ---
+      duration_ms: 6690.348562
+      type: 'test'
+      ...
+    # Subtest: unknown writer result holds and an unresolved target file is never replayed
+    ok 4 - unknown writer result holds and an unresolved target file is never replayed
+      ---
+      duration_ms: 6510.193385
+      type: 'test'
+      ...
+    # Subtest: target rewind is vetoed by retained central completion before a new attempt
+    ok 5 - target rewind is vetoed by retained central completion before a new attempt
+      ---
+      duration_ms: 3209.76458
+      type: 'test'
+      ...
+    1..5
+ok 102 - protected Oracle host adapter integrates real Git approval, pending-only worker and durable central history
+  ---
+  duration_ms: 51601.529543
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: Phase 5 native backup retains reconciliation evidence and decision; restore hold blocks new reconciliation writes
+ok 103 - Phase 5 native backup retains reconciliation evidence and decision; restore hold blocks new reconciliation writes
+  ---
+  duration_ms: 22754.833694
+  type: 'test'
+  ...
+# Subtest: Phase current before instance schema native backup inventory restores and upgrades to current reconciliation guards
+ok 104 - Phase current before instance schema native backup inventory restores and upgrades to current reconciliation guards
+  ---
+  duration_ms: 2559.114016
+  type: 'test'
+  ...
+# Subtest: Phase 4 native backup inventory restores and upgrades to current reconciliation guards
+ok 105 - Phase 4 native backup inventory restores and upgrades to current reconciliation guards
+  ---
+  duration_ms: 2462.549804
+  type: 'test'
+  ...
+# Subtest: Phase 10 native backup inventory restores and upgrades to current reconciliation guards
+ok 106 - Phase 10 native backup inventory restores and upgrades to current reconciliation guards
+  ---
+  duration_ms: 2650.699141
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: Phase 5 schema-validated intent travels through durable admission, statements and retained history without duplicate execution
+ok 107 - Phase 5 schema-validated intent travels through durable admission, statements and retained history without duplicate execution
+  ---
+  duration_ms: 16188.887508
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: Phase 5 refuses stale schema evidence and identity mismatch, and fixtures cannot authorize trusted Oracle dispatch
+    # Subtest: identity
+    ok 1 - identity
+      ---
+      duration_ms: 10598.672739
+      type: 'test'
+      ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+    # Subtest: assignment
+    ok 2 - assignment
+      ---
+      duration_ms: 10700.026189
+      type: 'test'
+      ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+    # Subtest: stale
+    ok 3 - stale
+      ---
+      duration_ms: 9175.971982
+      type: 'test'
+      ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+    # Subtest: superseded
+    ok 4 - superseded
+      ---
+      duration_ms: 9325.306714
+      type: 'test'
+      ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+    # Subtest: trusted
+    ok 5 - trusted
+      ---
+      duration_ms: 9119.087428
+      type: 'test'
+      ...
+    1..5
+ok 108 - Phase 5 refuses stale schema evidence and identity mismatch, and fixtures cannot authorize trusted Oracle dispatch
+  ---
+  duration_ms: 48920.291515
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: Phase 5 unknown or interrupted sequences remain HOLD across restart with no replay or cancellation after admission
+    # Subtest: unknown
+    ok 1 - unknown
+      ---
+      duration_ms: 12505.334268
+      type: 'test'
+      ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# deploy-revoke complete
+    # Subtest: partial
+    ok 2 - partial
+      ---
+      duration_ms: 12689.320445
+      type: 'test'
+      ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+    # Subtest: crash
+    ok 3 - crash
+      ---
+      duration_ms: 13680.352064
+      type: 'test'
+      ...
+    1..3
+ok 109 - Phase 5 unknown or interrupted sequences remain HOLD across restart with no replay or cancellation after admission
+  ---
+  duration_ms: 38876.330497
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: target stream conflicts cross projects, leave unrelated streams alone, and veto worker admission without a proof
+ok 110 - target stream conflicts cross projects, leave unrelated streams alone, and veto worker admission without a proof
+  ---
+  duration_ms: 10862.989863
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: Native backup preserves SQL revisions and release attribution, while restored metadata keeps preparation held
+ok 111 - Native backup preserves SQL revisions and release attribution, while restored metadata keeps preparation held
+  ---
+  duration_ms: 24867.6049
+  type: 'test'
+  ...
+# Subtest: Phase 13 native backup retains profiles and plans through exact-schema restore and connection revision upgrade
+ok 112 - Phase 13 native backup retains profiles and plans through exact-schema restore and connection revision upgrade
+  ---
+  duration_ms: 2694.380441
+  type: 'test'
+  ...
+# Subtest: A Phase 5 native backup restores without schema rewriting and then adds the Phase 7 tables under HOLD
+ok 113 - A Phase 5 native backup restores without schema rewriting and then adds the Phase 7 tables under HOLD
+  ---
+  duration_ms: 7568.856736
+  type: 'test'
+  ...
+# Subtest: statement comparison ignores ordinal shifts, reports order changes, and marks uncertain matches
+ok 114 - statement comparison ignores ordinal shifts, reports order changes, and marks uncertain matches
+  ---
+  duration_ms: 1.563413
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: plan comparison binds exact authorized source, survives restart and attaches to independent review
+ok 115 - plan comparison binds exact authorized source, survives restart and attaches to independent review
+  ---
+  duration_ms: 27204.421075
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+ok 116 - plan intent persists across API restart and damaged or legacy intent blocks approval without writes
+  ---
+  duration_ms: 30303.370421
+  type: 'test'
+  ...
+# Subtest: format-3 plan record exports the public target snapshot as record format 2
+ok 117 - format-3 plan record exports the public target snapshot as record format 2
+  ---
+  duration_ms: 4.116286
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: plan record preserves scoped frozen intent, current decision and withdrawal without credentials or mutations
+ok 118 - plan record preserves scoped frozen intent, current decision and withdrawal without credentials or mutations
+  ---
+  duration_ms: 11450.468799
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+ok 119 - rejected plan remains immutable when changed SQL is imported as a fresh independently reviewed plan
+  ---
+  duration_ms: 14191.478318
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: profile retirement preserves exact history and blocks fresh authority at every admission boundary
+ok 120 - profile retirement preserves exact history and blocks fresh authority at every admission boundary
+  ---
+  duration_ms: 9007.66979
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: worker admission rejects a queued legacy approval after profile configuration changes and returns to its original values
+ok 121 - worker admission rejects a queued legacy approval after profile configuration changes and returns to its original values
+  ---
+  duration_ms: 7213.577298
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+ok 122 - source binding generations capture current configuration, preserve history, and require fresh plans for legacy or stale approvals
+  ---
+  duration_ms: 31604.40956
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: binding updates serialize with approval and plan creation under project locks
+ok 123 - binding updates serialize with approval and plan creation under project locks
+  ---
+  duration_ms: 5367.05482
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: legacy project schema initializes only current tracking and never backfills historical plans
+ok 124 - legacy project schema initializes only current tracking and never backfills historical plans
+  ---
+  duration_ms: 3779.718834
+  type: 'test'
+  ...
+# Subtest: retained source facts align canonically and distinguish path, content and presence changes
+ok 125 - retained source facts align canonically and distinguish path, content and presence changes
+  ---
+  duration_ms: 1.173747
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: authenticated retained comparison is scoped, read-only, self-comparable, and survives repository removal
+ok 126 - authenticated retained comparison is scoped, read-only, self-comparable, and survives repository removal
+  ---
+  duration_ms: 46514.855209
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: offline planning rejects corrupted retained releases without writes and uses locked current state
+ok 127 - offline planning rejects corrupted retained releases without writes and uses locked current state
+  ---
+  duration_ms: 7396.085663
+  type: 'test'
+  ...
+# Subtest: startup arguments accept repeated local repositories and reject unknown or excess options
+ok 128 - startup arguments accept repeated local repositories and reject unknown or excess options
+  ---
+  duration_ms: 2.03626
+  type: 'test'
+  ...
+# Subtest: configured repositories are canonical local Git worktrees with display-only public descriptors
+ok 129 - configured repositories are canonical local Git worktrees with display-only public descriptors
+  ---
+  duration_ms: 64.136685
+  type: 'test'
+  ...
+# Subtest: invalid startup options fail before creating local configuration or reaching Docker
+ok 130 - invalid startup options fail before creating local configuration or reaching Docker
+  ---
+  duration_ms: 78.446686
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: a configured custom Git repository is visible without its path and imports through the product API
+ok 131 - a configured custom Git repository is visible without its path and imports through the product API
+  ---
+  duration_ms: 2116.246067
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: project-bound Git refs list safely and imports retain immutable branch and tag commits
+ok 132 - project-bound Git refs list safely and imports retain immutable branch and tag commits
+  ---
+  duration_ms: 5543.458378
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: retained release detail keeps bounded historical diagnostics and rejects unbounded metadata without writes
+ok 133 - retained release detail keeps bounded historical diagnostics and rejects unbounded metadata without writes
+  ---
+  duration_ms: 10143.352814
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# Subtest: authenticated denied decisions append fixed audit facts while preserving plan and history
+ok 134 - authenticated denied decisions append fixed audit facts while preserving plan and history
+  ---
+  duration_ms: 8704.939267
+  type: 'test'
+  ...
+# Subtest: review inbox cursors preserve microseconds and reject malformed context and calendar positions
+ok 135 - review inbox cursors preserve microseconds and reject malformed context and calendar positions
+  ---
+  duration_ms: 2.540971
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+ok 136 - review inbox is grant scoped, bounded, microsecond ordered, filtered and rechecks revoked membership
+  ---
+  duration_ms: 943.342275
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: reviewer assignment is scoped, revisioned, auditable and enforced at decision time
+ok 137 - reviewer assignment is scoped, revisioned, auditable and enforced at decision time
+  ---
+  duration_ms: 17113.743255
+  type: 'test'
+  ...
+# Subtest: startProduct reports fixed metadata, web asset, and listen failure codes
+ok 138 - startProduct reports fixed metadata, web asset, and listen failure codes
+  ---
+  duration_ms: 5491.331667
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: schema snapshots, baselines, and plan evidence survive native backup restore under immutable recovery hold
+ok 139 - schema snapshots, baselines, and plan evidence survive native backup restore under immutable recovery hold
+  ---
+  duration_ms: 6376.963638
+  type: 'test'
+  ...
+# Subtest: R1 management backup upgrades to current schema under RESTORE_HOLD with empty baseline tables
+ok 140 - R1 management backup upgrades to current schema under RESTORE_HOLD with empty baseline tables
+  ---
+  duration_ms: 32696.554412
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: schema snapshots, immutable baselines, semantic comparisons and exact target history persist with project isolation
+ok 141 - schema snapshots, immutable baselines, semantic comparisons and exact target history persist with project isolation
+  ---
+  duration_ms: 2680.472987
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: incomplete, mismatched, unavailable and concurrent schema observations never establish absent drift or leak runtime secrets
+ok 142 - incomplete, mismatched, unavailable and concurrent schema observations never establish absent drift or leak runtime secrets
+  ---
+  duration_ms: 3502.167515
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: plans retain schema evidence; structural changes stale approvals permanently while new plans retain fresh snapshots
+ok 143 - plans retain schema evidence; structural changes stale approvals permanently while new plans retain fresh snapshots
+  ---
+  duration_ms: 8453.03418
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: schema histories paginate without losing baselines; revision and access changes during observation prevent persistence
+ok 144 - schema histories paginate without losing baselines; revision and access changes during observation prevent persistence
+  ---
+  duration_ms: 2263.600596
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: schema-aware validation retains snapshot provenance and cannot be reused after changed schema facts
+ok 145 - schema-aware validation retains snapshot provenance and cannot be reused after changed schema facts
+  ---
+  duration_ms: 6687.283093
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: partial retained snapshots with database microsecond precision do not immediately stale their own plan
+ok 146 - partial retained snapshots with database microsecond precision do not immediately stale their own plan
+  ---
+  duration_ms: 5166.397303
+  type: 'test'
+  ...
+# Subtest: manual schema references are idempotent, exact-case, serially assigned and project-scoped
+ok 147 - manual schema references are idempotent, exact-case, serially assigned and project-scoped
+  ---
+  duration_ms: 443.200802
+  type: 'test'
+  ...
+# Subtest: trusted inventory CLI uses private local metadata authority and preserves operator history
+ok 148 - trusted inventory CLI uses private local metadata authority and preserves operator history
+  ---
+  duration_ms: 1461.190779
+  type: 'test'
+  ...
+# Subtest: HTTPS sessions enforce transport, CSRF, parent and idle/absolute lifetime, replacement and logout
+ok 149 - HTTPS sessions enforce transport, CSRF, parent and idle/absolute lifetime, replacement and logout
+  ---
+  duration_ms: 680.533105
+  type: 'test'
+  ...
+# Subtest: browser mutation checkpoint loses authority when logout or parent revocation commits first
+ok 150 - browser mutation checkpoint loses authority when logout or parent revocation commits first
+  ---
+  duration_ms: 314.347409
+  type: 'test'
+  ...
+# Subtest: private TLS material rejects permissions, links, relative and mismatched keys
+ok 151 - private TLS material rejects permissions, links, relative and mismatched keys
+  ---
+  duration_ms: 218.11693
+  type: 'test'
+  ...
+# Subtest: browser churn above journal capacity preserves operator rotation, revocation and crash recovery
+ok 152 - browser churn above journal capacity preserves operator rotation, revocation and crash recovery
+  ---
+  duration_ms: 2440.613896
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# Subtest: source bindings persist, authorize changes, constrain imports before Git, and remain private
+ok 153 - source bindings persist, authorize changes, constrain imports before Git, and remain private
+  ---
+  duration_ms: 480.423992
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# Subtest: source binding is rechecked under a project lock before an imported release can commit
+ok 154 - source binding is rechecked under a project lock before an imported release can commit
+  ---
+  duration_ms: 3557.55961
+  type: 'test'
+  ...
+# Subtest: validation API preserves parser availability and evidence size HTTP statuses
+ok 155 - validation API preserves parser availability and evidence size HTTP statuses
+  ---
+  duration_ms: 1.476525
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: validation API returns safe domain statuses for archived projects, missing releases, and stale source bindings
+ok 156 - validation API returns safe domain statuses for archived projects, missing releases, and stale source bindings
+  ---
+  duration_ms: 2456.541156
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: schema-aware validation is deterministic, immutable, scoped and restart-durable; format-4 plans bind evidence and independent approval
+ok 157 - schema-aware validation is deterministic, immutable, scoped and restart-durable; format-4 plans bind evidence and independent approval
+  ---
+  duration_ms: 15452.426091
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: incorrect syntax, cross-schema and database-link policy violations remain blocked; risky and unsupported SQL retain honest findings
+ok 158 - incorrect syntax, cross-schema and database-link policy violations remain blocked; risky and unsupported SQL retain honest findings
+  ---
+  duration_ms: 28281.048237
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# revoke complete
+# Subtest: new observations and binding revisions stale validation, reject approval reuse and preserve historical records
+ok 159 - new observations and binding revisions stale validation, reject approval reuse and preserve historical records
+  ---
+  duration_ms: 11048.816386
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: provisional targets and insufficient discovery visibility cannot invent object absence or verified identity
+ok 160 - provisional targets and insufficient discovery visibility cannot invent object absence or verified identity
+  ---
+  duration_ms: 3962.922313
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: credential expiry during validation cannot persist a result or audit event
+ok 161 - credential expiry during validation cannot persist a result or audit event
+  ---
+  duration_ms: 3938.242841
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: native backup preserves schema validation and format-4 plans; recovery HOLD prevents new validation and planning
+ok 162 - native backup preserves schema validation and format-4 plans; recovery HOLD prevents new validation and planning
+  ---
+  duration_ms: 10250.169465
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# Subtest: SQL workspace drafts are project scoped, revision checked, durable and prepare truthful immutable releases
+ok 163 - SQL workspace drafts are project scoped, revision checked, durable and prepare truthful immutable releases
+  ---
+  duration_ms: 17876.256853
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: complete statement approval survives restart, pages by exact digest, denies tampering and preserves legacy history
+ok 164 - complete statement approval survives restart, pages by exact digest, denies tampering and preserves legacy history
+  ---
+  duration_ms: 27581.753907
+  type: 'test'
+  ...
+# Subtest: pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+ok 165 - pinned ANTLR product integration recomputes ordered exact UTF-8 statement slices
+  ---
+  duration_ms: 1865.164255
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# revoke complete
+# grant complete
+# Subtest: statement preview is scoped, bounded, archived-readable and read only
+ok 166 - statement preview is scoped, bounded, archived-readable and read only
+  ---
+  duration_ms: 64115.733929
+  type: 'test'
+  ...
+# Subtest: target options and bindings enforce CAS and project scope, preserve private facts, currentness and stream lineage
+ok 167 - target options and bindings enforce CAS and project scope, preserve private facts, currentness and stream lineage
+  ---
+  duration_ms: 361.062313
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: target-bound plans retain immutable format-3 evidence and fail closed across stale or unauthorized workflow steps
+ok 168 - target-bound plans retain immutable format-3 evidence and fail closed across stale or unauthorized workflow steps
+  ---
+  duration_ms: 19630.817333
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# revoke complete
+# Subtest: target binding commit rechecks a project grant revoked while catalog serialization is queued
+ok 169 - target binding commit rechecks a project grant revoked while catalog serialization is queued
+  ---
+  duration_ms: 2324.794301
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: credential expiry during real statement verification cannot create plans, decisions or requests
+ok 170 - credential expiry during real statement verification cannot create plans, decisions or requests
+  ---
+  duration_ms: 29605.085368
+  type: 'test'
+  ...
+# ENFORCED
+# grant complete
+# grant complete
+# deploy-grant complete
+# Subtest: fixed child bootstrap runs the real worker across PostgreSQL admission, dispatch, receipts, and cleanup
+ok 171 - fixed child bootstrap runs the real worker across PostgreSQL admission, dispatch, receipts, and cleanup
+  ---
+  duration_ms: 24467.177944
+  type: 'test'
+  ...
+1..171
+# tests 202
+# suites 0
+# pass 202
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 832247.83916

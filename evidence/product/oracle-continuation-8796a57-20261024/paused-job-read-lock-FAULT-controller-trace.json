@@ -1,0 +1,117 @@
+[
+  {
+    "label": "proxy_before_enable",
+    "observedAt": "2026-10-24T12:09:53.930715+00:00",
+    "monotonicNs": 25333212977839,
+    "value": {
+      "podUid": "4b347bb7-7ba1-4fba-a854-53d419f4b338",
+      "observedAt": "2026-10-24T12:09:54.709Z",
+      "status": {
+        "mode": "PASS",
+        "listening": true,
+        "active": false,
+        "bufferedBytes": 0,
+        "acceptedConnections": 6,
+        "rejectedConnections": 0,
+        "cutConnections": 0,
+        "upstreamErrors": 0,
+        "capturedOracleBytes": 88910,
+        "releasedOracleBytes": 0,
+        "bufferOverflow": false,
+        "updatedAt": "2026-10-24T12:09:54.656Z"
+      }
+    }
+  },
+  {
+    "label": "empty_fresh_fault_schema",
+    "observedAt": "2026-10-24T12:09:54.722722+00:00",
+    "monotonicNs": 25334004988711,
+    "value": [
+      "GUID|5E95E575B665BEE5E0638101F40A3D7B"
+    ]
+  },
+  {
+    "label": "pinned_runtime",
+    "observedAt": "2026-10-24T12:09:56.658843+00:00",
+    "monotonicNs": 25335941109161,
+    "value": {
+      "name": "kelryvo-app-d9f585478-6s78s",
+      "uid": "f0a1d057-d367-4c40-bb23-d0b3469496b5",
+      "image": "longhn0710t/kelryvo-pilot@sha256:cd46b7c5e95fd02896dc0877196a2190d886da1a3ff571561b5d2c012b2e3398"
+    }
+  },
+  {
+    "label": "writer_paused_before_native_call",
+    "observedAt": "2026-10-24T12:10:07.135391+00:00",
+    "monotonicNs": 25346417656525,
+    "value": {
+      "observedAt": "2026-10-24T12:10:07.918Z",
+      "ready": {
+        "format": 2,
+        "jobId": "bdb5aedc-6f9f-49e3-8d07-f8dc0a74ba02",
+        "planId": "1e65d1d6-34ae-4f71-ae2e-85e858292785",
+        "exactOwner": "KP_FAULT_B",
+        "statementDigests": [
+          "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd"
+        ],
+        "pauseBeforeOrdinal": 1,
+        "statementDigest": "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd",
+        "mode": "LOST_ACK",
+        "stage": "BEFORE_PROXY_BUFFER",
+        "counters": {
+          "matchingStatementCalls": 1,
+          "nativeWriterExecuteCalls": 0,
+          "priorAcknowledgedWriterCalls": 0,
+          "pausedBeforeOrdinal": 1
+        },
+        "readyAt": "2026-10-24T12:10:07.816Z",
+        "nonceSha256": "3c7f8ad37f871873d311f6df26ab3b184353104f65de387881516fee5ec8d0e2"
+      },
+      "status": {
+        "format": 2,
+        "jobId": "bdb5aedc-6f9f-49e3-8d07-f8dc0a74ba02",
+        "planId": "1e65d1d6-34ae-4f71-ae2e-85e858292785",
+        "exactOwner": "KP_FAULT_B",
+        "statementDigests": [
+          "d3b96cf5a9282af2dbf24d78a178c09ce5f49223a5c1318e80b4dc5dc21409fd"
+        ],
+        "mode": "LOST_ACK",
+        "stage": "READY",
+        "counters": {
+          "matchingStatementCalls": 1,
+          "nativeWriterExecuteCalls": 0,
+          "priorAcknowledgedWriterCalls": 0,
+          "pausedBeforeOrdinal": 1
+        },
+        "updatedAt": "2026-10-24T12:10:07.817Z"
+      }
+    }
+  },
+  {
+    "label": "set_buffer",
+    "observedAt": "2026-10-24T12:10:26.129918+00:00",
+    "monotonicNs": 25365412194343,
+    "value": {
+      "at": "2026-10-24T12:10:26.911Z",
+      "mode": "BUFFER"
+    }
+  },
+  {
+    "label": "controller_failed",
+    "observedAt": "2026-10-24T12:10:29.862542+00:00",
+    "monotonicNs": 25369144804749,
+    "value": {
+      "status": "FAIL",
+      "noReplay": true
+    }
+  },
+  {
+    "label": "final_fail_closed_cut",
+    "observedAt": "2026-10-24T12:10:30.821317+00:00",
+    "monotonicNs": 25370103583613,
+    "value": {
+      "at": "2026-10-24T12:10:31.527Z",
+      "mode": "CUT"
+    }
+  }
+]

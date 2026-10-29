@@ -1,0 +1,9 @@
+{
+  "acceptance.json": "d409421e6d66c3fab763864560e01ab152331588c58963b48053114ff1a4d7b4",
+  "after-observer.json": "17f6f6f6d7832bf6ca380535e7538563c01e6c60926486e9775101ed9e150e55",
+  "before-observer.json": "216b99d143d302d421c399dd23ae9e4de8b58d627241ecd1c4a4c7740880f753",
+  "held-request-observation.json": "4a4ffc988bcb8ed391aaf5116af944778a27aef1d63121cea61c80b972a0470a",
+  "installed-negative.json": "b3c56941eab2267a7c69f13c41bc0c406ccddd5260d792fb9903a44bfff9a102",
+  "installed-negative.mjs": "0a1b5d9500d92977001b3c3cda608cb401282fb6381df162d2614f48ecda967f",
+  "scope.json": "5dabdd6c5e278c01aade9ea8b2aef3406c1662df352b12e8ad3adaeb84deaba2"
+}

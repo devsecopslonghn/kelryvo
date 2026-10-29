@@ -1,0 +1,16 @@
+{
+  "format": "kelryvo-public-lab-access-summary-v1",
+  "sourceFileSha256": "b97f5c04d7f34bcd0cb08497441132698bfe9f55228f543c4a384f60ee3a2e80",
+  "observedAt": null,
+  "publicApplicationUrl": "https://kelryvo.apps.drgdevlab.com",
+  "scope": "Read-only inspection of the owner-authorized test lab",
+  "privateTopologyPublished": false,
+  "withheldFields": [
+    "Kubernetes control-plane URL",
+    "kube context",
+    "private namespace/workload/PVC access map"
+  ],
+  "limitations": [
+    "Detailed original access observations remain in private evidence. This public summary is not a lab configuration or execution authorization."
+  ]
+}

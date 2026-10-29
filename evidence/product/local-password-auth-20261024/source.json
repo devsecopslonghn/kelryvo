@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-24T16:55:54.847370+00:00",
+  "scope": "OWNER_AUTHORIZED_IMMUTABLE_WORKTREE_DEVELOPMENT_CANDIDATE",
+  "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+  "canonicalGitCommitCreated": false,
+  "workingTreeClean": false,
+  "contextTreeSha256": "d8fc171784653afc0b27ed0572b84c8e97533b12e58c8741ff74c6c689b64830",
+  "revisionLabel": "worktree-sha256:d8fc171784653afc0b27ed0572b84c8e97533b12e58c8741ff74c6c689b64830",
+  "archiveSha256": "36b716f271334a5f39de2f621173400979e107b9ad62e86e0efd3bb1500f9ea2",
+  "fileCount": 203,
+  "runtimeSourceChanges": [
+    "apps/api/index.ts",
+    "apps/web/src/Account.jsx",
+    "apps/web/src/PasswordLogin.jsx",
+    "apps/web/src/app.jsx",
+    "apps/web/styles.css",
+    "packages/backup/index.mjs",
+    "packages/database/account.ts",
+    "packages/database/browser-sessions.ts",
+    "packages/database/index.ts",
+    "packages/database/password-auth.ts",
+    "packages/execution/admission.ts",
+    "scripts/container-password.mjs",
+    "scripts/local-password-operator.mjs",
+    "scripts/product-test-suites.mjs",
+    "scripts/tracker.mjs"
+  ],
+  "backendAndWorkerCodeIdenticalToBase": false,
+  "localImage": "kelryvo-login:d8fc17178465",
+  "gatedRelease": false,
+  "sourceSigningOverride": false,
+  "sourceOrGitPush": false
+}

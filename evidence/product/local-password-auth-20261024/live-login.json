@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "image": "longhn0710t/kelryvo-pilot@sha256:10101100593ce0a0a297efa678c977659850e734bc52cfa0ea82dc461ccd2368",
+  "results": [
+    {
+      "role": "developer",
+      "actorId": "kelryvo-developer",
+      "setupHttpStatus": 201,
+      "usernamePasswordLogin": "PASS",
+      "reloadSession": "PASS",
+      "mobile390": "PASS",
+      "secureHttpOnlyCookie": "PASS",
+      "historicalExecutionDownload": "PASS",
+      "historicalRecordFactsSha256": "8ab9c1fd54b3fe13ce4db820a93fc0aff8c9811b7a0843c6a1abeb43faa133ec",
+      "secretsInBrowserStorage": false
+    },
+    {
+      "role": "approver",
+      "actorId": "kelryvo-approver",
+      "setupHttpStatus": 201,
+      "usernamePasswordLogin": "PASS",
+      "reloadSession": "PASS",
+      "mobile390": "PASS",
+      "secureHttpOnlyCookie": "PASS",
+      "historicalExecutionDownload": "PASS",
+      "historicalRecordFactsSha256": "8ab9c1fd54b3fe13ce4db820a93fc0aff8c9811b7a0843c6a1abeb43faa133ec",
+      "secretsInBrowserStorage": false
+    }
+  ],
+  "oracleExecutionEnabled": false,
+  "firstSetupOnlyExistingActors": true,
+  "noAppAdministratorRoleCreated": true,
+  "SSOImplemented": false
+}

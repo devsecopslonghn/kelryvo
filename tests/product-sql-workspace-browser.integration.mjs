@@ -188,6 +188,7 @@ test('SQL workspace drops stale analysis and surfaces optimistic revision confli
     await page.locator('.project-row').filter({ hasText: f.project.name }).click();
     await page.getByRole('button', { name: 'SQL Workspace', exact: true }).click();
     const workspace = page.getByRole('region', { name: 'SQL workspace', exact: true });
+    await workspace.getByRole('region', { name: 'Database change stage' }).getByText('Start a draft', { exact: true }).waitFor();
     await workspace.getByLabel('SQL workspace target').selectOption(f.binding.bindingId);
     await workspace.getByRole('button', { name: 'New draft', exact: true }).click();
     await workspace.getByRole('button', { name: 'Save draft', exact: true }).waitFor();
@@ -195,6 +196,10 @@ test('SQL workspace drops stale analysis and surfaces optimistic revision confli
     await workspace.getByLabel('SQL editor').fill('CREATE TABLE local_revision (id NUMBER);\n');
     await workspace.getByRole('button', { name: 'Save draft', exact: true }).click();
     await workspace.getByText('Saved revision 2.', { exact: true }).waitFor();
+    assert.equal(await workspace.locator('details.sql-workspace-revisions').getAttribute('open'), null,
+      'revision comparison stays out of the editing flow until requested');
+    assert.equal(await workspace.locator('details.sql-workspace-drift').getAttribute('open'), null,
+      'retained target evidence starts collapsed');
     assert.equal(await workspace.getByLabel('SQL draft name').inputValue(), 'Concurrent edit');
     assert.equal(await workspace.getByRole('button', { name: 'Discard unsaved edits', exact: true }).count(), 0,
       'a successful normalized save leaves no phantom unsaved edits');
@@ -220,6 +225,9 @@ test('SQL workspace drops stale analysis and surfaces optimistic revision confli
       'loading another page leaves the current SQL selection intact');
     await workspace.getByRole('button', { name: /Older selected target · r1/ }).click();
     await page.waitForFunction(() => document.querySelector('[aria-label="SQL editor"]')?.value === 'CREATE TABLE older_selected_target (id NUMBER);\n');
+    await workspace.getByText('Draft and release details', { exact: true }).click();
+    assert.match(await workspace.getByRole('region', { name: 'Database change stage' }).innerText(), /saved revision 1/);
+    await workspace.getByText('Draft and release details', { exact: true }).click();
     assert.equal(await workspace.getByLabel('SQL workspace target').inputValue(), f.binding.bindingId,
       'opening a draft on a later page restores its saved target');
     await workspace.getByRole('button', { name: 'Refresh drafts', exact: true }).click();
@@ -278,6 +286,7 @@ test('SQL workspace drops stale analysis and surfaces optimistic revision confli
     await workspace.getByLabel('SQL editor').fill('CREATE TABLE server_revision (id NUMBER);\n');
     await workspace.getByRole('button', {name:'Save draft',exact:true}).click();
     await workspace.getByText('Saved revision 6.', {exact:true}).waitFor();
+    await workspace.getByText('Compare saved revisions', { exact: true }).click();
     await workspace.getByLabel('Base draft revision').selectOption('2');
     await workspace.getByLabel('Candidate draft revision').selectOption('3');
     await workspace.getByRole('button', { name: 'Compare', exact: true }).click();
@@ -286,7 +295,7 @@ test('SQL workspace drops stale analysis and surfaces optimistic revision confli
     assert.match(await comparison.innerText(), /Revision 2 → 3/);
     assert.match(await comparison.innerText(), /CREATE TABLE local_revision/);
     assert.match(await comparison.innerText(), /CREATE TABLE server_revision/);
-    assert.equal(await workspace.getByText('Offline parser results do not establish Oracle semantic validity.', { exact: false }).count(), 1);
+    assert.equal(await workspace.locator('.offline-note').filter({hasText:'Offline review only; SQL is not executed and Oracle semantics remain unverified.'}).count(), 1);
     await workspace.getByLabel('Base draft revision').selectOption('3');
     assert.equal(await workspace.locator('.revision-comparison').count(), 0, 'selecting a different revision invalidates the displayed comparison');
 

@@ -1,0 +1,26 @@
+{
+  "status": "FAIL_PRE_WORKER_HARNESS_INITIALIZATION",
+  "nativeAcceptance": "NOT_ESTABLISHED",
+  "scope": "PRIVATE_TWO_PROCESS_FIXED_ALIAS_HARNESS",
+  "retainedOutput": {
+    "status": "ERROR_RETAINED"
+  },
+  "nativeWorkerStarted": false,
+  "runDirectoryCreated": false,
+  "jobsObservedAfterFailure": {
+    "B_V1": "WAITING_VALIDATION",
+    "C_V1": "WAITING_VALIDATION"
+  },
+  "attemptsObservedAfterFailure": {
+    "B_V1": 0,
+    "C_V1": 0
+  },
+  "sameConcurrencyAttemptReplayed": false,
+  "normalQueueCompletion": {
+    "status": "PASS_ORIGINAL_UNUSED_REQUESTS_COMPLETED_SEPARATELY",
+    "B_V1": "VERIFIED_SUCCESS",
+    "C_V1": "VERIFIED_SUCCESS",
+    "concurrencyClaimed": false
+  },
+  "limitation": "Failure stage not captured; no exact cause inferred. No route-alias concurrency acceptance claimed."
+}

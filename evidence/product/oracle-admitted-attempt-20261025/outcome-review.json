@@ -1,0 +1,21 @@
+{
+  "decision": "PASS_RETAINED_FAILURE_PRESERVATION_ONLY",
+  "reviewedBy": "/root/admitted_operator_review",
+  "reviewedAt": "2026-10-25T12:05:21Z",
+  "evidencePath": "evidence/product/oracle-admitted-attempt-20261025/acceptance.json",
+  "evidenceSha256": "da7149e2eb37e58f82068c16ee0b14480f854ffffaed421285680c751202f29e",
+  "verified": [
+    "All 59 private-evidence SHA-256 entries match the retained files.",
+    "Case 1 ended CANCELLED with prior metadata and infrastructure preserved, no admission, attempt, or receipt, and both browser children revoked.",
+    "Case 2 reached one ADMITTED claimed attempt but released no gate. The worker is recorded quiescent; no four-probe acceptance, application SQL, target-ledger write, or retry is claimed.",
+    "The separately reviewed V3 recovery moved only that expired attempt to HOLD. The retained result verifies old jobs and prior HOLDs, no new attempt or receipt, and unchanged target snapshots.",
+    "Oracle before, preflight-after, and failure-after outputs match across all 128 selected current and historical rows; the recorded baseline remains 8 objects, 48 events, and four heads.",
+    "The recorded gate replay is explicitly fixture-only. Local checks are scoped as offline checks, with the initial signing-key issue retained."
+  ],
+  "limitations": [
+    "Four live admitted probes, successful native NOOP acceptance, and the controller rejection cause remain unverified.",
+    "The complete runtime grant-negative matrix, full OA01/OA02/OA09 and remaining matrices, and Oracle 19c/21c support remain incomplete.",
+    "The original case 1 API preparer and mutable global scenario bytes are not independently recoverable.",
+    "No merge, push, image publication, or hosted CI result is claimed."
+  ]
+}

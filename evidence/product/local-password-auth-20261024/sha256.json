@@ -1,0 +1,15 @@
+{
+  "acceptance.json": "6d7553de186519013f25efdeabe0d8f8ebdc1bcf5d319e7c17db74682293e1ab",
+  "container-acceptance.json": "43b095fdce349dea6d23ef3807ac1f4f0b125d8c14a7ac11e0abadef6c77fbd7",
+  "context-manifest.json": "d2d2aa305db077021b97678a74b9df13ab6ebe1bb61eb8330a3b5e9e09576205",
+  "image.json": "a62ebf93044a2f1c9ade9136668d4733d0be1a01183ad42ab742c54957985a9b",
+  "live-login.json": "1d9b0b6c3b3062f74ffb18b6d613bd27db336161b83e1af908027a6d6970f28e",
+  "post-restart-login.json": "e5fb70bde7ea47fb5ff1204c62b9996eed397dd35ac27fe59adaba1b7ccb4097",
+  "pre-upgrade-backup.json": "09194f1ced12519d02fafd79b1dac6728c473769de6de2f3d42198172b60b0f9",
+  "publication.json": "57e1ce67944b7f6b2896cc7a0f0a8e43e5111e7a56a624384195058133d4f152",
+  "restart.json": "78bb22b87f00543c146ed28559cdd058f9e6dcda71c333a2aed86b3da1707c8d",
+  "source.json": "da5ea73ebaf6334e8c8d1912251ad9256065966124210e845325490505bf698c",
+  "test-source-manifest.json": "730591cf3a0bc90f1a4cf5350a7dd023f27b6591a3fc46c06c49c12bab0ebed3",
+  "upgrade.json": "5220884e6a0a5605b52b5f77069cad2d7cb8a52ed39489813b3852d064b9ea87",
+  "verification.json": "c6b7d8315079206b900a01fb14b1bdd34f8f34b527721256a2a5586786d7a2da"
+}

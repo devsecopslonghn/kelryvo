@@ -1,0 +1,58 @@
+{
+  "status": "PASS_TWO_ROLE_CURRENT_IMAGE_BROWSER_HISTORY",
+  "at": "2026-10-24T21:02:17.929Z",
+  "checks": [
+    {
+      "role": "developer",
+      "case": "B_V2",
+      "jobId": "24d39549-20d3-42c0-bb41-e8b560103f6e",
+      "attempts": 1,
+      "receipts": 1,
+      "downloadRecordSha256": "934b1afc0306b3e45c0a89a5d22927e39dcf9e55b16d9c7eb126ddeedb2687d2",
+      "normalizedRecordSha256": "87b176a4315c3aaf58953d8e282170f45f9563389be9524c071d6db6fcadbd0e",
+      "status": "PASS"
+    },
+    {
+      "role": "developer",
+      "case": "C_V2",
+      "jobId": "d4ff0fbf-dd36-4582-96b9-28a42b0fc3d9",
+      "attempts": 1,
+      "receipts": 1,
+      "downloadRecordSha256": "4b318a257c84efa48bddde5b8c1bc42ff59358e1548456021c0b22d16eafe6a6",
+      "normalizedRecordSha256": "495698ef68068c78f449e0d760194c90471236da8dca9aef57140e860e5b4212",
+      "status": "PASS"
+    },
+    {
+      "role": "approver",
+      "case": "B_V2",
+      "jobId": "24d39549-20d3-42c0-bb41-e8b560103f6e",
+      "attempts": 1,
+      "receipts": 1,
+      "downloadRecordSha256": "9d9d2513afc4302e92e83ea985e748c0c4326472c5a3ddb809c730f1ca8f1cb1",
+      "normalizedRecordSha256": "87b176a4315c3aaf58953d8e282170f45f9563389be9524c071d6db6fcadbd0e",
+      "status": "PASS"
+    },
+    {
+      "role": "approver",
+      "case": "C_V2",
+      "jobId": "d4ff0fbf-dd36-4582-96b9-28a42b0fc3d9",
+      "attempts": 1,
+      "receipts": 1,
+      "downloadRecordSha256": "197f10e5b3d4d07c316adc0e87063ed82c0cc95664565042a800e095d851ab24",
+      "normalizedRecordSha256": "495698ef68068c78f449e0d760194c90471236da8dca9aef57140e860e5b4212",
+      "status": "PASS"
+    }
+  ],
+  "comparisons": 4,
+  "recordsMatchExceptExportedAt": true,
+  "oracleCalls": 0,
+  "executionRequests": 0,
+  "sourceResultSha256": "f1a4382d18b6496dfb30ca163eef75dceb31b1991bf707ff7552cbb855bebf38",
+  "privateScreenshotSha256": {
+    "developer-B_V2.png": "dd57ddfbb9a5e02fb9ceff3b0d2441ea4fdde816f4d03897e9e553215f62a36d",
+    "developer-C_V2.png": "fdbeed3dea0cd5d1c47fbff17ef1edc7ebe8b35caadb594427f334e6c8428876",
+    "approver-B_V2.png": "755b4d5bb613972847df51b8798c47c20d2eca3fa3e526684f253890ccbf41e5",
+    "approver-C_V2.png": "cdf71ed8354aac8274fc95f82921a05deb8462440e9d44ff5ff861f1659c4274"
+  },
+  "scope": "Actual current-image public HTTPS browser; local developer/approver; both scoped verified jobs, one attempt and receipt shown, downloaded format2 records validate and match except exportedAt; logout completed"
+}

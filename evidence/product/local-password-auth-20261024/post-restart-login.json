@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "image": "longhn0710t/kelryvo-pilot@sha256:10101100593ce0a0a297efa678c977659850e734bc52cfa0ea82dc461ccd2368",
+  "results": [
+    {
+      "role": "developer",
+      "passwordLoginAfterAppRestart": "PASS",
+      "mobile390": "PASS"
+    },
+    {
+      "role": "approver",
+      "passwordLoginAfterAppRestart": "PASS",
+      "mobile390": "PASS"
+    }
+  ]
+}

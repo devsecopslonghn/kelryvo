@@ -1,0 +1,41 @@
+{
+  "sameFileBytesModes": true,
+  "priorSourceChecks": [
+    {
+      "stage": "standard",
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "exitCode": 0,
+      "seconds": 48.423,
+      "sourceContextSha256": "d099b3f815e7f2d546090c2fc24bd31aa4f0684138e01592f7edf10b1ca5db35"
+    },
+    {
+      "stage": "api",
+      "command": [
+        "npm",
+        "run",
+        "test:product"
+      ],
+      "exitCode": 0,
+      "seconds": 845.703,
+      "sourceContextSha256": "d099b3f815e7f2d546090c2fc24bd31aa4f0684138e01592f7edf10b1ca5db35"
+    },
+    {
+      "stage": "browser",
+      "command": [
+        "npm",
+        "run",
+        "test:browser"
+      ],
+      "exitCode": 0,
+      "seconds": 485.318,
+      "sourceContextSha256": "d099b3f815e7f2d546090c2fc24bd31aa4f0684138e01592f7edf10b1ca5db35"
+    }
+  ],
+  "sourceFileManifestSha256": "3a2155306a95fc0695318425ebb4495c81e4ad06d83b8b0a935d270bba6d9a68",
+  "initialContainerFailure": "PRIVATE_CONTEXT_DIRECTORY_MODES_0700_PREVENTED_UNPRIVILEGED_SOURCE_READ; no publication/deployment performed",
+  "correction": "Directories explicitly normalized to0755 and included in context-tree identity; files unchanged"
+}

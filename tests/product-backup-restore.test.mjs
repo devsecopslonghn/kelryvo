@@ -4,26 +4,52 @@ import { randomBytes, randomUUID } from 'node:crypto';
 import { chmod, lstat, mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import postgres from 'postgres';
+import { startProduct } from '../apps/api/server.ts';
 import { openIsolatedProductDatabase } from './helpers/product-db.mjs';
-import { createPrivateBackup, restorePrivateBackup } from '../packages/backup/index.mjs';
+import { createPrivateBackup, restorePrivateBackup, inventory } from '../packages/backup/index.mjs';
 import { initializeDatabase } from '../packages/database/index.ts';
+import { seedLocalActors } from '../packages/database/local-credentials.ts';
+import { setupPassword } from '../packages/database/password-auth.ts';
+import { createTlsFixture, tlsRequest } from './helpers/product-tls-fixture.mjs';
 
 const enabled=!!process.env.SCHEMAFORGE_TEST_DATABASE_URL && process.env.SCHEMAFORGE_REQUIRE_PRODUCT_TESTS==='1';
 test('native metadata backup and witness-verified restore retain source and enter persistent hold',{skip:!enabled,timeout:180_000},async()=>{
   const source=await openIsolatedProductDatabase();
   const root=await mkdtemp(join(process.cwd(),'.cache','t34-backup-'));
-  let restoredSql, restoredName;
+  let restoredSql, restoredName, sourceApp, restoredApp, tls;
   try {
     await chmod(root,0o700);
     const configPath=join(root,'operator-config.json');
     const secret=randomBytes(32).toString('hex');
-    await writeFile(configPath,`${JSON.stringify({databasePassword:secret,developerToken:'1'.repeat(64),approverToken:'2'.repeat(64)})}\n`,{mode:0o600});
+    const actors=['developer','approver'].map(role=>({id:`backup-${role}`,name:`Backup ${role}`,role,token:randomBytes(32).toString('hex')}));
+    await writeFile(configPath,`${JSON.stringify({databasePassword:secret,developerToken:actors[0].token,approverToken:actors[1].token})}\n`,{mode:0o600});
     const dbUrl=new URL(source.databaseUrl); dbUrl.password=secret;
     const databaseUrl=dbUrl.toString();
+    await seedLocalActors(source.sql,actors);
+    const username='backupowner', password='A private backup passphrase 54!';
+    await setupPassword(source.sql,{token:actors[0].token,username,password});
+    const passwordAccountBefore=(await source.sql`SELECT * FROM sf_password_accounts WHERE actor_id=${actors[0].id}`)[0];
+    assert.equal(passwordAccountBefore.username,username);
+    assert.match(passwordAccountBefore.password_hash,/^scrypt-v1\$[a-f0-9]{32}\$[a-f0-9]{128}$/);
+    assert.equal(passwordAccountBefore.password_hash.includes(password),false);
+    const passwordAuditBefore=await source.sql`SELECT * FROM sf_password_audit WHERE actor_id=${actors[0].id} ORDER BY occurred_at,id`;
+    tls=await createTlsFixture();
+    sourceApp=await startProduct({databaseUrl:source.databaseUrl,actors,repositories:[],port:0,tls:tls.tls});
+    const sourceOrigin=`https://127.0.0.1:${sourceApp.server.address().port}`;
+    const passwordLogin=await tlsRequest(sourceOrigin,tls.ca,'/api/session',{method:'POST',headers:{origin:sourceOrigin,'content-type':'application/json'},body:JSON.stringify({username,password})});
+    assert.equal(passwordLogin.status,200);
+    const sourceCredentialFacts=await source.sql`SELECT id,credential_kind,parent_credential_id,revoked_at FROM sf_local_credentials WHERE actor_id=${actors[0].id} ORDER BY issued_at,id`;
+    assert.deepEqual(sourceCredentialFacts.map(row=>row.credential_kind),['LOCAL','PASSWORD','BROWSER']);
+    assert.equal(sourceCredentialFacts[2].parent_credential_id,sourceCredentialFacts[1].id);
+    await sourceApp.close();sourceApp=undefined;
     const before=(await source.sql`SELECT g.id,g.checkpoint FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0];
     const backupDirectory=join(root,'backup'), witnessPath=join(root,'witness.json');
     const result=await createPrivateBackup({configPath,databaseUrl,destination:backupDirectory,witnessPath});
     assert.match(result.archiveSha256,/^[a-f0-9]{64}$/);
+    const manifest=JSON.parse(await (await import('node:fs/promises')).readFile(join(backupDirectory,'manifest.json'),'utf8'));
+    assert.equal(manifest.schema.signature,'b05328c7871f15422bf50592bc1a19d28dc962159f18ce50634666a3f31f8c70');
+    assert.ok(manifest.schema.tables.includes('sf_password_accounts'));
+    assert.ok(manifest.schema.tables.includes('sf_password_audit'));
     assert.equal((await lstat(backupDirectory)).mode&0o777,0o700);
     assert.equal((await lstat(join(backupDirectory,'metadata.pgdump'))).mode&0o777,0o600);
     assert.equal((await lstat(witnessPath)).mode&0o777,0o600);
@@ -43,6 +69,24 @@ test('native metadata backup and witness-verified restore retain source and ente
     assert.match(restoredName,/^sf_product_restore_[a-f0-9]{32}$/);
     restoredSql=postgres(restored.databaseUrl,{max:2,onnotice:()=>{}});
     await initializeDatabase(restoredSql);
+    assert.deepEqual((await restoredSql`SELECT * FROM sf_password_accounts WHERE actor_id=${actors[0].id}`)[0],passwordAccountBefore);
+    assert.deepEqual(await restoredSql`SELECT * FROM sf_password_audit WHERE actor_id=${actors[0].id} ORDER BY occurred_at,id`,passwordAuditBefore);
+    const restoredCredentialFacts=await restoredSql`SELECT id,credential_kind,parent_credential_id,revoked_at FROM sf_local_credentials WHERE actor_id=${actors[0].id} ORDER BY issued_at,id`;
+    assert.deepEqual(restoredCredentialFacts.map(row=>row.credential_kind),['LOCAL','PASSWORD','BROWSER']);
+    assert.ok(restoredCredentialFacts.every(row=>row.revoked_at));
+    assert.equal(restoredCredentialFacts[0].id,passwordAccountBefore.anchor_credential_id);
+    assert.equal(restoredCredentialFacts[1].id,sourceCredentialFacts[1].id);
+    assert.equal(restoredCredentialFacts[2].parent_credential_id,restoredCredentialFacts[1].id);
+    const credentialsBeforeDeniedLogin=Number((await restoredSql`SELECT count(*)::int AS n FROM sf_local_credentials`)[0].n);
+    restoredApp=await startProduct({databaseUrl:restored.databaseUrl,actors,repositories:[],port:0,tls:tls.tls});
+    const restoredOrigin=`https://127.0.0.1:${restoredApp.server.address().port}`;
+    const heldPasswordLogin=await tlsRequest(restoredOrigin,tls.ca,'/api/session',{method:'POST',headers:{origin:restoredOrigin,'content-type':'application/json'},body:JSON.stringify({username,password})});
+    assert.equal(heldPasswordLogin.status,503);
+    assert.deepEqual(heldPasswordLogin.body,{error:'AUTH_UNAVAILABLE'});
+    assert.equal(Number((await restoredSql`SELECT count(*)::int AS n FROM sf_local_credentials`)[0].n),credentialsBeforeDeniedLogin,'held password login creates no new credentials');
+    const oldTokenLogin=await tlsRequest(restoredOrigin,tls.ca,'/api/session',{method:'POST',headers:{origin:restoredOrigin,authorization:`Bearer ${actors[0].token}`}});
+    assert.equal(oldTokenLogin.status,401,'restore revokes token fallback as well');
+    assert.equal(Number((await restoredSql`SELECT count(*)::int AS n FROM sf_local_credentials`)[0].n),credentialsBeforeDeniedLogin,'denied token fallback creates no credentials');
     const state=(await restoredSql`SELECT g.id,g.state,g.predecessor_id,g.witness_id FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0];
     assert.equal(state.state,'RESTORE_HOLD');
     assert.equal(state.predecessor_id,before.id);
@@ -59,6 +103,7 @@ test('native metadata backup and witness-verified restore retain source and ente
     await initializeDatabase(restoredSql);
     assert.equal((await restoredSql`SELECT g.state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
   } finally {
+    await restoredApp?.close();await sourceApp?.close();await tls?.close();
     if(restoredSql) await restoredSql.end({timeout:2});
     await source.close();
     if(restoredName) {
@@ -67,6 +112,47 @@ test('native metadata backup and witness-verified restore retain source and ente
       finally { await base.end({timeout:2}); }
     }
     await rm(root,{recursive:true,force:true});
+  }
+});
+
+test('pre-password-auth instance backup keeps its exact signature and upgrades only after import',{skip:!enabled,timeout:180_000},async()=>{
+  const {seedLocalActors}=await import('../packages/database/local-credentials.ts');
+  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,{initializePasswordAuth:false})});
+  const root=await mkdtemp(join(process.cwd(),'.cache','pre-password-auth-backup-'));
+  let restoredSql,restoredName;
+  const actors=['developer','approver'].map(role=>({id:`pre-password-${role}`,name:`Pre-password ${role}`,role,token:randomBytes(32).toString('hex')}));
+  try {
+    await chmod(root,0o700);
+    const config={databasePassword:randomBytes(32).toString('hex'),developerToken:actors[0].token,approverToken:actors[1].token};
+    const configPath=join(root,'config.json');
+    await writeFile(configPath,`${JSON.stringify(config)}\n`,{mode:0o600});
+    const privateUrl=new URL(source.databaseUrl);privateUrl.password=config.databasePassword;
+    const databaseUrl=privateUrl.toString();
+    await seedLocalActors(source.sql,actors);
+    const historical=await inventory(source.sql);
+    assert.equal(historical.signature,'3c55e5886d0ef6706851d7d8647ec44b11318a4b58d8a52f4b1c1a482c043822');
+    assert.equal(historical.tables.includes('sf_password_accounts'),false);
+    assert.equal(historical.tables.includes('sf_password_audit'),false);
+    const backupDirectory=join(root,'backup'),witnessPath=join(root,'witness.json');
+    await createPrivateBackup({configPath,databaseUrl,destination:backupDirectory,witnessPath});
+    const manifest=JSON.parse(await (await import('node:fs/promises')).readFile(join(backupDirectory,'manifest.json'),'utf8'));
+    assert.equal(manifest.schema.signature,historical.signature);
+    const restored=await restorePrivateBackup({configPath,databaseUrl,backupDirectory,witnessPath});
+    restoredName=restored.databaseName;restoredSql=postgres(restored.databaseUrl,{max:2,onnotice:()=>{}});
+    const upgraded=await inventory(restoredSql);
+    assert.equal(upgraded.signature,'b05328c7871f15422bf50592bc1a19d28dc962159f18ce50634666a3f31f8c70');
+    assert.ok(upgraded.tables.includes('sf_password_accounts'));
+    assert.ok(upgraded.tables.includes('sf_password_audit'));
+    assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_password_accounts`)[0].n,0);
+    assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_password_audit`)[0].n,0);
+    assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_local_credentials WHERE revoked_at IS NOT NULL`)[0].n,2);
+    assert.equal((await restoredSql`SELECT count(*)::int AS n FROM sf_metadata_credentials_revoked`)[0].n,2);
+    assert.equal((await restoredSql`SELECT state FROM sf_metadata_current c JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton`)[0].state,'RESTORE_HOLD');
+    assert.equal((await inventory(source.sql)).signature,historical.signature,'restore and upgrade leave the historical source unchanged');
+  } finally {
+    await restoredSql?.end({timeout:2});
+    if(restoredName){const admin=postgres(source.databaseUrl,{max:1,onnotice:()=>{}});try{await admin.unsafe(`DROP DATABASE "${restoredName}" WITH (FORCE)`);}finally{await admin.end({timeout:2});}}
+    await source.close();await rm(root,{recursive:true,force:true});
   }
 });
 
@@ -318,7 +404,7 @@ test('native restore rejects damaged, unsupported, linked and untrusted inputs b
 
 
 for(const generation of ['legacy','Phase 2','Phase 3'])test(`exact ${generation} schema backup restores retained projects and migrates discovery under recovery HOLD`, {skip:!enabled,timeout:120000},async()=>{
-  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,generation==='legacy' ? {initializeTargets:false,initializeReconciliation:false,initializeConnectionManagement:false} : generation==='Phase 2' ? {initializeConnectivity:false,initializeReconciliation:false,initializeConnectionManagement:false} : {initializeValidation:false,initializeReconciliation:false,initializeConnectionManagement:false})});
+  const source=await openIsolatedProductDatabase({initialize:sql=>initializeDatabase(sql,generation==='legacy' ? {initializeTargets:false,initializeReconciliation:false,initializeConnectionManagement:false,initializePasswordAuth:false} : generation==='Phase 2' ? {initializeConnectivity:false,initializeReconciliation:false,initializeConnectionManagement:false,initializePasswordAuth:false} : {initializeValidation:false,initializeReconciliation:false,initializeConnectionManagement:false,initializePasswordAuth:false})});
     const root=await mkdtemp(join(process.cwd(),'.cache','phase2-legacy-backup-'));let restoredSql,restoredName;
   try {
     await chmod(root,0o700);const configPath=join(root,'config.json'),secret=randomBytes(32).toString('hex');

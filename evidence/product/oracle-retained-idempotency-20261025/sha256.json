@@ -1,0 +1,7 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "acceptance.json": "952850835e34af631a89c65e293b2d70819750985c7a515b0b5eb0c37f5f16c1",
+    "independent-review.json": "5c471354f199a939a86b33a88a329062ff81f4db20aa6b97a684935b0699f852"
+  }
+}

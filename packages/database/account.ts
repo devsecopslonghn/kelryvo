@@ -1,3 +1,4 @@
+import { sessionParentAuthority } from '../identity/authority.ts';
 import { guardBrowserMutation } from './browser-sessions.ts';
 import { LOCAL_ORGANIZATION as ORG } from './local-credentials.ts';
 import { projectAccessMode } from './project-membership.ts';
@@ -7,6 +8,13 @@ const uuid = (value: unknown) => typeof value === 'string'
 
 /** Self-service only. Project grants and identity provisioning remain operator-owned. */
 export function registerAccount(app: any, { sql, authenticate }: any) {
+  app.get('/api/account/login', { preHandler: authenticate }, async (req: any) => {
+    const account = (await sql`SELECT p.username,p.disabled_at,c.revoked_at FROM sf_password_accounts p
+      JOIN sf_local_credentials c ON c.id=p.anchor_credential_id AND c.actor_id=p.actor_id
+      WHERE p.actor_id=${req.actor.id}`)[0];
+    return { configured: !!account, username: account?.username ?? null,
+      disabled: !!account && !!(account.disabled_at || account.revoked_at) };
+  });
   app.get('/api/account/access', { preHandler: authenticate }, async (req: any, reply: any) => {
     const after = req.query?.after;
     if (after !== undefined && !uuid(after)) return reply.code(400).send({ error: 'INVALID_REQUEST' });
@@ -33,8 +41,9 @@ export function registerAccount(app: any, { sql, authenticate }: any) {
       FROM sf_local_credentials c JOIN sf_local_credentials p ON p.id=c.parent_credential_id AND p.actor_id=c.actor_id
       JOIN sf_local_actors a ON a.id=c.actor_id
       WHERE a.organization_id=${ORG} AND c.actor_id=${req.actor.id} AND c.credential_kind='BROWSER'
-        AND p.credential_kind='LOCAL' AND c.revoked_at IS NULL AND p.revoked_at IS NULL
+        AND p.credential_kind IN ('LOCAL','PASSWORD','EXTERNAL') AND c.revoked_at IS NULL AND p.revoked_at IS NULL
         AND c.expires_at>clock_timestamp() AND c.absolute_expires_at>clock_timestamp() AND p.expires_at>clock_timestamp()
+        AND ${sessionParentAuthority(sql,'p')}
         AND (${after ?? null}::uuid IS NULL OR c.id>${after ?? null}::uuid) ORDER BY c.id LIMIT 51`;
     const page = rows.slice(0, 50);
     return { sessions: page.map((row: any) => ({ id: row.id, issuedAt: row.issued_at,

@@ -46,6 +46,7 @@ test('browser keeps bootstrap read-only, shows creation receipt without loading 
     await page.getByLabel('Local access token').fill(actors[0].token);
     await page.getByRole('button', { name: 'Continue', exact: true }).click();
     await page.getByRole('status').filter({ hasText: 'Bootstrap required' }).waitFor();
+    await page.locator('.create-project-disclosure > summary').click();
     assert.equal(await page.getByRole('button', { name: 'Create project', exact: true }).isDisabled(), true);
     await page.getByRole('button', { name: /Retained legacy project/ }).waitFor();
     assert.equal(await page.getByRole('button', { name: /Retained legacy project/ }).count(), 1);
@@ -55,6 +56,7 @@ test('browser keeps bootstrap read-only, shows creation receipt without loading 
     await page.getByRole('button', { name: 'Refresh workspace' }).click();
     await page.getByRole('heading', { name: legacyName, exact: true }).waitFor();
 
+    if (!await page.getByLabel('New project name').isVisible()) await page.locator('.create-project-disclosure > summary').click();
     await page.getByLabel('New project name').fill('Receipt without grant');
     const createdResponse = page.waitForResponse(response => response.url().endsWith('/api/projects') && response.request().method() === 'POST');
     await page.getByRole('button', { name: 'Create project', exact: true }).click();
@@ -94,6 +96,7 @@ test('browser keeps bootstrap read-only, shows creation receipt without loading 
     assert.equal(releaseResponse.status, 201);
     const release = (await releaseResponse.json()).release;
     await page.getByLabel('Refresh workspace').click();
+    if (!await page.locator('.project-setup-details').evaluate(node=>node.open)) await page.locator('.project-setup-details > summary').click();
     await page.locator('.profile-row').filter({ hasText: 'Granted profile' }).waitFor();
     await page.getByRole('button', { name: /Releases/ }).click();
     await page.getByLabel('Source migration folder').fill('migrations/draft');
@@ -114,6 +117,7 @@ test('browser keeps bootstrap read-only, shows creation receipt without loading 
     assert.equal(await page.locator('.profile-row').count(), 0);
     await page.locator('.nav-item').filter({ hasText: 'Projects' }).click();
     await page.getByRole('heading', { name: legacyName, exact: true }).waitFor();
+    if (!await page.locator('.project-setup-details').evaluate(node=>node.open)) await page.locator('.project-setup-details > summary').click();
     assert.equal(await page.getByLabel('Environment name').inputValue(), '');
     assert.equal(await page.locator('.profile-row').count(), 0);
     assert.equal(await page.locator('.source-binding-current').count(), 0);

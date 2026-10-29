@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "key": "foreign-create",
+      "draftSaved": true,
+      "syntaxHttpStatus": 200,
+      "validationHttpStatus": 200,
+      "blockedAt": "target validation",
+      "planActionPresent": false,
+      "planActionDisabled": null,
+      "validationSummary": "Target validation and risk findings BLOCKED · Policy: BLOCKED · Evidence: CURRENT Syntax: VALID. Object existence and Oracle semantics remain unverified. This result grants no database execution authority. VALIDATION DIGEST dccd0832a07ff124bddd759db1d73659f767a49171e3c6c0a16412e9632816f8 TARGET OWNER KP_A BINDING REVISION 2 METADATA COMPLETENESS Schema owner visibility only OBSERVATION a2b56256-6208-42fe-823a-e36027b45e4f METADATA EXPIRY 2026-10-24T14:57:24.311Z PROVENANCE ORACLE_READ_ONLY ENGINE CAPABILITY oracle · Oracle syntax parsing BLOCKING · SCHEMA_SQL_UNSUPPORTED Statement 1 is outside the automatic execution subset. Only scoped scalar CREATE TABLE, ALTER TABLE ADD columns and simple local indexes are supported. Approval cannot override this policy. UNKNOWN · OBJECT_METADATA_UNAVAILABLE No object snapshot is retained. Existing objects, columns, constraints and privileges were not observed. UNKNOWN · QUALIFIED_CALL_UNVERIFIED · migrations/V1__workspace.sql · statement 1 Qualifie",
+      "screenshot": "/home/longhn0710/workspace/kelryvo/kelryvo/.cache/oracle-delivery5/unsafe-workspace/foreign-create.png"
+    },
+    {
+      "key": "drop",
+      "draftSaved": true,
+      "syntaxHttpStatus": 200,
+      "validationHttpStatus": 200,
+      "blockedAt": "target validation",
+      "planActionPresent": false,
+      "planActionDisabled": null,
+      "validationSummary": "Target validation and risk findings BLOCKED · Policy: BLOCKED · Evidence: CURRENT Syntax: VALID. Object existence and Oracle semantics remain unverified. This result grants no database execution authority. VALIDATION DIGEST f58609070656d5787d32f286111ed48f2d430706baec9908f4e09f9ae062b1d7 TARGET OWNER KP_A BINDING REVISION 2 METADATA COMPLETENESS Schema owner visibility only OBSERVATION a2b56256-6208-42fe-823a-e36027b45e4f METADATA EXPIRY 2026-10-24T14:57:24.311Z PROVENANCE ORACLE_READ_ONLY ENGINE CAPABILITY oracle · Oracle syntax parsing BLOCKING · SCHEMA_SQL_UNSUPPORTED Statement 1 is outside the automatic execution subset. Only scoped scalar CREATE TABLE, ALTER TABLE ADD columns and simple local indexes are supported. Approval cannot override this policy. UNKNOWN · OBJECT_METADATA_UNAVAILABLE No object snapshot is retained. Existing objects, columns, constraints and privileges were not observed. HIGH · DESTRUCTIVE_DDL · migrations/V1__workspace.sql · statement 1 This statement change",
+      "screenshot": "/home/longhn0710/workspace/kelryvo/kelryvo/.cache/oracle-delivery5/unsafe-workspace/drop.png"
+    },
+    {
+      "key": "grant",
+      "draftSaved": true,
+      "syntaxHttpStatus": 200,
+      "validationHttpStatus": 200,
+      "blockedAt": "target validation",
+      "planActionPresent": false,
+      "planActionDisabled": null,
+      "validationSummary": "Target validation and risk findings BLOCKED · Policy: BLOCKED · Evidence: CURRENT Syntax: VALID. Object existence and Oracle semantics remain unverified. This result grants no database execution authority. VALIDATION DIGEST 06ff7fd6a0963ae7e667c62a9a9bbe24a40a641d208055fe016e5596ed4194db TARGET OWNER KP_A BINDING REVISION 2 METADATA COMPLETENESS Schema owner visibility only OBSERVATION a2b56256-6208-42fe-823a-e36027b45e4f METADATA EXPIRY 2026-10-24T14:57:24.311Z PROVENANCE ORACLE_READ_ONLY ENGINE CAPABILITY oracle · Oracle syntax parsing BLOCKING · SCHEMA_SQL_UNSUPPORTED Statement 1 is outside the automatic execution subset. Only scoped scalar CREATE TABLE, ALTER TABLE ADD columns and simple local indexes are supported. Approval cannot override this policy. UNKNOWN · OBJECT_METADATA_UNAVAILABLE No object snapshot is retained. Existing objects, columns, constraints and privileges were not observed. BLOCKING · ADMIN_OR_PRIVILEGE_OPERATION · migrations/V1__workspace.sql · statement 1 Data",
+      "screenshot": "/home/longhn0710/workspace/kelryvo/kelryvo/.cache/oracle-delivery5/unsafe-workspace/grant.png"
+    },
+    {
+      "key": "plsql",
+      "draftSaved": true,
+      "syntaxHttpStatus": 200,
+      "validationHttpStatus": 200,
+      "blockedAt": "target validation",
+      "planActionPresent": false,
+      "planActionDisabled": null,
+      "validationSummary": "Target validation and risk findings BLOCKED · Policy: BLOCKED · Evidence: CURRENT Syntax: VALID. Object existence and Oracle semantics remain unverified. This result grants no database execution authority. VALIDATION DIGEST a0b5de6c60ab1bfc26703a06d451932e311bc1603383a1dcef3f0a2890fcd623 TARGET OWNER KP_A BINDING REVISION 2 METADATA COMPLETENESS Schema owner visibility only OBSERVATION a2b56256-6208-42fe-823a-e36027b45e4f METADATA EXPIRY 2026-10-24T14:57:24.311Z PROVENANCE ORACLE_READ_ONLY ENGINE CAPABILITY oracle · Oracle syntax parsing BLOCKING · MULTIPLE_OR_TERMINATED_STATEMENTS Statement 1 is outside the automatic execution subset. Only scoped scalar CREATE TABLE, ALTER TABLE ADD columns and simple local indexes are supported. Approval cannot override this policy. UNKNOWN · OBJECT_METADATA_UNAVAILABLE No object snapshot is retained. Existing objects, columns, constraints and privileges were not observed. UNKNOWN · UNSUPPORTED_STATEMENT · migrations/V1__workspace.sql · statement 1 S",
+      "screenshot": "/home/longhn0710/workspace/kelryvo/kelryvo/.cache/oracle-delivery5/unsafe-workspace/plsql.png"
+    },
+    {
+      "key": "insert",
+      "draftSaved": true,
+      "syntaxHttpStatus": 200,
+      "validationHttpStatus": 200,
+      "blockedAt": "target validation",
+      "planActionPresent": false,
+      "planActionDisabled": null,
+      "validationSummary": "Target validation and risk findings BLOCKED · Policy: BLOCKED · Evidence: CURRENT Syntax: VALID. Object existence and Oracle semantics remain unverified. This result grants no database execution authority. VALIDATION DIGEST 9df1310b0c78a7d132957c28aeef3889c75f38ac8d2dfce9db4b1a887ec3ea48 TARGET OWNER KP_A BINDING REVISION 2 METADATA COMPLETENESS Schema owner visibility only OBSERVATION a2b56256-6208-42fe-823a-e36027b45e4f METADATA EXPIRY 2026-10-24T14:57:24.311Z PROVENANCE ORACLE_READ_ONLY ENGINE CAPABILITY oracle · Oracle syntax parsing BLOCKING · SCHEMA_SQL_UNSUPPORTED Statement 1 is outside the automatic execution subset. Only scoped scalar CREATE TABLE, ALTER TABLE ADD columns and simple local indexes are supported. Approval cannot override this policy. UNKNOWN · OBJECT_METADATA_UNAVAILABLE No object snapshot is retained. Existing objects, columns, constraints and privileges were not observed. UNKNOWN · REFERENCE_UNVERIFIED · migrations/V1__workspace.sql · statement 1 One or more o",
+      "screenshot": "/home/longhn0710/workspace/kelryvo/kelryvo/.cache/oracle-delivery5/unsafe-workspace/insert.png"
+    }
+  ],
+  "createdExecutableRequest": false,
+  "blockedStage": "per-case evidence",
+  "executionJobsBefore": 1,
+  "executionJobsAfter": 1
+}

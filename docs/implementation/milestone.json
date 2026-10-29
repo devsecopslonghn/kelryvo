@@ -16,22 +16,37 @@
   "allowed_packages": [
     "PRODUCT"
   ],
-  "oracle_lab_authorized": false,
+  "oracle_lab_authorized": true,
   "foundation_task": "SF-P0-FOUNDATION",
   "milestone": "R1 — verified read-only Oracle onboarding",
-  "status": "BLOCKED_EXTERNAL",
+  "status": "IN_PROGRESS",
   "product_source_of_truth": "docs/product/KELYRVO_PRODUCT_REQUIREMENTS.md",
   "baseline_master": "098fb10",
   "last_merged_implementation_pr": 93,
-  "updated_at": "2026-10-14",
+  "updated_at": "2026-10-26",
   "blockers": [
-    "Live Oracle acceptance NOT_RUN: explicit read-only disposable-lab authorization and an attested exact-target manifest are absent. Offline preparation may proceed; no writer enablement or DDL is authorized."
+    "The existing owner-created Oracle Free 23.26.3 Kubernetes lab and backend are authorized for bounded testing; recover exact current installation and case scope from docs/development/oracle-acceptance.md before connecting.",
+    "Complete R1/R2 visibility and browser matrices plus OA01/OA02/OA09 and remaining OA05 variants are unverified. A bounded shared-installation, two-process OA05 case passed on its recorded image/source. Original Oracle 19c/21c cells remain BLOCKED; Oracle Free does not qualify them."
   ],
   "next_priority": {
     "id": "R1",
     "title": "Verified read-only Oracle onboarding",
-    "status": "BLOCKED_EXTERNAL",
+    "status": "IN_PROGRESS",
     "requirements": "docs/product/KELYRVO_PRODUCT_REQUIREMENTS.md#r1-selected-work-acceptance"
   },
-  "tracking_scope": "Legacy catalog contracts and bounded historical task acceptance. Current delivered capability and remaining backlog live only in product_source_of_truth. Historical session checkpoints are recoverable in Git; indexed/raw acceptance evidence is retained."
+  "tracking_scope": "Legacy catalog contracts and bounded historical task acceptance. Current delivered capability and remaining backlog live only in product_source_of_truth. Historical session checkpoints are recoverable in Git; indexed/raw acceptance evidence is retained.",
+  "oracle_lab_authorization_scope": {
+    "topology": "Existing disposable Kubernetes lab, Oracle Free 23.26.3 TCP",
+    "guide": "docs/development/oracle-acceptance.md#resume-the-existing-kubernetes-lab",
+    "ownerAuthorization": "Owner reaffirmed full infrastructure test authority for the entire dedicated lab cluster and backend on 2026-10-24",
+    "originalOracle19c21cCells": "Not qualified by this lab; preserve existing BLOCKED results"
+  },
+  "latest_development_delivery": "evidence/product/schema-route-delivery-20261025/acceptance.json",
+  "latest_execution_acceptance": "evidence/product/oracle-queued-idempotency-20261025/acceptance.json",
+  "latest_execution_attempt": "evidence/product/oracle-admitted-attempt-20261025/acceptance.json",
+  "latest_target_bootstrap": "evidence/product/oracle-delivery6-bootstrap-20261026/acceptance.json",
+  "latest_target_readonly_qualification": "evidence/product/oracle-delivery6-readonly-20261026/acceptance.json",
+  "latest_discovery_configuration": "evidence/product/oracle-delivery6-discovery-repair-20261026/acceptance.json",
+  "latest_target_onboarding_attempt": "evidence/product/oracle-delivery6-onboarding-attempt-20261026/acceptance.json",
+  "latest_target_onboarding": "evidence/product/oracle-delivery6-onboarding-20261026/acceptance.json"
 }

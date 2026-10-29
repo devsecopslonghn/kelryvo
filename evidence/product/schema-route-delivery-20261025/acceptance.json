@@ -1,0 +1,234 @@
+{
+  "format": 1,
+  "kind": "KELRYVO_SCHEMA_ROUTE_DEVELOPMENT_DELIVERY",
+  "status": "PASS_BOUNDED_SCHEMA_ROUTE_DELIVERY",
+  "recordedAt": "2026-10-25T07:28:21.051022+00:00",
+  "origin": "https://kelryvo.apps.drgdevlab.com",
+  "image": "longhn0710t/kelryvo-pilot@sha256:557c7d47062355bcde3f259d3601254656b2464cf14267adead605da43ff90fc",
+  "tag": "dev-worktree-87cc3018f285-20261025T072317Z",
+  "platformDigest": "sha256:92cd0787cacfe9b332d0d45d426893177419786e4dacfcc1a52865e3a9b71c5b",
+  "configDigest": "sha256:44df4486dddfb19fb305092b42b934457b5384350793d363a8654db0772fab83",
+  "contextTreeSha256": "87cc3018f28567877707bf59e107b06339a7b6957ec937ed9ba53f37df4b634d",
+  "baseCommit": "8796a57ddb283b8197481babab382fafb6548801",
+  "workingTreeClean": false,
+  "sourceScope": [
+    "apps/web/src/SchemaBaselines.jsx",
+    "apps/web/src/app.jsx",
+    "apps/web/src/workflowLocation.js"
+  ],
+  "other210BuildInputsIdenticalToPrior": true,
+  "priorImage": "longhn0710t/kelryvo-pilot@sha256:1945dc939a66e81d30b17b23fc29d217afc7d9cc8b50764ecaff328827f4d37b",
+  "design": {
+    "reference": "DESIGN.md",
+    "tool": "MCP Stitch",
+    "implementation": "Existing React/CSS; generated design reference is not runtime code",
+    "schemaLayout": "Separated history, inspection and comparison; technical forms/details collapsed; warnings and identity remain visible"
+  },
+  "fix": "Keep the schema page and manually selected exact target in the URL across full-page reload; existing API access checks apply.",
+  "verification": {
+    "standardCheck": {
+      "tests": 646,
+      "pass": 494,
+      "fail": 0,
+      "skipped": 152,
+      "cancelled": 0
+    },
+    "schemaAndThemeBrowser": {
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "focusedRegression": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "coldOCIExitCode": 0
+  },
+  "publication": {
+    "anonymousVerification": "PASS",
+    "anonymousDigestPull": "PASS",
+    "coldOCI": "PASS"
+  },
+  "rollout": {
+    "at": "2026-10-25T07:26:37.971436+00:00",
+    "all68TablesExactlyPreserved": true,
+    "snapshotsPreserved": 4,
+    "baselinesPreserved": 1,
+    "jobs": 50,
+    "holds": 11,
+    "persistentResourceUIDsPreserved": true,
+    "wholeInstallationSecretUnchanged": true,
+    "apiCannotReadWriterSecrets": true,
+    "independentOutcomeReview": "PASS"
+  },
+  "authentication": {
+    "checks": 18,
+    "pass": 18,
+    "methods": [
+      "LOCAL",
+      "LDAPS",
+      "OIDC"
+    ]
+  },
+  "liveUi": {
+    "status": "PASS_READONLY_LIVE_SCHEMA_UI",
+    "at": "2026-10-25T07:27:39.648Z",
+    "image": "longhn0710t/kelryvo-pilot@sha256:557c7d47062355bcde3f259d3601254656b2464cf14267adead605da43ff90fc",
+    "podUid": "b7e744ea-4c90-4733-bef6-8b7a969241a1",
+    "nativeSnapshotId": "dcbb7619-c54b-4d67-8091-cbe475f388fd",
+    "results": [
+      {
+        "role": "developer",
+        "retainedSnapshots": 4,
+        "baseline": "ade7f492-8b66-40f8-8c88-55a9bc5c6545",
+        "comparison": "UNVERIFIED",
+        "readAfterReload": true
+      },
+      {
+        "role": "approver",
+        "retainedSnapshots": 4,
+        "baseline": "ade7f492-8b66-40f8-8c88-55a9bc5c6545",
+        "comparison": "UNVERIFIED",
+        "readAfterReload": true
+      }
+    ],
+    "forbiddenMutations": 0,
+    "pageErrors": 0,
+    "explicitLogouts": 2,
+    "newOracleObservation": false,
+    "absenceOfDriftEstablished": false
+  },
+  "liveAssetSha256": {
+    "app.js": "6461064fed75812f778f2f49a8a9e7101b04cc877a9e3963d8355217025d1358",
+    "styles.css": "27953eecc74245d21b6e68ac371e511f6b8088ce9f4ca0a7a21448f7440c98c1",
+    "index.html": "de326fcc6fb7b90fdcd8b22c374a9950b8667c6a3a9ca6953e580de4fa597398"
+  },
+  "nativeCollector": {
+    "image": "longhn0710t/kelryvo-pilot@sha256:00d27393e7917a9af0818f54f58d42637c183183b7f9fcda2e33768df940e92c",
+    "acceptedAt": "2026-10-25T06:55:44.902Z",
+    "snapshotId": "dcbb7619-c54b-4d67-8091-cbe475f388fd",
+    "owner": "KP_B",
+    "provenance": "ORACLE_READ_ONLY",
+    "liveAccepted": true,
+    "coverage": {
+      "VIEW": "PARTIAL",
+      "INDEX": "PARTIAL",
+      "TABLE": "PARTIAL",
+      "SEQUENCE": "PARTIAL",
+      "DEPENDENCY": "PARTIAL"
+    },
+    "limitations": [
+      "FOREIGN_OWNER_VISIBILITY_PARTIAL",
+      "MULTI_QUERY_CONSISTENCY_UNGUARANTEED"
+    ],
+    "queryUnavailableReported": false,
+    "comparison": {
+      "apiHttpStatus": 200,
+      "expectedSnapshotId": "c601a652-b194-4dd4-aaea-4db2c294d173",
+      "observedSnapshotId": "dcbb7619-c54b-4d67-8091-cbe475f388fd",
+      "state": "UNVERIFIED",
+      "summary": {
+        "added": 0,
+        "removed": 0,
+        "modified": 0,
+        "unverified": 0
+      },
+      "limitations": [
+        "INCOMPLETE_METADATA_COVERAGE",
+        "MULTI_QUERY_CONSISTENCY_UNGUARANTEED"
+      ],
+      "changeCount": 0,
+      "absenceOfDriftEstablished": false
+    },
+    "oldRowsIn68TablesRetained": true,
+    "oldThreeSnapshotsAndBaselineRetained": true,
+    "newJobs": 0,
+    "ddl": 0,
+    "dml": 0,
+    "currentUiImageNativeObservationClaimed": false
+  },
+  "postLivePreservation": {
+    "status": "PASS_POST_LIVE_BUSINESS_PRESERVATION",
+    "at": "2026-10-25T07:27:58.963958+00:00",
+    "businessTablesExactlyUnchanged": 64,
+    "changedAuthTables": [
+      "sf_external_session_roots",
+      "sf_identity_audit",
+      "sf_local_credentials",
+      "sf_oidc_attempts"
+    ],
+    "states": {
+      "CANCELLED": 18,
+      "HOLD": 11,
+      "NOOP": 5,
+      "VERIFIED_SUCCESS": 16
+    },
+    "target": {
+      "snapshots": 4,
+      "baselines": 1
+    },
+    "metadataArtifactSha256": "0be8f5666465a5f862566cfa96147907931fcf479abaa8773bbd9ac2f2458d23",
+    "browserCredentialsCreated": 8,
+    "browserCredentialsStillActive": 0,
+    "nativeOracleObservationPerformed": false
+  },
+  "runtime": {
+    "executionEnabled": false,
+    "discoveryEnabled": true,
+    "argoAutoSync": false
+  },
+  "screenshots": {
+    "1440-dark.png": "f3d60764eb97a5c2b3b147d72d48588da8911c7638ef9f442c23a9261d4ab49d",
+    "1440-light.png": "2215fc0af33e87662db1f588837266a6ae5764ba35645cb4dc7b7940906032d3",
+    "390-dark.png": "bd7daacd1e42ead3a88f8b1e0906e43850b0c6b05ba61239daf8bbd3e61b0039",
+    "390-light.png": "6a343cc2ed472115f8d989fd73696fe1058c3e25b78a84a7b00cf0605341cac0"
+  },
+  "retainedFailures": [
+    {
+      "evidence": "evidence/product/schema-ui-delivery-20261025/acceptance.json",
+      "status": "PARTIAL_DELIVERY_SCHEMA_RELOAD_FAILED",
+      "resolution": "New three-file route fix, focused and six-case fixture checks, and two-role real HTTPS reload/target checks passed on this image."
+    },
+    {
+      "evidence": ".cache/schema-route-fix-20261025/browser.log",
+      "status": "FAIL_INITIAL_HTTP_FIXTURE_REAUTHENTICATION_OMITTED",
+      "resolution": "Test reauthenticates without navigation or bearer persistence; focused and final browser runs passed."
+    }
+  ],
+  "privateEvidenceSha256": {
+    ".cache/schema-route-delivery-20261025/image/source.json": "08fc66e7702929ff68899f14d760203fc4f4f47c639dd24915262552aeb1f7c7",
+    ".cache/schema-route-delivery-20261025/image/context-manifest.json": "f23b772855d471f93bc90e988b5bb45005f849ffeb2686287ff58354c133d7fe",
+    ".cache/schema-route-delivery-20261025/image/image.json": "62302ae69cfd6bfb98d4d6cee1c56a57fe2b2b27dc0d6996f1ae056754f3e82b",
+    ".cache/schema-route-delivery-20261025/image/publication.json": "79e7585f24f63b68c76fbf5e5222bd79f2a2b0fe03f9165274c666bb967f5843",
+    ".cache/schema-route-delivery-20261025/image/container-acceptance.json": "1e65b54cc8542a553a187e6961829c774aabfc08162ca7b0e7bdabf0d1924611",
+    ".cache/schema-route-delivery-20261025/image/secret-scan.json": "a4f4251f6305b202a0154655f0e7f7ac4e3aade71100ad11a0aa4b29b9fa2b18",
+    ".cache/schema-route-delivery-20261025/verification.json": "13cdfbc6bc278c636e2f6d4ce2e2cf0bec067e23e08ca223d488e1fc9fa8848a",
+    ".cache/schema-route-delivery-20261025/independent-review.json": "d819e80a9b272f79c0274d65f5f537e34aab08db7ba85893ede9965365d969db",
+    ".cache/schema-route-delivery-20261025/independent-source-review.json": "08bcf6b9403728317cd3ab094605754b4f1e1009208c0e0ff8e7bbdf7452d76a",
+    ".cache/schema-route-delivery-20261025/image/upgrade-case-1/scope.json": "a27c6acff435fe885f0f2f08d5758985c32597f72a40f1faf79c119bf81aac45",
+    ".cache/schema-route-delivery-20261025/image/upgrade-case-1/review.json": "e13a0649a538c3c23a43c47859fbc25b0688a4c0a460984e6ed1b2f7f1965f47",
+    ".cache/schema-route-delivery-20261025/image/upgrade-case-1/deploy-result.json": "b53f5813e5dce99935e5762e70e5cc7ee4c1f397a064b2a9ad71768da8637e6b",
+    ".cache/schema-route-delivery-20261025/image/upgrade-case-1/metadata-after.private.json": "e88bd73f904925fcc345413184f50c48b5bf8a87b8dc64bd318a383fcb9bbb72",
+    ".cache/schema-route-delivery-20261025/image/upgrade-case-1/outcome-review.json": "722483ab619ddc91b16ba03c51cd2da101bdd766f216e649ffdc0bb5ce546ff1",
+    ".cache/schema-route-delivery-20261025/image/pre-upgrade-backup/manifest.json": "0b9ba2a64d0aa643ddc601d245aacf259cef43b7593b86a93e7d4caeddab1c1f",
+    ".cache/schema-route-delivery-20261025/image/pre-upgrade-backup-witness.json": "62be447c9cd1f78dd5626bea4205a397a1b72ffc0734a0cf3eadbfa5f46d0b97",
+    ".cache/schema-route-delivery-20261025/live-web-source-verification.json": "cb97e695241ee3c494ec156d3819afbe0f9808cb500f601973b23b4c2c9cfe22",
+    ".cache/schema-route-delivery-20261025/live-identity-ui-result.json": "ae43f5706ee3c42a41d632a6d3303ab26ec708ec9261ed53c57f5c0cfcf49923",
+    ".cache/schema-route-delivery-20261025/live-schema-ui.mjs": "5109794e1cddeae753276ef1277a98a004e7c93fb9c0204400d04af492bf5780",
+    ".cache/schema-route-delivery-20261025/live-schema-ui-result.json": "701f6347f97b0df4b751b64d7913bfc908fc4814c2e26d5d4263ba85b9317c3e",
+    ".cache/schema-route-delivery-20261025/post-live-preservation.json": "da058f861a830ab4442e17c1aaf71bf2007e4e4ffc37966366ec8b4959ef9a5c",
+    ".cache/schema-route-delivery-20261025/metadata-after-live-tests.private.json": "0be8f5666465a5f862566cfa96147907931fcf479abaa8773bbd9ac2f2458d23"
+  },
+  "limitations": [
+    "Full R1/R2/OA matrices remain incomplete; no absence of drift is established.",
+    "This image-only rollout and retained-record browser acceptance perform no new native Oracle observation or governed execution; collector evidence belongs to preceding00d image.",
+    "All five native object-type coverage states remain PARTIAL; comparison is UNVERIFIED.",
+    "152 standard tests were skipped; no canonical signed commit, Git push, hosted CI, merge or gated release claimed.",
+    "Existing expired lab/installation reviews authorize no fresh Oracle operations or replay."
+  ]
+}

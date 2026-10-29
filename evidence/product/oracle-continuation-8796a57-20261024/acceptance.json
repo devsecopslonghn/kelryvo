@@ -1,0 +1,149 @@
+{
+  "status": "BOUNDED_ACCEPTANCE",
+  "at": "2026-10-24T12:27:03.782651+00:00",
+  "source": "8796a57ddb283b8197481babab382fafb6548801",
+  "image": "longhn0710t/kelryvo-pilot@sha256:cd46b7c5e95fd02896dc0877196a2190d886da1a3ff571561b5d2c012b2e3398",
+  "ownerAuthorization": "Existing owner-created Kubernetes lab and backend explicitly authorized for bounded testing in the working session",
+  "completeOraclePilot": false,
+  "cases": {
+    "A_V1": {
+      "jobId": "bf9edeed-eaf1-4227-a1ca-8ad4e1c4601d",
+      "planId": "1f21ae8f-8d43-4351-a12a-0de705050b83",
+      "owner": "KP_A",
+      "state": "VERIFIED_SUCCESS",
+      "attemptCount": 1,
+      "centralReceipts": 1,
+      "recordSha256": "139e2da9121a8a64c9ed021f97052a685f1ab0afcec9bf28839f8d4669ae4593",
+      "independentPlanApproval": true
+    },
+    "A_V2": {
+      "jobId": "612b4dc1-e8fb-4c0b-9bde-3a4775704b00",
+      "planId": "8b3178d0-c75e-4085-a923-4dea65fa559a",
+      "owner": "KP_A",
+      "state": "VERIFIED_SUCCESS",
+      "attemptCount": 1,
+      "centralReceipts": 2,
+      "recordSha256": "ce2920b1027018caca9718b9e24f2eb0c81e45787a1b341e1456725d3c0507e7",
+      "independentPlanApproval": true
+    },
+    "A_NOOP": {
+      "jobId": "a3c6fa56-c509-4f32-a807-99ab7a07d84b",
+      "planId": "4bfedda4-de4e-4198-9463-9a7951041c20",
+      "owner": "KP_A",
+      "state": "NOOP",
+      "attemptCount": 1,
+      "centralReceipts": 0,
+      "recordSha256": "d2c0c8f42cf17beffa5ddf9d2916c4db256f4c7073f1049582b267505ed6bc0c",
+      "independentPlanApproval": true
+    },
+    "B_V1": {
+      "jobId": "6764290d-ec8e-4b53-be00-df96d06fa9e8",
+      "planId": "a1f0a135-6817-4bf7-a1da-02c34264a695",
+      "owner": "KP_B",
+      "state": "VERIFIED_SUCCESS",
+      "attemptCount": 1,
+      "centralReceipts": 1,
+      "recordSha256": "36168c92b5ccb4a5c0170da71d2f3c343b586e24bea4d6e5d5c70e760fb154cc",
+      "independentPlanApproval": true
+    },
+    "B_V2": {
+      "jobId": "de93ec6d-8bb7-43bb-8676-09bae575a807",
+      "planId": "6f0df605-b25e-4450-9f60-a2c0c79f0f08",
+      "owner": "KP_B",
+      "state": "VERIFIED_SUCCESS",
+      "attemptCount": 1,
+      "centralReceipts": 2,
+      "recordSha256": "44812caa7e388bc79d8d44f0c4e01d2919ee676e3274bfc2bce5d5218d8eaa61",
+      "independentPlanApproval": true
+    },
+    "B_NOOP": {
+      "jobId": "4771ad87-626f-4063-b836-c81745e5d907",
+      "planId": "790cf322-a9ce-478d-a5ef-a8762820e8a9",
+      "owner": "KP_B",
+      "state": "NOOP",
+      "attemptCount": 1,
+      "centralReceipts": 0,
+      "recordSha256": "13cc947de0e34113daf90f21d1f96dc2fce69922bf2d7b093202f68e2a2bf0bb",
+      "independentPlanApproval": true
+    },
+    "FAULT_BEFORE_NATIVE": {
+      "jobId": "4225f5cc-b5a6-4e60-b341-8bcfcb4a3d31",
+      "planId": "474b7b21-35b7-4001-a475-852380cbe592",
+      "owner": "KP_FAULT_A",
+      "state": "HOLD",
+      "attemptCount": 1,
+      "centralReceipts": 0,
+      "recordSha256": "61e4e8c4ce28ee4d61b10bd335c4a9f5f97ce8c919de2c70bb930747464ea2ec",
+      "independentPlanApproval": true
+    }
+  },
+  "retainedFailures": [
+    {
+      "label": "expired-observation",
+      "evidencePrefix": "expired-observation",
+      "automaticReplay": false
+    },
+    {
+      "label": "paused-http-lock",
+      "evidencePrefix": "paused-http-lock",
+      "automaticReplay": false
+    },
+    {
+      "label": "paused-job-read-lock",
+      "evidencePrefix": "paused-job-read-lock",
+      "automaticReplay": false
+    },
+    {
+      "jobId": "ab7c06d5-55c7-40b5-b661-d84d461c2bc3",
+      "planId": "5e2e1acd-d050-413c-bd66-de6f38b1f3b1",
+      "reason": "EXPIRED_OBSERVATION_NO_ADMISSION_ZERO_ATTEMPTS",
+      "state": "CANCELLED",
+      "replay": false
+    },
+    {
+      "jobId": "4225f5cc-b5a6-4e60-b341-8bcfcb4a3d31",
+      "planId": "474b7b21-35b7-4001-a475-852380cbe592",
+      "reason": "CONTROLLER_IDEMPOTENCY_PROBE_BLOCKED_AT_BEFORE_NATIVE_PAUSE",
+      "state": "HOLD",
+      "replay": false
+    },
+    {
+      "jobId": "88ceb245-9afd-4ba0-a7a2-7f5049b66316",
+      "planId": "30622331-1ab0-40f7-b875-360edf9779a6",
+      "reason": "TARGET_HISTORY_UNTRUSTED_CONTAINER_GUARD_ZERO_ATTEMPTS",
+      "state": "HOLD",
+      "replay": false
+    }
+  ],
+  "lostAcknowledgement": {
+    "status": "PASS_WITH_RETAINED_HOLD",
+    "pdb": "KP_LOST_ACK4",
+    "schema": "KP_FAULT_B",
+    "jobId": "28fdcb9b-6f82-4ae8-8615-37285d765bdd",
+    "planId": "b4b0ea05-b9b4-46c5-86e2-d0cf8d2b80f5",
+    "statementNativeCalls": 1,
+    "priorAcknowledgedWriterCalls": 0,
+    "centralAttemptCount": 1,
+    "centralReceipts": 0,
+    "independentlyObservedTable": true,
+    "nativeDriverRejectionCaptured": true,
+    "leaseActiveBeforeCut": true,
+    "replayPermitted": false,
+    "controllerReview": "Source/protocol regression checks; separate application approver; no claim of independent human controller review"
+  },
+  "privateArtifacts": {
+    "directoryReferences": [
+      ".cache/private-lab",
+      ".cache/oracle-retry3",
+      ".cache/oracle-retry4"
+    ],
+    "credentialsAndBackupArchivesPublished": false,
+    "archiveSha256": "d8fc4f70cf547e92f1f38178954d7ca55ea63f6ab5e2ca48cc9df0b010d97eab"
+  },
+  "limitations": [
+    "Oracle Free 23.26.3 TCP only; no Oracle 19c/21c acceptance",
+    "PARTIAL catalog visibility and UNVERIFIED multi-query consistency remain truthful",
+    "Full OA01 identity-negative, OA02 unsafe-governed-dispatch, OA05 route-alias concurrency and OA09 incompatible-history matrices remain incomplete",
+    "No production enablement, source merge, gated release or restored-cluster cutover"
+  ]
+}

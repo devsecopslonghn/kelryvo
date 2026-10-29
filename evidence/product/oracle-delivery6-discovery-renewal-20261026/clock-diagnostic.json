@@ -1,0 +1,16 @@
+{
+  "status": "PASS_READ_ONLY_POD_CLOCK_QUALIFICATION",
+  "acceptedScope": "Read-only five-sample clock diagnostic on the renewed application Pod; not ADMITTED acceptance",
+  "completedAt": "2026-10-26T14:44:46.674Z",
+  "podUid": "af979de2-24a5-4643-9ac2-4a1c4a3f0e0e",
+  "sourceSha256": "1f10786d84b0d4d4500c9293723502fdf660a516aa59b2a0713b8822694bbe5d",
+  "sampleCount": 5,
+  "offsetMs": 1115.5,
+  "uncertaintyMs": 66.5,
+  "maximumCalibrationAgeMs": 90000,
+  "oracleConnections": 0,
+  "databaseConnections": 0,
+  "metadataMutations": 0,
+  "reuseAllowed": false,
+  "limitation": "A new calibration must be performed immediately before a future live gate; archived evidence does not establish current clock authority or explain the old rejection."
+}

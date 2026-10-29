@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "logSha256": "7130413c0e28100bb47c79c472123f493910ce390cda061ae90ca60d8e65067b",
+  "logBytes": 19557,
+  "privateLog": ".cache/delivery-build/browser.log",
+  "count": 56,
+  "failed": 0
+}

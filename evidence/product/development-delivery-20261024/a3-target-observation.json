@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "label": "AFTER_A3",
+  "freshStateSha256": "3ecd9f401bb3a12180573b0d4f60c8e20227c41f1bd56ecc1a42e3ad66984162",
+  "targetJournalEvents": 18,
+  "targetHeads": 1,
+  "originalHeldTargetUnchanged": true
+}

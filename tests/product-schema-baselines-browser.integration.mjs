@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
 import { createSchemaFixture,object,completeCoverage } from './helpers/schema-fixture.mjs';
@@ -13,20 +13,46 @@ test('browser observes exact schema, captures immutable baseline, compares struc
     browser=await chromium.launch();const page=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
     const signIn=async()=>{await page.goto(f.currentUrl());await page.getByLabel('Local access token').fill(f.actors[0].token);await page.getByRole('button',{name:'Continue',exact:true}).click();await page.getByLabel('Sign out').waitFor();await page.getByRole('button',{name:/Projects/}).click();await page.locator('.project-row').filter({hasText:f.project.name}).click();await page.getByRole('button',{name:/Schema baselines & drift/}).click();};
     await signIn();const panel=page.getByRole('region',{name:'Schema baselines and drift'});
+    const openObservation=async()=>{const summary=panel.getByText('Collect a schema observation',{exact:true});await summary.focus();await summary.press('Enter');};
+    assert.equal(await panel.getByLabel('Observation reason').isVisible(),false,'collection form does not crowd retained history');
+    await openObservation();
     await panel.getByLabel('Authorized connection').selectOption(f.connection.id);
     await panel.getByLabel('Observation reason').fill('Capture baseline fixture schema');
     await panel.getByRole('button',{name:'Observe schema',exact:true}).click();
     const snapshot=panel.getByRole('region',{name:'Schema snapshot detail'});await snapshot.waitFor();
     assert.match(await snapshot.innerText(),/APP|FIXTURE|Orders/);assert.match(await snapshot.innerText(),/live acceptance not established/);
+    const identifiers=snapshot.locator('.schema-identifiers'),identityToggle=identifiers.locator('summary');
+    assert.equal(await identifiers.getByText('Database ID',{exact:true}).isVisible(),false);
+    await identityToggle.focus();await identityToggle.press('Enter');
+    assert.match(await identifiers.innerText(),/1234567/);assert.match(await identifiers.innerText(),/0123456789ABCDEF0123456789ABCDEF/);
+    await identityToggle.press('Enter');
+    assert.equal(await snapshot.getByText('Coverage',{exact:true}).isVisible(),true,'coverage stays visible while identifiers are closed');
     await snapshot.getByText('Definition and metadata',{exact:true}).click();assert.match(await snapshot.innerText(),/NUMBER/);
+    assert.equal(await snapshot.getByLabel('Baseline name').isVisible(),false,'capture form is secondary to the objects');
+    await snapshot.getByText('Save this snapshot as a baseline',{exact:true}).click();
     await snapshot.getByLabel('Baseline name').fill('Browser expected schema');await snapshot.getByLabel('Capture reason').fill('Record immutable expected structure');
     await snapshot.getByRole('button',{name:'Capture immutable baseline'}).click();await panel.getByText('Browser expected schema',{exact:true}).first().waitFor();
     f.setSchema({owner:'APP',objects:[object('Orders','TABLE',{columns:[{name:'Id',type:'VARCHAR2',nullable:true}],constraints:[]}),object('NewSeq','SEQUENCE',{increment:'1'})],coverage:completeCoverage,limitations:[]});
+    await openObservation();
     await panel.getByLabel('Observation reason').fill('Observe changed fixture schema');await panel.getByRole('button',{name:'Observe schema',exact:true}).click();await snapshot.waitFor();
     await panel.getByRole('button',{name:'Compare',exact:true}).click();const comparison=panel.getByRole('region',{name:'Compare schema snapshots'});
     await comparison.getByText('DRIFT',{exact:true}).waitFor();assert.match(await comparison.innerText(),/MODIFIED|ADDED|VARCHAR2|NUMBER/);
-    await page.screenshot({path:'.cache/r2-schema-baselines.png',fullPage:true});
-    await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await page.setViewportSize({width:1440,height:1100});
+    const modified=comparison.locator('tbody tr').filter({hasText:'MODIFIED'}),values=modified.locator('.schema-retained-value');
+    assert.equal(await values.first().locator('pre').isVisible(),false,'large retained values open only when inspected');
+    await values.first().locator('summary').click();assert.match(await values.first().innerText(),/NUMBER/);
+    await values.nth(1).locator('summary').click();assert.match(await values.nth(1).innerText(),/VARCHAR2/);
+    await values.first().locator('summary').click();await values.nth(1).locator('summary').click();
+    const screenshots='.cache/stitch-schema-clarity-20261025/screenshots';await mkdir(screenshots,{recursive:true});
+    for(const width of [1440,390]) {
+      await page.setViewportSize({width,height:960});
+      for(const theme of ['light','dark']) {
+        if(await page.evaluate(()=>document.documentElement.dataset.theme)!==theme)await page.getByLabel('Toggle color theme').click();
+        assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`${width}px ${theme} has no page overflow`);
+        await page.evaluate(()=>scrollTo(0,0));
+        await page.screenshot({path:`${screenshots}/schema-${width}-${theme}.png`,fullPage:true,animations:'disabled'});
+      }
+    }
+    await page.getByLabel('Toggle color theme').click();await page.setViewportSize({width:1440,height:1100});
     const planResponse=await f.makePlan(f.binding);assert.equal(planResponse.statusCode,201,planResponse.body);const plan=planResponse.json().plan;
     await panel.getByRole('button',{name:'Open migration history',exact:true}).click();await page.getByRole('heading',{name:'Migration history',exact:true}).waitFor();
     await page.getByRole('button',{name:/Schema baselines & drift/}).click();await panel.getByRole('button',{name:'Open SQL Workspace for target'}).click();await page.getByRole('heading',{name:'SQL workspace',exact:true}).waitFor();
@@ -35,8 +61,59 @@ test('browser observes exact schema, captures immutable baseline, compares struc
     await drift.getByRole('button',{name:'Open schema baselines and details'}).click();await panel.waitFor();
     await f.restart();await signIn();await panel.getByText('Browser expected schema',{exact:true}).first().waitFor();assert.equal(await panel.locator('.schema-snapshot-list li').count(),2);
     f.setSchema({owner:'APP',objects:[],coverage:{...completeCoverage,TABLE:'PARTIAL'},limitations:['FOREIGN_OWNER_VISIBILITY_PARTIAL']});
+    await openObservation();
     await panel.getByLabel('Authorized connection').selectOption(f.connection.id);await panel.getByLabel('Observation reason').fill('Observe incomplete visibility');await panel.getByRole('button',{name:'Observe schema',exact:true}).click();await snapshot.waitFor();await panel.getByRole('button',{name:'Compare',exact:true}).click();await comparison.getByText('UNVERIFIED',{exact:true}).first().waitFor();assert.doesNotMatch(await comparison.innerText(),/REMOVED/);
     await f.membership.revoke(f.project.id,f.actors[0].id);await panel.getByRole('button',{name:'Refresh schema',exact:true}).click();await page.getByText('Select a project to inspect schema baselines and drift.',{exact:true}).waitFor();
+    assert.deepEqual(errors,[]);
+  }finally{await browser?.close();await f.close();}
+});
+
+test('plan schema drift limitation codes wrap at mobile width without losing their full text',{
+  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:180000,
+},async()=>{
+  const f=await createSchemaFixture();let browser;
+  try{
+    const before=await f.observe();assert.equal(before.statusCode,201,before.body);
+    const snapshot=before.json().snapshot;
+    const baseline=await f.baseline(snapshot);assert.equal(baseline.statusCode,201,baseline.body);
+    f.setSchema({owner:'APP',objects:[object('Orders','TABLE',{columns:[{name:'Id',type:'VARCHAR2',nullable:true}],constraints:[]})],
+      coverage:{...completeCoverage,TABLE:'PARTIAL'},limitations:['INCOMPLETE_METADATA_COVERAGE','MULTI_QUERY_CONSISTENCY_UNGUARANTEED']});
+    const changed=await f.observe();assert.equal(changed.statusCode,201,changed.body);
+    const planResponse=await f.makePlan(f.binding);assert.equal(planResponse.statusCode,201,planResponse.body);
+    const plan=planResponse.json().plan;
+
+    browser=await chromium.launch();
+    const page=await browser.newPage({viewport:{width:390,height:844}}),errors=[];
+    page.on('pageerror',error=>errors.push(error.name));
+    await page.goto(f.currentUrl());
+    await page.getByLabel('Local access token').fill(f.actors[0].token);
+    await page.getByRole('button',{name:'Continue',exact:true}).click();
+    await page.getByLabel('Open navigation',{exact:true}).waitFor();
+    await page.getByLabel('Open navigation',{exact:true}).click();
+    await page.getByLabel('Sign out').waitFor();
+    await page.getByRole('button',{name:/Projects/}).first().click();
+    await page.locator('.project-row').filter({hasText:f.project.name}).click();
+    if (await page.getByLabel('Open navigation',{exact:true}).isVisible() && await page.getByLabel('Open navigation',{exact:true}).getAttribute('aria-expanded')!=='true') await page.getByLabel('Open navigation',{exact:true}).click();
+    await page.getByRole('button',{name:/Plans & review/}).click();
+    await page.locator(`.plan-option[data-plan-id="${plan.id}"]`).click();
+
+    const drift=page.getByRole('region',{name:'Schema drift for plan'});
+    await drift.getByText('UNVERIFIED',{exact:true}).waitFor();
+    const expected=['INCOMPLETE_METADATA_COVERAGE','MULTI_QUERY_CONSISTENCY_UNGUARANTEED'];
+    for(const code of expected){
+      const item=drift.locator('.banner.warning li').filter({hasText:code});
+      await item.getByText(code,{exact:true}).waitFor();
+      assert.equal((await item.innerText()).trim(),code,'full retained limitation code remains readable');
+      const dimensions=await item.evaluate(element=>({
+        width:element.clientWidth,scrollWidth:element.scrollWidth,
+        right:element.getBoundingClientRect().right,
+      }));
+      assert.ok(dimensions.scrollWidth<=dimensions.width,`${code} overflows its list item`);
+      assert.ok(dimensions.right<=390,`${code} extends beyond the mobile viewport`);
+    }
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,
+      'plan review page has no horizontal document overflow');
+    assert.match(await drift.innerText(),/live acceptance not established/i);
     assert.deepEqual(errors,[]);
   }finally{await browser?.close();await f.close();}
 });
@@ -125,7 +202,15 @@ test('schema navigation scopes migration history to the exact binding and preser
     await page.getByRole('button',{name:'Continue',exact:true}).click();await page.getByLabel('Sign out').waitFor();
     await page.getByRole('button',{name:/Projects/}).click();await page.locator('.project-row').filter({hasText:f.project.name}).click();
     await page.getByRole('button',{name:/Schema baselines & drift/}).click();
-    const schema=page.getByRole('region',{name:'Schema baselines and drift'});await schema.getByLabel('Schema target').selectOption(f.binding.bindingId);
+    const schema=page.getByRole('region',{name:'Schema baselines and drift'});
+    await schema.getByLabel('Schema target').selectOption(other.bindingId);
+    await page.waitForFunction(binding=>{const params=new URLSearchParams(location.hash.slice(1));return params.get('page')==='schema'&&params.get('target')===binding;},other.bindingId);
+    await page.reload();
+    // HTTP fixtures keep bearer access in memory; reauthenticate without navigating away from the retained URL.
+    await page.getByLabel('Local access token').fill(f.actors[0].token);await page.getByRole('button',{name:'Continue',exact:true}).click();await page.getByLabel('Sign out').waitFor();
+    await schema.getByLabel('Schema target').waitFor();
+    assert.equal(await schema.getByLabel('Schema target').inputValue(),other.bindingId,'reload retains the schema page and exact selected binding');
+    await schema.getByLabel('Schema target').selectOption(f.binding.bindingId);
     // A prior plan permalink must not intersect the new schema target filter.
     await page.evaluate(id=>history.replaceState(null,'',`?historyPlan=${id}${location.hash}`),secondId);
     const scopedRequest=page.waitForResponse(r=>r.url().includes('/migration-history?')&&new URL(r.url()).searchParams.get('targetId')===f.binding.bindingId);
@@ -169,6 +254,7 @@ test('browser filters bounded retained objects without changing evidence and dis
       await page.getByRole('button',{name:/Projects/}).click();await page.locator('.project-row').filter({hasText:f.project.name}).click();
       await page.getByRole('button',{name:/Schema baselines & drift/}).click();};
     await signIn(f.actors[0]);const schema=page.getByRole('region',{name:'Schema baselines and drift'});
+    assert.match(await schema.locator('.schema-snapshot-list li').filter({hasText:first.id}).innerText(),/PARTIAL: VIEW/,'incomplete coverage remains visible in the compact history');
     await schema.locator('.schema-snapshot-list').getByRole('button',{name:first.id,exact:true}).click();
     const snapshot=page.getByRole('region',{name:'Schema snapshot detail'});await snapshot.getByText('Showing 1000 of 1000 retained objects.',{exact:true}).waitFor();
     const search=snapshot.getByLabel('Search retained objects'),type=snapshot.getByLabel('Filter retained objects by type'),rows=snapshot.locator('tbody tr');
@@ -182,6 +268,7 @@ test('browser filters bounded retained objects without changing evidence and dis
     await type.selectOption('ALL');await snapshot.getByText('Showing 1 of 1000 retained objects.',{exact:true}).waitFor();assert.equal(await rows.locator('td:nth-child(3)').innerText(),'Orders_%');
     await snapshot.getByRole('button',{name:'Clear object filters',exact:true}).click();await snapshot.getByText('Showing 1000 of 1000 retained objects.',{exact:true}).waitFor();
     await search.fill('orders');await type.selectOption('TABLE');
+    await snapshot.getByText('Save this snapshot as a baseline',{exact:true}).click();
     await snapshot.getByLabel('Baseline name').fill('Shared expected');await snapshot.getByLabel('Capture reason').fill('Capture entire retained snapshot while the view is filtered');
     const captureRequest=page.waitForRequest(r=>r.method()==='POST'&&r.url().endsWith('/schema-baselines'));
     await snapshot.getByRole('button',{name:'Capture immutable baseline',exact:true}).click();assert.equal((await captureRequest).postDataJSON().snapshotId,first.id);
@@ -208,6 +295,12 @@ test('browser filters bounded retained objects without changing evidence and dis
     const baselines=(await f.api('GET',`${f.base}/target-bindings/${f.binding.bindingId}/schema`)).json().baselines;
     assert.equal(baselines.length,2);assert.ok(baselines.some(row=>row.snapshotId===first.id));assert.ok(baselines.some(row=>row.snapshotId===second.id));
     assert.equal((await f.api('GET',`${f.base}/schema-snapshots/${first.id}`,undefined,f.actors[2])).statusCode,404);
+    await page.setViewportSize({width:1440,height:1100});await page.getByLabel('Sign out').click();await signIn(f.actors[1]);
+    await schema.locator('.schema-snapshot-list').getByRole('button',{name:first.id,exact:true}).click();await snapshot.waitFor();
+    assert.equal(await schema.getByText('Collect a schema observation',{exact:true}).count(),0,'read-only users do not receive collection controls');
+    assert.equal(await snapshot.getByText('Save this snapshot as a baseline',{exact:true}).count(),0,'read-only users do not receive capture controls');
+    await schema.getByLabel('Expected reference').selectOption(first.id);await schema.getByLabel('Observed snapshot').selectOption(second.id);
+    await comparison.getByRole('button',{name:'Compare',exact:true}).click();await comparison.getByText('UNVERIFIED',{exact:true}).first().waitFor();
     assert.deepEqual(errors,[]);assert.equal(Number((await f.db.sql`SELECT count(*)::integer AS count FROM sf_execution_jobs`)[0].count),0);
   }finally{await browser?.close();await f.close();}
 });

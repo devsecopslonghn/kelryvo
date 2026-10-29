@@ -1,3 +1,4 @@
+import { openCompatibilityPlanning } from './helpers/ui-disclosures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
@@ -167,7 +168,9 @@ test('browser prepares a fresh plan from a new commit after rejection and fails 
     await page.getByRole('button', { name: 'Import and validate' }).click();
     await page.getByText('Repository release imported and validated.').waitFor();
     assert.equal(await page.locator('[data-inspected-release-id]').count(), 1);
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByLabel('Target connection profile').selectOption(profile.id);
+    await openCompatibilityPlanning(page, { legacy: true });
     await page.getByRole('button', { name: 'Prepare offline plan' }).click();
     await page.getByText('Offline candidate plan created. Execution was not performed.').waitFor();
     const freshPlan = (await database.sql`SELECT id,release_id,status,offline_intent_digest,author_id FROM sf_plans WHERE id<>${predecessor.id} AND project_id=${project.id} ORDER BY created_at DESC LIMIT 1`)[0];

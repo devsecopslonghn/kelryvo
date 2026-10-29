@@ -1,0 +1,129 @@
+{
+  "format": "kelryvo-publication-derivations-v1",
+  "publishedOn": "2026-10-29",
+  "scope": "Previously unpublished retained execution artifacts",
+  "privateOriginalsCommitted": false,
+  "sourceDigestsPreserved": true,
+  "limitations": [
+    "Public summaries withhold canonical exports and cannot independently reconstruct original checksums.",
+    "Recorded live outcomes belong to the exact original source/private evidence, not the publication derivative."
+  ],
+  "artifacts": [
+    {
+      "path": "evidence/product/development-delivery-20261024/a3-execution-record.json",
+      "originalFileSha256": "8e749de52f862657dd9eb12efbb156bb8f2601c18ada70e3d0324c59e2824bb7",
+      "publishedFileSha256": "93b703f5c0970b517be1130a9e3ecbaf07f37ec0767a8ac1e5956fea3f66340c",
+      "originalCanonicalSha256": "e2c3a06761dce3f9f2c1eefabb8f4c6aba30ff0590d47409e4b7c29c22fad582",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/development-delivery-20261024/b_v1-execution-record.json",
+      "originalFileSha256": "e43f00bf53e55a4e0a218232fbc29244332d5b1f1bfee1277c93cb915b49ca1a",
+      "publishedFileSha256": "2baa227ebec0ef150af72699b3d931b6815e4b6d1075fb7186e469b61569418b",
+      "originalCanonicalSha256": "ebae0e3dd28f945059c3aa6e4e7b85d6e624137f62bbabdc9d8d5119d2c335c4",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/development-delivery-20261024/c_v1-execution-record.json",
+      "originalFileSha256": "a2be7735abc3fae27271c6e62c5954d126a6815125e3d39f1fac45be22c458ca",
+      "publishedFileSha256": "0730eb393c619644311fa33b6e74ab053f1273cd7e99a701f0dbf68fc9fef31c",
+      "originalCanonicalSha256": "84a6453b17edecd33f4faf0e03f115fa7e34acac7f90026e7ba937523f16d829",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/oracle-continuation-8796a57-20261024/paused-http-lock-FAULT-execution-record.json",
+      "originalFileSha256": "a3b7ed460c4d43d163f987f34a6cc1dc691335a137c87b896e3593b58b535ea3",
+      "publishedFileSha256": "fec4303570aafa1d764ba435e58bbd7ec0eae85a41d75f192ac3a2428c221092",
+      "originalCanonicalSha256": "61e4e8c4ce28ee4d61b10bd335c4a9f5f97ce8c919de2c70bb930747464ea2ec",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/oracle-continuation-8796a57-20261024/FAULT_BEFORE_NATIVE-execution-record.json",
+      "originalFileSha256": "a3b7ed460c4d43d163f987f34a6cc1dc691335a137c87b896e3593b58b535ea3",
+      "publishedFileSha256": "fec4303570aafa1d764ba435e58bbd7ec0eae85a41d75f192ac3a2428c221092",
+      "originalCanonicalSha256": "61e4e8c4ce28ee4d61b10bd335c4a9f5f97ce8c919de2c70bb930747464ea2ec",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/oracle-continuation-8796a57-20261024/expired-observation-FAULT-execution-record.json",
+      "originalFileSha256": "705fcffc511c08e5199836e28f83eb887e4b10630cab1942ca8978b3028b439e",
+      "publishedFileSha256": "574bcd1efcec163c610761f998c804876b31558f2ce63001c75d8e02b450d7ce",
+      "originalCanonicalSha256": "d656ac724ba617986eb57118fdbdd9ca1e2a9f1daa2e4fbf04e6adeb24b7925e",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/oracle-continuation-8796a57-20261024/B_V2-execution-record.json",
+      "originalFileSha256": "6659ce73e9025b13fb9b2f5219ed415e80ff03798e34e64a909e20282addf58d",
+      "publishedFileSha256": "d10fa630db58a3321f1a01c237aea86a94f348d4eb4c60f94d9558d90985e1be",
+      "originalCanonicalSha256": "44812caa7e388bc79d8d44f0c4e01d2919ee676e3274bfc2bce5d5218d8eaa61",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/oracle-continuation-8796a57-20261024/A_V1-execution-record.json",
+      "originalFileSha256": "bf0cb3c0358ec6e945b5886b18e9eb6198b7687f008593d70d8aba3bbc7537d5",
+      "publishedFileSha256": "dce9e6da06deb5351ebdcfcdc9bbaa3fa4f542e2e8b71493a05f4e1c91bc2254",
+      "originalCanonicalSha256": "139e2da9121a8a64c9ed021f97052a685f1ab0afcec9bf28839f8d4669ae4593",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/oracle-continuation-8796a57-20261024/B_V1-execution-record.json",
+      "originalFileSha256": "67ae6cdaa8e14049d2505708c8b364ea130afa91fa673296245e9e18adc9b16b",
+      "publishedFileSha256": "9365ed79b16a90a58aa5f8b0140e105dbc6b7bd8d4126a2e998b7cafad091b71",
+      "originalCanonicalSha256": "36168c92b5ccb4a5c0170da71d2f3c343b586e24bea4d6e5d5c70e760fb154cc",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/oracle-continuation-8796a57-20261024/paused-job-read-lock-FAULT-execution-record.json",
+      "originalFileSha256": "57389c4a365c7fd810e4814cc579419dcbefaaa7e309030b95e17313d7908dc8",
+      "publishedFileSha256": "455df6ea75529852d78ffd8d8d331bdf4ff4ece05a94ad61064e383823d3fc36",
+      "originalCanonicalSha256": "7350fdc16e0ad258f8b5c7d879178deb799064f40873c64c4ef8ad873e3d8181",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/oracle-continuation-8796a57-20261024/A_NOOP-execution-record.json",
+      "originalFileSha256": "d32c9039e034dd18b46d43c6edf0a87d0b6333662627ef95bda526a52640d587",
+      "publishedFileSha256": "ac322a3bbb24e34f8b76498eda1266284a476ca995e8199b9ccdf5399d9bcc55",
+      "originalCanonicalSha256": "d2c0c8f42cf17beffa5ddf9d2916c4db256f4c7073f1049582b267505ed6bc0c",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/oracle-continuation-8796a57-20261024/A_V2-execution-record.json",
+      "originalFileSha256": "49179ea3fade0d72955165fdad3ca4e755f9142389de101d43f3db04663845a7",
+      "publishedFileSha256": "67d6b0f5ec240d16fdec43714725aeed85f3b80f95ad4d7e2f0b18d8e7d7bcec",
+      "originalCanonicalSha256": "ce2920b1027018caca9718b9e24f2eb0c81e45787a1b341e1456725d3c0507e7",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/oracle-continuation-8796a57-20261024/B_NOOP-execution-record.json",
+      "originalFileSha256": "6fd5b0d7f0ee8fc4535e8f965e1ae46012838d6302356c4f5a61e20cd77b4bdc",
+      "publishedFileSha256": "9d69984050d3bb9b5020ed693ed7ed05842f72e752d40139691117e9b3b008b0",
+      "originalCanonicalSha256": "13cc947de0e34113daf90f21d1f96dc2fce69922bf2d7b093202f68e2a2bf0bb",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/oracle-continuation-8796a57-20261024/fresh4-FAULT-execution-record.json",
+      "originalFileSha256": "eac9e01d059bef4f3dff54b2bd490b15d619f184c5d37cf0a1b218e74a6ea670",
+      "publishedFileSha256": "f0a16b37178f3b22d1e7e9da5b83f8f91e429836b4a65a0f63d9e04604a0e652",
+      "originalCanonicalSha256": "f2db320bfa4480b699374e1e70843f7d7ea82a7d202fb9791cbb14fe7b1de676",
+      "transformation": "canonical export withheld; digest-only execution summary published"
+    },
+    {
+      "path": "evidence/product/oracle-negative-authority-8796a57-20261024/installed-negative.mjs",
+      "originalFileSha256": "0a1b5d9500d92977001b3c3cda608cb401282fb6381df162d2614f48ecda967f",
+      "publishedFileSha256": "0447060779612b0accf69b6b650bd56e9f2fcceedb19740ef8f7430ee88bddd7",
+      "transformation": "hardcoded private endpoint replaced by caller-approved request route; publication derivative is not the executed source"
+    },
+    {
+      "path": "docs/development/oracle-acceptance.md",
+      "originalFileSha256": "1e3e574844709005030af120746ec29eacbda3a34d9b66104f7a7d0ced6806de",
+      "publishedFileSha256": "234cfc44ed499fb03e5bad7d6327958dc8c0cfb50884a894bb1687e260008e1b",
+      "transformation": "private control-plane/Oracle routes and operator access map withheld; public app URL and private-profile instructions retained"
+    },
+    {
+      "path": "evidence/product/cluster-access-20261024T103052Z/observation.json",
+      "originalFileSha256": "b97f5c04d7f34bcd0cb08497441132698bfe9f55228f543c4a384f60ee3a2e80",
+      "publishedFileSha256": "5d8b8d17e37f18fa44c32591ba94c23e28dae89c4889b85f54c11594413b445f",
+      "transformation": "private control-plane access observation withheld; public app URL and original source hash retained"
+    }
+  ]
+}
