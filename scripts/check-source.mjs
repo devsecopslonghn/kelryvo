@@ -19,7 +19,7 @@ export async function ownedFiles(directory = root) {
 
 export async function checkSource() {
   const errors = [];
-  const paths = (await ownedFiles()).filter(path => /\.(mjs|json|md|toml|yml|ts|jsx|html|css)$/.test(path));
+  const paths = (await ownedFiles()).filter(path => /\.(mjs|py|json|md|toml|yml|ts|jsx|html|css)$/.test(path));
   for (const fileErrors of await Promise.all(paths.map(checkFile))) errors.push(...fileErrors);
   if (errors.length) throw new Error(errors.join('\n'));
   return paths.length;

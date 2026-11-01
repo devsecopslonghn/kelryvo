@@ -10,12 +10,12 @@
   },
   "scripts": {
     "build": "node scripts/check-source.mjs && npm run typecheck && npm run build:web",
-    "lint": "node scripts/check-source.mjs && node scripts/checklist.mjs validate",
+    "lint": "npm run hygiene:check && node scripts/check-source.mjs && node scripts/checklist.mjs validate",
     "format:check": "node scripts/format-json.mjs --check",
     "format": "node scripts/format-json.mjs --write",
     "test": "node --test --test-concurrency=2 tests/*.test.mjs",
     "check": "npm run check:fast",
-    "check:fast": "npm run build && node scripts/checklist.mjs validate && npm run format:check && npm test && npm run dependencies:smoke && npm run dependencies:product",
+    "check:fast": "npm run hygiene:check && npm run build && node scripts/checklist.mjs validate && npm run format:check && npm test && npm run dependencies:smoke && npm run dependencies:product",
     "check:record": "node scripts/record-checks.mjs",
     "status": "node scripts/checklist.mjs status",
     "next": "node scripts/checklist.mjs next",
@@ -47,7 +47,8 @@
     "dependencies:product": "node scripts/product-dependencies.mjs",
     "release:local": "node scripts/local-release.mjs build",
     "test:release": "node --test tests/product-local-release.integration.mjs",
-    "local:identity-admin": "node scripts/local-identity-admin.mjs"
+    "local:identity-admin": "node scripts/local-identity-admin.mjs",
+    "hygiene:check": "python3 scripts/check-repository.py"
   },
   "dependencies": {
     "@fastify/rate-limit": "11.2.1",

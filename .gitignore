@@ -14,3 +14,15 @@ dist/
 wallet/
 lab-profile.local.json
 experiments/db-devops-wp0/offline-inputs/
+
+# Generated diagnostics belong in local caches or short-lived CI artifacts.
+evidence/
+reports/
+screenshots/
+test-results/
+playwright-report/
+blob-report/
+.coverage
+coverage.xml
+junit.xml
+lcov.info

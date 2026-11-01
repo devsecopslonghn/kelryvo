@@ -9,7 +9,7 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const manifestName = 'release-manifest.json';
 const helperTarget = 'experiments/db-devops-wp0/antlr-helper/target';
-const scripts = new Set(['antlr-build','antlr-prepare','build-web','check-source','local-backup-operator','managed-backup-operator',
+const scripts = new Set(['checklist','antlr-build','antlr-prepare','build-web','check-source','local-backup-operator','managed-backup-operator',
   'local-credential-operator','local-dev','local-inventory-operator','local-membership-operator',
   'local-operator-config','local-prepare','local-repositories','local-resources','local-tls',
   'product-dependencies','release-acceptance','local-release']);
@@ -18,7 +18,7 @@ const tests = new Set(['product-phase7-workflow-browser.integration.mjs','produc
   'product-account.test.mjs','product-account-browser.integration.mjs','managed-backup-operator.test.mjs',
   'product-profile-lifecycle.test.mjs','product-instances-browser.integration.mjs','product-mutation-authority.test.mjs']);
 const fixed = new Set(['LICENSE','NOTICE','.nvmrc','package.json','package-lock.json','tsconfig.json',
-  'CHECKLIST.md']);
+  'README.md','CHECKLIST.md']);
 export function selectedReleasePath(name) {
   return fixed.has(name) || /^(apps|packages)\//.test(name) || name.startsWith('docs/dependencies/')
     || name.startsWith('experiments/db-devops-wp0/antlr-helper/')
@@ -73,7 +73,7 @@ export async function buildLocalRelease({ repositoryRoot=root, outputDirectory, 
     const pkg=JSON.parse(await readFile(path.join(tree,'package.json')));
     await mkdir(path.join(tree,'release'));
     await writeFile(path.join(tree,'release/source-package.json'),await readFile(path.join(tree,'package.json')),{ mode:0o644 });
-    const names=['build:web','typecheck','local:prepare','local:credentials','local:backup-restore','local:membership','dev',
+    const names=['status','next','build:web','typecheck','local:prepare','local:credentials','local:backup-restore','local:membership','dev',
       'parser:antlr:prepare','parser:antlr:build','dependencies:product'];
     pkg.scripts=Object.fromEntries(names.map(name=>{if (!pkg.scripts[name]) throw new Error('Missing operating command');return [name,pkg.scripts[name]];}));
     pkg.scripts.build='npm run typecheck && npm run build:web';
@@ -134,7 +134,7 @@ export async function verifyLocalRelease(directory=root) {
       || manifest.bundledExternalBinaries!==false || manifest.packageScriptsProjected!==true
       || !Array.isArray(manifest.files) || manifest.files.length>2048
       || JSON.stringify(await inventory(directory))!==JSON.stringify(manifest.files)) throw new Error('Release source verification failed');
-  for (const name of ['LICENSE','NOTICE','CHECKLIST.md','package-lock.json',...manifest.notices]) {
+  for (const name of ['LICENSE','NOTICE','README.md','CHECKLIST.md','package-lock.json',...manifest.notices]) {
     if (!manifest.files.some(f=>f.path===name)) throw new Error('Required release notice missing');
   }
   const closure=JSON.parse(await readFile(path.join(directory,'docs/dependencies/product-closure.json')));

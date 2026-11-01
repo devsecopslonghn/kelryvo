@@ -1,6 +1,6 @@
 # Kelryvo — checklist hiện hành
 
-Tài liệu duy nhất cho app và Helm. Cập nhật tại ngày 2026-11-01 (Asia/Saigon).
+Nguồn trạng thái duy nhất cho app và Helm. README chỉ là cửa vào. Cập nhật 2026-11-01 (Asia/Saigon).
 `[x]` nghĩa là hoàn thành đúng phạm vi ghi bên cạnh; không đồng nghĩa production-ready.
 `[ ]` nghĩa là còn thiếu nghiệm thu hoặc điều kiện hoàn thành. Không suy diễn kết quả
 offline thành kết quả Oracle, hoặc chuyển nghiệm thu giữa các source/image.
@@ -51,13 +51,17 @@ Khôi phục để đọc bằng `git show COMMIT:PATH` trong đúng repo. Chọ
 và exact source/image, không theo tên thư mục hoặc ngày mới nhất của một năng lực khác.
 Mốc thời gian trong bảng dùng UTC.
 
-| Mốc / năng lực | Source và image đã thử | Kết quả và giới hạn | Căn cứ trong Git |
+| Ngày / năng lực | Source/image đã thử | Kết luận có giới hạn | Tra bằng chứng |
 | --- | --- | --- | --- |
-| 2026-10-29, delivery/identity | App `66c4a313420322dc2c56594203a42d90f1267b75`; image `afe222f97fddcf69e91ce0f2127afb55eaadd6a09b85ac8f3098c285f57775ec` | Helm revision 4, 20 browser checks; execution/discovery off; không có Oracle SQL | Helm `bc29f7949e9637d6b1235d5b79273ac246ce6607:evidence/20261029-direct-helm-identity/acceptance.json` và cùng thư mục `publication.json` |
-| 2026-10-28 16:31, D6 V1/V2 + ADMITTED/NOOP | Worktree dựa trên `8796a57ddb283b8197481babab382fafb6548801`; context SHA-256 `87cc3018f28567877707bf59e107b06339a7b6957ec937ed9ba53f37df4b634d`; image `557c7d47062355bcde3f259d3601254656b2464cf14267adead605da43ff90fc` | Hai table/migrations, 10 ledger events; bốn live API probes trước gate release; NOOP không ghi SQL/ledger. Seed operator FAIL được giữ, independent review chỉ chấp nhận actual effects; native receipt preimages thiếu dispatch UUID nên không tái tính được | App `66c4a313420322dc2c56594203a42d90f1267b75:evidence/product/oracle-delivery6-currentness-20261026/continuation-20261027.json`; source context tại `evidence/product/schema-route-delivery-20261025/acceptance.json` cùng commit |
-| 2026-10-24 20:58, concurrency; 2026-10-25, incompatible history | Worktree dựa trên `8796a57ddb283b8197481babab382fafb6548801`; context SHA-256 `98357aac15b8f461791b5be53cf3afc5bc4ab6a6633a48ce42506c1122ff63be`; image `d97136fe5fd8e7074c8cc9304f03ea293efb5463ac0f44e35cb8c0c97c3bba74` | Hai process cùng installation không overlap SQL; mismatch applied history bị HOLD trước SQL. Chưa chứng minh distinct-installation OA05 hoặc toàn bộ OA09 | App `66c4a313420322dc2c56594203a42d90f1267b75:evidence/product/oracle-ui-image-concurrency-20261025/acceptance.json` và `evidence/product/oracle-incompatible-history-20261025/acceptance.json` |
-| 2026-10-24, lost acknowledgement/reconciliation | Source `8796a57ddb283b8197481babab382fafb6548801`; image `cd46b7c5e95fd02896dc0877196a2190d886da1a3ff571561b5d2c012b2e3398` | Bounded V1/V2/NOOP, mất ACK, native rejection và retained HOLD không replay; không khép lại toàn bộ fault/recovery matrix | App `66c4a313420322dc2c56594203a42d90f1267b75:evidence/product/oracle-continuation-8796a57-20261024/acceptance.json` |
-| 2026-10-23, ba dạng DDL | Source `a4dbb8dad9b2d134a5ddab87553ee259a09bbbc6`; image `01018b1d9cc464dd3f6ea0125e748c55e2bf0690fcea94b565f728272ba6fce4` | CREATE TABLE, scalar ALTER TABLE ADD, simple CREATE INDEX; hai schema V1/V2/NOOP trên Oracle Free TCP. Không chuyển qualification sang image hiện tại | App `66c4a313420322dc2c56594203a42d90f1267b75:evidence/product/unified-oracle-20261023/governed-ddl.json` |
+| 2026-10-29, delivery/identity | Source `66c4a31`, image `afe222f9…` | Helm revision 4; 20 browser checks; execution/discovery off; không có Oracle SQL | [Acceptance](https://github.com/devsecopslonghn/kelryvo-helm-chart/blob/bc29f7949e9637d6b1235d5b79273ac246ce6607/evidence/20261029-direct-helm-identity/acceptance.json), [publication](https://github.com/devsecopslonghn/kelryvo-helm-chart/blob/bc29f7949e9637d6b1235d5b79273ac246ce6607/evidence/20261029-direct-helm-identity/publication.json) |
+| 2026-10-28, D6 V1/V2 + ADMITTED/NOOP | Worktree base `8796a57`, context `87cc3018…`, image `557c7d47…` | Hai table/migrations, 10 ledger events; bốn probes và zero-write NOOP. Seed operator FAIL giữ nguyên; actual effects được review riêng; native receipt preimages thiếu dispatch UUID | [Kết quả và remaining gaps](https://github.com/devsecopslonghn/kelryvo/blob/66c4a313420322dc2c56594203a42d90f1267b75/evidence/product/oracle-delivery6-currentness-20261026/continuation-20261027.json), [exact source/image](https://github.com/devsecopslonghn/kelryvo/blob/66c4a313420322dc2c56594203a42d90f1267b75/evidence/product/schema-route-delivery-20261025/acceptance.json) |
+| 2026-10-24–25, concurrency/history | Worktree base `8796a57`, context `98357aac…`, image `d97136fe…` | Shared-installation writers không overlap; mismatch history HOLD trước SQL. Chưa đủ distinct-installation OA05/full OA09 | [Concurrency](https://github.com/devsecopslonghn/kelryvo/blob/66c4a313420322dc2c56594203a42d90f1267b75/evidence/product/oracle-ui-image-concurrency-20261025/acceptance.json), [history negative](https://github.com/devsecopslonghn/kelryvo/blob/66c4a313420322dc2c56594203a42d90f1267b75/evidence/product/oracle-incompatible-history-20261025/acceptance.json) |
+| 2026-10-24, lost ACK/reconciliation | Source `8796a57`, image `cd46b7c5…` | Mất ACK, native rejection và retained HOLD không replay; chưa đủ full fault/recovery matrix | [Acceptance](https://github.com/devsecopslonghn/kelryvo/blob/66c4a313420322dc2c56594203a42d90f1267b75/evidence/product/oracle-continuation-8796a57-20261024/acceptance.json) |
+| 2026-10-23, ba dạng DDL | Source `a4dbb8d`, image `01018b1d…` | CREATE TABLE/ALTER ADD/INDEX, hai schema V1/V2/NOOP trên Oracle Free TCP; không chuyển qualification sang image khác | [Exact source/image và kết quả](https://github.com/devsecopslonghn/kelryvo/blob/66c4a313420322dc2c56594203a42d90f1267b75/evidence/product/unified-oracle-20261023/governed-ddl.json) |
+
+Source/image rút gọn trong bảng chỉ để đọc nhanh; các record được liên kết giữ đủ SHA,
+digest, thời gian và phạm vi. Có thể đọc offline bằng `git show COMMIT:PATH` theo URL;
+checkout shallow dùng link hoặc fetch commit cần tra. Không khôi phục reports vào source.
 
 D6 cuối cùng ghi nhận 58 jobs: 23 CANCELLED, 12 HOLD, 6 NOOP, 17 VERIFIED_SUCCESS;
 không WAITING/ADMITTED. Tất cả authority trong các ca lịch sử đã hết hạn. Không chạy lại
@@ -175,21 +179,42 @@ không áp dụng manifests. `scripts/check-direct-helm-adoption.py` cần expli
 ủy quyền đọc cluster riêng; không thuộc local checks. Không xóa PostgreSQL/PVC/PV,
 namespace, shared providers hay HOLD.
 
-Logs/reports mới chỉ nằm trong ignored `.cache/` hoặc CI artifacts. Cập nhật checklist này
-thay vì tạo checkpoint/handoff mới. Tài liệu/evidence cũ tra từ Git history theo bảng trên.
+## Kỷ luật source và bằng chứng
+
+- Cập nhật checklist tại chỗ, giữ ID và tiêu chí hoàn thành; không tạo checkpoint,
+  tracker hoặc handoff song song. README giữ dưới 30 dòng và chỉ dẫn về checklist.
+- Commit code kiểm thử, fixtures cần tái hiện hành vi và dependency/license metadata.
+  Log, screenshot, coverage, build output và report của từng lần chạy vào ignored
+  `.cache/` hoặc output directories. `npm run hygiene:check` và Helm chart checks từ chối
+  chúng ngay cả khi bị `git add --force`; không ignore toàn bộ PNG/JSON vì còn assets/fixtures.
+- Diagnostic browser artifacts chỉ upload khi test lỗi, giữ 7 ngày. Log CI theo retention
+  đang cấu hình của repository; artifacts trao đổi giữa jobs/OCI vẫn giữ lifecycle hiện có.
+  Không xem cache hoặc artifact sắp hết hạn là nơi lưu chứng cứ nghiệm thu lâu dài.
+- Với mỗi pilot/release được ủy quyền, giữ một bộ bằng chứng chọn lọc, đã loại secrets,
+  tại release assets hoặc kho lưu bền vững được owner chỉ định. Bộ đó phải có source SHA,
+  image digest, test scope/topology/tool versions, timestamp, kết quả và limitations,
+  checksums cùng cách tái hiện. Checklist giữ link và SHA-256 của bộ đó; không commit raw logs.
+  Chỉ ghi nghiệm thu hoàn thành khi chứng cứ tương ứng còn truy cập và kiểm tra được.
+- Plan/approval/execution history/audit của người dùng là dữ liệu sản phẩm, giữ trong
+  metadata/backup theo quy tắc an toàn; chúng không phải report tạm để xóa.
+- Bằng chứng lịch sử hiện có đọc từ các link Git ở trên, giữ nguyên cả thất bại.
+  PR [app #130](https://github.com/devsecopslonghn/kelryvo/pull/130) và
+  [Helm #8](https://github.com/devsecopslonghn/kelryvo-helm-chart/pull/8) dẫn tới checks
+  của đợt cleanup; CI workflow links không thay thế bằng chứng Oracle/pilot.
+
 Giữ nguyên LICENSE/NOTICE, dependency manifests, attribution và parser provenance trong
 `docs/dependencies/` cùng vendored notices. Independently authored code dùng PolyForm Shield
 1.0.0; không phải OSI open source. Không sao chép restricted external code/assets.
 
 ## Kiểm tra đợt cleanup
 
-- [x] **CLEAN — Local verification:** `npm run check` PASS: 481 pass, 0 fail,
-  151 optional skip (632 tests); build/typecheck/format, dependency smoke và 94-package
+- [x] **CLEAN — Local verification:** `npm run check` PASS: 484 pass, 0 fail,
+  151 optional skip (635 tests); build/typecheck/format, dependency smoke và 94-package
   license closure PASS. Status/next, source-bundle reproducibility/extraction/checksums,
   corruption/symlink rejection và report isolation PASS; `dependencies:offline` và
   artifact manifest write/verify trong `.cache/` PASS. Helm lint (default/development),
   template, chart safety, lab manifest và loopback-only fault-proxy tests PASS.
-  Full PostgreSQL/API, Chromium và extracted-install E2E **NOT_RUN**: không có
+  Local full PostgreSQL/API, Chromium và extracted-install E2E **NOT_RUN**: không có
   `SCHEMAFORGE_TEST_DATABASE_URL`, PostgreSQL local hoặc Docker daemon. Không chạy OCI,
   remote CI, cluster inspection, Oracle hay deployment trong các kiểm tra local này.
   Giữ nguyên publication/security gates; hosted CI được đánh giá riêng trên PR.
