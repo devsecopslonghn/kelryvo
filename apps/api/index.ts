@@ -1160,7 +1160,7 @@ export function createApp(options: {
       || (b.evidenceRefs !== undefined && !validateCommentEvidenceInput(b.evidenceRefs))) return fail(reply, 400, 'INVALID_REQUEST');
     const evidenceInput = b.evidenceRefs ?? [];
     const result = await sql.begin(async (tx: any) => {
-        await guardMutationAuthority(tx, req);
+        await guardMutationAuthority(tx, req, undefined, 'review-comment');
       // Match decision lock order so a comment cannot race a terminal transition.
       const plan = (await tx`SELECT id,project_id,organization_id,release_id,profile_id,author_id,status,
         source_binding_generation::text AS source_binding_generation

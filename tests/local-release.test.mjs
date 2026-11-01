@@ -7,6 +7,7 @@ import { execFileSync } from 'node:child_process';
 import { buildLocalRelease, verifyLocalRelease, selectedReleasePath } from '../scripts/local-release.mjs';
 import { releaseTestDiagnostics } from './helpers/release-diagnostics.mjs';
 import { prepareReleaseRepository } from './helpers/release-repository.mjs';
+import { parseChecklist } from '../scripts/checklist.mjs';
 
 test('release failure diagnostics expose only bounded fixed test metadata',()=>{
   const secret='PRIVATE_INSTALLATION_OUTPUT_FIXTURE';
@@ -57,7 +58,7 @@ test('local source bundle is reproducible, excludes private/research inputs, pre
     assert.equal(manifest.files.some(file=>/^docs\/(?!dependencies\/)/.test(file.path)),false);
     assert.match(await readFile(path.join(unpack,'README.md'),'utf8'),/CHECKLIST\.md/);
     const next=JSON.parse(execFileSync(process.execPath,['scripts/checklist.mjs','next'],{cwd:unpack,encoding:'utf8'}));
-    assert.equal(next.next.id,'R1');
+    assert.equal(next.next?.id,parseChecklist(await readFile('CHECKLIST.md','utf8')).find(entry=>!entry.completed)?.id);
     assert.equal(await readFile(path.join(unpack,'CHECKLIST.md'),'utf8'),await readFile('CHECKLIST.md','utf8'));
     assert.ok(manifest.notices.includes('experiments/db-devops-wp0/antlr-helper/notices/NOTICE.txt'));
     const pkg=JSON.parse(await readFile(path.join(unpack,'package.json')));

@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
 import { createApp } from '../apps/api/index.ts';
 import { runAntlrCandidate } from '../experiments/db-devops-wp0/antlr-envelope.mjs';
 import { tokenDigest } from '../packages/database/local-credentials.ts';
 import { statementEnvelopeFixture } from './helpers/statement-envelope-fixture.mjs';
 import { applyLocalMembershipAction } from '../scripts/local-membership-operator.mjs';
 
-for (const revocation of ['membership', 'credential']) test(`a Git import loses ${revocation} authority before persisting parsed metadata`, {
+for (const revocation of ['membership', 'credential', 'restore']) test(`a Git import loses ${revocation} authority before persisting parsed metadata`, {
   skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 60000,
 }, async () => {
   const f = await statementEnvelopeFixture({ firstStatementCount: 1, includeSecond: false }); let app, releaseParser;
@@ -28,19 +29,74 @@ for (const revocation of ['membership', 'credential']) test(`a Git import loses 
       payload: { repositoryId: 'statement-repo', commit: 'HEAD', folder: 'migrations' } });
     await started;
     if (revocation === 'membership') await f.membership.revoke(f.project.id, f.actors[0].id);
-    else await f.db.sql.begin(async tx => {
+    else if (revocation === 'credential') await f.db.sql.begin(async tx => {
       await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
       await tx`UPDATE sf_local_credentials SET revoked_at=clock_timestamp()
         WHERE actor_id=${f.actors[0].id} AND token_sha256=${tokenDigest(f.actors[0].token)}`;
     });
+    else await f.db.sql.begin(async tx => {
+      await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
+      const generation = randomUUID();
+      await tx`INSERT INTO sf_metadata_generations(id,state,checkpoint,operator_os_uid)
+        VALUES(${generation},'RESTORE_HOLD',${'f'.repeat(64)},0)`;
+      await tx`UPDATE sf_metadata_current SET generation_id=${generation} WHERE singleton`;
+    });
     releaseParser();
     const result = await pending;
-    assert.equal(result.statusCode, revocation === 'membership' ? 404 : 401, result.body);
-    assert.equal(result.json().error, revocation === 'membership' ? 'NOT_FOUND' : 'UNAUTHENTICATED');
+    assert.equal(result.statusCode, revocation === 'membership' ? 404 : revocation === 'credential' ? 401 : 409, result.body);
+    assert.equal(result.json().error, revocation === 'membership' ? 'NOT_FOUND' : revocation === 'credential' ? 'UNAUTHENTICATED' : 'METADATA_RESTORE_HOLD');
     assert.deepEqual(Array.from(await f.db.sql`SELECT * FROM sf_releases ORDER BY id`), before);
     assert.deepEqual(Array.from(await f.db.sql`SELECT * FROM sf_audit ORDER BY id`), audit,
       'denied import creates no release audit or mutable evidence');
   } finally { releaseParser?.(); await app?.close(); await f.close(); }
+});
+
+test('restore hold permits historical review comments but fences configuration writes', {
+  skip: !process.env.SCHEMAFORGE_TEST_DATABASE_URL, timeout: 60000,
+}, async () => {
+  const f = await statementEnvelopeFixture({ firstStatementCount: 1, includeSecond: false });
+  const snapshot = async () => ({
+    projects: Array.from(await f.db.sql`SELECT * FROM sf_projects ORDER BY id`),
+    environments: Array.from(await f.db.sql`SELECT * FROM sf_environments ORDER BY id`),
+    comments: Array.from(await f.db.sql`SELECT * FROM sf_plan_comments ORDER BY id`),
+    audit: Array.from(await f.db.sql`SELECT * FROM sf_audit ORDER BY id`),
+  });
+  try {
+    const plan = await f.makePlan();
+    const generation = randomUUID();
+    await f.db.sql.begin(async tx => {
+      await tx`SELECT pg_advisory_xact_lock(1397112658,2)`;
+      await tx`INSERT INTO sf_metadata_generations(id,state,checkpoint,operator_os_uid)
+        VALUES(${generation},'RESTORE_HOLD',${'f'.repeat(64)},0)`;
+      await tx`UPDATE sf_metadata_current SET generation_id=${generation} WHERE singleton`;
+    });
+    const before = await snapshot();
+    for (const [method, url, payload] of [
+      ['POST', '/api/projects', { name: 'Denied restored project' }],
+      ['POST', `${f.base}/environments`, { name: 'Denied restored environment' }],
+      ['PUT', `${f.base}/source`, { repositoryId: 'statement-repo', folder: 'migrations-next' }],
+    ]) {
+      const response = await f.api(method, url, payload);
+      assert.equal(response.statusCode, 409, response.body);
+      assert.equal(response.json().error, 'METADATA_RESTORE_HOLD');
+    }
+    assert.equal((await f.api('GET', '/api/projects')).statusCode, 200);
+    assert.equal((await f.api('GET', f.base)).statusCode, 200);
+    assert.equal((await f.api('GET', `${f.base}/plans/${plan.id}/record`)).statusCode, 200);
+    assert.deepEqual(await snapshot(), before);
+    const comment = await f.api('POST', `${f.base}/plans/${plan.id}/comments`, { body: 'Historical review during restore hold' });
+    assert.equal(comment.statusCode, 201, comment.body);
+    const after = await snapshot();
+    assert.deepEqual(after.projects, before.projects);
+    assert.deepEqual(after.environments, before.environments);
+    assert.equal(after.comments.length, before.comments.length + 1);
+    assert.equal(after.audit.length, before.audit.length + 1);
+    const addedAudit = after.audit.filter(row => !before.audit.some(existing => existing.id === row.id));
+    assert.deepEqual(addedAudit.map(row => row.action), ['PLAN_COMMENT_ADDED']);
+    assert.equal(addedAudit[0].facts.commentId, comment.json().comment.id);
+    assert.equal((await f.db.sql`SELECT generation_id FROM sf_metadata_current WHERE singleton`)[0].generation_id, generation);
+    assert.equal((await f.db.sql`SELECT state FROM sf_metadata_generations WHERE id=${generation}`)[0].state, 'RESTORE_HOLD');
+  } finally { await f.close(); }
 });
 
 test('overlapping operator revocation and API write serialize before project and identity locks', {
