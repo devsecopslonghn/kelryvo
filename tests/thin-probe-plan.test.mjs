@@ -6,18 +6,12 @@ import { prepareThinProbePlan } from '../experiments/db-devops-wp0/thin-probe-pl
 import { kinds, profileFixture } from './helpers/preflight-fixture.mjs';
 import { assertBlockedThinPlan } from './helpers/thin-probe-assertions.mjs';
 
-const acceptance = JSON.parse(await readFile(new URL('../docs/implementation/acceptance.json', import.meta.url), 'utf8'));
-const expectedCases = acceptance.test_cases.filter((item) => /^WP0-01-0[1-6]$/.test(item.id));
-const expectedProjection = expectedCases.map((item) => ({
-  id: item.id,
-  mode: item.mode,
-  objective: item.objective,
-  expected_result: item.acceptance.expected_result,
-}));
+const expectedCases = JSON.parse(await readFile(new URL('./fixtures/thin-probe-cases.json', import.meta.url), 'utf8'));
+const expectedProjection = expectedCases;
 const acceptanceCasesSha256 = createHash('sha256').update(JSON.stringify(expectedProjection)).digest('hex');
-const preflightSourceSha256 = '6a518768f0c521d8cbca9e796ed3b505a1b2497c74c4d44b741e2caa4cf8b44e';
+const preflightSourceSha256 = '2e7bd1ba85145467605a6ce3daadb59a5f12a32b129058b6567143be476eb237';
 
-test('pinned case projection matches the six existing T04 acceptance cases', () => {
+test('pinned case projection preserves the six thin-probe behavior contracts', () => {
   assert.equal(expectedCases.length, 6);
   assert.equal(acceptanceCasesSha256, 'b077599dbda0db4dd7748e818405d95200d72e2427ead1ce288d013d152e45c4');
 });
@@ -34,7 +28,7 @@ test('complete synthetic profile produces 12 frozen NOT_RUN plans without author
     assert.deepEqual(
       plan.entries.map(entry => [entry.caseId, entry.oracleVersion, entry.mode, entry.objective, entry.expectedOutcome]),
       expectedCases.flatMap(item => ['19c', '21c'].map(version => [
-        item.id, version, item.mode, item.objective, item.acceptance.expected_result,
+        item.id, version, item.mode, item.objective, item.expected_result,
       ])),
     );
     assert.equal(Object.isFrozen(plan), true);

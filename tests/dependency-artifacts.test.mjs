@@ -222,18 +222,18 @@ test('offline install and post-install manifest use the supplied nonempty cache 
   }
 });
 
-test('append-only reports reject an evidence symlink before creating any external directory', async () => {
+test('append-only reports reject a report-cache symlink before creating any external directory', async () => {
   const root = await mkdtemp(join(tmpdir(), 'schemaforge-report-'));
   const outside = await mkdtemp(join(tmpdir(), 'schemaforge-outside-'));
   try {
-    await mkdir(join(root, 'evidence'));
-    await symlink(outside, join(root, 'evidence', 'db-devops-wp0'));
-    await assert.rejects(writeNewReport('evidence/db-devops-wp0/new-run/report.json', {}, root),
+    await mkdir(join(root, '.cache', 'reports'), { recursive: true });
+    await symlink(outside, join(root, '.cache', 'reports', 'db-devops-wp0'));
+    await assert.rejects(writeNewReport('.cache/reports/db-devops-wp0/new-run/report.json', {}, root),
       /must not contain symbolic links/);
     await assert.rejects(lstat(join(outside, 'new-run')), { code: 'ENOENT' });
-    await rm(join(root, 'evidence', 'db-devops-wp0'));
-    await writeNewReport('evidence/db-devops-wp0/new-run/report.json', {}, root);
-    await assert.rejects(writeNewReport('evidence/db-devops-wp0/new-run/report.json', {}, root),
+    await rm(join(root, '.cache', 'reports', 'db-devops-wp0'));
+    await writeNewReport('.cache/reports/db-devops-wp0/new-run/report.json', {}, root);
+    await assert.rejects(writeNewReport('.cache/reports/db-devops-wp0/new-run/report.json', {}, root),
       { code: 'EEXIST' });
   } finally {
     await rm(root, { recursive: true, force: true });

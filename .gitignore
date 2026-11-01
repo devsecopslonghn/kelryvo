@@ -4,8 +4,6 @@ coverage/
 dist/
 **/target/
 *.log
-!evidence/**/checks.log
-!evidence/**/checks-final.log
 .env
 .env.*
 !.env.example

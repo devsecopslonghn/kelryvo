@@ -6,6 +6,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { buildLocalRelease, verifyLocalRelease, selectedReleasePath } from '../scripts/local-release.mjs';
 import { releaseTestDiagnostics } from './helpers/release-diagnostics.mjs';
+import { prepareReleaseRepository } from './helpers/release-repository.mjs';
 
 test('release failure diagnostics expose only bounded fixed test metadata',()=>{
   const secret='PRIVATE_INSTALLATION_OUTPUT_FIXTURE';
@@ -24,15 +25,15 @@ test('local source bundle is reproducible, excludes private/research inputs, pre
   const temp=await mkdtemp(path.join(tmpdir(),'sf-release-unit-'));
   try {
     const repo=path.join(temp,'repo');
-    execFileSync('/usr/bin/git',['clone','--no-hardlinks','--quiet',process.cwd(),repo]);
+    await prepareReleaseRepository(process.cwd(),repo);
     await mkdir(path.join(repo,'.cache'),{ recursive:true });await writeFile(path.join(repo,'.cache/private-token'),'UNTRACKED_PRIVATE_FIXTURE');
     await writeFile(path.join(repo,'LICENSE'),'DIRTY_LICENSE_MUST_NOT_BE_BUNDLED');
     const a=await buildLocalRelease({ repositoryRoot:repo,outputDirectory:path.join(temp,'a') });
     const b=await buildLocalRelease({ repositoryRoot:repo,outputDirectory:path.join(temp,'b') });
     assert.equal(a.sha256,b.sha256);assert.equal(a.manifestSha256,b.manifestSha256);
     const foreign=path.join(temp,'foreign');execFileSync('/usr/bin/git',['clone','--no-hardlinks','--quiet',repo,foreign]);
-    await writeFile(path.join(foreign,'docs/development/local-release.md'),'FOREIGN_REPOSITORY_FIXTURE\n');
-    execFileSync('/usr/bin/git',['-C',foreign,'add','docs/development/local-release.md']);
+    await writeFile(path.join(foreign,'CHECKLIST.md'),'FOREIGN_REPOSITORY_FIXTURE\n');
+    execFileSync('/usr/bin/git',['-C',foreign,'add','CHECKLIST.md']);
     execFileSync('/usr/bin/git',['-C',foreign,'-c','user.name=Release fixture','-c','user.email=fixture@example.invalid',
       '-c','core.hooksPath=/dev/null','-c','commit.gpgSign=false','commit','-m','UNIT foreign repository'],{ stdio:'ignore' });
     const override={ GIT_DIR:path.join(foreign,'.git'),GIT_WORK_TREE:foreign,GIT_INDEX_FILE:path.join(foreign,'.git/index'),
@@ -51,6 +52,9 @@ test('local source bundle is reproducible, excludes private/research inputs, pre
     assert.equal(manifest.files.some(f=>/\.cache|node_modules|docs\/inputs|evidence\/|\.git\//.test(f.path)),false);
     assert.equal(manifest.files.some(f=>f.path==='scripts/managed-backup-operator.mjs'),true);
     assert.match(await readFile(path.join(unpack,'LICENSE'),'utf8'),/PolyForm Shield/);
+    assert.ok(manifest.files.some(file=>file.path==='CHECKLIST.md'));
+    assert.equal(manifest.files.some(file=>file.path==='README.md' || /^docs\/(?!dependencies\/)/.test(file.path)),false);
+    assert.equal(await readFile(path.join(unpack,'CHECKLIST.md'),'utf8'),await readFile('CHECKLIST.md','utf8'));
     assert.ok(manifest.notices.includes('experiments/db-devops-wp0/antlr-helper/notices/NOTICE.txt'));
     const pkg=JSON.parse(await readFile(path.join(unpack,'package.json')));
     assert.equal(pkg.private,true);assert.ok(pkg.scripts['release:acceptance']);assert.equal(pkg.scripts.check,undefined);
@@ -58,7 +62,7 @@ test('local source bundle is reproducible, excludes private/research inputs, pre
     assert.equal(selectedReleasePath('scripts/managed-backup-operator.mjs'),true);
     assert.equal(selectedReleasePath('tests/managed-backup-operator.test.mjs'),true);
     assert.equal(selectedReleasePath('tests/product-phase6-workflow-browser.integration.mjs'),true);
-    assert.equal(selectedReleasePath('docs/inputs/db-research/private.md'),false);
+    assert.equal(selectedReleasePath('private/credentials.json'),false);
     await assert.rejects(buildLocalRelease({ repositoryRoot:repo,outputDirectory:path.join(temp,'a') }),/EEXIST/);
     const source=path.join(unpack,'apps/api/server.ts'),before=await readFile(source);
     await writeFile(source,Buffer.concat([before,Buffer.from('// corruption\n')]));await assert.rejects(verifyLocalRelease(unpack),/verification failed/);

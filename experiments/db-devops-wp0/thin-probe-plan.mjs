@@ -12,7 +12,7 @@ const CASES = Object.freeze([
 
 const VERSIONS = Object.freeze(['19c', '21c']);
 const ACCEPTANCE_CASES_SHA256 = 'b077599dbda0db4dd7748e818405d95200d72e2427ead1ce288d013d152e45c4';
-const PREFLIGHT_SOURCE_SHA256 = '6a518768f0c521d8cbca9e796ed3b505a1b2497c74c4d44b741e2caa4cf8b44e';
+const PREFLIGHT_SOURCE_SHA256 = '2e7bd1ba85145467605a6ce3daadb59a5f12a32b129058b6567143be476eb237';
 const FIXED_BLOCKERS = Object.freeze({
   inputs: 'Required T01 lab and runtime inputs are incomplete.',
   rejected: 'T01 rejected the submitted offline profile.',

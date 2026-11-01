@@ -9,7 +9,7 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const sha256 = data => createHash('sha256').update(data).digest('hex');
 const startedAt = new Date().toISOString();
 const runId = `${startedAt.replaceAll(/[-:.]/g, '')}-${randomUUID().slice(0, 8)}`;
-const runPath = join(root, 'evidence/foundation', runId);
+const runPath = join(root, '.cache/reports/checks', runId);
 await mkdir(runPath, { recursive: true, mode: 0o700 });
 
 const sources = [];
@@ -34,16 +34,16 @@ const manifest = {
   started_at: startedAt,
   finished_at: new Date().toISOString(),
   node: process.version,
-  scope: 'Local foundation and offline WP0 harness checks only',
+  scope: 'Local source, unit and dependency checks only',
   command: 'npm run check',
   exit_code: check.status,
   outcome: check.status === 0 ? 'PASS' : 'FAIL',
   log: { path: relative(root, join(runPath, 'checks.log')), sha256: sha256(log) },
   sources,
   limitations: [
-    'No Oracle connection, dependency-license closure, model turn, remote CI or deployment was performed.',
+    'No Oracle connection, remote CI, image publication or deployment was performed.',
     'Source validation is not a deployable product build; synthetic validator tests do not certify Oracle behavior.',
-    'Tracking state may advance after this snapshot; immutable run files must not be rewritten.',
+    'This report is local verification only; it does not grant Oracle or deployment authority.',
   ],
 };
 await writeFile(join(runPath, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, {

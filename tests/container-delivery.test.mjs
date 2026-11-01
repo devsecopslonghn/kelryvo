@@ -122,7 +122,8 @@ async function promotionFixture(t, { previous, before = values, protectedBranch 
   command('git', ['init', '--quiet'], { cwd: directory });
   await writeFile(join(directory, 'values.yaml'), before);
   command('git', ['add', 'values.yaml'], { cwd: directory });
-  command('git', ['-c', 'user.name=Test', '-c', 'user.email=test@example.invalid', 'commit', '-qm', 'baseline'], { cwd: directory });
+  command('git', ['-c', 'user.name=Test', '-c', 'user.email=test@example.invalid', '-c', 'commit.gpgSign=false',
+    '-c', 'core.hooksPath=/dev/null', 'commit', '-qm', 'baseline'], { cwd: directory });
   const base = command('git', ['rev-parse', 'HEAD'], { cwd: directory }).trim();
   const mutations = [];
   const api = async (route, method = 'GET', body) => {

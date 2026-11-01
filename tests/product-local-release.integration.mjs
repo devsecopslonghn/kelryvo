@@ -6,6 +6,7 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { buildLocalRelease, verifyLocalRelease } from '../scripts/local-release.mjs';
 import { releaseTestDiagnostics } from './helpers/release-diagnostics.mjs';
+import { prepareReleaseRepository } from './helpers/release-repository.mjs';
 
 const run=(program,args,cwd)=>new Promise((resolve,reject)=>{
   const child=spawn(program,args,{ cwd,env:process.env,stdio:['ignore','pipe','pipe'] });let output='';
@@ -27,7 +28,8 @@ test('frozen source archive installs pinned dependencies and passes local end-to
   assert.ok(process.env.SCHEMAFORGE_TEST_DATABASE_URL,'explicit disposable metadata PostgreSQL required');
   const temp=await mkdtemp(path.join(tmpdir(),'sf-release-install-'));
   try {
-    const built=await buildLocalRelease({ outputDirectory:path.join(temp,'artifact') });
+    const repositoryRoot=await prepareReleaseRepository(process.cwd(),path.join(temp,'repo'));
+    const built=await buildLocalRelease({ repositoryRoot,outputDirectory:path.join(temp,'artifact') });
     const install=path.join(temp,'install');await mkdir(install);
     await run('/usr/bin/tar',['-xzf',path.join(temp,'artifact',built.archive),'-C',install]);
     await verifyLocalRelease(install);

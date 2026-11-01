@@ -7,7 +7,7 @@ import { preflight } from '../experiments/db-devops-wp0/preflight.mjs';
 import { kinds, profileFixture, relativeOffline, sha } from './helpers/preflight-fixture.mjs';
 
 const repo=process.cwd();
-const evidenceRoot=join(repo,'evidence/db-devops-wp0');
+const evidenceRoot=join(repo,'.cache/reports/db-devops-wp0');
 
 test('empty manifest reports exact missing prerequisites as BLOCKED',async()=>{
  const r=await preflight({});

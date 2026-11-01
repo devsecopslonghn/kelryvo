@@ -4,14 +4,13 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const excluded = new Set(['.git', 'node_modules', '.cache', 'coverage', 'dist', 'target', 'evidence']);
+const excluded = new Set(['.git', 'node_modules', '.cache', 'coverage', 'dist', 'target']);
 
 export async function ownedFiles(directory = root) {
   const files = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     const path = join(directory, entry.name);
     if (entry.isSymbolicLink() || excluded.has(entry.name)) continue;
-    if (relative(root, path) === 'docs/inputs/db-research') continue;
     if (entry.isDirectory()) files.push(...await ownedFiles(path));
     else if (entry.isFile()) files.push(path);
   }
