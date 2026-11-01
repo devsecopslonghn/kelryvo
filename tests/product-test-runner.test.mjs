@@ -3,6 +3,33 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { parseProductTestOptions, PRODUCT_API_FILES, PRODUCT_BROWSER_FILES,
   PRODUCT_BROWSER_SMOKE_FILES, PRODUCT_BROWSER_EXTENDED_FILES, literalTestNamePattern } from '../scripts/product-test-suites.mjs';
+import { NATIVE_BACKUP_TEST_FILES, productTestGroups, runProductTestGroups } from '../scripts/product-test-groups.mjs';
+
+test('native backup files run serially without losing API, browser or focused coverage', () => {
+  const groups = productTestGroups(PRODUCT_API_FILES);
+  assert.deepEqual(groups.map(group => group.concurrency), [2, 1]);
+  assert.deepEqual(groups.flatMap(group => group.files).sort(), [...PRODUCT_API_FILES].sort());
+  assert.equal(new Set(groups.flatMap(group => group.files)).size, PRODUCT_API_FILES.length);
+  assert.deepEqual(groups[1].files, PRODUCT_API_FILES.filter(file => NATIVE_BACKUP_TEST_FILES.includes(file)));
+  assert.equal(groups[1].files.length, NATIVE_BACKUP_TEST_FILES.length);
+  assert.deepEqual(productTestGroups(PRODUCT_BROWSER_FILES, true), [{ files: PRODUCT_BROWSER_FILES, concurrency: 1 }]);
+  assert.deepEqual(productTestGroups(['tests/product-backup-restore.test.mjs']), [
+    { files: ['tests/product-backup-restore.test.mjs'], concurrency: 1 },
+  ]);
+});
+
+test('group execution waits for native fixtures and cannot hide an earlier test failure', async () => {
+  const events = [];
+  const files = ['tests/product-api.test.mjs', 'tests/product-backup-restore.test.mjs'];
+  const code = await runProductTestGroups(files, false, async group => {
+    events.push(`start:${group.concurrency}`);
+    await new Promise(resolve => setImmediate(resolve));
+    events.push(`finish:${group.concurrency}`);
+    return group.concurrency === 2 ? 7 : 0;
+  });
+  assert.equal(code, 7);
+  assert.deepEqual(events, ['start:2', 'finish:2', 'start:1', 'finish:1']);
+});
 
 test('browser tiers are complete complementary sets and the default still runs all coverage', () => {
   assert.equal(PRODUCT_BROWSER_SMOKE_FILES.length, 3);

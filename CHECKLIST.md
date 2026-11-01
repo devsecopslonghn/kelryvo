@@ -143,7 +143,8 @@ Không log secrets hoặc đưa secrets vào Git, image layers, browser storage 
 
 Node 22.23.3, npm 10.9.9, Python 3.11+, Git. Parser cần pinned JDK; dùng
 `SCHEMAFORGE_JAVA_HOME` trỏ tới JDK đã chuẩn bị. PostgreSQL test phải là fixture disposable
-riêng qua `SCHEMAFORGE_TEST_DATABASE_URL`; không dùng metadata sản phẩm. Product runner
+riêng qua `SCHEMAFORGE_TEST_DATABASE_URL`; không dùng metadata sản phẩm. Native backup fixtures dùng chung Docker daemon chạy tuần tự; các API files còn lại
+chạy tối đa hai subprocesses. Product runner
 nếu thiếu URL sẽ khởi tạo Docker local; chỉ chạy khi đã xác nhận fixture/environment.
 
 ```sh
@@ -208,8 +209,8 @@ Giữ nguyên LICENSE/NOTICE, dependency manifests, attribution và parser prove
 
 ## Kiểm tra đợt cleanup
 
-- [x] **CLEAN — Local verification:** `npm run check` PASS: 484 pass, 0 fail,
-  151 optional skip (635 tests); build/typecheck/format, dependency smoke và 94-package
+- [x] **CLEAN — Local verification:** `npm run check` PASS: 486 pass, 0 fail,
+  152 optional skip (638 tests); build/typecheck/format, dependency smoke và 94-package
   license closure PASS. Status/next, source-bundle reproducibility/extraction/checksums,
   corruption/symlink rejection và report isolation PASS; `dependencies:offline` và
   artifact manifest write/verify trong `.cache/` PASS. Helm lint (default/development),
