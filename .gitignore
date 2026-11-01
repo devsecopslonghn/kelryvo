@@ -26,3 +26,4 @@ blob-report/
 coverage.xml
 junit.xml
 lcov.info
+__pycache__/
