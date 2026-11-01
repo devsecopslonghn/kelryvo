@@ -91,7 +91,7 @@ export function registerSqlWorkspace(app: any, { sql, authenticate, releaseParse
   };
 
   const mutationProject = async (tx: any, req: any) => {
-    await guardMutationAuthority(tx, req, 'developer');
+    await guardMutationAuthority(tx, req, 'developer', 'sql-workspace');
     if (await projectAccessMode(tx) !== 'ENFORCED' || !await actorHasProjectGrant(tx, req.actor.id, req.params.projectId)) throw fail('NOT_FOUND', 404);
     const project = (await tx`SELECT id,name,archived_at,source_repository_id,source_folder,
       source_binding_generation::text AS source_binding_generation FROM sf_projects

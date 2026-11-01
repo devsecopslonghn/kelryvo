@@ -22,12 +22,12 @@ test('checklist keeps implementation and outstanding acceptance distinct', async
   assert.match(next.authority, /does not authorize/);
 });
 
-test('checklist CLI reads the repository checklist from another working directory and rejects extra arguments', () => {
+test('checklist CLI reads the repository checklist from another working directory and rejects extra arguments', async () => {
   const script = fileURLToPath(new URL('../scripts/checklist.mjs', import.meta.url));
   const run = (...args) => spawnSync(process.execPath, [script, ...args], { cwd: tmpdir(), encoding: 'utf8' });
   const result = run('next');
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(JSON.parse(result.stdout).next.id, 'R1');
+  assert.deepEqual(JSON.parse(result.stdout), await checklistReport('next'));
   for (const args of [[], ['unknown'], ['status', 'unexpected']]) {
     const rejected = run(...args);
     assert.equal(rejected.status, 1);

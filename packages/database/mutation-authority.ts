@@ -3,7 +3,8 @@ import { LOCAL_ORGANIZATION as ORG } from './local-credentials.ts';
 
 /** Revalidate the authenticated identity and resolved project scope at the write
  * checkpoint, after slow parsing or other work outside the metadata transaction. */
-export async function guardMutationAuthority(tx: any, req: any, requiredRole?: 'developer') {
+export async function guardMutationAuthority(tx: any, req: any, requiredRole?: 'developer',
+  context?: 'review-comment' | 'sql-workspace') {
   await tx`SELECT pg_advisory_xact_lock(1397112658, 2)`;
   await guardBrowserMutation(tx, req);
   // Trusted identity/grant operators take the same advisory lock. Do not take
@@ -27,5 +28,18 @@ export async function guardMutationAuthority(tx: any, req: any, requiredRole?: '
     const grant = (await tx`SELECT id FROM sf_project_grants WHERE organization_id=${ORG}
       AND project_id=${req.scopedProjectId} AND actor_id=${req.actor.id} AND revoked_at IS NULL`)[0];
     if (!grant) throw Object.assign(new Error('NOT_FOUND'), { productCode: 'NOT_FOUND' });
+  }
+  // Context is a trusted route literal, never request input. Restore permits
+  // historical review comments, but grants no configuration or execution authority.
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    const generation = (await tx`SELECT g.state FROM sf_metadata_current c
+      JOIN sf_metadata_generations g ON g.id=c.generation_id WHERE c.singleton FOR SHARE OF c,g`)[0];
+    if (generation?.state !== 'ACTIVE') {
+      if (generation?.state === 'RESTORE_HOLD' && context === 'review-comment') return;
+      const archived = context === 'sql-workspace' && req.scopedProjectId && (await tx`SELECT archived_at FROM sf_projects
+        WHERE id=${req.scopedProjectId} AND organization_id=${ORG}`)[0]?.archived_at;
+      if (archived) throw Object.assign(new Error('PROJECT_ARCHIVED'), { productCode: 'PROJECT_ARCHIVED' });
+      throw Object.assign(new Error('METADATA_RESTORE_HOLD'), { productCode: 'METADATA_RESTORE_HOLD' });
+    }
   }
 }
