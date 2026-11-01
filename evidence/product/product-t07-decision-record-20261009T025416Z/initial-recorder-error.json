@@ -1,3 +1,0 @@
-{
-  "error": "Initial shell recorder attempted child stdio before asynchronous log stream opened. No tests ran; corrected to synchronous file descriptors."
-}

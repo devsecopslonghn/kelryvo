@@ -23,6 +23,6 @@ if (!['--check', '--write'].includes(mode)) {
     console.error(`JSON formatting differs: ${mismatches.join(', ')}`);
     process.exitCode = 1;
   } else {
-    console.log('Authored JSON formatting passed; imported inputs and evidence excluded.');
+    console.log('Source JSON formatting passed; generated caches excluded.');
   }
 }

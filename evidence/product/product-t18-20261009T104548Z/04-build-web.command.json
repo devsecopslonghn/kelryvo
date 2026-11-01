@@ -1,7 +1,0 @@
-{
-  "command": [
-    "npm",
-    "run",
-    "build:web"
-  ]
-}

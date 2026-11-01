@@ -355,11 +355,11 @@ export async function verifyOfflineInstall({ root = ROOT, smokeScript, cachePath
 
 export async function writeNewReport(path, value, root = ROOT) {
   const target = resolve(root, path);
-  const evidenceRoot = resolve(root, 'evidence/db-devops-wp0');
-  if (!isInside(evidenceRoot, target)) fail('report output must be a new file under evidence/db-devops-wp0');
+  const evidenceRoot = resolve(root, '.cache/reports/db-devops-wp0');
+  if (!isInside(evidenceRoot, target)) fail('report output must be a new file under .cache/reports/db-devops-wp0');
   const parent = dirname(target);
   // Inspect each component before creating a child: recursive mkdir could follow
-  // an existing evidence symlink and create directories outside the repository.
+  // an existing report symlink and create directories outside the repository.
   let directory = resolve(root);
   for (const component of relative(root, parent).split(sep)) {
     directory = resolve(directory, component);
@@ -382,7 +382,7 @@ function parseArgs(argv) {
   const options = {};
   for (let i = 0; i < rest.length; i += 1) {
     const key = rest[i];
-    if (!['--output', '--smoke', '--cache', '--manifest'].includes(key) || options[key]) fail('usage: dependency-artifacts.mjs manifest [--output evidence/path.json] | verify --manifest evidence/path.json [--output evidence/path.json] | offline-check --smoke PATH [--cache PATH] [--output evidence/path.json]');
+    if (!['--output', '--smoke', '--cache', '--manifest'].includes(key) || options[key]) fail('usage: dependency-artifacts.mjs manifest [--output .cache/reports/db-devops-wp0/path.json] | verify --manifest .cache/reports/db-devops-wp0/path.json [--output .cache/reports/db-devops-wp0/path.json] | offline-check --smoke PATH [--cache PATH] [--output .cache/reports/db-devops-wp0/path.json]');
     options[key] = rest[++i];
     if (!options[key] || options[key].startsWith('--')) fail('option value is missing');
   }
@@ -398,13 +398,13 @@ async function main(argv) {
   } else if (mode === 'verify') {
     if (!options['--manifest']) fail('verify requires --manifest PATH');
     const manifestPath = resolve(ROOT, options['--manifest']);
-    const manifestRoot = resolve(ROOT, 'evidence/db-devops-wp0');
-    if (!isInside(manifestRoot, manifestPath)) fail('manifest input must be under evidence/db-devops-wp0');
+    const manifestRoot = resolve(ROOT, '.cache/reports/db-devops-wp0');
+    if (!isInside(manifestRoot, manifestPath)) fail('manifest input must be under .cache/reports/db-devops-wp0');
     let supplied;
     try {
       const stat = await lstat(manifestPath);
       const real = await realpath(manifestPath);
-      if (!stat.isFile() || stat.isSymbolicLink() || !isInside(await realpath(manifestRoot), real)) fail('manifest input must be a regular evidence file');
+      if (!stat.isFile() || stat.isSymbolicLink() || !isInside(await realpath(manifestRoot), real)) fail('manifest input must be a regular report file');
       supplied = JSON.parse(await readFile(manifestPath, 'utf8'));
     }
     catch { fail('artifact manifest is unreadable or invalid JSON'); }
@@ -415,7 +415,7 @@ async function main(argv) {
     report = await verifyOfflineInstall({ root: ROOT, smokeScript: options['--smoke'], cachePath: options['--cache'] });
     if (options['--output']) await writeNewReport(options['--output'], report);
   } else {
-    fail('usage: dependency-artifacts.mjs manifest [--output evidence/path.json] | verify --manifest evidence/path.json [--output evidence/path.json] | offline-check --smoke PATH [--cache PATH] [--output evidence/path.json]');
+    fail('usage: dependency-artifacts.mjs manifest [--output .cache/reports/db-devops-wp0/path.json] | verify --manifest .cache/reports/db-devops-wp0/path.json [--output .cache/reports/db-devops-wp0/path.json] | offline-check --smoke PATH [--cache PATH] [--output .cache/reports/db-devops-wp0/path.json]');
   }
   process.stdout.write(stableJson(report));
   process.exitCode = report.status === 'BLOCKED' || report.status === 'FAIL' ? 1 : 0;

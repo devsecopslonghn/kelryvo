@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const OFFLINE_ROOT=resolve(ROOT,'experiments/db-devops-wp0/offline-inputs');
-const EVIDENCE_ROOT=resolve(ROOT,'evidence/db-devops-wp0');
+const EVIDENCE_ROOT=resolve(ROOT,'.cache/reports/db-devops-wp0');
 const SOURCE=fileURLToPath(import.meta.url);
 const HASH=/^[a-f0-9]{64}$/;
 const VERSION={oracle19:/^19\.(?:[0-9]+\.){2,}[0-9]+$/,oracle21:/^21\.(?:[0-9]+\.){2,}[0-9]+$/};

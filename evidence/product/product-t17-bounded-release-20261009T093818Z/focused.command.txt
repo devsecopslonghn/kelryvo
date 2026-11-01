@@ -1,1 +1,0 @@
-node --test tests/product-plan-intent.test.mjs

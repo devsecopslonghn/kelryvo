@@ -708,7 +708,7 @@
     {
       "id": "T02-B5",
       "status": "OWNER_DECISION",
-      "finding": "The independent product license remains PENDING_OWNER_DECISION, as recorded in docs/product/license-and-naming.md. No conclusion about the product license is made here."
+      "finding": "This dependency register recorded PENDING_OWNER_DECISION on 2026-10-08. The owner selected PolyForm Shield 1.0.0 on 2026-10-09; LICENSE controls independently authored material. Third-party grants remain separate."
     }
   ],
   "historical_candidate_evaluations": [

@@ -123,7 +123,7 @@ jobs:
           GITOPS_TOKEN: ${{ secrets.GITOPS_TOKEN }}
         run: |
           if [ -z "$GITOPS_TOKEN" ]; then
-            echo '::error::Configure GITOPS_TOKEN in kelryvo Actions secrets, scoped only to kelryvo-helm-chart with Contents and Pull requests read/write; see docs/development/containers.md.'
+            echo '::error::Configure GITOPS_TOKEN in kelryvo Actions secrets, scoped only to kelryvo-helm-chart with Contents and Pull requests read/write; see CHECKLIST.md.'
             exit 1
           fi
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
