@@ -39,7 +39,7 @@ jobs:
           - suite: release
             shard: 1/1
     runs-on: ubuntu-24.04
-    # API files use two subprocesses on each of eight isolated runners, balanced by hosted TAP cost.
+    # Independent API files use two subprocesses; native Docker backup files run serially.
     # Every partition has its own database; this optional run preserves the complete suites.
     timeout-minutes: 40
     services:

@@ -2,6 +2,7 @@ import { spawn } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { partitionProductFiles } from './product-test-shards.mjs';
 import { parseProductTestOptions, literalTestNamePattern } from './product-test-suites.mjs';
+import { runProductTestGroups } from './product-test-groups.mjs';
 
 function parseShard(value) {
   if (!value) return undefined;
@@ -57,16 +58,19 @@ export async function runProductTests(argv = process.argv.slice(2), env = proces
     demoRepositoryPath = await resources.prepareDemoRepository();
   }
 
-  // Node isolates each file in a subprocess. API files own UUID databases and
-  // temporary repositories; the demo repository was prepared once above.
-  const args = ['--test', `--test-concurrency=${options.browser ? 1 : 2}`];
-  if (options.name !== undefined) args.push(`--test-name-pattern=${literalTestNamePattern(options.name)}`);
-  args.push(...files);
-  const child = spawn(process.execPath, args, { stdio: 'inherit', env: {
-    ...env, SCHEMAFORGE_TEST_DATABASE_URL: url, SCHEMAFORGE_DEMO_REPOSITORY_PATH: demoRepositoryPath,
-    SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: '1',
-  } });
-  return await new Promise(resolve => child.once('exit', code => resolve(code ?? 1)));
+  return runProductTestGroups(files, options.browser, async group => {
+    const args = ['--test', `--test-concurrency=${group.concurrency}`];
+    if (options.name !== undefined) args.push(`--test-name-pattern=${literalTestNamePattern(options.name)}`);
+    args.push(...group.files);
+    const child = spawn(process.execPath, args, { stdio: 'inherit', env: {
+      ...env, SCHEMAFORGE_TEST_DATABASE_URL: url, SCHEMAFORGE_DEMO_REPOSITORY_PATH: demoRepositoryPath,
+      SCHEMAFORGE_REQUIRE_PRODUCT_TESTS: '1',
+    } });
+    return new Promise((resolve, reject) => {
+      child.once('error', reject);
+      child.once('exit', code => resolve(code ?? 1));
+    });
+  });
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

@@ -3,6 +3,7 @@ import { appendFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { PRODUCT_API_FILES } from './product-test-suites.mjs';
+import { runProductTestGroups } from './product-test-groups.mjs';
 
 // Small real PostgreSQL suites guard each trust/data boundary. Common API,
 // database, dependency and test-harness changes select every boundary.
@@ -68,11 +69,13 @@ export async function runFocusedTests(files, env = process.env) {
   const { prepareDemoRepository } = await import('./local-resources.mjs');
   const demo = await prepareDemoRepository();
   console.log(`Focused tests: ${files.join(', ')}`);
-  const result = spawnSync(process.execPath, ['--test', '--test-concurrency=2', ...files], {
-    stdio: 'inherit', env: { ...env, SCHEMAFORGE_DEMO_REPOSITORY_PATH: demo },
+  return runProductTestGroups(files, false, group => {
+    const result = spawnSync(process.execPath, ['--test', `--test-concurrency=${group.concurrency}`, ...group.files], {
+      stdio: 'inherit', env: { ...env, SCHEMAFORGE_DEMO_REPOSITORY_PATH: demo },
+    });
+    if (result.error) throw result.error;
+    return result.status ?? 1;
   });
-  if (result.error) throw result.error;
-  return result.status ?? 1;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

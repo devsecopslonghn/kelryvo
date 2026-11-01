@@ -12,20 +12,22 @@ import postgres from 'postgres';
 test('database connections enforce workspace and project grants, preserve secrets and bounded failed discovery evidence',{
   skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:120000,
 },async()=>{
-  const f=await createDiscoveryFixture();try {
+  // Authority changes must finish before the synthetic runtime deadline.
+  // The short timeout path has its own fixture below.
+  const f=await createDiscoveryFixture({discoveryTimeoutMs:5000});try {
     const url=`${f.connections}/${f.connection.id}`;
     assert.equal((await f.api('GET',f.connections,undefined,f.actors[2])).statusCode,404);
     assert.equal((await f.api('POST',f.connections,f.definition,f.actors[1])).statusCode,403);
     assert.equal((await f.api('POST',`${f.foreignBase}/database-connections/${f.connection.id}/discover`,{reason:'Foreign project'})).statusCode,404);
     assert.equal((await f.api('POST',f.connections,{...f.definition,password:'fixture-private-password'})).statusCode,400);
     assert.equal((await f.api('POST',f.connections,{...f.definition,credentialRef:'plaintext-password'})).statusCode,400);
-    for(const [mode,status] of [['UNAUTHORIZED','UNAUTHORIZED'],['UNREACHABLE','UNREACHABLE'],['MISCONFIGURED','MISCONFIGURED'],['HANG','TIMEOUT'],['THROW','UNAVAILABLE'],['PARTIAL','PARTIAL']]){
+    for(const [mode,status] of [['UNAUTHORIZED','UNAUTHORIZED'],['UNREACHABLE','UNREACHABLE'],['MISCONFIGURED','MISCONFIGURED'],['THROW','UNAVAILABLE'],['PARTIAL','PARTIAL']]){
       f.mode(mode);const r=await f.api('POST',`${url}/discover`,{reason:'Negative discovery acceptance'});
       assert.equal(r.statusCode,201,r.body);assert.equal(r.json().observation.status,status);
       assert.equal(r.json().observation.identity,null);
       assert.doesNotMatch(r.body,/fixture-private-password|secret:\/\/|vault:\/\/|FOREIGN_PRIVATE|credentialRef/);
     }
-    const history=await f.api('GET',`${url}/observations`);assert.equal(history.json().observations.length,6);
+    const history=await f.api('GET',`${url}/observations`);assert.equal(history.json().observations.length,5);
     await assert.rejects(()=>f.db.sql`UPDATE sf_database_observations SET status='OBSERVED' WHERE connection_id=${f.connection.id}`);
     await assert.rejects(()=>f.db.sql`UPDATE sf_database_connections SET host='169.254.169.254' WHERE id=${f.connection.id}`);
     await applyLocalMembershipAction(f.db.sql,{action:'database-revoke',actorId:f.actors[0].id});
@@ -34,11 +36,28 @@ test('database connections enforce workspace and project grants, preserve secret
     await applyLocalMembershipAction(f.db.sql,{action:'database-grant',actorId:f.actors[0].id});
     f.hook(()=>applyLocalMembershipAction(f.db.sql,{action:'database-revoke',actorId:f.actors[0].id}));
     assert.equal((await f.api('POST',`${url}/test`,{reason:'Revoke during operation'})).statusCode,403);
-    assert.equal((await f.api('GET',`${url}/observations`)).json().observations.length,6);
+    assert.equal((await f.api('GET',`${url}/observations`)).json().observations.length,5);
     await applyLocalMembershipAction(f.db.sql,{action:'database-grant',actorId:f.actors[0].id});
     f.hook(()=>f.db.sql`UPDATE sf_local_credentials SET issued_at=now()-interval '25 hours',expires_at=now()-interval '1 hour' WHERE actor_id=${f.actors[0].id}`);
     assert.equal((await f.api('POST',`${url}/test`,{reason:'Expired credentials during operation'})).statusCode,401);
-    assert.equal(Number((await f.db.sql`SELECT count(*)::int AS n FROM sf_database_observations WHERE connection_id=${f.connection.id}`)[0].n),6);
+    assert.equal(Number((await f.db.sql`SELECT count(*)::int AS n FROM sf_database_observations WHERE connection_id=${f.connection.id}`)[0].n),5);
+  }finally{await f.close();}
+});
+
+test('a hanging discovery runtime reaches its short deadline and retains one TIMEOUT observation',{
+  skip:!process.env.SCHEMAFORGE_TEST_DATABASE_URL,timeout:30000,
+},async()=>{
+  const f=await createDiscoveryFixture({discoveryTimeoutMs:50});
+  try {
+    f.mode('HANG');
+    const url=`${f.connections}/${f.connection.id}`;
+    const result=await f.api('POST',`${url}/discover`,{reason:'Bounded runtime timeout'});
+    assert.equal(result.statusCode,201,result.body);
+    assert.equal(result.json().observation.status,'TIMEOUT');
+    assert.equal(result.json().observation.identity,null);
+    const history=(await f.api('GET',`${url}/observations`)).json().observations;
+    assert.equal(history.length,1);
+    assert.equal(history[0].status,'TIMEOUT');
   }finally{await f.close();}
 });
 
