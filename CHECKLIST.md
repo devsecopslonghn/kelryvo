@@ -45,11 +45,19 @@ cho code đã chiếm được chính UID đó. API/worker/proc/secrets và read
 đã được kiểm chứng. Năm writer runtimes và năm fault transports đã dừng sau khi jobs
 terminal; không xóa container, database, HOLD hoặc lịch sử.
 
-**Còn mở: DIST — public naming/redistribution sign-off.** Inventory đúng OCI kiểm tra
-211 runtime files, 115 Debian notices, 38 Temurin legal files, Node license và hai source
-archives; `public_distribution_clearance` vẫn false. Nghiệm thu này không cấp quyền
-public release, production deployment hay managed production DR. Kết quả `bb5c98c`
-bên dưới giữ đúng phạm vi lịch sử. Commit tài liệu không đổi artifact `ff239189` đã thử.
+**DIST hoàn thành cho artifact frozen `ff239189`.** Ngày 2026-11-02, owner xác nhận
+“Phân phối đi...” sau phần giải thích naming/redistribution. Tên phát hành là Kelryvo,
+license PolyForm Shield 1.0.0 và Required Notice SchemaForge được giữ nguyên; third-party
+grants không đổi. [GitHub Release pilot-2026-11-02-ff239189](https://github.com/devsecopslonghn/kelryvo/releases/tag/pilot-2026-11-02-ff239189)
+phân phối đúng OCI CI đã nghiệm thu, source bundle, license/notices, inventories,
+acceptance summary và SHA256SUMS. Source đi kèm bao phủ đủ 79 source-package versions
+của 115 Debian packages trên mỗi platform, đối chiếu từng `.dsc` và SHA-256. Inventory
+OCI giữ 211 runtime files, 115 Debian notices, 38 Temurin legal files, Node license và
+hai matching source archives. Metadata clearance trong artifact frozen là lịch sử trước
+ủy quyền; `distribution-manifest.json` đi kèm release ghi quyết định mới cho đúng digests.
+Chi tiết [distribution-20261102.json](docs/dependencies/distribution-20261102.json).
+Nghiệm thu không mở rộng sang production deployment hoặc managed production DR.
+Kết quả `bb5c98c` bên dưới giữ đúng phạm vi lịch sử; không rebuild artifact đã thử.
 
 Bằng chứng bền vững [bundle R12](/home/longhn0710/workspace/kelryvo/acceptance-artifacts/acceptance-ff239189-20261102T003404Z-technical-r12.tar.gz)
 có 1.824 files, SHA-256 `aa4bd0340b05dd488e00313b6c07de8550867e827d0da20b2a8b48b498496436`.
@@ -57,21 +65,23 @@ có 1.824 files, SHA-256 `aa4bd0340b05dd488e00313b6c07de8550867e827d0da20b2a8b48
 URL có credential trong operator return được giữ riêng dưới private storage và redacted
 trước khi tạo archive. Original CI OCI được giữ riêng ngoài cache, SHA-256
 `e4f35ebf4e4f8602b181ec26a2b10f3a24bc03a7f5e94ed84904af670f1882f0`.
-Bundle ghi rõ technical PASS, DIST còn mở; không chứng nhận production/public release.
+Bundle R12 giữ nguyên trạng thái technical PASS, DIST pending trước ủy quyền. Hồ sơ
+distribution mới ở release ghi owner sign-off và public distribution của đúng artifact;
+không sửa bằng chứng lịch sử hoặc chứng nhận production deployment.
 
 | Phạm vi hiện hành | Đã kiểm chứng | Giới hạn |
 | --- | --- | --- |
 | Oracle native | Oracle Free 23.26.3, PDB, TCP loopback, Linux amd64, Thin driver 7.0.1 | Chưa nghiệm thu 19c/21c, non-CDB, TCPS, RAC hoặc Data Guard |
 | Metadata | PostgreSQL 17.10; upgrade T32, backup/restore và restart trong lab owned | Chưa nghiệm thu managed production DR hoặc HA |
 | OCI | Artifact CI của `ff239189`, kiểm tra amd64/arm64; native acceptance dùng amd64 | Không chuyển kết quả native sang arm64 hoặc image cluster đang triển khai |
-| Bàn giao | Pilot nội bộ và bằng chứng local có checksum | Public naming/redistribution và deploy/publish vẫn là gate riêng |
+| Bàn giao | Public pilot release đúng artifact, kèm source/notices/checksums; bằng chứng lab giữ local | Production deployment và future artifacts cần nghiệm thu/ủy quyền riêng |
 
 - App: `kelryvo`, source runtime được nghiệm thu `ff23918975ba017d523b7a443e4965d5f935dbbf`; mốc native local trước đó `bb5c98c10eaaf779959008aeaeebbc32f1b8bba0` (2026-11-01).
 - Helm: `kelryvo-helm-chart`, source hiện hành `9fe32cb` (2026-11-01).
 - Image development được ghi nhận đã triển khai: `docker.io/longhn0710t/kelryvo-pilot@sha256:afe222f97fddcf69e91ce0f2127afb55eaadd6a09b85ac8f3098c285f57775ec`.
 - Delivery này ghi nhận Helm revision 4, execution/discovery **off**, Argo reconciliation
   của riêng Kelryvo tạm dừng. Image cluster này khác image local bên dưới; không chuyển
-  kết quả nghiệm thu local thành kết quả rollout. Đợt QC này đã push/merge PR #132 theo ủy quyền riêng; chưa deploy/publish.
+  kết quả nghiệm thu local thành kết quả rollout. Đợt QC này đã push/merge PR #132 theo ủy quyền riêng và phân phối frozen artifact qua GitHub Release; chưa deploy mới.
 - PostgreSQL metadata nằm ngoài app container. App và execution/discovery dùng cùng
   image, tách UID 10001/10002 và quyền truy cập secrets. Web dùng React, API dùng Fastify/TypeScript.
 - Luồng chính: instance → discovery → gán schema cho project → SQL/Git release → validate
@@ -407,11 +417,17 @@ bên dưới giữ nguyên. Lab/runtime và backup chứa dữ liệu được g
   Candidate đã được merge bằng signed master commit `ff239189` qua PR #132; hosted gates
   trên PR và master PASS. OCI artifact của đúng master đã được nghiệm thu native bằng
   fixture R3/R4/R5 mới; kết quả hiện hành ghi ở đầu checklist. Phần kỹ thuật R4 PASS;
-  DIST/public release sign-off vẫn mở.
-  Chưa deploy/publish; delivery mode chưa được cấu hình nên promotion đã SKIP.
-- [ ] **DIST — Distribution/naming:** xác nhận public naming và source/notice/redistribution
-  obligations cho đúng artifact được phát hành, kể cả external runtime nếu được đóng gói.
-  Dependency closure hiện tại không thay thế nghiệm thu redistribution toàn sản phẩm.
+  DIST được đóng bằng owner authorization và public pilot release ghi ở đầu checklist.
+  Không deploy mới; GitOps delivery mode không thay đổi, promotion vẫn SKIP.
+- [x] **DIST — Distribution/naming:** owner ủy quyền “Phân phối đi...” ngày 2026-11-02,
+  phát hành Kelryvo dưới license/Required Notice hiện hành cho đúng source `ff239189`
+  và OCI index `sha256:f7dcdc1837374a1860fdc5134e5e6aa6be2184450c6591dbff02cdb196afdbe6`.
+  Public GitHub pilot release có exact source/OCI, license/notices, inventories,
+  SHA256SUMS và đầy đủ source files của 79 Debian source-package versions; từng `.dsc`
+  khớp source/version và tất cả SHA-256/size. Temurin source/build-source archives giữ
+  trong OCI. Owner sign-off, artifact hashes và đích phân phối ghi ở
+  `docs/dependencies/distribution-20261102.json`; không áp dụng blanket clearance cho
+  các bản build/artifact tương lai hoặc mở rộng Oracle/production acceptance.
 
 Oracle Free 23.26.3 TCP là lab đã thử có giới hạn. Oracle 19c/21c, TCPS, non-CDB và các
 version/topology khác không được suy diễn là đã hỗ trợ. Source hiện tại chỉ cho phép scalar
