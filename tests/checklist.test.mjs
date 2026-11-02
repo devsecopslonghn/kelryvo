@@ -16,7 +16,7 @@ test('checklist keeps implementation and outstanding acceptance distinct', async
   assert.throws(() => parseChecklist(''), /must describe/);
   const status = await checklistReport('status');
   const next = await checklistReport('next');
-  assert.equal(next.next.id, status.pending[0].id);
+  assert.deepEqual(next.next, status.pending[0] ?? null);
   assert.equal(status.completed.every(entry => entry.completed), true);
   assert.equal(status.pending.every(entry => !entry.completed), true);
   assert.match(next.authority, /does not authorize/);
