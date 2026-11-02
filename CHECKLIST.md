@@ -1,18 +1,77 @@
 # Kelryvo — checklist hiện hành
 
-Nguồn trạng thái duy nhất cho app và Helm. README chỉ là cửa vào. Cập nhật 2026-11-01 (Asia/Saigon).
+Nguồn trạng thái duy nhất cho app và Helm. README chỉ là cửa vào. Cập nhật 2026-11-02 (Asia/Saigon).
 `[x]` nghĩa là hoàn thành đúng phạm vi ghi bên cạnh; không đồng nghĩa production-ready.
 `[ ]` nghĩa là còn thiếu nghiệm thu hoặc điều kiện hoàn thành. Không suy diễn kết quả
 offline thành kết quả Oracle, hoặc chuyển nghiệm thu giữa các source/image.
 
 ## Trạng thái tiếp quản
 
-- App: `kelryvo`, source nghiệm thu local `bb5c98c10eaaf779959008aeaeebbc32f1b8bba0` (2026-11-01).
+PR [#132](https://github.com/devsecopslonghn/kelryvo/pull/132) đã merge vào master tại
+`ff23918975ba017d523b7a443e4965d5f935dbbf`, chữ ký GitHub verified. Check, focused,
+OCI amd64/arm64, CodeQL và full regression trên đúng master đều PASS. Image CI hiện
+nghiệm thu có local descriptor `sha256:916ac5cb5ce4d5e1d84e9a45820c404483a46b8e8888f89837c4b589e5b8c653`;
+OCI config/layer payload đã được đối chiếu; wrapper Docker khác OCI index gốc.
+Đợt R3/R4/R5 trên đúng artifact CI đã đạt R1/R2, OA01–OA10 và phần kỹ thuật R4.
+Hai installations mới chạy A/B V1/V2/NOOP, tính lại đủ sáu receipt digests; identity,
+purpose/isolation, unsupported SQL và history/idempotency negatives PASS. Fixture
+`QC3_MUTEX2` có actual native acquire A=0/B=1, physical UL giữ qua DDL commit,
+A VERIFIED_SUCCESS và B HOLD không SQL; verifier độc lập 13 checks PASS.
+
+OA04 có fixture marker riêng trên image CI: marker chưa commit không thấy từ observer;
+sau CREATE thành công hoặc duplicate DDL ORA-00955, marker đã commit và rollback không
+đảo ngược. Fixture native riêng không đi qua dispatcher và không cho phép DML trong sản phẩm.
+
+Schema quoted/empty/hidden, row/byte limits, deadline thực 1.006 ms, interquery DDL
+và mất/khôi phục READ grant PASS; comparison giữ UNVERIFIED. API/browser giữ bốn
+snapshot cũ và snapshot thứ năm; digest được tính lại từ PostgreSQL. Restart cùng
+container giữ nguyên 68 bảng, prior approval và zero execution jobs.
+
+Fault matrix mới đạt dừng owned child qua PIDfd trước SQL và sau ACK đầu tiên,
+mất SQL reply, và mất native receipt COMMIT reply. Ca cuối dùng owner chưa dùng
+`QC_FAULT_B`: forward một COMMIT, giữ rồi bỏ reply thật 19 bytes, native ACK 4 events
+nhưng central receipt 0, job/attempt HOLD. Bốn stream trước không đổi. Fixture lỗi
+`QC_FAULT_A` và mọi lỗi harness/HOLD được giữ nguyên, không replay. Verifier đọc cuối
+khớp 24 events trên 5 streams, sáu jobs terminal và tính lại hai receipts của fault B.
+
+Upgrade T32, backup/restore và DR API/browser/restart PASS trong lab cách ly: giữ
+68 bảng, 4 jobs/3 attempts/3 receipts, tính lại ba receipts; 30 credentials cũ revoked,
+generation mới RESTORE_HOLD chặn bốn mutations hợp lệ. Reconciliation qua hai actor
+độc lập giữ HOLD qua restart; backup/restore riêng của native HOLD này giữ cả submission,
+decision và toàn bộ 68 bảng, revokes 41 credentials cũ, không sửa source database.
+Docker PID 1 chết không để fixed execution child tồn tại trong phép thử network=none.
+Worker UID 10002 là trusted component và sở hữu staged modules; đây không phải sandbox
+cho code đã chiếm được chính UID đó. API/worker/proc/secrets và readonly source mount
+đã được kiểm chứng. Năm writer runtimes và năm fault transports đã dừng sau khi jobs
+terminal; không xóa container, database, HOLD hoặc lịch sử.
+
+**Còn mở: DIST — public naming/redistribution sign-off.** Inventory đúng OCI kiểm tra
+211 runtime files, 115 Debian notices, 38 Temurin legal files, Node license và hai source
+archives; `public_distribution_clearance` vẫn false. Nghiệm thu này không cấp quyền
+public release, production deployment hay managed production DR. Kết quả `bb5c98c`
+bên dưới giữ đúng phạm vi lịch sử. Commit tài liệu không đổi artifact `ff239189` đã thử.
+
+Bằng chứng bền vững [bundle R12](/home/longhn0710/workspace/kelryvo/acceptance-artifacts/acceptance-ff239189-20261102T003404Z-technical-r12.tar.gz)
+có 1.824 files, SHA-256 `aa4bd0340b05dd488e00313b6c07de8550867e827d0da20b2a8b48b498496436`.
+Đã mở lại và đối chiếu từng member; kiểm tra 216 giá trị bí mật đã biết, zero matches.
+URL có credential trong operator return được giữ riêng dưới private storage và redacted
+trước khi tạo archive. Original CI OCI được giữ riêng ngoài cache, SHA-256
+`e4f35ebf4e4f8602b181ec26a2b10f3a24bc03a7f5e94ed84904af670f1882f0`.
+Bundle ghi rõ technical PASS, DIST còn mở; không chứng nhận production/public release.
+
+| Phạm vi hiện hành | Đã kiểm chứng | Giới hạn |
+| --- | --- | --- |
+| Oracle native | Oracle Free 23.26.3, PDB, TCP loopback, Linux amd64, Thin driver 7.0.1 | Chưa nghiệm thu 19c/21c, non-CDB, TCPS, RAC hoặc Data Guard |
+| Metadata | PostgreSQL 17.10; upgrade T32, backup/restore và restart trong lab owned | Chưa nghiệm thu managed production DR hoặc HA |
+| OCI | Artifact CI của `ff239189`, kiểm tra amd64/arm64; native acceptance dùng amd64 | Không chuyển kết quả native sang arm64 hoặc image cluster đang triển khai |
+| Bàn giao | Pilot nội bộ và bằng chứng local có checksum | Public naming/redistribution và deploy/publish vẫn là gate riêng |
+
+- App: `kelryvo`, source runtime được nghiệm thu `ff23918975ba017d523b7a443e4965d5f935dbbf`; mốc native local trước đó `bb5c98c10eaaf779959008aeaeebbc32f1b8bba0` (2026-11-01).
 - Helm: `kelryvo-helm-chart`, source hiện hành `9fe32cb` (2026-11-01).
 - Image development được ghi nhận đã triển khai: `docker.io/longhn0710t/kelryvo-pilot@sha256:afe222f97fddcf69e91ce0f2127afb55eaadd6a09b85ac8f3098c285f57775ec`.
 - Delivery này ghi nhận Helm revision 4, execution/discovery **off**, Argo reconciliation
   của riêng Kelryvo tạm dừng. Image cluster này khác image local bên dưới; không chuyển
-  kết quả nghiệm thu local thành kết quả rollout. Đợt QC này không deploy/push/merge.
+  kết quả nghiệm thu local thành kết quả rollout. Đợt QC này đã push/merge PR #132 theo ủy quyền riêng; chưa deploy/publish.
 - PostgreSQL metadata nằm ngoài app container. App và execution/discovery dùng cùng
   image, tách UID 10001/10002 và quyền truy cập secrets. Web dùng React, API dùng Fastify/TypeScript.
 - Luồng chính: instance → discovery → gán schema cho project → SQL/Git release → validate
@@ -271,7 +330,8 @@ bên dưới giữ nguyên. Lab/runtime và backup chứa dữ liệu được g
   secret, discovery chỉ fixed SELECT, cross-UID/proc denial và approved unsafe/foreign-owner
   SQL không dispatch; không có quyền ledger vượt manifest.
   Đạt trên `QC_EXEC_A/B`, gồm ba independently approved compatibility plans và exact
-  final grant catalog. Quyền ghi staged module của UID 10002 vẫn là vấn đề R4 riêng.
+  final grant catalog. R4 đã review boundary: UID 10002 là trusted worker, không phải sandbox chống chính UID đó;
+  source installation/image readonly và cross-UID isolation đã được kiểm chứng.
 - [x] **OA03 — Ordering/checksum/SQL:** chạy V1/V2/NOOP cho từng dạng SQL nằm trong
   manifest của image được chọn; STARTED bền vững trước DDL, bytes/order/objects/receipts
   khớp target và central journals; unsupported SQL bị chặn sau approval.
@@ -310,7 +370,7 @@ bên dưới giữ nguyên. Lab/runtime và backup chứa dữ liệu được g
   Đạt trong phạm vi source/image local bên trên qua backup 68 bảng của `QC_AFTER_ACK`,
   kiểm tra độc lập hai receipt digests, zero event delta và same-container restart;
   không suy diễn thành managed production backup hay disaster recovery.
-- [ ] **R4 — Pilot operations/release:** sau R1/R2/OA, nghiệm thu exact image cho secret
+- [x] **R4 — Pilot operations kỹ thuật (bounded internal pilot):** sau R1/R2/OA, nghiệm thu exact image cho secret
   isolation, orphan containment, restart/upgrade, backup/restore và disaster recovery;
   full API/browser/fresh-source/OCI/security/license gates PASS. Công bố support matrix
   theo version/topology/transport; chỉ publish/deploy khi có ủy quyền riêng.
@@ -323,7 +383,7 @@ bên dưới giữ nguyên. Lab/runtime và backup chứa dữ liệu được g
   Giữ nguyên project/audit của lỗi, không xóa hoặc replay. Bản sửa local chặn configuration
   writes tại transaction checkpoint, giữ historical review comments và error precedence
   hiện hành của SQL Workspace/reconciliation. Runtime context chỉ do trusted route chọn.
-  Candidate chưa commit có image
+  Candidate local được thử trước PR #132 có image
   `sha256:86729abf9b20a38f8cc6f0b7fab092297c886285d544dd3b3079d757807b0bd0`,
   khác frozen image đã nghiệm thu Oracle; 211 runtime files được đối chiếu, chỉ ba file
   runtime thay đổi. API trên restore từ chối bốn mutations, đọc đủ hai jobs/receipts,
@@ -344,8 +404,11 @@ bên dưới giữ nguyên. Lab/runtime và backup chứa dữ liệu được g
   có SHA-256 `25b58b478a05c223e559b70b5ea288b5de4a7b3726d3d323cc206d123ad4795c`.
   Hai assertions checklist cũ cố định R1 đã được sửa để đọc pending entry hiện hành;
   không đổi tiêu chí nghiệm thu. Các lần lỗi fixture, bản sửa quá rộng và lỗi test giữ riêng.
-  Candidate chưa có signed commit, hosted candidate gates hay Oracle qualification mới;
-  R4 và release sign-off vẫn mở. Không push/deploy/publish trong đợt này.
+  Candidate đã được merge bằng signed master commit `ff239189` qua PR #132; hosted gates
+  trên PR và master PASS. OCI artifact của đúng master đã được nghiệm thu native bằng
+  fixture R3/R4/R5 mới; kết quả hiện hành ghi ở đầu checklist. Phần kỹ thuật R4 PASS;
+  DIST/public release sign-off vẫn mở.
+  Chưa deploy/publish; delivery mode chưa được cấu hình nên promotion đã SKIP.
 - [ ] **DIST — Distribution/naming:** xác nhận public naming và source/notice/redistribution
   obligations cho đúng artifact được phát hành, kể cả external runtime nếu được đóng gói.
   Dependency closure hiện tại không thay thế nghiệm thu redistribution toàn sản phẩm.
